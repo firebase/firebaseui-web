@@ -31,8 +31,8 @@ You just need to include the following code in the `<head>` tag of your page:
 ```html
 <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/live/3.0/ui/firebase-ui-auth.js"></script>
-<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/live/3.0/ui/firebase-ui-auth.css" />
+<script src="https://www.gstatic.com/firebasejs/ui/0.4.0/firebase-ui-auth.js"></script>
+<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/0.4.0/firebase-ui-auth.css" />
 ```
 
 ## Using FirebaseUI for Authentication
@@ -218,7 +218,8 @@ Currently only one callback is supported. Some will be added soon to monitor UI 
 
 - `currentUser`: The logged in user.
 - `credential`: Optional. The credential used to sign in the user.
-- `redirectUrl`: Optional. The URL where the user is redirected after the callback finishes. It will only be given if you [overwrite the sign-in success URL](#overwriting-the-sign-in-success-url).
+- `redirectUrl`: Optional. The URL where the user is redirected after the callback finishes. It will
+only be given if you [overwrite the sign-in success URL](#overwriting-the-sign-in-success-url).
 
 If the callback returns true, then the page is automatically redirected depending on the case:
 
