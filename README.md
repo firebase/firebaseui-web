@@ -12,9 +12,8 @@ The FirebaseUI component implements best practices for authentication on mobile 
 websites, helping to sign-in and sign-up conversion for your app. It also handles cases like account
 recovery and account linking that can be security sensitive and error-prone to handle.
 
-FirebaseUI Auth clients are also available for
-[iOS](https://github.com/firebase/firebaseui-ios/tree/master/auth) and
-[Android](https://github.com/firebase/firebaseui-android/tree/master/auth).
+FirebaseUI Auth clients are also available for [iOS](https://github.com/firebase/firebaseui-ios) and
+[Android](https://github.com/firebase/firebaseui-android).
 
 ## Table of Contents
 
@@ -38,6 +37,7 @@ You just need to include the following code in the `<head>` tag of your page:
 ## Using FirebaseUI for Authentication
 
 FirebaseUI includes the following flows:
+
 1. Interaction with Identity Providers such as Google and Facebook
 2. Sign-up and sign-in with email accounts
 3. Password reset
@@ -97,7 +97,6 @@ The following example shows how to set up a sign-in screen with all supported pr
         // Terms of service url.
         'tosUrl': '<your-tos-url>',
       };
-
 
       // Initialize the FirebaseUI Widget using Firebase.
       var app = firebase.initializeApp(config);
@@ -214,14 +213,19 @@ FirebaseUI supports the following configuration parameters.
 
 Currently only one callback is supported. Some will be added soon to monitor UI changes.
 
-#### `signInSuccess(currentUser: !firebase.User, credential : ?firebase.auth.AuthCredential, redirectUrl : ?string):boolean`
+`signInSuccess(currentUser, credential, redirectUrl)`
 
-- `currentUser`: The logged in user.
-- `credential`: Optional. The credential used to sign in the user.
-- `redirectUrl`: Optional. The URL where the user is redirected after the callback finishes. It will
-only be given if you [overwrite the sign-in success URL](#overwriting-the-sign-in-success-url).
+**Parameters:**
 
-If the callback returns true, then the page is automatically redirected depending on the case:
+|Name         |Type                          | Optional|Description                                                                                                                                                              |
+|-------------|------------------------------|---------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|`currentUser`|`firebase.User`               |No       |The logged in user.                                                                                                                                                      |
+|`credential` |`firebase.auth.AuthCredential`|Yes      |he credential used to sign in the user.                                                                                                                                  |
+|`redirectUrl`|`string`                      |Yes      |The URL where the user is redirected after the callback finishes. It will only be given if you [overwrite the sign-in success URL](#overwriting-the-sign-in-success-url).|
+
+**Should return: `boolean`**
+
+If the callback returns `true`, then the page is automatically redirected depending on the case:
 
 - If no `signInSuccessUrl` parameter was given in the URL (See:
 [Overwriting the sign-in success URL](#overwriting-the-sign-in-success-url)) then the default
@@ -229,7 +233,7 @@ If the callback returns true, then the page is automatically redirected dependin
 - If the value is provided in the URL, that value will be used instead of the static
 `signInSuccessUrl` in config.
 
-If the callback returns false or nothing, the page is not automatically redirected.
+If the callback returns `false` or nothing, the page is not automatically redirected.
 
 
 ### Example with all parameters used
@@ -274,7 +278,6 @@ If the callback returns false or nothing, the page is not automatically redirect
           }
         }
       };
-
 
       // Initialize the FirebaseUI Widget using Firebase.
       var app = firebase.initializeApp(config);
