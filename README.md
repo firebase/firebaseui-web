@@ -23,6 +23,7 @@ FirebaseUI Auth clients are also available for
 3. [Configuration](#configuration)
 4. [Customization](#customizing-firebaseui-for-authentication)
 5. [Advanced](#advanced)
+6. [Known issues](#known-issues)
 
 ## Installation
 
@@ -335,3 +336,11 @@ parameter.
 
 `https://<url-of-the-widget>?mode=select&signInSuccessUrl=signedIn.html` will redirect the user to
 `https://<url-of-the-widget>/signedIn.html` after a successful sign-in flow.
+
+## Known issues
+
+### Firebase Auth does not work in Safari private browsing
+
+When a user has enabled the private browsing mode in Safari, the web storage is disabled. This
+currently results in an error being thrown upon Firebase Auth initialization. Therefore, when
+following the snippets above, FirebaseUI will never get initialized and no UI will be displayed.
