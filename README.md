@@ -96,6 +96,8 @@ The following example shows how to set up a sign-in screen with all supported pr
         ],
         // Terms of service url.
         'tosUrl': '<your-tos-url>',
+        // Name of your site.
+        'siteName': '<your-site-name>',
       };
 
       // Initialize the FirebaseUI Widget using Firebase.
@@ -198,6 +200,7 @@ FirebaseUI supports the following configuration parameters.
 |signInOptions                    |Yes     |-                   |The list of [providers](#available-providers) enabled for signing into your app. The order you specify them will be the order they are displayed on the sign-in provider selection screen.|
 |signInSuccessUrl                 |No      |-                   |The URL where to redirect the user after a successful sign-in. **Required** when the `signInSuccess` callback is not used or when it returns `true`.                                      |
 |tosUrl                           |Yes     |-                   |The URL of the Terms of Service page.                                                                                                                                                     |
+|siteName                           |Yes     |-                   |The name of your site.                                                                                                                                                     |
 
 ### Available providers
 
@@ -269,6 +272,8 @@ If the callback returns `false` or nothing, the page is not automatically redire
         ],
         // Terms of service url.
         'tosUrl': '<your-tos-url>',
+        // Name of your site.
+        'siteName': '<your-site-name>',
         'callbacks': {
           'signInSuccess': function(currentUser, credential, redirectUrl) {
             // Do something.
