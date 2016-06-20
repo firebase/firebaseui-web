@@ -31,8 +31,8 @@ You just need to include the following code in the `<head>` tag of your page:
 ```html
 <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/ui/0.4.0/firebase-ui-auth.js"></script>
-<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/0.4.0/firebase-ui-auth.css" />
+<script src="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.js"></script>
+<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.css" />
 ```
 
 ## Using FirebaseUI for Authentication
