@@ -26,11 +26,10 @@ FirebaseUI Auth clients are also available for [iOS](https://github.com/firebase
 
 ## Installation
 
-You just need to include the following code in the `<head>` tag of your page:
+You just need to include the following script and CSS file in the `<head>` tag of your page,
+below the initialization snippet from the Firebase Console:
 
 ```html
-<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.js"></script>
 <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.css" />
 ```
@@ -75,20 +74,18 @@ The following example shows how to set up a sign-in screen with all supported pr
   <head>
     <meta charset="UTF-8">
     <title>Sample FirebaseUI App</title>
-    <script src="firebase-app.js"></script>
-    <script src="firebase-auth.js"></script>
-    <script src="firebase-ui-auth.js"></script>
+    <!-- *******************************************************************************************
+       * TODO(DEVELOPER): Paste the initialization snippet from:
+       * Firebase Console > Overview > Add Firebase to your web app. *
+       ***************************************************************************************** -->
+    <script src="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.css" />
     <script type="text/javascript">
-      // Firebase config.
-      var config = {
-        'authDomain': '<your-firebase-project-domain>.firebaseapp.com',
-        'apiKey': '<your-API-key>',
-      };
-
       // FirebaseUI config.
       var uiConfig = {
         'signInSuccessUrl': '<url-to-redirect-to-on-success>',
         'signInOptions': [
+          // Leave the lines as is for the providers you want to offer your users.
           firebase.auth.GoogleAuthProvider.PROVIDER_ID,
           firebase.auth.FacebookAuthProvider.PROVIDER_ID,
           firebase.auth.TwitterAuthProvider.PROVIDER_ID,
@@ -100,13 +97,10 @@ The following example shows how to set up a sign-in screen with all supported pr
       };
 
       // Initialize the FirebaseUI Widget using Firebase.
-      var app = firebase.initializeApp(config);
-      var auth = app.auth();
-      var ui = new firebaseui.auth.AuthUI(auth);
+      var ui = new firebaseui.auth.AuthUI(firebase.auth());
       // The start method will wait until the DOM is loaded.
       ui.start('#firebaseui-auth-container', uiConfig);
     </script>
-    <link type="text/css" rel="stylesheet" href="firebase-ui-auth.css" />
   </head>
   <body>
     <!-- The surrounding HTML is left untouched by FirebaseUI.
@@ -125,21 +119,13 @@ Here is how you would track the Auth state across all your pages:
   <head>
     <meta charset="UTF-8">
     <title>Sample FirebaseUI App</title>
-    <script src="firebase-app.js"></script>
-    <script src="firebase-auth.js"></script>
+    <!-- *******************************************************************************************
+       * TODO(DEVELOPER): Paste the initialization snippet from:
+       * Firebase Console > Overview > Add Firebase to your web app. *
+       ***************************************************************************************** -->
     <script type="text/javascript">
-      // Firebase config.
-      var config = {
-        'authDomain': '<your-firebase-project-domain>.firebaseapp.com',
-        'apiKey': '<your-API-key>',
-      };
-
-      // Instantiates the Firebase Auth instance.
-      var app = firebase.initializeApp(config);
-      var auth = app.auth();
-
       initApp = function() {
-        auth.onAuthStateChanged(function(user) {
+        firebase.auth().onAuthStateChanged(function(user) {
           if (user) {
             // User is signed in.
             var displayName = user.displayName;
@@ -149,9 +135,9 @@ Here is how you would track the Auth state across all your pages:
             var uid = user.uid;
             var providerData = user.providerData;
             user.getToken().then(function(accessToken) {
-              document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
-              document.getElementById('quickstart-sign-in').textContent = 'Sign out';
-              document.getElementById('quickstart-account-details').textContent = JSON.stringify({
+              document.getElementById('sign-in-status').textContent = 'Signed in';
+              document.getElementById('sign-in').textContent = 'Sign out';
+              document.getElementById('account-details').textContent = JSON.stringify({
                 displayName: displayName,
                 email: email,
                 emailVerified: emailVerified,
@@ -163,25 +149,25 @@ Here is how you would track the Auth state across all your pages:
             });
           } else {
             // User is signed out.
-            document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
-            document.getElementById('quickstart-sign-in').textContent = 'Sign in';
-            document.getElementById('quickstart-account-details').textContent = 'null';
+            document.getElementById('sign-in-status').textContent = 'Signed out';
+            document.getElementById('sign-in').textContent = 'Sign in';
+            document.getElementById('account-details').textContent = 'null';
           }
         }, function(error) {
           console.log(error);
         });
       };
 
-      window.onload = function() {
+      window.addEventListener('load', function() {
         initApp()
-      };
+      });
     </script>
   </head>
   <body>
     <h1>Welcome to My Awesome App</h1>
-    <div id="quickstart-sign-in-status"></div>
-    <div id="quickstart-sign-in"></div>
-    <div id="quickstart-account-details"></div>
+    <div id="sign-in-status"></div>
+    <div id="sign-in"></div>
+    <div id="account-details"></div>
   </body>
 </html>
 
@@ -245,16 +231,13 @@ If the callback returns `false` or nothing, the page is not automatically redire
   <head>
     <meta charset="UTF-8">
     <title>Sample FirebaseUI App</title>
-    <script src="firebase-app.js"></script>
-    <script src="firebase-auth.js"></script>
-    <script src="firebase-ui-auth.js"></script>
+    <!-- *******************************************************************************************
+       * TODO(DEVELOPER): Paste the initialization snippet from:
+       * Firebase Console > Overview > Add Firebase to your web app. *
+       ***************************************************************************************** -->
+    <script src="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.css" />
     <script type="text/javascript">
-      // Firebase config.
-      var config = {
-        'authDomain': '<your-firebase-project-domain>.firebaseapp.com',
-        'apiKey': '<your-API-key>',
-      };
-
       // FirebaseUI config.
       var uiConfig = {
         // Query parameter name for mode.
@@ -263,6 +246,7 @@ If the callback returns `false` or nothing, the page is not automatically redire
         'queryParameterForSignInSuccessUrl': 'signInSuccessUrl',
         'signInSuccessUrl': '<url-to-redirect-to-on-success>',
         'signInOptions': [
+          // Leave the lines as is for the providers you want to offer your users.
           firebase.auth.GoogleAuthProvider.PROVIDER_ID,
           firebase.auth.FacebookAuthProvider.PROVIDER_ID,
           firebase.auth.TwitterAuthProvider.PROVIDER_ID,
@@ -280,14 +264,10 @@ If the callback returns `false` or nothing, the page is not automatically redire
         }
       };
 
-      // Initialize the FirebaseUI Widget using Firebase.
-      var app = firebase.initializeApp(config);
-      var auth = app.auth();
-      var ui = new firebaseui.auth.AuthUI(auth);
+      var ui = new firebaseui.auth.AuthUI(firebase.auth());
       // The start method will wait until the DOM is loaded.
       ui.start('#firebaseui-auth-container', uiConfig);
     </script>
-    <link type="text/css" rel="stylesheet" href="firebase-ui-auth.css" />
   </head>
   <body>
     <!-- The surrounding HTML is left untouched by FirebaseUI.
