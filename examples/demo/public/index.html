@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>FirebaseUI Auth Demo</title>
+    <!-- COPY AND PASTE THE WEB SETUP SNIPPET HERE: -->
+
+    <!-- END OF WEB SNIPPET -->
+    <link href="style.css" rel="stylesheet" type="text/css" media="screen" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <div id="container">
+      <h3>FirebaseUI Demo</h3>
+      <div id="user-signed-in" class="hidden">
+        <div id="user-info">
+          <div id="photo-container">
+            <img id="photo"></img>
+          </div>
+          <div id="name"></div>
+          <div id="email"></div>
+          <div class="clearfix"></div>
+        </div>
+        <p>
+          <button id="sign-out">Sign Out</button>
+          <button id="delete-account">Delete account</button>
+        </p>
+      </div>
+      <div id="user-signed-out" class="hidden">
+        <h4>You are signed out.</h4>
+        <p>
+          <button id="sign-in-with-redirect">Sign In with Redirect</button>
+          <button id="sign-in-with-popup">Sign In with Popup</button>
+        </p>
+      </div>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>

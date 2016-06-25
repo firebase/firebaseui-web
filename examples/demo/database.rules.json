@@ -1,0 +1,6 @@
+// WARNING: This configuration is for development purpose only, as this lets
+// anyone read/write in your database.
+{
+  ".read": true,
+  ".write": true
+}
