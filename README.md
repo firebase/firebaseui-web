@@ -68,6 +68,10 @@ object.
 
 The following example shows how to set up a sign-in screen with all supported providers.
 
+> We recommend opening the widget in a popup window or redirecting to it, as a
+> [known issue with single page applications](#web-single-page-applications-are-not-fully-supported)
+> may lead to a rendering bug.
+
 ```html
 <!DOCTYPE html>
 <html>
@@ -222,7 +226,6 @@ If the callback returns `true`, then the page is automatically redirected depend
 
 If the callback returns `false` or nothing, the page is not automatically redirected.
 
-
 ### Example with all parameters used
 
 ```html
@@ -327,3 +330,10 @@ parameter.
 When a user has enabled the private browsing mode in Safari, the web storage is disabled. This
 currently results in an error being thrown upon Firebase Auth initialization. Therefore, when
 following the snippets above, FirebaseUI will never get initialized and no UI will be displayed.
+
+### Web Single Page Applications are not fully supported
+
+When re-rendering the FirebaseUI Auth widget (for instance after signing in a user, signing her out
+and trying to sign her in again), it will fail with an `Uncaught Error: UI Widget is already
+initialized on the page. Only one widget instance can be initialized per page.` error. We recommend
+using the widget in a popup window or redirecting to it while we work on a fix for this issue.
