@@ -211,7 +211,7 @@ Currently only one callback is supported. Some will be added soon to monitor UI 
 |Name         |Type                          | Optional|Description                                                                                                                                                              |
 |-------------|------------------------------|---------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |`currentUser`|`firebase.User`               |No       |The logged in user.                                                                                                                                                      |
-|`credential` |`firebase.auth.AuthCredential`|Yes      |he credential used to sign in the user.                                                                                                                                  |
+|`credential` |`firebase.auth.AuthCredential`|Yes      |The credential used to sign in the user.                                                                                                                                  |
 |`redirectUrl`|`string`                      |Yes      |The URL where the user is redirected after the callback finishes. It will only be given if you [overwrite the sign-in success URL](#overwriting-the-sign-in-success-url).|
 
 **Should return: `boolean`**
