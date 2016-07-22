@@ -15,6 +15,10 @@ recovery and account linking that can be security sensitive and error-prone to h
 FirebaseUI Auth clients are also available for [iOS](https://github.com/firebase/firebaseui-ios) and
 [Android](https://github.com/firebase/firebaseui-android).
 
+FirebaseUI fully supports all recent browsers. Signing in with federated providers (Google,
+Facebook, Twitter, Github) is not yet supported in non-browser environments (Cordova, React Native,
+Ionic...) nor Chrome extensions.
+
 ## Table of Contents
 
 1. [Installation](#installation)
