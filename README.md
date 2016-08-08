@@ -27,6 +27,7 @@ Ionic...) nor Chrome extensions.
 4. [Customization](#customizing-firebaseui-for-authentication)
 5. [Advanced](#advanced)
 6. [Known issues](#known-issues)
+7. [Release Notes](#release-notes)
 
 ## Installation
 
@@ -71,10 +72,6 @@ instance should be passed to the constructor of `firebaseui.auth.AuthUI`. You ca
 object.
 
 The following example shows how to set up a sign-in screen with all supported providers.
-
-> We recommend opening the widget in a popup window or redirecting to it, as a
-> [known issue with single page applications](#web-single-page-applications-are-not-fully-supported)
-> may lead to a rendering bug.
 
 ```html
 <!DOCTYPE html>
@@ -335,9 +332,21 @@ When a user has enabled the private browsing mode in Safari, the web storage is 
 currently results in an error being thrown upon Firebase Auth initialization. Therefore, when
 following the snippets above, FirebaseUI will never get initialized and no UI will be displayed.
 
-### Web Single Page Applications are not fully supported
+### Tips for Single Page apps (`UI Widget is already rendered on the page` error)
 
 When re-rendering the FirebaseUI Auth widget (for instance after signing in a user, signing her out
 and trying to sign her in again), it will fail with an `Uncaught Error: UI Widget is already
-initialized on the page. Only one widget instance can be initialized per page.` error. We recommend
-using the widget in a popup window or redirecting to it while we work on a fix for this issue.
+rendered on the page. Only one widget instance can be rendered per page. Reset the previous instance
+before rendering a new one.` error. You can use the `reset()` method when removing the widget to
+make sure you can draw it again.
+
+## Release Notes
+
+### 0.5
+
+- FirebaseUI now supports Single Page Application: a `reset` method was added to allow to dispose
+of the widget. When the user leaves a page where the FirebaseUI widget was rendered (for instance
+in a `componentWillUnmount` in a React component), call the `reset` method of the
+`firebaseui.auth.AuthUI` instance you created. Also, call the `reset` method before rendering
+again the widget if any has already been rendered on the page. Please refer to the demo for guidance
+on how to use FirebaseUI in a Single Page Application context.
