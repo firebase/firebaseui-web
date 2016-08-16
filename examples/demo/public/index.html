@@ -7,31 +7,42 @@
 
     <!-- END OF WEB SNIPPET -->
     <link href="style.css" rel="stylesheet" type="text/css" media="screen" />
+    <script src="https://www.gstatic.com/firebasejs/ui/live/0.5/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/0.5/firebase-ui-auth.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
     <div id="container">
       <h3>FirebaseUI Demo</h3>
-      <div id="user-signed-in" class="hidden">
-        <div id="user-info">
-          <div id="photo-container">
-            <img id="photo"></img>
+      <div id="loading">Loading...</div>
+      <div id="loaded" class="hidden">
+        <div id="main">
+          <div id="user-signed-in" class="hidden">
+            <div id="user-info">
+              <div id="photo-container">
+                <img id="photo"></img>
+              </div>
+              <div id="name"></div>
+              <div id="email"></div>
+              <div class="clearfix"></div>
+            </div>
+            <p>
+              <button id="sign-out">Sign Out</button>
+              <button id="delete-account">Delete account</button>
+            </p>
           </div>
-          <div id="name"></div>
-          <div id="email"></div>
-          <div class="clearfix"></div>
+          <div id="user-signed-out" class="hidden">
+            <h4>You are signed out.</h4>
+            <p>
+              <button id="sign-in-with-redirect">Sign In with Redirect</button>
+              <button id="sign-in-with-popup">Sign In with Popup</button>
+            </p>
+            <div id="firebaseui-spa">
+              <h5>Single Page Application mode:</h5>
+              <div id="firebaseui-container"></div>
+            </div>
+          </div>
         </div>
-        <p>
-          <button id="sign-out">Sign Out</button>
-          <button id="delete-account">Delete account</button>
-        </p>
-      </div>
-      <div id="user-signed-out" class="hidden">
-        <h4>You are signed out.</h4>
-        <p>
-          <button id="sign-in-with-redirect">Sign In with Redirect</button>
-          <button id="sign-in-with-popup">Sign In with Popup</button>
-        </p>
       </div>
     </div>
     <script src="app.js"></script>

@@ -27,6 +27,7 @@ Ionic...) nor Chrome extensions.
 4. [Customization](#customizing-firebaseui-for-authentication)
 5. [Advanced](#advanced)
 6. [Known issues](#known-issues)
+7. [Release Notes](#release-notes)
 
 ## Installation
 
@@ -34,9 +35,11 @@ You just need to include the following script and CSS file in the `<head>` tag o
 below the initialization snippet from the Firebase Console:
 
 ```html
-<script src="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.js"></script>
-<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.css" />
+<script src="https://www.gstatic.com/firebasejs/ui/live/0.5/firebase-ui-auth.js"></script>
+<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/0.5/firebase-ui-auth.css" />
 ```
+
+You can then serve your app locally using `firebase serve`.
 
 ## Using FirebaseUI for Authentication
 
@@ -70,11 +73,13 @@ instance should be passed to the constructor of `firebaseui.auth.AuthUI`. You ca
 `start` method with the CSS selector that determines where to create the widget, and a configuration
 object.
 
-The following example shows how to set up a sign-in screen with all supported providers.
+The following example shows how to set up a sign-in screen with all supported providers. Please
+refer to the [demo application in the examples folder](examples/demo/) for a more in-depth
+example, showcasing a Single Page Application mode.
 
-> We recommend opening the widget in a popup window or redirecting to it, as a
-> [known issue with single page applications](#web-single-page-applications-are-not-fully-supported)
-> may lead to a rendering bug.
+> Firebase and FirebaseUI do not work when executed directly from a file (i.e. opening the file in
+> your browser, not through a web server). Always run `firebase serve` (or your preferred local
+> server) to test your app locally.
 
 ```html
 <!DOCTYPE html>
@@ -86,8 +91,8 @@ The following example shows how to set up a sign-in screen with all supported pr
        * TODO(DEVELOPER): Paste the initialization snippet from:
        * Firebase Console > Overview > Add Firebase to your web app. *
        ***************************************************************************************** -->
-    <script src="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.css" />
+    <script src="https://www.gstatic.com/firebasejs/ui/live/0.5/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/0.5/firebase-ui-auth.css" />
     <script type="text/javascript">
       // FirebaseUI config.
       var uiConfig = {
@@ -190,6 +195,7 @@ FirebaseUI supports the following configuration parameters.
 |callbacks                        |No      |`[]`                |A list of developers [callbacks](#available-callbacks) after specific events.                                                                                                             |
 |queryParameterForSignInSuccessUrl|No      |`"signInSuccessUrl"`|The redirect URL parameter name for the sign-in success URL. See [Overwriting the sign-in success URL](#overwriting-the-sign-in-success-url).                                             |
 |queryParameterForWidgetMode      |No      |`"mode"`            |The redirect URL parameter name for the “mode” of the Widget. See [FirebaseUI widget modes](#firebaseui-widget-modes).                                                                    |
+|signInFlow                       |No      |`"redirect"`        |The sign-in flow to use for IDP providers: `redirect` or `popup`.
 |signInOptions                    |Yes     |-                   |The list of [providers](#available-providers) enabled for signing into your app. The order you specify them will be the order they are displayed on the sign-in provider selection screen.|
 |signInSuccessUrl                 |No      |-                   |The URL where to redirect the user after a successful sign-in. **Required** when the `signInSuccess` callback is not used or when it returns `true`.                                      |
 |tosUrl                           |Yes     |-                   |The URL of the Terms of Service page.                                                                                                                                                     |
@@ -203,6 +209,43 @@ FirebaseUI supports the following configuration parameters.
 |Twitter           |`firebase.auth.TwitterAuthProvider.PROVIDER_ID` |
 |Github            |`firebase.auth.GithubAuthProvider.PROVIDER_ID`  |
 |Email and password|`firebase.auth.EmailAuthProvider.PROVIDER_ID`   |
+
+### Custom scopes
+
+To specify custom scopes per provider, you can pass an object instead of just the provider value:
+
+```javascript
+ui.start('#firebaseui-auth-container', {
+  signInOptions = [
+    {
+      provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      scopes: [
+        'https://www.googleapis.com/auth/plus.login'
+      ]
+    },
+    {
+      provider: firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+      scopes: [
+        'public_profile',
+        'email',
+        'user_likes',
+        'user_friends'
+      ]
+    },
+    firebase.auth.TwitterAuthProvider.PROVIDER_ID, // Twitter does not support scopes.
+    firebase.auth.EmailAuthProvider.PROVIDER_ID // Other providers don't need to be given as object.
+  ]
+});
+```
+
+### Sign In Flows
+
+Two sign in flows are available:
+
+- `redirect`, the default, will perform a full page redirect to the sign-in page of the provider
+(Google, Facebook...). This is recommended for mobile apps.
+- The `popup` flow will open a popup to the sign-in page of the provider. If the popup is blocked by
+the browser, it will fall back to a full page redirect.
 
 ### Available callbacks
 
@@ -242,8 +285,8 @@ If the callback returns `false` or nothing, the page is not automatically redire
        * TODO(DEVELOPER): Paste the initialization snippet from:
        * Firebase Console > Overview > Add Firebase to your web app. *
        ***************************************************************************************** -->
-    <script src="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.css" />
+    <script src="https://www.gstatic.com/firebasejs/ui/live/0.5/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/0.5/firebase-ui-auth.css" />
     <script type="text/javascript">
       // FirebaseUI config.
       var uiConfig = {
@@ -251,6 +294,8 @@ If the callback returns `false` or nothing, the page is not automatically redire
         'queryParameterForWidgetMode': 'mode',
         // Query parameter name for sign in success url.
         'queryParameterForSignInSuccessUrl': 'signInSuccessUrl',
+        // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
+        'signInFlow': 'popup',
         'signInSuccessUrl': '<url-to-redirect-to-on-success>',
         'signInOptions': [
           // Leave the lines as is for the providers you want to offer your users.
@@ -335,9 +380,33 @@ When a user has enabled the private browsing mode in Safari, the web storage is 
 currently results in an error being thrown upon Firebase Auth initialization. Therefore, when
 following the snippets above, FirebaseUI will never get initialized and no UI will be displayed.
 
-### Web Single Page Applications are not fully supported
+### Tips for Single Page apps (`UI Widget is already rendered on the page` warning)
 
 When re-rendering the FirebaseUI Auth widget (for instance after signing in a user, signing her out
-and trying to sign her in again), it will fail with an `Uncaught Error: UI Widget is already
-initialized on the page. Only one widget instance can be initialized per page.` error. We recommend
-using the widget in a popup window or redirecting to it while we work on a fix for this issue.
+and trying to sign her in again), it will sometimes log a warning: `UI Widget is already rendered on
+the page and is pending some user interaction. Only one widget instance can be rendered per page.
+The previous instance has been automatically reset.`. This happens when the UI widget was in a
+pending state, i.e. the user was in the middle of performing a sign-in flow. You should generally
+avoid re-rendering the widget in the middle of an action, but if you do, to avoid the warning, you
+should use the `reset()` method before re-rendering the widget.
+
+## Release Notes
+
+### 0.5.0
+
+See the milestone [0.5.0](https://github.com/firebase/firebaseui-web/milestone/1) for the issues
+covered in this release. Below is a summary of the most important ones:
+
+- FirebaseUI now supports **Single Page Application**: a `reset` method was added to allow to
+dispose of the widget. When the user leaves a page where the FirebaseUI widget was rendered (for
+instance in the `componentWillUnmount` method of a React component), call the `reset` method of the
+`firebaseui.auth.AuthUI` instance you created. Also, call the `reset` method before rendering
+again the widget if one has already been rendered on the page. Please refer to the
+[demo app](examples/demo/) for guidance on how to use FirebaseUI in a Single Page
+Application context.
+- **Custom scopes** can now be added for each provider. See [Custom Scopes](custom-scopes).
+- Several issues, different but related to the `displayName` not being present after sign up with
+email and password, have been fixed.
+- A new config parameter has been added: `signInFlow`. It allows to specify whether the Identity
+Providers sign in flows should be done through `redirect` (the default) or `popup`. See
+[Sign In Flows](sign-in-flows).
