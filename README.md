@@ -45,7 +45,7 @@ FirebaseUI includes the following flows:
 1. Interaction with Identity Providers such as Google and Facebook
 2. Sign-up and sign-in with email accounts
 3. Password reset
-4. Prevention of account duplication (activated when *"One account per email adress"* setting is
+4. Prevention of account duplication (activated when *"One account per email address"* setting is
 enabled in the [Firebase console](https://console.firebase.google.com). This setting is enabled by
 default.)
 5. [Account Chooser](https://www.accountchooser.com/learnmore.html?lang=en) for remembering emails
@@ -294,7 +294,7 @@ widget is not affected by it so you can display everything you want around the w
 
 ### FirebaseUI widget modes
 
-Upon initilization, FirebaseUI will look for the `mode` parameter in the URL. Depending on the value
+Upon initialization, FirebaseUI will look for the `mode` parameter in the URL. Depending on the value
 of this parameter, it will trigger a specific mode. When no `mode` parameter is found, it will
 default to the sign-in mode.
 
