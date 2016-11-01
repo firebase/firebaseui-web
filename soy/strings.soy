@@ -1,0 +1,156 @@
+/**
+ * Copyright 2016 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the
+ * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// Strings for the FirebaseUI widget.
+{namespace firebaseui.auth.soy2.strings autoescape="strict"}
+
+
+/** Error message for no web storage support. */
+{template .errorNoWebStorage kind="text"}
+  {msg desc="Error message to be displayed when the browser does not support web storage
+      (localStorage and sessionStorage)."}
+    The browser you are using does not support Web Storage. Please try again in a different browser.
+  {/msg}
+{/template}
+
+
+/** Error message for invalid email. */
+{template .errorInvalidEmail kind="text"}
+  {msg desc="Error message when the entered email is not a valid email address."}
+    That email address isn't correct
+  {/msg}
+{/template}
+
+
+/** Error message for missing email. */
+{template .errorMissingEmail kind="text"}
+  {msg desc="Error message when the user didn't enter an email."}
+    Enter your email address to continue
+  {/msg}
+{/template}
+
+
+/** Error message for missing name. */
+{template .errorMissingName kind="text"}
+  {msg desc="Error message when the user didn't enter a name."}
+    Enter your account name
+  {/msg}
+{/template}
+
+
+/** Error message for missing password. */
+{template .errorMissingPassword kind="text"}
+  {msg desc="Error message when the user didn't enter a password."}
+    Enter your password
+  {/msg}
+{/template}
+
+
+/** Error message for too many account creation. */
+{template .errorTooManyRequestsCreateAccount kind="text"}
+  {msg desc="Error message when too many accounts have been created from the same IP address."}
+    Too many account requests are coming from your IP address. Try again in a few minutes.
+  {/msg}
+{/template}
+
+
+/** Error message for password reset code not sent. */
+{template .errorSendPasswordReset kind="text"}
+  {msg desc="Error message to be displayed when the password reset code is not sent to user's
+      email."}
+    Unable to send password reset code to specified email.
+  {/msg}
+{/template}
+
+
+/** Error message for unknown error from backend. */
+{template .internalError kind="text"}
+  {msg desc="Error message to be displayed when the error returned from the backend is unknown
+      or does not contain any information."}
+    An internal error has occurred.
+  {/msg}
+{/template}
+
+
+/** Error message for expired credential. */
+{template .errorExpiredCredential kind="text"}
+  {msg desc="Error message when the user takes too long to complete the sign in process. The
+      Google or Facebook credential used to sign in would have expired."}
+    Your sign-in session has expired. Please try again.
+  {/msg}
+{/template}
+
+
+/** Error message for anonymous account with email blocking sign-in with non-anonymous account. */
+{template .errorAnonymousEmailBlockingSignIn kind="text"}
+  {msg desc="Error message when the user tries to sign in but the email is used by an anonymous
+      account. The user must reset their password to recover."}
+    This email already exists without any means of sign-in. Please reset the password to recover.
+  {/msg}
+{/template}
+
+
+/** Translates an error code from Firebase Auth to a user-displayable string. */
+{template .error kind="text"}
+  {@param code: string} /** The error code. */
+  {switch $code}
+    {case 'auth/email-already-in-use'}
+      {msg desc="Error message for when the user is trying to sign up with an email already existing
+          in the database."}
+        The email address is already used by another account
+      {/msg}
+    {case 'auth/requires-recent-login'}
+      {call .errorLoginAgain_ /}
+    {case 'auth/too-many-requests'}
+      {msg desc="Error message for too many failed login attempts in a short period of time.
+          Recommend that the user wait a few minutes before trying again."}
+        You have entered an incorrect password too many times. Please try again in a few minutes.
+      {/msg}
+    {case 'auth/user-cancelled'}
+      {msg desc="Error message for when the user refuses to grant permission to the scopes required
+          to sign in through the identity provider such as Google, Facebook, etc."}
+        Please authorize the required permissions to sign in to the application
+      {/msg}
+    {case 'auth/user-not-found'}
+      {msg desc="Error message for the user tries to sign in to a nonexistent account or if the user
+          requests a password reset for a nonexistent account."}
+        That email address doesn't match an existing account
+      {/msg}
+    {case 'auth/user-token-expired'}
+      {call .errorLoginAgain_ /}
+    {case 'auth/weak-password'}
+      {msg desc="Error message for when the user tries to sign in or sign up with a password that
+          is too short."}
+        Strong passwords have at least 6 characters and a mix of letters and numbers
+      {/msg}
+    {case 'auth/wrong-password'}
+      {msg desc="Error message for incorrect password."}
+        The email and password you entered don't match
+      {/msg}
+    {case 'auth/network-request-failed'}
+      {msg desc="Error message when a request fails due to a network error (such as timeout,
+          interrupted connection or unreachable host)."}
+        A network error has occurred.
+      {/msg}
+  {/switch}
+{/template}
+
+
+/** Error message for when user has to log in again. */
+{template .errorLoginAgain_ private="true" kind="text"}
+  {msg desc="Error message for when the user has to login again to perform a specific operation
+      like updating password."}
+    Please login again to perform this operation
+  {/msg}
+{/template}

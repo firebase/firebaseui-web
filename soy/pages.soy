@@ -1,0 +1,621 @@
+/**
+ * Copyright 2016 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the
+ * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// UI components for the FirebaseUI widget.
+
+{namespace firebaseui.auth.soy2.page autoescape="strict"}
+
+
+/**
+ * Renders a sign-in page.
+ */
+{template .signIn}
+  {@param? email: string} /** The email address to prefill. */
+  <div class="{css mdl-card} {css mdl-shadow--2dp}{sp}
+      {css firebaseui-container} {css firebaseui-id-page-sign-in}">
+    <form onsubmit="return false;">
+      <div class="{css firebaseui-card-header}">
+        <h1 class="{css firebaseui-title}">
+          {msg desc="Header of the email/password sign-in page."}Sign in with email{/msg}
+        </h1>
+      </div>
+      <div class="{css firebaseui-card-content}">
+        <div class="{css firebaseui-relative-wrapper}">
+          {call firebaseui.auth.soy2.element.email data="all" /}
+        </div>
+      </div>
+      <div class="{css firebaseui-card-footer}">
+        <div class="{css firebaseui-form-actions}">
+          {call firebaseui.auth.soy2.element.submitButton /}
+        </div>
+      </div>
+    </form>
+  </div>
+{/template}
+
+
+/**
+ * Renders a sign-in page for password account.
+ */
+{template .passwordSignIn}
+  {@param? email: string} /** The email address to prefill. */
+  <div class="{css mdl-card} {css mdl-shadow--2dp}{sp}
+      {css firebaseui-container} {css firebaseui-id-page-password-sign-in}">
+    <form onsubmit="return false;">
+      <div class="{css firebaseui-card-header}">
+        <h1 class="{css firebaseui-title}">{msg desc="Header of a sign-in page."}Sign in{/msg}</h1>
+      </div>
+      <div class="{css firebaseui-card-content}">
+        {call firebaseui.auth.soy2.element.email data="all" /}
+        {call firebaseui.auth.soy2.element.password /}
+      </div>
+      <div class="{css firebaseui-card-footer}">
+        <div class="{css firebaseui-form-actions}">
+          {call firebaseui.auth.soy2.element.signInButton /}
+        </div>
+        {call firebaseui.auth.soy2.element.passwordRecoveryButton /}
+      </div>
+    </form>
+  </div>
+{/template}
+
+
+/**
+ * Renders a sign-up page for password account.
+ */
+{template .passwordSignUp}
+  {@param? email: string} /** The email address to prefill. */
+  {@param? name: string} /** The name to prefill. */
+  {@param? tosUrl: string} /** The Terms of Service URL. */
+  {@param? allowCancel: bool} /** Whether to show the cancel link. */
+  <div class="{css mdl-card} {css mdl-shadow--2dp}{sp}
+      {css firebaseui-container} {css firebaseui-id-page-password-sign-up}">
+    <form onsubmit="return false;">
+      <div class="{css firebaseui-card-header}">
+        <h1 class="{css firebaseui-title}">
+          {msg desc="Header of a sign-up page."}Create account{/msg}
+        </h1>
+      </div>
+      <div class="{css firebaseui-card-content}">
+        {call firebaseui.auth.soy2.element.email data="all" /}
+        {call firebaseui.auth.soy2.element.name data="all" /}
+        {call firebaseui.auth.soy2.element.newPassword}
+          {param choose: true /}
+        {/call}
+        {if $tosUrl}{call firebaseui.auth.soy2.element.tos data="all" /}{/if}
+      </div>
+      <div class="{css firebaseui-card-footer}">
+        <div class="{css firebaseui-form-actions}">
+          {if $allowCancel}
+            {call firebaseui.auth.soy2.element.cancelButton /}
+          {/if}
+          {call firebaseui.auth.soy2.element.saveButton /}
+        </div>
+      </div>
+    </form>
+  </div>
+{/template}
+
+
+/**
+ * Renders a password recovery page.
+ */
+{template .passwordRecovery}
+  {@param? email: string} /** The email address to prefill. */
+  {@param? allowCancel: bool} /** Whether to show the cancel link. */
+  <div class="{css mdl-card} {css mdl-shadow--2dp}{sp}
+      {css firebaseui-container} {css firebaseui-id-page-password-recovery}">
+    <form onsubmit="return false;">
+      <div class="{css firebaseui-card-header}">
+        <h1 class="{css firebaseui-title}">
+          {msg desc="Header of a password recovery page."}Recover password{/msg}
+        </h1>
+      </div>
+      <div class="{css firebaseui-card-content}">
+        <p class="{css firebaseui-text}">
+          {msg desc="Information on how the user resets their password."}
+            Get instructions sent to this email that explain how to reset your password
+          {/msg}
+        </p>
+        {call firebaseui.auth.soy2.element.email data="all" /}
+      </div>
+      <div class="{css firebaseui-card-footer}">
+        <div class="{css firebaseui-form-actions}">
+          {if $allowCancel}
+            {call firebaseui.auth.soy2.element.cancelButton /}
+          {/if}
+          {call firebaseui.auth.soy2.element.submitButton}
+            {param label kind="text"}
+              {msg desc="The button that sends a password recovery email."}
+                Send
+              {/msg}
+            {/param}
+          {/call}
+        </div>
+      </div>
+    </form>
+  </div>
+{/template}
+
+
+/**
+ * Renders a notice page to indicate the password recovery email has been sent.
+ */
+{template .passwordRecoveryEmailSent}
+  {@param email: string} /** The email address to which the password reset email has been sent. */
+  {@param? allowContinue: bool} /** Whether to show the continue button. */
+  <div class="{css mdl-card} {css mdl-shadow--2dp}{sp}
+      {css firebaseui-container} {css firebaseui-id-page-password-recovery-email-sent}">
+    <div class="{css firebaseui-card-header}">
+      <h1 class="{css firebaseui-title}">
+        {msg desc="Header of a notice page when the password recovery email has been sent."}
+          Check your email
+        {/msg}
+      </h1>
+    </div>
+    <div class="{css firebaseui-card-content}">
+      <p class="{css firebaseui-text}">
+        {msg desc="Detailed info of a notice page when the password recovery email has been sent."}
+          Follow the instructions sent to <strong>{$email}</strong> to recover your password
+        {/msg}
+      </p>
+    </div>
+    <div class="{css firebaseui-card-footer}">
+      {if $allowContinue}
+        <div class="{css firebaseui-form-actions}">
+          {call firebaseui.auth.soy2.element.submitButton}
+            {param label kind="text"}
+              {msg desc="Label of a button that finishes the password recovery flow."}
+                Done
+              {/msg}
+            {/param}
+          {/call}
+        </div>
+      {/if}
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Renders a callback page which simply shows an activity loading indicator when calling the remote
+ * API so that the user won't be confused by the blank page.
+ */
+{template .callback}
+  <div class="{css mdl-card} {css mdl-shadow--2dp}{sp}
+      {css firebaseui-container} {css firebaseui-id-page-callback}">
+    <div class="{css firebaseui-callback-indicator-container}">
+      {call firebaseui.auth.soy2.element.busyIndicator /}
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Renders an account linking page for a password account.
+ */
+{template .passwordLinking}
+  /** The user's email. */
+  {@param email:string}
+  <div class="{css mdl-card} {css mdl-shadow--2dp}{sp}
+      {css firebaseui-container} {css firebaseui-id-page-password-linking}">
+    <form onsubmit="return false;">
+      <div class="{css firebaseui-card-header}">
+        <h1 class="{css firebaseui-title}">{msg desc="Header of a sign-in page."}Sign in{/msg}</h1>
+      </div>
+      <div class="{css firebaseui-card-content}">
+        <h2 class="{css firebaseui-subtitle}">
+          {msg desc="Header of a page displayed when the user has signed in before with an email and
+              password account."}
+            You already have an account
+          {/msg}
+        </h2>
+        <p class="{css firebaseui-text}">
+          {msg desc="Message that reminds the user the previous and current sign-in status."}
+            You’ve already used <strong>{$email}</strong> to sign in. Enter your password for that
+            account.
+          {/msg}
+        </p>
+        {call firebaseui.auth.soy2.element.password /}
+      </div>
+      <div class="{css firebaseui-card-footer}">
+        {call firebaseui.auth.soy2.element.passwordRecoveryButton /}
+        <div class="{css firebaseui-form-actions}">
+          {call firebaseui.auth.soy2.element.signInButton /}
+        </div>
+      </div>
+    </form>
+  </div>
+{/template}
+
+
+/**
+ * Renders an account linking page for a federated account.
+ */
+{template .federatedLinking}
+  {@param email: string}
+  {@param providerId: string}
+  {let $idpDisplayName kind="text"}{call firebaseui.auth.soy2.element.idpName data="all" /}{/let}
+  <div class="{css mdl-card} {css mdl-shadow--2dp}{sp}
+      {css firebaseui-container} {css firebaseui-id-page-federated-linking}">
+    <form onsubmit="return false;">
+      <div class="{css firebaseui-card-header}">
+        <h1 class="{css firebaseui-title}">{msg desc="Header of a sign-in page."}Sign in{/msg}</h1>
+      </div>
+      <div class="{css firebaseui-card-content}">
+        <h2 class="{css firebaseui-subtitle}">
+          {msg desc="Header of a page displayed when the user has signed in before with the provided
+              email."}
+            You already have an account
+          {/msg}
+        </h2>
+        <p class="{css firebaseui-text}">
+          {msg desc="Message that reminds the user the previous sign-in status."}
+            You’ve already used <strong>{$email}</strong>. Sign in with {$idpDisplayName} to
+            continue.
+          {/msg}
+        </p>
+      </div>
+      <div class="{css firebaseui-card-footer}">
+        <div class="{css firebaseui-form-actions}">
+          {call firebaseui.auth.soy2.element.submitButton}
+            {param label kind="text"}
+              {msg desc="Label of a button that signs in a user with a federated identity provider
+                  (e.g. Sign in with Google, Sign in with Facebook)."}
+                Sign in with {$idpDisplayName}
+              {/msg}
+            {/param}
+          {/call}
+        </div>
+      </div>
+    </form>
+  </div>
+{/template}
+
+
+/**
+ * Renders a reset password page.
+ */
+{template .passwordReset}
+  {@param email: string} /** The email address of the account to reset password. */
+  <div class="{css mdl-card} {css mdl-shadow--2dp}{sp}
+      {css firebaseui-container} {css firebaseui-id-page-password-reset}">
+    <form onsubmit="return false;">
+      <div class="{css firebaseui-card-header}">
+        <h1 class="{css firebaseui-title}">
+          {msg desc="Header of a page where the user can reset their password."}
+            Reset your password
+          {/msg}
+        </h1>
+      </div>
+      <div class="{css firebaseui-card-content}">
+        {msg desc="Tell the user the email of the account for which the password is being
+            changed."}
+          <p class="{css firebaseui-text}">
+            for <strong>{$email}</strong>
+          </p>
+        {/msg}
+        {call firebaseui.auth.soy2.element.newPassword data="all"}
+          {param label kind="text"}
+            {msg desc="Label for the password input field in the Reset Password page."}
+              New password
+            {/msg}
+          {/param}
+        {/call}
+      </div>
+      <div class="{css firebaseui-card-footer}">
+        <div class="{css firebaseui-form-actions}">
+          {call firebaseui.auth.soy2.element.saveButton /}
+        </div>
+      </div>
+    </form>
+  </div>
+{/template}
+
+
+/**
+ * Renders a notice page for password reset success.
+ */
+{template .passwordResetSuccess}
+  {@param? allowContinue: bool} /** Whether to show the continue button. */
+  <div class="{css mdl-card} {css mdl-shadow--2dp}{sp}
+      {css firebaseui-container} {css firebaseui-id-page-password-reset-success}">
+    <div class="{css firebaseui-card-header}">
+      <h1 class="{css firebaseui-title}">
+        {msg desc="Header of a successful password change notice page"}Password changed{/msg}
+      </h1>
+    </div>
+    <div class="{css firebaseui-card-content}">
+      <p class="{css firebaseui-text}">
+        {msg desc="Detailed info of a notice page that password reset succeeded."}
+          You can now sign in with your new password
+        {/msg}
+      </p>
+    </div>
+    <div class="{css firebaseui-card-footer}">
+      {if $allowContinue}
+        <div class="{css firebaseui-form-actions}">
+          {call firebaseui.auth.soy2.element.submitButton /}
+        </div>
+      {/if}
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Renders a notice page for password reset failure.
+ */
+{template .passwordResetFailure}
+  {@param? allowContinue: bool} /** Whether to show the continue button. */
+  <div class="{css mdl-card} {css mdl-shadow--2dp}{sp}
+      {css firebaseui-container} {css firebaseui-id-page-password-reset-failure}">
+    <div class="{css firebaseui-card-header}">
+      <h1 class="{css firebaseui-title}">
+        {msg desc="Header of a password reset failure notice page"}
+          Try resetting your password again
+        {/msg}
+      </h1>
+    </div>
+    <div class="{css firebaseui-card-content}">
+      <p class="{css firebaseui-text}">
+        {msg desc="Detailed info of a notice page that password reset failed."}
+          Your request to reset your password has expired or the link has already been used
+        {/msg}
+      </p>
+    </div>
+    <div class="{css firebaseui-card-footer}">
+      {if $allowContinue}
+        <div class="{css firebaseui-form-actions}">
+          {call firebaseui.auth.soy2.element.submitButton /}
+        </div>
+      {/if}
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Renders a notice page for email change revocation success.
+ */
+{template .emailChangeRevokeSuccess}
+  {@param email: string} /** The old email address of the account to reactivate. */
+  {@param? allowContinue: bool} /** Whether to show the continue button. */
+  <div class="{css mdl-card} {css mdl-shadow--2dp}{sp}
+      {css firebaseui-container} {css firebaseui-id-page-email-change-revoke-success}">
+    <form onsubmit="return false;">
+      <div class="{css firebaseui-card-header}">
+        <h1 class="{css firebaseui-title}">
+          {msg desc="Header of a page notifying that an email change request has been revoked"}
+            Updated email address
+          {/msg}
+        </h1>
+      </div>
+      <div class="{css firebaseui-card-content}">
+        <p class="{css firebaseui-text}">
+          {msg desc="Detailed info of a notice page that an email change request has been revoked."}
+            Your sign-in email address has been changed back to <strong>{$email}</strong>.
+          {/msg}
+        </p>
+        <p class="{css firebaseui-text}">
+          {msg desc="Message that explains to the user that they can reset their password if they
+               suspect someone has accessed their account."}
+            If you didn’t ask to change your sign-in email, it’s possible someone is trying to
+            access your account and you should <a
+                class="{css firebaseui-link} {css firebaseui-id-reset-password-link}"
+                href="javascript:void(0)">
+              change your password right away
+            </a>.
+          {/msg}
+        </p>
+      </div>
+      <div class="{css firebaseui-card-footer}">
+        {if $allowContinue}
+          <div class="{css firebaseui-form-actions}">
+            {call firebaseui.auth.soy2.element.submitButton /}
+          </div>
+        {/if}
+      </div>
+    </form>
+  </div>
+{/template}
+
+
+/**
+ * Renders a notice page for email change revocation failure.
+ */
+{template .emailChangeRevokeFailure}
+  {@param? allowContinue: bool} /** Whether to show the continue button. */
+  <div class="{css mdl-card} {css mdl-shadow--2dp}{sp}
+      {css firebaseui-container} {css firebaseui-id-page-email-change-revoke-failure}">
+    <div class="{css firebaseui-card-header}">
+      <h1 class="{css firebaseui-title}">
+        {msg desc="Header of a page notifying that an email change revocation request has failed"}
+          Unable to update your email address
+        {/msg}
+      </h1>
+    </div>
+    <div class="{css firebaseui-card-content}">
+      {msg desc="Detailed info of a notice page that email change revocation has failed."}
+        <p class="{css firebaseui-text}">
+          There was a problem changing your sign-in email back.
+        </p>
+        <p class="{css firebaseui-text}">
+          If you try again and still can’t reset your email, try asking your administrator for help.
+        </p>
+      {/msg}
+    </div>
+    <div class="{css firebaseui-card-footer}">
+      {if $allowContinue}
+        <div class="{css firebaseui-form-actions}">
+          {call firebaseui.auth.soy2.element.submitButton /}
+        </div>
+      {/if}
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Renders a notice page that confirms the user's email has been verified.
+ */
+{template .emailVerificationSuccess}
+  {@param? allowContinue: bool} /** Whether to show the continue button. */
+  <div class="{css mdl-card} {css mdl-shadow--2dp}{sp}
+      {css firebaseui-container} {css firebaseui-id-page-email-verification-success}">
+    <div class="{css firebaseui-card-header}">
+      <h1 class="{css firebaseui-title}">
+        {msg desc="Header of a page telling the user their email address has been verified."}
+          Your email has been verified
+        {/msg}
+      </h1>
+    </div>
+    <div class="{css firebaseui-card-content}">
+      <p class="{css firebaseui-text}">
+        {msg desc="Detailed info of a notice page that confirms user's email is verified"}
+          You can now sign in with your new account
+        {/msg}
+      </p>
+    </div>
+    <div class="{css firebaseui-card-footer}">
+      {if $allowContinue}
+        <div class="{css firebaseui-form-actions}">
+          {call firebaseui.auth.soy2.element.submitButton /}
+        </div>
+      {/if}
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Renders a notice page for email verification failure.
+ */
+{template .emailVerificationFailure}
+  {@param? allowContinue: bool} /** Whether to show the continue button. */
+  <div class="{css mdl-card} {css mdl-shadow--2dp}{sp}
+      {css firebaseui-container} {css firebaseui-id-page-email-verification-failure}">
+    <div class="{css firebaseui-card-header}">
+      <h1 class="{css firebaseui-title}">
+        {msg desc="Header of a page telling the user that email verification has failed."}
+          Try verifying your email again
+        {/msg}
+      </h1>
+    </div>
+    <div class="{css firebaseui-card-content}">
+      <p class="{css firebaseui-text}">
+        {msg desc="Detailed info of a notice page that email verification failed."}
+          Your request to verify your email has expired or the link has already been used
+        {/msg}
+      </p>
+    </div>
+    <div class="{css firebaseui-card-footer}">
+      {if $allowContinue}
+        <div class="{css firebaseui-form-actions}">
+          {call firebaseui.auth.soy2.element.submitButton /}
+        </div>
+      {/if}
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Renders a notice page that shows that an unrecoverable error was encountered.
+ */
+{template .unrecoverableError}
+  {@param errorMessage: string} /** The detailed error message. */
+  <div class="{css mdl-card} {css mdl-shadow--2dp}{sp}
+      {css firebaseui-container} {css firebaseui-id-page-unrecoverable-error}">
+    <div class="{css firebaseui-card-header}">
+      <h1 class="{css firebaseui-title}">
+        {msg desc="Header of a notice page"}Error encountered{/msg}
+      </h1>
+    </div>
+    <div class="{css firebaseui-card-content}">
+      <p class="{css firebaseui-text}">
+        {$errorMessage}
+      </p>
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Renders the email mismatch page.
+ */
+{template .emailMismatch}
+  {@param userEmail: string} /** The email returned by the identity provider. */
+  {@param pendingEmail: string} /** The email formerly used. */
+  <div class="{css mdl-card} {css mdl-shadow--2dp}{sp}
+      {css firebaseui-container} {css firebaseui-id-page-email-mismatch}">
+    <form onsubmit="return false;">
+      <div class="{css firebaseui-card-header}">
+        <h1 class="{css firebaseui-title}">{msg desc="Header of a sign-in page."}Sign in{/msg}</h1>
+      </div>
+      <div class="{css firebaseui-card-content}">
+        <h2 class="{css firebaseui-subtitle}">
+          {msg desc="Message that asks the user if he wishes to continue signing in with the
+               provided email or sign out from the identity provider such as Google or Facebook
+               and try to sign in again with a different email."}
+            Continue with {$userEmail}?
+          {/msg}
+        </h2>
+        <p class="{css firebaseui-text}">
+          {msg desc="Message that tells the user he originally wanted to sign in with a different
+              email address."}
+            You originally wanted to sign in with {$pendingEmail}
+          {/msg}
+        </p>
+      </div>
+      <div class="{css firebaseui-card-footer}">
+        <div class="{css firebaseui-form-actions}">
+          {call firebaseui.auth.soy2.element.cancelButton /}
+          {call firebaseui.auth.soy2.element.submitButton}
+            {param label kind="text"}
+              {msg desc="The button that confirms that the user wishes to proceed with the current
+                  email."}
+                Continue
+              {/msg}
+            {/param}
+          {/call}
+        </div>
+      </div>
+    </form>
+  </div>
+{/template}
+
+
+/**
+ * Renders the list of supported sign-in providers.
+ */
+{template .providerSignIn}
+  {@param providerIds: list<string>} /** List of supported IdPs. */
+  <div class="{css firebaseui-container} {css firebaseui-page-provider-sign-in}{sp}
+      {css firebaseui-id-page-provider-sign-in}">
+    <div class="{css firebaseui-card-content}">
+      <form onsubmit="return false;">
+        <ul class="{css firebaseui-idp-list}">
+          {foreach $providerId in $providerIds}
+            <li class="{css firebaseui-list-item}">
+              {call firebaseui.auth.soy2.element.idpButton}
+                {param providerId: $providerId /}
+              {/call}
+            </li>
+          {/foreach}
+        </ul>
+      </form>
+    </div>
+  </div>
+{/template}

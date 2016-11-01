@@ -1,0 +1,347 @@
+/**
+ * Copyright 2016 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the
+ * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// UI elements for the FirebaseUI widget.
+
+{namespace firebaseui.auth.soy2.element autoescape="strict"}
+
+
+/**
+ * Renders an email input field.
+ */
+{template .email}
+  {@param? email: string} /** The email address to prefill. */
+  {@param? disabled: bool} /** Whether the email input is disabled or not. */
+  {@param? changeEmail: bool} /** Whether to use change email label. */
+  <div class="{css firebaseui-textfield} {css mdl-textfield} {css mdl-js-textfield}{sp}
+      {css mdl-textfield--floating-label}">
+    <label class="{css mdl-textfield__label} {css firebaseui-label}" for="email">
+      {if $changeEmail}
+        {msg desc="Label of a change email address input field."}Enter new email address{/msg}
+      {else}
+        {msg desc="Label of an email address input field."}Email{/msg}
+      {/if}
+    </label>
+    <input
+        type="email"
+        name="email"
+        autocomplete="username"
+        class="{css mdl-textfield__input} {css firebaseui-input} {css firebaseui-id-email}"
+        value="{$email ?: ''}"
+        {if $disabled}disabled{/if}>
+  </div>
+  <div class="{css firebaseui-error-wrapper}">
+    <p class="{css firebaseui-error} {css firebaseui-hidden} {css firebaseui-id-email-error}"></p>
+  </div>
+{/template}
+
+
+/**
+ * Renders an identity provider button.
+ */
+{template .idpButton}
+  {@param providerId: string} /** The IdP provider ID. */
+  <button
+      class="{css firebaseui-idp-button} {css mdl-button} {css mdl-js-button}{sp}
+             {css mdl-button--raised} {call .idpClass_ data="all" /}{sp}
+             {css firebaseui-id-idp-button} "
+      data-provider-id="{$providerId}">
+    <img
+        class="{css firebaseui-idp-icon}"
+        src="{call .idpLogo_ data="all" /}">
+    {if $providerId == 'password'}
+      <span class="{css firebaseui-idp-text} {css firebaseui-idp-text-long}">
+        {msg desc="Label for a button to sign in with an email account that requires a password.
+            The long version"}
+          Sign in with email
+        {/msg}
+      </span>
+      <span class="{css firebaseui-idp-text} {css firebaseui-idp-text-short}">
+        {msg desc="Label for a button to sign in with an email account that requires a password.
+            The short version"}
+          Email
+        {/msg}
+      </span>
+    {else}
+      <span class="{css firebaseui-idp-text} {css firebaseui-idp-text-long}">
+        {msg desc="Labels for sign-in buttons, long version"}
+          Sign in with{sp}
+          {call .idpName data="all" /}
+        {/msg}
+      </span>
+      <span class="{css firebaseui-idp-text} {css firebaseui-idp-text-short}">
+          {call .idpName data="all" /}
+      </span>
+    {/if}
+  </button>
+{/template}
+
+
+/**
+ * Renders a submit button.
+ */
+{template .submitButton}
+  {@param? label: string} /** Label of the button, defaulting to "Next" if not specified. */
+  <button type="submit" class="{css firebaseui-id-submit} {css firebaseui-button}{sp}
+      {css mdl-button} {css mdl-js-button} {css mdl-button--raised} {css mdl-button--colored}">
+    {if $label}
+      {$label}
+    {else}
+      {msg desc="Label of the button that takes the user to the next step in the sign-in flow."}
+        Next
+      {/msg}
+    {/if}
+  </button>
+{/template}
+
+
+/**
+ * Renders a sign-in button.
+ */
+{template .signInButton}
+  {call .submitButton}
+    {param label kind="text"}
+      {msg desc="The submit button in the sign-in form."}
+        Sign In
+      {/msg}
+    {/param}
+  {/call}
+{/template}
+
+
+/**
+ * Renders a save button.
+ */
+{template .saveButton}
+  {call .submitButton}
+    {param label kind="text"}
+      {msg desc="The submit button for a form that changes the state of the user
+          (e.g. creating an account, resetting the password, etc.)."}
+        Save
+      {/msg}
+    {/param}
+  {/call}
+{/template}
+
+
+/**
+ * Renders two text input fields for setting first and last name.
+ */
+{template .name}
+  {@param? name: string} /** The display name to prefill. */
+  <div class="{css firebaseui-textfield} {css mdl-textfield} {css mdl-js-textfield}{sp}
+      {css mdl-textfield--floating-label}">
+    <label class="{css mdl-textfield__label} {css firebaseui-label}" for="name">
+      {msg desc="Label of a field for setting the user's name."}First &amp; last name{/msg}
+    </label>
+    <input
+        type="text"
+        name="name"
+        autocomplete="name"
+        class="{css mdl-textfield__input} {css firebaseui-input} {css firebaseui-id-name}"
+        value="{$name ?: ''}">
+  </div>
+  <div class="{css firebaseui-error-wrapper}">
+    <p class="{css firebaseui-error} {css firebaseui-hidden} {css firebaseui-id-name-error}"></p>
+  </div>
+{/template}
+
+
+/**
+ * Renders a new password input field, where the user can show the password by clicking the toggle
+ * button.
+ */
+{template .newPassword}
+  {@param? label: string} /** The placeholder text in the field, defaulting to "Choose password". */
+  <div class="{css firebaseui-new-password-component}">
+    <div class="{css firebaseui-textfield} {css mdl-textfield} {css mdl-js-textfield}{sp}
+      {css mdl-textfield--floating-label}">
+      <label class="{css mdl-textfield__label} {css firebaseui-label}" for="newPassword">
+        {if $label}
+          {$label}
+        {else}
+          {msg desc="Label of a field for setting new password."}Choose password{/msg}
+        {/if}
+      </label>
+      <input
+          type="password"
+          name="newPassword"
+          autocomplete="new-password"
+          class="{css mdl-textfield__input} {css firebaseui-input}{sp}
+              {css firebaseui-id-new-password}">
+    </div>
+    <a href="javascript:void(0)" class="{css firebaseui-input-floating-button}{sp}
+        {css firebaseui-id-password-toggle} {css firebaseui-input-toggle-on}{sp}
+        {css firebaseui-input-toggle-blur}">
+    </a>
+    <div class="{css firebaseui-error-wrapper}">
+      <p class="{css firebaseui-error} {css firebaseui-hidden}{sp}
+          {css firebaseui-id-new-password-error}">
+      </p>
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Renders a password input field.
+ */
+{template .password}
+  {@param? current: bool} /** Whether to show "Current password" or "Password" label. */
+  <div class="{css firebaseui-textfield} {css mdl-textfield} {css mdl-js-textfield}{sp}
+      {css mdl-textfield--floating-label}">
+    <label class="{css mdl-textfield__label} {css firebaseui-label}" for="password">
+      {if $current}
+        {msg desc="Label of a password field."}Current password{/msg}
+      {else}
+        {msg desc="Label of a password field."}Password{/msg}
+      {/if}
+    </label>
+    <input
+        type="password"
+        name="password"
+        autocomplete="current-password"
+        class="{css mdl-textfield__input} {css firebaseui-input} {css firebaseui-id-password}">
+  </div>
+  <div class="{css firebaseui-error-wrapper}">
+    <p class="{css firebaseui-error} {css firebaseui-hidden} {css firebaseui-id-password-error}">
+    </p>
+  </div>
+{/template}
+
+
+/**
+ * Renders the password recovery button.
+ */
+{template .passwordRecoveryButton}
+  <a class="{css firebaseui-link} {css firebaseui-id-secondary-link}" href="javascript:void(0)">
+    {msg desc="Label of the password recovery link"}Trouble signing in?{/msg}
+  </a>
+{/template}
+
+
+/**
+ * Renders the cancel button.
+ */
+{template .cancelButton}
+  <button class="{css firebaseui-id-secondary-link} {css firebaseui-button}{sp}
+      {css mdl-button} {css mdl-js-button} {css mdl-button--raised} {css mdl-button--colored}">
+    {msg desc="Link to cancel the current flow."}Cancel{/msg}
+  </button>
+{/template}
+
+
+/**
+ * Renders a Terms of Service agreement.
+ */
+{template .tos}
+  {@param? tosUrl: string} /** The Terms of Service URL. */
+  <p class="{css firebaseui-tos}">
+    {msg desc="Label for TOS in a sign-up form"}
+      By tapping SAVE, you are indicating that you agree to the{sp}
+      <a href="{$tosUrl}" class="{css firebaseui-link}" target="_blank">Terms of Service</a>
+    {/msg}
+  </p>
+{/template}
+
+
+/**
+ * Renders an info bar with the given message.
+ */
+{template .infoBar}
+  {@param message: string} /** The message to show. */
+  <div class="{css firebaseui-info-bar} {css firebaseui-id-info-bar}">
+    <p class="{css firebaseui-info-bar-message}">
+      {$message}&nbsp;&nbsp;
+      <a href="javascript:void(0)"
+         class="{css firebaseui-link} {css firebaseui-id-dismiss-info-bar}">
+        {msg desc="label of a button which dismisses the notification message"}
+          Dismiss
+        {/msg}
+      </a>
+    </p>
+  </div>
+{/template}
+
+
+/**
+ * Renders a busy indicator to display while server operations are ongoing.
+ */
+{template .busyIndicator}
+  <div class="{css mdl-progress} {css mdl-js-progress} {css mdl-progress__indeterminate}{sp}
+      {css firebaseui-busy-indicator} {css firebaseui-id-busy-indicator}"></div>
+{/template}
+
+
+/**
+ * Determines the IdP display name.
+ * The list should match the supported provider IDs in Firebase Auth.
+ */
+{template .idpName kind="text"}
+  {@param? providerId: string} /** The provider ID of the IdP. */
+  {switch $providerId}
+    {case 'google.com'}
+      {msg desc="Display name of the identity provider for Google sign-in."}Google{/msg}
+    {case 'github.com'}
+      {msg desc="Display name of the identity provider for Github sign-in."}Github{/msg}
+    {case 'facebook.com'}
+      {msg desc="Display name of the identity provider for Facebook sign-in."}Facebook{/msg}
+    {case 'twitter.com'}
+      {msg desc="Display name of the identity provider for Twitter sign-in."}Twitter{/msg}
+    {default}
+      {msg desc="Display name of the identity provider for password sign-in."}Password{/msg}
+  {/switch}
+{/template}
+
+
+/**
+ * Determines the IdP CSS class.
+ * The list should match the supported provider IDs in Firebase Auth.
+ */
+{template .idpClass_ private="true" kind="text"}
+  {@param? providerId: string} /** The provider ID of the IdP. */
+  {switch $providerId}
+    {case 'google.com'}
+      {css firebaseui-idp-google}
+    {case 'github.com'}
+      {css firebaseui-idp-github}
+    {case 'facebook.com'}
+      {css firebaseui-idp-facebook}
+    {case 'twitter.com'}
+      {css firebaseui-idp-twitter}
+    {default}
+      {css firebaseui-idp-password}
+  {/switch}
+{/template}
+
+
+/**
+ * Determines the IdP logo URL.
+ * The list should match the supported provider IDs in Firebase Auth.
+ */
+{template .idpLogo_ private="true" kind="uri"}
+  {@param? providerId: string} /** The provider ID of the IdP. */
+  {switch $providerId}
+    {case 'google.com'}
+      {$ij.googleLogo}
+    {case 'github.com'}
+      {$ij.githubLogo}
+    {case 'facebook.com'}
+      {$ij.facebookLogo}
+    {case 'twitter.com'}
+      {$ij.twitterLogo}
+    {default}
+      {$ij.passwordLogo}
+  {/switch}
+{/template}

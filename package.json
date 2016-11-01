@@ -1,0 +1,45 @@
+{
+  "name": "firebaseui",
+  "version": "1.0.0",
+  "description": "Javascript library for customizable UI on top of Firebase SDK",
+  "files": [
+    "dist/**",
+    "LICENSE",
+    "README.md",
+    "package.json"
+  ],
+  "scripts": {
+    "build": "npm run build-soy && gulp",
+    "build-soy": "node buildtools/soy_files.js",
+    "demo": "npm run build && ./buildtools/run_demo.sh",
+    "test": "npm run build && npm run generate-test-files && ./buildtools/run_tests.sh",
+    "serve": "npm run build && npm run generate-test-files && gulp serve",
+    "generate-test-files": "./buildtools/generate_test_files.sh"
+  },
+  "author": "Google",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/firebase/firebaseui-web.git"
+  },
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "closure-builder": "^2.0.17",
+    "del": "^2.2.2",
+    "firebase": "^3.3.0",
+    "firebase-tools": "^3.0.8",
+    "google-closure-compiler": "^20160713.2.0",
+    "google-closure-library": "^20160713.0.0",
+    "google-closure-templates": "^20150410.0.0",
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^2.0.12",
+    "gulp-closure-compiler": "^0.4.0",
+    "gulp-concat-css": "^2.3.0",
+    "gulp-connect": "^5.0.0",
+    "gulp-sass": "^2.3.2",
+    "gulp-util": "^3.0.7",
+    "material-design-lite": "^1.2.0",
+    "phantomjs-prebuilt": "^2.1.13",
+    "protractor": "^4.0.9",
+    "streamqueue": "^1.1.1"
+  }
+}

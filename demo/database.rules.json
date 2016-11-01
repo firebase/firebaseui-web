@@ -1,0 +1,7 @@
+// No Read/Write permitted.
+{
+  "rules": {
+    ".read": false,
+    ".write": false
+  }
+}
