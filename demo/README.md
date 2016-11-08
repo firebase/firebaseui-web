@@ -18,18 +18,27 @@ Auth > Sign-in methods.
 
 Run:
 
-    git clone https://github.com/firebase/firebaseui-web.git
-    cd firebaseui-web/examples/demo
-    firebase use --add
+```bash
+git clone https://github.com/firebase/firebaseui-web.git
+cd firebaseui-web/demo
+```
 
-This will clone the repository in the current directory, and start a wizard to configure firebase
-for your app. Select the project you have created in the prerequisite, and type in `default` or
-any other name as the alias to use for this project.
+This will clone the repository in the current directory.
 
-Copy `demo/public/sample-config.js` to `demo/public/config.js`:
+If you want to be able to deploy the demo app to one of your own Firebase Hosting instance,
+configure it using the following command:
 
 ```bash
-cp demo/public/sample-config.js demo/public/config.js
+firebase use --add
+```
+
+Select the project you have created in the prerequisite, and type in `default` or
+any other name as the alias to use for this project.
+
+Copy `public/sample-config.js` to `public/config.js`:
+
+```bash
+cp public/sample-config.js public/config.js
 ```
 
 Then copy and paste the Web snippet code found in the console (either by clicking "Add Firebase to
@@ -38,5 +47,12 @@ in the `config.js` file.
 
 ## Deploy
 
-Run `firebase serve` to run a server locally (default: http://localhost:5000) or `firebase deploy` to
-deploy the demo.
+To deploy the demo app, run the following command in the root directory of FirebaseUI (use `cd ..`
+first if you are still in the `demo/` folder):
+
+```bash
+npm run demo
+```
+
+This will compile all the files needed to run FirebaseUI, and start a Firebase server locally at
+http://localhost:5000.
