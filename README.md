@@ -36,8 +36,8 @@ You just need to include the following script and CSS file in the `<head>` tag o
 below the initialization snippet from the Firebase Console:
 
 ```html
-<script src="https://www.gstatic.com/firebasejs/ui/live/0.5/firebase-ui-auth.js"></script>
-<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/0.5/firebase-ui-auth.css" />
+<script src="https://www.gstatic.com/firebasejs/ui/live/1.0/firebase-ui-auth.js"></script>
+<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/1.0/firebase-ui-auth.css" />
 ```
 
 You can then serve your app locally using `firebase serve`.
@@ -49,7 +49,7 @@ FirebaseUI includes the following flows:
 1. Interaction with Identity Providers such as Google and Facebook
 2. Sign-up and sign-in with email accounts
 3. Password reset
-4. Prevention of account duplication (activated when *"One account per email adress"* setting is
+4. Prevention of account duplication (activated when *"One account per email address"* setting is
 enabled in the [Firebase console](https://console.firebase.google.com). This setting is enabled by
 default.)
 5. [Account Chooser](https://www.accountchooser.com/learnmore.html?lang=en) for remembering emails
@@ -75,7 +75,7 @@ instance should be passed to the constructor of `firebaseui.auth.AuthUI`. You ca
 object.
 
 The following example shows how to set up a sign-in screen with all supported providers. Please
-refer to the [demo application in the examples folder](examples/demo/) for a more in-depth
+refer to the [demo application in the examples folder](demo/) for a more in-depth
 example, showcasing a Single Page Application mode.
 
 > Firebase and FirebaseUI do not work when executed directly from a file (i.e. opening the file in
@@ -92,8 +92,8 @@ example, showcasing a Single Page Application mode.
        * TODO(DEVELOPER): Paste the initialization snippet from:
        * Firebase Console > Overview > Add Firebase to your web app. *
        ***************************************************************************************** -->
-    <script src="https://www.gstatic.com/firebasejs/ui/live/0.5/firebase-ui-auth.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/0.5/firebase-ui-auth.css" />
+    <script src="https://www.gstatic.com/firebasejs/ui/live/1.0/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/1.0/firebase-ui-auth.css" />
     <script type="text/javascript">
       // FirebaseUI config.
       var uiConfig = {
@@ -303,8 +303,8 @@ If the callback returns `false` or nothing, the page is not automatically redire
        * TODO(DEVELOPER): Paste the initialization snippet from:
        * Firebase Console > Overview > Add Firebase to your web app. *
        ***************************************************************************************** -->
-    <script src="https://www.gstatic.com/firebasejs/ui/live/0.5/firebase-ui-auth.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/0.5/firebase-ui-auth.css" />
+    <script src="https://www.gstatic.com/firebasejs/ui/live/1.0/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/1.0/firebase-ui-auth.css" />
     <script type="text/javascript">
       // FirebaseUI config.
       var uiConfig = {
@@ -358,7 +358,7 @@ widget is not affected by it so you can display everything you want around the w
 
 ### FirebaseUI widget modes
 
-Upon initilization, FirebaseUI will look for the `mode` parameter in the URL. Depending on the value
+Upon initialization, FirebaseUI will look for the `mode` parameter in the URL. Depending on the value
 of this parameter, it will trigger a specific mode. When no `mode` parameter is found, it will
 default to the sign-in mode.
 
@@ -439,7 +439,8 @@ npm run demo
 ```
 
 This will start a local server serving a FirebaseUI demo app with all local
-changes.
+changes. More details can be found in the [demo app folder](demo/), covering
+how to configure the app to be deployed on a Firebase Hosting instance.
 
 ### Running unit tests.
 
@@ -478,7 +479,17 @@ avoid re-rendering the widget in the middle of an action, but if you do, to avoi
 should use the `reset()` method before re-rendering the widget.
 
 ## Release Notes
+
 ### 1.0.0
+
+See the milestone [1.0.0](https://github.com/firebase/firebaseui-web/milestone/2) for the issues
+covered in this release. Below is a summary of the most important ones:
+
+- **FirebaseUI is now open source!** To contribute, please first create an issue describing either
+the bug observed or the feature requested. This way we can discuss the relevance of the feature,
+before you start working on it. It is also usually better to express the bug before working on a
+fix.
+- Added an option to disable Account Chooser. See: [Credential Helper](credential-helper).
 
 ### 0.5.0
 
@@ -490,7 +501,7 @@ dispose of the widget. When the user leaves a page where the FirebaseUI widget w
 instance in the `componentWillUnmount` method of a React component), call the `reset` method of the
 `firebaseui.auth.AuthUI` instance you created. Also, call the `reset` method before rendering
 again the widget if one has already been rendered on the page. Please refer to the
-[demo app](examples/demo/) for guidance on how to use FirebaseUI in a Single Page
+[demo app](demo/) for guidance on how to use FirebaseUI in a Single Page
 Application context.
 - **Custom scopes** can now be added for each provider. See [Custom Scopes](custom-scopes).
 - Several issues, different but related to the `displayName` not being present after sign up with

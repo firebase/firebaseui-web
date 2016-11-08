@@ -113,6 +113,24 @@ firebase.auth().onAuthStateChanged(function(user) {
   user ? handleSignedInUser(user) : handleSignedOutUser();
 });
 
+/**
+ * Deletes the user's account.
+ */
+var deleteAccount = function() {
+  firebase.auth().currentUser.delete().catch(function(error) {
+    if (error.code == 'auth/requires-recent-login') {
+      // The user's credential is too old. She needs to sign in again.
+      firebase.auth().signOut().then(function() {
+        // The timeout allows the message to be displayed after the UI has
+        // changed to the signed out state.
+        setTimeout(function() {
+          alert('Please sign in again to delete your account.');
+        }, 1);
+      });
+    }
+  });
+};
+
 
 /**
  * Initializes the app.
@@ -127,7 +145,7 @@ var initApp = function() {
   });
   document.getElementById('delete-account').addEventListener(
       'click', function() {
-        firebase.auth().currentUser.delete();
+        deleteAccount();
       });
 };
 
