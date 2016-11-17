@@ -447,7 +447,7 @@ how to configure the app to be deployed on a Firebase Hosting instance.
 All unit tests can be run on the command line (via PhantomJS) with:
 
 ```bash
-npm run test
+npm test
 ```
 
 Alternatively, the unit tests can be run manually by running

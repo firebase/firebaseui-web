@@ -1,0 +1,27 @@
+{
+  "name": "firebaseui-web",
+  "version": "1.0.0",
+  "description": "Javascript library for customizable UI on top of Firebase SDK",
+  "main": [
+    "./dist/firebase-ui-auth.js",
+    "./dist/firebase-ui-auth.css"
+  ],
+  "authors": [
+    "Google"
+  ],
+  "license": "Apache-2.0",
+  "keywords": [
+    "Firebase",
+    "authentication"
+  ],
+  "homepage": "https://github.com/firebase/firebaseui-web",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "generated",
+    "out"
+  ],
+  "dependencies": {
+    "firebase": "^3.3.0"
+  }
+}

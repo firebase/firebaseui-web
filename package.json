@@ -8,6 +8,8 @@
     "README.md",
     "package.json"
   ],
+  "main": "./dist/npm.js",
+  "style": "dist/firebase-ui-auth.css",
   "scripts": {
     "build": "npm run build-soy && gulp",
     "build-soy": "node buildtools/soy_files.js",
@@ -16,6 +18,7 @@
     "serve": "npm run build && npm run generate-test-files && gulp serve",
     "generate-test-files": "./buildtools/generate_test_files.sh"
   },
+  "test": "npm run test",
   "author": "Google",
   "repository": {
     "type": "git",
@@ -25,7 +28,6 @@
   "devDependencies": {
     "closure-builder": "^2.0.17",
     "del": "^2.2.2",
-    "firebase": "^3.3.0",
     "firebase-tools": "^3.0.8",
     "google-closure-compiler": "^20160713.2.0",
     "google-closure-library": "^20160713.0.0",
@@ -41,5 +43,8 @@
     "phantomjs-prebuilt": "^2.1.13",
     "protractor": "^4.0.9",
     "streamqueue": "^1.1.1"
+  },
+  "dependencies": {
+    "firebase": "^3.3.0"
   }
 }

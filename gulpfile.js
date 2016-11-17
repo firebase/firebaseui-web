@@ -31,6 +31,12 @@ var OPTIMIZATION_LEVEL = 'ADVANCED_OPTIMIZATIONS';
 var OUTPUT_WRAPPER = OPTIMIZATION_LEVEL === 'WHITESPACE_ONLY' ?
     '%output%' : '(function() { %output% })();';
 
+// Adds the firebase module requirement and exports firebaseui.
+var NPM_MODULE_WRAPPER = OPTIMIZATION_LEVEL === 'WHITESPACE_ONLY' ?
+    'var firebase=require(\'firebase\');%output%module.exports=firebaseui;' :
+    '(function() { var firebase=require(\'firebase\');%output% })();' +
+    'module.exports=firebaseui;';
+
 
 // The path to Closure Compiler.
 var COMPILER_PATH = 'node_modules/google-closure-compiler/compiler.jar';
@@ -39,15 +45,16 @@ var COMPILER_PATH = 'node_modules/google-closure-compiler/compiler.jar';
 /**
  * Concatenates JS files using the Closure Compiler.
  * @param {string} outFileName The name of the output file.
+ * @param {string} wrapper The output wrapper to use after concatenating files.
  * @return {*}
  */
-function concatJS(outFileName) {
+function concatJS(outFileName, wrapper) {
   return closureCompiler({
     compilerPath: COMPILER_PATH,
     fileName: outFileName,
     compilerFlags: {
       compilation_level: 'WHITESPACE_ONLY',
-      output_wrapper: OUTPUT_WRAPPER
+      output_wrapper: wrapper
     }
   });
 }
@@ -91,9 +98,21 @@ gulp.task('build-js', ['build-firebaseui-js'], () =>
       'node_modules/material-design-lite/src/textfield/textfield.js',
       'out/firebase-ui-auth.js'
     ])
-    .pipe(concatJS('firebase-ui-auth.js'))
+    .pipe(concatJS('firebase-ui-auth.js', OUTPUT_WRAPPER))
     .pipe(gulp.dest('dist')));
 
+// Bundles the FirebaseUI JS with its dependencies as a NPM module.
+gulp.task('build-npm', ['build-firebaseui-js'], () =>
+    gulp
+    .src([
+      'node_modules/material-design-lite/src/mdlComponentHandler.js',
+      'node_modules/material-design-lite/src/button/button.js',
+      'node_modules/material-design-lite/src/progress/progress.js',
+      'node_modules/material-design-lite/src/textfield/textfield.js',
+      'out/firebase-ui-auth.js'
+    ])
+    .pipe(concatJS('npm.js', NPM_MODULE_WRAPPER))
+    .pipe(gulp.dest('dist')));
 
 // Concatenates and minifies the CSS sources.
 gulp.task('build-css', () => {
@@ -121,4 +140,7 @@ gulp.task('serve', () => {
 gulp.task('clean', () => del(['out/*', 'out']));
 
 
-gulp.task('default', ['build-js', 'build-css'], () => gulp.start('clean'));
+gulp.task(
+    'default',
+    ['build-js', 'build-npm', 'build-css'],
+    () => gulp.start('clean'));

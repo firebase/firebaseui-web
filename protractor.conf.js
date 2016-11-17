@@ -12,17 +12,87 @@
  * limitations under the License.
  */
 
-exports.config = {
+/**
+ * Stores the configuration of Protractor. It is loaded by protractor to run
+ * tests.
+ *
+ * Usage:
+ *
+ * Run locally with PhantomJS:
+ * $ npm test
+ * It will start a local Selenium Webdriver server as well as the HTTP server
+ * that serves test files.
+ *
+ * Run locally using SauceLabs:
+ * Go to your SauceLab account, under "My Account", and copy paste the
+ * access key. Now export the following variables:
+ * $ export SAUCE_USERNAME=<your username>
+ * $ export SAUCE_ACCESS_KEY=<the copy pasted access key>
+ * Then, start SauceConnect:
+ * $ ./buildtools/sauce_connect.sh
+ * Take note of the "Tunnel Identifier" value logged in the terminal.
+ * Run the tests:
+ * $ npm run -- --saucelabs --tunnelIdentifier=<the tunnel identifier>
+ * This will start the HTTP Server locally, and connect through SauceConnect
+ * to SauceLabs remote browsers instances.
+ *
+ * Travis will run `npm test -- --saucelabs`.
+ */
+
+// Common configuration.
+config = {
   // Using jasmine to wrap Closure JSUnit tests.
   framework: 'jasmine',
-  // Address of Selenium webdriver, started with `webdriver-manager start`.
-  seleniumAddress: 'http://localhost:4444/wd/hub',
   // The jasmine specs to run.
   specs: ['protractor_spec.js'],
-  // Configuration for phantomjs.
-  capabilities: {
-    'browserName': 'phantomjs',
-    'phantomjs.binary.path': './node_modules/.bin/phantomjs',
-    'phantomjs.ghostdriver.cli.args': ['--loglevel=DEBUG']
-  }
 };
+
+// Read arguments to the protractor command.
+// The first 3 arguments are something similar to:
+// [ '.../bin/node',
+//  '.../node_modules/.bin/protractor',
+//  'protractor.conf.js' ]
+var arguments = process.argv.slice(3);
+
+// Default options: run tests locally (saucelabs false) and use the env variable
+// TRAVIS_JOB_NUMBER to get the tunnel identifier, when using saucelabs.
+var options = {
+  saucelabs: false,
+  tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER
+};
+
+for (var i = 0; i < arguments.length; i++) {
+  var arg = arguments[i];
+  if (arg == '--saucelabs') {
+    options.saucelabs = true;
+  } else if (arg.indexOf('--tunnelIdentifier') == 0) {
+    options.tunnelIdentifier = arg.split('=')[1];
+  }
+}
+
+if (options.saucelabs) {
+  if (!options.tunnelIdentifier) {
+    throw 'No tunnel identifier given! Either the TRAVIS_JOB_NUMBER is not ' +
+        'set, or you haven\'t passed the --tunnelIdentifier=xxx argument.';
+  }
+  // SauceLabs configuration.
+  config.sauceUser = process.env.SAUCE_USERNAME;
+  config.sauceKey = process.env.SAUCE_ACCESS_KEY;
+  // List of browsers configurations tested.
+  var sauceBrowsers = require('./sauce_browsers.json');
+  // Configuration for SauceLabs browsers.
+  config.multiCapabilities = sauceBrowsers.map(function(browser) {
+    browser['tunnel-identifier'] = options.tunnelIdentifier;
+    return browser;
+  });
+} else {
+  // Configuration for phantomJS.
+  config.seleniumAddress = 'http://localhost:4444/wd/hub';
+  config.capabilities = {
+    'browserName': 'phantomjs',
+    'phantomjs.binary.path': require('phantomjs-prebuilt').path,
+    'phantomjs.ghostdriver.cli.args': ['--loglevel=DEBUG']
+  };
+}
+
+exports.config = config;

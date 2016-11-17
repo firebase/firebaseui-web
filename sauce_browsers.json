@@ -1,0 +1,54 @@
+[
+  {
+    "browserName" : "firefox",
+    "platform" : "Linux",
+    "version": "40.0"
+  },
+  {
+    "browserName" : "firefox",
+    "platform" : "Windows 7",
+    "version": "40.0"
+  },
+  {
+    "browserName" : "chrome",
+    "platform" : "Windows 7",
+    "timeZone": "Pacific",
+    "version" : "51.0"
+  },
+  {
+    "browserName" : "chrome",
+    "platform" : "OS X 10.9",
+    "timeZone": "Pacific",
+    "version" : "51.0"
+  },
+  {
+    "browserName" : "MicrosoftEdge",
+    "platform" : "Windows 10",
+    "timeZone": "Pacific",
+    "version" : "13.10586"
+  },
+  {
+    "browserName" : "internet explorer",
+    "version" : "11.0",
+    "platform" : "Windows 7",
+    "timeZone": "Pacific"
+  },
+  {
+    "browserName" : "internet explorer",
+    "version" : "10.0",
+    "timeZone": "Pacific",
+    "platform" : "Windows 7"
+  },
+  {
+    "browserName" : "internet explorer",
+    "version" : "9.0",
+    "platform" : "Windows 7",
+    "timeZone": "Pacific"
+  },
+  {
+    "browserName" : "safari",
+    "version" : "7.0",
+    "platform" : "OS X 10.9",
+    "timeZone": "Pacific"
+  }
+]
