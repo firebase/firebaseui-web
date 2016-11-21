@@ -1,21 +1,9 @@
 [
   {
     "browserName" : "firefox",
-    "platform" : "Linux",
-    "version": "21.0",
-    "name": "firefox-21-linux"
-  },
-  {
-    "browserName" : "firefox",
-    "platform" : "Linux",
-    "version": "45.0",
-    "name": "firefox-latest-linux"
-  },
-  {
-    "browserName" : "chrome",
-    "platform" : "Linux",
-    "version": "27.0",
-    "name": "chrome-27-linux"
+    "platform" : "OS X 10.9",
+    "version": "49.0",
+    "name": "firefox-latest-mac"
   },
   {
     "browserName" : "chrome",
@@ -49,13 +37,6 @@
     "browserName" : "MicrosoftEdge",
     "platform" : "Windows 10",
     "timeZone": "Pacific",
-    "version" : "13.10586",
-    "name": "edge-13-windows"
-  },
-  {
-    "browserName" : "MicrosoftEdge",
-    "platform" : "Windows 10",
-    "timeZone": "Pacific",
     "version" : "14.14393",
     "name": "edge-14-windows"
   },
@@ -65,13 +46,6 @@
     "platform" : "OS X 10.8",
     "timeZone": "Pacific",
     "name": "safari-6-mac"
-  },
-  {
-    "browserName" : "safari",
-    "version" : "9.0",
-    "platform" : "OS X 10.11",
-    "timeZone": "Pacific",
-    "name": "safari-9-mac"
   },
   {
     "browserName" : "safari",
@@ -93,13 +67,6 @@
     "platformVersion": "9.3",
     "browserName": "Safari",
     "name": "ios-93-sim"
-  },
-  {
-    "deviceName": "iPhone 6 Simulator",
-    "platformName": "iOS",
-    "platformVersion": "10.0",
-    "browserName": "Safari",
-    "name": "ios-10-sim"
   },
   {
     "deviceName": "Android Emulator",
