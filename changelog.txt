@@ -1,0 +1,3 @@
+important - FirebaseUI is now open source.
+feature - Added an option to disable Account Chooser.
+fixed - After being idle for 1h, while in the process of signing in, properly handle the error instead of crashing.
