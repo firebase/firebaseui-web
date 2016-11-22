@@ -83,6 +83,8 @@ if (options.saucelabs) {
   // SauceLabs configuration.
   config.sauceUser = process.env.SAUCE_USERNAME;
   config.sauceKey = process.env.SAUCE_ACCESS_KEY;
+  // Avoid going over the SauceLabs concurrency limit (5).
+  config.maxSessions = 5;
   // List of browsers configurations tested.
   var sauceBrowsers = require('./sauce_browsers.json');
   // Configuration for SauceLabs browsers.
