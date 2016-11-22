@@ -34,15 +34,54 @@ Ionic...) nor Chrome extensions.
 
 ## Installation
 
+### CDN
+
 You just need to include the following script and CSS file in the `<head>` tag of your page,
 below the initialization snippet from the Firebase Console:
 
 ```html
-<script src="https://www.gstatic.com/firebasejs/ui/live/1.0/firebase-ui-auth.js"></script>
-<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/1.0/firebase-ui-auth.css" />
+<script src="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.js"></script>
+<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.css" />
 ```
 
-You can then serve your app locally using `firebase serve`.
+### NPM Module
+
+Install FirebaseUI and its dependencies via NPM using the following command:
+
+```bash
+$ npm install firebaseui --save
+```
+
+You can then `require` the following modules within your source files:
+
+```javascript
+var firebase = require('firebase');
+var firebaseui = require('firebaseui');
+```
+
+Or include the required files in your HTML, if your HTTP Server serves the files
+within `node_modules/`:
+
+```html
+<script src="node_modules/firebaseui/dist/firebaseui.js"></script>
+<link type="text/css" rel="stylesheet" href="node_modules/firebaseui/dist/firebaseui.css" />
+```
+
+### Bower component
+
+Install FirebaseUI and its dependencies via Bower using the following command:
+
+```bash
+$ bower install firebaseui --save
+```
+
+You can then include the required files in your HTML, if your HTTP Server serves the files
+within `bower_components/`:
+
+```html
+<script src="bower_components/firebaseui/dist/firebaseui.js"></script>
+<link type="text/css" rel="stylesheet" href="bower_components/firebaseui/dist/firebaseui.css" />
+```
 
 ## Using FirebaseUI for Authentication
 
@@ -94,8 +133,8 @@ example, showcasing a Single Page Application mode.
        * TODO(DEVELOPER): Paste the initialization snippet from:
        * Firebase Console > Overview > Add Firebase to your web app. *
        ***************************************************************************************** -->
-    <script src="https://www.gstatic.com/firebasejs/ui/live/1.0/firebase-ui-auth.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/1.0/firebase-ui-auth.css" />
+    <script src="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.css" />
     <script type="text/javascript">
       // FirebaseUI config.
       var uiConfig = {
@@ -305,8 +344,8 @@ If the callback returns `false` or nothing, the page is not automatically redire
        * TODO(DEVELOPER): Paste the initialization snippet from:
        * Firebase Console > Overview > Add Firebase to your web app. *
        ***************************************************************************************** -->
-    <script src="https://www.gstatic.com/firebasejs/ui/live/1.0/firebase-ui-auth.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/1.0/firebase-ui-auth.css" />
+    <script src="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.css" />
     <script type="text/javascript">
       // FirebaseUI config.
       var uiConfig = {
