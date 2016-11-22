@@ -72,7 +72,7 @@ gulp.task('build-firebaseui-js', () =>
     ])
     .pipe(closureCompiler({
       compilerPath: COMPILER_PATH,
-      fileName: 'firebase-ui-auth.js',
+      fileName: 'firebaseui.js',
       compilerFlags: {
         closure_entry_point: 'firebaseui.auth.exports',
         compilation_level: OPTIMIZATION_LEVEL,
@@ -96,9 +96,9 @@ gulp.task('build-js', ['build-firebaseui-js'], () =>
       'node_modules/material-design-lite/src/button/button.js',
       'node_modules/material-design-lite/src/progress/progress.js',
       'node_modules/material-design-lite/src/textfield/textfield.js',
-      'out/firebase-ui-auth.js'
+      'out/firebaseui.js'
     ])
-    .pipe(concatJS('firebase-ui-auth.js', OUTPUT_WRAPPER))
+    .pipe(concatJS('firebaseui.js', OUTPUT_WRAPPER))
     .pipe(gulp.dest('dist')));
 
 // Bundles the FirebaseUI JS with its dependencies as a NPM module.
@@ -109,7 +109,7 @@ gulp.task('build-npm', ['build-firebaseui-js'], () =>
       'node_modules/material-design-lite/src/button/button.js',
       'node_modules/material-design-lite/src/progress/progress.js',
       'node_modules/material-design-lite/src/textfield/textfield.js',
-      'out/firebase-ui-auth.js'
+      'out/firebaseui.js'
     ])
     .pipe(concatJS('npm.js', NPM_MODULE_WRAPPER))
     .pipe(gulp.dest('dist')));
@@ -121,7 +121,7 @@ gulp.task('build-css', () => {
   var firebaseSrcs = gulp.src('stylesheet/*.css');
 
   return streamqueue({objectMode: true}, mdlSrcs, firebaseSrcs)
-      .pipe(concatCSS('firebase-ui-auth.css'))
+      .pipe(concatCSS('firebaseui.css'))
       .pipe(cleanCSS())
       .pipe(gulp.dest('dist'));
 });

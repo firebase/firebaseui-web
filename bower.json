@@ -1,10 +1,10 @@
 {
-  "name": "firebaseui-web",
+  "name": "firebaseui",
   "version": "0.0.0",
   "description": "Javascript library for customizable UI on top of Firebase SDK",
   "main": [
-    "./dist/firebase-ui-auth.js",
-    "./dist/firebase-ui-auth.css"
+    "./dist/firebaseui.js",
+    "./dist/firebaseui.css"
   ],
   "authors": [
     "Google"

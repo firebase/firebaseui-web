@@ -9,7 +9,7 @@
     "package.json"
   ],
   "main": "./dist/npm.js",
-  "style": "dist/firebase-ui-auth.css",
+  "style": "dist/firebaseui.css",
   "scripts": {
     "build": "npm run build-soy && gulp",
     "build-soy": "node buildtools/soy_files.js",
