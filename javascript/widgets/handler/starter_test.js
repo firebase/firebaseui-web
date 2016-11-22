@@ -39,6 +39,11 @@ function testHandleStartSignIn_redirect() {
 
 /** Tests startSignIn in popup mode. */
 function testHandleSignInButton_popup() {
+  if (firebaseui.auth.util.isMobileBrowser()) {
+    // Mobile browsers cannot use popup mode (it is enforced to false by the
+    // config).
+    return;
+  }
   // Set popup mode to true.
   app.setConfig({'popupMode': true});
   // Start sign in.

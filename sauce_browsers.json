@@ -1,54 +1,78 @@
 [
   {
     "browserName" : "firefox",
-    "platform" : "Linux",
-    "version": "40.0"
-  },
-  {
-    "browserName" : "firefox",
-    "platform" : "Windows 7",
-    "version": "40.0"
-  },
-  {
-    "browserName" : "chrome",
-    "platform" : "Windows 7",
-    "timeZone": "Pacific",
-    "version" : "51.0"
+    "platform" : "OS X 10.9",
+    "version": "49.0",
+    "name": "firefox-latest-mac"
   },
   {
     "browserName" : "chrome",
     "platform" : "OS X 10.9",
     "timeZone": "Pacific",
-    "version" : "51.0"
-  },
-  {
-    "browserName" : "MicrosoftEdge",
-    "platform" : "Windows 10",
-    "timeZone": "Pacific",
-    "version" : "13.10586"
+    "version" : "54.0",
+    "name": "chrome-latest-mac"
   },
   {
     "browserName" : "internet explorer",
     "version" : "11.0",
     "platform" : "Windows 7",
-    "timeZone": "Pacific"
+    "timeZone": "Pacific",
+    "name": "ie-11-windows"
   },
   {
     "browserName" : "internet explorer",
     "version" : "10.0",
     "timeZone": "Pacific",
-    "platform" : "Windows 7"
+    "platform" : "Windows 7",
+    "name": "ie-10-windows"
   },
   {
     "browserName" : "internet explorer",
     "version" : "9.0",
     "platform" : "Windows 7",
-    "timeZone": "Pacific"
+    "timeZone": "Pacific",
+    "name": "ie-9-windows"
+  },
+  {
+    "browserName" : "MicrosoftEdge",
+    "platform" : "Windows 10",
+    "timeZone": "Pacific",
+    "version" : "14.14393",
+    "name": "edge-14-windows"
   },
   {
     "browserName" : "safari",
-    "version" : "7.0",
-    "platform" : "OS X 10.9",
-    "timeZone": "Pacific"
+    "version" : "6.0",
+    "platform" : "OS X 10.8",
+    "timeZone": "Pacific",
+    "name": "safari-6-mac"
+  },
+  {
+    "browserName" : "safari",
+    "version" : "10.0",
+    "platform" : "OS X 10.11",
+    "timeZone": "Pacific",
+    "name": "safari-10-mac"
+  },
+  {
+    "deviceName": "iPhone 6 Simulator",
+    "platformName": "iOS",
+    "platformVersion": "8.4",
+    "browserName": "Safari",
+    "name": "ios-84-sim"
+  },
+  {
+    "deviceName": "iPhone 6 Simulator",
+    "platformName": "iOS",
+    "platformVersion": "9.3",
+    "browserName": "Safari",
+    "name": "ios-93-sim"
+  },
+  {
+    "deviceName": "Android Emulator",
+    "platformName": "Android",
+    "platformVersion": "5.1",
+    "browserName": "Browser",
+    "name": "android-51-sim"
   }
 ]
