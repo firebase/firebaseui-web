@@ -44,9 +44,9 @@ below the initialization snippet from the Firebase Console:
 <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.css" />
 ```
 
-### NPM Module
+### npm Module
 
-Install FirebaseUI and its dependencies via NPM using the following command:
+Install FirebaseUI and its dependencies via npm using the following command:
 
 ```bash
 $ npm install firebaseui --save
