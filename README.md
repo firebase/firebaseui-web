@@ -154,7 +154,7 @@ for a more in-depth example, showcasing a Single Page Application mode.
           firebase.auth.EmailAuthProvider.PROVIDER_ID
         ],
         // Terms of service url.
-        tosUrl: '<your-tos-url>',
+        tosUrl: '<your-tos-url>'
       };
 
       // Initialize the FirebaseUI Widget using Firebase.
@@ -465,7 +465,6 @@ redirected.
         ],
         // Terms of service url.
         tosUrl: '<your-tos-url>'
-        }
       };
 
       var ui = new firebaseui.auth.AuthUI(firebase.auth());
