@@ -396,7 +396,7 @@ popup is blocked by the browser, it will fall back to a full page redirect.
 
 ### Available callbacks
 
-`signInSuccess(currentUser, credential, redirectUrl)`
+#### `signInSuccess(currentUser, credential, redirectUrl)`
 
 **Parameters:**
 
@@ -420,7 +420,7 @@ static `signInSuccessUrl` in config.
 If the callback returns `false` or nothing, the page is not automatically
 redirected.
 
-`uiShown()`
+#### `uiShown()`
 
 This callback is triggered the first time the widget UI is rendered. This is
 useful for cases where the application should display a custom loader before
