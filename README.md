@@ -396,10 +396,7 @@ popup is blocked by the browser, it will fall back to a full page redirect.
 
 ### Available callbacks
 
-Currently only one callback is supported. Some will be added soon to monitor UI
-changes.
-
-`signInSuccess(currentUser, credential, redirectUrl)`
+#### `signInSuccess(currentUser, credential, redirectUrl)`
 
 **Parameters:**
 
@@ -422,6 +419,12 @@ static `signInSuccessUrl` in config.
 
 If the callback returns `false` or nothing, the page is not automatically
 redirected.
+
+#### `uiShown()`
+
+This callback is triggered the first time the widget UI is rendered. This is
+useful for cases where the application should display a custom loader before
+FirebaseUI is displayed.
 
 ### Example with all parameters used
 
@@ -446,6 +449,11 @@ redirected.
             // Return type determines whether we continue the redirect automatically
             // or whether we leave that to developer to handle.
             return true;
+          },
+          uiShown: function() {
+            // The widget is rendered.
+            // Hide the loader.
+            document.getElementById('loader').style.display = 'none';
           }
         },
         credentialHelper: firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
@@ -477,6 +485,7 @@ redirected.
          Your app may use that space for branding, controls and other customizations.-->
     <h1>Welcome to My Awesome App</h1>
     <div id="firebaseui-auth-container"></div>
+    <div id="loader">Loading...</div>
   </body>
 </html>
 ```
