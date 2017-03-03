@@ -31,6 +31,7 @@ goog.require('firebaseui.auth.ui.page.Base');
 /**
  * Password sign-up UI component.
  * @param {?string} tosUrl The ToS URL.
+ * @param {bool} showDisplayName Whether to show the display name.
  * @param {function()} onSubmitClick Callback to invoke when the submit button
  *     is clicked.
  * @param {function()=} opt_onCancelClick Callback to invoke when the cancel
@@ -43,6 +44,7 @@ goog.require('firebaseui.auth.ui.page.Base');
  */
 firebaseui.auth.ui.page.PasswordSignUp = function(
     tosUrl,
+    showDisplayName,
     onSubmitClick,
     opt_onCancelClick,
     opt_email,
@@ -54,6 +56,7 @@ firebaseui.auth.ui.page.PasswordSignUp = function(
       firebaseui.auth.soy2.page.passwordSignUp,
       {
         email: opt_email,
+        showDisplayName: showDisplayName,
         name: opt_name,
         tosUrl: tosUrl,
         allowCancel: !!opt_onCancelClick

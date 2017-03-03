@@ -48,6 +48,7 @@ firebaseui.auth.widget.handler.handlePasswordSignUp = function(
   // Render the UI.
   var component = new firebaseui.auth.ui.page.PasswordSignUp(
       app.getConfig().getTosUrl(),
+      app.getConfig().getShouldDisplayName(),
       // On submit.
       function() {
         firebaseui.auth.widget.handler.onSignUpSubmit_(app, component);
