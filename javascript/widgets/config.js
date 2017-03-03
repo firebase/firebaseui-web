@@ -68,6 +68,11 @@ firebaseui.auth.widget.Config = function() {
   this.config_.define('siteName');
   this.config_.define('tosUrl');
   this.config_.define('widgetUrl');
+  /**
+   * Determines whether the user is asked for entering display name
+   * while going through the email/password signup flow.
+   */
+  this.config_.define('shouldDisplayName', true);
 };
 
 
@@ -287,6 +292,12 @@ firebaseui.auth.widget.Config.prototype.getSiteName = function() {
 /** @return {?string} The ToS URL for the site. */
 firebaseui.auth.widget.Config.prototype.getTosUrl = function() {
   return /** @type {?string} */ (this.config_.get('tosUrl') || null);
+};
+
+
+/** @return {bool} Whether the display name should be displayed. */
+firebaseui.auth.widget.Config.prototype.getShouldDisplayName = function() {
+  return /** @type {bool} */ (this.config_.get('shouldDisplayName'));
 };
 
 

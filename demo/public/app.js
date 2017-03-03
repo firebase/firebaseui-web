@@ -47,7 +47,8 @@ var uiConfig = {
     firebase.auth.EmailAuthProvider.PROVIDER_ID
   ],
   // Terms of service url.
-  'tosUrl': 'https://www.google.com'
+  'tosUrl': 'https://www.google.com',
+  'shouldDisplayName': false
 };
 
 // Initialize the FirebaseUI Widget using Firebase.
