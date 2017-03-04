@@ -295,9 +295,9 @@ firebaseui.auth.widget.Config.prototype.getTosUrl = function() {
 };
 
 
-/** @return {bool} Whether the display name should be displayed. */
+/** @return {boolean} Whether the display name should be displayed. */
 firebaseui.auth.widget.Config.prototype.getShouldDisplayName = function() {
-  return /** @type {bool} */ (this.config_.get('shouldDisplayName'));
+  return /** @type {boolean} */ (this.config_.get('shouldDisplayName'));
 };
 
 
