@@ -49,9 +49,10 @@ var infoBarTestHelper =
     new firebaseui.auth.ui.element.InfoBarTestHelper().registerTests();
 
 
-function createComponent(tosUrl, opt_name) {
+function createComponent(tosUrl, shouldDisplayName, opt_name) {
   var component = new firebaseui.auth.ui.page.PasswordSignUp(
       tosUrl,
+      shouldDisplayName,
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
           formTestHelper),
@@ -75,7 +76,7 @@ function createComponent(tosUrl, opt_name) {
 function setUp() {
   root = goog.dom.createDom(goog.dom.TagName.DIV);
   document.body.appendChild(root);
-  component = createComponent('http://localhost/tos');
+  component = createComponent('http://localhost/tos', true);
 }
 
 
@@ -92,6 +93,7 @@ function testInitialFocus_email() {
   component.dispose();
   component = new firebaseui.auth.ui.page.PasswordSignUp(
       null,
+      true,
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
           formTestHelper));
@@ -117,7 +119,7 @@ function testInitialFocus_newPassword() {
     return;
   }
   component.dispose();
-  component = createComponent('http://localhost/tos', 'John Doe');
+  component = createComponent('http://localhost/tos', true, 'John Doe');
   assertEquals(
       component.getNewPasswordElement(),
       goog.dom.getActiveElement(document));
@@ -144,7 +146,7 @@ function testFocusToNewPasswordOnNameEnter() {
 
 function testSubmitOnNewPasswordEnter() {
   component.dispose();
-  component = createComponent(null); // No ToS.
+  component = createComponent(null, true); // No ToS.
   goog.testing.events.fireKeySequence(
       component.getNewPasswordElement(), goog.events.KeyCodes.ENTER);
   formTestHelper.assertSubmitted();
@@ -157,6 +159,7 @@ function testPasswordSignUp_pageEvents() {
   // Initialize component.
   component = new firebaseui.auth.ui.page.PasswordSignUp(
       null,
+      true,
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
           formTestHelper));
