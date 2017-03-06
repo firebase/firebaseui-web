@@ -114,6 +114,22 @@ function testInitialFocus_name() {
 }
 
 
+function testDisplayNameIsNotRendered() {
+  if (goog.userAgent.IE && !goog.userAgent.isDocumentModeOrHigher(9)) {
+    return;
+  }
+  component.dispose();
+  component = new firebaseui.auth.ui.page.PasswordSignUp(
+      null,
+      false,
+      goog.bind(
+          firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
+          formTestHelper));
+  component.render(root);
+  assertEquals(component.getNameElement(), null);
+}
+
+
 function testInitialFocus_newPassword() {
   if (goog.userAgent.IE && !goog.userAgent.isDocumentModeOrHigher(9)) {
     return;
