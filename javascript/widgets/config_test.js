@@ -242,6 +242,13 @@ function testGetTosUrl() {
 }
 
 
+function testShouldDisplayName() {
+  assertTrue(config.getShouldDisplayName());
+  config.update('shouldDisplayName', false);
+  assertFalse(config.getShouldDisplayName());
+}
+
+
 function testSetConfig() {
   config.setConfig({tosUrl: 'www.testUrl.com'});
   assertEquals('www.testUrl.com', config.getTosUrl());
