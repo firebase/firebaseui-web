@@ -31,7 +31,7 @@ goog.require('firebaseui.auth.ui.page.Base');
 /**
  * Password sign-up UI component.
  * @param {?string} tosUrl The ToS URL.
- * @param {bool} showDisplayName Whether to show the display name.
+ * @param {boolean} showDisplayName Whether to show the display name.
  * @param {function()} onSubmitClick Callback to invoke when the submit button
  *     is clicked.
  * @param {function()=} opt_onCancelClick Callback to invoke when the cancel
@@ -65,6 +65,7 @@ firebaseui.auth.ui.page.PasswordSignUp = function(
       'passwordSignUp');
   this.onSubmitClick_ = onSubmitClick;
   this.onCancelClick_ = opt_onCancelClick;
+  this.showDisplayName_ = showDisplayName;
 };
 goog.inherits(firebaseui.auth.ui.page.PasswordSignUp,
     firebaseui.auth.ui.page.Base);
@@ -73,7 +74,9 @@ goog.inherits(firebaseui.auth.ui.page.PasswordSignUp,
 /** @override */
 firebaseui.auth.ui.page.PasswordSignUp.prototype.enterDocument = function() {
   this.initEmailElement();
-  this.initNameElement();
+  if (this.showDisplayName_) {
+    this.initNameElement();
+  }
   this.initNewPasswordElement();
   this.initFormElement(this.onSubmitClick_, this.onCancelClick_);
   this.setupFocus_();
@@ -95,8 +98,12 @@ firebaseui.auth.ui.page.PasswordSignUp.prototype.disposeInternal = function() {
  */
 firebaseui.auth.ui.page.PasswordSignUp.prototype.setupFocus_ = function() {
   // Focus order.
-  this.focusToNextOnEnter(this.getEmailElement(), this.getNameElement());
-  this.focusToNextOnEnter(this.getNameElement(), this.getNewPasswordElement());
+  if (this.showDisplayName_) {
+    this.focusToNextOnEnter(this.getEmailElement(), this.getNameElement());
+    this.focusToNextOnEnter(this.getNameElement(), this.getNewPasswordElement());
+  } else {
+    this.focusToNextOnEnter(this.getEmailElement(), this.getNewPasswordElement());
+  }
 
   // On enter in password element.
   // TODO: Investigate why the compiler complains about onSubmitClick_ being
@@ -108,7 +115,8 @@ firebaseui.auth.ui.page.PasswordSignUp.prototype.setupFocus_ = function() {
   // Auto focus.
   if (!firebaseui.auth.ui.element.getInputValue(this.getEmailElement())) {
     this.getEmailElement().focus();
-  } else if (!firebaseui.auth.ui.element.getInputValue(this.getNameElement())) {
+  } else if (this.showDisplayName_ &&
+    !firebaseui.auth.ui.element.getInputValue(this.getNameElement())) {
     this.getNameElement().focus();
   } else {
     this.getNewPasswordElement().focus();

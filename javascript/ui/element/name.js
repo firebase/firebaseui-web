@@ -76,15 +76,13 @@ element.name.validate_ = function(nameElement, errorElement) {
 element.name.initNameElement = function() {
   var nameElement = element.name.getNameElement.call(this);
   var errorElement = element.name.getNameErrorElement.call(this);
-  if (nameElement && errorElement) {
-    element.listenForInputEvent(this, nameElement, function(e) {
-      // Clear but not show error on-the-fly.
-      if (element.isShown(errorElement)) {
-        element.setValid(nameElement, true);
-        element.hide(errorElement);
-      }
-    });
-  }
+  element.listenForInputEvent(this, nameElement, function(e) {
+    // Clear but not show error on-the-fly.
+    if (element.isShown(errorElement)) {
+      element.setValid(nameElement, true);
+      element.hide(errorElement);
+    }
+  });
 };
 
 
