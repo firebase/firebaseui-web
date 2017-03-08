@@ -48,7 +48,7 @@ firebaseui.auth.widget.handler.handlePasswordSignUp = function(
   // Render the UI.
   var component = new firebaseui.auth.ui.page.PasswordSignUp(
       app.getConfig().getTosUrl(),
-      app.getConfig().getShouldDisplayName(),
+      app.getConfig().getRequireDisplayName(),
       // On submit.
       function() {
         firebaseui.auth.widget.handler.onSignUpSubmit_(app, component);
@@ -70,13 +70,13 @@ firebaseui.auth.widget.handler.handlePasswordSignUp = function(
  * @private
  */
 firebaseui.auth.widget.handler.onSignUpSubmit_ = function(app, component) {
-  var shouldDisplayName = app.getConfig().getShouldDisplayName();
+  var requireDisplayName = app.getConfig().getRequireDisplayName();
 
   // Check fields are valid.
   var email = component.checkAndGetEmail();
 
   var name = null;
-  if (shouldDisplayName) {
+  if (requireDisplayName) {
     name = component.checkAndGetName();
   }
 
@@ -85,7 +85,7 @@ firebaseui.auth.widget.handler.onSignUpSubmit_ = function(app, component) {
     component.getEmailElement().focus();
     return;
   }
-  if (shouldDisplayName && !name) {
+  if (requireDisplayName && !name) {
     component.getNameElement().focus();
     return;
   }

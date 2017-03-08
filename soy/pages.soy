@@ -76,7 +76,7 @@
  */
 {template .passwordSignUp}
   {@param? email: string} /** The email address to prefill. */
-  {@param? showDisplayName: bool} /** Whether to show the display name. */
+  {@param? requireDisplayName: bool} /** Whether to show the display name. */
   {@param? name: string} /** The name to prefill. */
   {@param? tosUrl: string} /** The Terms of Service URL. */
   {@param? allowCancel: bool} /** Whether to show the cancel link. */
@@ -90,7 +90,7 @@
       </div>
       <div class="{css firebaseui-card-content}">
         {call firebaseui.auth.soy2.element.email data="all" /}
-        {if $showDisplayName}
+        {if $requireDisplayName}
           {call firebaseui.auth.soy2.element.name data="all" /}
         {/if}
         {call firebaseui.auth.soy2.element.newPassword}

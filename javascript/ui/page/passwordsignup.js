@@ -31,7 +31,7 @@ goog.require('firebaseui.auth.ui.page.Base');
 /**
  * Password sign-up UI component.
  * @param {?string} tosUrl The ToS URL.
- * @param {boolean} showDisplayName Whether to show the display name.
+ * @param {boolean} requireDisplayName Whether to show the display name.
  * @param {function()} onSubmitClick Callback to invoke when the submit button
  *     is clicked.
  * @param {function()=} opt_onCancelClick Callback to invoke when the cancel
@@ -44,7 +44,7 @@ goog.require('firebaseui.auth.ui.page.Base');
  */
 firebaseui.auth.ui.page.PasswordSignUp = function(
     tosUrl,
-    showDisplayName,
+    requireDisplayName,
     onSubmitClick,
     opt_onCancelClick,
     opt_email,
@@ -56,7 +56,7 @@ firebaseui.auth.ui.page.PasswordSignUp = function(
       firebaseui.auth.soy2.page.passwordSignUp,
       {
         email: opt_email,
-        showDisplayName: showDisplayName,
+        requireDisplayName: requireDisplayName,
         name: opt_name,
         tosUrl: tosUrl,
         allowCancel: !!opt_onCancelClick
@@ -65,7 +65,7 @@ firebaseui.auth.ui.page.PasswordSignUp = function(
       'passwordSignUp');
   this.onSubmitClick_ = onSubmitClick;
   this.onCancelClick_ = opt_onCancelClick;
-  this.showDisplayName_ = showDisplayName;
+  this.requireDisplayName_ = requireDisplayName;
 };
 goog.inherits(firebaseui.auth.ui.page.PasswordSignUp,
     firebaseui.auth.ui.page.Base);
@@ -74,7 +74,7 @@ goog.inherits(firebaseui.auth.ui.page.PasswordSignUp,
 /** @override */
 firebaseui.auth.ui.page.PasswordSignUp.prototype.enterDocument = function() {
   this.initEmailElement();
-  if (this.showDisplayName_) {
+  if (this.requireDisplayName_) {
     this.initNameElement();
   }
   this.initNewPasswordElement();
@@ -98,7 +98,7 @@ firebaseui.auth.ui.page.PasswordSignUp.prototype.disposeInternal = function() {
  */
 firebaseui.auth.ui.page.PasswordSignUp.prototype.setupFocus_ = function() {
   // Focus order.
-  if (this.showDisplayName_) {
+  if (this.requireDisplayName_) {
     this.focusToNextOnEnter(this.getEmailElement(), this.getNameElement());
     this.focusToNextOnEnter(this.getNameElement(), this.getNewPasswordElement());
   } else {
@@ -115,7 +115,7 @@ firebaseui.auth.ui.page.PasswordSignUp.prototype.setupFocus_ = function() {
   // Auto focus.
   if (!firebaseui.auth.ui.element.getInputValue(this.getEmailElement())) {
     this.getEmailElement().focus();
-  } else if (this.showDisplayName_ &&
+  } else if (this.requireDisplayName_ &&
     !firebaseui.auth.ui.element.getInputValue(this.getNameElement())) {
     this.getNameElement().focus();
   } else {
