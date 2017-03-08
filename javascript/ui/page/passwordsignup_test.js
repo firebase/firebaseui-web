@@ -126,7 +126,7 @@ function testDisplayNameIsNotRendered() {
           firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
           formTestHelper));
   component.render(root);
-  assertEquals(component.getNameElement(), null);
+  assertNull(component.getNameElement());
 }
 
 

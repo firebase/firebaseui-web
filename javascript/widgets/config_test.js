@@ -246,6 +246,7 @@ function testRequiredDisplayNameShouldBeTrueByDefault() {
   assertTrue(config.getRequireDisplayName());
 }
 
+
 function testRequiredDisplayNameCanBeSet() {
   config.update('signInOptions', [
     {

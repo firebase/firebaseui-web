@@ -103,6 +103,21 @@ function testPasswordSignUp() {
       firebaseui.auth.soy2.page.passwordSignUp,
       {
         'email': 'user@example.com',
+        'requireDisplayName': true,
+        'allowCancel': true
+      },
+      IJ_DATA_);
+}
+
+
+function testPasswordSignUpWithoutDisplayName() {
+  var root = goog.dom.getElement('password-sign-up-no-name');
+  goog.soy.renderElement(
+      root,
+      firebaseui.auth.soy2.page.passwordSignUp,
+      {
+        'email': 'user@example.com',
+        'requireDisplayName': false,
         'allowCancel': true
       },
       IJ_DATA_);
