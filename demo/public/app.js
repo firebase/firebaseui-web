@@ -44,12 +44,14 @@ var uiConfig = {
     },
     firebase.auth.TwitterAuthProvider.PROVIDER_ID,
     firebase.auth.GithubAuthProvider.PROVIDER_ID,
-    firebase.auth.EmailAuthProvider.PROVIDER_ID
+    {
+      provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      // Whether the display name should be displayed in Sign Up page.
+      requireDisplayName: true
+    }
   ],
   // Terms of service url.
-  'tosUrl': 'https://www.google.com',
-  // Whether the display name should be displayed in Sign Up page.
-  'requireDisplayName': false
+  'tosUrl': 'https://www.google.com'
 };
 
 // Initialize the FirebaseUI Widget using Firebase.

@@ -242,9 +242,25 @@ function testGetTosUrl() {
 }
 
 
-function testShouldDisplayName() {
+function testRequiredDisplayNameShouldBeTrueByDefault() {
   assertTrue(config.getRequireDisplayName());
-  config.update('requireDisplayName', false);
+}
+
+function testRequiredDisplayNameCanBeSet() {
+  config.update('signInOptions', [
+    {
+      'provider': 'password',
+      'requireDisplayName': true
+    }
+  ]);
+  assertTrue(config.getRequireDisplayName());
+
+  config.update('signInOptions', [
+    {
+      'provider': 'password',
+      'requireDisplayName': false
+    }
+  ]);
   assertFalse(config.getRequireDisplayName());
 }
 
