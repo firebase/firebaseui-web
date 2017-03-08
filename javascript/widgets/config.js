@@ -296,15 +296,14 @@ firebaseui.auth.widget.Config.prototype.getTosUrl = function() {
  */
 firebaseui.auth.widget.Config.prototype.getRequireDisplayName = function() {
   var signInOptions = this.getSignInOptions_();
-  var requireDisplayName = true;
 
   for (var i = 0; i < signInOptions.length; i++) {
     if (signInOptions[i]['provider'] === firebaseui.auth.idp.EMAIL_PROVIDER_ID
       && signInOptions[i]['requireDisplayName'] !== undefined) {
-      requireDisplayName = signInOptions[i]['requireDisplayName'];
+      return /** @type {boolean} */ (signInOptions[i]['requireDisplayName']);
     }
   }
-  return /** @type {boolean} */ (requireDisplayName);
+  return true;
 };
 
 

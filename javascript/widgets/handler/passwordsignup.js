@@ -105,14 +105,19 @@ firebaseui.auth.widget.handler.onSignUpSubmit_ = function(app, component) {
           ),
       [email, password],
       function(user) {
-        // Sign up successful. We can now set the name.
-        return app.registerPending(user.updateProfile({'displayName': name})
-            .then(function() {
-              // Pass password credential to complete the sign-in to original
-              // auth instance.
-              firebaseui.auth.widget.handler.common.setLoggedIn(
-                  app, component, emailPassCred);
-            }));
+        if (requireDisplayName) {
+          // Sign up successful. We can now set the name.
+          return app.registerPending(user.updateProfile({'displayName': name})
+              .then(function() {
+                // Pass password credential to complete the sign-in to original
+                // auth instance.
+                firebaseui.auth.widget.handler.common.setLoggedIn(
+                    app, component, emailPassCred);
+              }));
+        } else {
+          return firebaseui.auth.widget.handler.common.setLoggedIn(
+            app, component, emailPassCred);
+        }
       },
       function(error) {
         // Ignore error if cancelled by the client.
