@@ -49,7 +49,7 @@ var uiConfig = {
   // Terms of service url.
   'tosUrl': 'https://www.google.com',
   // Whether the display name should be displayed in Sign Up page.
-  'shouldDisplayName': false
+  'requireDisplayName': false
 };
 
 // Initialize the FirebaseUI Widget using Firebase.

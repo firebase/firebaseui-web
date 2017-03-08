@@ -49,10 +49,10 @@ var infoBarTestHelper =
     new firebaseui.auth.ui.element.InfoBarTestHelper().registerTests();
 
 
-function createComponent(tosUrl, shouldDisplayName, opt_name) {
+function createComponent(tosUrl, requireDisplayName, opt_name) {
   var component = new firebaseui.auth.ui.page.PasswordSignUp(
       tosUrl,
-      shouldDisplayName,
+      requireDisplayName,
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
           formTestHelper),

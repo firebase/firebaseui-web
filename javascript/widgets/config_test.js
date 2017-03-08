@@ -243,9 +243,9 @@ function testGetTosUrl() {
 
 
 function testShouldDisplayName() {
-  assertTrue(config.getShouldDisplayName());
-  config.update('shouldDisplayName', false);
-  assertFalse(config.getShouldDisplayName());
+  assertTrue(config.getRequireDisplayName());
+  config.update('requireDisplayName', false);
+  assertFalse(config.getRequireDisplayName());
 }
 
 

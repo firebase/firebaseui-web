@@ -72,7 +72,7 @@ firebaseui.auth.widget.Config = function() {
    * Determines whether the user is asked for entering display name
    * while going through the email/password signup flow.
    */
-  this.config_.define('shouldDisplayName', true);
+  this.config_.define('requireDisplayName', true);
 };
 
 
@@ -296,8 +296,8 @@ firebaseui.auth.widget.Config.prototype.getTosUrl = function() {
 
 
 /** @return {boolean} Whether the display name should be displayed. */
-firebaseui.auth.widget.Config.prototype.getShouldDisplayName = function() {
-  return /** @type {boolean} */ (this.config_.get('shouldDisplayName'));
+firebaseui.auth.widget.Config.prototype.getRequireDisplayName = function() {
+  return /** @type {boolean} */ (this.config_.get('requireDisplayName'));
 };
 
 
