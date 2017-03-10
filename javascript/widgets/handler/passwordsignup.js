@@ -116,7 +116,7 @@ firebaseui.auth.widget.handler.onSignUpSubmit_ = function(app, component) {
               }));
         } else {
           return firebaseui.auth.widget.handler.common.setLoggedIn(
-            app, component, emailPassCred);
+              app, component, emailPassCred);
         }
       },
       function(error) {

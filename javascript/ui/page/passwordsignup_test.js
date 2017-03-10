@@ -167,10 +167,10 @@ function testFocusOnEmailEnter_nameIsNotRequired() {
   // When name is not present, the focus should move to
   // password field on pressing enter.
   goog.testing.events.fireKeySequence(
-    component.getEmailElement(), goog.events.KeyCodes.ENTER);
+      component.getEmailElement(), goog.events.KeyCodes.ENTER);
   assertEquals(
-    component.getNewPasswordElement(),
-    goog.dom.getActiveElement(document));
+      component.getNewPasswordElement(),
+      goog.dom.getActiveElement(document));
 }
 
 
