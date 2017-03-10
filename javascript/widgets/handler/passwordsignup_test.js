@@ -103,8 +103,7 @@ function testHandlePasswordSignUp_withoutDisplayName() {
   goog.dom.forms.setValue(getNewPasswordElement(), '123123');
   submitForm();
 
-  // assert successful sign up without the updateProfile
-  // being called
+  // assert successful sign up without updateProfile being called
   testAuth.assertCreateUserWithEmailAndPassword(
       [passwordAccount.getEmail(), '123123'], function() {
         testAuth.setUser({
@@ -113,7 +112,18 @@ function testHandlePasswordSignUp_withoutDisplayName() {
         });
         return testAuth.currentUser;
       });
-  testAuth.assertSignOut([]);
+  return testAuth.process().then(function() {
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    externalAuth.setUser(testAuth.currentUser);
+    var cred = new firebase.auth.EmailAuthProvider.credential(
+        passwordAccount.getEmail(), '123123');
+    externalAuth.assertSignInWithCredential([cred], externalAuth.currentUser);
+    return externalAuth.process();
+  }).then(function() {
+    testUtil.assertGoTo('http://localhost/home');
+  });
 }
 
 

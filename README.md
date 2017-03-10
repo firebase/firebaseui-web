@@ -385,6 +385,21 @@ ui.start('#firebaseui-auth-container', {
 });
 ```
 
+### Configure Email Provider
+
+The `EmailAuthProvider` can be configured to require the user to enter a display name (defaults to `true`).
+
+```javascript
+ui.start('#firebaseui-auth-container', {
+  signInOptions = [
+    {
+      provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      requireDisplayName: false
+    }
+  ]
+});
+```
+
 ### Sign In Flows
 
 Two sign in flows are available:
@@ -469,7 +484,11 @@ FirebaseUI is displayed.
           firebase.auth.GoogleAuthProvider.PROVIDER_ID,
           firebase.auth.FacebookAuthProvider.PROVIDER_ID,
           firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-          firebase.auth.EmailAuthProvider.PROVIDER_ID
+          {
+            provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+            // Whether the display name should be displayed in the Sign Up page.
+            requireDisplayName: true
+          }
         ],
         // Terms of service url.
         tosUrl: '<your-tos-url>'
