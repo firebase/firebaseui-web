@@ -18,8 +18,20 @@
 
 goog.provide('firebaseui.auth.widget.ConfigTest');
 
+goog.require('firebaseui.auth.AuthUI');
+goog.require('firebaseui.auth.CredentialHelper');
+goog.require('firebaseui.auth.PendingEmailCredential');
+goog.require('firebaseui.auth.acClient');
+goog.require('firebaseui.auth.idp');
+goog.require('firebaseui.auth.storage');
+goog.require('firebaseui.auth.widget.handler');
+goog.require('firebaseui.auth.widget.handler.common');
+
+
 goog.require('firebaseui.auth.util');
 goog.require('firebaseui.auth.widget.Config');
+
+
 goog.require('goog.testing');
 goog.require('goog.testing.PropertyReplacer');
 goog.require('goog.testing.jsunit');
@@ -242,19 +254,19 @@ function testGetTosUrl() {
 }
 
 
-function testRequiredDisplayNameShouldBeTrueByDefault() {
-  assertTrue(config.getRequireDisplayName());
+function testRequireDisplayName_shouldBeTrueByDefault() {
+  assertTrue(config.isDisplayNameRequired());
 }
 
 
-function testRequiredDisplayNameCanBeSet() {
+function testRequireDisplayName_canBeSet() {
   config.update('signInOptions', [
     {
       'provider': 'password',
       'requireDisplayName': true
     }
   ]);
-  assertTrue(config.getRequireDisplayName());
+  assertTrue(config.isDisplayNameRequired());
 
   config.update('signInOptions', [
     {
@@ -262,7 +274,18 @@ function testRequiredDisplayNameCanBeSet() {
       'requireDisplayName': false
     }
   ]);
-  assertFalse(config.getRequireDisplayName());
+  assertFalse(config.isDisplayNameRequired());
+}
+
+
+function testRequireDisplayName_isTrueWithNonBooleanArgs() {
+  config.update('signInOptions', [
+    {
+      'provider': 'password',
+      'requireDisplayName': 'a string'
+    }
+  ]);
+  assertTrue(config.isDisplayNameRequired());
 }
 
 

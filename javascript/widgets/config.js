@@ -294,13 +294,14 @@ firebaseui.auth.widget.Config.prototype.getTosUrl = function() {
  * @return {boolean} Whether the display name should be displayed.
  * Defaults to true.
  */
-firebaseui.auth.widget.Config.prototype.getRequireDisplayName = function() {
+firebaseui.auth.widget.Config.prototype.isDisplayNameRequired = function() {
   var signInOptions = this.getSignInOptions_();
 
   for (var i = 0; i < signInOptions.length; i++) {
-    if (signInOptions[i]['provider'] === firebaseui.auth.idp.EMAIL_PROVIDER_ID
-      && signInOptions[i]['requireDisplayName'] !== undefined) {
-      return /** @type {boolean} */ (signInOptions[i]['requireDisplayName']);
+    //if (signInOptions[i]['provider'] == firebase.auth.EmailAuthProvider.PROVIDER_ID
+    if (signInOptions[i]['provider'] == 'password'
+        && signInOptions[i]['requireDisplayName'] !== undefined) {
+      return /** @type {boolean} */ (!!signInOptions[i]['requireDisplayName']);
     }
   }
   return true;

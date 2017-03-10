@@ -88,6 +88,34 @@ function testHandlePasswordSignUp_reset() {
   assertComponentDisposed();
 }
 
+function testHandlePasswordSignUp_withoutDisplayName() {
+  app.setConfig({
+    'signInOptions': [
+      {
+        provider: 'password',
+        requireDisplayName: false
+      }]
+  });
+  firebaseui.auth.widget.handler.handlePasswordSignUp(
+      app, container, passwordAccount.getEmail());
+  assertPasswordSignUpPage();
+  assertNull(getNameElement());
+  goog.dom.forms.setValue(getNewPasswordElement(), '123123');
+  submitForm();
+
+  // assert successful sign up without the updateProfile
+  // being called
+  testAuth.assertCreateUserWithEmailAndPassword(
+      [passwordAccount.getEmail(), '123123'], function() {
+        testAuth.setUser({
+          'email': passwordAccount.getEmail(),
+          'displayName': passwordAccount.getDisplayName()
+        });
+        return testAuth.currentUser;
+      });
+  testAuth.assertSignOut([]);
+}
+
 
 function testHandlePasswordSignUp_signInCallback() {
   // Provide a sign-in success callback.
