@@ -104,7 +104,7 @@ function testInitialFocus_email() {
 }
 
 
-function testInitialFocus_name() {
+function testInitialFocus_nameIsRequired() {
   if (goog.userAgent.IE && !goog.userAgent.isDocumentModeOrHigher(9)) {
     return;
   }
@@ -114,7 +114,7 @@ function testInitialFocus_name() {
 }
 
 
-function testDisplayNameIsNotRendered() {
+function testInitialFocus_nameIsNotRequired() {
   if (goog.userAgent.IE && !goog.userAgent.isDocumentModeOrHigher(9)) {
     return;
   }
@@ -142,12 +142,35 @@ function testInitialFocus_newPassword() {
 }
 
 
-function testFocusToNameOnEmailEnter() {
+function testFocusOnEmailEnter_nameIsRequired() {
   goog.testing.events.fireKeySequence(
       component.getEmailElement(), goog.events.KeyCodes.ENTER);
   assertEquals(
       component.getNameElement(),
       goog.dom.getActiveElement(document));
+}
+
+
+function testFocusOnEmailEnter_nameIsNotRequired() {
+  if (goog.userAgent.IE && !goog.userAgent.isDocumentModeOrHigher(9)) {
+    return;
+  }
+  component.dispose();
+  component = new firebaseui.auth.ui.page.PasswordSignUp(
+      null,
+      false,
+      goog.bind(
+          firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
+          formTestHelper));
+  component.render(root);
+
+  // When name is not present, the focus should move to
+  // password field on pressing enter.
+  goog.testing.events.fireKeySequence(
+    component.getEmailElement(), goog.events.KeyCodes.ENTER);
+  assertEquals(
+    component.getNewPasswordElement(),
+    goog.dom.getActiveElement(document));
 }
 
 

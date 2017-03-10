@@ -29,14 +29,6 @@ firebaseui.auth.idp.isSupportedProvider = function(providerId) {
 
 
 /**
- * The provider ID constant for the email auth provider
- *
- * @const {string}
- */
-firebaseui.auth.idp.EMAIL_PROVIDER_ID = 'password';
-
-
-/**
  * Supported IdP auth provider.
  * @package {Object<string, firebase.auth.AuthProvider>}
  */

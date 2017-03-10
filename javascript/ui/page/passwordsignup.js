@@ -116,7 +116,7 @@ firebaseui.auth.ui.page.PasswordSignUp.prototype.setupFocus_ = function() {
   if (!firebaseui.auth.ui.element.getInputValue(this.getEmailElement())) {
     this.getEmailElement().focus();
   } else if (this.requireDisplayName_ &&
-    !firebaseui.auth.ui.element.getInputValue(this.getNameElement())) {
+      !firebaseui.auth.ui.element.getInputValue(this.getNameElement())) {
     this.getNameElement().focus();
   } else {
     this.getNewPasswordElement().focus();
