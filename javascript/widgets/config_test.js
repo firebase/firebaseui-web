@@ -41,6 +41,7 @@ goog.setTestOnly('firebaseui.auth.widget.ConfigTest');
 var config;
 var stub = new goog.testing.PropertyReplacer();
 var logMessages = [];
+var firebase = {};
 
 
 function setUp() {
@@ -50,6 +51,7 @@ function setUp() {
   stub.set(firebaseui.auth.log, 'error', function(msg) {
     logMessages.push(msg);
   });
+  firebase.auth = {EmailAuthProvider: {PROVIDER_ID: 'password'}};
 }
 
 
