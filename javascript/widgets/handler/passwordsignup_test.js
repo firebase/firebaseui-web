@@ -88,6 +88,7 @@ function testHandlePasswordSignUp_reset() {
   assertComponentDisposed();
 }
 
+
 function testHandlePasswordSignUp_withoutDisplayName() {
   app.setConfig({
     'signInOptions': [
