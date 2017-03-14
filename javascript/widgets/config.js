@@ -299,7 +299,7 @@ firebaseui.auth.widget.Config.prototype.isDisplayNameRequired = function() {
 
   for (var i = 0; i < signInOptions.length; i++) {
     if (signInOptions[i]['provider'] == firebase.auth.EmailAuthProvider.PROVIDER_ID
-        && signInOptions[i]['requireDisplayName'] !== undefined) {
+        && typeof signInOptions[i]['requireDisplayName'] !== 'undefined') {
       return /** @type {boolean} */ (!!signInOptions[i]['requireDisplayName']);
     }
   }
