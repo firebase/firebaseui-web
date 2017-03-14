@@ -108,8 +108,7 @@ function testHandlePasswordSignUp_withoutDisplayName() {
   testAuth.assertCreateUserWithEmailAndPassword(
       [passwordAccount.getEmail(), '123123'], function() {
         testAuth.setUser({
-          'email': passwordAccount.getEmail(),
-          'displayName': passwordAccount.getDisplayName()
+          'email': passwordAccount.getEmail()
         });
         return testAuth.currentUser;
       });
