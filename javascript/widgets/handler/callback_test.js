@@ -1799,3 +1799,97 @@ function testHandleCallback_nullUser_emailAuthOnly_acUnavailable() {
   });
 }
 
+
+function testHandleCallback_operationNotSupported_multiProviders() {
+  // Test when callback handler is triggered with multiple providers and
+  // the operation is not supported in this environment.
+  asyncTestCase.waitForSignals(1);
+  // Set mutliple providers.
+  app.setConfig({
+    'signInOptions': [
+      firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID
+    ]
+  });
+  // Callback rendered.
+  firebaseui.auth.widget.handler.handleCallback(app, container);
+  assertCallbackPage();
+  // Attempting to get redirect result. Reject with an operation not supported
+  // error.
+  testAuth.assertGetRedirectResult([], null, operationNotSupportedError);
+  testAuth.process().then(function() {
+    // Any pending credential should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    // Redirect to the provider's sign-in page.
+    assertProviderSignInPage();
+    // Show error in info bar.
+    assertInfoBarMessage(
+        firebaseui.auth.widget.handler.common.getErrorMessage(
+            operationNotSupportedError));
+    asyncTestCase.signal();
+  });
+}
+
+
+function testHandleCallback_operationNotSupported_passwordOnly_acDisabled() {
+  // Test when callback handler is triggered with only a password provider and
+  // the operation is not supported in this environment.
+  asyncTestCase.waitForSignals(1);
+  // Set password only provider.
+  // Test with accountchooser.com disabled.
+  app.setConfig({
+    'credentialHelper': firebaseui.auth.CredentialHelper.NONE,
+    'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID]
+  });
+  // Callback rendered.
+  firebaseui.auth.widget.handler.handleCallback(app, container);
+  assertCallbackPage();
+  // Attempting to get redirect result. Reject with an operation not supported
+  // error.
+  testAuth.assertGetRedirectResult([], null, operationNotSupportedError);
+  testAuth.process().then(function() {
+    // No message should be displayed.
+    assertNoInfoBarMessage();
+    // Redirect to the sign-in page with no error message.
+    assertSignInPage();
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    asyncTestCase.signal();
+  });
+}
+
+
+function testHandleCallback_operationNotSupported_passwordOnly_acEnabled() {
+  // Test when callback handler is triggered with only a password provider and
+  // the operation is not supported in this environment.
+  asyncTestCase.waitForSignals(1);
+  // Set password only provider.
+  // Test with accountchooser.com enabled.
+  app.setConfig({
+    'credentialHelper': firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
+    'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID]
+  });
+  // Simulate empty response from accountchooser.com click.
+  testAc.setSkipSelect(true);
+  // Callback rendered.
+  firebaseui.auth.widget.handler.handleCallback(app, container);
+  assertCallbackPage();
+  // Attempting to get redirect result. Reject with an operation not supported
+  // error.
+  testAuth.assertGetRedirectResult([], null, operationNotSupportedError);
+  testAuth.process().then(function() {
+    // Try select should be called.
+    testAc.assertTrySelectAccount(
+        firebaseui.auth.storage.getRememberedAccounts(app.getAppId()),
+        'http://localhost/firebaseui-widget?mode=select');
+    // Redirect to the sign-in page with no error message.
+    assertSignInPage();
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    // No message should be displayed.
+    assertNoInfoBarMessage();
+    asyncTestCase.signal();
+  });
+}
+
