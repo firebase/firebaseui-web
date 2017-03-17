@@ -81,6 +81,12 @@ var internalError = {
   'code': 'auth/internal-error',
   'message': 'An internal error occurred.'
 };
+var operationNotSupportedError = {
+  'code': 'auth/operation-not-supported-in-this-environment',
+  'message':  'This operation is not supported in the environment this ' +
+  'application is running on. "location.protocol" must be http, https ' +
+  'or chrome-extension and web storage must be enabled.'
+};
 
 var container;
 var container2;

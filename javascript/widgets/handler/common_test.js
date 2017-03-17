@@ -1604,3 +1604,37 @@ function testGetErrorMessage_unknownError_jsonMessage() {
       firebaseui.auth.log.error.getLastCall().getArgument(0));
   assertEquals('An internal error has occurred.', message);
 }
+
+
+function testIsPasswordProviderOnly_multipleMixedProviders() {
+  // Set a password and federated providers in the FirebaseUI instance
+  // configuration.
+  app.updateConfig(
+      'signInOptions',
+      [
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        firebase.auth.EmailAuthProvider.PROVIDER_ID
+      ]);
+  assertFalse(
+      firebaseui.auth.widget.handler.common.isPasswordProviderOnly(app));
+}
+
+
+function testIsPasswordProviderOnly_singlePasswordProvider() {
+  // Set a password only provider in the FirebaseUI instance configuration.
+  app.updateConfig(
+      'signInOptions',
+      [firebase.auth.EmailAuthProvider.PROVIDER_ID]);
+  assertTrue(
+      firebaseui.auth.widget.handler.common.isPasswordProviderOnly(app));
+}
+
+
+function testIsPasswordProviderOnly_singleFederatedProvider() {
+  // Set a federated only provider in the FirebaseUI instance configuration.
+  app.updateConfig(
+      'signInOptions',
+      [firebase.auth.GoogleAuthProvider.PROVIDER_ID]);
+  assertFalse(
+      firebaseui.auth.widget.handler.common.isPasswordProviderOnly(app));
+}

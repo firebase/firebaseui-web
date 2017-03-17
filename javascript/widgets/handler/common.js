@@ -804,6 +804,21 @@ firebaseui.auth.widget.handler.common.handleUnrecoverableError = function(
 
 
 /**
+ * Helper function to check if a FirebaseUI instance only supports password
+ * providers.
+ * @param {firebaseui.auth.AuthUI} app The current FirebaseUI instance whose
+ *     configuration is used.
+ * @return {boolean} Whether only password providers are supported by the app's
+ *     current configuration.
+ */
+firebaseui.auth.widget.handler.common.isPasswordProviderOnly = function(app) {
+  var providers = app.getConfig().getProviders();
+  return providers.length == 1 &&
+      providers[0] == firebase.auth.EmailAuthProvider.PROVIDER_ID;
+};
+
+
+/**
  * Calls the appropriate sign-in start handler depending on display mode.
  *
  * @param {firebaseui.auth.AuthUI} app The current FirebaseUI instance whose
@@ -814,9 +829,7 @@ firebaseui.auth.widget.handler.common.handleUnrecoverableError = function(
  */
 firebaseui.auth.widget.handler.common.handleSignInStart = function(
     app, container, opt_email, opt_infoBarMessage) {
-  var providers = app.getConfig().getProviders();
-  if (providers.length == 1 &&
-      providers[0] == firebase.auth.EmailAuthProvider.PROVIDER_ID) {
+  if (firebaseui.auth.widget.handler.common.isPasswordProviderOnly(app)) {
     // If info bar message is available, do not go to accountchooser.com since
     // this is a result of some error in the flow and the error message must be
     // displayed.

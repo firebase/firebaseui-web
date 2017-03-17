@@ -92,6 +92,19 @@ firebaseui.auth.widget.handler.handleCallback =
         firebaseui.auth.widget.handler.handleCallbackFailure_(
             app, component, /** @type {!Error} */ (error));
       }
+    } else if (error &&
+        error['code'] == 'auth/operation-not-supported-in-this-environment' &&
+        firebaseui.auth.widget.handler.common.isPasswordProviderOnly(app)) {
+      // Operation is not supported in this environment but only password
+      // provider is enabled. So allow this to proceed as a no redirect result.
+      // This will allow developers using password sign-in in Cordova to use
+      // FirebaseUI.
+      firebaseui.auth.widget.handler.handleCallbackResult_(
+          app,
+          component,
+          {
+            'user': null
+          });
     } else {
       // Go to the sign-in page with info bar error.
       firebaseui.auth.widget.handler.handleCallbackFailure_(
