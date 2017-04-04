@@ -77,6 +77,42 @@ function testHandleSignIn() {
 }
 
 
+function testHandleSignIn_accountLookupError() {
+  // Test when account lookup throws an error.
+  var expectedError = {
+    'code': 'auth/invalid-email',
+    'message': 'The email address is badly formatted.'
+  };
+  app.updateConfig('signInOptions', signInOptionsWithScopes);
+  firebaseui.auth.widget.handler.handleSignIn(app, container);
+  assertSignInPage();
+
+  // Now email input has 'user', which is not a valid email address.
+  var emailInput = getEmailElement();
+  // Pass an invalid email that will pass client side validation.
+  goog.dom.forms.setValue(emailInput, 'me.@google.com');
+  goog.testing.events.fireKeySequence(emailInput, goog.events.KeyCodes.ENTER);
+  assertSignInPage();
+
+  // Enter key triggers fetchProvidersForEmail.
+  goog.testing.events.fireKeySequence(emailInput, goog.events.KeyCodes.ENTER);
+
+  testAuth.assertFetchProvidersForEmail(
+      ['me.@google.com'],
+      null,
+      expectedError);
+  return testAuth.process().then(function() {
+    // Should remain on the same page.
+    assertSignInPage();
+    // Account should not be remembered.
+    assertFalse(firebaseui.auth.storage.isRememberAccount(app.getAppId()));
+    // Error message should be displayed in the info bar.
+    assertInfoBarMessage(
+        firebaseui.auth.widget.handler.common.getErrorMessage(expectedError));
+  });
+}
+
+
 function testHandleSignIn_reset() {
   // Test when reset is called after sign-in handler called.
   firebaseui.auth.widget.handler.handleSignIn(app, container);
