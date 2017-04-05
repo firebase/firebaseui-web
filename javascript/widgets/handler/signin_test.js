@@ -77,6 +77,39 @@ function testHandleSignIn() {
 }
 
 
+function testHandleSignIn_cancelButtonClick_multipleProviders() {
+  firebaseui.auth.widget.handler.handleSignIn(app, container);
+  assertSignInPage();
+  // Click cancel.
+  clickSecondaryLink();
+  // Provider sign in page should be rendered.
+  assertProviderSignInPage();
+}
+
+
+function testHandleSignIn_cancelButtonClick_emailProviderOnly() {
+  // Simulate existing password account selected in accountchooser.com.
+  testAc.setSelectedAccount(passwordAccount);
+  app.updateConfig('signInOptions', ['password']);
+  firebaseui.auth.widget.handler.handleSignIn(
+      app, container, passwordAccount.getEmail());
+  assertSignInPage();
+  // Click cancel.
+  clickSecondaryLink();
+  // handleSignInWithEmail should be called underneath.
+  // If accountchoose.com is enabled, page will redirect to it.
+  testAuth.assertFetchProvidersForEmail(
+      [passwordAccount.getEmail()],
+      ['password']);
+  testAuth.process().then(function() {
+    assertPasswordSignInPage();
+    var emailInput = getEmailElement();
+    assertEquals(
+        passwordAccount.getEmail(), goog.dom.forms.getValue(emailInput));
+  });
+}
+
+
 function testHandleSignIn_accountLookupError() {
   // Test when account lookup throws an error.
   var expectedError = {

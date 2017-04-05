@@ -42,6 +42,16 @@ firebaseui.auth.widget.handler.handleSignIn = function(
       function() {
         firebaseui.auth.widget.handler.onSignInEmailEnter_(app, component);
       },
+      // On cancel.
+      function() {
+        // Downside is if only email auth provider is selected and
+        // accountchooser.com is disabled, the cancel button will do nothing.
+        // Future improvement would be to not display this button in that
+        // edge case.
+        component.dispose();
+        firebaseui.auth.widget.handler.common.handleSignInStart(
+            app, container, opt_email);
+      },
       opt_email);
   component.render(container);
   // Set current UI component.
