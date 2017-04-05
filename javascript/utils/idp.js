@@ -66,9 +66,18 @@ firebaseui.auth.idp.getAuthCredential = function(credentialObject) {
     if (credentialObject['secret'] && credentialObject['accessToken']) {
       credentialObject['oauthToken'] = credentialObject['accessToken'];
       credentialObject['oauthTokenSecret'] = credentialObject['secret'];
+      return firebase.auth[firebaseui.auth.idp.AuthProviders[providerId]]
+          .credential(credentialObject['accessToken'],
+                      credentialObject['secret']);
+    } else if (providerId == firebase.auth.GoogleAuthProvider.PROVIDER_ID) {
+      return firebase.auth[firebaseui.auth.idp.AuthProviders[providerId]]
+          .credential(credentialObject['idToken'],
+                      credentialObject['accessToken']);
+    } else {
+      // GitHub and Facebook.
+      return firebase.auth[firebaseui.auth.idp.AuthProviders[providerId]]
+          .credential(credentialObject['accessToken']);
     }
-    return firebase.auth[firebaseui.auth.idp.AuthProviders[providerId]]
-        .credential(credentialObject);
   }
   return null;
 };

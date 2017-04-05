@@ -45,8 +45,10 @@ firebaseui.auth.widget.handler.handleFederatedSignIn = function(
       providerId,
       // On submit.
       function() {
+        // Pass the email since some OAuth providers support OAuth flow
+        // with a specified email.
         firebaseui.auth.widget.handler.common.federatedSignIn(app, component,
-            providerId);
+            providerId, email);
       });
 
   component.render(container);

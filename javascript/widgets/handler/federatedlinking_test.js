@@ -56,10 +56,28 @@ function setPendingEmailCredentials() {
 function testHandleFederatedLinking() {
   // Add additional scopes to test they are properly passed to the sign-in
   // method.
-  var expectedProvider = getExpectedProviderWithScopes();
+  var expectedProvider = getExpectedProviderWithScopes({
+    'login_hint': federatedAccount.getEmail()
+  });
   setPendingEmailCredentials();
   firebaseui.auth.widget.handler.handleFederatedLinking(
       app, container, federatedAccount.getEmail(), 'google.com');
+  assertFederatedLinkingPage(federatedAccount.getEmail());
+  submitForm();
+  testAuth.assertSignInWithRedirect([expectedProvider]);
+  return testAuth.process();
+}
+
+
+function testHandleFederatedLinking_noLoginHint() {
+  // Add additional scopes to test they are properly passed to the sign-in
+  // method.
+  // As this is not google.com, no customParameters will be set.
+  var expectedProvider =
+      getExpectedProviderWithCustomParameters('github.com');
+  setPendingEmailCredentials();
+  firebaseui.auth.widget.handler.handleFederatedLinking(
+      app, container, federatedAccount.getEmail(), 'github.com');
   assertFederatedLinkingPage(federatedAccount.getEmail());
   submitForm();
   testAuth.assertSignInWithRedirect([expectedProvider]);
@@ -72,7 +90,9 @@ function testHandleFederatedLinking_popup_success() {
   app.updateConfig('signInFlow', 'popup');
   // Add additional scopes to test they are properly passed to the sign-in
   // method.
-  var expectedProvider = getExpectedProviderWithScopes();
+  var expectedProvider = getExpectedProviderWithScopes({
+    'login_hint': federatedAccount.getEmail()
+  });
   setPendingEmailCredentials();
   firebaseui.auth.widget.handler.handleFederatedLinking(
       app, container, federatedAccount.getEmail(), 'google.com');
@@ -124,7 +144,9 @@ function testHandleFederatedLinking_popup_success_multipleClicks() {
   app.updateConfig('signInFlow', 'popup');
   // Add additional scopes to test they are properly passed to the sign-in
   // method.
-  var expectedProvider = getExpectedProviderWithScopes();
+  var expectedProvider = getExpectedProviderWithScopes({
+    'login_hint': federatedAccount.getEmail()
+  });
   setPendingEmailCredentials();
   firebaseui.auth.widget.handler.handleFederatedLinking(
       app, container, federatedAccount.getEmail(), 'google.com');
@@ -216,7 +238,9 @@ function testHandleFederatedLinking_noPendingCredential_popup() {
 function testHandleFederatedLinking_error() {
   // Add additional scopes to test they are properly passed to the sign-in
   // method.
-  var expectedProvider = getExpectedProviderWithScopes();
+  var expectedProvider = getExpectedProviderWithScopes({
+    'login_hint': federatedAccount.getEmail()
+  });
   setPendingEmailCredentials();
   firebaseui.auth.widget.handler.handleFederatedLinking(
       app, container, federatedAccount.getEmail(), 'google.com');
@@ -237,7 +261,9 @@ function testHandleFederatedLinking_popup_recoverableError() {
   app.updateConfig('signInFlow', 'popup');
   // Add additional scopes to test they are properly passed to the sign-in
   // method.
-  var expectedProvider = getExpectedProviderWithScopes();
+  var expectedProvider = getExpectedProviderWithScopes({
+    'login_hint': federatedAccount.getEmail()
+  });
   setPendingEmailCredentials();
   firebaseui.auth.widget.handler.handleFederatedLinking(
       app, container, federatedAccount.getEmail(), 'google.com');
@@ -268,7 +294,9 @@ function testHandleFederatedLinking_popup_userCancelled() {
   app.updateConfig('signInFlow', 'popup');
   // Add additional scopes to test they are properly passed to the sign-in
   // method.
-  var expectedProvider = getExpectedProviderWithScopes();
+  var expectedProvider = getExpectedProviderWithScopes({
+    'login_hint': federatedAccount.getEmail()
+  });
   setPendingEmailCredentials();
   firebaseui.auth.widget.handler.handleFederatedLinking(
       app, container, federatedAccount.getEmail(), 'google.com');
@@ -299,7 +327,9 @@ function testHandleFederatedLinking_popup_unrecoverableError() {
   app.updateConfig('signInFlow', 'popup');
   // Add additional scopes to test they are properly passed to the sign-in
   // method.
-  var expectedProvider = getExpectedProviderWithScopes();
+  var expectedProvider = getExpectedProviderWithScopes({
+    'login_hint': federatedAccount.getEmail()
+  });
   setPendingEmailCredentials();
   firebaseui.auth.widget.handler.handleFederatedLinking(
       app, container, federatedAccount.getEmail(), 'google.com');
@@ -326,7 +356,9 @@ function testHandleFederatedLinking_popup_popupBlockedError() {
   app.updateConfig('signInFlow', 'popup');
   // Add additional scopes to test they are properly passed to the sign-in
   // method.
-  var expectedProvider = getExpectedProviderWithScopes();
+  var expectedProvider = getExpectedProviderWithScopes({
+    'login_hint': federatedAccount.getEmail()
+  });
   setPendingEmailCredentials();
   firebaseui.auth.widget.handler.handleFederatedLinking(
       app, container, federatedAccount.getEmail(), 'google.com');
@@ -357,7 +389,9 @@ function testHandleFederatedLinking_popup_popupBlockedError_redirectError() {
   app.updateConfig('signInFlow', 'popup');
   // Add additional scopes to test they are properly passed to the sign-in
   // method.
-  var expectedProvider = getExpectedProviderWithScopes();
+  var expectedProvider = getExpectedProviderWithScopes({
+    'login_hint': federatedAccount.getEmail()
+  });
   setPendingEmailCredentials();
   firebaseui.auth.widget.handler.handleFederatedLinking(
       app, container, federatedAccount.getEmail(), 'google.com');
@@ -392,7 +426,9 @@ function testHandleFederatedLinking_inProcessing() {
   // Add additional scopes to test they are properly passed to the sign-in
   // method.
   app.updateConfig('signInOptions', signInOptionsWithScopes);
-  var expectedProvider = getExpectedProviderWithScopes();
+  var expectedProvider = getExpectedProviderWithScopes({
+    'login_hint': federatedAccount.getEmail()
+  });
   setPendingEmailCredentials();
   firebaseui.auth.widget.handler.handleFederatedLinking(
       app, container, federatedAccount.getEmail(), 'google.com');
@@ -421,7 +457,9 @@ function testHandleFederatedLinking_inProcessing() {
 function testHandleFederatedLinking_popup_cancelled() {
   // Test sign in with popup flow when the popup is cancelled.
   app.updateConfig('signInFlow', 'popup');
-  var expectedProvider = getExpectedProviderWithScopes();
+  var expectedProvider = getExpectedProviderWithScopes({
+    'login_hint': federatedAccount.getEmail()
+  });
   setPendingEmailCredentials();
   firebaseui.auth.widget.handler.handleFederatedLinking(
       app, container, federatedAccount.getEmail(), 'google.com');

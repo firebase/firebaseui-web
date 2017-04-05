@@ -200,12 +200,20 @@ function setUp() {
   for (var key in firebaseui.auth.idp.AuthProviders) {
     firebase['auth'][firebaseui.auth.idp.AuthProviders[key]] = function() {
       this.scopes = [];
+      this.customParameters = {};
     };
     firebase['auth'][firebaseui.auth.idp.AuthProviders[key]].PROVIDER_ID = key;
     if (key != 'twitter.com' && key != 'password') {
       firebase['auth'][firebaseui.auth.idp.AuthProviders[key]].prototype
           .addScope = function(scope) {
         this.scopes.push(scope);
+      };
+    }
+    if (key != 'password') {
+      // Record setCustomParameters for all OAuth providers.
+      firebase['auth'][firebaseui.auth.idp.AuthProviders[key]].prototype
+          .setCustomParameters = function(customParameters) {
+        this.customParameters = customParameters;
       };
     }
   }
@@ -270,15 +278,38 @@ function tearDown() {
 
 
 /**
- * @return {!Object} The expected provider with scopes after updating
- *     signInOptions.
+ * @param {?Object=} opt_customParameters The optional custom OAuth parameters
+ *     to match if expected.
+ * @return {!Object} The expected provider with custom parameters and scopes
+ *     after updating signInOptions.
  */
-function getExpectedProviderWithScopes() {
+function getExpectedProviderWithScopes(opt_customParameters) {
   // Add additional scopes to test they are properly passed to sign in method.
   app.updateConfig('signInOptions', signInOptionsWithScopes);
   var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
   expectedProvider.addScope('googl1');
   expectedProvider.addScope('googl2');
+  // Set custom parameters if provided on the expected provider.
+  if (opt_customParameters) {
+    expectedProvider.setCustomParameters(opt_customParameters);
+  }
+  return expectedProvider;
+}
+
+
+/**
+ * @param {string} providerId The provider Id to initialize.
+ * @param {?Object=} opt_customParameters The optional custom OAuth parameters
+ *     to match if expected.
+ * @return {!Object} The expected provider with custom parameters and no scopes.
+ */
+function getExpectedProviderWithCustomParameters(
+     providerId, opt_customParameters) {
+  var expectedProvider = firebaseui.auth.idp.getAuthProvider(providerId);
+  // Set custom parameters if provided on the expected provider.
+  if (opt_customParameters) {
+    expectedProvider.setCustomParameters(opt_customParameters);
+  }
   return expectedProvider;
 }
 
