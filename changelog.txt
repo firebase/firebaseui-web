@@ -1,0 +1,6 @@
+feature - Added ability to not require the display name in password sign up.
+feature - Pass login_hint when a user needs to sign in with Google using a specific email.
+fixed - Fixed account linking in recent versions of Firebase Auth.
+fixed - Fixed "operation not supported" error for password providers in Cordova environment.
+fixed - Display error when account lookup returns an unexpected error from the Auth backend.
+fixed - Added back button in sign in handler page.

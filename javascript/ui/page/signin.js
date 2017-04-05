@@ -31,6 +31,8 @@ goog.require('goog.dom.selection');
  * UI component for the user to enter their email.
  * @param {function()} onEmailEnter Callback to invoke when enter key (or its
  *     equivalent) is detected.
+ * @param {function()} onCancelClick Callback to invoke when cancel button
+ *     is clicked.
  * @param {string=} opt_email The email to prefill.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @constructor
@@ -38,6 +40,7 @@ goog.require('goog.dom.selection');
  */
 firebaseui.auth.ui.page.SignIn = function(
     onEmailEnter,
+    onCancelClick,
     opt_email,
     opt_domHelper) {
   firebaseui.auth.ui.page.SignIn.base(
@@ -48,6 +51,7 @@ firebaseui.auth.ui.page.SignIn = function(
       opt_domHelper,
       'signIn');
   this.onEmailEnter_ = onEmailEnter;
+  this.onCancelClick_ = onCancelClick;
 };
 goog.inherits(firebaseui.auth.ui.page.SignIn, firebaseui.auth.ui.page.Base);
 
@@ -56,12 +60,9 @@ goog.inherits(firebaseui.auth.ui.page.SignIn, firebaseui.auth.ui.page.Base);
 firebaseui.auth.ui.page.SignIn.prototype.enterDocument = function() {
   this.initEmailElement(this.onEmailEnter_);
   var self = this;
-  // Handle a click on the submit button.
-  this.initFormElement(this.onEmailEnter_);
-  // Auto focus the email input and put the cursor at the end.
-  this.getEmailElement().focus();
-  goog.dom.selection.setCursorPosition(
-      this.getEmailElement(), (this.getEmailElement().value || '').length);
+  // Handle a click on the submit button or cancel button.
+  this.initFormElement(this.onEmailEnter_, this.onCancelClick_);
+  this.setupFocus_();
   firebaseui.auth.ui.page.SignIn.base(this, 'enterDocument');
 };
 
@@ -69,7 +70,20 @@ firebaseui.auth.ui.page.SignIn.prototype.enterDocument = function() {
 /** @override */
 firebaseui.auth.ui.page.SignIn.prototype.disposeInternal = function() {
   this.onEmailEnter_ = null;
+  this.onCancelClick_ = null;
   firebaseui.auth.ui.page.SignIn.base(this, 'disposeInternal');
+};
+
+
+/**
+ * Sets up the focus order and auto focus.
+ * @private
+ */
+firebaseui.auth.ui.page.SignIn.prototype.setupFocus_ = function() {
+  // Auto focus the email input and put the cursor at the end.
+  this.getEmailElement().focus();
+  goog.dom.selection.setCursorPosition(
+      this.getEmailElement(), (this.getEmailElement().value || '').length);
 };
 
 
@@ -92,6 +106,8 @@ goog.mixin(
       // For form.
       getSubmitElement:
           firebaseui.auth.ui.element.form.getSubmitElement,
+      getSecondaryLinkElement:
+          firebaseui.auth.ui.element.form.getSecondaryLinkElement,
       initFormElement:
           firebaseui.auth.ui.element.form.initFormElement
     });

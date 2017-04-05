@@ -21,6 +21,7 @@ goog.setTestOnly('firebaseui.auth.ui.page.SignInTest');
 
 goog.require('firebaseui.auth.ui.element');
 goog.require('firebaseui.auth.ui.element.EmailTestHelper');
+goog.require('firebaseui.auth.ui.element.FormTestHelper');
 goog.require('firebaseui.auth.ui.element.InfoBarTestHelper');
 goog.require('firebaseui.auth.ui.page.PageTestHelper');
 goog.require('firebaseui.auth.ui.page.SignIn');
@@ -36,6 +37,11 @@ var root;
 var component;
 var emailTestHelper =
     new firebaseui.auth.ui.element.EmailTestHelper().registerTests();
+// Ignore form helper submit button click as they are already explicitly
+// tested.
+var formTestHelper = new firebaseui.auth.ui.element.FormTestHelper()
+    .excludeTests('testOnSubmitEnter_', 'testOnSubmitClick_')
+    .registerTests();
 var infoBarTestHelper =
     new firebaseui.auth.ui.element.InfoBarTestHelper().registerTests();
 
@@ -46,10 +52,14 @@ function setUp() {
   component = new firebaseui.auth.ui.page.SignIn(
       goog.bind(
           firebaseui.auth.ui.element.EmailTestHelper.prototype.onEnter,
-          emailTestHelper));
+          emailTestHelper),
+      goog.bind(
+          firebaseui.auth.ui.element.FormTestHelper.prototype.onLinkClick,
+          formTestHelper));
   component.render(root);
   emailTestHelper.setComponent(component);
   infoBarTestHelper.setComponent(component);
+  formTestHelper.setComponent(component);
 }
 
 
