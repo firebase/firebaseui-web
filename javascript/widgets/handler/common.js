@@ -901,7 +901,14 @@ firebaseui.auth.widget.handler.common.handleStartEmailFirstFlow =
                 undefined,
                 opt_infoBarMessage);
       },
-      function(error) {}
+      function(error) {
+        // The email provided could be an invalid one or some other error
+        // could occur.
+        var errorMessage =
+            firebaseui.auth.widget.handler.common.getErrorMessage(
+                error);
+        component.showInfoBar(errorMessage);
+      }
   ));
 };
 
