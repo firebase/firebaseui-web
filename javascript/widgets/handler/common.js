@@ -608,10 +608,11 @@ firebaseui.auth.widget.handler.common.isCredentialExpired = function(error) {
  *     configuration is used.
  * @param {!firebaseui.auth.ui.page.Base} component The current UI component.
  * @param {string} providerId The provider ID of the selected IdP.
+ * @param {?string=} opt_email The optional email to try to sign in with.
  * @package
  */
 firebaseui.auth.widget.handler.common.federatedSignIn = function(
-    app, component, providerId) {
+    app, component, providerId, opt_email) {
   var container = component.getContainer();
   var providerSigninFailedCallback = function(error) {
     // TODO: align redirect and popup flow error handling for similar errors.
@@ -641,6 +642,19 @@ firebaseui.auth.widget.handler.common.federatedSignIn = function(
     for (var i = 0; i < additionalScopes.length; i++) {
       provider['addScope'](additionalScopes[i]);
     }
+  }
+  // If Google provider is requested and email is specified, pass OAuth
+  // parameter login_hint with that email.
+  if (provider &&
+      // In case the Firebase Auth version used is too old.
+      provider.setCustomParameters &&
+      // Only Google supports this parameter.
+      providerId == firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
+      // Only pass login_hint when email available.
+      opt_email) {
+    provider.setCustomParameters({
+      'login_hint': opt_email
+    });
   }
   // Redirect processor.
   var processRedirect = function() {

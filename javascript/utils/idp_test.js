@@ -33,6 +33,7 @@ function setUp() {
   firebase.auth = {};
   for (var providerId in firebaseui.auth.idp.AuthProviders) {
     firebase.auth[firebaseui.auth.idp.AuthProviders[providerId]] = {
+      'PROVIDER_ID': providerId,
       'credential': goog.testing.recordFunction(function() {
         // Return something.
         return providerId;
@@ -64,15 +65,17 @@ function testIsSupportedProvider() {
 /**
  * Asserts the credential is initialized with correct OAuth response.
  * @param {!Object} provider The provider object.
- * @param {!Object} oauthResponse The response used to initialize the
+ * @param {!Array<string>} oauthParams The OAuth params used to initialize the
  *     credential.
  * @param {!Object} ref The credential reference.
  */
-function assertCredential(provider, oauthResponse, ref) {
+function assertCredential(provider, oauthParams, ref) {
   assertNotNullNorUndefined(ref);
-  var parameter = provider.credential.getLastCall().getArgument(0);
-  for (var key in oauthResponse) {
-    assertEquals(oauthResponse[key], parameter[key]);
+  var parameters = provider.credential.getLastCall().getArguments();
+  assertEquals(oauthParams.length, parameters.length);
+  // Confirm the expected parameters passed when initializing the credential.
+  for (var i = 0; i < parameters.length; i++) {
+    assertEquals(oauthParams[i], parameters[i]);
   }
 }
 
@@ -86,10 +89,7 @@ function testGetAuthCredential_google() {
   var ref = firebaseui.auth.idp.getAuthCredential(cred);
   assertCredential(
       firebase.auth.GoogleAuthProvider,
-      {
-        'idToken': 'ID_TOKEN',
-        'accessToken': 'ACCESS_TOKEN'
-      },
+      ['ID_TOKEN', 'ACCESS_TOKEN'],
       ref);
 }
 
@@ -102,9 +102,7 @@ function testGetAuthCredential_facebook() {
   var ref = firebaseui.auth.idp.getAuthCredential(cred);
   assertCredential(
       firebase.auth.FacebookAuthProvider,
-      {
-        'accessToken': 'ACCESS_TOKEN'
-      },
+      ['ACCESS_TOKEN'],
       ref);
 }
 
@@ -118,10 +116,7 @@ function testGetAuthCredential_twitter() {
   var ref = firebaseui.auth.idp.getAuthCredential(cred);
   assertCredential(
       firebase.auth.TwitterAuthProvider,
-      {
-        'oauthToken': 'ACCESS_TOKEN',
-        'oauthTokenSecret': 'SECRET'
-      },
+      ['ACCESS_TOKEN', 'SECRET'],
       ref);
 }
 
@@ -134,9 +129,7 @@ function testGetAuthCredential_github() {
   var ref = firebaseui.auth.idp.getAuthCredential(cred);
   assertCredential(
       firebase.auth.GithubAuthProvider,
-      {
-        'accessToken': 'ACCESS_TOKEN'
-      },
+      ['ACCESS_TOKEN'],
       ref);
 }
 

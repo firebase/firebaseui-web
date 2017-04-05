@@ -35,9 +35,26 @@ goog.require('firebaseui.auth.widget.handler.testHelper');
 
 function testHandleFederatedSignIn() {
   // Add additional scopes to test they are properly passed to sign-in method.
-  var expectedProvider = getExpectedProviderWithScopes();
+  var expectedProvider = getExpectedProviderWithScopes({
+    'login_hint': 'user@gmail.com'
+  });
   firebaseui.auth.widget.handler.handleFederatedSignIn(
       app, container, 'user@gmail.com', 'google.com');
+  assertFederatedLinkingPage();
+  submitForm();
+  testAuth.assertSignInWithRedirect(
+      [expectedProvider]);
+  return testAuth.process();
+}
+
+
+function testHandleFederatedSignIn_noLoginHint() {
+  // Add additional scopes to test they are properly passed to sign-in method.
+  // As this is not google.com, no customParameters will be set.
+  var expectedProvider =
+      getExpectedProviderWithCustomParameters('facebook.com');
+  firebaseui.auth.widget.handler.handleFederatedSignIn(
+      app, container, 'user@gmail.com', 'facebook.com');
   assertFederatedLinkingPage();
   submitForm();
   testAuth.assertSignInWithRedirect(
@@ -50,7 +67,9 @@ function testHandleFederatedSignIn_popup_success() {
   // Successful federated sign in with popup.
   app.updateConfig('signInFlow', 'popup');
   // Add additional scopes to test they are properly passed to sign-in method.
-  var expectedProvider = getExpectedProviderWithScopes();
+  var expectedProvider = getExpectedProviderWithScopes({
+    'login_hint': 'user@gmail.com'
+  });
   firebaseui.auth.widget.handler.handleFederatedSignIn(
       app, container, 'user@gmail.com', 'google.com');
   assertFederatedLinkingPage();
@@ -90,7 +109,9 @@ function testHandleFederatedSignIn_popup_success_multipleClicks() {
   // Test multiple clicks in sign in with popup.
   app.updateConfig('signInFlow', 'popup');
   // Add additional scopes to test they are properly passed to sign-in method.
-  var expectedProvider = getExpectedProviderWithScopes();
+  var expectedProvider = getExpectedProviderWithScopes({
+    'login_hint': 'user@gmail.com'
+  });
   firebaseui.auth.widget.handler.handleFederatedSignIn(
       app, container, 'user@gmail.com', 'google.com');
   assertFederatedLinkingPage();
@@ -139,7 +160,9 @@ function testHandleFederatedSignIn_popup_cancelled() {
   // Test sign in with popup flow when the popup is cancelled.
   app.updateConfig('signInFlow', 'popup');
   // Add additional scopes to test they are properly passed to sign-in method.
-  var expectedProvider = getExpectedProviderWithScopes();
+  var expectedProvider = getExpectedProviderWithScopes({
+    'login_hint': 'user@gmail.com'
+  });
   firebaseui.auth.widget.handler.handleFederatedSignIn(
       app, container, 'user@gmail.com', 'google.com');
   assertFederatedLinkingPage();
@@ -171,7 +194,9 @@ function testHandleFederatedSignIn_reset() {
 
 function testHandleFederatedSignIn_error() {
   // Add additional scopes to test they are properly passed to sign-in method.
-  var expectedProvider = getExpectedProviderWithScopes();
+  var expectedProvider = getExpectedProviderWithScopes({
+    'login_hint': 'user@gmail.com'
+  });
   firebaseui.auth.widget.handler.handleFederatedSignIn(
       app, container, 'user@gmail.com', 'google.com');
   assertFederatedLinkingPage();
@@ -190,7 +215,9 @@ function testHandleFederatedSignIn_popup_recoverableError() {
   // Test federated sign in with popup when recoverable error thrown.
   app.updateConfig('signInFlow', 'popup');
   // Add additional scopes to test they are properly passed to sign-in method.
-  var expectedProvider = getExpectedProviderWithScopes();
+  var expectedProvider = getExpectedProviderWithScopes({
+    'login_hint': 'user@gmail.com'
+  });
   firebaseui.auth.widget.handler.handleFederatedSignIn(
       app, container, 'user@gmail.com', 'google.com');
   assertFederatedLinkingPage();
@@ -215,7 +242,9 @@ function testHandleFederatedSignIn_popup_userCancelled() {
   // Test federated sign in with popup when user denies permissions.
   app.updateConfig('signInFlow', 'popup');
   // Add additional scopes to test they are properly passed to sign-in method.
-  var expectedProvider = getExpectedProviderWithScopes();
+  var expectedProvider = getExpectedProviderWithScopes({
+    'login_hint': 'user@gmail.com'
+  });
   firebaseui.auth.widget.handler.handleFederatedSignIn(
       app, container, 'user@gmail.com', 'google.com');
   assertFederatedLinkingPage();
@@ -240,7 +269,9 @@ function testHandleFederatedSignIn_popup_popupBlockedError() {
   // Test federated sign in with popup when popup blocked.
   app.updateConfig('signInFlow', 'popup');
   // Add additional scopes to test they are properly passed to sign-in method.
-  var expectedProvider = getExpectedProviderWithScopes();
+  var expectedProvider = getExpectedProviderWithScopes({
+    'login_hint': 'user@gmail.com'
+  });
   firebaseui.auth.widget.handler.handleFederatedSignIn(
       app, container, 'user@gmail.com', 'google.com');
   assertFederatedLinkingPage();
@@ -266,7 +297,9 @@ function testHandleFederatedSignIn_popup_popupBlockedError_redirectError() {
   // Test federated sign in with popup when popup is blocked and redirect fails.
   app.updateConfig('signInFlow', 'popup');
   // Add additional scopes to test they are properly passed to sign-in method.
-  var expectedProvider = getExpectedProviderWithScopes();
+  var expectedProvider = getExpectedProviderWithScopes({
+    'login_hint': 'user@gmail.com'
+  });
   firebaseui.auth.widget.handler.handleFederatedSignIn(
       app, container, 'user@gmail.com', 'google.com');
   assertFederatedLinkingPage();
@@ -298,7 +331,9 @@ function testHandleFederatedSignIn_popup_unrecoverableError() {
   // Test federated sign in with popup when unrecoverable error returned.
   app.updateConfig('signInFlow', 'popup');
   // Add additional scopes to test they are properly passed to sign-in method.
-  var expectedProvider = getExpectedProviderWithScopes();
+  var expectedProvider = getExpectedProviderWithScopes({
+    'login_hint': 'user@gmail.com'
+  });
   firebaseui.auth.widget.handler.handleFederatedSignIn(
       app, container, 'user@gmail.com', 'google.com');
   assertFederatedLinkingPage();
@@ -317,6 +352,11 @@ function testHandleFederatedSignIn_popup_unrecoverableError() {
 
 
 function testHandleFederatedSignIn_inProcessing() {
+  var expectedProvider = getExpectedProviderWithCustomParameters(
+      'google.com',
+      {
+        'login_hint': 'user@gmail.com'
+      });
   firebaseui.auth.widget.handler.handleFederatedSignIn(
       app, container, 'user@gmail.com', 'google.com');
   assertFederatedLinkingPage();
@@ -325,7 +365,7 @@ function testHandleFederatedSignIn_inProcessing() {
   // Click submit again.
   submitForm();
   testAuth.assertSignInWithRedirect(
-      [firebaseui.auth.idp.getAuthProvider('google.com')], null, internalError);
+      [expectedProvider], null, internalError);
   return testAuth.process().then(function() {
     // On error, show a message on info bar.
     assertInfoBarMessage(
@@ -335,8 +375,7 @@ function testHandleFederatedSignIn_inProcessing() {
     // Submit again.
     submitForm();
 
-    testAuth.assertSignInWithRedirect(
-        [firebaseui.auth.idp.getAuthProvider('google.com')]);
+    testAuth.assertSignInWithRedirect([expectedProvider]);
     return testAuth.process();
   });
 }

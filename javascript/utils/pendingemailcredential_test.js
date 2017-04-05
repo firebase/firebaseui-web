@@ -36,9 +36,12 @@ function setUp() {
   // Mock credential.
   firebase['auth'] = firebase['auth'] || {
     'GoogleAuthProvider' : {
-      'credential' : function(response) {
-        return response;
-      }
+      'credential' : function(idToken, accessToken) {
+        assertEquals(credential['idToken'], idToken);
+        assertEquals(credential['accessToken'], accessToken);
+        return credential;
+      },
+      'PROVIDER_ID': 'google.com'
     }
   };
   credential = {

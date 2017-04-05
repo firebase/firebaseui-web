@@ -61,8 +61,10 @@ firebaseui.auth.widget.handler.handleFederatedLinking = function(
         // We sign in the user through the normal federated sign-in flow,
         // and the callback handler will take care of linking the
         // pending credential to the successfully signed in user.
+        // Pass the email since some OAuth providers support OAuth flow
+        // with a specified email.
         firebaseui.auth.widget.handler.common.federatedSignIn(app, component,
-            providerId);
+            providerId, email);
       });
   component.render(container);
   // Set current UI component.
