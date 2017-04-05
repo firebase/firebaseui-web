@@ -64,8 +64,6 @@ firebaseui.auth.idp.getAuthCredential = function(credentialObject) {
       firebase.auth[firebaseui.auth.idp.AuthProviders[providerId]]) {
     // Twitter special case.
     if (credentialObject['secret'] && credentialObject['accessToken']) {
-      credentialObject['oauthToken'] = credentialObject['accessToken'];
-      credentialObject['oauthTokenSecret'] = credentialObject['secret'];
       return firebase.auth[firebaseui.auth.idp.AuthProviders[providerId]]
           .credential(credentialObject['accessToken'],
                       credentialObject['secret']);
