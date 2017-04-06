@@ -650,17 +650,9 @@ should use the `reset()` method before re-rendering the widget.
 
 ## Release Notes
 
-### 1.0.0
+**Latest**: https://github.com/firebase/firebaseui-web/releases/latest
 
-See the milestone [1.0.0](https://github.com/firebase/firebaseui-web/milestone/2)
-for the issues covered in this release. Below is a summary of the most important
-ones:
-
-- **FirebaseUI is now open source!** To contribute, please first create an issue
-describing either the bug observed or the feature requested. This way we can
-discuss the relevance of the feature, before you start working on it. It is also
-usually better to express the bug before working on a fix.
-- Added an option to disable Account Chooser. See: [Credential Helper](credential-helper).
+**For v1.0.0 and superior:** https://github.com/firebase/firebaseui-web/releases
 
 ### 0.5.0
 
