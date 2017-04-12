@@ -648,6 +648,10 @@ middle of performing a sign-in flow. You should generally avoid re-rendering the
 widget in the middle of an action, but if you do, to avoid the warning, you
 should use the `reset()` method before re-rendering the widget.
 
+### FirebaseUI is broken in IE11 when deployed on a local server accessed through `localhost` (but works when deployed on a remote server)
+
+Several developers reported issues with IE11 when testing the widget integration on a server deployed locally, accessing the application through a `localhost` address. However, it doesn't impact applications deployed on a server (as you can verify in the [demo app](https://fir-ui-demo-84a6c.firebaseapp.com/)).
+
 ## Release Notes
 
 **Latest**: https://github.com/firebase/firebaseui-web/releases/latest
