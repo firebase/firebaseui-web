@@ -16,6 +16,35 @@
 {namespace firebaseui.auth.soy2.strings autoescape="strict"}
 
 
+/** Progress dialog message to show while verifying a phone number. */
+{template .dialogVerifyingPhoneNumber kind="text"}
+  {msg desc="Progress dialog message to show while verifying a phone number."}
+    Verifying...
+  {/msg}
+{/template}
+
+
+/** Progress dialog message to show after an SMS verification code is sent. */
+{template .dialogCodeSent kind="text"}
+  {msg desc="Progress dialog message to show during a phone authentication request after the
+      SMS verification code is sent."}
+    Code sent!
+  {/msg}
+{/template}
+
+
+/**
+ * Progress dialog message to show that the phone authentication code was verified and the sign in
+ * attempt is about to complete.
+ */
+{template .dialogCodeVerified kind="text"}
+  {msg desc="Progress dialog message to show that the phone authentication code was verified and the
+      sign in attempt is about to complete."}
+    Verified!
+  {/msg}
+{/template}
+
+
 /** Error message for no web storage support. */
 {template .errorNoWebStorage kind="text"}
   {msg desc="Error message to be displayed when the browser does not support web storage
@@ -29,6 +58,33 @@
 {template .errorInvalidEmail kind="text"}
   {msg desc="Error message when the entered email is not a valid email address."}
     That email address isn't correct
+  {/msg}
+{/template}
+
+
+/** Error message for invalid phone number. */
+{template .errorInvalidPhoneNumber kind="text"}
+  {msg desc="Error message to be displayed when trying to authenticate with a phone number and the
+      recipient phone number is missing or invalid."}
+    Enter a valid phone number
+  {/msg}
+{/template}
+
+
+/** Error message for invalid phone verification code. */
+{template .errorInvalidConfirmationCode kind="text"}
+  {msg desc="Error message to be displayed when trying to verify a phone number with an SMS code and
+      the code has invalid length and/or characters."}
+    Wrong code. Try again.
+  {/msg}
+{/template}
+
+
+/** Error message for missing reCAPTCHA response. */
+{template .errorMissingRecaptchaResponse kind="text"}
+  {msg desc="Error message to be displayed if the user did not complete the reCAPTCHA before trying
+      to send an SMS confirmation code."}
+    Solve the reCAPTCHA
   {/msg}
 {/template}
 
@@ -65,20 +121,28 @@
 {/template}
 
 
+/** Error message for too many SMS codes being sent. */
+{template .errorTooManyRequestsPhoneNumber kind="text"}
+  {msg desc="Error message when the user is attempting to send too many SMS messages."}
+    This phone number has been used too many times
+  {/msg}
+{/template}
+
+
 /** Error message for password reset code not sent. */
 {template .errorSendPasswordReset kind="text"}
   {msg desc="Error message to be displayed when the password reset code is not sent to user's
       email."}
-    Unable to send password reset code to specified email.
+    Unable to send password reset code to specified email
   {/msg}
 {/template}
 
 
 /** Error message for unknown error from backend. */
 {template .internalError kind="text"}
-  {msg desc="Error message to be displayed when the error returned from the backend is unknown
-      or does not contain any information."}
-    An internal error has occurred.
+  {msg desc="Generic error message to be displayed when the error returned from the backend is
+      unknown or does not contain any information."}
+    Something went wrong. Please try again.
   {/msg}
 {/template}
 
@@ -141,7 +205,20 @@
     {case 'auth/network-request-failed'}
       {msg desc="Error message when a request fails due to a network error (such as timeout,
           interrupted connection or unreachable host)."}
-        A network error has occurred.
+        A network error has occurred
+      {/msg}
+    {case 'auth/invalid-phone-number'}
+      {call .errorInvalidPhoneNumber /}
+    {case 'auth/invalid-verification-code'}
+      {call .errorInvalidConfirmationCode /}
+    {case 'auth/code-expired'}
+      {msg desc="Error message when the SMS code sent to confirm a phone number has expired, and the
+          user must request a new code."}
+        This code is no longer valid
+      {/msg}
+    {case 'auth/quota-exceeded'}
+      {msg desc="Error message when the SMS quota for the Firebase project has been exceeded."}
+        There was a problem verifying your phone number
       {/msg}
   {/switch}
 {/template}

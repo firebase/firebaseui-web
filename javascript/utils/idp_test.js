@@ -82,7 +82,7 @@ function assertCredential(provider, oauthParams, ref) {
 
 function testGetAuthCredential_google() {
   var cred = {
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'idToken': 'ID_TOKEN',
     'accessToken': 'ACCESS_TOKEN'
   };
@@ -96,7 +96,7 @@ function testGetAuthCredential_google() {
 
 function testGetAuthCredential_facebook() {
   var cred = {
-    'provider': 'facebook.com',
+    'providerId': 'facebook.com',
     'accessToken': 'ACCESS_TOKEN'
   };
   var ref = firebaseui.auth.idp.getAuthCredential(cred);
@@ -109,7 +109,7 @@ function testGetAuthCredential_facebook() {
 
 function testGetAuthCredential_twitter() {
   var cred = {
-    'provider': 'twitter.com',
+    'providerId': 'twitter.com',
     'accessToken': 'ACCESS_TOKEN',
     'secret': 'SECRET'
   };
@@ -123,7 +123,7 @@ function testGetAuthCredential_twitter() {
 
 function testGetAuthCredential_github() {
   var cred = {
-    'provider': 'github.com',
+    'providerId': 'github.com',
     'accessToken': 'ACCESS_TOKEN'
   };
   var ref = firebaseui.auth.idp.getAuthCredential(cred);
@@ -136,7 +136,7 @@ function testGetAuthCredential_github() {
 
 function testGetAuthCredential_invalid() {
   var cred = {
-    'provider': 'unknown.com',
+    'providerId': 'unknown.com',
     'accessToken': 'ACCESS_TOKEN'
   };
   assertNull(firebaseui.auth.idp.getAuthCredential(cred));

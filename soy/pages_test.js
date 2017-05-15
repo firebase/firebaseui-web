@@ -1,15 +1,17 @@
 /*
  * Copyright 2016 Google Inc. All Rights Reserved.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 /**
@@ -51,18 +53,13 @@ function tearDownPage() {
 
 function testSignIn() {
   var root = goog.dom.getElement('sign-in');
-  goog.soy.renderElement(
-      root,
-      firebaseui.auth.soy2.page.signIn,
-      {},
-      IJ_DATA_);
+  goog.soy.renderElement(root, firebaseui.auth.soy2.page.signIn, {}, IJ_DATA_);
 }
 
 
 function testSignIn_infoBar() {
   var root = goog.dom.getElement('sign-in-info-bar');
-  goog.soy.renderElement(
-      root, firebaseui.auth.soy2.page.signIn, {}, IJ_DATA_);
+  goog.soy.renderElement(root, firebaseui.auth.soy2.page.signIn, {}, IJ_DATA_);
   var message = 'You are currently logged into a different account on Google' +
       '. Please select another account or visit Google to login to the ' +
       'desired one.';
@@ -75,13 +72,10 @@ function testSignIn_infoBar() {
 function testSignIn_busy() {
   var root = goog.dom.getElement('sign-in-busy');
   goog.soy.renderElement(
-      root,
-      firebaseui.auth.soy2.page.signIn,
-      {'email': 'user@example.com'},
+      root, firebaseui.auth.soy2.page.signIn, {'email': 'user@example.com'},
       IJ_DATA_);
   var busy = goog.soy.renderAsElement(
-      firebaseui.auth.soy2.element.busyIndicator,
-      null);
+      firebaseui.auth.soy2.element.busyIndicator, null);
   root.children[0].appendChild(busy);
 }
 
@@ -89,19 +83,15 @@ function testSignIn_busy() {
 function testPasswordSignIn() {
   var root = goog.dom.getElement('password-sign-in');
   goog.soy.renderElement(
-      root,
-      firebaseui.auth.soy2.page.passwordSignIn,
-      {'email': 'user@example.com'},
-      IJ_DATA_);
+      root, firebaseui.auth.soy2.page.passwordSignIn,
+      {'email': 'user@example.com'}, IJ_DATA_);
 }
 
 
 function testPasswordSignUp() {
   var root = goog.dom.getElement('password-sign-up');
   goog.soy.renderElement(
-      root,
-      firebaseui.auth.soy2.page.passwordSignUp,
-      {
+      root, firebaseui.auth.soy2.page.passwordSignUp, {
         'email': 'user@example.com',
         'requireDisplayName': true,
         'allowCancel': true
@@ -113,9 +103,7 @@ function testPasswordSignUp() {
 function testPasswordSignUpWithoutDisplayName() {
   var root = goog.dom.getElement('password-sign-up-no-name');
   goog.soy.renderElement(
-      root,
-      firebaseui.auth.soy2.page.passwordSignUp,
-      {
+      root, firebaseui.auth.soy2.page.passwordSignUp, {
         'email': 'user@example.com',
         'requireDisplayName': false,
         'allowCancel': true
@@ -127,9 +115,7 @@ function testPasswordSignUpWithoutDisplayName() {
 function testPasswordSignUpTos() {
   var root = goog.dom.getElement('password-sign-up-tos');
   goog.soy.renderElement(
-      root,
-      firebaseui.auth.soy2.page.passwordSignUp,
-      {
+      root, firebaseui.auth.soy2.page.passwordSignUp, {
         'email': 'user@example.com',
         'allowCancel': true,
         'tosUrl': 'http://www.example.com'
@@ -141,37 +127,24 @@ function testPasswordSignUpTos() {
 function testPasswordRecovery() {
   var root = goog.dom.getElement('password-recovery');
   goog.soy.renderElement(
-      root,
-      firebaseui.auth.soy2.page.passwordRecovery,
-      {
-        'email': 'user@example.com',
-        'allowCancel': true
-      },
-      IJ_DATA_);
+      root, firebaseui.auth.soy2.page.passwordRecovery,
+      {'email': 'user@example.com', 'allowCancel': true}, IJ_DATA_);
 }
 
 
 function testPasswordRecoveryEmailSent() {
   var root = goog.dom.getElement('password-recovery-email-sent');
   goog.soy.renderElement(
-      root,
-      firebaseui.auth.soy2.page.passwordRecoveryEmailSent,
-      {
-        'email': 'user@example.com',
-        'allowContinue': true
-      });
+      root, firebaseui.auth.soy2.page.passwordRecoveryEmailSent,
+      {'email': 'user@example.com', 'allowContinue': true});
 }
 
 
 function testPasswordRecoveryEmailSentNoContinue() {
   var root = goog.dom.getElement('password-recovery-email-sent-no-continue');
   goog.soy.renderElement(
-      root,
-      firebaseui.auth.soy2.page.passwordRecoveryEmailSent,
-      {
-        'email': 'user@example.com',
-        'allowContinue': false
-      });
+      root, firebaseui.auth.soy2.page.passwordRecoveryEmailSent,
+      {'email': 'user@example.com', 'allowContinue': false});
 }
 
 
@@ -184,9 +157,7 @@ function testCallback() {
 function testPasswordLinking() {
   var root = goog.dom.getElement('password-linking');
   goog.soy.renderElement(
-      root,
-      firebaseui.auth.soy2.page.passwordLinking,
-      {
+      root, firebaseui.auth.soy2.page.passwordLinking, {
         'email': 'user@example.com',
         'siteName': 'Example Site',
         'providerId': 'google.com'
@@ -198,9 +169,7 @@ function testPasswordLinking() {
 function testFederatedLinking() {
   var root = goog.dom.getElement('federated-linking');
   goog.soy.renderElement(
-      root,
-      firebaseui.auth.soy2.page.federatedLinking,
-      {
+      root, firebaseui.auth.soy2.page.federatedLinking, {
         'email': 'user@example.com',
         'siteName': 'Example Site',
         'providerId': 'google.com'
@@ -220,154 +189,112 @@ function testPasswordReset() {
 function testPasswordResetSuccess() {
   var root = goog.dom.getElement('password-reset-success');
   goog.soy.renderElement(
-      root,
-      firebaseui.auth.soy2.page.passwordResetSuccess,
-      {
-        'allowContinue': true
-      });
+      root, firebaseui.auth.soy2.page.passwordResetSuccess,
+      {'allowContinue': true});
 }
 
 
 function testPasswordResetSuccessNoContinue() {
   var root = goog.dom.getElement('password-reset-success-no-continue');
   goog.soy.renderElement(
-      root,
-      firebaseui.auth.soy2.page.passwordResetSuccess,
-      {
-        'allowContinue': false
-      });
+      root, firebaseui.auth.soy2.page.passwordResetSuccess,
+      {'allowContinue': false});
 }
 
 
 function testPasswordResetFailure() {
   var root = goog.dom.getElement('password-reset-failure');
   goog.soy.renderElement(
-      root,
-      firebaseui.auth.soy2.page.passwordResetFailure,
-      {
-        'allowContinue': true
-      });
+      root, firebaseui.auth.soy2.page.passwordResetFailure,
+      {'allowContinue': true});
 }
 
 
 function testPasswordResetFailureNoContinue() {
   var root = goog.dom.getElement('password-reset-failure-no-continue');
   goog.soy.renderElement(
-      root,
-      firebaseui.auth.soy2.page.passwordResetFailure,
-      {
-        'allowContinue': false
-      });
+      root, firebaseui.auth.soy2.page.passwordResetFailure,
+      {'allowContinue': false});
 }
 
 
 function testEmailChangeRevocationSuccess() {
   var root = goog.dom.getElement('email-change-revocation-success');
   goog.soy.renderElement(
-      root,
-      firebaseui.auth.soy2.page.emailChangeRevokeSuccess,
-      {
-        'email': 'user@example.com',
-        'allowContinue': true
-      });
+      root, firebaseui.auth.soy2.page.emailChangeRevokeSuccess,
+      {'email': 'user@example.com', 'allowContinue': true});
 }
 
 
 function testEmailChangeRevocationSuccessNoContinue() {
   var root = goog.dom.getElement('email-change-revocation-success-no-continue');
   goog.soy.renderElement(
-      root,
-      firebaseui.auth.soy2.page.emailChangeRevokeSuccess,
-      {
-        'email': 'user@example.com',
-        'allowContinue': false
-      });
+      root, firebaseui.auth.soy2.page.emailChangeRevokeSuccess,
+      {'email': 'user@example.com', 'allowContinue': false});
 }
 
 function testEmailChangeRevocationFailure() {
   var root = goog.dom.getElement('email-change-revocation-failure');
   goog.soy.renderElement(
-      root,
-      firebaseui.auth.soy2.page.emailChangeRevokeFailure,
-      {
-        'allowContinue': true
-      });
+      root, firebaseui.auth.soy2.page.emailChangeRevokeFailure,
+      {'allowContinue': true});
 }
 
 
 function testEmailChangeRevocationFailureNoContinue() {
   var root = goog.dom.getElement('email-change-revocation-failure-no-continue');
   goog.soy.renderElement(
-      root,
-      firebaseui.auth.soy2.page.emailChangeRevokeFailure,
-      {
-        'allowContinue': false
-      });
+      root, firebaseui.auth.soy2.page.emailChangeRevokeFailure,
+      {'allowContinue': false});
 }
 
 
 function testEmailVerificationSuccess() {
   var root = goog.dom.getElement('email-verification-success');
   goog.soy.renderElement(
-      root,
-      firebaseui.auth.soy2.page.emailVerificationSuccess,
-      {
-        'allowContinue': true
-      });
+      root, firebaseui.auth.soy2.page.emailVerificationSuccess,
+      {'allowContinue': true});
 }
 
 
 function testEmailVerificationSuccessNoContinue() {
   var root = goog.dom.getElement('email-verification-success-no-continue');
   goog.soy.renderElement(
-      root,
-      firebaseui.auth.soy2.page.emailVerificationSuccess,
-      {
-        'allowContinue': false
-      });
+      root, firebaseui.auth.soy2.page.emailVerificationSuccess,
+      {'allowContinue': false});
 }
 
 
 function testEmailVerificationFailure() {
   var root = goog.dom.getElement('email-verification-failure');
   goog.soy.renderElement(
-      root,
-      firebaseui.auth.soy2.page.emailVerificationFailure,
-      {
-        'allowContinue': true
-      });
+      root, firebaseui.auth.soy2.page.emailVerificationFailure,
+      {'allowContinue': true});
 }
 
 
 function testEmailVerificationFailureNoContinue() {
   var root = goog.dom.getElement('email-verification-failure-no-continue');
   goog.soy.renderElement(
-      root,
-      firebaseui.auth.soy2.page.emailVerificationFailure,
-      {
-        'allowContinue': false
-      });
+      root, firebaseui.auth.soy2.page.emailVerificationFailure,
+      {'allowContinue': false});
 }
 
 
 function testUnrecoverableError() {
   var root = goog.dom.getElement('unrecoverable-error');
-  goog.soy.renderElement(
-      root, firebaseui.auth.soy2.page.unrecoverableError,
-      {'errorMessage': 'The browser you are using does not support Web ' +
-        'Storage. Please try again in a different browser.'});
+  goog.soy.renderElement(root, firebaseui.auth.soy2.page.unrecoverableError, {
+    'errorMessage': 'The browser you are using does not support Web ' +
+        'Storage. Please try again in a different browser.'
+  });
 }
 
 
 function testEmailMismatch() {
   var root = goog.dom.getElement('email-mismatch');
   goog.soy.renderElement(
-      root,
-      firebaseui.auth.soy2.page.emailMismatch,
-      {
-        'userEmail': 'user@example.com',
-        'pendingEmail': 'other@example.com'
-      },
+      root, firebaseui.auth.soy2.page.emailMismatch,
+      {'userEmail': 'user@example.com', 'pendingEmail': 'other@example.com'},
       IJ_DATA_);
 }
 
@@ -375,10 +302,33 @@ function testEmailMismatch() {
 function testProviderSignIn() {
   var root = goog.dom.getElement('provider-sign-in');
   goog.soy.renderElement(
-      root,
-      firebaseui.auth.soy2.page.providerSignIn,
-      {
-        'providerIds': ['password', 'google.com', 'github.com', 'facebook.com']
+      root, firebaseui.auth.soy2.page.providerSignIn, {
+        'providerIds':
+            ['password', 'phone', 'google.com', 'github.com', 'facebook.com']
       },
       IJ_DATA_);
+}
+
+
+function testPhoneSignInStartInvisibleRecaptcha() {
+  var root = goog.dom.getElement('phone-sign-in-start-invisible-recaptcha');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.phoneSignInStart,
+      {enableVisibleRecaptcha: false}, IJ_DATA_);
+}
+
+
+function testPhoneSignInStartVisibleRecaptcha() {
+  var root = goog.dom.getElement('phone-sign-in-start-visible-recaptcha');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.phoneSignInStart,
+      {enableVisibleRecaptcha: true}, IJ_DATA_);
+  loadRecaptcha(root);
+}
+
+function testPhoneSignInFinish() {
+  var root = goog.dom.getElement('phone-sign-in-finish');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.phoneSignInFinish,
+      {phoneNumber: '+13115552368'}, IJ_DATA_);
 }

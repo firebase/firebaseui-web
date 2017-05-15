@@ -26,6 +26,7 @@ goog.require('firebaseui.auth.log');
 goog.require('firebaseui.auth.util');
 goog.require('goog.Uri');
 goog.require('goog.array');
+goog.require('goog.object');
 goog.require('goog.uri.utils');
 
 
@@ -135,6 +136,14 @@ firebaseui.auth.widget.Config.WidgetMode = {
 
 
 /**
+ * @const @private {!Array<string>} List of blacklisted reCAPTCHA parameter
+ *     keys.
+ */
+firebaseui.auth.widget.Config.BLACKLISTED_RECAPTCHA_KEYS_ = [
+  'sitekey', 'tabindex', 'callback', 'expired-callback'];
+
+
+/**
  * Gets the widget URL for a specific mode.
  * The 'widgetUrl' configuration is required for this method.
  *
@@ -159,13 +168,9 @@ firebaseui.auth.widget.Config.prototype.getRequiredWidgetUrl =
  * @return {string} The URL of the callback widget.
  */
 firebaseui.auth.widget.Config.prototype.getWidgetUrl = function(opt_mode) {
-  var url = /** @type {string|undefined} */ (this.config_.get('widgetUrl'));
-  if (!url) {
-    // Use current location.
-    // Remove all query parameters and fragment.
-    var currentUri = goog.Uri.parse(window.location.href);
-    url = currentUri.setFragment('').setQuery('').toString();
-  }
+  var url = /** @type {string|undefined} */ (this.config_.get('widgetUrl')) ||
+      // If no widget URL is provided, use the current one.
+      firebaseui.auth.util.getCurrentUrl();
   return this.widgetUrlForMode_(url, opt_mode);
 };
 
@@ -244,6 +249,46 @@ firebaseui.auth.widget.Config.prototype.getProviders = function() {
 
 
 /**
+ * @return {?Object<string, *>} The filtered reCAPTCHA parameters used when
+ *     phone auth provider is enabled. If none provided, null is returned.
+ */
+firebaseui.auth.widget.Config.prototype.getRecaptchaParameters = function() {
+  var recaptchaParameters = null;
+  goog.array.forEach(this.getSignInOptions_(), function(option) {
+    if (option['provider'] ==
+        firebase.auth['PhoneAuthProvider']['PROVIDER_ID'] &&
+        // Confirm valid object.
+        goog.isObject(option['recaptchaParameters']) &&
+        !goog.isArray(option['recaptchaParameters'])) {
+      // Clone original object.
+      recaptchaParameters = goog.object.clone(option['recaptchaParameters']);
+    }
+  });
+  if (recaptchaParameters) {
+    // Keep track of all blacklisted keys passed by the developer.
+    var blacklistedKeys = [];
+    // Go over all blacklisted keys and remove them from the original object.
+    goog.array.forEach(
+        firebaseui.auth.widget.Config.BLACKLISTED_RECAPTCHA_KEYS_,
+        function(key) {
+          if (typeof recaptchaParameters[key] !== 'undefined') {
+            blacklistedKeys.push(key);
+            delete recaptchaParameters[key];
+          }
+        });
+    // Log a warning for invalid keys.
+    // This will show on each call.
+    if (blacklistedKeys.length) {
+      firebaseui.auth.log.warning(
+          'The following provided "recaptchaParameters" keys are not ' +
+          'allowed: ' + blacklistedKeys.join(', '));
+    }
+  }
+  return recaptchaParameters;
+};
+
+
+/**
  * @param {!string} providerId The provider id whose additional scopes are to be
  *     returned.
  * @return {!Array<string>} The list of additional scopes for specified
@@ -298,8 +343,9 @@ firebaseui.auth.widget.Config.prototype.isDisplayNameRequired = function() {
   var signInOptions = this.getSignInOptions_();
 
   for (var i = 0; i < signInOptions.length; i++) {
-    if (signInOptions[i]['provider'] == firebase.auth.EmailAuthProvider.PROVIDER_ID
-        && typeof signInOptions[i]['requireDisplayName'] !== 'undefined') {
+    if (signInOptions[i]['provider'] ==
+        firebase.auth.EmailAuthProvider.PROVIDER_ID &&
+        typeof signInOptions[i]['requireDisplayName'] !== 'undefined') {
       return /** @type {boolean} */ (!!signInOptions[i]['requireDisplayName']);
     }
   }

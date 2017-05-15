@@ -31,6 +31,8 @@ goog.require('firebaseui.auth.widget.handler.handlePasswordRecovery');
 goog.require('firebaseui.auth.widget.handler.handlePasswordReset');
 goog.require('firebaseui.auth.widget.handler.handlePasswordSignIn');
 goog.require('firebaseui.auth.widget.handler.handlePasswordSignUp');
+goog.require('firebaseui.auth.widget.handler.handlePhoneSignInFinish');
+goog.require('firebaseui.auth.widget.handler.handlePhoneSignInStart');
 goog.require('firebaseui.auth.widget.handler.handleProviderSignIn');
 goog.require('firebaseui.auth.widget.handler.handleSignIn');
 goog.require('firebaseui.auth.widget.handler.testHelper');
@@ -59,6 +61,12 @@ function testHandlerRegistration() {
   assertEquals(
       firebaseui.auth.widget.handler.handlePasswordSignUp,
       firebaseui.auth.widget.handlers_[HandlerName.PASSWORD_SIGN_UP]);
+  assertEquals(
+      firebaseui.auth.widget.handler.handlePhoneSignInFinish,
+      firebaseui.auth.widget.handlers_[HandlerName.PHONE_SIGN_IN_FINISH]);
+  assertEquals(
+      firebaseui.auth.widget.handler.handlePhoneSignInStart,
+      firebaseui.auth.widget.handlers_[HandlerName.PHONE_SIGN_IN_START]);
   assertEquals(
       firebaseui.auth.widget.handler.handleEmailChangeRevocation,
       firebaseui.auth.widget.handlers_[HandlerName.EMAIL_CHANGE_REVOCATION]);

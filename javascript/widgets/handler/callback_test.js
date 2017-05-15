@@ -65,7 +65,7 @@ function testHandleCallback_redirectUser_noPendingCredential() {
   // Test successful return from regular sign in operation.
   asyncTestCase.waitForSignals(1);
   var cred  = firebaseui.auth.idp.getAuthCredential({
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   });
   // Callback rendered.
@@ -109,7 +109,7 @@ function testHandleCallback_signedInUser_noPendingCredential_popup() {
   asyncTestCase.waitForSignals(1);
   app.updateConfig('signInFlow', 'popup');
   var cred  = firebaseui.auth.idp.getAuthCredential({
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   });
   // User should be signed in.
@@ -167,7 +167,7 @@ function testHandleCallback_redirectUser_noPendingCredential_pendingEmail() {
   // Test successful return from regular sign in operation.
   asyncTestCase.waitForSignals(1);
   var cred  = {
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   };
   // Pending email from a tentative using email and password sign in.
@@ -216,7 +216,7 @@ function testHandleCallback_signedInUser_noPendingCred_pendingEmail_popup() {
   asyncTestCase.waitForSignals(1);
   app.updateConfig('signInFlow', 'popup');
   var cred  = {
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   };
   // User should be signed in.
@@ -263,7 +263,7 @@ function testHandleCallback_redirectUser_noPendingCredential_emailMismatch() {
   // Test successful return from regular sign in operation.
   asyncTestCase.waitForSignals(1);
   var cred  = {
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   };
   // Pending email from a tentative using email and password sign in.
@@ -306,7 +306,7 @@ function testHandleCallback_signedInUser_noPendingCred_emailMismatch_popup() {
   asyncTestCase.waitForSignals(1);
   app.updateConfig('signInFlow', 'popup');
   var cred  = firebaseui.auth.idp.getAuthCredential({
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   });
   // User should be signed in.
@@ -346,7 +346,7 @@ function testHandleCallback_redirectUser_emailMismatch_providerEmailMatch() {
   // Test successful return from regular sign in operation.
   asyncTestCase.waitForSignals(1);
   var cred  = {
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   };
   // Pending email from a tentative email/password sign in.
@@ -404,7 +404,7 @@ function testHandleCallback_redirectUser_noPendingCredential_signInCallback() {
   // callback is provided, auth credential is passed.
   asyncTestCase.waitForSignals(1);
   var cred  = firebaseui.auth.idp.getAuthCredential({
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   });
   // Set config sign in success callback with false return value.
@@ -459,7 +459,7 @@ function testHandleCallback_redirectUser_pendingCredential_success() {
   // credentials requiring linking.
   asyncTestCase.waitForSignals(1);
   var cred  = firebaseui.auth.idp.getAuthCredential({
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   });
   var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
@@ -484,7 +484,7 @@ function testHandleCallback_redirectUser_pendingCredential_success() {
       });
   testAuth.process().then(function() {
     // Linking should be triggered with pending credential.
-    testAuth.currentUser.assertLink([cred], testAuth.currentUser);
+    testAuth.currentUser.assertLinkWithCredential([cred], testAuth.currentUser);
     return testAuth.process();
     // Sign out from internal instance and then sign in with passed credential
     // to external instance.
@@ -513,7 +513,7 @@ function testHandleCallback_signedInUser_pendingCredential_success_popup() {
   asyncTestCase.waitForSignals(1);
   app.updateConfig('signInFlow', 'popup');
   var cred  = firebaseui.auth.idp.getAuthCredential({
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   });
   // User should be signed in.
@@ -537,7 +537,7 @@ function testHandleCallback_signedInUser_pendingCredential_success_popup() {
   assertCallbackPage();
   testAuth.process().then(function() {
     // Linking should be triggered with pending credential.
-    testAuth.currentUser.assertLink([cred], testAuth.currentUser);
+    testAuth.currentUser.assertLinkWithCredential([cred], testAuth.currentUser);
     return testAuth.process();
     // Sign out from internal instance and then sign in with passed credential
     // to external instance.
@@ -566,7 +566,7 @@ function testHandleCallback_redirectUser_pendingCredential_signInCallback() {
   // credential is passed.
   asyncTestCase.waitForSignals(1);
   var cred  = firebaseui.auth.idp.getAuthCredential({
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   });
   var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
@@ -597,7 +597,7 @@ function testHandleCallback_redirectUser_pendingCredential_signInCallback() {
       });
   testAuth.process().then(function() {
     // Linking should be triggered with pending credential.
-    testAuth.currentUser.assertLink([cred], testAuth.currentUser);
+    testAuth.currentUser.assertLinkWithCredential([cred], testAuth.currentUser);
     return testAuth.process();
     // Sign out from internal instance and then sign in with passed credential
     // to external instance.
@@ -629,11 +629,11 @@ function testHandleCallback_redirectUser_pendingCredential_emailMismatch() {
   // Test successful return from regular sign in operation.
   asyncTestCase.waitForSignals(1);
   var pendingCred  = {
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   };
   var cred  = {
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'OTHER_ACCESS_TOKEN'
   };
   // Pending email from a tentative federated sign-in.
@@ -677,11 +677,11 @@ function testHandleCallback_signedInUser_pendingCred_emailMismatch_popup() {
   asyncTestCase.waitForSignals(1);
   app.updateConfig('signInFlow', 'popup');
   var pendingCred  = {
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   };
   var cred  = {
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'OTHER_ACCESS_TOKEN'
   };
   // User should be signed in.
@@ -723,7 +723,7 @@ function testHandleCallback_redirectUser_pendingCredential_error() {
   // requiring linking. Simulate error in linking.
   asyncTestCase.waitForSignals(1);
   var cred  = firebaseui.auth.idp.getAuthCredential({
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   });
   var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
@@ -749,7 +749,7 @@ function testHandleCallback_redirectUser_pendingCredential_error() {
   testAuth.process().then(function() {
     // Linking should be triggered with pending credential.
     // Simulate an error here.
-    testAuth.currentUser.assertLink([cred], null, internalError);
+    testAuth.currentUser.assertLinkWithCredential([cred], null, internalError);
     return testAuth.process();
   }).then(function() {
     // Pending credential should be cleared from storage.
@@ -771,7 +771,7 @@ function testHandleCallback_signedInUser_pendingCred_error_popup() {
   asyncTestCase.waitForSignals(1);
   app.updateConfig('signInFlow', 'popup');
   var cred  = firebaseui.auth.idp.getAuthCredential({
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   });
   // User should be signed in.
@@ -796,7 +796,7 @@ function testHandleCallback_signedInUser_pendingCred_error_popup() {
   testAuth.process().then(function() {
     // Linking should be triggered with pending credential.
     // Simulate an error here.
-    testAuth.currentUser.assertLink([cred], null, internalError);
+    testAuth.currentUser.assertLinkWithCredential([cred], null, internalError);
     return testAuth.process();
   }).then(function() {
     // Pending credential should be cleared from storage.
@@ -822,7 +822,7 @@ function testHandleCallback_redirectUser_pendingCredential_err_emailAuthOnly() {
     'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID]
   });
   var cred  = firebaseui.auth.idp.getAuthCredential({
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   });
   var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
@@ -848,7 +848,7 @@ function testHandleCallback_redirectUser_pendingCredential_err_emailAuthOnly() {
   testAuth.process().then(function() {
     // Linking should be triggered with pending credential.
     // Simulate an error here.
-    testAuth.currentUser.assertLink([cred], null, internalError);
+    testAuth.currentUser.assertLinkWithCredential([cred], null, internalError);
     return testAuth.process();
   }).then(function() {
     // Pending credential should be cleared from storage.
@@ -875,7 +875,7 @@ function testHandleCallback_signedInUser_pendingCred_err_emailAuthOnly_popup() {
     'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID]
   });
   var cred  = firebaseui.auth.idp.getAuthCredential({
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   });
   // User should be signed in.
@@ -900,7 +900,7 @@ function testHandleCallback_signedInUser_pendingCred_err_emailAuthOnly_popup() {
   testAuth.process().then(function() {
     // Linking should be triggered with pending credential.
     // Simulate an error here.
-    testAuth.currentUser.assertLink([cred], null, internalError);
+    testAuth.currentUser.assertLinkWithCredential([cred], null, internalError);
     return testAuth.process();
   }).then(function() {
     // Pending credential should be cleared from storage.
@@ -1023,7 +1023,7 @@ function testHandleCallback_redirectError_passwordLinkingRequired() {
   // Pending credential should be saved and password linking page rendered.
   asyncTestCase.waitForSignals(1);
   var cred  = firebaseui.auth.idp.getAuthCredential({
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   });
 
@@ -1060,7 +1060,7 @@ function testHandleCallback_redirectError_anonymousLinkingRequired() {
   // Password recovery should be shown.
   asyncTestCase.waitForSignals(1);
   var cred  = firebaseui.auth.idp.getAuthCredential({
-    'provider': 'github.com',
+    'providerId': 'github.com',
     'accessToken': 'ACCESS_TOKEN'
   });
 
@@ -1102,7 +1102,7 @@ function testHandleCallback_signInError_passwordLinkingRequired_popup() {
   asyncTestCase.waitForSignals(1);
   app.updateConfig('signInFlow', 'popup');
   var cred  = firebaseui.auth.idp.getAuthCredential({
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   });
 
@@ -1135,7 +1135,7 @@ function testHandleCallback_redirectError_federatedLinkingRequired() {
   // Pending credential should be saved and federated linking page rendered.
   asyncTestCase.waitForSignals(1);
   var cred  = firebaseui.auth.idp.getAuthCredential({
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   });
   var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
@@ -1172,7 +1172,7 @@ function testHandleCallback_signInError_federatedLinkingRequired_popup() {
   asyncTestCase.waitForSignals(1);
   app.updateConfig('signInFlow', 'popup');
   var cred  = firebaseui.auth.idp.getAuthCredential({
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   });
   var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
@@ -1205,7 +1205,7 @@ function testHandleCallback_redirectError_linkingRequired_error() {
   // Fetch Provider Email request fails in this case.
   asyncTestCase.waitForSignals(1);
   var cred  = firebaseui.auth.idp.getAuthCredential({
-    'provider': 'facebook.com',
+    'providerId': 'facebook.com',
     'accessToken': 'ACCESS_TOKEN'
   });
   // Callback rendered.
@@ -1244,7 +1244,7 @@ function testHandleCallback_signInError_linkingRequired_error_popup() {
   asyncTestCase.waitForSignals(1);
   app.updateConfig('signInFlow', 'popup');
   var cred  = firebaseui.auth.idp.getAuthCredential({
-    'provider': 'facebook.com',
+    'providerId': 'facebook.com',
     'accessToken': 'ACCESS_TOKEN'
   });
   // Callback rendered with popup result.
@@ -1284,7 +1284,7 @@ function testHandleCallback_redirectError_linkingRequired_err_emailAuthOnly() {
   });
   asyncTestCase.waitForSignals(1);
   var cred  = firebaseui.auth.idp.getAuthCredential({
-    'provider': 'facebook.com',
+    'providerId': 'facebook.com',
     'accessToken': 'ACCESS_TOKEN'
   });
   // Callback rendered.
@@ -1328,7 +1328,7 @@ function testHandleCallback_signInErr_linkRequired_err_emailAuthOnly_popup() {
   asyncTestCase.waitForSignals(1);
   app.updateConfig('signInFlow', 'popup');
   var cred  = firebaseui.auth.idp.getAuthCredential({
-    'provider': 'facebook.com',
+    'providerId': 'facebook.com',
     'accessToken': 'ACCESS_TOKEN'
   });
   // Callback rendered with popup result.
@@ -1395,7 +1395,7 @@ function testHandleCallback_redirectError_userCancelled_federatedCredential() {
   asyncTestCase.waitForSignals(1);
   // Saves the credential the user originally used to try to sign in.
   var cred  = firebaseui.auth.idp.getAuthCredential({
-    'provider': 'facebook.com',
+    'providerId': 'facebook.com',
     'accessToken': 'ACCESS_TOKEN'
   });
   var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(

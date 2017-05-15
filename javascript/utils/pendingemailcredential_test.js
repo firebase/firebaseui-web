@@ -45,7 +45,7 @@ function setUp() {
     }
   };
   credential = {
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   };
   pendingEmailCredential = new firebaseui.auth.PendingEmailCredential(
@@ -53,7 +53,7 @@ function setUp() {
   pendingEmailCredentialObject  = {
     'email': 'user@example.com',
     'credential': {
-      'provider': 'google.com',
+      'providerId': 'google.com',
       'accessToken': 'ACCESS_TOKEN'
     }
   };

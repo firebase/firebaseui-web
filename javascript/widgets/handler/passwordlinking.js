@@ -108,7 +108,7 @@ firebaseui.auth.widget.handler.onPasswordLinkingSubmit_ =
           goog.bind(app.getAuth().signInWithEmailAndPassword, app.getAuth())),
       [email, password],
       function(user) {
-        return app.registerPending(user.link(pendingCredential)
+        return app.registerPending(user.linkWithCredential(pendingCredential)
             .then(function(linkedUser) {
               firebaseui.auth.widget.handler.common.setLoggedIn(
                   app, component, pendingCredential);

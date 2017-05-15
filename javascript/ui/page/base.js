@@ -22,10 +22,11 @@ goog.provide('firebaseui.auth.ui.page.CustomEvent');
 goog.require('firebaseui.auth.EventRegister');
 goog.require('firebaseui.auth.soy2.element');
 goog.require('firebaseui.auth.ui.element');
+goog.require('firebaseui.auth.ui.element.dialog');
 goog.require('firebaseui.auth.ui.element.infoBar');
-goog.require('goog.array');
+goog.require('firebaseui.auth.ui.element.progressDialog');
+goog.require('firebaseui.auth.ui.mdl');
 goog.require('goog.dom');
-goog.require('goog.dom.classlist');
 goog.require('goog.events.Event');
 goog.require('goog.soy');
 goog.require('goog.ui.Component');
@@ -35,7 +36,7 @@ goog.require('goog.ui.Component');
  * @define {string} The base URL of images.
  */
 goog.define('firebaseui.auth.ui.page.IMAGE_BASE',
-    'https://www.gstatic.com/firebasejs/ui/0.5.0/images/auth/');
+    'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/');
 
 
 /**
@@ -50,14 +51,12 @@ firebaseui.auth.ui.page.SHOW_PROCESSING_DELAY_ = 500;
  * @private
  */
 firebaseui.auth.ui.page.IJ_DATA_ = {
-  defaultPhotoUrl:
-      firebaseui.auth.ui.page.IMAGE_BASE + 'profile-picture-small.png',
   googleLogo: firebaseui.auth.ui.page.IMAGE_BASE + 'google.svg',
   githubLogo: firebaseui.auth.ui.page.IMAGE_BASE + 'github.svg',
   facebookLogo: firebaseui.auth.ui.page.IMAGE_BASE + 'facebook.svg',
   twitterLogo: firebaseui.auth.ui.page.IMAGE_BASE + 'twitter.svg',
   passwordLogo: firebaseui.auth.ui.page.IMAGE_BASE + 'mail.svg',
-  imageBase: firebaseui.auth.ui.page.IMAGE_BASE
+  phoneLogo: firebaseui.auth.ui.page.IMAGE_BASE + 'phone.svg'
 };
 
 
@@ -135,46 +134,8 @@ firebaseui.auth.ui.page.Base.prototype.createDom = function() {
       this.templateData_,
       firebaseui.auth.ui.page.IJ_DATA_,
       this.getDomHelper());
-  this.performOnMdlComponents_(element, 'upgradeElement');
+  firebaseui.auth.ui.mdl.upgrade(element);
   this.setElementInternal(element);
-};
-
-
-/**
- * The list of CSS classes to upgrade to MDL components.
- * @private {!Array<string>}
- */
-firebaseui.auth.ui.page.Base.MDL_COMPONENT_CLASSES_ = [
-  'mdl-js-textfield',
-  'mdl-js-progress',
-  'mdl-js-button'
-];
-
-
-/**
- * Performs an operation on all MDL elements within a given element (e.g.
- * upgradeElement, downgradeElements), including the element itself.
- * @param {?Element} element
- * @param {string} operation
- * @private
- */
-firebaseui.auth.ui.page.Base.prototype.performOnMdlComponents_ =
-    function(element, operation) {
-  if (!element || !window['componentHandler'] ||
-      !window['componentHandler'][operation]) {
-    return;
-  }
-  goog.array.forEach(firebaseui.auth.ui.page.Base.MDL_COMPONENT_CLASSES_,
-      function(className) {
-    if (goog.dom.classlist.contains(element, className)) {
-      window['componentHandler'][operation](element);
-    }
-
-    var matchingElements = goog.dom.getElementsByClass(className, element);
-    goog.array.forEach(matchingElements, function(mdlElement) {
-      window['componentHandler'][operation](mdlElement);
-    });
-  });
 };
 
 
@@ -218,7 +179,7 @@ firebaseui.auth.ui.page.Base.prototype.disposeInternal = function() {
   this.templateData_ = null;
   this.inProcessing_ = false;
   this.busyIndicator_ = null;
-  this.performOnMdlComponents_(this.getElement(), 'downgradeElements');
+  firebaseui.auth.ui.mdl.downgrade(this.getElement());
   firebaseui.auth.ui.page.Base.base(this, 'disposeInternal');
 };
 
@@ -240,7 +201,7 @@ firebaseui.auth.ui.page.Base.prototype.startProcessing_ = function() {
         firebaseui.auth.soy2.element.busyIndicator, null, null,
         self.getDomHelper());
     self.getElement().appendChild(self.busyIndicator_);
-    self.performOnMdlComponents_(self.busyIndicator_, 'upgradeElement');
+    firebaseui.auth.ui.mdl.upgrade(self.busyIndicator_);
   }, firebaseui.auth.ui.page.SHOW_PROCESSING_DELAY_);
 };
 
@@ -255,7 +216,7 @@ firebaseui.auth.ui.page.Base.prototype.stopProcessing_ = function() {
   this.clearProcessingTimeout_();
 
   if (this.busyIndicator_) {
-    this.performOnMdlComponents_(this.busyIndicator_, 'downgradeElements');
+    firebaseui.auth.ui.mdl.downgrade(this.busyIndicator_);
     goog.dom.removeNode(this.busyIndicator_);
     this.busyIndicator_ = null;
   }
@@ -393,5 +354,13 @@ goog.mixin(
       getInfoBarElement:
           firebaseui.auth.ui.element.infoBar.getInfoBarElement,
       getInfoBarDismissLinkElement:
-          firebaseui.auth.ui.element.infoBar.getInfoBarDismissLinkElement
+          firebaseui.auth.ui.element.infoBar.getInfoBarDismissLinkElement,
+
+      // For dialogs.
+      showProgressDialog:
+          firebaseui.auth.ui.element.progressDialog.showProgressDialog,
+      dismissDialog:
+          firebaseui.auth.ui.element.dialog.dismissDialog,
+      getDialogElement:
+          firebaseui.auth.ui.element.dialog.getDialogElement
     });

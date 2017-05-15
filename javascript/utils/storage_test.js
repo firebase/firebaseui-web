@@ -262,13 +262,13 @@ function testGetSetRemoveEmailPendingCredential_withAppId() {
   assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(appId2));
 
   var cred = {
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'idToken': 'ID_TOKEN'
   };
   var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
       'user@example.com', cred);
   var cred2 = {
-    'provider': 'facebook.com',
+    'providerId': 'facebook.com',
     'accessToken': 'ACCESS_TOKEN'
   };
   var pendingEmailCred2 = new firebaseui.auth.PendingEmailCredential(

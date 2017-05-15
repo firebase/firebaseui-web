@@ -623,3 +623,85 @@
     </div>
   </div>
 {/template}
+
+
+/**
+ * Renders a phone sign-in start page.
+ */
+{template .phoneSignInStart}
+  {@param? nationalNumber: string} /** The phone number to prefill. */
+  {@param? enableVisibleRecaptcha: bool} /** Whether to enable the visible reCAPTCHA. */
+  <div class="{css mdl-card} {css mdl-shadow--2dp}{sp}
+      {css firebaseui-container} {css firebaseui-id-page-phone-sign-in-start}">
+    <form onsubmit="return false;">
+      <div class="{css firebaseui-card-header}">
+        <h1 class="{css firebaseui-title}">
+          {msg desc="Header of the phone number sign-in page."}Enter your phone number{/msg}
+        </h1>
+      </div>
+      <div class="{css firebaseui-card-content}">
+        <div class="{css firebaseui-relative-wrapper}">
+          {call firebaseui.auth.soy2.element.phoneNumber data="all" /}
+          {if $enableVisibleRecaptcha}
+            {call firebaseui.auth.soy2.element.recaptcha /}
+          {/if}
+        </div>
+      </div>
+      <div class="{css firebaseui-card-footer}">
+        <div class="{css firebaseui-form-actions}">
+          {call firebaseui.auth.soy2.element.cancelButton /}
+          {call firebaseui.auth.soy2.element.submitButton}
+            {param label kind="text"}
+              {msg desc="The button that initiates the verification of the phone number provided
+                  for an authentication flow by sending a verification code to that phone number."}
+                Verify
+              {/msg}
+            {/param}
+          {/call}
+        </div>
+      </div>
+    </form>
+  </div>
+{/template}
+
+/**
+ * Renders a phone sign-in finish page.
+ */
+{template .phoneSignInFinish}
+  {@param? phoneNumber: string} /** The phone number to confirm */
+  <div class="{css mdl-card} {css mdl-shadow--2dp}{sp}
+      {css firebaseui-container} {css firebaseui-id-page-phone-sign-in-finish}">
+    <form onsubmit="return false;">
+      <div class="{css firebaseui-card-header}">
+        <h1 class="{css firebaseui-title}">
+          {msg desc="Header of the phone number sign-in code verification page."}
+            Verify your phone number{/msg}
+        </h1>
+      </div>
+      <div class="{css firebaseui-card-content}">
+        <p class="{css firebaseui-text}">
+          {msg desc="A link to edit the phone number that the verification code was sent to."}
+            Enter the 6-digit code we sent to{sp}
+            <a class="{css firebaseui-link} {css firebaseui-change-phone-number-link}{sp}
+                      {css firebaseui-id-change-phone-number-link}"
+               href="javascript:void(0)">{$phoneNumber}</a>
+          {/msg}
+        </p>
+        {call firebaseui.auth.soy2.element.phoneConfirmationCode /}
+      </div>
+      <div class="{css firebaseui-card-footer}">
+        <div class="{css firebaseui-form-actions}">
+          {call firebaseui.auth.soy2.element.cancelButton /}
+          {call firebaseui.auth.soy2.element.submitButton}
+            {param label kind="text"}
+              {msg desc="The button that completes verification of the phone number provided
+                  for an authentication flow."}
+                Continue
+              {/msg}
+            {/param}
+          {/call}
+        </div>
+      </div>
+    </form>
+  </div>
+{/template}

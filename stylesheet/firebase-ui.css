@@ -16,23 +16,19 @@
  * CSS for FirebaseUI Javascript widget.
  * All selectors should begin with a "firebaseui-" prefix to avoid conflicts.
  */
-
-@def BLACK_ALPHA_12 rgba(0, 0, 0, 0.12); /* e.g. dividers */
-@def BLACK_ALPHA_54 rgba(0, 0, 0, 0.54); /* e.g. secondary text/icons */
-@def BLACK_ALPHA_87 rgba(0, 0, 0, 0.87); /* e.g. primary text */
-
 .firebaseui-container {
   background-color: #fff;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
-  color: BLACK_ALPHA_87;
+  color: rgba(0, 0, 0, 0.87);
   direction: ltr;
   font: 16px Roboto, arial, sans-serif;
   margin: 0 auto;
   max-width: 360px;
   overflow: hidden;
   position: relative;
+  text-align: left;
   width: 100%;
 }
 
@@ -61,14 +57,14 @@
 
 .firebaseui-title,
 .firebaseui-subtitle {
-  color: BLACK_ALPHA_87;
+  color: rgba(0, 0, 0, 0.87);
   direction: ltr;
   font-size: 20px;
   font-weight: 500;
   line-height: 24px;
   margin: 0;
   padding: 0;
-  text-align:left;
+  text-align: left;
 }
 
 .firebaseui-title {
@@ -80,7 +76,7 @@
 }
 
 .firebaseui-text {
-  color: BLACK_ALPHA_87;
+  color: rgba(0, 0, 0, 0.87);
   direction: ltr;
   font-size: 16px;
   line-height: 24px;
@@ -96,8 +92,13 @@
   direction: ltr;
   font-size: 12px;
   line-height: 16px;
+  margin: 0;
+  text-align: left;
+}
+
+.firebaseui-text-input-error {
+  /* Set a negative margin, as MDL text inputs have a large bottom margin. */
   margin: -16px 0 16px;
-  text-align:left;
 }
 
 
@@ -122,9 +123,10 @@
 }
 
 .firebaseui-label {
-  color: BLACK_ALPHA_54;
+  color: rgba(0, 0, 0, 0.54);
   direction: ltr;
   font-size: 16px;
+  text-align: left;
 }
 
 /* Override MDL floating text field label color. */
@@ -136,10 +138,16 @@
 .firebaseui-input,
 .firebaseui-input-invalid {
   border-radius: 0; /** iOS puts rounded corners on text inputs. */
-  color: BLACK_ALPHA_87;
+  color: rgba(0, 0, 0, 0.87);
   direction: ltr;
   font-size: 16px;
   width: 100%;
+}
+
+input.firebaseui-input,
+input.firebaseui-input-invalid{
+  direction: ltr;
+  text-align: left;
 }
 
 .firebaseui-input-invalid {
@@ -152,7 +160,7 @@
 
 /* Override MDL's error handling with our own.  */
 .firebaseui-textfield.mdl-textfield .firebaseui-input {
-  border-color: BLACK_ALPHA_12;
+  border-color: rgba(0, 0, 0, 0.12);
 }
 
 .firebaseui-textfield.mdl-textfield .firebaseui-label::after {
@@ -200,7 +208,7 @@
   font-size: 12px;
   line-height: 16px;
   margin-bottom: 24px;
-  text-align:left;
+  text-align: left;
 }
 
 .firebaseui-page-provider-sign-in {
@@ -277,6 +285,11 @@
   background-color: #db4437;
 }
 
+.firebaseui-idp-phone,
+.firebaseui-idp-phone:hover {
+  background-color: #02bd7e;
+}
+
 .firebaseui-idp-google,
 .firebaseui-idp-google:hover {
   background-color: #ffffff;
@@ -318,6 +331,123 @@
 .firebaseui-info-bar-message {
   font-size: 12px;
   margin: 0;
+}
+
+.firebaseui-dialog {
+  box-sizing: border-box;
+  /* We need to set these properties again since dialogs are not contained in
+   * the main FirebaseUI container. */
+  color: rgba(0, 0, 0, 0.87);
+  font: 16px Roboto, arial, sans-serif;
+  /* If we do not set height here, the default Safari dialog settings make the
+   * dialog too tall. */
+  height: auto;
+  padding: 24px;
+  text-align: left;
+}
+
+.firebaseui-dialog-icon {
+  float: left;
+  height: 40px;
+  margin-right: 24px;
+  width: 40px;
+}
+
+.firebaseui-progress-dialog-message {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 40px;
+}
+
+.firebaseui-progress-dialog-loading-icon {
+  height: 28px;
+  margin: 6px 30px 6px 6px;
+  width: 28px;
+}
+
+.firebaseui-icon-done {
+  background-image: url("//www.gstatic.com/images/icons/material/system/2x/done_googgreen_36dp.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 36px 36px;
+}
+
+.firebaseui-phone-number {
+  display: flex;
+}
+
+.firebaseui-country-selector {
+  /* TODO: Use 2x for HD displays. */
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/arrow_drop_down_grey600_18dp.png');
+  background-position: right center;
+  background-repeat: no-repeat;
+  background-size: 18px auto;
+  border-radius: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  color: rgba(0, 0, 0, 0.87);
+  flex-shrink: 0;
+  font-size: 16px;
+  font-weight: normal;
+  height: initial;
+  line-height: normal;
+  margin: 20px 24px 20px 0;
+  padding: 4px 20px 4px 0;
+  width: 90px;
+}
+
+.firebaseui-country-selector-flag {
+  display: inline-block;
+  margin-right: 1ex;
+}
+
+.firebaseui-flag {
+  background-image: url("//www.gstatic.com/firebasejs/ui/2.0.0/images/auth/flags_sprite_2x.png");
+  background-size: 100% auto;
+  /* Set a drop shadow so white flags are more distinct. */
+  filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.54));
+  height: 14px;
+  width: 24px;
+}
+
+.firebaseui-list-box-dialog {
+  max-height: 90%;
+  overflow: auto;
+  padding: 8px 0 0 0;
+}
+
+.firebaseui-list-box-actions {
+  padding-bottom: 8px;
+}
+
+.firebaseui-list-box-icon-wrapper {
+  display: table-cell;
+  padding-right: 24px;
+  vertical-align: top;
+}
+
+.firebaseui-list-box-label-wrapper {
+  display: table-cell;
+  vertical-align: top;
+}
+
+.firebaseui-list-box-dialog-button {
+  color: rgba(0, 0, 0, 0.87);
+  direction: ltr;
+  font-size: 16px;
+  font-weight: normal;
+  height: initial;
+  line-height: normal;
+  min-height: 48px;
+  padding: 14px 24px;
+  text-align: left;
+  text-transform: none;
+  width: 100%;
+}
+
+.firebaseui-phone-number-error {
+  /* Align this with the national number input. Add a margin of
+   * button width (90px) + button margin (24px). */
+  margin-left: 114px;
 }
 
 .firebaseui-busy-indicator {
@@ -367,6 +497,34 @@
 
 .firebaseui-input-toggle-blur {
   opacity: 0.38;
+}
+
+.firebaseui-recaptcha-wrapper {
+  display: table;
+  margin: 0 auto;
+  padding-bottom: 8px;
+}
+
+.firebaseui-recaptcha-container {
+  display: table-cell;
+}
+
+.firebaseui-recaptcha-error-wrapper {
+  caption-side: bottom;
+  display: table-caption;
+}
+
+.firebaseui-change-phone-number-link {
+  display: block;
+}
+
+/**
+ * This div holds the invisible reCAPTCHA badge. The float property is needed
+ * as it messes up the cancel and submit buttons to align vertically when they
+ * should horizontally.
+ */
+.firebaseui-id-page-phone-sign-in-start .firebaseui-form-actions div {
+  float: left;
 }
 
 @media (max-width: 480px) {

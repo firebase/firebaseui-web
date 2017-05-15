@@ -47,7 +47,7 @@ function setPendingCredentials(email) {
   // Pending credential stored.
   pendingCredential = firebaseui.auth.idp.getAuthCredential({
     'accessToken': 'formerFacebookAccessToken',
-    'provider': 'facebook.com'
+    'providerId': 'facebook.com'
   });
   var pendingEmailCredential = new firebaseui.auth.PendingEmailCredential(
       email, pendingCredential);
@@ -62,7 +62,7 @@ function testHandleEmailMismatch_noPendingEmailCredential() {
   // The credentials returned from the provider.
   var credential = firebaseui.auth.idp.getAuthCredential({
     'idToken': 'googleIdToken',
-    'provider': 'google.com'
+    'providerId': 'google.com'
   });
   var currentUser = {email: federatedAccount.getEmail()};
   firebaseui.auth.widget.handler.handleEmailMismatch(
@@ -78,7 +78,7 @@ function testHandleEmailMismatch_reset() {
   // The credentials returned from the provider.
   var credential = firebaseui.auth.idp.getAuthCredential({
     'idToken': 'googleIdToken',
-    'provider': 'google.com'
+    'providerId': 'google.com'
   });
   // Store pending email.
   var pendingEmailCredential =
@@ -107,7 +107,7 @@ function testHandleEmailMismatch_linking_continue() {
   // The credentials returned from the provider.
   var credential = firebaseui.auth.idp.getAuthCredential({
     'idToken': 'googleIdToken',
-    'provider': 'google.com'
+    'providerId': 'google.com'
   });
   // Store pending email and pending credential.
   setPendingCredentials('other@example.com');
@@ -142,7 +142,7 @@ function testHandleEmailMismatch_signIn_continue() {
   // The credentials returned from the provider.
   var credential = firebaseui.auth.idp.getAuthCredential({
     'idToken': 'googleIdToken',
-    'provider': 'google.com'
+    'providerId': 'google.com'
   });
   // Store pending email.
   var pendingEmailCredential =
@@ -180,7 +180,7 @@ function testHandleEmailMismatch_linking_cancel() {
   // The credentials returned from the provider.
   var credential = firebaseui.auth.idp.getAuthCredential({
     'idToken': 'googleIdToken',
-    'provider': 'google.com'
+    'providerId': 'google.com'
   });
   // Store pending email and pending credential.
   setPendingCredentials('other@example.com');
@@ -202,7 +202,7 @@ function testHandleEmailMismatch_signIn_cancel() {
   // The credentials returned from the provider.
   var credential = firebaseui.auth.idp.getAuthCredential({
     'idToken': 'googleIdToken',
-    'provider': 'google.com'
+    'providerId': 'google.com'
   });
   // Store pending email.
   var pendingEmailCredential =

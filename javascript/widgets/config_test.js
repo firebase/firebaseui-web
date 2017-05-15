@@ -18,6 +18,7 @@
 
 goog.provide('firebaseui.auth.widget.ConfigTest');
 
+goog.require('firebaseui.auth.log');
 goog.require('firebaseui.auth.util');
 goog.require('firebaseui.auth.widget.Config');
 goog.require('goog.testing');
@@ -28,23 +29,31 @@ goog.setTestOnly('firebaseui.auth.widget.ConfigTest');
 
 var config;
 var stub = new goog.testing.PropertyReplacer();
-var logMessages = [];
+var errorLogMessages = [];
+var warningLogMessages = [];
 var firebase = {};
 
 
 function setUp() {
   config = new firebaseui.auth.widget.Config();
-  logMessage = null;
   // Remember error log messages.
-  stub.set(firebaseui.auth.log, 'error', function(msg) {
-    logMessages.push(msg);
+  stub.replace(firebaseui.auth.log, 'error', function(msg) {
+    errorLogMessages.push(msg);
   });
-  firebase.auth = {EmailAuthProvider: {PROVIDER_ID: 'password'}};
+  // Remember error warning messages.
+  stub.replace(firebaseui.auth.log, 'warning', function(msg) {
+    warningLogMessages.push(msg);
+  });
+  firebase.auth = {
+    EmailAuthProvider: {PROVIDER_ID: 'password'},
+    PhoneAuthProvider: {PROVIDER_ID: 'phone'}
+  };
 }
 
 
 function tearDown() {
-  logMessages = [];
+  errorLogMessages = [];
+  warningLogMessages = [];
   stub.reset();
 }
 
@@ -122,6 +131,34 @@ function testGetWidgetUrl_notSpecified() {
 }
 
 
+function testGetWidgetUrl_notSpecified_withQueryAndFragment() {
+  // Simulate current URL has mode/mode2 queries, other query parameters and a
+  // fragment.
+  stub.replace(
+      firebaseui.auth.util,
+      'getCurrentUrl',
+      function() {
+        return 'http://www.example.com/path/?mode=foo&mode2=bar#a=1';
+      });
+  var widgetUrl = config.getWidgetUrl();
+  // The same current URL should be returned.
+  assertEquals(
+      firebaseui.auth.util.getCurrentUrl(), widgetUrl);
+  // Only the mode query param should be overwritten.
+  widgetUrl = config.getWidgetUrl(
+      firebaseui.auth.widget.Config.WidgetMode.SELECT);
+  assertEquals(
+      'http://www.example.com/path/?mode2=bar&mode=select#a=1', widgetUrl);
+
+  // Only the mode2 query param should be overwritten.
+  config.update('queryParameterForWidgetMode', 'mode2');
+  widgetUrl = config.getWidgetUrl(
+      firebaseui.auth.widget.Config.WidgetMode.SELECT);
+  assertEquals(
+      'http://www.example.com/path/?mode=foo&mode2=select#a=1', widgetUrl);
+}
+
+
 function testGetWidgetUrl_specified() {
   config.update('widgetUrl', 'http://localhost/callback');
   var widgetUrl = config.getWidgetUrl();
@@ -160,6 +197,13 @@ function testGetProviders_providerIds() {
   // Check that password accounts are included in the list in the correct
   // order.
   assertArrayEquals(['google.com', 'password'], config.getProviders());
+
+  // Test when phone accounts are to be enabled.
+  config.update('signInOptions',
+      ['google.com', 'phone', 'unrecognized']);
+  // Check that phone accounts are included in the list in the correct
+  // order.
+  assertArrayEquals(['google.com', 'phone'], config.getProviders());
 }
 
 
@@ -173,10 +217,99 @@ function testGetProviders_fullConfig() {
     'facebook.com',
     {'provider': 'unrecognized'},
     {'not a': 'valid config'},
+    {'provider': 'phone', 'recaptchaParameters': {'size': 'invisible'}}
   ]);
   // Check that invalid configs are not included.
-  assertArrayEquals(['google.com', 'github.com', 'facebook.com'],
+  assertArrayEquals(['google.com', 'github.com', 'facebook.com', 'phone'],
       config.getProviders());
+}
+
+
+function testGetRecaptchaParameters() {
+  // Empty config.
+  assertNull(config.getRecaptchaParameters());
+
+  // No phone provider config.
+  config.update('signInOptions', [{'provider': 'google.com'}]);
+  assertNull(config.getRecaptchaParameters());
+
+  // Phone config with no additional parameters.
+  config.update(
+      'signInOptions',
+      ['github.com', {'provider': 'google.com'}, {'provider': 'phone'}]);
+  assertNull(config.getRecaptchaParameters());
+
+    // Phone config with invalid reCAPTCHA parameters.
+  config.update(
+      'signInOptions',
+      ['github.com', {'provider': 'google.com'},
+       {'provider': 'phone', 'recaptchaParameters': [1, true]}, 'password']);
+  assertNull(config.getRecaptchaParameters());
+
+  // Phone config with an empty object reCAPTCHA parameters.
+  config.update(
+      'signInOptions',
+      ['github.com', {'provider': 'google.com'},
+       {'provider': 'phone', 'recaptchaParameters': {}}, 'password']);
+  assertObjectEquals({}, config.getRecaptchaParameters());
+
+  // Confirm no warning logged so far.
+  assertArrayEquals([], warningLogMessages);
+
+  // Phone config with blacklisted reCAPTCHA parameters.
+  var blacklist = {
+    'sitekey': 'SITEKEY',
+    'tabindex': 0,
+    'callback': function(token) {},
+    'expired-callback': function() {}
+  };
+  config.update(
+      'signInOptions',
+      ['github.com', {'provider': 'google.com'},
+       {'provider': 'phone', 'recaptchaParameters': blacklist}, 'password']);
+  assertObjectEquals({}, config.getRecaptchaParameters());
+  // Expected warning should be logged.
+  assertArrayEquals(
+      [
+        'The following provided "recaptchaParameters" keys are not allowed: ' +
+        'sitekey, tabindex, callback, expired-callback'
+      ], warningLogMessages);
+  // Reset warnings.
+  warningLogMessages = [];
+
+  // Phone config with blacklisted, valid and invalid reCAPTCHA parameters.
+  var mixed = {
+    'sitekey': 'SITEKEY',
+    'tabindex': 0,
+    'callback': function(token) {},
+    'expired-callback': function() {},
+    'type': 'audio',
+    'size': 'invisible',
+    'badge': 'bottomleft',
+    'theme': 'dark',
+    'foo': 'bar'
+  };
+  var expectedParameters = {
+    'type': 'audio',
+    'size': 'invisible',
+    'badge': 'bottomleft',
+    'theme': 'dark',
+    'foo': 'bar'
+  };
+  config.update(
+      'signInOptions',
+      ['github.com', {'provider': 'google.com'},
+       {'provider': 'phone', 'recaptchaParameters': mixed}, 'password']);
+  assertObjectEquals(expectedParameters, config.getRecaptchaParameters());
+  // Expected warning should be logged.
+  assertArrayEquals(
+      [
+        'The following provided "recaptchaParameters" keys are not allowed: ' +
+        'sitekey, tabindex, callback, expired-callback'
+      ], warningLogMessages);
+
+  // No error should be logged.
+  assertArrayEquals([], errorLogMessages);
 }
 
 
@@ -291,7 +424,7 @@ function testSetConfig_nonDefined() {
       [
         'Invalid config: "test1"',
         'Invalid config: "test2"'
-      ], logMessages);
+      ], errorLogMessages);
 }
 
 

@@ -233,3 +233,40 @@ function testFakeAuthClient_runAuthChangeHandler() {
   assertEquals(1, called1);
   assertEquals(2, called2);
 }
+
+
+function testFakeAuthClient_runIdTokenChangeHandler() {
+  var called1 = 0;
+  var called2 = 0;
+  var cb1 = function(passedUser) {
+    assertEquals(auth['currentUser'], passedUser);
+    called1++;
+  };
+  var cb2 = function(passedUser) {
+    assertEquals(auth['currentUser'], passedUser);
+    called2++;
+  };
+  auth.setUser({email: 'test@example.com'});
+  // Add both listeners.
+  var unsubscribe1 = auth.onIdTokenChanged(cb1);
+  var unsubscribe2 = auth.onIdTokenChanged(cb2);
+  // Trigger change.
+  auth.runIdTokenChangeHandler();
+  // Both listeners called.
+  assertEquals(1, called1);
+  assertEquals(1, called2);
+  // Remove first listener.
+  unsubscribe1();
+  // Trigger change.
+  auth.runIdTokenChangeHandler();
+  // Second callback run only.
+  assertEquals(1, called1);
+  assertEquals(2, called2);
+  // Remove remaining callback.
+  unsubscribe2();
+  // Trigger change.
+  auth.runIdTokenChangeHandler();
+  // No callback run.
+  assertEquals(1, called1);
+  assertEquals(2, called2);
+}

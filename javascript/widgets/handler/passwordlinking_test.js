@@ -47,7 +47,7 @@ function setPendingEmailCredentials() {
   // Pending credential stored.
   credential = firebaseui.auth.idp.getAuthCredential({
     'accessToken': 'facebookAccessToken',
-    'provider': 'facebook.com'
+    'providerId': 'facebook.com'
   });
   var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
       passwordAccount.getEmail(), credential);
@@ -67,7 +67,8 @@ function assertSuccessfulPasswordLinking(credential) {
           'email': passwordAccount.getEmail(),
           'displayName': passwordAccount.getDisplayName()
         });
-        testAuth.currentUser.assertLink([credential], testAuth.currentUser);
+        testAuth.currentUser.assertLinkWithCredential(
+            [credential], testAuth.currentUser);
         return testAuth.currentUser;
       });
 }

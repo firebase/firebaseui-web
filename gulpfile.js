@@ -54,6 +54,7 @@ function concatJS(outFileName, wrapper) {
     fileName: outFileName,
     compilerFlags: {
       compilation_level: 'WHITESPACE_ONLY',
+      language_out: 'ES5',
       output_wrapper: wrapper
     }
   });
@@ -81,6 +82,7 @@ gulp.task('build-firebaseui-js', () =>
           'node_modules/firebase/externs/firebase-auth-externs.js',
           'node_modules/firebase/externs/firebase-client-auth-externs.js'
         ],
+        language_out: 'ES5',
         only_closure_dependencies: true,
         output_wrapper: OUTPUT_WRAPPER
       }
@@ -95,7 +97,9 @@ gulp.task('build-js', ['build-firebaseui-js'], () =>
       'node_modules/material-design-lite/src/mdlComponentHandler.js',
       'node_modules/material-design-lite/src/button/button.js',
       'node_modules/material-design-lite/src/progress/progress.js',
+      'node_modules/material-design-lite/src/spinner/spinner.js',
       'node_modules/material-design-lite/src/textfield/textfield.js',
+      'node_modules/dialog-polyfill/dialog-polyfill.js',
       'out/firebaseui.js'
     ])
     .pipe(concatJS('firebaseui.js', OUTPUT_WRAPPER))
@@ -108,7 +112,9 @@ gulp.task('build-npm', ['build-firebaseui-js'], () =>
       'node_modules/material-design-lite/src/mdlComponentHandler.js',
       'node_modules/material-design-lite/src/button/button.js',
       'node_modules/material-design-lite/src/progress/progress.js',
+      'node_modules/material-design-lite/src/spinner/spinner.js',
       'node_modules/material-design-lite/src/textfield/textfield.js',
+      'node_modules/dialog-polyfill/dialog-polyfill.js',
       'out/firebaseui.js'
     ])
     .pipe(concatJS('npm.js', NPM_MODULE_WRAPPER))
@@ -118,9 +124,12 @@ gulp.task('build-npm', ['build-firebaseui-js'], () =>
 gulp.task('build-css', () => {
   var mdlSrcs = gulp.src('stylesheet/mdl.scss')
       .pipe(sass.sync().on('error', sass.logError));
+  var dialogPolyfillSrcs = gulp.src(
+      'node_modules/dialog-polyfill/dialog-polyfill.css');
   var firebaseSrcs = gulp.src('stylesheet/*.css');
 
-  return streamqueue({objectMode: true}, mdlSrcs, firebaseSrcs)
+  return streamqueue({objectMode: true},
+      mdlSrcs, dialogPolyfillSrcs, firebaseSrcs)
       .pipe(concatCSS('firebaseui.css'))
       .pipe(cleanCSS())
       .pipe(gulp.dest('dist'));

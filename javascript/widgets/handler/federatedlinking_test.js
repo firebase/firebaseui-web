@@ -44,7 +44,7 @@ function setPendingEmailCredentials() {
   // Pending credential stored.
   credential = firebaseui.auth.idp.getAuthCredential({
     'accessToken': 'facebookAccessToken',
-    'provider': 'facebook.com'
+    'providerId': 'facebook.com'
   });
   var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
       passwordAccount.getEmail(), credential);
@@ -99,7 +99,7 @@ function testHandleFederatedLinking_popup_success() {
   assertFederatedLinkingPage(federatedAccount.getEmail());
   submitForm();
   var cred  = {
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   };
   // User should be signed in.
@@ -116,7 +116,8 @@ function testHandleFederatedLinking_popup_success() {
       });
   return testAuth.process().then(function() {
     // Linking should be triggered with pending credential.
-    testAuth.currentUser.assertLink([credential], testAuth.currentUser);
+    testAuth.currentUser.assertLinkWithCredential(
+        [credential], testAuth.currentUser);
     return testAuth.process();
     // Sign out from internal instance and then sign in with passed credential
     // to external instance.
@@ -155,7 +156,7 @@ function testHandleFederatedLinking_popup_success_multipleClicks() {
   // Click again, the second call will override the first.
   submitForm();
   var cred  = {
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   };
   // User should be signed in.
@@ -176,7 +177,8 @@ function testHandleFederatedLinking_popup_success_multipleClicks() {
       });
   return testAuth.process().then(function() {
     // Linking should be triggered with pending credential.
-    testAuth.currentUser.assertLink([credential], testAuth.currentUser);
+    testAuth.currentUser.assertLinkWithCredential(
+        [credential], testAuth.currentUser);
     return testAuth.process();
     // Sign out from internal instance and then sign in with passed credential
     // to external instance.

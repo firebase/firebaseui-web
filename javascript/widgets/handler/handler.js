@@ -37,6 +37,8 @@ firebaseui.auth.widget.HandlerName = {
   PASSWORD_RECOVERY: 'passwordRecovery',
   CALLBACK: 'callback',
   PASSWORD_LINKING: 'passwordLinking',
+  PHONE_SIGN_IN_FINISH: 'phoneSignInFinish',
+  PHONE_SIGN_IN_START: 'phoneSignInStart',
   FEDERATED_LINKING: 'federatedLinking',
   FEDERATED_SIGN_IN: 'federatedSignIn',
   EMAIL_CHANGE_REVOCATION: 'emailChangeRevocation',

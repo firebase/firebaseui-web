@@ -42,7 +42,60 @@
         {if $disabled}disabled{/if}>
   </div>
   <div class="{css firebaseui-error-wrapper}">
-    <p class="{css firebaseui-error} {css firebaseui-hidden} {css firebaseui-id-email-error}"></p>
+    <p class="{css firebaseui-error} {css firebaseui-text-input-error} {css firebaseui-hidden}{sp}
+              {css firebaseui-id-email-error}"></p>
+  </div>
+{/template}
+
+
+/**
+ * Renders a phone number input field.
+ */
+{template .phoneNumber}
+  {@param? nationalNumber: string} /** The phone number to prefill. */
+
+  <div class="{css firebaseui-phone-number}">
+    <button class="{css firebaseui-id-country-selector} {css firebaseui-country-selector}{sp}
+                   {css mdl-button} {css mdl-js-button}">
+      <span class="{css firebaseui-flag} {css firebaseui-country-selector-flag}{sp}
+                   {css firebaseui-id-country-selector-flag}"></span>
+      <span class="{css firebaseui-id-country-selector-code}">
+      </span>
+    </button>
+    <div class="{css mdl-textfield} {css mdl-js-textfield} {css mdl-textfield--floating-label}{sp}
+                {css firebaseui-textfield} {css firebaseui-phone-input-wrapper}">
+      <label class="{css mdl-textfield__label} {css firebaseui-label}" for="phoneNumber">
+        {msg desc="Label of an phone number input field."}Phone number{/msg}
+      </label>
+      <input type="tel" name="phoneNumber"
+          class="{css mdl-textfield__input} {css firebaseui-input}{sp}
+                 {css firebaseui-id-phone-number}"
+          value="{$nationalNumber ?: ''}">
+    </div>
+  </div>
+  <div class="{css firebaseui-error-wrapper}">
+    <p class="{css firebaseui-error} {css firebaseui-text-input-error} {css firebaseui-hidden}{sp}
+              {css firebaseui-phone-number-error} {css firebaseui-id-phone-number-error}"></p>
+  </div>
+{/template}
+
+
+/**
+ * Renders a phone confirmation code input field.
+ */
+{template .phoneConfirmationCode}
+  <div class="{css firebaseui-textfield} {css mdl-textfield} {css mdl-js-textfield}{sp}
+      {css mdl-textfield--floating-label}">
+    <label class="{css mdl-textfield__label} {css firebaseui-label}" for="phoneConfirmationCode">
+      {msg desc="Label of 6-digit SMS verification code."}6-digit code{/msg}
+    </label>
+    <input type="number" name="phoneConfirmationCode"
+        class="{css mdl-textfield__input} {css firebaseui-input}{sp}
+               {css firebaseui-id-phone-confirmation-code}">
+  </div>
+  <div class="{css firebaseui-error-wrapper}">
+    <p class="{css firebaseui-error} {css firebaseui-text-input-error} {css firebaseui-hidden}{sp}
+              {css firebaseui-id-phone-confirmation-code-error}"></p>
   </div>
 {/template}
 
@@ -71,6 +124,19 @@
         {msg desc="Label for a button to sign in with an email account that requires a password.
             The short version"}
           Email
+        {/msg}
+      </span>
+    {elseif $providerId == 'phone'}
+      <span class="{css firebaseui-idp-text} {css firebaseui-idp-text-long}">
+        {msg desc="Label for a button to sign in with phone number.
+            The long version"}
+          Sign in with phone
+        {/msg}
+      </span>
+      <span class="{css firebaseui-idp-text} {css firebaseui-idp-text-short}">
+        {msg desc="Label for a button to sign in with phone number.
+            The short version"}
+          Phone
         {/msg}
       </span>
     {else}
@@ -153,7 +219,8 @@
         value="{$name ?: ''}">
   </div>
   <div class="{css firebaseui-error-wrapper}">
-    <p class="{css firebaseui-error} {css firebaseui-hidden} {css firebaseui-id-name-error}"></p>
+    <p class="{css firebaseui-error} {css firebaseui-text-input-error} {css firebaseui-hidden}{sp}
+              {css firebaseui-id-name-error}"></p>
   </div>
 {/template}
 
@@ -186,7 +253,7 @@
         {css firebaseui-input-toggle-blur}">
     </a>
     <div class="{css firebaseui-error-wrapper}">
-      <p class="{css firebaseui-error} {css firebaseui-hidden}{sp}
+      <p class="{css firebaseui-error} {css firebaseui-text-input-error} {css firebaseui-hidden}{sp}
           {css firebaseui-id-new-password-error}">
       </p>
     </div>
@@ -215,7 +282,8 @@
         class="{css mdl-textfield__input} {css firebaseui-input} {css firebaseui-id-password}">
   </div>
   <div class="{css firebaseui-error-wrapper}">
-    <p class="{css firebaseui-error} {css firebaseui-hidden} {css firebaseui-id-password-error}">
+    <p class="{css firebaseui-error} {css firebaseui-text-input-error} {css firebaseui-hidden}{sp}
+              {css firebaseui-id-password-error}">
     </p>
   </div>
 {/template}
@@ -235,8 +303,8 @@
  * Renders the cancel button.
  */
 {template .cancelButton}
-  <button class="{css firebaseui-id-secondary-link} {css firebaseui-button}{sp}
-      {css mdl-button} {css mdl-js-button} {css mdl-button--raised} {css mdl-button--colored}">
+  <button class="{css firebaseui-id-secondary-link} {css firebaseui-button} {sp}
+      {css mdl-button} {css mdl-js-button} {css mdl-button--primary}">
     {msg desc="Link to cancel the current flow."}Cancel{/msg}
   </button>
 {/template}
@@ -276,11 +344,87 @@
 
 
 /**
+ * Renders a modal dialog.
+ */
+{template .dialog}
+  {@param content: html}
+  {@param? classes: string} /** Additional classes to apply to the dialog. */
+
+  <dialog class="mdl-dialog {css firebaseui-dialog} {css firebaseui-id-dialog}
+                 {if $classes}{sp}{$classes}{/if}">
+    {$content}
+  </dialog>
+{/template}
+
+
+/**
+ * Renders a progress dialog with the given icon and message.
+ */
+{template .progressDialog}
+  {@param iconClass: string}
+  {@param message: string}
+
+  {call .dialog}
+    {param content kind="html"}
+      <div class="{$iconClass} {css firebaseui-dialog-icon}"></div>
+      <div class="{css firebaseui-progress-dialog-message}">
+        {$message}
+      </div>
+    {/param}
+  {/call}
+{/template}
+
+
+/**
+ * Renders a ListBox dialog.
+ */
+{template .listBoxDialog}
+  {@param items: list<[id:string, iconClass:string, label:string]>}
+
+  {call .dialog}
+    {param classes kind="text"}{css firebaseui-list-box-dialog}{/param}
+    {param content kind="html"}
+      <div class="{css firebaseui-list-box-actions}">
+        {foreach $item in $items}
+          <button type="button" data-listboxid="{$item.id}"
+                  class="mdl-button {css firebaseui-id-list-box-dialog-button}{sp}
+                         {css firebaseui-list-box-dialog-button}">
+            {if $item.iconClass}
+              <div class="{css firebaseui-list-box-icon-wrapper}">
+                <div class="{css firebaseui-list-box-icon} {$item.iconClass}"></div>
+              </div>
+            {/if}
+            <div class="{css firebaseui-list-box-label-wrapper}">
+              {$item.label}
+            </div>
+          </button>
+        {/foreach}
+      </div>
+    {/param}
+  {/call}
+{/template}
+
+
+/**
  * Renders a busy indicator to display while server operations are ongoing.
  */
 {template .busyIndicator}
   <div class="{css mdl-progress} {css mdl-js-progress} {css mdl-progress__indeterminate}{sp}
       {css firebaseui-busy-indicator} {css firebaseui-id-busy-indicator}"></div>
+{/template}
+
+
+/**
+ * Renders a visible reCAPTCHA container.
+ */
+{template .recaptcha}
+  <div class="{css firebaseui-recaptcha-wrapper}">
+    <div class="{css firebaseui-recaptcha-container}"></div>
+    <div class="{css firebaseui-error-wrapper} {css firebaseui-recaptcha-error-wrapper}">
+      <p class="{css firebaseui-error} {css firebaseui-hidden}{sp}
+                {css firebaseui-id-recaptcha-error}"></p>
+    </div>
+  </div>
 {/template}
 
 
@@ -320,6 +464,8 @@
       {css firebaseui-idp-facebook}
     {case 'twitter.com'}
       {css firebaseui-idp-twitter}
+    {case 'phone'}
+      {css firebaseui-idp-phone}
     {default}
       {css firebaseui-idp-password}
   {/switch}
@@ -341,6 +487,8 @@
       {$ij.facebookLogo}
     {case 'twitter.com'}
       {$ij.twitterLogo}
+    {case 'phone'}
+      {$ij.phoneLogo}
     {default}
       {$ij.passwordLogo}
   {/switch}

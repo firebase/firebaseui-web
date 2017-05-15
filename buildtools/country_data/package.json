@@ -1,0 +1,15 @@
+{
+  "name": "firebaseui-phone-auth-config-generator",
+  "version": "1.0.0",
+  "description": "Generates data and a flag sprite for countries for use in FirebaseUI.",
+  "scripts": {
+    "build": "./generate_country_data.sh ./generated"
+  },
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "imagemin": "^5.2.2",
+    "imagemin-optipng": "^5.2.1",
+    "sprity": "^1.0.8",
+    "svgexport": "^0.3.2"
+  }
+}

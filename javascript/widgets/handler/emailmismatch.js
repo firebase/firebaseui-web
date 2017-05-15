@@ -92,7 +92,7 @@ firebaseui.auth.widget.handler.handleEmailMismatch = function(
             component,
             /** @type {!firebaseui.auth.PendingEmailCredential} */ (
                 pendingEmailCredential),
-            credential['provider']);
+            credential['providerId']);
       });
   component.render(container);
   // Set current UI component.

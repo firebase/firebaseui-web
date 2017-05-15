@@ -75,7 +75,7 @@ function testHandleFederatedSignIn_popup_success() {
   assertFederatedLinkingPage();
   submitForm();
   var cred  = {
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   };
   // User should be signed in.
@@ -119,7 +119,7 @@ function testHandleFederatedSignIn_popup_success_multipleClicks() {
   // Click again, the second call will override the first.
   submitForm();
   var cred  = {
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   };
   // User should be signed in.

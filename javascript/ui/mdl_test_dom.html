@@ -1,0 +1,15 @@
+<!-- Copyright (c) 2016 Google Inc. All rights reserved. -->
+
+<div id="mdl_test_container">
+  <div class="mdl-js-textfield" id="mdl_test_textfield"></div>
+  <div class="mdl-js-progress" id="mdl_test_progress"></div>
+  <div class="mdl-js-spinner" id="mdl_test_spinner"></div>
+  <div class="mdl-js-button" id="mdl_test_button"></div>
+  <div id="mdl_test_not_mdl">foo</div>
+</div>
+
+<!-- Tests that the outer element itself is also upgraded. -->
+<div class="mdl-js-button" id="mdl_test_mdl_in_container">
+  <div class="mdl-js-spinner" id="mdl_test_mdl_in_container_textfield"></div>
+  <div id="mdl_test_not_mdl">foo</div>
+</div>

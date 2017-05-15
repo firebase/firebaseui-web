@@ -47,21 +47,21 @@ element.form.getSecondaryLinkElement = function() {
 
 /**
  * Initializes the form element.
- * @param {function()} onSubmit Callback to invoke when the form is submitted
+ * @param {function(?)} onSubmit Callback to invoke when the form is submitted
  *     (the submit button is clicked).
- * @param {function()=} opt_onLinkClick Callback to invoke when the secondary
+ * @param {function(?)=} opt_onLinkClick Callback to invoke when the secondary
  *     link (if there is one) in the form is clicked.
  * @this {goog.ui.Component}
  */
 element.form.initFormElement = function(onSubmit, opt_onLinkClick) {
   var submitElement = element.form.getSubmitElement.call(this);
   element.listenForActionEvent(this, submitElement, function(e) {
-    onSubmit();
+    onSubmit(e);
   });
   var linkElement = element.form.getSecondaryLinkElement.call(this);
   if (linkElement && opt_onLinkClick) {
     element.listenForActionEvent(this, linkElement, function(e) {
-      opt_onLinkClick();
+      opt_onLinkClick(e);
     });
   }
 };

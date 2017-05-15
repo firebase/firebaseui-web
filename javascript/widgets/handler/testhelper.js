@@ -28,6 +28,7 @@ goog.require('firebaseui.auth.idp');
 goog.require('firebaseui.auth.testing.FakeAcClient');
 goog.require('firebaseui.auth.testing.FakeAppClient');
 goog.require('firebaseui.auth.testing.FakeUtil');
+goog.require('firebaseui.auth.testing.RecaptchaVerifier');
 goog.require('firebaseui.auth.ui.page.Base');
 goog.require('firebaseui.auth.util');
 goog.require('firebaseui.auth.widget.Config');
@@ -35,6 +36,7 @@ goog.require('goog.dom');
 goog.require('goog.dom.TagName');
 goog.require('goog.dom.classlist');
 goog.require('goog.dom.forms');
+goog.require('goog.events.KeyCodes');
 goog.require('goog.testing.MockClock');
 goog.require('goog.testing.PropertyReplacer');
 goog.require('goog.testing.events');
@@ -92,6 +94,7 @@ var container;
 var container2;
 var testAc;
 var testUtil;
+var recaptchaVerifierInstance = null;
 var externalAuthApp;
 var externalAuth;
 var testAuth;
@@ -197,6 +200,14 @@ function setUp() {
       });
   // Build mock auth providers.
   firebase['auth'] = {};
+  // Mock reCAPTCHA verifier.
+  firebase.auth.RecaptchaVerifier = function(container, params, app) {
+    // Install on initialization.
+    recaptchaVerifierInstance = new firebaseui.auth.testing.RecaptchaVerifier(
+        container, params, app);
+    recaptchaVerifierInstance.install();
+    return recaptchaVerifierInstance;
+  };
   for (var key in firebaseui.auth.idp.AuthProviders) {
     firebase['auth'][firebaseui.auth.idp.AuthProviders[key]] = function() {
       this.scopes = [];
@@ -220,11 +231,11 @@ function setUp() {
   // Initialize after getAuthCredential stub.
   authCredential = firebaseui.auth.idp.getAuthCredential({
     'accessToken': 'facebookAccessToken',
-    'provider': 'facebook.com'
+    'providerId': 'facebook.com'
   });
   federatedCredential = firebaseui.auth.idp.getAuthCredential({
     'accessToken': 'googleAccessToken',
-    'provider': 'google.com'
+    'providerId': 'google.com'
   });
   // Simulate email auth provider credential.
   firebase['auth']['EmailAuthProvider'] =
@@ -234,7 +245,7 @@ function setUp() {
         return {
           'email': email,
           'password': password,
-          'provider': 'password'
+          'providerId': 'password'
         };
       };
   getApp = function() {return app;};
@@ -254,6 +265,20 @@ function setUp() {
             !!opt_forceUiShownCallback;
         callback();
       });
+  // Mock dialog polyfill.
+  window['dialogPolyfill'] = {
+    'registerDialog': function(dialog) {
+      dialog.open = false;
+      dialog.showModal = function() {
+        dialog.open = true;
+      };
+      dialog.close = function() {
+        dialog.open = false;
+      };
+    }
+  };
+  // Remove any grecaptcha mocks.
+  delete goog.global['grecaptcha'];
 }
 
 
@@ -274,6 +299,25 @@ function tearDown() {
   // Uninstall internal and external auth instance.
   testAuth.uninstall();
   externalAuth.uninstall();
+  // Uninstall reCAPTCHA verifier if available.
+  if (recaptchaVerifierInstance) {
+    recaptchaVerifierInstance.uninstall();
+  }
+}
+
+
+/**
+ * Mocks grecaptcha API.
+ * @param {number} widgetId The expected reCAPTCHA widget ID.
+ */
+function simulateGrecaptchaLoaded(widgetId) {
+  goog.global['grecaptcha'] = {
+    render: goog.testing.recordFunction(function() {
+      return widgetId;
+    }),
+    getResponse: goog.testing.recordFunction(),
+    reset: goog.testing.recordFunction()
+  };
 }
 
 
@@ -325,6 +369,26 @@ function submitForm() {
 
 
 /**
+ * Submits form on current page with an ENTER key action.
+ */
+function submitFormWithEnterAction() {
+  var submit = goog.dom.getElementByClass(
+      goog.getCssName('firebaseui-id-submit'), container);
+  goog.testing.events.fireKeySequence(submit, goog.events.KeyCodes.ENTER);
+}
+
+
+/**
+ * Triggers a click on the change phone number link.
+ */
+function clickChangePhoneNumberLink() {
+  var changePhoneNumberLink = goog.dom.getElementByClass(
+      goog.getCssName('firebaseui-id-change-phone-number-link'), container);
+  goog.testing.events.fireClickSequence(changePhoneNumberLink);
+}
+
+
+/**
  * Triggers a click on the secondary link element.
  */
 function clickSecondaryLink() {
@@ -338,6 +402,23 @@ function clickSecondaryLink() {
 function getEmailElement() {
   return goog.dom.getElementByClass(
       goog.getCssName('firebaseui-id-email'), container);
+}
+
+
+/**
+ * @return {?Element} The country selector button for the phone number input
+ *     on the current page.
+ */
+function getPhoneCountrySelectorElement() {
+  return goog.dom.getElementByClass(
+      goog.getCssName('firebaseui-id-country-selector'), container);
+}
+
+
+/** @return {?Element} The phone number input element on the current page. */
+function getPhoneInputElement() {
+  return goog.dom.getElementByClass(
+      goog.getCssName('firebaseui-id-phone-number'), container);
 }
 
 
@@ -436,11 +517,76 @@ function getLinkedAccountsContainer() {
 
 
 /**
+ * @return {?Element} The submit button on the current page within container.
+ */
+function getSubmitButton() {
+  return goog.dom.getElementByClass(
+      goog.getCssName('firebaseui-id-submit'), container);
+}
+
+
+/**
  * @return {?Element} The reset password link element in the container.
  */
 function getResetPasswordLinkElement() {
   return goog.dom.getElementByClass(
       goog.getCssName('firebaseui-id-reset-password-link'), container);
+}
+
+
+/**
+ * @return {?Element} The phone element in the container.
+ */
+function getPhoneNumberElement() {
+  return goog.dom.getElementByClass(
+      goog.getCssName('firebaseui-id-phone-number'), container);
+}
+
+
+/**
+ * @return {?Element} The reCAPTCHA element in the container.
+ */
+function getRecaptchaElement() {
+  return goog.dom.getElementByClass(
+      goog.getCssName('firebaseui-recaptcha-container'), container);
+}
+
+
+/** @return {?string} The phone number error message. */
+function getPhoneNumberErrorMessage() {
+  var element = goog.dom.getElementByClass(
+      goog.getCssName('firebaseui-id-phone-number-error'), container);
+  assertFalse(goog.dom.classlist.contains(
+      element, goog.getCssName('firebaseui-hidden')));
+  return goog.dom.getTextContent(element);
+}
+
+
+/** @return {?string} The reCAPTCHA error message. */
+function getRecaptchaErrorMessage() {
+  var element = goog.dom.getElementByClass(
+      goog.getCssName('firebaseui-id-recaptcha-error'), container);
+  assertFalse(goog.dom.classlist.contains(
+      element, goog.getCssName('firebaseui-hidden')));
+  return goog.dom.getTextContent(element);
+}
+
+
+/** @return {?Element} The confirmation code element in the container. */
+function getPhoneConfirmationCodeElement() {
+  return goog.dom.getElementByClass(
+      goog.getCssName('firebaseui-id-phone-confirmation-code'), container);
+}
+
+
+/** @return {?string} The phone code verification error message. */
+function getPhoneConfirmationCodeErrorMessage() {
+  var element = goog.dom.getElementByClass(
+      goog.getCssName('firebaseui-id-phone-confirmation-code-error'),
+      container);
+  assertFalse(goog.dom.classlist.contains(
+      element, goog.getCssName('firebaseui-hidden')));
+  return goog.dom.getTextContent(element);
 }
 
 
@@ -717,6 +863,41 @@ function assertEmailChangeVerifyPage(email) {
 function assertProviderSignInPage() {
   assertPage_(
       container, goog.getCssName('firebaseui-id-page-provider-sign-in'));
+}
+
+
+/** Asserts that the phone sign in start page is rendered. */
+function assertPhoneSignInStartPage() {
+  assertPage_(
+      container, goog.getCssName('firebaseui-id-page-phone-sign-in-start'));
+}
+
+
+/** Asserts that the phone sign in code entry page is rendered. */
+function assertPhoneSignInFinishPage() {
+  assertPage_(
+      container, goog.getCssName('firebaseui-id-page-phone-sign-in-finish'));
+}
+
+
+/**
+ * Asserts that the dialog is rendered with the expected message.
+ * @param {string} message The message shown.
+ */
+function assertDialog(message) {
+  assertEquals(1, goog.dom.getElementsByTagName('dialog').length);
+  var dialogElement = goog.dom.getElementsByTagName('dialog')[0];
+  assertTrue(
+      goog.dom.classlist.contains(dialogElement, 'firebaseui-id-dialog'));
+  assertContains(message, goog.dom.getTextContent(dialogElement));
+}
+
+
+/**
+ * Asserts that no dialog is rendered.
+ */
+function assertNoDialog() {
+  assertEquals(0, goog.dom.getElementsByTagName('dialog').length);
 }
 
 

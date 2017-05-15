@@ -58,19 +58,25 @@ firebaseui.auth.util.openerGoTo = function(url) {
 
 
 /**
- * Detects whether there is an opener (parent) window.
- * It simply wraps the window.opener and is meant for testing
- * since some browsers don't allow to overwrite the native object.
+ * Detects whether there is an opener (parent) window whose location is
+ * reassignable.
  *
  * @return {boolean} The opener window.
  */
 firebaseui.auth.util.hasOpener = function() {
-  return !!(window.opener &&
-            window.opener.location &&
-            // Some browsers do not allow you to reassign the location
-            // of the opener if the url is a different origin than the
-            // current one. In that case, location is an empty object.
-            window.opener.location.assign);
+  // TODO: consider completely removing this ability and just always redirecting
+  // the current page.
+  try {
+    // Some browsers do not allow reassignment of the location of the opener if
+    // the url is a different origin than the current one. Confirm hostname and
+    // protocol match between current page and opener.
+    return !!(window.opener &&
+        window.opener.location &&
+        window.opener.location.assign &&
+        window.opener.location.hostname === window.location.hostname &&
+        window.opener.location.protocol === window.location.protocol);
+  } catch (e) {}
+  return false;
 };
 
 
@@ -165,4 +171,12 @@ firebaseui.auth.util.getElement = function(element, opt_notFoundDesc) {
     throw new Error(notFoundDesc);
   }
   return /** @type {Element} */ (element);
+};
+
+
+/**
+ * @return {string} The current location URL.
+ */
+firebaseui.auth.util.getCurrentUrl = function() {
+  return window.location.href;
 };

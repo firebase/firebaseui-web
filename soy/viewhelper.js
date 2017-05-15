@@ -46,6 +46,22 @@ function loadCss(path) {
 }
 
 
+/**
+ * Simulates a reCAPTCHA being rendered for UI testing. This will just load a
+ * mock visible reCAPTCHA in the reCAPTCHA element.
+ * @param {Element} container The root container that holds the reCAPTCHA.
+ */
+function loadRecaptcha(container) {
+  var root = goog.dom.getElement(container);
+  var recaptchaContainer = goog.dom.getElementByClass(
+      goog.getCssName('firebaseui-recaptcha-container'), root);
+  recaptchaContainer.style.display = 'block';
+  var img = goog.dom.createElement('img');
+  img.src = '../image/test/recaptcha-widget.png';
+  recaptchaContainer.appendChild(img);
+}
+
+
 function setInvalid(root, id) {
   var e = goog.dom.getElementByClass(goog.getCssName(id), root);
   goog.dom.classlist.addRemove(

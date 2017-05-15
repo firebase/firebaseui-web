@@ -103,7 +103,8 @@ firebaseui.auth.widget.handler.handleCallback =
           app,
           component,
           {
-            'user': null
+            'user': null,
+            'credential': null
           });
     } else {
       // Go to the sign-in page with info bar error.
@@ -148,8 +149,8 @@ firebaseui.auth.widget.handler.handleCallbackResult_ =
     if (pendingCredential) {
       // Check if there is a pending auth credential. If so, complete the link
       // process and delete the pending credential.
-      app.registerPending(result['user'].link(pendingCredential).then(
-          function(user) {
+      app.registerPending(result['user'].linkWithCredential(pendingCredential)
+          .then(function(user) {
             // Linking successful, complete sign in, pass pending credentials
             // as the developer originally expected them in the sign in
             // attempt that triggered the link.

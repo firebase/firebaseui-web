@@ -1,0 +1,4 @@
+feature - Added support for phone authentication.
+removed - Removed all FirebaseUI underlying dependencies on deprecated and removed APIs in Firebase version 4.0.0. FirebaseUI no longer supports versions older than 4.0.0.
+fixed - Fixes DOMException when cross origin reassigning window.location on sign-in success.
+fixed - Fixes the issue where query strings and fragments were getting dropped on accountchooser.com redirects.

@@ -382,19 +382,34 @@ firebaseui.auth.widget.handler.common.selectFromAccountChooser = function(
  * @param {firebaseui.auth.AuthUI} app The current FirebaseUI instance whose
  *     configuration is used and that has a user signed in.
  * @param {firebaseui.auth.ui.page.Base} component The UI component.
- * @param {!firebase.auth.AuthCredential} credential The auth credential
+ * @param {?firebase.auth.AuthCredential} credential The auth credential
  *     object.
  * @param {?firebase.User=} opt_user The current temporary user, provided if
  *     the user was already signed out from the temporary auth instance.
+ * @param {boolean=} opt_alreadySignedIn Whether user already signed in on
+ *     external auth instance.
  * @package
  */
 firebaseui.auth.widget.handler.common.setLoggedIn =
-    function(app, component, credential, opt_user) {
+    function(app, component, credential, opt_user, opt_alreadySignedIn) {
+  if (!!opt_alreadySignedIn) {
+    // Already signed in on external auth instance.
+    firebaseui.auth.widget.handler.common.setUserLoggedInExternal_(
+        app,
+        component,
+        /** @type {!firebase.User} */ (app.getExternalAuth().currentUser),
+        credential);
+    return;
+  }
+  // This should not occur.
+  if (!credential) {
+    throw new Error('No credential found!');
+  }
   var outputCred = credential;
   // If the passed credential is a password credential, do not return it to the
   // developer in signInSuccess callback.
-  if (credential['provider'] &&
-      credential['provider'] == 'password') {
+  if (credential['providerId'] &&
+      credential['providerId'] == 'password') {
     // Do not return password credential to developer.
     outputCred = null;
   }
@@ -446,7 +461,7 @@ firebaseui.auth.widget.handler.common.setLoggedIn =
         tempUser['email'],
         tempUser['displayName'],
         tempUser['photoURL'],
-        outputCred && outputCred['provider']);
+        outputCred && outputCred['providerId']);
 
     // Remember account. If there is no user preference, remember account by
     // default.
@@ -458,65 +473,87 @@ firebaseui.auth.widget.handler.common.setLoggedIn =
     // After successful sign out from internal instance, sign in with credential
     // to the developer provided auth instance. Use the credential passed.
     app.registerPending(app.getExternalAuth().signInWithCredential(
-        credential).then(function(user) {
-      // Finish the flow by redirecting to sign-in success URL or mobile app.
-      var callback = app.getConfig().getSignInSuccessCallback();
-      // Get redirect URL if it exists in non persistent storage.
-      // If sign-in success callback defined, pass redirect URL as third
-      // parameter.
-      // If not defined, override signInSuccessUrl with redirect URL value.
-      var redirectUrl = firebaseui.auth.storage.getRedirectUrl(
-          app.getAppId()) || undefined;
-      // Clear redirect URL from storage if available.
-      firebaseui.auth.storage.removeRedirectUrl(app.getAppId());
-      // Whether widget is redirecting. Initialize to false.
-      var isRedirecting = false;
-      if (firebaseui.auth.util.hasOpener()) {
-        // Popup sign in.
-        if (!callback ||
-            callback(
-                /** @type {!firebase.User} */ (user),
-                outputCred,
-                redirectUrl)) {
-          // Whether sign-in widget is redirecting.
-          isRedirecting = true;
-          // signInSuccessUrl is only required if there's no callback or it
-          // returns true, and if there's no redirectUrl present.
-          firebaseui.auth.util.openerGoTo(
-              firebaseui.auth.widget.handler.common.getSignedInRedirectUrl_(
-                  app, redirectUrl));
-        }
-        if (!callback) {
-          // If the developer supplies a callback, do not close the popup
-          // window. Should be closed manually by the developer.
-          firebaseui.auth.util.close(window);
-        }
-      } else {
-        // Normal sign in.
-        if (!callback ||
-            callback(
-                /** @type {!firebase.User} */ (user),
-                outputCred,
-                redirectUrl)) {
-          // Sign-in widget is redirecting.
-          isRedirecting = true;
-          // signInSuccessUrl is only required if there's no callback or it
-          // returns true, and if there's no redirectUrl present.
-          firebaseui.auth.util.goTo(
-              firebaseui.auth.widget.handler.common.getSignedInRedirectUrl_(
-                  app, redirectUrl));
-        }
-      }
-      // Dispose UI if not already disposed and not redirecting.
-      // If the widget is redirecting, it provides better UX to keep the loader
-      // showing until the page redirects. Otherwise, (most likely operating in
-      // single page mode), hide any remaining widget UI component.
-      if (!isRedirecting) {
-        app.reset();
-      }
-      // Catch error when signInSuccessUrl is required and not provided.
-    }, onError).then(function() {}, onError));
+        /** @type {!firebase.auth.AuthCredential} */ (credential))
+        .then(function(user) {
+          firebaseui.auth.widget.handler.common.setUserLoggedInExternal_(
+              app, component, user, outputCred);
+          // Catch error when signInSuccessUrl is required and not provided.
+        }, onError).then(function() {}, onError));
   }, onError));
+};
+
+
+/**
+ * Completes the sign in operation assuming the current user is already signed
+ * in on the external auth instance. This routine will not try to remember the
+ * user account.
+ *
+ * @param {firebaseui.auth.AuthUI} app The current FirebaseUI instance whose
+ *     configuration is used and that has a user signed in.
+ * @param {firebaseui.auth.ui.page.Base} component The UI component.
+ * @param {!firebase.User} user The current user, provided signed in on the
+ *     external auth instance.
+ * @param {?firebase.auth.AuthCredential} credential The auth credential
+ *     object.
+ * @private
+ */
+firebaseui.auth.widget.handler.common.setUserLoggedInExternal_ =
+    function(app, component, user, credential) {
+  // Finish the flow by redirecting to sign-in success URL.
+  var callback = app.getConfig().getSignInSuccessCallback();
+  // Get redirect URL if it exists in non persistent storage.
+  // If sign-in success callback defined, pass redirect URL as third
+  // parameter.
+  // If not defined, override signInSuccessUrl with redirect URL value.
+  var redirectUrl = firebaseui.auth.storage.getRedirectUrl(
+      app.getAppId()) || undefined;
+  // Clear redirect URL from storage if available.
+  firebaseui.auth.storage.removeRedirectUrl(app.getAppId());
+  // Whether widget is redirecting. Initialize to false.
+  var isRedirecting = false;
+  if (firebaseui.auth.util.hasOpener()) {
+    // Popup sign in.
+    if (!callback ||
+        callback(
+            /** @type {!firebase.User} */ (user),
+            credential,
+            redirectUrl)) {
+      // Whether sign-in widget is redirecting.
+      isRedirecting = true;
+      // signInSuccessUrl is only required if there's no callback or it
+      // returns true, and if there's no redirectUrl present.
+      firebaseui.auth.util.openerGoTo(
+          firebaseui.auth.widget.handler.common.getSignedInRedirectUrl_(
+              app, redirectUrl));
+    }
+    if (!callback) {
+      // If the developer supplies a callback, do not close the popup
+      // window. Should be closed manually by the developer.
+      firebaseui.auth.util.close(window);
+    }
+  } else {
+    // Normal sign in.
+    if (!callback ||
+        callback(
+            /** @type {!firebase.User} */ (user),
+            credential,
+            redirectUrl)) {
+      // Sign-in widget is redirecting.
+      isRedirecting = true;
+      // signInSuccessUrl is only required if there's no callback or it
+      // returns true, and if there's no redirectUrl present.
+      firebaseui.auth.util.goTo(
+          firebaseui.auth.widget.handler.common.getSignedInRedirectUrl_(
+              app, redirectUrl));
+    }
+  }
+  // Dispose UI if not already disposed and not redirecting.
+  // If the widget is redirecting, it provides better UX to keep the loader
+  // showing until the page redirects. Otherwise, (most likely operating in
+  // single page mode), hide any remaining widget UI component.
+  if (!isRedirecting) {
+    app.reset();
+  }
 };
 
 

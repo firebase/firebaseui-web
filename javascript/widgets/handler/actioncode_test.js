@@ -19,6 +19,7 @@
 goog.provide('firebaseui.auth.widget.handler.ActionCodeTest');
 goog.setTestOnly('firebaseui.auth.widget.handler.ActionCodeTest');
 
+goog.require('firebaseui.auth.soy2.strings');
 goog.require('firebaseui.auth.widget.Config');
 goog.require('firebaseui.auth.widget.handler.common');
 goog.require('firebaseui.auth.widget.handler.handleEmailChangeRevocation');
@@ -284,8 +285,8 @@ function testHandleEmailChangeRevocation_resetPassword_failure() {
     // Email change revoke page should still show.
     assertEmailChangeRevokeSuccessPage();
     // Info bar should show password reset failure.
-    assertInfoBarMessage(
-        'Unable to send password reset code to specified email.');
+    assertInfoBarMessage(firebaseui.auth.soy2.strings.errorSendPasswordReset()
+        .toString());
     // Reset current rendered widget page.
     app.reset();
     // Container should be cleared.

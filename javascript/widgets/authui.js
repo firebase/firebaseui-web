@@ -48,6 +48,10 @@ goog.require('firebaseui.auth.widget.handler.handlePasswordSignIn');
 /** @suppress {extraRequire} */
 goog.require('firebaseui.auth.widget.handler.handlePasswordSignUp');
 /** @suppress {extraRequire} */
+goog.require('firebaseui.auth.widget.handler.handlePhoneSignInFinish');
+/** @suppress {extraRequire} */
+goog.require('firebaseui.auth.widget.handler.handlePhoneSignInStart');
+/** @suppress {extraRequire} */
 goog.require('firebaseui.auth.widget.handler.handleProviderSignIn');
 /** @suppress {extraRequire} */
 goog.require('firebaseui.auth.widget.handler.handleSignIn');

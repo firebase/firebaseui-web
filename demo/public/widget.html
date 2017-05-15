@@ -3,8 +3,9 @@
   <head>
     <meta charset="UTF-8">
     <title>FirebaseUI Auth Demo</title>
-    <script src="https://www.gstatic.com/firebasejs/live/3.7/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/live/4.0/firebase.js"></script>
     <script src="config.js"></script>
+    <script src="common.js"></script>
     <script src="dist/firebaseui.js"></script>
     <link type="text/css" rel="stylesheet" href="dist/firebaseui.css" />
     <style>
@@ -37,7 +38,13 @@
           firebase.auth.FacebookAuthProvider.PROVIDER_ID,
           firebase.auth.TwitterAuthProvider.PROVIDER_ID,
           firebase.auth.GithubAuthProvider.PROVIDER_ID,
-          firebase.auth.EmailAuthProvider.PROVIDER_ID
+          firebase.auth.EmailAuthProvider.PROVIDER_ID,
+          {
+            provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+            recaptchaParameters: {
+              size: getRecaptchaMode()
+            }
+          }
         ],
         // Terms of service url.
         'tosUrl': 'https://www.google.com'

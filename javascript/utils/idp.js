@@ -37,7 +37,8 @@ firebaseui.auth.idp.AuthProviders = {
   'github.com': 'GithubAuthProvider',
   'google.com': 'GoogleAuthProvider',
   'password': 'EmailAuthProvider',
-  'twitter.com': 'TwitterAuthProvider'
+  'twitter.com': 'TwitterAuthProvider',
+  'phone': 'PhoneAuthProvider'
 };
 
 
@@ -59,7 +60,7 @@ firebaseui.auth.idp.getAuthProvider = function(providerId) {
  * @return {?firebase.auth.AuthCredential} The corresponding auth credential.
  */
 firebaseui.auth.idp.getAuthCredential = function(credentialObject) {
-  var providerId = credentialObject && credentialObject['provider'];
+  var providerId = credentialObject && credentialObject['providerId'];
   if (firebaseui.auth.idp.AuthProviders[providerId] &&
       firebase.auth[firebaseui.auth.idp.AuthProviders[providerId]]) {
     // Twitter special case.

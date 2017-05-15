@@ -16,22 +16,22 @@
  * @fileoverview Fake accountchooser.com client for testing.
  */
 
-goog.provide('firebaseui.auth.testing.FakeAcClient');
-goog.setTestOnly('firebaseui.auth.testing.FakeAcClient');
+goog.module('firebaseui.auth.testing.FakeAcClient');
+goog.module.declareLegacyNamespace();
+goog.setTestOnly();
 
-goog.require('firebaseui.auth.Account');
-goog.require('firebaseui.auth.acClient');
-goog.require('goog.Disposable');
-goog.require('goog.testing.PropertyReplacer');
-
+var Account = goog.require('firebaseui.auth.Account');
+var Disposable = goog.require('goog.Disposable');
+var PropertyReplacer = goog.require('goog.testing.PropertyReplacer');
+var acClient = goog.require('firebaseui.auth.acClient');
 
 
 /**
  * Fake accountchooser.com client class.
  * @constructor
- * @extends {goog.Disposable}
+ * @extends {Disposable}
  */
-firebaseui.auth.testing.FakeAcClient = function() {
+var FakeAcClient = function() {
   this.selectTried_ = false;
   this.skipSelect_ = false;
   this.available_ = true;
@@ -41,21 +41,21 @@ firebaseui.auth.testing.FakeAcClient = function() {
   this.callbackUrl_ = null;
   this.onEmptyResponse_ = null;
 };
-goog.inherits(firebaseui.auth.testing.FakeAcClient, goog.Disposable);
+goog.inherits(FakeAcClient, Disposable);
 
 
 /**
  * Installs the fake accountchooser.com client.
- * @return {!firebaseui.auth.testing.FakeAcClient} The fake accountchooser.com
+ * @return {!FakeAcClient} The fake accountchooser.com
  *     client.
  */
-firebaseui.auth.testing.FakeAcClient.prototype.install = function() {
-  var r = this.replacer_ = new goog.testing.PropertyReplacer();
-  r.set(firebaseui.auth.acClient, 'isInitialized',
+FakeAcClient.prototype.install = function() {
+  var r = this.replacer_ = new PropertyReplacer();
+  r.set(acClient, 'isInitialized',
       goog.bind(this.isInitialized_, this));
-  r.set(firebaseui.auth.acClient, 'init', goog.bind(this.init_, this));
+  r.set(acClient, 'init', goog.bind(this.init_, this));
   r.set(
-      firebaseui.auth.acClient,
+      acClient,
       'trySelectAccount',
       goog.bind(this.trySelectAccount_, this));
   return this;
@@ -63,7 +63,7 @@ firebaseui.auth.testing.FakeAcClient.prototype.install = function() {
 
 
 /** Removes the fake accountchooser.com client hooks. */
-firebaseui.auth.testing.FakeAcClient.prototype.uninstall = function() {
+FakeAcClient.prototype.uninstall = function() {
   this.localAccounts_ = null;
   this.acResult_ = null;
   this.selectTried_ = false;
@@ -78,9 +78,9 @@ firebaseui.auth.testing.FakeAcClient.prototype.uninstall = function() {
 
 
 /** @override */
-firebaseui.auth.testing.FakeAcClient.prototype.disposeInternal = function() {
+FakeAcClient.prototype.disposeInternal = function() {
   this.uninstall();
-  firebaseui.auth.testing.FakeAcClient.base(this, 'disposeInternal');
+  FakeAcClient.base(this, 'disposeInternal');
 };
 
 
@@ -88,7 +88,7 @@ firebaseui.auth.testing.FakeAcClient.prototype.disposeInternal = function() {
  * Sets whether accountchooser.com is available or not.
  * @param {boolean} available Whether accountchooser.com is available.
  */
-firebaseui.auth.testing.FakeAcClient.prototype.setAvailability =
+FakeAcClient.prototype.setAvailability =
     function(available) {
   this.available_ = available;
 };
@@ -98,23 +98,23 @@ firebaseui.auth.testing.FakeAcClient.prototype.setAvailability =
  * Sets whether to skip selecting an account.
  * @param {boolean} skip Whether to skip selecting an account.
  */
-firebaseui.auth.testing.FakeAcClient.prototype.setSkipSelect = function(skip) {
+FakeAcClient.prototype.setSkipSelect = function(skip) {
   this.skipSelect_ = skip;
 };
 
 
 /**
  * Sets the response from accountchooser.com to a selected account.
- * @param {!firebaseui.auth.Account} account The selected account.
+ * @param {!Account} account The selected account.
  */
-firebaseui.auth.testing.FakeAcClient.prototype.setSelectedAccount =
+FakeAcClient.prototype.setSelectedAccount =
     function(account) {
   this.acResult_ = account;
 };
 
 
 /** Sets the response from accountchooser.com as add account. */
-firebaseui.auth.testing.FakeAcClient.prototype.setAddAccount = function() {
+FakeAcClient.prototype.setAddAccount = function() {
   this.acResult_ = 'Add account';
 };
 
@@ -124,7 +124,7 @@ firebaseui.auth.testing.FakeAcClient.prototype.setAddAccount = function() {
  * @return {boolean} Whether accountchooser.com API client is initialized.
  * @private
  */
-firebaseui.auth.testing.FakeAcClient.prototype.isInitialized_ = function() {
+FakeAcClient.prototype.isInitialized_ = function() {
   return this.initialized_;
 };
 
@@ -133,7 +133,7 @@ firebaseui.auth.testing.FakeAcClient.prototype.isInitialized_ = function() {
  * Simulates when accountchooser.com is initially called and an empty response
  * is returned.
  */
-firebaseui.auth.testing.FakeAcClient.prototype.forceOnEmpty = function() {
+FakeAcClient.prototype.forceOnEmpty = function() {
   if (this.onEmptyResponse_) {
     this.onEmptyResponse_();
   }
@@ -144,7 +144,7 @@ firebaseui.auth.testing.FakeAcClient.prototype.forceOnEmpty = function() {
  * @see firebaseui.auth.acClient.init
  * @private
  */
-firebaseui.auth.testing.FakeAcClient.prototype.init_ = function(
+FakeAcClient.prototype.init_ = function(
     opt_onEmptyResponse,
     opt_onAccountSelected,
     opt_onAddAccount,
@@ -155,9 +155,9 @@ firebaseui.auth.testing.FakeAcClient.prototype.init_ = function(
   this.initialized_ = true;
   if (this.acResult_ == null) {
     opt_onEmptyResponse();
-  } else if (this.acResult_ instanceof firebaseui.auth.Account) {
+  } else if (this.acResult_ instanceof Account) {
     opt_onAccountSelected(
-        /** @type {!firebaseui.auth.Account} */(this.acResult_));
+        /** @type {!Account} */(this.acResult_));
   } else if (this.acResult_ == 'Add account') {
     opt_onAddAccount(this.available_);
   } else {
@@ -170,7 +170,7 @@ firebaseui.auth.testing.FakeAcClient.prototype.init_ = function(
  * @see firebaseui.auth.acClient.trySelectAccount
  * @private
  */
-firebaseui.auth.testing.FakeAcClient.prototype.trySelectAccount_ = function(
+FakeAcClient.prototype.trySelectAccount_ = function(
     onSkipSelect, opt_localAccounts, opt_callbackUrl) {
   this.selectTried_ = true;
   this.localAccounts_ = opt_localAccounts;
@@ -183,12 +183,12 @@ firebaseui.auth.testing.FakeAcClient.prototype.trySelectAccount_ = function(
 
 /**
  * Asserts the client has tried to select an account from accountchooser.com.
- * @param {?Array<!firebaseui.auth.Account>=} opt_localAccounts Local account
+ * @param {?Array<!Account>=} opt_localAccounts Local account
  *     list.
  * @param {string=} opt_callbackUrl The URL to return to when the flow finishes.
  *     The default is current URL.
  */
-firebaseui.auth.testing.FakeAcClient.prototype.assertTrySelectAccount =
+FakeAcClient.prototype.assertTrySelectAccount =
     function(opt_localAccounts, opt_callbackUrl) {
   assertTrue(this.selectTried_);
   if (opt_localAccounts) {
@@ -202,3 +202,5 @@ firebaseui.auth.testing.FakeAcClient.prototype.assertTrySelectAccount =
     assertTrue(this.callbackUrl_ == null);
   }
 };
+
+exports = FakeAcClient;

@@ -42,6 +42,9 @@ goog.require('firebaseui.auth.widget.handler.handlePasswordLinking');
 goog.require('firebaseui.auth.widget.handler.handlePasswordRecovery');
 goog.require('firebaseui.auth.widget.handler.handlePasswordSignIn');
 goog.require('firebaseui.auth.widget.handler.handlePasswordSignUp');
+/** @suppress {extraRequire} Required for page navigation after sign in with
+ *      phone number triggered. */
+goog.require('firebaseui.auth.widget.handler.handlePhoneSignInStart');
 goog.require('firebaseui.auth.widget.handler.handleProviderSignIn');
 goog.require('firebaseui.auth.widget.handler.handleSignIn');
 goog.require('firebaseui.auth.widget.handler.testHelper');
@@ -69,7 +72,7 @@ function setupProviderSignInPage(flow, opt_ignoreConfig) {
   signInOptions = [{
     'provider': 'google.com',
     'scopes': ['googl1', 'googl2']
-  }, 'facebook.com', 'password'];
+  }, 'facebook.com', 'password', 'phone'];
   if (!opt_ignoreConfig) {
     app.setConfig({
       'signInOptions': signInOptions,
@@ -85,6 +88,7 @@ function setupProviderSignInPage(flow, opt_ignoreConfig) {
   assertEquals('google.com', goog.dom.dataset.get(buttons[0], 'providerId'));
   assertEquals('facebook.com', goog.dom.dataset.get(buttons[1], 'providerId'));
   assertEquals('password', goog.dom.dataset.get(buttons[2], 'providerId'));
+  assertEquals('phone', goog.dom.dataset.get(buttons[3], 'providerId'));
 }
 
 
@@ -123,7 +127,7 @@ function testHandleProviderSignIn_popup_success() {
     'displayName': federatedAccount.getDisplayName()
   });
   var cred  = {
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   };
   // Sign in with popup triggered.
@@ -176,7 +180,7 @@ function testHandleProviderSignIn_popup_success_multipleClicks() {
     'displayName': federatedAccount.getDisplayName()
   });
   var cred  = {
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   };
   // Sign in with popup triggered.
@@ -377,7 +381,7 @@ function testHandleProviderSignIn_popup_federatedLinkingRequired() {
 
   asyncTestCase.waitForSignals(1);
   var cred  = firebaseui.auth.idp.getAuthCredential({
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   });
   var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
@@ -419,7 +423,7 @@ function testHandleProviderSignIn_popup_passwordLinkingRequired() {
 
   asyncTestCase.waitForSignals(1);
   var cred  = firebaseui.auth.idp.getAuthCredential({
-    'provider': 'google.com',
+    'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   });
   // Sign in with popup and password linking triggered.
@@ -454,6 +458,23 @@ function testHandleProviderSignIn_reset() {
   app.reset();
   // Container should be cleared.
   assertComponentDisposed();
+}
+
+
+function testHandleProviderSignIn_signInWithPhoneNumber() {
+  // Test when sign in with phone number is clicked, that the relevant handler
+  // is triggered.
+  // Render the provider sign-in page and confirm it was rendered correctly.
+  setupProviderSignInPage('redirect');
+  // Click the fourth button, which is sign in with phone button.
+  goog.testing.events.fireClickSequence(buttons[3]);
+  // Phone sign in start page should be rendered.
+  assertPhoneSignInStartPage();
+  // Recaptcha should be rendered.
+  recaptchaVerifierInstance.assertRender([], 0);
+  recaptchaVerifierInstance.process().then(function() {
+    asyncTestCase.signal();
+  });
 }
 
 

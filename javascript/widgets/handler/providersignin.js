@@ -46,6 +46,14 @@ firebaseui.auth.widget.handler.handleProviderSignIn = function(
           // Handle sign in with email.
           firebaseui.auth.widget.handler.common.handleSignInWithEmail(
               app, container);
+        } else if (providerId ==
+                   firebase.auth.PhoneAuthProvider.PROVIDER_ID) {
+          // User clicks sign in with phone number button.
+          component.dispose();
+          // Handle start sign in with phone number.
+          firebaseui.auth.widget.handler.handle(
+              firebaseui.auth.widget.HandlerName.PHONE_SIGN_IN_START, app,
+              container);
         } else {
           // User clicks other IdP.
           firebaseui.auth.widget.handler.common.federatedSignIn(

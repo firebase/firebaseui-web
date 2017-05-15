@@ -1162,6 +1162,39 @@ function testSetLoggedIn_popup_signInSuccessCallback_storageManualRedirect() {
 }
 
 
+function testSetLoggedIn_alreadySignedIn() {
+  // Test alreadySignedIn set to true with signInSuccessUrl.
+  var cred = firebase.auth.EmailAuthProvider.credential(
+      passwordUser['email'], 'password');
+  externalAuth.setUser(passwordUser);
+  firebaseui.auth.widget.handler.common.setLoggedIn(
+      app, testComponent, cred, null, true);
+  testUtil.assertGoTo('http://localhost/home');
+  assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
+      app.getAppId()).length);
+}
+
+
+function testSetLoggedIn_alreadySignedIn_falseSignInCallback() {
+  // Test alreadySignedIn set to true with signInSuccess callback.
+  // Provide a sign in success callback that returns false.
+  var cred = firebase.auth.EmailAuthProvider.credential(
+      passwordUser['email'], 'password');
+  app.setConfig({
+    'callbacks': {
+      'signInSuccess': signInSuccessCallback(false)
+    }
+  });
+  externalAuth.setUser(passwordUser);
+  firebaseui.auth.widget.handler.common.setLoggedIn(
+      app, testComponent, cred, null, true);
+  assertSignInSuccessCallbackInvoked(
+       externalAuth.currentUser, cred, undefined);
+  assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
+      app.getAppId()).length);
+}
+
+
 function testHandleUnrecoverableError() {
   // Test rendering of unrecoverable error handling.
   var errorMessage = 'Some unrecoverable error message';
@@ -1602,7 +1635,8 @@ function testGetErrorMessage_unknownError_jsonMessage() {
   assertEquals(
       'Internal error: ' + JSON.stringify(backendMessage),
       firebaseui.auth.log.error.getLastCall().getArgument(0));
-  assertEquals('An internal error has occurred.', message);
+  assertEquals(firebaseui.auth.soy2.strings.internalError().toString(),
+      message);
 }
 
 
