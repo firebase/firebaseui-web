@@ -662,6 +662,32 @@ Then, all unit tests can be run at: http://localhost:4000/buildtools/all_tests.h
 You can also run tests individually by accessing each HTML file under
 `generated/tests`, for example: http://localhost:4000/generated/tests/javascript/widgets/authui_test.html
 
+### Run tests using SauceLabs
+
+*You need a [SauceLabs](https://saucelabs.com/) account to run tests on
+SauceLabs.*
+
+Go to your SauceLab account, under "My Account", and copy paste the access key.
+Now export the following variables, *in two Terminal windows*:
+
+```bash
+export SAUCE_USERNAME=<your username>
+export SAUCE_ACCESS_KEY=<the copy pasted access key>
+```
+
+ Then, in one Terminal window, start SauceConnect:
+
+ ```bash
+./buildtools/sauce_connect.sh
+```
+
+Take note of the "Tunnel Identifier" value logged in the terminal,at the top. In
+the other terminal that has the exported variables, run the tests:
+
+```bash
+npm test -- --saucelabs --tunnelIdentifier=<the tunnel identifier>
+```
+
 ## Known issues
 
 ### Firebase Auth does not work in Safari private browsing

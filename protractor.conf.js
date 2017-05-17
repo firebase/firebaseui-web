@@ -32,7 +32,7 @@
  * $ ./buildtools/sauce_connect.sh
  * Take note of the "Tunnel Identifier" value logged in the terminal.
  * Run the tests:
- * $ npm run -- --saucelabs --tunnelIdentifier=<the tunnel identifier>
+ * $ npm test -- --saucelabs --tunnelIdentifier=<the tunnel identifier>
  * This will start the HTTP Server locally, and connect through SauceConnect
  * to SauceLabs remote browsers instances.
  *
@@ -83,6 +83,10 @@ if (options.saucelabs) {
   // SauceLabs configuration.
   config.sauceUser = process.env.SAUCE_USERNAME;
   config.sauceKey = process.env.SAUCE_ACCESS_KEY;
+  if (!config.sauceKey || !config.sauceUser) {
+    throw 'The SAUCE_USERNAME and SAUCE_ACCESS_KEY environment variables have '+
+        ' to be set.';
+  }
   // Avoid going over the SauceLabs concurrency limit (5).
   config.maxSessions = 5;
   // List of browsers configurations tested.

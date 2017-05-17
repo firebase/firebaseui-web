@@ -48,7 +48,13 @@ trap removeFiles EXIT
 
 # This will be used by Protractor to connect to SauceConnect.
 TUNNEL_IDENTIFIER="tunnelId-$RANDOM"
-echo "Tunnel Identifier: $TUNNEL_IDENTIFIER"
+echo ""
+echo "========================================================================="
+echo "    Tunnel Identifier to pass to Protractor:"
+echo "    $TUNNEL_IDENTIFIER"
+echo "========================================================================="
+echo ""
+echo ""
 
 echo "Starting Sauce Connect..."
 
