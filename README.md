@@ -27,14 +27,20 @@ extensions.
 
 ## Table of Contents
 
-1. [Installation](#installation)
-2. [Usage instructions](#using-firebaseui-for-authentication)
-3. [Configuration](#configuration)
-4. [Customization](#customizing-firebaseui-for-authentication)
-5. [Advanced](#advanced)
-6. [Developer Setup](#developer-setup)
-7. [Known issues](#known-issues)
-8. [Release Notes](#release-notes)
+1. [Demo](#demo)
+2. [Installation](#installation)
+3. [Usage instructions](#using-firebaseui-for-authentication)
+4. [Configuration](#configuration)
+5. [Customization](#customizing-firebaseui-for-authentication)
+6. [Advanced](#advanced)
+7. [Developer Setup](#developer-setup)
+8. [Known issues](#known-issues)
+9. [Release Notes](#release-notes)
+
+## Demo
+
+Accessible here:
+[https://fir-ui-demo-84a6c.firebaseapp.com](https://fir-ui-demo-84a6c.firebaseapp.com).
 
 ## Installation
 
