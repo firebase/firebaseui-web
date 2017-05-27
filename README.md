@@ -21,7 +21,7 @@ FirebaseUI Auth clients are also available for
 [Android](https://github.com/firebase/firebaseui-android).
 
 FirebaseUI fully supports all recent browsers. Signing in with federated
-providers (Google, Facebook, Twitter, Github) is not yet supported in
+providers (Google, Facebook, Twitter, Github) is not supported in
 non-browser environments (Cordova, React Native, Ionic...) nor Chrome
 extensions.
 
