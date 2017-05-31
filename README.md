@@ -44,7 +44,7 @@ Accessible here:
 
 ## Installation
 
-### CDN
+### Option 1: CDN
 
 You just need to include the following script and CSS file in the `<head>` tag
 of your page, below the initialization snippet from the Firebase Console:
@@ -54,7 +54,7 @@ of your page, below the initialization snippet from the Firebase Console:
 <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.0.0/firebaseui.css" />
 ```
 
-### npm Module
+### Option 2: npm Module
 
 Install FirebaseUI and its dependencies via npm using the following command:
 
@@ -77,7 +77,7 @@ within `node_modules/`:
 <link type="text/css" rel="stylesheet" href="node_modules/firebaseui/dist/firebaseui.css" />
 ```
 
-### Bower component
+### Option 3: Bower component
 
 Install FirebaseUI and its dependencies via Bower using the following command:
 
