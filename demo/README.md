@@ -10,7 +10,7 @@ You need to have created a Firebase Project in the
 
 ## Installation
 
-Install the firebase command line tool with `npm install -g firebase-tools` (See
+Install the Firebase command line tool with `npm install -g firebase-tools` (See
 [docs](https://firebase.google.com/docs/cli/#setup)).
 
 Enable the Auth providers you would like to offer your users in the console, under
@@ -47,6 +47,8 @@ in the `config.js` file.
 
 ## Deploy
 
+### Option 1: Compile and use local FirebaseUI files  
+
 To deploy the demo app, run the following command in the root directory of FirebaseUI (use `cd ..`
 first if you are still in the `demo/` folder):
 
@@ -55,4 +57,24 @@ npm run demo
 ```
 
 This will compile all the files needed to run FirebaseUI, and start a Firebase server locally at
-http://localhost:5000.
+[http://localhost:5000](http://localhost:5000).
+
+### Option 2: Use CDN hosted FirebaseUI files
+
+If you would prefer to use a CDN instead of locally compiled FirebaseUI files, you can instead 
+locate the following in the `<head>` tag of `public/index.html` and `public/widget.html`:
+
+```html
+    <script src="dist/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="dist/firebaseui.css" />
+```
+
+Then replace that with the snippet provided in the CDN installation section found at
+[https://github.com/firebase/firebaseui-web/blob/master/README.md](https://github.com/firebase/firebaseui-web/blob/master/README.md).
+
+Finally, ensure you are in the `demo/` folder (and not the root directory of FirebaseUI), and run:
+```bash 
+firebase serve
+```
+
+This will start a Firebase server locally at [http://localhost:5000](http://localhost:5000).
