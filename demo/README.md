@@ -69,7 +69,7 @@ locate the following in the `<head>` tag of `public/index.html` and `public/widg
     <link type="text/css" rel="stylesheet" href="dist/firebaseui.css" />
 ```
 
-Then replace that with snippet provided in the CDN installation section found at
+Then replace that with the snippet provided in the CDN installation section found at
 [https://github.com/firebase/firebaseui-web/blob/master/README.md](https://github.com/firebase/firebaseui-web/blob/master/README.md).
 
 Finally, ensure you are in the `demo/` folder (and not the root directory of FirebaseUI), and run:
