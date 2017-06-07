@@ -150,6 +150,6 @@ element.dialog.dismissDialog = function() {
  * @this {goog.ui.Component}
  */
 element.dialog.getDialogElement = function() {
-  return goog.dom.getElementByClass(goog.getCssName('firebaseui-id-dialog'));
+  return goog.dom.getElementByClass('firebaseui-id-dialog');
 };
 });

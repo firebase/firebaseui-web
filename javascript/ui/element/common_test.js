@@ -28,9 +28,9 @@ goog.require('goog.testing.jsunit');
 /** Test DOM element */
 var e;
 
-var CLASS_VALID_INPUT_ = goog.getCssName('firebaseui-input');
-var CLASS_INVALID_INPUT_ = goog.getCssName('firebaseui-input-invalid');
-var CLASS_HIDDEN_ = goog.getCssName('firebaseui-hidden');
+var CLASS_VALID_INPUT_ = 'firebaseui-input';
+var CLASS_INVALID_INPUT_ = 'firebaseui-input-invalid';
+var CLASS_HIDDEN_ = 'firebaseui-hidden';
 
 
 function tearDown() {

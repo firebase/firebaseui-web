@@ -65,8 +65,8 @@ listBoxDialog.showListBoxDialog = function(items, onSelect, opt_selectedId) {
 
   // Listen for clicks on the list box buttons.
   element.listenForActionEvent(this, dialogElement, function(event) {
-    var pressedButton = goog.dom.getAncestorByClass(event.target,
-        goog.getCssName('firebaseui-id-list-box-dialog-button'));
+    var pressedButton = goog.dom.getAncestorByClass(
+        event.target, 'firebaseui-id-list-box-dialog-button');
     var listBoxId = pressedButton &&
         listBoxDialog.getListBoxIdOfButton_(pressedButton);
     if (listBoxId) {

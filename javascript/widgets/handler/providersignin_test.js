@@ -52,11 +52,9 @@ goog.require('goog.dom');
 goog.require('goog.dom.dataset');
 goog.require('goog.dom.forms');
 goog.require('goog.events.KeyCodes');
-goog.require('goog.testing.AsyncTestCase');
 goog.require('goog.testing.events');
 
 
-var asyncTestCase = goog.testing.AsyncTestCase.createAndInstall();
 var buttons;
 var signInOptions;
 
@@ -71,7 +69,8 @@ function setupProviderSignInPage(flow, opt_ignoreConfig) {
   // Test provider sign-in handler.
   signInOptions = [{
     'provider': 'google.com',
-    'scopes': ['googl1', 'googl2']
+    'scopes': ['googl1', 'googl2'],
+    'customParameters': {'prompt': 'select_account'}
   }, 'facebook.com', 'password', 'phone'];
   if (!opt_ignoreConfig) {
     app.setConfig({
@@ -98,6 +97,7 @@ function testHandleProviderSignIn() {
   var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
   expectedProvider.addScope('googl1');
   expectedProvider.addScope('googl2');
+  expectedProvider.setCustomParameters({'prompt': 'select_account'});
   // Render the provider sign-in page and confirm it was rendered correctly.
   setupProviderSignInPage('redirect');
   // Click the first button, which is Google IdP.
@@ -115,12 +115,12 @@ function testHandleProviderSignIn_popup_success() {
   var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
   expectedProvider.addScope('googl1');
   expectedProvider.addScope('googl2');
+  expectedProvider.setCustomParameters({'prompt': 'select_account'});
   // Render the provider sign-in page and confirm it was rendered correctly.
   setupProviderSignInPage('popup');
   // Click the first button, which is Google IdP.
   goog.testing.events.fireClickSequence(buttons[0]);
 
-  asyncTestCase.waitForSignals(1);
   // User should be signed in.
   testAuth.setUser({
     'email': federatedAccount.getEmail(),
@@ -139,7 +139,7 @@ function testHandleProviderSignIn_popup_success() {
       });
   // Sign out from internal instance and then sign in with passed credential to
   // external instance.
-  testAuth.process().then(function() {
+  return testAuth.process().then(function() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
@@ -153,7 +153,6 @@ function testHandleProviderSignIn_popup_success() {
         app.getAppId()));
     // User should be redirected to success URL.
     testUtil.assertGoTo('http://localhost/home');
-    asyncTestCase.signal();
   });
 }
 
@@ -166,6 +165,7 @@ function testHandleProviderSignIn_popup_success_multipleClicks() {
   var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
   expectedProvider.addScope('googl1');
   expectedProvider.addScope('googl2');
+  expectedProvider.setCustomParameters({'prompt': 'select_account'});
   // Render the provider sign-in page and confirm it was rendered correctly.
   setupProviderSignInPage('popup');
   // Click the first button, which is Google IdP.
@@ -173,7 +173,6 @@ function testHandleProviderSignIn_popup_success_multipleClicks() {
   // Click again, the second call should override the first.
   goog.testing.events.fireClickSequence(buttons[0]);
 
-  asyncTestCase.waitForSignals(1);
   // User should be signed in.
   testAuth.setUser({
     'email': federatedAccount.getEmail(),
@@ -197,7 +196,7 @@ function testHandleProviderSignIn_popup_success_multipleClicks() {
       });
   // Sign out from internal instance and then sign in with passed credential to
   // external instance.
-  testAuth.process().then(function() {
+  return testAuth.process().then(function() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
@@ -213,7 +212,6 @@ function testHandleProviderSignIn_popup_success_multipleClicks() {
         app.getAppId()));
     // User should be redirected to success URL.
     testUtil.assertGoTo('http://localhost/home');
-    asyncTestCase.signal();
   });
 }
 
@@ -223,6 +221,7 @@ function testHandleProviderSignIn_popup_cancelled() {
   var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
   expectedProvider.addScope('googl1');
   expectedProvider.addScope('googl2');
+  expectedProvider.setCustomParameters({'prompt': 'select_account'});
   // Test provider sign-in handler.
   // Render the provider sign-in page and confirm it was rendered correctly.
   setupProviderSignInPage('popup');
@@ -248,15 +247,15 @@ function testHandleProviderSignIn_popup_unrecoverableError() {
   var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
   expectedProvider.addScope('googl1');
   expectedProvider.addScope('googl2');
+  expectedProvider.setCustomParameters({'prompt': 'select_account'});
   // Render the provider sign-in page and confirm it was rendered correctly.
   setupProviderSignInPage('popup');
   // Click the first button, which is Google IdP.
   goog.testing.events.fireClickSequence(buttons[0]);
 
-  asyncTestCase.waitForSignals(1);
   // Unrecoverable error in sign in with popup.
   testAuth.assertSignInWithPopup([expectedProvider], null, internalError);
-  testAuth.process().then(function() {
+  return testAuth.process().then(function() {
     // Any pending credential should be cleared from storage.
     assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
         app.getAppId()));
@@ -265,7 +264,6 @@ function testHandleProviderSignIn_popup_unrecoverableError() {
     // Show error in info bar.
     assertInfoBarMessage(
         firebaseui.auth.widget.handler.common.getErrorMessage(internalError));
-    asyncTestCase.signal();
   });
 }
 
@@ -277,22 +275,21 @@ function testHandleProviderSignIn_popup_recoverableError() {
   var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
   expectedProvider.addScope('googl1');
   expectedProvider.addScope('googl2');
+  expectedProvider.setCustomParameters({'prompt': 'select_account'});
   // Render the provider sign-in page and confirm it was rendered correctly.
   setupProviderSignInPage('popup');
   // Click the first button, which is Google IdP.
   goog.testing.events.fireClickSequence(buttons[0]);
 
-  asyncTestCase.waitForSignals(1);
   // Recoverable error in sign in with popup.
   var error = {'code': 'auth/network-request-failed'};
   testAuth.assertSignInWithPopup([expectedProvider], null, error);
-  testAuth.process().then(function() {
+  return testAuth.process().then(function() {
     // Redirect to provider sign-in page.
     assertProviderSignInPage();
     // Show error in info bar.
     assertInfoBarMessage(
         firebaseui.auth.widget.handler.common.getErrorMessage(error));
-    asyncTestCase.signal();
   });
 }
 
@@ -304,19 +301,19 @@ function testHandleProviderSignIn_popup_popupBlockedError() {
   var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
   expectedProvider.addScope('googl1');
   expectedProvider.addScope('googl2');
+  expectedProvider.setCustomParameters({'prompt': 'select_account'});
   // Render the provider sign-in page and confirm it was rendered correctly.
   setupProviderSignInPage('popup');
   // Click the first button, which is Google IdP.
   goog.testing.events.fireClickSequence(buttons[0]);
 
-  asyncTestCase.waitForSignals(1);
   // Sign in with popup blocked.
   var error = {'code': 'auth/popup-blocked'};
   testAuth.assertSignInWithPopup(
       [expectedProvider],
       null,
       error);
-  testAuth.process().then(function() {
+  return testAuth.process().then(function() {
     // Stays on provider sign-in page.
     assertProviderSignInPage();
     // Fallback to signInWithRedirect.
@@ -326,7 +323,6 @@ function testHandleProviderSignIn_popup_popupBlockedError() {
     // Any pending credential should be cleared from storage.
     assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
         app.getAppId()));
-    asyncTestCase.signal();
   });
 }
 
@@ -338,19 +334,19 @@ function testHandleProviderSignIn_popup_popupBlockedError_redirectError() {
   var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
   expectedProvider.addScope('googl1');
   expectedProvider.addScope('googl2');
+  expectedProvider.setCustomParameters({'prompt': 'select_account'});
   // Render the provider sign-in page and confirm it was rendered correctly.
   setupProviderSignInPage('popup');
   // Click the first button, which is Google IdP.
   goog.testing.events.fireClickSequence(buttons[0]);
 
-  asyncTestCase.waitForSignals(1);
   // Sign in with popup blocked.
   var error = {'code': 'auth/popup-blocked'};
   testAuth.assertSignInWithPopup(
       [expectedProvider],
       null,
       error);
-  testAuth.process().then(function() {
+  return testAuth.process().then(function() {
     // Stays on provider sign-in page.
     assertProviderSignInPage();
     // Simulate redirect error in signInWithRedirect fallback.
@@ -362,7 +358,6 @@ function testHandleProviderSignIn_popup_popupBlockedError_redirectError() {
     // On error, show a message on info bar.
     assertInfoBarMessage(
         firebaseui.auth.widget.handler.common.getErrorMessage(internalError));
-    asyncTestCase.signal();
   });
 }
 
@@ -374,12 +369,12 @@ function testHandleProviderSignIn_popup_federatedLinkingRequired() {
   var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
   expectedProvider.addScope('googl1');
   expectedProvider.addScope('googl2');
+  expectedProvider.setCustomParameters({'prompt': 'select_account'});
   // Render the provider sign-in page and confirm it was rendered correctly.
   setupProviderSignInPage('popup');
   // Click the first button, which is Google IdP.
   goog.testing.events.fireClickSequence(buttons[0]);
 
-  asyncTestCase.waitForSignals(1);
   var cred  = firebaseui.auth.idp.getAuthCredential({
     'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
@@ -397,14 +392,13 @@ function testHandleProviderSignIn_popup_federatedLinkingRequired() {
       });
   testAuth.assertFetchProvidersForEmail(
       [federatedAccount.getEmail()], ['google.com']);
-  testAuth.process().then(function() {
+  return testAuth.process().then(function() {
     // The pending credential should be saved here.
     assertObjectEquals(
         pendingEmailCred,
         firebaseui.auth.storage.getPendingEmailCredential(app.getAppId()));
     // Federated linking triggered.
     assertFederatedLinkingPage(federatedAccount.getEmail());
-    asyncTestCase.signal();
   });
 }
 
@@ -416,12 +410,12 @@ function testHandleProviderSignIn_popup_passwordLinkingRequired() {
   var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
   expectedProvider.addScope('googl1');
   expectedProvider.addScope('googl2');
+  expectedProvider.setCustomParameters({'prompt': 'select_account'});
   // Render the provider sign-in page and confirm it was rendered correctly.
   setupProviderSignInPage('popup');
   // Click the first button, which is Google IdP.
   goog.testing.events.fireClickSequence(buttons[0]);
 
-  asyncTestCase.waitForSignals(1);
   var cred  = firebaseui.auth.idp.getAuthCredential({
     'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
@@ -437,7 +431,7 @@ function testHandleProviderSignIn_popup_passwordLinkingRequired() {
       });
   testAuth.assertFetchProvidersForEmail(
       [passwordAccount.getEmail()], ['password']);
-  testAuth.process().then(function() {
+  return testAuth.process().then(function() {
     // The pending email credential should be cleared at this point.
     // Password linking does not require a redirect so no need to save it
     // anyway.
@@ -445,7 +439,6 @@ function testHandleProviderSignIn_popup_passwordLinkingRequired() {
         app.getAppId()));
     // Password linking page rendered.
     assertPasswordLinkingPage(federatedAccount.getEmail());
-    asyncTestCase.signal();
   });
 }
 
@@ -472,9 +465,7 @@ function testHandleProviderSignIn_signInWithPhoneNumber() {
   assertPhoneSignInStartPage();
   // Recaptcha should be rendered.
   recaptchaVerifierInstance.assertRender([], 0);
-  recaptchaVerifierInstance.process().then(function() {
-    asyncTestCase.signal();
-  });
+  recaptchaVerifierInstance.process();
 }
 
 
@@ -506,7 +497,6 @@ function testHandleProviderSignIn_signInWithEmail_unregisteredPassAcct() {
     assertFalse(firebaseui.auth.storage.isRememberAccount(app.getAppId()));
     // Force UI shown callback should be set to false.
     assertFalse(firebaseui.auth.widget.handler.common.acForceUiShown_);
-    asyncTestCase.signal();
   });
 }
 
@@ -548,8 +538,7 @@ function testHandleProviderSignIn_acCallbacks_acInitialized() {
 
     // Cancel button clicked.
     goog.testing.events.fireClickSequence(
-        goog.dom.getElementByClass(
-            goog.getCssName('firebaseui-id-secondary-link'), container));
+        goog.dom.getElementByClass('firebaseui-id-secondary-link', container));
     // Should go back to provider sign-in page.
     assertProviderSignInPage();
     buttons = getIdpButtons();
@@ -575,7 +564,6 @@ function testHandleProviderSignIn_acCallbacks_acInitialized() {
     assertSignInPage();
     // Force UI shown callback should be set to false.
     assertFalse(firebaseui.auth.widget.handler.common.acForceUiShown_);
-    asyncTestCase.signal();
   });
 }
 
@@ -660,7 +648,6 @@ function testHandleProviderSignIn_acCallbacks_newPasswordAccount() {
       'accountChooserInvoked': accountChooserInvokedCallback
     }
   });
-  asyncTestCase.waitForSignals(1);
   // Render provider sign-in using previous config.
   setupProviderSignInPage('redirect', true);
   // Simulate password account selected from accountchooser.com.
@@ -677,7 +664,7 @@ function testHandleProviderSignIn_acCallbacks_newPasswordAccount() {
   testAuth.assertFetchProvidersForEmail(
       [passwordAccount.getEmail()],
       []);
-  testAuth.process().then(function() {
+  return testAuth.process().then(function() {
     // New password account should be treated as password sign up in
     // provider first display mode.
     assertPasswordSignUpPage();
@@ -689,7 +676,6 @@ function testHandleProviderSignIn_acCallbacks_newPasswordAccount() {
         goog.dom.forms.getValue(getNameElement()));
     // Force UI shown callback should be set to false.
     assertFalse(firebaseui.auth.widget.handler.common.acForceUiShown_);
-    asyncTestCase.signal();
   });
 }
 
@@ -709,7 +695,6 @@ function testHandleProviderSignIn_acCallbacks_existingFederatedAccount() {
       'accountChooserInvoked': accountChooserInvokedCallback
     }
   });
-  asyncTestCase.waitForSignals(1);
   // Render provider sign-in using previous config.
   setupProviderSignInPage('redirect', true);
   // Simulate existing federated account selected from accountchooser.com.
@@ -726,13 +711,12 @@ function testHandleProviderSignIn_acCallbacks_existingFederatedAccount() {
   testAuth.assertFetchProvidersForEmail(
       [federatedAccount.getEmail()],
       ['google.com']);
-  testAuth.process().then(function() {
+  return testAuth.process().then(function() {
     assertFederatedLinkingPage(federatedAccount.getEmail());
     assertTrue(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
     assertFalse(firebaseui.auth.storage.isRememberAccount(app.getAppId()));
     // Force UI shown callback should be set to false.
     assertFalse(firebaseui.auth.widget.handler.common.acForceUiShown_);
-    asyncTestCase.signal();
   });
 }
 
@@ -784,7 +768,6 @@ function testHandleProviderSignIn_signInWithEmail_registeredPassAcct() {
   app.setConfig({
     'signInOptions': signInOptionsWithScopes
   });
-  asyncTestCase.waitForSignals(1);
   // Render provider sign-in using previous config.
   setupProviderSignInPage('redirect', true);
   testAc.setSelectedAccount(passwordAccount);
@@ -793,7 +776,7 @@ function testHandleProviderSignIn_signInWithEmail_registeredPassAcct() {
   testAuth.assertFetchProvidersForEmail(
       [passwordAccount.getEmail()],
       ['password']);
-  testAuth.process().then(function() {
+  return testAuth.process().then(function() {
     assertPasswordSignInPage();
     assertEquals(
         passwordAccount.getEmail(), goog.dom.forms.getValue(getEmailElement()));
@@ -802,7 +785,6 @@ function testHandleProviderSignIn_signInWithEmail_registeredPassAcct() {
     assertFalse(firebaseui.auth.storage.isRememberAccount(app.getAppId()));
     // Force UI shown callback should be set to false.
     assertFalse(firebaseui.auth.widget.handler.common.acForceUiShown_);
-    asyncTestCase.signal();
   });
 }
 
@@ -817,7 +799,6 @@ function testHandleProviderSignIn_signInWithEmail_registeredFedAcct() {
   app.setConfig({
     'signInOptions': signInOptionsWithScopes,
   });
-  asyncTestCase.waitForSignals(1);
   // Render provider sign-in using previous config.
   setupProviderSignInPage('redirect', true);
   testAc.setSelectedAccount(federatedAccount);
@@ -826,11 +807,10 @@ function testHandleProviderSignIn_signInWithEmail_registeredFedAcct() {
   testAuth.assertFetchProvidersForEmail(
       [federatedAccount.getEmail()],
       ['google.com']);
-  testAuth.process().then(function() {
+  return testAuth.process().then(function() {
     assertFederatedLinkingPage(federatedAccount.getEmail());
     // Force UI shown callback should be set to false.
     assertFalse(firebaseui.auth.widget.handler.common.acForceUiShown_);
-    asyncTestCase.signal();
   });
 }
 
@@ -845,7 +825,6 @@ function testHandleProviderSignIn_signInWithEmail_error() {
   app.setConfig({
     'signInOptions': signInOptionsWithScopes,
   });
-  asyncTestCase.waitForSignals(1);
   // Render provider sign-in using previous config.
   setupProviderSignInPage('redirect', true);
   testAc.setSelectedAccount(federatedAccount);
@@ -854,7 +833,7 @@ function testHandleProviderSignIn_signInWithEmail_error() {
 
   testAuth.assertFetchProvidersForEmail(
       [federatedAccount.getEmail()], null, internalError);
-  testAuth.process().then(function() {
+  return testAuth.process().then(function() {
     // Unregistered federated account should be treated as password sign up in
     // provider first display mode.
     assertProviderSignInPage();
@@ -862,7 +841,6 @@ function testHandleProviderSignIn_signInWithEmail_error() {
         firebaseui.auth.widget.handler.common.getErrorMessage(internalError));
     // Force UI shown callback should be set to false.
     assertFalse(firebaseui.auth.widget.handler.common.acForceUiShown_);
-    asyncTestCase.signal();
   });
 }
 
@@ -930,7 +908,6 @@ function testHandleProviderSignIn_signInWithEmail_acInitialized() {
   app.setConfig({
     'signInOptions': signInOptionsWithScopes,
   });
-  asyncTestCase.waitForSignals(1);
   // Render provider sign-in using previous config.
   setupProviderSignInPage('redirect', true);
   // Simulate empty response from accountchooser.com click.
@@ -962,8 +939,7 @@ function testHandleProviderSignIn_signInWithEmail_acInitialized() {
 
     // Cancel button clicked.
     goog.testing.events.fireClickSequence(
-        goog.dom.getElementByClass(
-            goog.getCssName('firebaseui-id-secondary-link'), container));
+        goog.dom.getElementByClass('firebaseui-id-secondary-link', container));
 
     // Should go back to provider sign-in page.
     assertProviderSignInPage();
@@ -978,7 +954,6 @@ function testHandleProviderSignIn_signInWithEmail_acInitialized() {
     assertSignInPage();
     // Force UI shown callback should be set to false.
     assertFalse(firebaseui.auth.widget.handler.common.acForceUiShown_);
-    asyncTestCase.signal();
   });
 }
 
@@ -987,7 +962,8 @@ function testHandleProviderSignIn_signInWithIdp() {
   // Test provider sign-in handler when sign in with IdP clicked.
   // Add additional scopes to test that they are properly passed to the sign-in
   // method.
-  var expectedProvider = getExpectedProviderWithScopes();
+  var expectedProvider = getExpectedProviderWithScopes(
+      {'prompt': 'select_account'});
   // Render the provider sign-in page and confirm it was rendered correctly.
   setupProviderSignInPage('redirect');
   // Click the first button, which is sign in with Google button.
@@ -998,10 +974,94 @@ function testHandleProviderSignIn_signInWithIdp() {
 }
 
 
+function testHandleProviderSignIn_signInWithIdp_cordova() {
+  // Test provider sign-in handler when sign in with IdP clicked in a Cordova
+  // environment.
+  // Simulate a Cordova environment.
+  simulateCordovaEnvironment();
+  var cred  = firebaseui.auth.idp.getAuthCredential({
+    'providerId': 'google.com',
+    'accessToken': 'ACCESS_TOKEN'
+  });
+  // Add additional scopes to test that they are properly passed to the sign-in
+  // method.
+  var expectedProvider = getExpectedProviderWithScopes(
+      {'prompt': 'select_account'});
+  // Render the provider sign-in page and confirm it was rendered correctly.
+  setupProviderSignInPage('redirect');
+  // Click the first button, which is sign in with Google button.
+  goog.testing.events.fireClickSequence(buttons[0]);
+
+  testAuth.assertSignInWithRedirect([expectedProvider]);
+  return testAuth.process().then(function() {
+    testAuth.setUser({
+      'email': federatedAccount.getEmail(),
+      'displayName': federatedAccount.getDisplayName()
+    });
+    testAuth.assertGetRedirectResult(
+        [],
+        {
+          'user': testAuth.currentUser,
+          'credential': cred
+        });
+    return testAuth.process();
+  }).then(function() {
+    assertCallbackPage();
+    return testAuth.process();
+  }).then(function() {
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    externalAuth.setUser(testAuth.currentUser);
+    externalAuth.assertSignInWithCredential(
+        [cred], externalAuth.currentUser);
+    return externalAuth.process();
+  }).then(function() {
+    // Pending credential should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    // User should be redirected to success URL.
+    testUtil.assertGoTo('http://localhost/home');
+  });
+}
+
+
+function testHandleProviderSignIn_signInWithIdp_error_cordova() {
+  // Test provider sign-in handler when sign in with IdP clicked in a Cordova
+  // environment and an error occurs.
+  // Simulate a Cordova environment.
+  simulateCordovaEnvironment();
+  // Add additional scopes to test that they are properly passed to the sign-in
+  // method.
+  var expectedProvider = getExpectedProviderWithScopes(
+      {'prompt': 'select_account'});
+  // Render the provider sign-in page and confirm it was rendered correctly.
+  setupProviderSignInPage('redirect');
+  // Click the first button, which is sign in with Google button.
+  goog.testing.events.fireClickSequence(buttons[0]);
+
+  testAuth.assertSignInWithRedirect([expectedProvider]);
+  return testAuth.process().then(function() {
+    testAuth.assertGetRedirectResult(
+        [],
+        null,
+        internalError);
+    return testAuth.process();
+  }).then(function() {
+    // Provider sign in page should remain displayed.
+    assertProviderSignInPage();
+    // Confirm error message shown in info bar.
+    assertInfoBarMessage(
+        firebaseui.auth.widget.handler.common.getErrorMessage(internalError));
+  });
+}
+
+
 function testHandleProviderSignIn_signInWithIdp_error() {
   // Test provider sign-in handler when sign in with IdP clicked and
   // createAuthUri request returns an error.
-  var expectedProvider = getExpectedProviderWithScopes();
+  var expectedProvider = getExpectedProviderWithScopes(
+      {'prompt': 'select_account'});
   // Render the provider sign-in page and confirm it was rendered correctly.
   setupProviderSignInPage('redirect');
   // Click the first button, which is sign in with Google button.
@@ -1011,7 +1071,6 @@ function testHandleProviderSignIn_signInWithIdp_error() {
     // On error, show a message on info bar.
     assertInfoBarMessage(
         firebaseui.auth.widget.handler.common.getErrorMessage(internalError));
-    asyncTestCase.signal();
   });
 }
 
@@ -1129,7 +1188,6 @@ function testHandleProviderSignIn_accountChooserSelect_appChange() {
   goog.dom.forms.setValue(emailInput, 'user@example.com');
   goog.testing.events.fireKeySequence(emailInput, goog.events.KeyCodes.ENTER);
 
-  asyncTestCase.waitForSignals(1);
   testAuth2.assertFetchProvidersForEmail(
       ['user@example.com'],
       ['password']);
@@ -1143,6 +1201,5 @@ function testHandleProviderSignIn_accountChooserSelect_appChange() {
     // Uninstall internal and external auth instances.
     app2.getAuth().uninstall();
     app2.getExternalAuth().uninstall();
-    asyncTestCase.signal();
   });
 }

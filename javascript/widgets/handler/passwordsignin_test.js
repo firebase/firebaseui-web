@@ -120,8 +120,7 @@ function testHandlePasswordSignIn_forgotPassword() {
       app, container, passwordAccount.getEmail());
   assertPasswordSignInPage();
   goog.testing.events.fireClickSequence(
-      goog.dom.getElementByClass(
-          goog.getCssName('firebaseui-id-secondary-link'), container));
+      goog.dom.getElementByClass('firebaseui-id-secondary-link', container));
   assertPasswordRecoveryPage();
 }
 

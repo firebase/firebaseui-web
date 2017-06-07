@@ -18,7 +18,6 @@
 
 goog.provide('firebaseui.auth.ui.page.PhoneSignInStart');
 
-goog.require('firebaseui.auth.PhoneNumber');
 goog.require('firebaseui.auth.soy2.page');
 goog.require('firebaseui.auth.ui.element');
 goog.require('firebaseui.auth.ui.element.form');
@@ -36,8 +35,9 @@ goog.require('goog.dom.selection');
  * @param {function(?)} onCancelClick Callback to invoke when cancel button
  *     is clicked.
  * @param {boolean} enableVisibleRecaptcha Whether to enable visible reCAPTCHA.
- * @param {?firebaseui.auth.PhoneNumber=} opt_phoneNumberValue
- *     The value of the phone number input to prefill.
+ * @param {?string=} opt_countryId The ID (e164_key) of the country to
+ *     pre-select.
+ * @param {?string=} opt_nationalNumber The national number to pre-fill.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @constructor
  * @extends {firebaseui.auth.ui.page.Base}
@@ -46,10 +46,10 @@ firebaseui.auth.ui.page.PhoneSignInStart = function(
     onSubmitClick,
     onCancelClick,
     enableVisibleRecaptcha,
-    opt_phoneNumberValue,
+    opt_countryId,
+    opt_nationalNumber,
     opt_domHelper) {
-  var nationalNumber = opt_phoneNumberValue &&
-      opt_phoneNumberValue.nationalNumber || null;
+  var nationalNumber = opt_nationalNumber || null;
   firebaseui.auth.ui.page.PhoneSignInStart.base(
       this,
       'constructor',
@@ -61,8 +61,7 @@ firebaseui.auth.ui.page.PhoneSignInStart = function(
       opt_domHelper,
       'phoneSignInStart');
   /** @private @const {?string} The default country to select. */
-  this.countryId_ = opt_phoneNumberValue &&
-      opt_phoneNumberValue.countryId || null;
+  this.countryId_ = opt_countryId || null;
   /** @private {boolean} Whether to enable visible reCAPTCHA. */
   this.enableVisibleRecaptcha_ = enableVisibleRecaptcha;
   /** @private {?function(?)} On submit click callback. */

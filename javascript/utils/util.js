@@ -35,6 +35,19 @@ firebaseui.auth.util.goTo = function(url) {
 };
 
 
+/** @return {?string} The current URL scheme. */
+firebaseui.auth.util.getScheme = function() {
+  return window.location && window.location.protocol;
+};
+
+
+/** @return {boolean} Whether current scheme is HTTP or HTTPS. */
+firebaseui.auth.util.isHttpOrHttps = function() {
+  return firebaseui.auth.util.getScheme() === 'http:' ||
+      firebaseui.auth.util.getScheme() === 'https:';
+};
+
+
 /**
  * Navigates to the previous page.
  * It simply wraps the window.history.back and is meant for testing since

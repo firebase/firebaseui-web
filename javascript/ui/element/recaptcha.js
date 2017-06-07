@@ -32,8 +32,7 @@ var element = firebaseui.auth.ui.element;
 element.recaptcha.getRecaptchaErrorElement = function() {
   // Listener needs to be set on grecaptcha callback to hide this error when
   // triggered.
-  return this.getElementByClass(
-      goog.getCssName('firebaseui-id-recaptcha-error'));
+  return this.getElementByClass('firebaseui-id-recaptcha-error');
 };
 
 
@@ -43,7 +42,6 @@ element.recaptcha.getRecaptchaErrorElement = function() {
  * @this {goog.ui.Component}
  */
 element.recaptcha.getRecaptchaElement = function() {
-  return this.getElementByClass(
-      goog.getCssName('firebaseui-recaptcha-container'));
+  return this.getElementByClass('firebaseui-recaptcha-container');
 };
 });

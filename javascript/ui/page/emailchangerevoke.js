@@ -90,8 +90,7 @@ firebaseui.auth.ui.page.EmailChangeRevoke.prototype.disposeInternal =
  */
 firebaseui.auth.ui.page.EmailChangeRevoke.prototype.getResetPasswordElement =
     function() {
-  return this.getElementByClass(
-      goog.getCssName('firebaseui-id-reset-password-link'));
+  return this.getElementByClass('firebaseui-id-reset-password-link');
 };
 
 

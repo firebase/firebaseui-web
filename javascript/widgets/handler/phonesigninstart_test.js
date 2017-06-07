@@ -115,6 +115,9 @@ function testHandlePhoneSignInStart_visible() {
     mockClock.tick(firebaseui.auth.widget.handler.SENDING_SUCCESS_DIALOG_DELAY);
     assertNoDialog();
     assertPhoneSignInFinishPage();
+    // Assert countdown matches delay param.
+    assertResendCountdown('0:' +
+        firebaseui.auth.widget.handler.RESEND_DELAY_SECONDS);
     // Simulate correct code provided.
     goog.dom.forms.setValue(getPhoneConfirmationCodeElement(), '123456');
     // Submit form.
@@ -310,7 +313,7 @@ function testHandlePhoneSignInStart_prefill() {
     var callback = recaptchaVerifierInstance.getParameters()['callback'];
     callback('RECAPTCHA_TOKEN');
 
-    // Submit the form. It should succeed because a phone numbver is pre-filled.
+    // Submit the form. It should succeed because a phone number is pre-filled.
     submitForm();
 
     // Loading dialog shown.
@@ -328,6 +331,85 @@ function testHandlePhoneSignInStart_prefill() {
     mockClock.tick(firebaseui.auth.widget.handler.SENDING_SUCCESS_DIALOG_DELAY);
     assertNoDialog();
     assertPhoneSignInFinishPage();
+  });
+}
+
+
+function testHandlePhoneSignInStart_defaultCountry() {
+  // Set the default country to the UK.
+  app.setConfig({
+    'signInOptions': [{
+      'provider': 'phone',
+      'defaultCountry': 'gb'
+    }]
+  });
+  firebaseui.auth.widget.handler.handlePhoneSignInStart(app, container);
+  assertPhoneSignInStartPage();
+
+  // The widget should be populated with the correct country, but the national
+  // number input should still be empty.
+  assertEquals('\u200e+44', getPhoneCountrySelectorElement().textContent);
+  assertEquals('', getPhoneInputElement().value);
+
+  recaptchaVerifierInstance.assertInitializedWithParameters(
+      getRecaptchaElement(), {}, app.getExternalAuth().app);
+  recaptchaVerifierInstance.assertRender([], 0);
+  return recaptchaVerifierInstance.process().then(function() {
+    var callback = recaptchaVerifierInstance.getParameters()['callback'];
+    callback('RECAPTCHA_TOKEN');
+
+    // Enter a phone number.
+    goog.dom.forms.setValue(getPhoneNumberElement(), '1234567890');
+
+    // Submit the form.
+    submitForm();
+
+    // Sign in with phone number should be triggered with the correct country
+    // code.
+    externalAuth.assertSignInWithPhoneNumber(
+        ['+441234567890', recaptchaVerifierInstance],
+        mockConfirmationResult);
+    return externalAuth.process();
+  });
+}
+
+
+function testHandlePhoneSignInStart_defaultAndPrefill() {
+  // Tests a flow with a prefilled phone number. This should take precedence
+  // over the default country.
+  var phoneNumberValue = new firebaseui.auth.PhoneNumber(
+      '45-DK-0', '1234567890');
+  // Set the default country to the UK.
+  app.setConfig({
+    'signInOptions': [{
+      'provider': 'phone',
+      'defaultCountry': 'gb'
+    }]
+  });
+  firebaseui.auth.widget.handler.handlePhoneSignInStart(
+      app, container, phoneNumberValue);
+  assertPhoneSignInStartPage();
+
+  // The widget should show Denmark, not the UK.
+  assertEquals('\u200e+45', getPhoneCountrySelectorElement().textContent);
+  assertEquals(phoneNumberValue.nationalNumber, getPhoneInputElement().value);
+
+  recaptchaVerifierInstance.assertInitializedWithParameters(
+      getRecaptchaElement(), {}, app.getExternalAuth().app);
+  recaptchaVerifierInstance.assertRender([], 0);
+  return recaptchaVerifierInstance.process().then(function() {
+    var callback = recaptchaVerifierInstance.getParameters()['callback'];
+    callback('RECAPTCHA_TOKEN');
+
+    // Submit the form. It should succeed because a phone number is pre-filled.
+    submitForm();
+
+    // Sign in with phone number should be triggered with the correct country
+    // code.
+    externalAuth.assertSignInWithPhoneNumber(
+        ['+451234567890', recaptchaVerifierInstance],
+        mockConfirmationResult);
+    return externalAuth.process();
   });
 }
 

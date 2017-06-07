@@ -171,8 +171,7 @@ function testHandlePasswordSignUp_cancel_providerFirst() {
       app, container, passwordAccount.getEmail());
   assertPasswordSignUpPage();
   goog.testing.events.fireClickSequence(
-      goog.dom.getElementByClass(
-          goog.getCssName('firebaseui-id-secondary-link'), container));
+      goog.dom.getElementByClass('firebaseui-id-secondary-link', container));
   // Provider sign-in page should show.
   assertProviderSignInPage();
 }

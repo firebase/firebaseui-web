@@ -47,7 +47,7 @@ in the `config.js` file.
 
 ## Deploy
 
-### Option 1: Compile and use local FirebaseUI files  
+### Option 1: Compile and use local FirebaseUI files
 
 To deploy the demo app, run the following command in the root directory of FirebaseUI (use `cd ..`
 first if you are still in the `demo/` folder):
@@ -61,7 +61,7 @@ This will compile all the files needed to run FirebaseUI, and start a Firebase s
 
 ### Option 2: Use CDN hosted FirebaseUI files
 
-If you would prefer to use a CDN instead of locally compiled FirebaseUI files, you can instead 
+If you would prefer to use a CDN instead of locally compiled FirebaseUI files, you can instead
 locate the following in the `<head>` tag of `public/index.html` and `public/widget.html`:
 
 ```html
@@ -73,7 +73,7 @@ Then replace that with the snippet provided in the CDN installation section foun
 [https://github.com/firebase/firebaseui-web/blob/master/README.md](https://github.com/firebase/firebaseui-web/blob/master/README.md).
 
 Finally, ensure you are in the `demo/` folder (and not the root directory of FirebaseUI), and run:
-```bash 
+```bash
 firebase serve
 ```
 

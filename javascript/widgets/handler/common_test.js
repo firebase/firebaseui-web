@@ -1672,3 +1672,29 @@ function testIsPasswordProviderOnly_singleFederatedProvider() {
   assertFalse(
       firebaseui.auth.widget.handler.common.isPasswordProviderOnly(app));
 }
+
+
+function testIsPhoneProviderOnly() {
+  // True if single, phone provider given
+  app.updateConfig(
+      'signInOptions', [firebase.auth.PhoneAuthProvider.PROVIDER_ID]);
+  assertTrue(firebaseui.auth.widget.handler.common.isPhoneProviderOnly(app));
+}
+
+
+function testIsPhoneProviderOnly_singleFederatedProvider() {
+  // False if phone provider not given
+  app.updateConfig(
+      'signInOptions', [firebase.auth.GoogleAuthProvider.PROVIDER_ID]);
+  assertFalse(firebaseui.auth.widget.handler.common.isPhoneProviderOnly(app));
+}
+
+
+function testIsPhoneProviderOnly_multipleProviders() {
+  // False if multiple providers given
+  app.updateConfig('signInOptions', [
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+    firebase.auth.PhoneAuthProvider.PROVIDER_ID
+  ]);
+  assertFalse(firebaseui.auth.widget.handler.common.isPhoneProviderOnly(app));
+}

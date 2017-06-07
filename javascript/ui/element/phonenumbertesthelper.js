@@ -122,6 +122,99 @@ element.PhoneNumberTestHelper.prototype.testOnTextChangedClearError_ =
 
 
 /** @private */
+element.PhoneNumberTestHelper.prototype.testOnCodeInputWithNationalNumber_ =
+    function() {
+  var result;
+  var phoneNumber = this.component.getPhoneNumberElement();
+  var countrySelector = this.getCountrySelectorElement_();
+
+  // Emulate that a '+1' is typed in to the phone number input. Make sure
+  // US is country selected.
+  goog.dom.forms.setValue(phoneNumber, '+1');
+  this.fireInputEvent(phoneNumber, goog.events.KeyCodes.PLUS_SIGN);
+  this.fireInputEvent(phoneNumber, goog.events.KeyCodes.NUM_ONE);
+  // The button content and icon should reflect US country code.
+  assertEquals('\u200e+1', countrySelector.textContent);
+  assertTrue(goog.dom.classlist.contains(this.getCountrySelectorFlagElement_(),
+      'firebaseui-flag-US'));
+
+  // Change to +45 another code
+  goog.dom.forms.setValue(phoneNumber, '+');
+  this.fireInputEvent(phoneNumber, goog.events.KeyCodes.PLUS_SIGN);
+  // US should still be selected.
+  assertEquals('\u200e+1', countrySelector.textContent);
+  // Simulate number 4 pressed.
+  goog.dom.forms.setValue(phoneNumber, '+4');
+  this.fireInputEvent(phoneNumber, goog.events.KeyCodes.NUM_FOUR);
+  // US should still be selected.
+  assertEquals('\u200e+1', countrySelector.textContent);
+  // Simulate number 5 pressed.
+  goog.dom.forms.setValue(phoneNumber, '+45');
+  this.fireInputEvent(phoneNumber, goog.events.KeyCodes.NUM_FIVE);
+  // Denmark should be selected.
+  assertEquals('\u200e+45', countrySelector.textContent);
+  assertTrue(goog.dom.classlist.contains(this.getCountrySelectorFlagElement_(),
+      'firebaseui-flag-DK'));
+  goog.dom.forms.setValue(phoneNumber, '+4560123456');
+  // Confirm expected value returned for getPhoneNumberValue.
+  result = this.component.getPhoneNumberValue();
+  assertEquals('+4560123456', result.getPhoneNumber());
+  assertEquals('60123456', result.nationalNumber);
+  assertEquals('45-DK-0', result.countryId);
+
+  // Simulate user selected another country from the drop down list. The country
+  // code in the national number should be updated.
+  goog.testing.events.fireClickSequence(countrySelector);
+  // Check that the France button is there, and click it.
+  var franceButton = this.getDialogButtonContainingText_('France');
+  assertNotNull(franceButton);
+  assertEquals('France \u200e+33', franceButton.textContent);
+  goog.testing.events.fireClickSequence(franceButton);
+  // France should be selected.
+  assertEquals('\u200e+33', countrySelector.textContent);
+  assertTrue(goog.dom.classlist.contains(this.getCountrySelectorFlagElement_(),
+      'firebaseui-flag-FR'));
+  // Value should be updated in the national number input field.
+  assertEquals('+3360123456', phoneNumber.value);
+  // Confirm expected French phone number.
+  result = this.component.getPhoneNumberValue();
+  assertEquals('+3360123456', result.getPhoneNumber());
+  assertEquals('60123456', result.nationalNumber);
+  assertEquals('33-FR-0', result.countryId);
+
+  // Change back to +1, US should be selected.
+  goog.dom.forms.setValue(phoneNumber, '+');
+  this.fireInputEvent(phoneNumber, goog.events.KeyCodes.PLUS_SIGN);
+  // France should still be selected.
+  assertEquals('\u200e+33', countrySelector.textContent);
+  goog.dom.forms.setValue(phoneNumber, '+1');
+  this.fireInputEvent(phoneNumber, goog.events.KeyCodes.NUM_ONE);
+  // The button content and icon should reflect US country code.
+  assertEquals('\u200e+1', countrySelector.textContent);
+  assertTrue(goog.dom.classlist.contains(this.getCountrySelectorFlagElement_(),
+      'firebaseui-flag-US'));
+
+  // Manually change country selector to Canada.
+  goog.dom.forms.setValue(phoneNumber, '');
+  goog.testing.events.fireClickSequence(countrySelector);
+  // Check that the Canada button is there, and click it.
+  var canadaButton = this.getDialogButtonContainingText_('Canada');
+  assertNotNull(canadaButton);
+  assertEquals('Canada \u200e+1', canadaButton.textContent);
+  goog.testing.events.fireClickSequence(canadaButton);
+  // Simulate +1 entered. Canada should still be selected.
+  goog.dom.forms.setValue(phoneNumber, '+');
+  this.fireInputEvent(phoneNumber, goog.events.KeyCodes.PLUS_SIGN);
+  goog.dom.forms.setValue(phoneNumber, '+1');
+  this.fireInputEvent(phoneNumber, goog.events.KeyCodes.NUM_ONE);
+  // The button content and icon should reflect CA country code.
+  assertEquals('\u200e+1', countrySelector.textContent);
+  assertTrue(goog.dom.classlist.contains(this.getCountrySelectorFlagElement_(),
+      'firebaseui-flag-CA'));
+};
+
+
+/** @private */
 element.PhoneNumberTestHelper.prototype.testChangeCountry_ =
     function() {
   var nationalNumber = '6505550101';
@@ -156,7 +249,7 @@ element.PhoneNumberTestHelper.prototype.testChangeCountry_ =
 
   // Now, change the country to France.
   // Open the country selector.
-  var countrySelector = this.getCountrySelectorElement_();
+  countrySelector = this.getCountrySelectorElement_();
   goog.testing.events.fireClickSequence(countrySelector);
   // Check that the France button is there, and click it.
   var franceButton = this.getDialogButtonContainingText_('France');
@@ -187,8 +280,7 @@ element.PhoneNumberTestHelper.prototype.testChangeCountry_ =
  */
 element.PhoneNumberTestHelper.prototype.getCountrySelectorElement_ =
     function() {
-  return this.component.getElementByClass(
-      goog.getCssName('firebaseui-id-country-selector'));
+  return this.component.getElementByClass('firebaseui-id-country-selector');
 };
 
 
@@ -199,7 +291,7 @@ element.PhoneNumberTestHelper.prototype.getCountrySelectorElement_ =
 element.PhoneNumberTestHelper.prototype.getCountrySelectorFlagElement_ =
     function() {
   return this.component.getElementByClass(
-      goog.getCssName('firebaseui-id-country-selector-flag'));
+      'firebaseui-id-country-selector-flag');
 };
 
 

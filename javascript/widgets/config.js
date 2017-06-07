@@ -21,6 +21,7 @@ goog.provide('firebaseui.auth.callback.signInSuccess');
 goog.provide('firebaseui.auth.widget.Config');
 
 goog.require('firebaseui.auth.Config');
+goog.require('firebaseui.auth.data.country');
 goog.require('firebaseui.auth.idp');
 goog.require('firebaseui.auth.log');
 goog.require('firebaseui.auth.util');
@@ -238,6 +239,28 @@ firebaseui.auth.widget.Config.prototype.getSignInOptions_ = function() {
 
 
 /**
+ * Returns the normalized signInOptions for the specified provider.
+ *
+ * @param {string} providerId The provider id whose signInOptions are to be
+ *     returned.
+ * @return {?Object} The normalized sign-in options for the specified provider.
+ * @private
+ */
+firebaseui.auth.widget.Config.prototype.getSignInOptionsForProvider_ =
+    function(providerId) {
+  var signInOptions = this.getSignInOptions_();
+  // For each sign-in option.
+  for (var i = 0; i < signInOptions.length; i++) {
+    // Check if current option matches provider ID.
+    if (signInOptions[i]['provider'] === providerId) {
+      return signInOptions[i];
+    }
+  }
+  return null;
+};
+
+
+/**
  * @return {!Array<string>} The list of supported IdPs including password
  *     special IdP.
  */
@@ -255,6 +278,7 @@ firebaseui.auth.widget.Config.prototype.getProviders = function() {
 firebaseui.auth.widget.Config.prototype.getRecaptchaParameters = function() {
   var recaptchaParameters = null;
   goog.array.forEach(this.getSignInOptions_(), function(option) {
+    // TODO(bojeil): remove after this API is added to externs.
     if (option['provider'] ==
         firebase.auth['PhoneAuthProvider']['PROVIDER_ID'] &&
         // Confirm valid object.
@@ -289,21 +313,59 @@ firebaseui.auth.widget.Config.prototype.getRecaptchaParameters = function() {
 
 
 /**
- * @param {!string} providerId The provider id whose additional scopes are to be
+ * @param {string} providerId The provider id whose additional scopes are to be
  *     returned.
  * @return {!Array<string>} The list of additional scopes for specified
  *     provider.
  */
 firebaseui.auth.widget.Config.prototype.getProviderAdditionalScopes =
     function(providerId) {
-  var signInOptions = this.getSignInOptions_();
-  for (var i = 0; i < signInOptions.length; i++) {
-    if (signInOptions[i]['provider'] === providerId) {
-      var scopes = signInOptions[i]['scopes'];
-      return goog.isArray(scopes) ? scopes : [];
+  // Get provided sign-in options for specified provider.
+  var signInOptions = this.getSignInOptionsForProvider_(providerId);
+  var scopes = signInOptions && signInOptions['scopes'];
+  return goog.isArray(scopes) ? scopes : [];
+};
+
+
+/**
+ * @param {string} providerId The provider id whose custom parameters are to be
+ *     returned.
+ * @return {?Object} The custom parameters for the current provider.
+ */
+firebaseui.auth.widget.Config.prototype.getProviderCustomParameters =
+    function(providerId) {
+  // Get provided sign-in options for specified provider.
+  var signInOptions = this.getSignInOptionsForProvider_(providerId);
+  // Get customParameters for that provider if available.
+  var customParameters = signInOptions && signInOptions['customParameters'];
+  // Custom parameters must be an object.
+  if (goog.isObject(customParameters)) {
+    // Clone original custom parameters.
+    var clonedCustomParameters = goog.object.clone(customParameters);
+    // Delete login_hint from provider (only Google supports it) as it could
+    // break the flow.
+    if (providerId === firebase.auth.GoogleAuthProvider.PROVIDER_ID) {
+      delete clonedCustomParameters['login_hint'];
     }
+    return clonedCustomParameters;
   }
-  return [];
+  return null;
+};
+
+
+/**
+ * Returns the default country to select for phone authentication.
+ * @return {?firebaseui.auth.data.country.Country} The default country, or null
+ *     if phone auth is not enabled or the country is not found.
+ */
+firebaseui.auth.widget.Config.prototype.getPhoneAuthDefaultCountry =
+    function() {
+  var signInOptions = this.getSignInOptionsForProvider_(
+      firebase.auth.PhoneAuthProvider.PROVIDER_ID);
+  var iso2 = signInOptions && signInOptions['defaultCountry'] || null;
+  var countries = iso2 && firebaseui.auth.data.country.getCountriesByIso2(iso2);
+  // If there are multiple entries, pick the first one.
+  return countries && countries[0] || null;
 };
 
 
@@ -340,14 +402,13 @@ firebaseui.auth.widget.Config.prototype.getTosUrl = function() {
  * Defaults to true.
  */
 firebaseui.auth.widget.Config.prototype.isDisplayNameRequired = function() {
-  var signInOptions = this.getSignInOptions_();
+  // Get provided sign-in options for specified provider.
+  var signInOptions = this.getSignInOptionsForProvider_(
+      firebase.auth.EmailAuthProvider.PROVIDER_ID);
 
-  for (var i = 0; i < signInOptions.length; i++) {
-    if (signInOptions[i]['provider'] ==
-        firebase.auth.EmailAuthProvider.PROVIDER_ID &&
-        typeof signInOptions[i]['requireDisplayName'] !== 'undefined') {
-      return /** @type {boolean} */ (!!signInOptions[i]['requireDisplayName']);
-    }
+  if (signInOptions &&
+      typeof signInOptions['requireDisplayName'] !== 'undefined') {
+    return /** @type {boolean} */ (!!signInOptions['requireDisplayName']);
   }
   return true;
 };
@@ -466,6 +527,13 @@ firebaseui.auth.widget.Config.prototype.isAccountChooserEnabled = function() {
  * @return {!firebaseui.auth.CredentialHelper} The credential helper to use.
  */
 firebaseui.auth.widget.Config.prototype.getCredentialHelper = function() {
+  // Always use none for non http or https environment.
+  // This could change when we support other credential helpers. This is
+  // unlikely though as smartlock also checks the domain and will not work in
+  // such environments.
+  if (!firebaseui.auth.util.isHttpOrHttps()) {
+    return firebaseui.auth.CredentialHelper.NONE;
+  }
   var credentialHelper = this.config_.get('credentialHelper');
   // Make sure the credential helper is valid.
   for (var key in firebaseui.auth.CredentialHelper) {

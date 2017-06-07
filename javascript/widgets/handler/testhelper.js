@@ -1,15 +1,17 @@
 /*
  * Copyright 2016 Google Inc. All Rights Reserved.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 /**
@@ -25,6 +27,7 @@ goog.require('firebaseui.auth.CredentialHelper');
 goog.require('firebaseui.auth.OAuthResponse');
 goog.require('firebaseui.auth.callback.signInSuccess');
 goog.require('firebaseui.auth.idp');
+goog.require('firebaseui.auth.soy2.strings');
 goog.require('firebaseui.auth.testing.FakeAcClient');
 goog.require('firebaseui.auth.testing.FakeAppClient');
 goog.require('firebaseui.auth.testing.FakeUtil');
@@ -52,10 +55,7 @@ var federatedAccount = new firebaseui.auth.Account(
 var passwordIdToken = 'HEADER.eyJhdWQiOiAiY2xpZW50X2lkIiwgImVtYWlsIjogInVzZX' +
     'JAZXhhbXBsZS5jb20iLCAiaXNzIjogMTQwNDYzMzQ0MiwgImV4cCI6IDE1MDQ2MzM0NDJ9.' +
     'SIGNATURE';
-var passwordUser = {
-  email: 'user@example.com',
-  displayName: 'Password User'
-};
+var passwordUser = {email: 'user@example.com', displayName: 'Password User'};
 var federatedUserAccount = new firebaseui.auth.Account(
     'user@example.com', 'Federated User', null, 'google.com');
 var federatedUser = {
@@ -68,8 +68,8 @@ var federatedUser = {
     'providerId': 'google.com'
   }]
 };
-var passwordAccount = new firebaseui.auth.Account('user@example.com',
-    'Password User');
+var passwordAccount =
+    new firebaseui.auth.Account('user@example.com', 'Password User');
 
 var oauthAccessToken = 'access token';
 var oauthExpireIn = 3600;
@@ -77,7 +77,8 @@ var oauthAuthorizationCode = 'authorization code';
 var oauthResponse = /** @type {?firebaseui.auth.OAuthResponse} */ ({
   'oauthAccessToken': oauthAccessToken,
   'oauthExpireIn': oauthExpireIn,
-  'oauthAuthorizationCode': oauthAuthorizationCode});
+  'oauthAuthorizationCode': oauthAuthorizationCode
+});
 
 var internalError = {
   'code': 'auth/internal-error',
@@ -85,9 +86,9 @@ var internalError = {
 };
 var operationNotSupportedError = {
   'code': 'auth/operation-not-supported-in-this-environment',
-  'message':  'This operation is not supported in the environment this ' +
-  'application is running on. "location.protocol" must be http, https ' +
-  'or chrome-extension and web storage must be enabled.'
+  'message': 'This operation is not supported in the environment this ' +
+      'application is running on. "location.protocol" must be http, https ' +
+      'or chrome-extension and web storage must be enabled.'
 };
 
 var container;
@@ -109,13 +110,10 @@ var callbackStub = new goog.testing.PropertyReplacer();
 var signInOptionsWithScopes = [
   {
     'provider': 'google.com',
-    'scopes': ['googl1', 'googl2']
+    'scopes': ['googl1', 'googl2'],
+    'customParameters': {'prompt': 'select_account'}
   },
-  {
-    'provider': 'facebook.com',
-    'scopes': ['fb1', 'fb2']
-  },
-  'password'
+  {'provider': 'facebook.com', 'scopes': ['fb1', 'fb2']}, 'password'
 ];
 
 var testStubs = new goog.testing.PropertyReplacer();
@@ -185,26 +183,23 @@ function setUp() {
   firebaseui.auth.widget.handler.common.acForceUiShown_ = false;
   // For browsers that do not support CORS which rely on gapi for XHR, simulate
   // this capability so as to test XHR requests and responses properly.
-  testStubs.set(
-      firebaseui.auth.util,
-      function() {return true;});
+  testStubs.set(firebaseui.auth.util, function() {
+    return true;
+  });
   // Record accountchooser.com callback calls.
   accountChooserInvokedCallback = goog.testing.recordFunction();
   accountChooserResultCallback = goog.testing.recordFunction();
   // Just pass the credential object through for the test.
-  testStubs.replace(
-      firebaseui.auth.idp,
-      'getAuthCredential',
-      function(obj) {
-        return obj;
-      });
+  testStubs.replace(firebaseui.auth.idp, 'getAuthCredential', function(obj) {
+    return obj;
+  });
   // Build mock auth providers.
   firebase['auth'] = {};
   // Mock reCAPTCHA verifier.
   firebase.auth.RecaptchaVerifier = function(container, params, app) {
     // Install on initialization.
-    recaptchaVerifierInstance = new firebaseui.auth.testing.RecaptchaVerifier(
-        container, params, app);
+    recaptchaVerifierInstance =
+        new firebaseui.auth.testing.RecaptchaVerifier(container, params, app);
     recaptchaVerifierInstance.install();
     return recaptchaVerifierInstance;
   };
@@ -215,51 +210,41 @@ function setUp() {
     };
     firebase['auth'][firebaseui.auth.idp.AuthProviders[key]].PROVIDER_ID = key;
     if (key != 'twitter.com' && key != 'password') {
-      firebase['auth'][firebaseui.auth.idp.AuthProviders[key]].prototype
-          .addScope = function(scope) {
+      firebase['auth'][firebaseui.auth.idp.AuthProviders[key]]
+          .prototype.addScope = function(scope) {
         this.scopes.push(scope);
       };
     }
     if (key != 'password') {
       // Record setCustomParameters for all OAuth providers.
-      firebase['auth'][firebaseui.auth.idp.AuthProviders[key]].prototype
-          .setCustomParameters = function(customParameters) {
+      firebase['auth'][firebaseui.auth.idp.AuthProviders[key]]
+          .prototype.setCustomParameters = function(customParameters) {
         this.customParameters = customParameters;
       };
     }
   }
   // Initialize after getAuthCredential stub.
-  authCredential = firebaseui.auth.idp.getAuthCredential({
-    'accessToken': 'facebookAccessToken',
-    'providerId': 'facebook.com'
-  });
-  federatedCredential = firebaseui.auth.idp.getAuthCredential({
-    'accessToken': 'googleAccessToken',
-    'providerId': 'google.com'
-  });
+  authCredential = firebaseui.auth.idp.getAuthCredential(
+      {'accessToken': 'facebookAccessToken', 'providerId': 'facebook.com'});
+  federatedCredential = firebaseui.auth.idp.getAuthCredential(
+      {'accessToken': 'googleAccessToken', 'providerId': 'google.com'});
   // Simulate email auth provider credential.
   firebase['auth']['EmailAuthProvider'] =
       firebase['auth']['EmailAuthProvider'] || {};
-  firebase['auth']['EmailAuthProvider']['credential'] =
-      function(email, password) {
-        return {
-          'email': email,
-          'password': password,
-          'providerId': 'password'
-        };
-      };
-  getApp = function() {return app;};
+  firebase['auth']['EmailAuthProvider']['credential'] = function(
+      email, password) {
+    return {'email': email, 'password': password, 'providerId': 'password'};
+  };
+  getApp = function() {
+    return app;
+  };
   // Assume widget already rendered and AuthUI global reference set.
-  testStubs.replace(
-      firebaseui.auth.AuthUI,
-      'getAuthUi',
-      function() {
-        return app;
-      });
+  testStubs.replace(firebaseui.auth.AuthUI, 'getAuthUi', function() {
+    return app;
+  });
   // Simulate accountchooser.com loaded.
   testStubs.set(
-      firebaseui.auth.widget.handler.common,
-      'loadAccountchooserJs',
+      firebaseui.auth.widget.handler.common, 'loadAccountchooserJs',
       function(app, callback, opt_forceUiShownCallback) {
         firebaseui.auth.widget.handler.common.acForceUiShown_ =
             !!opt_forceUiShownCallback;
@@ -321,6 +306,17 @@ function simulateGrecaptchaLoaded(widgetId) {
 }
 
 
+/** Simulates a Cordova environment. */
+function simulateCordovaEnvironment() {
+  testStubs.replace(
+      firebaseui.auth.util,
+      'getScheme',
+      function() {
+        return 'file:';
+      });
+}
+
+
 /**
  * @param {?Object=} opt_customParameters The optional custom OAuth parameters
  *     to match if expected.
@@ -348,7 +344,7 @@ function getExpectedProviderWithScopes(opt_customParameters) {
  * @return {!Object} The expected provider with custom parameters and no scopes.
  */
 function getExpectedProviderWithCustomParameters(
-     providerId, opt_customParameters) {
+    providerId, opt_customParameters) {
   var expectedProvider = firebaseui.auth.idp.getAuthProvider(providerId);
   // Set custom parameters if provided on the expected provider.
   if (opt_customParameters) {
@@ -362,8 +358,7 @@ function getExpectedProviderWithCustomParameters(
  * Submits form on current page.
  */
 function submitForm() {
-  var submit = goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-id-submit'), container);
+  var submit = goog.dom.getElementByClass('firebaseui-id-submit', container);
   goog.testing.events.fireClickSequence(submit);
 }
 
@@ -372,8 +367,7 @@ function submitForm() {
  * Submits form on current page with an ENTER key action.
  */
 function submitFormWithEnterAction() {
-  var submit = goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-id-submit'), container);
+  var submit = goog.dom.getElementByClass('firebaseui-id-submit', container);
   goog.testing.events.fireKeySequence(submit, goog.events.KeyCodes.ENTER);
 }
 
@@ -383,8 +377,17 @@ function submitFormWithEnterAction() {
  */
 function clickChangePhoneNumberLink() {
   var changePhoneNumberLink = goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-id-change-phone-number-link'), container);
+      'firebaseui-id-change-phone-number-link', container);
   goog.testing.events.fireClickSequence(changePhoneNumberLink);
+}
+
+
+/**
+ * Triggers a click on the resend link.
+ */
+function clickResendLink() {
+  var el = goog.dom.getElementByClass('firebaseui-id-resend-link', container);
+  goog.testing.events.fireClickSequence(el);
 }
 
 
@@ -392,16 +395,15 @@ function clickChangePhoneNumberLink() {
  * Triggers a click on the secondary link element.
  */
 function clickSecondaryLink() {
-  var secondaryLink = goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-id-secondary-link'), container);
+  var secondaryLink =
+      goog.dom.getElementByClass('firebaseui-id-secondary-link', container);
   goog.testing.events.fireClickSequence(secondaryLink);
 }
 
 
 /** @return {?Element} The email element on the current page. */
 function getEmailElement() {
-  return goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-id-email'), container);
+  return goog.dom.getElementByClass('firebaseui-id-email', container);
 }
 
 
@@ -411,108 +413,96 @@ function getEmailElement() {
  */
 function getPhoneCountrySelectorElement() {
   return goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-id-country-selector'), container);
+      'firebaseui-id-country-selector', container);
 }
 
 
 /** @return {?Element} The phone number input element on the current page. */
 function getPhoneInputElement() {
-  return goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-id-phone-number'), container);
+  return goog.dom.getElementByClass('firebaseui-id-phone-number', container);
 }
 
 
 /** @return {string} The content of the email error message. */
 function getEmailErrorMessage() {
-  var element = goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-id-email-error'), container);
-  assertFalse(goog.dom.classlist.contains(
-      element, goog.getCssName('firebaseui-hidden')));
+  var element =
+      goog.dom.getElementByClass('firebaseui-id-email-error', container);
+  assertFalse(goog.dom.classlist.contains(element, 'firebaseui-hidden'));
   return goog.dom.getTextContent(element);
 }
 
 
 /** @return {?Element} The arrow indicator element on the current page. */
 function getIndicatorElement() {
-  return goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-id-arrow-indicator'), container);
+  return goog.dom.getElementByClass('firebaseui-id-arrow-indicator', container);
 }
 
 
 function getProblemSignInLinkElement() {
-  return goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-id-problem-sign-in'), container);
+  return goog.dom.getElementByClass('firebaseui-id-problem-sign-in', container);
 }
 
 
 function getPasswordElement() {
-  return goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-id-password'), container);
+  return goog.dom.getElementByClass('firebaseui-id-password', container);
 }
 
 function getPasswordErrorMessage() {
-  var element = goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-id-password-error'), container);
-  assertFalse(goog.dom.classlist.contains(
-      element, goog.getCssName('firebaseui-hidden')));
+  var element =
+      goog.dom.getElementByClass('firebaseui-id-password-error', container);
+  assertFalse(goog.dom.classlist.contains(element, 'firebaseui-hidden'));
   return goog.dom.getTextContent(element);
 }
 
 
 function getNameElement() {
-  return goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-id-name'), container);
+  return goog.dom.getElementByClass('firebaseui-id-name', container);
 }
 
 
 function getNewPasswordElement() {
-  return goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-id-new-password'), container);
+  return goog.dom.getElementByClass('firebaseui-id-new-password', container);
 }
 
 
 function getNewPasswordErrorMessage() {
-  var element = goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-id-new-password-error'), container);
-  assertFalse(goog.dom.classlist.contains(
-      element, goog.getCssName('firebaseui-hidden')));
+  var element =
+      goog.dom.getElementByClass('firebaseui-id-new-password-error', container);
+  assertFalse(goog.dom.classlist.contains(element, 'firebaseui-hidden'));
   return goog.dom.getTextContent(element);
 }
 
 
 function getIdpButtons() {
-  return goog.dom.getElementsByClass(
-      goog.getCssName('firebaseui-id-idp-button'), container);
+  return goog.dom.getElementsByClass('firebaseui-id-idp-button', container);
 }
 
 
 function getAccountChips() {
-  return goog.dom.getElementsByClass(
-      goog.getCssName('firebaseui-id-account-chip'), container);
+  return goog.dom.getElementsByClass('firebaseui-id-account-chip', container);
 }
 
 
 function getRemoveLinkedAccountsLinks() {
-  return goog.dom.getElementsByClass(
-      goog.getCssName('firebaseui-id-remove-idp'), container);
+  return goog.dom.getElementsByClass('firebaseui-id-remove-idp', container);
 }
 
 
 function getEmailInfoContainer() {
   return goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-id-email-info-container'), container);
+      'firebaseui-id-email-info-container', container);
 }
 
 
 function getPasswordInfoContainer() {
   return goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-id-password-info-container'), container);
+      'firebaseui-id-password-info-container', container);
 }
 
 
 function getLinkedAccountsContainer() {
   return goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-id-linked-accounts-container'), container);
+      'firebaseui-id-linked-accounts-container', container);
 }
 
 
@@ -520,8 +510,7 @@ function getLinkedAccountsContainer() {
  * @return {?Element} The submit button on the current page within container.
  */
 function getSubmitButton() {
-  return goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-id-submit'), container);
+  return goog.dom.getElementByClass('firebaseui-id-submit', container);
 }
 
 
@@ -530,7 +519,7 @@ function getSubmitButton() {
  */
 function getResetPasswordLinkElement() {
   return goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-id-reset-password-link'), container);
+      'firebaseui-id-reset-password-link', container);
 }
 
 
@@ -538,8 +527,7 @@ function getResetPasswordLinkElement() {
  * @return {?Element} The phone element in the container.
  */
 function getPhoneNumberElement() {
-  return goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-id-phone-number'), container);
+  return goog.dom.getElementByClass('firebaseui-id-phone-number', container);
 }
 
 
@@ -548,26 +536,24 @@ function getPhoneNumberElement() {
  */
 function getRecaptchaElement() {
   return goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-recaptcha-container'), container);
+      'firebaseui-recaptcha-container', container);
 }
 
 
 /** @return {?string} The phone number error message. */
 function getPhoneNumberErrorMessage() {
-  var element = goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-id-phone-number-error'), container);
-  assertFalse(goog.dom.classlist.contains(
-      element, goog.getCssName('firebaseui-hidden')));
+  var element =
+      goog.dom.getElementByClass('firebaseui-id-phone-number-error', container);
+  assertFalse(goog.dom.classlist.contains(element, 'firebaseui-hidden'));
   return goog.dom.getTextContent(element);
 }
 
 
 /** @return {?string} The reCAPTCHA error message. */
 function getRecaptchaErrorMessage() {
-  var element = goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-id-recaptcha-error'), container);
-  assertFalse(goog.dom.classlist.contains(
-      element, goog.getCssName('firebaseui-hidden')));
+  var element =
+      goog.dom.getElementByClass('firebaseui-id-recaptcha-error', container);
+  assertFalse(goog.dom.classlist.contains(element, 'firebaseui-hidden'));
   return goog.dom.getTextContent(element);
 }
 
@@ -575,17 +561,15 @@ function getRecaptchaErrorMessage() {
 /** @return {?Element} The confirmation code element in the container. */
 function getPhoneConfirmationCodeElement() {
   return goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-id-phone-confirmation-code'), container);
+      'firebaseui-id-phone-confirmation-code', container);
 }
 
 
 /** @return {?string} The phone code verification error message. */
 function getPhoneConfirmationCodeErrorMessage() {
   var element = goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-id-phone-confirmation-code-error'),
-      container);
-  assertFalse(goog.dom.classlist.contains(
-      element, goog.getCssName('firebaseui-hidden')));
+      'firebaseui-id-phone-confirmation-code-error', container);
+  assertFalse(goog.dom.classlist.contains(element, 'firebaseui-hidden'));
   return goog.dom.getTextContent(element);
 }
 
@@ -599,7 +583,7 @@ function getPhoneConfirmationCodeErrorMessage() {
  */
 function assertInfoBarMessage(message, opt_component) {
   var element = goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-id-info-bar'),
+      'firebaseui-id-info-bar',
       opt_component ? opt_component.getContainer() : container);
   assertContains(message, goog.dom.getTextContent(element));
 }
@@ -607,8 +591,7 @@ function assertInfoBarMessage(message, opt_component) {
 
 /** Asserts that there is no info bar message currently displayed. */
 function assertNoInfoBarMessage() {
-  var element = goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-id-info-bar'), container);
+  var element = goog.dom.getElementByClass('firebaseui-id-info-bar', container);
   assertNull(element);
 }
 
@@ -619,21 +602,21 @@ function assertNoInfoBarMessage() {
  */
 function delayForBusyIndicatorAndAssertIndicatorShown() {
   mockClock.tick(500);
-  var element = goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-id-busy-indicator'), container);
+  var element =
+      goog.dom.getElementByClass('firebaseui-id-busy-indicator', container);
   assertNotNull(element);
 }
 
 
 function assertBusyIndicatorHidden() {
-  var element = goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-id-busy-indicator'), container);
+  var element =
+      goog.dom.getElementByClass('firebaseui-id-busy-indicator', container);
   assertNull(element);
 }
 
 
 function assertCallbackPage() {
-  assertPage_(container, goog.getCssName('firebaseui-id-page-callback'));
+  assertPage_(container, 'firebaseui-id-page-callback');
 }
 
 
@@ -642,8 +625,7 @@ function assertCallbackPage() {
  * @param {string} text Text that should be present in the page.
  */
 function assertPageContainsText(text) {
-  var element = goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-text'), container);
+  var element = goog.dom.getElementByClass('firebaseui-text', container);
   assertContains(text, goog.dom.getTextContent(element));
 }
 
@@ -655,8 +637,7 @@ function assertPageContainsText(text) {
  * @param {string=} opt_idpDisplayName Optional idp display name to check.
  */
 function assertPasswordLinkingPage(opt_email, opt_idpDisplayName) {
-  assertPage_(container,
-      goog.getCssName('firebaseui-id-page-password-linking'));
+  assertPage_(container, 'firebaseui-id-page-password-linking');
   if (opt_email) {
     assertPageContainsText(opt_email);
   }
@@ -672,8 +653,7 @@ function assertPasswordLinkingPage(opt_email, opt_idpDisplayName) {
  * @param {string=} opt_email Optional email to check.
  */
 function assertFederatedLinkingPage(opt_email) {
-  assertPage_(container,
-      goog.getCssName('firebaseui-id-page-federated-linking'));
+  assertPage_(container, 'firebaseui-id-page-federated-linking');
   if (opt_email) {
     assertPageContainsText(opt_email);
   }
@@ -681,130 +661,111 @@ function assertFederatedLinkingPage(opt_email) {
 
 
 function assertSignInPage() {
-  assertPage_(container, goog.getCssName('firebaseui-id-page-sign-in'));
+  assertPage_(container, 'firebaseui-id-page-sign-in');
 }
 
 
 function assertPasswordSignInPage() {
-  assertPage_(container,
-      goog.getCssName('firebaseui-id-page-password-sign-in'));
+  assertPage_(container, 'firebaseui-id-page-password-sign-in');
 }
 
 
 function assertPasswordSignUpPage() {
-  assertPage_(container,
-      goog.getCssName('firebaseui-id-page-password-sign-up'));
+  assertPage_(container, 'firebaseui-id-page-password-sign-up');
 }
 
 
 function assertPasswordRecoveryPage() {
-  assertPage_(container,
-      goog.getCssName('firebaseui-id-page-password-recovery'));
+  assertPage_(container, 'firebaseui-id-page-password-recovery');
 }
 
 
 function assertPasswordRecoveryEmailSentPage() {
-  assertPage_(
-      container,
-      goog.getCssName('firebaseui-id-page-password-recovery-email-sent'));
+  assertPage_(container, 'firebaseui-id-page-password-recovery-email-sent');
 }
 
 
 function assertPasswordResetPage() {
-  assertPage_(
-      container,
-      goog.getCssName('firebaseui-id-page-password-reset'));
+  assertPage_(container, 'firebaseui-id-page-password-reset');
 }
 
 
 /** Asserts that password reset success page is displayed. */
 function assertPasswordResetSuccessPage() {
-  assertPage_(
-      container,
-      goog.getCssName('firebaseui-id-page-password-reset-success'));
+  assertPage_(container, 'firebaseui-id-page-password-reset-success');
 }
 
 
 /** Asserts that password reset failure page is displayed. */
 function assertPasswordResetFailurePage() {
-  assertPage_(
-      container,
-      goog.getCssName('firebaseui-id-page-password-reset-failure'));
+  assertPage_(container, 'firebaseui-id-page-password-reset-failure');
 }
 
 
 /** Asserts that email change revocation success page is displayed. */
 function assertEmailChangeRevokeSuccessPage() {
-  assertPage_(container,
-      goog.getCssName('firebaseui-id-page-email-change-revoke-success'));
+  assertPage_(container, 'firebaseui-id-page-email-change-revoke-success');
 }
 
 
 /** Asserts that email change revocation failure page is displayed. */
 function assertEmailChangeRevokeFailurePage() {
-  assertPage_(container,
-      goog.getCssName('firebaseui-id-page-email-change-revoke-failure'));
+  assertPage_(container, 'firebaseui-id-page-email-change-revoke-failure');
 }
 
 
 function assertEmailVerificationSuccessPage() {
-  assertPage_(container,
-      goog.getCssName('firebaseui-id-page-email-verification-success'));
+  assertPage_(container, 'firebaseui-id-page-email-verification-success');
 }
 
 
 function assertEmailVerificationFailurePage() {
-  assertPage_(container,
-      goog.getCssName('firebaseui-id-page-email-verification-failure'));
+  assertPage_(container, 'firebaseui-id-page-email-verification-failure');
 }
 
 
 function assertSignInButtonPage() {
-  assertPage_(
-      container, goog.getCssName('firebaseui-id-page-sign-in-button'));
+  assertPage_(container, 'firebaseui-id-page-sign-in-button');
 }
 
 
 function assertUserCardPage() {
-  assertPage_(
-      container, goog.getCssName('firebaseui-id-page-user-card'));
+  assertPage_(container, 'firebaseui-id-page-user-card');
 }
 
 
 function assertEmailInfoPage(container) {
-  assertPage_(container, goog.getCssName('firebaseui-id-page-email-info'));
+  assertPage_(container, 'firebaseui-id-page-email-info');
 }
 
 
 function assertEmailChangePage(container) {
-  assertPage_(container, goog.getCssName('firebaseui-id-page-email-change'));
+  assertPage_(container, 'firebaseui-id-page-email-change');
 }
 
 
 function assertEmailChangeEmailSentPage(container) {
-  assertPage_(
-      container, goog.getCssName('firebaseui-id-page-email-change-email-sent'));
+  assertPage_(container, 'firebaseui-id-page-email-change-email-sent');
 }
 
 
 function assertPasswordInfoPage(container) {
-  assertPage_(container, goog.getCssName('firebaseui-id-page-password-info'));
+  assertPage_(container, 'firebaseui-id-page-password-info');
 }
 
 
 function assertPasswordChangePage(container) {
-  assertPage_(container, goog.getCssName('firebaseui-id-page-password-change'));
+  assertPage_(container, 'firebaseui-id-page-password-change');
 }
 
 
 function assertPasswordChangeSuccessPage(container) {
-  assertPage_(
-      container, goog.getCssName('firebaseui-id-page-password-change-success'));
+  assertPage_(container, 'firebaseui-id-page-password-change-success');
 }
 
 
 function assertLinkedAccountsPage(container) {
-  assertPage_(container, goog.getCssName('firebaseui-id-page-linked-accounts'));
+  assertPage_(container, 'firebaseui-id-page-linked-accounts');
 }
 
 
@@ -814,8 +775,7 @@ function assertLinkedAccountsPage(container) {
  * @param {!Element} container The html element container of widget.
  */
 function assertEmailChangeRevokeSuccess(container) {
-  assertPage_(container,
-      goog.getCssName('firebaseui-id-page-email-change-revoke-success'));
+  assertPage_(container, 'firebaseui-id-page-email-change-revoke-success');
 }
 
 
@@ -825,8 +785,7 @@ function assertEmailChangeRevokeSuccess(container) {
  * @param {!Element} container The html element container of widget.
  */
 function assertEmailChangeRevokeFailure(container) {
-  assertPage_(container,
-      goog.getCssName('firebaseui-id-page-email-change-revoke-failure'));
+  assertPage_(container, 'firebaseui-id-page-email-change-revoke-failure');
 }
 
 
@@ -840,10 +799,9 @@ function assertEmailMismatchPage(userEmail, pendingEmail) {
   // Constructed expected title message.
   var titleMessage = 'Continue with ' + userEmail + '?';
   // Asserts that email mismatch page is displayed.
-  assertPage_(container, goog.getCssName('firebaseui-id-page-email-mismatch'));
+  assertPage_(container, 'firebaseui-id-page-email-mismatch');
   // Ensures the correct subtitle and text are displayed.
-  var element = goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-subtitle'), container);
+  var element = goog.dom.getElementByClass('firebaseui-subtitle', container);
   assertContains(titleMessage, goog.dom.getTextContent(element));
   assertPageContainsText(pendingEmail);
 }
@@ -852,31 +810,25 @@ function assertEmailMismatchPage(userEmail, pendingEmail) {
 function assertEmailChangeVerifyPage(email) {
   // Asserts that email change verify page is rendered with the correct email
   // populated.
-  assertPage_(container,
-      goog.getCssName('firebaseui-id-page-email-change-verify'));
-  assertEquals(
-      email,
-      goog.dom.forms.getValue(getEmailElement()));
+  assertPage_(container, 'firebaseui-id-page-email-change-verify');
+  assertEquals(email, goog.dom.forms.getValue(getEmailElement()));
 }
 
 
 function assertProviderSignInPage() {
-  assertPage_(
-      container, goog.getCssName('firebaseui-id-page-provider-sign-in'));
+  assertPage_(container, 'firebaseui-id-page-provider-sign-in');
 }
 
 
 /** Asserts that the phone sign in start page is rendered. */
 function assertPhoneSignInStartPage() {
-  assertPage_(
-      container, goog.getCssName('firebaseui-id-page-phone-sign-in-start'));
+  assertPage_(container, 'firebaseui-id-page-phone-sign-in-start');
 }
 
 
 /** Asserts that the phone sign in code entry page is rendered. */
 function assertPhoneSignInFinishPage() {
-  assertPage_(
-      container, goog.getCssName('firebaseui-id-page-phone-sign-in-finish'));
+  assertPage_(container, 'firebaseui-id-page-phone-sign-in-finish');
 }
 
 
@@ -979,8 +931,7 @@ function assertUiShownCallbackNotInvoked() {
  * @param {string} errorMessage The error message to be asserted.
  */
 function assertUnrecoverableErrorPage(errorMessage) {
-  assertPage_(container,
-      goog.getCssName('firebaseui-id-page-unrecoverable-error'));
+  assertPage_(container, 'firebaseui-id-page-unrecoverable-error');
   assertPageContainsText(errorMessage);
 }
 
@@ -990,9 +941,7 @@ function assertUnrecoverableErrorPage(errorMessage) {
  * continue function passed.
  */
 function assertAndRunAccountChooserInvokedCallback() {
-  assertEquals(
-      1,
-      accountChooserInvokedCallback.getCallCount());
+  assertEquals(1, accountChooserInvokedCallback.getCallCount());
   var onContinue = accountChooserInvokedCallback.getLastCall().getArgument(0);
   // On continue should be passed.
   assertNotNull(onContinue);
@@ -1008,14 +957,25 @@ function assertAndRunAccountChooserInvokedCallback() {
  *     type to test for.
  */
 function assertAndRunAccountChooserResultCallback(type) {
-  assertEquals(
-      1,
-      accountChooserResultCallback.getCallCount());
-  assertEquals(
-      type,
-      accountChooserResultCallback.getLastCall().getArgument(0));
+  assertEquals(1, accountChooserResultCallback.getCallCount());
+  assertEquals(type, accountChooserResultCallback.getLastCall().getArgument(0));
   var onContinue = accountChooserResultCallback.getLastCall().getArgument(1);
   // On continue should be passed.
   assertNotNull(onContinue);
   onContinue();
+}
+
+
+/**
+ * Asserts the resend countdown indicates the given time remaining.
+ * @param {number} timeRemaining The time remaining.
+ */
+function assertResendCountdown(timeRemaining) {
+  var el =
+      goog.dom.getElementByClass('firebaseui-id-resend-countdown', container);
+  var expected = firebaseui.auth.soy2.strings
+                 .resendCountdown({timeRemaining: timeRemaining})
+                 .toString();
+  var actual = goog.dom.getTextContent(el);
+  assertEquals(expected, actual);
 }

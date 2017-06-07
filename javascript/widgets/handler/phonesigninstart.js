@@ -52,6 +52,15 @@ firebaseui.auth.widget.handler.handlePhoneSignInStart = function(
    */
   firebaseui.auth.widget.handler.enableVisibleRecaptcha_ =
       !(recaptchaParameters && recaptchaParameters['size'] === 'invisible');
+
+  // Set the default values for the phone number input, getting it first from
+  // the passed in parameters and second from the config.
+  var defaultCountry = app.getConfig().getPhoneAuthDefaultCountry();
+  var countryId = (opt_phoneNumberValue && opt_phoneNumberValue.countryId) ||
+      (defaultCountry && defaultCountry.e164_key) || null;
+  var nationalNumber = opt_phoneNumberValue &&
+      opt_phoneNumberValue.nationalNumber;
+
   // Render the phone sign in start page component.
   var component = new firebaseui.auth.ui.page.PhoneSignInStart(
       // On submit.
@@ -72,7 +81,8 @@ firebaseui.auth.widget.handler.handlePhoneSignInStart = function(
             app, container);
       },
       firebaseui.auth.widget.handler.enableVisibleRecaptcha_,
-      opt_phoneNumberValue);
+      countryId,
+      nationalNumber);
   component.render(container);
   // Set current UI component.
   app.setCurrentComponent(component);
@@ -152,6 +162,12 @@ firebaseui.auth.widget.handler.handlePhoneSignInStart = function(
  *     dialog on display before displaying the code entry page.
  */
 firebaseui.auth.widget.handler.SENDING_SUCCESS_DIALOG_DELAY = 1000;
+
+
+/**
+ * @const {number} The delay before enabling resend.
+ */
+firebaseui.auth.widget.handler.RESEND_DELAY_SECONDS = 15;
 
 
 /**
@@ -236,6 +252,7 @@ firebaseui.auth.widget.handler.onPhoneSignInStartSubmit_ =
               app,
               container,
               phoneNumberValue,
+              firebaseui.auth.widget.handler.RESEND_DELAY_SECONDS,
               confirmationResult);
         }, firebaseui.auth.widget.handler.SENDING_SUCCESS_DIALOG_DELAY);
         // On reset, clear timeout.

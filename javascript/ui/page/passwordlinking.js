@@ -80,9 +80,8 @@ firebaseui.auth.ui.page.PasswordLinking.prototype.disposeInternal = function() {
 /** @return {string} The email address of the account. */
 firebaseui.auth.ui.page.PasswordLinking.prototype.checkAndGetEmail =
     function() {
-  return goog.asserts.assertString(
-      firebaseui.auth.ui.element.getInputValue(
-          this.getElementByClass(goog.getCssName('firebaseui-id-email'))));
+  return goog.asserts.assertString(firebaseui.auth.ui.element.getInputValue(
+      this.getElementByClass('firebaseui-id-email')));
 };
 
 

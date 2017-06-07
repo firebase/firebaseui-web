@@ -1,0 +1,7 @@
+feature - Added support for OAuth providers in a Cordova environment.
+feature - Added support for passing custom OAuth parameters to OAuth providers.
+feature - Added phone code resending countdown to phone code entry page.
+feature - Added terms of service for phone sign-in pages.
+feature - Ability to auto populate the country code from the national number.
+feature - Added support for selecting the default country for phone authentication.
+fixed - Skip NASCAR screen when only phone provider is enabled and render phone sign in screen directly.

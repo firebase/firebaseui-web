@@ -32,7 +32,7 @@ var element = firebaseui.auth.ui.element;
  * @this {goog.ui.Component}
  */
 element.newPassword.getNewPasswordElement = function() {
-  return this.getElementByClass(goog.getCssName('firebaseui-id-new-password'));
+  return this.getElementByClass('firebaseui-id-new-password');
 };
 
 
@@ -41,31 +41,30 @@ element.newPassword.getNewPasswordElement = function() {
  * @this {goog.ui.Component}
  */
 element.newPassword.getPasswordToggleElement = function() {
-  return this.getElementByClass(
-      goog.getCssName('firebaseui-id-password-toggle'));
+  return this.getElementByClass('firebaseui-id-password-toggle');
 };
 
 
 /** @private {string} The CSS class for the "visiblility on" eye icon. */
-var CLASS_TOGGLE_ON_ = goog.getCssName('firebaseui-input-toggle-on');
+var CLASS_TOGGLE_ON_ = 'firebaseui-input-toggle-on';
 
 
 /** @private {string} The CSS class for the "visiblility off" eye icon. */
-var CLASS_TOGGLE_OFF_ = goog.getCssName('firebaseui-input-toggle-off');
+var CLASS_TOGGLE_OFF_ = 'firebaseui-input-toggle-off';
 
 
 /**
  * @private {string} The CSS class for the eye icon when the input is
  *     focused.
  */
-var CLASS_TOGGLE_FOCUS_ = goog.getCssName('firebaseui-input-toggle-focus');
+var CLASS_TOGGLE_FOCUS_ = 'firebaseui-input-toggle-focus';
 
 
 /**
  * @private {string} The CSS class for the eye icon when the input is not
  *     focused.
  */
-var CLASS_TOGGLE_BLUR_ = goog.getCssName('firebaseui-input-toggle-blur');
+var CLASS_TOGGLE_BLUR_ = 'firebaseui-input-toggle-blur';
 
 
 /**
@@ -96,8 +95,7 @@ element.newPassword.togglePasswordVisible = function() {
  * @this {goog.ui.Component}
  */
 element.newPassword.getNewPasswordErrorElement = function() {
-  return this.getElementByClass(
-      goog.getCssName('firebaseui-id-new-password-error'));
+  return this.getElementByClass('firebaseui-id-new-password-error');
 };
 
 

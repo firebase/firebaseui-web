@@ -24,6 +24,7 @@ goog.require('firebaseui.auth.widget.handler.handlePasswordRecovery');
 goog.require('firebaseui.auth.widget.handler.handleProviderSignIn');
 goog.require('firebaseui.auth.widget.handler.handleSignIn');
 goog.require('firebaseui.auth.widget.handler.testHelper');
+goog.require('goog.dom');
 goog.require('goog.dom.forms');
 goog.require('goog.events.EventType');
 goog.require('goog.events.KeyCodes');
@@ -83,8 +84,7 @@ function testHandlePasswordRecovery_cancel_providerFirst() {
   assertPasswordRecoveryPage();
 
   goog.testing.events.fireClickSequence(
-      goog.dom.getElementByClass(
-          goog.getCssName('firebaseui-id-secondary-link'), container));
+      goog.dom.getElementByClass('firebaseui-id-secondary-link', container));
   // Provider sign-in page should show.
   assertProviderSignInPage();
 }

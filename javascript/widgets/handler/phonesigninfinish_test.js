@@ -36,8 +36,8 @@ goog.require('goog.dom.forms');
 
 
 
-var phoneNumberValue = new firebaseui.auth.PhoneNumber(
-    '45-DK-0', '6505550101');
+var phoneNumberValue = new firebaseui.auth.PhoneNumber('45-DK-0', '6505550101');
+var resendDelaySeconds = 10;
 
 // Mock confirmation result.
 var mockConfirmationResult = {
@@ -70,7 +70,8 @@ function testHandlePhoneSignInFinish_success_signInSuccessUrl() {
   // Test successful code entry with signInSuccessUrl provided.
   // Render phone sign in finish UI.
   firebaseui.auth.widget.handler.handlePhoneSignInFinish(
-      app, container, phoneNumberValue, mockConfirmationResult);
+      app, container, phoneNumberValue, resendDelaySeconds,
+      mockConfirmationResult);
   // Confirm expected page rendered.
   assertPhoneSignInFinishPage();
   // Try to submit form without code being provided.
@@ -105,7 +106,8 @@ function testHandlePhoneSignInFinish_success_signInSuccessCallback() {
   app.setConfig({'callbacks': {'signInSuccess': signInSuccessCallback(false)}});
   // Render phone sign in finish UI.
   firebaseui.auth.widget.handler.handlePhoneSignInFinish(
-      app, container, phoneNumberValue, mockConfirmationResult);
+      app, container, phoneNumberValue, resendDelaySeconds,
+      mockConfirmationResult);
   // Confirm expected page rendered.
   assertPhoneSignInFinishPage();
   // Simulate code provided.
@@ -138,7 +140,8 @@ function testHandlePhoneSignInFinish_success_resetBeforeCompletion() {
   app.setConfig({'callbacks': {'signInSuccess': signInSuccessCallback(false)}});
   // Render phone sign in finish UI.
   firebaseui.auth.widget.handler.handlePhoneSignInFinish(
-      app, container, phoneNumberValue, mockConfirmationResult);
+      app, container, phoneNumberValue, resendDelaySeconds,
+      mockConfirmationResult);
   // Confirm expected page rendered.
   assertPhoneSignInFinishPage();
   // Simulate code provided.
@@ -170,7 +173,7 @@ function testHandlePhoneSignInFinish_error_codeExpired() {
   };
   // Render phone sign in finish UI.
   firebaseui.auth.widget.handler.handlePhoneSignInFinish(
-      app, container, phoneNumberValue,
+      app, container, phoneNumberValue, resendDelaySeconds,
       createMockConfirmationResultWithError(expectedError));
   // Confirm expected page rendered.
   assertPhoneSignInFinishPage();
@@ -208,7 +211,7 @@ function testHandlePhoneSignInFinish_error_invalidVerificationCode() {
   };
   // Render phone sign in finish UI.
   firebaseui.auth.widget.handler.handlePhoneSignInFinish(
-      app, container, phoneNumberValue,
+      app, container, phoneNumberValue, resendDelaySeconds,
       createMockConfirmationResultWithError(expectedError));
   // Confirm expected page rendered.
   assertPhoneSignInFinishPage();
@@ -239,7 +242,7 @@ function testHandlePhoneSignInFinish_error_miscError() {
   // page navigation occurs and only an info bar message is shown.
   // Render phone sign in finish UI.
   firebaseui.auth.widget.handler.handlePhoneSignInFinish(
-      app, container, phoneNumberValue,
+      app, container, phoneNumberValue, resendDelaySeconds,
       createMockConfirmationResultWithError(internalError));
   // Confirm expected page rendered.
   assertPhoneSignInFinishPage();
@@ -267,7 +270,8 @@ function testHandlePhoneSignInFinish_onChangePhoneNumberClick() {
   // phone sign in start page is rendered.
   // Render phone sign in finish UI.
   firebaseui.auth.widget.handler.handlePhoneSignInFinish(
-      app, container, phoneNumberValue, mockConfirmationResult);
+      app, container, phoneNumberValue, resendDelaySeconds,
+      mockConfirmationResult);
   // Confirm expected page rendered.
   assertPhoneSignInFinishPage();
   // Click change phone number link.
@@ -288,7 +292,8 @@ function testHandlePhoneSignInFinish_onCancel() {
   // sign in page is rendered.
   // Render phone sign in finish UI.
   firebaseui.auth.widget.handler.handlePhoneSignInFinish(
-      app, container, phoneNumberValue, mockConfirmationResult);
+      app, container, phoneNumberValue, resendDelaySeconds,
+      mockConfirmationResult);
   // Confirm expected page rendered.
   assertPhoneSignInFinishPage();
   // Click cancel.
@@ -302,11 +307,33 @@ function testHandlePhoneSignInFinishStart_reset() {
   // Test when reset is called after phone sign-in finish handler called.
   // Render phone sign in finish UI.
   firebaseui.auth.widget.handler.handlePhoneSignInFinish(
-      app, container, phoneNumberValue, mockConfirmationResult);
+      app, container, phoneNumberValue, resendDelaySeconds,
+      mockConfirmationResult);
   // Confirm expected page rendered.
   assertPhoneSignInFinishPage();
   // Reset current rendered widget page.
   app.reset();
   // Container should be cleared.
   assertComponentDisposed();
+}
+
+
+function testHandlePhoneSignInFinish_onResendClick() {
+  firebaseui.auth.widget.handler.handlePhoneSignInFinish(
+      app, container, phoneNumberValue, resendDelaySeconds,
+      mockConfirmationResult);
+  assertPhoneSignInFinishPage();
+
+  // Advance clock to reveal resend link.
+  mockClock.tick(resendDelaySeconds);
+
+  // Assert resend navigation takes you back to start page with phone prefilled.
+  clickResendLink();
+  assertPhoneSignInStartPage();
+  assertEquals('\u200e+45', getPhoneCountrySelectorElement().textContent);
+  assertEquals(phoneNumberValue.nationalNumber, getPhoneInputElement().value);
+
+  // Recaptcha should be rendered.
+  recaptchaVerifierInstance.assertRender([], 0);
+  return recaptchaVerifierInstance.process();
 }

@@ -180,8 +180,7 @@ function testHandlePasswordLinking_forgotPassword() {
   assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
       app.getAppId()));
   goog.testing.events.fireClickSequence(
-      goog.dom.getElementByClass(
-          goog.getCssName('firebaseui-id-secondary-link'), container));
+      goog.dom.getElementByClass('firebaseui-id-secondary-link', container));
   assertPasswordRecoveryPage();
 }
 

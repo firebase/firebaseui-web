@@ -53,8 +53,8 @@ function loadCss(path) {
  */
 function loadRecaptcha(container) {
   var root = goog.dom.getElement(container);
-  var recaptchaContainer = goog.dom.getElementByClass(
-      goog.getCssName('firebaseui-recaptcha-container'), root);
+  var recaptchaContainer =
+      goog.dom.getElementByClass('firebaseui-recaptcha-container', root);
   recaptchaContainer.style.display = 'block';
   var img = goog.dom.createElement('img');
   img.src = '../image/test/recaptcha-widget.png';
@@ -65,16 +65,14 @@ function loadRecaptcha(container) {
 function setInvalid(root, id) {
   var e = goog.dom.getElementByClass(goog.getCssName(id), root);
   goog.dom.classlist.addRemove(
-      e,
-      goog.getCssName('firebaseui-input'),
-      goog.getCssName('firebaseui-input-invalid'));
+      e, 'firebaseui-input', 'firebaseui-input-invalid');
 }
 
 
 function setError(root, id, message) {
   var e = goog.dom.getElementByClass(goog.getCssName(id), root);
   goog.dom.setTextContent(e, message);
-  goog.dom.classlist.remove(e, goog.getCssName('firebaseui-hidden'));
+  goog.dom.classlist.remove(e, 'firebaseui-hidden');
 }
 
 function initViewer(file) {

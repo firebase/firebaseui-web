@@ -64,7 +64,7 @@ firebaseui.auth.ui.element.infoBar.dismissInfoBar = function() {
  * @this {goog.ui.Component}
  */
 firebaseui.auth.ui.element.infoBar.getInfoBarElement = function() {
-  return this.getElementByClass(goog.getCssName('firebaseui-id-info-bar'));
+  return this.getElementByClass('firebaseui-id-info-bar');
 };
 
 
@@ -73,6 +73,5 @@ firebaseui.auth.ui.element.infoBar.getInfoBarElement = function() {
  * @this {goog.ui.Component}
  */
 firebaseui.auth.ui.element.infoBar.getInfoBarDismissLinkElement = function() {
-  return this.getElementByClass(
-      goog.getCssName('firebaseui-id-dismiss-info-bar'));
+  return this.getElementByClass('firebaseui-id-dismiss-info-bar');
 };

@@ -42,6 +42,10 @@
 }
 
 .firebaseui-card-footer {
+  padding: 0 24px;
+}
+
+.firebaseui-card-actions {
   font-size: 14px;
   line-height: 36px;
   padding: 8px 24px 24px 24px;
@@ -49,7 +53,7 @@
 }
 
 /* Clearfix */
-.firebaseui-card-footer::after {
+.firebaseui-card-actions::after {
   clear: both;
   content: "";
   display: table;
@@ -208,6 +212,7 @@ input.firebaseui-input-invalid{
   font-size: 12px;
   line-height: 16px;
   margin-bottom: 24px;
+  margin-top: 0;
   text-align: left;
 }
 
@@ -224,9 +229,11 @@ input.firebaseui-input-invalid{
 .firebaseui-idp-button {
   direction: ltr;
   font-weight: 500;
-  height: 40px;
+  height: auto;
+  line-height: normal;
   max-width: 220px;
-  padding-left: 16px;
+  min-height: 40px;
+  padding: 8px 16px;
   text-align: left;
   width: 100%;
 }
@@ -234,6 +241,11 @@ input.firebaseui-input-invalid{
 .firebaseui-idp-list > .firebaseui-list-item {
   margin-bottom: 15px;
   text-align: center;
+}
+
+.firebaseui-idp-icon-wrapper {
+  display: table-cell;
+  vertical-align: middle;
 }
 
 .firebaseui-idp-icon {
@@ -255,6 +267,7 @@ input.firebaseui-input-invalid{
 
 .firebaseui-idp-text {
   color: #fff;
+  display: table-cell;
   font-size: 14px;
   padding-left: 16px;
   text-transform: none;
@@ -262,7 +275,7 @@ input.firebaseui-input-invalid{
 }
 
 .firebaseui-idp-text.firebaseui-idp-text-long {
-  display: inline-block;
+  display: table-cell;
 }
 
 .firebaseui-idp-text.firebaseui-idp-text-short {
@@ -276,7 +289,7 @@ input.firebaseui-input-invalid{
   }
 
   .firebaseui-idp-text.firebaseui-idp-text-short {
-    display: inline-block;
+    display: table-cell;
   }
 }
 
@@ -346,6 +359,11 @@ input.firebaseui-input-invalid{
   text-align: left;
 }
 
+.firebaseui-dialog-icon-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
 .firebaseui-dialog-icon {
   float: left;
   height: 40px;
@@ -354,9 +372,11 @@ input.firebaseui-input-invalid{
 }
 
 .firebaseui-progress-dialog-message {
+  display: table-cell;
   font-size: 16px;
   font-weight: 400;
-  line-height: 40px;
+  min-height: 40px;
+  vertical-align: middle;
 }
 
 .firebaseui-progress-dialog-loading-icon {
@@ -518,6 +538,16 @@ input.firebaseui-input-invalid{
   display: block;
 }
 
+.firebaseui-resend-container {
+  direction: ltr;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.firebaseui-id-resend-countdown {
+  color: rgba(0, 0, 0, 0.38);
+}
+
 /**
  * This div holds the invisible reCAPTCHA badge. The float property is needed
  * as it messes up the cancel and submit buttons to align vertically when they
@@ -544,7 +574,7 @@ input.firebaseui-input-invalid{
     padding-bottom: 16px;
   }
 
-  .firebaseui-card-footer {
+  .firebaseui-card-actions {
     padding-right: 24px;
   }
 

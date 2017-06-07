@@ -1800,6 +1800,88 @@ function testHandleCallback_nullUser_emailAuthOnly_acUnavailable() {
 }
 
 
+function testHandleCallback_nullUser_phoneAuthOnly() {
+  // Test that phone sign in start page is rendered when phone auth is the only
+  // provider and no error triggers the info bar.
+  asyncTestCase.waitForSignals(1);
+  app.setConfig({
+    'signInOptions': [      {
+        provider: 'phone',
+        recaptchaParameters: {'type': 'image', 'size': 'compact'}
+      }]
+  });
+  firebaseui.auth.widget.handler.handleCallback(app, container);
+  assertCallbackPage();
+  testAuth.assertGetRedirectResult(
+      [],
+      {
+        'user': null,
+        'credential': null
+      });
+  testAuth.process().then(function() {
+    // Info bar not triggered.
+    assertNoInfoBarMessage();
+    // Phone sign in start page rendered.
+    assertPhoneSignInStartPage();
+    // Confirm reCAPTCHA initialized with expected parameters.
+    recaptchaVerifierInstance.assertInitializedWithParameters(
+        getRecaptchaElement(),
+        {'type': 'image', 'size': 'compact'},
+        app.getExternalAuth().app);
+    // reCAPTCHA should be rendering.
+    recaptchaVerifierInstance.assertRender([], function() {
+      // Simulate grecaptcha loaded.
+      simulateGrecaptchaLoaded(0);
+      // Return expected widget ID.
+      return 0;
+    });
+    return recaptchaVerifierInstance.process().then(function() {
+      asyncTestCase.signal();
+    });
+  });
+}
+
+
+function testHandleCallback_nullUser_phoneAuthOnly_recaptchaError() {
+  // Test that provider page is rendered when phone auth is the only
+  // provider, but recaptcha throws error (triggering info bar).
+  asyncTestCase.waitForSignals(1);
+  app.setConfig({
+    'signInOptions': [      {
+        provider: 'phone',
+        recaptchaParameters: {'type': 'image', 'size': 'compact'}
+      }]
+  });
+  firebaseui.auth.widget.handler.handleCallback(app, container);
+  assertCallbackPage();
+  testAuth.assertGetRedirectResult(
+      [],
+      {
+        'user': null,
+        'credential': null
+      });
+  testAuth.process().then(function() {
+    assertNoInfoBarMessage();
+    assertPhoneSignInStartPage();
+    // Init recaptcha instance after phone sign in page is rendered.
+    recaptchaVerifierInstance.assertInitializedWithParameters(
+        getRecaptchaElement(),
+        {'type': 'image', 'size': 'compact'},
+        app.getExternalAuth().app);
+    // Force error when rendering reCAPTCHA.
+    recaptchaVerifierInstance.assertRender([], null, internalError);
+    return recaptchaVerifierInstance.process().then(function() {
+      // Confirm provider sign in page rendered.
+      assertProviderSignInPage();
+      // Infobar triggered with the expected error message.
+      assertInfoBarMessage(
+          firebaseui.auth.widget.handler.common.getErrorMessage(internalError));
+      asyncTestCase.signal();
+    });
+  });
+}
+
+
 function testHandleCallback_operationNotSupported_multiProviders() {
   // Test when callback handler is triggered with multiple providers and
   // the operation is not supported in this environment.

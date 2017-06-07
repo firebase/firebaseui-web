@@ -19,11 +19,78 @@
 goog.provide('firebaseui.auth.data.country');
 goog.provide('firebaseui.auth.data.country.COUNTRY_LIST');
 goog.provide('firebaseui.auth.data.country.Country');
+goog.provide('firebaseui.auth.data.country.LOOKUP_TREE');
+goog.provide('firebaseui.auth.data.country.LookupTree');
+
+goog.require('goog.structs.Trie');
+
+
+/**
+ * Defines a prefix tree for storing all the country codes to facilate phone
+ * number country code lookup.
+ * @param {!Array<!firebaseui.auth.data.country.Country>} countries The list of
+ *     countries to construct a prefix tree for.
+ * @constructor
+ */
+firebaseui.auth.data.country.LookupTree = function(countries) {
+  /**
+   * @private {!Array<!firebaseui.auth.data.country.Country>} The list of
+   *     countries to construct a prefix tree for.
+   */
+  this.countries_ = countries;
+  /**
+   * @private {
+   * !goog.structs.Trie<!Array<!firebaseui.auth.data.country.Country>>} The
+   *     prefix tree.
+   */
+  this.trie_ = new goog.structs.Trie();
+  // Initialize prefix tree like structure.
+  this.init_();
+};
 
 
 
-goog.scope(function() {
+/**
+ * Populates the prefix tree structure.
+ * @private
+ */
+firebaseui.auth.data.country.LookupTree.prototype.init_ = function() {
+  // Populate the prefix tree.
+  for (var i = 0; i < this.countries_.length; i++) {
+    // Construct key.
+    var key = '+' + this.countries_[i]['e164_cc'];
+    // Check if key exists.
+    var nodeValue = this.trie_.get(key);
+    if (nodeValue) {
+      // If so, add country object to its array.
+      nodeValue.push(this.countries_[i]);
+    } else {
+      // Else add that key/value.
+      this.trie_.add('+' + this.countries_[i]['e164_cc'], [this.countries_[i]]);
+    }
+  }
+};
 
+
+/**
+ * Looks up the country that matches the code's prefix.
+ * @param {string} code The string that could contain a country code prefix.
+ * @return {!Array<!firebaseui.auth.data.country.Country>} The country objects
+ *     that match the prefix of the code provided, empty array if not found.
+ */
+firebaseui.auth.data.country.LookupTree.prototype.search = function(code) {
+  // Get all keys and prefixes.
+  var keyAndPrefixes = this.trie_.getKeyAndPrefixes(code);
+  // Get matching key and prefixes.
+  for (var key in keyAndPrefixes) {
+    if (keyAndPrefixes.hasOwnProperty(key)) {
+      // Pick first one. There should always be one as country codes can't be
+      // prefixes of each other.
+      return keyAndPrefixes[key];
+    }
+  }
+  return [];
+};
 
 
 /**
@@ -38,6 +105,43 @@ firebaseui.auth.data.country.getCountryByKey = function(key) {
     }
   }
   return null;
+};
+
+
+/**
+ * Fetches data about a country given its ISO 3166-1 alpha-2 country code
+ * (iso2_cc) field. May return multiple entries for countries with multiple
+ * country codes, or an empty array if the country code was not found.
+ * @param {string} code The case-insensitive iso2_cc of the country.
+ * @return {!Array<firebaseui.auth.data.country.Country>}
+ */
+firebaseui.auth.data.country.getCountriesByIso2 = function(code) {
+  var normalizedCode = code.toUpperCase();
+  var countries = [];
+  for (var i = 0; i < firebaseui.auth.data.country.COUNTRY_LIST.length; i++) {
+    if (firebaseui.auth.data.country.COUNTRY_LIST[i].iso2_cc ===
+        normalizedCode) {
+      countries.push(firebaseui.auth.data.country.COUNTRY_LIST[i]);
+    }
+  }
+  return countries;
+};
+
+
+
+/**
+ * Sorts the list of countries by name for the given locale.
+ *
+ * This method is called on the generated list at the bottom of this file.
+ *
+ * @param {!Array<!firebaseui.auth.data.country.Country>} list The list of
+ *     country data.
+ * @param {string} locale
+ */
+firebaseui.auth.data.country.sortCountryListForLocale = function(list, locale) {
+  list.sort(function(countryA, countryB) {
+    return countryA.name.localeCompare(countryB.name, locale);
+  });
 };
 
 
@@ -2045,4 +2149,15 @@ firebaseui.auth.data.country.COUNTRY_LIST = [
 ];
 
 /*----------------------END COPIED CODE-------------------------------------*/
-});
+
+firebaseui.auth.data.country.sortCountryListForLocale(
+    firebaseui.auth.data.country.COUNTRY_LIST, goog.LOCALE);
+
+
+/**
+ * @const {!firebaseui.auth.data.country.LookupTree} The country code lookup
+ *     tree.
+ */
+firebaseui.auth.data.country.LOOKUP_TREE =
+    new firebaseui.auth.data.country.LookupTree(
+        firebaseui.auth.data.country.COUNTRY_LIST);

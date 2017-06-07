@@ -35,7 +35,7 @@ var strings = firebaseui.auth.soy2.strings;
  * @this {goog.ui.Component}
  */
 element.email.getEmailElement = function() {
-  return this.getElementByClass(goog.getCssName('firebaseui-id-email'));
+  return this.getElementByClass('firebaseui-id-email');
 };
 
 
@@ -44,7 +44,7 @@ element.email.getEmailElement = function() {
  * @this {goog.ui.Component}
  */
 element.email.getEmailErrorElement = function() {
-  return this.getElementByClass(goog.getCssName('firebaseui-id-email-error'));
+  return this.getElementByClass('firebaseui-id-email-error');
 };
 
 

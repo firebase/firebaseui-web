@@ -41,12 +41,13 @@ goog.require('firebaseui.auth.widget.handler.common');
  * @param {Element} container The container DOM element.
  * @param {!firebaseui.auth.PhoneNumber} phoneNumberValue
  *     The value of the phone number input.
+ * @param {!number} resendDelay The resend delay.
  * @param {!Object} confirmationResult The confirmation result used to verify
  *     the code on.
  * @param {string=} opt_infoBarMessage The message to show on info bar.
  */
 firebaseui.auth.widget.handler.handlePhoneSignInFinish = function(
-    app, container, phoneNumberValue, confirmationResult,
+    app, container, phoneNumberValue, resendDelay, confirmationResult,
     opt_infoBarMessage) {
   // This is a placeholder for now.
   // Render the phone sign in start page component.
@@ -70,7 +71,16 @@ firebaseui.auth.widget.handler.handlePhoneSignInFinish = function(
         component.dispose();
         firebaseui.auth.widget.handler.common.handleSignInStart(app, container);
       },
-      phoneNumberValue.getPhoneNumber());
+      // On resend.
+      function() {
+        component.dispose();
+        firebaseui.auth.widget.handler.handle(
+            firebaseui.auth.widget.HandlerName.PHONE_SIGN_IN_START, app,
+            container, phoneNumberValue);
+      },
+      phoneNumberValue.getPhoneNumber(),
+      resendDelay,
+      app.getConfig().getTosUrl());
   component.render(container);
   // Set current UI component.
   app.setCurrentComponent(component);
@@ -142,7 +152,7 @@ firebaseui.auth.widget.handler.onPhoneSignInFinishSubmit_ = function(
           firebaseui.auth.widget.handler.common.setLoggedIn(
               app, component, null, null, true);
         }, firebaseui.auth.widget.handler.CODE_SUCCESS_DIALOG_DELAY);
-         // On reset, clear timeout.
+        // On reset, clear timeout.
         app.registerPending(function() {
           // Dismiss dialog if still visible.
           if (component) {

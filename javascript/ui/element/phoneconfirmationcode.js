@@ -34,8 +34,7 @@ var element = firebaseui.auth.ui.element;
  * @this {goog.ui.Component}
  */
 element.phoneConfirmationCode.getPhoneConfirmationCodeElement = function() {
-  return this.getElementByClass(
-      goog.getCssName('firebaseui-id-phone-confirmation-code'));
+  return this.getElementByClass('firebaseui-id-phone-confirmation-code');
 };
 
 
@@ -45,8 +44,7 @@ element.phoneConfirmationCode.getPhoneConfirmationCodeElement = function() {
  */
 element.phoneConfirmationCode.getPhoneConfirmationCodeErrorElement =
     function() {
-  return this.getElementByClass(
-      goog.getCssName('firebaseui-id-phone-confirmation-code-error'));
+  return this.getElementByClass('firebaseui-id-phone-confirmation-code-error');
 };
 
 

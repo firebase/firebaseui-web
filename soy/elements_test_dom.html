@@ -52,6 +52,15 @@ td {
     <td><div id="phone-confirmation-code-error" class="firebaseui-container"></div></td>
   </tr>
 
+  <!-- resend -->
+  <tr>
+    <td rowspan="2">resend</td>
+    <td><div id="resend-countdown" class="firebaseui-container"></div></td>
+  </tr>
+  <tr>
+    <td><div id="resend-link" class="firebaseui-container"></div></td>
+  </tr>
+
   <!-- idpButton -->
   <tr>
     <td>idpButton</td>
@@ -151,10 +160,17 @@ td {
 
   <!-- loading dialog -->
   <tr>
-    <td>loadingDialog</td>
+    <td rowspan="2">loadingDialog</td>
     <td>
       <div class="firebaseui-container">
         <button id="show-loading-dialog">Show loading dialog</button>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div class="firebaseui-container">
+        <button id="show-loading-dialog-long">Show loading dialog with long text</button>
       </div>
     </td>
   </tr>

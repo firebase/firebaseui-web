@@ -19,7 +19,6 @@
 goog.provide('firebaseui.auth.ui.page.PhoneSignInStartTest');
 goog.setTestOnly('firebaseui.auth.ui.page.PhoneSignInStartTest');
 
-goog.require('firebaseui.auth.PhoneNumber');
 goog.require('firebaseui.auth.ui.element.FormTestHelper');
 goog.require('firebaseui.auth.ui.element.InfoBarTestHelper');
 goog.require('firebaseui.auth.ui.element.PhoneNumberTestHelper');
@@ -48,11 +47,13 @@ var infoBarTestHelper =
 /**
  * @param {boolean} enableVisibleRecaptcha Whether to enable a visible reCAPTCHA
  *     or an invisible one otherwise.
- * @param {?firebaseui.auth.PhoneNumber=} opt_phoneNumberValue
- *     The value of the phone number input to prefill.
+ * @param {?string=} opt_countryId The ID (e164_key) of the country to
+ *     pre-select.
+ * @param {?string=} opt_nationalNumber The national number to pre-fill.
  * @return {!goog.ui.Component} The rendered PhoneSignInStart component.
  */
-function createComponent(enableVisibleRecaptcha, opt_phoneNumberValue) {
+function createComponent(enableVisibleRecaptcha, opt_countryId,
+    opt_nationalNumber) {
   var component = new firebaseui.auth.ui.page.PhoneSignInStart(
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
@@ -60,7 +61,7 @@ function createComponent(enableVisibleRecaptcha, opt_phoneNumberValue) {
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onLinkClick,
           formTestHelper),
-      enableVisibleRecaptcha, opt_phoneNumberValue);
+      enableVisibleRecaptcha, opt_countryId, opt_nationalNumber);
   component.render(root);
   phoneNumberTestHelper.setComponent(component);
   recaptchaTestHelper.setComponent(component);
@@ -102,9 +103,7 @@ function testPhoneSignInStart_visibleAndInvisibleRecaptcha() {
 function testPhoneSignInStart_prefillValue() {
   component.dispose();
 
-  var value = new firebaseui.auth.PhoneNumber('45-DK-0',
-      '6505550101');
-  component = createComponent(false, value);
+  component = createComponent(false, '45-DK-0', '6505550101');
 
   // The prefilled number should be returned.
   assertEquals('+456505550101', component.getPhoneNumberValue()

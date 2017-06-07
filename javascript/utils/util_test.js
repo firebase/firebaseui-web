@@ -72,3 +72,30 @@ function testGetElement() {
     assertEquals(e.message, 'Element requested was not found!');
   }
 }
+
+function testIsHttpOrHttps() {
+  // HTTP scheme.
+  stubs.replace(
+      firebaseui.auth.util,
+      'getScheme',
+      function() {
+        return 'http:';
+      });
+  assertTrue(firebaseui.auth.util.isHttpOrHttps());
+  // HTTPS scheme.
+  stubs.replace(
+      firebaseui.auth.util,
+      'getScheme',
+      function() {
+        return 'https:';
+      });
+  assertTrue(firebaseui.auth.util.isHttpOrHttps());
+  // FILE scheme.
+  stubs.replace(
+      firebaseui.auth.util,
+      'getScheme',
+      function() {
+        return 'file:';
+      });
+  assertFalse(firebaseui.auth.util.isHttpOrHttps());
+}

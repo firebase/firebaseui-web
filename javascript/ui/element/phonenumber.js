@@ -27,6 +27,7 @@ goog.require('firebaseui.auth.ui.element.listBoxDialog');
 goog.require('goog.array');
 goog.require('goog.dom');
 goog.require('goog.dom.classlist');
+goog.require('goog.dom.forms');
 goog.require('goog.string');
 goog.require('goog.ui.Component');
 
@@ -45,7 +46,7 @@ element.phoneNumber.DEFAULT_COUNTRY_ID = '1-US-0';
  * @this {goog.ui.Component}
  */
 element.phoneNumber.getPhoneNumberElement = function() {
-  return this.getElementByClass(goog.getCssName('firebaseui-id-phone-number'));
+  return this.getElementByClass('firebaseui-id-phone-number');
 };
 
 
@@ -55,8 +56,7 @@ element.phoneNumber.getPhoneNumberElement = function() {
  * @private
  */
 element.phoneNumber.getCountrySelectorFlagElement_ = function() {
-  return this.getElementByClass(
-      goog.getCssName('firebaseui-id-country-selector-flag'));
+  return this.getElementByClass('firebaseui-id-country-selector-flag');
 };
 
 
@@ -66,8 +66,7 @@ element.phoneNumber.getCountrySelectorFlagElement_ = function() {
  * @private
  */
 element.phoneNumber.getCountrySelectorCodeElement_ = function() {
-  return this.getElementByClass(
-      goog.getCssName('firebaseui-id-country-selector-code'));
+  return this.getElementByClass('firebaseui-id-country-selector-code');
 };
 
 
@@ -77,8 +76,7 @@ element.phoneNumber.getCountrySelectorCodeElement_ = function() {
  * @private
  */
 element.phoneNumber.getCountrySelectorElement_ = function() {
-  return this.getElementByClass(
-      goog.getCssName('firebaseui-id-country-selector'));
+  return this.getElementByClass('firebaseui-id-country-selector');
 };
 
 
@@ -87,8 +85,7 @@ element.phoneNumber.getCountrySelectorElement_ = function() {
  * @this {goog.ui.Component}
  */
 element.phoneNumber.getPhoneNumberErrorElement = function() {
-  return this.getElementByClass(
-      goog.getCssName('firebaseui-id-phone-number-error'));
+  return this.getElementByClass('firebaseui-id-phone-number-error');
 };
 
 
@@ -122,6 +119,26 @@ element.phoneNumber.initPhoneNumberElement = function(opt_countryId,
     if (element.isShown(errorElement)) {
       element.setValid(phoneNumberElement, true);
       element.hide(errorElement);
+    }
+    // Get national number.
+    var nationalNumber = goog.string.trim(
+        element.getInputValue(phoneNumberElement) || '');
+    // Get current country ID selected.
+    var selectedCountry = firebaseui.auth.data.country.getCountryByKey(
+        this.phoneNumberSelectedCountryId_);
+    // Get matching countries if national number countains it.
+    var countries =
+        firebaseui.auth.data.country.LOOKUP_TREE.search(nationalNumber);
+    // If country code provided with national number and it does not match the
+    // selected one, update active selection..
+    if (countries.length && countries[0].e164_cc != selectedCountry.e164_cc) {
+      // Pick first one.
+      var country = countries[0];
+      element.phoneNumber.selectCountry.call(
+          self,
+          // For +1, use US as default.
+          country.e164_cc == '1' ? element.phoneNumber.DEFAULT_COUNTRY_ID :
+          country.e164_key);
     }
   });
 
@@ -174,7 +191,7 @@ element.phoneNumber.handleCountrySelectorButtonClick_ = function() {
   firebaseui.auth.ui.element.listBoxDialog.showListBoxDialog.call(this,
       element.phoneNumber.createListBoxItemList_(),
       function(id) {
-        element.phoneNumber.selectCountry.call(self, id);
+        element.phoneNumber.selectCountry.call(self, id, true);
         // Focus the phone number text input after a country is selected.
         self.getPhoneNumberElement().focus();
       }, this.phoneNumberSelectedCountryId_);
@@ -184,12 +201,33 @@ element.phoneNumber.handleCountrySelectorButtonClick_ = function() {
 /**
  * Changes the active country in the country selector.
  * @param {string} id The ID of the country to select.
+ * @param {boolean=} opt_overrideCountryCode Whether to override the country
+ *     code if provided in the national number.
  * @this {goog.ui.Component}
  */
-element.phoneNumber.selectCountry = function(id) {
+element.phoneNumber.selectCountry = function(id, opt_overrideCountryCode) {
   var country = firebaseui.auth.data.country.getCountryByKey(id);
   if (!country) {
     return;
+  }
+  // Override country code in national number if provided.
+  if (!!opt_overrideCountryCode) {
+    var nationalNumber = goog.string.trim(element.getInputValue(
+        element.phoneNumber.getPhoneNumberElement.call(this)) || '');
+    // Get current selected countries from the national number if available.
+    var countries =
+        firebaseui.auth.data.country.LOOKUP_TREE.search(nationalNumber);
+    // If country code provided with national number and it does not match newly
+    // selected code, replace it in the national number with the newly selected
+    // country code.
+    if (countries.length && countries[0].e164_cc != country.e164_cc) {
+      // Update national number with newly selected code.
+      nationalNumber = '+' + country.e164_cc +
+          nationalNumber.substr(countries[0].e164_cc.length + 1);
+      // Re-populate the number in the form.
+      goog.dom.forms.setValue(
+          element.phoneNumber.getPhoneNumberElement.call(this), nationalNumber);
+    }
   }
 
   var oldCountry = firebaseui.auth.data.country.getCountryByKey(
@@ -221,6 +259,23 @@ element.phoneNumber.selectCountry = function(id) {
 element.phoneNumber.getPhoneNumberValue = function() {
   var nationalNumber = goog.string.trim(element.getInputValue(
       element.phoneNumber.getPhoneNumberElement.call(this)) || '');
+  // Get current selected countries from the national number if available.
+  var countries =
+    firebaseui.auth.data.country.LOOKUP_TREE.search(nationalNumber);
+  // Get selected active country.
+  var selectedCountry = firebaseui.auth.data.country.getCountryByKey(
+      this.phoneNumberSelectedCountryId_);
+  // If user manually changed the country code and it is the same country code
+  // do not change it back.
+  // This is useful when the user switches to the same country code but for a
+  // different country. In that case we honor the user's selection.
+  if (countries.length && countries[0].e164_cc != selectedCountry.e164_cc) {
+    element.phoneNumber.selectCountry.call(this, countries[0].e164_key);
+  }
+  // Remove country code prefix from national number.
+  if (countries.length) {
+    nationalNumber = nationalNumber.substr(countries[0].e164_cc.length + 1);
+  }
   // If only country code provided, consider the phone number missing.
   if (!nationalNumber) {
     return null;

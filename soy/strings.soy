@@ -224,6 +224,16 @@
 {/template}
 
 
+/** Resend countdown. */
+{template .resendCountdown kind="text"}
+  {@param timeRemaining:string} /** The time remaining. */
+  {msg desc="The time remaining before a phone confirmation code can be sent again, eg
+      'Resend code in 0:15'."}
+    Resend code in {$timeRemaining}
+  {/msg}
+{/template}
+
+
 /** Error message for when user has to log in again. */
 {template .errorLoginAgain_ private="true" kind="text"}
   {msg desc="Error message for when the user has to login again to perform a specific operation

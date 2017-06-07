@@ -83,8 +83,7 @@ element.IdpsTestHelper.prototype.assertIdpButtonOnEnter_ = function(button) {
 element.IdpsTestHelper.prototype.testOnClick_ = function() {
   var self = this;
   goog.array.forEach(
-      this.component.getElementsByClass(
-          goog.getCssName('firebaseui-id-idp-button')),
+      this.component.getElementsByClass('firebaseui-id-idp-button'),
       function(button) {
         self.assertIdpButtonOnClick_(button);
       });
@@ -95,8 +94,7 @@ element.IdpsTestHelper.prototype.testOnClick_ = function() {
 element.IdpsTestHelper.prototype.testOnEnter_ = function() {
   var self = this;
   goog.array.forEach(
-      this.component.getElementsByClass(
-          goog.getCssName('firebaseui-id-idp-button')),
+      this.component.getElementsByClass('firebaseui-id-idp-button'),
       function(button) {
         self.assertIdpButtonOnEnter_(button);
       });

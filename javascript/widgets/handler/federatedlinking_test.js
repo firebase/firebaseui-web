@@ -57,7 +57,8 @@ function testHandleFederatedLinking() {
   // Add additional scopes to test they are properly passed to the sign-in
   // method.
   var expectedProvider = getExpectedProviderWithScopes({
-    'login_hint': federatedAccount.getEmail()
+    'login_hint': federatedAccount.getEmail(),
+    'prompt': 'select_account'
   });
   setPendingEmailCredentials();
   firebaseui.auth.widget.handler.handleFederatedLinking(
@@ -85,13 +86,106 @@ function testHandleFederatedLinking_noLoginHint() {
 }
 
 
+function testHandleFederatedLinking_noLoginHint_cordova() {
+  // Test federated linking successful flow in a Cordova environment.
+  // Simulate a Cordova environment.
+  simulateCordovaEnvironment();
+  var githubCred  = firebaseui.auth.idp.getAuthCredential({
+    'providerId': 'github.com',
+    'accessToken': 'ACCESS_TOKEN'
+  });
+  // Add additional scopes to test they are properly passed to the sign-in
+  // method.
+  // As this is not google.com, no customParameters will be set.
+  var expectedProvider =
+      getExpectedProviderWithCustomParameters('github.com');
+  setPendingEmailCredentials();
+  firebaseui.auth.widget.handler.handleFederatedLinking(
+      app, container, federatedAccount.getEmail(), 'github.com');
+  assertFederatedLinkingPage(federatedAccount.getEmail());
+  submitForm();
+  testAuth.assertSignInWithRedirect([expectedProvider]);
+  return testAuth.process().then(function() {
+    testAuth.setUser({
+      'email': federatedAccount.getEmail(),
+      'displayName': federatedAccount.getDisplayName()
+    });
+    // Sign-in complete with GitHub.
+    testAuth.assertGetRedirectResult(
+        [],
+        {
+          'user': testAuth.currentUser,
+          'credential': githubCred
+        });
+    return testAuth.process();
+  }).then(function() {
+    assertCallbackPage();
+    // Saved pending credential loaded from storage and linked to current user.
+    testAuth.currentUser.assertLinkWithCredential(
+        [credential], testAuth.currentUser);
+    return testAuth.process();
+  }).then(function() {
+    // Signout from internal auth instance.
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    // Sign in to external instance with pending credential.
+    externalAuth.setUser(testAuth.currentUser);
+    externalAuth.assertSignInWithCredential(
+        [credential], externalAuth.currentUser);
+    return externalAuth.process();
+  }).then(function() {
+    // Pending credential should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    // User should be redirected to success URL.
+    testUtil.assertGoTo('http://localhost/home');
+  });
+}
+
+
+function testHandleFederatedLinking_noLoginHint_error_cordova() {
+  // Test federated linking error flow in a Cordova environment.
+  // Simulate a Cordova environment.
+  simulateCordovaEnvironment();
+  // Add additional scopes to test they are properly passed to the sign-in
+  // method.
+  // As this is not google.com, no customParameters will be set.
+  var expectedProvider =
+      getExpectedProviderWithCustomParameters('github.com');
+  setPendingEmailCredentials();
+  firebaseui.auth.widget.handler.handleFederatedLinking(
+      app, container, federatedAccount.getEmail(), 'github.com');
+  assertFederatedLinkingPage(federatedAccount.getEmail());
+  submitForm();
+  testAuth.assertSignInWithRedirect([expectedProvider]);
+  return testAuth.process().then(function() {
+    testAuth.assertGetRedirectResult(
+        [],
+        null,
+        internalError);
+    return testAuth.process();
+  }).then(function() {
+    // Pending credential and email should be not cleared from storage.
+    assertTrue(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    // Federated linking page should remain displayed.
+    assertFederatedLinkingPage(federatedAccount.getEmail());
+    // Confirm error message shown in info bar.
+    assertInfoBarMessage(
+        firebaseui.auth.widget.handler.common.getErrorMessage(internalError));
+  });
+}
+
+
 function testHandleFederatedLinking_popup_success() {
   // Test successful federated linking in popup flow.
   app.updateConfig('signInFlow', 'popup');
   // Add additional scopes to test they are properly passed to the sign-in
   // method.
   var expectedProvider = getExpectedProviderWithScopes({
-    'login_hint': federatedAccount.getEmail()
+    'login_hint': federatedAccount.getEmail(),
+    'prompt': 'select_account'
   });
   setPendingEmailCredentials();
   firebaseui.auth.widget.handler.handleFederatedLinking(
@@ -146,7 +240,8 @@ function testHandleFederatedLinking_popup_success_multipleClicks() {
   // Add additional scopes to test they are properly passed to the sign-in
   // method.
   var expectedProvider = getExpectedProviderWithScopes({
-    'login_hint': federatedAccount.getEmail()
+    'login_hint': federatedAccount.getEmail(),
+    'prompt': 'select_account'
   });
   setPendingEmailCredentials();
   firebaseui.auth.widget.handler.handleFederatedLinking(
@@ -241,7 +336,8 @@ function testHandleFederatedLinking_error() {
   // Add additional scopes to test they are properly passed to the sign-in
   // method.
   var expectedProvider = getExpectedProviderWithScopes({
-    'login_hint': federatedAccount.getEmail()
+    'login_hint': federatedAccount.getEmail(),
+    'prompt': 'select_account'
   });
   setPendingEmailCredentials();
   firebaseui.auth.widget.handler.handleFederatedLinking(
@@ -264,7 +360,8 @@ function testHandleFederatedLinking_popup_recoverableError() {
   // Add additional scopes to test they are properly passed to the sign-in
   // method.
   var expectedProvider = getExpectedProviderWithScopes({
-    'login_hint': federatedAccount.getEmail()
+    'login_hint': federatedAccount.getEmail(),
+    'prompt': 'select_account'
   });
   setPendingEmailCredentials();
   firebaseui.auth.widget.handler.handleFederatedLinking(
@@ -297,7 +394,8 @@ function testHandleFederatedLinking_popup_userCancelled() {
   // Add additional scopes to test they are properly passed to the sign-in
   // method.
   var expectedProvider = getExpectedProviderWithScopes({
-    'login_hint': federatedAccount.getEmail()
+    'login_hint': federatedAccount.getEmail(),
+    'prompt': 'select_account'
   });
   setPendingEmailCredentials();
   firebaseui.auth.widget.handler.handleFederatedLinking(
@@ -330,7 +428,8 @@ function testHandleFederatedLinking_popup_unrecoverableError() {
   // Add additional scopes to test they are properly passed to the sign-in
   // method.
   var expectedProvider = getExpectedProviderWithScopes({
-    'login_hint': federatedAccount.getEmail()
+    'login_hint': federatedAccount.getEmail(),
+    'prompt': 'select_account'
   });
   setPendingEmailCredentials();
   firebaseui.auth.widget.handler.handleFederatedLinking(
@@ -359,7 +458,8 @@ function testHandleFederatedLinking_popup_popupBlockedError() {
   // Add additional scopes to test they are properly passed to the sign-in
   // method.
   var expectedProvider = getExpectedProviderWithScopes({
-    'login_hint': federatedAccount.getEmail()
+    'login_hint': federatedAccount.getEmail(),
+    'prompt': 'select_account'
   });
   setPendingEmailCredentials();
   firebaseui.auth.widget.handler.handleFederatedLinking(
@@ -392,7 +492,8 @@ function testHandleFederatedLinking_popup_popupBlockedError_redirectError() {
   // Add additional scopes to test they are properly passed to the sign-in
   // method.
   var expectedProvider = getExpectedProviderWithScopes({
-    'login_hint': federatedAccount.getEmail()
+    'login_hint': federatedAccount.getEmail(),
+    'prompt': 'select_account'
   });
   setPendingEmailCredentials();
   firebaseui.auth.widget.handler.handleFederatedLinking(
@@ -429,7 +530,8 @@ function testHandleFederatedLinking_inProcessing() {
   // method.
   app.updateConfig('signInOptions', signInOptionsWithScopes);
   var expectedProvider = getExpectedProviderWithScopes({
-    'login_hint': federatedAccount.getEmail()
+    'login_hint': federatedAccount.getEmail(),
+    'prompt': 'select_account'
   });
   setPendingEmailCredentials();
   firebaseui.auth.widget.handler.handleFederatedLinking(
@@ -460,7 +562,8 @@ function testHandleFederatedLinking_popup_cancelled() {
   // Test sign in with popup flow when the popup is cancelled.
   app.updateConfig('signInFlow', 'popup');
   var expectedProvider = getExpectedProviderWithScopes({
-    'login_hint': federatedAccount.getEmail()
+    'login_hint': federatedAccount.getEmail(),
+    'prompt': 'select_account'
   });
   setPendingEmailCredentials();
   firebaseui.auth.widget.handler.handleFederatedLinking(

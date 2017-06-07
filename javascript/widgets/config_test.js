@@ -45,6 +45,7 @@ function setUp() {
     warningLogMessages.push(msg);
   });
   firebase.auth = {
+    GoogleAuthProvider: {PROVIDER_ID: 'google.com'},
     EmailAuthProvider: {PROVIDER_ID: 'password'},
     PhoneAuthProvider: {PROVIDER_ID: 'phone'}
   };
@@ -313,6 +314,107 @@ function testGetRecaptchaParameters() {
 }
 
 
+function testGetProviderCustomParameter_noSignInOptions() {
+  config.update('signInOptions', null);
+  assertNull(config.getProviderCustomParameters('google.com'));
+}
+
+
+function testGetProviderCustomParameter_invalidIdp() {
+  config.update('signInOptions', [{
+    'provider': 'unrecognized',
+    'customParameters': ['foo', 'bar']
+  }]);
+  assertNull(config.getProviderCustomParameters('unrecognized'));
+}
+
+
+function testGetProviderCustomParameter_missingCustomParameters() {
+  config.update('signInOptions', [{
+    'provider': 'google.com',
+  }]);
+  assertNull(config.getProviderCustomParameters('google.com'));
+}
+
+
+function testGetProviderCustomParameter_multipleIdp() {
+  config.update('signInOptions', [
+    {
+      'provider': 'google.com',
+      'scopes': ['google1', 'google2'],
+      'customParameters': {
+        'prompt': 'select_account',
+        'login_hint': 'user@example.com'
+      }
+    },
+    {
+      'provider': 'facebook.com',
+      'scopes': ['facebook1', 'facebook2'],
+      'customParameters': {
+        'display': 'popup',
+        'auth_type': 'rerequest',
+        'locale': 'pt_BR',
+      }
+    },
+    'github.com'
+  ]);
+  assertObjectEquals(
+      {'prompt': 'select_account'},
+      config.getProviderCustomParameters('google.com'));
+  assertObjectEquals(
+      {
+        'display': 'popup',
+        'auth_type': 'rerequest',
+        'locale': 'pt_BR',
+      },
+      config.getProviderCustomParameters('facebook.com'));
+  assertNull(config.getProviderCustomParameters('github.com'));
+  assertNull(config.getProviderCustomParameters('twitter.com'));
+}
+
+
+function testGetPhoneAuthDefaultCountry() {
+  config.update('signInOptions', [{
+    'provider': 'phone',
+    'defaultCountry': 'gb'
+  }]);
+  assertEquals('United Kingdom', config.getPhoneAuthDefaultCountry().name);
+  assertEquals('44', config.getPhoneAuthDefaultCountry().e164_cc);
+}
+
+
+function testGetPhoneAuthDefaultCountry_null() {
+  config.update('signInOptions', null);
+  assertNull(config.getPhoneAuthDefaultCountry());
+}
+
+
+function testGetPhoneAuthDefaultCountry_noCountrySpecified() {
+  config.update('signInOptions', [{
+    'provider': 'phone'
+  }]);
+  assertNull(config.getPhoneAuthDefaultCountry());
+}
+
+
+function testGetPhoneAuthDefaultCountry_invalidIdp() {
+  config.update('signInOptions', [{
+    'provider': 'google.com',
+    'defaultCountry': 'gb'
+  }]);
+  assertNull(config.getPhoneAuthDefaultCountry());
+}
+
+
+function testGetPhoneAuthDefaultCountry_invalidCountry() {
+  config.update('signInOptions', [{
+    'provider': 'phone',
+    'defaultCountry': 'zz'
+  }]);
+  assertNull(config.getPhoneAuthDefaultCountry());
+}
+
+
 function testGetProviderAdditionalScopes_noSignInOptions() {
   config.update('signInOptions', null);
   assertArrayEquals([], config.getProviderAdditionalScopes('google.com'));
@@ -471,9 +573,16 @@ function testGetCallbacks() {
 }
 
 
-function testGetCredentialHelper() {
+function testGetCredentialHelper_httpOrHttps() {
   // Test credential helper configuration setting, as well as the
-  // accountchooser.com enabled helper method.
+  // accountchooser.com enabled helper method, in a HTTP or HTTPS environment.
+  // Simulate HTTP or HTTPS environment.
+  stub.replace(
+      firebaseui.auth.util,
+      'isHttpOrHttps',
+      function() {
+        return true;
+      });
   // Default is accountchooser.com.
   assertEquals('accountchooser.com', config.getCredentialHelper());
   assertTrue(config.isAccountChooserEnabled());
@@ -485,11 +594,44 @@ function testGetCredentialHelper() {
 
   // Explicitly disable credential helper.
   config.update('credentialHelper', 'none');
-  assertEquals(config.getCredentialHelper(), 'none');
+  assertEquals('none', config.getCredentialHelper());
   assertFalse(config.isAccountChooserEnabled());
 
   // Explicitly enable accountchooser.com.
   config.update('credentialHelper', 'accountchooser.com');
   assertEquals('accountchooser.com', config.getCredentialHelper());
   assertTrue(config.isAccountChooserEnabled());
+}
+
+
+function testGetCredentialHelper_nonHttpOrHttps() {
+  // Test credential helper configuration setting, as well as the
+  // accountchooser.com enabled helper method, in a non HTTP or HTTPS
+  // environment. This could be a Cordova file environment.
+  // Simulate non HTTP or HTTPS environment.
+  stub.replace(
+      firebaseui.auth.util,
+      'isHttpOrHttps',
+      function() {
+        return false;
+      });
+  // All should resolve to none.
+  // Default is accountchooser.com.
+  assertEquals('none', config.getCredentialHelper());
+  assertFalse(config.isAccountChooserEnabled());
+
+  // Use an invalid credential helper.
+  config.update('credentialHelper', 'invalid');
+  assertEquals('none', config.getCredentialHelper());
+  assertFalse(config.isAccountChooserEnabled());
+
+  // Explicitly disable credential helper.
+  config.update('credentialHelper', 'none');
+  assertEquals('none', config.getCredentialHelper());
+  assertFalse(config.isAccountChooserEnabled());
+
+  // Explicitly enable accountchooser.com.
+  config.update('credentialHelper', 'accountchooser.com');
+  assertEquals('none', config.getCredentialHelper());
+  assertFalse(config.isAccountChooserEnabled());
 }

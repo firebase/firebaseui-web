@@ -69,20 +69,18 @@ element.NewPasswordTestHelper.prototype.testTogglePassword_ = function() {
   var password = this.component.getNewPasswordElement();
   var toggle = this.component.getPasswordToggleElement();
 
-  assertTrue(goog.dom.classlist.contains(toggle,
-      goog.getCssName('firebaseui-input-toggle-on')));
+  assertTrue(goog.dom.classlist.contains(toggle, 'firebaseui-input-toggle-on'));
   assertEquals('password', password['type']);
 
   // Click on the eye icon.
   goog.testing.events.fireClickEvent(toggle);
-  assertTrue(goog.dom.classlist.contains(toggle,
-      goog.getCssName('firebaseui-input-toggle-off')));
+  assertTrue(
+      goog.dom.classlist.contains(toggle, 'firebaseui-input-toggle-off'));
   assertEquals('text', password['type']);
 
   // Click on the eye icon again.
   goog.testing.events.fireClickEvent(toggle);
-  assertTrue(goog.dom.classlist.contains(toggle,
-      goog.getCssName('firebaseui-input-toggle-on')));
+  assertTrue(goog.dom.classlist.contains(toggle, 'firebaseui-input-toggle-on'));
   assertEquals('password', password['type']);
 };
 
@@ -101,25 +99,25 @@ element.NewPasswordTestHelper.prototype.testFocusNewPassword_ = function() {
 
   // Focus the new password input.
   goog.testing.events.fireFocusEvent(password);
-  assertTrue(goog.dom.classlist.contains(toggle,
-      goog.getCssName('firebaseui-input-toggle-focus')));
-  assertFalse(goog.dom.classlist.contains(toggle,
-      goog.getCssName('firebaseui-input-toggle-blur')));
+  assertTrue(
+      goog.dom.classlist.contains(toggle, 'firebaseui-input-toggle-focus'));
+  assertFalse(
+      goog.dom.classlist.contains(toggle, 'firebaseui-input-toggle-blur'));
 
   // Unfocus the new password input.
   goog.testing.events.fireBlurEvent(password);
   console.log(toggle.classList);
-  assertTrue(goog.dom.classlist.contains(toggle,
-      goog.getCssName('firebaseui-input-toggle-blur')));
-  assertFalse(goog.dom.classlist.contains(toggle,
-      goog.getCssName('firebaseui-input-toggle-focus')));
+  assertTrue(
+      goog.dom.classlist.contains(toggle, 'firebaseui-input-toggle-blur'));
+  assertFalse(
+      goog.dom.classlist.contains(toggle, 'firebaseui-input-toggle-focus'));
 
   // Focus the new password input again.
   goog.testing.events.fireFocusEvent(password);
-  assertTrue(goog.dom.classlist.contains(toggle,
-      goog.getCssName('firebaseui-input-toggle-focus')));
-  assertFalse(goog.dom.classlist.contains(toggle,
-      goog.getCssName('firebaseui-input-toggle-blur')));
+  assertTrue(
+      goog.dom.classlist.contains(toggle, 'firebaseui-input-toggle-focus'));
+  assertFalse(
+      goog.dom.classlist.contains(toggle, 'firebaseui-input-toggle-blur'));
 };
 
 

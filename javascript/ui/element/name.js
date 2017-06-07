@@ -34,7 +34,7 @@ var element = firebaseui.auth.ui.element;
  * @this {goog.ui.Component}
  */
 element.name.getNameElement = function() {
-  return this.getElementByClass(goog.getCssName('firebaseui-id-name'));
+  return this.getElementByClass('firebaseui-id-name');
 };
 
 
@@ -43,7 +43,7 @@ element.name.getNameElement = function() {
  * @this {goog.ui.Component}
  */
 element.name.getNameErrorElement = function() {
-  return this.getElementByClass(goog.getCssName('firebaseui-id-name-error'));
+  return this.getElementByClass('firebaseui-id-name-error');
 };
 
 

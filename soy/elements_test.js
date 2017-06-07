@@ -132,6 +132,27 @@ function testPhoneConfirmationCode_error() {
 }
 
 
+function testResend() {
+  var root = goog.dom.getElement('resend-countdown');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.element.resend);
+  var countdown = goog.dom.getElementByClass(
+      'firebaseui-id-resend-countdown', root);
+  goog.dom.setTextContent(countdown, 'Resend code in 0:11');
+}
+
+
+function testResendLink() {
+  var root = goog.dom.getElement('resend-link');
+  goog.soy.renderElement(root, firebaseui.auth.soy2.element.resend);
+  var countdown = goog.dom.getElementByClass(
+      'firebaseui-id-resend-countdown', root);
+  goog.dom.classes.add(countdown, 'firebaseui-hidden');
+  var link = goog.dom.getElementByClass('firebaseui-id-resend-link', root);
+  goog.dom.classes.remove(link, 'firebaseui-hidden');
+}
+
+
 function testIdpButton() {
   var idps = [
     'password', 'phone', 'google.com', 'github.com', 'facebook.com',
@@ -204,9 +225,8 @@ function testNewPassword_toggled() {
 
   var toggle =
       goog.dom.getElementByClass('firebaseui-id-password-toggle', root);
-  goog.dom.classes.remove(
-      toggle, goog.getCssName('firebaseui-input-toggle-on'));
-  goog.dom.classes.add(toggle, goog.getCssName('firebaseui-input-toggle-off'));
+  goog.dom.classes.remove(toggle, 'firebaseui-input-toggle-on');
+  goog.dom.classes.add(toggle, 'firebaseui-input-toggle-off');
 }
 
 
@@ -291,6 +311,27 @@ function testRecaptcha_error() {
 }
 
 
+/**
+ * Makes a button, identified by ID, open the passed in HTML dialog.
+ * @param {string} buttonId The HTML ID of the button that triggers the dialog.
+ * @param {!Element} dialog The dialog element to show.
+ */
+function attachShowDialogListener(buttonId, dialog) {
+  document.body.appendChild(dialog);
+  window['dialogPolyfill']['registerDialog'](dialog);
+  var button = goog.dom.getElement(buttonId);
+  button.addEventListener('click', function() {
+    dialog.showModal();
+  });
+  document.addEventListener('click', function(event) {
+    // Close the dialog if the click is not on the button itself.
+    if (event.target !== button && dialog.open) {
+      dialog.close();
+    }
+  });
+}
+
+
 function testLoadingDialog() {
   var data = {
     iconClass: 'mdl-spinner mdl-spinner--single-color mdl-js-spinner ' +
@@ -299,18 +340,20 @@ function testLoadingDialog() {
   };
   var dialog = goog.soy.renderAsElement(
       firebaseui.auth.soy2.element.progressDialog, data, IJ_DATA_);
-  document.body.appendChild(dialog);
-  window['dialogPolyfill']['registerDialog'](dialog);
-  var button = goog.dom.getElement('show-loading-dialog');
-  button.addEventListener('click', function() {
-    dialog.showModal();
-  });
-  document.addEventListener('click', function(event) {
-    // Close the dialog if the click is not on the button itself.
-    if (event.target !== button) {
-      dialog.close();
-    }
-  });
+  attachShowDialogListener('show-loading-dialog', dialog);
+}
+
+
+function testLoadingDialogLongText() {
+  var data = {
+    iconClass: 'mdl-spinner mdl-spinner--single-color mdl-js-spinner ' +
+        'firebaseui-progress-dialog-loading-icon is-active',
+    message: 'I am loading dialog that has very long text. Seriously, the ' +
+        'text is really really long.',
+  };
+  var dialog = goog.soy.renderAsElement(
+      firebaseui.auth.soy2.element.progressDialog, data, IJ_DATA_);
+  attachShowDialogListener('show-loading-dialog-long', dialog);
 }
 
 
@@ -321,54 +364,21 @@ function testDoneDialog() {
   };
   var dialog = goog.soy.renderAsElement(
       firebaseui.auth.soy2.element.progressDialog, data, IJ_DATA_);
-  document.body.appendChild(dialog);
-  window['dialogPolyfill']['registerDialog'](dialog);
-  var button = goog.dom.getElement('show-done-dialog');
-  button.addEventListener('click', function() {
-    dialog.showModal();
-  });
-  document.addEventListener('click', function() {
-    // Close the dialog if the click is not on the button itself.
-    if (event.target !== button) {
-      dialog.close();
-    }
-  });
+  attachShowDialogListener('show-done-dialog', dialog);
 }
 
 
 function testListboxDialog() {
   var data = {
     items: [
-      {
-        id: '1',
-        label: 'Item one'
-      },
-      {
-        id: '2',
-        label: 'Item two'
-      },
-      {
-        id: '3',
-        label: 'Item three'
-      }
+      {id: '1', label: 'Item one'}, {id: '2', label: 'Item two'},
+      {id: '3', label: 'Item three'}
     ]
   };
   var dialog = goog.soy.renderAsElement(
       firebaseui.auth.soy2.element.listBoxDialog, data, IJ_DATA_);
-  document.body.appendChild(dialog);
-  window['dialogPolyfill']['registerDialog'](dialog);
-  var button = goog.dom.getElement('show-list-box');
-  button.addEventListener('click', function() {
-    dialog.showModal();
-  });
-  document.addEventListener('click', function() {
-    // Close the dialog if the click is not on the button itself.
-    if (event.target !== button) {
-      dialog.close();
-    }
-  });
+  attachShowDialogListener('show-list-box', dialog);
 }
-
 
 
 function testListboxDialogWithIcons() {
@@ -393,16 +403,5 @@ function testListboxDialogWithIcons() {
   };
   var dialog = goog.soy.renderAsElement(
       firebaseui.auth.soy2.element.listBoxDialog, data, IJ_DATA_);
-  document.body.appendChild(dialog);
-  window['dialogPolyfill']['registerDialog'](dialog);
-  var button = goog.dom.getElement('show-list-box-with-icons');
-  button.addEventListener('click', function() {
-    dialog.showModal();
-  });
-  document.addEventListener('click', function() {
-    // Close the dialog if the click is not on the button itself.
-    if (event.target !== button) {
-      dialog.close();
-    }
-  });
+  attachShowDialogListener('show-list-box-with-icons', dialog);
 }

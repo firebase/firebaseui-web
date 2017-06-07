@@ -128,11 +128,8 @@ firebaseui.auth.ui.element.ElementTestHelper.prototype.fireChangeEvent =
  */
 firebaseui.auth.ui.element.ElementTestHelper.prototype.checkInputValid =
     function(input) {
-  assertTrue(
-      goog.dom.classlist.contains(input, goog.getCssName('firebaseui-input')));
-  assertFalse(
-      goog.dom.classlist.contains(
-          input, goog.getCssName('firebaseui-input-invalid')));
+  assertTrue(goog.dom.classlist.contains(input, 'firebaseui-input'));
+  assertFalse(goog.dom.classlist.contains(input, 'firebaseui-input-invalid'));
 };
 
 
@@ -143,11 +140,8 @@ firebaseui.auth.ui.element.ElementTestHelper.prototype.checkInputValid =
  */
 firebaseui.auth.ui.element.ElementTestHelper.prototype.checkInputInvalid =
     function(input) {
-  assertFalse(
-      goog.dom.classlist.contains(input, goog.getCssName('firebaseui-input')));
-  assertTrue(
-      goog.dom.classlist.contains(
-          input, goog.getCssName('firebaseui-input-invalid')));
+  assertFalse(goog.dom.classlist.contains(input, 'firebaseui-input'));
+  assertTrue(goog.dom.classlist.contains(input, 'firebaseui-input-invalid'));
 };
 
 

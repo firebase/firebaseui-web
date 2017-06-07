@@ -20,6 +20,7 @@ goog.provide('firebaseui.auth.widget.handler.FederatedSignInTest');
 goog.setTestOnly('firebaseui.auth.widget.handler.FederatedSignInTest');
 
 goog.require('firebaseui.auth.idp');
+goog.require('firebaseui.auth.storage');
 goog.require('firebaseui.auth.widget.handler');
 goog.require('firebaseui.auth.widget.handler.common');
 /** @suppress {extraRequire} Required for page navigation after form submission
@@ -36,7 +37,8 @@ goog.require('firebaseui.auth.widget.handler.testHelper');
 function testHandleFederatedSignIn() {
   // Add additional scopes to test they are properly passed to sign-in method.
   var expectedProvider = getExpectedProviderWithScopes({
-    'login_hint': 'user@gmail.com'
+    'login_hint': 'user@gmail.com',
+    'prompt': 'select_account'
   });
   firebaseui.auth.widget.handler.handleFederatedSignIn(
       app, container, 'user@gmail.com', 'google.com');
@@ -45,6 +47,89 @@ function testHandleFederatedSignIn() {
   testAuth.assertSignInWithRedirect(
       [expectedProvider]);
   return testAuth.process();
+}
+
+
+function testHandleFederatedSignIn_cordova() {
+  // Test federated sign-in success from a Cordova environment.
+  // Add additional scopes to test they are properly passed to sign-in method.
+  // Simulate a Cordova environment.
+  simulateCordovaEnvironment();
+  var cred  = firebaseui.auth.idp.getAuthCredential({
+    'providerId': 'google.com',
+    'accessToken': 'ACCESS_TOKEN'
+  });
+  var expectedProvider = getExpectedProviderWithScopes({
+    'login_hint': 'user@gmail.com',
+    'prompt': 'select_account'
+  });
+  firebaseui.auth.widget.handler.handleFederatedSignIn(
+      app, container, 'user@gmail.com', 'google.com');
+  assertFederatedLinkingPage();
+  submitForm();
+  testAuth.assertSignInWithRedirect(
+      [expectedProvider]);
+  return testAuth.process().then(function() {
+    testAuth.setUser({
+      'email': federatedAccount.getEmail(),
+      'displayName': federatedAccount.getDisplayName()
+    });
+    testAuth.assertGetRedirectResult(
+        [],
+        {
+          'user': testAuth.currentUser,
+          'credential': cred
+        });
+    return testAuth.process();
+  }).then(function() {
+    assertCallbackPage();
+    return testAuth.process();
+  }).then(function() {
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    externalAuth.setUser(testAuth.currentUser);
+    externalAuth.assertSignInWithCredential(
+        [cred], externalAuth.currentUser);
+    return externalAuth.process();
+  }).then(function() {
+    // Pending credential should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    // User should be redirected to success URL.
+    testUtil.assertGoTo('http://localhost/home');
+  });
+}
+
+
+function testHandleFederatedSignIn_error_cordova() {
+  // Test federated sign-in error from a Cordova environment.
+  // Add additional scopes to test they are properly passed to sign-in method.
+  // Simulate a Cordova environment.
+  simulateCordovaEnvironment();
+  var expectedProvider = getExpectedProviderWithScopes({
+    'login_hint': 'user@gmail.com',
+    'prompt': 'select_account'
+  });
+  firebaseui.auth.widget.handler.handleFederatedSignIn(
+      app, container, 'user@gmail.com', 'google.com');
+  assertFederatedLinkingPage();
+  submitForm();
+  testAuth.assertSignInWithRedirect(
+      [expectedProvider]);
+  return testAuth.process().then(function() {
+    testAuth.assertGetRedirectResult(
+        [],
+        null,
+        internalError);
+    return testAuth.process();
+  }).then(function() {
+    // Federated linking page should remain displayed.
+    assertFederatedLinkingPage();
+    // Confirm error message shown in info bar.
+    assertInfoBarMessage(
+        firebaseui.auth.widget.handler.common.getErrorMessage(internalError));
+  });
 }
 
 
@@ -68,7 +153,8 @@ function testHandleFederatedSignIn_popup_success() {
   app.updateConfig('signInFlow', 'popup');
   // Add additional scopes to test they are properly passed to sign-in method.
   var expectedProvider = getExpectedProviderWithScopes({
-    'login_hint': 'user@gmail.com'
+    'login_hint': 'user@gmail.com',
+    'prompt': 'select_account'
   });
   firebaseui.auth.widget.handler.handleFederatedSignIn(
       app, container, 'user@gmail.com', 'google.com');
@@ -110,7 +196,8 @@ function testHandleFederatedSignIn_popup_success_multipleClicks() {
   app.updateConfig('signInFlow', 'popup');
   // Add additional scopes to test they are properly passed to sign-in method.
   var expectedProvider = getExpectedProviderWithScopes({
-    'login_hint': 'user@gmail.com'
+    'login_hint': 'user@gmail.com',
+    'prompt': 'select_account'
   });
   firebaseui.auth.widget.handler.handleFederatedSignIn(
       app, container, 'user@gmail.com', 'google.com');
@@ -161,7 +248,8 @@ function testHandleFederatedSignIn_popup_cancelled() {
   app.updateConfig('signInFlow', 'popup');
   // Add additional scopes to test they are properly passed to sign-in method.
   var expectedProvider = getExpectedProviderWithScopes({
-    'login_hint': 'user@gmail.com'
+    'login_hint': 'user@gmail.com',
+    'prompt': 'select_account'
   });
   firebaseui.auth.widget.handler.handleFederatedSignIn(
       app, container, 'user@gmail.com', 'google.com');
@@ -195,7 +283,8 @@ function testHandleFederatedSignIn_reset() {
 function testHandleFederatedSignIn_error() {
   // Add additional scopes to test they are properly passed to sign-in method.
   var expectedProvider = getExpectedProviderWithScopes({
-    'login_hint': 'user@gmail.com'
+    'login_hint': 'user@gmail.com',
+    'prompt': 'select_account'
   });
   firebaseui.auth.widget.handler.handleFederatedSignIn(
       app, container, 'user@gmail.com', 'google.com');
@@ -216,7 +305,8 @@ function testHandleFederatedSignIn_popup_recoverableError() {
   app.updateConfig('signInFlow', 'popup');
   // Add additional scopes to test they are properly passed to sign-in method.
   var expectedProvider = getExpectedProviderWithScopes({
-    'login_hint': 'user@gmail.com'
+    'login_hint': 'user@gmail.com',
+    'prompt': 'select_account'
   });
   firebaseui.auth.widget.handler.handleFederatedSignIn(
       app, container, 'user@gmail.com', 'google.com');
@@ -243,7 +333,8 @@ function testHandleFederatedSignIn_popup_userCancelled() {
   app.updateConfig('signInFlow', 'popup');
   // Add additional scopes to test they are properly passed to sign-in method.
   var expectedProvider = getExpectedProviderWithScopes({
-    'login_hint': 'user@gmail.com'
+    'login_hint': 'user@gmail.com',
+    'prompt': 'select_account'
   });
   firebaseui.auth.widget.handler.handleFederatedSignIn(
       app, container, 'user@gmail.com', 'google.com');
@@ -270,7 +361,8 @@ function testHandleFederatedSignIn_popup_popupBlockedError() {
   app.updateConfig('signInFlow', 'popup');
   // Add additional scopes to test they are properly passed to sign-in method.
   var expectedProvider = getExpectedProviderWithScopes({
-    'login_hint': 'user@gmail.com'
+    'login_hint': 'user@gmail.com',
+    'prompt': 'select_account'
   });
   firebaseui.auth.widget.handler.handleFederatedSignIn(
       app, container, 'user@gmail.com', 'google.com');
@@ -298,7 +390,8 @@ function testHandleFederatedSignIn_popup_popupBlockedError_redirectError() {
   app.updateConfig('signInFlow', 'popup');
   // Add additional scopes to test they are properly passed to sign-in method.
   var expectedProvider = getExpectedProviderWithScopes({
-    'login_hint': 'user@gmail.com'
+    'login_hint': 'user@gmail.com',
+    'prompt': 'select_account'
   });
   firebaseui.auth.widget.handler.handleFederatedSignIn(
       app, container, 'user@gmail.com', 'google.com');
@@ -332,7 +425,8 @@ function testHandleFederatedSignIn_popup_unrecoverableError() {
   app.updateConfig('signInFlow', 'popup');
   // Add additional scopes to test they are properly passed to sign-in method.
   var expectedProvider = getExpectedProviderWithScopes({
-    'login_hint': 'user@gmail.com'
+    'login_hint': 'user@gmail.com',
+    'prompt': 'select_account'
   });
   firebaseui.auth.widget.handler.handleFederatedSignIn(
       app, container, 'user@gmail.com', 'google.com');

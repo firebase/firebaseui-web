@@ -21,9 +21,10 @@ FirebaseUI Auth clients are also available for
 [Android](https://github.com/firebase/firebaseui-android).
 
 FirebaseUI fully supports all recent browsers. Signing in with federated
-providers (Google, Facebook, Twitter, Github) is not yet supported in
-non-browser environments (Cordova, React Native, Ionic...) nor Chrome
-extensions.
+providers (Google, Facebook, Twitter, Github) is also supported in
+Cordova/Ionic environments. Additional non-browser environments (React
+Native...) or Chrome extensions will be added once the underlying Firebase core
+SDK supports them in a way that is compatible with FirebaseUI.
 
 ## Table of Contents
 
@@ -34,8 +35,9 @@ extensions.
 5. [Customization](#customizing-firebaseui-for-authentication)
 6. [Advanced](#advanced)
 7. [Developer Setup](#developer-setup)
-8. [Known issues](#known-issues)
-9. [Release Notes](#release-notes)
+8. [Cordova Setup](#cordova-setup)
+9. [Known issues](#known-issues)
+10. [Release Notes](#release-notes)
 
 ## Demo
 
@@ -50,8 +52,8 @@ You just need to include the following script and CSS file in the `<head>` tag
 of your page, below the initialization snippet from the Firebase Console:
 
 ```html
-<script src="https://cdn.firebase.com/libs/firebaseui/2.0.0/firebaseui.js"></script>
-<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.0.0/firebaseui.css" />
+<script src="https://cdn.firebase.com/libs/firebaseui/2.1.0/firebaseui.js"></script>
+<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.1.0/firebaseui.css" />
 ```
 
 ### Option 2: npm Module
@@ -147,8 +149,8 @@ for a more in-depth example, showcasing a Single Page Application mode.
        * TODO(DEVELOPER): Paste the initialization snippet from:
        * Firebase Console > Overview > Add Firebase to your web app. *
        ***************************************************************************************** -->
-    <script src="https://cdn.firebase.com/libs/firebaseui/2.0.0/firebaseui.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.0.0/firebaseui.css" />
+    <script src="https://cdn.firebase.com/libs/firebaseui/2.1.0/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.1.0/firebaseui.css" />
     <script type="text/javascript">
       // FirebaseUI config.
       var uiConfig = {
@@ -350,7 +352,8 @@ usernames they have saved from your app or other applications. To achieve this,
 available. Upon signing in or signing up with email, the user will be redirected
 to the accountchooser.com website and will be able to select one of their saved
 accounts. It is recommended to use this, but you can also disable it by
-specifying the value below.
+specifying the value below. This feature is always disabled for non HTTP/HTTPS
+environments.
 
 |Credential Helper |Value                                                 |
 |------------------|------------------------------------------------------|
@@ -368,10 +371,10 @@ specifying the value below.
 |Email and password|`firebase.auth.EmailAuthProvider.PROVIDER_ID`   |
 |Phone number      |`firebase.auth.PhoneAuthProvider.PROVIDER_ID`   |
 
-### Custom scopes
+### Configure OAuth providers
 
-To specify custom scopes per provider, you can pass an object instead of just
-the provider value:
+To specify custom scopes, or custom OAuth parameters per provider, you can pass
+an object instead of just the provider value:
 
 ```javascript
 ui.start('#firebaseui-auth-container', {
@@ -380,7 +383,12 @@ ui.start('#firebaseui-auth-container', {
       provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       scopes: [
         'https://www.googleapis.com/auth/plus.login'
-      ]
+      ],
+      customParameters: {
+        // Forces account selection even when one account
+        // is available.
+        prompt: 'select_account'
+      }
     },
     {
       provider: firebase.auth.FacebookAuthProvider.PROVIDER_ID,
@@ -389,7 +397,11 @@ ui.start('#firebaseui-auth-container', {
         'email',
         'user_likes',
         'user_friends'
-      ]
+      ],
+      customParameters: {
+        // Forces password re-entry.
+        auth_type: 'reauthenticate'
+      }
     },
     firebase.auth.TwitterAuthProvider.PROVIDER_ID, // Twitter does not support scopes.
     firebase.auth.EmailAuthProvider.PROVIDER_ID // Other providers don't need to be given as object.
@@ -417,7 +429,13 @@ ui.start('#firebaseui-auth-container', {
 The `PhoneAuthProvider` can be configured with custom reCAPTCHA parameters
 whether reCAPTCHA is visible or invisible (defaults to `normal`). Refer to the
 [reCAPTCHA API docs](https://developers.google.com/recaptcha/docs/display) for
-more details. The following options are currently supported. Any other
+more details.
+
+The default country to select in the phone number input can also be set.
+[List of supported country codes](javascript/data/README.md). If unspecified,
+the phone number input will default to the United States (+1).
+
+The following options are currently supported. Any other
 parameters will be ignored.
 
 ```javascript
@@ -429,7 +447,8 @@ ui.start('#firebaseui-auth-container', {
         type: 'image', // 'audio'
         size: 'normal', // 'invisible' or 'compact'
         badge: 'bottomleft' //' bottomright' or 'inline' applies to invisible.
-      }
+      },
+      defaultCountry: 'GB' // Set default country to the United Kingdom (+44).
     }
   ]
 });
@@ -488,8 +507,8 @@ FirebaseUI is displayed.
        * TODO(DEVELOPER): Paste the initialization snippet from:
        * Firebase Console > Overview > Add Firebase to your web app. *
        ***************************************************************************************** -->
-    <script src="https://cdn.firebase.com/libs/firebaseui/2.0.0/firebaseui.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.0.0/firebaseui.css" />
+    <script src="https://cdn.firebase.com/libs/firebaseui/2.1.0/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.1.0/firebaseui.css" />
     <script type="text/javascript">
       // FirebaseUI config.
       var uiConfig = {
@@ -694,6 +713,47 @@ the other terminal that has the exported variables, run the tests:
 npm test -- --saucelabs --tunnelIdentifier=<the tunnel identifier>
 ```
 
+## Cordova Setup
+
+### Introduction
+
+FirebaseUI sign-in widget supports Cordova applications. This includes
+email/password and all OAuth providers (Google, Facebook, Twitter and GitHub).
+Phone authentication is not supported due to the limitation in the underlying
+Firebase core SDK.
+
+### Available providers
+
+|Provider          |Value                                           |
+|------------------|------------------------------------------------|
+|Google            |`firebase.auth.GoogleAuthProvider.PROVIDER_ID`  |
+|Facebook          |`firebase.auth.FacebookAuthProvider.PROVIDER_ID`|
+|Twitter           |`firebase.auth.TwitterAuthProvider.PROVIDER_ID` |
+|Github            |`firebase.auth.GithubAuthProvider.PROVIDER_ID`  |
+|Email and password|`firebase.auth.EmailAuthProvider.PROVIDER_ID`   |
+
+### Setup and Usage
+
+In order to integrate FirebaseUI with your Cordova application, you need to
+follow these steps:
+
+- Install the necessary Cordova plugins, make the necessary Firebase Console
+changes and update your config.xml file as documented in
+[OAuth Sign-In for Cordova](https://firebase.google.com/docs/auth/web/cordova)
+- After you have successfully configured your application, you can use
+FirebaseUI in your Cordova application just like any other traditional browser
+applications.
+
+Keep in mind the following while you set up the app:
+- Only `redirect` `signInFlow` is supported as Firebase Auth does not support
+`popup` mode for Cordova.
+- `firebase.auth.PhoneAuthProvider.PROVIDER_ID` is not currently supported.
+- As the application runs within an embedded webview, `accountchooser.com` will
+always be disabled.
+- If you are providing a `Content-Security-Policy` make sure you add the
+appropriate exceptions for FirebaseUI resources (`style-src`, `media-src`,
+`img-src`, `script-src`, etc.) and underlying Firebase JS SDK.
+
 ## Known issues
 
 ### Firebase Auth does not work in Safari private browsing
@@ -742,7 +802,7 @@ method of a React component), call the `reset` method of the
 before rendering again the widget if one has already been rendered on the page.
 Please refer to the [demo app](demo/) for guidance on how to use FirebaseUI in a
 Single Page Application context.
-- **Custom scopes** can now be added for each provider. See [Custom Scopes](custom-scopes).
+- **Custom scopes** can now be added for each provider. See [Configure OAuth providers](configure-oauth-providers).
 - Several issues, different but related to the `displayName` not being present
 after sign up with email and password, have been fixed.
 - A new config parameter has been added: `signInFlow`. It allows to specify

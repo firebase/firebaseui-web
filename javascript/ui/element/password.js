@@ -32,7 +32,7 @@ var element = firebaseui.auth.ui.element;
  * @this {goog.ui.Component}
  */
 element.password.getPasswordElement = function() {
-  return this.getElementByClass(goog.getCssName('firebaseui-id-password'));
+  return this.getElementByClass('firebaseui-id-password');
 };
 
 
@@ -41,8 +41,7 @@ element.password.getPasswordElement = function() {
  * @this {goog.ui.Component}
  */
 element.password.getPasswordErrorElement = function() {
-  return this.getElementByClass(
-      goog.getCssName('firebaseui-id-password-error'));
+  return this.getElementByClass('firebaseui-id-password-error');
 };
 
 

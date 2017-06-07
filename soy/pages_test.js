@@ -34,7 +34,8 @@ var IJ_DATA_ = {
   'githubLogo': '../image/github.svg',
   'facebookLogo': '../image/facebook.svg',
   'twitterLogo': '../image/twitter.svg',
-  'passwordLogo': '../image/mail.svg'
+  'passwordLogo': '../image/mail.svg',
+  'phoneLogo': '../image/phone.svg'
 };
 
 
@@ -330,5 +331,21 @@ function testPhoneSignInFinish() {
   var root = goog.dom.getElement('phone-sign-in-finish');
   goog.soy.renderElement(
       root, firebaseui.auth.soy2.page.phoneSignInFinish,
-      {phoneNumber: '+13115552368'}, IJ_DATA_);
+      {
+        phoneNumber: '+13115552368',
+        tosUrl: 'http://www.example.com'
+      },
+      IJ_DATA_);
+  var countdown = goog.dom.getElementByClass(
+      'firebaseui-id-resend-countdown', root);
+  goog.dom.setTextContent(countdown, 'Resend code in 0:11');
+}
+
+function testPhoneSignInFinish_noTos() {
+  var root = goog.dom.getElement('phone-sign-in-finish-no-tos');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.phoneSignInFinish,
+      {
+        phoneNumber: '+13115552368'
+      }, IJ_DATA_);
 }

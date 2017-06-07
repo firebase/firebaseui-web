@@ -643,6 +643,56 @@ firebaseui.auth.widget.handler.common.isCredentialExpired = function(error) {
 /**
  * @param {!firebaseui.auth.AuthUI} app The current FirebaseUI instance whose
  *     configuration is used.
+ * @param {string} providerId The provider ID of the selected IdP.
+ * @param {?string=} opt_email The optional email to try to sign in with.
+ * @return {!firebase.auth.AuthProvider} The corresponding Firebase Auth
+ *     provider with additional scopes and custom parameters.
+ * @private
+ */
+firebaseui.auth.widget.handler.common.getAuthProvider_ = function(
+    app, providerId, opt_email) {
+  // Construct provider and pass additional scopes.
+  var provider = firebaseui.auth.idp.getAuthProvider(providerId);
+  // Provider must be provided for any action to be taken.
+  if (!provider) {
+    // This shouldn't happen.
+    throw new Error('Invalid Firebase Auth provider!');
+  }
+  // Get additional scopes for requested provider.
+  var additionalScopes =
+      app.getConfig().getProviderAdditionalScopes(providerId);
+  // Some providers like Twitter do not accept additional scopes.
+  if (provider && provider['addScope']) {
+    // Add every requested additional scope to the provider.
+    for (var i = 0; i < additionalScopes.length; i++) {
+      provider['addScope'](additionalScopes[i]);
+    }
+  }
+  // Get custom parameters for the selected provider.
+  var customParameters =
+      app.getConfig().getProviderCustomParameters(providerId);
+  // If Google provider is requested and email is specified, pass OAuth
+  // parameter login_hint with that email.
+  // Only Google supports this parameter.
+  if (providerId == firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
+      // Only pass login_hint when email available.
+      opt_email) {
+    // In case no custom parameters are provided for google.com.
+    customParameters = customParameters || {};
+    // Add the login_hint.
+    customParameters['login_hint'] = opt_email;
+  }
+  // Add custom OAuth parameters if applicable for the current provider.
+  if (customParameters && provider && provider.setCustomParameters) {
+    provider.setCustomParameters(customParameters);
+  }
+  return provider;
+};
+
+
+/**
+ * @param {!firebaseui.auth.AuthUI} app The current FirebaseUI instance whose
+ *     configuration is used.
  * @param {!firebaseui.auth.ui.page.Base} component The current UI component.
  * @param {string} providerId The provider ID of the selected IdP.
  * @param {?string=} opt_email The optional email to try to sign in with.
@@ -663,43 +713,36 @@ firebaseui.auth.widget.handler.common.federatedSignIn = function(
     component.showInfoBar(errorMessage);
   };
 
-  // Construct provider and pass additional scopes.
-  var provider = firebaseui.auth.idp.getAuthProvider(providerId);
-  // Provider must be provided for any action to be taken.
-  if (!provider) {
-    // This shouldn't happen.
-    throw new Error('Invalid Firebase Auth provider!');
-  }
-  // Get additional scopes for requested provider.
-  var additionalScopes =
-      app.getConfig().getProviderAdditionalScopes(providerId);
-  // Some providers like Twitter do not accept additional scopes.
-  if (provider && provider['addScope']) {
-    // Add every requested additional scope to the provider.
-    for (var i = 0; i < additionalScopes.length; i++) {
-      provider['addScope'](additionalScopes[i]);
-    }
-  }
-  // If Google provider is requested and email is specified, pass OAuth
-  // parameter login_hint with that email.
-  if (provider &&
-      // In case the Firebase Auth version used is too old.
-      provider.setCustomParameters &&
-      // Only Google supports this parameter.
-      providerId == firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
-      // Only pass login_hint when email available.
-      opt_email) {
-    provider.setCustomParameters({
-      'login_hint': opt_email
-    });
-  }
+  // Initialize the corresponding provider.
+  var provider = firebaseui.auth.widget.handler.common.getAuthProvider_(
+      app, providerId, opt_email);
   // Redirect processor.
   var processRedirect = function() {
     app.registerPending(component.executePromiseRequest(
         /** @type {function (): !goog.Promise} */ (
             goog.bind(app.getAuth().signInWithRedirect, app.getAuth())),
         [provider],
-        function() {},
+        function() {
+          // Only run below logic if the environment is potentially a Cordova
+          // environment. This check is not required but will minimize the
+          // need to change existing tests that assertSignInWithRedirect.
+          if (firebaseui.auth.util.getScheme() !== 'file:') {
+            return;
+          }
+          // This will resolve in a Cordova environment. Result should be
+          // obtained from getRedirectResult and then treated like a
+          // signInWithPopup operation.
+          return app.registerPending(app.getAuth().getRedirectResult()
+              .then(function(result) {
+                // Pass result in promise to callback handler.
+                component.dispose();
+                firebaseui.auth.widget.handler.handle(
+                    firebaseui.auth.widget.HandlerName.CALLBACK,
+                    app,
+                    container,
+                    goog.Promise.resolve(result));
+              }, providerSigninFailedCallback));
+        },
         providerSigninFailedCallback));
   };
   // Get the sign-in flow.
@@ -870,6 +913,21 @@ firebaseui.auth.widget.handler.common.isPasswordProviderOnly = function(app) {
 
 
 /**
+ * Helper function to check if a FirebaseUI instance only supports phone
+ * providers.
+ * @param {!firebaseui.auth.AuthUI} app The current FirebaseUI instance whose
+ *     configuration is used.
+ * @return {boolean} Whether only phone providers are supported by the app's
+ *     current configuration.
+ */
+firebaseui.auth.widget.handler.common.isPhoneProviderOnly = function(app) {
+  var providers = app.getConfig().getProviders();
+  return providers.length == 1 &&
+      providers[0] == firebase.auth.PhoneAuthProvider.PROVIDER_ID;
+};
+
+
+/**
  * Calls the appropriate sign-in start handler depending on display mode.
  *
  * @param {firebaseui.auth.AuthUI} app The current FirebaseUI instance whose
@@ -897,6 +955,14 @@ firebaseui.auth.widget.handler.common.handleSignInStart = function(
       firebaseui.auth.widget.handler.common.handleSignInWithEmail(
           app, container, opt_email);
     }
+  } else if (
+      app && firebaseui.auth.widget.handler.common.isPhoneProviderOnly(app) &&
+      !opt_infoBarMessage) {
+    // Avoid an infinite loop by only skipping to phone auth if there's no
+    // error on phone auth rendering, eg recaptcha error when network down,
+    // which would trigger an info bar message.
+    firebaseui.auth.widget.handler.handle(
+        firebaseui.auth.widget.HandlerName.PHONE_SIGN_IN_START, app, container);
   } else {
     // For all other cases, show the provider sign-in screen.
     firebaseui.auth.widget.handler.handle(

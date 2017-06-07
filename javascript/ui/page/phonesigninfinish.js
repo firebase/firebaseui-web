@@ -24,6 +24,7 @@ goog.require('firebaseui.auth.soy2.page');
 goog.require('firebaseui.auth.ui.element');
 goog.require('firebaseui.auth.ui.element.form');
 goog.require('firebaseui.auth.ui.element.phoneConfirmationCode');
+goog.require('firebaseui.auth.ui.element.resend');
 goog.require('firebaseui.auth.ui.page.Base');
 
 
@@ -35,25 +36,41 @@ goog.require('firebaseui.auth.ui.page.Base');
  *     equivalent) is detected on submission.
  * @param {function()} onCancelClick Callback to invoke when cancel button
  *     is clicked.
+ * @param {function()} onResendClick Callback to invoke when resend link
+ *     is clicked.
  * @param {string} phoneNumber the phone number to confirm.
+ * @param {number} resendDelay The resend delay.
+ * @param {?string=} opt_tosUrl The Terms of Service URL from the developer.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @constructor
  * @extends {firebaseui.auth.ui.page.Base}
  */
 firebaseui.auth.ui.page.PhoneSignInFinish = function(
-    onChangePhoneNumberClick, onSubmitClick, onCancelClick, phoneNumber,
-    opt_domHelper) {
+    onChangePhoneNumberClick, onSubmitClick, onCancelClick, onResendClick,
+    phoneNumber, resendDelay, opt_tosUrl, opt_domHelper) {
   firebaseui.auth.ui.page.PhoneSignInFinish.base(
       this, 'constructor', firebaseui.auth.soy2.page.phoneSignInFinish,
-      {phoneNumber: phoneNumber}, opt_domHelper, 'phoneSignInFinish');
+      {
+        phoneNumber: phoneNumber,
+        tosUrl: opt_tosUrl
+      },
+      opt_domHelper, 'phoneSignInFinish');
   /** @private {string} the phone number to confirm. */
   this.phoneNumber_ = phoneNumber;
+  /** @private {number} The resend delay. */
+  this.resendDelay_ = resendDelay;
+  /** @private {?goog.Timer} A resend timer with a one-second interval. */
+  this.resendTimer_ = new goog.Timer(1000);
+  /** @private {number} The seconds remaining before enabling resend. */
+  this.secondsRemaining_ = resendDelay;
   /** @private {?function()} On edit click callback. */
   this.onChangePhoneNumberClick_ = onChangePhoneNumberClick;
   /** @private {?function()} On submit click callback. */
   this.onSubmitClick_ = onSubmitClick;
   /** @private {?function()} On cancel click callback. */
   this.onCancelClick_ = onCancelClick;
+  /** @private {?function()} On resend click callback. */
+  this.onResendClick_ = onResendClick;
 };
 goog.inherits(
     firebaseui.auth.ui.page.PhoneSignInFinish, firebaseui.auth.ui.page.Base);
@@ -62,12 +79,22 @@ goog.inherits(
 /** @override */
 firebaseui.auth.ui.page.PhoneSignInFinish.prototype.enterDocument = function() {
   var self = this;
-  // Handle change phone number click
+  // Init countdown.
+  this.updateResendCountdown(this.resendDelay_);
+  goog.events.listen(
+      this.resendTimer_, goog.Timer.TICK, this.handleTickEvent_, false, this);
+  this.resendTimer_.start();
+  // Handle change phone number click.
   firebaseui.auth.ui.element.listenForActionEvent(
       this, this.getChangePhoneNumberElement(), function(e) {
         self.onChangePhoneNumberClick_();
       });
-  // Submit if user taps enter while confirmation code element has focus
+  // Handle resend click.
+  firebaseui.auth.ui.element.listenForActionEvent(
+      this, this.getResendLink(), function(e) {
+        self.onResendClick_();
+      });
+  // Submit if user taps enter while confirmation code element has focus.
   this.initPhoneConfirmationCodeElement(
       /** @type {function()} */ (this.onSubmitClick_));
   // Handle a click on the submit button or cancel button.
@@ -85,7 +112,32 @@ firebaseui.auth.ui.page.PhoneSignInFinish.prototype.disposeInternal =
   this.onChangePhoneNumberClick_ = null;
   this.onSubmitClick_ = null;
   this.onCancelClick_ = null;
+  this.onResendClick_ = null;
+  // Dispose of countdown.
+  this.resendTimer_.stop();
+  goog.events.unlisten(
+      this.resendTimer_, goog.Timer.TICK, this.handleTickEvent_);
+  this.resendTimer_ = null;
   firebaseui.auth.ui.page.PhoneSignInFinish.base(this, 'disposeInternal');
+};
+
+
+/**
+ * Handles clock tick events.
+ * @private
+ */
+firebaseui.auth.ui.page.PhoneSignInFinish.prototype.handleTickEvent_ =
+    function() {
+  this.secondsRemaining_ -= 1;
+  if (this.secondsRemaining_ > 0) {
+    this.updateResendCountdown(this.secondsRemaining_);
+  } else {
+    this.resendTimer_.stop();
+    goog.events.unlisten(
+        this.resendTimer_, goog.Timer.TICK, this.handleTickEvent_);
+    this.hideResendCountdown();
+    this.showResendLink();
+  }
 };
 
 
@@ -103,8 +155,7 @@ firebaseui.auth.ui.page.PhoneSignInFinish.prototype.setupFocus_ = function() {
  */
 firebaseui.auth.ui.page.PhoneSignInFinish.prototype
     .getChangePhoneNumberElement = function() {
-  return this.getElementByClass(
-      goog.getCssName('firebaseui-id-change-phone-number-link'));
+  return this.getElementByClass('firebaseui-id-change-phone-number-link');
 };
 
 
@@ -125,6 +176,13 @@ goog.mixin(
       checkAndGetPhoneConfirmationCode:
           firebaseui.auth.ui.element.phoneConfirmationCode
               .checkAndGetPhoneConfirmationCode,
+      getResendCountdown: firebaseui.auth.ui.element.resend.getResendCountdown,
+      updateResendCountdown:
+          firebaseui.auth.ui.element.resend.updateResendCountdown,
+      hideResendCountdown:
+          firebaseui.auth.ui.element.resend.hideResendCountdown,
+      getResendLink: firebaseui.auth.ui.element.resend.getResendLink,
+      showResendLink: firebaseui.auth.ui.element.resend.showResendLink,
 
       // For form.
       getSubmitElement: firebaseui.auth.ui.element.form.getSubmitElement,

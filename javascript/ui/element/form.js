@@ -31,7 +31,7 @@ var element = firebaseui.auth.ui.element;
  * @this {goog.ui.Component}
  */
 element.form.getSubmitElement = function() {
-  return this.getElementByClass(goog.getCssName('firebaseui-id-submit'));
+  return this.getElementByClass('firebaseui-id-submit');
 };
 
 
@@ -40,8 +40,7 @@ element.form.getSubmitElement = function() {
  * @this {goog.ui.Component}
  */
 element.form.getSecondaryLinkElement = function() {
-  return this.getElementByClass(
-      goog.getCssName('firebaseui-id-secondary-link'));
+  return this.getElementByClass('firebaseui-id-secondary-link');
 };
 
 
