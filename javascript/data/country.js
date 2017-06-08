@@ -58,7 +58,7 @@ firebaseui.auth.data.country.LookupTree.prototype.init_ = function() {
   // Populate the prefix tree.
   for (var i = 0; i < this.countries_.length; i++) {
     // Construct key.
-    var key = '+' + this.countries_[i]['e164_cc'];
+    var key = '+' + this.countries_[i].e164_cc;
     // Check if key exists.
     var nodeValue = this.trie_.get(key);
     if (nodeValue) {
@@ -66,7 +66,7 @@ firebaseui.auth.data.country.LookupTree.prototype.init_ = function() {
       nodeValue.push(this.countries_[i]);
     } else {
       // Else add that key/value.
-      this.trie_.add('+' + this.countries_[i]['e164_cc'], [this.countries_[i]]);
+      this.trie_.add('+' + this.countries_[i].e164_cc, [this.countries_[i]]);
     }
   }
 };
