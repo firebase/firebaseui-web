@@ -56,16 +56,43 @@ describe('Run all Closure unit tests', function() {
    */
   var executeTest = function(testPath) {
     it('runs ' + testPath + ' with success', function(done) {
-      browser.navigate()
-          .to(TEST_SERVER + '/' + testPath)
-          .then(function() {
-            waitForTest(function(status) {
-              expect(status).toBeSuccess();
-              done();
+      /**
+       * Runs the test routines for a given test path and retries up to a
+       * certain number of times on timeout.
+       * @param {number} tries The number of times to retry on timeout.
+       * @param {function} done The function to run on completion.
+       */
+      var runRoutine = function(tries, done) {
+        browser.navigate()
+            .to(TEST_SERVER + '/' + testPath)
+            .then(function() {
+              waitForTest(function(status) {
+                expect(status).toBeSuccess();
+                done();
+              }, function(err) {
+                // If browser test execution times out try up to trial times.
+                if (err.message &&
+                    err.message.indexOf('ETIMEDOUT') != -1 &&
+                    tries > 0) {
+                  runRoutine(tries - 1, done);
+                } else {
+                  done.fail(err);
+                }
+              });
             }, function(err) {
-              done.fail(err);
+              // If browser test execution times out try up to trial times.
+              if (err.message &&
+                  err.message.indexOf('ETIMEOUT') != -1 &&
+                  trial > 0) {
+                runRoutine(tries - 1, done);
+              } else {
+                done.fail(err);
+              }
             });
-          });
+      };
+      // Run test routine. Set timeout retrial to 2 times, eg. test will try
+      // 2 more times before giving up.
+      runRoutine(2, done);
     });
   };
 
