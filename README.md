@@ -56,6 +56,28 @@ of your page, below the initialization snippet from the Firebase Console:
 <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.1.1/firebaseui.css" />
 ```
 
+#### Localized Widget
+
+Localized versions of the widget are available through the CDN. To use a localized widget, load the
+localized JS library instead of the default library:
+
+```html
+<script src="https://www.gstatic.com/firebasejs/ui/2.1.1/firebase-ui-auth__{LANGUAGE_CODE}.js"></script>
+<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/2.1.1/firebase-ui-auth.css" />
+```
+
+where `{LANGUAGE_CODE}` is replaced by the code of the language you want. For example, the French
+version of the library is available at
+`https://www.gstatic.com/firebasejs/ui/2.1.1/firebase-ui-auth__fr.js`. The list of available
+languages and their respective language codes can be found at [LANGUAGES.md](LANGUAGES.md).
+
+Right-to-left languages also require the right-to-left version of the stylesheet, available at
+`https://www.gstatic.com/firebasejs/ui/2.1.1/firebase-ui-auth-rtl.css`, instead of the default
+stylesheet. The supported right-to-left languages are Arabic (ar), Farsi (fa), and Hebrew (iw).
+
+Internationalized binaries are currently not available in the GitHub repository due to dependencies
+on translation infrastructure that are not compatible with open sourced tools.
+
 ### Option 2: npm Module
 
 Install FirebaseUI and its dependencies via npm using the following command:
