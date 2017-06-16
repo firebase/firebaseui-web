@@ -394,6 +394,28 @@ function testStart() {
 }
 
 
+function testSetLang() {
+  testStubs.replace(goog, 'LOCALE', 'de');
+  app1.start(container1, config1);
+  assertEquals('de', container1.getAttribute('lang'));
+  app1.reset();
+  assertFalse(container1.hasAttribute('lang'));
+
+  testStubs.replace(goog, 'LOCALE', 'zh-CN');
+  app1.start(container1, config1);
+  assertEquals('zh-CN', container1.getAttribute('lang'));
+  app1.reset();
+  assertFalse(container1.hasAttribute('lang'));
+
+  testStubs.replace(goog, 'LOCALE', 'zh_CN');
+  app1.start(container1, config1);
+  // The lang should have a dash instead of an underscore.
+  assertEquals('zh-CN', container1.getAttribute('lang'));
+  app1.reset();
+  assertFalse(container1.hasAttribute('lang'));
+}
+
+
 function testStart_elementNotFound() {
   // Test widget start method with missing element.
   // Test correct error message thrown when widget element not found.

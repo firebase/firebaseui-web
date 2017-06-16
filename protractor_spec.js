@@ -60,7 +60,7 @@ describe('Run all Closure unit tests', function() {
        * Runs the test routines for a given test path and retries up to a
        * certain number of times on timeout.
        * @param {number} tries The number of times to retry on timeout.
-       * @param {function} done The function to run on completion.
+       * @param {function()} done The function to run on completion.
        */
       var runRoutine = function(tries, done) {
         browser.navigate()

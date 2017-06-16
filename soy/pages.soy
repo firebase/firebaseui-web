@@ -60,10 +60,12 @@
         {call firebaseui.auth.soy2.element.password /}
       </div>
       <div class="firebaseui-card-actions">
+        <div class="firebaseui-form-links">
+          {call firebaseui.auth.soy2.element.passwordRecoveryButton /}
+        </div>
         <div class="firebaseui-form-actions">
           {call firebaseui.auth.soy2.element.signInButton /}
         </div>
-        {call firebaseui.auth.soy2.element.passwordRecoveryButton /}
       </div>
     </form>
   </div>
@@ -228,7 +230,9 @@
         {call firebaseui.auth.soy2.element.password /}
       </div>
       <div class="firebaseui-card-actions">
-        {call firebaseui.auth.soy2.element.passwordRecoveryButton /}
+        <div class="firebaseui-form-links">
+          {call firebaseui.auth.soy2.element.passwordRecoveryButton /}
+        </div>
         <div class="firebaseui-form-actions">
           {call firebaseui.auth.soy2.element.signInButton /}
         </div>

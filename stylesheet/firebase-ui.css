@@ -46,17 +46,24 @@
 }
 
 .firebaseui-card-actions {
+  display: table;
   font-size: 14px;
-  line-height: 36px;
   padding: 8px 24px 24px 24px;
   text-align: left;
+  width: 100%;
 }
 
-/* Clearfix */
-.firebaseui-card-actions::after {
-  clear: both;
-  content: "";
-  display: table;
+.firebaseui-form-links {
+  display: table-cell;
+  vertical-align: middle;
+  width: 100%;
+}
+
+.firebaseui-form-actions {
+  display: table-cell;
+  text-align: right;
+  white-space: nowrap;
+  width: 100%;
 }
 
 .firebaseui-title,
@@ -195,11 +202,6 @@ input.firebaseui-input-invalid{
 
 .firebaseui-link:hover {
   text-decoration: underline;
-}
-
-.firebaseui-form-actions {
-  direction: ltr;
-  float: right;
 }
 
 .firebaseui-indent {

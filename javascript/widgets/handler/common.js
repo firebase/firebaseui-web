@@ -39,7 +39,9 @@ goog.require('firebaseui.auth.widget.handler');
 goog.require('goog.Promise');
 
 goog.require('goog.array');
+goog.require('goog.html.TrustedResourceUrl');
 goog.require('goog.net.jsloader');
+goog.require('goog.string.Const');
 
 goog.forwardDeclare('firebaseui.auth.AuthUI');
 
@@ -97,8 +99,10 @@ firebaseui.auth.widget.handler.common.loadAccountchooserJs = function(
     if (typeof accountchooser == 'undefined' &&
         firebaseui.auth.sni.isSupported()) {
       // Not yet loaded but supported.
+      var src = goog.html.TrustedResourceUrl.fromConstant(
+          goog.string.Const.from(ACCOUNTCHOOSER_SRC));
       firebaseui.auth.widget.handler.common.acLoader_ = goog.Promise.resolve(
-          goog.net.jsloader.load(ACCOUNTCHOOSER_SRC)).thenCatch(function() {});
+          goog.net.jsloader.safeLoad(src)).thenCatch(function() {});
     } else {
       // Either not supported by the browser or externally loaded.
       firebaseui.auth.widget.handler.common.acLoader_ = goog.Promise.resolve();

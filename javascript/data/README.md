@@ -3,6 +3,7 @@
 Valid country codes to pass in to `defaultCountry` for phone number
 authentication:
 
+<!-- START COPIED TABLE -->
 | Code | Country |
 | ---- | ------- |
 | AF | Afghanistan |
@@ -251,3 +252,4 @@ authentication:
 | YE | Yemen |
 | ZM | Zambia |
 | ZW | Zimbabwe |
+<!-- END COPIED TABLE -->

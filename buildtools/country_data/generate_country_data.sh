@@ -48,3 +48,6 @@ cp "$SPRITE_DIR/flags.css" "$OUT_DIR"
 
 # Generate the country data JS.
 ./filter_country_data.js > "$OUT_DIR/country_data.js"
+
+# Generate the country data Markdown.
+./make_country_list_for_readme.js > "$OUT_DIR/country_data.md"

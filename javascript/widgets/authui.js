@@ -218,25 +218,7 @@ firebaseui.auth.AuthUI.prototype.isPending = function() {
  */
 firebaseui.auth.AuthUI.prototype.start = function(element, config) {
   var self = this;
-  var onReady = function() {
-    var resetWarning = 'UI Widget is already rendered on the page and is pen' +
-        'ding some user interaction. Only one widget instance can be rendere' +
-        'd per page. The previous instance has been automatically reset.';
-    // Only one auth instance can be rendered per page. This is because
-    // accountchooser.com callbacks are set once to the AuthUI instance that
-    // first calls them.
-    if (firebaseui.auth.AuthUI.widgetAuthUi_) {
-      // Already rendered, automatically reset.
-      // First check if there is a pending operation on that widget, if so,
-      // log a reset warning to the console.
-      if (firebaseui.auth.AuthUI.widgetAuthUi_.isPending()) {
-        firebaseui.auth.log.warning(resetWarning);
-      }
-      firebaseui.auth.AuthUI.widgetAuthUi_.reset();
-    }
-    // Set widget AuthUI as current instance.
-    firebaseui.auth.AuthUI.widgetAuthUi_ = self;
-  };
+
   // There is a problem when config in second call modifies accountchooser.com
   // related config. eg. acUiConfig
   // These changes will be ignored as only the first accountchooser.com related
@@ -247,28 +229,58 @@ firebaseui.auth.AuthUI.prototype.start = function(element, config) {
   // Wrap it in a onload callback to wait for the DOM element is rendered.
   // If document already loaded, render immediately.
   if (doc.readyState == 'complete') {
-    // Confirm element exists.
-    var container = firebaseui.auth.util.getElement(
-        element, firebaseui.auth.AuthUI.ELEMENT_NOT_FOUND_);
-    onReady();
-    self.widgetElement_ = container;
-    // Initialize widget page change listener.
-    self.initPageChangeListener_(container);
-    // Document already loaded, render on demand.
-    firebaseui.auth.widget.dispatcher.dispatchOperation(self, element);
+    this.initElement_(element);
   } else {
     // Document not ready, wait for load before rendering.
     goog.events.listenOnce(window, goog.events.EventType.LOAD, function() {
-      // Confirm element exists.
-      var container = firebaseui.auth.util.getElement(
-          element, firebaseui.auth.AuthUI.ELEMENT_NOT_FOUND_);
-      onReady();
-      self.widgetElement_ = container;
-      // Initialize widget page change listener.
-      self.initPageChangeListener_(container);
-      firebaseui.auth.widget.dispatcher.dispatchOperation(self, element);
+      self.initElement_(element);
     });
   }
+};
+
+
+/**
+ * Initializes the FirebaseUI element.
+ * @param {string|!Element} element The container element or the query selector.
+ * @private
+ */
+firebaseui.auth.AuthUI.prototype.initElement_ = function(element) {
+  // Confirm element exists.
+  var container = firebaseui.auth.util.getElement(
+      element, firebaseui.auth.AuthUI.ELEMENT_NOT_FOUND_);
+
+  // Set the "lang" attribute; without this, there are subtle rendering errors
+  // like vowel capitalization in Turkish.
+
+  // Make sure the locale uses hyphens instead of strings.
+  var locale = goog.LOCALE.replace(/_/g, '-');
+  container.setAttribute('lang', locale);
+
+  // Only one auth instance can be rendered per page. This is because
+  // accountchooser.com callbacks are set once to the AuthUI instance that
+  // first calls them.
+  if (firebaseui.auth.AuthUI.widgetAuthUi_) {
+    // Already rendered, automatically reset.
+    // First check if there is a pending operation on that widget, if so,
+    // log a reset warning to the console.
+    if (firebaseui.auth.AuthUI.widgetAuthUi_.isPending()) {
+      var resetWarning = 'UI Widget is already rendered on the page and is ' +
+          'pending some user interaction. Only one widget instance can be ' +
+          'rendered per page. The previous instance has been automatically ' +
+          'reset.';
+      firebaseui.auth.log.warning(resetWarning);
+    }
+    firebaseui.auth.AuthUI.widgetAuthUi_.reset();
+  }
+
+  // Set widget AuthUI as current instance.
+  firebaseui.auth.AuthUI.widgetAuthUi_ = this;
+
+  this.widgetElement_ = container;
+  // Initialize widget page change listener.
+  this.initPageChangeListener_(container);
+  // Document already loaded, render on demand.
+  firebaseui.auth.widget.dispatcher.dispatchOperation(this, element);
 };
 
 
@@ -304,6 +316,11 @@ firebaseui.auth.AuthUI.prototype.getAuthUiGetter = function() {
 
 /** Reset rendered widget and removes it from display. */
 firebaseui.auth.AuthUI.prototype.reset = function() {
+  // Remove the "lang" attribute that we set in start().
+  if (this.widgetElement_) {
+    this.widgetElement_.removeAttribute('lang');
+  }
+
   // After reset, if the sign-in widget callback is called again, it should not
   // resolve with the previous redirect result.
   this.getRedirectResult_ =
