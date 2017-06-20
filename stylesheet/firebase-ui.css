@@ -46,6 +46,7 @@
 }
 
 .firebaseui-card-actions {
+  box-sizing: border-box;
   display: table;
   font-size: 14px;
   padding: 8px 24px 24px 24px;
