@@ -1,0 +1,1 @@
+fixed - Fixed button alignment issue: https://github.com/firebase/firebaseui-web/issues/174
