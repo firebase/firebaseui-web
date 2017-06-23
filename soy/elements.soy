@@ -493,7 +493,7 @@
  * Determines the IdP CSS class.
  * The list should match the supported provider IDs in Firebase Auth.
  */
-{template .idpClass_ private="true" kind="text"}
+{template .idpClass_ kind="text"}
   {@param? providerId: string} /** The provider ID of the IdP. */
   {switch $providerId}
     {case 'google.com'}
@@ -516,7 +516,7 @@
  * Determines the IdP logo URL.
  * The list should match the supported provider IDs in Firebase Auth.
  */
-{template .idpLogo_ private="true" kind="uri"}
+{template .idpLogo_ kind="uri"}
   {@param? providerId: string} /** The provider ID of the IdP. */
   {switch $providerId}
     {case 'google.com'}
