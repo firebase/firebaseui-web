@@ -180,7 +180,8 @@ function buildFirebaseUiJs(locale) {
   ], getTmpJsPath(locale), flags);
 }
 
-// Builds the core FirebaseUI JS.
+// Builds the core FirebaseUI JS. Generates the gulp tasks
+// build-firebaseui-js-de, build-firebaseui-js-fr, etc.
 repeatTaskForAllLocales('build-firebaseui-js-$', ['build-soy'],
     buildFirebaseUiJs);
 
@@ -195,6 +196,31 @@ const JS_DEPS = [
 ];
 
 /**
+ * Concatenates the core FirebaseUI JS with its external dependencies, and
+ * cleans up comments and whitespace in the dependencies.
+ * @param {string} locale The desired FirebaseUI locale.
+ * @param {string} outBaseName The prefix of the output file name.
+ * @param {string} outputWrapper A wrapper with which to wrap the output JS.
+ * @return {*} A stream that ends when compilation finishes.
+ */
+function concatWithDeps(locale, outBaseName, outputWrapper) {
+  const localeForFileName = getLocaleForFileName(locale);
+  // Get a list of the FirebaseUI JS and its dependencies.
+  const srcs = JS_DEPS.concat([getTmpJsPath(locale)]);
+  const outputPath = `${DEST_DIR}/${outBaseName}__${localeForFileName}.js`;
+  return compile(srcs, outputPath, {
+    compilation_level: 'WHITESPACE_ONLY',
+    output_wrapper: outputWrapper
+  });
+}
+
+// Bundles the FirebaseUI JS with its dependencies for all locales.
+// Generates the gulp tasks build-js-de, build-js-fr, etc.
+const buildJsTasks = repeatTaskForAllLocales(
+    'build-js-$', ['build-firebaseui-js-$'],
+    (locale) => concatWithDeps(locale, 'firebaseui', OUTPUT_WRAPPER));
+
+/**
  * Creates the default FirebaseUI binaries for basic usage without
  * localization. For example, it copies firebaseui__en.js to firebaseui.js.
  * @param {string} fileName
@@ -207,31 +233,15 @@ function makeDefaultFile(fileName) {
   }
 }
 
-// Bundles the FirebaseUI JS with its dependencies for all locales.
-// Generates the gulp tasks build-js-de, build-js-fr, etc.
-const buildJsTasks = repeatTaskForAllLocales('build-js-$',
-    ['build-firebaseui-js-$'], (locale) => {
-      const localeForFileName = getLocaleForFileName(locale);
-      return compile(
-          JS_DEPS.concat([getTmpJsPath(locale)]),
-          `${DEST_DIR}/firebaseui__${localeForFileName}.js`, {
-            compilation_level: 'WHITESPACE_ONLY',
-            output_wrapper: OUTPUT_WRAPPER
-          });
-    });
 gulp.task('build-all-js', buildJsTasks, () => makeDefaultFile('firebaseui'));
 gulp.task('build-js', ['build-js-' + DEFAULT_LOCALE],
     () => makeDefaultFile('firebaseui'));
 
 // Bundles the FirebaseUI JS with its dependencies as a NPM module.
-repeatTaskForAllLocales('build-npm-$', ['build-firebaseui-js-$'], (locale) => {
-  const localeForFileName = getLocaleForFileName(locale);
-  const srcs = JS_DEPS.concat([getTmpJsPath(locale)]);
-  return compile(srcs, `dist/npm__${localeForFileName}.js`, {
-    compilation_level: 'WHITESPACE_ONLY',
-    output_wrapper: NPM_MODULE_WRAPPER
-  });
-});
+repeatTaskForAllLocales(
+    'build-npm-$', ['build-firebaseui-js-$'],
+    (locale) => concatWithDeps(locale, 'npm', NPM_MODULE_WRAPPER));
+
 gulp.task('build-npm', ['build-npm-' + DEFAULT_LOCALE],
     () => makeDefaultFile('npm'));
 
@@ -246,6 +256,8 @@ function buildCss(isRtl) {
   const dialogPolyfillSrcs = gulp.src(
       'node_modules/dialog-polyfill/dialog-polyfill.css');
   let firebaseSrcs = gulp.src('stylesheet/*.css');
+
+  // Flip left/right, ltr/rtl for RTL languages.
   if (isRtl) {
     firebaseSrcs = firebaseSrcs.pipe(flip.gulp());
   }
@@ -255,7 +267,7 @@ function buildCss(isRtl) {
       mdlSrcs, dialogPolyfillSrcs, firebaseSrcs)
       .pipe(concatCSS(outFile))
       .pipe(cleanCSS())
-      .pipe(gulp.dest('dist'));
+      .pipe(gulp.dest(DEST_DIR));
 }
 
 // Concatenates and minifies the CSS sources.

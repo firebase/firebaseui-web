@@ -75,9 +75,6 @@ Right-to-left languages also require the right-to-left version of the stylesheet
 `https://www.gstatic.com/firebasejs/ui/2.2.1/firebase-ui-auth-rtl.css`, instead of the default
 stylesheet. The supported right-to-left languages are Arabic (ar), Farsi (fa), and Hebrew (iw).
 
-Internationalized binaries are currently not available in the GitHub repository due to dependencies
-on translation infrastructure that are not compatible with open sourced tools.
-
 ### Option 2: npm Module
 
 Install FirebaseUI and its dependencies via npm using the following command:
