@@ -208,6 +208,7 @@ function makeDefaultFile(fileName) {
 }
 
 // Bundles the FirebaseUI JS with its dependencies for all locales.
+// Generates the gulp tasks build-js-de, build-js-fr, etc.
 const buildJsTasks = repeatTaskForAllLocales('build-js-$',
     ['build-firebaseui-js-$'], (locale) => {
       const localeForFileName = getLocaleForFileName(locale);

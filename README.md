@@ -670,6 +670,15 @@ npm run build
 
 This will create output files in the `dist/` folder.
 
+To build a localized JavaScript binary, run:
+```bash
+npm run build build-js-{LANGUAGE_CODE}
+```
+where `{LANGUAGE_CODE}` is replaced by the
+[code of the language you want](LANGUAGES.md). For example, the French binary
+can be built with `npm run build build-js-fr`. This will create a binary
+`firebaseui__fr.js` in the `dist/` folder.
+
 ### Running the demo app
 
 To run the demo app, you must have a Firebase project set up on the
