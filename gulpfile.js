@@ -94,7 +94,7 @@ const COMPILER_DEFAULT_ARGS = {
  * @return {*} A stream that finishes when compliation finishes.
  */
 function compile(srcs, out, args) {
-  // Get
+  // Get the compiler arguments, using the defaults if not specified.
   const combinedArgs = Object.assign({}, COMPILER_DEFAULT_ARGS, args);
   return gulp
       .src(srcs)
@@ -138,6 +138,7 @@ function getTmpJsPath(locale) {
 function repeatTaskForAllLocales(taskName, dependencies, operation) {
   const tasks = [];
   ALL_LOCALES.forEach((locale) => {
+    // Convert build-js-$ to build-js-fr, for example.
     const replaceTokens = (name) => name.replace(/\$/g, locale);
 
     const localeTaskName = replaceTokens(taskName);
