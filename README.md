@@ -229,7 +229,7 @@ Here is how you would track the Auth state across all your pages:
             var uid = user.uid;
             var phoneNumber = user.phoneNumber;
             var providerData = user.providerData;
-            user.getToken().then(function(accessToken) {
+            user.getIdToken().then(function(accessToken) {
               document.getElementById('sign-in-status').textContent = 'Signed in';
               document.getElementById('sign-in').textContent = 'Sign out';
               document.getElementById('account-details').textContent = JSON.stringify({
