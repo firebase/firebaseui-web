@@ -1,0 +1,4 @@
+feature - Adds firebaseui.auth.AuthUI.getInstance(appId) to get the corresponding AuthUI instance as specified by the provided appId.
+feature - Adds a destroy method to destroy an AuthUI instance.
+fixed - Fixes Nascar buttons getting grayed when user tabs through them.
+fixed - Hides cancel button when only Email provider is used and accountchooser.com is disabled.

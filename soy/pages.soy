@@ -22,6 +22,7 @@
  */
 {template .signIn}
   {@param? email: string} /** The email address to prefill. */
+  {@param? displayCancelButton: bool} /** Whether to display the cancel button. */
   <div class="mdl-card mdl-shadow--2dp firebaseui-container firebaseui-id-page-sign-in">
     <form onsubmit="return false;">
       <div class="firebaseui-card-header">
@@ -36,7 +37,9 @@
       </div>
       <div class="firebaseui-card-actions">
         <div class="firebaseui-form-actions">
-          {call firebaseui.auth.soy2.element.cancelButton /}
+          {if $displayCancelButton}
+            {call firebaseui.auth.soy2.element.cancelButton /}
+          {/if}
           {call firebaseui.auth.soy2.element.submitButton /}
         </div>
       </div>

@@ -22,6 +22,7 @@ goog.setTestOnly();
 
 var Disposable = goog.require('goog.Disposable');
 var FakeAuthClient = goog.require('firebaseui.auth.testing.FakeAuthClient');
+var GoogPromise = goog.require('goog.Promise');
 
 
 
@@ -46,6 +47,15 @@ var FakeAppClient = function(options, opt_name) {
  */
 FakeAppClient.prototype.auth = function() {
   return this.auth_;
+};
+
+
+/**
+ * Dummy app delete method.
+ * @return {!GoogPromise} The promise that resolves upon deletion.
+ */
+FakeAppClient.prototype.delete = function() {
+  return GoogPromise.resolve();
 };
 
 exports = FakeAppClient;

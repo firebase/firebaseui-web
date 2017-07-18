@@ -800,6 +800,26 @@ middle of performing a sign-in flow. You should generally avoid re-rendering the
 widget in the middle of an action, but if you do, to avoid the warning, you
 should use the `reset()` method before re-rendering the widget.
 
+### Tips for initializing a new UI instance with the same Auth instance
+
+When trying to initialize a new UI widget with the same Auth instance, you will
+get an `app/duplicate-app` error. In general, you should keep a reference to
+the AuthUI instance and instead call `reset()` and then `start(...)` again to
+re-render the widget.
+
+If you don't keep a reference to that AuthUI instance, you can get the reference
+by calling `firebaseui.auth.AuthUI.getInstance(appId)` where `appId` is the same
+as the optional one used to initialize the AuthUI instance. If none was provided
+just call `firebaseui.auth.AuthUI.getInstance()`.
+
+This is the recommended way but you also have the option to delete the AuthUI
+instance by calling `ui.delete()` which returns a promise that resolves on
+successful deletion. You can then initialize a new UI instance with the same
+Auth instance without getting the `app/duplicate-app` error. At any time, you
+can only have one AuthUI instance with the same `appId` or the same Auth
+instance.
+
+
 ### FirebaseUI is broken in IE11 when deployed on a local server accessed through `localhost` (but works when deployed on a remote server)
 
 Several developers reported issues with IE11 when testing the widget integration on a server deployed locally, accessing the application through a `localhost` address. However, it doesn't impact applications deployed on a server (as you can verify in the [demo app](https://fir-ui-demo-84a6c.firebaseapp.com/)).

@@ -130,6 +130,8 @@ function tearDown() {
   if (testUtil) {
     testUtil.uninstall();
   }
+  // Reset AuthUI internals.
+  firebaseui.auth.AuthUI.resetAllInternals();
 }
 
 

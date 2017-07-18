@@ -110,6 +110,54 @@ function testHandleSignIn_cancelButtonClick_emailProviderOnly() {
 }
 
 
+function testHandleSignIn_acDisabled_emailProviderOnly() {
+  // Simulate accountchooser.com disabled and email provider only.
+  // No cancel button should be displayed.
+  app.setConfig({
+    'credentialHelper': firebaseui.auth.CredentialHelper.NONE,
+    'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID]
+  });
+  firebaseui.auth.widget.handler.handleSignIn(
+      app, container, passwordAccount.getEmail());
+  assertSignInPage();
+  // No cancel button.
+  assertNull(getCancelButton());
+}
+
+
+function testHandleSignIn_acEnabled_emailProviderOnly() {
+  // Simulate accountchooser.com enabled and email provider only.
+  // Cancel button should still be displayed.
+  app.setConfig({
+    'credentialHelper': firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
+    'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID]
+  });
+  firebaseui.auth.widget.handler.handleSignIn(
+      app, container, passwordAccount.getEmail());
+  assertSignInPage();
+  // Cancel button available.
+  assertNotNull(getCancelButton());
+}
+
+
+function testHandleSignIn_acDisabled_multiProviders() {
+  // Simulate accountchooser.com disabled and multiple auth providers.
+  // Cancel button should still be displayed.
+  app.setConfig({
+    'credentialHelper': firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
+    'signInOptions': [
+      firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID
+    ]
+  });
+  firebaseui.auth.widget.handler.handleSignIn(
+      app, container, passwordAccount.getEmail());
+  assertSignInPage();
+  // Cancel button available.
+  assertNotNull(getCancelButton());
+}
+
+
 function testHandleSignIn_accountLookupError() {
   // Test when account lookup throws an error.
   var expectedError = {
