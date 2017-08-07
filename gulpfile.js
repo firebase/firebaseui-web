@@ -63,6 +63,22 @@ const ALL_LOCALES = ['ar-XB', 'ar', 'bg', 'ca', 'cs', 'da', 'de', 'el', 'en',
     'ro', 'ru', 'sk', 'sl', 'sr', 'sv', 'th', 'tr', 'uk', 'vi', 'zh-CN',
     'zh-TW'];
 
+// Default arguments to pass into Closure Compiler.
+const COMPILER_DEFAULT_ARGS = {
+  compilation_level: OPTIMIZATION_LEVEL,
+  language_out: 'ES5'
+};
+
+// The external dependencies needed by FirebaseUI.
+const JS_DEPS = [
+  'node_modules/material-design-lite/src/mdlComponentHandler.js',
+  'node_modules/material-design-lite/src/button/button.js',
+  'node_modules/material-design-lite/src/progress/progress.js',
+  'node_modules/material-design-lite/src/spinner/spinner.js',
+  'node_modules/material-design-lite/src/textfield/textfield.js',
+  'node_modules/dialog-polyfill/dialog-polyfill.js'
+];
+
 // Compiles the Closure templates into JavaScript.
 gulp.task('build-soy', () => new Promise((resolve, reject) => {
   closureBuilder.build({
@@ -79,12 +95,6 @@ gulp.task('build-soy', () => new Promise((resolve, reject) => {
     },
   }, resolve);
 }));
-
-// Default arguments to pass into Closure Compiler.
-const COMPILER_DEFAULT_ARGS = {
-  compilation_level: OPTIMIZATION_LEVEL,
-  language_out: 'ES5'
-};
 
 /**
  * Invokes Closure Compiler.
@@ -186,16 +196,6 @@ function buildFirebaseUiJs(locale) {
 repeatTaskForAllLocales('build-firebaseui-js-$', ['build-soy'],
     buildFirebaseUiJs);
 
-// The external dependencies needed by FirebaseUI.
-const JS_DEPS = [
-  'node_modules/material-design-lite/src/mdlComponentHandler.js',
-  'node_modules/material-design-lite/src/button/button.js',
-  'node_modules/material-design-lite/src/progress/progress.js',
-  'node_modules/material-design-lite/src/spinner/spinner.js',
-  'node_modules/material-design-lite/src/textfield/textfield.js',
-  'node_modules/dialog-polyfill/dialog-polyfill.js'
-];
-
 /**
  * Concatenates the core FirebaseUI JS with its external dependencies, and
  * cleans up comments and whitespace in the dependencies.
@@ -234,15 +234,20 @@ function makeDefaultFile(fileName) {
   }
 }
 
+// Builds the final JS file for all supported languages.
 gulp.task('build-all-js', buildJsTasks, () => makeDefaultFile('firebaseui'));
+
+// Builds the final JS file for the default language.
 gulp.task('build-js', ['build-js-' + DEFAULT_LOCALE],
     () => makeDefaultFile('firebaseui'));
 
-// Bundles the FirebaseUI JS with its dependencies as a NPM module.
+// Bundles the FirebaseUI JS with its dependencies as a NPM module. This builds
+// the NPM module for all languages.
 repeatTaskForAllLocales(
     'build-npm-$', ['build-firebaseui-js-$'],
     (locale) => concatWithDeps(locale, 'npm', NPM_MODULE_WRAPPER));
 
+// Builds the NPM module for the default language.
 gulp.task('build-npm', ['build-npm-' + DEFAULT_LOCALE],
     () => makeDefaultFile('npm'));
 
@@ -271,8 +276,10 @@ function buildCss(isRtl) {
       .pipe(gulp.dest(DEST_DIR));
 }
 
-// Concatenates and minifies the CSS sources.
+// Concatenates and minifies the CSS sources for LTR languages.
 gulp.task('build-css', () => buildCss(false));
+
+// Concatenates and minifies the CSS sources for RTL languages.
 gulp.task('build-css-rtl', () => buildCss(true));
 
 // Creates a webserver that serves all files from the root of the package.
@@ -285,11 +292,11 @@ gulp.task('serve', () => {
 // Deletes intermediate files.
 gulp.task('clean', () => fse.remove(TMP_DIR));
 
-// Executes the basic tasks.
+// Executes the basic tasks for the default language.
 gulp.task('default', ['build-js', 'build-npm', 'build-css', 'build-css-rtl'],
     () => gulp.start('clean'));
 
-// Builds everything.
+// Builds everything (JS for all languages, both LTR and RTL CSS).
 gulp.task('build-all',
     ['build-all-js', 'build-npm', 'build-css', 'build-css-rtl'],
     () => gulp.start('clean'));
