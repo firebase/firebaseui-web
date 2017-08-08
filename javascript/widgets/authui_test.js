@@ -82,10 +82,12 @@ var passwordIdToken3 = 'HEADER3.eyJhdWQiOiAiY2xpZW50X2lkIiwgImVtYWlsIjogInVz' +
     'ZXJAZXhhbXBsZS5jb20iLCAiaXNzIjogMTQwNDYzMzQ0MiwgImV4cCI6IDE1MDQ2MzM0NDJ' +
     '9.SIGNATURE3';
 
+var testApp;
 var testApp1;
 var testApp2;
 var testApp3;
 
+var testAuth;
 var testAuth1;
 var testAuth2;
 var testAuth3;
@@ -111,11 +113,118 @@ function assertHasCssClass(container, cssName) {
 function setUp() {
   // Used to initialize internal Auth instance.
   firebase = {};
+  firebase.instances_ = {};
   firebase.initializeApp = function(options, name) {
-    return new firebaseui.auth.testing.FakeAppClient(options, name);
+    // Throw an error if a FirebaseApp already exists for the specified name.
+    var key = name || '[DEFAULT]';
+    if (firebase.instances_[key]) {
+      throw new Error('An app instance already exists for ' + key);
+    } else {
+      firebase.instances_[key] =
+          new firebaseui.auth.testing.FakeAppClient(options, name);
+    }
+    return firebase.instances_[key];
   };
+  // On FirebaseApp deletion, confirm instance not already deleted and then
+  // remove it from firebase.instances_.
+  testStubs.replace(
+      firebaseui.auth.testing.FakeAppClient.prototype,
+      'delete',
+      function() {
+        // Already deleted.
+        if (!firebase.instances_[this['name']]) {
+          throw new Error('Instance ' + key + ' already deleted!');
+        }
+        delete firebase.instances_[this['name']];
+        return goog.Promise.resolve();
+      });
+  // Create all test elements and append to document.
+  container1 = goog.dom.createDom(goog.dom.TagName.DIV, {'id': 'element1'});
+  document.body.appendChild(container1);
+  container2 = goog.dom.createDom(goog.dom.TagName.DIV, {'id': 'element2'});
+  document.body.appendChild(container2);
+  container3 = goog.dom.createDom(goog.dom.TagName.DIV, {'id': 'element3'});
+  document.body.appendChild(container3);
+  // Record all handler functions and widget dispatch functions.
+  testStubs.set(
+      firebaseui.auth.widget.handler,
+      'startSignIn',
+      goog.testing.recordFunction());
+  testStubs.set(
+      firebaseui.auth.widget.dispatcher,
+      'dispatchOperation',
+      goog.testing.recordFunction());
+  // Simulate accountchooser.com loaded.
+  testStubs.set(
+      firebaseui.auth.widget.handler.common,
+      'loadAccountchooserJs',
+      function(app, callback, opt_forceUiShownCallback) {
+        callback();
+      });
+  // Install fake test utilities.
+  testUtil = new firebaseui.auth.testing.FakeUtil().install();
+}
+
+
+function tearDown() {
+  testApp = null;
+  testApp1 = null;
+  testApp2 = null;
+  testApp3 = null;
+  // Delete all application instances.
+  // Uninstall internal and external Auth instances.
+  if (app1) {
+    app1.getAuth().uninstall();
+    app1.getExternalAuth().uninstall();
+    app1.reset();
+  }
+  app1 = null;
+  if (app2) {
+    app2.getAuth().uninstall();
+    app2.getExternalAuth().uninstall();
+    app2.reset();
+  }
+  app2 = null;
+  if (app3) {
+    app3.getAuth().uninstall();
+    app3.getExternalAuth().uninstall();
+    app3.reset();
+  }
+  app3 = null;
+  // Reset internals.
+  firebaseui.auth.AuthUI.resetAllInternals();
+  // Clear all web storage.
+  window.localStorage.clear();
+  window.sessionStorage.clear();
+  // Remove all test containers from document.
+  goog.dom.removeNode(container1);
+  goog.dom.removeNode(container2);
+  goog.dom.removeNode(container3);
+  // Reset test stubs.
+  testStubs.reset();
+  testUtil.uninstall();
+  testAuth.uninstall();
+  if (testAuth1) {
+    testAuth1.uninstall();
+  }
+  testAuth2.uninstall();
+  testAuth3.uninstall();
+  if (app) {
+    app.getAuth().uninstall();
+    app.getExternalAuth().uninstall();
+    app.reset();
+    app = null;
+  }
+}
+
+
+/** Creates and installs all auth, app and AuthUI instances for tests. */
+function createAndInstallTestInstances() {
   // Create and install the developer provided Auth instances.
-  testApp1 = new firebaseui.auth.testing.FakeAppClient(options);
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  testAuth.install();
+  testApp1 = new firebaseui.auth.testing.FakeAppClient(options, 'testapp1');
   testAuth1 = testApp1.auth();
   testAuth1.install();
   testApp2 = new firebaseui.auth.testing.FakeAppClient(options, 'testapp2');
@@ -153,86 +262,11 @@ function setUp() {
   app1.setConfig(config1);
   app2.setConfig(config2);
   app3.setConfig(config3);
-
-  // Create all test elements and append to document.
-  container1 = goog.dom.createDom(goog.dom.TagName.DIV, {'id': 'element1'});
-  document.body.appendChild(container1);
-  container2 = goog.dom.createDom(goog.dom.TagName.DIV, {'id': 'element2'});
-  document.body.appendChild(container2);
-  container3 = goog.dom.createDom(goog.dom.TagName.DIV, {'id': 'element3'});
-  document.body.appendChild(container3);
-  // Record all handler functions and widget dispatch functions.
-  testStubs.set(
-      firebaseui.auth.widget.handler,
-      'startSignIn',
-      goog.testing.recordFunction());
-  testStubs.set(
-      firebaseui.auth.widget.dispatcher,
-      'dispatchOperation',
-      goog.testing.recordFunction());
-  // Simulate accountchooser.com loaded.
-  testStubs.set(
-      firebaseui.auth.widget.handler.common,
-      'loadAccountchooserJs',
-      function(app, callback, opt_forceUiShownCallback) {
-        callback();
-      });
-  // Install fake test utilities.
-  testUtil = new firebaseui.auth.testing.FakeUtil().install();
-}
-
-
-function tearDown() {
-  testApp1 = null;
-  testApp2 = null;
-  testApp3 = null;
-  // Delete all application instances.
-  // Uninstall internal and external Auth instances.
-  if (app1) {
-    app1.getAuth().uninstall();
-    app1.getExternalAuth().uninstall();
-    app1.reset();
-  }
-  app1 = null;
-  if (app2) {
-    app2.getAuth().uninstall();
-    app2.getExternalAuth().uninstall();
-    app2.reset();
-  }
-  app2 = null;
-  if (app3) {
-    app3.getAuth().uninstall();
-    app3.getExternalAuth().uninstall();
-    app3.reset();
-  }
-  app3 = null;
-  // Reset widget element.
-  firebaseui.auth.AuthUI.widgetElement_ = null;
-  // Clear all web storage.
-  window.localStorage.clear();
-  window.sessionStorage.clear();
-  // Remove all test containers from document.
-  goog.dom.removeNode(container1);
-  goog.dom.removeNode(container2);
-  goog.dom.removeNode(container3);
-  // Reset test stubs.
-  testStubs.reset();
-  testUtil.uninstall();
-  if (testAuth1) {
-    testAuth1.uninstall();
-  }
-  testAuth2.uninstall();
-  testAuth3.uninstall();
-  if (app) {
-    app.getAuth().uninstall();
-    app.getExternalAuth().uninstall();
-    app.reset();
-    app = null;
-  }
 }
 
 
 function testGetExternalAuth() {
+  createAndInstallTestInstances();
   // Confirm correct Auth instance stored for each app.
   assertEquals(testAuth1, app1.getExternalAuth());
   assertEquals(testAuth2, app2.getExternalAuth());
@@ -245,12 +279,13 @@ function testGetExternalAuth() {
   assertEquals(
       testAuth1.app.options.authDomain, app1.getAuth().app.options.authDomain);
   // Confirm correct name used for temp instance.
-  assertEquals('[DEFAULT]-firebaseui-temp', app1.getAuth().app.name);
+  assertEquals('testapp1-firebaseui-temp', app1.getAuth().app.name);
   assertEquals('testapp2-firebaseui-temp', app2.getAuth().app.name);
 }
 
 
 function testAppId() {
+  createAndInstallTestInstances();
   // Confirm correct app id stored for each app.
   assertEquals('id1', app1.getAppId());
   assertEquals('id2', app2.getAppId());
@@ -258,7 +293,31 @@ function testAppId() {
 }
 
 
+function testGetInstance() {
+  // Initially all instances should be null.
+  assertNull(firebaseui.auth.AuthUI.getInstance());
+  assertNull(firebaseui.auth.AuthUI.getInstance('id0'));
+  assertNull(firebaseui.auth.AuthUI.getInstance('id1'));
+  assertNull(firebaseui.auth.AuthUI.getInstance('id2'));
+  // Create and install test instances.
+  createAndInstallTestInstances();
+  // Confirm expected app instances returned for getInstance().
+  assertEquals(app1, firebaseui.auth.AuthUI.getInstance('id1'));
+  assertEquals(app2, firebaseui.auth.AuthUI.getInstance('id2'));
+  assertEquals(app3, firebaseui.auth.AuthUI.getInstance());
+  assertNull(firebaseui.auth.AuthUI.getInstance('id0'));
+  // Trying to create a new instance with an existing appId wil throw the
+  // expected error.
+  var error = assertThrows(function() {
+    new firebaseui.auth.AuthUI(testAuth1, 'id1');
+  });
+  assertEquals(
+      'An AuthUI instance already exists for the key "id1"', error.message);
+}
+
+
 function testIsPending() {
+  createAndInstallTestInstances();
   assertFalse(app1.isPending());
   assertFalse(app2.isPending());
   assertFalse(app3.isPending());
@@ -282,6 +341,7 @@ function testIsPending() {
 
 
 function testStart() {
+  createAndInstallTestInstances();
   // Test multiple rendering for the widget in different apps.
   asyncTestCase.waitForSignals(1);
   var resetWarning = 'UI Widget is already rendered on the page and is pend' +
@@ -395,6 +455,7 @@ function testStart() {
 
 
 function testSetLang() {
+  createAndInstallTestInstances();
   testStubs.replace(goog, 'LOCALE', 'de');
   app1.start(container1, config1);
   assertEquals('de', container1.getAttribute('lang'));
@@ -419,6 +480,7 @@ function testSetLang() {
 function testStart_elementNotFound() {
   // Test widget start method with missing element.
   // Test correct error message thrown when widget element not found.
+  createAndInstallTestInstances();
   try {
     app1.start('#notFound', config4, 'POST_BODY');
     firebaseui.auth.widget.dispatcher.dispatchOperation(app, '#notFound');
@@ -434,6 +496,7 @@ function testStart_elementNotFound() {
 
 function testUiChangedCallback() {
   // Test UI changed callbacks called on UI changed.
+  createAndInstallTestInstances();
   testStubs.reset();
   // Simulate accountchooser.com client library loaded.
   testStubs.set(
@@ -471,8 +534,8 @@ function testUiChangedCallback() {
   };
   // Initialize app and pass configuration.
   // Make sure internal and external instances installed.
-  testAuth1.install();
-  app = new firebaseui.auth.AuthUI(testAuth1, 'id1');
+  testAuth.install();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
   app.getAuth().install();
   app.setConfig(config);
   // Confirm UI changed callback for app.
@@ -505,6 +568,7 @@ function testUiChangedCallback() {
 
 
 function testAuthUi_reset() {
+  createAndInstallTestInstances();
   asyncTestCase.waitForSignals(2);
   // Reset functions should be run.
   var reset1 = goog.testing.recordFunction();
@@ -513,7 +577,6 @@ function testAuthUi_reset() {
   var p1 = new goog.Promise(function(resolve, reject) {
   }).thenCatch(function(e) {
     assertEquals('cancel', e.name);
-    p1cancel = true;
     asyncTestCase.signal();
   });
   var p2 = new goog.Promise(function(resolve, reject) {
@@ -523,8 +586,8 @@ function testAuthUi_reset() {
   });
   // Initialize app.
   // Make sure internal and external instances installed.
-  testAuth1.install();
-  app = new firebaseui.auth.AuthUI(testAuth1, 'id1');
+  testAuth.install();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
   app.getAuth().install();
   // Render some UI for testing.
   firebaseui.auth.widget.handler.handlePasswordSignIn(app, container1);
@@ -559,6 +622,7 @@ function assertConfigEquals(config, widgetConfig) {
 
 
 function testConfig() {
+  createAndInstallTestInstances();
   // Check configuration set correctly for each app.
   assertConfigEquals(
       config1,
@@ -573,6 +637,7 @@ function testConfig() {
 
 
 function testUpdateConfig() {
+  createAndInstallTestInstances();
   // Original config.
   var config = {
     'signInSuccessUrl': 'http://localhost/home1',
@@ -604,6 +669,7 @@ function testUpdateConfig() {
 
 
 function testSignIn() {
+  createAndInstallTestInstances();
   // Start sign-in for each app.
   app1.signIn();
   // Start sign-in handler should be called with app1 as argument.
@@ -623,4 +689,89 @@ function testSignIn() {
   assertEquals(
       app3,
       firebaseui.auth.widget.handler.startSignIn.getLastCall().getArgument(0));
+}
+
+
+function testAuthUi_delete() {
+  createAndInstallTestInstances();
+  asyncTestCase.waitForSignals(3);
+  // Reset functions should be run.
+  var reset1 = goog.testing.recordFunction();
+  var reset2 = goog.testing.recordFunction();
+  // Pending promises should be cancelled.
+  var p1 = new goog.Promise(function(resolve, reject) {
+  }).thenCatch(function(e) {
+    assertEquals('cancel', e.name);
+    asyncTestCase.signal();
+  });
+  var p2 = new goog.Promise(function(resolve, reject) {
+  }).thenCatch(function(e) {
+    assertEquals('cancel', e.name);
+    asyncTestCase.signal();
+  });
+  // Initialize app.
+  // Make sure internal and external instances installed.
+  testAuth.install();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  assertEquals(app, firebaseui.auth.AuthUI.getInstance('id0'));
+  app.getAuth().install();
+  // Confirm error thrown if another instance is initialized with the same
+  // auth instance and appId.
+  assertThrows(function() {
+    new firebaseui.auth.AuthUI(testAuth, 'id0');
+  });
+  // Delete instance and then try to reinitialize again.
+  app.delete().then(function() {
+    // No reference remains for id0.
+    assertNull(firebaseui.auth.AuthUI.getInstance('id0'));
+    // Initializing a new instance with same auth and appId should not throw an
+    // error after deletion.
+    assertNotThrows(function() {
+      app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+    });
+    // getInstance should return the new instance.
+    assertEquals(app, firebaseui.auth.AuthUI.getInstance('id0'));
+    // Render some UI for testing.
+    firebaseui.auth.widget.handler.handlePasswordSignIn(app, container1);
+    // Register pending reset functions and pending promises.
+    app.registerPending(reset1);
+    app.registerPending(reset2);
+    app.registerPending(p1);
+    app.registerPending(p2);
+    // Trigger delete.
+    app.delete().then(function() {
+      // Reset functions should be called and pending promises cancelled.
+      assertEquals(1, reset1.getCallCount());
+      assertEquals(1, reset2.getCallCount());
+      // Rendered component should be cleared.
+      assertEquals(0, container1.children.length);
+      // Confirm calling any public method will throw an error;
+      var methods = [
+        'getRedirectResult',
+        'setCurrentComponent',
+        'getAuth',
+        'getExternalAuth',
+        'getAppId',
+        'isPending',
+        'start',
+        'registerPending',
+        'getAuthUiGetter',
+        'reset',
+        'updateConfig',
+        'setConfig',
+        'getConfig',
+        'signIn',
+        'delete'
+      ];
+      // Call all public methods and confirm expected error.
+      for (var i = 0; i < methods.length; i++) {
+        var error = assertThrows(function() {
+          app[methods[i]]();
+        });
+        assertEquals('AuthUI instance is deleted!', error.message);
+      }
+      app = null;
+      asyncTestCase.signal();
+    });
+  });
 }

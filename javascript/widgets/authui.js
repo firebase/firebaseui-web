@@ -70,6 +70,20 @@ goog.require('goog.events.EventType');
  * @constructor
  */
 firebaseui.auth.AuthUI = function(auth, opt_appId) {
+  /** @private {boolean} Whether the current instance is deleted. */
+  this.deleted_ = false;
+  // Check if an instance with the same key exists. If so, throw an error,
+  // otherwise, save that instance.
+  // Get the instance get.
+  var key = firebaseui.auth.AuthUI.getInstanceKey_(opt_appId);
+  if (firebaseui.auth.AuthUI.instances_[key]) {
+    // An instance exists for this key. Throw an error.
+    throw new Error(
+        'An AuthUI instance already exists for the key "' + key + '"');
+  } else {
+    // New instance, save reference to it.
+    firebaseui.auth.AuthUI.instances_[key] = this;
+  }
   /** @private {!firebase.auth.Auth} The Firebase Auth instance. */
   this.auth_ = auth;
   var tempApp = firebase.initializeApp({
@@ -112,12 +126,62 @@ firebaseui.auth.AuthUI = function(auth, opt_appId) {
 };
 
 
+/** Resets all internal globals. Used for testing only. */
+firebaseui.auth.AuthUI.resetAllInternals = function() {
+  firebaseui.auth.AuthUI.instances_ = {};
+  firebaseui.auth.AuthUI.widgetElement_ = null;
+};
+
+
+/**
+ * @private {!Object.<!string, !firebaseui.auth.AuthUI>} Map containing the
+ *     firebaseui.auth.AuthUI instances keyed by their app IDs.
+ */
+firebaseui.auth.AuthUI.instances_ = {};
+
+
+/**
+ * Returns the instance key corresponding the appId provided.
+ * @param {?string=} opt_appId The optional app ID whose instance is to be
+ *     provided.
+ * @return {string} The key corresponding to the provided app ID.
+ * @private
+ */
+firebaseui.auth.AuthUI.getInstanceKey_ = function(opt_appId) {
+  return opt_appId || firebaseui.auth.AuthUI.DEFAULT_INSTANCE_KEY_;
+};
+
+
+/**
+ * Returns the AuthUI instance corresponding to the appId provided.
+ * @param {?string=} opt_appId The optional app ID whose instance is to be
+ *     provided.
+ * @return {?firebaseui.auth.AuthUI} The AuthUI instance corresponding to the
+ *     app ID provided.
+ */
+firebaseui.auth.AuthUI.getInstance = function(opt_appId) {
+  var key = firebaseui.auth.AuthUI.getInstanceKey_(opt_appId);
+  if (firebaseui.auth.AuthUI.instances_[key]) {
+    return firebaseui.auth.AuthUI.instances_[key];
+  }
+  return null;
+};
+
+
 /**
  * The suffix of the temp Auth instance app name.
  * @const {string}
  * @private
  */
 firebaseui.auth.AuthUI.TEMP_APP_NAME_SUFFIX_ = '-firebaseui-temp';
+
+
+/**
+ * The default instance key when no app ID is provided.
+ * @const {string}
+ * @private
+ */
+firebaseui.auth.AuthUI.DEFAULT_INSTANCE_KEY_ = '[DEFAULT]';
 
 
 /**
@@ -129,6 +193,8 @@ firebaseui.auth.AuthUI.TEMP_APP_NAME_SUFFIX_ = '-firebaseui-temp';
  *     from the redirect-based sign-in flow.
  */
 firebaseui.auth.AuthUI.prototype.getRedirectResult = function() {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
   if (!this.getRedirectResult_) {
     this.getRedirectResult_ = goog.Promise.resolve(
         this.getAuth().getRedirectResult());
@@ -142,6 +208,8 @@ firebaseui.auth.AuthUI.prototype.getRedirectResult = function() {
  *     component.
  */
 firebaseui.auth.AuthUI.prototype.setCurrentComponent = function(component) {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
   this.currentComponent_ = component;
 };
 
@@ -175,6 +243,8 @@ firebaseui.auth.AuthUI.getAuthUi = function() {
  *     developer provided Auth instance.
  */
 firebaseui.auth.AuthUI.prototype.getAuth = function() {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
   return this.tempAuth_;
 };
 
@@ -184,6 +254,8 @@ firebaseui.auth.AuthUI.prototype.getAuth = function() {
  *     instance.
  */
 firebaseui.auth.AuthUI.prototype.getExternalAuth = function() {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
   return this.auth_;
 };
 
@@ -191,6 +263,8 @@ firebaseui.auth.AuthUI.prototype.getExternalAuth = function() {
  * @return {string|undefined} The app id if provided.
  */
 firebaseui.auth.AuthUI.prototype.getAppId = function() {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
   return this.appId_;
 };
 
@@ -204,6 +278,8 @@ firebaseui.auth.AuthUI.prototype.getAppId = function() {
  * @return {boolean} Whether the app has pending operations to be performed.
  */
 firebaseui.auth.AuthUI.prototype.isPending = function() {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
   return firebaseui.auth.storage.hasPendingEmailCredential(this.getAppId());
 };
 
@@ -217,6 +293,8 @@ firebaseui.auth.AuthUI.prototype.isPending = function() {
  * @param {Object} config The configuration for sign-in button.
  */
 firebaseui.auth.AuthUI.prototype.start = function(element, config) {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
   var self = this;
 
   // There is a problem when config in second call modifies accountchooser.com
@@ -289,6 +367,8 @@ firebaseui.auth.AuthUI.prototype.initElement_ = function(element) {
  * @param {?goog.Promise|?firebase.Promise|?function()} p The pending promise.
  */
 firebaseui.auth.AuthUI.prototype.registerPending = function(p) {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
   var self = this;
   if (p) {
     this.pending_.push(p);
@@ -310,12 +390,16 @@ firebaseui.auth.AuthUI.prototype.registerPending = function(p) {
  *     getter.
  */
 firebaseui.auth.AuthUI.prototype.getAuthUiGetter = function() {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
   return firebaseui.auth.AuthUI.getAuthUi;
 };
 
 
 /** Reset rendered widget and removes it from display. */
 firebaseui.auth.AuthUI.prototype.reset = function() {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
   // Remove the "lang" attribute that we set in start().
   if (this.widgetElement_) {
     this.widgetElement_.removeAttribute('lang');
@@ -404,6 +488,8 @@ firebaseui.auth.AuthUI.prototype.initPageChangeListener_ = function(element) {
  * @param {*} value The value of the configuration.
  */
 firebaseui.auth.AuthUI.prototype.updateConfig = function(name, value) {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
   this.config_.update(name, value);
 };
 
@@ -413,6 +499,8 @@ firebaseui.auth.AuthUI.prototype.updateConfig = function(name, value) {
  * @param {Object} config The application configuration.
  */
 firebaseui.auth.AuthUI.prototype.setConfig = function(config) {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
   this.config_.setConfig(config);
 };
 
@@ -421,6 +509,8 @@ firebaseui.auth.AuthUI.prototype.setConfig = function(config) {
  * @return {firebaseui.auth.widget.Config} The application configuration.
  */
 firebaseui.auth.AuthUI.prototype.getConfig = function() {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
   return this.config_;
 };
 
@@ -429,5 +519,41 @@ firebaseui.auth.AuthUI.prototype.getConfig = function() {
  * Triggers the sign-in flow.
  */
 firebaseui.auth.AuthUI.prototype.signIn = function() {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
   firebaseui.auth.widget.handler.startSignIn(this);
+};
+
+
+/**
+ * Checks if the instance is destroyed. If so, throws an error.
+ * @private
+ */
+firebaseui.auth.AuthUI.prototype.checkIfDestroyed_ = function() {
+  if (this.deleted_) {
+    throw new Error('AuthUI instance is deleted!');
+  }
+};
+
+
+/**
+ * Destroys the AuthUI instance.
+ * @return {!firebase.Promise} The promise that resolves when the instance
+ *     is successfully deleted.
+ */
+firebaseui.auth.AuthUI.prototype.delete = function() {
+  var self = this;
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
+  // Delete the temporary app instance.
+  return this.tempAuth_.app.delete().then(function() {
+    // Get instance key.
+    var key = firebaseui.auth.AuthUI.getInstanceKey_(self.getAppId());
+    // Delete any saved AuthUI instance.
+    delete firebaseui.auth.AuthUI.instances_[key];
+    // Reset current instance.
+    self.reset();
+    // Mark as deleted.
+    self.deleted_ = true;
+  });
 };

@@ -54,13 +54,17 @@ function tearDownPage() {
 
 function testSignIn() {
   var root = goog.dom.getElement('sign-in');
-  goog.soy.renderElement(root, firebaseui.auth.soy2.page.signIn, {}, IJ_DATA_);
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.signIn, {'displayCancelButton': true},
+      IJ_DATA_);
 }
 
 
 function testSignIn_infoBar() {
   var root = goog.dom.getElement('sign-in-info-bar');
-  goog.soy.renderElement(root, firebaseui.auth.soy2.page.signIn, {}, IJ_DATA_);
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.signIn, {'displayCancelButton': true},
+      IJ_DATA_);
   var message = 'You are currently logged into a different account on Google' +
       '. Please select another account or visit Google to login to the ' +
       'desired one.';
@@ -73,11 +77,21 @@ function testSignIn_infoBar() {
 function testSignIn_busy() {
   var root = goog.dom.getElement('sign-in-busy');
   goog.soy.renderElement(
-      root, firebaseui.auth.soy2.page.signIn, {'email': 'user@example.com'},
+      root, firebaseui.auth.soy2.page.signIn,
+      {'email': 'user@example.com', 'displayCancelButton': true},
       IJ_DATA_);
   var busy = goog.soy.renderAsElement(
       firebaseui.auth.soy2.element.busyIndicator, null);
   root.children[0].appendChild(busy);
+}
+
+
+function testSignIn_noCancelButton() {
+  var root = goog.dom.getElement('sign-in-no-cancel-button');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.signIn,
+      {'email': 'user@example.com', 'displayCancelButton': false},
+      IJ_DATA_);
 }
 
 

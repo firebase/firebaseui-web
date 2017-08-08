@@ -1744,6 +1744,10 @@ function testHandleCallback_nullUser_emailAuthOnly_acDisabled() {
     assertEquals(uiShownCallbackCount, 0);
     assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
         app.getAppId()));
+    // No info bar message.
+    assertNoInfoBarMessage();
+    // No cancel button.
+    assertNull(getCancelButton());
     asyncTestCase.signal();
   });
 }
