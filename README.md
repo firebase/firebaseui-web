@@ -75,9 +75,6 @@ Right-to-left languages also require the right-to-left version of the stylesheet
 `https://www.gstatic.com/firebasejs/ui/2.3.0/firebase-ui-auth-rtl.css`, instead of the default
 stylesheet. The supported right-to-left languages are Arabic (ar), Farsi (fa), and Hebrew (iw).
 
-Internationalized binaries are currently not available in the GitHub repository due to dependencies
-on translation infrastructure that are not compatible with open sourced tools.
-
 ### Option 2: npm Module
 
 Install FirebaseUI and its dependencies via npm using the following command:
@@ -669,6 +666,15 @@ npm run build
 ```
 
 This will create output files in the `dist/` folder.
+
+To build a localized JavaScript binary, run:
+```bash
+npm run build build-js-{LANGUAGE_CODE}
+```
+where `{LANGUAGE_CODE}` is replaced by the
+[code of the language you want](LANGUAGES.md). For example, the French binary
+can be built with `npm run build build-js-fr`. This will create a binary
+`firebaseui__fr.js` in the `dist/` folder.
 
 ### Running the demo app
 
