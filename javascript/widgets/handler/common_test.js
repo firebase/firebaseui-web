@@ -1550,9 +1550,7 @@ function testLoadAccountchooserJs_notLoaded() {
   // Replace jsloader.
   var jsLoaderInvoked = 0;
   testStubs.replace(
-      goog.net.jsloader,
-      'load',
-      function() {
+      goog.net.jsloader, 'safeLoad', function() {
         return goog.Promise.resolve().then(function() {
           // Should be invoked once.
           jsLoaderInvoked++;

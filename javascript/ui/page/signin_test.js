@@ -112,6 +112,28 @@ function testSignIn_pageEvents() {
 }
 
 
+function testSignIn_noOnCancelClick() {
+  component.dispose();
+  // Initialize component with no onCancelClick callback.
+  component = new firebaseui.auth.ui.page.SignIn(
+      goog.bind(
+          firebaseui.auth.ui.element.EmailTestHelper.prototype.onEnter,
+          emailTestHelper));
+  component.render(root);
+  emailTestHelper.setComponent(component);
+  // No cancel button
+  assertNull(component.getSecondaryLinkElement());
+  // Submit button should be available.
+  assertNotNull(component.getSubmitElement());
+  // Confirm pressing enter in email field will submit form.
+  emailTestHelper.resetState();
+  assertFalse(emailTestHelper.enterPressed_);
+  goog.testing.events.fireKeySequence(
+      component.getEmailElement(), goog.events.KeyCodes.ENTER);
+  assertTrue(emailTestHelper.enterPressed_);
+}
+
+
 function testSignIn_getPageId() {
   assertEquals('signIn', component.getPageId());
 }

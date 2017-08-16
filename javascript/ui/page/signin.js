@@ -31,7 +31,7 @@ goog.require('goog.dom.selection');
  * UI component for the user to enter their email.
  * @param {function()} onEmailEnter Callback to invoke when enter key (or its
  *     equivalent) is detected.
- * @param {function()} onCancelClick Callback to invoke when cancel button
+ * @param {?function()=} opt_onCancelClick Callback to invoke when cancel button
  *     is clicked.
  * @param {string=} opt_email The email to prefill.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
@@ -40,18 +40,18 @@ goog.require('goog.dom.selection');
  */
 firebaseui.auth.ui.page.SignIn = function(
     onEmailEnter,
-    onCancelClick,
+    opt_onCancelClick,
     opt_email,
     opt_domHelper) {
   firebaseui.auth.ui.page.SignIn.base(
       this,
       'constructor',
       firebaseui.auth.soy2.page.signIn,
-      {email: opt_email},
+      {email: opt_email, displayCancelButton: !!opt_onCancelClick},
       opt_domHelper,
       'signIn');
   this.onEmailEnter_ = onEmailEnter;
-  this.onCancelClick_ = onCancelClick;
+  this.onCancelClick_ = opt_onCancelClick;
 };
 goog.inherits(firebaseui.auth.ui.page.SignIn, firebaseui.auth.ui.page.Base);
 
@@ -59,9 +59,8 @@ goog.inherits(firebaseui.auth.ui.page.SignIn, firebaseui.auth.ui.page.Base);
 /** @override */
 firebaseui.auth.ui.page.SignIn.prototype.enterDocument = function() {
   this.initEmailElement(this.onEmailEnter_);
-  var self = this;
   // Handle a click on the submit button or cancel button.
-  this.initFormElement(this.onEmailEnter_, this.onCancelClick_);
+  this.initFormElement(this.onEmailEnter_, this.onCancelClick_ || undefined);
   this.setupFocus_();
   firebaseui.auth.ui.page.SignIn.base(this, 'enterDocument');
 };

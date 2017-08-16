@@ -1,9 +1,11 @@
 {
   "name": "firebaseui",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "description": "Javascript library for customizable UI on top of Firebase SDK",
   "files": [
-    "dist/**",
+    "dist/firebaseui.js",
+    "dist/firebaseui.css",
+    "dist/npm.js",
     "LICENSE",
     "README.md",
     "package.json"
@@ -11,8 +13,9 @@
   "main": "./dist/npm.js",
   "style": "dist/firebaseui.css",
   "scripts": {
-    "build": "npm run build-soy && gulp",
-    "build-soy": "node buildtools/soy_files.js",
+    "build": "gulp",
+    "build-all": "gulp build-all",
+    "build-soy": "gulp build-soy",
     "demo": "npm run build && ./buildtools/run_demo.sh",
     "test": "npm run build && npm run generate-test-files && ./buildtools/run_tests.sh",
     "serve": "npm run build && npm run generate-test-files && gulp serve",
@@ -28,9 +31,9 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "closure-builder": "^2.0.17",
-    "del": "^2.2.2",
     "dialog-polyfill": "^0.4.7",
     "firebase-tools": "^3.0.8",
+    "fs-extra": "^3.0.1",
     "google-closure-compiler": "^20160713.2.0",
     "google-closure-library": "^20170409.0.0",
     "google-closure-templates": "^20150410.0.0",
@@ -39,6 +42,7 @@
     "gulp-closure-compiler": "^0.4.0",
     "gulp-concat-css": "^2.3.0",
     "gulp-connect": "^5.0.0",
+    "gulp-css-flip": "^0.4.0",
     "gulp-sass": "^2.3.2",
     "gulp-util": "^3.0.7",
     "material-design-lite": "^1.2.0",

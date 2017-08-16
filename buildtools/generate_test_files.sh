@@ -24,7 +24,9 @@
 cd "$(dirname $(dirname "$0"))"
 
 echo "Compiling templates..."
-node ./buildtools/soy_files.js generated
+npm run build build-soy
+cp -r ./out/soy ./generated
+npm run build clean
 
 echo "Generating dependency file..."
 CLOSURE_PATH="google-closure-templates/javascript"

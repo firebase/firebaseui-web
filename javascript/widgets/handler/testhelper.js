@@ -288,6 +288,8 @@ function tearDown() {
   if (recaptchaVerifierInstance) {
     recaptchaVerifierInstance.uninstall();
   }
+  // Reset AuthUI internals.
+  firebaseui.auth.AuthUI.resetAllInternals();
 }
 
 
@@ -511,6 +513,14 @@ function getLinkedAccountsContainer() {
  */
 function getSubmitButton() {
   return goog.dom.getElementByClass('firebaseui-id-submit', container);
+}
+
+
+/**
+ * @return {?Element} The cancel button on the current page within container.
+ */
+function getCancelButton() {
+  return goog.dom.getElementByClass('firebaseui-id-secondary-link', container);
 }
 
 
