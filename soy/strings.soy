@@ -13,7 +13,7 @@
  */
 
 // Strings for the FirebaseUI widget.
-{namespace firebaseui.auth.soy2.strings autoescape="strict"}
+{namespace firebaseui.auth.soy2.strings}
 
 
 /** Progress dialog message to show while verifying a phone number. */
@@ -215,10 +215,6 @@
       {msg desc="Error message when the SMS code sent to confirm a phone number has expired, and the
           user must request a new code."}
         This code is no longer valid
-      {/msg}
-    {case 'auth/quota-exceeded'}
-      {msg desc="Error message when the SMS quota for the Firebase project has been exceeded."}
-        There was a problem verifying your phone number
       {/msg}
   {/switch}
 {/template}

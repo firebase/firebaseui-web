@@ -296,6 +296,16 @@ input.firebaseui-input-invalid{
   }
 }
 
+/* Resize reCAPTCHA container on narrow mobile devices. */
+@media (max-width: 320px) {
+  .firebaseui-recaptcha-container > div > div {
+    transform: scale(0.9);
+    -webkit-transform: scale(0.9);
+    transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+  }
+}
+
 .firebaseui-idp-password,
 .firebaseui-idp-password:hover,
 .mdl-button.firebaseui-idp-password:active,

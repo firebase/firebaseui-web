@@ -53,8 +53,26 @@ var FakeAuthClient = function(app) {
   FakeAuthClient.base(this, 'constructor', asyncMethods);
   this.authObservers_ = [];
   this.idTokenObservers_ = [];
+  /** @private {!Array<string>} The list of frameworks logged. */
+  this.frameworks_ = [];
+  var self = this;
+  this['INTERNAL'] = {
+    logFramework: function(framework) {
+      self.frameworks_.push(framework);
+    }
+  };
 };
 goog.inherits(FakeAuthClient, MockHelper);
+
+
+/**
+ * Asserts the expected list of frameworks IDs are logged.
+ * @param {!Array<string>} expectedFrameworks The expected list of frameworks
+ *     logged.
+ */
+FakeAuthClient.prototype.assertFrameworksLogged = function(expectedFrameworks) {
+  assertArrayEquals(expectedFrameworks, this.frameworks_);
+};
 
 
 /**
@@ -175,6 +193,7 @@ FakeAuthClient.AuthAsyncMethod = {
   FETCH_PROVIDERS_FOR_EMAIL: 'fetchProvidersForEmail',
   GET_REDIRECT_RESULT: 'getRedirectResult',
   SEND_PASSWORD_RESET_EMAIL: 'sendPasswordResetEmail',
+  SET_PERSISTENCE: 'setPersistence',
   SIGN_IN_AND_RETRIEVE_DATA_WITH_CREDENTIAL:
       'signInAndRetrieveDataWithCredential',
   SIGN_IN_WITH_CREDENTIAL: 'signInWithCredential',

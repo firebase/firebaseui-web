@@ -42,9 +42,12 @@ goog.require('firebaseui.auth.widget.handler.common');
  *     configuration is used.
  * @param {Element} container The container DOM element.
  * @param {string} actionCode The password reset action code.
+ * @param {?function()=} opt_onContinueClick Callback to invoke when the
+ *     continue button is clicked. If not provided, no continue button is
+ *     displayed.
  */
 firebaseui.auth.widget.handler.handlePasswordReset = function(
-    app, container, actionCode) {
+    app, container, actionCode, opt_onContinueClick) {
   // Call resetPassword first to get the email address.
   app.registerPending(
       app.getAuth()
@@ -55,7 +58,8 @@ firebaseui.auth.widget.handler.handlePasswordReset = function(
                 var component = new firebaseui.auth.ui.page.PasswordReset(
                     email, function() {
                       firebaseui.auth.widget.handler.resetPassword_(
-                          app, container, component, actionCode);
+                          app, container, component, actionCode,
+                          opt_onContinueClick);
                     });
                 component.render(container);
                 // Set current UI component.
@@ -74,10 +78,13 @@ firebaseui.auth.widget.handler.handlePasswordReset = function(
  * @param {Element} container The container DOM element.
  * @param {firebaseui.auth.ui.page.PasswordReset} component The UI component.
  * @param {string} actionCode The password reset action code.
+ * @param {?function()=} opt_onContinueClick Callback to invoke when the
+ *     continue button is clicked. If not provided, no continue button is
+ *     displayed.
  * @private
  */
 firebaseui.auth.widget.handler.resetPassword_ = function(
-    app, container, component, actionCode) {
+    app, container, component, actionCode, opt_onContinueClick) {
   var newPassword = component.checkAndGetNewPassword();
   if (!newPassword) {
     return;
@@ -89,7 +96,8 @@ firebaseui.auth.widget.handler.resetPassword_ = function(
       [actionCode, newPassword],
       function(resp) {
         currentComponent.dispose();
-        var component = new firebaseui.auth.ui.page.PasswordResetSuccess();
+        var component = new firebaseui.auth.ui.page.PasswordResetSuccess(
+            opt_onContinueClick);
         component.render(container);
         // Set current UI component.
         app.setCurrentComponent(component);
@@ -232,16 +240,20 @@ firebaseui.auth.widget.handler.handleEmailChangeRevocationFailure_ =
  *     configuration is used.
  * @param {Element} container The container DOM element.
  * @param {string} actionCode The email verification action code.
+ * @param {?function()=} opt_onContinueClick Callback to invoke when the
+ *     continue button is clicked. If not provided, no continue button is
+ *     displayed.
  */
 firebaseui.auth.widget.handler.handleEmailVerification = function(
-    app, container, actionCode) {
+    app, container, actionCode, opt_onContinueClick) {
   app.registerPending(
       app.getAuth()
           .applyActionCode(actionCode)
           .then(
               function() {
                 var component =
-                    new firebaseui.auth.ui.page.EmailVerificationSuccess();
+                    new firebaseui.auth.ui.page.EmailVerificationSuccess(
+                        opt_onContinueClick);
                 component.render(container);
                 // Set current UI component.
                 app.setCurrentComponent(component);
@@ -267,6 +279,7 @@ firebaseui.auth.widget.handler.register(
     /** @type {firebaseui.auth.widget.Handler} */
     (firebaseui.auth.widget.handler.handleEmailChangeRevocation));
 
+/** @suppress {missingRequire} */
 firebaseui.auth.widget.handler.register(
     firebaseui.auth.widget.HandlerName.EMAIL_VERIFICATION,
     /** @type {firebaseui.auth.widget.Handler} */

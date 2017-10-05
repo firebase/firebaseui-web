@@ -128,6 +128,14 @@ function testFakeAuthClient_setUser() {
 }
 
 
+function testFakeAuthClient_logFramework() {
+  auth.install();
+  auth.INTERNAL.logFramework('firebaseui');
+  auth.INTERNAL.logFramework('angularfire');
+  auth.assertFrameworksLogged(['firebaseui', 'angularfire']);
+}
+
+
 function testFakeAuthClient_withUser_Success() {
   asyncTestCase.waitForSignals(1);
   // Test with combination of authentication and user methods.

@@ -14,7 +14,7 @@
 
 // UI elements for the FirebaseUI widget.
 
-{namespace firebaseui.auth.soy2.element autoescape="strict"}
+{namespace firebaseui.auth.soy2.element}
 
 
 /**
@@ -208,6 +208,20 @@
       {msg desc="The submit button for a form that changes the state of the user
           (e.g. creating an account, resetting the password, etc.)."}
         Save
+      {/msg}
+    {/param}
+  {/call}
+{/template}
+
+
+/**
+ * Renders a continue button.
+ */
+{template .continueButton}
+  {call .submitButton}
+    {param label kind="text"}
+      {msg desc="The continue button for a form that redirects the application to another page."}
+        Continue
       {/msg}
     {/param}
   {/call}

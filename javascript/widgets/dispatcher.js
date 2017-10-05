@@ -26,6 +26,7 @@ goog.require('firebaseui.auth.widget.Config');
 goog.require('firebaseui.auth.widget.HandlerName');
 goog.require('firebaseui.auth.widget.handler');
 goog.require('firebaseui.auth.widget.handler.common');
+goog.require('goog.asserts');
 goog.require('goog.uri.utils');
 
 goog.forwardDeclare('firebaseui.auth.AuthUI');
@@ -51,7 +52,7 @@ firebaseui.auth.widget.dispatcher.ELEMENT_NOT_FOUND_ = 'Could not find the ' +
  * @private
  */
 firebaseui.auth.widget.dispatcher.getMode_ = function(app, opt_url) {
-  var url = opt_url || window.location.href;
+  var url = opt_url || firebaseui.auth.util.getCurrentUrl();
   var modeParam = app.getConfig().getQueryParameterForWidgetMode();
   var modeString = goog.uri.utils.getParamValue(url, modeParam) || '';
   // Normalize the mode.
@@ -76,7 +77,7 @@ firebaseui.auth.widget.dispatcher.getMode_ = function(app, opt_url) {
  * @private
  */
 firebaseui.auth.widget.dispatcher.getRedirectUrl_ = function(app, opt_url) {
-  var url = opt_url || window.location.href;
+  var url = opt_url || firebaseui.auth.util.getCurrentUrl();
   var queryParameterForSignInSuccessUrl =
       app.getConfig().getQueryParameterForSignInSuccessUrl();
   // Return the value of sign-in success URL from parsed url.
@@ -96,7 +97,7 @@ firebaseui.auth.widget.dispatcher.getRedirectUrl_ = function(app, opt_url) {
 firebaseui.auth.widget.dispatcher.getRequiredUrlParam_ = function(paramName,
     opt_url) {
   return goog.asserts.assertString(goog.uri.utils.getParamValue(
-      opt_url || window.location.href, paramName));
+      opt_url || firebaseui.auth.util.getCurrentUrl(), paramName));
 };
 
 
@@ -111,6 +112,31 @@ firebaseui.auth.widget.dispatcher.getRequiredUrlParam_ = function(paramName,
 firebaseui.auth.widget.dispatcher.getActionCode_ = function(opt_url) {
   return firebaseui.auth.widget.dispatcher.getRequiredUrlParam_('oobCode',
       opt_url);
+};
+
+
+/**
+ * Gets the action code continue callback from the given URL. If no URL is
+ * provided, no continue button is shown. This gives the user the ability to
+ * go back to the application. This could open an FDL link which redirects to a
+ * mobile app or to a web page. If no continue URL is available, no button is
+ * shown.
+ *
+ * @param {?string=} opt_url The URL from which to extract the continue URL.
+ * @return {?function()} The continue callback that will redirect the page back
+ *     to the app. If none available, null is returned.
+ * @private
+ */
+firebaseui.auth.widget.dispatcher.getContinueCallback_ = function(opt_url) {
+  var continueUrl = goog.uri.utils.getParamValue(
+       opt_url || firebaseui.auth.util.getCurrentUrl(), 'continueUrl');
+  // If continue URL detected, return a callback URL to redirect to it.
+  if (continueUrl) {
+    return function() {
+      firebaseui.auth.util.goTo(/** @type {string} */ (continueUrl));
+    };
+  }
+  return null;
 };
 
 
@@ -183,7 +209,10 @@ firebaseui.auth.widget.dispatcher.doDispatchOperation_ = function(app, e) {
           firebaseui.auth.widget.HandlerName.PASSWORD_RESET,
           app,
           container,
-          firebaseui.auth.widget.dispatcher.getActionCode_());
+          firebaseui.auth.widget.dispatcher.getActionCode_(),
+          // Check if continue URL is available. if so, display a button to
+          // redirect to it.
+          firebaseui.auth.widget.dispatcher.getContinueCallback_());
       break;
 
     case firebaseui.auth.widget.Config.WidgetMode.RECOVER_EMAIL:
@@ -199,7 +228,10 @@ firebaseui.auth.widget.dispatcher.doDispatchOperation_ = function(app, e) {
           firebaseui.auth.widget.HandlerName.EMAIL_VERIFICATION,
           app,
           container,
-          firebaseui.auth.widget.dispatcher.getActionCode_());
+          firebaseui.auth.widget.dispatcher.getActionCode_(),
+          // Check if continue URL is available. if so, display a button to
+          // redirect to it.
+          firebaseui.auth.widget.dispatcher.getContinueCallback_());
       break;
 
     case firebaseui.auth.widget.Config.WidgetMode.SELECT:
