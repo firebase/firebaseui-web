@@ -1,8 +1,1 @@
-removed - Removes hard coded QUOTA_EXCEEDED phone auth error. Instead we will use whatever the Auth API returns.
-feature - Updates the FirebaseUI demo app to install as a standalone PWA when added to home screen on an Android device.
-feature - Support prefilling the default phone number by passing a loginHint in the configuration only when phone auth provider is the only provider.
-feature - Support prefilling the default national number along with default country only when phone auth provider is the only provider.
-changed - Updates saucelabs tests: replace Safari 6 with 7 and removes IE9.
-fixed - Uses session persistence when supported on the internal temporary auth instance to avoid dangling auth states.
-fixed - Modified reCAPTCHA "I am not a Robot" button to be more responsive in narrow screens.
-feature - Adds a continue button to redirect to the continueUrl if available in the password reset and email verification action widgets.
+
