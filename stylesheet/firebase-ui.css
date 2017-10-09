@@ -411,7 +411,7 @@ input.firebaseui-input-invalid{
 }
 
 .firebaseui-icon-done {
-  background-image: url("//www.gstatic.com/images/icons/material/system/2x/done_googgreen_36dp.png");
+  background-image: url("https://www.gstatic.com/images/icons/material/system/2x/done_googgreen_36dp.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: 36px 36px;
@@ -446,7 +446,7 @@ input.firebaseui-input-invalid{
 }
 
 .firebaseui-flag {
-  background-image: url("//www.gstatic.com/firebasejs/ui/2.0.0/images/auth/flags_sprite_2x.png");
+  background-image: url("https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/flags_sprite_2x.png");
   background-size: 100% auto;
   /* Set a drop shadow so white flags are more distinct. */
   filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.54));
@@ -529,11 +529,11 @@ input.firebaseui-input-invalid{
 }
 
 .firebaseui-input-toggle-on {
-  background-image: url("//www.gstatic.com/images/icons/material/system/1x/visibility_black_24dp.png");
+  background-image: url("https://www.gstatic.com/images/icons/material/system/1x/visibility_black_24dp.png");
 }
 
 .firebaseui-input-toggle-off {
-  background-image: url("//www.gstatic.com/images/icons/material/system/1x/visibility_off_black_24dp.png");
+  background-image: url("https://www.gstatic.com/images/icons/material/system/1x/visibility_off_black_24dp.png");
 }
 
 .firebaseui-input-toggle-focus {
