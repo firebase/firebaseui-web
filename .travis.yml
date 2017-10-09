@@ -3,6 +3,8 @@ node_js:
   - '6'
 install: npm install
 script: npm test -- --saucelabs
+before_install:
+  - unset _JAVA_OPTIONS
 addons:
   sauce_connect:
     username: firebaseui

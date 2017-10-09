@@ -383,6 +383,28 @@ function testGetPhoneAuthDefaultCountry() {
 }
 
 
+function testGetPhoneAuthDefaultCountry_defaultCountryAndLoginHint() {
+  config.update('signInOptions', [{
+    'provider': 'phone',
+    'defaultCountry': 'gb',
+    // loginHint will be ignored in favor of the above.
+    'loginHint': '+112345678890'
+  }]);
+  assertEquals('United Kingdom', config.getPhoneAuthDefaultCountry().name);
+  assertEquals('44', config.getPhoneAuthDefaultCountry().e164_cc);
+}
+
+
+function testGetPhoneAuthDefaultCountry_loginHintOnly() {
+  config.update('signInOptions', [{
+    'provider': 'phone',
+    'loginHint': '+4412345678890'
+  }]);
+  assertEquals('Guernsey', config.getPhoneAuthDefaultCountry().name);
+  assertEquals('44', config.getPhoneAuthDefaultCountry().e164_cc);
+}
+
+
 function testGetPhoneAuthDefaultCountry_null() {
   config.update('signInOptions', null);
   assertNull(config.getPhoneAuthDefaultCountry());
@@ -400,7 +422,8 @@ function testGetPhoneAuthDefaultCountry_noCountrySpecified() {
 function testGetPhoneAuthDefaultCountry_invalidIdp() {
   config.update('signInOptions', [{
     'provider': 'google.com',
-    'defaultCountry': 'gb'
+    'defaultCountry': 'gb',
+    'loginHint': '+112345678890'
   }]);
   assertNull(config.getPhoneAuthDefaultCountry());
 }
@@ -412,6 +435,73 @@ function testGetPhoneAuthDefaultCountry_invalidCountry() {
     'defaultCountry': 'zz'
   }]);
   assertNull(config.getPhoneAuthDefaultCountry());
+}
+
+
+function testGetPhoneAuthDefaultCountry_invalidDefaultCountry_loginHint() {
+  config.update('signInOptions', [{
+    'provider': 'phone',
+    'defaultCountry': 'zz',
+    'loginHint': '+112345678890'
+  }]);
+  // Since the defaultCountry is invalid, loginHint will be used instead.
+  assertEquals('United States', config.getPhoneAuthDefaultCountry().name);
+  assertEquals('1', config.getPhoneAuthDefaultCountry().e164_cc);
+}
+
+
+function testGetPhoneAuthDefaultNationalNumber() {
+  config.update('signInOptions', [{
+    'provider': 'phone',
+    'defaultCountry': 'us',
+    'defaultNationalNumber': '1234567890'
+  }]);
+  assertEquals('1234567890', config.getPhoneAuthDefaultNationalNumber());
+}
+
+
+function testGetPhoneAuthDefaultNationalNumber_defaultNationalNumberAndHint() {
+  config.update('signInOptions', [{
+    'provider': 'phone',
+    'defaultNationalNumber': '1234567890',
+    // loginHint will be ignored in favor of the above.
+    'loginHint': '+12223334444'
+  }]);
+  assertEquals('1234567890', config.getPhoneAuthDefaultNationalNumber());
+}
+
+
+function testGetPhoneAuthDefaultNationalNumber_loginHintOnly() {
+  config.update('signInOptions', [{
+    'provider': 'phone',
+    'loginHint': '+12223334444'
+  }]);
+  assertEquals('2223334444', config.getPhoneAuthDefaultNationalNumber());
+}
+
+
+function testGetPhoneAuthDefaultNationalNumber_null() {
+  config.update('signInOptions', null);
+  assertNull(config.getPhoneAuthDefaultNationalNumber());
+}
+
+
+function testGetPhoneAuthDefaultNationalNumber_noNationalNumberSpecified() {
+  config.update('signInOptions', [{
+    'provider': 'phone'
+  }]);
+  assertNull(config.getPhoneAuthDefaultNationalNumber());
+}
+
+
+function testGetPhoneAuthDefaultNationalNumber_invalidIdp() {
+  config.update('signInOptions', [{
+    'provider': 'google.com',
+    'defaultCountry': 'ca',
+    'defaultNationalNumber': '1234567890',
+    'loginHint': '+12223334444'
+  }]);
+  assertNull(config.getPhoneAuthDefaultNationalNumber());
 }
 
 

@@ -40,8 +40,8 @@ const OUTPUT_WRAPPER = OPTIMIZATION_LEVEL === 'WHITESPACE_ONLY' ?
 
 // Adds the firebase module requirement and exports firebaseui.
 const NPM_MODULE_WRAPPER = OPTIMIZATION_LEVEL === 'WHITESPACE_ONLY' ?
-    'var firebase=require(\'firebase\');%output%module.exports=firebaseui;' :
-    '(function() { var firebase=require(\'firebase\');%output% })();' +
+    'var firebase=require(\'firebase/app\');require(\'firebase/auth\');%output%module.exports=firebaseui;' :
+    '(function() { var firebase=require(\'firebase/app\');require(\'firebase/auth\');%output% })();' +
     'module.exports=firebaseui;';
 
 // The path to Closure Compiler.

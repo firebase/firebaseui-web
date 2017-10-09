@@ -123,7 +123,20 @@ function setUp() {
       firebase.instances_[key] =
           new firebaseui.auth.testing.FakeAppClient(options, name);
     }
-    return firebase.instances_[key];
+    var firebaseApp = firebase.instances_[key];
+    // Make sure auth instance is installed.
+    // This is needed to confirm auth API calls on internal instance in the
+    // AuthUI constructor.
+    firebaseApp.auth().install();
+    return firebaseApp;
+  };
+  // Define firebase.auth.Auth.Persistence enum.
+  firebase.auth = firebase.auth || {};
+  firebase.auth.Auth = firebase.auth.Auth || {};
+  firebase.auth.Auth.Persistence = firebase.auth.Auth.Persistence || {
+    LOCAL: 'local',
+    NONE: 'none',
+    SESSION: 'session'
   };
   // On FirebaseApp deletion, confirm instance not already deleted and then
   // remove it from firebase.instances_.
@@ -236,11 +249,11 @@ function createAndInstallTestInstances() {
   // Initialize all test apps. Do not supply an app id for third instance.
   app1 = new firebaseui.auth.AuthUI(testAuth1, 'id1');
   // Install all internal instances.
-  app1.getAuth().install();
+  app1.getAuth().assertSetPersistence(['session'], null);
   app2 = new firebaseui.auth.AuthUI(testAuth2, 'id2');
-  app2.getAuth().install();
+  app2.getAuth().assertSetPersistence(['session'], null);
   app3 = new firebaseui.auth.AuthUI(testAuth3);
-  app3.getAuth().install();
+  app3.getAuth().assertSetPersistence(['session'], null);
   // Initialize config objects.
   config1 = {
     'signInSuccessUrl': 'http://localhost/home1',
@@ -281,6 +294,17 @@ function testGetExternalAuth() {
   // Confirm correct name used for temp instance.
   assertEquals('testapp1-firebaseui-temp', app1.getAuth().app.name);
   assertEquals('testapp2-firebaseui-temp', app2.getAuth().app.name);
+}
+
+function testTempAuth_sessionPersistence() {
+  createAndInstallTestInstances();
+  // Initialize app.
+  testAuth.install();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  // Confirm correct name used for temp instance.
+  assertEquals('testapp1-firebaseui-temp', app1.getAuth().app.name);
+  // Confirm session persistence set on internal instance.
+  app.getAuth().assertSetPersistence(['session'], null);
 }
 
 
@@ -536,6 +560,7 @@ function testUiChangedCallback() {
   // Make sure internal and external instances installed.
   testAuth.install();
   app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().assertSetPersistence(['session'], null);
   app.getAuth().install();
   app.setConfig(config);
   // Confirm UI changed callback for app.
@@ -774,4 +799,17 @@ function testAuthUi_delete() {
       asyncTestCase.signal();
     });
   });
+}
+
+
+function testAuthUi_logFramework() {
+  // Confirm FirebaseUI-web framework ID logged on external and internal
+  // Auth instances.
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().assertFrameworksLogged(['FirebaseUI-web']);
+  app.getExternalAuth().assertFrameworksLogged(['FirebaseUI-web']);
+  app.getAuth().install();
+  app.getExternalAuth().install();
 }

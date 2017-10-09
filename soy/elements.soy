@@ -216,6 +216,20 @@
 
 
 /**
+ * Renders a continue button.
+ */
+{template .continueButton}
+  {call .submitButton}
+    {param label kind="text"}
+      {msg desc="The continue button for a form that redirects the application to another page."}
+        Continue
+      {/msg}
+    {/param}
+  {/call}
+{/template}
+
+
+/**
  * Renders two text input fields for setting first and last name.
  */
 {template .name}

@@ -86,6 +86,8 @@ firebaseui.auth.AuthUI = function(auth, opt_appId) {
   }
   /** @private {!firebase.auth.Auth} The Firebase Auth instance. */
   this.auth_ = auth;
+  // Log FirebaseUI on external Auth instance.
+  firebaseui.auth.AuthUI.logFirebaseUI_(this.auth_);
   var tempApp = firebase.initializeApp({
     'apiKey': auth['app']['options']['apiKey'],
     'authDomain': auth['app']['options']['authDomain']
@@ -95,6 +97,13 @@ firebaseui.auth.AuthUI = function(auth, opt_appId) {
    *     instance.
    */
   this.tempAuth_ = tempApp.auth();
+  // Log FirebaseUI on internal Auth instance.
+  firebaseui.auth.AuthUI.logFirebaseUI_(this.tempAuth_);
+  // Change persistence to session to avoid the risk of dangling auth states in
+  // local storage. Check if the current version used, supports it.
+  if (this.tempAuth_.setPersistence) {
+    this.tempAuth_.setPersistence(firebase.auth.Auth.Persistence.SESSION);
+  }
   /** @private {string|undefined} The optional app id. */
   this.appId_ = opt_appId;
   /** @private {!firebaseui.auth.widget.Config} The AuthUI configuration. */
@@ -123,6 +132,19 @@ firebaseui.auth.AuthUI = function(auth, opt_appId) {
    *     pending promises or reset functions.
    */
   this.pending_ = [];
+};
+
+
+/**
+ * Log FirebaseUI framework on the specified Auth instance.
+ * @param {!firebase.auth.Auth} auth The Auth instance to log FirebaseUI on.
+ * @private
+ */
+firebaseui.auth.AuthUI.logFirebaseUI_ = function(auth) {
+  // INTERNAL.logFramework not supported in older versions.
+  if (auth && auth['INTERNAL'] && auth['INTERNAL']['logFramework']) {
+    auth['INTERNAL']['logFramework'](firebaseui.auth.AuthUI.FRAMEWORK_ID_);
+  }
 };
 
 
@@ -182,6 +204,14 @@ firebaseui.auth.AuthUI.TEMP_APP_NAME_SUFFIX_ = '-firebaseui-temp';
  * @private
  */
 firebaseui.auth.AuthUI.DEFAULT_INSTANCE_KEY_ = '[DEFAULT]';
+
+
+/**
+ * The Firebase UI framework ID.
+ * @const {string}
+ * @private
+ */
+firebaseui.auth.AuthUI.FRAMEWORK_ID_ = 'FirebaseUI-web';
 
 
 /**

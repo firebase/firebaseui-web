@@ -171,7 +171,18 @@ function testHandlePhoneSignInFinish_error_codeExpired() {
     'code': 'auth/code-expired',
     'message': 'Expired verification code provided!'
   };
+  // Test any passed default data ignored.
+  app.setConfig({
+    'signInOptions': [{
+      'provider': 'phone',
+      // Pass default country.
+      'defaultCountry': 'gb',
+      // Pass default national number.
+      'defaultNationalNumber': '1234567890'
+    }]
+  });
   // Render phone sign in finish UI.
+  // Phone number provided here has higher priority over the config defaults.
   firebaseui.auth.widget.handler.handlePhoneSignInFinish(
       app, container, phoneNumberValue, resendDelaySeconds,
       createMockConfirmationResultWithError(expectedError));
@@ -189,7 +200,7 @@ function testHandlePhoneSignInFinish_error_codeExpired() {
     assertNoDialog();
     // Phone sign in start page should be rendered.
     assertPhoneSignInStartPage();
-    // Phone number should be prefilled.
+    // Phone number should be prefilled. Defaults should be ignored.
     assertEquals('\u200e+45', getPhoneCountrySelectorElement().textContent);
     assertEquals(phoneNumberValue.nationalNumber, getPhoneInputElement().value);
     // Recaptcha should be rendered.
@@ -268,6 +279,16 @@ function testHandlePhoneSignInFinish_error_miscError() {
 function testHandlePhoneSignInFinish_onChangePhoneNumberClick() {
   // Test when change phone number button is clicked in code entry page that the
   // phone sign in start page is rendered.
+  // Test any passed default data ignored.
+  app.setConfig({
+    'signInOptions': [{
+      'provider': 'phone',
+      // Pass default country.
+      'defaultCountry': 'gb',
+      // Pass default national number.
+      'defaultNationalNumber': '1234567890'
+    }]
+  });
   // Render phone sign in finish UI.
   firebaseui.auth.widget.handler.handlePhoneSignInFinish(
       app, container, phoneNumberValue, resendDelaySeconds,
@@ -277,7 +298,7 @@ function testHandlePhoneSignInFinish_onChangePhoneNumberClick() {
   // Click change phone number link.
   clickChangePhoneNumberLink();
   // Phone sign in start page should be rendered with the correct phone number
-  // prefilled.
+  // prefilled and not the config provided defaults.
   assertPhoneSignInStartPage();
   assertEquals('\u200e+45', getPhoneCountrySelectorElement().textContent);
   assertEquals(phoneNumberValue.nationalNumber, getPhoneInputElement().value);
@@ -319,6 +340,16 @@ function testHandlePhoneSignInFinishStart_reset() {
 
 
 function testHandlePhoneSignInFinish_onResendClick() {
+  // Test any passed default data ignored.
+  app.setConfig({
+    'signInOptions': [{
+      'provider': 'phone',
+      // Pass default country.
+      'defaultCountry': 'gb',
+      // Pass default national number.
+      'defaultNationalNumber': '1234567890'
+    }]
+  });
   firebaseui.auth.widget.handler.handlePhoneSignInFinish(
       app, container, phoneNumberValue, resendDelaySeconds,
       mockConfirmationResult);
@@ -330,6 +361,7 @@ function testHandlePhoneSignInFinish_onResendClick() {
   // Assert resend navigation takes you back to start page with phone prefilled.
   clickResendLink();
   assertPhoneSignInStartPage();
+  // Defaults ignored.
   assertEquals('\u200e+45', getPhoneCountrySelectorElement().textContent);
   assertEquals(phoneNumberValue.nationalNumber, getPhoneInputElement().value);
 

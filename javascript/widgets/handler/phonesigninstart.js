@@ -56,10 +56,16 @@ firebaseui.auth.widget.handler.handlePhoneSignInStart = function(
   // Set the default values for the phone number input, getting it first from
   // the passed in parameters and second from the config.
   var defaultCountry = app.getConfig().getPhoneAuthDefaultCountry();
+  // Get default national number only if phone auth is the only provider.
+  // This will be overridden by opt_phoneNumberValue if available as it has
+  // higher priority.
+  var defaultNationalNumber =
+      firebaseui.auth.widget.handler.common.isPhoneProviderOnly(app) ?
+      app.getConfig().getPhoneAuthDefaultNationalNumber() : null;
   var countryId = (opt_phoneNumberValue && opt_phoneNumberValue.countryId) ||
       (defaultCountry && defaultCountry.e164_key) || null;
-  var nationalNumber = opt_phoneNumberValue &&
-      opt_phoneNumberValue.nationalNumber;
+  var nationalNumber = (opt_phoneNumberValue &&
+      opt_phoneNumberValue.nationalNumber) || defaultNationalNumber;
 
   // Render the phone sign in start page component.
   var component = new firebaseui.auth.ui.page.PhoneSignInStart(

@@ -20,15 +20,16 @@ goog.provide('firebaseui.auth.widget.handler.ActionCodeTest');
 goog.setTestOnly('firebaseui.auth.widget.handler.ActionCodeTest');
 
 goog.require('firebaseui.auth.soy2.strings');
-goog.require('firebaseui.auth.widget.Config');
 goog.require('firebaseui.auth.widget.handler.common');
 goog.require('firebaseui.auth.widget.handler.handleEmailChangeRevocation');
 goog.require('firebaseui.auth.widget.handler.handleEmailVerification');
 goog.require('firebaseui.auth.widget.handler.handlePasswordReset');
+/** @suppress {extraRequire} */
 goog.require('firebaseui.auth.widget.handler.testHelper');
 goog.require('goog.dom.forms');
 goog.require('goog.testing.AsyncTestCase');
 goog.require('goog.testing.events');
+goog.require('goog.testing.recordFunction');
 
 
 var asyncTestCase = goog.testing.AsyncTestCase.createAndInstall();
@@ -49,6 +50,37 @@ function testHandlePasswordReset() {
     return app.getAuth().process();
   }).then(function() {
     assertPasswordResetSuccessPage();
+    // Confirm no continue button.
+    assertNull(getSubmitButton());
+    asyncTestCase.signal();
+  });
+}
+
+
+function testHandlePasswordReset_continueButton() {
+  // Test successful password reset with continue button.
+  asyncTestCase.waitForSignals(1);
+  var continueButtonCallback = goog.testing.recordFunction();
+  firebaseui.auth.widget.handler.handlePasswordReset(
+      app, container, 'PASSWORD_RESET_ACTION_CODE', continueButtonCallback);
+  app.getAuth().assertVerifyPasswordResetCode(
+      ['PASSWORD_RESET_ACTION_CODE'], 'user@example.com');
+  app.getAuth().process().then(function() {
+    assertPasswordResetPage();
+    goog.dom.forms.setValue(getNewPasswordElement(), '123123');
+    submitForm();
+    app.getAuth().assertConfirmPasswordReset(
+        ['PASSWORD_RESET_ACTION_CODE', '123123']);
+    return app.getAuth().process();
+  }).then(function() {
+    assertPasswordResetSuccessPage();
+    // Confirm continue button.
+    assertNotNull(getSubmitButton());
+    assertEquals(0, continueButtonCallback.getCallCount());
+    // Click continue button.
+    submitForm();
+    // Confirm callback triggered.
+    assertEquals(1, continueButtonCallback.getCallCount());
     asyncTestCase.signal();
   });
 }
@@ -350,10 +382,37 @@ function testHandleEmailVerification_success() {
   app.getAuth().process().then(function() {
     // Successful email verification page should show.
     assertEmailVerificationSuccessPage();
+    // No continue button should be displayed.
+    assertNull(getSubmitButton());
     // Reset current rendered widget page.
     app.reset();
     // Container should be cleared.
     assertComponentDisposed();
+    asyncTestCase.signal();
+  });
+}
+
+
+function testHandleEmailVerification_success_continueButton() {
+  // Test successful email verificaiton with continue button.
+  asyncTestCase.waitForSignals(1);
+  var continueButtonCallback = goog.testing.recordFunction();
+
+  // Trigger email verification handler.
+  firebaseui.auth.widget.handler.handleEmailVerification(
+      app, container, 'EMAIL_VERIFICATION_ACTION_CODE', continueButtonCallback);
+  // Simulate successful email verification code.
+  app.getAuth().assertApplyActionCode(['EMAIL_VERIFICATION_ACTION_CODE']);
+  app.getAuth().process().then(function() {
+    // Successful email verification page should show.
+    assertEmailVerificationSuccessPage();
+    // Confirm continue button.
+    assertNotNull(getSubmitButton());
+    assertEquals(0, continueButtonCallback.getCallCount());
+    // Click continue button.
+    submitForm();
+    // Confirm callback triggered.
+    assertEquals(1, continueButtonCallback.getCallCount());
     asyncTestCase.signal();
   });
 }

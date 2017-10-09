@@ -23,6 +23,7 @@ goog.require('firebaseui.auth.CredentialHelper');
 goog.require('firebaseui.auth.storage');
 goog.require('firebaseui.auth.testing.FakeAcClient');
 goog.require('firebaseui.auth.testing.FakeAppClient');
+goog.require('firebaseui.auth.testing.FakeUtil');
 goog.require('firebaseui.auth.widget.Config');
 goog.require('firebaseui.auth.widget.dispatcher');
 goog.require('firebaseui.auth.widget.handler');
@@ -48,8 +49,10 @@ var getApp;
 var externalAuthApp;
 var testAuth;
 var firebase = {};
+var testUtil;
 
 
+/** Callback for tracking uiShown calls. */
 function uiShownCallback() {
     uiShownCallbackCount++;
 }
@@ -80,6 +83,7 @@ function setUp() {
       goog.testing.recordFunction(
           firebaseui.auth.widget.handler.common.selectFromAccountChooser));
   testAc = new firebaseui.auth.testing.FakeAcClient().install();
+  testUtil = new firebaseui.auth.testing.FakeUtil().install();
   // Record all widget handler calls.
   for (var handlerName in firebaseui.auth.widget.HandlerName) {
     stub.set(
@@ -132,6 +136,7 @@ function tearDown() {
   }
   // Reset AuthUI internals.
   firebaseui.auth.AuthUI.resetAllInternals();
+  testUtil.uninstall();
 }
 
 
@@ -272,6 +277,10 @@ function testGetActionCode() {
 }
 
 
+/**
+ * @param {string} mode The dispatcher mode to simulate.
+ * @param {?Object=} opt_params The parameters in the URL to simulate.
+ */
 function setModeAndUrlParams(mode, opt_params) {
   stub.set(firebaseui.auth.widget.dispatcher, 'getMode_', function() {
     return mode;
@@ -522,6 +531,34 @@ function testDispatchOperation_verifyEmail() {
 }
 
 
+function testDispatchOperation_verifyEmail_continueUrl() {
+  var element = goog.dom.createElement('div');
+  var continueUrl = 'http://www.example.com/path/page?a=1#b=2';
+  stub.replace(
+      firebaseui.auth.util,
+      'getCurrentUrl',
+      function() {
+        return 'http://example.firebaseapp.com/__/auth/action?mode=' +
+            'verifyEmail&apiKey=API_KEY&oobCode=ACTION_CODE&continueUrl=' +
+            encodeURIComponent(continueUrl);
+      });
+  firebaseui.auth.widget.dispatcher.dispatchOperation(app, element);
+  assertHandlerInvoked(
+      firebaseui.auth.widget.HandlerName.EMAIL_VERIFICATION,
+      app,
+      element,
+      'ACTION_CODE');
+  // Get callback passed to verify email handler and confirm it redirects to
+  // continue URL.
+  var handler =
+      firebaseui.auth.widget.handlers_[
+        firebaseui.auth.widget.HandlerName.EMAIL_VERIFICATION];
+  var continueCallback = handler.getLastCall().getArgument(3);
+  continueCallback();
+  testUtil.assertGoTo(continueUrl);
+}
+
+
 function testDispatchOperation_resetPassword() {
   var element = goog.dom.createElement('div');
   setModeAndUrlParams(
@@ -533,5 +570,34 @@ function testDispatchOperation_resetPassword() {
       app,
       element,
       'ACTION_CODE');
+}
+
+
+function testDispatchOperation_resetPassword_continueUrl() {
+  var element = goog.dom.createElement('div');
+  var continueUrl = 'http://www.example.com/path/page?a=1#b=2';
+  stub.replace(
+      firebaseui.auth.util,
+      'getCurrentUrl',
+      function() {
+        return 'http://example.firebaseapp.com/__/auth/action?mode=' +
+            'resetPassword&apiKey=API_KEY&oobCode=ACTION_CODE&continueUrl=' +
+            encodeURIComponent(continueUrl);
+      });
+  firebaseui.auth.widget.dispatcher.dispatchOperation(app, element);
+  assertHandlerInvoked(
+      firebaseui.auth.widget.HandlerName.PASSWORD_RESET,
+      app,
+      element,
+      'ACTION_CODE');
+  // Get callback passed to password reset handler and confirm it redirects to
+  // continue URL.
+  /** @suppress {missingRequire} */
+  var handler =
+      firebaseui.auth.widget.handlers_[
+        firebaseui.auth.widget.HandlerName.PASSWORD_RESET];
+  var continueCallback = handler.getLastCall().getArgument(3);
+  continueCallback();
+  testUtil.assertGoTo(continueUrl);
 }
 

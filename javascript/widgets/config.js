@@ -21,6 +21,7 @@ goog.provide('firebaseui.auth.callback.signInSuccess');
 goog.provide('firebaseui.auth.widget.Config');
 
 goog.require('firebaseui.auth.Config');
+goog.require('firebaseui.auth.PhoneNumber');
 goog.require('firebaseui.auth.data.country');
 goog.require('firebaseui.auth.idp');
 goog.require('firebaseui.auth.log');
@@ -278,9 +279,8 @@ firebaseui.auth.widget.Config.prototype.getProviders = function() {
 firebaseui.auth.widget.Config.prototype.getRecaptchaParameters = function() {
   var recaptchaParameters = null;
   goog.array.forEach(this.getSignInOptions_(), function(option) {
-    // TODO(bojeil): remove after this API is added to externs.
     if (option['provider'] ==
-        firebase.auth['PhoneAuthProvider']['PROVIDER_ID'] &&
+        firebase.auth.PhoneAuthProvider.PROVIDER_ID &&
         // Confirm valid object.
         goog.isObject(option['recaptchaParameters']) &&
         !goog.isArray(option['recaptchaParameters'])) {
@@ -355,6 +355,27 @@ firebaseui.auth.widget.Config.prototype.getProviderCustomParameters =
 
 /**
  * Returns the default country to select for phone authentication.
+ * @return {?string} The default naional number, or null if phone auth is not
+ *     enabled.
+ */
+firebaseui.auth.widget.Config.prototype.getPhoneAuthDefaultNationalNumber =
+    function() {
+  var signInOptions = this.getSignInOptionsForProvider_(
+      firebase.auth.PhoneAuthProvider.PROVIDER_ID);
+  // Check if loginHint passed. If so, get the national number from there.
+  // If no defaultNationalNumber passed, use this value instead.
+  var defaultPhoneNumber = null;
+  if (signInOptions && goog.isString(signInOptions['loginHint'])) {
+    defaultPhoneNumber = firebaseui.auth.PhoneNumber.fromString(
+        /** @type {string} */ (signInOptions['loginHint']));
+  }
+  return (signInOptions && signInOptions['defaultNationalNumber']) ||
+      (defaultPhoneNumber && defaultPhoneNumber.nationalNumber) || null;
+};
+
+
+/**
+ * Returns the default country to select for phone authentication.
  * @return {?firebaseui.auth.data.country.Country} The default country, or null
  *     if phone auth is not enabled or the country is not found.
  */
@@ -364,8 +385,16 @@ firebaseui.auth.widget.Config.prototype.getPhoneAuthDefaultCountry =
       firebase.auth.PhoneAuthProvider.PROVIDER_ID);
   var iso2 = signInOptions && signInOptions['defaultCountry'] || null;
   var countries = iso2 && firebaseui.auth.data.country.getCountriesByIso2(iso2);
+  // Check if loginHint passed. If so, get the country ID from there.
+  // If no defaultCountry passed, use this value instead.
+  var defaultPhoneNumber = null;
+  if (signInOptions && goog.isString(signInOptions['loginHint'])) {
+    defaultPhoneNumber = firebaseui.auth.PhoneNumber.fromString(
+        /** @type {string} */ (signInOptions['loginHint']));
+  }
   // If there are multiple entries, pick the first one.
-  return countries && countries[0] || null;
+  return (countries && countries[0]) ||
+      (defaultPhoneNumber && defaultPhoneNumber.getCountry()) || null;
 };
 
 

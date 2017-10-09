@@ -38,8 +38,8 @@ goog.require('firebaseui.auth.ui.page.Base');
  * @param {function(ARG_TYPES, null=, Object.<string, *>=):*} template The Soy
  *     template for the component.
  * @param {ARG_TYPES=} opt_templateData The data for the template.
- * @param {function()=} opt_onContinueClick Callback to invoke when the continue
- *    button is clicked.
+ * @param {?function()=} opt_onContinueClick Callback to invoke when the
+ *     continue button is clicked.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @param {string=} opt_uiLabel The optional UI label.
  * @constructor
@@ -99,8 +99,8 @@ goog.mixin(
 /**
  * Password recovery email sent notice UI component.
  * @param {string} email The email to which the recovery email has been sent.
- * @param {function()=} opt_onContinueClick Callback to invoke when the continue
- *     button is clicked.
+ * @param {?function()=} opt_onContinueClick Callback to invoke when the
+ *     continue button is clicked.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @constructor
  * @extends {firebaseui.auth.ui.page.Notice}
@@ -125,8 +125,8 @@ goog.inherits(firebaseui.auth.ui.page.PasswordRecoveryEmailSent,
 
 /**
  * Email verification success notice UI component.
- * @param {function()=} opt_onContinueClick Callback to invoke when the continue
- *     button is clicked.
+ * @param {?function()=} opt_onContinueClick Callback to invoke when the
+ *     continue button is clicked.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @constructor
  * @extends {firebaseui.auth.ui.page.Notice}
@@ -151,8 +151,8 @@ goog.inherits(firebaseui.auth.ui.page.EmailVerificationSuccess,
 
 /**
  * Email verification failure notice UI component.
- * @param {function()=} opt_onContinueClick Callback to invoke when the continue
- *     button is clicked.
+ * @param {?function()=} opt_onContinueClick Callback to invoke when the
+ *     continue button is clicked.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @constructor
  * @extends {firebaseui.auth.ui.page.Notice}
@@ -177,8 +177,8 @@ goog.inherits(firebaseui.auth.ui.page.EmailVerificationFailure,
 
 /**
  * Password reset success notice UI component.
- * @param {function()=} opt_onContinueClick Callback to invoke when the continue
- *     button is clicked.
+ * @param {?function()=} opt_onContinueClick Callback to invoke when the
+ *     continue button is clicked.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @constructor
  * @extends {firebaseui.auth.ui.page.Notice}
@@ -203,8 +203,8 @@ goog.inherits(firebaseui.auth.ui.page.PasswordResetSuccess,
 
 /**
  * Password reset failure notice UI component.
- * @param {function()=} opt_onContinueClick Callback to invoke when the continue
- *     button is clicked.
+ * @param {?function()=} opt_onContinueClick Callback to invoke when the
+ *     continue button is clicked.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @constructor
  * @extends {firebaseui.auth.ui.page.Notice}
@@ -228,8 +228,8 @@ goog.inherits(firebaseui.auth.ui.page.PasswordResetFailure,
 
 /**
  * Email change revoke failure notice UI component.
- * @param {function()=} opt_onContinueClick Callback to invoke when the continue
- *     button is clicked.
+ * @param {?function()=} opt_onContinueClick Callback to invoke when the
+ *     continue button is clicked.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @constructor
  * @extends {firebaseui.auth.ui.page.Notice}

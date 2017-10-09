@@ -374,16 +374,138 @@ function testHandlePhoneSignInStart_defaultCountry() {
 }
 
 
+function testHandlePhoneSignInStart_defaultNationalNumber_phoneOnlyProvider() {
+  // Set phone number only provider with US as the default country.
+  app.setConfig({
+    'signInOptions': [{
+      'provider': 'phone',
+      'defaultNationalNumber': '1234567890'
+    }]
+  });
+  firebaseui.auth.widget.handler.handlePhoneSignInStart(app, container);
+  assertPhoneSignInStartPage();
+
+  // The widget should be populated with the correct country and national
+  // number. As no default country is provided in the config. US (+1) is
+  // selected automatically.
+  assertEquals('\u200e+1', getPhoneCountrySelectorElement().textContent);
+  assertEquals('1234567890', getPhoneInputElement().value);
+
+  recaptchaVerifierInstance.assertInitializedWithParameters(
+      getRecaptchaElement(), {}, app.getExternalAuth().app);
+  recaptchaVerifierInstance.assertRender([], 0);
+  return recaptchaVerifierInstance.process().then(function() {
+    var callback = recaptchaVerifierInstance.getParameters()['callback'];
+    callback('RECAPTCHA_TOKEN');
+    // Submit the form.
+    submitForm();
+
+    // Sign in with phone number should be triggered with the correct country
+    // code.
+    externalAuth.assertSignInWithPhoneNumber(
+        ['+11234567890', recaptchaVerifierInstance],
+        mockConfirmationResult);
+    return externalAuth.process();
+  });
+}
+
+
+function testHandlePhoneSignInStart_defaultCompleteNumber_phoneOnlyProvider() {
+  // Test with phone number as only provider but set the default country to UK.
+  app.setConfig({
+    'signInOptions': [{
+      'provider': 'phone',
+      // Pass default country.
+      'defaultCountry': 'gb',
+      // Pass default national number.
+      'defaultNationalNumber': '1234567890'
+    }]
+  });
+  firebaseui.auth.widget.handler.handlePhoneSignInStart(app, container);
+  assertPhoneSignInStartPage();
+
+  // The widget should be populated with the correct country (+44) and national
+  // number.
+  assertEquals('\u200e+44', getPhoneCountrySelectorElement().textContent);
+  assertEquals('1234567890', getPhoneInputElement().value);
+
+  recaptchaVerifierInstance.assertInitializedWithParameters(
+      getRecaptchaElement(), {}, app.getExternalAuth().app);
+  recaptchaVerifierInstance.assertRender([], 0);
+  return recaptchaVerifierInstance.process().then(function() {
+    var callback = recaptchaVerifierInstance.getParameters()['callback'];
+    callback('RECAPTCHA_TOKEN');
+    // Submit the form.
+    submitForm();
+
+    // Sign in with phone number should be triggered with the correct country
+    // code.
+    externalAuth.assertSignInWithPhoneNumber(
+        ['+441234567890', recaptchaVerifierInstance],
+        mockConfirmationResult);
+    return externalAuth.process();
+  });
+}
+
+
+function testHandlePhoneSignInStart_defaultCompleteNumber_multipleProviders() {
+  // Test with multiple providers and default country and national number.
+  app.setConfig({
+    'signInOptions': [{
+      'provider': 'phone',
+      // Pass default country.
+      'defaultCountry': 'gb',
+      // Pass default national number.
+      'defaultNationalNumber': '1234567890'
+    },
+    // Pass additional provider.
+    {
+      'provider': 'google.com'
+    }]
+  });
+  firebaseui.auth.widget.handler.handlePhoneSignInStart(app, container);
+  assertPhoneSignInStartPage();
+
+  // The widget should be populated with the correct country only and keep
+  // the national number blank as multiple providers are used.
+  assertEquals('\u200e+44', getPhoneCountrySelectorElement().textContent);
+  assertEquals('', getPhoneInputElement().value);
+
+  recaptchaVerifierInstance.assertInitializedWithParameters(
+      getRecaptchaElement(), {}, app.getExternalAuth().app);
+  recaptchaVerifierInstance.assertRender([], 0);
+  return recaptchaVerifierInstance.process().then(function() {
+    var callback = recaptchaVerifierInstance.getParameters()['callback'];
+    callback('RECAPTCHA_TOKEN');
+
+    // Enter a phone number.
+    goog.dom.forms.setValue(getPhoneNumberElement(), '1234567890');
+
+    // Submit the form.
+    submitForm();
+
+    // Sign in with phone number should be triggered with the correct country
+    // code.
+    externalAuth.assertSignInWithPhoneNumber(
+        ['+441234567890', recaptchaVerifierInstance],
+        mockConfirmationResult);
+    return externalAuth.process();
+  });
+}
+
+
 function testHandlePhoneSignInStart_defaultAndPrefill() {
   // Tests a flow with a prefilled phone number. This should take precedence
   // over the default country.
   var phoneNumberValue = new firebaseui.auth.PhoneNumber(
       '45-DK-0', '1234567890');
   // Set the default country to the UK.
+  // The default config fields will be ignored.
   app.setConfig({
     'signInOptions': [{
       'provider': 'phone',
-      'defaultCountry': 'gb'
+      'defaultCountry': 'gb',
+      'defaultNationalNumber': '11111111'
     }]
   });
   firebaseui.auth.widget.handler.handlePhoneSignInStart(
