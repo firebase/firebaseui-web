@@ -479,25 +479,60 @@ function testStart() {
 
 
 function testSetLang() {
-  createAndInstallTestInstances();
   testStubs.replace(goog, 'LOCALE', 'de');
+  // Language code of auth instance is set to goog.LOCALE at initialization.
+  // Replace goog.LOCALE and then install instance.
+  createAndInstallTestInstances();
   app1.start(container1, config1);
   assertEquals('de', container1.getAttribute('lang'));
+  assertEquals('de', app1.getAuth().languageCode);
+  assertEquals('de', app1.getExternalAuth().languageCode);
   app1.reset();
   assertFalse(container1.hasAttribute('lang'));
+}
 
+function testSetLang_codeWithdash() {
   testStubs.replace(goog, 'LOCALE', 'zh-CN');
+  // Language code of auth instance is set to goog.LOCALE at initialization.
+  // Replace goog.LOCALE and then install instance.
+  createAndInstallTestInstances();
   app1.start(container1, config1);
   assertEquals('zh-CN', container1.getAttribute('lang'));
+  assertEquals('zh-CN', app1.getAuth().languageCode);
+  assertEquals('zh-CN', app1.getExternalAuth().languageCode);
   app1.reset();
   assertFalse(container1.hasAttribute('lang'));
+}
 
+function testSetLang_codeWithUnderscore() {
   testStubs.replace(goog, 'LOCALE', 'zh_CN');
+  // Language code of auth instance is set to goog.LOCALE at initialization.
+  // Replace goog.LOCALE and then install instance.
+  createAndInstallTestInstances();
   app1.start(container1, config1);
   // The lang should have a dash instead of an underscore.
   assertEquals('zh-CN', container1.getAttribute('lang'));
+  assertEquals('zh-CN', app1.getAuth().languageCode);
+  assertEquals('zh-CN', app1.getExternalAuth().languageCode);
   app1.reset();
   assertFalse(container1.hasAttribute('lang'));
+}
+
+function testStart_overrideLanguageCode() {
+  // Set the language code of widget to zh-CN.
+  testStubs.replace(goog, 'LOCALE', 'zh-CN');
+  createAndInstallTestInstances();
+  testAuth.install();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().assertSetPersistence(['session'], null);
+  // Set the language code of auth to de.
+  testAuth.languageCode = 'de';
+  // Override language code of auth to zh-CN.
+  app.start(container1, config1);
+  assertEquals('zh-CN', app.getExternalAuth().languageCode);
+  app.reset();
+  // Confirm language code of auth changed back to de.
+  assertEquals('de', testAuth.languageCode);
 }
 
 

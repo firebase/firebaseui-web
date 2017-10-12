@@ -129,6 +129,7 @@ function getLocaleForFileName(locale) {
  * Gets the path to the temporary JS file that contains all FirebaseUI code
  * but no external dependencies.
  * @param {string} locale
+ * @return {string} The path of the temporary JS file.
  */
 function getTmpJsPath(locale) {
   const localeForFileName = getLocaleForFileName(locale);
@@ -163,6 +164,7 @@ function repeatTaskForAllLocales(taskName, dependencies, operation) {
 /**
  * Builds the core FirebaseUI binary in the given locale.
  * @param {string} locale
+ * @return {*} A stream that finishes when compilation finishes.
  */
 function buildFirebaseUiJs(locale) {
   const flags = {
@@ -225,6 +227,7 @@ const buildJsTasks = repeatTaskForAllLocales(
  * Creates the default FirebaseUI binaries for basic usage without
  * localization. For example, it copies firebaseui__en.js to firebaseui.js.
  * @param {string} fileName
+ * @return {!Promise} A promise that resolves on completion.
  */
 function makeDefaultFile(fileName) {
   const localeForFileName = getLocaleForFileName(DEFAULT_LOCALE);

@@ -86,6 +86,8 @@ firebaseui.auth.AuthUI = function(auth, opt_appId) {
   }
   /** @private {!firebase.auth.Auth} The Firebase Auth instance. */
   this.auth_ = auth;
+  /** @private {?string} The original Auth language code. */
+  this.originalAuthLanguageCode_ = null;
   // Log FirebaseUI on external Auth instance.
   firebaseui.auth.AuthUI.logFirebaseUI_(this.auth_);
   var tempApp = firebase.initializeApp({
@@ -327,6 +329,16 @@ firebaseui.auth.AuthUI.prototype.start = function(element, config) {
   this.checkIfDestroyed_();
   var self = this;
 
+  // Save the original language code of external Auth instance.
+  if (typeof this.auth_.languageCode !== 'undefined') {
+    this.originalAuthLanguageCode_ = this.auth_.languageCode;
+  }
+  // Make sure the locale uses hyphens instead of underscores.
+  var unicodeLocale = firebaseui.auth.util.getUnicodeLocale();
+  // Sync the language code of Auth instance with widget.
+  this.auth_.languageCode = unicodeLocale;
+  this.tempAuth_.languageCode = unicodeLocale;
+
   // There is a problem when config in second call modifies accountchooser.com
   // related config. eg. acUiConfig
   // These changes will be ignored as only the first accountchooser.com related
@@ -360,9 +372,8 @@ firebaseui.auth.AuthUI.prototype.initElement_ = function(element) {
   // Set the "lang" attribute; without this, there are subtle rendering errors
   // like vowel capitalization in Turkish.
 
-  // Make sure the locale uses hyphens instead of strings.
-  var locale = goog.LOCALE.replace(/_/g, '-');
-  container.setAttribute('lang', locale);
+  // Make sure the locale uses hyphens instead of underscores.
+  container.setAttribute('lang', firebaseui.auth.util.getUnicodeLocale());
 
   // Only one auth instance can be rendered per page. This is because
   // accountchooser.com callbacks are set once to the AuthUI instance that
@@ -433,6 +444,10 @@ firebaseui.auth.AuthUI.prototype.reset = function() {
   // Remove the "lang" attribute that we set in start().
   if (this.widgetElement_) {
     this.widgetElement_.removeAttribute('lang');
+  }
+  // Change back the languageCode of external Auth instance.
+  if (typeof this.auth_.languageCode !== 'undefined') {
+    this.auth_.languageCode = this.originalAuthLanguageCode_;
   }
 
   // After reset, if the sign-in widget callback is called again, it should not

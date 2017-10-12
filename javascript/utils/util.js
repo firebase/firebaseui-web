@@ -193,3 +193,11 @@ firebaseui.auth.util.getElement = function(element, opt_notFoundDesc) {
 firebaseui.auth.util.getCurrentUrl = function() {
   return window.location.href;
 };
+
+
+/**
+ * @return {string} The country code in canonical Unicode format.
+ */
+firebaseui.auth.util.getUnicodeLocale = function() {
+  return goog.LOCALE.replace(/_/g, '-');
+};

@@ -99,3 +99,16 @@ function testIsHttpOrHttps() {
       });
   assertFalse(firebaseui.auth.util.isHttpOrHttps());
 }
+
+function testGetUnicodeLocale() {
+  stubs.replace(goog, 'LOCALE', 'de');
+  assertEquals('de', firebaseui.auth.util.getUnicodeLocale());
+
+  stubs.replace(goog, 'LOCALE', 'zh-CN');
+  assertEquals('zh-CN', firebaseui.auth.util.getUnicodeLocale());
+
+  // The locale should have a dash instead of an underscore.
+  stubs.replace(goog, 'LOCALE', 'zh_CN');
+  assertEquals('zh-CN', firebaseui.auth.util.getUnicodeLocale());
+
+}
