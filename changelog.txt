@@ -1,1 +1,3 @@
-
+fixed - Localized underlying Firebase Auth instance when FirebaseUI-web is localized.
+fixed - Enforced https scheme in background CSS images.
+fixed - Added empty alt attribute to IdP buttons.
