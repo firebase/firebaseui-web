@@ -51,6 +51,6 @@
     "streamqueue": "^1.1.1"
   },
   "dependencies": {
-    "firebase": "^4.1.2"
+    "firebase": "^4.3.1"
   }
 }
