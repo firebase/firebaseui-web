@@ -801,7 +801,7 @@ appropriate exceptions for FirebaseUI resources (`style-src`, `media-src`,
 
 ## React DOM Setup
 
-In React DOM applications please use the [FirebaseUI Web React Wrapper](https://github.com/firebase/firebaseui-web-react).
+In React DOM applications use the [FirebaseUI Web React Wrapper](https://github.com/firebase/firebaseui-web-react).
 
 ## Known issues
 
