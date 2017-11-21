@@ -65,7 +65,8 @@
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />לא הצלחנו לבטל את העדכון של כתובת הכניסה לחשבון.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />אם ניסיון נוסף לא יפתור את הבעיה, אנחנו מציעים לבקש עזרה ממנהל המערכת.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">בחריין</translation>
 <translation id="2405828009195143258">איראן</translation>
-<translation id="2446078593003901807">אישור</translation>
+<translation id="244437093285883777">מוודא שאינך רובוט...</translation>
+<translation id="2448227725017851570">הקוד הזה כבר לא בתוקף</translation>
 <translation id="2448487988481516351">קלדוניה החדשה</translation>
 <translation id="2451742558284013472">מונקו</translation>
 <translation id="2460064915291012298">איי סיישל</translation>
@@ -88,6 +89,7 @@
 <translation id="2824267666257947103">לא הזנת את הסיסמה</translation>
 <translation id="2828509010894808185">יצירת חשבון</translation>
 <translation id="2834770837848769530">אפגניסטן</translation>
+<translation id="2884525438023347369">הקשה על <ph name="BTN" /> תתפרש כהסכמה ל<ph name="TOS" />.</translation>
 <translation id="2909392332969582158">קנדה</translation>
 <translation id="2911018261311455240">דנמרק</translation>
 <translation id="295270254328846278">אוסטריה</translation>
@@ -130,6 +132,7 @@
 <translation id="3597673897213051724">שלח</translation>
 <translation id="3605933028246642593">נפאל</translation>
 <translation id="3608140835232496799">טוקלאו</translation>
+<translation id="3620185428620643248">פרטי הכניסה שנבחרו לספק האימות אינם נתמכים.</translation>
 <translation id="3700097473356216716">קולומביה</translation>
 <translation id="3736041829854387744">בורונדי</translation>
 <translation id="3755663127769565780">מאוריטניה</translation>
@@ -173,14 +176,15 @@
 <translation id="4692014002063276828">פולין</translation>
 <translation id="4723701728629289714">ישראל</translation>
 <translation id="4725154639671888461">אירעה שגיאה</translation>
-<translation id="4752789582089722030">שינוי הסיסמה</translation>
+<translation id="4751937685196678080">מספר</translation>
 <translation id="4773060157545352832">לא הזנת את ה-reCAPTCHA</translation>
 <translation id="4775051289386800916">ניקרגואה</translation>
 <translation id="4783400389150493171">בורקינה פסו</translation>
 <translation id="4852256440857413490">הקוד שגוי. נסה שוב.</translation>
 <translation id="4871106926303956169">איי טורקס וקאיקוס</translation>
 <translation id="4877597386645466815">שלח קוד חדש בעוד <ph name="TIME_REMAINING" /></translation>
-<translation id="4935131042143742248">המשך</translation>
+<translation id="4915406999072654369">שלחנו לך אימייל</translation>
+<translation id="4955175001894453989">הוספת סיסמה</translation>
 <translation id="496366313824211679">אל סלוודור</translation>
 <translation id="4991626049082973728">סרביה</translation>
 <translation id="4991892293325936102">בליז</translation>
@@ -237,7 +241,9 @@
 <translation id="6040759627067155517">אימייל</translation>
 <translation id="6044396095102058216">למספר הטלפון הזה כבר נשלחו יותר מדי קודים</translation>
 <translation id="6091051069256411999">Twitter</translation>
-<translation id="617174140882717287">קוד האימות שלך לאפליקציה <ph name="APP_NAME" /> הוא <ph name="IDV_CODE_PLACE_HOLDER" />.</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />כניסה אל <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6189573836664806798">פרגוואי</translation>
 <translation id="6192657410634245771">אלג'יריה</translation>
 <translation id="6213969168046789596">הזנת סיסמה שגויה יותר מדי פעמים. אפשר יהיה לנסות שוב בעוד כמה דקות.</translation>
@@ -258,6 +264,7 @@
 <translation id="6508909904815637928">ונואטו</translation>
 <translation id="6520863029476703422">סמואה האמריקנית</translation>
 <translation id="6527597037551425211">ברזיל</translation>
+<translation id="6555167606025370230">המשך אל <ph name="APP_NAME" /></translation>
 <translation id="657697593815023638">סווזילנד</translation>
 <translation id="6584652721889639596">לא ניתן לשלוח קוד לאיפוס סיסמה לאימייל שציינת</translation>
 <translation id="6608262346670935090">סגור</translation>
@@ -284,6 +291,7 @@
 <translation id="6921505896641453739">אימייל</translation>
 <translation id="6929813273561975780">הבא‏</translation>
 <translation id="6951302238647056860">הקוד הזה כבר לא בתוקף</translation>
+<translation id="6998342825820890463">מדיניות הפרטיות</translation>
 <translation id="6999773882165218263">שם פרטי ומשפחה</translation>
 <translation id="7012506961150923116">גרנדה</translation>
 <translation id="7024571478138322659">סהרה המערבית</translation>
@@ -383,7 +391,8 @@
 <translation id="8869797682387766327">האי מאן</translation>
 <translation id="8893950153780006385">מלזיה</translation>
 <translation id="8895840173743975193">איי קוקוס (קילינג)</translation>
-<translation id="8971555482255213064">שולח קוד חדש בעוד <ph name="PH_1" />:0</translation>
+<translation id="8955469172512804617">הקשה על <ph name="BTN" /> תתפרש כהסכמה ל<ph name="PP" />.</translation>
+<translation id="8980953965669178372">סיום</translation>
 <translation id="8984161590699631096">מרוקו</translation>
 <translation id="900153878296575829">בנגלדש</translation>
 <translation id="9022632332691561239">טלפון</translation>

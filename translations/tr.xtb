@@ -66,7 +66,8 @@
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Oturum açma e-posta adresinizi eski haline döndürürken bir sorun oluştu.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Tekrar dener ve e-posta adresinizi yine sıfırlayamazsanız yöneticinizden yardım istemeyi deneyin.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Bahreyn</translation>
 <translation id="2405828009195143258">İran</translation>
-<translation id="2446078593003901807">Tamam</translation>
+<translation id="244437093285883777">Robot olmadığınız doğrulanıyor...</translation>
+<translation id="2448227725017851570">Bu kod artık geçerli değil</translation>
 <translation id="2448487988481516351">Yeni Kaledonya</translation>
 <translation id="2451742558284013472">Monako</translation>
 <translation id="2460064915291012298">Seyşeller</translation>
@@ -90,6 +91,7 @@
 <translation id="2814274627887910414">Geçersiz telefon formatı</translation>
 <translation id="2828509010894808185">Hesap oluşturun</translation>
 <translation id="2834770837848769530">Afganistan</translation>
+<translation id="2884525438023347369"><ph name="BTN" /> öğesine dokunarak şunu kabul ettiğinizi bildirirsiniz: <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">Kanada</translation>
 <translation id="2911018261311455240">Danimarka</translation>
 <translation id="295270254328846278">Avusturya</translation>
@@ -132,6 +134,7 @@
 <translation id="3597673897213051724">Gönder</translation>
 <translation id="3605933028246642593">Nepal</translation>
 <translation id="3608140835232496799">Tokelau</translation>
+<translation id="3620185428620643248">Kimlik doğrulama sağlayıcı için seçilen kimlik bilgisi desteklenmiyor!</translation>
 <translation id="3700097473356216716">Kolombiya</translation>
 <translation id="3735918113934183391">Telefon numaranızı tekrar girmeyi deneyin.</translation>
 <translation id="3736041829854387744">Burundi</translation>
@@ -178,14 +181,15 @@
 <translation id="4692014002063276828">Polonya</translation>
 <translation id="4723701728629289714">İsrail</translation>
 <translation id="4725154639671888461">Hata ile karşılaşıldı</translation>
-<translation id="4752789582089722030">Şifreyi değiştir</translation>
+<translation id="4751937685196678080">Sayı</translation>
 <translation id="4773060157545352832">reCAPTCHA'yı çözün</translation>
 <translation id="4775051289386800916">Nikaragua</translation>
 <translation id="4783400389150493171">Burkina Faso</translation>
 <translation id="4852256440857413490">Yanlış kod. Tekrar deneyin.</translation>
 <translation id="4871106926303956169">Turks ve Caicos Adaları</translation>
 <translation id="4877597386645466815"><ph name="TIME_REMAINING" /> içinde kodu yeniden gönder</translation>
-<translation id="4935131042143742248">Devam</translation>
+<translation id="4915406999072654369">E-postanızı kontrol edin</translation>
+<translation id="4955175001894453989">Şifre ekle</translation>
 <translation id="496366313824211679">El Salvador</translation>
 <translation id="4991626049082973728">Sırbistan</translation>
 <translation id="4991892293325936102">Belize</translation>
@@ -244,7 +248,9 @@
 <translation id="6040759627067155517">E-posta</translation>
 <translation id="6044396095102058216">Bu telefon numarası çok fazla kez kullanıldı</translation>
 <translation id="6091051069256411999">Twitter</translation>
-<translation id="617174140882717287"><ph name="APP_NAME" /> için doğrulama kodunuz <ph name="IDV_CODE_PLACE_HOLDER" />.</translation>
+<translation id="61182948399263957">
+<ph name="P_START" /><ph name="APP_NAME" /> uygulamasında oturum açın &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6189573836664806798">Paraguay</translation>
 <translation id="6192657410634245771">Cezayir</translation>
 <translation id="6213969168046789596">Çok fazla kez yanlış şifre girdiniz. Lütfen birkaç dakika içinde tekrar deneyin.</translation>
@@ -265,6 +271,7 @@
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Amerikan Samoası</translation>
 <translation id="6527597037551425211">Brezilya</translation>
+<translation id="6555167606025370230"><ph name="APP_NAME" /> uygulamasına devam et</translation>
 <translation id="657697593815023638">Svaziland</translation>
 <translation id="6584652721889639596">Belirtilen e-postaya şifre sıfırlama kodu gönderilemedi</translation>
 <translation id="6608262346670935090">Kapat</translation>
@@ -292,6 +299,7 @@
 <translation id="6921505896641453739">E-posta</translation>
 <translation id="6929813273561975780">İleri</translation>
 <translation id="6951302238647056860">Bu kod artık geçerli değil</translation>
+<translation id="6998342825820890463">Gizlilik Politikası</translation>
 <translation id="6999773882165218263">Ad ve soyadı</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Batı Sahra</translation>
@@ -393,7 +401,8 @@
 <translation id="8869797682387766327">Man Adası</translation>
 <translation id="8893950153780006385">Malezya</translation>
 <translation id="8895840173743975193">Cocos [Keeling] Adaları</translation>
-<translation id="8971555482255213064">0:<ph name="PH_1" /> içinde kodu yeniden gönder</translation>
+<translation id="8955469172512804617"><ph name="BTN" /> öğesine dokunarak şunu kabul ettiğinizi bildirirsiniz: <ph name="PP" />.</translation>
+<translation id="8980953965669178372">Bitti</translation>
 <translation id="8984161590699631096">Fas</translation>
 <translation id="900153878296575829">Bangladeş</translation>
 <translation id="9022632332691561239">Telefon</translation>

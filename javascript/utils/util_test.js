@@ -110,5 +110,10 @@ function testGetUnicodeLocale() {
   // The locale should have a dash instead of an underscore.
   stubs.replace(goog, 'LOCALE', 'zh_CN');
   assertEquals('zh-CN', firebaseui.auth.util.getUnicodeLocale());
+}
 
+
+function testOnDomReady() {
+  // Should resolve immediately without any error.
+  return firebaseui.auth.util.onDomReady();
 }

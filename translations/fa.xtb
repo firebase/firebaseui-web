@@ -66,7 +66,8 @@
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />مشکلی در برگرداندن رایانامه ورود به سیستم‌تان پیش آمد.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />اگر دوباره امتحان کردید و باز هم نتوانستید رایانامه‌تان را بازنشانی کنید، از سرپرست سیستم بخواهید شما را راهنمایی کند.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">بحرین</translation>
 <translation id="2405828009195143258">ایران</translation>
-<translation id="2446078593003901807">تأیید</translation>
+<translation id="244437093285883777">درحال تأیید اینکه شما ربات نیستید…</translation>
+<translation id="2448227725017851570">این کد دیگر معتبر نیست</translation>
 <translation id="2448487988481516351">کالدونیای جدید</translation>
 <translation id="2451742558284013472">موناکو</translation>
 <translation id="2460064915291012298">سیشل</translation>
@@ -90,6 +91,7 @@
 <translation id="2824267666257947103">گذرواژه‌تان را وارد کنید</translation>
 <translation id="2828509010894808185">ایجاد حساب</translation>
 <translation id="2834770837848769530">افغانستان</translation>
+<translation id="2884525438023347369">با ضربه زدن روی <ph name="BTN" /> موافقتتان را با <ph name="TOS" /> اعلام می‌کنید.</translation>
 <translation id="2909392332969582158">کانادا</translation>
 <translation id="2911018261311455240">دانمارک</translation>
 <translation id="295270254328846278">اتریش</translation>
@@ -132,6 +134,7 @@
 <translation id="3597673897213051724">ارسال</translation>
 <translation id="3605933028246642593">نپال</translation>
 <translation id="3608140835232496799">توکلائو</translation>
+<translation id="3620185428620643248">اطلاعات کاربری انتخاب‌شده برای ارائه‌دهنده احراز هویت، پشتیبانی نمی‌شود!</translation>
 <translation id="3700097473356216716">کلمبیا</translation>
 <translation id="3736041829854387744">بوروندی</translation>
 <translation id="3755663127769565780">موریتانی</translation>
@@ -175,14 +178,15 @@
 <translation id="4692014002063276828">لهستان</translation>
 <translation id="4723701728629289714">اسرائیل</translation>
 <translation id="4725154639671888461">خطا رخ داد</translation>
-<translation id="4752789582089722030">تغییر گذرواژه</translation>
+<translation id="4751937685196678080">عدد</translation>
 <translation id="4773060157545352832">reCAPTCHA را رفع کنید</translation>
 <translation id="4775051289386800916">نیکاراگوئه</translation>
 <translation id="4783400389150493171">بورکینا فاسو</translation>
 <translation id="4852256440857413490">کد اشتباه است. دوباره امتحان کنید.</translation>
 <translation id="4871106926303956169">جزایر تورکس و کایکوس</translation>
 <translation id="4877597386645466815">ارسال مجدد کد پس از <ph name="TIME_REMAINING" /></translation>
-<translation id="4935131042143742248">ادامه</translation>
+<translation id="4915406999072654369">رایانامه‌تان را بررسی کنید</translation>
+<translation id="4955175001894453989">افزودن گذرواژه</translation>
 <translation id="496366313824211679">السالوادور</translation>
 <translation id="4991626049082973728">صربستان</translation>
 <translation id="4991892293325936102">بلیز</translation>
@@ -240,7 +244,9 @@
 <translation id="6040759627067155517">رایانامه</translation>
 <translation id="6044396095102058216">از این شماره تلفن به دفعات زیاد استفاده شده است</translation>
 <translation id="6091051069256411999">Twitter</translation>
-<translation id="617174140882717287"><ph name="IDV_CODE_PLACE_HOLDER" /> کد راستی‌آزمایی‌تان در <ph name="APP_NAME" /> است.</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />ورود به <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6189573836664806798">پاراگوئه</translation>
 <translation id="6192657410634245771">الجزایر</translation>
 <translation id="6213969168046789596">دفعات خیلی زیادی گذرواژه را نادرست وارد کرده‌اید. لطفاً پس از چند دقیقه دوباره امتحان کنید.</translation>
@@ -261,6 +267,7 @@
 <translation id="6508909904815637928">وانواتو</translation>
 <translation id="6520863029476703422">ساموآی آمریکا</translation>
 <translation id="6527597037551425211">برزیل</translation>
+<translation id="6555167606025370230">رفتن به <ph name="APP_NAME" /></translation>
 <translation id="657697593815023638">سوازیلند</translation>
 <translation id="6584652721889639596">ارسال کد بازنشانی گذرواژه به رایانامه مشخص‌شده ممکن نیست</translation>
 <translation id="6608262346670935090">رد کردن</translation>
@@ -287,6 +294,7 @@
 <translation id="6921505896641453739">رایانامه</translation>
 <translation id="6929813273561975780">بعدی</translation>
 <translation id="6951302238647056860">این کد دیگر معتبر نیست</translation>
+<translation id="6998342825820890463">«خط‌مشی حریم خصوصی»</translation>
 <translation id="6999773882165218263">نام و نام خانوادگی</translation>
 <translation id="7012506961150923116">گرنادا</translation>
 <translation id="7024571478138322659">صحرای غربی</translation>
@@ -314,7 +322,7 @@
 <translation id="7482751672921205012">حساب حذف شود؟</translation>
 <translation id="7493245640904888019">جبل طارق</translation>
 <translation id="7510939244824757986">تانزانیا</translation>
-<translation id="7526532581122816497">حساب پیوندشده</translation>
+<translation id="7526532581122816497">حساب پیوندی</translation>
 <translation id="7560587702704358921">سنت پیر و میکلون</translation>
 <translation id="7569285452790032317">سومالی</translation>
 <translation id="7592224526951017144">آلمان</translation>
@@ -387,7 +395,8 @@
 <translation id="8869797682387766327">جزیره من</translation>
 <translation id="8893950153780006385">مالزی</translation>
 <translation id="8895840173743975193">جزایر کوکوس (کیلینگ)</translation>
-<translation id="8971555482255213064">کد پس از <ph name="PH_1" />:0 مجدداً ارسال می‌شود</translation>
+<translation id="8955469172512804617">با ضربه زدن روی <ph name="BTN" /> موافقتتان را با <ph name="PP" /> اعلام می‌کنید.</translation>
+<translation id="8980953965669178372">انجام شد</translation>
 <translation id="8984161590699631096">مراکش</translation>
 <translation id="900153878296575829">بنگلادش</translation>
 <translation id="9022632332691561239">تلفن</translation>

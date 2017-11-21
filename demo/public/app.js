@@ -35,7 +35,10 @@ function getUiConfig() {
       // TODO(developer): Remove the providers you don't need for your app.
       {
         provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-        scopes: ['https://www.googleapis.com/auth/plus.login']
+        // Required to enable this provider in One-Tap Sign-up.
+        authMethod: 'https://accounts.google.com',
+        // Required to enable ID token credentials for this provider.
+        clientId: CLIENT_ID
       },
       {
         provider: firebase.auth.FacebookAuthProvider.PROVIDER_ID,
@@ -61,12 +64,17 @@ function getUiConfig() {
       }
     ],
     // Terms of service url.
-    'tosUrl': 'https://www.google.com'
+    'tosUrl': 'https://www.google.com',
+    'credentialHelper': CLIENT_ID && CLIENT_ID != 'YOUR_OAUTH_CLIENT_ID' ?
+        firebaseui.auth.CredentialHelper.GOOGLE_YOLO :
+        firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM
   };
 }
 
 // Initialize the FirebaseUI Widget using Firebase.
 var ui = new firebaseui.auth.AuthUI(firebase.auth());
+// Disable auto-sign in.
+ui.disableAutoSignIn();
 
 
 /**

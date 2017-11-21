@@ -82,6 +82,7 @@ firebaseui.auth.widget.Config = function() {
  */
 firebaseui.auth.CredentialHelper = {
   ACCOUNT_CHOOSER_COM: 'accountchooser.com',
+  GOOGLE_YOLO: 'googleyolo',
   NONE: 'none'
 };
 
@@ -269,6 +270,81 @@ firebaseui.auth.widget.Config.prototype.getProviders = function() {
   return goog.array.map(this.getSignInOptions_(), function(option) {
     return option['provider'];
   });
+};
+
+
+/**
+ * @return {?SmartLockRequestOptions} The googleyolo configuration options if
+ *     available.
+ */
+firebaseui.auth.widget.Config.prototype.getGoogleYoloConfig = function() {
+  var supportedAuthMethods = [];
+  var supportedIdTokenProviders = [];
+  goog.array.forEach(this.getSignInOptions_(), function(option) {
+    if (option['authMethod']) {
+      supportedAuthMethods.push(option['authMethod']);
+      if (option['clientId']) {
+        supportedIdTokenProviders.push({
+          'uri': option['authMethod'],
+          'clientId': option['clientId']
+        });
+      }
+    }
+  });
+  var config = null;
+  // Ensure configuration is not empty. At least one supportedIdTokenProviders
+  // or supportedAuthMethods needs to be provided.
+  if (this.getCredentialHelper() ===
+      firebaseui.auth.CredentialHelper.GOOGLE_YOLO &&
+      // googleyolo will enforce that clientId is present. Delegate the check
+      // to it. Errors will be surfaced in the console.
+      supportedAuthMethods.length) {
+    config = {
+      'supportedIdTokenProviders': supportedIdTokenProviders,
+      'supportedAuthMethods': supportedAuthMethods
+    };
+  }
+  return config;
+};
+
+
+/**
+ * @return {boolean} Whether the user should be prompted to select an account.
+ */
+firebaseui.auth.widget.Config.prototype.isAccountSelectionPromptEnabled =
+    function() {
+  // This is only applicable to Google. If prompt is set, googleyolo retrieve is
+  // disabled. Auto sign-in should be manually disabled.
+  // Get Google custom parameters.
+  var googleCustomParameters = this.getProviderCustomParameters(
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID);
+  // Google custom parameters must have prompt set to select_account, otherwise
+  // account selection prompt is considered disabled.
+  return !!(googleCustomParameters &&
+            googleCustomParameters['prompt'] === 'select_account');
+};
+
+
+/**
+ * Returns the corresponding Firebase Auth provider ID for the googleyolo
+ * authMethod provided.
+ * @param {?string} authMethod The googleyolo authMethod whose corresponding
+ *     Firebase provider ID is to be returned.
+ * @return {?string} The corresponding Firebase provider ID if available.
+ */
+firebaseui.auth.widget.Config.prototype.getProviderIdFromAuthMethod =
+    function(authMethod) {
+  var providerId = null;
+  // For each supported provider.
+  goog.array.forEach(this.getSignInOptions_(), function(option) {
+    // Check for matching authMethod.
+    if (option['authMethod'] === authMethod) {
+      // Get the providerId for that provider.
+      providerId = option['provider'];
+    }
+  });
+  // Return the corresponding provider ID.
+  return providerId;
 };
 
 

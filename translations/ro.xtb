@@ -66,7 +66,8 @@
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />A apărut o problemă la restabilirea e-mailului de conectare.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Dacă încercați din nou și tot nu vă puteți reseta adresa de e-mail, cereți ajutorul administratorului.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Bahrain</translation>
 <translation id="2405828009195143258">Iran</translation>
-<translation id="2446078593003901807">OK</translation>
+<translation id="244437093285883777">Se verifică dacă sunteți un robot...</translation>
+<translation id="2448227725017851570">Codul nu mai este valid</translation>
 <translation id="2448487988481516351">Noua Caledonie</translation>
 <translation id="2451742558284013472">Monaco</translation>
 <translation id="2460064915291012298">Seychelles</translation>
@@ -90,6 +91,7 @@
 <translation id="2824267666257947103">Introduceți parola</translation>
 <translation id="2828509010894808185">Creați un cont</translation>
 <translation id="2834770837848769530">Afganistan</translation>
+<translation id="2884525438023347369">Dacă atingeți <ph name="BTN" />, indicați că sunteți de acord cu <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">Canada</translation>
 <translation id="2911018261311455240">Danemarca</translation>
 <translation id="295270254328846278">Austria</translation>
@@ -132,6 +134,7 @@
 <translation id="3597673897213051724">Trimiteți</translation>
 <translation id="3605933028246642593">Nepal</translation>
 <translation id="3608140835232496799">Tokelau</translation>
+<translation id="3620185428620643248">Datele de conectare selectate nu sunt acceptate de furnizorul de autentificare.</translation>
 <translation id="3700097473356216716">Columbia</translation>
 <translation id="3736041829854387744">Burundi</translation>
 <translation id="3755663127769565780">Mauritania</translation>
@@ -175,14 +178,15 @@
 <translation id="4692014002063276828">Polonia</translation>
 <translation id="4723701728629289714">Israel</translation>
 <translation id="4725154639671888461">A apărut o eroare</translation>
-<translation id="4752789582089722030">Schimbați parola</translation>
+<translation id="4751937685196678080">Număr de telefon</translation>
 <translation id="4773060157545352832">Introduceți reCAPTCHA</translation>
 <translation id="4775051289386800916">Nicaragua</translation>
 <translation id="4783400389150493171">Burkina Faso</translation>
 <translation id="4852256440857413490">Cod greșit. Încercați din nou.</translation>
 <translation id="4871106926303956169">Insulele Turks și Caicos</translation>
 <translation id="4877597386645466815">Retrimiteți codul în <ph name="TIME_REMAINING" /></translation>
-<translation id="4935131042143742248">Continuați</translation>
+<translation id="4915406999072654369">Verificați căsuța de e-mail</translation>
+<translation id="4955175001894453989">Adăugați parola</translation>
 <translation id="496366313824211679">El Salvador</translation>
 <translation id="4991626049082973728">Serbia</translation>
 <translation id="4991892293325936102">Belize</translation>
@@ -240,7 +244,9 @@
 <translation id="6040759627067155517">Adresă de e-mail</translation>
 <translation id="6044396095102058216">Acest număr de telefon a fost folosit de prea multe ori</translation>
 <translation id="6091051069256411999">Twitter</translation>
-<translation id="617174140882717287"><ph name="IDV_CODE_PLACE_HOLDER" /> este codul de confirmare pentru <ph name="APP_NAME" />.</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />Conectați-vă la <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6189573836664806798">Paraguay</translation>
 <translation id="6192657410634245771">Algeria</translation>
 <translation id="6213969168046789596">Ați introdus de prea multe ori o parolă greșită. Încercați din nou peste câteva minute.</translation>
@@ -261,6 +267,7 @@
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Samoa Americană</translation>
 <translation id="6527597037551425211">Brazilia</translation>
+<translation id="6555167606025370230">Continuați la <ph name="APP_NAME" /></translation>
 <translation id="657697593815023638">Swaziland</translation>
 <translation id="6584652721889639596">Codul de resetare a parolei nu poate fi trimis la adresa de e-mail introdusă</translation>
 <translation id="6608262346670935090">Închideți</translation>
@@ -287,6 +294,7 @@
 <translation id="6921505896641453739">Adresă de e-mail</translation>
 <translation id="6929813273561975780">Înainte</translation>
 <translation id="6951302238647056860">Codul nu mai este valid</translation>
+<translation id="6998342825820890463">Politica de confidențialitate</translation>
 <translation id="6999773882165218263">Prenume și nume de familie</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Sahara de Vest</translation>
@@ -386,7 +394,8 @@
 <translation id="8869797682387766327">Insula Man</translation>
 <translation id="8893950153780006385">Malaysia</translation>
 <translation id="8895840173743975193">Insulele Cocos [Keeling]</translation>
-<translation id="8971555482255213064">Retrimiteți codul în 00:<ph name="PH_1" /></translation>
+<translation id="8955469172512804617">Dacă atingeți <ph name="BTN" />, indicați că sunteți de acord cu <ph name="PP" />.</translation>
+<translation id="8980953965669178372">Gata</translation>
 <translation id="8984161590699631096">Maroc</translation>
 <translation id="900153878296575829">Bangladesh</translation>
 <translation id="9022632332691561239">Număr de telefon</translation>

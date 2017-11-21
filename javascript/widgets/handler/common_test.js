@@ -20,10 +20,12 @@ goog.setTestOnly('firebaseui.auth.widget.handler.CommonTest');
 
 goog.require('firebaseui.auth.Account');
 goog.require('firebaseui.auth.CredentialHelper');
+goog.require('firebaseui.auth.idp');
 goog.require('firebaseui.auth.log');
 goog.require('firebaseui.auth.soy2.strings');
 goog.require('firebaseui.auth.storage');
 goog.require('firebaseui.auth.ui.page.Callback');
+goog.require('firebaseui.auth.ui.page.ProviderSignIn');
 goog.require('firebaseui.auth.widget.Config');
 goog.require('firebaseui.auth.widget.handler');
 goog.require('firebaseui.auth.widget.handler.common');
@@ -1695,4 +1697,208 @@ function testIsPhoneProviderOnly_multipleProviders() {
     firebase.auth.PhoneAuthProvider.PROVIDER_ID
   ]);
   assertFalse(firebaseui.auth.widget.handler.common.isPhoneProviderOnly(app));
+}
+
+
+function testHandleGoogleYoloCredential_handledSuccessfully_withScopes() {
+  var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
+  expectedProvider.addScope('googl1');
+  expectedProvider.addScope('googl2');
+  expectedProvider.setCustomParameters({
+    'prompt': 'select_account',
+    'login_hint': federatedAccount.getEmail()
+  });
+  // Enable googleyolo with Google provider and additional scopes.
+  app.setConfig({
+    'signInSuccessUrl': 'http://localhost/home',
+    'signInOptions': [{
+      'provider': 'google.com',
+      'scopes': ['googl1', 'googl2'],
+      'customParameters': {'prompt': 'select_account'},
+      'authMethod': 'https://accounts.google.com',
+      'clientId': '1234567890.apps.googleusercontent.com'
+    }, 'facebook.com', 'password', 'phone'],
+    'credentialHelper': firebaseui.auth.CredentialHelper.GOOGLE_YOLO
+  });
+  var component = new firebaseui.auth.ui.page.ProviderSignIn(
+      goog.nullFunction(), []);
+  component.render(container);
+  asyncTestCase.waitForSignals(1);
+  // This will trigger a signInWithRedirect using the expected provider.
+  firebaseui.auth.widget.handler.common.handleGoogleYoloCredential(
+      app, component, googleYoloIdTokenCredential)
+      .then(function(status) {
+        // Remains on same page until redirect completes.
+        assertProviderSignInPage();
+        assertTrue(status);
+        asyncTestCase.signal();
+      });
+  // Confirm signInWithRedirect called underneath.
+  testAuth.assertSignInWithRedirect([expectedProvider]);
+  testAuth.process();
+}
+
+
+function testHandleGoogleYoloCredential_handledSuccessfully_withoutScopes() {
+  // Enable googleyolo with Google provider and no additional scopes.
+  app.setConfig({
+    'signInSuccessUrl': 'http://localhost/home',
+    'signInOptions': [{
+      'provider': 'google.com',
+      'authMethod': 'https://accounts.google.com',
+      'clientId': '1234567890.apps.googleusercontent.com'
+    }, 'facebook.com', 'password', 'phone'],
+    'credentialHelper': firebaseui.auth.CredentialHelper.GOOGLE_YOLO
+  });
+  var component = new firebaseui.auth.ui.page.ProviderSignIn(
+      goog.nullFunction(), []);
+  component.render(container);
+  asyncTestCase.waitForSignals(1);
+  // This will succeed while callback page will be rendered as the result
+  // gets processed before the redirect to success URL occurs.
+  firebaseui.auth.widget.handler.common.handleGoogleYoloCredential(
+      app, component, googleYoloIdTokenCredential)
+      .then(function(status) {
+        // Renders callback page while results are processed.
+        assertCallbackPage();
+        assertTrue(status);
+        asyncTestCase.signal();
+      });
+  var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
+      googleYoloIdTokenCredential.idToken);
+  var cred  = firebaseui.auth.idp.getAuthCredential({
+    'providerId': 'google.com',
+    'idToken': googleYoloIdTokenCredential.idToken
+  });
+  testAuth.setUser({
+    'email': federatedAccount.getEmail(),
+    'displayName': federatedAccount.getDisplayName()
+  });
+  // Confirm signInAndRetrieveDataWithCredential called underneath with
+  // successful response.
+  testAuth.assertSignInAndRetrieveDataWithCredential(
+      [expectedCredential],
+      {
+        'user': testAuth.currentUser,
+        'credential': cred
+      });
+  // Confirm successful flow completes.
+  testAuth.process().then(function() {
+    assertCallbackPage();
+    return testAuth.process();
+  }).then(function() {
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    externalAuth.setUser(testAuth.currentUser);
+    externalAuth.assertSignInWithCredential(
+        [cred], externalAuth.currentUser);
+    return externalAuth.process();
+  }).then(function() {
+    // User should be redirected to success URL.
+    testUtil.assertGoTo('http://localhost/home');
+  });
+}
+
+
+function testHandleGoogleYoloCredential_unhandled_withoutScopes() {
+  // Enable googleyolo with Google provider and no additional scopes.
+  app.setConfig({
+    'signInSuccessUrl': 'http://localhost/home',
+    'signInOptions': [{
+      'provider': 'google.com',
+      'authMethod': 'https://accounts.google.com',
+      'clientId': '1234567890.apps.googleusercontent.com'
+    }, 'facebook.com', 'password', 'phone'],
+    'credentialHelper': firebaseui.auth.CredentialHelper.GOOGLE_YOLO
+  });
+  var component = new firebaseui.auth.ui.page.ProviderSignIn(
+      goog.nullFunction(), []);
+  component.render(container);
+  asyncTestCase.waitForSignals(1);
+  // This will fail and an error message will be shown.
+  firebaseui.auth.widget.handler.common.handleGoogleYoloCredential(
+      app, component, googleYoloIdTokenCredential)
+      .then(function(status) {
+        // Remains on the same page.
+        assertProviderSignInPage();
+        assertFalse(status);
+        asyncTestCase.signal();
+      });
+  var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
+      googleYoloIdTokenCredential.idToken);
+  // Confirm signInAndRetrieveDataWithCredential called underneath with
+  // unsuccessful response.
+  testAuth.assertSignInAndRetrieveDataWithCredential(
+      [expectedCredential],
+      null,
+      internalError);
+  testAuth.process().then(function() {
+    // Remains on the same page.
+    assertProviderSignInPage();
+    // Confirm error message shown in info bar.
+    assertInfoBarMessage(
+        firebaseui.auth.widget.handler.common.getErrorMessage(internalError));
+  });
+}
+
+
+function testHandleGoogleYoloCredential_cancelled_withoutScopes() {
+  // Enable googleyolo with Google provider and no additional scopes.
+  app.setConfig({
+    'signInSuccessUrl': 'http://localhost/home',
+    'signInOptions': [{
+      'provider': 'google.com',
+      'authMethod': 'https://accounts.google.com',
+      'clientId': '1234567890.apps.googleusercontent.com'
+    }, 'facebook.com', 'password', 'phone'],
+    'credentialHelper': firebaseui.auth.CredentialHelper.GOOGLE_YOLO
+  });
+  var component = new firebaseui.auth.ui.page.ProviderSignIn(
+      goog.nullFunction(), []);
+  component.render(container);
+  asyncTestCase.waitForSignals(1);
+  // This will fail due to the reset call which will interrupt the underlying
+  // call.
+  firebaseui.auth.widget.handler.common.handleGoogleYoloCredential(
+      app, component, googleYoloIdTokenCredential)
+      .then(function(status) {
+        // Remains on the same page.
+        assertProviderSignInPage();
+        assertFalse(status);
+        asyncTestCase.signal();
+      });
+  // Reset will cancel underlying pending promises.
+  app.reset();
+}
+
+
+function testHandleGoogleYoloCredential_unsupportedCredential() {
+  // Enable googleyolo with Google provider and no additional scopes.
+  app.setConfig({
+    'signInSuccessUrl': 'http://localhost/home',
+    'signInOptions': [{
+      'provider': 'google.com',
+      'authMethod': 'https://accounts.google.com',
+      'clientId': '1234567890.apps.googleusercontent.com'
+    }, 'facebook.com', 'password', 'phone'],
+    'credentialHelper': firebaseui.auth.CredentialHelper.GOOGLE_YOLO
+  });
+  var component = new firebaseui.auth.ui.page.ProviderSignIn(
+      goog.nullFunction(), []);
+  component.render(container);
+  asyncTestCase.waitForSignals(1);
+  // Pass unsupported credential and confirm the expected error shown on the
+  // page.
+  firebaseui.auth.widget.handler.common.handleGoogleYoloCredential(
+      app, component, googleYoloOtherCredential)
+      .then(function(status) {
+        // Remains on the same page.
+        assertProviderSignInPage();
+        assertInfoBarMessage(
+            firebaseui.auth.soy2.strings.errorUnsupportedCredential()
+            .toString());
+        assertFalse(status);
+        asyncTestCase.signal();
+      });
 }

@@ -34,7 +34,7 @@
 <translation id="177937029926612729">Armenia</translation>
 <translation id="179194004476893686">Bosnia và Herzegovina</translation>
 <translation id="1799407952500261728">Quần đảo Cook</translation>
-<translation id="1870056762032541323">Sai mã. Hãy thử lại.</translation>
+<translation id="1870056762032541323">Mã không chính xác. Hãy thử lại.</translation>
 <translation id="1898579907513173256">Macao</translation>
 <translation id="1929332760123475919"><ph name="P_START" />Xin chào <ph name="DISPLAY_NAME" />!<ph name="P_END" /></translation>
 <translation id="1966996824429980990">Xóa tài khoản</translation>
@@ -66,7 +66,8 @@
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Đã xảy ra sự cố khi đổi về email đăng nhập của bạn.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Nếu bạn thử lại và vẫn không thể đặt lại email, hãy thử yêu cầu quản trị viên trợ giúp.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Bahrain</translation>
 <translation id="2405828009195143258">Iran</translation>
-<translation id="2446078593003901807">OK</translation>
+<translation id="244437093285883777">Đang xác minh bạn không phải là rô bốt...</translation>
+<translation id="2448227725017851570">Mã này không còn hợp lệ</translation>
 <translation id="2448487988481516351">New Caledonia</translation>
 <translation id="2451742558284013472">Monaco</translation>
 <translation id="2460064915291012298">Seychelles</translation>
@@ -90,6 +91,7 @@
 <translation id="2824267666257947103">Nhập mật khẩu của bạn</translation>
 <translation id="2828509010894808185">Tạo tài khoản</translation>
 <translation id="2834770837848769530">Afghanistan</translation>
+<translation id="2884525438023347369">Bằng cách nhấn vào <ph name="BTN" />, bạn cho biết rằng bạn đồng ý với <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">Canada</translation>
 <translation id="2911018261311455240">Đan Mạch</translation>
 <translation id="295270254328846278">Áo</translation>
@@ -132,6 +134,7 @@
 <translation id="3597673897213051724">Gửi</translation>
 <translation id="3605933028246642593">Nepal</translation>
 <translation id="3608140835232496799">Tokelau</translation>
+<translation id="3620185428620643248">Thông tin đăng nhập đã chọn cho nhà cung cấp thông tin xác thực không được hỗ trợ!</translation>
 <translation id="3700097473356216716">Colombia</translation>
 <translation id="3736041829854387744">Burundi</translation>
 <translation id="3755663127769565780">Mauritania</translation>
@@ -175,14 +178,15 @@
 <translation id="4692014002063276828">Ba Lan</translation>
 <translation id="4723701728629289714">Israel</translation>
 <translation id="4725154639671888461">Đã xảy ra lỗi</translation>
-<translation id="4752789582089722030">Đổi mật khẩu</translation>
+<translation id="4751937685196678080">Số</translation>
 <translation id="4773060157545352832">Giải quyết reCAPTCHA</translation>
 <translation id="4775051289386800916">Nicaragua</translation>
 <translation id="4783400389150493171">Burkina Faso</translation>
-<translation id="4852256440857413490">Sai mã. Hãy thử lại.</translation>
+<translation id="4852256440857413490">Mã không chính xác. Hãy thử lại.</translation>
 <translation id="4871106926303956169">Quần đảo Turks và Caicos</translation>
 <translation id="4877597386645466815">Gửi lại mã sau <ph name="TIME_REMAINING" /></translation>
-<translation id="4935131042143742248">Tiếp tục</translation>
+<translation id="4915406999072654369">Kiểm tra email của bạn</translation>
+<translation id="4955175001894453989">Thêm mật khẩu</translation>
 <translation id="496366313824211679">El Salvador</translation>
 <translation id="4991626049082973728">Serbia</translation>
 <translation id="4991892293325936102">Belize</translation>
@@ -240,7 +244,9 @@
 <translation id="6040759627067155517">Email</translation>
 <translation id="6044396095102058216">Số điện thoại này đã được sử dụng quá nhiều lần</translation>
 <translation id="6091051069256411999">Twitter</translation>
-<translation id="617174140882717287"><ph name="IDV_CODE_PLACE_HOLDER" /> là mã xác minh của bạn cho <ph name="APP_NAME" />.</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />Hãy đăng nhập vào <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6189573836664806798">Paraguay</translation>
 <translation id="6192657410634245771">Algeria</translation>
 <translation id="6213969168046789596">Bạn đã nhập sai mật khẩu quá nhiều lần. Vui lòng thử lại sau một vài phút.</translation>
@@ -261,6 +267,7 @@
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Samoa thuộc Hoa Kỳ</translation>
 <translation id="6527597037551425211">Braxin</translation>
+<translation id="6555167606025370230">Tiếp tục đến <ph name="APP_NAME" /></translation>
 <translation id="657697593815023638">Swaziland</translation>
 <translation id="6584652721889639596">Không thể gửi mã đặt lại mật khẩu đến email đã chỉ định</translation>
 <translation id="6608262346670935090">Loại bỏ</translation>
@@ -287,6 +294,7 @@
 <translation id="6921505896641453739">Email</translation>
 <translation id="6929813273561975780">Tiếp</translation>
 <translation id="6951302238647056860">Mã này không còn hợp lệ</translation>
+<translation id="6998342825820890463">Chính sách bảo mật</translation>
 <translation id="6999773882165218263">Họ và tên</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Tây Sahara</translation>
@@ -387,7 +395,8 @@
 <translation id="8869797682387766327">Đảo Man</translation>
 <translation id="8893950153780006385">Malaysia</translation>
 <translation id="8895840173743975193">Quần đảo Cocos [Keeling]</translation>
-<translation id="8971555482255213064">Gửi lại mã sau 0:<ph name="PH_1" /></translation>
+<translation id="8955469172512804617">Bằng cách nhấn vào <ph name="BTN" />, bạn cho biết rằng bạn đồng ý với <ph name="PP" />.</translation>
+<translation id="8980953965669178372">Xong</translation>
 <translation id="8984161590699631096">Ma-rốc</translation>
 <translation id="900153878296575829">Bangladesh</translation>
 <translation id="9022632332691561239">Điện thoại</translation>

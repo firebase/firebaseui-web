@@ -66,7 +66,8 @@
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Nie mogliśmy zmienić Twojego adresu e-mail do logowania na używany wcześniej.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Jeżeli przy kolejnej próbie znów nie uda Ci się go zresetować, poproś o pomoc administratora.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Bahrajn</translation>
 <translation id="2405828009195143258">Iran</translation>
-<translation id="2446078593003901807">OK</translation>
+<translation id="244437093285883777">Potwierdź, że nie jesteś robotem.</translation>
+<translation id="2448227725017851570">Ten kod stracił ważność.</translation>
 <translation id="2448487988481516351">Nowa Kaledonia</translation>
 <translation id="2451742558284013472">Monako</translation>
 <translation id="2460064915291012298">Seszele</translation>
@@ -90,6 +91,7 @@
 <translation id="2814274627887910414">Nieprawidłowy format numeru telefonu</translation>
 <translation id="2828509010894808185">Tworzenie konta</translation>
 <translation id="2834770837848769530">Afganistan</translation>
+<translation id="2884525438023347369">Klikając <ph name="BTN" />, potwierdzasz że znane Ci są <ph name="TOS" /> i akceptujesz je.</translation>
 <translation id="2909392332969582158">Kanada</translation>
 <translation id="2911018261311455240">Dania</translation>
 <translation id="295270254328846278">Austria</translation>
@@ -132,6 +134,7 @@
 <translation id="3597673897213051724">Wyślij</translation>
 <translation id="3605933028246642593">Nepal</translation>
 <translation id="3608140835232496799">Tokelau</translation>
+<translation id="3620185428620643248">Wybrane dane logowania dla dostawcy weryfikacji nie są obsługiwane.</translation>
 <translation id="3700097473356216716">Kolumbia</translation>
 <translation id="3735918113934183391">Spróbuj jeszcze raz wpisać numer telefonu.</translation>
 <translation id="3736041829854387744">Burundi</translation>
@@ -178,14 +181,15 @@
 <translation id="4692014002063276828">Polska</translation>
 <translation id="4723701728629289714">Izrael</translation>
 <translation id="4725154639671888461">Wystąpił błąd</translation>
-<translation id="4752789582089722030">Zmień hasło</translation>
+<translation id="4751937685196678080">Numer</translation>
 <translation id="4773060157545352832">Rozwiąż test reCAPTCHA</translation>
 <translation id="4775051289386800916">Nikaragua</translation>
 <translation id="4783400389150493171">Burkina Faso</translation>
 <translation id="4852256440857413490">Nieprawidłowy kod. Spróbuj jeszcze raz.</translation>
 <translation id="4871106926303956169">Wyspy Turks i Caicos</translation>
 <translation id="4877597386645466815">Kod można wysłać ponownie za: <ph name="TIME_REMAINING" /></translation>
-<translation id="4935131042143742248">Dalej</translation>
+<translation id="4915406999072654369">Sprawdź pocztę</translation>
+<translation id="4955175001894453989">Dodaj hasło</translation>
 <translation id="496366313824211679">Salwador</translation>
 <translation id="4991626049082973728">Serbia</translation>
 <translation id="4991892293325936102">Belize</translation>
@@ -244,7 +248,9 @@
 <translation id="6040759627067155517">Adres e-mail</translation>
 <translation id="6044396095102058216">Ten numer telefonu został użyty zbyt wiele razy.</translation>
 <translation id="6091051069256411999">Twitter</translation>
-<translation id="617174140882717287">Twój kod weryfikacyjny do aplikacji <ph name="APP_NAME" /> to: <ph name="IDV_CODE_PLACE_HOLDER" /></translation>
+<translation id="61182948399263957">
+<ph name="P_START" />Zaloguj się w aplikacji <ph name="APP_NAME" />.&lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6189573836664806798">Paragwaj</translation>
 <translation id="6192657410634245771">Algieria</translation>
 <translation id="6213969168046789596">Zbyt wiele razy podano niepoprawne hasło. Spróbuj jeszcze raz za kilka minut.</translation>
@@ -265,6 +271,7 @@
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Samoa Amerykańskie</translation>
 <translation id="6527597037551425211">Brazylia</translation>
+<translation id="6555167606025370230">Przejdź do aplikacji <ph name="APP_NAME" /></translation>
 <translation id="657697593815023638">Suazi</translation>
 <translation id="6584652721889639596">Na wskazany adres e-mail nie można wysłać kodu do resetowania hasła</translation>
 <translation id="6608262346670935090">Zamknij</translation>
@@ -292,6 +299,7 @@
 <translation id="6921505896641453739">E-mail</translation>
 <translation id="6929813273561975780">Dalej</translation>
 <translation id="6951302238647056860">Ten kod stracił ważność.</translation>
+<translation id="6998342825820890463">Polityka prywatności</translation>
 <translation id="6999773882165218263">Imię i nazwisko</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Sahara Zachodnia</translation>
@@ -325,7 +333,7 @@
 <translation id="7592224526951017144">Niemcy</translation>
 <translation id="7615083347713899917">Kirgistan</translation>
 <translation id="7643408533407091568">Adres <ph name="EMAIL_ADDR" /> został już przez Ciebie użyty do logowania. Wpisz hasło tego konta.</translation>
-<translation id="7652546345268886994">{plural_var,plural, =1{Hasło jest za słabe. Powinno mieć przynajmniej <ph name="PH_1" /> znak i być kombinacją liter i cyfr}few{Hasło jest za słabe. Powinno mieć przynajmniej <ph name="PH_1" /> znaki i być kombinacją liter i cyfr}many{Hasło jest za słabe. Powinno mieć przynajmniej <ph name="PH_1" /> znaków i być kombinacją liter i cyfr}other{Hasło jest za słabe. Powinno mieć przynajmniej <ph name="PH_1" /> znaku i być kombinacją liter i cyfr}}</translation>
+<translation id="7652546345268886994">{plural_var,plural, =1{Hasło jest za słabe. Powinno mieć przynajmniej <ph name="PH_1" /> znak i być kombinacją liter i cyfr.}few{Hasło jest za słabe. Powinno mieć przynajmniej <ph name="PH_1" /> znaki i być kombinacją liter i cyfr.}many{Hasło jest za słabe. Powinno mieć przynajmniej <ph name="PH_1" /> znaków i być kombinacją liter i cyfr.}other{Hasło jest za słabe. Powinno mieć przynajmniej <ph name="PH_1" /> znaku i być kombinacją liter i cyfr}}</translation>
 <translation id="7699755204074920022">Zimbabwe</translation>
 <translation id="7756945311981296300">Aby odzyskać hasło, wykonaj instrukcje wysłane na adres <ph name="STRING" />.</translation>
 <translation id="7782885946428624225">Podczas weryfikacji Twojego numeru telefonu wystąpił problem.</translation>
@@ -393,7 +401,8 @@
 <translation id="8869797682387766327">Wyspa Man</translation>
 <translation id="8893950153780006385">Malezja</translation>
 <translation id="8895840173743975193">Wyspy Kokosowe</translation>
-<translation id="8971555482255213064">Kod można ponownie wysłać za 0:<ph name="PH_1" /></translation>
+<translation id="8955469172512804617">Klikając <ph name="BTN" />, potwierdzasz że znana Ci jest <ph name="PP" /> i wyrażasz na nią zgodę.</translation>
+<translation id="8980953965669178372">Gotowe</translation>
 <translation id="8984161590699631096">Maroko</translation>
 <translation id="900153878296575829">Bangladesz</translation>
 <translation id="9022632332691561239">Telefon</translation>

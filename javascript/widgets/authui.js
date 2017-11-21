@@ -20,6 +20,7 @@
 goog.provide('firebaseui.auth.AuthUI');
 
 goog.require('firebaseui.auth.EventDispatcher');
+goog.require('firebaseui.auth.GoogleYolo');
 goog.require('firebaseui.auth.log');
 goog.require('firebaseui.auth.storage');
 goog.require('firebaseui.auth.util');
@@ -134,6 +135,12 @@ firebaseui.auth.AuthUI = function(auth, opt_appId) {
    *     pending promises or reset functions.
    */
   this.pending_ = [];
+  /** @private {boolean} Whether One-Tap auto sign-in is disabled or not. */
+  this.autoSignInDisabled_ = false;
+  // Currently we do not dynamically load One-Tap JS binary. The developer has
+  // to include it.
+  /** @private {!firebaseui.auth.GoogleYolo} The One-Tap UI wrapper. */
+  this.googleYolo_ = firebaseui.auth.GoogleYolo.getInstance();
 };
 
 
@@ -243,6 +250,14 @@ firebaseui.auth.AuthUI.prototype.setCurrentComponent = function(component) {
   // Check if instance is already destroyed.
   this.checkIfDestroyed_();
   this.currentComponent_ = component;
+};
+
+
+/** @return {?firebaseui.auth.ui.page.Base} The current rendered component. */
+firebaseui.auth.AuthUI.prototype.getCurrentComponent = function() {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
+  return this.currentComponent_;
 };
 
 
@@ -427,6 +442,29 @@ firebaseui.auth.AuthUI.prototype.registerPending = function(p) {
 
 
 /**
+ * Disables One-Tap auto sign-in.
+ */
+firebaseui.auth.AuthUI.prototype.disableAutoSignIn = function() {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
+  // Auto sign-in cannot be re-enabled.
+  // Auto sign-in can only be disabled before rendering One-Tap.
+  this.autoSignInDisabled_ = true;
+};
+
+
+/** @return {boolean} Whether auto sign-in is disabled. */
+firebaseui.auth.AuthUI.prototype.isAutoSignInDisabled = function() {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
+  // Auto sign-in is disabled either explicitly or when account selection prompt
+  // is required.
+  return this.autoSignInDisabled_ ||
+      this.getConfig().isAccountSelectionPromptEnabled();
+};
+
+
+/**
  * @return {function():?firebaseui.auth.AuthUI} The Firebase Auth instance
  *     getter.
  */
@@ -449,6 +487,8 @@ firebaseui.auth.AuthUI.prototype.reset = function() {
   if (typeof this.auth_.languageCode !== 'undefined') {
     this.auth_.languageCode = this.originalAuthLanguageCode_;
   }
+  // Cancel One-Tap last operation.
+  this.cancelOneTapSignIn();
 
   // After reset, if the sign-in widget callback is called again, it should not
   // resolve with the previous redirect result.
@@ -601,4 +641,42 @@ firebaseui.auth.AuthUI.prototype.delete = function() {
     // Mark as deleted.
     self.deleted_ = true;
   });
+};
+
+
+/** Cancels any pending One-Tap sign-in operation if available. */
+firebaseui.auth.AuthUI.prototype.cancelOneTapSignIn = function() {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
+  // Cancel any googleyolo operation.
+  this.googleYolo_.cancel();
+};
+
+
+/**
+ * Shows the One-Tap UI if available. On credential availability, runs
+ * the provided handler.
+ * @param {function(!firebaseui.auth.AuthUI,
+ *                  !firebaseui.auth.ui.page.Base,
+ *                  ?SmartLockCredential):!goog.Promise<boolean>}
+ *     handler The One-Tap credential handler.
+ */
+firebaseui.auth.AuthUI.prototype.showOneTapSignIn = function(handler) {
+  var self = this;
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
+  try {
+    this.googleYolo_.show(
+        this.getConfig().getGoogleYoloConfig(), this.isAutoSignInDisabled())
+        .then(function(credential) {
+          // Run only when component is available.
+          if (self.currentComponent_) {
+            return handler(self, self.currentComponent_, credential);
+          }
+          return false;
+        });
+  } catch (e) {
+    // This is an additive API and it's a best effort approach.
+    // Ignore the error when the One-Tap API is not supported.
+  }
 };

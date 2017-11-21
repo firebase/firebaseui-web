@@ -24,6 +24,7 @@ goog.require('firebaseui.auth.CredentialHelper');
 goog.require('firebaseui.auth.PendingEmailCredential');
 goog.require('firebaseui.auth.acClient');
 goog.require('firebaseui.auth.idp');
+goog.require('firebaseui.auth.soy2.strings');
 goog.require('firebaseui.auth.storage');
 goog.require('firebaseui.auth.widget.Config');
 goog.require('firebaseui.auth.widget.handler');
@@ -64,18 +65,27 @@ var signInOptions;
  * @param {!firebaseui.auth.widget.Config.SignInFlow} flow The sign-in flow.
  * @param {boolean=} opt_ignoreConfig Whether to ignore config setting assuming
  *     it was set externally.
+ * @param {boolean=} opt_enableOneTap Whether One-Tap sign-in is enabled.
+ * @param {boolean=} opt_disableAdditionalScopes Whether to disable additional
+ *     scopes.
  */
-function setupProviderSignInPage(flow, opt_ignoreConfig) {
+function setupProviderSignInPage(
+    flow, opt_ignoreConfig, opt_enableOneTap, opt_disableAdditionalScopes) {
   // Test provider sign-in handler.
   signInOptions = [{
     'provider': 'google.com',
-    'scopes': ['googl1', 'googl2'],
-    'customParameters': {'prompt': 'select_account'}
+    'scopes': !!opt_disableAdditionalScopes ? [] : ['googl1', 'googl2'],
+    'customParameters': {'prompt': 'select_account'},
+    'authMethod': 'https://accounts.google.com',
+    'clientId': '1234567890.apps.googleusercontent.com'
   }, 'facebook.com', 'password', 'phone'];
   if (!opt_ignoreConfig) {
     app.setConfig({
       'signInOptions': signInOptions,
-      'signInFlow': flow
+      'signInFlow': flow,
+      'credentialHelper': !!opt_enableOneTap ?
+          firebaseui.auth.CredentialHelper.GOOGLE_YOLO :
+          firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM
     });
   }
   // Set sign-in options.
@@ -100,11 +110,210 @@ function testHandleProviderSignIn() {
   expectedProvider.setCustomParameters({'prompt': 'select_account'});
   // Render the provider sign-in page and confirm it was rendered correctly.
   setupProviderSignInPage('redirect');
+  // One-Tap should not be cancelled yet.
+  assertEquals(
+      0, firebaseui.auth.AuthUI.prototype.cancelOneTapSignIn.getCallCount());
   // Click the first button, which is Google IdP.
   goog.testing.events.fireClickSequence(buttons[0]);
+  // One-Tap sign-in should be cancelled on IdP click.
+  assertEquals(
+      1, firebaseui.auth.AuthUI.prototype.cancelOneTapSignIn.getCallCount());
 
   testAuth.assertSignInWithRedirect([expectedProvider]);
   return testAuth.process();
+}
+
+
+function testHandleProviderSignIn_oneTap_handledSuccessfully_withScopes() {
+  // The expected Firebase Auth provider to signInWithRedirect with.
+  var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
+  expectedProvider.addScope('googl1');
+  expectedProvider.addScope('googl2');
+  expectedProvider.setCustomParameters({
+    'prompt': 'select_account',
+    'login_hint': 'user@example.com'
+  });
+  // Render the provider sign-in page with additional scopes and googleyolo
+  // enabled and confirm it was rendered correctly.
+  setupProviderSignInPage('redirect', false, true);
+  assertEquals(
+      0, firebaseui.auth.AuthUI.prototype.cancelOneTapSignIn.getCallCount());
+  assertEquals(
+      1, firebaseui.auth.AuthUI.prototype.showOneTapSignIn.getCallCount());
+  // Get the One-Tap credential handler.
+  var handler = firebaseui.auth.AuthUI.prototype.showOneTapSignIn.getLastCall()
+      .getArgument(0);
+  // Confirm expected handler.
+  assertEquals(
+      firebaseui.auth.widget.handler.common.handleGoogleYoloCredential,
+      handler);
+  // Simulate successful credential provided by One-Tap.
+  var p = handler(app, app.getCurrentComponent(), googleYoloIdTokenCredential)
+      .then(function(status) {
+        assertTrue(status);
+      });
+  // signInWithRedirect should be called with the expected provider.
+  testAuth.assertSignInWithRedirect([expectedProvider]);
+  testAuth.process().then(function() {
+    // Any pending credential should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+  });
+  return p;
+}
+
+
+function testHandleProviderSignIn_oneTap_unhandled_withoutScopes() {
+  // Render the provider sign-in page with no additional scopes and googleyolo
+  // enabled and confirm it was rendered correctly.
+  setupProviderSignInPage('redirect', false, true, true);
+  // Provider sign in page should be rendered.
+  assertProviderSignInPage();
+  assertEquals(
+      0, firebaseui.auth.AuthUI.prototype.cancelOneTapSignIn.getCallCount());
+  assertEquals(
+      1, firebaseui.auth.AuthUI.prototype.showOneTapSignIn.getCallCount());
+  // Get the googleyolo credential handler.
+  var handler = firebaseui.auth.AuthUI.prototype.showOneTapSignIn.getLastCall()
+      .getArgument(0);
+  // Confirm expected handler.
+  assertEquals(
+      firebaseui.auth.widget.handler.common.handleGoogleYoloCredential,
+      handler);
+  // Simulate successful credential provided by One-Tap.
+  var expectedHandlerStatus = false;
+  handler(app, app.getCurrentComponent(), googleYoloIdTokenCredential)
+      .then(function(status) {
+        expectedHandlerStatus = status;
+      });
+  // Since no additional scopes are requested,
+  // signInAndRetrieveDataWithCredential should be called to handle the
+  // ID token returned by googleyolo.
+  var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
+      googleYoloIdTokenCredential.idToken);
+  // Simulate an error encountered in signInAndRetrieveDataWithCredential.
+  testAuth.assertSignInAndRetrieveDataWithCredential(
+      [expectedCredential],
+      null,
+      internalError);
+  return testAuth.process().then(function() {
+    // The same page should remain visible.
+    assertProviderSignInPage();
+    // handler should return false.
+    assertFalse(expectedHandlerStatus);
+    // Confirm expected error message shown in info bar.
+    assertInfoBarMessage(
+        firebaseui.auth.widget.handler.common.getErrorMessage(internalError));
+  });
+}
+
+
+function testHandleProviderSignIn_oneTap_unhandledCredential() {
+  // Render the provider sign-in page with no additional scopes and googleyolo
+  // enabled and confirm it was rendered correctly.
+  setupProviderSignInPage('redirect', false, true, true);
+  // Provider sign in page should be rendered.
+  assertProviderSignInPage();
+  assertEquals(
+      0, firebaseui.auth.AuthUI.prototype.cancelOneTapSignIn.getCallCount());
+  assertEquals(
+      1, firebaseui.auth.AuthUI.prototype.showOneTapSignIn.getCallCount());
+  // Get googleyolo credential handler.
+  var handler = firebaseui.auth.AuthUI.prototype.showOneTapSignIn.getLastCall()
+      .getArgument(0);
+  // Confirm expected handler.
+  assertEquals(
+      firebaseui.auth.widget.handler.common.handleGoogleYoloCredential,
+      handler);
+  // Simulate successful unsupported credential provided by One-Tap.
+  var expectedHandlerStatus = false;
+  handler(app, app.getCurrentComponent(), googleYoloOtherCredential)
+      .then(function(status) {
+        expectedHandlerStatus = status;
+      });
+  // Since the returned googleyolo credential is not supported, user should
+  // remain on the same page, handler should return false and the expected error
+  // message should be displayed in the info bar.
+  return testAuth.process().then(function() {
+    assertProviderSignInPage();
+    assertFalse(expectedHandlerStatus);
+    assertInfoBarMessage(
+        firebaseui.auth.soy2.strings.errorUnsupportedCredential().toString());
+  });
+}
+
+
+function testHandleProviderSignIn_oneTap_handledSuccessfully_withoutScopes() {
+  // Render the provider sign-in page with no additional scopes and googleyolo
+  // enabled and confirm it was rendered correctly.
+  setupProviderSignInPage('redirect', false, true, true);
+  // Confirm provider sign in page rendered.
+  assertProviderSignInPage();
+  assertEquals(
+      0, firebaseui.auth.AuthUI.prototype.cancelOneTapSignIn.getCallCount());
+  assertEquals(
+      1, firebaseui.auth.AuthUI.prototype.showOneTapSignIn.getCallCount());
+  // Get googleyolo credential handler.
+  var handler = firebaseui.auth.AuthUI.prototype.showOneTapSignIn.getLastCall()
+      .getArgument(0);
+  // Confirm expected handler.
+  assertEquals(
+      firebaseui.auth.widget.handler.common.handleGoogleYoloCredential,
+      handler);
+  // Simulate successful credential provided by One-Tap.
+  var expectedHandlerStatus = false;
+  handler(app, app.getCurrentComponent(), googleYoloIdTokenCredential)
+      .then(function(status) {
+        expectedHandlerStatus = status;
+      });
+  // Since no additional scopes are requested,
+  // signInAndRetrieveDataWithCredential should be called to handle the
+  // ID token returned by googleyolo.
+  var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
+      googleYoloIdTokenCredential.idToken);
+  // The Firebase Auth mock OAuth credential to return.
+  var cred  = firebaseui.auth.idp.getAuthCredential({
+    'providerId': 'google.com',
+    'idToken': googleYoloIdTokenCredential.idToken
+  });
+  // Mock signed in user.
+  testAuth.setUser({
+    'email': federatedAccount.getEmail(),
+    'displayName': federatedAccount.getDisplayName()
+  });
+  // signInAndRetrieveDataWithCredential should be called with the expected
+  // credential and simulate a successful sign in operation.
+  testAuth.assertSignInAndRetrieveDataWithCredential(
+      [expectedCredential],
+      {
+        'user': testAuth.currentUser,
+        'credential': cred
+      });
+  return testAuth.process().then(function() {
+    // Callback page should be rendered while the result is being processed.
+    assertCallbackPage();
+    return testAuth.process();
+  }).then(function() {
+    // signOut should be called on the internal Auth instance.
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    // Set user on the external Auth instance.
+    externalAuth.setUser(testAuth.currentUser);
+    // signInWithCredential should be called on the external Auth instance with
+    // the expected credential.
+    externalAuth.assertSignInWithCredential(
+        [cred], externalAuth.currentUser);
+    return externalAuth.process();
+  }).then(function() {
+    // Confirm googleyolo handler successful.
+    assertTrue(expectedHandlerStatus);
+    // Pending credential should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    // User should be redirected to success URL.
+    testUtil.assertGoTo('http://localhost/home');
+  });
 }
 
 

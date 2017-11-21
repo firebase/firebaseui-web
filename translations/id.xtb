@@ -66,7 +66,8 @@
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Ada masalah saat mengubah kembali email login Anda.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Jika Anda sudah mencoba lagi namun masih tidak dapat menyetel ulang email, coba minta bantuan administrator.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Bahrain</translation>
 <translation id="2405828009195143258">Iran</translation>
-<translation id="2446078593003901807">Oke</translation>
+<translation id="244437093285883777">Memverifikasi bahwa Anda bukan robot...</translation>
+<translation id="2448227725017851570">Kode ini sudah tidak valid</translation>
 <translation id="2448487988481516351">Kaledonia Baru</translation>
 <translation id="2451742558284013472">Monako</translation>
 <translation id="2460064915291012298">Republik Seychelles</translation>
@@ -90,6 +91,7 @@
 <translation id="2814274627887910414">Format nomor telepon tidak valid</translation>
 <translation id="2828509010894808185">Buat akun</translation>
 <translation id="2834770837848769530">Afganistan</translation>
+<translation id="2884525438023347369">Dengan menge-tap <ph name="BTN" /> Anda menyatakan setuju dengan <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">Kanada</translation>
 <translation id="2911018261311455240">Denmark</translation>
 <translation id="295270254328846278">Austria</translation>
@@ -132,6 +134,7 @@
 <translation id="3597673897213051724">Kirim</translation>
 <translation id="3605933028246642593">Nepal</translation>
 <translation id="3608140835232496799">Tokelau</translation>
+<translation id="3620185428620643248">Kredensial yang dipilih untuk penyedia autentikasi tersebut tidak didukung!</translation>
 <translation id="3700097473356216716">Kolombia</translation>
 <translation id="3735918113934183391">Coba masukkan kembali nomor telepon Anda.</translation>
 <translation id="3736041829854387744">Burundi</translation>
@@ -154,7 +157,7 @@
 <translation id="4090385155496329109">Facebook</translation>
 <translation id="4163133799286985193">Argentina</translation>
 <translation id="420554669252656972">Masukkan alamat email baru</translation>
-<translation id="4210333062216604630">Batalkan link</translation>
+<translation id="4210333062216604630">Batalkan tautan</translation>
 <translation id="4242716276491763916">Guinea Conakry</translation>
 <translation id="4248546264350694306">Swiss</translation>
 <translation id="4266056491449352939">Andorra</translation>
@@ -178,14 +181,15 @@
 <translation id="4692014002063276828">Polandia</translation>
 <translation id="4723701728629289714">Israel</translation>
 <translation id="4725154639671888461">Terjadi error</translation>
-<translation id="4752789582089722030">Ubah sandi</translation>
+<translation id="4751937685196678080">Nomor</translation>
 <translation id="4773060157545352832">Pecahkan reCAPTCHA</translation>
 <translation id="4775051289386800916">Nikaragua</translation>
 <translation id="4783400389150493171">Burkina Faso</translation>
 <translation id="4852256440857413490">Kode salah. Coba lagi.</translation>
 <translation id="4871106926303956169">Kepulauan Turks dan Caicos</translation>
 <translation id="4877597386645466815">Kirim ulang kode dalam <ph name="TIME_REMAINING" /></translation>
-<translation id="4935131042143742248">Lanjutkan</translation>
+<translation id="4915406999072654369">Periksa email Anda</translation>
+<translation id="4955175001894453989">Tambahkan sandi</translation>
 <translation id="496366313824211679">El Salvador</translation>
 <translation id="4991626049082973728">Serbia</translation>
 <translation id="4991892293325936102">Belize</translation>
@@ -244,7 +248,9 @@
 <translation id="6040759627067155517">Email</translation>
 <translation id="6044396095102058216">Nomor telepon ini sudah terlalu sering digunakan</translation>
 <translation id="6091051069256411999">Twitter</translation>
-<translation id="617174140882717287"><ph name="IDV_CODE_PLACE_HOLDER" /> adalah kode verifikasi Anda untuk <ph name="APP_NAME" />.</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />Login ke <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6189573836664806798">Paraguay</translation>
 <translation id="6192657410634245771">Aljazair</translation>
 <translation id="6213969168046789596">Anda telah berkali-kali memasukkan sandi yang salah. Coba beberapa menit lagi.</translation>
@@ -265,6 +271,7 @@
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Samoa Amerika</translation>
 <translation id="6527597037551425211">Brasil</translation>
+<translation id="6555167606025370230">Lanjutkan ke <ph name="APP_NAME" /></translation>
 <translation id="657697593815023638">Swaziland</translation>
 <translation id="6584652721889639596">Tidak dapat mengirimkan kode setel ulang sandi ke email yang ditentukan</translation>
 <translation id="6608262346670935090">Tutup</translation>
@@ -292,6 +299,7 @@
 <translation id="6921505896641453739">Email</translation>
 <translation id="6929813273561975780">Berikutnya</translation>
 <translation id="6951302238647056860">Kode ini sudah tidak valid</translation>
+<translation id="6998342825820890463">Kebijakan Privasi</translation>
 <translation id="6999773882165218263">Nama depan &amp;amp; belakang</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Sahara Barat</translation>
@@ -340,7 +348,7 @@
 <translation id="8033786138248870436">Dengan menge-tap Verifikasi, SMS mungkin akan dikirim. Mungkin dikenakan biaya pesan &amp;amp; data.</translation>
 <translation id="8047183472745080590">Bolivia</translation>
 <translation id="8047565947836609247">Puerto Riko</translation>
-<translation id="8055755007915250245">Batalkan link akun?</translation>
+<translation id="8055755007915250245">Batalkan tautan akun?</translation>
 <translation id="8063505483150915580">Pulau Christmas</translation>
 <translation id="8077378925683571933">
 <ph name="P_START" />Terima kasih,<ph name="P_END" />
@@ -394,7 +402,8 @@
 <translation id="8869797682387766327">Pulau Man</translation>
 <translation id="8893950153780006385">Malaysia</translation>
 <translation id="8895840173743975193">Kepulauan Cocos [Keeling]</translation>
-<translation id="8971555482255213064">Kirimkan ulang kode dalam 0.<ph name="PH_1" /></translation>
+<translation id="8955469172512804617">Dengan menge-tap <ph name="BTN" /> Anda menyatakan setuju dengan <ph name="PP" />.</translation>
+<translation id="8980953965669178372">Selesai</translation>
 <translation id="8984161590699631096">Maroko</translation>
 <translation id="900153878296575829">Bangladesh</translation>
 <translation id="9022632332691561239">Telepon</translation>

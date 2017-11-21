@@ -61,6 +61,8 @@ firebaseui.auth.widget.handler.handleProviderSignIn = function(
               component,
               providerId);
         }
+        // Cancel One-Tap on any button click.
+        app.cancelOneTapSignIn();
       },
       app.getConfig().getProviders());
   component.render(container);
@@ -70,6 +72,9 @@ firebaseui.auth.widget.handler.handleProviderSignIn = function(
   if (opt_infoBarMessage) {
     component.showInfoBar(opt_infoBarMessage);
   }
+  // Show One-Tap UI if available.
+  app.showOneTapSignIn(
+      firebaseui.auth.widget.handler.common.handleGoogleYoloCredential);
 };
 
 

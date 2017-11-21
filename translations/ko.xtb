@@ -66,7 +66,8 @@
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />로그인 이메일을 다시 변경하는 중에 문제가 발생했습니다.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />다시 시도해도 이메일을 재설정할 수 없으면 관리자에게 지원을 요청하시기 바랍니다.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">바레인</translation>
 <translation id="2405828009195143258">이란</translation>
-<translation id="2446078593003901807">확인</translation>
+<translation id="244437093285883777">로봇이 아닌 실제 사용자임을 확인 중...</translation>
+<translation id="2448227725017851570">더 이상 유효하지 않은 코드입니다.</translation>
 <translation id="2448487988481516351">뉴칼레도니아</translation>
 <translation id="2451742558284013472">모나코</translation>
 <translation id="2460064915291012298">세이셸</translation>
@@ -90,6 +91,7 @@
 <translation id="2814274627887910414">전화번호 형식이 잘못되었습니다.</translation>
 <translation id="2828509010894808185">계정 만들기</translation>
 <translation id="2834770837848769530">아프가니스탄</translation>
+<translation id="2884525438023347369"><ph name="BTN" />을(를) 탭하면 <ph name="TOS" />에 동의하는 것으로 간주됩니다.</translation>
 <translation id="2909392332969582158">캐나다</translation>
 <translation id="2911018261311455240">덴마크</translation>
 <translation id="295270254328846278">오스트리아</translation>
@@ -132,6 +134,7 @@
 <translation id="3597673897213051724">보내기</translation>
 <translation id="3605933028246642593">네팔</translation>
 <translation id="3608140835232496799">토켈라우</translation>
+<translation id="3620185428620643248">선택한 인증 제공업체의 사용자 인증 정보가 지원되지 않습니다.</translation>
 <translation id="3700097473356216716">콜롬비아</translation>
 <translation id="3735918113934183391">전화번호를 다시 입력해 주세요.</translation>
 <translation id="3736041829854387744">부룬디</translation>
@@ -178,14 +181,15 @@
 <translation id="4692014002063276828">폴란드</translation>
 <translation id="4723701728629289714">이스라엘</translation>
 <translation id="4725154639671888461">오류 발생</translation>
-<translation id="4752789582089722030">비밀번호 변경</translation>
+<translation id="4751937685196678080">번호</translation>
 <translation id="4773060157545352832">reCAPTCHA 입력을 완료하세요.</translation>
 <translation id="4775051289386800916">니카라과</translation>
 <translation id="4783400389150493171">부르키나 파소</translation>
 <translation id="4852256440857413490">코드가 잘못되었습니다. 다시 시도하세요.</translation>
 <translation id="4871106926303956169">터크스 케이커스 제도</translation>
 <translation id="4877597386645466815"><ph name="TIME_REMAINING" /> 후에 코드 재전송</translation>
-<translation id="4935131042143742248">계속</translation>
+<translation id="4915406999072654369">이메일 확인</translation>
+<translation id="4955175001894453989">비밀번호 추가</translation>
 <translation id="496366313824211679">엘살바도르</translation>
 <translation id="4991626049082973728">세르비아</translation>
 <translation id="4991892293325936102">벨리즈</translation>
@@ -244,7 +248,9 @@
 <translation id="6040759627067155517">이메일</translation>
 <translation id="6044396095102058216">이 전화번호로 전송 시도를 너무 많이 했습니다.</translation>
 <translation id="6091051069256411999">Twitter</translation>
-<translation id="617174140882717287"><ph name="APP_NAME" />의 인증 코드는 <ph name="IDV_CODE_PLACE_HOLDER" />입니다.</translation>
+<translation id="61182948399263957">
+<ph name="P_START" /><ph name="APP_NAME" />에 로그인 &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6189573836664806798">파라과이</translation>
 <translation id="6192657410634245771">알제리</translation>
 <translation id="6213969168046789596">비밀번호 입력 오류 횟수를 초과했습니다. 잠시 후에 다시 시도해 주세요.</translation>
@@ -265,6 +271,7 @@
 <translation id="6508909904815637928">바누아투</translation>
 <translation id="6520863029476703422">아메리칸 사모아</translation>
 <translation id="6527597037551425211">브라질</translation>
+<translation id="6555167606025370230"><ph name="APP_NAME" /> 앱으로 이동</translation>
 <translation id="657697593815023638">스와질란드</translation>
 <translation id="6584652721889639596">지정한 이메일로 비밀번호 재설정 코드를 보낼 수 없습니다.</translation>
 <translation id="6608262346670935090">닫기</translation>
@@ -292,6 +299,7 @@
 <translation id="6921505896641453739">이메일</translation>
 <translation id="6929813273561975780">다음</translation>
 <translation id="6951302238647056860">더 이상 유효하지 않은 코드입니다.</translation>
+<translation id="6998342825820890463">개인정보처리방침</translation>
 <translation id="6999773882165218263">이름</translation>
 <translation id="7012506961150923116">그레나다</translation>
 <translation id="7024571478138322659">서사하라</translation>
@@ -394,7 +402,8 @@
 <translation id="8869797682387766327">맨 섬</translation>
 <translation id="8893950153780006385">말레이시아</translation>
 <translation id="8895840173743975193">코코스 제도[킬링 제도]</translation>
-<translation id="8971555482255213064">0:<ph name="PH_1" /> 후에 코드 재전송</translation>
+<translation id="8955469172512804617"><ph name="BTN" />을(를) 탭하면 <ph name="PP" />에 동의하는 것으로 간주됩니다.</translation>
+<translation id="8980953965669178372">완료</translation>
 <translation id="8984161590699631096">모로코</translation>
 <translation id="900153878296575829">방글라데시</translation>
 <translation id="9022632332691561239">전화</translation>

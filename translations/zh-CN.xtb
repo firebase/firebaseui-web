@@ -68,7 +68,8 @@
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />改回登录电子邮件地址时出现了问题。<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />如果您重试后仍无法重置您的电子邮件地址，请尝试向管理员求助。<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">巴林</translation>
 <translation id="2405828009195143258">伊朗</translation>
-<translation id="2446078593003901807">确定</translation>
+<translation id="244437093285883777">正在验证您是否为机器人…</translation>
+<translation id="2448227725017851570">此验证码已失效</translation>
 <translation id="2448487988481516351">新喀里多尼亚</translation>
 <translation id="2451742558284013472">摩纳哥</translation>
 <translation id="2460064915291012298">塞舌尔</translation>
@@ -92,6 +93,7 @@
 <translation id="2814274627887910414">电话号码格式无效</translation>
 <translation id="2828509010894808185">创建帐号</translation>
 <translation id="2834770837848769530">阿富汗</translation>
+<translation id="2884525438023347369">点按“<ph name="BTN" />”即表示您同意 <ph name="TOS" />。</translation>
 <translation id="2909392332969582158">加拿大</translation>
 <translation id="2911018261311455240">丹麦</translation>
 <translation id="295270254328846278">奥地利</translation>
@@ -134,6 +136,7 @@
 <translation id="3597673897213051724">发送</translation>
 <translation id="3605933028246642593">尼泊尔</translation>
 <translation id="3608140835232496799">托克劳</translation>
+<translation id="3620185428620643248">为身份验证提供方选择的凭据不受支持！</translation>
 <translation id="3700097473356216716">哥伦比亚</translation>
 <translation id="3735918113934183391">请尝试再次输入您的电话号码。</translation>
 <translation id="3736041829854387744">布隆迪</translation>
@@ -180,14 +183,15 @@
 <translation id="4692014002063276828">波兰</translation>
 <translation id="4723701728629289714">以色列</translation>
 <translation id="4725154639671888461">遇到错误</translation>
-<translation id="4752789582089722030">更改密码</translation>
+<translation id="4751937685196678080">号码</translation>
 <translation id="4773060157545352832">请完成 reCAPTCHA 验证</translation>
 <translation id="4775051289386800916">尼加拉瓜</translation>
 <translation id="4783400389150493171">布基纳法索</translation>
 <translation id="4852256440857413490">验证码有误，请重试。</translation>
 <translation id="4871106926303956169">特克斯和凯科斯群岛</translation>
 <translation id="4877597386645466815"><ph name="TIME_REMAINING" /> 后可重新发送验证码</translation>
-<translation id="4935131042143742248">继续</translation>
+<translation id="4915406999072654369">请查收电子邮件</translation>
+<translation id="4955175001894453989">添加密码</translation>
 <translation id="496366313824211679">萨尔瓦多</translation>
 <translation id="4991626049082973728">塞尔维亚</translation>
 <translation id="4991892293325936102">伯利兹</translation>
@@ -246,7 +250,9 @@
 <translation id="6040759627067155517">电子邮件</translation>
 <translation id="6044396095102058216">此电话号码的使用次数过多</translation>
 <translation id="6091051069256411999">Twitter</translation>
-<translation id="617174140882717287">您的“<ph name="APP_NAME" />”验证码是 <ph name="IDV_CODE_PLACE_HOLDER" />。</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />登录<ph name="APP_NAME" />&lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6189573836664806798">巴拉圭</translation>
 <translation id="6192657410634245771">阿尔及利亚</translation>
 <translation id="6213969168046789596">您输入错误密码的次数过多，请过几分钟再试。</translation>
@@ -267,6 +273,7 @@
 <translation id="6508909904815637928">瓦努阿图</translation>
 <translation id="6520863029476703422">美属萨摩亚</translation>
 <translation id="6527597037551425211">巴西</translation>
+<translation id="6555167606025370230">返回<ph name="APP_NAME" /></translation>
 <translation id="657697593815023638">斯威士兰</translation>
 <translation id="6584652721889639596">无法向指定电子邮件地址发送密码重置代码</translation>
 <translation id="6608262346670935090">关闭</translation>
@@ -294,6 +301,7 @@
 <translation id="6921505896641453739">电子邮件地址</translation>
 <translation id="6929813273561975780">下一步</translation>
 <translation id="6951302238647056860">此验证码已失效</translation>
+<translation id="6998342825820890463">隐私权政策</translation>
 <translation id="6999773882165218263">姓名</translation>
 <translation id="7012506961150923116">格林纳达</translation>
 <translation id="7024571478138322659">西撒哈拉</translation>
@@ -396,7 +404,8 @@
 <translation id="8869797682387766327">马恩岛</translation>
 <translation id="8893950153780006385">马来西亚</translation>
 <translation id="8895840173743975193">科科斯（基林）群岛</translation>
-<translation id="8971555482255213064"><ph name="PH_1" /> 后可重新发送验证码</translation>
+<translation id="8955469172512804617">点按“<ph name="BTN" />”即表示您同意 <ph name="PP" />。</translation>
+<translation id="8980953965669178372">完成</translation>
 <translation id="8984161590699631096">摩洛哥</translation>
 <translation id="900153878296575829">孟加拉国</translation>
 <translation id="9022632332691561239">电话号码</translation>

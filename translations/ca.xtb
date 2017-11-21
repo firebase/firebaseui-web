@@ -66,7 +66,8 @@
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Hi ha hagut un problema en canviar l'adreça electrònica d'inici de sessió a l'adreça anterior.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Si ho tornes a provar i continues sense poder restablir l'adreça electrònica, demana ajuda al teu administrador.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Bahrain</translation>
 <translation id="2405828009195143258">Iran</translation>
-<translation id="2446078593003901807">D'acord</translation>
+<translation id="244437093285883777">S'està comprovant que no siguis un robot...</translation>
+<translation id="2448227725017851570">Aquest codi ja no és vàlid</translation>
 <translation id="2448487988481516351">Nova Caledònia</translation>
 <translation id="2451742558284013472">Mònaco</translation>
 <translation id="2460064915291012298">Seychelles</translation>
@@ -90,6 +91,7 @@
 <translation id="2824267666257947103">Introdueix la teva contrasenya</translation>
 <translation id="2828509010894808185">Crea un compte</translation>
 <translation id="2834770837848769530">Afganistan</translation>
+<translation id="2884525438023347369">En tocar <ph name="BTN" />, indiques que acceptes les <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">Canadà</translation>
 <translation id="2911018261311455240">Dinamarca</translation>
 <translation id="295270254328846278">Àustria</translation>
@@ -111,7 +113,7 @@
 <translation id="3250864391349648273">Gabon</translation>
 <translation id="3259479674319858599">Ja has utilitzat <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Inicia la sessió amb <ph name="IDP_DISPLAY_NAME" /> per continuar.</translation>
 <translation id="3275852444431525182">Nova Zelanda</translation>
-<translation id="3314478375063334511">Myanmar</translation>
+<translation id="3314478375063334511">Birmània</translation>
 <translation id="3361878270020566601">Islàndia</translation>
 <translation id="3364952477229333586">Etiòpia</translation>
 <translation id="3372254675985592547">Cuba</translation>
@@ -132,6 +134,7 @@
 <translation id="3597673897213051724">Envia</translation>
 <translation id="3605933028246642593">Nepal</translation>
 <translation id="3608140835232496799">Tokelau</translation>
+<translation id="3620185428620643248">No s'admet la credencial que s'ha seleccionat per al proveïdor d'autenticació.</translation>
 <translation id="3700097473356216716">Colòmbia</translation>
 <translation id="3736041829854387744">Burundi</translation>
 <translation id="3755663127769565780">Mauritània</translation>
@@ -175,14 +178,15 @@
 <translation id="4692014002063276828">Polònia</translation>
 <translation id="4723701728629289714">Israel</translation>
 <translation id="4725154639671888461">S'ha detectat un error</translation>
-<translation id="4752789582089722030">Canvia la contrasenya</translation>
+<translation id="4751937685196678080">Número</translation>
 <translation id="4773060157545352832">Resol el reCAPTCHA</translation>
 <translation id="4775051289386800916">Nicaragua</translation>
 <translation id="4783400389150493171">Burkina Faso</translation>
 <translation id="4852256440857413490">El codi no és correcte. Torna-ho a provar.</translation>
 <translation id="4871106926303956169">Illes Turks i Caicos</translation>
 <translation id="4877597386645466815">Torna a enviar el codi d'aquí a <ph name="TIME_REMAINING" /></translation>
-<translation id="4935131042143742248">Continua</translation>
+<translation id="4915406999072654369">Comprova el correu electrònic</translation>
+<translation id="4955175001894453989">Afegeix una contrasenya</translation>
 <translation id="496366313824211679">República del Salvador</translation>
 <translation id="4991626049082973728">Sèrbia</translation>
 <translation id="4991892293325936102">Belize</translation>
@@ -240,7 +244,9 @@
 <translation id="6040759627067155517">Adreça electrònica</translation>
 <translation id="6044396095102058216">Aquest número de telèfon s'ha fet servir massa vegades</translation>
 <translation id="6091051069256411999">Twitter</translation>
-<translation id="617174140882717287">El codi de verificació de l'aplicació <ph name="APP_NAME" /> és <ph name="IDV_CODE_PLACE_HOLDER" />.</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />Inicia la sessió a <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6189573836664806798">Paraguai</translation>
 <translation id="6192657410634245771">Algèria</translation>
 <translation id="6213969168046789596">Has introduït una contrasenya incorrecta massa vegades. Torna-ho a provar d'aquí a uns quants minuts.</translation>
@@ -261,6 +267,7 @@
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Samoa Nord-americana</translation>
 <translation id="6527597037551425211">Brasil</translation>
+<translation id="6555167606025370230">Continua a <ph name="APP_NAME" /></translation>
 <translation id="657697593815023638">Swazilàndia</translation>
 <translation id="6584652721889639596">No s'ha pogut enviar el codi de restabliment de contrasenya a l'adreça electrònica indicada</translation>
 <translation id="6608262346670935090">Ignora</translation>
@@ -287,6 +294,7 @@
 <translation id="6921505896641453739">Adreça electrònica</translation>
 <translation id="6929813273561975780">Següent</translation>
 <translation id="6951302238647056860">Aquest codi ja no és vàlid</translation>
+<translation id="6998342825820890463">política de privadesa</translation>
 <translation id="6999773882165218263">Nom i cognoms</translation>
 <translation id="7012506961150923116">Granada</translation>
 <translation id="7024571478138322659">Sàhara Occidental</translation>
@@ -387,7 +395,8 @@
 <translation id="8869797682387766327">Illa de Man</translation>
 <translation id="8893950153780006385">Malàisia</translation>
 <translation id="8895840173743975193">Illes Cocos</translation>
-<translation id="8971555482255213064">Torna a enviar el codi d'aquí a 0:<ph name="PH_1" /></translation>
+<translation id="8955469172512804617">En tocar <ph name="BTN" />, indiques que acceptes la <ph name="PP" />.</translation>
+<translation id="8980953965669178372">Fet</translation>
 <translation id="8984161590699631096">Marroc</translation>
 <translation id="900153878296575829">Bangla Desh</translation>
 <translation id="9022632332691561239">Telèfon</translation>

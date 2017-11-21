@@ -38,10 +38,16 @@ const OPTIMIZATION_LEVEL = util.env.compilation_level ||
 const OUTPUT_WRAPPER = OPTIMIZATION_LEVEL === 'WHITESPACE_ONLY' ?
     '%output%' : '(function() { %output% })();';
 
+// Provides missing dialogPolyfill on window in npm environments.
+const DIALOG_POLYFILL = 'if(typeof window!==\'undefined\')' +
+    '{window.dialogPolyfill=require(\'dialog-polyfill\');}';
+
 // Adds the firebase module requirement and exports firebaseui.
 const NPM_MODULE_WRAPPER = OPTIMIZATION_LEVEL === 'WHITESPACE_ONLY' ?
-    'var firebase=require(\'firebase/app\');require(\'firebase/auth\');%output%module.exports=firebaseui;' :
-    '(function() { var firebase=require(\'firebase/app\');require(\'firebase/auth\');%output% })();' +
+    'var firebase=require(\'firebase/app\');require(\'firebase/auth\');' +
+    '%output%' + DIALOG_POLYFILL + 'module.exports=firebaseui;' :
+    '(function() { var firebase=require(\'firebase/app\');' +
+    'require(\'firebase/auth\');%output% ' + DIALOG_POLYFILL + '})();' +
     'module.exports=firebaseui;';
 
 // The path to Closure Compiler.

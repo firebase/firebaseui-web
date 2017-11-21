@@ -66,7 +66,8 @@
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />系統無法還原您已變更的登入電子郵件地址。<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />如果重試後仍然無法重設電子郵件地址，請與您的系統管理員聯絡，由對方協助您完成這項操作。<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">巴林</translation>
 <translation id="2405828009195143258">伊朗</translation>
-<translation id="2446078593003901807">確定</translation>
+<translation id="244437093285883777">正在驗證您是否為自動程式...</translation>
+<translation id="2448227725017851570">這個代碼已經失效</translation>
 <translation id="2448487988481516351">新喀里多尼亞</translation>
 <translation id="2451742558284013472">摩納哥</translation>
 <translation id="2460064915291012298">塞席爾</translation>
@@ -90,6 +91,7 @@
 <translation id="2814274627887910414">無效的電話號碼格式</translation>
 <translation id="2828509010894808185">建立帳戶</translation>
 <translation id="2834770837848769530">阿富汗</translation>
+<translation id="2884525438023347369">輕觸 [<ph name="BTN" />] 即表示您同意《<ph name="TOS" />》。</translation>
 <translation id="2909392332969582158">加拿大</translation>
 <translation id="2911018261311455240">丹麥</translation>
 <translation id="295270254328846278">奧地利</translation>
@@ -132,6 +134,7 @@
 <translation id="3597673897213051724">傳送</translation>
 <translation id="3605933028246642593">尼泊爾</translation>
 <translation id="3608140835232496799">托克勞群島</translation>
+<translation id="3620185428620643248">系統不支援您選取的驗證供應商憑證！</translation>
 <translation id="3700097473356216716">哥倫比亞</translation>
 <translation id="3735918113934183391">請重新輸入您的電話號碼。</translation>
 <translation id="3736041829854387744">蒲隆地</translation>
@@ -178,14 +181,15 @@
 <translation id="4692014002063276828">波蘭</translation>
 <translation id="4723701728629289714">以色列</translation>
 <translation id="4725154639671888461">發生錯誤</translation>
-<translation id="4752789582089722030">變更密碼</translation>
+<translation id="4751937685196678080">號碼</translation>
 <translation id="4773060157545352832">請先解決 reCAPTCHA 問題</translation>
 <translation id="4775051289386800916">尼加拉瓜</translation>
 <translation id="4783400389150493171">布吉納法索</translation>
 <translation id="4852256440857413490">驗證碼錯誤，請再試一次。</translation>
 <translation id="4871106926303956169">特克斯和凱科斯群島</translation>
 <translation id="4877597386645466815">於 <ph name="TIME_REMAINING" /> 後重新傳送確認碼</translation>
-<translation id="4935131042143742248">繼續</translation>
+<translation id="4915406999072654369">請查看您的電子郵件</translation>
+<translation id="4955175001894453989">新增密碼</translation>
 <translation id="496366313824211679">薩爾瓦多共和國</translation>
 <translation id="4991626049082973728">瑟比雅</translation>
 <translation id="4991892293325936102">貝里斯</translation>
@@ -244,7 +248,9 @@
 <translation id="6040759627067155517">電子郵件</translation>
 <translation id="6044396095102058216">使用這個電話號碼的次數過多</translation>
 <translation id="6091051069256411999">Twitter</translation>
-<translation id="617174140882717287">「<ph name="APP_NAME" />」的驗證碼為 <ph name="IDV_CODE_PLACE_HOLDER" />。</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />登入 <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6189573836664806798">巴拉圭</translation>
 <translation id="6192657410634245771">阿爾及利亞</translation>
 <translation id="6213969168046789596">您輸入錯誤密碼的次數過多，請於幾分鐘後再試一次。</translation>
@@ -265,6 +271,7 @@
 <translation id="6508909904815637928">萬那杜</translation>
 <translation id="6520863029476703422">美屬薩摩亞</translation>
 <translation id="6527597037551425211">巴西</translation>
+<translation id="6555167606025370230">返回「<ph name="APP_NAME" />」</translation>
 <translation id="657697593815023638">史瓦濟蘭</translation>
 <translation id="6584652721889639596">無法將重設密碼的驗證碼傳送至指定的電子郵件地址</translation>
 <translation id="6608262346670935090">關閉</translation>
@@ -292,6 +299,7 @@
 <translation id="6921505896641453739">電子郵件</translation>
 <translation id="6929813273561975780">下一步</translation>
 <translation id="6951302238647056860">這個代碼已經失效</translation>
+<translation id="6998342825820890463">隱私權政策</translation>
 <translation id="6999773882165218263">姓氏和名字</translation>
 <translation id="7012506961150923116">格瑞那達</translation>
 <translation id="7024571478138322659">西撒哈拉</translation>
@@ -394,7 +402,8 @@
 <translation id="8869797682387766327">曼島</translation>
 <translation id="8893950153780006385">馬來西亞</translation>
 <translation id="8895840173743975193">可可斯群島</translation>
-<translation id="8971555482255213064">0:<ph name="PH_1" /> 秒後將重新發送驗證碼</translation>
+<translation id="8955469172512804617">輕觸 [<ph name="BTN" />] 即表示您同意《<ph name="PP" />》。</translation>
+<translation id="8980953965669178372">完成</translation>
 <translation id="8984161590699631096">摩洛哥</translation>
 <translation id="900153878296575829">孟加拉</translation>
 <translation id="9022632332691561239">電話</translation>

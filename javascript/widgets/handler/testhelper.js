@@ -90,6 +90,17 @@ var operationNotSupportedError = {
       'application is running on. "location.protocol" must be http, https ' +
       'or chrome-extension and web storage must be enabled.'
 };
+// googleyolo ID token credential.
+var googleYoloIdTokenCredential = {
+  'idToken': 'ID_TOKEN',
+  'id': federatedAccount.getEmail(),
+  'authMethod': 'https://accounts.google.com'
+};
+// googleyolo non ID token credential.
+var googleYoloOtherCredential = {
+  'id': federatedAccount.getEmail(),
+  'authMethod': 'https://accounts.google.com'
+};
 
 var container;
 var container2;
@@ -235,6 +246,17 @@ function setUp() {
       email, password) {
     return {'email': email, 'password': password, 'providerId': 'password'};
   };
+  // Simulate Google Auth Provider credential.
+  firebase['auth']['GoogleAuthProvider'] =
+      firebase['auth']['GoogleAuthProvider'] || {};
+  firebase['auth']['GoogleAuthProvider']['credential'] = function(
+      idToken, accessToken) {
+    return {
+      'idToken': idToken,
+      'accessToken': accessToken,
+      'providerId': 'google.com'
+    };
+  };
   getApp = function() {
     return app;
   };
@@ -264,6 +286,15 @@ function setUp() {
   };
   // Remove any grecaptcha mocks.
   delete goog.global['grecaptcha'];
+  // Record all calls to One-Tap show and cancel APIs.
+  testStubs.replace(
+      firebaseui.auth.AuthUI.prototype,
+      'showOneTapSignIn',
+      goog.testing.recordFunction());
+  testStubs.replace(
+      firebaseui.auth.AuthUI.prototype,
+      'cancelOneTapSignIn',
+      goog.testing.recordFunction());
 }
 
 

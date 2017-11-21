@@ -62,10 +62,11 @@
 <translation id="2312980523495377579">Nome próprio e apelido</translation>
 <translation id="2331781584136059536">Gana</translation>
 <translation id="2338909515537249568">O navegador que está a utilizar não suporta armazenamento na Web. Tente novamente com um navegador diferente.</translation>
-<translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Ocorreu um problema ao reverter o email de início de sessão.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Se após uma segunda tentativa não for possível repor o email, solicite ajuda ao administrador.<ph name="END_PARAGRAPH" /></translation>
+<translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Ocorreu um problema ao reverter o email de início de sessão.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Se após uma segunda tentativa não for possível repor o email, solicite ajuda ao gestor.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Barém</translation>
 <translation id="2405828009195143258">Irão</translation>
-<translation id="2446078593003901807">OK</translation>
+<translation id="244437093285883777">A verificar se é um robô...</translation>
+<translation id="2448227725017851570">Este código já não é válido</translation>
 <translation id="2448487988481516351">Nova Caledónia</translation>
 <translation id="2451742558284013472">Mónaco</translation>
 <translation id="2460064915291012298">Seicheles</translation>
@@ -88,6 +89,7 @@
 <translation id="2824267666257947103">Introduza a palavra-passe</translation>
 <translation id="2828509010894808185">Criar conta</translation>
 <translation id="2834770837848769530">Afeganistão</translation>
+<translation id="2884525438023347369">Ao tocar em <ph name="BTN" />, indica que aceita os <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">Canadá</translation>
 <translation id="2911018261311455240">Dinamarca</translation>
 <translation id="295270254328846278">Áustria</translation>
@@ -130,6 +132,7 @@
 <translation id="3597673897213051724">Enviar</translation>
 <translation id="3605933028246642593">Nepal</translation>
 <translation id="3608140835232496799">Toquelau</translation>
+<translation id="3620185428620643248">As credenciais selecionadas para o fornecedor de autenticação não são suportadas!</translation>
 <translation id="3700097473356216716">Colômbia</translation>
 <translation id="3736041829854387744">Burundi</translation>
 <translation id="3755663127769565780">Mauritânia</translation>
@@ -173,14 +176,15 @@
 <translation id="4692014002063276828">Polónia</translation>
 <translation id="4723701728629289714">Israel</translation>
 <translation id="4725154639671888461">Ocorreu um erro</translation>
-<translation id="4752789582089722030">Alterar palavra-passe</translation>
+<translation id="4751937685196678080">Número</translation>
 <translation id="4773060157545352832">Resolva o reCAPTCHA</translation>
 <translation id="4775051289386800916">Nicarágua</translation>
 <translation id="4783400389150493171">Burquina Faso</translation>
 <translation id="4852256440857413490">Código errado. Tente novamente.</translation>
 <translation id="4871106926303956169">Ilhas Turcas e Caicos</translation>
 <translation id="4877597386645466815">Reenviar código em <ph name="TIME_REMAINING" /></translation>
-<translation id="4935131042143742248">Continuar</translation>
+<translation id="4915406999072654369">Verifique o seu e-mail</translation>
+<translation id="4955175001894453989">Adicionar palavra-passe</translation>
 <translation id="496366313824211679">Salvador</translation>
 <translation id="4991626049082973728">Sérvia</translation>
 <translation id="4991892293325936102">Belize</translation>
@@ -237,7 +241,9 @@
 <translation id="6040759627067155517">Email</translation>
 <translation id="6044396095102058216">Este número de telefone foi utilizado demasiadas vezes</translation>
 <translation id="6091051069256411999">Twitter</translation>
-<translation id="617174140882717287"><ph name="IDV_CODE_PLACE_HOLDER" /> é o seu código de validação para <ph name="APP_NAME" />.</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />Inicie sessão em <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6189573836664806798">Paraguai</translation>
 <translation id="6192657410634245771">Argélia</translation>
 <translation id="6213969168046789596">Introduziu uma palavra-passe errada demasiadas vezes. Tente novamente dentro de alguns minutos.</translation>
@@ -258,6 +264,7 @@
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Samoa Americana</translation>
 <translation id="6527597037551425211">Brasil</translation>
+<translation id="6555167606025370230">Continuar para o <ph name="APP_NAME" /></translation>
 <translation id="657697593815023638">Suazilândia</translation>
 <translation id="6584652721889639596">Não é possível enviar o código de reposição de palavra-passe para o email especificado</translation>
 <translation id="6608262346670935090">Ignorar</translation>
@@ -284,6 +291,7 @@
 <translation id="6921505896641453739">Email</translation>
 <translation id="6929813273561975780">Seguinte</translation>
 <translation id="6951302238647056860">Este código já não é válido</translation>
+<translation id="6998342825820890463">Política de Privacidade</translation>
 <translation id="6999773882165218263">Nome próprio e apelido</translation>
 <translation id="7012506961150923116">Granada</translation>
 <translation id="7024571478138322659">Sara Ocidental</translation>
@@ -382,7 +390,8 @@
 <translation id="8869797682387766327">Ilha de Man</translation>
 <translation id="8893950153780006385">Malásia</translation>
 <translation id="8895840173743975193">Ilhas Cocos</translation>
-<translation id="8971555482255213064">Reenviar código em 0:<ph name="PH_1" /></translation>
+<translation id="8955469172512804617">Ao tocar em <ph name="BTN" />, indica que aceita a <ph name="PP" />.</translation>
+<translation id="8980953965669178372">Concluído</translation>
 <translation id="8984161590699631096">Marrocos</translation>
 <translation id="900153878296575829">Bangladeche</translation>
 <translation id="9022632332691561239">Telefone</translation>

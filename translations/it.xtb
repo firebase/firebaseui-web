@@ -66,7 +66,8 @@
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Si è verificato un problema reimpostando l'indirizzo email precedente.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Se ritenti e non riesci a reimpostarlo, prova a chiedere aiuto al tuo amministratore.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Bahrein</translation>
 <translation id="2405828009195143258">Iran</translation>
-<translation id="2446078593003901807">OK</translation>
+<translation id="244437093285883777">Stiamo verificando che non sei un robot…</translation>
+<translation id="2448227725017851570">Questo codice non è più valido</translation>
 <translation id="2448487988481516351">Nuova Caledonia</translation>
 <translation id="2451742558284013472">Monaco</translation>
 <translation id="2460064915291012298">Seychelles</translation>
@@ -90,6 +91,7 @@
 <translation id="2814274627887910414">Formato del numero di telefono non valido</translation>
 <translation id="2828509010894808185">Crea account</translation>
 <translation id="2834770837848769530">Afghanistan</translation>
+<translation id="2884525438023347369">Se tocchi <ph name="BTN" />, accetti i <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">Canada</translation>
 <translation id="2911018261311455240">Danimarca</translation>
 <translation id="295270254328846278">Austria</translation>
@@ -132,6 +134,7 @@
 <translation id="3597673897213051724">Invia</translation>
 <translation id="3605933028246642593">Nepal</translation>
 <translation id="3608140835232496799">Tokelau</translation>
+<translation id="3620185428620643248">La credenziale selezionata per il provider di autenticazione non è supportata.</translation>
 <translation id="3700097473356216716">Colombia</translation>
 <translation id="3735918113934183391">Prova a inserire di nuovo il tuo numero di telefono.</translation>
 <translation id="3736041829854387744">Burundi</translation>
@@ -178,14 +181,15 @@
 <translation id="4692014002063276828">Polonia</translation>
 <translation id="4723701728629289714">Israele</translation>
 <translation id="4725154639671888461">Rilevato errore</translation>
-<translation id="4752789582089722030">Cambia password</translation>
+<translation id="4751937685196678080">Numero</translation>
 <translation id="4773060157545352832">Risolvi il reCAPTCHA</translation>
 <translation id="4775051289386800916">Nicaragua</translation>
 <translation id="4783400389150493171">Burkina Faso</translation>
 <translation id="4852256440857413490">Codice errato. Riprova.</translation>
 <translation id="4871106926303956169">Isole Turks e Caicos</translation>
 <translation id="4877597386645466815">Invia di nuovo il codice tra <ph name="TIME_REMAINING" /></translation>
-<translation id="4935131042143742248">Continua</translation>
+<translation id="4915406999072654369">Controlla la tua casella di posta</translation>
+<translation id="4955175001894453989">Aggiungi password</translation>
 <translation id="496366313824211679">El Salvador</translation>
 <translation id="4991626049082973728">Serbia</translation>
 <translation id="4991892293325936102">Belize</translation>
@@ -244,7 +248,9 @@
 <translation id="6040759627067155517">Email</translation>
 <translation id="6044396095102058216">Questo numero di telefono è stato usato troppe volte</translation>
 <translation id="6091051069256411999">Twitter</translation>
-<translation id="617174140882717287"><ph name="IDV_CODE_PLACE_HOLDER" /> è il tuo codice di verifica per <ph name="APP_NAME" />.</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />Accedi a <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6189573836664806798">Paraguay</translation>
 <translation id="6192657410634245771">Algeria</translation>
 <translation id="6213969168046789596">Hai effettuato troppi tentativi con una password errata. Riprova tra qualche minuto.</translation>
@@ -265,6 +271,7 @@
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Samoa americane</translation>
 <translation id="6527597037551425211">Brasile</translation>
+<translation id="6555167606025370230">Prosegui su <ph name="APP_NAME" /></translation>
 <translation id="657697593815023638">Swaziland</translation>
 <translation id="6584652721889639596">Impossibile inviare il codice di reimpostazione della password all'indirizzo email specificato</translation>
 <translation id="6608262346670935090">Ignora</translation>
@@ -292,10 +299,11 @@
 <translation id="6921505896641453739">Indirizzo email</translation>
 <translation id="6929813273561975780">Avanti</translation>
 <translation id="6951302238647056860">Questo codice non è più valido</translation>
+<translation id="6998342825820890463">Norme sulla privacy</translation>
 <translation id="6999773882165218263">Nome e cognome</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Sahara occidentale</translation>
-<translation id="7064251114893721966">Hai già utilizzato <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> per accedere. Inserisci la password di tale account.</translation>
+<translation id="7064251114893721966">Hai già utilizzato <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> per accedere. Inserisci la password di questo account.</translation>
 <translation id="7089485669419398254">Irlanda</translation>
 <translation id="7093343209860483088">Repubblica democratica del Congo</translation>
 <translation id="7118080999850002096">Recupera la password</translation>
@@ -325,7 +333,7 @@
 <translation id="7592224526951017144">Germania</translation>
 <translation id="7615083347713899917">Kirghizistan</translation>
 <translation id="7643408533407091568">Hai già utilizzato <ph name="EMAIL_ADDR" />
-        per l'accesso. Inserisci la password di tale account.</translation>
+        per accedere. Inserisci la password di questo account.</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{La password non è abbastanza efficace. Utilizza almeno <ph name="PH_1" /> carattere e una combinazione di lettere e numeri.}other{La password non è abbastanza efficace. Utilizza almeno <ph name="PH_1" /> caratteri e una combinazione di lettere e numeri.}}</translation>
 <translation id="7699755204074920022">Zimbabwe</translation>
 <translation id="7756945311981296300">Segui le istruzioni inviate all'indirizzo <ph name="STRING" /> per recuperare la password.</translation>
@@ -394,7 +402,8 @@
 <translation id="8869797682387766327">Isola di Man</translation>
 <translation id="8893950153780006385">Malesia</translation>
 <translation id="8895840173743975193">Isole Cocos [Keeling]</translation>
-<translation id="8971555482255213064">Invia di nuovo il codice tra 0:<ph name="PH_1" /></translation>
+<translation id="8955469172512804617">Se tocchi <ph name="BTN" />, accetti le <ph name="PP" />.</translation>
+<translation id="8980953965669178372">Fine</translation>
 <translation id="8984161590699631096">Marocco</translation>
 <translation id="900153878296575829">Bangladesh</translation>
 <translation id="9022632332691561239">Telefono</translation>

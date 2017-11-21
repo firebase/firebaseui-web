@@ -165,6 +165,15 @@
 {/template}
 
 
+/** Error message for an unsupported credential. */
+{template .errorUnsupportedCredential kind="text"}
+  {msg desc="Error message when the user tries to sign in with a credential for a identity provider
+      that is unsupported."}
+    The selected credential for the authentication provider is not supported!
+  {/msg}
+{/template}
+
+
 /** Translates an error code from Firebase Auth to a user-displayable string. */
 {template .error kind="text"}
   {@param code: string} /** The error code. */

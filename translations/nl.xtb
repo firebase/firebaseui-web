@@ -66,7 +66,8 @@
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Er heeft zich een probleem voorgedaan bij het terugveranderen van uw e-mailadres.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Probeer het opnieuw. Als u uw e-mailadres nog steeds niet kunt resetten, kunt u uw beheerder om hulp vragen.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Bahrein</translation>
 <translation id="2405828009195143258">Iran</translation>
-<translation id="2446078593003901807">OK</translation>
+<translation id="244437093285883777">Verifiëren of u geen robot bent...</translation>
+<translation id="2448227725017851570">Deze code is niet meer geldig</translation>
 <translation id="2448487988481516351">Nieuw-Caledonië</translation>
 <translation id="2451742558284013472">Monaco</translation>
 <translation id="2460064915291012298">Seychellen</translation>
@@ -90,6 +91,7 @@
 <translation id="2814274627887910414">Ongeldige indeling voor telefoonnummer</translation>
 <translation id="2828509010894808185">Account maken</translation>
 <translation id="2834770837848769530">Afghanistan</translation>
+<translation id="2884525438023347369">Door op <ph name="BTN" /> te tikken, geeft u aan dat u akkoord gaat met de <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">Canada</translation>
 <translation id="2911018261311455240">Denemarken</translation>
 <translation id="295270254328846278">Oostenrijk</translation>
@@ -132,6 +134,7 @@
 <translation id="3597673897213051724">Verzenden</translation>
 <translation id="3605933028246642593">Nepal</translation>
 <translation id="3608140835232496799">Tokelau</translation>
+<translation id="3620185428620643248">De geselecteerde inloggegevens voor de verificatieprovider worden niet ondersteund.</translation>
 <translation id="3700097473356216716">Colombia</translation>
 <translation id="3735918113934183391">Voer uw telefoonnummer opnieuw in.</translation>
 <translation id="3736041829854387744">Burundi</translation>
@@ -178,14 +181,15 @@
 <translation id="4692014002063276828">Polen</translation>
 <translation id="4723701728629289714">Israël</translation>
 <translation id="4725154639671888461">Er is een fout opgetreden</translation>
-<translation id="4752789582089722030">Wachtwoord wijzigen</translation>
+<translation id="4751937685196678080">Nummer</translation>
 <translation id="4773060157545352832">Vul de reCAPTCHA in</translation>
 <translation id="4775051289386800916">Nicaragua</translation>
 <translation id="4783400389150493171">Burkina Faso</translation>
 <translation id="4852256440857413490">Onjuiste code. Probeer het opnieuw.</translation>
 <translation id="4871106926303956169">Turks- en Caicoseilanden</translation>
 <translation id="4877597386645466815">Code opnieuw verzenden over <ph name="TIME_REMAINING" /></translation>
-<translation id="4935131042143742248">Doorgaan</translation>
+<translation id="4915406999072654369">Controleer uw inbox</translation>
+<translation id="4955175001894453989">Wachtwoord toevoegen</translation>
 <translation id="496366313824211679">El Salvador</translation>
 <translation id="4991626049082973728">Servië</translation>
 <translation id="4991892293325936102">Belize</translation>
@@ -244,7 +248,9 @@
 <translation id="6040759627067155517">E-mail</translation>
 <translation id="6044396095102058216">Dit telefoonnummer is te vaak gebruikt</translation>
 <translation id="6091051069256411999">Twitter</translation>
-<translation id="617174140882717287"><ph name="IDV_CODE_PLACE_HOLDER" /> is uw verificatiecode voor <ph name="APP_NAME" />.</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />Log in bij <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6189573836664806798">Paraguay</translation>
 <translation id="6192657410634245771">Algerije</translation>
 <translation id="6213969168046789596">U heeft te vaak een fout wachtwoord ingevoerd. Probeer het over enkele minuten opnieuw.</translation>
@@ -265,6 +271,7 @@
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Amerikaans-Samoa</translation>
 <translation id="6527597037551425211">Brazilië</translation>
+<translation id="6555167606025370230">Doorgaan naar <ph name="APP_NAME" /></translation>
 <translation id="657697593815023638">Swaziland</translation>
 <translation id="6584652721889639596">Kan geen resetcode voor het wachtwoord verzenden naar het opgegeven e-mailadres</translation>
 <translation id="6608262346670935090">Sluiten</translation>
@@ -292,6 +299,7 @@
 <translation id="6921505896641453739">E-mailadres</translation>
 <translation id="6929813273561975780">Volgende</translation>
 <translation id="6951302238647056860">Deze code is niet meer geldig</translation>
+<translation id="6998342825820890463">Privacybeleid</translation>
 <translation id="6999773882165218263">Voor- en achternaam</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Westelijke Sahara</translation>
@@ -393,7 +401,8 @@
 <translation id="8869797682387766327">Eiland Man</translation>
 <translation id="8893950153780006385">Maleisië</translation>
 <translation id="8895840173743975193">Cocoseilanden</translation>
-<translation id="8971555482255213064">Code opnieuw verzenden over 0:<ph name="PH_1" /></translation>
+<translation id="8955469172512804617">Door op <ph name="BTN" /> te tikken, geeft u aan dat u akkoord gaat met het <ph name="PP" />.</translation>
+<translation id="8980953965669178372">Gereed</translation>
 <translation id="8984161590699631096">Marokko</translation>
 <translation id="900153878296575829">Bangladesh</translation>
 <translation id="9022632332691561239">Telefoon</translation>

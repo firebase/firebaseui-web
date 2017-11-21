@@ -46,7 +46,7 @@
 <translation id="2049229571938383319">Saint-Barthélemy</translation>
 <translation id="2058731785647385204">Montserrat</translation>
 <translation id="2070709910567585968">Stærke adgangskoder har mindst 6 tegn og en blanding af bogstaver og tal</translation>
-<translation id="2108717231438756650">Storbritannien</translation>
+<translation id="2108717231438756650">Storbritannien og Nordirland</translation>
 <translation id="2120419640334291526">Caymanøerne</translation>
 <translation id="2124070231227334770">Moldova</translation>
 <translation id="2124843735553988177">Godkend de nødvendige tilladelser for at logge ind på applikationen</translation>
@@ -66,7 +66,8 @@
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Der opstod et problem med at ændre din login-mail tilbage.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Hvis du prøver igen og stadig ikke kan nulstille din mail, skal du bede din administrator om hjælp.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Bahrain</translation>
 <translation id="2405828009195143258">Iran</translation>
-<translation id="2446078593003901807">OK</translation>
+<translation id="244437093285883777">Bekræfter, at du ikke er en robot…</translation>
+<translation id="2448227725017851570">Denne kode er ikke længere gyldig</translation>
 <translation id="2448487988481516351">Ny Kaledonien</translation>
 <translation id="2451742558284013472">Monaco</translation>
 <translation id="2460064915291012298">Seychellerne</translation>
@@ -90,6 +91,7 @@
 <translation id="2824267666257947103">Angiv din adgangskode</translation>
 <translation id="2828509010894808185">Opret konto</translation>
 <translation id="2834770837848769530">Afghanistan</translation>
+<translation id="2884525438023347369">Ved at trykke på <ph name="BTN" /> accepterer du <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">Canada</translation>
 <translation id="2911018261311455240">Danmark</translation>
 <translation id="295270254328846278">Østrig</translation>
@@ -132,6 +134,7 @@
 <translation id="3597673897213051724">Send</translation>
 <translation id="3605933028246642593">Nepal</translation>
 <translation id="3608140835232496799">Tokelau</translation>
+<translation id="3620185428620643248">De valgte loginoplysninger for udbyderen af godkendelse understøttes ikke.</translation>
 <translation id="3700097473356216716">Colombia</translation>
 <translation id="3736041829854387744">Burundi</translation>
 <translation id="3755663127769565780">Mauretanien</translation>
@@ -175,14 +178,15 @@
 <translation id="4692014002063276828">Polen</translation>
 <translation id="4723701728629289714">Israel</translation>
 <translation id="4725154639671888461">Der opstod en fejl</translation>
-<translation id="4752789582089722030">Skift adgangskode</translation>
+<translation id="4751937685196678080">Tal</translation>
 <translation id="4773060157545352832">Løs reCAPTCHA</translation>
 <translation id="4775051289386800916">Nicaragua</translation>
 <translation id="4783400389150493171">Burkina Faso</translation>
 <translation id="4852256440857413490">Koden er forkert. Prøv igen.</translation>
 <translation id="4871106926303956169">Turks- og Caicosøerne</translation>
 <translation id="4877597386645466815">Send koden igen om <ph name="TIME_REMAINING" /></translation>
-<translation id="4935131042143742248">Fortsæt</translation>
+<translation id="4915406999072654369">Tjek din mail</translation>
+<translation id="4955175001894453989">Tilføj adgangskode</translation>
 <translation id="496366313824211679">El Salvador</translation>
 <translation id="4991626049082973728">Serbien</translation>
 <translation id="4991892293325936102">Belize</translation>
@@ -240,7 +244,9 @@
 <translation id="6040759627067155517">Mail</translation>
 <translation id="6044396095102058216">Dette telefonnummer er blevet brugt for mange gange</translation>
 <translation id="6091051069256411999">Twitter</translation>
-<translation id="617174140882717287"><ph name="IDV_CODE_PLACE_HOLDER" /> er din bekræftelseskode til <ph name="APP_NAME" />.</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />Log ind på <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6189573836664806798">Paraguay</translation>
 <translation id="6192657410634245771">Algeriet</translation>
 <translation id="6213969168046789596">Du har indtastet en forkert adgangskode for mange gange. Prøv igen om et par minutter.</translation>
@@ -261,6 +267,7 @@
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Amerikansk Samoa</translation>
 <translation id="6527597037551425211">Brasilien</translation>
+<translation id="6555167606025370230">Fortsæt til <ph name="APP_NAME" /></translation>
 <translation id="657697593815023638">Swaziland</translation>
 <translation id="6584652721889639596">Koden til nulstilling af adgangskode kunne ikke sendes til den angivne mailadresse</translation>
 <translation id="6608262346670935090">Luk</translation>
@@ -287,6 +294,7 @@
 <translation id="6921505896641453739">Mail</translation>
 <translation id="6929813273561975780">Næste</translation>
 <translation id="6951302238647056860">Denne kode er ikke længere gyldig</translation>
+<translation id="6998342825820890463">Privatlivspolitik</translation>
 <translation id="6999773882165218263">For- og efternavn</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Vestsahara</translation>
@@ -387,7 +395,8 @@
 <translation id="8869797682387766327">Isle of Man</translation>
 <translation id="8893950153780006385">Malaysia</translation>
 <translation id="8895840173743975193">Cocosøerne (Keelingøerne)</translation>
-<translation id="8971555482255213064">Send koden igen om 0:<ph name="PH_1" /></translation>
+<translation id="8955469172512804617">Ved at trykke på <ph name="BTN" /> accepterer du <ph name="PP" />.</translation>
+<translation id="8980953965669178372">Udført</translation>
 <translation id="8984161590699631096">Marokko</translation>
 <translation id="900153878296575829">Bangladesh</translation>
 <translation id="9022632332691561239">Telefon</translation>

@@ -66,7 +66,8 @@
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Ocorreu um problema ao alterar seu e-mail de login.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Se você tentar novamente e não conseguir redefini-lo, peça ajuda ao seu administrador.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Barein</translation>
 <translation id="2405828009195143258">Irã</translation>
-<translation id="2446078593003901807">Ok</translation>
+<translation id="244437093285883777">Verificando se você não é um robô...</translation>
+<translation id="2448227725017851570">Este código não é mais válido.</translation>
 <translation id="2448487988481516351">Nova Caledônia</translation>
 <translation id="2451742558284013472">Mônaco</translation>
 <translation id="2460064915291012298">Seicheles</translation>
@@ -90,6 +91,7 @@
 <translation id="2814274627887910414">Formato inválido do número de telefone</translation>
 <translation id="2828509010894808185">Criar conta</translation>
 <translation id="2834770837848769530">Afeganistão</translation>
+<translation id="2884525438023347369">Ao tocar em "<ph name="BTN" />", você indica que está de acordo com os <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">Canadá</translation>
 <translation id="2911018261311455240">Dinamarca</translation>
 <translation id="295270254328846278">Áustria</translation>
@@ -100,7 +102,7 @@
 <translation id="3046745817056752783">Arábia Saudita</translation>
 <translation id="311953035679824832">Logotipo do app</translation>
 <translation id="3122584863645047144">Ilhas Virgens Americanas</translation>
-<translation id="3141549453511344986">Fazer login com o smartphone</translation>
+<translation id="3141549453511344986">Fazer login com o telefone</translation>
 <translation id="3147551458884186429">Indonésia</translation>
 <translation id="3154748063569624719">Inicialmente, você queria fazer login com o e-mail <ph name="PENDING_EMAIL" /></translation>
 <translation id="3164676761565983157">Venezuela</translation>
@@ -132,6 +134,7 @@
 <translation id="3597673897213051724">Enviar</translation>
 <translation id="3605933028246642593">Nepal</translation>
 <translation id="3608140835232496799">Toquelau</translation>
+<translation id="3620185428620643248">Não há suporte para as credenciais selecionadas do provedor de autenticação.</translation>
 <translation id="3700097473356216716">Colômbia</translation>
 <translation id="3735918113934183391">Insira novamente seu número de telefone.</translation>
 <translation id="3736041829854387744">Burundi</translation>
@@ -178,14 +181,15 @@
 <translation id="4692014002063276828">Polônia</translation>
 <translation id="4723701728629289714">Israel</translation>
 <translation id="4725154639671888461">Erro encontrado</translation>
-<translation id="4752789582089722030">Alterar senha</translation>
+<translation id="4751937685196678080">Número</translation>
 <translation id="4773060157545352832">Insira o reCAPTCHA.</translation>
 <translation id="4775051289386800916">Nicarágua</translation>
 <translation id="4783400389150493171">Burkina Fasso</translation>
 <translation id="4852256440857413490">Código incorreto. Tente novamente.</translation>
 <translation id="4871106926303956169">Ilhas Turks e Caicos</translation>
 <translation id="4877597386645466815">Reenviar o código em <ph name="TIME_REMAINING" /></translation>
-<translation id="4935131042143742248">Continuar</translation>
+<translation id="4915406999072654369">Verifique seu e-mail</translation>
+<translation id="4955175001894453989">Adicionar senha</translation>
 <translation id="496366313824211679">El Salvador</translation>
 <translation id="4991626049082973728">Sérvia</translation>
 <translation id="4991892293325936102">Belize</translation>
@@ -244,7 +248,9 @@
 <translation id="6040759627067155517">E-mail</translation>
 <translation id="6044396095102058216">Este número de telefone já foi usado muitas vezes.</translation>
 <translation id="6091051069256411999">Twitter</translation>
-<translation id="617174140882717287"><ph name="IDV_CODE_PLACE_HOLDER" /> é o seu código de verificação do <ph name="APP_NAME" />.</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />Faça login em <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6189573836664806798">Paraguai</translation>
 <translation id="6192657410634245771">Argélia</translation>
 <translation id="6213969168046789596">Você digitou a senha incorretamente várias vezes. Tente novamente em alguns minutos.</translation>
@@ -265,6 +271,7 @@
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Samoa Americana</translation>
 <translation id="6527597037551425211">Brasil</translation>
+<translation id="6555167606025370230">Continuar para <ph name="APP_NAME" /></translation>
 <translation id="657697593815023638">Suazilândia</translation>
 <translation id="6584652721889639596">Não foi possível enviar o código de redefinição de senha para o e-mail especificado.</translation>
 <translation id="6608262346670935090">Dispensar</translation>
@@ -292,6 +299,7 @@
 <translation id="6921505896641453739">E-mail</translation>
 <translation id="6929813273561975780">Próxima</translation>
 <translation id="6951302238647056860">Este código não é mais válido.</translation>
+<translation id="6998342825820890463">Política de privacidade</translation>
 <translation id="6999773882165218263">Nome e sobrenome</translation>
 <translation id="7012506961150923116">Granada</translation>
 <translation id="7024571478138322659">Saara Ocidental</translation>
@@ -310,7 +318,7 @@
 <translation id="7272145663101316762">Eslovênia</translation>
 <translation id="7280309713358692490">Coreia do Sul</translation>
 <translation id="7291567990403335374">Lesoto</translation>
-<translation id="7291656724505689727">Fazer login com o smartphone</translation>
+<translation id="7291656724505689727">Fazer login com o telefone</translation>
 <translation id="7319220365822133324">Ao tocar em SALVAR, você indica que concordou com os <ph name="START_LINK" />Termos de Serviço<ph name="END_LINK" /></translation>
 <translation id="7320029088567935126">Verifique seu e-mail novamente</translation>
 <translation id="7331038350037712642">Azerbaijão</translation>
@@ -325,7 +333,7 @@
 <translation id="7592224526951017144">Alemanha</translation>
 <translation id="7615083347713899917">Quirguistão</translation>
 <translation id="7643408533407091568">Você já usou o e-mail <ph name="EMAIL_ADDR" /> para fazer login. Insira a senha dessa conta.</translation>
-<translation id="7652546345268886994">{plural_var,plural, =1{A senha não é forte o suficiente. Use pelo menos <ph name="PH_1" /> caractere e combine letras e números}one{A senha não é forte o suficiente. Use pelo menos <ph name="PH_1" /> caractere e combine letras e números}other{A senha não é forte o suficiente. Use pelo menos <ph name="PH_1" /> caracteres e combine letras e números}}</translation>
+<translation id="7652546345268886994">{plural_var,plural, =1{A senha não é forte o suficiente. Use pelo menos <ph name="PH_1" /> caractere e combine letras e números.}one{A senha não é forte o suficiente. Use pelo menos <ph name="PH_1" /> caractere e combine letras e números.}other{A senha não é forte o suficiente. Use pelo menos <ph name="PH_1" /> caracteres e combine letras e números.}}</translation>
 <translation id="7699755204074920022">Zimbábue</translation>
 <translation id="7756945311981296300">Siga as instruções enviadas para <ph name="STRING" /> para recuperar sua senha.</translation>
 <translation id="7782885946428624225">Ocorreu um problema na verificação do seu número de telefone.</translation>
@@ -393,7 +401,8 @@
 <translation id="8869797682387766327">Ilha de Man</translation>
 <translation id="8893950153780006385">Malásia</translation>
 <translation id="8895840173743975193">Ilhas Coco (Keeling)</translation>
-<translation id="8971555482255213064">Reenviar código em 0:<ph name="PH_1" /></translation>
+<translation id="8955469172512804617">Ao tocar em "<ph name="BTN" />", você indica que está de acordo com a <ph name="PP" />.</translation>
+<translation id="8980953965669178372">Concluído</translation>
 <translation id="8984161590699631096">Marrocos</translation>
 <translation id="900153878296575829">Bangladesh</translation>
 <translation id="9022632332691561239">Smartphone</translation>

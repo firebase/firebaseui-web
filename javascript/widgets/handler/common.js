@@ -808,6 +808,106 @@ firebaseui.auth.widget.handler.common.federatedSignIn = function(
 
 
 /**
+ * Handles sign-in with a One-Tap credential.
+ * @param {!firebaseui.auth.AuthUI} app The current FirebaseUI instance whose
+ *     configuration is used.
+ * @param {!firebaseui.auth.ui.page.Base} component The UI component.
+ * @param {?SmartLockCredential} credential The googleyolo credential if
+ *     available.
+ * @return {!goog.Promise<boolean>} Whether sign-in completed
+ *     successfully or a promise that resolve on sign-in completion. It resolves
+ *     with true on success, false otherwise.
+ * @package
+ */
+firebaseui.auth.widget.handler.common.handleGoogleYoloCredential =
+    function(app, component, credential) {
+  /**
+   * Sign in with a Firebase Auth credential.
+   * @param {!firebase.auth.AuthCredential} firebaseCredential The Firebase Auth
+   *     credential.
+   * @return {!goog.Promise<boolean>}
+   */
+  var signInWithCredential = function(firebaseCredential) {
+    var status = false;
+    var p = component.executePromiseRequest(
+        /** @type {function (): !goog.Promise} */ (goog.bind(
+            app.getAuth().signInAndRetrieveDataWithCredential,
+            app.getAuth())),
+        [firebaseCredential],
+        function(result) {
+          var container = component.getContainer();
+          component.dispose();
+          firebaseui.auth.widget.handler.handle(
+              firebaseui.auth.widget.HandlerName.CALLBACK,
+              app,
+              container,
+              goog.Promise.resolve(result));
+          status = true;
+        },
+        function(error) {
+          if (error['name'] && error['name'] == 'cancel') {
+            return;
+          }
+          var errorMessage =
+              firebaseui.auth.widget.handler.common.getErrorMessage(error);
+          // Show error message in the info bar.
+          component.showInfoBar(errorMessage);
+        });
+    app.registerPending(p);
+    return p.then(function() {
+      // Status needs to be returned.
+      return status;
+    }, function(error) {
+      return false;
+    });
+  };
+  /**
+   * Sign in with a provider ID.
+   * @param {string} providerId The Firebase Auth provider ID to sign-in with.
+   * @param {?string=} opt_email The optional email to sign-in with.
+   * @return {!goog.Promise<boolean>}
+   */
+  var signInWithProvider = function(providerId, opt_email) {
+    // If popup flow enabled, this will fail and fallback to redirect.
+    // TODO: Optimize to force redirect mode only.
+    // For non-Google providers (not supported yet). This may end up signing the
+    // user with a provider using different email. Even for Google, a user can
+    // override the login_hint, but that should be fine as it is the user's
+    // choice.
+    firebaseui.auth.widget.handler.common.federatedSignIn(
+        app, component, providerId, opt_email);
+    return goog.Promise.resolve(true);
+  };
+  var providerId = app.getConfig().getProviderIdFromAuthMethod(
+      (credential && credential.authMethod) || null);
+  // ID token credential available and supported Firebase Auth provider also
+  // available.
+  if (credential && credential.idToken &&
+      providerId === firebase.auth.GoogleAuthProvider.PROVIDER_ID) {
+    // ID token available.
+    // Only Google has API to sign-in with an ID token.
+    if (app.getConfig().getProviderAdditionalScopes(
+            firebase.auth.GoogleAuthProvider.PROVIDER_ID).length) {
+      // Scopes available, OAuth flow with additional scopes required.
+      return signInWithProvider(providerId, credential.id);
+    } else {
+      // Scopes not requested. Sign in with ID token directly.
+      return signInWithCredential(firebase.auth.GoogleAuthProvider.credential(
+          credential.idToken));
+    }
+  } else if (credential) {
+    // Unsupported credential.
+    // Show error message in the info bar. This is typically caught during
+    // development. The developer is expected to only enable One-Tap providers
+    // that are supported by FirebaseUI.
+    component.showInfoBar(
+        firebaseui.auth.soy2.strings.errorUnsupportedCredential().toString());
+  }
+  return goog.Promise.resolve(false);
+};
+
+
+/**
  * @param {firebaseui.auth.AuthUI} app The current FirebaseUI instance whose
  *     configuration is used.
  * @param {firebaseui.auth.ui.page.PasswordLinking|

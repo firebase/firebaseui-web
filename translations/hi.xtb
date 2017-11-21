@@ -66,7 +66,8 @@
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />आपके साइन-इन ईमेल को वापस बदलते समय एक समस्या हुई.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />अगर दोबारा कोशिश करने पर भी आप अपना ईमेल रीसेट नहीं कर पाते हैं, तो सहायता के लिए अपने व्यवस्थापक से पूछ कर देखें.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">बहरीन</translation>
 <translation id="2405828009195143258">ईरान</translation>
-<translation id="2446078593003901807">ठीक</translation>
+<translation id="244437093285883777">आप रोबोट नहीं हैं इसकी पुष्टि की जा रही है...</translation>
+<translation id="2448227725017851570">यह कोड अब मान्य नहीं है</translation>
 <translation id="2448487988481516351">न्यू कैलेडोनिया</translation>
 <translation id="2451742558284013472">मॉनेको</translation>
 <translation id="2460064915291012298">सेशल्स</translation>
@@ -90,6 +91,7 @@
 <translation id="2824267666257947103">अपना पासवर्ड डालें</translation>
 <translation id="2828509010894808185">खाता बनाएं</translation>
 <translation id="2834770837848769530">अफ़गानिस्तान</translation>
+<translation id="2884525438023347369"><ph name="BTN" /> पर टैप करके आप बताते हैं कि आप <ph name="TOS" /> से सहमत हैं.</translation>
 <translation id="2909392332969582158">कनाडा</translation>
 <translation id="2911018261311455240">डेनमार्क</translation>
 <translation id="295270254328846278">ऑस्ट्रिया</translation>
@@ -132,6 +134,7 @@
 <translation id="3597673897213051724">भेजें</translation>
 <translation id="3605933028246642593">नेपाल</translation>
 <translation id="3608140835232496799">तोकेलाउ</translation>
+<translation id="3620185428620643248">प्रमाणीकरण देने वाले के लिए चयनित क्रेडेंशियल समर्थित नहीं है!</translation>
 <translation id="3700097473356216716">कोलंबिया</translation>
 <translation id="3736041829854387744">बुरुंडी</translation>
 <translation id="3755663127769565780">मॉरिटैनिया</translation>
@@ -175,14 +178,15 @@
 <translation id="4692014002063276828">पोलैंड</translation>
 <translation id="4723701728629289714">इज़राइल</translation>
 <translation id="4725154639671888461">गड़बड़ी का सामना करना पड़ा</translation>
-<translation id="4752789582089722030">पासवर्ड बदलें</translation>
+<translation id="4751937685196678080">नंबर</translation>
 <translation id="4773060157545352832">reCAPTCHA हल करें</translation>
 <translation id="4775051289386800916">निकारागुआ</translation>
 <translation id="4783400389150493171">बुर्किना फ़ासो</translation>
 <translation id="4852256440857413490">गलत कोड. फिर से कोशिश करें.</translation>
 <translation id="4871106926303956169">टर्क्स और कैकॉस आइलैंड</translation>
 <translation id="4877597386645466815"><ph name="TIME_REMAINING" /> में कोड फिर से भेजें</translation>
-<translation id="4935131042143742248">जारी रखें</translation>
+<translation id="4915406999072654369">अपना ईमेल जाँचें</translation>
+<translation id="4955175001894453989">पासवर्ड जोड़ें</translation>
 <translation id="496366313824211679">अल सल्वाडोर</translation>
 <translation id="4991626049082973728">सर्बिया</translation>
 <translation id="4991892293325936102">बेलिज़</translation>
@@ -191,7 +195,7 @@
 <translation id="5080899604429810481">सेंट मार्टिन</translation>
 <translation id="5143657419516597442">सेंट लूसिया</translation>
 <translation id="521218078240459724">@string/app_name</translation>
-<translation id="5241732101105320538">अपना ईमेल जांचें</translation>
+<translation id="5241732101105320538">अपना ईमेल जाँचें</translation>
 <translation id="5301108536112812420">अपने ईमेल की पुष्टि के आपके अनुरोध की समय-सीमा समाप्त हो गई है या लिंक का पहले ही उपयोग किया जा चुका है</translation>
 <translation id="5323041129469627535">ओमान</translation>
 <translation id="5326139833547026317">कैरेबियाई नीदरलैंड्स</translation>
@@ -240,7 +244,9 @@
 <translation id="6040759627067155517">ईमेल</translation>
 <translation id="6044396095102058216">इस फ़ोन नंबर का उपयोग कई बार किया गया है</translation>
 <translation id="6091051069256411999">Twitter</translation>
-<translation id="617174140882717287"><ph name="APP_NAME" /> के लिए आपका पुष्टि कोड <ph name="IDV_CODE_PLACE_HOLDER" /> है.</translation>
+<translation id="61182948399263957">
+<ph name="P_START" /><ph name="APP_NAME" /> में साइन इन करें &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6189573836664806798">पराग्वे</translation>
 <translation id="6192657410634245771">अल्जीरिया</translation>
 <translation id="6213969168046789596">आपने कई बार गलत पासवर्ड डाला है. कृपया कुछ मिनटों में फिर से कोशिश करें.</translation>
@@ -261,6 +267,7 @@
 <translation id="6508909904815637928">वनुआतु</translation>
 <translation id="6520863029476703422">अमेरिकन समोआ</translation>
 <translation id="6527597037551425211">ब्राज़ील</translation>
+<translation id="6555167606025370230"><ph name="APP_NAME" /> पर जारी रखें</translation>
 <translation id="657697593815023638">स्वाज़ीलैंड</translation>
 <translation id="6584652721889639596">दिए गए ईमेल पर पासवर्ड रीसेट कोड नहीं भेज पाए</translation>
 <translation id="6608262346670935090">खारिज करें</translation>
@@ -287,6 +294,7 @@
 <translation id="6921505896641453739">ईमेल</translation>
 <translation id="6929813273561975780">अगला</translation>
 <translation id="6951302238647056860">यह कोड अब मान्य नहीं है</translation>
+<translation id="6998342825820890463">निजता नीति</translation>
 <translation id="6999773882165218263">नाम और उपनाम</translation>
 <translation id="7012506961150923116">ग्रेनेडा</translation>
 <translation id="7024571478138322659">पश्चिमी सहारा</translation>
@@ -387,7 +395,8 @@
 <translation id="8869797682387766327">आइल ऑफ़ मैन</translation>
 <translation id="8893950153780006385">मलेशिया</translation>
 <translation id="8895840173743975193">कोकोस [कीलिंग] आइलैंड</translation>
-<translation id="8971555482255213064">0:<ph name="PH_1" /> में कोड फिर से भेजें</translation>
+<translation id="8955469172512804617"><ph name="BTN" /> पर टैप करके आप बताते हैं कि आप <ph name="PP" /> से सहमत हैं.</translation>
+<translation id="8980953965669178372">हो गया</translation>
 <translation id="8984161590699631096">मोरक्को</translation>
 <translation id="900153878296575829">बांग्लादेश</translation>
 <translation id="9022632332691561239">फ़ोन</translation>

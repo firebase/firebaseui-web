@@ -53,7 +53,7 @@
 <translation id="2130553359919781209">Malawi</translation>
 <translation id="2187260952722791093">Bestätigt</translation>
 <translation id="2192561962270021282">Telefonnummer eingeben</translation>
-<translation id="2206856445831770486">Github</translation>
+<translation id="2206856445831770486">GitHub</translation>
 <translation id="2224563296468523455">Guam</translation>
 <translation id="2249420035688424170">Kroatien</translation>
 <translation id="2251583471831926217">Litauen</translation>
@@ -66,7 +66,8 @@
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Beim Ändern der E-Mail-Adresse für die Anmeldung ist ein Problem aufgetreten.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Wenn Sie die E-Mail-Adresse bei einem erneuten Versuch immer noch nicht zurücksetzen können, wenden Sie sich bitte an Ihren Administrator.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Bahrain</translation>
 <translation id="2405828009195143258">Iran</translation>
-<translation id="2446078593003901807">OK</translation>
+<translation id="244437093285883777">Bestätigen Sie bitte, dass Sie kein Roboter sind.</translation>
+<translation id="2448227725017851570">Dieser Code ist nicht mehr gültig</translation>
 <translation id="2448487988481516351">Neukaledonien</translation>
 <translation id="2451742558284013472">Monaco</translation>
 <translation id="2460064915291012298">Seychellen</translation>
@@ -90,6 +91,7 @@
 <translation id="2814274627887910414">Ungültiges Telefonnummernformat</translation>
 <translation id="2828509010894808185">Konto erstellen</translation>
 <translation id="2834770837848769530">Afghanistan</translation>
+<translation id="2884525438023347369">Durch Tippen auf <ph name="BTN" /> stimmen Sie den <ph name="TOS" /> zu.</translation>
 <translation id="2909392332969582158">Kanada</translation>
 <translation id="2911018261311455240">Dänemark</translation>
 <translation id="295270254328846278">Österreich</translation>
@@ -132,6 +134,7 @@
 <translation id="3597673897213051724">Senden</translation>
 <translation id="3605933028246642593">Nepal</translation>
 <translation id="3608140835232496799">Tokelau</translation>
+<translation id="3620185428620643248">Die für den Authentifizierungsanbieter gewählten Anmeldedaten werden nicht unterstützt.</translation>
 <translation id="3700097473356216716">Kolumbien</translation>
 <translation id="3735918113934183391">Geben Sie die Telefonnummer erneut ein.</translation>
 <translation id="3736041829854387744">Burundi</translation>
@@ -172,20 +175,21 @@
 <translation id="4521614244485847733">Diese E-Mail-Adresse passt zu keinem Konto</translation>
 <translation id="4556476996891737119">Jordanien</translation>
 <translation id="4571870355114729513">Folgen Sie der an <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> gesendeten Anleitung, um Ihr Passwort zurückzusetzen</translation>
-<translation id="4588392627302012849">Mit einer E-Mail-Adresse anmelden</translation>
+<translation id="4588392627302012849">Mit E-Mail-Adresse anmelden</translation>
 <translation id="4632709875751031323">Russland</translation>
 <translation id="4644169548516814280">Die E-Mail-Adresse wird bereits für ein anderes Konto verwendet</translation>
 <translation id="4692014002063276828">Polen</translation>
 <translation id="4723701728629289714">Israel</translation>
 <translation id="4725154639671888461">Ein Fehler ist aufgetreten</translation>
-<translation id="4752789582089722030">Passwort ändern</translation>
+<translation id="4751937685196678080">Nummer</translation>
 <translation id="4773060157545352832">Klicken Sie das reCAPTCHA-Kästchen an</translation>
 <translation id="4775051289386800916">Nicaragua</translation>
 <translation id="4783400389150493171">Burkina Faso</translation>
 <translation id="4852256440857413490">Falscher Code. Versuchen Sie es noch einmal.</translation>
 <translation id="4871106926303956169">Turks- und Caicosinseln</translation>
 <translation id="4877597386645466815">Code in <ph name="TIME_REMAINING" /> erneut senden</translation>
-<translation id="4935131042143742248">Weiter</translation>
+<translation id="4915406999072654369">Im Posteingang nachsehen</translation>
+<translation id="4955175001894453989">Passwort hinzufügen</translation>
 <translation id="496366313824211679">El Salvador</translation>
 <translation id="4991626049082973728">Serbien</translation>
 <translation id="4991892293325936102">Belize</translation>
@@ -244,7 +248,9 @@
 <translation id="6040759627067155517">E-Mail-Adresse</translation>
 <translation id="6044396095102058216">Diese Telefonnummer wurde schon zu oft verwendet</translation>
 <translation id="6091051069256411999">Twitter</translation>
-<translation id="617174140882717287"><ph name="IDV_CODE_PLACE_HOLDER" /> ist Ihr Bestätigungscode für <ph name="APP_NAME" />.</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />Melden Sie sich in <ph name="APP_NAME" /> an&lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6189573836664806798">Paraguay</translation>
 <translation id="6192657410634245771">Algerien</translation>
 <translation id="6213969168046789596">Sie haben zu oft ein falsches Passwort eingegeben. Bitte versuchen Sie es in einigen Minuten noch einmal.</translation>
@@ -265,6 +271,7 @@
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Amerikanisch-Samoa</translation>
 <translation id="6527597037551425211">Brasilien</translation>
+<translation id="6555167606025370230">Weiter zu <ph name="APP_NAME" /></translation>
 <translation id="657697593815023638">Swasiland</translation>
 <translation id="6584652721889639596">Code für Passwortzurücksetzung kann nicht an die angegebene E-Mail-Adresse gesendet werden</translation>
 <translation id="6608262346670935090">Schließen</translation>
@@ -292,6 +299,7 @@
 <translation id="6921505896641453739">E-Mail-Adresse</translation>
 <translation id="6929813273561975780">Weiter</translation>
 <translation id="6951302238647056860">Dieser Code ist nicht mehr gültig</translation>
+<translation id="6998342825820890463">Datenschutzerklärung</translation>
 <translation id="6999773882165218263">Vor- und Nachname</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Westsahara</translation>
@@ -393,7 +401,8 @@
 <translation id="8869797682387766327">Insel Man</translation>
 <translation id="8893950153780006385">Malaysia</translation>
 <translation id="8895840173743975193">Kokosinseln</translation>
-<translation id="8971555482255213064">Code in 0:<ph name="PH_1" /> erneut senden</translation>
+<translation id="8955469172512804617">Durch Tippen auf <ph name="BTN" /> stimmen Sie der <ph name="PP" /> zu.</translation>
+<translation id="8980953965669178372">Fertig</translation>
 <translation id="8984161590699631096">Marokko</translation>
 <translation id="900153878296575829">Bangladesch</translation>
 <translation id="9022632332691561239">Telefonnummer</translation>

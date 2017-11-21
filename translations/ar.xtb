@@ -66,7 +66,8 @@
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />حدثت مشكلة أثناء تغيير البريد الإلكتروني لتسجيل الدخول من جديد.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />في حال المحاولة مجددًا وتعذّر إعادة تعيين البريد الإلكتروني، يُرجى محاولة طلب المساعدة من المشرف.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">البحرين</translation>
 <translation id="2405828009195143258">إيران</translation>
-<translation id="2446078593003901807">موافق</translation>
+<translation id="244437093285883777">جارٍ التأكّد من أنك لست برنامج روبوت...</translation>
+<translation id="2448227725017851570">لم يعد هذا الرمز صالحًا</translation>
 <translation id="2448487988481516351">نيوكاليدونيا</translation>
 <translation id="2451742558284013472">موناكو</translation>
 <translation id="2460064915291012298">سيشيل</translation>
@@ -90,6 +91,7 @@
 <translation id="2824267666257947103">إدخال كلمة المرور</translation>
 <translation id="2828509010894808185">إنشاء حساب</translation>
 <translation id="2834770837848769530">أفغانستان</translation>
+<translation id="2884525438023347369">يُعد النقر على <ph name="BTN" /> دليلاً على أنك توافق على <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">كندا</translation>
 <translation id="2911018261311455240">الدنمارك</translation>
 <translation id="295270254328846278">النمسا</translation>
@@ -132,6 +134,7 @@
 <translation id="3597673897213051724">إرسال</translation>
 <translation id="3605933028246642593">نيبال</translation>
 <translation id="3608140835232496799">توكيلاو</translation>
+<translation id="3620185428620643248">لا يمكن استخدام بيانات الاعتماد المُختارة من موفّر المصادقة.</translation>
 <translation id="3700097473356216716">كولومبيا</translation>
 <translation id="3736041829854387744">بوروندي</translation>
 <translation id="3755663127769565780">موريتانيا</translation>
@@ -175,14 +178,15 @@
 <translation id="4692014002063276828">بولندا</translation>
 <translation id="4723701728629289714">إسرائيل</translation>
 <translation id="4725154639671888461">حدث خطأ</translation>
-<translation id="4752789582089722030">تغيير كلمة المرور</translation>
+<translation id="4751937685196678080">الرقم</translation>
 <translation id="4773060157545352832">يجب حلّ reCAPTCHA</translation>
 <translation id="4775051289386800916">نيكاراغوا</translation>
 <translation id="4783400389150493171">بوركينا فاسو</translation>
 <translation id="4852256440857413490">الرمز غير صحيح. يُرجى المحاولة مجددًا.</translation>
 <translation id="4871106926303956169">جزر توركس وكايكوس</translation>
 <translation id="4877597386645466815">إعادة إرسال الرمز في غضون <ph name="TIME_REMAINING" /></translation>
-<translation id="4935131042143742248">متابعة</translation>
+<translation id="4915406999072654369">إثبات ملكية بريدك الإلكتروني</translation>
+<translation id="4955175001894453989">إضافة كلمة مرور</translation>
 <translation id="496366313824211679">السلفادور</translation>
 <translation id="4991626049082973728">صربيا</translation>
 <translation id="4991892293325936102">بليز</translation>
@@ -240,7 +244,9 @@
 <translation id="6040759627067155517">البريد الإلكتروني</translation>
 <translation id="6044396095102058216">تم استخدام رقم الهاتف هذا لعدد كبير جدًا من المرات</translation>
 <translation id="6091051069256411999">Twitter</translation>
-<translation id="617174140882717287">رمز التحقق لحسابك في <ph name="APP_NAME" /> هو <ph name="IDV_CODE_PLACE_HOLDER" />.</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />يُرجى تسجيل الدخول إلى <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6189573836664806798">باراغواي</translation>
 <translation id="6192657410634245771">الجزائر</translation>
 <translation id="6213969168046789596">لقد أدخلت كلمة مرور غير صحيحة لمرات كثيرة جدًا. يُرجى إعادة المحاولة بعد بضع دقائق.</translation>
@@ -261,6 +267,7 @@
 <translation id="6508909904815637928">فانواتو</translation>
 <translation id="6520863029476703422">ساموا الأمريكية</translation>
 <translation id="6527597037551425211">البرازيل</translation>
+<translation id="6555167606025370230">متابعة إلى <ph name="APP_NAME" /></translation>
 <translation id="657697593815023638">سوازيلاند</translation>
 <translation id="6584652721889639596">تعذّر إرسال رمز إعادة تعيين كلمة المرور إلى البريد الإلكتروني المحدد</translation>
 <translation id="6608262346670935090">استبعاد</translation>
@@ -287,6 +294,7 @@
 <translation id="6921505896641453739">بريد إلكتروني</translation>
 <translation id="6929813273561975780">التالي</translation>
 <translation id="6951302238647056860">لم يعد هذا الرمز صالحًا</translation>
+<translation id="6998342825820890463">سياسة الخصوصية</translation>
 <translation id="6999773882165218263">الاسم الأول واسم العائلة</translation>
 <translation id="7012506961150923116">غرينادا</translation>
 <translation id="7024571478138322659">الصحراء الغربية</translation>
@@ -387,7 +395,8 @@
 <translation id="8869797682387766327">جزيرة مان</translation>
 <translation id="8893950153780006385">ماليزيا</translation>
 <translation id="8895840173743975193">جزر كوكوس [كيلينغ]</translation>
-<translation id="8971555482255213064">إعادة إرسال الرمز بعد 0:<ph name="PH_1" /></translation>
+<translation id="8955469172512804617">يُعد النقر على <ph name="BTN" /> دليلاً على أنك توافق على <ph name="PP" />.</translation>
+<translation id="8980953965669178372">تم</translation>
 <translation id="8984161590699631096">المغرب</translation>
 <translation id="900153878296575829">بنغلاديش</translation>
 <translation id="9022632332691561239">رقم هاتف</translation>

@@ -66,7 +66,8 @@
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Došlo je do problema pri vraćanju vaše e-adrese za prijavu.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Ako ni nakon ponovnog pokušaja ne uspijete vratiti e-adresu, zatražite pomoć od administratora.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Bahrein</translation>
 <translation id="2405828009195143258">Iran</translation>
-<translation id="2446078593003901807">U redu</translation>
+<translation id="244437093285883777">Potvrđujemo da niste robot...</translation>
+<translation id="2448227725017851570">Kôd više nije važeći</translation>
 <translation id="2448487988481516351">Nova Kaledonija</translation>
 <translation id="2451742558284013472">Monako</translation>
 <translation id="2460064915291012298">Sejšeli</translation>
@@ -90,6 +91,7 @@
 <translation id="2824267666257947103">Unesite zaporku</translation>
 <translation id="2828509010894808185">Izrada računa</translation>
 <translation id="2834770837848769530">Afganistan</translation>
+<translation id="2884525438023347369">Dodirivanjem gumba <ph name="BTN" /> potvrđujete da prihvaćate odredbe koje sadrže <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">Kanada</translation>
 <translation id="2911018261311455240">Danska</translation>
 <translation id="295270254328846278">Austrija</translation>
@@ -132,6 +134,7 @@
 <translation id="3597673897213051724">Pošalji</translation>
 <translation id="3605933028246642593">Nepal</translation>
 <translation id="3608140835232496799">Tokelau</translation>
+<translation id="3620185428620643248">Odabrana vjerodajnica za davatelja usluge autentifikacije nije podržana!</translation>
 <translation id="3700097473356216716">Kolumbija</translation>
 <translation id="3736041829854387744">Burundi</translation>
 <translation id="3755663127769565780">Mauritanija</translation>
@@ -175,14 +178,15 @@
 <translation id="4692014002063276828">Poljska</translation>
 <translation id="4723701728629289714">Izrael</translation>
 <translation id="4725154639671888461">Došlo je do pogreške</translation>
-<translation id="4752789582089722030">Promjena zaporke</translation>
+<translation id="4751937685196678080">Broj</translation>
 <translation id="4773060157545352832">Riješite reCAPTCHA test</translation>
 <translation id="4775051289386800916">Nikaragva</translation>
 <translation id="4783400389150493171">Burkina Faso</translation>
 <translation id="4852256440857413490">Pogrešan kôd. Pokušajte ponovo.</translation>
 <translation id="4871106926303956169">Otoci Turks i Caicos</translation>
 <translation id="4877597386645466815">Ponovno slanje koda za <ph name="TIME_REMAINING" /></translation>
-<translation id="4935131042143742248">Nastavi</translation>
+<translation id="4915406999072654369">Provjerite e-poštu</translation>
+<translation id="4955175001894453989">Dodavanje zaporke</translation>
 <translation id="496366313824211679">Salvador</translation>
 <translation id="4991626049082973728">Srbija</translation>
 <translation id="4991892293325936102">Belize</translation>
@@ -240,7 +244,9 @@
 <translation id="6040759627067155517">E-adresa</translation>
 <translation id="6044396095102058216">Taj telefonski broj upotrijebljen je previše puta</translation>
 <translation id="6091051069256411999">Twitter</translation>
-<translation id="617174140882717287"><ph name="IDV_CODE_PLACE_HOLDER" /> vaš je kontrolni kôd za aplikaciju <ph name="APP_NAME" />.</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />Prijavite se u <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6189573836664806798">Paragvaj</translation>
 <translation id="6192657410634245771">Alžir</translation>
 <translation id="6213969168046789596">Unijeli ste netočnu zaporku previše puta. Pokušajte ponovo za nekoliko minuta.</translation>
@@ -261,6 +267,7 @@
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Američka Samoa</translation>
 <translation id="6527597037551425211">Brazil</translation>
+<translation id="6555167606025370230">Prelazak na aplikaciju <ph name="APP_NAME" /></translation>
 <translation id="657697593815023638">Svazi</translation>
 <translation id="6584652721889639596">Nije moguće poslati kôd za ponovno postavljanje zaporke.</translation>
 <translation id="6608262346670935090">Odbaci</translation>
@@ -287,6 +294,7 @@
 <translation id="6921505896641453739">E-adresa</translation>
 <translation id="6929813273561975780">Dalje</translation>
 <translation id="6951302238647056860">Kôd više nije važeći</translation>
+<translation id="6998342825820890463">Pravila o privatnosti</translation>
 <translation id="6999773882165218263">Ime i prezime</translation>
 <translation id="7012506961150923116">Granada</translation>
 <translation id="7024571478138322659">Zapadna Sahara</translation>
@@ -387,7 +395,8 @@
 <translation id="8869797682387766327">Otok Man</translation>
 <translation id="8893950153780006385">Malezija</translation>
 <translation id="8895840173743975193">Kokosovi (Keelingovi) otoci</translation>
-<translation id="8971555482255213064">Ponovno slanje koda za 0:<ph name="PH_1" /></translation>
+<translation id="8955469172512804617">Dodirivanjem gumba <ph name="BTN" /> potvrđujete da prihvaćate odredbe koje sadrže <ph name="PP" />.</translation>
+<translation id="8980953965669178372">Gotovo</translation>
 <translation id="8984161590699631096">Maroko</translation>
 <translation id="900153878296575829">Bangladeš</translation>
 <translation id="9022632332691561239">Telefon</translation>

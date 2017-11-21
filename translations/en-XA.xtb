@@ -26,7 +26,6 @@
 <translation id="1575848116712334589">[Çĥåð one]</translation>
 <translation id="1653501608290591291">[Бéļåŕûš one]</translation>
 <translation id="1667376103923043653">[Ţĥåţ émåîļ åððŕéšš ðöéšñ’ţ måţçĥ åñ éxîšţîñĝ åççöûñţ. one two three four five six seven eight nine ten eleven]</translation>
-<translation id="173576986138855124">[Бý ţåþþîñĝ "ᐅ<ph name="PH_1" />ᐊ", åñ ŠMŠ måý бé šéñţ. Méššåĝé &amp; ðåţå ŕåţéš måý åþþļý. one two three four five six seven eight nine ten eleven twelve thirteen]</translation>
 <translation id="1739056958326110545">[Šåîñţ Ĥéļéñå one two]</translation>
 <translation id="1743026758446868773">[Бåŕбåðöš one]</translation>
 <translation id="1772888465204630090">[Бý ţåþþîñĝ Çöñţîñûé ýöû åŕé îñðîçåţîñĝ ţĥåţ ýöû åĝŕéé ţö ţĥé ᐅ<ph name="START_LINK" />ᐊŢéŕmš öƒ Šéŕvîçéᐅ<ph name="END_LINK" />ᐊ one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen]</translation>
@@ -65,7 +64,8 @@
 <translation id="2356282732642724501">[ᐅ<ph name="START_PARAGRAPH" />ᐊŢĥéŕé ŵåš å þŕöбļém çĥåñĝîñĝ ýöûŕ šîĝñ-îñ émåîļ бåçķ.ᐅ<ph name="END_PARAGRAPH" />ᐊᐅ<ph name="START_PARAGRAPH" />ᐊÎƒ ýöû ţŕý åĝåîñ åñð šţîļļ çåñ’ţ ŕéšéţ ýöûŕ émåîļ, ţŕý åšķîñĝ ýöûŕ åðmîñîšţŕåţöŕ ƒöŕ ĥéļþ.ᐅ<ph name="END_PARAGRAPH" />ᐊ one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty twentyone twentytwo twentythree]</translation>
 <translation id="2375419764963116430">[Бåĥŕåîñ one]</translation>
 <translation id="2405828009195143258">[Îŕåñ one]</translation>
-<translation id="2446078593003901807">[ÖĶ one]</translation>
+<translation id="244437093285883777">[Véŕîƒýîñĝ ýöû'ŕé ñöţ å ŕöбöţ... one two three four five six seven]</translation>
+<translation id="2448227725017851570">[Ţĥîš çöðé îš ñö ļöñĝéŕ våļîð one two three four five six]</translation>
 <translation id="2448487988481516351">[Ñéŵ Çåļéðöñîå one two]</translation>
 <translation id="2451742558284013472">[Möñåçö one]</translation>
 <translation id="2460064915291012298">[Šéýçĥéļļéš one two]</translation>
@@ -88,6 +88,7 @@
 <translation id="2824267666257947103">[Éñţéŕ ýöûŕ þåššŵöŕð one two three]</translation>
 <translation id="2828509010894808185">[Çŕéåţé åççöûñţ one two]</translation>
 <translation id="2834770837848769530">[Åƒĝĥåñîšţåñ one two]</translation>
+<translation id="2884525438023347369">[Бý ţåþþîñĝ ᐅ<ph name="BTN" />ᐊ ýöû åŕé îñðîçåţîñĝ ţĥåţ ýöû åĝŕéé ţö ţĥé ᐅ<ph name="TOS" />ᐊ. one two three four five six seven eight nine ten eleven twelve]</translation>
 <translation id="2909392332969582158">[Çåñåðå one]</translation>
 <translation id="2911018261311455240">[Ðéñmåŕķ one]</translation>
 <translation id="295270254328846278">[Åûšţŕîå one]</translation>
@@ -96,7 +97,6 @@
 <translation id="3040586343252524572">[Ýéméñ one]</translation>
 <translation id="3045244039436637116">[Ĝûîñéå-Бîššåû one two]</translation>
 <translation id="3046745817056752783">[Šåûðî Åŕåбîå one two]</translation>
-<translation id="311953035679824832">[Åþþ ļöĝö one]</translation>
 <translation id="3122584863645047144">[Û.Š. Vîŕĝîñ Îšļåñðš one two three]</translation>
 <translation id="3141549453511344986">[Šîĝñ îñ ŵîţĥ þĥöñé one two three four]</translation>
 <translation id="3147551458884186429">[Îñðöñéšîå one two]</translation>
@@ -130,6 +130,7 @@
 <translation id="3597673897213051724">[Šéñð one]</translation>
 <translation id="3605933028246642593">[Ñéþåļ one]</translation>
 <translation id="3608140835232496799">[Ţöķéļåû one]</translation>
+<translation id="3620185428620643248">[Ţĥé šéļéçţéð çŕéðéñţîåļ ƒöŕ ţĥé åûţĥéñţîçåţîöñ þŕövîðéŕ îš ñöţ šûþþöŕţéð¡ one two three four five six seven eight nine ten eleven twelve thirteen fourteen]</translation>
 <translation id="3700097473356216716">[Çöļömбîå one]</translation>
 <translation id="3736041829854387744">[Бûŕûñðî one]</translation>
 <translation id="3755663127769565780">[Måûŕîţåñîå one two]</translation>
@@ -180,7 +181,8 @@
 <translation id="4852256440857413490">[Ŵŕöñĝ çöðé. Ţŕý åĝåîñ. one two three four five]</translation>
 <translation id="4871106926303956169">[Ţûŕķš åñð Çåîçöš Îšļåñðš one two three four five]</translation>
 <translation id="4877597386645466815">[Ŕéšéñð çöðé îñ ᐅ<ph name="TIME_REMAINING" />ᐊ one two three four]</translation>
-<translation id="4935131042143742248">[Çöñţîñûé one]</translation>
+<translation id="4915406999072654369">[Çĥéçķ ýöûŕ émåîļ one two]</translation>
+<translation id="4955175001894453989">[Åðð þåššŵöŕð one two]</translation>
 <translation id="496366313824211679">[Éļ Šåļvåðöŕ one two]</translation>
 <translation id="4991626049082973728">[Šéŕбîå one]</translation>
 <translation id="4991892293325936102">[Бéļîžé one]</translation>
@@ -237,7 +239,9 @@
 <translation id="6040759627067155517">[Émåîļ one]</translation>
 <translation id="6044396095102058216">[Ţĥîš þĥöñé ñûmбéŕ ĥåš бééñ ûšéð ţöö måñý ţîméš one two three four five six seven eight nine ten]</translation>
 <translation id="6091051069256411999">[Ţŵîţţéŕ one]</translation>
-<translation id="617174140882717287">[ᐅ<ph name="IDV_CODE_PLACE_HOLDER" />ᐊ îš ýöûŕ véŕîƒîçåţîöñ çöðé ƒöŕ ᐅ<ph name="APP_NAME" />ᐊ. one two three four five six seven eight]</translation>
+<translation id="61182948399263957">[
+ᐅ<ph name="P_START" />ᐊŠîĝñ îñ ţö ᐅ<ph name="APP_NAME" />ᐊ &lt;/p&gt;&lt;/p&gt;
+ᐅ<ph name="P_START" />ᐊᐅ<ph name="START_LINK" />ᐊᐅ<ph name="CONFIRM_LINK" />ᐊᐅ<ph name="END_LINK" />ᐊᐅ<ph name="P_END" />ᐊ one two three four five six seven eight]</translation>
 <translation id="6189573836664806798">[Þåŕåĝûåý one]</translation>
 <translation id="6192657410634245771">[Åļĝéŕîå one]</translation>
 <translation id="6213969168046789596">[Ýöû ĥåvé éñţéŕéð åñ îñçöŕŕéçţ þåššŵöŕð ţöö måñý ţîméš. Þļéåšé ţŕý åĝåîñ îñ å ƒéŵ mîñûţéš. one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen]</translation>
@@ -254,10 +258,11 @@
 <translation id="6443180961828792673">[Ķöšövö one]</translation>
 <translation id="6450170205342035038">[Бûļĝåŕîå one]</translation>
 <translation id="6476467763326951353">[Véŕîƒý ýöûŕ émåîļ ƒöŕ ᐅ<ph name="APP_NAME" />ᐊ one two three four five six]</translation>
-<translation id="6494734506607758748">[Ţö çĥåñĝé émåîļ åððŕéšš åššöçîåţéð ŵîţĥ ýöûŕ ýöûŕ åççöûñţ, ýöû ŵîļļ ñééð ţö šîĝñ îñ åĝåîñ. one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen]</translation>
+<translation id="6502083090260346644">[Бý ţåþþîñĝ ᐅ<ph name="STRING" />ᐊ, åñ ŠMŠ måý бé šéñţ. Méššåĝé &amp; ðåţå ŕåţéš måý åþþļý. one two three four five six seven eight nine ten eleven twelve thirteen]</translation>
 <translation id="6508909904815637928">[Våñûåţû one]</translation>
 <translation id="6520863029476703422">[Åméŕîçåñ Šåmöå one two]</translation>
 <translation id="6527597037551425211">[Бŕåžîļ one]</translation>
+<translation id="6555167606025370230">[Çöñţîñûé ţö ᐅ<ph name="APP_NAME" />ᐊ one two three four]</translation>
 <translation id="657697593815023638">[Šŵåžîļåñð one two]</translation>
 <translation id="6584652721889639596">[Ûñåбļé ţö šéñð þåššŵöŕð ŕéšéţ çöðé ţö šþéçîƒîéð émåîļ one two three four five six seven eight nine ten eleven]</translation>
 <translation id="6608262346670935090">[Ðîšmîšš one]</translation>
@@ -284,6 +289,7 @@
 <translation id="6921505896641453739">[Émåîļ one]</translation>
 <translation id="6929813273561975780">[Ñéxţ one]</translation>
 <translation id="6951302238647056860">[Ţĥîš çöðé îš ñö ļöñĝéŕ våļîð one two three four five six]</translation>
+<translation id="6998342825820890463">[Þŕîvåçý Þöļîçý one two]</translation>
 <translation id="6999773882165218263">[Fîŕšţ &amp;amp; ļåšţ ñåmé one two three four]</translation>
 <translation id="7012506961150923116">[Ĝŕéñåðå one]</translation>
 <translation id="7024571478138322659">[Ŵéšţéŕñ Šåĥåŕå one two]</translation>
@@ -310,7 +316,6 @@
 <translation id="7453388767208874682">[Þĥöñé ñûmбéŕ çåñ'ţ бé émþţý one two three four five six]</translation>
 <translation id="7493245640904888019">[Ĝîбŕåļţåŕ one two]</translation>
 <translation id="7510939244824757986">[Ţåñžåñîå one]</translation>
-<translation id="7526532581122816497">[Ļîñķéð åççöûñţ one two]</translation>
 <translation id="7560587702704358921">[Šåîñţ Þîéŕŕé åñð Mîqûéļöñ one two three four five six]</translation>
 <translation id="7569285452790032317">[Šömåļîå one]</translation>
 <translation id="7592224526951017144">[Ĝéŕmåñý one]</translation>
@@ -319,7 +324,7 @@
         ţö šîĝñ îñ. Éñţéŕ ýöûŕ þåššŵöŕð ƒöŕ ţĥåţ åççöûñţ. one two three four five six seven eight nine ten eleven twelve thirteen fourteen]</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{[Þåššŵöŕð ñöţ šţŕöñĝ éñöûĝĥ. Ûšé åţ ļéåšţ ᐅ<ph name="PH_1" />ᐊ çĥåŕåçţéŕ åñð å mîx öƒ ļéţţéŕš åñð ñûmбéŕš one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen]}other{[Þåššŵöŕð ñöţ šţŕöñĝ éñöûĝĥ. Ûšé åţ ļéåšţ ᐅ<ph name="PH_1" />ᐊ çĥåŕåçţéŕš åñð å mîx öƒ ļéţţéŕš åñð ñûmбéŕš one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen]}}</translation>
 <translation id="7699755204074920022">[Žîmбåбŵé one]</translation>
-<translation id="7782885946428624225">[Ţĥéŕé ŵåš å þŕöбļém véŕîƒýîñĝ ýöûŕ þĥöñé ñûmбéŕ one two three four five six seven eight nine ten]</translation>
+<translation id="7790301903034097323">[Çĥööšé þåššŵöŕð one two]</translation>
 <translation id="7868540442111212282">[Çžéçĥ Ŕéþûбļîç one two]</translation>
 <translation id="7874584525604421364">[Ţûvåļû one]</translation>
 <translation id="792838323404934335">[Ĝŕééñļåñð one two]</translation>
@@ -363,7 +368,6 @@
 <translation id="8505941919386646914">[Måŕţîñîqûé one two]</translation>
 <translation id="8534746304953308378">[Ţöĝö one]</translation>
 <translation id="8572093925387077451">[Ýöû åļŕéåðý ĥåvé åñ åççöûñţ one two three four five six]</translation>
-<translation id="8585285847459057945">[Ýöûŕ šîĝñ-îñ émåîļ ŵåš çĥåñĝéð ƒöŕ ᐅ<ph name="APP_NAME" />ᐊ one two three four five six seven eight]</translation>
 <translation id="8585655327529919573">[Ĝéţ îñšţŕûçţîöñš šéñţ ţö ţĥîš émåîļ ţĥåţ éxþļåîñ ĥöŵ ţö ŕéšéţ ýöûŕ þåššŵöŕð one two three four five six seven eight nine ten eleven twelve thirteen fourteen]</translation>
 <translation id="8652838224332661203">[Ñåûŕû one]</translation>
 <translation id="8657280305228520442">[Бŕûñéî one]</translation>
@@ -383,7 +387,8 @@
 <translation id="8869797682387766327">[Îšļé öƒ Måñ one two]</translation>
 <translation id="8893950153780006385">[Måļåýšîå one]</translation>
 <translation id="8895840173743975193">[Çöçöš [Ķééļîñĝ] Îšļåñðš one two three]</translation>
-<translation id="8971555482255213064">[Ŕéšéñð çöðé îñ 0:ᐅ<ph name="PH_1" />ᐊ one two three four five]</translation>
+<translation id="8955469172512804617">[Бý ţåþþîñĝ ᐅ<ph name="BTN" />ᐊ ýöû åŕé îñðîçåţîñĝ ţĥåţ ýöû åĝŕéé ţö ţĥé ᐅ<ph name="PP" />ᐊ. one two three four five six seven eight nine ten eleven twelve]</translation>
+<translation id="8980953965669178372">[Ðöñé one]</translation>
 <translation id="8984161590699631096">[Möŕöççö one]</translation>
 <translation id="900153878296575829">[Бåñĝļåðéšĥ one two]</translation>
 <translation id="9022632332691561239">[Þĥöñé one]</translation>

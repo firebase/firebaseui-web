@@ -65,7 +65,8 @@
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Radās problēma, mainot atpakaļ pierakstīšanās e-pasta adresi.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Ja mēģināsit vēlreiz un joprojām nevarēsit atiestatīt e-pasta adresi, lūdziet palīdzību administratoram.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Bahreina</translation>
 <translation id="2405828009195143258">Irāna</translation>
-<translation id="2446078593003901807">Labi</translation>
+<translation id="244437093285883777">Notiek verifikācija, lai pārliecinātos, ka neesat robots...</translation>
+<translation id="2448227725017851570">Šis kods vairs nav derīgs</translation>
 <translation id="2448487988481516351">Jaunkaledonija</translation>
 <translation id="2451742558284013472">Monako</translation>
 <translation id="2460064915291012298">Seišelas</translation>
@@ -88,6 +89,7 @@
 <translation id="2824267666257947103">Ievadiet savu paroli.</translation>
 <translation id="2828509010894808185">Konta izveide</translation>
 <translation id="2834770837848769530">Afganistāna</translation>
+<translation id="2884525438023347369">Pieskaroties pogai <ph name="BTN" />, jūs norādāt, ka piekrītat šādiem noteikumiem: <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">Kanāda</translation>
 <translation id="2911018261311455240">Dānija</translation>
 <translation id="295270254328846278">Austrija</translation>
@@ -130,6 +132,7 @@
 <translation id="3597673897213051724">Sūtīt</translation>
 <translation id="3605933028246642593">Nepāla</translation>
 <translation id="3608140835232496799">Tokelau</translation>
+<translation id="3620185428620643248">Netiek atbalstīti autentifikācijas nodrošinātājam atlasītie akreditācijas dati.</translation>
 <translation id="3700097473356216716">Kolumbija</translation>
 <translation id="3736041829854387744">Burundija</translation>
 <translation id="3755663127769565780">Mauritānija</translation>
@@ -173,14 +176,15 @@
 <translation id="4692014002063276828">Polija</translation>
 <translation id="4723701728629289714">Izraēla</translation>
 <translation id="4725154639671888461">Ir radusies kļūda</translation>
-<translation id="4752789582089722030">Paroles maiņa</translation>
+<translation id="4751937685196678080">Numurs</translation>
 <translation id="4773060157545352832">Izpildiet reCAPTCHA uzdevumu</translation>
 <translation id="4775051289386800916">Nikaragva</translation>
 <translation id="4783400389150493171">Burkinafaso</translation>
 <translation id="4852256440857413490">Nepareizs kods. Mēģiniet vēlreiz.</translation>
 <translation id="4871106926303956169">Tērksas un Kaikosas Salas</translation>
 <translation id="4877597386645466815">Vēlreiz nosūtīt kodu pēc <ph name="TIME_REMAINING" /></translation>
-<translation id="4935131042143742248">Turpināt</translation>
+<translation id="4915406999072654369">Pārbaudiet savu e-pastu</translation>
+<translation id="4955175001894453989">Paroles pievienošana</translation>
 <translation id="496366313824211679">Salvadora</translation>
 <translation id="4991626049082973728">Serbija</translation>
 <translation id="4991892293325936102">Beliza</translation>
@@ -237,7 +241,9 @@
 <translation id="6040759627067155517">E-pasts</translation>
 <translation id="6044396095102058216">Šis tālruņa numurs ir izmantots pārāk daudz reižu</translation>
 <translation id="6091051069256411999">Twitter</translation>
-<translation id="617174140882717287"><ph name="IDV_CODE_PLACE_HOLDER" /> ir lietotnes <ph name="APP_NAME" /> verifikācijas kods.</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />Pierakstīšanās lietotnē <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6189573836664806798">Paragvaja</translation>
 <translation id="6192657410634245771">Alžīrija</translation>
 <translation id="6213969168046789596">Esat pārāk daudz reižu ievadījis nepareizu paroli. Lūdzu, mēģiniet vēlreiz pēc dažām minūtēm.</translation>
@@ -258,6 +264,7 @@
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Amerikāņu Samoa</translation>
 <translation id="6527597037551425211">Brazīlija</translation>
+<translation id="6555167606025370230">Pāriet uz lietotni <ph name="APP_NAME" /></translation>
 <translation id="657697593815023638">Svazilenda</translation>
 <translation id="6584652721889639596">Nevar nosūtīt paroles atiestatīšanas kodu uz norādīto e-pasta adresi</translation>
 <translation id="6608262346670935090">Nerādīt</translation>
@@ -284,6 +291,7 @@
 <translation id="6921505896641453739">E-pasts</translation>
 <translation id="6929813273561975780">Tālāk</translation>
 <translation id="6951302238647056860">Šis kods vairs nav derīgs</translation>
+<translation id="6998342825820890463">Konfidencialitātes politika</translation>
 <translation id="6999773882165218263">Vārds un uzvārds</translation>
 <translation id="7012506961150923116">Grenāda</translation>
 <translation id="7024571478138322659">Rietumsahāra</translation>
@@ -383,7 +391,8 @@
 <translation id="8869797682387766327">Menas Sala</translation>
 <translation id="8893950153780006385">Malaizija</translation>
 <translation id="8895840173743975193">Kokosu [Kīlinga] Salas</translation>
-<translation id="8971555482255213064">Vēlreiz nosūtīt kodu pēc 0:<ph name="PH_1" /></translation>
+<translation id="8955469172512804617">Pieskaroties pogai <ph name="BTN" />, jūs norādāt, ka piekrītat šādiem noteikumiem: <ph name="PP" />.</translation>
+<translation id="8980953965669178372">Gatavs</translation>
 <translation id="8984161590699631096">Maroka</translation>
 <translation id="900153878296575829">Bangladeša</translation>
 <translation id="9022632332691561239">Tālrunis</translation>

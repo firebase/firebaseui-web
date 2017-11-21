@@ -18,6 +18,7 @@
 
 goog.provide('firebaseui.auth.widget.ConfigTest');
 
+goog.require('firebaseui.auth.CredentialHelper');
 goog.require('firebaseui.auth.log');
 goog.require('firebaseui.auth.util');
 goog.require('firebaseui.auth.widget.Config');
@@ -373,6 +374,226 @@ function testGetProviderCustomParameter_multipleIdp() {
 }
 
 
+function testIsAccountSelectionPromptEnabled_googleLoginHint() {
+  config.update('signInOptions', [
+    {
+      'provider': 'google.com',
+      'customParameters': {
+        'prompt': 'select_account',
+        'login_hint': 'user@example.com'
+      }
+    },
+    {
+      'provider': 'facebook.com',
+      'customParameters': {
+        'display': 'popup',
+        'auth_type': 'rerequest',
+        'locale': 'pt_BR',
+      }
+    },
+    'github.com'
+  ]);
+  assertTrue(config.isAccountSelectionPromptEnabled());
+}
+
+
+function testIsAccountSelectionPromptEnabled_nonGoogleLoginHint() {
+  config.update('signInOptions', [
+    {
+      'provider': 'google.com',
+      'customParameters': {
+        'prompt': 'none',
+        'login_hint': 'user@example.com'
+      }
+    },
+    {
+      'provider': 'facebook.com',
+      'customParameters': {
+        'display': 'popup',
+        'auth_type': 'rerequest',
+        'locale': 'pt_BR',
+        // This does nothing.
+        'prompt': 'select_account'
+      }
+    },
+    'github.com',
+    'password'
+  ]);
+  assertFalse(config.isAccountSelectionPromptEnabled());
+}
+
+
+function testIsAccountSelectionPromptEnabled_noCustomParameter() {
+  config.update('signInOptions', [
+    {
+      'provider': 'google.com',
+      'scopes': ['google1', 'google2']
+    },
+    'github.com'
+  ]);
+  assertFalse(config.isAccountSelectionPromptEnabled());
+}
+
+
+function testIsAccountSelectionPromptEnabled_noAdditionalParameters() {
+  config.update('signInOptions', [
+    'google.com'
+  ]);
+  assertFalse(config.isAccountSelectionPromptEnabled());
+}
+
+
+function testIsAccountSelectionPromptEnabled_noOAuthProvider() {
+  config.update('signInOptions', [
+    'phone',
+    'password'
+  ]);
+  assertFalse(config.isAccountSelectionPromptEnabled());
+}
+
+
+function testGetProviderIdFromAuthMethod() {
+  config.update('signInOptions', [
+    {
+      'provider': 'google.com',
+      'customParameters': {
+        'prompt': 'none'
+      },
+      'authMethod': 'https://accounts.google.com',
+      'clientId': '1234567890.apps.googleusercontent.com'
+    },
+    {
+      'provider': 'password',
+      'authMethod': 'googleyolo://id-and-password'
+    },
+    {
+      'authMethod': 'unknown'
+    }
+  ]);
+  assertEquals(
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      config.getProviderIdFromAuthMethod('https://accounts.google.com'));
+  assertEquals(
+      firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      config.getProviderIdFromAuthMethod('googleyolo://id-and-password'));
+  // Test with authMethod that is not provided in the configuration.
+  assertNull(config.getProviderIdFromAuthMethod('https://www.facebook.com'));
+  // Test with null authMethod.
+  assertNull(config.getProviderIdFromAuthMethod(null));
+  // Test with authMethod that does not have a provider ID in the configuration.
+  assertNull(config.getProviderIdFromAuthMethod('unknown'));
+}
+
+
+function testGetGoogleYoloConfig_availableAndEnabled() {
+  config.update('signInOptions', [
+    {
+      'provider': 'google.com',
+      'customParameters': {
+        'prompt': 'none'
+      },
+      'authMethod': 'https://accounts.google.com',
+      'clientId': '1234567890.apps.googleusercontent.com'
+    },
+    {
+      'provider': 'password',
+      'authMethod': 'googleyolo://id-and-password'
+    },
+    {
+      'authMethod': 'unknown'
+    },
+    {
+      'provider': 'facebook.com',
+      // authMethod is required.
+      'clientId': 'CLIENT_ID'
+    }
+  ]);
+  // GOOGLE_YOLO credentialHelper must be selected.
+  config.update(
+      'credentialHelper', firebaseui.auth.CredentialHelper.GOOGLE_YOLO);
+  var expectedConfig = {
+    'supportedAuthMethods': [
+      'https://accounts.google.com',
+      'googleyolo://id-and-password'
+    ],
+    'supportedIdTokenProviders': [
+      {
+        'uri': 'https://accounts.google.com',
+        'clientId': '1234567890.apps.googleusercontent.com'
+      }
+    ]
+  };
+  assertObjectEquals(expectedConfig, config.getGoogleYoloConfig());
+}
+
+
+function testGetGoogleYoloConfig_notEnabled() {
+  config.update('signInOptions', [
+    {
+      'provider': 'google.com',
+      'customParameters': {
+        'prompt': 'none'
+      },
+      'authMethod': 'https://accounts.google.com',
+      'clientId': '1234567890.apps.googleusercontent.com'
+    },
+    {
+      'provider': 'password',
+      'authMethod': 'googleyolo://id-and-password'
+    },
+    {
+      'authMethod': 'unknown'
+    },
+    {
+      'provider': 'facebook.com',
+      // authMethod is required.
+      'clientId': 'CLIENT_ID'
+    }
+  ]);
+  // GOOGLE_YOLO credentialHelper not selected.
+  config.update(
+      'credentialHelper', firebaseui.auth.CredentialHelper.NONE);
+  assertNull(config.getGoogleYoloConfig());
+}
+
+
+function testGetGoogleYoloConfig_notAvailable() {
+  config.update('signInOptions', [
+    {
+      'provider': 'google.com',
+      'customParameters': {
+        'prompt': 'none',
+        'login_hint': 'user@example.com'
+      }
+    },
+    {
+      'provider': 'facebook.com',
+      'customParameters': {
+        'display': 'popup',
+        'auth_type': 'rerequest',
+        'locale': 'pt_BR',
+      }
+    },
+    'github.com',
+    'password',
+    // authMethod with no provider.
+    {
+      'authMethod': 'unknown'
+    },
+    // clientId with no authMethod.
+    {
+      'provider': 'facebook.com',
+      // authMethod is required.
+      'clientId': 'CLIENT_ID'
+    }
+  ]);
+  // GOOGLE_YOLO credentialHelper is selected.
+  config.update(
+      'credentialHelper', firebaseui.auth.CredentialHelper.GOOGLE_YOLO);
+  assertNull(config.getGoogleYoloConfig());
+}
+
+
 function testGetPhoneAuthDefaultCountry() {
   config.update('signInOptions', [{
     'provider': 'phone',
@@ -691,6 +912,11 @@ function testGetCredentialHelper_httpOrHttps() {
   config.update('credentialHelper', 'accountchooser.com');
   assertEquals('accountchooser.com', config.getCredentialHelper());
   assertTrue(config.isAccountChooserEnabled());
+
+  // Explicitly enable googleyolo.
+  config.update('credentialHelper', 'googleyolo');
+  assertEquals('googleyolo', config.getCredentialHelper());
+  assertFalse(config.isAccountChooserEnabled());
 }
 
 
@@ -722,6 +948,11 @@ function testGetCredentialHelper_nonHttpOrHttps() {
 
   // Explicitly enable accountchooser.com.
   config.update('credentialHelper', 'accountchooser.com');
+  assertEquals('none', config.getCredentialHelper());
+  assertFalse(config.isAccountChooserEnabled());
+
+  // Explicitly enable googleyolo.
+  config.update('credentialHelper', 'googleyolo');
   assertEquals('none', config.getCredentialHelper());
   assertFalse(config.isAccountChooserEnabled());
 }

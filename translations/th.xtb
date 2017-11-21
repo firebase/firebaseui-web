@@ -15,7 +15,7 @@
 <translation id="1294742657282291237">กายอานา</translation>
 <translation id="1297168472480293352">กัวเตมาลา</translation>
 <translation id="1315809131562953678">ป้อนหมายเลขโทรศัพท์ที่ถูกต้อง</translation>
-<translation id="137210131544215127">ป้อนรหัสผ่านของคุณ</translation>
+<translation id="137210131544215127">ป้อนรหัสผ่าน</translation>
 <translation id="1393433815796487579">เสร็จสิ้น</translation>
 <translation id="1412449974349991050">เฮติ</translation>
 <translation id="144766329299583285">หากคุณไม่ได้ขอเปลี่ยนอีเมลสำหรับลงชื่อเข้าใช้ อาจเป็นไปได้ว่ามีคนกำลังพยายามเข้าถึงบัญชีของคุณและคุณควร<ph name="START_LINK" />เปลี่ยนรหัสผ่านทันที<ph name="END_LINK" /></translation>
@@ -66,7 +66,8 @@
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />เกิดปัญหาในการเปลี่ยนอีเมลสำหรับลงชื่อเข้าใช้ของคุณกลับไปเป็นอีเมลเดิม<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />หากคุณลองอีกครั้งแล้วยังไม่สามารถรีเซ็ตอีเมลได้ โปรดขอความช่วยเหลือจากผู้ดูแลระบบ<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">บาห์เรน</translation>
 <translation id="2405828009195143258">อิหร่าน</translation>
-<translation id="2446078593003901807">ตกลง</translation>
+<translation id="244437093285883777">กำลังยืนยันว่าคุณไม่ใช่หุ่นยนต์...</translation>
+<translation id="2448227725017851570">ไม่สามารถใช้รหัสนี้ได้อีกต่อไป</translation>
 <translation id="2448487988481516351">นิวแคลิโดเนีย</translation>
 <translation id="2451742558284013472">โมนาโค</translation>
 <translation id="2460064915291012298">เซเชลส์</translation>
@@ -90,6 +91,7 @@
 <translation id="2814274627887910414">รูปแบบหมายเลขโทรศัพท์ไม่ถูกต้อง</translation>
 <translation id="2828509010894808185">สร้างบัญชี</translation>
 <translation id="2834770837848769530">อัฟกานิสถาน</translation>
+<translation id="2884525438023347369">การแตะ<ph name="BTN" />แสดงว่าคุณยอมรับ<ph name="TOS" /></translation>
 <translation id="2909392332969582158">แคนาดา</translation>
 <translation id="2911018261311455240">เดนมาร์ก</translation>
 <translation id="295270254328846278">ออสเตรีย</translation>
@@ -132,6 +134,7 @@
 <translation id="3597673897213051724">ส่ง</translation>
 <translation id="3605933028246642593">เนปาล</translation>
 <translation id="3608140835232496799">โตเกเลา</translation>
+<translation id="3620185428620643248">ไม่รองรับข้อมูลรับรองสำหรับผู้ให้บริการตรวจสอบสิทธิ์ที่เลือก</translation>
 <translation id="3700097473356216716">โคลอมเบีย</translation>
 <translation id="3735918113934183391">ลองป้อนหมายเลขโทรศัพท์ของคุณอีกครั้ง</translation>
 <translation id="3736041829854387744">บุรุนดี</translation>
@@ -178,14 +181,15 @@
 <translation id="4692014002063276828">โปแลนด์</translation>
 <translation id="4723701728629289714">อิสราเอล</translation>
 <translation id="4725154639671888461">พบข้อผิดพลาด</translation>
-<translation id="4752789582089722030">เปลี่ยนรหัสผ่าน</translation>
+<translation id="4751937685196678080">หมายเลข</translation>
 <translation id="4773060157545352832">แก้ไข reCAPTCHA</translation>
 <translation id="4775051289386800916">นิการากัว</translation>
 <translation id="4783400389150493171">บูร์กินาฟาโซ</translation>
 <translation id="4852256440857413490">รหัสไม่ถูกต้อง โปรดลองอีกครั้ง</translation>
 <translation id="4871106926303956169">หมู่เกาะเติกส์และหมู่เกาะเคคอส</translation>
 <translation id="4877597386645466815">ส่งรหัสอีกครั้งใน <ph name="TIME_REMAINING" /></translation>
-<translation id="4935131042143742248">ต่อไป</translation>
+<translation id="4915406999072654369">ตรวจสอบอีเมลของคุณ</translation>
+<translation id="4955175001894453989">เพิ่มรหัสผ่าน</translation>
 <translation id="496366313824211679">เอล ซัลวาดอร์</translation>
 <translation id="4991626049082973728">เซอร์เบีย</translation>
 <translation id="4991892293325936102">เบลีซ</translation>
@@ -244,7 +248,9 @@
 <translation id="6040759627067155517">อีเมล</translation>
 <translation id="6044396095102058216">มีการใช้หมายเลขโทรศัพท์นี้หลายครั้งเกินไป</translation>
 <translation id="6091051069256411999">Twitter</translation>
-<translation id="617174140882717287"><ph name="IDV_CODE_PLACE_HOLDER" /> คือรหัสยืนยันของคุณสำหรับ <ph name="APP_NAME" /></translation>
+<translation id="61182948399263957">
+<ph name="P_START" />ลงชื่อเข้าใช้ <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6189573836664806798">ปารากวัย</translation>
 <translation id="6192657410634245771">แอลจีเรีย</translation>
 <translation id="6213969168046789596">คุณป้อนรหัสผ่านไม่ถูกต้องหลายครั้งเกินไป โปรดรอสักครู่แล้วลองอีกครั้ง</translation>
@@ -265,6 +271,7 @@
 <translation id="6508909904815637928">วานูอาตู</translation>
 <translation id="6520863029476703422">อเมริกันซามัว</translation>
 <translation id="6527597037551425211">บราซิล</translation>
+<translation id="6555167606025370230">ดำเนินการต่อใน <ph name="APP_NAME" /></translation>
 <translation id="657697593815023638">สวาซิแลนด์</translation>
 <translation id="6584652721889639596">ไม่สามารถส่งรหัสสำหรับรีเซ็ตรหัสผ่านไปยังอีเมลที่ระบุได้</translation>
 <translation id="6608262346670935090">ปิด</translation>
@@ -292,6 +299,7 @@
 <translation id="6921505896641453739">อีเมล</translation>
 <translation id="6929813273561975780">ถัดไป</translation>
 <translation id="6951302238647056860">ไม่สามารถใช้รหัสนี้ได้อีก</translation>
+<translation id="6998342825820890463">นโยบายความเป็นส่วนตัว</translation>
 <translation id="6999773882165218263">ชื่อและนามสกุล</translation>
 <translation id="7012506961150923116">เกรนาดา</translation>
 <translation id="7024571478138322659">สะฮาราตะวันตก</translation>
@@ -393,7 +401,8 @@
 <translation id="8869797682387766327">เกาะแมน</translation>
 <translation id="8893950153780006385">มาเลเซีย</translation>
 <translation id="8895840173743975193">หมู่เกาะโคโคส [คีลิง]</translation>
-<translation id="8971555482255213064">ส่งรหัสอีกครั้งใน 0:<ph name="PH_1" /></translation>
+<translation id="8955469172512804617">การแตะ<ph name="BTN" />แสดงว่าคุณยอมรับ<ph name="PP" /></translation>
+<translation id="8980953965669178372">เสร็จสิ้น</translation>
 <translation id="8984161590699631096">โมร็อกโก</translation>
 <translation id="900153878296575829">บังกลาเทศ</translation>
 <translation id="9022632332691561239">โทรศัพท์</translation>

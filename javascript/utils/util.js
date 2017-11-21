@@ -18,7 +18,10 @@
 
 goog.provide('firebaseui.auth.util');
 
+goog.require('goog.Promise');
 goog.require('goog.dom');
+goog.require('goog.events');
+goog.require('goog.events.EventType');
 goog.require('goog.userAgent');
 goog.require('goog.window');
 
@@ -200,4 +203,31 @@ firebaseui.auth.util.getCurrentUrl = function() {
  */
 firebaseui.auth.util.getUnicodeLocale = function() {
   return goog.LOCALE.replace(/_/g, '-');
+};
+
+
+/**
+ * @return {!goog.Promise<void>} A promise that resolves when DOM is ready.
+ */
+firebaseui.auth.util.onDomReady = function() {
+  var resolver = null;
+  return new goog.Promise(function(resolve, reject) {
+    var doc = goog.global.document;
+    // If document already loaded, resolve immediately.
+    if (doc.readyState == 'complete') {
+      resolve();
+    } else {
+      // Document not ready, wait for load before resolving.
+      // Save resolver, so we can remove listener in case it was externally
+      // cancelled.
+      resolver = function() {
+        resolve();
+      };
+      goog.events.listenOnce(window, goog.events.EventType.LOAD, resolver);
+    }
+  }).thenCatch(function(error) {
+    // In case this promise was cancelled, make sure it unlistens to load.
+    goog.events.unlisten(window, goog.events.EventType.LOAD, resolver);
+    throw error;
+  });
 };

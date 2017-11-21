@@ -66,7 +66,8 @@
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Не вдалося змінити вашу електронну адресу для входу.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Якщо вам не вдасться скинути адресу, зв’яжіться з адміністратором.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Бахрейн</translation>
 <translation id="2405828009195143258">Іран</translation>
-<translation id="2446078593003901807">ОК</translation>
+<translation id="244437093285883777">Перевіряємо, чи ви не робот…</translation>
+<translation id="2448227725017851570">Цей код уже не дійсний</translation>
 <translation id="2448487988481516351">Нова Каледонія</translation>
 <translation id="2451742558284013472">Монако</translation>
 <translation id="2460064915291012298">Сейшельські Острови</translation>
@@ -90,6 +91,7 @@
 <translation id="2824267666257947103">Введіть пароль</translation>
 <translation id="2828509010894808185">Створити обліковий запис</translation>
 <translation id="2834770837848769530">Афганістан</translation>
+<translation id="2884525438023347369">Торкаючись кнопки "<ph name="BTN" />", ви приймаєте <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">Канада</translation>
 <translation id="2911018261311455240">Данія</translation>
 <translation id="295270254328846278">Австрія</translation>
@@ -132,6 +134,7 @@
 <translation id="3597673897213051724">Надіслати</translation>
 <translation id="3605933028246642593">Непал</translation>
 <translation id="3608140835232496799">Токелау</translation>
+<translation id="3620185428620643248">Облікові дані, вибрані для постачальника послуг автентифікації, не підтримуються.</translation>
 <translation id="3700097473356216716">Колумбія</translation>
 <translation id="3736041829854387744">Бурунді</translation>
 <translation id="3755663127769565780">Мавританія</translation>
@@ -175,14 +178,15 @@
 <translation id="4692014002063276828">Польща</translation>
 <translation id="4723701728629289714">Ізраїль</translation>
 <translation id="4725154639671888461">Сталася помилка</translation>
-<translation id="4752789582089722030">Змінити пароль</translation>
+<translation id="4751937685196678080">Номер</translation>
 <translation id="4773060157545352832">Введіть символи reCAPTCHA</translation>
 <translation id="4775051289386800916">Нікарагуа</translation>
 <translation id="4783400389150493171">Буркіна-Фасо</translation>
 <translation id="4852256440857413490">Неправильний код. Повторіть спробу.</translation>
 <translation id="4871106926303956169">Острови Теркс і Кайкос</translation>
 <translation id="4877597386645466815">Повторно надіслати код через <ph name="TIME_REMAINING" /></translation>
-<translation id="4935131042143742248">Продовжити</translation>
+<translation id="4915406999072654369">Перевірте свою електронну пошту</translation>
+<translation id="4955175001894453989">Додати пароль</translation>
 <translation id="496366313824211679">Сальвадор</translation>
 <translation id="4991626049082973728">Сербія</translation>
 <translation id="4991892293325936102">Беліз</translation>
@@ -240,7 +244,9 @@
 <translation id="6040759627067155517">Електронна адреса</translation>
 <translation id="6044396095102058216">Цей номер телефону використовувався забагато разів</translation>
 <translation id="6091051069256411999">Твіттер</translation>
-<translation id="617174140882717287"><ph name="IDV_CODE_PLACE_HOLDER" /> – ваш код підтвердження для <ph name="APP_NAME" />.</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />Увійдіть в обліковий запис у додатку <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6189573836664806798">Парагвай</translation>
 <translation id="6192657410634245771">Алжир</translation>
 <translation id="6213969168046789596">Ви ввели неправильний пароль забагато разів. Спробуйте за кілька хвилин.</translation>
@@ -261,6 +267,7 @@
 <translation id="6508909904815637928">Вануату</translation>
 <translation id="6520863029476703422">Американське Самоа</translation>
 <translation id="6527597037551425211">Бразилія</translation>
+<translation id="6555167606025370230">Перейти в <ph name="APP_NAME" /></translation>
 <translation id="657697593815023638">Свазіленд</translation>
 <translation id="6584652721889639596">Не вдається надіслати код для скидання пароля на вказану електронну адресу</translation>
 <translation id="6608262346670935090">Закрити</translation>
@@ -287,6 +294,7 @@
 <translation id="6921505896641453739">Електронна адреса</translation>
 <translation id="6929813273561975780">Далі</translation>
 <translation id="6951302238647056860">Цей код уже не дійсний</translation>
+<translation id="6998342825820890463">Політику конфіденційності</translation>
 <translation id="6999773882165218263">Ім’я та прізвище</translation>
 <translation id="7012506961150923116">Гренада</translation>
 <translation id="7024571478138322659">Західна Сахара</translation>
@@ -387,7 +395,8 @@
 <translation id="8869797682387766327">Острів Мен</translation>
 <translation id="8893950153780006385">Малайзія</translation>
 <translation id="8895840173743975193">Кокосові (Кілінгові) Острови</translation>
-<translation id="8971555482255213064">Повторно надіслати код через 0:<ph name="PH_1" /></translation>
+<translation id="8955469172512804617">Торкаючись кнопки "<ph name="BTN" />", ви приймаєте <ph name="PP" />.</translation>
+<translation id="8980953965669178372">Готово</translation>
 <translation id="8984161590699631096">Марокко</translation>
 <translation id="900153878296575829">Бангладеш</translation>
 <translation id="9022632332691561239">Телефон</translation>

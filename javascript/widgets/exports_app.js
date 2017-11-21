@@ -21,6 +21,9 @@ goog.exportSymbol(
     'firebaseui.auth.AuthUI.getInstance',
     firebaseui.auth.AuthUI.getInstance);
 goog.exportSymbol(
+    'firebaseui.auth.AuthUI.prototype.disableAutoSignIn',
+    firebaseui.auth.AuthUI.prototype.disableAutoSignIn);
+goog.exportSymbol(
     'firebaseui.auth.AuthUI.prototype.start',
     firebaseui.auth.AuthUI.prototype.start);
 goog.exportSymbol(
@@ -38,6 +41,9 @@ goog.exportSymbol(
 goog.exportSymbol(
     'firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM',
     firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM);
+goog.exportSymbol(
+    'firebaseui.auth.CredentialHelper.GOOGLE_YOLO',
+    firebaseui.auth.CredentialHelper.GOOGLE_YOLO);
 goog.exportSymbol(
     'firebaseui.auth.CredentialHelper.NONE',
     firebaseui.auth.CredentialHelper.NONE);

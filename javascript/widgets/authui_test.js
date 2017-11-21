@@ -20,11 +20,15 @@ goog.provide('firebaseui.auth.AuthUITest');
 
 goog.require('firebaseui.auth.AuthUI');
 goog.require('firebaseui.auth.CredentialHelper');
+goog.require('firebaseui.auth.GoogleYolo');
 goog.require('firebaseui.auth.PendingEmailCredential');
+goog.require('firebaseui.auth.idp');
 goog.require('firebaseui.auth.log');
 goog.require('firebaseui.auth.storage');
 goog.require('firebaseui.auth.testing.FakeAppClient');
 goog.require('firebaseui.auth.testing.FakeUtil');
+goog.require('firebaseui.auth.ui.page.Callback');
+goog.require('firebaseui.auth.ui.page.ProviderSignIn');
 goog.require('firebaseui.auth.widget.Config');
 goog.require('firebaseui.auth.widget.dispatcher');
 goog.require('firebaseui.auth.widget.handler');
@@ -43,11 +47,12 @@ goog.require('goog.dom');
 goog.require('goog.dom.TagName');
 goog.require('goog.dom.classlist');
 goog.require('goog.testing.AsyncTestCase');
+goog.require('goog.testing.MockControl');
 goog.require('goog.testing.PropertyReplacer');
 goog.require('goog.testing.jsunit');
 goog.require('goog.testing.recordFunction');
 
-goog.setTestOnly('firebaseui.auth.aputhUITest');
+goog.setTestOnly('firebaseui.auth.AuthUITest');
 
 
 var asyncTestCase = goog.testing.AsyncTestCase.createAndInstall();
@@ -97,6 +102,14 @@ var options = {
   'apiKey': 'API_KEY',
   'authDomain': 'subdomain.firebaseapp.com'
 };
+// Mock googleyolo ID token credential.
+var googleYoloIdTokenCredential = {
+  'idToken': 'ID_TOKEN',
+  'id': 'user@example.com',
+  'authMethod': 'https://accounts.google.com'
+};
+var mockControl;
+var ignoreArgument;
 
 
 /**
@@ -138,6 +151,14 @@ function setUp() {
     NONE: 'none',
     SESSION: 'session'
   };
+  // Populate mock providers and their PROVIDER_ID.
+  for (var key in firebaseui.auth.idp.AuthProviders) {
+    firebase['auth'][firebaseui.auth.idp.AuthProviders[key]] = function() {
+      this.scopes = [];
+      this.customParameters = {};
+    };
+    firebase['auth'][firebaseui.auth.idp.AuthProviders[key]].PROVIDER_ID = key;
+  }
   // On FirebaseApp deletion, confirm instance not already deleted and then
   // remove it from firebase.instances_.
   testStubs.replace(
@@ -176,6 +197,8 @@ function setUp() {
       });
   // Install fake test utilities.
   testUtil = new firebaseui.auth.testing.FakeUtil().install();
+  ignoreArgument = goog.testing.mockmatchers.ignoreArgument;
+  mockControl = new goog.testing.MockControl();
 }
 
 
@@ -220,14 +243,20 @@ function tearDown() {
   if (testAuth1) {
     testAuth1.uninstall();
   }
-  testAuth2.uninstall();
-  testAuth3.uninstall();
+  if (testAuth2) {
+    testAuth2.uninstall();
+  }
+  if (testAuth3) {
+    testAuth3.uninstall();
+  }
   if (app) {
     app.getAuth().uninstall();
     app.getExternalAuth().uninstall();
     app.reset();
     app = null;
   }
+  mockControl.$verifyAll();
+  mockControl.$tearDown();
 }
 
 
@@ -390,8 +419,12 @@ function testStart() {
       new firebaseui.auth.PendingEmailCredential('test@gmail.com');
   firebaseui.auth.storage.setPendingEmailCredential(
       pendingEmailCredential, app1.getAppId());
+  assertNull(app1.getCurrentComponent());
   // Start widget for app1, override configuration for that.
   app1.start(container1, config4);
+  // Confirm getCurrentComponent returns the expected callback component.
+  assertTrue(
+      app1.getCurrentComponent() instanceof firebaseui.auth.ui.page.Callback);
   // No automatic reset warning is logged.
   assertEquals(0, firebaseui.auth.log.warning.getCallCount());
   // Confirm configuration updated to config4.
@@ -462,6 +495,11 @@ function testStart() {
   app2.getAuth().process().then(function() {
     // Provider sign-in rendered at this stage.
     assertHasCssClass(container2, 'firebaseui-id-page-provider-sign-in');
+    // Confirm getCurrentComponent returns the expected ProviderSignIn
+    // component.
+    assertTrue(
+        app2.getCurrentComponent() instanceof
+        firebaseui.auth.ui.page.ProviderSignIn);
     // Try rendering again same app widget. This should not call auth
     // getRedirectResult anymore since if there is a pending redirect, it will
     // process it and not display the widget.
@@ -472,6 +510,10 @@ function testStart() {
     assertHasCssClass(container2, 'firebaseui-id-page-callback');
     app2.getRedirectResult().then(function(result) {
       assertHasCssClass(container2, 'firebaseui-id-page-provider-sign-in');
+      // After reset, currentComponent is set to null.
+      app2.reset();
+      // Confirm current component is null after reset.
+      assertNull(app2.getCurrentComponent());
       asyncTestCase.signal();
     });
   });
@@ -630,6 +672,11 @@ function testUiChangedCallback() {
 function testAuthUi_reset() {
   createAndInstallTestInstances();
   asyncTestCase.waitForSignals(2);
+  // Record all calls to cancelOneTapSignIn.
+  testStubs.replace(
+      firebaseui.auth.AuthUI.prototype,
+      'cancelOneTapSignIn',
+      goog.testing.recordFunction());
   // Reset functions should be run.
   var reset1 = goog.testing.recordFunction();
   var reset2 = goog.testing.recordFunction();
@@ -656,6 +703,9 @@ function testAuthUi_reset() {
   app.registerPending(reset2);
   app.registerPending(p1);
   app.registerPending(p2);
+  // No calls should be made to cancelOneTapSignIn at this point.
+  assertEquals(
+      0, firebaseui.auth.AuthUI.prototype.cancelOneTapSignIn.getCallCount());
   // Trigger reset.
   app.reset();
   // Reset functions should be called and pending promises cancelled.
@@ -663,6 +713,9 @@ function testAuthUi_reset() {
   assertEquals(1, reset2.getCallCount());
   // Rendered component should be cleared.
   assertEquals(0, container1.children.length);
+  // Reset should call cancelOneTapSignIn.
+  assertEquals(
+      1, firebaseui.auth.AuthUI.prototype.cancelOneTapSignIn.getCallCount());
 }
 
 
@@ -808,6 +861,7 @@ function testAuthUi_delete() {
       // Confirm calling any public method will throw an error;
       var methods = [
         'getRedirectResult',
+        'getCurrentComponent',
         'setCurrentComponent',
         'getAuth',
         'getExternalAuth',
@@ -821,7 +875,11 @@ function testAuthUi_delete() {
         'setConfig',
         'getConfig',
         'signIn',
-        'delete'
+        'delete',
+        'cancelOneTapSignIn',
+        'showOneTapSignIn',
+        'disableAutoSignIn',
+        'isAutoSignInDisabled'
       ];
       // Call all public methods and confirm expected error.
       for (var i = 0; i < methods.length; i++) {
@@ -847,4 +905,281 @@ function testAuthUi_logFramework() {
   app.getExternalAuth().assertFrameworksLogged(['FirebaseUI-web']);
   app.getAuth().install();
   app.getExternalAuth().install();
+}
+
+
+function testAuthUi_autoSignIn_manuallyDisabled() {
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().install();
+  app.getExternalAuth().install();
+  // Auto sign-in should be enabled.
+  assertFalse(app.isAutoSignInDisabled());
+  // Manually disable auto sign-in.
+  app.disableAutoSignIn();
+  // Auto sign-in should be disabled now.
+  assertTrue(app.isAutoSignInDisabled());
+}
+
+
+function testAuthUi_autoSignIn_selectAccountPrompt() {
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().install();
+  app.getExternalAuth().install();
+  // Auto sign-in should be enabled.
+  assertFalse(app.isAutoSignInDisabled());
+  // Prompt requires account selection.
+  app.setConfig({
+    'signInSuccessUrl': 'http://localhost/home1',
+    'signInOptions': [
+      {
+        'provider': 'google.com',
+        'customParameters': {'prompt': 'select_account'}
+      }
+    ]
+  });
+  // Auto sign-in should be disabled now that account selection is required.
+  assertTrue(app.isAutoSignInDisabled());
+}
+
+
+function testAuthUi_oneTapSignIn_disabled() {
+  // Even though One-Tap config provided, credential helper is set to none.
+  var uiConfig = {
+    'signInSuccessUrl': 'http://localhost/home1',
+    'signInOptions': [
+      {
+        'provider': 'google.com',
+        'customParameters': {'prompt': 'select_account'},
+        'authMethod': 'https://accounts.google.com',
+        'clientId': '1234567890.apps.googleusercontent.com'
+      }
+    ],
+    'credentialHelper': firebaseui.auth.CredentialHelper.NONE
+  };
+  // Expected googyolo config is null.
+  var googYoloConfig = null;
+  asyncTestCase.waitForSignals(1);
+  var component = new firebaseui.auth.ui.page.Callback();
+  component.render(container1);
+  var handler = mockControl.createFunctionMock('handler');
+  var googleYolo = mockControl.createStrictMock(firebaseui.auth.GoogleYolo);
+  var getInstance = mockControl.createMethodMock(
+      firebaseui.auth.GoogleYolo, 'getInstance');
+  getInstance().$returns(googleYolo);
+  // One-Tap should be a no-op since the googleyolo config is null.
+  googleYolo.show(null, true)
+      .$once()
+      // Simulate no googleyolo credential returned since this is a no-op.
+      .$returns(goog.Promise.resolve(null));
+  // Provided handler should be passed the expected parameters.
+  // In this case, a null credential is passed.
+  handler(ignoreArgument, component, null)
+      .$once()
+      .$does(function(actualApp, actualComponent, actualCredential) {
+        assertEquals(app, actualApp);
+        asyncTestCase.signal();
+        return goog.Promise.resolve(false);
+      });
+  // Cancelled on tearDown.
+  googleYolo.cancel().$once();
+  mockControl.$replayAll();
+
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().install();
+  app.getExternalAuth().install();
+  app.setConfig(uiConfig);
+  app.setCurrentComponent(component);
+  app.showOneTapSignIn(handler);
+}
+
+
+function testAuthUi_oneTapSignIn_autoSignInDisabled() {
+  // Prompt requires account selection. This will result with auto sign-in
+  // being disabled.
+  var uiConfig = {
+    'signInSuccessUrl': 'http://localhost/home1',
+    'signInOptions': [
+      {
+        'provider': 'google.com',
+        'customParameters': {'prompt': 'select_account'},
+        'authMethod': 'https://accounts.google.com',
+        'clientId': '1234567890.apps.googleusercontent.com'
+      }
+    ],
+    'credentialHelper': firebaseui.auth.CredentialHelper.GOOGLE_YOLO
+  };
+  // Expected googyolo config corresponding to the above FirebaseUI config.
+  var googYoloConfig = {
+    'supportedAuthMethods': [
+      'https://accounts.google.com'
+    ],
+    'supportedIdTokenProviders': [
+      {
+        'uri': 'https://accounts.google.com',
+        'clientId': '1234567890.apps.googleusercontent.com'
+      }
+    ]
+  };
+  asyncTestCase.waitForSignals(1);
+  var component = new firebaseui.auth.ui.page.Callback();
+  component.render(container1);
+  var handler = mockControl.createFunctionMock('handler');
+  var googleYolo = mockControl.createStrictMock(firebaseui.auth.GoogleYolo);
+  var getInstance = mockControl.createMethodMock(
+      firebaseui.auth.GoogleYolo, 'getInstance');
+  getInstance().$returns(googleYolo);
+  // One-Tap should be shown with auto sign-in disabled.
+  googleYolo.show(googYoloConfig, true)
+      .$once()
+      // Simulate googleyolo credential returned.
+      .$returns(goog.Promise.resolve(googleYoloIdTokenCredential));
+  // Provided handler should be passed the expected parameters.
+  handler(ignoreArgument, component, googleYoloIdTokenCredential)
+      .$once()
+      .$does(function(actualApp, actualComponent, actualCredential) {
+        assertEquals(app, actualApp);
+        asyncTestCase.signal();
+        return goog.Promise.resolve(true);
+      });
+  // Cancelled on tearDown.
+  googleYolo.cancel().$once();
+  mockControl.$replayAll();
+
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().install();
+  app.getExternalAuth().install();
+  app.setConfig(uiConfig);
+  app.setCurrentComponent(component);
+  app.showOneTapSignIn(handler);
+}
+
+
+function testAuthUi_oneTapSignIn_noCurrentComponent() {
+  // Prompt requires account selection. This will result with auto sign-in
+  // being disabled.
+  var uiConfig = {
+    'signInSuccessUrl': 'http://localhost/home1',
+    'signInOptions': [
+      {
+        'provider': 'google.com',
+        'customParameters': {'prompt': 'select_account'},
+        'authMethod': 'https://accounts.google.com',
+        'clientId': '1234567890.apps.googleusercontent.com'
+      }
+    ],
+    'credentialHelper': firebaseui.auth.CredentialHelper.GOOGLE_YOLO
+  };
+  // Expected googyolo config corresponding to the above FirebaseUI config.
+  var googYoloConfig = {
+    'supportedAuthMethods': [
+      'https://accounts.google.com'
+    ],
+    'supportedIdTokenProviders': [
+      {
+        'uri': 'https://accounts.google.com',
+        'clientId': '1234567890.apps.googleusercontent.com'
+      }
+    ]
+  };
+  asyncTestCase.waitForSignals(1);
+  var component = new firebaseui.auth.ui.page.Callback();
+  component.render(container1);
+  var handler = mockControl.createFunctionMock('handler');
+  var googleYolo = mockControl.createStrictMock(firebaseui.auth.GoogleYolo);
+  var getInstance = mockControl.createMethodMock(
+      firebaseui.auth.GoogleYolo, 'getInstance');
+  getInstance().$returns(googleYolo);
+  // One-Tap should be shown with auto sign-in disabled.
+  googleYolo.show(googYoloConfig, true)
+      .$once()
+      .$does(function(config, autoSignInDisabled) {
+        // Simulate no current component rendered.
+        app.setCurrentComponent(null);
+        // Simulate googleyolo credential returned.
+        asyncTestCase.signal();
+        return goog.Promise.resolve(googleYoloIdTokenCredential);
+      });
+  // Even though googleyolo credential is returned, handler is not called since
+  // no current component is rendered.
+  // Cancelled on tearDown.
+  googleYolo.cancel().$once();
+  mockControl.$replayAll();
+
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().install();
+  app.getExternalAuth().install();
+  app.setConfig(uiConfig);
+  app.setCurrentComponent(component);
+  app.showOneTapSignIn(handler);
+}
+
+
+function testAuthUi_oneTapSignIn_autoSignInEnabled() {
+  // No prompt, so auto sign-in will be enabled by default.
+  var uiConfig = {
+    'signInSuccessUrl': 'http://localhost/home1',
+    'signInOptions': [
+      {
+        'provider': 'google.com',
+        'authMethod': 'https://accounts.google.com',
+        'clientId': '1234567890.apps.googleusercontent.com'
+      }
+    ],
+    'credentialHelper': firebaseui.auth.CredentialHelper.GOOGLE_YOLO
+  };
+  // Expected googyolo config corresponding to the above FirebaseUI config.
+  var googYoloConfig = {
+    'supportedAuthMethods': [
+      'https://accounts.google.com'
+    ],
+    'supportedIdTokenProviders': [
+      {
+        'uri': 'https://accounts.google.com',
+        'clientId': '1234567890.apps.googleusercontent.com'
+      }
+    ]
+  };
+  asyncTestCase.waitForSignals(1);
+  var component = new firebaseui.auth.ui.page.Callback();
+  component.render(container1);
+  var handler = mockControl.createFunctionMock('handler');
+  var googleYolo = mockControl.createStrictMock(firebaseui.auth.GoogleYolo);
+  var getInstance = mockControl.createMethodMock(
+      firebaseui.auth.GoogleYolo, 'getInstance');
+  getInstance().$returns(googleYolo);
+  // One-Tap should be shown with auto sign-in enabled.
+  googleYolo.show(googYoloConfig, false)
+      .$once()
+      .$returns(goog.Promise.resolve(googleYoloIdTokenCredential));
+  // Provided handler should be passed the expected parameters.
+  handler(ignoreArgument, component, googleYoloIdTokenCredential)
+      .$once()
+      .$does(function(actualApp, actualComponent, actualCredential) {
+        assertEquals(app, actualApp);
+        asyncTestCase.signal();
+        return goog.Promise.resolve(true);
+      });
+  // Cancelled once manually and then on tearDown.
+  googleYolo.cancel().$times(2);
+  mockControl.$replayAll();
+
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().install();
+  app.getExternalAuth().install();
+  app.setConfig(uiConfig);
+  app.setCurrentComponent(component);
+  app.showOneTapSignIn(handler);
+  app.cancelOneTapSignIn();
 }
