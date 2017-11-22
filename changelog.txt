@@ -1,1 +1,2 @@
-
+feature - Integrates one-tap sign-up with FirebaseUI-web: https://developers.google.com/identity/one-tap/web/overview
+fixed - Fixes missing dialog-polyfill in FirebaseUI-web npm build.
