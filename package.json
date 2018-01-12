@@ -30,7 +30,7 @@
   },
   "license": "Apache-2.0",
   "devDependencies": {
-    "closure-builder": "^2.0.17",
+    "closure-builder": "^2.2.34",
     "firebase-tools": "^3.0.8",
     "fs-extra": "^3.0.1",
     "google-closure-compiler": "^20171112.0.0",
