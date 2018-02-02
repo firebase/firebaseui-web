@@ -236,12 +236,11 @@ firebaseui.auth.widget.handler.onPhoneSignInStartSubmit_ =
   // verifier.
   app.registerPending(component.executePromiseRequest(
       /** @type {function (): !goog.Promise} */ (
-          goog.bind(app.getExternalAuth().signInWithPhoneNumber,
-              app.getExternalAuth())
+          goog.bind(app.startSignInWithPhoneNumber, app)
       ),
       [phoneNumberValue.getPhoneNumber(), recaptchaVerifier],
-      // On success a confirmation result is returned.
-      function(confirmationResult) {
+      // On success a phone Auth result is returned.
+      function(phoneAuthResult) {
         // Display the dialog that the code was sent.
         var container = component.getContainer();
         component.showProgressDialog(
@@ -259,7 +258,7 @@ firebaseui.auth.widget.handler.onPhoneSignInStartSubmit_ =
               container,
               phoneNumberValue,
               firebaseui.auth.widget.handler.RESEND_DELAY_SECONDS,
-              confirmationResult);
+              phoneAuthResult);
         }, firebaseui.auth.widget.handler.SENDING_SUCCESS_DIALOG_DELAY);
         // On reset, clear timeout.
         app.registerPending(function() {

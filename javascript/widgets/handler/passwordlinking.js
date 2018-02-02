@@ -105,14 +105,18 @@ firebaseui.auth.widget.handler.onPasswordLinkingSubmit_ =
   // Tries to sign in with the email and the password entered by the user.
   app.registerPending(component.executePromiseRequest(
       /** @type {function (): !goog.Promise} */ (
-          goog.bind(app.getAuth().signInWithEmailAndPassword, app.getAuth())),
+          goog.bind(app.signInWithExistingEmailAndPasswordForLinking, app)),
       [email, password],
       function(user) {
-        return app.registerPending(user.linkWithCredential(pendingCredential)
+        var p = user.linkWithCredential(pendingCredential)
             .then(function(linkedUser) {
-              firebaseui.auth.widget.handler.common.setLoggedIn(
+              // Wait for setLoggedIn promise to resolve before hiding progress
+              // bar.
+              return firebaseui.auth.widget.handler.common.setLoggedIn(
                   app, component, pendingCredential);
-            }));
+            });
+        app.registerPending(p);
+        return p;
       }, function(error) {
         // Ignore error if cancelled by the client.
         if (error['name'] && error['name'] == 'cancel') {

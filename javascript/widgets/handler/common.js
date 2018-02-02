@@ -199,8 +199,14 @@ firebaseui.auth.widget.handler.common.handleAcEmptyResponse_ = function(
     // in continue callback function to be passed to accountchooser.com invoked
     // handler.
     var continueCallback = function() {
+      // Sets pending redirect status before redirect to
+      // accountchooser.com.
+      firebaseui.auth.storage.setPendingRedirectStatus(app.getAppId());
       firebaseui.auth.acClient.trySelectAccount(
           function(isAvailable) {
+            // Removes the pending redirect status if does not get
+            // redirected to accountchooser.com.
+            firebaseui.auth.storage.removePendingRedirectStatus(app.getAppId());
             // On empty response, post accountchooser.com result (either empty
             // or unavailable).
             firebaseui.auth.widget.handler.common.accountChooserResult(
@@ -392,6 +398,7 @@ firebaseui.auth.widget.handler.common.selectFromAccountChooser = function(
  *     the user was already signed out from the temporary auth instance.
  * @param {boolean=} opt_alreadySignedIn Whether user already signed in on
  *     external auth instance.
+ * @return {!goog.Promise} A promise that resolves on login completion.
  * @package
  */
 firebaseui.auth.widget.handler.common.setLoggedIn =
@@ -403,7 +410,7 @@ firebaseui.auth.widget.handler.common.setLoggedIn =
         component,
         /** @type {!firebase.User} */ (app.getExternalAuth().currentUser),
         credential);
-    return;
+    return goog.Promise.resolve();
   }
   // This should not occur.
   if (!credential) {
@@ -451,14 +458,17 @@ firebaseui.auth.widget.handler.common.setLoggedIn =
   };
   // In some cases like email mismatch, the temporary user may be signed out.
   // In that case, get the current temporary user directly.
-  var tempUser = app.getAuth().currentUser || opt_user;
+  var tempUser = app.getAuth().currentUser || opt_user ||
+      app.getExternalAuth().currentUser;
   if (!tempUser) {
     // Shouldn't happen as we're only calling this method internally.
     throw new Error('User not logged in.');
   }
   // Sign out from internal auth instance before signing in to external
   // instance.
-  app.registerPending(app.getAuth().signOut().then(function() {
+  // Wrap in a promise to ensure the progress bar remains visible until the
+  // underlying signInWithCredential resolves.
+  var signOutAndSignInPromise = app.clearTempAuthState().then(function() {
     // Save before signing in to developer's auth instance to make sure account
     // is saved without risking interruption from onAuthStateChanged.
     var account = new firebaseui.auth.Account(
@@ -476,14 +486,18 @@ firebaseui.auth.widget.handler.common.setLoggedIn =
     firebaseui.auth.storage.removeRememberAccount(app.getAppId());
     // After successful sign out from internal instance, sign in with credential
     // to the developer provided auth instance. Use the credential passed.
-    app.registerPending(app.getExternalAuth().signInWithCredential(
+    var finishSignInPromise = app.finishSignInWithCredential(
         /** @type {!firebase.auth.AuthCredential} */ (credential))
         .then(function(user) {
           firebaseui.auth.widget.handler.common.setUserLoggedInExternal_(
               app, component, user, outputCred);
           // Catch error when signInSuccessUrl is required and not provided.
-        }, onError).then(function() {}, onError));
-  }, onError));
+        }, onError).then(function() {}, onError);
+    app.registerPending(finishSignInPromise);
+    return finishSignInPromise;
+  }, onError);
+  app.registerPending(signOutAndSignInPromise);
+  return goog.Promise.resolve(signOutAndSignInPromise);
 };
 
 
@@ -706,6 +720,9 @@ firebaseui.auth.widget.handler.common.federatedSignIn = function(
     app, component, providerId, opt_email) {
   var container = component.getContainer();
   var providerSigninFailedCallback = function(error) {
+    // Removes the pending redirect status being set previously
+    // if sign-in with redirect fails.
+    firebaseui.auth.storage.removePendingRedirectStatus(app.getAppId());
     // TODO: align redirect and popup flow error handling for similar errors.
     // Ignore error if cancelled by the client.
     if (error['name'] && error['name'] == 'cancel') {
@@ -716,15 +733,57 @@ firebaseui.auth.widget.handler.common.federatedSignIn = function(
         error);
     component.showInfoBar(errorMessage);
   };
-
+  // Error handler for signInWithPopup and getRedirectResult on Cordova.
+  var signInResultErrorCallback = function(error) {
+    // Clear pending redirect status if redirect on Cordova fails.
+    firebaseui.auth.storage.removePendingRedirectStatus(app.getAppId());
+    // Ignore error if cancelled by the client.
+    if (error['name'] && error['name'] == 'cancel') {
+      return;
+    }
+    switch (error['code']) {
+      case 'auth/popup-blocked':
+        // Popup blocked, switch to redirect flow as fallback.
+         processRedirect();
+        break;
+      case 'auth/popup-closed-by-user':
+      case 'auth/cancelled-popup-request':
+        // When popup is closed or when the user clicks another button,
+        // do nothing.
+        break;
+      case 'auth/credential-already-in-use':
+        // Do nothing when anonymous user is getting updated.
+        // Developer should handle this in signInFailure callback.
+        break;
+      case 'auth/network-request-failed':
+      case 'auth/too-many-requests':
+      case 'auth/user-cancelled':
+        // For no action errors like network error, just display in info
+        // bar in current component. A second attempt could still work.
+        component.showInfoBar(
+            firebaseui.auth.widget.handler.common.getErrorMessage(error));
+        break;
+      default:
+        // Either linking required errors or errors that are
+        // unrecoverable.
+        component.dispose();
+        firebaseui.auth.widget.handler.handle(
+            firebaseui.auth.widget.HandlerName.CALLBACK,
+            app,
+            container,
+            goog.Promise.reject(error));
+        break;
+    }
+  };
   // Initialize the corresponding provider.
   var provider = firebaseui.auth.widget.handler.common.getAuthProvider_(
       app, providerId, opt_email);
   // Redirect processor.
   var processRedirect = function() {
+    firebaseui.auth.storage.setPendingRedirectStatus(app.getAppId());
     app.registerPending(component.executePromiseRequest(
         /** @type {function (): !goog.Promise} */ (
-            goog.bind(app.getAuth().signInWithRedirect, app.getAuth())),
+            goog.bind(app.startSignInWithRedirect, app)),
         [provider],
         function() {
           // Only run below logic if the environment is potentially a Cordova
@@ -736,16 +795,20 @@ firebaseui.auth.widget.handler.common.federatedSignIn = function(
           // This will resolve in a Cordova environment. Result should be
           // obtained from getRedirectResult and then treated like a
           // signInWithPopup operation.
-          return app.registerPending(app.getAuth().getRedirectResult()
+          return app.registerPending(app.getRedirectResult()
               .then(function(result) {
                 // Pass result in promise to callback handler.
                 component.dispose();
+                // Removes pending redirect status if sign-in with redirect
+                // resolves in Cordova environment.
+                firebaseui.auth.storage.removePendingRedirectStatus(
+                    app.getAppId());
                 firebaseui.auth.widget.handler.handle(
                     firebaseui.auth.widget.HandlerName.CALLBACK,
                     app,
                     container,
                     goog.Promise.resolve(result));
-              }, providerSigninFailedCallback));
+              }, signInResultErrorCallback));
         },
         providerSigninFailedCallback));
   };
@@ -758,7 +821,7 @@ firebaseui.auth.widget.handler.common.federatedSignIn = function(
   } else {
     // Popup flow.
     // During rpc, no progress bar should be displayed.
-    app.registerPending(app.getAuth().signInWithPopup(provider).then(
+    app.registerPending(app.startSignInWithPopup(provider).then(
         function(result) {
           // Pass result in promise to callback handler.
           component.dispose();
@@ -767,42 +830,7 @@ firebaseui.auth.widget.handler.common.federatedSignIn = function(
               app,
               container,
               goog.Promise.resolve(result));
-        },
-        function(error) {
-          // Ignore error if cancelled by the client.
-          if (error['name'] && error['name'] == 'cancel') {
-            return;
-          }
-          switch (error['code']) {
-            case 'auth/popup-blocked':
-              // Popup blocked, switch to redirect flow as fallback.
-               processRedirect();
-              break;
-            case 'auth/popup-closed-by-user':
-            case 'auth/cancelled-popup-request':
-              // When popup is closed or when the user clicks another button,
-              // do nothing.
-              break;
-            case 'auth/network-request-failed':
-            case 'auth/too-many-requests':
-            case 'auth/user-cancelled':
-              // For no action errors like network error, just display in info
-              // bar in current component. A second attempt could still work.
-              component.showInfoBar(
-                  firebaseui.auth.widget.handler.common.getErrorMessage(error));
-              break;
-            default:
-              // Either linking required errors or errors that are
-              // unrecoverable.
-              component.dispose();
-              firebaseui.auth.widget.handler.handle(
-                  firebaseui.auth.widget.HandlerName.CALLBACK,
-                  app,
-                  container,
-                  goog.Promise.reject(error));
-              break;
-          }
-        }));
+        }, signInResultErrorCallback));
   }
 };
 
@@ -830,9 +858,8 @@ firebaseui.auth.widget.handler.common.handleGoogleYoloCredential =
   var signInWithCredential = function(firebaseCredential) {
     var status = false;
     var p = component.executePromiseRequest(
-        /** @type {function (): !goog.Promise} */ (goog.bind(
-            app.getAuth().signInAndRetrieveDataWithCredential,
-            app.getAuth())),
+        /** @type {function (): !goog.Promise} */ (
+            goog.bind(app.startSignInWithCredential, app)),
         [firebaseCredential],
         function(result) {
           var container = component.getContainer();
@@ -846,6 +873,24 @@ firebaseui.auth.widget.handler.common.handleGoogleYoloCredential =
         },
         function(error) {
           if (error['name'] && error['name'] == 'cancel') {
+            return;
+          } else if (error &&
+                     error['code'] == 'auth/credential-already-in-use') {
+            // Do nothing when anonymous user is getting updated.
+            // Developer should handle this in signInFailure callback.
+            return;
+          } else if (error &&
+                     error['code'] == 'auth/email-already-in-use' &&
+                     error['email'] && error['credential']) {
+            // Email already in use error should trigger account linking flow.
+            // Pass error to callback handler to trigger that flow.
+            var container = component.getContainer();
+            component.dispose();
+            firebaseui.auth.widget.handler.handle(
+                firebaseui.auth.widget.HandlerName.CALLBACK,
+                app,
+                container,
+                goog.Promise.reject(error));
             return;
           }
           var errorMessage =
@@ -953,12 +998,12 @@ firebaseui.auth.widget.handler.common.verifyPassword =
 
   app.registerPending(component.executePromiseRequest(
       /** @type {function (): !goog.Promise} */ (
-          goog.bind(app.getAuth().signInWithEmailAndPassword, app.getAuth())),
+          goog.bind(app.startSignInWithEmailAndPassword, app)),
       [email, password],
       function(user) {
         // Pass password credential to complete sign-in to the original auth
         // instance.
-        firebaseui.auth.widget.handler.common.setLoggedIn(
+        return firebaseui.auth.widget.handler.common.setLoggedIn(
             app, component, emailPassCred);
       },
       function(error) {
@@ -1229,8 +1274,15 @@ firebaseui.auth.widget.handler.common.handleSignInWithEmail =
             // routine in continue callback function to be passed to
             // accountchooser.com invoked handler.
             var continueCallback = function() {
+              // Sets pending redirect status before redirect to
+              // accountchooser.com.
+              firebaseui.auth.storage.setPendingRedirectStatus(app.getAppId());
               firebaseui.auth.acClient.trySelectAccount(
                   function(isAvailable) {
+                    // Removes the pending redirect status if does not get
+                    // redirected to accountchooser.com.
+                    firebaseui.auth.storage.removePendingRedirectStatus(
+                        app.getAppId());
                     // On empty response, post accountchooser.com result (either
                     // empty or unavailable).
                     var AccountChooserResult =

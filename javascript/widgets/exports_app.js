@@ -14,6 +14,7 @@
 
 goog.provide('firebaseui.auth.exports');
 goog.require('firebaseui.auth.AuthUI');
+goog.require('firebaseui.auth.AuthUIError');
 goog.require('firebaseui.auth.CredentialHelper');
 
 goog.exportSymbol('firebaseui.auth.AuthUI', firebaseui.auth.AuthUI);
@@ -38,6 +39,13 @@ goog.exportSymbol(
 goog.exportSymbol(
     'firebaseui.auth.AuthUI.prototype.delete',
     firebaseui.auth.AuthUI.prototype.delete);
+goog.exportSymbol(
+    'firebaseui.auth.AuthUI.prototype.isPendingRedirect',
+    firebaseui.auth.AuthUI.prototype.isPendingRedirect);
+goog.exportSymbol('firebaseui.auth.AuthUIError', firebaseui.auth.AuthUIError);
+goog.exportSymbol(
+    'firebaseui.auth.AuthUIError.prototype.toJSON',
+    firebaseui.auth.AuthUIError.prototype.toJSON);
 goog.exportSymbol(
     'firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM',
     firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM);

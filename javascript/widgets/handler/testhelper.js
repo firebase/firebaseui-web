@@ -35,6 +35,7 @@ goog.require('firebaseui.auth.testing.RecaptchaVerifier');
 goog.require('firebaseui.auth.ui.page.Base');
 goog.require('firebaseui.auth.util');
 goog.require('firebaseui.auth.widget.Config');
+goog.require('goog.Promise');
 goog.require('goog.dom');
 goog.require('goog.dom.TagName');
 goog.require('goog.dom.classlist');
@@ -101,6 +102,11 @@ var googleYoloOtherCredential = {
   'id': federatedAccount.getEmail(),
   'authMethod': 'https://accounts.google.com'
 };
+// Mock anonymous user.
+var anonymousUser = {
+  uid: '1234567890',
+  isAnonymous: true
+};
 
 var container;
 var container2;
@@ -115,6 +121,7 @@ var signInCallbackUser;
 var signInCallbackCredential;
 var signInCallbackRedirectUrl;
 var uiShownCallbackCount;
+var signInFailureCallback;
 
 var callbackStub = new goog.testing.PropertyReplacer();
 
@@ -174,6 +181,10 @@ function setUp() {
   signInCallbackRedirectUrl = undefined;
   signInCallbackCredential = undefined;
   uiShownCallbackCount = 0;
+  // Define recorded signInFailure callback.
+  signInFailureCallback = goog.testing.recordFunction(function() {
+    return goog.Promise.resolve();
+  });
   app.setConfig({
     'signInSuccessUrl': 'http://localhost/home',
     'widgetUrl': 'http://localhost/firebaseui-widget',
@@ -181,7 +192,10 @@ function setUp() {
     'siteName': 'Test Site',
     'popupMode': false,
     'tosUrl': 'http://localhost/tos',
-    'credentialHelper': firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM
+    'credentialHelper': firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
+    'callbacks': {
+      'signInFailure': signInFailureCallback
+    }
   });
   window.localStorage.clear();
   window.sessionStorage.clear();
@@ -1019,4 +1033,19 @@ function assertResendCountdown(timeRemaining) {
                  .toString();
   var actual = goog.dom.getTextContent(el);
   assertEquals(expected, actual);
+}
+
+
+/**
+ * Asserts signInFailure callback called with expected error.
+ * @param {?Object|undefined} expectedError The expected error passed to
+ *     signInFailure callback.
+ */
+function assertSignInFailure(expectedError) {
+  // Confirm signInFailure callback triggered with expected argument.
+  assertEquals(1, signInFailureCallback.getCallCount());
+  assertObjectEquals(
+      expectedError, signInFailureCallback.getLastCall().getArgument(0));
+  // Sign in success should not be called.
+  assertUndefined(signInCallbackUser);
 }
