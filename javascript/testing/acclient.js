@@ -34,6 +34,7 @@ var acClient = goog.require('firebaseui.auth.acClient');
 var FakeAcClient = function() {
   this.selectTried_ = false;
   this.skipSelect_ = false;
+  this.preSkip_ = null;
   this.available_ = true;
   this.localAccounts_ = null;
   this.acResult_ = null;
@@ -97,9 +98,13 @@ FakeAcClient.prototype.setAvailability =
 /**
  * Sets whether to skip selecting an account.
  * @param {boolean} skip Whether to skip selecting an account.
+ * @param {function()=} opt_preSkip Callback to invoke before onSkip callback.
  */
-FakeAcClient.prototype.setSkipSelect = function(skip) {
+FakeAcClient.prototype.setSkipSelect = function(skip, opt_preSkip) {
   this.skipSelect_ = skip;
+  if (skip) {
+    this.preSkip_ = opt_preSkip || null;
+  }
 };
 
 
@@ -176,6 +181,9 @@ FakeAcClient.prototype.trySelectAccount_ = function(
   this.localAccounts_ = opt_localAccounts;
   this.callbackUrl_ = opt_callbackUrl;
   if (this.skipSelect_) {
+    if (this.preSkip_) {
+      this.preSkip_();
+    }
     onSkipSelect(this.available_);
   }
 };

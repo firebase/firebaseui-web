@@ -17,9 +17,11 @@
  */
 
 goog.provide('firebaseui.auth.CredentialHelper');
+goog.provide('firebaseui.auth.callback.signInFailure');
 goog.provide('firebaseui.auth.callback.signInSuccess');
 goog.provide('firebaseui.auth.widget.Config');
 
+goog.require('firebaseui.auth.AuthUIError');
 goog.require('firebaseui.auth.Config');
 goog.require('firebaseui.auth.PhoneNumber');
 goog.require('firebaseui.auth.data.country');
@@ -41,6 +43,7 @@ firebaseui.auth.widget.Config = function() {
   this.config_ = new firebaseui.auth.Config();
   // Define FirebaseUI widget configurations and convenient getters.
   this.config_.define('acUiConfig');
+  this.config_.define('autoUpgradeAnonymousUsers');
   this.config_.define('callbacks');
   /**
    * Determines which credential helper to use. Currently, only
@@ -93,6 +96,13 @@ firebaseui.auth.CredentialHelper = {
  *     !firebase.User, ?firebase.auth.AuthCredential=, string=): boolean}
  */
 firebaseui.auth.callback.signInSuccess;
+
+
+/**
+ * The configuration sign-in failure callback.
+ * @typedef {function(!firebaseui.auth.AuthUIError): (!Promise<void>|void)}
+ */
+firebaseui.auth.callback.signInFailure;
 
 
 /**
@@ -209,6 +219,22 @@ firebaseui.auth.widget.Config.prototype.widgetUrlForMode_ = function(baseUrl,
 /** @return {string} The sign-in URL of the site. */
 firebaseui.auth.widget.Config.prototype.getSignInSuccessUrl = function() {
   return /** @type {string} */ (this.config_.get('signInSuccessUrl'));
+};
+
+
+/** @return {boolean} Whether to auto upgrade anonymous users. */
+firebaseui.auth.widget.Config.prototype.autoUpgradeAnonymousUsers = function() {
+  var autoUpgradeAnonymousUsers =
+      !!this.config_.get('autoUpgradeAnonymousUsers');
+  // Confirm signInFailure callback is provided when anonymous upgrade is
+  // enabled. This is required to provide a means of recovery for merge conflict
+  // flows.
+  if (autoUpgradeAnonymousUsers && !this.getSignInFailureCallback()) {
+    firebaseui.auth.log.error('Missing "signInFailure" callback: ' +
+        '"signInFailure" callback needs to be provided when ' +
+        '"autoUpgradeAnonymousUsers" is set to true.');
+  }
+  return autoUpgradeAnonymousUsers;
 };
 
 
@@ -596,13 +622,23 @@ firebaseui.auth.widget.Config.prototype.getAccountChooserResultCallback =
  *     into the callback. A second parameter, the Auth credential is also
  *     returned if available from the sign in with redirect response.
  *     An optional third parameter, the redirect URL, is also returned if that
- *     value is set in storage. If it returns {@code true}, the widget will
- *     continue to redirect the page to {@code signInSuccessUrl}. Otherwise, the
+ *     value is set in storage. If it returns `true`, the widget will
+ *     continue to redirect the page to `signInSuccessUrl`. Otherwise, the
  *     widget stops after it returns.
  */
 firebaseui.auth.widget.Config.prototype.getSignInSuccessCallback = function() {
   return /** @type {?firebaseui.auth.callback.signInSuccess} */ (
       this.getCallbacks_()['signInSuccess'] || null);
+};
+
+
+/**
+ * @return {?firebaseui.auth.callback.signInFailure} The callback to invoke when
+ *     the user fails to sign in.
+ */
+firebaseui.auth.widget.Config.prototype.getSignInFailureCallback = function() {
+  return /** @type {?firebaseui.auth.callback.signInFailure} */ (
+      this.getCallbacks_()['signInFailure'] || null);
 };
 
 

@@ -26,6 +26,7 @@ goog.require('firebaseui.auth.widget.Handler');
 goog.require('firebaseui.auth.widget.HandlerName');
 goog.require('firebaseui.auth.widget.handler');
 goog.require('firebaseui.auth.widget.handler.common');
+goog.require('goog.string');
 
 
 /**
@@ -85,9 +86,13 @@ firebaseui.auth.widget.handler.onSignUpSubmit_ = function(app, component) {
     component.getEmailElement().focus();
     return;
   }
-  if (requireDisplayName && !name) {
-    component.getNameElement().focus();
-    return;
+  if (requireDisplayName) {
+    if (name) {
+      name = goog.string.htmlEscape(name);
+    } else {
+      component.getNameElement().focus();
+      return;
+    }
   }
   if (!password) {
     component.getNewPasswordElement().focus();
@@ -101,19 +106,21 @@ firebaseui.auth.widget.handler.onSignUpSubmit_ = function(app, component) {
   // Sign up new account.
   app.registerPending(component.executePromiseRequest(
       /** @type {function (): !goog.Promise} */ (
-          goog.bind(app.getAuth().createUserWithEmailAndPassword, app.getAuth())
+          goog.bind(app.startCreateUserWithEmailAndPassword, app)
           ),
       [email, password],
       function(user) {
         if (requireDisplayName) {
           // Sign up successful. We can now set the name.
-          return app.registerPending(user.updateProfile({'displayName': name})
+          var p = user.updateProfile({'displayName': name})
               .then(function() {
                 // Pass password credential to complete the sign-in to original
                 // auth instance.
-                firebaseui.auth.widget.handler.common.setLoggedIn(
+                return firebaseui.auth.widget.handler.common.setLoggedIn(
                     app, component, emailPassCred);
-              }));
+              });
+          app.registerPending(p);
+          return p;
         } else {
           return firebaseui.auth.widget.handler.common.setLoggedIn(
               app, component, emailPassCred);
