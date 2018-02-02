@@ -19,6 +19,7 @@
 goog.provide('firebaseui.auth.widget.handler.PasswordSignInTest');
 goog.setTestOnly('firebaseui.auth.widget.handler.PasswordSignInTest');
 
+goog.require('firebaseui.auth.AuthUIError');
 goog.require('firebaseui.auth.widget.handler.common');
 goog.require('firebaseui.auth.widget.handler.handlePasswordRecovery');
 goog.require('firebaseui.auth.widget.handler.handlePasswordSignIn');
@@ -37,7 +38,8 @@ function testHandlePasswordSignIn() {
   goog.dom.forms.setValue(getPasswordElement(), '123');
   submitForm();
   testAuth.assertSignInWithEmailAndPassword(
-      [passwordAccount.getEmail(), '123'], function(){
+      [passwordAccount.getEmail(), '123'],
+      function() {
         testAuth.setUser({
           'email': passwordAccount.getEmail(),
           'displayName': passwordAccount.getDisplayName()
@@ -62,11 +64,114 @@ function testHandlePasswordSignIn() {
 }
 
 
+function testHandlePasswordSignIn_upgradeAnonymous_successfulSignIn() {
+  var expectedCredential = firebase.auth.EmailAuthProvider.credential(
+      passwordAccount.getEmail(), '123');
+  // Expected FirebaseUI error.
+  var expectedMergeError = new firebaseui.auth.AuthUIError(
+      firebaseui.auth.AuthUIError.Error.MERGE_CONFLICT,
+      null,
+      expectedCredential);
+  app.updateConfig('autoUpgradeAnonymousUsers', true);
+  // Simulate anonymous user externally signed in.
+  externalAuth.setUser(anonymousUser);
+  firebaseui.auth.widget.handler.handlePasswordSignIn(
+      app, container, passwordAccount.getEmail());
+  assertPasswordSignInPage();
+  goog.dom.forms.setValue(getPasswordElement(), '123');
+  submitForm();
+  testAuth.assertSignInWithEmailAndPassword(
+      [passwordAccount.getEmail(), '123'],
+      function() {
+        // Set non-anonymous user on internal Auth instance.
+        testAuth.setUser({
+          'email': passwordAccount.getEmail(),
+          'displayName': passwordAccount.getDisplayName()
+        });
+        return testAuth.currentUser;
+      });
+  // Sign out from internal instance and then sign in with passed credential to
+  // external instance.
+  return testAuth.process().then(function() {
+    externalAuth.runAuthChangeHandler();
+    // signOut user on temp instance.
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    // No info bar should be displayed.
+    assertNoInfoBarMessage();
+    // UI should be disposed.
+    assertComponentDisposed();
+    // signInFailure should be triggered with expected FirebaseUI error.
+    assertSignInFailure(expectedMergeError);
+  });
+}
+
+
+function testHandlePasswordSignIn_upgradeAnonymous_wrongPassword() {
+  var error = {'code': 'auth/wrong-password'};
+  var expectedCredential = firebase.auth.EmailAuthProvider.credential(
+      passwordAccount.getEmail(), '123');
+  // Expected FirebaseUI error.
+  var expectedMergeError = new firebaseui.auth.AuthUIError(
+      firebaseui.auth.AuthUIError.Error.MERGE_CONFLICT,
+      null,
+      expectedCredential);
+  app.updateConfig('autoUpgradeAnonymousUsers', true);
+  // Simulate anonymous user externally signed in.
+  externalAuth.setUser(anonymousUser);
+  firebaseui.auth.widget.handler.handlePasswordSignIn(
+      app, container, passwordAccount.getEmail());
+  assertPasswordSignInPage();
+  goog.dom.forms.setValue(getPasswordElement(), '321');
+  submitForm();
+  // Simulate wrong password on sign-in.
+  testAuth.assertSignInWithEmailAndPassword(
+      [passwordAccount.getEmail(), '321'],
+      null,
+      error);
+  return testAuth.process().then(function() {
+    // Password sign-in page should be displayed with info bar message.
+    assertPasswordSignInPage();
+    assertEquals(
+        firebaseui.auth.widget.handler.common.getErrorMessage(error),
+        getPasswordErrorMessage());
+    // Try the correct password.
+    goog.dom.forms.setValue(getPasswordElement(), '123');
+    submitForm();
+    testAuth.assertSignInWithEmailAndPassword(
+        [passwordAccount.getEmail(), '123'],
+        function() {
+          // Set non-anonymous user on internal Auth instance.
+          testAuth.setUser({
+            'email': passwordAccount.getEmail(),
+            'displayName': passwordAccount.getDisplayName()
+          });
+          return testAuth.currentUser;
+        });
+    return testAuth.process();
+  }).then(function() {
+    externalAuth.runAuthChangeHandler();
+    // signOut user on temp instance.
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    // No info bar should be displayed.
+    assertNoInfoBarMessage();
+    // UI should be disposed.
+    assertComponentDisposed();
+    // signInFailure should be triggered with expected FirebaseUI error.
+    assertSignInFailure(expectedMergeError);
+  });
+}
+
+
 function testHandlePasswordSignIn_reset() {
   firebaseui.auth.widget.handler.handlePasswordSignIn(
       app, container, passwordAccount.getEmail());
   assertPasswordSignInPage();
   // Reset the current rendered widget page.
+  app.getAuth().assertSignOut([]);
   app.reset();
   // Container should be cleared.
   assertComponentDisposed();
@@ -86,7 +191,8 @@ function testHandlePasswordSignIn_signInCallback() {
   goog.dom.forms.setValue(getPasswordElement(), '123');
   submitForm();
   testAuth.assertSignInWithEmailAndPassword(
-      [passwordAccount.getEmail(), '123'], function(){
+      [passwordAccount.getEmail(), '123'],
+      function() {
         testAuth.setUser({
           'email': passwordAccount.getEmail(),
           'displayName': passwordAccount.getDisplayName()
@@ -106,6 +212,7 @@ function testHandlePasswordSignIn_signInCallback() {
     externalAuth.assertSignInWithCredential([cred], externalAuth.currentUser);
     return externalAuth.process();
   }).then(function() {
+    testAuth.assertSignOut([]);
     // SignInCallback is called. No password credential is passed.
     assertSignInSuccessCallbackInvoked(
         externalAuth.currentUser, null, undefined);
@@ -150,7 +257,8 @@ function testHandlePasswordSignIn_wrongPassword() {
         goog.dom.forms.setValue(getPasswordElement(), '123');
         submitForm();
         testAuth.assertSignInWithEmailAndPassword(
-            [passwordAccount.getEmail(), '123'], function(){
+            [passwordAccount.getEmail(), '123'],
+            function() {
               testAuth.setUser({
                 'email': passwordAccount.getEmail(),
                 'displayName': passwordAccount.getDisplayName()
@@ -244,7 +352,8 @@ function testHandlePasswordSignIn_inProcessing() {
         // Submit again.
         submitForm();
         testAuth.assertSignInWithEmailAndPassword(
-            [passwordAccount.getEmail(), '123'], function(){
+            [passwordAccount.getEmail(), '123'],
+            function() {
               testAuth.setUser({
                 'email': passwordAccount.getEmail(),
                 'displayName': passwordAccount.getDisplayName()

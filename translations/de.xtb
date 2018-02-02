@@ -38,7 +38,7 @@
 <translation id="1898579907513173256">Macau</translation>
 <translation id="1929332760123475919"><ph name="P_START" />Hallo <ph name="DISPLAY_NAME" />,<ph name="P_END" /></translation>
 <translation id="1966996824429980990">Konto löschen</translation>
-<translation id="1987722456379605552">Geben Sie den sechsstelligen Code ein, den wir an <ph name="START_LINK" /><ph name="PHONE_NUMBER" /><ph name="END_LINK" /> gesendet haben</translation>
+<translation id="1987722456379605552">Geben Sie den 6-stelligen Code ein, den wir an <ph name="START_LINK" /><ph name="PHONE_NUMBER" /><ph name="END_LINK" /> gesendet haben</translation>
 <translation id="2016421613709283485">Folgen Sie der an <ph name="PH_1" /> gesendeten Anleitung, um Ihr Passwort zurückzusetzen.</translation>
 <translation id="2035855087334775326">Ungarn</translation>
 <translation id="2040904406955887821">Suriname</translation>
@@ -71,6 +71,7 @@
 <translation id="2448487988481516351">Neukaledonien</translation>
 <translation id="2451742558284013472">Monaco</translation>
 <translation id="2460064915291012298">Seychellen</translation>
+<translation id="2494962141967044042">Der aktuelle anonyme Nutzer konnte sein Konto nicht upgraden, weil die entsprechenden Anmeldedaten bereits mit einem anderen nicht-anonymen Nutzerkonto verknüpft sind.</translation>
 <translation id="2541179214468543429">Sie haben zu oft ein falsches Passwort eingegeben. Versuchen Sie es in einigen Minuten erneut.</translation>
 <translation id="2561560038714758184">Sicherheit</translation>
 <translation id="2561835578785502516">Ihre Anfrage zum Zurücksetzen des Passworts ist abgelaufen oder der Link wurde bereits verwendet</translation>
@@ -243,7 +244,7 @@
 <translation id="5985902459796151462">Dominikanische Republik</translation>
 <translation id="5987586156626209007">Jersey</translation>
 <translation id="5989709845715452405">Passwort zurücksetzen</translation>
-<translation id="5995596766674622541">Geben Sie den sechsstelligen Code ein, den wir an <ph name="START_LINK" />&amp;lrm;<ph name="PHONE_NUMBER" /><ph name="END_LINK" /> geschickt haben</translation>
+<translation id="5995596766674622541">Geben Sie den 6-stelligen Code ein, den wir an <ph name="START_LINK" />&amp;lrm;<ph name="PHONE_NUMBER" /><ph name="END_LINK" /> geschickt haben</translation>
 <translation id="6006148985615990975">Ruanda</translation>
 <translation id="6040759627067155517">E-Mail-Adresse</translation>
 <translation id="6044396095102058216">Diese Telefonnummer wurde schon zu oft verwendet</translation>

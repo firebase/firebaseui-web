@@ -229,6 +229,23 @@
 {/template}
 
 
+/** Translates an FirebaseUI Auth error code to a user-displayable string. */
+{template .errorAuthUI kind="text"}
+  {@param code: string} /** The error code. */
+  {switch $code}
+    {case 'firebaseui/merge-conflict'}
+      {msg desc="Error message when an existing anonymous user is unable to upgrade to a
+          non-anonymous account (Google, Password, etc.) because the associated credential for
+          the non-anonymous account already exists."}
+        The current anonymous user failed to upgrade. The non-anonymous credential is already
+        associated with a different user account.
+      {/msg}
+    {default}
+      {call .internalError /}
+  {/switch}
+{/template}
+
+
 /** Resend countdown. */
 {template .resendCountdown kind="text"}
   {@param timeRemaining:string} /** The time remaining. */
