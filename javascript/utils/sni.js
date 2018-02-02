@@ -155,7 +155,7 @@ firebaseui.auth.sni.Version.prototype.compare = function(version) {
  * Checks the version is equal to or greater than another one.
  *
  * @param {firebaseui.auth.sni.Version|string} version The version to compare.
- * @return {boolean} {@code true} if it's equal to or greater than the other.
+ * @return {boolean} `true` if it's equal to or greater than the other.
  */
 firebaseui.auth.sni.Version.prototype.ge = function(version) {
   return this.compare(version) >= 0;
@@ -167,7 +167,7 @@ firebaseui.auth.sni.Version.prototype.ge = function(version) {
  *
  * @param {string=} opt_userAgent The user agent string. If not provided,
  *     window.navigator.userAgent.
- * @return {boolean} {@code true} if SNI is supported.
+ * @return {boolean} `true` if SNI is supported.
  */
 firebaseui.auth.sni.isSupported = function(opt_userAgent) {
   var ua = opt_userAgent || (window.navigator && window.navigator.userAgent);

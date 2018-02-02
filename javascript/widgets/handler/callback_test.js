@@ -19,6 +19,7 @@
 goog.provide('firebaseui.auth.widget.handler.CallbackTest');
 goog.setTestOnly('firebaseui.auth.widget.handler.CallbackTest');
 
+goog.require('firebaseui.auth.AuthUIError');
 goog.require('firebaseui.auth.CredentialHelper');
 goog.require('firebaseui.auth.PendingEmailCredential');
 goog.require('firebaseui.auth.idp');
@@ -153,6 +154,7 @@ function testHandleCallback_reset() {
   firebaseui.auth.widget.handler.handleCallback(app, container);
   assertCallbackPage();
   // Reset current rendered widget.
+  app.getAuth().assertSignOut([]);
   app.reset();
   // Container should be cleared.
   assertComponentDisposed();
@@ -439,6 +441,7 @@ function testHandleCallback_redirectUser_noPendingCredential_signInCallback() {
         [cred], externalAuth.currentUser);
     return externalAuth.process();
   }).then(function() {
+    testAuth.assertSignOut([]);
     // Pending credential should be cleared from storage.
     assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
         app.getAppId()));
@@ -610,6 +613,7 @@ function testHandleCallback_redirectUser_pendingCredential_signInCallback() {
         [cred], externalAuth.currentUser);
     return externalAuth.process();
   }).then(function() {
+    testAuth.assertSignOut([]);
     // Pending credential should be cleared from storage.
     assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
         app.getAppId()));
@@ -1979,3 +1983,274 @@ function testHandleCallback_operationNotSupported_passwordOnly_acEnabled() {
   });
 }
 
+
+function testHandleCallback_anonymousUpgrade_redirect_success() {
+  // Test successful anonymous user upgrade.
+  asyncTestCase.waitForSignals(1);
+  app.updateConfig('autoUpgradeAnonymousUsers', true);
+  var cred  = firebaseui.auth.idp.getAuthCredential({
+    'providerId': 'google.com',
+    'accessToken': 'ACCESS_TOKEN'
+  });
+  // User should be signed in.
+  externalAuth.setUser({
+    'email': federatedAccount.getEmail(),
+    'displayName': federatedAccount.getDisplayName()
+  });
+  // Callback rendered.
+  firebaseui.auth.widget.handler.handleCallback(app, container);
+  assertCallbackPage();
+  // Trigger initial onAuthStateChanged listener.
+  app.getExternalAuth().runAuthChangeHandler();
+  // getRedirectResult called on internal instance first.
+  app.getAuth().assertGetRedirectResult(
+      [],
+      {
+        'user': null,
+        'credential': null
+      });
+  app.getAuth().process().then(function() {
+    // getRedirectResult called on external instance after no result found.
+    app.getExternalAuth().assertGetRedirectResult(
+        [],
+        {
+          'user': externalAuth.currentUser,
+          'credential': cred
+        });
+    return app.getExternalAuth().process();
+  }).then(function() {
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    // Pending credential should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    // User should be redirected to success URL.
+    testUtil.assertGoTo('http://localhost/home');
+    asyncTestCase.signal();
+  });
+}
+
+
+function testHandleCallback_anonymousUpgrade_redirect_error() {
+  // Test anonymous user upgrade with merge conflict error.
+  asyncTestCase.waitForSignals(1);
+  var cred  = firebaseui.auth.idp.getAuthCredential({
+    'providerId': 'google.com',
+    'accessToken': 'ACCESS_TOKEN'
+  });
+  // Expected getRedirectResult error on merge conflict.
+  var expectedError = {
+    'code': 'auth/credential-already-in-use',
+    'credential': cred,
+    'email': federatedAccount.getEmail(),
+    'message': 'MESSAGE'
+  };
+  // Expected signInFailure FirebaseUI error.
+  var expectedMergeError = new firebaseui.auth.AuthUIError(
+      firebaseui.auth.AuthUIError.Error.MERGE_CONFLICT,
+      null,
+      cred);
+  app.updateConfig('autoUpgradeAnonymousUsers', true);
+  // Simulate anonymous user on external Auth instance.
+  externalAuth.setUser(anonymousUser);
+  // Callback rendered.
+  firebaseui.auth.widget.handler.handleCallback(app, container);
+  assertCallbackPage();
+  // Trigger initial onAuthStateChanged listener.
+  app.getExternalAuth().runAuthChangeHandler();
+  // External getRedirectResult called with expected error.
+  app.getExternalAuth().assertGetRedirectResult(
+      [],
+      null,
+      expectedError);
+  app.getExternalAuth().process().then(function() {
+    // Pending credential should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    // signInFailure callback triggered with expected FirebaseUI error.
+    assertSignInFailure(expectedMergeError);
+    asyncTestCase.signal();
+  });
+}
+
+
+function testHandleCallback_anonymousUpgrade_emailAlreadyInUse_fedLinking() {
+  // Test anonymous user upgrade linkWithRedirect throwing email already in use
+  // error where the existing email belongs to a federated account.
+  asyncTestCase.waitForSignals(1);
+  // Enable anonymous user upgrade.
+  app.updateConfig('autoUpgradeAnonymousUsers', true);
+  var cred  = firebaseui.auth.idp.getAuthCredential({
+    'providerId': 'google.com',
+    'accessToken': 'ACCESS_TOKEN'
+  });
+  var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
+      federatedAccount.getEmail(), cred);
+  // Expected linkWithRedirect error.
+  var expectedError = {
+    'code': 'auth/email-already-in-use',
+    'credential': cred,
+    'email': federatedAccount.getEmail(),
+    'message': 'MESSAGE'
+  };
+  // Simulate anonymous user signed in.
+  externalAuth.setUser(anonymousUser);
+  // Render callback handler.
+  firebaseui.auth.widget.handler.handleCallback(app, container);
+  assertCallbackPage();
+  // Trigger initial onAuthStateChanged listener.
+  app.getExternalAuth().runAuthChangeHandler();
+  // Assert getRedirectResult called on external instance and expected email
+  // already in use error thrown.
+  app.getExternalAuth().assertGetRedirectResult(
+      [],
+      null,
+      expectedError);
+  app.getExternalAuth().process().then(function() {
+    // As account already exists, user must sign in to existing account.
+    // In this case, the existing account is a google account.
+    testAuth.assertFetchProvidersForEmail(
+        [federatedAccount.getEmail()], ['google.com']);
+    return testAuth.process();
+  }).then(function() {
+    // The pending credential should be saved here.
+    assertObjectEquals(
+        pendingEmailCred,
+        firebaseui.auth.storage.getPendingEmailCredential(app.getAppId()));
+    // Federated linking flow should be triggered.
+    assertFederatedLinkingPage(federatedAccount.getEmail());
+    asyncTestCase.signal();
+  });
+}
+
+
+function testHandleCallback_anonymousUpgrade_emailAlreadyInUse_passLinking() {
+  // Test anonymous user upgrade linkWithRedirect throwing email already in use
+  // error where the existing email belongs to a password account.
+  asyncTestCase.waitForSignals(1);
+  // Enable anonymous user upgrade.
+  app.updateConfig('autoUpgradeAnonymousUsers', true);
+  var cred  = firebaseui.auth.idp.getAuthCredential({
+    'providerId': 'google.com',
+    'accessToken': 'ACCESS_TOKEN'
+  });
+  // Expected linkWithRedirect error.
+  var expectedError = {
+    'code': 'auth/email-already-in-use',
+    'credential': cred,
+    'email': federatedAccount.getEmail(),
+    'message': 'MESSAGE'
+  };
+  // Simulate anonymous user signed in.
+  externalAuth.setUser(anonymousUser);
+  // Render callback handler.
+  firebaseui.auth.widget.handler.handleCallback(app, container);
+  assertCallbackPage();
+  // Trigger initial onAuthStateChanged listener.
+  app.getExternalAuth().runAuthChangeHandler();
+  // Assert getRedirectResult called on external instance and expected email
+  // already in use error thrown.
+  app.getExternalAuth().assertGetRedirectResult(
+      [],
+      null,
+      expectedError);
+  app.getExternalAuth().process().then(function() {
+    // Simulate existing account is a password account.
+    testAuth.assertFetchProvidersForEmail(
+        [federatedAccount.getEmail()], ['password']);
+    return testAuth.process();
+  }).then(function() {
+    // The pending email credential should be cleared at this point.
+    // Password linking does not require a redirect so no need to save it
+    // anyway.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    // Password linking page rendered.
+    assertPasswordLinkingPage(federatedAccount.getEmail());
+    asyncTestCase.signal();
+  });
+}
+
+
+function testHandleCallback_anonymousUpgrade_pendingCredential_success() {
+  // Test successful return from regular sign in operation with pending
+  // credentials requiring linking.
+  asyncTestCase.waitForSignals(1);
+  // Enabled anonymous user upgrade.
+  app.updateConfig('autoUpgradeAnonymousUsers', true);
+  // The new credential to link.
+  var cred  = firebaseui.auth.idp.getAuthCredential({
+    'providerId': 'google.com',
+    'accessToken': 'ACCESS_TOKEN'
+  });
+  // The existing credential to sign in to.
+  var cred2  = firebaseui.auth.idp.getAuthCredential({
+    'providerId': 'facebook.com',
+    'accessToken': 'ACCESS_TOKEN'
+  });
+  var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
+      federatedAccount.getEmail(), cred);
+  // Expected linkAndRetrieveDataWithCredential error.
+  var expectedError = {
+    'code': 'auth/credential-already-in-use',
+    'credential': cred,
+    'email': federatedAccount.getEmail(),
+    'message': 'MESSAGE'
+  };
+  // Expected signInFailure FirebaseUI error.
+  var expectedMergeError = new firebaseui.auth.AuthUIError(
+      firebaseui.auth.AuthUIError.Error.MERGE_CONFLICT,
+      null,
+      cred);
+  // Simulate previous linking required (pending credentials should be saved).
+  firebaseui.auth.storage.setPendingEmailCredential(
+      pendingEmailCred, app.getAppId());
+  // Anonymous user signed in externally.
+  externalAuth.setUser(anonymousUser);
+  // Callback rendered.
+  firebaseui.auth.widget.handler.handleCallback(app, container);
+  assertCallbackPage();
+  // Trigger initial onAuthStateChanged listener.
+  app.getExternalAuth().runAuthChangeHandler();
+  // Assert get redirect result called on internal instance to complete sign in
+  // to existing credential.
+  testAuth.assertGetRedirectResult(
+      [],
+      function() {
+        // User should be signed in at this point.
+        testAuth.setUser({
+          'email': federatedAccount.getEmail(),
+          'displayName': federatedAccount.getDisplayName()
+        });
+        return {
+          'user': testAuth.currentUser,
+          'credential': cred2
+        };
+      });
+  testAuth.process().then(function() {
+    // Linking should be triggered with pending credential.
+    testAuth.currentUser.assertLinkWithCredential([cred], testAuth.currentUser);
+    return testAuth.process();
+    // Sign out from internal instance and then sign in with passed credential
+    // to external instance.
+  }).then(function() {
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    // Linking existing credential to anonymous user should fail with expected
+    // error.
+    externalAuth.currentUser.assertLinkWithCredential(
+        [cred],
+        null,
+        expectedError);
+    return externalAuth.process();
+  }).then(function() {
+    // Pending credential should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    // signInFailure callback triggered with expected FirebaseUI error.
+    assertSignInFailure(expectedMergeError);
+    asyncTestCase.signal();
+  });
+}

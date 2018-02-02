@@ -123,12 +123,12 @@ firebaseui.auth.acClient.init = function(
 /**
  * Starts the flow to select an account from accountchooser.com.
  * It first checks whether accountchooser.com has accounts. If not,
- * {@code onSkipSelect} is called instead of redirecting to accountchooser.com.
+ * `onSkipSelect` is called instead of redirecting to accountchooser.com.
  *
  * @param {function(boolean)} onSkipSelect The callback function invoked when
  *     the account selection can be skipped. A boolean availability flag is
  *     passed. It is true if accountchooser.com is available, false otherwise.
- * @param {Array<firebaseui.auth.Account>} opt_localAccounts The local account
+ * @param {Array<firebaseui.auth.Account>=} opt_localAccounts The local account
  *     list to pass to accountchooser.com.
  * @param {string=} opt_callbackUrl The URL to return to when the flow finishes.
  *     The default is current URL.
@@ -163,7 +163,7 @@ firebaseui.auth.acClient.trySelectAccount = function(
 /**
  * Starts the flow to store or update an account into accountchooser.com.
  * It first checks whether the account needs to be stored or updated. If not,
- * the {@code onSkipStore} is called instead of redirecting to
+ * the `onSkipStore` is called instead of redirecting to
  * accountchooser.com.
  *
  * @param {firebaseui.auth.Account} account The account to add.
@@ -298,7 +298,7 @@ firebaseui.auth.acClient.DummyApi.prototype.update =
 
 /**
  * Checkes if accountchooser.com is disabled. The callback is always invoked
- * with a {@code true}.
+ * with a `true`.
  *
  * @param {function(boolean=, Object=)} callback The callback function.
  */

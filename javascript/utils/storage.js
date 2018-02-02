@@ -84,12 +84,18 @@ storage.isAvailable = function() {
 storage.Key = {
   // Temporary storage.
   PENDING_EMAIL_CREDENTIAL: {name: 'pendingEmailCredential', persistent: false},
+  PENDING_REDIRECT_KEY: {name: 'pendingRedirect', persistent: false},
   REDIRECT_URL: {name: 'redirectUrl', persistent: false},
   REMEMBER_ACCOUNT: {name: 'rememberAccount', persistent: false},
 
   // Persistent storage.
   REMEMBERED_ACCOUNTS: {name: 'rememberedAccounts', persistent: true}
 };
+
+/**
+ * @const @private{string} The pending redirect flag.
+ */
+storage.PENDING_FLAG_ = 'pending';
 
 
 /**
@@ -221,7 +227,7 @@ storage.hasRememberAccount = function(opt_id) {
 /**
  * @param {string=} opt_id When operating in multiple app mode, this ID
  *     associates storage values with specific apps.
- * @return {boolean} Whether or not to remember the account. {@code false} is
+ * @return {boolean} Whether or not to remember the account. `false` is
  *     returned if there is no such setting.
  */
 storage.isRememberAccount = function(opt_id) {
@@ -355,6 +361,44 @@ storage.setPendingEmailCredential = function(pendingEmailCredential, opt_id) {
   storage.set_(
       storage.Key.PENDING_EMAIL_CREDENTIAL,
       pendingEmailCredential.toPlainObject(),
+      opt_id);
+};
+
+
+/**
+ * @param {string=} opt_id When operating in multiple app mode, this ID
+ *     associates storage values with specific apps.
+ * @return {boolean} Whether there is a pending redirect operation for the
+ *     provided app ID.
+ */
+storage.hasPendingRedirectStatus = function(opt_id) {
+  return (
+      storage.get_(storage.Key.PENDING_REDIRECT_KEY, opt_id) ===
+      storage.PENDING_FLAG_);
+};
+
+
+/**
+ * Removes the stored pending redirect status for provided app ID.
+ *
+ * @param {string=} opt_id When operating in multiple app mode, this ID
+ *     associates storage values with specific apps.
+ */
+storage.removePendingRedirectStatus = function(opt_id) {
+  storage.remove_(storage.Key.PENDING_REDIRECT_KEY, opt_id);
+};
+
+
+/**
+ * Stores the pending redirect status for the provided application ID。
+ *
+ * @param {string=} opt_id When operating in multiple app mode, this ID
+ *     associates storage values with specific apps.
+ */
+storage.setPendingRedirectStatus = function(opt_id) {
+  storage.set_(
+      storage.Key.PENDING_REDIRECT_KEY,
+      storage.PENDING_FLAG_,
       opt_id);
 };
 });

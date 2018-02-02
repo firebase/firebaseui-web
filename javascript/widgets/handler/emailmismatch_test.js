@@ -135,6 +135,52 @@ function testHandleEmailMismatch_linking_continue() {
 }
 
 
+function testHandleEmailMismatch_linking_continue_upgradeAnonymous() {
+  // Test handleEmailMismatch when continue button is clicked and the user was
+  // doing the linking flow with an eligible anonymous user available.
+
+  // Enable anonymous user upgrade.
+  app.updateConfig('autoUpgradeAnonymousUsers', true);
+  // Simulate anonymous user signed in.
+  externalAuth.setUser(anonymousUser);
+  // The credentials returned from the provider.
+  var credential = firebaseui.auth.idp.getAuthCredential({
+    'idToken': 'googleIdToken',
+    'providerId': 'google.com'
+  });
+  // Store pending email and pending credential.
+  setPendingCredentials('other@example.com');
+  var currentUser = {email: federatedAccount.getEmail()};
+  firebaseui.auth.widget.handler.handleEmailMismatch(
+      app, container, currentUser, credential);
+  assertEmailMismatchPage(federatedAccount.getEmail(), 'other@example.com');
+  // Click continue.
+  submitForm();
+  // Sign out from internal instance and then sign in with passed credential to
+  // external instance.
+  return testAuth.process().then(function() {
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    // Trigger initial onAuthStateChanged listener.
+    externalAuth.runAuthChangeHandler();
+    // Linking the credential to continue with to the existing anonymous user.
+    externalAuth.currentUser.assertLinkWithCredential(
+        [credential],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+          return externalAuth.currentUser;
+        });
+    return externalAuth.process();
+  }).then(function() {
+    testUtil.assertGoTo('http://localhost/home');
+    // Pending credential should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+  });
+}
+
+
 function testHandleEmailMismatch_signIn_continue() {
   // Test handleEmailMismatch when continue button is clicked and the user was
   // doing the sign-in flow.
@@ -191,6 +237,35 @@ function testHandleEmailMismatch_linking_cancel() {
   // Click cancel.
   clickSecondaryLink();
   assertFederatedLinkingPage('other@example.com');
+  assertTrue(firebaseui.auth.storage.hasPendingEmailCredential(app.getAppId()));
+}
+
+
+function testHandleEmailMismatch_linking_cancel_upgradeAnonymous() {
+  // Test handlEmailMismatch when cancel button is clicked and the user was
+  // doing the linking flow with an eligible anonymous user available.
+
+  // Enable anonymous user upgrade.
+  app.updateConfig('autoUpgradeAnonymousUsers', true);
+  // Simulate anonymous user signed in.
+  externalAuth.setUser(anonymousUser);
+  // The credentials returned from the provider.
+  var credential = firebaseui.auth.idp.getAuthCredential({
+    'idToken': 'googleIdToken',
+    'providerId': 'google.com'
+  });
+  // Store pending email and pending credential.
+  setPendingCredentials('other@example.com');
+  var currentUser = {email: federatedAccount.getEmail()};
+  firebaseui.auth.widget.handler.handleEmailMismatch(
+      app, container, currentUser, credential);
+  assertEmailMismatchPage(federatedAccount.getEmail(), 'other@example.com');
+  // Click cancel.
+  clickSecondaryLink();
+  // User should be redirect back to federated linking page with the originally
+  // intended email to sign in with.
+  assertFederatedLinkingPage('other@example.com');
+  // Pending email credential should still be available.
   assertTrue(firebaseui.auth.storage.hasPendingEmailCredential(app.getAppId()));
 }
 
