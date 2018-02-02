@@ -606,13 +606,13 @@
     <div class="firebaseui-card-content">
       <form onsubmit="return false;">
         <ul class="firebaseui-idp-list">
-          {for $providerId in $providerIds}
+          {foreach $providerId in $providerIds}
             <li class="firebaseui-list-item">
               {call firebaseui.auth.soy2.element.idpButton}
                 {param providerId: $providerId /}
               {/call}
             </li>
-          {/for}
+          {/foreach}
         </ul>
       </form>
     </div>
