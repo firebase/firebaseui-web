@@ -80,7 +80,7 @@ firebaseui.auth.Account.prototype.toPlainObject = function() {
 
 
 /**
- * Converts a plain account object to {@code firebaseui.auth.Account}.
+ * Converts a plain account object to `firebaseui.auth.Account`.
  * @param {!Object} account The plain object representation of an account.
  * @return {firebaseui.auth.Account} The account.
  */

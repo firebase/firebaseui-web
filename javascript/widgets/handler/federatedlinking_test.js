@@ -19,6 +19,7 @@
 goog.provide('firebaseui.auth.widget.handler.FederatedLinkingTest');
 goog.setTestOnly('firebaseui.auth.widget.handler.FederatedLinkingTest');
 
+goog.require('firebaseui.auth.AuthUIError');
 goog.require('firebaseui.auth.PendingEmailCredential');
 goog.require('firebaseui.auth.idp');
 goog.require('firebaseui.auth.storage');
@@ -81,6 +82,31 @@ function testHandleFederatedLinking_noLoginHint() {
       app, container, federatedAccount.getEmail(), 'github.com');
   assertFederatedLinkingPage(federatedAccount.getEmail());
   submitForm();
+  testAuth.assertSignInWithRedirect([expectedProvider]);
+  return testAuth.process();
+}
+
+
+function testHandleFederatedLinking_noLoginHint_upgradeAnonymous() {
+  // Add additional scopes to test they are properly passed to the sign-in
+  // method.
+  // As this is not google.com, no customParameters will be set.
+  var expectedProvider =
+      getExpectedProviderWithCustomParameters('github.com');
+  // Simulate pending email credentials.
+  setPendingEmailCredentials();
+  // Enable anonymous user upgrade.
+  app.updateConfig('autoUpgradeAnonymousUsers', true);
+  // Simulate anonymous user signed in.
+  externalAuth.setUser(anonymousUser);
+  firebaseui.auth.widget.handler.handleFederatedLinking(
+      app, container, federatedAccount.getEmail(), 'github.com');
+  assertFederatedLinkingPage(federatedAccount.getEmail());
+  submitForm();
+  // Trigger initial onAuthStateChanged listener.
+  app.getExternalAuth().runAuthChangeHandler();
+  // Assert signInWithRedirect called on internal Auth instance with expected
+  // provider.
   testAuth.assertSignInWithRedirect([expectedProvider]);
   return testAuth.process();
 }
@@ -166,11 +192,11 @@ function testHandleFederatedLinking_noLoginHint_error_cordova() {
         internalError);
     return testAuth.process();
   }).then(function() {
-    // Pending credential and email should be not cleared from storage.
-    assertTrue(firebaseui.auth.storage.hasPendingEmailCredential(
+    // Pending credential and email should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
         app.getAppId()));
-    // Federated linking page should remain displayed.
-    assertFederatedLinkingPage(federatedAccount.getEmail());
+    // Navigate to provider sign in page and display the error in info bar.
+    assertProviderSignInPage();
     // Confirm error message shown in info bar.
     assertInfoBarMessage(
         firebaseui.auth.widget.handler.common.getErrorMessage(internalError));
@@ -229,6 +255,89 @@ function testHandleFederatedLinking_popup_success() {
         app.getAppId()));
     // User should be redirected to success URL.
     testUtil.assertGoTo('http://localhost/home');
+  });
+}
+
+
+function testHandleFederatedLinking_popup_upgradeAnonymous() {
+  // Test successful federated linking in popup flow when an eligible anonymous
+  // user is available for upgrade.
+  app.updateConfig('signInFlow', 'popup');
+  // Add additional scopes to test they are properly passed to the sign-in
+  // method.
+  var expectedProvider = getExpectedProviderWithScopes({
+    'login_hint': federatedAccount.getEmail(),
+    'prompt': 'select_account'
+  });
+  setPendingEmailCredentials();
+  // Enable anonymous user upgrade.
+  app.updateConfig('autoUpgradeAnonymousUsers', true);
+  // Simulate anonymous user signed in.
+  externalAuth.setUser(anonymousUser);
+  firebaseui.auth.widget.handler.handleFederatedLinking(
+      app, container, federatedAccount.getEmail(), 'google.com');
+  assertFederatedLinkingPage(federatedAccount.getEmail());
+  submitForm();
+  // Existing account credential.
+  var cred  = {
+    'providerId': 'google.com',
+    'accessToken': 'ACCESS_TOKEN'
+  };
+  // Expected linkWithCredential error.
+  var expectedError = {
+    'code': 'auth/credential-already-in-use',
+    'credential': credential,
+    'email': federatedAccount.getEmail(),
+    'message': 'MESSAGE'
+  };
+  // Expected FirebaseUI error.
+  var expectedMergeError = new firebaseui.auth.AuthUIError(
+      firebaseui.auth.AuthUIError.Error.MERGE_CONFLICT,
+      null,
+      credential);
+  // Trigger initial onAuthStateChanged listener.
+  app.getExternalAuth().runAuthChangeHandler();
+  // Sign in with popup should be called on internal Auth instance.
+  testAuth.assertSignInWithPopup(
+      [expectedProvider],
+      function() {
+        // User should be signed in.
+        testAuth.setUser({
+          'email': federatedAccount.getEmail(),
+          'displayName': federatedAccount.getDisplayName()
+        });
+        return {
+          'user': testAuth.currentUser,
+          'credential': cred
+        };
+      });
+  return testAuth.process().then(function() {
+    // Linking should be triggered with pending credential on internal Auth
+    // instance user.
+    testAuth.currentUser.assertLinkWithCredential(
+        [credential], testAuth.currentUser);
+    return testAuth.process();
+    // Sign out from internal instance and then sign in with passed credential
+    // to external instance.
+  }).then(function() {
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    // Existing credential linking to anonymous user should fail with expected
+    // error.
+    externalAuth.currentUser.assertLinkWithCredential(
+        [credential],
+        null,
+        expectedError);
+    return externalAuth.process();
+  }).then(function() {
+    // Pending credential and email should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    // No info bar message shown.
+    assertNoInfoBarMessage();
+    // signInFailure triggered with expected error.
+    assertSignInFailure(expectedMergeError);
   });
 }
 
@@ -303,6 +412,7 @@ function testHandleFederatedLinking_reset() {
   firebaseui.auth.widget.handler.handleFederatedLinking(
       app, container, federatedAccount.getEmail(), 'google.com');
   assertFederatedLinkingPage(federatedAccount.getEmail());
+  app.getAuth().assertSignOut([]);
   // Reset current rendered widget page.
   app.reset();
   // Container should be cleared.
@@ -584,4 +694,3 @@ function testHandleFederatedLinking_popup_cancelled() {
     assertFederatedLinkingPage();
   });
 }
-

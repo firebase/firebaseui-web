@@ -96,9 +96,7 @@
         {if $requireDisplayName}
           {call firebaseui.auth.soy2.element.name data="all" /}
         {/if}
-        {call firebaseui.auth.soy2.element.newPassword}
-          {param choose: true /}
-        {/call}
+        {call firebaseui.auth.soy2.element.newPassword /}
         {if $tosUrl}{call firebaseui.auth.soy2.element.tos data="all" /}{/if}
       </div>
       <div class="firebaseui-card-actions">

@@ -96,6 +96,7 @@ function testHandlePasswordReset_reset() {
   app.getAuth().process().then(function() {
     assertPasswordResetPage();
     // Reset current rendered widget page.
+    app.getAuth().assertSignOut([]);
     app.reset();
     // Container should be cleared.
     assertComponentDisposed();
@@ -128,6 +129,7 @@ function testHandlePasswordReset_inProcessing() {
       // Password reset success page should show.
       assertPasswordResetSuccessPage();
       // Reset current rendered widget page.
+      app.getAuth().assertSignOut([]);
       app.reset();
       // Container should be cleared.
       assertComponentDisposed();
@@ -150,6 +152,7 @@ function testHandlePasswordReset_failToCheckActionCode() {
     // Password reset failure page should show.
     assertPasswordResetFailurePage();
     // Reset current rendered widget page.
+    app.getAuth().assertSignOut([]);
     app.reset();
     // Container should be cleared.
     assertComponentDisposed();
@@ -231,6 +234,7 @@ function testHandleEmailChangeRevocation_success() {
     // Successful revocation.
     assertEmailChangeRevokeSuccessPage();
     // Reset current rendered widget page.
+    app.getAuth().assertSignOut([]);
     app.reset();
     // Container should be cleared.
     assertComponentDisposed();
@@ -246,6 +250,7 @@ function testHandleEmailChangeRevocation_reset() {
   firebaseui.auth.widget.handler.handleEmailChangeRevocation(
       app, container, 'EMAIL_CHANGE_REVOKE_ACTION_CODE');
   // Reset current rendered widget page.
+  app.getAuth().assertSignOut([]);
   app.reset();
   // Container should be cleared.
   assertComponentDisposed();
@@ -281,6 +286,7 @@ function testHandleEmailChangeRevocation_resetPassword_success() {
     // We should notify the user that the recovery email was sent.
     assertPasswordRecoveryEmailSentPage();
     // Reset current rendered widget page.
+    app.getAuth().assertSignOut([]);
     app.reset();
     // Container should be cleared.
     assertComponentDisposed();
@@ -320,6 +326,7 @@ function testHandleEmailChangeRevocation_resetPassword_failure() {
     assertInfoBarMessage(firebaseui.auth.soy2.strings.errorSendPasswordReset()
         .toString());
     // Reset current rendered widget page.
+    app.getAuth().assertSignOut([]);
     app.reset();
     // Container should be cleared.
     assertComponentDisposed();
@@ -342,6 +349,7 @@ function testHandleEmailChangeRevocation_checkActionCodefailure() {
     // Email change revocation failure page should show.
     assertEmailChangeRevokeFailurePage();
     // Reset current rendered widget page.
+    app.getAuth().assertSignOut([]);
     app.reset();
     // Container should be cleared.
     assertComponentDisposed();
@@ -385,6 +393,7 @@ function testHandleEmailVerification_success() {
     // No continue button should be displayed.
     assertNull(getSubmitButton());
     // Reset current rendered widget page.
+    app.getAuth().assertSignOut([]);
     app.reset();
     // Container should be cleared.
     assertComponentDisposed();
@@ -426,6 +435,7 @@ function testHandleEmailVerification_reset() {
   firebaseui.auth.widget.handler.handleEmailVerification(
       app, container, 'EMAIL_VERIFICATION_ACTION_CODE');
   // Reset current rendered widget page.
+  app.getAuth().assertSignOut([]);
   app.reset();
   // Container should be cleared.
   assertComponentDisposed();
@@ -451,6 +461,7 @@ function testHandleEmailVerification_failure() {
     // Email verification failure page should show.
     assertEmailVerificationFailurePage();
     // Reset current rendered widget page.
+    app.getAuth().assertSignOut([]);
     app.reset();
     // Container should be cleared.
     assertComponentDisposed();
