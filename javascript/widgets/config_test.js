@@ -859,17 +859,20 @@ function testGetCallbacks() {
   var uiChangedCallback = function() {};
   var accountChooserInvokedCallback = function() {};
   var accountChooserResultCallback = function() {};
+  var signInFailureCallback = function() {};
   assertNull(config.getUiShownCallback());
   assertNull(config.getSignInSuccessCallback());
   assertNull(config.getUiChangedCallback());
   assertNull(config.getAccountChooserInvokedCallback());
+  assertNull(config.getAccountChooserResultCallback());
   assertNull(config.getAccountChooserResultCallback());
   config.update('callbacks', {
     'uiShown': uiShownCallback,
     'signInSuccess': signInSuccessCallback,
     'uiChanged': uiChangedCallback,
     'accountChooserInvoked': accountChooserInvokedCallback,
-    'accountChooserResult': accountChooserResultCallback
+    'accountChooserResult': accountChooserResultCallback,
+    'signInFailure': signInFailureCallback
   });
   assertEquals(uiShownCallback, config.getUiShownCallback());
   assertEquals(
@@ -881,6 +884,49 @@ function testGetCallbacks() {
   assertEquals(
       accountChooserResultCallback,
       config.getAccountChooserResultCallback());
+  assertEquals(
+      signInFailureCallback, config.getSignInFailureCallback());
+}
+
+
+function testAutoUpgradeAnonymousUsers() {
+  var expectedErrorLogMessage = 'Missing "signInFailure" callback: ' +
+      '"signInFailure" callback needs to be provided when ' +
+      '"autoUpgradeAnonymousUsers" is set to true.';
+  assertFalse(config.autoUpgradeAnonymousUsers());
+
+  config.update('autoUpgradeAnonymousUsers', '');
+  assertFalse(config.autoUpgradeAnonymousUsers());
+
+  config.update('autoUpgradeAnonymousUsers', null);
+  assertFalse(config.autoUpgradeAnonymousUsers());
+
+  config.update('autoUpgradeAnonymousUsers', false);
+  assertFalse(config.autoUpgradeAnonymousUsers());
+
+  // No error or warning should be logged.
+  assertArrayEquals([], errorLogMessages);
+  assertArrayEquals([], warningLogMessages);
+
+  // Set autoUpgradeAnonymousUsers to true without providing a signInFailure
+  // callback.
+  config.update('autoUpgradeAnonymousUsers', true);
+  assertTrue(config.autoUpgradeAnonymousUsers());
+  // Error should be logged.
+  assertArrayEquals([expectedErrorLogMessage], errorLogMessages);
+  assertArrayEquals([], warningLogMessages);
+
+  // Provide the signInFailure callback.
+  config.update('callbacks', {
+    'signInFailure': goog.nullFunction
+  });
+  config.update('autoUpgradeAnonymousUsers', 'true');
+  assertTrue(config.autoUpgradeAnonymousUsers());
+  config.update('autoUpgradeAnonymousUsers', 1);
+  assertTrue(config.autoUpgradeAnonymousUsers());
+  // No additional error logged.
+  assertArrayEquals([expectedErrorLogMessage], errorLogMessages);
+  assertArrayEquals([], warningLogMessages);
 }
 
 

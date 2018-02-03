@@ -124,8 +124,8 @@ function testHandleFederatedSignIn_error_cordova() {
         internalError);
     return testAuth.process();
   }).then(function() {
-    // Federated linking page should remain displayed.
-    assertFederatedLinkingPage();
+    // Navigate to provider sign in page and display the error in info bar.
+    assertProviderSignInPage();
     // Confirm error message shown in info bar.
     assertInfoBarMessage(
         firebaseui.auth.widget.handler.common.getErrorMessage(internalError));
@@ -273,6 +273,7 @@ function testHandleFederatedSignIn_reset() {
   firebaseui.auth.widget.handler.handleFederatedSignIn(
       app, container, 'user@gmail.com', 'google.com');
   assertFederatedLinkingPage();
+  app.getAuth().assertSignOut([]);
   // Reset current rendered widget page.
   app.reset();
   // Container should be cleared.

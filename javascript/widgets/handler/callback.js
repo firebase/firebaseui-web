@@ -50,14 +50,15 @@ firebaseui.auth.widget.handler.handleCallback =
     firebaseui.auth.widget.handler.handleCallbackResult_(app, component,
         result);
   }, function(error) {
-    // A previous redirect operation was triggered and some error occured.
+    // A previous redirect operation was triggered and some error occurred.
     // Test for need confirmation error and handle appropriately.
     // For all other errors, display info bar and show sign in screen.
     if (error &&
         // Single out need confirmation error as email-already-in-use and
         // credential-already-in-use will also return email and credential
         // and need to be handled differently.
-        error['code'] == 'auth/account-exists-with-different-credential' &&
+        (error['code'] == 'auth/account-exists-with-different-credential' ||
+         error['code'] == 'auth/email-already-in-use') &&
         error['email'] &&
         error['credential']) {
       // Save pending email credential.
@@ -92,6 +93,9 @@ firebaseui.auth.widget.handler.handleCallback =
         firebaseui.auth.widget.handler.handleCallbackFailure_(
             app, component, /** @type {!Error} */ (error));
       }
+    } else if (error && error['code'] == 'auth/credential-already-in-use') {
+      // Do nothing and keep callback UI while onUpgradeError catches and
+      // handles this error.
     } else if (error &&
         error['code'] == 'auth/operation-not-supported-in-this-environment' &&
         firebaseui.auth.widget.handler.common.isPasswordProviderOnly(app)) {
@@ -295,7 +299,7 @@ firebaseui.auth.widget.handler.handleCallbackEmailMismatch_ =
   var container = component.getContainer();
   // On email mismatch, sign out the temporary user to avoid leaking this
   // temp auth session if the user decides to close the window.
-  app.registerPending(app.getAuth().signOut().then(function() {
+  app.registerPending(app.clearTempAuthState().then(function() {
     component.dispose();
     firebaseui.auth.widget.handler.handle(
         firebaseui.auth.widget.HandlerName.EMAIL_MISMATCH,

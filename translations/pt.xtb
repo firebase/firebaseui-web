@@ -71,6 +71,7 @@
 <translation id="2448487988481516351">Nova Caledônia</translation>
 <translation id="2451742558284013472">Mônaco</translation>
 <translation id="2460064915291012298">Seicheles</translation>
+<translation id="2494962141967044042">Não foi possível fazer o upgrade deste usuário anônimo. A credencial não anônima já está associada a uma conta de usuário diferente.</translation>
 <translation id="2541179214468543429">Você digitou a senha incorretamente várias vezes. Tente novamente em alguns minutos.</translation>
 <translation id="2561560038714758184">Segurança</translation>
 <translation id="2561835578785502516">Sua solicitação para redefinir a senha expirou ou o link já foi usado</translation>
@@ -343,7 +344,7 @@
 <translation id="7956645158976161232">Líbia</translation>
 <translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">Quênia</translation>
-<translation id="8028653067082554952">Esta ação apagará todos os dados associados à sua conta e não poderá ser desfeita. Tem certeza de que deseja excluir sua conta?</translation>
+<translation id="8028653067082554952">Esta ação apagará todos os dados associados à sua conta e não poderá ser desfeita. Tem certeza que quer excluir sua conta?</translation>
 <translation id="8033786138248870436">Talvez você receba um SMS quando tocar em "Verificar". Taxas de mensagens e dados podem ser aplicáveis.</translation>
 <translation id="8047183472745080590">Bolívia</translation>
 <translation id="8047565947836609247">Porto Rico</translation>

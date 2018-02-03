@@ -20,6 +20,7 @@ goog.provide('firebaseui.auth.widget.handler.ProviderSignInTest');
 goog.setTestOnly('firebaseui.auth.widget.handler.ProviderSignInTest');
 
 goog.require('firebaseui.auth.AuthUI');
+goog.require('firebaseui.auth.AuthUIError');
 goog.require('firebaseui.auth.CredentialHelper');
 goog.require('firebaseui.auth.PendingEmailCredential');
 goog.require('firebaseui.auth.acClient');
@@ -155,6 +156,51 @@ function testHandleProviderSignIn_oneTap_handledSuccessfully_withScopes() {
   // signInWithRedirect should be called with the expected provider.
   testAuth.assertSignInWithRedirect([expectedProvider]);
   testAuth.process().then(function() {
+    // Any pending credential should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+  });
+  return p;
+}
+
+
+function testHandleProviderSignIn_oneTap_anonymousUpgrade_withScopes() {
+  // The expected Firebase Auth provider to linkWithRedirect with.
+  var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
+  expectedProvider.addScope('googl1');
+  expectedProvider.addScope('googl2');
+  expectedProvider.setCustomParameters({
+    'prompt': 'select_account',
+    'login_hint': 'user@example.com'
+  });
+  // Render the provider sign-in page with additional scopes and googleyolo
+  // enabled and confirm it was rendered correctly.
+  setupProviderSignInPage('redirect', false, true);
+  // Enable anonymous user upgrade.
+  app.updateConfig('autoUpgradeAnonymousUsers', true);
+  // Simulate anonymous user initially signed in on the external Auth instance.
+  externalAuth.setUser(anonymousUser);
+  assertEquals(
+      0, firebaseui.auth.AuthUI.prototype.cancelOneTapSignIn.getCallCount());
+  assertEquals(
+      1, firebaseui.auth.AuthUI.prototype.showOneTapSignIn.getCallCount());
+  // Get the One-Tap credential handler.
+  var handler = firebaseui.auth.AuthUI.prototype.showOneTapSignIn.getLastCall()
+      .getArgument(0);
+  // Confirm expected handler.
+  assertEquals(
+      firebaseui.auth.widget.handler.common.handleGoogleYoloCredential,
+      handler);
+  // Simulate successful credential provided by One-Tap.
+  var p = handler(app, app.getCurrentComponent(), googleYoloIdTokenCredential)
+      .then(function(status) {
+        assertTrue(status);
+      });
+  // Trigger onAuthStateChanged listener.
+  externalAuth.runAuthChangeHandler();
+  // linkWithRedirect should be called with the expected provider.
+  externalAuth.currentUser.assertLinkWithRedirect([expectedProvider]);
+  externalAuth.process().then(function() {
     // Any pending credential should be cleared from storage.
     assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
         app.getAppId()));
@@ -313,6 +359,281 @@ function testHandleProviderSignIn_oneTap_handledSuccessfully_withoutScopes() {
         app.getAppId()));
     // User should be redirected to success URL.
     testUtil.assertGoTo('http://localhost/home');
+  });
+}
+
+
+function testHandleProviderSignIn_oneTap_upgradeAnonymous_withoutScopes() {
+  // Render the provider sign-in page with no additional scopes and googleyolo
+  // enabled and confirm it was rendered correctly.
+  setupProviderSignInPage('redirect', false, true, true);
+  // Enable anonymous user upgrade.
+  app.updateConfig('autoUpgradeAnonymousUsers', true);
+  // Simulate anonymous user initially signed in on external Auth instance.
+  externalAuth.setUser(anonymousUser);
+  var expectedUser = {
+    'email': federatedAccount.getEmail(),
+    'displayName': federatedAccount.getDisplayName()
+  };
+  // Confirm provider sign in page rendered.
+  assertProviderSignInPage();
+  assertEquals(
+      0, firebaseui.auth.AuthUI.prototype.cancelOneTapSignIn.getCallCount());
+  assertEquals(
+      1, firebaseui.auth.AuthUI.prototype.showOneTapSignIn.getCallCount());
+  // Get googleyolo credential handler.
+  var handler = firebaseui.auth.AuthUI.prototype.showOneTapSignIn.getLastCall()
+      .getArgument(0);
+  // Confirm expected handler.
+  assertEquals(
+      firebaseui.auth.widget.handler.common.handleGoogleYoloCredential,
+      handler);
+  // Simulate successful credential provided by One-Tap.
+  var expectedHandlerStatus = false;
+  handler(app, app.getCurrentComponent(), googleYoloIdTokenCredential)
+      .then(function(status) {
+        expectedHandlerStatus = status;
+      });
+  // Since no additional scopes are requested,
+  // linkAndRetrieveDataWithCredential should be called to handle the
+  // ID token returned by googleyolo.
+  var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
+      googleYoloIdTokenCredential.idToken);
+  // Trigger onAuthStateChanged listener.
+  externalAuth.runAuthChangeHandler();
+  // linkAndRetrieveDataWithCredential should be called with the expected
+  // credential and simulate a successful sign in operation.
+  externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+      [expectedCredential],
+      function() {
+        // Simulate non-anonymous user successfully signed in.
+        externalAuth.setUser(expectedUser);
+        return {
+          'user': expectedUser,
+          'credential': expectedCredential
+        };
+      });
+  return externalAuth.process().then(function() {
+    // Callback page should be rendered while the result is being processed.
+    assertCallbackPage();
+    // signOut should be called on the internal Auth instance.
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    // Confirm googleyolo handler successful.
+    assertTrue(expectedHandlerStatus);
+    // Pending credential should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    // User should be redirected to success URL.
+    testUtil.assertGoTo('http://localhost/home');
+  });
+}
+
+
+function testHandleProviderSignIn_oneTap_upgradeAnon_noScopes_credInUse() {
+  // Render the provider sign-in page with no additional scopes and googleyolo
+  // enabled and confirm it was rendered correctly.
+  setupProviderSignInPage('redirect', false, true, true);
+  // Enable anonymous user upgrade.
+  app.updateConfig('autoUpgradeAnonymousUsers', true);
+  // Simulate anonymous user initially signed in on the external Auth instance.
+  externalAuth.setUser(anonymousUser);
+  // Confirm provider sign in page rendered.
+  assertProviderSignInPage();
+  assertEquals(
+      0, firebaseui.auth.AuthUI.prototype.cancelOneTapSignIn.getCallCount());
+  assertEquals(
+      1, firebaseui.auth.AuthUI.prototype.showOneTapSignIn.getCallCount());
+  // Get googleyolo credential handler.
+  var handler = firebaseui.auth.AuthUI.prototype.showOneTapSignIn.getLastCall()
+      .getArgument(0);
+  // Confirm expected handler.
+  assertEquals(
+      firebaseui.auth.widget.handler.common.handleGoogleYoloCredential,
+      handler);
+  // Simulate successful credential provided by One-Tap.
+  var expectedHandlerStatus = false;
+  handler(app, app.getCurrentComponent(), googleYoloIdTokenCredential)
+      .then(function(status) {
+        expectedHandlerStatus = status;
+      });
+  // Since no additional scopes are requested,
+  // linkAndRetrieveDataWithCredential should be called to handle the
+  // ID token returned by googleyolo.
+  var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
+      googleYoloIdTokenCredential.idToken);
+  // Expected linkAndRetrieveDataWithCredential error.
+  var expectedError = {
+    'code': 'auth/credential-already-in-use',
+    'credential': expectedCredential,
+    'email': federatedAccount.getEmail(),
+    'message': 'MESSAGE'
+  };
+  // Expected FirebaseUI error.
+  var expectedMergeError = new firebaseui.auth.AuthUIError(
+      firebaseui.auth.AuthUIError.Error.MERGE_CONFLICT,
+      null,
+      expectedCredential);
+  // Trigger onAuthStateChanged listener.
+  externalAuth.runAuthChangeHandler();
+  // linkAndRetrieveDataWithCredential should be called with the expected
+  // credential and simulate the expected error thrown.
+  externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+      [expectedCredential],
+      null,
+      expectedError);
+  return externalAuth.process().then(function() {
+    // No info bar message shown.
+    assertNoInfoBarMessage();
+    // signInFailure triggered with expected error.
+    assertSignInFailure(expectedMergeError);
+    // googleyolo handler should have resolved with false status.
+    assertFalse(expectedHandlerStatus);
+    // Pending credential should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+  });
+}
+
+
+function testHandleProviderSignIn_oneTap_upgradeAnon_noScopes_fedEmailInUse() {
+  // Render the provider sign-in page with no additional scopes and googleyolo
+  // enabled and confirm it was rendered correctly.
+  setupProviderSignInPage('redirect', false, true, true);
+  // Enable anonymous user upgrade.
+  app.updateConfig('autoUpgradeAnonymousUsers', true);
+  // Simulate anonymous user initially signed in on external Auth instance.
+  externalAuth.setUser(anonymousUser);
+  // Confirm provider sign in page rendered.
+  assertProviderSignInPage();
+  assertEquals(
+      0, firebaseui.auth.AuthUI.prototype.cancelOneTapSignIn.getCallCount());
+  assertEquals(
+      1, firebaseui.auth.AuthUI.prototype.showOneTapSignIn.getCallCount());
+  // Get googleyolo credential handler.
+  var handler = firebaseui.auth.AuthUI.prototype.showOneTapSignIn.getLastCall()
+      .getArgument(0);
+  // Confirm expected handler.
+  assertEquals(
+      firebaseui.auth.widget.handler.common.handleGoogleYoloCredential,
+      handler);
+  // Simulate successful credential provided by One-Tap.
+  var expectedHandlerStatus = false;
+  handler(app, app.getCurrentComponent(), googleYoloIdTokenCredential)
+      .then(function(status) {
+        expectedHandlerStatus = status;
+      });
+  // Since no additional scopes are requested,
+  // linkAndRetrieveDataWithCredential should be called to handle the
+  // ID token returned by googleyolo.
+  var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
+      googleYoloIdTokenCredential.idToken);
+  // Expected linkWithRedirect error.
+  var expectedError = {
+    'code': 'auth/email-already-in-use',
+    'credential': expectedCredential,
+    'email': federatedAccount.getEmail(),
+    'message': 'MESSAGE'
+  };
+  var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
+      federatedAccount.getEmail(),
+      firebase.auth.GoogleAuthProvider.credential(
+          googleYoloIdTokenCredential.idToken, null));
+  // Trigger onAuthStateChanged listener.
+  externalAuth.runAuthChangeHandler();
+  // linkAndRetrieveDataWithCredential should be called with the expected
+  // credential and simulate an email already in use error.
+  externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+      [expectedCredential],
+      null,
+      expectedError);
+  return externalAuth.process().then(function() {
+    // Callback page should be rendered while the result is being processed.
+    assertCallbackPage();
+    // Simulate existing email belongs to a federated Facebook account.
+    testAuth.assertFetchProvidersForEmail(
+        [federatedAccount.getEmail()], ['facebook.com']);
+    return testAuth.process();
+  }).then(function() {
+    // The pending credential should be saved here.
+    assertObjectEquals(
+        pendingEmailCred,
+        firebaseui.auth.storage.getPendingEmailCredential(app.getAppId()));
+    // Federated linking page should be rendered with expected email.
+    assertFederatedLinkingPage(federatedAccount.getEmail());
+    assertFalse(expectedHandlerStatus);
+  });
+}
+
+
+function testHandleProviderSignIn_oneTap_upgradeAnon_noScopes_passEmailInUse() {
+  // Render the provider sign-in page with no additional scopes and googleyolo
+  // enabled and confirm it was rendered correctly.
+  setupProviderSignInPage('redirect', false, true, true);
+  // Enable anonymous user upgrade.
+  app.updateConfig('autoUpgradeAnonymousUsers', true);
+  // Simulate anonymous user initially signed in on external Auth instance.
+  externalAuth.setUser(anonymousUser);
+  // Confirm provider sign in page rendered.
+  assertProviderSignInPage();
+  assertEquals(
+      0, firebaseui.auth.AuthUI.prototype.cancelOneTapSignIn.getCallCount());
+  assertEquals(
+      1, firebaseui.auth.AuthUI.prototype.showOneTapSignIn.getCallCount());
+  // Get googleyolo credential handler.
+  var handler = firebaseui.auth.AuthUI.prototype.showOneTapSignIn.getLastCall()
+      .getArgument(0);
+  // Confirm expected handler.
+  assertEquals(
+      firebaseui.auth.widget.handler.common.handleGoogleYoloCredential,
+      handler);
+  // Simulate successful credential provided by One-Tap.
+  var expectedHandlerStatus = false;
+  handler(app, app.getCurrentComponent(), googleYoloIdTokenCredential)
+      .then(function(status) {
+        expectedHandlerStatus = status;
+      });
+  // Since no additional scopes are requested,
+  // linkAndRetrieveDataWithCredential should be called to handle the
+  // ID token returned by googleyolo.
+  var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
+      googleYoloIdTokenCredential.idToken);
+  // Expected linkWithRedirect error.
+  var expectedError = {
+    'code': 'auth/email-already-in-use',
+    'credential': expectedCredential,
+    'email': federatedAccount.getEmail(),
+    'message': 'MESSAGE'
+  };
+  var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
+      federatedAccount.getEmail(),
+      firebase.auth.GoogleAuthProvider.credential(
+          googleYoloIdTokenCredential.idToken, null));
+  // Trigger onAuthStateChanged listener.
+  externalAuth.runAuthChangeHandler();
+  // linkAndRetrieveDataWithCredential should be called with the expected
+  // credential and simulate an email already in user error thrown.
+  externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+      [expectedCredential],
+      null,
+      expectedError);
+  return externalAuth.process().then(function() {
+    // Callback page should be rendered while the result is being processed.
+    assertCallbackPage();
+    // Simulate email belongs to existing password account.
+    testAuth.assertFetchProvidersForEmail(
+        [federatedAccount.getEmail()], ['password']);
+    return testAuth.process();
+  }).then(function() {
+    // The pending email credential should be cleared at this point.
+    // Password linking does not require a redirect so no need to save it
+    // anyway.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    // Password linking page rendered.
+    assertPasswordLinkingPage(federatedAccount.getEmail());
+    assertFalse(expectedHandlerStatus);
   });
 }
 
@@ -1356,6 +1677,7 @@ function testHandleProviderSignIn_accountChooserSelect_appChange() {
     'tosUrl': 'http://localhost/tos',
     'credentialHelper': firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM
   });
+  app.getExternalAuth().runAuthChangeHandler();
   // Callback page should be rendered.
   assertCallbackPage();
   // accountchooser.com client initialized at this point.
@@ -1363,6 +1685,7 @@ function testHandleProviderSignIn_accountChooserSelect_appChange() {
   // First app's AuthUI widget is now rendered.
   assertEquals(app, firebaseui.auth.AuthUI.getAuthUi());
   // Reset app.
+  app.getAuth().assertSignOut([]);
   app.reset();
   // Render second app.
   var signInOptions = ['google.com', 'password'];
@@ -1370,6 +1693,7 @@ function testHandleProviderSignIn_accountChooserSelect_appChange() {
     'widgetUrl': 'http://localhost/firebaseui-widget2',
     'signInOptions': signInOptions
   });
+  app2.getExternalAuth().runAuthChangeHandler();
   // Second app's AuthUI widget is now rendered.
   assertEquals(app2, firebaseui.auth.AuthUI.getAuthUi());
   // Since accountchooser.com client is already initialized, provider sign in
@@ -1410,5 +1734,263 @@ function testHandleProviderSignIn_accountChooserSelect_appChange() {
     // Uninstall internal and external auth instances.
     app2.getAuth().uninstall();
     app2.getExternalAuth().uninstall();
+  });
+}
+
+
+function testHandleProviderSignIn_anonymousUpgrade_popup_success() {
+  var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
+  expectedProvider.addScope('googl1');
+  expectedProvider.addScope('googl2');
+  expectedProvider.setCustomParameters({'prompt': 'select_account'});
+  // Render the provider sign-in page and confirm it was rendered correctly.
+  setupProviderSignInPage('popup');
+  // Test successful anonymous upgrade with popup flow.
+  app.updateConfig('autoUpgradeAnonymousUsers', true);
+  var cred  = firebaseui.auth.idp.getAuthCredential({
+    'providerId': 'google.com',
+    'accessToken': 'ACCESS_TOKEN'
+  });
+  // Simulate anonymous current user on external Auth instance.
+  externalAuth.setUser(anonymousUser);
+  // Click the first button, which is Google IdP.
+  goog.testing.events.fireClickSequence(buttons[0]);
+  // Trigger onAuthStateChanged listener.
+  externalAuth.runAuthChangeHandler();
+  // linkWithPopup on external Auth user should be triggered.
+  externalAuth.currentUser.assertLinkWithPopup(
+    [expectedProvider],
+    function() {
+      // Non-anonymous user should be signed in.
+      externalAuth.setUser({
+        'email': federatedAccount.getEmail(),
+        'displayName': federatedAccount.getDisplayName()
+      });
+      return {
+        'user': externalAuth.currentUser,
+        'credential': cred
+      };
+    });
+  return externalAuth.process().then(function() {
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    // Pending credential should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    // User should be redirected to success URL.
+    testUtil.assertGoTo('http://localhost/home');
+  });
+}
+
+
+function testHandleProviderSignIn_anonymousUpgrade_popup_error() {
+  var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
+  expectedProvider.addScope('googl1');
+  expectedProvider.addScope('googl2');
+  expectedProvider.setCustomParameters({'prompt': 'select_account'});
+  // Render the provider sign-in page and confirm it was rendered correctly.
+  setupProviderSignInPage('popup');
+  // Test upgrade failure with popup flow.
+  app.updateConfig('autoUpgradeAnonymousUsers', true);
+  var cred  = firebaseui.auth.idp.getAuthCredential({
+    'providerId': 'google.com',
+    'accessToken': 'ACCESS_TOKEN'
+  });
+  // Expected linkWithPopup error.
+  var expectedError = {
+    'code': 'auth/credential-already-in-use',
+    'credential': cred,
+    'email': federatedAccount.getEmail(),
+    'message': 'MESSAGE'
+  };
+  // Expected FirebaseUI error.
+  var expectedMergeError = new firebaseui.auth.AuthUIError(
+      firebaseui.auth.AuthUIError.Error.MERGE_CONFLICT,
+      null,
+      cred);
+  // Simulate anonymous user on external instance.
+  externalAuth.setUser(anonymousUser);
+  // Click the first button, which is Google IdP.
+  goog.testing.events.fireClickSequence(buttons[0]);
+  // Trigger onAuthStateChanged listener.
+  externalAuth.runAuthChangeHandler();
+  // linkWithPopup called on external user and error simulated.
+  externalAuth.currentUser.assertLinkWithPopup(
+      [expectedProvider],
+      null,
+      expectedError);
+  return externalAuth.process().then(function() {
+    // Pending credential should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    // signInFailure triggered with expected error.
+    assertSignInFailure(expectedMergeError);
+  });
+}
+
+
+function testHandleProviderSignIn_anonymousUpgrade_redirect_success() {
+  var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
+  expectedProvider.addScope('googl1');
+  expectedProvider.addScope('googl2');
+  expectedProvider.setCustomParameters({'prompt': 'select_account'});
+  // Render the provider sign-in page and confirm it was rendered correctly.
+  setupProviderSignInPage('redirect');
+  // Test successful sign in with redirect flow.
+  app.updateConfig('autoUpgradeAnonymousUsers', true);
+  var cred  = firebaseui.auth.idp.getAuthCredential({
+    'providerId': 'google.com',
+    'accessToken': 'ACCESS_TOKEN'
+  });
+  externalAuth.setUser(anonymousUser);
+  // Click the first button, which is Google IdP.
+  goog.testing.events.fireClickSequence(buttons[0]);
+  externalAuth.runAuthChangeHandler();
+  externalAuth.currentUser.assertLinkWithRedirect(
+    [expectedProvider]);
+  return externalAuth.process();
+}
+
+
+function testHandleProviderSignIn_anonymousUpgrade_redirect_error() {
+  var expectedError = {'code': 'auth/network-request-failed'};
+  var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
+  expectedProvider.addScope('googl1');
+  expectedProvider.addScope('googl2');
+  expectedProvider.setCustomParameters({'prompt': 'select_account'});
+  // Render the provider sign-in page and confirm it was rendered correctly.
+  setupProviderSignInPage('redirect');
+  // Test successful sign in with redirect flow.
+  app.updateConfig('autoUpgradeAnonymousUsers', true);
+  var cred  = firebaseui.auth.idp.getAuthCredential({
+    'providerId': 'google.com',
+    'accessToken': 'ACCESS_TOKEN'
+  });
+  externalAuth.setUser(anonymousUser);
+  // Click the first button, which is Google IdP.
+  goog.testing.events.fireClickSequence(buttons[0]);
+  externalAuth.runAuthChangeHandler();
+  externalAuth.currentUser.assertLinkWithRedirect(
+    [expectedProvider],
+    null,
+    expectedError);
+  return externalAuth.process().then(function() {
+    // Remain on provider sign-in page.
+    assertProviderSignInPage();
+    // Show error in info bar.
+    assertInfoBarMessage(
+        firebaseui.auth.widget.handler.common.getErrorMessage(expectedError));
+  });
+}
+
+
+function testHandleProviderSignIn_anonUpgrade_popup_emailInUse_fedLinking() {
+  // Test provider sign-in with popup when federated linking required and an
+  // eligible anonymous user is available for upgrade. Test when existing email
+  // belongs to a federated account.
+  // Add additional scopes to test that they are properly passed to the sign-in
+  // method.
+  var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
+  expectedProvider.addScope('googl1');
+  expectedProvider.addScope('googl2');
+  expectedProvider.setCustomParameters({'prompt': 'select_account'});
+  // Render the provider sign-in page and confirm it was rendered correctly.
+  setupProviderSignInPage('popup');
+  // Enable anonymous user upgrade.
+  app.updateConfig('autoUpgradeAnonymousUsers', true);
+  // Simulate anonymous user signed in.
+  externalAuth.setUser(anonymousUser);
+  // Click the first button, which is Google IdP.
+  goog.testing.events.fireClickSequence(buttons[0]);
+
+  var cred  = firebaseui.auth.idp.getAuthCredential({
+    'providerId': 'google.com',
+    'accessToken': 'ACCESS_TOKEN'
+  });
+  // Expected linkWithPopup error.
+  var expectedError = {
+    'code': 'auth/email-already-in-use',
+    'credential': cred,
+    'email': federatedAccount.getEmail(),
+    'message': 'MESSAGE'
+  };
+  var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
+      federatedAccount.getEmail(), cred);
+  // Trigger initial onAuthStateChanged listener.
+  externalAuth.runAuthChangeHandler();
+  // Link with popup on external anonymous user triggers linking flow.
+  externalAuth.currentUser.assertLinkWithPopup(
+      [expectedProvider],
+      null,
+      expectedError);
+  return externalAuth.process().then(function() {
+    // Simulate existing account is a federated Facebook account.
+    testAuth.assertFetchProvidersForEmail(
+        [federatedAccount.getEmail()], ['facebook.com']);
+    return testAuth.process();
+  }).then(function() {
+    // The pending credential should be saved here.
+    assertObjectEquals(
+        pendingEmailCred,
+        firebaseui.auth.storage.getPendingEmailCredential(app.getAppId()));
+    // Federated linking triggered.
+    assertFederatedLinkingPage(federatedAccount.getEmail());
+  });
+}
+
+
+function testHandleProviderSignIn_anonUpgrade_popup_emailInUse_passLinking() {
+  // Test provider sign-in with popup when federated linking required and an
+  // eligible anonymous user is available for upgrade. Test when existing email
+  // belongs to a password account.
+  // Add additional scopes to test that they are properly passed to the sign-in
+  // method.
+  var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
+  expectedProvider.addScope('googl1');
+  expectedProvider.addScope('googl2');
+  expectedProvider.setCustomParameters({'prompt': 'select_account'});
+  // Render the provider sign-in page and confirm it was rendered correctly.
+  setupProviderSignInPage('popup');
+  // Enable anonymous user upgrade.
+  app.updateConfig('autoUpgradeAnonymousUsers', true);
+  // Simulate anonymous user signed in.
+  externalAuth.setUser(anonymousUser);
+  // Click the first button, which is Google IdP.
+  goog.testing.events.fireClickSequence(buttons[0]);
+
+  var cred  = firebaseui.auth.idp.getAuthCredential({
+    'providerId': 'google.com',
+    'accessToken': 'ACCESS_TOKEN'
+  });
+  // Expected linkWithPopup error.
+  var expectedError = {
+    'code': 'auth/email-already-in-use',
+    'credential': cred,
+    'email': federatedAccount.getEmail(),
+    'message': 'MESSAGE'
+  };
+  var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
+      federatedAccount.getEmail(), cred);
+  // Trigger initial onAuthStateChanged listener.
+  externalAuth.runAuthChangeHandler();
+  // Link with popup on external anonymous user triggers linking flow.
+  externalAuth.currentUser.assertLinkWithPopup(
+      [expectedProvider],
+      null,
+      expectedError);
+  return externalAuth.process().then(function() {
+    // Simulate existing account is a password account.
+    testAuth.assertFetchProvidersForEmail(
+        [federatedAccount.getEmail()], ['password']);
+    return testAuth.process();
+  }).then(function() {
+    // The pending email credential should be cleared at this point.
+    // Password linking does not require a redirect so no need to save it
+    // anyway.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    // Password linking page rendered.
+    assertPasswordLinkingPage(federatedAccount.getEmail());
   });
 }
