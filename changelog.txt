@@ -1,8 +1,0 @@
-feature - Implements anonymous user upgrade functionality with FirebaseUI.
-feature - Implements `isPendingRedirect` needed to tell whether there is a pending redirect operation.
-fixed - Sanitizes display name in firebaseui.
-fixed - Clears cached `app.getRedirectResult` after `signInWithRedirect` or `linkWithRedirect` resolves.
-fixed - Fixes the bug when account linking doesn't get triggered in Cordova applications.
-fixed - Adds description for building localized npm builds and how to require them.
-fixed - Fixes dangling internal auth state when the firebaseui instance is reset.
-fixed - Updates closure open source builder to latest version fixing dependency on `eval` and older `marked` module which had some vulnerability issues.
