@@ -290,3 +290,31 @@ function testGetSetRemoveEmailPendingCredential_withAppId() {
   firebaseui.auth.storage.removePendingEmailCredential(appId2);
   assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(appId2));
 }
+
+
+function testGetSetRemovePendingRedirectStatus() {
+  assertFalse(firebaseui.auth.storage.hasPendingRedirectStatus());
+
+  firebaseui.auth.storage.setPendingRedirectStatus();
+  assertTrue(firebaseui.auth.storage.hasPendingRedirectStatus());
+
+  firebaseui.auth.storage.removePendingRedirectStatus();
+  assertFalse(firebaseui.auth.storage.hasPendingRedirectStatus());
+}
+
+
+function testGetSetRemovePendingRedirectStatus_withAppId() {
+  assertFalse(firebaseui.auth.storage.hasPendingRedirectStatus(appId));
+  assertFalse(firebaseui.auth.storage.hasPendingRedirectStatus(appId2));
+
+  firebaseui.auth.storage.setPendingRedirectStatus(appId);
+  firebaseui.auth.storage.setPendingRedirectStatus(appId2);
+  assertTrue(firebaseui.auth.storage.hasPendingRedirectStatus(appId));
+  assertTrue(firebaseui.auth.storage.hasPendingRedirectStatus(appId2));
+
+  firebaseui.auth.storage.removePendingRedirectStatus(appId);
+  assertFalse(firebaseui.auth.storage.hasPendingRedirectStatus(appId));
+  assertTrue(firebaseui.auth.storage.hasPendingRedirectStatus(appId2));
+  firebaseui.auth.storage.removePendingRedirectStatus(appId2);
+  assertFalse(firebaseui.auth.storage.hasPendingRedirectStatus(appId2));
+}
