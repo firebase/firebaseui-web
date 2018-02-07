@@ -89,7 +89,7 @@ You can then `require` the following modules within your source files:
 ```javascript
 var firebase = require('firebase');
 var firebaseui = require('firebaseui');
-// or
+// or for ES6 imports.
 import * as firebaseui from 'firebaseui'
 ```
 
