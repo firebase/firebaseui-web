@@ -70,6 +70,7 @@
 <translation id="2448487988481516351">Nova Caledónia</translation>
 <translation id="2451742558284013472">Mónaco</translation>
 <translation id="2460064915291012298">Seicheles</translation>
+<translation id="2494962141967044042">Ocorreu uma falha na atualização do utilizador anónimo atual. A credencial não anónima já está associada a outra conta de utilizador.</translation>
 <translation id="2541179214468543429">Introduziu uma palavra-passe incorreta demasiadas vezes. Tente novamente dentro de alguns minutos.</translation>
 <translation id="2561835578785502516">O pedido para repor a palavra-passe expirou ou o link já foi utilizado</translation>
 <translation id="2610891451939662786">Twitter</translation>
@@ -183,7 +184,7 @@
 <translation id="4852256440857413490">Código errado. Tente novamente.</translation>
 <translation id="4871106926303956169">Ilhas Turcas e Caicos</translation>
 <translation id="4877597386645466815">Reenviar código em <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Verifique o seu e-mail</translation>
+<translation id="4915406999072654369">Verifique o seu email</translation>
 <translation id="4955175001894453989">Adicionar palavra-passe</translation>
 <translation id="496366313824211679">Salvador</translation>
 <translation id="4991626049082973728">Sérvia</translation>
@@ -192,7 +193,7 @@
 <translation id="5080084639513001393">Suécia</translation>
 <translation id="5080899604429810481">São Martinho</translation>
 <translation id="5143657419516597442">Santa Lúcia</translation>
-<translation id="5241732101105320538">Verifique o seu e-mail</translation>
+<translation id="5241732101105320538">Verifique o seu email</translation>
 <translation id="5301108536112812420">O seu pedido de validação do email expirou ou o link já foi utilizado</translation>
 <translation id="5323041129469627535">Omã</translation>
 <translation id="5326139833547026317">Países Baixos Caribenhos</translation>
@@ -324,7 +325,7 @@
 <translation id="7592224526951017144">Alemanha</translation>
 <translation id="7615083347713899917">Quirguizistão</translation>
 <translation id="7643408533407091568">Já utilizou <ph name="EMAIL_ADDR" /> para iniciar sessão. Introduza a palavra-passe da conta em questão.</translation>
-<translation id="7652546345268886994">{plural_var,plural, =1{A palavra-passe não é suficientemente forte. Utilize, pelo menos, <ph name="PH_1" /> caráter e uma combinação de letras e números}one{A palavra-passe não é suficientemente forte. Utilize, pelo menos, <ph name="PH_1" /> caracteres e uma combinação de letras e números}other{A palavra-passe não é suficientemente forte. Utilize, pelo menos, <ph name="PH_1" /> caracteres e uma combinação de letras e números}}</translation>
+<translation id="7652546345268886994">{plural_var,plural, =1{A palavra-passe não é suficientemente forte. Utilize, pelo menos, <ph name="PH_1" /> caráter e uma combinação de letras e números}other{A palavra-passe não é suficientemente forte. Utilize, pelo menos, <ph name="PH_1" /> caracteres e uma combinação de letras e números}}</translation>
 <translation id="7699755204074920022">Zimbabué</translation>
 <translation id="7782885946428624225">Ocorreu um problema ao validar o número de telefone</translation>
 <translation id="7868540442111212282">República Checa</translation>

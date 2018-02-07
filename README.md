@@ -53,8 +53,8 @@ You just need to include the following script and CSS file in the `<head>` tag
 of your page, below the initialization snippet from the Firebase Console:
 
 ```html
-<script src="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.js"></script>
-<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css" />
+<script src="https://cdn.firebase.com/libs/firebaseui/2.6.0/firebaseui.js"></script>
+<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.6.0/firebaseui.css" />
 ```
 
 #### Localized Widget
@@ -63,17 +63,17 @@ Localized versions of the widget are available through the CDN. To use a localiz
 localized JS library instead of the default library:
 
 ```html
-<script src="https://www.gstatic.com/firebasejs/ui/2.5.1/firebase-ui-auth__{LANGUAGE_CODE}.js"></script>
-<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/2.5.1/firebase-ui-auth.css" />
+<script src="https://www.gstatic.com/firebasejs/ui/2.6.0/firebase-ui-auth__{LANGUAGE_CODE}.js"></script>
+<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/2.6.0/firebase-ui-auth.css" />
 ```
 
 where `{LANGUAGE_CODE}` is replaced by the code of the language you want. For example, the French
 version of the library is available at
-`https://www.gstatic.com/firebasejs/ui/2.5.1/firebase-ui-auth__fr.js`. The list of available
+`https://www.gstatic.com/firebasejs/ui/2.6.0/firebase-ui-auth__fr.js`. The list of available
 languages and their respective language codes can be found at [LANGUAGES.md](LANGUAGES.md).
 
 Right-to-left languages also require the right-to-left version of the stylesheet, available at
-`https://www.gstatic.com/firebasejs/ui/2.5.1/firebase-ui-auth-rtl.css`, instead of the default
+`https://www.gstatic.com/firebasejs/ui/2.6.0/firebase-ui-auth-rtl.css`, instead of the default
 stylesheet. The supported right-to-left languages are Arabic (ar), Farsi (fa), and Hebrew (iw).
 
 ### Option 2: npm Module
@@ -131,6 +131,9 @@ FirebaseUI includes the following flows:
 by default.)
 6. [Account Chooser](https://www.accountchooser.com/learnmore.html?lang=en) for
 remembering emails
+7. Integration with
+[one-tap sign-up](https://developers.google.com/identity/one-tap/web/overview)
+8. Ability to upgrade anonymous users through sign-in/sign-up.
 
 ### Configuring sign-in providers
 
@@ -171,8 +174,8 @@ for a more in-depth example, showcasing a Single Page Application mode.
        * TODO(DEVELOPER): Paste the initialization snippet from:
        * Firebase Console > Overview > Add Firebase to your web app. *
        ***************************************************************************************** -->
-    <script src="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css" />
+    <script src="https://cdn.firebase.com/libs/firebaseui/2.6.0/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.6.0/firebaseui.css" />
     <script type="text/javascript">
       // FirebaseUI config.
       var uiConfig = {
@@ -203,6 +206,18 @@ for a more in-depth example, showcasing a Single Page Application mode.
     <div id="firebaseui-auth-container"></div>
   </body>
 </html>
+```
+
+When redirecting back from accountchooser.com or Identity Providers like Google
+and Facebook, `start()` method needs to be called to finish the sign-in flow.
+To check if there is a pending redirect operation to complete a sign-in attempt,
+check `isPendingRedirect()` before deciding whether to render FirebaseUI
+via `start()`.
+
+```javascript
+if (ui.isPendingRedirect()) {
+  ui.start('#firebaseui-auth-container', uiConfig);
+}
 ```
 
 Here is how you would track the Auth state across all your pages:
@@ -285,6 +300,19 @@ FirebaseUI supports the following configuration parameters.
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>autoUpgradeAnonymousUsers</td>
+<td>No</td>
+<td>
+  Whether to automatically upgrade existing anonymous users on sign-in/sign-up.
+  See <a href="#upgrading-anonymous-users">Upgrading anonymous users</a>.
+  <br/>
+  <em>Default:</em>
+  <code>false</code>
+  When set to <code>true</code>, <code>signInFailure</code> callback is
+  required to be provided to handle merge conflicts.
+</td>
+</tr>
 <tr>
 <td>callbacks</td>
 <td>No</td>
@@ -596,6 +624,29 @@ static `signInSuccessUrl` in config.
 If the callback returns `false` or nothing, the page is not automatically
 redirected.
 
+#### `signInFailure(error)`
+
+The `signInFailure` callback is provided to handle any unrecoverable error
+encountered during the sign-in process.
+The error provided here is a `firebaseui.auth.AuthUIError` error with the
+following properties.
+
+**firebaseui.auth.AuthUIError properties:**
+
+|Name     |Type            |Optional |Description            |
+|---------|----------------|---------|-----------------------|
+|`code`   |`string`        |No       |The corresponding error code. Currently the only error code supported is `firebaseui/anonymous-upgrade-merge-conflict`   |
+|`credential` |`firebase.auth.AuthCredential`|Yes      |The existing non-anonymous user credential the user tried to sign in with.|
+
+**Should return: `Promise<void>|void`**
+
+FirebaseUI will wait for the returned promise to handle the reported error
+before clearing the UI. If no promise is returned, the UI will be cleared on
+completion. Even when this callback resolves, `signInSuccess` callback will not
+be triggered.
+
+This callback is required when `autoUpgradeAnonymousUsers` is enabled.
+
 #### `uiShown()`
 
 This callback is triggered the first time the widget UI is rendered. This is
@@ -614,8 +665,8 @@ FirebaseUI is displayed.
        * TODO(DEVELOPER): Paste the initialization snippet from:
        * Firebase Console > Overview > Add Firebase to your web app. *
        ***************************************************************************************** -->
-    <script src="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css" />
+    <script src="https://cdn.firebase.com/libs/firebaseui/2.6.0/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.6.0/firebaseui.css" />
     <script type="text/javascript">
       // FirebaseUI config.
       var uiConfig = {
@@ -625,6 +676,14 @@ FirebaseUI is displayed.
             // Return type determines whether we continue the redirect automatically
             // or whether we leave that to developer to handle.
             return true;
+          },
+          signInFailure: function(error) {
+            // Some unrecoverable error occurred during sign-in.
+            // Return a promise when error handling is completed and FirebaseUI
+            // will reset, clearing any UI. This commonly occurs for error code
+            // 'firebaseui/anonymous-upgrade-merge-conflict' when merge conflict
+            // occurs. Check below for more details on this.
+            return handleUIError(error);
           },
           uiShown: function() {
             // The widget is rendered.
@@ -678,6 +737,130 @@ FirebaseUI is displayed.
   </body>
 </html>
 ```
+
+### Upgrading anonymous users
+
+#### Enabling anonymous user upgrade
+
+When an anonymous user signs in or signs up with a permanent account, you want
+to be sure the user can continue with what they were doing before signing up.
+For example, an anonymous user might have items in their shopping cart.
+At check-out, you prompt the user to sign in or sign up. After the user is
+signed in, the user's shopping cart should contain any items the user added
+while signed in anonymously.
+
+To support this behavior, FirebaseUI makes it easy to "upgrade" an anonymous
+account to a permanent account. To do so, simply set `autoUpgradeAnonymousUsers`
+to `true` when you configure the sign-in UI (this option is disabled by
+default).
+
+FirebaseUI links the new credential with the anonymous account using Firebase
+Auth's `linkWithCredential` method:
+```javascript
+anonymousUser.linkWithCredential(permanentCredential);
+```
+The user will retain the same `uid` at the end of the flow and all data keyed
+on that identifier would still be associated with that same user.
+
+#### Handling anonymous user upgrade merge conflicts
+
+There are cases when a user, initially signed in anonymously, tries to
+upgrade to an existing Firebase user. For example, a user may have signed up
+with a Google credential on another device. When trying to upgrade to the
+existing Google user, an error `auth/credential-already-in-use` will be thrown
+by Firebase Auth as an existing user cannot be linked to another existing user.
+No two users can share the same credential. In that case, both user data
+have to be merged before one user is discarded (typically the anonymous user).
+In the case above, the anonymous user shopping cart will be copied locally,
+the anonymous user will be deleted and then the user is signed in with the
+permanent credential. The anonymous user data in temporary storage will be
+copied back to the non-anonymous user.
+
+FirebaseUI will trigger the `signInFailure` callback with an error code
+`firebaseui/anonymous-upgrade-merge-conflict` when the above occurs. The error
+object will also contain the permanent credential.
+Sign-in with the permanent credential should be triggered in the callback to
+complete sign-in.
+Before sign-in can be completed via
+`auth.signInWithCredential(error.credential)`, the data of the anonymous user
+must be copied and the anonymous user deleted. After sign-in completion, the
+data has to be copied back to the non-anonymous user. An example below
+illustrates how this flow would work if user data is persisted using Firebase
+Realtime Database.
+
+**Example:**
+
+```javascript
+// Temp variable to hold the anonymous user data if needed.
+var data = null;
+// Hold a reference to the anonymous current user.
+var anonymousUser = firebase.auth().currentUser;
+ui.start('#firebaseui-auth-container', {
+  // Whether to upgrade anonymous users should be explicitly provided.
+  // The user must already be signed in anonymously before FirebaseUI is
+  // rendered.
+  autoUpgradeAnonymousUsers: true,
+  signInSuccessUrl: '<url-to-redirect-to-on-success>',
+  signInOptions: [
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+    firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+    firebase.auth.EmailAuthProvider.PROVIDER_ID,
+    firebase.auth.PhoneAuthProvider.PROVIDER_ID
+  ],
+  callbacks: {
+    signInSuccess: function(user, credential, redirectUrl) {
+      // Process result. This will not trigger on merge conflicts.
+      // On success redirect to signInSuccessUrl.
+      return true;
+    },
+    // signInFailure callback must be provided to handle merge conflicts which
+    // occur when an existing credential is linked to an anonymous user.
+    signInFailure: function(error) {
+      // For merge conflicts, the error.code will be
+      // 'firebaseui/anonymous-upgrade-merge-conflict'.
+      if (error.code != 'firebaseui/anonymous-upgrade-merge-conflict') {
+        return Promise.resolve();
+      }
+      // The credential the user tried to sign in with.
+      var cred = error.credential;
+      // If using Firebase Realtime Database. The anonymous user data has to be
+      // copied to the non-anonymous user.
+      var app = firebase.app();
+      // Save anonymous user data first.
+      return app.database().ref('users/' + firebase.auth().currentUser.uid)
+          .once('value')
+          .then(function(snapshot) {
+            data = snapshot.val();
+            // This will trigger onAuthStateChanged listener which
+            // could trigger a redirect to another page.
+            // Ensure the upgrade flow is not interrupted by that callback
+            // and that this is given enough time to complete before
+            // redirection.
+            return firebase.auth().signInWithCredential(cred);
+          })
+          .then(function(user) {
+            // Original Anonymous Auth instance now has the new user.
+            return app.database().ref('users/' + user.uid).set(data);
+          })
+          .then(function() {
+            // Delete anonymnous user.
+            return anonymousUser.delete();
+          }).then(function() {
+            // Clear data in case a new user signs in, and the state change
+            // triggers.
+            data = null;
+            // FirebaseUI will reset and the UI cleared when this promise
+            // resolves.
+            // signInSuccess will not run. Successful sign-in logic has to be
+            // run explicitly.
+            window.location.assign('<url-to-redirect-to-on-success>');
+          });
+
+    }
+  }
+});
+```
+
 
 ## Customizing FirebaseUI for authentication
 
@@ -763,6 +946,18 @@ where `{LANGUAGE_CODE}` is replaced by the
 [code of the language you want](LANGUAGES.md). For example, the French binary
 can be built with `npm run build build-js-fr`. This will create a binary
 `firebaseui__fr.js` in the `dist/` folder.
+
+To build a localized npm FirebaseUI module, run:
+```bash
+npm run build build-npm-{LANGUAGE_CODE}
+```
+Make sure all underscore symbols in the `LANGUAGE_CODE` are replaced with
+dashes.
+This will generate `dist/npm__{LANGUAGE_CODE}.js`.
+You can then import/require it:
+```javascript
+import firebaseui from './npm__{LANGUAGE_CODE}';
+```
 
 ### Running the demo app
 

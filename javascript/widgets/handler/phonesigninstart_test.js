@@ -19,6 +19,7 @@
 goog.provide('firebaseui.auth.widget.handler.PhoneSignInStartTest');
 goog.setTestOnly('firebaseui.auth.widget.handler.PhoneSignInStartTest');
 
+goog.require('firebaseui.auth.AuthUIError');
 goog.require('firebaseui.auth.PhoneNumber');
 goog.require('firebaseui.auth.soy2.strings');
 goog.require('firebaseui.auth.widget.handler.common');
@@ -136,6 +137,283 @@ function testHandlePhoneSignInStart_visible() {
 }
 
 
+function testHandlePhoneSignInStart_anonymousUpgrade_success() {
+  externalAuth.setUser(anonymousUser);
+  // Enable visible reCAPTCHA and auto anonymous upgrade.
+  app.setConfig({
+    'signInOptions': [
+      {
+        provider: 'password',
+      },
+      {
+        provider: 'phone',
+        recaptchaParameters: {'type': 'image', 'size': 'compact'}
+      }
+    ],
+    'autoUpgradeAnonymousUsers': true
+  });
+  // Render phone sign in start UI.
+  firebaseui.auth.widget.handler.handlePhoneSignInStart(
+      app, container);
+  // Confirm expected page rendered.
+  assertPhoneSignInStartPage();
+  // Confirm reCAPTCHA initialized with expected parameters.
+  recaptchaVerifierInstance.assertInitializedWithParameters(
+      getRecaptchaElement(),
+      {'type': 'image', 'size': 'compact'},
+      app.getExternalAuth().app);
+  // reCAPTCHA should be rendering.
+  recaptchaVerifierInstance.assertRender([], function() {
+    // Simulate grecaptcha loaded.
+    simulateGrecaptchaLoaded(0);
+    // Return expected widget ID.
+    return 0;
+  });
+  return recaptchaVerifierInstance.process().then(function() {
+    // Recaptcha rendered at this point.
+    // Try first without phone number.
+    submitForm();
+    // Error should be shown that the phone number is missing.
+    assertEquals(
+        firebaseui.auth.soy2.strings.errorInvalidPhoneNumber().toString(),
+        getPhoneNumberErrorMessage());
+    // Simulate phone number inputted.
+    goog.dom.forms.setValue(getPhoneNumberElement(), '1234567890');
+    // Submit without solving reCAPTCHA.
+    submitForm();
+    // reCAPTCHA error should show.
+    // Error should be shown that the reCAPTCHA response is missing.
+    assertEquals(
+        firebaseui.auth.soy2.strings.errorMissingRecaptchaResponse()
+            .toString(),
+        getRecaptchaErrorMessage());
+    // Simulate reCAPTCHA solved.
+    var callback = recaptchaVerifierInstance.getParameters()['callback'];
+    callback('RECAPTCHA_TOKEN');
+    // Submit again. This time, it wills succeed.
+    submitForm();
+    // Loading dialog shown.
+    assertDialog(
+        firebaseui.auth.soy2.strings.dialogVerifyingPhoneNumber().toString());
+    // Trigger onAuthStateChanged listener.
+    externalAuth.runAuthChangeHandler();
+    // Link with phone number triggered.
+    externalAuth.currentUser.assertLinkWithPhoneNumber(
+        ['+11234567890', recaptchaVerifierInstance],
+        mockConfirmationResult);
+    return externalAuth.process();
+  }).then(function() {
+    // No grecaptcha reset called.
+    assertEquals(0, goog.global['grecaptcha'].reset.getCallCount());
+    // Code sent dialog shown on success.
+    assertDialog(firebaseui.auth.soy2.strings.dialogCodeSent().toString());
+    // Wait for one second. Confirm code entry page rendered.
+    mockClock.tick(firebaseui.auth.widget.handler.SENDING_SUCCESS_DIALOG_DELAY);
+    assertNoDialog();
+    assertPhoneSignInFinishPage();
+    // Assert countdown matches delay param.
+    assertResendCountdown('0:' +
+        firebaseui.auth.widget.handler.RESEND_DELAY_SECONDS);
+    // Simulate correct code provided.
+    goog.dom.forms.setValue(getPhoneConfirmationCodeElement(), '123456');
+    // Submit form.
+    submitForm();
+    // Give enough time for code to process.
+    return goog.Promise.resolve();
+  }).then(function() {
+    // Code verified dialog shown on success.
+    assertDialog(firebaseui.auth.soy2.strings.dialogCodeVerified().toString());
+    // Wait for one second. Sign in success URL redirect should occur after.
+    mockClock.tick(firebaseui.auth.widget.handler.CODE_SUCCESS_DIALOG_DELAY);
+    assertNoDialog();
+    // Successful sign in.
+    testUtil.assertGoTo('http://localhost/home');
+  });
+}
+
+
+function testHandlePhoneSignInStart_anonymousUpgrade_credInUseError() {
+  externalAuth.setUser(anonymousUser);
+  // Enable visible reCAPTCHA and auto anonymous upgrade.
+  app.setConfig({
+    'signInOptions': [
+      {
+        provider: 'password',
+      },
+      {
+        provider: 'phone',
+        recaptchaParameters: {'type': 'image', 'size': 'compact'}
+      }
+    ],
+    'autoUpgradeAnonymousUsers': true
+  });
+  var cred = {
+    'providerId': 'phone',
+    'verificationId': '123456abc',
+    'verificationCode': '123456'
+  };
+  var expectedError = {
+    'code': 'auth/credential-already-in-use',
+    'message': 'MESSAGE',
+    'phoneNumber': '+11234567890',
+    'credential': cred
+  };
+  // Mock confirmation result which throws credential in use error.
+  var mockConfirmationResult = {
+    'confirm': function(code) {
+      assertEquals('123456', code);
+      return goog.Promise.reject(expectedError);
+    }
+  };
+  // Expected signInFailure FirebaseUI error.
+  var expectedMergeError = new firebaseui.auth.AuthUIError(
+      firebaseui.auth.AuthUIError.Error.MERGE_CONFLICT,
+      null,
+      cred);
+  // Render phone sign in start UI.
+  firebaseui.auth.widget.handler.handlePhoneSignInStart(
+      app, container);
+  // Confirm expected page rendered.
+  assertPhoneSignInStartPage();
+  // Confirm reCAPTCHA initialized with expected parameters.
+  recaptchaVerifierInstance.assertInitializedWithParameters(
+      getRecaptchaElement(),
+      {'type': 'image', 'size': 'compact'},
+      app.getExternalAuth().app);
+  // reCAPTCHA should be rendering.
+  recaptchaVerifierInstance.assertRender([], function() {
+    // Simulate grecaptcha loaded.
+    simulateGrecaptchaLoaded(0);
+    // Return expected widget ID.
+    return 0;
+  });
+  return recaptchaVerifierInstance.process().then(function() {
+    // Recaptcha rendered at this point.
+    // Try first without phone number.
+    submitForm();
+    // Error should be shown that the phone number is missing.
+    assertEquals(
+        firebaseui.auth.soy2.strings.errorInvalidPhoneNumber().toString(),
+        getPhoneNumberErrorMessage());
+    // Simulate phone number inputted.
+    goog.dom.forms.setValue(getPhoneNumberElement(), '1234567890');
+    // Submit without solving reCAPTCHA.
+    submitForm();
+    // reCAPTCHA error should show.
+    // Error should be shown that the reCAPTCHA response is missing.
+    assertEquals(
+        firebaseui.auth.soy2.strings.errorMissingRecaptchaResponse()
+            .toString(),
+        getRecaptchaErrorMessage());
+    // Simulate reCAPTCHA solved.
+    var callback = recaptchaVerifierInstance.getParameters()['callback'];
+    callback('RECAPTCHA_TOKEN');
+    // Submit again. This time, it wills succeed.
+    submitForm();
+    // Loading dialog shown.
+    assertDialog(
+        firebaseui.auth.soy2.strings.dialogVerifyingPhoneNumber().toString());
+    // Trigger onAuthStateChanged listener.
+    externalAuth.runAuthChangeHandler();
+    // Link with phone number triggered.
+    externalAuth.currentUser.assertLinkWithPhoneNumber(
+        ['+11234567890', recaptchaVerifierInstance],
+        mockConfirmationResult);
+    return externalAuth.process();
+  }).then(function() {
+    // No grecaptcha reset called.
+    assertEquals(0, goog.global['grecaptcha'].reset.getCallCount());
+    // Code sent dialog shown on success.
+    assertDialog(firebaseui.auth.soy2.strings.dialogCodeSent().toString());
+    // Wait for one second. Confirm code entry page rendered.
+    mockClock.tick(firebaseui.auth.widget.handler.SENDING_SUCCESS_DIALOG_DELAY);
+    assertNoDialog();
+    assertPhoneSignInFinishPage();
+    // Assert countdown matches delay param.
+    assertResendCountdown('0:' +
+        firebaseui.auth.widget.handler.RESEND_DELAY_SECONDS);
+    // Simulate correct code provided.
+    goog.dom.forms.setValue(getPhoneConfirmationCodeElement(), '123456');
+    // Submit form.
+    submitForm();
+    // Give enough time for code to process.
+    return goog.Promise.resolve();
+  }).then(function() {
+    // No info bar message.
+    assertNoInfoBarMessage();
+    // signInFailure callback triggered with expected FirebaseUI error.
+    assertSignInFailure(expectedMergeError);
+  });
+}
+
+
+function testHandlePhoneSignInStart_anonymousUpgrade_signInError() {
+  externalAuth.setUser(anonymousUser);
+  // Enable visible reCAPTCHA and auto anonymous upgrade.
+  app.setConfig({
+    'signInOptions': [
+      {
+        provider: 'password',
+      },
+      {
+        provider: 'phone',
+        recaptchaParameters: {'type': 'image', 'size': 'compact'}
+      }
+    ],
+    'autoUpgradeAnonymousUsers': true
+  });
+  // Render phone sign in start UI.
+  firebaseui.auth.widget.handler.handlePhoneSignInStart(
+      app, container);
+  // Confirm expected page rendered.
+  assertPhoneSignInStartPage();
+  // Confirm reCAPTCHA initialized with expected parameters.
+  recaptchaVerifierInstance.assertInitializedWithParameters(
+      getRecaptchaElement(),
+      {'type': 'image', 'size': 'compact'},
+      app.getExternalAuth().app);
+  // reCAPTCHA should be rendering.
+  recaptchaVerifierInstance.assertRender([], function() {
+    // Simulate grecaptcha loaded.
+    simulateGrecaptchaLoaded(5);
+    // Return expected widget ID.
+    return 5;
+  });
+  return recaptchaVerifierInstance.process().then(function() {
+    // Recaptcha rendered at this point.
+    // Simulate phone number inputted.
+    goog.dom.forms.setValue(getPhoneNumberElement(), '1234567890');
+    // Simulate reCAPTCHA solved.
+    var callback = recaptchaVerifierInstance.getParameters()['callback'];
+    callback('RECAPTCHA_TOKEN');
+    submitForm();
+    // Loading dialog shown.
+    assertDialog(
+        firebaseui.auth.soy2.strings.dialogVerifyingPhoneNumber().toString());
+    // Trigger onAuthStateChanged listener.
+    externalAuth.runAuthChangeHandler();
+    // Link with phone number triggered. Simulate an error thrown.
+    externalAuth.currentUser.assertLinkWithPhoneNumber(
+        ['+11234567890', recaptchaVerifierInstance],
+        null,
+        internalError);
+    return externalAuth.process();
+  }).then(function() {
+    // reCAPTCHA should be reset as the token has already been used.
+    assertEquals(1, goog.global['grecaptcha'].reset.getCallCount());
+    // Reset should be called with the expected widget ID.
+    assertEquals(
+        5, goog.global['grecaptcha'].reset.getLastCall().getArgument(0));
+    // No dialog shown.
+    assertNoDialog();
+    // Should remain on the page and display the expected error.
+    assertPhoneSignInStartPage();
+    assertInfoBarMessage(
+        firebaseui.auth.widget.handler.common.getErrorMessage(internalError));
+  });
+}
+
+
 function testHandlePhoneSignInStart_resetBeforeCodeEntry() {
   // Tests successful visible reCAPTCHA flow and reset before code entry page is
   // rendered.
@@ -191,6 +469,7 @@ function testHandlePhoneSignInStart_resetBeforeCodeEntry() {
     // Code sent dialog shown on success.
     assertDialog(firebaseui.auth.soy2.strings.dialogCodeSent().toString());
     // Simulate app reset.
+    app.getAuth().assertSignOut([]);
     app.reset();
     // Code entry page should not get rendered after delay.
     // Wait for one second. Confirm code entry page rendered.
@@ -933,6 +1212,7 @@ function testHandlePhoneSignInStart_reset() {
   // This is called and will be cancelled.
   recaptchaVerifierInstance.assertRender([], 0);
   // Reset current rendered widget page.
+  app.getAuth().assertSignOut([]);
   app.reset();
   // Container should be cleared.
   assertComponentDisposed();

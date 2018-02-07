@@ -42,12 +42,12 @@ goog.require('firebaseui.auth.widget.handler.common');
  * @param {!firebaseui.auth.PhoneNumber} phoneNumberValue
  *     The value of the phone number input.
  * @param {!number} resendDelay The resend delay.
- * @param {!Object} confirmationResult The confirmation result used to verify
+ * @param {!Object} phoneAuthResult The phone Auth result used to verify
  *     the code on.
  * @param {string=} opt_infoBarMessage The message to show on info bar.
  */
 firebaseui.auth.widget.handler.handlePhoneSignInFinish = function(
-    app, container, phoneNumberValue, resendDelay, confirmationResult,
+    app, container, phoneNumberValue, resendDelay, phoneAuthResult,
     opt_infoBarMessage) {
   // This is a placeholder for now.
   // Render the phone sign in start page component.
@@ -63,7 +63,7 @@ firebaseui.auth.widget.handler.handlePhoneSignInFinish = function(
       // On submit.
       function() {
         firebaseui.auth.widget.handler.onPhoneSignInFinishSubmit_(
-            app, component, phoneNumberValue, confirmationResult);
+            app, component, phoneNumberValue, phoneAuthResult);
       },
       // On cancel.
       function() {
@@ -105,12 +105,12 @@ firebaseui.auth.widget.handler.CODE_SUCCESS_DIALOG_DELAY = 1000;
  *     component.
  * @param {!firebaseui.auth.PhoneNumber} phoneNumberValue
  *     The value of the phone number input.
- * @param {!Object} confirmationResult The confirmation result used to verify
+ * @param {!Object} phoneAuthResult The phone Auth result used to verify
  *     the code on.
  * @private
  */
 firebaseui.auth.widget.handler.onPhoneSignInFinishSubmit_ = function(
-    app, component, phoneNumberValue, confirmationResult) {
+    app, component, phoneNumberValue, phoneAuthResult) {
   var showInvalidCode = function(errorMessage) {
     // No code provided.
     component.getPhoneConfirmationCodeElement().focus();
@@ -134,7 +134,7 @@ firebaseui.auth.widget.handler.onPhoneSignInFinishSubmit_ = function(
       firebaseui.auth.soy2.strings.dialogVerifyingPhoneNumber().toString());
   app.registerPending(component.executePromiseRequest(
       /** @type {function (): !goog.Promise} */ (
-          goog.bind(confirmationResult['confirm'], confirmationResult)),
+          goog.bind(phoneAuthResult['confirm'], phoneAuthResult)),
       [verificationCode],
       // On success a user credential is returned.
       function(userCredential) {
@@ -163,9 +163,9 @@ firebaseui.auth.widget.handler.onPhoneSignInFinishSubmit_ = function(
       },
       // On code verification failure.
       function(error) {
-        // Close dialog.
-        component.dismissDialog();
         if (error['name'] && error['name'] == 'cancel') {
+          // Close dialog.
+          component.dismissDialog();
           return;
         }
         // Get error message.
@@ -173,11 +173,18 @@ firebaseui.auth.widget.handler.onPhoneSignInFinishSubmit_ = function(
             firebaseui.auth.widget.handler.common.getErrorMessage(error);
         // Some errors are recoverable while others require resending the code.
         switch (error['code']) {
+          case 'auth/credential-already-in-use':
+            // Do nothing when anonymous user is getting upgraded.
+            // Developer should handle this in signInFailure callback.
+            component.dismissDialog();
+            break;
           case 'auth/code-expired':
             // Expired code requires sending another request.
             // Render previous phone sign in start page and display error in
             // the info bar.
             var container = component.getContainer();
+            // Close dialog.
+            component.dismissDialog();
             component.dispose();
             firebaseui.auth.widget.handler.handle(
                 firebaseui.auth.widget.HandlerName.PHONE_SIGN_IN_START, app,
@@ -185,11 +192,15 @@ firebaseui.auth.widget.handler.onPhoneSignInFinishSubmit_ = function(
             break;
           case 'auth/missing-verification-code':
           case 'auth/invalid-verification-code':
+            // Close dialog.
+            component.dismissDialog();
             // As these errors are related to the code provided, it is better
             // to display inline.
             showInvalidCode(errorMessage);
             break;
           default:
+            // Close dialog.
+            component.dismissDialog();
             // Stay on the same page for all other errors and display error in
             // info bar.
             component.showInfoBar(errorMessage);

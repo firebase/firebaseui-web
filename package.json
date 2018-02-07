@@ -1,6 +1,6 @@
 {
   "name": "firebaseui",
-  "version": "2.5.1",
+  "version": "2.6.0",
   "description": "Javascript library for customizable UI on top of Firebase SDK",
   "files": [
     "dist/firebaseui.js",
@@ -30,11 +30,11 @@
   },
   "license": "Apache-2.0",
   "devDependencies": {
-    "closure-builder": "^2.0.17",
+    "closure-builder": "^2.2.34",
     "firebase-tools": "^3.0.8",
     "fs-extra": "^3.0.1",
-    "google-closure-compiler": "^20160713.2.0",
-    "google-closure-library": "^20170409.0.0",
+    "google-closure-compiler": "^20171112.0.0",
+    "google-closure-library": "^20171112.0.0",
     "google-closure-templates": "^20150410.0.0",
     "gulp": "^3.9.1",
     "gulp-clean-css": "^2.0.12",
