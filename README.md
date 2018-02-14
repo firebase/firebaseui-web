@@ -441,7 +441,7 @@ Along with the corresponding one-tap `credentialHelper`, `clientId` and
 
 ```javascript
 ui.start('#firebaseui-auth-container', {
-  signInOptions = [
+  signInOptions: [
     {
       // Google provider must be enabled in Firebase Console to support one-tap
       // sign-up.
@@ -497,7 +497,7 @@ an object instead of just the provider value:
 
 ```javascript
 ui.start('#firebaseui-auth-container', {
-  signInOptions = [
+  signInOptions: [
     {
       provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       scopes: [
@@ -534,7 +534,7 @@ The `EmailAuthProvider` can be configured to require the user to enter a display
 
 ```javascript
 ui.start('#firebaseui-auth-container', {
-  signInOptions = [
+  signInOptions: [
     {
       provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
       requireDisplayName: false
@@ -559,7 +559,7 @@ parameters will be ignored.
 
 ```javascript
 ui.start('#firebaseui-auth-container', {
-  signInOptions = [
+  signInOptions: [
     {
       provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
       recaptchaParameters: {
