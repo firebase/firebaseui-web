@@ -215,7 +215,7 @@ check `isPendingRedirect()` before deciding whether to render FirebaseUI
 via `start()`.
 
 ```javascript
-if (ui.isPendingRedirect()) {
+if (!ui.isPendingRedirect()) {
   ui.start('#firebaseui-auth-container', uiConfig);
 }
 ```
