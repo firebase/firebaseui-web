@@ -1,1 +1,0 @@
-fixed - Fixes obfuscation bug when confirming an OTP for phone authentication.
