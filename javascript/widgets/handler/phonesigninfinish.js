@@ -134,7 +134,7 @@ firebaseui.auth.widget.handler.onPhoneSignInFinishSubmit_ = function(
       firebaseui.auth.soy2.strings.dialogVerifyingPhoneNumber().toString());
   app.registerPending(component.executePromiseRequest(
       /** @type {function (): !goog.Promise} */ (
-          goog.bind(phoneAuthResult['confirm'], phoneAuthResult)),
+          goog.bind(phoneAuthResult.confirm, phoneAuthResult)),
       [verificationCode],
       // On success a user credential is returned.
       function(userCredential) {
