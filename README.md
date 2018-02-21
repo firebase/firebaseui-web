@@ -323,10 +323,10 @@ FirebaseUI supports the following configuration parameters.
 <td>callbacks</td>
 <td>No</td>
 <td>
-  A list of developers <a href="#available-callbacks">callbacks</a> after
+  An object of developers <a href="#available-callbacks">callbacks</a> after
   specific events.
   <br/>
-  <em>Default:</em> <code>[]</code>
+  <em>Default:</em> <code>{}</code>
 </td>
 </tr>
 <tr>
