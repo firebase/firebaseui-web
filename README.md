@@ -208,8 +208,14 @@ for a more in-depth example, showcasing a Single Page Application mode.
 </html>
 ```
 
+**This is only relevant for single page apps or apps where the sign-in UI is rendered conditionally (e.g. button click)**
+
 When redirecting back from accountchooser.com or Identity Providers like Google
 and Facebook, `start()` method needs to be called to finish the sign-in flow.
+If it requires a user interaction to start the initial sign-in process, you need to 
+check if there is a pending redirect operation going on on page load to check whether `start()` 
+needs to be called.
+
 To check if there is a pending redirect operation to complete a sign-in attempt,
 check `isPendingRedirect()` before deciding whether to render FirebaseUI
 via `start()`.
