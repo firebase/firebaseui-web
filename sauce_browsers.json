@@ -35,10 +35,10 @@
   },
   {
     "browserName" : "safari",
-    "version" : "7.0",
-    "platform" : "OS X 10.9",
+    "version" : "8.0",
+    "platform" : "OS X 10.10",
     "timeZone": "Pacific",
-    "name": "safari-7-mac"
+    "name": "safari-8-mac"
   },
   {
     "browserName" : "safari",
