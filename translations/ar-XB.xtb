@@ -34,8 +34,7 @@
 <translation id="1799407952500261728">‏‮Cook‬‏ ‏‮Islands‬‏</translation>
 <translation id="1870056762032541323">‏‮Wrong‬‏ ‏‮code‬‏. ‏‮Try‬‏ ‏‮again‬‏.</translation>
 <translation id="1898579907513173256">‏‮Macau‬‏</translation>
-<translation id="1929332760123475919"><ph name="P_START" />‏‮Hello‬‏ <ph name="DISPLAY_NAME" />,<ph name="P_END" /></translation>
-<translation id="1966996824429980990">‏‮Delete‬‏ ‏‮account‬‏</translation>
+<translation id="1933044638365301516">‏‮Sign‬‏ ‏‮in‬‏ ‏‮with‬‏ <ph name="STRING" /></translation>
 <translation id="1987722456379605552">‏‮Enter‬‏ ‏‮the‬‏ 6-‏‮digit‬‏ ‏‮code‬‏ ‏‮we‬‏ ‏‮sent‬‏ ‏‮to‬‏ <ph name="START_LINK" /><ph name="PHONE_NUMBER" /><ph name="END_LINK" /></translation>
 <translation id="2016421613709283485">‏‮Follow‬‏ ‏‮the‬‏ ‏‮instructions‬‏ ‏‮sent‬‏ ‏‮to‬‏ <ph name="PH_1" /> ‏‮to‬‏ ‏‮recover‬‏ ‏‮your‬‏ ‏‮password‬‏.</translation>
 <translation id="2035855087334775326">‏‮Hungary‬‏</translation>
@@ -294,6 +293,7 @@
 <translation id="6999773882165218263">‏‮First‬‏ &amp;amp; ‏‮last‬‏ ‏‮name‬‏</translation>
 <translation id="7012506961150923116">‏‮Grenada‬‏</translation>
 <translation id="7024571478138322659">‏‮Western‬‏ ‏‮Sahara‬‏</translation>
+<translation id="7062299334696934251">‏‮An‬‏ ‏‮unknown‬‏ ‏‮error‬‏ ‏‮occurred‬‏.</translation>
 <translation id="7064251114893721966">‏‮You‬‏’‏‮ve‬‏ ‏‮already‬‏ ‏‮used‬‏ <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> ‏‮to‬‏ ‏‮sign‬‏ ‏‮in‬‏. ‏‮Enter‬‏ ‏‮your‬‏ ‏‮password‬‏ ‏‮for‬‏ ‏‮that‬‏ ‏‮account‬‏.</translation>
 <translation id="7089485669419398254">‏‮Ireland‬‏</translation>
 <translation id="7093343209860483088">‏‮Democratic‬‏ ‏‮Republic‬‏ ‏‮Congo‬‏</translation>
