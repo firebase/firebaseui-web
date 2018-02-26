@@ -1152,9 +1152,12 @@ firebaseui.auth.AuthUI.prototype.finishSignInWithCredential =
     // Anonymous user upgrade successful, resolve immediately with the user.
     // No need to sign in again with the same credential on the external Auth
     // instance.
+    // If user is signed in on internal instance, ignore the user on external
+    // instance and finish the sign in on external instance.
     if (self.currentUser_ &&
         !self.currentUser_['isAnonymous'] &&
-        self.getConfig().autoUpgradeAnonymousUsers()) {
+        self.getConfig().autoUpgradeAnonymousUsers() &&
+        !self.getAuth().currentUser) {
       return (firebase.Promise || goog.Promise).resolve(self.currentUser_);
     } else if (user) {
       // TODO: optimize and fail directly as this will fail in most cases
