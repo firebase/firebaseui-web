@@ -72,6 +72,7 @@ function testHandlePasswordRecovery_reset() {
       app, container, passwordAccount.getEmail());
   assertPasswordRecoveryPage();
   // Reset the current rendered widget page.
+  app.getAuth().assertSignOut([]);
   app.reset();
   // Container should be cleared.
   assertComponentDisposed();

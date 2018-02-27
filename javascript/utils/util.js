@@ -170,7 +170,7 @@ firebaseui.auth.util.popup =
 /**
  * Gets the element in the current document by the query selector.
  * If an Element is passed in, it is returned.
- * An {@code Error} is thrown if the element can not be found.
+ * An `Error` is thrown if the element can not be found.
  *
  * @param {string|Element} element The element or the query selector.
  * @param {string=} opt_notFoundDesc Error description when element not

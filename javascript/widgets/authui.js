@@ -19,8 +19,10 @@
 
 goog.provide('firebaseui.auth.AuthUI');
 
+goog.require('firebaseui.auth.AuthUIError');
 goog.require('firebaseui.auth.EventDispatcher');
 goog.require('firebaseui.auth.GoogleYolo');
+goog.require('firebaseui.auth.PhoneAuthResult');
 goog.require('firebaseui.auth.log');
 goog.require('firebaseui.auth.storage');
 goog.require('firebaseui.auth.util');
@@ -141,6 +143,19 @@ firebaseui.auth.AuthUI = function(auth, opt_appId) {
   // to include it.
   /** @private {!firebaseui.auth.GoogleYolo} The One-Tap UI wrapper. */
   this.googleYolo_ = firebaseui.auth.GoogleYolo.getInstance();
+  /**
+   * @private {?firebase.Promise} Promise that resolves when internal Auth
+   *     instance is signed out, after which start is safe to execute.
+   */
+  this.pendingInternalAuthSignOut_ =  null;
+  /**
+   * @private {?firebase.User} The latest current user on the external Auth
+   *     instance. This is currently only relevant for upgrade anonymous user
+   *     flows.
+   */
+  this.currentUser_ = null;
+  /** @private {boolean} Whether initial external Auth state is ready. */
+  this.initialStateReady_ = false;
 };
 
 
@@ -235,8 +250,56 @@ firebaseui.auth.AuthUI.prototype.getRedirectResult = function() {
   // Check if instance is already destroyed.
   this.checkIfDestroyed_();
   if (!this.getRedirectResult_) {
-    this.getRedirectResult_ = goog.Promise.resolve(
-        this.getAuth().getRedirectResult());
+    var self = this;
+    var cb = function(user) {
+      if (user &&
+          // If email already exists, user must first be signed in it to the
+          // existing account on the internal Auth instance before the
+          // credential is linked and merge conflict is triggered.
+          !firebaseui.auth.storage.getPendingEmailCredential(self.getAppId())) {
+        // Anonymous user eligible for upgrade detected.
+        // Linking occurs on external Auth instance.
+        // This could occur when anonymous user linking with redirect fails for
+        // some reason.
+        return /** @type {!goog.Promise<!firebase.auth.UserCredential>} */ (
+            goog.Promise.resolve(self.getExternalAuth().getRedirectResult()
+            .then(function(result) {
+              // Should not happen in real life as this will only run when the
+              // user is anonymous.
+              return result;
+             }, function(error) {
+              // This will trigger account linking flow.
+              if (error &&
+                  error['code'] == 'auth/email-already-in-use' &&
+                  error['email'] && error['credential']) {
+                throw error;
+              }
+              return self.onUpgradeError(error);
+            })));
+      } else {
+        // No eligible anonymous user detected on external instance.
+        // Get redirect result from internal instance first.
+        return goog.Promise.resolve(
+            self.getAuth().getRedirectResult().then(function(result) {
+              // Anonymous user could have successfully completed
+              // linkWithRedirect.
+              if (self.getConfig().autoUpgradeAnonymousUsers() &&
+                  // No user signed in on internal instance.
+                  !result['user'] &&
+                  // Current non anonymous user available on external instance.
+                  self.currentUser_ &&
+                  !self.currentUser_['isAnonymous']) {
+                // Return redirect result from external instance.
+                return self.getExternalAuth().getRedirectResult();
+              }
+              // Return redirect result from internal instance.
+              return result;
+            }));
+      }
+    };
+    // Initialize current user if auto upgrade is enabled beforing running
+    // callback and returning result.
+    this.getRedirectResult_ = this.initializeForAutoUpgrade_(cb);
   }
   return this.getRedirectResult_;
 };
@@ -332,8 +395,21 @@ firebaseui.auth.AuthUI.prototype.isPending = function() {
 
 
 /**
+ * Returns true if there is any pending redirect operations to be resolved by
+ * the widget.
+ * @return {boolean} Whether the app has pending redirect operations to be
+ *     performed.
+ */
+firebaseui.auth.AuthUI.prototype.isPendingRedirect = function() {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
+  return firebaseui.auth.storage.hasPendingRedirectStatus(this.getAppId());
+};
+
+
+/**
  * Handles the FirebaseUI operation.
- * An {@code Error} is thrown if the the developer tries to run this operation
+ * An `Error` is thrown if the developer tries to run this operation
  * more than once.
  *
  * @param {string|!Element} element The container element or the query selector.
@@ -359,17 +435,36 @@ firebaseui.auth.AuthUI.prototype.start = function(element, config) {
   // These changes will be ignored as only the first accountchooser.com related
   // config will be applied.
   this.setConfig(config);
-
+  // Removes pending status of previous redirect operations including redirect
+  // back from accountchooser.com and federated sign in.
+  firebaseui.auth.storage.removePendingRedirectStatus(this.getAppId());
+  // Checks if there is pending internal Auth signOut promise. If yes, wait
+  // until it resolved and then initElement.
   var doc = goog.global.document;
-  // Wrap it in a onload callback to wait for the DOM element is rendered.
-  // If document already loaded, render immediately.
-  if (doc.readyState == 'complete') {
-    this.initElement_(element);
-  } else {
-    // Document not ready, wait for load before rendering.
-    goog.events.listenOnce(window, goog.events.EventType.LOAD, function() {
-      self.initElement_(element);
+  if (this.pendingInternalAuthSignOut_) {
+    this.pendingInternalAuthSignOut_.then(function() {
+      // Wrap it in a onload callback to wait for the DOM element is rendered.
+      // If document already loaded, render immediately.
+      if (doc.readyState == 'complete') {
+        self.initElement_(element);
+      } else {
+        // Document not ready, wait for load before rendering.
+        goog.events.listenOnce(window, goog.events.EventType.LOAD, function() {
+          self.initElement_(element);
+        });
+      }
     });
+  } else {
+    // Wrap it in a onload callback to wait for the DOM element is rendered.
+    // If document already loaded, render immediately.
+    if (doc.readyState == 'complete') {
+      self.initElement_(element);
+    } else {
+      // Document not ready, wait for load before rendering.
+      goog.events.listenOnce(window, goog.events.EventType.LOAD, function() {
+        self.initElement_(element);
+      });
+    }
   }
 };
 
@@ -415,6 +510,77 @@ firebaseui.auth.AuthUI.prototype.initElement_ = function(element) {
   this.initPageChangeListener_(container);
   // Document already loaded, render on demand.
   firebaseui.auth.widget.dispatcher.dispatchOperation(this, element);
+};
+
+
+/**
+ * Initializes state needed for processing anonymous user upgrade if enabled,
+ * before running the specified callback function and returning its result.
+ * @param {function(?firebase.User):T} cb The callback to trigger when ready.
+ * @return {T|goog.Promise<T>} The callback result.
+ * @template T
+ * @private
+ */
+firebaseui.auth.AuthUI.prototype.initializeForAutoUpgrade_ = function(cb) {
+  // This routine could be called anytime, different Auth logic may need to be
+  // applied depending on the autoUpgradeAnonymousUsers flag. This keeps the
+  // anonymous user check only when needed minimizing the foot print size on the
+  // non-anonymous upgrade flow.
+  var self = this;
+  // If initial state already determined, run callback with the current
+  // upgradeable user and return its result.
+  if (this.initialStateReady_) {
+    return cb(this.getUpgradableUser_());
+  }
+  // On reset, clear initial state as Auth state listener will be unsubscribed.
+  this.registerPending(function() {
+    // This ensures onAuthStateChanged re-subscribed to after reset.
+    self.initialStateReady_ = false;
+  });
+  // onAuthStateChanged can be slow. Use it only when needed.
+  if (this.getConfig().autoUpgradeAnonymousUsers()) {
+    var p = new goog.Promise(function(resolve, reject) {
+      self.registerPending(self.auth_.onAuthStateChanged(function(user) {
+        // Update currentUser reference whenever there is a state change.
+        self.currentUser_ = user;
+        // Resolve promise only initially with initial upgradeable user.
+        if (!self.initialStateReady_) {
+          self.initialStateReady_ = true;
+          resolve(cb(self.getUpgradableUser_()));
+        }
+      }));
+    });
+    // Register pending promise.
+    this.registerPending(p);
+    return p;
+  } else {
+    // Auto anonymous user upgrade disabled.
+    // By keeping this synchronous, no additional changes are needed for the
+    // no upgrade flow.
+    this.initialStateReady_ = true;
+    return cb(null);
+  }
+};
+
+
+/**
+ * @return {?firebase.User} The current anonymous user if eligible for upgrade,
+ *     null otherwise.
+ * @private
+ */
+firebaseui.auth.AuthUI.prototype.getUpgradableUser_ = function() {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
+  // This is typically run after initial onAuthStateChanged listener is
+  // triggered.
+  // Auto upgrade must be enabled and the current external user must be
+  // anonymous.
+  if (this.getConfig().autoUpgradeAnonymousUsers() &&
+      this.currentUser_ &&
+      this.currentUser_['isAnonymous']) {
+    return this.currentUser_;
+  }
+  return null;
 };
 
 
@@ -479,14 +645,22 @@ firebaseui.auth.AuthUI.prototype.getAuthUiGetter = function() {
 firebaseui.auth.AuthUI.prototype.reset = function() {
   // Check if instance is already destroyed.
   this.checkIfDestroyed_();
+  var self = this;
   // Remove the "lang" attribute that we set in start().
   if (this.widgetElement_) {
     this.widgetElement_.removeAttribute('lang');
+  }
+  // Unregister previous listener.
+  if (this.widgetEventDispatcher_) {
+    this.widgetEventDispatcher_.unregister();
   }
   // Change back the languageCode of external Auth instance.
   if (typeof this.auth_.languageCode !== 'undefined') {
     this.auth_.languageCode = this.originalAuthLanguageCode_;
   }
+  // Removes pending status of previous redirect operations including redirect
+  // back from accountchooser.com and federated sign in.
+  firebaseui.auth.storage.removePendingRedirectStatus(this.getAppId());
   // Cancel One-Tap last operation.
   this.cancelOneTapSignIn();
 
@@ -526,6 +700,15 @@ firebaseui.auth.AuthUI.prototype.reset = function() {
   }
   // Reset current page id.
   this.currentPageId_ = null;
+  // Signs Out internal Auth instance to avoid dangling Auth state.
+  if (this.tempAuth_) {
+    this.pendingInternalAuthSignOut_ = this.clearTempAuthState()
+        .then(function() {
+          self.pendingInternalAuthSignOut_ = null;
+        }, function(error) {
+          self.pendingInternalAuthSignOut_ = null;
+        });
+  }
 };
 
 
@@ -538,7 +721,7 @@ firebaseui.auth.AuthUI.prototype.reset = function() {
  */
 firebaseui.auth.AuthUI.prototype.initPageChangeListener_ = function(element) {
   var self = this;
-  /** @private {?string} Current page id. */
+  /** @private {?string} Current page ID. */
   this.currentPageId_ = null;
   // Initialize the event dispatcher on the widget element.
   this.widgetEventDispatcher_ = new firebaseui.auth.EventDispatcher(element);
@@ -549,8 +732,8 @@ firebaseui.auth.AuthUI.prototype.initPageChangeListener_ = function(element) {
       this.widgetEventDispatcher_,
       'pageEnter',
       function(event) {
-        // Get new page id.
-        var newPageId = event && event.pageId;
+        // Get new page ID.
+        var newPageId = event && event['pageId'];
         // If page change detected.
         if (self.currentPageId_ != newPageId) {
           // Get UI changed callback.
@@ -678,5 +861,402 @@ firebaseui.auth.AuthUI.prototype.showOneTapSignIn = function(handler) {
   } catch (e) {
     // This is an additive API and it's a best effort approach.
     // Ignore the error when the One-Tap API is not supported.
+  }
+};
+
+
+/**
+ * Sign in using an email and password.
+ * @param {string} email The email to sign in with.
+ * @param {string} password The password to sign in with.
+ * @return {!firebase.Promise<!firebase.User>}
+ */
+firebaseui.auth.AuthUI.prototype.startSignInWithEmailAndPassword =
+    function(email, password) {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
+  var self = this;
+  // Start sign in with existing email and password. This always runs on the
+  // internal Auth instance as an existing email/password account linking will
+  // always fail when upgrading an anonymous user. For the non-anonymous upgrade
+  // flow, the same credential will be used to complete sign in on the
+  // external Auth instance.
+  return /** @type {!firebase.Promise<!firebase.User>} */ (
+      this.getAuth().signInWithEmailAndPassword(email, password)
+      .then(function(result) {
+        var cb = function(user) {
+          if (user) {
+            // signOut the user.
+            return self.clearTempAuthState().then(function() {
+              // Eligible anonymous user upgrade.
+              // On anonymous user upgrade with existing email/password, merge
+              // conflict will always occur, trigger signInFailure as soon as
+              // password is confirmed.
+              return self.onUpgradeError(
+                  {'code': 'auth/email-already-in-use'},
+                  firebase.auth.EmailAuthProvider.credential(email, password));
+            });
+          } else {
+            return result;
+          }
+        };
+        // Initialize current user if auto upgrade is enabled beforing running
+        // callback and returning result.
+        return self.initializeForAutoUpgrade_(cb);
+      }));
+};
+
+
+/**
+ * Create a new email and password account.
+ * @param {string} email The email to sign up with.
+ * @param {string} password The password to sign up with.
+ * @return {!firebase.Promise<!firebase.User>}
+ */
+firebaseui.auth.AuthUI.prototype.startCreateUserWithEmailAndPassword =
+    function(email, password) {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
+  var self = this;
+  var cb = function(user) {
+    if (user) {
+      var credential =
+          firebase.auth.EmailAuthProvider.credential(email, password);
+      // For anonymous user upgrade, call link with credential on the external
+      // Auth user. Otherwise merge conflict will always occur when linking the
+      // credential to the external anonymous user after creation.
+      return /** @type {!firebase.Promise<!firebase.User>} */ (
+          user.linkAndRetrieveDataWithCredential(credential)
+          .then(function(result) {
+            return result['user'];
+          }));
+    } else {
+      // Start create user with email and password. This runs on the internal
+      // Auth instance as finish sign in will sign in with that same credential
+      // to developer Auth instance.
+      return /** @type {!firebase.Promise<!firebase.User>} */ (
+          self.getAuth().createUserWithEmailAndPassword(email, password));
+    }
+  };
+  // Initialize current user if auto upgrade is enabled beforing running
+  // callback and returning result.
+  return this.initializeForAutoUpgrade_(cb);
+};
+
+
+/**
+ * Logs into Firebase with the given 3rd party credentials.
+ * @param {!firebase.auth.AuthCredential} credential The Auth credential.
+ * @return {!firebase.Promise<!firebase.auth.UserCredential>}
+ */
+firebaseui.auth.AuthUI.prototype.startSignInWithCredential =
+    function(credential) {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
+  var self = this;
+  var cb = function(user) {
+    if (user) {
+      // For anonymous user upgrade, call link with credential on the external
+      // Auth user. Otherwise merge conflict will always occur when linking the
+      // credential to the external anonymous user after creation.
+      return /** @type {!firebase.Promise<!firebase.auth.UserCredential>} */ (
+          user.linkAndRetrieveDataWithCredential(credential)
+          .then(function(result) {
+            return result;
+          }, function(error) {
+            // Fail directly when email already in use error thrown. This will
+            // trigger account linking flow.
+            // When email already exists for a new federated credential, user
+            // must sign in to existing account and then link this credential to
+            // that account.
+            if (error &&
+                error['code'] == 'auth/email-already-in-use' &&
+                error['email'] && error['credential']) {
+              throw error;
+            }
+            // Pass the same credential back in the error. This assumes the
+            // credential used is not a one-time credential.
+            return self.onUpgradeError(error, credential);
+          }));
+    } else {
+      // Starts sign in with a Firebase Auth credential, typically an OAuth
+      // credential. This runs on the internal Auth instance as finish sign in
+      // will sign in with that same credential to developer Auth instance.
+      return self.getAuth().signInAndRetrieveDataWithCredential(credential);
+    }
+  };
+  // Initialize current user if auto upgrade is enabled beforing running
+  // callback and returning result.
+  return this.initializeForAutoUpgrade_(cb);
+};
+
+
+/**
+ * Signs in to Auth provider via popup.
+ * @param {!firebase.auth.AuthProvider} provider The Auth provider to sign in
+ *     with.
+ * @return {!firebase.Promise<!firebase.auth.UserCredential>}
+ */
+firebaseui.auth.AuthUI.prototype.startSignInWithPopup = function(provider) {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
+  var self = this;
+  var cb = function(user) {
+    if (user &&
+        // If email already exists, user must first be signed in to the
+        // existing account on the internal Auth instance before the credential
+        // is linked and merge conflict is triggered.
+        !firebaseui.auth.storage.getPendingEmailCredential(self.getAppId())) {
+      // For anonymous user upgrade, call link with popup on the external Auth
+      // user. Otherwise merge conflict will always occur when linking the
+      // credential to the external anonymous user after creation.
+      return /** @type {!firebase.Promise<!firebase.auth.UserCredential>} */ (
+          user.linkWithPopup(provider)
+          .then(function(result) {
+            return result;
+          }, function(error) {
+            // Fail directly when email already in use error thrown. This will
+            // trigger account linking flow.
+            // When email already exists for a new federated credential, user
+            // must sign to existing account and then link this credential to
+            // that account.
+            if (error &&
+                error['code'] == 'auth/email-already-in-use' &&
+                error['email'] && error['credential']) {
+              throw error;
+            }
+            // For all other errors, run onUpgrade check.
+            return self.onUpgradeError(error);
+          }));
+    } else {
+      // Starts sign in with popup. This runs on the internal Auth instance as
+      // finish sign in will sign in with the final credential to developer Auth
+      // instance.
+      return self.getAuth().signInWithPopup(provider);
+    }
+  };
+  // Initialize current user if auto upgrade is enabled beforing running
+  // callback and returning result.
+  return this.initializeForAutoUpgrade_(cb);
+};
+
+
+/**
+ * Signs in to Auth provider via redirect.
+ * @param {!firebase.auth.AuthProvider} provider The Auth provider to sign in
+ *     with.
+ * @return {!firebase.Promise<void>}
+ */
+firebaseui.auth.AuthUI.prototype.startSignInWithRedirect = function(provider) {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
+  var self = this;
+  // Save cached redirect result.
+  var cachedRedirectResult = this.getRedirectResult_;
+  // Each time a redirect operation is triggered, clear cached redirect result.
+  // This is important for Cordova apps where no page redirect may occur and
+  // getRedirectResult will update with the result after the redirect operation
+  // resolves.
+  this.getRedirectResult_ = null;
+  var cb = function(user) {
+    if (user &&
+        // If email already exists, user must first be signed in to the
+        // existing account on the internal Auth instance before the credential
+        // is linked and merge conflict is triggered.
+        !firebaseui.auth.storage.getPendingEmailCredential(self.getAppId())) {
+      // For anonymous user upgrade, call link with redirect on the external
+      // user. Otherwise merge conflict will always occur when linking the
+      // credential to the external anonymous user after creation.
+      return user.linkWithRedirect(provider);
+    } else {
+      // Starts sign in with redirect. This runs on the internal Auth instance
+      // as finish sign in will sign in with the final credential to developer
+      // Auth instance.
+      return self.getAuth().signInWithRedirect(provider);
+    }
+  };
+  // Initialize current user if auto upgrade is enabled beforing running
+  // callback and returning result.
+  return this.initializeForAutoUpgrade_(cb).then(
+      function() {
+        // Redirect succeeded.
+        // Browser case: page navigation occurs.
+        // Cordova case: either activity destroyed or getRedirectResult is
+        // updated since it was nullified.
+      },
+      function(error) {
+        // Error occurred, restore cached redirect result.
+        // It is useful to keep the cached result in case the UI was previously
+        // reset. This ensures that {'user': null, 'credential': null} is
+        // maintained and not some previous result from a redirect operation.
+        self.getRedirectResult_ = cachedRedirectResult;
+        throw error;
+      });
+};
+
+
+/**
+ * Signs in with a phone number using the app verifier instance and returns a
+ * promise that resolves with the confirmation result which on confirmation
+ * will resolve with the UserCredential object.
+ * @param {string} phoneNumber The phone number to authenticate with.
+ * @param {!firebase.auth.ApplicationVerifier} appVerifier The application
+ *     verifier.
+ * @return {!firebase.Promise<!firebaseui.auth.PhoneAuthResult>}
+ */
+firebaseui.auth.AuthUI.prototype.startSignInWithPhoneNumber =
+    function(phoneNumber, appVerifier) {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
+  var self = this;
+  var cb = function(user) {
+    if (user) {
+      // For anonymous user upgrade, call link with phone number on the external
+      // user.
+      return user.linkWithPhoneNumber(phoneNumber, appVerifier)
+          .then(function(confirmationResult) {
+            return new firebaseui.auth.PhoneAuthResult(confirmationResult,
+                function(error) {
+                  if (error.code == 'auth/credential-already-in-use') {
+                    return self.onUpgradeError(error);
+                  }
+                  throw error;
+                });
+          });
+    } else {
+      // Starts sign in with phone number. This runs on the external Auth
+      // instance.
+      return self.getExternalAuth().signInWithPhoneNumber(
+          phoneNumber, appVerifier).then(function(confirmationResult) {
+            return new firebaseui.auth.PhoneAuthResult(confirmationResult);
+          });
+    }
+  };
+  // Initialize current user if auto upgrade is enabled beforing running
+  // callback and returning result.
+  return this.initializeForAutoUpgrade_(cb);
+};
+
+
+/**
+ * Finishes FirebaseUI login with the given 3rd party credentials.
+ * @param {!firebase.auth.AuthCredential} credential The auth credential.
+ * @return {!firebase.Promise<!firebase.User>}
+ */
+firebaseui.auth.AuthUI.prototype.finishSignInWithCredential =
+    function(credential) {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
+  var self = this;
+  var cb = function(user) {
+    // Anonymous user upgrade successful, resolve immediately with the user.
+    // No need to sign in again with the same credential on the external Auth
+    // instance.
+    if (self.currentUser_ &&
+        !self.currentUser_['isAnonymous'] &&
+        self.getConfig().autoUpgradeAnonymousUsers()) {
+      return (firebase.Promise || goog.Promise).resolve(self.currentUser_);
+    } else if (user) {
+      // TODO: optimize and fail directly as this will fail in most cases
+      // with error credential already in use.
+      // There are cases where this is required. For example, when email
+      // mismatch occurs and the user continues with the new account.
+      return /** @type {!firebase.Promise<!firebase.User>} */ (
+          user.linkWithCredential(credential)
+          .then(function() {
+            return user;
+          }, function(error) {
+            // Rethrow email already in use error so it can trigger the account
+            // linking flow.
+            if (error &&
+                error['code'] == 'auth/email-already-in-use' &&
+                error['email'] && error['credential']) {
+              throw error;
+            }
+            // For all other errors, run onUpgrade check.
+            return self.onUpgradeError(error, credential);
+          }));
+    } else {
+      // Finishes sign in with the supplied credential on the developer provided
+      // Auth instance. On completion, this will redirect to signInSuccessUrl or
+      // trigger the signInSuccess callback.
+      return self.getExternalAuth().signInWithCredential(credential);
+    }
+  };
+  // Initialize current user if auto upgrade is enabled beforing running
+  // callback and returning result.
+  return this.initializeForAutoUpgrade_(cb);
+};
+
+
+/**
+ * Sign in using an email and password on existing account for linking to
+ * recover from an existing email error.
+ * @param {string} email The email to sign in with.
+ * @param {string} password The password to sign in with.
+ * @return {!firebase.Promise<!firebase.User>}
+ */
+firebaseui.auth.AuthUI.prototype.signInWithExistingEmailAndPasswordForLinking =
+    function(email, password) {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
+  // Starts sign in with email/password on the internal Auth instance for
+  // linking purposes. This is needed to avoid triggering the onAuthStateChanged
+  // callbacks interrupting the linking flow.
+  return this.getAuth().signInWithEmailAndPassword(email, password);
+};
+
+
+/**
+ * Clears all temporary Auth states.
+ * @return {!firebase.Promise<void>}
+ */
+firebaseui.auth.AuthUI.prototype.clearTempAuthState = function() {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
+  return this.getAuth().signOut();
+};
+
+
+/**
+ * Handles Firebase Auth upgrade errors.
+ * @param {*} error The error thrown from a Firebase operation.
+ * @param {?firebase.auth.AuthCredential=} opt_credential The optional
+ *     credential to provide to developer on merge conflicts.
+ * @return {!goog.Promise} A promise that resolves on completion.
+ */
+firebaseui.auth.AuthUI.prototype.onUpgradeError =
+    function(error, opt_credential) {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
+  var self = this;
+  if (error && error['code'] &&
+      // Password sign in.
+      (error['code'] == 'auth/email-already-in-use' ||
+      // Federated or phone number sign in.
+       error['code'] == 'auth/credential-already-in-use')) {
+    // Get signInFailure callback.
+    var signInFailureCallback = this.getConfig().getSignInFailureCallback();
+    // Wrap in promise in case no promise returned by callback.
+    return goog.Promise.resolve().then(function() {
+      // Pass merge conflict error to callback and wait for resolution.
+      return signInFailureCallback(new firebaseui.auth.AuthUIError(
+          firebaseui.auth.AuthUIError.Error.MERGE_CONFLICT,
+          null,
+          opt_credential || error['credential']));
+    }).then(function() {
+      // Clear UI after the developer finishes handling the error.
+      // This is helpful in case the developer forgets to reset UI
+      // after handling signInFailure.
+      if (self.currentComponent_) {
+        self.currentComponent_.dispose();
+        self.currentComponent_ = null;
+      }
+      // Rethrow the original error.
+      throw error;
+    });
+  } else {
+    // Rethrow all other non-merge conflict related errors.
+    return goog.Promise.reject(error);
   }
 };

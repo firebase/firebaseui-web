@@ -189,6 +189,8 @@ FakeAuthClient.AuthAsyncMethod = {
   APPLY_ACTION_CODE: 'applyActionCode',
   CHECK_ACTION_CODE: 'checkActionCode',
   CONFIRM_PASSWORD_RESET: 'confirmPasswordReset',
+  CREATE_USER_AND_RETRIEVE_DATA_WITH_EMAIL_AND_PASSWORD:
+      'createUserAndRetrieveDataWithEmailAndPassword',
   CREATE_USER_WITH_EMAIL_AND_PASSWORD: 'createUserWithEmailAndPassword',
   FETCH_PROVIDERS_FOR_EMAIL: 'fetchProvidersForEmail',
   GET_REDIRECT_RESULT: 'getRedirectResult',
@@ -196,6 +198,12 @@ FakeAuthClient.AuthAsyncMethod = {
   SET_PERSISTENCE: 'setPersistence',
   SIGN_IN_AND_RETRIEVE_DATA_WITH_CREDENTIAL:
       'signInAndRetrieveDataWithCredential',
+  SIGN_IN_AND_RETRIEVE_DATA_WITH_CUSTOM_TOKEN:
+      'signInAndRetrieveDataWithCustomToken',
+  SIGN_IN_AND_RETRIEVE_DATA_WITH_EMAIL_AND_PASSWORD:
+      'signInAndRetrieveDataWithEmailAndPassword',
+  SIGN_IN_ANONYMOUSLY_AND_RETRIEVE_DATA:
+      'signInAnonymouslyAndRetrieveData',
   SIGN_IN_WITH_CREDENTIAL: 'signInWithCredential',
   SIGN_IN_WITH_CUSTOM_TOKEN: 'signInWithCustomToken',
   SIGN_IN_WITH_EMAIL_AND_PASSWORD: 'signInWithEmailAndPassword',
@@ -242,6 +250,7 @@ FakeAuthClient.UserProperty = {
   DISPLAY_NAME: 'displayName',
   EMAIL: 'email',
   EMAIL_VERIFIED: 'emailVerified',
+  IS_ANONYMOUS: 'isAnonymous',
   PHONE_NUMBER: 'phoneNumber',
   PHOTO_URL: 'photoURL',
   PROVIDER_DATA: 'providerData',

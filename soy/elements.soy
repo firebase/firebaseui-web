@@ -440,7 +440,7 @@
     {param classes kind="text"}firebaseui-list-box-dialog{/param}
     {param content kind="html"}
       <div class="firebaseui-list-box-actions">
-        {foreach $item in $items}
+        {for $item in $items}
           <button type="button" data-listboxid="{$item.id}"
                   class="mdl-button firebaseui-id-list-box-dialog-button{sp}
                          firebaseui-list-box-dialog-button">
@@ -453,7 +453,7 @@
               {$item.label}
             </div>
           </button>
-        {/foreach}
+        {/for}
       </div>
     {/param}
   {/call}

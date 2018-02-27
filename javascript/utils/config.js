@@ -97,7 +97,7 @@ firebaseui.auth.Config.prototype.update = function(name, value) {
 
 /**
  * Gets the configuration value for the given name. If an unrecognized name is
- * specified, an {@code Error} is thrown.
+ * specified, an `Error` is thrown.
  *
  * @param {string} name The name of the configuration.
  * @return {*|undefined} The configuration value.
@@ -112,7 +112,7 @@ firebaseui.auth.Config.prototype.get = function(name) {
 
 /**
  * Gets the configuration value for the given name. If an unrecognized name is
- * specified or the value is not provided, an {@code Error} is thrown.
+ * specified or the value is not provided, an `Error` is thrown.
  *
  * @param {string} name The name of the configuration.
  * @return {*} The configuration value.

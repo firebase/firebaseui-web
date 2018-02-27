@@ -199,6 +199,7 @@ function testHandleSignIn_reset() {
   firebaseui.auth.widget.handler.handleSignIn(app, container);
   assertSignInPage();
   // Reset current rendered widget page.
+  app.getAuth().assertSignOut([]);
   app.reset();
   // Container should be cleared.
   assertComponentDisposed();
