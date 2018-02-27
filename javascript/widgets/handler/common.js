@@ -486,15 +486,13 @@ firebaseui.auth.widget.handler.common.setLoggedIn =
     firebaseui.auth.storage.removeRememberAccount(app.getAppId());
     // After successful sign out from internal instance, sign in with credential
     // to the developer provided auth instance. Use the credential passed.
-    var finishSignInPromise = app.finishSignInWithCredential(
+    return app.finishSignInWithCredential(
         /** @type {!firebase.auth.AuthCredential} */ (credential))
         .then(function(user) {
           firebaseui.auth.widget.handler.common.setUserLoggedInExternal_(
               app, component, user, outputCred);
           // Catch error when signInSuccessUrl is required and not provided.
         }, onError).then(function() {}, onError);
-    app.registerPending(finishSignInPromise);
-    return finishSignInPromise;
   }, onError);
   app.registerPending(signOutAndSignInPromise);
   return goog.Promise.resolve(signOutAndSignInPromise);
@@ -1012,6 +1010,10 @@ firebaseui.auth.widget.handler.common.verifyPassword =
           return;
         }
         switch (error['code']) {
+          case 'auth/email-already-in-use':
+            // Do nothing when anonymous user is getting updated.
+            // Developer should handle this in signInFailure callback.
+            break;
           case 'auth/email-exists':
             showInvalidEmail(error);
             break;
