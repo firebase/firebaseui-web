@@ -29,6 +29,7 @@ goog.require('goog.Promise');
 goog.require('goog.dom');
 goog.require('goog.dom.forms');
 goog.require('goog.testing.events');
+goog.require('goog.testing.recordFunction');
 
 
 function testHandlePasswordSignIn() {
@@ -65,6 +66,10 @@ function testHandlePasswordSignIn() {
 
 
 function testHandlePasswordSignIn_upgradeAnonymous_successfulSignIn() {
+  testStubs.replace(
+      firebaseui.auth.log,
+      'error',
+      goog.testing.recordFunction());
   var expectedCredential = firebase.auth.EmailAuthProvider.credential(
       passwordAccount.getEmail(), '123');
   // Expected FirebaseUI error.
@@ -98,6 +103,10 @@ function testHandlePasswordSignIn_upgradeAnonymous_successfulSignIn() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
+    mockClock.tick();
+    // No error message should be displayed in console.
+    /** @suppress {missingRequire} */
+    assertEquals(0, firebaseui.auth.log.error.getCallCount());
     // No info bar should be displayed.
     assertNoInfoBarMessage();
     // UI should be disposed.
