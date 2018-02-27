@@ -19,6 +19,7 @@
 goog.provide('firebaseui.auth.widget.handler.PasswordLinkingTest');
 goog.setTestOnly('firebaseui.auth.widget.handler.PasswordLinkingTest');
 
+goog.require('firebaseui.auth.AuthUIError');
 goog.require('firebaseui.auth.PendingEmailCredential');
 goog.require('firebaseui.auth.idp');
 goog.require('firebaseui.auth.storage');
@@ -104,6 +105,58 @@ function testHandlePasswordLinking() {
 }
 
 
+function testHandlePasswordLinking_upgradeAnonymous() {
+  setPendingEmailCredentials();
+  // Expected linkWithCredential error.
+  var expectedError = {
+    'code': 'auth/credential-already-in-use',
+    'credential': credential,
+    'email': passwordAccount.getEmail(),
+    'message': 'MESSAGE'
+  };
+  // Expected FirebaseUI error.
+  var expectedMergeError = new firebaseui.auth.AuthUIError(
+      firebaseui.auth.AuthUIError.Error.MERGE_CONFLICT,
+      null,
+      credential);
+  // Enable anonymous user upgrade.
+  app.updateConfig('autoUpgradeAnonymousUsers', true);
+  // Simulate anonymous user signed in.
+  externalAuth.setUser(anonymousUser);
+  firebaseui.auth.widget.handler.handlePasswordLinking(
+      app, container, passwordAccount.getEmail());
+  assertPasswordLinkingPage(passwordAccount.getEmail());
+  goog.dom.forms.setValue(getPasswordElement(), '123');
+  submitForm();
+  // Assert successful password linking flow on internal Auth instance.
+  assertSuccessfulPasswordLinking(credential);
+  // Sign out from internal instance and then sign in with passed credential to
+  // external instance.
+  return testAuth.process().then(function() {
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    // Trigger initial onAuthStateChanged listener.
+    externalAuth.runAuthChangeHandler();
+    // Assert existing credential linking triggered expected error on external
+    // anonymous user.
+    externalAuth.currentUser.assertLinkWithCredential(
+        [credential],
+        null,
+        expectedError);
+    return externalAuth.process();
+  }).then(function() {
+    // Pending credential and email should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    // No info bar message shown.
+    assertNoInfoBarMessage();
+    // signInFailure triggered with expected error.
+    assertSignInFailure(expectedMergeError);
+  });
+}
+
+
 function testHandlePasswordLinking_reset() {
   // Test reset after password linking handler called.
   setPendingEmailCredentials();
@@ -111,6 +164,7 @@ function testHandlePasswordLinking_reset() {
       app, container, passwordAccount.getEmail());
   assertPasswordLinkingPage(passwordAccount.getEmail());
   // Reset current rendered widget page.
+  app.getAuth().assertSignOut([]);
   app.reset();
   // Container should be cleared.
   assertComponentDisposed();
@@ -148,6 +202,7 @@ function testHandlePasswordLinking_signInCallback() {
         [credential], externalAuth.currentUser);
     return externalAuth.process();
   }).then(function() {
+    testAuth.assertSignOut([]);
     // Pending credential should be cleared from storage.
     assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
         app.getAppId()));

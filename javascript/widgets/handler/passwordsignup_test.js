@@ -20,6 +20,7 @@ goog.provide('firebaseui.auth.widget.handler.PasswordSignUpTest');
 goog.setTestOnly('firebaseui.auth.widget.handler.PasswordSignUpTest');
 
 goog.require('firebaseui.auth.soy2.strings');
+goog.require('firebaseui.auth.widget.handler.common');
 goog.require('firebaseui.auth.widget.handler.handlePasswordSignUp');
 goog.require('firebaseui.auth.widget.handler.handleProviderSignIn');
 goog.require('firebaseui.auth.widget.handler.handleSignIn');
@@ -77,15 +78,121 @@ function testHandlePasswordSignUp() {
 }
 
 
+function testHandlePasswordSignUp_anonymousUpgrade_success() {
+  app.updateConfig('autoUpgradeAnonymousUsers', true);
+  // Simulate anonymous current user on external Auth instance.
+  externalAuth.setUser(anonymousUser);
+  firebaseui.auth.widget.handler.handlePasswordSignUp(
+      app, container, passwordAccount.getEmail());
+  assertPasswordSignUpPage();
+  goog.dom.forms.setValue(getNameElement(), 'Password User');
+  goog.dom.forms.setValue(getNewPasswordElement(), '123123');
+  submitForm();
+  // Trigger onAuthStateChanged listener.
+  externalAuth.runAuthChangeHandler();
+  var cred = new firebase.auth.EmailAuthProvider.credential(
+      passwordAccount.getEmail(), '123123');
+  externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+      [cred],
+      function() {
+        // User should be signed in.
+        externalAuth.setUser({
+          'uid': '12345678'
+        });
+        return {
+          'user': externalAuth.currentUser,
+          'credential': null
+        };
+      });
+  return externalAuth.process().then(function() {
+    externalAuth.currentUser.assertUpdateProfile([{
+      'displayName': 'Password User'
+    }]);
+    return externalAuth.process();
+  }).then(function() {
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    testUtil.assertGoTo('http://localhost/home');
+  });
+}
+
+
+function testHandlePasswordSignUp_anonymousUpgrade_emailInUse() {
+  app.updateConfig('autoUpgradeAnonymousUsers', true);
+  // Simulate anonymous current user on external Auth instance.
+  externalAuth.setUser(anonymousUser);
+  firebaseui.auth.widget.handler.handlePasswordSignUp(
+      app, container, passwordAccount.getEmail());
+  assertPasswordSignUpPage();
+  goog.dom.forms.setValue(getNameElement(), 'Password User');
+  goog.dom.forms.setValue(getNewPasswordElement(), '123123');
+  submitForm();
+  // Trigger onAuthStateChanged listener.
+  externalAuth.runAuthChangeHandler();
+  var cred = new firebase.auth.EmailAuthProvider.credential(
+      passwordAccount.getEmail(), '123123');
+  var error = {
+    'code': 'auth/email-already-in-use'
+  };
+  externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+      [cred], null, error);
+  return externalAuth.process().then(function() {
+    testAuth.assertFetchProvidersForEmail(
+        [passwordAccount.getEmail()], ['password']);
+    return testAuth.process();
+  }).then(function() {
+    assertPasswordSignUpPage();
+    assertEquals(
+        firebaseui.auth.widget.handler.common.getErrorMessage(error),
+        getEmailErrorMessage());
+  });
+}
+
+
 function testHandlePasswordSignUp_reset() {
   // Test reset after password sign-up handler called.
   firebaseui.auth.widget.handler.handlePasswordSignUp(
       app, container, passwordAccount.getEmail());
   assertPasswordSignUpPage();
   // Reset current rendered widget page.
+  app.getAuth().assertSignOut([]);
   app.reset();
   // Container should be cleared.
   assertComponentDisposed();
+}
+
+
+function testHandlePasswordSignUp_escapeDisplayName() {
+  firebaseui.auth.widget.handler.handlePasswordSignUp(
+      app, container, passwordAccount.getEmail());
+  assertPasswordSignUpPage();
+  goog.dom.forms.setValue(getNameElement(), '<script>doSthBad();</script>');
+  goog.dom.forms.setValue(getNewPasswordElement(), '123123');
+  submitForm();
+  testAuth.assertCreateUserWithEmailAndPassword(
+      [passwordAccount.getEmail(), '123123'], function() {
+        testAuth.setUser({
+          'email': passwordAccount.getEmail()
+        });
+        // Display name should be sanitized.
+        testAuth.currentUser.assertUpdateProfile([{
+          'displayName': '&lt;script&gt;doSthBad();&lt;/script&gt;'
+        }]);
+        return testAuth.currentUser;
+      });
+  return testAuth.process().then(function() {
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    externalAuth.setUser(testAuth.currentUser);
+    var cred = new firebase.auth.EmailAuthProvider.credential(
+        passwordAccount.getEmail(), '123123');
+    externalAuth.assertSignInWithCredential([cred], externalAuth.currentUser);
+    return externalAuth.process();
+  }).then(function() {
+    testUtil.assertGoTo('http://localhost/home');
+  });
 }
 
 
@@ -157,6 +264,7 @@ function testHandlePasswordSignUp_signInCallback() {
     externalAuth.assertSignInWithCredential([cred], externalAuth.currentUser);
     return externalAuth.process();
   }).then(function() {
+    testAuth.assertSignOut([]);
     // SignInCallback is called. No password credential is passed.
     assertSignInSuccessCallbackInvoked(
         externalAuth.currentUser, null, undefined);
