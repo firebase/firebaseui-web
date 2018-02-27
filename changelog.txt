@@ -1,0 +1,3 @@
+fixed - Fixes the verifyPassword error logged to the browser console on anonymous user upgrade.
+fixed - Fixes the bug when the incorrect user reference is returned on anonymous user upgrade which occurs when a user is already signed in on the external Auth instance.
+fixed - Fixes the uncaught promise cancellation error when signInSuccess callback is provided and no redirect is required.
