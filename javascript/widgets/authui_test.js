@@ -2909,6 +2909,46 @@ function testFinishSignInWithCredential_upgradeAnonymous_nonAnonymous() {
 }
 
 
+function testFinishSignInWithCredential_upgradeAnon_nonAnonUserOnTempAuth() {
+  // If there is a user signed in on internal instance, finish the sign in flow
+  // by signing it on external instance.
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  // Simulate autoUpgradeAnonymousUsers set to true.
+  app.setConfig(anonymousUpgradeConfig);
+  app.getAuth().install();
+  app.getExternalAuth().install();
+  asyncTestCase.waitForSignals(1);
+  var userOnExternalInstance = {
+    'email': 'user2@example.com',
+    'displayName': 'Federated User2'
+  };
+  // Simulate a user already logged in on external instance.
+  testAuth.setUser(userOnExternalInstance);
+  // Simulate another user already logged in on internal instance.
+  app.getAuth().setUser(expectedUser);
+  app.finishSignInWithCredential(expectedCredential)
+      .then(function(user) {
+        // The user returned should be the one originally signed in on internal
+        // instance.
+        assertObjectEquals(app.getAuth().currentUser, user);
+        assertEquals(app.getExternalAuth().currentUser, user);
+        asyncTestCase.signal();
+      });
+  // Trigger initial onAuthStateChanged listener.
+  app.getExternalAuth().runAuthChangeHandler();
+  app.getExternalAuth().assertSignInWithCredential(
+      [expectedCredential],
+      function() {
+        app.getExternalAuth().setUser(expectedUser);
+        return app.getExternalAuth().currentUser;
+      });
+  app.getExternalAuth().process();
+  app.getAuth().process();
+}
+
+
 function testFinishSignInWithCredential_upgradeAnonymous_noUser() {
   testApp = new firebaseui.auth.testing.FakeAppClient(options);
   testAuth = testApp.auth();
