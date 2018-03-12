@@ -117,3 +117,95 @@ function testOnDomReady() {
   // Should resolve immediately without any error.
   return firebaseui.auth.util.onDomReady();
 }
+
+
+function testGoTo_safeUrl() {
+  var mockWin = {
+    location: {
+      assign: goog.testing.recordFunction()
+    }
+  };
+  stubs.reset();
+
+  // Confirm goTo redirects as expected to safe URLs.
+  firebaseui.auth.util.goTo(
+      'https://www.example.com:80/path/?a=1#b=2', mockWin);
+  assertEquals(1, mockWin.location.assign.getCallCount());
+  assertEquals(
+      'https://www.example.com:80/path/?a=1#b=2',
+      mockWin.location.assign.getLastCall().getArgument(0));
+}
+
+
+function testGoTo_unsafeUrl() {
+  var mockWin = {
+    location: {
+      assign: goog.testing.recordFunction()
+    }
+  };
+  stubs.reset();
+
+  // Confirm URLs are sanitized before redirection.
+  firebaseui.auth.util.goTo(
+      'javascript:doEvilStuff()', mockWin);
+  assertEquals(1, mockWin.location.assign.getCallCount());
+  assertEquals(
+      'about:invalid#zClosurez',
+      mockWin.location.assign.getLastCall().getArgument(0));
+}
+
+
+function testOpenerGoTo_safeUrl() {
+  var mockWin = {
+    opener: {
+      location: {
+        assign: goog.testing.recordFunction()
+      }
+    }
+  };
+  stubs.reset();
+
+  // Confirm openerGoTo redirects as expected to safe URLs.
+  firebaseui.auth.util.openerGoTo(
+      'https://www.example.com:80/path/?a=1#b=2', mockWin);
+  assertEquals(1, mockWin.opener.location.assign.getCallCount());
+  assertEquals(
+      'https://www.example.com:80/path/?a=1#b=2',
+      mockWin.opener.location.assign.getLastCall().getArgument(0));
+}
+
+
+function testOpenerGoTo_unsafeUrl() {
+  var mockWin = {
+    opener: {
+      location: {
+        assign: goog.testing.recordFunction()
+      }
+    }
+  };
+  stubs.reset();
+
+  // Confirm URLs are sanitized before redirection.
+  firebaseui.auth.util.openerGoTo(
+      'javascript:doEvilStuff()', mockWin);
+  assertEquals(1, mockWin.opener.location.assign.getCallCount());
+  assertEquals(
+      'about:invalid#zClosurez',
+      mockWin.opener.location.assign.getLastCall().getArgument(0));
+}
+
+
+function testSanitizeUrl_safeUrl() {
+  assertEquals(
+      'https://www.example.com:80/path/?a=1#b=2',
+      firebaseui.auth.util.sanitizeUrl(
+          'https://www.example.com:80/path/?a=1#b=2'));
+}
+
+
+function testSanitizeUrl_unsafeUrl() {
+  assertEquals(
+      'about:invalid#zClosurez',
+      firebaseui.auth.util.sanitizeUrl('javascript:doEvilStuff()'));
+}
+

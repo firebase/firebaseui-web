@@ -42,8 +42,8 @@ goog.require('firebaseui.auth.widget.handler.common');
  * @param {!firebaseui.auth.PhoneNumber} phoneNumberValue
  *     The value of the phone number input.
  * @param {!number} resendDelay The resend delay.
- * @param {!Object} phoneAuthResult The phone Auth result used to verify
- *     the code on.
+ * @param {!firebaseui.auth.PhoneAuthResult} phoneAuthResult The phone Auth
+ *     result used to verify the code on.
  * @param {string=} opt_infoBarMessage The message to show on info bar.
  */
 firebaseui.auth.widget.handler.handlePhoneSignInFinish = function(
@@ -148,9 +148,16 @@ firebaseui.auth.widget.handler.onPhoneSignInFinishSubmit_ = function(
           // Dismiss dialog and dispose of component before completing sign-in.
           component.dismissDialog();
           component.dispose();
-          // Phone auth operations do not return a credential.
-          firebaseui.auth.widget.handler.common.setLoggedIn(
-              app, component, null, null, true);
+          var authResult = /** @type {!firebaseui.auth.AuthResult} */ ({
+            // User already signed on external instance.
+            'user': app.getExternalAuth().currentUser,
+            // Phone Auth operations do not return a credential.
+            'credential': null,
+            'operationType': userCredential['operationType'],
+            'additionalUserInfo': userCredential['additionalUserInfo']
+          });
+          firebaseui.auth.widget.handler.common.setLoggedInWithAuthResult(
+              app, component, authResult, true);
         }, firebaseui.auth.widget.handler.CODE_SUCCESS_DIALOG_DELAY);
         // On reset, clear timeout.
         app.registerPending(function() {

@@ -119,6 +119,8 @@ var testAuth;
 
 var signInCallbackUser;
 var signInCallbackCredential;
+var signInCallbackAdditionalUserInfo;
+var signInCallbackOperationType;
 var signInCallbackRedirectUrl;
 var uiShownCallbackCount;
 var signInFailureCallback;
@@ -180,6 +182,8 @@ function setUp() {
   signInCallbackUser = undefined;
   signInCallbackRedirectUrl = undefined;
   signInCallbackCredential = undefined;
+  signInCallbackAdditionalUserInfo = undefined;
+  signInCallbackOperationType = undefined;
   uiShownCallbackCount = 0;
   // Define recorded signInFailure callback.
   signInFailureCallback = goog.testing.recordFunction(function() {
@@ -208,7 +212,7 @@ function setUp() {
   firebaseui.auth.widget.handler.common.acForceUiShown_ = false;
   // For browsers that do not support CORS which rely on gapi for XHR, simulate
   // this capability so as to test XHR requests and responses properly.
-  testStubs.set(firebaseui.auth.util, function() {
+  testStubs.set(firebaseui.auth.util, 'supportsCors', function() {
     return true;
   });
   // Record accountchooser.com callback calls.
@@ -952,6 +956,45 @@ function assertSignInSuccessCallbackInvoked(
     user, opt_credential, opt_redirectUrl) {
   assertObjectEquals(user, signInCallbackUser);
   assertObjectEquals(opt_credential, signInCallbackCredential);
+  assertEquals(opt_redirectUrl, signInCallbackRedirectUrl);
+}
+
+
+/**
+ * @param {boolean} redirect The return status of the success callback.
+ * @param {boolean=} opt_manualRedirect Whether the developer manually
+ *     redirects to redirectUrl.
+ * @return {!firebaseui.auth.callback.signInSuccessWithAuthResult} sign in
+ *     success with auth result callback function.
+ */
+function signInSuccessWithAuthResultCallback(redirect, opt_manualRedirect) {
+  return function(authResult, redirectUrl) {
+    // Save sign in callback parameters to confirm callback invoked.
+    signInCallbackUser = authResult.user;
+    signInCallbackRedirectUrl = redirectUrl;
+    signInCallbackCredential = authResult.credential;
+    signInCallbackAdditionalUserInfo = authResult.additionalUserInfo;
+    signInCallbackOperationType = authResult.operationType;
+    // Developer manually redirects and redirect URL available.
+    if (opt_manualRedirect && redirectUrl) {
+      firebaseui.auth.util.goTo(redirectUrl);
+    }
+    return redirect;
+  };
+}
+
+
+/**
+ * @param {!fireabaseui.auth.AuthResult} authResult The returned auth result.
+ * @param {string=} opt_redirectUrl The redirect URL if available.
+ */
+function assertSignInSuccessWithAuthResultCallbackInvoked(
+    authResult, opt_redirectUrl) {
+  assertObjectEquals(authResult.user, signInCallbackUser);
+  assertObjectEquals(authResult.credential, signInCallbackCredential);
+  assertObjectEquals(authResult.additionalUserInfo,
+                     signInCallbackAdditionalUserInfo);
+  assertEquals(authResult.operationType, signInCallbackOperationType);
   assertEquals(opt_redirectUrl, signInCallbackRedirectUrl);
 }
 

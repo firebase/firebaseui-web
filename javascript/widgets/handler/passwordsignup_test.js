@@ -35,16 +35,23 @@ goog.require('goog.testing.events');
  * Asserts all the required requests for a successful sign-up.
  */
 function assertSuccessfulSignUp() {
-  testAuth.assertCreateUserWithEmailAndPassword(
+  testAuth.assertCreateUserAndRetrieveDataWithEmailAndPassword(
       [passwordAccount.getEmail(), '123123'], function() {
-        testAuth.setUser({
+        var expectedUser = {
           'email': passwordAccount.getEmail(),
           'displayName': passwordAccount.getDisplayName()
-        });
+        };
+        testAuth.setUser(expectedUser);
         testAuth.currentUser.assertUpdateProfile([{
           'displayName': 'Password User'
         }]);
-        return testAuth.currentUser;
+        var expectedUserCredential = {
+          'user': testAuth.currentUser,
+          'credential': null,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'password', 'isNewUser': true}
+        };
+        return expectedUserCredential;
       });
 }
 
@@ -101,7 +108,9 @@ function testHandlePasswordSignUp_anonymousUpgrade_success() {
         });
         return {
           'user': externalAuth.currentUser,
-          'credential': null
+          'credential': null,
+          'operationType': 'link',
+          'additionalUserInfo': {'providerId': 'password', 'isNewUser': false}
         };
       });
   return externalAuth.process().then(function() {
@@ -114,6 +123,65 @@ function testHandlePasswordSignUp_anonymousUpgrade_success() {
     return testAuth.process();
   }).then(function() {
     testUtil.assertGoTo('http://localhost/home');
+  });
+}
+
+
+function testHandlePasswordSignUp_anonUpgrade_signInSuccessWithAuthResult() {
+  app.setConfig({
+    'callbacks': {
+      'signInSuccessWithAuthResult': signInSuccessWithAuthResultCallback(true),
+      'signInFailure': signInFailureCallback
+    },
+    'autoUpgradeAnonymousUsers': true
+  });
+  // Simulate anonymous current user on external Auth instance.
+  externalAuth.setUser(anonymousUser);
+  firebaseui.auth.widget.handler.handlePasswordSignUp(
+      app, container, passwordAccount.getEmail());
+  assertPasswordSignUpPage();
+  goog.dom.forms.setValue(getNameElement(), 'Password User');
+  goog.dom.forms.setValue(getNewPasswordElement(), '123123');
+  submitForm();
+  // Trigger onAuthStateChanged listener.
+  externalAuth.runAuthChangeHandler();
+  var cred = new firebase.auth.EmailAuthProvider.credential(
+      passwordAccount.getEmail(), '123123');
+  externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+      [cred],
+      function() {
+        // User should be signed in.
+        externalAuth.setUser({
+          'uid': '12345678'
+        });
+        return {
+          'user': externalAuth.currentUser,
+          'credential': null,
+          'operationType': 'link',
+          'additionalUserInfo': {'providerId': 'password', 'isNewUser': false}
+        };
+      });
+  return externalAuth.process().then(function() {
+    externalAuth.currentUser.assertUpdateProfile([{
+      'displayName': 'Password User'
+    }]);
+    return externalAuth.process();
+  }).then(function() {
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    testUtil.assertGoTo('http://localhost/home');
+    var expectedAuthResult = {
+      'user': externalAuth.currentUser,
+      // Password credential should not be exposed to callback.
+      'credential': null,
+      // Operation type should be link for anonymous upgrade flow.
+      'operationType': 'link',
+      'additionalUserInfo': {'providerId': 'password', 'isNewUser': false}
+    };
+    // SignInSuccessWithAuthResultCallback is called.
+    assertSignInSuccessWithAuthResultCallbackInvoked(
+        expectedAuthResult, undefined);
   });
 }
 
@@ -170,7 +238,7 @@ function testHandlePasswordSignUp_escapeDisplayName() {
   goog.dom.forms.setValue(getNameElement(), '<script>doSthBad();</script>');
   goog.dom.forms.setValue(getNewPasswordElement(), '123123');
   submitForm();
-  testAuth.assertCreateUserWithEmailAndPassword(
+  testAuth.assertCreateUserAndRetrieveDataWithEmailAndPassword(
       [passwordAccount.getEmail(), '123123'], function() {
         testAuth.setUser({
           'email': passwordAccount.getEmail()
@@ -179,7 +247,12 @@ function testHandlePasswordSignUp_escapeDisplayName() {
         testAuth.currentUser.assertUpdateProfile([{
           'displayName': '&lt;script&gt;doSthBad();&lt;/script&gt;'
         }]);
-        return testAuth.currentUser;
+        return {
+          'user': testAuth.currentUser,
+          'credential': null,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'password', 'isNewUser': true}
+        };
       });
   return testAuth.process().then(function() {
     testAuth.assertSignOut([]);
@@ -212,12 +285,17 @@ function testHandlePasswordSignUp_withoutDisplayName() {
   submitForm();
 
   // assert successful sign up without updateProfile being called
-  testAuth.assertCreateUserWithEmailAndPassword(
+  testAuth.assertCreateUserAndRetrieveDataWithEmailAndPassword(
       [passwordAccount.getEmail(), '123123'], function() {
         testAuth.setUser({
           'email': passwordAccount.getEmail()
         });
-        return testAuth.currentUser;
+        return {
+          'user': testAuth.currentUser,
+          'credential': null,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'password', 'isNewUser': true}
+        };
       });
   return testAuth.process().then(function() {
     testAuth.assertSignOut([]);
@@ -274,6 +352,62 @@ function testHandlePasswordSignUp_signInCallback() {
 }
 
 
+function testHandlePasswordSignUp_signInSuccessWithAuthResultCallback() {
+  // Provide a signInSuccessWithAuthResult callback.
+  app.setConfig({
+    'callbacks': {
+      'signInSuccessWithAuthResult': signInSuccessWithAuthResultCallback(false)
+    }
+  });
+  firebaseui.auth.widget.handler.handlePasswordSignUp(
+      app, container, passwordAccount.getEmail());
+  assertPasswordSignUpPage();
+  goog.dom.forms.setValue(getNameElement(), 'Password User');
+  goog.dom.forms.setValue(getNewPasswordElement(), '123123');
+  submitForm();
+  assertSuccessfulSignUp();
+  // Sign out from internal instance and then sign in with passed credential to
+  // external instance.
+  return testAuth.process().then(function() {
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    externalAuth.setUser(testAuth.currentUser);
+    // Confirm password credential passed and signed in with.
+    var cred = new firebase.auth.EmailAuthProvider.credential(
+        passwordAccount.getEmail(), '123123');
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+          return {
+            'user': externalAuth.currentUser,
+            'credential': null,
+            'operationType': 'signIn',
+            // isNewUser is false while signing in on external instance.
+            'additionalUserInfo': {'providerId': 'password', 'isNewUser': false}
+          };
+        });
+    return externalAuth.process();
+  }).then(function() {
+    var expectedAuthResult = {
+      'user': externalAuth.currentUser,
+      // Password credential should not be exposed to callback.
+      'credential': null,
+      'operationType': 'signIn',
+      // isNewUser exposed to callback should still be true.
+      'additionalUserInfo': {'providerId': 'password', 'isNewUser': true}
+    };
+    testAuth.assertSignOut([]);
+    // SignInSuccessWithAuthResultCallback is called.
+    assertSignInSuccessWithAuthResultCallbackInvoked(
+        expectedAuthResult, undefined);
+    // Container should be cleared.
+    assertComponentDisposed();
+  });
+}
+
+
 function testHandlePasswordSignUp_cancel_providerFirst() {
   firebaseui.auth.widget.handler.handlePasswordSignUp(
       app, container, passwordAccount.getEmail());
@@ -292,7 +426,7 @@ function testHandlePasswordSignUp_emailExistsError_providerFound() {
   goog.dom.forms.setValue(getNameElement(), 'Password User');
   goog.dom.forms.setValue(getNewPasswordElement(), '123123');
   submitForm();
-  testAuth.assertCreateUserWithEmailAndPassword(
+  testAuth.assertCreateUserAndRetrieveDataWithEmailAndPassword(
       [passwordAccount.getEmail(), '123123'], null, {
         'code': 'auth/email-already-in-use'
       });
@@ -312,7 +446,7 @@ function testHandlePasswordSignUp_emailExistsError_providerNotFound() {
   goog.dom.forms.setValue(getNameElement(), 'Password User');
   goog.dom.forms.setValue(getNewPasswordElement(), '123123');
   submitForm();
-  testAuth.assertCreateUserWithEmailAndPassword(
+  testAuth.assertCreateUserAndRetrieveDataWithEmailAndPassword(
       [passwordAccount.getEmail(), '123123'], null, {
         'code': 'auth/email-already-in-use'
       });
@@ -337,7 +471,7 @@ function testHandlePasswordSignUp_emailExistsError_providerFetchError() {
   goog.dom.forms.setValue(getNameElement(), 'Password User');
   goog.dom.forms.setValue(getNewPasswordElement(), '123123');
   submitForm();
-  testAuth.assertCreateUserWithEmailAndPassword(
+  testAuth.assertCreateUserAndRetrieveDataWithEmailAndPassword(
       [passwordAccount.getEmail(), '123123'], null, {
         'code': 'auth/email-already-in-use'
       });
@@ -360,7 +494,7 @@ function testHandlePasswordSignUp_otherError() {
   goog.dom.forms.setValue(getNameElement(), 'Password User');
   goog.dom.forms.setValue(getNewPasswordElement(), '123123');
   submitForm();
-  testAuth.assertCreateUserWithEmailAndPassword(
+  testAuth.assertCreateUserAndRetrieveDataWithEmailAndPassword(
       [passwordAccount.getEmail(), '123123'], null, {
         'code': error
       });
@@ -434,7 +568,7 @@ function testHandlePasswordSignUp_afterFailed() {
   // Click submit again.
   submitForm();
   return goog.Promise.resolve().then(function() {
-    testAuth.assertCreateUserWithEmailAndPassword(
+    testAuth.assertCreateUserAndRetrieveDataWithEmailAndPassword(
         [passwordAccount.getEmail(), '123123'], null, {
           'code': 'auth/too-many-requests'
         });

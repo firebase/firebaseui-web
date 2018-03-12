@@ -239,9 +239,7 @@
 <translation id="6040759627067155517">‏‮Email‬‏</translation>
 <translation id="6044396095102058216">‏‮This‬‏ ‏‮phone‬‏ ‏‮number‬‏ ‏‮has‬‏ ‏‮been‬‏ ‏‮used‬‏ ‏‮too‬‏ ‏‮many‬‏ ‏‮times‬‏</translation>
 <translation id="6091051069256411999">‏‮Twitter‬‏</translation>
-<translation id="61182948399263957">
-<ph name="P_START" />‏‮Sign‬‏ ‏‮in‬‏ ‏‮to‬‏ <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
-<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
+<translation id="617174140882717287"><ph name="IDV_CODE_PLACE_HOLDER" /> ‏‮is‬‏ ‏‮your‬‏ ‏‮verification‬‏ ‏‮code‬‏ ‏‮for‬‏ <ph name="APP_NAME" />.</translation>
 <translation id="6189573836664806798">‏‮Paraguay‬‏</translation>
 <translation id="6192657410634245771">‏‮Algeria‬‏</translation>
 <translation id="6213969168046789596">‏‮You‬‏ ‏‮have‬‏ ‏‮entered‬‏ ‏‮an‬‏ ‏‮incorrect‬‏ ‏‮password‬‏ ‏‮too‬‏ ‏‮many‬‏ ‏‮times‬‏. ‏‮Please‬‏ ‏‮try‬‏ ‏‮again‬‏ ‏‮in‬‏ ‏‮a‬‏ ‏‮few‬‏ ‏‮minutes‬‏.</translation>

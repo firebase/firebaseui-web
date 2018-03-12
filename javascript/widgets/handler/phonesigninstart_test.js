@@ -36,13 +36,40 @@ goog.require('goog.dom');
 goog.require('goog.dom.forms');
 
 
-// Mock confirmation result.
-var mockConfirmationResult = {
-  'confirm': function(code) {
-    assertEquals('123456', code);
-    return goog.Promise.resolve();
-  }
-};
+/**
+ * @param {string} operationType The operation type.
+ * @param {boolean} isNewUser Whether the user is new.
+ * @return {!firebase.auth.ConfirmationResult} The mock confirmation result
+ *     object.
+ */
+function createMockConfirmationResult(operationType, isNewUser) {
+  return {
+    'confirm': function(code) {
+      assertEquals('123456', code);
+      return goog.Promise.resolve({
+        'user': app.getExternalAuth().currentUser,
+        'credential': null,
+        'operationType': operationType,
+        'additionalUserInfo':  {'providerId': 'phone', 'isNewUser': isNewUser}
+      });
+    }
+  };
+}
+
+
+/**
+ * @param {!Object} error The expected error to throw on confirmation.
+ * @return {!firebase.auth.ConfirmationResult} The mock confirmation result that
+ *     throws the expected error on code confirmation.
+ */
+function createMockConfirmationResultWithError(error) {
+  return {
+    'confirm': function(code) {
+      assertEquals('123456', code);
+      return goog.Promise.reject(error);
+    }
+  };
+}
 
 
 function testHandlePhoneSignInStart_visible() {
@@ -102,6 +129,7 @@ function testHandlePhoneSignInStart_visible() {
     // Loading dialog shown.
     assertDialog(
         firebaseui.auth.soy2.strings.dialogVerifyingPhoneNumber().toString());
+    var mockConfirmationResult = createMockConfirmationResult('signIn', false);
     // Sign in with phone number triggered.
     externalAuth.assertSignInWithPhoneNumber(
         ['+11234567890', recaptchaVerifierInstance],
@@ -197,6 +225,7 @@ function testHandlePhoneSignInStart_anonymousUpgrade_success() {
         firebaseui.auth.soy2.strings.dialogVerifyingPhoneNumber().toString());
     // Trigger onAuthStateChanged listener.
     externalAuth.runAuthChangeHandler();
+    var mockConfirmationResult = createMockConfirmationResult('link', false);
     // Link with phone number triggered.
     externalAuth.currentUser.assertLinkWithPhoneNumber(
         ['+11234567890', recaptchaVerifierInstance],
@@ -259,12 +288,8 @@ function testHandlePhoneSignInStart_anonymousUpgrade_credInUseError() {
     'credential': cred
   };
   // Mock confirmation result which throws credential in use error.
-  var mockConfirmationResult = {
-    'confirm': function(code) {
-      assertEquals('123456', code);
-      return goog.Promise.reject(expectedError);
-    }
-  };
+  var mockConfirmationResult =
+      createMockConfirmationResultWithError(expectedError);
   // Expected signInFailure FirebaseUI error.
   var expectedMergeError = new firebaseui.auth.AuthUIError(
       firebaseui.auth.AuthUIError.Error.MERGE_CONFLICT,
@@ -458,6 +483,7 @@ function testHandlePhoneSignInStart_resetBeforeCodeEntry() {
     // Loading dialog shown.
     assertDialog(
         firebaseui.auth.soy2.strings.dialogVerifyingPhoneNumber().toString());
+    var mockConfirmationResult = createMockConfirmationResult('signIn', false);
     // Sign in with phone number triggered.
     externalAuth.assertSignInWithPhoneNumber(
         ['+11234567890', recaptchaVerifierInstance],
@@ -537,6 +563,7 @@ function testHandlePhoneSignInStart_visible_expired() {
     // Loading dialog shown.
     assertDialog(
         firebaseui.auth.soy2.strings.dialogVerifyingPhoneNumber().toString());
+    var mockConfirmationResult = createMockConfirmationResult('signIn', false);
     // Sign in with phone number triggered.
     externalAuth.assertSignInWithPhoneNumber(
         ['+11234567890', recaptchaVerifierInstance],
@@ -598,6 +625,7 @@ function testHandlePhoneSignInStart_prefill() {
     // Loading dialog shown.
     assertDialog(
         firebaseui.auth.soy2.strings.dialogVerifyingPhoneNumber().toString());
+    var mockConfirmationResult = createMockConfirmationResult('signIn', false);
     // Sign in with phone number triggered.
     externalAuth.assertSignInWithPhoneNumber(
         ['+451234567890', recaptchaVerifierInstance],
@@ -642,7 +670,7 @@ function testHandlePhoneSignInStart_defaultCountry() {
 
     // Submit the form.
     submitForm();
-
+    var mockConfirmationResult = createMockConfirmationResult('signIn', false);
     // Sign in with phone number should be triggered with the correct country
     // code.
     externalAuth.assertSignInWithPhoneNumber(
@@ -678,7 +706,7 @@ function testHandlePhoneSignInStart_defaultNationalNumber_phoneOnlyProvider() {
     callback('RECAPTCHA_TOKEN');
     // Submit the form.
     submitForm();
-
+    var mockConfirmationResult = createMockConfirmationResult('signIn', false);
     // Sign in with phone number should be triggered with the correct country
     // code.
     externalAuth.assertSignInWithPhoneNumber(
@@ -716,7 +744,7 @@ function testHandlePhoneSignInStart_defaultCompleteNumber_phoneOnlyProvider() {
     callback('RECAPTCHA_TOKEN');
     // Submit the form.
     submitForm();
-
+    var mockConfirmationResult = createMockConfirmationResult('signIn', false);
     // Sign in with phone number should be triggered with the correct country
     // code.
     externalAuth.assertSignInWithPhoneNumber(
@@ -762,7 +790,7 @@ function testHandlePhoneSignInStart_defaultCompleteNumber_multipleProviders() {
 
     // Submit the form.
     submitForm();
-
+    var mockConfirmationResult = createMockConfirmationResult('signIn', false);
     // Sign in with phone number should be triggered with the correct country
     // code.
     externalAuth.assertSignInWithPhoneNumber(
@@ -804,7 +832,7 @@ function testHandlePhoneSignInStart_defaultAndPrefill() {
 
     // Submit the form. It should succeed because a phone number is pre-filled.
     submitForm();
-
+    var mockConfirmationResult = createMockConfirmationResult('signIn', false);
     // Sign in with phone number should be triggered with the correct country
     // code.
     externalAuth.assertSignInWithPhoneNumber(
@@ -861,6 +889,7 @@ function testHandlePhoneSignInStart_invisible_clickAction() {
     // Loading dialog shown.
     assertDialog(
         firebaseui.auth.soy2.strings.dialogVerifyingPhoneNumber().toString());
+    var mockConfirmationResult = createMockConfirmationResult('signIn', false);
     // Sign in with phone number triggered.
     externalAuth.assertSignInWithPhoneNumber(
         ['+11234567890', recaptchaVerifierInstance],
@@ -939,6 +968,7 @@ function testHandlePhoneSignInStart_invisible_keyAction() {
     // Loading dialog shown.
     assertDialog(
         firebaseui.auth.soy2.strings.dialogVerifyingPhoneNumber().toString());
+    var mockConfirmationResult = createMockConfirmationResult('signIn', false);
     // Sign in with phone number triggered.
     externalAuth.assertSignInWithPhoneNumber(
         ['+11234567890', recaptchaVerifierInstance],

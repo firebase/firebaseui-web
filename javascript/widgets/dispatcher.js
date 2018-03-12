@@ -49,9 +49,8 @@ firebaseui.auth.widget.dispatcher.ELEMENT_NOT_FOUND_ = 'Could not find the ' +
  * @param {!firebaseui.auth.AuthUI} app The FirebaseUI instance.
  * @param {?string=} opt_url The URL from which to extract the mode.
  * @return {?firebaseui.auth.widget.Config.WidgetMode} The widget mode.
- * @private
  */
-firebaseui.auth.widget.dispatcher.getMode_ = function(app, opt_url) {
+firebaseui.auth.widget.dispatcher.getMode = function(app, opt_url) {
   var url = opt_url || firebaseui.auth.util.getCurrentUrl();
   var modeParam = app.getConfig().getQueryParameterForWidgetMode();
   var modeString = goog.uri.utils.getParamValue(url, modeParam) || '';
@@ -74,14 +73,15 @@ firebaseui.auth.widget.dispatcher.getMode_ = function(app, opt_url) {
  * @param {!firebaseui.auth.AuthUI} app The FirebaseUI instance.
  * @param {?string=} opt_url the URL from which to extract the redirect URL.
  * @return {?string} The current redirect URL if available in the URL.
- * @private
  */
-firebaseui.auth.widget.dispatcher.getRedirectUrl_ = function(app, opt_url) {
+firebaseui.auth.widget.dispatcher.getRedirectUrl = function(app, opt_url) {
   var url = opt_url || firebaseui.auth.util.getCurrentUrl();
   var queryParameterForSignInSuccessUrl =
       app.getConfig().getQueryParameterForSignInSuccessUrl();
   // Return the value of sign-in success URL from parsed url.
-  return goog.uri.utils.getParamValue(url, queryParameterForSignInSuccessUrl);
+  var redirectUrl =
+      goog.uri.utils.getParamValue(url, queryParameterForSignInSuccessUrl);
+  return redirectUrl ? firebaseui.auth.util.sanitizeUrl(redirectUrl) : null;
 };
 
 
@@ -189,14 +189,14 @@ firebaseui.auth.widget.dispatcher.doDispatchOperation_ = function(app, e) {
         e, firebaseui.auth.widget.dispatcher.ELEMENT_NOT_FOUND_);
 
   // TODO: refactor dispatcher to simplify and move logic externally.
-  switch (firebaseui.auth.widget.dispatcher.getMode_(app)) {
+  switch (firebaseui.auth.widget.dispatcher.getMode(app)) {
     case firebaseui.auth.widget.Config.WidgetMode.CALLBACK:
       // If redirect URL available, save in non persistent storage.
       // Developer could directly go to
       // http://www.widgetpage.com/?signInSuccessUrl=http%3A%2F%2Fwww.google.com
       // On success this should redirect to google.com the same as when
       // mode=select is passed in query parameters.
-      var redirectUrl = firebaseui.auth.widget.dispatcher.getRedirectUrl_(app);
+      var redirectUrl = firebaseui.auth.widget.dispatcher.getRedirectUrl(app);
       if (redirectUrl) {
         firebaseui.auth.storage.setRedirectUrl(redirectUrl, app.getAppId());
       }
@@ -236,7 +236,7 @@ firebaseui.auth.widget.dispatcher.doDispatchOperation_ = function(app, e) {
 
     case firebaseui.auth.widget.Config.WidgetMode.SELECT:
       // If redirect URL available, save in non-persistent storage.
-      var redirectUrl = firebaseui.auth.widget.dispatcher.getRedirectUrl_(app);
+      var redirectUrl = firebaseui.auth.widget.dispatcher.getRedirectUrl(app);
       if (redirectUrl) {
         firebaseui.auth.storage.setRedirectUrl(redirectUrl, app.getAppId());
       }
@@ -267,7 +267,7 @@ firebaseui.auth.widget.dispatcher.doDispatchOperation_ = function(app, e) {
       }
 
     default:
-      // firebaseui.auth.widget.dispatcher.getMode_() guaranteed to return a
+      // firebaseui.auth.widget.dispatcher.getMode() guaranteed to return a
       // valid mode. Reaching here means we have an unhandled operation.
       throw new Error('Unhandled widget operation.');
   }

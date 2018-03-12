@@ -19,6 +19,7 @@
 goog.provide('firebaseui.auth.CredentialHelper');
 goog.provide('firebaseui.auth.callback.signInFailure');
 goog.provide('firebaseui.auth.callback.signInSuccess');
+goog.provide('firebaseui.auth.callback.signInSuccessWithAuthResult');
 goog.provide('firebaseui.auth.widget.Config');
 
 goog.require('firebaseui.auth.AuthUIError');
@@ -33,6 +34,7 @@ goog.require('goog.array');
 goog.require('goog.object');
 goog.require('goog.uri.utils');
 
+goog.forwardDeclare('firebaseui.auth.AuthResult');
 
 
 /**
@@ -96,6 +98,14 @@ firebaseui.auth.CredentialHelper = {
  *     !firebase.User, ?firebase.auth.AuthCredential=, string=): boolean}
  */
 firebaseui.auth.callback.signInSuccess;
+
+
+/**
+ * The configuration sign-in success callback which takes AuthResult as input.
+ * @typedef {function(
+ *     !firebaseui.auth.AuthResult, string=): boolean}
+ */
+firebaseui.auth.callback.signInSuccessWithAuthResult;
 
 
 /**
@@ -629,6 +639,23 @@ firebaseui.auth.widget.Config.prototype.getAccountChooserResultCallback =
 firebaseui.auth.widget.Config.prototype.getSignInSuccessCallback = function() {
   return /** @type {?firebaseui.auth.callback.signInSuccess} */ (
       this.getCallbacks_()['signInSuccess'] || null);
+};
+
+
+/**
+ * @return {?firebaseui.auth.callback.signInSuccessWithAuthResult} The callback
+ *     to invoke when the user signs in successfully. The Auth result is passed
+ *     into the callback, which includes current user, credential to sign in to
+ *     external Auth instance, additional user info and operation type.
+ *     An optional second parameter, the redirect URL, is also returned if that
+ *     value is set in storage. If it returns `true`, the widget will
+ *     continue to redirect the page to `signInSuccessUrl`. Otherwise, the
+ *     widget stops after it returns.
+ */
+firebaseui.auth.widget.Config.prototype.getSignInSuccessWithAuthResultCallback =
+    function() {
+  return /** @type {?firebaseui.auth.callback.signInSuccessWithAuthResult} */ (
+      this.getCallbacks_()['signInSuccessWithAuthResult'] || null);
 };
 
 

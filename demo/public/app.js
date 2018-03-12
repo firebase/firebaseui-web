@@ -112,7 +112,16 @@ var handleSignedInUser = function(user) {
   document.getElementById('email').textContent = user.email;
   document.getElementById('phone').textContent = user.phoneNumber;
   if (user.photoURL){
-    document.getElementById('photo').src = user.photoURL;
+    var photoURL = user.photoURL;
+    // Append size to the photo URL for Google hosted images to avoid requesting
+    // the image with its original resolution (using more bandwidth than needed)
+    // when it is going to be presented in smaller size.
+    if ((photoURL.indexOf('googleusercontent.com') != -1) ||
+        (photoURL.indexOf('ggpht.com') != -1)) {
+      photoURL = photoURL + '?sz=' +
+          document.getElementById('photo').clientHeight;
+    }
+    document.getElementById('photo').src = photoURL;
     document.getElementById('photo').style.display = 'block';
   } else {
     document.getElementById('photo').style.display = 'none';

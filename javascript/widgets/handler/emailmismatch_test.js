@@ -159,11 +159,11 @@ function testHandleEmailMismatch_linking_continue_upgradeAnonymous() {
   // Sign out from internal instance and then sign in with passed credential to
   // external instance.
   return testAuth.process().then(function() {
+    // Trigger initial onAuthStateChanged listener.
+    externalAuth.runAuthChangeHandler();
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    // Trigger initial onAuthStateChanged listener.
-    externalAuth.runAuthChangeHandler();
     // Linking the credential to continue with to the existing anonymous user.
     externalAuth.currentUser.assertLinkWithCredential(
         [credential],

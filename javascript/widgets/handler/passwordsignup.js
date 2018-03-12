@@ -109,21 +109,26 @@ firebaseui.auth.widget.handler.onSignUpSubmit_ = function(app, component) {
           goog.bind(app.startCreateUserWithEmailAndPassword, app)
           ),
       [email, password],
-      function(user) {
+      function(userCredential) {
+        var authResult = /** @type {!firebaseui.auth.AuthResult} */ ({
+          'user': userCredential['user'],
+          // Password credential is needed for signing in on external instance.
+          'credential': emailPassCred,
+          'operationType': userCredential['operationType'],
+          'additionalUserInfo': userCredential['additionalUserInfo']
+        });
         if (requireDisplayName) {
           // Sign up successful. We can now set the name.
-          var p = user.updateProfile({'displayName': name})
+          var p = userCredential['user'].updateProfile({'displayName': name})
               .then(function() {
-                // Pass password credential to complete the sign-in to original
-                // auth instance.
-                return firebaseui.auth.widget.handler.common.setLoggedIn(
-                    app, component, emailPassCred);
+                return firebaseui.auth.widget.handler.common
+                    .setLoggedInWithAuthResult(app, component, authResult);
               });
           app.registerPending(p);
           return p;
         } else {
-          return firebaseui.auth.widget.handler.common.setLoggedIn(
-              app, component, emailPassCred);
+          return firebaseui.auth.widget.handler.common
+              .setLoggedInWithAuthResult(app, component, authResult);
         }
       },
       function(error) {

@@ -856,12 +856,14 @@ function testPopupInMobileBrowser() {
 function testGetCallbacks() {
   var uiShownCallback = function() {};
   var signInSuccessCallback = function() { return true; };
+  var signInSuccessWithAuthResultCallback = function() { return true; };
   var uiChangedCallback = function() {};
   var accountChooserInvokedCallback = function() {};
   var accountChooserResultCallback = function() {};
   var signInFailureCallback = function() {};
   assertNull(config.getUiShownCallback());
   assertNull(config.getSignInSuccessCallback());
+  assertNull(config.getSignInSuccessWithAuthResultCallback());
   assertNull(config.getUiChangedCallback());
   assertNull(config.getAccountChooserInvokedCallback());
   assertNull(config.getAccountChooserResultCallback());
@@ -869,6 +871,7 @@ function testGetCallbacks() {
   config.update('callbacks', {
     'uiShown': uiShownCallback,
     'signInSuccess': signInSuccessCallback,
+    'signInSuccessWithAuthResult': signInSuccessWithAuthResultCallback,
     'uiChanged': uiChangedCallback,
     'accountChooserInvoked': accountChooserInvokedCallback,
     'accountChooserResult': accountChooserResultCallback,
@@ -877,6 +880,9 @@ function testGetCallbacks() {
   assertEquals(uiShownCallback, config.getUiShownCallback());
   assertEquals(
       signInSuccessCallback, config.getSignInSuccessCallback());
+  assertEquals(
+      signInSuccessWithAuthResultCallback,
+      config.getSignInSuccessWithAuthResultCallback());
   assertEquals(uiChangedCallback, config.getUiChangedCallback());
   assertEquals(
       accountChooserInvokedCallback,

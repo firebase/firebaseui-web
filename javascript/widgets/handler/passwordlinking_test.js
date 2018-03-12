@@ -133,11 +133,11 @@ function testHandlePasswordLinking_upgradeAnonymous() {
   // Sign out from internal instance and then sign in with passed credential to
   // external instance.
   return testAuth.process().then(function() {
+    // Trigger initial onAuthStateChanged listener.
+    externalAuth.runAuthChangeHandler();
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    // Trigger initial onAuthStateChanged listener.
-    externalAuth.runAuthChangeHandler();
     // Assert existing credential linking triggered expected error on external
     // anonymous user.
     externalAuth.currentUser.assertLinkWithCredential(
