@@ -199,7 +199,7 @@ function testGetMode() {
   var url = 'http://localhost/callback?mode=select';
   assertEquals(
       firebaseui.auth.widget.Config.WidgetMode.SELECT,
-      firebaseui.auth.widget.dispatcher.getMode_(app, url));
+      firebaseui.auth.widget.dispatcher.getMode(app, url));
 }
 
 
@@ -208,28 +208,44 @@ function testGetRedirectUrl() {
   // No redirect URL available.
   var url = 'http://localhost/callback?mode=select';
   assertEquals(null,
-      firebaseui.auth.widget.dispatcher.getRedirectUrl_(app, url));
+      firebaseui.auth.widget.dispatcher.getRedirectUrl(app, url));
   // Set current page URL to include a redirect URL.
   url = 'http://localhost/callback?mode=select&signInSuccessUrl=' +
       encodeURIComponent(redirectUrl);
   // Check that the redirect URL is successfully retrieved.
   assertEquals(
       redirectUrl,
-      firebaseui.auth.widget.dispatcher.getRedirectUrl_(app, url));
+      firebaseui.auth.widget.dispatcher.getRedirectUrl(app, url));
+
+  // Update the query parameter for redirect URL.
+  url = 'http://localhost/callback?mode=select&signInSuccessUrl=' +
+      encodeURIComponent('javascript:doEvilStuff()');
+  // Confirm redirect URL is successfully sanitized.
+  assertEquals(
+      'about:invalid#zClosurez',
+      firebaseui.auth.widget.dispatcher.getRedirectUrl(app, url));
 
   // Change the query parameter for redirect URL.
   app.updateConfig(
       'queryParameterForSignInSuccessUrl', 'continue');
   // Confirm that previous redirect URL no longer valid.
   assertEquals(null,
-      firebaseui.auth.widget.dispatcher.getRedirectUrl_(app, url));
+      firebaseui.auth.widget.dispatcher.getRedirectUrl(app, url));
   // Update the query parameter for redirect URL.
   url = 'http://localhost/callback?mode=select&continue=' +
        encodeURIComponent(redirectUrl);
   // Confirm redirect URL using new query parameter is successfully retrieved.
   assertEquals(
       redirectUrl,
-      firebaseui.auth.widget.dispatcher.getRedirectUrl_(app, url));
+      firebaseui.auth.widget.dispatcher.getRedirectUrl(app, url));
+
+  // Update the query parameter for redirect URL.
+  url = 'http://localhost/callback?mode=select&continue=' +
+      encodeURIComponent('javascript:doEvilStuff()');
+  // Confirm redirect URL is successfully sanitized.
+  assertEquals(
+      'about:invalid#zClosurez',
+      firebaseui.auth.widget.dispatcher.getRedirectUrl(app, url));
 }
 
 
@@ -238,17 +254,17 @@ function testGetMode_noMode() {
   var url = 'http://localhost/callback';
   assertEquals(
       firebaseui.auth.widget.Config.WidgetMode.CALLBACK,
-      firebaseui.auth.widget.dispatcher.getMode_(app, url));
+      firebaseui.auth.widget.dispatcher.getMode(app, url));
   // Unsupported query but no mode, should return callback.
   url = 'http://localhost/callback?query=value';
   assertEquals(
       firebaseui.auth.widget.Config.WidgetMode.CALLBACK,
-      firebaseui.auth.widget.dispatcher.getMode_(app, url));
+      firebaseui.auth.widget.dispatcher.getMode(app, url));
   // No query but fragment provided should return callback.
   url = 'http://localhost/callback#fragment';
   assertEquals(
       firebaseui.auth.widget.Config.WidgetMode.CALLBACK,
-      firebaseui.auth.widget.dispatcher.getMode_(app, url));
+      firebaseui.auth.widget.dispatcher.getMode(app, url));
 }
 
 
@@ -256,7 +272,7 @@ function testGetMode_unrecognizedMode() {
   var url = 'http://localhost/callback?mode=What';
   assertEquals(
       firebaseui.auth.widget.Config.WidgetMode.CALLBACK,
-      firebaseui.auth.widget.dispatcher.getMode_(app, url));
+      firebaseui.auth.widget.dispatcher.getMode(app, url));
 }
 
 
@@ -267,7 +283,7 @@ function testGetMode_nonDefaultModeParameter() {
   var url = 'http://localhost/callback?action=resetPassword';
   assertEquals(
       firebaseui.auth.widget.Config.WidgetMode.RESET_PASSWORD,
-      firebaseui.auth.widget.dispatcher.getMode_(app, url));
+      firebaseui.auth.widget.dispatcher.getMode(app, url));
 }
 
 
@@ -282,17 +298,21 @@ function testGetActionCode() {
  * @param {?Object=} opt_params The parameters in the URL to simulate.
  */
 function setModeAndUrlParams(mode, opt_params) {
-  stub.set(firebaseui.auth.widget.dispatcher, 'getMode_', function() {
-    return mode;
-  });
   var params = opt_params || {};
-  stub.set(firebaseui.auth.widget.dispatcher, 'getRequiredUrlParam_',
-      function(name) {
-    return goog.asserts.assertString(params[name]);
-  });
-  stub.set(firebaseui.auth.widget.dispatcher, 'getOptContext_', function() {
-    return params['context'];
-  });
+  stub.replace(
+      firebaseui.auth.util,
+      'getCurrentUrl',
+      function() {
+        var currentUrl = 'https://www.example.com/';
+        if (mode) {
+          currentUrl += '?mode=' + encodeURIComponent(mode);
+          for (var name in params) {
+            currentUrl += '&' + name + '=' +
+                encodeURIComponent(goog.asserts.assertString(params[name]));
+          }
+        }
+        return currentUrl;
+      });
 }
 
 
@@ -347,15 +367,6 @@ function testDispatchOperation_noStorageSupport() {
   stub.set(firebaseui.auth.storage, 'isAvailable', function() {return false;});
   firebaseui.auth.widget.dispatcher.dispatchOperation(app, element);
   assertTrue(called);
-}
-
-
-function testDispatchOperation_unhandled() {
-  var element = goog.dom.createElement('div');
-  setModeAndUrlParams('unhandled');
-  assertThrows(function() {
-    firebaseui.auth.widget.dispatcher.dispatchOperation(app, element);
-  });
 }
 
 
@@ -424,16 +435,12 @@ function testDispatchOperation_acDisabled() {
 
 function testDispatchOperation_selectWithRedirectUrl() {
   var element = goog.dom.createElement('div');
-  setModeAndUrlParams(firebaseui.auth.widget.Config.WidgetMode.SELECT);
   // Redirect URL.
   var redirectUrl = 'http://www.example.com';
   // Simulate redirect URL above being available in URL.
-  stub.set(
-      goog.uri.utils,
-      'getParamValue',
-      function(url, queryParameterForSignInSuccessUrl) {
-        return redirectUrl;
-      });
+  setModeAndUrlParams(firebaseui.auth.widget.Config.WidgetMode.SELECT, {
+    'signInSuccessUrl': redirectUrl
+  });
   // No redirect URL.
   assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
   firebaseui.auth.widget.dispatcher.dispatchOperation(app, element);
@@ -452,19 +459,41 @@ function testDispatchOperation_selectWithRedirectUrl() {
 }
 
 
+function testDispatchOperation_selectWithUnsafeRedirectUrl() {
+  var element = goog.dom.createElement('div');
+  // Unsafe redirect URL.
+  var redirectUrl = 'javascript:doEvilStuff()';
+  // Simulate unsafe redirect URL above being available in URL.
+  setModeAndUrlParams(firebaseui.auth.widget.Config.WidgetMode.SELECT, {
+    'signInSuccessUrl': redirectUrl
+  });
+  // No redirect URL.
+  assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
+  firebaseui.auth.widget.dispatcher.dispatchOperation(app, element);
+  assertSelectFromAccountChooserInvoked(app, element, true, undefined);
+  // Redirect URL should be set now in storage.
+  assertTrue(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
+  // Confirm the sanitized value is returned.
+  assertEquals(
+      'about:invalid#zClosurez',
+      firebaseui.auth.storage.getRedirectUrl(app.getAppId()));
+  // Force UI shown callback should be set to true.
+  assertTrue(firebaseui.auth.widget.handler.common.acForceUiShown_);
+  // Callback handler should be invoked.
+  assertHandlerInvoked(
+      firebaseui.auth.widget.HandlerName.CALLBACK, app, element);
+}
+
+
 function testDispatchOperation_callbackWithRedirectUrl() {
   var element = goog.dom.createElement('div');
-  // Set current mode to callback mode.
-  setModeAndUrlParams(firebaseui.auth.widget.Config.WidgetMode.CALLBACK);
   // Redirect URL.
   var redirectUrl = 'http://www.example.com';
+  // Set current mode to callback mode.
   // Simulate redirect URL above being available in URL.
-  stub.set(
-      goog.uri.utils,
-      'getParamValue',
-      function(url, queryParameterForSignInSuccessUrl) {
-        return redirectUrl;
-      });
+  setModeAndUrlParams(firebaseui.auth.widget.Config.WidgetMode.CALLBACK, {
+    'signInSuccessUrl': redirectUrl
+  });
   // No redirect URL.
   assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
   firebaseui.auth.widget.dispatcher.dispatchOperation(app, element);
@@ -480,15 +509,37 @@ function testDispatchOperation_callbackWithRedirectUrl() {
 }
 
 
+function testDispatchOperation_callbackWithUnsafeRedirectUrl() {
+  var element = goog.dom.createElement('div');
+  // Unsafe redirect URL.
+  var redirectUrl = 'javascript:doEvilStuff()';
+  // Simulate unsafe redirect URL above being available in URL.
+  setModeAndUrlParams(firebaseui.auth.widget.Config.WidgetMode.SELECT, {
+    'signInSuccessUrl': redirectUrl
+  });
+  // No redirect URL.
+  assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
+  firebaseui.auth.widget.dispatcher.dispatchOperation(app, element);
+  // Redirect URL should be set now in storage.
+  assertTrue(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
+  // Confirm the sanitized value is returned.
+  assertEquals(
+      'about:invalid#zClosurez',
+      firebaseui.auth.storage.getRedirectUrl(app.getAppId()));
+  // Callback handler should be invoked.
+  assertHandlerInvoked(
+      firebaseui.auth.widget.HandlerName.CALLBACK, app, element);
+}
+
+
 function testDispatchOperation_noMode_providerFirst() {
   var element = goog.dom.createElement('div');
   setModeAndUrlParams(null);
-  try {
-    firebaseui.auth.widget.dispatcher.dispatchOperation(app, element);
-    fail('Mode should always be provided!');
-  } catch(e) {
-    assertEquals('Unhandled widget operation.', e.message);
-  }
+  firebaseui.auth.widget.dispatcher.dispatchOperation(app, element);
+  // Callback handler should be invoked since no mode will result with CALLBACK
+  // mode.
+  assertHandlerInvoked(
+      firebaseui.auth.widget.HandlerName.CALLBACK, app, element);
 }
 
 

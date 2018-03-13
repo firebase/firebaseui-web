@@ -911,7 +911,7 @@ firebaseui.auth.AuthUI.prototype.startSignInWithEmailAndPassword =
  * Create a new email and password account.
  * @param {string} email The email to sign up with.
  * @param {string} password The password to sign up with.
- * @return {!firebase.Promise<!firebase.User>}
+ * @return {!firebase.Promise<!firebase.auth.UserCredential>}
  */
 firebaseui.auth.AuthUI.prototype.startCreateUserWithEmailAndPassword =
     function(email, password) {
@@ -925,17 +925,15 @@ firebaseui.auth.AuthUI.prototype.startCreateUserWithEmailAndPassword =
       // For anonymous user upgrade, call link with credential on the external
       // Auth user. Otherwise merge conflict will always occur when linking the
       // credential to the external anonymous user after creation.
-      return /** @type {!firebase.Promise<!firebase.User>} */ (
-          user.linkAndRetrieveDataWithCredential(credential)
-          .then(function(result) {
-            return result['user'];
-          }));
+      return /** @type {!firebase.Promise<!firebase.auth.UserCredential>} */ (
+          user.linkAndRetrieveDataWithCredential(credential));
     } else {
       // Start create user with email and password. This runs on the internal
       // Auth instance as finish sign in will sign in with that same credential
       // to developer Auth instance.
-      return /** @type {!firebase.Promise<!firebase.User>} */ (
-          self.getAuth().createUserWithEmailAndPassword(email, password));
+      return /** @type {!firebase.Promise<!firebase.auth.UserCredential>} */ (
+          self.getAuth().createUserAndRetrieveDataWithEmailAndPassword(
+              email, password));
     }
   };
   // Initialize current user if auto upgrade is enabled beforing running
@@ -1149,24 +1147,28 @@ firebaseui.auth.AuthUI.prototype.finishSignInWithCredential =
   this.checkIfDestroyed_();
   var self = this;
   var cb = function(user) {
-    // Anonymous user upgrade successful, resolve immediately with the user.
-    // No need to sign in again with the same credential on the external Auth
-    // instance.
+    // Anonymous user upgrade successful, sign out on internal instance and
+    // resolve with the user. No need to sign in again with the same credential
+    // on the external Auth instance.
     // If user is signed in on internal instance, ignore the user on external
-    // instance and finish the sign in on external instance.
+    // instance, sign out on internal instance and finish the sign in on
+    // external instance.
     if (self.currentUser_ &&
         !self.currentUser_['isAnonymous'] &&
         self.getConfig().autoUpgradeAnonymousUsers() &&
         !self.getAuth().currentUser) {
-      return (firebase.Promise || goog.Promise).resolve(self.currentUser_);
+      return self.clearTempAuthState().then(function() {
+          return self.currentUser_;
+      });
     } else if (user) {
       // TODO: optimize and fail directly as this will fail in most cases
       // with error credential already in use.
       // There are cases where this is required. For example, when email
       // mismatch occurs and the user continues with the new account.
       return /** @type {!firebase.Promise<!firebase.User>} */ (
-          user.linkWithCredential(credential)
-          .then(function() {
+          self.clearTempAuthState().then(function() {
+            return user.linkWithCredential(credential);
+          }).then(function() {
             return user;
           }, function(error) {
             // Rethrow email already in use error so it can trigger the account
@@ -1183,7 +1185,84 @@ firebaseui.auth.AuthUI.prototype.finishSignInWithCredential =
       // Finishes sign in with the supplied credential on the developer provided
       // Auth instance. On completion, this will redirect to signInSuccessUrl or
       // trigger the signInSuccess callback.
-      return self.getExternalAuth().signInWithCredential(credential);
+      return self.clearTempAuthState().then(function() {
+        return self.getExternalAuth().signInWithCredential(credential);
+      });
+    }
+  };
+  // Initialize current user if auto upgrade is enabled beforing running
+  // callback and returning result.
+  return this.initializeForAutoUpgrade_(cb);
+};
+
+
+/**
+ * Finishes FirebaseUI login with the given 3rd party credentials.
+ * @param {!firebaseui.auth.AuthResult} authResult The Auth result.
+ * @return {!firebase.Promise<!firebaseui.auth.AuthResult>}
+ */
+firebaseui.auth.AuthUI.prototype.finishSignInAndRetrieveDataWithAuthResult =
+    function(authResult) {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
+  var self = this;
+  var cb = function(user) {
+    if (self.currentUser_ &&
+        !self.currentUser_['isAnonymous'] &&
+        self.getConfig().autoUpgradeAnonymousUsers() &&
+        !self.getAuth().currentUser) {
+      return self.clearTempAuthState().then(function() {
+        // Do not expose password Auth credential to signInSuccess callback.
+        if (authResult['credential']['providerId'] == 'password') {
+          authResult['credential'] = null;
+        }
+        return authResult;
+      });
+    } else if (user) {
+      // TODO: optimize and fail directly as this will fail in most cases
+      // with error credential already in use.
+      // There are cases where this is required. For example, when email
+      // mismatch occurs and the user continues with the new account.
+      return /** @type {!firebase.Promise<!firebaseui.auth.AuthResult>} */ (
+          self.clearTempAuthState().then(function() {
+            return user.linkAndRetrieveDataWithCredential(
+                authResult['credential']);
+          }).then(function(userCredential) {
+            authResult['user'] = userCredential['user'];
+            authResult['credential'] = userCredential['credential'];
+            authResult['operationType'] = userCredential['operationType'];
+            authResult['additionalUserInfo'] =
+                userCredential['additionalUserInfo'];
+            return authResult;
+          }, function(error) {
+            // Rethrow email already in use error so it can trigger the account
+            // linking flow.
+            if (error &&
+                error['code'] == 'auth/email-already-in-use' &&
+                error['email'] && error['credential']) {
+              throw error;
+            }
+            // For all other errors, run onUpgrade check.
+            return self.onUpgradeError(error, authResult['credential']);
+          }));
+    } else {
+      // Finishes sign in with the supplied credential on the developer provided
+      // Auth instance. On completion, this will redirect to signInSuccessUrl or
+      // trigger the signInSuccessWithAuthResult callback.
+      if (!authResult['credential']) {
+        throw new Error('No credential found!');
+      }
+      return self.clearTempAuthState().then(function() {
+        return self.getExternalAuth().signInAndRetrieveDataWithCredential(
+            authResult['credential']);
+      }).then(function(userCredential) {
+        authResult['user'] = userCredential['user'];
+        authResult['credential'] = userCredential['credential'];
+        authResult['operationType'] = userCredential['operationType'];
+        // AdditionalUserInfo should remain the same as isNewUser field should
+        // be the one returned in the first sign in attempt.
+        return authResult;
+      });
     }
   };
   // Initialize current user if auto upgrade is enabled beforing running

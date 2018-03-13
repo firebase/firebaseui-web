@@ -22,6 +22,7 @@ goog.require('goog.Promise');
 goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('goog.events.EventType');
+goog.require('goog.html.SafeUrl');
 goog.require('goog.userAgent');
 goog.require('goog.window');
 
@@ -32,9 +33,21 @@ goog.require('goog.window');
  * some browsers don't allow overwriting of the native object.
  *
  * @param {string} url The target URL.
+ * @param {?Window=} opt_win Optional window whose location is to be reassigned.
  */
-firebaseui.auth.util.goTo = function(url) {
-  window.location.assign(url);
+firebaseui.auth.util.goTo = function(url, opt_win) {
+  var win = opt_win || window;
+  // Sanitize URL before redirect.
+  win.location.assign(firebaseui.auth.util.sanitizeUrl(url));
+};
+
+
+/**
+ * @param {string} url The plain unsafe URL.
+ * @return {string} The sanitized safe version of the provided URL.
+ */
+firebaseui.auth.util.sanitizeUrl = function(url) {
+  return goog.html.SafeUrl.unwrap(goog.html.SafeUrl.sanitize(url));
 };
 
 
@@ -67,9 +80,13 @@ firebaseui.auth.util.goBack = function() {
   * since some browsers don't allow to overwrite the native object.
   *
   * @param {string} url The target URL.
+  * @param {?Window=} opt_win Optional window whose parent's location is to
+  *     be reassigned.
   */
-firebaseui.auth.util.openerGoTo = function(url) {
-  window.opener.location.assign(url);
+firebaseui.auth.util.openerGoTo = function(url, opt_win) {
+  var win = opt_win || window;
+  // Sanitize URL before redirect.
+  win.opener.location.assign(firebaseui.auth.util.sanitizeUrl(url));
 };
 
 

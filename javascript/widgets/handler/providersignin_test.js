@@ -1651,7 +1651,7 @@ function testHandleProviderSignIn_accountChooserSelect_appChange() {
   // Simulate current SELECT mode.
   testStubs.set(
       firebaseui.auth.widget.dispatcher,
-      'getMode_',
+      'getMode',
       function(app) {
         return firebaseui.auth.widget.Config.WidgetMode.SELECT;
       });

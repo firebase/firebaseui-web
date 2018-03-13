@@ -16,6 +16,7 @@
  * @fileoverview Common functions shared by handlers.
  */
 
+goog.provide('firebaseui.auth.AuthResult');
 goog.provide('firebaseui.auth.OAuthResponse');
 goog.provide('firebaseui.auth.widget.handler.common');
 
@@ -54,6 +55,17 @@ goog.forwardDeclare('firebaseui.auth.AuthUI');
  * }}
  */
 firebaseui.auth.OAuthResponse;
+
+
+/**
+ * @typedef {{
+ *   user: (?firebase.User),
+ *   credential: (?firebase.auth.AuthCredential),
+ *   operationType: (?string),
+ *   additionalUserInfo: (?firebase.auth.AdditionalUserInfo)
+ * }}
+ */
+firebaseui.auth.AuthResult;
 
 
 /**
@@ -437,18 +449,24 @@ firebaseui.auth.widget.handler.common.setLoggedIn =
     // the sign-in start page.
     if (firebaseui.auth.widget.handler.common.isCredentialExpired(error)) {
       var container = component.getContainer();
-      // DIspose any existing component.
+      // Dispose any existing component.
       component.dispose();
       // Call widget sign-in start handler with the expired credential error.
       firebaseui.auth.widget.handler.common.handleSignInStart(
-         app,
-         container,
-         undefined,
-         firebaseui.auth.soy2.strings.errorExpiredCredential().toString());
+          app,
+          container,
+          undefined,
+          firebaseui.auth.soy2.strings.errorExpiredCredential().toString());
     } else {
       var errorMessage = (error && error['message']) || '';
       if (error['code']) {
         // Firebase auth error.
+        // Errors thrown by anonymous upgrade should not be displayed in
+        // info bar.
+        if (error['code'] == 'auth/email-already-in-use' ||
+            error['code'] == 'auth/credential-already-in-use') {
+          return;
+        }
         errorMessage =
             firebaseui.auth.widget.handler.common.getErrorMessage(error);
       }
@@ -464,19 +482,147 @@ firebaseui.auth.widget.handler.common.setLoggedIn =
     // Shouldn't happen as we're only calling this method internally.
     throw new Error('User not logged in.');
   }
-  // Sign out from internal auth instance before signing in to external
+  // Save before signing in to developer's auth instance to make sure account
+  // is saved without risking interruption from onAuthStateChanged.
+  var account = new firebaseui.auth.Account(
+      tempUser['email'],
+      tempUser['displayName'],
+      tempUser['photoURL'],
+      outputCred && outputCred['providerId']);
+  // Remember account. If there is no user preference, remember account by
+  // default.
+  if (!firebaseui.auth.storage.hasRememberAccount(app.getAppId()) ||
+      firebaseui.auth.storage.isRememberAccount(app.getAppId())) {
+    firebaseui.auth.storage.rememberAccount(account, app.getAppId());
+  }
+  firebaseui.auth.storage.removeRememberAccount(app.getAppId());
+  // Sign out from internal Auth instance before signing in to external
   // instance.
   // Wrap in a promise to ensure the progress bar remains visible until the
   // underlying signInWithCredential resolves.
-  var signOutAndSignInPromise = app.clearTempAuthState().then(function() {
-    // Save before signing in to developer's auth instance to make sure account
-    // is saved without risking interruption from onAuthStateChanged.
+  var signOutAndSignInPromise = app.finishSignInWithCredential(
+      /** @type {!firebase.auth.AuthCredential} */ (credential));
+  var signInSuccessPromise = signOutAndSignInPromise
+      .then(function(user) {
+        firebaseui.auth.widget.handler.common.setUserLoggedInExternal_(
+            app, component, user, outputCred);
+      }, onError)
+      // Catch error when signInSuccessUrl is required and not provided.
+      .then(undefined, onError);
+  app.registerPending(signOutAndSignInPromise);
+  return goog.Promise.resolve(signInSuccessPromise);
+};
+
+
+/**
+ * Sets the user as signed in with Auth result. Signs in on external Auth
+ * instance if not already signed in and then invokes
+ * signInSuccessWithAuthResult callback.
+ *
+ * @param {firebaseui.auth.AuthUI} app The current FirebaseUI instance whose
+ *     configuration is used and that has a user signed in.
+ * @param {firebaseui.auth.ui.page.Base} component The UI component.
+ * @param {!firebaseui.auth.AuthResult} authResult The Auth result, which
+ *     includes current user, credential to sign in to external Auth instance,
+ *     additional user info and operation type.
+ * @param {boolean=} opt_alreadySignedIn Whether user already signed in on
+ *     external Auth instance. If true, current user on external Auth instance
+ *     should be passed in from Auth result. Should be true for anonymous
+ *     upgrade flow and phone Auth flow since user already logged in on
+ *     external Auth instnace.
+ * @return {!goog.Promise} A promise that resolves on login completion.
+ * @package
+ */
+firebaseui.auth.widget.handler.common.setLoggedInWithAuthResult =
+    function(app, component, authResult, opt_alreadySignedIn) {
+  // If both old and new signInSuccess callbacks are provided, warn in console
+  // that only new callback will be invoked.
+  var signInSuccessWithAuthResultCallback =
+      app.getConfig().getSignInSuccessWithAuthResultCallback();
+  var signInSuccessCallback = app.getConfig().getSignInSuccessCallback();
+  if (signInSuccessCallback && signInSuccessWithAuthResultCallback) {
+      var callbackWarning = 'Both signInSuccess and ' +
+          'signInSuccessWithAuthResult callbacks are provided. Only ' +
+          'signInSuccessWithAuthResult callback will be invoked.';
+      firebaseui.auth.log.warning(callbackWarning);
+  }
+  // If signInSuccessWithAuthResult callback is not provided, fallback to the
+  // old signInSuccess callback. To be removed once the signInSuccess callback
+  // is deprecated.
+  if (!signInSuccessWithAuthResultCallback) {
+    return firebaseui.auth.widget.handler.common.setLoggedIn(
+        app,
+        component,
+        authResult['credential'],
+        authResult['user'],
+        opt_alreadySignedIn);
+  } else {
+    if (!!opt_alreadySignedIn) {
+      firebaseui.auth.widget.handler.common
+          .setUserLoggedInExternalWithAuthResult_(
+              app,
+              component,
+              authResult);
+      return goog.Promise.resolve();
+    }
+    // This should not occur.
+    if (!authResult['credential']) {
+      throw new Error('No credential found!');
+    }
+    // For any error, display in info bar message.
+    var onError = function(error) {
+      // Ignore error if cancelled by the client.
+      if (error['name'] && error['name'] == 'cancel') {
+        return;
+      }
+      // Check if the error was due to an expired credential.
+      // This may happen in the email mismatch case where the user waits more
+      // than an hour and then proceeds to sign in with the expired credential.
+      // Display the relevant error message in this case and return the user to
+      // the sign-in start page.
+      if (firebaseui.auth.widget.handler.common.isCredentialExpired(error)) {
+        var container = component.getContainer();
+        // Dispose any existing component.
+        component.dispose();
+        // Call widget sign-in start handler with the expired credential error.
+        firebaseui.auth.widget.handler.common.handleSignInStart(
+            app,
+            container,
+            undefined,
+            firebaseui.auth.soy2.strings.errorExpiredCredential().toString());
+      } else {
+        var errorMessage = (error && error['message']) || '';
+        if (error['code']) {
+          // Firebase Auth error.
+          // Errors thrown by anonymous upgrade should not be displayed in
+          // info bar.
+          if (error['code'] == 'auth/email-already-in-use' ||
+              error['code'] == 'auth/credential-already-in-use') {
+            return;
+          }
+          errorMessage =
+              firebaseui.auth.widget.handler.common.getErrorMessage(error);
+        }
+        // Show error message in the info bar.
+        component.showInfoBar(errorMessage);
+      }
+    };
+    // In some cases like email mismatch, the temporary user may be signed out.
+    // In that case, get the current temporary user directly.
+    // For anonymous upgrade, use the user from AuthResult passed in.
+    var tempUser = app.getAuth().currentUser || authResult['user'];
+    if (!tempUser) {
+      // Shouldn't happen as we're only calling this method internally.
+      throw new Error('User not logged in.');
+    }
+    // Save before signing in to developer's Auth instance to make sure
+    // account is saved without risking interruption from onAuthStateChanged.
     var account = new firebaseui.auth.Account(
         tempUser['email'],
         tempUser['displayName'],
         tempUser['photoURL'],
-        outputCred && outputCred['providerId']);
-
+        authResult['credential']['providerId'] == 'password' ?
+        null : authResult['credential']['providerId']);
     // Remember account. If there is no user preference, remember account by
     // default.
     if (!firebaseui.auth.storage.hasRememberAccount(app.getAppId()) ||
@@ -484,18 +630,21 @@ firebaseui.auth.widget.handler.common.setLoggedIn =
       firebaseui.auth.storage.rememberAccount(account, app.getAppId());
     }
     firebaseui.auth.storage.removeRememberAccount(app.getAppId());
-    // After successful sign out from internal instance, sign in with credential
-    // to the developer provided auth instance. Use the credential passed.
-    return app.finishSignInWithCredential(
-        /** @type {!firebase.auth.AuthCredential} */ (credential))
-        .then(function(user) {
-          firebaseui.auth.widget.handler.common.setUserLoggedInExternal_(
-              app, component, user, outputCred);
-          // Catch error when signInSuccessUrl is required and not provided.
-        }, onError).then(function() {}, onError);
-  }, onError);
-  app.registerPending(signOutAndSignInPromise);
-  return goog.Promise.resolve(signOutAndSignInPromise);
+    // Sign out from internal Auth instance before signing in to external
+    // instance.
+    var signOutAndSignInPromise = app.finishSignInAndRetrieveDataWithAuthResult(
+        authResult);
+    var signInSuccessPromise = signOutAndSignInPromise
+        .then(function(outputAuthResult) {
+          firebaseui.auth.widget.handler.common
+              .setUserLoggedInExternalWithAuthResult_(
+                  app, component, outputAuthResult);
+        }, onError)
+      // Catch error when signInSuccessUrl is required and not provided.
+      .then(undefined, onError);
+    app.registerPending(signOutAndSignInPromise);
+    return goog.Promise.resolve(signInSuccessPromise);
+  }
 };
 
 
@@ -554,6 +703,77 @@ firebaseui.auth.widget.handler.common.setUserLoggedInExternal_ =
             /** @type {!firebase.User} */ (user),
             credential,
             redirectUrl)) {
+      // Sign-in widget is redirecting.
+      isRedirecting = true;
+      // signInSuccessUrl is only required if there's no callback or it
+      // returns true, and if there's no redirectUrl present.
+      firebaseui.auth.util.goTo(
+          firebaseui.auth.widget.handler.common.getSignedInRedirectUrl_(
+              app, redirectUrl));
+    }
+  }
+  // Dispose UI if not already disposed and not redirecting.
+  // If the widget is redirecting, it provides better UX to keep the loader
+  // showing until the page redirects. Otherwise, (most likely operating in
+  // single page mode), hide any remaining widget UI component.
+  if (!isRedirecting) {
+    app.reset();
+  }
+};
+
+
+/**
+ * Completes the sign in operation assuming the current user is already signed
+ * in on the external Auth instance. This routine will not try to remember the
+ * user account.
+ *
+ * @param {firebaseui.auth.AuthUI} app The current FirebaseUI instance whose
+ *     configuration is used and that has a user signed in.
+ * @param {firebaseui.auth.ui.page.Base} component The UI component.
+ * @param {!firebaseui.auth.AuthResult} authResult The Auth result, which
+ *     includes current user, credential to sign in to external Auth instance,
+ *     additional user info and operation type.
+ * @private
+ */
+firebaseui.auth.widget.handler.common.setUserLoggedInExternalWithAuthResult_ =
+    function(app, component, authResult) {
+  // Already signed in on external Auth instance. Auth result should
+  // contain the current signed in user on external Auth instance.
+  // This should not occur.
+  if (!authResult['user']) {
+    throw new Error('No user found');
+  }
+  var callback = app.getConfig().getSignInSuccessWithAuthResultCallback();
+  // Finish the flow by redirecting to sign-in success URL.
+  // Get redirect URL if it exists in non persistent storage.
+  // If signInSuccessWithAuthResult callback defined, pass redirect URL as
+  // second parameter.
+  // If not defined, override signInSuccessUrl with redirect URL value.
+  var redirectUrl = firebaseui.auth.storage.getRedirectUrl(
+      app.getAppId()) || undefined;
+  // Clear redirect URL from storage if available.
+  firebaseui.auth.storage.removeRedirectUrl(app.getAppId());
+  // Whether widget is redirecting. Initialize to false.
+  var isRedirecting = false;
+  if (firebaseui.auth.util.hasOpener()) {
+    // Popup sign in.
+    if (!callback || callback(authResult, redirectUrl)) {
+      // Whether sign-in widget is redirecting.
+      isRedirecting = true;
+      // signInSuccessUrl is only required if there's no callback or it
+      // returns true, and if there's no redirectUrl present.
+      firebaseui.auth.util.openerGoTo(
+          firebaseui.auth.widget.handler.common.getSignedInRedirectUrl_(
+              app, redirectUrl));
+    }
+    if (!callback) {
+      // If the developer supplies a callback, do not close the popup
+      // window. Should be closed manually by the developer.
+      firebaseui.auth.util.close(window);
+    }
+  } else {
+    // Normal sign in.
+    if (!callback || callback(authResult, redirectUrl)) {
       // Sign-in widget is redirecting.
       isRedirecting = true;
       // signInSuccessUrl is only required if there's no callback or it
