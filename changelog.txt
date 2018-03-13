@@ -1,2 +1,0 @@
-fixed - Sanitizes all URLs passed via query parameters to prevent JS injection via URL.
-fixed - Appends photo size for profile image hosted in Google in demo app.
