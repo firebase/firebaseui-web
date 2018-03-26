@@ -23,8 +23,15 @@ function getUiConfig() {
   return {
     'callbacks': {
       // Called when the user has been successfully signed in.
-      'signInSuccess': function(user, credential, redirectUrl) {
-        handleSignedInUser(user);
+      'signInSuccessWithAuthResult': function(authResult, redirectUrl) {
+        if (authResult.user) {
+          handleSignedInUser(authResult.user);
+        }
+        if (authResult.additionalUserInfo) {
+          document.getElementById('is-new-user').textContent =
+              authResult.additionalUserInfo.isNewUser ?
+              'New User' : 'Existing User';
+        }
         // Do not redirect.
         return false;
       }

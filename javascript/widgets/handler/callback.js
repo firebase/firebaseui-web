@@ -132,6 +132,12 @@ firebaseui.auth.widget.handler.handleCallback =
 firebaseui.auth.widget.handler.handleCallbackResult_ =
     function(app, component, result) {
   if (result['user']) {
+    var authResult = /** @type {!firebaseui.auth.AuthResult} */ ({
+      'user': result['user'],
+      'credential': result['credential'],
+      'operationType': result['operationType'],
+      'additionalUserInfo': result['additionalUserInfo']
+    });
     // Sign in or link with redirect was previously triggered.
     var pendingEmailCredential =
         firebaseui.auth.storage.getPendingEmailCredential(app.getAppId());
@@ -145,7 +151,7 @@ firebaseui.auth.widget.handler.handleCallbackResult_ =
       // The user tried originally to sign in with a different
       // email than the one coming from the provider.
       firebaseui.auth.widget.handler.handleCallbackEmailMismatch_(
-          app, component, result['user'], result['credential']);
+          app, component, authResult);
       return;
     }
     var pendingCredential =
@@ -153,17 +159,24 @@ firebaseui.auth.widget.handler.handleCallbackResult_ =
     if (pendingCredential) {
       // Check if there is a pending auth credential. If so, complete the link
       // process and delete the pending credential.
-      app.registerPending(result['user'].linkWithCredential(pendingCredential)
-          .then(function(user) {
+      app.registerPending(result['user'].linkAndRetrieveDataWithCredential(
+          pendingCredential)
+          .then(function(userCredential) {
             // Linking successful, complete sign in, pass pending credentials
             // as the developer originally expected them in the sign in
             // attempt that triggered the link.
+            authResult = /** @type {!firebaseui.auth.AuthResult} */ ({
+              'user': userCredential['user'],
+              'credential': pendingCredential,
+              // Even though the operation type returned here is always 'link',
+              // we will sign in again on external Auth instance with this
+              // credential returning 'signIn' or 'link' in case of anonymous
+              // upgrade through finishSignInAndRetrieveDataWithAuthResult.
+              'operationType': userCredential['operationType'],
+              'additionalUserInfo': userCredential['additionalUserInfo']
+            });
             firebaseui.auth.widget.handler.handleCallbackSuccess_(
-                app,
-                component,
-                user,
-                /** @type {!firebase.auth.AuthCredential} */ (
-                    pendingCredential));
+                app, component, authResult);
           },
           function(error) {
             // Go to the sign-in page with info bar error.
@@ -173,7 +186,7 @@ firebaseui.auth.widget.handler.handleCallbackResult_ =
     } else {
       // No pending credential, complete sign in.
       firebaseui.auth.widget.handler.handleCallbackSuccess_(
-          app, component, result['user'], result['credential']);
+          app, component, authResult);
     }
   } else {
     // No previous redirect operation, go back to the sign-in page with no
@@ -195,15 +208,16 @@ firebaseui.auth.widget.handler.handleCallbackResult_ =
  *     configuration is used.
  * @param {!firebaseui.auth.ui.page.Base} component The current UI component if
  *     present.
- * @param {!firebase.User} user The signed in firebase user.
- * @param {!firebase.auth.AuthCredential} credential The auth credential
- *     object.
+ * @param {!firebaseui.auth.AuthResult} authResult The Auth result, which
+ *     includes current user, credential to sign in on external Auth instance,
+ *     additional user info and operation type.
  * @private
  */
 firebaseui.auth.widget.handler.handleCallbackSuccess_ =
-    function(app, component, user, credential) {
+    function(app, component, authResult) {
   firebaseui.auth.storage.removePendingEmailCredential(app.getAppId());
-  firebaseui.auth.widget.handler.common.setLoggedIn(app, component, credential);
+  firebaseui.auth.widget.handler.common.setLoggedInWithAuthResult(
+      app, component, authResult);
 };
 
 
@@ -290,12 +304,11 @@ firebaseui.auth.widget.handler.handleCallbackLinking_ =
  * @param {!firebaseui.auth.AuthUI} app The current FirebaseUI instance whose
  *     configuration is used.
  * @param {!firebaseui.auth.ui.page.Base} component The current UI component.
- * @param {!firebase.User} user The user returned from the provider.
- * @param {!firebase.auth.AuthCredential} credential The auth credential object.
+ * @param {!firebaseui.auth.AuthResult} authResult The Auth result object.
  * @private
  */
 firebaseui.auth.widget.handler.handleCallbackEmailMismatch_ =
-    function(app, component, user, credential) {
+    function(app, component, authResult) {
   var container = component.getContainer();
   // On email mismatch, sign out the temporary user to avoid leaking this
   // temp auth session if the user decides to close the window.
@@ -305,8 +318,7 @@ firebaseui.auth.widget.handler.handleCallbackEmailMismatch_ =
         firebaseui.auth.widget.HandlerName.EMAIL_MISMATCH,
         app,
         container,
-        user,
-        credential);
+        authResult);
   }, function(error) {
     // Ignore error if cancelled by the client.
     if (error['name'] && error['name'] == 'cancel') {

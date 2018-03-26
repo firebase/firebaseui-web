@@ -60,13 +60,10 @@ goog.require('firebaseui.auth.widget.handler.common');
  * @param {!firebaseui.auth.AuthUI} app The current Firebase UI instance whose
  *     configuration is used.
  * @param {!Element} container The container DOM element.
- * @param {!firebase.User} user The user signed in through the provider whose
- *     email mismatch.
- * @param {!firebase.auth.AuthCredential} credential The auth credential object
- *     corresponding to the provider.
+ * @param {!firebaseui.auth.AuthResult} authResult The Auth result object.
  */
 firebaseui.auth.widget.handler.handleEmailMismatch = function(
-    app, container, user, credential) {
+    app, container, authResult) {
   // Render the UI.
   var pendingEmailCredential =
       firebaseui.auth.storage.getPendingEmailCredential(app.getAppId());
@@ -77,14 +74,14 @@ firebaseui.auth.widget.handler.handleEmailMismatch = function(
     return;
   }
   var component = new firebaseui.auth.ui.page.EmailMismatch(
-      user['email'],
+      authResult['user']['email'],
       pendingEmailCredential.getEmail(),
       // On submit.
       function() {
         // The user accepts to sign in with the provider even if the original
         // email does not correspond.
         firebaseui.auth.widget.handler.handleEmailMismatchContinue_(
-            app, component, user, credential);
+            app, component, authResult);
       }, function() {
         // On cancel.
         firebaseui.auth.widget.handler.handleEmailMismatchCancel_(
@@ -92,7 +89,7 @@ firebaseui.auth.widget.handler.handleEmailMismatch = function(
             component,
             /** @type {!firebaseui.auth.PendingEmailCredential} */ (
                 pendingEmailCredential),
-            credential['providerId']);
+            authResult['credential']['providerId']);
       });
   component.render(container);
   // Set current UI component.
@@ -105,17 +102,16 @@ firebaseui.auth.widget.handler.handleEmailMismatch = function(
  * @param {!firebaseui.auth.AuthUI} app The current Firebase UI instance whose
  *     configuration is used.
  * @param {!firebaseui.auth.ui.page.Base} component The current UI component.
- * @param {!firebase.User} user The user returned from the provider.
- * @param {!firebase.auth.AuthCredential} credential The auth credential object.
+ * @param {!firebaseui.auth.AuthResult} authResult The Auth result object.
  * @private
  */
 firebaseui.auth.widget.handler.handleEmailMismatchContinue_ =
-    function(app, component, user, credential) {
+    function(app, component, authResult) {
   // Do not dispose of component yet as error could still occur in setLoggedIn
   // and new component may need to be rendered.
   firebaseui.auth.storage.removePendingEmailCredential(app.getAppId());
-  firebaseui.auth.widget.handler.common.setLoggedIn(
-      app, component, credential, user);
+  firebaseui.auth.widget.handler.common.setLoggedInWithAuthResult(
+      app, component, authResult);
 };
 
 

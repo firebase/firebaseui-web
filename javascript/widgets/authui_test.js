@@ -1339,16 +1339,25 @@ function testStartSignInWithEmailAndPassword_success() {
   app.getAuth().install();
   app.getExternalAuth().install();
   asyncTestCase.waitForSignals(1);
+  var expectedUserCredential = {
+    'user': expectedUser,
+    'credential': null,
+    'operationType': 'signIn',
+    'additionalUserInfo': {'providerId': 'password', 'isNewUser': false}
+  };
   app.startSignInWithEmailAndPassword('user@example.com', 'password')
-      .then(function(user) {
-        assertEquals(app.getAuth().currentUser, user);
+      .then(function(userCredential) {
+        assertObjectEquals(expectedUserCredential, userCredential);
         asyncTestCase.signal();
       });
-  app.getAuth().assertSignInWithEmailAndPassword(
+  app.getAuth().assertSignInAndRetrieveDataWithEmailAndPassword(
       ['user@example.com', 'password'],
       function() {
         app.getAuth().setUser(expectedUser);
-        return app.getAuth().currentUser;
+        // Make a copy of expected UserCredential to ensure
+        // expectedUserCredential which is used to be compared with later will
+        // not be modified.
+        return goog.object.clone(expectedUserCredential);
       });
   app.getAuth().process();
   app.getExternalAuth().process();
@@ -1371,7 +1380,7 @@ function testStartSignInWithEmailAndPassword_error() {
         assertEquals(expectedError, error);
         asyncTestCase.signal();
       });
-  app.getAuth().assertSignInWithEmailAndPassword(
+  app.getAuth().assertSignInAndRetrieveDataWithEmailAndPassword(
       ['user@example.com', 'password'],
       null,
       expectedError);
@@ -1418,11 +1427,16 @@ function testStartSignInWithEmailAndPassword_upgradeAnon_isAnonymous_success() {
       });
   // Simulate anonymous user logged in on external instance.
   testAuth.setUser(anonymousUser);
-  app.getAuth().assertSignInWithEmailAndPassword(
+  app.getAuth().assertSignInAndRetrieveDataWithEmailAndPassword(
       ['user@example.com', 'password'],
       function() {
         app.getAuth().setUser(expectedUser);
-        return app.getAuth().currentUser;
+        return {
+          'user': expectedUser,
+          'credential': null,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'password', 'isNewUser': false}
+        };
       });
   app.getAuth().process().then(function() {
     // Trigger initial onAuthStateChanged listener.
@@ -1466,7 +1480,7 @@ function testStartSignInWithEmailAndPassword_upgradeAnon_isAnon_error() {
         asyncTestCase.signal();
       });
   // Simulate wrong password error on sign-in.
-  app.getAuth().assertSignInWithEmailAndPassword(
+  app.getAuth().assertSignInAndRetrieveDataWithEmailAndPassword(
       ['user@example.com', 'password'],
       null,
       expectedError);
@@ -1486,16 +1500,25 @@ function testStartSignInWithEmailAndPassword_upgradeAnon_nonAnon_success() {
   asyncTestCase.waitForSignals(1);
   // Simulate non-anonymous user logged in on external instance.
   testAuth.setUser(expectedUser);
+  var expectedUserCredential = {
+    'user': expectedUser,
+    'credential': null,
+    'operationType': 'signIn',
+    'additionalUserInfo': {'providerId': 'password', 'isNewUser': false}
+  };
   app.startSignInWithEmailAndPassword('user@example.com', 'password')
-      .then(function(user) {
-        assertEquals(app.getAuth().currentUser, user);
+      .then(function(userCredential) {
+        assertObjectEquals(expectedUserCredential, userCredential);
         asyncTestCase.signal();
       });
-  app.getAuth().assertSignInWithEmailAndPassword(
+  app.getAuth().assertSignInAndRetrieveDataWithEmailAndPassword(
       ['user@example.com', 'password'],
       function() {
         app.getAuth().setUser(expectedUser);
-        return app.getAuth().currentUser;
+        // Make a copy of expected UserCredential to ensure
+        // expectedUserCredential which is used to be compared with later will
+        // not be modified.
+        return goog.object.clone(expectedUserCredential);
       });
   app.getAuth().process().then(function() {
     // Trigger initial onAuthStateChanged listener.
@@ -1517,16 +1540,25 @@ function testStartSignInWithEmailAndPassword_upgradeAnonymous_noUser_success() {
   asyncTestCase.waitForSignals(1);
   // Simulate no user logged in on external instance.
   testAuth.setUser(null);
+  var expectedUserCredential = {
+    'user': expectedUser,
+    'credential': null,
+    'operationType': 'signIn',
+    'additionalUserInfo': {'providerId': 'password', 'isNewUser': false}
+  };
   app.startSignInWithEmailAndPassword('user@example.com', 'password')
-      .then(function(user) {
-        assertEquals(app.getAuth().currentUser, user);
+      .then(function(userCredential) {
+        assertObjectEquals(expectedUserCredential, userCredential);
         asyncTestCase.signal();
       });
-  app.getAuth().assertSignInWithEmailAndPassword(
+  app.getAuth().assertSignInAndRetrieveDataWithEmailAndPassword(
       ['user@example.com', 'password'],
       function() {
         app.getAuth().setUser(expectedUser);
-        return app.getAuth().currentUser;
+        // Make a copy of expected UserCredential to ensure
+        // expectedUserCredential which is used to be compared with later will
+        // not be modified.
+        return goog.object.clone(expectedUserCredential);
       });
   app.getAuth().process().then(function() {
     // Trigger initial onAuthStateChanged listener.
@@ -3768,17 +3800,26 @@ function testSignInWithExistingEmailAndPasswordForLinking_success() {
   app.getAuth().install();
   app.getExternalAuth().install();
   asyncTestCase.waitForSignals(1);
+  var expectedUserCredential = {
+    'user': expectedUser,
+    'credential': null,
+    'operationType': 'signIn',
+    'additionalUserInfo': {'providerId': 'password', 'isNewUser': false}
+  };
   app.signInWithExistingEmailAndPasswordForLinking(
       'user@example.com', 'password')
-      .then(function(user) {
-        assertEquals(app.getAuth().currentUser, user);
+      .then(function(userCredential) {
+        assertObjectEquals(expectedUserCredential, userCredential);
         asyncTestCase.signal();
       });
-  app.getAuth().assertSignInWithEmailAndPassword(
+  app.getAuth().assertSignInAndRetrieveDataWithEmailAndPassword(
       ['user@example.com', 'password'],
       function() {
         app.getAuth().setUser(expectedUser);
-        return app.getAuth().currentUser;
+        // Make a copy of expected UserCredential to ensure
+        // expectedUserCredential which is used to be compared with later will
+        // not be modified.
+        return goog.object.clone(expectedUserCredential);
       });
   app.getAuth().process();
   app.getExternalAuth().process();
@@ -3802,7 +3843,7 @@ function testSignInWithExistingEmailAndPasswordForLinking_error() {
         assertEquals(expectedError, error);
         asyncTestCase.signal();
       });
-  app.getAuth().assertSignInWithEmailAndPassword(
+  app.getAuth().assertSignInAndRetrieveDataWithEmailAndPassword(
       ['user@example.com', 'password'],
       null,
       expectedError);

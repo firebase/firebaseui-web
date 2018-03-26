@@ -457,6 +457,144 @@ function testHandleCallback_redirectUser_noPendingCredential_signInCallback() {
 }
 
 
+function testHandleCallback_redirectUser_noPendingCred_signInWithAuthResult() {
+  asyncTestCase.waitForSignals(1);
+  var cred  = firebaseui.auth.idp.getAuthCredential({
+    'providerId': 'google.com',
+    'accessToken': 'ACCESS_TOKEN'
+  });
+  // Set config signInSuccessWithAuthResult callback with false return value.
+  app.setConfig({
+    'callbacks': {
+      'signInSuccessWithAuthResult': signInSuccessWithAuthResultCallback(false)
+    }
+  });
+  // Callback rendered.
+  firebaseui.auth.widget.handler.handleCallback(app, container);
+  assertCallbackPage();
+  // User should be signed in at this point.
+  testAuth.setUser({
+    'email': federatedAccount.getEmail(),
+    'displayName': federatedAccount.getDisplayName()
+  });
+  // Attempting to get redirect result. Resolve with success.
+  testAuth.assertGetRedirectResult(
+      [],
+      {
+        'user': testAuth.currentUser,
+        'credential': cred,
+        'operationType': 'signIn',
+        'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+      });
+  // Sign out from internal instance and then sign in with passed credential to
+  // external instance.
+  testAuth.process().then(function() {
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    externalAuth.setUser(testAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        {
+          'user': externalAuth.currentUser,
+          'credential': cred,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+        });
+    return externalAuth.process();
+  }).then(function() {
+    testAuth.assertSignOut([]);
+    // Pending credential should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    var expectedAuthResult = {
+      'user': externalAuth.currentUser,
+      // Federated credential should be exposed to callback.
+      'credential': cred,
+      'operationType': 'signIn',
+      'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    };
+    // SignInSuccessWithAuthResultCallback is called.
+    assertSignInSuccessWithAuthResultCallbackInvoked(
+        expectedAuthResult, undefined);
+    // Container should be cleared.
+    assertComponentDisposed();
+    asyncTestCase.signal();
+  });
+}
+
+
+function testHandleCallback_noPendingCred_signInWithAuthResultCb_popup() {
+  // Test successful sign in with popup flow.
+  asyncTestCase.waitForSignals(1);
+  var cred  = firebaseui.auth.idp.getAuthCredential({
+    'providerId': 'google.com',
+    'accessToken': 'ACCESS_TOKEN'
+  });
+  // Set config signInSuccessWithAuthResult callback with false return value.
+  app.setConfig({
+    'callbacks': {
+      'signInSuccessWithAuthResult': signInSuccessWithAuthResultCallback(false)
+    },
+    'signInFlow': 'popup'
+  });
+  // User should be signed in.
+  testAuth.setUser({
+    'email': federatedAccount.getEmail(),
+    'displayName': federatedAccount.getDisplayName()
+  });
+  // Callback rendered with popup result.
+  firebaseui.auth.widget.handler.handleCallback(
+      app,
+      container,
+      goog.Promise.resolve({
+        'user': testAuth.currentUser,
+        'credential': cred,
+        'operationType': 'signIn',
+        'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': true}
+      }));
+  assertCallbackPage();
+  // Sign out from internal instance and then sign in with passed credential to
+  // external instance.
+  testAuth.process().then(function() {
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    externalAuth.setUser(testAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        {
+          'user': externalAuth.currentUser,
+          'credential': cred,
+          'operationType': 'signIn',
+          // The second time user signing in, isNewUser is false.
+          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+        });
+    return externalAuth.process();
+  }).then(function() {
+    testAuth.assertSignOut([]);
+    // Pending credential should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    var expectedAuthResult = {
+      'user': externalAuth.currentUser,
+      // Federated credential should be exposed to callback.
+      'credential': cred,
+      'operationType': 'signIn',
+      // isNewUser should be copied from UserCredential returned from first
+      // sign in operation on internal instance.
+      'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': true}
+    };
+    // SignInSuccessWithAuthResultCallback is called.
+    assertSignInSuccessWithAuthResultCallbackInvoked(
+        expectedAuthResult, undefined);
+    // Callback supplied. Window should only be closed by developer.
+    testUtil.assertWindowNotClosed(window);
+    asyncTestCase.signal();
+  });
+}
+
+
 function testHandleCallback_redirectUser_pendingCredential_success() {
   // Test successful return from regular sign in operation with pending
   // credentials requiring linking.
@@ -487,7 +625,14 @@ function testHandleCallback_redirectUser_pendingCredential_success() {
       });
   testAuth.process().then(function() {
     // Linking should be triggered with pending credential.
-    testAuth.currentUser.assertLinkWithCredential([cred], testAuth.currentUser);
+    var userCredential = {
+      'user': testAuth.currentUser,
+      'credential': cred,
+      'operationType': 'link',
+      'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    };
+    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+        [cred], userCredential);
     return testAuth.process();
     // Sign out from internal instance and then sign in with passed credential
     // to external instance.
@@ -540,7 +685,14 @@ function testHandleCallback_signedInUser_pendingCredential_success_popup() {
   assertCallbackPage();
   testAuth.process().then(function() {
     // Linking should be triggered with pending credential.
-    testAuth.currentUser.assertLinkWithCredential([cred], testAuth.currentUser);
+    var userCredential = {
+      'user': testAuth.currentUser,
+      'credential': cred,
+      'operationType': 'link',
+      'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    };
+    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+        [cred], userCredential);
     return testAuth.process();
     // Sign out from internal instance and then sign in with passed credential
     // to external instance.
@@ -600,7 +752,14 @@ function testHandleCallback_redirectUser_pendingCredential_signInCallback() {
       });
   testAuth.process().then(function() {
     // Linking should be triggered with pending credential.
-    testAuth.currentUser.assertLinkWithCredential([cred], testAuth.currentUser);
+    var userCredential = {
+      'user': testAuth.currentUser,
+      'credential': cred,
+      'operationType': 'link',
+      'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    };
+    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+        [cred], userCredential);
     return testAuth.process();
     // Sign out from internal instance and then sign in with passed credential
     // to external instance.
@@ -622,6 +781,196 @@ function testHandleCallback_redirectUser_pendingCredential_signInCallback() {
         externalAuth.currentUser,
         cred,
         undefined);
+    // Container should be cleared.
+    assertComponentDisposed();
+    asyncTestCase.signal();
+  });
+}
+
+
+function testHandleCallback_redirectUser_pendingCred_signInWithAuthResultCb() {
+  asyncTestCase.waitForSignals(1);
+  // Credential to be linked with since the associated federated account shares
+  // the same email address with an existing user.
+  var credToLink  = firebaseui.auth.idp.getAuthCredential({
+    'providerId': 'facebook.com',
+    'accessToken': 'ACCESS_TOKEN'
+  });
+  // The existing credential to sign in to first in order to link.
+  var existingCred  = firebaseui.auth.idp.getAuthCredential({
+    'providerId': 'google.com',
+    'accessToken': 'ACCESS_TOKEN'
+  });
+  var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
+      federatedAccount.getEmail(), credToLink);
+  // Set config signInSuccessWithAuthResult callback with false return value.
+  app.setConfig({
+    'callbacks': {
+      'signInSuccessWithAuthResult': signInSuccessWithAuthResultCallback(false)
+    }
+  });
+  // Simulate previous linking required (pending credentials should be saved).
+  firebaseui.auth.storage.setPendingEmailCredential(
+      pendingEmailCred, app.getAppId());
+  // Callback rendered.
+  firebaseui.auth.widget.handler.handleCallback(app, container);
+  assertCallbackPage();
+  // User should be signed in at this point.
+  testAuth.setUser({
+    'email': federatedAccount.getEmail(),
+    'displayName': federatedAccount.getDisplayName()
+  });
+  // Attempting to get redirect result. Resolve with success.
+  testAuth.assertGetRedirectResult(
+      [],
+      {
+        'user': testAuth.currentUser,
+        'credential': existingCred,
+        'operationType': 'signIn',
+        'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+      });
+  testAuth.process().then(function() {
+    // Linking should be triggered with pending credential.
+    var userCredential = {
+      'user': testAuth.currentUser,
+      'credential': credToLink,
+      'operationType': 'link',
+      'additionalUserInfo': {'providerId': 'facebook.com', 'isNewUser': false}
+    };
+    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+        [credToLink], userCredential);
+    return testAuth.process();
+    // Sign out from internal instance and then sign in with passed credential
+    // to external instance.
+  }).then(function() {
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    externalAuth.setUser(testAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [credToLink],
+        {
+          'user': externalAuth.currentUser,
+          'credential': credToLink,
+          'operationType': 'signIn',
+          'additionalUserInfo': {
+            'providerId': 'facebook.com',
+            'isNewUser': false
+          }
+        });
+    return externalAuth.process();
+  }).then(function() {
+    testAuth.assertSignOut([]);
+    // Pending credential should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    var expectedAuthResult = {
+      'user': externalAuth.currentUser,
+      // Federated credential should be exposed to callback.
+      'credential': credToLink,
+      // Operation type should still be signIn.
+      'operationType': 'signIn',
+      'additionalUserInfo': {'providerId': 'facebook.com', 'isNewUser': false}
+    };
+    // SignInSuccessWithAuthResultCallback is called.
+    assertSignInSuccessWithAuthResultCallbackInvoked(
+        expectedAuthResult, undefined);
+    // Container should be cleared.
+    assertComponentDisposed();
+    asyncTestCase.signal();
+  });
+}
+
+
+function testHandleCallback_pendingCred_signInWithAuthResultCb_popup() {
+  asyncTestCase.waitForSignals(1);
+  // Credential to be linked with since the associated federated account shares
+  // the same email address with an existing user.
+  var credToLink  = firebaseui.auth.idp.getAuthCredential({
+    'providerId': 'facebook.com',
+    'accessToken': 'ACCESS_TOKEN'
+  });
+  // The existing credential to sign in to first in order to link.
+  var existingCred  = firebaseui.auth.idp.getAuthCredential({
+    'providerId': 'google.com',
+    'accessToken': 'ACCESS_TOKEN'
+  });
+  var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
+      federatedAccount.getEmail(), credToLink);
+  // Set config signInSuccessWithAuthResult callback with false return value.
+  app.setConfig({
+    'callbacks': {
+      'signInSuccessWithAuthResult': signInSuccessWithAuthResultCallback(false)
+    },
+    'signInFlow': 'popup'
+  });
+  // Simulate previous linking required (pending credentials should be saved).
+  firebaseui.auth.storage.setPendingEmailCredential(
+      pendingEmailCred, app.getAppId());
+  // User should be signed in at this point.
+  testAuth.setUser({
+    'email': federatedAccount.getEmail(),
+    'displayName': federatedAccount.getDisplayName()
+  });
+  // Callback rendered with popup result.
+  firebaseui.auth.widget.handler.handleCallback(
+      app,
+      container,
+      goog.Promise.resolve({
+        'user': testAuth.currentUser,
+        'credential': existingCred,
+        'operationType': 'signIn',
+        'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+      }));
+  assertCallbackPage();
+  testAuth.process().then(function() {
+    // Linking should be triggered with pending credential.
+    var userCredential = {
+      'user': testAuth.currentUser,
+      'credential': credToLink,
+      'operationType': 'link',
+      'additionalUserInfo': {'providerId': 'facebook.com', 'isNewUser': false}
+    };
+    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+        [credToLink], userCredential);
+    return testAuth.process();
+    // Sign out from internal instance and then sign in with passed credential
+    // to external instance.
+  }).then(function() {
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    externalAuth.setUser(testAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [credToLink],
+        {
+          'user': externalAuth.currentUser,
+          'credential': credToLink,
+          'operationType': 'signIn',
+          'additionalUserInfo': {
+            'providerId': 'facebook.com',
+            'isNewUser': false
+          }
+        });
+    return externalAuth.process();
+  }).then(function() {
+    testAuth.assertSignOut([]);
+    // Pending credential should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    var expectedAuthResult = {
+      'user': externalAuth.currentUser,
+      // Federated credential should be exposed to callback.
+      'credential': credToLink,
+      // Operation type should still be signIn.
+      'operationType': 'signIn',
+      'additionalUserInfo': {'providerId': 'facebook.com', 'isNewUser': false}
+    };
+    // SignInSuccessWithAuthResultCallback is called.
+    assertSignInSuccessWithAuthResultCallbackInvoked(
+        expectedAuthResult, undefined);
+    // Callback supplied. Window should only be closed by developer.
+    testUtil.assertWindowNotClosed(window);
     // Container should be cleared.
     assertComponentDisposed();
     asyncTestCase.signal();
@@ -753,7 +1102,8 @@ function testHandleCallback_redirectUser_pendingCredential_error() {
   testAuth.process().then(function() {
     // Linking should be triggered with pending credential.
     // Simulate an error here.
-    testAuth.currentUser.assertLinkWithCredential([cred], null, internalError);
+    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+        [cred], null, internalError);
     return testAuth.process();
   }).then(function() {
     // Pending credential should be cleared from storage.
@@ -800,7 +1150,8 @@ function testHandleCallback_signedInUser_pendingCred_error_popup() {
   testAuth.process().then(function() {
     // Linking should be triggered with pending credential.
     // Simulate an error here.
-    testAuth.currentUser.assertLinkWithCredential([cred], null, internalError);
+    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+        [cred], null, internalError);
     return testAuth.process();
   }).then(function() {
     // Pending credential should be cleared from storage.
@@ -852,7 +1203,8 @@ function testHandleCallback_redirectUser_pendingCredential_err_emailAuthOnly() {
   testAuth.process().then(function() {
     // Linking should be triggered with pending credential.
     // Simulate an error here.
-    testAuth.currentUser.assertLinkWithCredential([cred], null, internalError);
+    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+        [cred], null, internalError);
     return testAuth.process();
   }).then(function() {
     // Pending credential should be cleared from storage.
@@ -904,7 +1256,8 @@ function testHandleCallback_signedInUser_pendingCred_err_emailAuthOnly_popup() {
   testAuth.process().then(function() {
     // Linking should be triggered with pending credential.
     // Simulate an error here.
-    testAuth.currentUser.assertLinkWithCredential([cred], null, internalError);
+    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+        [cred], null, internalError);
     return testAuth.process();
   }).then(function() {
     // Pending credential should be cleared from storage.
@@ -2032,6 +2385,73 @@ function testHandleCallback_anonymousUpgrade_redirect_success() {
 }
 
 
+function testHandleCallback_anonUpgrade_redirect_signInWithAuthResultCb() {
+  // Test successful anonymous user upgrade.
+  asyncTestCase.waitForSignals(1);
+  app.setConfig({
+    'callbacks': {
+      'signInSuccessWithAuthResult': signInSuccessWithAuthResultCallback(true),
+      'signInFailure': signInFailureCallback
+    },
+    'autoUpgradeAnonymousUsers': true
+  });
+  var cred  = firebaseui.auth.idp.getAuthCredential({
+    'providerId': 'google.com',
+    'accessToken': 'ACCESS_TOKEN'
+  });
+  // User should be signed in.
+  externalAuth.setUser({
+    'email': federatedAccount.getEmail(),
+    'displayName': federatedAccount.getDisplayName()
+  });
+  // Callback rendered.
+  firebaseui.auth.widget.handler.handleCallback(app, container);
+  assertCallbackPage();
+  // Trigger initial onAuthStateChanged listener.
+  app.getExternalAuth().runAuthChangeHandler();
+  // getRedirectResult called on internal instance first.
+  app.getAuth().assertGetRedirectResult(
+      [],
+      {
+        'user': null,
+        'credential': null
+      });
+  app.getAuth().process().then(function() {
+    // getRedirectResult called on external instance after no result found.
+    app.getExternalAuth().assertGetRedirectResult(
+        [],
+        {
+          'user': externalAuth.currentUser,
+          'credential': cred,
+          'operationType': 'link',
+          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+        });
+    return app.getExternalAuth().process();
+  }).then(function() {
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    // Pending credential should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    // User should be redirected to success URL.
+    testUtil.assertGoTo('http://localhost/home');
+    var expectedAuthResult = {
+      'user': externalAuth.currentUser,
+      // Federated credential should be exposed to callback.
+      'credential': cred,
+      // Operation type should be link for anonymous upgrade flow.
+      'operationType': 'link',
+      'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    };
+    // SignInSuccessWithAuthResultCallback is called.
+    assertSignInSuccessWithAuthResultCallbackInvoked(
+        expectedAuthResult, undefined);
+    asyncTestCase.signal();
+  });
+}
+
+
 function testHandleCallback_anonymousUpgrade_redirect_error() {
   // Test anonymous user upgrade with merge conflict error.
   asyncTestCase.waitForSignals(1);
@@ -2230,7 +2650,14 @@ function testHandleCallback_anonymousUpgrade_pendingCredential_success() {
       });
   testAuth.process().then(function() {
     // Linking should be triggered with pending credential.
-    testAuth.currentUser.assertLinkWithCredential([cred], testAuth.currentUser);
+    var userCredential = {
+      'user': testAuth.currentUser,
+      'credential': cred,
+      'operationType': 'link',
+      'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    };
+    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+        [cred], userCredential);
     return testAuth.process();
     // Sign out from internal instance and then sign in with passed credential
     // to external instance.
@@ -2242,6 +2669,109 @@ function testHandleCallback_anonymousUpgrade_pendingCredential_success() {
     // error.
     externalAuth.currentUser.assertLinkWithCredential(
         [cred],
+        null,
+        expectedError);
+    return externalAuth.process();
+  }).then(function() {
+    // Pending credential should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    // signInFailure callback triggered with expected FirebaseUI error.
+    assertSignInFailure(expectedMergeError);
+    asyncTestCase.signal();
+  });
+}
+
+
+function testHandleCallback_anonUpgrade_pendingCred_signInWithAuthResultCb() {
+  // Test anonymous upgrade flow where the account to be upgraded to shares the
+  // same email address with an existing user. In this case, the account to be
+  // upgraded to will be linked to the existing account but upgrade would fail
+  // with merge conflict.
+  asyncTestCase.waitForSignals(1);
+  app.setConfig({
+    'callbacks': {
+      'signInSuccessWithAuthResult': signInSuccessWithAuthResultCallback(true),
+      'signInFailure': signInFailureCallback
+    },
+    'autoUpgradeAnonymousUsers': true
+  });
+  // Credential to be linked with since the associated federated account shares
+  // the same email address with an existing user.
+  var credToLink  = firebaseui.auth.idp.getAuthCredential({
+    'providerId': 'facebook.com',
+    'accessToken': 'ACCESS_TOKEN'
+  });
+  // The existing credential to sign in to.
+  var existingCred  = firebaseui.auth.idp.getAuthCredential({
+    'providerId': 'google.com',
+    'accessToken': 'ACCESS_TOKEN'
+  });
+  var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
+      federatedAccount.getEmail(), credToLink);
+  // Expected linkAndRetrieveDataWithCredential error.
+  var expectedError = {
+    'code': 'auth/credential-already-in-use',
+    'credential': credToLink,
+    'email': federatedAccount.getEmail(),
+    'message': 'MESSAGE'
+  };
+  // Expected signInFailure FirebaseUI error.
+  var expectedMergeError = new firebaseui.auth.AuthUIError(
+      firebaseui.auth.AuthUIError.Error.MERGE_CONFLICT,
+      null,
+      credToLink);
+  // Linking required case where facebook credential saved before redirecting
+  // for google sign-in.
+  // Simulate previous linking required (pending credentials should be saved).
+  firebaseui.auth.storage.setPendingEmailCredential(
+      pendingEmailCred, app.getAppId());
+  // Anonymous user signed in externally.
+  externalAuth.setUser(anonymousUser);
+  // Callback rendered.
+  firebaseui.auth.widget.handler.handleCallback(app, container);
+  assertCallbackPage();
+  // Trigger initial onAuthStateChanged listener.
+  app.getExternalAuth().runAuthChangeHandler();
+  // Assert get redirect result called on internal instance to complete sign in
+  // to existing credential.
+  testAuth.assertGetRedirectResult(
+      [],
+      function() {
+        // User should be signed in at this point.
+        testAuth.setUser({
+          'email': federatedAccount.getEmail(),
+          'displayName': federatedAccount.getDisplayName()
+        });
+        return {
+          'user': testAuth.currentUser,
+          'credential': existingCred
+        };
+      });
+  testAuth.process().then(function() {
+    // Linking should be triggered with pending credential.
+    var userCredential = {
+      'user': testAuth.currentUser,
+      'credential': credToLink,
+      'operationType': 'link',
+      'additionalUserInfo': {'providerId': 'facebook.com', 'isNewUser': false}
+    };
+    // On successful google sign in, the saved facebook credential is linked
+    // successful in internal Auth instance.
+    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+        [credToLink], userCredential);
+    return testAuth.process();
+    // Sign out from internal instance and then sign in with passed credential
+    // to external instance.
+  }).then(function() {
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    // The anonymous upgrade flow on external currentUser will fail due to
+    // merge conflict when the facebook credential is linked and returned back
+    // to the developer.
+    externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+        [credToLink],
         null,
         expectedError);
     return externalAuth.process();
