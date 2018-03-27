@@ -38,14 +38,19 @@ function testHandlePasswordSignIn() {
   assertPasswordSignInPage();
   goog.dom.forms.setValue(getPasswordElement(), '123');
   submitForm();
-  testAuth.assertSignInWithEmailAndPassword(
+  testAuth.assertSignInAndRetrieveDataWithEmailAndPassword(
       [passwordAccount.getEmail(), '123'],
       function() {
         testAuth.setUser({
           'email': passwordAccount.getEmail(),
           'displayName': passwordAccount.getDisplayName()
         });
-        return testAuth.currentUser;
+        return {
+          'user': testAuth.currentUser,
+          'credential': null,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'password', 'isNewUser': false}
+        };
       });
   // Sign out from internal instance and then sign in with passed credential to
   // external instance.
@@ -85,7 +90,7 @@ function testHandlePasswordSignIn_upgradeAnonymous_successfulSignIn() {
   assertPasswordSignInPage();
   goog.dom.forms.setValue(getPasswordElement(), '123');
   submitForm();
-  testAuth.assertSignInWithEmailAndPassword(
+  testAuth.assertSignInAndRetrieveDataWithEmailAndPassword(
       [passwordAccount.getEmail(), '123'],
       function() {
         // Set non-anonymous user on internal Auth instance.
@@ -93,7 +98,12 @@ function testHandlePasswordSignIn_upgradeAnonymous_successfulSignIn() {
           'email': passwordAccount.getEmail(),
           'displayName': passwordAccount.getDisplayName()
         });
-        return testAuth.currentUser;
+        return {
+          'user': testAuth.currentUser,
+          'credential': null,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'password', 'isNewUser': false}
+        };
       });
   // Sign out from internal instance and then sign in with passed credential to
   // external instance.
@@ -135,7 +145,7 @@ function testHandlePasswordSignIn_upgradeAnonymous_wrongPassword() {
   goog.dom.forms.setValue(getPasswordElement(), '321');
   submitForm();
   // Simulate wrong password on sign-in.
-  testAuth.assertSignInWithEmailAndPassword(
+  testAuth.assertSignInAndRetrieveDataWithEmailAndPassword(
       [passwordAccount.getEmail(), '321'],
       null,
       error);
@@ -148,7 +158,7 @@ function testHandlePasswordSignIn_upgradeAnonymous_wrongPassword() {
     // Try the correct password.
     goog.dom.forms.setValue(getPasswordElement(), '123');
     submitForm();
-    testAuth.assertSignInWithEmailAndPassword(
+    testAuth.assertSignInAndRetrieveDataWithEmailAndPassword(
         [passwordAccount.getEmail(), '123'],
         function() {
           // Set non-anonymous user on internal Auth instance.
@@ -156,7 +166,12 @@ function testHandlePasswordSignIn_upgradeAnonymous_wrongPassword() {
             'email': passwordAccount.getEmail(),
             'displayName': passwordAccount.getDisplayName()
           });
-          return testAuth.currentUser;
+          return {
+            'user': testAuth.currentUser,
+            'credential': null,
+            'operationType': 'signIn',
+            'additionalUserInfo': {'providerId': 'password', 'isNewUser': false}
+          };
         });
     return testAuth.process();
   }).then(function() {
@@ -199,14 +214,19 @@ function testHandlePasswordSignIn_signInCallback() {
   assertPasswordSignInPage();
   goog.dom.forms.setValue(getPasswordElement(), '123');
   submitForm();
-  testAuth.assertSignInWithEmailAndPassword(
+  testAuth.assertSignInAndRetrieveDataWithEmailAndPassword(
       [passwordAccount.getEmail(), '123'],
       function() {
         testAuth.setUser({
           'email': passwordAccount.getEmail(),
           'displayName': passwordAccount.getDisplayName()
         });
-        return testAuth.currentUser;
+        return {
+          'user': testAuth.currentUser,
+          'credential': null,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'password', 'isNewUser': false}
+        };
       });
   // Sign out from internal instance and then sign in with passed credential to
   // external instance.
@@ -225,6 +245,71 @@ function testHandlePasswordSignIn_signInCallback() {
     // SignInCallback is called. No password credential is passed.
     assertSignInSuccessCallbackInvoked(
         externalAuth.currentUser, null, undefined);
+    // Container should be cleared.
+    assertComponentDisposed();
+  });
+}
+
+
+function testHandlePasswordSignIn_signInSuccessWithAuthResultCallback() {
+  // Provide a signInSuccessWithAuthResult callback.
+  app.setConfig({
+    'callbacks': {
+      'signInSuccessWithAuthResult': signInSuccessWithAuthResultCallback(false)
+    }
+  });
+  firebaseui.auth.widget.handler.handlePasswordSignIn(
+      app, container, passwordAccount.getEmail());
+  assertPasswordSignInPage();
+  goog.dom.forms.setValue(getPasswordElement(), '123');
+  submitForm();
+  testAuth.assertSignInAndRetrieveDataWithEmailAndPassword(
+      [passwordAccount.getEmail(), '123'],
+      function() {
+        testAuth.setUser({
+          'email': passwordAccount.getEmail(),
+          'displayName': passwordAccount.getDisplayName()
+        });
+        return {
+          'user': testAuth.currentUser,
+          'credential': null,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'password', 'isNewUser': false}
+        };
+      });
+  // Sign out from internal instance and then sign in with passed credential to
+  // external instance.
+  return testAuth.process().then(function() {
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    // Confirm password credential passed and signed in with.
+    var cred = new firebase.auth.EmailAuthProvider.credential(
+        passwordAccount.getEmail(), '123');
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+          return {
+            'user': externalAuth.currentUser,
+            'credential': null,
+            'operationType': 'signIn',
+            'additionalUserInfo': {'providerId': 'password', 'isNewUser': false}
+          };
+        });
+    return externalAuth.process();
+  }).then(function() {
+    testAuth.assertSignOut([]);
+    // SignInSuccessWithAuthResultCallback is called.
+    var expectedAuthResult = {
+      'user': externalAuth.currentUser,
+      // Password credential should not be exposed to callback.
+      'credential': null,
+      'operationType': 'signIn',
+      'additionalUserInfo': {'providerId': 'password', 'isNewUser': false}
+    };
+    assertSignInSuccessWithAuthResultCallbackInvoked(
+        expectedAuthResult, undefined);
     // Container should be cleared.
     assertComponentDisposed();
   });
@@ -252,7 +337,7 @@ function testHandlePasswordSignIn_wrongPassword() {
         // Try an incorrect password.
         goog.dom.forms.setValue(getPasswordElement(), '321');
         submitForm();
-        testAuth.assertSignInWithEmailAndPassword(
+        testAuth.assertSignInAndRetrieveDataWithEmailAndPassword(
             [passwordAccount.getEmail(), '321'], null, error);
         return testAuth.process();
       })
@@ -265,14 +350,22 @@ function testHandlePasswordSignIn_wrongPassword() {
         // Try the correct password.
         goog.dom.forms.setValue(getPasswordElement(), '123');
         submitForm();
-        testAuth.assertSignInWithEmailAndPassword(
+        testAuth.assertSignInAndRetrieveDataWithEmailAndPassword(
             [passwordAccount.getEmail(), '123'],
             function() {
               testAuth.setUser({
                 'email': passwordAccount.getEmail(),
                 'displayName': passwordAccount.getDisplayName()
               });
-              return testAuth.currentUser;
+              return {
+                'user': testAuth.currentUser,
+                'credential': null,
+                'operationType': 'signIn',
+                'additionalUserInfo': {
+                  'providerId': 'password',
+                  'isNewUser': false
+                }
+              };
             });
         return testAuth.process();
       }).then(function() {
@@ -300,7 +393,7 @@ function testHandlePasswordSignIn_otherError() {
   assertPasswordSignInPage();
   goog.dom.forms.setValue(getPasswordElement(), '123');
   submitForm();
-  testAuth.assertSignInWithEmailAndPassword(
+  testAuth.assertSignInAndRetrieveDataWithEmailAndPassword(
       [federatedAccount.getEmail(), '123'], null, internalError);
   return testAuth.process().then(function() {
     assertPasswordSignInPage();
@@ -352,7 +445,7 @@ function testHandlePasswordSignIn_inProcessing() {
         // Click submit again.
         submitForm();
         // Only one request sent.
-        testAuth.assertSignInWithEmailAndPassword(
+        testAuth.assertSignInAndRetrieveDataWithEmailAndPassword(
             [passwordAccount.getEmail(), '123'], null, internalError);
         return testAuth.process();
       })
@@ -360,14 +453,22 @@ function testHandlePasswordSignIn_inProcessing() {
         assertBusyIndicatorHidden();
         // Submit again.
         submitForm();
-        testAuth.assertSignInWithEmailAndPassword(
+        testAuth.assertSignInAndRetrieveDataWithEmailAndPassword(
             [passwordAccount.getEmail(), '123'],
             function() {
               testAuth.setUser({
                 'email': passwordAccount.getEmail(),
                 'displayName': passwordAccount.getDisplayName()
               });
-              return testAuth.currentUser;
+              return {
+                'user': testAuth.currentUser,
+                'credential': null,
+                'operationType': 'signIn',
+                'additionalUserInfo': {
+                  'providerId': 'password',
+                  'isNewUser': false
+                }
+              };
             });
         return testAuth.process();
       }).then(function() {

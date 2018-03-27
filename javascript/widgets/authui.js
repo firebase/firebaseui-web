@@ -869,7 +869,7 @@ firebaseui.auth.AuthUI.prototype.showOneTapSignIn = function(handler) {
  * Sign in using an email and password.
  * @param {string} email The email to sign in with.
  * @param {string} password The password to sign in with.
- * @return {!firebase.Promise<!firebase.User>}
+ * @return {!firebase.Promise<!firebase.auth.UserCredential>}
  */
 firebaseui.auth.AuthUI.prototype.startSignInWithEmailAndPassword =
     function(email, password) {
@@ -881,8 +881,8 @@ firebaseui.auth.AuthUI.prototype.startSignInWithEmailAndPassword =
   // always fail when upgrading an anonymous user. For the non-anonymous upgrade
   // flow, the same credential will be used to complete sign in on the
   // external Auth instance.
-  return /** @type {!firebase.Promise<!firebase.User>} */ (
-      this.getAuth().signInWithEmailAndPassword(email, password)
+  return /** @type {!firebase.Promise<!firebase.auth.UserCredential>} */ (
+      this.getAuth().signInAndRetrieveDataWithEmailAndPassword(email, password)
       .then(function(result) {
         var cb = function(user) {
           if (user) {
@@ -1276,7 +1276,7 @@ firebaseui.auth.AuthUI.prototype.finishSignInAndRetrieveDataWithAuthResult =
  * recover from an existing email error.
  * @param {string} email The email to sign in with.
  * @param {string} password The password to sign in with.
- * @return {!firebase.Promise<!firebase.User>}
+ * @return {!firebase.Promise<!firebase.auth.UserCredential>}
  */
 firebaseui.auth.AuthUI.prototype.signInWithExistingEmailAndPasswordForLinking =
     function(email, password) {
@@ -1285,7 +1285,8 @@ firebaseui.auth.AuthUI.prototype.signInWithExistingEmailAndPasswordForLinking =
   // Starts sign in with email/password on the internal Auth instance for
   // linking purposes. This is needed to avoid triggering the onAuthStateChanged
   // callbacks interrupting the linking flow.
-  return this.getAuth().signInWithEmailAndPassword(email, password);
+  return this.getAuth().signInAndRetrieveDataWithEmailAndPassword(
+      email, password);
 };
 
 

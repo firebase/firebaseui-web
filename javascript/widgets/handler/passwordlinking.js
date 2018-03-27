@@ -107,13 +107,21 @@ firebaseui.auth.widget.handler.onPasswordLinkingSubmit_ =
       /** @type {function (): !goog.Promise} */ (
           goog.bind(app.signInWithExistingEmailAndPasswordForLinking, app)),
       [email, password],
-      function(user) {
-        var p = user.linkWithCredential(pendingCredential)
-            .then(function(linkedUser) {
-              // Wait for setLoggedIn promise to resolve before hiding progress
-              // bar.
-              return firebaseui.auth.widget.handler.common.setLoggedIn(
-                  app, component, pendingCredential);
+      function(userCredential) {
+        var p = userCredential['user'].linkAndRetrieveDataWithCredential(
+            pendingCredential)
+            .then(function(linkedUserCredential) {
+              var linkedAuthResult =
+                /** @type {!firebaseui.auth.AuthResult} */ ({
+                'user': linkedUserCredential['user'],
+                'credential': pendingCredential,
+                'operationType': linkedUserCredential['operationType'],
+                'additionalUserInfo': linkedUserCredential['additionalUserInfo']
+              });
+              // Wait for setLoggedInWithAuthResult promise to resolve before
+              // hiding progress bar.
+              return firebaseui.auth.widget.handler.common
+                  .setLoggedInWithAuthResult(app, component, linkedAuthResult);
             });
         app.registerPending(p);
         return p;

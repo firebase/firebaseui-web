@@ -606,7 +606,35 @@ popup is blocked by the browser, it will fall back to a full page redirect.
 
 ### Available callbacks
 
+#### `signInSuccessWithAuthResult(authResult, redirectUrl)`
+
+The `signInSuccessWithAuthResult` callback is invoked when user signs in successfully.
+The authResult provided here is a `firebaseui.auth.AuthResult` object, which includes the current logged in user, the credential used to sign in the user, additional user info indicating if the user is new or existing and operation type like 'signIn' or 'link'. This callback will replace `signInSuccess` in future.
+
+**Parameters:**
+
+|Name         |Type                          | Optional|Description                                                                                                                                                              |
+|-------------|------------------------------|---------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|`authResult`|`firebaseui.auth.AuthResult`   |No       |The AuthResult of successful sign-in operation. The AuthResult object has same signature as `firebase.auth.UserCredential`.|
+|`redirectUrl`|`string`                      |Yes      |The URL where the user is redirected after the callback finishes. It will only be given if you [overwrite the sign-in success URL](#overwriting-the-sign-in-success-url).|
+
+**Should return: `boolean`**
+
+If the callback returns `true`, then the page is automatically redirected
+depending on the case:
+
+- If no `signInSuccessUrl` parameter was given in the URL (See:
+[Overwriting the sign-in success URL](#overwriting-the-sign-in-success-url))
+then the default `signInSuccessUrl` in config is used.
+- If the value is provided in the URL, that value will be used instead of the
+static `signInSuccessUrl` in config.
+
+If the callback returns `false` or nothing, the page is not automatically
+redirected.
+
 #### `signInSuccess(currentUser, credential, redirectUrl)`
+
+This callback will be deprecated and will be replaced by `signInSuccessWithAuthResult` which takes `firebaseui.auth.AuthResult`.
 
 **Parameters:**
 
@@ -677,7 +705,20 @@ FirebaseUI is displayed.
       // FirebaseUI config.
       var uiConfig = {
         callbacks: {
+          signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+            var user = authResult.user;
+            var credential = authResult.credential;
+            var isNewUser = authResult.additionalUserInfo.isNewUser;
+            var providerId = authResult.additionalUserInfo.providerId;
+            var operationType = authResult.operationType;
+            // Do something with the returned AuthResult.
+            // Return type determines whether we continue the redirect automatically
+            // or whether we leave that to developer to handle.
+            return true;
+          },
           signInSuccess: function(currentUser, credential, redirectUrl) {
+            // This callback will be deprecated. `signInSuccessWithAuthResult` should
+            // be used instead.
             // Do something.
             // Return type determines whether we continue the redirect automatically
             // or whether we leave that to developer to handle.
@@ -814,7 +855,7 @@ ui.start('#firebaseui-auth-container', {
     firebase.auth.PhoneAuthProvider.PROVIDER_ID
   ],
   callbacks: {
-    signInSuccess: function(user, credential, redirectUrl) {
+    signInSuccessWithAuthResult: function(authResult, redirectUrl) {
       // Process result. This will not trigger on merge conflicts.
       // On success redirect to signInSuccessUrl.
       return true;

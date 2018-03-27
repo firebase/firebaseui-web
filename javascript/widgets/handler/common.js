@@ -1218,11 +1218,17 @@ firebaseui.auth.widget.handler.common.verifyPassword =
       /** @type {function (): !goog.Promise} */ (
           goog.bind(app.startSignInWithEmailAndPassword, app)),
       [email, password],
-      function(user) {
-        // Pass password credential to complete sign-in to the original auth
-        // instance.
-        return firebaseui.auth.widget.handler.common.setLoggedIn(
-            app, component, emailPassCred);
+      function(userCredential) {
+        var authResult = /** @type {!firebaseui.auth.AuthResult} */ ({
+          'user': userCredential['user'],
+          // Password credential is needed to complete sign-in to the original
+          // Auth instance.
+          'credential': emailPassCred,
+          'operationType': userCredential['operationType'],
+          'additionalUserInfo': userCredential['additionalUserInfo']
+        });
+        return firebaseui.auth.widget.handler.common.setLoggedInWithAuthResult(
+            app, component, authResult);
       },
       function(error) {
         // Ignore error if cancelled by the client.

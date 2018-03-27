@@ -146,9 +146,15 @@ function testHandleFederatedLinking_noLoginHint_cordova() {
     return testAuth.process();
   }).then(function() {
     assertCallbackPage();
+    var userCredential = {
+      'user': testAuth.currentUser,
+      'credential': credential,
+      'operationType': 'link',
+      'additionalUserInfo': {'providerId': 'facebook.com', 'isNewUser': false}
+    };
     // Saved pending credential loaded from storage and linked to current user.
-    testAuth.currentUser.assertLinkWithCredential(
-        [credential], testAuth.currentUser);
+    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+        [credential], userCredential);
     return testAuth.process();
   }).then(function() {
     // Signout from internal auth instance.
@@ -235,9 +241,15 @@ function testHandleFederatedLinking_popup_success() {
         'credential': cred
       });
   return testAuth.process().then(function() {
+    var userCredential = {
+      'user': testAuth.currentUser,
+      'credential': credential,
+      'operationType': 'link',
+      'additionalUserInfo': {'providerId': 'facebook.com', 'isNewUser': false}
+    };
     // Linking should be triggered with pending credential.
-    testAuth.currentUser.assertLinkWithCredential(
-        [credential], testAuth.currentUser);
+    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+        [credential], userCredential);
     return testAuth.process();
     // Sign out from internal instance and then sign in with passed credential
     // to external instance.
@@ -314,8 +326,17 @@ function testHandleFederatedLinking_popup_upgradeAnonymous() {
   return testAuth.process().then(function() {
     // Linking should be triggered with pending credential on internal Auth
     // instance user.
-    testAuth.currentUser.assertLinkWithCredential(
-        [credential], testAuth.currentUser);
+    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+        [credential],
+        {
+          'user': testAuth.currentUser,
+          'credential': credential,
+          'operationType': 'link',
+          'additionalUserInfo': {
+            'providerId': 'facebook.com',
+            'isNewUser': false
+          }
+        });
     return testAuth.process();
     // Sign out from internal instance and then sign in with passed credential
     // to external instance.
@@ -380,9 +401,15 @@ function testHandleFederatedLinking_popup_success_multipleClicks() {
         'credential': cred
       });
   return testAuth.process().then(function() {
+      var userCredential = {
+      'user': testAuth.currentUser,
+      'credential': credential,
+      'operationType': 'link',
+      'additionalUserInfo': {'providerId': 'facebook.com', 'isNewUser': false}
+    };
     // Linking should be triggered with pending credential.
-    testAuth.currentUser.assertLinkWithCredential(
-        [credential], testAuth.currentUser);
+    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+        [credential], userCredential);
     return testAuth.process();
     // Sign out from internal instance and then sign in with passed credential
     // to external instance.

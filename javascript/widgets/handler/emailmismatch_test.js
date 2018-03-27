@@ -20,6 +20,7 @@ goog.provide('firebaseui.auth.widget.handler.EmailMismatchTest');
 goog.setTestOnly('firebaseui.auth.widget.handler.EmailMismatchTest');
 
 
+goog.require('firebaseui.auth.AuthUIError');
 goog.require('firebaseui.auth.PendingEmailCredential');
 goog.require('firebaseui.auth.idp');
 goog.require('firebaseui.auth.storage');
@@ -65,8 +66,14 @@ function testHandleEmailMismatch_noPendingEmailCredential() {
     'providerId': 'google.com'
   });
   var currentUser = {email: federatedAccount.getEmail()};
+  var authResult = {
+    'user': currentUser,
+    'credential': credential,
+    'operationType': 'signIn',
+    'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+  };
   firebaseui.auth.widget.handler.handleEmailMismatch(
-      app, container, currentUser, credential);
+      app, container, authResult);
   // Provider sign-in page should show.
   assertProviderSignInPage();
 }
@@ -86,8 +93,14 @@ function testHandleEmailMismatch_reset() {
   firebaseui.auth.storage.setPendingEmailCredential(
       pendingEmailCredential, app.getAppId());
   var currentUser = {email: federatedAccount.getEmail()};
+  var authResult = {
+    'user': currentUser,
+    'credential': credential,
+    'operationType': 'signIn',
+    'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+  };
   firebaseui.auth.widget.handler.handleEmailMismatch(
-      app, container, currentUser, credential);
+      app, container, authResult);
   // Email mismatch page rendered.
   assertEmailMismatchPage(federatedAccount.getEmail(), 'other@example.com');
   // Reset current rendered widget page.
@@ -112,8 +125,14 @@ function testHandleEmailMismatch_linking_continue() {
   // Store pending email and pending credential.
   setPendingCredentials('other@example.com');
   var currentUser = {email: federatedAccount.getEmail()};
+  var authResult = {
+    'user': currentUser,
+    'credential': credential,
+    'operationType': 'signIn',
+    'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+  };
   firebaseui.auth.widget.handler.handleEmailMismatch(
-      app, container, currentUser, credential);
+      app, container, authResult);
   assertEmailMismatchPage(federatedAccount.getEmail(), 'other@example.com');
   // Click continue.
   submitForm();
@@ -128,6 +147,69 @@ function testHandleEmailMismatch_linking_continue() {
         [credential], externalAuth.currentUser);
     return externalAuth.process();
   }).then(function() {
+    testUtil.assertGoTo('http://localhost/home');
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+  });
+}
+
+
+function testHandleEmailMismatch_linking_continue_signInWithAuthResultCb() {
+  // Test handleEmailMismatch when continue button is clicked and the user was
+  // doing the linking flow.
+
+  // Set config signInSuccessWithAuthResult callback with false return value.
+  app.setConfig({
+    'callbacks': {
+      'signInSuccessWithAuthResult': signInSuccessWithAuthResultCallback(true)
+    }
+  });
+  // The credentials returned from the provider.
+  var credential = firebaseui.auth.idp.getAuthCredential({
+    'idToken': 'googleIdToken',
+    'providerId': 'google.com'
+  });
+  // Store pending email and pending credential.
+  setPendingCredentials('other@example.com');
+  var currentUser = {email: federatedAccount.getEmail()};
+  var authResult = {
+    'user': currentUser,
+    'credential': credential,
+    'operationType': 'signIn',
+    'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+  };
+  firebaseui.auth.widget.handler.handleEmailMismatch(
+      app, container, authResult);
+  assertEmailMismatchPage(federatedAccount.getEmail(), 'other@example.com');
+  // Click continue.
+  submitForm();
+  // Sign out from internal instance and then sign in with passed credential to
+  // external instance.
+  return testAuth.process().then(function() {
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    externalAuth.setUser(currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [credential],
+        {
+          'user': currentUser,
+          'credential': credential,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+        });
+    return externalAuth.process();
+  }).then(function() {
+    var expectedAuthResult = {
+      'user': currentUser,
+      // Federated credential should be exposed to callback.
+      'credential': credential,
+      'operationType': 'signIn',
+      'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    };
+    // // SignInSuccessWithAuthResultCallback is called.
+    assertSignInSuccessWithAuthResultCallbackInvoked(
+        expectedAuthResult, undefined);
     testUtil.assertGoTo('http://localhost/home');
     assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
         app.getAppId()));
@@ -151,8 +233,14 @@ function testHandleEmailMismatch_linking_continue_upgradeAnonymous() {
   // Store pending email and pending credential.
   setPendingCredentials('other@example.com');
   var currentUser = {email: federatedAccount.getEmail()};
+  var authResult = {
+    'user': currentUser,
+    'credential': credential,
+    'operationType': 'signIn',
+    'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+  };
   firebaseui.auth.widget.handler.handleEmailMismatch(
-      app, container, currentUser, credential);
+      app, container, authResult);
   assertEmailMismatchPage(federatedAccount.getEmail(), 'other@example.com');
   // Click continue.
   submitForm();
@@ -181,6 +269,144 @@ function testHandleEmailMismatch_linking_continue_upgradeAnonymous() {
 }
 
 
+function testHandleEmailMismatch_linking_continue_upgradeAnonymous_error() {
+  // Test handleEmailMismatch when continue button is clicked and the user was
+  // doing the linking flow with an eligible anonymous user available.
+  // SignInSuccess callback is provided so when signIn/link on external
+  // instance, it uses sign in method that returns user.
+
+  // Enable anonymous user upgrade.
+  app.updateConfig('autoUpgradeAnonymousUsers', true);
+  // Simulate anonymous user signed in.
+  externalAuth.setUser(anonymousUser);
+  // The credentials returned from the provider.
+  var credential = firebaseui.auth.idp.getAuthCredential({
+    'idToken': 'googleIdToken',
+    'providerId': 'google.com'
+  });
+  // Store pending email and pending credential.
+  setPendingCredentials('other@example.com');
+  var currentUser = {email: federatedAccount.getEmail()};
+  testAuth.setUser(currentUser);
+  var authResult = {
+    'user': testAuth.currentUser,
+    'credential': credential,
+    'operationType': 'signIn',
+    'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+  };
+  // Expected linkWithCredential error.
+  var expectedError = {
+    'code': 'auth/credential-already-in-use',
+    'credential': credential,
+    'email': federatedAccount.getEmail(),
+    'message': 'MESSAGE'
+  };
+  // Expected signInFailure FirebaseUI error.
+  var expectedMergeError = new firebaseui.auth.AuthUIError(
+      firebaseui.auth.AuthUIError.Error.MERGE_CONFLICT,
+      null,
+      credential);
+  firebaseui.auth.widget.handler.handleEmailMismatch(
+      app, container, authResult);
+  assertEmailMismatchPage(federatedAccount.getEmail(), 'other@example.com');
+  // Click continue.
+  submitForm();
+  // Sign out from internal instance and then sign in with passed credential to
+  // external instance.
+  return testAuth.process().then(function() {
+    // Trigger initial onAuthStateChanged listener.
+    externalAuth.runAuthChangeHandler();
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    // Linking the credential to continue with to the existing anonymous user.
+    externalAuth.currentUser.assertLinkWithCredential(
+        [credential],
+        null,
+        expectedError);
+    return externalAuth.process();
+  }).then(function() {
+    // Pending credential should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    // signInFailure callback triggered with expected FirebaseUI error.
+    assertSignInFailure(expectedMergeError);
+  });
+}
+
+
+function testHandleEmailMismatch_linking_anon_error_signInWithAuthResultCb() {
+  // Test handleEmailMismatch when continue button is clicked and the user was
+  // doing the linking flow with an eligible anonymous user available.
+  // SignInSuccessWithAuthResult callback is provided so when signIn/link on
+  // external instance, it uses sign in method that returns userCredential.
+
+  // Enable anonymous user upgrade.
+  app.setConfig({
+    'callbacks': {
+      'signInSuccessWithAuthResult': signInSuccessWithAuthResultCallback(true),
+      'signInFailure': signInFailureCallback
+    },
+    'autoUpgradeAnonymousUsers': true
+  });
+  // Simulate anonymous user signed in.
+  externalAuth.setUser(anonymousUser);
+  // The credentials returned from the provider.
+  var credential = firebaseui.auth.idp.getAuthCredential({
+    'idToken': 'googleIdToken',
+    'providerId': 'google.com'
+  });
+  // Store pending email and pending credential.
+  setPendingCredentials('other@example.com');
+  var currentUser = {email: federatedAccount.getEmail()};
+  testAuth.setUser(currentUser);
+  var authResult = {
+    'user': testAuth.currentUser,
+    'credential': credential,
+    'operationType': 'signIn',
+    'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+  };
+  // Expected linkAndRetrieveDataWithCredential error.
+  var expectedError = {
+    'code': 'auth/credential-already-in-use',
+    'credential': credential,
+    'email': federatedAccount.getEmail(),
+    'message': 'MESSAGE'
+  };
+  // Expected signInFailure FirebaseUI error.
+  var expectedMergeError = new firebaseui.auth.AuthUIError(
+      firebaseui.auth.AuthUIError.Error.MERGE_CONFLICT,
+      null,
+      credential);
+  firebaseui.auth.widget.handler.handleEmailMismatch(
+      app, container, authResult);
+  assertEmailMismatchPage(federatedAccount.getEmail(), 'other@example.com');
+  // Click continue.
+  submitForm();
+  // Sign out from internal instance and then sign in with passed credential to
+  // external instance.
+  return testAuth.process().then(function() {
+    // Trigger initial onAuthStateChanged listener.
+    externalAuth.runAuthChangeHandler();
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    // Linking the credential to continue with to the existing anonymous user.
+    externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+        [credential],
+        null,
+        expectedError);
+    return externalAuth.process();
+  }).then(function() {
+    // Pending credential should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    // signInFailure callback triggered with expected FirebaseUI error.
+    assertSignInFailure(expectedMergeError);
+  });
+}
+
+
 function testHandleEmailMismatch_signIn_continue() {
   // Test handleEmailMismatch when continue button is clicked and the user was
   // doing the sign-in flow.
@@ -196,8 +422,16 @@ function testHandleEmailMismatch_signIn_continue() {
   firebaseui.auth.storage.setPendingEmailCredential(
       pendingEmailCredential, app.getAppId());
   var currentUser = {email: federatedAccount.getEmail()};
+  testAuth.setUser(currentUser);
+  var authResult = {
+    'user': testAuth.currentUser,
+    'credential': credential,
+    'operationType': 'signIn',
+    'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+  };
+  testAuth.setUser(currentUser);
   firebaseui.auth.widget.handler.handleEmailMismatch(
-      app, container, currentUser, credential);
+      app, container, authResult);
   assertEmailMismatchPage(federatedAccount.getEmail(), 'other@example.com');
   // Click continue.
   submitForm();
@@ -219,6 +453,73 @@ function testHandleEmailMismatch_signIn_continue() {
 }
 
 
+function testHandleEmailMismatch_signIn_continue_signInWithAuthResultCb() {
+  // Test handleEmailMismatch when continue button is clicked and the user was
+  // doing the sign-in flow.
+
+  // Set config signInSuccessWithAuthResult callback with false return value.
+  app.setConfig({
+    'callbacks': {
+      'signInSuccessWithAuthResult': signInSuccessWithAuthResultCallback(true)
+    }
+  });
+  // The credentials returned from the provider.
+  var credential = firebaseui.auth.idp.getAuthCredential({
+    'idToken': 'googleIdToken',
+    'providerId': 'google.com'
+  });
+  // Store pending email.
+  var pendingEmailCredential =
+      new firebaseui.auth.PendingEmailCredential('other@example.com');
+  firebaseui.auth.storage.setPendingEmailCredential(
+      pendingEmailCredential, app.getAppId());
+  var currentUser = {email: federatedAccount.getEmail()};
+  testAuth.setUser(currentUser);
+  var authResult = {
+    'user': testAuth.currentUser,
+    'credential': credential,
+    'operationType': 'signIn',
+    'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+  };
+  firebaseui.auth.widget.handler.handleEmailMismatch(
+      app, container, authResult);
+  assertEmailMismatchPage(federatedAccount.getEmail(), 'other@example.com');
+  // Click continue.
+  submitForm();
+  // Sign out from internal instance and then sign in with passed credential to
+  // external instance.
+  return testAuth.process().then(function() {
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    externalAuth.setUser(currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [credential],
+        {
+          'user': testAuth.currentUser,
+          'credential': credential,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+        });
+    return externalAuth.process();
+  }).then(function() {
+    var expectedAuthResult = {
+      'user': testAuth.currentUser,
+      // Federated credential should be exposed to callback.
+      'credential': credential,
+      'operationType': 'signIn',
+      'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    };
+    // // SignInSuccessWithAuthResultCallback is called.
+    assertSignInSuccessWithAuthResultCallbackInvoked(
+        expectedAuthResult, undefined);
+    testUtil.assertGoTo('http://localhost/home');
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+  });
+}
+
+
 function testHandleEmailMismatch_linking_cancel() {
   // Test handlEmailMismatch when cancel button is clicked and the user was
   // doing the linking flow.
@@ -231,8 +532,14 @@ function testHandleEmailMismatch_linking_cancel() {
   // Store pending email and pending credential.
   setPendingCredentials('other@example.com');
   var currentUser = {email: federatedAccount.getEmail()};
+  var authResult = {
+    'user': currentUser,
+    'credential': credential,
+    'operationType': 'signIn',
+    'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+  };
   firebaseui.auth.widget.handler.handleEmailMismatch(
-      app, container, currentUser, credential);
+      app, container, authResult);
   assertEmailMismatchPage(federatedAccount.getEmail(), 'other@example.com');
   // Click cancel.
   clickSecondaryLink();
@@ -257,8 +564,14 @@ function testHandleEmailMismatch_linking_cancel_upgradeAnonymous() {
   // Store pending email and pending credential.
   setPendingCredentials('other@example.com');
   var currentUser = {email: federatedAccount.getEmail()};
+  var authResult = {
+    'user': currentUser,
+    'credential': credential,
+    'operationType': 'signIn',
+    'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+  };
   firebaseui.auth.widget.handler.handleEmailMismatch(
-      app, container, currentUser, credential);
+      app, container, authResult);
   assertEmailMismatchPage(federatedAccount.getEmail(), 'other@example.com');
   // Click cancel.
   clickSecondaryLink();
@@ -285,8 +598,15 @@ function testHandleEmailMismatch_signIn_cancel() {
   firebaseui.auth.storage.setPendingEmailCredential(
       pendingEmailCredential, app.getAppId());
   var currentUser = {email: federatedAccount.getEmail()};
+  testAuth.setUser(currentUser);
+  var authResult = {
+    'user': testAuth.currentUser,
+    'credential': credential,
+    'operationType': 'signIn',
+    'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+  };
   firebaseui.auth.widget.handler.handleEmailMismatch(
-      app, container, currentUser, credential);
+      app, container, authResult);
   assertEmailMismatchPage(federatedAccount.getEmail(), 'other@example.com');
   // Click cancel.
   clickSecondaryLink();
