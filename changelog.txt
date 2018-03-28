@@ -1,0 +1,1 @@
+feature - Expose firebase.auth.UserCredential Auth result via new signInSuccessWithAuthResult callback.
