@@ -50,7 +50,9 @@
     "streamqueue": "^1.1.1"
   },
   "dependencies": {
-    "dialog-polyfill": "^0.4.7",
+    "dialog-polyfill": "^0.4.7"
+  },
+  "peerDependencies": {
     "firebase": "^4.8.0"
   }
 }
