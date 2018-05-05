@@ -280,13 +280,14 @@ firebaseui.auth.widget.handler.common.handleAcAccountSelectedResponse_ =
     // it locally. Otherwise, it will be out of sync if the user deletes it from
     // accountchooser.com.
     firebaseui.auth.storage.setRememberAccount(false, app.getAppId());
-    app.registerPending(app.getAuth().fetchProvidersForEmail(account.getEmail())
-        .then(function(providers) {
+    app.registerPending(
+        app.getAuth().fetchSignInMethodsForEmail(account.getEmail())
+        .then(function(signInMethods) {
           firebaseui.auth.widget.handler.common
-              .handleSignInFetchProvidersForEmail(
+              .handleSignInFetchSignInMethodsForEmail(
               app,
               container,
-              providers,
+              signInMethods,
               account.getEmail(),
               account.getDisplayName() || undefined);
           uiShownCallback();
@@ -535,116 +536,93 @@ firebaseui.auth.widget.handler.common.setLoggedIn =
  */
 firebaseui.auth.widget.handler.common.setLoggedInWithAuthResult =
     function(app, component, authResult, opt_alreadySignedIn) {
-  // If both old and new signInSuccess callbacks are provided, warn in console
-  // that only new callback will be invoked.
-  var signInSuccessWithAuthResultCallback =
-      app.getConfig().getSignInSuccessWithAuthResultCallback();
-  var signInSuccessCallback = app.getConfig().getSignInSuccessCallback();
-  if (signInSuccessCallback && signInSuccessWithAuthResultCallback) {
-      var callbackWarning = 'Both signInSuccess and ' +
-          'signInSuccessWithAuthResult callbacks are provided. Only ' +
-          'signInSuccessWithAuthResult callback will be invoked.';
-      firebaseui.auth.log.warning(callbackWarning);
-  }
-  // If signInSuccessWithAuthResult callback is not provided, fallback to the
-  // old signInSuccess callback. To be removed once the signInSuccess callback
-  // is deprecated.
-  if (!signInSuccessWithAuthResultCallback) {
-    return firebaseui.auth.widget.handler.common.setLoggedIn(
-        app,
-        component,
-        authResult['credential'],
-        authResult['user'],
-        opt_alreadySignedIn);
-  } else {
-    if (!!opt_alreadySignedIn) {
-      firebaseui.auth.widget.handler.common
-          .setUserLoggedInExternalWithAuthResult_(
-              app,
-              component,
-              authResult);
-      return goog.Promise.resolve();
-    }
-    // This should not occur.
-    if (!authResult['credential']) {
-      throw new Error('No credential found!');
-    }
-    // For any error, display in info bar message.
-    var onError = function(error) {
-      // Ignore error if cancelled by the client.
-      if (error['name'] && error['name'] == 'cancel') {
-        return;
-      }
-      // Check if the error was due to an expired credential.
-      // This may happen in the email mismatch case where the user waits more
-      // than an hour and then proceeds to sign in with the expired credential.
-      // Display the relevant error message in this case and return the user to
-      // the sign-in start page.
-      if (firebaseui.auth.widget.handler.common.isCredentialExpired(error)) {
-        var container = component.getContainer();
-        // Dispose any existing component.
-        component.dispose();
-        // Call widget sign-in start handler with the expired credential error.
-        firebaseui.auth.widget.handler.common.handleSignInStart(
+  if (!!opt_alreadySignedIn) {
+    firebaseui.auth.widget.handler.common
+        .setUserLoggedInExternalWithAuthResult_(
             app,
-            container,
-            undefined,
-            firebaseui.auth.soy2.strings.errorExpiredCredential().toString());
-      } else {
-        var errorMessage = (error && error['message']) || '';
-        if (error['code']) {
-          // Firebase Auth error.
-          // Errors thrown by anonymous upgrade should not be displayed in
-          // info bar.
-          if (error['code'] == 'auth/email-already-in-use' ||
-              error['code'] == 'auth/credential-already-in-use') {
-            return;
-          }
-          errorMessage =
-              firebaseui.auth.widget.handler.common.getErrorMessage(error);
-        }
-        // Show error message in the info bar.
-        component.showInfoBar(errorMessage);
-      }
-    };
-    // In some cases like email mismatch, the temporary user may be signed out.
-    // In that case, get the current temporary user directly.
-    // For anonymous upgrade, use the user from AuthResult passed in.
-    var tempUser = app.getAuth().currentUser || authResult['user'];
-    if (!tempUser) {
-      // Shouldn't happen as we're only calling this method internally.
-      throw new Error('User not logged in.');
-    }
-    // Save before signing in to developer's Auth instance to make sure
-    // account is saved without risking interruption from onAuthStateChanged.
-    var account = new firebaseui.auth.Account(
-        tempUser['email'],
-        tempUser['displayName'],
-        tempUser['photoURL'],
-        authResult['credential']['providerId'] == 'password' ?
-        null : authResult['credential']['providerId']);
-    // Remember account. If there is no user preference, remember account by
-    // default.
-    if (!firebaseui.auth.storage.hasRememberAccount(app.getAppId()) ||
-        firebaseui.auth.storage.isRememberAccount(app.getAppId())) {
-      firebaseui.auth.storage.rememberAccount(account, app.getAppId());
-    }
-    firebaseui.auth.storage.removeRememberAccount(app.getAppId());
-    // Sign out from internal Auth instance before signing in to external
-    // instance.
-    var signOutAndSignInPromise = app.finishSignInAndRetrieveDataWithAuthResult(
-        authResult);
-    var signInSuccessPromise = signOutAndSignInPromise
-        .then(function(outputAuthResult) {
-          firebaseui.auth.widget.handler.common
-              .setUserLoggedInExternalWithAuthResult_(
-                  app, component, outputAuthResult);
-        }, onError)
-      // Catch error when signInSuccessUrl is required and not provided.
-      .then(undefined, onError);
-    app.registerPending(signOutAndSignInPromise);
-    return goog.Promise.resolve(signInSuccessPromise);
+            component,
+            authResult);
+    return goog.Promise.resolve();
   }
+  // This should not occur.
+  if (!authResult['credential']) {
+    throw new Error('No credential found!');
+  }
+  // For any error, display in info bar message.
+  var onError = function(error) {
+    // Ignore error if cancelled by the client.
+    if (error['name'] && error['name'] == 'cancel') {
+      return;
+    }
+    // Check if the error was due to an expired credential.
+    // This may happen in the email mismatch case where the user waits more
+    // than an hour and then proceeds to sign in with the expired credential.
+    // Display the relevant error message in this case and return the user to
+    // the sign-in start page.
+    if (firebaseui.auth.widget.handler.common.isCredentialExpired(error)) {
+      var container = component.getContainer();
+      // Dispose any existing component.
+      component.dispose();
+      // Call widget sign-in start handler with the expired credential error.
+      firebaseui.auth.widget.handler.common.handleSignInStart(
+          app,
+          container,
+          undefined,
+          firebaseui.auth.soy2.strings.errorExpiredCredential().toString());
+    } else {
+      var errorMessage = (error && error['message']) || '';
+      if (error['code']) {
+        // Firebase Auth error.
+        // Errors thrown by anonymous upgrade should not be displayed in
+        // info bar.
+        if (error['code'] == 'auth/email-already-in-use' ||
+            error['code'] == 'auth/credential-already-in-use') {
+          return;
+        }
+        errorMessage =
+            firebaseui.auth.widget.handler.common.getErrorMessage(error);
+      }
+      // Show error message in the info bar.
+      component.showInfoBar(errorMessage);
+    }
+  };
+  // In some cases like email mismatch, the temporary user may be signed out.
+  // In that case, get the current temporary user directly.
+  // For anonymous upgrade, use the user from AuthResult passed in.
+  var tempUser = app.getAuth().currentUser || authResult['user'];
+  if (!tempUser) {
+    // Shouldn't happen as we're only calling this method internally.
+    throw new Error('User not logged in.');
+  }
+  // Save before signing in to developer's Auth instance to make sure
+  // account is saved without risking interruption from onAuthStateChanged.
+  var account = new firebaseui.auth.Account(
+      tempUser['email'],
+      tempUser['displayName'],
+      tempUser['photoURL'],
+      authResult['credential']['providerId'] == 'password' ?
+      null : authResult['credential']['providerId']);
+  // Remember account. If there is no user preference, remember account by
+  // default.
+  if (!firebaseui.auth.storage.hasRememberAccount(app.getAppId()) ||
+      firebaseui.auth.storage.isRememberAccount(app.getAppId())) {
+    firebaseui.auth.storage.rememberAccount(account, app.getAppId());
+  }
+  firebaseui.auth.storage.removeRememberAccount(app.getAppId());
+  // Sign out from internal Auth instance before signing in to external
+  // instance.
+  var signOutAndSignInPromise = app.finishSignInAndRetrieveDataWithAuthResult(
+      authResult);
+  var signInSuccessPromise = signOutAndSignInPromise
+      .then(function(outputAuthResult) {
+        firebaseui.auth.widget.handler.common
+            .setUserLoggedInExternalWithAuthResult_(
+                app, component, outputAuthResult);
+      }, onError)
+    // Catch error when signInSuccessUrl is required and not provided.
+    .then(undefined, onError);
+  app.registerPending(signOutAndSignInPromise);
+  return goog.Promise.resolve(signInSuccessPromise);
 };
 
 
@@ -743,52 +721,71 @@ firebaseui.auth.widget.handler.common.setUserLoggedInExternalWithAuthResult_ =
   if (!authResult['user']) {
     throw new Error('No user found');
   }
-  var callback = app.getConfig().getSignInSuccessWithAuthResultCallback();
-  // Finish the flow by redirecting to sign-in success URL.
-  // Get redirect URL if it exists in non persistent storage.
-  // If signInSuccessWithAuthResult callback defined, pass redirect URL as
-  // second parameter.
-  // If not defined, override signInSuccessUrl with redirect URL value.
-  var redirectUrl = firebaseui.auth.storage.getRedirectUrl(
-      app.getAppId()) || undefined;
-  // Clear redirect URL from storage if available.
-  firebaseui.auth.storage.removeRedirectUrl(app.getAppId());
-  // Whether widget is redirecting. Initialize to false.
-  var isRedirecting = false;
-  if (firebaseui.auth.util.hasOpener()) {
-    // Popup sign in.
-    if (!callback || callback(authResult, redirectUrl)) {
-      // Whether sign-in widget is redirecting.
-      isRedirecting = true;
-      // signInSuccessUrl is only required if there's no callback or it
-      // returns true, and if there's no redirectUrl present.
-      firebaseui.auth.util.openerGoTo(
-          firebaseui.auth.widget.handler.common.getSignedInRedirectUrl_(
-              app, redirectUrl));
-    }
-    if (!callback) {
-      // If the developer supplies a callback, do not close the popup
-      // window. Should be closed manually by the developer.
-      firebaseui.auth.util.close(window);
-    }
-  } else {
-    // Normal sign in.
-    if (!callback || callback(authResult, redirectUrl)) {
-      // Sign-in widget is redirecting.
-      isRedirecting = true;
-      // signInSuccessUrl is only required if there's no callback or it
-      // returns true, and if there's no redirectUrl present.
-      firebaseui.auth.util.goTo(
-          firebaseui.auth.widget.handler.common.getSignedInRedirectUrl_(
-              app, redirectUrl));
-    }
+  var signInSuccessWithAuthResultCallback =
+      app.getConfig().getSignInSuccessWithAuthResultCallback();
+  var signInSuccessCallback = app.getConfig().getSignInSuccessCallback();
+  // If both old and new signInSuccess callbacks are provided, warn in console
+  // that only new callback will be invoked.
+  if (signInSuccessCallback && signInSuccessWithAuthResultCallback) {
+    var callbackWarning = 'Both signInSuccess and ' +
+        'signInSuccessWithAuthResult callbacks are provided. Only ' +
+        'signInSuccessWithAuthResult callback will be invoked.';
+    firebaseui.auth.log.warning(callbackWarning);
   }
-  // Dispose UI if not already disposed and not redirecting.
-  // If the widget is redirecting, it provides better UX to keep the loader
-  // showing until the page redirects. Otherwise, (most likely operating in
-  // single page mode), hide any remaining widget UI component.
-  if (!isRedirecting) {
-    app.reset();
+  // If signInSuccessWithAuthResult callback is not provided, fallback to the
+  // old signInSuccess callback. To be removed once the signInSuccess callback
+  // is removed.
+  if (!signInSuccessWithAuthResultCallback) {
+    firebaseui.auth.widget.handler.common.setUserLoggedInExternal_(
+        app, component, authResult['user'], authResult['credential']);
+  } else {
+    var callback = app.getConfig().getSignInSuccessWithAuthResultCallback();
+    // Finish the flow by redirecting to sign-in success URL.
+    // Get redirect URL if it exists in non persistent storage.
+    // If signInSuccessWithAuthResult callback defined, pass redirect URL as
+    // second parameter.
+    // If not defined, override signInSuccessUrl with redirect URL value.
+    var redirectUrl = firebaseui.auth.storage.getRedirectUrl(
+        app.getAppId()) || undefined;
+    // Clear redirect URL from storage if available.
+    firebaseui.auth.storage.removeRedirectUrl(app.getAppId());
+    // Whether widget is redirecting. Initialize to false.
+    var isRedirecting = false;
+    if (firebaseui.auth.util.hasOpener()) {
+      // Popup sign in.
+      if (!callback || callback(authResult, redirectUrl)) {
+        // Whether sign-in widget is redirecting.
+        isRedirecting = true;
+        // signInSuccessUrl is only required if there's no callback or it
+        // returns true, and if there's no redirectUrl present.
+        firebaseui.auth.util.openerGoTo(
+            firebaseui.auth.widget.handler.common.getSignedInRedirectUrl_(
+                app, redirectUrl));
+      }
+      if (!callback) {
+        // If the developer supplies a callback, do not close the popup
+        // window. Should be closed manually by the developer.
+        firebaseui.auth.util.close(window);
+      }
+    } else {
+      // Normal sign in.
+      if (!callback || callback(authResult, redirectUrl)) {
+        // Sign-in widget is redirecting.
+        isRedirecting = true;
+        // signInSuccessUrl is only required if there's no callback or it
+        // returns true, and if there's no redirectUrl present.
+        firebaseui.auth.util.goTo(
+            firebaseui.auth.widget.handler.common.getSignedInRedirectUrl_(
+                app, redirectUrl));
+      }
+    }
+    // Dispose UI if not already disposed and not redirecting.
+    // If the widget is redirecting, it provides better UX to keep the loader
+    // showing until the page redirects. Otherwise, (most likely operating in
+    // single page mode), hide any remaining widget UI component.
+    if (!isRedirecting) {
+      app.reset();
+    }
   }
 };
 
@@ -1364,19 +1361,19 @@ firebaseui.auth.widget.handler.common.handleStartEmailFirstFlow =
   var container = component.getContainer();
   app.registerPending(component.executePromiseRequest(
       /** @type {function (): !goog.Promise} */ (
-          goog.bind(app.getAuth().fetchProvidersForEmail, app.getAuth())),
+          goog.bind(app.getAuth().fetchSignInMethodsForEmail, app.getAuth())),
       [email],
-      function(providers) {
-        providers = /** @type {!Array<string>} */ (providers);
+      function(signInMethods) {
+        signInMethods = /** @type {!Array<string>} */ (signInMethods);
         firebaseui.auth.storage.setRememberAccount(
             app.getConfig().isAccountChooserEnabled(),
             app.getAppId());
         component.dispose();
         firebaseui.auth.widget.handler.common
-            .handleSignInFetchProvidersForEmail(
+            .handleSignInFetchSignInMethodsForEmail(
                 app,
                 container,
-                providers,
+                signInMethods,
                 email,
                 undefined,
                 opt_infoBarMessage);
@@ -1394,26 +1391,27 @@ firebaseui.auth.widget.handler.common.handleStartEmailFirstFlow =
 
 
 /**
- * Calls the appropriate handler on fetchProviderForEmail after sign-in.
+ * Calls the appropriate handler on fetchSignInMethodsForEmail after sign-in.
  *
  * @param {firebaseui.auth.AuthUI} app The current FirebaseUI instance whose
  *     configuration is used.
  * @param {Element} container The container DOM element.
- * @param {!Array<string>} providers The list of providers for the user's email.
+ * @param {!Array<string>} signInMethods The list of sign in methods for the
+ *     user's email.
  * @param {string} email The email to prefill.
  * @param {string=} opt_displayName The optional display name to prefill.
  * @param {string=} opt_infoBarMessage The message to show on info bar.
  */
-firebaseui.auth.widget.handler.common.handleSignInFetchProvidersForEmail =
+firebaseui.auth.widget.handler.common.handleSignInFetchSignInMethodsForEmail =
     function(
         app,
         container,
-        providers,
+        signInMethods,
         email,
         opt_displayName,
         opt_infoBarMessage) {
   // Does the account exist?
-  if (!providers.length) {
+  if (!signInMethods.length) {
     // Account does not exist, go to password sign up and populate
     // available fields.
     firebaseui.auth.widget.handler.handle(
@@ -1422,8 +1420,10 @@ firebaseui.auth.widget.handler.common.handleSignInFetchProvidersForEmail =
         container,
         email,
         opt_displayName);
-  } else if (goog.array.contains(
-      providers, firebase.auth.EmailAuthProvider.PROVIDER_ID)) {
+  } else if (goog.array.contains(signInMethods,
+      firebase.auth.EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD) ||
+      goog.array.contains(signInMethods,
+      firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD)) {
     // Password account.
     firebaseui.auth.widget.handler.handle(
         firebaseui.auth.widget.HandlerName.PASSWORD_SIGN_IN,
@@ -1444,7 +1444,7 @@ firebaseui.auth.widget.handler.common.handleSignInFetchProvidersForEmail =
         app,
         container,
         email,
-        providers[0],
+        signInMethods[0],
         opt_infoBarMessage);
   }
 };

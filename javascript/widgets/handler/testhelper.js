@@ -238,6 +238,10 @@ function setUp() {
       this.customParameters = {};
     };
     firebase['auth'][firebaseui.auth.idp.AuthProviders[key]].PROVIDER_ID = key;
+    for (var method in firebaseui.auth.idp.SignInMethods[key]) {
+      firebase['auth'][firebaseui.auth.idp.AuthProviders[key]][method] =
+          firebaseui.auth.idp.SignInMethods[key][method];
+    }
     if (key != 'twitter.com' && key != 'password') {
       firebase['auth'][firebaseui.auth.idp.AuthProviders[key]]
           .prototype.addScope = function(scope) {

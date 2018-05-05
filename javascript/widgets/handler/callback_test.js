@@ -91,8 +91,14 @@ function testHandleCallback_redirectUser_noPendingCredential() {
     return testAuth.process();
   }).then(function() {
     externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [cred], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        {
+          'user': externalAuth.currentUser,
+          'credential': cred,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+        });
     return externalAuth.process();
   }).then(function() {
     // Pending credential should be cleared from storage.
@@ -134,8 +140,14 @@ function testHandleCallback_signedInUser_noPendingCredential_popup() {
     return testAuth.process();
   }).then(function() {
     externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [cred], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        {
+          'user': externalAuth.currentUser,
+          'credential': cred,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+        });
     return externalAuth.process();
   }).then(function() {
     // Pending credential should be cleared from storage.
@@ -199,8 +211,14 @@ function testHandleCallback_redirectUser_noPendingCredential_pendingEmail() {
     return testAuth.process();
   }).then(function() {
     externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [cred], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        {
+          'user': externalAuth.currentUser,
+          'credential': cred,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+        });
     return externalAuth.process();
   }).then(function() {
     // Pending credential and email should be cleared from storage.
@@ -247,8 +265,14 @@ function testHandleCallback_signedInUser_noPendingCred_pendingEmail_popup() {
     return testAuth.process();
   }).then(function() {
     externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [cred], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        {
+          'user': externalAuth.currentUser,
+          'credential': cred,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+        });
     return externalAuth.process();
   }).then(function() {
     // Pending credential and email should be cleared from storage.
@@ -387,8 +411,14 @@ function testHandleCallback_redirectUser_emailMismatch_providerEmailMatch() {
     return testAuth.process();
   }).then(function() {
     externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [cred], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        {
+          'user': externalAuth.currentUser,
+          'credential': cred,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+        });
     return externalAuth.process();
   }).then(function() {
     // Pending credential and email should be cleared from storage.
@@ -437,8 +467,14 @@ function testHandleCallback_redirectUser_noPendingCredential_signInCallback() {
     return testAuth.process();
   }).then(function() {
     externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [cred], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        {
+          'user': externalAuth.currentUser,
+          'credential': cred,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+        });
     return externalAuth.process();
   }).then(function() {
     testAuth.assertSignOut([]);
@@ -641,8 +677,14 @@ function testHandleCallback_redirectUser_pendingCredential_success() {
     return testAuth.process();
   }).then(function() {
     externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [cred], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        {
+          'user': externalAuth.currentUser,
+          'credential': cred,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+        });
     return externalAuth.process();
   }).then(function() {
     // Pending credential should be cleared from storage.
@@ -701,8 +743,14 @@ function testHandleCallback_signedInUser_pendingCredential_success_popup() {
     return testAuth.process();
   }).then(function() {
     externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [cred], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        {
+          'user': externalAuth.currentUser,
+          'credential': cred,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+        });
     return externalAuth.process();
   }).then(function() {
     // Pending credential should be cleared from storage.
@@ -768,8 +816,14 @@ function testHandleCallback_redirectUser_pendingCredential_signInCallback() {
     return testAuth.process();
   }).then(function() {
     externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [cred], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        {
+          'user': externalAuth.currentUser,
+          'credential': cred,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+        });
     return externalAuth.process();
   }).then(function() {
     testAuth.assertSignOut([]);
@@ -1397,8 +1451,44 @@ function testHandleCallback_redirectError_passwordLinkingRequired() {
         'email': passwordAccount.getEmail(),
         'credential': cred
       });
-  testAuth.assertFetchProvidersForEmail(
+  testAuth.assertFetchSignInMethodsForEmail(
       [federatedAccount.getEmail()], ['password']);
+  testAuth.process().then(function() {
+    // The pending email credential should be cleared at this point.
+    // Password linking does not require a redirect so no need to save it
+    // anyway.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    assertPasswordLinkingPage(federatedAccount.getEmail());
+    asyncTestCase.signal();
+  });
+}
+
+
+function testHandleCallback_redirectError_emailLinkLinkingRequired() {
+  // Test return from regular sign in operation with a linking error.
+  // Pending credential should be saved and password linking page rendered.
+  asyncTestCase.waitForSignals(1);
+  var cred  = firebaseui.auth.idp.getAuthCredential({
+    'providerId': 'google.com',
+    'accessToken': 'ACCESS_TOKEN'
+  });
+
+  // Callback rendered.
+  firebaseui.auth.widget.handler.handleCallback(app, container);
+  assertCallbackPage();
+  // Attempting to get redirect result. Reject with an error requiring linking.
+  // The error contains the email and the pending credential.
+  testAuth.assertGetRedirectResult(
+      [],
+      null,
+      {
+        'code': 'auth/account-exists-with-different-credential',
+        'email': passwordAccount.getEmail(),
+        'credential': cred
+      });
+  testAuth.assertFetchSignInMethodsForEmail(
+      [federatedAccount.getEmail()], ['emailLink']);
   testAuth.process().then(function() {
     // The pending email credential should be cleared at this point.
     // Password linking does not require a redirect so no need to save it
@@ -1413,7 +1503,7 @@ function testHandleCallback_redirectError_passwordLinkingRequired() {
 
 function testHandleCallback_redirectError_anonymousLinkingRequired() {
   // Test return from regular sign in operation with a linking error to an
-  // anonymous user. fetchProvidersForEmail would return an empty array.
+  // anonymous user. fetchSignInMethodsForEmail would return an empty array.
   // Password recovery should be shown.
   asyncTestCase.waitForSignals(1);
   var cred  = firebaseui.auth.idp.getAuthCredential({
@@ -1436,7 +1526,7 @@ function testHandleCallback_redirectError_anonymousLinkingRequired() {
       });
   // As the email exists on an anonymous account. This will resolve with an
   // empty array.
-  testAuth.assertFetchProvidersForEmail(
+  testAuth.assertFetchSignInMethodsForEmail(
       [federatedAccount.getEmail()], []);
   testAuth.process().then(function() {
     // The pending email credential should be cleared at this point.
@@ -1473,7 +1563,7 @@ function testHandleCallback_signInError_passwordLinkingRequired_popup() {
         'credential': cred
       }));
   assertCallbackPage();
-  testAuth.assertFetchProvidersForEmail(
+  testAuth.assertFetchSignInMethodsForEmail(
       [federatedAccount.getEmail()], ['password']);
   testAuth.process().then(function() {
     // The pending email credential should be cleared at this point.
@@ -1510,7 +1600,7 @@ function testHandleCallback_redirectError_federatedLinkingRequired() {
         'email': federatedAccount.getEmail(),
         'credential': cred
       });
-  testAuth.assertFetchProvidersForEmail(
+  testAuth.assertFetchSignInMethodsForEmail(
       [federatedAccount.getEmail()], ['google.com']);
   testAuth.process().then(function() {
     // The pending credential should be saved here.
@@ -1544,7 +1634,7 @@ function testHandleCallback_signInError_federatedLinkingRequired_popup() {
         'credential': cred
       }));
   assertCallbackPage();
-  testAuth.assertFetchProvidersForEmail(
+  testAuth.assertFetchSignInMethodsForEmail(
       [federatedAccount.getEmail()], ['google.com']);
   testAuth.process().then(function() {
     // The pending credential should be saved here.
@@ -1578,8 +1668,9 @@ function testHandleCallback_redirectError_linkingRequired_error() {
         'email': federatedAccount.getEmail(),
         'credential': cred
       });
-  // This request fails so we are unable to determine what provider to use.
-  testAuth.assertFetchProvidersForEmail(
+  // This request fails so we are unable to determine what sign in method to
+  // use.
+  testAuth.assertFetchSignInMethodsForEmail(
       [federatedAccount.getEmail()], null, internalError);
   testAuth.process().then(function() {
     // Any pending credential should be cleared from storage.
@@ -1614,8 +1705,9 @@ function testHandleCallback_signInError_linkingRequired_error_popup() {
         'credential': cred
       }));
   assertCallbackPage();
-  // This request fails so we are unable to determine what provider to use.
-  testAuth.assertFetchProvidersForEmail(
+  // This request fails so we are unable to determine what sign in method to
+  // use.
+  testAuth.assertFetchSignInMethodsForEmail(
       [federatedAccount.getEmail()], null, internalError);
   testAuth.process().then(function() {
     // Any pending credential should be cleared from storage.
@@ -1657,8 +1749,9 @@ function testHandleCallback_redirectError_linkingRequired_err_emailAuthOnly() {
         'email': federatedAccount.getEmail(),
         'credential': cred
       });
-  // This request fails so we are unable to determine what provider to use.
-  testAuth.assertFetchProvidersForEmail(
+  // This request fails so we are unable to determine what sign in method to
+  // use.
+  testAuth.assertFetchSignInMethodsForEmail(
       [federatedAccount.getEmail()], null, internalError);
   testAuth.process().then(function() {
     // Any pending credential should be cleared from storage.
@@ -1698,8 +1791,9 @@ function testHandleCallback_signInErr_linkRequired_err_emailAuthOnly_popup() {
         'credential': cred
       }));
   assertCallbackPage();
-  // This request fails so we are unable to determine what provider to use.
-  testAuth.assertFetchProvidersForEmail(
+  // This request fails so we are unable to determine what sign in method to
+  // use.
+  testAuth.assertFetchSignInMethodsForEmail(
       [federatedAccount.getEmail()], null, internalError);
   testAuth.process().then(function() {
     // Any pending credential should be cleared from storage.
@@ -1727,8 +1821,9 @@ function testHandleCallback_redirectError_userCancelled_passwordCredential() {
     'code': 'auth/user-cancelled'
   };
   testAuth.assertGetRedirectResult([], null, userCancelledError);
-  // It has to fetch providers to know what provider to use for linking.
-  testAuth.assertFetchProvidersForEmail(
+  // It has to fetch sign in methods to know what sign in method to use for
+  // linking.
+  testAuth.assertFetchSignInMethodsForEmail(
       [federatedAccount.getEmail()], ['google.com']);
   // Callback rendered.
   firebaseui.auth.widget.handler.handleCallback(app, container);
@@ -1764,8 +1859,9 @@ function testHandleCallback_redirectError_userCancelled_federatedCredential() {
     'code': 'auth/user-cancelled'
   };
   testAuth.assertGetRedirectResult([], null, userCancelledError);
-  // It has to fetch providers to know what provider to use for linking.
-  testAuth.assertFetchProvidersForEmail(
+  // It has to fetch sign in methods to know what sign in method to use for
+  // linking.
+  testAuth.assertFetchSignInMethodsForEmail(
       [federatedAccount.getEmail()], ['google.com']);
   // Callback rendered.
   firebaseui.auth.widget.handler.handleCallback(app, container);
@@ -1921,7 +2017,7 @@ function testHandleCallback_nullUser_emailAuthOnly_acEnabled_newAcctSelect() {
     // Account selection logged.
     assertAndRunAccountChooserResultCallback('accountSelected');
     // New account selected will trigger password sign up flow.
-    testAuth.assertFetchProvidersForEmail(
+    testAuth.assertFetchSignInMethodsForEmail(
         [passwordAccount.getEmail()],
         []);
     return testAuth.process();
@@ -1987,7 +2083,7 @@ function testHandleCallback_nullUser_emailAuthOnly_acEnabled_existingAccount() {
     // Account selection logged.
     assertAndRunAccountChooserResultCallback('accountSelected');
     // Existing password account selected will trigger password sign in flow.
-    testAuth.assertFetchProvidersForEmail(
+    testAuth.assertFetchSignInMethodsForEmail(
         [passwordAccount.getEmail()],
         ['password']);
     return testAuth.process();
@@ -2530,7 +2626,7 @@ function testHandleCallback_anonymousUpgrade_emailAlreadyInUse_fedLinking() {
   app.getExternalAuth().process().then(function() {
     // As account already exists, user must sign in to existing account.
     // In this case, the existing account is a google account.
-    testAuth.assertFetchProvidersForEmail(
+    testAuth.assertFetchSignInMethodsForEmail(
         [federatedAccount.getEmail()], ['google.com']);
     return testAuth.process();
   }).then(function() {
@@ -2577,7 +2673,7 @@ function testHandleCallback_anonymousUpgrade_emailAlreadyInUse_passLinking() {
       expectedError);
   app.getExternalAuth().process().then(function() {
     // Simulate existing account is a password account.
-    testAuth.assertFetchProvidersForEmail(
+    testAuth.assertFetchSignInMethodsForEmail(
         [federatedAccount.getEmail()], ['password']);
     return testAuth.process();
   }).then(function() {
@@ -2667,7 +2763,7 @@ function testHandleCallback_anonymousUpgrade_pendingCredential_success() {
   }).then(function() {
     // Linking existing credential to anonymous user should fail with expected
     // error.
-    externalAuth.currentUser.assertLinkWithCredential(
+    externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
         [cred],
         null,
         expectedError);

@@ -184,7 +184,7 @@ firebaseui.auth.widget.handler.onEmailExists_ =
     function(app, component, email, emailExistsError) {
   // If a provider already exists, just display the error and focus the email
   // element.
-  var onProviderExists = function() {
+  var onSignInMethodExists = function() {
     var errorMessage =
         firebaseui.auth.widget.handler.common.getErrorMessage(emailExistsError);
     firebaseui.auth.ui.element.setValid(component.getEmailElement(), false);
@@ -192,34 +192,35 @@ firebaseui.auth.widget.handler.onEmailExists_ =
         component.getEmailErrorElement(), errorMessage);
     component.getEmailElement().focus();
   };
-  var p = app.getAuth().fetchProvidersForEmail(email).then(function(providers) {
-    // No provider found.
-    if (!providers.length) {
-      var container = component.getContainer();
-      component.dispose();
-      // Edge case. No provider for current email and backend is
-      // returning an error that the email is already in use.
-      // An anonymous user must exist with the same email. Provide a
-      // way for the user to recover their account.
-      firebaseui.auth.widget.handler.handle(
-          firebaseui.auth.widget.HandlerName.PASSWORD_RECOVERY,
-          app,
-          container,
-          email,
-          // Allow the user to cancel.
-          false,
-          // Display a message to explain to the user what happened.
-          firebaseui.auth.soy2.strings.errorAnonymousEmailBlockingSignIn()
-            .toString());
-    } else {
-      // A provider already exists, just display the error.
-      onProviderExists();
-    }
-  }, function(error) {
-    // If an error occurs while fetching providers, just display the email
-    // exists error.
-    onProviderExists();
-  });
+  var p = app.getAuth().fetchSignInMethodsForEmail(email)
+      .then(function(signInMethods) {
+        // No sign in method found.
+        if (!signInMethods.length) {
+          var container = component.getContainer();
+          component.dispose();
+          // Edge case. No sign in method for current email and backend is
+          // returning an error that the email is already in use.
+          // An anonymous user must exist with the same email. Provide a
+          // way for the user to recover their account.
+          firebaseui.auth.widget.handler.handle(
+              firebaseui.auth.widget.HandlerName.PASSWORD_RECOVERY,
+              app,
+              container,
+              email,
+              // Allow the user to cancel.
+              false,
+              // Display a message to explain to the user what happened.
+              firebaseui.auth.soy2.strings.errorAnonymousEmailBlockingSignIn()
+                .toString());
+        } else {
+          // A sign in method already exists, just display the error.
+          onSignInMethodExists();
+        }
+      }, function(error) {
+        // If an error occurs while fetching sign in methods, just display the
+        // email exists error.
+        onSignInMethodExists();
+      });
   app.registerPending(p);
   return p;
 };

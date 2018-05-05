@@ -64,10 +64,10 @@ function testHandleSignIn() {
   inputEvent.keyCode = goog.events.KeyCodes.M;
   goog.testing.events.fireBrowserEvent(inputEvent);
 
-  // Enter key triggers fetchProvidersForEmail.
+  // Enter key triggers fetchSignInMethodsForEmail.
   goog.testing.events.fireKeySequence(emailInput, goog.events.KeyCodes.ENTER);
 
-  testAuth.assertFetchProvidersForEmail(
+  testAuth.assertFetchSignInMethodsForEmail(
       ['user@example.com'],
       ['password']);
   return testAuth.process().then(function() {
@@ -98,7 +98,7 @@ function testHandleSignIn_cancelButtonClick_emailProviderOnly() {
   clickSecondaryLink();
   // handleSignInWithEmail should be called underneath.
   // If accountchoose.com is enabled, page will redirect to it.
-  testAuth.assertFetchProvidersForEmail(
+  testAuth.assertFetchSignInMethodsForEmail(
       [passwordAccount.getEmail()],
       ['password']);
   testAuth.process().then(function() {
@@ -175,10 +175,10 @@ function testHandleSignIn_accountLookupError() {
   goog.testing.events.fireKeySequence(emailInput, goog.events.KeyCodes.ENTER);
   assertSignInPage();
 
-  // Enter key triggers fetchProvidersForEmail.
+  // Enter key triggers fetchSignInMethodsForEmail.
   goog.testing.events.fireKeySequence(emailInput, goog.events.KeyCodes.ENTER);
 
-  testAuth.assertFetchProvidersForEmail(
+  testAuth.assertFetchSignInMethodsForEmail(
       ['me.@google.com'],
       null,
       expectedError);
@@ -212,7 +212,7 @@ function testHandleSignIn_federatedSignIn() {
   var emailInput = getEmailElement();
   goog.dom.forms.setValue(emailInput, 'user@example.com');
   goog.testing.events.fireKeySequence(emailInput, goog.events.KeyCodes.ENTER);
-  testAuth.assertFetchProvidersForEmail(
+  testAuth.assertFetchSignInMethodsForEmail(
       ['user@example.com'],
       ['google.com']);
   return testAuth.process().then(function() {
@@ -231,7 +231,7 @@ function testHandleSignIn_accountChooserDisabled() {
   goog.dom.forms.setValue(emailInput, 'user@example.com');
   goog.testing.events.fireKeySequence(emailInput, goog.events.KeyCodes.ENTER);
 
-  testAuth.assertFetchProvidersForEmail(
+  testAuth.assertFetchSignInMethodsForEmail(
       ['user@example.com'],
       ['password']);
   return testAuth.process().then(function() {
@@ -257,7 +257,7 @@ function testHandleSignIn_inProcessing() {
   goog.testing.events.fireKeySequence(emailInput, goog.events.KeyCodes.ENTER);
   delayForBusyIndicatorAndAssertIndicatorShown();
 
-  testAuth.assertFetchProvidersForEmail(
+  testAuth.assertFetchSignInMethodsForEmail(
       ['user@example.com'], null, {
         'code': 'auth/internal-error'
       });
@@ -268,7 +268,7 @@ function testHandleSignIn_inProcessing() {
         // Submit again.
         goog.testing.events.fireKeySequence(emailInput,
             goog.events.KeyCodes.ENTER);
-        testAuth.assertFetchProvidersForEmail(
+        testAuth.assertFetchSignInMethodsForEmail(
             ['user@example.com'],
             ['password']);
         return testAuth.process();

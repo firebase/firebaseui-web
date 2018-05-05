@@ -46,6 +46,8 @@ function createMockConfirmationResult(operationType, isNewUser) {
   return {
     'confirm': function(code) {
       assertEquals('123456', code);
+      app.getExternalAuth().setUser(
+          {'phone': '+11234567890', 'displayName': 'John Smith'});
       return goog.Promise.resolve({
         'user': app.getExternalAuth().currentUser,
         'credential': null,

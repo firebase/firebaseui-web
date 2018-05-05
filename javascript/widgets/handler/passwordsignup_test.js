@@ -35,7 +35,7 @@ goog.require('goog.testing.events');
  * Asserts all the required requests for a successful sign-up.
  */
 function assertSuccessfulSignUp() {
-  testAuth.assertCreateUserAndRetrieveDataWithEmailAndPassword(
+  testAuth.assertCreateUserWithEmailAndPassword(
       [passwordAccount.getEmail(), '123123'], function() {
         var expectedUser = {
           'email': passwordAccount.getEmail(),
@@ -77,7 +77,14 @@ function testHandlePasswordSignUp() {
     // Confirm password credential passed and signed in with.
     var cred = new firebase.auth.EmailAuthProvider.credential(
         passwordAccount.getEmail(), '123123');
-    externalAuth.assertSignInWithCredential([cred], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        {
+          'user': externalAuth.currentUser,
+          'credential': null,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'password', 'isNewUser': false}
+        });
     return externalAuth.process();
   }).then(function() {
     testUtil.assertGoTo('http://localhost/home');
@@ -206,7 +213,7 @@ function testHandlePasswordSignUp_anonymousUpgrade_emailInUse() {
   externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
       [cred], null, error);
   return externalAuth.process().then(function() {
-    testAuth.assertFetchProvidersForEmail(
+    testAuth.assertFetchSignInMethodsForEmail(
         [passwordAccount.getEmail()], ['password']);
     return testAuth.process();
   }).then(function() {
@@ -238,7 +245,7 @@ function testHandlePasswordSignUp_escapeDisplayName() {
   goog.dom.forms.setValue(getNameElement(), '<script>doSthBad();</script>');
   goog.dom.forms.setValue(getNewPasswordElement(), '123123');
   submitForm();
-  testAuth.assertCreateUserAndRetrieveDataWithEmailAndPassword(
+  testAuth.assertCreateUserWithEmailAndPassword(
       [passwordAccount.getEmail(), '123123'], function() {
         testAuth.setUser({
           'email': passwordAccount.getEmail()
@@ -261,7 +268,14 @@ function testHandlePasswordSignUp_escapeDisplayName() {
     externalAuth.setUser(testAuth.currentUser);
     var cred = new firebase.auth.EmailAuthProvider.credential(
         passwordAccount.getEmail(), '123123');
-    externalAuth.assertSignInWithCredential([cred], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        {
+          'user': externalAuth.currentUser,
+          'credential': null,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'password', 'isNewUser': false}
+        });
     return externalAuth.process();
   }).then(function() {
     testUtil.assertGoTo('http://localhost/home');
@@ -285,7 +299,7 @@ function testHandlePasswordSignUp_withoutDisplayName() {
   submitForm();
 
   // assert successful sign up without updateProfile being called
-  testAuth.assertCreateUserAndRetrieveDataWithEmailAndPassword(
+  testAuth.assertCreateUserWithEmailAndPassword(
       [passwordAccount.getEmail(), '123123'], function() {
         testAuth.setUser({
           'email': passwordAccount.getEmail()
@@ -304,7 +318,14 @@ function testHandlePasswordSignUp_withoutDisplayName() {
     externalAuth.setUser(testAuth.currentUser);
     var cred = new firebase.auth.EmailAuthProvider.credential(
         passwordAccount.getEmail(), '123123');
-    externalAuth.assertSignInWithCredential([cred], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        {
+          'user': externalAuth.currentUser,
+          'credential': null,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'password', 'isNewUser': false}
+        });
     return externalAuth.process();
   }).then(function() {
     testUtil.assertGoTo('http://localhost/home');
@@ -339,7 +360,14 @@ function testHandlePasswordSignUp_signInCallback() {
     // Confirm password credential passed and signed in with.
     var cred = new firebase.auth.EmailAuthProvider.credential(
         passwordAccount.getEmail(), '123123');
-    externalAuth.assertSignInWithCredential([cred], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        {
+          'user': externalAuth.currentUser,
+          'credential': null,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'password', 'isNewUser': false}
+        });
     return externalAuth.process();
   }).then(function() {
     testAuth.assertSignOut([]);
@@ -426,12 +454,12 @@ function testHandlePasswordSignUp_emailExistsError_providerFound() {
   goog.dom.forms.setValue(getNameElement(), 'Password User');
   goog.dom.forms.setValue(getNewPasswordElement(), '123123');
   submitForm();
-  testAuth.assertCreateUserAndRetrieveDataWithEmailAndPassword(
+  testAuth.assertCreateUserWithEmailAndPassword(
       [passwordAccount.getEmail(), '123123'], null, {
         'code': 'auth/email-already-in-use'
       });
-  // Provider found for email.
-  testAuth.assertFetchProvidersForEmail(
+  // Sign in method found for email.
+  testAuth.assertFetchSignInMethodsForEmail(
       [passwordAccount.getEmail()], ['password']);
   return testAuth.process().then(function() {
     assertPasswordSignUpPage();
@@ -446,12 +474,12 @@ function testHandlePasswordSignUp_emailExistsError_providerNotFound() {
   goog.dom.forms.setValue(getNameElement(), 'Password User');
   goog.dom.forms.setValue(getNewPasswordElement(), '123123');
   submitForm();
-  testAuth.assertCreateUserAndRetrieveDataWithEmailAndPassword(
+  testAuth.assertCreateUserWithEmailAndPassword(
       [passwordAccount.getEmail(), '123123'], null, {
         'code': 'auth/email-already-in-use'
       });
-  // No provider found for email.
-  testAuth.assertFetchProvidersForEmail(
+  // No sign in method found for email.
+  testAuth.assertFetchSignInMethodsForEmail(
       [passwordAccount.getEmail()], []);
   return testAuth.process().then(function() {
     // Password recovery page should be rendered with correct info bar message.
@@ -471,12 +499,12 @@ function testHandlePasswordSignUp_emailExistsError_providerFetchError() {
   goog.dom.forms.setValue(getNameElement(), 'Password User');
   goog.dom.forms.setValue(getNewPasswordElement(), '123123');
   submitForm();
-  testAuth.assertCreateUserAndRetrieveDataWithEmailAndPassword(
+  testAuth.assertCreateUserWithEmailAndPassword(
       [passwordAccount.getEmail(), '123123'], null, {
         'code': 'auth/email-already-in-use'
       });
-  // Error triggered while fetching providers for email.
-  testAuth.assertFetchProvidersForEmail(
+  // Error triggered while fetching sign in methods for email.
+  testAuth.assertFetchSignInMethodsForEmail(
       [passwordAccount.getEmail()], null, {
         'code': 'auth/internal-error'
       });
@@ -494,7 +522,7 @@ function testHandlePasswordSignUp_otherError() {
   goog.dom.forms.setValue(getNameElement(), 'Password User');
   goog.dom.forms.setValue(getNewPasswordElement(), '123123');
   submitForm();
-  testAuth.assertCreateUserAndRetrieveDataWithEmailAndPassword(
+  testAuth.assertCreateUserWithEmailAndPassword(
       [passwordAccount.getEmail(), '123123'], null, {
         'code': error
       });
@@ -568,7 +596,7 @@ function testHandlePasswordSignUp_afterFailed() {
   // Click submit again.
   submitForm();
   return goog.Promise.resolve().then(function() {
-    testAuth.assertCreateUserAndRetrieveDataWithEmailAndPassword(
+    testAuth.assertCreateUserWithEmailAndPassword(
         [passwordAccount.getEmail(), '123123'], null, {
           'code': 'auth/too-many-requests'
         });
@@ -591,7 +619,14 @@ function testHandlePasswordSignUp_afterFailed() {
     externalAuth.setUser(testAuth.currentUser);
     var cred = new firebase.auth.EmailAuthProvider.credential(
         passwordAccount.getEmail(), '123123');
-    externalAuth.assertSignInWithCredential([cred], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        {
+          'user': externalAuth.currentUser,
+          'credential': null,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'password', 'isNewUser': false}
+        });
     return externalAuth.process();
   }).then(function() {
     testUtil.assertGoTo('http://localhost/home');

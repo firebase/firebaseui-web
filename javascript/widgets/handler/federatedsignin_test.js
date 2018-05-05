@@ -89,8 +89,14 @@ function testHandleFederatedSignIn_cordova() {
     return testAuth.process();
   }).then(function() {
     externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [cred], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        {
+          'user': externalAuth.currentUser,
+          'credential': cred,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+        });
     return externalAuth.process();
   }).then(function() {
     // Pending credential should be cleared from storage.
@@ -182,7 +188,14 @@ function testHandleFederatedSignIn_popup_success() {
     return testAuth.process();
   }).then(function() {
     externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential([cred], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        {
+          'user': externalAuth.currentUser,
+          'credential': cred,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+        });
     return externalAuth.process();
   }).then(function() {
     // User should be redirected to success URL.
@@ -232,7 +245,14 @@ function testHandleFederatedSignIn_popup_success_multipleClicks() {
     return testAuth.process();
   }).then(function() {
     externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential([cred], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        {
+          'user': externalAuth.currentUser,
+          'credential': cred,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+        });
     return externalAuth.process();
   }).then(function() {
     // No info bar message shown.

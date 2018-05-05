@@ -125,8 +125,9 @@ function testHandleEmailMismatch_linking_continue() {
   // Store pending email and pending credential.
   setPendingCredentials('other@example.com');
   var currentUser = {email: federatedAccount.getEmail()};
+  testAuth.setUser(currentUser);
   var authResult = {
-    'user': currentUser,
+    'user': testAuth.currentUser,
     'credential': credential,
     'operationType': 'signIn',
     'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
@@ -143,8 +144,14 @@ function testHandleEmailMismatch_linking_continue() {
     return testAuth.process();
   }).then(function() {
     externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [credential], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [credential],
+        {
+          'user': externalAuth.currentUser,
+          'credential': credential,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+        });
     return externalAuth.process();
   }).then(function() {
     testUtil.assertGoTo('http://localhost/home');
@@ -172,8 +179,9 @@ function testHandleEmailMismatch_linking_continue_signInWithAuthResultCb() {
   // Store pending email and pending credential.
   setPendingCredentials('other@example.com');
   var currentUser = {email: federatedAccount.getEmail()};
+  testAuth.setUser(currentUser);
   var authResult = {
-    'user': currentUser,
+    'user': testAuth.currentUser,
     'credential': credential,
     'operationType': 'signIn',
     'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
@@ -189,11 +197,11 @@ function testHandleEmailMismatch_linking_continue_signInWithAuthResultCb() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(currentUser);
+    externalAuth.setUser(testAuth.currentUser);
     externalAuth.assertSignInAndRetrieveDataWithCredential(
         [credential],
         {
-          'user': currentUser,
+          'user': externalAuth.currentUser,
           'credential': credential,
           'operationType': 'signIn',
           'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
@@ -201,7 +209,7 @@ function testHandleEmailMismatch_linking_continue_signInWithAuthResultCb() {
     return externalAuth.process();
   }).then(function() {
     var expectedAuthResult = {
-      'user': currentUser,
+      'user': externalAuth.currentUser,
       // Federated credential should be exposed to callback.
       'credential': credential,
       'operationType': 'signIn',
@@ -233,8 +241,9 @@ function testHandleEmailMismatch_linking_continue_upgradeAnonymous() {
   // Store pending email and pending credential.
   setPendingCredentials('other@example.com');
   var currentUser = {email: federatedAccount.getEmail()};
+  testAuth.setUser(currentUser);
   var authResult = {
-    'user': currentUser,
+    'user': testAuth.currentUser,
     'credential': credential,
     'operationType': 'signIn',
     'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
@@ -253,11 +262,19 @@ function testHandleEmailMismatch_linking_continue_upgradeAnonymous() {
     return testAuth.process();
   }).then(function() {
     // Linking the credential to continue with to the existing anonymous user.
-    externalAuth.currentUser.assertLinkWithCredential(
+    externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
         [credential],
         function() {
           externalAuth.setUser(testAuth.currentUser);
-          return externalAuth.currentUser;
+          return {
+            'user': externalAuth.currentUser,
+            'credential': credential,
+            'operationType': 'link',
+            'additionalUserInfo': {
+              'providerId': 'google.com',
+              'isNewUser': false
+            }
+          };
         });
     return externalAuth.process();
   }).then(function() {
@@ -320,7 +337,7 @@ function testHandleEmailMismatch_linking_continue_upgradeAnonymous_error() {
     return testAuth.process();
   }).then(function() {
     // Linking the credential to continue with to the existing anonymous user.
-    externalAuth.currentUser.assertLinkWithCredential(
+    externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
         [credential],
         null,
         expectedError);
@@ -442,8 +459,14 @@ function testHandleEmailMismatch_signIn_continue() {
     return testAuth.process();
   }).then(function() {
     externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [credential], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [credential],
+        {
+          'user': externalAuth.currentUser,
+          'credential': credential,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+        });
     return externalAuth.process();
   }).then(function() {
     testUtil.assertGoTo('http://localhost/home');

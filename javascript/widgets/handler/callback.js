@@ -26,6 +26,7 @@ goog.require('firebaseui.auth.widget.Handler');
 goog.require('firebaseui.auth.widget.HandlerName');
 goog.require('firebaseui.auth.widget.handler');
 goog.require('firebaseui.auth.widget.handler.common');
+goog.require('goog.array');
 
 
 /**
@@ -244,22 +245,23 @@ firebaseui.auth.widget.handler.handleCallbackFailure_ =
 
 
 /**
- * Handles callback linking required, fetching the available providers for the
- * user's email and using the correct handler based on the recommended provider.
+ * Handles callback linking required, fetching the available sign in methods for
+ * the user's email and using the correct handler based on the recommended
+ * sign in method.
  * @param {!firebaseui.auth.AuthUI} app The current FirebaseUI instance whose
  *     configuration is used.
  * @param {!firebaseui.auth.ui.page.Base} component The current UI component.
- * @param {!string} email The user's email.
+ * @param {string} email The user's email.
  * @param {string=} opt_infoBarMessage The message to show on info bar.
  * @private
  */
 firebaseui.auth.widget.handler.handleCallbackLinking_ =
     function(app, component, email, opt_infoBarMessage) {
   var container = component.getContainer();
-  app.registerPending(app.getAuth().fetchProvidersForEmail(email)
-      .then(function(providers) {
+  app.registerPending(app.getAuth().fetchSignInMethodsForEmail(email)
+      .then(function(signInMethods) {
         component.dispose();
-        if (!providers.length) {
+        if (!signInMethods.length) {
           // No ability to link. Clear pending email credential.
           firebaseui.auth.storage.removePendingEmailCredential(app.getAppId());
           // Edge case scenario: anonymous account exists with the current
@@ -275,7 +277,10 @@ firebaseui.auth.widget.handler.handleCallbackLinking_ =
               // Display a message to explain to the user what happened.
               firebaseui.auth.soy2.strings.errorAnonymousEmailBlockingSignIn()
                 .toString());
-        } else if (providers[0] == 'password') {
+        } else if (goog.array.contains(signInMethods,
+            firebase.auth.EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD) ||
+            goog.array.contains(signInMethods,
+            firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD)) {
           // In this scenario, there can't be any error message passed from a
           // auth/user-cancelled error, as the sign in method is password.
           firebaseui.auth.widget.handler.handle(
@@ -289,7 +294,7 @@ firebaseui.auth.widget.handler.handleCallbackLinking_ =
               app,
               container,
               email,
-              providers[0],
+              signInMethods[0],
               opt_infoBarMessage);
         }
       }, function(error) {

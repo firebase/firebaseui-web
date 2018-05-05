@@ -43,6 +43,23 @@ firebaseui.auth.idp.AuthProviders = {
 
 
 /**
+ * Map of provider to sign in methods.
+ * @package {Object<string, Object<string, string>>}
+ */
+firebaseui.auth.idp.SignInMethods = {
+  'facebook.com': {'FACEBOOK_SIGN_IN_METHOD': 'facebook.com'},
+  'github.com': {'GITHUB_SIGN_IN_METHOD': 'github.com'},
+  'google.com': {'GOOGLE_SIGN_IN_METHOD': 'google.com'},
+  'password': {
+    'EMAIL_PASSWORD_SIGN_IN_METHOD': 'password',
+    'EMAIL_LINK_SIGN_IN_METHOD': 'emailLink'
+  },
+  'twitter.com': {'TWITTER_SIGN_IN_METHOD': 'twitter.com'},
+  'phone': {'PHONE_SIGN_IN_METHOD': 'phone'}
+};
+
+
+/**
  * @param {string} providerId
  * @return {firebase.auth.AuthProvider} The IdP.
  */
