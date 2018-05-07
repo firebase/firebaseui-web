@@ -51,6 +51,6 @@
   },
   "dependencies": {
     "dialog-polyfill": "^0.4.7",
-    "firebase": "^4.8.0"
+    "firebase": "^5.0.0"
   }
 }
