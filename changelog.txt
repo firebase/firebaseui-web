@@ -1,2 +1,0 @@
-deprecated - Deprecated signInSuccess callback.
-fixed - Refactored and replaced deprecated/removed methods for compatibility with firebase-js-sdk v5.0.0.
