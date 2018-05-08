@@ -872,6 +872,10 @@ function assertConfigEquals(config, widgetConfig) {
 
 
 function testConfig() {
+  testStubs.set(
+      firebaseui.auth.log,
+      'warning',
+      goog.testing.recordFunction());
   createAndInstallTestInstances();
   // Check configuration set correctly for each app.
   assertConfigEquals(
@@ -883,10 +887,55 @@ function testConfig() {
   assertConfigEquals(
       config3,
       app3.getConfig());
+  app1.setConfig(config1);
+  /** @suppress {missingRequire} */
+  assertEquals(0, firebaseui.auth.log.warning.getCallCount());
+  // Verifies that signInSuccess callback throws deprecation warning.
+  var callbacks = {
+    'signInSuccess': function(currentUser, credential, redirectUrl) {
+      return true;
+    }
+  };
+  app1.setConfig({
+    'callbacks': callbacks
+  });
+  assertConfigEquals(
+      {
+        'signInSuccessUrl': 'http://localhost/home1',
+        'widgetUrl': 'http://localhost/firebase1',
+        'callbacks': callbacks
+      },
+      app1.getConfig());
+  var deprecateWarning = 'signInSuccess callback is deprecated. Please use ' +
+      'signInSuccessWithAuthResult callback instead.';
+  /** @suppress {missingRequire} */
+  assertEquals(1, firebaseui.auth.log.warning.getCallCount());
+  /** @suppress {missingRequire} */
+  assertEquals(deprecateWarning,
+        firebaseui.auth.log.warning.getLastCall().getArgument(0));
+  app1.setConfig({
+    'callbacks': callbacks
+  });
+  // Deprecation warning should be only shown once.
+  /** @suppress {missingRequire} */
+  assertEquals(1, firebaseui.auth.log.warning.getCallCount());
+  // Verifies that warning is shown for new instance.
+  app2.setConfig({
+    'callbacks': callbacks
+  });
+  /** @suppress {missingRequire} */
+  assertEquals(2, firebaseui.auth.log.warning.getCallCount());
+  /** @suppress {missingRequire} */
+  assertEquals(deprecateWarning,
+        firebaseui.auth.log.warning.getLastCall().getArgument(0));
 }
 
 
 function testUpdateConfig() {
+  testStubs.set(
+      firebaseui.auth.log,
+      'warning',
+      goog.testing.recordFunction());
   createAndInstallTestInstances();
   // Original config.
   var config = {
@@ -915,6 +964,34 @@ function testUpdateConfig() {
   assertConfigEquals(
       expectedConfig,
       app1.getConfig());
+  /** @suppress {missingRequire} */
+  assertEquals(0, firebaseui.auth.log.warning.getCallCount());
+  // Verifies that signInSuccess callback throws deprecation warning.
+  var callbacks = {
+    'signInSuccess': function(currentUser, credential, redirectUrl) {
+      return true;
+    }
+  };
+  app1.updateConfig('callbacks', callbacks);
+  assertConfigEquals(
+      {
+        'signInSuccessUrl': 'http://localhost/home1',
+        'widgetUrl': 'http://localhost/firebase1',
+        'siteName': 'Other_Site_Name',
+        'callbacks': callbacks
+      },
+      app1.getConfig());
+  var deprecateWarning = 'signInSuccess callback is deprecated. Please use ' +
+      'signInSuccessWithAuthResult callback instead.';
+  /** @suppress {missingRequire} */
+  assertEquals(1, firebaseui.auth.log.warning.getCallCount());
+  /** @suppress {missingRequire} */
+  assertEquals(deprecateWarning,
+        firebaseui.auth.log.warning.getLastCall().getArgument(0));
+  // Deprecation warning should be only shown once.
+  app1.updateConfig('callbacks', callbacks);
+  /** @suppress {missingRequire} */
+  assertEquals(1, firebaseui.auth.log.warning.getCallCount());
 }
 
 
@@ -1350,7 +1427,7 @@ function testStartSignInWithEmailAndPassword_success() {
         assertObjectEquals(expectedUserCredential, userCredential);
         asyncTestCase.signal();
       });
-  app.getAuth().assertSignInAndRetrieveDataWithEmailAndPassword(
+  app.getAuth().assertSignInWithEmailAndPassword(
       ['user@example.com', 'password'],
       function() {
         app.getAuth().setUser(expectedUser);
@@ -1380,7 +1457,7 @@ function testStartSignInWithEmailAndPassword_error() {
         assertEquals(expectedError, error);
         asyncTestCase.signal();
       });
-  app.getAuth().assertSignInAndRetrieveDataWithEmailAndPassword(
+  app.getAuth().assertSignInWithEmailAndPassword(
       ['user@example.com', 'password'],
       null,
       expectedError);
@@ -1427,7 +1504,7 @@ function testStartSignInWithEmailAndPassword_upgradeAnon_isAnonymous_success() {
       });
   // Simulate anonymous user logged in on external instance.
   testAuth.setUser(anonymousUser);
-  app.getAuth().assertSignInAndRetrieveDataWithEmailAndPassword(
+  app.getAuth().assertSignInWithEmailAndPassword(
       ['user@example.com', 'password'],
       function() {
         app.getAuth().setUser(expectedUser);
@@ -1480,7 +1557,7 @@ function testStartSignInWithEmailAndPassword_upgradeAnon_isAnon_error() {
         asyncTestCase.signal();
       });
   // Simulate wrong password error on sign-in.
-  app.getAuth().assertSignInAndRetrieveDataWithEmailAndPassword(
+  app.getAuth().assertSignInWithEmailAndPassword(
       ['user@example.com', 'password'],
       null,
       expectedError);
@@ -1511,7 +1588,7 @@ function testStartSignInWithEmailAndPassword_upgradeAnon_nonAnon_success() {
         assertObjectEquals(expectedUserCredential, userCredential);
         asyncTestCase.signal();
       });
-  app.getAuth().assertSignInAndRetrieveDataWithEmailAndPassword(
+  app.getAuth().assertSignInWithEmailAndPassword(
       ['user@example.com', 'password'],
       function() {
         app.getAuth().setUser(expectedUser);
@@ -1551,7 +1628,7 @@ function testStartSignInWithEmailAndPassword_upgradeAnonymous_noUser_success() {
         assertObjectEquals(expectedUserCredential, userCredential);
         asyncTestCase.signal();
       });
-  app.getAuth().assertSignInAndRetrieveDataWithEmailAndPassword(
+  app.getAuth().assertSignInWithEmailAndPassword(
       ['user@example.com', 'password'],
       function() {
         app.getAuth().setUser(expectedUser);
@@ -1587,7 +1664,7 @@ function testStartCreateUserWithEmailAndPassword_success() {
         assertObjectEquals(expectedUserCredential, userCredential);
         asyncTestCase.signal();
       });
-  app.getAuth().assertCreateUserAndRetrieveDataWithEmailAndPassword(
+  app.getAuth().assertCreateUserWithEmailAndPassword(
       ['user@example.com', 'password'],
       function() {
         app.getAuth().setUser(expectedUser);
@@ -1617,7 +1694,7 @@ function testStartCreateUserWithEmailAndPassword_error() {
         assertEquals(expectedError, error);
         asyncTestCase.signal();
       });
-  app.getAuth().assertCreateUserAndRetrieveDataWithEmailAndPassword(
+  app.getAuth().assertCreateUserWithEmailAndPassword(
       ['user@example.com', 'password'],
       null,
       expectedError);
@@ -1694,7 +1771,7 @@ function testStartCreateUserWithEmailAndPassword__upgradeAnon_noUser_success() {
   app.getExternalAuth().runAuthChangeHandler();
   // createUserWithEmailAndPassword called on internal Auth instance as no user
   // available.
-  app.getAuth().assertCreateUserAndRetrieveDataWithEmailAndPassword(
+  app.getAuth().assertCreateUserWithEmailAndPassword(
       ['user@example.com', 'password'],
       function() {
         app.getAuth().setUser(expectedUser);
@@ -1780,7 +1857,7 @@ function testStartCreateUserWithEmailAndPassword_upgradeAnon_nonAnon_success() {
       });
   // Trigger initial onAuthStateChanged listener.
   app.getExternalAuth().runAuthChangeHandler();
-  app.getAuth().assertCreateUserAndRetrieveDataWithEmailAndPassword(
+  app.getAuth().assertCreateUserWithEmailAndPassword(
       ['user@example.com', 'password'],
       function() {
         app.getAuth().setUser(expectedUser);
@@ -3812,7 +3889,7 @@ function testSignInWithExistingEmailAndPasswordForLinking_success() {
         assertObjectEquals(expectedUserCredential, userCredential);
         asyncTestCase.signal();
       });
-  app.getAuth().assertSignInAndRetrieveDataWithEmailAndPassword(
+  app.getAuth().assertSignInWithEmailAndPassword(
       ['user@example.com', 'password'],
       function() {
         app.getAuth().setUser(expectedUser);
@@ -3843,7 +3920,7 @@ function testSignInWithExistingEmailAndPasswordForLinking_error() {
         assertEquals(expectedError, error);
         asyncTestCase.signal();
       });
-  app.getAuth().assertSignInAndRetrieveDataWithEmailAndPassword(
+  app.getAuth().assertSignInWithEmailAndPassword(
       ['user@example.com', 'password'],
       null,
       expectedError);

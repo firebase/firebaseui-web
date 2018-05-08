@@ -156,6 +156,8 @@ firebaseui.auth.AuthUI = function(auth, opt_appId) {
   this.currentUser_ = null;
   /** @private {boolean} Whether initial external Auth state is ready. */
   this.initialStateReady_ = false;
+  /** @private {boolean} Whether the deprecation warning has been shown. */
+  this.warningShown_ = false;
 };
 
 
@@ -759,6 +761,7 @@ firebaseui.auth.AuthUI.prototype.updateConfig = function(name, value) {
   // Check if instance is already destroyed.
   this.checkIfDestroyed_();
   this.config_.update(name, value);
+  this.checkForDeprecation_();
 };
 
 
@@ -770,6 +773,22 @@ firebaseui.auth.AuthUI.prototype.setConfig = function(config) {
   // Check if instance is already destroyed.
   this.checkIfDestroyed_();
   this.config_.setConfig(config);
+  this.checkForDeprecation_();
+};
+
+
+/**
+ * Checks for deprecated configs passed and logs any warnings when detected.
+ * @private
+ */
+firebaseui.auth.AuthUI.prototype.checkForDeprecation_ = function() {
+  if (!this.warningShown_ &&
+      this.getConfig().getSignInSuccessCallback()) {
+    var deprecateWarning = 'signInSuccess callback is deprecated. Please use ' +
+        'signInSuccessWithAuthResult callback instead.';
+    firebaseui.auth.log.warning(deprecateWarning);
+    this.warningShown_ = true;
+  }
 };
 
 
@@ -882,7 +901,7 @@ firebaseui.auth.AuthUI.prototype.startSignInWithEmailAndPassword =
   // flow, the same credential will be used to complete sign in on the
   // external Auth instance.
   return /** @type {!firebase.Promise<!firebase.auth.UserCredential>} */ (
-      this.getAuth().signInAndRetrieveDataWithEmailAndPassword(email, password)
+      this.getAuth().signInWithEmailAndPassword(email, password)
       .then(function(result) {
         var cb = function(user) {
           if (user) {
@@ -932,7 +951,7 @@ firebaseui.auth.AuthUI.prototype.startCreateUserWithEmailAndPassword =
       // Auth instance as finish sign in will sign in with that same credential
       // to developer Auth instance.
       return /** @type {!firebase.Promise<!firebase.auth.UserCredential>} */ (
-          self.getAuth().createUserAndRetrieveDataWithEmailAndPassword(
+          self.getAuth().createUserWithEmailAndPassword(
               email, password));
     }
   };
@@ -1285,7 +1304,7 @@ firebaseui.auth.AuthUI.prototype.signInWithExistingEmailAndPasswordForLinking =
   // Starts sign in with email/password on the internal Auth instance for
   // linking purposes. This is needed to avoid triggering the onAuthStateChanged
   // callbacks interrupting the linking flow.
-  return this.getAuth().signInAndRetrieveDataWithEmailAndPassword(
+  return this.getAuth().signInWithEmailAndPassword(
       email, password);
 };
 

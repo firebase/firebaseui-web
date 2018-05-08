@@ -163,8 +163,17 @@ function testHandleFederatedLinking_noLoginHint_cordova() {
   }).then(function() {
     // Sign in to external instance with pending credential.
     externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [credential], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [credential],
+        {
+          'user': externalAuth.currentUser,
+          'credential': credential,
+          'operationType': 'signIn',
+          'additionalUserInfo': {
+            'providerId': 'facebook.com',
+            'isNewUser': false
+          }
+        });
     return externalAuth.process();
   }).then(function() {
     // Pending credential should be cleared from storage.
@@ -258,8 +267,17 @@ function testHandleFederatedLinking_popup_success() {
     return testAuth.process();
   }).then(function() {
     externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [credential], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [credential],
+        {
+          'user': externalAuth.currentUser,
+          'credential': credential,
+          'operationType': 'signIn',
+          'additionalUserInfo': {
+            'providerId': 'facebook.com',
+            'isNewUser': false
+          }
+        });
     return externalAuth.process();
   }).then(function() {
     // Pending credential and email should be cleared from storage.
@@ -346,7 +364,7 @@ function testHandleFederatedLinking_popup_upgradeAnonymous() {
   }).then(function() {
     // Existing credential linking to anonymous user should fail with expected
     // error.
-    externalAuth.currentUser.assertLinkWithCredential(
+    externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
         [credential],
         null,
         expectedError);
@@ -401,7 +419,7 @@ function testHandleFederatedLinking_popup_success_multipleClicks() {
         'credential': cred
       });
   return testAuth.process().then(function() {
-      var userCredential = {
+    var userCredential = {
       'user': testAuth.currentUser,
       'credential': credential,
       'operationType': 'link',
@@ -418,8 +436,17 @@ function testHandleFederatedLinking_popup_success_multipleClicks() {
     return testAuth.process();
   }).then(function() {
     externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [credential], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [credential],
+        {
+          'user': externalAuth.currentUser,
+          'credential': credential,
+          'operationType': 'signIn',
+          'additionalUserInfo': {
+            'providerId': 'facebook.com',
+            'isNewUser': false
+          }
+        });
     return externalAuth.process();
   }).then(function() {
     // No info bar message shown.

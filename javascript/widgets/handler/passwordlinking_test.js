@@ -62,7 +62,7 @@ function setPendingEmailCredentials() {
  * @param {!Object} credential The pending credential to link to the user.
  */
 function assertSuccessfulPasswordLinking(credential) {
-  testAuth.assertSignInAndRetrieveDataWithEmailAndPassword(
+  testAuth.assertSignInWithEmailAndPassword(
       [passwordAccount.getEmail(), '123'], function() {
         testAuth.setUser({
           'email': passwordAccount.getEmail(),
@@ -107,8 +107,17 @@ function testHandlePasswordLinking() {
     return testAuth.process();
   }).then(function() {
     externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [credential], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [credential],
+        {
+          'user': externalAuth.currentUser,
+          'credential': credential,
+          'operationType': 'signIn',
+          'additionalUserInfo': {
+            'providerId': 'facebook.com',
+            'isNewUser': false
+          }
+        });
     return externalAuth.process();
   }).then(function() {
     // Pending credential should be cleared from storage.
@@ -154,7 +163,7 @@ function testHandlePasswordLinking_upgradeAnonymous() {
   }).then(function() {
     // Assert existing credential linking triggered expected error on external
     // anonymous user.
-    externalAuth.currentUser.assertLinkWithCredential(
+    externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
         [credential],
         null,
         expectedError);
@@ -270,8 +279,17 @@ function testHandlePasswordLinking_signInCallback() {
     return testAuth.process();
   }).then(function() {
     externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [credential], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [credential],
+        {
+          'user': externalAuth.currentUser,
+          'credential': credential,
+          'operationType': 'signIn',
+          'additionalUserInfo': {
+            'providerId': 'facebook.com',
+            'isNewUser': false
+          }
+        });
     return externalAuth.process();
   }).then(function() {
     testAuth.assertSignOut([]);
@@ -386,7 +404,7 @@ function testHandlePasswordLinking_wrongPassword() {
         // Try an incorrect password.
         goog.dom.forms.setValue(getPasswordElement(), '321');
         submitForm();
-        testAuth.assertSignInAndRetrieveDataWithEmailAndPassword(
+        testAuth.assertSignInWithEmailAndPassword(
             [passwordAccount.getEmail(), '321'], null, error);
         return testAuth.process();
       })
@@ -411,8 +429,17 @@ function testHandlePasswordLinking_wrongPassword() {
         return testAuth.process();
       }).then(function() {
         externalAuth.setUser(testAuth.currentUser);
-        externalAuth.assertSignInWithCredential(
-            [credential], externalAuth.currentUser);
+        externalAuth.assertSignInAndRetrieveDataWithCredential(
+            [credential],
+            {
+              'user': externalAuth.currentUser,
+              'credential': credential,
+              'operationType': 'signIn',
+              'additionalUserInfo': {
+                'providerId': 'facebook.com',
+                'isNewUser': false
+              }
+            });
         return externalAuth.process();
       }).then(function() {
         testUtil.assertGoTo('http://localhost/home');
@@ -450,7 +477,7 @@ function testHandlePasswordLinking_inProcessing() {
         // Click submit again.
         submitForm();
         // Only one request sent.
-        testAuth.assertSignInAndRetrieveDataWithEmailAndPassword(
+        testAuth.assertSignInWithEmailAndPassword(
             [passwordAccount.getEmail(), '123'], null, {
               'code': 'auth/internal-error'
             });
@@ -473,8 +500,17 @@ function testHandlePasswordLinking_inProcessing() {
         return testAuth.process();
       }).then(function() {
         externalAuth.setUser(testAuth.currentUser);
-        externalAuth.assertSignInWithCredential(
-            [credential], externalAuth.currentUser);
+        externalAuth.assertSignInAndRetrieveDataWithCredential(
+            [credential],
+            {
+              'user': externalAuth.currentUser,
+              'credential': credential,
+              'operationType': 'signIn',
+              'additionalUserInfo': {
+                'providerId': 'facebook.com',
+                'isNewUser': false
+              }
+            });
         return externalAuth.process();
       }).then(function() {
         testUtil.assertGoTo('http://localhost/home');

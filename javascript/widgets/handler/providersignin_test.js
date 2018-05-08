@@ -348,8 +348,14 @@ function testHandleProviderSignIn_oneTap_handledSuccessfully_withoutScopes() {
     externalAuth.setUser(testAuth.currentUser);
     // signInWithCredential should be called on the external Auth instance with
     // the expected credential.
-    externalAuth.assertSignInWithCredential(
-        [cred], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        {
+          'user': externalAuth.currentUser,
+          'credential': cred,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+        });
     return externalAuth.process();
   }).then(function() {
     // Confirm googleyolo handler successful.
@@ -552,7 +558,7 @@ function testHandleProviderSignIn_oneTap_upgradeAnon_noScopes_fedEmailInUse() {
     // Callback page should be rendered while the result is being processed.
     assertCallbackPage();
     // Simulate existing email belongs to a federated Facebook account.
-    testAuth.assertFetchProvidersForEmail(
+    testAuth.assertFetchSignInMethodsForEmail(
         [federatedAccount.getEmail()], ['facebook.com']);
     return testAuth.process();
   }).then(function() {
@@ -622,7 +628,7 @@ function testHandleProviderSignIn_oneTap_upgradeAnon_noScopes_passEmailInUse() {
     // Callback page should be rendered while the result is being processed.
     assertCallbackPage();
     // Simulate email belongs to existing password account.
-    testAuth.assertFetchProvidersForEmail(
+    testAuth.assertFetchSignInMethodsForEmail(
         [federatedAccount.getEmail()], ['password']);
     return testAuth.process();
   }).then(function() {
@@ -674,8 +680,14 @@ function testHandleProviderSignIn_popup_success() {
     return testAuth.process();
   }).then(function() {
     externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [cred], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        {
+          'user': externalAuth.currentUser,
+          'credential': cred,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+        });
     return externalAuth.process();
   }).then(function() {
     // Pending credential and email should be cleared from storage.
@@ -731,8 +743,14 @@ function testHandleProviderSignIn_popup_success_multipleClicks() {
     return testAuth.process();
   }).then(function() {
     externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [cred], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        {
+          'user': externalAuth.currentUser,
+          'credential': cred,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+        });
     return externalAuth.process();
   }).then(function() {
     // No info bar message shown.
@@ -920,7 +938,7 @@ function testHandleProviderSignIn_popup_federatedLinkingRequired() {
         'email': federatedAccount.getEmail(),
         'credential': cred
       });
-  testAuth.assertFetchProvidersForEmail(
+  testAuth.assertFetchSignInMethodsForEmail(
       [federatedAccount.getEmail()], ['google.com']);
   return testAuth.process().then(function() {
     // The pending credential should be saved here.
@@ -959,7 +977,7 @@ function testHandleProviderSignIn_popup_passwordLinkingRequired() {
         'email': passwordAccount.getEmail(),
         'credential': cred
       });
-  testAuth.assertFetchProvidersForEmail(
+  testAuth.assertFetchSignInMethodsForEmail(
       [passwordAccount.getEmail()], ['password']);
   return testAuth.process().then(function() {
     // The pending email credential should be cleared at this point.
@@ -1010,7 +1028,7 @@ function testHandleProviderSignIn_signInWithEmail_unregisteredPassAcct() {
   testAc.setSelectedAccount(passwordAccount);
   // Click the third button, which is sign in with email button.
   goog.testing.events.fireClickSequence(buttons[2]);
-  testAuth.assertFetchProvidersForEmail(
+  testAuth.assertFetchSignInMethodsForEmail(
       [passwordAccount.getEmail()],
       []);
   testAuth.process().then(function() {
@@ -1053,7 +1071,7 @@ function testHandleProviderSignIn_acCallbacks_acInitialized() {
   var emailInput = getEmailElement();
   goog.dom.forms.setValue(emailInput, 'user@example.com');
   goog.testing.events.fireKeySequence(emailInput, goog.events.KeyCodes.ENTER);
-  testAuth.assertFetchProvidersForEmail(
+  testAuth.assertFetchSignInMethodsForEmail(
       ['user@example.com'],
       ['password']);
   return testAuth.process().then(function() {
@@ -1191,7 +1209,7 @@ function testHandleProviderSignIn_acCallbacks_newPasswordAccount() {
   assertAndRunAccountChooserInvokedCallback();
   // Existing account selected logged.
   assertAndRunAccountChooserResultCallback('accountSelected');
-  testAuth.assertFetchProvidersForEmail(
+  testAuth.assertFetchSignInMethodsForEmail(
       [passwordAccount.getEmail()],
       []);
   return testAuth.process().then(function() {
@@ -1238,7 +1256,7 @@ function testHandleProviderSignIn_acCallbacks_existingFederatedAccount() {
   assertAndRunAccountChooserInvokedCallback();
   // Existing account selected logged.
   assertAndRunAccountChooserResultCallback('accountSelected');
-  testAuth.assertFetchProvidersForEmail(
+  testAuth.assertFetchSignInMethodsForEmail(
       [federatedAccount.getEmail()],
       ['google.com']);
   return testAuth.process().then(function() {
@@ -1303,7 +1321,7 @@ function testHandleProviderSignIn_signInWithEmail_registeredPassAcct() {
   testAc.setSelectedAccount(passwordAccount);
   // Click the third button, which is sign in with email button.
   goog.testing.events.fireClickSequence(buttons[2]);
-  testAuth.assertFetchProvidersForEmail(
+  testAuth.assertFetchSignInMethodsForEmail(
       [passwordAccount.getEmail()],
       ['password']);
   return testAuth.process().then(function() {
@@ -1334,7 +1352,7 @@ function testHandleProviderSignIn_signInWithEmail_registeredFedAcct() {
   testAc.setSelectedAccount(federatedAccount);
   // Click the third button, which is sign in with email button.
   goog.testing.events.fireClickSequence(buttons[2]);
-  testAuth.assertFetchProvidersForEmail(
+  testAuth.assertFetchSignInMethodsForEmail(
       [federatedAccount.getEmail()],
       ['google.com']);
   return testAuth.process().then(function() {
@@ -1361,7 +1379,7 @@ function testHandleProviderSignIn_signInWithEmail_error() {
   // Click the third button, which is sign in with email button.
   goog.testing.events.fireClickSequence(buttons[2]);
 
-  testAuth.assertFetchProvidersForEmail(
+  testAuth.assertFetchSignInMethodsForEmail(
       [federatedAccount.getEmail()], null, internalError);
   return testAuth.process().then(function() {
     // Unregistered federated account should be treated as password sign up in
@@ -1457,7 +1475,7 @@ function testHandleProviderSignIn_signInWithEmail_acInitialized() {
   var emailInput = getEmailElement();
   goog.dom.forms.setValue(emailInput, 'user@example.com');
   goog.testing.events.fireKeySequence(emailInput, goog.events.KeyCodes.ENTER);
-  testAuth.assertFetchProvidersForEmail(
+  testAuth.assertFetchSignInMethodsForEmail(
       ['user@example.com'],
       ['password']);
   return testAuth.process().then(function() {
@@ -1543,8 +1561,14 @@ function testHandleProviderSignIn_signInWithIdp_cordova() {
     return testAuth.process();
   }).then(function() {
     externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [cred], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        {
+          'user': externalAuth.currentUser,
+          'credential': cred,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+        });
     return externalAuth.process();
   }).then(function() {
     // Pending credential should be cleared from storage.
@@ -1721,7 +1745,7 @@ function testHandleProviderSignIn_accountChooserSelect_appChange() {
   goog.dom.forms.setValue(emailInput, 'user@example.com');
   goog.testing.events.fireKeySequence(emailInput, goog.events.KeyCodes.ENTER);
 
-  testAuth2.assertFetchProvidersForEmail(
+  testAuth2.assertFetchSignInMethodsForEmail(
       ['user@example.com'],
       ['password']);
   // Account not yet saved.
@@ -1926,7 +1950,7 @@ function testHandleProviderSignIn_anonUpgrade_popup_emailInUse_fedLinking() {
       expectedError);
   return externalAuth.process().then(function() {
     // Simulate existing account is a federated Facebook account.
-    testAuth.assertFetchProvidersForEmail(
+    testAuth.assertFetchSignInMethodsForEmail(
         [federatedAccount.getEmail()], ['facebook.com']);
     return testAuth.process();
   }).then(function() {
@@ -1981,7 +2005,7 @@ function testHandleProviderSignIn_anonUpgrade_popup_emailInUse_passLinking() {
       expectedError);
   return externalAuth.process().then(function() {
     // Simulate existing account is a password account.
-    testAuth.assertFetchProvidersForEmail(
+    testAuth.assertFetchSignInMethodsForEmail(
         [federatedAccount.getEmail()], ['password']);
     return testAuth.process();
   }).then(function() {

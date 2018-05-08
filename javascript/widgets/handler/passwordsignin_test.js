@@ -38,7 +38,7 @@ function testHandlePasswordSignIn() {
   assertPasswordSignInPage();
   goog.dom.forms.setValue(getPasswordElement(), '123');
   submitForm();
-  testAuth.assertSignInAndRetrieveDataWithEmailAndPassword(
+  testAuth.assertSignInWithEmailAndPassword(
       [passwordAccount.getEmail(), '123'],
       function() {
         testAuth.setUser({
@@ -62,7 +62,14 @@ function testHandlePasswordSignIn() {
     // Confirm password credential passed and signed in with.
     var cred = new firebase.auth.EmailAuthProvider.credential(
         passwordAccount.getEmail(), '123');
-    externalAuth.assertSignInWithCredential([cred], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        {
+          'user': externalAuth.currentUser,
+          'credential': null,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'password', 'isNewUser': false}
+        });
     return externalAuth.process();
   }).then(function() {
     testUtil.assertGoTo('http://localhost/home');
@@ -90,7 +97,7 @@ function testHandlePasswordSignIn_upgradeAnonymous_successfulSignIn() {
   assertPasswordSignInPage();
   goog.dom.forms.setValue(getPasswordElement(), '123');
   submitForm();
-  testAuth.assertSignInAndRetrieveDataWithEmailAndPassword(
+  testAuth.assertSignInWithEmailAndPassword(
       [passwordAccount.getEmail(), '123'],
       function() {
         // Set non-anonymous user on internal Auth instance.
@@ -145,7 +152,7 @@ function testHandlePasswordSignIn_upgradeAnonymous_wrongPassword() {
   goog.dom.forms.setValue(getPasswordElement(), '321');
   submitForm();
   // Simulate wrong password on sign-in.
-  testAuth.assertSignInAndRetrieveDataWithEmailAndPassword(
+  testAuth.assertSignInWithEmailAndPassword(
       [passwordAccount.getEmail(), '321'],
       null,
       error);
@@ -158,7 +165,7 @@ function testHandlePasswordSignIn_upgradeAnonymous_wrongPassword() {
     // Try the correct password.
     goog.dom.forms.setValue(getPasswordElement(), '123');
     submitForm();
-    testAuth.assertSignInAndRetrieveDataWithEmailAndPassword(
+    testAuth.assertSignInWithEmailAndPassword(
         [passwordAccount.getEmail(), '123'],
         function() {
           // Set non-anonymous user on internal Auth instance.
@@ -214,7 +221,7 @@ function testHandlePasswordSignIn_signInCallback() {
   assertPasswordSignInPage();
   goog.dom.forms.setValue(getPasswordElement(), '123');
   submitForm();
-  testAuth.assertSignInAndRetrieveDataWithEmailAndPassword(
+  testAuth.assertSignInWithEmailAndPassword(
       [passwordAccount.getEmail(), '123'],
       function() {
         testAuth.setUser({
@@ -238,7 +245,14 @@ function testHandlePasswordSignIn_signInCallback() {
     // Confirm password credential passed and signed in with.
     var cred = new firebase.auth.EmailAuthProvider.credential(
         passwordAccount.getEmail(), '123');
-    externalAuth.assertSignInWithCredential([cred], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        {
+          'user': externalAuth.currentUser,
+          'credential': null,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'password', 'isNewUser': false}
+        });
     return externalAuth.process();
   }).then(function() {
     testAuth.assertSignOut([]);
@@ -263,7 +277,7 @@ function testHandlePasswordSignIn_signInSuccessWithAuthResultCallback() {
   assertPasswordSignInPage();
   goog.dom.forms.setValue(getPasswordElement(), '123');
   submitForm();
-  testAuth.assertSignInAndRetrieveDataWithEmailAndPassword(
+  testAuth.assertSignInWithEmailAndPassword(
       [passwordAccount.getEmail(), '123'],
       function() {
         testAuth.setUser({
@@ -337,7 +351,7 @@ function testHandlePasswordSignIn_wrongPassword() {
         // Try an incorrect password.
         goog.dom.forms.setValue(getPasswordElement(), '321');
         submitForm();
-        testAuth.assertSignInAndRetrieveDataWithEmailAndPassword(
+        testAuth.assertSignInWithEmailAndPassword(
             [passwordAccount.getEmail(), '321'], null, error);
         return testAuth.process();
       })
@@ -350,7 +364,7 @@ function testHandlePasswordSignIn_wrongPassword() {
         // Try the correct password.
         goog.dom.forms.setValue(getPasswordElement(), '123');
         submitForm();
-        testAuth.assertSignInAndRetrieveDataWithEmailAndPassword(
+        testAuth.assertSignInWithEmailAndPassword(
             [passwordAccount.getEmail(), '123'],
             function() {
               testAuth.setUser({
@@ -378,8 +392,17 @@ function testHandlePasswordSignIn_wrongPassword() {
         // Confirm correct password credential passed and signed in with.
         var cred = new firebase.auth.EmailAuthProvider.credential(
             passwordAccount.getEmail(), '123');
-        externalAuth.assertSignInWithCredential(
-            [cred], externalAuth.currentUser);
+        externalAuth.assertSignInAndRetrieveDataWithCredential(
+            [cred],
+            {
+              'user': externalAuth.currentUser,
+              'credential': null,
+              'operationType': 'signIn',
+              'additionalUserInfo': {
+                'providerId': 'password',
+                'isNewUser': false
+              }
+            });
         return externalAuth.process();
       }).then(function() {
         testUtil.assertGoTo('http://localhost/home');
@@ -393,7 +416,7 @@ function testHandlePasswordSignIn_otherError() {
   assertPasswordSignInPage();
   goog.dom.forms.setValue(getPasswordElement(), '123');
   submitForm();
-  testAuth.assertSignInAndRetrieveDataWithEmailAndPassword(
+  testAuth.assertSignInWithEmailAndPassword(
       [federatedAccount.getEmail(), '123'], null, internalError);
   return testAuth.process().then(function() {
     assertPasswordSignInPage();
@@ -445,7 +468,7 @@ function testHandlePasswordSignIn_inProcessing() {
         // Click submit again.
         submitForm();
         // Only one request sent.
-        testAuth.assertSignInAndRetrieveDataWithEmailAndPassword(
+        testAuth.assertSignInWithEmailAndPassword(
             [passwordAccount.getEmail(), '123'], null, internalError);
         return testAuth.process();
       })
@@ -453,7 +476,7 @@ function testHandlePasswordSignIn_inProcessing() {
         assertBusyIndicatorHidden();
         // Submit again.
         submitForm();
-        testAuth.assertSignInAndRetrieveDataWithEmailAndPassword(
+        testAuth.assertSignInWithEmailAndPassword(
             [passwordAccount.getEmail(), '123'],
             function() {
               testAuth.setUser({
@@ -481,8 +504,17 @@ function testHandlePasswordSignIn_inProcessing() {
         // Confirm correct password credential passed and signed in with.
         var cred = new firebase.auth.EmailAuthProvider.credential(
             passwordAccount.getEmail(), '123');
-        externalAuth.assertSignInWithCredential(
-            [cred], externalAuth.currentUser);
+        externalAuth.assertSignInAndRetrieveDataWithCredential(
+            [cred],
+            {
+              'user': externalAuth.currentUser,
+              'credential': null,
+              'operationType': 'signIn',
+              'additionalUserInfo': {
+                'providerId': 'password',
+                'isNewUser': false
+              }
+            });
         return externalAuth.process();
       }).then(function() {
         testUtil.assertGoTo('http://localhost/home');

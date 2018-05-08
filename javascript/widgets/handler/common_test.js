@@ -96,7 +96,7 @@ function testSelectFromAccountChooser_registeredFederatedAccount() {
   testAc.setSelectedAccount(federatedAccount);
   firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
       container);
-  testAuth.assertFetchProvidersForEmail(
+  testAuth.assertFetchSignInMethodsForEmail(
       [federatedAccount.getEmail()],
       ['google.com']);
   testAuth.process().then(function() {
@@ -121,7 +121,7 @@ function testSelectFromAccountChooser_registeredFedAcct_uiShown() {
   testAc.setSelectedAccount(federatedAccount);
   firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
       container);
-  testAuth.assertFetchProvidersForEmail(
+  testAuth.assertFetchSignInMethodsForEmail(
       [federatedAccount.getEmail()],
       ['google.com']);
   testAuth.process().then(function() {
@@ -143,7 +143,7 @@ function testSelectFromAccountChooser_registeredPasswordAccount() {
   testAc.setSelectedAccount(passwordAccount);
   firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
       container);
-  testAuth.assertFetchProvidersForEmail(
+  testAuth.assertFetchSignInMethodsForEmail(
       [passwordAccount.getEmail()],
       ['password']);
   testAuth.process().then(function() {
@@ -167,7 +167,7 @@ function testSelectFromAccountChooser_unregisteredAccount() {
   testAc.setSelectedAccount(federatedAccount);
   firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
       container);
-  testAuth.assertFetchProvidersForEmail(
+  testAuth.assertFetchSignInMethodsForEmail(
       [federatedAccount.getEmail()],
       []);
   testAuth.process().then(function() {
@@ -191,7 +191,7 @@ function testSelectFromAccountChooser_error() {
   testAc.setSelectedAccount(federatedAccount);
   firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
       container);
-  testAuth.assertFetchProvidersForEmail(
+  testAuth.assertFetchSignInMethodsForEmail(
       [federatedAccount.getEmail()], null, internalError);
   testAuth.process().then(function() {
     // Unregistered federated account should be treated as password sign up in
@@ -216,7 +216,7 @@ function testSelectFromAccountChooser_registeredPassAcct_uiShown() {
   testAc.setSelectedAccount(passwordAccount);
   firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
       container);
-  testAuth.assertFetchProvidersForEmail(
+  testAuth.assertFetchSignInMethodsForEmail(
       [passwordAccount.getEmail()],
       ['password']);
   testAuth.process().then(function() {
@@ -1223,6 +1223,11 @@ function testSetLoggedInWithAuthResult() {
       'signInSuccess': signInSuccessCallback(true)
     }
   });
+  assertEquals(1, firebaseui.auth.log.warning.getCallCount());
+  var deprecateWarning = 'signInSuccess callback is deprecated. Please use ' +
+      'signInSuccessWithAuthResult callback instead.';
+  assertEquals(deprecateWarning,
+        firebaseui.auth.log.warning.getLastCall().getArgument(0));
   asyncTestCase.waitForSignals(1);
   var cred = firebase.auth.EmailAuthProvider.credential(
       passwordUser['email'], 'password');
@@ -1235,10 +1240,6 @@ function testSetLoggedInWithAuthResult() {
   };
   firebaseui.auth.widget.handler.common.setLoggedInWithAuthResult(
       app, testComponent, internalAuthResult);
-  // Both old and new signInSuccess callbacks are provided.
-  // Warning will be logged.
-  /** @suppress {missingRequire} */
-  assertEquals(1, firebaseui.auth.log.warning.getCallCount());
   // Sign out from internal instance and then sign in with passed credential to
   // external instance.
   return testAuth.process().then(function() {
@@ -1266,6 +1267,16 @@ function testSetLoggedInWithAuthResult() {
       // isNewUser should be associated with the internal Auth instance.
       'additionalUserInfo':  {'providerId': 'password', 'isNewUser': true}
     };
+    // Both old and new signInSuccess callbacks are provided.
+    // Warning will be logged.
+    /** @suppress {missingRequire} */
+    assertEquals(2, firebaseui.auth.log.warning.getCallCount());
+    var callbackWarning = 'Both signInSuccess and ' +
+        'signInSuccessWithAuthResult callbacks are provided. Only ' +
+        'signInSuccessWithAuthResult callback will be invoked.';
+    /** @suppress {missingRequire} */
+    assertEquals(callbackWarning,
+        firebaseui.auth.log.warning.getLastCall().getArgument(0));
     // SignInSuccessWithAuthResultCallback is called.
     assertSignInSuccessWithAuthResultCallbackInvoked(
         expectedAuthResult,
@@ -1616,8 +1627,9 @@ function testSetLoggedInWithAuthResult_onlySignInSuccessCallback() {
       // Signing in to external Auth instance returns isNewUser as false.
       'additionalUserInfo':  {'providerId': 'password', 'isNewUser': false}
     };
-    externalAuth.assertSignInWithCredential(
-        [cred], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        expectedUserCredential);
     return externalAuth.process();
   }).then(function() {
     // SignInSuccessCallback is called.
@@ -2347,7 +2359,14 @@ function testSetLoggedInWithAuthResult_popup_noCallback_storageRedirect() {
     return testAuth.process();
   }).then(function() {
     externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential([cred], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        {
+          'user': externalAuth.currentUser,
+          'credential': null,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'password', 'isNewUser': false}
+        });
     return externalAuth.process();
   }).then(function() {
     // Assert opener continues to redirect URL specified in storage.
@@ -2535,7 +2554,7 @@ function testSelectFromAccountChooser_acCallbacks_unregistered() {
   // Existing account selected logged.
   assertAndRunAccountChooserResultCallback('accountSelected');
 
-  testAuth.assertFetchProvidersForEmail(
+  testAuth.assertFetchSignInMethodsForEmail(
       [passwordAccount.getEmail()],
       []);
   testAuth.process().then(function() {
@@ -2575,7 +2594,7 @@ function testSelectFromAccountChooser_acCallbacks_existingAcct() {
   assertAndRunAccountChooserInvokedCallback();
   // Existing account selected logged.
   assertAndRunAccountChooserResultCallback('accountSelected');
-  testAuth.assertFetchProvidersForEmail(
+  testAuth.assertFetchSignInMethodsForEmail(
       [passwordAccount.getEmail()],
       ['google.com', 'password']);
   testAuth.process().then(function() {
@@ -2613,7 +2632,7 @@ function testSelectFromAccountChooser_acCallbacks_existingAccount_error() {
   assertAndRunAccountChooserInvokedCallback();
   // Existing account selected logged.
   assertAndRunAccountChooserResultCallback('accountSelected');
-  testAuth.assertFetchProvidersForEmail(
+  testAuth.assertFetchSignInMethodsForEmail(
       [federatedAccount.getEmail()], null, internalError);
   testAuth.process().then(function() {
     // An error in fetch providers for email should redirect to provider sign in
@@ -2651,12 +2670,12 @@ function testSelectFromAccountChooser_acCallbacks_addAccount() {
 }
 
 
-function testHandleSignInFetchProvidersForEmail_unregistered() {
-  var providers = [];
+function testHandleSignInFetchSignInMethodsForEmail_unregistered() {
+  var signInMethods = [];
   var email = 'user@example.com';
   var displayName = 'John Doe';
-  firebaseui.auth.widget.handler.common.handleSignInFetchProvidersForEmail(
-      app, container, providers, email, displayName);
+  firebaseui.auth.widget.handler.common.handleSignInFetchSignInMethodsForEmail(
+      app, container, signInMethods, email, displayName);
   // Password sign up page should show with email and display name populated.
   assertPasswordSignUpPage();
   assertEquals(
@@ -2668,11 +2687,11 @@ function testHandleSignInFetchProvidersForEmail_unregistered() {
 }
 
 
-function testHandleSignInFetchProvidersForEmail_registeredPasswordAccount() {
-  var providers = ['google.com', 'facebook.com', 'password'];
+function testHandleSignInFetchSignInMethodsForEmail_registeredPasswordAcct() {
+  var signInMethods = ['google.com', 'facebook.com', 'password'];
   var email = 'user@example.com';
-  firebaseui.auth.widget.handler.common.handleSignInFetchProvidersForEmail(
-      app, container, providers, email);
+  firebaseui.auth.widget.handler.common.handleSignInFetchSignInMethodsForEmail(
+      app, container, signInMethods, email);
   // Password sign-in page should show.
   assertPasswordSignInPage();
   assertEquals(email, goog.dom.forms.getValue(getEmailElement()));
@@ -2680,11 +2699,23 @@ function testHandleSignInFetchProvidersForEmail_registeredPasswordAccount() {
 }
 
 
-function testHandleSignInFetchProvidersForEmail_registeredFederatedAccount() {
-  var providers = ['google.com', 'facebook.com'];
+function testHandleSignInFetchSignInMethodsForEmail_registeredEmailLinkAcct() {
+  var signInMethods = ['google.com', 'facebook.com', 'emailLink'];
   var email = 'user@example.com';
-  firebaseui.auth.widget.handler.common.handleSignInFetchProvidersForEmail(
-      app, container, providers, email);
+  firebaseui.auth.widget.handler.common.handleSignInFetchSignInMethodsForEmail(
+      app, container, signInMethods, email);
+  // Password sign-in page should show.
+  assertPasswordSignInPage();
+  assertEquals(email, goog.dom.forms.getValue(getEmailElement()));
+  assertEquals(0, getIdpButtons().length);
+}
+
+
+function testHandleSignInFetchSignInMethodsForEmail_registeredFederatedAcct() {
+  var signInMethods = ['google.com', 'facebook.com'];
+  var email = 'user@example.com';
+  firebaseui.auth.widget.handler.common.handleSignInFetchSignInMethodsForEmail(
+      app, container, signInMethods, email);
   // It should store pending email.
   var expectedEmailCredential = {
     'credential': null,
@@ -2993,8 +3024,14 @@ function testFederatedSignIn_success_cordova() {
     return testAuth.process();
   }).then(function() {
     externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [cred], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        {
+          'user': externalAuth.currentUser,
+          'credential': cred,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+        });
     return externalAuth.process();
   }).then(function() {
     // Pending credential should be cleared from storage.
@@ -3041,7 +3078,7 @@ function testFederatedSignIn_federatedLinkingRequiredError_cordova() {
     assertNoInfoBarMessage();
     assertCallbackPage();
     // Simulate existing email belongs to a Facebook account.
-    testAuth.assertFetchProvidersForEmail(
+    testAuth.assertFetchSignInMethodsForEmail(
         [federatedAccount.getEmail()], ['facebook.com']);
     return testAuth.process();
   }).then(function() {
@@ -3285,7 +3322,7 @@ function testFederatedSignIn_anonymousUpgrade_emailInUse_error_cordova() {
     return externalAuth.process();
   }).then(function() {
     assertCallbackPage();
-    testAuth.assertFetchProvidersForEmail(
+    testAuth.assertFetchSignInMethodsForEmail(
         [federatedAccount.getEmail()], ['facebook.com']);
     return testAuth.process();
   }).then(function() {
@@ -3391,8 +3428,14 @@ function testHandleGoogleYoloCredential_handledSuccessfully_withoutScopes() {
     return testAuth.process();
   }).then(function() {
     externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [cred], externalAuth.currentUser);
+    externalAuth.assertSignInAndRetrieveDataWithCredential(
+        [cred],
+        {
+          'user': externalAuth.currentUser,
+          'credential': cred,
+          'operationType': 'signIn',
+          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+        });
     return externalAuth.process();
   }).then(function() {
     // User should be redirected to success URL.
@@ -3674,7 +3717,7 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_fedEmailInUse() {
     assertNoInfoBarMessage();
     assertCallbackPage();
     // Simulate existing email belongs to a Facebook account.
-    testAuth.assertFetchProvidersForEmail(
+    testAuth.assertFetchSignInMethodsForEmail(
         [federatedAccount.getEmail()], ['facebook.com']);
     return testAuth.process();
   }).then(function() {
@@ -3741,7 +3784,7 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_passEmailInUse() {
     assertNoInfoBarMessage();
     assertCallbackPage();
     // Simulate email belongs to an existing password account.
-    testAuth.assertFetchProvidersForEmail(
+    testAuth.assertFetchSignInMethodsForEmail(
         [federatedAccount.getEmail()], ['password']);
     return testAuth.process();
   }).then(function() {

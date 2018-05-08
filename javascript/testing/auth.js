@@ -193,6 +193,7 @@ FakeAuthClient.AuthAsyncMethod = {
       'createUserAndRetrieveDataWithEmailAndPassword',
   CREATE_USER_WITH_EMAIL_AND_PASSWORD: 'createUserWithEmailAndPassword',
   FETCH_PROVIDERS_FOR_EMAIL: 'fetchProvidersForEmail',
+  FETCH_SIGN_IN_METHODS_FOR_EMAIL: 'fetchSignInMethodsForEmail',
   GET_REDIRECT_RESULT: 'getRedirectResult',
   SEND_PASSWORD_RESET_EMAIL: 'sendPasswordResetEmail',
   SET_PERSISTENCE: 'setPersistence',
