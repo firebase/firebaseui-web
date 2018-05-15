@@ -42,13 +42,18 @@ const OUTPUT_WRAPPER = OPTIMIZATION_LEVEL === 'WHITESPACE_ONLY' ?
 const DIALOG_POLYFILL = 'if(typeof window!==\'undefined\')' +
     '{window.dialogPolyfill=require(\'dialog-polyfill\');}';
 
-// Adds the firebase module requirement and exports firebaseui.
+// Using default import if available.
+const DEFAULT_IMPORT_FIX = 'if(firebase.default!==\'undefined\')' +
+    '{firebase=firebase.default;}';
+
+// Adds the module requirement and exports firebaseui.
 const NPM_MODULE_WRAPPER = OPTIMIZATION_LEVEL === 'WHITESPACE_ONLY' ?
     'var firebase=require(\'firebase/app\');require(\'firebase/auth\');' +
-    '%output%' + DIALOG_POLYFILL + 'module.exports=firebaseui;' :
+    DEFAULT_IMPORT_FIX + '%output%' + DIALOG_POLYFILL +
+    'module.exports=firebaseui;' :
     '(function() { var firebase=require(\'firebase/app\');' +
-    'require(\'firebase/auth\');%output% ' + DIALOG_POLYFILL + '})();' +
-    'module.exports=firebaseui;';
+    'require(\'firebase/auth\');' + DEFAULT_IMPORT_FIX + '%output% ' +
+    DIALOG_POLYFILL + '})();' + 'module.exports=firebaseui;';
 
 // The path to Closure Compiler.
 const COMPILER_PATH = 'node_modules/google-closure-compiler/compiler.jar';
