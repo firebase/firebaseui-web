@@ -43,7 +43,7 @@ const DIALOG_POLYFILL = 'if(typeof window!==\'undefined\')' +
     '{window.dialogPolyfill=require(\'dialog-polyfill\');}';
 
 // Using default import if available.
-const DEFAULT_IMPORT_FIX = 'if(firebase.default!==\'undefined\')' +
+const DEFAULT_IMPORT_FIX = 'if(typeof firebase.default!==\'undefined\')' +
     '{firebase=firebase.default;}';
 
 // Adds the module requirement and exports firebaseui.
