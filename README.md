@@ -323,10 +323,10 @@ FirebaseUI supports the following configuration parameters.
 <td>callbacks</td>
 <td>No</td>
 <td>
-  An object of developers <a href="#available-callbacks">callbacks</a> after
+  A list of developers <a href="#available-callbacks">callbacks</a> after
   specific events.
   <br/>
-  <em>Default:</em> <code>{}</code>
+  <em>Default:</em> <code>[]</code>
 </td>
 </tr>
 <tr>
@@ -387,8 +387,8 @@ FirebaseUI supports the following configuration parameters.
 <td>No</td>
 <td>
   The URL where to redirect the user after a successful sign-in.
-  <strong>Required</strong> when the <code>signInSuccess</code> callback is not
-  used or when it returns <code>true</code>.
+  <strong>Required</strong> when the <code>signInSuccessWithAuthResult</code>
+  callback is not used or when it returns <code>true</code>.
 </td>
 </tr>
 <tr>
@@ -676,8 +676,8 @@ following properties.
 
 FirebaseUI will wait for the returned promise to handle the reported error
 before clearing the UI. If no promise is returned, the UI will be cleared on
-completion. Even when this callback resolves, `signInSuccess` callback will not
-be triggered.
+completion. Even when this callback resolves, `signInSuccessWithAuthResult`
+callback will not be triggered.
 
 This callback is required when `autoUpgradeAnonymousUsers` is enabled.
 
@@ -712,14 +712,6 @@ FirebaseUI is displayed.
             var providerId = authResult.additionalUserInfo.providerId;
             var operationType = authResult.operationType;
             // Do something with the returned AuthResult.
-            // Return type determines whether we continue the redirect automatically
-            // or whether we leave that to developer to handle.
-            return true;
-          },
-          signInSuccess: function(currentUser, credential, redirectUrl) {
-            // This callback will be deprecated. `signInSuccessWithAuthResult` should
-            // be used instead.
-            // Do something.
             // Return type determines whether we continue the redirect automatically
             // or whether we leave that to developer to handle.
             return true;
@@ -898,8 +890,8 @@ ui.start('#firebaseui-auth-container', {
             data = null;
             // FirebaseUI will reset and the UI cleared when this promise
             // resolves.
-            // signInSuccess will not run. Successful sign-in logic has to be
-            // run explicitly.
+            // signInSuccessWithAuthResult will not run. Successful sign-in
+            // logic has to be run explicitly.
             window.location.assign('<url-to-redirect-to-on-success>');
           });
 
@@ -939,8 +931,8 @@ configuration parameter.
 You can pass a query parameter to the widget's URL that will overwrite the URL
 the user is redirected to after a successful sign-in. If you do so, you must set
 the configuration `signInSuccessUrl` value (even if it will be overwritten).
-When passing the redirect URL this way, the `signInSuccess` callback will
-receive the value as the `redirectUrl` argument.
+When passing the redirect URL this way, the `signInSuccessWithAuthResult`
+callback will receive the value as the `redirectUrl` argument.
 
 You **must include the mode explicitly** in the URL when using the
 `signInSuccessUrl` parameter, otherwise FirebaseUI will directly redirect to the

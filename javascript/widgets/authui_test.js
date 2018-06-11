@@ -3013,6 +3013,75 @@ function testFinishSignInWithCredential_error() {
 }
 
 
+function testFinishSignInWithCredential_updateCurrentUser_success() {
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().install();
+  app.getExternalAuth().install();
+  app.getAuth().setUser(expectedUser);
+  asyncTestCase.waitForSignals(1);
+  app.finishSignInWithCredential(expectedCredential, expectedUser)
+      .then(function(user) {
+        assertNull(app.getAuth().currentUser);
+        assertEquals(app.getExternalAuth().currentUser, user);
+        asyncTestCase.signal();
+      });
+  app.getAuth().process().then(function() {
+    // Sign out on internal instance first.
+    app.getAuth().assertSignOut(
+        [],
+        function() {
+          app.getAuth().setUser(null);
+        });
+    return app.getAuth().process();
+  }).then(function() {
+    app.getExternalAuth().assertUpdateCurrentUser(
+        [expectedUser],
+        function() {
+          app.getExternalAuth().setUser(expectedUser);
+        });
+    return app.getExternalAuth().process();
+  });
+}
+
+
+function testFinishSignInWithCredential_updateCurrentUser_error() {
+  var expectedError = {
+    'code': 'auth/internal-error',
+    'message': 'MESSAGE'
+  };
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().install();
+  app.getExternalAuth().install();
+  app.getAuth().setUser(expectedUser);
+  asyncTestCase.waitForSignals(1);
+  app.finishSignInWithCredential(expectedCredential, expectedUser)
+      .then(fail, function(error) {
+        assertNull(app.getAuth().currentUser);
+        assertEquals(expectedError, error);
+        asyncTestCase.signal();
+      });
+  app.getAuth().process().then(function() {
+    // Sign out on internal instance first.
+    app.getAuth().assertSignOut(
+        [],
+        function() {
+          app.getAuth().setUser(null);
+        });
+    return app.getAuth().process();
+  }).then(function() {
+    app.getExternalAuth().assertUpdateCurrentUser(
+        [expectedUser],
+        null,
+        expectedError);
+    return app.getExternalAuth().process();
+  });
+}
+
+
 function testFinishSignInWithCredential_upgradeAnonymous_nonAnonymous() {
   testApp = new firebaseui.auth.testing.FakeAppClient(options);
   testAuth = testApp.auth();
@@ -3375,11 +3444,66 @@ function testFinishSignInAndRetrieveDataWithAuthResult_success() {
         });
     return app.getAuth().process();
   }).then(function() {
-    app.getExternalAuth().assertSignInAndRetrieveDataWithCredential(
-        [expectedCredential],
+    app.getExternalAuth().assertUpdateCurrentUser(
+        [expectedUser],
         function() {
           app.getExternalAuth().setUser(expectedUser);
-          return expectedUserCredential;
+          expectedAuthResult['user'] = app.getExternalAuth().currentUser;
+        });
+    return app.getExternalAuth().process();
+  });
+}
+
+
+function testFinishSignInAndRetrieveDataWithAuthResult_passwordCred_success() {
+  var passwordCred = firebase.auth.EmailAuthProvider.credential(
+      expectedUser.email, 'password');
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().install();
+  app.getExternalAuth().install();
+  app.getAuth().setUser(expectedUser);
+  asyncTestCase.waitForSignals(1);
+  var authResult = {
+    'user': expectedUser,
+    'credential': passwordCred,
+    'operationType': 'signIn',
+    'additionalUserInfo': {
+      'providerId': 'password',
+      'isNewUser': false
+    }
+  };
+  var expectedAuthResult = {
+    'user': expectedUser,
+    // No credential returned.
+    'credential': null,
+    'operationType': 'signIn',
+    'additionalUserInfo': {
+      'providerId': 'password',
+      'isNewUser': false
+    }
+  };
+  app.finishSignInAndRetrieveDataWithAuthResult(authResult)
+      .then(function(result) {
+        assertNull(app.getAuth().currentUser);
+        assertObjectEquals(expectedAuthResult, result);
+        asyncTestCase.signal();
+      });
+  app.getAuth().process().then(function() {
+    // Sign out on internal instance first.
+    app.getAuth().assertSignOut(
+        [],
+        function() {
+          app.getAuth().setUser(null);
+        });
+    return app.getAuth().process();
+  }).then(function() {
+    app.getExternalAuth().assertUpdateCurrentUser(
+        [expectedUser],
+        function() {
+          app.getExternalAuth().setUser(expectedUser);
+          expectedAuthResult['user'] = app.getExternalAuth().currentUser;
         });
     return app.getExternalAuth().process();
   });
@@ -3444,11 +3568,11 @@ function testFinishSignInAndRetrieveDataWithAuthResult_federatedLinking() {
         });
     return app.getAuth().process();
   }).then(function() {
-    app.getExternalAuth().assertSignInAndRetrieveDataWithCredential(
-        [expectedCredential],
+    app.getExternalAuth().assertUpdateCurrentUser(
+        [expectedUser],
         function() {
           app.getExternalAuth().setUser(expectedUser);
-          return expectedUserCredential;
+          expectedAuthResult['user'] = app.getExternalAuth().currentUser;
         });
     return app.getExternalAuth().process();
   });
@@ -3457,7 +3581,7 @@ function testFinishSignInAndRetrieveDataWithAuthResult_federatedLinking() {
 
 function testFinishSignInAndRetrieveDataWithAuthResult_error() {
   var expectedError = {
-    'code': 'auth/network-request-failed',
+    'code': 'auth/internal-error',
     'message': 'MESSAGE'
   };
   testApp = new firebaseui.auth.testing.FakeAppClient(options);
@@ -3487,8 +3611,8 @@ function testFinishSignInAndRetrieveDataWithAuthResult_error() {
         });
     return app.getAuth().process();
   }).then(function() {
-    app.getExternalAuth().assertSignInAndRetrieveDataWithCredential(
-        [expectedCredential],
+    app.getExternalAuth().assertUpdateCurrentUser(
+        [expectedUser],
         null,
         expectedError);
     return app.getExternalAuth().process();
@@ -3631,11 +3755,11 @@ function testFinishSignInAndRetrieveDataWithAuthResult_nonAnonUserOnTempAuth() {
         });
     return app.getAuth().process();
   }).then(function() {
-    app.getExternalAuth().assertSignInAndRetrieveDataWithCredential(
-        [expectedCredential],
+    app.getExternalAuth().assertUpdateCurrentUser(
+        [expectedUser],
         function() {
           app.getExternalAuth().setUser(expectedUser);
-          return expectedUserCredential;
+          expectedAuthResult['user'] = app.getExternalAuth().currentUser;
         });
     return app.getExternalAuth().process();
   });
@@ -3682,12 +3806,13 @@ function testFinishSignInAndRetrieveDataWithAuthResult_upgradeAnon_noUser() {
         });
     return app.getAuth().process();
   }).then(function() {
-    // signInAndRetrieveDataWithCredential called as no user available.
-    app.getExternalAuth().assertSignInAndRetrieveDataWithCredential(
-        [expectedCredential],
+    // updateCurrentUser (sign in flow instead of linking flow) called as no
+    // user available.
+    app.getExternalAuth().assertUpdateCurrentUser(
+        [expectedUser],
         function() {
           app.getExternalAuth().setUser(expectedUser);
-          return expectedUserCredential;
+          expectedAuthResult['user'] = app.getExternalAuth().currentUser;
         });
     return app.getExternalAuth().process();
   });

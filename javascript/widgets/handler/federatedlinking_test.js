@@ -161,18 +161,10 @@ function testHandleFederatedLinking_noLoginHint_cordova() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    // Sign in to external instance with pending credential.
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [credential],
-        {
-          'user': externalAuth.currentUser,
-          'credential': credential,
-          'operationType': 'signIn',
-          'additionalUserInfo': {
-            'providerId': 'facebook.com',
-            'isNewUser': false
-          }
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {
@@ -266,17 +258,10 @@ function testHandleFederatedLinking_popup_success() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [credential],
-        {
-          'user': externalAuth.currentUser,
-          'credential': credential,
-          'operationType': 'signIn',
-          'additionalUserInfo': {
-            'providerId': 'facebook.com',
-            'isNewUser': false
-          }
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {
@@ -435,17 +420,10 @@ function testHandleFederatedLinking_popup_success_multipleClicks() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [credential],
-        {
-          'user': externalAuth.currentUser,
-          'credential': credential,
-          'operationType': 'signIn',
-          'additionalUserInfo': {
-            'providerId': 'facebook.com',
-            'isNewUser': false
-          }
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {

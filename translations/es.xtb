@@ -15,6 +15,7 @@
 <translation id="1294742657282291237">Guyana</translation>
 <translation id="1297168472480293352">Guatemala</translation>
 <translation id="1315809131562953678">Introduce un número de teléfono válido</translation>
+<translation id="1335716056288807013">Si tocas Verificar, confirmas que aceptas nuestras <ph name="START_LINK_1" />condiciones del servicio<ph name="END_LINK" /> y nuestra <ph name="START_LINK_2" />política de privacidad<ph name="END_LINK" />. Podría enviarse un SMS, sujeto a las tarifas de mensajes y uso de datos de tu operador.</translation>
 <translation id="137210131544215127">Introduce tu contraseña.</translation>
 <translation id="1393433815796487579">Listo</translation>
 <translation id="1412449974349991050">Haití</translation>
@@ -46,6 +47,7 @@
 <translation id="2049229571938383319">San Bartolomé</translation>
 <translation id="2058731785647385204">Montserrat</translation>
 <translation id="2070709910567585968">Las contraseñas seguras contienen 6 caracteres como mínimo y combinan letras y números.</translation>
+<translation id="2074008538308369451">Condiciones del servicio</translation>
 <translation id="2108717231438756650">Reino Unido</translation>
 <translation id="2120419640334291526">Islas Caimán</translation>
 <translation id="2124070231227334770">Moldavia</translation>
@@ -54,6 +56,7 @@
 <translation id="2187260952722791093">Verificado</translation>
 <translation id="2192561962270021282">Introduce tu número de teléfono</translation>
 <translation id="2206856445831770486">Github</translation>
+<translation id="2223717216014247341">Política de privacidad</translation>
 <translation id="2224563296468523455">Guam</translation>
 <translation id="2249420035688424170">Croacia</translation>
 <translation id="2251583471831926217">Lituania</translation>
@@ -137,7 +140,7 @@
 <translation id="3608140835232496799">Tokelau</translation>
 <translation id="3620185428620643248">No se admite la credencial seleccionada para el proveedor de autenticación.</translation>
 <translation id="3700097473356216716">Colombia</translation>
-<translation id="3735918113934183391">Prueba a introducir tu número de teléfono de nuevo.</translation>
+<translation id="3703067902498234034">Al tocar Guardar, indicas que aceptas las </translation>
 <translation id="3736041829854387744">Burundi</translation>
 <translation id="3755663127769565780">Mauritania</translation>
 <translation id="3813801701232240278">Twitter</translation>
@@ -157,6 +160,7 @@
 <translation id="4066104405592701692">Estonia</translation>
 <translation id="4090385155496329109">Facebook</translation>
 <translation id="4163133799286985193">Argentina</translation>
+<translation id="4166504762096983411">Si continúas, confirmas que aceptas nuestras <ph name="START_LINK_1" />condiciones del servicio<ph name="END_LINK" /> y nuestra <ph name="START_LINK_2" />política de privacidad<ph name="END_LINK" />.</translation>
 <translation id="420554669252656972">Introduce una nueva dirección de correo electrónico</translation>
 <translation id="4210333062216604630">Desvincular</translation>
 <translation id="4242716276491763916">Guinea-Conakri</translation>
@@ -223,7 +227,7 @@
 <translation id="5602886107840188229">Territorio Británico del Océano Índico</translation>
 <translation id="5604510594682955626">Uganda</translation>
 <translation id="5606731250220630939">Noruega</translation>
-<translation id="5619383224509584356">Has iniciado sesión como <ph name="EMAIL_ADDR" /></translation>
+<translation id="5611074838440670731">Este número de teléfono se ha usado demasiadas veces</translation>
 <translation id="5630396263271753991">Eritrea</translation>
 <translation id="5636713964613741614">Mauricio</translation>
 <translation id="5642254620426025006">Se ha producido un error. Inténtalo de nuevo.</translation>
@@ -256,8 +260,8 @@
 <translation id="6192657410634245771">Argelia</translation>
 <translation id="6213969168046789596">Has introducido una contraseña incorrecta demasiadas veces. Vuelve a intentarlo en unos minutos.</translation>
 <translation id="6216759405419177713">Isla Norfolk</translation>
-<translation id="6283536862756552051">Para poder cambiar la contraseña, primero debes introducir la contraseña actual.</translation>
-<translation id="6299890279889400823">Atrás</translation>
+<translation id="6265373887273416711">Verificar el número de teléfono</translation>
+<translation id="6295157125625453859">Verificado</translation>
 <translation id="6316446940976157217">India</translation>
 <translation id="6327723482938582895">Benín</translation>
 <translation id="6338643731889005578">Continuar</translation>
@@ -300,7 +304,7 @@
 <translation id="6921505896641453739">Correo electrónico</translation>
 <translation id="6929813273561975780">Siguiente</translation>
 <translation id="6951302238647056860">Este código ya no es válido</translation>
-<translation id="6998342825820890463">Política de Privacidad</translation>
+<translation id="6976724207780605356">Iniciar sesión con Facebook</translation>
 <translation id="6999773882165218263">Nombre y apellidos</translation>
 <translation id="7012506961150923116">Granada</translation>
 <translation id="7024571478138322659">Sáhara Occidental</translation>
@@ -321,7 +325,6 @@
 <translation id="7280309713358692490">Corea del Sur</translation>
 <translation id="7291567990403335374">Lesoto</translation>
 <translation id="7291656724505689727">Iniciar sesión con el teléfono</translation>
-<translation id="7319220365822133324">Al tocar Guardar, indicas que aceptas las <ph name="START_LINK" />Condiciones de Servicio<ph name="END_LINK" />.</translation>
 <translation id="7320029088567935126">Prueba a verificar el correo electrónico de nuevo</translation>
 <translation id="7331038350037712642">Azerbaiyán</translation>
 <translation id="743266754881673808">Google</translation>

@@ -15,6 +15,7 @@
 <translation id="1294742657282291237">Γουιάνα</translation>
 <translation id="1297168472480293352">Γουατεμάλα</translation>
 <translation id="1315809131562953678">Εισαγάγετε έναν έγκυρο αριθμό τηλεφώνου</translation>
+<translation id="1335716056288807013">Αν πατήσετε Επαλήθευση, δηλώνετε ότι αποδέχεστε τους <ph name="START_LINK_1" />Όρους Παροχής Υπηρεσιών<ph name="END_LINK" /> και την <ph name="START_LINK_2" />Πολιτική απορρήτου<ph name="END_LINK" />. Μπορεί να σταλεί ένα SMS. Ενδέχεται να ισχύουν χρεώσεις μηνυμάτων και δεδομένων.</translation>
 <translation id="137210131544215127">Εισαγάγετε τον κωδικό πρόσβασής σας</translation>
 <translation id="1393433815796487579">Τέλος</translation>
 <translation id="1412449974349991050">Αϊτή</translation>
@@ -46,6 +47,7 @@
 <translation id="2049229571938383319">Άγιος Βαρθολομαίος</translation>
 <translation id="2058731785647385204">Μοντσεράτ</translation>
 <translation id="2070709910567585968">Οι ισχυροί κωδικοί πρόσβασης έχουν τουλάχιστον 6 χαρακτήρες και έναν συνδυασμό γραμμάτων και αριθμών</translation>
+<translation id="2074008538308369451">Όροι Παροχής Υπηρεσιών</translation>
 <translation id="2108717231438756650">Ηνωμένο Βασίλειο</translation>
 <translation id="2120419640334291526">Νησιά Κέιμαν</translation>
 <translation id="2124070231227334770">Μολδαβία</translation>
@@ -54,6 +56,7 @@
 <translation id="2187260952722791093">Επαληθεύτηκε!</translation>
 <translation id="2192561962270021282">Εισαγάγετε τον αριθμό τηλεφώνου σας</translation>
 <translation id="2206856445831770486">Github</translation>
+<translation id="2223717216014247341">Πολιτική απορρήτου</translation>
 <translation id="2224563296468523455">Γκουάμ</translation>
 <translation id="2249420035688424170">Κροατία</translation>
 <translation id="2251583471831926217">Λιθουανία</translation>
@@ -137,6 +140,7 @@
 <translation id="3608140835232496799">Τοκελάου</translation>
 <translation id="3620185428620643248">Τα επιλεγμένα διαπιστευτήρια για τον πάροχο ελέγχου ταυτότητας δεν υποστηρίζονται!</translation>
 <translation id="3700097473356216716">Κολομβία</translation>
+<translation id="3703067902498234034">Αν πατήσετε "ΑΠΟΘΗΚΕΥΣΗ", δηλώνετε ότι συμφωνείτε με τους </translation>
 <translation id="3736041829854387744">Μπουρούντι</translation>
 <translation id="3755663127769565780">Μαυριτανία</translation>
 <translation id="3813801701232240278">Twitter</translation>
@@ -155,6 +159,7 @@
 <translation id="4066104405592701692">Εσθονία</translation>
 <translation id="4090385155496329109">Facebook</translation>
 <translation id="4163133799286985193">Αργεντινή</translation>
+<translation id="4166504762096983411">Αν συνεχίσετε, δηλώνετε ότι αποδέχεστε τους <ph name="START_LINK_1" />Όρους Παροχής Υπηρεσιών<ph name="END_LINK" /> και την <ph name="START_LINK_2" />Πολιτική απορρήτου<ph name="END_LINK" />.</translation>
 <translation id="420554669252656972">Εισαγάγετε μια νέα διεύθυνση ηλεκτρονικού ταχυδρομείου</translation>
 <translation id="4210333062216604630">Αποσύνδεση</translation>
 <translation id="4242716276491763916">Κονακρί, Γουινέα</translation>
@@ -219,7 +224,7 @@
 <translation id="5602886107840188229">Βρετανικά Εδάφη του Ινδικού Ωκεανού</translation>
 <translation id="5604510594682955626">Ουγκάντα</translation>
 <translation id="5606731250220630939">Νορβηγία</translation>
-<translation id="5619383224509584356">Είστε συνδεδεμένοι ως <ph name="EMAIL_ADDR" /></translation>
+<translation id="5611074838440670731">Αυτός ο αριθμός τηλεφώνου χρησιμοποιήθηκε πάρα πολλές φορές</translation>
 <translation id="5630396263271753991">Ερυθραία</translation>
 <translation id="5636713964613741614">Μαυρίκιος</translation>
 <translation id="5642254620426025006">Κάτι πήγε στραβά. Δοκιμάστε ξανά.</translation>
@@ -252,8 +257,8 @@
 <translation id="6192657410634245771">Αλγερία</translation>
 <translation id="6213969168046789596">Εισαγάγατε λανθασμένο κωδικό πρόσβασης πολλές φορές. Δοκιμάστε ξανά σε μερικά λεπτά.</translation>
 <translation id="6216759405419177713">Νήσος Νόρφολκ</translation>
-<translation id="6283536862756552051">Για να αλλάξετε τον κωδικό πρόσβασής σας, θα πρέπει πρώτα να εισαγάγετε τον τρέχοντα κωδικό πρόσβασης.</translation>
-<translation id="6299890279889400823">Πίσω</translation>
+<translation id="6265373887273416711">Επαλήθευση του τηλεφώνου σας</translation>
+<translation id="6295157125625453859">Επαληθεύτηκε!</translation>
 <translation id="6316446940976157217">Ινδία</translation>
 <translation id="6327723482938582895">Μπενίν</translation>
 <translation id="6338643731889005578">Συνέχεια</translation>
@@ -295,7 +300,7 @@
 <translation id="6921505896641453739">Ηλεκτρονικό ταχυδρομείο</translation>
 <translation id="6929813273561975780">Επόμενο</translation>
 <translation id="6951302238647056860">Αυτός ο κωδικός δεν είναι πλέον έγκυρος</translation>
-<translation id="6998342825820890463">Πολιτική απορρήτου</translation>
+<translation id="6976724207780605356">Σύνδεση μέσω Facebook</translation>
 <translation id="6999773882165218263">Όνομα και επώνυμο</translation>
 <translation id="7012506961150923116">Γρενάδα</translation>
 <translation id="7024571478138322659">Δυτική Σαχάρα</translation>
@@ -316,7 +321,6 @@
 <translation id="7280309713358692490">Νότια Κορέα</translation>
 <translation id="7291567990403335374">Λεσότο</translation>
 <translation id="7291656724505689727">Σύνδεση μέσω τηλεφώνου</translation>
-<translation id="7319220365822133324">Αν πατήσετε "ΑΠΟΘΗΚΕΥΣΗ", δηλώνετε ότι συμφωνείτε με τους <ph name="START_LINK" />Όρους Παροχής Υπηρεσιών<ph name="END_LINK" /></translation>
 <translation id="7320029088567935126">Δοκιμάστε να επαληθεύσετε ξανά τη διεύθυνση ηλεκτρονικού ταχυδρομείου σας</translation>
 <translation id="7331038350037712642">Αζερμπαϊτζάν</translation>
 <translation id="743266754881673808">Google</translation>

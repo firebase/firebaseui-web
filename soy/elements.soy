@@ -337,7 +337,7 @@
  * Renders a notice to the user about SMS rates.
  */
 {template .phoneAuthSmsNotice}
-  <p class="firebaseui-tos">
+  <p class="firebaseui-tos firebaseui-phone-sms-notice">
     {msg desc="Notify the user that an SMS may be sent, which may cost the user money.
         Note that 'Verify' must match the the label of the 'Verify' button that initiates the
         phone number verification."}
@@ -348,32 +348,79 @@
 
 
 /**
- * Renders a Terms of Service agreement for password sign-up.
+ * Renders the links of Terms of Service and Privacy Policy.
  */
-{template .tos}
-  {@param? tosUrl: string} /** The Terms of Service URL. */
-  <p class="firebaseui-tos">
-    {msg desc="Label for the terms of service in a sign-up form"}
-      By tapping SAVE, you are indicating that you agree to the{sp}
-      <a href="{$tosUrl}" class="firebaseui-link" target="_blank">Terms of Service</a>
-    {/msg}
+{template .tosPpLink}
+  {@inject? tosUrl: string} /** The Terms of Service URL. */
+  {@inject? privacyPolicyUrl: string} /** The Privacy Policy URL. */
+  {if $tosUrl and $privacyPolicyUrl}
+    <ul class="firebaseui-tos-list firebaseui-tos">
+      <li class="firebaseui-inline-list-item">
+        <a href="{$tosUrl}" class="firebaseui-link firebaseui-tos-link" target="_blank">
+          {msg desc="Label for the terms of service"}Terms of Service{/msg}
+        </a>
+      </li>
+      <li class="firebaseui-inline-list-item">
+        <a href="{$privacyPolicyUrl}" class="firebaseui-link firebaseui-pp-link" target="_blank">
+          {msg desc="Label for the privacy policy"}Privacy Policy{/msg}
+        </a>
+      </li>
+    </ul>
+  {/if}
+{/template}
+
+
+/**
+ * Renders Terms of Service and Privacy Policy agreement and a notice to the user about SMS rates
+ * for phone authentication.
+ */
+{template .phoneTosPp}
+  {@inject? tosUrl: string} /** The Terms of Service URL. */
+  {@inject? privacyPolicyUrl: string} /** The Privacy Policy URL. */
+  <p class="firebaseui-tos firebaseui-phone-tos">
+    {if $tosUrl and $privacyPolicyUrl}
+      {msg desc="The terms of service and privacy policy for a phone authentication flow. Note that
+          'Verify' must match the the label of the 'Verify' button that completes the
+          phone number verification flow."}
+        By tapping Verify, you are indicating that you accept our{sp}
+        <a href="{$tosUrl}" class="firebaseui-link firebaseui-tos-link" target="_blank">
+          Terms of Service
+        </a> and{sp}
+        <a href="{$privacyPolicyUrl}" class="firebaseui-link firebaseui-pp-link" target="_blank">
+          Privacy Policy
+        </a>
+        . An SMS may be sent. Message &amp; data rates may apply.
+      {/msg}
+    {else}
+      {msg desc="Notify the user that an SMS may be sent, which may cost the user money.
+        Note that 'Verify' must match the the label of the 'Verify' button that initiates the
+        phone number verification."}
+        By tapping Verify, an SMS may be sent. Message &amp; data rates may apply.
+      {/msg}
+    {/if}
   </p>
 {/template}
 
 
 /**
- * Renders a Terms of Service agreement for phone authentication.
+ * Renders full Terms of Service and Privacy Policy agreement for the first page.
  */
-{template .phoneTos}
-  {@param? tosUrl: string} /** The Terms of Service URL. */
-  <p class="firebaseui-tos">
-    {msg desc="The terms of service for a phone authentication flow. Note that
-        'Continue' must match the the label of the 'Continue' button that completes the
-        phone number verification flow."}
-      By tapping Continue you are indicating that you agree to the{sp}
-      <a href="{$tosUrl}" class="firebaseui-link" target="_blank">Terms of Service</a>
-    {/msg}
-  </p>
+{template .fullMessageTosPp}
+  {@inject? tosUrl: string} /** The Terms of Service URL. */
+  {@inject? privacyPolicyUrl: string} /** The Privacy Policy URL. */
+  {if $tosUrl and $privacyPolicyUrl}
+    <p class="firebaseui-tos firebaseui-tospp-full-message">
+      {msg desc="The terms of service and privacy policy for the first page."}
+        By continuing, you are indicating that you accept our{sp}
+        <a href="{$tosUrl}" class="firebaseui-link firebaseui-tos-link" target="_blank">
+          Terms of Service
+        </a> and{sp}
+        <a href="{$privacyPolicyUrl}" class="firebaseui-link firebaseui-pp-link" target="_blank">
+          Privacy Policy
+        </a>.
+      {/msg}
+    </p>
+  {/if}
 {/template}
 
 

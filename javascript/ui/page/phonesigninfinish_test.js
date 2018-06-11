@@ -25,6 +25,7 @@ goog.require('firebaseui.auth.ui.element.FormTestHelper');
 goog.require('firebaseui.auth.ui.element.InfoBarTestHelper');
 goog.require('firebaseui.auth.ui.element.PhoneConfirmationCodeTestHelper');
 goog.require('firebaseui.auth.ui.element.ResendTestHelper');
+goog.require('firebaseui.auth.ui.element.TosPpTestHelper');
 goog.require('firebaseui.auth.ui.page.PageTestHelper');
 goog.require('firebaseui.auth.ui.page.PhoneSignInFinish');
 goog.require('goog.dom');
@@ -53,6 +54,8 @@ var infoBarTestHelper =
     new firebaseui.auth.ui.element.InfoBarTestHelper().registerTests();
 var resendTestHelper =
     new firebaseui.auth.ui.element.ResendTestHelper().registerTests();
+var tosPpTestHelper =
+    new firebaseui.auth.ui.element.TosPpTestHelper().registerTests();
 
 function setUp() {
   // Set up clock.
@@ -69,7 +72,9 @@ function setUp() {
   };
   root = goog.dom.createDom(goog.dom.TagName.DIV);
   document.body.appendChild(root);
-  component = createComponent(phoneNumber);
+  component = createComponent(phoneNumber, 'http://localhost/tos',
+      'http://localhost/privacy_policy');
+  tosPpTestHelper.setComponent(component);
 }
 
 function tearDown() {
@@ -84,11 +89,14 @@ function tearDown() {
 
 
 /**
- * @param {!string} phoneNumber The phone number being confirmed.
+ * @param {string} phoneNumber The phone number being confirmed.
+ * @param {?string=} opt_tosUrl The ToS URL.
+ * @param {?string=} opt_privacyPolicyUrl The Privacy Policy URL.
  * @param {number=} opt_delay The resend delay.
  * @return {!goog.ui.Component} The rendered PhoneSignInFinish component.
  */
-function createComponent(phoneNumber, opt_delay) {
+function createComponent(phoneNumber, opt_tosUrl, opt_privacyPolicyUrl,
+    opt_delay) {
   var component = new firebaseui.auth.ui.page.PhoneSignInFinish(
       onChangePhoneClick,
       goog.bind(
@@ -97,13 +105,16 @@ function createComponent(phoneNumber, opt_delay) {
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onLinkClick,
           formTestHelper),
-      onResendClick, phoneNumber, opt_delay || 0);
+      onResendClick, phoneNumber, opt_delay || 0,
+      opt_tosUrl,
+      opt_privacyPolicyUrl);
   phoneConfirmationCodeTestHelper.setComponent(component);
   formTestHelper.setComponent(component);
   formTestHelper.resetState();
   infoBarTestHelper.setComponent(component);
   resendTestHelper.setComponent(component);
   resendTestHelper.resetState();
+  tosPpTestHelper.setComponent(component);
   component.render(root);
   return component;
 }
@@ -185,7 +196,8 @@ function testPhoneSignInFinish_resendLink() {
 function testPhoneSignInFinish_timer() {
   component.dispose();
 
-  component = createComponent(phoneNumber, 10);
+  component = createComponent(phoneNumber, 'http://localhost/tos',
+      'http://localhost/privacy_policy', 10);
 
   assertResendLinkIsHidden(component, true);
   assertResendCountdownIsHidden(component, false);

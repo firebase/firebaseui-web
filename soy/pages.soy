@@ -23,6 +23,7 @@
 {template .signIn}
   {@param? email: string} /** The email address to prefill. */
   {@param? displayCancelButton: bool} /** Whether to display the cancel button. */
+  {@param? displayFullTosPpMessage: bool} /** Whether to display the full message of ToS and PP. */
   <div class="mdl-card mdl-shadow--2dp firebaseui-container firebaseui-id-page-sign-in">
     <form onsubmit="return false;">
       <div class="firebaseui-card-header">
@@ -43,6 +44,13 @@
           {call firebaseui.auth.soy2.element.submitButton /}
         </div>
       </div>
+      <div class="firebaseui-card-footer">
+        {if $displayFullTosPpMessage}
+          {call firebaseui.auth.soy2.element.fullMessageTosPp data="all" /}
+        {else}
+          {call firebaseui.auth.soy2.element.tosPpLink data="all" /}
+        {/if}
+      </div>
     </form>
   </div>
 {/template}
@@ -53,6 +61,7 @@
  */
 {template .passwordSignIn}
   {@param? email: string} /** The email address to prefill. */
+  {@param? displayFullTosPpMessage: bool} /** Whether to display the full message of ToS and PP. */
   <div class="mdl-card mdl-shadow--2dp firebaseui-container firebaseui-id-page-password-sign-in">
     <form onsubmit="return false;">
       <div class="firebaseui-card-header">
@@ -70,6 +79,13 @@
           {call firebaseui.auth.soy2.element.signInButton /}
         </div>
       </div>
+      <div class="firebaseui-card-footer">
+        {if $displayFullTosPpMessage}
+          {call firebaseui.auth.soy2.element.fullMessageTosPp data="all" /}
+        {else}
+          {call firebaseui.auth.soy2.element.tosPpLink data="all" /}
+        {/if}
+      </div>
     </form>
   </div>
 {/template}
@@ -82,8 +98,8 @@
   {@param? email: string} /** The email address to prefill. */
   {@param? requireDisplayName: bool} /** Whether to show the display name. */
   {@param? name: string} /** The name to prefill. */
-  {@param? tosUrl: string} /** The Terms of Service URL. */
   {@param? allowCancel: bool} /** Whether to show the cancel link. */
+  {@param? displayFullTosPpMessage: bool} /** Whether to display the full message of ToS and PP. */
   <div class="mdl-card mdl-shadow--2dp firebaseui-container firebaseui-id-page-password-sign-up">
     <form onsubmit="return false;">
       <div class="firebaseui-card-header">
@@ -97,7 +113,6 @@
           {call firebaseui.auth.soy2.element.name data="all" /}
         {/if}
         {call firebaseui.auth.soy2.element.newPassword /}
-        {if $tosUrl}{call firebaseui.auth.soy2.element.tos data="all" /}{/if}
       </div>
       <div class="firebaseui-card-actions">
         <div class="firebaseui-form-actions">
@@ -106,6 +121,13 @@
           {/if}
           {call firebaseui.auth.soy2.element.saveButton /}
         </div>
+      </div>
+      <div class="firebaseui-card-footer">
+        {if $displayFullTosPpMessage}
+          {call firebaseui.auth.soy2.element.fullMessageTosPp data="all" /}
+        {else}
+          {call firebaseui.auth.soy2.element.tosPpLink data="all" /}
+        {/if}
       </div>
     </form>
   </div>
@@ -147,6 +169,9 @@
           {/call}
         </div>
       </div>
+      <div class="firebaseui-card-footer">
+        {call firebaseui.auth.soy2.element.tosPpLink data="all" /}
+      </div>
     </form>
   </div>
 {/template}
@@ -186,6 +211,9 @@
           {/call}
         </div>
       {/if}
+    </div>
+    <div class="firebaseui-card-footer">
+      {call firebaseui.auth.soy2.element.tosPpLink data="all" /}
     </div>
   </div>
 {/template}
@@ -238,6 +266,9 @@
           {call firebaseui.auth.soy2.element.signInButton /}
         </div>
       </div>
+      <div class="firebaseui-card-footer">
+        {call firebaseui.auth.soy2.element.tosPpLink data="all" /}
+      </div>
     </form>
   </div>
 {/template}
@@ -280,6 +311,9 @@
             {/param}
           {/call}
         </div>
+      </div>
+      <div class="firebaseui-card-footer">
+        {call firebaseui.auth.soy2.element.tosPpLink data="all" /}
       </div>
     </form>
   </div>
@@ -591,6 +625,9 @@
           {/call}
         </div>
       </div>
+      <div class="firebaseui-card-footer">
+        {call firebaseui.auth.soy2.element.tosPpLink data="all" /}
+      </div>
     </form>
   </div>
 {/template}
@@ -606,15 +643,18 @@
     <div class="firebaseui-card-content">
       <form onsubmit="return false;">
         <ul class="firebaseui-idp-list">
-          {foreach $providerId in $providerIds}
+          {for $providerId in $providerIds}
             <li class="firebaseui-list-item">
               {call firebaseui.auth.soy2.element.idpButton}
                 {param providerId: $providerId /}
               {/call}
             </li>
-          {/foreach}
+          {/for}
         </ul>
       </form>
+    </div>
+    <div class="firebaseui-card-footer firebaseui-provider-sign-in-footer">
+      {call firebaseui.auth.soy2.element.fullMessageTosPp data="all" /}
     </div>
   </div>
 {/template}
@@ -626,6 +666,7 @@
 {template .phoneSignInStart}
   {@param? nationalNumber: string} /** The phone number to prefill. */
   {@param? enableVisibleRecaptcha: bool} /** Whether to enable the visible reCAPTCHA. */
+  {@param? displayFullTosPpMessage: bool} /** Whether to display the full message of ToS and PP. */
   <div class="mdl-card mdl-shadow--2dp{sp}
       firebaseui-container firebaseui-id-page-phone-sign-in-start">
     <form onsubmit="return false;">
@@ -656,7 +697,12 @@
         </div>
       </div>
       <div class="firebaseui-card-footer">
-        {call firebaseui.auth.soy2.element.phoneAuthSmsNotice /}
+        {if $displayFullTosPpMessage}
+          {call firebaseui.auth.soy2.element.phoneTosPp data="all" /}
+        {else}
+          {call firebaseui.auth.soy2.element.phoneAuthSmsNotice /}
+          {call firebaseui.auth.soy2.element.tosPpLink data="all" /}
+        {/if}
       </div>
     </form>
   </div>
@@ -667,7 +713,6 @@
  */
 {template .phoneSignInFinish}
   {@param? phoneNumber: string} /** The phone number to confirm */
-  {@param? tosUrl: string} /** The Terms of Service URL. */
   <div class="mdl-card mdl-shadow--2dp{sp}
       firebaseui-container firebaseui-id-page-phone-sign-in-finish">
     <form onsubmit="return false;">
@@ -707,11 +752,9 @@
           {/call}
         </div>
       </div>
-      {if $tosUrl}
-        <div class="firebaseui-card-footer">
-          {call firebaseui.auth.soy2.element.phoneTos data="all" /}
-        </div>
-      {/if}
+      <div class="firebaseui-card-footer">
+        {call firebaseui.auth.soy2.element.tosPpLink data="all" /}
+      </div>
     </form>
     {call firebaseui.auth.soy2.element.resend /}
   </div>

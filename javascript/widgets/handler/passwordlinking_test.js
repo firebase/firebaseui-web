@@ -106,17 +106,10 @@ function testHandlePasswordLinking() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [credential],
-        {
-          'user': externalAuth.currentUser,
-          'credential': credential,
-          'operationType': 'signIn',
-          'additionalUserInfo': {
-            'providerId': 'facebook.com',
-            'isNewUser': false
-          }
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {
@@ -278,17 +271,10 @@ function testHandlePasswordLinking_signInCallback() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [credential],
-        {
-          'user': externalAuth.currentUser,
-          'credential': credential,
-          'operationType': 'signIn',
-          'additionalUserInfo': {
-            'providerId': 'facebook.com',
-            'isNewUser': false
-          }
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {
@@ -331,19 +317,10 @@ function testHandlePasswordLinking_signInSuccessWithAuthResultCallback() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [credential],
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
         function() {
           externalAuth.setUser(testAuth.currentUser);
-          return {
-            'user': externalAuth.currentUser,
-            'credential': credential,
-            'operationType': 'signIn',
-            'additionalUserInfo': {
-              'providerId': 'facebook.com',
-              'isNewUser': false
-            }
-          };
         });
     return externalAuth.process();
   }).then(function() {
@@ -428,17 +405,10 @@ function testHandlePasswordLinking_wrongPassword() {
         testAuth.assertSignOut([]);
         return testAuth.process();
       }).then(function() {
-        externalAuth.setUser(testAuth.currentUser);
-        externalAuth.assertSignInAndRetrieveDataWithCredential(
-            [credential],
-            {
-              'user': externalAuth.currentUser,
-              'credential': credential,
-              'operationType': 'signIn',
-              'additionalUserInfo': {
-                'providerId': 'facebook.com',
-                'isNewUser': false
-              }
+        externalAuth.assertUpdateCurrentUser(
+            [testAuth.currentUser],
+            function() {
+              externalAuth.setUser(testAuth.currentUser);
             });
         return externalAuth.process();
       }).then(function() {
@@ -499,17 +469,10 @@ function testHandlePasswordLinking_inProcessing() {
         testAuth.assertSignOut([]);
         return testAuth.process();
       }).then(function() {
-        externalAuth.setUser(testAuth.currentUser);
-        externalAuth.assertSignInAndRetrieveDataWithCredential(
-            [credential],
-            {
-              'user': externalAuth.currentUser,
-              'credential': credential,
-              'operationType': 'signIn',
-              'additionalUserInfo': {
-                'providerId': 'facebook.com',
-                'isNewUser': false
-              }
+        externalAuth.assertUpdateCurrentUser(
+            [testAuth.currentUser],
+            function() {
+              externalAuth.setUser(testAuth.currentUser);
             });
         return externalAuth.process();
       }).then(function() {

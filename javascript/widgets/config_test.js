@@ -786,7 +786,39 @@ function testGetQueryParameterForWidgetMode() {
 function testGetTosUrl() {
   assertNull(config.getTosUrl());
   config.update('tosUrl', 'http://localhost/tos');
+  assertNull(config.getTosUrl());
+  // Expected warning should be logged.
+  assertArrayEquals(
+      [
+        'Privacy Policy URL is missing, the link will not be displayed.'
+      ], warningLogMessages);
+  config.update('privacyPolicyUrl', 'http://localhost/privacy_policy');
   assertEquals('http://localhost/tos', config.getTosUrl());
+  // No additional warning logged.
+  assertArrayEquals(
+      [
+        'Privacy Policy URL is missing, the link will not be displayed.'
+      ], warningLogMessages);
+}
+
+
+function testGetPrivacyPolicyUrl() {
+  assertNull(config.getPrivacyPolicyUrl());
+  config.update('privacyPolicyUrl', 'http://localhost/privacy_policy');
+  assertNull(config.getPrivacyPolicyUrl());
+  // Expected warning should be logged.
+  assertArrayEquals(
+      [
+        'Term of Service URL is missing, the link will not be displayed.'
+      ], warningLogMessages);
+  config.update('tosUrl', 'http://localhost/tos');
+  assertEquals('http://localhost/privacy_policy', config.getPrivacyPolicyUrl());
+  // No additional warning logged.
+  assertArrayEquals(
+      [
+        'Term of Service URL is missing, the link will not be displayed.'
+      ], warningLogMessages);
+
 }
 
 
@@ -826,8 +858,12 @@ function testRequireDisplayName_isTrueWithNonBooleanArgs() {
 
 
 function testSetConfig() {
-  config.setConfig({tosUrl: 'www.testUrl.com'});
-  assertEquals('www.testUrl.com', config.getTosUrl());
+  config.setConfig({
+    tosUrl: 'www.testUrl1.com',
+    privacyPolicyUrl: 'www.testUrl2.com'
+  });
+  assertEquals('www.testUrl1.com', config.getTosUrl());
+  assertEquals('www.testUrl2.com', config.getPrivacyPolicyUrl());
 }
 
 

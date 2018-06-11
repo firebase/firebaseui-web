@@ -22,6 +22,7 @@ goog.setTestOnly('firebaseui.auth.ui.page.ProviderSignInTest');
 
 goog.require('firebaseui.auth.ui.element.IdpsTestHelper');
 goog.require('firebaseui.auth.ui.element.InfoBarTestHelper');
+goog.require('firebaseui.auth.ui.element.TosPpTestHelper');
 goog.require('firebaseui.auth.ui.page.PageTestHelper');
 goog.require('firebaseui.auth.ui.page.ProviderSignIn');
 goog.require('goog.dom');
@@ -35,6 +36,8 @@ var idpsTestHelper =
     new firebaseui.auth.ui.element.IdpsTestHelper().registerTests();
 var infoBarTestHelper =
     new firebaseui.auth.ui.element.InfoBarTestHelper().registerTests();
+var tosPpTestHelper =
+    new firebaseui.auth.ui.element.TosPpTestHelper().registerTests();
 
 
 function setUp() {
@@ -44,10 +47,13 @@ function setUp() {
       goog.bind(
           firebaseui.auth.ui.element.IdpsTestHelper.prototype.onClick,
           idpsTestHelper),
-      ['facebook.com', 'password']);
+      ['facebook.com', 'password'],
+      'http://localhost/tos',
+      'http://localhost/privacy_policy');
   component.render(root);
   idpsTestHelper.setComponent(component);
   infoBarTestHelper.setComponent(component);
+  tosPpTestHelper.setComponent(component);
 }
 
 

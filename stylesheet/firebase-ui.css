@@ -219,6 +219,21 @@ input.firebaseui-input-invalid{
   text-align: left;
 }
 
+.firebaseui-provider-sign-in-footer > .firebaseui-tos  {
+  text-align: center;
+}
+
+.firebaseui-tos-list {
+  list-style: none;
+  text-align: right;
+}
+
+.firebaseui-inline-list-item {
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
 .firebaseui-page-provider-sign-in {
   background: inherit;
 }
