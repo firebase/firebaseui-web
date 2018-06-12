@@ -26,10 +26,16 @@
   font: 16px Roboto, arial, sans-serif;
   margin: 0 auto;
   max-width: 360px;
-  overflow: hidden;
+  /** This is needed for the invisible reCAPTCHA badge to show. */
+  overflow: visible;
   position: relative;
   text-align: left;
   width: 100%;
+}
+
+.firebaseui-container.mdl-card {
+  /** This is needed for the invisible reCAPTCHA badge to show. */
+  overflow: visible;
 }
 
 .firebaseui-card-header {

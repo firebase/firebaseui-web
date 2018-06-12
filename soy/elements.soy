@@ -351,17 +351,15 @@
  * Renders the links of Terms of Service and Privacy Policy.
  */
 {template .tosPpLink}
-  {@inject? tosUrl: string} /** The Terms of Service URL. */
-  {@inject? privacyPolicyUrl: string} /** The Privacy Policy URL. */
-  {if $tosUrl and $privacyPolicyUrl}
+  {if $ij.tosUrl and $ij.privacyPolicyUrl}
     <ul class="firebaseui-tos-list firebaseui-tos">
       <li class="firebaseui-inline-list-item">
-        <a href="{$tosUrl}" class="firebaseui-link firebaseui-tos-link" target="_blank">
+        <a href="{$ij.tosUrl}" class="firebaseui-link firebaseui-tos-link" target="_blank">
           {msg desc="Label for the terms of service"}Terms of Service{/msg}
         </a>
       </li>
       <li class="firebaseui-inline-list-item">
-        <a href="{$privacyPolicyUrl}" class="firebaseui-link firebaseui-pp-link" target="_blank">
+        <a href="{$ij.privacyPolicyUrl}" class="firebaseui-link firebaseui-pp-link" target="_blank">
           {msg desc="Label for the privacy policy"}Privacy Policy{/msg}
         </a>
       </li>
@@ -375,18 +373,16 @@
  * for phone authentication.
  */
 {template .phoneTosPp}
-  {@inject? tosUrl: string} /** The Terms of Service URL. */
-  {@inject? privacyPolicyUrl: string} /** The Privacy Policy URL. */
   <p class="firebaseui-tos firebaseui-phone-tos">
-    {if $tosUrl and $privacyPolicyUrl}
+    {if $ij.tosUrl and $ij.privacyPolicyUrl}
       {msg desc="The terms of service and privacy policy for a phone authentication flow. Note that
           'Verify' must match the the label of the 'Verify' button that completes the
           phone number verification flow."}
         By tapping Verify, you are indicating that you accept our{sp}
-        <a href="{$tosUrl}" class="firebaseui-link firebaseui-tos-link" target="_blank">
+        <a href="{$ij.tosUrl}" class="firebaseui-link firebaseui-tos-link" target="_blank">
           Terms of Service
         </a> and{sp}
-        <a href="{$privacyPolicyUrl}" class="firebaseui-link firebaseui-pp-link" target="_blank">
+        <a href="{$ij.privacyPolicyUrl}" class="firebaseui-link firebaseui-pp-link" target="_blank">
           Privacy Policy
         </a>
         . An SMS may be sent. Message &amp; data rates may apply.
@@ -406,16 +402,14 @@
  * Renders full Terms of Service and Privacy Policy agreement for the first page.
  */
 {template .fullMessageTosPp}
-  {@inject? tosUrl: string} /** The Terms of Service URL. */
-  {@inject? privacyPolicyUrl: string} /** The Privacy Policy URL. */
-  {if $tosUrl and $privacyPolicyUrl}
+  {if $ij.tosUrl and $ij.privacyPolicyUrl}
     <p class="firebaseui-tos firebaseui-tospp-full-message">
       {msg desc="The terms of service and privacy policy for the first page."}
         By continuing, you are indicating that you accept our{sp}
-        <a href="{$tosUrl}" class="firebaseui-link firebaseui-tos-link" target="_blank">
+        <a href="{$ij.tosUrl}" class="firebaseui-link firebaseui-tos-link" target="_blank">
           Terms of Service
         </a> and{sp}
-        <a href="{$privacyPolicyUrl}" class="firebaseui-link firebaseui-pp-link" target="_blank">
+        <a href="{$ij.privacyPolicyUrl}" class="firebaseui-link firebaseui-pp-link" target="_blank">
           Privacy Policy
         </a>.
       {/msg}
