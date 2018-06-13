@@ -24,6 +24,7 @@ goog.require('firebaseui.auth.ui.element.FormTestHelper');
 goog.require('firebaseui.auth.ui.element.InfoBarTestHelper');
 goog.require('firebaseui.auth.ui.element.NameTestHelper');
 goog.require('firebaseui.auth.ui.element.NewPasswordTestHelper');
+goog.require('firebaseui.auth.ui.element.TosPpTestHelper');
 goog.require('firebaseui.auth.ui.page.PageTestHelper');
 goog.require('firebaseui.auth.ui.page.PasswordSignUp');
 goog.require('goog.dom');
@@ -47,11 +48,19 @@ var formTestHelper =
     new firebaseui.auth.ui.element.FormTestHelper().registerTests();
 var infoBarTestHelper =
     new firebaseui.auth.ui.element.InfoBarTestHelper().registerTests();
+var tosPpTestHelper =
+    new firebaseui.auth.ui.element.TosPpTestHelper().registerTests();
 
-
-function createComponent(tosUrl, requireDisplayName, opt_name) {
+/**
+ * @param {boolean} requireDisplayName Whether to show the display name.
+ * @param {?string=} opt_tosUrl The ToS URL.
+ * @param {?string=} opt_privacyPolicyUrl The Privacy Policy URL.
+ * @param {string=} opt_name The name to prefill.
+ * @return {!goog.ui.Component} The rendered PhoneSignInFinish component.
+ */
+function createComponent(
+    requireDisplayName, opt_tosUrl, opt_privacyPolicyUrl, opt_name) {
   var component = new firebaseui.auth.ui.page.PasswordSignUp(
-      tosUrl,
       requireDisplayName,
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
@@ -60,7 +69,9 @@ function createComponent(tosUrl, requireDisplayName, opt_name) {
           firebaseui.auth.ui.element.FormTestHelper.prototype.onLinkClick,
           formTestHelper),
       'user@example.com',
-      opt_name);
+      opt_name,
+      opt_tosUrl,
+      opt_privacyPolicyUrl);
   component.render(root);
   emailTestHelper.setComponent(component);
   nameTestHelper.setComponent(component);
@@ -69,6 +80,7 @@ function createComponent(tosUrl, requireDisplayName, opt_name) {
   // Reset previous state of form helper.
   formTestHelper.resetState();
   infoBarTestHelper.setComponent(component);
+  tosPpTestHelper.setComponent(component);
   return component;
 }
 
@@ -76,7 +88,8 @@ function createComponent(tosUrl, requireDisplayName, opt_name) {
 function setUp() {
   root = goog.dom.createDom(goog.dom.TagName.DIV);
   document.body.appendChild(root);
-  component = createComponent('http://localhost/tos', true);
+  component = createComponent(true, 'http://localhost/tos',
+      'http://localhost/privacy_policy');
 }
 
 
@@ -92,7 +105,6 @@ function testInitialFocus_email() {
   }
   component.dispose();
   component = new firebaseui.auth.ui.page.PasswordSignUp(
-      null,
       true,
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
@@ -120,7 +132,6 @@ function testInitialFocus_nameIsNotRequired() {
   }
   component.dispose();
   component = new firebaseui.auth.ui.page.PasswordSignUp(
-      null,
       false,
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
@@ -135,10 +146,14 @@ function testInitialFocus_newPassword() {
     return;
   }
   component.dispose();
-  component = createComponent('http://localhost/tos', true, 'John Doe');
+  component = createComponent(true, 'http://localhost/tos',
+      'http://localhost/privacy_policy', 'John Doe');
   assertEquals(
       component.getNewPasswordElement(),
       goog.dom.getActiveElement(document));
+  tosPpTestHelper.setComponent(component);
+  tosPpTestHelper.assertFooter('http://localhost/tos',
+      'http://localhost/privacy_policy');
 }
 
 
@@ -157,7 +172,6 @@ function testFocusOnEmailEnter_nameIsNotRequired() {
   }
   component.dispose();
   component = new firebaseui.auth.ui.page.PasswordSignUp(
-      null,
       false,
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
@@ -185,10 +199,57 @@ function testFocusToNewPasswordOnNameEnter() {
 
 function testSubmitOnNewPasswordEnter() {
   component.dispose();
-  component = createComponent(null, true); // No ToS.
+  component = createComponent(true); // No ToS.
   goog.testing.events.fireKeySequence(
       component.getNewPasswordElement(), goog.events.KeyCodes.ENTER);
   formTestHelper.assertSubmitted();
+  tosPpTestHelper.setComponent(component);
+  tosPpTestHelper.assertFooter(null, null);
+}
+
+
+function testPasswordSignUp_fullMessage() {
+  if (goog.userAgent.IE && !goog.userAgent.isDocumentModeOrHigher(9)) {
+    return;
+  }
+  component.dispose();
+  component = new firebaseui.auth.ui.page.PasswordSignUp(
+      true,
+      goog.bind(
+          firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
+          formTestHelper),
+      undefined,
+      undefined,
+      undefined,
+      'http://localhost/tos',
+      'http://localhost/privacy_policy',
+      true);
+  tosPpTestHelper.setComponent(component);
+  component.render(root);
+  tosPpTestHelper.assertFullMessage(
+      'http://localhost/tos', 'http://localhost/privacy_policy');
+}
+
+
+function testPasswordSignUp_fullMessage_noUrl() {
+  if (goog.userAgent.IE && !goog.userAgent.isDocumentModeOrHigher(9)) {
+    return;
+  }
+  component.dispose();
+  component = new firebaseui.auth.ui.page.PasswordSignUp(
+      true,
+      goog.bind(
+          firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
+          formTestHelper),
+      undefined,
+      undefined,
+      undefined,
+      null,
+      null,
+      true);
+  tosPpTestHelper.setComponent(component);
+  component.render(root);
+  tosPpTestHelper.assertFullMessage(null, null);
 }
 
 
@@ -197,7 +258,6 @@ function testPasswordSignUp_pageEvents() {
   var pageTestHelper = new firebaseui.auth.ui.page.PageTestHelper();
   // Initialize component.
   component = new firebaseui.auth.ui.page.PasswordSignUp(
-      null,
       true,
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,

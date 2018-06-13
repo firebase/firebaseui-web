@@ -15,6 +15,7 @@
 <translation id="1294742657282291237">Guyana</translation>
 <translation id="1297168472480293352">Guatemala</translation>
 <translation id="1315809131562953678">Angiv et gyldigt telefonnummer</translation>
+<translation id="1335716056288807013">Ved at trykke på Bekræft accepterer du vores <ph name="START_LINK_1" />Servicevilkår<ph name="END_LINK" /> og <ph name="START_LINK_2" />Privatlivspolitik<ph name="END_LINK" />. Der bliver evt. sendt en sms. Der opkræves muligvis gebyrer for beskeder og data.</translation>
 <translation id="137210131544215127">Angiv din adgangskode</translation>
 <translation id="1393433815796487579">Udført</translation>
 <translation id="1412449974349991050">Haiti</translation>
@@ -46,6 +47,7 @@
 <translation id="2049229571938383319">Saint-Barthélemy</translation>
 <translation id="2058731785647385204">Montserrat</translation>
 <translation id="2070709910567585968">Stærke adgangskoder har mindst 6 tegn og en blanding af bogstaver og tal</translation>
+<translation id="2074008538308369451">Servicevilkår</translation>
 <translation id="2108717231438756650">Storbritannien og Nordirland</translation>
 <translation id="2120419640334291526">Caymanøerne</translation>
 <translation id="2124070231227334770">Moldova</translation>
@@ -54,6 +56,7 @@
 <translation id="2187260952722791093">Bekræftet!</translation>
 <translation id="2192561962270021282">Angiv dit telefonnummer</translation>
 <translation id="2206856445831770486">Github</translation>
+<translation id="2223717216014247341">Privatlivspolitik</translation>
 <translation id="2224563296468523455">Guam</translation>
 <translation id="2249420035688424170">Kroatien</translation>
 <translation id="2251583471831926217">Litauen</translation>
@@ -137,6 +140,7 @@
 <translation id="3608140835232496799">Tokelau</translation>
 <translation id="3620185428620643248">De valgte loginoplysninger for udbyderen af godkendelse understøttes ikke.</translation>
 <translation id="3700097473356216716">Colombia</translation>
+<translation id="3703067902498234034">Ved at trykke på GEM angiver du, at du accepterer </translation>
 <translation id="3736041829854387744">Burundi</translation>
 <translation id="3755663127769565780">Mauretanien</translation>
 <translation id="3813801701232240278">Twitter</translation>
@@ -155,6 +159,7 @@
 <translation id="4066104405592701692">Estland</translation>
 <translation id="4090385155496329109">Facebook</translation>
 <translation id="4163133799286985193">Argentina</translation>
+<translation id="4166504762096983411">Ved at fortsætte accepterer du vores <ph name="START_LINK_1" />Servicevilkår<ph name="END_LINK" /> og <ph name="START_LINK_2" />Privatlivspolitik<ph name="END_LINK" />.</translation>
 <translation id="420554669252656972">Angiv en ny mailadresse</translation>
 <translation id="4210333062216604630">Fjern tilknytning</translation>
 <translation id="4242716276491763916">Guinea</translation>
@@ -219,7 +224,7 @@
 <translation id="5602886107840188229">Britisk Territorium i Det Indiske Ocean</translation>
 <translation id="5604510594682955626">Uganda</translation>
 <translation id="5606731250220630939">Norge</translation>
-<translation id="5619383224509584356">Du er logget ind som <ph name="EMAIL_ADDR" /></translation>
+<translation id="5611074838440670731">Dette telefonnummer er blevet brugt for mange gange</translation>
 <translation id="5630396263271753991">Eritrea</translation>
 <translation id="5636713964613741614">Mauritius</translation>
 <translation id="5642254620426025006">Der opstod en fejl. Prøv igen.</translation>
@@ -252,8 +257,8 @@
 <translation id="6192657410634245771">Algeriet</translation>
 <translation id="6213969168046789596">Du har indtastet en forkert adgangskode for mange gange. Prøv igen om et par minutter.</translation>
 <translation id="6216759405419177713">Norfolkøen</translation>
-<translation id="6283536862756552051">For at ændre din adgangskode skal du først angive din nuværende adgangskode.</translation>
-<translation id="6299890279889400823">Tilbage</translation>
+<translation id="6265373887273416711">Bekræft dit telefonnummer</translation>
+<translation id="6295157125625453859">Bekræftet!</translation>
 <translation id="6316446940976157217">Indien</translation>
 <translation id="6327723482938582895">Benin</translation>
 <translation id="6338643731889005578">Fortsæt</translation>
@@ -295,7 +300,7 @@
 <translation id="6921505896641453739">Mail</translation>
 <translation id="6929813273561975780">Næste</translation>
 <translation id="6951302238647056860">Denne kode er ikke længere gyldig</translation>
-<translation id="6998342825820890463">Privatlivspolitik</translation>
+<translation id="6976724207780605356">Log ind med Facebook</translation>
 <translation id="6999773882165218263">For- og efternavn</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Vestsahara</translation>
@@ -316,7 +321,6 @@
 <translation id="7280309713358692490">Sydkorea</translation>
 <translation id="7291567990403335374">Lesotho</translation>
 <translation id="7291656724505689727">Log ind med telefon</translation>
-<translation id="7319220365822133324">Ved at trykke på GEM angiver du, at du accepterer <ph name="START_LINK" />Servicevilkår<ph name="END_LINK" /></translation>
 <translation id="7320029088567935126">Prøv at bekræfte din mail igen</translation>
 <translation id="7331038350037712642">Aserbajdsjan</translation>
 <translation id="743266754881673808">Google</translation>

@@ -23,6 +23,7 @@ goog.require('firebaseui.auth.ui.element.EmailTestHelper');
 goog.require('firebaseui.auth.ui.element.FormTestHelper');
 goog.require('firebaseui.auth.ui.element.InfoBarTestHelper');
 goog.require('firebaseui.auth.ui.element.PasswordTestHelper');
+goog.require('firebaseui.auth.ui.element.TosPpTestHelper');
 goog.require('firebaseui.auth.ui.page.PageTestHelper');
 goog.require('firebaseui.auth.ui.page.PasswordSignIn');
 goog.require('goog.dom');
@@ -44,6 +45,8 @@ var formTestHelper =
     new firebaseui.auth.ui.element.FormTestHelper().registerTests();
 var infoBarTestHelper =
     new firebaseui.auth.ui.element.InfoBarTestHelper().registerTests();
+var tosPpTestHelper =
+    new firebaseui.auth.ui.element.TosPpTestHelper().registerTests();
 
 
 function setUp() {
@@ -56,7 +59,9 @@ function setUp() {
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onLinkClick,
           formTestHelper),
-      'user@example.com');
+      'user@example.com',
+      'http://localhost/tos',
+      'http://localhost/privacy_policy');
   component.render(root);
   emailTestHelper.setComponent(component);
   passwordTestHelper.setComponent(component);
@@ -64,6 +69,7 @@ function setUp() {
   // Reset previous state of form helper.
   formTestHelper.resetState();
   infoBarTestHelper.setComponent(component);
+  tosPpTestHelper.setComponent(component);
 }
 
 
@@ -114,6 +120,81 @@ function testSubmitOnPasswordEnter() {
   goog.testing.events.fireKeySequence(
       component.getPasswordElement(), goog.events.KeyCodes.ENTER);
   formTestHelper.assertSubmitted();
+}
+
+
+function testPasswordSignIn_fullMessage() {
+  if (goog.userAgent.IE && !goog.userAgent.isDocumentModeOrHigher(9)) {
+    return;
+  }
+  component.dispose();
+  component = new firebaseui.auth.ui.page.PasswordSignIn(
+      goog.bind(
+          firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
+          formTestHelper),
+      goog.bind(
+          firebaseui.auth.ui.element.FormTestHelper.prototype.onLinkClick,
+          formTestHelper),
+      'user@example.com',
+      'http://localhost/tos',
+      'http://localhost/privacy_policy',
+      true);
+  tosPpTestHelper.setComponent(component);
+  component.render(root);
+  tosPpTestHelper.assertFullMessage(
+      'http://localhost/tos', 'http://localhost/privacy_policy');
+}
+
+
+function testPasswordSignIn_fullMessage_noUrl() {
+  if (goog.userAgent.IE && !goog.userAgent.isDocumentModeOrHigher(9)) {
+    return;
+  }
+  component.dispose();
+  component = new firebaseui.auth.ui.page.PasswordSignIn(
+      goog.bind(
+          firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
+          formTestHelper),
+      goog.bind(
+          firebaseui.auth.ui.element.FormTestHelper.prototype.onLinkClick,
+          formTestHelper),
+      'user@example.com',
+      null,
+      null,
+      true);
+  tosPpTestHelper.setComponent(component);
+  component.render(root);
+  tosPpTestHelper.assertFullMessage(null, null);
+}
+
+
+function testPasswordSignIn_footer() {
+  if (goog.userAgent.IE && !goog.userAgent.isDocumentModeOrHigher(9)) {
+    return;
+  }
+  tosPpTestHelper.assertFooter(
+      'http://localhost/tos', 'http://localhost/privacy_policy');
+}
+
+
+function testPasswordSignIn_footer_noUrl() {
+  if (goog.userAgent.IE && !goog.userAgent.isDocumentModeOrHigher(9)) {
+    return;
+  }
+  component.dispose();
+  component = new firebaseui.auth.ui.page.PasswordSignIn(
+      goog.bind(
+          firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
+          formTestHelper),
+      goog.bind(
+          firebaseui.auth.ui.element.FormTestHelper.prototype.onLinkClick,
+          formTestHelper),
+      'user@example.com',
+      null,
+      null);
+  tosPpTestHelper.setComponent(component);
+  component.render(root);
+  tosPpTestHelper.assertFooter(null, null);
 }
 
 

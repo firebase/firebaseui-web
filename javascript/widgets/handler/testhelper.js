@@ -196,10 +196,12 @@ function setUp() {
     'siteName': 'Test Site',
     'popupMode': false,
     'tosUrl': 'http://localhost/tos',
+    'privacyPolicyUrl': 'http://localhost/privacy_policy',
     'credentialHelper': firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
     'callbacks': {
       'signInFailure': signInFailureCallback
-    }
+    },
+
   });
   window.localStorage.clear();
   window.sessionStorage.clear();
@@ -634,6 +636,78 @@ function getPhoneConfirmationCodeErrorMessage() {
       'firebaseui-id-phone-confirmation-code-error', container);
   assertFalse(goog.dom.classlist.contains(element, 'firebaseui-hidden'));
   return goog.dom.getTextContent(element);
+}
+
+
+/**
+ * @param {?string} tosUrl
+ * @param {?string} privacyPolicyUrl
+ */
+function assertTosPpFullMessage(tosUrl, privacyPolicyUrl) {
+  var element = goog.dom.getElementByClass('firebaseui-tos', container);
+  if (!tosUrl && !privacyPolicyUrl) {
+    assertNull(element);
+  } else {
+    assertTrue(element.classList.contains('firebaseui-tospp-full-message'));
+    var tosLinkElement = goog.dom.getElementByClass(
+      'firebaseui-tos-link', container);
+    var ppLinkElement = goog.dom.getElementByClass(
+      'firebaseui-pp-link', container);
+    assertEquals(tosUrl, tosLinkElement.href);
+    assertEquals(privacyPolicyUrl, ppLinkElement.href);
+  }
+}
+
+
+/**
+ * @param {?string} tosUrl
+ * @param {?string} privacyPolicyUrl
+ */
+function assertTosPpFooter(tosUrl, privacyPolicyUrl) {
+  var element = goog.dom.getElementByClass('firebaseui-tos-list', container);
+  if (!tosUrl && !privacyPolicyUrl) {
+    assertNull(element);
+  } else {
+    assertTrue(element.classList.contains('firebaseui-tos-list'));
+    var tosLinkElement = goog.dom.getElementByClass(
+      'firebaseui-tos-link', container);
+    var ppLinkElement = goog.dom.getElementByClass(
+      'firebaseui-pp-link', container);
+    assertEquals(tosUrl, tosLinkElement.href);
+    assertEquals(privacyPolicyUrl,ppLinkElement.href);
+  }
+}
+
+
+/**
+ * @param {?string} tosUrl
+ * @param {?string} privacyPolicyUrl
+ */
+function assertPhoneFullMessage(tosUrl, privacyPolicyUrl) {
+  var element = goog.dom.getElementByClass('firebaseui-tos', container);
+  assertTrue(element.classList.contains('firebaseui-phone-tos'));
+  var tosLinkElement = goog.dom.getElementByClass(
+      'firebaseui-tos-link', container);
+  var ppLinkElement = goog.dom.getElementByClass(
+      'firebaseui-pp-link', container);
+  if (!tosUrl && !privacyPolicyUrl) {
+    assertNull(tosLinkElement);
+    assertNull(ppLinkElement);
+  } else {
+    assertEquals(tosUrl, tosLinkElement.href);
+    assertEquals(privacyPolicyUrl, ppLinkElement.href);
+  }
+}
+
+
+/**
+ * @param {?string} tosUrl
+ * @param {?string} privacyPolicyUrl
+ */
+function assertPhoneFooter(tosUrl, privacyPolicyUrl) {
+  var element = goog.dom.getElementByClass('firebaseui-tos', container);
+  assertTrue(element.classList.contains('firebaseui-phone-sms-notice'));
+  assertTosPpFooter(tosUrl, privacyPolicyUrl);
 }
 
 

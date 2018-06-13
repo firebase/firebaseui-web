@@ -23,6 +23,7 @@ goog.require('firebaseui.auth.ui.element');
 goog.require('firebaseui.auth.ui.element.email');
 goog.require('firebaseui.auth.ui.element.form');
 goog.require('firebaseui.auth.ui.element.password');
+goog.require('firebaseui.auth.ui.element.tospp');
 goog.require('firebaseui.auth.ui.page.Base');
 
 
@@ -34,6 +35,10 @@ goog.require('firebaseui.auth.ui.page.Base');
  * @param {function()} onForgotClick Callback to invoke when the forgot password
  *     link is clicked.
  * @param {string=} opt_email The email to prefill.
+ * @param {?string=} opt_tosUrl The ToS URL.
+ * @param {?string=} opt_privacyPolicyUrl The Privacy Policy URL.
+ * @param {boolean=} opt_displayFullTosPpMessage Whether to display the full
+ *     message of Term of Service and Privacy Policy.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @constructor
  * @extends {firebaseui.auth.ui.page.Base}
@@ -42,14 +47,24 @@ firebaseui.auth.ui.page.PasswordSignIn = function(
     onSubmitClick,
     onForgotClick,
     opt_email,
+    opt_tosUrl,
+    opt_privacyPolicyUrl,
+    opt_displayFullTosPpMessage,
     opt_domHelper) {
   firebaseui.auth.ui.page.PasswordSignIn.base(
       this,
       'constructor',
       firebaseui.auth.soy2.page.passwordSignIn,
-      {email: opt_email},
+      {
+        email: opt_email,
+        displayFullTosPpMessage: !!opt_displayFullTosPpMessage
+      },
       opt_domHelper,
-      'passwordSignIn');
+      'passwordSignIn',
+      {
+        tosUrl: opt_tosUrl,
+        privacyPolicyUrl: opt_privacyPolicyUrl
+      });
   this.onSubmitClick_ = onSubmitClick;
   this.onForgotClick_ = onForgotClick;
 };
@@ -115,5 +130,15 @@ goog.mixin(
       getSecondaryLinkElement:
           firebaseui.auth.ui.element.form.getSecondaryLinkElement,
       initFormElement:
-          firebaseui.auth.ui.element.form.initFormElement
+          firebaseui.auth.ui.element.form.initFormElement,
+
+      // For ToS and Privacy Policy.
+      getTosPpElement:
+          firebaseui.auth.ui.element.tospp.getTosPpElement,
+      getTosLinkElement:
+          firebaseui.auth.ui.element.tospp.getTosLinkElement,
+      getPpLinkElement:
+          firebaseui.auth.ui.element.tospp.getPpLinkElement,
+      getTosPpListElement:
+          firebaseui.auth.ui.element.tospp.getTosPpListElement
     });

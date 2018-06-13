@@ -15,6 +15,7 @@
 <translation id="1294742657282291237">Гайана</translation>
 <translation id="1297168472480293352">Гватемала</translation>
 <translation id="1315809131562953678">Введите действительный номер телефона.</translation>
+<translation id="1335716056288807013">Нажимая "Подтвердить", вы принимаете наши <ph name="START_LINK_1" />Условия использования<ph name="END_LINK" /> и <ph name="START_LINK_2" />Политику конфиденциальности<ph name="END_LINK" />, а также соглашаетесь получить SMS. За его отправку и обмен данными может взиматься плата.</translation>
 <translation id="137210131544215127">Введите пароль.</translation>
 <translation id="1393433815796487579">Готово</translation>
 <translation id="1412449974349991050">Гаити</translation>
@@ -46,6 +47,7 @@
 <translation id="2049229571938383319">Сен-Бартелеми</translation>
 <translation id="2058731785647385204">Монтсеррат</translation>
 <translation id="2070709910567585968">Пароль должен состоять из букв и цифр и содержать не меньше 6 символов.</translation>
+<translation id="2074008538308369451">Условия использования</translation>
 <translation id="2108717231438756650">Великобритания</translation>
 <translation id="2120419640334291526">Острова Кайман</translation>
 <translation id="2124070231227334770">Молдова</translation>
@@ -54,6 +56,7 @@
 <translation id="2187260952722791093">Проверка выполнена.</translation>
 <translation id="2192561962270021282">Введите номер телефона</translation>
 <translation id="2206856445831770486">GitHub</translation>
+<translation id="2223717216014247341">Политика конфиденциальности</translation>
 <translation id="2224563296468523455">Гуам</translation>
 <translation id="2249420035688424170">Хорватия</translation>
 <translation id="2251583471831926217">Литва</translation>
@@ -137,7 +140,7 @@
 <translation id="3608140835232496799">Токелау</translation>
 <translation id="3620185428620643248">Поставщик услуг аутентификации не поддерживает эти учетные данные.</translation>
 <translation id="3700097473356216716">Колумбия</translation>
-<translation id="3735918113934183391">Вы указали номер телефона с ошибкой.</translation>
+<translation id="3703067902498234034">Нажимая кнопку "Сохранить", вы принимаете </translation>
 <translation id="3736041829854387744">Бурунди</translation>
 <translation id="3755663127769565780">Мавритания</translation>
 <translation id="3813801701232240278">Twitter</translation>
@@ -157,6 +160,7 @@
 <translation id="4066104405592701692">Эстония</translation>
 <translation id="4090385155496329109">Facebook</translation>
 <translation id="4163133799286985193">Аргентина</translation>
+<translation id="4166504762096983411">Продолжая, вы принимаете наши <ph name="START_LINK_1" />Условия использования<ph name="END_LINK" /> и <ph name="START_LINK_2" />Политику конфиденциальности<ph name="END_LINK" />.</translation>
 <translation id="420554669252656972">Введите новый адрес</translation>
 <translation id="4210333062216604630">Отменить связь</translation>
 <translation id="4242716276491763916">Гвинея</translation>
@@ -223,7 +227,7 @@
 <translation id="5602886107840188229">Британская территория в Индийском океане</translation>
 <translation id="5604510594682955626">Уганда</translation>
 <translation id="5606731250220630939">Норвегия</translation>
-<translation id="5619383224509584356">Вы вошли как <ph name="EMAIL_ADDR" /></translation>
+<translation id="5611074838440670731">Этот номер телефона использовался слишком много раз.</translation>
 <translation id="5630396263271753991">Эритрея</translation>
 <translation id="5636713964613741614">Маврикий</translation>
 <translation id="5642254620426025006">Произошла ошибка. Повторите попытку.</translation>
@@ -256,8 +260,8 @@
 <translation id="6192657410634245771">Алжир</translation>
 <translation id="6213969168046789596">Вы неправильно ввели пароль слишком много раз. Прежде чем повторить попытку, подождите несколько минут.</translation>
 <translation id="6216759405419177713">Остров Норфолк</translation>
-<translation id="6283536862756552051">Сначала нужно ввести текущий пароль.</translation>
-<translation id="6299890279889400823">Назад</translation>
+<translation id="6265373887273416711">Подтвердить номер телефона</translation>
+<translation id="6295157125625453859">Проверка выполнена.</translation>
 <translation id="6316446940976157217">Индия</translation>
 <translation id="6327723482938582895">Бенин</translation>
 <translation id="6338643731889005578">Продолжить</translation>
@@ -300,7 +304,7 @@
 <translation id="6921505896641453739">Адрес электронной почты</translation>
 <translation id="6929813273561975780">Далее</translation>
 <translation id="6951302238647056860">Этот код уже неактивен.</translation>
-<translation id="6998342825820890463">Политику конфиденциальности</translation>
+<translation id="6976724207780605356">Войти через аккаунт Facebook</translation>
 <translation id="6999773882165218263">Имя и фамилия</translation>
 <translation id="7012506961150923116">Гренада</translation>
 <translation id="7024571478138322659">Западная Сахара</translation>
@@ -321,7 +325,6 @@
 <translation id="7280309713358692490">Республика Корея</translation>
 <translation id="7291567990403335374">Лесото</translation>
 <translation id="7291656724505689727">Войти по номеру телефона</translation>
-<translation id="7319220365822133324">Нажимая кнопку "Сохранить", вы принимаете <ph name="START_LINK" />Условия использования<ph name="END_LINK" /></translation>
 <translation id="7320029088567935126">Повторите попытку</translation>
 <translation id="7331038350037712642">Азербайджан</translation>
 <translation id="743266754881673808">Google</translation>
