@@ -48,7 +48,7 @@ config = {
   // Jasmine options. Increase the timeout to 5min instead of the default 30s.
   jasmineNodeOpts: {
     // Default time to wait in ms before a test fails.
-    defaultTimeoutInterval: 5 * 60 * 1000
+    defaultTimeoutInterval: 10 * 60 * 1000
   }
 };
 
