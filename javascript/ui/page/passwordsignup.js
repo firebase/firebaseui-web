@@ -24,13 +24,13 @@ goog.require('firebaseui.auth.ui.element.email');
 goog.require('firebaseui.auth.ui.element.form');
 goog.require('firebaseui.auth.ui.element.name');
 goog.require('firebaseui.auth.ui.element.newPassword');
+goog.require('firebaseui.auth.ui.element.tospp');
 goog.require('firebaseui.auth.ui.page.Base');
 
 
 
 /**
  * Password sign-up UI component.
- * @param {?string} tosUrl The ToS URL.
  * @param {boolean} requireDisplayName Whether to show the display name.
  * @param {function()} onSubmitClick Callback to invoke when the submit button
  *     is clicked.
@@ -38,17 +38,23 @@ goog.require('firebaseui.auth.ui.page.Base');
  *     button is clicked.
  * @param {string=} opt_email The email to prefill.
  * @param {string=} opt_name The name to prefill.
+ * @param {?string=} opt_tosUrl The ToS URL.
+ * @param {?string=} opt_privacyPolicyUrl The Privacy Policy URL.
+ * @param {boolean=} opt_displayFullTosPpMessage Whether to display the full
+ *     message of Term of Service and Privacy Policy.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @constructor
  * @extends {firebaseui.auth.ui.page.Base}
  */
 firebaseui.auth.ui.page.PasswordSignUp = function(
-    tosUrl,
     requireDisplayName,
     onSubmitClick,
     opt_onCancelClick,
     opt_email,
     opt_name,
+    opt_tosUrl,
+    opt_privacyPolicyUrl,
+    opt_displayFullTosPpMessage,
     opt_domHelper) {
   firebaseui.auth.ui.page.PasswordSignUp.base(
       this,
@@ -58,11 +64,15 @@ firebaseui.auth.ui.page.PasswordSignUp = function(
         email: opt_email,
         requireDisplayName: requireDisplayName,
         name: opt_name,
-        tosUrl: tosUrl,
-        allowCancel: !!opt_onCancelClick
+        allowCancel: !!opt_onCancelClick,
+        displayFullTosPpMessage: !!opt_displayFullTosPpMessage
       },
       opt_domHelper,
-      'passwordSignUp');
+      'passwordSignUp',
+      {
+        tosUrl: opt_tosUrl,
+        privacyPolicyUrl: opt_privacyPolicyUrl
+      });
   this.onSubmitClick_ = onSubmitClick;
   this.onCancelClick_ = opt_onCancelClick;
   this.requireDisplayName_ = requireDisplayName;
@@ -169,5 +179,15 @@ goog.mixin(
       getSecondaryLinkElement:
           firebaseui.auth.ui.element.form.getSecondaryLinkElement,
       initFormElement:
-          firebaseui.auth.ui.element.form.initFormElement
+          firebaseui.auth.ui.element.form.initFormElement,
+
+      // For ToS and Privacy Policy.
+      getTosPpElement:
+          firebaseui.auth.ui.element.tospp.getTosPpElement,
+      getTosLinkElement:
+          firebaseui.auth.ui.element.tospp.getTosLinkElement,
+      getPpLinkElement:
+          firebaseui.auth.ui.element.tospp.getPpLinkElement,
+      getTosPpListElement:
+          firebaseui.auth.ui.element.tospp.getTosPpListElement
     });

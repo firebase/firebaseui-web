@@ -37,7 +37,9 @@ var IJ_DATA_ = {
   'facebookLogo': '../image/facebook.svg',
   'twitterLogo': '../image/twitter.svg',
   'passwordLogo': '../image/mail.svg',
-  'phoneLogo': '../image/phone.svg'
+  'phoneLogo': '../image/phone.svg',
+  'tosUrl': 'tos',
+  'privacyPolicyUrl': 'privacy_policy'
 };
 
 
@@ -281,6 +283,27 @@ function testInfoBar() {
   var infoBar = goog.soy.renderAsElement(
       firebaseui.auth.soy2.element.infoBar, {'message': 'This is an error.'});
   root.appendChild(infoBar);
+}
+
+
+function testTosPpLink() {
+  var root = goog.dom.getElement('tos-pp-link');
+  goog.soy.renderElement(root, firebaseui.auth.soy2.element.tosPpLink,
+      {}, IJ_DATA_);
+}
+
+
+function testPhoneTosPp() {
+  var root = goog.dom.getElement('phone-tos-pp');
+  goog.soy.renderElement(root, firebaseui.auth.soy2.element.phoneTosPp,
+      {}, IJ_DATA_);
+}
+
+
+function testFullMessageTosPp() {
+  var root = goog.dom.getElement('full-message-tos-pp');
+  goog.soy.renderElement(root, firebaseui.auth.soy2.element.fullMessageTosPp,
+      {}, IJ_DATA_);
 }
 
 

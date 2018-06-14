@@ -88,14 +88,10 @@ function testHandleFederatedSignIn_cordova() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [cred],
-        {
-          'user': externalAuth.currentUser,
-          'credential': cred,
-          'operationType': 'signIn',
-          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {
@@ -187,14 +183,10 @@ function testHandleFederatedSignIn_popup_success() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [cred],
-        {
-          'user': externalAuth.currentUser,
-          'credential': cred,
-          'operationType': 'signIn',
-          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {
@@ -244,14 +236,10 @@ function testHandleFederatedSignIn_popup_success_multipleClicks() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [cred],
-        {
-          'user': externalAuth.currentUser,
-          'credential': cred,
-          'operationType': 'signIn',
-          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {

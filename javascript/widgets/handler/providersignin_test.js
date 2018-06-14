@@ -99,6 +99,8 @@ function setupProviderSignInPage(
   assertEquals('facebook.com', goog.dom.dataset.get(buttons[1], 'providerId'));
   assertEquals('password', goog.dom.dataset.get(buttons[2], 'providerId'));
   assertEquals('phone', goog.dom.dataset.get(buttons[3], 'providerId'));
+  assertTosPpFullMessage(
+      'http://localhost/tos', 'http://localhost/privacy_policy');
 }
 
 
@@ -122,6 +124,27 @@ function testHandleProviderSignIn() {
 
   testAuth.assertSignInWithRedirect([expectedProvider]);
   return testAuth.process();
+}
+
+
+function testHandleProviderSignIn_noTosPpUrl() {
+  // Test provider sign-in handler when no ToS/PP is provided.
+  signInOptions = ['google.com', 'facebook.com', 'password', 'phone'];
+  app.setConfig({
+    'signInOptions': signInOptions,
+    'signInFlow': 'redirect',
+    'tosUrl': undefined,
+    'privacyPolicyUrl': undefined
+  });
+  firebaseui.auth.widget.handler.handleProviderSignIn(app, container);
+  assertProviderSignInPage();
+  buttons = getIdpButtons();
+  assertEquals(signInOptions.length, buttons.length);
+  assertEquals('google.com', goog.dom.dataset.get(buttons[0], 'providerId'));
+  assertEquals('facebook.com', goog.dom.dataset.get(buttons[1], 'providerId'));
+  assertEquals('password', goog.dom.dataset.get(buttons[2], 'providerId'));
+  assertEquals('phone', goog.dom.dataset.get(buttons[3], 'providerId'));
+  assertTosPpFullMessage(null, null);
 }
 
 
@@ -345,16 +368,10 @@ function testHandleProviderSignIn_oneTap_handledSuccessfully_withoutScopes() {
     return testAuth.process();
   }).then(function() {
     // Set user on the external Auth instance.
-    externalAuth.setUser(testAuth.currentUser);
-    // signInWithCredential should be called on the external Auth instance with
-    // the expected credential.
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [cred],
-        {
-          'user': externalAuth.currentUser,
-          'credential': cred,
-          'operationType': 'signIn',
-          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {
@@ -679,14 +696,10 @@ function testHandleProviderSignIn_popup_success() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [cred],
-        {
-          'user': externalAuth.currentUser,
-          'credential': cred,
-          'operationType': 'signIn',
-          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {
@@ -742,14 +755,10 @@ function testHandleProviderSignIn_popup_success_multipleClicks() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [cred],
-        {
-          'user': externalAuth.currentUser,
-          'credential': cred,
-          'operationType': 'signIn',
-          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {
@@ -1560,14 +1569,10 @@ function testHandleProviderSignIn_signInWithIdp_cordova() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [cred],
-        {
-          'user': externalAuth.currentUser,
-          'credential': cred,
-          'operationType': 'signIn',
-          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {

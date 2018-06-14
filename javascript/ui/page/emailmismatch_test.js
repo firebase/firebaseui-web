@@ -20,6 +20,7 @@ goog.provide('firebaseui.auth.ui.page.EmailMismatchTest');
 goog.setTestOnly('firebaseui.auth.ui.page.EmailMismatchTest');
 
 goog.require('firebaseui.auth.ui.element.FormTestHelper');
+goog.require('firebaseui.auth.ui.element.TosPpTestHelper');
 goog.require('firebaseui.auth.ui.page.EmailMismatch');
 goog.require('firebaseui.auth.ui.page.PageTestHelper');
 goog.require('goog.dom');
@@ -33,6 +34,8 @@ var component;
 // Test helper for submit button and secondary link.
 var formTestHelper =
     new firebaseui.auth.ui.element.FormTestHelper().registerTests();
+var tosPpTestHelper =
+    new firebaseui.auth.ui.element.TosPpTestHelper().registerTests();
 
 
 function setUp() {
@@ -48,9 +51,12 @@ function setUp() {
           formTestHelper),
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onLinkClick,
-          formTestHelper));
+          formTestHelper),
+      'http://localhost/tos',
+      'http://localhost/privacy_policy');
   component.render(root);
   formTestHelper.setComponent(component);
+  tosPpTestHelper.setComponent(component);
   // Reset previous state of form helper.
   formTestHelper.resetState();
 }

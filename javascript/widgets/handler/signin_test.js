@@ -42,6 +42,7 @@ function testHandleSignIn() {
   app.updateConfig('signInOptions', signInOptionsWithScopes);
   firebaseui.auth.widget.handler.handleSignIn(app, container);
   assertSignInPage();
+  assertTosPpFooter('http://localhost/tos', 'http://localhost/privacy_policy');
 
   // Now email input has 'user', which is not a valid email address.
   var emailInput = getEmailElement();
@@ -78,8 +79,13 @@ function testHandleSignIn() {
 
 
 function testHandleSignIn_cancelButtonClick_multipleProviders() {
+  app.setConfig({
+    'tosUrl': undefined,
+    'privacyPolicyUrl': undefined
+  });
   firebaseui.auth.widget.handler.handleSignIn(app, container);
   assertSignInPage();
+  assertTosPpFooter(null, null);
   // Click cancel.
   clickSecondaryLink();
   // Provider sign in page should be rendered.
@@ -94,6 +100,10 @@ function testHandleSignIn_cancelButtonClick_emailProviderOnly() {
   firebaseui.auth.widget.handler.handleSignIn(
       app, container, passwordAccount.getEmail());
   assertSignInPage();
+  // Only password provider is the configured, signIn page is the first page,
+  // full message should be displayed.
+  assertTosPpFullMessage(
+      'http://localhost/tos', 'http://localhost/privacy_policy');
   // Click cancel.
   clickSecondaryLink();
   // handleSignInWithEmail should be called underneath.
@@ -115,11 +125,14 @@ function testHandleSignIn_acDisabled_emailProviderOnly() {
   // No cancel button should be displayed.
   app.setConfig({
     'credentialHelper': firebaseui.auth.CredentialHelper.NONE,
-    'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID]
+    'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID],
+    'tosUrl': undefined,
+    'privacyPolicyUrl': undefined
   });
   firebaseui.auth.widget.handler.handleSignIn(
       app, container, passwordAccount.getEmail());
   assertSignInPage();
+  assertTosPpFullMessage(null, null);
   // No cancel button.
   assertNull(getCancelButton());
 }
@@ -135,6 +148,8 @@ function testHandleSignIn_acEnabled_emailProviderOnly() {
   firebaseui.auth.widget.handler.handleSignIn(
       app, container, passwordAccount.getEmail());
   assertSignInPage();
+  assertTosPpFullMessage(
+      'http://localhost/tos', 'http://localhost/privacy_policy');
   // Cancel button available.
   assertNotNull(getCancelButton());
 }
@@ -153,6 +168,7 @@ function testHandleSignIn_acDisabled_multiProviders() {
   firebaseui.auth.widget.handler.handleSignIn(
       app, container, passwordAccount.getEmail());
   assertSignInPage();
+  assertTosPpFooter('http://localhost/tos', 'http://localhost/privacy_policy');
   // Cancel button available.
   assertNotNull(getCancelButton());
 }

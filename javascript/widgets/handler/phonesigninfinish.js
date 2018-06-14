@@ -41,7 +41,7 @@ goog.require('firebaseui.auth.widget.handler.common');
  * @param {Element} container The container DOM element.
  * @param {!firebaseui.auth.PhoneNumber} phoneNumberValue
  *     The value of the phone number input.
- * @param {!number} resendDelay The resend delay.
+ * @param {number} resendDelay The resend delay.
  * @param {!firebaseui.auth.PhoneAuthResult} phoneAuthResult The phone Auth
  *     result used to verify the code on.
  * @param {string=} opt_infoBarMessage The message to show on info bar.
@@ -80,7 +80,8 @@ firebaseui.auth.widget.handler.handlePhoneSignInFinish = function(
       },
       phoneNumberValue.getPhoneNumber(),
       resendDelay,
-      app.getConfig().getTosUrl());
+      app.getConfig().getTosUrl(),
+      app.getConfig().getPrivacyPolicyUrl());
   component.render(container);
   // Set current UI component.
   app.setCurrentComponent(component);

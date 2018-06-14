@@ -53,7 +53,9 @@ firebaseui.auth.widget.handler.handlePasswordRecovery = function(
       },
       // On cancel.
       opt_disableCancel ? undefined : onCancel,
-      opt_email);
+      opt_email,
+      app.getConfig().getTosUrl(),
+      app.getConfig().getPrivacyPolicyUrl());
   component.render(container);
   // Set current UI component.
   app.setCurrentComponent(component);
@@ -89,13 +91,15 @@ firebaseui.auth.widget.handler.onPasswordRecoverySubmit_ =
     // the web login page when the app is embedded in a webview (used for
     // password reset).
     var noticeComponent = new firebaseui.auth.ui.page.PasswordRecoveryEmailSent(
-        /** @type {!string} */ (email),
+        /** @type {string} */ (email),
         function() {
           // Return to start page after the password recovery flow.
           noticeComponent.dispose();
           firebaseui.auth.widget.handler.common.handleSignInStart(app,
               container);
-        });
+        },
+        app.getConfig().getTosUrl(),
+        app.getConfig().getPrivacyPolicyUrl());
     noticeComponent.render(container);
     // Set current UI component.
     app.setCurrentComponent(noticeComponent);

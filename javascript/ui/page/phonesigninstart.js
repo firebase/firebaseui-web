@@ -23,6 +23,7 @@ goog.require('firebaseui.auth.ui.element');
 goog.require('firebaseui.auth.ui.element.form');
 goog.require('firebaseui.auth.ui.element.phoneNumber');
 goog.require('firebaseui.auth.ui.element.recaptcha');
+goog.require('firebaseui.auth.ui.element.tospp');
 goog.require('firebaseui.auth.ui.page.Base');
 goog.require('goog.dom.selection');
 
@@ -35,6 +36,10 @@ goog.require('goog.dom.selection');
  * @param {function(?)} onCancelClick Callback to invoke when cancel button
  *     is clicked.
  * @param {boolean} enableVisibleRecaptcha Whether to enable visible reCAPTCHA.
+ * @param {?string=} opt_tosUrl The ToS URL.
+ * @param {?string=} opt_privacyPolicyUrl The Privacy Policy URL.
+ * @param {boolean=} opt_displayFullTosPpMessage Whether to display the full
+ *     message of Term of Service and Privacy Policy.
  * @param {?string=} opt_countryId The ID (e164_key) of the country to
  *     pre-select.
  * @param {?string=} opt_nationalNumber The national number to pre-fill.
@@ -46,6 +51,9 @@ firebaseui.auth.ui.page.PhoneSignInStart = function(
     onSubmitClick,
     onCancelClick,
     enableVisibleRecaptcha,
+    opt_tosUrl,
+    opt_privacyPolicyUrl,
+    opt_displayFullTosPpMessage,
     opt_countryId,
     opt_nationalNumber,
     opt_domHelper) {
@@ -56,10 +64,15 @@ firebaseui.auth.ui.page.PhoneSignInStart = function(
       firebaseui.auth.soy2.page.phoneSignInStart,
       {
         enableVisibleRecaptcha: enableVisibleRecaptcha,
-        nationalNumber: nationalNumber
+        nationalNumber: nationalNumber,
+        displayFullTosPpMessage: !!opt_displayFullTosPpMessage
       },
       opt_domHelper,
-      'phoneSignInStart');
+      'phoneSignInStart',
+      {
+        tosUrl: opt_tosUrl,
+        privacyPolicyUrl: opt_privacyPolicyUrl
+      });
   /** @private @const {?string} The default country to select. */
   this.countryId_ = opt_countryId || null;
   /** @private {boolean} Whether to enable visible reCAPTCHA. */
@@ -146,5 +159,15 @@ goog.mixin(
       getSecondaryLinkElement:
           firebaseui.auth.ui.element.form.getSecondaryLinkElement,
       initFormElement:
-          firebaseui.auth.ui.element.form.initFormElement
+          firebaseui.auth.ui.element.form.initFormElement,
+
+      // For ToS and Privacy Policy.
+      getTosPpElement:
+          firebaseui.auth.ui.element.tospp.getTosPpElement,
+      getTosLinkElement:
+          firebaseui.auth.ui.element.tospp.getTosLinkElement,
+      getPpLinkElement:
+          firebaseui.auth.ui.element.tospp.getPpLinkElement,
+      getTosPpListElement:
+          firebaseui.auth.ui.element.tospp.getTosPpListElement
     });
