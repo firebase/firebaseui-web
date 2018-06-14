@@ -45,10 +45,10 @@ config = {
   framework: 'jasmine',
   // The jasmine specs to run.
   specs: ['protractor_spec.js'],
-  // Jasmine options. Increase the timeout to 5min instead of the default 30s.
+  // Jasmine options. Increase the timeout to 20mins instead of the default 30s.
   jasmineNodeOpts: {
     // Default time to wait in ms before a test fails.
-    defaultTimeoutInterval: 5 * 60 * 1000
+    defaultTimeoutInterval: 20 * 60 * 1000
   }
 };
 
