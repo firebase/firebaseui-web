@@ -36,10 +36,12 @@ goog.require('firebaseui.auth.widget.handler.common');
  */
 firebaseui.auth.widget.handler.handleSignIn = function(
     app, container, opt_email, opt_infoBarMessage) {
+  var isPasswordProviderOnly =
+      firebaseui.auth.widget.handler.common.isPasswordProviderOnly(app);
   // Whether to hide or show the cancel button.
   var hideCancelButton =
       // Email auth provider only.
-      firebaseui.auth.widget.handler.common.isPasswordProviderOnly(app) &&
+      isPasswordProviderOnly &&
       // accountchooser.com disabled.
       !app.getConfig().isAccountChooserEnabled();
   // Render the UI.
@@ -58,7 +60,10 @@ firebaseui.auth.widget.handler.handleSignIn = function(
         firebaseui.auth.widget.handler.common.handleSignInStart(
             app, container, opt_email);
       },
-      opt_email);
+      opt_email,
+       app.getConfig().getTosUrl(),
+      app.getConfig().getPrivacyPolicyUrl(),
+      isPasswordProviderOnly);
   component.render(container);
   // Set current UI component.
   app.setCurrentComponent(component);

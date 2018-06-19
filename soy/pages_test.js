@@ -35,7 +35,9 @@ var IJ_DATA_ = {
   'facebookLogo': '../image/facebook.svg',
   'twitterLogo': '../image/twitter.svg',
   'passwordLogo': '../image/mail.svg',
-  'phoneLogo': '../image/phone.svg'
+  'phoneLogo': '../image/phone.svg',
+  'tosUrl': 'tos',
+  'privacyPolicyUrl': 'privacy_policy'
 };
 
 
@@ -94,12 +96,46 @@ function testSignIn_noCancelButton() {
       IJ_DATA_);
 }
 
+function testSignIn_fullMessage() {
+  var root = goog.dom.getElement('sign-in-full-message');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.signIn,
+      {
+        'email': 'user@example.com',
+        'displayCancelButton': true,
+        'displayFullTosPpMessage': true
+      }, IJ_DATA_);
+}
+
+
+function testSignIn_footerOnly() {
+  var root = goog.dom.getElement('sign-in-footer-only');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.signIn,
+      {
+        'email': 'user@example.com',
+        'displayCancelButton': true,
+        'displayFullTosPpMessage': false
+      }, IJ_DATA_);
+}
+
 
 function testPasswordSignIn() {
   var root = goog.dom.getElement('password-sign-in');
   goog.soy.renderElement(
       root, firebaseui.auth.soy2.page.passwordSignIn,
       {'email': 'user@example.com'}, IJ_DATA_);
+}
+
+
+function testPasswordSignIn_fullMessage() {
+  var root = goog.dom.getElement('password-sign-in-full-message');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.passwordSignIn,
+      {
+        'email': 'user@example.com',
+        'displayFullTosPpMessage': true
+      }, IJ_DATA_);
 }
 
 
@@ -115,7 +151,7 @@ function testPasswordSignUp() {
 }
 
 
-function testPasswordSignUpWithoutDisplayName() {
+function testPasswordSignUp_noDisplayName() {
   var root = goog.dom.getElement('password-sign-up-no-name');
   goog.soy.renderElement(
       root, firebaseui.auth.soy2.page.passwordSignUp, {
@@ -127,13 +163,13 @@ function testPasswordSignUpWithoutDisplayName() {
 }
 
 
-function testPasswordSignUpTos() {
+function testPasswordSignUp_fullMessage() {
   var root = goog.dom.getElement('password-sign-up-tos');
   goog.soy.renderElement(
       root, firebaseui.auth.soy2.page.passwordSignUp, {
         'email': 'user@example.com',
         'allowCancel': true,
-        'tosUrl': 'http://www.example.com'
+        'displayFullTosPpMessage': true
       },
       IJ_DATA_);
 }
@@ -151,7 +187,7 @@ function testPasswordRecoveryEmailSent() {
   var root = goog.dom.getElement('password-recovery-email-sent');
   goog.soy.renderElement(
       root, firebaseui.auth.soy2.page.passwordRecoveryEmailSent,
-      {'email': 'user@example.com', 'allowContinue': true});
+      {'email': 'user@example.com', 'allowContinue': true}, IJ_DATA_);
 }
 
 
@@ -159,7 +195,7 @@ function testPasswordRecoveryEmailSentNoContinue() {
   var root = goog.dom.getElement('password-recovery-email-sent-no-continue');
   goog.soy.renderElement(
       root, firebaseui.auth.soy2.page.passwordRecoveryEmailSent,
-      {'email': 'user@example.com', 'allowContinue': false});
+      {'email': 'user@example.com', 'allowContinue': false}, IJ_DATA_);
 }
 
 
@@ -341,19 +377,31 @@ function testPhoneSignInStartVisibleRecaptcha() {
   loadRecaptcha(root);
 }
 
+
+function testPhoneSignInStart_fullMessage() {
+  var root = goog.dom.getElement('phone-sign-in-start-full-message');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.phoneSignInStart,
+      {
+        enableVisibleRecaptcha: false,
+        displayFullTosPpMessage: true
+      }, IJ_DATA_);
+}
+
+
 function testPhoneSignInFinish() {
   var root = goog.dom.getElement('phone-sign-in-finish');
   goog.soy.renderElement(
       root, firebaseui.auth.soy2.page.phoneSignInFinish,
       {
-        phoneNumber: '+13115552368',
-        tosUrl: 'http://www.example.com'
+        phoneNumber: '+13115552368'
       },
       IJ_DATA_);
   var countdown = goog.dom.getElementByClass(
       'firebaseui-id-resend-countdown', root);
   goog.dom.setTextContent(countdown, 'Resend code in 0:11');
 }
+
 
 function testPhoneSignInFinish_noTos() {
   var root = goog.dom.getElement('phone-sign-in-finish-no-tos');

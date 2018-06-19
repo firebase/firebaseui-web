@@ -22,6 +22,7 @@ goog.setTestOnly('firebaseui.auth.ui.page.PasswordLinkingTest');
 goog.require('firebaseui.auth.ui.element.FormTestHelper');
 goog.require('firebaseui.auth.ui.element.InfoBarTestHelper');
 goog.require('firebaseui.auth.ui.element.PasswordTestHelper');
+goog.require('firebaseui.auth.ui.element.TosPpTestHelper');
 goog.require('firebaseui.auth.ui.page.PageTestHelper');
 goog.require('firebaseui.auth.ui.page.PasswordLinking');
 goog.require('goog.dom');
@@ -40,6 +41,8 @@ var formTestHelper = new firebaseui.auth.ui.element.FormTestHelper().
     registerTests();
 var infoBarTestHelper =
     new firebaseui.auth.ui.element.InfoBarTestHelper().registerTests();
+var tosPpTestHelper =
+    new firebaseui.auth.ui.element.TosPpTestHelper().registerTests();
 
 
 function setUp() {
@@ -52,13 +55,16 @@ function setUp() {
           formTestHelper),
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onLinkClick,
-          formTestHelper));
+          formTestHelper),
+      'http://localhost/tos',
+      'http://localhost/privacy_policy');
   component.render(root);
   passwordTestHelper.setComponent(component);
   formTestHelper.setComponent(component);
   // Reset previous state of form helper.
   formTestHelper.resetState();
   infoBarTestHelper.setComponent(component);
+  tosPpTestHelper.setComponent(component);
 }
 
 

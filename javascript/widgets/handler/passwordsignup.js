@@ -38,9 +38,12 @@ goog.require('goog.string');
  * @param {string=} opt_email The email address of the account.
  * @param {string=} opt_name The display name of the account.
  * @param {boolean=} opt_disableCancel Whether to disable the cancel link.
+ * @param {boolean=} opt_displayFullTosPpMessage Whether to display the full
+ *     message of Term of Service and Privacy Policy.
  */
 firebaseui.auth.widget.handler.handlePasswordSignUp = function(
-    app, container, opt_email, opt_name, opt_disableCancel) {
+    app, container, opt_email, opt_name, opt_disableCancel,
+    opt_displayFullTosPpMessage) {
   var onCancel = function() {
     component.dispose();
     // On cancel return to widget start page.
@@ -48,7 +51,6 @@ firebaseui.auth.widget.handler.handlePasswordSignUp = function(
   };
   // Render the UI.
   var component = new firebaseui.auth.ui.page.PasswordSignUp(
-      app.getConfig().getTosUrl(),
       app.getConfig().isDisplayNameRequired(),
       // On submit.
       function() {
@@ -57,7 +59,10 @@ firebaseui.auth.widget.handler.handlePasswordSignUp = function(
       // On cancel.
       opt_disableCancel ? undefined : onCancel,
       opt_email,
-      opt_name);
+      opt_name,
+      app.getConfig().getTosUrl(),
+      app.getConfig().getPrivacyPolicyUrl(),
+      opt_displayFullTosPpMessage);
   component.render(container);
   // Set current UI component.
   app.setCurrentComponent(component);
