@@ -90,7 +90,8 @@ describe('Run all Closure unit tests', function() {
               }, function(err) {
                 // If browser test execution times out try up to trial times.
                 if (err.message &&
-                    err.message.indexOf('ETIMEDOUT') != -1 &&
+                    (err.message.indexOf('ETIMEDOUT') != -1 ||
+                     err.message.indexOf('Gateway Time-out') != -1) &&
                     tries > 0) {
                   runRoutine(tries - 1, done);
                 } else {
@@ -100,7 +101,8 @@ describe('Run all Closure unit tests', function() {
             }, function(err) {
               // If browser test execution times out try up to trial times.
               if (err.message &&
-                  err.message.indexOf('ETIMEOUT') != -1 &&
+                  (err.message.indexOf('ETIMEOUT') != -1 ||
+                   err.message.indexOf('Gateway Time-out') != -1) &&
                   trial > 0) {
                 runRoutine(tries - 1, done);
               } else {
