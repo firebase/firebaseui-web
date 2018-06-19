@@ -91,6 +91,7 @@ if (options.saucelabs) {
   config.maxSessions = 5;
   // List of browsers configurations tested.
   var sauceBrowsers = require('./sauce_browsers.json');
+  config.maxDuration = 1800;
   // Configuration for SauceLabs browsers.
   config.multiCapabilities = sauceBrowsers.map(function(browser) {
     browser['tunnel-identifier'] = options.tunnelIdentifier;
