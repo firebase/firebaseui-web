@@ -32,6 +32,7 @@ describe('Run all Closure unit tests', function() {
     if (typeof tries === 'undefined') {
       tries = FLAKY_TEST_RETRIAL;
     }
+    var startTime = new Date().getTime();
     // executeScript runs the passed method in the "window" context of
     // the current test. JSUnit exposes hooks into the test's status through
     // the "G_testRunner" global object.
@@ -54,8 +55,12 @@ describe('Run all Closure unit tests', function() {
       } else if (status && status.isFinished) {
         done(status);
       } else {
-        // Try again in a few ms.
-        setTimeout(waitForTest.bind(undefined, done, fail, tries), 300);
+        if (new Date().getTime() - startTime > 10000) {
+          fail(new Error('ETIMEDOUT ETIMEOUT'));
+        } else {
+          // Try again in a few ms.
+          setTimeout(waitForTest.bind(undefined, done, fail, tries), 300);
+        }
       }
     }, function(err) {
       // This can happen if the webdriver had an issue executing the script.
@@ -105,7 +110,7 @@ describe('Run all Closure unit tests', function() {
       };
       // Run test routine. Set timeout retrial to 2 times, eg. test will try
       // 2 more times before giving up.
-      runRoutine(2, done);
+      runRoutine(5, done);
     });
   };
 
