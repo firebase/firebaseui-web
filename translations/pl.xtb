@@ -15,6 +15,7 @@
 <translation id="1294742657282291237">Gujana</translation>
 <translation id="1297168472480293352">Gwatemala</translation>
 <translation id="1315809131562953678">Wpisz prawidłowy numer telefonu</translation>
+<translation id="1335716056288807013">Klikając Zweryfikuj, potwierdzasz, że akceptujesz nasze <ph name="START_LINK_1" />Warunki korzystania z usługi<ph name="END_LINK" /> oraz <ph name="START_LINK_2" />Politykę prywatności<ph name="END_LINK" />. Może zostać wysłany SMS, przez co operator może pobrać opłatę za przesyłanie wiadomości i danych.</translation>
 <translation id="137210131544215127">Wpisz hasło</translation>
 <translation id="1393433815796487579">Gotowe</translation>
 <translation id="1412449974349991050">Haiti</translation>
@@ -46,6 +47,7 @@
 <translation id="2049229571938383319">Saint-Barthélemy</translation>
 <translation id="2058731785647385204">Montserrat</translation>
 <translation id="2070709910567585968">Silne hasło ma co najmniej 6 znaków i jest kombinacją liter oraz cyfr.</translation>
+<translation id="2074008538308369451">Warunki korzystania z usługi</translation>
 <translation id="2108717231438756650">Wielka Brytania</translation>
 <translation id="2120419640334291526">Kajmany</translation>
 <translation id="2124070231227334770">Mołdawia</translation>
@@ -54,6 +56,7 @@
 <translation id="2187260952722791093">Zweryfikowano.</translation>
 <translation id="2192561962270021282">Podaj swój numer telefonu</translation>
 <translation id="2206856445831770486">Github</translation>
+<translation id="2223717216014247341">Polityka prywatności</translation>
 <translation id="2224563296468523455">Guam</translation>
 <translation id="2249420035688424170">Chorwacja</translation>
 <translation id="2251583471831926217">Litwa</translation>
@@ -137,7 +140,7 @@
 <translation id="3608140835232496799">Tokelau</translation>
 <translation id="3620185428620643248">Wybrane dane logowania dla dostawcy weryfikacji nie są obsługiwane.</translation>
 <translation id="3700097473356216716">Kolumbia</translation>
-<translation id="3735918113934183391">Spróbuj jeszcze raz wpisać numer telefonu.</translation>
+<translation id="3703067902498234034">Klikając ZAPISZ, wyrażasz zgodę na </translation>
 <translation id="3736041829854387744">Burundi</translation>
 <translation id="3755663127769565780">Mauretania</translation>
 <translation id="3813801701232240278">Twitter</translation>
@@ -157,6 +160,7 @@
 <translation id="4066104405592701692">Estonia</translation>
 <translation id="4090385155496329109">Facebook</translation>
 <translation id="4163133799286985193">Argentyna</translation>
+<translation id="4166504762096983411">Przechodząc dalej, potwierdzasz, że akceptujesz nasze <ph name="START_LINK_1" />Warunki korzystania z usługi<ph name="END_LINK" /> oraz <ph name="START_LINK_2" />Politykę prywatności<ph name="END_LINK" />.</translation>
 <translation id="420554669252656972">Wpisz nowy adres e-mail</translation>
 <translation id="4210333062216604630">Odłącz</translation>
 <translation id="4242716276491763916">Gwinea, Konakry</translation>
@@ -223,7 +227,7 @@
 <translation id="5602886107840188229">Brytyjskie Terytorium Oceanu Indyjskiego</translation>
 <translation id="5604510594682955626">Uganda</translation>
 <translation id="5606731250220630939">Norwegia</translation>
-<translation id="5619383224509584356">Używasz konta <ph name="EMAIL_ADDR" /></translation>
+<translation id="5611074838440670731">Ten numer telefonu został użyty zbyt wiele razy.</translation>
 <translation id="5630396263271753991">Erytrea</translation>
 <translation id="5636713964613741614">Mauritius</translation>
 <translation id="5642254620426025006">Coś się nie udało. Spróbuj jeszcze raz.</translation>
@@ -256,8 +260,8 @@
 <translation id="6192657410634245771">Algieria</translation>
 <translation id="6213969168046789596">Zbyt wiele razy podano niepoprawne hasło. Spróbuj jeszcze raz za kilka minut.</translation>
 <translation id="6216759405419177713">Wyspa Norfolk</translation>
-<translation id="6283536862756552051">Aby zmienić hasło, musisz najpierw wpisać to, którego używasz obecnie.</translation>
-<translation id="6299890279889400823">Wstecz</translation>
+<translation id="6265373887273416711">Zweryfikuj swój numer telefonu</translation>
+<translation id="6295157125625453859">Zweryfikowano.</translation>
 <translation id="6316446940976157217">Indie</translation>
 <translation id="6327723482938582895">Benin</translation>
 <translation id="6338643731889005578">Dalej</translation>
@@ -300,7 +304,7 @@
 <translation id="6921505896641453739">E-mail</translation>
 <translation id="6929813273561975780">Dalej</translation>
 <translation id="6951302238647056860">Ten kod stracił ważność.</translation>
-<translation id="6998342825820890463">Polityka prywatności</translation>
+<translation id="6976724207780605356">Zaloguj się przez Facebooka</translation>
 <translation id="6999773882165218263">Imię i nazwisko</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Sahara Zachodnia</translation>
@@ -321,7 +325,6 @@
 <translation id="7280309713358692490">Korea Południowa</translation>
 <translation id="7291567990403335374">Lesoto</translation>
 <translation id="7291656724505689727">Zaloguj się z użyciem numeru telefonu</translation>
-<translation id="7319220365822133324">Klikając ZAPISZ, wyrażasz zgodę na <ph name="START_LINK" />Warunki korzystania z usługi<ph name="END_LINK" /></translation>
 <translation id="7320029088567935126">Spróbuj jeszcze raz zweryfikować adres e-mail</translation>
 <translation id="7331038350037712642">Azerbejdżan</translation>
 <translation id="743266754881673808">Google</translation>
@@ -346,7 +349,7 @@
 <translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">Kenia</translation>
 <translation id="8028653067082554952">Spowoduje to nieodwracalne usunięcie wszystkich danych powiązanych z Twoim kontem. Czy na pewno chcesz usunąć konto?</translation>
-<translation id="8033786138248870436">Gdy klikniesz Zweryfikuj, może zostać wysłany SMS. Może to skutkować pobraniem opłaty za przesył wiadomości i danych.</translation>
+<translation id="8033786138248870436">Gdy klikniesz Zweryfikuj, może zostać wysłany SMS, przez co operator może pobrać opłatę za przesyłanie wiadomości i danych.</translation>
 <translation id="8047183472745080590">Boliwia</translation>
 <translation id="8047565947836609247">Portoryko</translation>
 <translation id="8055755007915250245">Czy odłączyć konto?</translation>

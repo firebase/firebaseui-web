@@ -23,6 +23,7 @@ goog.require('firebaseui.auth.ui.element');
 goog.require('firebaseui.auth.ui.element.EmailTestHelper');
 goog.require('firebaseui.auth.ui.element.FormTestHelper');
 goog.require('firebaseui.auth.ui.element.InfoBarTestHelper');
+goog.require('firebaseui.auth.ui.element.TosPpTestHelper');
 goog.require('firebaseui.auth.ui.page.PageTestHelper');
 goog.require('firebaseui.auth.ui.page.SignIn');
 goog.require('goog.dom');
@@ -44,6 +45,8 @@ var formTestHelper = new firebaseui.auth.ui.element.FormTestHelper()
     .registerTests();
 var infoBarTestHelper =
     new firebaseui.auth.ui.element.InfoBarTestHelper().registerTests();
+var tosPpTestHelper =
+    new firebaseui.auth.ui.element.TosPpTestHelper().registerTests();
 
 
 function setUp() {
@@ -55,11 +58,15 @@ function setUp() {
           emailTestHelper),
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onLinkClick,
-          formTestHelper));
+          formTestHelper),
+      undefined,
+      'http://localhost/tos',
+      'http://localhost/privacy_policy');
   component.render(root);
   emailTestHelper.setComponent(component);
   infoBarTestHelper.setComponent(component);
   formTestHelper.setComponent(component);
+  tosPpTestHelper.setComponent(component);
 }
 
 
@@ -93,6 +100,69 @@ function testNextButton_onClick() {
   assertFalse(emailTestHelper.enterPressed_);
   goog.testing.events.fireClickSequence(component.getSubmitElement());
   assertTrue(emailTestHelper.enterPressed_);
+}
+
+
+function testSignIn_fullMessage() {
+  component.dispose();
+  component = new firebaseui.auth.ui.page.SignIn(
+      goog.bind(
+          firebaseui.auth.ui.element.EmailTestHelper.prototype.onEnter,
+          emailTestHelper),
+      goog.bind(
+          firebaseui.auth.ui.element.FormTestHelper.prototype.onLinkClick,
+          formTestHelper),
+      undefined,
+      'http://localhost/tos',
+      'http://localhost/privacy_policy',
+      true);
+  component.render(root);
+  tosPpTestHelper.setComponent(component);
+  tosPpTestHelper.assertFullMessage('http://localhost/tos',
+      'http://localhost/privacy_policy');
+}
+
+
+function testSignIn_fullMessage_noUrl() {
+  component.dispose();
+  component = new firebaseui.auth.ui.page.SignIn(
+      goog.bind(
+          firebaseui.auth.ui.element.EmailTestHelper.prototype.onEnter,
+          emailTestHelper),
+      goog.bind(
+          firebaseui.auth.ui.element.FormTestHelper.prototype.onLinkClick,
+          formTestHelper),
+      undefined,
+      null,
+      null,
+      true);
+  component.render(root);
+  tosPpTestHelper.setComponent(component);
+  tosPpTestHelper.assertFullMessage(null, null);
+}
+
+
+function testSignIn_footerOnly() {
+  tosPpTestHelper.assertFooter('http://localhost/tos',
+      'http://localhost/privacy_policy');
+}
+
+
+function testSignIn_footerOnly_noUrl() {
+  component.dispose();
+  component = new firebaseui.auth.ui.page.SignIn(
+      goog.bind(
+          firebaseui.auth.ui.element.EmailTestHelper.prototype.onEnter,
+          emailTestHelper),
+      goog.bind(
+          firebaseui.auth.ui.element.FormTestHelper.prototype.onLinkClick,
+          formTestHelper),
+      undefined,
+      null,
+      null);
+  component.render(root);
+  tosPpTestHelper.setComponent(component);
+  tosPpTestHelper.assertFooter(null, null);
 }
 
 

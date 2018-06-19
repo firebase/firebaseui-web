@@ -90,6 +90,12 @@ const JS_DEPS = [
   'node_modules/dialog-polyfill/dialog-polyfill.js'
 ];
 
+// The typescript definitions file path.
+const TYPES_FILE = './types/index.d.ts';
+
+// The externs directory files.
+const EXTERNS_FILES = './externs/*.js';
+
 // Compiles the Closure templates into JavaScript.
 gulp.task('build-soy', () => new Promise((resolve, reject) => {
   closureBuilder.build({
@@ -206,7 +212,8 @@ function buildFirebaseUiJs(locale) {
 
 // Builds the core FirebaseUI JS. Generates the gulp tasks
 // build-firebaseui-js-de, build-firebaseui-js-fr, etc.
-repeatTaskForAllLocales('build-firebaseui-js-$', ['build-soy'],
+repeatTaskForAllLocales('build-firebaseui-js-$',
+    ['build-externs', 'build-ts', 'build-soy'],
     buildFirebaseUiJs);
 
 /**
@@ -247,6 +254,14 @@ function makeDefaultFile(fileName) {
     return fse.copy(path, `${DEST_DIR}/${fileName}.js`);
   }
 }
+
+// Generates the typescript definitions.
+gulp.task('build-ts',
+    () => gulp.src(TYPES_FILE).pipe(gulp.dest(`${DEST_DIR}/`)));
+
+// Generates the externs definitions.
+gulp.task('build-externs',
+    () => gulp.src(EXTERNS_FILES).pipe(gulp.dest(`${DEST_DIR}/externs/`)));
 
 // Builds the final JS file for all supported languages.
 gulp.task('build-all-js', buildJsTasks, () => makeDefaultFile('firebaseui'));
@@ -307,10 +322,17 @@ gulp.task('serve', () => {
 gulp.task('clean', () => fse.remove(TMP_DIR));
 
 // Executes the basic tasks for the default language.
-gulp.task('default', ['build-js', 'build-npm', 'build-css', 'build-css-rtl'],
+gulp.task('default',
+    [
+      'build-externs', 'build-ts', 'build-js', 'build-npm', 'build-css',
+      'build-css-rtl'
+    ],
     () => gulp.start('clean'));
 
 // Builds everything (JS for all languages, both LTR and RTL CSS).
 gulp.task('build-all',
-    ['build-all-js', 'build-npm', 'build-css', 'build-css-rtl'],
+    [
+      'build-externs', 'build-ts', 'build-all-js', 'build-npm', 'build-css',
+      'build-css-rtl'
+    ],
     () => gulp.start('clean'));

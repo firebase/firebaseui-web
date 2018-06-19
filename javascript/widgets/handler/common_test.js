@@ -19,6 +19,7 @@ goog.provide('firebaseui.auth.widget.handler.CommonTest');
 goog.setTestOnly('firebaseui.auth.widget.handler.CommonTest');
 
 goog.require('firebaseui.auth.Account');
+goog.require('firebaseui.auth.AuthUI');
 goog.require('firebaseui.auth.AuthUIError');
 goog.require('firebaseui.auth.CredentialHelper');
 goog.require('firebaseui.auth.PendingEmailCredential');
@@ -238,6 +239,25 @@ function testSelectFromAccountChooser_addAccount() {
       container);
   // The sign-in page should show.
   assertSignInPage();
+  assertTosPpFooter(
+      'http://localhost/tos', 'http://localhost/privacy_policy');
+  assertFalse(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
+}
+
+
+function testSelectFromAccountChooser_addAccount_passwordOnly() {
+  app.setConfig({
+    'signInOptions': [
+        firebase.auth.EmailAuthProvider.PROVIDER_ID
+      ]
+  });
+  testAc.setAddAccount();
+  firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
+      container);
+  // The sign-in page should show.
+  assertSignInPage();
+  assertTosPpFullMessage(
+      'http://localhost/tos', 'http://localhost/privacy_policy');
   assertFalse(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
 }
 
@@ -270,8 +290,11 @@ function testSetLoggedIn() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential([cred], externalAuth.currentUser);
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     testUtil.assertGoTo('http://localhost/home');
@@ -310,8 +333,11 @@ function testSetLoggedIn_falseSignInCallback() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential([cred], externalAuth.currentUser);
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     testAuth.assertSignOut([]);
@@ -349,8 +375,11 @@ function testSetLoggedIn_noCallback_storageRedirect() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential([cred], externalAuth.currentUser);
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     // Confirm redirect to storage redirect URL.
@@ -381,9 +410,11 @@ function testSetLoggedIn_notRememberAccount() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [cred], externalAuth.currentUser);
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     testUtil.assertGoTo('http://localhost/home');
@@ -413,9 +444,11 @@ function testSetLoggedIn_signInSuccessCallback_redirect() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [cred], externalAuth.currentUser);
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     // SignInCallback is called.
@@ -452,9 +485,11 @@ function testSetLoggedIn_signInSuccessCallback_noRedirect() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [federatedCredential], externalAuth.currentUser);
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     testAuth.assertSignOut([]);
@@ -494,9 +529,11 @@ function testSetLoggedIn_signInSuccessCallback_storageAutoRedirect() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [federatedCredential], externalAuth.currentUser);
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     // SignInCallback is called.
@@ -536,9 +573,11 @@ function testSetLoggedIn_signInSuccessCallback_storageNoRedirect() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [federatedCredential], externalAuth.currentUser);
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     testAuth.assertSignOut([]);
@@ -578,9 +617,11 @@ function testSetLoggedIn_signInSuccessCallback_redirectNoRedirectUrl() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [federatedCredential], externalAuth.currentUser);
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
@@ -624,9 +665,11 @@ function testSetLoggedIn_signInSuccessCallback_storageManualRedirect() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [federatedCredential], externalAuth.currentUser);
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     testAuth.assertSignOut([]);
@@ -661,8 +704,11 @@ function testSetLoggedIn_popup() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential([cred], externalAuth.currentUser);
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     testUtil.assertOpenerGoTo('http://localhost/home');
@@ -700,8 +746,11 @@ function testSetLoggedIn_popup_noCallback_storageRedirect() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential([cred], externalAuth.currentUser);
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     // Assert opener continues to redirect URL specified in storage.
@@ -737,9 +786,11 @@ function testSetLoggedIn_popup_signInSuccessCallback_redirect() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [federatedCredential], externalAuth.currentUser);
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     // SignInCallback is called.
@@ -780,9 +831,11 @@ function testSetLoggedIn_popup_signInSuccessCallback_redirectNoRedirectUrl() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [federatedCredential], externalAuth.currentUser);
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
@@ -802,28 +855,12 @@ function testSetLoggedIn_popup_signInSuccessCallback_redirectNoRedirectUrl() {
 }
 
 
-function testSetLoggedIn_expiredFacebookCredential() {
-  // Test when setLoggedIn is triggered with an expired Facebook credential.
-  // This would happen when the user waits too long before proceeding in an
-  // email mismatch scenario.
+function testSetLoggedIn_updateCurrentUserError() {
+  // Test when updateCurrentUser fails with some error on setLoggedIn.
   asyncTestCase.waitForSignals(1);
-  // Expired Facebook credential error.
-  var message = {
-    'error': {
-      'errors': [
-        {
-          'domain': 'global',
-          'reason': 'invalid',
-          'message': 'invalid access_token, error code 43.'
-        }
-      ],
-      'code': 400,
-      'message': 'invalid access_token, error code 43.'
-    }
-  };
-  var expiredCredentialError = {
+  var expectedError = {
     'code': 'auth/internal-error',
-    'message': JSON.stringify(message)
+    'message': 'Internal error'
   };
   app.setConfig({
     'signInSuccessUrl': undefined,
@@ -844,9 +881,11 @@ function testSetLoggedIn_expiredFacebookCredential() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    // Simulate an expired credential error due to the user waiting too long.
-    externalAuth.assertSignInWithCredential(
-        [federatedCredential], null, expiredCredentialError);
+    // Simulate an error thrown on updateCurrentUser.
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        null,
+        expectedError);
     return externalAuth.process();
   }).then(function() {
     assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
@@ -855,138 +894,11 @@ function testSetLoggedIn_expiredFacebookCredential() {
     assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
     // No redirect occurred.
     testUtil.assertGoTo(null);
-    // Redirect back to provider sign-in page.
-    assertProviderSignInPage();
+    // Same page rendered.
+    assertCallbackPage();
     // Error should be displayed in the info bar.
     assertInfoBarMessage(
-        firebaseui.auth.soy2.strings.errorExpiredCredential().toString());
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSetLoggedIn_expiredGoogleCredential_accessToken() {
-  // Test when setLoggedIn is triggered with an expired Google credential.
-  // This would happen when the user waits too long before proceeding in an
-  // email mismatch scenario.
-  asyncTestCase.waitForSignals(1);
-  // Expired Google credential error.
-  var message = {
-    'error': {
-      'errors': [
-        {
-          'domain': 'global',
-          'reason': 'invalid',
-          'message': 'Invalid Idp Response: access_token is invalid'
-        }
-      ],
-      'code': 400,
-      'message': 'Invalid Idp Response: access_token is invalid'
-    }
-  };
-  var expiredCredentialError = {
-    'code': 'auth/internal-error',
-    'message': JSON.stringify(message)
-  };
-  app.setConfig({
-    'signInSuccessUrl': undefined,
-    'callbacks': {
-      'signInSuccess': signInSuccessCallback(true)
-    }
-  });
-  firebaseui.auth.storage.setRememberAccount(false, app.getAppId());
-  testAuth.setUser(federatedUser);
-  // Render the UI
-  var component = new firebaseui.auth.ui.page.Callback();
-  component.render(container);
-  firebaseui.auth.widget.handler.common.setLoggedIn(
-      app, component, federatedCredential);
-  // Sign out from internal instance and then sign in with passed credential to
-  // external instance.
-  return testAuth.process().then(function() {
-    testAuth.assertSignOut([]);
-    return testAuth.process();
-  }).then(function() {
-    // Simulate an expired credential error due to the user waiting too long.
-    externalAuth.assertSignInWithCredential(
-        [federatedCredential], null, expiredCredentialError);
-    return externalAuth.process();
-  }).then(function() {
-    assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
-    // Confirm redirect URL is cleared from storage.
-    assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
-    // No redirect occurred.
-    testUtil.assertGoTo(null);
-    // Redirect back to provider sign-in page.
-    assertProviderSignInPage();
-    // Error should be displayed in the info bar.
-    assertInfoBarMessage(
-        firebaseui.auth.soy2.strings.errorExpiredCredential().toString());
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSetLoggedIn_expiredGoogleCredential_idToken() {
-  // Test when setLoggedIn is triggered with an expired Google credential.
-  // This case is for id tokens.
-  // This would happen when the user waits too long before proceeding in an
-  // email mismatch scenario.
-  asyncTestCase.waitForSignals(1);
-  // Expired Google credential error.
-  var message = {
-    'error': {
-      'errors': [
-        {
-          'domain': 'global',
-          'reason': 'invalid',
-          'message': 'Invalid id_token in IdP response: gegegegegeg'
-        }
-      ],
-      'code': 400,
-      'message': 'Invalid id_token in IdP response: gegegegegeg'
-    }
-  };
-  var expiredCredentialError = {
-    'code': 'auth/internal-error',
-    'message': JSON.stringify(message)
-  };
-  app.setConfig({
-    'signInSuccessUrl': undefined,
-    'callbacks': {
-      'signInSuccess': signInSuccessCallback(true)
-    }
-  });
-  firebaseui.auth.storage.setRememberAccount(false, app.getAppId());
-  testAuth.setUser(federatedUser);
-  // Render the UI
-  var component = new firebaseui.auth.ui.page.Callback();
-  component.render(container);
-  firebaseui.auth.widget.handler.common.setLoggedIn(
-      app, component, federatedCredential);
-  // Sign out from internal instance and then sign in with passed credential to
-  // external instance.
-  return testAuth.process().then(function() {
-    testAuth.assertSignOut([]);
-    return testAuth.process();
-  }).then(function() {
-    // Simulate an expired credential error due to the user waiting too long.
-    externalAuth.assertSignInWithCredential(
-        [federatedCredential], null, expiredCredentialError);
-    return externalAuth.process();
-  }).then(function() {
-    assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
-    // Confirm redirect URL is cleared from storage.
-    assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
-    // No redirect occurred.
-    testUtil.assertGoTo(null);
-    // Redirect back to provider sign-in page.
-    assertProviderSignInPage();
-    // Error should be displayed in the info bar.
-    assertInfoBarMessage(
-        firebaseui.auth.soy2.strings.errorExpiredCredential().toString());
+        firebaseui.auth.widget.handler.common.getErrorMessage(expectedError));
     asyncTestCase.signal();
   });
 }
@@ -1010,9 +922,11 @@ function testSetLoggedIn_popup_signInSuccessCallback_noRedirect() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [federatedCredential], externalAuth.currentUser);
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     testAuth.assertSignOut([]);
@@ -1055,9 +969,11 @@ function testSetLoggedIn_popup_signInSuccessCallback_storageAutoRedirect() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [federatedCredential], externalAuth.currentUser);
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     // SignInCallback is called.
@@ -1102,9 +1018,11 @@ function testSetLoggedIn_popup_signInSuccessCallback_storageNoRedirect() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [federatedCredential], externalAuth.currentUser);
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     testAuth.assertSignOut([]);
@@ -1152,9 +1070,11 @@ function testSetLoggedIn_popup_signInSuccessCallback_storageManualRedirect() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInWithCredential(
-        [federatedCredential], externalAuth.currentUser);
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
      testAuth.assertSignOut([]);
@@ -1212,6 +1132,52 @@ function testSetLoggedIn_alreadySignedIn_falseSignInCallback() {
 }
 
 
+function testSetLoggedInWithAuthResult_incompatibilityError() {
+  // Test when an incompatible version of Firebase.js is used with latest
+  // version of firebaseui. In that case a user is passed instead of an
+  // UserCredential object. This results in an undefined user being
+  // passed to setLoggedInWithAuthResult.
+  testStubs.set(
+      firebaseui.auth.log,
+      'error',
+      goog.testing.recordFunction());
+  app.setConfig({
+    'callbacks': {
+      'signInSuccessWithAuthResult': signInSuccessWithAuthResultCallback(true)
+    }
+  });
+  var cred = firebase.auth.EmailAuthProvider.credential(
+      passwordUser['email'], 'password');
+  testAuth.setUser(passwordUser);
+  // AuthResult will have an undefined user.
+  var internalAuthResult = {
+    'user': undefined,
+    'credential': cred,
+    'operationType': undefined,
+    'additionalUserInfo': undefined
+  };
+  asyncTestCase.waitForSignals(1);
+  return firebaseui.auth.widget.handler.common.setLoggedInWithAuthResult(
+      app, testComponent, internalAuthResult)
+      .then(function() {
+        // The above will throw an error which should be logged to the console.
+        assertEquals(1, firebaseui.auth.log.error.getCallCount());
+        assertEquals(
+            firebaseui.auth.AuthUI.INCOMPATIBLE_DEPENDENCY_ERROR,
+            firebaseui.auth.log.error.getLastCall().getArgument(0));
+        var actualError =
+            firebaseui.auth.log.error.getLastCall().getArgument(1);
+        assertEquals(
+            firebaseui.auth.AuthUI.INCOMPATIBLE_DEPENDENCY_ERROR,
+            actualError.message);
+        // Error should be displayed in the info bar.
+        assertInfoBarMessage(
+            firebaseui.auth.AuthUI.INCOMPATIBLE_DEPENDENCY_ERROR,
+            testComponent);
+        asyncTestCase.signal();
+      });
+}
+
 function testSetLoggedInWithAuthResult() {
   testStubs.set(
       firebaseui.auth.log,
@@ -1246,16 +1212,11 @@ function testSetLoggedInWithAuthResult() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    var expectedUserCredential = {
-      'user': externalAuth.currentUser,
-      'credential': null,
-      'operationType': 'signIn',
-      // Signing in to external Auth instance returns isNewUser as false.
-      'additionalUserInfo':  {'providerId': 'password', 'isNewUser': false}
-    };
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [cred], expectedUserCredential);
+    externalAuth.assertUpdateCurrentUser(
+        [internalAuthResult['user']],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     var expectedAuthResult = {
@@ -1314,15 +1275,11 @@ function testSetLoggedInWithAuthResult_federatedLinking() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    var expectedUserCredential = {
-      'user': externalAuth.currentUser,
-      'credential': federatedCredential,
-      'operationType': 'signIn',
-      'additionalUserInfo':  {'providerId': 'google.com', 'isNewUser': false}
-    };
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [federatedCredential], expectedUserCredential);
+    externalAuth.assertUpdateCurrentUser(
+        [internalAuthResult['user']],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     var expectedAuthResult = {
@@ -1375,16 +1332,11 @@ function testSetLoggedInWithAuthResult_noRedirect() {
     return testAuth.process();
   }).then(function() {
     testAuth.assertSignOut([]);
-    externalAuth.setUser(testAuth.currentUser);
-    var expectedUserCredential = {
-      'user': externalAuth.currentUser,
-      'credential': null,
-      'operationType': 'signIn',
-      // Signing in to external Auth instance returns isNewUser as false.
-      'additionalUserInfo':  {'providerId': 'password', 'isNewUser': false}
-    };
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [cred], expectedUserCredential);
+    externalAuth.assertUpdateCurrentUser(
+        [internalAuthResult['user']],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     var expectedAuthResult = {
@@ -1435,16 +1387,11 @@ function testSetLoggedInWithAuthResult_notRememberAccount() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    var expectedUserCredential = {
-      'user': externalAuth.currentUser,
-      'credential': null,
-      'operationType': 'signIn',
-      // Signing in to external Auth instance returns isNewUser as false.
-      'additionalUserInfo':  {'providerId': 'password', 'isNewUser': false}
-    };
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [cred], expectedUserCredential);
+    externalAuth.assertUpdateCurrentUser(
+        [internalAuthResult['user']],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     var expectedAuthResult = {
@@ -1496,17 +1443,11 @@ function testSetLoggedInWithAuthResult_storageAutoRedirect() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    var expectedUserCredential = {
-      'user': externalAuth.currentUser,
-      'credential': federatedCredential,
-      'operationType': 'signIn',
-      // Signing in to external Auth instance returns isNewUser as false.
-      'additionalUserInfo':  {'providerId': 'google.com', 'isNewUser': false}
-    };
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [federatedCredential],
-        expectedUserCredential);
+    externalAuth.assertUpdateCurrentUser(
+        [internalAuthResult['user']],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     var expectedAuthResult = {
@@ -1558,17 +1499,11 @@ function testSetLoggedInWithAuthResult_storageNoRedirect() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    var expectedUserCredential = {
-      'user': externalAuth.currentUser,
-      'credential': federatedCredential,
-      'operationType': 'signIn',
-      // Signing in to external Auth instance returns isNewUser as false.
-      'additionalUserInfo':  {'providerId': 'google.com', 'isNewUser': false}
-    };
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [federatedCredential],
-        expectedUserCredential);
+    externalAuth.assertUpdateCurrentUser(
+        [internalAuthResult['user']],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     testAuth.assertSignOut([]);
@@ -1619,17 +1554,11 @@ function testSetLoggedInWithAuthResult_onlySignInSuccessCallback() {
     return testAuth.process();
   }).then(function() {
     testAuth.assertSignOut([]);
-    externalAuth.setUser(testAuth.currentUser);
-    var expectedUserCredential = {
-      'user': externalAuth.currentUser,
-      'credential': null,
-      'operationType': 'signIn',
-      // Signing in to external Auth instance returns isNewUser as false.
-      'additionalUserInfo':  {'providerId': 'password', 'isNewUser': false}
-    };
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [cred],
-        expectedUserCredential);
+    externalAuth.assertUpdateCurrentUser(
+        [internalAuthResult['user']],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     // SignInSuccessCallback is called.
@@ -1707,17 +1636,11 @@ function testSetLoggedInWithAuthResult_redirectNoRedirectUrl() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    var expectedUserCredential = {
-      'user': externalAuth.currentUser,
-      'credential': federatedCredential,
-      'operationType': 'signIn',
-      // Signing in to external Auth instance returns isNewUser as false.
-      'additionalUserInfo':  {'providerId': 'google.com', 'isNewUser': false}
-    };
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [federatedCredential],
-        expectedUserCredential);
+    externalAuth.assertUpdateCurrentUser(
+        [internalAuthResult['user']],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
@@ -1737,28 +1660,13 @@ function testSetLoggedInWithAuthResult_redirectNoRedirectUrl() {
 }
 
 
-function testSetLoggedInWithAuthResult_expiredGoogleCredential() {
-  // Test when setLoggedInWithAuthResult is triggered with an expired Google
-  // credential. This would happen when the user waits too long before
-  // proceeding in an email mismatch scenario.
+function testSetLoggedInWithAuthResult_updateCurrentUserError() {
+  // Test when setLoggedInWithAuthResult is triggered and updateCurrentUser
+  // fails with some error.
   asyncTestCase.waitForSignals(1);
-  // Expired Google credential error.
-  var message = {
-    'error': {
-      'errors': [
-        {
-          'domain': 'global',
-          'reason': 'invalid',
-          'message': 'Invalid Idp Response: access_token is invalid'
-        }
-      ],
-      'code': 400,
-      'message': 'Invalid Idp Response: access_token is invalid'
-    }
-  };
-  var expiredCredentialError = {
+  var expectedError = {
     'code': 'auth/internal-error',
-    'message': JSON.stringify(message)
+    'message': 'Internal error'
   };
   app.setConfig({
     'signInSuccessUrl': undefined,
@@ -1785,9 +1693,10 @@ function testSetLoggedInWithAuthResult_expiredGoogleCredential() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    // Simulate an expired credential error due to the user waiting too long.
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [federatedCredential], null, expiredCredentialError);
+    externalAuth.assertUpdateCurrentUser(
+        [internalAuthResult['user']],
+        null,
+        expectedError);
     return externalAuth.process();
   }).then(function() {
     assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
@@ -1796,90 +1705,11 @@ function testSetLoggedInWithAuthResult_expiredGoogleCredential() {
     assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
     // No redirect occurred.
     testUtil.assertGoTo(null);
-    // Redirect back to provider sign-in page.
-    assertProviderSignInPage();
+    // Same page rendered.
+    assertCallbackPage();
     // Error should be displayed in the info bar.
     assertInfoBarMessage(
-        firebaseui.auth.soy2.strings.errorExpiredCredential().toString());
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSetLoggedInWithAuthResult_expiredFacebookCredential() {
-  // Test when setLoggedInWithAuthResult is triggered with an expired Facebook
-  // credential. This would happen when the user waits too long before
-  // proceeding in an email mismatch scenario.
-  asyncTestCase.waitForSignals(1);
-  // Expired Facebook credential error.
-  var message = {
-    'error': {
-      'errors': [
-        {
-          'domain': 'global',
-          'reason': 'invalid',
-          'message': 'invalid access_token, error code 43.'
-        }
-      ],
-      'code': 400,
-      'message': 'invalid access_token, error code 43.'
-    }
-  };
-  var expiredCredentialError = {
-    'code': 'auth/internal-error',
-    'message': JSON.stringify(message)
-  };
-  app.setConfig({
-    'signInSuccessUrl': undefined,
-    'callbacks': {
-      'signInSuccessWithAuthResult': signInSuccessWithAuthResultCallback(true)
-    }
-  });
-  firebaseui.auth.storage.setRememberAccount(false, app.getAppId());
-  var facebookUser = {
-    email: 'user@example.com',
-    displayName: 'Federated User',
-    providerData: [{
-      'uid': 'FED_ID',
-      'email': 'user@example.com',
-      'displayName': 'Federated User',
-      'providerId': 'facebook.com'
-    }]
-  };
-  testAuth.setUser(facebookUser);
-  var internalAuthResult = {
-    'user': facebookUser,
-    'credential': authCredential,
-    'operationType': 'signIn',
-    'additionalUserInfo':  {'providerId': 'facebook.com', 'isNewUser': true}
-  };
-  // Render the UI.
-  var component = new firebaseui.auth.ui.page.Callback();
-  component.render(container);
-  firebaseui.auth.widget.handler.common.setLoggedInWithAuthResult(
-      app, component, internalAuthResult);
-  // Sign out from internal instance and then sign in with passed credential to
-  // external instance.
-  return testAuth.process().then(function() {
-    testAuth.assertSignOut([]);
-    return testAuth.process();
-  }).then(function() {
-    // Simulate an expired credential error due to the user waiting too long.
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [authCredential], null, expiredCredentialError);
-    return externalAuth.process();
-  }).then(function() {
-    assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
-    // Confirm redirect URL is cleared from storage.
-    assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
-    // No redirect occurred.
-    testUtil.assertGoTo(null);
-    // Redirect back to provider sign-in page.
-    assertProviderSignInPage();
-    // Error should be displayed in the info bar.
-    assertInfoBarMessage(
-        firebaseui.auth.soy2.strings.errorExpiredCredential().toString());
+        firebaseui.auth.widget.handler.common.getErrorMessage(expectedError));
     asyncTestCase.signal();
   });
 }
@@ -1915,17 +1745,11 @@ function testSetLoggedInWithAuthResult_storageManualRedirect() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    var expectedUserCredential = {
-      'user': externalAuth.currentUser,
-      'credential': federatedCredential,
-      'operationType': 'signIn',
-      // Signing in to external Auth instance returns isNewUser as false.
-      'additionalUserInfo':  {'providerId': 'google.com', 'isNewUser': false}
-    };
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [federatedCredential],
-        expectedUserCredential);
+    externalAuth.assertUpdateCurrentUser(
+        [internalAuthResult['user']],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     testAuth.assertSignOut([]);
@@ -1975,17 +1799,11 @@ function testSetLoggedInWithAuthResult_popup() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    var expectedUserCredential = {
-      'user': externalAuth.currentUser,
-      'credential': federatedCredential,
-      'operationType': 'signIn',
-      // Signing in to external Auth instance returns isNewUser as false.
-      'additionalUserInfo':  {'providerId': 'google.com', 'isNewUser': false}
-    };
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [federatedCredential],
-        expectedUserCredential);
+    externalAuth.assertUpdateCurrentUser(
+        [internalAuthResult['user']],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     var expectedAuthResult = {
@@ -2033,17 +1851,11 @@ function testSetLoggedInWithAuthResult_popup_noRedirect() {
     return testAuth.process();
   }).then(function() {
     testAuth.assertSignOut([]);
-    externalAuth.setUser(testAuth.currentUser);
-    var expectedUserCredential = {
-      'user': externalAuth.currentUser,
-      'credential': federatedCredential,
-      'operationType': 'signIn',
-      // Signing in to external Auth instance returns isNewUser as false.
-      'additionalUserInfo':  {'providerId': 'google.com', 'isNewUser': false}
-    };
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [federatedCredential],
-        expectedUserCredential);
+    externalAuth.assertUpdateCurrentUser(
+        [internalAuthResult['user']],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     var expectedAuthResult = {
@@ -2100,17 +1912,11 @@ function testSetLoggedInWithAuthResult_popup_storageAutoRedirect() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    var expectedUserCredential = {
-      'user': externalAuth.currentUser,
-      'credential': federatedCredential,
-      'operationType': 'signIn',
-      // Signing in to external Auth instance returns isNewUser as false.
-      'additionalUserInfo':  {'providerId': 'google.com', 'isNewUser': false}
-    };
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [federatedCredential],
-        expectedUserCredential);
+    externalAuth.assertUpdateCurrentUser(
+        [internalAuthResult['user']],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     var expectedAuthResult = {
@@ -2163,17 +1969,11 @@ function testSetLoggedInWithAuthResult_popup_storageNoRedirect() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    var expectedUserCredential = {
-      'user': externalAuth.currentUser,
-      'credential': federatedCredential,
-      'operationType': 'signIn',
-      // Signing in to external Auth instance returns isNewUser as false.
-      'additionalUserInfo':  {'providerId': 'google.com', 'isNewUser': false}
-    };
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [federatedCredential],
-        expectedUserCredential);
+    externalAuth.assertUpdateCurrentUser(
+        [internalAuthResult['user']],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     testAuth.assertSignOut([]);
@@ -2233,17 +2033,11 @@ function testSetLoggedInWithAuthResult_popup_storageManualRedirect() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    var expectedUserCredential = {
-      'user': externalAuth.currentUser,
-      'credential': federatedCredential,
-      'operationType': 'signIn',
-      // Signing in to external Auth instance returns isNewUser as false.
-      'additionalUserInfo':  {'providerId': 'google.com', 'isNewUser': false}
-    };
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [federatedCredential],
-        expectedUserCredential);
+    externalAuth.assertUpdateCurrentUser(
+        [internalAuthResult['user']],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     testAuth.assertSignOut([]);
@@ -2299,17 +2093,11 @@ function testSetLoggedInWithAuthResult_popup_redirectNoRedirectUrl() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    var expectedUserCredential = {
-      'user': externalAuth.currentUser,
-      'credential': federatedCredential,
-      'operationType': 'signIn',
-      // Signing in to external Auth instance returns isNewUser as false.
-      'additionalUserInfo':  {'providerId': 'google.com', 'isNewUser': false}
-    };
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [federatedCredential],
-        expectedUserCredential);
+    externalAuth.assertUpdateCurrentUser(
+        [internalAuthResult['user']],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
     return externalAuth.process();
   }).then(function() {
     assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
@@ -2358,14 +2146,10 @@ function testSetLoggedInWithAuthResult_popup_noCallback_storageRedirect() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [cred],
-        {
-          'user': externalAuth.currentUser,
-          'credential': null,
-          'operationType': 'signIn',
-          'additionalUserInfo': {'providerId': 'password', 'isNewUser': false}
+    externalAuth.assertUpdateCurrentUser(
+        [internalAuthResult['user']],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {
@@ -2678,6 +2462,26 @@ function testHandleSignInFetchSignInMethodsForEmail_unregistered() {
       app, container, signInMethods, email, displayName);
   // Password sign up page should show with email and display name populated.
   assertPasswordSignUpPage();
+  assertTosPpFooter('http://localhost/tos', 'http://localhost/privacy_policy');
+  assertEquals(
+        email,
+        goog.dom.forms.getValue(getEmailElement()));
+    assertEquals(
+        displayName,
+        goog.dom.forms.getValue(getNameElement()));
+}
+
+
+function testHandleSignInFetchSignInMethodsForEmail_unregistered_fullMsg() {
+  var signInMethods = [];
+  var email = 'user@example.com';
+  var displayName = 'John Doe';
+  firebaseui.auth.widget.handler.common.handleSignInFetchSignInMethodsForEmail(
+      app, container, signInMethods, email, displayName, undefined, true);
+  // Password sign up page should show with email and display name populated.
+  assertPasswordSignUpPage();
+  assertTosPpFullMessage(
+      'http://localhost/tos', 'http://localhost/privacy_policy');
   assertEquals(
         email,
         goog.dom.forms.getValue(getEmailElement()));
@@ -2694,6 +2498,21 @@ function testHandleSignInFetchSignInMethodsForEmail_registeredPasswordAcct() {
       app, container, signInMethods, email);
   // Password sign-in page should show.
   assertPasswordSignInPage();
+  assertTosPpFooter('http://localhost/tos', 'http://localhost/privacy_policy');
+  assertEquals(email, goog.dom.forms.getValue(getEmailElement()));
+  assertEquals(0, getIdpButtons().length);
+}
+
+
+function testHandleSignInFetchSignInMethodsForEmail_registeredPwdAcctFullMsg() {
+  var signInMethods = ['google.com', 'facebook.com', 'password'];
+  var email = 'user@example.com';
+  firebaseui.auth.widget.handler.common.handleSignInFetchSignInMethodsForEmail(
+      app, container, signInMethods, email, undefined, undefined, true);
+  // Password sign-in page should show.
+  assertPasswordSignInPage();
+  assertTosPpFullMessage(
+      'http://localhost/tos', 'http://localhost/privacy_policy');
   assertEquals(email, goog.dom.forms.getValue(getEmailElement()));
   assertEquals(0, getIdpButtons().length);
 }
@@ -3023,14 +2842,10 @@ function testFederatedSignIn_success_cordova() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [cred],
-        {
-          'user': externalAuth.currentUser,
-          'credential': cred,
-          'operationType': 'signIn',
-          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {
@@ -3427,14 +3242,10 @@ function testHandleGoogleYoloCredential_handledSuccessfully_withoutScopes() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [cred],
-        {
-          'user': externalAuth.currentUser,
-          'credential': cred,
-          'operationType': 'signIn',
-          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {

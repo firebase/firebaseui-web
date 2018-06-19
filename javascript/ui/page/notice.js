@@ -29,6 +29,7 @@ goog.provide('firebaseui.auth.ui.page.UnrecoverableError');
 
 goog.require('firebaseui.auth.soy2.page');
 goog.require('firebaseui.auth.ui.element.form');
+goog.require('firebaseui.auth.ui.element.tospp');
 goog.require('firebaseui.auth.ui.page.Base');
 
 
@@ -42,6 +43,7 @@ goog.require('firebaseui.auth.ui.page.Base');
  *     continue button is clicked.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @param {string=} opt_uiLabel The optional UI label.
+ * @param {?Object=} opt_injectedData Optional injected data.
  * @constructor
  * @extends {firebaseui.auth.ui.page.Base}
  * @template ARG_TYPES
@@ -51,14 +53,16 @@ firebaseui.auth.ui.page.Notice = function(
     opt_templateData,
     opt_onContinueClick,
     opt_domHelper,
-    opt_uiLabel) {
+    opt_uiLabel,
+    opt_injectedData) {
   firebaseui.auth.ui.page.Notice.base(
       this,
       'constructor',
       template,
       opt_templateData,
       opt_domHelper,
-      opt_uiLabel || 'notice');
+      opt_uiLabel || 'notice',
+      opt_injectedData);
   this.onContinueClick_ = opt_onContinueClick || null;
 };
 goog.inherits(firebaseui.auth.ui.page.Notice, firebaseui.auth.ui.page.Base);
@@ -101,12 +105,15 @@ goog.mixin(
  * @param {string} email The email to which the recovery email has been sent.
  * @param {?function()=} opt_onContinueClick Callback to invoke when the
  *     continue button is clicked.
+ * @param {?string=} opt_tosUrl The ToS URL.
+ * @param {?string=} opt_privacyPolicyUrl The Privacy Policy URL.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @constructor
  * @extends {firebaseui.auth.ui.page.Notice}
  */
 firebaseui.auth.ui.page.PasswordRecoveryEmailSent = function(
-    email, opt_onContinueClick, opt_domHelper) {
+    email, opt_onContinueClick,
+    opt_tosUrl, opt_privacyPolicyUrl, opt_domHelper) {
   firebaseui.auth.ui.page.PasswordRecoveryEmailSent.base(
       this,
       'constructor',
@@ -117,10 +124,30 @@ firebaseui.auth.ui.page.PasswordRecoveryEmailSent = function(
       },
       opt_onContinueClick,
       opt_domHelper,
-      'passwordRecoveryEmailSent');
+      'passwordRecoveryEmailSent',
+      {
+        tosUrl: opt_tosUrl,
+        privacyPolicyUrl: opt_privacyPolicyUrl
+      });
 };
 goog.inherits(firebaseui.auth.ui.page.PasswordRecoveryEmailSent,
     firebaseui.auth.ui.page.Notice);
+
+
+goog.mixin(
+    firebaseui.auth.ui.page.PasswordRecoveryEmailSent.prototype,
+    /** @lends {firebaseui.auth.ui.page.PasswordRecoveryEmailSent.prototype} */
+    {
+      // For tos pp.
+      getTosPpElement:
+          firebaseui.auth.ui.element.tospp.getTosPpElement,
+      getTosLinkElement:
+          firebaseui.auth.ui.element.tospp.getTosLinkElement,
+      getPpLinkElement:
+          firebaseui.auth.ui.element.tospp.getPpLinkElement,
+      getTosPpListElement:
+          firebaseui.auth.ui.element.tospp.getTosPpListElement
+    });
 
 
 /**

@@ -143,14 +143,10 @@ function testHandleEmailMismatch_linking_continue() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [credential],
-        {
-          'user': externalAuth.currentUser,
-          'credential': credential,
-          'operationType': 'signIn',
-          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {
@@ -197,14 +193,10 @@ function testHandleEmailMismatch_linking_continue_signInWithAuthResultCb() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [credential],
-        {
-          'user': externalAuth.currentUser,
-          'credential': credential,
-          'operationType': 'signIn',
-          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {
@@ -458,14 +450,10 @@ function testHandleEmailMismatch_signIn_continue() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [credential],
-        {
-          'user': externalAuth.currentUser,
-          'credential': credential,
-          'operationType': 'signIn',
-          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {
@@ -515,14 +503,10 @@ function testHandleEmailMismatch_signIn_continue_signInWithAuthResultCb() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [credential],
-        {
-          'user': testAuth.currentUser,
-          'credential': credential,
-          'operationType': 'signIn',
-          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {

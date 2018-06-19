@@ -49,7 +49,9 @@ firebaseui.auth.widget.handler.handleFederatedSignIn = function(
         // with a specified email.
         firebaseui.auth.widget.handler.common.federatedSignIn(app, component,
             providerId, email);
-      });
+      },
+      app.getConfig().getTosUrl(),
+      app.getConfig().getPrivacyPolicyUrl());
 
   component.render(container);
   // Set current UI component.
