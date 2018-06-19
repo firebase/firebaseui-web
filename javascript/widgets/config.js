@@ -55,6 +55,7 @@ firebaseui.auth.widget.Config = function() {
       'credentialHelper',
       firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM);
   this.config_.define('popupMode', false);
+  this.config_.define('privacyPolicyUrl');
   /**
    * Determines the redirect URL query key.
    */
@@ -534,7 +535,27 @@ firebaseui.auth.widget.Config.prototype.getSiteName = function() {
 
 /** @return {?string} The ToS URL for the site. */
 firebaseui.auth.widget.Config.prototype.getTosUrl = function() {
-  return /** @type {?string} */ (this.config_.get('tosUrl') || null);
+  var tosUrl = this.config_.get('tosUrl') || null;
+  var privacyPolicyUrl = this.config_.get('privacyPolicyUrl') || null;
+  if (tosUrl && !privacyPolicyUrl) {
+    firebaseui.auth.log.warning('Privacy Policy URL is missing, ' +
+                                'the link will not be displayed.');
+    return null;
+  }
+  return /** @type {?string} */ (tosUrl);
+};
+
+
+/** @return {?string} The Privacy Policy URL for the site. */
+firebaseui.auth.widget.Config.prototype.getPrivacyPolicyUrl = function() {
+  var tosUrl = this.config_.get('tosUrl') || null;
+  var privacyPolicyUrl = this.config_.get('privacyPolicyUrl') || null;
+  if (privacyPolicyUrl && !tosUrl) {
+    firebaseui.auth.log.warning('Term of Service URL is missing, ' +
+                                'the link will not be displayed.');
+    return null;
+  }
+  return /** @type {?string} */ (privacyPolicyUrl);
 };
 
 

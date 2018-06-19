@@ -66,7 +66,9 @@ firebaseui.auth.widget.handler.handlePasswordLinking = function(
       function() {
         firebaseui.auth.widget.handler.onPasswordRecoveryClicked_(
             app, container, component, email);
-      });
+      },
+      app.getConfig().getTosUrl(),
+      app.getConfig().getPrivacyPolicyUrl());
   component.render(container);
   // Set current UI component.
   app.setCurrentComponent(component);

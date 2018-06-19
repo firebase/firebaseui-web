@@ -212,6 +212,7 @@ FakeAuthClient.AuthAsyncMethod = {
   SIGN_IN_WITH_PHONE_NUMBER: 'signInWithPhoneNumber',
   SIGN_IN_WITH_REDIRECT: 'signInWithRedirect',
   SIGN_OUT: 'signOut',
+  UPDATE_CURRENT_USER: 'updateCurrentUser',
   VERIFY_PASSWORD_RESET_CODE: 'verifyPasswordResetCode'
 };
 

@@ -199,7 +199,11 @@ firebaseui.auth.widget.handler.handleEmailChangeRevocationSuccess_ =
               // Reset password code sent.
               component.dispose();
               component =
-                  new firebaseui.auth.ui.page.PasswordRecoveryEmailSent(email);
+                  new firebaseui.auth.ui.page.PasswordRecoveryEmailSent(
+                      email,
+                      undefined,
+                      app.getConfig().getTosUrl(),
+                      app.getConfig().getPrivacyPolicyUrl());
               component.render(container);
               // Set current UI component.
               app.setCurrentComponent(component);

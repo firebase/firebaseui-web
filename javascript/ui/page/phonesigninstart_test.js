@@ -23,6 +23,7 @@ goog.require('firebaseui.auth.ui.element.FormTestHelper');
 goog.require('firebaseui.auth.ui.element.InfoBarTestHelper');
 goog.require('firebaseui.auth.ui.element.PhoneNumberTestHelper');
 goog.require('firebaseui.auth.ui.element.RecaptchaTestHelper');
+goog.require('firebaseui.auth.ui.element.TosPpTestHelper');
 goog.require('firebaseui.auth.ui.page.PageTestHelper');
 goog.require('firebaseui.auth.ui.page.PhoneSignInStart');
 goog.require('goog.dom');
@@ -42,18 +43,22 @@ var formTestHelper =
     new firebaseui.auth.ui.element.FormTestHelper().registerTests();
 var infoBarTestHelper =
     new firebaseui.auth.ui.element.InfoBarTestHelper().registerTests();
+var tosPpTestHelper =
+    new firebaseui.auth.ui.element.TosPpTestHelper().registerTests();
 
 
 /**
  * @param {boolean} enableVisibleRecaptcha Whether to enable a visible reCAPTCHA
  *     or an invisible one otherwise.
+ * @param {?string} tosUrl The ToS URL.
+ * @param {?string} privacyPolicyUrl The Privacy Policy URL.
  * @param {?string=} opt_countryId The ID (e164_key) of the country to
  *     pre-select.
  * @param {?string=} opt_nationalNumber The national number to pre-fill.
  * @return {!goog.ui.Component} The rendered PhoneSignInStart component.
  */
-function createComponent(enableVisibleRecaptcha, opt_countryId,
-    opt_nationalNumber) {
+function createComponent(enableVisibleRecaptcha, tosUrl, privacyPolicyUrl,
+    opt_countryId, opt_nationalNumber) {
   var component = new firebaseui.auth.ui.page.PhoneSignInStart(
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
@@ -61,7 +66,8 @@ function createComponent(enableVisibleRecaptcha, opt_countryId,
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onLinkClick,
           formTestHelper),
-      enableVisibleRecaptcha, opt_countryId, opt_nationalNumber);
+      enableVisibleRecaptcha, tosUrl, privacyPolicyUrl, false,
+      opt_countryId, opt_nationalNumber);
   component.render(root);
   phoneNumberTestHelper.setComponent(component);
   recaptchaTestHelper.setComponent(component);
@@ -69,6 +75,7 @@ function createComponent(enableVisibleRecaptcha, opt_countryId,
   // Reset previous state of form helper.
   formTestHelper.resetState();
   infoBarTestHelper.setComponent(component);
+  tosPpTestHelper.setComponent(component);
   return component;
 }
 
@@ -76,7 +83,8 @@ function createComponent(enableVisibleRecaptcha, opt_countryId,
 function setUp() {
   root = goog.dom.createDom(goog.dom.TagName.DIV);
   document.body.appendChild(root);
-  component = createComponent(true);
+  component = createComponent(true, 'http://localhost/tos',
+      'http://localhost/privacy_policy');
 }
 
 
@@ -103,12 +111,65 @@ function testPhoneSignInStart_visibleAndInvisibleRecaptcha() {
 function testPhoneSignInStart_prefillValue() {
   component.dispose();
 
-  component = createComponent(false, '45-DK-0', '6505550101');
+  component = createComponent(false, null, null, '45-DK-0', '6505550101');
 
   // The prefilled number should be returned.
   assertEquals('+456505550101', component.getPhoneNumberValue()
       .getPhoneNumber());
   assertEquals('6505550101', component.getPhoneNumberElement().value);
+}
+
+
+function testPhoneSignInStart_footer() {
+  component.dispose();
+  component = createComponent(false, 'http://localhost/tos',
+      'http://localhost/privacy_policy');
+  tosPpTestHelper.assertPhoneFooter('http://localhost/tos',
+      'http://localhost/privacy_policy');
+  component.dispose();
+  component = createComponent(false, null, null);
+  tosPpTestHelper.assertPhoneFooter(null, null);
+}
+
+
+function testPhoneSignInStart_fullMessage() {
+  component.dispose();
+  component = new firebaseui.auth.ui.page.PhoneSignInStart(
+      goog.bind(
+          firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
+          formTestHelper),
+      goog.bind(
+          firebaseui.auth.ui.element.FormTestHelper.prototype.onLinkClick,
+          formTestHelper),
+      false,
+      'http://localhost/tos',
+      'http://localhost/privacy_policy',
+      true);
+  component.render(root);
+  tosPpTestHelper.setComponent(component);
+  tosPpTestHelper.assertPhoneFullMessage('http://localhost/tos',
+      'http://localhost/privacy_policy');
+  component.dispose();
+}
+
+
+function testPhoneSignInStart_fullMessage_noUrl() {
+  component.dispose();
+  component = new firebaseui.auth.ui.page.PhoneSignInStart(
+      goog.bind(
+          firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
+          formTestHelper),
+      goog.bind(
+          firebaseui.auth.ui.element.FormTestHelper.prototype.onLinkClick,
+          formTestHelper),
+      false,
+      null,
+      null,
+      true);
+  component.render(root);
+  tosPpTestHelper.setComponent(component);
+  tosPpTestHelper.assertPhoneFullMessage(null, null);
+  component.dispose();
 }
 
 

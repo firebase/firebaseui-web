@@ -15,6 +15,7 @@
 <translation id="1294742657282291237">蓋亞那</translation>
 <translation id="1297168472480293352">瓜地馬拉</translation>
 <translation id="1315809131562953678">請輸入有效的電話號碼</translation>
+<translation id="1335716056288807013">輕觸 [驗證] 即表示您同意接受我們的《<ph name="START_LINK_1" />服務條款<ph name="END_LINK" />》與《<ph name="START_LINK_2" />隱私權政策<ph name="END_LINK" />》。系統將會傳送簡訊給您，不過您可能需要支付簡訊和數據傳輸費用。</translation>
 <translation id="137210131544215127">輸入密碼</translation>
 <translation id="1393433815796487579">完成</translation>
 <translation id="1412449974349991050">海地</translation>
@@ -46,6 +47,7 @@
 <translation id="2049229571938383319">聖巴瑟米</translation>
 <translation id="2058731785647385204">蒙哲臘</translation>
 <translation id="2070709910567585968">安全強度高的密碼至少需有 6 個字元並混用字母和數字</translation>
+<translation id="2074008538308369451">服務條款</translation>
 <translation id="2108717231438756650">英國</translation>
 <translation id="2120419640334291526">開曼群島</translation>
 <translation id="2124070231227334770">摩爾多瓦</translation>
@@ -54,6 +56,7 @@
 <translation id="2187260952722791093">已驗證！</translation>
 <translation id="2192561962270021282">請輸入您的電話號碼</translation>
 <translation id="2206856445831770486">Github</translation>
+<translation id="2223717216014247341">隱私權政策</translation>
 <translation id="2224563296468523455">關島</translation>
 <translation id="2249420035688424170">克羅埃西亞</translation>
 <translation id="2251583471831926217">立陶宛</translation>
@@ -137,7 +140,7 @@
 <translation id="3608140835232496799">托克勞群島</translation>
 <translation id="3620185428620643248">系統不支援您選取的驗證供應商憑證！</translation>
 <translation id="3700097473356216716">哥倫比亞</translation>
-<translation id="3735918113934183391">請重新輸入您的電話號碼。</translation>
+<translation id="3703067902498234034">輕觸 [儲存] 即表示您同意 </translation>
 <translation id="3736041829854387744">蒲隆地</translation>
 <translation id="3755663127769565780">茅利塔尼亞</translation>
 <translation id="3813801701232240278">Twitter</translation>
@@ -157,6 +160,7 @@
 <translation id="4066104405592701692">愛沙尼亞</translation>
 <translation id="4090385155496329109">Facebook</translation>
 <translation id="4163133799286985193">阿根廷</translation>
+<translation id="4166504762096983411">選擇繼續即表示您同意接受我們的《<ph name="START_LINK_1" />服務條款<ph name="END_LINK" />》與《<ph name="START_LINK_2" />隱私權政策<ph name="END_LINK" />》。</translation>
 <translation id="420554669252656972">請輸入新的電子郵件地址</translation>
 <translation id="4210333062216604630">取消連結</translation>
 <translation id="4242716276491763916">幾內亞柯那克里</translation>
@@ -223,7 +227,7 @@
 <translation id="5602886107840188229">英屬印度洋領地</translation>
 <translation id="5604510594682955626">烏干達</translation>
 <translation id="5606731250220630939">挪威</translation>
-<translation id="5619383224509584356">以 <ph name="EMAIL_ADDR" /> 的身分登入</translation>
+<translation id="5611074838440670731">使用這個電話號碼的次數過多</translation>
 <translation id="5630396263271753991">厄利垂亞</translation>
 <translation id="5636713964613741614">模里西斯</translation>
 <translation id="5642254620426025006">發生錯誤，請再試一次。</translation>
@@ -256,8 +260,8 @@
 <translation id="6192657410634245771">阿爾及利亞</translation>
 <translation id="6213969168046789596">您輸入錯誤密碼的次數過多，請於幾分鐘後再試一次。</translation>
 <translation id="6216759405419177713">諾福克島</translation>
-<translation id="6283536862756552051">如要變更密碼，請先輸入目前的密碼。</translation>
-<translation id="6299890279889400823">上一步</translation>
+<translation id="6265373887273416711">驗證您的電話號碼</translation>
+<translation id="6295157125625453859">已驗證！</translation>
 <translation id="6316446940976157217">印度</translation>
 <translation id="6327723482938582895">貝南</translation>
 <translation id="6338643731889005578">繼續</translation>
@@ -300,7 +304,7 @@
 <translation id="6921505896641453739">電子郵件</translation>
 <translation id="6929813273561975780">下一步</translation>
 <translation id="6951302238647056860">這個代碼已經失效</translation>
-<translation id="6998342825820890463">隱私權政策</translation>
+<translation id="6976724207780605356">使用 Facebook 帳戶登入</translation>
 <translation id="6999773882165218263">姓氏和名字</translation>
 <translation id="7012506961150923116">格瑞那達</translation>
 <translation id="7024571478138322659">西撒哈拉</translation>
@@ -321,7 +325,6 @@
 <translation id="7280309713358692490">南韓</translation>
 <translation id="7291567990403335374">賴索托</translation>
 <translation id="7291656724505689727">使用電話號碼登入</translation>
-<translation id="7319220365822133324">輕觸 [儲存] 即表示您同意《<ph name="START_LINK" />服務條款<ph name="END_LINK" />》</translation>
 <translation id="7320029088567935126">請再次驗證您的電子郵件地址</translation>
 <translation id="7331038350037712642">亞塞拜然</translation>
 <translation id="743266754881673808">Google</translation>
@@ -403,7 +406,7 @@
 <translation id="884992060285817042">不丹</translation>
 <translation id="8869797682387766327">曼島</translation>
 <translation id="8893950153780006385">馬來西亞</translation>
-<translation id="8895840173743975193">可可斯群島</translation>
+<translation id="8895840173743975193">科科斯群島</translation>
 <translation id="8955469172512804617">輕觸 [<ph name="BTN" />] 即表示您同意《<ph name="PP" />》。</translation>
 <translation id="8980953965669178372">完成</translation>
 <translation id="8984161590699631096">摩洛哥</translation>
