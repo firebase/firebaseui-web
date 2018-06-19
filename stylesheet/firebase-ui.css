@@ -26,10 +26,16 @@
   font: 16px Roboto, arial, sans-serif;
   margin: 0 auto;
   max-width: 360px;
-  overflow: hidden;
+  /** This is needed for the invisible reCAPTCHA badge to show. */
+  overflow: visible;
   position: relative;
   text-align: left;
   width: 100%;
+}
+
+.firebaseui-container.mdl-card {
+  /** This is needed for the invisible reCAPTCHA badge to show. */
+  overflow: visible;
 }
 
 .firebaseui-card-header {
@@ -217,6 +223,21 @@ input.firebaseui-input-invalid{
   margin-bottom: 24px;
   margin-top: 0;
   text-align: left;
+}
+
+.firebaseui-provider-sign-in-footer > .firebaseui-tos  {
+  text-align: center;
+}
+
+.firebaseui-tos-list {
+  list-style: none;
+  text-align: right;
+}
+
+.firebaseui-inline-list-item {
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .firebaseui-page-provider-sign-in {

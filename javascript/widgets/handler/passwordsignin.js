@@ -32,9 +32,11 @@ goog.require('firebaseui.auth.widget.handler.common');
  *     configuration is used.
  * @param {Element} container The container DOM element.
  * @param {string=} opt_email The email address of the account.
+ * @param {boolean=} opt_displayFullTosPpMessage Whether to display the full
+ *     message of Term of Service and Privacy Policy.
  */
 firebaseui.auth.widget.handler.handlePasswordSignIn = function(
-    app, container, opt_email) {
+    app, container, opt_email, opt_displayFullTosPpMessage) {
   // Render the UI.
   var component = new firebaseui.auth.ui.page.PasswordSignIn(
       // On submit.
@@ -49,7 +51,10 @@ firebaseui.auth.widget.handler.handlePasswordSignIn = function(
             firebaseui.auth.widget.HandlerName.PASSWORD_RECOVERY, app,
             container, email);
       },
-      opt_email);
+      opt_email,
+      app.getConfig().getTosUrl(),
+      app.getConfig().getPrivacyPolicyUrl(),
+      opt_displayFullTosPpMessage);
   component.render(container);
   // Set current UI component.
   app.setCurrentComponent(component);

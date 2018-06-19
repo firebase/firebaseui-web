@@ -25,6 +25,7 @@ goog.require('firebaseui.auth.ui.element');
 goog.require('firebaseui.auth.ui.element.form');
 goog.require('firebaseui.auth.ui.element.phoneConfirmationCode');
 goog.require('firebaseui.auth.ui.element.resend');
+goog.require('firebaseui.auth.ui.element.tospp');
 goog.require('firebaseui.auth.ui.page.Base');
 
 
@@ -40,21 +41,26 @@ goog.require('firebaseui.auth.ui.page.Base');
  *     is clicked.
  * @param {string} phoneNumber the phone number to confirm.
  * @param {number} resendDelay The resend delay.
- * @param {?string=} opt_tosUrl The Terms of Service URL from the developer.
+ * @param {?string=} opt_tosUrl The ToS URL.
+ * @param {?string=} opt_privacyPolicyUrl The Privacy Policy URL.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @constructor
  * @extends {firebaseui.auth.ui.page.Base}
  */
 firebaseui.auth.ui.page.PhoneSignInFinish = function(
     onChangePhoneNumberClick, onSubmitClick, onCancelClick, onResendClick,
-    phoneNumber, resendDelay, opt_tosUrl, opt_domHelper) {
+    phoneNumber, resendDelay, opt_tosUrl, opt_privacyPolicyUrl, opt_domHelper) {
   firebaseui.auth.ui.page.PhoneSignInFinish.base(
       this, 'constructor', firebaseui.auth.soy2.page.phoneSignInFinish,
       {
-        phoneNumber: phoneNumber,
-        tosUrl: opt_tosUrl
+        phoneNumber: phoneNumber
       },
-      opt_domHelper, 'phoneSignInFinish');
+      opt_domHelper,
+      'phoneSignInFinish',
+      {
+        tosUrl: opt_tosUrl,
+        privacyPolicyUrl: opt_privacyPolicyUrl
+      });
   /** @private {string} the phone number to confirm. */
   this.phoneNumber_ = phoneNumber;
   /** @private {number} The resend delay. */
@@ -188,5 +194,15 @@ goog.mixin(
       getSubmitElement: firebaseui.auth.ui.element.form.getSubmitElement,
       getSecondaryLinkElement:
           firebaseui.auth.ui.element.form.getSecondaryLinkElement,
-      initFormElement: firebaseui.auth.ui.element.form.initFormElement
+      initFormElement: firebaseui.auth.ui.element.form.initFormElement,
+
+      // For ToS and Privacy Policy.
+      getTosPpElement:
+          firebaseui.auth.ui.element.tospp.getTosPpElement,
+      getTosLinkElement:
+          firebaseui.auth.ui.element.tospp.getTosLinkElement,
+      getPpLinkElement:
+          firebaseui.auth.ui.element.tospp.getPpLinkElement,
+      getTosPpListElement:
+          firebaseui.auth.ui.element.tospp.getTosPpListElement
     });

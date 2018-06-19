@@ -15,6 +15,7 @@
 <translation id="1294742657282291237">Гаяна</translation>
 <translation id="1297168472480293352">Гватемала</translation>
 <translation id="1315809131562953678">Въведете валиден телефонен номер</translation>
+<translation id="1335716056288807013">Докосвайки „Потвърждаване“, приемате нашите <ph name="START_LINK_1" />Общи условия<ph name="END_LINK" /> и <ph name="START_LINK_2" />Декларация за поверителност<ph name="END_LINK" />. Възможно е да получите SMS съобщение. То може да се таксува по тарифите за данни и SMS.</translation>
 <translation id="137210131544215127">Въведете паролата си</translation>
 <translation id="1393433815796487579">Готово</translation>
 <translation id="1412449974349991050">Хаити</translation>
@@ -46,6 +47,7 @@
 <translation id="2049229571938383319">Сен Бартелеми</translation>
 <translation id="2058731785647385204">Монтсерат</translation>
 <translation id="2070709910567585968">Надеждните пароли съдържат поне 6 знака и комбинация от букви и цифри</translation>
+<translation id="2074008538308369451">Общи условия</translation>
 <translation id="2108717231438756650">Обединено кралство</translation>
 <translation id="2120419640334291526">Кайманови острови</translation>
 <translation id="2124070231227334770">Молдова</translation>
@@ -54,6 +56,7 @@
 <translation id="2187260952722791093">Потвърдено!</translation>
 <translation id="2192561962270021282">Въвеждане на телефонния ви номер</translation>
 <translation id="2206856445831770486">Github</translation>
+<translation id="2223717216014247341">Декларация за поверителност</translation>
 <translation id="2224563296468523455">Гуам</translation>
 <translation id="2249420035688424170">Хърватия</translation>
 <translation id="2251583471831926217">Литва</translation>
@@ -137,6 +140,7 @@
 <translation id="3608140835232496799">Токелау</translation>
 <translation id="3620185428620643248">Избраните идентификационни данни за доставчика на удостоверителни услуги не се поддържат!</translation>
 <translation id="3700097473356216716">Колумбия</translation>
+<translation id="3703067902498234034">Докосвайки „ЗАПАЗВАНЕ“, приемате </translation>
 <translation id="3736041829854387744">Бурунди</translation>
 <translation id="3755663127769565780">Мавритания</translation>
 <translation id="3813801701232240278">Twitter</translation>
@@ -155,6 +159,7 @@
 <translation id="4066104405592701692">Естония</translation>
 <translation id="4090385155496329109">Facebook</translation>
 <translation id="4163133799286985193">Аржентина</translation>
+<translation id="4166504762096983411">Продължавайки, приемате нашите <ph name="START_LINK_1" />Общи условия<ph name="END_LINK" /> и <ph name="START_LINK_2" />Декларация за поверителност<ph name="END_LINK" />.</translation>
 <translation id="420554669252656972">Въвеждане на нов имейл адрес</translation>
 <translation id="4210333062216604630">Прекратяване на връзката</translation>
 <translation id="4242716276491763916">Гвинея Конакри</translation>
@@ -219,7 +224,7 @@
 <translation id="5602886107840188229">Британски територии в Индийския океан</translation>
 <translation id="5604510594682955626">Уганда</translation>
 <translation id="5606731250220630939">Норвегия</translation>
-<translation id="5619383224509584356">Влязохте като <ph name="EMAIL_ADDR" /></translation>
+<translation id="5611074838440670731">Този телефонен номер е използван твърде много пъти</translation>
 <translation id="5630396263271753991">Еритрея</translation>
 <translation id="5636713964613741614">Мавриций</translation>
 <translation id="5642254620426025006">Нещо се обърка. Моля, опитайте отново.</translation>
@@ -252,8 +257,8 @@
 <translation id="6192657410634245771">Алжир</translation>
 <translation id="6213969168046789596">Въведохте неправилна парола твърде много пъти. Моля, опитайте отново след няколко минути.</translation>
 <translation id="6216759405419177713">Норфолк, о-в</translation>
-<translation id="6283536862756552051">За да промените паролата си, първо трябва да въведете текущата.</translation>
-<translation id="6299890279889400823">Назад</translation>
+<translation id="6265373887273416711">Потвърждаване на телефонния ви номер</translation>
+<translation id="6295157125625453859">Потвърдено!</translation>
 <translation id="6316446940976157217">Индия</translation>
 <translation id="6327723482938582895">Бенин</translation>
 <translation id="6338643731889005578">Напред</translation>
@@ -295,7 +300,7 @@
 <translation id="6921505896641453739">Имейл</translation>
 <translation id="6929813273561975780">Напред</translation>
 <translation id="6951302238647056860">Този код вече не е валиден</translation>
-<translation id="6998342825820890463">Декларацията за поверителност</translation>
+<translation id="6976724207780605356">Вход с Facebook</translation>
 <translation id="6999773882165218263">Име и фамилия</translation>
 <translation id="7012506961150923116">Гренада</translation>
 <translation id="7024571478138322659">Западна Сахара</translation>
@@ -316,7 +321,6 @@
 <translation id="7280309713358692490">Южна Корея</translation>
 <translation id="7291567990403335374">Лесото</translation>
 <translation id="7291656724505689727">Вход с телефон</translation>
-<translation id="7319220365822133324">Докосвайки „ЗАПАЗВАНЕ“, приемате <ph name="START_LINK" />Общите условия<ph name="END_LINK" /></translation>
 <translation id="7320029088567935126">Нов опит за потвърждаване на имейл адреса</translation>
 <translation id="7331038350037712642">Азербайджан</translation>
 <translation id="743266754881673808">Google</translation>

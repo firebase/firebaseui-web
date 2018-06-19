@@ -28,6 +28,7 @@ goog.require('firebaseui.auth.ui.element.progressDialog');
 goog.require('firebaseui.auth.ui.mdl');
 goog.require('goog.dom');
 goog.require('goog.events.Event');
+goog.require('goog.object');
 goog.require('goog.soy');
 goog.require('goog.ui.Component');
 
@@ -89,12 +90,13 @@ goog.inherits(firebaseui.auth.ui.page.CustomEvent, goog.events.Event);
  * @param {ARG_TYPES=} opt_templateData The data for the template.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @param {string=} opt_pageId Optional page ID used to identify the page.
+ * @param {?Object=} opt_injectedData Optional injected data.
  * @constructor
  * @extends {goog.ui.Component}
  * @template ARG_TYPES
  */
 firebaseui.auth.ui.page.Base = function(
-    template, opt_templateData, opt_domHelper, opt_pageId) {
+    template, opt_templateData, opt_domHelper, opt_pageId, opt_injectedData) {
   firebaseui.auth.ui.page.Base.base(this, 'constructor', opt_domHelper);
   this.template_ = template;
   this.templateData_ = opt_templateData;
@@ -102,6 +104,9 @@ firebaseui.auth.ui.page.Base = function(
   this.pageId_ = opt_pageId || null;
   this.showProcessingTimeout_ = null;
   this.busyIndicator_ = null;
+  this.injectedData_ = goog.object.clone(firebaseui.auth.ui.page.IJ_DATA_);
+  goog.object.extend(
+      this.injectedData_, opt_injectedData || {});
 };
 goog.inherits(firebaseui.auth.ui.page.Base, goog.ui.Component);
 
@@ -132,7 +137,7 @@ firebaseui.auth.ui.page.Base.prototype.createDom = function() {
   var element = goog.soy.renderAsElement(
       this.template_,
       this.templateData_,
-      firebaseui.auth.ui.page.IJ_DATA_,
+      this.injectedData_,
       this.getDomHelper());
   firebaseui.auth.ui.mdl.upgrade(element);
   this.setElementInternal(element);

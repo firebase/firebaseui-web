@@ -36,6 +36,7 @@ function testHandlePasswordSignIn() {
   firebaseui.auth.widget.handler.handlePasswordSignIn(
       app, container, passwordAccount.getEmail());
   assertPasswordSignInPage();
+  assertTosPpFooter('http://localhost/tos', 'http://localhost/privacy_policy');
   goog.dom.forms.setValue(getPasswordElement(), '123');
   submitForm();
   testAuth.assertSignInWithEmailAndPassword(
@@ -58,22 +59,36 @@ function testHandlePasswordSignIn() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    // Confirm password credential passed and signed in with.
-    var cred = new firebase.auth.EmailAuthProvider.credential(
-        passwordAccount.getEmail(), '123');
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [cred],
-        {
-          'user': externalAuth.currentUser,
-          'credential': null,
-          'operationType': 'signIn',
-          'additionalUserInfo': {'providerId': 'password', 'isNewUser': false}
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {
     testUtil.assertGoTo('http://localhost/home');
   });
+}
+
+
+function testHandlePasswordSignIn_fullMessage() {
+  firebaseui.auth.widget.handler.handlePasswordSignIn(
+      app, container, passwordAccount.getEmail(), true);
+  assertPasswordSignInPage();
+  assertTosPpFullMessage(
+      'http://localhost/tos', 'http://localhost/privacy_policy');
+}
+
+
+function testHandlePasswordSignIn_fullMessage_noUrl() {
+  app.setConfig({
+    'tosUrl': undefined,
+    'privacyPolicyUrl': undefined
+  });
+  firebaseui.auth.widget.handler.handlePasswordSignIn(
+      app, container, passwordAccount.getEmail(), true);
+  assertPasswordSignInPage();
+  assertTosPpFullMessage(null, null);
 }
 
 
@@ -198,9 +213,14 @@ function testHandlePasswordSignIn_upgradeAnonymous_wrongPassword() {
 
 
 function testHandlePasswordSignIn_reset() {
+  app.setConfig({
+    'tosUrl': undefined,
+    'privacyPolicyUrl': undefined
+  });
   firebaseui.auth.widget.handler.handlePasswordSignIn(
       app, container, passwordAccount.getEmail());
   assertPasswordSignInPage();
+  assertTosPpFooter(null, null);
   // Reset the current rendered widget page.
   app.getAuth().assertSignOut([]);
   app.reset();
@@ -241,17 +261,10 @@ function testHandlePasswordSignIn_signInCallback() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    // Confirm password credential passed and signed in with.
-    var cred = new firebase.auth.EmailAuthProvider.credential(
-        passwordAccount.getEmail(), '123');
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [cred],
-        {
-          'user': externalAuth.currentUser,
-          'credential': null,
-          'operationType': 'signIn',
-          'additionalUserInfo': {'providerId': 'password', 'isNewUser': false}
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {
@@ -297,19 +310,10 @@ function testHandlePasswordSignIn_signInSuccessWithAuthResultCallback() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    // Confirm password credential passed and signed in with.
-    var cred = new firebase.auth.EmailAuthProvider.credential(
-        passwordAccount.getEmail(), '123');
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [cred],
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
         function() {
           externalAuth.setUser(testAuth.currentUser);
-          return {
-            'user': externalAuth.currentUser,
-            'credential': null,
-            'operationType': 'signIn',
-            'additionalUserInfo': {'providerId': 'password', 'isNewUser': false}
-          };
         });
     return externalAuth.process();
   }).then(function() {
@@ -388,20 +392,10 @@ function testHandlePasswordSignIn_wrongPassword() {
         testAuth.assertSignOut([]);
         return testAuth.process();
       }).then(function() {
-        externalAuth.setUser(testAuth.currentUser);
-        // Confirm correct password credential passed and signed in with.
-        var cred = new firebase.auth.EmailAuthProvider.credential(
-            passwordAccount.getEmail(), '123');
-        externalAuth.assertSignInAndRetrieveDataWithCredential(
-            [cred],
-            {
-              'user': externalAuth.currentUser,
-              'credential': null,
-              'operationType': 'signIn',
-              'additionalUserInfo': {
-                'providerId': 'password',
-                'isNewUser': false
-              }
+        externalAuth.assertUpdateCurrentUser(
+            [testAuth.currentUser],
+            function() {
+              externalAuth.setUser(testAuth.currentUser);
             });
         return externalAuth.process();
       }).then(function() {
@@ -500,20 +494,10 @@ function testHandlePasswordSignIn_inProcessing() {
         testAuth.assertSignOut([]);
         return testAuth.process();
       }).then(function() {
-        externalAuth.setUser(testAuth.currentUser);
-        // Confirm correct password credential passed and signed in with.
-        var cred = new firebase.auth.EmailAuthProvider.credential(
-            passwordAccount.getEmail(), '123');
-        externalAuth.assertSignInAndRetrieveDataWithCredential(
-            [cred],
-            {
-              'user': externalAuth.currentUser,
-              'credential': null,
-              'operationType': 'signIn',
-              'additionalUserInfo': {
-                'providerId': 'password',
-                'isNewUser': false
-              }
+        externalAuth.assertUpdateCurrentUser(
+            [testAuth.currentUser],
+            function() {
+              externalAuth.setUser(testAuth.currentUser);
             });
         return externalAuth.process();
       }).then(function() {

@@ -90,14 +90,10 @@ function testHandleCallback_redirectUser_noPendingCredential() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [cred],
-        {
-          'user': externalAuth.currentUser,
-          'credential': cred,
-          'operationType': 'signIn',
-          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {
@@ -140,13 +136,10 @@ function testHandleCallback_signedInUser_noPendingCredential_popup() {
     return testAuth.process();
   }).then(function() {
     externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [cred],
-        {
-          'user': externalAuth.currentUser,
-          'credential': cred,
-          'operationType': 'signIn',
-          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {
@@ -210,14 +203,10 @@ function testHandleCallback_redirectUser_noPendingCredential_pendingEmail() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [cred],
-        {
-          'user': externalAuth.currentUser,
-          'credential': cred,
-          'operationType': 'signIn',
-          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {
@@ -264,14 +253,10 @@ function testHandleCallback_signedInUser_noPendingCred_pendingEmail_popup() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [cred],
-        {
-          'user': externalAuth.currentUser,
-          'credential': cred,
-          'operationType': 'signIn',
-          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {
@@ -410,14 +395,10 @@ function testHandleCallback_redirectUser_emailMismatch_providerEmailMatch() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [cred],
-        {
-          'user': externalAuth.currentUser,
-          'credential': cred,
-          'operationType': 'signIn',
-          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {
@@ -466,14 +447,10 @@ function testHandleCallback_redirectUser_noPendingCredential_signInCallback() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [cred],
-        {
-          'user': externalAuth.currentUser,
-          'credential': cred,
-          'operationType': 'signIn',
-          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {
@@ -528,14 +505,10 @@ function testHandleCallback_redirectUser_noPendingCred_signInWithAuthResult() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [cred],
-        {
-          'user': externalAuth.currentUser,
-          'credential': cred,
-          'operationType': 'signIn',
-          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {
@@ -596,15 +569,10 @@ function testHandleCallback_noPendingCred_signInWithAuthResultCb_popup() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [cred],
-        {
-          'user': externalAuth.currentUser,
-          'credential': cred,
-          'operationType': 'signIn',
-          // The second time user signing in, isNewUser is false.
-          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {
@@ -676,14 +644,10 @@ function testHandleCallback_redirectUser_pendingCredential_success() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [cred],
-        {
-          'user': externalAuth.currentUser,
-          'credential': cred,
-          'operationType': 'signIn',
-          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {
@@ -742,14 +706,10 @@ function testHandleCallback_signedInUser_pendingCredential_success_popup() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [cred],
-        {
-          'user': externalAuth.currentUser,
-          'credential': cred,
-          'operationType': 'signIn',
-          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {
@@ -815,14 +775,10 @@ function testHandleCallback_redirectUser_pendingCredential_signInCallback() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [cred],
-        {
-          'user': externalAuth.currentUser,
-          'credential': cred,
-          'operationType': 'signIn',
-          'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {
@@ -900,17 +856,10 @@ function testHandleCallback_redirectUser_pendingCred_signInWithAuthResultCb() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [credToLink],
-        {
-          'user': externalAuth.currentUser,
-          'credential': credToLink,
-          'operationType': 'signIn',
-          'additionalUserInfo': {
-            'providerId': 'facebook.com',
-            'isNewUser': false
-          }
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function () {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {
@@ -994,17 +943,10 @@ function testHandleCallback_pendingCred_signInWithAuthResultCb_popup() {
     testAuth.assertSignOut([]);
     return testAuth.process();
   }).then(function() {
-    externalAuth.setUser(testAuth.currentUser);
-    externalAuth.assertSignInAndRetrieveDataWithCredential(
-        [credToLink],
-        {
-          'user': externalAuth.currentUser,
-          'credential': credToLink,
-          'operationType': 'signIn',
-          'additionalUserInfo': {
-            'providerId': 'facebook.com',
-            'isNewUser': false
-          }
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
         });
     return externalAuth.process();
   }).then(function() {

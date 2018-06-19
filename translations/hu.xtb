@@ -15,6 +15,7 @@
 <translation id="1294742657282291237">Guyana</translation>
 <translation id="1297168472480293352">Guatemala</translation>
 <translation id="1315809131562953678">Érvényes telefonszámot adjon meg.</translation>
+<translation id="1335716056288807013">Az Ellenőrzés gombra való koppintással elfogadja <ph name="START_LINK_1" />Általános Szerződési Feltételeinket<ph name="END_LINK" /> és <ph name="START_LINK_2" />Adatvédelmi irányelveinket<ph name="END_LINK" />. A rendszer SMS-t küldhet Önnek. A szolgáltató ezért üzenet- és adatforgalmi díjat számíthat fel.</translation>
 <translation id="137210131544215127">Adja meg a jelszót.</translation>
 <translation id="1393433815796487579">Kész</translation>
 <translation id="1412449974349991050">Haiti</translation>
@@ -46,6 +47,7 @@
 <translation id="2049229571938383319">Saint-Barthélemy</translation>
 <translation id="2058731785647385204">Montserrat</translation>
 <translation id="2070709910567585968">Az erős jelszavak legalább 6 karakterből állnak, valamint betűket és számokat egyaránt tartalmaznak.</translation>
+<translation id="2074008538308369451">Általános Szerződési Feltételek</translation>
 <translation id="2108717231438756650">Egyesült Királyság</translation>
 <translation id="2120419640334291526">Kajmán-szigetek</translation>
 <translation id="2124070231227334770">Moldova</translation>
@@ -54,6 +56,7 @@
 <translation id="2187260952722791093">Ellenőrzött!</translation>
 <translation id="2192561962270021282">Adja meg telefonszámát</translation>
 <translation id="2206856445831770486">Github</translation>
+<translation id="2223717216014247341">Adatvédelmi irányelvek</translation>
 <translation id="2224563296468523455">Guam</translation>
 <translation id="2249420035688424170">Horvátország</translation>
 <translation id="2251583471831926217">Litvánia</translation>
@@ -137,6 +140,7 @@
 <translation id="3608140835232496799">Tokelau-szigetek</translation>
 <translation id="3620185428620643248">A hitelesítésszolgáltató megadott hitelesítési adatai nem támogatottak.</translation>
 <translation id="3700097473356216716">Kolumbia</translation>
+<translation id="3703067902498234034">Ha a MENTÉS lehetőségre koppint, az azt jelenti, hogy elfogadja a következőket: </translation>
 <translation id="3736041829854387744">Burundi</translation>
 <translation id="3755663127769565780">Mauritánia</translation>
 <translation id="3813801701232240278">Twitter</translation>
@@ -155,6 +159,7 @@
 <translation id="4066104405592701692">Észtország</translation>
 <translation id="4090385155496329109">Facebook</translation>
 <translation id="4163133799286985193">Argentína</translation>
+<translation id="4166504762096983411">A folytatással elfogadja <ph name="START_LINK_1" />Általános Szerződési Feltételeinket<ph name="END_LINK" /> és <ph name="START_LINK_2" />Adatvédelmi irányelveinket<ph name="END_LINK" />.</translation>
 <translation id="420554669252656972">Adja meg az új e-mail-címet</translation>
 <translation id="4210333062216604630">Leválasztás</translation>
 <translation id="4242716276491763916">Guinea</translation>
@@ -219,7 +224,7 @@
 <translation id="5602886107840188229">Brit Indiai-óceáni területek</translation>
 <translation id="5604510594682955626">Uganda</translation>
 <translation id="5606731250220630939">Norvégia</translation>
-<translation id="5619383224509584356">Bejelentkezve a következőként: <ph name="EMAIL_ADDR" /></translation>
+<translation id="5611074838440670731">Ezt a telefonszámot már túl sokszor használták.</translation>
 <translation id="5630396263271753991">Eritrea</translation>
 <translation id="5636713964613741614">Mauritius</translation>
 <translation id="5642254620426025006">Hiba történt. Próbálja újra.</translation>
@@ -252,8 +257,8 @@
 <translation id="6192657410634245771">Algéria</translation>
 <translation id="6213969168046789596">Túl sokszor adott meg hibás jelszót. Kérjük, néhány perc múlva próbálja újra.</translation>
 <translation id="6216759405419177713">Norfolk-sziget</translation>
-<translation id="6283536862756552051">A jelszó módosításához előbb meg kell adnia a jelenlegi jelszavát.</translation>
-<translation id="6299890279889400823">Vissza</translation>
+<translation id="6265373887273416711">Telefonszám igazolása</translation>
+<translation id="6295157125625453859">Ellenőrzött!</translation>
 <translation id="6316446940976157217">India</translation>
 <translation id="6327723482938582895">Benin</translation>
 <translation id="6338643731889005578">Folytatás</translation>
@@ -295,7 +300,7 @@
 <translation id="6921505896641453739">E-mail</translation>
 <translation id="6929813273561975780">Következő</translation>
 <translation id="6951302238647056860">Ez a kód már nem érvényes.</translation>
-<translation id="6998342825820890463">Adatvédelmi irányelvek</translation>
+<translation id="6976724207780605356">Bejelentkezés Facebook-fiókkal</translation>
 <translation id="6999773882165218263">Utónév és vezetéknév</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Nyugat-Szahara</translation>
@@ -316,7 +321,6 @@
 <translation id="7280309713358692490">Dél-Korea</translation>
 <translation id="7291567990403335374">Lesotho</translation>
 <translation id="7291656724505689727">Bejelentkezés telefonnal</translation>
-<translation id="7319220365822133324">Ha a MENTÉS lehetőségre koppint, az azt jelenti, hogy elfogadja az <ph name="START_LINK" />Általános Szerződési Feltételeket<ph name="END_LINK" />.</translation>
 <translation id="7320029088567935126">Próbálja újra igazolni az e-mail-címét</translation>
 <translation id="7331038350037712642">Azerbajdzsán</translation>
 <translation id="743266754881673808">Google</translation>

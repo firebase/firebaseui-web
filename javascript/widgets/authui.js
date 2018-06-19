@@ -241,6 +241,16 @@ firebaseui.auth.AuthUI.FRAMEWORK_ID_ = 'FirebaseUI-web';
 
 
 /**
+ * The error message shown when an incompatible version of firebase.js is used
+ * with firebaseui.js.
+ * @const {string}
+ */
+firebaseui.auth.AuthUI.INCOMPATIBLE_DEPENDENCY_ERROR =
+    'Internal error: An incompatible or outdated version of "firebase.js" ' +
+    'may be used.';
+
+
+/**
  * If sign-in succeeded, returns the signed in user. If sign-in was
  * unsuccessful, fails with an error. If no redirect operation was called,
  * returns a UserCredential with a null User.
@@ -1158,10 +1168,12 @@ firebaseui.auth.AuthUI.prototype.startSignInWithPhoneNumber =
 /**
  * Finishes FirebaseUI login with the given 3rd party credentials.
  * @param {!firebase.auth.AuthCredential} credential The auth credential.
+ * @param {?firebase.User=} opt_user The optional user to sign in with if
+ *     available.
  * @return {!firebase.Promise<!firebase.User>}
  */
 firebaseui.auth.AuthUI.prototype.finishSignInWithCredential =
-    function(credential) {
+    function(credential, opt_user) {
   // Check if instance is already destroyed.
   this.checkIfDestroyed_();
   var self = this;
@@ -1205,6 +1217,27 @@ firebaseui.auth.AuthUI.prototype.finishSignInWithCredential =
       // Auth instance. On completion, this will redirect to signInSuccessUrl or
       // trigger the signInSuccess callback.
       return self.clearTempAuthState().then(function() {
+        // updateCurrentUser is more efficient and less error prone than
+        // signInWithCredential.
+        // The former can resolve the operation without any network request
+        // whereas the latter will send 2 requests.
+        // In addition, updateCurrentUser has lower risk of failure in the
+        // following cases:
+        // 1. No network connection: operation can execute without any network
+        // call in most cases.
+        // 2. Will not run into expired OAuth credential errors unlike
+        // signInWithCredential. This may happen if the user waits too long
+        // before completing sign-in in the email mismatch flow.
+        // 3. Ability to copy a user for all providers. Some OAuth providers
+        // cannot be used headlessly or their credentials are one-time only.
+        if (!!opt_user) {
+          return self.getExternalAuth().updateCurrentUser(opt_user)
+              .then(function() {
+                // Return currentUser on external instance.
+                return self.getExternalAuth().currentUser;
+              });
+        }
+        // If no user is available fallback to signInWithCredential.
         return self.getExternalAuth().signInWithCredential(credential);
       });
     }
@@ -1268,18 +1301,38 @@ firebaseui.auth.AuthUI.prototype.finishSignInAndRetrieveDataWithAuthResult =
       // Finishes sign in with the supplied credential on the developer provided
       // Auth instance. On completion, this will redirect to signInSuccessUrl or
       // trigger the signInSuccessWithAuthResult callback.
-      if (!authResult['credential']) {
-        throw new Error('No credential found!');
+      if (!authResult['user']) {
+        throw new Error(firebaseui.auth.AuthUI.INCOMPATIBLE_DEPENDENCY_ERROR);
       }
       return self.clearTempAuthState().then(function() {
-        return self.getExternalAuth().signInAndRetrieveDataWithCredential(
-            authResult['credential']);
-      }).then(function(userCredential) {
-        authResult['user'] = userCredential['user'];
-        authResult['credential'] = userCredential['credential'];
-        authResult['operationType'] = userCredential['operationType'];
-        // AdditionalUserInfo should remain the same as isNewUser field should
-        // be the one returned in the first sign in attempt.
+        // updateCurrentUser is more efficient and less error prone than
+        // signInWithCredential.
+        // The former can resolve the operation without any network request
+        // whereas the latter will send 2 requests.
+        // In addition, updateCurrentUser has lower risk of failure in the
+        // following cases:
+        // 1. No network connection: operation can execute without any network
+        // call in most cases.
+        // 2. Will not run into expired OAuth credential errors unlike
+        // signInWithCredential. This may happen if the user waits too long
+        // before completing sign-in in the email mismatch flow.
+        // 3. Ability to copy a user for all providers. Some OAuth providers
+        // cannot be used headlessly or their credentials are one-time only.
+        return self.getExternalAuth().updateCurrentUser(authResult['user']);
+      }).then(function() {
+        // Update user reference.
+        authResult['user'] = self.getExternalAuth().currentUser;
+        // Update operation type to signIn. This will not run for anonymous
+        // upgrade flows.
+        authResult['operationType'] = 'signIn';
+        // Clear password credential if available
+        if (authResult['credential'] &&
+            authResult['credential']['providerId'] &&
+            authResult['credential']['providerId'] == 'password') {
+          authResult['credential'] = null;
+        }
+        // AdditionalUserInfo should remain the same as isNewUser field
+        // should be the one returned in the first sign in attempt.
         return authResult;
       });
     }
