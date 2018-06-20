@@ -104,7 +104,8 @@ if (options.saucelabs) {
   config.multiCapabilities = [{
     browserName: 'chrome',
     chromeOptions: {
-      args: [ "--headless", "--disable-gpu", "--window-size=800,600" ]
+      args: [ "--headless", "--disable-gpu", "--window-size=800,600",
+              "--no-sandbox", "--disable-dev-shm-usage" ]
     }
   }];
 }
