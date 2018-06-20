@@ -48,7 +48,7 @@ config = {
   // Jasmine options. Increase the timeout to 5min instead of the default 30s.
   jasmineNodeOpts: {
     // Default time to wait in ms before a test fails.
-    defaultTimeoutInterval: 5 * 60 * 1000
+    defaultTimeoutInterval: 2 * 5 * 60 * 1000
   }
 };
 
@@ -89,6 +89,7 @@ if (options.saucelabs) {
   }
   // Avoid going over the SauceLabs concurrency limit (5).
   config.maxSessions = 5;
+  config.allScriptsTimeout = 5 * 60 * 1000;
   // List of browsers configurations tested.
   var sauceBrowsers = require('./sauce_browsers.json');
   // Configuration for SauceLabs browsers.
