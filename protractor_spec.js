@@ -54,7 +54,7 @@ describe('Run all Closure unit tests', function() {
         setTimeout(waitForTest.bind(undefined, done, fail, tries - 1), 300);
       } else if (status && status.isFinished) {
         done(status);
-      } else if (new Date().getTime() - startTime > 3000) {
+      } else if (new Date().getTime() - startTime > 2000) {
         fail(new Error('ETIMEDOUT'));
       } else {
         // Try again in a few ms.
@@ -108,7 +108,7 @@ describe('Run all Closure unit tests', function() {
       };
       // Run test routine. Set timeout retrial to 2 times, eg. test will try
       // 2 more times before giving up.
-      runRoutine(5, done);
+      runRoutine(3, done);
     });
   };
 
