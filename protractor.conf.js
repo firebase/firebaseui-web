@@ -105,13 +105,7 @@ if (options.saucelabs) {
     chromeOptions: {
       args: [ "--headless", "--disable-gpu", "--window-size=800,600", "--disable-dev-shm-usage", "--no-sandbox"]
     }
-  },
-  {
-    browserName: 'firefox',
-    'moz:firefoxOptions': {
-      args: [ "--headless" ]
-   }
- }];
+  }];
 }
 
 exports.config = config;
