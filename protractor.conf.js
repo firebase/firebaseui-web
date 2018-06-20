@@ -98,13 +98,15 @@ if (options.saucelabs) {
     return browser;
   });
 } else {
-  // Configuration for phantomJS.
+  // Configuration for headless chrome.
+  config.directConnect = true;
   config.seleniumAddress = 'http://localhost:4444/wd/hub';
-  config.capabilities = {
-    'browserName': 'phantomjs',
-    'phantomjs.binary.path': require('phantomjs-prebuilt').path,
-    'phantomjs.ghostdriver.cli.args': ['--loglevel=DEBUG']
-  };
+  config.multiCapabilities = [{
+    browserName: 'chrome',
+    chromeOptions: {
+      args: [ "--headless", "--disable-gpu", "--window-size=800,600" ]
+    }
+  }];
 }
 
 exports.config = config;

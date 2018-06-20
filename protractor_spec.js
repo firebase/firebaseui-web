@@ -54,8 +54,8 @@ describe('Run all Closure unit tests', function() {
         setTimeout(waitForTest.bind(undefined, done, fail, tries - 1), 300);
       } else if (status && status.isFinished) {
         done(status);
-      } else if (new Date().getTime() - startTime > 1000) {
-        fail(new Error('ETIMEDOUT'));
+      //} else if (new Date().getTime() - startTime > 1000) {
+      //  fail(new Error('ETIMEDOUT'));
       } else {
         // Try again in a few ms.
         setTimeout(waitForTest.bind(undefined, done, fail, tries), 300);
