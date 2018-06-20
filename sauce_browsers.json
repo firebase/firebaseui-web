@@ -7,7 +7,7 @@
     "name": "ie-11-windows",
     "maxDuration": 2000,
     "commandTimeout": 600,
-    "idleTimeout": 60
+    "idleTimeout": 120
   },
   {
     "browserName" : "MicrosoftEdge",
@@ -17,6 +17,6 @@
     "name": "edge-16-windows",
     "maxDuration": 2000,
     "commandTimeout": 600,
-    "idleTimeout": 60
+    "idleTimeout": 120
   }
 ]
