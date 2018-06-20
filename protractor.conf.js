@@ -89,7 +89,6 @@ if (options.saucelabs) {
   }
   // Avoid going over the SauceLabs concurrency limit (5).
   config.maxSessions = 5;
-  config.maxDuration = 1800;
   // List of browsers configurations tested.
   var sauceBrowsers = require('./sauce_browsers.json');
   // Configuration for SauceLabs browsers.

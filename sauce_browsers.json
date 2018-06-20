@@ -4,13 +4,15 @@
     "version" : "11.0",
     "platform" : "Windows 7",
     "timeZone": "Pacific",
-    "name": "ie-11-windows"
+    "name": "ie-11-windows",
+    "maxDuration": 1800
   },
   {
     "browserName" : "MicrosoftEdge",
     "platform" : "Windows 10",
     "timeZone": "Pacific",
     "version" : "16.16299",
-    "name": "edge-16-windows"
+    "name": "edge-16-windows",
+    "maxDuration": 1800
   }
 ]
