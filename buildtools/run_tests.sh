@@ -77,11 +77,9 @@ if [[ $1 = "--saucelabs" ]]; then
 else
   echo "Using PhantomJS."
   # Updates Selenium Webdriver.
-  #./node_modules/.bin/webdriver-manager update
-  webdriver-manager update
+  ./node_modules/protractor/node_modules/webdriver-manager/bin/webdriver-manager update
   # Start Selenium Webdriver.
-  #./node_modules/.bin/webdriver-manager start &>/dev/null &
-  webdriver-manager start &>/dev/null &
+  ./node_modules/protractor/node_modules/webdriver-manager/bin/webdriver-manager start &>/dev/null &
   seleniumStarted=true
   echo "Selenium Server started."
   # Wait for servers to come up.
