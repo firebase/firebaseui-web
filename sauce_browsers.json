@@ -7,13 +7,6 @@
     "name": "ie-11-windows"
   },
   {
-    "browserName" : "internet explorer",
-    "version" : "10.0",
-    "timeZone": "Pacific",
-    "platform" : "Windows 7",
-    "name": "ie-10-windows"
-  },
-  {
     "browserName" : "MicrosoftEdge",
     "platform" : "Windows 10",
     "timeZone": "Pacific",

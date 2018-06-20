@@ -55,7 +55,7 @@ describe('Run all Closure unit tests', function() {
       } else if (status && status.isFinished) {
         done(status);
       } else {
-        if (new Date().getTime() - startTime > 10000) {
+        if (new Date().getTime() - startTime > 5000) {
           fail(new Error('ETIMEDOUT'));
         } else {
           // Try again in a few ms.
