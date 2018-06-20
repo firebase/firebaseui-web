@@ -56,7 +56,7 @@ describe('Run all Closure unit tests', function() {
         done(status);
       } else {
         if (new Date().getTime() - startTime > 10000) {
-          fail(new Error('ETIMEDOUT ETIMEOUT'));
+          fail(new Error('ETIMEDOUT'));
         } else {
           // Try again in a few ms.
           setTimeout(waitForTest.bind(undefined, done, fail, tries), 300);
@@ -91,7 +91,7 @@ describe('Run all Closure unit tests', function() {
                 // If browser test execution times out try up to trial times.
                 if (err.message &&
                     (err.message.indexOf('ETIMEDOUT') != -1 ||
-                     err.message.indexOf('Gateway Time-out') != -1) &&
+                     err.message.indexOf('WebDriverError') != -1) &&
                     tries > 0) {
                   runRoutine(tries - 1, done);
                 } else {
@@ -101,9 +101,9 @@ describe('Run all Closure unit tests', function() {
             }, function(err) {
               // If browser test execution times out try up to trial times.
               if (err.message &&
-                  (err.message.indexOf('ETIMEOUT') != -1 ||
-                   err.message.indexOf('Gateway Time-out') != -1) &&
-                  trial > 0) {
+                  (err.message.indexOf('ETIMEDOUT') != -1 ||
+                   err.message.indexOf('WebDriverError') != -1) &&
+                  tries > 0) {
                 runRoutine(tries - 1, done);
               } else {
                 done.fail(err);
