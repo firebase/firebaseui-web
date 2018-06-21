@@ -48,7 +48,7 @@
 # Travis will run `npm test -- --saucelabs`.
 
 cd "$(dirname $(dirname "$0"))"
-BIN_PATH="./node_modules/.bin"
+BIN_PATH="./node_modules/protractor/bin"
 
 function killServer () {
   if [ "$seleniumStarted" = true ]; then
@@ -78,8 +78,8 @@ if [[ $1 = "--saucelabs" ]]; then
 else
   echo "Using Headless Chrome."
   # Updates Selenium Webdriver.
-  echo "$BIN_PATH/webdriver-manager update"
-  $BIN_PATH/webdriver-manager update
+  echo "$BIN_PATH/webdriver-manager update --gecko=false"
+  $BIN_PATH/webdriver-manager update --gecko=false
   # Start Selenium Webdriver.
   echo "$BIN_PATH/webdriver-manager start &>/dev/null &"
   $BIN_PATH/webdriver-manager start &>/dev/null &
