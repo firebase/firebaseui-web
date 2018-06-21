@@ -103,7 +103,6 @@ if (options.saucelabs) {
 } else {
   // Configuration for headless chrome.
   config.directConnect = true;
-  config.seleniumAddress = 'http://localhost:4444/wd/hub';
   config.multiCapabilities = [{
     browserName: 'chrome',
     chromeOptions: {
