@@ -18,6 +18,8 @@ var TEST_SERVER = 'http://localhost:4000';
 
 var FLAKY_TEST_RETRIAL = 3;
 
+var RETRY_MESSAGE_REGEX = /(ETIMEDOUT|WebDriverError|Internal Server Error|504)/;
+
 describe('Run all Closure unit tests', function() {
   /**
    * Waits for current tests to be executed.
@@ -32,7 +34,6 @@ describe('Run all Closure unit tests', function() {
     if (typeof tries === 'undefined') {
       tries = FLAKY_TEST_RETRIAL;
     }
-    var startTime = new Date().getTime();
     // executeScript runs the passed method in the "window" context of
     // the current test. JSUnit exposes hooks into the test's status through
     // the "G_testRunner" global object.
@@ -54,8 +55,6 @@ describe('Run all Closure unit tests', function() {
         setTimeout(waitForTest.bind(undefined, done, fail, tries - 1), 300);
       } else if (status && status.isFinished) {
         done(status);
-      //} else if (new Date().getTime() - startTime > 1000) {
-      //  fail(new Error('ETIMEDOUT'));
       } else {
         // Try again in a few ms.
         setTimeout(waitForTest.bind(undefined, done, fail, tries), 300);
@@ -88,7 +87,7 @@ describe('Run all Closure unit tests', function() {
               }, function(err) {
                 // If browser test execution times out try up to trial times.
                 if (err.message &&
-                    err.message.match(/(ETIMEDOUT|WebDriverError|Internal Server Error|504)/) &&
+                    err.message.match(RETRY_MESSAGE_REGEX) &&
                     tries > 0) {
                   runRoutine(tries - 1, done);
                 } else {
@@ -98,7 +97,7 @@ describe('Run all Closure unit tests', function() {
             }, function(err) {
               // If browser test execution times out try up to trial times.
               if (err.message &&
-                  err.message.match(/(ETIMEDOUT|WebDriverError|Internal Server Error|504)/) &&
+                  err.message.match(RETRY_MESSAGE_REGEX) &&
                   tries > 0) {
                 runRoutine(tries - 1, done);
               } else {
