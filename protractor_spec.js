@@ -18,6 +18,8 @@ var TEST_SERVER = 'http://localhost:4000';
 
 var FLAKY_TEST_RETRIAL = 3;
 
+var RETRY_MESSAGE_REGEX = /(ETIMEDOUT|WebDriverError|Internal Server Error|504)/;
+
 describe('Run all Closure unit tests', function() {
   /**
    * Waits for current tests to be executed.
@@ -85,7 +87,7 @@ describe('Run all Closure unit tests', function() {
               }, function(err) {
                 // If browser test execution times out try up to trial times.
                 if (err.message &&
-                    err.message.indexOf('ETIMEDOUT') != -1 &&
+                    err.message.match(RETRY_MESSAGE_REGEX) &&
                     tries > 0) {
                   runRoutine(tries - 1, done);
                 } else {
@@ -95,8 +97,8 @@ describe('Run all Closure unit tests', function() {
             }, function(err) {
               // If browser test execution times out try up to trial times.
               if (err.message &&
-                  err.message.indexOf('ETIMEOUT') != -1 &&
-                  trial > 0) {
+                  err.message.match(RETRY_MESSAGE_REGEX) &&
+                  tries > 0) {
                 runRoutine(tries - 1, done);
               } else {
                 done.fail(err);
