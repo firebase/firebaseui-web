@@ -53,14 +53,15 @@ firebaseui.auth.widget.handler.handlePhoneSignInStart = function(
   firebaseui.auth.widget.handler.enableVisibleRecaptcha_ =
       !(recaptchaParameters && recaptchaParameters['size'] === 'invisible');
 
+  var isPhoneProviderOnly =
+      firebaseui.auth.widget.handler.common.isPhoneProviderOnly(app);
   // Set the default values for the phone number input, getting it first from
   // the passed in parameters and second from the config.
   var defaultCountry = app.getConfig().getPhoneAuthDefaultCountry();
   // Get default national number only if phone auth is the only provider.
   // This will be overridden by opt_phoneNumberValue if available as it has
   // higher priority.
-  var defaultNationalNumber =
-      firebaseui.auth.widget.handler.common.isPhoneProviderOnly(app) ?
+  var defaultNationalNumber = isPhoneProviderOnly ?
       app.getConfig().getPhoneAuthDefaultNationalNumber() : null;
   var countryId = (opt_phoneNumberValue && opt_phoneNumberValue.countryId) ||
       (defaultCountry && defaultCountry.e164_key) || null;
@@ -87,6 +88,9 @@ firebaseui.auth.widget.handler.handlePhoneSignInStart = function(
             app, container);
       },
       firebaseui.auth.widget.handler.enableVisibleRecaptcha_,
+      app.getConfig().getTosUrl(),
+      app.getConfig().getPrivacyPolicyUrl(),
+      isPhoneProviderOnly,
       countryId,
       nationalNumber);
   component.render(container);

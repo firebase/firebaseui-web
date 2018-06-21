@@ -11,6 +11,7 @@
     "package.json"
   ],
   "main": "./dist/npm.js",
+  "types": "./dist/index.d.ts",
   "style": "dist/firebaseui.css",
   "scripts": {
     "build": "gulp",

@@ -93,6 +93,7 @@ function testHandlePhoneSignInStart_visible() {
       app, container);
   // Confirm expected page rendered.
   assertPhoneSignInStartPage();
+  assertPhoneFooter('http://localhost/tos', 'http://localhost/privacy_policy');
   // Confirm reCAPTCHA initialized with expected parameters.
   recaptchaVerifierInstance.assertInitializedWithParameters(
       getRecaptchaElement(),
@@ -180,13 +181,16 @@ function testHandlePhoneSignInStart_anonymousUpgrade_success() {
         recaptchaParameters: {'type': 'image', 'size': 'compact'}
       }
     ],
-    'autoUpgradeAnonymousUsers': true
+    'autoUpgradeAnonymousUsers': true,
+    'tosUrl': undefined,
+    'privacyPolicyUrl': undefined
   });
   // Render phone sign in start UI.
   firebaseui.auth.widget.handler.handlePhoneSignInStart(
       app, container);
   // Confirm expected page rendered.
   assertPhoneSignInStartPage();
+  assertTosPpFooter(null, null);
   // Confirm reCAPTCHA initialized with expected parameters.
   recaptchaVerifierInstance.assertInitializedWithParameters(
       getRecaptchaElement(),
@@ -269,9 +273,6 @@ function testHandlePhoneSignInStart_anonymousUpgrade_credInUseError() {
   app.setConfig({
     'signInOptions': [
       {
-        provider: 'password',
-      },
-      {
         provider: 'phone',
         recaptchaParameters: {'type': 'image', 'size': 'compact'}
       }
@@ -302,6 +303,10 @@ function testHandlePhoneSignInStart_anonymousUpgrade_credInUseError() {
       app, container);
   // Confirm expected page rendered.
   assertPhoneSignInStartPage();
+  // Only phone provider is configured, phoneSignInStart is the first page, full
+  // message should be displayed.
+  assertPhoneFullMessage(
+      'http://localhost/tos', 'http://localhost/privacy_policy');
   // Confirm reCAPTCHA initialized with expected parameters.
   recaptchaVerifierInstance.assertInitializedWithParameters(
       getRecaptchaElement(),
@@ -380,20 +385,20 @@ function testHandlePhoneSignInStart_anonymousUpgrade_signInError() {
   app.setConfig({
     'signInOptions': [
       {
-        provider: 'password',
-      },
-      {
         provider: 'phone',
         recaptchaParameters: {'type': 'image', 'size': 'compact'}
       }
     ],
-    'autoUpgradeAnonymousUsers': true
+    'autoUpgradeAnonymousUsers': true,
+    'tosUrl': undefined,
+    'privacyPolicyUrl': undefined
   });
   // Render phone sign in start UI.
   firebaseui.auth.widget.handler.handlePhoneSignInStart(
       app, container);
   // Confirm expected page rendered.
   assertPhoneSignInStartPage();
+  assertPhoneFullMessage(null, null);
   // Confirm reCAPTCHA initialized with expected parameters.
   recaptchaVerifierInstance.assertInitializedWithParameters(
       getRecaptchaElement(),

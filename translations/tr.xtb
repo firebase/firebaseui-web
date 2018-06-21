@@ -15,6 +15,7 @@
 <translation id="1294742657282291237">Guyana</translation>
 <translation id="1297168472480293352">Guatemala</translation>
 <translation id="1315809131562953678">Geçerli bir telefon numarası girin</translation>
+<translation id="1335716056288807013">Doğrula'ya dokunarak <ph name="START_LINK_1" />Hizmet Şartlarımızı<ph name="END_LINK" /> ve <ph name="START_LINK_2" />Gizlilik Politikamızı<ph name="END_LINK" /> kabul ettiğinizi belirtirsiniz. SMS gönderilebilir. Mesaj ve veri ücretleri uygulanabilir.</translation>
 <translation id="137210131544215127">Şifrenizi girin</translation>
 <translation id="1393433815796487579">Bitti</translation>
 <translation id="1412449974349991050">Haiti</translation>
@@ -46,6 +47,7 @@
 <translation id="2049229571938383319">Saint Barthélemy</translation>
 <translation id="2058731785647385204">Montserrat</translation>
 <translation id="2070709910567585968">Güçlü şifreler en az 6 karakterden oluşur ve hem harf hem de rakam içerir</translation>
+<translation id="2074008538308369451">Hizmet Şartları</translation>
 <translation id="2108717231438756650">Birleşik Krallık</translation>
 <translation id="2120419640334291526">Cayman Adaları</translation>
 <translation id="2124070231227334770">Moldova</translation>
@@ -54,6 +56,7 @@
 <translation id="2187260952722791093">Doğrulandı!</translation>
 <translation id="2192561962270021282">Telefon numaranızı girin</translation>
 <translation id="2206856445831770486">Github</translation>
+<translation id="2223717216014247341">Gizlilik Politikası</translation>
 <translation id="2224563296468523455">Guam</translation>
 <translation id="2249420035688424170">Hırvatistan</translation>
 <translation id="2251583471831926217">Litvanya</translation>
@@ -137,7 +140,7 @@
 <translation id="3608140835232496799">Tokelau</translation>
 <translation id="3620185428620643248">Kimlik doğrulama sağlayıcı için seçilen kimlik bilgisi desteklenmiyor!</translation>
 <translation id="3700097473356216716">Kolombiya</translation>
-<translation id="3735918113934183391">Telefon numaranızı tekrar girmeyi deneyin.</translation>
+<translation id="3703067902498234034">KAYDET'e dokunarak, şunu kabul ettiğinizi bildirirsiniz: </translation>
 <translation id="3736041829854387744">Burundi</translation>
 <translation id="3755663127769565780">Moritanya</translation>
 <translation id="3813801701232240278">Twitter</translation>
@@ -157,6 +160,7 @@
 <translation id="4066104405592701692">Estonya</translation>
 <translation id="4090385155496329109">Facebook</translation>
 <translation id="4163133799286985193">Arjantin</translation>
+<translation id="4166504762096983411">Devam ederek <ph name="START_LINK_1" />Hizmet Şartlarımızı<ph name="END_LINK" /> ve <ph name="START_LINK_2" />Gizlilik Politikamızı<ph name="END_LINK" /> kabul ettiğinizi belirtirsiniz.</translation>
 <translation id="420554669252656972">Yeni e-posta adresi girin</translation>
 <translation id="4210333062216604630">Bağlantıyı kaldır</translation>
 <translation id="4242716276491763916">Gine Konakri</translation>
@@ -223,7 +227,7 @@
 <translation id="5602886107840188229">İngiliz Hint Okyanusu Bölgesi</translation>
 <translation id="5604510594682955626">Uganda</translation>
 <translation id="5606731250220630939">Norveç</translation>
-<translation id="5619383224509584356"><ph name="EMAIL_ADDR" /> olarak oturum açıldı</translation>
+<translation id="5611074838440670731">Bu telefon numarası çok fazla kez kullanıldı</translation>
 <translation id="5630396263271753991">Eritre</translation>
 <translation id="5636713964613741614">Morityus</translation>
 <translation id="5642254620426025006">Bir hata oluştu. Lütfen tekrar deneyin.</translation>
@@ -256,8 +260,8 @@
 <translation id="6192657410634245771">Cezayir</translation>
 <translation id="6213969168046789596">Çok fazla kez yanlış şifre girdiniz. Lütfen birkaç dakika içinde tekrar deneyin.</translation>
 <translation id="6216759405419177713">Norfolk Adası</translation>
-<translation id="6283536862756552051">Şifrenizi değiştirmek için önce mevcut şifrenizi girmeniz gerekir.</translation>
-<translation id="6299890279889400823">Geri</translation>
+<translation id="6265373887273416711">Telefon numaranızı doğrulayın</translation>
+<translation id="6295157125625453859">Doğrulandı!</translation>
 <translation id="6316446940976157217">Hindistan</translation>
 <translation id="6327723482938582895">Benin</translation>
 <translation id="6338643731889005578">Devam</translation>
@@ -300,7 +304,7 @@
 <translation id="6921505896641453739">E-posta</translation>
 <translation id="6929813273561975780">İleri</translation>
 <translation id="6951302238647056860">Bu kod artık geçerli değil</translation>
-<translation id="6998342825820890463">Gizlilik Politikası</translation>
+<translation id="6976724207780605356">Facebook ile oturum aç</translation>
 <translation id="6999773882165218263">Ad ve soyadı</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Batı Sahra</translation>
@@ -321,7 +325,6 @@
 <translation id="7280309713358692490">Güney Kore</translation>
 <translation id="7291567990403335374">Lesotho</translation>
 <translation id="7291656724505689727">Telefonla oturum aç</translation>
-<translation id="7319220365822133324">KAYDET'e dokunarak, <ph name="START_LINK" />Hizmet Şartları<ph name="END_LINK" />'nı kabul ettiğinizi bildirirsiniz</translation>
 <translation id="7320029088567935126">E-postanızı tekrar doğrulamayı deneyin</translation>
 <translation id="7331038350037712642">Azerbaycan</translation>
 <translation id="743266754881673808">Google</translation>

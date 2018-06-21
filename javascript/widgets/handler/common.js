@@ -280,6 +280,8 @@ firebaseui.auth.widget.handler.common.handleAcAccountSelectedResponse_ =
     // it locally. Otherwise, it will be out of sync if the user deletes it from
     // accountchooser.com.
     firebaseui.auth.storage.setRememberAccount(false, app.getAppId());
+    var isPasswordProviderOnly =
+        firebaseui.auth.widget.handler.common.isPasswordProviderOnly(app);
     app.registerPending(
         app.getAuth().fetchSignInMethodsForEmail(account.getEmail())
         .then(function(signInMethods) {
@@ -289,7 +291,9 @@ firebaseui.auth.widget.handler.common.handleAcAccountSelectedResponse_ =
               container,
               signInMethods,
               account.getEmail(),
-              account.getDisplayName() || undefined);
+              account.getDisplayName() || undefined,
+              undefined,
+              isPasswordProviderOnly);
           uiShownCallback();
         }, errorHandler));
   };
@@ -502,7 +506,7 @@ firebaseui.auth.widget.handler.common.setLoggedIn =
   // Wrap in a promise to ensure the progress bar remains visible until the
   // underlying signInWithCredential resolves.
   var signOutAndSignInPromise = app.finishSignInWithCredential(
-      /** @type {!firebase.auth.AuthCredential} */ (credential));
+      /** @type {!firebase.auth.AuthCredential} */ (credential), tempUser);
   var signInSuccessPromise = signOutAndSignInPromise
       .then(function(user) {
         firebaseui.auth.widget.handler.common.setUserLoggedInExternal_(
@@ -611,8 +615,20 @@ firebaseui.auth.widget.handler.common.setLoggedInWithAuthResult =
   firebaseui.auth.storage.removeRememberAccount(app.getAppId());
   // Sign out from internal Auth instance before signing in to external
   // instance.
-  var signOutAndSignInPromise = app.finishSignInAndRetrieveDataWithAuthResult(
-      authResult);
+  try {
+    var signOutAndSignInPromise = app.finishSignInAndRetrieveDataWithAuthResult(
+        authResult);
+  } catch (e) {
+    // This error will likely occur during development.
+    // Log error with stack trace in console and display the error code or
+    // message in the information bar.
+    // Otherwise, the error thrown will get suppressed downstream and the
+    // developer will have no way to determine what happened.
+    // https://github.com/firebase/firebaseui-web/issues/408
+    firebaseui.auth.log.error(e['code'] || e['message'], e);
+    component.showInfoBar(e['code'] || e['message']);
+    return goog.Promise.resolve();
+  }
   var signInSuccessPromise = signOutAndSignInPromise
       .then(function(outputAuthResult) {
         firebaseui.auth.widget.handler.common
@@ -1401,6 +1417,8 @@ firebaseui.auth.widget.handler.common.handleStartEmailFirstFlow =
  * @param {string} email The email to prefill.
  * @param {string=} opt_displayName The optional display name to prefill.
  * @param {string=} opt_infoBarMessage The message to show on info bar.
+ * @param {boolean=} opt_displayFullTosPpMessage Whether to display the full
+ *     message of Term of Service and Privacy Policy.
  */
 firebaseui.auth.widget.handler.common.handleSignInFetchSignInMethodsForEmail =
     function(
@@ -1409,7 +1427,8 @@ firebaseui.auth.widget.handler.common.handleSignInFetchSignInMethodsForEmail =
         signInMethods,
         email,
         opt_displayName,
-        opt_infoBarMessage) {
+        opt_infoBarMessage,
+        opt_displayFullTosPpMessage) {
   // Does the account exist?
   if (!signInMethods.length) {
     // Account does not exist, go to password sign up and populate
@@ -1419,7 +1438,9 @@ firebaseui.auth.widget.handler.common.handleSignInFetchSignInMethodsForEmail =
         app,
         container,
         email,
-        opt_displayName);
+        opt_displayName,
+        undefined,
+        opt_displayFullTosPpMessage);
   } else if (goog.array.contains(signInMethods,
       firebase.auth.EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD) ||
       goog.array.contains(signInMethods,
@@ -1429,7 +1450,8 @@ firebaseui.auth.widget.handler.common.handleSignInFetchSignInMethodsForEmail =
         firebaseui.auth.widget.HandlerName.PASSWORD_SIGN_IN,
         app,
         container,
-        email);
+        email,
+        opt_displayFullTosPpMessage);
   } else {
     // Federated Account.
     // The account exists, and is a federated identity account.

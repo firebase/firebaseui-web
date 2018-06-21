@@ -15,6 +15,7 @@
 <translation id="1294742657282291237">圭亚那</translation>
 <translation id="1297168472480293352">危地马拉</translation>
 <translation id="1315809131562953678">请输入有效的电话号码</translation>
+<translation id="1335716056288807013">点按“验证”即表示您接受我们的<ph name="START_LINK_1" />服务条款<ph name="END_LINK" />和<ph name="START_LINK_2" />隐私权政策<ph name="END_LINK" />。系统会向您发送一条短信。这可能会产生短信费用和上网流量费。</translation>
 <translation id="137210131544215127">请输入您的密码</translation>
 <translation id="1393433815796487579">完成</translation>
 <translation id="1412449974349991050">海地</translation>
@@ -48,6 +49,7 @@
 <translation id="2049229571938383319">圣巴泰勒米岛</translation>
 <translation id="2058731785647385204">蒙特塞拉特</translation>
 <translation id="2070709910567585968">安全系数高的密码至少包含 6 个字符，由字母和数字组成</translation>
+<translation id="2074008538308369451">服务条款</translation>
 <translation id="2108717231438756650">英国</translation>
 <translation id="2120419640334291526">开曼群岛</translation>
 <translation id="2124070231227334770">摩尔多瓦</translation>
@@ -56,6 +58,7 @@
 <translation id="2187260952722791093">已验证！</translation>
 <translation id="2192561962270021282">输入您的电话号码</translation>
 <translation id="2206856445831770486">Github</translation>
+<translation id="2223717216014247341">隐私权政策</translation>
 <translation id="2224563296468523455">关岛</translation>
 <translation id="2249420035688424170">克罗地亚</translation>
 <translation id="2251583471831926217">立陶宛</translation>
@@ -139,7 +142,7 @@
 <translation id="3608140835232496799">托克劳</translation>
 <translation id="3620185428620643248">为身份验证提供方选择的凭据不受支持！</translation>
 <translation id="3700097473356216716">哥伦比亚</translation>
-<translation id="3735918113934183391">请尝试再次输入您的电话号码。</translation>
+<translation id="3703067902498234034">点按“保存”，即表示您同意 </translation>
 <translation id="3736041829854387744">布隆迪</translation>
 <translation id="3755663127769565780">毛里塔尼亚</translation>
 <translation id="3813801701232240278">Twitter</translation>
@@ -159,6 +162,7 @@
 <translation id="4066104405592701692">爱沙尼亚</translation>
 <translation id="4090385155496329109">Facebook</translation>
 <translation id="4163133799286985193">阿根廷</translation>
+<translation id="4166504762096983411">继续操作即表示您接受我们的<ph name="START_LINK_1" />服务条款<ph name="END_LINK" />和<ph name="START_LINK_2" />隐私权政策<ph name="END_LINK" />。</translation>
 <translation id="420554669252656972">输入新的电子邮件地址</translation>
 <translation id="4210333062216604630">取消关联</translation>
 <translation id="4242716276491763916">几内亚科纳克里</translation>
@@ -225,7 +229,7 @@
 <translation id="5602886107840188229">英属印度洋领地</translation>
 <translation id="5604510594682955626">乌干达</translation>
 <translation id="5606731250220630939">挪威</translation>
-<translation id="5619383224509584356">已使用 <ph name="EMAIL_ADDR" /> 登录</translation>
+<translation id="5611074838440670731">此电话号码的使用次数过多</translation>
 <translation id="5630396263271753991">厄立特里亚</translation>
 <translation id="5636713964613741614">毛里求斯</translation>
 <translation id="5642254620426025006">出了点问题，请重试。</translation>
@@ -258,8 +262,8 @@
 <translation id="6192657410634245771">阿尔及利亚</translation>
 <translation id="6213969168046789596">您输入错误密码的次数过多，请过几分钟再试。</translation>
 <translation id="6216759405419177713">诺福克岛</translation>
-<translation id="6283536862756552051">要更改密码，您需要先输入当前的密码。</translation>
-<translation id="6299890279889400823">返回</translation>
+<translation id="6265373887273416711">验证您的电话号码</translation>
+<translation id="6295157125625453859">已验证！</translation>
 <translation id="6316446940976157217">印度</translation>
 <translation id="6327723482938582895">贝宁</translation>
 <translation id="6338643731889005578">继续</translation>
@@ -302,7 +306,7 @@
 <translation id="6921505896641453739">电子邮件地址</translation>
 <translation id="6929813273561975780">下一步</translation>
 <translation id="6951302238647056860">此验证码已失效</translation>
-<translation id="6998342825820890463">隐私权政策</translation>
+<translation id="6976724207780605356">使用 Facebook 帐号登录</translation>
 <translation id="6999773882165218263">姓名</translation>
 <translation id="7012506961150923116">格林纳达</translation>
 <translation id="7024571478138322659">西撒哈拉</translation>
@@ -323,7 +327,6 @@
 <translation id="7280309713358692490">韩国</translation>
 <translation id="7291567990403335374">莱索托</translation>
 <translation id="7291656724505689727">使用电话号码登录</translation>
-<translation id="7319220365822133324">点按“保存”，即表示您同意<ph name="START_LINK" />服务条款<ph name="END_LINK" /></translation>
 <translation id="7320029088567935126">尝试重新验证您的电子邮件地址</translation>
 <translation id="7331038350037712642">阿塞拜疆</translation>
 <translation id="743266754881673808">Google</translation>

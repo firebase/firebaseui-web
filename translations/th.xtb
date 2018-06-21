@@ -15,6 +15,7 @@
 <translation id="1294742657282291237">กายอานา</translation>
 <translation id="1297168472480293352">กัวเตมาลา</translation>
 <translation id="1315809131562953678">ป้อนหมายเลขโทรศัพท์ที่ถูกต้อง</translation>
+<translation id="1335716056288807013">การแตะ "ยืนยัน" แสดงว่าคุณยอมรับ<ph name="START_LINK_1" />ข้อกำหนดในการให้บริการ<ph name="END_LINK" />และ<ph name="START_LINK_2" />นโยบายความเป็นส่วนตัว<ph name="END_LINK" /> ระบบจะส่ง SMS ให้คุณ อาจมีค่าบริการรับส่งข้อความและค่าบริการอินเทอร์เน็ต</translation>
 <translation id="137210131544215127">ป้อนรหัสผ่าน</translation>
 <translation id="1393433815796487579">เสร็จสิ้น</translation>
 <translation id="1412449974349991050">เฮติ</translation>
@@ -46,6 +47,7 @@
 <translation id="2049229571938383319">แซ็งบาร์เตเลมี</translation>
 <translation id="2058731785647385204">มอนต์เซอร์รัต</translation>
 <translation id="2070709910567585968">รหัสผ่านที่รัดกุมต้องมีความยาวอย่างน้อย 6 อักขระและประกอบด้วยตัวอักษรปนกับตัวเลข</translation>
+<translation id="2074008538308369451">ข้อกำหนดในการให้บริการ</translation>
 <translation id="2108717231438756650">สหราชอาณาจักร</translation>
 <translation id="2120419640334291526">หมู่เกาะเคย์แมน</translation>
 <translation id="2124070231227334770">มอลโดวา</translation>
@@ -54,6 +56,7 @@
 <translation id="2187260952722791093">ยืนยันแล้ว</translation>
 <translation id="2192561962270021282">ป้อนหมายเลขโทรศัพท์ของคุณ</translation>
 <translation id="2206856445831770486">GitHub</translation>
+<translation id="2223717216014247341">นโยบายความเป็นส่วนตัว</translation>
 <translation id="2224563296468523455">กวม</translation>
 <translation id="2249420035688424170">โครเอเชีย</translation>
 <translation id="2251583471831926217">ลิทัวเนีย</translation>
@@ -137,7 +140,7 @@
 <translation id="3608140835232496799">โตเกเลา</translation>
 <translation id="3620185428620643248">ไม่รองรับข้อมูลรับรองสำหรับผู้ให้บริการตรวจสอบสิทธิ์ที่เลือก</translation>
 <translation id="3700097473356216716">โคลอมเบีย</translation>
-<translation id="3735918113934183391">ลองป้อนหมายเลขโทรศัพท์ของคุณอีกครั้ง</translation>
+<translation id="3703067902498234034">การแตะบันทึกแสดงว่าคุณยอมรับ </translation>
 <translation id="3736041829854387744">บุรุนดี</translation>
 <translation id="3755663127769565780">มอริเตเนีย</translation>
 <translation id="3813801701232240278">Twitter</translation>
@@ -157,6 +160,7 @@
 <translation id="4066104405592701692">เอสโตเนีย</translation>
 <translation id="4090385155496329109">Facebook</translation>
 <translation id="4163133799286985193">อาร์เจนตินา</translation>
+<translation id="4166504762096983411">การดำเนินการต่อแสดงว่าคุณยอมรับ<ph name="START_LINK_1" />ข้อกำหนดในการให้บริการ<ph name="END_LINK" />และ<ph name="START_LINK_2" />นโยบายความเป็นส่วนตัว<ph name="END_LINK" /></translation>
 <translation id="420554669252656972">ป้อนที่อยู่อีเมลใหม่</translation>
 <translation id="4210333062216604630">ยกเลิกการลิงก์</translation>
 <translation id="4242716276491763916">กินี โกนากรี</translation>
@@ -223,7 +227,7 @@
 <translation id="5602886107840188229">บริติชอินเดียนโอเชียนเทร์ริทอรี</translation>
 <translation id="5604510594682955626">ยูกันดา</translation>
 <translation id="5606731250220630939">นอร์เวย์</translation>
-<translation id="5619383224509584356">ลงชื่อเข้าใช้ด้วย <ph name="EMAIL_ADDR" /></translation>
+<translation id="5611074838440670731">มีการใช้หมายเลขโทรศัพท์นี้หลายครั้งเกินไป</translation>
 <translation id="5630396263271753991">เอริเทรีย</translation>
 <translation id="5636713964613741614">มอริเชียส</translation>
 <translation id="5642254620426025006">เกิดข้อผิดพลาดบางอย่าง โปรดลองอีกครั้ง</translation>
@@ -256,8 +260,8 @@
 <translation id="6192657410634245771">แอลจีเรีย</translation>
 <translation id="6213969168046789596">คุณป้อนรหัสผ่านไม่ถูกต้องหลายครั้งเกินไป โปรดรอสักครู่แล้วลองอีกครั้ง</translation>
 <translation id="6216759405419177713">เกาะนอร์ฟอล์ก</translation>
-<translation id="6283536862756552051">คุณต้องป้อนรหัสผ่านปัจจุบันของคุณก่อนจึงจะเปลี่ยนรหัสผ่านได้</translation>
-<translation id="6299890279889400823">ย้อนกลับ</translation>
+<translation id="6265373887273416711">ยืนยันหมายเลขโทรศัพท์</translation>
+<translation id="6295157125625453859">ยืนยันแล้ว</translation>
 <translation id="6316446940976157217">อินเดีย</translation>
 <translation id="6327723482938582895">เบนิน</translation>
 <translation id="6338643731889005578">ต่อไป</translation>
@@ -300,7 +304,7 @@
 <translation id="6921505896641453739">อีเมล</translation>
 <translation id="6929813273561975780">ถัดไป</translation>
 <translation id="6951302238647056860">ไม่สามารถใช้รหัสนี้ได้อีก</translation>
-<translation id="6998342825820890463">นโยบายความเป็นส่วนตัว</translation>
+<translation id="6976724207780605356">ลงชื่อเข้าใช้ด้วย Facebook</translation>
 <translation id="6999773882165218263">ชื่อและนามสกุล</translation>
 <translation id="7012506961150923116">เกรนาดา</translation>
 <translation id="7024571478138322659">สะฮาราตะวันตก</translation>
@@ -321,7 +325,6 @@
 <translation id="7280309713358692490">เกาหลีใต้</translation>
 <translation id="7291567990403335374">เลโซโท</translation>
 <translation id="7291656724505689727">ลงชื่อเข้าใช้ด้วยโทรศัพท์</translation>
-<translation id="7319220365822133324">การแตะบันทึกแสดงว่าคุณยอมรับ<ph name="START_LINK" />ข้อกำหนดในการให้บริการ<ph name="END_LINK" /></translation>
 <translation id="7320029088567935126">ลองยืนยันอีเมลของคุณอีกครั้ง</translation>
 <translation id="7331038350037712642">อาเซอร์ไบจาน</translation>
 <translation id="743266754881673808">Google</translation>

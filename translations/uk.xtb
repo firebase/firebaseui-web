@@ -15,6 +15,7 @@
 <translation id="1294742657282291237">Гаяна</translation>
 <translation id="1297168472480293352">Гватемала</translation>
 <translation id="1315809131562953678">Введіть дійсний номер телефону</translation>
+<translation id="1335716056288807013">Торкаючись кнопки "Підтвердити", ви приймаєте наші <ph name="START_LINK_1" />Умови використання<ph name="END_LINK" /> та <ph name="START_LINK_2" />Політику конфіденційності<ph name="END_LINK" />. Вам може надійти SMS-повідомлення. За SMS і використання трафіку може стягуватися плата.</translation>
 <translation id="137210131544215127">Введіть пароль</translation>
 <translation id="1393433815796487579">Готово</translation>
 <translation id="1412449974349991050">Гаїті</translation>
@@ -46,6 +47,7 @@
 <translation id="2049229571938383319">Сен-Бартельмі</translation>
 <translation id="2058731785647385204">Монтсеррат</translation>
 <translation id="2070709910567585968">Надійний пароль має містити принаймні 6 символів та комбінацію літер і цифр</translation>
+<translation id="2074008538308369451">Умови використання</translation>
 <translation id="2108717231438756650">Велика Британія</translation>
 <translation id="2120419640334291526">Кайманові Острови</translation>
 <translation id="2124070231227334770">Молдова</translation>
@@ -54,6 +56,7 @@
 <translation id="2187260952722791093">Підтверджено</translation>
 <translation id="2192561962270021282">Введіть свій номер телефону</translation>
 <translation id="2206856445831770486">Github</translation>
+<translation id="2223717216014247341">Політика конфіденційності</translation>
 <translation id="2224563296468523455">Гуам</translation>
 <translation id="2249420035688424170">Хорватія</translation>
 <translation id="2251583471831926217">Литва</translation>
@@ -137,6 +140,7 @@
 <translation id="3608140835232496799">Токелау</translation>
 <translation id="3620185428620643248">Облікові дані, вибрані для постачальника послуг автентифікації, не підтримуються.</translation>
 <translation id="3700097473356216716">Колумбія</translation>
+<translation id="3703067902498234034">Торкаючись опції "ЗБЕРЕГТИ", ви приймаєте </translation>
 <translation id="3736041829854387744">Бурунді</translation>
 <translation id="3755663127769565780">Мавританія</translation>
 <translation id="3813801701232240278">Твіттер</translation>
@@ -155,6 +159,7 @@
 <translation id="4066104405592701692">Естонія</translation>
 <translation id="4090385155496329109">Facebook</translation>
 <translation id="4163133799286985193">Аргентина</translation>
+<translation id="4166504762096983411">Продовжуючи, ви приймаєте наші <ph name="START_LINK_1" />Умови використання<ph name="END_LINK" /> та <ph name="START_LINK_2" />Політику конфіденційності<ph name="END_LINK" />.</translation>
 <translation id="420554669252656972">Введіть нову електронну адресу</translation>
 <translation id="4210333062216604630">Від’єднати</translation>
 <translation id="4242716276491763916">Гвінея</translation>
@@ -219,7 +224,7 @@
 <translation id="5602886107840188229">Британська територія в Індійському океані</translation>
 <translation id="5604510594682955626">Уганда</translation>
 <translation id="5606731250220630939">Норвегія</translation>
-<translation id="5619383224509584356">Ви ввійшли як <ph name="EMAIL_ADDR" /></translation>
+<translation id="5611074838440670731">Цей номер телефону використовувався забагато разів</translation>
 <translation id="5630396263271753991">Еритрея</translation>
 <translation id="5636713964613741614">Маврикій</translation>
 <translation id="5642254620426025006">Сталася помилка. Повторіть спробу.</translation>
@@ -252,8 +257,8 @@
 <translation id="6192657410634245771">Алжир</translation>
 <translation id="6213969168046789596">Ви ввели неправильний пароль забагато разів. Спробуйте за кілька хвилин.</translation>
 <translation id="6216759405419177713">Острів Норфолк</translation>
-<translation id="6283536862756552051">Щоб змінити пароль, спершу введіть поточний.</translation>
-<translation id="6299890279889400823">Назад</translation>
+<translation id="6265373887273416711">Підтвердити номер телефону</translation>
+<translation id="6295157125625453859">Підтверджено</translation>
 <translation id="6316446940976157217">Індія</translation>
 <translation id="6327723482938582895">Бенін</translation>
 <translation id="6338643731889005578">Продовжити</translation>
@@ -295,7 +300,7 @@
 <translation id="6921505896641453739">Електронна адреса</translation>
 <translation id="6929813273561975780">Далі</translation>
 <translation id="6951302238647056860">Цей код уже не дійсний</translation>
-<translation id="6998342825820890463">Політику конфіденційності</translation>
+<translation id="6976724207780605356">Увійти через Facebook</translation>
 <translation id="6999773882165218263">Ім’я та прізвище</translation>
 <translation id="7012506961150923116">Гренада</translation>
 <translation id="7024571478138322659">Західна Сахара</translation>
@@ -316,7 +321,6 @@
 <translation id="7280309713358692490">Південна Корея</translation>
 <translation id="7291567990403335374">Лесото</translation>
 <translation id="7291656724505689727">Увійти, використовуючи телефон</translation>
-<translation id="7319220365822133324">Торкаючись опції "ЗБЕРЕГТИ", ви приймаєте <ph name="START_LINK" />Умови використання<ph name="END_LINK" /></translation>
 <translation id="7320029088567935126">Ще раз підтвердьте електронну адресу</translation>
 <translation id="7331038350037712642">Азербайджан</translation>
 <translation id="743266754881673808">Google</translation>

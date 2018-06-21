@@ -22,6 +22,7 @@ goog.require('firebaseui.auth.soy2.page');
 goog.require('firebaseui.auth.ui.element');
 goog.require('firebaseui.auth.ui.element.email');
 goog.require('firebaseui.auth.ui.element.form');
+goog.require('firebaseui.auth.ui.element.tospp');
 goog.require('firebaseui.auth.ui.page.Base');
 
 
@@ -32,6 +33,8 @@ goog.require('firebaseui.auth.ui.page.Base');
  * @param {function()=} opt_onCancelClick Callback to invoke when the cancel
  *     button is clicked.
  * @param {string=} opt_email The email to prefill.
+ * @param {?string=} opt_tosUrl The ToS URL.
+ * @param {?string=} opt_privacyPolicyUrl The Privacy Policy URL.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @constructor
  * @extends {firebaseui.auth.ui.page.Base}
@@ -40,6 +43,8 @@ firebaseui.auth.ui.page.PasswordRecovery = function(
     onSubmitClick,
     opt_onCancelClick,
     opt_email,
+    opt_tosUrl,
+    opt_privacyPolicyUrl,
     opt_domHelper) {
   firebaseui.auth.ui.page.PasswordRecovery.base(
       this,
@@ -50,7 +55,11 @@ firebaseui.auth.ui.page.PasswordRecovery = function(
         allowCancel: !!opt_onCancelClick
       },
       opt_domHelper,
-      'passwordRecovery');
+      'passwordRecovery',
+      {
+        tosUrl: opt_tosUrl,
+        privacyPolicyUrl: opt_privacyPolicyUrl
+      });
   this.onSubmitClick_ = onSubmitClick;
   this.onCancelClick_ = opt_onCancelClick;
 };
@@ -101,5 +110,15 @@ goog.mixin(
       getSecondaryLinkElement:
           firebaseui.auth.ui.element.form.getSecondaryLinkElement,
       initFormElement:
-          firebaseui.auth.ui.element.form.initFormElement
+          firebaseui.auth.ui.element.form.initFormElement,
+
+       // For tos pp.
+      getTosPpElement:
+          firebaseui.auth.ui.element.tospp.getTosPpElement,
+      getTosLinkElement:
+          firebaseui.auth.ui.element.tospp.getTosLinkElement,
+      getPpLinkElement:
+          firebaseui.auth.ui.element.tospp.getPpLinkElement,
+      getTosPpListElement:
+          firebaseui.auth.ui.element.tospp.getTosPpListElement
     });
