@@ -1,0 +1,6 @@
+feature - Adds privacyPolicyUrl config to enable developers to provide privacy policy URL. And shows Term of Service and Privacy Policy link on every screen for GDPR compliance.
+feature - Defines the FirebaseUI externs.
+feature - Defines the typescript definitions.
+feature - Optimizes sign in flow to use updateCurentUser eliminating 2 RPCs in the process.
+fixed - Catches errors that occur due to incompatible versions of firebase.js being used with firebaseui.js.
+fixed - Fixes reCAPTCHA invisible badge which was getting hidden.
