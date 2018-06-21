@@ -48,7 +48,7 @@ config = {
   // Jasmine options. Increase the timeout to 5min instead of the default 30s.
   jasmineNodeOpts: {
     // Default time to wait in ms before a test fails.
-    defaultTimeoutInterval: 5 * 60 * 1000
+    defaultTimeoutInterval: 20 * 60 * 1000
   }
 };
 
@@ -89,21 +89,27 @@ if (options.saucelabs) {
   }
   // Avoid going over the SauceLabs concurrency limit (5).
   config.maxSessions = 5;
+  config.allScriptsTimeout = 10 * 60 * 1000;
   // List of browsers configurations tested.
   var sauceBrowsers = require('./sauce_browsers.json');
   // Configuration for SauceLabs browsers.
   config.multiCapabilities = sauceBrowsers.map(function(browser) {
     browser['tunnel-identifier'] = options.tunnelIdentifier;
+    browser.maxDuration = 2000;
+    browser.commandTimeout = 600;
+    browser.idleTimeout = 120;
     return browser;
   });
 } else {
-  // Configuration for phantomJS.
-  config.seleniumAddress = 'http://localhost:4444/wd/hub';
-  config.capabilities = {
-    'browserName': 'phantomjs',
-    'phantomjs.binary.path': require('phantomjs-prebuilt').path,
-    'phantomjs.ghostdriver.cli.args': ['--loglevel=DEBUG']
-  };
+  // Configuration for headless chrome.
+  config.directConnect = true;
+  config.multiCapabilities = [{
+    browserName: 'chrome',
+    chromeOptions: {
+      args: [ "--headless", "--disable-gpu", "--window-size=800,600",
+              "--no-sandbox", "--disable-dev-shm-usage" ]
+    }
+  }];
 }
 
 exports.config = config;

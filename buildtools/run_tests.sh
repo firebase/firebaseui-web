@@ -48,19 +48,21 @@
 # Travis will run `npm test -- --saucelabs`.
 
 cd "$(dirname $(dirname "$0"))"
+BIN_PATH="./node_modules/.bin"
+PROTRACTOR_BIN_PATH="./node_modules/protractor/bin"
 
 function killServer () {
   if [ "$seleniumStarted" = true ]; then
     echo "Stopping Selenium..."
-    ./node_modules/.bin/webdriver-manager shutdown
-    ./node_modules/.bin/webdriver-manager clean
+    $PROTRACTOR_BIN_PATH/webdriver-manager shutdown
+    $PROTRACTOR_BIN_PATH/webdriver-manager clean
   fi
   echo "Killing HTTP Server..."
   kill $serverPid
 }
 
 # Start the local webserver.
-./node_modules/.bin/gulp serve &
+$BIN_PATH/gulp serve &
 serverPid=$!
 echo "Local HTTP Server started with PID $serverPid."
 
@@ -73,16 +75,18 @@ if [[ $1 = "--saucelabs" ]]; then
   sleep 2
   echo "Using SauceLabs."
   # $2 contains the tunnelIdentifier argument if specified, otherwise is empty.
-  ./node_modules/.bin/protractor protractor.conf.js --saucelabs $2
+  $PROTRACTOR_BIN_PATH/protractor protractor.conf.js --saucelabs $2
 else
-  echo "Using PhantomJS."
+  echo "Using Headless Chrome."
   # Updates Selenium Webdriver.
-  ./node_modules/.bin/webdriver-manager update
+  echo "$PROTRACTOR_BIN_PATH/webdriver-manager update --gecko=false"
+  $PROTRACTOR_BIN_PATH/webdriver-manager update --gecko=false
   # Start Selenium Webdriver.
-  ./node_modules/.bin/webdriver-manager start &>/dev/null &
+  echo "$PROTRACTOR_BIN_PATH/webdriver-manager start &>/dev/null &"
+  $PROTRACTOR_BIN_PATH/webdriver-manager start &>/dev/null &
   seleniumStarted=true
   echo "Selenium Server started."
   # Wait for servers to come up.
   sleep 10
-  ./node_modules/.bin/protractor protractor.conf.js
+  $PROTRACTOR_BIN_PATH/protractor protractor.conf.js
 fi
