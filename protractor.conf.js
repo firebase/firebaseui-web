@@ -95,6 +95,9 @@ if (options.saucelabs) {
   // Configuration for SauceLabs browsers.
   config.multiCapabilities = sauceBrowsers.map(function(browser) {
     browser['tunnel-identifier'] = options.tunnelIdentifier;
+    browser.maxDuration = 2000;
+    browser.commandTimeout = 600;
+    browser.idleTimeout = 120;
     return browser;
   });
 } else {
