@@ -53,8 +53,8 @@ You just need to include the following script and CSS file in the `<head>` tag
 of your page, below the initialization snippet from the Firebase Console:
 
 ```html
-<script src="https://cdn.firebase.com/libs/firebaseui/3.1.0/firebaseui.js"></script>
-<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.1.0/firebaseui.css" />
+<script src="https://cdn.firebase.com/libs/firebaseui/3.0.0/firebaseui.js"></script>
+<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.0.0/firebaseui.css" />
 ```
 
 #### Localized Widget
@@ -174,8 +174,8 @@ for a more in-depth example, showcasing a Single Page Application mode.
        * TODO(DEVELOPER): Paste the initialization snippet from:
        * Firebase Console > Overview > Add Firebase to your web app. *
        ***************************************************************************************** -->
-    <script src="https://cdn.firebase.com/libs/firebaseui/3.1.0/firebaseui.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.1.0/firebaseui.css" />
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.0.0/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.0.0/firebaseui.css" />
     <script type="text/javascript">
       // FirebaseUI config.
       var uiConfig = {
@@ -699,8 +699,8 @@ FirebaseUI is displayed.
        * TODO(DEVELOPER): Paste the initialization snippet from:
        * Firebase Console > Overview > Add Firebase to your web app. *
        ***************************************************************************************** -->
-    <script src="https://cdn.firebase.com/libs/firebaseui/3.1.0/firebaseui.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.1.0/firebaseui.css" />
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.0.0/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.0.0/firebaseui.css" />
     <script type="text/javascript">
       // FirebaseUI config.
       var uiConfig = {
