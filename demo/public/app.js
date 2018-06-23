@@ -72,6 +72,8 @@ function getUiConfig() {
     ],
     // Terms of service url.
     'tosUrl': 'https://www.google.com',
+    // Privacy policy url.
+    'privacyPolicyUrl': 'https://www.google.com',
     'credentialHelper': CLIENT_ID && CLIENT_ID != 'YOUR_OAUTH_CLIENT_ID' ?
         firebaseui.auth.CredentialHelper.GOOGLE_YOLO :
         firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM
