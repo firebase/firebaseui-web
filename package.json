@@ -6,6 +6,8 @@
     "dist/firebaseui.js",
     "dist/firebaseui.css",
     "dist/npm.js",
+    "dist/index.d.ts",
+    "dist/externs",
     "LICENSE",
     "README.md",
     "package.json"
