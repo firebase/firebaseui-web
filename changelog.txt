@@ -1,1 +1,0 @@
-fixed - Fixes missing externs and index.d.ts files in FirebaseUI-web npm build.
