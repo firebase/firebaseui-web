@@ -1117,6 +1117,12 @@ disabled. This currently results in an error being thrown upon Firebase Auth
 initialization. Therefore, when following the snippets above, FirebaseUI will
 never get initialized and no UI will be displayed.
 
+### Firebase Auth OAuth popup/redirect operations may not work when 3rd party cookies are disabled
+
+When a user disables 3rd party cookies in their browser, the mechanism for
+returning the result of an OAuth popup/redirect as implemented by the
+underlying `firebase-auth.js` library may be broken on some browsers.
+
 ### Tips for Single Page apps (`UI Widget is already rendered on the page` warning)
 
 When re-rendering the FirebaseUI Auth widget (for instance after signing in a
