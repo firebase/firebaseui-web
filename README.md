@@ -89,8 +89,11 @@ You can then `require` the following modules within your source files:
 ```javascript
 var firebase = require('firebase');
 var firebaseui = require('firebaseui');
+require('firebaseui/dist/firebaseui.css');
+
 // or for ES6 imports.
 import * as firebaseui from 'firebaseui'
+import 'firebaseui/dist/firebaseui.css'
 ```
 
 Or include the required files in your HTML, if your HTTP Server serves the files
