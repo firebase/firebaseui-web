@@ -133,7 +133,7 @@ firebaseui.auth.AuthUI = function(auth, opt_appId) {
    */
   this.currentComponent_ = null;
   /**
-   * @private {!Array<!goog.Promise|!firebase.Promise|!function()>} The array of
+   * @private {!Array<!goog.Promise|!firebase.Promise|function()>} The array of
    *     pending promises or reset functions.
    */
   this.pending_ = [];
@@ -1162,6 +1162,19 @@ firebaseui.auth.AuthUI.prototype.startSignInWithPhoneNumber =
   // Initialize current user if auto upgrade is enabled beforing running
   // callback and returning result.
   return this.initializeForAutoUpgrade_(cb);
+};
+
+
+/**
+ * Sign in anonymously and returns a promise that resolves with a
+ * UserCredential object. If there is an anonymous user signing on to the
+ * external Auth instance, no RPC call is triggered, same user will be returned.
+ * @return {!firebase.Promise<!firebase.auth.UserCredential>}
+ */
+firebaseui.auth.AuthUI.prototype.startSignInAnonymously = function() {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
+  return this.getExternalAuth().signInAnonymously();
 };
 
 

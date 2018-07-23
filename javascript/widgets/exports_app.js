@@ -13,6 +13,8 @@
  */
 
 goog.provide('firebaseui.auth.exports');
+
+goog.require('firebaseui.auth.AnonymousAuthProvider');
 goog.require('firebaseui.auth.AuthUI');
 goog.require('firebaseui.auth.AuthUIError');
 goog.require('firebaseui.auth.CredentialHelper');
@@ -55,3 +57,6 @@ goog.exportSymbol(
 goog.exportSymbol(
     'firebaseui.auth.CredentialHelper.NONE',
     firebaseui.auth.CredentialHelper.NONE);
+goog.exportSymbol(
+    'firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID',
+    firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID);

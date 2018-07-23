@@ -64,6 +64,7 @@
 <translation id="2285049245646335550">Tanjung Verde</translation>
 <translation id="2301396996587599046">Makedonia</translation>
 <translation id="2312980523495377579">Nama depan &amp; belakang</translation>
+<translation id="2324942959480650701">Tamu</translation>
 <translation id="2331781584136059536">Ghana</translation>
 <translation id="2338909515537249568">Browser yang Anda gunakan tidak mendukung Penyimpanan Web. Coba lagi dengan browser berbeda.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Ada masalah saat mengubah kembali email login Anda.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Jika Anda sudah mencoba lagi namun masih tidak dapat menyetel ulang email, coba minta bantuan administrator.<ph name="END_PARAGRAPH" /></translation>
@@ -260,8 +261,9 @@
 <translation id="6192657410634245771">Aljazair</translation>
 <translation id="6213969168046789596">Anda telah berkali-kali memasukkan sandi yang salah. Coba beberapa menit lagi.</translation>
 <translation id="6216759405419177713">Pulau Norfolk</translation>
-<translation id="6265373887273416711">Verifikasi nomor telepon Anda</translation>
-<translation id="6295157125625453859">Terverifikasi!</translation>
+<translation id="6245066275978703471">Nomor telepon terverifikasi secara otomatis</translation>
+<translation id="6283536862756552051">Untuk mengubah sandi, Anda harus memasukkan sandi saat ini terlebih dahulu.</translation>
+<translation id="6299890279889400823">Kembali</translation>
 <translation id="6316446940976157217">India</translation>
 <translation id="6327723482938582895">Benin</translation>
 <translation id="6338643731889005578">Lanjutkan</translation>
@@ -286,7 +288,7 @@
 <translation id="6655128609744896303">Kode terkirim!</translation>
 <translation id="6683477520421532707">Reunion</translation>
 <translation id="6683810982254923169">Coba menyetel ulang sandi Anda lagi</translation>
-<translation id="6695907250724340819">Batal</translation>
+<translation id="6689542920381638295">Lanjutkan sebagai tamu</translation>
 <translation id="6719973195813381061">Ekuador</translation>
 <translation id="6721310522324861790">Senegal</translation>
 <translation id="6724344978634903280">Botswana</translation>
@@ -299,6 +301,7 @@
 <translation id="6775835872637240659">Ukraina</translation>
 <translation id="6782010235320729294">Turkmenistan</translation>
 <translation id="6821607741326790458">Jamaika</translation>
+<translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
 <translation id="6920167780806379235">Suriah</translation>
 <translation id="6921505896641453739">Email</translation>
@@ -314,7 +317,7 @@
 <translation id="7093343209860483088">Republik Demokratik Kongo</translation>
 <translation id="7118080999850002096">Pulihkan sandi</translation>
 <translation id="7150917293543492988">Republik Kongo</translation>
-<translation id="7181082682267399880">Tidak dapat menemukan provider untuk <ph name="STRING" />.</translation>
+<translation id="7174424882502155514">Lanjutkan sebagai tamu</translation>
 <translation id="7192078949090526171">San Marino</translation>
 <translation id="7197455001919474950">Siprus</translation>
 <translation id="7198563013006562060">Kepulauan Solomon</translation>
@@ -345,6 +348,7 @@
 <translation id="7782885946428624225">Ada masalah saat memverifikasi nomor telepon Anda</translation>
 <translation id="7868540442111212282">Republik Ceko</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
+<translation id="7926046652648626866">Login dengan GitHub</translation>
 <translation id="792838323404934335">Greenland</translation>
 <translation id="7956645158976161232">Libya</translation>
 <translation id="8013083476285293">Google</translation>

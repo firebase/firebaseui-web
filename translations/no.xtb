@@ -64,6 +64,7 @@
 <translation id="2285049245646335550">Kapp Verde</translation>
 <translation id="2301396996587599046">Makedonia</translation>
 <translation id="2312980523495377579">Fornavn og etternavn</translation>
+<translation id="2324942959480650701">Gjest</translation>
 <translation id="2331781584136059536">Ghana</translation>
 <translation id="2338909515537249568">Nettleseren du bruker, støtter ikke nettlagring. Prøv igjen i en annen nettleser.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Det oppsto et problem med å tilbakestille påloggingsadressen din.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Be administratoren din om hjelp hvis du prøver igjen og fortsatt ikke får tilbakestilt e-postadressen.<ph name="END_PARAGRAPH" /></translation>
@@ -257,8 +258,9 @@
 <translation id="6192657410634245771">Algerie</translation>
 <translation id="6213969168046789596">Du har angitt feil passord for mange ganger. Prøv igjen om noen minutter.</translation>
 <translation id="6216759405419177713">Norfolkøya</translation>
-<translation id="6265373887273416711">Bekreft telefonnummeret ditt</translation>
-<translation id="6295157125625453859">Bekreftet.</translation>
+<translation id="6245066275978703471">Telefonnummeret ble bekreftet automatisk</translation>
+<translation id="6283536862756552051">For å endre passordet ditt må du først oppgi det eksisterende passordet.</translation>
+<translation id="6299890279889400823">Tilbake</translation>
 <translation id="6316446940976157217">India</translation>
 <translation id="6327723482938582895">Benin</translation>
 <translation id="6338643731889005578">Fortsett</translation>
@@ -283,6 +285,7 @@
 <translation id="6655128609744896303">Koden er sendt.</translation>
 <translation id="6683477520421532707">Réunion</translation>
 <translation id="6683810982254923169">Prøv å tilbakestille passordet ditt igjen</translation>
+<translation id="6689542920381638295">Fortsett som gjest</translation>
 <translation id="6719973195813381061">Ecuador</translation>
 <translation id="6721310522324861790">Senegal</translation>
 <translation id="6724344978634903280">Botswana</translation>
@@ -295,6 +298,7 @@
 <translation id="6775835872637240659">Ukraina</translation>
 <translation id="6782010235320729294">Turkmenistan</translation>
 <translation id="6821607741326790458">Jamaica</translation>
+<translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
 <translation id="6920167780806379235">Syria</translation>
 <translation id="6921505896641453739">E-post</translation>
@@ -310,7 +314,7 @@
 <translation id="7093343209860483088">Den demokratiske republikken Kongo</translation>
 <translation id="7118080999850002096">Gjenopprett passordet</translation>
 <translation id="7150917293543492988">Republikken Kongo</translation>
-<translation id="7181082682267399880">Finner ikke leverandøren for <ph name="STRING" />.</translation>
+<translation id="7174424882502155514">Fortsett som gjest</translation>
 <translation id="7192078949090526171">San Marino</translation>
 <translation id="7197455001919474950">Kypros</translation>
 <translation id="7198563013006562060">Salomonøyene</translation>
@@ -340,6 +344,7 @@
 <translation id="7782885946428624225">Kunne ikke bekrefte telefonnummeret ditt</translation>
 <translation id="7868540442111212282">Tsjekkia</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
+<translation id="7926046652648626866">Logg på med GitHub</translation>
 <translation id="792838323404934335">Grønland</translation>
 <translation id="7956645158976161232">Libya</translation>
 <translation id="8013083476285293">Google</translation>

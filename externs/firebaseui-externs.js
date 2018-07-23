@@ -22,13 +22,27 @@
  * The FirebaseUI namespace.
  * @namespace
  */
-firebaseui = {};
+var firebaseui = {};
 
 /**
  * The FirebaseUI auth namespace.
  * @namespace
  */
 firebaseui.auth = {};
+
+
+/**
+ * The FirebaseUI Anonymous Auth Provider namespace.
+ * @constructor
+ */
+firebaseui.auth.AnonymousAuthProvider = {};
+
+
+/**
+ * The FirebaseUI Anonymous Auth Provider ID.
+ * @const {string}
+ */
+firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID = 'anonymous';
 
 
 /**
@@ -401,3 +415,25 @@ firebaseui.auth.SignInOption.prototype.defaultNationalNumber;
  * @type {string|undefined}
  */
 firebaseui.auth.SignInOption.prototype.loginHint;
+
+/**
+ * Sets the whitelisted countries. Accept either ISO (alpha-2) or E164 formatted
+ * country codes. Invalid country code will be ignored. If `defaultCountry` is
+ * provided, it must be whitelisted. `whitelistedCountries` and
+ * `blacklistedCountries` cannot be specified at the same time.
+ * Example: ['US', '+44']
+ *
+ * @type {!Array<string>|undefined}
+ */
+firebaseui.auth.SignInOption.prototype.whitelistedCountries;
+
+/**
+ * Sets the blacklisted countries. Accept either ISO (alpha-2) or E164 formatted
+ * country codes. Invalid country code will be ignored. If `defaultCountry` is
+ * provided, it must not be blacklisted. `whitelistedCountries` and
+ * `blacklistedCountries` cannot be specified at the same time.
+ * Example: ['US', '+44']
+ *
+ * @type {!Array<string>|undefined}
+ */
+firebaseui.auth.SignInOption.prototype.blacklistedCountries;

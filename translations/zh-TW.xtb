@@ -64,6 +64,7 @@
 <translation id="2285049245646335550">維德角</translation>
 <translation id="2301396996587599046">馬其頓</translation>
 <translation id="2312980523495377579">姓氏和名字</translation>
+<translation id="2324942959480650701">訪客</translation>
 <translation id="2331781584136059536">迦納</translation>
 <translation id="2338909515537249568">您使用的瀏覽器不支援網路儲存空間，請改用其他瀏覽器並再試一次。</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />系統無法還原您已變更的登入電子郵件地址。<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />如果重試後仍然無法重設電子郵件地址，請與您的系統管理員聯絡，由對方協助您完成這項操作。<ph name="END_PARAGRAPH" /></translation>
@@ -260,8 +261,9 @@
 <translation id="6192657410634245771">阿爾及利亞</translation>
 <translation id="6213969168046789596">您輸入錯誤密碼的次數過多，請於幾分鐘後再試一次。</translation>
 <translation id="6216759405419177713">諾福克島</translation>
-<translation id="6265373887273416711">驗證您的電話號碼</translation>
-<translation id="6295157125625453859">已驗證！</translation>
+<translation id="6245066275978703471">已自動驗證電話號碼</translation>
+<translation id="6283536862756552051">如要變更密碼，請先輸入目前的密碼。</translation>
+<translation id="6299890279889400823">上一步</translation>
 <translation id="6316446940976157217">印度</translation>
 <translation id="6327723482938582895">貝南</translation>
 <translation id="6338643731889005578">繼續</translation>
@@ -286,7 +288,7 @@
 <translation id="6655128609744896303">已發送驗證碼！</translation>
 <translation id="6683477520421532707">留尼旺</translation>
 <translation id="6683810982254923169">請再次嘗試重設密碼</translation>
-<translation id="6695907250724340819">取消</translation>
+<translation id="6689542920381638295">繼續以訪客身分使用</translation>
 <translation id="6719973195813381061">厄瓜多</translation>
 <translation id="6721310522324861790">塞內加爾</translation>
 <translation id="6724344978634903280">波札那</translation>
@@ -299,6 +301,7 @@
 <translation id="6775835872637240659">烏克蘭文</translation>
 <translation id="6782010235320729294">土庫曼</translation>
 <translation id="6821607741326790458">牙買加</translation>
+<translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">巴基斯坦</translation>
 <translation id="6920167780806379235">敘利亞</translation>
 <translation id="6921505896641453739">電子郵件</translation>
@@ -314,7 +317,7 @@
 <translation id="7093343209860483088">剛果民主共和國</translation>
 <translation id="7118080999850002096">重新取得密碼</translation>
 <translation id="7150917293543492988">剛果共和國</translation>
-<translation id="7181082682267399880">找不到 <ph name="STRING" /> 的供應商。</translation>
+<translation id="7174424882502155514">繼續以訪客身分使用</translation>
 <translation id="7192078949090526171">聖馬利諾</translation>
 <translation id="7197455001919474950">賽普勒斯</translation>
 <translation id="7198563013006562060">所羅門群島</translation>
@@ -345,6 +348,7 @@
 <translation id="7782885946428624225">驗證電話號碼時發生問題</translation>
 <translation id="7868540442111212282">捷克共和國</translation>
 <translation id="7874584525604421364">吐瓦魯</translation>
+<translation id="7926046652648626866">使用 GitHub 登入</translation>
 <translation id="792838323404934335">格陵蘭</translation>
 <translation id="7956645158976161232">利比亞</translation>
 <translation id="8013083476285293">Google</translation>

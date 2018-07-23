@@ -64,6 +64,7 @@
 <translation id="2285049245646335550">Cape Verde</translation>
 <translation id="2301396996587599046">Macedonia</translation>
 <translation id="2312980523495377579">First name &amp; surname</translation>
+<translation id="2324942959480650701">Guest</translation>
 <translation id="2331781584136059536">Ghana</translation>
 <translation id="2338909515537249568">The browser you are using does not support Web Storage. Please try again in a different browser.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />There was a problem changing your sign-in email back.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />If you try again and still can't reset your email, try asking your administrator for help.<ph name="END_PARAGRAPH" /></translation>
@@ -260,8 +261,9 @@
 <translation id="6192657410634245771">Algeria</translation>
 <translation id="6213969168046789596">You have entered an incorrect password too many times. Please try again in a few minutes.</translation>
 <translation id="6216759405419177713">Norfolk Island</translation>
-<translation id="6265373887273416711">Verify your phone number</translation>
-<translation id="6295157125625453859">Verified.</translation>
+<translation id="6245066275978703471">Phone number automatically verified</translation>
+<translation id="6283536862756552051">In order to change your password, you first need to enter your current password.</translation>
+<translation id="6299890279889400823">Back</translation>
 <translation id="6316446940976157217">India</translation>
 <translation id="6327723482938582895">Benin</translation>
 <translation id="6338643731889005578">Continue</translation>
@@ -286,7 +288,7 @@
 <translation id="6655128609744896303">Code sent.</translation>
 <translation id="6683477520421532707">Réunion</translation>
 <translation id="6683810982254923169">Try resetting your password again</translation>
-<translation id="6695907250724340819">Cancel</translation>
+<translation id="6689542920381638295">Continue as a guest</translation>
 <translation id="6719973195813381061">Ecuador</translation>
 <translation id="6721310522324861790">Senegal</translation>
 <translation id="6724344978634903280">Botswana</translation>
@@ -299,6 +301,7 @@
 <translation id="6775835872637240659">Ukraine</translation>
 <translation id="6782010235320729294">Turkmenistan</translation>
 <translation id="6821607741326790458">Jamaica</translation>
+<translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
 <translation id="6920167780806379235">Syria</translation>
 <translation id="6921505896641453739">Email</translation>
@@ -314,7 +317,7 @@
 <translation id="7093343209860483088">Democratic Republic of the Congo</translation>
 <translation id="7118080999850002096">Recover password</translation>
 <translation id="7150917293543492988">Republic of Congo</translation>
-<translation id="7181082682267399880">Can't find provider for <ph name="STRING" />.</translation>
+<translation id="7174424882502155514">Continue as a guest</translation>
 <translation id="7192078949090526171">San Marino</translation>
 <translation id="7197455001919474950">Cyprus</translation>
 <translation id="7198563013006562060">Solomon Islands</translation>
@@ -345,6 +348,7 @@
 <translation id="7782885946428624225">There was a problem verifying your phone number</translation>
 <translation id="7868540442111212282">Czechia</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
+<translation id="7926046652648626866">Sign in with GitHub</translation>
 <translation id="792838323404934335">Greenland</translation>
 <translation id="7956645158976161232">Libya</translation>
 <translation id="8013083476285293">Google</translation>

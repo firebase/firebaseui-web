@@ -134,6 +134,7 @@ remembering emails
 7. Integration with
 [one-tap sign-up](https://developers.google.com/identity/one-tap/web/overview)
 8. Ability to upgrade anonymous users through sign-in/sign-up.
+9. Sign-in as a guest
 
 ### Configuring sign-in providers
 
@@ -147,6 +148,7 @@ provider you want to use in their own developer app settings. Please read the
 - [Facebook](https://firebase.google.com/docs/auth/web/facebook-login#before_you_begin)
 - [Twitter](https://firebase.google.com/docs/auth/web/twitter-login#before_you_begin)
 - [Github](https://firebase.google.com/docs/auth/web/github-auth#before_you_begin)
+- [Anonymous](https://firebase.google.com/docs/auth/web/anonymous-auth#before_you_begin)
 
 ### Starting the sign-in flow
 
@@ -187,10 +189,13 @@ for a more in-depth example, showcasing a Single Page Application mode.
           firebase.auth.TwitterAuthProvider.PROVIDER_ID,
           firebase.auth.GithubAuthProvider.PROVIDER_ID,
           firebase.auth.EmailAuthProvider.PROVIDER_ID,
-          firebase.auth.PhoneAuthProvider.PROVIDER_ID
+          firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+          firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
         ],
         // Terms of service url.
-        tosUrl: '<your-tos-url>'
+        tosUrl: '<your-tos-url>',
+        // Privacy policy url.
+        privacyPolicyUrl: '<your-privacy-policy-url>'
       };
 
       // Initialize the FirebaseUI Widget using Firebase.
@@ -396,6 +401,11 @@ FirebaseUI supports the following configuration parameters.
 <td>Yes</td>
 <td>The URL of the Terms of Service page.</td>
 </tr>
+<tr>
+<td>privacyPolicyUrl</td>
+<td>Yes</td>
+<td>The URL of the privacy policy page.</td>
+</tr>
 </tbody>
 </table>
 
@@ -495,6 +505,7 @@ To see FirebaseUI in action with one-tap sign-up, check out the FirebaseUI
 |Github            |`firebase.auth.GithubAuthProvider.PROVIDER_ID`  |
 |Email and password|`firebase.auth.EmailAuthProvider.PROVIDER_ID`   |
 |Phone number      |`firebase.auth.PhoneAuthProvider.PROVIDER_ID`   |
+|Anonymous         |`firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID`|
 
 ### Configure OAuth providers
 
@@ -590,6 +601,25 @@ ui.start('#firebaseui-auth-container', {
       // in their favor. In this case, the default country will be 'GB' even
       // though 'loginHint' specified the country code as '+1'.
       loginHint: '+11234567890'
+    }
+  ]
+});
+```
+
+### Configure Anonymous Provider
+
+The `AnonymousAuthProvider` can be enabled to let users continue as a guest. If
+a user is already signed in anonymously, clicking this sign-in option will keep
+the same current anonymous user. In addition, when auto-upgrade for anonymous
+users is enabled in addition to this option and a user is already signed in
+anonymously, clicking this sign-in option will also keep the same current
+anonymous user.
+
+```javascript
+ui.start('#firebaseui-auth-container', {
+  signInOptions: [
+    {
+      provider: firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
     }
   ]
 });
@@ -756,10 +786,13 @@ FirebaseUI is displayed.
               size: 'invisible',
               badge: 'bottomleft'
             }
-          }
+          },
+          firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
         ],
         // Terms of service url.
-        tosUrl: '<your-tos-url>'
+        tosUrl: '<your-tos-url>',
+        // Privacy policy url.
+        privacyPolicyUrl: '<your-privacy-policy-url>'
       };
 
       var ui = new firebaseui.auth.AuthUI(firebase.auth());
@@ -1081,6 +1114,7 @@ Firebase core SDK.
 |Twitter           |`firebase.auth.TwitterAuthProvider.PROVIDER_ID` |
 |Github            |`firebase.auth.GithubAuthProvider.PROVIDER_ID`  |
 |Email and password|`firebase.auth.EmailAuthProvider.PROVIDER_ID`   |
+|Anonymous         |`firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID`|
 
 ### Setup and Usage
 

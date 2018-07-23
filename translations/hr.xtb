@@ -64,6 +64,7 @@
 <translation id="2285049245646335550">Zelenortska Republika</translation>
 <translation id="2301396996587599046">Makedonija</translation>
 <translation id="2312980523495377579">Ime i prezime</translation>
+<translation id="2324942959480650701">Gost</translation>
 <translation id="2331781584136059536">Gana</translation>
 <translation id="2338909515537249568">Preglednik koji upotrebljavate ne podržava web-pohranu. Pokušajte ponovo u drugom pregledniku.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Došlo je do problema pri vraćanju vaše e-adrese za prijavu.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Ako ni nakon ponovnog pokušaja ne uspijete vratiti e-adresu, zatražite pomoć od administratora.<ph name="END_PARAGRAPH" /></translation>
@@ -257,8 +258,9 @@
 <translation id="6192657410634245771">Alžir</translation>
 <translation id="6213969168046789596">Unijeli ste netočnu zaporku previše puta. Pokušajte ponovo za nekoliko minuta.</translation>
 <translation id="6216759405419177713">Otok Norfolk</translation>
-<translation id="6265373887273416711">Potvrda telefonskog broja</translation>
-<translation id="6295157125625453859">Potvrda je uspjela!</translation>
+<translation id="6245066275978703471">Telefonski je broj automatski potvrđen</translation>
+<translation id="6283536862756552051">Da biste promijenili zaporku, najprije trebate unijeti trenutačnu zaporku.</translation>
+<translation id="6299890279889400823">Natrag</translation>
 <translation id="6316446940976157217">Indija</translation>
 <translation id="6327723482938582895">Benin</translation>
 <translation id="6338643731889005578">Nastavi</translation>
@@ -283,6 +285,7 @@
 <translation id="6655128609744896303">Kôd je poslan!</translation>
 <translation id="6683477520421532707">Réunion</translation>
 <translation id="6683810982254923169">Pokušajte ponovo postaviti zaporku</translation>
+<translation id="6689542920381638295">Nastavi kao gost</translation>
 <translation id="6719973195813381061">Ekvador</translation>
 <translation id="6721310522324861790">Senegal</translation>
 <translation id="6724344978634903280">Bocvana</translation>
@@ -295,6 +298,7 @@
 <translation id="6775835872637240659">Ukrajina</translation>
 <translation id="6782010235320729294">Turkmenistan</translation>
 <translation id="6821607741326790458">Jamajka</translation>
+<translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
 <translation id="6920167780806379235">Sirija</translation>
 <translation id="6921505896641453739">E-adresa</translation>
@@ -310,7 +314,7 @@
 <translation id="7093343209860483088">Demokratska Republika Kongo</translation>
 <translation id="7118080999850002096">Ponovno postavljanje zaporke</translation>
 <translation id="7150917293543492988">Republika Kongo</translation>
-<translation id="7181082682267399880">Nije moguće pronaći davatelja usluga za <ph name="STRING" />.</translation>
+<translation id="7174424882502155514">Nastavi kao gost</translation>
 <translation id="7192078949090526171">San Marino</translation>
 <translation id="7197455001919474950">Cipar</translation>
 <translation id="7198563013006562060">Salomonski Otoci</translation>
@@ -340,6 +344,7 @@
 <translation id="7782885946428624225">Došlo je do problema s potvrdom vašeg telefonskog broja.</translation>
 <translation id="7868540442111212282">Češka Republika</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
+<translation id="7926046652648626866">Prijava putem GitHuba</translation>
 <translation id="792838323404934335">Grenland</translation>
 <translation id="7956645158976161232">Libija</translation>
 <translation id="8013083476285293">Google</translation>

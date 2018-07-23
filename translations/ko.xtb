@@ -64,6 +64,7 @@
 <translation id="2285049245646335550">카보 베르데</translation>
 <translation id="2301396996587599046">마케도니아</translation>
 <translation id="2312980523495377579">이름 및 성</translation>
+<translation id="2324942959480650701">비회원</translation>
 <translation id="2331781584136059536">가나</translation>
 <translation id="2338909515537249568">사용하는 브라우저가 웹 저장소를 지원하지 않습니다. 다른 브라우저에서 다시 시도해 주세요.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />로그인 이메일을 다시 변경하는 중에 문제가 발생했습니다.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />다시 시도해도 이메일을 재설정할 수 없으면 관리자에게 지원을 요청하시기 바랍니다.<ph name="END_PARAGRAPH" /></translation>
@@ -260,8 +261,9 @@
 <translation id="6192657410634245771">알제리</translation>
 <translation id="6213969168046789596">비밀번호 입력 오류 횟수를 초과했습니다. 잠시 후에 다시 시도해 주세요.</translation>
 <translation id="6216759405419177713">노퍽 섬</translation>
-<translation id="6265373887273416711">전화번호 인증</translation>
-<translation id="6295157125625453859">인증되었습니다.</translation>
+<translation id="6245066275978703471">전화번호가 자동으로 확인되었습니다.</translation>
+<translation id="6283536862756552051">비밀번호를 변경하려면 먼저 현재 비밀번호를 입력해야 합니다.</translation>
+<translation id="6299890279889400823">뒤로</translation>
 <translation id="6316446940976157217">인도</translation>
 <translation id="6327723482938582895">베냉</translation>
 <translation id="6338643731889005578">계속</translation>
@@ -286,7 +288,7 @@
 <translation id="6655128609744896303">코드가 전송되었습니다.</translation>
 <translation id="6683477520421532707">레위니옹</translation>
 <translation id="6683810982254923169">비밀번호 재설정 다시 시도</translation>
-<translation id="6695907250724340819">취소</translation>
+<translation id="6689542920381638295">비회원으로 진행</translation>
 <translation id="6719973195813381061">에콰도르</translation>
 <translation id="6721310522324861790">세네갈</translation>
 <translation id="6724344978634903280">보츠와나</translation>
@@ -299,6 +301,7 @@
 <translation id="6775835872637240659">우크라이나</translation>
 <translation id="6782010235320729294">투르크메니스탄</translation>
 <translation id="6821607741326790458">자메이카</translation>
+<translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">파키스탄</translation>
 <translation id="6920167780806379235">시리아</translation>
 <translation id="6921505896641453739">이메일</translation>
@@ -314,7 +317,7 @@
 <translation id="7093343209860483088">콩고 민주공화국</translation>
 <translation id="7118080999850002096">비밀번호 복구</translation>
 <translation id="7150917293543492988">콩고 인민공화국</translation>
-<translation id="7181082682267399880"><ph name="STRING" />에 대한 제공업체를 찾지 못했습니다.</translation>
+<translation id="7174424882502155514">비회원으로 진행</translation>
 <translation id="7192078949090526171">산마리노</translation>
 <translation id="7197455001919474950">사이프러스</translation>
 <translation id="7198563013006562060">솔로몬 제도</translation>
@@ -345,6 +348,7 @@
 <translation id="7782885946428624225">전화번호를 인증하는 중에 문제가 발생했습니다.</translation>
 <translation id="7868540442111212282">체코 공화국</translation>
 <translation id="7874584525604421364">투발루</translation>
+<translation id="7926046652648626866">GitHub로 로그인</translation>
 <translation id="792838323404934335">그린란드</translation>
 <translation id="7956645158976161232">리비아</translation>
 <translation id="8013083476285293">Google</translation>

@@ -64,6 +64,7 @@
 <translation id="2285049245646335550">Cap Verd</translation>
 <translation id="2301396996587599046">Macedònia</translation>
 <translation id="2312980523495377579">Nom i cognoms</translation>
+<translation id="2324942959480650701">Convidat</translation>
 <translation id="2331781584136059536">Ghana</translation>
 <translation id="2338909515537249568">El navegador que utilitzes no és compatible amb l'emmagatzematge web. Torna-ho a provar amb un altre navegador.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Hi ha hagut un problema en canviar l'adreça electrònica d'inici de sessió a l'adreça anterior.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Si ho tornes a provar i continues sense poder restablir l'adreça electrònica, demana ajuda al teu administrador.<ph name="END_PARAGRAPH" /></translation>
@@ -257,8 +258,9 @@
 <translation id="6192657410634245771">Algèria</translation>
 <translation id="6213969168046789596">Has introduït una contrasenya incorrecta massa vegades. Torna-ho a provar d'aquí a uns quants minuts.</translation>
 <translation id="6216759405419177713">Illa Norfolk</translation>
-<translation id="6265373887273416711">Verifica el número de telèfon</translation>
-<translation id="6295157125625453859">S'ha verificat.</translation>
+<translation id="6245066275978703471">El número de telèfon s'ha verificat automàticament</translation>
+<translation id="6283536862756552051">Per canviar la contrasenya, primer has d'introduir la teva contrasenya actual.</translation>
+<translation id="6299890279889400823">Enrere</translation>
 <translation id="6316446940976157217">Índia</translation>
 <translation id="6327723482938582895">Benín</translation>
 <translation id="6338643731889005578">Continua</translation>
@@ -283,6 +285,7 @@
 <translation id="6655128609744896303">S'ha enviat el codi.</translation>
 <translation id="6683477520421532707">Reunió</translation>
 <translation id="6683810982254923169">Torna a provar de restablir la contrasenya</translation>
+<translation id="6689542920381638295">Continua com a convidat</translation>
 <translation id="6719973195813381061">Equador</translation>
 <translation id="6721310522324861790">Senegal</translation>
 <translation id="6724344978634903280">Botswana</translation>
@@ -295,6 +298,7 @@
 <translation id="6775835872637240659">Ucraïna</translation>
 <translation id="6782010235320729294">Turkmenistan</translation>
 <translation id="6821607741326790458">Jamaica</translation>
+<translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
 <translation id="6920167780806379235">Síria</translation>
 <translation id="6921505896641453739">Adreça electrònica</translation>
@@ -310,7 +314,7 @@
 <translation id="7093343209860483088">República Democràtica del Congo</translation>
 <translation id="7118080999850002096">Recupera la contrasenya</translation>
 <translation id="7150917293543492988">República del Congo</translation>
-<translation id="7181082682267399880">No es pot trobar un proveïdor per a <ph name="STRING" />.</translation>
+<translation id="7174424882502155514">Continua com a convidat</translation>
 <translation id="7192078949090526171">San Marino</translation>
 <translation id="7197455001919474950">Xipre</translation>
 <translation id="7198563013006562060">Illes Salomó</translation>
@@ -340,6 +344,7 @@
 <translation id="7782885946428624225">Hi ha hagut un problema en verificar el número de telèfon</translation>
 <translation id="7868540442111212282">República Txeca</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
+<translation id="7926046652648626866">Inicia la sessió amb GitHub</translation>
 <translation id="792838323404934335">Groenlàndia</translation>
 <translation id="7956645158976161232">Líbia</translation>
 <translation id="8013083476285293">Google</translation>

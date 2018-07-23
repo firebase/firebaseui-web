@@ -19,6 +19,8 @@
 goog.provide('firebaseui.auth.widget.handler.handlePhoneSignInStart');
 
 goog.require('firebaseui.auth.PhoneNumber');
+goog.require('firebaseui.auth.data.country');
+goog.require('firebaseui.auth.data.country.LookupTree');
 goog.require('firebaseui.auth.soy2.strings');
 goog.require('firebaseui.auth.ui.element');
 goog.require('firebaseui.auth.ui.element.progressDialog');
@@ -67,7 +69,20 @@ firebaseui.auth.widget.handler.handlePhoneSignInStart = function(
       (defaultCountry && defaultCountry.e164_key) || null;
   var nationalNumber = (opt_phoneNumberValue &&
       opt_phoneNumberValue.nationalNumber) || defaultNationalNumber;
-
+  var availableCountries = app.getConfig().getPhoneAuthAvailableCountries();
+  if (availableCountries) {
+     firebaseui.auth.data.country.sortCountryListForLocale(
+         availableCountries, goog.LOCALE);
+  }
+  /**
+   * @private {!firebaseui.auth.data.country.LookupTree} The country
+   *     lookup prefix tree to search country code with.
+   */
+  firebaseui.auth.widget.handler.lookupTree_ = availableCountries ?
+      new firebaseui.auth.data.country.LookupTree(
+          /** @type {!Array<!firebaseui.auth.data.country.Country>} */
+          (app.getConfig().getPhoneAuthAvailableCountries())) :
+      firebaseui.auth.data.country.LOOKUP_TREE;
   // Render the phone sign in start page component.
   var component = new firebaseui.auth.ui.page.PhoneSignInStart(
       // On submit.
@@ -91,6 +106,7 @@ firebaseui.auth.widget.handler.handlePhoneSignInStart = function(
       app.getConfig().getTosUrl(),
       app.getConfig().getPrivacyPolicyUrl(),
       isPhoneProviderOnly,
+      firebaseui.auth.widget.handler.lookupTree_,
       countryId,
       nationalNumber);
   component.render(container);
@@ -194,7 +210,13 @@ firebaseui.auth.widget.handler.RESEND_DELAY_SECONDS = 15;
 firebaseui.auth.widget.handler.onPhoneSignInStartSubmit_ =
     function(app, component, recaptchaVerifier, opt_isKeyCode) {
   // Get phone number.
-  var phoneNumberValue = component.getPhoneNumberValue();
+  try {
+    var phoneNumberValue = component.getPhoneNumberValue(
+        firebaseui.auth.widget.handler.lookupTree_);
+  } catch(e) {
+    return;
+  }
+
   // If missing, focus phone number element, show the relevant error and exit.
   if (!phoneNumberValue) {
     // No phone number provided.

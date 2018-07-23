@@ -64,6 +64,7 @@
 <translation id="2285049245646335550">Kap Verde</translation>
 <translation id="2301396996587599046">Makedonia</translation>
 <translation id="2312980523495377579">Etu- ja sukunimi</translation>
+<translation id="2324942959480650701">Vieras</translation>
 <translation id="2331781584136059536">Ghana</translation>
 <translation id="2338909515537249568">Käyttämäsi selain ei tue verkkotallennusta. Yritä uudelleen käyttämällä eri selainta.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Kirjautumissähköpostiosoitteen takaisin vaihtamisen aikana tapahtui virhe.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Jos yrität uudelleen etkä vieläkään voi nollata sähköpostiosoitettasi, kysy ohjeita järjestelmänvalvojaltasi.<ph name="END_PARAGRAPH" /></translation>
@@ -258,8 +259,9 @@
 <translation id="6192657410634245771">Algeria</translation>
 <translation id="6213969168046789596">Olet antanut virheellisen salasanan liian monta kertaa. Yritä uudelleen muutaman minuutin kuluttua.</translation>
 <translation id="6216759405419177713">Norfolkinsaari</translation>
-<translation id="6265373887273416711">Puhelinnumeron vahvistaminen</translation>
-<translation id="6295157125625453859">Vahvistettu!</translation>
+<translation id="6245066275978703471">Puhelinnumero vahvistettu automaattisesti</translation>
+<translation id="6283536862756552051">Jotta voit vaihtaa salasanasi, sinun on annettava ensin nykyinen salasanasi.</translation>
+<translation id="6299890279889400823">Takaisin</translation>
 <translation id="6316446940976157217">Intia</translation>
 <translation id="6327723482938582895">Benin</translation>
 <translation id="6338643731889005578">Jatka</translation>
@@ -284,6 +286,7 @@
 <translation id="6655128609744896303">Koodi lähetetty</translation>
 <translation id="6683477520421532707">Réunion</translation>
 <translation id="6683810982254923169">Yritä nollata salasana uudelleen</translation>
+<translation id="6689542920381638295">Jatka vieraana</translation>
 <translation id="6719973195813381061">Ecuador</translation>
 <translation id="6721310522324861790">Senegal</translation>
 <translation id="6724344978634903280">Botswana</translation>
@@ -296,6 +299,7 @@
 <translation id="6775835872637240659">Ukraina</translation>
 <translation id="6782010235320729294">Turkmenistan</translation>
 <translation id="6821607741326790458">Jamaika</translation>
+<translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
 <translation id="6920167780806379235">Syyria</translation>
 <translation id="6921505896641453739">Sähköposti</translation>
@@ -311,7 +315,7 @@
 <translation id="7093343209860483088">Kongon demokraattinen tasavalta</translation>
 <translation id="7118080999850002096">Palauta salasana</translation>
 <translation id="7150917293543492988">Kongon tasavalta</translation>
-<translation id="7181082682267399880">Palveluntarjoajaa ei löydy osoitteelle <ph name="STRING" />.</translation>
+<translation id="7174424882502155514">Jatka vieraana</translation>
 <translation id="7192078949090526171">San Marino</translation>
 <translation id="7197455001919474950">Kypros</translation>
 <translation id="7198563013006562060">Salomonsaaret</translation>
@@ -341,6 +345,7 @@
 <translation id="7782885946428624225">Puhelinnumerosi vahvistamisessa tapahtui virhe.</translation>
 <translation id="7868540442111212282">Tšekin tasavalta</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
+<translation id="7926046652648626866">Kirjaudu GitHub-tilillä</translation>
 <translation id="792838323404934335">Grönlanti</translation>
 <translation id="7956645158976161232">Libya</translation>
 <translation id="8013083476285293">Google</translation>

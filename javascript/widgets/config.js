@@ -16,6 +16,7 @@
  * @fileoverview Defines all configurations used by FirebaseUI widget.
  */
 
+goog.provide('firebaseui.auth.AnonymousAuthProvider');
 goog.provide('firebaseui.auth.CredentialHelper');
 goog.provide('firebaseui.auth.callback.signInFailure');
 goog.provide('firebaseui.auth.callback.signInSuccess');
@@ -81,8 +82,7 @@ firebaseui.auth.widget.Config = function() {
 
 
 /**
- * The different credentials helper available, currently only
- * accountchooser.com.
+ * The different credentials helper available.
  *
  * @enum {string}
  */
@@ -91,6 +91,14 @@ firebaseui.auth.CredentialHelper = {
   GOOGLE_YOLO: 'googleyolo',
   NONE: 'none'
 };
+
+
+/**
+ * Provider ID for continue as guest sign in option.
+ *
+ * @const {string}
+ */
+firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID = 'anonymous';
 
 
 /**
@@ -157,6 +165,13 @@ firebaseui.auth.widget.Config.WidgetMode = {
   SELECT: 'select',
   VERIFY_EMAIL: 'verifyEmail'
 };
+
+
+/**
+ * FirebaseUI supported providers in sign in option.
+ * @const @private {!Array<string>}
+ */
+firebaseui.auth.widget.Config.UI_SUPPORTED_PROVIDERS_ = ['anonymous'];
 
 
 /**
@@ -269,7 +284,10 @@ firebaseui.auth.widget.Config.prototype.getSignInOptions_ = function() {
     var normalizedConfig = goog.isObject(providerConfig) ?
         providerConfig : {'provider': providerConfig};
 
-    if (firebaseui.auth.idp.isSupportedProvider(normalizedConfig['provider'])) {
+    if (firebaseui.auth.idp.isSupportedProvider(normalizedConfig['provider']) ||
+        goog.array.contains(
+            firebaseui.auth.widget.Config.UI_SUPPORTED_PROVIDERS_,
+            normalizedConfig['provider'])) {
       normalizedOptions.push(normalizedConfig);
     }
   }
@@ -508,6 +526,80 @@ firebaseui.auth.widget.Config.prototype.getPhoneAuthDefaultCountry =
   // If there are multiple entries, pick the first one.
   return (countries && countries[0]) ||
       (defaultPhoneNumber && defaultPhoneNumber.getCountry()) || null;
+};
+
+
+/**
+ * Returns the available countries for phone authentication.
+ * @return {?Array<!firebaseui.auth.data.country.Country>} The available
+ *     country list, or null if phone Auth is not enabled.
+ */
+firebaseui.auth.widget.Config.prototype.getPhoneAuthAvailableCountries =
+    function() {
+  var signInOptions = this.getSignInOptionsForProvider_(
+      firebase.auth.PhoneAuthProvider.PROVIDER_ID);
+  if (!signInOptions) {
+    return null;
+  }
+  var whitelistedCountries = signInOptions['whitelistedCountries'];
+  var blacklistedCountries = signInOptions['blacklistedCountries'];
+  // First validate the input.
+  if (typeof whitelistedCountries !== 'undefined' &&
+      (!goog.isArray(whitelistedCountries) ||
+       whitelistedCountries.length == 0)) {
+    throw new Error('WhitelistedCountries must be a non-empty array.');
+  }
+  if (typeof blacklistedCountries !== 'undefined' &&
+      (!goog.isArray(blacklistedCountries))) {
+    throw new Error('BlacklistedCountries must be an array.');
+  }
+  // If both whitelist and blacklist are provided, throw error.
+  if (whitelistedCountries && blacklistedCountries) {
+    throw new Error(
+        'Both whitelistedCountries and blacklistedCountries are provided.');
+  }
+  // If no whitelist or blacklist provided, return all available countries.
+  if (!whitelistedCountries && !blacklistedCountries) {
+    return firebaseui.auth.data.country.COUNTRY_LIST;
+  }
+  var countries = [];
+  var availableCountries = [];
+  if (whitelistedCountries) {
+    // Whitelist is provided.
+    var whitelistedCountryMap = {};
+    for (var i = 0; i < whitelistedCountries.length; i++) {
+      countries = firebaseui.auth.data.country
+          .getCountriesByE164OrIsoCode(whitelistedCountries[i]);
+      // Remove duplicate and overlaps by putting into a map.
+      for (var j = 0; j < countries.length; j++) {
+        whitelistedCountryMap[countries[j].e164_key] = countries[j];
+      }
+    }
+    for (var countryKey in whitelistedCountryMap) {
+       if (whitelistedCountryMap.hasOwnProperty(countryKey)) {
+         availableCountries.push(whitelistedCountryMap[countryKey]);
+       }
+    }
+    return availableCountries;
+  } else {
+    var blacklistedCountryMap = {};
+    for (var i = 0; i < blacklistedCountries.length; i++) {
+      countries = firebaseui.auth.data.country
+          .getCountriesByE164OrIsoCode(blacklistedCountries[i]);
+      // Remove duplicate and overlaps by putting into a map.
+      for (var j = 0; j < countries.length; j++) {
+        blacklistedCountryMap[countries[j].e164_key] = countries[j];
+      }
+    }
+    for (var k = 0; k < firebaseui.auth.data.country.COUNTRY_LIST.length; k++) {
+      if (!goog.object.containsKey(
+              blacklistedCountryMap,
+              firebaseui.auth.data.country.COUNTRY_LIST[k].e164_key)) {
+        availableCountries.push(firebaseui.auth.data.country.COUNTRY_LIST[k]);
+      }
+    }
+    return availableCountries;
+  }
 };
 
 
@@ -763,6 +855,7 @@ firebaseui.auth.widget.Config.prototype.setConfig = function(config) {
     }
   }
   this.resolveImplicitConfig_();
+  this.getPhoneAuthAvailableCountries();
 };
 
 
@@ -774,4 +867,5 @@ firebaseui.auth.widget.Config.prototype.setConfig = function(config) {
  */
 firebaseui.auth.widget.Config.prototype.update = function(name, value) {
   this.config_.update(name, value);
+  this.getPhoneAuthAvailableCountries();
 };

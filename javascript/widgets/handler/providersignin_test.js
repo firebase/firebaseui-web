@@ -79,7 +79,7 @@ function setupProviderSignInPage(
     'customParameters': {'prompt': 'select_account'},
     'authMethod': 'https://accounts.google.com',
     'clientId': '1234567890.apps.googleusercontent.com'
-  }, 'facebook.com', 'password', 'phone'];
+  }, 'facebook.com', 'password', 'phone', 'anonymous'];
   if (!opt_ignoreConfig) {
     app.setConfig({
       'signInOptions': signInOptions,
@@ -1023,6 +1023,53 @@ function testHandleProviderSignIn_signInWithPhoneNumber() {
   // Recaptcha should be rendered.
   recaptchaVerifierInstance.assertRender([], 0);
   recaptchaVerifierInstance.process();
+}
+
+
+function testHandleProviderSignIn_continueAsGuest_success() {
+  // Test when continue as guest is clicked, that the relevant handler
+  // is triggered.
+  // Render the provider sign-in page and confirm it was rendered correctly.
+  setupProviderSignInPage('redirect');
+  // Click the fifth button, which is continue as guest button.
+  goog.testing.events.fireClickSequence(buttons[4]);
+  // Progress bar should be showed after clicking the button.
+  delayForBusyIndicatorAndAssertIndicatorShown();
+  // Sign In Anonymously triggered on external instance.
+  externalAuth.assertSignInAnonymously(
+      [],
+      {
+        'user': anonymousUser,
+        'credential': null
+      });
+  return externalAuth.process().then(function() {
+    // User should be redirected to success URL.
+    testUtil.assertGoTo('http://localhost/home');
+  });
+}
+
+
+function testHandleProviderSignIn_continueAsGuest_error() {
+  // Test when continue as guest is clicked, signInAnonymously returns an error.
+  // Render the provider sign-in page and confirm it was rendered correctly.
+  setupProviderSignInPage('redirect');
+  // Click the fifth button, which is continue as guest button.
+  goog.testing.events.fireClickSequence(buttons[4]);
+
+  var expectedError = {
+    'code': 'auth/operation-not-allowed',
+    'message': 'MESSAGE'
+  };
+  // Sign In Anonymously triggered on external instance.
+  externalAuth.assertSignInAnonymously(
+      [],
+      null,
+      expectedError);
+  return externalAuth.process().then(function() {
+    // On error, show a message on info bar.
+    assertInfoBarMessage(
+        firebaseui.auth.widget.handler.common.getErrorMessage(expectedError));
+  });
 }
 
 

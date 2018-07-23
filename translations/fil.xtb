@@ -64,6 +64,7 @@
 <translation id="2285049245646335550">Cape Verde</translation>
 <translation id="2301396996587599046">Macedonia</translation>
 <translation id="2312980523495377579">Pangalan at apelyido</translation>
+<translation id="2324942959480650701">Bisita</translation>
 <translation id="2331781584136059536">Ghana</translation>
 <translation id="2338909515537249568">Hindi sinusuportahan ng browser na ginagamit mo ang Web Storage. Pakisubukang muli sa ibang browser.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Nagkaproblema sa pagbabalik sa iyong email sa pag-sign in.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Kung susubukan mong muli at hindi pa rin ma-reset ang iyong email, subukang humingi ng tulong sa iyong administrator.<ph name="END_PARAGRAPH" /></translation>
@@ -254,8 +255,9 @@
 <translation id="6192657410634245771">Algeria</translation>
 <translation id="6213969168046789596">Nagpasok ka ng di-wastong password nang masyadong maraming beses. Pakisubukang muli pagkalipas ng ilang minuto.</translation>
 <translation id="6216759405419177713">Norfolk Island</translation>
-<translation id="6265373887273416711">I-verify ang numero ng iyong telepono</translation>
-<translation id="6295157125625453859">Na-verify!</translation>
+<translation id="6245066275978703471">Awtomatikong na-verify ang numero ng telepono</translation>
+<translation id="6283536862756552051">Upang baguhin ang iyong password, kailangan mo munang ipasok ang iyong kasalukuyang password.</translation>
+<translation id="6299890279889400823">Bumalik</translation>
 <translation id="6316446940976157217">India</translation>
 <translation id="6327723482938582895">Benin</translation>
 <translation id="6338643731889005578">Magpatuloy</translation>
@@ -280,6 +282,7 @@
 <translation id="6655128609744896303">Naipadala ang code!</translation>
 <translation id="6683477520421532707">Réunion</translation>
 <translation id="6683810982254923169">Subukang i-reset muli ang iyong password</translation>
+<translation id="6689542920381638295">Magpatuloy bilang bisita</translation>
 <translation id="6719973195813381061">Ecuador</translation>
 <translation id="6721310522324861790">Senegal</translation>
 <translation id="6724344978634903280">Botswana</translation>
@@ -292,6 +295,7 @@
 <translation id="6775835872637240659">Ukraine</translation>
 <translation id="6782010235320729294">Turkmenistan</translation>
 <translation id="6821607741326790458">Jamaica</translation>
+<translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
 <translation id="6920167780806379235">Syria</translation>
 <translation id="6921505896641453739">Mag-email</translation>
@@ -307,7 +311,7 @@
 <translation id="7093343209860483088">Democratic Republic Congo</translation>
 <translation id="7118080999850002096">I-recover ang password</translation>
 <translation id="7150917293543492988">Republic of Congo</translation>
-<translation id="7181082682267399880">Hindi makahanap ng provider para sa <ph name="STRING" />.</translation>
+<translation id="7174424882502155514">Magpatuloy bilang bisita</translation>
 <translation id="7192078949090526171">San Marino</translation>
 <translation id="7197455001919474950">Cyprus</translation>
 <translation id="7198563013006562060">Solomon Islands</translation>
@@ -336,6 +340,7 @@
 <translation id="7782885946428624225">Nagkaproblema sa pag-verify ng numero ng iyong telepono</translation>
 <translation id="7868540442111212282">Czechia</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
+<translation id="7926046652648626866">Mag-sign in sa GitHub</translation>
 <translation id="792838323404934335">Greenland</translation>
 <translation id="7956645158976161232">Libya</translation>
 <translation id="8013083476285293">Google</translation>

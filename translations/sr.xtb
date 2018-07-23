@@ -64,6 +64,7 @@
 <translation id="2285049245646335550">Зеленортска Острва</translation>
 <translation id="2301396996587599046">Македонија</translation>
 <translation id="2312980523495377579">Име и презиме</translation>
+<translation id="2324942959480650701">Гост</translation>
 <translation id="2331781584136059536">Гана</translation>
 <translation id="2338909515537249568">Прегледач који користите не подржава веб-складиште. Пробајте поново из другог прегледача.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Дошло је до проблема при враћању на имејл који сте раније користили за пријављивање.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Ако пробате поново и опет не успете да ресетујете имејл, затражите помоћ од администратора.<ph name="END_PARAGRAPH" /></translation>
@@ -257,8 +258,9 @@
 <translation id="6192657410634245771">Алжир</translation>
 <translation id="6213969168046789596">Превише пута сте унели нетачну лозинку. Пробајте поново за пар минута.</translation>
 <translation id="6216759405419177713">Острво Норфолк</translation>
-<translation id="6265373887273416711">Верификујте број телефона</translation>
-<translation id="6295157125625453859">Потврђено је!</translation>
+<translation id="6245066275978703471">Број телефона је аутоматски верификован</translation>
+<translation id="6283536862756552051">Да бисте променили лозинку, треба да унесете тренутну лозинку.</translation>
+<translation id="6299890279889400823">Назад</translation>
 <translation id="6316446940976157217">Индија</translation>
 <translation id="6327723482938582895">Бенин</translation>
 <translation id="6338643731889005578">Настави</translation>
@@ -283,6 +285,7 @@
 <translation id="6655128609744896303">Кôд је послат!</translation>
 <translation id="6683477520421532707">Реинион</translation>
 <translation id="6683810982254923169">Пробајте поново да ресетујете лозинку</translation>
+<translation id="6689542920381638295">Наставите као гост</translation>
 <translation id="6719973195813381061">Еквадор</translation>
 <translation id="6721310522324861790">Сенегал</translation>
 <translation id="6724344978634903280">Боцвана</translation>
@@ -295,6 +298,7 @@
 <translation id="6775835872637240659">Украјина</translation>
 <translation id="6782010235320729294">Туркменистан</translation>
 <translation id="6821607741326790458">Јамајка</translation>
+<translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Пакистан</translation>
 <translation id="6920167780806379235">Сирија</translation>
 <translation id="6921505896641453739">Имејл</translation>
@@ -310,7 +314,7 @@
 <translation id="7093343209860483088">Демократска Република Конго</translation>
 <translation id="7118080999850002096">Повратите лозинку</translation>
 <translation id="7150917293543492988">Република Конго</translation>
-<translation id="7181082682267399880">Нисмо успели да нађемо добављача за <ph name="STRING" />.</translation>
+<translation id="7174424882502155514">Наставите као гост</translation>
 <translation id="7192078949090526171">Сан Марино</translation>
 <translation id="7197455001919474950">Кипар</translation>
 <translation id="7198563013006562060">Соломонска Острва</translation>
@@ -340,6 +344,7 @@
 <translation id="7782885946428624225">Дошло је до проблема при верификацији броја телефона</translation>
 <translation id="7868540442111212282">Чешка Република</translation>
 <translation id="7874584525604421364">Тувалу</translation>
+<translation id="7926046652648626866">Пријавите се помоћу GitHub-а</translation>
 <translation id="792838323404934335">Гренланд</translation>
 <translation id="7956645158976161232">Либија</translation>
 <translation id="8013083476285293">Google</translation>

@@ -36,6 +36,7 @@ var IJ_DATA_ = {
   'twitterLogo': '../image/twitter.svg',
   'passwordLogo': '../image/mail.svg',
   'phoneLogo': '../image/phone.svg',
+  'anonymousLogo': '../image/anonymous.png',
   'tosUrl': 'tos',
   'privacyPolicyUrl': 'privacy_policy'
 };
@@ -355,7 +356,8 @@ function testProviderSignIn() {
   goog.soy.renderElement(
       root, firebaseui.auth.soy2.page.providerSignIn, {
         'providerIds':
-            ['password', 'phone', 'google.com', 'github.com', 'facebook.com']
+            ['password', 'phone', 'google.com', 'github.com', 'facebook.com',
+             'twitter.com', 'anonymous']
       },
       IJ_DATA_);
 }

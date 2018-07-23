@@ -64,6 +64,7 @@
 <translation id="2285049245646335550">Πράσινο Ακρωτήριο</translation>
 <translation id="2301396996587599046">Π.Γ.Δ.Μ.</translation>
 <translation id="2312980523495377579">Όνομα και επώνυμο</translation>
+<translation id="2324942959480650701">Επισκέπτης</translation>
 <translation id="2331781584136059536">Γκάνα</translation>
 <translation id="2338909515537249568">Το πρόγραμμα περιήγησης που χρησιμοποιείτε δεν υποστηρίζει αποθήκευση στον ιστό. Δοκιμάστε ξανά σε άλλο πρόγραμμα περιήγησης.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Παρουσιάστηκε πρόβλημα με την επαναφορά της διεύθυνσης ηλεκτρονικού ταχυδρομείου σύνδεσης.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Αν δοκιμάσετε ξανά και εξακολουθείτε να μην μπορείτε να επαναφέρετε τη διεύθυνση, ζητήστε βοήθεια από τον διαχειριστή σας.<ph name="END_PARAGRAPH" /></translation>
@@ -257,8 +258,9 @@
 <translation id="6192657410634245771">Αλγερία</translation>
 <translation id="6213969168046789596">Εισαγάγατε λανθασμένο κωδικό πρόσβασης πολλές φορές. Δοκιμάστε ξανά σε μερικά λεπτά.</translation>
 <translation id="6216759405419177713">Νήσος Νόρφολκ</translation>
-<translation id="6265373887273416711">Επαλήθευση του τηλεφώνου σας</translation>
-<translation id="6295157125625453859">Επαληθεύτηκε!</translation>
+<translation id="6245066275978703471">Ο αριθμός τηλεφώνου επαληθεύτηκε αυτόματα</translation>
+<translation id="6283536862756552051">Για να αλλάξετε τον κωδικό πρόσβασής σας, θα πρέπει πρώτα να εισαγάγετε τον τρέχοντα κωδικό πρόσβασης.</translation>
+<translation id="6299890279889400823">Πίσω</translation>
 <translation id="6316446940976157217">Ινδία</translation>
 <translation id="6327723482938582895">Μπενίν</translation>
 <translation id="6338643731889005578">Συνέχεια</translation>
@@ -283,6 +285,7 @@
 <translation id="6655128609744896303">Ο κωδικός στάλθηκε!</translation>
 <translation id="6683477520421532707">Ρεϊνιόν</translation>
 <translation id="6683810982254923169">Δοκιμάστε να επαναφέρετε ξανά τον κωδικό πρόσβασης</translation>
+<translation id="6689542920381638295">Συνέχεια ως επισκέπτης</translation>
 <translation id="6719973195813381061">Ισημερινός</translation>
 <translation id="6721310522324861790">Σενεγάλη</translation>
 <translation id="6724344978634903280">Μποτσουάνα</translation>
@@ -295,6 +298,7 @@
 <translation id="6775835872637240659">Ουκρανικά</translation>
 <translation id="6782010235320729294">Τουρκμενιστάν</translation>
 <translation id="6821607741326790458">Τζαμάικα</translation>
+<translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Πακιστάν</translation>
 <translation id="6920167780806379235">Συρία</translation>
 <translation id="6921505896641453739">Ηλεκτρονικό ταχυδρομείο</translation>
@@ -310,7 +314,7 @@
 <translation id="7093343209860483088">Λαϊκή Δημοκρατία του Κονγκό</translation>
 <translation id="7118080999850002096">Ανάκτηση κωδικού πρόσβασης</translation>
 <translation id="7150917293543492988">Δημοκρατία του Κονγκό</translation>
-<translation id="7181082682267399880">Δεν είναι δυνατή η εύρεση του παρόχου για <ph name="STRING" />.</translation>
+<translation id="7174424882502155514">Συνέχεια ως επισκέπτης</translation>
 <translation id="7192078949090526171">Άγιος Μαρίνος</translation>
 <translation id="7197455001919474950">Κύπρος</translation>
 <translation id="7198563013006562060">Νήσοι Σολομώντα</translation>
@@ -340,6 +344,7 @@
 <translation id="7782885946428624225">Παρουσιάστηκε πρόβλημα με την επαλήθευση του αριθμού τηλεφώνου</translation>
 <translation id="7868540442111212282">Δημοκρατία της Τσεχίας</translation>
 <translation id="7874584525604421364">Τουβάλου</translation>
+<translation id="7926046652648626866">Σύνδεση μέσω GitHub</translation>
 <translation id="792838323404934335">Γροιλανδία</translation>
 <translation id="7956645158976161232">Λιβύη</translation>
 <translation id="8013083476285293">Google</translation>

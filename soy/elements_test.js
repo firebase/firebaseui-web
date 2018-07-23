@@ -158,7 +158,7 @@ function testResendLink() {
 function testIdpButton() {
   var idps = [
     'password', 'phone', 'google.com', 'github.com', 'facebook.com',
-    'twitter.com'
+    'twitter.com', 'anonymous'
   ];
   var root = goog.dom.getElement('idp-button');
   for (var i = 0; i < idps.length; i++) {

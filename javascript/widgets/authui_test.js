@@ -2944,6 +2944,92 @@ function testStartSignInWithPhoneNumber_upgradeAnonymous_noUser_success() {
 }
 
 
+function testStartSignInAnonymously_success() {
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().install();
+  app.getExternalAuth().install();
+  asyncTestCase.waitForSignals(1);
+  var expectedUserCredential = {
+    'user': anonymousUser,
+    'credential': null,
+    'operationType': 'signIn',
+    'additionalUserInfo': {'providerId': null, 'isNewUser': true}
+  };
+  app.startSignInAnonymously().then(function(userCredential) {
+    assertEquals(expectedUserCredential, userCredential);
+    asyncTestCase.signal();
+  });
+  app.getExternalAuth().assertSignInAnonymously(
+      [],
+      function() {
+        app.getExternalAuth().setUser(anonymousUser);
+        return expectedUserCredential;
+      });
+  app.getExternalAuth().process();
+  app.getAuth().process();
+}
+
+
+function testStartSignInAnonymously_upgradeAnon_isAnonmous_success() {
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().install();
+  app.getExternalAuth().install();
+  asyncTestCase.waitForSignals(1);
+  // Simulate autoUpgradeAnonymousUsers set to true.
+  app.setConfig(anonymousUpgradeConfig);
+  testAuth.setUser(anonymousUser);
+  // signInAnonymously will return the same user but isNewUser is false.
+  var expectedUserCredential = {
+    'user': anonymousUser,
+    'credential': null,
+    'operationType': 'signIn',
+    'additionalUserInfo': {'providerId': null, 'isNewUser': false}
+  };
+  app.startSignInAnonymously().then(function(userCredential) {
+    assertEquals(expectedUserCredential, userCredential);
+    asyncTestCase.signal();
+  });
+  // Trigger initial onAuthStateChanged listener.
+  app.getExternalAuth().runAuthChangeHandler();
+  app.getExternalAuth().assertSignInAnonymously(
+      [],
+      function() {
+        app.getExternalAuth().setUser(anonymousUser);
+        return expectedUserCredential;
+      });
+  app.getExternalAuth().process();
+  app.getAuth().process();
+}
+
+
+function testStartSignInAnonymously_error() {
+  var expectedError = {
+    'code': 'auth/operation-not-allowed',
+    'message': 'MESSAGE'
+  };
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().install();
+  app.getExternalAuth().install();
+  asyncTestCase.waitForSignals(1);
+  app.startSignInAnonymously().then(fail, function(error) {
+    assertEquals(expectedError, error);
+    asyncTestCase.signal();
+  });
+  app.getExternalAuth().assertSignInAnonymously(
+      [],
+      null,
+      expectedError);
+  app.getAuth().process();
+  app.getExternalAuth().process();
+}
+
+
 function testFinishSignInWithCredential_success() {
   testApp = new firebaseui.auth.testing.FakeAppClient(options);
   testAuth = testApp.auth();

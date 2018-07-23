@@ -40,6 +40,8 @@ goog.require('goog.dom.selection');
  * @param {?string=} opt_privacyPolicyUrl The Privacy Policy URL.
  * @param {boolean=} opt_displayFullTosPpMessage Whether to display the full
  *     message of Term of Service and Privacy Policy.
+ * @param {?firebaseui.auth.data.country.LookupTree=} opt_lookupTree The country
+ *     lookup prefix tree to search country code with.
  * @param {?string=} opt_countryId The ID (e164_key) of the country to
  *     pre-select.
  * @param {?string=} opt_nationalNumber The national number to pre-fill.
@@ -54,6 +56,7 @@ firebaseui.auth.ui.page.PhoneSignInStart = function(
     opt_tosUrl,
     opt_privacyPolicyUrl,
     opt_displayFullTosPpMessage,
+    opt_lookupTree,
     opt_countryId,
     opt_nationalNumber,
     opt_domHelper) {
@@ -81,6 +84,11 @@ firebaseui.auth.ui.page.PhoneSignInStart = function(
   this.onSubmitClick_ = onSubmitClick;
   /** @private {?function(?)} On cancel click callback. */
   this.onCancelClick_ = onCancelClick;
+  /**
+   * @private {?firebaseui.auth.data.country.LookupTree} The country
+   *     lookup prefix tree to search country code with.
+   */
+  this.lookupTree_ = opt_lookupTree || null;
 };
 goog.inherits(
     firebaseui.auth.ui.page.PhoneSignInStart, firebaseui.auth.ui.page.Base);
@@ -88,7 +96,7 @@ goog.inherits(
 
 /** @override */
 firebaseui.auth.ui.page.PhoneSignInStart.prototype.enterDocument = function() {
-  this.initPhoneNumberElement(this.countryId_);
+  this.initPhoneNumberElement(this.lookupTree_, this.countryId_);
   // Handle a click on the submit button or cancel button.
   this.initFormElement(
       /** @type {function(?)} */ (this.onSubmitClick_),
@@ -137,6 +145,9 @@ goog.mixin(
     firebaseui.auth.ui.page.PhoneSignInStart.prototype,
     /** @lends {firebaseui.auth.ui.page.PhoneSignInStart.prototype} */
     {
+      // For country selector list.
+      getDialogElement:
+          firebaseui.auth.ui.element.dialog.getDialogElement,
       // For phone number input.
       getPhoneNumberElement:
           firebaseui.auth.ui.element.phoneNumber.getPhoneNumberElement,
@@ -146,6 +157,8 @@ goog.mixin(
           firebaseui.auth.ui.element.phoneNumber.initPhoneNumberElement,
       getPhoneNumberValue:
           firebaseui.auth.ui.element.phoneNumber.getPhoneNumberValue,
+      getCountrySelectorElement:
+           firebaseui.auth.ui.element.phoneNumber.getCountrySelectorElement,
 
       // For visible reCAPTCHA.
       getRecaptchaElement:

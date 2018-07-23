@@ -64,6 +64,7 @@
 <translation id="2285049245646335550">الرأس الأخضر</translation>
 <translation id="2301396996587599046">مقدونيا</translation>
 <translation id="2312980523495377579">الاسم الأول واسم العائلة</translation>
+<translation id="2324942959480650701">ضيف</translation>
 <translation id="2331781584136059536">غانا</translation>
 <translation id="2338909515537249568">لا يدعم المتصفح الذي تستخدمه التخزين على الويب. يُرجى المحاولة مجددًا في متصفّح مختلف.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />حدثت مشكلة أثناء تغيير البريد الإلكتروني لتسجيل الدخول من جديد.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />في حال المحاولة مجددًا وتعذّر إعادة تعيين البريد الإلكتروني، يُرجى محاولة طلب المساعدة من المشرف.<ph name="END_PARAGRAPH" /></translation>
@@ -257,8 +258,9 @@
 <translation id="6192657410634245771">الجزائر</translation>
 <translation id="6213969168046789596">لقد أدخلت كلمة مرور غير صحيحة لمرات كثيرة جدًا. يُرجى إعادة المحاولة بعد بضع دقائق.</translation>
 <translation id="6216759405419177713">جزيرة نورفولك</translation>
-<translation id="6265373887273416711">إثبات ملكية رقم هاتفك</translation>
-<translation id="6295157125625453859">اكتملت عملية إثبات الملكية!</translation>
+<translation id="6245066275978703471">تمّ التحقّق تلقائيًا من رقم الهاتف.</translation>
+<translation id="6283536862756552051">لتغيير كلمة المرور، يجب أولاً إدخال كلمة المرور الحالية.</translation>
+<translation id="6299890279889400823">رجوع</translation>
 <translation id="6316446940976157217">الهند</translation>
 <translation id="6327723482938582895">بنين</translation>
 <translation id="6338643731889005578">متابعة</translation>
@@ -283,6 +285,7 @@
 <translation id="6655128609744896303">تم إرسال الرمز!</translation>
 <translation id="6683477520421532707">جزيرة ريونيون</translation>
 <translation id="6683810982254923169">حاول إعادة تعيين كلمة المرور من جديد</translation>
+<translation id="6689542920381638295">المتابعة كضيف</translation>
 <translation id="6719973195813381061">الإكوادور</translation>
 <translation id="6721310522324861790">السنغال</translation>
 <translation id="6724344978634903280">بتسوانا</translation>
@@ -295,6 +298,7 @@
 <translation id="6775835872637240659">أوكرانيا</translation>
 <translation id="6782010235320729294">تركمانستان</translation>
 <translation id="6821607741326790458">جامايكا</translation>
+<translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">باكستان</translation>
 <translation id="6920167780806379235">سوريا</translation>
 <translation id="6921505896641453739">بريد إلكتروني</translation>
@@ -310,7 +314,7 @@
 <translation id="7093343209860483088">جمهورية الكونغو الديمقراطية</translation>
 <translation id="7118080999850002096">استرداد كلمة المرور</translation>
 <translation id="7150917293543492988">جمهورية الكونغو</translation>
-<translation id="7181082682267399880">تعذّر الحصول على مزوّد <ph name="STRING" />.</translation>
+<translation id="7174424882502155514">المتابعة كضيف</translation>
 <translation id="7192078949090526171">سان مارينو</translation>
 <translation id="7197455001919474950">قبرص</translation>
 <translation id="7198563013006562060">جزر سليمان</translation>
@@ -340,6 +344,7 @@
 <translation id="7782885946428624225">حدثت مشكلة أثناء إثبات ملكية رقم هاتفك</translation>
 <translation id="7868540442111212282">جمهورية التشيك</translation>
 <translation id="7874584525604421364">توفالو</translation>
+<translation id="7926046652648626866">تسجيل الدخول باستخدام GitHub</translation>
 <translation id="792838323404934335">غرين لاند</translation>
 <translation id="7956645158976161232">ليبيا</translation>
 <translation id="8013083476285293">Google</translation>

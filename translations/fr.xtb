@@ -64,6 +64,7 @@
 <translation id="2285049245646335550">Cap-Vert</translation>
 <translation id="2301396996587599046">Macédoine</translation>
 <translation id="2312980523495377579">Nom et prénom</translation>
+<translation id="2324942959480650701">Invité</translation>
 <translation id="2331781584136059536">Ghana</translation>
 <translation id="2338909515537249568">Le navigateur que vous utilisez n'est pas compatible avec le stockage Web. Veuillez réessayer dans un navigateur différent.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Un problème est survenu lors du rétablissement de votre adresse e-mail de connexion.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Si l'opération échoue à nouveau lors de votre prochaine tentative, contactez votre administrateur.<ph name="END_PARAGRAPH" /></translation>
@@ -260,8 +261,9 @@
 <translation id="6192657410634245771">Algérie</translation>
 <translation id="6213969168046789596">Vous avez saisi un mot de passe incorrect un trop grand nombre de fois. Veuillez réessayer dans quelques minutes.</translation>
 <translation id="6216759405419177713">Norfolk (Île)</translation>
-<translation id="6265373887273416711">Valider votre numéro de téléphone</translation>
-<translation id="6295157125625453859">Le code a bien été validé.</translation>
+<translation id="6245066275978703471">Numéro de téléphone validé automatiquement</translation>
+<translation id="6283536862756552051">Pour modifier votre mot de passe, vous devez d'abord saisir votre mot de passe actuel.</translation>
+<translation id="6299890279889400823">Retour</translation>
 <translation id="6316446940976157217">Inde</translation>
 <translation id="6327723482938582895">Bénin</translation>
 <translation id="6338643731889005578">Continuer</translation>
@@ -286,7 +288,7 @@
 <translation id="6655128609744896303">Le code a bien été envoyé.</translation>
 <translation id="6683477520421532707">La Réunion</translation>
 <translation id="6683810982254923169">Essayez de réinitialiser votre mot de passe</translation>
-<translation id="6695907250724340819">Annuler</translation>
+<translation id="6689542920381638295">Continuer en tant qu'invité</translation>
 <translation id="6719973195813381061">Équateur</translation>
 <translation id="6721310522324861790">Sénégal</translation>
 <translation id="6724344978634903280">Botswana</translation>
@@ -299,6 +301,7 @@
 <translation id="6775835872637240659">Ukrainien</translation>
 <translation id="6782010235320729294">Turkménistan</translation>
 <translation id="6821607741326790458">Jamaïque</translation>
+<translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
 <translation id="6920167780806379235">Syrie</translation>
 <translation id="6921505896641453739">E-mail</translation>
@@ -314,7 +317,7 @@
 <translation id="7093343209860483088">République démocratique du Congo</translation>
 <translation id="7118080999850002096">Récupérer votre mot de passe</translation>
 <translation id="7150917293543492988">République du Congo</translation>
-<translation id="7181082682267399880">Impossible de trouver un fournisseur pour <ph name="STRING" />.</translation>
+<translation id="7174424882502155514">Continuer en tant qu'invité</translation>
 <translation id="7192078949090526171">Saint-Marin</translation>
 <translation id="7197455001919474950">Chypre</translation>
 <translation id="7198563013006562060">Salomon (Îles)</translation>
@@ -344,6 +347,7 @@
 <translation id="7782885946428624225">Un problème est survenu lors de la validation de votre numéro de téléphone</translation>
 <translation id="7868540442111212282">République tchèque</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
+<translation id="7926046652648626866">Se connecter avec GitHub</translation>
 <translation id="792838323404934335">Groenland</translation>
 <translation id="7956645158976161232">Libye</translation>
 <translation id="8013083476285293">Google</translation>

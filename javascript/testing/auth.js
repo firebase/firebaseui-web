@@ -205,6 +205,7 @@ FakeAuthClient.AuthAsyncMethod = {
       'signInAndRetrieveDataWithEmailAndPassword',
   SIGN_IN_ANONYMOUSLY_AND_RETRIEVE_DATA:
       'signInAnonymouslyAndRetrieveData',
+  SIGN_IN_ANONYMOUSLY: 'signInAnonymously',
   SIGN_IN_WITH_CREDENTIAL: 'signInWithCredential',
   SIGN_IN_WITH_CUSTOM_TOKEN: 'signInWithCustomToken',
   SIGN_IN_WITH_EMAIL_AND_PASSWORD: 'signInWithEmailAndPassword',

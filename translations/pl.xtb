@@ -64,6 +64,7 @@
 <translation id="2285049245646335550">Zielony Przylądek</translation>
 <translation id="2301396996587599046">Macedonia</translation>
 <translation id="2312980523495377579">Imię i nazwisko</translation>
+<translation id="2324942959480650701">Gość</translation>
 <translation id="2331781584136059536">Ghana</translation>
 <translation id="2338909515537249568">Twoja przeglądarka nie obsługuje pamięci podręcznej. Spróbuj ponownie z inną przeglądarką.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Nie mogliśmy zmienić Twojego adresu e-mail do logowania na używany wcześniej.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Jeżeli przy kolejnej próbie znów nie uda Ci się go zresetować, poproś o pomoc administratora.<ph name="END_PARAGRAPH" /></translation>
@@ -260,8 +261,9 @@
 <translation id="6192657410634245771">Algieria</translation>
 <translation id="6213969168046789596">Zbyt wiele razy podano niepoprawne hasło. Spróbuj jeszcze raz za kilka minut.</translation>
 <translation id="6216759405419177713">Wyspa Norfolk</translation>
-<translation id="6265373887273416711">Zweryfikuj swój numer telefonu</translation>
-<translation id="6295157125625453859">Zweryfikowano.</translation>
+<translation id="6245066275978703471">Numer telefonu został automatycznie zweryfikowany</translation>
+<translation id="6283536862756552051">Aby zmienić hasło, musisz najpierw wpisać to, którego używasz obecnie.</translation>
+<translation id="6299890279889400823">Wstecz</translation>
 <translation id="6316446940976157217">Indie</translation>
 <translation id="6327723482938582895">Benin</translation>
 <translation id="6338643731889005578">Dalej</translation>
@@ -286,7 +288,7 @@
 <translation id="6655128609744896303">Kod wysłany.</translation>
 <translation id="6683477520421532707">Reunion</translation>
 <translation id="6683810982254923169">Jeszcze raz spróbuj zresetować hasło</translation>
-<translation id="6695907250724340819">Anuluj</translation>
+<translation id="6689542920381638295">Kontynuuj jako gość</translation>
 <translation id="6719973195813381061">Ekwador</translation>
 <translation id="6721310522324861790">Senegal</translation>
 <translation id="6724344978634903280">Botswana</translation>
@@ -299,6 +301,7 @@
 <translation id="6775835872637240659">Ukraina</translation>
 <translation id="6782010235320729294">Turkmenistan</translation>
 <translation id="6821607741326790458">Jamajka</translation>
+<translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
 <translation id="6920167780806379235">Syria</translation>
 <translation id="6921505896641453739">E-mail</translation>
@@ -314,7 +317,7 @@
 <translation id="7093343209860483088">Demokratyczna Republika Konga</translation>
 <translation id="7118080999850002096">Odzyskiwanie hasła</translation>
 <translation id="7150917293543492988">Republika Konga</translation>
-<translation id="7181082682267399880"><ph name="STRING" /> – nie można znaleźć usługi</translation>
+<translation id="7174424882502155514">Kontynuuj jako gość</translation>
 <translation id="7192078949090526171">San Marino</translation>
 <translation id="7197455001919474950">Cypr</translation>
 <translation id="7198563013006562060">Wyspy Salomona</translation>
@@ -344,6 +347,7 @@
 <translation id="7782885946428624225">Podczas weryfikacji Twojego numeru telefonu wystąpił problem.</translation>
 <translation id="7868540442111212282">Czechy</translation>
 <translation id="7874584525604421364">Tuwalu</translation>
+<translation id="7926046652648626866">Zaloguj się przez GitHuba</translation>
 <translation id="792838323404934335">Grenlandia</translation>
 <translation id="7956645158976161232">Libia</translation>
 <translation id="8013083476285293">Google</translation>

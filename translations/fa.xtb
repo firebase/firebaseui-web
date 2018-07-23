@@ -19,7 +19,7 @@
 <translation id="137210131544215127">گذرواژه‌تان را وارد کنید</translation>
 <translation id="1393433815796487579">انجام شد</translation>
 <translation id="1412449974349991050">هاییتی</translation>
-<translation id="144766329299583285">اگر درخواست تغییر رایانامه ورود به سیستم توسط شما انجام نشد، ممکن است شخصی در صدد دسترسی به حسابتان باشد و باید <ph name="START_LINK" />فوراً گذرواژه‌تان را تغییر دهید<ph name="END_LINK" />.</translation>
+<translation id="144766329299583285">اگر درخواست تغییر ایمیل  ورود به سیستم توسط شما انجام نشد، ممکن است شخصی در صدد دسترسی به حسابتان باشد و باید <ph name="START_LINK" />فوراً گذرواژه‌تان را تغییر دهید<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">جزیره هرد و جزایر مک‌دونالد</translation>
 <translation id="1479035434297790822">تعداد زیادی درخواست حساب از نشانی IP شما درحال ارسال است. پس از چند دقیقه دوباره امتحان کنید.</translation>
 <translation id="1483249363694224399">سریلانکا</translation>
@@ -27,7 +27,7 @@
 <translation id="1575848116712334589">چاد</translation>
 <translation id="1630237004390596779">کد پس از <ph name="STRING" /> مجدداً ارسال می‌شود</translation>
 <translation id="1653501608290591291">بلاروس</translation>
-<translation id="1667376103923043653">این نشانی رایانامه با هیچ حسابی مطابقت ندارد.</translation>
+<translation id="1667376103923043653">این نشانی ایمیل  با هیچ حسابی مطابقت ندارد.</translation>
 <translation id="173576986138855124">با ضربه زدن روی «<ph name="PH_1" />» پیامکی ارسال می‌شود. ممکن است هزینه پیام و انتقال داده اعمال شود.</translation>
 <translation id="1739056958326110545">سنت هلنا</translation>
 <translation id="1743026758446868773">باربادوس</translation>
@@ -64,9 +64,10 @@
 <translation id="2285049245646335550">کیپ ورد</translation>
 <translation id="2301396996587599046">مقدونیه</translation>
 <translation id="2312980523495377579">نام و نام خانوادگی</translation>
+<translation id="2324942959480650701">مهمان</translation>
 <translation id="2331781584136059536">غنا</translation>
 <translation id="2338909515537249568">مرورگر مورد استفاده‌تان از فضای ذخیره‌سازی وب پشتیبانی نمی‌کند. لطفاً با یک مرورگر دیگر امتحان کنید.</translation>
-<translation id="2356282732642724501"><ph name="START_PARAGRAPH" />مشکلی در برگرداندن رایانامه ورود به سیستم‌تان پیش آمد.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />اگر دوباره امتحان کردید و باز هم نتوانستید رایانامه‌تان را بازنشانی کنید، از سرپرست سیستم بخواهید شما را راهنمایی کند.<ph name="END_PARAGRAPH" /></translation>
+<translation id="2356282732642724501"><ph name="START_PARAGRAPH" />مشکلی در برگرداندن ایمیل  ورود به سیستم‌تان پیش آمد.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />اگر دوباره امتحان کردید و باز هم نتوانستید ایمیل ‌تان را بازنشانی کنید، از سرپرست سیستم بخواهید شما را راهنمایی کند.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">بحرین</translation>
 <translation id="2405828009195143258">ایران</translation>
 <translation id="244437093285883777">درحال تأیید اینکه شما ربات نیستید…</translation>
@@ -99,7 +100,7 @@
 <translation id="2909392332969582158">کانادا</translation>
 <translation id="2911018261311455240">دانمارک</translation>
 <translation id="295270254328846278">اتریش</translation>
-<translation id="2976748949054245370">رایانامه‌ها با هم مطابقت ندارند</translation>
+<translation id="2976748949054245370">ایمیل‌ها با هم مطابقت ندارند</translation>
 <translation id="29947009417147243">سودان جنوبی</translation>
 <translation id="3040586343252524572">یمن</translation>
 <translation id="3045244039436637116">گینه بیسائو</translation>
@@ -131,7 +132,7 @@
 <translation id="3487364398525389372">نام حسابتان را وارد کنید</translation>
 <translation id="3521753471343796628">عراق</translation>
 <translation id="354888504916863713">ویتنام</translation>
-<translation id="3550380781997195832">این نشانی رایانامه درست نیست</translation>
+<translation id="3550380781997195832">این نشانی ایمیل  درست نیست</translation>
 <translation id="3561568594856945084">مایوت</translation>
 <translation id="3591063723610544836">ورود به سیستم</translation>
 <translation id="3593480381831738519">بازنشانی گذرواژه‌ کاربر</translation>
@@ -160,7 +161,7 @@
 <translation id="4090385155496329109">Facebook</translation>
 <translation id="4163133799286985193">آرژانتین</translation>
 <translation id="4166504762096983411">درصورت ادامه‌دادن، موافقتتان را با <ph name="START_LINK_1" />شرایط خدمات<ph name="END_LINK" /> و <ph name="START_LINK_2" />خطمشی حریم خصوصی<ph name="END_LINK" /> اعلام می‌کنید.</translation>
-<translation id="420554669252656972">نشانی رایانامه جدید را وارد کنید</translation>
+<translation id="420554669252656972">نشانی ایمیل  جدید را وارد کنید</translation>
 <translation id="4210333062216604630">لغو پیوند</translation>
 <translation id="4242716276491763916">جمهوری گینه</translation>
 <translation id="4248546264350694306">سوئیس</translation>
@@ -168,19 +169,19 @@
 <translation id="4329551945958214898">ژاپن</translation>
 <translation id="4331763189922924781">مونته‌نگرو</translation>
 <translation id="4372962701784304822">موزامبیک</translation>
-<translation id="4377158577300329881">هیچ حسابی منطبق با این نشانی رایانامه وجود ندارد</translation>
+<translation id="4377158577300329881">هیچ حسابی منطبق با این نشانی ایمیل  وجود ندارد</translation>
 <translation id="4386334763822785837">ترکیه</translation>
 <translation id="4413304190485210039">تاجیکستان</translation>
 <translation id="4432634970196611353">لائوس</translation>
 <translation id="4450602713221237198">ارسال مجدد</translation>
 <translation id="4498504413765490964">هندوراس</translation>
 <translation id="4515732781724470190">نیجر</translation>
-<translation id="4521614244485847733">هیچ حسابی منطبق با این نشانی رایانامه وجود ندارد</translation>
+<translation id="4521614244485847733">هیچ حسابی منطبق با این نشانی ایمیل  وجود ندارد</translation>
 <translation id="4556476996891737119">اردن</translation>
 <translation id="4571870355114729513">برای بازیابی گذرواژه‌تان، دستورالعمل‌های ارسال‌شده به <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> را دنبال کنید</translation>
-<translation id="4588392627302012849">ورود به سیستم با رایانامه</translation>
+<translation id="4588392627302012849">ورود به سیستم با ایمیل </translation>
 <translation id="4632709875751031323">روسیه</translation>
-<translation id="4644169548516814280">قبلاً یک حساب از این نشانی رایانامه استفاده کرده است.</translation>
+<translation id="4644169548516814280">قبلاً یک حساب از این نشانی ایمیل  استفاده کرده است.</translation>
 <translation id="4692014002063276828">لهستان</translation>
 <translation id="4723701728629289714">اسرائیل</translation>
 <translation id="4725154639671888461">خطا رخ داد</translation>
@@ -205,7 +206,7 @@
 <translation id="5301108536112812420">درخواست مبنی بر تأیید رایانامه‌تان منقضی شده است یا پیوند قبلاً استفاده شده است</translation>
 <translation id="5323041129469627535">عمان</translation>
 <translation id="5326139833547026317">جزایر کارائیب هلند</translation>
-<translation id="5347459868860672391">نشانی رایانامه به‌روز است</translation>
+<translation id="5347459868860672391">نشانی ایمیل  به‌روز است</translation>
 <translation id="5403395913830260677">ورود به سیستم با Twitter</translation>
 <translation id="5407010562344541906">شماره تلفن</translation>
 <translation id="5409861738809250803">از قبل یک حساب دارید</translation>
@@ -241,13 +242,13 @@
 <translation id="5853516492584814656">به‌روزرسانی آدرس رایانامه‌تان ممکن نیست</translation>
 <translation id="5905720181746284549">قبلاً از <ph name="STRING" /> برای ورود به سیستم استفاده کرده‌اید. گذرواژه این حساب را وارد کنید.</translation>
 <translation id="5921101578434778028">آنگویلا</translation>
-<translation id="5948592577241492942">این رایانامه بدون هیچ ابزار ورود به سیستمی از قبل وجود دارد. لطفاً برای بازیابی حساب، گذرواژه را بازنشانی کنید.</translation>
+<translation id="5948592577241492942">این ایمیل  بدون هیچ ابزار ورود به سیستمی از قبل وجود دارد. لطفاً برای بازیابی حساب، گذرواژه را بازنشانی کنید.</translation>
 <translation id="5985902459796151462">جمهوری دومینیکن</translation>
 <translation id="5987586156626209007">جرزی</translation>
 <translation id="5989709845715452405">بازیابی گذرواژه</translation>
 <translation id="5995596766674622541">کد ۶ رقمی ارسال شده به <ph name="START_LINK" />&amp;lrm;<ph name="PHONE_NUMBER" /><ph name="END_LINK" /> را وارد کنید</translation>
 <translation id="6006148985615990975">رواندا</translation>
-<translation id="6040759627067155517">رایانامه</translation>
+<translation id="6040759627067155517">ایمیل </translation>
 <translation id="6044396095102058216">از این شماره تلفن به دفعات زیاد استفاده شده است</translation>
 <translation id="6091051069256411999">Twitter</translation>
 <translation id="61182948399263957">
@@ -257,8 +258,9 @@
 <translation id="6192657410634245771">الجزایر</translation>
 <translation id="6213969168046789596">دفعات خیلی زیادی گذرواژه را نادرست وارد کرده‌اید. لطفاً پس از چند دقیقه دوباره امتحان کنید.</translation>
 <translation id="6216759405419177713">جزیره نورفک</translation>
-<translation id="6265373887273416711">تأیید شماره تلفن</translation>
-<translation id="6295157125625453859">تأیید شد!</translation>
+<translation id="6245066275978703471">شماره تلفن به‌طور خودکار به‌تأیید رسید</translation>
+<translation id="6283536862756552051">برای تغییر گذرواژه‌‌، ابتدا باید گذرواژه کنونی‌تان را وارد کنید.</translation>
+<translation id="6299890279889400823">قبلی</translation>
 <translation id="6316446940976157217">هند</translation>
 <translation id="6327723482938582895">بنین</translation>
 <translation id="6338643731889005578">ادامه</translation>
@@ -268,14 +270,14 @@
 <translation id="6381974517529371884">جزایر فارو</translation>
 <translation id="6443180961828792673">کوزوو</translation>
 <translation id="6450170205342035038">بلغارستان</translation>
-<translation id="6476467763326951353">تأیید رایانامه‌ مربوط به <ph name="APP_NAME" /></translation>
-<translation id="6494734506607758748">برای تغییر نشانی رایانامه مرتبط با حسابتان باید دوباره وارد سیستم شوید.</translation>
+<translation id="6476467763326951353">تأیید ایمیل ‌ مربوط به <ph name="APP_NAME" /></translation>
+<translation id="6494734506607758748">برای تغییر نشانی ایمیل  مرتبط با حسابتان باید دوباره وارد سیستم شوید.</translation>
 <translation id="6508909904815637928">وانواتو</translation>
 <translation id="6520863029476703422">ساموآی آمریکا</translation>
 <translation id="6527597037551425211">برزیل</translation>
 <translation id="6555167606025370230">رفتن به <ph name="APP_NAME" /></translation>
 <translation id="657697593815023638">سوازیلند</translation>
-<translation id="6584652721889639596">ارسال کد بازنشانی گذرواژه به رایانامه مشخص‌شده ممکن نیست</translation>
+<translation id="6584652721889639596">ارسال کد بازنشانی گذرواژه به ایمیل  مشخص‌شده ممکن نیست</translation>
 <translation id="6608262346670935090">رد کردن</translation>
 <translation id="6611519013130079637">بلژیک</translation>
 <translation id="6618737424980030515">گرجستان</translation>
@@ -283,21 +285,23 @@
 <translation id="6655128609744896303">کد ارسال شد!</translation>
 <translation id="6683477520421532707">رئونیون</translation>
 <translation id="6683810982254923169">بازنشانی دوباره گذرواژه‌ کاربر</translation>
+<translation id="6689542920381638295">ادامه به‌عنوان مهمان</translation>
 <translation id="6719973195813381061">اکوادور</translation>
 <translation id="6721310522324861790">سنگال</translation>
 <translation id="6724344978634903280">بوتسوانا</translation>
 <translation id="6728600931059699935">میکرونزی</translation>
 <translation id="6739369526953005057">هنگ کنگ</translation>
 <translation id="6740430702644152657">آلبانی</translation>
-<translation id="6765051113469046531">نشانی رایانامه ورود به سیستم‌تان به <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> برگردانده شد.</translation>
+<translation id="6765051113469046531">نشانی ایمیل  ورود به سیستم‌تان به <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> برگردانده شد.</translation>
 <translation id="6769550797775698634">کامرون</translation>
 <translation id="6775190982418995854">سوالبارد و یان ماین</translation>
 <translation id="6775835872637240659">اوکراین</translation>
 <translation id="6782010235320729294">ترکمنستان</translation>
 <translation id="6821607741326790458">جامائیکا</translation>
+<translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">پاکستان</translation>
 <translation id="6920167780806379235">سوریه</translation>
-<translation id="6921505896641453739">رایانامه</translation>
+<translation id="6921505896641453739">ایمیل </translation>
 <translation id="6929813273561975780">بعدی</translation>
 <translation id="6951302238647056860">این کد دیگر معتبر نیست</translation>
 <translation id="6976724207780605356">ورود به سیستم با Facebook</translation>
@@ -310,7 +314,7 @@
 <translation id="7093343209860483088">جمهوری دموکراتیک کنگو</translation>
 <translation id="7118080999850002096">بازیابی گذرواژه</translation>
 <translation id="7150917293543492988">جمهوری کنگو</translation>
-<translation id="7181082682267399880">قادر به پیدا کردن ارائه‌دهنده <ph name="STRING" /> نیست.</translation>
+<translation id="7174424882502155514">ادامه به‌عنوان مهمان</translation>
 <translation id="7192078949090526171">سن مارینو</translation>
 <translation id="7197455001919474950">قبرس</translation>
 <translation id="7198563013006562060">جزایر سلیمان</translation>
@@ -340,6 +344,7 @@
 <translation id="7782885946428624225">مشکلی در تأیید شماره تلفنتان پیش آمد</translation>
 <translation id="7868540442111212282">جمهوری چک</translation>
 <translation id="7874584525604421364">تووالو</translation>
+<translation id="7926046652648626866">ورود به سیستم با GitHub</translation>
 <translation id="792838323404934335">گرینلند</translation>
 <translation id="7956645158976161232">لیبی</translation>
 <translation id="8013083476285293">Google‏</translation>
@@ -381,8 +386,8 @@
 <translation id="8505941919386646914">مارتینیک</translation>
 <translation id="8534746304953308378">توگو</translation>
 <translation id="8572093925387077451">از قبل حسابی دارید</translation>
-<translation id="8585285847459057945">رایانامه ورود به سیستم‌تان در <ph name="APP_NAME" /> تغییر کرد</translation>
-<translation id="8585655327529919573">دستورالعمل نحوه بازنشانی گذرواژه‌تان به این رایانامه ارسال شده است، آن را ببینید.</translation>
+<translation id="8585285847459057945">ایمیل  ورود به سیستم‌تان در <ph name="APP_NAME" /> تغییر کرد</translation>
+<translation id="8585655327529919573">دستورالعمل نحوه بازنشانی گذرواژه‌تان به این ایمیل  ارسال شده است، آن را ببینید.</translation>
 <translation id="8652838224332661203">نائورو</translation>
 <translation id="8657280305228520442">برونئی</translation>
 <translation id="8657544769531875987">شیلی</translation>
@@ -416,5 +421,5 @@
 <translation id="954276184636809129">یونان</translation>
 <translation id="965930633376049617">آنگولا</translation>
 <translation id="988087302893519488">کویت</translation>
-<translation id="994914101700264849">رایانامه و گذرواژه وارد شده مطابقت ندارند</translation>
+<translation id="994914101700264849">ایمیل  و گذرواژه وارد شده مطابقت ندارند</translation>
 </translationbundle>

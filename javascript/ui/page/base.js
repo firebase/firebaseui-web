@@ -57,7 +57,8 @@ firebaseui.auth.ui.page.IJ_DATA_ = {
   facebookLogo: firebaseui.auth.ui.page.IMAGE_BASE + 'facebook.svg',
   twitterLogo: firebaseui.auth.ui.page.IMAGE_BASE + 'twitter.svg',
   passwordLogo: firebaseui.auth.ui.page.IMAGE_BASE + 'mail.svg',
-  phoneLogo: firebaseui.auth.ui.page.IMAGE_BASE + 'phone.svg'
+  phoneLogo: firebaseui.auth.ui.page.IMAGE_BASE + 'phone.svg',
+  anonymousLogo: firebaseui.auth.ui.page.IMAGE_BASE + 'anonymous.png'
 };
 
 
