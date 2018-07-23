@@ -190,7 +190,9 @@ for a more in-depth example, showcasing a Single Page Application mode.
           firebase.auth.PhoneAuthProvider.PROVIDER_ID
         ],
         // Terms of service url.
-        tosUrl: '<your-tos-url>'
+        tosUrl: '<your-tos-url>',
+        // Privacy policy url.
+        privacyPolicyUrl: '<your-privacy-policy-url>'
       };
 
       // Initialize the FirebaseUI Widget using Firebase.
@@ -395,6 +397,11 @@ FirebaseUI supports the following configuration parameters.
 <td>tosUrl</td>
 <td>Yes</td>
 <td>The URL of the Terms of Service page.</td>
+</tr>
+<tr>
+<td>privacyPolicyUrl</td>
+<td>Yes</td>
+<td>The URL of the privacy policy page.</td>
 </tr>
 </tbody>
 </table>
@@ -759,7 +766,9 @@ FirebaseUI is displayed.
           }
         ],
         // Terms of service url.
-        tosUrl: '<your-tos-url>'
+        tosUrl: '<your-tos-url>',
+        // Privacy policy url.
+        privacyPolicyUrl: '<your-privacy-policy-url>'
       };
 
       var ui = new firebaseui.auth.AuthUI(firebase.auth());
