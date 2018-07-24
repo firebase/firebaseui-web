@@ -610,7 +610,7 @@ ui.start('#firebaseui-auth-container', {
       // countries to select. It takes an array of either ISO (alpha-2) or
       // E164 (prefix with '+') formatted country codes. If 'defaultCountry' is
       // not whitelisted or is blacklisted, the default country will be set to the
-      // first country available (alphabetical order). Notice that 
+      // first country available (alphabetical order). Notice that
       // 'whitelistedCountries' and 'blacklistedCountries' cannot be specified
       // at the same time.
       whitelistedCountries: ['US', '+44']
