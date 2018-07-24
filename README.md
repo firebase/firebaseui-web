@@ -613,7 +613,7 @@ ui.start('#firebaseui-auth-container', {
       // first country available (alphabetical order). Notice that 
       // 'whitelistedCountries' and 'blacklistedCountries' cannot be specified
       // at the same time.
-      whitelistedCountries: ['US', +44]
+      whitelistedCountries: ['US', '+44']
     }
   ]
 });
