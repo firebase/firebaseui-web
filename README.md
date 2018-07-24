@@ -63,17 +63,17 @@ Localized versions of the widget are available through the CDN. To use a localiz
 localized JS library instead of the default library:
 
 ```html
-<script src="https://www.gstatic.com/firebasejs/ui/3.1.1/firebase-ui-auth__{LANGUAGE_CODE}.js"></script>
-<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/3.1.1/firebase-ui-auth.css" />
+<script src="https://www.gstatic.com/firebasejs/ui/3.2.0/firebase-ui-auth__{LANGUAGE_CODE}.js"></script>
+<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/3.2.0/firebase-ui-auth.css" />
 ```
 
 where `{LANGUAGE_CODE}` is replaced by the code of the language you want. For example, the French
 version of the library is available at
-`https://www.gstatic.com/firebasejs/ui/3.1.1/firebase-ui-auth__fr.js`. The list of available
+`https://www.gstatic.com/firebasejs/ui/3.2.0/firebase-ui-auth__fr.js`. The list of available
 languages and their respective language codes can be found at [LANGUAGES.md](LANGUAGES.md).
 
 Right-to-left languages also require the right-to-left version of the stylesheet, available at
-`https://www.gstatic.com/firebasejs/ui/3.1.1/firebase-ui-auth-rtl.css`, instead of the default
+`https://www.gstatic.com/firebasejs/ui/3.2.0/firebase-ui-auth-rtl.css`, instead of the default
 stylesheet. The supported right-to-left languages are Arabic (ar), Farsi (fa), and Hebrew (iw).
 
 ### Option 2: npm Module
@@ -571,6 +571,11 @@ The default country to select in the phone number input can also be set.
 [List of supported country codes](javascript/data/README.md). If unspecified,
 the phone number input will default to the United States (+1).
 
+The countries to select can also be configured with `blacklistedCountries` or
+`whitelistedCountries`. It accepts either ISO (alpha-2) or E164 (prefix with '+')
+formatted country code. Invalid country code will be ignored.
+`whitelistedCountries` and `blacklistedCountries` cannot be specified at the same time.
+
 The following options are currently supported. Any other
 parameters will be ignored.
 
@@ -600,7 +605,15 @@ ui.start('#firebaseui-auth-container', {
       // will always have higher priority than 'loginHint' which will be ignored
       // in their favor. In this case, the default country will be 'GB' even
       // though 'loginHint' specified the country code as '+1'.
-      loginHint: '+11234567890'
+      loginHint: '+11234567890',
+      // You can provide a 'whitelistedCountries' or 'blacklistedCountries' for
+      // countries to select. It takes an array of either ISO (alpha-2) or
+      // E164 (prefix with '+') formatted country codes. If 'defaultCountry' is
+      // not whitelisted or is blacklisted, the default country will be set to the
+      // first country available (alphabetical order). Notice that 
+      // 'whitelistedCountries' and 'blacklistedCountries' cannot be specified
+      // at the same time.
+      whitelistedCountries: ['US', +44]
     }
   ]
 });
