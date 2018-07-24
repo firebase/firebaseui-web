@@ -1067,6 +1067,38 @@ firebaseui.auth.widget.handler.common.federatedSignIn = function(
 
 
 /**
+ * @param {!firebaseui.auth.AuthUI} app The current FirebaseUI instance whose
+ *     configuration is used.
+ * @param {!firebaseui.auth.ui.page.Base} component The current UI component.
+ * @package
+ */
+firebaseui.auth.widget.handler.common.handleSignInAnonymously = function(
+    app, component) {
+  app.registerPending(component.executePromiseRequest(
+      /** @type {function (): !goog.Promise} */ (
+          goog.bind(app.startSignInAnonymously, app)),
+      [],
+      function(userCredential) {
+        component.dispose();
+        return firebaseui.auth.widget.handler.common.setLoggedInWithAuthResult(
+            app,
+            component,
+            /** @type {!firebaseui.auth.AuthResult} */(userCredential),
+            true);
+      },
+      function(error) {
+        if (error['name'] && error['name'] == 'cancel') {
+          return;
+        }
+        firebaseui.auth.log.error('ContinueAsGuest: ' + error['code']);
+        var errorMessage =
+            firebaseui.auth.widget.handler.common.getErrorMessage(error);
+        component.showInfoBar(errorMessage);
+      }));
+};
+
+
+/**
  * Handles sign-in with a One-Tap credential.
  * @param {!firebaseui.auth.AuthUI} app The current FirebaseUI instance whose
  *     configuration is used.

@@ -64,6 +64,7 @@
 <translation id="2285049245646335550">เคปเวิร์ด</translation>
 <translation id="2301396996587599046">มาซิโดเนีย</translation>
 <translation id="2312980523495377579">ชื่อและนามสกุล</translation>
+<translation id="2324942959480650701">ผู้เข้าร่วม</translation>
 <translation id="2331781584136059536">กานา</translation>
 <translation id="2338909515537249568">เบราว์เซอร์ที่คุณใช้อยู่ไม่รองรับพื้นที่เก็บข้อมูลเว็บ โปรดใช้เบราว์เซอร์อื่นแล้วลองอีกครั้ง</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />เกิดปัญหาในการเปลี่ยนอีเมลสำหรับลงชื่อเข้าใช้ของคุณกลับไปเป็นอีเมลเดิม<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />หากคุณลองอีกครั้งแล้วยังไม่สามารถรีเซ็ตอีเมลได้ โปรดขอความช่วยเหลือจากผู้ดูแลระบบ<ph name="END_PARAGRAPH" /></translation>
@@ -260,8 +261,9 @@
 <translation id="6192657410634245771">แอลจีเรีย</translation>
 <translation id="6213969168046789596">คุณป้อนรหัสผ่านไม่ถูกต้องหลายครั้งเกินไป โปรดรอสักครู่แล้วลองอีกครั้ง</translation>
 <translation id="6216759405419177713">เกาะนอร์ฟอล์ก</translation>
-<translation id="6265373887273416711">ยืนยันหมายเลขโทรศัพท์</translation>
-<translation id="6295157125625453859">ยืนยันแล้ว</translation>
+<translation id="6245066275978703471">ยืนยันหมายเลขโทรศัพท์โดยอัตโนมัติแล้ว</translation>
+<translation id="6283536862756552051">คุณต้องป้อนรหัสผ่านปัจจุบันของคุณก่อนจึงจะเปลี่ยนรหัสผ่านได้</translation>
+<translation id="6299890279889400823">ย้อนกลับ</translation>
 <translation id="6316446940976157217">อินเดีย</translation>
 <translation id="6327723482938582895">เบนิน</translation>
 <translation id="6338643731889005578">ต่อไป</translation>
@@ -286,7 +288,7 @@
 <translation id="6655128609744896303">ส่งรหัสแล้ว</translation>
 <translation id="6683477520421532707">เรอูนียง</translation>
 <translation id="6683810982254923169">ลองรีเซ็ตรหัสผ่านอีกครั้ง</translation>
-<translation id="6695907250724340819">ยกเลิก</translation>
+<translation id="6689542920381638295">ดำเนินการต่อในฐานะผู้เข้าร่วม</translation>
 <translation id="6719973195813381061">เอกวาดอร์</translation>
 <translation id="6721310522324861790">เซเนกัล</translation>
 <translation id="6724344978634903280">บอตสวานา</translation>
@@ -299,6 +301,7 @@
 <translation id="6775835872637240659">ยูเครน</translation>
 <translation id="6782010235320729294">เติร์กเมนิสถาน</translation>
 <translation id="6821607741326790458">จาเมกา</translation>
+<translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">ปากีสถาน</translation>
 <translation id="6920167780806379235">ซีเรีย</translation>
 <translation id="6921505896641453739">อีเมล</translation>
@@ -314,7 +317,7 @@
 <translation id="7093343209860483088">สาธารณรัฐประชาธิปไตยคองโก</translation>
 <translation id="7118080999850002096">กู้คืนรหัสผ่าน</translation>
 <translation id="7150917293543492988">สาธารณรัฐคองโก</translation>
-<translation id="7181082682267399880">ไม่พบผู้ให้บริการสำหรับ <ph name="STRING" /></translation>
+<translation id="7174424882502155514">ดำเนินการต่อในฐานะผู้เข้าร่วม</translation>
 <translation id="7192078949090526171">ซานมาริโน</translation>
 <translation id="7197455001919474950">ไซปรัส</translation>
 <translation id="7198563013006562060">หมู่เกาะโซโลมอน</translation>
@@ -344,6 +347,7 @@
 <translation id="7782885946428624225">เกิดปัญหาในการยืนยันหมายเลขโทรศัพท์ของคุณ</translation>
 <translation id="7868540442111212282">สาธารณรัฐเช็ก</translation>
 <translation id="7874584525604421364">ตูวาลู</translation>
+<translation id="7926046652648626866">ลงชื่อเข้าใช้ด้วย GitHub</translation>
 <translation id="792838323404934335">กรีนแลนด์</translation>
 <translation id="7956645158976161232">ลิเบีย</translation>
 <translation id="8013083476285293">Google</translation>

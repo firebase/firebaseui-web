@@ -18,6 +18,7 @@
 
 goog.provide('firebaseui.auth.widget.handler.handleProviderSignIn');
 
+goog.require('firebaseui.auth.AnonymousAuthProvider');
 goog.require('firebaseui.auth.ui.page.ProviderSignIn');
 goog.require('firebaseui.auth.widget.Handler');
 goog.require('firebaseui.auth.widget.HandlerName');
@@ -54,6 +55,11 @@ firebaseui.auth.widget.handler.handleProviderSignIn = function(
           firebaseui.auth.widget.handler.handle(
               firebaseui.auth.widget.HandlerName.PHONE_SIGN_IN_START, app,
               container);
+        } else if (providerId ==
+                   firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID) {
+          // User clicks continue as guest button.
+          firebaseui.auth.widget.handler.common.handleSignInAnonymously(
+              /** @type {!firebaseui.auth.AuthUI} */ (app), component);
         } else {
           // User clicks other IdP.
           firebaseui.auth.widget.handler.common.federatedSignIn(

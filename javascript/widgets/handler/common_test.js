@@ -3152,6 +3152,81 @@ function testFederatedSignIn_anonymousUpgrade_emailInUse_error_cordova() {
 }
 
 
+function testHandleSignInAnonymously_success() {
+  var component = new firebaseui.auth.ui.page.ProviderSignIn(
+      goog.nullFunction(), []);
+  component.render(container);
+  asyncTestCase.waitForSignals(1);
+  firebaseui.auth.widget.handler.common.handleSignInAnonymously(
+      app, component);
+  assertProviderSignInPage();
+  externalAuth.assertSignInAnonymously(
+      [],
+      {
+        'user': anonymousUser,
+        'credential': null
+      });
+  externalAuth.process().then(function() {
+    // User should be redirected to success URL.
+    testUtil.assertGoTo('http://localhost/home');
+    asyncTestCase.signal();
+  });
+}
+
+
+function testHandleSignInAnonymously_signInSuccessCallback() {
+  app.updateConfig('callbacks', {
+    'signInSuccessWithAuthResult': signInSuccessWithAuthResultCallback(true)
+  });
+  var component = new firebaseui.auth.ui.page.ProviderSignIn(
+      goog.nullFunction(), []);
+  component.render(container);
+  asyncTestCase.waitForSignals(1);
+  firebaseui.auth.widget.handler.common.handleSignInAnonymously(
+      app, component);
+  assertProviderSignInPage();
+  var expectedAuthResult = {
+    'user': anonymousUser,
+    'credential': null,
+    'operationType': 'signIn',
+    'additionalUserInfo':  {'providerId': null, 'isNewUser': true}
+  };
+  externalAuth.assertSignInAnonymously(
+      [],
+      expectedAuthResult);
+  externalAuth.process().then(function() {
+    // SignInSuccessWithAuthResultCallback is called.
+    assertSignInSuccessWithAuthResultCallbackInvoked(
+        expectedAuthResult,
+        undefined);
+    // User should be redirected to success URL.
+    testUtil.assertGoTo('http://localhost/home');
+    asyncTestCase.signal();
+  });
+}
+
+
+function testHandleSignInAnonymously_error() {
+  var component = new firebaseui.auth.ui.page.ProviderSignIn(
+      goog.nullFunction(), []);
+  component.render(container);
+  asyncTestCase.waitForSignals(1);
+  firebaseui.auth.widget.handler.common.handleSignInAnonymously(
+      app, component);
+  assertProviderSignInPage();
+  externalAuth.assertSignInAnonymously(
+      [],
+      null,
+      internalError);
+  externalAuth.process().then(function() {
+    assertProviderSignInPage();
+    assertInfoBarMessage(
+        firebaseui.auth.widget.handler.common.getErrorMessage(internalError));
+    asyncTestCase.signal();
+  });
+}
+
+
 function testHandleGoogleYoloCredential_handledSuccessfully_withScopes() {
   var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
   expectedProvider.addScope('googl1');

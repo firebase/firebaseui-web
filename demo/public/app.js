@@ -68,7 +68,8 @@ function getUiConfig() {
         recaptchaParameters: {
           size: getRecaptchaMode()
         }
-      }
+      },
+      firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
     ],
     // Terms of service url.
     'tosUrl': 'https://www.google.com',

@@ -22,6 +22,7 @@ goog.require('firebaseui.auth.CredentialHelper');
 goog.require('firebaseui.auth.log');
 goog.require('firebaseui.auth.util');
 goog.require('firebaseui.auth.widget.Config');
+goog.require('goog.array');
 goog.require('goog.testing');
 goog.require('goog.testing.PropertyReplacer');
 goog.require('goog.testing.jsunit');
@@ -206,6 +207,13 @@ function testGetProviders_providerIds() {
   // Check that phone accounts are included in the list in the correct
   // order.
   assertArrayEquals(['google.com', 'phone'], config.getProviders());
+
+  // Test when anonymous provider is to be enabled.
+  config.update('signInOptions',
+      ['google.com', 'anonymous']);
+  // Check that anonymous provider is included in the list in the correct
+  // order.
+  assertArrayEquals(['google.com', 'anonymous'], config.getProviders());
 }
 
 
@@ -219,10 +227,12 @@ function testGetProviders_fullConfig() {
     'facebook.com',
     {'provider': 'unrecognized'},
     {'not a': 'valid config'},
-    {'provider': 'phone', 'recaptchaParameters': {'size': 'invisible'}}
+    {'provider': 'phone', 'recaptchaParameters': {'size': 'invisible'}},
+    {'provider': 'anonymous'}
   ]);
   // Check that invalid configs are not included.
-  assertArrayEquals(['google.com', 'github.com', 'facebook.com', 'phone'],
+  assertArrayEquals(
+      ['google.com', 'github.com', 'facebook.com', 'phone', 'anonymous'],
       config.getProviders());
 }
 
@@ -723,6 +733,226 @@ function testGetPhoneAuthDefaultNationalNumber_invalidIdp() {
     'loginHint': '+12223334444'
   }]);
   assertNull(config.getPhoneAuthDefaultNationalNumber());
+}
+
+
+function testGetPhoneAuthSelectedCountries_whitelist() {
+  config.update('signInOptions', [{
+    'provider': 'phone',
+    'whitelistedCountries': ['+44', 'us']
+  }]);
+  var countries = config.getPhoneAuthAvailableCountries();
+  var actualKeys = goog.array.map(countries, function(country) {
+    return country.e164_key;
+  });
+  assertSameElements(
+      ['44-GG-0', '44-IM-0', '44-JE-0', '44-GB-0', '1-US-0'], actualKeys);
+}
+
+
+function testGetPhoneAuthSelectedCountries_whitelist_overlap() {
+  config.update('signInOptions', [{
+    'provider': 'phone',
+    'whitelistedCountries': ['+44', 'GB']
+  }]);
+  var countries = config.getPhoneAuthAvailableCountries();
+  var actualKeys = goog.array.map(countries, function(country) {
+    return country.e164_key;
+  });
+  assertSameElements(['44-GG-0', '44-IM-0', '44-JE-0', '44-GB-0'], actualKeys);
+}
+
+
+function testGetPhoneAuthSelectedCountries_blacklist() {
+  config.update('signInOptions', [{
+    'provider': 'phone',
+    'blacklistedCountries': ['+44', 'US']
+  }]);
+  var countries = config.getPhoneAuthAvailableCountries();
+  // BlacklistedCountries should not appear in the available countries list.
+  var blacklistedKeys = ['44-GG-0', '44-IM-0', '44-JE-0', '44-GB-0', '1-US-0'];
+  for (var i = 0; i < countries.length; i++) {
+    assertNotContains(countries[i].e164_key, blacklistedKeys);
+  }
+}
+
+
+function testGetPhoneAuthSelectedCountries_blacklist_overlap() {
+  config.update('signInOptions', [{
+    'provider': 'phone',
+    'blacklistedCountries': ['+44', 'GB']
+  }]);
+  var countries = config.getPhoneAuthAvailableCountries();
+  // BlacklistedCountries should not appear in the available countries list.
+  var blacklistedKeys = ['44-GG-0', '44-IM-0', '44-JE-0', '44-GB-0'];
+  for (var i = 0; i < countries.length; i++) {
+    assertNotContains(countries[i].e164_key, blacklistedKeys);
+  }
+}
+
+
+function testGetPhoneAuthSelectedCountries_noBlackOrWhiteListProvided() {
+  config.update('signInOptions', [{
+    'provider': 'phone'
+  }]);
+  var countries = config.getPhoneAuthAvailableCountries();
+  assertSameElements(firebaseui.auth.data.country.COUNTRY_LIST, countries);
+}
+
+
+function testGetPhoneAuthSelectedCountries_emptyBlacklist() {
+  config.update('signInOptions', [{
+    'provider': 'phone',
+    'blacklistedCountries': []
+  }]);
+  var countries = config.getPhoneAuthAvailableCountries();
+  assertSameElements(firebaseui.auth.data.country.COUNTRY_LIST, countries);
+}
+
+
+function testUpdateConfig_phoneSignInOption_error() {
+  // Tests when both whitelist and blacklist are provided.
+  var error = assertThrows(function() {
+    config.update('signInOptions', [{
+      'provider': 'phone',
+      'blacklistedCountries': ['+44'],
+      'whitelistedCountries': ['+1']
+    }]);
+  });
+  assertEquals(
+      'Both whitelistedCountries and blacklistedCountries are provided.',
+      error.message);
+  // Tests when empty whitelist is provided.
+  error = assertThrows(function() {
+    config.update('signInOptions', [{
+      'provider': 'phone',
+      'whitelistedCountries': []
+    }]);
+  });
+  assertEquals(
+      'WhitelistedCountries must be a non-empty array.',
+      error.message);
+  // Tests string is provided as whitelistedCountries.
+  error = assertThrows(function() {
+    config.update('signInOptions', [{
+      'provider': 'phone',
+      'whitelistedCountries': 'US'
+    }]);
+  });
+  assertEquals(
+      'WhitelistedCountries must be a non-empty array.',
+      error.message);
+  // Tests falsy value is provided as whitelistedCountries.
+  error = assertThrows(function() {
+    config.update('signInOptions', [{
+      'provider': 'phone',
+      'whitelistedCountries': 0
+    }]);
+  });
+  assertEquals(
+      'WhitelistedCountries must be a non-empty array.',
+      error.message);
+  // Tests string is provided as blacklistedCountries.
+  error = assertThrows(function() {
+    config.update('signInOptions', [{
+      'provider': 'phone',
+      'blacklistedCountries': 'US'
+    }]);
+  });
+  assertEquals(
+      'BlacklistedCountries must be an array.',
+      error.message);
+  // Tests falsy value is provided as blacklistedCountries.
+  error = assertThrows(function() {
+    config.update('signInOptions', [{
+      'provider': 'phone',
+      'blacklistedCountries': 0
+    }]);
+  });
+  assertEquals(
+      'BlacklistedCountries must be an array.',
+      error.message);
+}
+
+
+function testSetConfig_phoneSignInOption_error() {
+  // Tests when both whitelist and blacklist are provided.
+  var error = assertThrows(function() {
+    config.setConfig({
+      'signInOptions': [{
+        'provider': 'phone',
+        'blacklistedCountries': ['+44'],
+        'whitelistedCountries': ['+1']
+      }]
+    });
+  });
+  assertEquals(
+      'Both whitelistedCountries and blacklistedCountries are provided.',
+      error.message);
+  // Tests when empty whitelist is provided.
+  error = assertThrows(function() {
+    config.setConfig({
+      'signInOptions': [{
+        'provider': 'phone',
+        'whitelistedCountries': []
+      }]
+    });
+  });
+  assertEquals(
+      'WhitelistedCountries must be a non-empty array.',
+      error.message);
+  // Tests string is provided as whitelistedCountries.
+  error = assertThrows(function() {
+    config.setConfig({
+      'signInOptions': [
+        {
+          'provider': 'phone',
+          'whitelistedCountries': 'US'
+        }]
+    });
+  });
+  assertEquals(
+      'WhitelistedCountries must be a non-empty array.',
+      error.message);
+  // Tests falsy value is provided as whitelistedCountries.
+  error = assertThrows(function() {
+    config.setConfig({
+      'signInOptions': [
+        {
+          'provider': 'phone',
+          'whitelistedCountries': 0
+        }]
+    });
+  });
+  assertEquals(
+      'WhitelistedCountries must be a non-empty array.',
+      error.message);
+  // Tests string is provided as blacklistedCountries.
+  error = assertThrows(function() {
+    config.setConfig({
+      'signInOptions': [
+        {
+          'provider': 'phone',
+          'blacklistedCountries': 'US'
+        }]
+    });
+  });
+  assertEquals(
+      'BlacklistedCountries must be an array.',
+      error.message);
+  // Tests falsy value is provided as blacklistedCountries.
+  error = assertThrows(function() {
+    config.setConfig({
+      'signInOptions': [
+        {
+          'provider': 'phone',
+          'blacklistedCountries': 0
+        }]
+    });
+  });
+  assertEquals(
+      'BlacklistedCountries must be an array.',
+      error.message);
 }
 
 

@@ -64,6 +64,7 @@
 <translation id="2285049245646335550">Zöld-foki-szigetek</translation>
 <translation id="2301396996587599046">Macedónia</translation>
 <translation id="2312980523495377579">Utónév és vezetéknév</translation>
+<translation id="2324942959480650701">Vendég</translation>
 <translation id="2331781584136059536">Ghána</translation>
 <translation id="2338909515537249568">A böngészője nem támogatja internetes tárhely használatát. Kérjük, egy másik böngészővel próbálja újra.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Probléma lépett fel bejelentkezési e-mail-címének visszamódosítása során.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Ha ismételt próbálkozást követően sem sikerül visszaállítania az e-mail-címét, kérjen segítséget a rendszergazdától.<ph name="END_PARAGRAPH" /></translation>
@@ -257,8 +258,9 @@
 <translation id="6192657410634245771">Algéria</translation>
 <translation id="6213969168046789596">Túl sokszor adott meg hibás jelszót. Kérjük, néhány perc múlva próbálja újra.</translation>
 <translation id="6216759405419177713">Norfolk-sziget</translation>
-<translation id="6265373887273416711">Telefonszám igazolása</translation>
-<translation id="6295157125625453859">Ellenőrzött!</translation>
+<translation id="6245066275978703471">A telefonszám automatikusan ellenőrizve</translation>
+<translation id="6283536862756552051">A jelszó módosításához előbb meg kell adnia a jelenlegi jelszavát.</translation>
+<translation id="6299890279889400823">Vissza</translation>
 <translation id="6316446940976157217">India</translation>
 <translation id="6327723482938582895">Benin</translation>
 <translation id="6338643731889005578">Folytatás</translation>
@@ -283,6 +285,7 @@
 <translation id="6655128609744896303">A kódot elküldtük.</translation>
 <translation id="6683477520421532707">Réunion</translation>
 <translation id="6683810982254923169">Próbálja újra visszaállítani a jelszavát</translation>
+<translation id="6689542920381638295">Folytatás vendégként</translation>
 <translation id="6719973195813381061">Ecuador</translation>
 <translation id="6721310522324861790">Szenegál</translation>
 <translation id="6724344978634903280">Botswana</translation>
@@ -295,6 +298,7 @@
 <translation id="6775835872637240659">Ukrajna</translation>
 <translation id="6782010235320729294">Türkmenisztán</translation>
 <translation id="6821607741326790458">Jamaica</translation>
+<translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakisztán</translation>
 <translation id="6920167780806379235">Szíria</translation>
 <translation id="6921505896641453739">E-mail</translation>
@@ -310,7 +314,7 @@
 <translation id="7093343209860483088">Kongói Demokratikus Köztársaság</translation>
 <translation id="7118080999850002096">Jelszó visszaállítása</translation>
 <translation id="7150917293543492988">Kongói Köztársaság</translation>
-<translation id="7181082682267399880">Nem találjuk a következőhöz tartozó szolgáltatót: <ph name="STRING" />.</translation>
+<translation id="7174424882502155514">Folytatás vendégként</translation>
 <translation id="7192078949090526171">San Marino</translation>
 <translation id="7197455001919474950">Ciprus</translation>
 <translation id="7198563013006562060">Salamon-szigetek</translation>
@@ -340,6 +344,7 @@
 <translation id="7782885946428624225">Hiba történt a telefonszám ellenőrzésekor.</translation>
 <translation id="7868540442111212282">Csehország</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
+<translation id="7926046652648626866">Bejelentkezés GitHubbal</translation>
 <translation id="792838323404934335">Grönland</translation>
 <translation id="7956645158976161232">Líbia</translation>
 <translation id="8013083476285293">Google</translation>

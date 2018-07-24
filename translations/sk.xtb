@@ -64,6 +64,7 @@
 <translation id="2285049245646335550">Kapverdy</translation>
 <translation id="2301396996587599046">Macedónsko</translation>
 <translation id="2312980523495377579">Krstné meno a priezvisko</translation>
+<translation id="2324942959480650701">Hosť</translation>
 <translation id="2331781584136059536">Ghana</translation>
 <translation id="2338909515537249568">Prehliadač, ktorý používate, nepodporuje webové úložisko. Skúste to znova v inom prehliadači.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Pri zmene prihlasovacieho e-mailu naspäť vznikol problém.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Ak sa vám nepodarí obnoviť e-mail ani pri opätovnom pokuse, skúste požiadať o pomoc svojho správcu.<ph name="END_PARAGRAPH" /></translation>
@@ -257,8 +258,9 @@
 <translation id="6192657410634245771">Alžírsko</translation>
 <translation id="6213969168046789596">Príliš veľakrát ste zadali nesprávne heslo. Skúste to znova o pár minút.</translation>
 <translation id="6216759405419177713">Norfolk</translation>
-<translation id="6265373887273416711">Overiť telefónne číslo</translation>
-<translation id="6295157125625453859">Overené.</translation>
+<translation id="6245066275978703471">Telefónne číslo bolo automaticky overené</translation>
+<translation id="6283536862756552051">Ak chcete zmeniť heslo, musíte najskôr zadať aktuálne heslo.</translation>
+<translation id="6299890279889400823">Späť</translation>
 <translation id="6316446940976157217">India</translation>
 <translation id="6327723482938582895">Benin</translation>
 <translation id="6338643731889005578">Pokračovať</translation>
@@ -283,6 +285,7 @@
 <translation id="6655128609744896303">Kód bol odoslaný.</translation>
 <translation id="6683477520421532707">Réunion</translation>
 <translation id="6683810982254923169">Skúste znova obnoviť svoje heslo</translation>
+<translation id="6689542920381638295">Pokračovať ako hosť</translation>
 <translation id="6719973195813381061">Ekvádor</translation>
 <translation id="6721310522324861790">Senegal</translation>
 <translation id="6724344978634903280">Botswana</translation>
@@ -295,6 +298,7 @@
 <translation id="6775835872637240659">Ukrajina</translation>
 <translation id="6782010235320729294">Turkménsko</translation>
 <translation id="6821607741326790458">Jamajka</translation>
+<translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
 <translation id="6920167780806379235">Sýria</translation>
 <translation id="6921505896641453739">E-mail</translation>
@@ -310,7 +314,7 @@
 <translation id="7093343209860483088">Konžská demokratická republika</translation>
 <translation id="7118080999850002096">Obnovenie hesla</translation>
 <translation id="7150917293543492988">Konžská republika</translation>
-<translation id="7181082682267399880">Nemožno nájsť poskytovateľa pre službu <ph name="STRING" />.</translation>
+<translation id="7174424882502155514">Pokračovať ako hosť</translation>
 <translation id="7192078949090526171">San Maríno</translation>
 <translation id="7197455001919474950">Cyprus</translation>
 <translation id="7198563013006562060">Šalamúnove ostrovy</translation>
@@ -340,6 +344,7 @@
 <translation id="7782885946428624225">Vyskytol sa problém s overením vášho telefónneho čísla</translation>
 <translation id="7868540442111212282">Česko</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
+<translation id="7926046652648626866">Prihlásiť sa cez GitHub</translation>
 <translation id="792838323404934335">Grónsko</translation>
 <translation id="7956645158976161232">Líbya</translation>
 <translation id="8013083476285293">Google</translation>

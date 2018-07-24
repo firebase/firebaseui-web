@@ -36,6 +36,7 @@ goog.require('firebaseui.auth.ui.page.Base');
 goog.require('firebaseui.auth.util');
 goog.require('firebaseui.auth.widget.Config');
 goog.require('goog.Promise');
+goog.require('goog.array');
 goog.require('goog.dom');
 goog.require('goog.dom.TagName');
 goog.require('goog.dom.classlist');
@@ -167,44 +168,6 @@ function setUp() {
   app = new firebaseui.auth.AuthUI(externalAuth, appId);
   // Install internal temporary auth instance.
   testAuth = app.getAuth().install();
-  container = goog.dom.createDom(goog.dom.TagName.DIV);
-  document.body.appendChild(container);
-  // Test component used for setLoggedIn tests which requires a component.
-  container2 = goog.dom.createDom(goog.dom.TagName.DIV);
-  document.body.appendChild(container2);
-  testComponent = new firebaseui.auth.ui.page.Base(function() {
-    return '<div></div>';
-  });
-  // Render test component in container2.
-  testComponent.render(container2);
-  testAc = new firebaseui.auth.testing.FakeAcClient().install();
-  testUtil = new firebaseui.auth.testing.FakeUtil().install();
-  signInCallbackUser = undefined;
-  signInCallbackRedirectUrl = undefined;
-  signInCallbackCredential = undefined;
-  signInCallbackAdditionalUserInfo = undefined;
-  signInCallbackOperationType = undefined;
-  uiShownCallbackCount = 0;
-  // Define recorded signInFailure callback.
-  signInFailureCallback = goog.testing.recordFunction(function() {
-    return goog.Promise.resolve();
-  });
-  app.setConfig({
-    'signInSuccessUrl': 'http://localhost/home',
-    'widgetUrl': 'http://localhost/firebaseui-widget',
-    'signInOptions': ['google.com', 'facebook.com', 'password'],
-    'siteName': 'Test Site',
-    'popupMode': false,
-    'tosUrl': 'http://localhost/tos',
-    'privacyPolicyUrl': 'http://localhost/privacy_policy',
-    'credentialHelper': firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
-    'callbacks': {
-      'signInFailure': signInFailureCallback
-    },
-
-  });
-  window.localStorage.clear();
-  window.sessionStorage.clear();
 
   mockClock.install();
   // For testing simulate accountchooser.com js is loaded to prevent loading of
@@ -308,6 +271,44 @@ function setUp() {
       };
     }
   };
+  container = goog.dom.createDom(goog.dom.TagName.DIV);
+  document.body.appendChild(container);
+  // Test component used for setLoggedIn tests which requires a component.
+  container2 = goog.dom.createDom(goog.dom.TagName.DIV);
+  document.body.appendChild(container2);
+  testComponent = new firebaseui.auth.ui.page.Base(function() {
+    return '<div></div>';
+  });
+  // Render test component in container2.
+  testComponent.render(container2);
+  testAc = new firebaseui.auth.testing.FakeAcClient().install();
+  testUtil = new firebaseui.auth.testing.FakeUtil().install();
+  signInCallbackUser = undefined;
+  signInCallbackRedirectUrl = undefined;
+  signInCallbackCredential = undefined;
+  signInCallbackAdditionalUserInfo = undefined;
+  signInCallbackOperationType = undefined;
+  uiShownCallbackCount = 0;
+  // Define recorded signInFailure callback.
+  signInFailureCallback = goog.testing.recordFunction(function() {
+    return goog.Promise.resolve();
+  });
+  app.setConfig({
+    'signInSuccessUrl': 'http://localhost/home',
+    'widgetUrl': 'http://localhost/firebaseui-widget',
+    'signInOptions': ['google.com', 'facebook.com', 'password'],
+    'siteName': 'Test Site',
+    'popupMode': false,
+    'tosUrl': 'http://localhost/tos',
+    'privacyPolicyUrl': 'http://localhost/privacy_policy',
+    'credentialHelper': firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
+    'callbacks': {
+      'signInFailure': signInFailureCallback
+    },
+
+  });
+  window.localStorage.clear();
+  window.sessionStorage.clear();
   // Remove any grecaptcha mocks.
   delete goog.global['grecaptcha'];
   // Record all calls to One-Tap show and cancel APIs.
@@ -636,6 +637,16 @@ function getPhoneConfirmationCodeErrorMessage() {
       'firebaseui-id-phone-confirmation-code-error', container);
   assertFalse(goog.dom.classlist.contains(element, 'firebaseui-hidden'));
   return goog.dom.getTextContent(element);
+}
+
+
+/** @return {!Array<string>} The e164 keys of country selector buttons. */
+function getKeysForCountrySelectorButtons() {
+  var buttons = goog.dom.getElementsByClass(
+      'firebaseui-list-box-dialog-button');
+  return goog.array.map(buttons, function(button) {
+    return button.getAttribute('data-listboxid');
+  });
 }
 
 

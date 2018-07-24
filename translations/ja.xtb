@@ -64,6 +64,7 @@
 <translation id="2285049245646335550">カボベルデ</translation>
 <translation id="2301396996587599046">マケドニア</translation>
 <translation id="2312980523495377579">あなたの名前</translation>
+<translation id="2324942959480650701">ゲスト</translation>
 <translation id="2331781584136059536">ガーナ</translation>
 <translation id="2338909515537249568">お使いのブラウザは Web Storage に対応していません。他のブラウザでもう一度お試しください。</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />ログイン メールアドレスを元に戻す際に問題が発生しました。<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />再度試してもメールアドレスを再設定できない場合は、管理者にお問い合わせください。<ph name="END_PARAGRAPH" /></translation>
@@ -260,8 +261,9 @@
 <translation id="6192657410634245771">アルジェリア</translation>
 <translation id="6213969168046789596">正しくないパスワードを何度も入力しています。しばらくしてからもう一度お試しください。</translation>
 <translation id="6216759405419177713">ノーフォーク島</translation>
-<translation id="6265373887273416711">電話番号を確認</translation>
-<translation id="6295157125625453859">確認済み</translation>
+<translation id="6245066275978703471">電話番号は自動的に確認されました</translation>
+<translation id="6283536862756552051">パスワードを変更するには、まず現在のパスワードを入力する必要があります。</translation>
+<translation id="6299890279889400823">戻る</translation>
 <translation id="6316446940976157217">インド</translation>
 <translation id="6327723482938582895">ベナン</translation>
 <translation id="6338643731889005578">続行</translation>
@@ -286,7 +288,7 @@
 <translation id="6655128609744896303">コード送信完了</translation>
 <translation id="6683477520421532707">レユニオン</translation>
 <translation id="6683810982254923169">パスワードの再設定をもう一度お試しください</translation>
-<translation id="6695907250724340819">キャンセル</translation>
+<translation id="6689542920381638295">ゲストとして続行</translation>
 <translation id="6719973195813381061">エクアドル</translation>
 <translation id="6721310522324861790">セネガル</translation>
 <translation id="6724344978634903280">ボツワナ</translation>
@@ -299,6 +301,7 @@
 <translation id="6775835872637240659">ウクライナ</translation>
 <translation id="6782010235320729294">トルクメニスタン</translation>
 <translation id="6821607741326790458">ジャマイカ</translation>
+<translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">パキスタン</translation>
 <translation id="6920167780806379235">シリア</translation>
 <translation id="6921505896641453739">メールアドレス</translation>
@@ -314,7 +317,7 @@
 <translation id="7093343209860483088">コンゴ民主共和国</translation>
 <translation id="7118080999850002096">パスワードの復元</translation>
 <translation id="7150917293543492988">コンゴ共和国</translation>
-<translation id="7181082682267399880"><ph name="STRING" /> のプロバイダが見つかりません。</translation>
+<translation id="7174424882502155514">ゲストとして続行</translation>
 <translation id="7192078949090526171">サンマリノ</translation>
 <translation id="7197455001919474950">キプロス</translation>
 <translation id="7198563013006562060">ソロモン諸島</translation>
@@ -344,6 +347,7 @@
 <translation id="7782885946428624225">電話番号の確認中に問題が発生しました</translation>
 <translation id="7868540442111212282">チェコ共和国</translation>
 <translation id="7874584525604421364">ツバル</translation>
+<translation id="7926046652648626866">GitHub でログイン</translation>
 <translation id="792838323404934335">グリーンランド</translation>
 <translation id="7956645158976161232">リビア</translation>
 <translation id="8013083476285293">Google</translation>

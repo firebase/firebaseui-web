@@ -64,6 +64,7 @@
 <translation id="2285049245646335550">Kaboverde</translation>
 <translation id="2301396996587599046">Maķedonija</translation>
 <translation id="2312980523495377579">Vārds un uzvārds</translation>
+<translation id="2324942959480650701">Viesis</translation>
 <translation id="2331781584136059536">Gana</translation>
 <translation id="2338909515537249568">Jūsu izmantotā pārlūkprogramma neatbalsta tīmekļa datu krātuvi. Lūdzu, mēģiniet vēlreiz citā pārlūkprogrammā.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Radās problēma, mainot atpakaļ pierakstīšanās e-pasta adresi.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Ja mēģināsit vēlreiz un joprojām nevarēsit atiestatīt e-pasta adresi, lūdziet palīdzību administratoram.<ph name="END_PARAGRAPH" /></translation>
@@ -254,8 +255,9 @@
 <translation id="6192657410634245771">Alžīrija</translation>
 <translation id="6213969168046789596">Esat pārāk daudz reižu ievadījis nepareizu paroli. Lūdzu, mēģiniet vēlreiz pēc dažām minūtēm.</translation>
 <translation id="6216759405419177713">Norfolkas Sala</translation>
-<translation id="6265373887273416711">Verificēt tālruņa numuru</translation>
-<translation id="6295157125625453859">Verificēts.</translation>
+<translation id="6245066275978703471">Tālruņa numurs tika automātiski verificēts</translation>
+<translation id="6283536862756552051">Lai mainītu paroli, vispirms ir jāievada pašreizējā parole.</translation>
+<translation id="6299890279889400823">Atpakaļ</translation>
 <translation id="6316446940976157217">Indija</translation>
 <translation id="6327723482938582895">Benina</translation>
 <translation id="6338643731889005578">Turpināt</translation>
@@ -280,6 +282,7 @@
 <translation id="6655128609744896303">Kods ir nosūtīts.</translation>
 <translation id="6683477520421532707">Reinjona</translation>
 <translation id="6683810982254923169">Mēģiniet vēlreiz atiestatīt paroli</translation>
+<translation id="6689542920381638295">Turpināt kā viesim</translation>
 <translation id="6719973195813381061">Ekvadora</translation>
 <translation id="6721310522324861790">Senegāla</translation>
 <translation id="6724344978634903280">Botsvana</translation>
@@ -292,6 +295,7 @@
 <translation id="6775835872637240659">Ukraina</translation>
 <translation id="6782010235320729294">Turkmenistāna</translation>
 <translation id="6821607741326790458">Jamaika</translation>
+<translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistāna</translation>
 <translation id="6920167780806379235">Sīrija</translation>
 <translation id="6921505896641453739">E-pasts</translation>
@@ -307,7 +311,7 @@
 <translation id="7093343209860483088">Kongo Demokrātiskā Republika</translation>
 <translation id="7118080999850002096">Paroles atgūšana</translation>
 <translation id="7150917293543492988">Kongo Republika</translation>
-<translation id="7181082682267399880">Nevar atrast <ph name="STRING" /> nodrošinātāju.</translation>
+<translation id="7174424882502155514">Turpināt kā viesim</translation>
 <translation id="7192078949090526171">Sanmarīno</translation>
 <translation id="7197455001919474950">Kipra</translation>
 <translation id="7198563013006562060">Zālamana Salas</translation>
@@ -336,6 +340,7 @@
 <translation id="7782885946428624225">Verificējot jūsu tālruņa numuru, radās problēma</translation>
 <translation id="7868540442111212282">Čehija</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
+<translation id="7926046652648626866">Pierakstīties, izmantojot GitHub</translation>
 <translation id="792838323404934335">Grenlande</translation>
 <translation id="7956645158976161232">Lībija</translation>
 <translation id="8013083476285293">Google</translation>

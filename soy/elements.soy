@@ -153,6 +153,19 @@
           Phone
         {/msg}
       </span>
+    {elseif $providerId == 'anonymous'}
+      <span class="firebaseui-idp-text firebaseui-idp-text-long">
+        {msg desc="Label for a button to continue as a guest user.
+            The long version"}
+          Continue as guest
+        {/msg}
+      </span>
+      <span class="firebaseui-idp-text firebaseui-idp-text-short">
+        {msg desc="Label for a button to continue as a guest user.
+            The short version"}
+          Guest
+        {/msg}
+      </span>
     {else}
       <span class="firebaseui-idp-text firebaseui-idp-text-long">
         {msg desc="Labels for sign-in buttons, long version"}
@@ -538,6 +551,8 @@
       {msg desc="Display name of the identity provider for Facebook sign-in."}Facebook{/msg}
     {case 'twitter.com'}
       {msg desc="Display name of the identity provider for Twitter sign-in."}Twitter{/msg}
+    {case 'anonymous'}
+      {msg desc="Display name of the identity provider for anonymous sign-in."}Guest{/msg}
     {default}
       {msg desc="Display name of the identity provider for password sign-in."}Password{/msg}
   {/switch}
@@ -561,6 +576,8 @@
       firebaseui-idp-twitter
     {case 'phone'}
       firebaseui-idp-phone
+    {case 'anonymous'}
+      firebaseui-idp-anonymous
     {default}
       firebaseui-idp-password
   {/switch}
@@ -584,6 +601,8 @@
       {$ij.twitterLogo}
     {case 'phone'}
       {$ij.phoneLogo}
+    {case 'anonymous'}
+      {$ij.anonymousLogo}
     {default}
       {$ij.passwordLogo}
   {/switch}

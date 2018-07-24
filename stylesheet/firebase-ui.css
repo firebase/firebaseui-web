@@ -373,6 +373,13 @@ input.firebaseui-input-invalid{
   background-color: #55acee;
 }
 
+.firebaseui-idp-anonymous,
+.firebaseui-idp-anonymous:hover,
+.mdl-button.firebaseui-idp-anonymous:active,
+.mdl-button.firebaseui-idp-anonymous:focus {
+  background-color: #f4b400;
+}
+
 .firebaseui-info-bar {
   background-color: #f9edbe;
   border: 1px solid #f0c36d;
@@ -525,6 +532,10 @@ input.firebaseui-input-invalid{
 }
 
 .firebaseui-callback-indicator-container .firebaseui-busy-indicator {
+  top: 0px;
+}
+
+.firebaseui-page-provider-sign-in .firebaseui-busy-indicator {
   top: 0px;
 }
 

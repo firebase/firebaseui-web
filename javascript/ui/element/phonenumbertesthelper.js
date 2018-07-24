@@ -19,6 +19,7 @@
 goog.provide('firebaseui.auth.ui.element.PhoneNumberTestHelper');
 goog.setTestOnly('firebaseui.auth.ui.element.PhoneNumberTestHelper');
 
+goog.require('firebaseui.auth.data.country.LookupTree');
 goog.require('firebaseui.auth.ui.element');
 goog.require('firebaseui.auth.ui.element.dialog');
 goog.require('goog.dom');
@@ -95,6 +96,19 @@ element.PhoneNumberTestHelper.prototype.testGetPhoneNumber_ = function() {
   goog.dom.forms.setValue(e, '');
   // As only country code provided, this is considered missing.
   assertNull(this.component.getPhoneNumberValue());
+
+  // Test if country code is not supported by providing default country code and
+  // setting available countries list to an empty array.
+  goog.dom.forms.setValue(e, countryCode + nationalNumber);
+  var error = assertThrows(function() {
+    this.component.getPhoneNumberValue(
+        new firebaseui.auth.data.country.LookupTree([]));
+  });
+  assertEquals(
+      'The country code provided is not supported.',
+      error.message);
+  // Phone number should be cleared.
+  assertEquals('', goog.dom.forms.getValue(e));
 };
 
 
@@ -128,6 +142,8 @@ element.PhoneNumberTestHelper.prototype.testOnCodeInputWithNationalNumber_ =
   var phoneNumber = this.component.getPhoneNumberElement();
   var countrySelector = this.getCountrySelectorElement_();
 
+  // Country selector defaults to US.
+  assertEquals('\u200e+1', countrySelector.textContent);
   // Emulate that a '+1' is typed in to the phone number input. Make sure
   // US is country selected.
   goog.dom.forms.setValue(phoneNumber, '+1');
@@ -223,6 +239,8 @@ element.PhoneNumberTestHelper.prototype.testChangeCountry_ =
   // Change the country to Denmark.
   // Open the country selector.
   var countrySelector = this.getCountrySelectorElement_();
+  // Country selector defaults to US.
+  assertEquals('\u200e+1', countrySelector.textContent);
   goog.testing.events.fireClickSequence(countrySelector);
   // Check that the Denmark button is there, and click it.
   var denmarkButton = this.getDialogButtonContainingText_('Denmark');

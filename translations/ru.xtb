@@ -64,6 +64,7 @@
 <translation id="2285049245646335550">Кабо-Верде</translation>
 <translation id="2301396996587599046">Македония</translation>
 <translation id="2312980523495377579">Имя и фамилия</translation>
+<translation id="2324942959480650701">Гость</translation>
 <translation id="2331781584136059536">Гана</translation>
 <translation id="2338909515537249568">Ваш браузер не поддерживает веб-хранилище. Повторите попытку в другом браузере.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Не удалось восстановить адрес электронной почты для входа.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Повторите попытку. Если ошибка возникнет снова, обратитесь к администратору.<ph name="END_PARAGRAPH" /></translation>
@@ -260,8 +261,9 @@
 <translation id="6192657410634245771">Алжир</translation>
 <translation id="6213969168046789596">Вы неправильно ввели пароль слишком много раз. Прежде чем повторить попытку, подождите несколько минут.</translation>
 <translation id="6216759405419177713">Остров Норфолк</translation>
-<translation id="6265373887273416711">Подтвердить номер телефона</translation>
-<translation id="6295157125625453859">Проверка выполнена.</translation>
+<translation id="6245066275978703471">Номер телефона был подтвержден автоматически</translation>
+<translation id="6283536862756552051">Сначала нужно ввести текущий пароль.</translation>
+<translation id="6299890279889400823">Назад</translation>
 <translation id="6316446940976157217">Индия</translation>
 <translation id="6327723482938582895">Бенин</translation>
 <translation id="6338643731889005578">Продолжить</translation>
@@ -286,7 +288,7 @@
 <translation id="6655128609744896303">Код отправлен</translation>
 <translation id="6683477520421532707">Реюньон</translation>
 <translation id="6683810982254923169">Попробуйте сбросить пароль ещё раз</translation>
-<translation id="6695907250724340819">Отмена</translation>
+<translation id="6689542920381638295">Продолжить как гость</translation>
 <translation id="6719973195813381061">Эквадор</translation>
 <translation id="6721310522324861790">Сенегал</translation>
 <translation id="6724344978634903280">Ботсвана</translation>
@@ -299,6 +301,7 @@
 <translation id="6775835872637240659">Украина</translation>
 <translation id="6782010235320729294">Туркменистан</translation>
 <translation id="6821607741326790458">Ямайка</translation>
+<translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Пакистан</translation>
 <translation id="6920167780806379235">Сирия</translation>
 <translation id="6921505896641453739">Адрес электронной почты</translation>
@@ -314,7 +317,7 @@
 <translation id="7093343209860483088">Конго, Демократическая Республика</translation>
 <translation id="7118080999850002096">Восстановление пароля</translation>
 <translation id="7150917293543492988">Конго</translation>
-<translation id="7181082682267399880"><ph name="STRING" />: поставщик услуг не найден.</translation>
+<translation id="7174424882502155514">Продолжить как гость</translation>
 <translation id="7192078949090526171">Сан-Марино</translation>
 <translation id="7197455001919474950">Кипр</translation>
 <translation id="7198563013006562060">Соломоновы Острова</translation>
@@ -344,6 +347,7 @@
 <translation id="7782885946428624225">Не удалось подтвердить номер телефона.</translation>
 <translation id="7868540442111212282">Чехия</translation>
 <translation id="7874584525604421364">Тувалу</translation>
+<translation id="7926046652648626866">Войти через аккаунт GitHub</translation>
 <translation id="792838323404934335">Гренландия</translation>
 <translation id="7956645158976161232">Ливия</translation>
 <translation id="8013083476285293">Google</translation>

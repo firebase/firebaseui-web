@@ -66,6 +66,7 @@
 <translation id="2285049245646335550">佛得角</translation>
 <translation id="2301396996587599046">马其顿</translation>
 <translation id="2312980523495377579">姓名</translation>
+<translation id="2324942959480650701">访客</translation>
 <translation id="2331781584136059536">加纳</translation>
 <translation id="2338909515537249568">您使用的浏览器不支持网络存储。请使用其他浏览器重试。</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />改回登录电子邮件地址时出现了问题。<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />如果您重试后仍无法重置您的电子邮件地址，请尝试向管理员求助。<ph name="END_PARAGRAPH" /></translation>
@@ -262,8 +263,9 @@
 <translation id="6192657410634245771">阿尔及利亚</translation>
 <translation id="6213969168046789596">您输入错误密码的次数过多，请过几分钟再试。</translation>
 <translation id="6216759405419177713">诺福克岛</translation>
-<translation id="6265373887273416711">验证您的电话号码</translation>
-<translation id="6295157125625453859">已验证！</translation>
+<translation id="6245066275978703471">电话号码已自动验证</translation>
+<translation id="6283536862756552051">要更改密码，您需要先输入当前的密码。</translation>
+<translation id="6299890279889400823">返回</translation>
 <translation id="6316446940976157217">印度</translation>
 <translation id="6327723482938582895">贝宁</translation>
 <translation id="6338643731889005578">继续</translation>
@@ -288,7 +290,7 @@
 <translation id="6655128609744896303">验证码已发送！</translation>
 <translation id="6683477520421532707">留尼汪岛</translation>
 <translation id="6683810982254923169">请重新尝试重置密码</translation>
-<translation id="6695907250724340819">取消</translation>
+<translation id="6689542920381638295">以访客身份继续</translation>
 <translation id="6719973195813381061">厄瓜多尔</translation>
 <translation id="6721310522324861790">塞内加尔</translation>
 <translation id="6724344978634903280">博茨瓦纳</translation>
@@ -301,6 +303,7 @@
 <translation id="6775835872637240659">乌克兰语</translation>
 <translation id="6782010235320729294">土库曼斯坦</translation>
 <translation id="6821607741326790458">牙买加</translation>
+<translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">巴基斯坦</translation>
 <translation id="6920167780806379235">叙利亚</translation>
 <translation id="6921505896641453739">电子邮件地址</translation>
@@ -316,7 +319,7 @@
 <translation id="7093343209860483088">刚果民主共和国</translation>
 <translation id="7118080999850002096">找回密码</translation>
 <translation id="7150917293543492988">刚果共和国</translation>
-<translation id="7181082682267399880">找不到 <ph name="STRING" /> 的提供方。</translation>
+<translation id="7174424882502155514">以访客身份继续</translation>
 <translation id="7192078949090526171">圣马力诺</translation>
 <translation id="7197455001919474950">塞浦路斯</translation>
 <translation id="7198563013006562060">所罗门群岛</translation>
@@ -346,6 +349,7 @@
 <translation id="7782885946428624225">验证您的电话号码时出现问题</translation>
 <translation id="7868540442111212282">捷克</translation>
 <translation id="7874584525604421364">图瓦卢</translation>
+<translation id="7926046652648626866">使用 GitHub 帐号登录</translation>
 <translation id="792838323404934335">格陵兰</translation>
 <translation id="7956645158976161232">利比亚</translation>
 <translation id="8013083476285293">Google</translation>

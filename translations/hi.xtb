@@ -64,6 +64,7 @@
 <translation id="2285049245646335550">केप वर्डे</translation>
 <translation id="2301396996587599046">मकदूनिया</translation>
 <translation id="2312980523495377579">नाम और उपनाम</translation>
+<translation id="2324942959480650701">मेहमान</translation>
 <translation id="2331781584136059536">घाना</translation>
 <translation id="2338909515537249568">आप जिस ब्राउज़र का उपयोग कर रहे हैं वह वेब संग्रहण का समर्थन नहीं करता है. कृपया किसी दूसरे ब्राउज़र में फिर से कोशिश करें.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />आपके साइन-इन ईमेल को वापस बदलते समय एक समस्या हुई.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />अगर दोबारा कोशिश करने पर भी आप अपना ईमेल रीसेट नहीं कर पाते हैं, तो सहायता के लिए अपने व्यवस्थापक से पूछ कर देखें.<ph name="END_PARAGRAPH" /></translation>
@@ -257,8 +258,9 @@
 <translation id="6192657410634245771">अल्जीरिया</translation>
 <translation id="6213969168046789596">आपने कई बार गलत पासवर्ड डाला है. कृपया कुछ मिनटों में फिर से कोशिश करें.</translation>
 <translation id="6216759405419177713">नॉरफ़ोक आइलैंड</translation>
-<translation id="6265373887273416711">अपने फ़ोन नंबर की पुष्टि करें</translation>
-<translation id="6295157125625453859">पुष्टि हो चुकी है!</translation>
+<translation id="6245066275978703471">फ़ोन नंबर की अपने आप पुष्टि की गई</translation>
+<translation id="6283536862756552051">अपना पासवर्ड बदलने के लिए, आपको पहले अपना मौजूदा पासवर्ड डालना होगा.</translation>
+<translation id="6299890279889400823">वापस जाएं</translation>
 <translation id="6316446940976157217">भारत</translation>
 <translation id="6327723482938582895">बेनिन</translation>
 <translation id="6338643731889005578">जारी रखें</translation>
@@ -283,6 +285,7 @@
 <translation id="6655128609744896303">कोड भेज दिया गया!</translation>
 <translation id="6683477520421532707">रियूनियन</translation>
 <translation id="6683810982254923169">फिर से अपना पासवर्ड रीसेट करने की कोशिश करें</translation>
+<translation id="6689542920381638295">मेहमान के रूप में जारी रखें</translation>
 <translation id="6719973195813381061">इक्वाडोर</translation>
 <translation id="6721310522324861790">सेनेगल</translation>
 <translation id="6724344978634903280">बोत्सवाना</translation>
@@ -295,6 +298,7 @@
 <translation id="6775835872637240659">यूक्रेन</translation>
 <translation id="6782010235320729294">तुर्कमेनिस्तान</translation>
 <translation id="6821607741326790458">जमैका</translation>
+<translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">पाकिस्तान</translation>
 <translation id="6920167780806379235">सीरिया</translation>
 <translation id="6921505896641453739">ईमेल</translation>
@@ -310,7 +314,7 @@
 <translation id="7093343209860483088">लोकतांत्रिक गणराज्य कांगो</translation>
 <translation id="7118080999850002096">पासवर्ड फिर से पाएं</translation>
 <translation id="7150917293543492988">कांगो गणराज्य</translation>
-<translation id="7181082682267399880"><ph name="STRING" /> के लिए प्रदाता नहीं मिल सका.</translation>
+<translation id="7174424882502155514">मेहमान के रूप में जारी रखें</translation>
 <translation id="7192078949090526171">सैन मैरीनो</translation>
 <translation id="7197455001919474950">साइप्रस</translation>
 <translation id="7198563013006562060">सोलोमन आइलैंड</translation>
@@ -340,6 +344,7 @@
 <translation id="7782885946428624225">आपके फ़ोन नंबर की पुष्टि करने में एक समस्या हुई</translation>
 <translation id="7868540442111212282">चेक गणराज्य</translation>
 <translation id="7874584525604421364">तुवालू</translation>
+<translation id="7926046652648626866">GitHub के साथ साइन इन करें</translation>
 <translation id="792838323404934335">ग्रीनलैंड</translation>
 <translation id="7956645158976161232">लीबिया</translation>
 <translation id="8013083476285293">Google</translation>

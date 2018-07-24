@@ -94,6 +94,16 @@ firebaseui.auth.data.country.LookupTree.prototype.search = function(code) {
 
 
 /**
+ * Gets the list of counties used to build up the tree.
+ * @return {!Array<!firebaseui.auth.data.country.Country>} The list of
+ *     countries to construct the prefix tree for.
+ */
+firebaseui.auth.data.country.LookupTree.prototype.getCountries = function() {
+  return this.countries_;
+};
+
+
+/**
  * Fetches data about a country given its e164_key field.
  * @param {string} key The e164_key of the country.
  * @return {?firebaseui.auth.data.country.Country}
@@ -127,6 +137,44 @@ firebaseui.auth.data.country.getCountriesByIso2 = function(code) {
   return countries;
 };
 
+
+/**
+ * Fetches data about a country given its E164 country calling code (e164_cc)
+ * field. May return multiple entries for countries with multiple
+ * country codes, or an empty array if the country code was not found.
+ * @param {string} code The e164_cc of the country.
+ * @return {!Array<!firebaseui.auth.data.country.Country>}
+ */
+firebaseui.auth.data.country.getCountriesByE164Code = function(code) {
+  var countries = [];
+  for (var i = 0; i < firebaseui.auth.data.country.COUNTRY_LIST.length; i++) {
+    if (firebaseui.auth.data.country.COUNTRY_LIST[i].e164_cc == code) {
+      countries.push(firebaseui.auth.data.country.COUNTRY_LIST[i]);
+    }
+  }
+  return countries;
+};
+
+
+/**
+ * Fetches data about a country given its E164 country calling code (e164_cc)
+ * prefixed with '+' or ISO 3166-1 alpha-2 country code (iso2_cc). May
+ * return multiple entries for countries with multiple country codes, or an
+ * empty array if the country code was not found.
+ * @param {string} code The e164_cc or iso2_cc of the country.
+ * @return {!Array<!firebaseui.auth.data.country.Country>}
+ */
+firebaseui.auth.data.country.getCountriesByE164OrIsoCode = function(code) {
+  var countries = [];
+  if (code.length > 0 && code.charAt(0) == '+') {
+    countries = firebaseui.auth.data.country.getCountriesByE164Code(
+        code.substring(1));
+  } else {
+    countries =
+        firebaseui.auth.data.country.getCountriesByIso2(code);
+  }
+  return countries;
+};
 
 
 /**

@@ -107,6 +107,8 @@ function testCountryLookupByPhoneNumber() {
   // Initialize lookup tree.
   var lookupTree = new firebaseui.auth.data.country.LookupTree(
       firebaseui.auth.data.country.COUNTRY_LIST);
+  assertEquals(
+      firebaseui.auth.data.country.COUNTRY_LIST, lookupTree.getCountries());
   // Empty string.
   assertSameElements([], lookupTree.search(''));
   // Invalid country code that starts with 0.
@@ -154,7 +156,7 @@ function testGetCountriesByIso2() {
  * Tests that getCountriesByIso2 works correctly if multiple entries have the
  * same ISO2 code.
  */
-function testGetCountriesByIso2_multiple() {
+function testGetCountriesByIso2_multipleMatches() {
   var countries = firebaseui.auth.data.country.getCountriesByIso2('xk');
   var actualCodes = goog.array.map(countries, function(country) {
     return country.e164_cc;
@@ -165,5 +167,77 @@ function testGetCountriesByIso2_multiple() {
 
 function testGetCountriesByIso2_notFound() {
   var countries = firebaseui.auth.data.country.getCountriesByIso2('zz');
+  assertEquals(0, countries.length);
+}
+
+
+function testGetCountriesByE164Code() {
+  var countries = firebaseui.auth.data.country.getCountriesByE164Code('86');
+  assertEquals(1, countries.length);
+  assertEquals('China', countries[0].name);
+  assertEquals('CN', countries[0].iso2_cc);
+}
+
+
+/**
+ * Tests that getCountriesByE164Code works correctly if multiple entries have
+ * the same e164_cc code.
+ */
+function testGetCountriesByE164Code_multipleMatches() {
+  var countries = firebaseui.auth.data.country.getCountriesByE164Code('44');
+  var actualKeys = goog.array.map(countries, function(country) {
+    return country.e164_key;
+  });
+  assertSameElements(['44-GG-0', '44-IM-0', '44-JE-0', '44-GB-0'], actualKeys);
+}
+
+
+function testGetCountriesByE164Code_notFound() {
+  var countries = firebaseui.auth.data.country.getCountriesByIso2('999');
+  assertEquals(0, countries.length);
+}
+
+
+function testGetCountriesByE164OrIsoCode_e164() {
+  var countries =
+      firebaseui.auth.data.country.getCountriesByE164OrIsoCode('+86');
+  assertEquals(1, countries.length);
+  assertEquals('China', countries[0].name);
+  assertEquals('CN', countries[0].iso2_cc);
+}
+
+
+function testGetCountriesByE164eOrIsoCode_iso() {
+  var countries =
+      firebaseui.auth.data.country.getCountriesByE164OrIsoCode('CN');
+  assertEquals(1, countries.length);
+  assertEquals('China', countries[0].name);
+  assertEquals('86', countries[0].e164_cc);
+}
+
+
+function testGetCountriesByE164OrIsoCode_e164_multipleMatches() {
+  var countries =
+      firebaseui.auth.data.country.getCountriesByE164OrIsoCode('+44');
+  var actualKeys = goog.array.map(countries, function(country) {
+    return country.e164_key;
+  });
+  assertSameElements(['44-GG-0', '44-IM-0', '44-JE-0', '44-GB-0'], actualKeys);
+}
+
+
+function testGetCountriesByE164OrIsoCode_iso_multipleMatches() {
+  var countries =
+      firebaseui.auth.data.country.getCountriesByE164OrIsoCode('xk');
+  var actualKeys = goog.array.map(countries, function(country) {
+    return country.e164_key;
+  });
+  assertSameElements(['377-XK-0', '381-XK-0', '386-XK-0'], actualKeys);
+}
+
+
+function testGetCountriesByE164CodeOrIsoCode_notFound() {
+  var countries =
+      firebaseui.auth.data.country.getCountriesByE164OrIsoCode('+999');
   assertEquals(0, countries.length);
 }

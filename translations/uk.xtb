@@ -64,6 +64,7 @@
 <translation id="2285049245646335550">Кабо-Верде</translation>
 <translation id="2301396996587599046">Македонія</translation>
 <translation id="2312980523495377579">Ім’я та прізвище</translation>
+<translation id="2324942959480650701">Гість</translation>
 <translation id="2331781584136059536">Гана</translation>
 <translation id="2338909515537249568">Ваш веб-переглядач не підтримує веб-сховище. Скористайтесь іншим веб-переглядачем.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Не вдалося змінити вашу електронну адресу для входу.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Якщо вам не вдасться скинути адресу, зв’яжіться з адміністратором.<ph name="END_PARAGRAPH" /></translation>
@@ -257,8 +258,9 @@
 <translation id="6192657410634245771">Алжир</translation>
 <translation id="6213969168046789596">Ви ввели неправильний пароль забагато разів. Спробуйте за кілька хвилин.</translation>
 <translation id="6216759405419177713">Острів Норфолк</translation>
-<translation id="6265373887273416711">Підтвердити номер телефону</translation>
-<translation id="6295157125625453859">Підтверджено</translation>
+<translation id="6245066275978703471">Номер телефону підтверджено автоматично</translation>
+<translation id="6283536862756552051">Щоб змінити пароль, спершу введіть поточний.</translation>
+<translation id="6299890279889400823">Назад</translation>
 <translation id="6316446940976157217">Індія</translation>
 <translation id="6327723482938582895">Бенін</translation>
 <translation id="6338643731889005578">Продовжити</translation>
@@ -283,6 +285,7 @@
 <translation id="6655128609744896303">Код надіслано</translation>
 <translation id="6683477520421532707">Реюньйон</translation>
 <translation id="6683810982254923169">Скиньте пароль ще раз</translation>
+<translation id="6689542920381638295">Продовжити як гість</translation>
 <translation id="6719973195813381061">Еквадор</translation>
 <translation id="6721310522324861790">Сенегал</translation>
 <translation id="6724344978634903280">Ботсвана</translation>
@@ -295,6 +298,7 @@
 <translation id="6775835872637240659">Україна</translation>
 <translation id="6782010235320729294">Туркменістан</translation>
 <translation id="6821607741326790458">Ямайка</translation>
+<translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Пакистан</translation>
 <translation id="6920167780806379235">Сирія</translation>
 <translation id="6921505896641453739">Електронна адреса</translation>
@@ -310,7 +314,7 @@
 <translation id="7093343209860483088">Демократична Республіка Конго</translation>
 <translation id="7118080999850002096">Відновити пароль</translation>
 <translation id="7150917293543492988">Республіка Конго</translation>
-<translation id="7181082682267399880">Не вдалося знайти постачальника для <ph name="STRING" />.</translation>
+<translation id="7174424882502155514">Продовжити як гість</translation>
 <translation id="7192078949090526171">Сан-Марино</translation>
 <translation id="7197455001919474950">Кіпр</translation>
 <translation id="7198563013006562060">Соломонові Острови</translation>
@@ -340,6 +344,7 @@
 <translation id="7782885946428624225">Не вдалося підтвердити ваш номер телефону</translation>
 <translation id="7868540442111212282">Чехія</translation>
 <translation id="7874584525604421364">Тувалу</translation>
+<translation id="7926046652648626866">Увійти через GitHub</translation>
 <translation id="792838323404934335">Гренландія</translation>
 <translation id="7956645158976161232">Лівія</translation>
 <translation id="8013083476285293">Google</translation>

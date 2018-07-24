@@ -64,6 +64,7 @@
 <translation id="2285049245646335550">Kap Verde</translation>
 <translation id="2301396996587599046">Makedonien</translation>
 <translation id="2312980523495377579">For- og efternavn</translation>
+<translation id="2324942959480650701">Gæst</translation>
 <translation id="2331781584136059536">Ghana</translation>
 <translation id="2338909515537249568">Den browser, du bruger, understøtter ikke weblagring. Prøv igen i en anden browser.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Der opstod et problem med at ændre din login-mail tilbage.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Hvis du prøver igen og stadig ikke kan nulstille din mail, skal du bede din administrator om hjælp.<ph name="END_PARAGRAPH" /></translation>
@@ -257,8 +258,9 @@
 <translation id="6192657410634245771">Algeriet</translation>
 <translation id="6213969168046789596">Du har indtastet en forkert adgangskode for mange gange. Prøv igen om et par minutter.</translation>
 <translation id="6216759405419177713">Norfolkøen</translation>
-<translation id="6265373887273416711">Bekræft dit telefonnummer</translation>
-<translation id="6295157125625453859">Bekræftet!</translation>
+<translation id="6245066275978703471">Telefonnummeret blev bekræftet automatisk</translation>
+<translation id="6283536862756552051">For at ændre din adgangskode skal du først angive din nuværende adgangskode.</translation>
+<translation id="6299890279889400823">Tilbage</translation>
 <translation id="6316446940976157217">Indien</translation>
 <translation id="6327723482938582895">Benin</translation>
 <translation id="6338643731889005578">Fortsæt</translation>
@@ -283,6 +285,7 @@
 <translation id="6655128609744896303">Koden blev sendt.</translation>
 <translation id="6683477520421532707">Reunion</translation>
 <translation id="6683810982254923169">Prøv at nulstille din adgangskode igen</translation>
+<translation id="6689542920381638295">Fortsæt som gæst</translation>
 <translation id="6719973195813381061">Ecuador</translation>
 <translation id="6721310522324861790">Senegal</translation>
 <translation id="6724344978634903280">Botswana</translation>
@@ -295,6 +298,7 @@
 <translation id="6775835872637240659">Ukraine</translation>
 <translation id="6782010235320729294">Turkmenistan</translation>
 <translation id="6821607741326790458">Jamaica</translation>
+<translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
 <translation id="6920167780806379235">Syrien</translation>
 <translation id="6921505896641453739">Mail</translation>
@@ -310,7 +314,7 @@
 <translation id="7093343209860483088">Den Demokratiske Republik Congo</translation>
 <translation id="7118080999850002096">Gendan adgangskode</translation>
 <translation id="7150917293543492988">Republikken Congo</translation>
-<translation id="7181082682267399880">Kan ikke finde udbyder til <ph name="STRING" />.</translation>
+<translation id="7174424882502155514">Fortsæt som gæst</translation>
 <translation id="7192078949090526171">San Marino</translation>
 <translation id="7197455001919474950">Cypern</translation>
 <translation id="7198563013006562060">Salomonøerne</translation>
@@ -340,6 +344,7 @@
 <translation id="7782885946428624225">Dit telefonnummer kunne ikke bekræftes</translation>
 <translation id="7868540442111212282">Tjekkiet</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
+<translation id="7926046652648626866">Log ind med GitHub</translation>
 <translation id="792838323404934335">Grønland</translation>
 <translation id="7956645158976161232">Libyen</translation>
 <translation id="8013083476285293">Google</translation>

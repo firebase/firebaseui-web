@@ -19,6 +19,8 @@
 goog.provide('firebaseui.auth.ui.page.PhoneSignInStartTest');
 goog.setTestOnly('firebaseui.auth.ui.page.PhoneSignInStartTest');
 
+goog.require('firebaseui.auth.data.country.COUNTRY_LIST');
+goog.require('firebaseui.auth.data.country.LookupTree');
 goog.require('firebaseui.auth.ui.element.FormTestHelper');
 goog.require('firebaseui.auth.ui.element.InfoBarTestHelper');
 goog.require('firebaseui.auth.ui.element.PhoneNumberTestHelper');
@@ -28,6 +30,7 @@ goog.require('firebaseui.auth.ui.page.PageTestHelper');
 goog.require('firebaseui.auth.ui.page.PhoneSignInStart');
 goog.require('goog.dom');
 goog.require('goog.dom.TagName');
+goog.require('goog.dom.forms');
 goog.require('goog.events.KeyCodes');
 goog.require('goog.testing.events');
 goog.require('goog.testing.jsunit');
@@ -52,13 +55,15 @@ var tosPpTestHelper =
  *     or an invisible one otherwise.
  * @param {?string} tosUrl The ToS URL.
  * @param {?string} privacyPolicyUrl The Privacy Policy URL.
+ * @param {?firebaseui.auth.data.country.LookupTree=} opt_lookupTree The country
+ *     lookup prefix tree to search country code with.
  * @param {?string=} opt_countryId The ID (e164_key) of the country to
  *     pre-select.
  * @param {?string=} opt_nationalNumber The national number to pre-fill.
  * @return {!goog.ui.Component} The rendered PhoneSignInStart component.
  */
 function createComponent(enableVisibleRecaptcha, tosUrl, privacyPolicyUrl,
-    opt_countryId, opt_nationalNumber) {
+    opt_lookupTree, opt_countryId, opt_nationalNumber) {
   var component = new firebaseui.auth.ui.page.PhoneSignInStart(
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
@@ -66,8 +71,13 @@ function createComponent(enableVisibleRecaptcha, tosUrl, privacyPolicyUrl,
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onLinkClick,
           formTestHelper),
-      enableVisibleRecaptcha, tosUrl, privacyPolicyUrl, false,
-      opt_countryId, opt_nationalNumber);
+      enableVisibleRecaptcha,
+      tosUrl,
+      privacyPolicyUrl,
+      false,
+      opt_lookupTree,
+      opt_countryId,
+      opt_nationalNumber);
   component.render(root);
   phoneNumberTestHelper.setComponent(component);
   recaptchaTestHelper.setComponent(component);
@@ -98,6 +108,8 @@ function testPhoneSignInStart_visibleAndInvisibleRecaptcha() {
   component.dispose();
   // With invisible reCAPTCHA.
   component = createComponent(false);
+  // Country selector defaults to US.
+  assertEquals('\u200e+1', component.getCountrySelectorElement().textContent);
   assertNull(component.getRecaptchaElement());
   assertNull(component.getRecaptchaErrorElement());
   // With visible reCAPTCHA.
@@ -111,12 +123,87 @@ function testPhoneSignInStart_visibleAndInvisibleRecaptcha() {
 function testPhoneSignInStart_prefillValue() {
   component.dispose();
 
-  component = createComponent(false, null, null, '45-DK-0', '6505550101');
+  component = createComponent(false, null, null, null,
+                              '45-DK-0', '6505550101');
 
   // The prefilled number should be returned.
   assertEquals('+456505550101', component.getPhoneNumberValue()
       .getPhoneNumber());
   assertEquals('6505550101', component.getPhoneNumberElement().value);
+}
+
+
+function testPhoneSignInStart_provideCountries_noDefaultCountry() {
+  // Tests that available countries is provided but no default country is
+  // configured so the default country is set to the first available country.
+  var nationalNumber = '6505550101';
+  component.dispose();
+  var countries = firebaseui.auth.data.country.COUNTRY_LIST.slice(1, 20);
+  var lookupTree = new firebaseui.auth.data.country.LookupTree(countries);
+  component = createComponent(false, null, null, lookupTree);
+  var countrySelector = component.getCountrySelectorElement();
+  // Default to the first country in the list provided since US is not in the
+  // list and no default country being set.
+  assertEquals('\u200e+' + countries[0].e164_cc, countrySelector.textContent);
+  goog.testing.events.fireClickSequence(countrySelector);
+  var buttons = goog.dom.getElementsByTagName(
+      'button', component.getDialogElement());
+  // Change to the second country in the list by clicking the second button.
+  goog.testing.events.fireClickSequence(buttons[1]);
+  assertEquals('\u200e+' + countries[1].e164_cc, countrySelector.textContent);
+
+  var phoneInput = component.getPhoneNumberElement();
+  goog.dom.forms.setValue(phoneInput, nationalNumber);
+  var result = this.component.getPhoneNumberValue();
+  assertEquals('+' + countries[1].e164_cc + nationalNumber,
+               result.getPhoneNumber());
+  assertEquals(nationalNumber, result.nationalNumber);
+  assertEquals(countries[1].e164_key, result.countryId);
+
+  // Change back to +358, the first country should be selected.
+  goog.dom.forms.setValue(phoneInput, '+');
+  phoneNumberTestHelper.fireInputEvent(
+      phoneInput, goog.events.KeyCodes.PLUS_SIGN);
+  // The second country should still be selected.
+  assertEquals('\u200e+' + countries[1].e164_cc, countrySelector.textContent);
+  goog.dom.forms.setValue(phoneInput, '+' + countries[0].e164_cc);
+  phoneNumberTestHelper.fireInputEvent(
+      phoneInput, goog.events.KeyCodes.NUM_THREE);
+  phoneNumberTestHelper.fireInputEvent(
+      phoneInput, goog.events.KeyCodes.NUM_FIVE);
+  phoneNumberTestHelper.fireInputEvent(
+      phoneInput, goog.events.KeyCodes.NUM_EIGHT);
+  //The button content and icon should reflect the first country's code.
+  assertEquals('\u200e+' + countries[0].e164_cc, countrySelector.textContent);
+}
+
+
+function testPhoneSignInStart_provideCountries_withDefaultCountry() {
+  component.dispose();
+  component = createComponent(false, null, null,
+                              firebaseui.auth.data.country.LOOKUP_TREE,
+                              '86-CN-0');
+  var countrySelector = component.getCountrySelectorElement();
+  // Should be default to China.
+  assertEquals('\u200e+86', countrySelector.textContent);
+}
+
+
+function testPhoneSignInStart_defaultCountryNotAvailable() {
+  // Tests that available countries are provided but default country is
+  // not in the available country list so the default country is ignored.
+  // Provides 1st to 20th countries in full country list and sets default to
+  // 21st country. Verifies that default country will be set to 1st country
+  // since the default country is not available.
+  component.dispose();
+  var countries = firebaseui.auth.data.country.COUNTRY_LIST.slice(0, 20);
+  var lookupTree = new firebaseui.auth.data.country.LookupTree(countries);
+  component = createComponent(false, null, null, lookupTree,
+                              firebaseui.auth.data.country.COUNTRY_LIST[20]);
+  var countrySelector = component.getCountrySelectorElement();
+  // Default to the first country in the list provided since US is not in the
+  // list and default countries is not available.
+  assertEquals('\u200e+' + countries[0].e164_cc, countrySelector.textContent);
 }
 
 

@@ -20,6 +20,7 @@ goog.provide('firebaseui.auth.widget.dispatcherTest');
 
 goog.require('firebaseui.auth.AuthUI');
 goog.require('firebaseui.auth.CredentialHelper');
+goog.require('firebaseui.auth.idp');
 goog.require('firebaseui.auth.storage');
 goog.require('firebaseui.auth.testing.FakeAcClient');
 goog.require('firebaseui.auth.testing.FakeAppClient');
@@ -64,6 +65,32 @@ function setUp() {
   firebase.initializeApp = function(options, name) {
     return new firebaseui.auth.testing.FakeAppClient(options, name);
   };
+  // Build mock auth providers.
+  firebase['auth'] = {};
+  for (var key in firebaseui.auth.idp.AuthProviders) {
+    firebase['auth'][firebaseui.auth.idp.AuthProviders[key]] = function() {
+      this.scopes = [];
+      this.customParameters = {};
+    };
+    firebase['auth'][firebaseui.auth.idp.AuthProviders[key]].PROVIDER_ID = key;
+    for (var method in firebaseui.auth.idp.SignInMethods[key]) {
+      firebase['auth'][firebaseui.auth.idp.AuthProviders[key]][method] =
+          firebaseui.auth.idp.SignInMethods[key][method];
+    }
+    if (key != 'twitter.com' && key != 'password') {
+      firebase['auth'][firebaseui.auth.idp.AuthProviders[key]]
+          .prototype.addScope = function(scope) {
+        this.scopes.push(scope);
+      };
+    }
+    if (key != 'password') {
+      // Record setCustomParameters for all OAuth providers.
+      firebase['auth'][firebaseui.auth.idp.AuthProviders[key]]
+          .prototype.setCustomParameters = function(customParameters) {
+        this.customParameters = customParameters;
+      };
+    }
+  }
   // Initialize external Firebase app.
   externalAuthApp = new firebaseui.auth.testing.FakeAppClient();
   // Pass installed external Firebase Auth instance.

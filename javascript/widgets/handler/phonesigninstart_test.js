@@ -34,6 +34,7 @@ goog.require('firebaseui.auth.widget.handler.testHelper');
 goog.require('goog.Promise');
 goog.require('goog.dom');
 goog.require('goog.dom.forms');
+goog.require('goog.testing.events');
 
 
 /**
@@ -684,6 +685,234 @@ function testHandlePhoneSignInStart_defaultCountry() {
         ['+441234567890', recaptchaVerifierInstance],
         mockConfirmationResult);
     return externalAuth.process();
+  });
+}
+
+
+function testHandlePhoneSignInStart_whitelistedCountries() {
+  // Whitelisted +1 countries and GB. Default should be set to US since no
+  // default country provided.
+  app.setConfig({
+    'signInOptions': [{
+      'provider': 'phone',
+      'whitelistedCountries': ['+44', 'US']
+    }]
+  });
+  firebaseui.auth.widget.handler.handlePhoneSignInStart(app, container);
+  assertPhoneSignInStartPage();
+
+  // The widget should be populated with the correct country, but the national
+  // number input should still be empty.
+  assertEquals('\u200e+1', getPhoneCountrySelectorElement().textContent);
+  assertEquals('', getPhoneInputElement().value);
+  // Clicks the country selector button and only the whitelisted country buttons
+  // should be shown.
+  goog.testing.events.fireClickSequence(getPhoneCountrySelectorElement());
+  var actualKeys = getKeysForCountrySelectorButtons();
+  assertArrayEquals(
+      ['44-GG-0', '44-IM-0', '44-JE-0', '44-GB-0', '1-US-0'], actualKeys);
+
+  recaptchaVerifierInstance.assertInitializedWithParameters(
+      getRecaptchaElement(), {}, app.getExternalAuth().app);
+  recaptchaVerifierInstance.assertRender([], 0);
+  return recaptchaVerifierInstance.process().then(function() {
+    var callback = recaptchaVerifierInstance.getParameters()['callback'];
+    callback('RECAPTCHA_TOKEN');
+
+    // Enter a phone number.
+    goog.dom.forms.setValue(getPhoneNumberElement(), '1234567890');
+
+    // Submit the form.
+    submitForm();
+    var mockConfirmationResult = createMockConfirmationResult('signIn', false);
+    // Sign in with phone number should be triggered with the correct country
+    // code.
+    externalAuth.assertSignInWithPhoneNumber(
+        ['+11234567890', recaptchaVerifierInstance],
+        mockConfirmationResult);
+    return externalAuth.process();
+  });
+}
+
+
+function testHandlePhoneSignInStart_whitelistedCountries_defaultCountry() {
+  // Whitelisted +1 countries and GB. Default should be set to GB.
+  app.setConfig({
+    'signInOptions': [{
+      'provider': 'phone',
+      'defaultCountry': 'gb',
+      'whitelistedCountries': ['+44', 'US']
+    }]
+  });
+  firebaseui.auth.widget.handler.handlePhoneSignInStart(app, container);
+  assertPhoneSignInStartPage();
+
+  // The widget should be populated with the correct country, but the national
+  // number input should still be empty.
+  assertEquals('\u200e+44', getPhoneCountrySelectorElement().textContent);
+  assertEquals('', getPhoneInputElement().value);
+  // Clicks the country selector button and only the whitelisted country buttons
+  // should be shown.
+  goog.testing.events.fireClickSequence(getPhoneCountrySelectorElement());
+  var actualKeys = getKeysForCountrySelectorButtons();
+  assertArrayEquals(
+      ['44-GG-0', '44-IM-0', '44-JE-0', '44-GB-0', '1-US-0'], actualKeys);
+
+  recaptchaVerifierInstance.assertInitializedWithParameters(
+      getRecaptchaElement(), {}, app.getExternalAuth().app);
+  recaptchaVerifierInstance.assertRender([], 0);
+  return recaptchaVerifierInstance.process().then(function() {
+    var callback = recaptchaVerifierInstance.getParameters()['callback'];
+    callback('RECAPTCHA_TOKEN');
+
+    // Enter a phone number.
+    goog.dom.forms.setValue(getPhoneNumberElement(), '1234567890');
+
+    // Submit the form.
+    submitForm();
+    var mockConfirmationResult = createMockConfirmationResult('signIn', false);
+    // Sign in with phone number should be triggered with the correct country
+    // code.
+    externalAuth.assertSignInWithPhoneNumber(
+        ['+441234567890', recaptchaVerifierInstance],
+        mockConfirmationResult);
+    return externalAuth.process();
+  });
+}
+
+
+function testHandlePhoneSignInStart_blacklistedCountries() {
+  // Blacklisted US. Default should be set to the available first country(AF)
+  // since default country US is blacklisted.
+  app.setConfig({
+    'signInOptions': [{
+      'provider': 'phone',
+      'blacklistedCountries': ['US']
+    }]
+  });
+  firebaseui.auth.widget.handler.handlePhoneSignInStart(app, container);
+  assertPhoneSignInStartPage();
+
+  // The widget should be populated with the correct country, but the national
+  // number input should still be empty. Since default country US is
+  // blacklisted, the code of first available country is shown, which is AF.
+  // Verifies that default country is not set to US since it's blacklisted.
+  assertNotEquals('\u200e+1', getPhoneCountrySelectorElement().textContent);
+  assertEquals('', getPhoneInputElement().value);
+  // Clicks the country selector button and the blacklisted country buttons
+  // should not be shown.
+  goog.testing.events.fireClickSequence(getPhoneCountrySelectorElement());
+  var actualKeys = getKeysForCountrySelectorButtons();
+  assertNotContains('1-US-0', actualKeys);
+
+  recaptchaVerifierInstance.assertInitializedWithParameters(
+      getRecaptchaElement(), {}, app.getExternalAuth().app);
+  recaptchaVerifierInstance.assertRender([], 0);
+  return recaptchaVerifierInstance.process().then(function() {
+    var callback = recaptchaVerifierInstance.getParameters()['callback'];
+    callback('RECAPTCHA_TOKEN');
+
+    // Enter a phone number.
+    goog.dom.forms.setValue(getPhoneNumberElement(), '1234567890');
+
+    // Submit the form.
+    submitForm();
+    var mockConfirmationResult = createMockConfirmationResult('signIn', false);
+    // Sign in with phone number should be triggered with the correct country
+    // code.
+    externalAuth.assertSignInWithPhoneNumber(
+        ['+931234567890', recaptchaVerifierInstance],
+        mockConfirmationResult);
+    return externalAuth.process();
+  });
+}
+
+
+function testHandlePhoneSignInStart_blacklistedCountries_loginHint() {
+  // Blacklisted US. Default should be set to the first +44 country.
+  app.setConfig({
+    'signInOptions': [{
+      'provider': 'phone',
+      'loginHint': '+441234567890',
+      'blacklistedCountries': ['US']
+    }]
+  });
+  firebaseui.auth.widget.handler.handlePhoneSignInStart(app, container);
+  assertPhoneSignInStartPage();
+
+  // The widget should be populated with the correct country, but the national
+  // number input should still be empty.
+  assertEquals('\u200e+44', getPhoneCountrySelectorElement().textContent);
+  assertEquals('1234567890', getPhoneInputElement().value);
+  // Clicks the country selector button and the blacklisted country buttons
+  // should not be shown.
+  goog.testing.events.fireClickSequence(getPhoneCountrySelectorElement());
+  var actualKeys = getKeysForCountrySelectorButtons();
+  assertNotContains('1-US-0', actualKeys);
+
+  recaptchaVerifierInstance.assertInitializedWithParameters(
+      getRecaptchaElement(), {}, app.getExternalAuth().app);
+  recaptchaVerifierInstance.assertRender([], 0);
+  return recaptchaVerifierInstance.process().then(function() {
+    var callback = recaptchaVerifierInstance.getParameters()['callback'];
+    callback('RECAPTCHA_TOKEN');
+
+    // Enter a phone number.
+    goog.dom.forms.setValue(getPhoneNumberElement(), '1234567890');
+
+    // Submit the form.
+    submitForm();
+    var mockConfirmationResult = createMockConfirmationResult('signIn', false);
+    // Sign in with phone number should be triggered with the correct country
+    // code.
+    externalAuth.assertSignInWithPhoneNumber(
+        ['+441234567890', recaptchaVerifierInstance],
+        mockConfirmationResult);
+    return externalAuth.process();
+  });
+}
+
+
+function testHandlePhoneSignInStart_unsupportedCountryProvided() {
+  // Blacklisted US. Default should be set to the first +44 country.
+  app.setConfig({
+    'signInOptions': [{
+      'provider': 'phone',
+      'whitelistedCountries': ['US']
+    }]
+  });
+  firebaseui.auth.widget.handler.handlePhoneSignInStart(app, container);
+  assertPhoneSignInStartPage();
+
+  // The widget should be populated with the correct country, but the national
+  // number input should still be empty.
+  assertEquals('\u200e+1', getPhoneCountrySelectorElement().textContent);
+  assertEquals('', getPhoneInputElement().value);
+  // Clicks the country selector button and only the whitelisted country buttons
+  // should be shown.
+  goog.testing.events.fireClickSequence(getPhoneCountrySelectorElement());
+  var actualKeys = getKeysForCountrySelectorButtons();
+  assertArrayEquals(['1-US-0'], actualKeys);
+
+  recaptchaVerifierInstance.assertInitializedWithParameters(
+      getRecaptchaElement(), {}, app.getExternalAuth().app);
+  recaptchaVerifierInstance.assertRender([], 0);
+  return recaptchaVerifierInstance.process().then(function() {
+    var callback = recaptchaVerifierInstance.getParameters()['callback'];
+    callback('RECAPTCHA_TOKEN');
+
+    // Enter a phone number with unsupported country code +44.
+    goog.dom.forms.setValue(getPhoneNumberElement(), '+447123123456');
+    // Submit the form.
+    submitForm();
+    assertPhoneSignInStartPage();
+    // Phone number should be cleared.
+    assertEquals('', goog.dom.forms.getValue(getPhoneNumberElement()));
+    // Error message should be displayed to user.
+    assertEquals(
+        firebaseui.auth.soy2.strings.errorUnsupportedCountryCode().toString(),
+        getPhoneNumberErrorMessage());
+    assertNoInfoBarMessage();
   });
 }
 
