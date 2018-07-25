@@ -66,7 +66,7 @@ declare namespace firebaseui.auth {
     queryParameterForSignInSuccessUrl?: string;
     queryParameterForWidgetMode?: string;
     signInFlow?: string;
-    signInOptions?: Array<string | SignInOption>;
+    signInOptions?: Array<string | FederatedSignInOption | EmailSignInOption | PhoneSignInOption>;
     signInSuccessUrl?: string;
     siteName?: string;
     tosUrl?: string;
