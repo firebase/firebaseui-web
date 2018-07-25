@@ -70,7 +70,7 @@ trap killServer EXIT
 
 # If --saucelabs option is passed, forward it to the protractor command adding
 # the second argument that is required for local SauceLabs test run.
-if [[ $1 = "--saucelabs" ]]; then
+if [[ $1 = "--saucelabs" ] && [[[$TRAVIS = true] && [$TRAVIS_SECURE_ENV_VARS = true]] || [$TRAVIS = false ]]]; then
   seleniumStarted=false
   sleep 2
   echo "Using SauceLabs."
