@@ -51,6 +51,7 @@ cd "$(dirname $(dirname "$0"))"
 BIN_PATH="./node_modules/.bin"
 PROTRACTOR_BIN_PATH="./node_modules/protractor/bin"
 
+
 function killServer () {
   if [ "$seleniumStarted" = true ]; then
     echo "Stopping Selenium..."
@@ -71,7 +72,7 @@ trap killServer EXIT
 # If --saucelabs option is passed, forward it to the protractor command adding
 # the second argument that is required for local SauceLabs test run.
 if [[ $1 = "--saucelabs" ]]; then
-  if [[[ "$TRAVIS" = true ] && [ "$TRAVIS_SECURE_ENV_VARS" = true ]] || [ "$TRAVIS" = false ]]; then
+  if [[ ( "$TRAVIS" = true  &&  "$TRAVIS_SECURE_ENV_VARS" = true ) || ( -z "$TRAVIS" ) ]]; then
     seleniumStarted=false
     sleep 2
     echo "Using SauceLabs."
