@@ -1,0 +1,3 @@
+feature - Supports `Continue as guest` and add new sign in provider `firebaseui.auth.AnonymousAuthProvider`.
+feature - Adds the ability to configure country selection for phone Auth.
+fixed - Adds return type for `start()` and `setConfig()` in typescript declaration.
