@@ -70,6 +70,7 @@ declare namespace firebaseui.auth {
     signInSuccessUrl?: string;
     siteName?: string;
     tosUrl?: string;
+    privacyPolicyUrl?: string;
     widgetUrl?: string;
   }
 
