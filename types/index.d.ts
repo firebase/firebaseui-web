@@ -30,20 +30,14 @@ interface Callbacks {
 
 interface SignInOption {
   provider: string;
-}
-
-interface FederatedSignInOption extends SignInOption {
+  // Federated
   authMethod?: string;
   clientId?: string;
   scopes?: string[];
   customParameters?: object;
-}
-
-interface EmailSignInOption extends SignInOption {
+  // Email
   requireDisplayName?: boolean;
-}
-
-interface PhoneSignInOption extends SignInOption {
+  // Phone
   recaptchaParameters?: {
     type?: string;
     size?: string;
