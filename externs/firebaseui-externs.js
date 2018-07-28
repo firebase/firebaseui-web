@@ -231,7 +231,11 @@ firebaseui.auth.Config.prototype.signInFlow;
  * Determines the list of IdPs for handling federated sign-in, phone number as
  * well as password account sign-up.
  *
- * @type {!Array<!firebaseui.auth.SignInOption>|undefined}
+ * @type {!Array<
+ *  !firebaseui.auth.FederatedSignInOption|
+ *  !firebaseui.auth.EmailSignInOption|
+ *  !firebaseui.auth.PhoneSignInOption>
+ *  |undefined}
  */
 firebaseui.auth.Config.prototype.signInOptions;
 
@@ -327,19 +331,29 @@ firebaseui.auth.SignInOption = function() {};
 firebaseui.auth.SignInOption.prototype.provider;
 
 /**
+ * Defines the sign-in option
+ * needed to configure the FirebaseUI federated sign-in widget.
+ *
+ * @interface
+ */
+firebaseui.auth.FederatedSignInOption = function() {};
+firebaseui.auth.FederatedSignInOption.prototype
+  = Object.create(firebaseui.auth.SignInOption);
+
+/**
  * The Auth method (typically the authorization endpoint) needed for one-tap
  * sign-up, eg: 'https://accounts.google.com'.
  *
  * @type {string|undefined}
  */
-firebaseui.auth.SignInOption.prototype.authMethod;
+firebaseui.auth.FederatedSignInOption.prototype.authMethod;
 
 /**
  * The OAuth client ID needed for one-tap sign-up credential helper.
  *
  * @type {string|undefined}
  */
-firebaseui.auth.SignInOption.prototype.clientId;
+firebaseui.auth.FederatedSignInOption.prototype.clientId;
 
 /**
  * The list of additional OAuth scopes for the selected provider.
@@ -351,7 +365,7 @@ firebaseui.auth.SignInOption.prototype.clientId;
  *
  * @type {!Array<string>|undefined}
  */
-firebaseui.auth.SignInOption.prototype.scopes;
+firebaseui.auth.FederatedSignInOption.prototype.scopes;
 
 /**
  * The custom OAuth parameters for the selected OAuth provider.
@@ -365,7 +379,17 @@ firebaseui.auth.SignInOption.prototype.scopes;
  *
  * @type {!Object|undefined}
  */
-firebaseui.auth.SignInOption.prototype.customParameters;
+firebaseui.auth.FederatedSignInOption.prototype.customParameters;
+
+/**
+ * Defines the sign-in option
+ * needed to configure the FirebaseUI email sign-in widget.
+ *
+ * @interface
+ */
+firebaseui.auth.EmailSignInOption = function() {};
+firebaseui.auth.EmailSignInOption.prototype
+  = Object.create(firebaseui.auth.SignInOption);
 
 /**
  * Whether to require the display name to be provided for email/password user
@@ -373,7 +397,17 @@ firebaseui.auth.SignInOption.prototype.customParameters;
  *
  * @type {boolean|undefined}
  */
-firebaseui.auth.SignInOption.prototype.requireDisplayName;
+firebaseui.auth.EmailSignInOption.prototype.requireDisplayName;
+
+/**
+ * Defines the sign-in option
+ * needed to configure the FirebaseUI phone sign-in widget.
+ *
+ * @interface
+ */
+firebaseui.auth.PhoneSignInOption = function() {};
+firebaseui.auth.PhoneSignInOption.prototype
+  = Object.create(firebaseui.auth.SignInOption);
 
 /**
  * The reCAPTCHA parameters needed to customize the reCAPTCHA for phone
@@ -392,14 +426,20 @@ firebaseui.auth.SignInOption.prototype.requireDisplayName;
  *   badge: (string|undefined)
  * }|undefined}
  */
-firebaseui.auth.SignInOption.prototype.recaptchaParameters;
+firebaseui.auth.PhoneSignInOption.prototype.recaptchaParameters = function() {};
+firebaseui.auth.PhoneSignInOption.prototype.recaptchaParameters
+  .prototype.type;
+firebaseui.auth.PhoneSignInOption.prototype.recaptchaParameters
+  .prototype.size;
+firebaseui.auth.PhoneSignInOption.prototype.recaptchaParameters
+  .prototype.badge;
 
 /**
  * Sets the default country, eg. (GB) for the United Kingdom.
  *
  * @type {string|undefined}
  */
-firebaseui.auth.SignInOption.prototype.defaultCountry;
+firebaseui.auth.PhoneSignInOption.prototype.defaultCountry;
 
 /**
  * The default national number which will be prefilled when the phone sign-in
@@ -410,7 +450,7 @@ firebaseui.auth.SignInOption.prototype.defaultCountry;
  *
  * @type {string|undefined}
  */
-firebaseui.auth.SignInOption.prototype.defaultNationalNumber;
+firebaseui.auth.PhoneSignInOption.prototype.defaultNationalNumber;
 
 /**
  * The full phone number string instead of the 'defaultCountry' and
@@ -421,7 +461,7 @@ firebaseui.auth.SignInOption.prototype.defaultNationalNumber;
  *
  * @type {string|undefined}
  */
-firebaseui.auth.SignInOption.prototype.loginHint;
+firebaseui.auth.PhoneSignInOption.prototype.loginHint;
 
 /**
  * Sets the whitelisted countries. Accept either ISO (alpha-2) or E164 formatted
@@ -432,7 +472,7 @@ firebaseui.auth.SignInOption.prototype.loginHint;
  *
  * @type {!Array<string>|undefined}
  */
-firebaseui.auth.SignInOption.prototype.whitelistedCountries;
+firebaseui.auth.PhoneSignInOption.prototype.whitelistedCountries;
 
 /**
  * Sets the blacklisted countries. Accept either ISO (alpha-2) or E164 formatted
@@ -443,4 +483,4 @@ firebaseui.auth.SignInOption.prototype.whitelistedCountries;
  *
  * @type {!Array<string>|undefined}
  */
-firebaseui.auth.SignInOption.prototype.blacklistedCountries;
+firebaseui.auth.PhoneSignInOption.prototype.blacklistedCountries;
