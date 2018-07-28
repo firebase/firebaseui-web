@@ -39,6 +39,7 @@ SDK supports them in a way that is compatible with FirebaseUI.
 9. [React DOM Setup](#react-dom-setup)
 10. [Known issues](#known-issues)
 11. [Release Notes](#release-notes)
+12.
 
 ## Demo
 
