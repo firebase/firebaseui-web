@@ -257,6 +257,13 @@ firebaseui.auth.Config.prototype.siteName;
 firebaseui.auth.Config.prototype.tosUrl;
 
 /**
+ * The privacy policy URL.
+ *
+ * @type {string|undefined}
+ */
+firebaseui.auth.Config.prototype.privacyPolicyUrl;
+
+/**
  * The sign-in widget URL. If not provided, this is the current URL.
  *
  * @type {string|undefined}
