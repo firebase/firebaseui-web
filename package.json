@@ -46,6 +46,7 @@
     "gulp-concat-css": "^2.3.0",
     "gulp-connect": "^5.0.0",
     "gulp-css-flip": "^0.4.0",
+    "gulp-css-inline-images": "^0.1.1",
     "gulp-sass": "^2.3.2",
     "gulp-util": "^3.0.7",
     "material-design-lite": "^1.2.0",
