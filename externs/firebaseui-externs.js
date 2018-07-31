@@ -231,10 +231,11 @@ firebaseui.auth.Config.prototype.signInFlow;
  * Determines the list of IdPs for handling federated sign-in, phone number as
  * well as password account sign-up.
  *
- * @type {!Array<
- *  !firebaseui.auth.FederatedSignInOption|
- *  !firebaseui.auth.EmailSignInOption|
- *  !firebaseui.auth.PhoneSignInOption>
+ * @type {!Array
+ *  <!firebaseui.auth.FederatedSignInOption
+ *  |!firebaseui.auth.EmailSignInOption
+ *  |!firebaseui.auth.PhoneSignInOption
+ *  |string>
  *  |undefined}
  */
 firebaseui.auth.Config.prototype.signInOptions;
