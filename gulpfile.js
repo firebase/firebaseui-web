@@ -170,12 +170,10 @@ function repeatTaskForAllLocales(taskName, dependencies, operation) {
     const replaceTokens = (name) => name.replace(/\$/g, locale);
     const localeTaskName = replaceTokens(taskName);
     const localeDependencies = dependencies.map(replaceTokens);
-
     gulp.task(localeTaskName, gulp.series(
-      gulp.parallel(...localeDependencies),
-      () => operation(locale),
+        gulp.parallel(...localeDependencies),
+        () => operation(locale),
     ));
-
     return localeTaskName;
   });
 }
@@ -256,9 +254,9 @@ gulp.task('build-externs',
 // Builds the core FirebaseUI JS. Generates the gulp tasks
 // build-firebaseui-js-de, build-firebaseui-js-fr, etc.
 repeatTaskForAllLocales(
-  'build-firebaseui-js-$',
-  ['build-externs', 'build-ts', 'build-soy'],
-  buildFirebaseUiJs,
+    'build-firebaseui-js-$',
+    ['build-externs', 'build-ts', 'build-soy'],
+    buildFirebaseUiJs,
 );
 
 // Bundles the FirebaseUI JS with its dependencies as a NPM module. This builds
@@ -270,25 +268,25 @@ repeatTaskForAllLocales(
 // Bundles the FirebaseUI JS with its dependencies for all locales.
 // Generates the gulp tasks build-js-de, build-js-fr, etc.
 const buildJsTasks = repeatTaskForAllLocales(
-  'build-js-$', ['build-firebaseui-js-$'],
-  (locale) => concatWithDeps(locale, 'firebaseui', OUTPUT_WRAPPER));
+    'build-js-$', ['build-firebaseui-js-$'],
+    (locale) => concatWithDeps(locale, 'firebaseui', OUTPUT_WRAPPER));
 
 // Builds the final JS file for the default language.
 gulp.task('build-js', gulp.series(
-  'build-js-' + DEFAULT_LOCALE,
-  () => makeDefaultFile('firebaseui'),
+    'build-js-' + DEFAULT_LOCALE,
+    () => makeDefaultFile('firebaseui'),
 ));
 
 // Builds the final JS file for all supported languages.
 gulp.task('build-all-js', gulp.series(
-  gulp.parallel(...buildJsTasks),
-  () => makeDefaultFile('firebaseui'),
+    gulp.parallel(...buildJsTasks),
+    () => makeDefaultFile('firebaseui'),
 ));
 
 // Builds the NPM module for the default language.
 gulp.task('build-npm', gulp.series(
-  'build-npm-' + DEFAULT_LOCALE,
-  () => makeDefaultFile('npm'),
+    'build-npm-' + DEFAULT_LOCALE,
+    () => makeDefaultFile('npm'),
 ));
 
 /**
@@ -337,18 +335,18 @@ gulp.task('clean', () => fse.remove(TMP_DIR));
 
 // Executes the basic tasks for the default language.
 gulp.task('default', gulp.series(
-  gulp.parallel(
-    'build-externs', 'build-ts', 'build-js',
-    'build-npm', 'build-css', 'build-css-rtl',
-  ),
-  'clean',
+    gulp.parallel(
+        'build-externs', 'build-ts', 'build-js',
+        'build-npm', 'build-css', 'build-css-rtl',
+    ),
+    'clean',
 ));
 
 // Builds everything (JS for all languages, both LTR and RTL CSS).
 gulp.task('build-all', gulp.series(
-  gulp.parallel(
-    'build-externs', 'build-ts', 'build-all-js',
-    'build-npm', 'build-css', 'build-css-rtl',
-  ),
-  'clean',
+    gulp.parallel(
+        'build-externs', 'build-ts', 'build-all-js',
+        'build-npm', 'build-css', 'build-css-rtl',
+    ),
+    'clean',
 ));
