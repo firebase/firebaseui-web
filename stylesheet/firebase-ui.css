@@ -527,12 +527,14 @@ input.firebaseui-input-invalid{
   height: 2px;
   left: 0;
   position: absolute;
-  top: 55px;
+  top: auto;
+  bottom: 0;
   width: 100%;
 }
 
 .firebaseui-callback-indicator-container .firebaseui-busy-indicator {
-  top: 0px;
+  top: 0;
+  bottom: auto;
 }
 
 .firebaseui-page-provider-sign-in .firebaseui-busy-indicator {
@@ -636,7 +638,8 @@ input.firebaseui-input-invalid{
   }
 
   .firebaseui-busy-indicator {
-    top: 0px;
+    top: 0;
+    bottom: auto;
   }
 }
 
