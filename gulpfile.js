@@ -16,6 +16,7 @@ const cleanCSS = require('gulp-clean-css');
 const closureBuilder = require('closure-builder');
 const closureCompiler = require('gulp-closure-compiler');
 const concatCSS = require('gulp-concat-css');
+const cssInlineImages = require('gulp-css-inline-images');
 const connect = require('gulp-connect');
 const fse = require('fs-extra');
 const flip = require('gulp-css-flip');
@@ -287,7 +288,10 @@ gulp.task('build-npm', ['build-npm-' + DEFAULT_LOCALE],
  */
 function buildCss(isRtl) {
   const mdlSrcs = gulp.src('stylesheet/mdl.scss')
-      .pipe(sass.sync().on('error', sass.logError));
+      .pipe(sass.sync().on('error', sass.logError))
+      .pipe(cssInlineImages({
+        webRoot: 'node_modules/material-design-lite/src',
+      }));
   const dialogPolyfillSrcs = gulp.src(
       'node_modules/dialog-polyfill/dialog-polyfill.css');
   let firebaseSrcs = gulp.src('stylesheet/*.css');
