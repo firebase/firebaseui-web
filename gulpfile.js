@@ -210,6 +210,14 @@ function buildFirebaseUiJs(locale) {
   ], getTmpJsPath(locale), flags);
 }
 
+// Builds the core FirebaseUI JS. Generates the gulp tasks
+// build-firebaseui-js-de, build-firebaseui-js-fr, etc.
+repeatTaskForAllLocales(
+    'build-firebaseui-js-$',
+    ['build-externs', 'build-ts', 'build-soy'],
+    buildFirebaseUiJs,
+);
+
 /**
  * Concatenates the core FirebaseUI JS with its external dependencies, and
  * cleans up comments and whitespace in the dependencies.
@@ -250,14 +258,6 @@ gulp.task('build-ts',
 // Generates the externs definitions.
 gulp.task('build-externs',
     () => gulp.src(EXTERNS_FILES).pipe(gulp.dest(`${DEST_DIR}/externs/`)));
-
-// Builds the core FirebaseUI JS. Generates the gulp tasks
-// build-firebaseui-js-de, build-firebaseui-js-fr, etc.
-repeatTaskForAllLocales(
-    'build-firebaseui-js-$',
-    ['build-externs', 'build-ts', 'build-soy'],
-    buildFirebaseUiJs,
-);
 
 // Bundles the FirebaseUI JS with its dependencies as a NPM module. This builds
 // the NPM module for all languages.
