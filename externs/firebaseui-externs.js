@@ -336,10 +336,9 @@ firebaseui.auth.SignInOption.prototype.provider;
  * needed to configure the FirebaseUI federated sign-in widget.
  *
  * @interface
+ * @extends {firebaseui.auth.SignInOption}
  */
 firebaseui.auth.FederatedSignInOption = function() {};
-firebaseui.auth.FederatedSignInOption.prototype
-  = Object.create(firebaseui.auth.SignInOption);
 
 /**
  * The Auth method (typically the authorization endpoint) needed for one-tap
@@ -387,10 +386,9 @@ firebaseui.auth.FederatedSignInOption.prototype.customParameters;
  * needed to configure the FirebaseUI email sign-in widget.
  *
  * @interface
+ * @extends {firebaseui.auth.SignInOption}
  */
 firebaseui.auth.EmailSignInOption = function() {};
-firebaseui.auth.EmailSignInOption.prototype
-  = Object.create(firebaseui.auth.SignInOption);
 
 /**
  * Whether to require the display name to be provided for email/password user
@@ -405,10 +403,9 @@ firebaseui.auth.EmailSignInOption.prototype.requireDisplayName;
  * needed to configure the FirebaseUI phone sign-in widget.
  *
  * @interface
+ * @extends {firebaseui.auth.SignInOption}
  */
 firebaseui.auth.PhoneSignInOption = function() {};
-firebaseui.auth.PhoneSignInOption.prototype
-  = Object.create(firebaseui.auth.SignInOption);
 
 /**
  * The reCAPTCHA parameters needed to customize the reCAPTCHA for phone
