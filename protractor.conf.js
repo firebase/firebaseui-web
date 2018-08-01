@@ -52,27 +52,21 @@ config = {
   }
 };
 
-// Read arguments to the protractor command.
-// The first 3 arguments are something similar to:
-// [ '.../bin/node',
-//  '.../node_modules/.bin/protractor',
-//  'protractor.conf.js' ]
-var arguments = process.argv.slice(3);
-
-// Default options: run tests locally (saucelabs false) and use the env variable
+// Default options: run tests locally (SAUCE_ENABLED=false) and use the env variable
 // TRAVIS_JOB_NUMBER to get the tunnel identifier, when using saucelabs.
 var options = {
   saucelabs: false,
   tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER
 };
 
-for (var i = 0; i < arguments.length; i++) {
-  var arg = arguments[i];
-  if (arg == '--saucelabs') {
-    options.saucelabs = true;
-  } else if (arg.indexOf('--tunnelIdentifier') == 0) {
-    options.tunnelIdentifier = arg.split('=')[1];
-  }
+function isEmpty(object) {
+  return (!object || 0 === object.length);
+}
+
+if (/^t(?:rue)?$/i.test(process.env.SAUCE_ENABLED)) {
+  options.saucelabs = true;
+} else if (!isEmpty(process.env.TUNNEL_IDENTIFIER)) {
+  options.tunnelIdentifier = process.env.TUNNEL_IDENTIFIER;
 }
 
 if (options.saucelabs) {

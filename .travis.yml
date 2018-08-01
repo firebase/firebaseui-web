@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - '8'
 install: npm install
-script: npm test -- --saucelabs
+script: SAUCE_ENABLED=true npm test
 before_install:
   - export CHROME_BIN=/usr/bin/google-chrome
   - export DISPLAY=:99.0

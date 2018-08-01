@@ -48,21 +48,19 @@
 # Travis will run `npm test -- --saucelabs`.
 
 cd "$(dirname $(dirname "$0"))"
-BIN_PATH="./node_modules/.bin"
-PROTRACTOR_BIN_PATH="./node_modules/protractor/bin"
 
 function killServer () {
   if [ "$seleniumStarted" = true ]; then
     echo "Stopping Selenium..."
-    $PROTRACTOR_BIN_PATH/webdriver-manager shutdown
-    $PROTRACTOR_BIN_PATH/webdriver-manager clean
+    npx webdriver-manager shutdown
+    npx webdriver-manager clean
   fi
   echo "Killing HTTP Server..."
   kill $serverPid
 }
 
 # Start the local webserver.
-$BIN_PATH/gulp serve &
+npx gulp serve &
 serverPid=$!
 echo "Local HTTP Server started with PID $serverPid."
 
@@ -70,26 +68,25 @@ trap killServer EXIT
 
 # If --saucelabs option is passed, forward it to the protractor command adding
 # the second argument that is required for local SauceLabs test run.
-if [[ $1 = "--saucelabs" ]]; then
-  # Enable saucelabs tests only when running locally or when Travis enviroment vars are accessible. 
+if [[ "$SAUCE_ENABLED" = true ]]; then
+  # Enable saucelabs tests only when running locally or when Travis environment vars are accessible.
   if [[ ( "$TRAVIS" = true  &&  "$TRAVIS_SECURE_ENV_VARS" = true ) || ( -z "$TRAVIS" ) ]]; then
     seleniumStarted=false
     sleep 2
     echo "Using SauceLabs."
-    # $2 contains the tunnelIdentifier argument if specified, otherwise is empty.
-    $PROTRACTOR_BIN_PATH/protractor protractor.conf.js --saucelabs $2
+    npx protractor protractor.conf.js
   fi
 else
   echo "Using Headless Chrome."
   # Updates Selenium Webdriver.
-  echo "$PROTRACTOR_BIN_PATH/webdriver-manager update --gecko=false"
-  $PROTRACTOR_BIN_PATH/webdriver-manager update --gecko=false
+  echo "npx webdriver-manager update --gecko=false"
+  npx webdriver-manager update --gecko=false
   # Start Selenium Webdriver.
-  echo "$PROTRACTOR_BIN_PATH/webdriver-manager start &>/dev/null &"
-  $PROTRACTOR_BIN_PATH/webdriver-manager start &>/dev/null &
+  echo "npx webdriver-manager start &>/dev/null &"
+  npx webdriver-manager start &>/dev/null &
   seleniumStarted=true
   echo "Selenium Server started."
   # Wait for servers to come up.
   sleep 10
-  $PROTRACTOR_BIN_PATH/protractor protractor.conf.js
+  npx protractor protractor.conf.js
 fi
