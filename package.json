@@ -50,7 +50,7 @@
     "gulp-sass": "^2.3.2",
     "gulp-util": "^3.0.7",
     "material-design-lite": "^1.2.0",
-    "protractor": "^5.3.2",
+    "protractor": "^5.4.0",
     "streamqueue": "^1.1.1"
   },
   "dependencies": {
