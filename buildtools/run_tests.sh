@@ -18,12 +18,12 @@
 #
 # Usage:
 #
-# ./buildtools/run_tests.sh [--saucelabs [--tunnelIdentifier=<tunnelId>]]
+# [SAUCE_ENABLED=true [TUNNEL_IDENTIFIER=<tunnelId> ]]./buildtools/run_tests.sh
 #
-# Can take up to two arguments:
-# --saucelabs: Use SauceLabs instead of phantomJS.
-# --tunnelIdentifier=<tunnelId>: when using SauceLabs, specify the tunnel
-#     identifier. Otherwise, uses the environment variable TRAVIS_JOB_NUMBER.
+# Environment variables:
+# SAUCE_ENABLED=true: Use SauceLabs instead of phantomJS.
+# TUNNEL_IDENTIFIER=<tunnelId>: when using SauceLabs, specify the tunnel
+#     identifier. Otherwise, fallbacks to TRAVIS_JOB_NUMBER.
 #
 # Prefer to use the `npm test` command as explained below.
 #
@@ -41,11 +41,11 @@
 # $ ./buildtools/sauce_connect.sh
 # Take note of the "Tunnel Identifier" value logged in the terminal.
 # Run the tests:
-# $ npm run -- --saucelabs --tunnelIdentifier=<the tunnel identifier>
+# $ SAUCE_ENABLED=true TUNNEL_IDENTIFIER=<the tunnel identifier> npm run test
 # This will start the HTTP Server locally, and connect through SauceConnect
 # to SauceLabs remote browsers instances.
 #
-# Travis will run `npm test -- --saucelabs`.
+# Travis will run `SAUCE_ENABLED=true npm test`.
 
 cd "$(dirname $(dirname "$0"))"
 

@@ -32,11 +32,11 @@
  * $ ./buildtools/sauce_connect.sh
  * Take note of the "Tunnel Identifier" value logged in the terminal.
  * Run the tests:
- * $ npm test -- --saucelabs --tunnelIdentifier=<the tunnel identifier>
+ * $ SAUCE_ENABLED=true TUNNEL_IDENTIFIER=<the tunnel identifier> npm test
  * This will start the HTTP Server locally, and connect through SauceConnect
  * to SauceLabs remote browsers instances.
  *
- * Travis will run `npm test -- --saucelabs`.
+ * Travis will run `SAUCE_ENABLED=true npm test`.
  */
 
 // Common configuration.

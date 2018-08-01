@@ -1106,7 +1106,7 @@ Take note of the "Tunnel Identifier" value logged in the terminal,at the top. In
 the other terminal that has the exported variables, run the tests:
 
 ```bash
-npm test -- --saucelabs --tunnelIdentifier=<the tunnel identifier>
+SAUCE_ENABLED=true TUNNEL_IDENTIFIER=<the tunnel identifier> npm test
 ```
 
 ## Cordova Setup
