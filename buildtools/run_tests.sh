@@ -70,15 +70,15 @@ trap killServer EXIT
 
 # If --saucelabs option is passed, forward it to the protractor command adding
 # the second argument that is required for local SauceLabs test run.
-if [[ $1 = "--saucelabs" ]]; then
-  # Enable saucelabs tests only when running locally or when Travis enviroment vars are accessible. 
-  if [[ ( "$TRAVIS" = true  &&  "$TRAVIS_SECURE_ENV_VARS" = true ) || ( -z "$TRAVIS" ) ]]; then
-    seleniumStarted=false
-    sleep 2
-    echo "Using SauceLabs."
-    # $2 contains the tunnelIdentifier argument if specified, otherwise is empty.
-    $PROTRACTOR_BIN_PATH/protractor protractor.conf.js --saucelabs $2
-  fi
+# Enable saucelabs tests only when running locally or when Travis enviroment vars are accessible.
+if [[ $1 = "--saucelabs" ]] && \
+   [[ ( "$TRAVIS" = true  &&  "$TRAVIS_SECURE_ENV_VARS" = true ) || ( -z "$TRAVIS" ) ]]
+then
+  seleniumStarted=false
+  sleep 2
+  echo "Using SauceLabs."
+  # $2 contains the tunnelIdentifier argument if specified, otherwise is empty.
+  $PROTRACTOR_BIN_PATH/protractor protractor.conf.js --saucelabs $2
 else
   echo "Using Headless Chrome."
   # Updates Selenium Webdriver.
