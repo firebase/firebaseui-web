@@ -332,8 +332,8 @@ firebaseui.auth.SignInOption = function() {};
 firebaseui.auth.SignInOption.prototype.provider;
 
 /**
- * Defines the sign-in option
- * needed to configure the FirebaseUI federated sign-in widget.
+ * Defines the sign-in option needed to configure the FirebaseUI federated
+ * sign-in widget.
  *
  * @interface
  * @extends {firebaseui.auth.SignInOption}
@@ -382,8 +382,8 @@ firebaseui.auth.FederatedSignInOption.prototype.scopes;
 firebaseui.auth.FederatedSignInOption.prototype.customParameters;
 
 /**
- * Defines the sign-in option
- * needed to configure the FirebaseUI email sign-in widget.
+ * Defines the sign-in option needed to configure the FirebaseUI email sign-in
+ * widget.
  *
  * @interface
  * @extends {firebaseui.auth.SignInOption}
@@ -399,8 +399,8 @@ firebaseui.auth.EmailSignInOption = function() {};
 firebaseui.auth.EmailSignInOption.prototype.requireDisplayName;
 
 /**
- * Defines the sign-in option
- * needed to configure the FirebaseUI phone sign-in widget.
+ * Defines the sign-in option needed to configure the FirebaseUI phone sign-in
+ * widget.
  *
  * @interface
  * @extends {firebaseui.auth.SignInOption}
