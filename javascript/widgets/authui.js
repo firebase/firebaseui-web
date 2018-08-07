@@ -447,9 +447,6 @@ firebaseui.auth.AuthUI.prototype.start = function(element, config) {
   // These changes will be ignored as only the first accountchooser.com related
   // config will be applied.
   this.setConfig(config);
-  // Removes pending status of previous redirect operations including redirect
-  // back from accountchooser.com and federated sign in.
-  firebaseui.auth.storage.removePendingRedirectStatus(this.getAppId());
   // Checks if there is pending internal Auth signOut promise. If yes, wait
   // until it resolved and then initElement.
   var doc = goog.global.document;
@@ -522,6 +519,11 @@ firebaseui.auth.AuthUI.prototype.initElement_ = function(element) {
   this.initPageChangeListener_(container);
   // Document already loaded, render on demand.
   firebaseui.auth.widget.dispatcher.dispatchOperation(this, element);
+  // Removes pending status of previous redirect operations including redirect
+  // back from accountchooser.com and federated sign in.
+  // Remove status after dispatchOperation completes as that operation depends
+  // on this information.
+  firebaseui.auth.storage.removePendingRedirectStatus(this.getAppId());
 };
 
 

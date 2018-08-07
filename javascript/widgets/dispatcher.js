@@ -200,8 +200,16 @@ firebaseui.auth.widget.dispatcher.doDispatchOperation_ = function(app, e) {
       if (redirectUrl) {
         firebaseui.auth.storage.setRedirectUrl(redirectUrl, app.getAppId());
       }
-      firebaseui.auth.widget.handler.handle(
-          firebaseui.auth.widget.HandlerName.CALLBACK, app, container);
+      // Avoid UI flicker if there is no pending redirect.
+      if (app.isPendingRedirect()) {
+        firebaseui.auth.widget.handler.handle(
+            firebaseui.auth.widget.HandlerName.CALLBACK, app, container);
+      } else {
+        // No pending redirect. Skip callback screen.
+        firebaseui.auth.widget.handler.common.handleSignInStart(
+            app,
+            container);
+      }
       break;
 
     case firebaseui.auth.widget.Config.WidgetMode.RESET_PASSWORD:

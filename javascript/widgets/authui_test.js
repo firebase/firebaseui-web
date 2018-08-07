@@ -629,16 +629,13 @@ function testStart() {
     // No additional Automatic reset warning is logged.
     /** @suppress {missingRequire} */
     assertEquals(1, firebaseui.auth.log.warning.getCallCount());
-    assertHasCssClass(container2, 'firebaseui-id-page-callback');
-    app2.getRedirectResult().then(function(result) {
-      assertHasCssClass(container2, 'firebaseui-id-page-provider-sign-in');
-      // After reset, currentComponent is set to null.
-      app2.getAuth().assertSignOut([]);
-      app2.reset();
-      // Confirm current component is null after reset.
-      assertNull(app2.getCurrentComponent());
-      asyncTestCase.signal();
-    });
+    assertHasCssClass(container2, 'firebaseui-id-page-provider-sign-in');
+    // After reset, currentComponent is set to null.
+    app2.getAuth().assertSignOut([]);
+    app2.reset();
+    // Confirm current component is null after reset.
+    assertNull(app2.getCurrentComponent());
+    asyncTestCase.signal();
   });
 }
 

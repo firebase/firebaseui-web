@@ -27,6 +27,7 @@ goog.require('firebaseui.auth.ui.element.infoBar');
 goog.require('firebaseui.auth.ui.element.progressDialog');
 goog.require('firebaseui.auth.ui.mdl');
 goog.require('goog.dom');
+goog.require('goog.dom.classlist');
 goog.require('goog.events.Event');
 goog.require('goog.object');
 goog.require('goog.soy');
@@ -199,12 +200,18 @@ firebaseui.auth.ui.page.Base.prototype.startProcessing_ = function() {
   // pages that load quickly do not display the indicator.
   var self = this;
   this.inProcessing_ = true;
+  // Check whether component uses default progress bar or spinner for busy
+  // indicator.
+  var useSpinner =
+      goog.dom.classlist.contains(self.getElement(), 'firebaseui-use-spinner');
   this.showProcessingTimeout_ = window.setTimeout(function() {
     if (!self.getElement() || self.busyIndicator_ !== null) {
       return;
     }
     self.busyIndicator_ = goog.soy.renderAsElement(
-        firebaseui.auth.soy2.element.busyIndicator, null, null,
+        firebaseui.auth.soy2.element.busyIndicator,
+        // Pass whether a spanner is to be used instead of a progress bar.
+        {useSpinner: useSpinner}, null,
         self.getDomHelper());
     self.getElement().appendChild(self.busyIndicator_);
     firebaseui.auth.ui.mdl.upgrade(self.busyIndicator_);

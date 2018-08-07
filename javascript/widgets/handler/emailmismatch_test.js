@@ -110,6 +110,8 @@ function testHandleEmailMismatch_reset() {
   // No pending email credential.
   assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
       app.getAppId()));
+  testAuth.assertSignOut([]);
+  return testAuth.process();
 }
 
 

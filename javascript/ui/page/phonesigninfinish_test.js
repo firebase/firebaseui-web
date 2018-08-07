@@ -56,6 +56,8 @@ var resendTestHelper =
     new firebaseui.auth.ui.element.ResendTestHelper().registerTests();
 var tosPpTestHelper =
     new firebaseui.auth.ui.element.TosPpTestHelper().registerTests();
+var pageTestHelper =
+    new firebaseui.auth.ui.page.PageTestHelper().registerTests();
 
 function setUp() {
   // Set up clock.
@@ -115,6 +117,7 @@ function createComponent(phoneNumber, opt_tosUrl, opt_privacyPolicyUrl,
   resendTestHelper.setComponent(component);
   resendTestHelper.resetState();
   tosPpTestHelper.setComponent(component);
+  pageTestHelper.setClock(mockClock).setComponent(component);
   component.render(root);
   return component;
 }
@@ -239,7 +242,6 @@ function testSubmitOnSubmitElementClick() {
 
 
 function testPhoneSignInFinish_pageEvents() {
-  var pageTestHelper = new firebaseui.auth.ui.page.PageTestHelper();
   component = new firebaseui.auth.ui.page.PhoneSignInFinish(
       onChangePhoneClick,
       goog.bind(

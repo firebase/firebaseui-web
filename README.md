@@ -217,8 +217,8 @@ for a more in-depth example, showcasing a Single Page Application mode.
 
 When redirecting back from accountchooser.com or Identity Providers like Google
 and Facebook, `start()` method needs to be called to finish the sign-in flow.
-If it requires a user interaction to start the initial sign-in process, you need to 
-check if there is a pending redirect operation going on on page load to check whether `start()` 
+If it requires a user interaction to start the initial sign-in process, you need to
+check if there is a pending redirect operation going on on page load to check whether `start()`
 needs to be called.
 
 To check if there is a pending redirect operation to complete a sign-in attempt,

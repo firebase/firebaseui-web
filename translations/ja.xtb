@@ -79,6 +79,7 @@
 <translation id="2541179214468543429">正しくないパスワードを何度も入力しています。しばらくしてからもう一度お試しください。</translation>
 <translation id="2561560038714758184">セキュリティ</translation>
 <translation id="2561835578785502516">パスワードの再設定のリクエストの期限が切れたか、リンクがすでに使用されています</translation>
+<translation id="2581514546525533462">指定した国コードはサポートされていません。</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">カンボジア</translation>
 <translation id="2616650714309312732">ポルトガル</translation>
@@ -181,7 +182,7 @@
 <translation id="4521614244485847733">メールアドレスが既存のアカウントと一致しません</translation>
 <translation id="4556476996891737119">ヨルダン</translation>
 <translation id="4571870355114729513"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> に送信された手順に沿ってパスワードを復元します</translation>
-<translation id="4588392627302012849">メールアドレスでログイン</translation>
+<translation id="4588392627302012849">メールでログイン</translation>
 <translation id="4632709875751031323">ロシア</translation>
 <translation id="4644169548516814280">このメールアドレスは他のアカウントによってすでに使用されています</translation>
 <translation id="4692014002063276828">ポーランド</translation>
@@ -251,7 +252,7 @@
 <translation id="5989709845715452405">パスワードの復元</translation>
 <translation id="5995596766674622541"><ph name="START_LINK" />&amp;lrm;<ph name="PHONE_NUMBER" /><ph name="END_LINK" /> に送信された 6 桁のコードを入力してください</translation>
 <translation id="6006148985615990975">ルワンダ</translation>
-<translation id="6040759627067155517">メールアドレス</translation>
+<translation id="6040759627067155517">メール</translation>
 <translation id="6044396095102058216">この電話番号は何度も使用されています</translation>
 <translation id="6091051069256411999">Twitter</translation>
 <translation id="61182948399263957">

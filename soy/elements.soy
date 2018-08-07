@@ -518,8 +518,14 @@
  * Renders a busy indicator to display while server operations are ongoing.
  */
 {template .busyIndicator}
-  <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate{sp}
-      firebaseui-busy-indicator firebaseui-id-busy-indicator"></div>
+  {@param? useSpinner: bool}
+  {if $useSpinner}
+    <div class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active{sp}
+        firebaseui-busy-indicator firebaseui-id-busy-indicator"></div>
+  {else}
+    <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate{sp}
+        firebaseui-busy-indicator firebaseui-id-busy-indicator"></div>
+  {/if}
 {/template}
 
 

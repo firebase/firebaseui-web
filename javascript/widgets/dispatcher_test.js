@@ -521,6 +521,8 @@ function testDispatchOperation_callbackWithRedirectUrl() {
   setModeAndUrlParams(firebaseui.auth.widget.Config.WidgetMode.CALLBACK, {
     'signInSuccessUrl': redirectUrl
   });
+  // Simulate app returning from redirect sign-in operation.
+  firebaseui.auth.storage.setPendingRedirectStatus(app.getAppId());
   // No redirect URL.
   assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
   firebaseui.auth.widget.dispatcher.dispatchOperation(app, element);
@@ -536,6 +538,32 @@ function testDispatchOperation_callbackWithRedirectUrl() {
 }
 
 
+function testDispatchOperation_callbackWithRedirectUrl_noPendingRedirect() {
+  var element = goog.dom.createElement('div');
+  // Redirect URL.
+  var redirectUrl = 'http://www.example.com';
+  // Set current mode to callback mode.
+  // Simulate redirect URL above being available in URL.
+  setModeAndUrlParams(firebaseui.auth.widget.Config.WidgetMode.CALLBACK, {
+    'signInSuccessUrl': redirectUrl
+  });
+  // Simulate app not returning from redirect sign-in operation.
+  firebaseui.auth.storage.removePendingRedirectStatus(app.getAppId());
+  // No redirect URL.
+  assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
+  firebaseui.auth.widget.dispatcher.dispatchOperation(app, element);
+  // Redirect URL should be set now in storage.
+  assertTrue(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
+  // Confirm it is the correct value.
+  assertEquals(
+      redirectUrl,
+      firebaseui.auth.storage.getRedirectUrl(app.getAppId()));
+  // Provider sign in handler should be invoked.
+  assertHandlerInvoked(
+      firebaseui.auth.widget.HandlerName.PROVIDER_SIGN_IN, app, element);
+}
+
+
 function testDispatchOperation_callbackWithUnsafeRedirectUrl() {
   var element = goog.dom.createElement('div');
   // Unsafe redirect URL.
@@ -544,6 +572,8 @@ function testDispatchOperation_callbackWithUnsafeRedirectUrl() {
   setModeAndUrlParams(firebaseui.auth.widget.Config.WidgetMode.SELECT, {
     'signInSuccessUrl': redirectUrl
   });
+  // Simulate app returning from redirect sign-in operation.
+  firebaseui.auth.storage.setPendingRedirectStatus(app.getAppId());
   // No redirect URL.
   assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
   firebaseui.auth.widget.dispatcher.dispatchOperation(app, element);
@@ -562,6 +592,8 @@ function testDispatchOperation_callbackWithUnsafeRedirectUrl() {
 function testDispatchOperation_noMode_providerFirst() {
   var element = goog.dom.createElement('div');
   setModeAndUrlParams(null);
+  // Simulate app returning from redirect sign-in operation.
+  firebaseui.auth.storage.setPendingRedirectStatus(app.getAppId());
   firebaseui.auth.widget.dispatcher.dispatchOperation(app, element);
   // Callback handler should be invoked since no mode will result with CALLBACK
   // mode.
@@ -573,9 +605,25 @@ function testDispatchOperation_noMode_providerFirst() {
 function testDispatchOperation_callback() {
   var element = goog.dom.createElement('div');
   setModeAndUrlParams(firebaseui.auth.widget.Config.WidgetMode.CALLBACK);
+  // Simulate app returning from redirect sign-in operation.
+  firebaseui.auth.storage.setPendingRedirectStatus(app.getAppId());
   firebaseui.auth.widget.dispatcher.dispatchOperation(app, element);
   assertHandlerInvoked(
       firebaseui.auth.widget.HandlerName.CALLBACK,
+      app,
+      element);
+}
+
+
+function testDispatchOperation_callback_noPendingRedirect() {
+  var element = goog.dom.createElement('div');
+  setModeAndUrlParams(firebaseui.auth.widget.Config.WidgetMode.CALLBACK);
+  // Simulate app not returning from redirect sign-in operation.
+  firebaseui.auth.storage.removePendingRedirectStatus(app.getAppId());
+  firebaseui.auth.widget.dispatcher.dispatchOperation(app, element);
+  // Provider sign in handler should be rendered.
+  assertHandlerInvoked(
+      firebaseui.auth.widget.HandlerName.PROVIDER_SIGN_IN,
       app,
       element);
 }
