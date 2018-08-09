@@ -419,13 +419,7 @@ firebaseui.auth.PhoneSignInOption = function() {};
  *   badge: (string|undefined)
  * }|undefined}
  */
-firebaseui.auth.PhoneSignInOption.prototype.recaptchaParameters = function() {};
-firebaseui.auth.PhoneSignInOption.prototype.recaptchaParameters
-  .prototype.type;
-firebaseui.auth.PhoneSignInOption.prototype.recaptchaParameters
-  .prototype.size;
-firebaseui.auth.PhoneSignInOption.prototype.recaptchaParameters
-  .prototype.badge;
+firebaseui.auth.PhoneSignInOption.prototype.recaptchaParameters;
 
 /**
  * Sets the default country, eg. (GB) for the United Kingdom.
