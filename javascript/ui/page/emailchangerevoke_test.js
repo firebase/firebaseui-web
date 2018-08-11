@@ -25,9 +25,12 @@ goog.require('firebaseui.auth.ui.page.EmailChangeRevoke');
 goog.require('firebaseui.auth.ui.page.PageTestHelper');
 goog.require('goog.dom');
 goog.require('goog.dom.TagName');
+goog.require('goog.testing.MockClock');
+goog.require('goog.testing.events');
 goog.require('goog.testing.jsunit');
 
 
+var mockClock;
 var root;
 var component;
 var formTestHelper = new firebaseui.auth.ui.element.FormTestHelper().
@@ -35,12 +38,17 @@ var formTestHelper = new firebaseui.auth.ui.element.FormTestHelper().
     registerTests();
 var infoBarTestHelper =
     new firebaseui.auth.ui.element.InfoBarTestHelper().registerTests();
+var pageTestHelper =
+    new firebaseui.auth.ui.page.PageTestHelper().registerTests();
 
 var updateClicked;
 var onClick;
 
 
 function setUp() {
+  // Set up clock.
+  mockClock = new goog.testing.MockClock();
+  mockClock.install();
   updateClicked = false;
   onClick = function() {
     updateClicked = true;
@@ -58,10 +66,14 @@ function setUp() {
   // Reset previous state of form helper.
   formTestHelper.resetState();
   infoBarTestHelper.setComponent(component);
+  pageTestHelper.setClock(mockClock).setComponent(component);
 }
 
 
 function tearDown() {
+  // Tear down clock.
+  mockClock.tick(Infinity);
+  mockClock.reset();
   component.dispose();
   goog.dom.removeNode(root);
 }
@@ -78,7 +90,6 @@ function testEmailChangeRevoke_resetPassword() {
 
 function testEmailChangeRevoke_pageEvents() {
   // Run page event tests.
-  var pageTestHelper = new firebaseui.auth.ui.page.PageTestHelper();
   // Dispose previously created container since test must run before rendering
   // the component in document.
   component.dispose();

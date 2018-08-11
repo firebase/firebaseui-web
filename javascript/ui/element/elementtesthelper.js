@@ -44,10 +44,12 @@ firebaseui.auth.ui.element.ElementTestHelper = function(name) {
 /**
  * Sets the component to test.
  * @param {goog.ui.Component} c The component to test.
+ * @return {!firebaseui.auth.ui.element.ElementTestHelper}
  */
 firebaseui.auth.ui.element.ElementTestHelper.prototype.setComponent =
     function(c) {
   this.component = c;
+  return this;
 };
 
 

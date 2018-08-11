@@ -2,7 +2,6 @@
 
 <style>
 table {
-  border-collapse: collapse;
   margin: 0 0 40px;
   width: 100%;
 }
@@ -23,7 +22,7 @@ td {
 
   <!-- signIn -->
   <tr>
-    <td rowspan="4">signIn</td>
+    <td rowspan="6">signIn</td>
     <td><div id="sign-in"></div></td>
   </tr>
   <tr>
@@ -44,7 +43,7 @@ td {
 
   <!-- passwordSignIn -->
   <tr>
-    <td>passwordSignIn</td>
+    <td rowspan="2">passwordSignIn</td>
     <td><div id="password-sign-in"></div></td>
   </tr>
   <tr>
@@ -172,13 +171,16 @@ td {
 
   <!-- providerSignIn -->
   <tr>
-    <td>providerSignIn</td>
+    <td rowspan="2">providerSignIn</td>
     <td><div id="provider-sign-in"></div></td>
+  </tr>
+  <tr>
+    <td><div id="provider-sign-in-busy"></div></td>
   </tr>
 
   <!-- phoneSignInStart -->
   <tr>
-    <td rowspan="2">phoneSignInStart</td>
+    <td rowspan="3">phoneSignInStart</td>
     <td><div id="phone-sign-in-start-invisible-recaptcha"></div></td>
   </tr>
   <tr>

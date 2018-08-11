@@ -21,7 +21,11 @@ goog.provide('firebaseui.auth.ui.page.PageTestHelper');
 goog.setTestOnly('firebaseui.auth.ui.page.PageTestHelper');
 
 goog.require('firebaseui.auth.EventDispatcher');
+goog.require('firebaseui.auth.ui.element.ElementTestHelper');
 goog.require('firebaseui.auth.ui.page.Base');
+goog.require('goog.Promise');
+goog.require('goog.dom');
+goog.require('goog.dom.classlist');
 goog.require('goog.events');
 
 
@@ -32,13 +36,17 @@ var page = firebaseui.auth.ui.page;
 /**
  * Initializes page test helper.
  * @constructor
+ * @extends {firebaseui.auth.ui.element.ElementTestHelper}
  */
 page.PageTestHelper = function() {
+  page.PageTestHelper.base(this, 'constructor', 'Page');
   this.entered_ = false;
   this.exited_ = false;
   this.enteredEvent_ = null;
   this.exitedEvent_ = null;
 };
+goog.inherits(
+    page.PageTestHelper, firebaseui.auth.ui.element.ElementTestHelper);
 
 
 /**
@@ -149,5 +157,55 @@ page.PageTestHelper.prototype.runTests = function(component, container) {
   component.dispose();
   this.assertExited(component.getPageId());
   this.resetState();
+};
+
+
+/**
+ * @param {!goog.testing.MockClock} clock The mock clock to use for testing.
+ * @return {!page.PageTestHelper} THe current page test helper instance.
+ */
+page.PageTestHelper.prototype.setClock = function(clock) {
+  this.mockClock = clock;
+  return this;
+};
+
+
+/**
+ * Tests executePromiseRequest and the busy indicators that gets displayed.
+ * @return {!goog.Promise} Promise that resolves when the test completes.
+ * @private
+ */
+page.PageTestHelper.prototype.testExecutePromiseRequest_ = function() {
+  var root = this.component.getContainer();
+  var resolveBusyIndicator;
+  var pending = new goog.Promise(function(resolve, reject) {
+    resolveBusyIndicator= resolve;
+  });
+  var p = this.component.executePromiseRequest(
+      function() {
+        return pending;
+      },
+      [],
+      function() {},
+      function(error) {});
+  this.mockClock.tick(500);
+  var elements =
+      goog.dom.getElementsByClass('firebaseui-busy-indicator', root);
+  assertEquals(1, elements.length);
+  var busyIndicator = elements[0];
+  if (goog.dom.classlist.contains(root.firstChild, 'firebaseui-use-spinner')) {
+    // Confirm mdl-spinner used instead of mdl-progress.
+    assertTrue(goog.dom.classlist.contains(busyIndicator, 'mdl-spinner'));
+  } else {
+    // Confirm mdl-progress bar used instead of mdl-spinner.
+    assertTrue(goog.dom.classlist.contains(busyIndicator, 'mdl-progress'));
+  }
+  // Resolve pending task.
+  resolveBusyIndicator();
+  return p.then(function() {
+    // Busy indicator should be removed when promise resolves.
+    assertEquals(0, goog.dom.getElementsByClass(
+        'firebaseui-busy-indicator', root).length);
+  });
 };
 });

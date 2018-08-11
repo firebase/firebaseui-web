@@ -363,6 +363,21 @@ function testProviderSignIn() {
 }
 
 
+function testProviderSignIn_busy() {
+  var root = goog.dom.getElement('provider-sign-in-busy');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.providerSignIn, {
+        'providerIds':
+            ['password', 'phone', 'google.com', 'github.com', 'facebook.com',
+             'twitter.com', 'anonymous']
+      },
+      IJ_DATA_);
+  var busy = goog.soy.renderAsElement(
+      firebaseui.auth.soy2.element.busyIndicator, {useSpinner: true});
+  root.children[0].appendChild(busy);
+}
+
+
 function testPhoneSignInStartInvisibleRecaptcha() {
   var root = goog.dom.getElement('phone-sign-in-start-invisible-recaptcha');
   goog.soy.renderElement(

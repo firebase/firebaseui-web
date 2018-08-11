@@ -78,6 +78,7 @@
 <translation id="2494962141967044042">Ocorreu uma falha na atualização do utilizador anónimo atual. A credencial não anónima já está associada a outra conta de utilizador.</translation>
 <translation id="2541179214468543429">Introduziu uma palavra-passe incorreta demasiadas vezes. Tente novamente dentro de alguns minutos.</translation>
 <translation id="2561835578785502516">O pedido para repor a palavra-passe expirou ou o link já foi utilizado</translation>
+<translation id="2581514546525533462">O código de país fornecido não é suportado.</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">Camboja</translation>
 <translation id="2616650714309312732">Portugal</translation>
@@ -208,6 +209,7 @@
 <translation id="5407010562344541906">Número de telefone</translation>
 <translation id="5409861738809250803">Já tem uma conta</translation>
 <translation id="5410341463946781720">Tailândia</translation>
+<translation id="5443669846203963095">Política de Privacidade</translation>
 <translation id="5444635161362535036">Listenstaine</translation>
 <translation id="5483706910421209104">Editar nome</translation>
 <translation id="5524360735013196510">Países Baixos</translation>

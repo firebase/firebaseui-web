@@ -315,6 +315,14 @@ function testBusyIndicator() {
 }
 
 
+function testBusyIndicator_spinner() {
+  var root = goog.dom.getElement('busy-indicator-spinner');
+  var busy = goog.soy.renderAsElement(
+      firebaseui.auth.soy2.element.busyIndicator, {useSpinner: true});
+  root.appendChild(busy);
+}
+
+
 function testRecaptcha() {
   var root = goog.dom.getElement('recaptcha');
   goog.soy.renderElement(

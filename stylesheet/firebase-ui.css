@@ -523,7 +523,7 @@ input.firebaseui-input-invalid{
   margin-left: 114px;
 }
 
-.firebaseui-busy-indicator {
+.mdl-progress.firebaseui-busy-indicator {
   height: 2px;
   left: 0;
   position: absolute;
@@ -531,11 +531,17 @@ input.firebaseui-input-invalid{
   width: 100%;
 }
 
-.firebaseui-callback-indicator-container .firebaseui-busy-indicator {
-  top: 0px;
+.mdl-spinner.firebaseui-busy-indicator {
+  height: 56px;
+  left: 0px;
+  margin: auto;
+  position: absolute;
+  right: 0px;
+  top: 30%;
+  width: 56px;
 }
 
-.firebaseui-page-provider-sign-in .firebaseui-busy-indicator {
+.firebaseui-callback-indicator-container .firebaseui-busy-indicator {
   top: 0px;
 }
 
