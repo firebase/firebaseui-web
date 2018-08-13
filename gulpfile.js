@@ -171,7 +171,7 @@ function repeatTaskForAllLocales(taskName, dependencies, operation) {
     const localeTaskName = replaceTokens(taskName);
     const localeDependencies = dependencies.map(replaceTokens);
     gulp.task(localeTaskName, gulp.series(
-        gulp.parallel(...localeDependencies),
+        gulp.parallel.apply(null, localeDependencies),
         () => operation(locale),
     ));
     return localeTaskName;
@@ -279,7 +279,7 @@ gulp.task('build-js', gulp.series(
 
 // Builds the final JS file for all supported languages.
 gulp.task('build-all-js', gulp.series(
-    gulp.parallel(...buildJsTasks),
+    gulp.parallel.apply(null, buildJsTasks),
     () => makeDefaultFile('firebaseui'),
 ));
 
