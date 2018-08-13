@@ -172,7 +172,7 @@ function repeatTaskForAllLocales(taskName, dependencies, operation) {
     const localeDependencies = dependencies.map(replaceTokens);
     gulp.task(localeTaskName, gulp.series(
         gulp.parallel.apply(null, localeDependencies),
-        () => operation(locale),
+        () => operation(locale)
     ));
     return localeTaskName;
   });
