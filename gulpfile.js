@@ -337,7 +337,7 @@ gulp.task('clean', () => fse.remove(TMP_DIR));
 gulp.task('default', gulp.series(
     gulp.parallel(
         'build-externs', 'build-ts', 'build-js',
-        'build-npm', 'build-css', 'build-css-rtl',
+        'build-npm', 'build-css', 'build-css-rtl'
     ),
     'clean'
 ));
@@ -346,7 +346,7 @@ gulp.task('default', gulp.series(
 gulp.task('build-all', gulp.series(
     gulp.parallel(
         'build-externs', 'build-ts', 'build-all-js',
-        'build-npm', 'build-css', 'build-css-rtl',
+        'build-npm', 'build-css', 'build-css-rtl'
     ),
     'clean'
 ));
