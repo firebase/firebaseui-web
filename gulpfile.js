@@ -256,7 +256,7 @@ gulp.task('build-externs',
 repeatTaskForAllLocales(
     'build-firebaseui-js-$',
     ['build-externs', 'build-ts', 'build-soy'],
-    buildFirebaseUiJs,
+    buildFirebaseUiJs
 );
 
 // Bundles the FirebaseUI JS with its dependencies as a NPM module. This builds
