@@ -274,19 +274,19 @@ const buildJsTasks = repeatTaskForAllLocales(
 // Builds the final JS file for the default language.
 gulp.task('build-js', gulp.series(
     'build-js-' + DEFAULT_LOCALE,
-    () => makeDefaultFile('firebaseui'),
+    () => makeDefaultFile('firebaseui')
 ));
 
 // Builds the final JS file for all supported languages.
 gulp.task('build-all-js', gulp.series(
     gulp.parallel.apply(null, buildJsTasks),
-    () => makeDefaultFile('firebaseui'),
+    () => makeDefaultFile('firebaseui')
 ));
 
 // Builds the NPM module for the default language.
 gulp.task('build-npm', gulp.series(
     'build-npm-' + DEFAULT_LOCALE,
-    () => makeDefaultFile('npm'),
+    () => makeDefaultFile('npm')
 ));
 
 /**
@@ -339,7 +339,7 @@ gulp.task('default', gulp.series(
         'build-externs', 'build-ts', 'build-js',
         'build-npm', 'build-css', 'build-css-rtl',
     ),
-    'clean',
+    'clean'
 ));
 
 // Builds everything (JS for all languages, both LTR and RTL CSS).
@@ -348,5 +348,5 @@ gulp.task('build-all', gulp.series(
         'build-externs', 'build-ts', 'build-all-js',
         'build-npm', 'build-css', 'build-css-rtl',
     ),
-    'clean',
+    'clean'
 ));
