@@ -1,2 +1,0 @@
-fixed - Removes callback flicker when there is no pending redirect.
-fixed - Adds the ability to use spinners instead of progress bars. This is used only for the nascar screen.
