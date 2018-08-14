@@ -335,7 +335,7 @@ gulp.task('clean', () => fse.remove(TMP_DIR));
 
 // Executes the basic tasks for the default language.
 gulp.task('default', gulp.series(
-    gulp.parallel(
+    gulp.series(
         'build-externs', 'build-ts', 'build-js',
         'build-npm', 'build-css', 'build-css-rtl'
     ),
@@ -344,7 +344,7 @@ gulp.task('default', gulp.series(
 
 // Builds everything (JS for all languages, both LTR and RTL CSS).
 gulp.task('build-all', gulp.series(
-    gulp.parallel(
+    gulp.series(
         'build-externs', 'build-ts', 'build-all-js',
         'build-npm', 'build-css', 'build-css-rtl'
     ),
