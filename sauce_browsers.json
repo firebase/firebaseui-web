@@ -20,25 +20,11 @@
     "name": "ie-11-windows"
   },
   {
-    "browserName" : "internet explorer",
-    "version" : "10.0",
-    "timeZone": "Pacific",
-    "platform" : "Windows 7",
-    "name": "ie-10-windows"
-  },
-  {
     "browserName" : "MicrosoftEdge",
     "platform" : "Windows 10",
     "timeZone": "Pacific",
     "version" : "16.16299",
     "name": "edge-16-windows"
-  },
-  {
-    "browserName" : "safari",
-    "version" : "8.0",
-    "platform" : "OS X 10.10",
-    "timeZone": "Pacific",
-    "name": "safari-8-mac"
   },
   {
     "browserName" : "safari",
@@ -53,13 +39,6 @@
     "platformVersion": "11.2",
     "browserName": "Safari",
     "name": "ios-11-sim"
-  },
-  {
-    "deviceName": "iPhone 6 Simulator",
-    "platformName": "iOS",
-    "platformVersion": "9.3",
-    "browserName": "Safari",
-    "name": "ios-93-sim"
   },
   {
     "deviceName": "Android Emulator",
