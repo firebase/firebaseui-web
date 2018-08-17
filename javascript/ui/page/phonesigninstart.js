@@ -23,7 +23,6 @@ goog.require('firebaseui.auth.ui.element');
 goog.require('firebaseui.auth.ui.element.form');
 goog.require('firebaseui.auth.ui.element.phoneNumber');
 goog.require('firebaseui.auth.ui.element.recaptcha');
-goog.require('firebaseui.auth.ui.element.tospp');
 goog.require('firebaseui.auth.ui.page.Base');
 goog.require('goog.dom.selection');
 
@@ -36,8 +35,10 @@ goog.require('goog.dom.selection');
  * @param {function(?)} onCancelClick Callback to invoke when cancel button
  *     is clicked.
  * @param {boolean} enableVisibleRecaptcha Whether to enable visible reCAPTCHA.
- * @param {?string=} opt_tosUrl The ToS URL.
- * @param {?string=} opt_privacyPolicyUrl The Privacy Policy URL.
+ * @param {?function()=} opt_tosCallback Callback to invoke when the ToS link
+ *     is clicked.
+ * @param {?function()=} opt_privacyPolicyCallback Callback to invoke when the
+ *     Privacy Policy link is clicked.
  * @param {boolean=} opt_displayFullTosPpMessage Whether to display the full
  *     message of Term of Service and Privacy Policy.
  * @param {?firebaseui.auth.data.country.LookupTree=} opt_lookupTree The country
@@ -53,8 +54,8 @@ firebaseui.auth.ui.page.PhoneSignInStart = function(
     onSubmitClick,
     onCancelClick,
     enableVisibleRecaptcha,
-    opt_tosUrl,
-    opt_privacyPolicyUrl,
+    opt_tosCallback,
+    opt_privacyPolicyCallback,
     opt_displayFullTosPpMessage,
     opt_lookupTree,
     opt_countryId,
@@ -73,8 +74,8 @@ firebaseui.auth.ui.page.PhoneSignInStart = function(
       opt_domHelper,
       'phoneSignInStart',
       {
-        tosUrl: opt_tosUrl,
-        privacyPolicyUrl: opt_privacyPolicyUrl
+        tosCallback: opt_tosCallback,
+        privacyPolicyCallback: opt_privacyPolicyCallback
       });
   /** @private @const {?string} The default country to select. */
   this.countryId_ = opt_countryId || null;
@@ -172,15 +173,5 @@ goog.mixin(
       getSecondaryLinkElement:
           firebaseui.auth.ui.element.form.getSecondaryLinkElement,
       initFormElement:
-          firebaseui.auth.ui.element.form.initFormElement,
-
-      // For ToS and Privacy Policy.
-      getTosPpElement:
-          firebaseui.auth.ui.element.tospp.getTosPpElement,
-      getTosLinkElement:
-          firebaseui.auth.ui.element.tospp.getTosLinkElement,
-      getPpLinkElement:
-          firebaseui.auth.ui.element.tospp.getPpLinkElement,
-      getTosPpListElement:
-          firebaseui.auth.ui.element.tospp.getTosPpListElement
+          firebaseui.auth.ui.element.form.initFormElement
     });

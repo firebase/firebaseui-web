@@ -20,7 +20,6 @@ goog.provide('firebaseui.auth.ui.page.ProviderSignIn');
 
 goog.require('firebaseui.auth.soy2.page');
 goog.require('firebaseui.auth.ui.element.idps');
-goog.require('firebaseui.auth.ui.element.tospp');
 goog.require('firebaseui.auth.ui.page.Base');
 
 
@@ -30,8 +29,10 @@ goog.require('firebaseui.auth.ui.page.Base');
  * @param {function(string)} onIdpClick Callback to invoke when the user clicks
  *     one IdP button.
  * @param {!Array<string>} providerIds The provider IDs of the IdPs to display.
- * @param {?string=} opt_tosUrl The ToS URL.
- * @param {?string=} opt_privacyPolicyUrl The Privacy Policy URL.
+ * @param {?function()=} opt_tosCallback Callback to invoke when the ToS link
+ *     is clicked.
+ * @param {?function()=} opt_privacyPolicyCallback Callback to invoke when the
+ *     Privacy Policy link is clicked.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @constructor
  * @extends {firebaseui.auth.ui.page.Base}
@@ -39,8 +40,8 @@ goog.require('firebaseui.auth.ui.page.Base');
 firebaseui.auth.ui.page.ProviderSignIn = function(
     onIdpClick,
     providerIds,
-    opt_tosUrl,
-    opt_privacyPolicyUrl,
+    opt_tosCallback,
+    opt_privacyPolicyCallback,
     opt_domHelper) {
   firebaseui.auth.ui.page.ProviderSignIn.base(
       this,
@@ -52,8 +53,8 @@ firebaseui.auth.ui.page.ProviderSignIn = function(
       opt_domHelper,
       'providerSignIn',
       {
-        tosUrl: opt_tosUrl,
-        privacyPolicyUrl: opt_privacyPolicyUrl
+        tosCallback: opt_tosCallback,
+        privacyPolicyCallback: opt_privacyPolicyCallback
       });
   this.onIdpClick_ = onIdpClick;
 };
@@ -81,15 +82,5 @@ goog.mixin(
     {
       // For idps.
       initIdpList:
-          firebaseui.auth.ui.element.idps.initIdpList,
-
-      // For ToS and Privacy Policy.
-      getTosPpElement:
-          firebaseui.auth.ui.element.tospp.getTosPpElement,
-      getTosLinkElement:
-          firebaseui.auth.ui.element.tospp.getTosLinkElement,
-      getPpLinkElement:
-          firebaseui.auth.ui.element.tospp.getPpLinkElement,
-      getTosPpListElement:
-          firebaseui.auth.ui.element.tospp.getTosPpListElement
+          firebaseui.auth.ui.element.idps.initIdpList
     });

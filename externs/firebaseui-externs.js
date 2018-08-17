@@ -250,16 +250,16 @@ firebaseui.auth.Config.prototype.signInSuccessUrl;
 firebaseui.auth.Config.prototype.siteName;
 
 /**
- * The terms of service URL.
+ * The terms of service URL/callback.
  *
- * @type {string|undefined}
+ * @type {string|function()|undefined}
  */
 firebaseui.auth.Config.prototype.tosUrl;
 
 /**
- * The privacy policy URL.
+ * The privacy policy URL/callback.
  *
- * @type {string|undefined}
+ * @type {string|function()|undefined}
  */
 firebaseui.auth.Config.prototype.privacyPolicyUrl;
 

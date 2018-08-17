@@ -37,8 +37,12 @@ var IJ_DATA_ = {
   'passwordLogo': '../image/mail.svg',
   'phoneLogo': '../image/phone.svg',
   'anonymousLogo': '../image/anonymous.png',
-  'tosUrl': 'tos',
-  'privacyPolicyUrl': 'privacy_policy'
+  'tosCallback': function() {
+    window.location.assign('/tos');
+  },
+  'privacyPolicyCallback': function() {
+    window.location.assign('/privacyPolicy');
+  }
 };
 
 

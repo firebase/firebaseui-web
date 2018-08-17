@@ -37,6 +37,8 @@ var FakeUtil = function() {
   this.openerGoToUrl_ = null;
   this.closedWindow_ = null;
   this.popupUrl_ = null;
+  this.openUrl_ = null;
+  this.windowName_ = null;
 };
 goog.inherits(FakeUtil, Disposable);
 
@@ -62,6 +64,10 @@ FakeUtil.prototype.install = function() {
   });
   r.set(util, 'popup', function(url) {
     self.popupUrl_ = url;
+  });
+  r.set(util, 'open', function(url, windowName) {
+    self.openUrl_ = url;
+    self.windowName_ = windowName;
   });
   return this;
 };
@@ -117,6 +123,19 @@ FakeUtil.prototype.assertGoTo = function(url) {
 FakeUtil.prototype.assertOpenerGoTo = function(url) {
   assertEquals(url, this.openerGoToUrl_);
   this.openerGoToUrl_ = null;
+};
+
+
+/**
+ * Asserts the given URL is loaded in the given window.
+ * @param {string} url The URL to be loaded.
+ * @param {string} windowName The window name to be loaded into.
+ */
+FakeUtil.prototype.assertOpen = function(url, windowName) {
+  assertEquals(url, this.openUrl_);
+  assertEquals(windowName, this.windowName_);
+  this.openUrl_ = null;
+  this.windowName_ = null;
 };
 
 

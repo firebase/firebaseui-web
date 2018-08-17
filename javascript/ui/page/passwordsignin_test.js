@@ -38,6 +38,8 @@ goog.require('goog.userAgent');
 var mockClock;
 var root;
 var component;
+var tosCallback;
+var privacyPolicyCallback;
 var emailTestHelper = new firebaseui.auth.ui.element.EmailTestHelper().
     excludeTests('testOnEnter_', 'testOnTextChanged_').
     registerTests();
@@ -57,6 +59,12 @@ function setUp() {
   // Set up clock.
   mockClock = new goog.testing.MockClock();
   mockClock.install();
+  tosCallback = goog.bind(
+      firebaseui.auth.ui.element.TosPpTestHelper.prototype.onTosLinkClick,
+      tosPpTestHelper);
+  privacyPolicyCallback = goog.bind(
+      firebaseui.auth.ui.element.TosPpTestHelper.prototype.onPpLinkClick,
+      tosPpTestHelper);
   root = goog.dom.createDom(goog.dom.TagName.DIV);
   document.body.appendChild(root);
   component = new firebaseui.auth.ui.page.PasswordSignIn(
@@ -67,8 +75,8 @@ function setUp() {
           firebaseui.auth.ui.element.FormTestHelper.prototype.onLinkClick,
           formTestHelper),
       'user@example.com',
-      'http://localhost/tos',
-      'http://localhost/privacy_policy');
+      tosCallback,
+      privacyPolicyCallback);
   component.render(root);
   emailTestHelper.setComponent(component);
   passwordTestHelper.setComponent(component);
@@ -77,6 +85,8 @@ function setUp() {
   formTestHelper.resetState();
   infoBarTestHelper.setComponent(component);
   tosPpTestHelper.setComponent(component);
+  // Reset previous state of tosPp helper.
+  tosPpTestHelper.resetState();
   pageTestHelper.setClock(mockClock).setComponent(component);
 }
 
@@ -147,13 +157,12 @@ function testPasswordSignIn_fullMessage() {
           firebaseui.auth.ui.element.FormTestHelper.prototype.onLinkClick,
           formTestHelper),
       'user@example.com',
-      'http://localhost/tos',
-      'http://localhost/privacy_policy',
+      tosCallback,
+      privacyPolicyCallback,
       true);
   tosPpTestHelper.setComponent(component);
   component.render(root);
-  tosPpTestHelper.assertFullMessage(
-      'http://localhost/tos', 'http://localhost/privacy_policy');
+  tosPpTestHelper.assertFullMessage(tosCallback, privacyPolicyCallback);
 }
 
 
@@ -183,8 +192,7 @@ function testPasswordSignIn_footer() {
   if (goog.userAgent.IE && !goog.userAgent.isDocumentModeOrHigher(9)) {
     return;
   }
-  tosPpTestHelper.assertFooter(
-      'http://localhost/tos', 'http://localhost/privacy_policy');
+  tosPpTestHelper.assertFooter(tosCallback, privacyPolicyCallback);
 }
 
 

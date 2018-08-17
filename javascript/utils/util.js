@@ -114,6 +114,34 @@ firebaseui.auth.util.hasOpener = function() {
 
 
 /**
+ * Loads the URL into the window with the specified name. If the name doesn't
+ * exist, then a new window is opened.
+ * It simply wraps the window.open and is meant for testing since some browsers
+ * don't allow overwriting of the native object.
+ *
+ * @param {string} url The target URL.
+ * @param {string} windowName The window name.
+ * @param {?number=} opt_width width of the popup
+ * @param {?number=} opt_height height of the popup
+ * @param {?Window=} opt_parentWin Parent window that should be used to open the
+ *     new window.
+ */
+firebaseui.auth.util.open =
+    function(url, windowName, opt_width, opt_height, opt_parentWin) {
+  var options = {
+    'target': windowName
+  };
+  if (opt_width) {
+    options['width'] = opt_width;
+  }
+  if (opt_height) {
+    options['height'] = opt_height;
+  }
+  goog.window.open(url, options, opt_parentWin);
+};
+
+
+/**
  * Detects mobile browser.
  *
  * @return {boolean} True if the browser is on mobile.

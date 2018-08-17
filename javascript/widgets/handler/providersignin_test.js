@@ -99,8 +99,7 @@ function setupProviderSignInPage(
   assertEquals('facebook.com', goog.dom.dataset.get(buttons[1], 'providerId'));
   assertEquals('password', goog.dom.dataset.get(buttons[2], 'providerId'));
   assertEquals('phone', goog.dom.dataset.get(buttons[3], 'providerId'));
-  assertTosPpFullMessage(
-      'http://localhost/tos', 'http://localhost/privacy_policy');
+  assertTosPpFullMessage(tosCallback, 'http://localhost/privacy_policy');
 }
 
 

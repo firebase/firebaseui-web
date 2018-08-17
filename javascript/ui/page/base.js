@@ -25,6 +25,7 @@ goog.require('firebaseui.auth.ui.element');
 goog.require('firebaseui.auth.ui.element.dialog');
 goog.require('firebaseui.auth.ui.element.infoBar');
 goog.require('firebaseui.auth.ui.element.progressDialog');
+goog.require('firebaseui.auth.ui.element.tospp');
 goog.require('firebaseui.auth.ui.mdl');
 goog.require('goog.dom');
 goog.require('goog.dom.classlist');
@@ -159,6 +160,24 @@ firebaseui.auth.ui.page.Base.prototype.enterDocument = function() {
           {
             'pageId': this.getPageId()
           }));
+  // If tos/pp element is available, sets the onClick handler when onClick
+  // callbacks are provided.
+  if (this.getTosLinkElement() && this.injectedData_.tosCallback) {
+    var tosCallback =
+        /** @type {function()} */ (this.injectedData_.tosCallback);
+    firebaseui.auth.ui.element.listenForActionEvent(
+        this, this.getTosLinkElement(), function(e) {
+          tosCallback();
+        });
+  }
+  if (this.getPpLinkElement() && this.injectedData_.privacyPolicyCallback) {
+    var privacyPolicyCallback =
+        /** @type {function()} */ (this.injectedData_.privacyPolicyCallback);
+    firebaseui.auth.ui.element.listenForActionEvent(
+        this, this.getPpLinkElement(), function(e) {
+          privacyPolicyCallback();
+        });
+  }
 };
 
 
@@ -375,5 +394,15 @@ goog.mixin(
       dismissDialog:
           firebaseui.auth.ui.element.dialog.dismissDialog,
       getDialogElement:
-          firebaseui.auth.ui.element.dialog.getDialogElement
+          firebaseui.auth.ui.element.dialog.getDialogElement,
+
+      // For ToS and Privacy Policy.
+      getTosPpElement:
+          firebaseui.auth.ui.element.tospp.getTosPpElement,
+      getTosLinkElement:
+          firebaseui.auth.ui.element.tospp.getTosLinkElement,
+      getPpLinkElement:
+          firebaseui.auth.ui.element.tospp.getPpLinkElement,
+      getTosPpListElement:
+          firebaseui.auth.ui.element.tospp.getTosPpListElement
     });

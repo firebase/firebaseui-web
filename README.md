@@ -192,10 +192,14 @@ for a more in-depth example, showcasing a Single Page Application mode.
           firebase.auth.PhoneAuthProvider.PROVIDER_ID,
           firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
         ],
-        // Terms of service url.
+        // tosUrl and privacyPolicyUrl accept either url string or a callback
+        // function.
+        // Terms of service url/callback.
         tosUrl: '<your-tos-url>',
-        // Privacy policy url.
-        privacyPolicyUrl: '<your-privacy-policy-url>'
+        // Privacy policy url/callback.
+        privacyPolicyUrl: function() {
+          window.location.assign('<your-privacy-policy-url>');
+        }
       };
 
       // Initialize the FirebaseUI Widget using Firebase.
@@ -399,12 +403,18 @@ FirebaseUI supports the following configuration parameters.
 <tr>
 <td>tosUrl</td>
 <td>Yes</td>
-<td>The URL of the Terms of Service page.</td>
+<td>
+  The URL of the Terms of Service page or a callback function to be invoked
+  when Terms of Service link is clicked.
+</td>
 </tr>
 <tr>
 <td>privacyPolicyUrl</td>
 <td>Yes</td>
-<td>The URL of the privacy policy page.</td>
+<td>
+  The URL of the Privacy Policy page or a callback function to be invoked
+  when Privacy Policy link is clicked.
+</td>
 </tr>
 </tbody>
 </table>
@@ -802,10 +812,14 @@ FirebaseUI is displayed.
           },
           firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
         ],
-        // Terms of service url.
+        // tosUrl and privacyPolicyUrl accept either url string or a callback
+        // function.
+        // Terms of service url/callback.
         tosUrl: '<your-tos-url>',
-        // Privacy policy url.
-        privacyPolicyUrl: '<your-privacy-policy-url>'
+        // Privacy policy url/callback.
+        privacyPolicyUrl: function() {
+          window.location.assign('<your-privacy-policy-url>');
+        }
       };
 
       var ui = new firebaseui.auth.AuthUI(firebase.auth());

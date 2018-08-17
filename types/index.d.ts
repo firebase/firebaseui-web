@@ -70,8 +70,8 @@ declare namespace firebaseui.auth {
       | FederatedSignInOption | EmailSignInOption | PhoneSignInOption>;
     signInSuccessUrl?: string;
     siteName?: string;
-    tosUrl?: string;
-    privacyPolicyUrl?: string;
+    tosUrl?: (() => void) | string;
+    privacyPolicyUrl?: (() => void) | string;
     widgetUrl?: string;
   }
 

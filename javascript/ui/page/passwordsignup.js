@@ -24,7 +24,6 @@ goog.require('firebaseui.auth.ui.element.email');
 goog.require('firebaseui.auth.ui.element.form');
 goog.require('firebaseui.auth.ui.element.name');
 goog.require('firebaseui.auth.ui.element.newPassword');
-goog.require('firebaseui.auth.ui.element.tospp');
 goog.require('firebaseui.auth.ui.page.Base');
 
 
@@ -38,8 +37,10 @@ goog.require('firebaseui.auth.ui.page.Base');
  *     button is clicked.
  * @param {string=} opt_email The email to prefill.
  * @param {string=} opt_name The name to prefill.
- * @param {?string=} opt_tosUrl The ToS URL.
- * @param {?string=} opt_privacyPolicyUrl The Privacy Policy URL.
+ * @param {?function()=} opt_tosCallback Callback to invoke when the ToS link
+ *     is clicked.
+ * @param {?function()=} opt_privacyPolicyCallback Callback to invoke when the
+ *     Privacy Policy link is clicked.
  * @param {boolean=} opt_displayFullTosPpMessage Whether to display the full
  *     message of Term of Service and Privacy Policy.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
@@ -52,8 +53,8 @@ firebaseui.auth.ui.page.PasswordSignUp = function(
     opt_onCancelClick,
     opt_email,
     opt_name,
-    opt_tosUrl,
-    opt_privacyPolicyUrl,
+    opt_tosCallback,
+    opt_privacyPolicyCallback,
     opt_displayFullTosPpMessage,
     opt_domHelper) {
   firebaseui.auth.ui.page.PasswordSignUp.base(
@@ -70,8 +71,8 @@ firebaseui.auth.ui.page.PasswordSignUp = function(
       opt_domHelper,
       'passwordSignUp',
       {
-        tosUrl: opt_tosUrl,
-        privacyPolicyUrl: opt_privacyPolicyUrl
+        tosCallback: opt_tosCallback,
+        privacyPolicyCallback: opt_privacyPolicyCallback
       });
   this.onSubmitClick_ = onSubmitClick;
   this.onCancelClick_ = opt_onCancelClick;
@@ -110,9 +111,11 @@ firebaseui.auth.ui.page.PasswordSignUp.prototype.setupFocus_ = function() {
   // Focus order.
   if (this.requireDisplayName_) {
     this.focusToNextOnEnter(this.getEmailElement(), this.getNameElement());
-    this.focusToNextOnEnter(this.getNameElement(), this.getNewPasswordElement());
+    this.focusToNextOnEnter(
+        this.getNameElement(), this.getNewPasswordElement());
   } else {
-    this.focusToNextOnEnter(this.getEmailElement(), this.getNewPasswordElement());
+    this.focusToNextOnEnter(
+        this.getEmailElement(), this.getNewPasswordElement());
   }
 
   // On enter in password element.
@@ -179,15 +182,5 @@ goog.mixin(
       getSecondaryLinkElement:
           firebaseui.auth.ui.element.form.getSecondaryLinkElement,
       initFormElement:
-          firebaseui.auth.ui.element.form.initFormElement,
-
-      // For ToS and Privacy Policy.
-      getTosPpElement:
-          firebaseui.auth.ui.element.tospp.getTosPpElement,
-      getTosLinkElement:
-          firebaseui.auth.ui.element.tospp.getTosLinkElement,
-      getPpLinkElement:
-          firebaseui.auth.ui.element.tospp.getPpLinkElement,
-      getTosPpListElement:
-          firebaseui.auth.ui.element.tospp.getTosPpListElement
+          firebaseui.auth.ui.element.form.initFormElement
     });

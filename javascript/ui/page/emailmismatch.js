@@ -20,7 +20,6 @@ goog.provide('firebaseui.auth.ui.page.EmailMismatch');
 
 goog.require('firebaseui.auth.soy2.page');
 goog.require('firebaseui.auth.ui.element.form');
-goog.require('firebaseui.auth.ui.element.tospp');
 goog.require('firebaseui.auth.ui.page.Base');
 
 
@@ -33,8 +32,10 @@ goog.require('firebaseui.auth.ui.page.Base');
  *     button is clicked.
  * @param {function()} onCancelClick Callback to invoke when the cancel
  *     button is clicked.
- * @param {?string=} opt_tosUrl The ToS URL.
- * @param {?string=} opt_privacyPolicyUrl The Privacy Policy URL.
+ * @param {?function()=} opt_tosCallback Callback to invoke when the ToS link
+ *     is clicked.
+ * @param {?function()=} opt_privacyPolicyCallback Callback to invoke when the
+ *     Privacy Policy link is clicked.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @constructor
  * @extends {firebaseui.auth.ui.page.Base}
@@ -44,8 +45,8 @@ firebaseui.auth.ui.page.EmailMismatch = function(
     pendingEmail,
     onContinueClick,
     onCancelClick,
-    opt_tosUrl,
-    opt_privacyPolicyUrl,
+    opt_tosCallback,
+    opt_privacyPolicyCallback,
     opt_domHelper) {
   // Extend base page class and render email mismatch soy template.
   firebaseui.auth.ui.page.EmailMismatch.base(
@@ -59,8 +60,8 @@ firebaseui.auth.ui.page.EmailMismatch = function(
       opt_domHelper,
       'emailMismatch',
       {
-        tosUrl: opt_tosUrl,
-        privacyPolicyUrl: opt_privacyPolicyUrl
+        tosCallback: opt_tosCallback,
+        privacyPolicyCallback: opt_privacyPolicyCallback
       });
   this.onContinueClick_ = onContinueClick;
   this.onCancelClick_ = onCancelClick;
@@ -97,15 +98,5 @@ goog.mixin(
       getSecondaryLinkElement:
           firebaseui.auth.ui.element.form.getSecondaryLinkElement,
       initFormElement:
-          firebaseui.auth.ui.element.form.initFormElement,
-
-      // For tos pp.
-      getTosPpElement:
-          firebaseui.auth.ui.element.tospp.getTosPpElement,
-      getTosLinkElement:
-          firebaseui.auth.ui.element.tospp.getTosLinkElement,
-      getPpLinkElement:
-          firebaseui.auth.ui.element.tospp.getPpLinkElement,
-      getTosPpListElement:
-          firebaseui.auth.ui.element.tospp.getTosPpListElement
+          firebaseui.auth.ui.element.form.initFormElement
     });
