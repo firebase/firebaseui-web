@@ -21,6 +21,7 @@ goog.provide('firebaseui.auth.ui.element.TosPpTestHelper');
 goog.setTestOnly('firebaseui.auth.ui.element.TosPpTestHelper');
 
 goog.require('firebaseui.auth.ui.element');
+goog.require('goog.testing.events');
 
 
 goog.scope(function() {
@@ -37,60 +38,116 @@ goog.inherits(element.TosPpTestHelper, element.ElementTestHelper);
 
 /** @override */
 element.TosPpTestHelper.prototype.resetState = function() {
+  this.tosLinkClicked_ = false;
+  this.privacyPolicyLinkClicked_ = false;
 };
 
 
-/** Asserts the full message of ToS and Privacy Policy is displayed. */
+/** Handler for ToS link click event. */
+element.TosPpTestHelper.prototype.onTosLinkClick = function() {
+  this.tosLinkClicked_ = true;
+};
+
+
+/** Handler for Privacy Policy link click event. */
+element.TosPpTestHelper.prototype.onPpLinkClick = function() {
+  this.privacyPolicyLinkClicked_ = true;
+};
+
+
+/**
+ * Asserts the full message of ToS and Privacy Policy is displayed.
+ * @param {?function()|undefined} tosCallback The ToS callback.
+ * @param {?function()|undefined} privacyPolicyCallback The Privacy Policy
+ *     callback.
+ */
 element.TosPpTestHelper.prototype.assertFullMessage = function(
-    tosUrl, privacyPolicyUrl) {
+    tosCallback, privacyPolicyCallback) {
   var element = this.component.getTosPpElement();
-  if (!tosUrl && !privacyPolicyUrl) {
+  if (!tosCallback && !privacyPolicyCallback) {
     assertNull(element);
   } else {
     assertTrue(element.classList.contains('firebaseui-tospp-full-message'));
-    assertEquals(tosUrl, this.component.getTosLinkElement().href);
-    assertEquals(privacyPolicyUrl, this.component.getPpLinkElement().href);
+    this.assertTosLinkClicked_();
+    this.assertPpLinkClicked_();
   }
 };
 
 
-/** Asserts the footer of ToS and Privacy Policy links is displayed. */
+/**
+ * Asserts the footer of ToS and Privacy Policy links is displayed.
+ * @param {?function()|undefined} tosCallback The ToS callback.
+ * @param {?function()|undefined} privacyPolicyCallback The Privacy Policy
+ *     callback.
+ */
 element.TosPpTestHelper.prototype.assertFooter = function(
-    tosUrl, privacyPolicyUrl) {
+    tosCallback, privacyPolicyCallback) {
   var element = this.component.getTosPpListElement();
-  if (!tosUrl && !privacyPolicyUrl) {
+  if (!tosCallback && !privacyPolicyCallback) {
     assertNull(element);
   } else {
     assertTrue(element.classList.contains('firebaseui-tos-list'));
-    assertEquals(tosUrl, this.component.getTosLinkElement().href);
-    assertEquals(privacyPolicyUrl, this.component.getPpLinkElement().href);
+    this.assertTosLinkClicked_();
+    this.assertPpLinkClicked_();
   }
 };
 
 
-/** Asserts the full message of ToS and Privacy Policy and a notice to the user
-  * about SMS rates for phone authentication are displayed. */
+/**
+ * Asserts the full message of ToS and Privacy Policy and a notice to the user
+ * about SMS rates for phone authentication are displayed.
+ * @param {?function()|undefined} tosCallback The ToS callback.
+ * @param {?function()|undefined} privacyPolicyCallback The Privacy Policy
+ *     callback.
+ */
 element.TosPpTestHelper.prototype.assertPhoneFullMessage = function(
-    tosUrl, privacyPolicyUrl) {
+    tosCallback, privacyPolicyCallback) {
   var element = this.component.getTosPpElement();
   assertTrue(element.classList.contains('firebaseui-phone-tos'));
-  if (!tosUrl && !privacyPolicyUrl) {
+  if (!tosCallback && !privacyPolicyCallback) {
     assertNull(this.component.getTosLinkElement());
     assertNull(this.component.getPpLinkElement());
   } else {
-    assertEquals(tosUrl, this.component.getTosLinkElement().href);
-    assertEquals(privacyPolicyUrl, this.component.getPpLinkElement().href);
+    this.assertTosLinkClicked_();
+    this.assertPpLinkClicked_();
   }
 };
 
 
-/** Asserts a notice to the user about SMS rates for phone authentication
-  * and the link of ToS and Privacy Policy are displayed. */
+/**
+ * Asserts a notice to the user about SMS rates for phone authentication
+ * and the link of ToS and Privacy Policy are displayed.
+ * @param {?function()|undefined} tosCallback The ToS callback.
+ * @param {?function()|undefined} privacyPolicyCallback The Privacy Policy
+ *     callback.
+ */
 element.TosPpTestHelper.prototype.assertPhoneFooter = function(
-    tosUrl, privacyPolicyUrl) {
+    tosCallback, privacyPolicyCallback) {
   var element = this.component.getTosPpElement();
   assertTrue(element.classList.contains('firebaseui-phone-sms-notice'));
-  this.assertFooter(tosUrl, privacyPolicyUrl);
+  this.assertFooter(tosCallback, privacyPolicyCallback);
+};
+
+
+/**
+ * Asserts the onClick callback is triggered when ToS link element is clicked.
+ * @private
+ */
+element.TosPpTestHelper.prototype.assertTosLinkClicked_ = function() {
+  assertFalse(this.tosLinkClicked_);
+  goog.testing.events.fireClickSequence(this.component.getTosLinkElement());
+  assertTrue(this.tosLinkClicked_);
+};
+
+
+/**
+ * Asserts the onClick callback is triggered when Pp link element is clicked.
+ * @private
+ */
+element.TosPpTestHelper.prototype.assertPpLinkClicked_ = function() {
+  assertFalse(this.privacyPolicyLinkClicked_);
+  goog.testing.events.fireClickSequence(this.component.getPpLinkElement());
+  assertTrue(this.privacyPolicyLinkClicked_);
 };
 
 
@@ -103,11 +160,13 @@ element.TosPpTestHelper.prototype.testGetTosPpElement_ = function() {
 /** @private */
 element.TosPpTestHelper.prototype.testGetTosLinkElement_ = function() {
   assertNotNull(this.component.getTosLinkElement());
+  this.assertTosLinkClicked_();
 };
 
 
 /** @private */
 element.TosPpTestHelper.prototype.testGetPpLinkElement_ = function() {
   assertNotNull(this.component.getPpLinkElement());
+  this.assertPpLinkClicked_();
 };
 });

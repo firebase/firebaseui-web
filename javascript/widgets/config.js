@@ -625,29 +625,52 @@ firebaseui.auth.widget.Config.prototype.getSiteName = function() {
 };
 
 
-/** @return {?string} The ToS URL for the site. */
+/**
+ * @return {?function()} The ToS callback for the site. If URL is provided,
+ *     wraps the URL with a callback function.
+ */
 firebaseui.auth.widget.Config.prototype.getTosUrl = function() {
   var tosUrl = this.config_.get('tosUrl') || null;
   var privacyPolicyUrl = this.config_.get('privacyPolicyUrl') || null;
   if (tosUrl && !privacyPolicyUrl) {
     firebaseui.auth.log.warning('Privacy Policy URL is missing, ' +
                                 'the link will not be displayed.');
-    return null;
   }
-  return /** @type {?string} */ (tosUrl);
+  if (tosUrl && privacyPolicyUrl) {
+    if (goog.isFunction(tosUrl)) {
+      return /** @type {function()} */ (tosUrl);
+    } else if (goog.isString(tosUrl)) {
+      return function() {
+        firebaseui.auth.util.open(/** @type {string} */ (tosUrl), '_blank');
+      };
+    }
+  }
+  return null;
 };
 
 
-/** @return {?string} The Privacy Policy URL for the site. */
+/**
+ * @return {?function()} The Privacy Policy callback for the site. If
+ *     URL is provided, wraps the URL with a callback function.
+ */
 firebaseui.auth.widget.Config.prototype.getPrivacyPolicyUrl = function() {
   var tosUrl = this.config_.get('tosUrl') || null;
   var privacyPolicyUrl = this.config_.get('privacyPolicyUrl') || null;
   if (privacyPolicyUrl && !tosUrl) {
     firebaseui.auth.log.warning('Term of Service URL is missing, ' +
                                 'the link will not be displayed.');
-    return null;
   }
-  return /** @type {?string} */ (privacyPolicyUrl);
+  if (tosUrl && privacyPolicyUrl) {
+    if (goog.isFunction(privacyPolicyUrl)) {
+        return /** @type {function()} */ (privacyPolicyUrl);
+    } else if (goog.isString(privacyPolicyUrl)) {
+      return function() {
+        firebaseui.auth.util.open(
+            /** @type {string} */ (privacyPolicyUrl), '_blank');
+      };
+    }
+  }
+  return null;
 };
 
 

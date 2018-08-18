@@ -40,6 +40,8 @@ goog.require('goog.testing.jsunit');
 var mockClock;
 var root;
 var component;
+var tosCallback;
+var privacyPolicyCallback;
 var phoneNumberTestHelper =
     new firebaseui.auth.ui.element.PhoneNumberTestHelper().registerTests();
 var recaptchaTestHelper =
@@ -57,8 +59,12 @@ var pageTestHelper =
 /**
  * @param {boolean} enableVisibleRecaptcha Whether to enable a visible reCAPTCHA
  *     or an invisible one otherwise.
- * @param {?string} tosUrl The ToS URL.
- * @param {?string} privacyPolicyUrl The Privacy Policy URL.
+ * @param {?function()=} opt_tosCallback Callback to invoke when the ToS link
+ *     is clicked.
+ * @param {?function()=} opt_privacyPolicyCallback Callback to invoke when the
+ *     Privacy Policy link is clicked.
+ * @param {boolean=} opt_displayFullTosPpMessage Whether to display the full
+ *     message of Term of Service and Privacy Policy.
  * @param {?firebaseui.auth.data.country.LookupTree=} opt_lookupTree The country
  *     lookup prefix tree to search country code with.
  * @param {?string=} opt_countryId The ID (e164_key) of the country to
@@ -66,8 +72,9 @@ var pageTestHelper =
  * @param {?string=} opt_nationalNumber The national number to pre-fill.
  * @return {!goog.ui.Component} The rendered PhoneSignInStart component.
  */
-function createComponent(enableVisibleRecaptcha, tosUrl, privacyPolicyUrl,
-    opt_lookupTree, opt_countryId, opt_nationalNumber) {
+function createComponent(enableVisibleRecaptcha, opt_tosCallback,
+    opt_privacyPolicyCallback, opt_displayFullTosPpMessage, opt_lookupTree,
+    opt_countryId, opt_nationalNumber) {
   var component = new firebaseui.auth.ui.page.PhoneSignInStart(
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
@@ -76,9 +83,9 @@ function createComponent(enableVisibleRecaptcha, tosUrl, privacyPolicyUrl,
           firebaseui.auth.ui.element.FormTestHelper.prototype.onLinkClick,
           formTestHelper),
       enableVisibleRecaptcha,
-      tosUrl,
-      privacyPolicyUrl,
-      false,
+      opt_tosCallback,
+      opt_privacyPolicyCallback,
+      opt_displayFullTosPpMessage,
       opt_lookupTree,
       opt_countryId,
       opt_nationalNumber);
@@ -90,6 +97,8 @@ function createComponent(enableVisibleRecaptcha, tosUrl, privacyPolicyUrl,
   formTestHelper.resetState();
   infoBarTestHelper.setComponent(component);
   tosPpTestHelper.setComponent(component);
+  // Reset previous state of tosPp helper.
+  tosPpTestHelper.resetState();
   pageTestHelper.setClock(mockClock).setComponent(component);
   return component;
 }
@@ -99,10 +108,15 @@ function setUp() {
   // Set up clock.
   mockClock = new goog.testing.MockClock();
   mockClock.install();
+  tosCallback = goog.bind(
+      firebaseui.auth.ui.element.TosPpTestHelper.prototype.onTosLinkClick,
+      tosPpTestHelper);
+  privacyPolicyCallback = goog.bind(
+      firebaseui.auth.ui.element.TosPpTestHelper.prototype.onPpLinkClick,
+      tosPpTestHelper);
   root = goog.dom.createDom(goog.dom.TagName.DIV);
   document.body.appendChild(root);
-  component = createComponent(true, 'http://localhost/tos',
-      'http://localhost/privacy_policy');
+  component = createComponent(true, tosCallback, privacyPolicyCallback);
 }
 
 
@@ -134,7 +148,7 @@ function testPhoneSignInStart_visibleAndInvisibleRecaptcha() {
 function testPhoneSignInStart_prefillValue() {
   component.dispose();
 
-  component = createComponent(false, null, null, null,
+  component = createComponent(false, null, null, false, null,
                               '45-DK-0', '6505550101');
 
   // The prefilled number should be returned.
@@ -151,7 +165,7 @@ function testPhoneSignInStart_provideCountries_noDefaultCountry() {
   component.dispose();
   var countries = firebaseui.auth.data.country.COUNTRY_LIST.slice(1, 20);
   var lookupTree = new firebaseui.auth.data.country.LookupTree(countries);
-  component = createComponent(false, null, null, lookupTree);
+  component = createComponent(false, null, null, false, lookupTree);
   var countrySelector = component.getCountrySelectorElement();
   // Default to the first country in the list provided since US is not in the
   // list and no default country being set.
@@ -191,7 +205,7 @@ function testPhoneSignInStart_provideCountries_noDefaultCountry() {
 
 function testPhoneSignInStart_provideCountries_withDefaultCountry() {
   component.dispose();
-  component = createComponent(false, null, null,
+  component = createComponent(false, null, null, false,
                               firebaseui.auth.data.country.LOOKUP_TREE,
                               '86-CN-0');
   var countrySelector = component.getCountrySelectorElement();
@@ -209,7 +223,7 @@ function testPhoneSignInStart_defaultCountryNotAvailable() {
   component.dispose();
   var countries = firebaseui.auth.data.country.COUNTRY_LIST.slice(0, 20);
   var lookupTree = new firebaseui.auth.data.country.LookupTree(countries);
-  component = createComponent(false, null, null, lookupTree,
+  component = createComponent(false, null, null, false, lookupTree,
                               firebaseui.auth.data.country.COUNTRY_LIST[20]);
   var countrySelector = component.getCountrySelectorElement();
   // Default to the first country in the list provided since US is not in the
@@ -220,10 +234,8 @@ function testPhoneSignInStart_defaultCountryNotAvailable() {
 
 function testPhoneSignInStart_footer() {
   component.dispose();
-  component = createComponent(false, 'http://localhost/tos',
-      'http://localhost/privacy_policy');
-  tosPpTestHelper.assertPhoneFooter('http://localhost/tos',
-      'http://localhost/privacy_policy');
+  component = createComponent(false, tosCallback, privacyPolicyCallback);
+  tosPpTestHelper.assertPhoneFooter(tosCallback, privacyPolicyCallback);
   component.dispose();
   component = createComponent(false, null, null);
   tosPpTestHelper.assertPhoneFooter(null, null);
@@ -232,40 +244,15 @@ function testPhoneSignInStart_footer() {
 
 function testPhoneSignInStart_fullMessage() {
   component.dispose();
-  component = new firebaseui.auth.ui.page.PhoneSignInStart(
-      goog.bind(
-          firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
-          formTestHelper),
-      goog.bind(
-          firebaseui.auth.ui.element.FormTestHelper.prototype.onLinkClick,
-          formTestHelper),
-      false,
-      'http://localhost/tos',
-      'http://localhost/privacy_policy',
-      true);
-  component.render(root);
-  tosPpTestHelper.setComponent(component);
-  tosPpTestHelper.assertPhoneFullMessage('http://localhost/tos',
-      'http://localhost/privacy_policy');
+  component = createComponent(false, tosCallback, privacyPolicyCallback, true);
+  tosPpTestHelper.assertPhoneFullMessage(tosCallback, privacyPolicyCallback);
   component.dispose();
 }
 
 
 function testPhoneSignInStart_fullMessage_noUrl() {
   component.dispose();
-  component = new firebaseui.auth.ui.page.PhoneSignInStart(
-      goog.bind(
-          firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
-          formTestHelper),
-      goog.bind(
-          firebaseui.auth.ui.element.FormTestHelper.prototype.onLinkClick,
-          formTestHelper),
-      false,
-      null,
-      null,
-      true);
-  component.render(root);
-  tosPpTestHelper.setComponent(component);
+  component = createComponent(false, null, null, true);
   tosPpTestHelper.assertPhoneFullMessage(null, null);
   component.dispose();
 }

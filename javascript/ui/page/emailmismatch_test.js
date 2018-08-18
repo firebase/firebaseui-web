@@ -59,14 +59,20 @@ function setUp() {
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onLinkClick,
           formTestHelper),
-      'http://localhost/tos',
-      'http://localhost/privacy_policy');
+      goog.bind(
+          firebaseui.auth.ui.element.TosPpTestHelper.prototype.onTosLinkClick,
+          tosPpTestHelper),
+      goog.bind(
+          firebaseui.auth.ui.element.TosPpTestHelper.prototype.onPpLinkClick,
+          tosPpTestHelper));
   component.render(root);
   formTestHelper.setComponent(component);
-  tosPpTestHelper.setComponent(component);
-  pageTestHelper.setClock(mockClock).setComponent(component);
   // Reset previous state of form helper.
   formTestHelper.resetState();
+  tosPpTestHelper.setComponent(component);
+  // Reset previous state of tosPp helper.
+  tosPpTestHelper.resetState();
+  pageTestHelper.setClock(mockClock).setComponent(component);
 }
 
 

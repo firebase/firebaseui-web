@@ -36,7 +36,7 @@ function testHandlePasswordSignIn() {
   firebaseui.auth.widget.handler.handlePasswordSignIn(
       app, container, passwordAccount.getEmail());
   assertPasswordSignInPage();
-  assertTosPpFooter('http://localhost/tos', 'http://localhost/privacy_policy');
+  assertTosPpFooter(tosCallback, 'http://localhost/privacy_policy');
   goog.dom.forms.setValue(getPasswordElement(), '123');
   submitForm();
   testAuth.assertSignInWithEmailAndPassword(
@@ -75,8 +75,7 @@ function testHandlePasswordSignIn_fullMessage() {
   firebaseui.auth.widget.handler.handlePasswordSignIn(
       app, container, passwordAccount.getEmail(), true);
   assertPasswordSignInPage();
-  assertTosPpFullMessage(
-      'http://localhost/tos', 'http://localhost/privacy_policy');
+  assertTosPpFullMessage(tosCallback, 'http://localhost/privacy_policy');
 }
 
 

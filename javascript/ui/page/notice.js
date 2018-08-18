@@ -29,7 +29,6 @@ goog.provide('firebaseui.auth.ui.page.UnrecoverableError');
 
 goog.require('firebaseui.auth.soy2.page');
 goog.require('firebaseui.auth.ui.element.form');
-goog.require('firebaseui.auth.ui.element.tospp');
 goog.require('firebaseui.auth.ui.page.Base');
 
 
@@ -105,15 +104,17 @@ goog.mixin(
  * @param {string} email The email to which the recovery email has been sent.
  * @param {?function()=} opt_onContinueClick Callback to invoke when the
  *     continue button is clicked.
- * @param {?string=} opt_tosUrl The ToS URL.
- * @param {?string=} opt_privacyPolicyUrl The Privacy Policy URL.
+ * @param {?function()=} opt_tosCallback Callback to invoke when the ToS link
+ *     is clicked.
+ * @param {?function()=} opt_privacyPolicyCallback Callback to invoke when the
+ *     Privacy Policy link is clicked.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @constructor
  * @extends {firebaseui.auth.ui.page.Notice}
  */
 firebaseui.auth.ui.page.PasswordRecoveryEmailSent = function(
-    email, opt_onContinueClick,
-    opt_tosUrl, opt_privacyPolicyUrl, opt_domHelper) {
+    email, opt_onContinueClick, opt_tosCallback, opt_privacyPolicyCallback,
+    opt_domHelper) {
   firebaseui.auth.ui.page.PasswordRecoveryEmailSent.base(
       this,
       'constructor',
@@ -126,28 +127,12 @@ firebaseui.auth.ui.page.PasswordRecoveryEmailSent = function(
       opt_domHelper,
       'passwordRecoveryEmailSent',
       {
-        tosUrl: opt_tosUrl,
-        privacyPolicyUrl: opt_privacyPolicyUrl
+        tosCallback: opt_tosCallback,
+        privacyPolicyCallback: opt_privacyPolicyCallback
       });
 };
 goog.inherits(firebaseui.auth.ui.page.PasswordRecoveryEmailSent,
     firebaseui.auth.ui.page.Notice);
-
-
-goog.mixin(
-    firebaseui.auth.ui.page.PasswordRecoveryEmailSent.prototype,
-    /** @lends {firebaseui.auth.ui.page.PasswordRecoveryEmailSent.prototype} */
-    {
-      // For tos pp.
-      getTosPpElement:
-          firebaseui.auth.ui.element.tospp.getTosPpElement,
-      getTosLinkElement:
-          firebaseui.auth.ui.element.tospp.getTosLinkElement,
-      getPpLinkElement:
-          firebaseui.auth.ui.element.tospp.getPpLinkElement,
-      getTosPpListElement:
-          firebaseui.auth.ui.element.tospp.getTosPpListElement
-    });
 
 
 /**

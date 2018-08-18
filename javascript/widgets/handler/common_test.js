@@ -239,8 +239,7 @@ function testSelectFromAccountChooser_addAccount() {
       container);
   // The sign-in page should show.
   assertSignInPage();
-  assertTosPpFooter(
-      'http://localhost/tos', 'http://localhost/privacy_policy');
+  assertTosPpFooter(tosCallback, 'http://localhost/privacy_policy');
   assertFalse(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
 }
 
@@ -256,8 +255,7 @@ function testSelectFromAccountChooser_addAccount_passwordOnly() {
       container);
   // The sign-in page should show.
   assertSignInPage();
-  assertTosPpFullMessage(
-      'http://localhost/tos', 'http://localhost/privacy_policy');
+  assertTosPpFullMessage(tosCallback, 'http://localhost/privacy_policy');
   assertFalse(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
 }
 
@@ -2462,7 +2460,7 @@ function testHandleSignInFetchSignInMethodsForEmail_unregistered() {
       app, container, signInMethods, email, displayName);
   // Password sign up page should show with email and display name populated.
   assertPasswordSignUpPage();
-  assertTosPpFooter('http://localhost/tos', 'http://localhost/privacy_policy');
+  assertTosPpFooter(tosCallback, 'http://localhost/privacy_policy');
   assertEquals(
         email,
         goog.dom.forms.getValue(getEmailElement()));
@@ -2480,8 +2478,7 @@ function testHandleSignInFetchSignInMethodsForEmail_unregistered_fullMsg() {
       app, container, signInMethods, email, displayName, undefined, true);
   // Password sign up page should show with email and display name populated.
   assertPasswordSignUpPage();
-  assertTosPpFullMessage(
-      'http://localhost/tos', 'http://localhost/privacy_policy');
+  assertTosPpFullMessage(tosCallback, 'http://localhost/privacy_policy');
   assertEquals(
         email,
         goog.dom.forms.getValue(getEmailElement()));
@@ -2498,7 +2495,7 @@ function testHandleSignInFetchSignInMethodsForEmail_registeredPasswordAcct() {
       app, container, signInMethods, email);
   // Password sign-in page should show.
   assertPasswordSignInPage();
-  assertTosPpFooter('http://localhost/tos', 'http://localhost/privacy_policy');
+  assertTosPpFooter(tosCallback, 'http://localhost/privacy_policy');
   assertEquals(email, goog.dom.forms.getValue(getEmailElement()));
   assertEquals(0, getIdpButtons().length);
 }
@@ -2511,8 +2508,7 @@ function testHandleSignInFetchSignInMethodsForEmail_registeredPwdAcctFullMsg() {
       app, container, signInMethods, email, undefined, undefined, true);
   // Password sign-in page should show.
   assertPasswordSignInPage();
-  assertTosPpFullMessage(
-      'http://localhost/tos', 'http://localhost/privacy_policy');
+  assertTosPpFullMessage(tosCallback, 'http://localhost/privacy_policy');
   assertEquals(email, goog.dom.forms.getValue(getEmailElement()));
   assertEquals(0, getIdpButtons().length);
 }

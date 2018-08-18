@@ -20,6 +20,7 @@ goog.provide('firebaseui.auth.widget.ConfigTest');
 
 goog.require('firebaseui.auth.CredentialHelper');
 goog.require('firebaseui.auth.log');
+goog.require('firebaseui.auth.testing.FakeUtil');
 goog.require('firebaseui.auth.util');
 goog.require('firebaseui.auth.widget.Config');
 goog.require('goog.array');
@@ -31,6 +32,7 @@ goog.setTestOnly('firebaseui.auth.widget.ConfigTest');
 
 var config;
 var stub = new goog.testing.PropertyReplacer();
+var testUtil;
 var errorLogMessages = [];
 var warningLogMessages = [];
 var firebase = {};
@@ -51,6 +53,7 @@ function setUp() {
     EmailAuthProvider: {PROVIDER_ID: 'password'},
     PhoneAuthProvider: {PROVIDER_ID: 'phone'}
   };
+  testUtil = new firebaseui.auth.testing.FakeUtil().install();
 }
 
 
@@ -1023,12 +1026,21 @@ function testGetTosUrl() {
         'Privacy Policy URL is missing, the link will not be displayed.'
       ], warningLogMessages);
   config.update('privacyPolicyUrl', 'http://localhost/privacy_policy');
-  assertEquals('http://localhost/tos', config.getTosUrl());
+  var tosCallback = config.getTosUrl();
+  tosCallback();
+  testUtil.assertOpen('http://localhost/tos', '_blank');
   // No additional warning logged.
   assertArrayEquals(
       [
         'Privacy Policy URL is missing, the link will not be displayed.'
       ], warningLogMessages);
+  // Tests if callback function is passed to tosUrl config.
+  tosCallback = function() {};
+  config.update('tosUrl', tosCallback);
+  assertEquals(tosCallback, config.getTosUrl());
+  // Tests if invalid tyoe is passed to tosUrl config.
+  config.update('tosUrl', 123456);
+  assertNull(config.getTosUrl());
 }
 
 
@@ -1042,13 +1054,21 @@ function testGetPrivacyPolicyUrl() {
         'Term of Service URL is missing, the link will not be displayed.'
       ], warningLogMessages);
   config.update('tosUrl', 'http://localhost/tos');
-  assertEquals('http://localhost/privacy_policy', config.getPrivacyPolicyUrl());
+  var privacyPolicyCallback = config.getPrivacyPolicyUrl();
+  privacyPolicyCallback();
+  testUtil.assertOpen('http://localhost/privacy_policy', '_blank');
   // No additional warning logged.
   assertArrayEquals(
       [
         'Term of Service URL is missing, the link will not be displayed.'
       ], warningLogMessages);
-
+  // Tests if callback function is passed to privacyPolicyUrl config.
+  privacyPolicyCallback = function() {};
+  config.update('privacyPolicyUrl', privacyPolicyCallback);
+  assertEquals(privacyPolicyCallback, config.getPrivacyPolicyUrl());
+  // Tests if invalid tyoe is passed to tosUrl config.
+  config.update('privacyPolicyUrl', 123456);
+  assertNull(config.getPrivacyPolicyUrl());
 }
 
 
@@ -1092,8 +1112,12 @@ function testSetConfig() {
     tosUrl: 'www.testUrl1.com',
     privacyPolicyUrl: 'www.testUrl2.com'
   });
-  assertEquals('www.testUrl1.com', config.getTosUrl());
-  assertEquals('www.testUrl2.com', config.getPrivacyPolicyUrl());
+  var tosCallback = config.getTosUrl();
+  tosCallback();
+  testUtil.assertOpen('www.testUrl1.com', '_blank');
+  var privacyPolicyCallback = config.getPrivacyPolicyUrl();
+  privacyPolicyCallback();
+  testUtil.assertOpen('www.testUrl2.com', '_blank');
 }
 
 

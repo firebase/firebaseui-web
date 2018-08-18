@@ -63,17 +63,17 @@ Localized versions of the widget are available through the CDN. To use a localiz
 localized JS library instead of the default library:
 
 ```html
-<script src="https://www.gstatic.com/firebasejs/ui/3.3.0/firebase-ui-auth__{LANGUAGE_CODE}.js"></script>
-<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/3.3.0/firebase-ui-auth.css" />
+<script src="https://www.gstatic.com/firebasejs/ui/3.4.0/firebase-ui-auth__{LANGUAGE_CODE}.js"></script>
+<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/3.4.0/firebase-ui-auth.css" />
 ```
 
 where `{LANGUAGE_CODE}` is replaced by the code of the language you want. For example, the French
 version of the library is available at
-`https://www.gstatic.com/firebasejs/ui/3.3.0/firebase-ui-auth__fr.js`. The list of available
+`https://www.gstatic.com/firebasejs/ui/3.4.0/firebase-ui-auth__fr.js`. The list of available
 languages and their respective language codes can be found at [LANGUAGES.md](LANGUAGES.md).
 
 Right-to-left languages also require the right-to-left version of the stylesheet, available at
-`https://www.gstatic.com/firebasejs/ui/3.3.0/firebase-ui-auth-rtl.css`, instead of the default
+`https://www.gstatic.com/firebasejs/ui/3.4.0/firebase-ui-auth-rtl.css`, instead of the default
 stylesheet. The supported right-to-left languages are Arabic (ar), Farsi (fa), and Hebrew (iw).
 
 ### Option 2: npm Module
@@ -192,10 +192,14 @@ for a more in-depth example, showcasing a Single Page Application mode.
           firebase.auth.PhoneAuthProvider.PROVIDER_ID,
           firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
         ],
-        // Terms of service url.
+        // tosUrl and privacyPolicyUrl accept either url string or a callback
+        // function.
+        // Terms of service url/callback.
         tosUrl: '<your-tos-url>',
-        // Privacy policy url.
-        privacyPolicyUrl: '<your-privacy-policy-url>'
+        // Privacy policy url/callback.
+        privacyPolicyUrl: function() {
+          window.location.assign('<your-privacy-policy-url>');
+        }
       };
 
       // Initialize the FirebaseUI Widget using Firebase.
@@ -399,12 +403,18 @@ FirebaseUI supports the following configuration parameters.
 <tr>
 <td>tosUrl</td>
 <td>Yes</td>
-<td>The URL of the Terms of Service page.</td>
+<td>
+  The URL of the Terms of Service page or a callback function to be invoked
+  when Terms of Service link is clicked.
+</td>
 </tr>
 <tr>
 <td>privacyPolicyUrl</td>
 <td>Yes</td>
-<td>The URL of the privacy policy page.</td>
+<td>
+  The URL of the Privacy Policy page or a callback function to be invoked
+  when Privacy Policy link is clicked.
+</td>
 </tr>
 </tbody>
 </table>
@@ -802,10 +812,14 @@ FirebaseUI is displayed.
           },
           firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
         ],
-        // Terms of service url.
+        // tosUrl and privacyPolicyUrl accept either url string or a callback
+        // function.
+        // Terms of service url/callback.
         tosUrl: '<your-tos-url>',
-        // Privacy policy url.
-        privacyPolicyUrl: '<your-privacy-policy-url>'
+        // Privacy policy url/callback.
+        privacyPolicyUrl: function() {
+          window.location.assign('<your-privacy-policy-url>');
+        }
       };
 
       var ui = new firebaseui.auth.AuthUI(firebase.auth());

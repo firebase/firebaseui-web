@@ -94,7 +94,7 @@ function testHandlePhoneSignInStart_visible() {
       app, container);
   // Confirm expected page rendered.
   assertPhoneSignInStartPage();
-  assertPhoneFooter('http://localhost/tos', 'http://localhost/privacy_policy');
+  assertPhoneFooter(tosCallback, 'http://localhost/privacy_policy');
   // Confirm reCAPTCHA initialized with expected parameters.
   recaptchaVerifierInstance.assertInitializedWithParameters(
       getRecaptchaElement(),
@@ -306,8 +306,7 @@ function testHandlePhoneSignInStart_anonymousUpgrade_credInUseError() {
   assertPhoneSignInStartPage();
   // Only phone provider is configured, phoneSignInStart is the first page, full
   // message should be displayed.
-  assertPhoneFullMessage(
-      'http://localhost/tos', 'http://localhost/privacy_policy');
+  assertPhoneFullMessage(tosCallback, 'http://localhost/privacy_policy');
   // Confirm reCAPTCHA initialized with expected parameters.
   recaptchaVerifierInstance.assertInitializedWithParameters(
       getRecaptchaElement(),

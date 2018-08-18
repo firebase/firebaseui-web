@@ -55,12 +55,18 @@ function setUp() {
           firebaseui.auth.ui.element.IdpsTestHelper.prototype.onClick,
           idpsTestHelper),
       ['facebook.com', 'password'],
-      'http://localhost/tos',
-      'http://localhost/privacy_policy');
+      goog.bind(
+          firebaseui.auth.ui.element.TosPpTestHelper.prototype.onTosLinkClick,
+          tosPpTestHelper),
+      goog.bind(
+          firebaseui.auth.ui.element.TosPpTestHelper.prototype.onPpLinkClick,
+          tosPpTestHelper));
   component.render(root);
   idpsTestHelper.setComponent(component);
   infoBarTestHelper.setComponent(component);
   tosPpTestHelper.setComponent(component);
+  // Reset previous state of tosPp helper.
+  tosPpTestHelper.resetState();
   pageTestHelper.setClock(mockClock).setComponent(component);
 }
 

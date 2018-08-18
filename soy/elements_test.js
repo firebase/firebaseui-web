@@ -38,8 +38,12 @@ var IJ_DATA_ = {
   'twitterLogo': '../image/twitter.svg',
   'passwordLogo': '../image/mail.svg',
   'phoneLogo': '../image/phone.svg',
-  'tosUrl': 'tos',
-  'privacyPolicyUrl': 'privacy_policy'
+  'tosCallback': function() {
+    window.location.assign('/tos');
+  },
+  'privacyPolicyCallback': function() {
+    window.location.assign('/privacyPolicy');
+  }
 };
 
 
