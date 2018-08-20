@@ -57,6 +57,12 @@ firebaseui.auth.util.getScheme = function() {
 };
 
 
+/** @return {boolean} Whether Cordova InAppBrowser plugin is installed. */
+firebaseui.auth.util.isCordovaInAppBrowserInstalled = function() {
+  return !!(window['cordova'] && window['cordova']['InAppBrowser']);
+};
+
+
 /** @return {boolean} Whether current scheme is HTTP or HTTPS. */
 firebaseui.auth.util.isHttpOrHttps = function() {
   return firebaseui.auth.util.getScheme() === 'http:' ||

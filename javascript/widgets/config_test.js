@@ -1034,6 +1034,17 @@ function testGetTosUrl() {
       [
         'Privacy Policy URL is missing, the link will not be displayed.'
       ], warningLogMessages);
+  // Mock that Cordova InAppBrowser plugin is installed.
+  stub.replace(
+      firebaseui.auth.util,
+      'isCordovaInAppBrowserInstalled',
+      function() {
+        return true;
+      });
+  tosCallback = config.getTosUrl();
+  tosCallback();
+  // Target should be _system if Cordova InAppBrowser plugin is installed.
+  testUtil.assertOpen('http://localhost/tos', '_system');
   // Tests if callback function is passed to tosUrl config.
   tosCallback = function() {};
   config.update('tosUrl', tosCallback);
@@ -1062,6 +1073,17 @@ function testGetPrivacyPolicyUrl() {
       [
         'Term of Service URL is missing, the link will not be displayed.'
       ], warningLogMessages);
+  // Mock that Cordova InAppBrowser plugin is installed.
+  stub.replace(
+      firebaseui.auth.util,
+      'isCordovaInAppBrowserInstalled',
+      function() {
+        return true;
+      });
+  privacyPolicyCallback = config.getPrivacyPolicyUrl();
+  privacyPolicyCallback();
+  // Target should be _system if Cordova InAppBrowser plugin is installed.
+  testUtil.assertOpen('http://localhost/privacy_policy', '_system');
   // Tests if callback function is passed to privacyPolicyUrl config.
   privacyPolicyCallback = function() {};
   config.update('privacyPolicyUrl', privacyPolicyCallback);
