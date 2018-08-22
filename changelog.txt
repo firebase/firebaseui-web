@@ -1,1 +1,0 @@
-feature - Allows passing callbacks for Term of Service and Privacy Policy.
