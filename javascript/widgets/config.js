@@ -641,7 +641,10 @@ firebaseui.auth.widget.Config.prototype.getTosUrl = function() {
       return /** @type {function()} */ (tosUrl);
     } else if (goog.isString(tosUrl)) {
       return function() {
-        firebaseui.auth.util.open(/** @type {string} */ (tosUrl), '_blank');
+        firebaseui.auth.util.open(
+            /** @type {string} */ (tosUrl),
+            firebaseui.auth.util.isCordovaInAppBrowserInstalled() ?
+            '_system' : '_blank');
       };
     }
   }
@@ -666,7 +669,9 @@ firebaseui.auth.widget.Config.prototype.getPrivacyPolicyUrl = function() {
     } else if (goog.isString(privacyPolicyUrl)) {
       return function() {
         firebaseui.auth.util.open(
-            /** @type {string} */ (privacyPolicyUrl), '_blank');
+            /** @type {string} */ (privacyPolicyUrl),
+            firebaseui.auth.util.isCordovaInAppBrowserInstalled() ?
+            '_system' : '_blank');
       };
     }
   }
