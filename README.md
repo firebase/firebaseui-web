@@ -421,7 +421,7 @@ FirebaseUI supports the following configuration parameters.
 
 ### Credential Helper
 
-The role of a credential helper is to help your users sign into you website.
+The role of a credential helper is to help your users sign into your website.
 When one is enabled, your users will be prompted with email addresses and
 usernames they have saved from your app or other applications.
 FirebaseUI supports the following credential helpers:
