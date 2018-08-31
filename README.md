@@ -45,6 +45,10 @@ SDK supports them in a way that is compatible with FirebaseUI.
 Accessible here:
 [https://fir-ui-demo-84a6c.firebaseapp.com](https://fir-ui-demo-84a6c.firebaseapp.com).
 
+<p align="center">
+  <img src="demo/screenshot.png" width="300" title="Screenshot">
+</p>
+
 ## Installation
 
 ### Option 1: CDN
