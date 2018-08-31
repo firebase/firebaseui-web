@@ -44,6 +44,7 @@ goog.require('firebaseui.auth.ui.page.Base');
  * @param {boolean=} opt_displayFullTosPpMessage Whether to display the full
  *     message of Term of Service and Privacy Policy.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
+ * @param {boolean=} opt_userExistsInCognitoShowSignIn Whether to display something else.
  * @constructor
  * @extends {firebaseui.auth.ui.page.Base}
  */
@@ -56,7 +57,9 @@ firebaseui.auth.ui.page.PasswordSignUp = function(
     opt_tosCallback,
     opt_privacyPolicyCallback,
     opt_displayFullTosPpMessage,
-    opt_domHelper) {
+    opt_domHelper,
+    opt_userExistsInCognitoShowSignIn) {
+
   firebaseui.auth.ui.page.PasswordSignUp.base(
       this,
       'constructor',
@@ -66,7 +69,8 @@ firebaseui.auth.ui.page.PasswordSignUp = function(
         requireDisplayName: requireDisplayName,
         name: opt_name,
         allowCancel: !!opt_onCancelClick,
-        displayFullTosPpMessage: !!opt_displayFullTosPpMessage
+        displayFullTosPpMessage: !!opt_displayFullTosPpMessage,
+        userExistsInCognitoShowSignIn: !!opt_userExistsInCognitoShowSignIn
       },
       opt_domHelper,
       'passwordSignUp',

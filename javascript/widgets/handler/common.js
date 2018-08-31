@@ -1461,18 +1461,69 @@ firebaseui.auth.widget.handler.common.handleSignInFetchSignInMethodsForEmail =
         opt_displayName,
         opt_infoBarMessage,
         opt_displayFullTosPpMessage) {
-  // Does the account exist?
+
+      function checkCognitoUserByEmail() {
+        // CUSTOM ANOVA CODE
+        return new Promise(function(resolve, reject) {
+          var xmlhttp = new XMLHttpRequest()
+          xmlhttp.open('POST', 'https://w2zgeuzzgg.execute-api.us-west-2.amazonaws.com/prod/check-email')
+          xmlhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
+
+          xmlhttp.onreadystatechange = function () {
+            xmlhttp.onload = function() {
+              if (xmlhttp.status === 204) {
+                resolve(true)
+              } else if (xmlhttp.status === 404) {
+                resolve(false)
+              } else {
+                reject({
+                  status: xmlhttp.status,
+                  statusText: "Error validating email against Cognito."
+                })
+              }
+            }
+
+            xmlhttp.onerror = function () {
+              reject({
+                status: xmlhttp.status,
+                statusText: "Error validating email against Cognito."
+              })
+            };
+          }
+
+          xmlhttp.send(
+            JSON.stringify({email: email})
+          )
+        })
+      }
+
+// Does the account exist?
   if (!signInMethods.length) {
-    // Account does not exist, go to password sign up and populate
-    // available fields.
-    firebaseui.auth.widget.handler.handle(
-        firebaseui.auth.widget.HandlerName.PASSWORD_SIGN_UP,
-        app,
-        container,
-        email,
-        opt_displayName,
-        undefined,
-        opt_displayFullTosPpMessage);
+
+    // CUSTOM ANOVA CODE
+    checkCognitoUserByEmail()
+      .then(function(userExistsInCognito) {
+        if(userExistsInCognito) {
+          console.log(email + " exists in COGNITO")
+        } else {
+          console.log(email + " does not exist in COGNITO")
+        }
+
+        firebaseui.auth.widget.handler.handle(
+          firebaseui.auth.widget.HandlerName.PASSWORD_SIGN_UP,
+          app,
+          container,
+          email,
+          opt_displayName,
+          undefined,
+          opt_displayFullTosPpMessage,
+          userExistsInCognito);
+      })
+      .catch(function(error) {
+        console.log(error.status + " " + error.statusText)
+      })
+
+
   } else if (goog.array.contains(signInMethods,
       firebase.auth.EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD) ||
       goog.array.contains(signInMethods,

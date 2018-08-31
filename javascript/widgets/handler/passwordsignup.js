@@ -40,10 +40,14 @@ goog.require('goog.string');
  * @param {boolean=} opt_disableCancel Whether to disable the cancel link.
  * @param {boolean=} opt_displayFullTosPpMessage Whether to display the full
  *     message of Term of Service and Privacy Policy.
+ * @param {boolean=} opt_userExistsInCognitoShowSignIn Whether to display something else.
  */
 firebaseui.auth.widget.handler.handlePasswordSignUp = function(
     app, container, opt_email, opt_name, opt_disableCancel,
-    opt_displayFullTosPpMessage) {
+      opt_displayFullTosPpMessage, opt_userExistsInCognitoShowSignIn) {
+
+    console.log("IN PASSWORDSIGNUP HANDLER FILE")
+
   var onCancel = function() {
     component.dispose();
     // On cancel return to widget start page.
@@ -54,7 +58,7 @@ firebaseui.auth.widget.handler.handlePasswordSignUp = function(
       app.getConfig().isDisplayNameRequired(),
       // On submit.
       function() {
-        firebaseui.auth.widget.handler.onSignUpSubmit_(app, component);
+        firebaseui.auth.widget.handler.onSignUpSubmit_(app, component, opt_userExistsInCognitoShowSignIn);
       },
       // On cancel.
       opt_disableCancel ? undefined : onCancel,
@@ -62,7 +66,9 @@ firebaseui.auth.widget.handler.handlePasswordSignUp = function(
       opt_name,
       app.getConfig().getTosUrl(),
       app.getConfig().getPrivacyPolicyUrl(),
-      opt_displayFullTosPpMessage);
+      opt_displayFullTosPpMessage,
+      undefined,
+      opt_userExistsInCognitoShowSignIn);
   component.render(container);
   // Set current UI component.
   app.setCurrentComponent(component);
@@ -75,7 +81,8 @@ firebaseui.auth.widget.handler.handlePasswordSignUp = function(
  * @param {firebaseui.auth.ui.page.PasswordSignUp} component The UI component.
  * @private
  */
-firebaseui.auth.widget.handler.onSignUpSubmit_ = function(app, component) {
+firebaseui.auth.widget.handler.onSignUpSubmit_ = function(app, component, opt_userExistsInCognitoShowSignIn) {
+
   var requireDisplayName = app.getConfig().isDisplayNameRequired();
 
   // Check fields are valid.
