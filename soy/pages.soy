@@ -641,6 +641,10 @@
   <div class="firebaseui-container firebaseui-page-provider-sign-in{sp}
       firebaseui-id-page-provider-sign-in firebaseui-use-spinner">
     <div class="firebaseui-card-content">
+      <a href="https://anovaculinary.com">
+        <i class="fa fa-anova" aria-hidden="true"></i>
+      </a>
+      <h1 class="anova-title">Log in or sign up</h1>
       <form onsubmit="return false;">
         <ul class="firebaseui-idp-list">
           {foreach $providerId in $providerIds}
@@ -648,6 +652,9 @@
               {call firebaseui.auth.soy2.element.idpButton}
                 {param providerId: $providerId /}
               {/call}
+              {if $providerId == 'password'}
+                <div class="anova-divider">or</div>
+              {/if}
             </li>
           {/foreach}
         </ul>
