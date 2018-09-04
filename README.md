@@ -37,7 +37,7 @@ SDK supports them in a way that is compatible with FirebaseUI.
 7. [Developer Setup](#developer-setup)
 8. [Cordova Setup](#cordova-setup)
 9. [React DOM Setup](#react-dom-setup)
-10. [Angular Setup](#angular-2-setup)
+10. [Angular Setup](#angular-setup)
 11. [Known issues](#known-issues)
 12. [Release Notes](#release-notes)
 
