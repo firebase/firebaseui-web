@@ -46,6 +46,10 @@ SDK supports them in a way that is compatible with FirebaseUI.
 Accessible here:
 [https://fir-ui-demo-84a6c.firebaseapp.com](https://fir-ui-demo-84a6c.firebaseapp.com).
 
+<p align="center">
+  <img src="demo/screenshot.png" width="300" title="Screenshot">
+</p>
+
 ## Installation
 
 ### Option 1: CDN
@@ -1016,7 +1020,7 @@ To set up a development environment to build FirebaseUI from source, you must
 have the following installed:
 - Node.js (>= 6.0.0)
 - npm (should be included with Node.js)
-- Java Runtime Environment
+- Java SE Runtime Environment 8
 
 In order to run the demo and tests, you must also have:
 - Python (2.7)

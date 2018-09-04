@@ -3,6 +3,10 @@
 Accessible here:
 [https://fir-ui-demo-84a6c.firebaseapp.com](https://fir-ui-demo-84a6c.firebaseapp.com).
 
+<p align="center">
+  <img src="screenshot.png" width="300" title="Screenshot">
+</p>
+
 ## Prerequisite
 
 You need to have created a Firebase Project in the
