@@ -37,8 +37,9 @@ SDK supports them in a way that is compatible with FirebaseUI.
 7. [Developer Setup](#developer-setup)
 8. [Cordova Setup](#cordova-setup)
 9. [React DOM Setup](#react-dom-setup)
-10. [Known issues](#known-issues)
-11. [Release Notes](#release-notes)
+10. [Angular Setup](#angular-setup)
+11. [Known issues](#known-issues)
+12. [Release Notes](#release-notes)
 
 ## Demo
 
@@ -1171,7 +1172,11 @@ appropriate exceptions for FirebaseUI resources (`style-src`, `media-src`,
 
 ## React DOM Setup
 
-In React DOM applications use the [FirebaseUI Web React Wrapper](https://github.com/firebase/firebaseui-web-react).
+In React DOM applications you can use the [FirebaseUI Web React Wrapper](https://github.com/firebase/firebaseui-web-react).
+
+## Angular Setup
+
+In Angular applications you can use this [FirebaseUI Web Angular Wrapper](https://github.com/RaphaelJenni/firebaseui-angular) from the community.
 
 ## Known issues
 
