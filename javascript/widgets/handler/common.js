@@ -1608,3 +1608,27 @@ firebaseui.auth.widget.handler.common.handleSignInWithEmail =
         }, false);
   }
 };
+
+firebaseui.auth.widget.handler.common.trackWithPlatform = function (eventName, parameters) {
+  parameters.platform = firebaseui.auth.widget.handler.common.getClientDevicePlatform()
+  analytics.track(eventName, parameters)
+};
+
+firebaseui.auth.widget.handler.common.getClientDevicePlatform = function() {
+  var userAgent = navigator.userAgent || navigator.vendor || window.opera
+      
+  if (/windows phone/i.test(userAgent)) {
+    return "Windows Phone"
+  }
+
+  if (/android/i.test(userAgent)) {
+    return "Android"
+  }
+
+  if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+    return "iOS"
+  }
+
+  return "Web"
+};
+
