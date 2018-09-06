@@ -33,7 +33,7 @@ const glob = closureBuilder.globSupport();
 // This can be passed in as a flag:
 // $ gulp --compilation_level=WHITESPACE_ONLY
 const OPTIMIZATION_LEVEL =
-  util.env.compilation_level || "ADVANCED_OPTIMIZATIONS";
+  util.env.compilation_level || "SIMPLE_OPTIMIZATIONS";
 
 // For minified builds, wrap the output so we avoid leaking global variables.
 const OUTPUT_WRAPPER =
