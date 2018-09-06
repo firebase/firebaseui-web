@@ -16,9 +16,17 @@ h1 {
     padding-top: 36px;
     margin-top: 12px;
     border-radius: 8px;
-    max-width: 292px;
+    max-width: 328px;
+    width: auto;
     min-height: 472px;
     position: relative;
+}
+
+@media (max-width: 352px) {
+    #firebaseui-container .firebaseui-container {
+        margin-left: 12px;
+        margin-right: 12px;
+    }
 }
 
 #firebaseui-container .firebaseui-card-content {
@@ -142,3 +150,5 @@ h1.anova-title {
 .fa-anova:before {
     content: '\f038';
 }
+
+
