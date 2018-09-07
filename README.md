@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/firebase/firebaseui-web.svg?branch=master)](https://travis-ci.org/firebase/firebaseui-web)
+[![Code Quality: Javascript](https://img.shields.io/lgtm/grade/javascript/g/firebase/firebaseui-web.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/firebase/firebaseui-web/context:javascript)
+[![Total Alerts](https://img.shields.io/lgtm/alerts/g/firebase/firebaseui-web.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/firebase/firebaseui-web/alerts)
 
 # FirebaseUI for Web — Auth
 
