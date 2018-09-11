@@ -79,10 +79,10 @@ function createComponent(enableVisibleRecaptcha, opt_tosCallback,
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
           formTestHelper),
+      enableVisibleRecaptcha,
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onLinkClick,
           formTestHelper),
-      enableVisibleRecaptcha,
       opt_tosCallback,
       opt_privacyPolicyCallback,
       opt_displayFullTosPpMessage,
@@ -232,6 +232,26 @@ function testPhoneSignInStart_defaultCountryNotAvailable() {
 }
 
 
+function testPhoneSignInStart_noOnCancelClick() {
+  component.dispose();
+  // Initialize component with no onCancelClick callback.
+  component = new firebaseui.auth.ui.page.PhoneSignInStart(
+      goog.bind(
+          firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
+          formTestHelper),
+      true,
+      null);
+  component.render(root);
+  formTestHelper.setComponent(component);
+  // Reset previous state of form helper.
+  formTestHelper.resetState();
+  // Cancel button should be hidden.
+  assertNull(component.getSecondaryLinkElement());
+  // Submit button should be available.
+  assertNotNull(component.getSubmitElement());
+}
+
+
 function testPhoneSignInStart_footer() {
   component.dispose();
   component = createComponent(false, tosCallback, privacyPolicyCallback);
@@ -305,10 +325,10 @@ function testPhoneSignInStart_pageEvents() {
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
           formTestHelper),
+      true,
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onLinkClick,
-          formTestHelper),
-      true);
+          formTestHelper));
   // Run all page helper tests.
   pageTestHelper.runTests(component, root);
 }

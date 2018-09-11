@@ -94,15 +94,15 @@ firebaseui.auth.widget.handler.handlePhoneSignInStart = function(
             // Whether the submission was triggered by a key code.
             !!(e && e.keyCode));
       },
+      firebaseui.auth.widget.handler.enableVisibleRecaptcha_,
       // On cancel.
-      function(e) {
+      isPhoneProviderOnly ? null : function(e) {
         // Go back to start sign in handler.
         recaptchaVerifier.clear();
         component.dispose();
         firebaseui.auth.widget.handler.common.handleSignInStart(
             app, container);
       },
-      firebaseui.auth.widget.handler.enableVisibleRecaptcha_,
       app.getConfig().getTosUrl(),
       app.getConfig().getPrivacyPolicyUrl(),
       isPhoneProviderOnly,

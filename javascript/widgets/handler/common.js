@@ -420,6 +420,9 @@ firebaseui.auth.widget.handler.common.selectFromAccountChooser = function(
  */
 firebaseui.auth.widget.handler.common.setLoggedIn =
     function(app, component, credential, opt_user, opt_alreadySignedIn) {
+  // Revert language code at this point to ensure languageCode changes are
+  // reverted before callbacks are triggered.
+  app.revertLanguageCode();
   if (!!opt_alreadySignedIn) {
     // Already signed in on external auth instance.
     firebaseui.auth.widget.handler.common.setUserLoggedInExternal_(
@@ -540,6 +543,9 @@ firebaseui.auth.widget.handler.common.setLoggedIn =
  */
 firebaseui.auth.widget.handler.common.setLoggedInWithAuthResult =
     function(app, component, authResult, opt_alreadySignedIn) {
+  // Revert language code at this point to ensure languageCode changes are
+  // reverted before callbacks are triggered.
+  app.revertLanguageCode();
   if (!!opt_alreadySignedIn) {
     firebaseui.auth.widget.handler.common
         .setUserLoggedInExternalWithAuthResult_(

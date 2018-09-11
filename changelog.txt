@@ -1,0 +1,2 @@
+fixed - Hides cancel button in phone sign-in page if only phone provider is configured.
+fixed - Reverts FirebaseUI languageCode modification on external Auth instance before sign in completion to not trigger race conditions when signInSuccessWithAuthResult callback modifies the Auth languageCode.

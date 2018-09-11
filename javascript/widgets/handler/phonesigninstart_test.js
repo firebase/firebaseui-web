@@ -307,6 +307,8 @@ function testHandlePhoneSignInStart_anonymousUpgrade_credInUseError() {
   // Only phone provider is configured, phoneSignInStart is the first page, full
   // message should be displayed.
   assertPhoneFullMessage(tosCallback, 'http://localhost/privacy_policy');
+  // Only phone provider is configured, cancel button should be hidden.
+  assertNull(getCancelButton());
   // Confirm reCAPTCHA initialized with expected parameters.
   recaptchaVerifierInstance.assertInitializedWithParameters(
       getRecaptchaElement(),
@@ -399,6 +401,8 @@ function testHandlePhoneSignInStart_anonymousUpgrade_signInError() {
   // Confirm expected page rendered.
   assertPhoneSignInStartPage();
   assertPhoneFullMessage(null, null);
+  // Only phone provider is configured, cancel button should be hidden.
+  assertNull(getCancelButton());
   // Confirm reCAPTCHA initialized with expected parameters.
   recaptchaVerifierInstance.assertInitializedWithParameters(
       getRecaptchaElement(),

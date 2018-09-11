@@ -666,6 +666,7 @@
 {template .phoneSignInStart}
   {@param? nationalNumber: string} /** The phone number to prefill. */
   {@param? enableVisibleRecaptcha: bool} /** Whether to enable the visible reCAPTCHA. */
+  {@param? displayCancelButton: bool} /** Whether to display the cancel button. */
   {@param? displayFullTosPpMessage: bool} /** Whether to display the full message of ToS and PP. */
   <div class="mdl-card mdl-shadow--2dp{sp}
       firebaseui-container firebaseui-id-page-phone-sign-in-start">
@@ -685,7 +686,9 @@
       </div>
       <div class="firebaseui-card-actions">
         <div class="firebaseui-form-actions">
-          {call firebaseui.auth.soy2.element.cancelButton /}
+          {if $displayCancelButton}
+            {call firebaseui.auth.soy2.element.cancelButton /}
+          {/if}
           {call firebaseui.auth.soy2.element.submitButton}
             {param label kind="text"}
               {msg desc="The button that initiates the verification of the phone number provided

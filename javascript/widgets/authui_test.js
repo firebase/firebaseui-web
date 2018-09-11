@@ -705,6 +705,32 @@ function testStart_overrideLanguageCode() {
   assertEquals('de', testAuth.languageCode);
 }
 
+function testStart_revertLanguageCode() {
+  // Test with explicit call to revertLanguageCode.
+  // Set the language code of widget to zh-CN.
+  testStubs.replace(goog, 'LOCALE', 'zh-CN');
+  createAndInstallTestInstances();
+  testAuth.install();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().assertSetPersistence(['session'], null);
+  // Set the language code of auth to de.
+  testAuth.languageCode = 'de';
+  app.start(container1, config1);
+  app.getExternalAuth().runAuthChangeHandler();
+  // External Auth should use UI languageCode.
+  assertEquals('zh-CN', app.getExternalAuth().languageCode);
+  assertEquals('zh-CN', testAuth.languageCode);
+  // Revert languageCode changes.
+  app.revertLanguageCode();
+  assertEquals('de', testAuth.languageCode);
+  // Change languageCode to French.
+  testAuth.languageCode = 'fr';
+  app.getAuth().assertSignOut([]);
+  app.reset();
+  // Reset should not modify the language after revertLanguageCode.
+  assertEquals('fr', app.getExternalAuth().languageCode);
+}
+
 
 function testStart_elementNotFound() {
   // Test widget start method with missing element.

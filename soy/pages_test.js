@@ -386,7 +386,7 @@ function testPhoneSignInStartInvisibleRecaptcha() {
   var root = goog.dom.getElement('phone-sign-in-start-invisible-recaptcha');
   goog.soy.renderElement(
       root, firebaseui.auth.soy2.page.phoneSignInStart,
-      {enableVisibleRecaptcha: false}, IJ_DATA_);
+      {enableVisibleRecaptcha: false, displayCancelButton: true}, IJ_DATA_);
 }
 
 
@@ -394,7 +394,7 @@ function testPhoneSignInStartVisibleRecaptcha() {
   var root = goog.dom.getElement('phone-sign-in-start-visible-recaptcha');
   goog.soy.renderElement(
       root, firebaseui.auth.soy2.page.phoneSignInStart,
-      {enableVisibleRecaptcha: true}, IJ_DATA_);
+      {enableVisibleRecaptcha: true, displayCancelButton: true}, IJ_DATA_);
   loadRecaptcha(root);
 }
 
@@ -405,8 +405,17 @@ function testPhoneSignInStart_fullMessage() {
       root, firebaseui.auth.soy2.page.phoneSignInStart,
       {
         enableVisibleRecaptcha: false,
+        displayCancelButton: true,
         displayFullTosPpMessage: true
       }, IJ_DATA_);
+}
+
+
+function testPhoneSignInStart_noCancelButton() {
+  var root = goog.dom.getElement('phone-sign-in-start-no-cancel-button');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.phoneSignInStart,
+      {enableVisibleRecaptcha: false, displayCancelButton: false}, IJ_DATA_);
 }
 
 

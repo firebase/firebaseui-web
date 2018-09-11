@@ -61,7 +61,7 @@ firebaseui.auth.widget.handler.handleSignIn = function(
             app, container, opt_email);
       },
       opt_email,
-       app.getConfig().getTosUrl(),
+      app.getConfig().getTosUrl(),
       app.getConfig().getPrivacyPolicyUrl(),
       isPasswordProviderOnly);
   component.render(container);

@@ -32,9 +32,9 @@ goog.require('goog.dom.selection');
  * UI component for the user to enter their phone number.
  * @param {function(?)} onSubmitClick Callback to invoke when enter key (or its
  *     equivalent) is detected on submission.
- * @param {function(?)} onCancelClick Callback to invoke when cancel button
- *     is clicked.
  * @param {boolean} enableVisibleRecaptcha Whether to enable visible reCAPTCHA.
+ * @param {?function(?)=} opt_onCancelClick Callback to invoke when cancel
+ *     button is clicked.
  * @param {?function()=} opt_tosCallback Callback to invoke when the ToS link
  *     is clicked.
  * @param {?function()=} opt_privacyPolicyCallback Callback to invoke when the
@@ -52,8 +52,8 @@ goog.require('goog.dom.selection');
  */
 firebaseui.auth.ui.page.PhoneSignInStart = function(
     onSubmitClick,
-    onCancelClick,
     enableVisibleRecaptcha,
+    opt_onCancelClick,
     opt_tosCallback,
     opt_privacyPolicyCallback,
     opt_displayFullTosPpMessage,
@@ -69,6 +69,7 @@ firebaseui.auth.ui.page.PhoneSignInStart = function(
       {
         enableVisibleRecaptcha: enableVisibleRecaptcha,
         nationalNumber: nationalNumber,
+        displayCancelButton: !!opt_onCancelClick,
         displayFullTosPpMessage: !!opt_displayFullTosPpMessage
       },
       opt_domHelper,
@@ -84,7 +85,7 @@ firebaseui.auth.ui.page.PhoneSignInStart = function(
   /** @private {?function(?)} On submit click callback. */
   this.onSubmitClick_ = onSubmitClick;
   /** @private {?function(?)} On cancel click callback. */
-  this.onCancelClick_ = onCancelClick;
+  this.onCancelClick_ = opt_onCancelClick || null;
   /**
    * @private {?firebaseui.auth.data.country.LookupTree} The country
    *     lookup prefix tree to search country code with.
@@ -101,7 +102,7 @@ firebaseui.auth.ui.page.PhoneSignInStart.prototype.enterDocument = function() {
   // Handle a click on the submit button or cancel button.
   this.initFormElement(
       /** @type {function(?)} */ (this.onSubmitClick_),
-      /** @type {function(?)} */ (this.onCancelClick_));
+      this.onCancelClick_ || undefined);
   this.setupFocus_();
   firebaseui.auth.ui.page.PhoneSignInStart.base(this, 'enterDocument');
 };

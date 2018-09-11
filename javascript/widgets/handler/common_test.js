@@ -281,7 +281,10 @@ function testSetLoggedIn() {
   var cred = firebase.auth.EmailAuthProvider.credential(
       passwordUser['email'], 'password');
   testAuth.setUser(passwordUser);
+  // Confirm revertLanguageCode called on setLoggedIn.
+  assertNoRevertLanguageCode();
   firebaseui.auth.widget.handler.common.setLoggedIn(app, testComponent, cred);
+  assertRevertLanguageCode(app);
   // Sign out from internal instance and then sign in with passed credential to
   // external instance.
   return testAuth.process().then(function() {
@@ -1202,8 +1205,11 @@ function testSetLoggedInWithAuthResult() {
     'operationType': 'signIn',
     'additionalUserInfo':  {'providerId': 'password', 'isNewUser': true}
   };
+  // Confirm revertLanguageCode called on setLoggedInWithAuthResult.
+  assertNoRevertLanguageCode();
   firebaseui.auth.widget.handler.common.setLoggedInWithAuthResult(
       app, testComponent, internalAuthResult);
+  assertRevertLanguageCode(app);
   // Sign out from internal instance and then sign in with passed credential to
   // external instance.
   return testAuth.process().then(function() {
