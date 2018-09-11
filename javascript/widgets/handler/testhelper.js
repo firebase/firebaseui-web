@@ -155,6 +155,8 @@ var firebase = {};
 var getApp;
 var testComponent;
 
+var lastRevertLanguageCodeCall;
+
 
 function setUp() {
   // Used to initialize internal auth instance.
@@ -322,6 +324,14 @@ function setUp() {
       firebaseui.auth.AuthUI.prototype,
       'cancelOneTapSignIn',
       goog.testing.recordFunction());
+  // Record calls to revertLanguageCode.
+  lastRevertLanguageCodeCall = null;
+  testStubs.replace(
+      firebaseui.auth.AuthUI.prototype,
+      'revertLanguageCode',
+      function() {
+        lastRevertLanguageCodeCall = this;
+      });
 }
 
 
@@ -1200,4 +1210,25 @@ function assertSignInFailure(expectedError) {
       expectedError, signInFailureCallback.getLastCall().getArgument(0));
   // Sign in success should not be called.
   assertUndefined(signInCallbackUser);
+}
+
+
+
+/**
+ * Asserts the last revertLanguageCode call was called on the specified
+ * AuthUI instance. After assertion, the internal state counter is reset.
+ * @param {!firebaseui.auth.AuthUI} app The AuthUI instance to check for
+ *     revertLanguageCode calls.
+ */
+function assertRevertLanguageCode(app) {
+  assertEquals(app, lastRevertLanguageCodeCall);
+  lastRevertLanguageCodeCall = null;
+}
+
+
+/**
+ * Asserts no revertLanguageCode call was called.
+ */
+function assertNoRevertLanguageCode() {
+  assertNull(lastRevertLanguageCodeCall);
 }
