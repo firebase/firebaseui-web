@@ -1505,6 +1505,9 @@ firebaseui.auth.widget.handler.common.handleSignInFetchSignInMethodsForEmail =
     // CUSTOM ANOVA CODE
     checkCognitoUserByEmail()
       .then(function(userExistsInCognito) {
+        firebaseui.auth.widget.handler.common.trackWithPlatform("CognitoFirebaseMigrationStarted", {
+          email: email
+        })
         firebaseui.auth.widget.handler.handle(
           firebaseui.auth.widget.HandlerName.PASSWORD_SIGN_UP,
           app,
