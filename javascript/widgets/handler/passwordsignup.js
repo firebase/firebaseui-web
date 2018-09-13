@@ -46,8 +46,6 @@ firebaseui.auth.widget.handler.handlePasswordSignUp = function(
     app, container, opt_email, opt_name, opt_disableCancel,
       opt_displayFullTosPpMessage, opt_userExistsInCognitoShowSignIn) {
 
-    console.log("IN PASSWORDSIGNUP HANDLER FILE")
-
   var onCancel = function() {
     component.dispose();
     // On cancel return to widget start page.

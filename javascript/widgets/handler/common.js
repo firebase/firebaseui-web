@@ -1503,12 +1503,6 @@ firebaseui.auth.widget.handler.common.handleSignInFetchSignInMethodsForEmail =
     // CUSTOM ANOVA CODE
     checkCognitoUserByEmail()
       .then(function(userExistsInCognito) {
-        if(userExistsInCognito) {
-          console.log(email + " exists in COGNITO")
-        } else {
-          console.log(email + " does not exist in COGNITO")
-        }
-
         firebaseui.auth.widget.handler.handle(
           firebaseui.auth.widget.HandlerName.PASSWORD_SIGN_UP,
           app,
