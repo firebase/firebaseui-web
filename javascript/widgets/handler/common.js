@@ -1476,6 +1476,7 @@ firebaseui.auth.widget.handler.common.handleSignInFetchSignInMethodsForEmail =
               } else if (xmlhttp.status === 404) {
                 resolve(false)
               } else {
+                // TODO need better error handling
                 reject({
                   status: xmlhttp.status,
                   statusText: "Error validating email against Cognito."
@@ -1484,6 +1485,7 @@ firebaseui.auth.widget.handler.common.handleSignInFetchSignInMethodsForEmail =
             }
 
             xmlhttp.onerror = function () {
+              // TODO need better error handling
               reject({
                 status: xmlhttp.status,
                 statusText: "Error validating email against Cognito."
@@ -1514,6 +1516,7 @@ firebaseui.auth.widget.handler.common.handleSignInFetchSignInMethodsForEmail =
           userExistsInCognito);
       })
       .catch(function(error) {
+        // TODO need better error handling
         console.log(error.status + " " + error.statusText)
       })
 
