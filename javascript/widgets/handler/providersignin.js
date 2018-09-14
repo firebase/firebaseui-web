@@ -40,6 +40,8 @@ firebaseui.auth.widget.handler.handleProviderSignIn = function(
     opt_infoBarMessage) {
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
       function(providerId) {
+        firebaseui.auth.widget.handler.trackAuthProviderSelected_(providerId)
+
         // TODO: Consider deleting pending credentials on new sign in.
         if (providerId == firebase.auth.EmailAuthProvider.PROVIDER_ID) {
           // User clicks create password account button.
@@ -85,6 +87,26 @@ firebaseui.auth.widget.handler.handleProviderSignIn = function(
       firebaseui.auth.widget.handler.common.handleGoogleYoloCredential);
 };
 
+firebaseui.auth.widget.handler.trackAuthProviderSelected_ = function(providerId) {
+  var providerName = ""
+
+  switch (providerId) {
+    case firebase.auth.EmailAuthProvider.PROVIDER_ID:
+      providerName = "Email"
+      break
+    case firebase.auth.GoogleAuthProvider.PROVIDER_ID:
+      providerName = "Google"
+      break
+    case firebase.auth.FacebookAuthProvider.PROVIDER_ID:
+      providerName = "Facebook"
+      break
+    default:
+  }
+
+  firebaseui.auth.widget.handler.common.trackWithPlatform("AuthProviderSelected", {
+    provider: providerName
+  })
+};
 
 // Register handler.
 firebaseui.auth.widget.handler.register(

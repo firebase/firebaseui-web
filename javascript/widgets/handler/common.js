@@ -1467,18 +1467,69 @@ firebaseui.auth.widget.handler.common.handleSignInFetchSignInMethodsForEmail =
         opt_displayName,
         opt_infoBarMessage,
         opt_displayFullTosPpMessage) {
-  // Does the account exist?
+
+      function checkCognitoUserByEmail() {
+        // CUSTOM ANOVA CODE
+        return new Promise(function(resolve, reject) {
+          var xmlhttp = new XMLHttpRequest()
+          xmlhttp.open('POST', 'https://w2zgeuzzgg.execute-api.us-west-2.amazonaws.com/prod/check-email')
+          xmlhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
+
+          xmlhttp.onreadystatechange = function () {
+            xmlhttp.onload = function() {
+              if (xmlhttp.status === 204) {
+                resolve(true)
+              } else if (xmlhttp.status === 404) {
+                resolve(false)
+              } else {
+                // TODO need better error handling
+                reject({
+                  status: xmlhttp.status,
+                  statusText: "Error validating email against Cognito."
+                })
+              }
+            }
+
+            xmlhttp.onerror = function () {
+              // TODO need better error handling
+              reject({
+                status: xmlhttp.status,
+                statusText: "Error validating email against Cognito."
+              })
+            };
+          }
+
+          xmlhttp.send(
+            JSON.stringify({email: email})
+          )
+        })
+      }
+
+// Does the account exist?
   if (!signInMethods.length) {
-    // Account does not exist, go to password sign up and populate
-    // available fields.
-    firebaseui.auth.widget.handler.handle(
-        firebaseui.auth.widget.HandlerName.PASSWORD_SIGN_UP,
-        app,
-        container,
-        email,
-        opt_displayName,
-        undefined,
-        opt_displayFullTosPpMessage);
+
+    // CUSTOM ANOVA CODE
+    checkCognitoUserByEmail()
+      .then(function(userExistsInCognito) {
+        firebaseui.auth.widget.handler.common.trackWithPlatform("CognitoFirebaseMigrationStarted", {
+          email: email
+        })
+        firebaseui.auth.widget.handler.handle(
+          firebaseui.auth.widget.HandlerName.PASSWORD_SIGN_UP,
+          app,
+          container,
+          email,
+          opt_displayName,
+          undefined,
+          opt_displayFullTosPpMessage,
+          userExistsInCognito);
+      })
+      .catch(function(error) {
+        // TODO need better error handling
+        console.log(error.status + " " + error.statusText)
+      })
+
+
   } else if (goog.array.contains(signInMethods,
       firebase.auth.EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD) ||
       goog.array.contains(signInMethods,
@@ -1614,3 +1665,27 @@ firebaseui.auth.widget.handler.common.handleSignInWithEmail =
         }, false);
   }
 };
+
+firebaseui.auth.widget.handler.common.trackWithPlatform = function (eventName, parameters) {
+  parameters.platform = firebaseui.auth.widget.handler.common.getClientDevicePlatform()
+  analytics.track(eventName, parameters)
+};
+
+firebaseui.auth.widget.handler.common.getClientDevicePlatform = function() {
+  var userAgent = navigator.userAgent || navigator.vendor || window.opera
+      
+  if (/windows phone/i.test(userAgent)) {
+    return "Windows Phone"
+  }
+
+  if (/android/i.test(userAgent)) {
+    return "Android"
+  }
+
+  if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+    return "iOS"
+  }
+
+  return "Web"
+};
+

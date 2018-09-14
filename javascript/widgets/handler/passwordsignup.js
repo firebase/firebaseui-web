@@ -40,10 +40,12 @@ goog.require('goog.string');
  * @param {boolean=} opt_disableCancel Whether to disable the cancel link.
  * @param {boolean=} opt_displayFullTosPpMessage Whether to display the full
  *     message of Term of Service and Privacy Policy.
+ * @param {boolean=} opt_userExistsInCognitoShowSignIn Whether to display something else.
  */
 firebaseui.auth.widget.handler.handlePasswordSignUp = function(
     app, container, opt_email, opt_name, opt_disableCancel,
-    opt_displayFullTosPpMessage) {
+      opt_displayFullTosPpMessage, opt_userExistsInCognitoShowSignIn) {
+
   var onCancel = function() {
     component.dispose();
     // On cancel return to widget start page.
@@ -54,7 +56,7 @@ firebaseui.auth.widget.handler.handlePasswordSignUp = function(
       app.getConfig().isDisplayNameRequired(),
       // On submit.
       function() {
-        firebaseui.auth.widget.handler.onSignUpSubmit_(app, component);
+        firebaseui.auth.widget.handler.onSignUpSubmit_(app, component, opt_userExistsInCognitoShowSignIn);
       },
       // On cancel.
       opt_disableCancel ? undefined : onCancel,
@@ -62,7 +64,9 @@ firebaseui.auth.widget.handler.handlePasswordSignUp = function(
       opt_name,
       app.getConfig().getTosUrl(),
       app.getConfig().getPrivacyPolicyUrl(),
-      opt_displayFullTosPpMessage);
+      opt_displayFullTosPpMessage,
+      undefined,
+      opt_userExistsInCognitoShowSignIn);
   component.render(container);
   // Set current UI component.
   app.setCurrentComponent(component);
@@ -75,7 +79,8 @@ firebaseui.auth.widget.handler.handlePasswordSignUp = function(
  * @param {firebaseui.auth.ui.page.PasswordSignUp} component The UI component.
  * @private
  */
-firebaseui.auth.widget.handler.onSignUpSubmit_ = function(app, component) {
+firebaseui.auth.widget.handler.onSignUpSubmit_ = function(app, component, opt_userExistsInCognitoShowSignIn) {
+
   var requireDisplayName = app.getConfig().isDisplayNameRequired();
 
   // Check fields are valid.
@@ -103,16 +108,18 @@ firebaseui.auth.widget.handler.onSignUpSubmit_ = function(app, component) {
     component.getNewPasswordElement().focus();
     return;
   }
-  // Initialize an internal temporary password credential. This will be used
+
+// Initialize an internal temporary password credential. This will be used
   // to signInWithCredential to the developer provided auth instance on success.
   // This credential will never be passed to developer or stored internally.
-  var emailPassCred =
+  var createUserInFirebase = function (email, password, userExistsInCognitoShowSignIn) {
+    var emailPassCred =
       firebase.auth.EmailAuthProvider.credential(email, password);
-  // Sign up new account.
-  app.registerPending(component.executePromiseRequest(
+    // Sign up new account.
+    app.registerPending(component.executePromiseRequest(
       /** @type {function (): !goog.Promise} */ (
-          goog.bind(app.startCreateUserWithEmailAndPassword, app)
-          ),
+        goog.bind(app.startCreateUserWithEmailAndPassword, app)
+      ),
       [email, password],
       function(userCredential) {
         var authResult = /** @type {!firebaseui.auth.AuthResult} */ ({
@@ -122,18 +129,26 @@ firebaseui.auth.widget.handler.onSignUpSubmit_ = function(app, component) {
           'operationType': userCredential['operationType'],
           'additionalUserInfo': userCredential['additionalUserInfo']
         });
+
+        // CUSTOM ANOVA CODE
+        if (userExistsInCognitoShowSignIn) {
+          firebaseui.auth.widget.handler.common.trackWithPlatform("CognitoFirebaseMigrationSucceeded", {
+            email: email
+          })
+        }
+
         if (requireDisplayName) {
           // Sign up successful. We can now set the name.
           var p = userCredential['user'].updateProfile({'displayName': name})
-              .then(function() {
-                return firebaseui.auth.widget.handler.common
-                    .setLoggedInWithAuthResult(app, component, authResult);
-              });
+            .then(function() {
+              return firebaseui.auth.widget.handler.common
+                .setLoggedInWithAuthResult(app, component, authResult);
+            });
           app.registerPending(p);
           return p;
         } else {
           return firebaseui.auth.widget.handler.common
-              .setLoggedInWithAuthResult(app, component, authResult);
+            .setLoggedInWithAuthResult(app, component, authResult);
         }
       },
       function(error) {
@@ -142,35 +157,82 @@ firebaseui.auth.widget.handler.onSignUpSubmit_ = function(app, component) {
           return;
         }
         var errorMessage =
-            firebaseui.auth.widget.handler.common.getErrorMessage(error);
+          firebaseui.auth.widget.handler.common.getErrorMessage(error);
+
+        // CUSTOM ANOVA CODE
+        if(userExistsInCognitoShowSignIn) {
+          firebaseui.auth.widget.handler.common.trackWithPlatform("CognitoFirebaseMigrationFailed", {
+            errorStatus: error['code'],
+            errorMessage: errorMessage
+          })
+        }
         switch (error['code']) {
           case 'auth/email-already-in-use':
             // Check if the user is locked out of their account or just display
             // the email exists error.
             return firebaseui.auth.widget.handler.onEmailExists_(
-                app, component, /** @type {string} */ (email), error);
+              app, component, /** @type {string} */ (email), error);
             break;
 
           case 'auth/too-many-requests':
             errorMessage = firebaseui.auth.soy2.strings
-                .errorTooManyRequestsCreateAccount().toString();
+              .errorTooManyRequestsCreateAccount().toString();
           case 'auth/operation-not-allowed':
           case 'auth/weak-password':
             firebaseui.auth.ui.element.setValid(
-                component.getNewPasswordElement(),
-                false);
+              component.getNewPasswordElement(),
+              false);
             firebaseui.auth.ui.element.show(
-                component.getNewPasswordErrorElement(),
-                errorMessage);
+              component.getNewPasswordErrorElement(),
+              errorMessage);
             break;
 
           default:
             firebaseui.auth.log.error(
-                'setAccountInfo: ' + goog.json.serialize(error));
+              'setAccountInfo: ' + goog.json.serialize(error));
             component.showInfoBar(errorMessage);
             break;
         }
       }));
+  }
+
+  // CUSTOM ANOVA CODE
+  //   If the user exists in Cognito, but does not yet exist in Firebase,
+  //   validate their credentials with Cognito and continue to create
+  //   a new Firebase user with those credentials
+  if (opt_userExistsInCognitoShowSignIn) {
+    // validate password and email with Cognito
+    var xmlhttp = new XMLHttpRequest() // new HttpRequest instance
+    xmlhttp.open('POST', 'https://w2zgeuzzgg.execute-api.us-west-2.amazonaws.com/prod/login')
+    xmlhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
+    xmlhttp.send(
+      JSON.stringify({ username: email, password: password })
+    )
+
+    xmlhttp.onreadystatechange = function () {
+      if (xmlhttp.readyState === XMLHttpRequest.DONE) {
+        if (xmlhttp.status === 200) {
+          console.log(`logged in to cognito with ${email}!`)
+          createUserInFirebase(email, password, opt_userExistsInCognitoShowSignIn)
+        } else {
+          firebaseui.auth.widget.handler.common.trackWithPlatform("CognitoFirebaseMigrationFailed", {
+            errorStatus: xmlhttp.status,
+            errorMessage: "The email and password you entered don't match"
+          })
+          // TODO: handle failures that are not caused by bad password
+          var showInvalidPassword = function(error) {
+            firebaseui.auth.ui.element.setValid(component.getNewPasswordElement(), false);
+            firebaseui.auth.ui.element.show(component.getNewPasswordErrorElement(),
+              firebaseui.auth.widget.handler.common.getErrorMessage(error));
+          };
+
+          showInvalidPassword({code: 'auth/wrong-password'})
+        }
+      }
+    }
+  } else {
+    createUserInFirebase(email, password)
+  }
 };
 
 

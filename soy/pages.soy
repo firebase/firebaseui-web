@@ -100,11 +100,16 @@
   {@param? name: string} /** The name to prefill. */
   {@param? allowCancel: bool} /** Whether to show the cancel link. */
   {@param? displayFullTosPpMessage: bool} /** Whether to display the full message of ToS and PP. */
+  {@param? userExistsInCognitoShowSignIn: bool} /** Whether to display the "mock" 'Sign in' header for a user who does NOT exist inFirebase yet but does exist in Cognito. */
   <div class="mdl-card mdl-shadow--2dp firebaseui-container firebaseui-id-page-password-sign-up">
     <form onsubmit="return false;">
       <div class="firebaseui-card-header">
         <h1 class="firebaseui-title">
-          {msg desc="Header of a sign-up page."}Create account{/msg}
+            {if $userExistsInCognitoShowSignIn}
+                {msg desc="Header of a sign-in page."}Sign in{/msg}
+            {else}
+                {msg desc="Header of a sign-up page."}Create account{/msg}
+            {/if}
         </h1>
       </div>
       <div class="firebaseui-card-content">
@@ -119,7 +124,12 @@
           {if $allowCancel}
             {call firebaseui.auth.soy2.element.cancelButton /}
           {/if}
-          {call firebaseui.auth.soy2.element.saveButton /}
+
+          {if $userExistsInCognitoShowSignIn}
+              {call firebaseui.auth.soy2.element.signInButton /}
+          {else}
+              {call firebaseui.auth.soy2.element.saveButton /}
+          {/if}
         </div>
       </div>
       <div class="firebaseui-card-footer">
@@ -641,6 +651,10 @@
   <div class="firebaseui-container firebaseui-page-provider-sign-in{sp}
       firebaseui-id-page-provider-sign-in firebaseui-use-spinner">
     <div class="firebaseui-card-content">
+      <a href="https://anovaculinary.com">
+        <i class="fa fa-anova" aria-hidden="true"></i>
+      </a>
+      <h1 class="anova-title">Log in or sign up</h1>
       <form onsubmit="return false;">
         <ul class="firebaseui-idp-list">
           {foreach $providerId in $providerIds}
@@ -648,6 +662,9 @@
               {call firebaseui.auth.soy2.element.idpButton}
                 {param providerId: $providerId /}
               {/call}
+              {if $providerId == 'password'}
+                <div class="anova-divider">or</div>
+              {/if}
             </li>
           {/foreach}
         </ul>
