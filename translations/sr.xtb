@@ -1,7 +1,10 @@
 <translationbundle lang="sr">
+<translation id="1003362845472634045">Послали смо вам имејл за пријављивање</translation>
 <translation id="10081113082271688">Верификациони кôд је нетачан</translation>
 <translation id="1024070574104100559">Сент Винсент</translation>
-<translation id="1100633043848982368">Поново пошаљи кôд</translation>
+<translation id="1080228854514607739">Линк у имејлу је неважећи. То се дешава ако је линк истекао или је већ употребљен за пријављивање. Поново покрените поступак пријављивања.</translation>
+<translation id="1088824719285122027">Овај број телефона је употребљен превише пута</translation>
+<translation id="1111168792069656940">ui_flow</translation>
 <translation id="1130401182255828006">Летонија</translation>
 <translation id="1133565039750742069">Сачувај</translation>
 <translation id="1139115784936170936">Сингапур</translation>
@@ -48,6 +51,7 @@
 <translation id="2058731785647385204">Монсерат</translation>
 <translation id="2070709910567585968">Јаке лозинке имају бар 6 знакова, уз комбинацију слова и бројева</translation>
 <translation id="2074008538308369451">Услови коришћења услуге</translation>
+<translation id="2089802663554186342">Сесија је завршена</translation>
 <translation id="2108717231438756650">Уједињено Краљевство</translation>
 <translation id="2120419640334291526">Кајманска Острва</translation>
 <translation id="2124070231227334770">Молдавија</translation>
@@ -63,7 +67,7 @@
 <translation id="227405248692044138">Малта</translation>
 <translation id="2285049245646335550">Зеленортска Острва</translation>
 <translation id="2301396996587599046">Македонија</translation>
-<translation id="2312980523495377579">Име и презиме</translation>
+<translation id="2310948428656960769">Пријављени сте!</translation>
 <translation id="2324942959480650701">Гост</translation>
 <translation id="2331781584136059536">Гана</translation>
 <translation id="2338909515537249568">Прегледач који користите не подржава веб-складиште. Пробајте поново из другог прегледача.</translation>
@@ -80,13 +84,17 @@
 <translation id="2561560038714758184">Безбедност</translation>
 <translation id="2561835578785502516">Захтев за ресетовање лозинке је истекао или је линк већ употребљен</translation>
 <translation id="2581514546525533462">Наведени позивни број за земљу није подржан.</translation>
+<translation id="2600950452451016107">Проверите да ли сте тачно уписали имејл адресу.</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">Камбоџа</translation>
 <translation id="2616650714309312732">Португалија</translation>
 <translation id="2619590123270932385">Француска Гијана</translation>
 <translation id="2621854044487969847">Британска Девичанска Острва</translation>
+<translation id="2623430226615357954">Одбаци</translation>
 <translation id="2626214972556632989">Унесите важећи број телефона</translation>
 <translation id="2652952163277051394">Ова апликација не подржава тај тип налога</translation>
+<translation id="2660271277401013037">Кôд радње је неважећи. То се дешава ако је кôд погрешно формиран, истекао или већ искоришћен.</translation>
+<translation id="2665022736179407256">Овај кôд је истекао.</translation>
 <translation id="2668496398414877352">Косово</translation>
 <translation id="2674823936234616183">Узбекистан</translation>
 <translation id="2696162410887720551">Аландска Острва</translation>
@@ -94,7 +102,7 @@
 <translation id="2741235824871026219">Верификуј</translation>
 <translation id="2752984808025184019">Јужноафричка Република</translation>
 <translation id="2760636260031093254">Унесите имејл адресу да бисте наставили</translation>
-<translation id="2824267666257947103">Унесите лозинку</translation>
+<translation id="2782685789517131804">Послали смо вам имејл за пријављивање са додатним упутствима на <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Проверите имејл да бисте довршили пријављивање.</translation>
 <translation id="2828509010894808185">Отворите налог</translation>
 <translation id="2834770837848769530">Авганистан</translation>
 <translation id="2884525438023347369">Додиром на <ph name="BTN" /> потврђујете да прихватате <ph name="TOS" />.</translation>
@@ -125,6 +133,7 @@
 <translation id="3372254675985592547">Куба</translation>
 <translation id="3394519231857398207">Француска</translation>
 <translation id="3398534025670554188">Кина</translation>
+<translation id="3409391354412142307">Већ сте користили <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Можете да повежете <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> налог са имејлом <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> тако што ћете се пријавити помоћу линка из имејла испод.</translation>
 <translation id="3413300222170818119">Замбија</translation>
 <translation id="3429213469114503705">Ватикан</translation>
 <translation id="3434621886769337032">Гамбија</translation>
@@ -156,8 +165,11 @@
 <translation id="3954166521214262397">6-цифрени кôд</translation>
 <translation id="3987987513436822097">Комори</translation>
 <translation id="4009306200855295525">Земља</translation>
+<translation id="4021489444336102711">Потврди</translation>
 <translation id="4022450612826261789">Косово</translation>
+<translation id="4025579119565425333">Пробајте ова уобичајена решења:</translation>
 <translation id="4056653682525186486">Пријави ме користећи <ph name="XXX" /></translation>
+<translation id="4064888056475403511">Отворите линк са истог уређаја или из истог прегледача из ког сте покренули поступак пријављивања.</translation>
 <translation id="4066104405592701692">Естонија</translation>
 <translation id="4090385155496329109">Facebook</translation>
 <translation id="4163133799286985193">Аргентина</translation>
@@ -167,6 +179,7 @@
 <translation id="4242716276491763916">Гвинеја Конакри</translation>
 <translation id="4248546264350694306">Швајцарска</translation>
 <translation id="4266056491449352939">Андора</translation>
+<translation id="4322167048992801895">Имате проблема са пријемом имејла?</translation>
 <translation id="4329551945958214898">Јапан</translation>
 <translation id="4331763189922924781">Црна Гора</translation>
 <translation id="4372962701784304822">Мозамбик</translation>
@@ -174,6 +187,7 @@
 <translation id="4386334763822785837">Турска</translation>
 <translation id="4413304190485210039">Таџикистан</translation>
 <translation id="4432634970196611353">Лаос</translation>
+<translation id="4440507149645221385">Телефон</translation>
 <translation id="4450602713221237198">Пошаљи поново</translation>
 <translation id="4498504413765490964">Хондурас</translation>
 <translation id="4515732781724470190">Нигер</translation>
@@ -191,6 +205,7 @@
 <translation id="4775051289386800916">Никарагва</translation>
 <translation id="4783400389150493171">Буркина Фасо</translation>
 <translation id="4852256440857413490">Кôд није тачан. Пробајте поново.</translation>
+<translation id="4866990546854875813">Сесија повезана са овим захтевом за пријављивање је истекла или je обрисана.</translation>
 <translation id="4871106926303956169">Острва Туркс и Каикос</translation>
 <translation id="4877597386645466815">Кôд се поново шаље за <ph name="TIME_REMAINING" /></translation>
 <translation id="4915406999072654369">Проверите имејл</translation>
@@ -199,6 +214,7 @@
 <translation id="4991626049082973728">Србија</translation>
 <translation id="4991892293325936102">Белизе</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" />за <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /><ph name="END_PARAGRAPH" /></translation>
+<translation id="5059105734231232362">Да би се овим поступком <ph name="IDP_DISPLAY_NAME" /> налог повезао са овом имејл адресом, отворите линк са истог уређаја или из истог прегледача.</translation>
 <translation id="5080084639513001393">Шведска</translation>
 <translation id="5080899604429810481">Свети Мартин (француски)</translation>
 <translation id="5143657419516597442">Света Луција</translation>
@@ -215,6 +231,7 @@
 <translation id="5443669846203963095">Политика приватности</translation>
 <translation id="5444635161362535036">Лихтенштајн</translation>
 <translation id="5483706910421209104">Измена назива</translation>
+<translation id="5490651768073507833">Отворите линк са истог уређаја или из истог прегледача из ког сте покренули поступак пријављивања.</translation>
 <translation id="5524360735013196510">Холандија</translation>
 <translation id="5528189843379142883">Екваторијална Гвинеја</translation>
 <translation id="5529036554155743092">Аустралија</translation>
@@ -233,11 +250,14 @@
 <translation id="5642254620426025006">Нешто није у реду. Пробајте поново.</translation>
 <translation id="5649486931917149784">Лозинка</translation>
 <translation id="5664080586064341046">Сент Китс</translation>
+<translation id="5668881954117611594">Назад</translation>
 <translation id="5699028034244995851">Унесите имејл адресу да бисте наставили</translation>
 <translation id="5701178667798108817">Верификујте број телефона</translation>
 <translation id="5715637701147651513">Либерија</translation>
+<translation id="5755179287528310939">Већ постоји налог са том имејл адресом.</translation>
 <translation id="5771034676910614239">Мадагаскар</translation>
 <translation id="5818634293686963864">Казахстан</translation>
+<translation id="5829301468800336085">Пријављујемо вас…</translation>
 <translation id="5840765100196379855">Панама</translation>
 <translation id="5840803301882074743">Тонга</translation>
 <translation id="5850752921356750845">Валис и Футуна</translation>
@@ -250,12 +270,11 @@
 <translation id="5989709845715452405">Повратите лозинку</translation>
 <translation id="5995596766674622541">Унесите 6-цифрени кôд који смо послали на <ph name="START_LINK" />&amp;lrm;<ph name="PHONE_NUMBER" /><ph name="END_LINK" /></translation>
 <translation id="6006148985615990975">Руанда</translation>
-<translation id="6040759627067155517">Имејл</translation>
+<translation id="6032262985756512833">Унесите <ph name="STRING" />-цифрени кôд који смо послали на</translation>
 <translation id="6044396095102058216">Овај број телефона је употребљен превише пута</translation>
-<translation id="6091051069256411999">Twitter</translation>
-<translation id="61182948399263957">
-<ph name="P_START" />Пријавите се у апликацију <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
-<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
+<translation id="6083089720215618333">Наведена имејл адреса се не подудара са тренутном сесијом пријављивања.</translation>
+<translation id="6113531938704280909">Опозив везе са налогом</translation>
+<translation id="6132202686885223981">Проверите да нисте остали без простора у пријемном сандучету, односно да нема других проблема са пријемним сандучетом.</translation>
 <translation id="6189573836664806798">Парагвај</translation>
 <translation id="6192657410634245771">Алжир</translation>
 <translation id="6213969168046789596">Превише пута сте унели нетачну лозинку. Пробајте поново за пар минута.</translation>
@@ -272,8 +291,10 @@
 <translation id="6381974517529371884">Фарска Острва</translation>
 <translation id="6443180961828792673">Косово</translation>
 <translation id="6450170205342035038">Бугарска</translation>
-<translation id="6476467763326951353">Верификовање имејла за <ph name="APP_NAME" /></translation>
-<translation id="6494734506607758748">Да бисте променили имејл адресу повезану са налогом, треба да се поново пријавите.</translation>
+<translation id="6470057025778734988">Више нећете моћи да се пријављујете помоћу налога</translation>
+<translation id="6472297146424049005">Проверите интернет везу.</translation>
+<translation id="6483116480230343278">Регистрација је у току…</translation>
+<translation id="6502083090260346644">Ако додирнете <ph name="STRING" />, можда ћете примити SMS. Можда ће вам бити наплаћена порука и пренос података.</translation>
 <translation id="6508909904815637928">Вануату</translation>
 <translation id="6520863029476703422">Америчка Самоа</translation>
 <translation id="6527597037551425211">Бразил</translation>
@@ -284,6 +305,7 @@
 <translation id="6611519013130079637">Белгија</translation>
 <translation id="6618737424980030515">Грузија</translation>
 <translation id="6623411438614744695">Намибија</translation>
+<translation id="6653313985929651858">Имејл за пријављивање је послат\n</translation>
 <translation id="6655128609744896303">Кôд је послат!</translation>
 <translation id="6683477520421532707">Реинион</translation>
 <translation id="6683810982254923169">Пробајте поново да ресетујете лозинку</translation>
@@ -298,15 +320,18 @@
 <translation id="6769550797775698634">Камерун</translation>
 <translation id="6775190982418995854">Свалбард и Јан Мајен</translation>
 <translation id="6775835872637240659">Украјина</translation>
+<translation id="6779584651193963121">Ако наведене мере не уроде плодом, можете поново да пошаљете имејл. Имајте у виду да ћете тиме деактивирати линк у старијем имејлу.</translation>
 <translation id="6782010235320729294">Туркменистан</translation>
 <translation id="6821607741326790458">Јамајка</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Пакистан</translation>
+<translation id="6918319418444979243">Поново пошаљи</translation>
 <translation id="6920167780806379235">Сирија</translation>
 <translation id="6921505896641453739">Имејл</translation>
 <translation id="6929813273561975780">Даље</translation>
 <translation id="6951302238647056860">Тај кôд више не важи</translation>
 <translation id="6976724207780605356">Пријави ме помоћу Facebook-а</translation>
+<translation id="6984204927251307445">Потврдите имејл адресу</translation>
 <translation id="6999773882165218263">Име и презиме</translation>
 <translation id="7012506961150923116">Гренада</translation>
 <translation id="7024571478138322659">Западна Сахара</translation>
@@ -323,6 +348,7 @@
 <translation id="7207660930894629055">Желите ли да наставите помоћу имејла <ph name="USER_EMAIL" />?</translation>
 <translation id="7223410082658239002">Малдиви</translation>
 <translation id="7254028881697834212">Сао Томе и Принципе</translation>
+<translation id="7268827299582726485">Потврдите имејл да бисте довршили пријављивање</translation>
 <translation id="7272145663101316762">Словенија</translation>
 <translation id="7280309713358692490">Јужна Кореја</translation>
 <translation id="7291567990403335374">Лесото</translation>
@@ -330,20 +356,22 @@
 <translation id="7320029088567935126">Пробајте поново да верификујете имејл</translation>
 <translation id="7331038350037712642">Азербејџан</translation>
 <translation id="743266754881673808">Google</translation>
-<translation id="7453388767208874682">Број телефона мора да се унесе</translation>
-<translation id="7482751672921205012">Желите ли да избришете налог?</translation>
+<translation id="744894552966168763">Линк у имејлу је неважећи.</translation>
+<translation id="7477065998516229434">Услови коришћења услуге</translation>
 <translation id="7493245640904888019">Гибралтар</translation>
 <translation id="7510939244824757986">Танзанија</translation>
 <translation id="7526532581122816497">Повезани налог</translation>
 <translation id="7560587702704358921">Свети Пјер и Микелон</translation>
 <translation id="7569285452790032317">Сомалија</translation>
 <translation id="7592224526951017144">Немачка</translation>
+<translation id="7595933825828475368">Имате проблема са пријемом имејла?</translation>
 <translation id="7615083347713899917">Киргистан</translation>
 <translation id="7643408533407091568">Већ сте користили адресу <ph name="EMAIL_ADDR" />
         за пријављивање. Унесите лозинку за тај налог.</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{Лозинка није довољно јака. Употребите бар <ph name="PH_1" /> знак, уз комбинацију бројева и слова}one{Лозинка није довољно јака. Употребите бар <ph name="PH_1" /> знак, уз комбинацију бројева и слова}few{Лозинка није довољно јака. Употребите бар <ph name="PH_1" /> знака, уз комбинацију бројева и слова}other{Лозинка није довољно јака. Употребите бар <ph name="PH_1" /> знакова, уз комбинацију бројева и слова}}</translation>
 <translation id="7699755204074920022">Зимбабве</translation>
 <translation id="7782885946428624225">Дошло је до проблема при верификацији броја телефона</translation>
+<translation id="7796914496604415892">Открили смо нови уређај или прегледач</translation>
 <translation id="7868540442111212282">Чешка Република</translation>
 <translation id="7874584525604421364">Тувалу</translation>
 <translation id="7926046652648626866">Пријавите се помоћу GitHub-а</translation>
@@ -384,7 +412,8 @@
 <translation id="8448940737083561161">Кирибати</translation>
 <translation id="847294590390666986">Тајван</translation>
 <translation id="8477554788963470892">Сијера Леоне</translation>
-<translation id="850278101443955459">Пријави ме</translation>
+<translation id="8498398269542501379">Проверите да ли је имејл филтриран или обележен као непожељан.</translation>
+<translation id="8505200776212389923">Верификује се…</translation>
 <translation id="8505941919386646914">Мартиник</translation>
 <translation id="8534746304953308378">Того</translation>
 <translation id="8572093925387077451">Већ имате налог</translation>
@@ -408,8 +437,9 @@
 <translation id="8869797682387766327">Острво Ман</translation>
 <translation id="8893950153780006385">Малезија</translation>
 <translation id="8895840173743975193">Кокосова (Килингова) Острва</translation>
-<translation id="8955469172512804617">Додиром на <ph name="BTN" /> потврђујете да прихватате <ph name="PP" />.</translation>
-<translation id="8980953965669178372">Готово</translation>
+<translation id="8916080112145514151">Ако и даље желите да повежете <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> налог, отворите линк на истом уређају са ког сте почели са пријављивањем. У супротном, додирните Настави да бисте се пријавили на овом уређају.</translation>
+<translation id="8939353296336237380">Првобитна намера вам је била да повежете <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> налог са својим имејл налогом, али сте отворили линк на другом уређају, на ком нисте пријављени.</translation>
+<translation id="8971555482255213064">Кôд ће бити поново послат за 0:<ph name="PH_1" /></translation>
 <translation id="8984161590699631096">Мароко</translation>
 <translation id="900153878296575829">Бангладеш</translation>
 <translation id="9022632332691561239">Телефон</translation>

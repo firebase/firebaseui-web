@@ -1,7 +1,10 @@
 <translationbundle lang="el">
+<translation id="1003362845472634045">Το μήνυμα ηλεκτρονικού ταχυδρομείου σύνδεσης στάλθηκε</translation>
 <translation id="10081113082271688">Εσφαλμένος κωδικός επαλήθευσης</translation>
 <translation id="1024070574104100559">Άγιος Βικέντιος</translation>
-<translation id="1100633043848982368">Επανάληψη αποστολής κωδικού</translation>
+<translation id="1080228854514607739">Ο σύνδεσμος ηλεκτρονικού ταχυδρομείου δεν είναι έγκυρος. Αυτό μπορεί να συμβεί αν ο σύνδεσμος ηλεκτρονικού ταχυδρομείου έληξε ή χρησιμοποιήθηκε ήδη για σύνδεση. Επανεκκινήστε τη ροή σύνδεσης.</translation>
+<translation id="1088824719285122027">Αυτός ο αριθμός τηλεφώνου χρησιμοποιήθηκε πάρα πολλές φορές</translation>
+<translation id="1111168792069656940">ui_flow</translation>
 <translation id="1130401182255828006">Λετονία</translation>
 <translation id="1133565039750742069">Αποθήκευση</translation>
 <translation id="1139115784936170936">Σιγκαπούρη</translation>
@@ -48,6 +51,7 @@
 <translation id="2058731785647385204">Μοντσεράτ</translation>
 <translation id="2070709910567585968">Οι ισχυροί κωδικοί πρόσβασης έχουν τουλάχιστον 6 χαρακτήρες και έναν συνδυασμό γραμμάτων και αριθμών</translation>
 <translation id="2074008538308369451">Όροι Παροχής Υπηρεσιών</translation>
+<translation id="2089802663554186342">Η περίοδος σύνδεσης έληξε</translation>
 <translation id="2108717231438756650">Ηνωμένο Βασίλειο</translation>
 <translation id="2120419640334291526">Νησιά Κέιμαν</translation>
 <translation id="2124070231227334770">Μολδαβία</translation>
@@ -63,7 +67,7 @@
 <translation id="227405248692044138">Μάλτα</translation>
 <translation id="2285049245646335550">Πράσινο Ακρωτήριο</translation>
 <translation id="2301396996587599046">Π.Γ.Δ.Μ.</translation>
-<translation id="2312980523495377579">Όνομα και επώνυμο</translation>
+<translation id="2310948428656960769">Συνδέθηκε!</translation>
 <translation id="2324942959480650701">Επισκέπτης</translation>
 <translation id="2331781584136059536">Γκάνα</translation>
 <translation id="2338909515537249568">Το πρόγραμμα περιήγησης που χρησιμοποιείτε δεν υποστηρίζει αποθήκευση στον ιστό. Δοκιμάστε ξανά σε άλλο πρόγραμμα περιήγησης.</translation>
@@ -80,13 +84,17 @@
 <translation id="2561560038714758184">Ασφάλεια</translation>
 <translation id="2561835578785502516">Το αίτημα επαναφοράς του κωδικού πρόσβασής σας έληξε ή ο σύνδεσμος χρησιμοποιείται ήδη</translation>
 <translation id="2581514546525533462">Ο κωδικός χώρας που καταχωρίσατε δεν υποστηρίζεται.</translation>
+<translation id="2600950452451016107">Βεβαιωθείτε ότι δεν έχετε γράψει λάθος τη διεύθυνση ηλεκτρονικού ταχυδρομείου.</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">Καμπότζη</translation>
 <translation id="2616650714309312732">Πορτογαλία</translation>
 <translation id="2619590123270932385">Γαλλική Γουιάνα</translation>
 <translation id="2621854044487969847">Βρετανικές Παρθένοι Νήσοι</translation>
+<translation id="2623430226615357954">Παράβλεψη</translation>
 <translation id="2626214972556632989">Εισαγάγετε έναν έγκυρο αριθμό τηλεφώνου</translation>
 <translation id="2652952163277051394">Αυτός ο τύπος λογαριασμού δεν υποστηρίζεται από αυτήν την εφαρμογή</translation>
+<translation id="2660271277401013037">Ο κωδικός ενέργειας δεν είναι έγκυρος. Αυτό μπορεί να συμβεί αν ο κωδικός έχει λανθασμένη μορφή, έχει λήξει ή χρησιμοποιείται ήδη.</translation>
+<translation id="2665022736179407256">Αυτός ο κωδικός έληξε.</translation>
 <translation id="2668496398414877352">Κόσοβο</translation>
 <translation id="2674823936234616183">Ουζμπεκιστάν</translation>
 <translation id="2696162410887720551">Νήσοι Άλαντ</translation>
@@ -94,7 +102,7 @@
 <translation id="2741235824871026219">Επαλήθευση</translation>
 <translation id="2752984808025184019">Νότια Αφρική</translation>
 <translation id="2760636260031093254">Εισαγάγετε τη διεύθυνση ηλεκτρονικού ταχυδρομείου για να συνεχίσετε</translation>
-<translation id="2824267666257947103">Εισαγάγετε τον κωδικό πρόσβασής σας</translation>
+<translation id="2782685789517131804">Ένα μήνυμα ηλεκτρονικού ταχυδρομείου σύνδεσης με πρόσθετες οδηγίες στάλθηκε στη διεύθυνση <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Ελέγξτε τη διεύθυνση ηλεκτρονικού ταχυδρομείου για να ολοκληρώσετε τη σύνδεση.</translation>
 <translation id="2828509010894808185">Δημιουργία λογαριασμού</translation>
 <translation id="2834770837848769530">Αφγανιστάν</translation>
 <translation id="2884525438023347369">Αν πατήσετε <ph name="BTN" />, δηλώνετε ότι συμφωνείτε με τους <ph name="TOS" />.</translation>
@@ -125,6 +133,7 @@
 <translation id="3372254675985592547">Κούβα</translation>
 <translation id="3394519231857398207">Γαλλία</translation>
 <translation id="3398534025670554188">Κίνα</translation>
+<translation id="3409391354412142307">Χρησιμοποιήσατε ήδη τη διεύθυνση <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Συνδεθείτε με τον λογαριασμό ηλεκτρονικού ταχυδρομείου παρακάτω για να συνδέσετε τον λογαριασμό σας <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> με τη διεύθυνση <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />.</translation>
 <translation id="3413300222170818119">Ζάμπια</translation>
 <translation id="3429213469114503705">Βατικανό</translation>
 <translation id="3434621886769337032">Γκάμπια</translation>
@@ -156,8 +165,11 @@
 <translation id="3954166521214262397">6ψήφιος κωδικός</translation>
 <translation id="3987987513436822097">Κομόρες</translation>
 <translation id="4009306200855295525">Χώρα</translation>
+<translation id="4021489444336102711">Επαλήθευση</translation>
 <translation id="4022450612826261789">Κόσοβο</translation>
+<translation id="4025579119565425333">Δοκιμάστε αυτές τις συνήθεις λύσεις:</translation>
 <translation id="4056653682525186486">Σύνδεση μέσω <ph name="XXX" /></translation>
+<translation id="4064888056475403511">Δοκιμάστε να ανοίξετε τον σύνδεσμο χρησιμοποιώντας την ίδια συσκευή ή το ίδιο πρόγραμμα περιήγησης από όπου ξεκινήσατε τη διαδικασία σύνδεσης.</translation>
 <translation id="4066104405592701692">Εσθονία</translation>
 <translation id="4090385155496329109">Facebook</translation>
 <translation id="4163133799286985193">Αργεντινή</translation>
@@ -167,6 +179,7 @@
 <translation id="4242716276491763916">Κονακρί, Γουινέα</translation>
 <translation id="4248546264350694306">Ελβετία</translation>
 <translation id="4266056491449352939">Ανδόρα</translation>
+<translation id="4322167048992801895">Αντιμετωπίζετε πρόβλημα με τη λήψη του μηνύματος ηλεκτρονικού ταχυδρομείου;</translation>
 <translation id="4329551945958214898">Ιαπωνία</translation>
 <translation id="4331763189922924781">Μαυροβούνιο</translation>
 <translation id="4372962701784304822">Μοζαμβίκη</translation>
@@ -174,6 +187,7 @@
 <translation id="4386334763822785837">Τουρκία</translation>
 <translation id="4413304190485210039">Τατζικιστάν</translation>
 <translation id="4432634970196611353">Λάος</translation>
+<translation id="4440507149645221385">Τηλέφωνο</translation>
 <translation id="4450602713221237198">Επανάληψη αποστολής</translation>
 <translation id="4498504413765490964">Ονδούρα</translation>
 <translation id="4515732781724470190">Νίγηρας</translation>
@@ -191,6 +205,7 @@
 <translation id="4775051289386800916">Νικαράγουα</translation>
 <translation id="4783400389150493171">Μπουρκίνα Φάσο</translation>
 <translation id="4852256440857413490">Εσφαλμένος κωδικός. Δοκιμάστε ξανά.</translation>
+<translation id="4866990546854875813">Η περίοδος σύνδεσης που συσχετίζεται με το αίτημα σύνδεσης είτε έληξε είτε διαγράφηκε.</translation>
 <translation id="4871106926303956169">Νησιά Τερκ και Κάικος</translation>
 <translation id="4877597386645466815">Επανάληψη αποστολής κωδικού σε <ph name="TIME_REMAINING" /></translation>
 <translation id="4915406999072654369">Ελέγξτε τα εισερχόμενα του ηλεκτρονικού ταχυδρομείου σας</translation>
@@ -199,6 +214,7 @@
 <translation id="4991626049082973728">Σερβία</translation>
 <translation id="4991892293325936102">Μπελίζ</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" />για <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /><ph name="END_PARAGRAPH" /></translation>
+<translation id="5059105734231232362">Σε αυτήν τη ροή για την επιτυχή σύνδεση του λογαριασμού <ph name="IDP_DISPLAY_NAME" /> με αυτήν τη διεύθυνση ηλεκτρονικού ταχυδρομείου, θα πρέπει να ανοίξετε τον σύνδεσμο στην ίδια συσκευή ή στο ίδιο πρόγραμμα περιήγησης.</translation>
 <translation id="5080084639513001393">Σουηδία</translation>
 <translation id="5080899604429810481">Σεν Μαρτέν</translation>
 <translation id="5143657419516597442">Αγία Λουκία</translation>
@@ -215,6 +231,7 @@
 <translation id="5443669846203963095">Πολιτική απορρήτου</translation>
 <translation id="5444635161362535036">Λιχτενστάιν</translation>
 <translation id="5483706910421209104">Επεξεργασία ονόματος</translation>
+<translation id="5490651768073507833">Δοκιμάστε να ανοίξετε τον σύνδεσμο χρησιμοποιώντας την ίδια συσκευή ή το ίδιο πρόγραμμα περιήγησης από όπου ξεκινήσατε τη διαδικασία σύνδεσης.</translation>
 <translation id="5524360735013196510">Ολλανδία</translation>
 <translation id="5528189843379142883">Ισημερινή Γουινέα</translation>
 <translation id="5529036554155743092">Αυστραλία</translation>
@@ -233,11 +250,14 @@
 <translation id="5642254620426025006">Κάτι πήγε στραβά. Δοκιμάστε ξανά.</translation>
 <translation id="5649486931917149784">Κωδικός πρόσβασης</translation>
 <translation id="5664080586064341046">Άγιος Χριστόφορος</translation>
+<translation id="5668881954117611594">Πίσω</translation>
 <translation id="5699028034244995851">Εισαγάγετε τη διεύθυνση ηλεκτρονικού ταχυδρομείου για να συνεχίσετε</translation>
 <translation id="5701178667798108817">Επαλήθευση του τηλεφώνου σας</translation>
 <translation id="5715637701147651513">Λιβερία</translation>
+<translation id="5755179287528310939">Υπάρχει ήδη λογαριασμός με αυτήν τη διεύθυνση ηλεκτρονικού ταχυδρομείου.</translation>
 <translation id="5771034676910614239">Μαδαγασκάρη</translation>
 <translation id="5818634293686963864">Καζακστάν</translation>
+<translation id="5829301468800336085">Σύνδεση…</translation>
 <translation id="5840765100196379855">Παναμάς</translation>
 <translation id="5840803301882074743">Τόνγκα</translation>
 <translation id="5850752921356750845">Ουώλις και Φουτούνα</translation>
@@ -250,12 +270,11 @@
 <translation id="5989709845715452405">Ανάκτηση κωδικού πρόσβασης</translation>
 <translation id="5995596766674622541">Εισαγάγετε τον 6ψήφιο κωδικό που σας στείλαμε στο <ph name="START_LINK" />&amp;lrm;<ph name="PHONE_NUMBER" /><ph name="END_LINK" /></translation>
 <translation id="6006148985615990975">Ρουάντα</translation>
-<translation id="6040759627067155517">Ηλεκτρονικό ταχυδρομείο</translation>
+<translation id="6032262985756512833">Εισαγάγετε τον κωδικό <ph name="STRING" /> ψηφίων που στείλαμε στο</translation>
 <translation id="6044396095102058216">Αυτός ο αριθμός τηλεφώνου χρησιμοποιήθηκε πάρα πολλές φορές</translation>
-<translation id="6091051069256411999">Twitter</translation>
-<translation id="61182948399263957">
-<ph name="P_START" />Συνδεθείτε στην εφαρμογή <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
-<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
+<translation id="6083089720215618333">Το μήνυμα ηλεκτρονικού ταχυδρομείου που παρείχατε δεν ταιριάζει με την τρέχουσα περίοδο σύνδεσης.</translation>
+<translation id="6113531938704280909">Αποσύνδεση λογαριασμού</translation>
+<translation id="6132202686885223981">Βεβαιωθείτε ότι δεν έχει γεμίσει ο χώρος εισερχομένων ή ότι δεν υπάρχουν άλλα προβλήματα που σχετίζονται με τις ρυθμίσεις εισερχομένων.</translation>
 <translation id="6189573836664806798">Παραγουάη</translation>
 <translation id="6192657410634245771">Αλγερία</translation>
 <translation id="6213969168046789596">Εισαγάγατε λανθασμένο κωδικό πρόσβασης πολλές φορές. Δοκιμάστε ξανά σε μερικά λεπτά.</translation>
@@ -272,8 +291,10 @@
 <translation id="6381974517529371884">Νήσοι Φερόες</translation>
 <translation id="6443180961828792673">Κόσοβο</translation>
 <translation id="6450170205342035038">Βουλγαρία</translation>
-<translation id="6476467763326951353">Επαληθεύστε τη διεύθυνση ηλεκτρονικού ταχυδρομείου σας για την εφαρμογή <ph name="APP_NAME" /></translation>
-<translation id="6494734506607758748">Για να αλλάξετε τη διεύθυνση ηλεκτρονικού ταχυδρομείου που συσχετίζεται με τον λογαριασμό σας, θα πρέπει να συνδεθείτε ξανά.</translation>
+<translation id="6470057025778734988">Δεν θα μπορείτε πλέον να συνδεθείτε χρησιμοποιώντας τον λογαριασμό σας</translation>
+<translation id="6472297146424049005">Ελέγξτε τη σύνδεσή σας στο διαδίκτυο.</translation>
+<translation id="6483116480230343278">Γίνεται εγγραφή…</translation>
+<translation id="6502083090260346644">Αν πατήσετε <ph name="STRING" />, θα σταλεί ένα SMS. Ενδέχεται να ισχύουν χρεώσεις μηνυμάτων και δεδομένων.</translation>
 <translation id="6508909904815637928">Βανουάτου</translation>
 <translation id="6520863029476703422">Αμερικανικές Σαμόα</translation>
 <translation id="6527597037551425211">Βραζιλία</translation>
@@ -284,6 +305,7 @@
 <translation id="6611519013130079637">Βέλγιο</translation>
 <translation id="6618737424980030515">Τζόρτζια</translation>
 <translation id="6623411438614744695">Ναμίμπια</translation>
+<translation id="6653313985929651858">Το μήνυμα ηλεκτρονικού ταχυδρομείου σύνδεσης στάλθηκε\n</translation>
 <translation id="6655128609744896303">Ο κωδικός στάλθηκε!</translation>
 <translation id="6683477520421532707">Ρεϊνιόν</translation>
 <translation id="6683810982254923169">Δοκιμάστε να επαναφέρετε ξανά τον κωδικό πρόσβασης</translation>
@@ -298,15 +320,18 @@
 <translation id="6769550797775698634">Καμερούν</translation>
 <translation id="6775190982418995854">Νήσοι Σβάλμπαρντ και Γιαν Μάγεν</translation>
 <translation id="6775835872637240659">Ουκρανικά</translation>
+<translation id="6779584651193963121">Αν τα παραπάνω βήματα δεν λειτούργησαν, μπορείτε να στείλετε ξανά το μήνυμα ηλεκτρονικού ταχυδρομείου. Έχετε υπόψη ότι με αυτήν την ενέργεια, ο σύνδεσμος στο παλιότερο μήνυμα ηλεκτρονικού ταχυδρομείου θα απενεργοποιηθεί.</translation>
 <translation id="6782010235320729294">Τουρκμενιστάν</translation>
 <translation id="6821607741326790458">Τζαμάικα</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Πακιστάν</translation>
+<translation id="6918319418444979243">Επανάληψη αποστολής</translation>
 <translation id="6920167780806379235">Συρία</translation>
 <translation id="6921505896641453739">Ηλεκτρονικό ταχυδρομείο</translation>
 <translation id="6929813273561975780">Επόμενο</translation>
 <translation id="6951302238647056860">Αυτός ο κωδικός δεν είναι πλέον έγκυρος</translation>
 <translation id="6976724207780605356">Σύνδεση μέσω Facebook</translation>
+<translation id="6984204927251307445">Επιβεβαίωση διεύθυνσης ηλεκτρονικού ταχυδρομείου</translation>
 <translation id="6999773882165218263">Όνομα και επώνυμο</translation>
 <translation id="7012506961150923116">Γρενάδα</translation>
 <translation id="7024571478138322659">Δυτική Σαχάρα</translation>
@@ -323,6 +348,7 @@
 <translation id="7207660930894629055">Συνέχεια με <ph name="USER_EMAIL" />;</translation>
 <translation id="7223410082658239002">Μαλδίβες</translation>
 <translation id="7254028881697834212">Σάο Τόμε και Πρίνσιπε</translation>
+<translation id="7268827299582726485">Επιβεβαιώστε τη διεύθυνση ηλεκτρονικού ταχυδρομείου για να ολοκληρώσετε τη σύνδεση</translation>
 <translation id="7272145663101316762">Σλοβενία</translation>
 <translation id="7280309713358692490">Νότια Κορέα</translation>
 <translation id="7291567990403335374">Λεσότο</translation>
@@ -330,20 +356,22 @@
 <translation id="7320029088567935126">Δοκιμάστε να επαληθεύσετε ξανά τη διεύθυνση ηλεκτρονικού ταχυδρομείου σας</translation>
 <translation id="7331038350037712642">Αζερμπαϊτζάν</translation>
 <translation id="743266754881673808">Google</translation>
-<translation id="7453388767208874682">Ο αριθμός τηλεφώνου δεν μπορεί να είναι κενός</translation>
-<translation id="7482751672921205012">Διαγραφή λογαριασμού;</translation>
+<translation id="744894552966168763">Μη έγκυρος σύνδεσμος ηλεκτρονικού ταχυδρομείου.</translation>
+<translation id="7477065998516229434">Όρους Παροχής Υπηρεσιών</translation>
 <translation id="7493245640904888019">Γιβραλτάρ</translation>
 <translation id="7510939244824757986">Τανζανία</translation>
 <translation id="7526532581122816497">Συνδεδεμένος λογαριασμός</translation>
 <translation id="7560587702704358921">Άγιος Πέτρος και Μικελόν</translation>
 <translation id="7569285452790032317">Σομαλία</translation>
 <translation id="7592224526951017144">Γερμανία</translation>
+<translation id="7595933825828475368">Αντιμετωπίζετε πρόβλημα με τη λήψη του μηνύματος ηλεκτρονικού ταχυδρομείου;</translation>
 <translation id="7615083347713899917">Κιργιστάν</translation>
 <translation id="7643408533407091568">Έχετε ήδη χρησιμοποιήσει τη διεύθυνση <ph name="EMAIL_ADDR" />
         για να συνδεθείτε. Εισαγάγετε τον κωδικό πρόσβασής σας για αυτόν τον λογαριασμό.</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{Ο κωδικός πρόσβασης δεν είναι αρκετά ισχυρός. Χρησιμοποιήστε τουλάχιστον <ph name="PH_1" /> χαρακτήρα και έναν συνδυασμό γραμμάτων και αριθμών}other{Ο κωδικός πρόσβασης δεν είναι αρκετά ισχυρός. Χρησιμοποιήστε τουλάχιστον <ph name="PH_1" /> χαρακτήρες και έναν συνδυασμό γραμμάτων και αριθμών}}</translation>
 <translation id="7699755204074920022">Ζιμπάμπουε</translation>
 <translation id="7782885946428624225">Παρουσιάστηκε πρόβλημα με την επαλήθευση του αριθμού τηλεφώνου</translation>
+<translation id="7796914496604415892">Εντοπίστηκε νέα συσκευή ή πρόγραμμα περιήγησης</translation>
 <translation id="7868540442111212282">Δημοκρατία της Τσεχίας</translation>
 <translation id="7874584525604421364">Τουβάλου</translation>
 <translation id="7926046652648626866">Σύνδεση μέσω GitHub</translation>
@@ -384,7 +412,8 @@
 <translation id="8448940737083561161">Κιριμπάτι</translation>
 <translation id="847294590390666986">Ταϊβάν</translation>
 <translation id="8477554788963470892">Σιέρα Λεόνε</translation>
-<translation id="850278101443955459">Σύνδεση</translation>
+<translation id="8498398269542501379">Ελέγξτε αν το μήνυμα ηλεκτρονικού ταχυδρομείου επισημάνθηκε ως ανεπιθύμητο ή υποβλήθηκε σε φιλτράρισμα.</translation>
+<translation id="8505200776212389923">Επαλήθευση…</translation>
 <translation id="8505941919386646914">Μαρτινίκα</translation>
 <translation id="8534746304953308378">Τόγκο</translation>
 <translation id="8572093925387077451">Έχετε ήδη λογαριασμό</translation>
@@ -408,8 +437,9 @@
 <translation id="8869797682387766327">Νήσος Μαν</translation>
 <translation id="8893950153780006385">Μαλαισία</translation>
 <translation id="8895840173743975193">Νησιά Κόκος (Κήλινγκ)</translation>
-<translation id="8955469172512804617">Αν πατήσετε <ph name="BTN" />, δηλώνετε ότι συμφωνείτε με την <ph name="PP" />.</translation>
-<translation id="8980953965669178372">Τέλος</translation>
+<translation id="8916080112145514151">Αν εξακολουθείτε να θέλετε να συνδέσετε τον λογαριασμό σας <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" />, ανοίξτε τον σύνδεσμο από την ίδια συσκευή από την οποία ξεκινήσατε τη σύνδεση. Διαφορετικά, πατήστε Συνέχεια για να συνδεθείτε από αυτήν τη συσκευή.</translation>
+<translation id="8939353296336237380">Σκοπεύατε να συνδέσετε το <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> με τον λογαριασμό ηλεκτρονικού σας ταχυδρομείου, αλλά χρησιμοποιήσατε άλλη συσκευή για το άνοιγμα του συνδέσμου στην οποία δεν είστε συνδεδεμένοι.</translation>
+<translation id="8971555482255213064">Επανάληψη αποστολής κωδικού σε 0:<ph name="PH_1" /></translation>
 <translation id="8984161590699631096">Μαρόκο</translation>
 <translation id="900153878296575829">Μπανγκλαντές</translation>
 <translation id="9022632332691561239">Τηλέφωνο</translation>

@@ -50,7 +50,11 @@ function setUp() {
   });
   firebase.auth = {
     GoogleAuthProvider: {PROVIDER_ID: 'google.com'},
-    EmailAuthProvider: {PROVIDER_ID: 'password'},
+    EmailAuthProvider: {
+      EMAIL_LINK_SIGN_IN_METHOD: 'emailLink',
+      EMAIL_PASSWORD_SIGN_IN_METHOD: 'password',
+      PROVIDER_ID: 'password',
+    },
     PhoneAuthProvider: {PROVIDER_ID: 'phone'}
   };
   testUtil = new firebaseui.auth.testing.FakeUtil().install();
@@ -1126,6 +1130,128 @@ function testRequireDisplayName_isTrueWithNonBooleanArgs() {
     }
   ]);
   assertTrue(config.isDisplayNameRequired());
+}
+
+
+function testEmailProviderConfig_passwordAllowed() {
+  config.update('signInOptions', [
+    {
+      'provider': 'password'
+    }
+  ]);
+  assertTrue(config.isEmailPasswordSignInAllowed());
+  assertFalse(config.isEmailLinkSignInAllowed());
+  assertFalse(config.isEmailLinkSameDeviceForced());
+  assertNull(config.getEmailLinkSignInActionCodeSettings());
+
+  // Even if emailLinkSignIn is provided, it should still be ignored.
+  config.update('signInOptions', [
+    {
+      'provider': 'password',
+      'emailLinkSignIn': function() {
+        return {
+          'url': firebaseui.auth.util.getCurrentUrl()
+        };
+      }
+    }
+  ]);
+  assertTrue(config.isEmailPasswordSignInAllowed());
+  assertFalse(config.isEmailLinkSignInAllowed());
+  assertFalse(config.isEmailLinkSameDeviceForced());
+  assertNull(config.getEmailLinkSignInActionCodeSettings());
+}
+
+
+function testEmailProviderConfig_emailLinkAllowed() {
+  stub.replace(
+      firebaseui.auth.util,
+      'getCurrentUrl',
+      function() {
+        return 'https://www.example.com/path/?mode=foo&mode2=bar#a=1';
+      });
+  var originalActionCodeSettings = {
+    'url': 'https://other.com/handleSignIn',
+    'dynamicLinkDomain': 'example.page.link',
+    'iOS': {
+      'bundleId': 'com.example.ios'
+    },
+    'android': {
+      'packageName': 'com.example.android',
+      'installApp': true,
+      'minimumVersion': '12'
+    }
+  };
+  var expectedActionCodeSettings = {
+    'url': 'https://other.com/handleSignIn',
+    'handleCodeInApp': true,
+    'dynamicLinkDomain': 'example.page.link',
+    'iOS': {
+      'bundleId': 'com.example.ios'
+    },
+    'android': {
+      'packageName': 'com.example.android',
+      'installApp': true,
+      'minimumVersion': '12'
+    }
+  };
+
+  config.update('signInOptions', [
+    {
+      'provider': 'password',
+      'signInMethod': firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD
+    }
+  ]);
+  assertFalse(config.isEmailPasswordSignInAllowed());
+  assertTrue(config.isEmailLinkSignInAllowed());
+  assertFalse(config.isEmailLinkSameDeviceForced());
+  assertObjectEquals(
+      {
+        'url': firebaseui.auth.util.getCurrentUrl(),
+        'handleCodeInApp': true
+      },
+      config.getEmailLinkSignInActionCodeSettings());
+
+  // Same device flow and explicit actionCodeUrl.
+  config.update('signInOptions', [
+    {
+      'provider': 'password',
+      'signInMethod': firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD,
+      'forceSameDevice': true,
+      'emailLinkSignIn': function() {
+        return originalActionCodeSettings;
+      }
+    }
+  ]);
+  assertFalse(config.isEmailPasswordSignInAllowed());
+  assertTrue(config.isEmailLinkSignInAllowed());
+  assertTrue(config.isEmailLinkSameDeviceForced());
+  assertObjectEquals(
+      expectedActionCodeSettings,
+      config.getEmailLinkSignInActionCodeSettings());
+
+  // Relative URL in actionCodeUrl.
+  config.update('signInOptions', [
+    {
+      'provider': 'password',
+      'signInMethod': firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD,
+      'forceSameDevice': true,
+      'emailLinkSignIn': function() {
+        return {
+          // Relative path will be resolved relative to current URL.
+          'url': '../completeSignIn?a=1#b=2'
+        };
+      }
+    }
+  ]);
+  assertFalse(config.isEmailPasswordSignInAllowed());
+  assertTrue(config.isEmailLinkSignInAllowed());
+  assertTrue(config.isEmailLinkSameDeviceForced());
+  assertObjectEquals(
+      {
+        'url': 'https://www.example.com/completeSignIn?a=1#b=2',
+        'handleCodeInApp': true
+      },
+      config.getEmailLinkSignInActionCodeSettings());
 }
 
 

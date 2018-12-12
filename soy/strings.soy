@@ -24,6 +24,26 @@
 {/template}
 
 
+/** Progress dialog message to show while verifying a phone number. */
+{template .dialogEmailLinkProcessing kind="text"}
+  {msg desc="Progress dialog message to show while verifying a phone number."}
+    Signing in...
+  {/msg}
+{/template}
+
+
+/**
+ * Progress dialog message to show that the phone authentication code was verified and the sign in
+ * attempt is about to complete.
+ */
+{template .dialogEmailLinkVerified kind="text"}
+  {msg desc="Progress dialog message to show that the phone authentication code was verified and the
+      sign in attempt is about to complete."}
+    Signed in!
+  {/msg}
+{/template}
+
+
 /** Progress dialog message to show after an SMS verification code is sent. */
 {template .dialogCodeSent kind="text"}
   {msg desc="Progress dialog message to show during a phone authentication request after the
@@ -182,6 +202,14 @@
 {/template}
 
 
+/** Error message for an email that does not match the current sign-in session. */
+{template .errorMismatchingEmail kind="text"}
+  {msg desc="Error message when the user enters an email that does not match the current session."}
+    The email provided does not match the current sign-in session.
+  {/msg}
+{/template}
+
+
 /** Translates an error code from Firebase Auth to a user-displayable string. */
 {template .error kind="text"}
   {@param code: string} /** The error code. */
@@ -232,6 +260,17 @@
       {msg desc="Error message when the SMS code sent to confirm a phone number has expired, and the
           user must request a new code."}
         This code is no longer valid
+      {/msg}
+    {case 'auth/expired-action-code'}
+      {msg desc="Error message when an email code for password reset, sign-in, email verification,
+          etc. has expired, and the user must request a new code."}
+        This code has expired.
+      {/msg}
+    {case 'auth/invalid-action-code'}
+      {msg desc="Error message when an email code for password reset, sign-in, email verification,
+          etc. is invalid."}
+        The action code is invalid. This can happen if the code is malformed, expired, or has
+        already been used.
       {/msg}
   {/switch}
 {/template}

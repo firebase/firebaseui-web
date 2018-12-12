@@ -242,6 +242,18 @@ firebaseui.auth.widget.dispatcher.doDispatchOperation_ = function(app, e) {
           firebaseui.auth.widget.dispatcher.getContinueCallback_());
       break;
 
+    case firebaseui.auth.widget.Config.WidgetMode.SIGN_IN:
+      // Complete signin.
+      firebaseui.auth.widget.handler.handle(
+          firebaseui.auth.widget.HandlerName.EMAIL_LINK_SIGN_IN_CALLBACK,
+          app,
+          container,
+          firebaseui.auth.util.getCurrentUrl());
+      // Clear URL from email sign-in related query parameters to avoid
+      // re-running on reload.
+      app.clearEmailSignInState();
+      break;
+
     case firebaseui.auth.widget.Config.WidgetMode.SELECT:
       // If redirect URL available, save in non-persistent storage.
       var redirectUrl = firebaseui.auth.widget.dispatcher.getRedirectUrl(app);

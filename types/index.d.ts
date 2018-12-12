@@ -39,8 +39,25 @@ interface FederatedSignInOption extends SignInOption {
   customParameters?: object;
 }
 
+interface ActionCodeSettings {
+  url: string;
+  handleCodeInApp?: boolean;
+  iOS?: {
+    bundleId: string;
+  };
+  android?: {
+    packageName: string;
+    installApp?: boolean;
+    minimumVersion?: string;
+  };
+  dynamicLinkDomain?: string;
+}
+
 interface EmailSignInOption extends SignInOption {
+  forceSameDevice?: boolean;
   requireDisplayName?: boolean;
+  signInMethod?: string;
+  emailLinkSignIn?(): ActionCodeSettings;
 }
 
 interface PhoneSignInOption extends SignInOption {

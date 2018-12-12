@@ -1,7 +1,10 @@
 <translationbundle lang="th">
+<translation id="1003362845472634045">ส่งอีเมลลงชื่อเข้าใช้แล้ว</translation>
 <translation id="10081113082271688">รหัสยืนยันไม่ถูกต้อง</translation>
 <translation id="1024070574104100559">เซนต์วินเซนต์</translation>
-<translation id="1100633043848982368">ส่งรหัสอีกครั้ง</translation>
+<translation id="1080228854514607739">ลิงก์อีเมลไม่ถูกต้องอาจเกิดขึ้นได้ หากลิงก์อีเมลหมดอายุหรือใช้ลงชื่อเข้าใช้ไปแล้ว โปรดเข้าสู่ระบบใหม่อีกครั้ง</translation>
+<translation id="1088824719285122027">มีการใช้หมายเลขโทรศัพท์นี้หลายครั้งเกินไป</translation>
+<translation id="1111168792069656940">โฟลว์ UI</translation>
 <translation id="1130401182255828006">ลัตเวีย</translation>
 <translation id="1133565039750742069">บันทึก</translation>
 <translation id="1139115784936170936">สิงคโปร์</translation>
@@ -48,6 +51,7 @@
 <translation id="2058731785647385204">มอนต์เซอร์รัต</translation>
 <translation id="2070709910567585968">รหัสผ่านที่รัดกุมต้องมีความยาวอย่างน้อย 6 อักขระและประกอบด้วยตัวอักษรปนกับตัวเลข</translation>
 <translation id="2074008538308369451">ข้อกำหนดในการให้บริการ</translation>
+<translation id="2089802663554186342">สิ้นสุดเซสชันแล้ว</translation>
 <translation id="2108717231438756650">สหราชอาณาจักร</translation>
 <translation id="2120419640334291526">หมู่เกาะเคย์แมน</translation>
 <translation id="2124070231227334770">มอลโดวา</translation>
@@ -63,7 +67,7 @@
 <translation id="227405248692044138">มอลตา</translation>
 <translation id="2285049245646335550">เคปเวิร์ด</translation>
 <translation id="2301396996587599046">มาซิโดเนีย</translation>
-<translation id="2312980523495377579">ชื่อและนามสกุล</translation>
+<translation id="2310948428656960769">ลงชื่อเข้าใช้แล้ว</translation>
 <translation id="2324942959480650701">ผู้เข้าร่วม</translation>
 <translation id="2331781584136059536">กานา</translation>
 <translation id="2338909515537249568">เบราว์เซอร์ที่คุณใช้อยู่ไม่รองรับพื้นที่เก็บข้อมูลเว็บ โปรดใช้เบราว์เซอร์อื่นแล้วลองอีกครั้ง</translation>
@@ -80,13 +84,17 @@
 <translation id="2561560038714758184">ความปลอดภัย</translation>
 <translation id="2561835578785502516">คำขอรีเซ็ตรหัสผ่านของคุณหมดอายุหรือมีการใช้งานลิงก์นี้แล้ว</translation>
 <translation id="2581514546525533462">ไม่รองรับรหัสประเทศที่ระบุ</translation>
+<translation id="2600950452451016107">ตรวจสอบว่าสะกดชื่ออีเมลถูกต้องแล้ว</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">กัมพูชา</translation>
 <translation id="2616650714309312732">โปรตุเกส</translation>
 <translation id="2619590123270932385">เฟรนช์เกียนา</translation>
 <translation id="2621854044487969847">หมู่เกาะบริติชเวอร์จิน</translation>
+<translation id="2623430226615357954">ปิด</translation>
 <translation id="2626214972556632989">ป้อนหมายเลขโทรศัพท์ที่ถูกต้อง</translation>
 <translation id="2652952163277051394">แอปนี้ไม่รองรับบัญชีประเภทนี้</translation>
+<translation id="2660271277401013037">รหัสการทำงานไม่ถูกต้อง เหตุการณ์นี้อาจเกิดขึ้นหากรหัสผิดรูปแบบ หมดอายุแล้ว หรือมีการใช้งานอยู่แล้ว</translation>
+<translation id="2665022736179407256">รหัสนี้หมดอายุแล้ว</translation>
 <translation id="2668496398414877352">โคโซโว</translation>
 <translation id="2674823936234616183">อุซเบกิสถาน</translation>
 <translation id="2696162410887720551">หมู่เกาะโอลันด์</translation>
@@ -94,7 +102,8 @@
 <translation id="2741235824871026219">ยืนยัน</translation>
 <translation id="2752984808025184019">แอฟริกาใต้</translation>
 <translation id="2760636260031093254">ป้อนที่อยู่อีเมลของคุณเพื่อดำเนินการต่อ</translation>
-<translation id="2814274627887910414">รูปแบบหมายเลขโทรศัพท์ไม่ถูกต้อง</translation>
+<translation id="2782685789517131804">อีเมลลงชื่อเข้าใช้พร้อมวิธีการเพิ่มเติมได้ส่งไปถึง <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> แล้ว โปรดตรวจสอบอีเมลเพื่อลงชื่อเข้าใช้</translation>
+<translation id="2824267666257947103">ป้อนรหัสผ่าน</translation>
 <translation id="2828509010894808185">สร้างบัญชี</translation>
 <translation id="2834770837848769530">อัฟกานิสถาน</translation>
 <translation id="2884525438023347369">การแตะ<ph name="BTN" />แสดงว่าคุณยอมรับ<ph name="TOS" /></translation>
@@ -125,6 +134,7 @@
 <translation id="3372254675985592547">คิวบา</translation>
 <translation id="3394519231857398207">ฝรั่งเศส</translation>
 <translation id="3398534025670554188">จีน</translation>
+<translation id="3409391354412142307">คุณได้ใช้ <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> ไปแล้ว คุณอาจเชื่อมบัญชี <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> เข้ากับ <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> ได้โดยการลงชื่อเข้าใช้ด้วยลิงก์อีเมลด้านล่าง</translation>
 <translation id="3413300222170818119">แซมเบีย</translation>
 <translation id="3429213469114503705">นครวาติกัน</translation>
 <translation id="3434621886769337032">แกมเบีย</translation>
@@ -156,9 +166,11 @@
 <translation id="3954166521214262397">รหัส 6 หลัก</translation>
 <translation id="3987987513436822097">คอโมโรส</translation>
 <translation id="3998148019488053682">ต้องระบุรหัสยืนยัน</translation>
-<translation id="4021489444336102711">ยืนยัน</translation>
+<translation id="4011940631682920330">รหัสการทำงานไม่ถูกต้อง เหตุการณ์นี้อาจเกิดขึ้นหากรหัสผิดรูปแบบ หมดอายุแล้ว หรือมีการใช้งานอยู่แล้ว</translation>
 <translation id="4022450612826261789">โคโซโว</translation>
+<translation id="4025579119565425333">ลองใช้วิธีแก้ไขทั่วไปเหล่านี้</translation>
 <translation id="4056653682525186486">ลงชื่อเข้าใช้ด้วย <ph name="XXX" /></translation>
+<translation id="4064888056475403511">ลองเปิดลิงก์โดยใช้อุปกรณ์หรือเบราว์เซอร์เดียวกันกับที่คุณใช้ในขั้นตอนการลงชื่อเข้าใช้</translation>
 <translation id="4066104405592701692">เอสโตเนีย</translation>
 <translation id="4090385155496329109">Facebook</translation>
 <translation id="4163133799286985193">อาร์เจนตินา</translation>
@@ -168,7 +180,7 @@
 <translation id="4242716276491763916">กินี โกนากรี</translation>
 <translation id="4248546264350694306">สวิตเซอร์แลนด์</translation>
 <translation id="4266056491449352939">อันดอร์รา</translation>
-<translation id="4325874534168320954">ไม่สามารถดำเนินการตามคำขอของคุณจนเสร็จสมบูรณ์ โปรดลองอีกครั้งในภายหลัง</translation>
+<translation id="4322167048992801895">มีปัญหาในการรับอีเมลใช่ไหม</translation>
 <translation id="4329551945958214898">ญี่ปุ่น</translation>
 <translation id="4331763189922924781">มอนเตเนโกร</translation>
 <translation id="4372962701784304822">โมซัมบิก</translation>
@@ -176,6 +188,7 @@
 <translation id="4386334763822785837">ตุรกี</translation>
 <translation id="4413304190485210039">ทาจิกิสถาน</translation>
 <translation id="4432634970196611353">ลาว</translation>
+<translation id="4440507149645221385">โทรศัพท์</translation>
 <translation id="4450602713221237198">ส่งอีกครั้ง</translation>
 <translation id="4498504413765490964">ฮอนดูรัส</translation>
 <translation id="4515732781724470190">ไนเจอร์</translation>
@@ -193,6 +206,7 @@
 <translation id="4775051289386800916">นิการากัว</translation>
 <translation id="4783400389150493171">บูร์กินาฟาโซ</translation>
 <translation id="4852256440857413490">รหัสไม่ถูกต้อง โปรดลองอีกครั้ง</translation>
+<translation id="4866990546854875813">เซสชันที่เชื่อมโยงกับคำขอลงชื่อเข้าใช้นี้หมดอายุหรือถูกล้างไปแล้ว</translation>
 <translation id="4871106926303956169">หมู่เกาะเติกส์และหมู่เกาะเคคอส</translation>
 <translation id="4877597386645466815">ส่งรหัสอีกครั้งใน <ph name="TIME_REMAINING" /></translation>
 <translation id="4915406999072654369">ตรวจสอบอีเมลของคุณ</translation>
@@ -201,6 +215,7 @@
 <translation id="4991626049082973728">เซอร์เบีย</translation>
 <translation id="4991892293325936102">เบลีซ</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" />สำหรับ <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /><ph name="END_PARAGRAPH" /></translation>
+<translation id="5059105734231232362">คุณต้องเปิดลิงก์บนอุปกรณ์หรือเบราว์เซอร์เดียวกันเพื่อเชื่อมบัญชี <ph name="IDP_DISPLAY_NAME" /> เข้ากับอีเมลนี้ได้อย่างสำเร็จ</translation>
 <translation id="5080084639513001393">สวีเดน</translation>
 <translation id="5080899604429810481">เซนต์มาร์ติน</translation>
 <translation id="5143657419516597442">เซนต์ลูเซีย</translation>
@@ -217,6 +232,7 @@
 <translation id="5437927869321223252">รหัสไม่ถูกต้อง โปรดลองอีกครั้ง</translation>
 <translation id="5444635161362535036">ลิกเตนสไตน์</translation>
 <translation id="5483706910421209104">แก้ไขชื่อ</translation>
+<translation id="5490651768073507833">ลองเปิดลิงก์โดยใช้อุปกรณ์หรือเบราว์เซอร์เดียวกันกับที่คุณใช้ในขั้นตอนการลงชื่อเข้าใช้</translation>
 <translation id="5524360735013196510">เนเธอร์แลนด์</translation>
 <translation id="5528189843379142883">อิเควทอเรียลกินี</translation>
 <translation id="5529036554155743092">ออสเตรเลีย</translation>
@@ -235,11 +251,14 @@
 <translation id="5642254620426025006">เกิดข้อผิดพลาดบางอย่าง โปรดลองอีกครั้ง</translation>
 <translation id="5649486931917149784">รหัสผ่าน</translation>
 <translation id="5664080586064341046">เซนต์คิตส์</translation>
+<translation id="5668881954117611594">กลับ</translation>
 <translation id="5699028034244995851">ป้อนที่อยู่อีเมลของคุณเพื่อดำเนินการต่อ</translation>
 <translation id="5701178667798108817">ยืนยันหมายเลขโทรศัพท์</translation>
 <translation id="5715637701147651513">ไลบีเรีย</translation>
+<translation id="5755179287528310939">มีบัญชีที่ใช้ที่อยู่อีเมลนี้อยู่แล้ว</translation>
 <translation id="5771034676910614239">มาดากัสการ์</translation>
 <translation id="5818634293686963864">คาซักสถาน</translation>
+<translation id="5829301468800336085">กำลังลงชื่อเข้าใช้...</translation>
 <translation id="5840765100196379855">ปานามา</translation>
 <translation id="5840803301882074743">ตองกา</translation>
 <translation id="5850752921356750845">วาลลิสและฟุตูนา</translation>
@@ -252,12 +271,11 @@
 <translation id="5989709845715452405">กู้คืนรหัสผ่าน</translation>
 <translation id="5995596766674622541">ป้อนรหัส 6 หลักที่เราส่งไปยัง <ph name="START_LINK" />&amp;lrm;<ph name="PHONE_NUMBER" /><ph name="END_LINK" /></translation>
 <translation id="6006148985615990975">รวันดา</translation>
-<translation id="6040759627067155517">อีเมล</translation>
+<translation id="6032262985756512833">ป้อนรหัส <ph name="STRING" /> หลักที่เราส่งให้คุณ</translation>
 <translation id="6044396095102058216">มีการใช้หมายเลขโทรศัพท์นี้หลายครั้งเกินไป</translation>
-<translation id="6091051069256411999">Twitter</translation>
-<translation id="61182948399263957">
-<ph name="P_START" />ลงชื่อเข้าใช้ <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
-<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
+<translation id="6083089720215618333">อีเมลที่ระบุไม่ตรงกับเซสชันลงชื่อเข้าใช้ปัจจุบัน</translation>
+<translation id="6113531938704280909">ยกเลิกการลิงก์บัญชี</translation>
+<translation id="6132202686885223981">ตรวจสอบว่ายังมีพื้นที่เหลือในกล่องจดหมายหรือไม่มีปัญหาอื่นๆ ที่เกี่ยวกับการตั้งค่ากล่องจดหมาย</translation>
 <translation id="6189573836664806798">ปารากวัย</translation>
 <translation id="6192657410634245771">แอลจีเรีย</translation>
 <translation id="6213969168046789596">คุณป้อนรหัสผ่านไม่ถูกต้องหลายครั้งเกินไป โปรดรอสักครู่แล้วลองอีกครั้ง</translation>
@@ -274,8 +292,10 @@
 <translation id="6381974517529371884">หมู่เกาะแฟโร</translation>
 <translation id="6443180961828792673">โคโซโว</translation>
 <translation id="6450170205342035038">บัลแกเรีย</translation>
-<translation id="6476467763326951353">ยืนยันอีเมลสำหรับ <ph name="APP_NAME" /> ของคุณ</translation>
-<translation id="6494734506607758748">ในการเปลี่ยนที่อยู่อีเมลที่เชื่อมโยงกับบัญชีของคุณ คุณจะต้องลงชื่อเข้าใช้อีกครั้ง</translation>
+<translation id="6470057025778734988">คุณจะไม่สามารถลงชื่อเข้าใช้ด้วยบัญชีของคุณได้อีก</translation>
+<translation id="6472297146424049005">ตรวจสอบการเชื่อมต่ออินเทอร์เน็ต</translation>
+<translation id="6483116480230343278">กำลังลงชื่อสมัครใช้…</translation>
+<translation id="6502083090260346644">เมื่อคุณแตะ <ph name="STRING" /> ระบบจะส่ง SMS ให้คุณ อาจมีค่าบริการรับส่งข้อความและค่าบริการอินเทอร์เน็ต</translation>
 <translation id="6508909904815637928">วานูอาตู</translation>
 <translation id="6520863029476703422">อเมริกันซามัว</translation>
 <translation id="6527597037551425211">บราซิล</translation>
@@ -286,6 +306,7 @@
 <translation id="6611519013130079637">เบลเยียม</translation>
 <translation id="6618737424980030515">จอร์เจีย</translation>
 <translation id="6623411438614744695">นามิเบีย</translation>
+<translation id="6653313985929651858">ส่งอีเมลลงชื่อเข้าใช้แล้ว\n</translation>
 <translation id="6655128609744896303">ส่งรหัสแล้ว</translation>
 <translation id="6683477520421532707">เรอูนียง</translation>
 <translation id="6683810982254923169">ลองรีเซ็ตรหัสผ่านอีกครั้ง</translation>
@@ -300,15 +321,18 @@
 <translation id="6769550797775698634">แคเมอรูน</translation>
 <translation id="6775190982418995854">สฟาลบาร์และยานไมเอน</translation>
 <translation id="6775835872637240659">ยูเครน</translation>
+<translation id="6779584651193963121">คุณอาจส่งอีเมลอีกครั้งได้ หากขั้นตอนข้างต้นไม่ช่วยแก้ไขปัญหา โปรดทราบว่าการกระทำดังกล่าวจะเป็นการปิดใช้งานลิงก์ในอีเมลเก่า</translation>
 <translation id="6782010235320729294">เติร์กเมนิสถาน</translation>
 <translation id="6821607741326790458">จาเมกา</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">ปากีสถาน</translation>
+<translation id="6918319418444979243">ส่งซ้ำ</translation>
 <translation id="6920167780806379235">ซีเรีย</translation>
 <translation id="6921505896641453739">อีเมล</translation>
 <translation id="6929813273561975780">ถัดไป</translation>
 <translation id="6951302238647056860">ไม่สามารถใช้รหัสนี้ได้อีก</translation>
 <translation id="6976724207780605356">ลงชื่อเข้าใช้ด้วย Facebook</translation>
+<translation id="6984204927251307445">ยืนยันอีเมล</translation>
 <translation id="6999773882165218263">ชื่อและนามสกุล</translation>
 <translation id="7012506961150923116">เกรนาดา</translation>
 <translation id="7024571478138322659">สะฮาราตะวันตก</translation>
@@ -325,6 +349,7 @@
 <translation id="7207660930894629055">ดำเนินการต่อด้วย <ph name="USER_EMAIL" /> ไหม</translation>
 <translation id="7223410082658239002">มัลดีฟส์</translation>
 <translation id="7254028881697834212">เซาตูเมและปรินซิปี</translation>
+<translation id="7268827299582726485">ยืนยันอีเมลเพื่อลงชื่อเข้าใช้ให้เสร็จสิ้น</translation>
 <translation id="7272145663101316762">สโลวีเนีย</translation>
 <translation id="7280309713358692490">เกาหลีใต้</translation>
 <translation id="7291567990403335374">เลโซโท</translation>
@@ -332,20 +357,22 @@
 <translation id="7320029088567935126">ลองยืนยันอีเมลของคุณอีกครั้ง</translation>
 <translation id="7331038350037712642">อาเซอร์ไบจาน</translation>
 <translation id="743266754881673808">Google</translation>
-<translation id="7453388767208874682">ต้องระบุหมายเลขโทรศัพท์</translation>
-<translation id="7482751672921205012">ลบบัญชีไหม</translation>
+<translation id="744894552966168763">ลิงก์อีเมลไม่ถูกต้อง</translation>
+<translation id="7477065998516229434">ข้อกำหนดในการให้บริการ</translation>
 <translation id="7493245640904888019">ยิลรอลตา</translation>
 <translation id="7510939244824757986">แทนซาเนีย</translation>
 <translation id="7526532581122816497">บัญชีที่ลิงก์</translation>
 <translation id="7560587702704358921">แซงปีแยร์และมีเกอลง</translation>
 <translation id="7569285452790032317">โซมาเลีย</translation>
 <translation id="7592224526951017144">เยอรมนี</translation>
+<translation id="7595933825828475368">มีปัญหาในการรับอีเมลใช่ไหม</translation>
 <translation id="7615083347713899917">คีร์กีซสถาน</translation>
 <translation id="7643408533407091568">คุณใช้ <ph name="EMAIL_ADDR" /> ในการลงชื่อเข้าใช้อยู่แล้ว โปรดป้อนรหัสผ่านสำหรับบัญชีดังกล่าว</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{รหัสผ่านไม่รัดกุมมากพอ ใช้อักขระอย่างน้อย <ph name="PH_1" /> ตัวและต้องเป็นตัวอักษรปนกับตัวเลข}other{รหัสผ่านไม่รัดกุมมากพอ ใช้อักขระอย่างน้อย <ph name="PH_1" /> ตัวและต้องเป็นตัวอักษรปนกับตัวเลข}}</translation>
 <translation id="7699755204074920022">ซิมบับเว</translation>
 <translation id="7756945311981296300">ทำตามวิธีการที่ส่งไปยัง <ph name="STRING" /> เพื่อกู้คืนรหัสผ่าน</translation>
 <translation id="7782885946428624225">เกิดปัญหาในการยืนยันหมายเลขโทรศัพท์ของคุณ</translation>
+<translation id="7796914496604415892">พบการใช้อุปกรณ์หรือเบราว์เซอร์ใหม่</translation>
 <translation id="7868540442111212282">สาธารณรัฐเช็ก</translation>
 <translation id="7874584525604421364">ตูวาลู</translation>
 <translation id="7926046652648626866">ลงชื่อเข้าใช้ด้วย GitHub</translation>
@@ -387,7 +414,8 @@
 <translation id="8448940737083561161">คิริบาตี</translation>
 <translation id="847294590390666986">ไต้หวัน</translation>
 <translation id="8477554788963470892">เซียร์ราลีโอน</translation>
-<translation id="850278101443955459">ลงชื่อเข้าใช้</translation>
+<translation id="8498398269542501379">ตรวจสอบว่าอีเมลดังกล่าวมีการทำเครื่องหมายว่าเป็นสแปมหรือผ่านการกรอง</translation>
+<translation id="8505200776212389923">กำลังยืนยัน…</translation>
 <translation id="8505941919386646914">มาร์ตินิก</translation>
 <translation id="8534746304953308378">โตโก</translation>
 <translation id="8572093925387077451">คุณมีบัญชีอยู่แล้ว</translation>
@@ -411,8 +439,9 @@
 <translation id="8869797682387766327">เกาะแมน</translation>
 <translation id="8893950153780006385">มาเลเซีย</translation>
 <translation id="8895840173743975193">หมู่เกาะโคโคส [คีลิง]</translation>
-<translation id="8955469172512804617">การแตะ<ph name="BTN" />แสดงว่าคุณยอมรับ<ph name="PP" /></translation>
-<translation id="8980953965669178372">เสร็จสิ้น</translation>
+<translation id="8916080112145514151">หากคุณยังต้องการเชื่อมต่อบัญชี <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> ให้เปิดลิงก์บนอุปกรณ์ที่เริ่มลงชื่อเข้าใช้ หรือแตะ "ต่อไป" เพื่อลงชื่อเข้าใช้บนอุปกรณ์นี้</translation>
+<translation id="8939353296336237380">แต่เดิมคุณตั้งใจที่จะเชื่อมต่อ <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> ไปยังบัญชีอีเมล แต่คุณได้เปิดลิงก์บนอุปกรณ์อื่นที่ไม่ได้ลงชื่อเข้าใช้</translation>
+<translation id="8971555482255213064">ส่งรหัสอีกครั้งใน 0:<ph name="PH_1" /></translation>
 <translation id="8984161590699631096">โมร็อกโก</translation>
 <translation id="900153878296575829">บังกลาเทศ</translation>
 <translation id="9022632332691561239">โทรศัพท์</translation>

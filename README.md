@@ -128,7 +128,7 @@ FirebaseUI includes the following flows:
 
 1. Interaction with Identity Providers such as Google and Facebook
 2. Phone number based authentication
-3. Sign-up and sign-in with email accounts
+3. Sign-up and sign-in with email accounts (email/password and email link)
 4. Password reset
 5. Prevention of account duplication (activated when
 *"One account per email address"* setting is enabled in the
@@ -154,6 +154,7 @@ provider you want to use in their own developer app settings. Please read the
 - [Twitter](https://firebase.google.com/docs/auth/web/twitter-login#before_you_begin)
 - [Github](https://firebase.google.com/docs/auth/web/github-auth#before_you_begin)
 - [Anonymous](https://firebase.google.com/docs/auth/web/anonymous-auth#before_you_begin)
+- [Email link](https://firebase.google.com/docs/auth/web/email-link-auth#before_you_begin)
 
 ### Starting the sign-in flow
 
@@ -224,8 +225,9 @@ for a more in-depth example, showcasing a Single Page Application mode.
 
 **This is only relevant for single page apps or apps where the sign-in UI is rendered conditionally (e.g. button click)**
 
-When redirecting back from accountchooser.com or Identity Providers like Google
-and Facebook, `start()` method needs to be called to finish the sign-in flow.
+When redirecting back from accountchooser.com, Identity Providers like Google
+and Facebook or email link sign-in, `start()` method needs to be called to
+finish the sign-in flow.
 If it requires a user interaction to start the initial sign-in process, you need to
 check if there is a pending redirect operation going on on page load to check whether `start()`
 needs to be called.
@@ -562,7 +564,93 @@ ui.start('#firebaseui-auth-container', {
 
 ### Configure Email Provider
 
-The `EmailAuthProvider` can be configured to require the user to enter a display name (defaults to `true`).
+You can configure either email/password or email/link sign-in with FirebaseUI by
+providing the relevant object in the configuration <code>signInOptions</code>
+array.
+
+<table>
+<thead>
+<tr>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>provider</td>
+<td>string</td>
+<td>Yes</td>
+<td>
+  For email sign-in, this should be
+  <code>firebase.auth.EmailAuthProvider.PROVIDER_ID</code>.
+</td>
+</tr>
+<tr>
+<td>requireDisplayName</td>
+<td>boolean</td>
+<td>No</td>
+<td>
+  Defines whether to require the user to provide a display name during email
+  and password sign up.
+  <br/>
+  <em>Default:</em> <code>true</code>
+</td>
+</tr>
+<tr>
+<td>signInMethod</td>
+<td>string</td>
+<td>No</td>
+<td>
+  Defines whether to use email and password or email link authentication.
+  This should be
+  <code>firebase.auth.EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD</code>
+  for email and password sign-in,
+  <code>firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD</code> for
+  email link authentication.
+  <br/>
+  <em>Default:</em>
+  <code>firebase.auth.EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD</code>
+</td>
+</tr>
+<tr>
+<td>forceSameDevice</td>
+<td>boolean</td>
+<td>No</td>
+<td>
+  Whether to force same device flow. If false, opening the link on a different
+  device will display a message instructing the user to open the link on the
+  same device or browser. This should be true when used with
+  anonymous user upgrade flows. This is only relevant to email link sign-in.
+  <em>Default:</em> <code>false</code>
+</td>
+</tr>
+<tr>
+<td>emailLinkSignIn</td>
+<td>function</td>
+<td>No</td>
+<td>
+  Defines the optional callback function to return
+  <code>firebase.auth.ActionCodeSettings</code> configuration to use when
+  sending the link. This provides the ability to specify how the link can be
+  handled, custom dynamic link, additional state in the deep link, etc.
+  When not provided, the current URL is used and a web only flow is triggered.
+  This is only relevant to email link sign-in.
+</td>
+</tr>
+</tbody>
+</table>
+
+#### Email and Password
+
+Email and password authentication is the default sign-in method for Email
+providers.
+The `EmailAuthProvider` with email and password can be configured to require the
+user to enter a display name (defaults to `true`).
 
 ```javascript
 ui.start('#firebaseui-auth-container', {
@@ -574,6 +662,128 @@ ui.start('#firebaseui-auth-container', {
   ]
 });
 ```
+
+#### Email Link Authentication
+
+FirebaseUI supports sign-in and sign-up with email links.
+Using email link sign-in with FirebaseUI comes with the following benefits:
+
+- End to end support for email link sign-in with only a few configuration lines.
+- Enforces security and privacy best practices.
+- Ability to force same device flows or allow cross device flows where a user
+  can start the flow on one device and end it on another. This also covers
+  Android where email link sign-in is also supported with
+  [FirebaseUI-android](https://github.com/firebase/firebaseui-android/) and
+  coming soon to [FirebaseUI-ios](https://github.com/firebase/firebaseui-ios/)
+  for iOS support.
+- Ability to switch to email link sign-in while continuing to sign-in existing
+  users with email and password.
+- Ability to support account linking, where an existing email link user signing
+  in with Facebook for the first time using the same email will have
+  both accounts merged so they can sign in with either (Facebook or email link)
+  going forward.
+- Ability to support anonymous user upgrade as long as the flow starts and ends
+  on the same device. Users opening the link on a different device will be
+  notified to open the link on the same device where the flow started.
+
+
+The sample code below demonstrates how to configure email link sign-in with
+FirebaseUI. In this example, cross device flows are allowed and additional state
+is passed in the URL, as well as the ability to configure the link to open via
+mobile application too.
+
+```javascript
+ui.start('#firebaseui-auth-container', {
+  signInOptions: [
+    {
+      provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      // Use email link authentication and do not require password.
+      // Note this setting affects new users only.
+      // For pre-existing users, they will still be prompted to provide their
+      // passwords on sign-in.
+      signInMethod: firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD,
+      // Allow the user the ability to complete sign-in cross device, including
+      // the mobile apps specified in the ActionCodeSettings object below.
+      forceSameDevice: false,
+      // Used to define the optional firebase.auth.ActionCodeSettings if
+      // additional state needs to be passed along request and whether to open
+      // the link in a mobile app if it is installed.
+      emailLinkSignIn: function() {
+        return {
+          // Additional state showPromo=1234 can be retrieved from URL on
+          // sign-in completion in signInSuccess callback by checking
+          // window.location.href.
+          url: 'https://www.example.com/completeSignIn?showPromo=1234',
+          // Custom FDL domain.
+          dynamicLinkDomain: 'example.page.link',
+          // Always true for email link sign-in.
+          handleCodeInApp: true,
+          // Whether to handle link in iOS app if installed.
+          iOS: {
+            bundleId: 'com.example.ios'
+          },
+          // Whether to handle link in Android app if opened in an Android
+          // device.
+          android: {
+            packageName: 'com.example.android',
+            installApp: true,
+            minimumVersion: '12'
+          }
+        };
+      }
+    }
+  ]
+});
+```
+
+When rendering the sign-in UI conditionally (relevant for single page apps),
+use `ui.isPendingRedirect()` to detect if the URL corresponds to a sign-in with
+email link and the UI needs to be rendered to complete sign-in.
+You can also just use
+[firebase.auth().isSignInWithEmailLink(window.location.href)](https://firebase.google.com/docs/reference/js/firebase.auth.Auth#isSignInWithEmailLink).
+
+```javascript
+// Is there an email link sign-in?
+if (ui.isPendingRedirect()) {
+  ui.start('#firebaseui-auth-container', uiConfig);
+}
+// This can also be done via:
+if ((firebase.auth().isSignInWithEmailLink(window.location.href)) {
+  ui.start('#firebaseui-auth-container', uiConfig);
+}
+```
+
+Additional state passed in the <code>url</code> can be retrieved on sign-in
+completion via the signInSuccess callbacks.
+
+```javascript
+// ...
+signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+  // If a user signed in with email link, ?showPromo=1234 can be obtained from
+  // window.location.href.
+  // ...
+  return false;
+}
+```
+
+FirebaseUI uses the
+[history API](https://developer.mozilla.org/en-US/docs/Web/API/History_API) to
+clear the URL from query parameters related to email link sign-in after the
+one-time code is processed. This prevents the user from re-triggering the
+sign-in completion flow again on page reload or if the user signs out and tries
+to sign in again in a single page application, etc.
+
+When same device flows are not enforced, a user going through account linking
+flow (eg. user signing in with Facebook with an email that belongs to an
+existing email link user) opening the link on a different device would be given
+the choice to continue sign-in with email link without merging the Facebook
+credential or instructed to open the link on the same device where the flow was
+initiated to successfully merge both accounts.
+
+You cannot use email/password and email/link sign-in at the same time. Only one
+mode can be configured at a time. However, if you previously signed up users
+with passwords. Switching to email/link will only apply to new users and
+existing password users will continue to be prompted for password on sign-in.
 
 ### Configure Phone Provider
 
@@ -866,6 +1076,13 @@ anonymousUser.linkWithCredential(permanentCredential);
 The user will retain the same `uid` at the end of the flow and all data keyed
 on that identifier would still be associated with that same user.
 
+Anonymous user upgrade is also supported by email link sign-in in FirebaseUI.
+An anonymous user triggering the email link option will, on return from clicking
+the link, upgrade to an email link user.
+However, `forceSameDevice` must be set to `true` in the email `signInOption`.
+This is to ensure that when the user clicks the link, it is opened on the same
+device/browser where the initial anonymous user exists.
+
 #### Handling anonymous user upgrade merge conflicts
 
 There are cases when a user, initially signed in anonymously, tries to
@@ -1136,6 +1353,8 @@ FirebaseUI sign-in widget supports Cordova applications. This includes
 email/password and all OAuth providers (Google, Facebook, Twitter and GitHub).
 Phone authentication is not supported due to the limitation in the underlying
 Firebase core SDK.
+Email link authentication is not yet supported due to the inability to detect
+the incoming link when the user clicks it to complete sign-in.
 
 ### Available providers
 

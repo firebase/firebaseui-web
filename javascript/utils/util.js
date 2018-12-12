@@ -20,6 +20,7 @@ goog.provide('firebaseui.auth.util');
 
 goog.require('goog.Promise');
 goog.require('goog.dom');
+goog.require('goog.dom.safe');
 goog.require('goog.events');
 goog.require('goog.events.EventType');
 goog.require('goog.html.SafeUrl');
@@ -38,7 +39,7 @@ goog.require('goog.window');
 firebaseui.auth.util.goTo = function(url, opt_win) {
   var win = opt_win || window;
   // Sanitize URL before redirect.
-  win.location.assign(firebaseui.auth.util.sanitizeUrl(url));
+  goog.dom.safe.assignLocation(win.location, url);
 };
 
 
@@ -92,7 +93,7 @@ firebaseui.auth.util.goBack = function() {
 firebaseui.auth.util.openerGoTo = function(url, opt_win) {
   var win = opt_win || window;
   // Sanitize URL before redirect.
-  win.opener.location.assign(firebaseui.auth.util.sanitizeUrl(url));
+  goog.dom.safe.assignLocation(win.opener.location, url);
 };
 
 
@@ -111,7 +112,6 @@ firebaseui.auth.util.hasOpener = function() {
     // protocol match between current page and opener.
     return !!(window.opener &&
         window.opener.location &&
-        window.opener.location.assign &&
         window.opener.location.hostname === window.location.hostname &&
         window.opener.location.protocol === window.location.protocol);
   } catch (e) {}
@@ -242,6 +242,22 @@ firebaseui.auth.util.getElement = function(element, opt_notFoundDesc) {
 
 
 /**
+ * Replaces the current history state with the provided one.
+ *
+ * @param {!Object} state The new history state.
+ * @param {string} title The associated document title.
+ * @param {string} url The associated URL.
+ */
+firebaseui.auth.util.replaceHistoryState = function(state, title, url) {
+  // History API should be supported by all browser in our support matrix.
+  if (goog.global.history &&
+      goog.global.history.replaceState) {
+    goog.global.history.replaceState(state, title, url);
+  }
+};
+
+
+/**
  * @return {string} The current location URL.
  */
 firebaseui.auth.util.getCurrentUrl = function() {
@@ -281,4 +297,23 @@ firebaseui.auth.util.onDomReady = function() {
     goog.events.unlisten(window, goog.events.EventType.LOAD, resolver);
     throw error;
   });
+};
+
+
+/**
+ * Generates a random alpha numeric string.
+ * @param {number} numOfChars The number of random characters within the string.
+ * @return {string} A string with a specific number of random characters.
+ */
+firebaseui.auth.util.generateRandomAlphaNumericString = function(numOfChars) {
+  var chars = [];
+  var allowedChars =
+      '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  while (numOfChars > 0) {
+    chars.push(
+        allowedChars.charAt(
+            Math.floor(Math.random() * allowedChars.length)));
+    numOfChars--;
+  }
+  return chars.join('');
 };

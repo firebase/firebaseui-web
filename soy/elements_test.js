@@ -276,9 +276,31 @@ function testPasswordRecoveryButton() {
 }
 
 
+function testTroubleGettingEmailButton() {
+  var root = goog.dom.getElement('trouble-getting-email-button');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.element.troubleGettingEmailButton);
+}
+
+
+function testResendEmailLinkButton() {
+  var root = goog.dom.getElement('resend-email-link-button');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.element.resendEmailLinkButton);
+}
+
+
 function testCancelButton() {
   var root = goog.dom.getElement('cancel-button');
   goog.soy.renderElement(root, firebaseui.auth.soy2.element.cancelButton);
+}
+
+
+function testCancelButton_customLabel() {
+  var root = goog.dom.getElement('cancel-button-custom-label');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.element.cancelButton,
+      {'label': 'back'});
 }
 
 

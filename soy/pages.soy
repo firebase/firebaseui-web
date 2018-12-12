@@ -233,6 +233,252 @@
 
 
 /**
+ * Renders a blank callback page which simply shows an activity loading indicator when calling a
+ * remote API so that the user won't be confused by the blank page.
+ */
+{template .blank}
+  <div class="firebaseui-container firebaseui-id-page-blank firebaseui-use-spinner">
+  </div>
+{/template}
+
+
+/**
+ * Renders an email link sign-in sent page.
+ */
+{template .emailLinkSignInSent}
+  /** The user's email. */
+  {@param email:string}
+  <div class="mdl-card mdl-shadow--2dp firebaseui-container
+              firebaseui-id-page-email-link-sign-in-sent">
+    <form onsubmit="return false;">
+      <div class="firebaseui-card-header">
+        <h1 class="firebaseui-title">
+          {msg desc="Header of a email link sign-in sent page."}Sign-in email sent{/msg}
+        </h1>
+      </div>
+      <div class="firebaseui-card-content">
+        <div class="firebaseui-email-sent"></div>
+        <p class="firebaseui-text">
+          {msg desc="Message that a link was sent to user's email to complete sign-in."}
+            A sign-in email with additional instructions was sent to <strong>{$email}</strong>.
+            Check your email to complete sign-in.
+          {/msg}
+        </p>
+      </div>
+      <div class="firebaseui-card-actions">
+        <div class="firebaseui-form-links">
+          {call firebaseui.auth.soy2.element.troubleGettingEmailButton /}
+        </div>
+        <div class="firebaseui-form-actions">
+          {call firebaseui.auth.soy2.element.cancelButton}
+            {param label kind="text"}
+              {msg desc="Label for the button to go back to the previous page."}
+                Back
+              {/msg}
+            {/param}
+          {/call}
+        </div>
+      </div>
+      <div class="firebaseui-card-footer">
+        {call firebaseui.auth.soy2.element.tosPpLink data="all" /}
+      </div>
+    </form>
+  </div>
+{/template}
+
+
+/**
+ * Renders an email not received troubleshooting page.
+ */
+{template .emailNotReceived}
+  <div class="mdl-card mdl-shadow--2dp firebaseui-container
+              firebaseui-id-page-email-not-received">
+    <form onsubmit="return false;">
+      <div class="firebaseui-card-header">
+        <h1 class="firebaseui-title">
+          {msg desc="Header for email not received troubleshooting page."}
+            Trouble getting email?
+          {/msg}
+        </h1>
+      </div>
+      <div class="firebaseui-card-content">
+        <p class="firebaseui-text">
+          {msg desc="Introduction to common fixes when a user fails to receive an email."}
+            Try these common fixes:
+          {/msg}
+          <ul>
+            <li>
+              {msg desc="Some common reason why an email was not received."}
+                Check if the email was marked as spam or filtered.
+              {/msg}
+            </li>
+            <li>
+              {msg desc="Some common reason why an email was not received."}
+                Check your internet connection.
+              {/msg}
+            </li>
+            <li>
+              {msg desc="Some common reason why an email was not received."}
+                Check that you did not misspell your email.
+              {/msg}
+            </li>
+            <li>
+              {msg desc="Some common reason why an email was not received."}
+                Check that your inbox space is not running out or other inbox settings related
+                issues.
+              {/msg}
+            </li>
+          </ul>
+        </p>
+        <p class="firebaseui-text">
+          {msg desc="Message that a user can resend an email but that the new email will expire any
+              sign-in codes sent in the previous email."}
+            If the steps above didn't work, you can resend the email. Note that this will
+            deactivate the link in the older email.
+          {/msg}
+        </p>
+      </div>
+      <div class="firebaseui-card-actions">
+        <div class="firebaseui-form-links">
+          {call firebaseui.auth.soy2.element.resendEmailLinkButton /}
+        </div>
+        <div class="firebaseui-form-actions">
+          {call firebaseui.auth.soy2.element.cancelButton}
+            {param label kind="text"}
+              {msg desc="Label for the button to go back to the previous page."}
+                Back
+              {/msg}
+            {/param}
+          {/call}
+        </div>
+      </div>
+      <div class="firebaseui-card-footer">
+        {call firebaseui.auth.soy2.element.tosPpLink data="all" /}
+      </div>
+    </form>
+  </div>
+{/template}
+
+
+/**
+ * Renders an email link sign-in confirmation page. User would need to confirm their email before
+ * completing sign-in.
+ */
+{template .emailLinkSignInConfirmation}
+  /** The user's email. */
+  {@param? email:string}
+  <div class="mdl-card mdl-shadow--2dp firebaseui-container
+              firebaseui-id-page-email-link-sign-in-confirmation">
+    <form onsubmit="return false;">
+      <div class="firebaseui-card-header">
+        <h1 class="firebaseui-title">
+          {msg desc="Header of a email link sign-in confirmation page."}Confirm email{/msg}
+        </h1>
+      </div>
+      <div class="firebaseui-card-content">
+        <p class="firebaseui-text">
+          {msg desc="Header of a page displayed when the user is required to provide their email
+              before completing sign-in."}
+            Confirm your email to complete sign in
+          {/msg}
+        </p>
+        <div class="firebaseui-relative-wrapper">
+          {call firebaseui.auth.soy2.element.email data="all" /}
+        </div>
+      </div>
+      <div class="firebaseui-card-actions">
+        <div class="firebaseui-form-actions">
+          {call firebaseui.auth.soy2.element.cancelButton /}
+          {call firebaseui.auth.soy2.element.submitButton /}
+        </div>
+      </div>
+      <div class="firebaseui-card-footer">
+        {call firebaseui.auth.soy2.element.tosPpLink data="all" /}
+      </div>
+    </form>
+  </div>
+{/template}
+
+
+/**
+ * Renders a notice page that the flow was opened on a different device.
+ */
+{template .differentDeviceError}
+  <div class="mdl-card mdl-shadow--2dp firebaseui-container
+              firebaseui-id-page-different-device-error">
+    <div class="firebaseui-card-header">
+      <h1 class="firebaseui-title">
+        {msg desc="Header of a notice page when a user tries to complete sign-in on a device or
+            browser different from the one they started the sign-in flow with."}
+          New device or browser detected
+        {/msg}
+      </h1>
+    </div>
+    <div class="firebaseui-card-content">
+      <p class="firebaseui-text">
+        {msg desc="Header of a page displayed when the user opens the sign-in email link on a
+            different device or browser. The user is expected to open the email link on the same
+            device they started the flow with."}
+          Try opening the link using the same device or browser where you started the sign-in
+          process.
+        {/msg}
+      </p>
+    </div>
+    <div class="firebaseui-card-actions">
+      <div class="firebaseui-form-actions">
+        {call firebaseui.auth.soy2.element.cancelButton}
+          {param label kind="text"}
+            {msg desc="Label for the button to go back to the previous page."}
+              Dismiss
+            {/msg}
+          {/param}
+        {/call}
+      </div>
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Renders a notice page when the email link anonymous upgrade flow is finished with a different
+ * anonymous user being found.
+ */
+{template .anonymousUserMismatch}
+  <div class="mdl-card mdl-shadow--2dp firebaseui-container
+              firebaseui-id-page-anonymous-user-mismatch">
+    <div class="firebaseui-card-header">
+      <h1 class="firebaseui-title">
+        {msg desc="Header of a notice page when a user session is expired or cleared."}
+          Session ended
+        {/msg}
+      </h1>
+    </div>
+    <div class="firebaseui-card-content">
+      <p class="firebaseui-text">
+        {msg desc="Message that explains to the user that their sign-in session was cleared or
+            expired. This may happen when an anonymous user tries to upgrade to an email user but
+            on sign-in completion, the underlying anonymous user is discovered to no longer be
+            available."}
+          The session associated with this sign-in request has either expired or was cleared.
+        {/msg}
+      </p>
+    </div>
+    <div class="firebaseui-card-actions">
+      <div class="firebaseui-form-actions">
+        {call firebaseui.auth.soy2.element.cancelButton}
+          {param label kind="text"}
+            {msg desc="Label for the button to go back to the previous page."}
+              Dismiss
+            {/msg}
+          {/param}
+        {/call}
+      </div>
+    </div>
+  </div>
+{/template}
+
+
+/**
  * Renders an account linking page for a password account.
  */
 {template .passwordLinking}
@@ -264,6 +510,105 @@
         </div>
         <div class="firebaseui-form-actions">
           {call firebaseui.auth.soy2.element.signInButton /}
+        </div>
+      </div>
+      <div class="firebaseui-card-footer">
+        {call firebaseui.auth.soy2.element.tosPpLink data="all" /}
+      </div>
+    </form>
+  </div>
+{/template}
+
+
+/**
+ * Renders an account linking page for an email link account.
+ */
+{template .emailLinkSignInLinking}
+  {@param email: string}
+  {@param providerId: string}
+  {let $idpDisplayName kind="text"}{call firebaseui.auth.soy2.element.idpName data="all" /}{/let}
+  <div class="mdl-card mdl-shadow--2dp firebaseui-container
+              firebaseui-id-page-email-link-sign-in-linking">
+    <form onsubmit="return false;">
+      <div class="firebaseui-card-header">
+        <h1 class="firebaseui-title">{msg desc="Header of a sign-in page."}Sign in{/msg}</h1>
+      </div>
+      <div class="firebaseui-card-content">
+        <h2 class="firebaseui-subtitle">
+          {msg desc="Header of a page displayed when the user has signed in before with the provided
+              email."}
+            You already have an account
+          {/msg}
+        </h2>
+        <p class="firebaseui-text firebaseui-text-justify">
+          {msg desc="Message that reminds the user that they previously used a different method of
+              sign-in for the current email. The user is expected to sign in with their existing
+              sign-in provider and then connect the new provider to the same account. For example,
+              a user could have signed in with email link but is now trying to sign in with
+              Facebook."}
+            You’ve already used <strong>{$email}</strong>. You can connect your{sp}
+            <strong>{$idpDisplayName}</strong> account with <strong>{$email}</strong> by signing in
+            with email link below.
+          {/msg}
+        <p class="firebaseui-text firebaseui-text-justify">
+          {msg desc="Message that notifies the user that in order to connect their current sign-in
+              provider (Facebook, Twitter, etc) with their email account, they need to open a link
+              that was emailed to them on the same current device or browser."}
+            For this flow to successfully connect your {$idpDisplayName} account with this email,
+            you have to open the link on the same device or browser.
+          {/msg}
+        </p>
+      </div>
+      <div class="firebaseui-card-actions">
+        <div class="firebaseui-form-actions">
+          {call firebaseui.auth.soy2.element.signInButton /}
+        </div>
+      </div>
+      <div class="firebaseui-card-footer">
+        {call firebaseui.auth.soy2.element.tosPpLink data="all" /}
+      </div>
+    </form>
+  </div>
+{/template}
+
+
+/**
+ * Renders an account linking page for an email link account.
+ */
+{template .emailLinkSignInLinkingDifferentDevice}
+  {@param providerId: string}
+  {let $idpDisplayName kind="text"}{call firebaseui.auth.soy2.element.idpName data="all" /}{/let}
+  <div class="mdl-card mdl-shadow--2dp firebaseui-container
+              firebaseui-id-page-email-link-sign-in-linking-different-device">
+    <form onsubmit="return false;">
+      <div class="firebaseui-card-header">
+        <h1 class="firebaseui-title">{msg desc="Header of a sign-in page."}Sign in{/msg}</h1>
+      </div>
+      <div class="firebaseui-card-content">
+        <p class="firebaseui-text firebaseui-text-justify">
+          {msg desc="Message that explains to the user that the email link they clicked to sign in
+              with was opened on a different device where they are not signed in with an identity
+              provider such as Facebook, Twitter, etc. This makes it not possible to connect that
+              identity provider to the same email account unless the user opens the link on the same
+              device where they started the sign-in flow with."}
+            You originally intended to connect <strong>{$idpDisplayName}</strong> to your email
+            account but have opened the link on a different device where you are not signed in.
+          {/msg}
+        </p>
+        <p class="firebaseui-text firebaseui-text-justify">
+          {msg desc="Message that gives the user two choices: connect an identity provider such as
+              Facebook, Twitter, etc to their email account by opening a sign-in link on the same
+              device they started the sign-in flow with or complete sign-in without connecting
+              that provider."}
+            If you still want to connect your <strong>{$idpDisplayName}</strong> account, open
+            the link on the same device where you started sign-in. Otherwise, tap Continue to
+            sign-in on this device.
+          {/msg}
+        </p>
+      </div>
+      <div class="firebaseui-card-actions">
+        <div class="firebaseui-form-actions">
+          {call firebaseui.auth.soy2.element.continueButton /}
         </div>
       </div>
       <div class="firebaseui-card-footer">

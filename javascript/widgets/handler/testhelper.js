@@ -22,14 +22,19 @@ goog.provide('firebaseui.auth.widget.handler.testHelper');
 goog.setTestOnly('firebaseui.auth.widget.handler.testHelper');
 
 goog.require('firebaseui.auth.Account');
+goog.require('firebaseui.auth.ActionCodeUrlBuilder');
 goog.require('firebaseui.auth.AuthUI');
 goog.require('firebaseui.auth.CredentialHelper');
+goog.require('firebaseui.auth.EventDispatcher');
 goog.require('firebaseui.auth.OAuthResponse');
+goog.require('firebaseui.auth.PendingEmailCredential');
 goog.require('firebaseui.auth.callback.signInSuccess');
 goog.require('firebaseui.auth.idp');
 goog.require('firebaseui.auth.soy2.strings');
+goog.require('firebaseui.auth.storage');
 goog.require('firebaseui.auth.testing.FakeAcClient');
 goog.require('firebaseui.auth.testing.FakeAppClient');
+goog.require('firebaseui.auth.testing.FakeCookieStorage');
 goog.require('firebaseui.auth.testing.FakeUtil');
 goog.require('firebaseui.auth.testing.RecaptchaVerifier');
 goog.require('firebaseui.auth.ui.page.Base');
@@ -41,6 +46,7 @@ goog.require('goog.dom');
 goog.require('goog.dom.TagName');
 goog.require('goog.dom.classlist');
 goog.require('goog.dom.forms');
+goog.require('goog.events');
 goog.require('goog.events.KeyCodes');
 goog.require('goog.testing.MockClock');
 goog.require('goog.testing.PropertyReplacer');
@@ -138,6 +144,20 @@ var signInOptionsWithScopes = [
   {'provider': 'facebook.com', 'scopes': ['fb1', 'fb2']}, 'password'
 ];
 
+var emailLinkSignInOptions = [
+  {
+    'provider': 'password',
+    'signInMethod': 'emailLink',
+    'emailLinkSignIn': function() {
+      return {
+        'url': 'https://www.example.com/completeSignIn',
+        'handleCodeInApp': true
+      };
+    }
+  },
+  'google.com'
+];
+
 var testStubs = new goog.testing.PropertyReplacer();
 var mockClock = new goog.testing.MockClock();
 
@@ -156,6 +176,7 @@ var getApp;
 var testComponent;
 
 var lastRevertLanguageCodeCall;
+var pageEventDispatcher;
 
 
 function setUp() {
@@ -234,7 +255,17 @@ function setUp() {
       firebase['auth']['EmailAuthProvider'] || {};
   firebase['auth']['EmailAuthProvider']['credential'] = function(
       email, password) {
-    return {'email': email, 'password': password, 'providerId': 'password'};
+    return {
+      'email': email, 'password': password, 'providerId': 'password',
+      'signInMethod': 'password'
+    };
+  };
+  firebase['auth']['EmailAuthProvider']['credentialWithLink'] = function(
+      email, link) {
+    return {
+      'email': email, 'link': link, 'providerId': 'password',
+      'signInMethod': 'emailLink'
+    };
   };
   // Simulate Google Auth Provider credential.
   firebase['auth']['GoogleAuthProvider'] =
@@ -311,6 +342,8 @@ function setUp() {
     },
 
   });
+  // Install mock cookie storage.
+  testCookieStorage = new firebaseui.auth.testing.FakeCookieStorage().install();
   window.localStorage.clear();
   window.sessionStorage.clear();
   // Remove any grecaptcha mocks.
@@ -332,6 +365,8 @@ function setUp() {
       function() {
         lastRevertLanguageCodeCall = this;
       });
+  pageEventDispatcher = new firebaseui.auth.EventDispatcher(container);
+  pageEventDispatcher.register();
 }
 
 
@@ -358,6 +393,28 @@ function tearDown() {
   }
   // Reset AuthUI internals.
   firebaseui.auth.AuthUI.resetAllInternals();
+  pageEventDispatcher.unregister();
+}
+
+
+/**
+ * @return {!goog.Promise<void>} A promise that resolves on next page change.
+ */
+function waitForPageChange() {
+  return new goog.Promise(function(resolve, reject) {
+    goog.events.listenOnce(
+        pageEventDispatcher,
+        'pageEnter',
+        function(event) {
+          resolve();
+        });
+    goog.events.listenOnce(
+        pageEventDispatcher,
+        'pageExit',
+        function(event) {
+          resolve();
+        });
+  });
 }
 
 
@@ -384,6 +441,85 @@ function simulateCordovaEnvironment() {
       function() {
         return 'file:';
       });
+}
+
+
+/**
+ * Build action code settings.
+ * @param {boolean=} opt_forceSameDevice Whether to force same device.
+ * @param {?string=} opt_providerId The provider ID for linking flow.
+ * @param {?string=} opt_anonymousUid The anonymous user's uid.
+ * @return {!firebase.auth.ActionCodeSettings} The action code settings.
+ */
+function buildActionCodeSettings(
+    opt_forceSameDevice, opt_providerId, opt_anonymousUid) {
+  testStubs.replace(
+      firebaseui.auth.util,
+      'generateRandomAlphaNumericString',
+      function(size) {
+        assertEquals(32, size);
+        return 'SESSIONID';
+      });
+  var builder = new firebaseui.auth.ActionCodeUrlBuilder(
+      'https://www.example.com/completeSignIn');
+  builder.setSessionId('SESSIONID');
+  if (opt_providerId) {
+    builder.setProviderId(opt_providerId);
+  }
+  builder.setForceSameDevice(opt_forceSameDevice || false);
+  if (opt_anonymousUid) {
+    builder.setAnonymousUid(opt_anonymousUid);
+  }
+  return {
+    'url': builder.toString(),
+    'handleCodeInApp': true
+  };
+}
+
+
+/**
+ * Generates the email link sign-in URL with the requested parameters.
+ * @param {string} sessionId The session identifier.
+ * @param {?string=} opt_uid The optional anonymous user ID to be upgraded.
+ * @param {?string=} opt_providerId The optional provider ID to link.
+ * @param {boolean=} opt_forceSameDevice Whether to force same device flow.
+ * @return {string} The generated email action link.
+ */
+function generateSignInLink(
+    sessionId, opt_uid, opt_providerId, opt_forceSameDevice) {
+  var url = 'https://www.example.com/signIn?mode=' +
+      'signIn&apiKey=API_KEY&oobCode=ACTION_CODE';
+  var builder = new firebaseui.auth.ActionCodeUrlBuilder(url);
+  builder.setSessionId(sessionId);
+  if (opt_uid) {
+    builder.setAnonymousUid(opt_uid);
+  }
+  if (opt_providerId) {
+    builder.setProviderId(opt_providerId);
+  }
+  builder.setForceSameDevice(!!opt_forceSameDevice);
+  return builder.toString();
+}
+
+
+/**
+ * Creates and saves the credentials, necessary for the view to load.
+ * @param {string} sessionId The session identifier.
+ * @param {?string=} opt_email The optional associated email to save in storage.
+ * @param {?firebase.auth.AuthCredential=} opt_credential The optional
+ *     credential to save in storage.
+ */
+function setupEmailLinkSignIn(sessionId, opt_email, opt_credential) {
+  if (opt_email) {
+    firebaseui.auth.storage.setEmailForSignIn(
+        sessionId, opt_email, app.getAppId());
+  }
+  if (opt_email && opt_credential) {
+    var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
+        opt_email, opt_credential);
+    firebaseui.auth.storage.setEncryptedPendingCredential(
+        sessionId, pendingEmailCred, app.getAppId());
+  }
 }
 
 
@@ -457,6 +593,26 @@ function clickChangePhoneNumberLink() {
  */
 function clickResendLink() {
   var el = goog.dom.getElementByClass('firebaseui-id-resend-link', container);
+  goog.testing.events.fireClickSequence(el);
+}
+
+
+/**
+ * Triggers a click on the resend email for sign-in link.
+ */
+function clickResendEmailLink() {
+  var el = goog.dom.getElementByClass(
+      'firebaseui-id-resend-email-link', container);
+  goog.testing.events.fireClickSequence(el);
+}
+
+
+/**
+ * Triggers a click on the trouble getting email link.
+ */
+function clickTroubleGettingEmailLink() {
+  var el = goog.dom.getElementByClass(
+      'firebaseui-id-trouble-getting-email-link', container);
   goog.testing.events.fireClickSequence(el);
 }
 
@@ -798,6 +954,31 @@ function assertCallbackPage() {
 }
 
 
+/** Asserts that a blank page is displayed. */
+function assertBlankPage() {
+  assertPage_(container, 'firebaseui-id-page-blank');
+}
+
+
+/** Asserts that email link sign-in confirmation is displayed. */
+function assertEmailLinkSignInConfirmationPage() {
+  assertPage_(container, 'firebaseui-id-page-email-link-sign-in-confirmation');
+}
+
+
+/**
+ * Asserts that email link for new device linking page is rendered with expected
+ * provider name.
+ * @param {string} providerName The provider name to check.
+ */
+function assertEmailLinkSignInLinkingDifferentDevicePage(providerName) {
+  assertPage_(
+      container,
+      'firebaseui-id-page-email-link-sign-in-linking-different-device');
+  assertPageContainsText(providerName);
+}
+
+
 /**
  * Asserts the page contains the text given.
  * @param {string} text Text that should be present in the page.
@@ -1007,6 +1188,46 @@ function assertPhoneSignInStartPage() {
 /** Asserts that the phone sign in code entry page is rendered. */
 function assertPhoneSignInFinishPage() {
   assertPage_(container, 'firebaseui-id-page-phone-sign-in-finish');
+}
+
+
+/** Asserts that the email link sign in sent page is rendered. */
+function assertEmailLinkSignInSentPage() {
+  assertPage_(container, 'firebaseui-id-page-email-link-sign-in-sent');
+}
+
+
+/**
+ * Asserts that the email link sign in linking page is rendered.
+ * @param {string=} opt_email Optional email to check.
+ * @param {string=} opt_providerName Optional provider name to check.
+ */
+function assertEmailLinkSignInLinkingPage(opt_email, opt_providerName) {
+  assertPage_(container, 'firebaseui-id-page-email-link-sign-in-linking');
+  if (opt_email) {
+    assertPageContainsText(opt_email);
+  }
+  if (opt_providerName) {
+    assertPageContainsText(opt_providerName);
+  }
+}
+
+
+/** Asserts that the email not received page is rendered. */
+function assertEmailNotReceivedPage() {
+  assertPage_(container, 'firebaseui-id-page-email-not-received');
+}
+
+
+/** Asserts that the different device error page is rendered. */
+function assertDifferentDeviceErrorPage() {
+  assertPage_(container, 'firebaseui-id-page-different-device-error');
+}
+
+
+/** Asserts that the anonymous user mismatch page is rendered. */
+function assertAnonymousUserMismatchPage() {
+  assertPage_(container, 'firebaseui-id-page-anonymous-user-mismatch');
 }
 
 

@@ -180,6 +180,65 @@ function testPasswordSignUp_fullMessage() {
 }
 
 
+function testBlank() {
+  var root = goog.dom.getElement('blank');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.blank, {}, IJ_DATA_);
+}
+
+function testBlank_busy() {
+  var root = goog.dom.getElement('blank-busy');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.blank, {}, IJ_DATA_);
+  var busy = goog.soy.renderAsElement(
+      firebaseui.auth.soy2.element.busyIndicator, {useSpinner: true});
+  root.children[0].appendChild(busy);
+}
+
+
+function testEmailLinkSignInSent() {
+  var root = goog.dom.getElement('email-link-sign-in-sent');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.emailLinkSignInSent, {
+        'email': 'user@example.com'
+      },
+      IJ_DATA_);
+}
+
+
+function testEmailNotReceived() {
+  var root = goog.dom.getElement('email-not-received');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.emailNotReceived, {},
+      IJ_DATA_);
+}
+
+
+function testEmailLinkSignInConfirmation() {
+  var root = goog.dom.getElement('email-link-sign-in-confirmation');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.emailLinkSignInConfirmation,
+      {'email': 'user@example.com'},
+      IJ_DATA_);
+}
+
+
+function testDifferentDeviceError() {
+  var root = goog.dom.getElement('different-device-error');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.differentDeviceError, {},
+      IJ_DATA_);
+}
+
+
+function testAnonymousUserMismatch() {
+  var root = goog.dom.getElement('anonymous-user-mismatch');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.anonymousUserMismatch, {},
+      IJ_DATA_);
+}
+
+
 function testPasswordRecovery() {
   var root = goog.dom.getElement('password-recovery');
   goog.soy.renderElement(
@@ -217,6 +276,27 @@ function testPasswordLinking() {
         'email': 'user@example.com',
         'siteName': 'Example Site',
         'providerId': 'google.com'
+      },
+      IJ_DATA_);
+}
+
+
+function testEmailLinkSignInLinking() {
+  var root = goog.dom.getElement('email-link-sign-in-linking');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.emailLinkSignInLinking, {
+        'email': 'user@example.com',
+        'providerId': 'facebook.com'
+      },
+      IJ_DATA_);
+}
+
+
+function testEmailLinkSignInLinkingDifferentDevice() {
+  var root = goog.dom.getElement('email-link-sign-in-linking-different-device');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.emailLinkSignInLinkingDifferentDevice, {
+        'providerId': 'facebook.com'
       },
       IJ_DATA_);
 }

@@ -1,7 +1,10 @@
 <translationbundle lang="id">
+<translation id="1003362845472634045">Email login terkirim</translation>
 <translation id="10081113082271688">Kode verifikasi salah</translation>
 <translation id="1024070574104100559">Saint Vincent</translation>
-<translation id="1100633043848982368">Kirim Ulang Kode</translation>
+<translation id="1080228854514607739">Link email tidak valid. Hal ini bisa terjadi jika link email sudah tidak berlaku lagi atau telah digunakan untuk login. Silakan ulangi alur login.</translation>
+<translation id="1088824719285122027">Nomor telepon ini sudah terlalu sering digunakan</translation>
+<translation id="1111168792069656940">ui_flow</translation>
 <translation id="1130401182255828006">Latvia</translation>
 <translation id="1133565039750742069">Simpan</translation>
 <translation id="1139115784936170936">Singapura</translation>
@@ -48,6 +51,7 @@
 <translation id="2058731785647385204">Montserrat</translation>
 <translation id="2070709910567585968">Sandi yang kuat harus memiliki minimal 6 karakter dan merupakan kombinasi huruf dan angka</translation>
 <translation id="2074008538308369451">Persyaratan Layanan</translation>
+<translation id="2089802663554186342">Sesi diakhiri</translation>
 <translation id="2108717231438756650">Inggris Raya</translation>
 <translation id="2120419640334291526">Kepulauan Cayman</translation>
 <translation id="2124070231227334770">Moldova</translation>
@@ -63,7 +67,7 @@
 <translation id="227405248692044138">Malta</translation>
 <translation id="2285049245646335550">Tanjung Verde</translation>
 <translation id="2301396996587599046">Makedonia</translation>
-<translation id="2312980523495377579">Nama depan &amp; belakang</translation>
+<translation id="2310948428656960769">Telah login</translation>
 <translation id="2324942959480650701">Tamu</translation>
 <translation id="2331781584136059536">Ghana</translation>
 <translation id="2338909515537249568">Browser yang Anda gunakan tidak mendukung Penyimpanan Web. Coba lagi dengan browser berbeda.</translation>
@@ -80,13 +84,17 @@
 <translation id="2561560038714758184">Keamanan</translation>
 <translation id="2561835578785502516">Permintaan untuk menyetel ulang sandi sudah tidak berlaku atau link telah digunakan</translation>
 <translation id="2581514546525533462">Kode negara yang dimasukkan tidak didukung.</translation>
+<translation id="2600950452451016107">Pastikan Anda tidak salah mengeja email Anda.</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">Kamboja</translation>
 <translation id="2616650714309312732">Portugal</translation>
 <translation id="2619590123270932385">Guyana Perancis</translation>
 <translation id="2621854044487969847">Kepulauan Virgin Inggris</translation>
+<translation id="2623430226615357954">Tutup</translation>
 <translation id="2626214972556632989">Masukan nomor telepon yang valid</translation>
 <translation id="2652952163277051394">Jenis akun ini tidak didukung oleh aplikasi ini</translation>
+<translation id="2660271277401013037">Kode tindakan tidak valid. Ini bisa terjadi jika kode rusak, sudah tidak berlaku, atau sudah digunakan.</translation>
+<translation id="2665022736179407256">Masa berlaku kode ini telah habis.</translation>
 <translation id="2668496398414877352">Kosovo</translation>
 <translation id="2674823936234616183">Uzbekistan</translation>
 <translation id="2696162410887720551">Kepulauan Åland</translation>
@@ -94,7 +102,8 @@
 <translation id="2741235824871026219">Verifikasi</translation>
 <translation id="2752984808025184019">Afrika Selatan</translation>
 <translation id="2760636260031093254">Masukkan alamat email Anda untuk melanjutkan</translation>
-<translation id="2814274627887910414">Format nomor telepon tidak valid</translation>
+<translation id="2782685789517131804">Email login dengan petunjuk tambahan dikirim ke <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Periksa email Anda untuk menyelesaikan proses login.</translation>
+<translation id="2824267666257947103">Masukkan sandi</translation>
 <translation id="2828509010894808185">Buat akun</translation>
 <translation id="2834770837848769530">Afganistan</translation>
 <translation id="2884525438023347369">Dengan menge-tap <ph name="BTN" /> Anda menyatakan setuju dengan <ph name="TOS" />.</translation>
@@ -125,6 +134,7 @@
 <translation id="3372254675985592547">Kuba</translation>
 <translation id="3394519231857398207">Prancis</translation>
 <translation id="3398534025670554188">China</translation>
+<translation id="3409391354412142307">Anda telah menggunakan <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Anda dapat menghubungkan akun <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> Anda ke <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> dengan login menggunakan link email di bawah.</translation>
 <translation id="3413300222170818119">Zambia</translation>
 <translation id="3429213469114503705">Vatikan</translation>
 <translation id="3434621886769337032">Gambia</translation>
@@ -156,9 +166,11 @@
 <translation id="3954166521214262397">Kode 6 digit</translation>
 <translation id="3987987513436822097">Komoro</translation>
 <translation id="3998148019488053682">Kode verifikasi tidak boleh kosong.</translation>
-<translation id="4021489444336102711">Verifikasi</translation>
+<translation id="4011940631682920330">Kode tindakan tidak valid. Ini bisa terjadi jika kode rusak, sudah tidak berlaku, atau sudah digunakan.</translation>
 <translation id="4022450612826261789">Kosovo</translation>
+<translation id="4025579119565425333">Cobalah perbaikan umum berikut:</translation>
 <translation id="4056653682525186486">Login dengan <ph name="XXX" /></translation>
+<translation id="4064888056475403511">Coba buka link menggunakan perangkat atau browser yang sama tempat Anda memulai proses login.</translation>
 <translation id="4066104405592701692">Estonia</translation>
 <translation id="4090385155496329109">Facebook</translation>
 <translation id="4163133799286985193">Argentina</translation>
@@ -168,7 +180,7 @@
 <translation id="4242716276491763916">Guinea Conakry</translation>
 <translation id="4248546264350694306">Swiss</translation>
 <translation id="4266056491449352939">Andorra</translation>
-<translation id="4325874534168320954">Permintaan Anda tidak dapat diselesaikan. Coba lagi nanti.</translation>
+<translation id="4322167048992801895">Ada masalah saat mendapatkan email?</translation>
 <translation id="4329551945958214898">Jepang</translation>
 <translation id="4331763189922924781">Montenegro</translation>
 <translation id="4372962701784304822">Mozambik</translation>
@@ -176,6 +188,7 @@
 <translation id="4386334763822785837">Turki</translation>
 <translation id="4413304190485210039">Tajikistan</translation>
 <translation id="4432634970196611353">Laos</translation>
+<translation id="4440507149645221385">Ponsel</translation>
 <translation id="4450602713221237198">Kirim ulang</translation>
 <translation id="4498504413765490964">Honduras</translation>
 <translation id="4515732781724470190">Niger</translation>
@@ -193,6 +206,7 @@
 <translation id="4775051289386800916">Nikaragua</translation>
 <translation id="4783400389150493171">Burkina Faso</translation>
 <translation id="4852256440857413490">Kode salah. Coba lagi.</translation>
+<translation id="4866990546854875813">Sesi yang terkait dengan permintaan login ini sudah berakhir atau sudah dihapus.</translation>
 <translation id="4871106926303956169">Kepulauan Turks dan Caicos</translation>
 <translation id="4877597386645466815">Kirim ulang kode dalam <ph name="TIME_REMAINING" /></translation>
 <translation id="4915406999072654369">Periksa email Anda</translation>
@@ -201,6 +215,7 @@
 <translation id="4991626049082973728">Serbia</translation>
 <translation id="4991892293325936102">Belize</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" />untuk <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /><ph name="END_PARAGRAPH" /></translation>
+<translation id="5059105734231232362">Agar alur ini berhasil menghubungkan akun <ph name="IDP_DISPLAY_NAME" /> Anda dengan email ini, Anda harus membuka link di perangkat atau browser yang sama.</translation>
 <translation id="5080084639513001393">Swedia</translation>
 <translation id="5080899604429810481">Saint Martin</translation>
 <translation id="5143657419516597442">Santa Lusia</translation>
@@ -217,6 +232,7 @@
 <translation id="5437927869321223252">Kode salah. Coba lagi.</translation>
 <translation id="5444635161362535036">Liechtenstein</translation>
 <translation id="5483706910421209104">Edit nama</translation>
+<translation id="5490651768073507833">Coba buka link menggunakan perangkat atau browser yang sama tempat Anda memulai proses login.</translation>
 <translation id="5524360735013196510">Belanda</translation>
 <translation id="5528189843379142883">Guinea Ekuatoral</translation>
 <translation id="5529036554155743092">Australia</translation>
@@ -235,11 +251,14 @@
 <translation id="5642254620426025006">Terjadi kesalahan. Coba lagi.</translation>
 <translation id="5649486931917149784">Sandi</translation>
 <translation id="5664080586064341046">Saint Kitts dan Nevis</translation>
+<translation id="5668881954117611594">Kembali</translation>
 <translation id="5699028034244995851">Masukkan alamat email Anda untuk melanjutkan</translation>
 <translation id="5701178667798108817">Verifikasi nomor telepon Anda</translation>
 <translation id="5715637701147651513">Liberia</translation>
+<translation id="5755179287528310939">Sudah ada akun dengan alamat email tersebut.</translation>
 <translation id="5771034676910614239">Madagaskar</translation>
 <translation id="5818634293686963864">Kazakhstan</translation>
+<translation id="5829301468800336085">Login...</translation>
 <translation id="5840765100196379855">Panama</translation>
 <translation id="5840803301882074743">Tonga</translation>
 <translation id="5850752921356750845">Wallis dan Futuna</translation>
@@ -252,12 +271,11 @@
 <translation id="5989709845715452405">Pulihkan sandi</translation>
 <translation id="5995596766674622541">Masukkan kode 6 digit yang telah kami kirimkan ke <ph name="START_LINK" />&amp;lrm;<ph name="PHONE_NUMBER" /><ph name="END_LINK" /></translation>
 <translation id="6006148985615990975">Rwanda</translation>
-<translation id="6040759627067155517">Email</translation>
+<translation id="6032262985756512833">Masukkan kode <ph name="STRING" /> digit yang kami kirimkan</translation>
 <translation id="6044396095102058216">Nomor telepon ini sudah terlalu sering digunakan</translation>
-<translation id="6091051069256411999">Twitter</translation>
-<translation id="61182948399263957">
-<ph name="P_START" />Login ke <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
-<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
+<translation id="6083089720215618333">Email yang diberikan tidak sama dengan sesi login saat ini.</translation>
+<translation id="6113531938704280909">Batalkan tautan akun</translation>
+<translation id="6132202686885223981">Pastikan masih ada ruang untuk kotak masuk Anda, atau periksa masalah terkait setelan kotak masuk lainnya.</translation>
 <translation id="6189573836664806798">Paraguay</translation>
 <translation id="6192657410634245771">Aljazair</translation>
 <translation id="6213969168046789596">Anda telah berkali-kali memasukkan sandi yang salah. Coba beberapa menit lagi.</translation>
@@ -274,8 +292,10 @@
 <translation id="6381974517529371884">Kepulauan Faroe</translation>
 <translation id="6443180961828792673">Kosovo</translation>
 <translation id="6450170205342035038">Bulgaria</translation>
-<translation id="6476467763326951353">Verifikasi email Anda untuk <ph name="APP_NAME" /></translation>
-<translation id="6494734506607758748">Untuk mengubah alamat email yang terkait dengan akun, Anda harus login kembali.</translation>
+<translation id="6470057025778734988">Anda tidak dapat lagi login menggunakan akun Anda</translation>
+<translation id="6472297146424049005">Periksa koneksi internet Anda.</translation>
+<translation id="6483116480230343278">Mendaftar…</translation>
+<translation id="6502083090260346644">Dengan menge-tap <ph name="STRING" />, SMS mungkin akan dikirim. Mungkin dikenakan biaya pesan &amp; data.</translation>
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Samoa Amerika</translation>
 <translation id="6527597037551425211">Brasil</translation>
@@ -286,6 +306,7 @@
 <translation id="6611519013130079637">Belgia</translation>
 <translation id="6618737424980030515">Georgia</translation>
 <translation id="6623411438614744695">Namibia</translation>
+<translation id="6653313985929651858">Email login dikirim\n</translation>
 <translation id="6655128609744896303">Kode terkirim!</translation>
 <translation id="6683477520421532707">Reunion</translation>
 <translation id="6683810982254923169">Coba menyetel ulang sandi Anda lagi</translation>
@@ -300,15 +321,18 @@
 <translation id="6769550797775698634">Kamerun</translation>
 <translation id="6775190982418995854">Svalbard dan Jan Mayen</translation>
 <translation id="6775835872637240659">Ukraina</translation>
+<translation id="6779584651193963121">Jika langkah-langkah di atas tidak berfungsi, Anda dapat mengirim ulang email tersebut. Perlu diperhatikan bahwa tindakan ini akan menonaktifkan link di email lama.</translation>
 <translation id="6782010235320729294">Turkmenistan</translation>
 <translation id="6821607741326790458">Jamaika</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
+<translation id="6918319418444979243">Kirim ulang</translation>
 <translation id="6920167780806379235">Suriah</translation>
 <translation id="6921505896641453739">Email</translation>
 <translation id="6929813273561975780">Berikutnya</translation>
 <translation id="6951302238647056860">Kode ini sudah tidak valid</translation>
 <translation id="6976724207780605356">Login dengan Facebook</translation>
+<translation id="6984204927251307445">Konfirmasi email</translation>
 <translation id="6999773882165218263">Nama depan &amp;amp; belakang</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Sahara Barat</translation>
@@ -325,6 +349,7 @@
 <translation id="7207660930894629055">Lanjutkan dengan <ph name="USER_EMAIL" />?</translation>
 <translation id="7223410082658239002">Maladewa</translation>
 <translation id="7254028881697834212">São Tomé dan Príncipe</translation>
+<translation id="7268827299582726485">Konfirmasi email Anda untuk menyelesaikan proses login</translation>
 <translation id="7272145663101316762">Slovenia</translation>
 <translation id="7280309713358692490">Korea Selatan</translation>
 <translation id="7291567990403335374">Lesotho</translation>
@@ -332,14 +357,15 @@
 <translation id="7320029088567935126">Coba verifikasi email Anda lagi</translation>
 <translation id="7331038350037712642">Azerbaijan</translation>
 <translation id="743266754881673808">Google</translation>
-<translation id="7453388767208874682">Nomor telepon tidak boleh kosong</translation>
-<translation id="7482751672921205012">Hapus Akun?</translation>
+<translation id="744894552966168763">Link email tidak valid.</translation>
+<translation id="7477065998516229434">Persyaratan Layanan</translation>
 <translation id="7493245640904888019">Gibraltar</translation>
 <translation id="7510939244824757986">Tanzania</translation>
 <translation id="7526532581122816497">Akun tertaut</translation>
 <translation id="7560587702704358921">Saint Pierre dan Miquelon</translation>
 <translation id="7569285452790032317">Somalia</translation>
 <translation id="7592224526951017144">Jerman</translation>
+<translation id="7595933825828475368">Ada masalah saat mendapatkan email?</translation>
 <translation id="7615083347713899917">Kirgiztan</translation>
 <translation id="7643408533407091568">Anda telah menggunakan <ph name="EMAIL_ADDR" />
         untuk login. Masukkan sandi untuk akun tersebut.</translation>
@@ -347,6 +373,7 @@
 <translation id="7699755204074920022">Zimbabwe</translation>
 <translation id="7756945311981296300">Ikuti petunjuk yang dikirim ke <ph name="STRING" /> untuk memulihkan sandi Anda.</translation>
 <translation id="7782885946428624225">Ada masalah saat memverifikasi nomor telepon Anda</translation>
+<translation id="7796914496604415892">Perangkat atau browser baru terdeteksi</translation>
 <translation id="7868540442111212282">Republik Ceko</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
 <translation id="7926046652648626866">Login dengan GitHub</translation>
@@ -388,7 +415,8 @@
 <translation id="8448940737083561161">Kiribati</translation>
 <translation id="847294590390666986">Taiwan</translation>
 <translation id="8477554788963470892">Sierra Leone</translation>
-<translation id="850278101443955459">Login</translation>
+<translation id="8498398269542501379">Periksa apakah email ditandai sebagai spam atau difilter.</translation>
+<translation id="8505200776212389923">Memverifikasi…</translation>
 <translation id="8505941919386646914">Martinik</translation>
 <translation id="8534746304953308378">Togo</translation>
 <translation id="8572093925387077451">Anda sudah memiliki akun</translation>
@@ -412,8 +440,9 @@
 <translation id="8869797682387766327">Pulau Man</translation>
 <translation id="8893950153780006385">Malaysia</translation>
 <translation id="8895840173743975193">Kepulauan Cocos [Keeling]</translation>
-<translation id="8955469172512804617">Dengan menge-tap <ph name="BTN" /> Anda menyatakan setuju dengan <ph name="PP" />.</translation>
-<translation id="8980953965669178372">Selesai</translation>
+<translation id="8916080112145514151">Jika Anda masih ingin menghubungkan akun <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" />, buka link di perangkat yang sama yang digunakan untuk login. Atau tap Lanjutkan untuk login di perangkat ini.</translation>
+<translation id="8939353296336237380">Anda sebelumnya ingin menghubungkan <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> ke akun email Anda, tapi telah membuka link di perangkat berbeda, yang tidak digunakan untuk login.</translation>
+<translation id="8971555482255213064">Kirimkan ulang kode dalam 0.<ph name="PH_1" /></translation>
 <translation id="8984161590699631096">Maroko</translation>
 <translation id="900153878296575829">Bangladesh</translation>
 <translation id="9022632332691561239">Telepon</translation>

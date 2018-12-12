@@ -18,6 +18,7 @@
 
 goog.provide('firebaseui.auth.AuthUITest');
 
+goog.require('firebaseui.auth.ActionCodeUrlBuilder');
 goog.require('firebaseui.auth.AuthUI');
 goog.require('firebaseui.auth.AuthUIError');
 goog.require('firebaseui.auth.CredentialHelper');
@@ -27,9 +28,11 @@ goog.require('firebaseui.auth.idp');
 goog.require('firebaseui.auth.log');
 goog.require('firebaseui.auth.storage');
 goog.require('firebaseui.auth.testing.FakeAppClient');
+goog.require('firebaseui.auth.testing.FakeCookieStorage');
 goog.require('firebaseui.auth.testing.FakeUtil');
 goog.require('firebaseui.auth.ui.page.Callback');
 goog.require('firebaseui.auth.ui.page.ProviderSignIn');
+goog.require('firebaseui.auth.util');
 goog.require('firebaseui.auth.widget.Config');
 goog.require('firebaseui.auth.widget.dispatcher');
 goog.require('firebaseui.auth.widget.handler');
@@ -49,6 +52,7 @@ goog.require('goog.dom.TagName');
 goog.require('goog.dom.classlist');
 goog.require('goog.object');
 goog.require('goog.testing.AsyncTestCase');
+goog.require('goog.testing.MockClock');
 goog.require('goog.testing.MockControl');
 goog.require('goog.testing.PropertyReplacer');
 goog.require('goog.testing.jsunit');
@@ -157,6 +161,9 @@ var anonymousUser = {
   uid: '1234567890',
   isAnonymous: true
 };
+var emailLinkSignInConfig = null;
+var testCookieStorage;
+var mockClock = new goog.testing.MockClock();
 
 
 /**
@@ -171,6 +178,8 @@ function assertHasCssClass(container, cssName) {
 
 
 function setUp() {
+  testCookieStorage = new firebaseui.auth.testing.FakeCookieStorage().install();
+  mockClock.install();
   // Used to initialize internal Auth instance.
   firebase = {};
   firebase.instances_ = {};
@@ -198,14 +207,6 @@ function setUp() {
     NONE: 'none',
     SESSION: 'session'
   };
-  // Populate mock providers and their PROVIDER_ID.
-  for (var key in firebaseui.auth.idp.AuthProviders) {
-    firebase['auth'][firebaseui.auth.idp.AuthProviders[key]] = function() {
-      this.scopes = [];
-      this.customParameters = {};
-    };
-    firebase['auth'][firebaseui.auth.idp.AuthProviders[key]].PROVIDER_ID = key;
-  }
   // On FirebaseApp deletion, confirm instance not already deleted and then
   // remove it from firebase.instances_.
   testStubs.replace(
@@ -218,6 +219,13 @@ function setUp() {
         }
         delete firebase.instances_[this['name']];
         return goog.Promise.resolve();
+      });
+  testStubs.replace(
+      firebaseui.auth.util,
+      'generateRandomAlphaNumericString',
+      function(size) {
+        assertEquals(32, size);
+        return 'SESSIONID';
       });
   // Create all test elements and append to document.
   container1 = goog.dom.createDom(goog.dom.TagName.DIV, {'id': 'element1'});
@@ -279,6 +287,18 @@ function setUp() {
               'providerId': 'password'
             };
           };
+      firebase.auth.EmailAuthProvider.credentialWithLink =
+          function(email, link) {
+        return {
+          email: email,
+          link: link,
+          providerId: 'password',
+          signInMethod: 'emailLink'
+        };
+      };
+      firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD = 'emailLink';
+      firebase.auth.EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD =
+          'password';
     } else if (key == 'facebook.com') {
       // Mock credential initializer for Facebook credentials.
       firebase['auth'][firebaseui.auth.idp.AuthProviders[key]]['credential'] =
@@ -302,10 +322,32 @@ function setUp() {
       })
     }
   };
+  emailLinkSignInConfig = {
+    'signInOptions': [{
+      'provider': 'password',
+      'signInMethod': firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD,
+      'emailLinkSignIn': function() {
+        return {
+          'url': 'https://www.example.com/completeSignIn',
+          'handleCodeInApp': true
+        };
+      }
+    }],
+    'callbacks': {
+      'signInSuccess': goog.testing.recordFunction(function() {
+        return false;
+      }),
+      'signInFailure': goog.testing.recordFunction(function() {
+        return goog.Promise.resolve();
+      })
+    }
+  };
 }
 
 
 function tearDown() {
+  mockClock.reset();
+  mockClock.uninstall();
   testApp = null;
   testApp1 = null;
   testApp2 = null;
@@ -327,7 +369,6 @@ function tearDown() {
   }
   app2 = null;
   if (app3) {
-
     app3.getAuth().assertSignOut([]);
     app3.getAuth().uninstall();
     app3.getExternalAuth().uninstall();
@@ -498,6 +539,115 @@ function testIsPending() {
   assertTrue(app1.isPending());
   assertTrue(app2.isPending());
   assertTrue(app3.isPending());
+}
+
+
+function testIsPendingRedirect() {
+  var currentUrl = 'https://www.example.com';
+  testStubs.replace(
+      firebaseui.auth.util,
+      'getCurrentUrl',
+      function() {
+        return currentUrl;
+      });
+  // Simulate clearEmailSignInState() will strip URL from oob code query string.
+  testStubs.replace(
+      firebaseui.auth.AuthUI.prototype,
+      'clearEmailSignInState',
+      goog.testing.recordFunction(function() {
+        currentUrl = 'https://www.example.com';
+      }));
+  createAndInstallTestInstances();
+
+  // No pending redirect status by default.
+  assertFalse(app1.isPendingRedirect());
+  assertFalse(app2.isPendingRedirect());
+  assertFalse(app3.isPendingRedirect());
+
+  // Set pending redirect status on app3 (default app).
+  firebaseui.auth.storage.setPendingRedirectStatus();
+
+  // Confirm app3 pending redirect.
+  assertFalse(app1.isPendingRedirect());
+  assertFalse(app2.isPendingRedirect());
+  assertTrue(app3.isPendingRedirect());
+
+  // Set pending redirect status on app1.
+  firebaseui.auth.storage.setPendingRedirectStatus('id1');
+
+  // Confirm app1 pending redirect.
+  assertTrue(app1.isPendingRedirect());
+  assertFalse(app2.isPendingRedirect());
+  assertTrue(app3.isPendingRedirect());
+
+  // Set pending redirect status on app2.
+  firebaseui.auth.storage.setPendingRedirectStatus('id2');
+
+  // Confirm app2 pending redirect.
+  assertTrue(app1.isPendingRedirect());
+  assertTrue(app2.isPendingRedirect());
+  assertTrue(app3.isPendingRedirect());
+
+  // Remove pending redirect status for all.
+  firebaseui.auth.storage.removePendingRedirectStatus();
+  firebaseui.auth.storage.removePendingRedirectStatus('id1');
+  firebaseui.auth.storage.removePendingRedirectStatus('id2');
+
+  // Confirm no pending redirect status for all.
+  assertFalse(app1.isPendingRedirect());
+  assertFalse(app2.isPendingRedirect());
+  assertFalse(app3.isPendingRedirect());
+
+  // Note that currently email link sign-in does not have AuthUI specific
+  // identifier. This will set pending redirect status for all apps.
+  currentUrl =
+      'https://www.example.com/?apiKey=API_KEY&mode=signIn&oobCode=OOB_CODE';
+  assertTrue(app1.isPendingRedirect());
+  assertTrue(app2.isPendingRedirect());
+  assertTrue(app3.isPendingRedirect());
+
+  // Reset current URL will remove pending redirect status for all.
+  currentUrl = 'https://www.example.com';
+  assertFalse(app1.isPendingRedirect());
+  assertFalse(app2.isPendingRedirect());
+  assertFalse(app3.isPendingRedirect());
+
+  // Confirm reset calls clearEmailSignInState() and removes pending redirect
+  // status for all.
+  currentUrl =
+      'https://www.example.com/?apiKey=API_KEY&mode=signIn&oobCode=OOB_CODE';
+  assertEquals(0, app1.clearEmailSignInState.getCallCount());
+  app1.reset();
+
+  // signOut is called on reset().
+  app1.getAuth().assertSignOut([]);
+  // clearEmailSignInState() should be called on app1.
+  assertEquals(1, app1.clearEmailSignInState.getCallCount());
+  // isPendingRedirect() should now be false for all instances.
+  assertFalse(app1.isPendingRedirect());
+  assertFalse(app2.isPendingRedirect());
+  assertFalse(app3.isPendingRedirect());
+}
+
+
+function testClearEmailSignInState() {
+  var currentUrl = 'https://www.example.com/?' +
+      'apiKey=API_KEY&mode=signIn&oobCode=OOB_CODE&ui_sid=SESSIONID&lang=en';
+  createAndInstallTestInstances();
+
+  app1.clearEmailSignInState(currentUrl);
+
+  // Confirm history state replaced.
+  testUtil.assertReplaceHistoryState(
+      {
+        'state': 'signIn',
+        'mode': 'emailLink',
+        'operation': 'clear'
+      },
+      // Same document title should be kept.
+      document.title,
+      // URL should be cleared from email sign-in related query params.
+      'https://www.example.com/?lang=en');
 }
 
 
@@ -1117,6 +1267,8 @@ function testAuthUi_delete() {
         'showOneTapSignIn',
         'disableAutoSignIn',
         'isAutoSignInDisabled',
+        'sendSignInLinkToEmail',
+        'signInWithEmailLink',
         'startSignInWithEmailAndPassword',
         'startCreateUserWithEmailAndPassword',
         'startSignInWithCredential',
@@ -1125,6 +1277,7 @@ function testAuthUi_delete() {
         'startSignInWithPhoneNumber',
         'finishSignInWithCredential',
         'signInWithExistingEmailAndPasswordForLinking',
+        'upgradeWithEmailLink',
         'clearTempAuthState',
         'onUpgradeError'
       ];
@@ -1429,6 +1582,738 @@ function testAuthUi_oneTapSignIn_autoSignInEnabled() {
   app.setCurrentComponent(component);
   app.showOneTapSignIn(handler);
   app.cancelOneTapSignIn();
+}
+
+
+function testSendSignInLinkToEmail_success() {
+  var builder = new firebaseui.auth.ActionCodeUrlBuilder(
+      'https://www.example.com/completeSignIn');
+  builder.setSessionId('SESSIONID');
+  builder.setForceSameDevice(false);
+  var expectedActionCodeSettings = {
+    'url': builder.toString(),
+    'handleCodeInApp': true
+  };
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().install();
+  app.getExternalAuth().install();
+  app.setConfig(emailLinkSignInConfig);
+  asyncTestCase.waitForSignals(1);
+
+  app.sendSignInLinkToEmail('user@example.com')
+      .then(function() {
+        assertEquals(
+            'user@example.com',
+            firebaseui.auth.storage.getEmailForSignIn(
+                'SESSIONID', app.getAppId()));
+        assertFalse(
+            firebaseui.auth.storage.hasEncryptedPendingCredential(
+                app.getAppId()));
+        mockClock.tick(3600000);
+        assertNull(firebaseui.auth.storage.getEmailForSignIn(
+            'SESSIONID', app.getAppId()));
+        asyncTestCase.signal();
+      });
+
+  app.getAuth().assertSendSignInLinkToEmail(
+      ['user@example.com', expectedActionCodeSettings],
+      function() {
+        return;
+      });
+  app.getAuth().process();
+  app.getExternalAuth().process();
+}
+
+
+function testSendSignInLinkToEmail_error() {
+  var expectedError = {
+    'code': 'auth/network-request-failed',
+    'message': 'MESSAGE'
+  };
+  var builder = new firebaseui.auth.ActionCodeUrlBuilder(
+      'https://www.example.com/completeSignIn');
+  builder.setSessionId('SESSIONID');
+  builder.setForceSameDevice(false);
+  var expectedActionCodeSettings = {
+    'url': builder.toString(),
+    'handleCodeInApp': true
+  };
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().install();
+  app.getExternalAuth().install();
+  app.setConfig(emailLinkSignInConfig);
+  asyncTestCase.waitForSignals(1);
+
+  app.sendSignInLinkToEmail('user@example.com')
+      .then(fail, function(error) {
+        assertEquals(expectedError, error);
+        assertFalse(
+            firebaseui.auth.storage.hasEncryptedPendingCredential(
+                app.getAppId()));
+        assertFalse(
+            firebaseui.auth.storage.hasEmailForSignIn(app.getAppId()));
+        asyncTestCase.signal();
+      });
+
+  app.getAuth().assertSendSignInLinkToEmail(
+      ['user@example.com', expectedActionCodeSettings],
+      null,
+      expectedError);
+  app.getAuth().process();
+  app.getExternalAuth().process();
+}
+
+
+function testSendSignInLinkToEmail_linkingFlow_success() {
+  var builder = new firebaseui.auth.ActionCodeUrlBuilder(
+      'https://www.example.com/completeSignIn');
+  builder.setSessionId('SESSIONID');
+  builder.setProviderId(pendingEmailCredential.getCredential().providerId);
+  builder.setForceSameDevice(false);
+  var expectedActionCodeSettings = {
+    'url': builder.toString(),
+    'handleCodeInApp': true
+  };
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().install();
+  app.getExternalAuth().install();
+  app.setConfig(emailLinkSignInConfig);
+  asyncTestCase.waitForSignals(1);
+
+  app.sendSignInLinkToEmail('user@example.com', pendingEmailCredential)
+      .then(function() {
+        assertEquals(
+            'user@example.com',
+            firebaseui.auth.storage.getEmailForSignIn(
+                'SESSIONID', app.getAppId()));
+        assertObjectEquals(
+            pendingEmailCredential,
+            firebaseui.auth.storage.getEncryptedPendingCredential(
+                'SESSIONID', app.getAppId()));
+        mockClock.tick(3600000);
+        assertFalse(firebaseui.auth.storage.hasEmailForSignIn(app.getAppId()));
+        assertFalse(
+            firebaseui.auth.storage.hasEncryptedPendingCredential(
+                app.getAppId()));
+        asyncTestCase.signal();
+      });
+
+  app.getAuth().assertSendSignInLinkToEmail(
+      ['user@example.com', expectedActionCodeSettings],
+      function() {
+        return;
+      });
+  app.getAuth().process();
+  app.getExternalAuth().process();
+}
+
+
+function testSendSignInLinkToEmail_anonymousUpgrade_success() {
+  var builder = new firebaseui.auth.ActionCodeUrlBuilder(
+      'https://www.example.com/completeSignIn');
+  builder.setSessionId('SESSIONID');
+  builder.setForceSameDevice(false);
+  builder.setAnonymousUid(anonymousUser.uid);
+  var expectedActionCodeSettings = {
+    'url': builder.toString(),
+    'handleCodeInApp': true
+  };
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().install();
+  app.getExternalAuth().install();
+  // Simulate autoUpgradeAnonymousUsers set to true.
+  emailLinkSignInConfig['autoUpgradeAnonymousUsers'] = true;
+  app.setConfig(emailLinkSignInConfig);
+  asyncTestCase.waitForSignals(1);
+
+  app.sendSignInLinkToEmail('user@example.com')
+      .then(function() {
+        assertEquals(
+            'user@example.com',
+            firebaseui.auth.storage.getEmailForSignIn(
+                'SESSIONID', app.getAppId()));
+        assertFalse(
+            firebaseui.auth.storage.hasEncryptedPendingCredential(
+                app.getAppId()));
+        mockClock.tick(3600000);
+        assertFalse(firebaseui.auth.storage.hasEmailForSignIn(app.getAppId()));
+        asyncTestCase.signal();
+      });
+
+  // Simulate anonymous user logged in on external instance.
+  testAuth.setUser(anonymousUser);
+  app.getExternalAuth().runAuthChangeHandler();
+  app.getAuth().assertSendSignInLinkToEmail(
+      ['user@example.com', expectedActionCodeSettings],
+      function() {
+        return;
+      });
+  app.getAuth().process();
+  app.getExternalAuth().process();
+}
+
+
+function testSendSignInLinkToEmail_anonymousUpgrade_linking_success() {
+  var builder = new firebaseui.auth.ActionCodeUrlBuilder(
+      'https://www.example.com/completeSignIn');
+  builder.setSessionId('SESSIONID');
+  builder.setProviderId(pendingEmailCredential.getCredential().providerId);
+  builder.setForceSameDevice(false);
+  builder.setAnonymousUid(anonymousUser.uid);
+  var expectedActionCodeSettings = {
+    'url': builder.toString(),
+    'handleCodeInApp': true
+  };
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().install();
+  app.getExternalAuth().install();
+  // Simulate autoUpgradeAnonymousUsers set to true.
+  emailLinkSignInConfig['autoUpgradeAnonymousUsers'] = true;
+  app.setConfig(emailLinkSignInConfig);
+  asyncTestCase.waitForSignals(1);
+
+  app.sendSignInLinkToEmail('user@example.com', pendingEmailCredential)
+      .then(function() {
+        assertEquals(
+            'user@example.com',
+            firebaseui.auth.storage.getEmailForSignIn(
+                'SESSIONID', app.getAppId()));
+        assertObjectEquals(
+            pendingEmailCredential,
+            firebaseui.auth.storage.getEncryptedPendingCredential(
+                'SESSIONID', app.getAppId()));
+        mockClock.tick(3600000);
+        assertFalse(firebaseui.auth.storage.hasEmailForSignIn(app.getAppId()));
+        assertFalse(
+            firebaseui.auth.storage.hasEncryptedPendingCredential(
+                app.getAppId()));
+        asyncTestCase.signal();
+      });
+
+  // Simulate anonymous user logged in on external instance.
+  testAuth.setUser(anonymousUser);
+  app.getExternalAuth().runAuthChangeHandler();
+  app.getAuth().assertSendSignInLinkToEmail(
+      ['user@example.com', expectedActionCodeSettings],
+      function() {
+        return;
+      });
+  app.getAuth().process();
+  app.getExternalAuth().process();
+}
+
+
+function testGetUpgradeableEmailLinkUser_notRequired() {
+  // Build email link with no anonymous user requirement.
+  var builder = new firebaseui.auth.ActionCodeUrlBuilder(
+      'https://www.example.com/completeSignIn');
+  builder.setSessionId('SESSIONID');
+  builder.setForceSameDevice(false);
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().install();
+  app.getExternalAuth().install();
+  app.setConfig(emailLinkSignInConfig);
+  // Simulate anonymous user signed in.
+  app.getExternalAuth().setUser(anonymousUser);
+  asyncTestCase.waitForSignals(1);
+
+  // No upgradeable user needed.
+  app.getUpgradeableEmailLinkUser(builder.toString()).then(function(user) {
+    assertNull(user);
+    asyncTestCase.signal();
+  });
+}
+
+
+function testGetUpgradeableEmailLinkUser_requiredAndFound() {
+  // Build email link with specific anonymous user requirement.
+  var builder = new firebaseui.auth.ActionCodeUrlBuilder(
+      'https://www.example.com/completeSignIn');
+  builder.setSessionId('SESSIONID');
+  builder.setForceSameDevice(false);
+  // Simulate anonymous user required and found.
+  builder.setAnonymousUid(anonymousUser['uid']);
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().install();
+  app.getExternalAuth().install();
+  app.setConfig(emailLinkSignInConfig);
+  // Simulate same anonymous user signed in.
+  app.getExternalAuth().setUser(anonymousUser);
+  asyncTestCase.waitForSignals(1);
+
+  // Current anonymous user returned.
+  app.getUpgradeableEmailLinkUser(builder.toString()).then(function(user) {
+    assertEquals(app.getExternalAuth().currentUser, user);
+    asyncTestCase.signal();
+  });
+
+  return app.getAuth().process().then(function() {
+    app.getExternalAuth().runAuthChangeHandler();
+    return app.getExternalAuth().process();
+  });
+}
+
+
+function testGetUpgradeableEmailLinkUser_requiredAndMismatch() {
+  // Build email link with specific anonymous user requirement.
+  var builder = new firebaseui.auth.ActionCodeUrlBuilder(
+      'https://www.example.com/completeSignIn');
+  builder.setSessionId('SESSIONID');
+  builder.setForceSameDevice(false);
+  // Simulate anonymous user required and a different uid is passed.
+  builder.setAnonymousUid('MISMATCHED_UID');
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().install();
+  app.getExternalAuth().install();
+  app.setConfig(emailLinkSignInConfig);
+  // Simulate anonymous user signed in that doesn't match requested anonymous
+  // user.
+  app.getExternalAuth().setUser(anonymousUser);
+  asyncTestCase.waitForSignals(1);
+
+  app.getUpgradeableEmailLinkUser(builder.toString())
+      .then(fail, function(error) {
+        assertEquals('anonymous-user-mismatch', error.message);
+        asyncTestCase.signal();
+      });
+
+  return app.getAuth().process().then(function() {
+    app.getExternalAuth().runAuthChangeHandler();
+    return app.getExternalAuth().process();
+  });
+}
+
+
+function testGetUpgradeableEmailLinkUser_requiredAndNotFound() {
+  // Build email link with specific anonymous user requirement.
+  var builder = new firebaseui.auth.ActionCodeUrlBuilder(
+      'https://www.example.com/completeSignIn');
+  builder.setSessionId('SESSIONID');
+  builder.setForceSameDevice(false);
+  // Simulate anonymous user required and not found.
+  builder.setAnonymousUid('NOT_FOUND_UID');
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().install();
+  app.getExternalAuth().install();
+  app.setConfig(emailLinkSignInConfig);
+  asyncTestCase.waitForSignals(1);
+
+  app.getUpgradeableEmailLinkUser(builder.toString())
+      .then(fail, function(error) {
+        assertEquals('anonymous-user-not-found', error.message);
+        asyncTestCase.signal();
+      });
+
+  return app.getAuth().process().then(function() {
+    app.getExternalAuth().runAuthChangeHandler();
+    return app.getExternalAuth().process();
+  });
+}
+
+
+function testUpgradeWithEmailLink_emailExists_noPendingCredential_conflict() {
+  var email = 'user@example.com';
+  var link = 'https://www.example.com/?oobCode=CODE';
+  var expectedError = {'code': 'auth/email-already-in-use'};
+  var cred = firebase.auth.EmailAuthProvider.credentialWithLink(email, link);
+  // Record calls to onUpgradeError.
+  testStubs.replace(
+      firebaseui.auth.AuthUI.prototype,
+      'onUpgradeError',
+      goog.testing.recordFunction(function(error) {
+        throw error;
+      }));
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().install();
+  app.getExternalAuth().install();
+  asyncTestCase.waitForSignals(1);
+  // Simulate anonymous user signed in for upgrade flow.
+  app.getExternalAuth().setUser(anonymousUser);
+
+  app.upgradeWithEmailLink(app.getExternalAuth().currentUser, email, link)
+      .then(fail, function(error) {
+        // onUpgradeError should be called.
+        assertEquals(
+            1, firebaseui.auth.AuthUI.prototype.onUpgradeError.getCallCount());
+        assertObjectEquals(
+            expectedError,
+            firebaseui.auth.AuthUI.prototype.onUpgradeError.getLastCall()
+                .getArgument(0));
+        // Expected email/link credential passed as second parameter to
+        // onUpgradeError.
+        assertObjectEquals(
+            cred,
+            firebaseui.auth.AuthUI.prototype.onUpgradeError.getLastCall()
+                .getArgument(1));
+        assertObjectEquals(expectedError, error);
+        asyncTestCase.signal();
+      });
+
+  app.getAuth().assertFetchSignInMethodsForEmail(
+      [email],
+      function() {
+        // Simulate existing user.
+        return ['emailLink'];
+      });
+  app.getAuth().process();
+}
+
+
+function testUpgradeWithEmailLink_emailExists_pendingCredential_conflict() {
+  var email = 'user@example.com';
+  var link = 'https://www.example.com/?oobCode=CODE';
+  var expectedError = {'code': 'auth/email-already-in-use'};
+  // Record calls to onUpgradeError.
+  testStubs.replace(
+      firebaseui.auth.AuthUI.prototype,
+      'onUpgradeError',
+      goog.testing.recordFunction(function(error) {
+        throw error;
+      }));
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().install();
+  app.getExternalAuth().install();
+  asyncTestCase.waitForSignals(1);
+  var expectedUserCredential = {
+    'user': expectedUser,
+    'credential': pendingCredential,
+    'operationType': 'link',
+    'additionalUserInfo': {
+      'providerId': pendingCredential['providerId'],
+      'isNewUser': false
+    }
+  };
+  // Simulate anononymous user signed in for upgrade flow.
+  app.getExternalAuth().setUser(anonymousUser);
+
+  app.upgradeWithEmailLink(
+      app.getExternalAuth().currentUser, email, link, pendingCredential)
+      .then(fail, function(error) {
+        // onUpgradeError should be called.
+        assertEquals(
+            1, firebaseui.auth.AuthUI.prototype.onUpgradeError.getCallCount());
+        assertObjectEquals(
+            expectedError,
+            firebaseui.auth.AuthUI.prototype.onUpgradeError.getLastCall()
+                .getArgument(0));
+        // Expected pending credential passed as second parameter to
+        // onUpgradeError.
+        assertObjectEquals(
+            pendingCredential,
+            firebaseui.auth.AuthUI.prototype.onUpgradeError.getLastCall()
+                .getArgument(1));
+        assertObjectEquals(expectedError, error);
+        asyncTestCase.signal();
+      });
+
+  app.getAuth().process().then(function() {
+    // Email link sign in should first be triggered on internal instance.
+    app.getAuth().assertSignInWithEmailLink(
+        [email, link],
+        function() {
+          app.getAuth().setUser(expectedUser);
+          return {
+            // Return internal currentUser reference.
+            'user': app.getAuth().currentUser,
+            'credential': null,
+            'operationType': 'signIn',
+            'additionalUserInfo': {
+               'providerId': 'password',
+               'isNewUser': false
+            }
+          };
+        });
+    return app.getAuth().process();
+  }).then(function() {
+    // pendingCredential should be linked to internal user.
+    app.getAuth().currentUser.assertLinkAndRetrieveDataWithCredential(
+        [pendingCredential],
+        function() {
+          // Return internal currentUser reference.
+          expectedUserCredential['user'] = app.getAuth().currentUser;
+          return expectedUserCredential;
+        });
+    return app.getAuth().process();
+  }).then(function() {
+    // Internal currentUser signed out.
+    app.getAuth().assertSignOut(
+        [],
+        function() {
+          app.getAuth().setUser(null);
+        });
+    return app.getAuth().process();
+  });
+}
+
+
+function testUpgradeWithEmailLink_newEmail_success() {
+  var email = 'user@example.com';
+  var link = 'https://www.example.com/?oobCode=CODE';
+  var cred = firebase.auth.EmailAuthProvider.credentialWithLink(email, link);
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().install();
+  app.getExternalAuth().install();
+  asyncTestCase.waitForSignals(1);
+  var expectedUserCredential = {
+    'user': expectedUser,
+    'credential': null,
+    'operationType': 'link',
+    'additionalUserInfo': {
+      'providerId': pendingCredential['providerId'],
+      'isNewUser': false
+    }
+  };
+  // Simulate anononymous user signed in for upgrade flow.
+  app.getExternalAuth().setUser(anonymousUser);
+
+  app.upgradeWithEmailLink(app.getExternalAuth().currentUser, email, link)
+      .then(function(userCredential) {
+        assertObjectEquals(expectedUserCredential, userCredential);
+        assertNull(app.getAuth().currentUser);
+        assertEquals(userCredential['user'], app.getExternalAuth().currentUser);
+        asyncTestCase.signal();
+      });
+
+  // Simulate new email user.
+  app.getAuth().assertFetchSignInMethodsForEmail(
+      [email],
+      function() {
+        return [];
+      });
+  app.getAuth().process().then(function() {
+    // Email/link credential should be linked to external anonymous user.
+    app.getExternalAuth().currentUser.assertLinkAndRetrieveDataWithCredential(
+        [cred],
+        function() {
+          expectedUserCredential['user'] = app.getExternalAuth().currentUser;
+          return expectedUserCredential;
+        });
+    return app.getExternalAuth().process();
+  });
+}
+
+
+function testUpgradeWithEmailLink_error() {
+  var expectedError = {
+    'code': 'auth/network-request-failed',
+    'message': 'MESSAGE'
+  };
+  var email = 'user@example.com';
+  var link = 'https://www.example.com/?oobCode=CODE';
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().install();
+  app.getExternalAuth().install();
+  asyncTestCase.waitForSignals(1);
+  // Simulate anononymous user signed in for upgrade flow.
+  app.getExternalAuth().setUser(anonymousUser);
+
+  // Confirm backend error passed through to client.
+  app.upgradeWithEmailLink(app.getExternalAuth().currentUser, email, link)
+      .then(fail, function(error) {
+        assertEquals(expectedError, error);
+        asyncTestCase.signal();
+      });
+
+  // Simulate network error.
+  app.getAuth().assertFetchSignInMethodsForEmail(
+      [email],
+      null,
+      expectedError);
+  app.getAuth().process();
+}
+
+
+function testSignInWithEmailLink_pendingCredential_success() {
+  var email = 'user@example.com';
+  var link = 'https://www.example.com/?oobCode=CODE';
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().install();
+  app.getExternalAuth().install();
+  asyncTestCase.waitForSignals(1);
+  var expectedUserCredential = {
+    'user': expectedUser,
+    'credential': pendingCredential,
+    'operationType': 'signIn',
+    'additionalUserInfo': {
+      'providerId': pendingCredential['providerId'],
+      'isNewUser': false
+    }
+  };
+  var tempInternalUser;
+
+  app.signInWithEmailLink(email, link, pendingCredential)
+      .then(function(userCredential) {
+        assertObjectEquals(expectedUserCredential, userCredential);
+        assertNull(app.getAuth().currentUser);
+        assertEquals(userCredential['user'], app.getExternalAuth().currentUser);
+        asyncTestCase.signal();
+      });
+
+  // Email link user should be signed in on internal Auth instance.
+  app.getAuth().assertSignInWithEmailLink(
+      [email, link],
+      function() {
+        app.getAuth().setUser(expectedUser);
+        return {
+          // Return internal auth currentUser reference.
+          'user': app.getAuth().currentUser,
+          'credential': null,
+          'operationType': 'signIn',
+          'additionalUserInfo': {
+             'providerId': 'password',
+             'isNewUser': false
+          }
+        };
+      });
+  app.getAuth().process().then(function() {
+    // pendingCredential should be linked to internal currentUser.
+    app.getAuth().currentUser.assertLinkAndRetrieveDataWithCredential(
+        [pendingCredential],
+        function() {
+          // Make a copy of expected UserCredential to ensure
+          // expectedUserCredential which is used to be compared with later will
+          // not be modified.
+          var tempCopy = goog.object.clone(expectedUserCredential);
+          tempCopy['user'] = app.getAuth().currentUser;
+          tempCopy['operationType'] = 'link';
+          // Hold on to reference for later comparison.
+          tempInternalUser = tempCopy['user'];
+          return tempCopy;
+        });
+    return app.getAuth().process();
+  }).then(function() {
+    // signOut the user on internal instance.
+    app.getAuth().assertSignOut([], function() {
+      app.getAuth().setUser(null);
+    });
+    return app.getAuth().process();
+  }).then(function() {
+    // Internal user should be copied to external instance.
+    app.getExternalAuth().assertUpdateCurrentUser(
+        [tempInternalUser],
+        function() {
+          app.getExternalAuth().setUser(expectedUser);
+          // Populate external auth currentUser reference in expected result.
+          expectedUserCredential['user'] = app.getExternalAuth().currentUser;
+        });
+    return app.getExternalAuth().process();
+  });
+}
+
+
+function testSignInWithEmailLink_noPendingCredential_success() {
+  var email = 'user@example.com';
+  var link = 'https://www.example.com/?oobCode=CODE';
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().install();
+  app.getExternalAuth().install();
+  asyncTestCase.waitForSignals(1);
+  var expectedUserCredential = {
+    'user': expectedUser,
+    'credential': null,
+    'operationType': 'signIn',
+    'additionalUserInfo': {'providerId': 'password', 'isNewUser': false}
+  };
+  var tempInternalUser;
+
+  app.signInWithEmailLink(email, link)
+      .then(function(userCredential) {
+        assertObjectEquals(expectedUserCredential, userCredential);
+        assertNull(app.getAuth().currentUser);
+        assertEquals(userCredential['user'], app.getExternalAuth().currentUser);
+        asyncTestCase.signal();
+      });
+
+  app.getAuth().assertSignInWithEmailLink(
+      [email, link],
+      function() {
+        app.getAuth().setUser(expectedUser);
+        // Make a copy of expected UserCredential to ensure
+        // expectedUserCredential which is used to be compared with later will
+        // not be modified.
+        var tempCopy = goog.object.clone(expectedUserCredential);
+        tempCopy['user'] = app.getAuth().getCurrentUser;
+        // Hold on to reference for later comparison.
+        tempInternalUser = tempCopy['user'];
+        return tempCopy;
+      });
+  app.getAuth().process().then(function() {
+    // signOut the user on internal instance.
+    app.getAuth().assertSignOut([], function() {
+      app.getAuth().setUser(null);
+    });
+    return app.getAuth().process();
+  }).then(function() {
+    // Internal user should be copied to external instance.
+    app.getExternalAuth().assertUpdateCurrentUser(
+        [tempInternalUser],
+        function() {
+          app.getExternalAuth().setUser(expectedUser);
+          // Populate external auth currentUser reference in expected result.
+          expectedUserCredential['user'] = app.getExternalAuth().currentUser;
+        });
+    return app.getExternalAuth().process();
+  });
+}
+
+
+function testSignInWithEmailLink_error() {
+  var expectedError = {
+    'code': 'auth/network-request-failed',
+    'message': 'MESSAGE'
+  };
+  var email = 'user@example.com';
+  var link = 'https://www.example.com/?oobCode=CODE';
+  testApp = new firebaseui.auth.testing.FakeAppClient(options);
+  testAuth = testApp.auth();
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  app.getAuth().install();
+  app.getExternalAuth().install();
+  asyncTestCase.waitForSignals(1);
+
+  // Confirm backend error passed through to client.
+  app.signInWithEmailLink(email, link)
+      .then(fail, function(error) {
+        assertEquals(expectedError, error);
+        asyncTestCase.signal();
+      });
+
+  // Simulate network error.
+  app.getAuth().assertSignInWithEmailLink(
+      [email, link],
+      null,
+      expectedError);
+  app.getAuth().process();
 }
 
 

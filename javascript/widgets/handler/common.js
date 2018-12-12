@@ -61,8 +61,8 @@ firebaseui.auth.OAuthResponse;
  * @typedef {{
  *   user: (?firebase.User),
  *   credential: (?firebase.auth.AuthCredential),
- *   operationType: (?string),
- *   additionalUserInfo: (?firebase.auth.AdditionalUserInfo)
+ *   operationType: (?string|undefined),
+ *   additionalUserInfo: (?firebase.auth.AdditionalUserInfo|undefined)
  * }}
  */
 firebaseui.auth.AuthResult;
@@ -1468,9 +1468,9 @@ firebaseui.auth.widget.handler.common.handleSignInFetchSignInMethodsForEmail =
         opt_infoBarMessage,
         opt_displayFullTosPpMessage) {
   // Does the account exist?
-  if (!signInMethods.length) {
-    // Account does not exist, go to password sign up and populate
-    // available fields.
+  if (!signInMethods.length && app.getConfig().isEmailPasswordSignInAllowed()) {
+    // Account does not exist and password sign-in method is enabled. Go to
+    // password sign up and populate available fields.
     firebaseui.auth.widget.handler.handle(
         firebaseui.auth.widget.HandlerName.PASSWORD_SIGN_UP,
         app,
@@ -1479,22 +1479,53 @@ firebaseui.auth.widget.handler.common.handleSignInFetchSignInMethodsForEmail =
         opt_displayName,
         undefined,
         opt_displayFullTosPpMessage);
+  } else if (!signInMethods.length &&
+             app.getConfig().isEmailLinkSignInAllowed()) {
+    // Account does not exist and email link sign-in method is enabled. Send
+    // email link to sign in.
+    firebaseui.auth.widget.handler.handle(
+        firebaseui.auth.widget.HandlerName.SEND_EMAIL_LINK_FOR_SIGN_IN,
+        app,
+        container,
+        email,
+        function() {
+          // Clicking back button goes back to sign in page.
+          firebaseui.auth.widget.handler.handle(
+              firebaseui.auth.widget.HandlerName.SIGN_IN,
+              app,
+              container);
+        });
   } else if (goog.array.contains(signInMethods,
-      firebase.auth.EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD) ||
-      goog.array.contains(signInMethods,
-      firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD)) {
-    // Password account.
+      firebase.auth.EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD)) {
+    // Existing Password account.
     firebaseui.auth.widget.handler.handle(
         firebaseui.auth.widget.HandlerName.PASSWORD_SIGN_IN,
         app,
         container,
         email,
         opt_displayFullTosPpMessage);
+  } else if ((signInMethods.length == 1) && (signInMethods[0] ===
+      firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD)) {
+    // Existing email link account.
+    firebaseui.auth.widget.handler.handle(
+        firebaseui.auth.widget.HandlerName.SEND_EMAIL_LINK_FOR_SIGN_IN,
+        app,
+        container,
+        email,
+        function() {
+          // Clicking back button goes back to sign in page.
+          firebaseui.auth.widget.handler.handle(
+              firebaseui.auth.widget.HandlerName.SIGN_IN,
+              app,
+              container);
+        });
   } else {
     // Federated Account.
     // The account exists, and is a federated identity account.
     // We store the pending email in case the user tries to use an account with
     // a different email.
+    var federatedSignInMethod =
+        firebaseui.auth.idp.getFirstFederatedSignInMethod(signInMethods);
     var pendingEmailCredential =
         new firebaseui.auth.PendingEmailCredential(email);
     firebaseui.auth.storage.setPendingEmailCredential(
@@ -1504,9 +1535,46 @@ firebaseui.auth.widget.handler.common.handleSignInFetchSignInMethodsForEmail =
         app,
         container,
         email,
-        signInMethods[0],
+        federatedSignInMethod,
         opt_infoBarMessage);
   }
+};
+
+
+/**
+ * Handles sending email link for either sign in or link. If pending
+ * credential is passed, send email for link. Otherwise, send email for sign in.
+ *
+ * @param {!firebaseui.auth.AuthUI} app The current FirebaseUI instance whose
+ *     configuration is used.
+ * @param {!firebaseui.auth.ui.page.Base} component The current UI component.
+ * @param {string} email The user's email.
+ * @param {function()} onCancelClick Callback to invoke when the back button is
+ *     clicked in email link sign in sent page.
+ * @param {function(*)} onError Callback to invoke when error occurs while
+ *     sending the sign in email link.
+ * @param {?firebaseui.auth.PendingEmailCredential=} opt_pendingCredential The
+ *     pending credential to link to a successfully signed in user.
+ */
+firebaseui.auth.widget.handler.common.sendEmailLinkForSignIn = function(
+    app, component, email, onCancelClick, onError, opt_pendingCredential) {
+  var container = component.getContainer();
+  var onSuccess = function() {
+    component.dispose();
+    firebaseui.auth.widget.handler.handle(
+        firebaseui.auth.widget.HandlerName.EMAIL_LINK_SIGN_IN_SENT,
+        app,
+        container,
+        email,
+        onCancelClick,
+        opt_pendingCredential);
+  };
+  app.registerPending(component.executePromiseRequest(
+      /** @type {function (): !goog.Promise} */ (
+          goog.bind(app.sendSignInLinkToEmail, app)),
+      [email, opt_pendingCredential],
+      onSuccess,
+      onError));
 };
 
 

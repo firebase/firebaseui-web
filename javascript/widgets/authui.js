@@ -19,6 +19,7 @@
 
 goog.provide('firebaseui.auth.AuthUI');
 
+goog.require('firebaseui.auth.ActionCodeUrlBuilder');
 goog.require('firebaseui.auth.AuthUIError');
 goog.require('firebaseui.auth.EventDispatcher');
 goog.require('firebaseui.auth.GoogleYolo');
@@ -411,13 +412,31 @@ firebaseui.auth.AuthUI.prototype.isPending = function() {
 /**
  * Returns true if there is any pending redirect operations to be resolved by
  * the widget.
+ * Note this returns true when the URL corresponds to an email link sign-in
+ * operation. This is needed to help the developer determine if the user is
+ * trying to complete email link sign-in.
  * @return {boolean} Whether the app has pending redirect operations to be
  *     performed.
  */
 firebaseui.auth.AuthUI.prototype.isPendingRedirect = function() {
   // Check if instance is already destroyed.
   this.checkIfDestroyed_();
-  return firebaseui.auth.storage.hasPendingRedirectStatus(this.getAppId());
+  return firebaseui.auth.storage.hasPendingRedirectStatus(this.getAppId()) ||
+      // User trying to complete sign-in started via FirebaseUI with email link.
+      this.isEmailLinkSignInUrl_(firebaseui.auth.util.getCurrentUrl());
+};
+
+
+/**
+ * Returns whether the provided URL is associated with an email link sign-in
+ * operation.
+ * @param {string} url The URL to check for email link sign-in mode.
+ * @return {boolean} Whether the link is for email link sign-in.
+ * @private
+ */
+firebaseui.auth.AuthUI.prototype.isEmailLinkSignInUrl_ = function(url) {
+  var urlBuilder = new firebaseui.auth.ActionCodeUrlBuilder(url);
+  return urlBuilder.getMode() === 'signIn' && !!urlBuilder.getOobCode();
 };
 
 
@@ -427,7 +446,7 @@ firebaseui.auth.AuthUI.prototype.isPendingRedirect = function() {
  * more than once.
  *
  * @param {string|!Element} element The container element or the query selector.
- * @param {Object} config The configuration for sign-in button.
+ * @param {!Object} config The configuration for sign-in button.
  */
 firebaseui.auth.AuthUI.prototype.start = function(element, config) {
   // Check if instance is already destroyed.
@@ -690,6 +709,8 @@ firebaseui.auth.AuthUI.prototype.reset = function() {
     this.widgetEventDispatcher_.unregister();
   }
   this.revertLanguageCode();
+  // Clear email link sign-in state from URL if needed.
+  this.clearEmailSignInState();
   // Removes pending status of previous redirect operations including redirect
   // back from accountchooser.com and federated sign in.
   firebaseui.auth.storage.removePendingRedirectStatus(this.getAppId());
@@ -712,7 +733,7 @@ firebaseui.auth.AuthUI.prototype.reset = function() {
   // Cancel all pending promises or run reset functions.
   for (var i = 0; i < this.pending_.length; i++) {
     if (typeof this.pending_[i] == 'function') {
-      /** @type{!function()} */ (this.pending_[i])();
+      /** @type{function()} */ (this.pending_[i])();
     } else {
       // firebase.Promise may use the native Promise which does not have a
       // cancel method. Only goog.Promise offers that.
@@ -910,6 +931,266 @@ firebaseui.auth.AuthUI.prototype.showOneTapSignIn = function(handler) {
   } catch (e) {
     // This is an additive API and it's a best effort approach.
     // Ignore the error when the One-Tap API is not supported.
+  }
+};
+
+
+/**
+ * Sends a link to sign-in to the specified email. If a pending credential is
+ * required to be linked at the end of the flow, it is saved locally.
+ * @param {string} email The email to sign in with.
+ * @param {?firebaseui.auth.PendingEmailCredential=} opt_pendingCredential The
+ *     pending credential to link to the successfully signed in user
+ * @return {!firebase.Promise<void>}
+ */
+firebaseui.auth.AuthUI.prototype.sendSignInLinkToEmail =
+    function(email, opt_pendingCredential) {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
+  var self = this;
+  // Generate random 32 byte key.
+  var sid = firebaseui.auth.util.generateRandomAlphaNumericString(32);
+  // Assert email link sign-in allowed.
+  if (!this.getConfig().isEmailLinkSignInAllowed()) {
+    throw new Error(
+        'Email link sign-in should be enabled to trigger email sending.');
+  }
+  var actionCodeSettings =/** @type {!firebase.auth.ActionCodeSettings} */ (
+      this.getConfig().getEmailLinkSignInActionCodeSettings());
+  var urlBuilder = new firebaseui.auth.ActionCodeUrlBuilder(
+      actionCodeSettings['url']);
+  urlBuilder.setSessionId(sid);
+  if (opt_pendingCredential && opt_pendingCredential.getCredential()) {
+    // By encrypting the credential with the same key, we ensure only this
+    // session can redeem it. It is also used to obfuscate this cookie as it is
+    // sent along requests and there is no restriction on our end for the flow
+    // to be TLS encrypted.
+    firebaseui.auth.storage.setEncryptedPendingCredential(
+        sid, opt_pendingCredential, this.getAppId());
+    urlBuilder.setProviderId(
+        opt_pendingCredential.getCredential()['providerId']);
+  }
+  urlBuilder.setForceSameDevice(this.getConfig().isEmailLinkSameDeviceForced());
+  var cb = function(user) {
+    if (user) {
+      // Pass anonymous user UID.
+      urlBuilder.setAnonymousUid(user['uid']);
+    }
+    actionCodeSettings['url'] = urlBuilder.toString();
+    return /** @type {!firebase.Promise<void>} */ (
+        self.getAuth().sendSignInLinkToEmail(email, actionCodeSettings));
+  };
+  // Initialize current user if auto upgrade is enabled beforing running
+  // callback and returning result.
+  return this.initializeForAutoUpgrade_(cb).then(function() {
+    firebaseui.auth.storage.setEmailForSignIn(sid, email, self.getAppId());
+  }, function(error) {
+    // Clear any stored pending credential or email.
+    firebaseui.auth.storage.removeEncryptedPendingCredential(self.getAppId());
+    firebaseui.auth.storage.removeEmailForSignIn(self.getAppId());
+    throw error;
+  });
+};
+
+
+/**
+ * Returns the user needed to be upgraded for the email links sign-in flow if
+ * required. If not required, null is returned. If required but not found, an
+ * error is thrown.
+ * @param {string} link The email link to sign in with.
+ * @return {!goog.Promise<?firebase.User>} The anonymous user to upgrade if
+ *     available and if that user's uid matches the uid in email link.
+ */
+firebaseui.auth.AuthUI.prototype.getUpgradeableEmailLinkUser = function(link) {
+  var urlBuilder = new firebaseui.auth.ActionCodeUrlBuilder(link);
+  var anonymousUid = urlBuilder.getAnonymousUid();
+  var self = this;
+  // No anonymous user is required for email link sign-in flow.
+  if (!anonymousUid) {
+    return goog.Promise.resolve(null);
+  }
+  // Anonymous user upgrade required.
+  var p = new goog.Promise(function(resolve, reject) {
+    var unsubscribe = self.getExternalAuth().onAuthStateChanged(function(user) {
+      unsubscribe();
+      // User found and matches uid.
+      if (user && user['isAnonymous'] && user['uid'] === anonymousUid) {
+        // Either user matches or no anonymous upgrade needed.
+        resolve(user);
+      } else if (user && user['isAnonymous'] && user['uid'] !== anonymousUid) {
+        // User mismatch.
+        reject(new Error('anonymous-user-mismatch'));
+      } else {
+        // User not found.
+        reject(new Error('anonymous-user-not-found'));
+      }
+    });
+    self.registerPending(unsubscribe);
+  });
+  self.registerPending(p);
+  return p;
+};
+
+
+/**
+ * Upgrades the anonymous user with email link and handles linking if needed.
+ * This assumes checks are already performed on whether linking is
+ * required and the credential to link, whether anonymous user upgrade is
+ * needed or same device flow is required.
+ * At the end of the flow the external user is upgraded, or merge conflict is
+ * detected.
+ * @param {!firebase.User} user The user to upgrade.
+ * @param {string} email The email address of the account.
+ * @param {string} link The link containing the OTP.
+ * @param {?firebase.auth.AuthCredential=} opt_pendingCredential The pending
+ *     credential to link if available.
+ * @return {!firebase.Promise<!firebase.auth.UserCredential>}
+ */
+firebaseui.auth.AuthUI.prototype.upgradeWithEmailLink = function(
+    user, email, link, opt_pendingCredential) {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
+  var self = this;
+  var pendingCredential = opt_pendingCredential || null;
+  var credential = firebase.auth.EmailAuthProvider.credentialWithLink(
+      email, link);
+  var p;
+  // Linking is required which means a merge conflict will occur. Email
+  // account already exists.
+  if (pendingCredential) {
+    // Sign in on internal instance with email/link credential.
+    // Link pending OAuth credential.
+    // Sign out and throw merge error while passing pending credential.
+    p = this.getAuth().signInWithEmailLink(email, link)
+        .then(function(userCredential) {
+          return userCredential['user']
+              .linkAndRetrieveDataWithCredential(pendingCredential);
+        })
+        .then(function(linkedUserCredential) {
+          return self.clearTempAuthState();
+        })
+        .then(function() {
+          return self.onUpgradeError(
+              {'code': 'auth/email-already-in-use'},
+              pendingCredential);
+        });
+  } else {
+    p = this.getAuth().fetchSignInMethodsForEmail(email)
+        .then(function(signInMethods) {
+          // No pending credential.
+          if (!signInMethods.length) {
+            // New email. Linking email credential to anonymous user should
+            // succeed.
+            return user.linkAndRetrieveDataWithCredential(credential);
+          } else {
+            // Existing email will trigger merge conflict. In this case, we
+            // avoid consuming the one-time credential.
+            return self.onUpgradeError(
+                {'code': 'auth/email-already-in-use'}, credential);
+          }
+        });
+  }
+  // Register pending promise.
+  this.registerPending(p);
+  return /** @type {!firebase.Promise<!firebase.auth.UserCredential>} */ (p);
+};
+
+
+/**
+ * Completes sign in with email link and handles linking if needed.
+ * This assumes checks are already performed on whether linking is required and
+ * the credential to link. For anonymous upgrade flows, upgradeWithEmailLink
+ * should be used instead.
+ * At the end of the flow, the user will be signed in to external Auth instance.
+ * @param {string} email The email address of the account.
+ * @param {string} link The link containing the OTP.
+ * @param {?firebase.auth.AuthCredential=} opt_pendingCredential The pending
+ *     credential to link if available.
+ * @return {!firebase.Promise<!firebase.auth.UserCredential>}
+ */
+firebaseui.auth.AuthUI.prototype.signInWithEmailLink = function(
+    email, link, opt_pendingCredential) {
+  // Check if instance is already destroyed.
+  this.checkIfDestroyed_();
+  var pendingCredential = opt_pendingCredential || null;
+  var authResult;
+  var self = this;
+  // Sign in with email link credential on internal instance.
+  var p = this.getAuth().signInWithEmailLink(email, link)
+      .then(function(userCredential) {
+        authResult = /** @type {!firebaseui.auth.AuthResult} */ ({
+          'user': userCredential['user'],
+          // Email link credential is not re-usable.
+          'credential': null,
+          'operationType': userCredential['operationType'],
+          'additionalUserInfo': userCredential['additionalUserInfo']
+        });
+        // If there is a pending credential, link it to signed in user.
+        if (pendingCredential) {
+          return userCredential['user']
+              .linkAndRetrieveDataWithCredential(pendingCredential)
+              .then(function(linkedUserCredential) {
+                authResult = {
+                  'user': linkedUserCredential['user'],
+                  'credential': pendingCredential,
+                  'operationType': authResult['operationType'],
+                  'additionalUserInfo':
+                      linkedUserCredential['additionalUserInfo']
+                };
+              });
+        }
+      })
+      .then(function() {
+        // Sign out from internal instance.
+        self.clearTempAuthState();
+      })
+      .then(function() {
+        // Copy user to external instance and return AuthResult.
+        return self.getExternalAuth().updateCurrentUser(authResult['user']);
+      })
+      .then(function() {
+        // Update AuthResult user reference to point to external Auth
+        // currentUser.
+        authResult['user'] = self.getExternalAuth().currentUser;
+        return authResult;
+      });
+  // Register pending promise.
+  this.registerPending(p);
+  return /** @type {!firebase.Promise<!firebase.auth.UserCredential>} */ (p);
+};
+
+
+/**
+ * Clears the email link sign-in state from the URL. This has the following
+ * benefits:
+ * More compatible with SPAs where a user signing in with email link signs out
+ * and then tries to sign in again. The second attempt will assume the user is
+ * redirected from an email link click. It also avoids confusion after a sign
+ * in with redirect operation. The redirect back would be confused as a redirect
+ * from an email link click.
+ * The other benefit is that after email link sign-in completion with no
+ * redirect to a new signInSuccessUrl, a page reload could be confused as an
+ * email link sign-in attempt.
+ * @param {string=} opt_url Optional URL to use as reference. If not provided,
+ *     current URL is used instead.
+ */
+firebaseui.auth.AuthUI.prototype.clearEmailSignInState = function(opt_url) {
+  var currentUrl = opt_url || firebaseui.auth.util.getCurrentUrl();
+  if (this.isEmailLinkSignInUrl_(currentUrl)) {
+    var urlBuilder = new firebaseui.auth.ActionCodeUrlBuilder(currentUrl);
+    urlBuilder.clearState();
+    // Note this will update the URL without reloading the page.
+    firebaseui.auth.util.replaceHistoryState(
+        // Notify the user of the current state.
+        {
+          'state': 'signIn',
+          'mode': 'emailLink',
+          'operation': 'clear'
+        },
+        // Keep the same document title.
+        goog.global.document.title,
+        // Clear the URL query string from email link sign-in state.
+        urlBuilder.toString());
   }
 };
 
@@ -1222,7 +1503,7 @@ firebaseui.auth.AuthUI.prototype.finishSignInWithCredential =
         self.getConfig().autoUpgradeAnonymousUsers() &&
         !self.getAuth().currentUser) {
       return self.clearTempAuthState().then(function() {
-          return self.currentUser_;
+        return self.currentUser_;
       });
     } else if (user) {
       // TODO: optimize and fail directly as this will fail in most cases

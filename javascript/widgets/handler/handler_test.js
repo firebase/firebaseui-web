@@ -21,9 +21,17 @@ goog.setTestOnly('firebaseui.auth.widget.HandlerTest');
 
 goog.require('firebaseui.auth.widget.HandlerName');
 goog.require('firebaseui.auth.widget.handler');
+goog.require('firebaseui.auth.widget.handler.handleAnonymousUserMismatch');
 goog.require('firebaseui.auth.widget.handler.handleCallback');
+goog.require('firebaseui.auth.widget.handler.handleDifferentDeviceError');
 goog.require('firebaseui.auth.widget.handler.handleEmailChangeRevocation');
+goog.require('firebaseui.auth.widget.handler.handleEmailLinkConfirmation');
+goog.require('firebaseui.auth.widget.handler.handleEmailLinkNewDeviceLinking');
+goog.require('firebaseui.auth.widget.handler.handleEmailLinkSignInCallback');
+goog.require('firebaseui.auth.widget.handler.handleEmailLinkSignInLinking');
+goog.require('firebaseui.auth.widget.handler.handleEmailLinkSignInSent');
 goog.require('firebaseui.auth.widget.handler.handleEmailMismatch');
+goog.require('firebaseui.auth.widget.handler.handleEmailNotReceived');
 goog.require('firebaseui.auth.widget.handler.handleEmailVerification');
 goog.require('firebaseui.auth.widget.handler.handleFederatedLinking');
 goog.require('firebaseui.auth.widget.handler.handlePasswordLinking');
@@ -34,6 +42,7 @@ goog.require('firebaseui.auth.widget.handler.handlePasswordSignUp');
 goog.require('firebaseui.auth.widget.handler.handlePhoneSignInFinish');
 goog.require('firebaseui.auth.widget.handler.handlePhoneSignInStart');
 goog.require('firebaseui.auth.widget.handler.handleProviderSignIn');
+goog.require('firebaseui.auth.widget.handler.handleSendEmailLinkForSignIn');
 goog.require('firebaseui.auth.widget.handler.handleSignIn');
 goog.require('firebaseui.auth.widget.handler.testHelper');
 
@@ -68,6 +77,32 @@ function testHandlerRegistration() {
       firebaseui.auth.widget.handler.handlePhoneSignInStart,
       firebaseui.auth.widget.handlers_[HandlerName.PHONE_SIGN_IN_START]);
   assertEquals(
+      firebaseui.auth.widget.handler.handleSendEmailLinkForSignIn,
+      firebaseui.auth.widget.handlers_[
+          HandlerName.SEND_EMAIL_LINK_FOR_SIGN_IN]);
+  assertEquals(
+      firebaseui.auth.widget.handler.handleEmailLinkConfirmation,
+      firebaseui.auth.widget.handlers_[HandlerName.EMAIL_LINK_CONFIRMATION]);
+  assertEquals(
+      firebaseui.auth.widget.handler.handleEmailLinkSignInLinking,
+      firebaseui.auth.widget.handlers_[HandlerName.EMAIL_LINK_SIGN_IN_LINKING]);
+  assertEquals(
+      firebaseui.auth.widget.handler.handleEmailLinkNewDeviceLinking,
+      firebaseui.auth.widget.handlers_[
+          HandlerName.EMAIL_LINK_NEW_DEVICE_LINKING]);
+  assertEquals(
+      firebaseui.auth.widget.handler.handleEmailLinkSignInSent,
+      firebaseui.auth.widget.handlers_[HandlerName.EMAIL_LINK_SIGN_IN_SENT]);
+  assertEquals(
+      firebaseui.auth.widget.handler.handleEmailNotReceived,
+      firebaseui.auth.widget.handlers_[HandlerName.EMAIL_NOT_RECEIVED]);
+  assertEquals(
+      firebaseui.auth.widget.handler.handleDifferentDeviceError,
+      firebaseui.auth.widget.handlers_[HandlerName.DIFFERENT_DEVICE_ERROR]);
+  assertEquals(
+      firebaseui.auth.widget.handler.handleAnonymousUserMismatch,
+      firebaseui.auth.widget.handlers_[HandlerName.ANONYMOUS_USER_MISMATCH]);
+  assertEquals(
       firebaseui.auth.widget.handler.handleEmailChangeRevocation,
       firebaseui.auth.widget.handlers_[HandlerName.EMAIL_CHANGE_REVOCATION]);
   assertEquals(
@@ -85,4 +120,8 @@ function testHandlerRegistration() {
   assertEquals(
       firebaseui.auth.widget.handler.handleProviderSignIn,
       firebaseui.auth.widget.handlers_[HandlerName.PROVIDER_SIGN_IN]);
+  assertEquals(
+      firebaseui.auth.widget.handler.handleEmailLinkSignInCallback,
+      firebaseui.auth.widget.handlers_[
+          HandlerName.EMAIL_LINK_SIGN_IN_CALLBACK]);
 }
