@@ -20,7 +20,6 @@ goog.provide('firebaseui.auth.util');
 
 goog.require('goog.Promise');
 goog.require('goog.dom');
-goog.require('goog.dom.safe');
 goog.require('goog.events');
 goog.require('goog.events.EventType');
 goog.require('goog.html.SafeUrl');
@@ -39,7 +38,7 @@ goog.require('goog.window');
 firebaseui.auth.util.goTo = function(url, opt_win) {
   var win = opt_win || window;
   // Sanitize URL before redirect.
-  goog.dom.safe.assignLocation(win.location, url);
+  win.location.assign(firebaseui.auth.util.sanitizeUrl(url));
 };
 
 
@@ -93,7 +92,7 @@ firebaseui.auth.util.goBack = function() {
 firebaseui.auth.util.openerGoTo = function(url, opt_win) {
   var win = opt_win || window;
   // Sanitize URL before redirect.
-  goog.dom.safe.assignLocation(win.opener.location, url);
+  win.opener.location.assign(firebaseui.auth.util.sanitizeUrl(url));
 };
 
 
@@ -112,6 +111,7 @@ firebaseui.auth.util.hasOpener = function() {
     // protocol match between current page and opener.
     return !!(window.opener &&
         window.opener.location &&
+        window.opener.location.assign &&
         window.opener.location.hostname === window.location.hostname &&
         window.opener.location.protocol === window.location.protocol);
   } catch (e) {}

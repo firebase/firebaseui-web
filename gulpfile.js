@@ -57,7 +57,7 @@ const NPM_MODULE_WRAPPER = OPTIMIZATION_LEVEL === 'WHITESPACE_ONLY' ?
     DIALOG_POLYFILL + '})();' + 'module.exports=firebaseui;';
 
 // The path to Closure Compiler.
-const COMPILER_PATH = 'node_modules/google-closure-compiler/compiler.jar';
+const COMPILER_PATH = 'node_modules/google-closure-compiler-java/compiler.jar';
 
 // The path to the temporary directory where intermediate results are stored.
 const TMP_DIR = 'out';
