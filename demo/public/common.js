@@ -20,8 +20,39 @@
  * @return {string} The reCAPTCHA rendering mode from the configuration.
  */
 function getRecaptchaMode() {
-  // Quick way of checking query params in the fragment. If we add more config
-  // we might want to actually parse the fragment as a query string.
-  return location.hash.indexOf('recaptcha=invisible') !== -1 ?
+  var config = parseQueryString(location.hash);
+  return config['recaptcha'] === 'invisible' ?
       'invisible' : 'normal';
+}
+
+
+/**
+ * @return {string} The email signInMethod from the configuration.
+ */
+function getEmailSignInMethod() {
+  var config = parseQueryString(location.hash);
+  return config['emailSignInMethod'] === 'password' ?
+      'password' : 'emailLink';
+}
+
+
+/**
+ * @param {string} queryString The full query string.
+ * @return {!Object<string, string>} The parsed query parameters.
+ */
+function parseQueryString(queryString) {
+  // Remove first character if it is ? or #.
+  if (queryString.length &&
+      (queryString.charAt(0) == '#' || queryString.charAt(0) == '?')) {
+    queryString = queryString.substring(1);
+  }
+  var config = {};
+  var pairs = queryString.split('&');
+  for (var i = 0; i < pairs.length; i++) {
+    var pair = pairs[i].split('=');
+    if (pair.length == 2) {
+      config[pair[0]] = pair[1];
+    }
+  }
+  return config;
 }

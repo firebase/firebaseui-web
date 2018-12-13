@@ -29,6 +29,8 @@ goog.require('firebaseui.auth.widget.Config');
 goog.require('firebaseui.auth.widget.handler');
 goog.require('firebaseui.auth.widget.handler.common');
 goog.require('firebaseui.auth.widget.handler.handleCallback');
+/** @suppress {extraRequire} */
+goog.require('firebaseui.auth.widget.handler.handleEmailLinkSignInLinking');
 goog.require('firebaseui.auth.widget.handler.handleEmailMismatch');
 goog.require('firebaseui.auth.widget.handler.handleFederatedLinking');
 /**
@@ -1409,10 +1411,10 @@ function testHandleCallback_redirectError_passwordLinkingRequired() {
 
 function testHandleCallback_redirectError_emailLinkLinkingRequired() {
   // Test return from regular sign in operation with a linking error.
-  // Pending credential should be saved and password linking page rendered.
+  // Pending credential should be saved and email link linking page rendered.
   asyncTestCase.waitForSignals(1);
   var cred  = firebaseui.auth.idp.getAuthCredential({
-    'providerId': 'google.com',
+    'providerId': 'facebook.com',
     'accessToken': 'ACCESS_TOKEN'
   });
 
@@ -1432,12 +1434,11 @@ function testHandleCallback_redirectError_emailLinkLinkingRequired() {
   testAuth.assertFetchSignInMethodsForEmail(
       [federatedAccount.getEmail()], ['emailLink']);
   testAuth.process().then(function() {
-    // The pending email credential should be cleared at this point.
-    // Password linking does not require a redirect so no need to save it
-    // anyway.
+    // The pending email credential should be cleared at this point. It will be
+    // encrypted and saved in cookie storage later.
     assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
         app.getAppId()));
-    assertPasswordLinkingPage(federatedAccount.getEmail());
+    assertEmailLinkSignInLinkingPage(passwordAccount.getEmail(), 'Facebook');
     asyncTestCase.signal();
   });
 }
@@ -1519,6 +1520,39 @@ function testHandleCallback_signInError_passwordLinkingRequired_popup() {
 }
 
 
+function testHandleCallback_signInError_emailLinkLinkingRequired_popup() {
+  // Test sign in operation with a linking error in popup flow.
+  // Pending credential should be saved and email link linking page rendered.
+  asyncTestCase.waitForSignals(1);
+  app.updateConfig('signInFlow', 'popup');
+  var cred  = firebaseui.auth.idp.getAuthCredential({
+    'providerId': 'facebook.com',
+    'accessToken': 'ACCESS_TOKEN'
+  });
+
+  // Callback rendered with popup result.
+  firebaseui.auth.widget.handler.handleCallback(
+      app,
+      container,
+      goog.Promise.reject({
+        'code': 'auth/account-exists-with-different-credential',
+        'email': passwordAccount.getEmail(),
+        'credential': cred
+      }));
+  assertCallbackPage();
+  testAuth.assertFetchSignInMethodsForEmail(
+      [federatedAccount.getEmail()], ['emailLink']);
+  testAuth.process().then(function() {
+    // The pending email credential should be cleared at this point. It will be
+    // encrypted and saved in cookie storage later.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    assertEmailLinkSignInLinkingPage(passwordAccount.getEmail(), 'Facebook');
+    asyncTestCase.signal();
+  });
+}
+
+
 function testHandleCallback_redirectError_federatedLinkingRequired() {
   // Test return from regular sign in operation with a linking error.
   // Pending credential should be saved and federated linking page rendered.
@@ -1542,8 +1576,9 @@ function testHandleCallback_redirectError_federatedLinkingRequired() {
         'email': federatedAccount.getEmail(),
         'credential': cred
       });
+  // Federated linking should have higher priority than email link linking.
   testAuth.assertFetchSignInMethodsForEmail(
-      [federatedAccount.getEmail()], ['google.com']);
+      [federatedAccount.getEmail()], ['emailLink', 'google.com']);
   testAuth.process().then(function() {
     // The pending credential should be saved here.
     assertObjectEquals(
@@ -2626,6 +2661,53 @@ function testHandleCallback_anonymousUpgrade_emailAlreadyInUse_passLinking() {
         app.getAppId()));
     // Password linking page rendered.
     assertPasswordLinkingPage(federatedAccount.getEmail());
+    asyncTestCase.signal();
+  });
+}
+
+
+function testHandleCallback_anonUpgrade_emailAlreadyInUse_emailLinkLinking() {
+  // Test anonymous user upgrade linkWithRedirect throwing email already in use
+  // error where the existing email belongs to a email link account.
+  asyncTestCase.waitForSignals(1);
+  // Enable anonymous user upgrade.
+  app.updateConfig('autoUpgradeAnonymousUsers', true);
+  var cred  = firebaseui.auth.idp.getAuthCredential({
+    'providerId': 'google.com',
+    'accessToken': 'ACCESS_TOKEN'
+  });
+  // Expected linkWithRedirect error.
+  var expectedError = {
+    'code': 'auth/email-already-in-use',
+    'credential': cred,
+    'email': federatedAccount.getEmail(),
+    'message': 'MESSAGE'
+  };
+  // Simulate anonymous user signed in.
+  externalAuth.setUser(anonymousUser);
+
+  // Render callback handler.
+  firebaseui.auth.widget.handler.handleCallback(app, container);
+  assertCallbackPage();
+  // Trigger initial onAuthStateChanged listener.
+  app.getExternalAuth().runAuthChangeHandler();
+  // Assert getRedirectResult called on external instance and expected email
+  // already in use error thrown.
+  app.getExternalAuth().assertGetRedirectResult(
+      [],
+      null,
+      expectedError);
+  app.getExternalAuth().process().then(function() {
+    // Simulate existing account is a password account.
+    testAuth.assertFetchSignInMethodsForEmail(
+        [federatedAccount.getEmail()], ['emailLink']);
+    return testAuth.process();
+  }).then(function() {
+    // The pending email credential should be cleared at this point. It will be
+    // encrypted and saved in cookie storage later.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    assertEmailLinkSignInLinkingPage(federatedAccount.getEmail(), 'Google');
     asyncTestCase.signal();
   });
 }

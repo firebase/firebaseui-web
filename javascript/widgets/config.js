@@ -163,6 +163,7 @@ firebaseui.auth.widget.Config.WidgetMode = {
   RECOVER_EMAIL: 'recoverEmail',
   RESET_PASSWORD: 'resetPassword',
   SELECT: 'select',
+  SIGN_IN: 'signIn',
   VERIFY_EMAIL: 'verifyEmail'
 };
 
@@ -693,6 +694,69 @@ firebaseui.auth.widget.Config.prototype.isDisplayNameRequired = function() {
     return /** @type {boolean} */ (!!signInOptions['requireDisplayName']);
   }
   return true;
+};
+
+
+/**
+ * @return {boolean} Whether email link sign-in is allowed. Defaults to false.
+ */
+firebaseui.auth.widget.Config.prototype.isEmailLinkSignInAllowed = function() {
+  // Get provided sign-in options for specified provider.
+  var signInOptions = this.getSignInOptionsForProvider_(
+      firebase.auth.EmailAuthProvider.PROVIDER_ID);
+
+  return !!(signInOptions && signInOptions['signInMethod'] ===
+            firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD);
+};
+
+
+/**
+ * @return {boolean} Whether password sign-in is allowed. Defaults to true.
+ */
+firebaseui.auth.widget.Config.prototype.isEmailPasswordSignInAllowed =
+    function() {
+  return !this.isEmailLinkSignInAllowed();
+};
+
+
+/** @return {boolean} Whether same device is forced for email link sign-in. */
+firebaseui.auth.widget.Config.prototype.isEmailLinkSameDeviceForced =
+    function() {
+  // Get provided sign-in options for specified provider.
+  var signInOptions = this.getSignInOptionsForProvider_(
+      firebase.auth.EmailAuthProvider.PROVIDER_ID);
+
+  return !!(signInOptions && signInOptions['forceSameDevice']);
+};
+
+
+/**
+ * @return {?firebase.auth.ActionCodeSettings} The ActionCodeSettings if email
+ *     link sign-in is enabled. Null is returned otherwise.
+ */
+firebaseui.auth.widget.Config.prototype.getEmailLinkSignInActionCodeSettings =
+    function() {
+  if (this.isEmailLinkSignInAllowed()) {
+    var actionCodeSettings = {
+      'url': firebaseui.auth.util.getCurrentUrl(),
+      'handleCodeInApp': true
+    };
+    // Get provided sign-in options for specified provider.
+    var signInOptions = this.getSignInOptionsForProvider_(
+        firebase.auth.EmailAuthProvider.PROVIDER_ID);
+    if (signInOptions &&
+        typeof signInOptions['emailLinkSignIn'] === 'function') {
+      goog.object.extend(
+          actionCodeSettings,
+          signInOptions['emailLinkSignIn']());
+    }
+    // URL could be provided using a relative path.
+    actionCodeSettings['url'] = goog.Uri.resolve(
+        firebaseui.auth.util.getCurrentUrl(),
+        actionCodeSettings['url']).toString();
+    return actionCodeSettings;
+  }
+  return null;
 };
 
 

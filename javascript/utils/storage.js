@@ -19,7 +19,9 @@
 goog.provide('firebaseui.auth.storage');
 
 goog.require('firebaseui.auth.Account');
+goog.require('firebaseui.auth.CookieMechanism');
 goog.require('firebaseui.auth.PendingEmailCredential');
+goog.require('firebaseui.auth.crypt');
 goog.require('goog.array');
 goog.require('goog.storage.Storage');
 goog.require('goog.storage.mechanism.HTML5LocalStorage');
@@ -46,6 +48,14 @@ storage.NAMESPACE_ = 'firebaseui';
  * @private
  */
 storage.SEPARATOR_ = ':';
+
+
+/**
+ * The object key for storing an email for sign-in.
+ * @const {string}
+ * @private
+ */
+storage.EMAIL_FOR_SIGN_IN_KEY_ = 'email';
 
 
 /**
@@ -79,18 +89,44 @@ storage.isAvailable = function() {
 
 /**
  * Valid keys for FirebaseUI data.
- * @enum {{name: string, persistent: boolean}}
+ * @enum {{name: string, storage: !goog.storage.Storage}}
  */
 storage.Key = {
   // Temporary storage.
-  PENDING_EMAIL_CREDENTIAL: {name: 'pendingEmailCredential', persistent: false},
-  PENDING_REDIRECT_KEY: {name: 'pendingRedirect', persistent: false},
-  REDIRECT_URL: {name: 'redirectUrl', persistent: false},
-  REMEMBER_ACCOUNT: {name: 'rememberAccount', persistent: false},
-
+  PENDING_EMAIL_CREDENTIAL: {
+    name: 'pendingEmailCredential',
+    storage: storage.temporaryStorage_
+  },
+  PENDING_REDIRECT_KEY: {
+    name: 'pendingRedirect',
+    storage: storage.temporaryStorage_
+  },
+  REDIRECT_URL: {
+    name: 'redirectUrl',
+    storage: storage.temporaryStorage_
+  },
+  REMEMBER_ACCOUNT: {
+    name: 'rememberAccount',
+    storage: storage.temporaryStorage_
+  },
   // Persistent storage.
-  REMEMBERED_ACCOUNTS: {name: 'rememberedAccounts', persistent: true}
+  REMEMBERED_ACCOUNTS: {
+    name: 'rememberedAccounts',
+    storage: storage.persistentStorage_
+  },
+  // Cookie storage.
+  EMAIL_FOR_SIGN_IN: {
+    name: 'emailForSignIn',
+    storage: new goog.storage.Storage(
+        new firebaseui.auth.CookieMechanism(3600, '/'))
+  },
+  PENDING_ENCRYPTED_CREDENTIAL: {
+    name: 'pendingEncryptedCredential',
+    storage: new goog.storage.Storage(
+        new firebaseui.auth.CookieMechanism(3600, '/'))
+  }
 };
+
 
 /**
  * @const @private{string} The pending redirect flag.
@@ -99,19 +135,9 @@ storage.PENDING_FLAG_ = 'pending';
 
 
 /**
- * @param {boolean} persistent Whether to use the persistent storage.
- * @return {!goog.storage.Storage} The corresponding storage instance.
- * @private
- */
-storage.getStorage_ = function(persistent) {
-  return persistent ? storage.persistentStorage_ : storage.temporaryStorage_;
-};
-
-
-/**
  * Constructs the corresponding storage key name.
  *
- * @param {firebaseui.auth.storage.Key} key The key under which the value is
+ * @param {!firebaseui.auth.storage.Key} key The key under which the value is
  *     stored.
  * @param {string=} opt_id When operating in multiple app mode, this ID
  *     associates storage values with specific apps.
@@ -126,7 +152,7 @@ storage.getKeyName_ = function(key, opt_id) {
 /**
  * Gets the stored value from the corresponding storage.
  *
- * @param {firebaseui.auth.storage.Key} key The key under which the value is
+ * @param {!firebaseui.auth.storage.Key} key The key under which the value is
  *     stored.
  * @param {string=} opt_id When operating in multiple app mode, this ID
  *     associates storage values with specific apps.
@@ -134,7 +160,7 @@ storage.getKeyName_ = function(key, opt_id) {
  * @private
  */
 storage.get_ = function(key, opt_id) {
-  return storage.getStorage_(key.persistent).get(
+  return key.storage.get(
       storage.getKeyName_(key, opt_id));
 };
 
@@ -142,14 +168,14 @@ storage.get_ = function(key, opt_id) {
 /**
  * Removes the stored value from the corresponding storage.
  *
- * @param {firebaseui.auth.storage.Key} key The key under which the value is
+ * @param {!firebaseui.auth.storage.Key} key The key under which the value is
  *     stored.
  * @param {string=} opt_id When operating in multiple app mode, this ID
  *     associates storage values with specific apps.
  * @private
  */
 storage.remove_ = function(key, opt_id) {
-  storage.getStorage_(key.persistent).remove(
+  key.storage.remove(
       storage.getKeyName_(key, opt_id));
 };
 
@@ -157,7 +183,7 @@ storage.remove_ = function(key, opt_id) {
 /**
  * Stores the value in the corresponding storage.
  *
- * @param {firebaseui.auth.storage.Key} key The key under which the value is
+ * @param {!firebaseui.auth.storage.Key} key The key under which the value is
  *     stored.
  * @param {*} value The value to be stored.
  * @param {string=} opt_id When operating in multiple app mode, this ID
@@ -165,7 +191,7 @@ storage.remove_ = function(key, opt_id) {
  * @private
  */
 storage.set_ = function(key, value, opt_id) {
-  storage.getStorage_(key.persistent).set(
+  key.storage.set(
       storage.getKeyName_(key, opt_id), value);
 };
 
@@ -238,7 +264,7 @@ storage.isRememberAccount = function(opt_id) {
 /**
  * Stores the remember account setting.
  *
- * @param {boolean} remember Wheter or not to remember the account.
+ * @param {boolean} remember Whether or not to remember the account.
  * @param {string=} opt_id When operating in multiple app mode, this ID
  *     associates storage values with specific apps.
  */
@@ -261,10 +287,10 @@ storage.removeRememberAccount = function(opt_id) {
 /**
  * @param {string=} opt_id When operating in multiple app mode, this ID
  *     associates storage values with specific apps.
- * @return {Array<firebaseui.auth.Account>} The remembered accounts.
+ * @return {!Array<!firebaseui.auth.Account>} The remembered accounts.
  */
 storage.getRememberedAccounts = function(opt_id) {
-  var rawAccounts = /** @type {Array<!Object>} */ (
+  var rawAccounts = /** @type {!Array<!Object>} */ (
       storage.get_(storage.Key.REMEMBERED_ACCOUNTS, opt_id) || []);
   var accounts = goog.array.map(rawAccounts, function(element) {
     return firebaseui.auth.Account.fromPlainObject(element);
@@ -290,7 +316,7 @@ storage.rememberAccount = function(account, opt_id) {
   if (index > -1) {
     goog.array.removeAt(accounts, index);
   }
-  // Put the last added account to the begining of the array so it appears as
+  // Put the last added account to the beginning of the array so it appears as
   // the first one.
   accounts.unshift(account);
   storage.set_(
@@ -399,6 +425,156 @@ storage.setPendingRedirectStatus = function(opt_id) {
   storage.set_(
       storage.Key.PENDING_REDIRECT_KEY,
       storage.PENDING_FLAG_,
+      opt_id);
+};
+
+
+/**
+ * Returns whether an email for sign-in is stored for the provided application
+ * ID.
+ *
+ * @param {string=} opt_id When operating in multiple app mode, this ID
+ *     associates storage values with specific apps.
+ * @return {boolean} Whether there is a pending email link sign-in for the
+ *     provided app ID.
+ */
+storage.hasEmailForSignIn = function(opt_id) {
+  return !!storage.get_(storage.Key.EMAIL_FOR_SIGN_IN, opt_id);
+};
+
+
+/**
+ * Returns the email for the email link sign-in if it previously started in the
+ * current device.
+ *
+ * @param {string} encryptionKey The encryption key to decrypt the stored email.
+ * @param {string=} opt_id When operating in multiple app mode, this ID
+ *     associates storage values with specific apps.
+ * @return {?string} The stored decrypted email for the email link sign-in if
+ *     available.
+ */
+storage.getEmailForSignIn = function(encryptionKey, opt_id) {
+  var encryptedEmailObject =
+      storage.get_(storage.Key.EMAIL_FOR_SIGN_IN, opt_id);
+  var email = null;
+  if (encryptedEmailObject) {
+    try {
+      var serilizedEmailObject = firebaseui.auth.crypt.aesDecrypt(
+          encryptionKey,
+          /** @type {string} */ (encryptedEmailObject));
+      var emailObject = JSON.parse(serilizedEmailObject);
+      email =
+          (emailObject && emailObject[storage.EMAIL_FOR_SIGN_IN_KEY_]) || null;
+    } catch (e) {
+      // Do nothing.
+    }
+  }
+  return email;
+};
+
+
+/**
+ * Removes the stored email for the email link sign-in if it exists.
+ *
+ * @param {string=} opt_id When operating in multiple app mode, this ID
+ *     associates storage values with specific apps.
+ */
+storage.removeEmailForSignIn = function(opt_id) {
+  storage.remove_(storage.Key.EMAIL_FOR_SIGN_IN, opt_id);
+};
+
+
+/**
+ * Stores the email corresponding to the email link sign-in attempt.
+ *
+ * @param {string} encryptionKey The encryption key to encrypt the email.
+ * @param {string} email The email to store.
+ * @param {string=} opt_id When operating in multiple app mode, this ID
+ *     associates storage values with specific apps.
+ */
+storage.setEmailForSignIn = function(encryptionKey, email, opt_id) {
+  var emailPlainObject = {};
+  emailPlainObject[storage.EMAIL_FOR_SIGN_IN_KEY_] = email;
+  storage.set_(
+      storage.Key.EMAIL_FOR_SIGN_IN,
+      firebaseui.auth.crypt.aesEncrypt(
+          encryptionKey,
+          JSON.stringify(emailPlainObject)),
+      opt_id);
+};
+
+
+/**
+ * Whether there is a stored encrypted credential for the provided application
+ * ID.
+ *
+ * @param {string=} opt_id When operating in multiple app mode, this ID
+ *     associates storage values with specific apps.
+ * @return {boolean} Whether there is a stored encrypted credential for the
+ *     provided app ID.
+ */
+storage.hasEncryptedPendingCredential = function(opt_id) {
+  return !!storage.get_(storage.Key.PENDING_ENCRYPTED_CREDENTIAL, opt_id);
+};
+
+
+/**
+ * Returns the decrypted pending credential for a linking flow for the provided
+ * app ID.
+ *
+ * @param {string} encryptionKey The encryption key to decrypt the stored
+ *     credential.
+ * @param {string=} opt_id When operating in multiple app mode, this ID
+ *     associates storage values with specific apps.
+ * @return {?firebaseui.auth.PendingEmailCredential} The stored pending email
+ *     credential if it exists.
+ */
+storage.getEncryptedPendingCredential = function(encryptionKey, opt_id) {
+  var encryptedCred = storage.get_(
+      storage.Key.PENDING_ENCRYPTED_CREDENTIAL, opt_id);
+  var cred = null;
+  if (encryptedCred) {
+    try {
+      var credString = firebaseui.auth.crypt.aesDecrypt(
+          encryptionKey,
+          /** @type {string} */ (encryptedCred));
+      cred = /** @type {?Object} */ (JSON.parse(credString));
+    } catch (e) {
+      // Do nothing.
+    }
+  }
+  return firebaseui.auth.PendingEmailCredential.fromPlainObject(cred || null);
+};
+
+
+/**
+ * Removes the stored encrypted pending email credential if it exists.
+ *
+ * @param {string=} opt_id When operating in multiple app mode, this ID
+ *     associates storage values with specific apps.
+ */
+storage.removeEncryptedPendingCredential = function(opt_id) {
+  storage.remove_(storage.Key.PENDING_ENCRYPTED_CREDENTIAL, opt_id);
+};
+
+
+/**
+ * Stores the encrpted pending email credential for the specified application
+ * ID.
+ *
+ * @param {string} encryptionKey The encryption key to encrypt the credential.
+ * @param {!firebaseui.auth.PendingEmailCredential} pendingEmailCredential The
+ *     pending email credential to store.
+ * @param {string=} opt_id When operating in multiple app mode, this ID
+ *     associates storage values with specific apps.
+ */
+storage.setEncryptedPendingCredential = function(
+    encryptionKey, pendingEmailCredential, opt_id) {
+  storage.set_(
+      storage.Key.PENDING_ENCRYPTED_CREDENTIAL,
+      firebaseui.auth.crypt.aesEncrypt(
+          encryptionKey,
+          JSON.stringify(pendingEmailCredential.toPlainObject())),
       opt_id);
 };
 });

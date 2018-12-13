@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>FirebaseUI Auth Demo</title>
     <link rel="manifest" href="manifest.json">
-    <script src="https://www.gstatic.com/firebasejs/5.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5/firebase.js"></script>
     <script src="config.js"></script>
     <script src="common.js"></script>
     <link href="style.css" rel="stylesheet" type="text/css" media="screen" />
@@ -46,6 +46,17 @@
               <label for="recaptcha-invisible">
                 <input type="radio" id="recaptcha-invisible" name="recaptcha" value="invisible">
                 Invisible
+              </label><br>
+              Email signInMethod:
+              <label for="email-signInMethod-password">
+                <input type="radio" id="email-signInMethod-password" name="emailSignInMethod"
+                       value="password">
+                Password
+              </label>
+              <label for="email-signInMethod-emailLink">
+                <input type="radio" id="email-signInMethod-emailLink" name="emailSignInMethod"
+                       value="emailLink">
+                Email Link
               </label>
             </fieldset>
             <p>

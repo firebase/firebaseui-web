@@ -18,6 +18,8 @@
 
 goog.provide('firebaseui.auth.idp');
 
+goog.require('goog.array');
+
 
 /**
  * @param {string} providerId The provider ID of the provider in question.
@@ -27,6 +29,31 @@ firebaseui.auth.idp.isSupportedProvider = function(providerId) {
   return !!firebaseui.auth.idp.AuthProviders[providerId];
 };
 
+
+/**
+ * @param {!Array<string>} signInMethods List of sign in methods.
+ * @return {?string} The first federated sign-in method if available.
+ *     Otherwise, returns null.
+ */
+firebaseui.auth.idp.getFirstFederatedSignInMethod = function(signInMethods) {
+  for (var i = 0; i < signInMethods.length; i++) {
+    if (!goog.array.contains(
+            firebaseui.auth.idp.NonFederatedSignInMethods, signInMethods[i])) {
+      return signInMethods[i];
+    }
+  }
+  return null;
+};
+
+/**
+ * Supported non-federated sign-in methods.
+ * @package {!Array<string>}
+ */
+firebaseui.auth.idp.NonFederatedSignInMethods = [
+  'emailLink',
+  'password',
+  'phone'
+];
 
 /**
  * Supported IdP auth provider.

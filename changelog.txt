@@ -1,0 +1,1 @@
+feature - Added support for email link sign-in: https://github.com/firebase/firebaseui-web#email-link-authentication.

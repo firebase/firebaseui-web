@@ -200,6 +200,31 @@
 
 
 /**
+ * Renders a Trouble getting email button.
+ */
+{template .troubleGettingEmailButton}
+  <a class="firebaseui-link firebaseui-id-trouble-getting-email-link"
+      href="javascript:void(0)">
+    {msg desc="The label of the button that will redirect to the screen with instructions for
+        troubleshooting issues related to not receiving an email message."}
+      Trouble getting email?
+    {/msg}
+  </a>
+{/template}
+
+
+/**
+ * Renders a resend email link button.
+ */
+{template .resendEmailLinkButton}
+  <a class="firebaseui-link firebaseui-id-resend-email-link"
+      href="javascript:void(0)">
+    {msg desc="Label of the resend email link button"}Resend{/msg}
+  </a>
+{/template}
+
+
+/**
  * Renders a sign-in button.
  */
 {template .signInButton}
@@ -339,9 +364,14 @@
  * Renders the cancel button.
  */
 {template .cancelButton}
+  {@param? label: string} /** Label of the button, defaulting to "Cancel" if not specified. */
   <button class="firebaseui-id-secondary-link firebaseui-button mdl-button mdl-js-button{sp}
                  mdl-button--primary">
-    {msg desc="Link to cancel the current flow."}Cancel{/msg}
+    {if $label}
+      {$label}
+    {else}
+      {msg desc="Link to cancel the current flow."}Cancel{/msg}
+    {/if}
   </button>
 {/template}
 

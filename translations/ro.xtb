@@ -1,7 +1,10 @@
 <translationbundle lang="ro">
+<translation id="1003362845472634045">A fost trimis e-mailul de conectare</translation>
 <translation id="10081113082271688">Codul de confirmare este greșit</translation>
 <translation id="1024070574104100559">Saint Vincent și Grenadinele</translation>
-<translation id="1100633043848982368">Retrimiteți codul</translation>
+<translation id="1080228854514607739">Linkul din e-mail nu este valid. Se poate întâmpla dacă linkul din e-mail a expirat sau a fost folosit deja pentru conectare. Reporniți fluxul de conectare.</translation>
+<translation id="1088824719285122027">Acest număr de telefon a fost folosit de prea multe ori</translation>
+<translation id="1111168792069656940">ui_flow</translation>
 <translation id="1130401182255828006">Letonia</translation>
 <translation id="1133565039750742069">Salvați</translation>
 <translation id="1139115784936170936">Singapore</translation>
@@ -48,6 +51,7 @@
 <translation id="2058731785647385204">Montserrat</translation>
 <translation id="2070709910567585968">Parolele puternice au cel puțin 6 caractere și conțin o combinație de litere și cifre</translation>
 <translation id="2074008538308369451">Termeni și condiții</translation>
+<translation id="2089802663554186342">S-a încheiat sesiunea</translation>
 <translation id="2108717231438756650">Regatul Unit</translation>
 <translation id="2120419640334291526">Insulele Cayman</translation>
 <translation id="2124070231227334770">Moldova</translation>
@@ -63,7 +67,7 @@
 <translation id="227405248692044138">Malta</translation>
 <translation id="2285049245646335550">Capul Verde</translation>
 <translation id="2301396996587599046">Macedonia</translation>
-<translation id="2312980523495377579">Prenume și nume de familie</translation>
+<translation id="2310948428656960769">Conectat(ă)!</translation>
 <translation id="2324942959480650701">Invitat</translation>
 <translation id="2331781584136059536">Ghana</translation>
 <translation id="2338909515537249568">Browserul pe care îl folosiți nu acceptă stocarea datelor de pe web. Încercați din nou în alt browser.</translation>
@@ -80,13 +84,17 @@
 <translation id="2561560038714758184">Securitate</translation>
 <translation id="2561835578785502516">Solicitarea de resetare a parolei a expirat sau linkul a fost folosit deja</translation>
 <translation id="2581514546525533462">Codul de țară introdus nu este acceptat.</translation>
+<translation id="2600950452451016107">Verificați dacă ați scris corect adresa de e-mail.</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">Cambodgia</translation>
 <translation id="2616650714309312732">Portugalia</translation>
 <translation id="2619590123270932385">Guyana Franceză</translation>
 <translation id="2621854044487969847">Insulele Virgine Britanice</translation>
+<translation id="2623430226615357954">Închideți</translation>
 <translation id="2626214972556632989">Introduceți un număr de telefon valid.</translation>
 <translation id="2652952163277051394">Acest tip de cont nu este acceptat de aplicație</translation>
+<translation id="2660271277401013037">Codul de acțiune nu este valid. Se poate întâmpla în cazurile în care codul este incorect, expirat sau a fost folosit deja.</translation>
+<translation id="2665022736179407256">Acest cod a expirat.</translation>
 <translation id="2668496398414877352">Kosovo</translation>
 <translation id="2674823936234616183">Uzbekistan</translation>
 <translation id="2696162410887720551">Insulele Åland</translation>
@@ -94,7 +102,7 @@
 <translation id="2741235824871026219">Confirmați</translation>
 <translation id="2752984808025184019">Africa de Sud</translation>
 <translation id="2760636260031093254">Introduceți adresa de e-mail pentru a continua</translation>
-<translation id="2824267666257947103">Introduceți parola</translation>
+<translation id="2782685789517131804">Un e-mail de conectare cu instrucțiuni suplimentare a fost trimis la <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Verificați-vă căsuța de e-mail pentru a finaliza conectarea.</translation>
 <translation id="2828509010894808185">Creați un cont</translation>
 <translation id="2834770837848769530">Afganistan</translation>
 <translation id="2884525438023347369">Dacă atingeți <ph name="BTN" />, indicați că sunteți de acord cu <ph name="TOS" />.</translation>
@@ -125,6 +133,7 @@
 <translation id="3372254675985592547">Cuba</translation>
 <translation id="3394519231857398207">Franța</translation>
 <translation id="3398534025670554188">China</translation>
+<translation id="3409391354412142307">Ați folosit deja <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Vă puteți conecta contul <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> la <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> folosind linkul din e-mail, aflat mai jos.</translation>
 <translation id="3413300222170818119">Zambia</translation>
 <translation id="3429213469114503705">Vatican</translation>
 <translation id="3434621886769337032">Gambia</translation>
@@ -156,8 +165,11 @@
 <translation id="3954166521214262397">Cod din 6 cifre</translation>
 <translation id="3987987513436822097">Comore</translation>
 <translation id="4009306200855295525">Țară</translation>
+<translation id="4021489444336102711">Confirmați</translation>
 <translation id="4022450612826261789">Kosovo</translation>
+<translation id="4025579119565425333">Încercați aceste soluții folosite frecvent</translation>
 <translation id="4056653682525186486">Conectați-vă cu <ph name="XXX" /></translation>
+<translation id="4064888056475403511">Încercați să accesați linkul folosind același dispozitiv sau browser pe care ați început procesul de conectare.</translation>
 <translation id="4066104405592701692">Estonia</translation>
 <translation id="4090385155496329109">Facebook</translation>
 <translation id="4163133799286985193">Argentina</translation>
@@ -167,6 +179,7 @@
 <translation id="4242716276491763916">Guineea</translation>
 <translation id="4248546264350694306">Elveția</translation>
 <translation id="4266056491449352939">Andorra</translation>
+<translation id="4322167048992801895">Nu primiți e-mailuri?</translation>
 <translation id="4329551945958214898">Japonia</translation>
 <translation id="4331763189922924781">Muntenegru</translation>
 <translation id="4372962701784304822">Mozambic</translation>
@@ -174,6 +187,7 @@
 <translation id="4386334763822785837">Turcia</translation>
 <translation id="4413304190485210039">Tadjikistan</translation>
 <translation id="4432634970196611353">Laos</translation>
+<translation id="4440507149645221385">Număr de telefon</translation>
 <translation id="4450602713221237198">Retrimiteți</translation>
 <translation id="4498504413765490964">Honduras</translation>
 <translation id="4515732781724470190">Niger</translation>
@@ -191,6 +205,7 @@
 <translation id="4775051289386800916">Nicaragua</translation>
 <translation id="4783400389150493171">Burkina Faso</translation>
 <translation id="4852256440857413490">Cod greșit. Încercați din nou.</translation>
+<translation id="4866990546854875813">Sesiunea asociată acestei solicitări de conectare a expirat sau a fost golită.</translation>
 <translation id="4871106926303956169">Insulele Turks și Caicos</translation>
 <translation id="4877597386645466815">Retrimiteți codul în <ph name="TIME_REMAINING" /></translation>
 <translation id="4915406999072654369">Verificați căsuța de e-mail</translation>
@@ -199,6 +214,7 @@
 <translation id="4991626049082973728">Serbia</translation>
 <translation id="4991892293325936102">Belize</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" />pentru <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /><ph name="END_PARAGRAPH" /></translation>
+<translation id="5059105734231232362">Pentru ca acest flux să conecteze contul <ph name="IDP_DISPLAY_NAME" /> la această adresă de e-mail, trebuie să accesați linkul pe același dispozitiv sau browser.</translation>
 <translation id="5080084639513001393">Suedia</translation>
 <translation id="5080899604429810481">Saint-Martin</translation>
 <translation id="5143657419516597442">Saint Lucia</translation>
@@ -215,6 +231,7 @@
 <translation id="5443669846203963095">Politica de confidențialitate</translation>
 <translation id="5444635161362535036">Liechtenstein</translation>
 <translation id="5483706910421209104">Modificați numele</translation>
+<translation id="5490651768073507833">Încercați să accesați linkul folosind același dispozitiv sau browser pe care ați început procesul de conectare.</translation>
 <translation id="5524360735013196510">Țările de Jos</translation>
 <translation id="5528189843379142883">Guineea Ecuatorială</translation>
 <translation id="5529036554155743092">Australia</translation>
@@ -233,11 +250,14 @@
 <translation id="5642254620426025006">A apărut o eroare. Încercați din nou.</translation>
 <translation id="5649486931917149784">Parolă</translation>
 <translation id="5664080586064341046">Saint Kitts</translation>
+<translation id="5668881954117611594">Înapoi</translation>
 <translation id="5699028034244995851">Introduceți adresa de e-mail pentru a continua</translation>
 <translation id="5701178667798108817">Confirmați numărul de telefon</translation>
 <translation id="5715637701147651513">Liberia</translation>
+<translation id="5755179287528310939">Există deja un cont cu respectiva adresă de e-mail.</translation>
 <translation id="5771034676910614239">Madagascar</translation>
 <translation id="5818634293686963864">Kazahstan</translation>
+<translation id="5829301468800336085">Se conectează…</translation>
 <translation id="5840765100196379855">Panama</translation>
 <translation id="5840803301882074743">Tonga</translation>
 <translation id="5850752921356750845">Wallis și Futuna</translation>
@@ -250,12 +270,11 @@
 <translation id="5989709845715452405">Recuperați parola</translation>
 <translation id="5995596766674622541">Introduceți codul din 6 cifre pe care l-am trimis la <ph name="START_LINK" />&amp;lrm;<ph name="PHONE_NUMBER" /><ph name="END_LINK" /></translation>
 <translation id="6006148985615990975">Rwanda</translation>
-<translation id="6040759627067155517">Adresă de e-mail</translation>
+<translation id="6032262985756512833">Introduceți codul din <ph name="STRING" /> cifre pe care l-am trimis la</translation>
 <translation id="6044396095102058216">Acest număr de telefon a fost folosit de prea multe ori</translation>
-<translation id="6091051069256411999">Twitter</translation>
-<translation id="61182948399263957">
-<ph name="P_START" />Conectați-vă la <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
-<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
+<translation id="6083089720215618333">Adresa de e-mail nu corespunde sesiunii curente de conectare.</translation>
+<translation id="6113531938704280909">Deconectați contul</translation>
+<translation id="6132202686885223981">Verificați dacă aveți spațiu în căsuța de e-mail sau dacă există alte probleme legate de setările căsuței de e-mail.</translation>
 <translation id="6189573836664806798">Paraguay</translation>
 <translation id="6192657410634245771">Algeria</translation>
 <translation id="6213969168046789596">Ați introdus de prea multe ori o parolă greșită. Încercați din nou peste câteva minute.</translation>
@@ -272,8 +291,10 @@
 <translation id="6381974517529371884">Insulele Feroe</translation>
 <translation id="6443180961828792673">Kosovo</translation>
 <translation id="6450170205342035038">Bulgaria</translation>
-<translation id="6476467763326951353">Confirmați adresa de e-mail pentru <ph name="APP_NAME" /></translation>
-<translation id="6494734506607758748">Pentru a schimba adresa de e-mail asociată contului, va trebui să vă conectați din nou.</translation>
+<translation id="6470057025778734988">Nu vă veți mai putea conecta folosind contul</translation>
+<translation id="6472297146424049005">Verificați conexiunea la internet.</translation>
+<translation id="6483116480230343278">Se creează un cont...</translation>
+<translation id="6502083090260346644">Dacă atingeți <ph name="STRING" />, poate fi trimis un SMS. Se pot aplica tarife pentru mesaje și date.</translation>
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Samoa Americană</translation>
 <translation id="6527597037551425211">Brazilia</translation>
@@ -284,6 +305,7 @@
 <translation id="6611519013130079637">Belgia</translation>
 <translation id="6618737424980030515">Georgia</translation>
 <translation id="6623411438614744695">Namibia</translation>
+<translation id="6653313985929651858">A fost trimis e-mailul de conectare\n</translation>
 <translation id="6655128609744896303">Codul a fost trimis!</translation>
 <translation id="6683477520421532707">Réunion</translation>
 <translation id="6683810982254923169">Încercați din nou să vă resetați parola</translation>
@@ -298,15 +320,18 @@
 <translation id="6769550797775698634">Camerun</translation>
 <translation id="6775190982418995854">Svalbard și Jan Mayen</translation>
 <translation id="6775835872637240659">Ucraina</translation>
+<translation id="6779584651193963121">Dacă pașii de mai sus nu funcționează, puteți să trimiteți din nou e-mailul. Rețineți că va fi dezactivat linkul din e-mailul anterior.</translation>
 <translation id="6782010235320729294">Turkmenistan</translation>
 <translation id="6821607741326790458">Jamaica</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
+<translation id="6918319418444979243">Retrimiteți</translation>
 <translation id="6920167780806379235">Siria</translation>
 <translation id="6921505896641453739">Adresă de e-mail</translation>
 <translation id="6929813273561975780">Înainte</translation>
 <translation id="6951302238647056860">Codul nu mai este valid</translation>
 <translation id="6976724207780605356">Conectați-vă cu Facebook</translation>
+<translation id="6984204927251307445">Confirmați adresa de e-mail</translation>
 <translation id="6999773882165218263">Prenume și nume de familie</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Sahara de Vest</translation>
@@ -323,6 +348,7 @@
 <translation id="7207660930894629055">Continuați cu <ph name="USER_EMAIL" />?</translation>
 <translation id="7223410082658239002">Maldive</translation>
 <translation id="7254028881697834212">São Tomé și Príncipe</translation>
+<translation id="7268827299582726485">Confirmați adresa de e-mail pentru a finaliza conectarea</translation>
 <translation id="7272145663101316762">Slovenia</translation>
 <translation id="7280309713358692490">Coreea de Sud</translation>
 <translation id="7291567990403335374">Lesotho</translation>
@@ -330,19 +356,21 @@
 <translation id="7320029088567935126">Încercați să vă confirmați din nou adresa de e-mail</translation>
 <translation id="7331038350037712642">Azerbaidjan</translation>
 <translation id="743266754881673808">Google</translation>
-<translation id="7453388767208874682">Numărul de telefon trebuie completat</translation>
-<translation id="7482751672921205012">Ștergeți contul?</translation>
+<translation id="744894552966168763">Linkul din e-mail nu este valid</translation>
+<translation id="7477065998516229434">Termeni și condițiile</translation>
 <translation id="7493245640904888019">Gibraltar</translation>
 <translation id="7510939244824757986">Tanzania</translation>
 <translation id="7526532581122816497">Cont conectat</translation>
 <translation id="7560587702704358921">Saint-Pierre și Miquelon</translation>
 <translation id="7569285452790032317">Somalia</translation>
 <translation id="7592224526951017144">Germania</translation>
+<translation id="7595933825828475368">Nu primiți e-mailuri?</translation>
 <translation id="7615083347713899917">Kârgâzstan</translation>
 <translation id="7643408533407091568">Ați folosit deja <ph name="EMAIL_ADDR" /> pentru a vă conecta. Introduceți parola acestui cont.</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{Parola nu este suficient de puternică. Folosiți cel puțin <ph name="PH_1" /> caracter și o combinație de litere și cifre.}few{Parola nu este suficient de puternică. Folosiți cel puțin <ph name="PH_1" /> caractere și o combinație de litere și cifre.}other{Parola nu este suficient de puternică. Folosiți cel puțin <ph name="PH_1" /> de caractere și o combinație de litere și cifre.}}</translation>
 <translation id="7699755204074920022">Zimbabwe</translation>
 <translation id="7782885946428624225">A apărut o problemă la confirmarea numărului de telefon</translation>
+<translation id="7796914496604415892">A fost detectat un nou dispozitiv sau browser</translation>
 <translation id="7868540442111212282">Republica Cehă</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
 <translation id="7926046652648626866">Conectați-vă cu GitHub</translation>
@@ -383,7 +411,8 @@
 <translation id="8448940737083561161">Kiribati</translation>
 <translation id="847294590390666986">Taiwan</translation>
 <translation id="8477554788963470892">Sierra Leone</translation>
-<translation id="850278101443955459">Conectați-vă</translation>
+<translation id="8498398269542501379">Verificați dacă e-mailul a fost marcat ca spam sau filtrat.</translation>
+<translation id="8505200776212389923">Se verifică…</translation>
 <translation id="8505941919386646914">Martinica</translation>
 <translation id="8534746304953308378">Togo</translation>
 <translation id="8572093925387077451">Aveți deja un cont</translation>
@@ -407,8 +436,9 @@
 <translation id="8869797682387766327">Insula Man</translation>
 <translation id="8893950153780006385">Malaysia</translation>
 <translation id="8895840173743975193">Insulele Cocos [Keeling]</translation>
-<translation id="8955469172512804617">Dacă atingeți <ph name="BTN" />, indicați că sunteți de acord cu <ph name="PP" />.</translation>
-<translation id="8980953965669178372">Gata</translation>
+<translation id="8916080112145514151">Dacă încă doriți să vă asociați contul <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" />, deschideți linkul pe același dispozitiv pe care ați început conectarea. În caz contrar, atingeți Continuați pentru a vă conecta pe acest dispozitiv.</translation>
+<translation id="8939353296336237380">Inițial ați intenționat să vă asociați <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> la contul de e-mail, dar ați deschis linkul pe alt dispozitiv pe care nu v-ați conectat.</translation>
+<translation id="8971555482255213064">Retrimiteți codul în 00:<ph name="PH_1" /></translation>
 <translation id="8984161590699631096">Maroc</translation>
 <translation id="900153878296575829">Bangladesh</translation>
 <translation id="9022632332691561239">Număr de telefon</translation>

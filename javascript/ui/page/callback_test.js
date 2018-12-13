@@ -21,6 +21,7 @@ goog.setTestOnly('firebaseui.auth.ui.page.CallbackTest');
 
 goog.require('firebaseui.auth.ui.page.Callback');
 goog.require('firebaseui.auth.ui.page.PageTestHelper');
+goog.require('goog.Promise');
 goog.require('goog.dom');
 goog.require('goog.dom.TagName');
 goog.require('goog.testing.MockClock');
@@ -57,6 +58,40 @@ function tearDown() {
 }
 
 
+function testCallback_executePromiseRequest() {
+  // Test executePromiseRequest will not show additional progress bar.
+  var resolveBusyIndicator;
+  var pending = new goog.Promise(function(resolve, reject) {
+    resolveBusyIndicator= resolve;
+  });
+  // Verify that before executing the promise, a progress bar is displayed.
+  assertEquals(
+      1,
+      goog.dom.getElementsByClass('firebaseui-busy-indicator', root).length);
+  var p = component.executePromiseRequest(
+      function() {
+        return pending;
+      },
+      [],
+      function() {},
+      function(error) {});
+  mockClock.tick(500);
+  // Verify that while executing the promise, no additional progress bar is
+  // displayed.
+  assertEquals(
+      1,
+      goog.dom.getElementsByClass('firebaseui-busy-indicator', root).length);
+  // Resolve pending task.
+  resolveBusyIndicator();
+  return p.then(function() {
+    // Progress bar should still be displayed.
+    assertEquals(
+        1,
+        goog.dom.getElementsByClass('firebaseui-busy-indicator', root).length);
+  });
+}
+
+
 function testCallback_getPageId() {
   assertEquals('callback', component.getPageId());
 }
@@ -65,7 +100,7 @@ function testCallback_getPageId() {
 function testCallback_pageEvents() {
   // Run page event tests.
   // Dispose previously created container since test must run before rendering
-  // the component in docoument.
+  // the component in document.
   component.dispose();
   // Initialize component.
   component = new firebaseui.auth.ui.page.Callback();

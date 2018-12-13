@@ -102,11 +102,12 @@ firebaseui.auth.AuthUI.prototype.reset = function() {};
 firebaseui.auth.AuthUI.prototype.delete = function() {};
 
 /**
- * Returns true if there is any pending redirect operations to be resolved by
+ * Returns true if there is any pending redirect operation to be resolved by
  * the widget.
  *
  * @return {boolean} Whether the app has pending redirect operations to be
- *     performed.
+ *     performed or there is a pending incoming sign in with email link
+ *     operation waiting to be completed.
  */
 firebaseui.auth.AuthUI.prototype.isPendingRedirect = function() {};
 
@@ -392,6 +393,34 @@ firebaseui.auth.EmailSignInOption = function() {};
  * @type {boolean|undefined}
  */
 firebaseui.auth.EmailSignInOption.prototype.requireDisplayName;
+
+/**
+ * The sign-in method to support for email sign-in. This can be either
+ * 'password' or 'emailLink'. The default is 'password'.
+ *
+ * @type {string|undefined}
+ */
+firebaseui.auth.EmailSignInOption.prototype.signInMethod;
+
+/**
+ * Whether to force same device flow. If false, opening the link on a different
+ * device will display an error message. This should be true when
+ * used with anonymous user upgrade flows. The default is false.
+ *
+ * @type {boolean|undefined}
+ */
+firebaseui.auth.EmailSignInOption.prototype.forceSameDevice;
+
+/**
+ * Defines the optional callback function to return
+ * `firebase.auth.ActionCodeSettings` configuration to use when sending the
+ * link. This provides the ability to specify how the link can be handled,
+ * custom dynamic link, additional state in the deep link, etc.
+ * When not provided, the current URL is used and a web only flow is triggered.
+ *
+ * @type {(function():!firebase.auth.ActionCodeSettings)|undefined}
+ */
+firebaseui.auth.EmailSignInOption.prototype.emailLinkSignIn;
 
 /**
  * Defines the sign-in option needed to configure the FirebaseUI phone sign-in

@@ -61,7 +61,8 @@ function getUiConfig() {
       {
         provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
         // Whether the display name should be displayed in Sign Up page.
-        requireDisplayName: true
+        requireDisplayName: true,
+        signInMethod: getEmailSignInMethod()
       },
       {
         provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
@@ -91,7 +92,8 @@ ui.disableAutoSignIn();
  * @return {string} The URL of the FirebaseUI standalone widget.
  */
 function getWidgetUrl() {
-  return '/widget#recaptcha=' + getRecaptchaMode();
+  return '/widget#recaptcha=' + getRecaptchaMode() + '&emailSignInMethod=' +
+      getEmailSignInMethod();
 }
 
 
@@ -176,12 +178,16 @@ var deleteAccount = function() {
 
 
 /**
- * Handles when the user changes the reCAPTCHA config.
+ * Handles when the user changes the reCAPTCHA or email signInMethod config.
  */
-function handleRecaptchaConfigChange() {
+function handleConfigChange() {
   var newRecaptchaValue = document.querySelector(
       'input[name="recaptcha"]:checked').value;
-  location.replace(location.pathname + '#recaptcha=' + newRecaptchaValue);
+  var newEmailSignInMethodValue = document.querySelector(
+      'input[name="emailSignInMethod"]:checked').value;
+  location.replace(
+      location.pathname + '#recaptcha=' + newRecaptchaValue +
+      '&emailSignInMethod=' + newEmailSignInMethodValue);
 
   // Reset the inline widget so the config changes are reflected.
   ui.reset();
@@ -206,12 +212,21 @@ var initApp = function() {
       });
 
   document.getElementById('recaptcha-normal').addEventListener(
-      'change', handleRecaptchaConfigChange);
+      'change', handleConfigChange);
   document.getElementById('recaptcha-invisible').addEventListener(
-      'change', handleRecaptchaConfigChange);
+      'change', handleConfigChange);
   // Check the selected reCAPTCHA mode.
   document.querySelector(
       'input[name="recaptcha"][value="' + getRecaptchaMode() + '"]')
+      .checked = true;
+
+  document.getElementById('email-signInMethod-password').addEventListener(
+      'change', handleConfigChange);
+  document.getElementById('email-signInMethod-emailLink').addEventListener(
+      'change', handleConfigChange);
+  // Check the selected email signInMethod mode.
+  document.querySelector(
+      'input[name="emailSignInMethod"][value="' + getEmailSignInMethod() + '"]')
       .checked = true;
 };
 

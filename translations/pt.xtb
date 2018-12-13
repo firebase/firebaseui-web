@@ -1,10 +1,13 @@
 <translationbundle lang="pt">
+<translation id="1003362845472634045">E-mail de login enviado</translation>
 <translation id="10081113082271688">Código de verificação inválido</translation>
 <translation id="1024070574104100559">São Vicente</translation>
-<translation id="1100633043848982368">Reenviar código</translation>
+<translation id="1080228854514607739">O link de email é inválido. Esse problema pode acontecer se o link de e-mail expirou ou já foi usado para fazer login. Reinicie o processo de login.</translation>
+<translation id="1088824719285122027">Este número de telefone já foi usado muitas vezes</translation>
+<translation id="1111168792069656940">ui_flow</translation>
 <translation id="1130401182255828006">Letônia</translation>
 <translation id="1133565039750742069">Salvar</translation>
-<translation id="1139115784936170936">Cingapura</translation>
+<translation id="1139115784936170936">Singapura</translation>
 <translation id="1163494479861953195">Faça login novamente para realizar essa ação</translation>
 <translation id="1163771673786684213">Filipinas</translation>
 <translation id="1170304454812139475">Romênia</translation>
@@ -48,6 +51,7 @@
 <translation id="2058731785647385204">Montserrat</translation>
 <translation id="2070709910567585968">Senhas fortes têm pelo menos 6 caracteres e uma combinação de letras e números</translation>
 <translation id="2074008538308369451">Termos de Serviço</translation>
+<translation id="2089802663554186342">Sessão encerrada</translation>
 <translation id="2108717231438756650">Reino Unido</translation>
 <translation id="2120419640334291526">Ilhas Cayman</translation>
 <translation id="2124070231227334770">Moldávia</translation>
@@ -63,7 +67,7 @@
 <translation id="227405248692044138">Malta</translation>
 <translation id="2285049245646335550">Cabo Verde</translation>
 <translation id="2301396996587599046">Macedônia</translation>
-<translation id="2312980523495377579">Nome e sobrenome</translation>
+<translation id="2310948428656960769">Conectado!</translation>
 <translation id="2324942959480650701">Convidado</translation>
 <translation id="2331781584136059536">Gana</translation>
 <translation id="2338909515537249568">O navegador usado não é compatível com o armazenamento na Web. Tente novamente em outro navegador.</translation>
@@ -80,13 +84,17 @@
 <translation id="2561560038714758184">Segurança</translation>
 <translation id="2561835578785502516">Sua solicitação para redefinir a senha expirou ou o link já foi usado</translation>
 <translation id="2581514546525533462">Este código do país não é aceito.</translation>
+<translation id="2600950452451016107">Verifique se você digitou seu e-mail corretamente.</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">Camboja</translation>
 <translation id="2616650714309312732">Portugal</translation>
 <translation id="2619590123270932385">Guiana Francesa</translation>
 <translation id="2621854044487969847">Ilhas Virgens Britânicas</translation>
+<translation id="2623430226615357954">Dispensar</translation>
 <translation id="2626214972556632989">Insira um número de telefone válido.</translation>
 <translation id="2652952163277051394">Este tipo de conta não é compatível com este app</translation>
+<translation id="2660271277401013037">O código da ação é inválido. Isso pode acontecer quando o código está incorreto ou já foi usado.</translation>
+<translation id="2665022736179407256">Este código expirou.</translation>
 <translation id="2668496398414877352">Kosovo</translation>
 <translation id="2674823936234616183">Uzbequistão</translation>
 <translation id="2696162410887720551">Ilhas Aland</translation>
@@ -94,7 +102,8 @@
 <translation id="2741235824871026219">Verificar</translation>
 <translation id="2752984808025184019">África do Sul</translation>
 <translation id="2760636260031093254">Digite seu endereço de e-mail para continuar</translation>
-<translation id="2814274627887910414">Formato inválido do número de telefone</translation>
+<translation id="2782685789517131804">Um e-mail de login com mais instruções foi enviado para <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Verifique seu e-mail para concluir o login.</translation>
+<translation id="2824267666257947103">Digite sua senha</translation>
 <translation id="2828509010894808185">Criar conta</translation>
 <translation id="2834770837848769530">Afeganistão</translation>
 <translation id="2884525438023347369">Ao tocar em "<ph name="BTN" />", você indica que está de acordo com os <ph name="TOS" />.</translation>
@@ -125,6 +134,7 @@
 <translation id="3372254675985592547">Cuba</translation>
 <translation id="3394519231857398207">França</translation>
 <translation id="3398534025670554188">China</translation>
+<translation id="3409391354412142307">Você já usou <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Para conectar sua conta do <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> com <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />, basta fazer login com o link de e-mail abaixo.</translation>
 <translation id="3413300222170818119">Zâmbia</translation>
 <translation id="3429213469114503705">Cidade do Vaticano</translation>
 <translation id="3434621886769337032">Gâmbia</translation>
@@ -156,9 +166,11 @@
 <translation id="3954166521214262397">Código de 6 dígitos</translation>
 <translation id="3987987513436822097">Comores</translation>
 <translation id="3998148019488053682">O código de verificação não pode estar vazio.</translation>
-<translation id="4021489444336102711">Verificar</translation>
+<translation id="4011940631682920330">O código da ação é inválido. Isso pode acontecer quando o código está incorreto ou já foi usado.</translation>
 <translation id="4022450612826261789">Kosovo</translation>
+<translation id="4025579119565425333">Tente estas soluções comuns:</translation>
 <translation id="4056653682525186486">Fazer login com <ph name="XXX" /></translation>
+<translation id="4064888056475403511">Tente abrir o link usando o mesmo dispositivo ou navegador que você usou para iniciar o processo de login.</translation>
 <translation id="4066104405592701692">Estônia</translation>
 <translation id="4090385155496329109">Facebook</translation>
 <translation id="4163133799286985193">Argentina</translation>
@@ -168,7 +180,7 @@
 <translation id="4242716276491763916">Guiné-Conacri</translation>
 <translation id="4248546264350694306">Suíça</translation>
 <translation id="4266056491449352939">Andorra</translation>
-<translation id="4325874534168320954">Sua solicitação não foi concluída. Tente novamente mais tarde.</translation>
+<translation id="4322167048992801895">Problemas para receber e-mails?</translation>
 <translation id="4329551945958214898">Japão</translation>
 <translation id="4331763189922924781">Montenegro</translation>
 <translation id="4372962701784304822">Moçambique</translation>
@@ -176,6 +188,7 @@
 <translation id="4386334763822785837">Turquia</translation>
 <translation id="4413304190485210039">Tadjiquistão</translation>
 <translation id="4432634970196611353">República Popular Democrática do Laos</translation>
+<translation id="4440507149645221385">Telefone</translation>
 <translation id="4450602713221237198">Reenviar</translation>
 <translation id="4498504413765490964">Honduras</translation>
 <translation id="4515732781724470190">Níger</translation>
@@ -193,6 +206,7 @@
 <translation id="4775051289386800916">Nicarágua</translation>
 <translation id="4783400389150493171">Burkina Fasso</translation>
 <translation id="4852256440857413490">Código incorreto. Tente novamente.</translation>
+<translation id="4866990546854875813">A sessão deste login expirou ou foi apagada.</translation>
 <translation id="4871106926303956169">Ilhas Turks e Caicos</translation>
 <translation id="4877597386645466815">Reenviar o código em <ph name="TIME_REMAINING" /></translation>
 <translation id="4915406999072654369">Verifique seu e-mail</translation>
@@ -201,6 +215,7 @@
 <translation id="4991626049082973728">Sérvia</translation>
 <translation id="4991892293325936102">Belize</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" />para <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /><ph name="END_PARAGRAPH" /></translation>
+<translation id="5059105734231232362">Para conectar sua conta do <ph name="IDP_DISPLAY_NAME" /> com este e-mail, é necessário abrir o link no mesmo dispositivo ou navegador.</translation>
 <translation id="5080084639513001393">Suécia</translation>
 <translation id="5080899604429810481">São Martinho</translation>
 <translation id="5143657419516597442">Santa Lúcia</translation>
@@ -217,6 +232,7 @@
 <translation id="5437927869321223252">Código incorreto. Tente novamente.</translation>
 <translation id="5444635161362535036">Principado de Liechtenstein</translation>
 <translation id="5483706910421209104">Editar nome</translation>
+<translation id="5490651768073507833">Tente abrir o link usando o mesmo dispositivo ou navegador que você usou para iniciar o processo de login.</translation>
 <translation id="5524360735013196510">Holanda</translation>
 <translation id="5528189843379142883">Guiné Equatorial</translation>
 <translation id="5529036554155743092">Austrália</translation>
@@ -235,11 +251,14 @@
 <translation id="5642254620426025006">Ocorreu um erro. Tente novamente.</translation>
 <translation id="5649486931917149784">Senha</translation>
 <translation id="5664080586064341046">São Cristóvão</translation>
+<translation id="5668881954117611594">Voltar</translation>
 <translation id="5699028034244995851">Digite seu endereço de e-mail para continuar</translation>
 <translation id="5701178667798108817">Confirmar seu número de telefone</translation>
 <translation id="5715637701147651513">Libéria</translation>
+<translation id="5755179287528310939">Já existe uma conta com esse endereço de e-mail.</translation>
 <translation id="5771034676910614239">Madagascar</translation>
 <translation id="5818634293686963864">Cazaquistão</translation>
+<translation id="5829301468800336085">Fazendo login…</translation>
 <translation id="5840765100196379855">Panamá</translation>
 <translation id="5840803301882074743">Tonga</translation>
 <translation id="5850752921356750845">Ilhas Wallis e Futuna</translation>
@@ -252,12 +271,11 @@
 <translation id="5989709845715452405">Recuperar a senha</translation>
 <translation id="5995596766674622541">Insira o código de seis dígitos enviado para <ph name="START_LINK" />&amp;lrm;<ph name="PHONE_NUMBER" /><ph name="END_LINK" /></translation>
 <translation id="6006148985615990975">Ruanda</translation>
-<translation id="6040759627067155517">E-mail</translation>
+<translation id="6032262985756512833">Insira o código de <ph name="STRING" /> dígitos que enviamos</translation>
 <translation id="6044396095102058216">Este número de telefone já foi usado muitas vezes.</translation>
-<translation id="6091051069256411999">Twitter</translation>
-<translation id="61182948399263957">
-<ph name="P_START" />Faça login em <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
-<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
+<translation id="6083089720215618333">O e-mail fornecido é diferente do usado no login da sessão atual.</translation>
+<translation id="6113531938704280909">Desvincular conta</translation>
+<translation id="6132202686885223981">Verifique se você ainda tem espaço na sua caixa de entrada, além de outros problemas relacionados à configuração.</translation>
 <translation id="6189573836664806798">Paraguai</translation>
 <translation id="6192657410634245771">Argélia</translation>
 <translation id="6213969168046789596">Você digitou a senha incorretamente várias vezes. Tente novamente em alguns minutos.</translation>
@@ -274,8 +292,10 @@
 <translation id="6381974517529371884">Ilhas Faroé</translation>
 <translation id="6443180961828792673">Kosovo</translation>
 <translation id="6450170205342035038">Bulgária</translation>
-<translation id="6476467763326951353">Verificação do seu e-mail para o app <ph name="APP_NAME" /></translation>
-<translation id="6494734506607758748">Para alterar o endereço de e-mail associado à sua conta, faça login novamente.</translation>
+<translation id="6470057025778734988">Você não poderá mais fazer login usando sua conta</translation>
+<translation id="6472297146424049005">Verifique sua conexão com a Internet.</translation>
+<translation id="6483116480230343278">Concluindo sua inscrição...</translation>
+<translation id="6502083090260346644">Talvez você receba um SMS quando tocar em <ph name="STRING" />. Taxas de mensagens e dados podem ser aplicáveis.</translation>
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Samoa Americana</translation>
 <translation id="6527597037551425211">Brasil</translation>
@@ -286,6 +306,7 @@
 <translation id="6611519013130079637">Bélgica</translation>
 <translation id="6618737424980030515">Geórgia</translation>
 <translation id="6623411438614744695">Namíbia</translation>
+<translation id="6653313985929651858">E-mail de login enviado\n</translation>
 <translation id="6655128609744896303">Código enviado.</translation>
 <translation id="6683477520421532707">Reunião</translation>
 <translation id="6683810982254923169">Tente redefinir sua senha novamente</translation>
@@ -300,15 +321,18 @@
 <translation id="6769550797775698634">Camarões</translation>
 <translation id="6775190982418995854">Ilhas Svalbard e Jan Mayen</translation>
 <translation id="6775835872637240659">Ucrânia</translation>
+<translation id="6779584651193963121">Se as etapas acima não funcionarem, envie o e-mail novamente. Observação: isso desativará o link do e-mail anterior.</translation>
 <translation id="6782010235320729294">Turcomenistão</translation>
 <translation id="6821607741326790458">Jamaica</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Paquistão</translation>
+<translation id="6918319418444979243">Reenviar</translation>
 <translation id="6920167780806379235">Síria</translation>
 <translation id="6921505896641453739">E-mail</translation>
 <translation id="6929813273561975780">Próxima</translation>
 <translation id="6951302238647056860">Este código não é mais válido.</translation>
 <translation id="6976724207780605356">Fazer login com o Facebook</translation>
+<translation id="6984204927251307445">Confirmar e-mail</translation>
 <translation id="6999773882165218263">Nome e sobrenome</translation>
 <translation id="7012506961150923116">Granada</translation>
 <translation id="7024571478138322659">Saara Ocidental</translation>
@@ -325,6 +349,7 @@
 <translation id="7207660930894629055">Continuar com <ph name="USER_EMAIL" />?</translation>
 <translation id="7223410082658239002">Maldivas</translation>
 <translation id="7254028881697834212">São Tomé e Príncipe</translation>
+<translation id="7268827299582726485">Confirme seu e-mail para concluir o login</translation>
 <translation id="7272145663101316762">Eslovênia</translation>
 <translation id="7280309713358692490">Coreia do Sul</translation>
 <translation id="7291567990403335374">Lesoto</translation>
@@ -332,20 +357,22 @@
 <translation id="7320029088567935126">Verifique seu e-mail novamente</translation>
 <translation id="7331038350037712642">Azerbaijão</translation>
 <translation id="743266754881673808">Google</translation>
-<translation id="7453388767208874682">O número do telefone não pode estar em branco.</translation>
-<translation id="7482751672921205012">Excluir conta?</translation>
+<translation id="744894552966168763">Link de e-mail inválido.</translation>
+<translation id="7477065998516229434">Termos de Serviço</translation>
 <translation id="7493245640904888019">Gibraltar</translation>
 <translation id="7510939244824757986">Tanzânia</translation>
 <translation id="7526532581122816497">Conta desvinculada</translation>
 <translation id="7560587702704358921">Saint-Pierre e Miquelon</translation>
 <translation id="7569285452790032317">Somália</translation>
 <translation id="7592224526951017144">Alemanha</translation>
+<translation id="7595933825828475368">Problemas para receber e-mails?</translation>
 <translation id="7615083347713899917">Quirguistão</translation>
 <translation id="7643408533407091568">Você já usou o e-mail <ph name="EMAIL_ADDR" /> para fazer login. Insira a senha dessa conta.</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{A senha não é forte o suficiente. Use pelo menos <ph name="PH_1" /> caractere e combine letras e números.}one{A senha não é forte o suficiente. Use pelo menos <ph name="PH_1" /> caractere e combine letras e números.}other{A senha não é forte o suficiente. Use pelo menos <ph name="PH_1" /> caracteres e combine letras e números.}}</translation>
 <translation id="7699755204074920022">Zimbábue</translation>
 <translation id="7756945311981296300">Siga as instruções enviadas para <ph name="STRING" /> para recuperar sua senha.</translation>
 <translation id="7782885946428624225">Ocorreu um problema na verificação do seu número de telefone.</translation>
+<translation id="7796914496604415892">Novo dispositivo ou navegador detectado</translation>
 <translation id="7868540442111212282">República Tcheca</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
 <translation id="7926046652648626866">Fazer login com o GitHub</translation>
@@ -387,7 +414,8 @@
 <translation id="8448940737083561161">Quiribati</translation>
 <translation id="847294590390666986">Taiwan</translation>
 <translation id="8477554788963470892">Serra Leoa</translation>
-<translation id="850278101443955459">Fazer login</translation>
+<translation id="8498398269542501379">Verifique se o e-mail foi filtrado ou marcado como spam.</translation>
+<translation id="8505200776212389923">Verificando...</translation>
 <translation id="8505941919386646914">Martinica</translation>
 <translation id="8534746304953308378">Togo</translation>
 <translation id="8572093925387077451">Você já tem uma conta</translation>
@@ -411,8 +439,9 @@
 <translation id="8869797682387766327">Ilha de Man</translation>
 <translation id="8893950153780006385">Malásia</translation>
 <translation id="8895840173743975193">Ilhas Coco (Keeling)</translation>
-<translation id="8955469172512804617">Ao tocar em "<ph name="BTN" />", você indica que está de acordo com a <ph name="PP" />.</translation>
-<translation id="8980953965669178372">Concluído</translation>
+<translation id="8916080112145514151">Se você ainda quiser conectar sua conta do <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" />, abra o link no mesmo dispositivo em que você iniciou o login. Caso contrário, toque em Continuar para fazer login neste dispositivo.</translation>
+<translation id="8939353296336237380">Inicialmente, você quis conectar o <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> à sua conta de e-mail, mas abriu o link em um dispositivo diferente, em que você não está conectado.</translation>
+<translation id="8971555482255213064">Reenviar código em 0:<ph name="PH_1" /></translation>
 <translation id="8984161590699631096">Marrocos</translation>
 <translation id="900153878296575829">Bangladesh</translation>
 <translation id="9022632332691561239">Smartphone</translation>

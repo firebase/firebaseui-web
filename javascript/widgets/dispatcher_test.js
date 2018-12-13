@@ -657,6 +657,31 @@ function testDispatchOperation_verifyEmail() {
 }
 
 
+function testDispatchOperation_emailLinkSignIn() {
+  var element = goog.dom.createElement('div');
+  setModeAndUrlParams(
+      firebaseui.auth.widget.Config.WidgetMode.SIGN_IN,
+      {'oobCode': 'ACTION_CODE', 'lang': 'en'});
+  firebaseui.auth.widget.dispatcher.dispatchOperation(app, element);
+  assertHandlerInvoked(
+      firebaseui.auth.widget.HandlerName.EMAIL_LINK_SIGN_IN_CALLBACK,
+      app,
+      element,
+      'https://www.example.com/?mode=signIn&oobCode=ACTION_CODE&lang=en');
+  // Confirm history state replaced.
+  testUtil.assertReplaceHistoryState(
+      {
+        'state': 'signIn',
+        'mode': 'emailLink',
+        'operation': 'clear'
+      },
+      // Same document title should be kept.
+      document.title,
+      // URL should be cleared from email sign-in related query params.
+      'https://www.example.com/?lang=en');
+}
+
+
 function testDispatchOperation_verifyEmail_continueUrl() {
   var element = goog.dom.createElement('div');
   var continueUrl = 'http://www.example.com/path/page?a=1#b=2';

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>FirebaseUI Auth Demo</title>
-    <script src="https://www.gstatic.com/firebasejs/5.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5/firebase.js"></script>
     <script src="config.js"></script>
     <script src="common.js"></script>
     <script src="dist/firebaseui.js"></script>
@@ -44,7 +44,10 @@
           firebase.auth.FacebookAuthProvider.PROVIDER_ID,
           firebase.auth.TwitterAuthProvider.PROVIDER_ID,
           firebase.auth.GithubAuthProvider.PROVIDER_ID,
-          firebase.auth.EmailAuthProvider.PROVIDER_ID,
+          {
+            provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+            signInMethod: getEmailSignInMethod()
+          },
           {
             provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
             recaptchaParameters: {

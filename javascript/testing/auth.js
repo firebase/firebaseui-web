@@ -195,7 +195,9 @@ FakeAuthClient.AuthAsyncMethod = {
   FETCH_PROVIDERS_FOR_EMAIL: 'fetchProvidersForEmail',
   FETCH_SIGN_IN_METHODS_FOR_EMAIL: 'fetchSignInMethodsForEmail',
   GET_REDIRECT_RESULT: 'getRedirectResult',
+  IS_SIGN_IN_WITH_EMAIL_LINK: 'isSignInWithEmailLink',
   SEND_PASSWORD_RESET_EMAIL: 'sendPasswordResetEmail',
+  SEND_SIGN_IN_LINK_TO_EMAIL: 'sendSignInLinkToEmail',
   SET_PERSISTENCE: 'setPersistence',
   SIGN_IN_AND_RETRIEVE_DATA_WITH_CREDENTIAL:
       'signInAndRetrieveDataWithCredential',
@@ -209,6 +211,7 @@ FakeAuthClient.AuthAsyncMethod = {
   SIGN_IN_WITH_CREDENTIAL: 'signInWithCredential',
   SIGN_IN_WITH_CUSTOM_TOKEN: 'signInWithCustomToken',
   SIGN_IN_WITH_EMAIL_AND_PASSWORD: 'signInWithEmailAndPassword',
+  SIGN_IN_WITH_EMAIL_LINK: 'signInWithEmailLink',
   SIGN_IN_WITH_POPUP: 'signInWithPopup',
   SIGN_IN_WITH_PHONE_NUMBER: 'signInWithPhoneNumber',
   SIGN_IN_WITH_REDIRECT: 'signInWithRedirect',

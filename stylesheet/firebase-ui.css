@@ -86,7 +86,7 @@
 }
 
 .firebaseui-title {
-  padding-bottom: 20px;
+  padding-bottom: 16px;
 }
 
 .firebaseui-subtitle {
@@ -99,6 +99,10 @@
   font-size: 16px;
   line-height: 24px;
   text-align: left;
+}
+
+.firebaseui-id-page-password-recovery-email-sent p.firebaseui-text {
+  margin: 16px 0;
 }
 
 .firebaseui-text-emphasis {
@@ -652,4 +656,23 @@ input.firebaseui-input-invalid{
 .mdl-textfield__label {
   font-weight: normal;
   margin-bottom: 0;
+}
+
+.firebaseui-id-page-blank {
+  background: inherit;
+  height: 64px;
+}
+
+.firebaseui-email-sent {
+  background-image: url("https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/success_status.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 64px 64px;
+  height: 64px;
+  margin-top: 16px;
+  text-align: center;
+}
+
+.firebaseui-text-justify {
+  text-align: justify;
 }

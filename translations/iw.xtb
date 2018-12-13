@@ -1,7 +1,10 @@
 <translationbundle lang="iw">
+<translation id="1003362845472634045">נשלח אימייל לכניסה לחשבון</translation>
 <translation id="10081113082271688">קוד האימות שגוי</translation>
 <translation id="1024070574104100559">סנט וינסנט</translation>
-<translation id="1100633043848982368">שלח קוד חדש</translation>
+<translation id="1080228854514607739">הקישור לאימייל לא חוקי. מצב זה עלול להתרחש כשפג התוקף של הקישור לאימייל או כשנעשה בו כבר שימוש כדי להיכנס לחשבון. יש להתחיל מחדש את תהליך ההתחברות.</translation>
+<translation id="1088824719285122027">למספר הטלפון הזה כבר נשלחו יותר מדי קודים</translation>
+<translation id="1111168792069656940">ui_flow</translation>
 <translation id="1130401182255828006">לטביה</translation>
 <translation id="1133565039750742069">שמור</translation>
 <translation id="1139115784936170936">סינגפור</translation>
@@ -48,6 +51,7 @@
 <translation id="2058731785647385204">מונסראט</translation>
 <translation id="2070709910567585968">סיסמה חזקה היא סיסמה באורך 6 תווים לפחות שמכילה אותיות ומספרים</translation>
 <translation id="2074008538308369451">תנאים והגבלות</translation>
+<translation id="2089802663554186342">הסשן הסתיים</translation>
 <translation id="2108717231438756650">בריטניה</translation>
 <translation id="2120419640334291526">איי קיימן</translation>
 <translation id="2124070231227334770">מולדובה</translation>
@@ -63,7 +67,7 @@
 <translation id="227405248692044138">מלטה</translation>
 <translation id="2285049245646335550">קייפ ורדה</translation>
 <translation id="2301396996587599046">מקדוניה</translation>
-<translation id="2312980523495377579">שם מלא</translation>
+<translation id="2310948428656960769">בוצעה כניסה!</translation>
 <translation id="2324942959480650701">אורח</translation>
 <translation id="2331781584136059536">גאנה</translation>
 <translation id="2338909515537249568">הדפדפן שלך לא תומך באחסון באינטרנט. כדאי לנסות שוב בדפדפן אחר.</translation>
@@ -79,13 +83,17 @@
 <translation id="2541179214468543429">הזנת סיסמה שגויה יותר מדי פעמים. אפשר יהיה לנסות שוב בעוד כמה דקות.</translation>
 <translation id="2561835578785502516">הבקשה לאיפוס הסיסמה כבר לא בתוקף או שכבר נעשה שימוש בקישור</translation>
 <translation id="2581514546525533462">קוד המדינה שהזנת אינו נתמך.</translation>
+<translation id="2600950452451016107">יש לוודא שכתובת האימייל אויתה בצורה תקינה.</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">קמבודיה</translation>
 <translation id="2616650714309312732">פורטוגל</translation>
 <translation id="2619590123270932385">גיאנה הצרפתית</translation>
 <translation id="2621854044487969847">איי הבתולה הבריטיים</translation>
+<translation id="2623430226615357954">סגירה</translation>
 <translation id="2626214972556632989">מספר הטלפון שהזנת לא תקין</translation>
 <translation id="2652952163277051394">האפליקציה הזו לא תומכת בחשבונות מהסוג הזה</translation>
+<translation id="2660271277401013037">קוד הפעולה לא חוקי. מצב זה עלול להתרחש כשמזינים את הקוד בצורה שגויה, כשפג התוקף של הקוד או כשנעשה בו כבר שימוש.</translation>
+<translation id="2665022736179407256">פג התוקף של הקוד הזה.</translation>
 <translation id="2668496398414877352">קוסובו</translation>
 <translation id="2674823936234616183">אוזבקיסטן</translation>
 <translation id="2696162410887720551">איי אלנד</translation>
@@ -93,7 +101,7 @@
 <translation id="2741235824871026219">אמת</translation>
 <translation id="2752984808025184019">דרום אפריקה</translation>
 <translation id="2760636260031093254">כדי להמשיך, עליך להזין כתובת אימייל</translation>
-<translation id="2824267666257947103">לא הזנת את הסיסמה</translation>
+<translation id="2782685789517131804">אימייל לכניסה לחשבון עם הוראות נוספות נשלח אל <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. יש לבדוק את תיבת הדואר הנכנס כדי להשלים את תהליך הכניסה.</translation>
 <translation id="2828509010894808185">יצירת חשבון</translation>
 <translation id="2834770837848769530">אפגניסטן</translation>
 <translation id="2884525438023347369">הקשה על <ph name="BTN" /> תתפרש כהסכמה ל<ph name="TOS" />.</translation>
@@ -124,6 +132,7 @@
 <translation id="3372254675985592547">קובה</translation>
 <translation id="3394519231857398207">צרפת</translation>
 <translation id="3398534025670554188">סין</translation>
+<translation id="3409391354412142307">כבר השתמשת בכתובת האימייל <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. כדי לקשר את חשבון <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> לכתובת האימייל <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />, אפשר להיכנס באמצעות הקישור לאימייל שלמטה.</translation>
 <translation id="3413300222170818119">זמביה</translation>
 <translation id="3429213469114503705">קריית הוותיקן</translation>
 <translation id="3434621886769337032">גמביה</translation>
@@ -154,8 +163,11 @@
 <translation id="3954166521214262397">קוד בן 6 ספרות</translation>
 <translation id="3987987513436822097">איי קומורו</translation>
 <translation id="4009306200855295525">מדינה</translation>
+<translation id="4021489444336102711">אמת</translation>
 <translation id="4022450612826261789">קוסובו</translation>
+<translation id="4025579119565425333">מומלץ לנסות את הפתרונות הבאים:</translation>
 <translation id="4056653682525186486">כניסה באמצעות <ph name="XXX" /></translation>
+<translation id="4064888056475403511">מומלץ לפתוח את הקישור באמצעות אותו מכשיר או דפדפן שבהם התחלת את תהליך הכניסה.</translation>
 <translation id="4066104405592701692">אסטוניה</translation>
 <translation id="4090385155496329109">Facebook</translation>
 <translation id="4163133799286985193">ארגנטינה</translation>
@@ -165,6 +177,7 @@
 <translation id="4242716276491763916">גינאה קונאקרי</translation>
 <translation id="4248546264350694306">שווייץ</translation>
 <translation id="4266056491449352939">אנדורה</translation>
+<translation id="4322167048992801895">נתקלת בבעיה בקבלת האימייל?</translation>
 <translation id="4329551945958214898">יפן</translation>
 <translation id="4331763189922924781">מונטנגרו</translation>
 <translation id="4372962701784304822">מוזמביק</translation>
@@ -172,6 +185,7 @@
 <translation id="4386334763822785837">טורקיה</translation>
 <translation id="4413304190485210039">טג'יקיסטן</translation>
 <translation id="4432634970196611353">לאוס</translation>
+<translation id="4440507149645221385">טלפון</translation>
 <translation id="4450602713221237198">שלח שוב</translation>
 <translation id="4498504413765490964">הונדורס</translation>
 <translation id="4515732781724470190">ניז'ר</translation>
@@ -189,6 +203,7 @@
 <translation id="4775051289386800916">ניקרגואה</translation>
 <translation id="4783400389150493171">בורקינה פסו</translation>
 <translation id="4852256440857413490">הקוד שגוי. נסה שוב.</translation>
+<translation id="4866990546854875813">הסשן שמשויך לבקשת הכניסה הזו נמחק או שתוקפו פג.</translation>
 <translation id="4871106926303956169">איי טורקס וקאיקוס</translation>
 <translation id="4877597386645466815">שלח קוד חדש בעוד <ph name="TIME_REMAINING" /></translation>
 <translation id="4915406999072654369">שלחנו לך אימייל</translation>
@@ -197,6 +212,7 @@
 <translation id="4991626049082973728">סרביה</translation>
 <translation id="4991892293325936102">בליז</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" />לחשבון <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /><ph name="END_PARAGRAPH" /></translation>
+<translation id="5059105734231232362">כדי לקשר את חשבון <ph name="IDP_DISPLAY_NAME" /> לכתובת האימייל הזו, צריך לפתוח את הקישור באותו מכשיר או דפדפן.</translation>
 <translation id="5080084639513001393">שוודיה</translation>
 <translation id="5080899604429810481">סנט מרטין</translation>
 <translation id="5143657419516597442">סנט לוצ'יה</translation>
@@ -212,6 +228,7 @@
 <translation id="5443669846203963095">מדיניות פרטיות</translation>
 <translation id="5444635161362535036">ליכטנשטיין</translation>
 <translation id="5483706910421209104">עריכת שם</translation>
+<translation id="5490651768073507833">מומלץ לפתוח את הקישור באמצעות אותו מכשיר או דפדפן שבהם התחלת את תהליך הכניסה.</translation>
 <translation id="5524360735013196510">הולנד</translation>
 <translation id="5528189843379142883">גינאה המשוונית</translation>
 <translation id="5529036554155743092">אוסטרליה</translation>
@@ -230,11 +247,14 @@
 <translation id="5642254620426025006">משהו השתבש. נסה שוב.</translation>
 <translation id="5649486931917149784">סיסמה</translation>
 <translation id="5664080586064341046">סנט קיטס</translation>
+<translation id="5668881954117611594">הקודם</translation>
 <translation id="5699028034244995851">כדי להמשיך, עליך להזין כתובת אימייל</translation>
 <translation id="5701178667798108817">אימות של מספר הטלפון</translation>
 <translation id="5715637701147651513">ליבריה</translation>
+<translation id="5755179287528310939">כבר קיים חשבון המשויך לכתובת האימייל הזו.</translation>
 <translation id="5771034676910614239">מדגסקר</translation>
 <translation id="5818634293686963864">קזחסטן</translation>
+<translation id="5829301468800336085">נכנס...</translation>
 <translation id="5840765100196379855">פנמה</translation>
 <translation id="5840803301882074743">טונגה</translation>
 <translation id="5850752921356750845">ואליס ופוטונה</translation>
@@ -247,12 +267,11 @@
 <translation id="5989709845715452405">שחזור הסיסמה</translation>
 <translation id="5995596766674622541">שלחנו קוד בן 6 ספרות למספר <ph name="START_LINK" />‎<ph name="PHONE_NUMBER" /><ph name="END_LINK" />. מה הקוד?</translation>
 <translation id="6006148985615990975">רואנדה</translation>
-<translation id="6040759627067155517">אימייל</translation>
+<translation id="6032262985756512833">הזן את הקוד בן <ph name="STRING" /> הספרות ששלחנו למספר</translation>
 <translation id="6044396095102058216">למספר הטלפון הזה כבר נשלחו יותר מדי קודים</translation>
-<translation id="6091051069256411999">Twitter</translation>
-<translation id="61182948399263957">
-<ph name="P_START" />כניסה אל <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
-<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
+<translation id="6083089720215618333">כתובת האימייל שסיפקת לא תואמת לזו שבה השתמשת בסשן הכניסה הנוכחי.</translation>
+<translation id="6113531938704280909">ביטול הקישור של החשבון</translation>
+<translation id="6132202686885223981">יש לוודא שהשטח הפנוי בתיבת הדואר הנכנס אינו עומד להסתיים, או לבדוק בעיות אחרות שקשורות להגדרות של תיבת הדואר הנכנס.</translation>
 <translation id="6189573836664806798">פרגוואי</translation>
 <translation id="6192657410634245771">אלג'יריה</translation>
 <translation id="6213969168046789596">הזנת סיסמה שגויה יותר מדי פעמים. אפשר יהיה לנסות שוב בעוד כמה דקות.</translation>
@@ -269,8 +288,10 @@
 <translation id="6381974517529371884">איי פארו</translation>
 <translation id="6443180961828792673">קוסובו</translation>
 <translation id="6450170205342035038">בולגריה</translation>
-<translation id="6476467763326951353">אימות כתובת האימייל שלך לכניסה לאפליקציה <ph name="APP_NAME" /></translation>
-<translation id="6494734506607758748">כדי לשנות את כתובת האימייל המשויכת לחשבון, עליך להיכנס מחדש.</translation>
+<translation id="6470057025778734988">לא תהיה יותר אפשרות להיכנס באמצעות החשבון</translation>
+<translation id="6472297146424049005">יש לבדוק את החיבור לאינטרנט.</translation>
+<translation id="6483116480230343278">אנחנו רושמים אותך...</translation>
+<translation id="6502083090260346644">הקשה על <ph name="STRING" /> תגרום לשליחה של הודעת SMS. ייתכנו חיובים על ההודעה ועל נתונים.</translation>
 <translation id="6508909904815637928">ונואטו</translation>
 <translation id="6520863029476703422">סמואה האמריקנית</translation>
 <translation id="6527597037551425211">ברזיל</translation>
@@ -281,6 +302,7 @@
 <translation id="6611519013130079637">בלגיה</translation>
 <translation id="6618737424980030515">ג'ורג'יה</translation>
 <translation id="6623411438614744695">נמיביה</translation>
+<translation id="6653313985929651858">נשלח אימייל לכניסה לחשבון\n</translation>
 <translation id="6655128609744896303">הקוד נשלח.</translation>
 <translation id="6683477520421532707">ראוניון</translation>
 <translation id="6683810982254923169">לא הצלחנו לאפס את הסיסמה</translation>
@@ -295,15 +317,18 @@
 <translation id="6769550797775698634">קמרון</translation>
 <translation id="6775190982418995854">סבלברד ויאן מאיין</translation>
 <translation id="6775835872637240659">אוקראינה</translation>
+<translation id="6779584651193963121">אם השלבים המפורטים למעלה לא פותרים את הבעיה, אפשר לשלוח מחדש את האימייל. לתשומת ליבך: שליחת האימייל מחדש תשבית את הקישור באימייל הקודם.</translation>
 <translation id="6782010235320729294">טורקמניסטן</translation>
 <translation id="6821607741326790458">ג'מייקה</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">פקיסטן</translation>
+<translation id="6918319418444979243">שליחה מחדש</translation>
 <translation id="6920167780806379235">סוריה</translation>
 <translation id="6921505896641453739">אימייל</translation>
 <translation id="6929813273561975780">הבא‏</translation>
 <translation id="6951302238647056860">הקוד הזה כבר לא בתוקף</translation>
 <translation id="6976724207780605356">כניסה באמצעות Facebook</translation>
+<translation id="6984204927251307445">אישור כתובת האימייל</translation>
 <translation id="6999773882165218263">שם פרטי ומשפחה</translation>
 <translation id="7012506961150923116">גרנדה</translation>
 <translation id="7024571478138322659">סהרה המערבית</translation>
@@ -320,6 +345,7 @@
 <translation id="7207660930894629055">להמשיך עם <ph name="USER_EMAIL" />?</translation>
 <translation id="7223410082658239002">האיים המלדיביים</translation>
 <translation id="7254028881697834212">סאו טומה ופרינסיפה</translation>
+<translation id="7268827299582726485">יש לאשר את כתובת האימייל כדי להשלים את תהליך הכניסה</translation>
 <translation id="7272145663101316762">סלובניה</translation>
 <translation id="7280309713358692490">דרום קוריאה</translation>
 <translation id="7291567990403335374">לסוטו</translation>
@@ -327,19 +353,22 @@
 <translation id="7320029088567935126">לא הצלחנו לאמת את כתובת האימייל</translation>
 <translation id="7331038350037712642">אזרביג'אן</translation>
 <translation id="743266754881673808">Google</translation>
-<translation id="7453388767208874682">לא הזנת מספר טלפון</translation>
+<translation id="744894552966168763">קישור לאימייל לא חוקי</translation>
+<translation id="7477065998516229434">תנאים והגבלות</translation>
 <translation id="7493245640904888019">גיברלטר</translation>
 <translation id="7510939244824757986">טנזניה</translation>
 <translation id="7526532581122816497">חשבון מקושר</translation>
 <translation id="7560587702704358921">סנט פייר ומיקלון</translation>
 <translation id="7569285452790032317">סומליה</translation>
 <translation id="7592224526951017144">גרמניה</translation>
+<translation id="7595933825828475368">נתקלת בבעיה בקבלת האימייל?</translation>
 <translation id="7615083347713899917">קירגיזסטן</translation>
 <translation id="7643408533407091568">כבר השתמשת בכתובת <ph name="EMAIL_ADDR" />.
         כדי להיכנס. עליך להזין את הסיסמה לחשבון המשויך אליה.</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{הסיסמה חלשה מדי. סיסמה חזקה היא סיסמה באורך תו אחד (<ph name="PH_1" />) לפחות שמכילה אותיות ומספרים}two{הסיסמה חלשה מדי. סיסמה חזקה היא סיסמה באורך <ph name="PH_1" /> תווים לפחות שמכילה אותיות ומספרים}many{הסיסמה חלשה מדי. סיסמה חזקה היא סיסמה באורך <ph name="PH_1" /> תווים לפחות שמכילה אותיות ומספרים}other{הסיסמה חלשה מדי. סיסמה חזקה היא סיסמה באורך <ph name="PH_1" /> תווים לפחות שמכילה אותיות ומספרים}}</translation>
 <translation id="7699755204074920022">זימבבווה</translation>
 <translation id="7782885946428624225">אירעה בעיה באימות של מספר הטלפון</translation>
+<translation id="7796914496604415892">זוהו מכשיר או דפדפן חדשים</translation>
 <translation id="7868540442111212282">צ'כיה</translation>
 <translation id="7874584525604421364">טובאלו</translation>
 <translation id="7926046652648626866">כניסה באמצעות GitHub</translation>
@@ -380,7 +409,8 @@
 <translation id="8448940737083561161">קיריבאטי</translation>
 <translation id="847294590390666986">טאיוואן</translation>
 <translation id="8477554788963470892">סיירה לאונה</translation>
-<translation id="850278101443955459">כניסה</translation>
+<translation id="8498398269542501379">יש לבדוק אם האימייל סומן כספאם או סונן.</translation>
+<translation id="8505200776212389923">מאמת…</translation>
 <translation id="8505941919386646914">מרטיניק</translation>
 <translation id="8534746304953308378">טוגו</translation>
 <translation id="8572093925387077451">כבר יש לך חשבון</translation>
@@ -404,8 +434,9 @@
 <translation id="8869797682387766327">האי מאן</translation>
 <translation id="8893950153780006385">מלזיה</translation>
 <translation id="8895840173743975193">איי קוקוס (קילינג)</translation>
-<translation id="8955469172512804617">הקשה על <ph name="BTN" /> תתפרש כהסכמה ל<ph name="PP" />.</translation>
-<translation id="8980953965669178372">סיום</translation>
+<translation id="8916080112145514151">בכל זאת רוצה לקשר את חשבון <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> לחשבון שלך? אם כן, יש לפתוח את הקישור באותו מכשיר שבו התחלת את תהליך הכניסה. אם לא, יש להקיש על 'המשך' כדי להיכנס לחשבון במכשיר הזה.</translation>
+<translation id="8939353296336237380">כוונתך המקורית הייתה לקשר את חשבון <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> לחשבון שלך, אבל פתחת את הקישור במכשיר אחר שממנו לא נכנסת לחשבון.</translation>
+<translation id="8971555482255213064">שולח קוד חדש בעוד <ph name="PH_1" />:0</translation>
 <translation id="8984161590699631096">מרוקו</translation>
 <translation id="900153878296575829">בנגלדש</translation>
 <translation id="9022632332691561239">טלפון</translation>

@@ -1,7 +1,10 @@
 <translationbundle lang="ru">
+<translation id="1003362845472634045">Письмо отправлено</translation>
 <translation id="10081113082271688">Неверный код подтверждения</translation>
 <translation id="1024070574104100559">Сент-Винсент</translation>
-<translation id="1100633043848982368">Отправить код ещё раз</translation>
+<translation id="1080228854514607739">Ссылка недействительна. Это означает, что срок ее действия истек или ее уже открывали. Начните процесс входа заново.</translation>
+<translation id="1088824719285122027">Этот номер телефона использовался слишком много раз.</translation>
+<translation id="1111168792069656940">ui_flow</translation>
 <translation id="1130401182255828006">Латвия</translation>
 <translation id="1133565039750742069">Сохранить</translation>
 <translation id="1139115784936170936">Сингапур</translation>
@@ -48,6 +51,7 @@
 <translation id="2058731785647385204">Монтсеррат</translation>
 <translation id="2070709910567585968">Пароль должен состоять из букв и цифр и содержать не меньше 6 символов.</translation>
 <translation id="2074008538308369451">Условия использования</translation>
+<translation id="2089802663554186342">Сеанс завершен</translation>
 <translation id="2108717231438756650">Великобритания</translation>
 <translation id="2120419640334291526">Острова Кайман</translation>
 <translation id="2124070231227334770">Молдова</translation>
@@ -63,7 +67,7 @@
 <translation id="227405248692044138">Мальта</translation>
 <translation id="2285049245646335550">Кабо-Верде</translation>
 <translation id="2301396996587599046">Македония</translation>
-<translation id="2312980523495377579">Имя и фамилия</translation>
+<translation id="2310948428656960769">Вход выполнен</translation>
 <translation id="2324942959480650701">Гость</translation>
 <translation id="2331781584136059536">Гана</translation>
 <translation id="2338909515537249568">Ваш браузер не поддерживает веб-хранилище. Повторите попытку в другом браузере.</translation>
@@ -80,13 +84,17 @@
 <translation id="2561560038714758184">Безопасность</translation>
 <translation id="2561835578785502516">Срок действия запроса на сброс пароля истек, или ссылка уже использована.</translation>
 <translation id="2581514546525533462">Указанный код страны не поддерживается.</translation>
+<translation id="2600950452451016107">Убедитесь, что правильно указали свой адрес электронной почты.</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">Камбоджа</translation>
 <translation id="2616650714309312732">Португалия</translation>
 <translation id="2619590123270932385">Французская Гвиана</translation>
 <translation id="2621854044487969847">Британские Виргинские острова</translation>
+<translation id="2623430226615357954">ОК</translation>
 <translation id="2626214972556632989">Введите действительный номер телефона.</translation>
 <translation id="2652952163277051394">В этом приложении не поддерживается такой тип аккаунта.</translation>
+<translation id="2660271277401013037">Код активации недействителен. Он имеет недопустимый формат, уже использован, или истек срок его действия.</translation>
+<translation id="2665022736179407256">Срок действия кода истек.</translation>
 <translation id="2668496398414877352">Косово</translation>
 <translation id="2674823936234616183">Узбекистан</translation>
 <translation id="2696162410887720551">Аландские острова</translation>
@@ -94,7 +102,8 @@
 <translation id="2741235824871026219">Подтвердить</translation>
 <translation id="2752984808025184019">Южная Африка</translation>
 <translation id="2760636260031093254">Введите адрес электронной почты.</translation>
-<translation id="2814274627887910414">Недопустимый формат номера телефона.</translation>
+<translation id="2782685789517131804">Мы отправили на адрес электронной почты <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> письмо с информацией о том, как войти в аккаунт. Изучите его и выполните инструкции.</translation>
+<translation id="2824267666257947103">Введите пароль</translation>
 <translation id="2828509010894808185">Создание аккаунта</translation>
 <translation id="2834770837848769530">Афганистан</translation>
 <translation id="2884525438023347369">Нажимая кнопку "<ph name="BTN" />", вы принимаете <ph name="TOS" />.</translation>
@@ -125,6 +134,7 @@
 <translation id="3372254675985592547">Куба</translation>
 <translation id="3394519231857398207">Франция</translation>
 <translation id="3398534025670554188">Китай</translation>
+<translation id="3409391354412142307">Вы уже использовали адрес электронной почты <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> для входа. Чтобы связать аккаунт сервиса <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> с адресом <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />, перейдите по ссылке ниже и выполните вход.</translation>
 <translation id="3413300222170818119">Замбия</translation>
 <translation id="3429213469114503705">Ватикан</translation>
 <translation id="3434621886769337032">Гамбия</translation>
@@ -156,9 +166,11 @@
 <translation id="3954166521214262397">6-значный код</translation>
 <translation id="3987987513436822097">Коморы</translation>
 <translation id="3998148019488053682">Укажите код подтверждения.</translation>
-<translation id="4021489444336102711">Подтвердить</translation>
+<translation id="4011940631682920330">Код активации недействителен. Он имеет недопустимый формат, уже использован, или истек срок его действия.</translation>
 <translation id="4022450612826261789">Косово</translation>
+<translation id="4025579119565425333">Вот что можно сделать:</translation>
 <translation id="4056653682525186486">Войти через аккаунт <ph name="XXX" /></translation>
+<translation id="4064888056475403511">Попробуйте открыть ссылку в браузере или на устройстве, которые вы использовали, чтобы начать процесс входа.</translation>
 <translation id="4066104405592701692">Эстония</translation>
 <translation id="4090385155496329109">Facebook</translation>
 <translation id="4163133799286985193">Аргентина</translation>
@@ -168,7 +180,7 @@
 <translation id="4242716276491763916">Гвинея</translation>
 <translation id="4248546264350694306">Швейцария</translation>
 <translation id="4266056491449352939">Андорра</translation>
-<translation id="4325874534168320954">Не удалось выполнить запрос. Повторите попытку позже.</translation>
+<translation id="4322167048992801895">Не получили письмо?</translation>
 <translation id="4329551945958214898">Япония</translation>
 <translation id="4331763189922924781">Черногория</translation>
 <translation id="4372962701784304822">Мозамбик</translation>
@@ -176,6 +188,7 @@
 <translation id="4386334763822785837">Турция</translation>
 <translation id="4413304190485210039">Таджикистан</translation>
 <translation id="4432634970196611353">Лаосская Народно-Демократическая Республика</translation>
+<translation id="4440507149645221385">Телефон</translation>
 <translation id="4450602713221237198">Отправить ещё раз</translation>
 <translation id="4498504413765490964">Гондурас</translation>
 <translation id="4515732781724470190">Нигер</translation>
@@ -193,6 +206,7 @@
 <translation id="4775051289386800916">Никарагуа</translation>
 <translation id="4783400389150493171">Буркина-Фасо</translation>
 <translation id="4852256440857413490">Неверный код. Повторите попытку.</translation>
+<translation id="4866990546854875813">Время сеанса, связанного с этим запросом входа, истекло, или сеанс был завершен.</translation>
 <translation id="4871106926303956169">Острова Теркс и Кайкос</translation>
 <translation id="4877597386645466815">Отправить код ещё раз можно будет через <ph name="TIME_REMAINING" /></translation>
 <translation id="4915406999072654369">Проверьте электронную почту</translation>
@@ -201,6 +215,7 @@
 <translation id="4991626049082973728">Сербия</translation>
 <translation id="4991892293325936102">Белиз</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" />для аккаунта <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /><ph name="END_PARAGRAPH" /></translation>
+<translation id="5059105734231232362">Чтобы связать аккаунт сервиса "<ph name="IDP_DISPLAY_NAME" />" с указанным адресом электронной почты, нужно открыть ссылку в текущем браузере или на устройстве, которое вы сейчас используете.</translation>
 <translation id="5080084639513001393">Швеция</translation>
 <translation id="5080899604429810481">Сен-Мартен</translation>
 <translation id="5143657419516597442">Сент-Люсия</translation>
@@ -217,6 +232,7 @@
 <translation id="5437927869321223252">Неверный код. Повторите попытку.</translation>
 <translation id="5444635161362535036">Лихтенштейн</translation>
 <translation id="5483706910421209104">Изменить имя</translation>
+<translation id="5490651768073507833">Попробуйте открыть ссылку в браузере или на устройстве, которые вы использовали, чтобы начать процесс входа</translation>
 <translation id="5524360735013196510">Нидерланды</translation>
 <translation id="5528189843379142883">Экваториальная Гвинея</translation>
 <translation id="5529036554155743092">Австралия</translation>
@@ -235,11 +251,14 @@
 <translation id="5642254620426025006">Произошла ошибка. Повторите попытку.</translation>
 <translation id="5649486931917149784">Пароль</translation>
 <translation id="5664080586064341046">Сент-Китс</translation>
+<translation id="5668881954117611594">Назад</translation>
 <translation id="5699028034244995851">Введите адрес электронной почты.</translation>
 <translation id="5701178667798108817">Подтвердите свой номер телефона</translation>
 <translation id="5715637701147651513">Либерия</translation>
+<translation id="5755179287528310939">Аккаунт с таким адресом электронной почты уже существует.</translation>
 <translation id="5771034676910614239">Мадагаскар</translation>
 <translation id="5818634293686963864">Казахстан</translation>
+<translation id="5829301468800336085">Выполняется вход…</translation>
 <translation id="5840765100196379855">Панама</translation>
 <translation id="5840803301882074743">Тонга</translation>
 <translation id="5850752921356750845">Уоллис и Футуна</translation>
@@ -252,12 +271,11 @@
 <translation id="5989709845715452405">Восстановление пароля</translation>
 <translation id="5995596766674622541">Введите 6-значный код, отправленный на номер <ph name="START_LINK" />&amp;lrm;<ph name="PHONE_NUMBER" /><ph name="END_LINK" /></translation>
 <translation id="6006148985615990975">Руанда</translation>
-<translation id="6040759627067155517">Адрес электронной почты</translation>
+<translation id="6032262985756512833">Укажите код из <ph name="STRING" /> цифр, который мы отправили на номер</translation>
 <translation id="6044396095102058216">Этот номер телефона использовался слишком много раз.</translation>
-<translation id="6091051069256411999">Twitter</translation>
-<translation id="61182948399263957">
-<ph name="P_START" />Войдите в аккаунт в приложении <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
-<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
+<translation id="6083089720215618333">Указанный адрес электронной почты не совпадает с адресом, который использовался для входа.</translation>
+<translation id="6113531938704280909">Отменить связь с аккаунтом</translation>
+<translation id="6132202686885223981">Проверьте настройки папки со входящими сообщениям и убедитесь, что в ней достаточно места.</translation>
 <translation id="6189573836664806798">Парагвай</translation>
 <translation id="6192657410634245771">Алжир</translation>
 <translation id="6213969168046789596">Вы неправильно ввели пароль слишком много раз. Прежде чем повторить попытку, подождите несколько минут.</translation>
@@ -274,8 +292,10 @@
 <translation id="6381974517529371884">Фарерские острова</translation>
 <translation id="6443180961828792673">Косово</translation>
 <translation id="6450170205342035038">Болгария</translation>
-<translation id="6476467763326951353">Подтверждение адреса электронной почты для входа в приложение "<ph name="APP_NAME" />"</translation>
-<translation id="6494734506607758748">Чтобы изменить адрес электронной почты, связанный с аккаунтом, нужно будет войти в систему ещё раз.</translation>
+<translation id="6470057025778734988">Вы больше не сможете входить в систему с его помощью.</translation>
+<translation id="6472297146424049005">Проверьте подключение к Интернету.</translation>
+<translation id="6483116480230343278">Идет регистрация…</translation>
+<translation id="6502083090260346644">Нажимая кнопку "<ph name="STRING" />", вы соглашаетесь получить SMS. За его отправку и обмен данными может взиматься плата.</translation>
 <translation id="6508909904815637928">Вануату</translation>
 <translation id="6520863029476703422">Американское Самоа</translation>
 <translation id="6527597037551425211">Бразилия</translation>
@@ -286,6 +306,7 @@
 <translation id="6611519013130079637">Бельгия</translation>
 <translation id="6618737424980030515">Грузия</translation>
 <translation id="6623411438614744695">Намибия</translation>
+<translation id="6653313985929651858">Письмо отправлено\n</translation>
 <translation id="6655128609744896303">Код отправлен</translation>
 <translation id="6683477520421532707">Реюньон</translation>
 <translation id="6683810982254923169">Попробуйте сбросить пароль ещё раз</translation>
@@ -300,15 +321,18 @@
 <translation id="6769550797775698634">Камерун</translation>
 <translation id="6775190982418995854">Шпицберген и Ян Майен</translation>
 <translation id="6775835872637240659">Украина</translation>
+<translation id="6779584651193963121">Если найти письмо не удалось, мы можем отправить его ещё раз. В таком случае ссылка из предыдущего сообщения станет недействительна.</translation>
 <translation id="6782010235320729294">Туркменистан</translation>
 <translation id="6821607741326790458">Ямайка</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Пакистан</translation>
+<translation id="6918319418444979243">Отправить ещё раз</translation>
 <translation id="6920167780806379235">Сирия</translation>
 <translation id="6921505896641453739">Адрес электронной почты</translation>
 <translation id="6929813273561975780">Далее</translation>
 <translation id="6951302238647056860">Этот код уже неактивен.</translation>
 <translation id="6976724207780605356">Войти через аккаунт Facebook</translation>
+<translation id="6984204927251307445">Подтвердите адрес электронной почты</translation>
 <translation id="6999773882165218263">Имя и фамилия</translation>
 <translation id="7012506961150923116">Гренада</translation>
 <translation id="7024571478138322659">Западная Сахара</translation>
@@ -325,6 +349,7 @@
 <translation id="7207660930894629055">Использовать адрес <ph name="USER_EMAIL" /> для входа?</translation>
 <translation id="7223410082658239002">Мальдивы</translation>
 <translation id="7254028881697834212">Сан-Томе и Принсипи</translation>
+<translation id="7268827299582726485">Подтверждение адреса электронной почты перед входом в аккаунт</translation>
 <translation id="7272145663101316762">Словения</translation>
 <translation id="7280309713358692490">Республика Корея</translation>
 <translation id="7291567990403335374">Лесото</translation>
@@ -332,20 +357,22 @@
 <translation id="7320029088567935126">Повторите попытку</translation>
 <translation id="7331038350037712642">Азербайджан</translation>
 <translation id="743266754881673808">Google</translation>
-<translation id="7453388767208874682">Укажите номер телефона.</translation>
-<translation id="7482751672921205012">Удалить аккаунт?</translation>
+<translation id="744894552966168763">Недействительная ссылка</translation>
+<translation id="7477065998516229434">Условия использования</translation>
 <translation id="7493245640904888019">Гибралтар</translation>
 <translation id="7510939244824757986">Танзания</translation>
 <translation id="7526532581122816497">Связанный аккаунт</translation>
 <translation id="7560587702704358921">Сент-Пьер и Микелон</translation>
 <translation id="7569285452790032317">Сомали</translation>
 <translation id="7592224526951017144">Германия</translation>
+<translation id="7595933825828475368">Не получили письмо?</translation>
 <translation id="7615083347713899917">Киргизия</translation>
 <translation id="7643408533407091568">Вы уже использовали адрес <ph name="EMAIL_ADDR" />. Введите пароль для этого аккаунта.</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{Пароль должен состоять из букв и цифр и содержать не меньше <ph name="PH_1" /> символа.}one{Пароль должен состоять из букв и цифр и содержать не меньше <ph name="PH_1" /> символа.}few{Пароль должен состоять из букв и цифр и содержать не меньше <ph name="PH_1" /> символов.}many{Пароль должен состоять из букв и цифр и содержать не меньше <ph name="PH_1" /> символов.}other{Пароль должен состоять из букв и цифр и содержать не меньше <ph name="PH_1" /> символа.}}</translation>
 <translation id="7699755204074920022">Зимбабве</translation>
 <translation id="7756945311981296300">На адрес <ph name="STRING" /> отправлено письмо с инструкциями по сбросу пароля.</translation>
 <translation id="7782885946428624225">Не удалось подтвердить номер телефона.</translation>
+<translation id="7796914496604415892">Зарегистрирован вход с нового устройства или браузера</translation>
 <translation id="7868540442111212282">Чехия</translation>
 <translation id="7874584525604421364">Тувалу</translation>
 <translation id="7926046652648626866">Войти через аккаунт GitHub</translation>
@@ -387,7 +414,8 @@
 <translation id="8448940737083561161">Кирибати</translation>
 <translation id="847294590390666986">Тайвань</translation>
 <translation id="8477554788963470892">Сьерра-Леоне</translation>
-<translation id="850278101443955459">Войти</translation>
+<translation id="8498398269542501379">Поищите письмо в папке со спамом или отфильтрованными сообщениями.</translation>
+<translation id="8505200776212389923">Проверка…</translation>
 <translation id="8505941919386646914">Мартиника</translation>
 <translation id="8534746304953308378">Того</translation>
 <translation id="8572093925387077451">У вас уже есть аккаунт</translation>
@@ -411,8 +439,9 @@
 <translation id="8869797682387766327">Остров Мэн</translation>
 <translation id="8893950153780006385">Малайзия</translation>
 <translation id="8895840173743975193">Кокосовые (Килинг) острова</translation>
-<translation id="8955469172512804617">Нажимая кнопку "<ph name="BTN" />", вы принимаете <ph name="PP" />.</translation>
-<translation id="8980953965669178372">Готово</translation>
+<translation id="8916080112145514151">Чтобы пройти авторизацию на текущем компьютере, телефоне или планшете, нажмите "Продолжить". Если вы все-таки хотите связать аккаунт сервиса <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> со своим адресом электронной почты, откройте ссылку на устройстве, на котором начали процесс входа.</translation>
+<translation id="8939353296336237380">Вы пытались связать аккаунт сервиса <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> со своим адресом электронной почты, однако перешли по ссылке на устройстве, на котором у вас не выполнен вход.</translation>
+<translation id="8971555482255213064">Отправить код ещё раз можно будет через 0:<ph name="PH_1" />.</translation>
 <translation id="8984161590699631096">Марокко</translation>
 <translation id="900153878296575829">Бангладеш</translation>
 <translation id="9022632332691561239">Телефон</translation>

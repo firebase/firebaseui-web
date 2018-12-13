@@ -209,3 +209,10 @@ function testSanitizeUrl_unsafeUrl() {
       firebaseui.auth.util.sanitizeUrl('javascript:doEvilStuff()'));
 }
 
+function testGenerateRandomAlphaNumericString() {
+  // Confirm generated string has expected length.
+  for (var i = 0; i < 10; i++) {
+    assertEquals(
+        i, firebaseui.auth.util.generateRandomAlphaNumericString(i).length);
+  }
+}

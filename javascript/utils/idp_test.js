@@ -62,6 +62,25 @@ function testIsSupportedProvider() {
 }
 
 
+function testGetFirstFederatedSignInMethod() {
+  assertEquals(
+      'google.com', firebaseui.auth.idp.getFirstFederatedSignInMethod(
+          ['password', 'google.com']));
+  assertEquals(
+      'facebook.com', firebaseui.auth.idp.getFirstFederatedSignInMethod(
+          ['emailLink', 'facebook.com']));
+  assertEquals(
+      'twitter.com', firebaseui.auth.idp.getFirstFederatedSignInMethod(
+          ['phone', 'twitter.com']));
+  assertEquals(
+      'google.com', firebaseui.auth.idp.getFirstFederatedSignInMethod(
+          ['emailLink', 'google.com', 'github.com']));
+  assertNull(
+      firebaseui.auth.idp.getFirstFederatedSignInMethod(
+          ['emailLink', 'password', 'phone']));
+}
+
+
 /**
  * Asserts the credential is initialized with correct OAuth response.
  * @param {!Object} provider The provider object.

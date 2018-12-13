@@ -1,7 +1,10 @@
 <translationbundle lang="pt-PT">
+<translation id="1003362845472634045">Email de início de sessão enviado</translation>
 <translation id="10081113082271688">Código de validação incorreto</translation>
 <translation id="1024070574104100559">São Vicente</translation>
-<translation id="1100633043848982368">Reenviar código</translation>
+<translation id="1080228854514607739">O link de email é inválido. Isto pode ocorrer se o link de email tiver expirado ou se já tiver sido utilizado para iniciar sessão. Reinicie o fluxo de início de sessão.</translation>
+<translation id="1088824719285122027">Este número de telefone foi utilizado demasiadas vezes</translation>
+<translation id="1111168792069656940">ui_flow</translation>
 <translation id="1130401182255828006">Letónia</translation>
 <translation id="1133565039750742069">Guardar</translation>
 <translation id="1139115784936170936">Singapura</translation>
@@ -48,6 +51,7 @@
 <translation id="2058731785647385204">Monserrate</translation>
 <translation id="2070709910567585968">Para criar uma palavra-passe forte é necessário utilizar, no mínimo, 6 caracteres e uma combinação de letras e de números</translation>
 <translation id="2074008538308369451">Termos de Utilização</translation>
+<translation id="2089802663554186342">Sessão terminada</translation>
 <translation id="2108717231438756650">Reino Unido</translation>
 <translation id="2120419640334291526">Ilhas Caimão</translation>
 <translation id="2124070231227334770">Moldávia</translation>
@@ -63,7 +67,7 @@
 <translation id="227405248692044138">Malta</translation>
 <translation id="2285049245646335550">Cabo Verde</translation>
 <translation id="2301396996587599046">Macedónia</translation>
-<translation id="2312980523495377579">Nome próprio e apelido</translation>
+<translation id="2310948428656960769">Com sessão iniciada!</translation>
 <translation id="2324942959480650701">Convidado</translation>
 <translation id="2331781584136059536">Gana</translation>
 <translation id="2338909515537249568">O navegador que está a utilizar não suporta armazenamento na Web. Tente novamente com um navegador diferente.</translation>
@@ -79,13 +83,17 @@
 <translation id="2541179214468543429">Introduziu uma palavra-passe incorreta demasiadas vezes. Tente novamente dentro de alguns minutos.</translation>
 <translation id="2561835578785502516">O pedido para repor a palavra-passe expirou ou o link já foi utilizado</translation>
 <translation id="2581514546525533462">O código de país fornecido não é suportado.</translation>
+<translation id="2600950452451016107">Certifique-se de que não introduziu o seu email incorretamente.</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">Camboja</translation>
 <translation id="2616650714309312732">Portugal</translation>
 <translation id="2619590123270932385">Guiana francesa</translation>
 <translation id="2621854044487969847">Ilhas Virgens Britânicas</translation>
+<translation id="2623430226615357954">Ignorar</translation>
 <translation id="2626214972556632989">Introduza um número de telefone válido</translation>
 <translation id="2652952163277051394">O tipo de conta não é suportado por esta aplicação</translation>
+<translation id="2660271277401013037">O código da ação é inválido. Isto pode acontecer quando o código tem um formato incorreto, expirou ou já foi utilizado.</translation>
+<translation id="2665022736179407256">Este código expirou.</translation>
 <translation id="2668496398414877352">Kosovo</translation>
 <translation id="2674823936234616183">Uzbequistão</translation>
 <translation id="2696162410887720551">Ilhas Åland</translation>
@@ -93,7 +101,7 @@
 <translation id="2741235824871026219">Validar</translation>
 <translation id="2752984808025184019">África do Sul</translation>
 <translation id="2760636260031093254">Introduza o endereço de email para continuar</translation>
-<translation id="2824267666257947103">Introduza a palavra-passe</translation>
+<translation id="2782685789517131804">Enviámos um email de início de sessão com instruções adicionais para <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Consulte o seu email para concluir o início de sessão.</translation>
 <translation id="2828509010894808185">Criar conta</translation>
 <translation id="2834770837848769530">Afeganistão</translation>
 <translation id="2884525438023347369">Ao tocar em <ph name="BTN" />, indica que aceita os <ph name="TOS" />.</translation>
@@ -124,6 +132,7 @@
 <translation id="3372254675985592547">Cuba</translation>
 <translation id="3394519231857398207">França</translation>
 <translation id="3398534025670554188">China</translation>
+<translation id="3409391354412142307">Já utilizou <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Pode associar a sua conta do <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> a <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> ao iniciar sessão com o link de email abaixo.</translation>
 <translation id="3413300222170818119">Zâmbia</translation>
 <translation id="3429213469114503705">Cidade do Vaticano</translation>
 <translation id="3434621886769337032">Gâmbia</translation>
@@ -154,8 +163,11 @@
 <translation id="3954166521214262397">Código de 6 dígitos</translation>
 <translation id="3987987513436822097">Comores</translation>
 <translation id="4009306200855295525">País</translation>
+<translation id="4021489444336102711">Validar</translation>
 <translation id="4022450612826261789">Kosovo</translation>
+<translation id="4025579119565425333">Experimente estas correções comuns:</translation>
 <translation id="4056653682525186486">Iniciar sessão com <ph name="XXX" /></translation>
+<translation id="4064888056475403511">Experimente abrir o link através do mesmo dispositivo ou navegador no qual iniciou o processo de início de sessão.</translation>
 <translation id="4066104405592701692">Estónia</translation>
 <translation id="4090385155496329109">Facebook</translation>
 <translation id="4163133799286985193">Argentina</translation>
@@ -165,6 +177,7 @@
 <translation id="4242716276491763916">Guiné-Conacri</translation>
 <translation id="4248546264350694306">Suíça</translation>
 <translation id="4266056491449352939">Andorra</translation>
+<translation id="4322167048992801895">Está com problemas para receber emails?</translation>
 <translation id="4329551945958214898">Japão</translation>
 <translation id="4331763189922924781">Montenegro</translation>
 <translation id="4372962701784304822">Moçambique</translation>
@@ -172,6 +185,7 @@
 <translation id="4386334763822785837">Turquia</translation>
 <translation id="4413304190485210039">Tajiquistão</translation>
 <translation id="4432634970196611353">Laos</translation>
+<translation id="4440507149645221385">Telemóvel</translation>
 <translation id="4450602713221237198">Reenviar</translation>
 <translation id="4498504413765490964">Honduras</translation>
 <translation id="4515732781724470190">Níger</translation>
@@ -189,6 +203,7 @@
 <translation id="4775051289386800916">Nicarágua</translation>
 <translation id="4783400389150493171">Burquina Faso</translation>
 <translation id="4852256440857413490">Código errado. Tente novamente.</translation>
+<translation id="4866990546854875813">A sessão associada a este pedido de início de sessão expirou ou foi limpa.</translation>
 <translation id="4871106926303956169">Ilhas Turcas e Caicos</translation>
 <translation id="4877597386645466815">Reenviar código em <ph name="TIME_REMAINING" /></translation>
 <translation id="4915406999072654369">Verifique o seu email</translation>
@@ -197,6 +212,7 @@
 <translation id="4991626049082973728">Sérvia</translation>
 <translation id="4991892293325936102">Belize</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" />para <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /><ph name="END_PARAGRAPH" /></translation>
+<translation id="5059105734231232362">Para que este fluxo associe com sucesso a sua conta do <ph name="IDP_DISPLAY_NAME" /> a este email, tem de abrir o link no mesmo dispositivo ou navegador.</translation>
 <translation id="5080084639513001393">Suécia</translation>
 <translation id="5080899604429810481">São Martinho</translation>
 <translation id="5143657419516597442">Santa Lúcia</translation>
@@ -212,6 +228,7 @@
 <translation id="5443669846203963095">Política de Privacidade</translation>
 <translation id="5444635161362535036">Listenstaine</translation>
 <translation id="5483706910421209104">Editar nome</translation>
+<translation id="5490651768073507833">Experimente abrir o link através do mesmo dispositivo ou navegador no qual iniciou o processo de início de sessão.</translation>
 <translation id="5524360735013196510">Países Baixos</translation>
 <translation id="5528189843379142883">Guiné Equatorial</translation>
 <translation id="5529036554155743092">Austrália</translation>
@@ -230,11 +247,14 @@
 <translation id="5642254620426025006">Ocorreu um erro. Tente novamente.</translation>
 <translation id="5649486931917149784">Palavra-passe</translation>
 <translation id="5664080586064341046">São Cristóvão</translation>
+<translation id="5668881954117611594">Voltar</translation>
 <translation id="5699028034244995851">Introduza o endereço de email para continuar</translation>
 <translation id="5701178667798108817">Validar o número de telefone</translation>
 <translation id="5715637701147651513">Libéria</translation>
+<translation id="5755179287528310939">Já existe uma conta com o endereço de email em questão.</translation>
 <translation id="5771034676910614239">Madagáscar</translation>
 <translation id="5818634293686963864">Cazaquistão</translation>
+<translation id="5829301468800336085">A iniciar sessão…</translation>
 <translation id="5840765100196379855">Panamá</translation>
 <translation id="5840803301882074743">Tonga</translation>
 <translation id="5850752921356750845">Wallis e Futuna</translation>
@@ -247,12 +267,11 @@
 <translation id="5989709845715452405">Recuperar a palavra-passe</translation>
 <translation id="5995596766674622541">Introduza o código de 6 dígitos que enviámos para <ph name="START_LINK" />&amp;lrm;<ph name="PHONE_NUMBER" /><ph name="END_LINK" /></translation>
 <translation id="6006148985615990975">Ruanda</translation>
-<translation id="6040759627067155517">Email</translation>
+<translation id="6032262985756512833">Introduza o código de <ph name="STRING" /> dígitos que enviámos para</translation>
 <translation id="6044396095102058216">Este número de telefone foi utilizado demasiadas vezes</translation>
-<translation id="6091051069256411999">Twitter</translation>
-<translation id="61182948399263957">
-<ph name="P_START" />Inicie sessão em <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
-<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
+<translation id="6083089720215618333">O email fornecido não corresponde à sessão atual.</translation>
+<translation id="6113531938704280909">Desassociar conta</translation>
+<translation id="6132202686885223981">Certifique-se de que a sua caixa de entrada não está a ficar sem espaço disponível nem está com outros problemas relacionados com as definições da caixa de entrada.</translation>
 <translation id="6189573836664806798">Paraguai</translation>
 <translation id="6192657410634245771">Argélia</translation>
 <translation id="6213969168046789596">Introduziu uma palavra-passe errada demasiadas vezes. Tente novamente dentro de alguns minutos.</translation>
@@ -269,8 +288,10 @@
 <translation id="6381974517529371884">Ilhas Faroé</translation>
 <translation id="6443180961828792673">Kosovo</translation>
 <translation id="6450170205342035038">Bulgária</translation>
-<translation id="6476467763326951353">Validar o email de <ph name="APP_NAME" /></translation>
-<translation id="6494734506607758748">Para alterar o endereço de email associado à sua conta, é necessário iniciar sessão novamente.</translation>
+<translation id="6470057025778734988">Deixará de poder iniciar sessão com a sua conta</translation>
+<translation id="6472297146424049005">Verifique a ligação à Internet.</translation>
+<translation id="6483116480230343278">A realizar a inscrição...</translation>
+<translation id="6502083090260346644">Ao tocar em <ph name="STRING" />, pode gerar o envio de uma SMS. Podem aplicar-se tarifas de mensagens e dados.</translation>
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Samoa Americana</translation>
 <translation id="6527597037551425211">Brasil</translation>
@@ -281,6 +302,7 @@
 <translation id="6611519013130079637">Bélgica</translation>
 <translation id="6618737424980030515">Geórgia</translation>
 <translation id="6623411438614744695">Namíbia</translation>
+<translation id="6653313985929651858">Email de início de sessão enviado\n</translation>
 <translation id="6655128609744896303">Código enviado!</translation>
 <translation id="6683477520421532707">Reunião</translation>
 <translation id="6683810982254923169">Tente repor novamente a palavra-passe</translation>
@@ -295,15 +317,18 @@
 <translation id="6769550797775698634">Camarões</translation>
 <translation id="6775190982418995854">Svalbard e Jan Mayen</translation>
 <translation id="6775835872637240659">Ucrânia</translation>
+<translation id="6779584651193963121">Se os passos acima não resolverem o problema, pode reenviar o email. Tenha em atenção que esta ação desativa o link no email mais antigo.</translation>
 <translation id="6782010235320729294">Turquemenistão</translation>
 <translation id="6821607741326790458">Jamaica</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Paquistão</translation>
+<translation id="6918319418444979243">Reenviar</translation>
 <translation id="6920167780806379235">Síria</translation>
 <translation id="6921505896641453739">Email</translation>
 <translation id="6929813273561975780">Seguinte</translation>
 <translation id="6951302238647056860">Este código já não é válido</translation>
 <translation id="6976724207780605356">Iniciar sessão com o Facebook</translation>
+<translation id="6984204927251307445">Confirmar email</translation>
 <translation id="6999773882165218263">Nome próprio e apelido</translation>
 <translation id="7012506961150923116">Granada</translation>
 <translation id="7024571478138322659">Sara Ocidental</translation>
@@ -320,6 +345,7 @@
 <translation id="7207660930894629055">Pretende continuar com <ph name="USER_EMAIL" />?</translation>
 <translation id="7223410082658239002">Maldivas</translation>
 <translation id="7254028881697834212">São Tomé e Príncipe</translation>
+<translation id="7268827299582726485">Confirme o seu email para concluir o início de sessão</translation>
 <translation id="7272145663101316762">Eslovénia</translation>
 <translation id="7280309713358692490">Coreia do Sul</translation>
 <translation id="7291567990403335374">Lesoto</translation>
@@ -327,18 +353,21 @@
 <translation id="7320029088567935126">Tente validar o email novamente</translation>
 <translation id="7331038350037712642">Azerbaijão</translation>
 <translation id="743266754881673808">Google</translation>
-<translation id="7453388767208874682">O número de telefone não pode ficar vazio.</translation>
+<translation id="744894552966168763">Link de email inválido.</translation>
+<translation id="7477065998516229434">Termos de Utilização</translation>
 <translation id="7493245640904888019">Gibraltar</translation>
 <translation id="7510939244824757986">Tanzânia</translation>
 <translation id="7526532581122816497">Conta associada</translation>
 <translation id="7560587702704358921">São Pedro e Miquelon</translation>
 <translation id="7569285452790032317">Somália</translation>
 <translation id="7592224526951017144">Alemanha</translation>
+<translation id="7595933825828475368">Está com problemas para receber emails?</translation>
 <translation id="7615083347713899917">Quirguizistão</translation>
 <translation id="7643408533407091568">Já utilizou <ph name="EMAIL_ADDR" /> para iniciar sessão. Introduza a palavra-passe da conta em questão.</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{A palavra-passe não é suficientemente forte. Utilize, pelo menos, <ph name="PH_1" /> caráter e uma combinação de letras e números}other{A palavra-passe não é suficientemente forte. Utilize, pelo menos, <ph name="PH_1" /> caracteres e uma combinação de letras e números}}</translation>
 <translation id="7699755204074920022">Zimbabué</translation>
 <translation id="7782885946428624225">Ocorreu um problema ao validar o número de telefone</translation>
+<translation id="7796914496604415892">Novo dispositivo ou navegador detetado</translation>
 <translation id="7868540442111212282">República Checa</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
 <translation id="7926046652648626866">Iniciar sessão com o GitHub</translation>
@@ -379,7 +408,8 @@
 <translation id="8448940737083561161">Quiribati</translation>
 <translation id="847294590390666986">Taiwan</translation>
 <translation id="8477554788963470892">Serra Leoa</translation>
-<translation id="850278101443955459">Iniciar sessão</translation>
+<translation id="8498398269542501379">Verifique se o email foi assinalado como spam ou filtrado.</translation>
+<translation id="8505200776212389923">A validar…</translation>
 <translation id="8505941919386646914">Martinica</translation>
 <translation id="8534746304953308378">Togo</translation>
 <translation id="8572093925387077451">Já tem uma conta</translation>
@@ -403,8 +433,9 @@
 <translation id="8869797682387766327">Ilha de Man</translation>
 <translation id="8893950153780006385">Malásia</translation>
 <translation id="8895840173743975193">Ilhas Cocos</translation>
-<translation id="8955469172512804617">Ao tocar em <ph name="BTN" />, indica que aceita a <ph name="PP" />.</translation>
-<translation id="8980953965669178372">Concluído</translation>
+<translation id="8916080112145514151">Se ainda pretender associar a sua conta do <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" />, abra o link no mesmo dispositivo em que iniciou sessão. Caso contrário, toque em Continuar para iniciar sessão neste dispositivo.</translation>
+<translation id="8939353296336237380">Originalmente, pretendia associar a sua conta do <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> à sua conta de email, mas abriu o link num dispositivo diferente no qual não tem sessão iniciada.</translation>
+<translation id="8971555482255213064">Reenviar código em 0:<ph name="PH_1" /></translation>
 <translation id="8984161590699631096">Marrocos</translation>
 <translation id="900153878296575829">Bangladeche</translation>
 <translation id="9022632332691561239">Telefone</translation>

@@ -22,6 +22,8 @@ goog.require('firebaseui.auth.Account');
 goog.require('firebaseui.auth.PendingEmailCredential');
 goog.require('firebaseui.auth.idp');
 goog.require('firebaseui.auth.storage');
+goog.require('firebaseui.auth.util');
+goog.require('goog.net.cookies');
 goog.require('goog.storage.mechanism.HTML5LocalStorage');
 goog.require('goog.storage.mechanism.HTML5SessionStorage');
 goog.require('goog.storage.mechanism.mechanismfactory');
@@ -38,9 +40,11 @@ var account2 = new firebaseui.auth.Account(
 var stubs = new goog.testing.PropertyReplacer();
 var appId = 'glowing-heat-3485';
 var appId2 = 'flowing-water-9731';
+var mockCookieStorage = {};
 
 
 function setUp() {
+  mockCookieStorage = {};
   goog.storage.mechanism.mechanismfactory.createHTML5LocalStorage(
       firebaseui.auth.storage.NAMESPACE_).clear();
   goog.storage.mechanism.mechanismfactory.createHTML5SessionStorage(
@@ -50,6 +54,52 @@ function setUp() {
 
 function tearDown() {
   stubs.reset();
+}
+
+
+/**
+ * Stubs the cookie setter/getter/remover and asserts the expected cookie config
+ * is passed on each call.
+ * @param {*} maxAge  The max age in seconds (from now). Use -1 to
+ *     set a session cookie. If not provided, the default is -1
+ *     (i.e. set a session cookie).
+ * @param {*} path  The path of the cookie. If not present then this
+ *     uses the full request path.
+ * @param {*} domain  The domain of the cookie, or null to not
+ *     specify a domain attribute (browser will use the full request host name).
+ *     If not provided, the default is null (i.e. let browser use full request
+ *     host name).
+ * @param {*} secure Whether the cookie should only be sent over
+ *     a secure channel.
+ */
+function initializeCookieStorageMock(maxAge, path, domain, secure) {
+  // Initialize cookie storage mock.
+  mockCookieStorage = {};
+  stubs.replace(
+      goog.net.cookies,
+      'set',
+      function(key, value, actualMaxAge, actualPath,
+               actualDomain, actualSecure) {
+        assertEquals(maxAge, actualMaxAge);
+        assertEquals(path, actualPath);
+        assertEquals(domain, actualDomain);
+        assertEquals(secure, actualSecure);
+        mockCookieStorage[key] = value;
+      });
+  stubs.replace(
+      goog.net.cookies,
+      'get',
+      function(key) {
+        return mockCookieStorage[key];
+      });
+  stubs.replace(
+      goog.net.cookies,
+      'remove',
+      function(key, actualPath, actualDomain) {
+        assertEquals(path, actualPath);
+        assertEquals(domain, actualDomain);
+        delete mockCookieStorage[key];
+      });
 }
 
 
@@ -317,4 +367,84 @@ function testGetSetRemovePendingRedirectStatus_withAppId() {
   assertTrue(firebaseui.auth.storage.hasPendingRedirectStatus(appId2));
   firebaseui.auth.storage.removePendingRedirectStatus(appId2);
   assertFalse(firebaseui.auth.storage.hasPendingRedirectStatus(appId2));
+}
+
+
+function testGetSetRemoveEmailForSignIn_withAppId() {
+  initializeCookieStorageMock(3600, '/', null, false);
+  assertFalse(firebaseui.auth.storage.hasEmailForSignIn(appId));
+  assertFalse(firebaseui.auth.storage.hasEmailForSignIn(appId2));
+
+  var key1 = firebaseui.auth.util.generateRandomAlphaNumericString(32);
+  var key2 = firebaseui.auth.util.generateRandomAlphaNumericString(32);
+  var email1 = 'user@example.com';
+  var email2 = 'user@domain.com';
+
+  firebaseui.auth.storage.setEmailForSignIn(key1, email1, appId);
+  firebaseui.auth.storage.setEmailForSignIn(key2, email2, appId2);
+  assertTrue(firebaseui.auth.storage.hasEmailForSignIn(appId));
+  assertTrue(firebaseui.auth.storage.hasEmailForSignIn(appId2));
+  assertEquals(
+      email1,
+      firebaseui.auth.storage.getEmailForSignIn(key1, appId));
+  assertNull(firebaseui.auth.storage.getEmailForSignIn(key2, appId));
+  assertEquals(
+      email2,
+      firebaseui.auth.storage.getEmailForSignIn(key2, appId2));
+   assertNull(firebaseui.auth.storage.getEmailForSignIn(key1, appId2));
+
+  firebaseui.auth.storage.removeEmailForSignIn(appId);
+  assertFalse(firebaseui.auth.storage.hasEmailForSignIn(appId));
+  assertTrue(firebaseui.auth.storage.hasEmailForSignIn(appId2));
+  firebaseui.auth.storage.removeEmailForSignIn(appId2);
+  assertFalse(firebaseui.auth.storage.hasEmailForSignIn(appId2));
+}
+
+
+function testGetSetRemoveEncryptedPendingCredential_withAppId() {
+  initializeCookieStorageMock(3600, '/', null, false);
+  // Just pass the credential object through for the test.
+  stubs.replace(
+      firebaseui.auth.idp,
+      'getAuthCredential',
+      function(obj) {return obj;});
+  assertFalse(firebaseui.auth.storage.hasEncryptedPendingCredential(appId));
+  assertFalse(firebaseui.auth.storage.hasEncryptedPendingCredential(appId2));
+
+  var key1 = firebaseui.auth.util.generateRandomAlphaNumericString(32);
+  var key2 = firebaseui.auth.util.generateRandomAlphaNumericString(32);
+  var cred = {
+    'providerId': 'google.com',
+    'idToken': 'ID_TOKEN'
+  };
+  var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
+      'user@example.com', cred);
+  var cred2 = {
+    'providerId': 'facebook.com',
+    'accessToken': 'ACCESS_TOKEN'
+  };
+  var pendingEmailCred2 = new firebaseui.auth.PendingEmailCredential(
+      'other@example.com', cred2);
+  firebaseui.auth.storage.setEncryptedPendingCredential(
+      key1, pendingEmailCred, appId);
+  firebaseui.auth.storage.setEncryptedPendingCredential(
+      key2, pendingEmailCred2, appId2);
+  assertTrue(firebaseui.auth.storage.hasEncryptedPendingCredential(appId));
+  assertTrue(firebaseui.auth.storage.hasEncryptedPendingCredential(appId2));
+  assertObjectEquals(
+      pendingEmailCred,
+      firebaseui.auth.storage.getEncryptedPendingCredential(key1, appId));
+  assertNull(
+      firebaseui.auth.storage.getEncryptedPendingCredential(key2, appId));
+  assertObjectEquals(
+      pendingEmailCred2,
+      firebaseui.auth.storage.getEncryptedPendingCredential(key2, appId2));
+  assertNull(
+      firebaseui.auth.storage.getEncryptedPendingCredential(key1, appId2));
+
+  firebaseui.auth.storage.removeEncryptedPendingCredential(appId);
+  assertFalse(firebaseui.auth.storage.hasEncryptedPendingCredential(appId));
+  assertTrue(firebaseui.auth.storage.hasEncryptedPendingCredential(appId2));
+  firebaseui.auth.storage.removeEncryptedPendingCredential(appId2);
+  assertFalse(firebaseui.auth.storage.hasEncryptedPendingCredential(appId2));
 }

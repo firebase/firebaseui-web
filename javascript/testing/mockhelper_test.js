@@ -58,10 +58,13 @@ function testMockHelper_success() {
   var expectedError1 = new Error('foo');
   var expectedError2 = new Error('bar');
   myMock.install();
+  var marker = 0;
   myMock['ref1'].method1(true, {'a': 1}).then(function(result) {
+    marker++;
     assertEquals('success', result);
     return myMock['ref2'].method3();
   }).then(function(result) {
+    marker++;
     assertFalse(result);
     return myMock['ref1'].method2('something');
   }).thenCatch(function(error) {
@@ -71,9 +74,29 @@ function testMockHelper_success() {
     assertEquals(expectedError2, error);
     return myMock['ref1'].method1();
   });
-  myMock['ref1'].assertMethod1([true, {'a': 1}], 'success');
-  myMock['ref2'].assertMethod3([], function() {return false;});
-  return myMock.process().then(function() {
+  // method1 already called before assertMethod1.
+  var method1Assert = myMock['ref1'].assertMethod1([true, {'a': 1}], 'success');
+  // assertMethod3 called before method3.
+  var method3Assert  =
+      myMock['ref2'].assertMethod3([], function() {return false;});
+  method1Assert.then(function() {
+    // method1Assert should resolve before method1 resolves.
+    assertEquals(0, marker);
+  });
+  method3Assert.then(function() {
+    // method3Assert should resolve before method3 resolves.
+    assertEquals(1, marker);
+  });
+  // method1 already called. This should resolve event though it is not yet
+  // processed.
+  return method1Assert.then(function() {
+    // Confirm, method1Assert resolves before method1 resolves.
+    assertEquals(0, marker);
+    return myMock.process();
+  }).then(function() {
+    // Process would resolve method1 and method3.
+    assertEquals(2, marker);
+  }).then(function() {
     // These asserts can also be chained with process.
     myMock['ref1'].assertMethod2(['something'], null, expectedError1);
     myMock['ref2'].assertMethod4(

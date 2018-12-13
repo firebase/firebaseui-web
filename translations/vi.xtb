@@ -1,7 +1,10 @@
 <translationbundle lang="vi">
+<translation id="1003362845472634045">Đã gửi email đăng nhập</translation>
 <translation id="10081113082271688">Mã xác minh không chính xác</translation>
 <translation id="1024070574104100559">St. Vincent</translation>
-<translation id="1100633043848982368">Gửi lại mã</translation>
+<translation id="1080228854514607739">Liên kết email không hợp lệ. Vấn đề này có thể xảy ra nếu liên kết email đã hết hạn hoặc đã được dùng để đăng nhập trước đó. Vui lòng thực hiện lại quy trình đăng nhập.</translation>
+<translation id="1088824719285122027">Số điện thoại này đã được sử dụng quá nhiều lần</translation>
+<translation id="1111168792069656940">ui_flow</translation>
 <translation id="1130401182255828006">Latvia</translation>
 <translation id="1133565039750742069">Lưu</translation>
 <translation id="1139115784936170936">Singapore</translation>
@@ -48,6 +51,7 @@
 <translation id="2058731785647385204">Montserrat</translation>
 <translation id="2070709910567585968">Mật khẩu mạnh có ít nhất 6 ký tự, kết hợp chữ cái và số</translation>
 <translation id="2074008538308369451">Điều khoản dịch vụ</translation>
+<translation id="2089802663554186342">Phiên hoạt động đã kết thúc</translation>
 <translation id="2108717231438756650">Vương quốc Anh</translation>
 <translation id="2120419640334291526">Quần đảo Cayman</translation>
 <translation id="2124070231227334770">Moldova</translation>
@@ -63,7 +67,7 @@
 <translation id="227405248692044138">Malta</translation>
 <translation id="2285049245646335550">Mũi Verde</translation>
 <translation id="2301396996587599046">Macedonia</translation>
-<translation id="2312980523495377579">Họ và tên</translation>
+<translation id="2310948428656960769">Đăng nhập thành công!</translation>
 <translation id="2324942959480650701">Người dùng khách</translation>
 <translation id="2331781584136059536">Ghana</translation>
 <translation id="2338909515537249568">Trình duyệt bạn đang sử dụng không hỗ trợ Lưu trữ trên web. Vui lòng thử lại bằng một trình duyệt khác.</translation>
@@ -80,13 +84,17 @@
 <translation id="2561560038714758184">Bảo mật</translation>
 <translation id="2561835578785502516">Yêu cầu đặt lại mật khẩu của bạn đã hết hạn hoặc liên kết đã được sử dụng</translation>
 <translation id="2581514546525533462">Không hỗ trợ mã quốc gia người dùng cung cấp.</translation>
+<translation id="2600950452451016107">Kiểm tra để đảm bảo bạn không viết sai chính tả tên email.</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">Campuchia</translation>
 <translation id="2616650714309312732">Bồ Đào Nha</translation>
 <translation id="2619590123270932385">Guiana thuộc Pháp</translation>
 <translation id="2621854044487969847">Quần đảo Virgin thuộc Anh</translation>
+<translation id="2623430226615357954">Bỏ qua</translation>
 <translation id="2626214972556632989">Nhập số điện thoại hợp lệ</translation>
 <translation id="2652952163277051394">Loại tài khoản này không được ứng dụng này hỗ trợ</translation>
+<translation id="2660271277401013037">Mã kích hoạt không hợp lệ. Điều này có thể xảy ra nếu mã không đúng định dạng, đã hết hạn hoặc đã sử dụng.</translation>
+<translation id="2665022736179407256">Mã này đã hết hạn.</translation>
 <translation id="2668496398414877352">Kosovo</translation>
 <translation id="2674823936234616183">Uzbekistan</translation>
 <translation id="2696162410887720551">Quần đảo Aland</translation>
@@ -94,7 +102,7 @@
 <translation id="2741235824871026219">Xác minh</translation>
 <translation id="2752984808025184019">Nam Phi</translation>
 <translation id="2760636260031093254">Nhập địa chỉ email của bạn để tiếp tục</translation>
-<translation id="2824267666257947103">Nhập mật khẩu của bạn</translation>
+<translation id="2782685789517131804">Email đăng nhập có hướng dẫn bổ sung đã được gửi tới <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Hãy kiểm tra hộp thư của bạn để hoàn tất đăng nhập.</translation>
 <translation id="2828509010894808185">Tạo tài khoản</translation>
 <translation id="2834770837848769530">Afghanistan</translation>
 <translation id="2884525438023347369">Bằng cách nhấn vào <ph name="BTN" />, bạn cho biết rằng bạn đồng ý với <ph name="TOS" />.</translation>
@@ -125,6 +133,7 @@
 <translation id="3372254675985592547">Cuba</translation>
 <translation id="3394519231857398207">Pháp</translation>
 <translation id="3398534025670554188">Trung Quốc</translation>
+<translation id="3409391354412142307">Bạn đã sử dụng <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Bạn có thể kết nối tài khoản <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> với <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> khi đăng nhập bằng liên kết email bên dưới.</translation>
 <translation id="3413300222170818119">Zambia</translation>
 <translation id="3429213469114503705">Thành Vatican</translation>
 <translation id="3434621886769337032">Gambia</translation>
@@ -156,8 +165,11 @@
 <translation id="3954166521214262397">Mã 6 chữ số</translation>
 <translation id="3987987513436822097">Quốc đảo Comoros</translation>
 <translation id="4009306200855295525">Quốc gia</translation>
+<translation id="4021489444336102711">Xác minh</translation>
 <translation id="4022450612826261789">Kosovo</translation>
+<translation id="4025579119565425333">Hãy thử các cách khắc phục vấn đề phổ biến sau:</translation>
 <translation id="4056653682525186486">Đăng nhập bằng <ph name="XXX" /></translation>
+<translation id="4064888056475403511">Hãy thử mở liên kết bằng cùng một thiết bị hoặc trình duyệt mà bạn dùng để bắt đầu quá trình đăng nhập.</translation>
 <translation id="4066104405592701692">Estonia</translation>
 <translation id="4090385155496329109">Facebook</translation>
 <translation id="4163133799286985193">Argentina</translation>
@@ -167,6 +179,7 @@
 <translation id="4242716276491763916">Guinea Conakry</translation>
 <translation id="4248546264350694306">Thụy Sĩ</translation>
 <translation id="4266056491449352939">Andorra</translation>
+<translation id="4322167048992801895">Bạn gặp vấn đề khi nhận email?</translation>
 <translation id="4329551945958214898">Nhật Bản</translation>
 <translation id="4331763189922924781">Montenegro</translation>
 <translation id="4372962701784304822">Mozambique</translation>
@@ -174,6 +187,7 @@
 <translation id="4386334763822785837">Thổ Nhĩ Kỳ</translation>
 <translation id="4413304190485210039">Tajikistan</translation>
 <translation id="4432634970196611353">Lào</translation>
+<translation id="4440507149645221385">Điện thoại</translation>
 <translation id="4450602713221237198">Gửi lại</translation>
 <translation id="4498504413765490964">Honduras</translation>
 <translation id="4515732781724470190">Niger</translation>
@@ -191,6 +205,7 @@
 <translation id="4775051289386800916">Nicaragua</translation>
 <translation id="4783400389150493171">Burkina Faso</translation>
 <translation id="4852256440857413490">Mã không chính xác. Hãy thử lại.</translation>
+<translation id="4866990546854875813">Phiên hoạt động liên quan đến yêu cầu đăng nhập này đã hết hạn hoặc đã bị xóa.</translation>
 <translation id="4871106926303956169">Quần đảo Turks và Caicos</translation>
 <translation id="4877597386645466815">Gửi lại mã sau <ph name="TIME_REMAINING" /></translation>
 <translation id="4915406999072654369">Kiểm tra email của bạn</translation>
@@ -199,6 +214,7 @@
 <translation id="4991626049082973728">Serbia</translation>
 <translation id="4991892293325936102">Belize</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" />cho <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /><ph name="END_PARAGRAPH" /></translation>
+<translation id="5059105734231232362">Để quy trình kết nối tài khoản <ph name="IDP_DISPLAY_NAME" /> với email này diễn ra thành công, bạn phải mở liên kết trên cùng một thiết bị hoặc trình duyệt.</translation>
 <translation id="5080084639513001393">Thụy Điển</translation>
 <translation id="5080899604429810481">Saint Martin</translation>
 <translation id="5143657419516597442">St. Lucia</translation>
@@ -215,6 +231,7 @@
 <translation id="5443669846203963095">Chính sách về quyền riêng tư</translation>
 <translation id="5444635161362535036">Liechtenstein</translation>
 <translation id="5483706910421209104">Chỉnh sửa tên</translation>
+<translation id="5490651768073507833">Hãy thử mở liên kết bằng cùng một thiết bị hoặc trình duyệt mà bạn dùng để bắt đầu quá trình đăng nhập.</translation>
 <translation id="5524360735013196510">Hà Lan</translation>
 <translation id="5528189843379142883">Guinea Xích đạo</translation>
 <translation id="5529036554155743092">Úc</translation>
@@ -233,11 +250,14 @@
 <translation id="5642254620426025006">Đã xảy ra sự cố. Vui lòng thử lại.</translation>
 <translation id="5649486931917149784">Mật khẩu</translation>
 <translation id="5664080586064341046">St. Kitts</translation>
+<translation id="5668881954117611594">Quay lại</translation>
 <translation id="5699028034244995851">Nhập địa chỉ email của bạn để tiếp tục</translation>
 <translation id="5701178667798108817">Xác minh số điện thoại của bạn</translation>
 <translation id="5715637701147651513">Liberia</translation>
+<translation id="5755179287528310939">Tài khoản có địa chỉ email đó đã tồn tại.</translation>
 <translation id="5771034676910614239">Madagascar</translation>
 <translation id="5818634293686963864">Kazakhstan</translation>
+<translation id="5829301468800336085">Đang đăng nhập...</translation>
 <translation id="5840765100196379855">Panama</translation>
 <translation id="5840803301882074743">Tonga</translation>
 <translation id="5850752921356750845">Wallis và Futuna</translation>
@@ -250,12 +270,11 @@
 <translation id="5989709845715452405">Khôi phục mật khẩu</translation>
 <translation id="5995596766674622541">Nhập mã 6 chữ số mà chúng tôi gửi đến <ph name="START_LINK" />&amp;lrm;<ph name="PHONE_NUMBER" /><ph name="END_LINK" /></translation>
 <translation id="6006148985615990975">Rwanda</translation>
-<translation id="6040759627067155517">Email</translation>
+<translation id="6032262985756512833">Nhập mã <ph name="STRING" /> chữ số mà chúng tôi gửi cho bạn</translation>
 <translation id="6044396095102058216">Số điện thoại này đã được sử dụng quá nhiều lần</translation>
-<translation id="6091051069256411999">Twitter</translation>
-<translation id="61182948399263957">
-<ph name="P_START" />Hãy đăng nhập vào <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
-<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
+<translation id="6083089720215618333">Email đã cung cấp không khớp với phiên đăng nhập hiện tại.</translation>
+<translation id="6113531938704280909">Hủy liên kết tài khoản</translation>
+<translation id="6132202686885223981">Kiểm tra để đảm bải dung lượng bộ nhớ hộp thư đến của bạn chưa hết hoặc không có vấn đề khác liên quan đến tùy chọn cài đặt hộp thư đến.</translation>
 <translation id="6189573836664806798">Paraguay</translation>
 <translation id="6192657410634245771">Algeria</translation>
 <translation id="6213969168046789596">Bạn đã nhập sai mật khẩu quá nhiều lần. Vui lòng thử lại sau một vài phút.</translation>
@@ -272,8 +291,10 @@
 <translation id="6381974517529371884">Quần đảo Faroe</translation>
 <translation id="6443180961828792673">Kosovo</translation>
 <translation id="6450170205342035038">Bungary</translation>
-<translation id="6476467763326951353">Xác minh email của bạn cho <ph name="APP_NAME" /></translation>
-<translation id="6494734506607758748">Để thay đổi địa chỉ email được liên kết với tài khoản của bạn, bạn sẽ phải đăng nhập lại.</translation>
+<translation id="6470057025778734988">Bạn sẽ không thể đăng nhập bằng tài khoản của bạn</translation>
+<translation id="6472297146424049005">Kiểm tra kết nối Internet của bạn.</translation>
+<translation id="6483116480230343278">Đang đăng ký…</translation>
+<translation id="6502083090260346644">Bằng cách nhấn vào <ph name="STRING" />, bạn có thể nhận được tin nhắn SMS. Có thể áp dụng cước tin nhắn và dữ liệu.</translation>
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Samoa thuộc Hoa Kỳ</translation>
 <translation id="6527597037551425211">Braxin</translation>
@@ -284,6 +305,7 @@
 <translation id="6611519013130079637">Bỉ</translation>
 <translation id="6618737424980030515">Georgia</translation>
 <translation id="6623411438614744695">Namibia</translation>
+<translation id="6653313985929651858">Đã gửi email đăng nhập\n</translation>
 <translation id="6655128609744896303">Đã gửi mã!</translation>
 <translation id="6683477520421532707">Réunion</translation>
 <translation id="6683810982254923169">Thử đặt lại mật khẩu của bạn một lần nữa</translation>
@@ -298,15 +320,18 @@
 <translation id="6769550797775698634">Cameroon</translation>
 <translation id="6775190982418995854">Svalbard và Jan Mayen</translation>
 <translation id="6775835872637240659">Ukraine</translation>
+<translation id="6779584651193963121">Nếu các bước trên không hiệu quả, bạn có thể gửi lại email. Vui lòng lưu ý rằng thao tác này sẽ hủy kích hoạt đường dẫn liên kết trong email cũ.</translation>
 <translation id="6782010235320729294">Turkmenistan</translation>
 <translation id="6821607741326790458">Jamaica</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
+<translation id="6918319418444979243">Gửi lại</translation>
 <translation id="6920167780806379235">Syria</translation>
 <translation id="6921505896641453739">Email</translation>
 <translation id="6929813273561975780">Tiếp</translation>
 <translation id="6951302238647056860">Mã này không còn hợp lệ</translation>
 <translation id="6976724207780605356">Đăng nhập bằng Facebook</translation>
+<translation id="6984204927251307445">Xác nhận email</translation>
 <translation id="6999773882165218263">Họ và tên</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Tây Sahara</translation>
@@ -323,6 +348,7 @@
 <translation id="7207660930894629055">Tiếp tục với <ph name="USER_EMAIL" />?</translation>
 <translation id="7223410082658239002">Maldives</translation>
 <translation id="7254028881697834212">São Tomé và Príncipe</translation>
+<translation id="7268827299582726485">Xác nhận email của bạn để hoàn tất đăng nhập</translation>
 <translation id="7272145663101316762">Slovenia</translation>
 <translation id="7280309713358692490">Hàn Quốc</translation>
 <translation id="7291567990403335374">Lesotho</translation>
@@ -330,20 +356,22 @@
 <translation id="7320029088567935126">Thử xác minh lại email của bạn</translation>
 <translation id="7331038350037712642">Azerbaijan</translation>
 <translation id="743266754881673808">Google</translation>
-<translation id="7453388767208874682">Không được để trống số điện thoại</translation>
-<translation id="7482751672921205012">Xóa tài khoản?</translation>
+<translation id="744894552966168763">Liên kết email không hợp lệ.</translation>
+<translation id="7477065998516229434">Điều khoản dịch vụ</translation>
 <translation id="7493245640904888019">Gibraltar</translation>
 <translation id="7510939244824757986">Tanzania</translation>
 <translation id="7526532581122816497">Tài khoản được liên kết</translation>
 <translation id="7560587702704358921">Saint Pierre và Miquelon</translation>
 <translation id="7569285452790032317">Somalia</translation>
 <translation id="7592224526951017144">Đức</translation>
+<translation id="7595933825828475368">Bạn gặp vấn đề khi nhận email?</translation>
 <translation id="7615083347713899917">Kyrgyzstan</translation>
 <translation id="7643408533407091568">Bạn đã sử dụng <ph name="EMAIL_ADDR" />
         để đăng nhập. Hãy nhập mật khẩu của bạn cho tài khoản đó.</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{Mật khẩu không đủ mạnh. Sử dụng ít nhất <ph name="PH_1" /> ký tự, kết hợp chữ cái và số}other{Mật khẩu không đủ mạnh. Sử dụng ít nhất <ph name="PH_1" /> ký tự, kết hợp chữ cái và số}}</translation>
 <translation id="7699755204074920022">Zimbabwe</translation>
 <translation id="7782885946428624225">Đã xảy ra sự cố khi xác minh số điện thoại của bạn</translation>
+<translation id="7796914496604415892">Đã phát hiện thiết bị hoặc trình duyệt mới</translation>
 <translation id="7868540442111212282">Cộng hòa Séc</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
 <translation id="7926046652648626866">Đăng nhập bằng GitHub</translation>
@@ -384,7 +412,8 @@
 <translation id="8448940737083561161">Kiribati</translation>
 <translation id="847294590390666986">Đài Loan</translation>
 <translation id="8477554788963470892">Sierra Leone</translation>
-<translation id="850278101443955459">Đăng nhập</translation>
+<translation id="8498398269542501379">Kiểm tra xem email có bị đánh dấu là spam hay đã được lọc.</translation>
+<translation id="8505200776212389923">Đang xác minh…</translation>
 <translation id="8505941919386646914">Martinique</translation>
 <translation id="8534746304953308378">Togo</translation>
 <translation id="8572093925387077451">Bạn đã có tài khoản</translation>
@@ -408,8 +437,9 @@
 <translation id="8869797682387766327">Đảo Man</translation>
 <translation id="8893950153780006385">Malaysia</translation>
 <translation id="8895840173743975193">Quần đảo Cocos [Keeling]</translation>
-<translation id="8955469172512804617">Bằng cách nhấn vào <ph name="BTN" />, bạn cho biết rằng bạn đồng ý với <ph name="PP" />.</translation>
-<translation id="8980953965669178372">Xong</translation>
+<translation id="8916080112145514151">Nếu bạn vẫn muốn kết nối với tài khoản <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" />, hãy mở liên kết này trên cùng một thiết bị mà bạn đã đăng nhập từ đầu. Nếu không, hãy nhấn Tiếp tục để đăng nhập trên thiết bị này.</translation>
+<translation id="8939353296336237380">Ban đầu, bạn có ý định kết nối <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> với tài khoản email của bạn nhưng đã mở liên kết trên một thiết bị khác mà bạn chưa đăng nhập.</translation>
+<translation id="8971555482255213064">Gửi lại mã sau 0:<ph name="PH_1" /></translation>
 <translation id="8984161590699631096">Ma-rốc</translation>
 <translation id="900153878296575829">Bangladesh</translation>
 <translation id="9022632332691561239">Điện thoại</translation>

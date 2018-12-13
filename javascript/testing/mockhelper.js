@@ -114,12 +114,24 @@ MockHelper.prototype.init_ = function() {
   this.expectedCalls_ = [];
   var assertCb =
       function(methodName, context, self, data, opt_resp, opt_error) {
-    self.expectedCalls_.push({
-      'methodName': methodName,
-      'data': data,
-      'resp': opt_resp,
-      'error': opt_error
+    var p = new GoogPromise(function(resolve, reject) {
+      self.expectedCalls_.push({
+        'methodName': methodName,
+        'data': data,
+        'resp': opt_resp,
+        'error': opt_error,
+        'resolveAssert': resolve
+      });
+      // This API has already been called but not processed yet. Resolve
+      // returned promise.
+      if (self.actualCalls_[methodName] &&
+          self.actualCalls_[methodName].length > 0) {
+        resolve();
+      }
     });
+    // Returns a promise that resolves when this API is called.
+    // This is useful if this API is called asynchronously.
+    return p;
   };
   var cb = function(var_args) {
     var methodName = arguments[0];
@@ -128,6 +140,13 @@ MockHelper.prototype.init_ = function() {
     var data = [];
     for (var i = 3; i < arguments.length; i++) {
       data.push(arguments[i]);
+    }
+    // Resolve assert returned promise on the first matching API call.
+    for (var i = 0; i < self.expectedCalls_.length; i++) {
+      if (self.expectedCalls_[i]['methodName'] === methodName) {
+        self.expectedCalls_[i]['resolveAssert']();
+        break;
+      }
     }
     var p = new GoogPromise(function(resolve, reject) {
       self.actualCalls_[methodName].push({
@@ -174,6 +193,7 @@ MockHelper.prototype.process = function() {
       var data = assertReq['data'];
       var resp = assertReq['resp'];
       var error = assertReq['error'];
+      var resolveAssert = assertReq['resolveAssert'];
       var req = self.actualCalls_[methodName].shift();
       if (!req) {
         // Fail quickly when expected API request is not called.
@@ -185,6 +205,8 @@ MockHelper.prototype.process = function() {
           return self.process();
         }
       };
+      // Resolve API promise if not already resolved.
+      resolveAssert();
       if (error) {
         if (goog.isFunction(error)) {
           req['reject'](error());

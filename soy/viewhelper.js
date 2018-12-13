@@ -22,6 +22,9 @@ goog.setTestOnly('firebaseui.auth.soy2.viewHelper');
 goog.require('goog.array');
 goog.require('goog.dom');
 goog.require('goog.dom.classlist');
+goog.require('goog.dom.safe');
+goog.require('goog.html.TrustedResourceUrl');
+goog.require('goog.string.Const');
 
 
 function isViewerMode() {
@@ -39,8 +42,10 @@ function isRtlMode() {
 function loadCss(path) {
   var link = goog.dom.createElement('link');
   link.type = 'text/css';
-  link.rel = 'stylesheet';
-  link.href = path;
+  goog.dom.safe.setLinkHrefAndRel(
+      link,
+      goog.html.TrustedResourceUrl.fromConstant(goog.string.Const.from(path)),
+      'stylesheet');
   var head = goog.dom.getElementsByTagNameAndClass('head')[0];
   goog.dom.insertChildAt(head, link, 0);
 }
