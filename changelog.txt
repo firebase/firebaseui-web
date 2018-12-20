@@ -1,0 +1,1 @@
+fixed - Fixes the issue that email link sign in not properly released to CDN and NPM.
