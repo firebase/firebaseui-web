@@ -30,11 +30,27 @@ goog.require('firebaseui.auth.util');
 goog.require('firebaseui.auth.widget.Config');
 goog.require('firebaseui.auth.widget.dispatcher');
 /** @suppress {extraRequire} */
+goog.require('firebaseui.auth.widget.handler.handleAnonymousUserMismatch');
+/** @suppress {extraRequire} */
 goog.require('firebaseui.auth.widget.handler.handleCallback');
+/** @suppress {extraRequire} */
+goog.require('firebaseui.auth.widget.handler.handleDifferentDeviceError');
 /** @suppress {extraRequire} */
 goog.require('firebaseui.auth.widget.handler.handleEmailChangeRevocation');
 /** @suppress {extraRequire} */
+goog.require('firebaseui.auth.widget.handler.handleEmailLinkConfirmation');
+/** @suppress {extraRequire} */
+goog.require('firebaseui.auth.widget.handler.handleEmailLinkNewDeviceLinking');
+/** @suppress {extraRequire} */
+goog.require('firebaseui.auth.widget.handler.handleEmailLinkSignInCallback');
+/** @suppress {extraRequire} */
+goog.require('firebaseui.auth.widget.handler.handleEmailLinkSignInLinking');
+/** @suppress {extraRequire} */
+goog.require('firebaseui.auth.widget.handler.handleEmailLinkSignInSent');
+/** @suppress {extraRequire} */
 goog.require('firebaseui.auth.widget.handler.handleEmailMismatch');
+/** @suppress {extraRequire} */
+goog.require('firebaseui.auth.widget.handler.handleEmailNotReceived');
 /** @suppress {extraRequire} */
 goog.require('firebaseui.auth.widget.handler.handleEmailVerification');
 /** @suppress {extraRequire} */
@@ -57,6 +73,8 @@ goog.require('firebaseui.auth.widget.handler.handlePhoneSignInFinish');
 goog.require('firebaseui.auth.widget.handler.handlePhoneSignInStart');
 /** @suppress {extraRequire} */
 goog.require('firebaseui.auth.widget.handler.handleProviderSignIn');
+/** @suppress {extraRequire} */
+goog.require('firebaseui.auth.widget.handler.handleSendEmailLinkForSignIn');
 /** @suppress {extraRequire} */
 goog.require('firebaseui.auth.widget.handler.handleSignIn');
 goog.require('firebaseui.auth.widget.handler.startSignIn');
