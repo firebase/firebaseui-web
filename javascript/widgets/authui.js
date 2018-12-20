@@ -58,6 +58,8 @@ goog.require('firebaseui.auth.widget.handler.handlePhoneSignInStart');
 /** @suppress {extraRequire} */
 goog.require('firebaseui.auth.widget.handler.handleProviderSignIn');
 /** @suppress {extraRequire} */
+goog.require('firebaseui.auth.widget.handler.handleSendEmailLinkForSignIn');
+/** @suppress {extraRequire} */
 goog.require('firebaseui.auth.widget.handler.handleSignIn');
 goog.require('firebaseui.auth.widget.handler.startSignIn');
 goog.require('goog.Promise');
