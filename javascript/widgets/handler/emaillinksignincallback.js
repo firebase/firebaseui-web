@@ -75,6 +75,7 @@ firebaseui.auth.widget.handler.handleEmailLinkSignInCallback = function(
   var forceSameDevice = urlBuilder.getForceSameDevice();
   var anonymousUid = urlBuilder.getAnonymousUid();
   var providerId = urlBuilder.getProviderId();
+  var isNewDevice = !firebaseui.auth.storage.hasEmailForSignIn(app.getAppId());
   var email = opt_email || firebaseui.auth.storage.getEmailForSignIn(
       sessionId, app.getAppId());
   var pendingCredential = firebaseui.auth.storage.getEncryptedPendingCredential(
@@ -133,7 +134,7 @@ firebaseui.auth.widget.handler.handleEmailLinkSignInCallback = function(
 
   var checkActionCodeAndGetUser = function() {
     var anonymousUserPromise = goog.Promise.resolve(null);
-    if ((anonymousUid && !email) || (!email && forceSameDevice)) {
+    if ((anonymousUid && isNewDevice) || (isNewDevice && forceSameDevice)) {
       // Anonymous user with different device flow or regular sign in flow with
       // same device requirement on different device.
       anonymousUserPromise = goog.Promise.reject(
@@ -169,15 +170,23 @@ firebaseui.auth.widget.handler.handleEmailLinkSignInCallback = function(
               app, component, email, link, credential,
               /** @type {?firebase.User} */ (user));
         } else {
-          component.dispose();
-          // On email confirmation, call this handler again with
-          // skipCodeCheck set to true.
-          firebaseui.auth.widget.handler.handle(
-              firebaseui.auth.widget.HandlerName.EMAIL_LINK_CONFIRMATION,
+          if (forceSameDevice) {
+            component.dispose();
+            firebaseui.auth.widget.handler.handle(
+              firebaseui.auth.widget.HandlerName.DIFFERENT_DEVICE_ERROR,
               app,
-              container,
-              link,
-              firebaseui.auth.widget.handler.completeEmailConfirmation_);
+              container);
+          } else {
+            component.dispose();
+            // On email confirmation, call this handler again with
+            // skipCodeCheck set to true.
+            firebaseui.auth.widget.handler.handle(
+                firebaseui.auth.widget.HandlerName.EMAIL_LINK_CONFIRMATION,
+                app,
+                container,
+                link,
+                firebaseui.auth.widget.handler.completeEmailConfirmation_);
+            }
         }
       },
       onError));

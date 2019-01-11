@@ -959,6 +959,66 @@ function testHandleEmailLinkSignInCallback_expiredActionCodeError() {
 }
 
 
+function testHandleEmailLinkSignInCallback_oldLinkClicked() {
+  // Test when old email link is clicked, code expired error should be
+  // displayed. In this case, the email is stored with new session ID which is
+  // different from the session ID in the old link.
+  var expectedError = {'code': 'auth/expired-action-code'};
+  var email = passwordAccount.getEmail();
+  var link = generateSignInLink('OLD_SESSIONID', null, null, true);
+  setupEmailLinkSignIn('NEW_SESSIONID', email);
+
+  firebaseui.auth.widget.handler.handleEmailLinkSignInCallback(
+      app, container, link);
+  assertBlankPage();
+
+  // Simulate expired error code.
+  var waitForCheckActionCode = testAuth.assertCheckActionCode(
+      ['ACTION_CODE'],
+      null,
+      expectedError);
+  return waitForCheckActionCode.then(function() {
+    delayForBusyIndicatorAndAssertIndicatorShown();
+    return testAuth.process();
+  }).then(function() {
+    assertBusyIndicatorHidden();
+    // Provider sign-in page should be rendered with error in info bar.
+    assertProviderSignInPage();
+    assertInfoBarMessage(
+        firebaseui.auth.widget.handler.common.getErrorMessage(expectedError));
+  });
+}
+
+
+function testHandleEmailLinkSignInCallback_sessionMismatch() {
+  var email = passwordAccount.getEmail();
+  var link = generateSignInLink('NEW_SESSIONID', null, null, true);
+  setupEmailLinkSignIn('OLD_SESSIONID', email);
+
+  firebaseui.auth.widget.handler.handleEmailLinkSignInCallback(
+      app, container, link);
+  assertBlankPage();
+
+  var waitForCheckActionCode = testAuth.assertCheckActionCode(
+      ['ACTION_CODE'],
+      function() {
+        return {
+          'operation': 'EMAIL_SIGNIN'
+        };
+      });
+  return waitForCheckActionCode.then(function() {
+    delayForBusyIndicatorAndAssertIndicatorShown();
+    return testAuth.process();
+  }).then(function() {
+    assertBusyIndicatorHidden();
+    assertDifferentDeviceErrorPage();
+    // Clicking dismiss button should redirect to the first page.
+    clickSecondaryLink();
+    assertProviderSignInPage();
+  });
+}
+
+
 function testHandleEmailLinkSignInCallback_signInError() {
   var email = passwordAccount.getEmail();
   var link = generateSignInLink('SESSIONID');

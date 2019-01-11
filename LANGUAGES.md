@@ -30,7 +30,7 @@
 | lt | Lithuanian |
 | no | Norwegian (Bokmal) |
 | pl | Polish |
-| pt | Portuguese |
+| pt_br | Portuguese (Brazil) |
 | pt_pt | Portuguese (Portugal) |
 | ro | Romanian |
 | ru | Russian |
