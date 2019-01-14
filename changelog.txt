@@ -1,0 +1,2 @@
+fixed - Improves the error message when outdated email link is used for email link sign in and `forceSameDevice` is enabled.
+fixed - Fixes the wrong language code for Portuguese (Brazilian).
