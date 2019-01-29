@@ -535,7 +535,7 @@ ui.start('#firebaseui-auth-container', {
     {
       provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       scopes: [
-        'https://www.googleapis.com/auth/plus.login'
+        'https://www.googleapis.com/auth/contacts.readonly'
       ],
       customParameters: {
         // Forces account selection even when one account
