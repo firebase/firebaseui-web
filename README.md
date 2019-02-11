@@ -672,10 +672,9 @@ Using email link sign-in with FirebaseUI comes with the following benefits:
 - Enforces security and privacy best practices.
 - Ability to force same device flows or allow cross device flows where a user
   can start the flow on one device and end it on another. This also covers
-  Android where email link sign-in is also supported with
+  Android and iOS where email link sign-in is also supported with
   [FirebaseUI-android](https://github.com/firebase/firebaseui-android/) and
-  coming soon to [FirebaseUI-ios](https://github.com/firebase/firebaseui-ios/)
-  for iOS support.
+  [FirebaseUI-ios](https://github.com/firebase/firebaseui-ios/).
 - Ability to switch to email link sign-in while continuing to sign-in existing
   users with email and password.
 - Ability to support account linking, where an existing email link user signing
