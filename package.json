@@ -19,6 +19,7 @@
     "build": "gulp",
     "build-all": "gulp build-all",
     "build-soy": "gulp build-soy",
+    "build-npm": "gulp build-npm",
     "demo": "npm run build && ./buildtools/run_demo.sh",
     "test": "npm run build && npm run generate-test-files && ./buildtools/run_tests.sh",
     "serve": "npm run build && npm run generate-test-files && gulp serve",
