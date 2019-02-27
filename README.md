@@ -83,9 +83,11 @@ stylesheet. The supported right-to-left languages are Arabic (ar), Farsi (fa), a
 
 ### Option 2: npm Module
 
-Install FirebaseUI and its dependencies via npm using the following command:
+Install FirebaseUI and its peer-dependency Firebase via npm using the following
+commands:
 
 ```bash
+$ npm install firebase --save
 $ npm install firebaseui --save
 ```
 
@@ -94,7 +96,7 @@ You can then `require` the following modules within your source files:
 ```javascript
 var firebase = require('firebase');
 var firebaseui = require('firebaseui');
-// or for ES6 imports.
+// or using ES6 imports:
 import * as firebaseui from 'firebaseui'
 ```
 
@@ -300,7 +302,7 @@ Here is how you would track the Auth state across all your pages:
     <h1>Welcome to My Awesome App</h1>
     <div id="sign-in-status"></div>
     <div id="sign-in"></div>
-    <div id="account-details"></div>
+    <pre id="account-details"></pre>
   </body>
 </html>
 
