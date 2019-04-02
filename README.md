@@ -449,6 +449,8 @@ non HTTP/HTTPS environments.
 
 #### One-tap sign-up
 
+> **Note:** The beta test program for this API is currently closed.  
+
 [One-tap sign-up](https://developers.google.com/identity/one-tap/web/overview)
 provides seamless authentication flows to
 your users with Google's one tap sign-up and automatic sign-in APIs.
