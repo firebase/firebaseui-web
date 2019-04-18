@@ -285,8 +285,13 @@ function testEmailLinkSignInLinking() {
   var root = goog.dom.getElement('email-link-sign-in-linking');
   goog.soy.renderElement(
       root, firebaseui.auth.soy2.page.emailLinkSignInLinking, {
-        'email': 'user@example.com',
-        'providerId': 'facebook.com'
+        email: 'user@example.com',
+        providerConfig:  {
+          providerId: 'facebook.com',
+          providerName: null,
+          buttonColor: null,
+          iconUrl: null
+        }
       },
       IJ_DATA_);
 }
@@ -296,7 +301,9 @@ function testEmailLinkSignInLinkingDifferentDevice() {
   var root = goog.dom.getElement('email-link-sign-in-linking-different-device');
   goog.soy.renderElement(
       root, firebaseui.auth.soy2.page.emailLinkSignInLinkingDifferentDevice, {
-        'providerId': 'facebook.com'
+        providerConfig:  {
+          providerId: 'facebook.com'
+        }
       },
       IJ_DATA_);
 }
@@ -306,9 +313,21 @@ function testFederatedLinking() {
   var root = goog.dom.getElement('federated-linking');
   goog.soy.renderElement(
       root, firebaseui.auth.soy2.page.federatedLinking, {
-        'email': 'user@example.com',
-        'siteName': 'Example Site',
-        'providerId': 'google.com'
+        email: 'user@example.com',
+        siteName: 'Example Site',
+        providerConfig:  {
+          providerId: 'facebook.com'
+        }
+      },
+      IJ_DATA_);
+}
+
+
+function testUnsupportedProvider() {
+  var root = goog.dom.getElement('unsupported-provider');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.unsupportedProvider, {
+        'email': 'user@example.com'
       },
       IJ_DATA_);
 }
@@ -439,9 +458,34 @@ function testProviderSignIn() {
   var root = goog.dom.getElement('provider-sign-in');
   goog.soy.renderElement(
       root, firebaseui.auth.soy2.page.providerSignIn, {
-        'providerIds':
-            ['password', 'phone', 'google.com', 'github.com', 'facebook.com',
-             'twitter.com', 'anonymous']
+        'providerConfigs': [
+          {
+            providerId: 'password'
+          },
+          {
+            providerId: 'phone'
+          },
+          {
+            providerId: 'google.com'
+          },
+          {
+            providerId: 'github.com'
+          },
+          {
+            providerId: 'facebook.com'
+          },
+          {
+            providerId: 'twitter.com'
+          },
+          {
+            providerId: 'anonymous'
+          },
+          {
+            providerId: 'microsoft.com',
+            providerName: 'Microsoft',
+            buttonColor: '#FFB6C1',
+            iconUrl: 'icon-url'
+          }]
       },
       IJ_DATA_);
 }
@@ -451,9 +495,35 @@ function testProviderSignIn_busy() {
   var root = goog.dom.getElement('provider-sign-in-busy');
   goog.soy.renderElement(
       root, firebaseui.auth.soy2.page.providerSignIn, {
-        'providerIds':
-            ['password', 'phone', 'google.com', 'github.com', 'facebook.com',
-             'twitter.com', 'anonymous']
+        'providerConfigs': [
+          {
+            providerId: 'password'
+          },
+          {
+            providerId: 'phone'
+          },
+          {
+            providerId: 'google.com'
+          },
+          {
+            providerId: 'github.com'
+          },
+          {
+            providerId: 'facebook.com'
+          },
+          {
+            providerId: 'twitter.com'
+          },
+          {
+            providerId: 'anonymous'
+          },
+          {
+            providerId: 'microsoft.com',
+            providerName: 'Microsoft',
+            buttonColor: '#FFB6C1',
+            iconUrl: 'icon-url',
+            loginHintKey: 'login_hint'
+          }]
       },
       IJ_DATA_);
   var busy = goog.soy.renderAsElement(

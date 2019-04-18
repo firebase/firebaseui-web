@@ -44,6 +44,7 @@ goog.require('firebaseui.auth.widget.handler.handlePhoneSignInStart');
 goog.require('firebaseui.auth.widget.handler.handleProviderSignIn');
 goog.require('firebaseui.auth.widget.handler.handleSendEmailLinkForSignIn');
 goog.require('firebaseui.auth.widget.handler.handleSignIn');
+goog.require('firebaseui.auth.widget.handler.handleUnsupportedProvider');
 goog.require('firebaseui.auth.widget.handler.testHelper');
 
 
@@ -124,4 +125,7 @@ function testHandlerRegistration() {
       firebaseui.auth.widget.handler.handleEmailLinkSignInCallback,
       firebaseui.auth.widget.handlers_[
           HandlerName.EMAIL_LINK_SIGN_IN_CALLBACK]);
+  assertEquals(
+      firebaseui.auth.widget.handler.handleUnsupportedProvider,
+      firebaseui.auth.widget.handlers_[HandlerName.UNSUPPORTED_PROVIDER]);
 }

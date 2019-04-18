@@ -53,7 +53,9 @@ function setUp() {
   root = goog.dom.createDom(goog.dom.TagName.DIV);
   document.body.appendChild(root);
   component = new firebaseui.auth.ui.page.EmailLinkSignInLinkingDifferentDevice(
-      'facebook.com',
+      {
+        providerId: 'facebook.com'
+      },
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
           formTestHelper),
@@ -98,7 +100,9 @@ function testEmailLinkSignInLinkingDifferentDevice_pageEvents() {
   component.dispose();
   // Initialize component.
   component = new firebaseui.auth.ui.page.EmailLinkSignInLinkingDifferentDevice(
-      'facebook.com',
+      {
+        providerId: 'facebook.com'
+      },
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
           formTestHelper));

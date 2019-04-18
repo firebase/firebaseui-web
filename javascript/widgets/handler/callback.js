@@ -65,9 +65,8 @@ firebaseui.auth.widget.handler.handleCallback =
         error['credential']) {
       // Save pending email credential.
       firebaseui.auth.storage.setPendingEmailCredential(
-          /** @type {!firebaseui.auth.PendingEmailCredential} */ (
-              firebaseui.auth.PendingEmailCredential.fromPlainObject(
-                  /** @type {?Object} */ (error))),
+          new firebaseui.auth.PendingEmailCredential(
+              error['email'], error['credential']),
           app.getAppId());
       firebaseui.auth.widget.handler.handleCallbackLinking_(
           app, component, error['email']);
@@ -298,14 +297,26 @@ firebaseui.auth.widget.handler.handleCallbackLinking_ =
               email);
         } else {
           var federatedSignInMethod =
-              firebaseui.auth.idp.getFirstFederatedSignInMethod(signInMethods);
-          firebaseui.auth.widget.handler.handle(
-              firebaseui.auth.widget.HandlerName.FEDERATED_LINKING,
-              app,
-              container,
-              email,
-              federatedSignInMethod,
-              opt_infoBarMessage);
+              firebaseui.auth.idp.getFirstFederatedSignInMethod(
+                  signInMethods, app.getConfig().getProviders());
+          if (federatedSignInMethod) {
+            firebaseui.auth.widget.handler.handle(
+                firebaseui.auth.widget.HandlerName.FEDERATED_LINKING,
+                app,
+                container,
+                email,
+                federatedSignInMethod,
+                opt_infoBarMessage);
+          } else {
+            // No ability to link. Clear pending email credential.
+            firebaseui.auth.storage.removePendingEmailCredential(
+                app.getAppId());
+            firebaseui.auth.widget.handler.handle(
+                firebaseui.auth.widget.HandlerName.UNSUPPORTED_PROVIDER,
+                app,
+                container,
+                email);
+          }
         }
       }, function(error) {
         firebaseui.auth.widget.handler.handleCallbackFailure_(

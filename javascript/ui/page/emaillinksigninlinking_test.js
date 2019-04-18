@@ -52,7 +52,9 @@ function setUp() {
   document.body.appendChild(root);
   component = new firebaseui.auth.ui.page.EmailLinkSignInLinking(
       'user@example.com',
-      'facebook.com',
+      {
+        providerId: 'facebook.com'
+      },
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
           formTestHelper),
@@ -98,7 +100,9 @@ function testEmailLinkSignInLinking_pageEvents() {
   // Initialize component.
   component = new firebaseui.auth.ui.page.EmailLinkSignInLinking(
       'user@example.com',
-      'facebook.com',
+      {
+        providerId: 'facebook.com'
+      },
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
           formTestHelper));

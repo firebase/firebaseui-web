@@ -37,7 +37,7 @@ firebaseui.auth.widget.handler.handleEmailLinkSignInLinking = function(
   var providerId = pendingCredential.getCredential()['providerId'];
   var component = new firebaseui.auth.ui.page.EmailLinkSignInLinking(
       email,
-      providerId,
+      app.getConfig().getConfigForProvider(providerId),
       // On submit.
       function() {
         firebaseui.auth.widget.handler.onEmailLinkSignInLinkingSubmit_(

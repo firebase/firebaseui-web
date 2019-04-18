@@ -2679,6 +2679,22 @@ function testHandleSignInFetchSignInMethodsForEmail_registeredFederatedAcct() {
 }
 
 
+function testHandleSignInFetchSignInMethodsForEmail_disabledFederatedAcct() {
+  // Even if the account is linked with a SAML provider, as long as it's not
+  // enabled in config, the unsupported provider page will be displayed to the
+  // user.
+  var signInMethods = ['saml.disabledProvider'];
+  var email = 'user@example.com';
+  firebaseui.auth.widget.handler.common.handleSignInFetchSignInMethodsForEmail(
+      app, container, signInMethods, email);
+  // It should not store pending email.
+  assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+  // Unsupported provider page should show.
+  assertUnsupportedProviderPage(email);
+}
+
+
 function testHandleSignInWithEmail_acInitialized() {
   var onPreSkip = goog.testing.recordFunction(function() {
     assertTrue(
@@ -2932,7 +2948,7 @@ function testFederatedSignIn_error_redirectMode() {
 
 function testFederatedSignIn_success_cordova() {
   simulateCordovaEnvironment();
-  var cred  = firebaseui.auth.idp.getAuthCredential({
+  var cred  = createMockCredential({
     'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   });
@@ -3125,7 +3141,7 @@ function testFederatedSignIn_anonymousUpgrade_success_cordova() {
   simulateCordovaEnvironment();
   app.updateConfig('autoUpgradeAnonymousUsers', true);
   externalAuth.setUser(anonymousUser);
-  var cred  = firebaseui.auth.idp.getAuthCredential({
+  var cred  = createMockCredential({
     'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   });
@@ -3231,7 +3247,7 @@ function testFederatedSignIn_anonymousUpgrade_emailInUse_error_cordova() {
   simulateCordovaEnvironment();
   app.updateConfig('autoUpgradeAnonymousUsers', true);
   externalAuth.setUser(anonymousUser);
-  var cred  = firebaseui.auth.idp.getAuthCredential({
+  var cred  = createMockCredential({
     'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   });
@@ -3423,7 +3439,7 @@ function testHandleGoogleYoloCredential_handledSuccessfully_withoutScopes() {
       });
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
       googleYoloIdTokenCredential.idToken);
-  var cred  = firebaseui.auth.idp.getAuthCredential({
+  var cred  = createMockCredential({
     'providerId': 'google.com',
     'idToken': googleYoloIdTokenCredential.idToken
   });
@@ -3888,7 +3904,7 @@ function testSendEmailLinkForSignIn() {
 
 function testSendEmailLinkForSignIn_linking() {
   // Test pending credential is passed for linking flows.
-  var credential = firebaseui.auth.idp.getAuthCredential({
+  var credential = createMockCredential({
     'accessToken': 'facebookAccessToken',
     'providerId': 'facebook.com'
   });
@@ -3963,7 +3979,7 @@ function testSendEmailLinkForSignIn_anonymousUpgrade() {
 function testSendEmailLinkForSignIn_anonymousUpgrade_pendingCred() {
   // Test sign in email link is sent with pending credential for anonymous
   // upgrade.
-  var credential = firebaseui.auth.idp.getAuthCredential({
+  var credential = createMockCredential({
     'accessToken': 'facebookAccessToken',
     'providerId': 'facebook.com'
   });

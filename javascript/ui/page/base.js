@@ -229,7 +229,7 @@ firebaseui.auth.ui.page.Base.prototype.startProcessing_ = function() {
     }
     self.busyIndicator_ = goog.soy.renderAsElement(
         firebaseui.auth.soy2.element.busyIndicator,
-        // Pass whether a spanner is to be used instead of a progress bar.
+        // Pass whether a spinner is to be used instead of a progress bar.
         {useSpinner: useSpinner}, null,
         self.getDomHelper());
     self.getElement().appendChild(self.busyIndicator_);

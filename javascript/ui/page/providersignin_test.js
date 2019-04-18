@@ -54,7 +54,12 @@ function setUp() {
       goog.bind(
           firebaseui.auth.ui.element.IdpsTestHelper.prototype.onClick,
           idpsTestHelper),
-      ['facebook.com', 'password'],
+      [{
+        providerId: 'google.com'
+      },
+      {
+        providerId: 'password'
+      }],
       goog.bind(
           firebaseui.auth.ui.element.TosPpTestHelper.prototype.onTosLinkClick,
           tosPpTestHelper),
@@ -90,7 +95,12 @@ function testProviderSignIn_pageEvents() {
       goog.bind(
           firebaseui.auth.ui.element.IdpsTestHelper.prototype.onClick,
           idpsTestHelper),
-      ['facebook.com', 'password']);
+      [{
+        providerId: 'facebook.com'
+      },
+      {
+        providerId: 'password'
+      }],);
   // Run all page helper tests.
   pageTestHelper.runTests(component, root);
 }

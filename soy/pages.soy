@@ -525,7 +525,8 @@
  */
 {template .emailLinkSignInLinking}
   {@param email: string}
-  {@param providerId: string}
+  {@param? providerConfig: [providerId:string|null, providerName:string|null,
+      buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
   {let $idpDisplayName kind="text"}{call firebaseui.auth.soy2.element.idpName data="all" /}{/let}
   <div class="mdl-card mdl-shadow--2dp firebaseui-container
               firebaseui-id-page-email-link-sign-in-linking">
@@ -576,7 +577,8 @@
  * Renders an account linking page for an email link account.
  */
 {template .emailLinkSignInLinkingDifferentDevice}
-  {@param providerId: string}
+  {@param? providerConfig: [providerId:string|null, providerName:string|null,
+      buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
   {let $idpDisplayName kind="text"}{call firebaseui.auth.soy2.element.idpName data="all" /}{/let}
   <div class="mdl-card mdl-shadow--2dp firebaseui-container
               firebaseui-id-page-email-link-sign-in-linking-different-device">
@@ -624,7 +626,8 @@
  */
 {template .federatedLinking}
   {@param email: string}
-  {@param providerId: string}
+  {@param? providerConfig: [providerId:string|null, providerName:string|null,
+      buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
   {let $idpDisplayName kind="text"}{call firebaseui.auth.soy2.element.idpName data="all" /}{/let}
   <div class="mdl-card mdl-shadow--2dp firebaseui-container firebaseui-id-page-federated-linking">
     <form onsubmit="return false;">
@@ -652,6 +655,45 @@
               {msg desc="Label of a button that signs in a user with a federated identity provider
                   (e.g. Sign in with Google, Sign in with Facebook)."}
                 Sign in with {$idpDisplayName}
+              {/msg}
+            {/param}
+          {/call}
+        </div>
+      </div>
+      <div class="firebaseui-card-footer">
+        {call firebaseui.auth.soy2.element.tosPpLink data="all" /}
+      </div>
+    </form>
+  </div>
+{/template}
+
+
+/**
+ * Renders an unsupported provider page.
+ */
+{template .unsupportedProvider}
+  {@param email: string}
+  <div class="mdl-card mdl-shadow--2dp firebaseui-container
+              firebaseui-id-page-unsupported-provider">
+    <form onsubmit="return false;">
+      <div class="firebaseui-card-header">
+        <h1 class="firebaseui-title">{msg desc="Header of a sign-in page."}Sign in{/msg}</h1>
+      </div>
+      <div class="firebaseui-card-content">
+        <p class="firebaseui-text">
+          {msg desc="Message that asks the user to recover the password."}
+            To continue sign in with <strong>{$email}</strong> on this device, you have to recover
+            the password.
+          {/msg}
+        </p>
+      </div>
+      <div class="firebaseui-card-actions">
+        <div class="firebaseui-form-actions">
+          {call firebaseui.auth.soy2.element.cancelButton /}
+          {call firebaseui.auth.soy2.element.submitButton}
+            {param label kind="text"}
+              {msg desc="Label of a button that starts the password recovery flow."}
+                Recover password
               {/msg}
             {/param}
           {/call}
@@ -982,16 +1024,17 @@
  * Renders the list of supported sign-in providers.
  */
 {template .providerSignIn}
-  {@param providerIds: list<string>} /** List of supported IdPs. */
+  {@param providerConfigs: list<[providerId:string|null, providerName:string|null,
+      buttonColor:string|null, iconUrl: string|null]>} /** List of supported IdP configs. */
   <div class="firebaseui-container firebaseui-page-provider-sign-in{sp}
       firebaseui-id-page-provider-sign-in firebaseui-use-spinner">
     <div class="firebaseui-card-content">
       <form onsubmit="return false;">
         <ul class="firebaseui-idp-list">
-          {foreach $providerId in $providerIds}
+          {foreach $providerConfig in $providerConfigs}
             <li class="firebaseui-list-item">
               {call firebaseui.auth.soy2.element.idpButton}
-                {param providerId: $providerId /}
+                {param providerConfig: $providerConfig /}
               {/call}
             </li>
           {/foreach}

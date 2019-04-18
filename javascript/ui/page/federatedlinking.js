@@ -28,21 +28,21 @@ goog.require('firebaseui.auth.ui.page.Base');
 /**
  * Federated account linking UI component.
  * @param {string} email The user's email.
- * @param {string} providerId The provider ID of the IdP we should use for sign
- *     in.
+ * @param {?Object} providerConfig The provider config of the IdP we should use
+ *     for sign in.
  * @param {function()} onSubmitClick Callback to invoke when the submit button
  *     is clicked.
  * @param {?function()=} opt_tosCallback Callback to invoke when the ToS link
  *     is clicked.
  * @param {?function()=} opt_privacyPolicyCallback Callback to invoke when the
  *     Privacy Policy link is clicked.
- * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
+ * @param {?goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @constructor
  * @extends {firebaseui.auth.ui.page.Base}
  */
 firebaseui.auth.ui.page.FederatedLinking = function(
     email,
-    providerId,
+    providerConfig,
     onSubmitClick,
     opt_tosCallback,
     opt_privacyPolicyCallback,
@@ -53,7 +53,7 @@ firebaseui.auth.ui.page.FederatedLinking = function(
       firebaseui.auth.soy2.page.federatedLinking,
       {
         email: email,
-        providerId: providerId
+        providerConfig: providerConfig
       },
       opt_domHelper,
       'federatedLinking',

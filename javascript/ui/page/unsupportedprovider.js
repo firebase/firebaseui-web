@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Google Inc. All Rights Reserved.
+ * Copyright 2019 Google Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -13,22 +13,23 @@
  */
 
 /**
- * @fileoverview UI component for the email link sign in linking page.
+ * @fileoverview UI component for the unsupported provider page.
  */
 
-goog.provide('firebaseui.auth.ui.page.EmailLinkSignInLinking');
+goog.provide('firebaseui.auth.ui.page.UnsupportedProvider');
 
 goog.require('firebaseui.auth.soy2.page');
+goog.require('firebaseui.auth.ui.element');
 goog.require('firebaseui.auth.ui.element.form');
 goog.require('firebaseui.auth.ui.page.Base');
 
 
 /**
- * Email link sign in linking UI component.
+ * Unsupported provider UI component.
  * @param {string} email The user's email.
- * @param {?Object} providerConfig The provider config of the IdP we should use
- *     for sign in.
  * @param {function()} onSubmitClick Callback to invoke when the submit button
+ *     is clicked.
+ * @param {function()} onCancelClick Callback to invoke when the cancel button
  *     is clicked.
  * @param {?function()=} opt_tosCallback Callback to invoke when the ToS link
  *     is clicked.
@@ -38,58 +39,59 @@ goog.require('firebaseui.auth.ui.page.Base');
  * @constructor
  * @extends {firebaseui.auth.ui.page.Base}
  */
-firebaseui.auth.ui.page.EmailLinkSignInLinking = function(
+firebaseui.auth.ui.page.UnsupportedProvider = function(
     email,
-    providerConfig,
     onSubmitClick,
+    onCancelClick,
     opt_tosCallback,
     opt_privacyPolicyCallback,
     opt_domHelper) {
-  // Extend base page class and render email link sign in linking soy template.
-  firebaseui.auth.ui.page.EmailLinkSignInLinking.base(
+  firebaseui.auth.ui.page.UnsupportedProvider.base(
       this,
       'constructor',
-      firebaseui.auth.soy2.page.emailLinkSignInLinking,
+      firebaseui.auth.soy2.page.unsupportedProvider,
       {
-        email: email,
-        providerConfig: providerConfig
+        email: email
       },
       opt_domHelper,
-      'emailLinkSignInLinking',
+      'unsupportedProvider',
       {
         tosCallback: opt_tosCallback,
         privacyPolicyCallback: opt_privacyPolicyCallback
       });
   this.onSubmitClick_ = onSubmitClick;
+  this.onCancelClick_ = onCancelClick;
 };
-goog.inherits(firebaseui.auth.ui.page.EmailLinkSignInLinking,
+goog.inherits(firebaseui.auth.ui.page.UnsupportedProvider,
     firebaseui.auth.ui.page.Base);
 
 
 /** @override */
-firebaseui.auth.ui.page.EmailLinkSignInLinking.prototype.enterDocument =
-    function() {
-  this.initFormElement(this.onSubmitClick_);
+firebaseui.auth.ui.page.UnsupportedProvider.prototype.enterDocument = function() {
+  this.initFormElement(this.onSubmitClick_, this.onCancelClick_);
   this.getSubmitElement().focus();
-  firebaseui.auth.ui.page.EmailLinkSignInLinking.base(this, 'enterDocument');
+  firebaseui.auth.ui.page.UnsupportedProvider.base(this, 'enterDocument');
 };
 
 
 /** @override */
-firebaseui.auth.ui.page.EmailLinkSignInLinking.prototype.disposeInternal =
+firebaseui.auth.ui.page.UnsupportedProvider.prototype.disposeInternal =
     function() {
   this.onSubmitClick_ = null;
-  firebaseui.auth.ui.page.EmailLinkSignInLinking.base(this, 'disposeInternal');
+  this.onCancelClick_ = null;
+  firebaseui.auth.ui.page.UnsupportedProvider.base(this, 'disposeInternal');
 };
 
 
 goog.mixin(
-    firebaseui.auth.ui.page.EmailLinkSignInLinking.prototype,
-    /** @lends {firebaseui.auth.ui.page.EmailLinkSignInLinking.prototype} */
+    firebaseui.auth.ui.page.UnsupportedProvider.prototype,
+    /** @lends {firebaseui.auth.ui.page.UnsupportedProvider.prototype} */
     {
       // For form.
       getSubmitElement:
           firebaseui.auth.ui.element.form.getSubmitElement,
+      getSecondaryLinkElement:
+          firebaseui.auth.ui.element.form.getSecondaryLinkElement,
       initFormElement:
           firebaseui.auth.ui.element.form.initFormElement
     });

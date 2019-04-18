@@ -21,7 +21,6 @@ goog.setTestOnly('firebaseui.auth.widget.handler.FederatedLinkingTest');
 
 goog.require('firebaseui.auth.AuthUIError');
 goog.require('firebaseui.auth.PendingEmailCredential');
-goog.require('firebaseui.auth.idp');
 goog.require('firebaseui.auth.storage');
 goog.require('firebaseui.auth.widget.handler.common');
 /** @suppress {extraRequire} Required for page navigation after form submission
@@ -43,7 +42,7 @@ var credential = null;
  */
 function setPendingEmailCredentials() {
   // Pending credential stored.
-  credential = firebaseui.auth.idp.getAuthCredential({
+  credential = createMockCredential({
     'accessToken': 'facebookAccessToken',
     'providerId': 'facebook.com'
   });
@@ -56,7 +55,8 @@ function setPendingEmailCredentials() {
 
 function testHandleFederatedLinking() {
   // Add additional scopes to test they are properly passed to the sign-in
-  // method.
+  // method. The login_hint should also automatically be passed to the
+  // google.com provider.
   var expectedProvider = getExpectedProviderWithScopes({
     'login_hint': federatedAccount.getEmail(),
     'prompt': 'select_account'
@@ -71,10 +71,25 @@ function testHandleFederatedLinking() {
 }
 
 
+function testHandleFederatedLinking_genericLoginHint() {
+  // Since Microsoft's signInOptions include a loginHintKey definition,
+  // a login_hint should be set in the customParameters.
+  var expectedProvider =
+      getExpectedProviderWithCustomParameters('microsoft.com',
+          {'login_hint': federatedAccount.getEmail()});
+  setPendingEmailCredentials();
+  firebaseui.auth.widget.handler.handleFederatedLinking(
+      app, container, federatedAccount.getEmail(), 'microsoft.com');
+  assertFederatedLinkingPage(federatedAccount.getEmail());
+  submitForm();
+  testAuth.assertSignInWithRedirect([expectedProvider]);
+  return testAuth.process();
+}
+
+
 function testHandleFederatedLinking_noLoginHint() {
-  // Add additional scopes to test they are properly passed to the sign-in
-  // method.
-  // As this is not google.com, no customParameters will be set.
+  // Since GitHub doesn't support sending a login_hint,
+  // it should not be set in the customParameters.
   var expectedProvider =
       getExpectedProviderWithCustomParameters('github.com');
   setPendingEmailCredentials();
@@ -87,10 +102,34 @@ function testHandleFederatedLinking_noLoginHint() {
 }
 
 
+function testHandleFederatedLinking_genericLoginHint_upgradeAnonymous() {
+  // Since Microsoft's signInOptions include a loginHintKey definition,
+  // a login_hint should be set in the customParameters.
+  var expectedProvider =
+      getExpectedProviderWithCustomParameters('microsoft.com',
+          {'login_hint': federatedAccount.getEmail()});
+  // Simulate pending email credentials.
+  setPendingEmailCredentials();
+  // Enable anonymous user upgrade.
+  app.updateConfig('autoUpgradeAnonymousUsers', true);
+  // Simulate anonymous user signed in.
+  externalAuth.setUser(anonymousUser);
+  firebaseui.auth.widget.handler.handleFederatedLinking(
+      app, container, federatedAccount.getEmail(), 'microsoft.com');
+  assertFederatedLinkingPage(federatedAccount.getEmail());
+  submitForm();
+  // Trigger initial onAuthStateChanged listener.
+  app.getExternalAuth().runAuthChangeHandler();
+  // Assert signInWithRedirect called on internal Auth instance with expected
+  // provider.
+  testAuth.assertSignInWithRedirect([expectedProvider]);
+  return testAuth.process();
+}
+
+
 function testHandleFederatedLinking_noLoginHint_upgradeAnonymous() {
-  // Add additional scopes to test they are properly passed to the sign-in
-  // method.
-  // As this is not google.com, no customParameters will be set.
+  // Since GitHub doesn't support sending a login_hint,
+  // it should not be set in the customParameters.
   var expectedProvider =
       getExpectedProviderWithCustomParameters('github.com');
   // Simulate pending email credentials.
@@ -112,17 +151,81 @@ function testHandleFederatedLinking_noLoginHint_upgradeAnonymous() {
 }
 
 
+function testHandleFederatedLinking_genericLoginHint_cordova() {
+  // Test federated linking successful flow in a Cordova environment.
+  // Simulate a Cordova environment.
+  simulateCordovaEnvironment();
+  var microsoftCred = createMockCredential({
+    'providerId': 'microsoft.com',
+    'accessToken': 'ACCESS_TOKEN'
+  });
+  // Since Microsoft's signInOptions include a loginHintKey definition,
+  // a login_hint should be set in the customParameters.
+  var expectedProvider =
+      getExpectedProviderWithCustomParameters('microsoft.com',
+          {'login_hint': federatedAccount.getEmail()});
+  setPendingEmailCredentials();
+  firebaseui.auth.widget.handler.handleFederatedLinking(
+      app, container, federatedAccount.getEmail(), 'microsoft.com');
+  assertFederatedLinkingPage(federatedAccount.getEmail());
+  submitForm();
+  testAuth.assertSignInWithRedirect([expectedProvider]);
+  return testAuth.process().then(function() {
+    testAuth.setUser({
+      'email': federatedAccount.getEmail(),
+      'displayName': federatedAccount.getDisplayName()
+    });
+    // Sign-in complete with Microsoft.
+    testAuth.assertGetRedirectResult(
+        [],
+        {
+          'user': testAuth.currentUser,
+          'credential': microsoftCred
+        });
+    return testAuth.process();
+  }).then(function() {
+    assertCallbackPage();
+    var userCredential = {
+      'user': testAuth.currentUser,
+      'credential': credential,
+      'operationType': 'link',
+      'additionalUserInfo': {'providerId': 'facebook.com', 'isNewUser': false}
+    };
+    // Saved pending credential loaded from storage and linked to current user.
+    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+        [credential], userCredential);
+    return testAuth.process();
+  }).then(function() {
+    // Signout from internal auth instance.
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
+    return externalAuth.process();
+  }).then(function() {
+    // Pending credential should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    // User should be redirected to success URL.
+    testUtil.assertGoTo('http://localhost/home');
+  });
+}
+
+
 function testHandleFederatedLinking_noLoginHint_cordova() {
   // Test federated linking successful flow in a Cordova environment.
   // Simulate a Cordova environment.
   simulateCordovaEnvironment();
-  var githubCred  = firebaseui.auth.idp.getAuthCredential({
+  var githubCred = createMockCredential({
     'providerId': 'github.com',
     'accessToken': 'ACCESS_TOKEN'
   });
-  // Add additional scopes to test they are properly passed to the sign-in
-  // method.
-  // As this is not google.com, no customParameters will be set.
+  // Since GitHub doesn't support sending a login_hint,
+  // it should not be set in the customParameters.
   var expectedProvider =
       getExpectedProviderWithCustomParameters('github.com');
   setPendingEmailCredentials();
@@ -181,9 +284,8 @@ function testHandleFederatedLinking_noLoginHint_error_cordova() {
   // Test federated linking error flow in a Cordova environment.
   // Simulate a Cordova environment.
   simulateCordovaEnvironment();
-  // Add additional scopes to test they are properly passed to the sign-in
-  // method.
-  // As this is not google.com, no customParameters will be set.
+  // Since GitHub doesn't support sending a login_hint,
+  // it should not be set in the customParameters.
   var expectedProvider =
       getExpectedProviderWithCustomParameters('github.com');
   setPendingEmailCredentials();

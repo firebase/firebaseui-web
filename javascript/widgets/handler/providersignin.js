@@ -70,7 +70,7 @@ firebaseui.auth.widget.handler.handleProviderSignIn = function(
         // Cancel One-Tap on any button click.
         app.cancelOneTapSignIn();
       },
-      app.getConfig().getProviders(),
+      app.getConfig().getProviderConfigs(),
       app.getConfig().getTosUrl(),
       app.getConfig().getPrivacyPolicyUrl());
   component.render(container);

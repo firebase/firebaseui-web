@@ -79,7 +79,14 @@ function setupProviderSignInPage(
     'customParameters': {'prompt': 'select_account'},
     'authMethod': 'https://accounts.google.com',
     'clientId': '1234567890.apps.googleusercontent.com'
-  }, 'facebook.com', 'password', 'phone', 'anonymous'];
+  }, 'facebook.com', 'password', 'phone', 'anonymous', {
+    'provider': 'oidc.provider',
+    'providerName': 'OIDC Provider',
+    'buttonColor': '#2F2F2F',
+    'iconUrl': '<icon-url>',
+    'scopes': ['scope1', 'scope2'],
+    'customParameters': {'param': 'value'},
+  }];
   if (!opt_ignoreConfig) {
     app.setConfig({
       'signInOptions': signInOptions,
@@ -707,6 +714,82 @@ function testHandleProviderSignIn_popup_success() {
         app.getAppId()));
     // User should be redirected to success URL.
     testUtil.assertGoTo('http://localhost/home');
+  });
+}
+
+
+function testHandleProviderSignIn_popup_success_oidc() {
+  // Test successful OIDC provider sign-in with popup.
+  // Add additional scopes to test that they are properly passed to the sign-in
+  // method.
+  // Set config signInSuccessWithAuthResult callback with false return value.
+  app.setConfig({
+    'callbacks': {
+      'signInSuccessWithAuthResult': signInSuccessWithAuthResultCallback(false)
+    }
+  });
+  var expectedProvider = firebaseui.auth.idp.getAuthProvider('oidc.provider');
+  expectedProvider.addScope('scope1');
+  expectedProvider.addScope('scope2');
+  expectedProvider.setCustomParameters({'param': 'value'});
+  // Render the provider sign-in page and confirm it was rendered correctly.
+  setupProviderSignInPage('popup');
+  // Click the OIDC sign-in button.
+  goog.testing.events.fireClickSequence(buttons[5]);
+
+  // User should be signed in.
+  testAuth.setUser({
+    'email': federatedAccount.getEmail(),
+    'displayName': federatedAccount.getDisplayName()
+  });
+  var cred  = {
+    'providerId': 'oidc.provider',
+    'idToken': 'OIDC_ID_TOKEN',
+    'rawNonce': 'NONCE'
+  };
+  // Sign in with popup triggered.
+  testAuth.assertSignInWithPopup(
+      [expectedProvider],
+      {
+        'user': testAuth.currentUser,
+        'credential': cred,
+        'operationType': 'signIn',
+        'additionalUserInfo': {
+          'providerId': 'oidc.provider',
+          'isNewUser': false
+        }
+      });
+  // Sign out from internal instance and then sign in with passed credential to
+  // external instance.
+  return testAuth.process().then(function() {
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
+    return externalAuth.process();
+  }).then(function() {
+    testAuth.assertSignOut([]);
+    // Pending credential and email should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    var expectedAuthResult = {
+      'user': externalAuth.currentUser,
+      // Federated credential should be exposed to callback.
+      'credential': cred,
+      'operationType': 'signIn',
+      'additionalUserInfo': {
+        'providerId': 'oidc.provider',
+        'isNewUser': false
+      }
+    };
+    // SignInSuccessWithAuthResultCallback is called.
+    assertSignInSuccessWithAuthResultCallbackInvoked(expectedAuthResult);
+    // Container should be cleared.
+    assertComponentDisposed();
   });
 }
 

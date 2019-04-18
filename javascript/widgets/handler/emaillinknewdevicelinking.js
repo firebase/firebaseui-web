@@ -53,7 +53,7 @@ firebaseui.auth.widget.handler.handleEmailLinkNewDeviceLinking = function(
   }
   var component =
       new firebaseui.auth.ui.page.EmailLinkSignInLinkingDifferentDevice(
-          providerId,
+          app.getConfig().getConfigForProvider(providerId),
           // On continue, go back to callback page with URL not requiring
           // linking.
           function() {

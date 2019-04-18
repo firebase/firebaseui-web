@@ -979,14 +979,14 @@ function testHandleCallback_pendingCred_signInWithAuthResultCb_popup() {
 function testHandleCallback_redirectUser_pendingCredential_emailMismatch() {
   // Test successful return from regular sign in operation.
   asyncTestCase.waitForSignals(1);
-  var pendingCred  = {
+  var pendingCred  = createMockCredential({
     'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
-  };
-  var cred  = {
+  });
+  var cred  = createMockCredential({
     'providerId': 'google.com',
     'accessToken': 'OTHER_ACCESS_TOKEN'
-  };
+  });
   // Pending email from a tentative federated sign-in.
   var pendingEmailCred =
       new firebaseui.auth.PendingEmailCredential('other@example.com',
@@ -1027,14 +1027,14 @@ function testHandleCallback_signedInUser_pendingCred_emailMismatch_popup() {
   // triggering mismatch.
   asyncTestCase.waitForSignals(1);
   app.updateConfig('signInFlow', 'popup');
-  var pendingCred  = {
+  var pendingCred  = createMockCredential({
     'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
-  };
-  var cred  = {
+  });
+  var cred  = createMockCredential({
     'providerId': 'google.com',
     'accessToken': 'OTHER_ACCESS_TOKEN'
-  };
+  });
   // User should be signed in.
   testAuth.setUser({
     'email': federatedAccount.getEmail(),
@@ -1481,6 +1481,42 @@ function testHandleCallback_redirectError_anonymousLinkingRequired() {
     assertInfoBarMessage(
         firebaseui.auth.soy2.strings.errorAnonymousEmailBlockingSignIn()
           .toString());
+    asyncTestCase.signal();
+  });
+}
+
+
+function testHandleCallback_redirectError_unsupportedProvider() {
+  // Test return from regular sign in operation with a linking error to a SAML
+  // account, but the SAML provider is not enabled in config. Unsupported
+  // provider page should be shown.
+  asyncTestCase.waitForSignals(1);
+  var cred  = createMockCredential({
+    'providerId': 'saml.provider',
+    'pendingToken': 'PENDING_TOKEN'
+  });
+
+  // Callback rendered.
+  firebaseui.auth.widget.handler.handleCallback(app, container);
+  assertCallbackPage();
+  // Attempting to get redirect result. Reject with an error requiring linking.
+  // The error contains the email and the pending credential.
+  testAuth.assertGetRedirectResult(
+      [],
+      null,
+      {
+        'code': 'auth/account-exists-with-different-credential',
+        'email': passwordAccount.getEmail(),
+        'credential': cred
+      });
+  testAuth.assertFetchSignInMethodsForEmail(
+      [federatedAccount.getEmail()], ['saml.disabledProvider']);
+  testAuth.process().then(function() {
+    // The pending email credential should be cleared at this point.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    // Unsupported provider page should be rendered.
+    assertUnsupportedProviderPage(passwordAccount.getEmail());
     asyncTestCase.signal();
   });
 }

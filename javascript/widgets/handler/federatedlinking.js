@@ -55,7 +55,7 @@ firebaseui.auth.widget.handler.handleFederatedLinking = function(
   }
   var component = new firebaseui.auth.ui.page.FederatedLinking(
       email,
-      providerId,
+      app.getConfig().getConfigForProvider(providerId),
       // On submit.
       function() {
         // We sign in the user through the normal federated sign-in flow,
