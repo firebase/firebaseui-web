@@ -34,7 +34,7 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "closure-builder": "^2.3.2",
-    "firebase": "^5.0.0",
+    "firebase": "^5.10.0",
     "firebase-tools": "^4.0.1",
     "fs-extra": "^3.0.1",
     "google-closure-compiler": "^20181210.0.0",
@@ -57,6 +57,6 @@
     "dialog-polyfill": "^0.4.7"
   },
   "peerDependencies": {
-    "firebase": ">=5.0.0"
+    "firebase": ">=5.10.0"
   }
 }
