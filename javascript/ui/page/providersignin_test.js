@@ -100,7 +100,7 @@ function testProviderSignIn_pageEvents() {
       },
       {
         providerId: 'password'
-      }],);
+      }]);
   // Run all page helper tests.
   pageTestHelper.runTests(component, root);
 }
