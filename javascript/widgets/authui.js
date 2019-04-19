@@ -77,6 +77,8 @@ goog.require('firebaseui.auth.widget.handler.handleProviderSignIn');
 goog.require('firebaseui.auth.widget.handler.handleSendEmailLinkForSignIn');
 /** @suppress {extraRequire} */
 goog.require('firebaseui.auth.widget.handler.handleSignIn');
+/** @suppress {extraRequire} */
+goog.require('firebaseui.auth.widget.handler.handleUnsupportedProvider');
 goog.require('firebaseui.auth.widget.handler.startSignIn');
 goog.require('goog.Promise');
 goog.require('goog.array');

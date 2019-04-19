@@ -48,6 +48,7 @@ goog.require('goog.dom.classlist');
 goog.require('goog.dom.forms');
 goog.require('goog.events');
 goog.require('goog.events.KeyCodes');
+goog.require('goog.object');
 goog.require('goog.testing.MockClock');
 goog.require('goog.testing.PropertyReplacer');
 goog.require('goog.testing.events');
@@ -141,7 +142,8 @@ var signInOptionsWithScopes = [
     'scopes': ['googl1', 'googl2'],
     'customParameters': {'prompt': 'select_account'}
   },
-  {'provider': 'facebook.com', 'scopes': ['fb1', 'fb2']}, 'password'
+  {'provider': 'facebook.com', 'scopes': ['fb1', 'fb2']},
+  'password'
 ];
 
 var emailLinkSignInOptions = [
@@ -155,7 +157,8 @@ var emailLinkSignInOptions = [
       };
     }
   },
-  'google.com'
+  'google.com',
+  'facebook.com'
 ];
 
 var testStubs = new goog.testing.PropertyReplacer();
@@ -207,10 +210,8 @@ function setUp() {
   // Record accountchooser.com callback calls.
   accountChooserInvokedCallback = goog.testing.recordFunction();
   accountChooserResultCallback = goog.testing.recordFunction();
-  // Just pass the credential object through for the test.
-  testStubs.replace(firebaseui.auth.idp, 'getAuthCredential', function(obj) {
-    return obj;
-  });
+  testStubs.replace(firebaseui.auth.idp, 'getAuthCredential',
+                    createMockCredential);
   // Build mock auth providers.
   firebase['auth'] = {};
   // Mock reCAPTCHA verifier.
@@ -245,10 +246,34 @@ function setUp() {
       };
     }
   }
-  // Initialize after getAuthCredential stub.
-  authCredential = firebaseui.auth.idp.getAuthCredential(
+  firebase['auth']['SAMLAuthProvider'] = function(providerId) {
+    this.providerId = providerId;
+    this.customParameters = {};
+  };
+  firebase['auth']['SAMLAuthProvider'].prototype.setCustomParameters =
+      function(customParameters) {
+    this.customParameters = customParameters;
+    return this;
+  };
+  firebase['auth']['OAuthProvider'] = function(providerId) {
+    this.providerId = providerId;
+    this.scopes = [];
+    this.customParameters = {};
+  };
+  firebase['auth']['OAuthProvider'].prototype.setCustomParameters =
+      function(customParameters) {
+    this.customParameters = customParameters;
+    return this;
+  };
+  firebase['auth']['OAuthProvider'].prototype.addScope =
+      function(scope) {
+    this.scopes.push(scope);
+    return this;
+  };
+  // Initialize mock credentials.
+  authCredential = createMockCredential(
       {'accessToken': 'facebookAccessToken', 'providerId': 'facebook.com'});
-  federatedCredential = firebaseui.auth.idp.getAuthCredential(
+  federatedCredential = createMockCredential(
       {'accessToken': 'googleAccessToken', 'providerId': 'google.com'});
   // Simulate email auth provider credential.
   firebase['auth']['EmailAuthProvider'] =
@@ -272,11 +297,16 @@ function setUp() {
       firebase['auth']['GoogleAuthProvider'] || {};
   firebase['auth']['GoogleAuthProvider']['credential'] = function(
       idToken, accessToken) {
-    return {
+    return createMockCredential({
       'idToken': idToken,
       'accessToken': accessToken,
       'providerId': 'google.com'
-    };
+    });
+  };
+  firebase['auth']['AuthCredential'] = {
+    'fromJSON': function(json) {
+      return createMockCredential(json);
+    }
   };
   getApp = function() {
     return app;
@@ -331,7 +361,19 @@ function setUp() {
   app.setConfig({
     'signInSuccessUrl': 'http://localhost/home',
     'widgetUrl': 'http://localhost/firebaseui-widget',
-    'signInOptions': ['google.com', 'facebook.com', 'password'],
+    'signInOptions': ['google.com', 'facebook.com', 'password', 'github.com',
+                      {
+                        'provider': 'microsoft.com',
+                        'loginHintKey': 'login_hint',
+                        'buttonColor': '#2F2F2F',
+                        'iconUrl': '<icon-url>'
+                      },
+                      {
+                        'provider': 'saml.provider',
+                        'providerName': 'SAML Provider',
+                        'buttonColor': '#2F2F2F',
+                        'iconUrl': '<icon-url>'
+                      }],
     'siteName': 'Test Site',
     'popupMode': false,
     'tosUrl': tosCallback,
@@ -441,6 +483,22 @@ function simulateCordovaEnvironment() {
       function() {
         return 'file:';
       });
+}
+
+
+/**
+ * Returns a mock credential object with toJSON method.
+ * @param {!Object} credentialObject The plain credential object.
+ * @return {!Object} The fake Auth credential.
+ */
+function createMockCredential(credentialObject) {
+  var copy = goog.object.clone(credentialObject);
+   goog.object.extend(credentialObject, {
+     'toJSON': function() {
+       return copy;
+     }
+   });
+   return credentialObject;
 }
 
 
@@ -1031,6 +1089,18 @@ function assertPasswordSignInPage() {
 
 function assertPasswordSignUpPage() {
   assertPage_(container, 'firebaseui-id-page-password-sign-up');
+}
+
+
+/**
+ * Asserts that unsupported provider page is displayed.
+ * @param {string=} opt_email Optional email to check.
+ */
+function assertUnsupportedProviderPage(opt_email) {
+  assertPage_(container, 'firebaseui-id-page-unsupported-provider');
+  if (opt_email) {
+    assertPageContainsText(opt_email);
+  }
 }
 
 

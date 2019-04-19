@@ -32,19 +32,55 @@ function setUp() {
   // Record all calls to AuthProvider.credential
   firebase.auth = {};
   for (var providerId in firebaseui.auth.idp.AuthProviders) {
-    firebase.auth[firebaseui.auth.idp.AuthProviders[providerId]] = {
-      'PROVIDER_ID': providerId,
-      'credential': goog.testing.recordFunction(function() {
-        // Return something.
-        return providerId;
-      })
+    firebase.auth[firebaseui.auth.idp.AuthProviders[providerId]] = function() {
+      // For testing purpose only.
+      this.providerType = 'built-in';
     };
+    firebase.auth[firebaseui.auth.idp.AuthProviders[providerId]].PROVIDER_ID =
+        providerId;
+    firebase.auth[firebaseui.auth.idp.AuthProviders[providerId]].credential =
+        goog.testing.recordFunction(function() {
+          // Return something.
+          return providerId;
+        });
+    firebase.auth[firebaseui.auth.idp.AuthProviders[providerId]]
+        .prototype.providerId = providerId;
   }
+  firebase.auth['SAMLAuthProvider'] = function(providerId) {
+    this.providerId = providerId;
+    // For testing purpose only.
+    this.providerType = 'saml';
+  };
+  firebase.auth['OAuthProvider'] = function(providerId) {
+    this.providerId = providerId;
+    // For testing purpose only.
+    this.providerType = 'oidc';
+  };
 }
 
 
 function tearDown() {
   firebase = {};
+}
+
+
+function testGetAuthProvider() {
+  // Built-in provider.
+  var builtInProvider = firebaseui.auth.idp.getAuthProvider('google.com');
+  assertEquals('google.com', builtInProvider.providerId);
+  assertEquals('built-in', builtInProvider.providerType);
+  // SAML provider.
+  var samlProvider = firebaseui.auth.idp.getAuthProvider('saml.provider');
+  assertEquals('saml.provider', samlProvider.providerId);
+  assertEquals('saml', samlProvider.providerType);
+  // OIDC/generic OAuth provider.
+  var oidcProvider = firebaseui.auth.idp.getAuthProvider('oidc.provider');
+  assertEquals('oidc.provider', oidcProvider.providerId);
+  assertEquals('oidc', oidcProvider.providerType);
+  // Invalid provider ID will be considered as generic OAuth provider.
+  var invalidProvider = firebaseui.auth.idp.getAuthProvider('invalidId');
+  assertEquals('invalidId', invalidProvider.providerId);
+  assertEquals('oidc', oidcProvider.providerType);
 }
 
 
@@ -63,21 +99,40 @@ function testIsSupportedProvider() {
 
 
 function testGetFirstFederatedSignInMethod() {
+  // Account is linked with password and Google. No provider is enabled.
   assertEquals(
       'google.com', firebaseui.auth.idp.getFirstFederatedSignInMethod(
-          ['password', 'google.com']));
+          ['password', 'google.com'], []));
+  // Account is linked with emailLink and Facebook. Both are enabled.
   assertEquals(
       'facebook.com', firebaseui.auth.idp.getFirstFederatedSignInMethod(
-          ['emailLink', 'facebook.com']));
+          ['emailLink', 'facebook.com'], ['emailLink', 'facebook.com']));
   assertEquals(
       'twitter.com', firebaseui.auth.idp.getFirstFederatedSignInMethod(
-          ['phone', 'twitter.com']));
+          ['phone', 'twitter.com'], ['phone', 'twitter.com']));
   assertEquals(
       'google.com', firebaseui.auth.idp.getFirstFederatedSignInMethod(
+          ['emailLink', 'google.com', 'github.com'],
           ['emailLink', 'google.com', 'github.com']));
   assertNull(
       firebaseui.auth.idp.getFirstFederatedSignInMethod(
+          ['emailLink', 'password', 'phone'],
           ['emailLink', 'password', 'phone']));
+  // Account is linked with a SAML provider and Facebook, but only Facebook is
+  // enabled. The SAML provider should not be returned in this case.
+  assertEquals(
+      'facebook.com', firebaseui.auth.idp.getFirstFederatedSignInMethod(
+          ['saml.provider', 'facebook.com'], ['facebook.com']));
+  // Account is linked with a SAML provider and Facebook. Both are enabled.
+  // The SAML provider should be returned in this case.
+  assertEquals(
+      'saml.provider', firebaseui.auth.idp.getFirstFederatedSignInMethod(
+          ['saml.provider', 'facebook.com'], ['saml.provider']));
+  // Account is linked with a SAML provider and Facebook. None are enabled.
+  // Facebook should be returned.
+   assertEquals(
+      'facebook.com', firebaseui.auth.idp.getFirstFederatedSignInMethod(
+          ['saml.provider', 'facebook.com'], []));
 }
 
 

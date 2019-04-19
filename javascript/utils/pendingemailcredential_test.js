@@ -25,6 +25,7 @@ goog.setTestOnly('firebaseui.auth.PendingEmailCredentialTest');
 
 
 var credential;
+var credentialObject;
 var pendingEmailCredential;
 var pendingEmailCredential2;
 var pendingEmailCredentialObject;
@@ -42,20 +43,32 @@ function setUp() {
         return credential;
       },
       'PROVIDER_ID': 'google.com'
+    },
+    'AuthCredential': {
+      'fromJSON': function(json) {
+        assertObjectEquals(credentialObject, json);
+        return credential;
+      }
     }
+  };
+  credentialObject = {
+    'providerId': 'google.com',
+    'signInMethod': 'google.com',
+    'oauthAcessToken': 'ACCESS_TOKEN'
   };
   credential = {
     'providerId': 'google.com',
-    'accessToken': 'ACCESS_TOKEN'
+    'signInMethod': 'google.com',
+    'accessToken': 'ACCESS_TOKEN',
+    'toJSON': function() {
+      return credentialObject;
+    }
   };
   pendingEmailCredential = new firebaseui.auth.PendingEmailCredential(
       'user@example.com', credential);
   pendingEmailCredentialObject  = {
     'email': 'user@example.com',
-    'credential': {
-      'providerId': 'google.com',
-      'accessToken': 'ACCESS_TOKEN'
-    }
+    'credential': credentialObject
   };
   pendingEmailCredential2 =
       new firebaseui.auth.PendingEmailCredential('other@example.com');

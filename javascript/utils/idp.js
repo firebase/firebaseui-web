@@ -13,12 +13,13 @@
  */
 
 /**
- * @fileoverview Define suppported IdPs.
+ * @fileoverview Define supported IdPs.
  */
 
 goog.provide('firebaseui.auth.idp');
 
 goog.require('goog.array');
+goog.require('goog.object');
 
 
 /**
@@ -32,18 +33,31 @@ firebaseui.auth.idp.isSupportedProvider = function(providerId) {
 
 /**
  * @param {!Array<string>} signInMethods List of sign in methods.
+ * @param {!Array<string>} enabledProviders List of enabled sign in providers.
  * @return {?string} The first federated sign-in method if available.
  *     Otherwise, returns null.
  */
-firebaseui.auth.idp.getFirstFederatedSignInMethod = function(signInMethods) {
+firebaseui.auth.idp.getFirstFederatedSignInMethod =
+    function(signInMethods, enabledProviders) {
   for (var i = 0; i < signInMethods.length; i++) {
+    // Exclude non-federated sign in methods.
     if (!goog.array.contains(
-            firebaseui.auth.idp.NonFederatedSignInMethods, signInMethods[i])) {
+            firebaseui.auth.idp.NonFederatedSignInMethods, signInMethods[i]) &&
+        // Only include build-in federated providers or enabled generic
+        // providers.
+        (goog.object.containsKey(
+            firebaseui.auth.idp.AuthProviders, signInMethods[i]) ||
+         goog.array.contains(enabledProviders, signInMethods[i]))) {
       return signInMethods[i];
     }
   }
   return null;
 };
+
+
+/** @private @const {string} The required SAML provider ID prefix. */
+firebaseui.auth.idp.SAML_PREFIX_ = 'saml.';
+
 
 /**
  * Supported non-federated sign-in methods.
@@ -88,20 +102,36 @@ firebaseui.auth.idp.SignInMethods = {
 
 /**
  * @param {string} providerId
- * @return {firebase.auth.AuthProvider} The IdP.
+ * @return {boolean} Whether the provider is a SAML provider.
+ * @private
+ */
+firebaseui.auth.idp.isSaml_ = function(providerId) {
+  return providerId.indexOf(firebaseui.auth.idp.SAML_PREFIX_) == 0;
+};
+
+
+/**
+ * Returns the provider by provider ID. If the provider ID is neither built-in
+ * provider or SAML provder, it will be considered as generic OAuth provider.
+ * @param {string} providerId
+ * @return {!firebase.auth.AuthProvider} The IdP.
  */
 firebaseui.auth.idp.getAuthProvider = function(providerId) {
   if (firebaseui.auth.idp.AuthProviders[providerId] &&
       firebase.auth[firebaseui.auth.idp.AuthProviders[providerId]]) {
     return new firebase.auth[firebaseui.auth.idp.AuthProviders[providerId]]();
+  } else if (firebaseui.auth.idp.isSaml_(providerId)) {
+    return new firebase.auth['SAMLAuthProvider'](providerId);
+  } else {
+    return new firebase.auth['OAuthProvider'](providerId);
   }
-  return null;
 };
 
 
 /**
  * @param {?Object} credentialObject The credential object.
  * @return {?firebase.auth.AuthCredential} The corresponding auth credential.
+ * @deprecated Use mockCredential for tests instead.
  */
 firebaseui.auth.idp.getAuthCredential = function(credentialObject) {
   var providerId = credentialObject && credentialObject['providerId'];

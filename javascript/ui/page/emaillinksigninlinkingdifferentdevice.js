@@ -26,8 +26,8 @@ goog.require('firebaseui.auth.ui.page.Base');
 
 /**
  * Email link sign in linking different device UI component.
- * @param {string} providerId The provider ID of the IdP we should use for sign
- *     in.
+ * @param {?Object} providerConfig The provider config of the IdP we should use
+ *     for sign in.
  * @param {function()} onContinueClick Callback to invoke when the continue
  *     button is clicked.
  * @param {?function()=} opt_tosCallback Callback to invoke when the ToS link
@@ -39,7 +39,7 @@ goog.require('firebaseui.auth.ui.page.Base');
  * @extends {firebaseui.auth.ui.page.Base}
  */
 firebaseui.auth.ui.page.EmailLinkSignInLinkingDifferentDevice = function(
-    providerId,
+    providerConfig,
     onContinueClick,
     opt_tosCallback,
     opt_privacyPolicyCallback,
@@ -51,7 +51,7 @@ firebaseui.auth.ui.page.EmailLinkSignInLinkingDifferentDevice = function(
       'constructor',
       firebaseui.auth.soy2.page.emailLinkSignInLinkingDifferentDevice,
       {
-        providerId: providerId
+        providerConfig: providerConfig
       },
       opt_domHelper,
       'emailLinkSignInLinkingDifferentDevice',

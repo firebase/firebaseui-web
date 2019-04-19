@@ -917,7 +917,7 @@ firebaseui.auth.widget.handler.common.getAuthProvider_ = function(
   var additionalScopes =
       app.getConfig().getProviderAdditionalScopes(providerId);
   // Some providers like Twitter do not accept additional scopes.
-  if (provider && provider['addScope']) {
+  if (provider['addScope']) {
     // Add every requested additional scope to the provider.
     for (var i = 0; i < additionalScopes.length; i++) {
       provider['addScope'](additionalScopes[i]);
@@ -925,20 +925,28 @@ firebaseui.auth.widget.handler.common.getAuthProvider_ = function(
   }
   // Get custom parameters for the selected provider.
   var customParameters =
-      app.getConfig().getProviderCustomParameters(providerId);
-  // If Google provider is requested and email is specified, pass OAuth
-  // parameter login_hint with that email.
-  // Only Google supports this parameter.
-  if (providerId == firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
-      // Only pass login_hint when email available.
-      opt_email) {
-    // In case no custom parameters are provided for google.com.
-    customParameters = customParameters || {};
-    // Add the login_hint.
-    customParameters['login_hint'] = opt_email;
+      app.getConfig().getProviderCustomParameters(providerId) || {};
+  // Some providers accept an email address as a login hint. If the email is
+  // set and if the provider supports it, add it to the custom paramaters.
+  if (opt_email) {
+    var loginHintKey;
+    if (providerId == firebase.auth.GoogleAuthProvider.PROVIDER_ID) {
+      // Since the name of the parameter is known for Google, set this
+      // automatically. Google is the only default provider which supports a
+      // login hint.
+      loginHintKey = 'login_hint';
+    } else {
+      // For other providers, check if the name is set in the configuration.
+      var providerConfig = app.getConfig().getConfigForProvider(providerId);
+      loginHintKey = providerConfig && providerConfig.loginHintKey;
+    }
+    // If the hint is set, add the email to the custom parameters.
+    if (loginHintKey) {
+      customParameters[loginHintKey] = opt_email;
+    }
   }
-  // Add custom OAuth parameters if applicable for the current provider.
-  if (customParameters && provider && provider.setCustomParameters) {
+  // Set the custom parameters if applicable for the current provider.
+  if (provider.setCustomParameters) {
     provider.setCustomParameters(customParameters);
   }
   return provider;
@@ -1525,18 +1533,27 @@ firebaseui.auth.widget.handler.common.handleSignInFetchSignInMethodsForEmail =
     // We store the pending email in case the user tries to use an account with
     // a different email.
     var federatedSignInMethod =
-        firebaseui.auth.idp.getFirstFederatedSignInMethod(signInMethods);
-    var pendingEmailCredential =
-        new firebaseui.auth.PendingEmailCredential(email);
-    firebaseui.auth.storage.setPendingEmailCredential(
-        pendingEmailCredential, app.getAppId());
-    firebaseui.auth.widget.handler.handle(
-        firebaseui.auth.widget.HandlerName.FEDERATED_SIGN_IN,
-        app,
-        container,
-        email,
-        federatedSignInMethod,
-        opt_infoBarMessage);
+        firebaseui.auth.idp.getFirstFederatedSignInMethod(
+            signInMethods, app.getConfig().getProviders());
+    if (federatedSignInMethod) {
+      var pendingEmailCredential =
+          new firebaseui.auth.PendingEmailCredential(email);
+      firebaseui.auth.storage.setPendingEmailCredential(
+          pendingEmailCredential, app.getAppId());
+      firebaseui.auth.widget.handler.handle(
+          firebaseui.auth.widget.HandlerName.FEDERATED_SIGN_IN,
+          app,
+          container,
+          email,
+          federatedSignInMethod,
+          opt_infoBarMessage);
+    } else {
+      firebaseui.auth.widget.handler.handle(
+          firebaseui.auth.widget.HandlerName.UNSUPPORTED_PROVIDER,
+          app,
+          container,
+          email);
+    }
   }
 };
 

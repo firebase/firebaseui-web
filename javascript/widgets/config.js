@@ -148,6 +148,25 @@ firebaseui.auth.widget.Config.SignInFlow = {
 };
 
 
+/**
+ * The provider config object for generic providers.
+ * providerId: The provider ID.
+ * providerName: The display name of the provider.
+ * buttonColor: The color of the sign in button.
+ * iconUrl: The URL of the icon on sign in button.
+ * loginHintKey: The name to use for the optional login hint parameter.
+ *
+ * @typedef {{
+ *   providerId: string,
+ *   providerName: (?string|undefined),
+ *   buttonColor: (?string|undefined),
+ *   iconUrl: (?string|undefined),
+ *   loginHintKey: (?string|undefined)
+ * }}
+ */
+firebaseui.auth.widget.Config.ProviderConfig;
+
+
 /** @return {?Object} The UI configuration for accountchooser.com. */
 firebaseui.auth.widget.Config.prototype.getAcUiConfig = function() {
   return /** @type {?Object} */ (this.config_.get('acUiConfig') || null);
@@ -285,10 +304,7 @@ firebaseui.auth.widget.Config.prototype.getSignInOptions_ = function() {
     var normalizedConfig = goog.isObject(providerConfig) ?
         providerConfig : {'provider': providerConfig};
 
-    if (firebaseui.auth.idp.isSupportedProvider(normalizedConfig['provider']) ||
-        goog.array.contains(
-            firebaseui.auth.widget.Config.UI_SUPPORTED_PROVIDERS_,
-            normalizedConfig['provider'])) {
+    if (normalizedConfig['provider']) {
       normalizedOptions.push(normalizedConfig);
     }
   }
@@ -325,6 +341,58 @@ firebaseui.auth.widget.Config.prototype.getSignInOptionsForProvider_ =
 firebaseui.auth.widget.Config.prototype.getProviders = function() {
   return goog.array.map(this.getSignInOptions_(), function(option) {
     return option['provider'];
+  });
+};
+
+
+/**
+ * @param {string} providerId The provider id whose sign in provider config is
+ *     to be returned.
+ * @return {?firebaseui.auth.widget.Config.ProviderConfig} The list of sign in
+ *     provider configs for supported IdPs.
+ */
+firebaseui.auth.widget.Config.prototype.getConfigForProvider =
+    function(providerId) {
+  var providerConfigs = this.getProviderConfigs();
+  for (var i = 0; i < providerConfigs.length; i++) {
+    // Check if current option matches provider ID.
+    if (providerConfigs[i]['providerId'] === providerId) {
+      return providerConfigs[i];
+    }
+  }
+  return null;
+};
+
+
+/**
+ * Returns all available provider configs. For built-in providers, provider
+ * display name, button color and icon URL are fixed and cannot be overridden.
+ *
+ * @return {!Array<!firebaseui.auth.widget.Config.ProviderConfig>} The list of
+ *     supported IdP configs.
+ */
+firebaseui.auth.widget.Config.prototype.getProviderConfigs = function() {
+  return goog.array.map(this.getSignInOptions_(), function(option) {
+    if (firebaseui.auth.idp.isSupportedProvider(option['provider']) ||
+        goog.array.contains(
+            firebaseui.auth.widget.Config.UI_SUPPORTED_PROVIDERS_,
+            option['provider'])) {
+      // For built-in providers, provider display name, button color and
+      // icon URL are fixed. The login hint key is also automatically set for
+      // built-in providers that support it.
+      return {
+        providerId: option['provider']
+      };
+    } else {
+      return {
+        providerId: option['provider'],
+        providerName: option['providerName'] || null,
+        buttonColor: option['buttonColor'] || null,
+        iconUrl: option['iconUrl'] ?
+            firebaseui.auth.util.sanitizeUrl(option['iconUrl']) : null,
+        loginHintKey: option['loginHintKey'] || null
+      };
+    }
   });
 };
 

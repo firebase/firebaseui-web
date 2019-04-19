@@ -21,8 +21,6 @@
 
 goog.provide('firebaseui.auth.PendingEmailCredential');
 
-goog.require('firebaseui.auth.idp');
-goog.require('goog.object');
 
 
 /**
@@ -59,7 +57,7 @@ firebaseui.auth.PendingEmailCredential.prototype.getCredential = function() {
 firebaseui.auth.PendingEmailCredential.prototype.toPlainObject = function() {
   return {
     'email': this.email_,
-    'credential': this.credential_ && goog.object.clone(this.credential_)
+    'credential': this.credential_ && this.credential_['toJSON']()
   };
 };
 
@@ -74,7 +72,7 @@ firebaseui.auth.PendingEmailCredential.prototype.toPlainObject = function() {
 firebaseui.auth.PendingEmailCredential.fromPlainObject = function(response) {
   if (response && response['email']) {
     var credentialObject = response['credential'] &&
-        firebaseui.auth.idp.getAuthCredential(response['credential']);
+        firebase.auth.AuthCredential['fromJSON'](response['credential']);
     return new firebaseui.auth.PendingEmailCredential(
         /** @type {string} */ (response['email']), credentialObject);
   }

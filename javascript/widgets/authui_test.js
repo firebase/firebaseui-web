@@ -151,10 +151,8 @@ var expectedUserCredential = {
   'operationType': 'signIn',
   'additionalUserInfo': expectedAdditionalUserInfo
 };
-var pendingCredential =
-    {'accessToken': 'fbAccessToken', 'providerId': 'facebook.com'};
-var pendingEmailCredential = new firebaseui.auth.PendingEmailCredential(
-    expectedUser.email, pendingCredential);
+var pendingCredential = null;
+var pendingEmailCredential = null;
 var expectedProvider = null;
 var anonymousUpgradeConfig = null;
 var anonymousUser = {
@@ -305,11 +303,28 @@ function setUp() {
           function(accessToken) {
             return {
               'accessToken': accessToken,
-              'providerId': 'facebook.com'
+              'providerId': 'facebook.com',
+              'signInMethod': 'facebook.com',
+              'toJSON': function() {
+                return {
+                  'accessToken': accessToken,
+                  'providerId': 'facebook.com',
+                  'signInMethod': 'facebook.com'
+                };
+              }
             };
           };
     }
   }
+  firebase['auth']['AuthCredential'] = {
+    'fromJSON': function(json) {
+      return createMockCredential(json);
+    }
+  };
+  pendingCredential = createMockCredential(
+      {'accessToken': 'fbAccessToken', 'providerId': 'facebook.com'});
+  pendingEmailCredential = new firebaseui.auth.PendingEmailCredential(
+      expectedUser.email, pendingCredential);
   expectedProvider = new firebase.auth.GoogleAuthProvider();
   anonymousUpgradeConfig = {
     'autoUpgradeAnonymousUsers': true,
@@ -406,6 +421,22 @@ function tearDown() {
   }
   mockControl.$verifyAll();
   mockControl.$tearDown();
+}
+
+
+/**
+ * Returns a mock credential object with toJSON method.
+ * @param {!Object} credentialObject
+ * @return {!Object} The fake Auth credential.
+ */
+function createMockCredential(credentialObject) {
+  var copy = goog.object.clone(credentialObject);
+  goog.object.extend(credentialObject, {
+    'toJSON': function() {
+      return copy;
+    }
+  });
+  return credentialObject;
 }
 
 

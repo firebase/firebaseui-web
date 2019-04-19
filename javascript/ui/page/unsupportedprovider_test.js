@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Google Inc. All Rights Reserved.
+ * Copyright 2019 Google Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -13,17 +13,16 @@
  */
 
 /**
- * @fileoverview Tests for the federated account linking page.
+ * @fileoverview Tests for the unsupported provider page.
  */
 
-goog.provide('firebaseui.auth.ui.page.FederatedLinkingTest');
-goog.setTestOnly('firebaseui.auth.ui.page.FederatedLinkingTest');
+goog.provide('firebaseui.auth.ui.page.UnsupportedProviderTest');
+goog.setTestOnly('firebaseui.auth.ui.page.UnsupportedProviderTest');
 
 goog.require('firebaseui.auth.ui.element.FormTestHelper');
-goog.require('firebaseui.auth.ui.element.InfoBarTestHelper');
 goog.require('firebaseui.auth.ui.element.TosPpTestHelper');
-goog.require('firebaseui.auth.ui.page.FederatedLinking');
 goog.require('firebaseui.auth.ui.page.PageTestHelper');
+goog.require('firebaseui.auth.ui.page.UnsupportedProvider');
 goog.require('goog.dom');
 goog.require('goog.dom.TagName');
 goog.require('goog.testing.MockClock');
@@ -34,11 +33,9 @@ goog.require('goog.userAgent');
 var mockClock;
 var root;
 var component;
-var formTestHelper = new firebaseui.auth.ui.element.FormTestHelper().
-    excludeTests('testOnLinkClick_', 'testOnLinkEnter_').
-    registerTests();
-var infoBarTestHelper =
-    new firebaseui.auth.ui.element.InfoBarTestHelper().registerTests();
+// Test helper for submit button and secondary link.
+var formTestHelper =
+    new firebaseui.auth.ui.element.FormTestHelper().registerTests();
 var tosPpTestHelper =
     new firebaseui.auth.ui.element.TosPpTestHelper().registerTests();
 var pageTestHelper =
@@ -51,13 +48,13 @@ function setUp() {
   mockClock.install();
   root = goog.dom.createDom(goog.dom.TagName.DIV);
   document.body.appendChild(root);
-  component = new firebaseui.auth.ui.page.FederatedLinking(
+  component = new firebaseui.auth.ui.page.UnsupportedProvider(
       'user@example.com',
-      {
-        providerId: 'google.com'
-      },
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
+          formTestHelper),
+      goog.bind(
+          firebaseui.auth.ui.element.FormTestHelper.prototype.onLinkClick,
           formTestHelper),
       goog.bind(
           firebaseui.auth.ui.element.TosPpTestHelper.prototype.onTosLinkClick,
@@ -69,7 +66,6 @@ function setUp() {
   formTestHelper.setComponent(component);
   // Reset previous state of form helper.
   formTestHelper.resetState();
-  infoBarTestHelper.setComponent(component);
   tosPpTestHelper.setComponent(component);
   // Reset previous state of tosPp helper.
   tosPpTestHelper.resetState();
@@ -87,6 +83,7 @@ function tearDown() {
 
 
 function testInitialFocus() {
+  // Test that initial focus is on submit (continue) button.
   if (goog.userAgent.IE && !goog.userAgent.isDocumentModeOrHigher(9)) {
     return;
   }
@@ -96,19 +93,19 @@ function testInitialFocus() {
 }
 
 
-function testFederatedLinking_pageEvents() {
+function testUnsupportedProvider_pageEvents() {
   // Run page event tests.
   // Dispose previously created container since test must run before rendering
   // the component in docoument.
   component.dispose();
   // Initialize component.
-  component = new firebaseui.auth.ui.page.FederatedLinking(
+  component = new firebaseui.auth.ui.page.UnsupportedProvider(
       'user@example.com',
-      {
-        providerId: 'google.com'
-      },
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
+          formTestHelper),
+      goog.bind(
+          firebaseui.auth.ui.element.FormTestHelper.prototype.onLinkClick,
           formTestHelper));
   // Run all page helper tests.
   pageTestHelper.runTests(component, root);
@@ -116,5 +113,5 @@ function testFederatedLinking_pageEvents() {
 
 
 function testGetPageId() {
-  assertEquals('federatedLinking', component.getPageId());
+  assertEquals('unsupportedProvider', component.getPageId());
 }

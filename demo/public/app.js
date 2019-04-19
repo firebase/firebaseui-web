@@ -70,6 +70,13 @@ function getUiConfig() {
           size: getRecaptchaMode()
         }
       },
+      {
+        provider: 'microsoft.com',
+        providerName: 'Microsoft',
+        buttonColor: '#2F2F2F',
+        iconUrl: 'https://docs.microsoft.com/en-us/azure/active-directory/develop/media/howto-add-branding-in-azure-ad-apps/ms-symbollockup_mssymbol_19.png',
+        loginHintKey: 'login_hint'
+      },
       firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
     ],
     // Terms of service url.

@@ -194,33 +194,45 @@ function testGetSignInSuccessUrl() {
 
 function testGetProviders_providerIds() {
   assertArrayEquals([], config.getProviders());
-  config.update('signInOptions',
-      ['google.com', 'github.com', 'unrecognized', 'twitter.com']);
-  // Check that unrecognized accounts are not included in the list.
+  config.update('signInOptions', ['google.com', 'github.com', 'twitter.com']);
+  // Check that predefined OAuth providers are included in the list in the
+  // correct order.
   assertArrayEquals(
       ['google.com', 'github.com', 'twitter.com'],
       config.getProviders());
 
   // Test when password accounts are to be enabled.
-  config.update('signInOptions',
-      ['google.com', 'password', 'unrecognized']);
+  config.update('signInOptions', ['google.com', 'password']);
   // Check that password accounts are included in the list in the correct
   // order.
   assertArrayEquals(['google.com', 'password'], config.getProviders());
 
   // Test when phone accounts are to be enabled.
-  config.update('signInOptions',
-      ['google.com', 'phone', 'unrecognized']);
+  config.update('signInOptions', ['google.com', 'phone']);
   // Check that phone accounts are included in the list in the correct
   // order.
   assertArrayEquals(['google.com', 'phone'], config.getProviders());
 
   // Test when anonymous provider is to be enabled.
-  config.update('signInOptions',
-      ['google.com', 'anonymous']);
+  config.update('signInOptions', ['google.com', 'anonymous']);
   // Check that anonymous provider is included in the list in the correct
   // order.
   assertArrayEquals(['google.com', 'anonymous'], config.getProviders());
+
+  // Test when generic provider is to be enabled.
+  config.update('signInOptions',
+                [
+                  'google.com',
+                  {
+                    'provider': 'microsoft.com',
+                    'providerName': 'Microsoft',
+                    'buttonColor': '#FFB6C1',
+                    'iconUrl': '<url-of-the-icon-of-the-sign-in-button>'
+                  }
+                ]);
+  // Check that generic provider is included in the list in the correct
+  // order.
+  assertArrayEquals(['google.com', 'microsoft.com'], config.getProviders());
 }
 
 
@@ -232,15 +244,123 @@ function testGetProviders_fullConfig() {
     },
     {'provider': 'github.com'},
     'facebook.com',
-    {'provider': 'unrecognized'},
+    {
+      'provider': 'microsoft.com',
+      'providerName': 'Microsoft',
+      'buttonColor': '#FFB6C1',
+      'iconUrl': '<url-of-the-icon-of-the-sign-in-button>'
+
+    },
     {'not a': 'valid config'},
     {'provider': 'phone', 'recaptchaParameters': {'size': 'invisible'}},
     {'provider': 'anonymous'}
   ]);
   // Check that invalid configs are not included.
   assertArrayEquals(
-      ['google.com', 'github.com', 'facebook.com', 'phone', 'anonymous'],
+      ['google.com', 'github.com', 'facebook.com', 'microsoft.com', 'phone',
+       'anonymous'],
       config.getProviders());
+}
+
+
+function testGetProviderConfigs() {
+  config.update('signInOptions', [
+    {
+      'provider': 'google.com',
+      'scopes': ['foo', 'bar'],
+      // providerName, buttonColor and iconUrl should be override with null.
+      'providerName': 'Google',
+      'buttonColor': '#FFB6C1',
+      'iconUrl': '<url-of-the-icon-of-the-sign-in-button>'
+    },
+    'facebook.com',
+    {
+      'provider': 'microsoft.com',
+      'providerName': 'Microsoft',
+      'buttonColor': '#FFB6C1',
+      'iconUrl': '<url-of-the-icon-of-the-sign-in-button>',
+      'loginHintKey': 'login_hint'
+    },
+    {'not a': 'valid config'},
+    {
+      'provider': 'yahoo.com',
+      'providerName': 'Yahoo',
+      'buttonColor': '#FFB6C1',
+      'iconUrl': '<url-of-the-icon-of-the-sign-in-button>'
+    }
+  ]);
+  var providerConfigs = config.getProviderConfigs();
+  assertEquals(4, providerConfigs.length);
+  assertObjectEquals({
+    providerId: 'google.com',
+  }, providerConfigs[0]);
+  assertObjectEquals({
+    providerId: 'facebook.com',
+  }, providerConfigs[1]);
+  assertObjectEquals({
+    providerId: 'microsoft.com',
+    providerName: 'Microsoft',
+    buttonColor: '#FFB6C1',
+    iconUrl: '<url-of-the-icon-of-the-sign-in-button>',
+    loginHintKey: 'login_hint'
+  }, providerConfigs[2]);
+  assertObjectEquals({
+    providerId: 'yahoo.com',
+    providerName: 'Yahoo',
+    buttonColor: '#FFB6C1',
+    iconUrl: '<url-of-the-icon-of-the-sign-in-button>',
+    loginHintKey: null
+  }, providerConfigs[3]);
+}
+
+
+function testGetConfigForProvider() {
+  config.update('signInOptions', [
+    {
+      'provider': 'google.com',
+      'scopes': ['foo', 'bar'],
+      // providerName, buttonColor and iconUrl should be override with null.
+      'providerName': 'Google',
+      'buttonColor': '#FFB6C1',
+      'iconUrl': '<url-of-the-icon-of-the-sign-in-button>'
+    },
+    'facebook.com',
+    {
+      'provider': 'microsoft.com',
+      'providerName': 'Microsoft',
+      'buttonColor': '#FFB6C1',
+      'iconUrl': '<url-of-the-icon-of-the-sign-in-button>',
+      'loginHintKey': 'login_hint'
+    },
+    {'not a': 'valid config'},
+    {
+      'provider': 'yahoo.com',
+      'providerName': 'Yahoo',
+      'buttonColor': '#FFB6C1',
+      'iconUrl': 'javascript:doEvilStuff()'
+    }
+  ]);
+  assertObjectEquals({
+    providerId: 'google.com'
+  }, config.getConfigForProvider('google.com'));
+  assertObjectEquals({
+    providerId: 'facebook.com'
+  }, config.getConfigForProvider('facebook.com'));
+  assertObjectEquals({
+    providerId: 'microsoft.com',
+    providerName: 'Microsoft',
+    buttonColor: '#FFB6C1',
+    iconUrl: '<url-of-the-icon-of-the-sign-in-button>',
+    loginHintKey: 'login_hint'
+  }, config.getConfigForProvider('microsoft.com'));
+  assertNull(config.getConfigForProvider('INVALID_ID'));
+  assertObjectEquals({
+    providerId: 'yahoo.com',
+    providerName: 'Yahoo',
+    buttonColor: '#FFB6C1',
+    iconUrl: 'about:invalid#zClosurez',
+    loginHintKey: null
+  }, config.getConfigForProvider('yahoo.com'));
 }
 
 
@@ -332,22 +452,26 @@ function testGetRecaptchaParameters() {
 }
 
 
-function testGetProviderCustomParameter_noSignInOptions() {
+function testGetProviderCustomParameters_noSignInOptions() {
   config.update('signInOptions', null);
   assertNull(config.getProviderCustomParameters('google.com'));
 }
 
 
-function testGetProviderCustomParameter_invalidIdp() {
+function testGetProviderCustomParameters_genericProvider() {
   config.update('signInOptions', [{
-    'provider': 'unrecognized',
-    'customParameters': ['foo', 'bar']
+    'provider': 'microsoft.com',
+    'providerName': 'Microsoft',
+    'buttonColor': '#FFB6C1',
+    'iconUrl': '<url-of-the-icon-of-the-sign-in-button>',
+    'customParameters': {'foo': 'bar'}
   }]);
-  assertNull(config.getProviderCustomParameters('unrecognized'));
+  assertObjectEquals({'foo': 'bar'},
+                     config.getProviderCustomParameters('microsoft.com'));
 }
 
 
-function testGetProviderCustomParameter_missingCustomParameters() {
+function testGetProviderCustomParameters_missingCustomParameters() {
   config.update('signInOptions', [{
     'provider': 'google.com',
   }]);
@@ -355,7 +479,7 @@ function testGetProviderCustomParameter_missingCustomParameters() {
 }
 
 
-function testGetProviderCustomParameter_multipleIdp() {
+function testGetProviderCustomParameters_multipleIdp() {
   config.update('signInOptions', [
     {
       'provider': 'google.com',
@@ -969,12 +1093,16 @@ function testGetProviderAdditionalScopes_noSignInOptions() {
 }
 
 
-function testGetProviderAdditionalScopes_invalidIdp() {
+function testGetProviderAdditionalScopes_genericProvider() {
   config.update('signInOptions', [{
-    'provider': 'unrecognized',
+    'provider': 'microsoft.com',
+    'providerName': 'Microsoft',
+    'buttonColor': '#FFB6C1',
+    'iconUrl': '<url-of-the-icon-of-the-sign-in-button>',
     'scopes': ['foo', 'bar']
   }]);
-  assertArrayEquals([], config.getProviderAdditionalScopes('unrecognized'));
+  assertArrayEquals(['foo', 'bar'],
+                    config.getProviderAdditionalScopes('microsoft.com'));
 }
 
 

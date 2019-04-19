@@ -28,18 +28,19 @@ goog.require('firebaseui.auth.ui.page.Base');
  * UI component that displays a list of supported identity providers.
  * @param {function(string)} onIdpClick Callback to invoke when the user clicks
  *     one IdP button.
- * @param {!Array<string>} providerIds The provider IDs of the IdPs to display.
+ * @param {!Array<!Object>} providerConfigs The provider configs of the IdPs to
+ *     display.
  * @param {?function()=} opt_tosCallback Callback to invoke when the ToS link
  *     is clicked.
  * @param {?function()=} opt_privacyPolicyCallback Callback to invoke when the
  *     Privacy Policy link is clicked.
- * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
+ * @param {?goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @constructor
  * @extends {firebaseui.auth.ui.page.Base}
  */
 firebaseui.auth.ui.page.ProviderSignIn = function(
     onIdpClick,
-    providerIds,
+    providerConfigs,
     opt_tosCallback,
     opt_privacyPolicyCallback,
     opt_domHelper) {
@@ -48,7 +49,7 @@ firebaseui.auth.ui.page.ProviderSignIn = function(
       'constructor',
       firebaseui.auth.soy2.page.providerSignIn,
       {
-        providerIds: providerIds
+        providerConfigs: providerConfigs
       },
       opt_domHelper,
       'providerSignIn',

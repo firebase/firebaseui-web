@@ -116,18 +116,20 @@
  * Renders an identity provider button.
  */
 {template .idpButton}
-  {@param providerId: string} /** The IdP provider ID. */
+  {@param? providerConfig: [providerId:string|null, providerName:string|null,
+      buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
   <button
       class="firebaseui-idp-button mdl-button mdl-js-button mdl-button--raised{sp}
              {call .idpClass_ data="all" /} firebaseui-id-idp-button"
-      data-provider-id="{$providerId}">
+      data-provider-id="{$providerConfig.providerId}"
+      style="background-color:{$providerConfig.buttonColor}">
     <span class="firebaseui-idp-icon-wrapper">
       <img
           class="firebaseui-idp-icon"
           alt=""
           src="{call .idpLogo_ data="all" /}">
     </span>
-    {if $providerId == 'password'}
+    {if $providerConfig.providerId == 'password'}
       <span class="firebaseui-idp-text firebaseui-idp-text-long">
         {msg desc="Label for a button to sign in with an email account that requires a password.
             The long version"}
@@ -140,7 +142,7 @@
           Email
         {/msg}
       </span>
-    {elseif $providerId == 'phone'}
+    {elseif $providerConfig.providerId == 'phone'}
       <span class="firebaseui-idp-text firebaseui-idp-text-long">
         {msg desc="Label for a button to sign in with phone number.
             The long version"}
@@ -153,7 +155,7 @@
           Phone
         {/msg}
       </span>
-    {elseif $providerId == 'anonymous'}
+    {elseif $providerConfig.providerId == 'anonymous'}
       <span class="firebaseui-idp-text firebaseui-idp-text-long">
         {msg desc="Label for a button to continue as a guest user.
             The long version"}
@@ -577,21 +579,26 @@
  * The list should match the supported provider IDs in Firebase Auth.
  */
 {template .idpName kind="text"}
-  {@param? providerId: string} /** The provider ID of the IdP. */
-  {switch $providerId}
-    {case 'google.com'}
-      {msg desc="Display name of the identity provider for Google sign-in."}Google{/msg}
-    {case 'github.com'}
-      {msg desc="Display name of the identity provider for GitHub sign-in."}GitHub{/msg}
-    {case 'facebook.com'}
-      {msg desc="Display name of the identity provider for Facebook sign-in."}Facebook{/msg}
-    {case 'twitter.com'}
-      {msg desc="Display name of the identity provider for Twitter sign-in."}Twitter{/msg}
-    {case 'anonymous'}
-      {msg desc="Display name of the identity provider for anonymous sign-in."}Guest{/msg}
-    {default}
-      {msg desc="Display name of the identity provider for password sign-in."}Password{/msg}
-  {/switch}
+  {@param? providerConfig: [providerId:string|null, providerName:string|null,
+      buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
+  {if $providerConfig.providerName}
+    {msg desc="Display name of the identity provider."}{$providerConfig.providerName}{/msg}
+  {else}
+    {switch $providerConfig.providerId}
+      {case 'google.com'}
+        {msg desc="Display name of the identity provider for Google sign-in."}Google{/msg}
+      {case 'github.com'}
+        {msg desc="Display name of the identity provider for GitHub sign-in."}GitHub{/msg}
+      {case 'facebook.com'}
+        {msg desc="Display name of the identity provider for Facebook sign-in."}Facebook{/msg}
+      {case 'twitter.com'}
+        {msg desc="Display name of the identity provider for Twitter sign-in."}Twitter{/msg}
+      {case 'anonymous'}
+        {msg desc="Display name of the identity provider for anonymous sign-in."}Guest{/msg}
+      {default}
+        {msg desc="Display name of the identity provider for password sign-in."}Password{/msg}
+    {/switch}
+  {/if}
 {/template}
 
 
@@ -600,8 +607,9 @@
  * The list should match the supported provider IDs in Firebase Auth.
  */
 {template .idpClass_ kind="text"}
-  {@param? providerId: string} /** The provider ID of the IdP. */
-  {switch $providerId}
+  {@param? providerConfig: [providerId:string|null, providerName:string|null,
+      buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
+  {switch $providerConfig.providerId}
     {case 'google.com'}
       firebaseui-idp-google
     {case 'github.com'}
@@ -614,8 +622,10 @@
       firebaseui-idp-phone
     {case 'anonymous'}
       firebaseui-idp-anonymous
-    {default}
+    {case 'password'}
       firebaseui-idp-password
+    {default}
+      firebaseui-idp-generic
   {/switch}
 {/template}
 
@@ -625,21 +635,26 @@
  * The list should match the supported provider IDs in Firebase Auth.
  */
 {template .idpLogo_ kind="uri"}
-  {@param? providerId: string} /** The provider ID of the IdP. */
-  {switch $providerId}
-    {case 'google.com'}
-      {$ij.googleLogo}
-    {case 'github.com'}
-      {$ij.githubLogo}
-    {case 'facebook.com'}
-      {$ij.facebookLogo}
-    {case 'twitter.com'}
-      {$ij.twitterLogo}
-    {case 'phone'}
-      {$ij.phoneLogo}
-    {case 'anonymous'}
-      {$ij.anonymousLogo}
-    {default}
-      {$ij.passwordLogo}
-  {/switch}
+  {@param? providerConfig: [providerId:string|null, providerName:string|null,
+      buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
+  {if $providerConfig.iconUrl}
+    {$providerConfig.iconUrl}
+  {else}
+    {switch $providerConfig.providerId}
+      {case 'google.com'}
+        {$ij.googleLogo}
+      {case 'github.com'}
+        {$ij.githubLogo}
+      {case 'facebook.com'}
+        {$ij.facebookLogo}
+      {case 'twitter.com'}
+        {$ij.twitterLogo}
+      {case 'phone'}
+        {$ij.phoneLogo}
+      {case 'anonymous'}
+        {$ij.anonymousLogo}
+      {default}
+        {$ij.passwordLogo}
+    {/switch}
+  {/if}
 {/template}

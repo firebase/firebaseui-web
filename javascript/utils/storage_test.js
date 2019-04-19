@@ -20,10 +20,10 @@ goog.provide('firebaseui.auth.storageTest');
 
 goog.require('firebaseui.auth.Account');
 goog.require('firebaseui.auth.PendingEmailCredential');
-goog.require('firebaseui.auth.idp');
 goog.require('firebaseui.auth.storage');
 goog.require('firebaseui.auth.util');
 goog.require('goog.net.cookies');
+goog.require('goog.object');
 goog.require('goog.storage.mechanism.HTML5LocalStorage');
 goog.require('goog.storage.mechanism.HTML5SessionStorage');
 goog.require('goog.storage.mechanism.mechanismfactory');
@@ -41,6 +41,7 @@ var stubs = new goog.testing.PropertyReplacer();
 var appId = 'glowing-heat-3485';
 var appId2 = 'flowing-water-9731';
 var mockCookieStorage = {};
+var firebase = firebase || {};
 
 
 function setUp() {
@@ -49,6 +50,14 @@ function setUp() {
       firebaseui.auth.storage.NAMESPACE_).clear();
   goog.storage.mechanism.mechanismfactory.createHTML5SessionStorage(
       firebaseui.auth.storage.NAMESPACE_).clear();
+  // Mock credential.
+  firebase['auth'] = firebase['auth'] || {
+    'AuthCredential': {
+      'fromJSON': function(json) {
+        return createMockCredential(json);
+      }
+    }
+  };
 }
 
 
@@ -100,6 +109,22 @@ function initializeCookieStorageMock(maxAge, path, domain, secure) {
         assertEquals(domain, actualDomain);
         delete mockCookieStorage[key];
       });
+}
+
+
+/**
+ * Returns a mock credential object with toJSON method.
+ * @param {!Object} credentialObject
+ * @return {!Object} The fake Auth credential.
+ */
+function createMockCredential(credentialObject) {
+  var copy = goog.object.clone(credentialObject);
+   goog.object.extend(credentialObject, {
+     'toJSON': function() {
+       return copy;
+     }
+   });
+   return credentialObject;
 }
 
 
@@ -303,24 +328,19 @@ function testRememberAccountAndGetRemoveRememberedAccounts_withAppId() {
 
 
 function testGetSetRemoveEmailPendingCredential_withAppId() {
-  // Just pass the credential object through for the test.
-  stubs.replace(
-      firebaseui.auth.idp,
-      'getAuthCredential',
-      function(obj) {return obj;});
   assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(appId));
   assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(appId2));
 
-  var cred = {
+  var cred = createMockCredential({
     'providerId': 'google.com',
     'idToken': 'ID_TOKEN'
-  };
+  });
   var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
       'user@example.com', cred);
-  var cred2 = {
+  var cred2 = createMockCredential({
     'providerId': 'facebook.com',
     'accessToken': 'ACCESS_TOKEN'
-  };
+  });
   var pendingEmailCred2 = new firebaseui.auth.PendingEmailCredential(
       'other@example.com', cred2);
   firebaseui.auth.storage.setPendingEmailCredential(pendingEmailCred, appId);
@@ -403,26 +423,21 @@ function testGetSetRemoveEmailForSignIn_withAppId() {
 
 function testGetSetRemoveEncryptedPendingCredential_withAppId() {
   initializeCookieStorageMock(3600, '/', null, false);
-  // Just pass the credential object through for the test.
-  stubs.replace(
-      firebaseui.auth.idp,
-      'getAuthCredential',
-      function(obj) {return obj;});
   assertFalse(firebaseui.auth.storage.hasEncryptedPendingCredential(appId));
   assertFalse(firebaseui.auth.storage.hasEncryptedPendingCredential(appId2));
 
   var key1 = firebaseui.auth.util.generateRandomAlphaNumericString(32);
   var key2 = firebaseui.auth.util.generateRandomAlphaNumericString(32);
-  var cred = {
+  var cred = createMockCredential({
     'providerId': 'google.com',
     'idToken': 'ID_TOKEN'
-  };
+  });
   var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
       'user@example.com', cred);
-  var cred2 = {
+  var cred2 = createMockCredential({
     'providerId': 'facebook.com',
     'accessToken': 'ACCESS_TOKEN'
-  };
+  });
   var pendingEmailCred2 = new firebaseui.auth.PendingEmailCredential(
       'other@example.com', cred2);
   firebaseui.auth.storage.setEncryptedPendingCredential(

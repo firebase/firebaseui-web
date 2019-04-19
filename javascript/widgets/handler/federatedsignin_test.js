@@ -55,7 +55,7 @@ function testHandleFederatedSignIn_cordova() {
   // Add additional scopes to test they are properly passed to sign-in method.
   // Simulate a Cordova environment.
   simulateCordovaEnvironment();
-  var cred  = firebaseui.auth.idp.getAuthCredential({
+  var cred = createMockCredential({
     'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   });
@@ -135,9 +135,26 @@ function testHandleFederatedSignIn_error_cordova() {
 }
 
 
+function testHandleFederatedSignIn_genericLoginHint() {
+  // Since Microsoft's signInOptions include a loginHintKey definition,
+  // a login_hint should be set in the customParameters.
+  var expectedProvider =
+      getExpectedProviderWithCustomParameters('microsoft.com',
+          {'login_hint': 'user@outlook.com'});
+  firebaseui.auth.widget.handler.handleFederatedSignIn(
+      app, container, 'user@outlook.com', 'microsoft.com');
+  assertFederatedLinkingPage();
+  submitForm();
+  testAuth.assertSignInWithRedirect(
+      [expectedProvider]);
+  return testAuth.process();
+}
+
+
 function testHandleFederatedSignIn_noLoginHint() {
-  // Add additional scopes to test they are properly passed to sign-in method.
-  // As this is not google.com, no customParameters will be set.
+  // Since Facebook is a default provider which does not support a login_hint
+  // (and a loginHintKey definition is not set for it in signInOptions),
+  // a login_hint should not be set in the customParameters.
   var expectedProvider =
       getExpectedProviderWithCustomParameters('facebook.com');
   firebaseui.auth.widget.handler.handleFederatedSignIn(
@@ -162,9 +179,51 @@ function testHandleFederatedSignIn_popup_success() {
       app, container, 'user@gmail.com', 'google.com');
   assertFederatedLinkingPage();
   submitForm();
-  var cred  = {
+  var cred = {
     'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
+  };
+  // User should be signed in.
+  testAuth.setUser({
+    'email': federatedAccount.getEmail(),
+    'displayName': federatedAccount.getDisplayName()
+  });
+  testAuth.assertSignInWithPopup(
+      [expectedProvider],
+      {
+        'user': testAuth.currentUser,
+        'credential': cred
+      });
+  // Sign out from internal instance and then sign in with passed credential to
+  // external instance.
+  return testAuth.process().then(function() {
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
+    return externalAuth.process();
+  }).then(function() {
+    // User should be redirected to success URL.
+    testUtil.assertGoTo('http://localhost/home');
+  });
+}
+
+
+function testHandleFederatedSignIn_popup_success_saml() {
+  // Successful federated sign in with popup for SAML provider.
+  app.updateConfig('signInFlow', 'popup');
+  var expectedProvider = firebaseui.auth.idp.getAuthProvider('saml.provider');
+  firebaseui.auth.widget.handler.handleFederatedSignIn(
+      app, container, 'user@gmail.com', 'saml.provider');
+  assertFederatedLinkingPage();
+  submitForm();
+  var cred  = {
+    'providerId': 'saml.provider',
+    'pendingToken': 'PENDING_TOKEN'
   };
   // User should be signed in.
   testAuth.setUser({

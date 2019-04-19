@@ -42,7 +42,7 @@ firebaseui.auth.widget.handler.handleFederatedSignIn = function(
     app, container, email, providerId, opt_infoBarMessage) {
   var component = new firebaseui.auth.ui.page.FederatedLinking(
       email,
-      providerId,
+      app.getConfig().getConfigForProvider(providerId),
       // On submit.
       function() {
         // Pass the email since some OAuth providers support OAuth flow
