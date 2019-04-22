@@ -1,3 +1,0 @@
-feature - Added supported for generic OAuth providers including `Microsoft` and `Yahoo`.
-feature - Added supported for OIDC providers for Google Cloud's Identity Platform developers.
-feature - Added supported for SAML providers for Google Cloud's Identity Platform developers.
