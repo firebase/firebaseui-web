@@ -68,17 +68,17 @@ Localized versions of the widget are available through the CDN. To use a localiz
 localized JS library instead of the default library:
 
 ```html
-<script src="https://www.gstatic.com/firebasejs/ui/3.5.2/firebase-ui-auth__{LANGUAGE_CODE}.js"></script>
-<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/3.5.2/firebase-ui-auth.css" />
+<script src="https://www.gstatic.com/firebasejs/ui/3.6.0/firebase-ui-auth__{LANGUAGE_CODE}.js"></script>
+<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/3.6.0/firebase-ui-auth.css" />
 ```
 
 where `{LANGUAGE_CODE}` is replaced by the code of the language you want. For example, the French
 version of the library is available at
-`https://www.gstatic.com/firebasejs/ui/3.5.2/firebase-ui-auth__fr.js`. The list of available
+`https://www.gstatic.com/firebasejs/ui/3.6.0/firebase-ui-auth__fr.js`. The list of available
 languages and their respective language codes can be found at [LANGUAGES.md](LANGUAGES.md).
 
 Right-to-left languages also require the right-to-left version of the stylesheet, available at
-`https://www.gstatic.com/firebasejs/ui/3.5.2/firebase-ui-auth-rtl.css`, instead of the default
+`https://www.gstatic.com/firebasejs/ui/3.6.0/firebase-ui-auth-rtl.css`, instead of the default
 stylesheet. The supported right-to-left languages are Arabic (ar), Farsi (fa), and Hebrew (iw).
 
 ### Option 2: npm Module
@@ -157,6 +157,15 @@ provider you want to use in their own developer app settings. Please read the
 - [Github](https://firebase.google.com/docs/auth/web/github-auth#before_you_begin)
 - [Anonymous](https://firebase.google.com/docs/auth/web/anonymous-auth#before_you_begin)
 - [Email link](https://firebase.google.com/docs/auth/web/email-link-auth#before_you_begin)
+- [Microsoft](https://firebase.google.com/docs/auth/web/microsoft-oauth)
+- [Yahoo](https://firebase.google.com/docs/auth/web/yahoo-oauth)
+
+For [Google Cloud's Identity Platform (GCIP)](https://cloud.google.com/identity-cp/)
+developers, you can also enable SAML and OIDC providers following the
+instructions:
+
+- [SAML](https://cloud.google.com/identity-cp/docs/how-to-enable-application-for-saml)
+- [OIDC](https://cloud.google.com/identity-cp/docs/how-to-enable-application-for-oidc)
 
 ### Starting the sign-in flow
 
@@ -527,6 +536,10 @@ To see FirebaseUI in action with one-tap sign-up, check out the FirebaseUI
 |Email and password|`firebase.auth.EmailAuthProvider.PROVIDER_ID`   |
 |Phone number      |`firebase.auth.PhoneAuthProvider.PROVIDER_ID`   |
 |Anonymous         |`firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID`|
+|Microsoft         |`microsoft.com`                                 |
+|Yahoo             |`yahoo.com`                                     |
+|SAML (GCIP only)  |`saml.*********`                               |
+|OIDC (GCIP only)  |`oidc.*********`                               |
 
 ### Configure OAuth providers
 
@@ -566,15 +579,252 @@ ui.start('#firebaseui-auth-container', {
 });
 ```
 
+#### Generic OAuth provider
+
+You can let your users authenticate with FirebaseUI using OAuth providers like
+[Microsoft Azure Active Directory](https://firebase.google.com/docs/auth/web/microsoft-oauth)
+and [Yahoo](https://firebase.google.com/docs/auth/web/yahoo-oauth)
+by integrating generic OAuth Login into your app.
+
+Generic OAuth providers' `signInOptions` support the following configuration
+parameters.
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>provider</td>
+<td>Yes</td>
+<td>The provider ID, eg. <code>microsoft.com</code>.</td>
+</tr>
+<tr>
+<td>providerName</td>
+<td>No</td>
+<td>
+  The provider name displayed to end users (sign in button/linking prompt),
+  eg. "Microsoft"
+  <em>Default:</em>
+  <code>provider ID</code>
+</td>
+</tr>
+<tr>
+<td>buttonColor</td>
+<td>Yes</td>
+<td>
+  The color of sign in button. The css of the button can be overwritten with
+  the attribute/value in the HTML element:
+  <code>data-provider-id="providerId"</code>
+</td>
+</tr>
+<tr>
+<td>iconUrl</td>
+<td>Yes</td>
+<td>
+  The URL of the Identity Provider's icon. This will be displayed on the
+  provider's sign-in button, etc.
+</td>
+</tr>
+<tr>
+<td>scopes</td>
+<td>No</td>
+<td>
+  The list of additional OAuth 2.0 scopes beyond basic profile that you want to
+  request from the authentication provider.
+</td>
+</tr>
+<tr>
+<td>customParameters</td>
+<td>No</td>
+<td>
+  The list of additional custom OAuth parameters that you want to send with the
+  OAuth request.
+</td>
+</tr>
+<tr>
+<td>loginHintKey</td>
+<td>No</td>
+<td>
+  The key of the custom parameter, with which the login hint can be passed to
+  the provider. This is useful in case a user previously signs up with an IdP
+  like Microsoft and then tries to sign in with email using the same Microsoft
+  email. FirebaseUI can then ask the user to sign in with that email to the
+  already registered account with Microsoft. For Microsoft and Yahoo,
+  this field is `login_hint`.
+</td>
+</tr>
+</tbody>
+</table>
+
+```javascript
+ui.start('#firebaseui-auth-container', {
+  signInOptions: [
+    {
+      provider: 'microsoft.com',
+      providerName: 'Microsoft',
+      buttonColor: '#2F2F2F',
+      iconUrl: '<icon-url-of-sign-in-button>',
+      loginHintKey: 'login_hint'
+      scopes: [
+        'mail.read'
+      ],
+      customParameters: {
+        prompt: 'consent'
+      }
+    }
+  ]
+});
+```
+
+### OpenID Connect (OIDC) providers (GCIP only)
+
+For [GCIP](https://cloud.google.com/identity-cp) customers, you can enable your app for
+[OpenID Connect (OIDC)](https://cloud.google.com/identity-cp/docs/how-to-enable-application-for-oidc)
+authentication with FirebaseUI.
+
+OIDC providers' `signInOptions` support the following configuration parameters.
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>provider</td>
+<td>Yes</td>
+<td>The provider ID, eg. <code>oidc.myProvider</code>.</td>
+</tr>
+<tr>
+<td>providerName</td>
+<td>No</td>
+<td>
+  The provider name displayed to end users (sign in button/linking prompt).
+  <em>Default:</em>
+  <code>provider ID</code>
+</td>
+</tr>
+<tr>
+<td>buttonColor</td>
+<td>Yes</td>
+<td>
+  The color of sign in button. The css of the button can be overwritten with
+  attribute/value in the HTML element:
+  <code>data-provider-id="providerId"</code>
+</td>
+</tr>
+<tr>
+<td>iconUrl</td>
+<td>Yes</td>
+<td>
+  The URL of the Identity Provider's icon. This will be displayed on the
+  provider's sign-in button, etc.
+</td>
+</tr>
+<tr>
+<td>customParameters</td>
+<td>No</td>
+<td>
+  The list of additional custom parameters that the OIDC provider supports.
+</td>
+</tr>
+</tbody>
+</table>
+
+```javascript
+ui.start('#firebaseui-auth-container', {
+  signInOptions: [
+    {
+      provider: 'oidc.myProvider`,
+      providerName: 'MyOIDCProvider',
+      buttonColor: '#2F2F2F',
+      iconUrl: '<icon-url-of-sign-in-button>',
+      customParameters: {
+        OIDCSupportedParameter: 'value'
+      }
+    }
+  ]
+});
+```
+
+### SAML providers (GCIP only)
+
+For [GCIP](https://cloud.google.com/identity-cp) customers, you can enable your app for
+[SAML](https://cloud.google.com/identity-cp/docs/how-to-enable-application-for-saml)
+authentication with FirebaseUI.
+
+SAML providers' `signInOptions` support the following configuration parameters.
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>provider</td>
+<td>Yes</td>
+<td>The provider ID, eg. <code>saml.myProvider</code>.</td>
+</tr>
+<tr>
+<td>providerName</td>
+<td>No</td>
+<td>
+  The provider name displayed to end users (sign in button/linking prompt).
+  <em>Default:</em>
+  <code>provider ID</code>
+</td>
+</tr>
+<tr>
+<td>buttonColor</td>
+<td>Yes</td>
+<td>
+  The color of sign in button. The css of the button can be overwritten with
+  attribute/value in the HTML element:
+  <code>data-provider-id="providerId"</code>
+</td>
+</tr>
+<tr>
+<td>iconUrl</td>
+<td>Yes</td>
+<td>
+  The URL of the Identity Provider's icon. This will be displayed on the
+  provider's sign-in button, etc.
+</td>
+</tr>
+</tbody>
+</table>
+
+```javascript
+ui.start('#firebaseui-auth-container', {
+  signInOptions: [
+    {
+      provider: 'saml.myProvider',
+      providerName: 'MySAMLProvider',
+      buttonColor: '#2F2F2F',
+      iconUrl: '<icon-url-of-sign-in-button>'
+    }
+  ]
+});
+```
+
 ### Configure Email Provider
 
 You can configure either email/password or email/link sign-in with FirebaseUI by
 providing the relevant object in the configuration <code>signInOptions</code>
 array.
 
-<table>
-<thead>
-<tr>
 <table>
 <thead>
 <tr>
@@ -1369,6 +1619,10 @@ the incoming link when the user clicks it to complete sign-in.
 |Github            |`firebase.auth.GithubAuthProvider.PROVIDER_ID`  |
 |Email and password|`firebase.auth.EmailAuthProvider.PROVIDER_ID`   |
 |Anonymous         |`firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID`|
+|Microsoft         |`microsoft.com`                                |
+|Yahoo             |`yahoo.com`                                     |
+|SAML (GCIP only)  |`saml.*********`                               |
+|OIDC (GCIP only)  |`oidc.*********`                               |
 
 ### Setup and Usage
 
