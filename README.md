@@ -7,8 +7,9 @@ customizable UI bindings on top of [Firebase](https://firebase.google.com) SDKs
 to eliminate boilerplate code and promote best practices.
 
 FirebaseUI Auth provides a drop-in auth solution that handles the UI flows for
-signing in users with email addresses and passwords, and Identity Provider Sign
-In using Google, Facebook and others. It is built on top of
+signing in users with email addresses and passwords, phone numbers, Identity
+Provider Sign In including Google, Facebook, GitHub, Twitter, Microsoft, Yahoo,
+OpenID Connect (OIDC) providers and SAML providers. It is built on top of
 [Firebase Auth](https://firebase.google.com/docs/auth).
 
 The FirebaseUI component implements best practices for authentication on mobile
@@ -21,10 +22,11 @@ FirebaseUI Auth clients are also available for
 [Android](https://github.com/firebase/firebaseui-android).
 
 FirebaseUI fully supports all recent browsers. Signing in with federated
-providers (Google, Facebook, Twitter, Github) is also supported in
-Cordova/Ionic environments. Additional non-browser environments (React
-Native...) or Chrome extensions will be added once the underlying Firebase core
-SDK supports them in a way that is compatible with FirebaseUI.
+providers (Google, Facebook, Twitter, GitHub, Microsoft, Yahoo, OIDC, SAML) is
+also supported in Cordova/Ionic environments. Additional non-browser
+environments(React Native...) or Chrome extensions will be added once the
+underlying Firebase core SDK supports them in a way that is compatible with
+FirebaseUI.
 
 ## Table of Contents
 
