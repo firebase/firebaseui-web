@@ -386,7 +386,8 @@ firebaseui.auth.widget.Config.prototype.getProviderConfigs = function() {
     } else {
       return {
         providerId: option['provider'],
-        providerName: option['providerName'] || null,
+        // ProviderName should default to providerId if not provided.
+        providerName: option['providerName'] || option['provider'],
         buttonColor: option['buttonColor'] || null,
         iconUrl: option['iconUrl'] ?
             firebaseui.auth.util.sanitizeUrl(option['iconUrl']) : null,

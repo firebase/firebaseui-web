@@ -284,7 +284,6 @@ function testGetProviderConfigs() {
     {'not a': 'valid config'},
     {
       'provider': 'yahoo.com',
-      'providerName': 'Yahoo',
       'buttonColor': '#FFB6C1',
       'iconUrl': '<url-of-the-icon-of-the-sign-in-button>'
     }
@@ -306,7 +305,8 @@ function testGetProviderConfigs() {
   }, providerConfigs[2]);
   assertObjectEquals({
     providerId: 'yahoo.com',
-    providerName: 'Yahoo',
+    // ProviderName should default to providerId if not provided.
+    providerName: 'yahoo.com',
     buttonColor: '#FFB6C1',
     iconUrl: '<url-of-the-icon-of-the-sign-in-button>',
     loginHintKey: null
