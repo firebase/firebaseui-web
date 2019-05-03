@@ -1,0 +1,2 @@
+fixed - Fixed the issue that the providerName of generic OAuth, OIDC and SAML providers not defaults to providerId.
+fixed - Added externs and typescript type declaration for generic OAuth, OIDC and SAML providers sign-in options.
