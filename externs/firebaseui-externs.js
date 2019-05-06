@@ -377,6 +377,143 @@ firebaseui.auth.FederatedSignInOption.prototype.scopes;
  */
 firebaseui.auth.FederatedSignInOption.prototype.customParameters;
 
+
+/**
+ * Defines the sign-in option needed to configure the FirebaseUI SAML
+ * sign-in widget.
+ *
+ * @interface
+ * @extends {firebaseui.auth.SignInOption}
+ */
+firebaseui.auth.SamlSignInOption = function() {};
+
+/**
+ * The provider name displayed to end users
+ * (sign-in button label/linking prompt).
+ * Default: provider ID
+ *
+ * @type {string|undefined}
+ */
+firebaseui.auth.SamlSignInOption.prototype.providerName;
+
+/**
+ * The color of the sign-in button.
+ *
+ * @type {string}
+ */
+firebaseui.auth.SamlSignInOption.prototype.buttonColor;
+
+/**
+ * The URL of the Identity Provider's icon. This will be displayed on the
+ * provider's sign-in button, etc.
+ *
+ * @type {string}
+ */
+firebaseui.auth.SamlSignInOption.prototype.iconUrl;
+
+
+/**
+ * Defines the sign-in option needed to configure the FirebaseUI generic OAuth
+ * sign-in widget.
+ *
+ * @interface
+ * @extends {firebaseui.auth.SignInOption}
+ */
+firebaseui.auth.OAuthSignInOption = function() {};
+
+/**
+ * The provider name displayed to end users
+ * (sign-in button label/linking prompt),
+ * eg. "Microsoft". Default: provider ID, eg. "microsoft.com"
+ *
+ * @type {string|undefined}
+ */
+firebaseui.auth.OAuthSignInOption.prototype.providerName;
+
+/**
+ * The color of the sign-in button.
+ *
+ * @type {string}
+ */
+firebaseui.auth.OAuthSignInOption.prototype.buttonColor;
+
+/**
+ * The URL of the Identity Provider's icon. This will be displayed on the
+ * provider's sign-in button, etc.
+ *
+ * @type {string}
+ */
+firebaseui.auth.OAuthSignInOption.prototype.iconUrl;
+
+/**
+ * The list of additional OAuth 2.0 scopes beyond basic profile that you want
+ * to request from the authentication provider.
+ *
+ * @type {!Array<string>|undefined}
+ */
+firebaseui.auth.OAuthSignInOption.prototype.scopes;
+
+/**
+ * The custom OAuth parameters for the selected OAuth provider.
+ *
+ * @type {!Object|undefined}
+ */
+firebaseui.auth.OAuthSignInOption.prototype.customParameters;
+
+/**
+ * The key of the custom parameter, with which the login hint can be passed to
+ * the provider. This is useful in case a user previously signs up with an IdP
+ * like Microsoft and then tries to sign in with email using the same Microsoft
+ * email. FirebaseUI can then ask the user to sign in with that email to the
+ * already registered account with Microsoft. For Microsoft and Yahoo, this
+ * field is `login_hint`.
+ *
+ * @type {string|undefined}
+ */
+firebaseui.auth.OAuthSignInOption.prototype.loginHintKey;
+
+
+/**
+ * Defines the sign-in option needed to configure the FirebaseUI OIDC
+ * sign-in widget.
+ *
+ * @interface
+ * @extends {firebaseui.auth.SignInOption}
+ */
+firebaseui.auth.OidcSignInOption = function() {};
+
+/**
+ * The provider name displayed to end users
+ * (sign-in button label/linking prompt).
+ * Default: provider ID
+ *
+ * @type {string|undefined}
+ */
+firebaseui.auth.OidcSignInOption.prototype.providerName;
+
+/**
+ * The color of the sign-in button.
+ *
+ * @type {string}
+ */
+firebaseui.auth.OidcSignInOption.prototype.buttonColor;
+
+/**
+ * The URL of the Identity Provider's icon. This will be displayed on the
+ * provider's sign-in button, etc.
+ *
+ * @type {string}
+ */
+firebaseui.auth.OidcSignInOption.prototype.iconUrl;
+
+/**
+ * The list of additional custom parameters that the OIDC provider supports.
+ *
+ * @type {!Object|undefined}
+ */
+firebaseui.auth.OidcSignInOption.prototype.customParameters;
+
+
 /**
  * Defines the sign-in option needed to configure the FirebaseUI email sign-in
  * widget.

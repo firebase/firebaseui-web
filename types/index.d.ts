@@ -32,12 +32,39 @@ interface SignInOption {
   provider: string;
 }
 
+
+interface SamlSignInOption extends SignInOption {
+  providerName?: string;
+  buttonColor: string;
+  iconUrl: string;
+}
+
+
 interface FederatedSignInOption extends SignInOption {
   authMethod?: string;
   clientId?: string;
   scopes?: string[];
   customParameters?: object;
 }
+
+
+interface OAuthSignInOption extends SignInOption {
+  providerName?: string;
+  buttonColor: string;
+  iconUrl: string;
+  scopes?: string[];
+  customParameters?: object;
+  loginHintKey?: string;
+}
+
+
+interface OidcSignInOption extends SignInOption {
+  providerName?: string;
+  buttonColor: string;
+  iconUrl: string;
+  customParameters?: object;
+}
+
 
 interface ActionCodeSettings {
   url: string;
@@ -83,8 +110,9 @@ declare namespace firebaseui.auth {
     queryParameterForSignInSuccessUrl?: string;
     queryParameterForWidgetMode?: string;
     signInFlow?: string;
-    signInOptions?: Array<string
-      | FederatedSignInOption | EmailSignInOption | PhoneSignInOption>;
+    signInOptions?:
+        Array<string|FederatedSignInOption|EmailSignInOption|PhoneSignInOption|
+              SamlSignInOption|OAuthSignInOption|OidcSignInOption>;
     signInSuccessUrl?: string;
     siteName?: string;
     tosUrl?: (() => void) | string;
