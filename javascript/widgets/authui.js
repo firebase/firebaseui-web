@@ -56,6 +56,8 @@ goog.require('firebaseui.auth.widget.handler.handleEmailVerification');
 /** @suppress {extraRequire} */
 goog.require('firebaseui.auth.widget.handler.handleFederatedLinking');
 /** @suppress {extraRequire} */
+goog.require('firebaseui.auth.widget.handler.handleFederatedRedirect');
+/** @suppress {extraRequire} */
 goog.require('firebaseui.auth.widget.handler.handleFederatedSignIn');
 /** @suppress {extraRequire} */
 goog.require('firebaseui.auth.widget.handler.handlePasswordLinking');

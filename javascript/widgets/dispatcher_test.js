@@ -629,6 +629,56 @@ function testDispatchOperation_callback_noPendingRedirect() {
 }
 
 
+function testDispatchOperation_callback_canSkipNascarScreen() {
+  // Checks to make sure that when immediateFederatedRedirect is true
+  // and all the correct options are set, the 'nascar' sign-in screen will
+  // be skipped.
+  var element = goog.dom.createElement('div');
+  setModeAndUrlParams(firebaseui.auth.widget.Config.WidgetMode.CALLBACK);
+  // Simulate app not returning from redirect sign-in operation.
+  firebaseui.auth.storage.removePendingRedirectStatus(app.getAppId());
+  // In order for an immediate redirect to succeed all of the following
+  // options must be set:
+  app.setConfig({
+    'immediateFederatedRedirect': true,
+    'signInOptions': [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
+    'signInFlow': firebaseui.auth.widget.Config.SignInFlow.REDIRECT
+  });
+  firebaseui.auth.widget.dispatcher.dispatchOperation(app, element);
+  // The federated redirect handler should trigger.
+  assertHandlerInvoked(
+      firebaseui.auth.widget.HandlerName.FEDERATED_REDIRECT,
+      app,
+      element);
+}
+
+
+function testDispatchOperation_callback_canShowNascarScreen() {
+  // Checks to make sure that even if immediateFederatedRedirect is true
+  // unless all the correct options are set, the 'nascar' sign-in screen will
+  // not be skipped.
+  var element = goog.dom.createElement('div');
+  setModeAndUrlParams(firebaseui.auth.widget.Config.WidgetMode.CALLBACK);
+  // Simulate app not returning from redirect sign-in operation.
+  firebaseui.auth.storage.removePendingRedirectStatus(app.getAppId());
+  // The immediate redirect should not be triggered (since there is more
+  // than one federated provider and it is using a popup).
+  app.setConfig({
+    'immediateFederatedRedirect': true,
+    'signInOptions': [
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      firebase.auth.FacebookAuthProvider.PROVIDER_ID],
+    'signInFlow': firebaseui.auth.widget.Config.SignInFlow.POPUP
+  });
+  firebaseui.auth.widget.dispatcher.dispatchOperation(app, element);
+  // The normal provider sign in handler 'nascar' screen should be rendered.
+  assertHandlerInvoked(
+      firebaseui.auth.widget.HandlerName.PROVIDER_SIGN_IN,
+      app,
+      element);
+}
+
+
 function testDispatchOperation_revokeChangeEmail() {
   var element = goog.dom.createElement('div');
   setModeAndUrlParams(

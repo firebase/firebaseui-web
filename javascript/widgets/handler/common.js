@@ -976,7 +976,21 @@ firebaseui.auth.widget.handler.common.federatedSignIn = function(
     firebaseui.auth.log.error('signInWithRedirect: ' + error['code']);
     var errorMessage = firebaseui.auth.widget.handler.common.getErrorMessage(
         error);
-    component.showInfoBar(errorMessage);
+    // If the page was previously blank because the 'nascar' screen is being
+    // skipped, then the provider sign-in 'nascar' screen needs to be shown
+    // along with the error message. Otherwise, the error message can simply
+    // be added to the info bar.
+    if (component.getPageId() == 'blank' &&
+        app.getConfig().federatedProviderShouldImmediatelyRedirect()) {
+      component.dispose();
+      firebaseui.auth.widget.handler.handle(
+          firebaseui.auth.widget.HandlerName.PROVIDER_SIGN_IN,
+          app,
+          container,
+          errorMessage);
+    } else {
+      component.showInfoBar(errorMessage);
+    }
   };
   // Error handler for signInWithPopup and getRedirectResult on Cordova.
   var signInResultErrorCallback = function(error) {
@@ -1399,8 +1413,18 @@ firebaseui.auth.widget.handler.common.handleSignInStart = function(
     // which would trigger an info bar message.
     firebaseui.auth.widget.handler.handle(
         firebaseui.auth.widget.HandlerName.PHONE_SIGN_IN_START, app, container);
+  } else if (app &&
+      app.getConfig().federatedProviderShouldImmediatelyRedirect() &&
+      !opt_infoBarMessage) {
+    // If there is an info bar message available, the 'nascar' screen cannot be
+    // skipped since the message or error must be shown to the user.
+    firebaseui.auth.widget.handler.handle(
+        firebaseui.auth.widget.HandlerName.FEDERATED_REDIRECT,
+        app,
+        container);
   } else {
-    // For all other cases, show the provider sign-in screen.
+    // For all other cases, show the provider sign-in screen along with any
+    // info bar messages that need to be shown to the user.
     firebaseui.auth.widget.handler.handle(
         firebaseui.auth.widget.HandlerName.PROVIDER_SIGN_IN,
         app,
