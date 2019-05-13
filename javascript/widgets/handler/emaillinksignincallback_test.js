@@ -660,7 +660,7 @@ function testHandleEmailLinkSignInCallback_noUpgradeWithCredential_success() {
     return testAuth.process();
   }).then(function() {
     // pendingCredential should be linked to internal user.
-    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+    testAuth.currentUser.assertLinkWithCredential(
         [credential],
         function() {
           return {
@@ -746,7 +746,7 @@ function testHandleEmailLinkSignInCallback_anonUpgrade_success() {
         });
     return testAuth.process();
   }).then(function() {
-    externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+    externalAuth.currentUser.assertLinkWithCredential(
         [emailLinkCredential],
         function() {
           // Mock signed in user.
@@ -893,7 +893,7 @@ function testHandleEmailLinkSignInCallback_anonUpgradeWithCredential() {
         });
     return testAuth.process();
   }).then(function() {
-    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+    testAuth.currentUser.assertLinkWithCredential(
         [credential],
         function() {
           return {

@@ -77,7 +77,7 @@ function assertSuccessfulPasswordLinking(credential) {
             'isNewUser': false
           }
         };
-        testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+        testAuth.currentUser.assertLinkWithCredential(
             [credential], expectedUserCredential);
         return {
           'user': testAuth.currentUser,
@@ -156,7 +156,7 @@ function testHandlePasswordLinking_upgradeAnonymous() {
   }).then(function() {
     // Assert existing credential linking triggered expected error on external
     // anonymous user.
-    externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+    externalAuth.currentUser.assertLinkWithCredential(
         [credential],
         null,
         expectedError);
@@ -175,7 +175,7 @@ function testHandlePasswordLinking_upgradeAnonymous() {
 
 function testHandlePasswordLinking_upgradeAnon_signInSuccessWithAuthResult() {
   setPendingEmailCredentials();
-  // Expected linkAndRetrieveDataWithCredential error.
+  // Expected linkWithCredential error.
   var expectedError = {
     'code': 'auth/credential-already-in-use',
     'credential': credential,
@@ -214,7 +214,7 @@ function testHandlePasswordLinking_upgradeAnon_signInSuccessWithAuthResult() {
   }).then(function() {
     // Assert existing credential linking triggered expected error on external
     // anonymous user.
-    externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+    externalAuth.currentUser.assertLinkWithCredential(
         [credential],
         null,
         expectedError);

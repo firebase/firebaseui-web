@@ -262,12 +262,12 @@ function testHandleProviderSignIn_oneTap_unhandled_withoutScopes() {
         expectedHandlerStatus = status;
       });
   // Since no additional scopes are requested,
-  // signInAndRetrieveDataWithCredential should be called to handle the
+  // signInWithCredential should be called to handle the
   // ID token returned by googleyolo.
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
       googleYoloIdTokenCredential.idToken);
-  // Simulate an error encountered in signInAndRetrieveDataWithCredential.
-  testAuth.assertSignInAndRetrieveDataWithCredential(
+  // Simulate an error encountered in signInWithCredential.
+  testAuth.assertSignInWithCredential(
       [expectedCredential],
       null,
       internalError);
@@ -342,7 +342,7 @@ function testHandleProviderSignIn_oneTap_handledSuccessfully_withoutScopes() {
         expectedHandlerStatus = status;
       });
   // Since no additional scopes are requested,
-  // signInAndRetrieveDataWithCredential should be called to handle the
+  // signInWithCredential should be called to handle the
   // ID token returned by googleyolo.
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
       googleYoloIdTokenCredential.idToken);
@@ -356,9 +356,9 @@ function testHandleProviderSignIn_oneTap_handledSuccessfully_withoutScopes() {
     'email': federatedAccount.getEmail(),
     'displayName': federatedAccount.getDisplayName()
   });
-  // signInAndRetrieveDataWithCredential should be called with the expected
+  // signInWithCredential should be called with the expected
   // credential and simulate a successful sign in operation.
-  testAuth.assertSignInAndRetrieveDataWithCredential(
+  testAuth.assertSignInWithCredential(
       [expectedCredential],
       {
         'user': testAuth.currentUser,
@@ -424,15 +424,15 @@ function testHandleProviderSignIn_oneTap_upgradeAnonymous_withoutScopes() {
         expectedHandlerStatus = status;
       });
   // Since no additional scopes are requested,
-  // linkAndRetrieveDataWithCredential should be called to handle the
+  // linkWithCredential should be called to handle the
   // ID token returned by googleyolo.
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
       googleYoloIdTokenCredential.idToken);
   // Trigger onAuthStateChanged listener.
   externalAuth.runAuthChangeHandler();
-  // linkAndRetrieveDataWithCredential should be called with the expected
+  // linkWithCredential should be called with the expected
   // credential and simulate a successful sign in operation.
-  externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+  externalAuth.currentUser.assertLinkWithCredential(
       [expectedCredential],
       function() {
         // Simulate non-anonymous user successfully signed in.
@@ -488,11 +488,11 @@ function testHandleProviderSignIn_oneTap_upgradeAnon_noScopes_credInUse() {
         expectedHandlerStatus = status;
       });
   // Since no additional scopes are requested,
-  // linkAndRetrieveDataWithCredential should be called to handle the
+  // linkWithCredential should be called to handle the
   // ID token returned by googleyolo.
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
       googleYoloIdTokenCredential.idToken);
-  // Expected linkAndRetrieveDataWithCredential error.
+  // Expected linkWithCredential error.
   var expectedError = {
     'code': 'auth/credential-already-in-use',
     'credential': expectedCredential,
@@ -506,9 +506,9 @@ function testHandleProviderSignIn_oneTap_upgradeAnon_noScopes_credInUse() {
       expectedCredential);
   // Trigger onAuthStateChanged listener.
   externalAuth.runAuthChangeHandler();
-  // linkAndRetrieveDataWithCredential should be called with the expected
+  // linkWithCredential should be called with the expected
   // credential and simulate the expected error thrown.
-  externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+  externalAuth.currentUser.assertLinkWithCredential(
       [expectedCredential],
       null,
       expectedError);
@@ -554,7 +554,7 @@ function testHandleProviderSignIn_oneTap_upgradeAnon_noScopes_fedEmailInUse() {
         expectedHandlerStatus = status;
       });
   // Since no additional scopes are requested,
-  // linkAndRetrieveDataWithCredential should be called to handle the
+  // linkWithCredential should be called to handle the
   // ID token returned by googleyolo.
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
       googleYoloIdTokenCredential.idToken);
@@ -571,9 +571,9 @@ function testHandleProviderSignIn_oneTap_upgradeAnon_noScopes_fedEmailInUse() {
           googleYoloIdTokenCredential.idToken, null));
   // Trigger onAuthStateChanged listener.
   externalAuth.runAuthChangeHandler();
-  // linkAndRetrieveDataWithCredential should be called with the expected
+  // linkWithCredential should be called with the expected
   // credential and simulate an email already in use error.
-  externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+  externalAuth.currentUser.assertLinkWithCredential(
       [expectedCredential],
       null,
       expectedError);
@@ -624,7 +624,7 @@ function testHandleProviderSignIn_oneTap_upgradeAnon_noScopes_passEmailInUse() {
         expectedHandlerStatus = status;
       });
   // Since no additional scopes are requested,
-  // linkAndRetrieveDataWithCredential should be called to handle the
+  // linkWithCredential should be called to handle the
   // ID token returned by googleyolo.
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
       googleYoloIdTokenCredential.idToken);
@@ -641,9 +641,9 @@ function testHandleProviderSignIn_oneTap_upgradeAnon_noScopes_passEmailInUse() {
           googleYoloIdTokenCredential.idToken, null));
   // Trigger onAuthStateChanged listener.
   externalAuth.runAuthChangeHandler();
-  // linkAndRetrieveDataWithCredential should be called with the expected
+  // linkWithCredential should be called with the expected
   // credential and simulate an email already in user error thrown.
-  externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+  externalAuth.currentUser.assertLinkWithCredential(
       [expectedCredential],
       null,
       expectedError);

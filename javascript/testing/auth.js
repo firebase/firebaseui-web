@@ -189,24 +189,13 @@ FakeAuthClient.AuthAsyncMethod = {
   APPLY_ACTION_CODE: 'applyActionCode',
   CHECK_ACTION_CODE: 'checkActionCode',
   CONFIRM_PASSWORD_RESET: 'confirmPasswordReset',
-  CREATE_USER_AND_RETRIEVE_DATA_WITH_EMAIL_AND_PASSWORD:
-      'createUserAndRetrieveDataWithEmailAndPassword',
   CREATE_USER_WITH_EMAIL_AND_PASSWORD: 'createUserWithEmailAndPassword',
-  FETCH_PROVIDERS_FOR_EMAIL: 'fetchProvidersForEmail',
   FETCH_SIGN_IN_METHODS_FOR_EMAIL: 'fetchSignInMethodsForEmail',
   GET_REDIRECT_RESULT: 'getRedirectResult',
   IS_SIGN_IN_WITH_EMAIL_LINK: 'isSignInWithEmailLink',
   SEND_PASSWORD_RESET_EMAIL: 'sendPasswordResetEmail',
   SEND_SIGN_IN_LINK_TO_EMAIL: 'sendSignInLinkToEmail',
   SET_PERSISTENCE: 'setPersistence',
-  SIGN_IN_AND_RETRIEVE_DATA_WITH_CREDENTIAL:
-      'signInAndRetrieveDataWithCredential',
-  SIGN_IN_AND_RETRIEVE_DATA_WITH_CUSTOM_TOKEN:
-      'signInAndRetrieveDataWithCustomToken',
-  SIGN_IN_AND_RETRIEVE_DATA_WITH_EMAIL_AND_PASSWORD:
-      'signInAndRetrieveDataWithEmailAndPassword',
-  SIGN_IN_ANONYMOUSLY_AND_RETRIEVE_DATA:
-      'signInAnonymouslyAndRetrieveData',
   SIGN_IN_ANONYMOUSLY: 'signInAnonymously',
   SIGN_IN_WITH_CREDENTIAL: 'signInWithCredential',
   SIGN_IN_WITH_CUSTOM_TOKEN: 'signInWithCustomToken',
@@ -227,13 +216,10 @@ FakeAuthClient.AuthAsyncMethod = {
  */
 FakeAuthClient.UserAsyncMethod = {
   GET_ID_TOKEN: 'getIdToken',
-  LINK_AND_RETRIEVE_DATA_WITH_CREDENTIAL: 'linkAndRetrieveDataWithCredential',
   LINK_WITH_CREDENTIAL: 'linkWithCredential',
   LINK_WITH_PHONE_NUMBER: 'linkWithPhoneNumber',
   LINK_WITH_POPUP: 'linkWithPopup',
   LINK_WITH_REDIRECT: 'linkWithRedirect',
-  REAUTHENTICATE_AND_RETRIEVE_DATA_WITH_CREDENTIAL:
-      'reauthenticateAndRetrieveDataWithCredential',
   REAUTHENTICATE_WITH_CREDENTIAL: 'reauthenticateWithCredential',
   REAUTHENTICATE_WITH_PHONE_NUMBER: 'reauthenticateWithPhoneNumber',
   REAUTHENTICATE_WITH_POPUP: 'reauthenticateWithPopup',

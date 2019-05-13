@@ -257,7 +257,7 @@ function testSelectFromAccountChooser_unregisteredAccount() {
 
 
 function testSelectFromAccountChooser_error() {
-  // Test when error occurs in fetchProvidersForEmail.
+  // Test when error occurs in fetchSignInMethodsForEmail.
   asyncTestCase.waitForSignals(1);
   testAc.setSelectedAccount(federatedAccount);
   firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
@@ -343,863 +343,6 @@ function testSelectFromAccountChooser_addAccount_uiShown() {
   assertUiShownCallbackInvoked();
   assertSignInPage();
   assertFalse(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
-}
-
-
-function testSetLoggedIn() {
-  asyncTestCase.waitForSignals(1);
-  var cred = firebase.auth.EmailAuthProvider.credential(
-      passwordUser['email'], 'password');
-  testAuth.setUser(passwordUser);
-  // Confirm revertLanguageCode called on setLoggedIn.
-  assertNoRevertLanguageCode();
-  firebaseui.auth.widget.handler.common.setLoggedIn(app, testComponent, cred);
-  assertRevertLanguageCode(app);
-  // Sign out from internal instance and then sign in with passed credential to
-  // external instance.
-  return testAuth.process().then(function() {
-    testAuth.assertSignOut([]);
-    return testAuth.process();
-  }).then(function() {
-    externalAuth.assertUpdateCurrentUser(
-        [testAuth.currentUser],
-        function() {
-          externalAuth.setUser(testAuth.currentUser);
-        });
-    return externalAuth.process();
-  }).then(function() {
-    testUtil.assertGoTo('http://localhost/home');
-    assertEquals(1, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
-    assertObjectEquals(
-        passwordAccount, firebaseui.auth.storage.getRememberedAccounts(
-            app.getAppId())[0]);
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSetLoggedIn_falseSignInCallback() {
-  // Provide a sign in success callback that returns false.
-  asyncTestCase.waitForSignals(1);
-  var cred = firebase.auth.EmailAuthProvider.credential(
-      passwordUser['email'], 'password');
-  app.setConfig({
-    'callbacks': {
-      'signInSuccess': signInSuccessCallback(false)
-    }
-  });
-  var component = new firebaseui.auth.ui.page.Callback();
-  component.render(container);
-  // Callback should be rendered.
-  assertCallbackPage();
-  testAuth.setUser(passwordUser);
-  // Set current component, should be set in the handler that triggered
-  // setLoggedIn.
-  app.setCurrentComponent(component);
-  firebaseui.auth.widget.handler.common.setLoggedIn(app, component, cred);
-  // Sign out from internal instance and then sign in with passed credential to
-  // external instance.
-  return testAuth.process().then(function() {
-    testAuth.assertSignOut([]);
-    return testAuth.process();
-  }).then(function() {
-    externalAuth.assertUpdateCurrentUser(
-        [testAuth.currentUser],
-        function() {
-          externalAuth.setUser(testAuth.currentUser);
-        });
-    return externalAuth.process();
-  }).then(function() {
-    testAuth.assertSignOut([]);
-    assertEquals(1, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
-    assertObjectEquals(
-        passwordAccount, firebaseui.auth.storage.getRememberedAccounts(
-            app.getAppId())[0]);
-    // Container should be cleared.
-    assertComponentDisposed();
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSetLoggedIn_noCallback_storageRedirect() {
-  // Clear callbacks from configuration, set signInSuccessUrl which will be
-  // overridden.
-  asyncTestCase.waitForSignals(1);
-  var cred = firebase.auth.EmailAuthProvider.credential(
-      passwordUser['email'], 'password');
-  app.setConfig({
-    'callbacks': null,
-    'signInSuccessUrl': 'http://localhost/home'
-  });
-  // Set redirect URL in storage.
-  var redirectUrl = 'http://www.example.com';
-  firebaseui.auth.storage.setRedirectUrl(redirectUrl, app.getAppId());
-
-  testAuth.setUser(passwordUser);
-  firebaseui.auth.widget.handler.common.setLoggedIn(app, testComponent, cred);
-  // Sign out from internal instance and then sign in with passed credential to
-  // external instance.
-  return testAuth.process().then(function() {
-    testAuth.assertSignOut([]);
-    return testAuth.process();
-  }).then(function() {
-    externalAuth.assertUpdateCurrentUser(
-        [testAuth.currentUser],
-        function() {
-          externalAuth.setUser(testAuth.currentUser);
-        });
-    return externalAuth.process();
-  }).then(function() {
-    // Confirm redirect to storage redirect URL.
-    testUtil.assertGoTo(redirectUrl);
-    assertEquals(1, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
-    assertObjectEquals(
-        passwordAccount, firebaseui.auth.storage.getRememberedAccounts(
-            app.getAppId())[0]);
-    // Confirm redirect URL is cleared from storage.
-    assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSetLoggedIn_notRememberAccount() {
-  asyncTestCase.waitForSignals(1);
-  var cred = firebase.auth.EmailAuthProvider.credential(
-      passwordUser['email'], 'password');
-  firebaseui.auth.storage.setRememberAccount(false, app.getAppId());
-
-  testAuth.setUser(passwordUser);
-  firebaseui.auth.widget.handler.common.setLoggedIn(app, testComponent, cred);
-  // Sign out from internal instance and then sign in with passed credential to
-  // external instance.
-  return testAuth.process().then(function() {
-    testAuth.assertSignOut([]);
-    return testAuth.process();
-  }).then(function() {
-    externalAuth.assertUpdateCurrentUser(
-        [testAuth.currentUser],
-        function() {
-          externalAuth.setUser(testAuth.currentUser);
-        });
-    return externalAuth.process();
-  }).then(function() {
-    testUtil.assertGoTo('http://localhost/home');
-    assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSetLoggedIn_signInSuccessCallback_redirect() {
-  asyncTestCase.waitForSignals(1);
-  var cred = firebase.auth.EmailAuthProvider.credential(
-      passwordUser['email'], 'password');
-  app.setConfig({
-    'callbacks': {
-      'signInSuccess': signInSuccessCallback(true)
-    }
-  });
-  firebaseui.auth.storage.setRememberAccount(false, app.getAppId());
-
-  testAuth.setUser(passwordUser);
-  firebaseui.auth.widget.handler.common.setLoggedIn(app, testComponent, cred);
-  // Sign out from internal instance and then sign in with passed credential to
-  // external instance.
-  return testAuth.process().then(function() {
-    testAuth.assertSignOut([]);
-    return testAuth.process();
-  }).then(function() {
-    externalAuth.assertUpdateCurrentUser(
-        [testAuth.currentUser],
-        function() {
-          externalAuth.setUser(testAuth.currentUser);
-        });
-    return externalAuth.process();
-  }).then(function() {
-    // SignInCallback is called.
-    assertSignInSuccessCallbackInvoked(
-        externalAuth.currentUser,
-        null,
-        undefined);
-    // Continue to redirect.
-    testUtil.assertGoTo('http://localhost/home');
-    assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSetLoggedIn_signInSuccessCallback_noRedirect() {
-  asyncTestCase.waitForSignals(1);
-  app.setConfig({
-    // No need for a signInSuccessUrl here and it should not raise an error.
-    'signInSuccessUrl': undefined,
-    'callbacks': {
-      'signInSuccess': signInSuccessCallback(false)
-    }
-  });
-  firebaseui.auth.storage.setRememberAccount(false, app.getAppId());
-
-  testAuth.setUser(federatedUser);
-  firebaseui.auth.widget.handler.common.setLoggedIn(
-      app, testComponent, federatedCredential);
-  // Sign out from internal instance and then sign in with passed credential to
-  // external instance.
-  return testAuth.process().then(function() {
-    testAuth.assertSignOut([]);
-    return testAuth.process();
-  }).then(function() {
-    externalAuth.assertUpdateCurrentUser(
-        [testAuth.currentUser],
-        function() {
-          externalAuth.setUser(testAuth.currentUser);
-        });
-    return externalAuth.process();
-  }).then(function() {
-    testAuth.assertSignOut([]);
-    // SignInCallback is called.
-    assertSignInSuccessCallbackInvoked(
-        externalAuth.currentUser,
-        federatedCredential,
-        undefined);
-    // No redirect.
-    assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSetLoggedIn_signInSuccessCallback_storageAutoRedirect() {
-  asyncTestCase.waitForSignals(1);
-  var redirectUrl = 'http://www.example.com';
-  // Set redirect URL in storage.
-  firebaseui.auth.storage.setRedirectUrl(redirectUrl, app.getAppId());
-  app.setConfig({
-    // No need for a signInSuccessUrl here and it should not raise an error.
-    'signInSuccessUrl': undefined,
-    'callbacks': {
-      'signInSuccess': signInSuccessCallback(true)
-    }
-  });
-  firebaseui.auth.storage.setRememberAccount(false, app.getAppId());
-
-  testAuth.setUser(federatedUser);
-  firebaseui.auth.widget.handler.common.setLoggedIn(
-      app, testComponent, federatedCredential);
-  // Sign out from internal instance and then sign in with passed credential to
-  // external instance.
-  return testAuth.process().then(function() {
-    testAuth.assertSignOut([]);
-    return testAuth.process();
-  }).then(function() {
-    externalAuth.assertUpdateCurrentUser(
-        [testAuth.currentUser],
-        function() {
-          externalAuth.setUser(testAuth.currentUser);
-        });
-    return externalAuth.process();
-  }).then(function() {
-    // SignInCallback is called.
-    assertSignInSuccessCallbackInvoked(
-        externalAuth.currentUser,
-        federatedCredential,
-        redirectUrl);
-    // Continue to redirect URL specified in storage.
-    testUtil.assertGoTo(redirectUrl);
-    assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
-    // Confirm redirect URL is cleared from storage.
-    assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSetLoggedIn_signInSuccessCallback_storageNoRedirect() {
-  asyncTestCase.waitForSignals(1);
-  // Set redirect URL in storage.
-  var redirectUrl = 'http://www.example.com';
-  firebaseui.auth.storage.setRedirectUrl(redirectUrl, app.getAppId());
-  app.setConfig({
-    'callbacks': {
-      'signInSuccess': signInSuccessCallback(false)
-    }
-  });
-  firebaseui.auth.storage.setRememberAccount(false, app.getAppId());
-
-  testAuth.setUser(federatedUser);
-  firebaseui.auth.widget.handler.common.setLoggedIn(
-      app, testComponent, federatedCredential);
-  // Sign out from internal instance and then sign in with passed credential to
-  // external instance.
-  return testAuth.process().then(function() {
-    testAuth.assertSignOut([]);
-    return testAuth.process();
-  }).then(function() {
-    externalAuth.assertUpdateCurrentUser(
-        [testAuth.currentUser],
-        function() {
-          externalAuth.setUser(testAuth.currentUser);
-        });
-    return externalAuth.process();
-  }).then(function() {
-    testAuth.assertSignOut([]);
-    // SignInCallback is called.
-    // redirectUrl passed to callback, developer has to manually redirect.
-    assertSignInSuccessCallbackInvoked(
-        externalAuth.currentUser,
-        federatedCredential,
-        redirectUrl);
-    // No redirect.
-    testUtil.assertGoTo(null);
-    assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
-    // Confirm redirect URL is cleared from storage.
-    assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSetLoggedIn_signInSuccessCallback_redirectNoRedirectUrl() {
-  asyncTestCase.waitForSignals(1);
-  app.setConfig({
-    'signInSuccessUrl': undefined,
-    'callbacks': {
-      'signInSuccess': signInSuccessCallback(true)
-    }
-  });
-  firebaseui.auth.storage.setRememberAccount(false, app.getAppId());
-
-  testAuth.setUser(federatedUser);
-  firebaseui.auth.widget.handler.common.setLoggedIn(
-      app, testComponent, federatedCredential);
-  // Sign out from internal instance and then sign in with passed credential to
-  // external instance.
-  return testAuth.process().then(function() {
-    testAuth.assertSignOut([]);
-    return testAuth.process();
-  }).then(function() {
-    externalAuth.assertUpdateCurrentUser(
-        [testAuth.currentUser],
-        function() {
-          externalAuth.setUser(testAuth.currentUser);
-        });
-    return externalAuth.process();
-  }).then(function() {
-    assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
-    // Confirm redirect URL is cleared from storage.
-    assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
-    // No redirect occurred.
-    testUtil.assertGoTo(null);
-    // Error should be displayed in the info bar.
-    assertInfoBarMessage(
-        'No redirect URL has been found. You must either specify a signInSuc' +
-        'cessUrl in the configuration, pass in a redirect URL to the widget ' +
-        'URL, or return false from the callback.',
-        testComponent);
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSetLoggedIn_signInSuccessCallback_storageManualRedirect() {
-  asyncTestCase.waitForSignals(1);
-  // Set redirect URL in storage.
-  var redirectUrl = 'http://www.example.com';
-  firebaseui.auth.storage.setRedirectUrl(redirectUrl, app.getAppId());
-  // Test sign in success callback with a manual redirect.
-  app.setConfig({
-    // No need for a signInSuccessUrl here and it should not raise an error.
-    'signInSuccessUrl': undefined,
-    'callbacks': {
-      'signInSuccess': signInSuccessCallback(false, true)
-    }
-  });
-  firebaseui.auth.storage.setRememberAccount(false, app.getAppId());
-
-  testAuth.setUser(federatedUser);
-  firebaseui.auth.widget.handler.common.setLoggedIn(
-      app, testComponent, federatedCredential);
-  // Sign out from internal instance and then sign in with passed credential to
-  // external instance.
-  return testAuth.process().then(function() {
-    testAuth.assertSignOut([]);
-    return testAuth.process();
-  }).then(function() {
-    externalAuth.assertUpdateCurrentUser(
-        [testAuth.currentUser],
-        function() {
-          externalAuth.setUser(testAuth.currentUser);
-        });
-    return externalAuth.process();
-  }).then(function() {
-    testAuth.assertSignOut([]);
-    // SignInCallback is called.
-    // redirectUrl passed to callback, developer has to manually redirect.
-    assertSignInSuccessCallbackInvoked(
-        externalAuth.currentUser,
-        federatedCredential,
-        redirectUrl);
-    // Developer manually continues to redirect URL specified in storage.
-    testUtil.assertGoTo(redirectUrl);
-    assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
-    // Confirm redirect URL is cleared from storage.
-    assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSetLoggedIn_popup() {
-  testUtil.setHasOpener(true);
-  asyncTestCase.waitForSignals(1);
-  var cred = firebase.auth.EmailAuthProvider.credential(
-      passwordUser['email'], 'password');
-
-  testAuth.setUser(passwordUser);
-  firebaseui.auth.widget.handler.common.setLoggedIn(app, testComponent, cred);
-  // Sign out from internal instance and then sign in with passed credential to
-  // external instance.
-  return testAuth.process().then(function() {
-    testAuth.assertSignOut([]);
-    return testAuth.process();
-  }).then(function() {
-    externalAuth.assertUpdateCurrentUser(
-        [testAuth.currentUser],
-        function() {
-          externalAuth.setUser(testAuth.currentUser);
-        });
-    return externalAuth.process();
-  }).then(function() {
-    testUtil.assertOpenerGoTo('http://localhost/home');
-    testUtil.assertWindowClosed(window);
-    assertEquals(1, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
-    assertObjectEquals(
-        passwordAccount, firebaseui.auth.storage.getRememberedAccounts(
-            app.getAppId())[0]);
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSetLoggedIn_popup_noCallback_storageRedirect() {
-  // Clear callbacks from configuration, set signInSuccessUrl which will be
-  // overridden.
-  app.setConfig({
-    'callbacks': null,
-    'signInSuccessUrl': 'http://localhost/home'
-  });
-  asyncTestCase.waitForSignals(1);
-  var cred = firebase.auth.EmailAuthProvider.credential(
-      passwordUser['email'], 'password');
-  // Set redirect URL in storage.
-  var redirectUrl = 'http://www.example.com';
-  firebaseui.auth.storage.setRedirectUrl(redirectUrl, app.getAppId());
-  testUtil.setHasOpener(true);
-
-  testAuth.setUser(passwordUser);
-  firebaseui.auth.widget.handler.common.setLoggedIn(app, testComponent, cred);
-  // Sign out from internal instance and then sign in with passed credential to
-  // external instance.
-  return testAuth.process().then(function() {
-    testAuth.assertSignOut([]);
-    return testAuth.process();
-  }).then(function() {
-    externalAuth.assertUpdateCurrentUser(
-        [testAuth.currentUser],
-        function() {
-          externalAuth.setUser(testAuth.currentUser);
-        });
-    return externalAuth.process();
-  }).then(function() {
-    // Assert opener continues to redirect URL specified in storage.
-    testUtil.assertOpenerGoTo(redirectUrl);
-    testUtil.assertWindowClosed(window);
-    assertEquals(1, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
-    assertObjectEquals(
-        passwordAccount, firebaseui.auth.storage.getRememberedAccounts(
-            app.getAppId())[0]);
-    // Confirm redirect URL is cleared from storage.
-    assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSetLoggedIn_popup_signInSuccessCallback_redirect() {
-  asyncTestCase.waitForSignals(1);
-  app.setConfig({
-    'callbacks': {
-      'signInSuccess': signInSuccessCallback(true)
-    }
-  });
-  testUtil.setHasOpener(true);
-
-  testAuth.setUser(federatedUser);
-  firebaseui.auth.widget.handler.common.setLoggedIn(
-      app, testComponent, federatedCredential);
-  // Sign out from internal instance and then sign in with passed credential to
-  // external instance.
-  return testAuth.process().then(function() {
-    testAuth.assertSignOut([]);
-    return testAuth.process();
-  }).then(function() {
-    externalAuth.assertUpdateCurrentUser(
-        [testAuth.currentUser],
-        function() {
-          externalAuth.setUser(testAuth.currentUser);
-        });
-    return externalAuth.process();
-  }).then(function() {
-    // SignInCallback is called.
-    assertSignInSuccessCallbackInvoked(
-        externalAuth.currentUser,
-        federatedCredential,
-        undefined);
-    // Continue to redirect.
-    testUtil.assertOpenerGoTo('http://localhost/home');
-    // Callback supplied. Window should only be closed by developer.
-    testUtil.assertWindowNotClosed(window);
-    assertEquals(1, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
-    assertObjectEquals(
-        federatedUserAccount, firebaseui.auth.storage.getRememberedAccounts(
-            app.getAppId())[0]);
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSetLoggedIn_popup_signInSuccessCallback_redirectNoRedirectUrl() {
-  asyncTestCase.waitForSignals(1);
-  app.setConfig({
-    'signInSuccessUrl': undefined,
-    'callbacks': {
-      'signInSuccess': signInSuccessCallback(true)
-    }
-  });
-  testUtil.setHasOpener(true);
-  firebaseui.auth.storage.setRememberAccount(false, app.getAppId());
-  testAuth.setUser(federatedUser);
-  firebaseui.auth.widget.handler.common.setLoggedIn(
-      app, testComponent, federatedCredential);
-  // Sign out from internal instance and then sign in with passed credential to
-  // external instance.
-  return testAuth.process().then(function() {
-    testAuth.assertSignOut([]);
-    return testAuth.process();
-  }).then(function() {
-    externalAuth.assertUpdateCurrentUser(
-        [testAuth.currentUser],
-        function() {
-          externalAuth.setUser(testAuth.currentUser);
-        });
-    return externalAuth.process();
-  }).then(function() {
-    assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
-    // Confirm redirect URL is cleared from storage.
-    assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
-    // No redirect occurred.
-    testUtil.assertGoTo(null);
-    // Error should be displayed in the info bar.
-    assertInfoBarMessage(
-        'No redirect URL has been found. You must either specify a ' +
-        'signInSuccessUrl in the configuration, pass in a redirect URL to ' +
-        'the widget URL, or return false from the callback.',
-        testComponent);
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSetLoggedIn_updateCurrentUserError() {
-  // Test when updateCurrentUser fails with some error on setLoggedIn.
-  asyncTestCase.waitForSignals(1);
-  var expectedError = {
-    'code': 'auth/internal-error',
-    'message': 'Internal error'
-  };
-  app.setConfig({
-    'signInSuccessUrl': undefined,
-    'callbacks': {
-      'signInSuccess': signInSuccessCallback(true)
-    }
-  });
-  firebaseui.auth.storage.setRememberAccount(false, app.getAppId());
-  testAuth.setUser(federatedUser);
-  // Render the UI.
-  var component = new firebaseui.auth.ui.page.Callback();
-  component.render(container);
-  firebaseui.auth.widget.handler.common.setLoggedIn(
-      app, component, federatedCredential);
-  // Sign out from internal instance and then sign in with passed credential to
-  // external instance.
-  return testAuth.process().then(function() {
-    testAuth.assertSignOut([]);
-    return testAuth.process();
-  }).then(function() {
-    // Simulate an error thrown on updateCurrentUser.
-    externalAuth.assertUpdateCurrentUser(
-        [testAuth.currentUser],
-        null,
-        expectedError);
-    return externalAuth.process();
-  }).then(function() {
-    assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
-    // Confirm redirect URL is cleared from storage.
-    assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
-    // No redirect occurred.
-    testUtil.assertGoTo(null);
-    // Same page rendered.
-    assertCallbackPage();
-    // Error should be displayed in the info bar.
-    assertInfoBarMessage(
-        firebaseui.auth.widget.handler.common.getErrorMessage(expectedError));
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSetLoggedIn_popup_signInSuccessCallback_noRedirect() {
-  asyncTestCase.waitForSignals(1);
-  app.setConfig({
-    'callbacks': {
-      'signInSuccess': signInSuccessCallback(false)
-    }
-  });
-  testUtil.setHasOpener(true);
-
-  testAuth.setUser(federatedUser);
-  firebaseui.auth.widget.handler.common.setLoggedIn(
-      app, testComponent, federatedCredential);
-  // Sign out from internal instance and then sign in with passed credential to
-  // external instance.
-  return testAuth.process().then(function() {
-    testAuth.assertSignOut([]);
-    return testAuth.process();
-  }).then(function() {
-    externalAuth.assertUpdateCurrentUser(
-        [testAuth.currentUser],
-        function() {
-          externalAuth.setUser(testAuth.currentUser);
-        });
-    return externalAuth.process();
-  }).then(function() {
-    testAuth.assertSignOut([]);
-    // SignInCallback is called.
-    assertSignInSuccessCallbackInvoked(
-        externalAuth.currentUser,
-        federatedCredential,
-        undefined);
-    // No redirect.
-    // Callback supplied. Window should only be closed by developer.
-    testUtil.assertWindowNotClosed(window);
-    assertEquals(1, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
-    assertObjectEquals(
-        federatedUserAccount, firebaseui.auth.storage.getRememberedAccounts(
-            app.getAppId())[0]);
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSetLoggedIn_popup_signInSuccessCallback_storageAutoRedirect() {
-  asyncTestCase.waitForSignals(1);
-  var redirectUrl = 'http://www.example.com';
-  // Set redirect URL in storage.
-  firebaseui.auth.storage.setRedirectUrl(redirectUrl, app.getAppId());
-  app.setConfig({
-    'callbacks': {
-      'signInSuccess': signInSuccessCallback(true)
-    }
-  });
-  testUtil.setHasOpener(true);
-
-  testAuth.setUser(federatedUser);
-  firebaseui.auth.widget.handler.common.setLoggedIn(
-      app, testComponent, federatedCredential);
-  // Sign out from internal instance and then sign in with passed credential to
-  // external instance.
-  return testAuth.process().then(function() {
-    testAuth.assertSignOut([]);
-    return testAuth.process();
-  }).then(function() {
-    externalAuth.assertUpdateCurrentUser(
-        [testAuth.currentUser],
-        function() {
-          externalAuth.setUser(testAuth.currentUser);
-        });
-    return externalAuth.process();
-  }).then(function() {
-    // SignInCallback is called.
-    assertSignInSuccessCallbackInvoked(
-        externalAuth.currentUser,
-        federatedCredential,
-        redirectUrl);
-    // Continue to redirect URL specified in storage.
-    testUtil.assertOpenerGoTo(redirectUrl);
-    // Callback supplied. Window should only be closed by developer.
-    testUtil.assertWindowNotClosed(window);
-    assertEquals(1, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
-    assertObjectEquals(
-        federatedUserAccount, firebaseui.auth.storage.getRememberedAccounts(
-            app.getAppId())[0]);
-    // Confirm redirect URL is cleared from storage.
-    assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSetLoggedIn_popup_signInSuccessCallback_storageNoRedirect() {
-  asyncTestCase.waitForSignals(1);
-  // Set redirect URL in storage.
-  var redirectUrl = 'http://www.example.com';
-  firebaseui.auth.storage.setRedirectUrl(redirectUrl, app.getAppId());
-  app.setConfig({
-    'callbacks': {
-      'signInSuccess': signInSuccessCallback(false)
-    }
-  });
-  testUtil.setHasOpener(true);
-
-  testAuth.setUser(federatedUser);
-  firebaseui.auth.widget.handler.common.setLoggedIn(
-      app, testComponent, federatedCredential);
-  // Sign out from internal instance and then sign in with passed credential to
-  // external instance.
-  return testAuth.process().then(function() {
-    testAuth.assertSignOut([]);
-    return testAuth.process();
-  }).then(function() {
-    externalAuth.assertUpdateCurrentUser(
-        [testAuth.currentUser],
-        function() {
-          externalAuth.setUser(testAuth.currentUser);
-        });
-    return externalAuth.process();
-  }).then(function() {
-    testAuth.assertSignOut([]);
-    // SignInCallback is called.
-    // redirectUrl passed to callback, developer has to manually redirect.
-    assertSignInSuccessCallbackInvoked(
-        externalAuth.currentUser,
-        federatedCredential,
-        redirectUrl);
-    // No redirect.
-    testUtil.assertOpenerGoTo(null);
-    // Callback supplied. Window should only be closed by developer.
-    testUtil.assertWindowNotClosed(window);
-    assertEquals(1, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
-    assertObjectEquals(
-        federatedUserAccount, firebaseui.auth.storage.getRememberedAccounts(
-            app.getAppId())[0]);
-    // Confirm redirect URL is cleared from storage.
-    assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSetLoggedIn_popup_signInSuccessCallback_storageManualRedirect() {
-  asyncTestCase.waitForSignals(1);
-  // Set redirect URL in storage.
-  var redirectUrl = 'http://www.example.com';
-  firebaseui.auth.storage.setRedirectUrl(redirectUrl, app.getAppId());
-  // Test sign in success callback with a manual redirect.
-  app.setConfig({
-    'callbacks': {
-      'signInSuccess': signInSuccessCallback(false, true)
-    }
-  });
-  testUtil.setHasOpener(true);
-
-  testAuth.setUser(federatedUser);
-  firebaseui.auth.widget.handler.common.setLoggedIn(
-      app, testComponent, federatedCredential);
-  // Sign out from internal instance and then sign in with passed credential to
-  // external instance.
-  return testAuth.process().then(function() {
-    testAuth.assertSignOut([]);
-    return testAuth.process();
-  }).then(function() {
-    externalAuth.assertUpdateCurrentUser(
-        [testAuth.currentUser],
-        function() {
-          externalAuth.setUser(testAuth.currentUser);
-        });
-    return externalAuth.process();
-  }).then(function() {
-     testAuth.assertSignOut([]);
-    // SignInCallback is called.
-     // redirectUrl passed to callback, developer has to manually redirect.
-    assertSignInSuccessCallbackInvoked(
-        externalAuth.currentUser,
-        federatedCredential,
-        redirectUrl);
-    // Callback supplied. Window should only be closed by developer.
-    testUtil.assertWindowNotClosed(window);
-    // Developer manually continues to redirect URL specified in storage.
-    testUtil.assertGoTo(redirectUrl);
-    assertObjectEquals(
-        federatedUserAccount, firebaseui.auth.storage.getRememberedAccounts(
-            app.getAppId())[0]);
-    // Confirm redirect URL is cleared from storage.
-    assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSetLoggedIn_alreadySignedIn() {
-  // Test alreadySignedIn set to true with signInSuccessUrl.
-  var cred = firebase.auth.EmailAuthProvider.credential(
-      passwordUser['email'], 'password');
-  externalAuth.setUser(passwordUser);
-  firebaseui.auth.widget.handler.common.setLoggedIn(
-      app, testComponent, cred, null, true);
-  testUtil.assertGoTo('http://localhost/home');
-  assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
-      app.getAppId()).length);
-}
-
-
-function testSetLoggedIn_alreadySignedIn_falseSignInCallback() {
-  // Test alreadySignedIn set to true with signInSuccess callback.
-  // Provide a sign in success callback that returns false.
-  var cred = firebase.auth.EmailAuthProvider.credential(
-      passwordUser['email'], 'password');
-  app.setConfig({
-    'callbacks': {
-      'signInSuccess': signInSuccessCallback(false)
-    }
-  });
-  externalAuth.setUser(passwordUser);
-  app.getAuth().assertSignOut([]);
-  firebaseui.auth.widget.handler.common.setLoggedIn(
-      app, testComponent, cred, null, true);
-  assertSignInSuccessCallbackInvoked(
-       externalAuth.currentUser, cred, undefined);
-  assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
-      app.getAppId()).length);
 }
 
 
@@ -3447,9 +2590,9 @@ function testHandleGoogleYoloCredential_handledSuccessfully_withoutScopes() {
     'email': federatedAccount.getEmail(),
     'displayName': federatedAccount.getDisplayName()
   });
-  // Confirm signInAndRetrieveDataWithCredential called underneath with
+  // Confirm signInWithCredential called underneath with
   // successful response.
-  testAuth.assertSignInAndRetrieveDataWithCredential(
+  testAuth.assertSignInWithCredential(
       [expectedCredential],
       {
         'user': testAuth.currentUser,
@@ -3502,9 +2645,9 @@ function testHandleGoogleYoloCredential_unhandled_withoutScopes() {
       });
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
       googleYoloIdTokenCredential.idToken);
-  // Confirm signInAndRetrieveDataWithCredential called underneath with
+  // Confirm signInWithCredential called underneath with
   // unsuccessful response.
-  testAuth.assertSignInAndRetrieveDataWithCredential(
+  testAuth.assertSignInWithCredential(
       [expectedCredential],
       null,
       internalError);
@@ -3613,9 +2756,9 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_noScopes() {
       });
   // Trigger onAuthStateChanged listener.
   externalAuth.runAuthChangeHandler();
-  // Confirm linkAndRetrieveDataWithCredential called underneath with
+  // Confirm linkWithCredential called underneath with
   // successful response.
-  externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+  externalAuth.currentUser.assertLinkWithCredential(
       [expectedCredential],
       function() {
         // User should be signed in.
@@ -3655,7 +2798,7 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_credentialInUse() {
   });
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
       googleYoloIdTokenCredential.idToken);
-  // Expected linkAndRetrieveDataWithCredential error.
+  // Expected linkWithCredential error.
   var expectedError = {
     'code': 'auth/credential-already-in-use',
     'credential': expectedCredential,
@@ -3682,9 +2825,9 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_credentialInUse() {
       });
   // Trigger onAuthStateChanged listener.
   externalAuth.runAuthChangeHandler();
-  // Confirm linkAndRetrieveDataWithCredential called underneath with
+  // Confirm linkWithCredential called underneath with
   // expected error thrown.
-  externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+  externalAuth.currentUser.assertLinkWithCredential(
       [expectedCredential],
       null,
       expectedError);
@@ -3711,7 +2854,7 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_fedEmailInUse() {
   });
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
       googleYoloIdTokenCredential.idToken);
-  // Expected linkAndRetrieveDataWithCredential error.
+  // Expected linkWithCredential error.
   var expectedError = {
     'code': 'auth/email-already-in-use',
     'credential': expectedCredential,
@@ -3737,9 +2880,9 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_fedEmailInUse() {
       });
   // Trigger onAuthStateChanged listener.
   externalAuth.runAuthChangeHandler();
-  // Confirm linkAndRetrieveDataWithCredential called underneath with
+  // Confirm linkWithCredential called underneath with
   // expected error thrown.
-  externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+  externalAuth.currentUser.assertLinkWithCredential(
       [expectedCredential],
       null,
       expectedError);
@@ -3778,7 +2921,7 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_passEmailInUse() {
   });
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
       googleYoloIdTokenCredential.idToken);
-  // Expected linkAndRetrieveDataWithCredential error.
+  // Expected linkWithCredential error.
   var expectedError = {
     'code': 'auth/email-already-in-use',
     'credential': expectedCredential,
@@ -3804,9 +2947,9 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_passEmailInUse() {
       });
   // Trigger onAuthStateChanged listener.
   externalAuth.runAuthChangeHandler();
-  // Confirm linkAndRetrieveDataWithCredential called underneath with
+  // Confirm linkWithCredential called underneath with
   // expected error thrown.
-  externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+  externalAuth.currentUser.assertLinkWithCredential(
       [expectedCredential],
       null,
       expectedError);
