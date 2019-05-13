@@ -41,6 +41,7 @@ firebaseui.auth.widget.HandlerName = {
   PHONE_SIGN_IN_START: 'phoneSignInStart',
   FEDERATED_LINKING: 'federatedLinking',
   FEDERATED_SIGN_IN: 'federatedSignIn',
+  FEDERATED_REDIRECT: 'federatedRedirect',
   SEND_EMAIL_LINK_FOR_SIGN_IN: 'sendEmailLinkForSignIn',
   EMAIL_LINK_CONFIRMATION: 'emailLinkConfirmation',
   EMAIL_LINK_NEW_DEVICE_LINKING: 'emailLinkNewDeviceLinking',

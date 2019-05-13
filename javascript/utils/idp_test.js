@@ -64,6 +64,20 @@ function tearDown() {
 }
 
 
+function testIsFederatedSignInMethod() {
+  // OAuth, SAML and OIDC providers should all return true.
+  assertTrue(firebaseui.auth.idp.isFederatedSignInMethod('google.com'));
+  assertTrue(firebaseui.auth.idp.isFederatedSignInMethod('microsoft.com'));
+  assertTrue(firebaseui.auth.idp.isFederatedSignInMethod('saml.provider'));
+  assertTrue(firebaseui.auth.idp.isFederatedSignInMethod('oidc.provider'));
+  assertTrue(firebaseui.auth.idp.isFederatedSignInMethod('anotherProvider'));
+  // Non-federated providers should return false.
+  assertFalse(firebaseui.auth.idp.isFederatedSignInMethod('emailLink'));
+  assertFalse(firebaseui.auth.idp.isFederatedSignInMethod('password'));
+  assertFalse(firebaseui.auth.idp.isFederatedSignInMethod('phone'));
+}
+
+
 function testGetAuthProvider() {
   // Built-in provider.
   var builtInProvider = firebaseui.auth.idp.getAuthProvider('google.com');

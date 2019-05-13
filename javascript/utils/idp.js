@@ -111,6 +111,19 @@ firebaseui.auth.idp.isSaml_ = function(providerId) {
 
 
 /**
+ * Returns true if the provider is federated, that is either: a built-in OAuth
+ * provider like Google, a SAML provider or an ODIC or generic OAuth provider.
+ * @param {string} providerId
+ * @return {boolean} Whether the provider is non-federated or not.
+ */
+firebaseui.auth.idp.isFederatedSignInMethod = function(providerId) {
+  return !goog.array.contains(
+      firebaseui.auth.idp.NonFederatedSignInMethods,
+      providerId);
+};
+
+
+/**
  * Returns the provider by provider ID. If the provider ID is neither built-in
  * provider or SAML provder, it will be considered as generic OAuth provider.
  * @param {string} providerId

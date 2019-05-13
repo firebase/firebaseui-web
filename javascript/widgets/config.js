@@ -55,6 +55,14 @@ firebaseui.auth.widget.Config = function() {
   this.config_.define(
       'credentialHelper',
       firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM);
+  /**
+   * Determines whether to immediately redirect to the provider's site or
+   * instead show the default 'Sign in with Provider' button when there
+   * is only a single federated provider in signInOptions. In order for this
+   * option to take effect, the signInOptions must only hold a single federated
+   * provider (like 'google.com') and signInFlow must be set to 'redirect'.
+   */
+  this.config_.define('immediateFederatedRedirect', false);
   this.config_.define('popupMode', false);
   this.config_.define('privacyPolicyUrl');
   /**
@@ -832,6 +840,27 @@ firebaseui.auth.widget.Config.prototype.getEmailLinkSignInActionCodeSettings =
 /** @return {boolean} Whether to prefer popup mode. */
 firebaseui.auth.widget.Config.prototype.getPopupMode = function() {
   return !!this.config_.get('popupMode');
+};
+
+
+/**
+ * Determines whether to show the 'nascar' sign-in buttons screen or
+ * immediately redirect to the provider's site when there is only a single
+ * federated provider in signInOptions. In order for this option to take
+ * effect, the signInOptions must only hold a single federated provider (like
+ * 'google.com') and signInFlow must be set to 'redirect'.
+ * @return {boolean} Whether to skip the 'nascar' screen or not.
+ */
+firebaseui.auth.widget.Config.prototype.
+    federatedProviderShouldImmediatelyRedirect = function() {
+  var immediateFederatedRedirect = !!this.config_.get(
+      'immediateFederatedRedirect');
+  var providers = this.getProviders();
+  var signInFlow = this.getSignInFlow();
+  return immediateFederatedRedirect &&
+      providers.length == 1 &&
+      firebaseui.auth.idp.isFederatedSignInMethod(providers[0]) &&
+      signInFlow == firebaseui.auth.widget.Config.SignInFlow.REDIRECT;
 };
 
 

@@ -1117,6 +1117,59 @@ function testHandleCallback_redirectUser_pendingCredential_error() {
 }
 
 
+function testHandleCallback_redirectUser_alwaysShowNascarScreenOnError() {
+  // Tests that the 'nascar' sign-in page won't be skipped when there is
+  // an error message. This is tested by simulating an error in linking
+  // after returning from a regular sign in operation with pending
+  // credentials.
+  asyncTestCase.waitForSignals(1);
+  app.setConfig({
+    'immediateFederatedRedirect': true,
+    'signInOptions': [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
+    'signInFlow': firebaseui.auth.widget.Config.SignInFlow.REDIRECT
+  });
+  var cred = firebaseui.auth.idp.getAuthCredential({
+    'providerId': 'google.com',
+    'accessToken': 'ACCESS_TOKEN'
+  });
+  var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
+      federatedAccount.getEmail(), cred);
+  // Simulate previous linking required (pending credentials should be saved).
+  firebaseui.auth.storage.setPendingEmailCredential(
+      pendingEmailCred, app.getAppId());
+  // Callback rendered.
+  firebaseui.auth.widget.handler.handleCallback(app, container);
+  assertCallbackPage();
+  // User should be signed in at this point.
+  testAuth.setUser({
+    'email': federatedAccount.getEmail(),
+    'displayName': federatedAccount.getDisplayName()
+  });
+  // Attempting to get redirect result. Resolve with success.
+  testAuth.assertGetRedirectResult(
+      [],
+      {
+        'user': testAuth.currentUser,
+        'credential': null
+      });
+  testAuth.process().then(function() {
+    // Linking should be triggered with pending credential.
+    // Simulate an error here.
+    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+        [cred], null, internalError);
+    return testAuth.process();
+  }).then(function() {
+    // Redirect to the provider's sign-in page. This should not skip the
+    // 'nascar' screen since there is an error message.
+    assertProviderSignInPage();
+    // Show error in info bar.
+    assertInfoBarMessage(
+        firebaseui.auth.widget.handler.common.getErrorMessage(internalError));
+    asyncTestCase.signal();
+  });
+}
+
+
 function testHandleCallback_signedInUser_pendingCred_error_popup() {
   // Test sign in operation with pending credentials requiring linking in popup
   // flow. Simulate error in linking.

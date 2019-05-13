@@ -326,9 +326,6 @@ FirebaseUI supports the following configuration parameters.
 <table>
 <thead>
 <tr>
-<table>
-<thead>
-<tr>
 <th>Name</th>
 <th>Required</th>
 <th>Description</th>
@@ -390,7 +387,6 @@ FirebaseUI supports the following configuration parameters.
 </td>
 </tr>
 <tr>
-<tr>
 <td>signInFlow</td>
 <td>No</td>
 <td>
@@ -401,6 +397,17 @@ FirebaseUI supports the following configuration parameters.
 </td>
 </tr>
 <tr>
+<td>immediateFederatedRedirect</td>
+<td>No</td>
+<td>
+  A boolean which determines whether to immediately redirect to the provider's
+  site or instead show the default 'Sign in with Provider' button when there is
+  only a single federated provider in <code>signInOptions</code>. In order for
+  this option to take effect, the <code>signInOptions</code> must only hold a
+  single federated provider (like 'google.com') and signInFlow must be set to
+  'redirect'.
+</td>
+</tr>
 <tr>
 <td>signInOptions</td>
 <td>Yes</td>
@@ -410,7 +417,6 @@ FirebaseUI supports the following configuration parameters.
   on the sign-in provider selection screen.
 </td>
 </tr>
-<tr>
 <tr>
 <td>signInSuccessUrl</td>
 <td>No</td>
@@ -1282,6 +1288,12 @@ FirebaseUI is displayed.
           },
           firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
         ],
+        // Set to true if you only have a single federated provider like
+        // firebase.auth.GoogleAuthProvider.PROVIDER_ID and you would like to
+        // immediately redirect to the provider's site instead of showing a
+        // 'Sign in with Provider' button first. In order for this to take
+        // effect, the signInFlow option must also be set to 'redirect'.
+        immediateFederatedRedirect: false,
         // tosUrl and privacyPolicyUrl accept either url string or a callback
         // function.
         // Terms of service url/callback.

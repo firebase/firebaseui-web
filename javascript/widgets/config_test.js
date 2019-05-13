@@ -50,6 +50,7 @@ function setUp() {
   });
   firebase.auth = {
     GoogleAuthProvider: {PROVIDER_ID: 'google.com'},
+    FacebookAuthProvider: {PROVIDER_ID: 'facebook.com'},
     EmailAuthProvider: {
       EMAIL_LINK_SIGN_IN_METHOD: 'emailLink',
       EMAIL_PASSWORD_SIGN_IN_METHOD: 'password',
@@ -104,6 +105,64 @@ function testGetRequiredWidgetUrl() {
   widgetUrl = config.getRequiredWidgetUrl(
       firebaseui.auth.widget.Config.WidgetMode.SELECT);
   assertEquals('http://localhost/callback?mode2=select', widgetUrl);
+}
+
+
+function testFederatedProviderShouldImmediatelyRedirect() {
+  // Returns true when immediateFederatedRedirect is set, there is
+  // only one federated provider and the signInFlow is set to redirect.
+  config.setConfig({
+    'immediateFederatedRedirect': true,
+    'signInOptions': [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
+    'signInFlow': firebaseui.auth.widget.Config.SignInFlow.REDIRECT
+  });
+  assertTrue(config.federatedProviderShouldImmediatelyRedirect());
+
+  // Returns false if the immediateFederatedRedirect option is false.
+  config.setConfig({
+    'immediateFederatedRedirect': false,
+    'signInOptions': [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
+    'signInFlow': firebaseui.auth.widget.Config.SignInFlow.REDIRECT
+  });
+  assertFalse(config.federatedProviderShouldImmediatelyRedirect());
+
+  // Returns false if the provider is not a federated provider.
+  config.setConfig({
+    'immediateFederatedRedirect': true,
+    'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID],
+    'signInFlow': firebaseui.auth.widget.Config.SignInFlow.REDIRECT
+  });
+  assertFalse(config.federatedProviderShouldImmediatelyRedirect());
+
+  // Returns false if there is more than one federated provider.
+  config.setConfig({
+    'immediateFederatedRedirect': true,
+    'signInOptions': [
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      firebase.auth.FacebookAuthProvider.PROVIDER_ID
+    ],
+    'signInFlow': firebaseui.auth.widget.Config.SignInFlow.REDIRECT
+  });
+  assertFalse(config.federatedProviderShouldImmediatelyRedirect());
+
+  // Returns false if there is more than one provider of any kind.
+  config.setConfig({
+    'immediateFederatedRedirect': true,
+    'signInOptions': [
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      firebase.auth.EmailAuthProvider.PROVIDER_ID
+    ],
+    'signInFlow': firebaseui.auth.widget.Config.SignInFlow.REDIRECT
+  });
+  assertFalse(config.federatedProviderShouldImmediatelyRedirect());
+
+  // Returns false if signInFlow is using a popup.
+  config.setConfig({
+    'immediateFederatedRedirect': true,
+    'signInOptions': [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
+    'signInFlow': firebaseui.auth.widget.Config.SignInFlow.POPUP
+  });
+  assertFalse(config.federatedProviderShouldImmediatelyRedirect());
 }
 
 

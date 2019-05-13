@@ -34,6 +34,8 @@ goog.require('firebaseui.auth.widget.handler.handleEmailMismatch');
 goog.require('firebaseui.auth.widget.handler.handleEmailNotReceived');
 goog.require('firebaseui.auth.widget.handler.handleEmailVerification');
 goog.require('firebaseui.auth.widget.handler.handleFederatedLinking');
+goog.require('firebaseui.auth.widget.handler.handleFederatedRedirect');
+goog.require('firebaseui.auth.widget.handler.handleFederatedSignIn');
 goog.require('firebaseui.auth.widget.handler.handlePasswordLinking');
 goog.require('firebaseui.auth.widget.handler.handlePasswordRecovery');
 goog.require('firebaseui.auth.widget.handler.handlePasswordReset');
@@ -56,6 +58,9 @@ function testHandlerRegistration() {
   assertEquals(
       firebaseui.auth.widget.handler.handleFederatedLinking,
       firebaseui.auth.widget.handlers_[HandlerName.FEDERATED_LINKING]);
+  assertEquals(
+      firebaseui.auth.widget.handler.handleFederatedRedirect,
+      firebaseui.auth.widget.handlers_[HandlerName.FEDERATED_REDIRECT]);
   assertEquals(
       firebaseui.auth.widget.handler.handleFederatedSignIn,
       firebaseui.auth.widget.handlers_[HandlerName.FEDERATED_SIGN_IN]);
