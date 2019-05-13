@@ -1,0 +1,2 @@
+important - Removed all FirebaseUI underlying dependencies on deprecated and removed APIs in Firebase version 6.0.0. FirebaseUI no longer supports versions older than 6.0.0.
+feature - Added the ability to immediately redirect to the provider's site or instead show the default 'Sign in with Provider' button when there is only a single federated provider enabled.
