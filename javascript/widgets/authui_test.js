@@ -1306,7 +1306,7 @@ function testAuthUi_delete() {
         'startSignInWithPopup',
         'startSignInWithRedirect',
         'startSignInWithPhoneNumber',
-        'finishSignInWithCredential',
+        'finishSignInAndRetrieveDataWithAuthResult',
         'signInWithExistingEmailAndPasswordForLinking',
         'upgradeWithEmailLink',
         'clearTempAuthState',
@@ -2079,7 +2079,7 @@ function testUpgradeWithEmailLink_emailExists_pendingCredential_conflict() {
     return app.getAuth().process();
   }).then(function() {
     // pendingCredential should be linked to internal user.
-    app.getAuth().currentUser.assertLinkAndRetrieveDataWithCredential(
+    app.getAuth().currentUser.assertLinkWithCredential(
         [pendingCredential],
         function() {
           // Return internal currentUser reference.
@@ -2137,7 +2137,7 @@ function testUpgradeWithEmailLink_newEmail_success() {
       });
   app.getAuth().process().then(function() {
     // Email/link credential should be linked to external anonymous user.
-    app.getExternalAuth().currentUser.assertLinkAndRetrieveDataWithCredential(
+    app.getExternalAuth().currentUser.assertLinkWithCredential(
         [cred],
         function() {
           expectedUserCredential['user'] = app.getExternalAuth().currentUser;
@@ -2226,7 +2226,7 @@ function testSignInWithEmailLink_pendingCredential_success() {
       });
   app.getAuth().process().then(function() {
     // pendingCredential should be linked to internal currentUser.
-    app.getAuth().currentUser.assertLinkAndRetrieveDataWithCredential(
+    app.getAuth().currentUser.assertLinkWithCredential(
         [pendingCredential],
         function() {
           // Make a copy of expected UserCredential to ensure
@@ -2671,7 +2671,7 @@ function testStartCreateUserWithEmailAndPassword__upgradeAnon_isAnon_success() {
     'password': 'password',
     'providerId': 'password'
   };
-  app.getExternalAuth().currentUser.assertLinkAndRetrieveDataWithCredential(
+  app.getExternalAuth().currentUser.assertLinkWithCredential(
       [emailCredential],
       function() {
         app.getExternalAuth().setUser(expectedUser);
@@ -2762,9 +2762,9 @@ function testStartCreateUserWithEmailAndPassword_upgradeAnon_emailInUseError() {
   testAuth.setUser(anonymousUser);
   // Trigger initial onAuthStateChanged listener.
   app.getExternalAuth().runAuthChangeHandler();
-  // linkAndRetrieveDataWithCredential called on external anonymous user and
+  // linkWithCredential called on external anonymous user and
   // throws expected error.
-  app.getExternalAuth().currentUser.assertLinkAndRetrieveDataWithCredential(
+  app.getExternalAuth().currentUser.assertLinkWithCredential(
       [emailCredential],
       null,
       expectedError);
@@ -2822,7 +2822,7 @@ function testStartSignInWithCredential_success() {
         assertEquals(expectedUserCredential, userCredential);
         asyncTestCase.signal();
       });
-  app.getAuth().assertSignInAndRetrieveDataWithCredential(
+  app.getAuth().assertSignInWithCredential(
       [expectedCredential],
       function() {
         app.getAuth().setUser(expectedUser);
@@ -2849,7 +2849,7 @@ function testStartSignInWithCredential_error() {
         assertEquals(expectedError, error);
         asyncTestCase.signal();
       });
-  app.getAuth().assertSignInAndRetrieveDataWithCredential(
+  app.getAuth().assertSignInWithCredential(
       [expectedCredential],
       null,
       expectedError);
@@ -2876,8 +2876,8 @@ function testStartSignInWithCredential_upgradeAnonymous_isAnonymous_success() {
   testAuth.setUser(anonymousUser);
   // Trigger initial onAuthStateChanged listener.
   app.getExternalAuth().runAuthChangeHandler();
-  // linkAndRetrieveDataWithCredential called on external anonymous user.
-  app.getExternalAuth().currentUser.assertLinkAndRetrieveDataWithCredential(
+  // linkWithCredential called on external anonymous user.
+  app.getExternalAuth().currentUser.assertLinkWithCredential(
       [expectedCredential],
       function() {
         app.getExternalAuth().setUser(expectedUser);
@@ -2908,7 +2908,7 @@ function testStartSignInWithCredential_upgradeAnonymous_nonAnonymous_success() {
   app.getExternalAuth().runAuthChangeHandler();
   // signInAndRetrieveDataWithCredential called on internal Auth instance as no
   // anonymous user available.
-  app.getAuth().assertSignInAndRetrieveDataWithCredential(
+  app.getAuth().assertSignInWithCredential(
       [expectedCredential],
       function() {
         app.getAuth().setUser(expectedUser);
@@ -2939,7 +2939,7 @@ function testStartSignInWithCredential_upgradeAnonymous_noUser_success() {
   app.getExternalAuth().runAuthChangeHandler();
   // signInAndRetrieveDataWithCredential called on internal Auth instance as no
   // user available.
-  app.getAuth().assertSignInAndRetrieveDataWithCredential(
+  app.getAuth().assertSignInWithCredential(
       [expectedCredential],
       function() {
         app.getAuth().setUser(expectedUser);
@@ -2985,9 +2985,9 @@ function testStartSignInWithCredential_upgradeAnonymous_emailInUseError() {
   testAuth.setUser(anonymousUser);
   // Trigger initial onAuthStateChanged listener.
   app.getExternalAuth().runAuthChangeHandler();
-  // linkAndRetrieveDataWithCredential called on external anonymous user and
+  // linkWithCredential called on external anonymous user and
   // throws expected error.
-  app.getExternalAuth().currentUser.assertLinkAndRetrieveDataWithCredential(
+  app.getExternalAuth().currentUser.assertLinkWithCredential(
       [expectedCredential],
       null,
       expectedError);
@@ -3040,9 +3040,9 @@ function testStartSignInWithCredential_upgradeAnonymous_credentialInUseError() {
   testAuth.setUser(anonymousUser);
   // Trigger initial onAuthStateChanged listener.
   app.getExternalAuth().runAuthChangeHandler();
-  // linkAndRetrieveDataWithCredential called on external anonymous user and
+  // linkWithCredential called on external anonymous user and
   // expected error thrown.
-  app.getExternalAuth().currentUser.assertLinkAndRetrieveDataWithCredential(
+  app.getExternalAuth().currentUser.assertLinkWithCredential(
       [expectedCredential],
       null,
       expectedError);
@@ -3969,449 +3969,6 @@ function testStartSignInAnonymously_error() {
 }
 
 
-function testFinishSignInWithCredential_success() {
-  testApp = new firebaseui.auth.testing.FakeAppClient(options);
-  testAuth = testApp.auth();
-  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
-  app.getAuth().install();
-  app.getExternalAuth().install();
-  app.getAuth().setUser(expectedUser);
-  asyncTestCase.waitForSignals(1);
-  app.finishSignInWithCredential(expectedCredential)
-      .then(function(user) {
-        assertNull(app.getAuth().currentUser);
-        assertEquals(app.getExternalAuth().currentUser, user);
-        asyncTestCase.signal();
-      });
-  app.getAuth().process().then(function() {
-    // Sign out on internal instance first.
-    app.getAuth().assertSignOut(
-        [],
-        function() {
-          app.getAuth().setUser(null);
-        });
-    return app.getAuth().process();
-  }).then(function() {
-    app.getExternalAuth().assertSignInWithCredential(
-        [expectedCredential],
-        function() {
-          app.getExternalAuth().setUser(expectedUser);
-          return app.getExternalAuth().currentUser;
-        });
-    return app.getExternalAuth().process();
-  });
-}
-
-
-function testFinishSignInWithCredential_error() {
-  var expectedError = {
-    'code': 'auth/network-request-failed',
-    'message': 'MESSAGE'
-  };
-  testApp = new firebaseui.auth.testing.FakeAppClient(options);
-  testAuth = testApp.auth();
-  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
-  app.getAuth().install();
-  app.getExternalAuth().install();
-  app.getAuth().setUser(expectedUser);
-  asyncTestCase.waitForSignals(1);
-  app.finishSignInWithCredential(expectedCredential)
-      .then(fail, function(error) {
-        assertNull(app.getAuth().currentUser);
-        assertEquals(expectedError, error);
-        asyncTestCase.signal();
-      });
-  app.getAuth().process().then(function() {
-    app.getAuth().assertSignOut(
-        [],
-        function() {
-          app.getAuth().setUser(null);
-        });
-    return app.getAuth().process();
-  }).then(function() {
-    app.getExternalAuth().assertSignInWithCredential(
-        [expectedCredential],
-        null,
-        expectedError);
-    return app.getExternalAuth().process();
-  });
-}
-
-
-function testFinishSignInWithCredential_updateCurrentUser_success() {
-  testApp = new firebaseui.auth.testing.FakeAppClient(options);
-  testAuth = testApp.auth();
-  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
-  app.getAuth().install();
-  app.getExternalAuth().install();
-  app.getAuth().setUser(expectedUser);
-  asyncTestCase.waitForSignals(1);
-  app.finishSignInWithCredential(expectedCredential, expectedUser)
-      .then(function(user) {
-        assertNull(app.getAuth().currentUser);
-        assertEquals(app.getExternalAuth().currentUser, user);
-        asyncTestCase.signal();
-      });
-  app.getAuth().process().then(function() {
-    // Sign out on internal instance first.
-    app.getAuth().assertSignOut(
-        [],
-        function() {
-          app.getAuth().setUser(null);
-        });
-    return app.getAuth().process();
-  }).then(function() {
-    app.getExternalAuth().assertUpdateCurrentUser(
-        [expectedUser],
-        function() {
-          app.getExternalAuth().setUser(expectedUser);
-        });
-    return app.getExternalAuth().process();
-  });
-}
-
-
-function testFinishSignInWithCredential_updateCurrentUser_error() {
-  var expectedError = {
-    'code': 'auth/internal-error',
-    'message': 'MESSAGE'
-  };
-  testApp = new firebaseui.auth.testing.FakeAppClient(options);
-  testAuth = testApp.auth();
-  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
-  app.getAuth().install();
-  app.getExternalAuth().install();
-  app.getAuth().setUser(expectedUser);
-  asyncTestCase.waitForSignals(1);
-  app.finishSignInWithCredential(expectedCredential, expectedUser)
-      .then(fail, function(error) {
-        assertNull(app.getAuth().currentUser);
-        assertEquals(expectedError, error);
-        asyncTestCase.signal();
-      });
-  app.getAuth().process().then(function() {
-    // Sign out on internal instance first.
-    app.getAuth().assertSignOut(
-        [],
-        function() {
-          app.getAuth().setUser(null);
-        });
-    return app.getAuth().process();
-  }).then(function() {
-    app.getExternalAuth().assertUpdateCurrentUser(
-        [expectedUser],
-        null,
-        expectedError);
-    return app.getExternalAuth().process();
-  });
-}
-
-
-function testFinishSignInWithCredential_upgradeAnonymous_nonAnonymous() {
-  testApp = new firebaseui.auth.testing.FakeAppClient(options);
-  testAuth = testApp.auth();
-  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
-  // Simulate autoUpgradeAnonymousUsers set to true.
-  app.setConfig(anonymousUpgradeConfig);
-  app.getAuth().install();
-  app.getExternalAuth().install();
-  asyncTestCase.waitForSignals(1);
-  // Simulate non-anonymous user already logged in on external instance.
-  testAuth.setUser(expectedUser);
-  // No underlying Auth call needed.
-  app.finishSignInWithCredential(expectedCredential)
-      .then(function(user) {
-        assertEquals(app.getExternalAuth().currentUser, user);
-        // Call again and confirm no onAuthStateChanged listener set again.
-        // This should resolve with triggering runAuthChangeHandler.
-        app.finishSignInWithCredential(expectedCredential).then(function(user) {
-          assertEquals(app.getExternalAuth().currentUser, user);
-          // Reset app.
-          app.reset();
-          // Reset should cause onAuthStateChanged to unsubscribe.
-          app.finishSignInWithCredential(expectedCredential)
-              .then(function(user) {
-                assertEquals(app.getExternalAuth().currentUser, user);
-                // Reset app.
-                app.reset();
-                // This should fail due to reset call and onAuthStateChanged
-                // should unsubscribe.
-                app.finishSignInWithCredential(expectedCredential)
-                    .then(fail, function(error) {
-                      assertEquals('cancel', error['name']);
-                      asyncTestCase.signal();
-                    });
-                app.reset();
-              });
-          // Trigger initial onAuthStateChanged listener for new listener to
-          // resolve after reset.
-          app.getExternalAuth().runAuthChangeHandler();
-        });
-      });
-  // Trigger initial onAuthStateChanged listener.
-  app.getExternalAuth().runAuthChangeHandler();
-  app.getExternalAuth().process();
-  app.getAuth().process().then(function() {
-    // Sign out on internal instance.
-    app.getAuth().assertSignOut([]);
-    return app.getAuth().process();
-  }).then(function() {
-    // Assert signOut on reset.
-    app.getAuth().assertSignOut([]);
-    return app.getAuth().process();
-  }).then(function() {
-   // Sign out on internal instance.
-    app.getAuth().assertSignOut([]);
-    return app.getAuth().process();
-  }).then(function() {
-    // Second signOut on reset.
-    app.getAuth().assertSignOut([]);
-    return app.getAuth().process();
-  }).then(function() {
-    /// Sign out on internal instance.
-    app.getAuth().assertSignOut([]);
-    return app.getAuth().process();
-  }).then(function() {
-    // Third signOut on reset.
-    app.getAuth().assertSignOut([]);
-    return app.getAuth().process();
-  });
-}
-
-
-function testFinishSignInWithCredential_upgradeAnon_nonAnonUserOnTempAuth() {
-  // If there is a user signed in on internal instance, finish the sign in flow
-  // by signing it on external instance.
-  testApp = new firebaseui.auth.testing.FakeAppClient(options);
-  testAuth = testApp.auth();
-  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
-  // Simulate autoUpgradeAnonymousUsers set to true.
-  app.setConfig(anonymousUpgradeConfig);
-  app.getAuth().install();
-  app.getExternalAuth().install();
-  asyncTestCase.waitForSignals(1);
-  var userOnExternalInstance = {
-    'email': 'user2@example.com',
-    'displayName': 'Federated User2'
-  };
-  // Simulate a user already logged in on external instance.
-  testAuth.setUser(userOnExternalInstance);
-  // Simulate another user already logged in on internal instance.
-  app.getAuth().setUser(expectedUser);
-  var userOnInternalInstance = app.getAuth().currentUser;
-  app.finishSignInWithCredential(expectedCredential)
-      .then(function(user) {
-        // User on internal instance should be signed out.
-        assertNull(app.getAuth().currentUser);
-        // The user returned should be the one originally signed in on internal
-        // instance.
-        assertObjectEquals(userOnInternalInstance, user);
-        assertEquals(app.getExternalAuth().currentUser, user);
-        asyncTestCase.signal();
-      });
-  // Trigger initial onAuthStateChanged listener.
-  app.getExternalAuth().runAuthChangeHandler();
-  app.getAuth().process().then(function() {
-    app.getAuth().assertSignOut(
-        [],
-        function() {
-          app.getAuth().setUser(null);
-        });
-    return app.getAuth().process();
-  }).then(function() {
-    app.getExternalAuth().assertSignInWithCredential(
-        [expectedCredential],
-        function() {
-          app.getExternalAuth().setUser(expectedUser);
-          return app.getExternalAuth().currentUser;
-        });
-    return app.getExternalAuth().process();
-  });
-}
-
-
-function testFinishSignInWithCredential_upgradeAnonymous_noUser() {
-  testApp = new firebaseui.auth.testing.FakeAppClient(options);
-  testAuth = testApp.auth();
-  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
-  // Simulate autoUpgradeAnonymousUsers set to true.
-  app.setConfig(anonymousUpgradeConfig);
-  app.getAuth().install();
-  app.getExternalAuth().install();
-  app.getAuth().setUser(expectedUser);
-  asyncTestCase.waitForSignals(1);
-  // No user signed in.
-  app.getExternalAuth().setUser(null);
-  app.finishSignInWithCredential(expectedCredential)
-      .then(function(user) {
-        assertNull(app.getAuth().currentUser);
-        assertEquals(app.getExternalAuth().currentUser, user);
-        asyncTestCase.signal();
-      });
-  // Trigger initial onAuthStateChanged listener.
-  app.getExternalAuth().runAuthChangeHandler();
-  app.getAuth().process().then(function() {
-    app.getAuth().assertSignOut(
-        [],
-        function() {
-          app.getAuth().setUser(null);
-        });
-    return app.getAuth().process();
-  }).then(function() {
-    // signInWithCredential called as no user available.
-    app.getExternalAuth().assertSignInWithCredential(
-        [expectedCredential],
-        function() {
-          app.getExternalAuth().setUser(expectedUser);
-          return app.getExternalAuth().currentUser;
-        });
-    return app.getExternalAuth().process();
-  });
-}
-
-
-function testFinishSignInWithCredential_upgradeAnonymous_anonymousUser() {
-  testApp = new firebaseui.auth.testing.FakeAppClient(options);
-  testAuth = testApp.auth();
-  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
-  // Simulate autoUpgradeAnonymousUsers set to true.
-  app.setConfig(anonymousUpgradeConfig);
-  app.getAuth().install();
-  app.getExternalAuth().install();
-  asyncTestCase.waitForSignals(1);
-  // Simulate anonymous user signed in on external instance.
-  app.getExternalAuth().setUser(anonymousUser);
-  app.finishSignInWithCredential(expectedCredential)
-      .then(function(user) {
-        assertEquals(app.getExternalAuth().currentUser, user);
-        asyncTestCase.signal();
-      });
-  // Trigger initial onAuthStateChanged listener.
-  app.getExternalAuth().runAuthChangeHandler();
-  app.getAuth().process().then(function() {
-    app.getAuth().assertSignOut([]);
-    return app.getAuth().process();
-  }).then(function() {
-    // linkWithCredential called on external user since an anonymous user is
-    // available and autoUpgradeAnonymousUsers is set to true.
-    app.getExternalAuth().currentUser.assertLinkWithCredential(
-        [expectedCredential],
-        function() {
-          app.getExternalAuth().setUser(expectedUser);
-          return app.getExternalAuth().currentUser;
-        });
-    return app.getExternalAuth().process();
-  });
-}
-
-
-function testFinishSignInWithCredential_upgradeAnon_anonUser_credInUse() {
-  var expectedError = {
-    'code': 'auth/credential-already-in-use',
-    'message': 'MESSAGE',
-    'email': expectedUser['email'],
-    'credential': expectedCredential
-  };
-  // Record calls on onUpgradeError.
-  testStubs.replace(
-      firebaseui.auth.AuthUI.prototype,
-      'onUpgradeError',
-      goog.testing.recordFunction(function(error) {
-        return goog.Promise.reject(error);
-      }));
-  testApp = new firebaseui.auth.testing.FakeAppClient(options);
-  testAuth = testApp.auth();
-  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
-  // Simulate autoUpgradeAnonymousUsers set to true.
-  app.setConfig(anonymousUpgradeConfig);
-  app.getAuth().install();
-  app.getExternalAuth().install();
-  asyncTestCase.waitForSignals(1);
-  // Simulate anonymous user signed in on external instance.
-  app.getExternalAuth().setUser(anonymousUser);
-  app.finishSignInWithCredential(expectedCredential)
-      .then(fail, function(error) {
-        // onUpgradeError should be called with expected arguments.
-        assertEquals(
-            1, firebaseui.auth.AuthUI.prototype.onUpgradeError.getCallCount());
-        assertEquals(
-            error,
-            firebaseui.auth.AuthUI.prototype.onUpgradeError.getLastCall()
-                .getArgument(0));
-        assertEquals(
-            expectedCredential,
-            firebaseui.auth.AuthUI.prototype.onUpgradeError.getLastCall()
-                .getArgument(1));
-        assertEquals(expectedError, error);
-        asyncTestCase.signal();
-      });
-  // Trigger initial onAuthStateChanged listener.
-  app.getExternalAuth().runAuthChangeHandler();
-  app.getAuth().process().then(function() {
-    app.getAuth().assertSignOut([]);
-    return app.getAuth().process();
-  }).then(function() {
-    // linknWithCredential called since an eligible anonymous user is available
-    // on external Auth instance.
-    app.getExternalAuth().currentUser.assertLinkWithCredential(
-        [expectedCredential],
-        null,
-        expectedError);
-    return app.getExternalAuth().process();
-  });
-}
-
-
-function testFinishSignInWithCredential_upgradeAnon_anonUser_emailInUse() {
-  var expectedError = {
-    'code': 'auth/email-already-in-use',
-    'message': 'MESSAGE',
-    'email': expectedUser['email'],
-    'credential': expectedCredential
-  };
-  // Record calls on onUpgradeError.
-  testStubs.replace(
-      firebaseui.auth.AuthUI.prototype,
-      'onUpgradeError',
-      goog.testing.recordFunction(function(error) {
-        return goog.Promise.reject(error);
-      }));
-  testApp = new firebaseui.auth.testing.FakeAppClient(options);
-  testAuth = testApp.auth();
-  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
-  // Simulate autoUpgradeAnonymousUsers set to true.
-  app.setConfig(anonymousUpgradeConfig);
-  app.getAuth().install();
-  app.getExternalAuth().install();
-  asyncTestCase.waitForSignals(1);
-  // Simulate anonymous user signed in on external instance.
-  app.getExternalAuth().setUser(anonymousUser);
-  app.finishSignInWithCredential(expectedCredential)
-      .then(fail, function(error) {
-        // onUpgradeError should not be called. email-already-in-use error
-        // should be processed in handlers to trigger the account linking flow.
-        assertEquals(
-            0, firebaseui.auth.AuthUI.prototype.onUpgradeError.getCallCount());
-        assertEquals(expectedError, error);
-        asyncTestCase.signal();
-      });
-  // Trigger initial onAuthStateChanged listener.
-  app.getExternalAuth().runAuthChangeHandler();
-  app.getAuth().process().then(function() {
-    app.getAuth().assertSignOut([]);
-    return app.getAuth().process();
-  }).then(function() {
-    // linknWithCredential called since an eligible anonymous user is available
-    // on external Auth instance.
-    app.getExternalAuth().currentUser.assertLinkWithCredential(
-        [expectedCredential],
-        null,
-        expectedError);
-    return app.getExternalAuth().process();
-  });
-}
-
-
 function testFinishSignInAndRetrieveDataWithAuthResult_success() {
   testApp = new firebaseui.auth.testing.FakeAppClient(options);
   testAuth = testApp.auth();
@@ -4884,9 +4441,9 @@ function testFinishSignInAndRetrieveDataWithAuthResult_upgradeAnon_anonUser() {
     app.getAuth().assertSignOut([]);
     return app.getAuth().process();
   }).then(function() {
-    // linkAndRetrieveDataWithCredential called on external user since an
+    // linkWithCredential called on external user since an
     // anonymous user is available and autoUpgradeAnonymousUsers is set to true.
-    app.getExternalAuth().currentUser.assertLinkAndRetrieveDataWithCredential(
+    app.getExternalAuth().currentUser.assertLinkWithCredential(
         [expectedCredential],
         function() {
           app.getExternalAuth().setUser(expectedUser);
@@ -4953,9 +4510,9 @@ function testfinishSignInAndRetrieveDataWithAuthResult_upgradeAnon_credInUse() {
     app.getAuth().assertSignOut([]);
     return app.getAuth().process();
   }).then(function() {
-    // linkAndRetrieveDataWithCredential called since an eligible anonymous
+    // linkWithCredential called since an eligible anonymous
     // user is available on external Auth instance.
-    app.getExternalAuth().currentUser.assertLinkAndRetrieveDataWithCredential(
+    app.getExternalAuth().currentUser.assertLinkWithCredential(
         [expectedCredential],
         null,
         expectedError);
@@ -5009,9 +4566,9 @@ function testfinishSignInAndRetrieveDataWithAuthResult_upgrdAnon_emailInUse() {
     app.getAuth().assertSignOut([]);
     return app.getAuth().process();
   }).then(function() {
-    // linkAndRetrieveDataWithCredential called since an eligible anonymous
+    // linkWithCredential called since an eligible anonymous
     // user is available on external Auth instance.
-    app.getExternalAuth().currentUser.assertLinkAndRetrieveDataWithCredential(
+    app.getExternalAuth().currentUser.assertLinkWithCredential(
         [expectedCredential],
         null,
         expectedError);

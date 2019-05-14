@@ -120,7 +120,7 @@ function testHandlePasswordSignUp_anonymousUpgrade_success() {
   externalAuth.runAuthChangeHandler();
   var cred = new firebase.auth.EmailAuthProvider.credential(
       passwordAccount.getEmail(), '123123');
-  externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+  externalAuth.currentUser.assertLinkWithCredential(
       [cred],
       function() {
         // User should be signed in.
@@ -171,7 +171,7 @@ function testHandlePasswordSignUp_anonUpgrade_signInSuccessWithAuthResult() {
   externalAuth.runAuthChangeHandler();
   var cred = new firebase.auth.EmailAuthProvider.credential(
       passwordAccount.getEmail(), '123123');
-  externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+  externalAuth.currentUser.assertLinkWithCredential(
       [cred],
       function() {
         // User should be signed in.
@@ -227,7 +227,7 @@ function testHandlePasswordSignUp_anonymousUpgrade_emailInUse() {
   var error = {
     'code': 'auth/email-already-in-use'
   };
-  externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+  externalAuth.currentUser.assertLinkWithCredential(
       [cred], null, error);
   return externalAuth.process().then(function() {
     testAuth.assertFetchSignInMethodsForEmail(

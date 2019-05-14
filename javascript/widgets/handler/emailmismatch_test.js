@@ -256,7 +256,7 @@ function testHandleEmailMismatch_linking_continue_upgradeAnonymous() {
     return testAuth.process();
   }).then(function() {
     // Linking the credential to continue with to the existing anonymous user.
-    externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+    externalAuth.currentUser.assertLinkWithCredential(
         [credential],
         function() {
           externalAuth.setUser(testAuth.currentUser);
@@ -331,7 +331,7 @@ function testHandleEmailMismatch_linking_continue_upgradeAnonymous_error() {
     return testAuth.process();
   }).then(function() {
     // Linking the credential to continue with to the existing anonymous user.
-    externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+    externalAuth.currentUser.assertLinkWithCredential(
         [credential],
         null,
         expectedError);
@@ -377,7 +377,7 @@ function testHandleEmailMismatch_linking_anon_error_signInWithAuthResultCb() {
     'operationType': 'signIn',
     'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
   };
-  // Expected linkAndRetrieveDataWithCredential error.
+  // Expected linkWithCredential error.
   var expectedError = {
     'code': 'auth/credential-already-in-use',
     'credential': credential,
@@ -403,7 +403,7 @@ function testHandleEmailMismatch_linking_anon_error_signInWithAuthResultCb() {
     return testAuth.process();
   }).then(function() {
     // Linking the credential to continue with to the existing anonymous user.
-    externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+    externalAuth.currentUser.assertLinkWithCredential(
         [credential],
         null,
         expectedError);

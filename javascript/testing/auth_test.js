@@ -55,7 +55,7 @@ function testFakeAuthClient_success() {
   var password = 'password';
   var user = {'uid': 'USER_ID'};
   // This block will be called in UI interactions.
-  auth.fetchProvidersForEmail(email).then(function(arr) {
+  auth.fetchSignInMethodsForEmail(email).then(function(arr) {
     return auth.signInWithEmailAndPassword(email, password)
         .then(function(user) {
           return auth.signOut();
@@ -63,7 +63,7 @@ function testFakeAuthClient_success() {
   }, function(error) {
     return auth.createUserWithEmailAndPassword(email, password);
   });
-  auth.fetchProvidersForEmail(email2).thenCatch(function(error) {
+  auth.fetchSignInMethodsForEmail(email2).thenCatch(function(error) {
     return auth.createUserWithEmailAndPassword(email2, password);
   });
   auth.sendPasswordResetEmail(email2).thenCatch(function(error) {
@@ -79,10 +79,11 @@ function testFakeAuthClient_success() {
   });
 
   // Simulate API calls in tests.
-  auth.assertFetchProvidersForEmail([email], ['google.com', 'facebook.com']);
+  auth.assertFetchSignInMethodsForEmail(
+      [email], ['google.com', 'facebook.com']);
   auth.assertSignInWithEmailAndPassword([email, password], user);
   auth.assertSignOut([]);
-  auth.assertFetchProvidersForEmail([email2], null, new Error());
+  auth.assertFetchSignInMethodsForEmail([email2], null, new Error());
   auth.assertCreateUserWithEmailAndPassword([email2, password], user);
   // It also works when passing in a function.
   auth.assertCheckActionCode(['actionCode'], function() {
@@ -189,13 +190,14 @@ function testFakeAuthClient_unexpectedApiError() {
   var email = 'user@example.com';
   var password = 'password';
   var user = {'uid': 'USER_ID'};
-  auth.fetchProvidersForEmail(email).then(function(arr) {
+  auth.fetchSignInMethodsForEmail(email).then(function(arr) {
     return auth.signInWithEmailAndPassword(email, password);
   }, function(error) {
     return auth.createUserWithEmailAndPassword(email, password);
   });
   // Simulate API calls.
-  auth.assertFetchProvidersForEmail([email], ['google.com', 'facebook.com']);
+  auth.assertFetchSignInMethodsForEmail(
+      [email], ['google.com', 'facebook.com']);
   auth.process().then(function() {
     return auth.uninstall();
   }).thenCatch(function(e) {

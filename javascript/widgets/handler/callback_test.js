@@ -637,7 +637,7 @@ function testHandleCallback_redirectUser_pendingCredential_success() {
       'operationType': 'link',
       'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
     };
-    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+    testAuth.currentUser.assertLinkWithCredential(
         [cred], userCredential);
     return testAuth.process();
     // Sign out from internal instance and then sign in with passed credential
@@ -699,7 +699,7 @@ function testHandleCallback_signedInUser_pendingCredential_success_popup() {
       'operationType': 'link',
       'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
     };
-    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+    testAuth.currentUser.assertLinkWithCredential(
         [cred], userCredential);
     return testAuth.process();
     // Sign out from internal instance and then sign in with passed credential
@@ -768,7 +768,7 @@ function testHandleCallback_redirectUser_pendingCredential_signInCallback() {
       'operationType': 'link',
       'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
     };
-    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+    testAuth.currentUser.assertLinkWithCredential(
         [cred], userCredential);
     return testAuth.process();
     // Sign out from internal instance and then sign in with passed credential
@@ -849,7 +849,7 @@ function testHandleCallback_redirectUser_pendingCred_signInWithAuthResultCb() {
       'operationType': 'link',
       'additionalUserInfo': {'providerId': 'facebook.com', 'isNewUser': false}
     };
-    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+    testAuth.currentUser.assertLinkWithCredential(
         [credToLink], userCredential);
     return testAuth.process();
     // Sign out from internal instance and then sign in with passed credential
@@ -936,7 +936,7 @@ function testHandleCallback_pendingCred_signInWithAuthResultCb_popup() {
       'operationType': 'link',
       'additionalUserInfo': {'providerId': 'facebook.com', 'isNewUser': false}
     };
-    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+    testAuth.currentUser.assertLinkWithCredential(
         [credToLink], userCredential);
     return testAuth.process();
     // Sign out from internal instance and then sign in with passed credential
@@ -1100,7 +1100,7 @@ function testHandleCallback_redirectUser_pendingCredential_error() {
   testAuth.process().then(function() {
     // Linking should be triggered with pending credential.
     // Simulate an error here.
-    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+    testAuth.currentUser.assertLinkWithCredential(
         [cred], null, internalError);
     return testAuth.process();
   }).then(function() {
@@ -1155,7 +1155,7 @@ function testHandleCallback_redirectUser_alwaysShowNascarScreenOnError() {
   testAuth.process().then(function() {
     // Linking should be triggered with pending credential.
     // Simulate an error here.
-    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+    testAuth.currentUser.assertLinkWithCredential(
         [cred], null, internalError);
     return testAuth.process();
   }).then(function() {
@@ -1201,7 +1201,7 @@ function testHandleCallback_signedInUser_pendingCred_error_popup() {
   testAuth.process().then(function() {
     // Linking should be triggered with pending credential.
     // Simulate an error here.
-    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+    testAuth.currentUser.assertLinkWithCredential(
         [cred], null, internalError);
     return testAuth.process();
   }).then(function() {
@@ -1254,7 +1254,7 @@ function testHandleCallback_redirectUser_pendingCredential_err_emailAuthOnly() {
   testAuth.process().then(function() {
     // Linking should be triggered with pending credential.
     // Simulate an error here.
-    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+    testAuth.currentUser.assertLinkWithCredential(
         [cred], null, internalError);
     return testAuth.process();
   }).then(function() {
@@ -1307,7 +1307,7 @@ function testHandleCallback_signedInUser_pendingCred_err_emailAuthOnly_popup() {
   testAuth.process().then(function() {
     // Linking should be triggered with pending credential.
     // Simulate an error here.
-    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+    testAuth.currentUser.assertLinkWithCredential(
         [cred], null, internalError);
     return testAuth.process();
   }).then(function() {
@@ -2820,7 +2820,7 @@ function testHandleCallback_anonymousUpgrade_pendingCredential_success() {
   });
   var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
       federatedAccount.getEmail(), cred);
-  // Expected linkAndRetrieveDataWithCredential error.
+  // Expected linkWithCredential error.
   var expectedError = {
     'code': 'auth/credential-already-in-use',
     'credential': cred,
@@ -2865,7 +2865,7 @@ function testHandleCallback_anonymousUpgrade_pendingCredential_success() {
       'operationType': 'link',
       'additionalUserInfo': {'providerId': 'google.com', 'isNewUser': false}
     };
-    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+    testAuth.currentUser.assertLinkWithCredential(
         [cred], userCredential);
     return testAuth.process();
     // Sign out from internal instance and then sign in with passed credential
@@ -2876,7 +2876,7 @@ function testHandleCallback_anonymousUpgrade_pendingCredential_success() {
   }).then(function() {
     // Linking existing credential to anonymous user should fail with expected
     // error.
-    externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+    externalAuth.currentUser.assertLinkWithCredential(
         [cred],
         null,
         expectedError);
@@ -2918,7 +2918,7 @@ function testHandleCallback_anonUpgrade_pendingCred_signInWithAuthResultCb() {
   });
   var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
       federatedAccount.getEmail(), credToLink);
-  // Expected linkAndRetrieveDataWithCredential error.
+  // Expected linkWithCredential error.
   var expectedError = {
     'code': 'auth/credential-already-in-use',
     'credential': credToLink,
@@ -2967,7 +2967,7 @@ function testHandleCallback_anonUpgrade_pendingCred_signInWithAuthResultCb() {
     };
     // On successful google sign in, the saved facebook credential is linked
     // successful in internal Auth instance.
-    testAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+    testAuth.currentUser.assertLinkWithCredential(
         [credToLink], userCredential);
     return testAuth.process();
     // Sign out from internal instance and then sign in with passed credential
@@ -2979,7 +2979,7 @@ function testHandleCallback_anonUpgrade_pendingCred_signInWithAuthResultCb() {
     // The anonymous upgrade flow on external currentUser will fail due to
     // merge conflict when the facebook credential is linked and returned back
     // to the developer.
-    externalAuth.currentUser.assertLinkAndRetrieveDataWithCredential(
+    externalAuth.currentUser.assertLinkWithCredential(
         [credToLink],
         null,
         expectedError);

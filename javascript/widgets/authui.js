@@ -1086,7 +1086,7 @@ firebaseui.auth.AuthUI.prototype.upgradeWithEmailLink = function(
     p = this.getAuth().signInWithEmailLink(email, link)
         .then(function(userCredential) {
           return userCredential['user']
-              .linkAndRetrieveDataWithCredential(pendingCredential);
+              .linkWithCredential(pendingCredential);
         })
         .then(function(linkedUserCredential) {
           return self.clearTempAuthState();
@@ -1103,7 +1103,7 @@ firebaseui.auth.AuthUI.prototype.upgradeWithEmailLink = function(
           if (!signInMethods.length) {
             // New email. Linking email credential to anonymous user should
             // succeed.
-            return user.linkAndRetrieveDataWithCredential(credential);
+            return user.linkWithCredential(credential);
           } else {
             // Existing email will trigger merge conflict. In this case, we
             // avoid consuming the one-time credential.
@@ -1150,7 +1150,7 @@ firebaseui.auth.AuthUI.prototype.signInWithEmailLink = function(
         // If there is a pending credential, link it to signed in user.
         if (pendingCredential) {
           return userCredential['user']
-              .linkAndRetrieveDataWithCredential(pendingCredential)
+              .linkWithCredential(pendingCredential)
               .then(function(linkedUserCredential) {
                 authResult = {
                   'user': linkedUserCredential['user'],
@@ -1278,7 +1278,7 @@ firebaseui.auth.AuthUI.prototype.startCreateUserWithEmailAndPassword =
       // Auth user. Otherwise merge conflict will always occur when linking the
       // credential to the external anonymous user after creation.
       return /** @type {!firebase.Promise<!firebase.auth.UserCredential>} */ (
-          user.linkAndRetrieveDataWithCredential(credential));
+          user.linkWithCredential(credential));
     } else {
       // Start create user with email and password. This runs on the internal
       // Auth instance as finish sign in will sign in with that same credential
@@ -1310,7 +1310,7 @@ firebaseui.auth.AuthUI.prototype.startSignInWithCredential =
       // Auth user. Otherwise merge conflict will always occur when linking the
       // credential to the external anonymous user after creation.
       return /** @type {!firebase.Promise<!firebase.auth.UserCredential>} */ (
-          user.linkAndRetrieveDataWithCredential(credential)
+          user.linkWithCredential(credential)
           .then(function(result) {
             return result;
           }, function(error) {
@@ -1332,7 +1332,7 @@ firebaseui.auth.AuthUI.prototype.startSignInWithCredential =
       // Starts sign in with a Firebase Auth credential, typically an OAuth
       // credential. This runs on the internal Auth instance as finish sign in
       // will sign in with that same credential to developer Auth instance.
-      return self.getAuth().signInAndRetrieveDataWithCredential(credential);
+      return self.getAuth().signInWithCredential(credential);
     }
   };
   // Initialize current user if auto upgrade is enabled beforing running
@@ -1503,89 +1503,6 @@ firebaseui.auth.AuthUI.prototype.startSignInAnonymously = function() {
 
 /**
  * Finishes FirebaseUI login with the given 3rd party credentials.
- * @param {!firebase.auth.AuthCredential} credential The auth credential.
- * @param {?firebase.User=} opt_user The optional user to sign in with if
- *     available.
- * @return {!firebase.Promise<!firebase.User>}
- */
-firebaseui.auth.AuthUI.prototype.finishSignInWithCredential =
-    function(credential, opt_user) {
-  // Check if instance is already destroyed.
-  this.checkIfDestroyed_();
-  var self = this;
-  var cb = function(user) {
-    // Anonymous user upgrade successful, sign out on internal instance and
-    // resolve with the user. No need to sign in again with the same credential
-    // on the external Auth instance.
-    // If user is signed in on internal instance, ignore the user on external
-    // instance, sign out on internal instance and finish the sign in on
-    // external instance.
-    if (self.currentUser_ &&
-        !self.currentUser_['isAnonymous'] &&
-        self.getConfig().autoUpgradeAnonymousUsers() &&
-        !self.getAuth().currentUser) {
-      return self.clearTempAuthState().then(function() {
-        return self.currentUser_;
-      });
-    } else if (user) {
-      // TODO: optimize and fail directly as this will fail in most cases
-      // with error credential already in use.
-      // There are cases where this is required. For example, when email
-      // mismatch occurs and the user continues with the new account.
-      return /** @type {!firebase.Promise<!firebase.User>} */ (
-          self.clearTempAuthState().then(function() {
-            return user.linkWithCredential(credential);
-          }).then(function() {
-            return user;
-          }, function(error) {
-            // Rethrow email already in use error so it can trigger the account
-            // linking flow.
-            if (error &&
-                error['code'] == 'auth/email-already-in-use' &&
-                error['email'] && error['credential']) {
-              throw error;
-            }
-            // For all other errors, run onUpgrade check.
-            return self.onUpgradeError(error, credential);
-          }));
-    } else {
-      // Finishes sign in with the supplied credential on the developer provided
-      // Auth instance. On completion, this will redirect to signInSuccessUrl or
-      // trigger the signInSuccess callback.
-      return self.clearTempAuthState().then(function() {
-        // updateCurrentUser is more efficient and less error prone than
-        // signInWithCredential.
-        // The former can resolve the operation without any network request
-        // whereas the latter will send 2 requests.
-        // In addition, updateCurrentUser has lower risk of failure in the
-        // following cases:
-        // 1. No network connection: operation can execute without any network
-        // call in most cases.
-        // 2. Will not run into expired OAuth credential errors unlike
-        // signInWithCredential. This may happen if the user waits too long
-        // before completing sign-in in the email mismatch flow.
-        // 3. Ability to copy a user for all providers. Some OAuth providers
-        // cannot be used headlessly or their credentials are one-time only.
-        if (!!opt_user) {
-          return self.getExternalAuth().updateCurrentUser(opt_user)
-              .then(function() {
-                // Return currentUser on external instance.
-                return self.getExternalAuth().currentUser;
-              });
-        }
-        // If no user is available fallback to signInWithCredential.
-        return self.getExternalAuth().signInWithCredential(credential);
-      });
-    }
-  };
-  // Initialize current user if auto upgrade is enabled beforing running
-  // callback and returning result.
-  return this.initializeForAutoUpgrade_(cb);
-};
-
-
-/**
- * Finishes FirebaseUI login with the given 3rd party credentials.
  * @param {!firebaseui.auth.AuthResult} authResult The Auth result.
  * @return {!firebase.Promise<!firebaseui.auth.AuthResult>}
  */
@@ -1613,7 +1530,7 @@ firebaseui.auth.AuthUI.prototype.finishSignInAndRetrieveDataWithAuthResult =
       // mismatch occurs and the user continues with the new account.
       return /** @type {!firebase.Promise<!firebaseui.auth.AuthResult>} */ (
           self.clearTempAuthState().then(function() {
-            return user.linkAndRetrieveDataWithCredential(
+            return user.linkWithCredential(
                 authResult['credential']);
           }).then(function(userCredential) {
             authResult['user'] = userCredential['user'];

@@ -160,7 +160,7 @@ firebaseui.auth.widget.handler.handleCallbackResult_ =
     if (pendingCredential) {
       // Check if there is a pending auth credential. If so, complete the link
       // process and delete the pending credential.
-      app.registerPending(result['user'].linkAndRetrieveDataWithCredential(
+      app.registerPending(result['user'].linkWithCredential(
           pendingCredential)
           .then(function(userCredential) {
             // Linking successful, complete sign in, pass pending credentials
