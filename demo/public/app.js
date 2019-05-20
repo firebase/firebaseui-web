@@ -130,7 +130,7 @@ var handleSignedInUser = function(user) {
   document.getElementById('name').textContent = user.displayName;
   document.getElementById('email').textContent = user.email;
   document.getElementById('phone').textContent = user.phoneNumber;
-  if (user.photoURL){
+  if (user.photoURL) {
     var photoURL = user.photoURL;
     // Append size to the photo URL for Google hosted images to avoid requesting
     // the image with its original resolution (using more bandwidth than needed)
