@@ -24,7 +24,7 @@ FirebaseUI Auth clients are also available for
 FirebaseUI fully supports all recent browsers. Signing in with federated
 providers (Google, Facebook, Twitter, GitHub, Microsoft, Yahoo, OIDC, SAML) is
 also supported in Cordova/Ionic environments. Additional non-browser
-environments(React Native...) or Chrome extensions will be added once the
+environments (React Native...) or Chrome extensions will be added once the
 underlying Firebase core SDK supports them in a way that is compatible with
 FirebaseUI.
 
@@ -142,7 +142,7 @@ by default.)
 remembering emails
 7. Integration with
 [one-tap sign-up](https://developers.google.com/identity/one-tap/web/overview)
-8. Ability to upgrade anonymous users through sign-in/sign-up.
+8. Ability to upgrade anonymous users through sign-in/sign-up
 9. Sign-in as a guest
 
 ### Configuring sign-in providers
@@ -1558,7 +1558,7 @@ cp demo/public/sample-config.js demo/public/config.js
 ```
 
 Copy the data from the "Add Firebase to your web app" flow in Firebase Console.
-Next, run
+Next, run:
 
 ```bash
 npm run demo
@@ -1576,7 +1576,7 @@ All unit tests can be run on the command line (via PhantomJS) with:
 npm test
 ```
 
-Alternatively, the unit tests can be run manually by running
+Alternatively, the unit tests can be run manually by running:
 
 ```bash
 npm run serve
