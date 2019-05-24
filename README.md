@@ -305,7 +305,7 @@ Here is how you would track the Auth state across all your pages:
       };
 
       window.addEventListener('load', function() {
-        initApp()
+        initApp();
       });
     </script>
   </head>
