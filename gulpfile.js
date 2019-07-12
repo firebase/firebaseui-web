@@ -290,7 +290,6 @@ repeatTaskForAllLocales(
     'build-npm-$', ['build-firebaseui-js-$'],
     (locale) => concatWithDeps(locale, 'npm', NPM_MODULE_WRAPPER));
 
-
 // Bundles the FirebaseUI JS with its dependencies as a ESM module. This builds
 // the NPM module for all languages.
 repeatTaskForAllLocales(
@@ -320,7 +319,6 @@ gulp.task('build-npm', gulp.series(
     'build-npm-' + DEFAULT_LOCALE,
     () => makeDefaultFile('npm')
 ));
-
 
 // Builds the ESM module for the default language.
 gulp.task('build-esm', gulp.series(
