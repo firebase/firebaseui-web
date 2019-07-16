@@ -37,17 +37,32 @@ const OPTIMIZATION_LEVEL = util.env.compilation_level ||
 
 // For minified builds, wrap the output so we avoid leaking global variables.
 const OUTPUT_WRAPPER = OPTIMIZATION_LEVEL === 'WHITESPACE_ONLY' ?
-    '%output%' : '(function() { %output% })();';
+    '%output%' : '(function() { %output% }).apply(' +
+    'typeof global !== \'undefined\' ? global : typeof self !== \'undefined\' ' +
+    '? self : window );';
 
-// Provides missing dialogPolyfill on window in npm environments.
+// Provides missing dialogPolyfill on window in cjs environments.
 const DIALOG_POLYFILL = 'if(typeof window!==\'undefined\')' +
     '{window.dialogPolyfill=require(\'dialog-polyfill\');}';
+
+// Provides missing dialogPolyfill on window for esm.
+const ESM_DIALOG_POLYFILL = 'if(typeof window!==\'undefined\')' +
+    '{window.dialogPolyfill=dialogPolyfill;}';
 
 // Using default import if available.
 const DEFAULT_IMPORT_FIX = 'if(typeof firebase.default!==\'undefined\')' +
     '{firebase=firebase.default;}';
 
-// Adds the module requirement and exports firebaseui.
+// Import esm modules.
+const ESM_IMPORT = 'import * as firebase from \'firebase/app\';' +
+    'import \'firebase/auth\';' +
+    'import dialogPolyfill from \'dialog-polyfill\';';
+
+// Export firebaseui.auth module.
+const ESM_EXPORT = 'const auth = firebaseui.auth;' +
+    'export { auth } ;';
+
+// Adds the cjs module requirement and exports firebaseui.
 const NPM_MODULE_WRAPPER = OPTIMIZATION_LEVEL === 'WHITESPACE_ONLY' ?
     'var firebase=require(\'firebase/app\');require(\'firebase/auth\');' +
     DEFAULT_IMPORT_FIX + '%output%' + DIALOG_POLYFILL +
@@ -55,6 +70,16 @@ const NPM_MODULE_WRAPPER = OPTIMIZATION_LEVEL === 'WHITESPACE_ONLY' ?
     '(function() { var firebase=require(\'firebase/app\');' +
     'require(\'firebase/auth\');' + DEFAULT_IMPORT_FIX + '%output% ' +
     DIALOG_POLYFILL + '})();' + 'module.exports=firebaseui;';
+
+// Adds the module requirement and exports firebaseui.
+const ESM_MODULE_WRAPPER = OPTIMIZATION_LEVEL === 'WHITESPACE_ONLY' ?
+    ESM_IMPORT + '%output%' +
+    ESM_DIALOG_POLYFILL + ESM_EXPORT :
+    ESM_IMPORT +
+    '(function() {' + '%output%' + '}).apply(' +
+    'typeof global !== \'undefined\' ? global : typeof self !== \'undefined\' ' +
+    '? self : window );' +
+    ESM_DIALOG_POLYFILL + ESM_EXPORT;
 
 // The path to Closure Compiler.
 const COMPILER_PATH = 'node_modules/google-closure-compiler-java/compiler.jar';
@@ -265,6 +290,12 @@ repeatTaskForAllLocales(
     'build-npm-$', ['build-firebaseui-js-$'],
     (locale) => concatWithDeps(locale, 'npm', NPM_MODULE_WRAPPER));
 
+// Bundles the FirebaseUI JS with its dependencies as a ESM module. This builds
+// the NPM module for all languages.
+repeatTaskForAllLocales(
+    'build-esm-$', ['build-firebaseui-js-$'],
+    (locale) => concatWithDeps(locale, 'esm', ESM_MODULE_WRAPPER));
+
 // Bundles the FirebaseUI JS with its dependencies for all locales.
 // Generates the gulp tasks build-js-de, build-js-fr, etc.
 const buildJsTasks = repeatTaskForAllLocales(
@@ -287,6 +318,12 @@ gulp.task('build-all-js', gulp.series(
 gulp.task('build-npm', gulp.series(
     'build-npm-' + DEFAULT_LOCALE,
     () => makeDefaultFile('npm')
+));
+
+// Builds the ESM module for the default language.
+gulp.task('build-esm', gulp.series(
+    'build-esm-' + DEFAULT_LOCALE,
+    () => makeDefaultFile('esm')
 ));
 
 /**
@@ -336,13 +373,13 @@ gulp.task('clean', () => fse.remove(TMP_DIR));
 // Executes the basic tasks for the default language.
 gulp.task('default', gulp.series(
     'build-externs', 'build-ts', 'build-js',
-    'build-npm', 'build-css', 'build-css-rtl',
+    'build-npm', 'build-esm', 'build-css', 'build-css-rtl',
     'clean'
 ));
 
 // Builds everything (JS for all languages, both LTR and RTL CSS).
 gulp.task('build-all', gulp.series(
     'build-externs', 'build-ts', 'build-all-js',
-    'build-npm', 'build-css', 'build-css-rtl',
+    'build-npm', 'build-esm', 'build-css', 'build-css-rtl',
     'clean'
 ));
