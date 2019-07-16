@@ -1,0 +1,2 @@
+feature - Included the ES module in `firebaseui` npm package.
+feature - Added the support of `login` custom parameter for `GitHub` provider.
