@@ -551,10 +551,13 @@ firebaseui.auth.widget.Config.prototype.getProviderCustomParameters =
   if (goog.isObject(customParameters)) {
     // Clone original custom parameters.
     var clonedCustomParameters = goog.object.clone(customParameters);
-    // Delete login_hint from provider (only Google supports it) as it could
-    // break the flow.
+    // Delete login_hint from Google provider as it could break the flow.
     if (providerId === firebase.auth.GoogleAuthProvider.PROVIDER_ID) {
       delete clonedCustomParameters['login_hint'];
+    }
+    // Delete login from GitHub provider as it could break the flow.
+    if (providerId === firebase.auth.GithubAuthProvider.PROVIDER_ID) {
+      delete clonedCustomParameters['login'];
     }
     return clonedCustomParameters;
   }

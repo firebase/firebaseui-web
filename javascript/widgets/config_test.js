@@ -50,6 +50,7 @@ function setUp() {
   });
   firebase.auth = {
     GoogleAuthProvider: {PROVIDER_ID: 'google.com'},
+    GithubAuthProvider: {PROVIDER_ID: 'github.com'},
     FacebookAuthProvider: {PROVIDER_ID: 'facebook.com'},
     EmailAuthProvider: {
       EMAIL_LINK_SIGN_IN_METHOD: 'emailLink',
@@ -571,6 +572,25 @@ function testGetProviderCustomParameters_multipleIdp() {
       config.getProviderCustomParameters('facebook.com'));
   assertNull(config.getProviderCustomParameters('github.com'));
   assertNull(config.getProviderCustomParameters('twitter.com'));
+}
+
+
+function testGetProviderCustomParameters_github() {
+  config.update('signInOptions', [
+    {
+      'provider': 'github.com',
+      'customParameters': {
+        'allow_signup': 'false',
+        'login': 'user@example.com'
+      }
+    }
+  ]);
+  // login custom parameter should be deleted.
+  assertObjectEquals(
+      {
+        'allow_signup': 'false'
+      },
+      config.getProviderCustomParameters('github.com'));
 }
 
 
