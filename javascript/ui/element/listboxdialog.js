@@ -46,6 +46,7 @@ var element = firebaseui.auth.ui.element;
  * @this {goog.ui.Component}
  */
 listBoxDialog.showListBoxDialog = function(items, onSelect, opt_selectedId) {
+  var self = this;
   var dialogElement = goog.soy.renderAsElement(
       firebaseui.auth.soy2.element.listBoxDialog,
       {items: items},
@@ -70,7 +71,7 @@ listBoxDialog.showListBoxDialog = function(items, onSelect, opt_selectedId) {
     var listBoxId = pressedButton &&
         listBoxDialog.getListBoxIdOfButton_(pressedButton);
     if (listBoxId) {
-      firebaseui.auth.ui.element.dialog.dismissDialog();
+      firebaseui.auth.ui.element.dialog.dismissDialog.call(self);
 
       // The callback should happen after the dialog is dismissed; otherwise
       // focus() within the callback does not work.
