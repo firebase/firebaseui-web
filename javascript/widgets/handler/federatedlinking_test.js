@@ -71,6 +71,22 @@ function testHandleFederatedLinking() {
 }
 
 
+function testHandleFederatedLinking_githubLoginHint() {
+  // The login custom parameter should automatically be passed to the
+  // github.com provider.
+  var expectedProvider =
+      getExpectedProviderWithCustomParameters(
+          'github.com', {'login': federatedAccount.getEmail()});
+  setPendingEmailCredentials();
+  firebaseui.auth.widget.handler.handleFederatedLinking(
+      app, container, federatedAccount.getEmail(), 'github.com');
+  assertFederatedLinkingPage(federatedAccount.getEmail());
+  submitForm();
+  testAuth.assertSignInWithRedirect([expectedProvider]);
+  return testAuth.process();
+}
+
+
 function testHandleFederatedLinking_genericLoginHint() {
   // Since Microsoft's signInOptions include a loginHintKey definition,
   // a login_hint should be set in the customParameters.
@@ -88,13 +104,13 @@ function testHandleFederatedLinking_genericLoginHint() {
 
 
 function testHandleFederatedLinking_noLoginHint() {
-  // Since GitHub doesn't support sending a login_hint,
+  // Since Facebook doesn't support sending a login_hint,
   // it should not be set in the customParameters.
   var expectedProvider =
-      getExpectedProviderWithCustomParameters('github.com');
+      getExpectedProviderWithCustomParameters('facebook.com');
   setPendingEmailCredentials();
   firebaseui.auth.widget.handler.handleFederatedLinking(
-      app, container, federatedAccount.getEmail(), 'github.com');
+      app, container, federatedAccount.getEmail(), 'facebook.com');
   assertFederatedLinkingPage(federatedAccount.getEmail());
   submitForm();
   testAuth.assertSignInWithRedirect([expectedProvider]);
@@ -128,10 +144,10 @@ function testHandleFederatedLinking_genericLoginHint_upgradeAnonymous() {
 
 
 function testHandleFederatedLinking_noLoginHint_upgradeAnonymous() {
-  // Since GitHub doesn't support sending a login_hint,
+  // Since Facebook doesn't support sending a login_hint,
   // it should not be set in the customParameters.
   var expectedProvider =
-      getExpectedProviderWithCustomParameters('github.com');
+      getExpectedProviderWithCustomParameters('facebook.com');
   // Simulate pending email credentials.
   setPendingEmailCredentials();
   // Enable anonymous user upgrade.
@@ -139,7 +155,7 @@ function testHandleFederatedLinking_noLoginHint_upgradeAnonymous() {
   // Simulate anonymous user signed in.
   externalAuth.setUser(anonymousUser);
   firebaseui.auth.widget.handler.handleFederatedLinking(
-      app, container, federatedAccount.getEmail(), 'github.com');
+      app, container, federatedAccount.getEmail(), 'facebook.com');
   assertFederatedLinkingPage(federatedAccount.getEmail());
   submitForm();
   // Trigger initial onAuthStateChanged listener.
@@ -221,16 +237,16 @@ function testHandleFederatedLinking_noLoginHint_cordova() {
   // Simulate a Cordova environment.
   simulateCordovaEnvironment();
   var githubCred = createMockCredential({
-    'providerId': 'github.com',
+    'providerId': 'facebook.com',
     'accessToken': 'ACCESS_TOKEN'
   });
-  // Since GitHub doesn't support sending a login_hint,
+  // Since Facebook doesn't support sending a login_hint,
   // it should not be set in the customParameters.
   var expectedProvider =
-      getExpectedProviderWithCustomParameters('github.com');
+      getExpectedProviderWithCustomParameters('facebook.com');
   setPendingEmailCredentials();
   firebaseui.auth.widget.handler.handleFederatedLinking(
-      app, container, federatedAccount.getEmail(), 'github.com');
+      app, container, federatedAccount.getEmail(), 'facebook.com');
   assertFederatedLinkingPage(federatedAccount.getEmail());
   submitForm();
   testAuth.assertSignInWithRedirect([expectedProvider]);
@@ -253,7 +269,7 @@ function testHandleFederatedLinking_noLoginHint_cordova() {
       'user': testAuth.currentUser,
       'credential': credential,
       'operationType': 'link',
-      'additionalUserInfo': {'providerId': 'facebook.com', 'isNewUser': false}
+      'additionalUserInfo': {'providerId': 'github.com', 'isNewUser': false}
     };
     // Saved pending credential loaded from storage and linked to current user.
     testAuth.currentUser.assertLinkWithCredential(
@@ -284,13 +300,13 @@ function testHandleFederatedLinking_noLoginHint_error_cordova() {
   // Test federated linking error flow in a Cordova environment.
   // Simulate a Cordova environment.
   simulateCordovaEnvironment();
-  // Since GitHub doesn't support sending a login_hint,
+  // Since Facebook doesn't support sending a login_hint,
   // it should not be set in the customParameters.
   var expectedProvider =
-      getExpectedProviderWithCustomParameters('github.com');
+      getExpectedProviderWithCustomParameters('facebook.com');
   setPendingEmailCredentials();
   firebaseui.auth.widget.handler.handleFederatedLinking(
-      app, container, federatedAccount.getEmail(), 'github.com');
+      app, container, federatedAccount.getEmail(), 'facebook.com');
   assertFederatedLinkingPage(federatedAccount.getEmail());
   submitForm();
   testAuth.assertSignInWithRedirect([expectedProvider]);

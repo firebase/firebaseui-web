@@ -811,11 +811,13 @@ firebaseui.auth.widget.handler.common.getAuthProvider_ = function(
   // set and if the provider supports it, add it to the custom paramaters.
   if (opt_email) {
     var loginHintKey;
+    // Since the name of the parameter is known for Google and GitHub, set this
+    // automatically. Google and GitHub are the only default providers which
+    // support a login hint.
     if (providerId == firebase.auth.GoogleAuthProvider.PROVIDER_ID) {
-      // Since the name of the parameter is known for Google, set this
-      // automatically. Google is the only default provider which supports a
-      // login hint.
       loginHintKey = 'login_hint';
+    } else if (providerId == firebase.auth.GithubAuthProvider.PROVIDER_ID) {
+      loginHintKey = 'login';
     } else {
       // For other providers, check if the name is set in the configuration.
       var providerConfig = app.getConfig().getConfigForProvider(providerId);
