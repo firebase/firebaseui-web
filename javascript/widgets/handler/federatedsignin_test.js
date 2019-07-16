@@ -50,6 +50,20 @@ function testHandleFederatedSignIn() {
 }
 
 
+function testHandleFederatedSignIn_githubLoginHint() {
+  // login custom parameter should be passed to the GitHub provider.
+  var expectedProvider = getExpectedProviderWithCustomParameters(
+      'github.com', {'login': 'user@gmail.com'});
+  firebaseui.auth.widget.handler.handleFederatedSignIn(
+      app, container, 'user@gmail.com', 'github.com');
+  assertFederatedLinkingPage();
+  submitForm();
+  testAuth.assertSignInWithRedirect(
+      [expectedProvider]);
+  return testAuth.process();
+}
+
+
 function testHandleFederatedSignIn_cordova() {
   // Test federated sign-in success from a Cordova environment.
   // Add additional scopes to test they are properly passed to sign-in method.
