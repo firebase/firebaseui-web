@@ -193,7 +193,9 @@ for a more in-depth example, showcasing a Single Page Application mode.
     <title>Sample FirebaseUI App</title>
     <!-- *******************************************************************************************
        * TODO(DEVELOPER): Paste the initialization snippet from:
-       * Firebase Console > Overview > Add Firebase to your web app. *
+       * Firebase Console > Overview > Add Firebase to your web app.
+       * You'll need to at least add the following SDK before initializing:
+       * <script src="https://www.gstatic.com/firebasejs/6.3.5/firebase-auth.js"></script>
        ***************************************************************************************** -->
     <script src="https://cdn.firebase.com/libs/firebaseui/4.1.0/firebaseui.js"></script>
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/4.1.0/firebaseui.css" />
