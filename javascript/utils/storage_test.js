@@ -20,6 +20,7 @@ goog.provide('firebaseui.auth.storageTest');
 
 goog.require('firebaseui.auth.Account');
 goog.require('firebaseui.auth.PendingEmailCredential');
+goog.require('firebaseui.auth.RedirectStatus');
 goog.require('firebaseui.auth.storage');
 goog.require('firebaseui.auth.util');
 goog.require('goog.net.cookies');
@@ -362,31 +363,28 @@ function testGetSetRemoveEmailPendingCredential_withAppId() {
 }
 
 
-function testGetSetRemovePendingRedirectStatus() {
-  assertFalse(firebaseui.auth.storage.hasPendingRedirectStatus());
+function testGetSetRemoveRedirectStatus() {
+  assertFalse(firebaseui.auth.storage.hasRedirectStatus());
+  assertFalse(firebaseui.auth.storage.hasRedirectStatus(appId));
 
-  firebaseui.auth.storage.setPendingRedirectStatus();
-  assertTrue(firebaseui.auth.storage.hasPendingRedirectStatus());
+  var redirectStatus1 = new firebaseui.auth.RedirectStatus();
+  var redirectStatus2 = new firebaseui.auth.RedirectStatus('TENANT_ID');
+  firebaseui.auth.storage.setRedirectStatus(redirectStatus1);
+  firebaseui.auth.storage.setRedirectStatus(redirectStatus2, appId);
+  assertTrue(firebaseui.auth.storage.hasRedirectStatus());
+  assertTrue(firebaseui.auth.storage.hasRedirectStatus(appId));
+  assertObjectEquals(
+      redirectStatus1,
+      firebaseui.auth.storage.getRedirectStatus());
+  assertObjectEquals(
+      redirectStatus2,
+      firebaseui.auth.storage.getRedirectStatus(appId));
 
-  firebaseui.auth.storage.removePendingRedirectStatus();
-  assertFalse(firebaseui.auth.storage.hasPendingRedirectStatus());
-}
-
-
-function testGetSetRemovePendingRedirectStatus_withAppId() {
-  assertFalse(firebaseui.auth.storage.hasPendingRedirectStatus(appId));
-  assertFalse(firebaseui.auth.storage.hasPendingRedirectStatus(appId2));
-
-  firebaseui.auth.storage.setPendingRedirectStatus(appId);
-  firebaseui.auth.storage.setPendingRedirectStatus(appId2);
-  assertTrue(firebaseui.auth.storage.hasPendingRedirectStatus(appId));
-  assertTrue(firebaseui.auth.storage.hasPendingRedirectStatus(appId2));
-
-  firebaseui.auth.storage.removePendingRedirectStatus(appId);
-  assertFalse(firebaseui.auth.storage.hasPendingRedirectStatus(appId));
-  assertTrue(firebaseui.auth.storage.hasPendingRedirectStatus(appId2));
-  firebaseui.auth.storage.removePendingRedirectStatus(appId2);
-  assertFalse(firebaseui.auth.storage.hasPendingRedirectStatus(appId2));
+  firebaseui.auth.storage.removeRedirectStatus();
+  assertFalse(firebaseui.auth.storage.hasRedirectStatus());
+  assertTrue(firebaseui.auth.storage.hasRedirectStatus(appId));
+  firebaseui.auth.storage.removeRedirectStatus(appId);
+  assertFalse(firebaseui.auth.storage.hasRedirectStatus(appId));
 }
 
 

@@ -65,7 +65,8 @@ firebaseui.auth.ActionCodeUrlBuilder.Parameter = {
   MODE: 'mode',
   OOB_CODE: 'oobCode',
   PROVIDER_ID: 'ui_pid',
-  SESSION_ID: 'ui_sid'
+  SESSION_ID: 'ui_sid',
+  TENANT_ID: 'tenantId'
 };
 
 
@@ -109,6 +110,30 @@ firebaseui.auth.ActionCodeUrlBuilder.prototype.getMode = function() {
 firebaseui.auth.ActionCodeUrlBuilder.prototype.getApiKey = function() {
   return this.uri_.getParameterValue(
       firebaseui.auth.ActionCodeUrlBuilder.Parameter.API_KEY) || null;
+};
+
+
+/**
+ * Sets the tenant ID of the tenant project.
+ * @param {?string} tenantId The tenant ID to be set.
+ */
+firebaseui.auth.ActionCodeUrlBuilder.prototype.setTenantId =
+    function(tenantId) {
+  if (tenantId) {
+    this.uri_.setParameterValue(
+        firebaseui.auth.ActionCodeUrlBuilder.Parameter.TENANT_ID,
+        tenantId);
+  } else {
+    this.uri_.removeParameter(
+        firebaseui.auth.ActionCodeUrlBuilder.Parameter.TENANT_ID);
+  }
+};
+
+
+/** @return {?string} The tenant ID if available. */
+firebaseui.auth.ActionCodeUrlBuilder.prototype.getTenantId = function() {
+  return this.uri_.getParameterValue(
+      firebaseui.auth.ActionCodeUrlBuilder.Parameter.TENANT_ID) || null;
 };
 
 

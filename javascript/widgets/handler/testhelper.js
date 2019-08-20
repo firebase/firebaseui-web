@@ -541,10 +541,11 @@ function buildActionCodeSettings(
  * @param {?string=} opt_uid The optional anonymous user ID to be upgraded.
  * @param {?string=} opt_providerId The optional provider ID to link.
  * @param {boolean=} opt_forceSameDevice Whether to force same device flow.
+ * @param {?string=} opt_tenantId The optional tenantId.
  * @return {string} The generated email action link.
  */
 function generateSignInLink(
-    sessionId, opt_uid, opt_providerId, opt_forceSameDevice) {
+    sessionId, opt_uid, opt_providerId, opt_forceSameDevice, opt_tenantId) {
   var url = 'https://www.example.com/signIn?mode=' +
       'signIn&apiKey=API_KEY&oobCode=ACTION_CODE';
   var builder = new firebaseui.auth.ActionCodeUrlBuilder(url);
@@ -554,6 +555,9 @@ function generateSignInLink(
   }
   if (opt_providerId) {
     builder.setProviderId(opt_providerId);
+  }
+  if (opt_tenantId) {
+    builder.setTenantId(opt_tenantId);
   }
   builder.setForceSameDevice(!!opt_forceSameDevice);
   return builder.toString();

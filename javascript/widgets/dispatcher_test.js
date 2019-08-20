@@ -20,6 +20,7 @@ goog.provide('firebaseui.auth.widget.dispatcherTest');
 
 goog.require('firebaseui.auth.AuthUI');
 goog.require('firebaseui.auth.CredentialHelper');
+goog.require('firebaseui.auth.RedirectStatus');
 goog.require('firebaseui.auth.idp');
 goog.require('firebaseui.auth.storage');
 goog.require('firebaseui.auth.testing.FakeAcClient');
@@ -522,7 +523,8 @@ function testDispatchOperation_callbackWithRedirectUrl() {
     'signInSuccessUrl': redirectUrl
   });
   // Simulate app returning from redirect sign-in operation.
-  firebaseui.auth.storage.setPendingRedirectStatus(app.getAppId());
+  var redirectStatus = new firebaseui.auth.RedirectStatus();
+  firebaseui.auth.storage.setRedirectStatus(redirectStatus, app.getAppId());
   // No redirect URL.
   assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
   firebaseui.auth.widget.dispatcher.dispatchOperation(app, element);
@@ -548,7 +550,7 @@ function testDispatchOperation_callbackWithRedirectUrl_noPendingRedirect() {
     'signInSuccessUrl': redirectUrl
   });
   // Simulate app not returning from redirect sign-in operation.
-  firebaseui.auth.storage.removePendingRedirectStatus(app.getAppId());
+  firebaseui.auth.storage.removeRedirectStatus(app.getAppId());
   // No redirect URL.
   assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
   firebaseui.auth.widget.dispatcher.dispatchOperation(app, element);
@@ -573,7 +575,8 @@ function testDispatchOperation_callbackWithUnsafeRedirectUrl() {
     'signInSuccessUrl': redirectUrl
   });
   // Simulate app returning from redirect sign-in operation.
-  firebaseui.auth.storage.setPendingRedirectStatus(app.getAppId());
+  var redirectStatus = new firebaseui.auth.RedirectStatus();
+  firebaseui.auth.storage.setRedirectStatus(redirectStatus, app.getAppId());
   // No redirect URL.
   assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
   firebaseui.auth.widget.dispatcher.dispatchOperation(app, element);
@@ -593,7 +596,8 @@ function testDispatchOperation_noMode_providerFirst() {
   var element = goog.dom.createElement('div');
   setModeAndUrlParams(null);
   // Simulate app returning from redirect sign-in operation.
-  firebaseui.auth.storage.setPendingRedirectStatus(app.getAppId());
+  var redirectStatus = new firebaseui.auth.RedirectStatus();
+  firebaseui.auth.storage.setRedirectStatus(redirectStatus, app.getAppId());
   firebaseui.auth.widget.dispatcher.dispatchOperation(app, element);
   // Callback handler should be invoked since no mode will result with CALLBACK
   // mode.
@@ -606,7 +610,8 @@ function testDispatchOperation_callback() {
   var element = goog.dom.createElement('div');
   setModeAndUrlParams(firebaseui.auth.widget.Config.WidgetMode.CALLBACK);
   // Simulate app returning from redirect sign-in operation.
-  firebaseui.auth.storage.setPendingRedirectStatus(app.getAppId());
+  var redirectStatus = new firebaseui.auth.RedirectStatus();
+  firebaseui.auth.storage.setRedirectStatus(redirectStatus, app.getAppId());
   firebaseui.auth.widget.dispatcher.dispatchOperation(app, element);
   assertHandlerInvoked(
       firebaseui.auth.widget.HandlerName.CALLBACK,
@@ -619,7 +624,7 @@ function testDispatchOperation_callback_noPendingRedirect() {
   var element = goog.dom.createElement('div');
   setModeAndUrlParams(firebaseui.auth.widget.Config.WidgetMode.CALLBACK);
   // Simulate app not returning from redirect sign-in operation.
-  firebaseui.auth.storage.removePendingRedirectStatus(app.getAppId());
+  firebaseui.auth.storage.removeRedirectStatus(app.getAppId());
   firebaseui.auth.widget.dispatcher.dispatchOperation(app, element);
   // Provider sign in handler should be rendered.
   assertHandlerInvoked(
@@ -636,7 +641,7 @@ function testDispatchOperation_callback_canSkipNascarScreen() {
   var element = goog.dom.createElement('div');
   setModeAndUrlParams(firebaseui.auth.widget.Config.WidgetMode.CALLBACK);
   // Simulate app not returning from redirect sign-in operation.
-  firebaseui.auth.storage.removePendingRedirectStatus(app.getAppId());
+  firebaseui.auth.storage.removeRedirectStatus(app.getAppId());
   // In order for an immediate redirect to succeed all of the following
   // options must be set:
   app.setConfig({
@@ -660,7 +665,7 @@ function testDispatchOperation_callback_canShowNascarScreen() {
   var element = goog.dom.createElement('div');
   setModeAndUrlParams(firebaseui.auth.widget.Config.WidgetMode.CALLBACK);
   // Simulate app not returning from redirect sign-in operation.
-  firebaseui.auth.storage.removePendingRedirectStatus(app.getAppId());
+  firebaseui.auth.storage.removeRedirectStatus(app.getAppId());
   // The immediate redirect should not be triggered (since there is more
   // than one federated provider and it is using a popup).
   app.setConfig({
@@ -729,6 +734,33 @@ function testDispatchOperation_emailLinkSignIn() {
       document.title,
       // URL should be cleared from email sign-in related query params.
       'https://www.example.com/?lang=en');
+}
+
+
+function testDispatchOperation_emailLinkSignIn_tenantId() {
+  var element = goog.dom.createElement('div');
+  setModeAndUrlParams(
+      firebaseui.auth.widget.Config.WidgetMode.SIGN_IN,
+      {'oobCode': 'ACTION_CODE', 'lang': 'en', 'tenantId': 'TENANT_ID'});
+  firebaseui.auth.widget.dispatcher.dispatchOperation(app, element);
+  assertHandlerInvoked(
+      firebaseui.auth.widget.HandlerName.EMAIL_LINK_SIGN_IN_CALLBACK,
+      app,
+      element,
+      'https://www.example.com/?mode=signIn&oobCode=ACTION_CODE&lang=en&' +
+      'tenantId=TENANT_ID');
+  // Confirm history state replaced.
+  testUtil.assertReplaceHistoryState(
+      {
+        'state': 'signIn',
+        'mode': 'emailLink',
+        'operation': 'clear'
+      },
+      // Same document title should be kept.
+      document.title,
+      // URL should be cleared from email sign-in related query params.
+      'https://www.example.com/?lang=en');
+  assertNull(app.getTenantId());  assertNull(app.getTenantId());
 }
 
 
@@ -801,4 +833,3 @@ function testDispatchOperation_resetPassword_continueUrl() {
   continueCallback();
   testUtil.assertGoTo(continueUrl);
 }
-

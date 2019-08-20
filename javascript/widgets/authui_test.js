@@ -24,6 +24,7 @@ goog.require('firebaseui.auth.AuthUIError');
 goog.require('firebaseui.auth.CredentialHelper');
 goog.require('firebaseui.auth.GoogleYolo');
 goog.require('firebaseui.auth.PendingEmailCredential');
+goog.require('firebaseui.auth.RedirectStatus');
 goog.require('firebaseui.auth.idp');
 goog.require('firebaseui.auth.log');
 goog.require('firebaseui.auth.storage');
@@ -596,7 +597,8 @@ function testIsPendingRedirect() {
   assertFalse(app3.isPendingRedirect());
 
   // Set pending redirect status on app3 (default app).
-  firebaseui.auth.storage.setPendingRedirectStatus();
+  var redirectStatus = new firebaseui.auth.RedirectStatus();
+  firebaseui.auth.storage.setRedirectStatus(redirectStatus);
 
   // Confirm app3 pending redirect.
   assertFalse(app1.isPendingRedirect());
@@ -604,7 +606,7 @@ function testIsPendingRedirect() {
   assertTrue(app3.isPendingRedirect());
 
   // Set pending redirect status on app1.
-  firebaseui.auth.storage.setPendingRedirectStatus('id1');
+  firebaseui.auth.storage.setRedirectStatus(redirectStatus, 'id1');
 
   // Confirm app1 pending redirect.
   assertTrue(app1.isPendingRedirect());
@@ -612,7 +614,8 @@ function testIsPendingRedirect() {
   assertTrue(app3.isPendingRedirect());
 
   // Set pending redirect status on app2.
-  firebaseui.auth.storage.setPendingRedirectStatus('id2');
+  var redirectStatus2 = new firebaseui.auth.RedirectStatus('TENANT_ID');
+  firebaseui.auth.storage.setRedirectStatus(redirectStatus2, 'id2');
 
   // Confirm app2 pending redirect.
   assertTrue(app1.isPendingRedirect());
@@ -620,9 +623,9 @@ function testIsPendingRedirect() {
   assertTrue(app3.isPendingRedirect());
 
   // Remove pending redirect status for all.
-  firebaseui.auth.storage.removePendingRedirectStatus();
-  firebaseui.auth.storage.removePendingRedirectStatus('id1');
-  firebaseui.auth.storage.removePendingRedirectStatus('id2');
+  firebaseui.auth.storage.removeRedirectStatus();
+  firebaseui.auth.storage.removeRedirectStatus('id1');
+  firebaseui.auth.storage.removeRedirectStatus('id2');
 
   // Confirm no pending redirect status for all.
   assertFalse(app1.isPendingRedirect());
@@ -658,6 +661,25 @@ function testIsPendingRedirect() {
   assertFalse(app1.isPendingRedirect());
   assertFalse(app2.isPendingRedirect());
   assertFalse(app3.isPendingRedirect());
+}
+
+
+function testGetSetTenantId() {
+  createAndInstallTestInstances();
+  assertNull(app1.getTenantId());
+
+  // Pass the tenant ID on external instance initially.
+  testAuth1.tenantId = 'TENANT_ID1';
+  app1.start(container1, config4);
+  assertEquals('TENANT_ID1', app1.getExternalAuth().tenantId);
+  assertEquals('TENANT_ID1', testAuth1.tenantId);
+  assertEquals('TENANT_ID1', app1.getTenantId());
+
+  // Update the tenant ID after the UI being rendered.
+  app1.setTenantId('TENANT_ID2');
+  assertEquals('TENANT_ID2', app1.getTenantId());
+  assertEquals('TENANT_ID2', app1.getExternalAuth().tenantId);
+  assertEquals('TENANT_ID2', testAuth1.tenantId);
 }
 
 
@@ -709,13 +731,14 @@ function testStart() {
   firebaseui.auth.storage.setPendingEmailCredential(
       pendingEmailCredential, app1.getAppId());
   assertNull(app1.getCurrentComponent());
-  firebaseui.auth.storage.setPendingRedirectStatus(app1.getAppId());
-  assertTrue(firebaseui.auth.storage.hasPendingRedirectStatus(app1.getAppId()));
+  var redirectStatus = new firebaseui.auth.RedirectStatus();
+  firebaseui.auth.storage.setRedirectStatus(redirectStatus, app1.getAppId());
+  assertTrue(firebaseui.auth.storage.hasRedirectStatus(app1.getAppId()));
   // Start widget for app1, override configuration for that.
   app1.start(container1, config4);
   app1.getExternalAuth().runAuthChangeHandler();
   assertFalse(
-      firebaseui.auth.storage.hasPendingRedirectStatus(app1.getAppId()));
+      firebaseui.auth.storage.hasRedirectStatus(app1.getAppId()));
   // Confirm getCurrentComponent returns the expected callback component.
   assertTrue(
       app1.getCurrentComponent() instanceof firebaseui.auth.ui.page.Callback);
@@ -744,13 +767,13 @@ function testStart() {
   // Callback page rendered in first app container1.
   assertHasCssClass(container1, 'firebaseui-id-page-callback');
 
-  firebaseui.auth.storage.setPendingRedirectStatus(app2.getAppId());
-  assertTrue(firebaseui.auth.storage.hasPendingRedirectStatus(app2.getAppId()));
+  firebaseui.auth.storage.setRedirectStatus(redirectStatus, app2.getAppId());
+  assertTrue(firebaseui.auth.storage.hasRedirectStatus(app2.getAppId()));
   // Try to render another widget. This should reset first app widget.
   app2.start(container2, config2);
   app2.getExternalAuth().runAuthChangeHandler();
   assertFalse(
-      firebaseui.auth.storage.hasPendingRedirectStatus(app2.getAppId()));
+      firebaseui.auth.storage.hasRedirectStatus(app2.getAppId()));
   app1.getAuth().assertSignOut([]);
   // App1 pending creds cleared.
   assertFalse(
@@ -913,6 +936,49 @@ function testStart_revertLanguageCode() {
 }
 
 
+function testStart_tenantId() {
+  // Test that tenant ID is passed to UI on external Auth instance.
+  createAndInstallTestInstances();
+  // Set the tenant ID on external instance.
+  testAuth1.tenantId = 'TENANT_ID';
+  app1.start(container1, config1);
+  app1.getExternalAuth().runAuthChangeHandler();
+  // Internal instance should have the same tenant ID.
+  assertEquals('TENANT_ID', app1.getExternalAuth().tenantId);
+  assertEquals('TENANT_ID', testAuth1.tenantId);
+
+  // Reset the UI should not change the tenant ID.
+  app1.getAuth().assertSignOut([]);
+  app1.reset();
+  assertEquals('TENANT_ID', app1.getExternalAuth().tenantId);
+  assertEquals('TENANT_ID', testAuth1.tenantId);
+
+  // Update tenant ID and restart.
+  testAuth1.tenantId = 'TENANT_ID2';
+  app1.start(container1, config1);
+  // The tenant ID on both internal and external instances should be updated.
+  assertEquals('TENANT_ID2', app1.getExternalAuth().tenantId);
+  assertEquals('TENANT_ID2', testAuth1.tenantId);
+}
+
+
+function testStart_redirect_tenantId() {
+  // Test that tenant ID used before redirecting is loaded from storage.
+  createAndInstallTestInstances();
+  // Set the tenant ID on external instance.
+  testAuth1.tenantId = 'TENANT_ID2';
+  var redirectStatus = new firebaseui.auth.RedirectStatus('TENANT_ID');
+  firebaseui.auth.storage.setRedirectStatus(redirectStatus, app1.getAppId());
+  app1.start(container1, config1);
+  app1.getExternalAuth().runAuthChangeHandler();
+  // The tenant ID used before redirecting should override the one on external
+  // instance.
+  assertEquals('TENANT_ID', app1.getExternalAuth().tenantId);
+  assertEquals('TENANT_ID', testAuth1.tenantId);
+  assertFalse(firebaseui.auth.storage.hasRedirectStatus(app1.getAppId()));
+}
+
+
 function testStart_elementNotFound() {
   // Test widget start method with missing element.
   // Test correct error message thrown when widget element not found.
@@ -1043,11 +1109,12 @@ function testAuthUi_reset() {
   // No calls should be made to cancelOneTapSignIn at this point.
   assertEquals(
       0, firebaseui.auth.AuthUI.prototype.cancelOneTapSignIn.getCallCount());
-  firebaseui.auth.storage.setPendingRedirectStatus(app.getAppId());
-  assertTrue(firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+  var redirectStatus = new firebaseui.auth.RedirectStatus();
+  firebaseui.auth.storage.setRedirectStatus(redirectStatus, app.getAppId());
+  assertTrue(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
   // Trigger reset.
   app.reset();
-  assertFalse(firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+  assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
   app.getAuth().assertSignOut([]);
   // Reset functions should be called and pending promises cancelled.
   assertEquals(1, reset1.getCallCount());
