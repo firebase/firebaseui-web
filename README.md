@@ -1451,7 +1451,7 @@ ui.start('#firebaseui-auth-container', {
 
 ### Multi-tenancy support
 
-For [GCIP](https://cloud.google.com/identity-cp) customers, you can build a
+For [GCIP](https://cloud.google.com/identity-platform) customers, you can build a
 tenant-specific sign-in page with FirebaseUI. Make sure you've enabled
 multi-tenancy for your project and configured your tenants. See the
 [Multi-tenancy quickstart](https://cloud.google.com/identity-platform/docs/quickstart-multi-tenancy)

@@ -1,1 +1,1 @@
-feature - Added supported for multi-tenancy for Google Cloud's Identity Platform developers.
+feature - Added multi-tenancy support for Google Cloud's Identity Platform developers.
