@@ -1457,6 +1457,8 @@ multi-tenancy for your project and configured your tenants. See the
 [Multi-tenancy quickstart](https://cloud.google.com/identity-platform/docs/quickstart-multi-tenancy)
 to learn how.
 
+This feature requires [firebase](https://www.npmjs.com/package/firebase) version 6.6.0 or higher.
+
 
 To use FirebaseUI with multi-tenancy, you need to set the tenant ID on the
 Auth instance being passed to FirebaseUI before calling `ui.start()`.
