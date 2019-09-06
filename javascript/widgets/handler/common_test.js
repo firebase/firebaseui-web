@@ -23,6 +23,7 @@ goog.require('firebaseui.auth.AuthUI');
 goog.require('firebaseui.auth.AuthUIError');
 goog.require('firebaseui.auth.CredentialHelper');
 goog.require('firebaseui.auth.PendingEmailCredential');
+goog.require('firebaseui.auth.RedirectStatus');
 goog.require('firebaseui.auth.idp');
 goog.require('firebaseui.auth.log');
 goog.require('firebaseui.auth.soy2.strings');
@@ -64,12 +65,28 @@ var federatedAccountWithProvider = new firebaseui.auth.Account(
 // TODO: Update all the tests when accountchooser.com handlers change.
 function testSelectFromAccountChooser_noResponse() {
   firebaseui.auth.storage.rememberAccount(passwordAccount, app.getAppId());
-  assertFalse(firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+  assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
   firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
       container);
   testAc.assertTrySelectAccount([passwordAccount]);
   assertFalse(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
-  assertTrue(firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+  assertTrue(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
+}
+
+
+function testSelectFromAccountChooser_noResponse_tenantId() {
+  // Test that tenant ID is stored before redirecting to accountchooser.com.
+  app.setTenantId('TENANT_ID');
+  firebaseui.auth.storage.rememberAccount(passwordAccount, app.getAppId());
+  assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
+  firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
+      container);
+  testAc.assertTrySelectAccount([passwordAccount]);
+  assertFalse(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
+  assertTrue(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
+  assertEquals(
+      'TENANT_ID',
+      firebaseui.auth.storage.getRedirectStatus(app.getAppId()).getTenantId());
 }
 
 
@@ -80,13 +97,14 @@ function testSelectFromAccountChooser_noResponse_uiShown() {
     }
   });
   testAc.setSkipSelect(true);
-  firebaseui.auth.storage.setPendingRedirectStatus(app.getAppId());
-  assertTrue(firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+  var redirectStatus = new firebaseui.auth.RedirectStatus();
+  firebaseui.auth.storage.setRedirectStatus(redirectStatus, app.getAppId());
+  assertTrue(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
   firebaseui.auth.storage.rememberAccount(passwordAccount, app.getAppId());
   firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
       container);
   assertUiShownCallbackInvoked();
-  assertFalse(firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+  assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
   testAc.assertTrySelectAccount([passwordAccount]);
   assertFalse(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
 }
@@ -1840,14 +1858,12 @@ function testHandleSignInFetchSignInMethodsForEmail_disabledFederatedAcct() {
 
 function testHandleSignInWithEmail_acInitialized() {
   var onPreSkip = goog.testing.recordFunction(function() {
-    assertTrue(
-        firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+    assertTrue(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
   });
   testAc.setSkipSelect(true, onPreSkip);
   firebaseui.auth.widget.handler.common.handleSignInWithEmail(app, container);
   assertEquals(1, onPreSkip.getCallCount());
-  assertFalse(
-        firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+  assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
   assertFalse(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
   // Accountchooser client is already initialized.
   firebaseui.auth.widget.handler.common.handleSignInWithEmail(app, container);
@@ -1855,15 +1871,14 @@ function testHandleSignInWithEmail_acInitialized() {
       firebaseui.auth.storage.getRememberedAccounts(app.getAppId()),
       'http://localhost/firebaseui-widget?mode=select');
   assertEquals(2, onPreSkip.getCallCount());
-  assertFalse(
-        firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+  assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
 }
 
 
 function testHandleSignInWithEmail_acNotEnabled() {
   testStubs.replace(
       firebaseui.auth.storage,
-      'setPendingRedirectStatus',
+      'setRedirectStatus',
       goog.testing.recordFunction());
   app.setConfig({
     'credentialHelper': firebaseui.auth.CredentialHelper.NONE
@@ -1873,7 +1888,7 @@ function testHandleSignInWithEmail_acNotEnabled() {
   assertSignInPage();
   /** @suppress {missingRequire} */
   assertEquals(0,
-      firebaseui.auth.storage.setPendingRedirectStatus.getCallCount());
+      firebaseui.auth.storage.setRedirectStatus.getCallCount());
   assertFalse(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
   assertFalse(firebaseui.auth.widget.handler.common.acForceUiShown_);
 }
@@ -2053,16 +2068,36 @@ function testFederatedSignIn_success_redirectMode() {
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
       goog.nullFunction(), []);
   component.render(container);
-  assertFalse(firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+  assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
   // This will trigger a signInWithRedirect using the expected provider.
   firebaseui.auth.widget.handler.common.federatedSignIn(
       app, component, 'google.com');
-  assertTrue(firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+  assertTrue(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
   assertProviderSignInPage();
   // Confirm signInWithRedirect called underneath.
   testAuth.assertSignInWithRedirect([expectedProvider]);
   testAuth.process();
+}
 
+
+function testFederatedSignIn_success_redirectMode_tenantId() {
+  app.setTenantId('TENANT_ID');
+  var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
+  var component = new firebaseui.auth.ui.page.ProviderSignIn(
+      goog.nullFunction(), []);
+  component.render(container);
+  assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
+  // This will trigger a signInWithRedirect using the expected provider.
+  firebaseui.auth.widget.handler.common.federatedSignIn(
+      app, component, 'google.com');
+  assertTrue(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
+  assertEquals(
+      'TENANT_ID',
+      firebaseui.auth.storage.getRedirectStatus(app.getAppId()).getTenantId());
+  assertProviderSignInPage();
+  // Confirm signInWithRedirect called underneath.
+  testAuth.assertSignInWithRedirect([expectedProvider]);
+  testAuth.process();
 }
 
 
@@ -2072,26 +2107,26 @@ function testFederatedSignIn_error_redirectMode() {
       goog.nullFunction(), []);
   component.render(container);
   asyncTestCase.waitForSignals(1);
-  assertFalse(firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+  assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
   // This will trigger a signInWithRedirect using the expected provider.
   firebaseui.auth.widget.handler.common.federatedSignIn(
       app, component, 'google.com');
-  assertTrue(firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+  assertTrue(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
   assertProviderSignInPage();
   // Confirm signInWithRedirect called underneath.
   testAuth.assertSignInWithRedirect([expectedProvider], null, internalError);
   testAuth.process().then(function() {
     // Error in signInWithRedirect, cancel the pending redirect status.
-    assertFalse(
-        firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+    assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
     asyncTestCase.signal();
   });
 }
 
 
+
 function testFederatedSignIn_success_cordova() {
   simulateCordovaEnvironment();
-  var cred  = createMockCredential({
+  var cred  = firebaseui.auth.idp.getAuthCredential({
     'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   });
@@ -2100,17 +2135,16 @@ function testFederatedSignIn_success_cordova() {
       goog.nullFunction(), []);
   component.render(container);
   asyncTestCase.waitForSignals(1);
-  assertFalse(firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+  assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
   // This will trigger a signInWithRedirect using the expected provider.
   firebaseui.auth.widget.handler.common.federatedSignIn(
       app, component, 'google.com');
-  assertTrue(firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+  assertTrue(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
   assertProviderSignInPage();
   // Confirm signInWithRedirect called underneath.
   testAuth.assertSignInWithRedirect([expectedProvider]);
   return testAuth.process().then(function() {
-    assertTrue(
-        firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+    assertTrue(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
     testAuth.setUser({
       'email': federatedAccount.getEmail(),
       'displayName': federatedAccount.getDisplayName()
@@ -2123,8 +2157,7 @@ function testFederatedSignIn_success_cordova() {
         });
     return testAuth.process();
   }).then(function() {
-    assertFalse(
-        firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+    assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
     assertCallbackPage();
     return testAuth.process();
   }).then(function() {
@@ -2164,11 +2197,11 @@ function testFederatedSignIn_federatedLinkingRequiredError_cordova() {
       goog.nullFunction(), []);
   component.render(container);
   asyncTestCase.waitForSignals(1);
-  assertFalse(firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+  assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
   // This will trigger a signInWithRedirect using the expected provider.
   firebaseui.auth.widget.handler.common.federatedSignIn(
       app, component, 'google.com');
-  assertTrue(firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+  assertTrue(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
   assertProviderSignInPage();
   // Confirm signInWithRedirect called underneath.
   testAuth.assertSignInWithRedirect([expectedProvider]);
@@ -2186,8 +2219,7 @@ function testFederatedSignIn_federatedLinkingRequiredError_cordova() {
         [federatedAccount.getEmail()], ['facebook.com']);
     return testAuth.process();
   }).then(function() {
-    assertFalse(
-        firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+    assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
     assertFederatedLinkingPage();
     assertObjectEquals(
       pendingEmailCred,
@@ -2204,11 +2236,11 @@ function testFederatedSignIn_error_cordova() {
       goog.nullFunction(), []);
   component.render(container);
   asyncTestCase.waitForSignals(1);
-  assertFalse(firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+  assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
   // This will trigger a signInWithRedirect using the expected provider.
   firebaseui.auth.widget.handler.common.federatedSignIn(
       app, component, 'google.com');
-  assertTrue(firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+  assertTrue(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
   assertProviderSignInPage();
   // Confirm signInWithRedirect called underneath.
   testAuth.assertSignInWithRedirect([expectedProvider]);
@@ -2219,8 +2251,7 @@ function testFederatedSignIn_error_cordova() {
         internalError);
     return testAuth.process();
   }).then(function() {
-    assertFalse(
-        firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+    assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
     // Provider sign in page should remain displayed.
     assertProviderSignInPage();
     // Confirm error message shown in info bar.
@@ -2239,11 +2270,11 @@ function testFederatedSignIn_anonymousUpgrade_success_redirectMode() {
   app.updateConfig('autoUpgradeAnonymousUsers', true);
   externalAuth.setUser(anonymousUser);
   asyncTestCase.waitForSignals(1);
-  assertFalse(firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+  assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
   // This will trigger a linkWithRedirect using the expected provider.
   firebaseui.auth.widget.handler.common.federatedSignIn(
       app, component, 'google.com');
-  assertTrue(firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+  assertTrue(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
   assertProviderSignInPage();
   externalAuth.runAuthChangeHandler();
   // Confirm linkWithRedirect called underneath.
@@ -2262,11 +2293,11 @@ function testFederatedSignIn_anonymousUpgrade_error_redirectMode() {
   app.updateConfig('autoUpgradeAnonymousUsers', true);
   externalAuth.setUser(anonymousUser);
   asyncTestCase.waitForSignals(1);
-  assertFalse(firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+  assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
   // This will trigger a linkWithRedirect using the expected provider.
   firebaseui.auth.widget.handler.common.federatedSignIn(
       app, component, 'google.com');
-  assertTrue(firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+  assertTrue(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
   assertProviderSignInPage();
   externalAuth.runAuthChangeHandler();
   // Confirm linkWithRedirect called underneath.
@@ -2274,8 +2305,7 @@ function testFederatedSignIn_anonymousUpgrade_error_redirectMode() {
       [expectedProvider], null, internalError);
   externalAuth.process().then(function() {
     // Error in linkWithRedirect, cancel the pending redirect status.
-    assertFalse(
-        firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+    assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
     asyncTestCase.signal();
   });
 }
@@ -2284,7 +2314,7 @@ function testFederatedSignIn_anonymousUpgrade_success_cordova() {
   simulateCordovaEnvironment();
   app.updateConfig('autoUpgradeAnonymousUsers', true);
   externalAuth.setUser(anonymousUser);
-  var cred  = createMockCredential({
+  var cred  = firebaseui.auth.idp.getAuthCredential({
     'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   });
@@ -2293,18 +2323,17 @@ function testFederatedSignIn_anonymousUpgrade_success_cordova() {
       goog.nullFunction(), []);
   component.render(container);
   asyncTestCase.waitForSignals(1);
-  assertFalse(firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+  assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
   // This will trigger a linkInWithRedirect using the expected provider.
   firebaseui.auth.widget.handler.common.federatedSignIn(
       app, component, 'google.com');
-  assertTrue(firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+  assertTrue(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
   assertProviderSignInPage();
   externalAuth.runAuthChangeHandler();
   // Confirm linkWithRedirect called underneath.
   externalAuth.currentUser.assertLinkWithRedirect([expectedProvider]);
   return externalAuth.process().then(function() {
-    assertTrue(
-        firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+    assertTrue(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
     externalAuth.setUser({
       'email': federatedAccount.getEmail(),
       'displayName': federatedAccount.getDisplayName()
@@ -2317,8 +2346,7 @@ function testFederatedSignIn_anonymousUpgrade_success_cordova() {
         });
     return externalAuth.process();
   }).then(function() {
-    assertFalse(
-        firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+    assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
     assertCallbackPage();
   }).then(function() {
     testAuth.assertSignOut([]);
@@ -2358,18 +2386,17 @@ function testFederatedSignIn_anonymousUpgrade_credInUse_error_cordova() {
       goog.nullFunction(), []);
   component.render(container);
   asyncTestCase.waitForSignals(1);
-  assertFalse(firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+  assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
   // This will trigger a linkInWithRedirect using the expected provider.
   firebaseui.auth.widget.handler.common.federatedSignIn(
       app, component, 'google.com');
-  assertTrue(firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+  assertTrue(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
   assertProviderSignInPage();
   externalAuth.runAuthChangeHandler();
   // Confirm linkWithRedirect called underneath.
   externalAuth.currentUser.assertLinkWithRedirect([expectedProvider]);
   return externalAuth.process().then(function() {
-    assertTrue(
-        firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+    assertTrue(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
     externalAuth.assertGetRedirectResult(
         [],
         null,
@@ -2390,7 +2417,7 @@ function testFederatedSignIn_anonymousUpgrade_emailInUse_error_cordova() {
   simulateCordovaEnvironment();
   app.updateConfig('autoUpgradeAnonymousUsers', true);
   externalAuth.setUser(anonymousUser);
-  var cred  = createMockCredential({
+  var cred  = firebaseui.auth.idp.getAuthCredential({
     'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   });
@@ -2407,18 +2434,17 @@ function testFederatedSignIn_anonymousUpgrade_emailInUse_error_cordova() {
       goog.nullFunction(), []);
   component.render(container);
   asyncTestCase.waitForSignals(1);
-  assertFalse(firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+  assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
   // This will trigger a linkInWithRedirect using the expected provider.
   firebaseui.auth.widget.handler.common.federatedSignIn(
       app, component, 'google.com');
-  assertTrue(firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+  assertTrue(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
   assertProviderSignInPage();
   externalAuth.runAuthChangeHandler();
   // Confirm linkWithRedirect called underneath.
   externalAuth.currentUser.assertLinkWithRedirect([expectedProvider]);
   return externalAuth.process().then(function() {
-    assertTrue(
-        firebaseui.auth.storage.hasPendingRedirectStatus(app.getAppId()));
+    assertTrue(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
     externalAuth.assertGetRedirectResult(
         [],
         null,
