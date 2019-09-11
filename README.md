@@ -677,7 +677,7 @@ ui.start('#firebaseui-auth-container', {
       providerName: 'Microsoft',
       buttonColor: '#2F2F2F',
       iconUrl: '<icon-url-of-sign-in-button>',
-      loginHintKey: 'login_hint'
+      loginHintKey: 'login_hint',
       scopes: [
         'mail.read'
       ],
