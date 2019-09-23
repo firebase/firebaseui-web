@@ -51,12 +51,12 @@
     "gulp-css-inline-images": "^0.1.1",
     "gulp-sass": "^2.3.2",
     "gulp-util": "^3.0.7",
-    "material-design-lite": "^1.2.0",
     "protractor": "^5.3.2",
     "streamqueue": "^1.1.1"
   },
   "dependencies": {
-    "dialog-polyfill": "^0.4.7"
+    "dialog-polyfill": "^0.4.7",
+    "material-design-lite": "^1.2.0"
   },
   "peerDependencies": {
     "firebase": ">=6.6.0"
