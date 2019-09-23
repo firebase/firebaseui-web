@@ -22,6 +22,7 @@ goog.provide('firebaseui.auth.widget.handler.common');
 
 goog.require('firebaseui.auth.Account');
 goog.require('firebaseui.auth.PendingEmailCredential');
+goog.require('firebaseui.auth.RedirectStatus');
 goog.require('firebaseui.auth.acClient');
 goog.require('firebaseui.auth.idp');
 goog.require('firebaseui.auth.log');
@@ -213,12 +214,14 @@ firebaseui.auth.widget.handler.common.handleAcEmptyResponse_ = function(
     var continueCallback = function() {
       // Sets pending redirect status before redirect to
       // accountchooser.com.
-      firebaseui.auth.storage.setPendingRedirectStatus(app.getAppId());
+      var redirectStatus = new firebaseui.auth.RedirectStatus(
+          app.getTenantId());
+      firebaseui.auth.storage.setRedirectStatus(redirectStatus, app.getAppId());
       firebaseui.auth.acClient.trySelectAccount(
           function(isAvailable) {
             // Removes the pending redirect status if does not get
             // redirected to accountchooser.com.
-            firebaseui.auth.storage.removePendingRedirectStatus(app.getAppId());
+            firebaseui.auth.storage.removeRedirectStatus(app.getAppId());
             // On empty response, post accountchooser.com result (either empty
             // or unavailable).
             firebaseui.auth.widget.handler.common.accountChooserResult(
@@ -850,7 +853,7 @@ firebaseui.auth.widget.handler.common.federatedSignIn = function(
   var providerSigninFailedCallback = function(error) {
     // Removes the pending redirect status being set previously
     // if sign-in with redirect fails.
-    firebaseui.auth.storage.removePendingRedirectStatus(app.getAppId());
+    firebaseui.auth.storage.removeRedirectStatus(app.getAppId());
     // TODO: align redirect and popup flow error handling for similar errors.
     // Ignore error if cancelled by the client.
     if (error['name'] && error['name'] == 'cancel') {
@@ -878,7 +881,7 @@ firebaseui.auth.widget.handler.common.federatedSignIn = function(
   // Error handler for signInWithPopup and getRedirectResult on Cordova.
   var signInResultErrorCallback = function(error) {
     // Clear pending redirect status if redirect on Cordova fails.
-    firebaseui.auth.storage.removePendingRedirectStatus(app.getAppId());
+    firebaseui.auth.storage.removeRedirectStatus(app.getAppId());
     // Ignore error if cancelled by the client.
     if (error['name'] && error['name'] == 'cancel') {
       return;
@@ -922,7 +925,8 @@ firebaseui.auth.widget.handler.common.federatedSignIn = function(
       app, providerId, opt_email);
   // Redirect processor.
   var processRedirect = function() {
-    firebaseui.auth.storage.setPendingRedirectStatus(app.getAppId());
+    var redirectStatus = new firebaseui.auth.RedirectStatus(app.getTenantId());
+    firebaseui.auth.storage.setRedirectStatus(redirectStatus, app.getAppId());
     app.registerPending(component.executePromiseRequest(
         /** @type {function (): !goog.Promise} */ (
             goog.bind(app.startSignInWithRedirect, app)),
@@ -943,7 +947,7 @@ firebaseui.auth.widget.handler.common.federatedSignIn = function(
                 component.dispose();
                 // Removes pending redirect status if sign-in with redirect
                 // resolves in Cordova environment.
-                firebaseui.auth.storage.removePendingRedirectStatus(
+                firebaseui.auth.storage.removeRedirectStatus(
                     app.getAppId());
                 firebaseui.auth.widget.handler.handle(
                     firebaseui.auth.widget.HandlerName.CALLBACK,
@@ -1556,12 +1560,15 @@ firebaseui.auth.widget.handler.common.handleSignInWithEmail =
             var continueCallback = function() {
               // Sets pending redirect status before redirect to
               // accountchooser.com.
-              firebaseui.auth.storage.setPendingRedirectStatus(app.getAppId());
+              var redirectStatus = new firebaseui.auth.RedirectStatus(
+                  app.getTenantId());
+              firebaseui.auth.storage.setRedirectStatus(
+                  redirectStatus, app.getAppId());
               firebaseui.auth.acClient.trySelectAccount(
                   function(isAvailable) {
                     // Removes the pending redirect status if does not get
                     // redirected to accountchooser.com.
-                    firebaseui.auth.storage.removePendingRedirectStatus(
+                    firebaseui.auth.storage.removeRedirectStatus(
                         app.getAppId());
                     // On empty response, post accountchooser.com result (either
                     // empty or unavailable).

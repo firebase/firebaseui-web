@@ -21,6 +21,7 @@ goog.provide('firebaseui.auth.storage');
 goog.require('firebaseui.auth.Account');
 goog.require('firebaseui.auth.CookieMechanism');
 goog.require('firebaseui.auth.PendingEmailCredential');
+goog.require('firebaseui.auth.RedirectStatus');
 goog.require('firebaseui.auth.crypt');
 goog.require('goog.array');
 goog.require('goog.storage.Storage');
@@ -97,8 +98,8 @@ storage.Key = {
     name: 'pendingEmailCredential',
     storage: storage.temporaryStorage_
   },
-  PENDING_REDIRECT_KEY: {
-    name: 'pendingRedirect',
+  REDIRECT_STATUS: {
+    name: 'redirectStatus',
     storage: storage.temporaryStorage_
   },
   REDIRECT_URL: {
@@ -126,12 +127,6 @@ storage.Key = {
         new firebaseui.auth.CookieMechanism(3600, '/'))
   }
 };
-
-
-/**
- * @const @private{string} The pending redirect flag.
- */
-storage.PENDING_FLAG_ = 'pending';
 
 
 /**
@@ -392,39 +387,57 @@ storage.setPendingEmailCredential = function(pendingEmailCredential, opt_id) {
 
 
 /**
+ * Returns whether the redirect status is stored.
+ *
  * @param {string=} opt_id When operating in multiple app mode, this ID
  *     associates storage values with specific apps.
- * @return {boolean} Whether there is a pending redirect operation for the
+ * @return {boolean} Whether there is a pending redirect state for the
  *     provided app ID.
  */
-storage.hasPendingRedirectStatus = function(opt_id) {
-  return (
-      storage.get_(storage.Key.PENDING_REDIRECT_KEY, opt_id) ===
-      storage.PENDING_FLAG_);
+storage.hasRedirectStatus = function(opt_id) {
+  return !!storage.getRedirectStatus(opt_id);
 };
 
 
 /**
- * Removes the stored pending redirect status for provided app ID.
+ * Returns the pending redirect status. Returns null if there is no unresolved
+ * redirect opertions.
  *
  * @param {string=} opt_id When operating in multiple app mode, this ID
  *     associates storage values with specific apps.
+ * @return {?firebaseui.auth.RedirectStatus} The stored pending redirect status
+ *     if it exists.
  */
-storage.removePendingRedirectStatus = function(opt_id) {
-  storage.remove_(storage.Key.PENDING_REDIRECT_KEY, opt_id);
+storage.getRedirectStatus = function(opt_id) {
+  var redirectStatusObject = /** @type {?Object} */ (
+      storage.get_(storage.Key.REDIRECT_STATUS, opt_id) || null);
+  return firebaseui.auth.RedirectStatus.fromPlainObject(redirectStatusObject);
 };
 
 
 /**
- * Stores the pending redirect status for the provided application ID。
+ * Removes the stored pending redirect status if it exists.
  *
  * @param {string=} opt_id When operating in multiple app mode, this ID
  *     associates storage values with specific apps.
  */
-storage.setPendingRedirectStatus = function(opt_id) {
+storage.removeRedirectStatus = function(opt_id) {
+  storage.remove_(storage.Key.REDIRECT_STATUS, opt_id);
+};
+
+
+/**
+ * Stores the pending redirect status.
+ *
+ * @param {!firebaseui.auth.RedirectStatus} redirectStatus The redirect status
+ *     to store.
+ * @param {string=} opt_id When operating in multiple app mode, this ID
+ *     associates storage values with specific apps.
+ */
+storage.setRedirectStatus = function(redirectStatus, opt_id) {
   storage.set_(
-      storage.Key.PENDING_REDIRECT_KEY,
-      storage.PENDING_FLAG_,
+      storage.Key.REDIRECT_STATUS,
+      redirectStatus.toPlainObject(),
       opt_id);
 };
 

@@ -443,7 +443,7 @@ firebaseui.auth.AuthUI.prototype.isPending = function() {
 firebaseui.auth.AuthUI.prototype.isPendingRedirect = function() {
   // Check if instance is already destroyed.
   this.checkIfDestroyed_();
-  return firebaseui.auth.storage.hasPendingRedirectStatus(this.getAppId()) ||
+  return firebaseui.auth.storage.hasRedirectStatus(this.getAppId()) ||
       // User trying to complete sign-in started via FirebaseUI with email link.
       this.isEmailLinkSignInUrl_(firebaseui.auth.util.getCurrentUrl());
 };
@@ -486,6 +486,11 @@ firebaseui.auth.AuthUI.prototype.start = function(element, config) {
   this.tempAuth_.languageCode = unicodeLocale;
   // At end of flow or on reset, revert is needed.
   this.languageCodePendingRevert_ = true;
+
+  // Sync the tenant ID from external instance to internal instance.
+  if (typeof this.auth_['tenantId'] !== 'undefined') {
+    this.tempAuth_['tenantId'] = this.auth_['tenantId'];
+  }
 
   // There is a problem when config in second call modifies accountchooser.com
   // related config. eg. acUiConfig
@@ -568,7 +573,12 @@ firebaseui.auth.AuthUI.prototype.initElement_ = function(element) {
   // back from accountchooser.com and federated sign in.
   // Remove status after dispatchOperation completes as that operation depends
   // on this information.
-  firebaseui.auth.storage.removePendingRedirectStatus(this.getAppId());
+  if (firebaseui.auth.storage.hasRedirectStatus(this.getAppId())) {
+    var redirectStatus =
+        firebaseui.auth.storage.getRedirectStatus(this.getAppId());
+    this.setTenantId(redirectStatus.getTenantId());
+    firebaseui.auth.storage.removeRedirectStatus(this.getAppId());
+  }
 };
 
 
@@ -717,6 +727,25 @@ firebaseui.auth.AuthUI.prototype.revertLanguageCode = function() {
 };
 
 
+/**
+ * Sets the tenant ID on both internal and external Auth instances.
+ * @param {?string} tenantId The tenant ID.
+ */
+firebaseui.auth.AuthUI.prototype.setTenantId = function(tenantId) {
+  this.auth_['tenantId'] = tenantId;
+  this.tempAuth_['tenantId'] = tenantId;
+};
+
+
+/**
+ * Returns the tenant ID used to start the sign-in flow.
+ * @return {?string} tenantId
+ */
+firebaseui.auth.AuthUI.prototype.getTenantId = function() {
+  return this.tempAuth_['tenantId'] || null;
+};
+
+
 /** Reset rendered widget and removes it from display. */
 firebaseui.auth.AuthUI.prototype.reset = function() {
   // Check if instance is already destroyed.
@@ -735,7 +764,7 @@ firebaseui.auth.AuthUI.prototype.reset = function() {
   this.clearEmailSignInState();
   // Removes pending status of previous redirect operations including redirect
   // back from accountchooser.com and federated sign in.
-  firebaseui.auth.storage.removePendingRedirectStatus(this.getAppId());
+  firebaseui.auth.storage.removeRedirectStatus(this.getAppId());
   // Cancel One-Tap last operation.
   this.cancelOneTapSignIn();
 

@@ -36,6 +36,7 @@ function testActionCodeUrlBuilder_outgoing() {
   assertNull(builder.getOobCode());
   assertNull(builder.getMode());
   assertNull(builder.getApiKey());
+  assertNull(builder.getTenantId());
   assertEquals(url, builder.toString());
 
   // Set new parameters.
@@ -43,6 +44,7 @@ function testActionCodeUrlBuilder_outgoing() {
   builder.setForceSameDevice(true);
   builder.setSessionId('SESSION_ID');
   builder.setProviderId('PROVIDER_ID');
+  builder.setTenantId('TENANT_ID');
 
   // Confirm new parameters.
   assertEquals('ANONYMOUS_UID', builder.getAnonymousUid());
@@ -52,12 +54,14 @@ function testActionCodeUrlBuilder_outgoing() {
   assertNull(builder.getOobCode());
   assertNull(builder.getMode());
   assertNull(builder.getApiKey());
+  assertEquals('TENANT_ID', builder.getTenantId());
   assertEquals(
       'https://www.example.com/path/api?a=1&b=2&' +
       'ui_auid=ANONYMOUS_UID&' +
       'ui_sd=1&' +
       'ui_sid=SESSION_ID&' +
-      'ui_pid=PROVIDER_ID' +
+      'ui_pid=PROVIDER_ID&' +
+      'tenantId=TENANT_ID' +
       '#c=2',
       builder.toString());
 }
@@ -70,6 +74,7 @@ function testActionCodeUrlBuilder_incoming() {
       'https://www.example.com/path/api?' +
       // Incoming link would also have API key, mode and oobCode fields.
       'apiKey=API_KEY&mode=signIn&oobCode=EMAIL_ACTION_CODE&' +
+      'tenantId=TENANT_ID&' +
       'ui_auid=ANONYMOUS_UID&' +
       'ui_sd=1&' +
       'ui_sid=SESSION_ID&' +
@@ -83,12 +88,14 @@ function testActionCodeUrlBuilder_incoming() {
   assertEquals('EMAIL_ACTION_CODE', builder.getOobCode());
   assertEquals('signIn', builder.getMode());
   assertEquals('API_KEY', builder.getApiKey());
+  assertEquals('TENANT_ID', builder.getTenantId());
 
   // Clear all values.
   builder.setAnonymousUid(null);
   builder.setForceSameDevice(null);
   builder.setSessionId(null);
   builder.setProviderId(null);
+  builder.setTenantId(null);
   // Confirm updated URL has relevant parameters cleared.
   assertEquals(url, builder.toString());
 
@@ -97,6 +104,7 @@ function testActionCodeUrlBuilder_incoming() {
   builder.setForceSameDevice(false);
   builder.setSessionId('SESSION_ID2');
   builder.setProviderId('PROVIDER_ID2');
+  builder.setTenantId('TENANT_ID2');
 
   // Confirm new expected values.
   assertEquals('ANONYMOUS_UID2', builder.getAnonymousUid());
@@ -110,7 +118,8 @@ function testActionCodeUrlBuilder_incoming() {
       'ui_auid=ANONYMOUS_UID2&' +
       'ui_sd=0&' +
       'ui_sid=SESSION_ID2&' +
-      'ui_pid=PROVIDER_ID2' +
+      'ui_pid=PROVIDER_ID2&' +
+      'tenantId=TENANT_ID2' +
       '#c=2',
       builder.toString());
 }
@@ -126,6 +135,7 @@ function testActionCodeUrlBuilder_clearState() {
       'ui_sd=1&' +
       'ui_sid=SESSION_ID&' +
       'ui_pid=PROVIDER_ID&' +
+      'tenantId=TENANT_ID&' +
       'lang=en&a=1&b=2#c=2');
 
   // Confirm expected values parsed from url.
@@ -136,6 +146,7 @@ function testActionCodeUrlBuilder_clearState() {
   assertEquals('EMAIL_ACTION_CODE', builder.getOobCode());
   assertEquals('signIn', builder.getMode());
   assertEquals('API_KEY', builder.getApiKey());
+  assertEquals('TENANT_ID', builder.getTenantId());
 
   // Clear state of URL from anything related to email action codes.
   builder.clearState();
@@ -148,5 +159,6 @@ function testActionCodeUrlBuilder_clearState() {
   assertNull(builder.getOobCode());
   assertNull(builder.getMode());
   assertNull(builder.getApiKey());
+  assertNull(builder.getTenantId());
   assertEquals(url, builder.toString());
 }

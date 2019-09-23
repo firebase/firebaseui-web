@@ -48,6 +48,7 @@ function testHandleEmailLinkSignInCallback_noUpgrade_success() {
   firebaseui.auth.widget.handler.handleEmailLinkSignInCallback(
       app, container, link);
   assertBlankPage();
+  assertNull(app.getTenantId());
 
   var tempUser;
   var waitForCheckActionCode = testAuth.assertCheckActionCode(
@@ -198,6 +199,94 @@ function testHandleEmailLinkSignInCallback_noUpgrade_emailConfirmation() {
     assertFalse(
         firebaseui.auth.storage.hasEncryptedPendingCredential(app.getAppId()));
     assertFalse(firebaseui.auth.storage.hasEmailForSignIn(app.getAppId()));
+    // User should be redirected to success URL.
+    testUtil.assertGoTo('http://localhost/home');
+  });
+}
+
+
+function testHandleEmailLinkSignInCallback_tenantId() {
+  // Provide a sign in success callback.
+  app.setConfig({
+    'callbacks': {
+      'signInSuccess': signInSuccessCallback(true)
+    }
+  });
+  var email = passwordAccount.getEmail();
+  var link = generateSignInLink(
+      'SESSIONID', undefined, undefined, undefined, 'TENANT_ID');
+  var expectedUser = {
+    'email': passwordAccount.getEmail(),
+    'displayName': passwordAccount.getDisplayName()
+  };
+  setupEmailLinkSignIn('SESSIONID', email);
+
+  firebaseui.auth.widget.handler.handleEmailLinkSignInCallback(
+      app, container, link);
+  assertBlankPage();
+  // The tenant ID should be set on the Auth instances already.
+  assertEquals('TENANT_ID', app.getTenantId());
+  var tempUser;
+  var waitForCheckActionCode = testAuth.assertCheckActionCode(
+      ['ACTION_CODE'],
+      function() {
+        return {
+          'operation': 'EMAIL_SIGNIN'
+        };
+      });
+  return waitForCheckActionCode.then(function() {
+    delayForBusyIndicatorAndAssertIndicatorShown();
+    return testAuth.process();
+  }).then(function() {
+    assertBusyIndicatorHidden();
+    assertDialog(
+        firebaseui.auth.soy2.strings.dialogEmailLinkProcessing().toString());
+    testAuth.assertSignInWithEmailLink(
+        [email, link],
+        function() {
+          // Mock signed in user.
+          testAuth.setUser(expectedUser);
+          tempUser = testAuth.currentUser;
+          return {
+            // Return internal auth currentUser reference.
+            'user': testAuth.currentUser,
+            'credential': null,
+            'operationType': 'signIn',
+            'additionalUserInfo': {
+               'providerId': 'password',
+               'isNewUser': false
+            }
+          };
+        });
+    return testAuth.process();
+  }).then(function() {
+    testAuth.assertSignOut([], function() {
+      app.getAuth().setUser(null);
+    });
+    return app.getAuth().process();
+  }).then(function() {
+    // Internal user should be copied to external instance.
+    externalAuth.assertUpdateCurrentUser(
+        [tempUser],
+        function() {
+          externalAuth.setUser(expectedUser);
+        });
+    return externalAuth.process();
+  }).then(function() {
+    assertDialog(
+        firebaseui.auth.soy2.strings.dialogEmailLinkVerified().toString());
+    mockClock.tick(firebaseui.auth.widget.handler.SIGN_IN_SUCCESS_DIALOG_DELAY);
+    // No dialog shown.
+    assertNoDialog();
+    // Saved data in cookie should be cleared.
+    assertFalse(
+        firebaseui.auth.storage.hasEncryptedPendingCredential(app.getAppId()));
+    assertFalse(firebaseui.auth.storage.hasEmailForSignIn(app.getAppId()));
+    // SignInCallback is called. No credential is passed.
+    assertSignInSuccessCallbackInvoked(
+        externalAuth.currentUser, null, undefined);
+    // The tenant ID should remain on the Auth instances when the flow finishes.
+    assertEquals('TENANT_ID', app.getTenantId());
     // User should be redirected to success URL.
     testUtil.assertGoTo('http://localhost/home');
   });

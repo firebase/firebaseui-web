@@ -1,6 +1,6 @@
 {
   "name": "firebaseui",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "description": "Javascript library for customizable UI on top of Firebase SDK",
   "files": [
     "dist/firebaseui.js",
@@ -59,6 +59,6 @@
     "material-design-lite": "^1.2.0"
   },
   "peerDependencies": {
-    "firebase": ">=6.0.1"
+    "firebase": ">=6.6.0"
   }
 }

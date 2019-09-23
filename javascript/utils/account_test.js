@@ -21,7 +21,7 @@ goog.provide('firebaseui.auth.AccountTest');
 goog.require('firebaseui.auth.Account');
 goog.require('goog.testing.jsunit');
 
-goog.setTestOnly('firebaseui.auth.idpTest');
+goog.setTestOnly('firebaseui.auth.AccountTest');
 
 
 var account = new firebaseui.auth.Account(
