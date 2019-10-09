@@ -34,6 +34,9 @@
     "url": "https://github.com/firebase/firebaseui-web.git"
   },
   "license": "Apache-2.0",
+  "publishConfig": {
+    "registry": "https://wombat-dressing-room.appspot.com"
+  },
   "devDependencies": {
     "closure-builder": "^2.3.8",
     "firebase": "^5.10.0",
