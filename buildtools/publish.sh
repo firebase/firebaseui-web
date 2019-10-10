@@ -44,11 +44,11 @@ which jq &> /dev/null
 trap - ERR
 echo "Checked for commands."
 
-echo "Checking for Twitter credentials..."
-trap "echo 'Missing Twitter credentials.'; exit 1" ERR
-test -f "${WDIR}/scripts/twitter.json"
-trap - ERR
-echo "Checked for Twitter credentials..."
+# echo "Checking for Twitter credentials..."
+# trap "echo 'Missing Twitter credentials.'; exit 1" ERR
+# test -f "${WDIR}/buildtools/twitter.json"
+# trap - ERR
+# echo "Checked for Twitter credentials..."
 
 echo "Checking for logged-in npm user..."
 trap "echo 'Please login to npm using \`npm login --registry https://wombat-dressing-room.appspot.com\`'; exit 1" ERR

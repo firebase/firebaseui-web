@@ -31,6 +31,17 @@ steps:
 - name: 'gcr.io/cloud-builders/git'
   args: ['clone', 'git@github.com:${_REPOSITORY_ORG}/${_REPOSITORY_NAME}']
 
+# Clone the repository.
+- name: 'gcr.io/cloud-builders/git'
+  dir: '${_REPOSITORY_NAME}'
+  args: ['checkout', 'cloud_build_release']
+
+# Set up the npm credentials.
+- name: 'gcr.io/$PROJECT_ID/package-builder'
+  entrypoint: 'bash'
+  args: ['-c', 'cd ../']
+
+
 # Set up the Git configuration.
 - name: 'gcr.io/cloud-builders/git'
   dir: '${_REPOSITORY_NAME}'
