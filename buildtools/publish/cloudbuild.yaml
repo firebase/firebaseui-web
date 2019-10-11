@@ -73,6 +73,8 @@ steps:
     - 'REPOSITORY_ORG=${_REPOSITORY_ORG}'
     - 'REPOSITORY_NAME=${_REPOSITORY_NAME}'
 
+timeout: 1800s
+
 options:
   volumes:
   - name: 'ssh'
