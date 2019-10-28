@@ -122,7 +122,7 @@
       class="firebaseui-idp-button mdl-button mdl-js-button mdl-button--raised{sp}
              {call .idpClass_ data="all" /} firebaseui-id-idp-button"
       data-provider-id="{$providerConfig.providerId}"
-      style="background-color:{$providerConfig.buttonColor}">
+      style="background-color:{call .idpColor_ data="all" /}">
     <span class="firebaseui-idp-icon-wrapper">
       <img
           class="firebaseui-idp-icon"
@@ -582,22 +582,11 @@
   {@param? providerConfig: [providerId:string|null, providerName:string|null,
       buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
   {if $providerConfig.providerName}
-    {msg desc="Display name of the identity provider."}{$providerConfig.providerName}{/msg}
+    {$providerConfig.providerName}
+  {elseif $ij.defaultProviderNames[$providerConfig.providerId]}
+    {$ij.defaultProviderNames[$providerConfig.providerId]}
   {else}
-    {switch $providerConfig.providerId}
-      {case 'google.com'}
-        {msg desc="Display name of the identity provider for Google sign-in."}Google{/msg}
-      {case 'github.com'}
-        {msg desc="Display name of the identity provider for GitHub sign-in."}GitHub{/msg}
-      {case 'facebook.com'}
-        {msg desc="Display name of the identity provider for Facebook sign-in."}Facebook{/msg}
-      {case 'twitter.com'}
-        {msg desc="Display name of the identity provider for Twitter sign-in."}Twitter{/msg}
-      {case 'anonymous'}
-        {msg desc="Display name of the identity provider for anonymous sign-in."}Guest{/msg}
-      {default}
-        {msg desc="Display name of the identity provider for password sign-in."}Password{/msg}
-    {/switch}
+    {$providerConfig.providerId}
   {/if}
 {/template}
 
@@ -631,30 +620,36 @@
 
 
 /**
- * Determines the IdP logo URL.
- * The list should match the supported provider IDs in Firebase Auth.
+ * Determines the IdP logo URL. The URL in the providerConfig has the highest priority. If not
+ * provided, the default one per IdP will be used. If the provider ID is unknown, use the password
+ * icon.
  */
 {template .idpLogo_ kind="uri"}
   {@param? providerConfig: [providerId:string|null, providerName:string|null,
       buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
   {if $providerConfig.iconUrl}
     {$providerConfig.iconUrl}
+  {elseif $ij.defaultIconUrls[$providerConfig.providerId]}
+    {$ij.defaultIconUrls[$providerConfig.providerId]}
   {else}
-    {switch $providerConfig.providerId}
-      {case 'google.com'}
-        {$ij.googleLogo}
-      {case 'github.com'}
-        {$ij.githubLogo}
-      {case 'facebook.com'}
-        {$ij.facebookLogo}
-      {case 'twitter.com'}
-        {$ij.twitterLogo}
-      {case 'phone'}
-        {$ij.phoneLogo}
-      {case 'anonymous'}
-        {$ij.anonymousLogo}
-      {default}
-        {$ij.passwordLogo}
-    {/switch}
+    {$ij.defaultIconUrls['password']}
+  {/if}
+{/template}
+
+
+/**
+ * Determines the IdP button color. The button color in the providerConfig has the highest priority.
+ * If not provided, the default one per IdP will be used. If the provider ID is unknown, use the
+ * password icon.
+ */
+{template .idpColor_ kind="text"}
+  {@param? providerConfig: [providerId:string|null, providerName:string|null,
+      buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
+  {if $providerConfig.buttonColor}
+    {$providerConfig.buttonColor}
+  {elseif $ij.defaultButtonColors[$providerConfig.providerId]}
+    {$ij.defaultButtonColors[$providerConfig.providerId]}
+  {else}
+    {$ij.defaultButtonColors['password']}
   {/if}
 {/template}

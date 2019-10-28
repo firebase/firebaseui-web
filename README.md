@@ -8,8 +8,8 @@ to eliminate boilerplate code and promote best practices.
 
 FirebaseUI Auth provides a drop-in auth solution that handles the UI flows for
 signing in users with email addresses and passwords, phone numbers, Identity
-Provider Sign In including Google, Facebook, GitHub, Twitter, Microsoft, Yahoo,
-OpenID Connect (OIDC) providers and SAML providers. It is built on top of
+Provider Sign In including Google, Facebook, GitHub, Twitter, Apple, Microsoft,
+Yahoo, OpenID Connect (OIDC) providers and SAML providers. It is built on top of
 [Firebase Auth](https://firebase.google.com/docs/auth).
 
 The FirebaseUI component implements best practices for authentication on mobile
@@ -22,9 +22,9 @@ FirebaseUI Auth clients are also available for
 [Android](https://github.com/firebase/firebaseui-android).
 
 FirebaseUI fully supports all recent browsers. Signing in with federated
-providers (Google, Facebook, Twitter, GitHub, Microsoft, Yahoo, OIDC, SAML) is
-also supported in Cordova/Ionic environments. Additional non-browser
-environments (React Native...) or Chrome extensions will be added once the
+providers (Google, Facebook, Twitter, GitHub, Apple, Microsoft, Yahoo, OIDC,
+SAML) is also supported in Cordova/Ionic environments. Additional non-browser
+environments(React Native...) or Chrome extensions will be added once the
 underlying Firebase core SDK supports them in a way that is compatible with
 FirebaseUI.
 
@@ -159,6 +159,7 @@ provider you want to use in their own developer app settings. Please read the
 - [Github](https://firebase.google.com/docs/auth/web/github-auth#before_you_begin)
 - [Anonymous](https://firebase.google.com/docs/auth/web/anonymous-auth#before_you_begin)
 - [Email link](https://firebase.google.com/docs/auth/web/email-link-auth#before_you_begin)
+- [Apple](https://firebase.google.com/docs/auth/web/apple)
 - [Microsoft](https://firebase.google.com/docs/auth/web/microsoft-oauth)
 - [Yahoo](https://firebase.google.com/docs/auth/web/yahoo-oauth)
 
@@ -544,6 +545,7 @@ To see FirebaseUI in action with one-tap sign-up, check out the FirebaseUI
 |Email and password|`firebase.auth.EmailAuthProvider.PROVIDER_ID`   |
 |Phone number      |`firebase.auth.PhoneAuthProvider.PROVIDER_ID`   |
 |Anonymous         |`firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID`|
+|Apple             |`apple.com`                                     |
 |Microsoft         |`microsoft.com`                                 |
 |Yahoo             |`yahoo.com`                                     |
 |SAML (GCIP only)  |`saml.*********`                               |
@@ -590,10 +592,25 @@ ui.start('#firebaseui-auth-container', {
 #### Generic OAuth provider
 
 You can let your users authenticate with FirebaseUI using OAuth providers like
+[Apple](https://firebase.google.com/docs/auth/web/apple),
 [Microsoft Azure Active Directory](https://firebase.google.com/docs/auth/web/microsoft-oauth)
 and [Yahoo](https://firebase.google.com/docs/auth/web/yahoo-oauth)
 by integrating generic OAuth Login into your app.
 
+You just need to pass the provider ID in `signInOptions`, FirebaseUI provides
+the default configurations for the sign in button(button color, icon and display name):
+
+```javascript
+ui.start('#firebaseui-auth-container', {
+  signInOptions: [
+    'apple.com',
+    'microsoft.com',
+    'yahoo.com',
+  ]
+});
+```
+
+You can also override these default configurations with your own custom ones.
 Generic OAuth providers' `signInOptions` support the following configuration
 parameters.
 
@@ -623,7 +640,7 @@ parameters.
 </tr>
 <tr>
 <td>buttonColor</td>
-<td>Yes</td>
+<td>No</td>
 <td>
   The color of sign in button. The css of the button can be overwritten with
   the attribute/value in the HTML element:
@@ -632,7 +649,7 @@ parameters.
 </tr>
 <tr>
 <td>iconUrl</td>
-<td>Yes</td>
+<td>No</td>
 <td>
   The URL of the Identity Provider's icon. This will be displayed on the
   provider's sign-in button, etc.

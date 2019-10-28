@@ -72,10 +72,13 @@ function getUiConfig() {
       },
       {
         provider: 'microsoft.com',
-        providerName: 'Microsoft',
-        buttonColor: '#2F2F2F',
-        iconUrl: 'https://docs.microsoft.com/en-us/azure/active-directory/develop/media/howto-add-branding-in-azure-ad-apps/ms-symbollockup_mssymbol_19.png',
         loginHintKey: 'login_hint'
+      },
+      {
+        provider: 'yahoo.com',
+      },
+      {
+        provider: 'apple.com',
       },
       firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
     ],
