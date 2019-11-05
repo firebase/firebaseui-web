@@ -74,6 +74,9 @@ function getUiConfig() {
         provider: 'microsoft.com',
         loginHintKey: 'login_hint'
       },
+      {
+        provider: 'apple.com',
+      },
       firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
     ],
     // Terms of service url.
