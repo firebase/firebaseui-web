@@ -1,0 +1,78 @@
+steps:
+# Decrypt the SSH key.
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['kms', 'decrypt', '--ciphertext-file=deploy_key.enc', '--plaintext-file=/root/.ssh/id_rsa', '--location=global', '--keyring=${_KEY_RING}', '--key=${_KEY_NAME}']
+
+# Decrypt the Twitter credentials.
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['kms', 'decrypt', '--ciphertext-file=twitter.json.enc', '--plaintext-file=twitter.json', '--location=global', '--keyring=${_KEY_RING}', '--key=${_KEY_NAME}']
+
+# Decrypt the npm credentials.
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['kms', 'decrypt', '--ciphertext-file=npmrc.enc', '--plaintext-file=npmrc', '--location=global', '--keyring=${_KEY_RING}', '--key=${_KEY_NAME}']
+
+# Decrypt the hub (GitHub) credentials.
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['kms', 'decrypt', '--ciphertext-file=hub.enc', '--plaintext-file=hub', '--location=global', '--keyring=${_KEY_RING}', '--key=${_KEY_NAME}']
+
+# Set up git with key and domain.
+- name: 'gcr.io/cloud-builders/git'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    chmod 600 /root/.ssh/id_rsa
+    cat <<EOF >/root/.ssh/config
+    Hostname github.com
+    IdentityFile /root/.ssh/id_rsa
+    EOF
+    ssh-keyscan github.com >> /root/.ssh/known_hosts
+
+# Clone the repository.
+- name: 'gcr.io/cloud-builders/git'
+  args: ['clone', 'git@github.com:${_REPOSITORY_ORG}/${_REPOSITORY_NAME}']
+
+# Set up the Git configuration.
+- name: 'gcr.io/cloud-builders/git'
+  dir: '${_REPOSITORY_NAME}'
+  args: ['config', '--global', 'user.email', 'firebase-oss-bot@google.com']
+- name: 'gcr.io/cloud-builders/git'
+  dir: '${_REPOSITORY_NAME}'
+  args: ['config', '--global', 'user.name', 'Google Open Source Bot']
+
+# Set up the Twitter credentials.
+- name: 'gcr.io/$PROJECT_ID/package-builder'
+  entrypoint: 'cp'
+  args: ['-v', 'twitter.json', '${_REPOSITORY_NAME}/buildtools/twitter.json']
+
+# Set up the npm credentials.
+- name: 'gcr.io/$PROJECT_ID/package-builder'
+  entrypoint: 'bash'
+  args: ['-c', 'cp -v npmrc ~/.npmrc']
+
+# Set up the hub credentials.
+- name: 'gcr.io/$PROJECT_ID/package-builder'
+  entrypoint: 'bash'
+  args: ['-c', 'mkdir -vp ~/.config && cp -v hub ~/.config/hub']
+
+# Publish the package.
+- name: 'gcr.io/$PROJECT_ID/package-builder'
+  dir: '${_REPOSITORY_NAME}'
+  args: ['bash', './buildtools/publish.sh', '${_VERSION}']
+  env:
+    - 'REPOSITORY_ORG=${_REPOSITORY_ORG}'
+    - 'REPOSITORY_NAME=${_REPOSITORY_NAME}'
+
+timeout: 1800s
+
+options:
+  volumes:
+  - name: 'ssh'
+    path: /root/.ssh
+
+substitutions:
+  _VERSION: ''
+  _KEY_RING: 'cloud-build-ring'
+  _KEY_NAME: 'publish'
+  _REPOSITORY_ORG: 'firebase'
+  _REPOSITORY_NAME: 'firebaseui-web'
