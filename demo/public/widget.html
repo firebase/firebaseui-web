@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>FirebaseUI Auth Demo</title>
-    <script src="https://www.gstatic.com/firebasejs/6.0.1/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase.js"></script>
     <script src="config.js"></script>
     <script src="common.js"></script>
     <script src="dist/firebaseui.js"></script>
@@ -56,10 +56,10 @@
           },
           {
             provider: 'microsoft.com',
-            providerName: 'Microsoft',
-            buttonColor: '#2F2F2F',
-            iconUrl: 'https://docs.microsoft.com/en-us/azure/active-directory/develop/media/howto-add-branding-in-azure-ad-apps/ms-symbollockup_mssymbol_19.png',
             loginHintKey: 'login_hint'
+          },
+          {
+            provider: 'apple.com',
           },
           firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
         ],

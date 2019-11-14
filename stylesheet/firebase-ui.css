@@ -331,57 +331,15 @@ input.firebaseui-input-invalid{
   }
 }
 
-.firebaseui-idp-password,
-.firebaseui-idp-password:hover,
-.mdl-button.firebaseui-idp-password:active,
-.mdl-button.firebaseui-idp-password:focus {
-  background-color: #db4437;
-}
-
-.firebaseui-idp-phone,
-.firebaseui-idp-phone:hover,
-.mdl-button.firebaseui-idp-phone:active,
-.mdl-button.firebaseui-idp-phone:focus {
-  background-color: #02bd7e;
-}
-
-.firebaseui-idp-google,
-.firebaseui-idp-google:hover,
-.mdl-button.firebaseui-idp-google:active,
-.mdl-button.firebaseui-idp-google:focus {
-  background-color: #ffffff;
-}
-
 .firebaseui-idp-google > .firebaseui-idp-text {
   color: #757575;
 }
 
-.firebaseui-idp-github,
-.firebaseui-idp-github:hover,
-.mdl-button.firebaseui-idp-github:active,
-.mdl-button.firebaseui-idp-github:focus {
-  background-color: #333333;
-}
-
-.firebaseui-idp-facebook,
-.firebaseui-idp-facebook:hover,
-.mdl-button.firebaseui-idp-facebook:active,
-.mdl-button.firebaseui-idp-facebook:focus {
-  background-color: #3b5998;
-}
-
-.firebaseui-idp-twitter,
-.firebaseui-idp-twitter:hover,
-.mdl-button.firebaseui-idp-twitter:active,
-.mdl-button.firebaseui-idp-twitter:focus {
-  background-color: #55acee;
-}
-
-.firebaseui-idp-anonymous,
-.firebaseui-idp-anonymous:hover,
-.mdl-button.firebaseui-idp-anonymous:active,
-.mdl-button.firebaseui-idp-anonymous:focus {
-  background-color: #f4b400;
+/* Override the size of Yahoo's icon. */
+[data-provider-id="yahoo.com"] > .firebaseui-idp-icon-wrapper >
+.firebaseui-idp-icon {
+  height: 22px;
+  width: 22px;
 }
 
 .firebaseui-info-bar {

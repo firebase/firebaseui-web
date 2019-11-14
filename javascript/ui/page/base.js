@@ -50,19 +50,72 @@ firebaseui.auth.ui.page.SHOW_PROCESSING_DELAY_ = 500;
 
 
 /**
- * @const {Object}
+ * The default icon URLs for the IdPs.
+ * @const {!Object}
+ * @private
+ */
+firebaseui.auth.ui.page.DEFAULT_ICON_URLS_ = {
+  'google.com': firebaseui.auth.ui.page.IMAGE_BASE + 'google.svg',
+  'github.com': firebaseui.auth.ui.page.IMAGE_BASE + 'github.svg',
+  'facebook.com': firebaseui.auth.ui.page.IMAGE_BASE + 'facebook.svg',
+  'twitter.com': firebaseui.auth.ui.page.IMAGE_BASE + 'twitter.svg',
+  'password': firebaseui.auth.ui.page.IMAGE_BASE + 'mail.svg',
+  'phone': firebaseui.auth.ui.page.IMAGE_BASE + 'phone.svg',
+  'anonymous': firebaseui.auth.ui.page.IMAGE_BASE + 'anonymous.png',
+  'microsoft.com': firebaseui.auth.ui.page.IMAGE_BASE + 'microsoft.svg',
+  'yahoo.com': firebaseui.auth.ui.page.IMAGE_BASE + 'yahoo.svg',
+  'apple.com': firebaseui.auth.ui.page.IMAGE_BASE + 'apple.png',
+};
+
+
+/**
+ * The default button colors for the IdPs.
+ * @const {!Object}
+ * @private
+ */
+firebaseui.auth.ui.page.DEFAULT_BUTTON_COLORS_ = {
+  'google.com': '#ffffff',
+  'github.com': '#333333',
+  'facebook.com': '#3b5998',
+  'twitter.com': '#55acee',
+  'password': '#db4437',
+  'phone': '#02bd7e',
+  'anonymous': '#f4b400',
+  'microsoft.com': '#2F2F2F',
+  'yahoo.com': '#720E9E',
+  'apple.com': '#000000',
+};
+
+
+/**
+ * The default display names for the IdPs.
+ * @const {!Object}
+ * @private
+ */
+firebaseui.auth.ui.page.DEFAULT_PROVIDER_NAMES_ = {
+  'google.com': 'Google',
+  'github.com': 'GitHub',
+  'facebook.com': 'Facebook',
+  'twitter.com': 'Twitter',
+  'password': 'Password',
+  'phone': 'Phone',
+  'anonymous': 'Guest',
+  'microsoft.com': 'Microsoft',
+  'yahoo.com': 'Yahoo',
+  'apple.com': 'Apple',
+};
+
+
+/**
+ * The injected data passed to the soy templates.
+ * @const {!Object}
  * @private
  */
 firebaseui.auth.ui.page.IJ_DATA_ = {
-  googleLogo: firebaseui.auth.ui.page.IMAGE_BASE + 'google.svg',
-  githubLogo: firebaseui.auth.ui.page.IMAGE_BASE + 'github.svg',
-  facebookLogo: firebaseui.auth.ui.page.IMAGE_BASE + 'facebook.svg',
-  twitterLogo: firebaseui.auth.ui.page.IMAGE_BASE + 'twitter.svg',
-  passwordLogo: firebaseui.auth.ui.page.IMAGE_BASE + 'mail.svg',
-  phoneLogo: firebaseui.auth.ui.page.IMAGE_BASE + 'phone.svg',
-  anonymousLogo: firebaseui.auth.ui.page.IMAGE_BASE + 'anonymous.png'
+  defaultIconUrls: firebaseui.auth.ui.page.DEFAULT_ICON_URLS_,
+  defaultButtonColors: firebaseui.auth.ui.page.DEFAULT_BUTTON_COLORS_,
+  defaultProviderNames: firebaseui.auth.ui.page.DEFAULT_PROVIDER_NAMES_,
 };
-
 
 
 /**

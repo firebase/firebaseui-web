@@ -344,8 +344,6 @@ function testGetProviderConfigs() {
     {'not a': 'valid config'},
     {
       'provider': 'yahoo.com',
-      'buttonColor': '#FFB6C1',
-      'iconUrl': '<url-of-the-icon-of-the-sign-in-button>'
     }
   ]);
   var providerConfigs = config.getProviderConfigs();
@@ -365,10 +363,9 @@ function testGetProviderConfigs() {
   }, providerConfigs[2]);
   assertObjectEquals({
     providerId: 'yahoo.com',
-    // ProviderName should default to providerId if not provided.
-    providerName: 'yahoo.com',
-    buttonColor: '#FFB6C1',
-    iconUrl: '<url-of-the-icon-of-the-sign-in-button>',
+    providerName: null,
+    buttonColor: null,
+    iconUrl: null,
     loginHintKey: null
   }, providerConfigs[3]);
 }

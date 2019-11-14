@@ -30,19 +30,42 @@ goog.require('goog.testing.jsunit');
 
 
 var IJ_DATA_ = {
-  'googleLogo': '../image/google.svg',
-  'githubLogo': '../image/github.svg',
-  'facebookLogo': '../image/facebook.svg',
-  'twitterLogo': '../image/twitter.svg',
-  'passwordLogo': '../image/mail.svg',
-  'phoneLogo': '../image/phone.svg',
-  'anonymousLogo': '../image/anonymous.png',
+  'defaultIconUrls': {
+    'google.com': '../image/google.svg',
+    'github.com': '../image/github.svg',
+    'facebook.com': '../image/facebook.svg',
+    'twitter.com': '../image/twitter.svg',
+    'password': '../image/mail.svg',
+    'phone': '../image/phone.svg',
+    'anonymous': '../image/anonymous.svg',
+  },
+  'defaultButtonColors': {
+    'google.com': '#ffffff',
+    'github.com': '#333333',
+    'facebook.com': '#3b5998',
+    'twitter.com': '#55acee',
+    'password': '#db4437',
+    'phone': '#02bd7e',
+    'anonymous': '#f4b400',
+  },
+  'defaultProviderNames': {
+    'google.com': 'Google',
+    'github.com': 'GitHub',
+    'facebook.com': 'Facebook',
+    'twitter.com': 'Twitter',
+    'password': 'Password',
+    'phone': 'Phone',
+    'anonymous': 'Guest',
+    'microsoft.com': 'Microsoft',
+    'yahoo.com': 'Yahoo',
+    'apple.com': 'Apple',
+  },
   'tosCallback': function() {
     window.location.assign('/tos');
   },
   'privacyPolicyCallback': function() {
     window.location.assign('/privacyPolicy');
-  }
+  },
 };
 
 
