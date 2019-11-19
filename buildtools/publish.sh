@@ -118,6 +118,7 @@ echo "Running npm install..."
 npm install
 echo "Ran npm install."
 
+CURRENT_VERSION=$(jq -r ".version" package.json)
 echo "Making a $VERSION version..."
 npm version $VERSION
 NEW_VERSION=$(jq -r ".version" package.json)
@@ -134,6 +135,10 @@ echo "Made the release notes."
 echo "Publishing to npm..."
 npm publish
 echo "Published to npm."
+
+echo "Bumping version numbers in README..."
+sed -i "s/firebasejs\/ui\/${CURRENT_VERSION}/firebasejs\/ui\/${NEW_VERSION}/g" README.md
+echo "Bumped version numbers in README."
 
 echo "Cleaning up release notes..."
 rm CHANGELOG.md
