@@ -12,11 +12,14 @@
 <translation id="1163771673786684213">Filippinerne</translation>
 <translation id="1170304454812139475">Rumænien</translation>
 <translation id="1194565221977667376">South Georgia og De Sydlige Sandwichøer</translation>
-<translation id="124367247840231378">OK</translation>
+<translation id="1233977465587641672">Tab af data, der ikke kan gendannes, eller datakorruption.</translation>
 <translation id="1244846213930750436">Italien</translation>
 <translation id="1268266284642694018">Libanon</translation>
 <translation id="1294742657282291237">Guyana</translation>
 <translation id="1297168472480293352">Guatemala</translation>
+<translation id="1307255433239736397"><ph name="START_PARAGRAPH" />Der gik noget galt under fjernelsen af din anden faktor.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Prøv at fjerne den igen. Hvis det ikke virker, kan du kontakte support for at få hjælp.<ph name="END_PARAGRAPH" /></translation>
+<translation id="1310034618729602982">Prøv at opdatere din mail igen</translation>
+<translation id="1312824004897469797">Der er opstået en netværksfejl. Prøv igen senere.</translation>
 <translation id="1315809131562953678">Angiv et gyldigt telefonnummer</translation>
 <translation id="1335716056288807013">Ved at trykke på Bekræft accepterer du vores <ph name="START_LINK_1" />Servicevilkår<ph name="END_LINK" /> og <ph name="START_LINK_2" />Privatlivspolitik<ph name="END_LINK" />. Der bliver evt. sendt en sms. Der opkræves muligvis gebyrer for beskeder og data.</translation>
 <translation id="137210131544215127">Angiv din adgangskode</translation>
@@ -27,6 +30,7 @@
 <translation id="1479035434297790822">Der kommer for mange kontoanmodninger fra din IP-adresse. Prøv igen om et par minutter.</translation>
 <translation id="1483249363694224399">Sri Lanka</translation>
 <translation id="1507995441600689506">Du kan nu logge ind med din nye konto</translation>
+<translation id="1544981664986460902">Klienten angav et ugyldigt argument.</translation>
 <translation id="1575848116712334589">Tchad</translation>
 <translation id="1630237004390596779">Send koden igen om <ph name="STRING" /></translation>
 <translation id="1653501608290591291">Hviderusland</translation>
@@ -62,6 +66,7 @@
 <translation id="2206856445831770486">Github</translation>
 <translation id="2223717216014247341">Privatlivspolitik</translation>
 <translation id="2224563296468523455">Guam</translation>
+<translation id="2245182894886860848">Skyldes enten, at ressourcekvoten er overskredet, eller at rategrænsen er nået.</translation>
 <translation id="2249420035688424170">Kroatien</translation>
 <translation id="2251583471831926217">Litauen</translation>
 <translation id="227405248692044138">Malta</translation>
@@ -71,22 +76,28 @@
 <translation id="2324942959480650701">Gæst</translation>
 <translation id="2331781584136059536">Ghana</translation>
 <translation id="2338909515537249568">Den browser, du bruger, understøtter ikke weblagring. Prøv igen i en anden browser.</translation>
+<translation id="2342152898808240937">Anmodningen blev annulleret af klienten.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Der opstod et problem med at ændre din login-mail tilbage.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Hvis du prøver igen og stadig ikke kan nulstille din mail, skal du bede din administrator om hjælp.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Bahrain</translation>
+<translation id="2392247362473363900">Intern serverfejl.</translation>
 <translation id="2405828009195143258">Iran</translation>
+<translation id="2414459877074534554">GitHub</translation>
 <translation id="244437093285883777">Bekræfter, at du ikke er en robot…</translation>
 <translation id="2448227725017851570">Denne kode er ikke længere gyldig</translation>
 <translation id="2448487988481516351">Ny Kaledonien</translation>
 <translation id="2451742558284013472">Monaco</translation>
 <translation id="2460064915291012298">Seychellerne</translation>
+<translation id="2490672522100125425"><ph name="START_STRONG" /><ph name="FACTOR_ID" /> <ph name="PHONE_NUMBER" /><ph name="END_STRONG" /> blev fjernet som andet godkendelsestrin.</translation>
 <translation id="2494962141967044042">Opgradering af den nuværende anonyme bruger mislykkedes. De ikke-anonyme loginoplysninger er allerede knyttet til en anden brugerkonto.</translation>
 <translation id="2541179214468543429">Du har indtastet en forkert adgangskode for mange gange. Prøv igen om et par minutter.</translation>
 <translation id="2561560038714758184">Sikkerhed</translation>
 <translation id="2561835578785502516">Din anmodning om at nulstille din adgangskode er udløbet, eller linket er allerede brugt</translation>
+<translation id="2562498793334241360">Du kan nu logge ind med din nye mail <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />.</translation>
 <translation id="2581514546525533462">Den angivne landekode understøttes ikke.</translation>
 <translation id="2600950452451016107">Sørg for, at du ikke har stavet din mailadresse forkert.</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">Cambodja</translation>
+<translation id="2614081868476050089">Tjenesten er ikke tilgængelig.</translation>
 <translation id="2616650714309312732">Portugal</translation>
 <translation id="2619590123270932385">Fransk Guyana</translation>
 <translation id="2621854044487969847">De Britiske Jomfruøer</translation>
@@ -102,19 +113,21 @@
 <translation id="2741235824871026219">Bekræft</translation>
 <translation id="2752984808025184019">Sydafrika</translation>
 <translation id="2760636260031093254">Angiv din mailadresse for at fortsætte</translation>
+<translation id="276938411216176478">Brugerkontoen er blevet deaktiveret af en administrator.</translation>
 <translation id="2782685789517131804">En loginmail med yderligere vejledning er sendt til <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Tjek din mail for at fuldføre loginprocessen.</translation>
 <translation id="2828509010894808185">Opret konto</translation>
 <translation id="2834770837848769530">Afghanistan</translation>
 <translation id="2884525438023347369">Ved at trykke på <ph name="BTN" /> accepterer du <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">Canada</translation>
 <translation id="2911018261311455240">Danmark</translation>
+<translation id="2949732021187449522">Anmodningsdeadline er overskredet.</translation>
 <translation id="295270254328846278">Østrig</translation>
 <translation id="2976748949054245370">Mailadresserne stemmer ikke overens</translation>
 <translation id="29947009417147243">Sydsudan</translation>
 <translation id="3040586343252524572">Yemen</translation>
 <translation id="3045244039436637116">Guinea-Bissau</translation>
 <translation id="3046745817056752783">Saudi-Arabien</translation>
-<translation id="311953035679824832">App-logo</translation>
+<translation id="3083819527012413063">Der er tilføjet et ekstra sikkerhedstrin i <ph name="APP_NAME" /></translation>
 <translation id="3122584863645047144">De Amerikanske Jomfruøer</translation>
 <translation id="3141549453511344986">Log ind med telefon</translation>
 <translation id="3147551458884186429">Indonesien</translation>
@@ -122,6 +135,7 @@
 <translation id="3164676761565983157">Venezuela</translation>
 <translation id="3170526549630869494">Har du problemer med at logge ind?</translation>
 <translation id="3204914819635733576">Bekræft, at det er dig</translation>
+<translation id="3215050409577090361">Der opstod et problem under godkendelsen af din anmodning. Gå endnu en gang til den webadresse, der omdirigerede dig til denne side, for at påbegynde godkendelsesprocessen igen.</translation>
 <translation id="3216149523061905579">Dominica</translation>
 <translation id="3223688630903046698">Ny adgangskode</translation>
 <translation id="3250864391349648273">Gabon</translation>
@@ -139,6 +153,7 @@
 <translation id="3434621886769337032">Gambia</translation>
 <translation id="3472358534605257432">Udført</translation>
 <translation id="3479685026618611556">Annuller</translation>
+<translation id="3481131180097895739">Ukendt serverfejl.</translation>
 <translation id="3487364398525389372">Angiv dit kontonavn</translation>
 <translation id="3521753471343796628">Irak</translation>
 <translation id="354888504916863713">Vietnam</translation>
@@ -150,6 +165,8 @@
 <translation id="3605933028246642593">Nepal</translation>
 <translation id="3608140835232496799">Tokelau</translation>
 <translation id="3620185428620643248">De valgte loginoplysninger for udbyderen af godkendelse understøttes ikke.</translation>
+<translation id="3658306886462996856">Der er ingen loginudbyder tilgængelig for den angivne mailadresse. Prøv en anden mailadresse.</translation>
+<translation id="3695180913983403205">Angiv et for- og efternavn.</translation>
 <translation id="3700097473356216716">Colombia</translation>
 <translation id="3703067902498234034">Ved at trykke på GEM angiver du, at du accepterer </translation>
 <translation id="3736041829854387744">Burundi</translation>
@@ -157,7 +174,7 @@
 <translation id="3813801701232240278">Twitter</translation>
 <translation id="3814740523815122846">Din mail er blevet bekræftet</translation>
 <translation id="3819556544383051267">Papua Ny Guinea</translation>
-<translation id="3831901810365396899">Gem</translation>
+<translation id="3828991952827504549">Den angivne ressource blev ikke fundet.</translation>
 <translation id="3862053977934420187">Bekræfter…</translation>
 <translation id="3898029444496274961">Log ind</translation>
 <translation id="3905423743526704083">Østtimor</translation>
@@ -190,6 +207,7 @@
 <translation id="4440507149645221385">Telefon</translation>
 <translation id="4450602713221237198">Send igen</translation>
 <translation id="4498504413765490964">Honduras</translation>
+<translation id="450385255996536115">Handlingen er udløbet.</translation>
 <translation id="4515732781724470190">Niger</translation>
 <translation id="4521614244485847733">Mailadressen matcher ikke en eksisterende konto</translation>
 <translation id="4556476996891737119">Jordan</translation>
@@ -201,6 +219,7 @@
 <translation id="4723701728629289714">Israel</translation>
 <translation id="4725154639671888461">Der opstod en fejl</translation>
 <translation id="4751937685196678080">Tal</translation>
+<translation id="4769553102874508676">Klienten har ikke tilstrækkelig tilladelse.</translation>
 <translation id="4773060157545352832">Løs reCAPTCHA</translation>
 <translation id="4775051289386800916">Nicaragua</translation>
 <translation id="4783400389150493171">Burkina Faso</translation>
@@ -209,14 +228,17 @@
 <translation id="4871106926303956169">Turks- og Caicosøerne</translation>
 <translation id="4877597386645466815">Send koden igen om <ph name="TIME_REMAINING" /></translation>
 <translation id="4915406999072654369">Tjek din mail</translation>
+<translation id="4923375331439013137">Kunne ikke fjerne din anden faktor</translation>
 <translation id="4955175001894453989">Tilføj adgangskode</translation>
 <translation id="496366313824211679">El Salvador</translation>
+<translation id="4982483807073820954">For at ændre adgangskoden for din konto skal du logge ind igen.</translation>
 <translation id="4991626049082973728">Serbien</translation>
 <translation id="4991892293325936102">Belize</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" />for <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /><ph name="END_PARAGRAPH" /></translation>
 <translation id="5059105734231232362">Hvis det skal lykkes at knytte din <ph name="IDP_DISPLAY_NAME" />-konto til mailadressen på denne måde, skal du åbne linket med den samme enhed eller i samme browser.</translation>
 <translation id="5080084639513001393">Sverige</translation>
 <translation id="5080899604429810481">Saint-Martin</translation>
+<translation id="5115661695221894994"><ph name="START_PARAGRAPH" />Din anmodning om at bekræfte og opdatere din mail er udløbet, eller linket er allerede blevet brugt.<ph name="END_PARAGRAPH" /></translation>
 <translation id="5143657419516597442">St. Lucia</translation>
 <translation id="521218078240459724">@string/app_name</translation>
 <translation id="5241732101105320538">Tjek din mail</translation>
@@ -224,13 +246,15 @@
 <translation id="5323041129469627535">Oman</translation>
 <translation id="5326139833547026317">Hollandsk Caribien</translation>
 <translation id="5347459868860672391">Opdateret mailadresse</translation>
-<translation id="5403395913830260677">Log ind med Twitter</translation>
+<translation id="5397737236938796917">Du er nu blevet logget ud.</translation>
+<translation id="5406620662929585965">Log ind med telefon</translation>
 <translation id="5407010562344541906">Telefonnummer</translation>
 <translation id="5409861738809250803">Du har allerede en konto</translation>
 <translation id="5410341463946781720">Thailand</translation>
 <translation id="5443669846203963095">Privatlivspolitik</translation>
 <translation id="5444635161362535036">Liechtenstein</translation>
 <translation id="5483706910421209104">Rediger navn</translation>
+<translation id="5487696047685227891">Enheden eller appen blev fjernet som andet godkendelsestrin.</translation>
 <translation id="5490651768073507833">Prøv at åbne linket med samme enhed eller samme browser, som du brugte til at starte loginprocessen.</translation>
 <translation id="5524360735013196510">Holland</translation>
 <translation id="5528189843379142883">Ækvatorialguinea</translation>
@@ -254,7 +278,7 @@
 <translation id="5699028034244995851">Angiv din mailadresse for at fortsætte</translation>
 <translation id="5701178667798108817">Bekræft dit telefonnummer</translation>
 <translation id="5715637701147651513">Liberia</translation>
-<translation id="5755179287528310939">Der findes allerede en konto med den mailadresse.</translation>
+<translation id="5747263508495256858">Log ud</translation>
 <translation id="5771034676910614239">Madagaskar</translation>
 <translation id="5818634293686963864">Kasakhstan</translation>
 <translation id="5829301468800336085">Logger ind…</translation>
@@ -273,15 +297,20 @@
 <translation id="6032262985756512833">Angiv den <ph name="STRING" />-cifrede kode, vi sendte til</translation>
 <translation id="6044396095102058216">Dette telefonnummer er blevet brugt for mange gange</translation>
 <translation id="6083089720215618333">Den angivne mailadresse svarer ikke til den aktuelle loginsession.</translation>
-<translation id="6113531938704280909">Fjern tilknytning til konto</translation>
+<translation id="6091051069256411999">Twitter</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />Log ind på <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6132202686885223981">Sørg for, at din indbakke ikke er løbet tør for plads, og at du ikke har andre problemer med indbakken.</translation>
+<translation id="6135589730599211649">Klienten har angivet et ugyldigt interval.</translation>
+<translation id="6143147250106939258">Kvoten for denne handling er blevet overskredet. Prøv igen senere.</translation>
 <translation id="6189573836664806798">Paraguay</translation>
 <translation id="6192657410634245771">Algeriet</translation>
 <translation id="6213969168046789596">Du har indtastet en forkert adgangskode for mange gange. Prøv igen om et par minutter.</translation>
 <translation id="6216759405419177713">Norfolkøen</translation>
 <translation id="6245066275978703471">Telefonnummeret blev bekræftet automatisk</translation>
-<translation id="6283536862756552051">For at ændre din adgangskode skal du først angive din nuværende adgangskode.</translation>
-<translation id="6299890279889400823">Tilbage</translation>
+<translation id="6269083314054226194">Netværksfejl. Tjek din internetforbindelse.</translation>
+<translation id="6295157125625453859">Bekræftet!</translation>
 <translation id="6316446940976157217">Indien</translation>
 <translation id="6327723482938582895">Benin</translation>
 <translation id="6338643731889005578">Fortsæt</translation>
@@ -330,27 +359,33 @@
 <translation id="6921505896641453739">Mail</translation>
 <translation id="6929813273561975780">Næste</translation>
 <translation id="6951302238647056860">Denne kode er ikke længere gyldig</translation>
-<translation id="6976724207780605356">Log ind med Facebook</translation>
+<translation id="6961220857430789248">Der er blevet sendt en loginmail med yderligere vejledning til <ph name="STRING" />. Tjek din mail for at fuldføre loginprocessen.</translation>
 <translation id="6984204927251307445">Bekræft mailadresse</translation>
 <translation id="6999773882165218263">For- og efternavn</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Vestsahara</translation>
+<translation id="7025117765722694556">Anmodningen kan ikke udføres i den nuværende systemtilstand.</translation>
 <translation id="7062299334696934251">Der opstod en ukendt fejl.</translation>
 <translation id="7064251114893721966">Du har allerede brugt <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> til at logge ind. Angiv din adgangskode for den pågældende konto.</translation>
+<translation id="7085136866191400000">Loginmailen blev sendt</translation>
 <translation id="7089485669419398254">Irland</translation>
 <translation id="7093343209860483088">Den Demokratiske Republik Congo</translation>
 <translation id="7118080999850002096">Gendan adgangskode</translation>
 <translation id="7150917293543492988">Republikken Congo</translation>
+<translation id="7157317431934821052">Den ressource, som en klient prøvede at oprette, eksisterer allerede.</translation>
 <translation id="7174424882502155514">Fortsæt som gæst</translation>
 <translation id="7192078949090526171">San Marino</translation>
 <translation id="7197455001919474950">Cypern</translation>
 <translation id="7198563013006562060">Salomonøerne</translation>
 <translation id="7207660930894629055">Vil du fortsætte med <ph name="USER_EMAIL" />?</translation>
+<translation id="720983450833499456">Gendan adgangskoden for at fortsætte med at logge ind med <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> på denne enhed.</translation>
 <translation id="7223410082658239002">Maldiverne</translation>
 <translation id="7254028881697834212">Sao Tomé og Principe</translation>
 <translation id="7268827299582726485">Bekræft mailadressen for at fuldføre loginprocessen</translation>
 <translation id="7272145663101316762">Slovenien</translation>
 <translation id="7280309713358692490">Sydkorea</translation>
+<translation id="7283725113395426048">Samtidighedskonflikt såsom læs-rediger-skriv-konflikt.</translation>
+<translation id="7290147808482957603">API-metoden blev ikke implementeret af serveren.</translation>
 <translation id="7291567990403335374">Lesotho</translation>
 <translation id="7291656724505689727">Log ind med telefon</translation>
 <translation id="7320029088567935126">Prøv at bekræfte din mail igen</translation>
@@ -370,8 +405,10 @@
         til at logge ind. Angiv din adgangskode for den pågældende konto.</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{Adgangskoden er ikke stærk nok. Brug mindst <ph name="PH_1" /> tegn og en blanding af bogstaver og tal}one{Adgangskoden er ikke stærk nok. Brug mindst <ph name="PH_1" /> tegn og en blanding af bogstaver og tal}other{Adgangskoden er ikke stærk nok. Brug mindst <ph name="PH_1" /> tegn og en blanding af bogstaver og tal}}</translation>
 <translation id="7699755204074920022">Zimbabwe</translation>
+<translation id="7746977132739352062">Anmodningen blev ikke godkendt på grund af manglende, ugyldigt eller udløbet OAuth-token.</translation>
 <translation id="7782885946428624225">Dit telefonnummer kunne ikke bekræftes</translation>
 <translation id="7796914496604415892">Der er registreret en ny enhed eller browser</translation>
+<translation id="786166109137986817">Log ind på <ph name="DISPLAY_NAME" /></translation>
 <translation id="7868540442111212282">Tjekkiet</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
 <translation id="7926046652648626866">Log ind med GitHub</translation>
@@ -426,6 +463,7 @@
 <translation id="868894957204919930">Bermuda</translation>
 <translation id="8694271531070467981">Niue</translation>
 <translation id="8745311627715763145">Guadeloupe</translation>
+<translation id="8752467400269476994">Klienten angav en ugyldig projektkonfiguration.</translation>
 <translation id="8760480624706028033">Palæstinensisk territorium</translation>
 <translation id="8770276147008360348">Slovakiet</translation>
 <translation id="877434849857020571">Guernsey</translation>
@@ -438,19 +476,24 @@
 <translation id="8893950153780006385">Malaysia</translation>
 <translation id="8895840173743975193">Cocosøerne (Keelingøerne)</translation>
 <translation id="8916080112145514151">Hvis du stadig vil tilknytte din <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" />-konto, skal du åbne linket på den enhed, hvor du startede med at logge ind. Ellers skal du trykke på Fortsæt for at logge ind på denne enhed.</translation>
+<translation id="8920674952994839257">Prøv igen</translation>
 <translation id="8939353296336237380">Du ville egentlig knytte <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> til din mailkonto, men du har åbnet linket på en anden enhed, hvor du ikke er logget ind.</translation>
 <translation id="8971555482255213064">Send koden igen om 0:<ph name="PH_1" /></translation>
 <translation id="8984161590699631096">Marokko</translation>
+<translation id="8994098794339484800">Hvis du ikke kan genkende denne enhed, er der måske nogen, som forsøger at få adgang til din konto. Overvej at <ph name="START_LINK" />ændre din adgangskode med det samme<ph name="END_LINK" />.</translation>
 <translation id="900153878296575829">Bangladesh</translation>
 <translation id="9022632332691561239">Telefon</translation>
 <translation id="9028063588419847334">Finland</translation>
 <translation id="9078135685219203661">Forenede Arabiske Emirater</translation>
+<translation id="9121203582272050974">Din mail er blevet bekræftet og ændret</translation>
 <translation id="9156150178611681179">Adgangskode</translation>
 <translation id="9168877696443530714">Den Centralafrikanske Republik</translation>
 <translation id="9186194643192393179">Curaçao</translation>
+<translation id="9193130710600355008">Vi har blokeret alle anmodninger fra denne enhed på grund af usædvanlig aktivitet. Prøv igen senere.</translation>
 <translation id="919456844206936371">Tunesien</translation>
 <translation id="9209678713072395487">Adgangskoden blev ændret</translation>
 <translation id="954276184636809129">Grækenland</translation>
+<translation id="959388308828818789">Anden faktor fjernet</translation>
 <translation id="965930633376049617">Angola</translation>
 <translation id="988087302893519488">Kuwait</translation>
 <translation id="994914101700264849">Den mail og adgangskode, du indtastede, stemmer ikke overens</translation>

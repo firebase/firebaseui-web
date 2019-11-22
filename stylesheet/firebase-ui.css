@@ -244,17 +244,21 @@ input.firebaseui-input-invalid{
   margin-right: 5px;
 }
 
-.firebaseui-page-provider-sign-in {
+.firebaseui-page-provider-sign-in,
+.firebaseui-page-select-tenant
+{
   background: inherit;
 }
 
-.firebaseui-idp-list {
+.firebaseui-idp-list,
+.firebaseui-tenant-list {
   list-style: none;
   margin: 1em 0;
   padding: 0;
 }
 
-.firebaseui-idp-button {
+.firebaseui-idp-button,
+.firebaseui-tenant-button {
   direction: ltr;
   font-weight: 500;
   height: auto;
@@ -266,7 +270,8 @@ input.firebaseui-input-invalid{
   width: 100%;
 }
 
-.firebaseui-idp-list > .firebaseui-list-item {
+.firebaseui-idp-list > .firebaseui-list-item,
+.firebaseui-tenant-list > .firebaseui-list-item {
   margin-bottom: 15px;
   text-align: center;
 }
@@ -617,6 +622,11 @@ input.firebaseui-input-invalid{
 }
 
 .firebaseui-id-page-blank {
+  background: inherit;
+  height: 64px;
+}
+
+.firebaseui-id-page-spinner {
   background: inherit;
   height: 64px;
 }

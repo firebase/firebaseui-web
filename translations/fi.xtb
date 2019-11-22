@@ -12,11 +12,14 @@
 <translation id="1163771673786684213">Filippiinit</translation>
 <translation id="1170304454812139475">Romania</translation>
 <translation id="1194565221977667376">Etelä-Georgia ja Eteläiset Sandwichsaaret</translation>
-<translation id="124367247840231378">Ok</translation>
+<translation id="1233977465587641672">Dataa on menetetty tai vahingoittunut peruuttamattomasti.</translation>
 <translation id="1244846213930750436">Italia</translation>
 <translation id="1268266284642694018">Libanon</translation>
 <translation id="1294742657282291237">Guyana</translation>
 <translation id="1297168472480293352">Guatemala</translation>
+<translation id="1307255433239736397"><ph name="START_PARAGRAPH" />Toisen todennustason poistamisessa tapahtui virhe.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Yritä poistaa se uudelleen. Jos ongelma toistuu, pyydä apua tuesta.<ph name="END_PARAGRAPH" /></translation>
+<translation id="1310034618729602982">Yritä muuttaa sähköpostiasi uudelleen</translation>
+<translation id="1312824004897469797">Tapahtui verkkovirhe. Yritä myöhemmin uudelleen.</translation>
 <translation id="1315809131562953678">Anna voimassa oleva puhelinnumero.</translation>
 <translation id="1335716056288807013">Napauttamalla Vahvista vahvistat hyväksyväsi <ph name="START_LINK_1" />käyttöehdot<ph name="END_LINK" /> ja <ph name="START_LINK_2" />tietosuojakäytännön<ph name="END_LINK" />. Tekstiviesti voidaan lähettää, ja datan ja viestien käyttö voi olla maksullista.</translation>
 <translation id="137210131544215127">Anna salasana</translation>
@@ -27,6 +30,7 @@
 <translation id="1479035434297790822">IP-osoitteestasi on lähetetty liian monta tilipyyntöä. Yritä uudelleen muutaman minuutin kuluttua.</translation>
 <translation id="1483249363694224399">Sri Lanka</translation>
 <translation id="1507995441600689506">Voit nyt kirjautua sisään uudella tililläsi.</translation>
+<translation id="1544981664986460902">Asiakas määritti virheellisen argumentin.</translation>
 <translation id="1575848116712334589">Tšad</translation>
 <translation id="1630237004390596779">Lähetä koodi uudelleen seuraavan ajan kuluttua: <ph name="STRING" />.</translation>
 <translation id="1653501608290591291">Valko-Venäjä</translation>
@@ -62,6 +66,7 @@
 <translation id="2206856445831770486">Github</translation>
 <translation id="2223717216014247341">Tietosuojakäytäntö</translation>
 <translation id="2224563296468523455">Guam</translation>
+<translation id="2245182894886860848">Resurssikiintiö on loppu tai määrää koskeva rajoitus on saavutettu.</translation>
 <translation id="2249420035688424170">Kroatia</translation>
 <translation id="2251583471831926217">Liettua</translation>
 <translation id="227405248692044138">Malta</translation>
@@ -71,22 +76,28 @@
 <translation id="2324942959480650701">Vieras</translation>
 <translation id="2331781584136059536">Ghana</translation>
 <translation id="2338909515537249568">Käyttämäsi selain ei tue verkkotallennusta. Yritä uudelleen käyttämällä eri selainta.</translation>
+<translation id="2342152898808240937">Asiakas peruutti pyynnön.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Kirjautumissähköpostiosoitteen takaisin vaihtamisen aikana tapahtui virhe.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Jos yrität uudelleen etkä vieläkään voi nollata sähköpostiosoitettasi, kysy ohjeita järjestelmänvalvojaltasi.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Bahrain</translation>
+<translation id="2392247362473363900">Sisäinen palvelinvirhe</translation>
 <translation id="2405828009195143258">Iran</translation>
+<translation id="2414459877074534554">GitHub</translation>
 <translation id="244437093285883777">Tarkistamme, ettet ole robotti…</translation>
 <translation id="2448227725017851570">Tämä koodi ei ole enää voimassa.</translation>
 <translation id="2448487988481516351">Uusi-Kaledonia</translation>
 <translation id="2451742558284013472">Monaco</translation>
 <translation id="2460064915291012298">Seychellit</translation>
+<translation id="2490672522100125425"><ph name="START_STRONG" /><ph name="FACTOR_ID" /> <ph name="PHONE_NUMBER" /><ph name="END_STRONG" /> ei ole enää käytössä toisena todennustasona.</translation>
 <translation id="2494962141967044042">Nykyisen anonyymin käyttäjän päivittäminen epäonnistui. Ei-anonyymi kirjautumistieto on jo yhdistetty toiseen käyttäjätiliin.</translation>
 <translation id="2541179214468543429">Olet antanut virheellisen salasanan liian monta kertaa. Yritä uudelleen muutaman minuutin kuluttua.</translation>
 <translation id="2561560038714758184">Turvallisuus</translation>
 <translation id="2561835578785502516">Pyyntösi nollata salasana on vanhentunut tai linkkiä on jo käytetty.</translation>
+<translation id="2562498793334241360">Voit nyt kirjautua sisään uudella sähköpostillasi <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />.</translation>
 <translation id="2581514546525533462">Annettua maakoodia ei tueta.</translation>
 <translation id="2600950452451016107">Tarkista että kirjoitit sähköpostiosoitteesi oikein.</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">Kambodza</translation>
+<translation id="2614081868476050089">Palvelu ei ole saatavilla.</translation>
 <translation id="2616650714309312732">Portugali</translation>
 <translation id="2619590123270932385">Ranskan Guayana</translation>
 <translation id="2621854044487969847">Brittiläiset Neitsytsaaret</translation>
@@ -102,19 +113,21 @@
 <translation id="2741235824871026219">Vahvistaminen</translation>
 <translation id="2752984808025184019">Etelä-Afrikka</translation>
 <translation id="2760636260031093254">Jatka antamalla sähköpostiosoite.</translation>
+<translation id="276938411216176478">Järjestelmänvalvoja on poistanut käyttäjätilin käytöstä.</translation>
 <translation id="2782685789517131804">Lisäohjeita sisältävä kirjautumisviesti lähetettiin osoitteeseen <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Tarkista sähköpostisi kirjautumisen suorittamiseksi loppuun.</translation>
 <translation id="2828509010894808185">Luo tili</translation>
 <translation id="2834770837848769530">Afganistan</translation>
 <translation id="2884525438023347369">Valitsemalla <ph name="BTN" /> vahvistat, että hyväksyt <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">Kanada</translation>
 <translation id="2911018261311455240">Tanska</translation>
+<translation id="2949732021187449522">Pyynnön määräaika ylittyi.</translation>
 <translation id="295270254328846278">Itävalta</translation>
 <translation id="2976748949054245370">Sähköpostit eivät täsmää.</translation>
 <translation id="29947009417147243">Etelä-Sudan</translation>
 <translation id="3040586343252524572">Jemen</translation>
 <translation id="3045244039436637116">Guinea-Bissau</translation>
 <translation id="3046745817056752783">Saudi-Arabia</translation>
-<translation id="311953035679824832">Sovelluksen logo</translation>
+<translation id="3083819527012413063">Sovellukseen <ph name="APP_NAME" /> on lisätty lisävahvistusvaihe</translation>
 <translation id="3122584863645047144">Yhdysvaltain Neitsytsaaret</translation>
 <translation id="3141549453511344986">Kirjaudu puhelimella</translation>
 <translation id="3147551458884186429">Indonesia</translation>
@@ -122,6 +135,7 @@
 <translation id="3164676761565983157">Venezuela</translation>
 <translation id="3170526549630869494">Eikö kirjautuminen onnistu?</translation>
 <translation id="3204914819635733576">Vahvista henkilöllisyytesi</translation>
+<translation id="3215050409577090361">Pyyntöäsi vahvistettaessa ilmeni ongelma. Aloita vahvistusprosessi uudelleen menemällä URL-osoitteeseen, josta sinut ohjattiin tälle sivulle.</translation>
 <translation id="3216149523061905579">Dominica</translation>
 <translation id="3223688630903046698">Uusi salasana</translation>
 <translation id="3250864391349648273">Gabon</translation>
@@ -139,6 +153,7 @@
 <translation id="3434621886769337032">Gambia</translation>
 <translation id="3472358534605257432">Valmis</translation>
 <translation id="3479685026618611556">Peruuta</translation>
+<translation id="3481131180097895739">Tuntematon palvelinvirhe</translation>
 <translation id="3487364398525389372">Anna tilin nimi</translation>
 <translation id="3521753471343796628">Irak</translation>
 <translation id="354888504916863713">Vietnam</translation>
@@ -150,6 +165,8 @@
 <translation id="3605933028246642593">Nepal</translation>
 <translation id="3608140835232496799">Tokelau</translation>
 <translation id="3620185428620643248">Valittuja todennuksen tarjoajan kirjautumistietoja ei tueta.</translation>
+<translation id="3658306886462996856">Sisäänkirjautumisen tarjoajaa ei ole saatavilla annetulle sähköpostiosoitteelle. Kokeile jotain muuta sähköpostiosoitetta.</translation>
+<translation id="3695180913983403205">Lisää etu- ja sukunimi.</translation>
 <translation id="3700097473356216716">Kolumbia</translation>
 <translation id="3703067902498234034">Napauttamalla TALLENNA hyväksyt </translation>
 <translation id="3736041829854387744">Burundi</translation>
@@ -157,7 +174,7 @@
 <translation id="3813801701232240278">Twitter</translation>
 <translation id="3814740523815122846">Sähköpostiosoitteesi on vahvistettu</translation>
 <translation id="3819556544383051267">Papua-Uusi-Guinea</translation>
-<translation id="3831901810365396899">Tallenna</translation>
+<translation id="3828991952827504549">Määritettyä resurssia ei löydy.</translation>
 <translation id="3862053977934420187">Vahvistetaan…</translation>
 <translation id="3898029444496274961">Kirjaudu sisään</translation>
 <translation id="3905423743526704083">Itä-Timor</translation>
@@ -190,6 +207,7 @@
 <translation id="4440507149645221385">Puhelin</translation>
 <translation id="4450602713221237198">Lähetä uudelleen</translation>
 <translation id="4498504413765490964">Honduras</translation>
+<translation id="450385255996536115">Toiminto aikakatkaistiin.</translation>
 <translation id="4515732781724470190">Niger</translation>
 <translation id="4521614244485847733">Sähköpostiosoite ei vastaa aiemmin luotua tiliä.</translation>
 <translation id="4556476996891737119">Jordania</translation>
@@ -201,6 +219,7 @@
 <translation id="4723701728629289714">Israel</translation>
 <translation id="4725154639671888461">Tapahtui virhe</translation>
 <translation id="4751937685196678080">Numero</translation>
+<translation id="4769553102874508676">Asiakkaalla ei ole riittävää lupaa.</translation>
 <translation id="4773060157545352832">Ratkaise reCAPTCHA</translation>
 <translation id="4775051289386800916">Nicaragua</translation>
 <translation id="4783400389150493171">Burkina Faso</translation>
@@ -209,14 +228,17 @@
 <translation id="4871106926303956169">Turks- ja Caicossaaret</translation>
 <translation id="4877597386645466815">Lähetä koodi uudelleen: <ph name="TIME_REMAINING" /></translation>
 <translation id="4915406999072654369">Tarkista sähköpostisi</translation>
+<translation id="4923375331439013137">Toisen todennustason poistaminen epäonnistui</translation>
 <translation id="4955175001894453989">Lisää salasana</translation>
 <translation id="496366313824211679">El Salvador</translation>
+<translation id="4982483807073820954">Jotta voit vaihtaa tilisi salasanan, sinun pitää kirjautua sisään uudelleen.</translation>
 <translation id="4991626049082973728">Serbia</translation>
 <translation id="4991892293325936102">Belize</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" />osoitteelle <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /><ph name="END_PARAGRAPH" /></translation>
 <translation id="5059105734231232362">Jotta palvelun <ph name="IDP_DISPLAY_NAME" /> tilisi voidaan yhdistää tähän sähköpostiosoitteeseen tällä prosessilla, sinun on avattava linkki samalla laitteella tai selaimella.</translation>
 <translation id="5080084639513001393">Ruotsi</translation>
 <translation id="5080899604429810481">Saint-Martin</translation>
+<translation id="5115661695221894994"><ph name="START_PARAGRAPH" />Sähköpostisi vahvistus- ja muutospyyntö on vanhentunut tai sen linkki on jo käytetty.<ph name="END_PARAGRAPH" /></translation>
 <translation id="5143657419516597442">Saint Lucia</translation>
 <translation id="521218078240459724">@string/app_name</translation>
 <translation id="5241732101105320538">Tarkista sähköpostisi</translation>
@@ -224,13 +246,15 @@
 <translation id="5323041129469627535">Oman</translation>
 <translation id="5326139833547026317">Alankomaiden Karibia</translation>
 <translation id="5347459868860672391">Päivitetty sähköpostiosoite</translation>
-<translation id="5403395913830260677">Kirjaudu Twitter-tilillä</translation>
+<translation id="5397737236938796917">Sinut on nyt kirjattu ulos.</translation>
+<translation id="5406620662929585965">Kirjaudu puhelimella</translation>
 <translation id="5407010562344541906">Puhelinnumero</translation>
 <translation id="5409861738809250803">Sinulla on jo tili.</translation>
 <translation id="5410341463946781720">Thaimaa</translation>
 <translation id="5443669846203963095">Tietosuojakäytäntö</translation>
 <translation id="5444635161362535036">Liechtenstein</translation>
 <translation id="5483706910421209104">Muokkaa nimeä</translation>
+<translation id="5487696047685227891">Laite tai sovellus ei ole enää käytössä toisena todennustasona.</translation>
 <translation id="5490651768073507833">Kokeile avata linkki käyttäen samaa laitetta tai selainta, jolla aloitit kirjautumisen.</translation>
 <translation id="5524360735013196510">Alankomaat</translation>
 <translation id="5528189843379142883">Päiväntasaajan Guinea</translation>
@@ -254,7 +278,7 @@
 <translation id="5699028034244995851">Jatka antamalla sähköpostiosoite.</translation>
 <translation id="5701178667798108817">Puhelinnumeron vahvistaminen</translation>
 <translation id="5715637701147651513">Liberia</translation>
-<translation id="5755179287528310939">Kyseisellä sähköpostiosoitteella on jo rekisteröity tili.</translation>
+<translation id="5747263508495256858">Kirjaudu ulos</translation>
 <translation id="5771034676910614239">Madagaskar</translation>
 <translation id="5818634293686963864">Kazakstan</translation>
 <translation id="5829301468800336085">Kirjaudutaan…</translation>
@@ -274,15 +298,20 @@
 <translation id="6032262985756512833">Anna <ph name="STRING" /> merkin pituinen koodi, jonka lähetimme numeroon</translation>
 <translation id="6044396095102058216">Tätä puhelinnumeroa on käytetty liian monta kertaa.</translation>
 <translation id="6083089720215618333">Antamasi sähköpostiosoite ei vastaa nykyistä kirjautumisistuntoa.</translation>
-<translation id="6113531938704280909">Poista tilin linkitys</translation>
+<translation id="6091051069256411999">Twitter</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />Kirjaudu sisään sovellukseen <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6132202686885223981">Tarkista ettei postilaatikkosi tila ole loppumassa tai ettei postilaatikon asetuksissa ole muita ongelmia.</translation>
+<translation id="6135589730599211649">Asiakas määritti virheellisen alueen.</translation>
+<translation id="6143147250106939258">Tämän toiminnon kiintiö on ylitetty. Yritä myöhemmin uudelleen.</translation>
 <translation id="6189573836664806798">Paraguay</translation>
 <translation id="6192657410634245771">Algeria</translation>
 <translation id="6213969168046789596">Olet antanut virheellisen salasanan liian monta kertaa. Yritä uudelleen muutaman minuutin kuluttua.</translation>
 <translation id="6216759405419177713">Norfolkinsaari</translation>
 <translation id="6245066275978703471">Puhelinnumero vahvistettu automaattisesti</translation>
-<translation id="6283536862756552051">Jotta voit vaihtaa salasanasi, sinun on annettava ensin nykyinen salasanasi.</translation>
-<translation id="6299890279889400823">Takaisin</translation>
+<translation id="6269083314054226194">Verkkovirhe, tarkista internetyhteys.</translation>
+<translation id="6295157125625453859">Vahvistettu!</translation>
 <translation id="6316446940976157217">Intia</translation>
 <translation id="6327723482938582895">Benin</translation>
 <translation id="6338643731889005578">Jatka</translation>
@@ -331,27 +360,33 @@
 <translation id="6921505896641453739">Sähköposti</translation>
 <translation id="6929813273561975780">Seuraava</translation>
 <translation id="6951302238647056860">Tämä koodi ei ole enää voimassa.</translation>
-<translation id="6976724207780605356">Kirjaudu Facebook-tilillä</translation>
+<translation id="6961220857430789248">Lisäohjeita sisältävä kirjautumisviesti lähetettiin osoitteeseen <ph name="STRING" />. Tarkista sähköpostisi kirjautumisen suorittamiseksi loppuun.</translation>
 <translation id="6984204927251307445">Vahvista sähköposti</translation>
 <translation id="6999773882165218263">Etu- ja sukunimi</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Länsi-Sahara</translation>
+<translation id="7025117765722694556">Pyyntöä ei voi toteuttaa nykyisessä järjestelmän tilassa.</translation>
 <translation id="7062299334696934251">Tapahtui tuntematon virhe.</translation>
 <translation id="7064251114893721966">Olet jo käyttänyt osoitetta <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> kirjautumiseen. Anna kyseisen tilin salasana.</translation>
+<translation id="7085136866191400000">Kirjautumisviesti lähetetty</translation>
 <translation id="7089485669419398254">Irlanti</translation>
 <translation id="7093343209860483088">Kongon demokraattinen tasavalta</translation>
 <translation id="7118080999850002096">Palauta salasana</translation>
 <translation id="7150917293543492988">Kongon tasavalta</translation>
+<translation id="7157317431934821052">Resurssi, jota asiakas yritti luoda, on jo olemassa.</translation>
 <translation id="7174424882502155514">Jatka vieraana</translation>
 <translation id="7192078949090526171">San Marino</translation>
 <translation id="7197455001919474950">Kypros</translation>
 <translation id="7198563013006562060">Salomonsaaret</translation>
 <translation id="7207660930894629055">Jatkatko käyttämällä osoitetta <ph name="USER_EMAIL" />?</translation>
+<translation id="720983450833499456">Sinun on palautettava sanasana, jotta voit jatkaa kirjautumista tällä laitteella tilillä <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />.</translation>
 <translation id="7223410082658239002">Malediivit</translation>
 <translation id="7254028881697834212">São Tomé ja Príncipe</translation>
 <translation id="7268827299582726485">Vahvista sähköpostisi kirjautumisen suorittamiseksi loppuun</translation>
 <translation id="7272145663101316762">Slovenia</translation>
 <translation id="7280309713358692490">Etelä-Korea</translation>
+<translation id="7283725113395426048">Samanaikaisuusristiriita, kuten luku-muokkaus-kirjoitus-ristiriita</translation>
+<translation id="7290147808482957603">Palvelin ei ottanut sovellusliittymämenetelmää käyttöön.</translation>
 <translation id="7291567990403335374">Lesotho</translation>
 <translation id="7291656724505689727">Kirjaudu puhelimella</translation>
 <translation id="7320029088567935126">Yritä vahvistaa sähköpostisi uudelleen</translation>
@@ -371,8 +406,10 @@
         kirjautumiseen. Anna kyseisen tilin salasana.</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{Salasana ei ole tarpeeksi vahva. Siinä on oltava vähintään <ph name="PH_1" /> merkkiä – sekä kirjaimia että numeroita.}other{Salasana ei ole tarpeeksi vahva. Siinä on oltava vähintään <ph name="PH_1" /> merkkiä – sekä kirjaimia että numeroita.}}</translation>
 <translation id="7699755204074920022">Zimbabwe</translation>
+<translation id="7746977132739352062">Pyyntöä ei todennettu puuttuvan, virheellisen tai vanhentuneen OAuth-tunnuksen vuoksi.</translation>
 <translation id="7782885946428624225">Puhelinnumerosi vahvistamisessa tapahtui virhe.</translation>
 <translation id="7796914496604415892">Uusi laite tai selain havaittu</translation>
+<translation id="786166109137986817">Kirjaudu sisään: <ph name="DISPLAY_NAME" /></translation>
 <translation id="7868540442111212282">Tšekin tasavalta</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
 <translation id="7926046652648626866">Kirjaudu GitHub-tilillä</translation>
@@ -427,6 +464,7 @@
 <translation id="868894957204919930">Bermuda</translation>
 <translation id="8694271531070467981">Niuesaari</translation>
 <translation id="8745311627715763145">Guadalupe</translation>
+<translation id="8752467400269476994">Asiakassovellus teki virheelliset projektin määritykset.</translation>
 <translation id="8760480624706028033">Palestiinalaisalue</translation>
 <translation id="8770276147008360348">Slovakia</translation>
 <translation id="877434849857020571">Guernsey</translation>
@@ -439,19 +477,24 @@
 <translation id="8893950153780006385">Malesia</translation>
 <translation id="8895840173743975193">Kookossaaret</translation>
 <translation id="8916080112145514151">Jos haluat edelleen yhdistää palvelun <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> tilisi, avaa linkki samalla laitteella, jolla aloitit kirjautumisen. Jos taas haluat kirjautua tällä laitteella, napauta Jatka.</translation>
+<translation id="8920674952994839257">Yritä uudelleen</translation>
 <translation id="8939353296336237380">Tarkoituksesi oli yhdistää <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> sähköpostiosoitteeseesi, mutta avasit linkin eri laitteella, johon et ollut kirjautunut.</translation>
 <translation id="8971555482255213064">Lähetä koodi uudelleen seuraavan ajan kuluttua: 0:<ph name="PH_1" />.</translation>
 <translation id="8984161590699631096">Marokko</translation>
+<translation id="8994098794339484800">Jos et tunnista tätä laitetta, joku voi yrittää päästä käsiksi tiliisi. Suosittelemme, että <ph name="START_LINK" />muutat salasanasi heti<ph name="END_LINK" />.</translation>
 <translation id="900153878296575829">Bangladesh</translation>
 <translation id="9022632332691561239">Puhelin</translation>
 <translation id="9028063588419847334">Suomi</translation>
 <translation id="9078135685219203661">Arabiemiirikunnat</translation>
+<translation id="9121203582272050974">Sähköpostiosoitteesi on vahvistettu ja muutettu</translation>
 <translation id="9156150178611681179">Salasana</translation>
 <translation id="9168877696443530714">Keski-Afrikan tasavalta</translation>
 <translation id="9186194643192393179">Curaçao</translation>
+<translation id="9193130710600355008">Olemme estäneet kaikki pyynnöt tältä laitteelta epätavallisen toiminnan vuoksi. Yritä myöhemmin uudelleen.</translation>
 <translation id="919456844206936371">Tunisia</translation>
 <translation id="9209678713072395487">Salasana vaihdettu</translation>
 <translation id="954276184636809129">Kreikka</translation>
+<translation id="959388308828818789">Toinen todennustaso poistettiin</translation>
 <translation id="965930633376049617">Angola</translation>
 <translation id="988087302893519488">Kuwait</translation>
 <translation id="994914101700264849">Antamasi sähköpostiosoite ja salasana eivät täsmää.</translation>

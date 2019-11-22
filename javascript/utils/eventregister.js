@@ -20,8 +20,8 @@
 goog.provide('firebaseui.auth.EventDispatcher');
 goog.provide('firebaseui.auth.EventRegister');
 
+goog.require('goog.array');
 goog.require('goog.events.EventTarget');
-
 
 
 /**
@@ -119,44 +119,41 @@ firebaseui.auth.EventRegister.getKey_ = function(el) {
 };
 
 
-
 /**
  * An event dispatcher wrapper for an element. Anytime an event is to be
  * triggered on the provided element, it is to be dispatched via event register
  * and if a listener is set, then its callback will be called.
- * @param {Element} el The element on which events will be dispatched.
- * @constructor
- * @extends {goog.events.EventTarget}
  */
-firebaseui.auth.EventDispatcher = function(el) {
-  if (!el) {
-     throw new Error('Event target element must be provided!');
+firebaseui.auth.EventDispatcher = class extends goog.events.EventTarget {
+  /**
+   * @param {Element} el The element on which events will be dispatched.
+   */
+  constructor(el) {
+    if (!el) {
+      throw new Error('Event target element must be provided!');
+    }
+    super();
+    this.el_ = el;
   }
-  this.el_ = el;
-  firebaseui.auth.EventDispatcher.base(this, 'constructor');
-};
-goog.inherits(firebaseui.auth.EventDispatcher, goog.events.EventTarget);
 
+  /**
+   * @return {Element} The element corresponding to the event dispatcher.
+   */
+  getElement() {
+    return this.el_;
+  }
 
-/**
- * @return {Element} The element corresponding to the event dispatcher.
- */
-firebaseui.auth.EventDispatcher.prototype.getElement = function() {
-  return this.el_;
-};
+  /**
+   * Registers the event dispatcher object.
+   */
+  register() {
+    firebaseui.auth.EventRegister.register(this);
+  }
 
-
-/**
- * Registers the event dispatcher object.
- */
-firebaseui.auth.EventDispatcher.prototype.register = function() {
-  firebaseui.auth.EventRegister.register(this);
-};
-
-
-/**
- * Unregisters the event dispatcher object.
- */
-firebaseui.auth.EventDispatcher.prototype.unregister = function() {
-  firebaseui.auth.EventRegister.unregister(this);
+  /**
+   * Unregisters the event dispatcher object.
+   */
+  unregister() {
+    firebaseui.auth.EventRegister.unregister(this);
+  }
 };

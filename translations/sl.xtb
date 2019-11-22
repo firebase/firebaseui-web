@@ -12,11 +12,14 @@
 <translation id="1163771673786684213">Filipini</translation>
 <translation id="1170304454812139475">Romunija</translation>
 <translation id="1194565221977667376">Južna Georgia in Južni Sandwichevi otoki</translation>
-<translation id="124367247840231378">V redu</translation>
+<translation id="1233977465587641672">Neobnovljiva izguba podatkov ali okvara podatkov.</translation>
 <translation id="1244846213930750436">Italija</translation>
 <translation id="1268266284642694018">Libanon</translation>
 <translation id="1294742657282291237">Gvajana</translation>
 <translation id="1297168472480293352">Gvatemala</translation>
+<translation id="1307255433239736397"><ph name="START_PARAGRAPH" />Pri odstranjevanju drugega dejavnika je prišlo do težave.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Poskusite ga znova odstraniti. Če to ne deluje, se za pomoč obrnite na podporo.<ph name="END_PARAGRAPH" /></translation>
+<translation id="1310034618729602982">Znova posodobite e-poštni naslov</translation>
+<translation id="1312824004897469797">Prišlo je do napake v omrežju. Poskusite znova pozneje.</translation>
 <translation id="1315809131562953678">Vnesite veljavno telefonsko številko</translation>
 <translation id="1335716056288807013">Če se dotaknete možnosti »Preveri«, potrjujete, da se strinjate z našimi <ph name="START_LINK_1" />pogoji storitve<ph name="END_LINK" /> in <ph name="START_LINK_2" />pravilnikom o zasebnosti<ph name="END_LINK" />. Morda bo poslano sporočilo SMS. Pošiljanje sporočila in prenos podatkov boste morda morali plačati.</translation>
 <translation id="137210131544215127">Vnesite geslo</translation>
@@ -27,6 +30,7 @@
 <translation id="1479035434297790822">Z vašega naslova IP prihaja preveč zahtev za ustvarjanje novih računov. Poskusite znova čez nekaj minut.</translation>
 <translation id="1483249363694224399">Šrilanka</translation>
 <translation id="1507995441600689506">Zdaj se lahko prijavite z novim računom</translation>
+<translation id="1544981664986460902">Odjemalec je določil neveljaven argument.</translation>
 <translation id="1575848116712334589">Čad</translation>
 <translation id="1632452818656545062">Če se dotaknete možnosti »<ph name="PH_1" />«, potrjujete, da se strinjate z dokumentoma <ph name="TOS" /> in <ph name="PP" />. Morda bo poslano sporočilo SMS. Pošiljanje sporočila in prenos podatkov boste morda morali plačati.</translation>
 <translation id="1653501608290591291">Belorusija</translation>
@@ -62,6 +66,7 @@
 <translation id="2206856445831770486">GitHub</translation>
 <translation id="2223717216014247341">Pravilnik o zasebnosti</translation>
 <translation id="2224563296468523455">Guam</translation>
+<translation id="2245182894886860848">Presežena omejitev virov ali dosežena omejitev ravni.</translation>
 <translation id="2249420035688424170">Hrvaška</translation>
 <translation id="2251583471831926217">Litva</translation>
 <translation id="227405248692044138">Malta</translation>
@@ -71,21 +76,27 @@
 <translation id="2324942959480650701">Gost</translation>
 <translation id="2331781584136059536">Gana</translation>
 <translation id="2338909515537249568">Brskalnik, ki ga uporabljate, ne podpira spletne shrambe. Poskusite znova v drugem brskalniku.</translation>
+<translation id="2342152898808240937">Zahtevo je preklical odjemalec.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Pri spreminjanju vašega e-poštnega naslova za prijavo nazaj v prejšnjega je prišlo do težave.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Če poskusite znova in še vedno ne morete ponastaviti e-poštnega naslova, se za pomoč obrnite na skrbnika.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Bahrajn</translation>
+<translation id="2392247362473363900">Notranja napaka strežnika.</translation>
 <translation id="2405828009195143258">Iran</translation>
+<translation id="2414459877074534554">GitHub</translation>
 <translation id="244437093285883777">Preverjamo, da niste robot ...</translation>
 <translation id="2448227725017851570">Ta koda ni več veljavna</translation>
 <translation id="2448487988481516351">Nova Kaledonija</translation>
 <translation id="2451742558284013472">Monako</translation>
 <translation id="2460064915291012298">Sejšeli</translation>
+<translation id="2490672522100125425">Dejavnik <ph name="START_STRONG" /><ph name="FACTOR_ID" /> <ph name="PHONE_NUMBER" /><ph name="END_STRONG" /> kot drugi korak preverjanja pristnosti je bil odstranjen.</translation>
 <translation id="2494962141967044042">Trenutno anonimni uporabnik ni mogel nadgraditi računa. Poverilnica za neanonimni račun je že povezana z drugim uporabniškim računom.</translation>
 <translation id="2541179214468543429">Prevečkrat ste vnesli nepravilno geslo. Poskusite znova čez nekaj minut.</translation>
 <translation id="2561835578785502516">Vaša zahteva za ponastavitev gesla je potekla ali pa je bila povezava že uporabljena</translation>
+<translation id="2562498793334241360">Zdaj se lahko prijavite z novim e-poštnim naslovom <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />.</translation>
 <translation id="2581514546525533462">Vnesena koda države ni podprta.</translation>
 <translation id="2600950452451016107">Preverite, ali je e-poštni naslov pravilno zapisan.</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">Kambodža</translation>
+<translation id="2614081868476050089">Storitev ni na voljo.</translation>
 <translation id="2616650714309312732">Portugalska</translation>
 <translation id="2619590123270932385">Francoska Gvajana</translation>
 <translation id="2621854044487969847">Britanski Deviški otoki</translation>
@@ -101,19 +112,21 @@
 <translation id="2741235824871026219">Preveri</translation>
 <translation id="2752984808025184019">Južna Afrika</translation>
 <translation id="2760636260031093254">Če želite nadaljevati, vnesite svoj e-poštni naslov</translation>
+<translation id="276938411216176478">Uporabniški račun je onemogočil skrbnik.</translation>
 <translation id="2782685789517131804">E-poštno sporočilo za prijavo z dodatnimi navodili je bilo poslano na <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Preverite e-pošto in dokončajte prijavo.</translation>
 <translation id="2828509010894808185">Ustvarjanje računa</translation>
 <translation id="2834770837848769530">Afganistan</translation>
 <translation id="2884525438023347369">Če se dotaknete možnosti <ph name="BTN" />, potrjujete, da se strinjate z dokumentom <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">Kanada</translation>
 <translation id="2911018261311455240">Danska</translation>
+<translation id="2949732021187449522">Rok zahteve je presežen.</translation>
 <translation id="295270254328846278">Avstrija</translation>
 <translation id="2976748949054245370">E-pošti se ne ujemata</translation>
 <translation id="29947009417147243">Južni Sudan</translation>
 <translation id="3040586343252524572">Jemen</translation>
 <translation id="3045244039436637116">Gvineja Bissau</translation>
 <translation id="3046745817056752783">Savdska Arabija</translation>
-<translation id="311953035679824832">Logotip aplikacije</translation>
+<translation id="3083819527012413063">V aplikacijo <ph name="APP_NAME" /> je bil dodan še en varnostni korak.</translation>
 <translation id="3122584863645047144">Ameriški Deviški otoki</translation>
 <translation id="3141549453511344986">Prijava s telefonom</translation>
 <translation id="3147551458884186429">Indonezija</translation>
@@ -121,6 +134,7 @@
 <translation id="3164676761565983157">Venezuela</translation>
 <translation id="3170526549630869494">Ali imate težave pri prijavi?</translation>
 <translation id="3204914819635733576">Potrdite, da ste to vi</translation>
+<translation id="3215050409577090361">Pri preverjanju pristnosti zahteve je prišlo do težave. Znova obiščite URL, ki vas je preusmeril na to stran, in znova izvedite postopek preverjanja pristnosti.</translation>
 <translation id="3216149523061905579">Dominika</translation>
 <translation id="3223688630903046698">Novo geslo</translation>
 <translation id="3250864391349648273">Gabon</translation>
@@ -138,6 +152,7 @@
 <translation id="3434621886769337032">Gambija</translation>
 <translation id="3472358534605257432">Končano</translation>
 <translation id="3479685026618611556">Prekliči</translation>
+<translation id="3481131180097895739">Neznana napaka strežnika.</translation>
 <translation id="3487364398525389372">Vnesite ime računa</translation>
 <translation id="3521753471343796628">Irak</translation>
 <translation id="354888504916863713">Vietnam</translation>
@@ -149,13 +164,15 @@
 <translation id="3605933028246642593">Nepal</translation>
 <translation id="3608140835232496799">Tokelau</translation>
 <translation id="3620185428620643248">Izbrana poverilnica za ponudnika storitev preverjanja pristnosti ni podprta.</translation>
+<translation id="3658306886462996856">Za navedeni e-poštni naslov ni na voljo ponudnika vpisa. Poskusite z drugim e-poštnim naslovom.</translation>
+<translation id="3695180913983403205">Vnesite ime in priimek.</translation>
 <translation id="3700097473356216716">Kolumbija</translation>
 <translation id="3736041829854387744">Burundi</translation>
 <translation id="3755663127769565780">Mavretanija</translation>
 <translation id="3813801701232240278">Twitter</translation>
 <translation id="3814740523815122846">E-poštni naslov je bil preverjen</translation>
 <translation id="3819556544383051267">Papua Nova Gvineja</translation>
-<translation id="3831901810365396899">Shrani</translation>
+<translation id="3828991952827504549">Navedenega vira ni mogoče najti.</translation>
 <translation id="3862053977934420187">Preverjanje ...</translation>
 <translation id="3898029444496274961">Prijava</translation>
 <translation id="3905423743526704083">Vzhodni Timor</translation>
@@ -188,6 +205,7 @@
 <translation id="4440507149645221385">Telefon</translation>
 <translation id="4450602713221237198">Pošlji znova</translation>
 <translation id="4498504413765490964">Honduras</translation>
+<translation id="450385255996536115">Časovna omejitev postopka je potekla.</translation>
 <translation id="4515732781724470190">Niger</translation>
 <translation id="4521614244485847733">E-poštni naslov se ne ujema z obstoječim računom</translation>
 <translation id="4556476996891737119">Jordanija</translation>
@@ -199,6 +217,7 @@
 <translation id="4723701728629289714">Izrael</translation>
 <translation id="4725154639671888461">Prišlo je do napake</translation>
 <translation id="4751937685196678080">Številka</translation>
+<translation id="4769553102874508676">Odjemalec nima ustreznega dovoljenja.</translation>
 <translation id="4773060157545352832">Opravite preskus reCAPTCHA</translation>
 <translation id="4775051289386800916">Nikaragva</translation>
 <translation id="4783400389150493171">Burkina Faso</translation>
@@ -207,27 +226,32 @@
 <translation id="4871106926303956169">Otoki Turks in Caicos</translation>
 <translation id="4877597386645466815">Ponovno pošlji kodo čez <ph name="TIME_REMAINING" /></translation>
 <translation id="4915406999072654369">Preverite e-pošto</translation>
+<translation id="4923375331439013137">Drugega dejavnika ni bilo mogoče odstraniti</translation>
 <translation id="4955175001894453989">Dodajanje gesla</translation>
 <translation id="496366313824211679">Salvador</translation>
+<translation id="4982483807073820954">Če želite spremeniti geslo računa, se boste morali prijaviti znova.</translation>
 <translation id="4991626049082973728">Srbija</translation>
 <translation id="4991892293325936102">Belize</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" />za <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /><ph name="END_PARAGRAPH" /></translation>
 <translation id="5059105734231232362">Da bi račun za <ph name="IDP_DISPLAY_NAME" /> uspešno povezali s tem e-poštnim računom, morate povezavo odpreti v isti napravi ali brskalniku.</translation>
 <translation id="5080084639513001393">Švedska</translation>
 <translation id="5080899604429810481">St. Maarten</translation>
+<translation id="5115661695221894994"><ph name="START_PARAGRAPH" />Vaša zahteva za preverjanje in posodobitev e-poštnega naslova je potekla ali pa je bila povezava že uporabljena.<ph name="END_PARAGRAPH" /></translation>
 <translation id="5143657419516597442">Sveta Lucija</translation>
 <translation id="5241732101105320538">Preverite e-pošto</translation>
 <translation id="5301108536112812420">Vaša zahteva za preverjanje e-poštnega naslova je potekla ali pa je bila povezava že uporabljena</translation>
 <translation id="5323041129469627535">Oman</translation>
 <translation id="5326139833547026317">Nizozemski Karibi</translation>
 <translation id="5347459868860672391">Posodobljen e-poštni naslov</translation>
-<translation id="5403395913830260677">Prijava z računom za Twitter</translation>
+<translation id="5397737236938796917">Uspešno ste se odjavili.</translation>
+<translation id="5406620662929585965">Prijava s telefonom</translation>
 <translation id="5407010562344541906">Telefonska številka</translation>
 <translation id="5409861738809250803">Račun že imate</translation>
 <translation id="5410341463946781720">Tajska</translation>
 <translation id="5443669846203963095">Pravilnik o zasebnosti</translation>
 <translation id="5444635161362535036">Lihtenštajn</translation>
 <translation id="5483706910421209104">Urejanje imena</translation>
+<translation id="5487696047685227891">Naprava ali aplikacija kot drugi korak preverjanja pristnosti je bila odstranjena.</translation>
 <translation id="5490651768073507833">Povezavo poskusite odpreti v isti napravi ali brskalniku, kjer ste začeli postopek prijave.</translation>
 <translation id="5524360735013196510">Nizozemska</translation>
 <translation id="5528189843379142883">Ekvatorialna Gvineja</translation>
@@ -251,7 +275,7 @@
 <translation id="5699028034244995851">Če želite nadaljevati, vnesite svoj e-poštni naslov</translation>
 <translation id="5701178667798108817">Preverjanje telefonske številke</translation>
 <translation id="5715637701147651513">Liberija</translation>
-<translation id="5755179287528310939">Račun s tem e-poštnim naslovom že obstaja.</translation>
+<translation id="5747263508495256858">Odjava</translation>
 <translation id="5771034676910614239">Madagaskar</translation>
 <translation id="5818634293686963864">Kazahstan</translation>
 <translation id="5829301468800336085">Prijava v teku ...</translation>
@@ -270,15 +294,20 @@
 <translation id="6032262985756512833">Vnesite <ph name="STRING" />-mestno kodo, ki smo jo poslali na številko</translation>
 <translation id="6044396095102058216">Telefonska številka je bila uporabljena prevečkrat</translation>
 <translation id="6083089720215618333">E-poštni naslov, ki ste ga navedli, se ne ujema s trenutno sejo prijave.</translation>
-<translation id="6113531938704280909">Prekini povezavo z računom</translation>
+<translation id="6091051069256411999">Twitter</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />Prijavite se v aplikacijo <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6132202686885223981">Zagotovite, da imate v mapi »Prejeto« dovolj prostora oziroma da ni prišlo do drugih težav, povezanih z nastavitvami mape »Prejeto«.</translation>
+<translation id="6135589730599211649">Odjemalec je določil neveljaven obseg.</translation>
+<translation id="6143147250106939258">Omejitev za ta postopek je bila presežena. Poskusite znova pozneje.</translation>
 <translation id="6189573836664806798">Paragvaj</translation>
 <translation id="6192657410634245771">Alžirija</translation>
 <translation id="6213969168046789596">Prevečkrat ste vnesli nepravilno geslo. Poskusite znova čez nekaj minut.</translation>
 <translation id="6216759405419177713">Norfolški otok</translation>
 <translation id="6245066275978703471">Telefonska številka je bila samodejno preverjena</translation>
-<translation id="6283536862756552051">Če želite spremeniti geslo, morate najprej vnesti trenutno geslo.</translation>
-<translation id="6299890279889400823">Nazaj</translation>
+<translation id="6269083314054226194">Napaka v omrežju. Preverite internetno povezavo.</translation>
+<translation id="6295157125625453859">Preverjeno.</translation>
 <translation id="6316446940976157217">Indija</translation>
 <translation id="6327723482938582895">Benin</translation>
 <translation id="6338643731889005578">Naprej</translation>
@@ -327,27 +356,33 @@
 <translation id="6921505896641453739">E-poštni naslov</translation>
 <translation id="6929813273561975780">Naprej</translation>
 <translation id="6951302238647056860">Ta koda ni več veljavna</translation>
-<translation id="6976724207780605356">Prijava z računom za Facebook</translation>
+<translation id="6961220857430789248">E-poštno sporočilo za prijavo z dodatnimi navodili je bilo poslano na <ph name="STRING" />. Preverite e-pošto in dokončajte prijavo.</translation>
 <translation id="6984204927251307445">Potrditev e-poštnega naslova</translation>
 <translation id="6999773882165218263">Ime in priimek</translation>
 <translation id="7012506961150923116">Granada</translation>
 <translation id="7024571478138322659">Zahodna Sahara</translation>
+<translation id="7025117765722694556">Zahteve v trenutnem stanju sistema ni mogoče izvesti.</translation>
 <translation id="7062299334696934251">Neznana napaka.</translation>
 <translation id="7064251114893721966">Za prijavo ste že uporabili e-poštni naslov <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Vnesite geslo za ta račun.</translation>
+<translation id="7085136866191400000">E-poštno sporočilo za prijavo je bilo poslano</translation>
 <translation id="7089485669419398254">Irska</translation>
 <translation id="7093343209860483088">Demokratična republika Kongo</translation>
 <translation id="7118080999850002096">Obnovitev gesla</translation>
 <translation id="7150917293543492988">Republika Kongo</translation>
+<translation id="7157317431934821052">Vir, ki ga je poskušal ustvariti odjemalec, že obstaja.</translation>
 <translation id="7174424882502155514">Nadaljuj kot gost</translation>
 <translation id="7192078949090526171">San Marino</translation>
 <translation id="7197455001919474950">Ciper</translation>
 <translation id="7198563013006562060">Salomonovi otoki</translation>
 <translation id="7207660930894629055">Ali želite nadaljevati z naslovom <ph name="USER_EMAIL" />?</translation>
+<translation id="720983450833499456">Če se želite v tej napravi prijaviti z e-poštnim naslovom <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />, morate obnoviti geslo.</translation>
 <translation id="7223410082658239002">Maldivi</translation>
 <translation id="7254028881697834212">Sao Tome in Principe</translation>
 <translation id="7268827299582726485">Potrdite e-poštni naslov, da dokončate prijavo</translation>
 <translation id="7272145663101316762">Slovenija</translation>
 <translation id="7280309713358692490">Južna Koreja</translation>
+<translation id="7283725113395426048">Spor s sočasnostjo, kot je spor »branje/spreminjanje/pisanje«.</translation>
+<translation id="7290147808482957603">Strežnik ni izvedel metode API.</translation>
 <translation id="7291567990403335374">Lesoto</translation>
 <translation id="7291656724505689727">Prijava s telefonom</translation>
 <translation id="7320029088567935126">E-poštni naslov preverite znova</translation>
@@ -367,8 +402,10 @@
         za prijavo. Vnesite geslo za ta račun.</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{Geslo ni dovolj zapleteno. Uporabite vsaj <ph name="PH_1" /> znak in kombinacijo črk ter številk.}one{Geslo ni dovolj zapleteno. Uporabite vsaj <ph name="PH_1" /> znak in kombinacijo črk ter številk.}two{Geslo ni dovolj zapleteno. Uporabite vsaj <ph name="PH_1" /> znaka in kombinacijo črk ter številk.}few{Geslo ni dovolj zapleteno. Uporabite vsaj <ph name="PH_1" /> znake in kombinacijo črk ter številk.}other{Geslo ni dovolj zapleteno. Uporabite vsaj <ph name="PH_1" /> znakov in kombinacijo črk ter številk.}}</translation>
 <translation id="7699755204074920022">Zimbabve</translation>
+<translation id="7746977132739352062">Zahteva ni bila preverjena zaradi manjkajočega, neveljavnega ali poteklega žetona OAuth.</translation>
 <translation id="7782885946428624225">Pri preverjanju telefonske številke je prišlo do težave</translation>
 <translation id="7796914496604415892">Zaznana je bila nova naprava ali brskalnik</translation>
+<translation id="786166109137986817">Prijavite se v <ph name="DISPLAY_NAME" /></translation>
 <translation id="7868540442111212282">Češka republika</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
 <translation id="7926046652648626866">Prijava z računom za GitHub</translation>
@@ -423,6 +460,7 @@
 <translation id="868894957204919930">Bermudski otoki</translation>
 <translation id="8694271531070467981">Niue</translation>
 <translation id="8745311627715763145">Gvadelupe</translation>
+<translation id="8752467400269476994">Odjemalec je določil neveljavno konfiguracijo projekta.</translation>
 <translation id="8760480624706028033">Palestinska območja</translation>
 <translation id="8770276147008360348">Slovaška</translation>
 <translation id="877434849857020571">Guernsey</translation>
@@ -435,19 +473,24 @@
 <translation id="8893950153780006385">Malezija</translation>
 <translation id="8895840173743975193">Kokosovi otoki [otoki Keeling]</translation>
 <translation id="8916080112145514151">Če še vedno želite povezati svoj račun za <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" />, povezavo odprite v napravi, v kateri ste začeli s prijavo. V nasprotnem primeru se dotaknite možnosti »Nadaljuj«, da se prijavite v tej napravi.</translation>
+<translation id="8920674952994839257">Poskusi znova</translation>
 <translation id="8939353296336237380">Najprej ste želeli svoj račun za <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> povezati s svojim e-poštnim računom, vendar ste povezavo odprli v drugi napravi, kjer niste prijavljeni.</translation>
 <translation id="8971555482255213064">Ponovno pošlji kodo čez 0:<ph name="PH_1" /></translation>
 <translation id="8984161590699631096">Maroko</translation>
+<translation id="8994098794339484800">Če te naprave ne prepoznate, nekdo morda poskuša dostopati do vašega računa. Priporočamo, da <ph name="START_LINK" />takoj spremenite geslo<ph name="END_LINK" />.</translation>
 <translation id="900153878296575829">Bangladeš</translation>
 <translation id="9022632332691561239">Telefon</translation>
 <translation id="9028063588419847334">Finska</translation>
 <translation id="9078135685219203661">Združeni arabski emirati</translation>
+<translation id="9121203582272050974">Vaš e-poštni naslov je bil preverjen in spremenjen</translation>
 <translation id="9156150178611681179">Geslo</translation>
 <translation id="9168877696443530714">Srednjeafriška republika</translation>
 <translation id="9186194643192393179">Curaçao</translation>
+<translation id="9193130710600355008">Zaradi nenavadne dejavnosti smo blokirali vse zahteve iz te naprave. Poskusite znova pozneje.</translation>
 <translation id="919456844206936371">Tunizija</translation>
 <translation id="9209678713072395487">Geslo je spremenjeno</translation>
 <translation id="954276184636809129">Grčija</translation>
+<translation id="959388308828818789">Drugi dejavnik je odstranjen</translation>
 <translation id="965930633376049617">Angola</translation>
 <translation id="988087302893519488">Kuvajt</translation>
 <translation id="994914101700264849">E-poštni naslov in geslo, ki ste ju vnesli, se ne ujemata</translation>

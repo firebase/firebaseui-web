@@ -290,7 +290,7 @@ storage.getRememberedAccounts = function(opt_id) {
   var accounts = goog.array.map(rawAccounts, function(element) {
     return firebaseui.auth.Account.fromPlainObject(element);
   });
-  return goog.array.filter(accounts, goog.isDefAndNotNull);
+  return goog.array.filter(accounts, x => x != null);
 };
 
 

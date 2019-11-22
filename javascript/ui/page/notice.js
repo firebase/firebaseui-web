@@ -25,7 +25,12 @@ goog.provide('firebaseui.auth.ui.page.PasswordChangeSuccess');
 goog.provide('firebaseui.auth.ui.page.PasswordRecoveryEmailSent');
 goog.provide('firebaseui.auth.ui.page.PasswordResetFailure');
 goog.provide('firebaseui.auth.ui.page.PasswordResetSuccess');
+goog.provide('firebaseui.auth.ui.page.RecoverableError');
+goog.provide('firebaseui.auth.ui.page.RevertSecondFactorAdditionFailure');
+goog.provide('firebaseui.auth.ui.page.SignOut');
 goog.provide('firebaseui.auth.ui.page.UnrecoverableError');
+goog.provide('firebaseui.auth.ui.page.VerifyAndChangeEmailFailure');
+goog.provide('firebaseui.auth.ui.page.VerifyAndChangeEmailSuccess');
 
 goog.require('firebaseui.auth.soy2.page');
 goog.require('firebaseui.auth.ui.element.form');
@@ -186,6 +191,103 @@ goog.inherits(firebaseui.auth.ui.page.EmailVerificationFailure,
     firebaseui.auth.ui.page.Notice);
 
 
+/**
+ * Verify and change email success notice UI component.
+ * @param {string} email The email being verified and to be updated to.
+ * @param {?function(): undefined=} onContinueClick Callback to invoke when the
+ *     continue button is clicked.
+ * @param {?goog.dom.DomHelper=} domHelper Optional DOM helper.
+ * @constructor
+ * @extends {firebaseui.auth.ui.page.Notice}
+ */
+firebaseui.auth.ui.page.VerifyAndChangeEmailSuccess = function(
+    email, onContinueClick, domHelper) {
+  firebaseui.auth.ui.page.VerifyAndChangeEmailSuccess.base(
+      this,
+      'constructor',
+      firebaseui.auth.soy2.page.verifyAndChangeEmailSuccess,
+      {
+        email: email,
+        allowContinue: !!onContinueClick
+      },
+      onContinueClick,
+      domHelper,
+      'verifyAndChangeEmailSuccess');
+};
+goog.inherits(firebaseui.auth.ui.page.VerifyAndChangeEmailSuccess,
+    firebaseui.auth.ui.page.Notice);
+
+
+/**
+ * Verify and change email failure notice UI component.
+ * @param {?function(): undefined=} onContinueClick Callback to invoke when the
+ *     continue button is clicked.
+ * @param {?goog.dom.DomHelper=} domHelper Optional DOM helper.
+ * @constructor
+ * @extends {firebaseui.auth.ui.page.Notice}
+ */
+firebaseui.auth.ui.page.VerifyAndChangeEmailFailure = function(
+    onContinueClick, domHelper) {
+  firebaseui.auth.ui.page.VerifyAndChangeEmailFailure.base(
+      this,
+      'constructor',
+      firebaseui.auth.soy2.page.verifyAndChangeEmailFailure,
+      {
+        allowContinue: !!onContinueClick
+      },
+      onContinueClick,
+      domHelper,
+      'verifyAndChangeEmailFailure');
+};
+goog.inherits(firebaseui.auth.ui.page.VerifyAndChangeEmailFailure,
+    firebaseui.auth.ui.page.Notice);
+
+
+/**
+ * Revert second factor addition failure notice UI component.
+ * @param {?function(): undefined=} onContinueClick Callback to invoke when the
+ *     continue button is clicked.
+ * @param {?goog.dom.DomHelper=} domHelper Optional DOM helper.
+ * @constructor
+ * @extends {firebaseui.auth.ui.page.Notice}
+ */
+firebaseui.auth.ui.page.RevertSecondFactorAdditionFailure = function(
+    onContinueClick, domHelper) {
+  firebaseui.auth.ui.page.RevertSecondFactorAdditionFailure.base(
+      this,
+      'constructor',
+      firebaseui.auth.soy2.page.revertSecondFactorAdditionFailure,
+      {
+        allowContinue: !!onContinueClick
+      },
+      onContinueClick,
+      domHelper,
+      'revertSecondFactorAdditionFailure');
+};
+goog.inherits(firebaseui.auth.ui.page.RevertSecondFactorAdditionFailure,
+    firebaseui.auth.ui.page.Notice);
+
+
+/**
+ * Sign out notice UI component.
+ * @param {?goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
+ * @constructor
+ * @extends {firebaseui.auth.ui.page.Notice}
+ */
+firebaseui.auth.ui.page.SignOut = function(opt_domHelper) {
+  firebaseui.auth.ui.page.SignOut.base(
+      this,
+      'constructor',
+      firebaseui.auth.soy2.page.signOut,
+      undefined,
+      undefined,
+      opt_domHelper,
+      'signOut');
+};
+goog.inherits(firebaseui.auth.ui.page.SignOut,
+    firebaseui.auth.ui.page.Notice);
+
+
 
 /**
  * Password reset success notice UI component.
@@ -262,6 +364,32 @@ firebaseui.auth.ui.page.EmailChangeRevokeFailure = function(
 goog.inherits(firebaseui.auth.ui.page.EmailChangeRevokeFailure,
     firebaseui.auth.ui.page.Notice);
 
+
+/**
+ * Recoverable error notice UI component.
+ * @param {string} errorMessage The detailed error message to be displayed.
+ * @param {?function()=} opt_onRetryClick Callback to invoke when the
+ *     retry button is clicked.
+ * @param {?goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
+ * @constructor
+ * @extends {firebaseui.auth.ui.page.Notice}
+ */
+firebaseui.auth.ui.page.RecoverableError =
+    function(errorMessage, opt_onRetryClick, opt_domHelper) {
+  firebaseui.auth.ui.page.RecoverableError.base(
+      this,
+      'constructor',
+      firebaseui.auth.soy2.page.recoverableError,
+      {
+        errorMessage: errorMessage,
+        allowRetry: !!opt_onRetryClick
+      },
+      opt_onRetryClick,
+      opt_domHelper,
+      'recoverableError');
+};
+goog.inherits(firebaseui.auth.ui.page.RecoverableError,
+    firebaseui.auth.ui.page.Notice);
 
 
 /**

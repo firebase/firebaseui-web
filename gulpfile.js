@@ -60,14 +60,14 @@ const MDL_COMPONENTS = [
   'progress/progress',
   'spinner/spinner',
   'textfield/textfield'
-]
+];
 
 // The external dependencies needed by FirebaseUI as ES module imports.
 const ESM_DEPS = [
   'import * as firebase from \'firebase/app\'',
   'import \'firebase/auth\'',
   'import dialogPolyfill from \'dialog-polyfill\'',
-].concat(MDL_COMPONENTS.map(component => `import \'material-design-lite/src/${component}\'`))
+].concat(MDL_COMPONENTS.map(component => `import \'material-design-lite/src/${component}\'`));
 
 // The external dependencies needed by FirebaseUI as CommonJS modules.
 const CJS_DEPS = [
@@ -229,6 +229,11 @@ function buildFirebaseUiJs(locale) {
     only_closure_dependencies: true,
     output_wrapper: OUTPUT_WRAPPER,
 
+    // This is required to support @export annotation to expose external
+    // properties.
+    export_local_property_definitions: true,
+    generate_exports: true,
+
     // This is required to match XTB IDs to the JS/Soy messages.
     translations_project: 'FirebaseUI'
   };
@@ -250,7 +255,7 @@ function buildFirebaseUiJs(locale) {
  * @param {string} locale The desired FirebaseUI locale.
  * @param {string} outBaseName The prefix of the output file name.
  * @param {string} outputWrapper A wrapper with which to wrap the output JS.
- * @param {string[]} dependencies The dependencies to concatenate.
+ * @param {?Array<string>=} dependencies The dependencies to concatenate.
  * @return {*} A stream that ends when compilation finishes.
  */
 function concatWithDeps(locale, outBaseName, outputWrapper, dependencies = []) {

@@ -25,7 +25,6 @@ var MockHelper = goog.require('firebaseui.auth.testing.MockHelper');
 var object = goog.require('goog.object');
 
 
-
 /**
  * Creates the fake firebase reCAPTCHA app verifier for the Firebase app
  * provided.
@@ -39,92 +38,89 @@ var object = goog.require('goog.object');
  *   recaptchaVerifierInstance.install();
  *   return recaptchaVerifierInstance;
  * };
- *
- * @param {!Element|string} container The reCAPTCHA container parameter. This
- *     has different meaning depending on whether the reCAPTCHA is hidden or
- *     visible.
- * @param {?Object=} opt_parameters The optional reCAPTCHA parameters.
- * @param {?firebaseui.auth.testing.FakeAppClient=} opt_app The app instance
- *     associated with the fake Auth client.
- * @constructor
- * @extends {MockHelper}
  */
-var RecaptchaVerifier = function(container, opt_parameters, opt_app) {
-  this['type'] = 'recaptcha';
-  /** @private {!Element|string} The reCAPTCHA container parameter. */
-  this.container_ = container;
-  /** @private {?Object|undefined} The optional reCAPTCHA parameters. */
-  this.parameters_ = opt_parameters;
+class RecaptchaVerifier extends MockHelper {
   /**
-   * @private {?firebaseui.auth.testing.FakeAppClient|undefined} The app
+   * @param {(!Element|string)} container The reCAPTCHA container parameter.
+   *     This has different meaning depending on whether the reCAPTCHA is hidden
+   *     or visible.
+   * @param {?Object=} opt_parameters The optional reCAPTCHA parameters.
+   * @param {?firebaseui.auth.testing.FakeAppClient=} opt_app The app instance
+   *     associated with the fake Auth client.
+   */
+  constructor(container, opt_parameters, opt_app) {
+    super();
+    this['type'] = 'recaptcha';
+    /** @private {!Element|string} The reCAPTCHA container parameter. */
+    this.container_ = container;
+    /** @private {?Object|undefined} The optional reCAPTCHA parameters. */
+    this.parameters_ = opt_parameters;
+    /**
+     * @private {?firebaseui.auth.testing.FakeAppClient|undefined} The app
+     *     instance associated with the fake Auth client.
+     */
+    this.app_ = opt_app;
+    /** @private {boolean} Whether the reCAPTCHA is cleared. */
+    this.cleared_ = false;
+    var asyncMethods = {};
+    for (var key in RecaptchaVerifier.AsyncMethod) {
+      asyncMethods[key] = {
+        'context': this,
+        'name': RecaptchaVerifier.AsyncMethod[key]
+      };
+    }
+    // Pass async methods enum to base class.
+    this.asyncMethods = asyncMethods;
+  }
+
+  /**
+   * Asserts the reCAPTCHA verifier initialized with the expected parameters.
+   * @param {!Element|string} container The expected reCAPTCHA container
+   *     parameter. This has different meaning depending on whether the
+   * reCAPTCHA is hidden or visible.
+   * @param {?Object=} opt_parameters The expected optional reCAPTCHA
+   *     parameters.
+   * @param {?firebaseui.auth.testing.FakeAppClient=} opt_app The expected app
    *     instance associated with the fake Auth client.
    */
-  this.app_ = opt_app;
-  /** @private {boolean} Whether the reCAPTCHA is cleared. */
-  this.cleared_ = false;
-  var asyncMethods = {};
-  for (var key in RecaptchaVerifier.AsyncMethod) {
-    asyncMethods[key] = {
-      'context': this,
-      'name': RecaptchaVerifier.AsyncMethod[key]
-    };
+  assertInitializedWithParameters(container, opt_parameters, opt_app) {
+    assertEquals(container, this.container_);
+    // Confirm everything except for the callbacks.
+    // It is not useful to assert the callbacks as they are not provided
+    // externally and are injected in the process of rendering a reCAPTCHA.
+    var filteredParams = object.clone(this.parameters_);
+    delete filteredParams['callback'];
+    delete filteredParams['expired-callback'];
+    assertObjectEquals(opt_parameters, filteredParams);
+    assertEquals(opt_app, this.app_);
   }
-  RecaptchaVerifier.base(this, 'constructor', asyncMethods);
-};
-goog.inherits(RecaptchaVerifier, MockHelper);
 
-
-/**
- * Asserts the reCAPTCHA verifier initialized with the expected parameters.
- * @param {!Element|string} container The expected reCAPTCHA container
- *     parameter. This has different meaning depending on whether the reCAPTCHA
- *     is hidden or visible.
- * @param {?Object=} opt_parameters The expected optional reCAPTCHA parameters.
- * @param {?firebaseui.auth.testing.FakeAppClient=} opt_app The expected app
- *     instance associated with the fake Auth client.
- */
-RecaptchaVerifier.prototype.assertInitializedWithParameters =
-    function(container, opt_parameters, opt_app) {
-  assertEquals(container, this.container_);
-  // Confirm everything except for the callbacks.
-  // It is not useful to assert the callbacks as they are not provided
-  // externally and are injected in the process of rendering a reCAPTCHA.
-  var filteredParams = object.clone(this.parameters_);
-  delete filteredParams['callback'];
-  delete filteredParams['expired-callback'];
-  assertObjectEquals(opt_parameters, filteredParams);
-  assertEquals(opt_app, this.app_);
-};
-
-
-/**
- * @return {?Object|undefined} The optional reCAPTCHA parameters.
- */
-RecaptchaVerifier.prototype.getParameters = function() {
-  return this.parameters_;
-};
-
-
-/** Clears the reCAPTCHA from the DOM. */
-RecaptchaVerifier.prototype.clear = function() {
-  this.cleared_ = true;
-};
-
-
-/** Asserts reCAPTCHA is cleared. */
-RecaptchaVerifier.prototype.assertClear = function() {
-  if (!this.cleared_) {
-    throw new Error('reCAPTCHA verifier not cleared!');
+  /**
+   * @return {?Object|undefined} The optional reCAPTCHA parameters.
+   */
+  getParameters() {
+    return this.parameters_;
   }
-};
 
-
-/** Asserts reCAPTCHA is not cleared. */
-RecaptchaVerifier.prototype.assertNotClear = function() {
-  if (this.cleared_) {
-    throw new Error('reCAPTCHA verifier cleared!');
+  /** Clears the reCAPTCHA from the DOM. */
+  clear() {
+    this.cleared_ = true;
   }
-};
+
+  /** Asserts reCAPTCHA is cleared. */
+  assertClear() {
+    if (!this.cleared_) {
+      throw new Error('reCAPTCHA verifier not cleared!');
+    }
+  }
+
+  /** Asserts reCAPTCHA is not cleared. */
+  assertNotClear() {
+    if (this.cleared_) {
+      throw new Error('reCAPTCHA verifier cleared!');
+    }
+  }
+}
 
 
 /**

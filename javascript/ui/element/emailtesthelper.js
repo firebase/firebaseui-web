@@ -24,12 +24,10 @@ goog.require('firebaseui.auth.ui.element.ElementTestHelper');
 goog.require('goog.dom.forms');
 goog.require('goog.events.KeyCodes');
 goog.require('goog.testing.events');
-goog.require('goog.ui.Component');
 
 
 goog.scope(function() {
 var element = firebaseui.auth.ui.element;
-
 
 
 /** @constructor */

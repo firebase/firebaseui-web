@@ -412,7 +412,6 @@
   {/if}
 {/template}
 
-
 /**
  * Renders Terms of Service and Privacy Policy agreement and a notice to the user about SMS rates
  * for phone authentication.
@@ -441,7 +440,6 @@
     {/if}
   </p>
 {/template}
-
 
 /**
  * Renders full Terms of Service and Privacy Policy agreement for the first page.
@@ -653,3 +651,42 @@
     {$ij.defaultButtonColors['password']}
   {/if}
 {/template}
+
+
+/**
+ * Renders a tenant selection button.
+ */
+{template .tenantSelectionButton}
+  {@param tenantConfig: [tenantId:string|null, displayName:string, buttonColor:string,
+      iconUrl: string]} /** The tenant selection button config. */
+  {let $tenantClass kind="text"}
+    {if $tenantConfig.tenantId}
+      {$tenantConfig.tenantId}
+    {else}
+      top-level-project
+    {/if}
+  {/let}
+  <button
+      class="firebaseui-tenant-button mdl-button mdl-js-button mdl-button--raised{sp}
+             firebaseui-tenant-selection-{$tenantClass} firebaseui-id-tenant-selection-button"
+      {if $tenantConfig.tenantId}data-tenant-id="{$tenantConfig.tenantId}"{/if}
+      style="background-color:{$tenantConfig.buttonColor}">
+    <span class="firebaseui-idp-icon-wrapper">
+      <img
+          class="firebaseui-idp-icon"
+          alt=""
+          src="{$tenantConfig.iconUrl}">
+    </span>
+    <span class="firebaseui-idp-text firebaseui-idp-text-long">
+      {msg desc="Label for a button to sign in to a tenant. The long version"}
+        Sign in to {$tenantConfig.displayName}
+      {/msg}
+    </span>
+    <span class="firebaseui-idp-text firebaseui-idp-text-short">
+      {msg desc="Label for a button to sign in to a tenant. The short version"}
+        {$tenantConfig.displayName}
+      {/msg}
+    </span>
+  </button>
+{/template}
+

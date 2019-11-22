@@ -20,8 +20,9 @@ goog.provide('firebaseui.auth.ui.element.email');
 
 goog.require('firebaseui.auth.soy2.strings');
 goog.require('firebaseui.auth.ui.element');
-goog.require('goog.dom');
+goog.require('goog.asserts');
 goog.require('goog.format.EmailAddress');
+goog.require('goog.string');
 goog.require('goog.ui.Component');
 
 

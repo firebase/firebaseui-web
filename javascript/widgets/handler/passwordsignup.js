@@ -115,13 +115,13 @@ firebaseui.auth.widget.handler.onSignUpSubmit_ = function(app, component) {
           ),
       [email, password],
       function(userCredential) {
-        var authResult = /** @type {!firebaseui.auth.AuthResult} */ ({
+        var authResult = (/** @type {!firebaseui.auth.widget.Config.AuthResult} */ ({
           'user': userCredential['user'],
           // Password credential is needed for signing in on external instance.
           'credential': emailPassCred,
           'operationType': userCredential['operationType'],
           'additionalUserInfo': userCredential['additionalUserInfo']
-        });
+        }));
         if (requireDisplayName) {
           // Sign up successful. We can now set the name.
           var p = userCredential['user'].updateProfile({'displayName': name})

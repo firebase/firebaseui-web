@@ -29,7 +29,12 @@ goog.require('firebaseui.auth.ui.page.PageTestHelper');
 goog.require('firebaseui.auth.ui.page.PasswordRecoveryEmailSent');
 goog.require('firebaseui.auth.ui.page.PasswordResetFailure');
 goog.require('firebaseui.auth.ui.page.PasswordResetSuccess');
+goog.require('firebaseui.auth.ui.page.RecoverableError');
+goog.require('firebaseui.auth.ui.page.RevertSecondFactorAdditionFailure');
+goog.require('firebaseui.auth.ui.page.SignOut');
 goog.require('firebaseui.auth.ui.page.UnrecoverableError');
+goog.require('firebaseui.auth.ui.page.VerifyAndChangeEmailFailure');
+goog.require('firebaseui.auth.ui.page.VerifyAndChangeEmailSuccess');
 goog.require('goog.dom');
 goog.require('goog.dom.TagName');
 goog.require('goog.testing.MockClock');
@@ -182,10 +187,82 @@ function testEmailChangeRevokeFailure_getPageId() {
 }
 
 
+function testVerifyAndChangeEmailSuccess_getPageId() {
+  component.dispose();
+  // Initialize component.
+  component = new firebaseui.auth.ui.page.VerifyAndChangeEmailSuccess(
+      'user@example.com',
+      goog.bind(
+          firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
+          formTestHelper));
+  assertEquals('verifyAndChangeEmailSuccess', component.getPageId());
+}
+
+
+function testVerifyAndChangeEmailFailure_getPageId() {
+  component.dispose();
+  // Initialize component.
+  component = new firebaseui.auth.ui.page.VerifyAndChangeEmailFailure(
+      goog.bind(
+          firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
+          formTestHelper));
+  assertEquals('verifyAndChangeEmailFailure', component.getPageId());
+}
+
+
+function testRevertSecondFactorAdditionFailure_getPageId() {
+  component.dispose();
+  // Initialize component.
+  component = new firebaseui.auth.ui.page.RevertSecondFactorAdditionFailure(
+      goog.bind(
+          firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
+          formTestHelper));
+  assertEquals('revertSecondFactorAdditionFailure', component.getPageId());
+}
+
+
 function testUnrecoverableError_getPageId() {
   component.dispose();
   // Initialize component.
   component = new firebaseui.auth.ui.page.UnrecoverableError(
       'Error occurred!');
   assertEquals('unrecoverableError', component.getPageId());
+}
+
+
+function testSignOut_getPageId() {
+  component.dispose();
+  // Initialize component.
+  component = new firebaseui.auth.ui.page.SignOut();
+  assertEquals('signOut', component.getPageId());
+}
+
+
+function testRecoverableError_getPageId() {
+  component.dispose();
+  // Initialize component.
+  component = new firebaseui.auth.ui.page.RecoverableError(
+      'Error occurred!');
+  assertEquals('recoverableError', component.getPageId());
+}
+
+
+function testRecoverableError_InitialFocus() {
+  if (goog.userAgent.IE && !goog.userAgent.isDocumentModeOrHigher(9)) {
+    return;
+  }
+  component.dispose();
+  // Initialize component.
+  component = new firebaseui.auth.ui.page.RecoverableError(
+      'Error occurred!',
+      goog.bind(
+          firebaseui.auth.ui.element.FormTestHelper.prototype.onSubmit,
+          formTestHelper));
+  component.render(root);
+  formTestHelper.setComponent(component);
+  // Reset previous state of form helper.
+  formTestHelper.resetState();
+  assertEquals(
+      component.getSubmitElement(),
+      goog.dom.getActiveElement(document));
 }

@@ -6,27 +6,31 @@
 <translation id="1088824719285122027">इस फ़ोन नंबर का उपयोग कई बार किया गया है</translation>
 <translation id="1111168792069656940">ui_flow</translation>
 <translation id="1130401182255828006">लात्विया</translation>
-<translation id="1133565039750742069">सहेजें</translation>
+<translation id="1133565039750742069">सेव करें</translation>
 <translation id="1139115784936170936">सिंगापुर</translation>
 <translation id="1163494479861953195">इस कार्रवाई के लिए कृपया फिर से लॉगिन करें</translation>
 <translation id="1163771673786684213">फ़िलिपींस</translation>
 <translation id="1170304454812139475">रोमानिया</translation>
 <translation id="1194565221977667376">दक्षिण जॉर्जिया और दक्षिण सैंडविच आइलैंड</translation>
-<translation id="124367247840231378">ठीक</translation>
+<translation id="1233977465587641672">डेटा को वापस नहीं पाया जा सकता या डेटा खराब हो गया.</translation>
 <translation id="1244846213930750436">इटली</translation>
 <translation id="1268266284642694018">लेबनान</translation>
 <translation id="1294742657282291237">गुयाना</translation>
 <translation id="1297168472480293352">ग्वाटेमाला</translation>
+<translation id="1307255433239736397"><ph name="START_PARAGRAPH" />पुष्टि करने का दूसरा चरण हटाते समय कोई गड़बड़ी हुई.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />फिर से हटाने की काेशिश करें. अगर फिर भी काम नहीं बनता, ताे सहायता टीम से संपर्क करें.<ph name="END_PARAGRAPH" /></translation>
+<translation id="1310034618729602982">अपने ईमेल पते काे फिर से अपडेट करने की कोशिश करें</translation>
+<translation id="1312824004897469797">नेटवर्क में कोई गड़बड़ी हुई. कुछ देर बाद कोशिश करें.</translation>
 <translation id="1315809131562953678">कोई मान्य फ़ोन नंबर डालें</translation>
 <translation id="1335716056288807013">पुष्टि करें पर टैप करके, आप यह बताते हैं कि आप हमारी <ph name="START_LINK_1" />सेवा की शर्तें<ph name="END_LINK" /> और <ph name="START_LINK_2" />निजता नीति<ph name="END_LINK" /> को मंज़ूर करते हैं. एक मैसेज (एसएमएस) भेजा जा सकता है. मैसेज और डेटा दरें लागू हो सकती हैं.</translation>
 <translation id="137210131544215127">अपना पासवर्ड डालें</translation>
 <translation id="1393433815796487579">हो गया</translation>
 <translation id="1412449974349991050">हैती</translation>
-<translation id="144766329299583285">अगर आपने अपना साइन-इन ईमेल बदलने के लिए नहीं कहा है, तो हो सकता है कि कोई आपके खाते का एक्सेस पाने की कोशिश कर रहा है. ऐसे में आपको <ph name="START_LINK" />अपना पासवर्ड तुरंत बदलना चाहिए<ph name="END_LINK" />.</translation>
+<translation id="144766329299583285">अगर आपने अपना साइन-इन ईमेल बदलने के लिए नहीं कहा है, तो हो सकता है कि कोई आपके खाते का ऐक्सेस पाने की कोशिश कर रहा है. ऐसे में आपको <ph name="START_LINK" />अपना पासवर्ड तुरंत बदलना चाहिए<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">हर्ड आइलैंड और मैकडॉनल्ड आइलैंड</translation>
-<translation id="1479035434297790822">आपके IP पते से बहुत अधिक खाता अनुरोध मिल रहे हैं. कुछ मिनटों में फिर से कोशिश करें.</translation>
+<translation id="1479035434297790822">आपके IP पते से बहुत ज़्यादा खाता अनुरोध मिल रहे हैं. कुछ मिनटों में फिर से कोशिश करें.</translation>
 <translation id="1483249363694224399">श्रीलंका</translation>
 <translation id="1507995441600689506">अब आप अपने नए खाते से प्रवेश कर सकते हैं</translation>
+<translation id="1544981664986460902">क्लाइंट ने एक अमान्य तर्क बताया.</translation>
 <translation id="1575848116712334589">चाड</translation>
 <translation id="1630237004390596779"><ph name="STRING" /> में कोड फिर से भेजें</translation>
 <translation id="1653501608290591291">बेलारुस</translation>
@@ -62,6 +66,7 @@
 <translation id="2206856445831770486">Github</translation>
 <translation id="2223717216014247341">निजता नीति</translation>
 <translation id="2224563296468523455">ग्वाम</translation>
+<translation id="2245182894886860848">संसाधन की सीमा खत्म हो गई है या अनुरोध संख्या की सीमा तक पहुंचने वाले हैं.</translation>
 <translation id="2249420035688424170">क्रोएशिया</translation>
 <translation id="2251583471831926217">लिथुआनिआ</translation>
 <translation id="227405248692044138">माल्टा</translation>
@@ -71,22 +76,28 @@
 <translation id="2324942959480650701">मेहमान</translation>
 <translation id="2331781584136059536">घाना</translation>
 <translation id="2338909515537249568">आप जिस ब्राउज़र का उपयोग कर रहे हैं वह वेब संग्रहण का समर्थन नहीं करता है. कृपया किसी दूसरे ब्राउज़र में फिर से कोशिश करें.</translation>
+<translation id="2342152898808240937">क्लाइंट ने अनुरोध रद्द कर दिया.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />आपके साइन-इन ईमेल को वापस बदलते समय एक समस्या हुई.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />अगर दोबारा कोशिश करने पर भी आप अपना ईमेल रीसेट नहीं कर पाते हैं, तो सहायता के लिए अपने व्यवस्थापक से पूछ कर देखें.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">बहरीन</translation>
+<translation id="2392247362473363900">सर्वर में गड़बड़ी.</translation>
 <translation id="2405828009195143258">ईरान</translation>
+<translation id="2414459877074534554">GitHub</translation>
 <translation id="244437093285883777">आप रोबोट नहीं हैं इसकी पुष्टि की जा रही है...</translation>
 <translation id="2448227725017851570">यह कोड अब मान्य नहीं है</translation>
 <translation id="2448487988481516351">न्यू कैलेडोनिया</translation>
 <translation id="2451742558284013472">मॉनेको</translation>
 <translation id="2460064915291012298">सेशल्स</translation>
+<translation id="2490672522100125425">पुष्टि करने के दूसरे चरण के तहत <ph name="START_STRONG" /><ph name="FACTOR_ID" /> <ph name="PHONE_NUMBER" /><ph name="END_STRONG" /> काे हटा दिया गया.</translation>
 <translation id="2494962141967044042">मौजूदा अनाम उपयोगकर्ता अपग्रेड नहीं कर सका. गैर-अनाम क्रेडेंशियल पहले से ही किसी दूसरे उपयोगकर्ता खाते से जुड़ा हुआ है.</translation>
 <translation id="2541179214468543429">आपने कई बार गलत पासवर्ड डाला. कुछ मिनटों में फिर से कोशिश करें.</translation>
 <translation id="2561560038714758184">सुरक्षा</translation>
-<translation id="2561835578785502516">आपके पासवर्ड रीसेट अनुरोध की समय-सीमा समाप्त हो गई है या लिंक का उपयोग पहले ही किया जा चुका है</translation>
+<translation id="2561835578785502516">आपके पासवर्ड रीसेट अनुरोध की समय-सीमा खत्म हो गई है या लिंक का उपयोग पहले ही किया जा चुका है</translation>
+<translation id="2562498793334241360">अब आप अपने नए ईमेल पते <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> से साइन इन कर सकते हैं.</translation>
 <translation id="2581514546525533462">डाला गया देश कोड इस्तेमाल नहीं किया जा सकता है.</translation>
 <translation id="2600950452451016107">देख लें कि आपने ईमेल पते की वर्तनी गलत तो नहीं लिखी है.</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">कंबोडिया</translation>
+<translation id="2614081868476050089">सेवा उपलब्ध नहीं है.</translation>
 <translation id="2616650714309312732">पुर्तगाल</translation>
 <translation id="2619590123270932385">फ़्रेंच गुयाना</translation>
 <translation id="2621854044487969847">ब्रिटिश वर्जिन आइलैंड</translation>
@@ -98,23 +109,25 @@
 <translation id="2668496398414877352">कोसोवो</translation>
 <translation id="2674823936234616183">उज़बेकिस्तान</translation>
 <translation id="2696162410887720551">एलैंड आइलैंड</translation>
-<translation id="2725769874498146298">आपका साइन-इन सत्र समाप्त हो गया. कृपया फिर से कोशिश करें.</translation>
+<translation id="2725769874498146298">आपका साइन-इन सत्र खत्म हो गया. कृपया फिर से कोशिश करें.</translation>
 <translation id="2741235824871026219">पुष्टि करें</translation>
 <translation id="2752984808025184019">दक्षिण अफ़्रीका</translation>
 <translation id="2760636260031093254">जारी रखने के लिए अपना ईमेल पता डालें</translation>
+<translation id="276938411216176478">उपयोगकर्ता के खाते को एडमिन ने बंद कर दिया है.</translation>
 <translation id="2782685789517131804">साइन-इन पूरा करने के लिए और भी ज़्यादा निर्देशों वाला एक ईमेल <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> पर भेजा गया है. साइन-इन पूरा करने के लिए अपना ईमेल देखें.</translation>
 <translation id="2828509010894808185">खाता बनाएं</translation>
 <translation id="2834770837848769530">अफ़गानिस्तान</translation>
 <translation id="2884525438023347369"><ph name="BTN" /> पर टैप करके आप बताते हैं कि आप <ph name="TOS" /> से सहमत हैं.</translation>
 <translation id="2909392332969582158">कनाडा</translation>
 <translation id="2911018261311455240">डेनमार्क</translation>
+<translation id="2949732021187449522">अनुरोध का समय खत्म हो गया.</translation>
 <translation id="295270254328846278">ऑस्ट्रिया</translation>
 <translation id="2976748949054245370">ईमेल का मिलान नहीं हो रहा है</translation>
 <translation id="29947009417147243">दक्षिण सूडान</translation>
 <translation id="3040586343252524572">यमन</translation>
 <translation id="3045244039436637116">गिनी-बिसाऊ</translation>
 <translation id="3046745817056752783">सऊदी अरब</translation>
-<translation id="311953035679824832">ऐप्लिकेशन लोगो</translation>
+<translation id="3083819527012413063"><ph name="APP_NAME" /> में एक और सुरक्षा तरीका जोड़ दिया गया है</translation>
 <translation id="3122584863645047144">यू.एस. वर्जिन आइलैंड</translation>
 <translation id="3141549453511344986">फ़ोन से प्रवेश करें</translation>
 <translation id="3147551458884186429">इंडोनेशिया</translation>
@@ -122,6 +135,7 @@
 <translation id="3164676761565983157">वेनेज़ुएला</translation>
 <translation id="3170526549630869494">प्रवेश करने में समस्या?</translation>
 <translation id="3204914819635733576">पुष्टि करें कि यह आप ही हैं</translation>
+<translation id="3215050409577090361">आपके अनुरोध की पुष्टि करने के दौरान कोई समस्या हुई. पुष्टि करने की प्रक्रिया फिर से शुरू करने के लिए, उस यूआरएल पर जाएं जिससे आप दोबारा इस पेज तक पहुंचे हैं.</translation>
 <translation id="3216149523061905579">डोमिनिका</translation>
 <translation id="3223688630903046698">नया पासवर्ड</translation>
 <translation id="3250864391349648273">गैबॉन</translation>
@@ -139,6 +153,7 @@
 <translation id="3434621886769337032">गांबिया</translation>
 <translation id="3472358534605257432">हो गया</translation>
 <translation id="3479685026618611556">रद्द करें</translation>
+<translation id="3481131180097895739">सर्वर में अज्ञात गड़बड़ी.</translation>
 <translation id="3487364398525389372">अपना खाता नाम डालें</translation>
 <translation id="3521753471343796628">इराक</translation>
 <translation id="354888504916863713">वियतनाम</translation>
@@ -150,14 +165,16 @@
 <translation id="3605933028246642593">नेपाल</translation>
 <translation id="3608140835232496799">तोकेलाउ</translation>
 <translation id="3620185428620643248">प्रमाणीकरण देने वाले के लिए चयनित क्रेडेंशियल समर्थित नहीं है!</translation>
+<translation id="3658306886462996856">दिए गए ईमेल से साइन इन नहीं किया जा सकता. कृपया कोई दूसरा ईमेल डालें.</translation>
+<translation id="3695180913983403205">कृपया नाम और उपनाम डालें.</translation>
 <translation id="3700097473356216716">कोलंबिया</translation>
-<translation id="3703067902498234034">सहेजें को टैप करके आप यह बताते हैं कि आप इससे सहमत हैं </translation>
+<translation id="3703067902498234034">सेव करें को टैप करके आप यह बताते हैं कि आप इससे सहमत हैं </translation>
 <translation id="3736041829854387744">बुरुंडी</translation>
 <translation id="3755663127769565780">मॉरिटैनिया</translation>
 <translation id="3813801701232240278">Twitter</translation>
 <translation id="3814740523815122846">आपके ईमेल की पुष्टि हो चुकी है</translation>
 <translation id="3819556544383051267">पापुआ न्यू गिनी</translation>
-<translation id="3831901810365396899">सहेजें</translation>
+<translation id="3828991952827504549">बताया गया संसाधन नहीं मिला.</translation>
 <translation id="3862053977934420187">पुष्टि कर रहा है…</translation>
 <translation id="3898029444496274961">प्रवेश करें</translation>
 <translation id="3905423743526704083">पूर्वी तिमोर</translation>
@@ -190,6 +207,7 @@
 <translation id="4440507149645221385">फ़ोन</translation>
 <translation id="4450602713221237198">फिर से भेजें</translation>
 <translation id="4498504413765490964">होंडुरास</translation>
+<translation id="450385255996536115">ऑपरेशन का समय खत्म हो गया.</translation>
 <translation id="4515732781724470190">नाइजर</translation>
 <translation id="4521614244485847733">वह ईमेल पता किसी मौजूदा खाते से मेल नहीं खाता है</translation>
 <translation id="4556476996891737119">जॉर्डन</translation>
@@ -201,6 +219,7 @@
 <translation id="4723701728629289714">इज़राइल</translation>
 <translation id="4725154639671888461">गड़बड़ी का सामना करना पड़ा</translation>
 <translation id="4751937685196678080">नंबर</translation>
+<translation id="4769553102874508676">क्लाइंट के पास ज़रूरी अनुमति नहीं है.</translation>
 <translation id="4773060157545352832">reCAPTCHA हल करें</translation>
 <translation id="4775051289386800916">निकारागुआ</translation>
 <translation id="4783400389150493171">बुर्किना फ़ासो</translation>
@@ -209,28 +228,33 @@
 <translation id="4871106926303956169">टर्क्स और कैकॉस आइलैंड</translation>
 <translation id="4877597386645466815"><ph name="TIME_REMAINING" /> में कोड फिर से भेजें</translation>
 <translation id="4915406999072654369">अपना ईमेल जाँचें</translation>
+<translation id="4923375331439013137">पुष्टि करने का दूसरा चरण हटाया नहीं जा सका</translation>
 <translation id="4955175001894453989">पासवर्ड जोड़ें</translation>
 <translation id="496366313824211679">अल सल्वाडोर</translation>
+<translation id="4982483807073820954">अपने खाते का पासवर्ड बदलने के लिए, आपको फिर से प्रवेश करना होगा.</translation>
 <translation id="4991626049082973728">सर्बिया</translation>
 <translation id="4991892293325936102">बेलिज़</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" /><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> के लिए<ph name="END_PARAGRAPH" /></translation>
 <translation id="5059105734231232362">अपने <ph name="IDP_DISPLAY_NAME" /> खाते को इस ईमेल पते से सफलतापूर्वक कनेक्ट करने के लिए आपको उसी डिवाइस या ब्राउज़र पर लिंक खोलना होगा, जिससे आपने साइन-इन करना शुरू किया था.</translation>
 <translation id="5080084639513001393">स्वीडन</translation>
 <translation id="5080899604429810481">सेंट मार्टिन</translation>
+<translation id="5115661695221894994"><ph name="START_PARAGRAPH" />अपने ईमेल पते की पुष्टि और उसमें बदलाव के आपके अनुरोध की समय-सीमा खत्म हो गई है या लिंक का पहले ही इस्तेमाल किया जा चुका है.<ph name="END_PARAGRAPH" /></translation>
 <translation id="5143657419516597442">सेंट लूसिया</translation>
 <translation id="521218078240459724">@string/app_name</translation>
 <translation id="5241732101105320538">अपना ईमेल जाँचें</translation>
-<translation id="5301108536112812420">अपने ईमेल की पुष्टि के आपके अनुरोध की समय-सीमा समाप्त हो गई है या लिंक का पहले ही उपयोग किया जा चुका है</translation>
+<translation id="5301108536112812420">अपने ईमेल की पुष्टि के आपके अनुरोध की समय-सीमा खत्म हो गई है या लिंक का पहले ही उपयोग किया जा चुका है</translation>
 <translation id="5323041129469627535">ओमान</translation>
 <translation id="5326139833547026317">कैरेबियाई नीदरलैंड्स</translation>
 <translation id="5347459868860672391">अपडेट किया हुआ ईमेल पता</translation>
-<translation id="5403395913830260677">Twitter से प्रवेश करें</translation>
+<translation id="5397737236938796917">अब आप साइन आउट हो गए हैं.</translation>
+<translation id="5406620662929585965">फ़ोन से प्रवेश करें</translation>
 <translation id="5407010562344541906">फ़ोन नंबर</translation>
 <translation id="5409861738809250803">आपके पास पहले से ही एक खाता है</translation>
 <translation id="5410341463946781720">थाईलैंड</translation>
 <translation id="5443669846203963095">निजता नीति</translation>
 <translation id="5444635161362535036">लीचटेंस्टीन</translation>
-<translation id="5483706910421209104">नाम संपादित करें</translation>
+<translation id="5483706910421209104">नाम में बदलाव करें</translation>
+<translation id="5487696047685227891">पुष्टि करने के दूसरे चरण के तहत डिवाइस या ऐप्लिकेशन काे हटा दिया गया.</translation>
 <translation id="5490651768073507833">उसी डिवाइस या ब्राउज़र का इस्तेमाल करके लिंक खोलने की कोशिश करें जिससे आपने साइन-इन करना शुरू किया था.</translation>
 <translation id="5524360735013196510">नीदरलैंड</translation>
 <translation id="5528189843379142883">भूमध्यवर्ती गिनी</translation>
@@ -254,7 +278,7 @@
 <translation id="5699028034244995851">जारी रखने के लिए अपना ईमेल पता डालें</translation>
 <translation id="5701178667798108817">अपने फ़ोन नंबर की पुष्टि करें</translation>
 <translation id="5715637701147651513">लाइबेरिया</translation>
-<translation id="5755179287528310939">उस ईमेल पते के साथ एक खाता पहले से मौजूद है.</translation>
+<translation id="5747263508495256858">साइन आउट करें</translation>
 <translation id="5771034676910614239">मेडागास्कर</translation>
 <translation id="5818634293686963864">कज़ाकिस्तान</translation>
 <translation id="5829301468800336085">साइन इन किया जा रहा है...</translation>
@@ -273,15 +297,20 @@
 <translation id="6032262985756512833">हमारी ओर से भेजा गया <ph name="STRING" />-अंकों वाला कोड डालें</translation>
 <translation id="6044396095102058216">इस फ़ोन नंबर का उपयोग कई बार किया गया है</translation>
 <translation id="6083089720215618333">दिया गया ईमेल मौजूदा साइन-इन सत्र से मेल नहीं खा रहा है.</translation>
-<translation id="6113531938704280909">खाता अनलिंक करें</translation>
+<translation id="6091051069256411999">Twitter</translation>
+<translation id="61182948399263957">
+<ph name="P_START" /><ph name="APP_NAME" /> में साइन इन करें &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6132202686885223981">देख लें कि आपके इनबॉक्स में नए ईमेल आने के लिए जगह है या नहीं या इनबॉक्स सेटिंग से जुड़ी दूसरी समस्याएं तो नहीं हैं.</translation>
+<translation id="6135589730599211649">क्लाइंट ने एक अमान्य सीमा बताई.</translation>
+<translation id="6143147250106939258">इस ऑपरेशन की सीमा पार हो चुकी है. कुछ देर बाद कोशिश करें.</translation>
 <translation id="6189573836664806798">पराग्वे</translation>
 <translation id="6192657410634245771">अल्जीरिया</translation>
 <translation id="6213969168046789596">आपने कई बार गलत पासवर्ड डाला है. कृपया कुछ मिनटों में फिर से कोशिश करें.</translation>
 <translation id="6216759405419177713">नॉरफ़ोक आइलैंड</translation>
 <translation id="6245066275978703471">फ़ोन नंबर की अपने आप पुष्टि की गई</translation>
-<translation id="6283536862756552051">अपना पासवर्ड बदलने के लिए, आपको पहले अपना मौजूदा पासवर्ड डालना होगा.</translation>
-<translation id="6299890279889400823">वापस जाएं</translation>
+<translation id="6269083314054226194">नेटवर्क में गड़बड़ी है. देखें कि इंटरनेट काम कर रहा है या नहीं.</translation>
+<translation id="6295157125625453859">पुष्टि हो चुकी है!</translation>
 <translation id="6316446940976157217">भारत</translation>
 <translation id="6327723482938582895">बेनिन</translation>
 <translation id="6338643731889005578">जारी रखें</translation>
@@ -330,27 +359,33 @@
 <translation id="6921505896641453739">ईमेल</translation>
 <translation id="6929813273561975780">अगला</translation>
 <translation id="6951302238647056860">यह कोड अब मान्य नहीं है</translation>
-<translation id="6976724207780605356">Facebook से प्रवेश करें</translation>
+<translation id="6961220857430789248">ज़्यादा निर्देशों वाला एक साइन-इन ईमेल <ph name="STRING" /> पर भेजा गया है. साइन-इन पूरा करने के लिए अपना ईमेल देखें.</translation>
 <translation id="6984204927251307445">ईमेल की पुष्टि करें</translation>
 <translation id="6999773882165218263">नाम और उपनाम</translation>
 <translation id="7012506961150923116">ग्रेनेडा</translation>
 <translation id="7024571478138322659">पश्चिमी सहारा</translation>
+<translation id="7025117765722694556">सिस्टम की मौजूदा स्थिति में अनुरोध पूरा नहीं किया जा सकता.</translation>
 <translation id="7062299334696934251">ऐसी गड़बड़ी हुई है, जिसके बारे में पता नहीं है.</translation>
 <translation id="7064251114893721966">आपने प्रवेश के लिए पहले ही <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> का उपयोग कर लिया है. उस खाते के लिए अपना पासवर्ड डालें.</translation>
+<translation id="7085136866191400000">साइन-इन करने के लिंक वाला ईमेल भेज दिया गया</translation>
 <translation id="7089485669419398254">आयरलैंड</translation>
 <translation id="7093343209860483088">लोकतांत्रिक गणराज्य कांगो</translation>
 <translation id="7118080999850002096">पासवर्ड फिर से पाएं</translation>
 <translation id="7150917293543492988">कांगो गणराज्य</translation>
+<translation id="7157317431934821052">क्लाइंट ने जिस संसाधन को बनाने की कोशिश की, वह पहले से मौजूद है.</translation>
 <translation id="7174424882502155514">मेहमान के रूप में जारी रखें</translation>
 <translation id="7192078949090526171">सैन मैरीनो</translation>
 <translation id="7197455001919474950">साइप्रस</translation>
 <translation id="7198563013006562060">सोलोमन आइलैंड</translation>
 <translation id="7207660930894629055"><ph name="USER_EMAIL" /> के साथ जारी रखें?</translation>
+<translation id="720983450833499456"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> से इस डिवाइस पर साइन इन जारी रखने के लिए आपको पासवर्ड रिकवर करना होगा.</translation>
 <translation id="7223410082658239002">मालदीव</translation>
 <translation id="7254028881697834212">साओ टोम व प्रिंसिपे</translation>
 <translation id="7268827299582726485">साइन इन पूरा करने से पहले अपने ईमेल की पुष्टि करें</translation>
 <translation id="7272145663101316762">स्लोवेनिया</translation>
 <translation id="7280309713358692490">दक्षिण कोरिया</translation>
+<translation id="7283725113395426048">कॉनकरंसी विरोधाभास जैसे पढ़ें-बदलें-लिखें विरोधाभास.</translation>
+<translation id="7290147808482957603">सर्वर ने एपीआई तरीका लागू नहीं किया.</translation>
 <translation id="7291567990403335374">लेसोथो</translation>
 <translation id="7291656724505689727">फ़ोन से प्रवेश करें</translation>
 <translation id="7320029088567935126">अपने ईमेल की फिर से पुष्टि करने की कोशिश करें</translation>
@@ -368,10 +403,12 @@
 <translation id="7615083347713899917">किर्गिस्तान</translation>
 <translation id="7643408533407091568">आपने पहले ही प्रवेश करने के लिए <ph name="EMAIL_ADDR" /> का उपयोग कर लिया है.
  उस खाते के लिए अपना पासवर्ड डालें.</translation>
-<translation id="7652546345268886994">{plural_var,plural, =1{पासवर्ड पर्याप्त रूप से मजबूत नहीं है. कम से कम <ph name="PH_1" /> वर्ण का उपयोग करें जो अक्षरों और नंबरों दोनों को मिलाकर बना हो}one{पासवर्ड पर्याप्त रूप से मजबूत नहीं है. कम से कम <ph name="PH_1" /> वर्णों का उपयोग करें जो अक्षरों और नंबरों दोनों को मिलाकर बना हो}other{पासवर्ड पर्याप्त रूप से मजबूत नहीं है. कम से कम <ph name="PH_1" /> वर्णों का उपयोग करें जो अक्षरों और नंबरों दोनों को मिलाकर बना हो}}</translation>
+<translation id="7652546345268886994">{plural_var,plural, =1{पासवर्ड काफ़ी रूप से मजबूत नहीं है. कम से कम <ph name="PH_1" /> वर्ण का उपयोग करें जो अक्षरों और नंबरों दोनों को मिलाकर बना हो}one{पासवर्ड काफ़ी रूप से मजबूत नहीं है. कम से कम <ph name="PH_1" /> वर्णों का उपयोग करें जो अक्षरों और नंबरों दोनों को मिलाकर बना हो}other{पासवर्ड काफ़ी रूप से मजबूत नहीं है. कम से कम <ph name="PH_1" /> वर्णों का उपयोग करें जो अक्षरों और नंबरों दोनों को मिलाकर बना हो}}</translation>
 <translation id="7699755204074920022">ज़िंबाब्वे</translation>
+<translation id="7746977132739352062">OAuth टोकन गायब होने, अमान्य होने या उसकी समय सीमा खत्म हो जाने की वजह से अनुरोध की पुष्टि नहीं की जा सकी.</translation>
 <translation id="7782885946428624225">आपके फ़ोन नंबर की पुष्टि करने में एक समस्या हुई</translation>
 <translation id="7796914496604415892">नए डिवाइस या ब्राउज़र का पता चला है</translation>
+<translation id="786166109137986817"><ph name="DISPLAY_NAME" /> में साइन इन करें</translation>
 <translation id="7868540442111212282">चेक गणराज्य</translation>
 <translation id="7874584525604421364">तुवालू</translation>
 <translation id="7926046652648626866">GitHub के साथ साइन इन करें</translation>
@@ -426,6 +463,7 @@
 <translation id="868894957204919930">बरमूडा</translation>
 <translation id="8694271531070467981">नियुए</translation>
 <translation id="8745311627715763145">ग्वाडेलोप</translation>
+<translation id="8752467400269476994">क्लाइंट ने प्रोजेक्ट का अमान्य कॉन्फ़िगरेशन डाला है.</translation>
 <translation id="8760480624706028033">फ़िलिस्तीनी क्षेत्र</translation>
 <translation id="8770276147008360348">स्लोवाकिया</translation>
 <translation id="877434849857020571">ग्वेर्नसे</translation>
@@ -437,20 +475,25 @@
 <translation id="8869797682387766327">आइल ऑफ़ मैन</translation>
 <translation id="8893950153780006385">मलेशिया</translation>
 <translation id="8895840173743975193">कोकोस [कीलिंग] आइलैंड</translation>
-<translation id="8916080112145514151">अगर आप अभी भी अपना <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> खाता कनेक्ट करना चाहते हैं, तो आपको उसी डिवाइस पर लिंक खोलना होगा, जिस पर आपने साइन-इन करना शुरू किया था. या फिर, इस डिवाइस से साइन इन करने के लिए 'जारी रखें' पर टैप करें.</translation>
+<translation id="8916080112145514151">अगर आप अब भी अपना <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> खाता कनेक्ट करना चाहते हैं, तो आपको उसी डिवाइस पर लिंक खोलना होगा, जिस पर आपने साइन-इन करना शुरू किया था. या फिर, इस डिवाइस से साइन इन करने के लिए 'जारी रखें' पर टैप करें.</translation>
+<translation id="8920674952994839257">फिर कोशिश करें</translation>
 <translation id="8939353296336237380">आप पहले <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> को अपने ईमेल खाते से कनेक्ट करना चाहते थे, लेकिन आपने ऐसे किसी अलग डिवाइस पर लिंक खोला है, जहां आप साइन इन नहीं हैं.</translation>
 <translation id="8971555482255213064">0:<ph name="PH_1" /> में कोड फिर से भेजें</translation>
 <translation id="8984161590699631096">मोरक्को</translation>
+<translation id="8994098794339484800">अगर आप इस डिवाइस को नहीं पहचानते, तो हाे सकता है कि कोई आपके खाते काे ऐक्सेस करने की काेशिश कर रहा हाे. <ph name="START_LINK" />अभी अपना पासवर्ड बदलें<ph name="END_LINK" />.</translation>
 <translation id="900153878296575829">बांग्लादेश</translation>
 <translation id="9022632332691561239">फ़ोन</translation>
 <translation id="9028063588419847334">फ़ि‍नलैंड</translation>
 <translation id="9078135685219203661">संयुक्त अरब अमीरात</translation>
+<translation id="9121203582272050974">आपके ईमेल पते की पुष्टि की जा चुकी है और इसे बदल दिया गया है</translation>
 <translation id="9156150178611681179">पासवर्ड</translation>
 <translation id="9168877696443530714">मध्य अफ़्रीकी गणराज्य</translation>
 <translation id="9186194643192393179">कुराकाओ</translation>
+<translation id="9193130710600355008">असामान्य गतिविधि की वजह से हमने इस डिवाइस से सभी अनुरोध ब्लॉक कर दिए हैं. कुछ देर बाद कोशिश करें.</translation>
 <translation id="919456844206936371">ट्यूनीशिया</translation>
 <translation id="9209678713072395487">पासवर्ड बदल गया</translation>
 <translation id="954276184636809129">यूनान</translation>
+<translation id="959388308828818789">पुष्टि करने का दूसरा चरण हटाया गया</translation>
 <translation id="965930633376049617">अंगोला</translation>
 <translation id="988087302893519488">कुवैत</translation>
 <translation id="994914101700264849">आपने जो ईमेल और पासवर्ड डाला है, उनका मिलान नहीं हो रहा है.</translation>

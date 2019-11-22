@@ -38,7 +38,8 @@ goog.require('goog.ui.Component');
 /**
  * @define {string} The base URL of images.
  */
-goog.define('firebaseui.auth.ui.page.IMAGE_BASE',
+firebaseui.auth.ui.page.IMAGE_BASE = goog.define(
+    'firebaseui.auth.ui.page.IMAGE_BASE',
     'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/');
 
 

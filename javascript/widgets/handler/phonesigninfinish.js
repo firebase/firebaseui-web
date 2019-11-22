@@ -149,14 +149,15 @@ firebaseui.auth.widget.handler.onPhoneSignInFinishSubmit_ = function(
           // Dismiss dialog and dispose of component before completing sign-in.
           component.dismissDialog();
           component.dispose();
-          var authResult = /** @type {!firebaseui.auth.AuthResult} */ ({
-            // User already signed on external instance.
-            'user': app.getExternalAuth().currentUser,
-            // Phone Auth operations do not return a credential.
-            'credential': null,
-            'operationType': userCredential['operationType'],
-            'additionalUserInfo': userCredential['additionalUserInfo']
-          });
+          var authResult = (
+              /** @type {!firebaseui.auth.widget.Config.AuthResult} */ ({
+                // User already signed on external instance.
+                'user': app.getExternalAuth().currentUser,
+                // Phone Auth operations do not return a credential.
+                'credential': null,
+                'operationType': userCredential['operationType'],
+                'additionalUserInfo': userCredential['additionalUserInfo']
+              }));
           firebaseui.auth.widget.handler.common.setLoggedInWithAuthResult(
               app, component, authResult, true);
         }, firebaseui.auth.widget.handler.CODE_SUCCESS_DIALOG_DELAY);

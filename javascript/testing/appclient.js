@@ -20,42 +20,44 @@ goog.module('firebaseui.auth.testing.FakeAppClient');
 goog.module.declareLegacyNamespace();
 goog.setTestOnly();
 
-var Disposable = goog.require('goog.Disposable');
-var FakeAuthClient = goog.require('firebaseui.auth.testing.FakeAuthClient');
-var GoogPromise = goog.require('goog.Promise');
-
+const Disposable = goog.require('goog.Disposable');
+const FakeAuthClient = goog.require('firebaseui.auth.testing.FakeAuthClient');
+const GoogPromise = goog.require('goog.Promise');
 
 
 /**
  * Fake App client class.
- * @param {!Object} options The app configuration.
- * @param {?string=} opt_name The optional app name.
- * @constructor
- * @extends {Disposable}
  */
-var FakeAppClient = function(options, opt_name) {
-  this['options'] = options || {};
-  this['name'] = opt_name || '[DEFAULT]';
-  // Initialize a fake auth client instance.
-  this.auth_ = new FakeAuthClient(this);
-};
+class FakeAppClient extends Disposable {
+  /**
+   * @param {!Object} options The app configuration.
+   * @param {?string=} name The optional app name.
+   */
+  constructor(options, name) {
+    super();
+    this.options = options || {};
+    this.name = name || '[DEFAULT]';
+    // Initialize a fake auth client instance.
+    this.auth_ = new FakeAuthClient(this);
+  };
 
 
-/**
- * @return {!FakeAuthClient} The associated fake Auth
- *     client instance.
- */
-FakeAppClient.prototype.auth = function() {
-  return this.auth_;
-};
+  /**
+   * @return {!FakeAuthClient} The associated fake Auth client instance.
+   */
+  auth() {
+    return this.auth_;
+  }
 
 
-/**
- * Dummy app delete method.
- * @return {!GoogPromise} The promise that resolves upon deletion.
- */
-FakeAppClient.prototype.delete = function() {
-  return GoogPromise.resolve();
-};
+  /**
+   * Dummy app delete method.
+   * @return {!GoogPromise} The promise that resolves upon deletion.
+   */
+  delete() {
+    return GoogPromise.resolve();
+  }
+}
+
 
 exports = FakeAppClient;

@@ -12,11 +12,14 @@
 <translation id="1163771673786684213">Φιλιππίνες</translation>
 <translation id="1170304454812139475">Ρουμανία</translation>
 <translation id="1194565221977667376">Νότια Γεωργία και Νότιες Νήσοι Σάντουιτς</translation>
-<translation id="124367247840231378">ΟΚ</translation>
+<translation id="1233977465587641672">Ανεπανόρθωτη απώλεια ή αλλοίωση δεδομένων.</translation>
 <translation id="1244846213930750436">Ιταλία</translation>
 <translation id="1268266284642694018">Λίβανος</translation>
 <translation id="1294742657282291237">Γουιάνα</translation>
 <translation id="1297168472480293352">Γουατεμάλα</translation>
+<translation id="1307255433239736397"><ph name="START_PARAGRAPH" />Προέκυψε πρόβλημα με την κατάργηση του δεύτερου παράγοντα.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Δοκιμάστε να τον καταργήσετε ξανά. Αν δεν λυθεί το πρόβλημα, επικοινωνήστε με το τμήμα υποστήριξης για βοήθεια.<ph name="END_PARAGRAPH" /></translation>
+<translation id="1310034618729602982">Δοκιμάστε να ενημερώσετε τη διεύθυνση ηλεκτρονικού σας ταχυδρομείου ξανά</translation>
+<translation id="1312824004897469797">Παρουσιάστηκε σφάλμα δικτύου. Δοκιμάστε ξανά αργότερα.</translation>
 <translation id="1315809131562953678">Εισαγάγετε έναν έγκυρο αριθμό τηλεφώνου</translation>
 <translation id="1335716056288807013">Αν πατήσετε Επαλήθευση, δηλώνετε ότι αποδέχεστε τους <ph name="START_LINK_1" />Όρους Παροχής Υπηρεσιών<ph name="END_LINK" /> και την <ph name="START_LINK_2" />Πολιτική απορρήτου<ph name="END_LINK" />. Μπορεί να σταλεί ένα SMS. Ενδέχεται να ισχύουν χρεώσεις μηνυμάτων και δεδομένων.</translation>
 <translation id="137210131544215127">Εισαγάγετε τον κωδικό πρόσβασής σας</translation>
@@ -27,6 +30,7 @@
 <translation id="1479035434297790822">Η διεύθυνση IP έχει στείλει πάρα πολλά αιτήματα λογαριασμού. Δοκιμάστε ξανά σε λίγα λεπτά.</translation>
 <translation id="1483249363694224399">Σρι Λάνκα</translation>
 <translation id="1507995441600689506">Πλέον μπορείτε να συνδέεστε με τον νέο λογαριασμό σας</translation>
+<translation id="1544981664986460902">Ο πελάτης καθόρισε ένα μη έγκυρο όρισμα.</translation>
 <translation id="1575848116712334589">Τσαντ</translation>
 <translation id="1630237004390596779">Επανάληψη αποστολής κωδικού στο <ph name="STRING" /></translation>
 <translation id="1653501608290591291">Λευκορωσία</translation>
@@ -62,6 +66,7 @@
 <translation id="2206856445831770486">Github</translation>
 <translation id="2223717216014247341">Πολιτική απορρήτου</translation>
 <translation id="2224563296468523455">Γκουάμ</translation>
+<translation id="2245182894886860848">Είτε πόροι εκτός ορίου είτε προσέγγιση του ορίου χρέωσης.</translation>
 <translation id="2249420035688424170">Κροατία</translation>
 <translation id="2251583471831926217">Λιθουανία</translation>
 <translation id="227405248692044138">Μάλτα</translation>
@@ -71,22 +76,28 @@
 <translation id="2324942959480650701">Επισκέπτης</translation>
 <translation id="2331781584136059536">Γκάνα</translation>
 <translation id="2338909515537249568">Το πρόγραμμα περιήγησης που χρησιμοποιείτε δεν υποστηρίζει αποθήκευση στον ιστό. Δοκιμάστε ξανά σε άλλο πρόγραμμα περιήγησης.</translation>
+<translation id="2342152898808240937">Το αίτημα ακυρώθηκε από τον πελάτη.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Παρουσιάστηκε πρόβλημα με την επαναφορά της διεύθυνσης ηλεκτρονικού ταχυδρομείου σύνδεσης.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Αν δοκιμάσετε ξανά και εξακολουθείτε να μην μπορείτε να επαναφέρετε τη διεύθυνση, ζητήστε βοήθεια από τον διαχειριστή σας.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Μπαχρέιν</translation>
+<translation id="2392247362473363900">Εσωτερικό σφάλμα διακομιστή.</translation>
 <translation id="2405828009195143258">Ιράν</translation>
+<translation id="2414459877074534554">GitHub</translation>
 <translation id="244437093285883777">Επαλήθευση ότι δεν είστε ρομπότ…</translation>
 <translation id="2448227725017851570">Αυτός ο κωδικός δεν είναι πλέον έγκυρος</translation>
 <translation id="2448487988481516351">Νέα Καληδονία</translation>
 <translation id="2451742558284013472">Μονακό</translation>
 <translation id="2460064915291012298">Σεϋχέλλες</translation>
+<translation id="2490672522100125425">Το <ph name="START_STRONG" /><ph name="FACTOR_ID" /> <ph name="PHONE_NUMBER" /><ph name="END_STRONG" /> καταργήθηκε από δεύτερο βήμα ελέγχου ταυτότητας.</translation>
 <translation id="2494962141967044042">Δεν ήταν δυνατή η αναβάθμιση του τρέχοντος ανώνυμου χρήστη. Τα μη ανώνυμα διαπιστευτήρια σχετίζονται ήδη με έναν άλλο λογαριασμό χρήστη.</translation>
 <translation id="2541179214468543429">Πληκτρολογήσατε πολλές φορές λανθασμένο κωδικό πρόσβασης. Δοκιμάστε ξανά σε λίγα λεπτά.</translation>
 <translation id="2561560038714758184">Ασφάλεια</translation>
 <translation id="2561835578785502516">Το αίτημα επαναφοράς του κωδικού πρόσβασής σας έληξε ή ο σύνδεσμος χρησιμοποιείται ήδη</translation>
+<translation id="2562498793334241360">Πλέον μπορείτε να συνδέεστε με τον νέο λογαριασμό σας <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />.</translation>
 <translation id="2581514546525533462">Ο κωδικός χώρας που καταχωρίσατε δεν υποστηρίζεται.</translation>
 <translation id="2600950452451016107">Βεβαιωθείτε ότι δεν έχετε γράψει λάθος τη διεύθυνση ηλεκτρονικού ταχυδρομείου.</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">Καμπότζη</translation>
+<translation id="2614081868476050089">Η υπηρεσία δεν είναι διαθέσιμη.</translation>
 <translation id="2616650714309312732">Πορτογαλία</translation>
 <translation id="2619590123270932385">Γαλλική Γουιάνα</translation>
 <translation id="2621854044487969847">Βρετανικές Παρθένοι Νήσοι</translation>
@@ -102,19 +113,21 @@
 <translation id="2741235824871026219">Επαλήθευση</translation>
 <translation id="2752984808025184019">Νότια Αφρική</translation>
 <translation id="2760636260031093254">Εισαγάγετε τη διεύθυνση ηλεκτρονικού ταχυδρομείου για να συνεχίσετε</translation>
+<translation id="276938411216176478">Ο λογαριασμός χρήστη απενεργοποιήθηκε από έναν διαχειριστή.</translation>
 <translation id="2782685789517131804">Ένα μήνυμα ηλεκτρονικού ταχυδρομείου σύνδεσης με πρόσθετες οδηγίες στάλθηκε στη διεύθυνση <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Ελέγξτε τη διεύθυνση ηλεκτρονικού ταχυδρομείου για να ολοκληρώσετε τη σύνδεση.</translation>
 <translation id="2828509010894808185">Δημιουργία λογαριασμού</translation>
 <translation id="2834770837848769530">Αφγανιστάν</translation>
 <translation id="2884525438023347369">Αν πατήσετε <ph name="BTN" />, δηλώνετε ότι συμφωνείτε με τους <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">Καναδάς</translation>
 <translation id="2911018261311455240">Δανία</translation>
+<translation id="2949732021187449522">Υπέρβαση προθεσμίας αιτήματος.</translation>
 <translation id="295270254328846278">Αυστρία</translation>
 <translation id="2976748949054245370">Οι διευθύνσεις ηλεκτρονικού ταχυδρομείου δεν ταιριάζουν</translation>
 <translation id="29947009417147243">Νότιο Σουδάν</translation>
 <translation id="3040586343252524572">Υεμένη</translation>
 <translation id="3045244039436637116">Γουινέα-Μπισάου</translation>
 <translation id="3046745817056752783">Σαουδική Αραβία</translation>
-<translation id="311953035679824832">Λογότυπο εφαρμογής</translation>
+<translation id="3083819527012413063">Προστέθηκε ένας επιπλέον παράγοντας ασφάλειας στο <ph name="APP_NAME" /></translation>
 <translation id="3122584863645047144">Αμερικανικές Παρθένες Νήσοι</translation>
 <translation id="3141549453511344986">Σύνδεση μέσω τηλεφώνου</translation>
 <translation id="3147551458884186429">Ινδονησία</translation>
@@ -122,6 +135,7 @@
 <translation id="3164676761565983157">Βενεζουέλα</translation>
 <translation id="3170526549630869494">Πρόβλημα κατά τη σύνδεση;</translation>
 <translation id="3204914819635733576">Επαληθεύστε ότι είστε εσείς</translation>
+<translation id="3215050409577090361">Προέκυψε σφάλμα κατά την επαλήθευση του αιτήματός σας. Επισκεφτείτε το URL που σας ανακατεύθυνε σε αυτήν τη σελίδα ξανά για να ξεκινήσετε πάλι τη διαδικασία επαλήθευσης.</translation>
 <translation id="3216149523061905579">Ντομίνικα</translation>
 <translation id="3223688630903046698">Νέος κωδικός πρόσβασης</translation>
 <translation id="3250864391349648273">Γκαμπόν</translation>
@@ -139,6 +153,7 @@
 <translation id="3434621886769337032">Γκάμπια</translation>
 <translation id="3472358534605257432">Τέλος</translation>
 <translation id="3479685026618611556">Ακύρωση</translation>
+<translation id="3481131180097895739">Άγνωστο σφάλμα διακομιστή.</translation>
 <translation id="3487364398525389372">Εισαγάγετε το όνομα του λογαριασμού σας</translation>
 <translation id="3521753471343796628">Ιράκ</translation>
 <translation id="354888504916863713">Βιετνάμ</translation>
@@ -150,6 +165,8 @@
 <translation id="3605933028246642593">Νεπάλ</translation>
 <translation id="3608140835232496799">Τοκελάου</translation>
 <translation id="3620185428620643248">Τα επιλεγμένα διαπιστευτήρια για τον πάροχο ελέγχου ταυτότητας δεν υποστηρίζονται!</translation>
+<translation id="3658306886462996856">Κανένας πάροχος σύνδεσης δεν είναι διαθέσιμος για τη δεδομένη διεύθυνση ηλεκτρονικού ταχυδρομείου. Δοκιμάστε μια διαφορετική διεύθυνση ηλεκτρονικού ταχυδρομείου.</translation>
+<translation id="3695180913983403205">Εισαγάγετε ένα όνομα και ένα επώνυμο.</translation>
 <translation id="3700097473356216716">Κολομβία</translation>
 <translation id="3703067902498234034">Αν πατήσετε "ΑΠΟΘΗΚΕΥΣΗ", δηλώνετε ότι συμφωνείτε με τους </translation>
 <translation id="3736041829854387744">Μπουρούντι</translation>
@@ -157,7 +174,7 @@
 <translation id="3813801701232240278">Twitter</translation>
 <translation id="3814740523815122846">Η διεύθυνση ηλεκτρονικού ταχυδρομείου επαληθεύτηκε</translation>
 <translation id="3819556544383051267">Παπούα Νέα Γουινέα</translation>
-<translation id="3831901810365396899">Αποθήκευση</translation>
+<translation id="3828991952827504549">Ο καθορισμένος πόρος δεν βρέθηκε.</translation>
 <translation id="3862053977934420187">Γίνεται επαλήθευση...</translation>
 <translation id="3898029444496274961">Σύνδεση</translation>
 <translation id="3905423743526704083">Ανατολικό Τιμόρ</translation>
@@ -190,6 +207,7 @@
 <translation id="4440507149645221385">Τηλέφωνο</translation>
 <translation id="4450602713221237198">Επανάληψη αποστολής</translation>
 <translation id="4498504413765490964">Ονδούρα</translation>
+<translation id="450385255996536115">Η λειτουργία έληξε.</translation>
 <translation id="4515732781724470190">Νίγηρας</translation>
 <translation id="4521614244485847733">Αυτή η διεύθυνση ηλεκτρονικού ταχυδρομείου δεν ταιριάζει με κάποιον υπάρχοντα λογαριασμό</translation>
 <translation id="4556476996891737119">Ιορδανία</translation>
@@ -201,6 +219,7 @@
 <translation id="4723701728629289714">Ισραήλ</translation>
 <translation id="4725154639671888461">Παρουσιάστηκε σφάλμα</translation>
 <translation id="4751937685196678080">Αριθμός</translation>
+<translation id="4769553102874508676">Ο πελάτης δεν έχει επαρκή άδεια.</translation>
 <translation id="4773060157545352832">Λύστε το reCAPTCHA</translation>
 <translation id="4775051289386800916">Νικαράγουα</translation>
 <translation id="4783400389150493171">Μπουρκίνα Φάσο</translation>
@@ -209,14 +228,17 @@
 <translation id="4871106926303956169">Νησιά Τερκ και Κάικος</translation>
 <translation id="4877597386645466815">Επανάληψη αποστολής κωδικού σε <ph name="TIME_REMAINING" /></translation>
 <translation id="4915406999072654369">Ελέγξτε τα εισερχόμενα του ηλεκτρονικού ταχυδρομείου σας</translation>
+<translation id="4923375331439013137">Δεν ήταν δυνατή η κατάργηση του δεύτερου παράγοντα</translation>
 <translation id="4955175001894453989">Προσθήκη κωδικού πρόσβασης</translation>
 <translation id="496366313824211679">Ελ Σαλβαδόρ</translation>
+<translation id="4982483807073820954">Για να αλλάξετε κωδικό πρόσβασης στον λογαριασμό σας, θα πρέπει να συνδεθείτε ξανά.</translation>
 <translation id="4991626049082973728">Σερβία</translation>
 <translation id="4991892293325936102">Μπελίζ</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" />για <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /><ph name="END_PARAGRAPH" /></translation>
 <translation id="5059105734231232362">Σε αυτήν τη ροή για την επιτυχή σύνδεση του λογαριασμού <ph name="IDP_DISPLAY_NAME" /> με αυτήν τη διεύθυνση ηλεκτρονικού ταχυδρομείου, θα πρέπει να ανοίξετε τον σύνδεσμο στην ίδια συσκευή ή στο ίδιο πρόγραμμα περιήγησης.</translation>
 <translation id="5080084639513001393">Σουηδία</translation>
 <translation id="5080899604429810481">Σεν Μαρτέν</translation>
+<translation id="5115661695221894994"><ph name="START_PARAGRAPH" />Το αίτημά σας για επαλήθευση και ενημέρωση της διεύθυνσης ηλεκτρονικού σας ταχυδρομείου έληξε ή ο σύνδεσμος χρησιμοποιείται ήδη.<ph name="END_PARAGRAPH" /></translation>
 <translation id="5143657419516597442">Αγία Λουκία</translation>
 <translation id="521218078240459724">@string/app_name</translation>
 <translation id="5241732101105320538">Ελέγξτε τα εισερχόμενα του ηλεκτρονικού ταχυδρομείου σας</translation>
@@ -224,13 +246,15 @@
 <translation id="5323041129469627535">Ομάν</translation>
 <translation id="5326139833547026317">Μποναίρ, Άγιος Ευστάθιος και Σάμπα</translation>
 <translation id="5347459868860672391">Ενημερωμένη διεύθυνση ηλεκτρονικού ταχυδρομείου</translation>
-<translation id="5403395913830260677">Σύνδεση μέσω Twitter</translation>
+<translation id="5397737236938796917">Έχετε πλέον αποσυνδεθεί με επιτυχία.</translation>
+<translation id="5406620662929585965">Σύνδεση μέσω τηλεφώνου</translation>
 <translation id="5407010562344541906">Αριθμός τηλεφώνου</translation>
 <translation id="5409861738809250803">Έχετε ήδη λογαριασμό</translation>
 <translation id="5410341463946781720">Ταϊλάνδη</translation>
 <translation id="5443669846203963095">Πολιτική απορρήτου</translation>
 <translation id="5444635161362535036">Λιχτενστάιν</translation>
 <translation id="5483706910421209104">Επεξεργασία ονόματος</translation>
+<translation id="5487696047685227891">Η συσκευή ή η εφαρμογή καταργήθηκε από δεύτερο βήμα ελέγχου ταυτότητας.</translation>
 <translation id="5490651768073507833">Δοκιμάστε να ανοίξετε τον σύνδεσμο χρησιμοποιώντας την ίδια συσκευή ή το ίδιο πρόγραμμα περιήγησης από όπου ξεκινήσατε τη διαδικασία σύνδεσης.</translation>
 <translation id="5524360735013196510">Ολλανδία</translation>
 <translation id="5528189843379142883">Ισημερινή Γουινέα</translation>
@@ -254,7 +278,7 @@
 <translation id="5699028034244995851">Εισαγάγετε τη διεύθυνση ηλεκτρονικού ταχυδρομείου για να συνεχίσετε</translation>
 <translation id="5701178667798108817">Επαλήθευση του τηλεφώνου σας</translation>
 <translation id="5715637701147651513">Λιβερία</translation>
-<translation id="5755179287528310939">Υπάρχει ήδη λογαριασμός με αυτήν τη διεύθυνση ηλεκτρονικού ταχυδρομείου.</translation>
+<translation id="5747263508495256858">Έξοδος</translation>
 <translation id="5771034676910614239">Μαδαγασκάρη</translation>
 <translation id="5818634293686963864">Καζακστάν</translation>
 <translation id="5829301468800336085">Σύνδεση…</translation>
@@ -273,15 +297,20 @@
 <translation id="6032262985756512833">Εισαγάγετε τον κωδικό <ph name="STRING" /> ψηφίων που στείλαμε στο</translation>
 <translation id="6044396095102058216">Αυτός ο αριθμός τηλεφώνου χρησιμοποιήθηκε πάρα πολλές φορές</translation>
 <translation id="6083089720215618333">Το μήνυμα ηλεκτρονικού ταχυδρομείου που παρείχατε δεν ταιριάζει με την τρέχουσα περίοδο σύνδεσης.</translation>
-<translation id="6113531938704280909">Αποσύνδεση λογαριασμού</translation>
+<translation id="6091051069256411999">Twitter</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />Συνδεθείτε στην εφαρμογή <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6132202686885223981">Βεβαιωθείτε ότι δεν έχει γεμίσει ο χώρος εισερχομένων ή ότι δεν υπάρχουν άλλα προβλήματα που σχετίζονται με τις ρυθμίσεις εισερχομένων.</translation>
+<translation id="6135589730599211649">Ο πελάτης καθόρισε ένα μη έγκυρο εύρος.</translation>
+<translation id="6143147250106939258">Έχετε υπερβεί το όριο για αυτήν τη λειτουργία. Δοκιμάστε ξανά αργότερα.</translation>
 <translation id="6189573836664806798">Παραγουάη</translation>
 <translation id="6192657410634245771">Αλγερία</translation>
 <translation id="6213969168046789596">Εισαγάγατε λανθασμένο κωδικό πρόσβασης πολλές φορές. Δοκιμάστε ξανά σε μερικά λεπτά.</translation>
 <translation id="6216759405419177713">Νήσος Νόρφολκ</translation>
 <translation id="6245066275978703471">Ο αριθμός τηλεφώνου επαληθεύτηκε αυτόματα</translation>
-<translation id="6283536862756552051">Για να αλλάξετε τον κωδικό πρόσβασής σας, θα πρέπει πρώτα να εισαγάγετε τον τρέχοντα κωδικό πρόσβασης.</translation>
-<translation id="6299890279889400823">Πίσω</translation>
+<translation id="6269083314054226194">Σφάλμα δικτύου, ελέγξτε τη σύνδεση στο διαδίκτυο.</translation>
+<translation id="6295157125625453859">Επαληθεύτηκε!</translation>
 <translation id="6316446940976157217">Ινδία</translation>
 <translation id="6327723482938582895">Μπενίν</translation>
 <translation id="6338643731889005578">Συνέχεια</translation>
@@ -330,27 +359,33 @@
 <translation id="6921505896641453739">Ηλεκτρονικό ταχυδρομείο</translation>
 <translation id="6929813273561975780">Επόμενο</translation>
 <translation id="6951302238647056860">Αυτός ο κωδικός δεν είναι πλέον έγκυρος</translation>
-<translation id="6976724207780605356">Σύνδεση μέσω Facebook</translation>
+<translation id="6961220857430789248">Ένα μήνυμα ηλεκτρονικού ταχυδρομείου σύνδεσης με πρόσθετες οδηγίες στάλθηκε στη διεύθυνση <ph name="STRING" />. Ελέγξτε τη διεύθυνση ηλεκτρονικού ταχυδρομείου για να ολοκληρώσετε τη σύνδεση.</translation>
 <translation id="6984204927251307445">Επιβεβαίωση διεύθυνσης ηλεκτρονικού ταχυδρομείου</translation>
 <translation id="6999773882165218263">Όνομα και επώνυμο</translation>
 <translation id="7012506961150923116">Γρενάδα</translation>
 <translation id="7024571478138322659">Δυτική Σαχάρα</translation>
+<translation id="7025117765722694556">Το αίτημα δεν μπορεί να εκτελεστεί στην τρέχουσα κατάσταση συστήματος.</translation>
 <translation id="7062299334696934251">Παρουσιάστηκε άγνωστο σφάλμα.</translation>
 <translation id="7064251114893721966">Έχετε ήδη χρησιμοποιήσει το <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> για να συνδεθείτε. Εισαγάγετε τον κωδικό πρόσβασης για αυτόν τον λογαριασμό.</translation>
+<translation id="7085136866191400000">Το μήνυμα ηλεκτρονικού ταχυδρομείου σύνδεσης στάλθηκε</translation>
 <translation id="7089485669419398254">Ιρλανδία</translation>
 <translation id="7093343209860483088">Λαϊκή Δημοκρατία του Κονγκό</translation>
 <translation id="7118080999850002096">Ανάκτηση κωδικού πρόσβασης</translation>
 <translation id="7150917293543492988">Δημοκρατία του Κονγκό</translation>
+<translation id="7157317431934821052">Ο πόρος που δοκίμασε να δημιουργήσει ένας πελάτης υπάρχει ήδη.</translation>
 <translation id="7174424882502155514">Συνέχεια ως επισκέπτης</translation>
 <translation id="7192078949090526171">Άγιος Μαρίνος</translation>
 <translation id="7197455001919474950">Κύπρος</translation>
 <translation id="7198563013006562060">Νήσοι Σολομώντα</translation>
 <translation id="7207660930894629055">Συνέχεια με <ph name="USER_EMAIL" />;</translation>
+<translation id="720983450833499456">Για να συνεχίσετε τη σύνδεση σε αυτήν τη συσκευή με τη διεύθυνση <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />, πρέπει να ανακτήσετε τον κωδικό πρόσβασης.</translation>
 <translation id="7223410082658239002">Μαλδίβες</translation>
 <translation id="7254028881697834212">Σάο Τόμε και Πρίνσιπε</translation>
 <translation id="7268827299582726485">Επιβεβαιώστε τη διεύθυνση ηλεκτρονικού ταχυδρομείου για να ολοκληρώσετε τη σύνδεση</translation>
 <translation id="7272145663101316762">Σλοβενία</translation>
 <translation id="7280309713358692490">Νότια Κορέα</translation>
+<translation id="7283725113395426048">Διένεξη ταυτοχρονισμού, όπως διένεξη ανάγνωσης-τροποποίησης-εγγραφής.</translation>
+<translation id="7290147808482957603">Η μέθοδος API δεν εφαρμόστηκε από τον διακομιστή.</translation>
 <translation id="7291567990403335374">Λεσότο</translation>
 <translation id="7291656724505689727">Σύνδεση μέσω τηλεφώνου</translation>
 <translation id="7320029088567935126">Δοκιμάστε να επαληθεύσετε ξανά τη διεύθυνση ηλεκτρονικού ταχυδρομείου σας</translation>
@@ -370,8 +405,10 @@
         για να συνδεθείτε. Εισαγάγετε τον κωδικό πρόσβασής σας για αυτόν τον λογαριασμό.</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{Ο κωδικός πρόσβασης δεν είναι αρκετά ισχυρός. Χρησιμοποιήστε τουλάχιστον <ph name="PH_1" /> χαρακτήρα και έναν συνδυασμό γραμμάτων και αριθμών}other{Ο κωδικός πρόσβασης δεν είναι αρκετά ισχυρός. Χρησιμοποιήστε τουλάχιστον <ph name="PH_1" /> χαρακτήρες και έναν συνδυασμό γραμμάτων και αριθμών}}</translation>
 <translation id="7699755204074920022">Ζιμπάμπουε</translation>
+<translation id="7746977132739352062">Μη εξουσιοδοτημένο αίτημα λόγω ελλιπούς, μη έγκυρου ή ληγμένου διακριτικού OAuth.</translation>
 <translation id="7782885946428624225">Παρουσιάστηκε πρόβλημα με την επαλήθευση του αριθμού τηλεφώνου</translation>
 <translation id="7796914496604415892">Εντοπίστηκε νέα συσκευή ή πρόγραμμα περιήγησης</translation>
+<translation id="786166109137986817">Σύνδεση με <ph name="DISPLAY_NAME" /></translation>
 <translation id="7868540442111212282">Δημοκρατία της Τσεχίας</translation>
 <translation id="7874584525604421364">Τουβάλου</translation>
 <translation id="7926046652648626866">Σύνδεση μέσω GitHub</translation>
@@ -426,6 +463,7 @@
 <translation id="868894957204919930">Βερμούδες</translation>
 <translation id="8694271531070467981">Νιούε</translation>
 <translation id="8745311627715763145">Γουαδελούπη</translation>
+<translation id="8752467400269476994">Ο πελάτης καθόρισε μια μη έγκυρη διαμόρφωση έργου.</translation>
 <translation id="8760480624706028033">Παλαιστινιακά εδάφη</translation>
 <translation id="8770276147008360348">Σλοβακία</translation>
 <translation id="877434849857020571">Γκέρνσεϊ</translation>
@@ -438,19 +476,24 @@
 <translation id="8893950153780006385">Μαλαισία</translation>
 <translation id="8895840173743975193">Νησιά Κόκος (Κήλινγκ)</translation>
 <translation id="8916080112145514151">Αν εξακολουθείτε να θέλετε να συνδέσετε τον λογαριασμό σας <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" />, ανοίξτε τον σύνδεσμο από την ίδια συσκευή από την οποία ξεκινήσατε τη σύνδεση. Διαφορετικά, πατήστε Συνέχεια για να συνδεθείτε από αυτήν τη συσκευή.</translation>
+<translation id="8920674952994839257">Επανάληψη</translation>
 <translation id="8939353296336237380">Σκοπεύατε να συνδέσετε το <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> με τον λογαριασμό ηλεκτρονικού σας ταχυδρομείου, αλλά χρησιμοποιήσατε άλλη συσκευή για το άνοιγμα του συνδέσμου στην οποία δεν είστε συνδεδεμένοι.</translation>
 <translation id="8971555482255213064">Επανάληψη αποστολής κωδικού σε 0:<ph name="PH_1" /></translation>
 <translation id="8984161590699631096">Μαρόκο</translation>
+<translation id="8994098794339484800">Αν δεν αναγνωρίζετε αυτήν τη συσκευή, ίσως κάποιος προσπαθεί να αποκτήσει πρόσβαση στον λογαριασμό σας. Σκεφτείτε το ενδεχόμενο <ph name="START_LINK" />να αλλάξετε τον κωδικό πρόσβασης αμέσως<ph name="END_LINK" />.</translation>
 <translation id="900153878296575829">Μπανγκλαντές</translation>
 <translation id="9022632332691561239">Τηλέφωνο</translation>
 <translation id="9028063588419847334">Φινλανδία</translation>
 <translation id="9078135685219203661">Ηνωμένα Αραβικά Εμιράτα</translation>
+<translation id="9121203582272050974">Η διεύθυνση ηλεκτρονικού σας ταχυδρομείου επαληθεύτηκε και άλλαξε</translation>
 <translation id="9156150178611681179">Κωδικός πρόσβασης</translation>
 <translation id="9168877696443530714">Κεντροαφρικανική Δημοκρατία</translation>
 <translation id="9186194643192393179">Κουρασάο</translation>
+<translation id="9193130710600355008">Αποκλείσαμε όλα τα αιτήματα από αυτήν τη συσκευή λόγω ασυνήθιστης δραστηριότητας. Δοκιμάστε ξανά αργότερα.</translation>
 <translation id="919456844206936371">Τυνησία</translation>
 <translation id="9209678713072395487">Ο κωδικός πρόσβασης άλλαξε</translation>
 <translation id="954276184636809129">Ελλάδα</translation>
+<translation id="959388308828818789">Καταργημένος δεύτερος παράγοντας</translation>
 <translation id="965930633376049617">Αγκόλα</translation>
 <translation id="988087302893519488">Κουβέιτ</translation>
 <translation id="994914101700264849">Η διεύθυνση ηλεκτρονικού ταχυδρομείου και ο κωδικός πρόσβασης δεν ταιριάζουν</translation>

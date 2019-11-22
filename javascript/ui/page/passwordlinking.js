@@ -26,74 +26,57 @@ goog.require('firebaseui.auth.ui.page.Base');
 goog.require('goog.asserts');
 
 
-
 /**
  * Password linking UI component.
- * @param {string} email The user's email.
- * @param {function()} onSubmitClick Callback to invoke when the submit button
- *     is clicked.
- * @param {function()} onForgotClick Callback to invoke when the forgot password
- *     link is clicked.
- * @param {?function()=} opt_tosCallback Callback to invoke when the ToS link
- *     is clicked.
- * @param {?function()=} opt_privacyPolicyCallback Callback to invoke when the
- *     Privacy Policy link is clicked.
- * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
- * @constructor
- * @extends {firebaseui.auth.ui.page.Base}
  */
-firebaseui.auth.ui.page.PasswordLinking = function(
-    email,
-    onSubmitClick,
-    onForgotClick,
-    opt_tosCallback,
-    opt_privacyPolicyCallback,
-    opt_domHelper) {
-  firebaseui.auth.ui.page.PasswordLinking.base(
-      this,
-      'constructor',
-      firebaseui.auth.soy2.page.passwordLinking,
-      {
-        email: email
-      },
-      opt_domHelper,
-      'passwordLinking',
-      {
-        tosCallback: opt_tosCallback,
-        privacyPolicyCallback: opt_privacyPolicyCallback
-      });
-  this.onSubmitClick_ = onSubmitClick;
-  this.onForgotClick_ = onForgotClick;
-};
-goog.inherits(firebaseui.auth.ui.page.PasswordLinking,
-    firebaseui.auth.ui.page.Base);
+firebaseui.auth.ui.page.PasswordLinking =
+    class extends firebaseui.auth.ui.page.Base {
+  /**
+   * @param {string} email The user's email.
+   * @param {function()} onSubmitClick Callback to invoke when the submit button
+   *     is clicked.
+   * @param {function()} onForgotClick Callback to invoke when the forgot
+   *     password link is clicked.
+   * @param {?function()=} opt_tosCallback Callback to invoke when the ToS link
+   *     is clicked.
+   * @param {?function()=} opt_privacyPolicyCallback Callback to invoke when the
+   *     Privacy Policy link is clicked.
+   * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
+   */
+  constructor(
+      email, onSubmitClick, onForgotClick, opt_tosCallback,
+      opt_privacyPolicyCallback, opt_domHelper) {
+    super(
+        firebaseui.auth.soy2.page.passwordLinking, {email: email},
+        opt_domHelper, 'passwordLinking', {
+          tosCallback: opt_tosCallback,
+          privacyPolicyCallback: opt_privacyPolicyCallback
+        });
+    this.onSubmitClick_ = onSubmitClick;
+    this.onForgotClick_ = onForgotClick;
+  }
 
+  /** @override */
+  enterDocument() {
+    this.initPasswordElement();
+    this.initFormElement(this.onSubmitClick_, this.onForgotClick_);
+    // Submit on enter in password element.
+    this.submitOnEnter(this.getPasswordElement(), this.onSubmitClick_);
+    this.getPasswordElement().focus();
+    super.enterDocument();
+  }
 
-/** @override */
-firebaseui.auth.ui.page.PasswordLinking.prototype.enterDocument = function() {
-  this.initPasswordElement();
-  this.initFormElement(this.onSubmitClick_, this.onForgotClick_);
-  // Submit on enter in password element.
-  this.submitOnEnter(
-      this.getPasswordElement(),
-      this.onSubmitClick_);
-  this.getPasswordElement().focus();
-  firebaseui.auth.ui.page.PasswordLinking.base(this, 'enterDocument');
-};
+  /** @override */
+  disposeInternal() {
+    this.onSubmitClick_ = null;
+    super.disposeInternal();
+  }
 
-
-/** @override */
-firebaseui.auth.ui.page.PasswordLinking.prototype.disposeInternal = function() {
-  this.onSubmitClick_ = null;
-  firebaseui.auth.ui.page.PasswordLinking.base(this, 'disposeInternal');
-};
-
-
-/** @return {string} The email address of the account. */
-firebaseui.auth.ui.page.PasswordLinking.prototype.checkAndGetEmail =
-    function() {
-  return goog.asserts.assertString(firebaseui.auth.ui.element.getInputValue(
-      this.getElementByClass('firebaseui-id-email')));
+  /** @return {string} The email address of the account. */
+  checkAndGetEmail() {
+    return goog.asserts.assertString(firebaseui.auth.ui.element.getInputValue(
+        this.getElementByClass('firebaseui-id-email')));
+  }
 };
 
 

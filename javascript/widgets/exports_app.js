@@ -14,11 +14,42 @@
 
 goog.provide('firebaseui.auth.exports');
 
-goog.require('firebaseui.auth.AnonymousAuthProvider');
 goog.require('firebaseui.auth.AuthUI');
 goog.require('firebaseui.auth.AuthUIError');
-goog.require('firebaseui.auth.CredentialHelper');
+goog.require('firebaseui.auth.FirebaseUiHandler');
+goog.require('firebaseui.auth.widget.Config');
+goog.require('goog.Promise');
 
+goog.exportSymbol(
+    'firebaseui.auth.FirebaseUiHandler',
+    firebaseui.auth.FirebaseUiHandler);
+goog.exportSymbol(
+    'firebaseui.auth.FirebaseUiHandler.prototype.selectTenant',
+    firebaseui.auth.FirebaseUiHandler.prototype.selectTenant);
+goog.exportSymbol(
+    'firebaseui.auth.FirebaseUiHandler.prototype.getAuth',
+    firebaseui.auth.FirebaseUiHandler.prototype.getAuth);
+goog.exportSymbol(
+    'firebaseui.auth.FirebaseUiHandler.prototype.startSignIn',
+    firebaseui.auth.FirebaseUiHandler.prototype.startSignIn);
+goog.exportSymbol(
+    'firebaseui.auth.FirebaseUiHandler.prototype.reset',
+    firebaseui.auth.FirebaseUiHandler.prototype.reset);
+goog.exportSymbol(
+    'firebaseui.auth.FirebaseUiHandler.prototype.showProgressBar',
+    firebaseui.auth.FirebaseUiHandler.prototype.showProgressBar);
+goog.exportSymbol(
+    'firebaseui.auth.FirebaseUiHandler.prototype.hideProgressBar',
+    firebaseui.auth.FirebaseUiHandler.prototype.hideProgressBar);
+goog.exportSymbol(
+    'firebaseui.auth.FirebaseUiHandler.prototype.completeSignOut',
+    firebaseui.auth.FirebaseUiHandler.prototype.completeSignOut);
+goog.exportSymbol(
+    'firebaseui.auth.FirebaseUiHandler.prototype.handleError',
+    firebaseui.auth.FirebaseUiHandler.prototype.handleError);
+goog.exportSymbol(
+    'firebaseui.auth.FirebaseUiHandler.prototype.processUser',
+    firebaseui.auth.FirebaseUiHandler.prototype.processUser);
 goog.exportSymbol('firebaseui.auth.AuthUI', firebaseui.auth.AuthUI);
 goog.exportSymbol(
     'firebaseui.auth.AuthUI.getInstance',
@@ -50,13 +81,17 @@ goog.exportSymbol(
     firebaseui.auth.AuthUIError.prototype.toJSON);
 goog.exportSymbol(
     'firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM',
-    firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM);
+    firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM);
 goog.exportSymbol(
     'firebaseui.auth.CredentialHelper.GOOGLE_YOLO',
-    firebaseui.auth.CredentialHelper.GOOGLE_YOLO);
+    firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO);
 goog.exportSymbol(
     'firebaseui.auth.CredentialHelper.NONE',
-    firebaseui.auth.CredentialHelper.NONE);
+    firebaseui.auth.widget.Config.CredentialHelper.NONE);
 goog.exportSymbol(
     'firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID',
-    firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID);
+    firebaseui.auth.widget.Config.ANONYMOUS_PROVIDER_ID);
+goog.exportProperty(
+    goog.Promise.prototype, 'catch', goog.Promise.prototype.thenCatch);
+goog.exportProperty(
+    goog.Promise.prototype, 'finally', goog.Promise.prototype.thenAlways);

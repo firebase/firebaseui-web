@@ -19,11 +19,11 @@
 goog.provide('firebaseui.auth.EventRegisterTest');
 goog.setTestOnly('firebaseui.auth.EventRegisterTest');
 
+goog.require('firebaseui.auth.EventDispatcher');
 goog.require('firebaseui.auth.EventRegister');
 goog.require('goog.dom');
 goog.require('goog.dom.TagName');
 goog.require('goog.events');
-goog.require('goog.testing.events');
 goog.require('goog.testing.jsunit');
 
 

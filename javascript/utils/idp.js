@@ -69,6 +69,7 @@ firebaseui.auth.idp.NonFederatedSignInMethods = [
   'phone'
 ];
 
+
 /**
  * Supported IdP auth provider.
  * @package {Object<string, firebase.auth.AuthProvider>}
@@ -124,8 +125,8 @@ firebaseui.auth.idp.isFederatedSignInMethod = function(providerId) {
 
 
 /**
- * Returns the provider by provider ID. If the provider ID is neither built-in
- * provider or SAML provder, it will be considered as generic OAuth provider.
+ * Returns the provider by provider ID. If the provider ID is neither a built-in
+ * provider or SAML provider, it will be considered as a generic OAuth provider.
  * @param {string} providerId
  * @return {!firebase.auth.AuthProvider} The IdP.
  */

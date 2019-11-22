@@ -113,6 +113,317 @@ firebaseui.auth.AuthUI.prototype.isPendingRedirect = function() {};
 
 
 /**
+ * The CIAP Error interface.
+ *
+ * @interface
+ */
+firebaseui.auth.CIAPError = function() {};
+
+/**
+ * The short error code.
+ *
+ * @type {string}
+ */
+firebaseui.auth.CIAPError.prototype.code;
+
+/**
+ * The human-readable error message.
+ *
+ * @type {string}
+ */
+firebaseui.auth.CIAPError.prototype.message;
+
+/**
+ * The HTTP error code number.
+ *
+ * @type {number|undefined}
+ */
+firebaseui.auth.CIAPError.prototype.httpErrorCode;
+
+/**
+ * The underlying reason error if available.
+ *
+ * @type {!Error|undefined}
+ */
+firebaseui.auth.CIAPError.prototype.reason;
+
+/**
+ * Returns a JSON-serializable representation of the error.
+ * @return {!Object} The plain object representation of the error.
+ */
+firebaseui.auth.CIAPError.prototype.toJSON = function() {};
+
+
+/**
+ * The CIAP recoverable error interface.
+ * @interface
+ * @extends {firebaseui.auth.CIAPError}
+ */
+firebaseui.auth.CIAPRetryError = function() {};
+
+
+/**
+ * The retry callback to recover from error.
+ * @return {!Promise<void>} A promise that resolves on retry completion.
+ */
+firebaseui.auth.CIAPRetryError.prototype.retry = function() {};
+
+
+/**
+ * Defines the structure for the object used to identify the project.
+ *
+ * @interface
+ */
+firebaseui.auth.ProjectConfig = function() {};
+
+
+/**
+ * The project ID.
+ * @type {string}
+ */
+firebaseui.auth.ProjectConfig.prototype.projectId;
+
+
+/**
+ * The API key.
+ * @type {string}
+ */
+firebaseui.auth.ProjectConfig.prototype.apiKey;
+
+
+/**
+ * Defines the structure of matching tenant and providers enabled for the
+ * tenant.
+ *
+ * @interface
+ */
+firebaseui.auth.SelectedTenantInfo = function() {};
+
+
+/**
+ * The email being used to select the tenant.
+ *
+ * @type {string|undefined}
+ */
+firebaseui.auth.SelectedTenantInfo.prototype.email;
+
+
+/**
+ * The ID of the selected tenant. Null for top-level project.
+ *
+ * @type {?string}
+ */
+firebaseui.auth.SelectedTenantInfo.prototype.tenantId;
+
+
+/**
+ * The matching providers for the selected tenant.
+ *
+ * @type {!Array<string>}
+ */
+firebaseui.auth.SelectedTenantInfo.prototype.providerIds;
+
+
+/**
+ * Defines all the CIAP callbacks that can be passed to a
+ * `firebaseui.auth.CIAPHandlerConfig` object.
+ *
+ * @interface
+ */
+firebaseui.auth.CIAPCallbacks = function() {};
+
+
+/**
+ * Defines the callback which will get triggered when the sign-in UI is shown.
+ * The tenant ID is passed to the callback.
+ * @param {?string} tenantId The tenant ID. Null for top-level project.
+ */
+firebaseui.auth.CIAPCallbacks.prototype.signInUiShown = function(tenantId) {};
+
+
+/**
+ * Defines the callback which will get triggered when the tenant selection UI
+ * is shown.
+ */
+firebaseui.auth.CIAPCallbacks.prototype.selectTenantUiShown = function() {};
+
+
+/**
+ * The `beforeSignInSuccess` callback is provided to handle additional
+ * processing on the user before finishing sign-in.
+ * @param {!firebase.User} currentUser The current user to be processed before
+ *     finishing sign-in.
+ * @return {!Promise<!firebase.User>} A promise that resolves when the
+ *     processing is finished.
+ */
+firebaseui.auth.CIAPCallbacks.prototype.beforeSignInSuccess =
+    function(currentUser) {};
+
+
+/**
+ * CIAP authentication handler related configuration settings.
+ *
+ * @interface
+ */
+firebaseui.auth.CIAPHandlerConfig = function() {};
+
+
+/**
+ * The Auth domain of the project.
+ *
+ * @type {string}
+ */
+firebaseui.auth.CIAPHandlerConfig.prototype.authDomain;
+
+
+/**
+ * The display mode for tenant selection flow. This could be 'optionFirst' or
+ * 'identifierFirst', defaults to 'optionFirst'.
+ *
+ * @type {string|undefined}
+ */
+firebaseui.auth.CIAPHandlerConfig.prototype.displayMode;
+
+
+/**
+ * The terms of service URL/callback for tenant selection UI.
+ *
+ * @type {string|!function()|undefined}
+ */
+firebaseui.auth.CIAPHandlerConfig.prototype.tosUrl;
+
+
+/**
+ * The privacy policy URL/callback for tenant selection UI.
+ *
+ * @type {string|!function()|undefined}
+ */
+firebaseui.auth.CIAPHandlerConfig.prototype.privacyPolicyUrl;
+
+
+/**
+ * The CIAP flow related callbacks.
+ *
+ * @type {!firebaseui.auth.CIAPCallbacks|undefined}
+ */
+firebaseui.auth.CIAPHandlerConfig.prototype.callbacks;
+
+
+/**
+ * The tenant level configurations keyed by tenant ID or '_' for top-level
+ * project.
+ *
+ * @type {!Object<string, !firebaseui.auth.TenantConfig>}
+ */
+firebaseui.auth.CIAPHandlerConfig.prototype.tenants;
+
+
+/**
+ * Initializes a CIAP AuthenticationHandler with the configuration provided.
+ *
+ * @param {string|!Element} element The container element or the query selector.
+ * @param {!Object<string, !firebaseui.auth.CIAPHandlerConfig>} configs
+ *     The configuration of the handler keyed by API key.
+ * @constructor
+ */
+firebaseui.auth.FirebaseUiHandler = function(element, configs) {};
+
+
+/**
+ * Selects a tenant from the given tenant IDs. Returns the tenant ID of the
+ * selected tenant and the underlying matching providers.
+ * @param {!firebaseui.auth.ProjectConfig} projectConfig The configuration
+ *     object used to identify the project.
+ * @param {!Array<string>} tenantIds The IDs of the tenants to select from.
+ * @return {!Promise<!firebaseui.auth.SelectedTenantInfo>} The matching tenant
+ *     and providers enabled for the tenant.
+ */
+firebaseui.auth.FirebaseUiHandler.prototype.selectTenant =
+    function(projectConfig, tenantIds) {};
+
+
+/**
+ * Returns the Auth instance for the corresponding project/tenant pair.
+ *
+ * @param {string} apiKey The API key.
+ * @param {?string} tenantId The tenant ID, null for agent flow.
+ * @return {!firebase.auth.Auth} The Auth instance for the given API key and
+ *     tenant ID.
+ */
+firebaseui.auth.FirebaseUiHandler.prototype.getAuth =
+    function(apiKey, tenantId) {};
+
+
+/**
+ * Starts sign in with the corresponding Auth instance. The sign in options
+ * used are based on auth.tenantId.
+ *
+ * @param {!firebase.auth.Auth} auth The Auth instance.
+ * @param {!firebaseui.auth.SelectedTenantInfo=} tenantInfo The optional
+ *     selected tenant and the matching providers.
+ * @return {!Promise<!firebase.auth.UserCredential>}
+ */
+firebaseui.auth.FirebaseUiHandler.prototype.startSignIn =
+    function(auth, tenantInfo) {};
+
+
+/**
+ * Resets the FirebaseUI handler and deletes the underlying FirebaseUI instance.
+ * Calling startSignIn after reset should rerender the UI successfully.
+ *
+ * @return {!Promise<void>} The promise that resolves when the instance
+ *     is successfully deleted.
+ */
+firebaseui.auth.FirebaseUiHandler.prototype.reset = function() {};
+
+
+/**
+ * Renders progress bar in the container if hidden.
+ */
+firebaseui.auth.FirebaseUiHandler.prototype.showProgressBar = function() {};
+
+
+/**
+ * Hides progress bar if visible.
+ */
+firebaseui.auth.FirebaseUiHandler.prototype.hideProgressBar = function() {};
+
+
+/**
+ * Renders the UI after user is signed out.
+ * @return {!Promise<void>}
+ */
+firebaseui.auth.FirebaseUiHandler.prototype.completeSignOut = function() {};
+
+
+/**
+ * Displays the error message to the end users and provides the ability to retry
+ * for recoverable error.
+ * @param {!Error|!firebaseui.auth.CIAPError|!firebaseui.auth.CIAPRetryError}
+ *     error The error from CIAP.
+ */
+firebaseui.auth.FirebaseUiHandler.prototype.handleError =
+    function(error) {};
+
+
+/**
+ * Handles additional processing on the user if callback is provided by the
+ * developer.
+ * @param {!firebase.User} user The signed in user to be processed.
+ * @return {!Promise<!firebase.User>} A promise that resolves when the
+ *     processing is finished.
+ */
+firebaseui.auth.FirebaseUiHandler.prototype.processUser = function(user) {};
+
+
+/**
+ * The language code of the handler.
+ * @type {?string}
+ */
+firebaseui.auth.FirebaseUiHandler.prototype.languageCode;
+
+
+/**
  * FirebaseUI related error typically returned via `signInFailure` callback.
  *
  * @interface
@@ -197,6 +508,17 @@ firebaseui.auth.Config.prototype.callbacks;
 firebaseui.auth.Config.prototype.credentialHelper;
 
 /**
+ * Whether to immediately redirect to the provider's site or instead show the
+ * default 'Sign in with Provider' button when there is only a single federated
+ * provider in signInOptions. In order for this option to take effect, the
+ * signInOptions must only hold a single federated provider (like 'google.com')
+ * and signInFlow must be set to 'redirect'. The default is false.
+ *
+ * @type {boolean|undefined}
+ */
+firebaseui.auth.Config.prototype.immediateFederatedRedirect;
+
+/**
  * Whether to open the sign-in widget in a popup when `signIn` is called. The
  * default is false.
  *
@@ -273,6 +595,40 @@ firebaseui.auth.Config.prototype.widgetUrl;
 
 
 /**
+ * The tenant level CIAP configuration settings.
+ *
+ * @interface
+ * @extends {firebaseui.auth.Config}
+ */
+firebaseui.auth.TenantConfig = function() {};
+
+
+/**
+ * The tenant display name of the tenant selection button for the option first
+ * flow.
+ *
+ * @type {string|undefined}
+ */
+firebaseui.auth.TenantConfig.prototype.displayName;
+
+
+/**
+ * The color of the tenant selection button for the option first flow.
+ *
+ * @type {string|undefined}
+ */
+firebaseui.auth.TenantConfig.prototype.buttonColor;
+
+
+/**
+ * The URL of the icon in tenant selection button for the option first flow.
+ *
+ * @type {string|undefined}
+ */
+firebaseui.auth.TenantConfig.prototype.iconUrl;
+
+
+/**
  * Defines all the FirebaseUI callbacks that can be passed to a
  * `firebaseui.auth.Config` object.
  *
@@ -326,6 +682,16 @@ firebaseui.auth.SignInOption = function() {};
  * @type {string}
  */
 firebaseui.auth.SignInOption.prototype.provider;
+
+
+/**
+ * The hosted domain used to match the user’s email domain with the tenant
+ * providers for the identifier first flow.
+ *
+ * @type {string|!RegExp|undefined}
+ */
+firebaseui.auth.SignInOption.prototype.hd;
+
 
 /**
  * Defines the sign-in option needed to configure the FirebaseUI federated

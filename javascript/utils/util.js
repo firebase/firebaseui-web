@@ -226,7 +226,7 @@ firebaseui.auth.util.popup =
  * @param {string|Element} element The element or the query selector.
  * @param {string=} opt_notFoundDesc Error description when element not
  *     found.
- * @return {Element} The HTML element.
+ * @return {!Element} The HTML element.
  */
 firebaseui.auth.util.getElement = function(element, opt_notFoundDesc) {
   element = goog.dom.isElement(element) ?
@@ -237,7 +237,7 @@ firebaseui.auth.util.getElement = function(element, opt_notFoundDesc) {
     var notFoundDesc = opt_notFoundDesc || 'Cannot find element.';
     throw new Error(notFoundDesc);
   }
-  return /** @type {Element} */ (element);
+  return /** @type {!Element} */ (element);
 };
 
 
@@ -316,4 +316,23 @@ firebaseui.auth.util.generateRandomAlphaNumericString = function(numOfChars) {
     numOfChars--;
   }
   return chars.join('');
+};
+
+
+/**
+ * Copies and filters an object by provided keys.
+ * @param {!Object} source The object to be copied and filtered.
+ * @param {!Array<string>} keys The keys used to filter the object.
+ * @param {!Object=} initialValue The base object to be extended when generating
+ *     the target object.
+ * @return {!Object} The target object.
+ */
+firebaseui.auth.util.filterProperties =
+    function(source, keys, initialValue = {}) {
+  return Object.keys(source)
+      .filter(key => keys.includes(key))
+      .reduce((obj, key) => {
+        obj[key] = source[key];
+        return obj;
+      }, initialValue);
 };

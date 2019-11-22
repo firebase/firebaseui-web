@@ -12,11 +12,14 @@
 <translation id="1163771673786684213">Filipijnen</translation>
 <translation id="1170304454812139475">Roemenië</translation>
 <translation id="1194565221977667376">Zuid-Georgia en de Zuidelijke Sandwicheilanden</translation>
-<translation id="124367247840231378">OK</translation>
+<translation id="1233977465587641672">Onherstelbaar gegevensverlies of onherstelbare gegevensbeschadiging.</translation>
 <translation id="1244846213930750436">Italië</translation>
 <translation id="1268266284642694018">Libanon</translation>
 <translation id="1294742657282291237">Guyana</translation>
 <translation id="1297168472480293352">Guatemala</translation>
+<translation id="1307255433239736397"><ph name="START_PARAGRAPH" />Er is iets misgegaan bij het verwijderen van uw tweede stap.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Probeer het opnieuw. Als het dan nog niet lukt, kunt u voor hulp contact opnemen met support.<ph name="END_PARAGRAPH" /></translation>
+<translation id="1310034618729602982">Probeer uw e-mailadres nogmaals te updaten</translation>
+<translation id="1312824004897469797">Er is een netwerkfout opgetreden. Probeer het later opnieuw.</translation>
 <translation id="1315809131562953678">Voer een geldig telefoonnummer in</translation>
 <translation id="1335716056288807013">Door op Verifiëren te tikken, geeft u aan dat u onze <ph name="START_LINK_1" />servicevoorwaarden<ph name="END_LINK" /> en ons <ph name="START_LINK_2" />privacybeleid<ph name="END_LINK" /> accepteert. Mogelijk ontvangt u een sms. Er kunnen sms- en datakosten van toepassing zijn.</translation>
 <translation id="137210131544215127">Voer uw wachtwoord in</translation>
@@ -27,6 +30,7 @@
 <translation id="1479035434297790822">Er komen te veel accountaanvragen van uw IP-adres. Probeer het over enkele minuten opnieuw.</translation>
 <translation id="1483249363694224399">Sri Lanka</translation>
 <translation id="1507995441600689506">U kunt nu inloggen met uw nieuwe account</translation>
+<translation id="1544981664986460902">De client heeft een ongeldig argument opgegeven.</translation>
 <translation id="1575848116712334589">Tsjaad</translation>
 <translation id="1630237004390596779">Code opnieuw verzenden over <ph name="STRING" /></translation>
 <translation id="1653501608290591291">Wit-Rusland</translation>
@@ -62,6 +66,7 @@
 <translation id="2206856445831770486">GitHub</translation>
 <translation id="2223717216014247341">Privacybeleid</translation>
 <translation id="2224563296468523455">Guam</translation>
+<translation id="2245182894886860848">Het resourcequotum is bereikt of de drempel voor rate limiting wordt bereikt.</translation>
 <translation id="2249420035688424170">Kroatië</translation>
 <translation id="2251583471831926217">Litouwen</translation>
 <translation id="227405248692044138">Malta</translation>
@@ -71,22 +76,28 @@
 <translation id="2324942959480650701">Gast</translation>
 <translation id="2331781584136059536">Ghana</translation>
 <translation id="2338909515537249568">De browser die u gebruikt, ondersteunt webopslag niet. Probeer het opnieuw in een andere browser.</translation>
+<translation id="2342152898808240937">Het verzoek is geannuleerd door de client.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Er heeft zich een probleem voorgedaan bij het terugveranderen van uw e-mailadres.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Probeer het opnieuw. Als u uw e-mailadres nog steeds niet kunt resetten, kunt u uw beheerder om hulp vragen.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Bahrein</translation>
+<translation id="2392247362473363900">Interne serverfout.</translation>
 <translation id="2405828009195143258">Iran</translation>
+<translation id="2414459877074534554">GitHub</translation>
 <translation id="244437093285883777">Verifiëren of u geen robot bent...</translation>
 <translation id="2448227725017851570">Deze code is niet meer geldig</translation>
 <translation id="2448487988481516351">Nieuw-Caledonië</translation>
 <translation id="2451742558284013472">Monaco</translation>
 <translation id="2460064915291012298">Seychellen</translation>
+<translation id="2490672522100125425"><ph name="START_STRONG" /><ph name="FACTOR_ID" /> <ph name="PHONE_NUMBER" /><ph name="END_STRONG" /> is verwijderd als tweede stap voor authenticatie.</translation>
 <translation id="2494962141967044042">De huidige anonieme gebruiker kon niet worden geüpgraded. De niet-anonieme gegevens zijn al gekoppeld aan een ander gebruikersaccount.</translation>
 <translation id="2541179214468543429">U heeft te vaak een fout wachtwoord ingevoerd. Probeer het over enkele minuten opnieuw.</translation>
 <translation id="2561560038714758184">Beveiliging</translation>
 <translation id="2561835578785502516">Uw verzoek om uw wachtwoord te resetten, is verlopen of de link is al gebruikt</translation>
+<translation id="2562498793334241360">U kunt nu inloggen met uw nieuwe e-mailadres <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />.</translation>
 <translation id="2581514546525533462">De opgegeven landcode wordt niet ondersteund.</translation>
 <translation id="2600950452451016107">Controleer of u uw e-mailadres juist heeft gespeld.</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">Cambodja</translation>
+<translation id="2614081868476050089">De service is niet beschikbaar.</translation>
 <translation id="2616650714309312732">Portugal</translation>
 <translation id="2619590123270932385">Frans-Guyana</translation>
 <translation id="2621854044487969847">Britse Maagdeneilanden</translation>
@@ -102,6 +113,7 @@
 <translation id="2741235824871026219">Verifiëren</translation>
 <translation id="2752984808025184019">Zuid-Afrika</translation>
 <translation id="2760636260031093254">Voer uw e-mailadres in om verder te gaan</translation>
+<translation id="276938411216176478">Het gebruikersaccount is uitgeschakeld door een beheerder.</translation>
 <translation id="2782685789517131804">Er is een inlogmail met aanvullende instructies verzonden naar <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Controleer uw inbox om het inlogproces te voltooien.</translation>
 <translation id="2824267666257947103">Voer uw wachtwoord in</translation>
 <translation id="2828509010894808185">Account maken</translation>
@@ -109,13 +121,14 @@
 <translation id="2884525438023347369">Door op <ph name="BTN" /> te tikken, geeft u aan dat u akkoord gaat met de <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">Canada</translation>
 <translation id="2911018261311455240">Denemarken</translation>
+<translation id="2949732021187449522">Verzoekdeadline is overschreden.</translation>
 <translation id="295270254328846278">Oostenrijk</translation>
 <translation id="2976748949054245370">E-mailadressen komen niet overeen</translation>
 <translation id="29947009417147243">Zuid-Soedan</translation>
 <translation id="3040586343252524572">Jemen</translation>
 <translation id="3045244039436637116">Guinee-Bissau</translation>
 <translation id="3046745817056752783">Saudi-Arabië</translation>
-<translation id="311953035679824832">App-logo</translation>
+<translation id="3083819527012413063">Er is een extra beveiligingsfactor toegevoegd in <ph name="APP_NAME" /></translation>
 <translation id="3122584863645047144">Amerikaanse Maagdeneilanden</translation>
 <translation id="3141549453511344986">Inloggen met telefoon</translation>
 <translation id="3147551458884186429">Indonesië</translation>
@@ -123,6 +136,7 @@
 <translation id="3164676761565983157">Venezuela</translation>
 <translation id="3170526549630869494">Problemen met inloggen?</translation>
 <translation id="3204914819635733576">Bevestig dat u het bent</translation>
+<translation id="3215050409577090361">Er is een probleem opgetreden bij het verifiëren van uw verzoek. Ga naar de URL die u naar deze pagina heeft omgeleid en start het verificatieproces opnieuw.</translation>
 <translation id="3216149523061905579">Dominica</translation>
 <translation id="3223688630903046698">Nieuw wachtwoord</translation>
 <translation id="3250864391349648273">Gabon</translation>
@@ -140,6 +154,7 @@
 <translation id="3434621886769337032">Gambia</translation>
 <translation id="3472358534605257432">Gereed</translation>
 <translation id="3479685026618611556">Annuleren</translation>
+<translation id="3481131180097895739">Onbekende serverfout.</translation>
 <translation id="3487364398525389372">Voer uw accountnaam in</translation>
 <translation id="3521753471343796628">Irak</translation>
 <translation id="354888504916863713">Vietnam</translation>
@@ -151,6 +166,8 @@
 <translation id="3605933028246642593">Nepal</translation>
 <translation id="3608140835232496799">Tokelau</translation>
 <translation id="3620185428620643248">De geselecteerde inloggegevens voor de verificatieprovider worden niet ondersteund.</translation>
+<translation id="3658306886462996856">Er is geen inlogmethode beschikbaar voor het opgegeven e-mailadres. Gebruik een ander e-mailadres.</translation>
+<translation id="3695180913983403205">Voer een voor- en achternaam in.</translation>
 <translation id="3700097473356216716">Colombia</translation>
 <translation id="3703067902498234034">Door op OPSLAAN te tikken, gaat u akkoord met de </translation>
 <translation id="3736041829854387744">Burundi</translation>
@@ -158,7 +175,7 @@
 <translation id="3813801701232240278">Twitter</translation>
 <translation id="3814740523815122846">Uw e-mailadres is geverifieerd</translation>
 <translation id="3819556544383051267">Papoea-Nieuw-Guinea</translation>
-<translation id="3831901810365396899">Opslaan</translation>
+<translation id="3828991952827504549">De opgegeven resource is niet gevonden.</translation>
 <translation id="3862053977934420187">Verifiëren...</translation>
 <translation id="3898029444496274961">Inloggen</translation>
 <translation id="3905423743526704083">Oost-Timor</translation>
@@ -176,7 +193,7 @@
 <translation id="4163133799286985193">Argentinië</translation>
 <translation id="4166504762096983411">Door verder te gaan, geeft u aan dat u onze <ph name="START_LINK_1" />servicevoorwaarden<ph name="END_LINK" /> en ons <ph name="START_LINK_2" />privacybeleid<ph name="END_LINK" /> accepteert.</translation>
 <translation id="420554669252656972">Vul een nieuw e-mailadres in</translation>
-<translation id="4210333062216604630">Link verwijderen</translation>
+<translation id="4210333062216604630">Ontkoppelen</translation>
 <translation id="4242716276491763916">Guinee-Conakry</translation>
 <translation id="4248546264350694306">Zwitserland</translation>
 <translation id="4266056491449352939">Andorra</translation>
@@ -191,6 +208,7 @@
 <translation id="4440507149645221385">Telefoon</translation>
 <translation id="4450602713221237198">Opnieuw verzenden</translation>
 <translation id="4498504413765490964">Honduras</translation>
+<translation id="450385255996536115">Er is een time-out opgetreden bij de bewerking.</translation>
 <translation id="4515732781724470190">Niger</translation>
 <translation id="4521614244485847733">Dit e-mailadres komt niet overeen met een bestaand account</translation>
 <translation id="4556476996891737119">Jordanië</translation>
@@ -202,6 +220,7 @@
 <translation id="4723701728629289714">Israël</translation>
 <translation id="4725154639671888461">Er is een fout opgetreden</translation>
 <translation id="4751937685196678080">Nummer</translation>
+<translation id="4769553102874508676">De client heeft onvoldoende rechten.</translation>
 <translation id="4773060157545352832">Vul de reCAPTCHA in</translation>
 <translation id="4775051289386800916">Nicaragua</translation>
 <translation id="4783400389150493171">Burkina Faso</translation>
@@ -210,14 +229,17 @@
 <translation id="4871106926303956169">Turks- en Caicoseilanden</translation>
 <translation id="4877597386645466815">Code opnieuw verzenden over <ph name="TIME_REMAINING" /></translation>
 <translation id="4915406999072654369">Controleer uw inbox</translation>
+<translation id="4923375331439013137">Kan de tweede stap niet verwijderen</translation>
 <translation id="4955175001894453989">Wachtwoord toevoegen</translation>
 <translation id="496366313824211679">El Salvador</translation>
+<translation id="4982483807073820954">Om het wachtwoord van uw account te veranderen, moet u opnieuw inloggen.</translation>
 <translation id="4991626049082973728">Servië</translation>
 <translation id="4991892293325936102">Belize</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" />voor <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /><ph name="END_PARAGRAPH" /></translation>
 <translation id="5059105734231232362">Als u uw <ph name="IDP_DISPLAY_NAME" />-account aan dit e-mailadres wilt koppelen, moet u de link openen op hetzelfde apparaat of in dezelfde browser.</translation>
 <translation id="5080084639513001393">Zweden</translation>
 <translation id="5080899604429810481">Saint-Martin</translation>
+<translation id="5115661695221894994"><ph name="START_PARAGRAPH" />U heeft een verzoek ingediend om uw e-mailadres te verifiëren en te updaten. Dit verzoek is verlopen of de link is al gebruikt.<ph name="END_PARAGRAPH" /></translation>
 <translation id="5143657419516597442">Saint Lucia</translation>
 <translation id="521218078240459724">@string/app_name</translation>
 <translation id="5241732101105320538">Controleer uw inbox</translation>
@@ -225,13 +247,15 @@
 <translation id="5323041129469627535">Oman</translation>
 <translation id="5326139833547026317">Caribisch Nederland</translation>
 <translation id="5347459868860672391">Geüpdatet e-mailadres</translation>
-<translation id="5403395913830260677">Inloggen met Twitter</translation>
+<translation id="5397737236938796917">U bent uitgelogd.</translation>
+<translation id="5406620662929585965">Inloggen met telefoon</translation>
 <translation id="5407010562344541906">Telefoonnummer</translation>
 <translation id="5409861738809250803">U heeft al een account</translation>
 <translation id="5410341463946781720">Thailand</translation>
 <translation id="5437927869321223252">Onjuiste code. Probeer het opnieuw.</translation>
 <translation id="5444635161362535036">Liechtenstein</translation>
 <translation id="5483706910421209104">Naam bewerken</translation>
+<translation id="5487696047685227891">Het apparaat of de app is verwijderd als tweede stap voor authenticatie.</translation>
 <translation id="5490651768073507833">Probeer de link te openen op het apparaat of in de browser waarmee u het inlogproces bent gestart.</translation>
 <translation id="5524360735013196510">Nederland</translation>
 <translation id="5528189843379142883">Equatoriaal-Guinea</translation>
@@ -255,7 +279,7 @@
 <translation id="5699028034244995851">Voer uw e-mailadres in om verder te gaan</translation>
 <translation id="5701178667798108817">Verifieer uw telefoonnummer</translation>
 <translation id="5715637701147651513">Liberia</translation>
-<translation id="5755179287528310939">Er bestaat al een account met dit e-mailadres.</translation>
+<translation id="5747263508495256858">Uitloggen</translation>
 <translation id="5771034676910614239">Madagaskar</translation>
 <translation id="5818634293686963864">Kazachstan</translation>
 <translation id="5829301468800336085">Aanmelden...</translation>
@@ -274,15 +298,20 @@
 <translation id="6032262985756512833">Voer de <ph name="STRING" />-cijferige code in die we hebben verzonden naar</translation>
 <translation id="6044396095102058216">Dit telefoonnummer is te vaak gebruikt</translation>
 <translation id="6083089720215618333">Het e-mailadres komt niet overeen met de huidige inlogsessie.</translation>
-<translation id="6113531938704280909">Link met account verwijderen</translation>
+<translation id="6091051069256411999">Twitter</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />Log in bij <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6132202686885223981">Controleer of er voldoende ruimte in uw inbox is en of er geen andere problemen met inboxinstellingen zijn.</translation>
+<translation id="6135589730599211649">De client heeft een ongeldig bereik opgegeven.</translation>
+<translation id="6143147250106939258">Het quotum voor deze bewerking is overschreden. Probeer het later opnieuw.</translation>
 <translation id="6189573836664806798">Paraguay</translation>
 <translation id="6192657410634245771">Algerije</translation>
 <translation id="6213969168046789596">U heeft te vaak een fout wachtwoord ingevoerd. Probeer het over enkele minuten opnieuw.</translation>
 <translation id="6216759405419177713">Norfolkeiland</translation>
 <translation id="6245066275978703471">Telefoonnummer is automatisch geverifieerd</translation>
-<translation id="6283536862756552051">Om uw wachtwoord te veranderen, moet u eerst uw huidige wachtwoord invoeren.</translation>
-<translation id="6299890279889400823">Terug</translation>
+<translation id="6269083314054226194">Er is een netwerkfout opgetreden. Controleer uw internetverbinding.</translation>
+<translation id="6295157125625453859">Geverifieerd</translation>
 <translation id="6316446940976157217">India</translation>
 <translation id="6327723482938582895">Benin</translation>
 <translation id="6338643731889005578">Doorgaan</translation>
@@ -331,27 +360,33 @@
 <translation id="6921505896641453739">E-mailadres</translation>
 <translation id="6929813273561975780">Volgende</translation>
 <translation id="6951302238647056860">Deze code is niet meer geldig</translation>
-<translation id="6976724207780605356">Inloggen met Facebook</translation>
+<translation id="6961220857430789248">Er is een inlogmail met aanvullende instructies verzonden naar <ph name="STRING" />. Controleer uw inbox om het inlogproces te voltooien.</translation>
 <translation id="6984204927251307445">E-mailadres bevestigen</translation>
 <translation id="6999773882165218263">Voor- en achternaam</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Westelijke Sahara</translation>
+<translation id="7025117765722694556">Het verzoek kan niet worden uitgevoerd bij de huidige systeemstatus.</translation>
 <translation id="7062299334696934251">Er is een onbekende fout opgetreden.</translation>
 <translation id="7064251114893721966">U heeft al ingelogd met <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Voer uw wachtwoord in voor dit account.</translation>
+<translation id="7085136866191400000">Inlogmail verzonden</translation>
 <translation id="7089485669419398254">Ierland</translation>
 <translation id="7093343209860483088">Democratische Republiek Congo</translation>
 <translation id="7118080999850002096">Wachtwoord herstellen</translation>
 <translation id="7150917293543492988">Republiek Congo</translation>
+<translation id="7157317431934821052">De resource die een client heeft geprobeerd te maken, bestaat al.</translation>
 <translation id="7174424882502155514">Doorgaan als gast</translation>
 <translation id="7192078949090526171">San Marino</translation>
 <translation id="7197455001919474950">Cyprus</translation>
 <translation id="7198563013006562060">Salomonseilanden</translation>
 <translation id="7207660930894629055">Doorgaan met <ph name="USER_EMAIL" />?</translation>
+<translation id="720983450833499456">Als u het inlogproces met <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> wilt voortzetten op dit apparaat, moet u het wachtwoord herstellen.</translation>
 <translation id="7223410082658239002">Maldiven</translation>
 <translation id="7254028881697834212">Sao Tomé en Principe</translation>
 <translation id="7268827299582726485">Uw e-mailadres bevestigen om het inlogproces te voltooien</translation>
 <translation id="7272145663101316762">Slovenië</translation>
 <translation id="7280309713358692490">Zuid-Korea</translation>
+<translation id="7283725113395426048">Gelijktijdigheidsconflict, zoals conflicterende lees-, wijzigings- en schrijfbewerkingen.</translation>
+<translation id="7290147808482957603">De API-methode is niet door de server geïmplementeerd.</translation>
 <translation id="7291567990403335374">Lesotho</translation>
 <translation id="7291656724505689727">Inloggen met telefoon</translation>
 <translation id="7320029088567935126">Probeer uw e-mailadres opnieuw te verifiëren</translation>
@@ -370,9 +405,11 @@
 <translation id="7643408533407091568">U heeft al ingelogd met <ph name="EMAIL_ADDR" />. Voer uw wachtwoord in voor dit account.</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{Uw wachtwoord is niet sterk genoeg. Gebruik ten minste <ph name="PH_1" /> teken en een combinatie van letters en cijfers.}other{Uw wachtwoord is niet sterk genoeg. Gebruik ten minste <ph name="PH_1" /> tekens en een combinatie van letters en cijfers.}}</translation>
 <translation id="7699755204074920022">Zimbabwe</translation>
-<translation id="7756945311981296300">Volg de instructies die we naar <ph name="STRING" /> hebben verzonden om uw wachtwoord te herstellen.</translation>
-<translation id="7782885946428624225">Er is een probleem met de verificatie van uw telefoonnummer</translation>
+<translation id="7746977132739352062">Het verzoek is niet geverifieerd vanwege een ontbrekende, ongeldige of verlopen OAuth-token.</translation>
+<translation id="7778245738233381641">Geef een zescijferige telefonische verificatiecode op.</translation>
+<translation id="7790301903034097323">Wachtwoord kiezen</translation>
 <translation id="7796914496604415892">Nieuw apparaat of nieuwe browser gedetecteerd</translation>
+<translation id="786166109137986817">Inloggen bij <ph name="DISPLAY_NAME" /></translation>
 <translation id="7868540442111212282">Tsjechië</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
 <translation id="7926046652648626866">Inloggen met GitHub</translation>
@@ -384,7 +421,7 @@
 <translation id="8033786138248870436">Als u op Verifiëren tikt, ontvangt u mogelijk een sms. Er kunnen kosten voor berichten en dataverbruik  van toepassing zijn.</translation>
 <translation id="8047183472745080590">Bolivia</translation>
 <translation id="8047565947836609247">Puerto Rico</translation>
-<translation id="8055755007915250245">Link met account verwijderen?</translation>
+<translation id="8055755007915250245">Account ontkoppelen?</translation>
 <translation id="8063505483150915580">Christmaseiland</translation>
 <translation id="8077378925683571933">
 <ph name="P_START" />Met vriendelijke groet,<ph name="P_END" />
@@ -398,6 +435,10 @@
 <translation id="8248811348666273823">Spanje</translation>
 <translation id="8283013172847705078">Costa Rica</translation>
 <translation id="8289427665929658971">Samoa</translation>
+<translation id="8320813901740734879">
+<ph name="P_START" />Uw account in <ph name="APP_NAME" /> is geüpdatet met <ph name="SECOND_FACTOR" /> voor authenticatie in twee stappen.<ph name="P_END" />
+<ph name="P_START" />Als u deze aanpassing niet heeft aangevraagd, maak deze dan ongedaan via de volgende link.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="8335491854074085727">Mali</translation>
 <translation id="8340009229650375501">Qatar</translation>
 <translation id="8347635771101835254">Uruguay</translation>
@@ -428,6 +469,7 @@
 <translation id="868894957204919930">Bermuda</translation>
 <translation id="8694271531070467981">Niue</translation>
 <translation id="8745311627715763145">Guadeloupe</translation>
+<translation id="8752467400269476994">De client heeft een ongeldige projectconfiguratie opgegeven.</translation>
 <translation id="8760480624706028033">Palestijnse gebieden</translation>
 <translation id="8770276147008360348">Slowakije</translation>
 <translation id="877434849857020571">Guernsey</translation>
@@ -440,19 +482,24 @@
 <translation id="8893950153780006385">Maleisië</translation>
 <translation id="8895840173743975193">Cocoseilanden</translation>
 <translation id="8916080112145514151">Als u uw <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" />-account nog steeds wilt koppelen, opent u de link op het apparaat waarop u het inlogproces bent gestart. Tik anders op Doorgaan om in te loggen op dit apparaat.</translation>
+<translation id="8920674952994839257">Opnieuw proberen</translation>
 <translation id="8939353296336237380">U wilde aanvankelijk <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> aan uw e-mailaccount koppelen, maar u heeft de link geopend op een ander apparaat, waarop u niet ingelogd bent.</translation>
 <translation id="8971555482255213064">Code opnieuw verzenden over 0:<ph name="PH_1" /></translation>
 <translation id="8984161590699631096">Marokko</translation>
+<translation id="8994098794339484800">Als u dit apparaat niet herkent, probeert iemand anders mogelijk toegang tot uw account te krijgen. We raden u aan om <ph name="START_LINK" />uw wachtwoord onmiddellijk te wijzigen<ph name="END_LINK" />.</translation>
 <translation id="900153878296575829">Bangladesh</translation>
 <translation id="9022632332691561239">Telefoon</translation>
 <translation id="9028063588419847334">Finland</translation>
 <translation id="9078135685219203661">Verenigde Arabische Emiraten</translation>
+<translation id="9121203582272050974">Uw e-mailadres is geverifieerd en gewijzigd</translation>
 <translation id="9156150178611681179">Wachtwoord</translation>
 <translation id="9168877696443530714">Centraal-Afrikaanse Republiek</translation>
 <translation id="9186194643192393179">Curaçao</translation>
+<translation id="9193130710600355008">We hebben alle verzoeken van dit apparaat geblokkeerd vanwege ongebruikelijke activiteit. Probeer het later opnieuw.</translation>
 <translation id="919456844206936371">Tunesië</translation>
 <translation id="9209678713072395487">Wachtwoord gewijzigd</translation>
 <translation id="954276184636809129">Griekenland</translation>
+<translation id="959388308828818789">Tweede stap is verwijderd</translation>
 <translation id="965930633376049617">Angola</translation>
 <translation id="988087302893519488">Koeweit</translation>
 <translation id="994914101700264849">Het ingevoerde e-mailadres en wachtwoord komen niet overeen</translation>

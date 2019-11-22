@@ -12,11 +12,14 @@
 <translation id="1163771673786684213">Filippinerna</translation>
 <translation id="1170304454812139475">Rumänien</translation>
 <translation id="1194565221977667376">Sydgeorgien och Sydsandwichöarna</translation>
-<translation id="124367247840231378">OK</translation>
+<translation id="1233977465587641672">Oåterkallelig dataförlust eller datafel.</translation>
 <translation id="1244846213930750436">Italien</translation>
 <translation id="1268266284642694018">Libanon</translation>
 <translation id="1294742657282291237">Guyana</translation>
 <translation id="1297168472480293352">Guatemala</translation>
+<translation id="1307255433239736397"><ph name="START_PARAGRAPH" />Ett fel uppstod när din andra faktor skulle tas bort.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Testa att ta bort den igen. Kontakta support om det inte fungerar.<ph name="END_PARAGRAPH" /></translation>
+<translation id="1310034618729602982">Testa att uppdatera din e-post igen</translation>
+<translation id="1312824004897469797">Ett nätverksfel uppstod. Försök igen senare.</translation>
 <translation id="1315809131562953678">Ange ett giltigt telefonnummer</translation>
 <translation id="1335716056288807013">Genom att trycka på Verifiera godkänner du våra <ph name="START_LINK_1" />Användarvillkor<ph name="END_LINK" /> och vår <ph name="START_LINK_2" />Sekretesspolicy<ph name="END_LINK" />. Ett sms kan skickas. Meddelande- och dataavgifter kan tillkomma.</translation>
 <translation id="137210131544215127">Ange ditt lösenord</translation>
@@ -27,6 +30,7 @@
 <translation id="1479035434297790822">Det kommer för många kontobegäranden från din IP-adress. Försök igen om några minuter.</translation>
 <translation id="1483249363694224399">Sri Lanka</translation>
 <translation id="1507995441600689506">Nu kan du logga in med ditt nya konto</translation>
+<translation id="1544981664986460902">Klienten angav ett ogiltigt argument.</translation>
 <translation id="1575848116712334589">Tchad</translation>
 <translation id="1630237004390596779">Skicka kod igen om <ph name="STRING" /></translation>
 <translation id="1653501608290591291">Vitryssland</translation>
@@ -62,6 +66,7 @@
 <translation id="2206856445831770486">Github</translation>
 <translation id="2223717216014247341">Sekretesspolicy</translation>
 <translation id="2224563296468523455">Guam</translation>
+<translation id="2245182894886860848">Antingen har resurskvoten överskridits eller så är gränsen nästan nådd.</translation>
 <translation id="2249420035688424170">Kroatien</translation>
 <translation id="2251583471831926217">Litauen</translation>
 <translation id="227405248692044138">Malta</translation>
@@ -71,22 +76,28 @@
 <translation id="2324942959480650701">Gäst</translation>
 <translation id="2331781584136059536">Ghana</translation>
 <translation id="2338909515537249568">Webbläsaren du använder stöder inte webblagring. Försök igen med en annan webbläsare.</translation>
+<translation id="2342152898808240937">Begäran avbröts av klienten.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Det gick inte att ändra tillbaka din e-postadress för inloggning.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Om du försöker igen och fortfarande inte kan återställa e-postadressen kan du be administratören om hjälp.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Bahrain</translation>
+<translation id="2392247362473363900">Internt serverfel.</translation>
 <translation id="2405828009195143258">Iran</translation>
+<translation id="2414459877074534554">GitHub</translation>
 <translation id="244437093285883777">Verifierar att du inte är en robot …</translation>
 <translation id="2448227725017851570">Koden är inte längre giltig</translation>
 <translation id="2448487988481516351">Nya Kaledonien</translation>
 <translation id="2451742558284013472">Monaco</translation>
 <translation id="2460064915291012298">Seychellerna</translation>
+<translation id="2490672522100125425"><ph name="START_STRONG" /><ph name="FACTOR_ID" /> <ph name="PHONE_NUMBER" /><ph name="END_STRONG" /> togs bort som andra autentiseringssteg.</translation>
 <translation id="2494962141967044042">Den aktuella anonyma användaren kunde inte uppgradera. De icke-anonyma användaruppgifterna är redan kopplade till ett annat konto.</translation>
 <translation id="2541179214468543429">Du har angett fel lösenord för många gånger. Försök igen om några minuter.</translation>
 <translation id="2561560038714758184">Säkerhet</translation>
 <translation id="2561835578785502516">Din begäran om att återställa ditt lösenord har upphört, eller så har länken redan använts</translation>
+<translation id="2562498793334241360">Nu kan du logga in med din nya e-post <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />.</translation>
 <translation id="2581514546525533462">Landskoden du har angett stöds inte.</translation>
 <translation id="2600950452451016107">Kontrollera att du inte stavade e-postadressen fel.</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">Kambodja</translation>
+<translation id="2614081868476050089">Tjänsten är inte tillgänglig.</translation>
 <translation id="2616650714309312732">Portugal</translation>
 <translation id="2619590123270932385">Franska Guyana</translation>
 <translation id="2621854044487969847">Brittiska Jungfruöarna</translation>
@@ -102,19 +113,21 @@
 <translation id="2741235824871026219">Verifiera</translation>
 <translation id="2752984808025184019">Sydafrika</translation>
 <translation id="2760636260031093254">Ange din e-postadress om du vill fortsätta</translation>
+<translation id="276938411216176478">Användarkontot har inaktiverats av en administratör.</translation>
 <translation id="2782685789517131804">Ett inloggningsmeddelande med instruktioner skickades till <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Kontrollera din e-post för att slutföra inloggningen.</translation>
 <translation id="2828509010894808185">Skapa konto</translation>
 <translation id="2834770837848769530">Afghanistan</translation>
 <translation id="2884525438023347369">Genom att trycka på <ph name="BTN" /> godkänner du tjänstens <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">Kanada</translation>
 <translation id="2911018261311455240">Danmark</translation>
+<translation id="2949732021187449522">Sista dagen för begäran har passerat.</translation>
 <translation id="295270254328846278">Österrike</translation>
 <translation id="2976748949054245370">E-postadresserna stämmer inte överens</translation>
 <translation id="29947009417147243">Sydsudan</translation>
 <translation id="3040586343252524572">Jemen</translation>
 <translation id="3045244039436637116">Guinea-Bissau</translation>
 <translation id="3046745817056752783">Saudiarabien</translation>
-<translation id="311953035679824832">Appens logotyp</translation>
+<translation id="3083819527012413063">Ytterligare ett säkerhetssteg har lagts till i <ph name="APP_NAME" /></translation>
 <translation id="3122584863645047144">Amerikanska Jungfruöarna</translation>
 <translation id="3141549453511344986">Logga in med telefon</translation>
 <translation id="3147551458884186429">Indonesien</translation>
@@ -122,6 +135,7 @@
 <translation id="3164676761565983157">Venezuela</translation>
 <translation id="3170526549630869494">Har du problem med att logga in?</translation>
 <translation id="3204914819635733576">Verifiera dig</translation>
+<translation id="3215050409577090361">Ett fel uppstod när din begäran autentiserades. Öppna webbadressen där du omdirigerades till den här sidan på nytt för att starta autentiseringsprocessen igen.</translation>
 <translation id="3216149523061905579">Dominica</translation>
 <translation id="3223688630903046698">Nytt lösenord</translation>
 <translation id="3250864391349648273">Gabon</translation>
@@ -139,6 +153,7 @@
 <translation id="3434621886769337032">Gambia</translation>
 <translation id="3472358534605257432">Klart</translation>
 <translation id="3479685026618611556">Avbryt</translation>
+<translation id="3481131180097895739">Okänt serverfel.</translation>
 <translation id="3487364398525389372">Ange ditt kontonamn</translation>
 <translation id="3521753471343796628">Irak</translation>
 <translation id="354888504916863713">Vietnam</translation>
@@ -150,6 +165,8 @@
 <translation id="3605933028246642593">Nepal</translation>
 <translation id="3608140835232496799">Tokelauöarna</translation>
 <translation id="3620185428620643248">Valda användaruppgifter för autentiseringsleverantören stöds inte!</translation>
+<translation id="3658306886462996856">Ingen inloggningsleverantör är tillgänglig för angiven e-post. Prova en annan e-post.</translation>
+<translation id="3695180913983403205">Ange för- och efternamn.</translation>
 <translation id="3700097473356216716">Colombia</translation>
 <translation id="3703067902498234034">När du trycker på Spara godkänner du </translation>
 <translation id="3736041829854387744">Burundi</translation>
@@ -157,7 +174,7 @@
 <translation id="3813801701232240278">Twitter</translation>
 <translation id="3814740523815122846">Din e-postadress har verifierats</translation>
 <translation id="3819556544383051267">Papua Nya Guinea</translation>
-<translation id="3831901810365396899">Spara</translation>
+<translation id="3828991952827504549">Den angivna resursen hittades inte.</translation>
 <translation id="3862053977934420187">Verifierar ...</translation>
 <translation id="3898029444496274961">Logga in</translation>
 <translation id="3905423743526704083">Östtimor</translation>
@@ -190,6 +207,7 @@
 <translation id="4440507149645221385">Mobil</translation>
 <translation id="4450602713221237198">Skicka igen</translation>
 <translation id="4498504413765490964">Honduras</translation>
+<translation id="450385255996536115">Åtgärden överskred tidsgränsen.</translation>
 <translation id="4515732781724470190">Niger</translation>
 <translation id="4521614244485847733">E-postadressen matchar inget befintligt konto</translation>
 <translation id="4556476996891737119">Jordanien</translation>
@@ -201,6 +219,7 @@
 <translation id="4723701728629289714">Israel</translation>
 <translation id="4725154639671888461">Ett fel har inträffat</translation>
 <translation id="4751937685196678080">Nummer</translation>
+<translation id="4769553102874508676">Klienten har inte tillräcklig behörighet.</translation>
 <translation id="4773060157545352832">Lös reCAPTCHA</translation>
 <translation id="4775051289386800916">Nicaragua</translation>
 <translation id="4783400389150493171">Burkina Faso</translation>
@@ -209,14 +228,17 @@
 <translation id="4871106926303956169">Turks- och Caicosöarna</translation>
 <translation id="4877597386645466815">Skicka kod igen om <ph name="TIME_REMAINING" /></translation>
 <translation id="4915406999072654369">Kolla dina e-postmeddelanden</translation>
+<translation id="4923375331439013137">Det gick inte att ta bort din andra faktor</translation>
 <translation id="4955175001894453989">Lägg till lösenord</translation>
 <translation id="496366313824211679">El Salvador</translation>
+<translation id="4982483807073820954">Du måste logga in igen för att kunna ändra lösenord för kontot.</translation>
 <translation id="4991626049082973728">Serbien</translation>
 <translation id="4991892293325936102">Belize</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" />för <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /><ph name="END_PARAGRAPH" /></translation>
 <translation id="5059105734231232362">Du måste öppna länken på samma enhet eller i samma webbläsare för att <ph name="IDP_DISPLAY_NAME" />-kontot ska anslutas med den här e-postadressen.</translation>
 <translation id="5080084639513001393">Sverige</translation>
 <translation id="5080899604429810481">Saint-Martin</translation>
+<translation id="5115661695221894994"><ph name="START_PARAGRAPH" />Din begäran om att verifiera och uppdatera din e-post har upphört att gälla eller så har länken redan använts.<ph name="END_PARAGRAPH" /></translation>
 <translation id="5143657419516597442">St. Lucia</translation>
 <translation id="521218078240459724">@string/app_name</translation>
 <translation id="5241732101105320538">Kolla dina e-postmeddelanden</translation>
@@ -224,13 +246,15 @@
 <translation id="5323041129469627535">Oman</translation>
 <translation id="5326139833547026317">Karibiska Nederländerna</translation>
 <translation id="5347459868860672391">Uppdaterad e-postadress</translation>
-<translation id="5403395913830260677">Logga in med Twitter</translation>
+<translation id="5397737236938796917">Du har loggat ut.</translation>
+<translation id="5406620662929585965">Logga in med telefon</translation>
 <translation id="5407010562344541906">Telefonnummer</translation>
 <translation id="5409861738809250803">Du har redan ett konto</translation>
 <translation id="5410341463946781720">Thailand</translation>
 <translation id="5443669846203963095">Sekretesspolicy</translation>
 <translation id="5444635161362535036">Liechtenstein</translation>
 <translation id="5483706910421209104">Redigera namn</translation>
+<translation id="5487696047685227891">Enheten eller appen togs bort som andra autentiseringssteg.</translation>
 <translation id="5490651768073507833">Testa att öppna länken med samma enhet eller webbläsare som du använde när du påbörjade inloggningen.</translation>
 <translation id="5524360735013196510">Nederländerna</translation>
 <translation id="5528189843379142883">Ekvatorialguinea</translation>
@@ -254,7 +278,7 @@
 <translation id="5699028034244995851">Ange din e-postadress om du vill fortsätta</translation>
 <translation id="5701178667798108817">Verifiera ditt telefonnummer</translation>
 <translation id="5715637701147651513">Liberia</translation>
-<translation id="5755179287528310939">Det finns redan ett konto med den e-postadressen.</translation>
+<translation id="5747263508495256858">Logga ut</translation>
 <translation id="5771034676910614239">Madagaskar</translation>
 <translation id="5818634293686963864">Kazakstan</translation>
 <translation id="5829301468800336085">Loggar in …</translation>
@@ -273,15 +297,20 @@
 <translation id="6032262985756512833">Ange den <ph name="STRING" />-siffriga koden vi skickade till</translation>
 <translation id="6044396095102058216">Det här telefonnumret har använts för många gånger</translation>
 <translation id="6083089720215618333">Den angivna e-postadressen stämmer inte överens med den aktuella inloggningssessionen.</translation>
-<translation id="6113531938704280909">Ta bort länk till konto</translation>
+<translation id="6091051069256411999">Twitter</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />Logga in i <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6132202686885223981">Kontrollera att du inte har ont om utrymme i inkorgen samt andra inkorgsrelaterade problem.</translation>
+<translation id="6135589730599211649">Klienten angav ett ogiltigt intervall.</translation>
+<translation id="6143147250106939258">Kvoten för den här åtgärden har överskridits. Försök igen senare.</translation>
 <translation id="6189573836664806798">Paraguay</translation>
 <translation id="6192657410634245771">Algeriet</translation>
 <translation id="6213969168046789596">Du har angett fel lösenord för många gånger. Försök igen om några minuter.</translation>
 <translation id="6216759405419177713">Norfolkön</translation>
 <translation id="6245066275978703471">Telefonnumret verifierades automatiskt</translation>
-<translation id="6283536862756552051">Du måste först ange ditt aktuella lösenord för att kunna ändra lösenordet.</translation>
-<translation id="6299890279889400823">Föregående</translation>
+<translation id="6269083314054226194">Nätverksfel, kontrollera din internetanslutning.</translation>
+<translation id="6295157125625453859">Verifierat!</translation>
 <translation id="6316446940976157217">Indien</translation>
 <translation id="6327723482938582895">Benin</translation>
 <translation id="6338643731889005578">Fortsätt</translation>
@@ -330,27 +359,33 @@
 <translation id="6921505896641453739">E-post</translation>
 <translation id="6929813273561975780">Nästa</translation>
 <translation id="6951302238647056860">Koden är inte längre giltig</translation>
-<translation id="6976724207780605356">Logga in med Facebook</translation>
+<translation id="6961220857430789248">Ett inloggningsmeddelande med instruktioner skickades till <ph name="STRING" />. Kontrollera din e-post för att slutföra inloggningen.</translation>
 <translation id="6984204927251307445">Bekräfta e-postadress</translation>
 <translation id="6999773882165218263">För- och efternamn</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Västsahara</translation>
+<translation id="7025117765722694556">Begäran kan inte göras med aktuell systemstatus.</translation>
 <translation id="7062299334696934251">Ett okänt fel uppstod.</translation>
 <translation id="7064251114893721966">Du har redan loggat in med <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Ange lösenordet för det kontot.</translation>
+<translation id="7085136866191400000">Inloggningsmeddelande skickat</translation>
 <translation id="7089485669419398254">Irland</translation>
 <translation id="7093343209860483088">Demokratiska republiken Kongo</translation>
 <translation id="7118080999850002096">Återställa lösenord</translation>
 <translation id="7150917293543492988">Republiken Kongo</translation>
+<translation id="7157317431934821052">Resursen en klient försökte skapa finns redan.</translation>
 <translation id="7174424882502155514">Fortsätt som gäst</translation>
 <translation id="7192078949090526171">San Marino</translation>
 <translation id="7197455001919474950">Cypern</translation>
 <translation id="7198563013006562060">Salomonöarna</translation>
 <translation id="7207660930894629055">Vill du fortsätta med <ph name="USER_EMAIL" />?</translation>
+<translation id="720983450833499456">Om du vill fortsätta logga in med <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> på den här enheten måste du återställa lösenordet.</translation>
 <translation id="7223410082658239002">Maldiverna</translation>
 <translation id="7254028881697834212">São Tomé och Príncipe</translation>
 <translation id="7268827299582726485">Bekräfta e-postadressen för att slutföra inloggningen</translation>
 <translation id="7272145663101316762">Slovenien</translation>
 <translation id="7280309713358692490">Sydkorea</translation>
+<translation id="7283725113395426048">Samtidighetskontrollskonflikt, till exempel läs-ändra-skriv-konflikt.</translation>
+<translation id="7290147808482957603">API-metod inte implementerad av servern.</translation>
 <translation id="7291567990403335374">Lesotho</translation>
 <translation id="7291656724505689727">Logga in med telefon</translation>
 <translation id="7320029088567935126">Försök att verifiera e-postadressen igen</translation>
@@ -369,8 +404,10 @@
 <translation id="7643408533407091568">Du har redan loggat in med <ph name="EMAIL_ADDR" />. Ange lösenordet för det kontot.</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{Lösenordet är inte tillräckligt starkt. Använd minst <ph name="PH_1" /> tecken och en blandning av bokstäver och siffror.}other{Lösenordet är inte tillräckligt starkt. Använd minst <ph name="PH_1" /> tecken och en blandning av bokstäver och siffror.}}</translation>
 <translation id="7699755204074920022">Zimbabwe</translation>
+<translation id="7746977132739352062">Begäran ej autentiserad på grund av att OAuth-token saknas, är ogiltigt eller har upphört att gälla.</translation>
 <translation id="7782885946428624225">Det gick inte att verifiera telefonnumret</translation>
 <translation id="7796914496604415892">Ny enhet eller webbläsare identifierad</translation>
+<translation id="786166109137986817">Logga in i <ph name="DISPLAY_NAME" /></translation>
 <translation id="7868540442111212282">Tjeckien</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
 <translation id="7926046652648626866">Logga in med GitHub</translation>
@@ -425,6 +462,7 @@
 <translation id="868894957204919930">Bermuda</translation>
 <translation id="8694271531070467981">Niue</translation>
 <translation id="8745311627715763145">Guadeloupe</translation>
+<translation id="8752467400269476994">Klienten angav en ogiltig projektkonfiguration.</translation>
 <translation id="8760480624706028033">Palestinska territoriet</translation>
 <translation id="8770276147008360348">Slovakien</translation>
 <translation id="877434849857020571">Guernsey</translation>
@@ -437,19 +475,24 @@
 <translation id="8893950153780006385">Malaysia</translation>
 <translation id="8895840173743975193">Kokosöarna</translation>
 <translation id="8916080112145514151">Om du fortfarande vill ansluta ditt <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" />-konto ska du öppna länken på enheten där du påbörjade inloggningen. Annars kan du trycka på Fortsätt för att logga in på den här enheten.</translation>
+<translation id="8920674952994839257">Försök igen</translation>
 <translation id="8939353296336237380">Du skulle ansluta <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> till ditt e-postkonto men har öppnat länken på en annan enhet där du inte är inloggad.</translation>
 <translation id="8971555482255213064">Skicka kod igen om 0:<ph name="PH_1" /></translation>
 <translation id="8984161590699631096">Marocko</translation>
+<translation id="8994098794339484800">Om du inte känner igen den här enheten kan det vara någon som försöker komma åt ditt konto. Överväg att <ph name="START_LINK" />ändra lösenordet direkt<ph name="END_LINK" />.</translation>
 <translation id="900153878296575829">Bangladesh</translation>
 <translation id="9022632332691561239">Telefon</translation>
 <translation id="9028063588419847334">Finland</translation>
 <translation id="9078135685219203661">Förenade arabemiraten</translation>
+<translation id="9121203582272050974">Din e-post har verifierats och ändrats</translation>
 <translation id="9156150178611681179">Lösenord</translation>
 <translation id="9168877696443530714">Centralafrikanska republiken</translation>
 <translation id="9186194643192393179">Curaçao</translation>
+<translation id="9193130710600355008">Vi har blockerat alla begäranden från den här enheten på grund av ovanlig aktivitet. Försök igen senare.</translation>
 <translation id="919456844206936371">Tunisien</translation>
 <translation id="9209678713072395487">Lösenordet har ändrats</translation>
 <translation id="954276184636809129">Grekland</translation>
+<translation id="959388308828818789">Ta bort andra faktor</translation>
 <translation id="965930633376049617">Angola</translation>
 <translation id="988087302893519488">Kuwait</translation>
 <translation id="994914101700264849">E-postadressen och lösenordet matchar inte</translation>

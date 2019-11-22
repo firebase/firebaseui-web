@@ -35,12 +35,14 @@ goog.require('goog.asserts');
  * @param {?firebaseui.auth.AuthUI} app The current Firebase UI instance whose
  *     configuration is used.
  * @param {?Element} container The container DOM element.
+ * @param {string=} email The optional prefilled email to pass to IdPs.
  * @throws {!goog.asserts.AssertionError} Thrown if there is more than one
  *     provider.
  */
 firebaseui.auth.widget.handler.handleFederatedRedirect = function(
     app,
-    container) {
+    container,
+    email = undefined) {
   var component = new firebaseui.auth.ui.page.Blank();
   component.render(container);
   // Set current UI component.
@@ -54,7 +56,8 @@ firebaseui.auth.widget.handler.handleFederatedRedirect = function(
   firebaseui.auth.widget.handler.common.federatedSignIn(
       /** @type {!firebaseui.auth.AuthUI} */ (app),
       component,
-      providerId);
+      providerId,
+      email);
 };
 
 

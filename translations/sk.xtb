@@ -12,11 +12,14 @@
 <translation id="1163771673786684213">Filipíny</translation>
 <translation id="1170304454812139475">Rumunsko</translation>
 <translation id="1194565221977667376">Južná Georgia a Južné Sandwichove ostrovy</translation>
-<translation id="124367247840231378">OK</translation>
+<translation id="1233977465587641672">Neobnoviteľná strata alebo poškodenie údajov.</translation>
 <translation id="1244846213930750436">Taliansko</translation>
 <translation id="1268266284642694018">Libanon</translation>
 <translation id="1294742657282291237">Guyana</translation>
 <translation id="1297168472480293352">Guatemala</translation>
+<translation id="1307255433239736397"><ph name="START_PARAGRAPH" />Pri odstraňovaní druhého prvku sa vyskytla chyba.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Skúste ho odstrániť znova. Ak to nepomôže, požiadajte o pomoc podporu.<ph name="END_PARAGRAPH" /></translation>
+<translation id="1310034618729602982">Skúste e‑mailovú adresu aktualizovať znova</translation>
+<translation id="1312824004897469797">Vyskytla sa chyba siete. Skúste to znova neskôr.</translation>
 <translation id="1315809131562953678">Zadajte platné telefónne číslo</translation>
 <translation id="1335716056288807013">Klepnutím na tlačidlo Overiť vyjadrujete súhlas so <ph name="START_LINK_1" />zmluvnými podmienkami<ph name="END_LINK" /> a <ph name="START_LINK_2" />pravidlami ochrany súkromia<ph name="END_LINK" />. Môže byť odoslaná SMS a môžu sa účtovať poplatky za správy a dáta.</translation>
 <translation id="137210131544215127">Zadajte svoje heslo</translation>
@@ -27,6 +30,7 @@
 <translation id="1479035434297790822">Z vašej adresy IP prichádza príliš veľa žiadostí o účet. Skúste to znova o pár minút.</translation>
 <translation id="1483249363694224399">Srí Lanka</translation>
 <translation id="1507995441600689506">Teraz sa môžete prihlásiť pomocou nového účtu</translation>
+<translation id="1544981664986460902">Klient zadal neplatný argument.</translation>
 <translation id="1575848116712334589">Čad</translation>
 <translation id="1630237004390596779">Znova odoslať kód o <ph name="STRING" /></translation>
 <translation id="1653501608290591291">Bielorusko</translation>
@@ -62,6 +66,7 @@
 <translation id="2206856445831770486">Github</translation>
 <translation id="2223717216014247341">Pravidlá ochrany súkromia</translation>
 <translation id="2224563296468523455">Guam</translation>
+<translation id="2245182894886860848">Bola vyčerpaná kvóta zdrojov alebo dosiahnutý limit rýchlosti.</translation>
 <translation id="2249420035688424170">Chorvátsko</translation>
 <translation id="2251583471831926217">Litva</translation>
 <translation id="227405248692044138">Malta</translation>
@@ -71,22 +76,28 @@
 <translation id="2324942959480650701">Hosť</translation>
 <translation id="2331781584136059536">Ghana</translation>
 <translation id="2338909515537249568">Prehliadač, ktorý používate, nepodporuje webové úložisko. Skúste to znova v inom prehliadači.</translation>
+<translation id="2342152898808240937">Klient žiadosť zrušil.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Pri zmene prihlasovacieho e-mailu naspäť vznikol problém.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Ak sa vám nepodarí obnoviť e-mail ani pri opätovnom pokuse, skúste požiadať o pomoc svojho správcu.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Bahrajn</translation>
+<translation id="2392247362473363900">Interná chyba servera.</translation>
 <translation id="2405828009195143258">Irán</translation>
+<translation id="2414459877074534554">GitHub</translation>
 <translation id="244437093285883777">Overuje sa, že nie ste robot...</translation>
 <translation id="2448227725017851570">Tento kód už nie je platný</translation>
 <translation id="2448487988481516351">Nová Kaledónia</translation>
 <translation id="2451742558284013472">Monako</translation>
 <translation id="2460064915291012298">Seychely</translation>
+<translation id="2490672522100125425">Telefónne číslo <ph name="START_STRONG" /><ph name="FACTOR_ID" /> <ph name="PHONE_NUMBER" /><ph name="END_STRONG" /> bolo ako prvok druhého kroku overenia odstránené.</translation>
 <translation id="2494962141967044042">Nepodarilo sa inovovať aktuálneho anonymného používateľa. Neanonymné poverenie je už priradené k inému používateľskému účtu.</translation>
 <translation id="2541179214468543429">Zadali ste nesprávne heslo príliš veľakrát. Skúste to znova o pár minút.</translation>
 <translation id="2561560038714758184">Zabezpečenie</translation>
 <translation id="2561835578785502516">Platnosť vašej žiadosti o obnovu hesla vypršala alebo už bol odkaz použitý</translation>
+<translation id="2562498793334241360">Teraz sa môžete prihlásiť pomocou novej e‑mailovej adresy <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />.</translation>
 <translation id="2581514546525533462">Zadaný kód krajiny nie je podporovaný.</translation>
 <translation id="2600950452451016107">Skontrolujte, či ste správne napísali svoju e‑mailovú adresu.</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">Kambodža</translation>
+<translation id="2614081868476050089">Služba nie je k dispozícii.</translation>
 <translation id="2616650714309312732">Portugalsko</translation>
 <translation id="2619590123270932385">Francúzska Guyana</translation>
 <translation id="2621854044487969847">Britské Panenské ostrovy</translation>
@@ -102,19 +113,21 @@
 <translation id="2741235824871026219">Overiť</translation>
 <translation id="2752984808025184019">Južná Afrika</translation>
 <translation id="2760636260031093254">Zadajte svoju e-mailovú adresu, aby ste mohli pokračovať</translation>
+<translation id="276938411216176478">Správca deaktivoval tento používateľský účet.</translation>
 <translation id="2782685789517131804">Prihlasovací e‑mail s dodatočnými pokynmi bol odoslaný na adresu <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Na dokončenie prihlásenia skontrolujte svoj e‑mail.</translation>
 <translation id="2828509010894808185">Vytvorenie účtu</translation>
 <translation id="2834770837848769530">Afganistan</translation>
 <translation id="2884525438023347369">Klepnutím na tlačidlo <ph name="BTN" /> vyjadrujete súhlas so zmluvnými podmienkami <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">Kanada</translation>
 <translation id="2911018261311455240">Dánsko</translation>
+<translation id="2949732021187449522">Bol prekročený časový limit žiadosti.</translation>
 <translation id="295270254328846278">Rakúsko</translation>
 <translation id="2976748949054245370">E-maily sa nezhodujú</translation>
 <translation id="29947009417147243">Južný Sudán</translation>
 <translation id="3040586343252524572">Jemen</translation>
 <translation id="3045244039436637116">Guinea-Bissau</translation>
 <translation id="3046745817056752783">Saudská Arábia</translation>
-<translation id="311953035679824832">Logo aplikácie</translation>
+<translation id="3083819527012413063">Do aplikácie <ph name="APP_NAME" /> bol pridaný ďalší bezpečnostný prvok</translation>
 <translation id="3122584863645047144">Americké Panenské ostrovy</translation>
 <translation id="3141549453511344986">Prihlásiť sa telefónom</translation>
 <translation id="3147551458884186429">Indonézia</translation>
@@ -122,6 +135,7 @@
 <translation id="3164676761565983157">Venezuela</translation>
 <translation id="3170526549630869494">Máte problémy s prihlásením?</translation>
 <translation id="3204914819635733576">Overte, že ste to vy</translation>
+<translation id="3215050409577090361">Vyskytol sa problém pri overovaní vašej žiadosti. Vráťte sa na webovú adresu, ktorá vás presmerovala na túto stránku, aby sa proces overovania začal odznova.</translation>
 <translation id="3216149523061905579">Dominika</translation>
 <translation id="3223688630903046698">Nové heslo</translation>
 <translation id="3250864391349648273">Gabon</translation>
@@ -139,6 +153,7 @@
 <translation id="3434621886769337032">Gambia</translation>
 <translation id="3472358534605257432">Hotovo</translation>
 <translation id="3479685026618611556">Zrušiť</translation>
+<translation id="3481131180097895739">Neznáma chyba servera.</translation>
 <translation id="3487364398525389372">Zadajte názov účtu</translation>
 <translation id="3521753471343796628">Irak</translation>
 <translation id="354888504916863713">Vietnam</translation>
@@ -150,6 +165,8 @@
 <translation id="3605933028246642593">Nepál</translation>
 <translation id="3608140835232496799">Tokelau</translation>
 <translation id="3620185428620643248">Vybraté poverenie poskytovateľa služieb overenia totožnosti nie je podporované.</translation>
+<translation id="3658306886462996856">Pre daný e‑mail nie je k dispozícii žiadny poskytovateľ prihlásenia. Skúste iný e‑mail.</translation>
+<translation id="3695180913983403205">Zadajte meno a priezvisko.</translation>
 <translation id="3700097473356216716">Kolumbia</translation>
 <translation id="3703067902498234034">Klepnutím na ULOŽIŤ vyjadrujete súhlas s dokumentom </translation>
 <translation id="3736041829854387744">Burundi</translation>
@@ -157,7 +174,7 @@
 <translation id="3813801701232240278">Twitter</translation>
 <translation id="3814740523815122846">Váš e-mail bol overený</translation>
 <translation id="3819556544383051267">Papua-Nová Guinea</translation>
-<translation id="3831901810365396899">Uložiť</translation>
+<translation id="3828991952827504549">Zadaný zdroj sa nenašiel.</translation>
 <translation id="3862053977934420187">Overuje sa...</translation>
 <translation id="3898029444496274961">Prihlásiť sa</translation>
 <translation id="3905423743526704083">Východný Timor</translation>
@@ -190,6 +207,7 @@
 <translation id="4440507149645221385">Telefón</translation>
 <translation id="4450602713221237198">Znova odoslať</translation>
 <translation id="4498504413765490964">Honduras</translation>
+<translation id="450385255996536115">Časový limit operácie uplynul.</translation>
 <translation id="4515732781724470190">Niger</translation>
 <translation id="4521614244485847733">Táto e-mailová adresa sa nezhoduje s existujúcim účtom</translation>
 <translation id="4556476996891737119">Jordánsko</translation>
@@ -201,6 +219,7 @@
 <translation id="4723701728629289714">Izrael</translation>
 <translation id="4725154639671888461">Vyskytla sa chyba</translation>
 <translation id="4751937685196678080">Číslo</translation>
+<translation id="4769553102874508676">Klient nemá potrebné povolenie.</translation>
 <translation id="4773060157545352832">Dokončite overenie reCAPTCHA</translation>
 <translation id="4775051289386800916">Nikaragua</translation>
 <translation id="4783400389150493171">Burkina Faso</translation>
@@ -209,14 +228,17 @@
 <translation id="4871106926303956169">Turks a Caicos</translation>
 <translation id="4877597386645466815">Znova odoslať kód o <ph name="TIME_REMAINING" /></translation>
 <translation id="4915406999072654369">Skontrolujte si e-mail</translation>
+<translation id="4923375331439013137">Druhý prvok sa nepodarilo odstrániť</translation>
 <translation id="4955175001894453989">Pridanie hesla</translation>
 <translation id="496366313824211679">Salvádor</translation>
+<translation id="4982483807073820954">Ak chcete zmeniť heslo svojho účtu, budete sa musieť znova prihlásiť.</translation>
 <translation id="4991626049082973728">Srbsko</translation>
 <translation id="4991892293325936102">Belize</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" />pre účet <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /><ph name="END_PARAGRAPH" /></translation>
 <translation id="5059105734231232362">Aby tento proces mohol úspešne prepojiť váš účet <ph name="IDP_DISPLAY_NAME" /> s týmto e‑mailom, musíte odkaz otvoriť v tom istom zariadení alebo prehliadači.</translation>
 <translation id="5080084639513001393">Švédsko</translation>
 <translation id="5080899604429810481">Svätý Martin (fr.)</translation>
+<translation id="5115661695221894994"><ph name="START_PARAGRAPH" />Platnosť vašej žiadosti o overenie a aktualizáciu e‑mailovej adresy vypršala alebo bol odkaz už použitý.<ph name="END_PARAGRAPH" /></translation>
 <translation id="5143657419516597442">Svätá Lucia</translation>
 <translation id="521218078240459724">@string/app_name</translation>
 <translation id="5241732101105320538">Skontrolujte si e-mail</translation>
@@ -224,13 +246,15 @@
 <translation id="5323041129469627535">Omán</translation>
 <translation id="5326139833547026317">Karibské Holandsko</translation>
 <translation id="5347459868860672391">Aktualizovaná e-mailová adresa</translation>
-<translation id="5403395913830260677">Prihlásiť sa cez Twitter</translation>
+<translation id="5397737236938796917">Úspešne ste sa odhlásili.</translation>
+<translation id="5406620662929585965">Prihlásiť sa telefónom</translation>
 <translation id="5407010562344541906">Telefónne číslo</translation>
 <translation id="5409861738809250803">Už máte účet</translation>
 <translation id="5410341463946781720">Thajsko</translation>
 <translation id="5443669846203963095">Pravidlá ochrany súkromia</translation>
 <translation id="5444635161362535036">Lichtenštajnsko</translation>
 <translation id="5483706910421209104">Úprava názvu</translation>
+<translation id="5487696047685227891">Zariadenie alebo aplikácia bolo/-a ako prvok druhého kroku overenia odstránené/-á.</translation>
 <translation id="5490651768073507833">Skúste otvoriť odkaz pomocou toho istého zariadenia, na ktorom ste začali proces prihlásenia.</translation>
 <translation id="5524360735013196510">Holandsko</translation>
 <translation id="5528189843379142883">Rovníková Guinea</translation>
@@ -254,7 +278,7 @@
 <translation id="5699028034244995851">Zadajte svoju e-mailovú adresu, aby ste mohli pokračovať</translation>
 <translation id="5701178667798108817">Overenie telefónneho čísla</translation>
 <translation id="5715637701147651513">Libéria</translation>
-<translation id="5755179287528310939">Už existuje účet s touto e-mailovou adresou.</translation>
+<translation id="5747263508495256858">Odhlásenie</translation>
 <translation id="5771034676910614239">Madagaskar</translation>
 <translation id="5818634293686963864">Kazachstan</translation>
 <translation id="5829301468800336085">Prihlasovanie…</translation>
@@ -273,15 +297,20 @@
 <translation id="6032262985756512833">Zadajte <ph name="STRING" />-ciferný kód, ktorý sme odoslali na číslo</translation>
 <translation id="6044396095102058216">Toto telefónne číslo bolo použité príliš veľakrát</translation>
 <translation id="6083089720215618333">Zadaná e‑mailová adresa nezodpovedá aktuálnej relácii prihlasovania.</translation>
-<translation id="6113531938704280909">Odpojiť účet</translation>
+<translation id="6091051069256411999">Twitter</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />Prihláste sa do aplikácie <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6132202686885223981">Skontrolujte, či máte dostatok miesta v doručenej pošte alebo iné problémy súvisiace s nastaveniami doručenej pošty.</translation>
+<translation id="6135589730599211649">Klient zadal neplatný rozsah.</translation>
+<translation id="6143147250106939258">Bola prekročená kvóta tejto operácie. Skúste to znova neskôr.</translation>
 <translation id="6189573836664806798">Paraguaj</translation>
 <translation id="6192657410634245771">Alžírsko</translation>
 <translation id="6213969168046789596">Príliš veľakrát ste zadali nesprávne heslo. Skúste to znova o pár minút.</translation>
 <translation id="6216759405419177713">Norfolk</translation>
 <translation id="6245066275978703471">Telefónne číslo bolo automaticky overené</translation>
-<translation id="6283536862756552051">Ak chcete zmeniť heslo, musíte najskôr zadať aktuálne heslo.</translation>
-<translation id="6299890279889400823">Späť</translation>
+<translation id="6269083314054226194">Chyba siete. Skontrolujte internetové pripojenie.</translation>
+<translation id="6295157125625453859">Overené.</translation>
 <translation id="6316446940976157217">India</translation>
 <translation id="6327723482938582895">Benin</translation>
 <translation id="6338643731889005578">Pokračovať</translation>
@@ -330,27 +359,33 @@
 <translation id="6921505896641453739">E-mail</translation>
 <translation id="6929813273561975780">Ďalej</translation>
 <translation id="6951302238647056860">Tento kód už nie je platný</translation>
-<translation id="6976724207780605356">Prihlásiť sa cez Facebook</translation>
+<translation id="6961220857430789248">Prihlasovací e‑mail s ďalšími pokynmi bol odoslaný na adresu <ph name="STRING" />. Pozrite si poštu a dokončite prihlásenie.</translation>
 <translation id="6984204927251307445">Potvrdenie e-mailovej adresy</translation>
 <translation id="6999773882165218263">Krstné meno a priezvisko</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Západná Sahara</translation>
+<translation id="7025117765722694556">Kým je systém v aktuálnom stave, žiadosť nemožno vykonať.</translation>
 <translation id="7062299334696934251">Vyskytla sa neznáma chyba.</translation>
 <translation id="7064251114893721966">Adresu <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> ste už použili na prihlásenie. Zadajte heslo pre daný účet.</translation>
+<translation id="7085136866191400000">Prihlasovací e‑mail bol odoslaný</translation>
 <translation id="7089485669419398254">Írsko</translation>
 <translation id="7093343209860483088">Konžská demokratická republika</translation>
 <translation id="7118080999850002096">Obnovenie hesla</translation>
 <translation id="7150917293543492988">Konžská republika</translation>
+<translation id="7157317431934821052">Zdroj, ktorý sa klient pokúsil vytvoriť, už existuje.</translation>
 <translation id="7174424882502155514">Pokračovať ako hosť</translation>
 <translation id="7192078949090526171">San Maríno</translation>
 <translation id="7197455001919474950">Cyprus</translation>
 <translation id="7198563013006562060">Šalamúnove ostrovy</translation>
 <translation id="7207660930894629055">Chcete pokračovať s e-mailom <ph name="USER_EMAIL" />?</translation>
+<translation id="720983450833499456">Ak chcete pokračovať v prihlásení do účtu <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> v tomto zariadení, musíte si obnoviť heslo.</translation>
 <translation id="7223410082658239002">Maldivy</translation>
 <translation id="7254028881697834212">Svätý Tomáš a Princov ostrov</translation>
 <translation id="7268827299582726485">Potvrdením svojej e‑mailovej adresy dokončite prihlásenie</translation>
 <translation id="7272145663101316762">Slovinsko</translation>
 <translation id="7280309713358692490">Južná Kórea</translation>
+<translation id="7283725113395426048">Konflikt súbežnosti operácií, napríklad čítania, úpravy a zápisu.</translation>
+<translation id="7290147808482957603">Na serveri nie je implementovaná táto metóda rozhrania API.</translation>
 <translation id="7291567990403335374">Lesotho</translation>
 <translation id="7291656724505689727">Prihlásiť sa telefónom</translation>
 <translation id="7320029088567935126">Skúste znova overiť svoj e-mail</translation>
@@ -370,8 +405,10 @@
         Zadajte svoje heslo pre daný účet.</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{Heslo nie je dostatočne silné. Použite aspoň <ph name="PH_1" /> znak a kombináciu písmen a čísel}few{Heslo nie je dostatočne silné. Použite aspoň <ph name="PH_1" /> znaky a kombináciu písmen a čísel}many{Heslo nie je dostatočne silné. Použite aspoň <ph name="PH_1" /> znaku a kombináciu písmen a čísel}other{Heslo nie je dostatočne silné. Použite aspoň <ph name="PH_1" /> znakov a kombináciu písmen a čísel}}</translation>
 <translation id="7699755204074920022">Zimbabwe</translation>
+<translation id="7746977132739352062">Žiadosť nebola overená, pretože token OAuth chýba, je neplatný alebo jeho platnosť vypršala.</translation>
 <translation id="7782885946428624225">Vyskytol sa problém s overením vášho telefónneho čísla</translation>
 <translation id="7796914496604415892">Bolo rozpoznané nové zariadenie alebo prehliadač</translation>
+<translation id="786166109137986817">Prihlásiť sa do aplikácie <ph name="DISPLAY_NAME" /></translation>
 <translation id="7868540442111212282">Česko</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
 <translation id="7926046652648626866">Prihlásiť sa cez GitHub</translation>
@@ -426,6 +463,7 @@
 <translation id="868894957204919930">Bermudy</translation>
 <translation id="8694271531070467981">Niue</translation>
 <translation id="8745311627715763145">Guadeloupe</translation>
+<translation id="8752467400269476994">Klient uviedol neplatnú konfiguráciu projektu.</translation>
 <translation id="8760480624706028033">Palestínske územia</translation>
 <translation id="8770276147008360348">Slovensko</translation>
 <translation id="877434849857020571">Guernsey</translation>
@@ -438,19 +476,24 @@
 <translation id="8893950153780006385">Malajzia</translation>
 <translation id="8895840173743975193">Kokosové ostrovy</translation>
 <translation id="8916080112145514151">Ak stále chcete prepojiť svoj účet v službe <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" />, otvorte odkaz v tom istom zariadení, v ktorom ste sa začali prihlasovať. V opačnom prípade klepnite na tlačidlo Pokračovať a prihláste sa v tomto zariadení.</translation>
+<translation id="8920674952994839257">Skúsiť znova</translation>
 <translation id="8939353296336237380">Pôvodne ste chceli prepojiť svoj účet v službe <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> so svojím e‑mailovým účtom, ale odkaz ste otvorili v inom zariadení, v ktorom nie ste prihlásený/-á.</translation>
 <translation id="8971555482255213064">Kód sa znova odošle o 0:<ph name="PH_1" /></translation>
 <translation id="8984161590699631096">Maroko</translation>
+<translation id="8994098794339484800">Ak toto zariadenie nepoznáte, je možné, že sa niekto snaží získať prístup k vášmu účtu. Mali by ste si <ph name="START_LINK" />ihneď zmeniť heslo<ph name="END_LINK" />.</translation>
 <translation id="900153878296575829">Bangladéš</translation>
 <translation id="9022632332691561239">Telefón</translation>
 <translation id="9028063588419847334">Fínsko</translation>
 <translation id="9078135685219203661">Spojené arabské emiráty</translation>
+<translation id="9121203582272050974">E‑mailová adresa bola overená a zmenená</translation>
 <translation id="9156150178611681179">Heslo</translation>
 <translation id="9168877696443530714">Stredoafrická republika</translation>
 <translation id="9186194643192393179">Curaçao</translation>
+<translation id="9193130710600355008">Pre nezvyčajnú aktivitu sme zablokovali všetky žiadosti z tohto zariadenia. Skúste to znova neskôr.</translation>
 <translation id="919456844206936371">Tunisko</translation>
 <translation id="9209678713072395487">Heslo bolo zmenené</translation>
 <translation id="954276184636809129">Grécko</translation>
+<translation id="959388308828818789">Druhý prvok bol odstránený</translation>
 <translation id="965930633376049617">Angola</translation>
 <translation id="988087302893519488">Kuvajt</translation>
 <translation id="994914101700264849">Zadaný e-mail a heslo sa nezhodujú.</translation>

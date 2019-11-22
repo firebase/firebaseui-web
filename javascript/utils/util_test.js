@@ -216,3 +216,102 @@ function testGenerateRandomAlphaNumericString() {
         i, firebaseui.auth.util.generateRandomAlphaNumericString(i).length);
   }
 }
+
+
+function testFilterProperties() {
+  // Test that only expected properties are copied over to the new object.
+  const expectedObj = {
+    property1: 'a',
+    property2: 'b',
+    property3: 'c',
+  };
+  // The keys used to filter the source object.
+  const keys = Object.keys(expectedObj);
+  // Source object contains additional properties.
+  const sourceObj = Object.assign({property4: 'd'}, expectedObj);
+
+  // The additional properties on the source object should be removed.
+  assertObjectEquals(
+      expectedObj,
+      firebaseui.auth.util.filterProperties(sourceObj, keys));
+}
+
+
+function testFilterProperties_noMatchingKeys() {
+  // Test when the keys do not match with any properties in the source object.
+  const sourceObj = {
+    property1: 'a',
+    property2: 'b',
+    property3: 'c',
+  };
+  // The keys used to filter the source object.
+  const keys = ['property4', 'property5'];
+
+  // Empty object should be returned since there are no properties matching the
+  // provided keys.
+  assertObjectEquals(
+      {},
+      firebaseui.auth.util.filterProperties(sourceObj, keys));
+}
+
+
+function testFilterProperties_initialValue() {
+  // Test that expected properties and properties on initial value are
+  // copied over to the new object.
+  const expectedObj = {
+    property1: 'a',
+    property2: 'b',
+    property3: 'c',
+  };
+  // The keys used to filter the source object.
+  const keys = Object.keys(expectedObj);
+  // Source object contains additional properties.
+  const sourceObj = Object.assign({property4: 'd'}, expectedObj);
+
+  // The additional properties should be removed, the properties on initial
+  // value shoud be copied over.
+  assertObjectEquals(
+      {
+        property1: 'a',
+        property2: 'b',
+        property3: 'c',
+        property5: 'e',
+      },
+      firebaseui.auth.util.filterProperties(sourceObj, keys, {
+        property5: 'e',
+      }));
+}
+
+
+function testFilterProperties_initialValueOverridden() {
+  // Test that expected properties are copied over and properties on initial
+  // value are overriden if present on the source object.
+  const expectedObj = {
+    property1: 'a',
+    property2: 'b',
+    property3: 'c',
+  };
+  // The keys used to filter the source object.
+  const keys = Object.keys(expectedObj);
+  // Source object contains additional property.
+  const sourceObj = Object.assign({property4: 'd'}, expectedObj);
+
+  // The value of property1 should be the one on source object rather than the
+  // one on initial object.
+  assertObjectEquals(
+      expectedObj,
+      firebaseui.auth.util.filterProperties(sourceObj, keys, {
+        property1: 'z',
+      }));
+}
+
+
+function testFilterProperties_emptySourceObject() {
+  // Test when the source object is empty.
+  // The keys used to filter the source object.
+  const keys = ['property1', 'property2'];
+
+  assertObjectEquals(
+      {},
+      firebaseui.auth.util.filterProperties({}, keys));
+}

@@ -12,149 +12,920 @@
  * limitations under the License.
  */
 
-/**
- * @fileoverview Defines all configurations used by FirebaseUI widget.
- */
+/** @fileoverview Defines all configurations used by FirebaseUI widget. */
 
-goog.provide('firebaseui.auth.AnonymousAuthProvider');
-goog.provide('firebaseui.auth.CredentialHelper');
-goog.provide('firebaseui.auth.callback.signInFailure');
-goog.provide('firebaseui.auth.callback.signInSuccess');
-goog.provide('firebaseui.auth.callback.signInSuccessWithAuthResult');
-goog.provide('firebaseui.auth.widget.Config');
+goog.module('firebaseui.auth.widget.Config');
+goog.module.declareLegacyNamespace();
 
-goog.require('firebaseui.auth.AuthUIError');
-goog.require('firebaseui.auth.Config');
-goog.require('firebaseui.auth.PhoneNumber');
-goog.require('firebaseui.auth.data.country');
-goog.require('firebaseui.auth.idp');
-goog.require('firebaseui.auth.log');
-goog.require('firebaseui.auth.util');
-goog.require('goog.Uri');
-goog.require('goog.array');
-goog.require('goog.object');
-goog.require('goog.uri.utils');
-
-goog.forwardDeclare('firebaseui.auth.AuthResult');
+const AuthConfig = goog.require('firebaseui.auth.Config');
+const AuthUIError = goog.require('firebaseui.auth.AuthUIError');
+const PhoneNumber = goog.require('firebaseui.auth.PhoneNumber');
+const Uri = goog.require('goog.Uri');
+const country = goog.require('firebaseui.auth.data.country');
+const googArray = goog.require('goog.array');
+const googObject = goog.require('goog.object');
+const idp = goog.require('firebaseui.auth.idp');
+const log = goog.require('firebaseui.auth.log');
+const util = goog.require('firebaseui.auth.util');
+const utils = goog.require('goog.uri.utils');
 
 
-/**
- * Application configuration settings.
- * @constructor
- */
-firebaseui.auth.widget.Config = function() {
-  this.config_ = new firebaseui.auth.Config();
-  // Define FirebaseUI widget configurations and convenient getters.
-  this.config_.define('acUiConfig');
-  this.config_.define('autoUpgradeAnonymousUsers');
-  this.config_.define('callbacks');
+/** Application configuration settings. */
+class Config {
+  constructor() {
+    /** @const @private {!AuthConfig} The AuthUI config object. */
+    this.config_ = new AuthConfig();
+    // Define FirebaseUI widget configurations and convenient getters.
+    this.config_.define('acUiConfig');
+    this.config_.define('autoUpgradeAnonymousUsers');
+    this.config_.define('callbacks');
+    /**
+     * Determines which credential helper to use. Currently, only
+     * accountchooser.com is available and it is set by default.
+     */
+    this.config_.define(
+        'credentialHelper',
+        Config.CredentialHelper.ACCOUNT_CHOOSER_COM);
+    /**
+     * Determines whether to immediately redirect to the provider's site or
+     * instead show the default 'Sign in with Provider' button when there
+     * is only a single federated provider in signInOptions. In order for this
+     * option to take effect, the signInOptions must only hold a single
+     * federated provider (like 'google.com') and signInFlow must be set to
+     * 'redirect'.
+     */
+    this.config_.define('immediateFederatedRedirect', false);
+    this.config_.define('popupMode', false);
+    this.config_.define('privacyPolicyUrl');
+    /** Determines the redirect URL query key. */
+    this.config_.define(
+        'queryParameterForSignInSuccessUrl', 'signInSuccessUrl');
+    this.config_.define('queryParameterForWidgetMode', 'mode');
+    /**
+     * Determines the sign-in flow, 'popup' or 'redirect'. The former will use
+     * signInWithPopup where as the latter will use the default
+     * signInWithRedirect when a federated sign-in is triggered.
+     */
+    this.config_.define('signInFlow');
+    /**
+     * Determines the list of IdPs for handling federated sign-in as well as
+     * password account sign-up explicitly. The developer can also request
+     * additional scopes.
+     */
+    this.config_.define('signInOptions');
+    this.config_.define('signInSuccessUrl');
+    this.config_.define('siteName');
+    this.config_.define('tosUrl');
+    this.config_.define('widgetUrl');
+  }
+
+  /** @return {?Object} The UI configuration for accountchooser.com. */
+  getAcUiConfig() {
+    return /** @type {?Object} */ (this.config_.get('acUiConfig') || null);
+  }
+
   /**
-   * Determines which credential helper to use. Currently, only
-   * accountchooser.com is available and it is set by default.
+   * Gets the widget URL for a specific mode.
+   * The 'widgetUrl' configuration is required for this method.
+   * @param {?Config.WidgetMode=} mode The mode for the widget.
+   * @return {string} The URL of the callback widget.
    */
-  this.config_.define(
-      'credentialHelper',
-      firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM);
-  /**
-   * Determines whether to immediately redirect to the provider's site or
-   * instead show the default 'Sign in with Provider' button when there
-   * is only a single federated provider in signInOptions. In order for this
-   * option to take effect, the signInOptions must only hold a single federated
-   * provider (like 'google.com') and signInFlow must be set to 'redirect'.
-   */
-  this.config_.define('immediateFederatedRedirect', false);
-  this.config_.define('popupMode', false);
-  this.config_.define('privacyPolicyUrl');
-  /**
-   * Determines the redirect URL query key.
-   */
-  this.config_.define('queryParameterForSignInSuccessUrl', 'signInSuccessUrl');
-  this.config_.define('queryParameterForWidgetMode', 'mode');
-  /**
-   * Determines the sign-in flow, 'popup' or 'redirect'. The former will use
-   * signInWithPopup where as the latter will use the default signInWithRedirect
-   * when a federated sign-in is triggered.
-   */
-  this.config_.define('signInFlow');
-  /**
-   * Determines the list of IdPs for handling federated sign-in as well as
-   * password account sign-up explicitly. The developer can also request
-   * additional scopes.
-   */
-  this.config_.define('signInOptions');
-  this.config_.define('signInSuccessUrl');
-  this.config_.define('siteName');
-  this.config_.define('tosUrl');
-  this.config_.define('widgetUrl');
-};
+  getRequiredWidgetUrl(mode = undefined) {
+    const url = /** @type {string} */ (this.config_.getRequired('widgetUrl'));
+    return this.widgetUrlForMode_(url, mode);
+  }
 
+  /**
+   * Gets the widget URL for a specific mode.
+   * If the 'widgetUrl' configuration is not set, current URL is used as the
+   * base URL for the widget.
+   * @param {?Config.WidgetMode=} mode The mode for the widget.
+   * @return {string} The URL of the callback widget.
+   */
+  getWidgetUrl(mode = undefined) {
+    const url = /** @type {string|undefined} */ (
+        this.config_.get('widgetUrl')) ||
+        // If no widget URL is provided, use the current one.
+        util.getCurrentUrl();
+    return this.widgetUrlForMode_(url, mode);
+  }
+
+  /**
+   * Gets the callback URL for IdP. It always returns an absolute URL.
+   * @return {string} The callback URL.
+   */
+  getIdpCallbackUrl() {
+    return Uri.resolve(
+        window.location.href, this.getWidgetUrl()).toString();
+  }
+
+  /**
+   * @param {string} baseUrl The base URL of the widget.
+   * @param {?Config.WidgetMode=} mode The mode for the widget.
+   * @return {string} The URL of the widget for a specific mode.
+   * @private
+   */
+  widgetUrlForMode_(baseUrl, mode = undefined) {
+    if (mode) {
+      const key = this.getQueryParameterForWidgetMode();
+      return utils.setParam(baseUrl, key, mode);
+    } else {
+      return baseUrl;
+    }
+  }
+
+  /** @return {string} The sign-in URL of the site. */
+  getSignInSuccessUrl() {
+    return /** @type {string} */ (this.config_.get('signInSuccessUrl'));
+  }
+
+  /** @return {boolean} Whether to auto upgrade anonymous users. */
+  autoUpgradeAnonymousUsers() {
+    const autoUpgradeAnonymousUsers =
+        !!this.config_.get('autoUpgradeAnonymousUsers');
+    // Confirm signInFailure callback is provided when anonymous upgrade is
+    // enabled. This is required to provide a means of recovery for merge
+    // conflict flows.
+    if (autoUpgradeAnonymousUsers && !this.getSignInFailureCallback()) {
+      log.error('Missing "signInFailure" callback: ' +
+          '"signInFailure" callback needs to be provided when ' +
+          '"autoUpgradeAnonymousUsers" is set to true.');
+    }
+    return autoUpgradeAnonymousUsers;
+  }
+
+  /**
+   * Returns the normalized list of valid user-enabled IdPs.
+   * The user may specify each IdP as just a provider ID or as an object
+   * containing provider ID and additional scopes; this method converts all
+   * entries to the object format and filters out entries with invalid
+   * providers.
+   * @return {!Array<?Object>} The normalized sign-in options.
+   * @private
+   */
+  getSignInOptions_() {
+    const signInOptions = this.config_.get('signInOptions') || [];
+    const normalizedOptions = [];
+    for (let i = 0; i < signInOptions.length; i++) {
+      const providerConfig = signInOptions[i];
+
+      // If the config is not in object format, convert to object format.
+      const normalizedConfig = goog.isObject(providerConfig) ?
+          providerConfig : {'provider': providerConfig};
+
+      if (normalizedConfig['provider']) {
+        normalizedOptions.push(normalizedConfig);
+      }
+    }
+    return normalizedOptions;
+  }
+
+  /**
+   * Returns the normalized signInOptions for the specified provider.
+   * @param {string} providerId The provider id whose signInOptions are to be
+   *     returned.
+   * @return {?Object} The normalized sign-in options for the specified
+   *     provider.
+   * @private
+   */
+  getSignInOptionsForProvider_(providerId) {
+    const signInOptions = this.getSignInOptions_();
+    // For each sign-in option.
+    for (let i = 0; i < signInOptions.length; i++) {
+      // Check if current option matches provider ID.
+      if (signInOptions[i]['provider'] === providerId) {
+        return signInOptions[i];
+      }
+    }
+    return null;
+  }
+
+  /**
+   * @return {!Array<string>} The list of supported IdPs including password
+   *     special IdP.
+   */
+  getProviders() {
+    return googArray.map(
+        this.getSignInOptions_(), (option) => option['provider']);
+  }
+
+  /**
+   * @param {string} providerId The provider id whose sign in provider config
+   *     is to be returned.
+   * @return {?Config.ProviderConfig} The list of sign in provider configs for
+   *     supported IdPs.
+   */
+  getConfigForProvider(providerId) {
+    const providerConfigs = this.getProviderConfigs();
+    for (let i = 0; i < providerConfigs.length; i++) {
+      // Check if current option matches provider ID.
+      if (providerConfigs[i]['providerId'] === providerId) {
+        return providerConfigs[i];
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Returns all available provider configs. For built-in providers, provider
+   * display name, button color and icon URL are fixed and cannot be overridden.
+   * @return {!Array<!Config.ProviderConfig>} The list of supported IdP configs.
+   */
+  getProviderConfigs() {
+    return googArray.map(this.getSignInOptions_(), (option) => {
+      if (idp.isSupportedProvider(option['provider']) ||
+          googArray.contains(
+              UI_SUPPORTED_PROVIDERS,
+              option['provider'])) {
+        // For built-in providers, provider display name, button color and
+        // icon URL are fixed. The login hint key is also automatically set for
+        // built-in providers that support it.
+        return {
+          providerId: option['provider'],
+        };
+      } else {
+        return {
+          providerId: option['provider'],
+          providerName: option['providerName'] || null,
+          buttonColor: option['buttonColor'] || null,
+          iconUrl: option['iconUrl'] ?
+              util.sanitizeUrl(option['iconUrl']) : null,
+          loginHintKey: option['loginHintKey'] || null,
+        };
+      }
+    });
+  }
+
+  /**
+   * @return {?SmartLockRequestOptions} The googleyolo configuration options
+   * if available.
+   */
+  getGoogleYoloConfig() {
+    const supportedAuthMethods = [];
+    const supportedIdTokenProviders = [];
+    googArray.forEach(this.getSignInOptions_(), (option) => {
+      if (option['authMethod']) {
+        supportedAuthMethods.push(option['authMethod']);
+        if (option['clientId']) {
+          supportedIdTokenProviders.push({
+            'uri': option['authMethod'],
+            'clientId': option['clientId'],
+          });
+        }
+      }
+    });
+    let config = null;
+    // Ensure configuration is not empty. At least one supportedIdTokenProviders
+    // or supportedAuthMethods needs to be provided.
+    if (this.getCredentialHelper() ===
+        Config.CredentialHelper.GOOGLE_YOLO &&
+        // googleyolo will enforce that clientId is present. Delegate the check
+        // to it. Errors will be surfaced in the console.
+        supportedAuthMethods.length) {
+      config = {
+        'supportedIdTokenProviders': supportedIdTokenProviders,
+        'supportedAuthMethods': supportedAuthMethods,
+      };
+    }
+    return config;
+  }
+
+  /**
+   * @return {boolean} Whether the user should be prompted to select an
+   *     account.
+   */
+  isAccountSelectionPromptEnabled() {
+    // This is only applicable to Google. If prompt is set, googleyolo retrieve
+    // is disabled. Auto sign-in should be manually disabled.
+    // Get Google custom parameters.
+    const googleCustomParameters = this.getProviderCustomParameters(
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID);
+    // Google custom parameters must have prompt set to select_account,
+    // otherwise account selection prompt is considered disabled.
+    return !!(googleCustomParameters &&
+              googleCustomParameters['prompt'] === 'select_account');
+  }
+
+  /**
+   * Returns the corresponding Firebase Auth provider ID for the googleyolo
+   * authMethod provided.
+   * @param {?string} authMethod The googleyolo authMethod whose corresponding
+   *     Firebase provider ID is to be returned.
+   * @return {?string} The corresponding Firebase provider ID if available.
+   */
+  getProviderIdFromAuthMethod(authMethod) {
+    let providerId = null;
+    // For each supported provider.
+    googArray.forEach(this.getSignInOptions_(), (option) => {
+      // Check for matching authMethod.
+      if (option['authMethod'] === authMethod) {
+        // Get the providerId for that provider.
+        providerId = option['provider'];
+      }
+    });
+    // Return the corresponding provider ID.
+    return providerId;
+  }
+
+  /**
+   * @return {?Object<string, *>} The filtered reCAPTCHA parameters used when
+   *     phone auth provider is enabled. If none provided, null is returned.
+   */
+  getRecaptchaParameters() {
+    let recaptchaParameters = null;
+    googArray.forEach(this.getSignInOptions_(), (option) => {
+      if (option['provider'] ==
+          firebase.auth.PhoneAuthProvider.PROVIDER_ID &&
+          // Confirm valid object.
+          goog.isObject(option['recaptchaParameters']) &&
+          !goog.isArray(option['recaptchaParameters'])) {
+        // Clone original object.
+        recaptchaParameters = googObject.clone(option['recaptchaParameters']);
+      }
+    });
+    if (recaptchaParameters) {
+      // Keep track of all blacklisted keys passed by the developer.
+      const blacklistedKeys = [];
+      // Go over all blacklisted keys and remove them from the original object.
+      googArray.forEach(
+          BLACKLISTED_RECAPTCHA_KEYS,
+          (key) => {
+            if (typeof recaptchaParameters[key] !== 'undefined') {
+              blacklistedKeys.push(key);
+              delete recaptchaParameters[key];
+            }
+          });
+      // Log a warning for invalid keys.
+      // This will show on each call.
+      if (blacklistedKeys.length) {
+        log.warning(
+            'The following provided "recaptchaParameters" keys are not ' +
+            'allowed: ' + blacklistedKeys.join(', '));
+      }
+    }
+    return recaptchaParameters;
+  }
+
+  /**
+   * @param {string} providerId The provider id whose additional scopes are to
+   *     be returned.
+   * @return {!Array<string>} The list of additional scopes for specified
+   *     provider.
+   */
+  getProviderAdditionalScopes(providerId) {
+    // Get provided sign-in options for specified provider.
+    const signInOptions = this.getSignInOptionsForProvider_(providerId);
+    const scopes = signInOptions && signInOptions['scopes'];
+    return goog.isArray(scopes) ? scopes : [];
+  }
+
+  /**
+   * @param {string} providerId The provider id whose custom parameters are to
+   *     be returned.
+   * @return {?Object} The custom parameters for the current provider.
+   */
+  getProviderCustomParameters(providerId) {
+    // Get provided sign-in options for specified provider.
+    const signInOptions = this.getSignInOptionsForProvider_(providerId);
+    // Get customParameters for that provider if available.
+    const customParameters = signInOptions && signInOptions['customParameters'];
+    // Custom parameters must be an object.
+    if (goog.isObject(customParameters)) {
+      // Clone original custom parameters.
+      const clonedCustomParameters = googObject.clone(customParameters);
+      // Delete login_hint from Google provider as it could break the flow.
+      if (providerId === firebase.auth.GoogleAuthProvider.PROVIDER_ID) {
+        delete clonedCustomParameters['login_hint'];
+      }
+      // Delete login from GitHub provider as it could break the flow.
+      if (providerId === firebase.auth.GithubAuthProvider.PROVIDER_ID) {
+        delete clonedCustomParameters['login'];
+      }
+      return clonedCustomParameters;
+    }
+    return null;
+  }
+
+  /**
+   * Returns the default country to select for phone authentication.
+   * @return {?string} The default naional number, or null if phone auth is not
+   *     enabled.
+   */
+  getPhoneAuthDefaultNationalNumber() {
+    const signInOptions = this.getSignInOptionsForProvider_(
+        firebase.auth.PhoneAuthProvider.PROVIDER_ID);
+    // Check if loginHint passed. If so, get the national number from there.
+    // If no defaultNationalNumber passed, use this value instead.
+    let defaultPhoneNumber = null;
+    if (signInOptions && typeof (signInOptions['loginHint']) === 'string') {
+      defaultPhoneNumber = PhoneNumber.fromString(
+          /** @type {string} */ (signInOptions['loginHint']));
+    }
+    return (signInOptions && signInOptions['defaultNationalNumber']) ||
+        (defaultPhoneNumber && defaultPhoneNumber.nationalNumber) || null;
+  }
+
+  /**
+   * Returns the default country to select for phone authentication.
+   * @return {?country.Country} The default country, or null if phone auth is
+   *     not enabled or the country is not found.
+   */
+  getPhoneAuthDefaultCountry() {
+    const signInOptions = this.getSignInOptionsForProvider_(
+        firebase.auth.PhoneAuthProvider.PROVIDER_ID);
+    const iso2 = signInOptions && signInOptions['defaultCountry'] || null;
+    const countries = iso2 && country.getCountriesByIso2(iso2);
+    // Check if loginHint passed. If so, get the country ID from there.
+    // If no defaultCountry passed, use this value instead.
+    let defaultPhoneNumber = null;
+    if (signInOptions && typeof (signInOptions['loginHint']) === 'string') {
+      defaultPhoneNumber = PhoneNumber.fromString(
+          /** @type {string} */ (signInOptions['loginHint']));
+    }
+    // If there are multiple entries, pick the first one.
+    return (countries && countries[0]) ||
+        (defaultPhoneNumber && defaultPhoneNumber.getCountry()) || null;
+  }
+
+  /**
+   * Returns the available countries for phone authentication.
+   * @return {?Array<!country.Country>} The available country list, or null if
+   *     phone Auth is not enabled.
+   */
+  getPhoneAuthAvailableCountries() {
+    const signInOptions = this.getSignInOptionsForProvider_(
+        firebase.auth.PhoneAuthProvider.PROVIDER_ID);
+    if (!signInOptions) {
+      return null;
+    }
+    const whitelistedCountries = signInOptions['whitelistedCountries'];
+    const blacklistedCountries = signInOptions['blacklistedCountries'];
+    // First validate the input.
+    if (typeof whitelistedCountries !== 'undefined' &&
+        (!goog.isArray(whitelistedCountries) ||
+         whitelistedCountries.length == 0)) {
+      throw new Error('WhitelistedCountries must be a non-empty array.');
+    }
+    if (typeof blacklistedCountries !== 'undefined' &&
+        (!goog.isArray(blacklistedCountries))) {
+      throw new Error('BlacklistedCountries must be an array.');
+    }
+    // If both whitelist and blacklist are provided, throw error.
+    if (whitelistedCountries && blacklistedCountries) {
+      throw new Error(
+          'Both whitelistedCountries and blacklistedCountries are provided.');
+    }
+    // If no whitelist or blacklist provided, return all available countries.
+    if (!whitelistedCountries && !blacklistedCountries) {
+      return country.COUNTRY_LIST;
+    }
+    let countries = [];
+    const availableCountries = [];
+    if (whitelistedCountries) {
+      // Whitelist is provided.
+      const whitelistedCountryMap = {};
+      for (let i = 0; i < whitelistedCountries.length; i++) {
+        countries = country
+            .getCountriesByE164OrIsoCode(whitelistedCountries[i]);
+        // Remove duplicate and overlaps by putting into a map.
+        for (let j = 0; j < countries.length; j++) {
+          whitelistedCountryMap[countries[j].e164_key] = countries[j];
+        }
+      }
+      for (let countryKey in whitelistedCountryMap) {
+         if (whitelistedCountryMap.hasOwnProperty(countryKey)) {
+           availableCountries.push(whitelistedCountryMap[countryKey]);
+         }
+      }
+      return availableCountries;
+    } else {
+      const blacklistedCountryMap = {};
+      for (let i = 0; i < blacklistedCountries.length; i++) {
+        countries = country
+            .getCountriesByE164OrIsoCode(blacklistedCountries[i]);
+        // Remove duplicate and overlaps by putting into a map.
+        for (let j = 0; j < countries.length; j++) {
+          blacklistedCountryMap[countries[j].e164_key] = countries[j];
+        }
+      }
+      for (let k = 0; k < country.COUNTRY_LIST.length; k++) {
+        if (!googObject.containsKey(
+                blacklistedCountryMap,
+                country.COUNTRY_LIST[k].e164_key)) {
+          availableCountries.push(country.COUNTRY_LIST[k]);
+        }
+      }
+      return availableCountries;
+    }
+  }
+
+  /** @return {string} The query parameter name for widget mode. */
+  getQueryParameterForWidgetMode() {
+    return /** @type {string} */ (
+        this.config_.getRequired('queryParameterForWidgetMode'));
+  }
+
+  /** @return {string} The redirect URL query parameter. */
+  getQueryParameterForSignInSuccessUrl() {
+    return /** @type {string} */ (
+        this.config_.getRequired('queryParameterForSignInSuccessUrl'));
+  }
+
+  /** @return {string} The name of the website. */
+  getSiteName() {
+    return /** @type {string} */ (this.config_.getRequired('siteName'));
+  }
+
+  /**
+   * @return {?function()} The ToS callback for the site. If URL is provided,
+   *     wraps the URL with a callback function.
+   */
+  getTosUrl() {
+    const tosUrl = this.config_.get('tosUrl') || null;
+    const privacyPolicyUrl = this.config_.get('privacyPolicyUrl') || null;
+    if (tosUrl && !privacyPolicyUrl) {
+      log.warning(
+          'Privacy Policy URL is missing, the link will not be displayed.');
+    }
+    if (tosUrl && privacyPolicyUrl) {
+      if (goog.isFunction(tosUrl)) {
+        return /** @type {function()} */ (tosUrl);
+      } else if (typeof tosUrl === 'string') {
+        return () => {
+          util.open(
+              /** @type {string} */ (tosUrl),
+              util.isCordovaInAppBrowserInstalled() ?
+              '_system' : '_blank');
+        };
+      }
+    }
+    return null;
+  }
+
+  /**
+   * @return {?function()} The Privacy Policy callback for the site. If URL is
+   * provided, wraps the URL with a callback function.
+   */
+  getPrivacyPolicyUrl() {
+    const tosUrl = this.config_.get('tosUrl') || null;
+    const privacyPolicyUrl = this.config_.get('privacyPolicyUrl') || null;
+    if (privacyPolicyUrl && !tosUrl) {
+      log.warning(
+          'Term of Service URL is missing, the link will not be displayed.');
+    }
+    if (tosUrl && privacyPolicyUrl) {
+      if (goog.isFunction(privacyPolicyUrl)) {
+          return /** @type {function()} */ (privacyPolicyUrl);
+      } else if (typeof privacyPolicyUrl === 'string') {
+        return () => {
+          util.open(
+              /** @type {string} */ (privacyPolicyUrl),
+              util.isCordovaInAppBrowserInstalled() ?
+              '_system' : '_blank');
+        };
+      }
+    }
+    return null;
+  }
+
+  /**
+   * @return {boolean} Whether the display name should be displayed. Defaults
+   *     to true.
+   */
+  isDisplayNameRequired() {
+    // Get provided sign-in options for specified provider.
+    const signInOptions = this.getSignInOptionsForProvider_(
+        firebase.auth.EmailAuthProvider.PROVIDER_ID);
+
+    if (signInOptions &&
+        typeof signInOptions['requireDisplayName'] !== 'undefined') {
+      return /** @type {boolean} */ (!!signInOptions['requireDisplayName']);
+    }
+    return true;
+  }
+
+  /**
+   * @return {boolean} Whether email link sign-in is allowed. Defaults to false.
+   */
+  isEmailLinkSignInAllowed() {
+    // Get provided sign-in options for specified provider.
+    const signInOptions = this.getSignInOptionsForProvider_(
+        firebase.auth.EmailAuthProvider.PROVIDER_ID);
+
+    return !!(signInOptions && signInOptions['signInMethod'] ===
+              firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD);
+  }
+
+  /**
+   * @return {boolean} Whether password sign-in is allowed. Defaults to true.
+   */
+  isEmailPasswordSignInAllowed() {
+    return !this.isEmailLinkSignInAllowed();
+  }
+
+  /** @return {boolean} Whether same device is forced for email link sign-in. */
+  isEmailLinkSameDeviceForced() {
+    // Get provided sign-in options for specified provider.
+    const signInOptions = this.getSignInOptionsForProvider_(
+        firebase.auth.EmailAuthProvider.PROVIDER_ID);
+
+    return !!(signInOptions && signInOptions['forceSameDevice']);
+  }
+
+  /**
+   * @return {?firebase.auth.ActionCodeSettings} The ActionCodeSettings if
+   *     email link sign-in is enabled. Null is returned otherwise.
+   */
+  getEmailLinkSignInActionCodeSettings() {
+    if (this.isEmailLinkSignInAllowed()) {
+      const actionCodeSettings = {
+        'url': util.getCurrentUrl(),
+        'handleCodeInApp': true,
+      };
+      // Get provided sign-in options for specified provider.
+      const signInOptions = this.getSignInOptionsForProvider_(
+          firebase.auth.EmailAuthProvider.PROVIDER_ID);
+      if (signInOptions &&
+          typeof signInOptions['emailLinkSignIn'] === 'function') {
+        googObject.extend(
+            actionCodeSettings,
+            signInOptions['emailLinkSignIn']());
+      }
+      // URL could be provided using a relative path.
+      actionCodeSettings['url'] = Uri.resolve(
+          util.getCurrentUrl(),
+          actionCodeSettings['url']).toString();
+      return actionCodeSettings;
+    }
+    return null;
+  }
+
+  /** @return {boolean} Whether to prefer popup mode. */
+  getPopupMode() {
+    return !!this.config_.get('popupMode');
+  }
+
+  /**
+   * Determines whether to show the 'nascar' sign-in buttons screen or
+   * immediately redirect to the provider's site when there is only a single
+   * federated provider in signInOptions. In order for this option to take
+   * effect, the signInOptions must only hold a single federated provider (like
+   * 'google.com') and signInFlow must be set to 'redirect'.
+   * @return {boolean} Whether to skip the 'nascar' screen or not.
+   */
+  federatedProviderShouldImmediatelyRedirect() {
+    const immediateFederatedRedirect = !!this.config_.get(
+        'immediateFederatedRedirect');
+    const providers = this.getProviders();
+    const signInFlow = this.getSignInFlow();
+    return immediateFederatedRedirect &&
+        providers.length == 1 &&
+        idp.isFederatedSignInMethod(providers[0]) &&
+        signInFlow == Config.SignInFlow.REDIRECT;
+  }
+
+  /** @return {!Config.SignInFlow} The current sign-in flow. */
+  getSignInFlow() {
+    const signInFlow = this.config_.get('signInFlow');
+    // Make sure the select flow is a valid one.
+    for (let key in Config.SignInFlow) {
+      if (Config.SignInFlow[key] == signInFlow) {
+        // Return valid flow.
+        return Config.SignInFlow[key];
+      }
+    }
+    // Default to redirect flow.
+    return Config.SignInFlow.REDIRECT;
+  }
+
+  /**
+   * @return {?function()} The callback to invoke when the widget UI is shown.
+   */
+  getUiShownCallback() {
+    return /** @type {?function()} */ (
+        this.getCallbacks_()['uiShown'] || null);
+  }
+
+  /**
+   * @return {?function(?string, ?string)} The callback to invoke when the
+   *     widget UI is changed. Two parameters are passed, the from page
+   *     identifier and the to page identifier.
+   */
+  getUiChangedCallback() {
+    return /** @type {?function(?string, ?string)} */ (
+        this.getCallbacks_()['uiChanged'] || null);
+  }
+
+  /**
+   * @return {?function(?function())} The callback to invoke right when
+   *     accountchooser.com is triggered, a continue function is passed and
+   *     this should be called when the callback is completed, typically
+   *     asynchronously to proceed to accountchooser.com.
+   */
+  getAccountChooserInvokedCallback() {
+    return /** @type {?function(?function())} */ (
+        this.getCallbacks_()['accountChooserInvoked'] || null);
+  }
+
+  /**
+   * @return {?function(?Config.AccountChooserResult, ?function())} The callback
+   *     to invoke on return from accountchooser.com invocation. The code
+   *     result string is passed.
+   */
+  getAccountChooserResultCallback() {
+    /**
+     * @type {?function(?Config.AccountChooserResult, ?function())}
+     */
+    const callback = this.getCallbacks_()['accountChooserResult'] || null;
+    return callback;
+  }
+
+  /**
+   * @return {?Config.signInSuccessCallback} The callback to invoke when the
+   *     user signs in successfully. The signed in firebase user is passed
+   *     into the callback. A second parameter, the Auth credential is also
+   *     returned if available from the sign in with redirect response. An
+   *     optional third parameter, the redirect URL, is also returned if that
+   *     value is set in storage. If it returns `true`, the widget will
+   *     continue to redirect the page to `signInSuccessUrl`. Otherwise, the
+   *     widget stops after it returns.
+   */
+  getSignInSuccessCallback() {
+    return /** @type {?Config.signInSuccessCallback} */ (
+        this.getCallbacks_()['signInSuccess'] || null);
+  }
+
+  /**
+   * @return {?Config.signInSuccessWithAuthResultCallback} The callback to
+   *     invoke when the user signs in successfully. The Auth result is passed
+   *     into the callback, which includes current user, credential to sign in
+   *     to external Auth instance, additional user info and operation type.
+   *     An optional second parameter, the redirect URL, is also returned if
+   *     that value is set in storage. If it returns `true`, the widget will
+   *     continue to redirect the page to `signInSuccessUrl`. Otherwise, the
+   *     widget stops after it returns.
+   */
+  getSignInSuccessWithAuthResultCallback() {
+    return (
+        /** @type {?Config.signInSuccessWithAuthResultCallback} */ (
+        this.getCallbacks_()['signInSuccessWithAuthResult'] || null));
+  }
+
+  /**
+   * @return {?Config.signInFailureCallback} The callback to invoke when the
+   *     user fails to sign in.
+   */
+  getSignInFailureCallback() {
+    return /** @type {?Config.signInFailureCallback} */ (
+        this.getCallbacks_()['signInFailure'] || null);
+  }
+
+  /**
+   * @return {!Object} The callback configuration.
+   * @private
+   */
+  getCallbacks_() {
+    return /** @type {!Object} */ (this.config_.get('callbacks') || {});
+  }
+
+  /**
+   * TODO: for now, only accountchooser.com is available and all logic related
+   * to credential helper relies on it, so this method is provided for ease of
+   * use. It should be removed in the future when FirebaseUI supports several
+   * credential helpers.
+   * @return {boolean} Whether accountchooser.com is enabled.
+   */
+  isAccountChooserEnabled() {
+    return this.getCredentialHelper() ==
+        Config.CredentialHelper.ACCOUNT_CHOOSER_COM;
+  }
+
+  /**
+   * @return {!Config.CredentialHelper} The credential helper to use.
+   */
+  getCredentialHelper() {
+    // Always use none for non http or https environment.
+    // This could change when we support other credential helpers. This is
+    // unlikely though as smartlock also checks the domain and will not work in
+    // such environments.
+    if (!util.isHttpOrHttps()) {
+      return Config.CredentialHelper.NONE;
+    }
+    const credentialHelper = this.config_.get('credentialHelper');
+    // Make sure the credential helper is valid.
+    for (let key in Config.CredentialHelper) {
+      if (Config.CredentialHelper[key] ==
+          credentialHelper) {
+        // Return valid flow.
+        return Config.CredentialHelper[key];
+      }
+    }
+    // Default to using accountchooser.com.
+    return Config.CredentialHelper.ACCOUNT_CHOOSER_COM;
+  }
+
+  /**
+   * Resolves configurations that are implied/restricted by other configs.
+   * @private
+   */
+  resolveImplicitConfig_() {
+    if (util.isMobileBrowser()) {
+      // On mobile we should not use popup
+      this.config_.update('popupMode', false);
+    }
+  }
+
+  /**
+   * Sets the configurations.
+   * @param {Object} config The configurations.
+   */
+  setConfig(config) {
+    for (let name in config) {
+      try {
+        this.config_.update(name, config[name]);
+      } catch (e) {
+        log.error(`Invalid config: "${name}"`);
+      }
+    }
+    this.resolveImplicitConfig_();
+    this.getPhoneAuthAvailableCountries();
+  }
+
+  /**
+   * Updates the configuration and its descendants with the given value.
+   * @param {string} name The name of the configuration.
+   * @param {*} value The value of the configuration.
+   */
+  update(name, value) {
+    this.config_.update(name, value);
+    this.getPhoneAuthAvailableCountries();
+  }
+}
 
 /**
  * The different credentials helper available.
- *
  * @enum {string}
  */
-firebaseui.auth.CredentialHelper = {
+Config.CredentialHelper = {
   ACCOUNT_CHOOSER_COM: 'accountchooser.com',
   GOOGLE_YOLO: 'googleyolo',
-  NONE: 'none'
+  NONE: 'none',
 };
-
 
 /**
  * Provider ID for continue as guest sign in option.
- *
  * @const {string}
  */
-firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID = 'anonymous';
+Config.ANONYMOUS_PROVIDER_ID = 'anonymous';
 
+/**
+ * @typedef {{
+ *   user: (?firebase.User),
+ *   credential: (?firebase.auth.AuthCredential),
+ *   operationType: (?string|undefined),
+ *   additionalUserInfo: (?firebase.auth.AdditionalUserInfo|undefined)
+ * }}
+ */
+Config.AuthResult;
 
 /**
  * The configuration sign-in success callback.
  * @typedef {function(
  *     !firebase.User, ?firebase.auth.AuthCredential=, string=): boolean}
  */
-firebaseui.auth.callback.signInSuccess;
-
+Config.signInSuccessCallback;
 
 /**
  * The configuration sign-in success callback which takes AuthResult as input.
- * @typedef {function(
- *     !firebaseui.auth.AuthResult, string=): boolean}
+ * @typedef {function(!Config.AuthResult, string=): boolean}
  */
-firebaseui.auth.callback.signInSuccessWithAuthResult;
-
+Config.signInSuccessWithAuthResultCallback;
 
 /**
  * The configuration sign-in failure callback.
- * @typedef {function(!firebaseui.auth.AuthUIError): (!Promise<void>|void)}
+ * @typedef {function(!AuthUIError): (!Promise<void>|void)}
  */
-firebaseui.auth.callback.signInFailure;
-
+Config.signInFailureCallback;
 
 /**
  * The accountchooser.com result codes.
- *
  * @enum {string}
  */
-firebaseui.auth.widget.Config.AccountChooserResult = {
+Config.AccountChooserResult = {
   EMPTY: 'empty',
   UNAVAILABLE: 'unavailable',
   ACCOUNT_SELECTED: 'accountSelected',
-  ADD_ACCOUNT: 'addAccount'
+  ADD_ACCOUNT: 'addAccount',
 };
-
 
 /**
  * The type of sign-in flow.
- *
  * @enum {string}
  */
-firebaseui.auth.widget.Config.SignInFlow = {
+Config.SignInFlow = {
   POPUP: 'popup',
-  REDIRECT: 'redirect'
+  REDIRECT: 'redirect',
 };
-
 
 /**
  * The provider config object for generic providers.
@@ -163,7 +934,6 @@ firebaseui.auth.widget.Config.SignInFlow = {
  * buttonColor: The color of the sign in button.
  * iconUrl: The URL of the icon on sign in button.
  * loginHintKey: The name to use for the optional login hint parameter.
- *
  * @typedef {{
  *   providerId: string,
  *   providerName: (?string|undefined),
@@ -172,892 +942,32 @@ firebaseui.auth.widget.Config.SignInFlow = {
  *   loginHintKey: (?string|undefined)
  * }}
  */
-firebaseui.auth.widget.Config.ProviderConfig;
-
-
-/** @return {?Object} The UI configuration for accountchooser.com. */
-firebaseui.auth.widget.Config.prototype.getAcUiConfig = function() {
-  return /** @type {?Object} */ (this.config_.get('acUiConfig') || null);
-};
-
+Config.ProviderConfig;
 
 /**
  * Enums for callback widget mode. Please alphabetize by names.
  * @enum {string}
  */
-firebaseui.auth.widget.Config.WidgetMode = {
+Config.WidgetMode = {
   CALLBACK: 'callback',
   RECOVER_EMAIL: 'recoverEmail',
   RESET_PASSWORD: 'resetPassword',
   SELECT: 'select',
   SIGN_IN: 'signIn',
-  VERIFY_EMAIL: 'verifyEmail'
+  VERIFY_EMAIL: 'verifyEmail',
 };
-
 
 /**
  * FirebaseUI supported providers in sign in option.
- * @const @private {!Array<string>}
+ * @const {!Array<string>}
  */
-firebaseui.auth.widget.Config.UI_SUPPORTED_PROVIDERS_ = ['anonymous'];
-
+const UI_SUPPORTED_PROVIDERS = ['anonymous'];
 
 /**
- * @const @private {!Array<string>} List of blacklisted reCAPTCHA parameter
+ * @const @type {!Array<string>} List of blacklisted reCAPTCHA parameter
  *     keys.
  */
-firebaseui.auth.widget.Config.BLACKLISTED_RECAPTCHA_KEYS_ = [
+const BLACKLISTED_RECAPTCHA_KEYS = [
   'sitekey', 'tabindex', 'callback', 'expired-callback'];
 
-
-/**
- * Gets the widget URL for a specific mode.
- * The 'widgetUrl' configuration is required for this method.
- *
- * @param {?firebaseui.auth.widget.Config.WidgetMode=} opt_mode The mode for the
- *     widget.
- * @return {string} The URL of the callback widget.
- */
-firebaseui.auth.widget.Config.prototype.getRequiredWidgetUrl =
-    function(opt_mode) {
-  var url = /** @type {string} */ (this.config_.getRequired('widgetUrl'));
-  return this.widgetUrlForMode_(url, opt_mode);
-};
-
-
-/**
- * Gets the widget URL for a specific mode.
- * If the 'widgetUrl' configuration is not set, current URL is used as the
- * base URL for the widget.
- *
- * @param {?firebaseui.auth.widget.Config.WidgetMode=} opt_mode The mode for the
- *     widget.
- * @return {string} The URL of the callback widget.
- */
-firebaseui.auth.widget.Config.prototype.getWidgetUrl = function(opt_mode) {
-  var url = /** @type {string|undefined} */ (this.config_.get('widgetUrl')) ||
-      // If no widget URL is provided, use the current one.
-      firebaseui.auth.util.getCurrentUrl();
-  return this.widgetUrlForMode_(url, opt_mode);
-};
-
-
-/**
- * Gets the callback URL for IdP. It always returns an absolute URL.
- * @return {string} The callback URL.
- */
-firebaseui.auth.widget.Config.prototype.getIdpCallbackUrl = function() {
-  return goog.Uri.resolve(
-      window.location.href, this.getWidgetUrl()).toString();
-};
-
-
-/**
- * @param {string} baseUrl The base URL of the widget.
- * @param {?firebaseui.auth.widget.Config.WidgetMode=} opt_mode The mode for the
- *     widget.
- * @return {string} The URL of the widget for a specific mode.
- * @private
- */
-firebaseui.auth.widget.Config.prototype.widgetUrlForMode_ = function(baseUrl,
-    opt_mode) {
-  if (opt_mode) {
-    var key = this.getQueryParameterForWidgetMode();
-    return goog.uri.utils.setParam(baseUrl, key, opt_mode);
-  } else {
-    return baseUrl;
-  }
-};
-
-
-/** @return {string} The sign-in URL of the site. */
-firebaseui.auth.widget.Config.prototype.getSignInSuccessUrl = function() {
-  return /** @type {string} */ (this.config_.get('signInSuccessUrl'));
-};
-
-
-/** @return {boolean} Whether to auto upgrade anonymous users. */
-firebaseui.auth.widget.Config.prototype.autoUpgradeAnonymousUsers = function() {
-  var autoUpgradeAnonymousUsers =
-      !!this.config_.get('autoUpgradeAnonymousUsers');
-  // Confirm signInFailure callback is provided when anonymous upgrade is
-  // enabled. This is required to provide a means of recovery for merge conflict
-  // flows.
-  if (autoUpgradeAnonymousUsers && !this.getSignInFailureCallback()) {
-    firebaseui.auth.log.error('Missing "signInFailure" callback: ' +
-        '"signInFailure" callback needs to be provided when ' +
-        '"autoUpgradeAnonymousUsers" is set to true.');
-  }
-  return autoUpgradeAnonymousUsers;
-};
-
-
-/**
- * Returns the normalized list of valid user-enabled IdPs.
- *
- * The user may specify each IdP as just a provider ID or as an object
- * containing provider ID and additional scopes; this method converts all
- * entries to the object format and filters out entries with invalid providers.
- *
- * @return {!Array<?Object>} The normalized sign-in options.
- * @private
- */
-firebaseui.auth.widget.Config.prototype.getSignInOptions_ = function() {
-  var signInOptions = this.config_.get('signInOptions') || [];
-  var normalizedOptions = [];
-  for (var i = 0; i < signInOptions.length; i++) {
-    var providerConfig = signInOptions[i];
-
-    // If the config is not in object format, convert to object format.
-    var normalizedConfig = goog.isObject(providerConfig) ?
-        providerConfig : {'provider': providerConfig};
-
-    if (normalizedConfig['provider']) {
-      normalizedOptions.push(normalizedConfig);
-    }
-  }
-  return normalizedOptions;
-};
-
-
-/**
- * Returns the normalized signInOptions for the specified provider.
- *
- * @param {string} providerId The provider id whose signInOptions are to be
- *     returned.
- * @return {?Object} The normalized sign-in options for the specified provider.
- * @private
- */
-firebaseui.auth.widget.Config.prototype.getSignInOptionsForProvider_ =
-    function(providerId) {
-  var signInOptions = this.getSignInOptions_();
-  // For each sign-in option.
-  for (var i = 0; i < signInOptions.length; i++) {
-    // Check if current option matches provider ID.
-    if (signInOptions[i]['provider'] === providerId) {
-      return signInOptions[i];
-    }
-  }
-  return null;
-};
-
-
-/**
- * @return {!Array<string>} The list of supported IdPs including password
- *     special IdP.
- */
-firebaseui.auth.widget.Config.prototype.getProviders = function() {
-  return goog.array.map(this.getSignInOptions_(), function(option) {
-    return option['provider'];
-  });
-};
-
-
-/**
- * @param {string} providerId The provider id whose sign in provider config is
- *     to be returned.
- * @return {?firebaseui.auth.widget.Config.ProviderConfig} The list of sign in
- *     provider configs for supported IdPs.
- */
-firebaseui.auth.widget.Config.prototype.getConfigForProvider =
-    function(providerId) {
-  var providerConfigs = this.getProviderConfigs();
-  for (var i = 0; i < providerConfigs.length; i++) {
-    // Check if current option matches provider ID.
-    if (providerConfigs[i]['providerId'] === providerId) {
-      return providerConfigs[i];
-    }
-  }
-  return null;
-};
-
-
-/**
- * Returns all available provider configs. For built-in providers, provider
- * display name, button color and icon URL are fixed and cannot be overridden.
- *
- * @return {!Array<!firebaseui.auth.widget.Config.ProviderConfig>} The list of
- *     supported IdP configs.
- */
-firebaseui.auth.widget.Config.prototype.getProviderConfigs = function() {
-  return goog.array.map(this.getSignInOptions_(), function(option) {
-    if (firebaseui.auth.idp.isSupportedProvider(option['provider']) ||
-        goog.array.contains(
-            firebaseui.auth.widget.Config.UI_SUPPORTED_PROVIDERS_,
-            option['provider'])) {
-      // For built-in providers, provider display name, button color and
-      // icon URL are fixed. The login hint key is also automatically set for
-      // built-in providers that support it.
-      return {
-        providerId: option['provider']
-      };
-    } else {
-      return {
-        providerId: option['provider'],
-        providerName: option['providerName'] || null,
-        buttonColor: option['buttonColor'] || null,
-        iconUrl: option['iconUrl'] ?
-            firebaseui.auth.util.sanitizeUrl(option['iconUrl']) : null,
-        loginHintKey: option['loginHintKey'] || null
-      };
-    }
-  });
-};
-
-
-/**
- * @return {?SmartLockRequestOptions} The googleyolo configuration options if
- *     available.
- */
-firebaseui.auth.widget.Config.prototype.getGoogleYoloConfig = function() {
-  var supportedAuthMethods = [];
-  var supportedIdTokenProviders = [];
-  goog.array.forEach(this.getSignInOptions_(), function(option) {
-    if (option['authMethod']) {
-      supportedAuthMethods.push(option['authMethod']);
-      if (option['clientId']) {
-        supportedIdTokenProviders.push({
-          'uri': option['authMethod'],
-          'clientId': option['clientId']
-        });
-      }
-    }
-  });
-  var config = null;
-  // Ensure configuration is not empty. At least one supportedIdTokenProviders
-  // or supportedAuthMethods needs to be provided.
-  if (this.getCredentialHelper() ===
-      firebaseui.auth.CredentialHelper.GOOGLE_YOLO &&
-      // googleyolo will enforce that clientId is present. Delegate the check
-      // to it. Errors will be surfaced in the console.
-      supportedAuthMethods.length) {
-    config = {
-      'supportedIdTokenProviders': supportedIdTokenProviders,
-      'supportedAuthMethods': supportedAuthMethods
-    };
-  }
-  return config;
-};
-
-
-/**
- * @return {boolean} Whether the user should be prompted to select an account.
- */
-firebaseui.auth.widget.Config.prototype.isAccountSelectionPromptEnabled =
-    function() {
-  // This is only applicable to Google. If prompt is set, googleyolo retrieve is
-  // disabled. Auto sign-in should be manually disabled.
-  // Get Google custom parameters.
-  var googleCustomParameters = this.getProviderCustomParameters(
-      firebase.auth.GoogleAuthProvider.PROVIDER_ID);
-  // Google custom parameters must have prompt set to select_account, otherwise
-  // account selection prompt is considered disabled.
-  return !!(googleCustomParameters &&
-            googleCustomParameters['prompt'] === 'select_account');
-};
-
-
-/**
- * Returns the corresponding Firebase Auth provider ID for the googleyolo
- * authMethod provided.
- * @param {?string} authMethod The googleyolo authMethod whose corresponding
- *     Firebase provider ID is to be returned.
- * @return {?string} The corresponding Firebase provider ID if available.
- */
-firebaseui.auth.widget.Config.prototype.getProviderIdFromAuthMethod =
-    function(authMethod) {
-  var providerId = null;
-  // For each supported provider.
-  goog.array.forEach(this.getSignInOptions_(), function(option) {
-    // Check for matching authMethod.
-    if (option['authMethod'] === authMethod) {
-      // Get the providerId for that provider.
-      providerId = option['provider'];
-    }
-  });
-  // Return the corresponding provider ID.
-  return providerId;
-};
-
-
-/**
- * @return {?Object<string, *>} The filtered reCAPTCHA parameters used when
- *     phone auth provider is enabled. If none provided, null is returned.
- */
-firebaseui.auth.widget.Config.prototype.getRecaptchaParameters = function() {
-  var recaptchaParameters = null;
-  goog.array.forEach(this.getSignInOptions_(), function(option) {
-    if (option['provider'] ==
-        firebase.auth.PhoneAuthProvider.PROVIDER_ID &&
-        // Confirm valid object.
-        goog.isObject(option['recaptchaParameters']) &&
-        !goog.isArray(option['recaptchaParameters'])) {
-      // Clone original object.
-      recaptchaParameters = goog.object.clone(option['recaptchaParameters']);
-    }
-  });
-  if (recaptchaParameters) {
-    // Keep track of all blacklisted keys passed by the developer.
-    var blacklistedKeys = [];
-    // Go over all blacklisted keys and remove them from the original object.
-    goog.array.forEach(
-        firebaseui.auth.widget.Config.BLACKLISTED_RECAPTCHA_KEYS_,
-        function(key) {
-          if (typeof recaptchaParameters[key] !== 'undefined') {
-            blacklistedKeys.push(key);
-            delete recaptchaParameters[key];
-          }
-        });
-    // Log a warning for invalid keys.
-    // This will show on each call.
-    if (blacklistedKeys.length) {
-      firebaseui.auth.log.warning(
-          'The following provided "recaptchaParameters" keys are not ' +
-          'allowed: ' + blacklistedKeys.join(', '));
-    }
-  }
-  return recaptchaParameters;
-};
-
-
-/**
- * @param {string} providerId The provider id whose additional scopes are to be
- *     returned.
- * @return {!Array<string>} The list of additional scopes for specified
- *     provider.
- */
-firebaseui.auth.widget.Config.prototype.getProviderAdditionalScopes =
-    function(providerId) {
-  // Get provided sign-in options for specified provider.
-  var signInOptions = this.getSignInOptionsForProvider_(providerId);
-  var scopes = signInOptions && signInOptions['scopes'];
-  return goog.isArray(scopes) ? scopes : [];
-};
-
-
-/**
- * @param {string} providerId The provider id whose custom parameters are to be
- *     returned.
- * @return {?Object} The custom parameters for the current provider.
- */
-firebaseui.auth.widget.Config.prototype.getProviderCustomParameters =
-    function(providerId) {
-  // Get provided sign-in options for specified provider.
-  var signInOptions = this.getSignInOptionsForProvider_(providerId);
-  // Get customParameters for that provider if available.
-  var customParameters = signInOptions && signInOptions['customParameters'];
-  // Custom parameters must be an object.
-  if (goog.isObject(customParameters)) {
-    // Clone original custom parameters.
-    var clonedCustomParameters = goog.object.clone(customParameters);
-    // Delete login_hint from Google provider as it could break the flow.
-    if (providerId === firebase.auth.GoogleAuthProvider.PROVIDER_ID) {
-      delete clonedCustomParameters['login_hint'];
-    }
-    // Delete login from GitHub provider as it could break the flow.
-    if (providerId === firebase.auth.GithubAuthProvider.PROVIDER_ID) {
-      delete clonedCustomParameters['login'];
-    }
-    return clonedCustomParameters;
-  }
-  return null;
-};
-
-
-/**
- * Returns the default country to select for phone authentication.
- * @return {?string} The default naional number, or null if phone auth is not
- *     enabled.
- */
-firebaseui.auth.widget.Config.prototype.getPhoneAuthDefaultNationalNumber =
-    function() {
-  var signInOptions = this.getSignInOptionsForProvider_(
-      firebase.auth.PhoneAuthProvider.PROVIDER_ID);
-  // Check if loginHint passed. If so, get the national number from there.
-  // If no defaultNationalNumber passed, use this value instead.
-  var defaultPhoneNumber = null;
-  if (signInOptions && goog.isString(signInOptions['loginHint'])) {
-    defaultPhoneNumber = firebaseui.auth.PhoneNumber.fromString(
-        /** @type {string} */ (signInOptions['loginHint']));
-  }
-  return (signInOptions && signInOptions['defaultNationalNumber']) ||
-      (defaultPhoneNumber && defaultPhoneNumber.nationalNumber) || null;
-};
-
-
-/**
- * Returns the default country to select for phone authentication.
- * @return {?firebaseui.auth.data.country.Country} The default country, or null
- *     if phone auth is not enabled or the country is not found.
- */
-firebaseui.auth.widget.Config.prototype.getPhoneAuthDefaultCountry =
-    function() {
-  var signInOptions = this.getSignInOptionsForProvider_(
-      firebase.auth.PhoneAuthProvider.PROVIDER_ID);
-  var iso2 = signInOptions && signInOptions['defaultCountry'] || null;
-  var countries = iso2 && firebaseui.auth.data.country.getCountriesByIso2(iso2);
-  // Check if loginHint passed. If so, get the country ID from there.
-  // If no defaultCountry passed, use this value instead.
-  var defaultPhoneNumber = null;
-  if (signInOptions && goog.isString(signInOptions['loginHint'])) {
-    defaultPhoneNumber = firebaseui.auth.PhoneNumber.fromString(
-        /** @type {string} */ (signInOptions['loginHint']));
-  }
-  // If there are multiple entries, pick the first one.
-  return (countries && countries[0]) ||
-      (defaultPhoneNumber && defaultPhoneNumber.getCountry()) || null;
-};
-
-
-/**
- * Returns the available countries for phone authentication.
- * @return {?Array<!firebaseui.auth.data.country.Country>} The available
- *     country list, or null if phone Auth is not enabled.
- */
-firebaseui.auth.widget.Config.prototype.getPhoneAuthAvailableCountries =
-    function() {
-  var signInOptions = this.getSignInOptionsForProvider_(
-      firebase.auth.PhoneAuthProvider.PROVIDER_ID);
-  if (!signInOptions) {
-    return null;
-  }
-  var whitelistedCountries = signInOptions['whitelistedCountries'];
-  var blacklistedCountries = signInOptions['blacklistedCountries'];
-  // First validate the input.
-  if (typeof whitelistedCountries !== 'undefined' &&
-      (!goog.isArray(whitelistedCountries) ||
-       whitelistedCountries.length == 0)) {
-    throw new Error('WhitelistedCountries must be a non-empty array.');
-  }
-  if (typeof blacklistedCountries !== 'undefined' &&
-      (!goog.isArray(blacklistedCountries))) {
-    throw new Error('BlacklistedCountries must be an array.');
-  }
-  // If both whitelist and blacklist are provided, throw error.
-  if (whitelistedCountries && blacklistedCountries) {
-    throw new Error(
-        'Both whitelistedCountries and blacklistedCountries are provided.');
-  }
-  // If no whitelist or blacklist provided, return all available countries.
-  if (!whitelistedCountries && !blacklistedCountries) {
-    return firebaseui.auth.data.country.COUNTRY_LIST;
-  }
-  var countries = [];
-  var availableCountries = [];
-  if (whitelistedCountries) {
-    // Whitelist is provided.
-    var whitelistedCountryMap = {};
-    for (var i = 0; i < whitelistedCountries.length; i++) {
-      countries = firebaseui.auth.data.country
-          .getCountriesByE164OrIsoCode(whitelistedCountries[i]);
-      // Remove duplicate and overlaps by putting into a map.
-      for (var j = 0; j < countries.length; j++) {
-        whitelistedCountryMap[countries[j].e164_key] = countries[j];
-      }
-    }
-    for (var countryKey in whitelistedCountryMap) {
-       if (whitelistedCountryMap.hasOwnProperty(countryKey)) {
-         availableCountries.push(whitelistedCountryMap[countryKey]);
-       }
-    }
-    return availableCountries;
-  } else {
-    var blacklistedCountryMap = {};
-    for (var i = 0; i < blacklistedCountries.length; i++) {
-      countries = firebaseui.auth.data.country
-          .getCountriesByE164OrIsoCode(blacklistedCountries[i]);
-      // Remove duplicate and overlaps by putting into a map.
-      for (var j = 0; j < countries.length; j++) {
-        blacklistedCountryMap[countries[j].e164_key] = countries[j];
-      }
-    }
-    for (var k = 0; k < firebaseui.auth.data.country.COUNTRY_LIST.length; k++) {
-      if (!goog.object.containsKey(
-              blacklistedCountryMap,
-              firebaseui.auth.data.country.COUNTRY_LIST[k].e164_key)) {
-        availableCountries.push(firebaseui.auth.data.country.COUNTRY_LIST[k]);
-      }
-    }
-    return availableCountries;
-  }
-};
-
-
-/** @return {string} The query parameter name for widget mode. */
-firebaseui.auth.widget.Config.prototype.getQueryParameterForWidgetMode =
-    function() {
-  return /** @type {string} */ (
-      this.config_.getRequired('queryParameterForWidgetMode'));
-};
-
-
-/** @return {string} The redirect URL query parameter. */
-firebaseui.auth.widget.Config.prototype.getQueryParameterForSignInSuccessUrl =
-    function() {
-  return /** @type {string} */ (
-      this.config_.getRequired('queryParameterForSignInSuccessUrl'));
-};
-
-
-/** @return {string} The name of the website. */
-firebaseui.auth.widget.Config.prototype.getSiteName = function() {
-  return /** @type {string} */ (this.config_.getRequired('siteName'));
-};
-
-
-/**
- * @return {?function()} The ToS callback for the site. If URL is provided,
- *     wraps the URL with a callback function.
- */
-firebaseui.auth.widget.Config.prototype.getTosUrl = function() {
-  var tosUrl = this.config_.get('tosUrl') || null;
-  var privacyPolicyUrl = this.config_.get('privacyPolicyUrl') || null;
-  if (tosUrl && !privacyPolicyUrl) {
-    firebaseui.auth.log.warning('Privacy Policy URL is missing, ' +
-                                'the link will not be displayed.');
-  }
-  if (tosUrl && privacyPolicyUrl) {
-    if (goog.isFunction(tosUrl)) {
-      return /** @type {function()} */ (tosUrl);
-    } else if (goog.isString(tosUrl)) {
-      return function() {
-        firebaseui.auth.util.open(
-            /** @type {string} */ (tosUrl),
-            firebaseui.auth.util.isCordovaInAppBrowserInstalled() ?
-            '_system' : '_blank');
-      };
-    }
-  }
-  return null;
-};
-
-
-/**
- * @return {?function()} The Privacy Policy callback for the site. If
- *     URL is provided, wraps the URL with a callback function.
- */
-firebaseui.auth.widget.Config.prototype.getPrivacyPolicyUrl = function() {
-  var tosUrl = this.config_.get('tosUrl') || null;
-  var privacyPolicyUrl = this.config_.get('privacyPolicyUrl') || null;
-  if (privacyPolicyUrl && !tosUrl) {
-    firebaseui.auth.log.warning('Term of Service URL is missing, ' +
-                                'the link will not be displayed.');
-  }
-  if (tosUrl && privacyPolicyUrl) {
-    if (goog.isFunction(privacyPolicyUrl)) {
-        return /** @type {function()} */ (privacyPolicyUrl);
-    } else if (goog.isString(privacyPolicyUrl)) {
-      return function() {
-        firebaseui.auth.util.open(
-            /** @type {string} */ (privacyPolicyUrl),
-            firebaseui.auth.util.isCordovaInAppBrowserInstalled() ?
-            '_system' : '_blank');
-      };
-    }
-  }
-  return null;
-};
-
-
-/**
- * @return {boolean} Whether the display name should be displayed.
- * Defaults to true.
- */
-firebaseui.auth.widget.Config.prototype.isDisplayNameRequired = function() {
-  // Get provided sign-in options for specified provider.
-  var signInOptions = this.getSignInOptionsForProvider_(
-      firebase.auth.EmailAuthProvider.PROVIDER_ID);
-
-  if (signInOptions &&
-      typeof signInOptions['requireDisplayName'] !== 'undefined') {
-    return /** @type {boolean} */ (!!signInOptions['requireDisplayName']);
-  }
-  return true;
-};
-
-
-/**
- * @return {boolean} Whether email link sign-in is allowed. Defaults to false.
- */
-firebaseui.auth.widget.Config.prototype.isEmailLinkSignInAllowed = function() {
-  // Get provided sign-in options for specified provider.
-  var signInOptions = this.getSignInOptionsForProvider_(
-      firebase.auth.EmailAuthProvider.PROVIDER_ID);
-
-  return !!(signInOptions && signInOptions['signInMethod'] ===
-            firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD);
-};
-
-
-/**
- * @return {boolean} Whether password sign-in is allowed. Defaults to true.
- */
-firebaseui.auth.widget.Config.prototype.isEmailPasswordSignInAllowed =
-    function() {
-  return !this.isEmailLinkSignInAllowed();
-};
-
-
-/** @return {boolean} Whether same device is forced for email link sign-in. */
-firebaseui.auth.widget.Config.prototype.isEmailLinkSameDeviceForced =
-    function() {
-  // Get provided sign-in options for specified provider.
-  var signInOptions = this.getSignInOptionsForProvider_(
-      firebase.auth.EmailAuthProvider.PROVIDER_ID);
-
-  return !!(signInOptions && signInOptions['forceSameDevice']);
-};
-
-
-/**
- * @return {?firebase.auth.ActionCodeSettings} The ActionCodeSettings if email
- *     link sign-in is enabled. Null is returned otherwise.
- */
-firebaseui.auth.widget.Config.prototype.getEmailLinkSignInActionCodeSettings =
-    function() {
-  if (this.isEmailLinkSignInAllowed()) {
-    var actionCodeSettings = {
-      'url': firebaseui.auth.util.getCurrentUrl(),
-      'handleCodeInApp': true
-    };
-    // Get provided sign-in options for specified provider.
-    var signInOptions = this.getSignInOptionsForProvider_(
-        firebase.auth.EmailAuthProvider.PROVIDER_ID);
-    if (signInOptions &&
-        typeof signInOptions['emailLinkSignIn'] === 'function') {
-      goog.object.extend(
-          actionCodeSettings,
-          signInOptions['emailLinkSignIn']());
-    }
-    // URL could be provided using a relative path.
-    actionCodeSettings['url'] = goog.Uri.resolve(
-        firebaseui.auth.util.getCurrentUrl(),
-        actionCodeSettings['url']).toString();
-    return actionCodeSettings;
-  }
-  return null;
-};
-
-
-/** @return {boolean} Whether to prefer popup mode. */
-firebaseui.auth.widget.Config.prototype.getPopupMode = function() {
-  return !!this.config_.get('popupMode');
-};
-
-
-/**
- * Determines whether to show the 'nascar' sign-in buttons screen or
- * immediately redirect to the provider's site when there is only a single
- * federated provider in signInOptions. In order for this option to take
- * effect, the signInOptions must only hold a single federated provider (like
- * 'google.com') and signInFlow must be set to 'redirect'.
- * @return {boolean} Whether to skip the 'nascar' screen or not.
- */
-firebaseui.auth.widget.Config.prototype.
-    federatedProviderShouldImmediatelyRedirect = function() {
-  var immediateFederatedRedirect = !!this.config_.get(
-      'immediateFederatedRedirect');
-  var providers = this.getProviders();
-  var signInFlow = this.getSignInFlow();
-  return immediateFederatedRedirect &&
-      providers.length == 1 &&
-      firebaseui.auth.idp.isFederatedSignInMethod(providers[0]) &&
-      signInFlow == firebaseui.auth.widget.Config.SignInFlow.REDIRECT;
-};
-
-
-/**
- * @return {!firebaseui.auth.widget.Config.SignInFlow} The current sign-in
- *     flow.
- */
-firebaseui.auth.widget.Config.prototype.getSignInFlow = function() {
-  var signInFlow = this.config_.get('signInFlow');
-  // Make sure the select flow is a valid one.
-  for (var key in firebaseui.auth.widget.Config.SignInFlow) {
-    if (firebaseui.auth.widget.Config.SignInFlow[key] == signInFlow) {
-      // Return valid flow.
-      return firebaseui.auth.widget.Config.SignInFlow[key];
-    }
-  }
-  // Default to redirect flow.
-  return firebaseui.auth.widget.Config.SignInFlow.REDIRECT;
-};
-
-
-/** @return {?function()} The callback to invoke when the widget UI is shown. */
-firebaseui.auth.widget.Config.prototype.getUiShownCallback = function() {
-  return /** @type {?function()} */ (
-      this.getCallbacks_()['uiShown'] || null);
-};
-
-
-/**
- * @return {?function(?string, ?string)} The callback to invoke when the widget
- *     UI is changed. Two parameters are passed, the from page identifier and
- *     the to page identifier.
- */
-firebaseui.auth.widget.Config.prototype.getUiChangedCallback = function() {
-  return /** @type {?function(?string, ?string)} */ (
-      this.getCallbacks_()['uiChanged'] || null);
-};
-
-
-/**
- * @return {?function(?function())} The callback to invoke right when
- *     accountchooser.com is triggered, a continue function is passed and this
- *     should be called when the callback is completed, typically asynchronously
- *     to proceed to accountchooser.com.
- */
-firebaseui.auth.widget.Config.prototype.getAccountChooserInvokedCallback =
-    function() {
-  return /** @type {?function(?function())} */ (
-      this.getCallbacks_()['accountChooserInvoked'] || null);
-};
-
-
-/**
- * @return {?function(?firebaseui.auth.widget.Config.AccountChooserResult,
- *     ?function())} The callback to invoke on return from accountchooser.com
- *     invocation. The code result string is passed.
- */
-firebaseui.auth.widget.Config.prototype.getAccountChooserResultCallback =
-    function() {
-  /**
-   * @type {?function(?firebaseui.auth.widget.Config.AccountChooserResult,
-   *     ?function())}
-   */
-  var callback = this.getCallbacks_()['accountChooserResult'] || null;
-  return callback;
-};
-
-
-/**
- * @return {?firebaseui.auth.callback.signInSuccess} The callback to invoke when
- *     the user signs in successfully. The signed in firebase user is passed
- *     into the callback. A second parameter, the Auth credential is also
- *     returned if available from the sign in with redirect response.
- *     An optional third parameter, the redirect URL, is also returned if that
- *     value is set in storage. If it returns `true`, the widget will
- *     continue to redirect the page to `signInSuccessUrl`. Otherwise, the
- *     widget stops after it returns.
- */
-firebaseui.auth.widget.Config.prototype.getSignInSuccessCallback = function() {
-  return /** @type {?firebaseui.auth.callback.signInSuccess} */ (
-      this.getCallbacks_()['signInSuccess'] || null);
-};
-
-
-/**
- * @return {?firebaseui.auth.callback.signInSuccessWithAuthResult} The callback
- *     to invoke when the user signs in successfully. The Auth result is passed
- *     into the callback, which includes current user, credential to sign in to
- *     external Auth instance, additional user info and operation type.
- *     An optional second parameter, the redirect URL, is also returned if that
- *     value is set in storage. If it returns `true`, the widget will
- *     continue to redirect the page to `signInSuccessUrl`. Otherwise, the
- *     widget stops after it returns.
- */
-firebaseui.auth.widget.Config.prototype.getSignInSuccessWithAuthResultCallback =
-    function() {
-  return /** @type {?firebaseui.auth.callback.signInSuccessWithAuthResult} */ (
-      this.getCallbacks_()['signInSuccessWithAuthResult'] || null);
-};
-
-
-/**
- * @return {?firebaseui.auth.callback.signInFailure} The callback to invoke when
- *     the user fails to sign in.
- */
-firebaseui.auth.widget.Config.prototype.getSignInFailureCallback = function() {
-  return /** @type {?firebaseui.auth.callback.signInFailure} */ (
-      this.getCallbacks_()['signInFailure'] || null);
-};
-
-
-/**
- * @return {!Object} The callback configuration.
- * @private
- */
-firebaseui.auth.widget.Config.prototype.getCallbacks_ = function() {
-  return /** @type {!Object} */ (this.config_.get('callbacks') || {});
-};
-
-
-/**
- * TODO: for now, only accountchooser.com is available and all logic related to
- * credential helper relies on it, so this method is provided for ease of use.
- * It should be removed in the future when FirebaseUI supports several
- * credential helpers.
- *
- * @return {boolean} Whether accountchooser.com is enabled.
- */
-firebaseui.auth.widget.Config.prototype.isAccountChooserEnabled = function() {
-  return this.getCredentialHelper() ==
-      firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM;
-};
-
-/**
- * @return {!firebaseui.auth.CredentialHelper} The credential helper to use.
- */
-firebaseui.auth.widget.Config.prototype.getCredentialHelper = function() {
-  // Always use none for non http or https environment.
-  // This could change when we support other credential helpers. This is
-  // unlikely though as smartlock also checks the domain and will not work in
-  // such environments.
-  if (!firebaseui.auth.util.isHttpOrHttps()) {
-    return firebaseui.auth.CredentialHelper.NONE;
-  }
-  var credentialHelper = this.config_.get('credentialHelper');
-  // Make sure the credential helper is valid.
-  for (var key in firebaseui.auth.CredentialHelper) {
-    if (firebaseui.auth.CredentialHelper[key] == credentialHelper) {
-      // Return valid flow.
-      return firebaseui.auth.CredentialHelper[key];
-    }
-  }
-  // Default to using accountchooser.com.
-  return firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM;
-};
-
-
-/**
- * Resolves configurations that are implied/restricted by other configs.
- *
- * @private
- */
-firebaseui.auth.widget.Config.prototype.resolveImplicitConfig_ = function() {
-  if (firebaseui.auth.util.isMobileBrowser()) {
-    // On mobile we should not use popup
-    this.config_.update('popupMode', false);
-  }
-};
-
-
-/**
- * Sets the configurations.
- *
- * @param {Object} config The configurations.
- */
-firebaseui.auth.widget.Config.prototype.setConfig = function(config) {
-  for (var name in config) {
-    try {
-      this.config_.update(name, config[name]);
-    } catch (e) {
-      firebaseui.auth.log.error('Invalid config: "' + name + '"');
-    }
-  }
-  this.resolveImplicitConfig_();
-  this.getPhoneAuthAvailableCountries();
-};
-
-
-/**
- * Updates the configuration and its descendants with the given value.
- *
- * @param {string} name The name of the configuration.
- * @param {*} value The value of the configuration.
- */
-firebaseui.auth.widget.Config.prototype.update = function(name, value) {
-  this.config_.update(name, value);
-  this.getPhoneAuthAvailableCountries();
-};
+exports = Config;

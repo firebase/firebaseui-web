@@ -60,7 +60,8 @@ goog.require('firebaseui.auth.widget.handler.common');
  * @param {!firebaseui.auth.AuthUI} app The current Firebase UI instance whose
  *     configuration is used.
  * @param {!Element} container The container DOM element.
- * @param {!firebaseui.auth.AuthResult} authResult The Auth result object.
+ * @param {!firebaseui.auth.widget.Config.AuthResult} authResult The Auth
+ *     result object.
  */
 firebaseui.auth.widget.handler.handleEmailMismatch = function(
     app, container, authResult) {
@@ -104,7 +105,8 @@ firebaseui.auth.widget.handler.handleEmailMismatch = function(
  * @param {!firebaseui.auth.AuthUI} app The current Firebase UI instance whose
  *     configuration is used.
  * @param {!firebaseui.auth.ui.page.Base} component The current UI component.
- * @param {!firebaseui.auth.AuthResult} authResult The Auth result object.
+ * @param {!firebaseui.auth.widget.Config.AuthResult} authResult The Auth
+ *     result object.
  * @private
  */
 firebaseui.auth.widget.handler.handleEmailMismatchContinue_ =

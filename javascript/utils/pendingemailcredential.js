@@ -22,45 +22,48 @@
 goog.provide('firebaseui.auth.PendingEmailCredential');
 
 
-
 /**
  * The pending email credential.
- * @param {string} email The pending email.
- * @param {?firebase.auth.AuthCredential=} opt_credential The pending auth
- *     credential.
- * @constructor @struct
  */
-firebaseui.auth.PendingEmailCredential = function(email, opt_credential) {
-  /** @const @private {string} The pending email. */
-  this.email_ = email;
-  /** @const @private {?firebase.auth.AuthCredential} The pending credential. */
-  this.credential_ = opt_credential || null;
+firebaseui.auth.PendingEmailCredential = class {
+  /**
+   * @param {string} email The pending email.
+   * @param {?firebase.auth.AuthCredential=} credential The pending auth
+   *     credential.
+   */
+  constructor(email, credential) {
+    /** @const @private {string} The pending email. */
+    this.email_ = email;
+    /**
+     * @const @private {?firebase.auth.AuthCredential} The pending credential.
+     */
+    this.credential_ = credential || null;
+  }
+
+
+  /** @return {string} The pending email. */
+  getEmail() {
+    return this.email_;
+  }
+
+
+  /** @return {?firebase.auth.AuthCredential} The pending credential. */
+  getCredential() {
+    return this.credential_;
+  }
+
+
+  /**
+   * @return {!Object} The plain object representation of a pending email
+   *     credential.
+   */
+  toPlainObject() {
+    return {
+      'email': this.email_,
+      'credential': this.credential_ && this.credential_['toJSON']()
+    };
+  }
 };
-
-
-/** @return {string} The pending email. */
-firebaseui.auth.PendingEmailCredential.prototype.getEmail = function() {
-  return this.email_;
-};
-
-
-/** @return {?firebase.auth.AuthCredential} The pending credential. */
-firebaseui.auth.PendingEmailCredential.prototype.getCredential = function() {
-  return this.credential_;
-};
-
-
-/**
- * @return {!Object} The plain object representation of a pending email
- *     credential.
- */
-firebaseui.auth.PendingEmailCredential.prototype.toPlainObject = function() {
-  return {
-    'email': this.email_,
-    'credential': this.credential_ && this.credential_['toJSON']()
-  };
-};
-
 
 
 /**

@@ -22,44 +22,46 @@
 goog.provide('firebaseui.auth.RedirectStatus');
 
 
-
 /**
  * The redirect status. It indicates there is a pending redirect operation to be
  * resolved.
- * @param {?string=} opt_tenantId The optional tenant ID.
- * @constructor
  */
-firebaseui.auth.RedirectStatus = function(opt_tenantId) {
-  /** @const @private {?string} The tenant ID. */
-  this.tenantId_ = opt_tenantId || null;
-};
-
-
-/** @return {?string} The tenant ID. */
-firebaseui.auth.RedirectStatus.prototype.getTenantId = function() {
-  return this.tenantId_;
-};
-
-
-/**
- * @return {!Object} The plain object representation of redirect status.
- */
-firebaseui.auth.RedirectStatus.prototype.toPlainObject = function() {
-  return {
-    'tenantId': this.tenantId_
-  };
-};
-
-
-/**
- * @param {?Object} response The plain object presentation of a potential
- *     redirect status object.
- * @return {?firebaseui.auth.RedirectStatus} The redirect status representation
- *     of the provided object.
- */
-firebaseui.auth.RedirectStatus.fromPlainObject = function(response) {
-  if (response && typeof response['tenantId'] !== 'undefined') {
-    return new firebaseui.auth.RedirectStatus(response['tenantId']);
+firebaseui.auth.RedirectStatus = class {
+  /**
+   * The redirect status. It indicates there is a pending redirect operation to
+   * be resolved.
+   * @param {?string=} tenantId The optional tenant ID.
+   */
+  constructor(tenantId) {
+    /** @const @private {?string} The tenant ID. */
+    this.tenantId_ = tenantId || null;
   }
-  return null;
+
+
+  /** @return {?string} The tenant ID. */
+  getTenantId() {
+    return this.tenantId_;
+  }
+
+
+  /**
+   * @return {!Object} The plain object representation of redirect status.
+   */
+  toPlainObject() {
+    return {'tenantId': this.tenantId_};
+  }
+
+
+  /**
+   * @param {?Object} response The plain object presentation of a potential
+   *     redirect status object.
+   * @return {?firebaseui.auth.RedirectStatus} The redirect status
+   *     representation of the provided object.
+   */
+  static fromPlainObject(response) {
+    if (response && typeof response['tenantId'] !== 'undefined') {
+      return new firebaseui.auth.RedirectStatus(response['tenantId']);
+    }
+    return null;
+  }
 };

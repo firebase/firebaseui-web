@@ -12,11 +12,14 @@
 <translation id="1163771673786684213">Филипини</translation>
 <translation id="1170304454812139475">Румъния</translation>
 <translation id="1194565221977667376">Южна Джорджия и Южни Сандвичеви острови</translation>
-<translation id="124367247840231378">ОК</translation>
+<translation id="1233977465587641672">Загубата или повредата на данните са необратими.</translation>
 <translation id="1244846213930750436">Италия</translation>
 <translation id="1268266284642694018">Ливан</translation>
 <translation id="1294742657282291237">Гаяна</translation>
 <translation id="1297168472480293352">Гватемала</translation>
+<translation id="1307255433239736397"><ph name="START_PARAGRAPH" />Нещо при отстраняването на втората стъпка се обърка.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Опитайте отново. Ако това не помогне, свържете се с екипа за поддръжка за съдействие.<ph name="END_PARAGRAPH" /></translation>
+<translation id="1310034618729602982">Опитайте отново да актуализирате имейла си</translation>
+<translation id="1312824004897469797">Възникна грешка в мрежата. Опитайте отново по-късно.</translation>
 <translation id="1315809131562953678">Въведете валиден телефонен номер</translation>
 <translation id="1335716056288807013">Докосвайки „Потвърждаване“, приемате нашите <ph name="START_LINK_1" />Общи условия<ph name="END_LINK" /> и <ph name="START_LINK_2" />Декларация за поверителност<ph name="END_LINK" />. Възможно е да получите SMS съобщение. То може да се таксува по тарифите за данни и SMS.</translation>
 <translation id="137210131544215127">Въведете паролата си</translation>
@@ -27,6 +30,7 @@
 <translation id="1479035434297790822">От IP адреса ви се изпращат твърде много заявки за профил. Опитайте отново след няколко минути.</translation>
 <translation id="1483249363694224399">Шри Ланка</translation>
 <translation id="1507995441600689506">Вече можете да влезете с новия си профил</translation>
+<translation id="1544981664986460902">Посоченият от клиента аргумент е невалиден.</translation>
 <translation id="1575848116712334589">Чад</translation>
 <translation id="1630237004390596779">Повторно изпращане на кода след <ph name="STRING" /></translation>
 <translation id="1653501608290591291">Беларус</translation>
@@ -62,6 +66,7 @@
 <translation id="2206856445831770486">Github</translation>
 <translation id="2223717216014247341">Декларация за поверителност</translation>
 <translation id="2224563296468523455">Гуам</translation>
+<translation id="2245182894886860848">Квотата за ресурси е надвишена или е достигнато допустимото ограничение.</translation>
 <translation id="2249420035688424170">Хърватия</translation>
 <translation id="2251583471831926217">Литва</translation>
 <translation id="227405248692044138">Малта</translation>
@@ -71,22 +76,28 @@
 <translation id="2324942959480650701">Гост</translation>
 <translation id="2331781584136059536">Гана</translation>
 <translation id="2338909515537249568">Използваният от вас браузър не поддържа уеб хранилище. Моля, опитайте отново в друг браузър.</translation>
+<translation id="2342152898808240937">Заявката е анулирана от клиента.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />При промяната на имейл адреса ви за вход възникна проблем.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Ако опитате отново и не успеете, потърсете помощ от администратора си.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Бахрейн</translation>
+<translation id="2392247362473363900">Възникна вътрешна грешка в сървъра.</translation>
 <translation id="2405828009195143258">Иран</translation>
+<translation id="2414459877074534554">GitHub</translation>
 <translation id="244437093285883777">Потвърждава се, че не сте робот…</translation>
 <translation id="2448227725017851570">Този код вече не е валиден</translation>
 <translation id="2448487988481516351">Нова Каледония</translation>
 <translation id="2451742558284013472">Монако</translation>
 <translation id="2460064915291012298">Сейшелски острови</translation>
+<translation id="2490672522100125425">Номерът <ph name="START_STRONG" /><ph name="FACTOR_ID" /> <ph name="PHONE_NUMBER" /><ph name="END_STRONG" /> бе премахнат като втора стъпка за удостоверяване.</translation>
 <translation id="2494962141967044042">Надстройването на текущия анонимен потребител не бе успешно. Посочените неанонимни идентификационни данни вече са свързани с профил на друг потребител.</translation>
 <translation id="2541179214468543429">Въведохте неправилна парола твърде много пъти. Опитайте отново след няколко минути.</translation>
 <translation id="2561560038714758184">Сигурност</translation>
 <translation id="2561835578785502516">Заявката за възстановяване на паролата ви е изтекла или връзката вече е използвана</translation>
+<translation id="2562498793334241360">Вече можете да влезете с новия си имейл <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />.</translation>
 <translation id="2581514546525533462">Посоченият код на държавата не се поддържа.</translation>
 <translation id="2600950452451016107">Проверете дали имейлът е изписан правилно.</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">Камбоджа</translation>
+<translation id="2614081868476050089">Няма достъп до услугата.</translation>
 <translation id="2616650714309312732">Португалия</translation>
 <translation id="2619590123270932385">Френска Гвиана</translation>
 <translation id="2621854044487969847">Британски Вирджински острови</translation>
@@ -102,19 +113,21 @@
 <translation id="2741235824871026219">Потвърждаване</translation>
 <translation id="2752984808025184019">Южна Африка</translation>
 <translation id="2760636260031093254">Въведете имейл адреса си, за да продължите</translation>
+<translation id="276938411216176478">Профилът на потребител е деактивиран от администратор.</translation>
 <translation id="2782685789517131804">Изпратихме имейл до <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> за вход в профила с допълнителни инструкции. Проверете входящата си поща, за да завършите процеса.</translation>
 <translation id="2828509010894808185">Създаване на профил</translation>
 <translation id="2834770837848769530">Афганистан</translation>
 <translation id="2884525438023347369">Докосвайки <ph name="BTN" />, приемате <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">Канада</translation>
 <translation id="2911018261311455240">Дания</translation>
+<translation id="2949732021187449522">Крайният срок на заявката изтече.</translation>
 <translation id="295270254328846278">Австрия</translation>
 <translation id="2976748949054245370">Имейл адресите не съвпадат</translation>
 <translation id="29947009417147243">Южен Судан</translation>
 <translation id="3040586343252524572">Йемен</translation>
 <translation id="3045244039436637116">Гвинея Бисау</translation>
 <translation id="3046745817056752783">Саудитска Арабия</translation>
-<translation id="311953035679824832">Лого на приложението</translation>
+<translation id="3083819527012413063">В приложението <ph name="APP_NAME" /> бе добавена допълнителна степен за сигурност</translation>
 <translation id="3122584863645047144">Американски Вирджински острови</translation>
 <translation id="3141549453511344986">Вход с телефон</translation>
 <translation id="3147551458884186429">Индонезия</translation>
@@ -122,6 +135,7 @@
 <translation id="3164676761565983157">Венецуела</translation>
 <translation id="3170526549630869494">Имате проблем при влизането?</translation>
 <translation id="3204914819635733576">Потвърждаване на самоличността ви</translation>
+<translation id="3215050409577090361">При удостоверяване на заявката ви възникна проблем. Моля, отворете URL адреса, който ви пренасочи към тази страница, за да стартирате отново процеса на удостоверяване.</translation>
 <translation id="3216149523061905579">Доминика</translation>
 <translation id="3223688630903046698">Нова парола</translation>
 <translation id="3250864391349648273">Габон</translation>
@@ -139,6 +153,7 @@
 <translation id="3434621886769337032">Гамбия</translation>
 <translation id="3472358534605257432">Готово</translation>
 <translation id="3479685026618611556">Отказ</translation>
+<translation id="3481131180097895739">Възникна неизвестна грешка на сървъра.</translation>
 <translation id="3487364398525389372">Въведете името на профила си</translation>
 <translation id="3521753471343796628">Ирак</translation>
 <translation id="354888504916863713">Виетнам</translation>
@@ -150,6 +165,8 @@
 <translation id="3605933028246642593">Непал</translation>
 <translation id="3608140835232496799">Токелау</translation>
 <translation id="3620185428620643248">Избраните идентификационни данни за доставчика на удостоверителни услуги не се поддържат!</translation>
+<translation id="3658306886462996856">За посочения имейл адрес не е налице метод за вход в профила. Моля, опитайте с друг имейл.</translation>
+<translation id="3695180913983403205">Моля, въведете име и фамилия.</translation>
 <translation id="3700097473356216716">Колумбия</translation>
 <translation id="3703067902498234034">Докосвайки „ЗАПАЗВАНЕ“, приемате </translation>
 <translation id="3736041829854387744">Бурунди</translation>
@@ -157,7 +174,7 @@
 <translation id="3813801701232240278">Twitter</translation>
 <translation id="3814740523815122846">Имейл адресът ви е потвърден</translation>
 <translation id="3819556544383051267">Папуа Нова Гвинея</translation>
-<translation id="3831901810365396899">Запазване</translation>
+<translation id="3828991952827504549">Посоченият ресурс не е намерен.</translation>
 <translation id="3862053977934420187">Потвърждава се…</translation>
 <translation id="3898029444496274961">Вход</translation>
 <translation id="3905423743526704083">Източен Тимор</translation>
@@ -190,6 +207,7 @@
 <translation id="4440507149645221385">Телефон</translation>
 <translation id="4450602713221237198">Повторно изпращане</translation>
 <translation id="4498504413765490964">Хондурас</translation>
+<translation id="450385255996536115">Времето за изчакване на операцията изтече.</translation>
 <translation id="4515732781724470190">Нигер</translation>
 <translation id="4521614244485847733">Този имейл адрес не съответства на съществуващ профил</translation>
 <translation id="4556476996891737119">Йордания</translation>
@@ -201,6 +219,7 @@
 <translation id="4723701728629289714">Израел</translation>
 <translation id="4725154639671888461">Възникна грешка</translation>
 <translation id="4751937685196678080">Номер</translation>
+<translation id="4769553102874508676">Клиентът не разполага с достатъчно разрешение.</translation>
 <translation id="4773060157545352832">Решете reCAPTCHA</translation>
 <translation id="4775051289386800916">Никарагуа</translation>
 <translation id="4783400389150493171">Буркина Фасо</translation>
@@ -209,14 +228,17 @@
 <translation id="4871106926303956169">Търкс и Кайкос, о-ви</translation>
 <translation id="4877597386645466815">Повторно изпращане на кода след <ph name="TIME_REMAINING" /></translation>
 <translation id="4915406999072654369">Проверете електронната си поща</translation>
+<translation id="4923375331439013137">Втората стъпка не можа да бъде премахната</translation>
 <translation id="4955175001894453989">Добавяне на парола</translation>
 <translation id="496366313824211679">Салвадор</translation>
+<translation id="4982483807073820954">За да промените паролата за профила си, ще трябва да влезете отново.</translation>
 <translation id="4991626049082973728">Сърбия</translation>
 <translation id="4991892293325936102">Белиз</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" />за <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /><ph name="END_PARAGRAPH" /></translation>
 <translation id="5059105734231232362">За успешното свързване на профила си в(ъв) <ph name="IDP_DISPLAY_NAME" /> с този имейл адрес, трябва да отворите връзката на същото устройство или браузър.</translation>
 <translation id="5080084639513001393">Швеция</translation>
 <translation id="5080899604429810481">Сен Мартен</translation>
+<translation id="5115661695221894994"><ph name="START_PARAGRAPH" />Заявката за потвърждаване и актуализиране на имейл адреса ви е изтекла или връзката вече е използвана.<ph name="END_PARAGRAPH" /></translation>
 <translation id="5143657419516597442">Сейнт Лусия</translation>
 <translation id="521218078240459724">@string/app_name</translation>
 <translation id="5241732101105320538">Проверете електронната си поща</translation>
@@ -224,13 +246,15 @@
 <translation id="5323041129469627535">Оман</translation>
 <translation id="5326139833547026317">Карибска Нидерландия</translation>
 <translation id="5347459868860672391">Актуализиран имейл адрес</translation>
-<translation id="5403395913830260677">Вход с Twitter</translation>
+<translation id="5397737236938796917">Излязохте успешно от профила си.</translation>
+<translation id="5406620662929585965">Вход с телефон</translation>
 <translation id="5407010562344541906">Телефонен номер</translation>
 <translation id="5409861738809250803">Вече имате профил</translation>
 <translation id="5410341463946781720">Тайланд</translation>
 <translation id="5443669846203963095">Декларация за поверителност</translation>
 <translation id="5444635161362535036">Лихтенщайн</translation>
 <translation id="5483706910421209104">Редактиране на името</translation>
+<translation id="5487696047685227891">Устройството или приложението бяха премахнати като втора стъпка за удостоверяване.</translation>
 <translation id="5490651768073507833">Опитайте да отворите връзката от същото устройство или браузър, където е започнат процесът на влизане в профила.</translation>
 <translation id="5524360735013196510">Нидерландия</translation>
 <translation id="5528189843379142883">Екваториална Гвинея</translation>
@@ -254,7 +278,7 @@
 <translation id="5699028034244995851">Въведете имейл адреса си, за да продължите</translation>
 <translation id="5701178667798108817">Потвърждаване на телефонния ви номер</translation>
 <translation id="5715637701147651513">Либерия</translation>
-<translation id="5755179287528310939">Вече съществува профил с този имейл адрес.</translation>
+<translation id="5747263508495256858">Изход</translation>
 <translation id="5771034676910614239">Мадагаскар</translation>
 <translation id="5818634293686963864">Казахстан</translation>
 <translation id="5829301468800336085">Влизате в профила…</translation>
@@ -273,15 +297,20 @@
 <translation id="6032262985756512833">Въведете <ph name="STRING" />-цифрения код, който изпратихме до</translation>
 <translation id="6044396095102058216">Този телефонен номер е използван твърде много пъти</translation>
 <translation id="6083089720215618333">Посоченият имейл адрес не съответства на текущата сесия за вход в профила.</translation>
-<translation id="6113531938704280909">Прекратяване на връзката с профила</translation>
+<translation id="6091051069256411999">Twitter</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />Влезте в/ъв <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6132202686885223981">Проверете дали в пощенската ви кутия има достатъчно пространство, или не е налице друг проблем с настройките й.</translation>
+<translation id="6135589730599211649">Посоченият от клиента диапазон е невалиден.</translation>
+<translation id="6143147250106939258">Надвишихте квотата за тази операция. Опитайте отново по-късно.</translation>
 <translation id="6189573836664806798">Парагвай</translation>
 <translation id="6192657410634245771">Алжир</translation>
 <translation id="6213969168046789596">Въведохте неправилна парола твърде много пъти. Моля, опитайте отново след няколко минути.</translation>
 <translation id="6216759405419177713">Норфолк, о-в</translation>
 <translation id="6245066275978703471">Телефонният номер е потвърден автоматично</translation>
-<translation id="6283536862756552051">За да промените паролата си, първо трябва да въведете текущата.</translation>
-<translation id="6299890279889400823">Назад</translation>
+<translation id="6269083314054226194">Грешка в мрежата – проверете връзката с интернет.</translation>
+<translation id="6295157125625453859">Потвърдено!</translation>
 <translation id="6316446940976157217">Индия</translation>
 <translation id="6327723482938582895">Бенин</translation>
 <translation id="6338643731889005578">Напред</translation>
@@ -330,27 +359,33 @@
 <translation id="6921505896641453739">Имейл</translation>
 <translation id="6929813273561975780">Напред</translation>
 <translation id="6951302238647056860">Този код вече не е валиден</translation>
-<translation id="6976724207780605356">Вход с Facebook</translation>
+<translation id="6961220857430789248">Изпратихме имейл до <ph name="STRING" /> за вход в профила с допълнителни инструкции. Проверете входящата си поща, за да завършите процеса.</translation>
 <translation id="6984204927251307445">Потвърждаване на имейл адреса</translation>
 <translation id="6999773882165218263">Име и фамилия</translation>
 <translation id="7012506961150923116">Гренада</translation>
 <translation id="7024571478138322659">Западна Сахара</translation>
+<translation id="7025117765722694556">Заявката не може да се изпълни при текущото състояние на системата.</translation>
 <translation id="7062299334696934251">Възникна неизвестна грешка.</translation>
 <translation id="7064251114893721966">Вече използвахте <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> за вход. Въведете паролата си за този профил.</translation>
+<translation id="7085136866191400000">Изпратен е имейл за вход в профила</translation>
 <translation id="7089485669419398254">Ирландия</translation>
 <translation id="7093343209860483088">Демократична република Конго</translation>
 <translation id="7118080999850002096">Възстановяване на паролата</translation>
 <translation id="7150917293543492988">Република Конго</translation>
+<translation id="7157317431934821052">Ресурсът, който клиентът се опита да създаде, вече съществува.</translation>
 <translation id="7174424882502155514">Продължаване като гост</translation>
 <translation id="7192078949090526171">Сан Марино</translation>
 <translation id="7197455001919474950">Кипър</translation>
 <translation id="7198563013006562060">Соломонови острови</translation>
 <translation id="7207660930894629055">Искате ли да продължите с/ъс <ph name="USER_EMAIL" />?</translation>
+<translation id="720983450833499456">За да продължите да влизате в профила си на това устройство с имейл адрес <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />, трябва да възстановите паролата.</translation>
 <translation id="7223410082658239002">Малдиви</translation>
 <translation id="7254028881697834212">Сао Томе и Принсипи</translation>
 <translation id="7268827299582726485">Потвърждаване на имейл адреса за завършване на влизането в профила</translation>
 <translation id="7272145663101316762">Словения</translation>
 <translation id="7280309713358692490">Южна Корея</translation>
+<translation id="7283725113395426048">Налице е конфликт с конкурентността, напр. при действията четене, промяна и писане.</translation>
+<translation id="7290147808482957603">Методът на API не е внедрен от сървъра.</translation>
 <translation id="7291567990403335374">Лесото</translation>
 <translation id="7291656724505689727">Вход с телефон</translation>
 <translation id="7320029088567935126">Нов опит за потвърждаване на имейл адреса</translation>
@@ -369,8 +404,10 @@
 <translation id="7643408533407091568">Вече използвахте <ph name="EMAIL_ADDR" /> за вход. Въведете паролата си за този профил.</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{Паролата не е достатъчно надеждна. Използвайте поне <ph name="PH_1" /> знак и комбинация от букви и цифри}other{Паролата не е достатъчно надеждна. Използвайте поне <ph name="PH_1" /> знака и комбинация от букви и цифри}}</translation>
 <translation id="7699755204074920022">Зимбабве</translation>
+<translation id="7746977132739352062">Заявката не е удостоверена поради липсващо, невалидно или изтекло означение за OAuth.</translation>
 <translation id="7782885946428624225">При потвърждаването на телефонния ви номер възникна проблем</translation>
 <translation id="7796914496604415892">Открито е ново устройство или браузър</translation>
+<translation id="786166109137986817">Вход в профила в(ъв) <ph name="DISPLAY_NAME" /></translation>
 <translation id="7868540442111212282">Чешка република</translation>
 <translation id="7874584525604421364">Тувалу</translation>
 <translation id="7926046652648626866">Вход с GitHub</translation>
@@ -425,6 +462,7 @@
 <translation id="868894957204919930">Бермудски острови</translation>
 <translation id="8694271531070467981">Ниуе</translation>
 <translation id="8745311627715763145">Гваделупа</translation>
+<translation id="8752467400269476994">Конфигурацията на проекта, посочена от клиентската програма, е невалидна.</translation>
 <translation id="8760480624706028033">Палестински територии</translation>
 <translation id="8770276147008360348">Словакия</translation>
 <translation id="877434849857020571">Гърнси</translation>
@@ -437,19 +475,24 @@
 <translation id="8893950153780006385">Малайзия</translation>
 <translation id="8895840173743975193">Кокосови острови (о-ви Кийлинг)</translation>
 <translation id="8916080112145514151">Ако все още искате да свържете профила си в(ъв) <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" />, отворете връзката на същото устройство, на което първоначално използвахте профила. В противен случай докоснете, за да продължите с влизането на това устройство.</translation>
+<translation id="8920674952994839257">Нов опит</translation>
 <translation id="8939353296336237380">Първоначално искахте да свържете профила си в(ъв) <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> с имейла си, но отворихте връзката на различно устройство без вход в профила.</translation>
 <translation id="8971555482255213064">Повторно изпращане на кода след 0:<ph name="PH_1" /></translation>
 <translation id="8984161590699631096">Мароко</translation>
+<translation id="8994098794339484800">Ако не разпознавате устройството, някой може да опитва да получи достъп до профила ви. Препоръчваме ви да <ph name="START_LINK" />смените паролата си незабавно<ph name="END_LINK" />.</translation>
 <translation id="900153878296575829">Бангладеш</translation>
 <translation id="9022632332691561239">Телефон</translation>
 <translation id="9028063588419847334">Финландия</translation>
 <translation id="9078135685219203661">Обединени арабски емирства</translation>
+<translation id="9121203582272050974">Имейлът ви бе потвърден и сменен</translation>
 <translation id="9156150178611681179">Парола</translation>
 <translation id="9168877696443530714">Централноафриканска република</translation>
 <translation id="9186194643192393179">Кюрасао</translation>
+<translation id="9193130710600355008">Блокирахме всички заявки от това устройство поради необичайна активност. Опитайте отново по-късно.</translation>
 <translation id="919456844206936371">Тунис</translation>
 <translation id="9209678713072395487">Паролата е променена</translation>
 <translation id="954276184636809129">Гърция</translation>
+<translation id="959388308828818789">Втората стъпка е премахната</translation>
 <translation id="965930633376049617">Ангола</translation>
 <translation id="988087302893519488">Кувейт</translation>
 <translation id="994914101700264849">Имейл адресът и паролата, които въведохте, не си съответстват</translation>

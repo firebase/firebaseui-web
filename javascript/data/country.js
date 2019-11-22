@@ -26,80 +26,82 @@ goog.require('goog.structs.Trie');
 
 
 /**
- * Defines a prefix tree for storing all the country codes to facilate phone
+ * Defines a prefix tree for storing all the country codes to facilitate phone
  * number country code lookup.
- * @param {!Array<!firebaseui.auth.data.country.Country>} countries The list of
- *     countries to construct a prefix tree for.
- * @constructor
  */
-firebaseui.auth.data.country.LookupTree = function(countries) {
+firebaseui.auth.data.country.LookupTree = class {
   /**
-   * @private {!Array<!firebaseui.auth.data.country.Country>} The list of
-   *     countries to construct a prefix tree for.
+   * @param {!Array<!firebaseui.auth.data.country.Country>} countries The list
+   *     of countries to construct a prefix tree for.
    */
-  this.countries_ = countries;
+  constructor(countries) {
+    /**
+     * @private {!Array<!firebaseui.auth.data.country.Country>} The list of
+     *     countries to construct a prefix tree for.
+     */
+    this.countries_ = countries;
+    /**
+     * @private {
+     * !goog.structs.Trie<!Array<!firebaseui.auth.data.country.Country>>} The
+     *     prefix tree.
+     */
+    this.trie_ = new goog.structs.Trie();
+    // Initialize prefix tree like structure.
+    this.init_();
+  }
+
+
   /**
-   * @private {
-   * !goog.structs.Trie<!Array<!firebaseui.auth.data.country.Country>>} The
-   *     prefix tree.
+   * Populates the prefix tree structure.
+   * @private
    */
-  this.trie_ = new goog.structs.Trie();
-  // Initialize prefix tree like structure.
-  this.init_();
-};
-
-
-
-/**
- * Populates the prefix tree structure.
- * @private
- */
-firebaseui.auth.data.country.LookupTree.prototype.init_ = function() {
-  // Populate the prefix tree.
-  for (var i = 0; i < this.countries_.length; i++) {
-    // Construct key.
-    var key = '+' + this.countries_[i].e164_cc;
-    // Check if key exists.
-    var nodeValue = this.trie_.get(key);
-    if (nodeValue) {
-      // If so, add country object to its array.
-      nodeValue.push(this.countries_[i]);
-    } else {
-      // Else add that key/value.
-      this.trie_.add('+' + this.countries_[i].e164_cc, [this.countries_[i]]);
+  init_() {
+    // Populate the prefix tree.
+    for (var i = 0; i < this.countries_.length; i++) {
+      // Construct key.
+      var key = '+' + this.countries_[i].e164_cc;
+      // Check if key exists.
+      var nodeValue = this.trie_.get(key);
+      if (nodeValue) {
+        // If so, add country object to its array.
+        nodeValue.push(this.countries_[i]);
+      } else {
+        // Else add that key/value.
+        this.trie_.add('+' + this.countries_[i].e164_cc, [this.countries_[i]]);
+      }
     }
   }
-};
 
 
-/**
- * Looks up the country that matches the code's prefix.
- * @param {string} code The string that could contain a country code prefix.
- * @return {!Array<!firebaseui.auth.data.country.Country>} The country objects
- *     that match the prefix of the code provided, empty array if not found.
- */
-firebaseui.auth.data.country.LookupTree.prototype.search = function(code) {
-  // Get all keys and prefixes.
-  var keyAndPrefixes = this.trie_.getKeyAndPrefixes(code);
-  // Get matching key and prefixes.
-  for (var key in keyAndPrefixes) {
-    if (keyAndPrefixes.hasOwnProperty(key)) {
-      // Pick first one. There should always be one as country codes can't be
-      // prefixes of each other.
-      return keyAndPrefixes[key];
+  /**
+   * Looks up the country that matches the code's prefix.
+   * @param {string} code The string that could contain a country code prefix.
+   * @return {!Array<!firebaseui.auth.data.country.Country>} The country objects
+   *     that match the prefix of the code provided, empty array if not found.
+   */
+  search(code) {
+    // Get all keys and prefixes.
+    var keyAndPrefixes = this.trie_.getKeyAndPrefixes(code);
+    // Get matching key and prefixes.
+    for (var key in keyAndPrefixes) {
+      if (keyAndPrefixes.hasOwnProperty(key)) {
+        // Pick first one. There should always be one as country codes can't be
+        // prefixes of each other.
+        return keyAndPrefixes[key];
+      }
     }
+    return [];
   }
-  return [];
-};
 
 
-/**
- * Gets the list of counties used to build up the tree.
- * @return {!Array<!firebaseui.auth.data.country.Country>} The list of
- *     countries to construct the prefix tree for.
- */
-firebaseui.auth.data.country.LookupTree.prototype.getCountries = function() {
-  return this.countries_;
+  /**
+   * Gets the list of counties used to build up the tree.
+   * @return {!Array<!firebaseui.auth.data.country.Country>} The list of
+   *     countries to construct the prefix tree for.
+   */
+  getCountries() {
+    return this.countries_;
+  }
 };
 
 

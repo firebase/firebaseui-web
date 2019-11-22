@@ -19,8 +19,8 @@
 goog.provide('firebaseui.auth.widget.handler.SignInTest');
 goog.setTestOnly('firebaseui.auth.widget.handler.SignInTest');
 
-goog.require('firebaseui.auth.CredentialHelper');
 goog.require('firebaseui.auth.storage');
+goog.require('firebaseui.auth.widget.Config');
 /** @suppress {extraRequire} Required for page navigation to work. */
 goog.require('firebaseui.auth.widget.handler.handleFederatedSignIn');
 goog.require('firebaseui.auth.widget.handler.handlePasswordRecovery');
@@ -123,7 +123,7 @@ function testHandleSignIn_acDisabled_emailProviderOnly() {
   // Simulate accountchooser.com disabled and email provider only.
   // No cancel button should be displayed.
   app.setConfig({
-    'credentialHelper': firebaseui.auth.CredentialHelper.NONE,
+    'credentialHelper': firebaseui.auth.widget.Config.CredentialHelper.NONE,
     'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID],
     'tosUrl': undefined,
     'privacyPolicyUrl': undefined
@@ -141,7 +141,8 @@ function testHandleSignIn_acEnabled_emailProviderOnly() {
   // Simulate accountchooser.com enabled and email provider only.
   // Cancel button should still be displayed.
   app.setConfig({
-    'credentialHelper': firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
     'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID]
   });
   firebaseui.auth.widget.handler.handleSignIn(
@@ -157,7 +158,8 @@ function testHandleSignIn_acDisabled_multiProviders() {
   // Simulate accountchooser.com disabled and multiple auth providers.
   // Cancel button should still be displayed.
   app.setConfig({
-    'credentialHelper': firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
     'signInOptions': [
       firebase.auth.EmailAuthProvider.PROVIDER_ID,
       firebase.auth.GoogleAuthProvider.PROVIDER_ID
@@ -238,7 +240,8 @@ function testHandleSignIn_federatedSignIn() {
 function testHandleSignIn_accountChooserDisabled() {
   // Test that when credential helpers are disabled, remember account is not
   // shown and is disabled.
-  app.updateConfig('credentialHelper', firebaseui.auth.CredentialHelper.NONE);
+  app.updateConfig('credentialHelper',
+                   firebaseui.auth.widget.Config.CredentialHelper.NONE);
   firebaseui.auth.widget.handler.handleSignIn(app, container);
   assertSignInPage();
   var emailInput = getEmailElement();
@@ -290,4 +293,29 @@ function testHandleSignIn_inProcessing() {
       .then(function() {
         assertPasswordSignInPage();
       });
+}
+
+
+function testHandleSignIn_signInHint() {
+  // Test handleSignIn with signInHint.
+  const prefilledEmail = 'user@example.com';
+  app.startWithSignInHint(
+      container,
+      {
+        signInOptions: ['password'],
+        credentialHelper: firebaseui.auth.widget.Config.CredentialHelper.NONE,
+      },
+      {
+        emailHint: prefilledEmail,
+      });
+
+  // Sign-in page should show.
+  assertSignInPage();
+  // The prefilled email should be populated in the email entry.
+  assertEquals(prefilledEmail, getEmailElement().value);
+
+  // Clean up the AuthUI instance.
+  testAuth.assertSignOut([]);
+  app.delete();
+  return testAuth.process();
 }

@@ -67,4 +67,3 @@ firebaseui.auth.widget.handler.register(
     firebaseui.auth.widget.HandlerName.UNSUPPORTED_PROVIDER,
     /** @type {!firebaseui.auth.widget.Handler} */
     (firebaseui.auth.widget.handler.handleUnsupportedProvider));
-    

@@ -21,7 +21,6 @@ goog.provide('firebaseui.auth.AuthUITest');
 goog.require('firebaseui.auth.ActionCodeUrlBuilder');
 goog.require('firebaseui.auth.AuthUI');
 goog.require('firebaseui.auth.AuthUIError');
-goog.require('firebaseui.auth.CredentialHelper');
 goog.require('firebaseui.auth.GoogleYolo');
 goog.require('firebaseui.auth.PendingEmailCredential');
 goog.require('firebaseui.auth.RedirectStatus');
@@ -173,6 +172,17 @@ var mockClock = new goog.testing.MockClock();
 function assertHasCssClass(container, cssName) {
   var page = container.children[0];
   assertTrue(goog.dom.classlist.contains(page,  goog.getCssName(cssName)));
+}
+
+
+/**
+ * Asserts that two errors are equivalent. Plain assertObjectEquals cannot be
+ * used as Internet Explorer adds the stack trace as a property of the object.
+ * @param {!firebaseui.auth.AuthUIError} expected
+ * @param {!firebaseui.auth.AuthUIError} actual
+ */
+function assertErrorEquals(expected, actual) {
+  assertObjectEquals(expected.toPlainObject(), actual.toPlainObject());
 }
 
 
@@ -979,6 +989,66 @@ function testStart_redirect_tenantId() {
 }
 
 
+function testStartWithSignInHint() {
+  // Test startWithSignInHint.
+  testStubs.reset();
+  testStubs.set(
+      firebaseui.auth.widget.handler.common,
+      'handleSignInStart',
+      goog.testing.recordFunction());
+  createAndInstallTestInstances();
+  const emailHint = 'user@example.com';
+
+  // Start sign-in with signInHint.
+  app1.startWithSignInHint(container1, config1, {
+    emailHint,
+  });
+
+  // Verify that the correct email hint is returned.
+  assertEquals(emailHint, app1.getSignInEmailHint());
+  // Verify that email hint is passed to handleSignInStart.
+  /** @suppress {missingRequire} */
+  assertEquals(
+      1,
+      firebaseui.auth.widget.handler.common.handleSignInStart.getCallCount());
+  assertEquals(
+      app1,
+      firebaseui.auth.widget.handler.common.handleSignInStart.getLastCall()
+      .getArgument(0));
+  assertEquals(
+      container1,
+      firebaseui.auth.widget.handler.common.handleSignInStart.getLastCall()
+      .getArgument(1));
+  assertEquals(
+      emailHint,
+      firebaseui.auth.widget.handler.common.handleSignInStart.getLastCall()
+      .getArgument(2));
+
+  // Start sign-in again without signInHint.
+  app1.startWithSignInHint(container1, config1);
+  // Verify that email hint is undefined.
+  assertUndefined(app1.getSignInEmailHint());
+  // Verify that no email hint is passed to handleSignInStart.
+  /** @suppress {missingRequire} */
+  assertEquals(
+      2,
+      firebaseui.auth.widget.handler.common.handleSignInStart.getCallCount());
+  assertEquals(
+      app1,
+      firebaseui.auth.widget.handler.common.handleSignInStart.getLastCall()
+      .getArgument(0));
+  assertEquals(
+      container1,
+      firebaseui.auth.widget.handler.common.handleSignInStart.getLastCall()
+      .getArgument(1));
+  /** @suppress {missingRequire} */
+  assertUndefined(
+      firebaseui.auth.widget.handler.common.handleSignInStart.getLastCall()
+      .getArgument(2));
+
+}
+
+
 function testStart_elementNotFound() {
   // Test widget start method with missing element.
   // Test correct error message thrown when widget element not found.
@@ -1033,7 +1103,7 @@ function testUiChangedCallback() {
     'callbacks': {
       'uiChanged': uiChangedCallback
     },
-    'credentialHelper': firebaseui.auth.CredentialHelper.NONE,
+    'credentialHelper': firebaseui.auth.widget.Config.CredentialHelper.NONE,
   };
   // Initialize app and pass configuration.
   // Make sure internal and external instances installed.
@@ -1456,7 +1526,7 @@ function testAuthUi_oneTapSignIn_disabled() {
         'clientId': '1234567890.apps.googleusercontent.com'
       }
     ],
-    'credentialHelper': firebaseui.auth.CredentialHelper.NONE
+    'credentialHelper': firebaseui.auth.widget.Config.CredentialHelper.NONE
   };
   // Expected googyolo config is null.
   var googYoloConfig = null;
@@ -1510,7 +1580,8 @@ function testAuthUi_oneTapSignIn_autoSignInDisabled() {
         'clientId': '1234567890.apps.googleusercontent.com'
       }
     ],
-    'credentialHelper': firebaseui.auth.CredentialHelper.GOOGLE_YOLO
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
   };
   // Expected googyolo config corresponding to the above FirebaseUI config.
   var googYoloConfig = {
@@ -1573,7 +1644,8 @@ function testAuthUi_oneTapSignIn_noCurrentComponent() {
         'clientId': '1234567890.apps.googleusercontent.com'
       }
     ],
-    'credentialHelper': firebaseui.auth.CredentialHelper.GOOGLE_YOLO
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
   };
   // Expected googyolo config corresponding to the above FirebaseUI config.
   var googYoloConfig = {
@@ -1633,7 +1705,8 @@ function testAuthUi_oneTapSignIn_autoSignInEnabled() {
         'clientId': '1234567890.apps.googleusercontent.com'
       }
     ],
-    'credentialHelper': firebaseui.auth.CredentialHelper.GOOGLE_YOLO
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
   };
   // Expected googyolo config corresponding to the above FirebaseUI config.
   var googYoloConfig = {
@@ -2973,7 +3046,7 @@ function testStartSignInWithCredential_upgradeAnonymous_nonAnonymous_success() {
   testAuth.setUser(expectedUser);
   // Trigger initial onAuthStateChanged listener.
   app.getExternalAuth().runAuthChangeHandler();
-  // signInAndRetrieveDataWithCredential called on internal Auth instance as no
+  // signInWithCredential called on internal Auth instance as no
   // anonymous user available.
   app.getAuth().assertSignInWithCredential(
       [expectedCredential],
@@ -3004,7 +3077,7 @@ function testStartSignInWithCredential_upgradeAnonymous_noUser_success() {
   testAuth.setUser(null);
   // Trigger initial onAuthStateChanged listener.
   app.getExternalAuth().runAuthChangeHandler();
-  // signInAndRetrieveDataWithCredential called on internal Auth instance as no
+  // signInWithCredential called on internal Auth instance as no
   // user available.
   app.getAuth().assertSignInWithCredential(
       [expectedCredential],
@@ -5295,7 +5368,7 @@ function testOnUpgradeError_credentialAlreadyInUseError() {
     // Confirm signInFailure called with expected UI error.
     assertEquals(
         1, anonymousUpgradeConfig.callbacks.signInFailure.getCallCount());
-    assertObjectEquals(
+    assertErrorEquals(
         expectedMergeError,
         anonymousUpgradeConfig.callbacks.signInFailure.getLastCall()
             .getArgument(0));
@@ -5339,7 +5412,7 @@ function testOnUpgradeError_emailAlreadyInUseError() {
         // Confirm signInFailure called with expected UI error.
         assertEquals(
             1, anonymousUpgradeConfig.callbacks.signInFailure.getCallCount());
-        assertObjectEquals(
+        assertErrorEquals(
             expectedMergeError,
             anonymousUpgradeConfig.callbacks.signInFailure.getLastCall()
                 .getArgument(0));

@@ -25,7 +25,6 @@ goog.require('goog.asserts');
 goog.forwardDeclare('firebaseui.auth.AuthUI');
 
 
-
 /**
  * Handler names.
  * @enum {string}

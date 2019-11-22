@@ -34,6 +34,7 @@ goog.require('firebaseui.auth.widget.handler.handleProviderSignIn');
 goog.require('firebaseui.auth.widget.handler.testHelper');
 
 
+
 function testHandleFederatedSignIn() {
   // Add additional scopes to test they are properly passed to sign-in method.
   var expectedProvider = getExpectedProviderWithScopes({

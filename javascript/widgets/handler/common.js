@@ -16,7 +16,6 @@
  * @fileoverview Common functions shared by handlers.
  */
 
-goog.provide('firebaseui.auth.AuthResult');
 goog.provide('firebaseui.auth.OAuthResponse');
 goog.provide('firebaseui.auth.widget.handler.common');
 
@@ -56,17 +55,6 @@ goog.forwardDeclare('firebaseui.auth.AuthUI');
  * }}
  */
 firebaseui.auth.OAuthResponse;
-
-
-/**
- * @typedef {{
- *   user: (?firebase.User),
- *   credential: (?firebase.auth.AuthCredential),
- *   operationType: (?string|undefined),
- *   additionalUserInfo: (?firebase.auth.AdditionalUserInfo|undefined)
- * }}
- */
-firebaseui.auth.AuthResult;
 
 
 /**
@@ -414,9 +402,9 @@ firebaseui.auth.widget.handler.common.selectFromAccountChooser = function(
  * @param {firebaseui.auth.AuthUI} app The current FirebaseUI instance whose
  *     configuration is used and that has a user signed in.
  * @param {firebaseui.auth.ui.page.Base} component The UI component.
- * @param {!firebaseui.auth.AuthResult} authResult The Auth result, which
- *     includes current user, credential to sign in to external Auth instance,
- *     additional user info and operation type.
+ * @param {!firebaseui.auth.widget.Config.AuthResult} authResult The Auth
+ *     result, which includes current user, credential to sign in to external
+ *     Auth instance, additional user info and operation type.
  * @param {boolean=} opt_alreadySignedIn Whether user already signed in on
  *     external Auth instance. If true, current user on external Auth instance
  *     should be passed in from Auth result. Should be true for anonymous
@@ -614,9 +602,9 @@ firebaseui.auth.widget.handler.common.setUserLoggedInExternal_ =
  * @param {firebaseui.auth.AuthUI} app The current FirebaseUI instance whose
  *     configuration is used and that has a user signed in.
  * @param {firebaseui.auth.ui.page.Base} component The UI component.
- * @param {!firebaseui.auth.AuthResult} authResult The Auth result, which
- *     includes current user, credential to sign in to external Auth instance,
- *     additional user info and operation type.
+ * @param {!firebaseui.auth.widget.Config.AuthResult} authResult The Auth
+ *     result, which includes current user, credential to sign in to external
+ *     Auth instance, additional user info and operation type.
  * @private
  */
 firebaseui.auth.widget.handler.common.setUserLoggedInExternalWithAuthResult_ =
@@ -861,7 +849,7 @@ firebaseui.auth.widget.handler.common.federatedSignIn = function(
     }
     firebaseui.auth.log.error('signInWithRedirect: ' + error['code']);
     var errorMessage = firebaseui.auth.widget.handler.common.getErrorMessage(
-        error);
+          error);
     // If the page was previously blank because the 'nascar' screen is being
     // skipped, then the provider sign-in 'nascar' screen needs to be shown
     // along with the error message. Otherwise, the error message can simply
@@ -998,7 +986,8 @@ firebaseui.auth.widget.handler.common.handleSignInAnonymously = function(
         return firebaseui.auth.widget.handler.common.setLoggedInWithAuthResult(
             app,
             component,
-            /** @type {!firebaseui.auth.AuthResult} */(userCredential),
+            /** @type {!firebaseui.auth.widget.Config.AuthResult} */(
+                userCredential),
             true);
       },
       function(error) {
@@ -1179,14 +1168,15 @@ firebaseui.auth.widget.handler.common.verifyPassword =
           goog.bind(app.startSignInWithEmailAndPassword, app)),
       [email, password],
       function(userCredential) {
-        var authResult = /** @type {!firebaseui.auth.AuthResult} */ ({
-          'user': userCredential['user'],
-          // Password credential is needed to complete sign-in to the original
-          // Auth instance.
-          'credential': emailPassCred,
-          'operationType': userCredential['operationType'],
-          'additionalUserInfo': userCredential['additionalUserInfo']
-        });
+        var authResult = (
+            /** @type {!firebaseui.auth.widget.Config.AuthResult} */ ({
+              'user': userCredential['user'],
+              // Password credential is needed to complete sign-in to the
+              // original Auth instance.
+              'credential': emailPassCred,
+              'operationType': userCredential['operationType'],
+              'additionalUserInfo': userCredential['additionalUserInfo']
+            }));
         return firebaseui.auth.widget.handler.common.setLoggedInWithAuthResult(
             app, component, authResult);
       },
@@ -1267,34 +1257,34 @@ firebaseui.auth.widget.handler.common.isPhoneProviderOnly = function(app) {
 /**
  * Calls the appropriate sign-in start handler depending on display mode.
  *
- * @param {firebaseui.auth.AuthUI} app The current FirebaseUI instance whose
+ * @param {?firebaseui.auth.AuthUI} app The current FirebaseUI instance whose
  *     configuration is used.
- * @param {Element} container The container DOM element.
- * @param {string=} opt_email The email to prefill.
- * @param {string=} opt_infoBarMessage The message to show on info bar.
+ * @param {?Element} container The container DOM element.
+ * @param {string=} email The optional email to prefill.
+ * @param {string=} infoBarMessage The optional message to show on info bar.
  */
 firebaseui.auth.widget.handler.common.handleSignInStart = function(
-    app, container, opt_email, opt_infoBarMessage) {
+    app, container, email = undefined, infoBarMessage = undefined) {
   if (firebaseui.auth.widget.handler.common.isPasswordProviderOnly(app)) {
     // If info bar message is available, do not go to accountchooser.com since
     // this is a result of some error in the flow and the error message must be
     // displayed.
-    if (opt_infoBarMessage) {
+    if (infoBarMessage) {
       firebaseui.auth.widget.handler.handle(
           firebaseui.auth.widget.HandlerName.SIGN_IN,
           app,
           container,
-          opt_email,
-          opt_infoBarMessage);
+          email,
+          infoBarMessage);
     } else {
       // Email auth provider is the only option, trigger that flow immediately
       // instead of just showing a single sign-in with email button.
       firebaseui.auth.widget.handler.common.handleSignInWithEmail(
-          app, container, opt_email);
+          app, container, email);
     }
   } else if (
       app && firebaseui.auth.widget.handler.common.isPhoneProviderOnly(app) &&
-      !opt_infoBarMessage) {
+      !infoBarMessage) {
     // Avoid an infinite loop by only skipping to phone auth if there's no
     // error on phone auth rendering, eg recaptcha error when network down,
     // which would trigger an info bar message.
@@ -1302,13 +1292,14 @@ firebaseui.auth.widget.handler.common.handleSignInStart = function(
         firebaseui.auth.widget.HandlerName.PHONE_SIGN_IN_START, app, container);
   } else if (app &&
       app.getConfig().federatedProviderShouldImmediatelyRedirect() &&
-      !opt_infoBarMessage) {
+      !infoBarMessage) {
     // If there is an info bar message available, the 'nascar' screen cannot be
     // skipped since the message or error must be shown to the user.
     firebaseui.auth.widget.handler.handle(
         firebaseui.auth.widget.HandlerName.FEDERATED_REDIRECT,
         app,
-        container);
+        container,
+        email);
   } else {
     // For all other cases, show the provider sign-in screen along with any
     // info bar messages that need to be shown to the user.
@@ -1316,7 +1307,8 @@ firebaseui.auth.widget.handler.common.handleSignInStart = function(
         firebaseui.auth.widget.HandlerName.PROVIDER_SIGN_IN,
         app,
         container,
-        opt_infoBarMessage);
+        infoBarMessage,
+        email);
   }
 };
 
@@ -1466,6 +1458,7 @@ firebaseui.auth.widget.handler.common.handleSignInFetchSignInMethodsForEmail =
           email);
     }
   }
+
 };
 
 

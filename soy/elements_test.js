@@ -514,3 +514,34 @@ function testListboxDialogWithIcons() {
       firebaseui.auth.soy2.element.listBoxDialog, data, IJ_DATA_);
   attachShowDialogListener('show-list-box-with-icons', dialog);
 }
+
+
+function testTenantSelectionButton() {
+  const tenantConfigs = [
+    {
+      tenantId: 'TENANT_ID',
+      displayName: 'Contractor A',
+      buttonColor: '#FFB6C1',
+      iconUrl: 'icon-url',
+    },
+    {
+      tenantId: null,
+      displayName: 'ACME',
+      buttonColor: '#53B2BF',
+      iconUrl: 'icon-url',
+    }];
+  const root = goog.dom.getElement('tenant-selection-button');
+  for (let i = 0; i < tenantConfigs.length; i++) {
+    const button = goog.soy.renderAsElement(
+        firebaseui.auth.soy2.element.tenantSelectionButton,
+        {
+          tenantConfig: tenantConfigs[i]
+        },
+        IJ_DATA_);
+    root.appendChild(button);
+    const separator = goog.dom.createElement('div');
+    goog.dom.setProperties(separator, {'style': 'height:15px'});
+    root.appendChild(separator);
+  }
+}
+

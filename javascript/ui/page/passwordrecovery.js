@@ -27,65 +27,52 @@ goog.require('firebaseui.auth.ui.page.Base');
 
 /**
  * Password recovery UI component.
- * @param {function()} onSubmitClick Callback to invoke when the submit button
- *     is clicked.
- * @param {function()=} opt_onCancelClick Callback to invoke when the cancel
- *     button is clicked.
- * @param {string=} opt_email The email to prefill.
- * @param {?function()=} opt_tosCallback Callback to invoke when the ToS link
- *     is clicked.
- * @param {?function()=} opt_privacyPolicyCallback Callback to invoke when the
- *     Privacy Policy link is clicked.
- * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
- * @constructor
- * @extends {firebaseui.auth.ui.page.Base}
  */
-firebaseui.auth.ui.page.PasswordRecovery = function(
-    onSubmitClick,
-    opt_onCancelClick,
-    opt_email,
-    opt_tosCallback,
-    opt_privacyPolicyCallback,
-    opt_domHelper) {
-  firebaseui.auth.ui.page.PasswordRecovery.base(
-      this,
-      'constructor',
-      firebaseui.auth.soy2.page.passwordRecovery,
-      {
-        email: opt_email,
-        allowCancel: !!opt_onCancelClick
-      },
-      opt_domHelper,
-      'passwordRecovery',
-      {
-        tosCallback: opt_tosCallback,
-        privacyPolicyCallback: opt_privacyPolicyCallback
-      });
-  this.onSubmitClick_ = onSubmitClick;
-  this.onCancelClick_ = opt_onCancelClick;
-};
-goog.inherits(firebaseui.auth.ui.page.PasswordRecovery,
-    firebaseui.auth.ui.page.Base);
-
-
-/** @override */
-firebaseui.auth.ui.page.PasswordRecovery.prototype.enterDocument = function() {
-  this.initEmailElement();
-  this.initFormElement(this.onSubmitClick_, this.onCancelClick_);
-  if (!firebaseui.auth.ui.element.getInputValue(this.getEmailElement())) {
-    this.getEmailElement().focus();
+firebaseui.auth.ui.page.PasswordRecovery =
+    class extends firebaseui.auth.ui.page.Base {
+  /**
+   * @param {function()} onSubmitClick Callback to invoke when the submit button
+   *     is clicked.
+   * @param {function()=} opt_onCancelClick Callback to invoke when the cancel
+   *     button is clicked.
+   * @param {string=} opt_email The email to prefill.
+   * @param {?function()=} opt_tosCallback Callback to invoke when the ToS link
+   *     is clicked.
+   * @param {?function()=} opt_privacyPolicyCallback Callback to invoke when the
+   *     Privacy Policy link is clicked.
+   * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
+   */
+  constructor(
+      onSubmitClick, opt_onCancelClick, opt_email, opt_tosCallback,
+      opt_privacyPolicyCallback, opt_domHelper) {
+    super(
+        firebaseui.auth.soy2.page.passwordRecovery,
+        {email: opt_email, allowCancel: !!opt_onCancelClick}, opt_domHelper,
+        'passwordRecovery', {
+          tosCallback: opt_tosCallback,
+          privacyPolicyCallback: opt_privacyPolicyCallback
+        });
+    this.onSubmitClick_ = onSubmitClick;
+    this.onCancelClick_ = opt_onCancelClick;
   }
-  this.submitOnEnter(this.getEmailElement(), this.onSubmitClick_);
-  firebaseui.auth.ui.page.PasswordRecovery.base(this, 'enterDocument');
-};
 
+  /** @override */
+  enterDocument() {
+    this.initEmailElement();
+    this.initFormElement(this.onSubmitClick_, this.onCancelClick_);
+    if (!firebaseui.auth.ui.element.getInputValue(this.getEmailElement())) {
+      this.getEmailElement().focus();
+    }
+    this.submitOnEnter(this.getEmailElement(), this.onSubmitClick_);
+    super.enterDocument();
+  }
 
-/** @override */
-firebaseui.auth.ui.page.PasswordRecovery.prototype.disposeInternal =
-    function() {
-  this.onSubmitClick_ = null;
-  this.onCancelClick_ = null;
-  firebaseui.auth.ui.page.PasswordRecovery.base(this, 'disposeInternal');
+  /** @override */
+  disposeInternal() {
+    this.onSubmitClick_ = null;
+    this.onCancelClick_ = null;
+    super.disposeInternal();
+  }
 };
 
 

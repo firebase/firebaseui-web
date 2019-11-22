@@ -26,60 +26,47 @@ goog.require('firebaseui.auth.ui.page.Base');
 
 /**
  * Unsupported provider UI component.
- * @param {string} email The user's email.
- * @param {function()} onSubmitClick Callback to invoke when the submit button
- *     is clicked.
- * @param {function()} onCancelClick Callback to invoke when the cancel button
- *     is clicked.
- * @param {?function()=} opt_tosCallback Callback to invoke when the ToS link
- *     is clicked.
- * @param {?function()=} opt_privacyPolicyCallback Callback to invoke when the
- *     Privacy Policy link is clicked.
- * @param {?goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
- * @constructor
- * @extends {firebaseui.auth.ui.page.Base}
  */
-firebaseui.auth.ui.page.UnsupportedProvider = function(
-    email,
-    onSubmitClick,
-    onCancelClick,
-    opt_tosCallback,
-    opt_privacyPolicyCallback,
-    opt_domHelper) {
-  firebaseui.auth.ui.page.UnsupportedProvider.base(
-      this,
-      'constructor',
-      firebaseui.auth.soy2.page.unsupportedProvider,
-      {
-        email: email
-      },
-      opt_domHelper,
-      'unsupportedProvider',
-      {
-        tosCallback: opt_tosCallback,
-        privacyPolicyCallback: opt_privacyPolicyCallback
-      });
-  this.onSubmitClick_ = onSubmitClick;
-  this.onCancelClick_ = onCancelClick;
-};
-goog.inherits(firebaseui.auth.ui.page.UnsupportedProvider,
-    firebaseui.auth.ui.page.Base);
+firebaseui.auth.ui.page.UnsupportedProvider =
+    class extends firebaseui.auth.ui.page.Base {
+  /**
+   * @param {string} email The user's email.
+   * @param {function()} onSubmitClick Callback to invoke when the submit button
+   *     is clicked.
+   * @param {function()} onCancelClick Callback to invoke when the cancel button
+   *     is clicked.
+   * @param {?function()=} opt_tosCallback Callback to invoke when the ToS link
+   *     is clicked.
+   * @param {?function()=} opt_privacyPolicyCallback Callback to invoke when the
+   *     Privacy Policy link is clicked.
+   * @param {?goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
+   */
+  constructor(
+      email, onSubmitClick, onCancelClick, opt_tosCallback,
+      opt_privacyPolicyCallback, opt_domHelper) {
+    super(
+        firebaseui.auth.soy2.page.unsupportedProvider, {email: email},
+        opt_domHelper, 'unsupportedProvider', {
+          tosCallback: opt_tosCallback,
+          privacyPolicyCallback: opt_privacyPolicyCallback
+        });
+    this.onSubmitClick_ = onSubmitClick;
+    this.onCancelClick_ = onCancelClick;
+  }
 
+  /** @override */
+  enterDocument() {
+    this.initFormElement(this.onSubmitClick_, this.onCancelClick_);
+    this.getSubmitElement().focus();
+    super.enterDocument();
+  }
 
-/** @override */
-firebaseui.auth.ui.page.UnsupportedProvider.prototype.enterDocument = function() {
-  this.initFormElement(this.onSubmitClick_, this.onCancelClick_);
-  this.getSubmitElement().focus();
-  firebaseui.auth.ui.page.UnsupportedProvider.base(this, 'enterDocument');
-};
-
-
-/** @override */
-firebaseui.auth.ui.page.UnsupportedProvider.prototype.disposeInternal =
-    function() {
-  this.onSubmitClick_ = null;
-  this.onCancelClick_ = null;
-  firebaseui.auth.ui.page.UnsupportedProvider.base(this, 'disposeInternal');
+  /** @override */
+  disposeInternal() {
+    this.onSubmitClick_ = null;
+    this.onCancelClick_ = null;
+    super.disposeInternal();
+  }
 };
 
 

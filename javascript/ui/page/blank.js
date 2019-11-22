@@ -22,20 +22,14 @@ goog.require('firebaseui.auth.soy2.page');
 goog.require('firebaseui.auth.ui.page.Base');
 
 
-
 /**
  * Blank page UI componenet.
- * @param {?goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
- * @constructor
- * @extends {firebaseui.auth.ui.page.Base}
  */
-firebaseui.auth.ui.page.Blank = function(opt_domHelper) {
-  firebaseui.auth.ui.page.Blank.base(
-      this,
-      'constructor',
-      firebaseui.auth.soy2.page.blank,
-      undefined,
-      opt_domHelper,
-      'blank');
+firebaseui.auth.ui.page.Blank = class extends firebaseui.auth.ui.page.Base {
+  /**
+   * @param {?goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
+   */
+  constructor(opt_domHelper) {
+    super(firebaseui.auth.soy2.page.blank, undefined, opt_domHelper, 'blank');
+  }
 };
-goog.inherits(firebaseui.auth.ui.page.Blank, firebaseui.auth.ui.page.Base);
