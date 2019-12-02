@@ -1588,10 +1588,22 @@ where `{LANGUAGE_CODE}` is replaced by the
 can be built with `npm run build build-js-fr`. This will create a binary
 `firebaseui__fr.js` in the `dist/` folder.
 
+Build names for language codes with underscores, eg. `zh_tw`, `zh_cn`, `pt_pt`
+will be mapped to `zh-TW`, `xh-CN`, `pt-PT`. The underscore will be replaced by
+a hyphen symbol and the subsequent characters will be capitalized.
+
+```bash
+npm run build build-js-zh-TW
+```
+
+This will create a binary `firebaseui__zh_tw.js` in the `dist/` folder.
+
 To build a localized npm FirebaseUI module, run:
+
 ```bash
 npm run build build-npm-{LANGUAGE_CODE}
 ```
+
 Make sure all underscore symbols in the `LANGUAGE_CODE` are replaced with
 dashes.
 This will generate `dist/npm__{LANGUAGE_CODE}.js`.
@@ -1599,6 +1611,16 @@ You can then import/require it:
 ```javascript
 import firebaseui from './npm__{LANGUAGE_CODE}';
 ```
+
+Build names for language codes with underscores, eg. `zh_tw`, `zh_cn`, `pt_pt`
+will be mapped to `zh-TW`, `xh-CN`, `pt-PT`. The underscore will be replaced by
+a hyphen symbol and the subsequent characters will be capitalized.
+
+```bash
+npm run build build-npm-zh-TW
+```
+
+This will create a binary `npm__zh_tw.js` in the `dist/` folder.
 
 ### Running the demo app
 
