@@ -35,6 +35,7 @@
     <input
         type="email"
         name="email"
+        id="email"
         autocomplete="username"
         class="mdl-textfield__input firebaseui-input firebaseui-id-email"
         value="{$email ?: ''}"
@@ -66,7 +67,10 @@
       <label class="mdl-textfield__label firebaseui-label" for="phoneNumber">
         {msg desc="Label of an phone number input field."}Phone number{/msg}
       </label>
-      <input type="tel" name="phoneNumber"
+      <input 
+          type="tel" 
+          name="phoneNumber"
+          id="phoneNumber"
           class="mdl-textfield__input firebaseui-input firebaseui-id-phone-number"
           value="{$nationalNumber ?: ''}">
     </div>
@@ -87,7 +91,10 @@
     <label class="mdl-textfield__label firebaseui-label" for="phoneConfirmationCode">
       {msg desc="Label of 6-digit SMS verification code."}6-digit code{/msg}
     </label>
-    <input type="number" name="phoneConfirmationCode"
+    <input 
+        type="number"
+        name="phoneConfirmationCode"
+        id="phoneConfirmationCode"
         class="mdl-textfield__input firebaseui-input firebaseui-id-phone-confirmation-code">
   </div>
   <div class="firebaseui-error-wrapper">
@@ -281,6 +288,7 @@
     <input
         type="text"
         name="name"
+        id="name"
         autocomplete="name"
         class="mdl-textfield__input firebaseui-input firebaseui-id-name"
         value="{$name ?: ''}">
@@ -310,6 +318,7 @@
       <input
           type="password"
           name="newPassword"
+          id="newPassword"
           autocomplete="new-password"
           class="mdl-textfield__input firebaseui-input firebaseui-id-new-password">
     </div>
@@ -341,6 +350,7 @@
     <input
         type="password"
         name="password"
+        id="password"
         autocomplete="current-password"
         class="mdl-textfield__input firebaseui-input firebaseui-id-password">
   </div>
