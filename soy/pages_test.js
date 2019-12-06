@@ -38,6 +38,11 @@ var IJ_DATA_ = {
     'password': '../image/mail.svg',
     'phone': '../image/phone.svg',
     'anonymous': '../image/anonymous.svg',
+    'microsoft.com': '../image/microsoft.svg',
+    'yahoo.com': '../image/yahoo.svg',
+    'apple.com': '../image/apple.svg',
+    'saml': '../image/saml.svg',
+    'oidc': '../image/oidc.svg',
   },
   'defaultButtonColors': {
     'google.com': '#ffffff',
@@ -47,6 +52,11 @@ var IJ_DATA_ = {
     'password': '#db4437',
     'phone': '#02bd7e',
     'anonymous': '#f4b400',
+    'microsoft.com': '#2F2F2F',
+    'yahoo.com': '#720E9E',
+    'apple.com': '#000000',
+    'saml': '#007bff',
+    'oidc': '#007bff',
   },
   'defaultProviderNames': {
     'google.com': 'Google',

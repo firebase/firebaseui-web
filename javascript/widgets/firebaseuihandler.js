@@ -245,7 +245,7 @@ class FirebaseUiHandler {
         tenantIds.forEach((tenantId) => {
           const buttonConfig =
               this.configs_[apiKey].getSelectionButtonConfigForTenant(
-                  tenantId || UiHandlerConfig.TOP_LEVEL_CONFIG_KEY);
+                  tenantId || UiHandlerConfig.ConfigKeys.TOP_LEVEL_CONFIG_KEY);
           if (buttonConfig) {
             tenantButtonConfigs.push(buttonConfig);
           }
@@ -256,7 +256,8 @@ class FirebaseUiHandler {
             'tenantId': tenantId,
             'providerIds':
                 this.configs_[apiKey].getProvidersForTenant(
-                    tenantId || UiHandlerConfig.TOP_LEVEL_CONFIG_KEY),
+                    tenantId ||
+                    UiHandlerConfig.ConfigKeys.TOP_LEVEL_CONFIG_KEY),
           };
           resolve(selectedTenantInfo);
         };
@@ -286,7 +287,8 @@ class FirebaseUiHandler {
           for (let i = 0; i < tenantIds.length; i++) {
             const providers =
                 this.configs_[apiKey].getProvidersForTenant(
-                    tenantIds[i] || UiHandlerConfig.TOP_LEVEL_CONFIG_KEY,
+                    tenantIds[i] ||
+                    UiHandlerConfig.ConfigKeys.TOP_LEVEL_CONFIG_KEY,
                     email);
             // Resolve with the first matching tenant with available providers.
             if (providers.length !== 0) {
@@ -338,7 +340,7 @@ class FirebaseUiHandler {
     // the top-level project UI configuration key TOP_LEVEL_CONFIG_KEY should
     // be available.
     this.configs_[apiKey].validateTenantId(
-        tenantId || UiHandlerConfig.TOP_LEVEL_CONFIG_KEY);
+        tenantId || UiHandlerConfig.ConfigKeys.TOP_LEVEL_CONFIG_KEY);
     try {
       this.signedInAuth_ = firebase.app(appName).auth();
     } catch (e) {
@@ -371,7 +373,8 @@ class FirebaseUiHandler {
       }
       const signInConfig =
           this.configs_[apiKey].getSignInConfigForTenant(
-              auth['tenantId'] || UiHandlerConfig.TOP_LEVEL_CONFIG_KEY,
+              auth['tenantId'] ||
+              UiHandlerConfig.ConfigKeys.TOP_LEVEL_CONFIG_KEY,
               tenantInfo && tenantInfo['providerIds']);
       this.disposeCurrentComponent_();
       // Passes the sign-in related callbacks to FirebaseUI.
@@ -531,7 +534,7 @@ class FirebaseUiHandler {
         throw new Error('Invalid project configuration: API key is invalid!');
       }
       this.configs_[apiKey].validateTenantId(
-          user['tenantId'] || UiHandlerConfig.TOP_LEVEL_CONFIG_KEY);
+          user['tenantId'] || UiHandlerConfig.ConfigKeys.TOP_LEVEL_CONFIG_KEY);
       if (!this.signedInAuth_['currentUser'] ||
           (this.signedInAuth_['currentUser']['uid'] !== user['uid'])) {
         throw new Error(

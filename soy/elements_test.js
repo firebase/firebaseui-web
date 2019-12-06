@@ -40,6 +40,11 @@ var IJ_DATA_ = {
     'password': '../image/mail.svg',
     'phone': '../image/phone.svg',
     'anonymous': '../image/anonymous.svg',
+    'microsoft.com': '../image/microsoft.svg',
+    'yahoo.com': '../image/yahoo.svg',
+    'apple.com': '../image/apple.svg',
+    'saml': '../image/saml.svg',
+    'oidc': '../image/oidc.svg',
   },
   'defaultButtonColors': {
     'google.com': '#ffffff',
@@ -49,6 +54,11 @@ var IJ_DATA_ = {
     'password': '#db4437',
     'phone': '#02bd7e',
     'anonymous': '#f4b400',
+    'microsoft.com': '#2F2F2F',
+    'yahoo.com': '#720E9E',
+    'apple.com': '#000000',
+    'saml': '#007bff',
+    'oidc': '#007bff',
   },
   'defaultProviderNames': {
     'google.com': 'Google',
@@ -186,32 +196,40 @@ function testResendLink() {
 function testIdpButton() {
   var idpConfigs = [
     {
-      providerId: 'password'
+      providerId: 'password',
     },
     {
-      providerId: 'phone'
+      providerId: 'phone',
     },
     {
-      providerId: 'google.com'
+      providerId: 'google.com',
     },
     {
-      providerId: 'github.com'
+      providerId: 'github.com',
     },
     {
-      providerId: 'facebook.com'
+      providerId: 'facebook.com',
     },
     {
-      providerId: 'twitter.com'
+      providerId: 'twitter.com',
     },
     {
-      providerId: 'anonymous'
+      providerId: 'anonymous',
     },
     {
       providerId: 'microsoft.com',
       providerName: 'Microsoft',
       buttonColor: '#FFB6C1',
       iconUrl: 'icon-url',
-      loginHintKey: 'login_hint'
+    },
+    {
+      providerId: 'yahoo.com',
+    },
+    {
+      providerId: 'saml.provider',
+    },
+    {
+      providerId: 'oidc.provider',
     }];
   var root = goog.dom.getElement('idp-button');
   for (var i = 0; i < idpConfigs.length; i++) {

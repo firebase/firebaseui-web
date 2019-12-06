@@ -195,7 +195,10 @@ class UiHandlerConfig {
    */
   validateTenantId(tenantId) {
     const uiConfigs = this.config_.get('tenants');
-    if (!uiConfigs || !uiConfigs.hasOwnProperty(tenantId)) {
+    if (!uiConfigs ||
+        (!uiConfigs.hasOwnProperty(tenantId) &&
+         !uiConfigs.hasOwnProperty(
+             UiHandlerConfig.ConfigKeys.DEFAULT_CONFIG_KEY))) {
       throw new Error('Invalid tenant configuration!');
     }
   }
@@ -205,13 +208,13 @@ class UiHandlerConfig {
    * specific tenant.
    * @param {string} tenantId The tenantId or top-level project config key.
    * @return {!Object} The config object of the tenant.
+   * @private
    */
-  getTenantConfig(tenantId) {
+  getTenantConfig_(tenantId) {
+    this.validateTenantId(tenantId);
     const uiConfigs = this.config_.get('tenants');
-    if (!uiConfigs || !uiConfigs.hasOwnProperty(tenantId)) {
-      throw new Error('Invalid tenant configuration!');
-    }
-    return uiConfigs[tenantId];
+    return uiConfigs[tenantId] ||
+        uiConfigs[UiHandlerConfig.ConfigKeys.DEFAULT_CONFIG_KEY];
   }
 
   /**
@@ -229,7 +232,9 @@ class UiHandlerConfig {
       throw new Error('Invalid tenant configuration!');
     }
     const providers = [];
-    const tenantConfig = uiConfigs[tenantId];
+    const tenantConfig =
+        uiConfigs[tenantId] ||
+        uiConfigs[UiHandlerConfig.ConfigKeys.DEFAULT_CONFIG_KEY];
     if (!tenantConfig) {
       log.error(`Invalid tenant configuration: `+
                 `${tenantId} is not configured!`);
@@ -303,7 +308,9 @@ class UiHandlerConfig {
     if (!uiConfigs) {
       throw new Error('Invalid tenant configuration!');
     }
-    const tenantConfig = uiConfigs[tenantId];
+    const tenantConfig =
+        uiConfigs[tenantId] ||
+        uiConfigs[UiHandlerConfig.ConfigKeys.DEFAULT_CONFIG_KEY];
     if (!tenantConfig) {
       log.error(`Invalid tenant configuration: `+
                 `${tenantId} is not configured!`);
@@ -312,7 +319,7 @@ class UiHandlerConfig {
     // The button config key cannot have the quote mark, since the key name will
     // be renamed in the soy template.
     return {
-      tenantId: tenantId !== UiHandlerConfig.TOP_LEVEL_CONFIG_KEY ?
+      tenantId: tenantId !== UiHandlerConfig.ConfigKeys.TOP_LEVEL_CONFIG_KEY ?
           tenantId : null,
       displayName: tenantConfig['displayName'],
       iconUrl: tenantConfig['iconUrl'],
@@ -331,7 +338,7 @@ class UiHandlerConfig {
    * @private
    */
   filterTenantConfig_(tenantId, keys, baseConfig = {}) {
-    const uiConfig = this.getTenantConfig(tenantId);
+    const uiConfig = this.getTenantConfig_(tenantId);
     return util.filterProperties(
         /** @type {!Object} */ (uiConfig), keys, baseConfig);
   }
@@ -359,10 +366,14 @@ UiHandlerConfig.DisplayMode = {
 };
 
 /**
- * The UI configuration key for top-level project.
- * @const {string}
+ * The UI configuration keys.
+ * @enum {string}
  */
-UiHandlerConfig.TOP_LEVEL_CONFIG_KEY = '_';
-
+UiHandlerConfig.ConfigKeys = {
+  // The UI configuration key for default configuration.
+  DEFAULT_CONFIG_KEY: '*',
+  // The UI configuration key for top-level project.
+  TOP_LEVEL_CONFIG_KEY: '_',
+};
 
 exports = UiHandlerConfig;

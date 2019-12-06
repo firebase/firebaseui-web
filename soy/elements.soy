@@ -116,7 +116,7 @@
  * Renders an identity provider button.
  */
 {template .idpButton}
-  {@param? providerConfig: [providerId:string|null, providerName:string|null,
+  {@param? providerConfig: [providerId:string, providerName:string|null,
       buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
   <button
       class="firebaseui-idp-button mdl-button mdl-js-button mdl-button--raised{sp}
@@ -412,6 +412,7 @@
   {/if}
 {/template}
 
+
 /**
  * Renders Terms of Service and Privacy Policy agreement and a notice to the user about SMS rates
  * for phone authentication.
@@ -440,6 +441,7 @@
     {/if}
   </p>
 {/template}
+
 
 /**
  * Renders full Terms of Service and Privacy Policy agreement for the first page.
@@ -577,12 +579,16 @@
  * The list should match the supported provider IDs in Firebase Auth.
  */
 {template .idpName kind="text"}
-  {@param? providerConfig: [providerId:string|null, providerName:string|null,
+  {@param? providerConfig: [providerId:string, providerName:string|null,
       buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
   {if $providerConfig.providerName}
     {$providerConfig.providerName}
   {elseif $ij.defaultProviderNames[$providerConfig.providerId]}
     {$ij.defaultProviderNames[$providerConfig.providerId]}
+  {elseif strIndexOf($providerConfig.providerId, "saml.") == 0}
+    {strSub($providerConfig.providerId, 5)}
+  {elseif strIndexOf($providerConfig.providerId, "oidc.") == 0}
+    {strSub($providerConfig.providerId, 5)}
   {else}
     {$providerConfig.providerId}
   {/if}
@@ -594,7 +600,7 @@
  * The list should match the supported provider IDs in Firebase Auth.
  */
 {template .idpClass_ kind="text"}
-  {@param? providerConfig: [providerId:string|null, providerName:string|null,
+  {@param? providerConfig: [providerId:string, providerName:string|null,
       buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
   {switch $providerConfig.providerId}
     {case 'google.com'}
@@ -623,12 +629,16 @@
  * icon.
  */
 {template .idpLogo_ kind="uri"}
-  {@param? providerConfig: [providerId:string|null, providerName:string|null,
+  {@param? providerConfig: [providerId:string, providerName:string|null,
       buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
   {if $providerConfig.iconUrl}
     {$providerConfig.iconUrl}
   {elseif $ij.defaultIconUrls[$providerConfig.providerId]}
     {$ij.defaultIconUrls[$providerConfig.providerId]}
+  {elseif strIndexOf($providerConfig.providerId, "saml.") == 0}
+    {$ij.defaultIconUrls['saml']}
+  {elseif strIndexOf($providerConfig.providerId, "oidc.") == 0}
+    {$ij.defaultIconUrls['oidc']}
   {else}
     {$ij.defaultIconUrls['password']}
   {/if}
@@ -641,12 +651,16 @@
  * password icon.
  */
 {template .idpColor_ kind="text"}
-  {@param? providerConfig: [providerId:string|null, providerName:string|null,
+  {@param? providerConfig: [providerId:string, providerName:string|null,
       buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
   {if $providerConfig.buttonColor}
     {$providerConfig.buttonColor}
   {elseif $ij.defaultButtonColors[$providerConfig.providerId]}
     {$ij.defaultButtonColors[$providerConfig.providerId]}
+  {elseif strIndexOf($providerConfig.providerId, 'saml.') == 0}
+    {$ij.defaultButtonColors['saml']}
+  {elseif strIndexOf($providerConfig.providerId, 'oidc.') == 0}
+    {$ij.defaultButtonColors['oidc']}
   {else}
     {$ij.defaultButtonColors['password']}
   {/if}

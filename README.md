@@ -37,11 +37,12 @@ FirebaseUI.
 5. [Customization](#customizing-firebaseui-for-authentication)
 6. [Advanced](#advanced)
 7. [Developer Setup](#developer-setup)
-8. [Cordova Setup](#cordova-setup)
-9. [React DOM Setup](#react-dom-setup)
-10. [Angular Setup](#angular-setup)
-11. [Known issues](#known-issues)
-12. [Release Notes](#release-notes)
+8. [IAP External Identities Support with FirebaseUI](#iap-external-identities-support-with-firebaseui)
+9. [Cordova Setup](#cordova-setup)
+10. [React DOM Setup](#react-dom-setup)
+11. [Angular Setup](#angular-setup)
+12. [Known issues](#known-issues)
+13. [Release Notes](#release-notes)
 
 ## Demo
 
@@ -1686,6 +1687,13 @@ the other terminal that has the exported variables, run the tests:
 ```bash
 npm test -- --saucelabs --tunnelIdentifier=<the tunnel identifier>
 ```
+
+## IAP External Identities Support with FirebaseUI
+
+You can use FirebaseUI to build the authentication page to use external
+identities with
+[Google Cloud IAP](https://cloud.google.com/iap/docs/external-identities).
+The documentation can be found [here](firebaseuihandler/README.md).
 
 ## Cordova Setup
 

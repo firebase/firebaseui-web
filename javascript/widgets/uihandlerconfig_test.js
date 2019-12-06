@@ -263,30 +263,20 @@ testSuite({
     assertEquals(
         'Invalid tenant configuration!',
         error.message);
-  },
 
-  testGetTenantConfig() {
-    // Verify that the expected config object for the tenant is returned.
-    assertObjectEquals(
-        configObject['tenants']['tenantId1'],
-        uiHandlerConfig.getTenantConfig('tenantId1'));
-  },
-
-  testGetTenantConfig_topLevelProject() {
-    // Verify that the expected config object for top-level project is returned.
-    assertObjectEquals(
-        configObject['tenants']['_'],
-        uiHandlerConfig.getTenantConfig('_'));
-  },
-
-  testGetTenantConfig_invalidTenantId() {
-    // Verify that error is thrown if invalid tenant ID is provided.
-    const error = assertThrows(() => {
-      uiHandlerConfig.getTenantConfig('invalid_tenant_id');
+    // Provide default config keyed by '*'. No error should be thrown.
+    configObject['tenants']['*'] = {
+      displayName: 'DEALER',
+      buttonColor: '#37D2AC',
+      iconUrl: '<icon-url-of-sign-in-button>',
+      signInOptions: [
+        'google.com',
+        'password',
+      ],
+    };
+    assertNotThrows(() => {
+      uiHandlerConfig.validateTenantId('arbitrary_tenant_id');
     });
-    assertEquals(
-        'Invalid tenant configuration!',
-        error.message);
   },
 
   testGetProvidersForTenant() {
@@ -329,6 +319,26 @@ testSuite({
     assertEquals(
         'Invalid tenant configuration: invalid_tenant_id is not configured!',
         log.error.getLastCall().getArgument(0));
+
+    // Verify the default configuration is returned for arbitrary tenant.
+    configObject['tenants']['*'] = {
+      displayName: 'DEALER',
+      buttonColor: '#37D2AC',
+      iconUrl: '<icon-url-of-sign-in-button>',
+      signInOptions: [
+        'microsoft.com',
+        'google.com',
+      ],
+    };
+    assertArrayEquals(
+        ['microsoft.com', 'google.com'],
+        uiHandlerConfig.getProvidersForTenant('arbitrary_tenant_id'));
+
+    // Verify the default configuration is returned for top level project.
+    delete configObject['tenants']['_'];
+    assertArrayEquals(
+        ['microsoft.com', 'google.com'],
+        uiHandlerConfig.getProvidersForTenant('_'));
   },
 
   testGetProvidersForTenant_emailMatch() {
@@ -474,6 +484,65 @@ testSuite({
     }
   },
 
+  testGetSignInConfigForTenant_defaultConfig() {
+    // Test that the default sign-in related configs are returned for arbitrary
+    // tenant if default configuration is provided.
+    configObject['tenants']['*'] = {
+      displayName: 'DEALER',
+      buttonColor: '#37D2AC',
+      iconUrl: '<icon-url-of-sign-in-button>',
+      signInOptions: [
+        'microsoft.com',
+        'google.com',
+      ],
+    };
+    const tenantSignInConfig =
+        uiHandlerConfig.getSignInConfigForTenant('arbitrary_tenant_id');
+    // All sign-in related properties in the original config object should be
+    // copied over to the returned sign-in config object.
+    UiHandlerConfig.SUPPORTED_SIGN_IN_CONFIG_KEYS.forEach((key) => {
+      if (key in configObject['tenants']['*']) {
+        assertObjectEquals(
+            configObject['tenants']['*'][key],
+            tenantSignInConfig[key]);
+      }
+    });
+    // Verify that no unrelated properties are copied over.
+    for (let key in tenantSignInConfig) {
+      assertTrue(UiHandlerConfig.SUPPORTED_SIGN_IN_CONFIG_KEYS.includes(key));
+    }
+  },
+
+  testGetSignInConfigForTenant_defaultConfig_topLevelProject() {
+    // Test that the default sign-in related configs are returned for top level
+    // project if default configuration is provided.
+    delete configObject['tenants']['_'];
+    configObject['tenants']['*'] = {
+      displayName: 'DEALER',
+      buttonColor: '#37D2AC',
+      iconUrl: '<icon-url-of-sign-in-button>',
+      signInOptions: [
+        'microsoft.com',
+        'google.com',
+      ],
+    };
+    const tenantSignInConfig =
+        uiHandlerConfig.getSignInConfigForTenant('_');
+    // All sign-in related properties in the original config object should be
+    // copied over to the returned sign-in config object.
+    UiHandlerConfig.SUPPORTED_SIGN_IN_CONFIG_KEYS.forEach((key) => {
+      if (key in configObject['tenants']['*']) {
+        assertObjectEquals(
+            configObject['tenants']['*'][key],
+            tenantSignInConfig[key]);
+      }
+    });
+    // Verify that no unrelated properties are copied over.
+    for (let key in tenantSignInConfig) {
+      assertTrue(UiHandlerConfig.SUPPORTED_SIGN_IN_CONFIG_KEYS.includes(key));
+    }
+  },
+
   testGetSignInConfigForTenant_unsupportedConfig() {
     // Test that additional unsupported configs, eg. 'credentialHelper' are
     // removed from the returned object.
@@ -529,6 +598,56 @@ testSuite({
           tenantId: null,
           displayName: 'ACME',
           buttonColor: '#53B2BF',
+          iconUrl: '<icon-url-of-sign-in-button>',
+        },
+        tenantButtonConfig);
+  },
+
+  testGetSelectionButtonConfigForTenant_defaultConfig() {
+    // Test that the default option first tenant selection related configs are
+    // returned for arbitrary tenant if default configuration is provided.
+    configObject['tenants']['*'] = {
+      displayName: 'DEALER',
+      buttonColor: '#37D2AC',
+      iconUrl: '<icon-url-of-sign-in-button>',
+      signInOptions: [
+        'microsoft.com',
+        'google.com',
+      ],
+    };
+    const tenantButtonConfig =
+        uiHandlerConfig.getSelectionButtonConfigForTenant(
+            'arbitrary_tenant_id');
+    assertObjectEquals(
+        {
+          tenantId: 'arbitrary_tenant_id',
+          displayName: 'DEALER',
+          buttonColor: '#37D2AC',
+          iconUrl: '<icon-url-of-sign-in-button>',
+        },
+        tenantButtonConfig);
+  },
+
+  testGetSelectionButtonConfigForTenant_defaultConfig_topLevelProject() {
+    // Test that the default option first tenant selection related configs are
+    // returned for top level project if default configuration is provided.
+    delete configObject['tenants']['_'];
+    configObject['tenants']['*'] = {
+      displayName: 'DEALER',
+      buttonColor: '#37D2AC',
+      iconUrl: '<icon-url-of-sign-in-button>',
+      signInOptions: [
+        'microsoft.com',
+        'google.com',
+      ],
+    };
+    const tenantButtonConfig =
+        uiHandlerConfig.getSelectionButtonConfigForTenant('_');
+    assertObjectEquals(
+        {
+          tenantId: null,
+          displayName: 'DEALER',
+          buttonColor: '#37D2AC',
           iconUrl: '<icon-url-of-sign-in-button>',
         },
         tenantButtonConfig);
