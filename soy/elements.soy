@@ -579,15 +579,15 @@
  * The list should match the supported provider IDs in Firebase Auth.
  */
 {template .idpName kind="text"}
-  {@param? providerConfig: [providerId:string, providerName:string|null,
+  {@param? providerConfig: [providerId:string|null, providerName:string|null,
       buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
   {if $providerConfig.providerName}
     {$providerConfig.providerName}
   {elseif $ij.defaultProviderNames[$providerConfig.providerId]}
     {$ij.defaultProviderNames[$providerConfig.providerId]}
-  {elseif strIndexOf($providerConfig.providerId, "saml.") == 0}
+  {elseif strIndexOf($providerConfig.providerId, 'saml.') == 0}
     {strSub($providerConfig.providerId, 5)}
-  {elseif strIndexOf($providerConfig.providerId, "oidc.") == 0}
+  {elseif strIndexOf($providerConfig.providerId, 'oidc.') == 0}
     {strSub($providerConfig.providerId, 5)}
   {else}
     {$providerConfig.providerId}
@@ -635,9 +635,9 @@
     {$providerConfig.iconUrl}
   {elseif $ij.defaultIconUrls[$providerConfig.providerId]}
     {$ij.defaultIconUrls[$providerConfig.providerId]}
-  {elseif strIndexOf($providerConfig.providerId, "saml.") == 0}
+  {elseif strIndexOf($providerConfig.providerId, 'saml.') == 0}
     {$ij.defaultIconUrls['saml']}
-  {elseif strIndexOf($providerConfig.providerId, "oidc.") == 0}
+  {elseif strIndexOf($providerConfig.providerId, 'oidc.') == 0}
     {$ij.defaultIconUrls['oidc']}
   {else}
     {$ij.defaultIconUrls['password']}
@@ -703,4 +703,3 @@
     </span>
   </button>
 {/template}
-
