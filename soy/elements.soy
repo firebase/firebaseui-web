@@ -25,7 +25,7 @@
   {@param? disabled: bool} /** Whether the email input is disabled or not. */
   {@param? changeEmail: bool} /** Whether to use change email label. */
   <div class="firebaseui-textfield mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-    <label class="mdl-textfield__label firebaseui-label" for="email">
+    <label class="mdl-textfield__label firebaseui-label" for="ui-sign-in-email-input">
       {if $changeEmail}
         {msg desc="Label of a change email address input field."}Enter new email address{/msg}
       {else}
@@ -35,6 +35,7 @@
     <input
         type="email"
         name="email"
+        id="ui-sign-in-email-input"
         autocomplete="username"
         class="mdl-textfield__input firebaseui-input firebaseui-id-email"
         value="{$email ?: ''}"
@@ -63,10 +64,13 @@
     </button>
     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label{sp}
                 firebaseui-textfield firebaseui-phone-input-wrapper">
-      <label class="mdl-textfield__label firebaseui-label" for="phoneNumber">
+      <label class="mdl-textfield__label firebaseui-label" for="ui-sign-in-phone-number-input">
         {msg desc="Label of an phone number input field."}Phone number{/msg}
       </label>
-      <input type="tel" name="phoneNumber"
+      <input 
+          type="tel" 
+          name="phoneNumber"
+          id="ui-sign-in-phone-number-input"
           class="mdl-textfield__input firebaseui-input firebaseui-id-phone-number"
           value="{$nationalNumber ?: ''}">
     </div>
@@ -84,10 +88,13 @@
 {template .phoneConfirmationCode}
   <div class="firebaseui-textfield mdl-textfield mdl-js-textfield{sp}
       mdl-textfield--floating-label">
-    <label class="mdl-textfield__label firebaseui-label" for="phoneConfirmationCode">
+    <label class="mdl-textfield__label firebaseui-label" for="ui-sign-in-phone-confirmation-code-input">
       {msg desc="Label of 6-digit SMS verification code."}6-digit code{/msg}
     </label>
-    <input type="number" name="phoneConfirmationCode"
+    <input 
+        type="number"
+        name="phoneConfirmationCode"
+        id="ui-sign-in-phone-confirmation-code-input"
         class="mdl-textfield__input firebaseui-input firebaseui-id-phone-confirmation-code">
   </div>
   <div class="firebaseui-error-wrapper">
@@ -275,12 +282,13 @@
 {template .name}
   {@param? name: string} /** The display name to prefill. */
   <div class="firebaseui-textfield mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-    <label class="mdl-textfield__label firebaseui-label" for="name">
+    <label class="mdl-textfield__label firebaseui-label" for="ui-sign-in-name-input">
       {msg desc="Label of a field for setting the user's name."}First &amp; last name{/msg}
     </label>
     <input
         type="text"
         name="name"
+        id="ui-sign-in-name-input"
         autocomplete="name"
         class="mdl-textfield__input firebaseui-input firebaseui-id-name"
         value="{$name ?: ''}">
@@ -300,7 +308,7 @@
   {@param? label: string} /** The placeholder text in the field, defaulting to "Choose password". */
   <div class="firebaseui-new-password-component">
     <div class="firebaseui-textfield mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-      <label class="mdl-textfield__label firebaseui-label" for="newPassword">
+      <label class="mdl-textfield__label firebaseui-label" for="ui-sign-in-new-password-input">
         {if $label}
           {$label}
         {else}
@@ -310,6 +318,7 @@
       <input
           type="password"
           name="newPassword"
+          id="ui-sign-in-new-password-input"
           autocomplete="new-password"
           class="mdl-textfield__input firebaseui-input firebaseui-id-new-password">
     </div>
@@ -331,7 +340,7 @@
 {template .password}
   {@param? current: bool} /** Whether to show "Current password" or "Password" label. */
   <div class="firebaseui-textfield mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-    <label class="mdl-textfield__label firebaseui-label" for="password">
+    <label class="mdl-textfield__label firebaseui-label" for="ui-sign-in-password-input">
       {if $current}
         {msg desc="Label of a password field."}Current password{/msg}
       {else}
@@ -341,6 +350,7 @@
     <input
         type="password"
         name="password"
+        id="ui-sign-in-password-input"
         autocomplete="current-password"
         class="mdl-textfield__input firebaseui-input firebaseui-id-password">
   </div>
