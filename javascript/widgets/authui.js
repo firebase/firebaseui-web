@@ -597,11 +597,20 @@ firebaseui.auth.AuthUI.prototype.initElement_ = function(element) {
   this.initPageChangeListener_(container);
   // Document already loaded, render on demand.
   firebaseui.auth.widget.dispatcher.dispatchOperation(this, element);
+  // If the current page is blank and immediateFederatedRedirect is set to true,
+  // the widget is in the middle of federated redirecting and about to redirect
+  // to IdPs.
+  const isCurrentlyRedirecting = this.currentComponent_ &&
+      this.currentComponent_.getPageId() == 'blank' &&
+      this.getConfig().federatedProviderShouldImmediatelyRedirect();
   // Removes pending status of previous redirect operations including redirect
   // back from accountchooser.com and federated sign in.
   // Remove status after dispatchOperation completes as that operation depends
   // on this information.
-  if (firebaseui.auth.storage.hasRedirectStatus(this.getAppId())) {
+  if (firebaseui.auth.storage.hasRedirectStatus(this.getAppId()) &&
+      // Do not clear redirect status if the widget is undergoing immediate
+      // redirect, which is before redirecting to IdPs.
+      !isCurrentlyRedirecting) {
     var redirectStatus =
         firebaseui.auth.storage.getRedirectStatus(this.getAppId());
     this.setTenantId(redirectStatus.getTenantId());

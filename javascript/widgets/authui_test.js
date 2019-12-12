@@ -854,6 +854,77 @@ function testStart() {
 }
 
 
+function testStart_immediateFederatedRedirect_startRedirect() {
+  // Verify when immediateFederatedRedirect is enabled, redirect status is set
+  // correctly before redirecting to IdPs.
+  createAndInstallTestInstances();
+  testStubs.reset();
+  asyncTestCase.waitForSignals(1);
+
+  assertFalse(firebaseui.auth.storage.hasRedirectStatus(app1.getAppId()));
+  // Enable immediateFederatedRedirect and start sign-in.
+  app1.start(container1, {
+    'immediateFederatedRedirect': true,
+    'signInOptions': [{
+      'provider': 'google.com',
+    }],
+    'signInFlow':'redirect'
+  });
+
+  app1.getExternalAuth().runAuthChangeHandler();
+  app1.getAuth().assertSignInWithRedirect([expectedProvider]);
+  app1.getExternalAuth().process().then(() => {
+    return app1.getAuth().process();
+  }).then(() => {
+    // Federated redirect page should be rendered.
+    assertHasCssClass(container1, 'firebaseui-id-page-blank');
+    // Redirect status should be set correctly.
+    assertTrue(firebaseui.auth.storage.hasRedirectStatus(app1.getAppId()));
+    asyncTestCase.signal();
+  });
+}
+
+
+function testStart_immediateFederatedRedirect_finishRedirect() {
+  // Verify when immediateFederatedRedirect is enabled, redirect status is
+  // cleared after sign-in is completed.
+  createAndInstallTestInstances();
+  testStubs.reset();
+  asyncTestCase.waitForSignals(1);
+  // Mock widget coming back from IdP page where the redirect status is set.
+  const redirectStatus = new firebaseui.auth.RedirectStatus();
+  firebaseui.auth.storage.setRedirectStatus(redirectStatus, app1.getAppId());
+  assertTrue(firebaseui.auth.storage.hasRedirectStatus(app1.getAppId()));
+
+  // Enable immediateFederatedRedirect and start sign-in.
+  app1.start(container1, {
+    'immediateFederatedRedirect': true,
+    'signInOptions': [{
+      'provider': 'google.com',
+    }],
+    'signInFlow':'redirect'
+  });
+
+  app1.getExternalAuth().runAuthChangeHandler();
+  app1.getAuth().assertGetRedirectResult(
+      [],
+      function() {
+        app1.getAuth().setUser(expectedUser);
+        return expectedUserCredential;
+      });
+  app1.getExternalAuth().process().then(() => {
+    return app1.getAuth().process();
+  }).then(() => {
+    // Callback page should be rendered to handle redirecting back.
+    assertHasCssClass(container1, 'firebaseui-id-page-callback');
+    // Redirect status should be cleared after sign-in is finished.
+    assertFalse(firebaseui.auth.storage.hasRedirectStatus(app1.getAppId()));
+    app1.getAuth().assertSignOut([]);
+    asyncTestCase.signal();
+  });
+}
+
+
 function testSetLang() {
   testStubs.replace(goog, 'LOCALE', 'de');
   // Language code of auth instance is set to goog.LOCALE at initialization.
