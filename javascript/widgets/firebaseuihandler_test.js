@@ -1125,11 +1125,92 @@ testSuite({
     }
     // Click sign in with email button.
     testingEvents.fireClickSequence(buttons[0]);
-    // Enter the email and click enter.
-    const emailInput = dom.getElementByClass('firebaseui-id-email', container);
-    // The prefilled email should be populated in the email entry.
-    assertEquals(prefilledEmail, emailInput.value);
-    testingEvents.fireKeySequence(emailInput, KeyCodes.ENTER);
+
+    internalAuth.assertFetchSignInMethodsForEmail(
+        ['user@example.com'],
+        ['password']);
+    internalAuth.process().then(() => {
+      // Enter password and click submit.
+      const passwordElement = dom.getElementByClass(
+          'firebaseui-id-password', container);
+      forms.setValue(passwordElement, '123');
+      const submit = dom.getElementByClass('firebaseui-id-submit', container);
+      testingEvents.fireClickSequence(submit);
+      internalAuth.assertSignInWithEmailAndPassword(
+          ['user@example.com', '123'],
+          () => {
+            internalAuth.setUser({
+              'email': 'user@example.com',
+              'displayName':'Sample User',
+              'tenantId': 'tenant1',
+            });
+            return {
+              'user': internalAuth.currentUser,
+              'credential': null,
+              'operationType': 'signIn',
+              'additionalUserInfo': {
+                'providerId': 'password',
+                'isNewUser': false,
+              },
+            };
+          });
+      return internalAuth.process();
+    }).then(() => {
+      internalAuth.assertSignOut([]);
+      return internalAuth.process();
+    }).then(() => {
+      externalAuth.assertUpdateCurrentUser(
+          [internalAuth.currentUser],
+          () => {
+            externalAuth.setUser(internalAuth.currentUser);
+          });
+      return externalAuth.process();
+    });
+    return startSignInPromise.then((userCredential) => {
+      const expectedAuthResult = {
+        'user': externalAuth.currentUser,
+        // Password credential should not be exposed to callback.
+        'credential': null,
+        'operationType': 'signIn',
+        'additionalUserInfo': {'providerId': 'password', 'isNewUser': false},
+      };
+      assertObjectEquals(expectedAuthResult, userCredential);
+   });
+  },
+
+  testStartSignIn_selectedTenantInfo_passwordOnly() {
+    handler = new FirebaseUiHandler(container, configs);
+    auth1 = handler.getAuth('API_KEY', 'tenant1');
+    const prefilledEmail = 'user@example.com';
+    const selectedTenantInfo = {
+      'email': prefilledEmail,
+      'tenantId': 'tenant1',
+      // Mock that the preferred provider is passed to startSignIn.
+      'providerIds': ['password'],
+    };
+    const startSignInPromise = handler.startSignIn(auth1, selectedTenantInfo);
+
+    const internalAuth = handler.getCurrentAuthUI().getAuth();
+    const externalAuth = handler.getCurrentAuthUI().getExternalAuth();
+    // Verify that the right API key and Auth domain are used.
+    assertEquals('API_KEY', auth1['app']['options']['apiKey']);
+    assertEquals(
+        'subdomain.firebaseapp.com', auth1['app']['options']['authDomain']);
+    // Verify that tenant ID is set on Auth instances.
+    assertEquals(auth1, externalAuth);
+    assertEquals('tenant1', externalAuth.tenantId);
+    assertEquals('tenant1', internalAuth.tenantId);
+
+    // This is complicated by IE delaying focus events firing until this
+    // function returns.
+    // http://stackoverflow.com/questions/5900288/ie-focus-event-handler-delay
+    if (userAgent.IE) {
+      return;
+    }
+
+    // signInUiShownCallback should be triggered.
+    assertEquals(1, signInUiShownCallback.getCallCount());
+    assertEquals('tenant1', signInUiShownCallback.getLastCall().getArgument(0));
 
     internalAuth.assertFetchSignInMethodsForEmail(
         ['user@example.com'],

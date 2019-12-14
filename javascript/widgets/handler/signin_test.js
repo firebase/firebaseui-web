@@ -294,28 +294,3 @@ function testHandleSignIn_inProcessing() {
         assertPasswordSignInPage();
       });
 }
-
-
-function testHandleSignIn_signInHint() {
-  // Test handleSignIn with signInHint.
-  const prefilledEmail = 'user@example.com';
-  app.startWithSignInHint(
-      container,
-      {
-        signInOptions: ['password'],
-        credentialHelper: firebaseui.auth.widget.Config.CredentialHelper.NONE,
-      },
-      {
-        emailHint: prefilledEmail,
-      });
-
-  // Sign-in page should show.
-  assertSignInPage();
-  // The prefilled email should be populated in the email entry.
-  assertEquals(prefilledEmail, getEmailElement().value);
-
-  // Clean up the AuthUI instance.
-  testAuth.assertSignOut([]);
-  app.delete();
-  return testAuth.process();
-}

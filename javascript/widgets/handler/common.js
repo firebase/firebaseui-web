@@ -1520,12 +1520,19 @@ firebaseui.auth.widget.handler.common.handleSignInWithEmail =
           firebaseui.auth.widget.Config.AccountChooserResult.UNAVAILABLE,
           function() {
             // If not available, go to the sign-in screen and no UI
-            // shown callback.
-            firebaseui.auth.widget.handler.handle(
-                firebaseui.auth.widget.HandlerName.SIGN_IN,
-                app,
-                container,
-                opt_email);
+            // shown callback. If email is prefilled, skip the sign-in screen.
+            if (opt_email) {
+              firebaseui.auth.widget.handler.handle(
+                  firebaseui.auth.widget.HandlerName.PREFILLED_EMAIL_SIGN_IN,
+                  app,
+                  container,
+                  opt_email);
+            } else {
+              firebaseui.auth.widget.handler.handle(
+                  firebaseui.auth.widget.HandlerName.SIGN_IN,
+                  app,
+                  container);
+            }
           });
     };
     // Handle accountchooser.com invoked callback, pass continue callback
@@ -1574,12 +1581,21 @@ firebaseui.auth.widget.handler.common.handleSignInWithEmail =
                           AccountChooserResult.UNAVAILABLE,
                         function() {
                           // If not available, go to the sign-in screen and no
-                          // UI shown callback.
-                          firebaseui.auth.widget.handler.handle(
-                              firebaseui.auth.widget.HandlerName.SIGN_IN,
-                              app,
-                              container,
-                              opt_email);
+                          // UI shown callback. If email is prefilled,
+                          // skip the sign-in screen.
+                          if (opt_email) {
+                            firebaseui.auth.widget.handler.handle(
+                                firebaseui.auth.widget.HandlerName
+                                  .PREFILLED_EMAIL_SIGN_IN,
+                                app,
+                                container,
+                                opt_email);
+                          } else {
+                            firebaseui.auth.widget.handler.handle(
+                                firebaseui.auth.widget.HandlerName.SIGN_IN,
+                                app,
+                                container);
+                          }
                         });
                   },
                   firebaseui.auth.storage.getRememberedAccounts(app.getAppId()),

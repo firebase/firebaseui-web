@@ -634,9 +634,9 @@ testSuite({
           credentialHelper: Config.CredentialHelper.NONE,
         },
         signInHint);
-    // Sign in handler should be rendered with email hint.
+    // Prefilled email sign in handler should be rendered with email hint.
     assertHandlerInvoked(
-        firebaseui.auth.widget.HandlerName.SIGN_IN,
+        firebaseui.auth.widget.HandlerName.PREFILLED_EMAIL_SIGN_IN,
         app,
         element,
         signInHint['emailHint']);

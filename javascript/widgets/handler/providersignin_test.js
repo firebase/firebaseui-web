@@ -1889,10 +1889,17 @@ function testHandleProviderSignIn_signInWithEmail_prefilledEmail() {
   setupProviderSignInPage('redirect', true, false, false, prefilledEmail);
   // Click the third button, which is sign in with email button.
   goog.testing.events.fireClickSequence(buttons[2]);
-  // Sign-in page should show.
-  assertSignInPage();
-  // The prefilled email should be populated in the email entry.
-  assertEquals(prefilledEmail, getEmailElement().value);
+
+  testAuth.assertFetchSignInMethodsForEmail(
+        ['user@example.com'],
+        []);
+  return testAuth.process().then(() => {
+    // Password sign-up page should be shown.
+    assertPasswordSignUpPage();
+    // The prefilled email should be populated in the email entry.
+    assertEquals(prefilledEmail, getEmailElement().value);
+    return testAuth.process();
+  });
 }
 
 
@@ -1917,15 +1924,20 @@ function testHandleProviderSignIn_signInHint_signInWithEmail() {
 
   // Click the sign in with email button.
   goog.testing.events.fireClickSequence(buttons[1]);
-  // Sign-in page should show.
-  assertSignInPage();
-  // The prefilled email should be populated in the email entry.
-  assertEquals(prefilledEmail, getEmailElement().value);
 
-  // Clean up the AuthUI instance.
-  testAuth.assertSignOut([]);
-  app.delete();
-  return testAuth.process();
+  testAuth.assertFetchSignInMethodsForEmail(
+        ['user@example.com'],
+        ['password']);
+  return testAuth.process().then(() => {
+    // Password sign-in page should be shown.
+    assertPasswordSignInPage();
+    // The prefilled email should be populated in the email entry.
+    assertEquals(prefilledEmail, getEmailElement().value);
+    // Clean up the AuthUI instance.
+    testAuth.assertSignOut([]);
+    app.delete();
+    return testAuth.process();
+  });
 }
 
 

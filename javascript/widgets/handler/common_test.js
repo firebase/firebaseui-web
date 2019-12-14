@@ -1892,6 +1892,39 @@ function testHandleSignInWithEmail_acNotEnabled() {
   assertFalse(firebaseui.auth.widget.handler.common.acForceUiShown_);
 }
 
+
+function testHandleSignInWithEmail_prefillEmail() {
+  const prefilledEmail = 'user@example';
+  testStubs.replace(
+      firebaseui.auth.storage,
+      'setRedirectStatus',
+      goog.testing.recordFunction());
+  app.setConfig({
+    'credentialHelper': firebaseui.auth.widget.Config.CredentialHelper.NONE
+  });
+  firebaseui.auth.widget.handler.common.acForceUiShown_ = true;
+  firebaseui.auth.widget.handler.common.handleSignInWithEmail(
+      app, container, prefilledEmail);
+  assertBlankPage();
+  /** @suppress {missingRequire} */
+  assertEquals(0,
+      firebaseui.auth.storage.setRedirectStatus.getCallCount());
+  assertFalse(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
+  assertFalse(firebaseui.auth.widget.handler.common.acForceUiShown_);
+
+  testAuth.assertFetchSignInMethodsForEmail(
+      [prefilledEmail],
+      []);
+  return testAuth.process().then(() => {
+    // Password sign-up page should be shown.
+    assertPasswordSignUpPage();
+    // The prefilled email should be populated in the email entry.
+    assertEquals(prefilledEmail, getEmailElement().value);
+    return testAuth.process();
+  });
+}
+
+
 function testLoadAccountchooserJs_externallyLoaded() {
   // Test accountchooser.com client loading when already loaded.
   // Reset loadAccountchooserJs stubs.
