@@ -31,6 +31,8 @@ const SelectTenant = goog.require('firebaseui.auth.ui.page.SelectTenant');
 const SignOut = goog.require('firebaseui.auth.ui.page.SignOut');
 const Spinner = goog.require('firebaseui.auth.ui.page.Spinner');
 const UiHandlerConfig = goog.require('firebaseui.auth.widget.UiHandlerConfig');
+const dom = goog.require('goog.dom');
+const element = goog.require('firebaseui.auth.ui.element');
 const strings = goog.require('firebaseui.auth.soy2.strings');
 const util = goog.require('firebaseui.auth.util');
 
@@ -385,11 +387,33 @@ class FirebaseUiHandler {
       };
       const signInUiShownCallback =
           this.configs_[apiKey].getSignInUiShownCallback();
-      if (signInUiShownCallback) {
-        signInCallbacks['uiShown'] = () => {
-          signInUiShownCallback(auth['tenantId']);
-        };
-      }
+      let uiShown = false;
+      signInCallbacks['uiChanged'] = (fromPageId, toPageId) => {
+        // Processing redirect result.
+        if (fromPageId === null && toPageId === 'callback') {
+          // Hide callback page if available.
+          const callbackElement = dom.getElementByClass(
+              'firebaseui-id-page-callback', this.container_);
+          if (callbackElement) {
+            element.hide(callbackElement);
+          }
+          // Show spinner. This will trigger null -> spinner uiChanged.
+          this.progressBar_ = new Spinner();
+          this.progressBar_.render(this.container_);
+        } else if (!uiShown &&
+                   !(fromPageId === null && toPageId === 'spinner')) {
+          // Remove spinner if still showing.
+          if (this.progressBar_) {
+            this.progressBar_.dispose();
+            this.progressBar_ = null;
+          }
+          // Trigger the signInUiShown callback. This should be triggered once.
+          uiShown = true;
+          if (signInUiShownCallback) {
+             signInUiShownCallback(auth['tenantId']);
+          }
+        }
+      };
       signInConfig['callbacks'] = signInCallbacks;
       // Do not support `credentialHelper` for sign-in flow.
       signInConfig['credentialHelper'] = 'none';

@@ -60,6 +60,35 @@ function assertProgressBarVisible(container) {
 }
 
 /**
+ * Asserts the callback page is in the dom but hidden.
+ * @param {!Element} container The html element container of the widget.
+ */
+function assertCallbackPageDomHidden(container) {
+  const element = dom.getElementByClass(
+      'firebaseui-id-page-callback', container);
+  assertNotNull(element);
+  assertTrue(dom.classlist.contains(element, 'firebaseui-hidden'));
+}
+
+/**
+ * Asserts the callback page is not in the dom.
+ * @param {!Element} container The html element container of the widget.
+ */
+function assertCallbackPageHidden(container) {
+  assertNull(dom.getElementByClass('firebaseui-id-page-callback', container));
+}
+
+/**
+ * Asserts the provider sign in page is displayed.
+ * @param {!Element} container The html element container of the widget.
+ */
+function assertProviderSignInPageVisible(container) {
+  const element = dom.getElementByClass(
+      'firebaseui-id-page-provider-sign-in', container);
+  assertNotNull(element);
+}
+
+/**
  * Asserts the progress bar is hidden.
  * @param {!Element} container The html element container of the widget.
  */
@@ -1507,7 +1536,7 @@ testSuite({
    });
   },
 
-  testStartSignIn_pendingRedirect() {
+  testStartSignIn_pendingRedirect_success() {
     // Set redirect status with the tenant ID used to start the flow.
     const redirectStatus = new RedirectStatus('tenant1');
     storage.setRedirectStatus(redirectStatus);
@@ -1516,9 +1545,8 @@ testSuite({
     auth1 = handler.getAuth('API_KEY', 'tenant1');
     const startSignInPromise = handler.startSignIn(auth1);
 
-    // signInUiShownCallback should be triggered.
-    assertEquals(1, signInUiShownCallback.getCallCount());
-    assertEquals('tenant1', signInUiShownCallback.getLastCall().getArgument(0));
+    // signInUiShownCallback should not be triggered.
+    assertEquals(0, signInUiShownCallback.getCallCount());
 
     const internalAuth = handler.getCurrentAuthUI().getAuth();
     const externalAuth = handler.getCurrentAuthUI().getExternalAuth();
@@ -1538,14 +1566,20 @@ testSuite({
     });
     internalAuth.assertGetRedirectResult(
         [],
-        {
-          'user': internalAuth.currentUser,
-          'credential': cred,
-          'operationType': 'signIn',
-          'additionalUserInfo': {
-            'providerId': 'google.com',
-            'isNewUser': false,
-          },
+        function() {
+          // Spinner progress bar should be visible.
+          assertProgressBarVisible(container);
+          // Callback page should be hidden in DOM.
+          assertCallbackPageDomHidden(container);
+          return {
+            'user': internalAuth.currentUser,
+            'credential': cred,
+            'operationType': 'signIn',
+            'additionalUserInfo': {
+              'providerId': 'google.com',
+              'isNewUser': false,
+            },
+          };
         });
     internalAuth.process().then(() => {
       internalAuth.assertSignOut([]);
@@ -1559,6 +1593,7 @@ testSuite({
       return externalAuth.process();
     });
     return startSignInPromise.then((userCredential) => {
+      assertEquals(0, signInUiShownCallback.getCallCount());
       const expectedAuthResult = {
         'user': externalAuth.currentUser,
         'credential': cred,
@@ -1569,7 +1604,59 @@ testSuite({
    });
   },
 
-  testStartSignIn_pendingRedirect_topLevelProject() {
+  testStartSignIn_pendingRedirect_error() {
+    const networkError = {
+      'code': 'auth/network-request-failed',
+      'message': 'A network error has occurred.',
+    };
+    // Set redirect status with the tenant ID used to start the flow.
+    const redirectStatus = new RedirectStatus('tenant1');
+    storage.setRedirectStatus(redirectStatus);
+
+    handler = new FirebaseUiHandler(container, configs);
+    auth1 = handler.getAuth('API_KEY', 'tenant1');
+    handler.startSignIn(auth1);
+
+    // signInUiShownCallback should not be immediately triggered.
+    assertEquals(0, signInUiShownCallback.getCallCount());
+
+    const internalAuth = handler.getCurrentAuthUI().getAuth();
+    const externalAuth = handler.getCurrentAuthUI().getExternalAuth();
+    // Verify that tenant ID is set on Auth instances.
+    assertEquals(auth1, externalAuth);
+    assertEquals('tenant1', externalAuth.tenantId);
+    assertEquals('tenant1', internalAuth.tenantId);
+    internalAuth.assertGetRedirectResult(
+        [],
+        null,
+        function() {
+          // signInUiShown callback should not be triggered.
+          assertEquals(0, signInUiShownCallback.getCallCount());
+          // Spinner progress bar should be visible.
+          assertProgressBarVisible(container);
+          // Callback page should be hidden in DOM.
+          assertCallbackPageDomHidden(container);
+          // Simulate error.
+          return networkError;
+        });
+    return internalAuth.process()
+        .then(() => {
+          // signInUiShown callback should be triggered with expected tenant ID.
+          assertEquals(1, signInUiShownCallback.getCallCount());
+          assertEquals(
+              'tenant1', signInUiShownCallback.getLastCall().getArgument(0));
+          // No progress bar should be shown.
+          assertProgressBarHidden(container);
+          // Provider sign in page should be shown with the expected error
+          // message.
+          assertCallbackPageHidden(container);
+          assertInfoBarMessage(
+              strings.error({'code': networkError.code}).toString(), container);
+          assertProviderSignInPageVisible(container);
+        });
+  },
+
+  testStartSignIn_pendingRedirect_topLevelProject_success() {
     // Set redirect status without the tenant ID.
     const redirectStatus = new RedirectStatus();
     storage.setRedirectStatus(redirectStatus);
@@ -1578,9 +1665,8 @@ testSuite({
     auth1 = handler.getAuth('API_KEY', null);
     const startSignInPromise = handler.startSignIn(auth1);
 
-    // signInUiShownCallback should be triggered.
-    assertEquals(1, signInUiShownCallback.getCallCount());
-    assertNull(signInUiShownCallback.getLastCall().getArgument(0));
+    // signInUiShownCallback should not be triggered.
+    assertEquals(0, signInUiShownCallback.getCallCount());
 
     const internalAuth = handler.getCurrentAuthUI().getAuth();
     const externalAuth = handler.getCurrentAuthUI().getExternalAuth();
@@ -1600,14 +1686,20 @@ testSuite({
     });
     internalAuth.assertGetRedirectResult(
         [],
-        {
-          'user': internalAuth.currentUser,
-          'credential': cred,
-          'operationType': 'signIn',
-          'additionalUserInfo': {
-            'providerId': 'saml.provider',
-            'isNewUser': false,
-          },
+        function() {
+          // Spinner progress bar should be visible.
+          assertProgressBarVisible(container);
+          // Callback page should be hidden in DOM.
+          assertCallbackPageDomHidden(container);
+          return {
+            'user': internalAuth.currentUser,
+            'credential': cred,
+            'operationType': 'signIn',
+            'additionalUserInfo': {
+              'providerId': 'saml.provider',
+              'isNewUser': false,
+            },
+          };
         });
     internalAuth.process().then(() => {
       internalAuth.assertSignOut([]);
@@ -1621,6 +1713,7 @@ testSuite({
       return externalAuth.process();
     });
     return startSignInPromise.then((userCredential) => {
+      assertEquals(0, signInUiShownCallback.getCallCount());
       const expectedAuthResult = {
         'user': externalAuth.currentUser,
         'credential': cred,
@@ -1632,6 +1725,57 @@ testSuite({
       };
       assertObjectEquals(expectedAuthResult, userCredential);
    });
+  },
+
+  testStartSignIn_pendingRedirect_topLevelProject_error() {
+    const networkError = {
+      'code': 'auth/network-request-failed',
+      'message': 'A network error has occurred.',
+    };
+    // Set redirect status without the tenant ID.
+    const redirectStatus = new RedirectStatus();
+    storage.setRedirectStatus(redirectStatus);
+
+    handler = new FirebaseUiHandler(container, configs);
+    auth1 = handler.getAuth('API_KEY', null);
+    handler.startSignIn(auth1);
+
+    // signInUiShownCallback should not be immediately triggered.
+    assertEquals(0, signInUiShownCallback.getCallCount());
+
+    const internalAuth = handler.getCurrentAuthUI().getAuth();
+    const externalAuth = handler.getCurrentAuthUI().getExternalAuth();
+    // Verify that tenant ID is null on Auth instances.
+    assertEquals(auth1, externalAuth);
+    assertNull(externalAuth.tenantId);
+    assertNull(internalAuth.tenantId);
+    internalAuth.assertGetRedirectResult(
+        [],
+        null,
+        function() {
+          // signInUiShown callback should not be triggered.
+          assertEquals(0, signInUiShownCallback.getCallCount());
+          // Spinner progress bar should be visible.
+          assertProgressBarVisible(container);
+          // Callback page should be hidden in DOM.
+          assertCallbackPageDomHidden(container);
+          // Simulate error.
+          return networkError;
+        });
+    return internalAuth.process()
+        .then(() => {
+          // signInUiShown callback should be triggered with null.
+          assertEquals(1, signInUiShownCallback.getCallCount());
+          assertNull(signInUiShownCallback.getLastCall().getArgument(0));
+          // No progress bar should be shown.
+          assertProgressBarHidden(container);
+          // Provider sign in page should be shown with the expected error
+          // message.
+          assertCallbackPageHidden(container);
+          assertInfoBarMessage(
+              strings.error({'code': networkError.code}).toString(), container);
+          assertProviderSignInPageVisible(container);
+        });
   },
 
   testStartSignIn_projectConfigError() {
