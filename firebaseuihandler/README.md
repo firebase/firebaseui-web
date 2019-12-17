@@ -97,6 +97,11 @@ const configs = {
       selectTenantUiShown: () => {
         // Show title and additional display info.
       },
+      // The callback to trigger when the selection tenant page
+      // or enter email for tenant matching page is hidden.
+      selectTenantUihidden: () => {
+        // Hide title and additional display info.
+      },
       // The callback to trigger when the sign-in page
       // is shown.
       signInUiShown: (tenantId) => {
@@ -236,6 +241,7 @@ additionally customize the UI. The following hooks are available:
 |Callback          | Description                                          |
 |------------------|------------------------------------------------------|
 |selectTenantUiShown()|Triggered when the UI to select a tenant is shown. Use this if you want to modify the UI with a customized title or theme.|
+|selectTenantUiHidden()|Triggered when the UI to select a tenant is hidden, which is always before `signInUiShown` is triggered (if applicable). Use this if you want to hide the UI displayed in `selectTenantUiShown`.|
 |signInUiShown(tenantId)|Triggered when a tenant is selected and the UI for the user to enter their credentials is shown. Use this if you want to modify the UI with a customized title or theme.|
 |beforeSignInSuccess(user)|Triggered before sign-in completes. Use this to modify a signed in user before redirecting back to the IAP resource.|
 
@@ -247,6 +253,10 @@ callbacks: {
     // Show info of the IAP resource.
     showUiTitle(
         'Select your employer to access your Health Benefits');
+  },
+  selectTenantUiHidden: () => {
+    // Hide the previous displayed title.
+    hideUiTitle();
   },
   signInUiShown: (tenantId) => {
     // Show tenant title and additional display info.
@@ -354,6 +364,10 @@ interface Callbacks {
   // mode or enter email for tenant matching page for identifierFirst mode
   // is shown.
   selectTenantUiShown?(): void;
+  // The callback to trigger when the tenant selection page for optionFirst
+  // mode or enter email for tenant matching page for identifierFirst mode
+  // is hidden.
+  selectTenantUiHidden?(): void;
   // The callback to trigger when the sign-in page is shown. The tenant ID is
   // passed to the callback.
   signInUiShown?(string): void;

@@ -175,6 +175,7 @@ declare namespace firebaseui.auth {
   interface CIAPCallbacks {
     signInUiShown?(tenantId: string|null): void;
     selectTenantUiShown?(): void;
+    selectTenantUiHidden?(): void;
     // tslint:disable-next-line:no-any firebase dependency not available.
     beforeSignInSuccess?(currentUser: any): Promise<any>;
   }

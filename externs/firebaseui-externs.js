@@ -249,6 +249,13 @@ firebaseui.auth.CIAPCallbacks.prototype.selectTenantUiShown = function() {};
 
 
 /**
+ * Defines the callback which will get triggered when the tenant selection UI
+ * is hidden.
+ */
+firebaseui.auth.CIAPCallbacks.prototype.selectTenantUiHidden = function() {};
+
+
+/**
  * The `beforeSignInSuccess` callback is provided to handle additional
  * processing on the user before finishing sign-in.
  * @param {!firebase.User} currentUser The current user to be processed before

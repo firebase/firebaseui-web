@@ -239,6 +239,8 @@ class FirebaseUiHandler {
         reject(error);
         return;
       }
+      const selectTenantUiHidden =
+          this.configs_[apiKey].getSelectTenantUiHiddenCallback();
       // Option first flow.
       if (this.configs_[apiKey].getDisplayMode() ===
           UiHandlerConfig.DisplayMode.OPTION_FIRST) {
@@ -272,6 +274,10 @@ class FirebaseUiHandler {
         } else {
           const onTenantClick = (tenantId) => {
             this.disposeCurrentComponent_();
+            // Trigger the selectTenantUiHidden callback.
+            if (selectTenantUiHidden) {
+              selectTenantUiHidden();
+            }
             resolveWithTenantInfo(tenantId);
           };
           this.currentComponent_ =
@@ -300,6 +306,10 @@ class FirebaseUiHandler {
                 'email': email,
               };
               this.disposeCurrentComponent_();
+              // Trigger the selectTenantUiHidden callback.
+              if (selectTenantUiHidden) {
+                selectTenantUiHidden();
+              }
               resolve(selectedTenantInfo);
               return;
             }
@@ -401,7 +411,10 @@ class FirebaseUiHandler {
           this.progressBar_ = new Spinner();
           this.progressBar_.render(this.container_);
         } else if (!uiShown &&
-                   !(fromPageId === null && toPageId === 'spinner')) {
+                   !(fromPageId === null && toPageId === 'spinner') &&
+                   // Do not trigger callback for immediate federated redirect
+                   // to IdP page.
+                   (toPageId !== 'blank')) {
           // Remove spinner if still showing.
           if (this.progressBar_) {
             this.progressBar_.dispose();

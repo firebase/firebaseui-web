@@ -47,6 +47,7 @@ let auth;
 let auth1;
 let auth2;
 let selectTenantUiShownCallback;
+let selectTenantUiHiddenCallback;
 let signInUiShownCallback;
 
 /**
@@ -76,6 +77,26 @@ function assertCallbackPageDomHidden(container) {
  */
 function assertCallbackPageHidden(container) {
   assertNull(dom.getElementByClass('firebaseui-id-page-callback', container));
+}
+
+/**
+ * Asserts the blank page is visible.
+ * @param {!Element} container The html element container of the widget.
+ */
+function assertBlankPageVisible(container) {
+  assertNotNull(dom.getElementByClass('firebaseui-id-page-blank', container));
+}
+
+
+/**
+ * Asserts the busy indicator is after a short delay.
+ * @param {!Element} container The html element container of the widget.
+ */
+function delayForBusyIndicatorAndAssertIndicatorShown(container) {
+  mockClock.tick(500);
+  const element =
+      dom.getElementByClass('firebaseui-id-busy-indicator', container);
+  assertNotNull(element);
 }
 
 /**
@@ -338,6 +359,7 @@ testSuite({
     }
 
     selectTenantUiShownCallback = recordFunction();
+    selectTenantUiHiddenCallback = recordFunction();
     signInUiShownCallback = recordFunction();
     container = dom.createDom(TagName.DIV, {'id': 'element'});
     configs = {
@@ -346,6 +368,7 @@ testSuite({
         'displayMode': 'optionsFirst',
         'callbacks': {
           'selectTenantUiShown': selectTenantUiShownCallback,
+          'selectTenantUiHidden': selectTenantUiHiddenCallback,
           'signInUiShown': signInUiShownCallback,
         },
         'tenants': {
@@ -461,6 +484,8 @@ testSuite({
     assertSelectTenantPageVisible(container);
     // selectTenantUiShownCallback should be triggered.
     assertEquals(1, selectTenantUiShownCallback.getCallCount());
+    // selectTenantUiHiddenCallback should not be triggered.
+    assertEquals(0, selectTenantUiHiddenCallback.getCallCount());
     const buttons = dom.getElementsByClass(
         'firebaseui-id-tenant-selection-button', container);
     // Two tenants should be available to be selected from.
@@ -476,6 +501,8 @@ testSuite({
     return selectPromise.then((selectedTenantInfo) => {
       // The select tenant page should be hidden.
       assertSelectTenantPageHidden(container);
+      // selectTenantUiHiddenCallback should be triggered.
+      assertEquals(1, selectTenantUiHiddenCallback.getCallCount());
       assertObjectEquals({
         tenantId: 'tenant1',
         providerIds:
@@ -533,6 +560,8 @@ testSuite({
     return selectPromise.then((selectedTenantInfo) => {
       // The select tenant page should be hidden.
       assertSelectTenantPageHidden(container);
+      // selectTenantUiShownCallback should not be triggered.
+      assertEquals(0, selectTenantUiShownCallback.getCallCount());
       assertObjectEquals({
         tenantId: null,
         providerIds: ['password', 'saml.provider'],
@@ -552,6 +581,8 @@ testSuite({
     assertSelectTenantPageVisible(container);
     // selectTenantUiShownCallback should be triggered.
     assertEquals(1, selectTenantUiShownCallback.getCallCount());
+    // selectTenantUiHiddenCallback should not be triggered.
+    assertEquals(0, selectTenantUiHiddenCallback.getCallCount());
     const buttons = dom.getElementsByClass(
         'firebaseui-id-tenant-selection-button', container);
     // Only two tenants should be available to be selected from.
@@ -565,6 +596,8 @@ testSuite({
     testingEvents.fireClickSequence(buttons[1]);
     return selectPromise.then((selectedTenantInfo) => {
       assertSelectTenantPageHidden(container);
+      // selectTenantUiHiddenCallback should be triggered.
+      assertEquals(1, selectTenantUiHiddenCallback.getCallCount());
       assertObjectEquals({
         tenantId: 'tenant2',
         providerIds:
@@ -584,6 +617,10 @@ testSuite({
         },
         ['tenant1', 'tenant2']);
     assertSelectTenantPageHidden(container);
+    // selectTenantUiShownCallback should not be triggered.
+    assertEquals(0, selectTenantUiShownCallback.getCallCount());
+    // selectTenantUiHiddenCallback should not be triggered.
+    assertEquals(0, selectTenantUiHiddenCallback.getCallCount());
     return selectPromise.then(fail, (error) => {
       let errorMessage =
         strings.errorCIAP({code: 'invalid-configuration'}).toString();
@@ -601,6 +638,10 @@ testSuite({
 
     // The provider match for email page should be shown.
     assertProviderMatchByEmailPageVisible(container);
+    // selectTenantUiShownCallback should be triggered.
+    assertEquals(1, selectTenantUiShownCallback.getCallCount());
+    // selectTenantUiHiddenCallback should not be triggered.
+    assertEquals(0, selectTenantUiHiddenCallback.getCallCount());
     // Enter the email and click enter.
     const emailInput = dom.getElementByClass('firebaseui-id-email', container);
     forms.setValue(emailInput, 'user@acme.com');
@@ -609,6 +650,8 @@ testSuite({
     return selectPromise.then((selectedTenantInfo) => {
       // The provider match for email page should be hidden.
       assertProviderMatchByEmailPageHidden(container);
+      // selectTenantUiHiddenCallback should be triggered.
+      assertEquals(1, selectTenantUiHiddenCallback.getCallCount());
       assertObjectEquals({
         tenantId: 'tenant1',
         providerIds: ['google.com', 'facebook.com', 'password'],
@@ -645,6 +688,10 @@ testSuite({
         ['tenant1', null]);
 
     assertProviderMatchByEmailPageVisible(container);
+    // selectTenantUiShownCallback should be triggered.
+    assertEquals(1, selectTenantUiShownCallback.getCallCount());
+    // selectTenantUiHiddenCallback should not be triggered.
+    assertEquals(0, selectTenantUiHiddenCallback.getCallCount());
     // Enter an email that matches with both tenant1 and top-level project
     // and click enter.
     const emailInput = dom.getElementByClass('firebaseui-id-email', container);
@@ -654,6 +701,8 @@ testSuite({
     return selectPromise.then((selectedTenantInfo) => {
       // The provider match for email page should be hidden.
       assertProviderMatchByEmailPageHidden(container);
+      // selectTenantUiHiddenCallback should be triggered.
+      assertEquals(1, selectTenantUiHiddenCallback.getCallCount());
       assertObjectEquals({
         // The first matching tenant should be returned.
         tenantId: 'tenant1',
@@ -674,6 +723,10 @@ testSuite({
 
     // The provider match for email page should be shown.
     assertProviderMatchByEmailPageVisible(container);
+    // selectTenantUiShownCallback should be triggered.
+    assertEquals(1, selectTenantUiShownCallback.getCallCount());
+    // selectTenantUiHiddenCallback should not be triggered.
+    assertEquals(0, selectTenantUiHiddenCallback.getCallCount());
     // Enter an email with no matching providers and click enter.
     const emailInput = dom.getElementByClass('firebaseui-id-email', container);
     forms.setValue(emailInput, 'user@nomatching.com');
@@ -692,6 +745,8 @@ testSuite({
     return selectPromise.then((selectedTenantInfo) => {
       // The provider match for email page should be hidden.
       assertProviderMatchByEmailPageHidden(container);
+      // selectTenantUiHiddenCallback should be triggered.
+      assertEquals(1, selectTenantUiHiddenCallback.getCallCount());
       assertObjectEquals({
         tenantId: 'tenant1',
         providerIds: ['saml.provider'],
@@ -711,6 +766,10 @@ testSuite({
 
     // The provider match for email page should be shown.
     assertProviderMatchByEmailPageVisible(container);
+    // selectTenantUiShownCallback should be triggered.
+    assertEquals(1, selectTenantUiShownCallback.getCallCount());
+    // selectTenantUiHiddenCallback should not be triggered.
+    assertEquals(0, selectTenantUiHiddenCallback.getCallCount());
     // Enter an arbitrary email and click enter.
     const emailInput = dom.getElementByClass('firebaseui-id-email', container);
     forms.setValue(emailInput, 'user@arbitraryemail.com');
@@ -719,6 +778,8 @@ testSuite({
     return selectPromise.then((selectedTenantInfo) => {
       // The provider match for email page should be hidden.
       assertProviderMatchByEmailPageHidden(container);
+      // selectTenantUiHiddenCallback should be triggered.
+      assertEquals(1, selectTenantUiHiddenCallback.getCallCount());
       assertObjectEquals({
         tenantId: 'tenant2',
         // All providers without hd configured should be returned.
@@ -738,6 +799,10 @@ testSuite({
         [null]);
 
     assertProviderMatchByEmailPageVisible(container);
+    // selectTenantUiShownCallback should be triggered.
+    assertEquals(1, selectTenantUiShownCallback.getCallCount());
+    // selectTenantUiHiddenCallback should not be triggered.
+    assertEquals(0, selectTenantUiHiddenCallback.getCallCount());
     // Enter the email and click enter.
     const emailInput = dom.getElementByClass('firebaseui-id-email', container);
     forms.setValue(emailInput, 'user@acme.com');
@@ -746,6 +811,8 @@ testSuite({
     return selectPromise.then((selectedTenantInfo) => {
       // The provider match for email page should be hidden.
       assertProviderMatchByEmailPageHidden(container);
+      // selectTenantUiHiddenCallback should be triggered.
+      assertEquals(1, selectTenantUiHiddenCallback.getCallCount());
       assertObjectEquals({
         // tenant ID should be null for top-level project.
         tenantId: null,
@@ -768,6 +835,10 @@ testSuite({
         ['invalid_tenant', 'tenant1']);
 
     assertProviderMatchByEmailPageVisible(container);
+    // selectTenantUiShownCallback should be triggered.
+    assertEquals(1, selectTenantUiShownCallback.getCallCount());
+    // selectTenantUiHiddenCallback should not be triggered.
+    assertEquals(0, selectTenantUiHiddenCallback.getCallCount());
     // Enter the email and click enter.
     const emailInput = dom.getElementByClass('firebaseui-id-email', container);
     forms.setValue(emailInput, 'user@acme.com');
@@ -776,6 +847,8 @@ testSuite({
     return selectPromise.then((selectedTenantInfo) => {
       // The provider match for email page should be hidden.
       assertProviderMatchByEmailPageHidden(container);
+      // selectTenantUiHiddenCallback should be triggered.
+      assertEquals(1, selectTenantUiHiddenCallback.getCallCount());
       assertObjectEquals({
         tenantId: 'tenant1',
         providerIds: ['google.com', 'facebook.com', 'password'],
@@ -795,6 +868,10 @@ testSuite({
 
     // The provider match for email page should be shown.
     assertProviderMatchByEmailPageVisible(container);
+    // selectTenantUiShownCallback should be triggered.
+    assertEquals(1, selectTenantUiShownCallback.getCallCount());
+    // selectTenantUiHiddenCallback should not be triggered.
+    assertEquals(0, selectTenantUiHiddenCallback.getCallCount());
     // Enter an empty email and click enter.
     const emailInput = dom.getElementByClass('firebaseui-id-email', container);
     forms.setValue(emailInput, '');
@@ -804,6 +881,8 @@ testSuite({
     assertEmailErrorMessage(strings.errorMissingEmail().toString(), container);
     // The provider match for email page should still be shown.
     assertProviderMatchByEmailPageVisible(container);
+    // selectTenantUiHiddenCallback should not be triggered.
+    assertEquals(0, selectTenantUiHiddenCallback.getCallCount());
 
     // Enter an invalid email and click enter.
     forms.setValue(emailInput, '12345678@');
@@ -821,6 +900,8 @@ testSuite({
     return selectPromise.then((selectedTenantInfo) => {
       // The provider match for email page should be hidden.
       assertProviderMatchByEmailPageHidden(container);
+      // selectTenantUiHiddenCallback should be triggered.
+      assertEquals(1, selectTenantUiHiddenCallback.getCallCount());
       assertObjectEquals({
         tenantId: 'tenant1',
         providerIds: ['google.com', 'facebook.com', 'password'],
@@ -840,6 +921,10 @@ testSuite({
         },
         ['tenant1', 'tenant2']);
     assertProviderMatchByEmailPageHidden(container);
+    // selectTenantUiShownCallback should not be triggered.
+    assertEquals(0, selectTenantUiShownCallback.getCallCount());
+    // selectTenantUiHiddenCallback should not be triggered.
+    assertEquals(0, selectTenantUiHiddenCallback.getCallCount());
     return selectPromise.then(fail, (error) => {
       assertProviderMatchByEmailPageHidden(container);
       let errorMessage =
@@ -858,6 +943,10 @@ testSuite({
 
     // The select tenant page should be shown.
     assertSelectTenantPageVisible(container);
+    // selectTenantUiShownCallback should be triggered.
+    assertEquals(1, selectTenantUiShownCallback.getCallCount());
+    // selectTenantUiHiddenCallback should not be triggered.
+    assertEquals(0, selectTenantUiHiddenCallback.getCallCount());
     const buttons = dom.getElementsByClass(
         'firebaseui-id-tenant-selection-button', container);
     // Two tenants should be available to be selected from.
@@ -873,6 +962,8 @@ testSuite({
     return selectPromise.then((selectedTenantInfo) => {
       // The select tenant page should be hidden.
       assertSelectTenantPageHidden(container);
+      // selectTenantUiHiddenCallback should be triggered.
+      assertEquals(1, selectTenantUiHiddenCallback.getCallCount());
       assertObjectEquals({
         tenantId: 'tenant1',
         providerIds:
@@ -889,6 +980,8 @@ testSuite({
         handler.selectTenant(projectConfig, ['tenant1', 'tenant2']);
         // The select tenant page should be shown.
         assertSelectTenantPageVisible(container);
+        // selectTenantUiShownCallback should be triggered.
+        assertEquals(2, selectTenantUiShownCallback.getCallCount());
       });
     });
   },
@@ -1208,14 +1301,15 @@ testSuite({
       return;
     }
 
-    // signInUiShownCallback should be triggered.
-    assertEquals(1, signInUiShownCallback.getCallCount());
-    assertEquals('tenant1', signInUiShownCallback.getLastCall().getArgument(0));
-
     internalAuth.assertFetchSignInMethodsForEmail(
         ['user@example.com'],
         ['password']);
     internalAuth.process().then(() => {
+      // signInUiShownCallback should be triggered.
+      assertEquals(1, signInUiShownCallback.getCallCount());
+      assertEquals(
+          'tenant1', signInUiShownCallback.getLastCall().getArgument(0));
+
       // Enter password and click submit.
       const passwordElement = dom.getElementByClass(
           'firebaseui-id-password', container);
@@ -1351,7 +1445,7 @@ testSuite({
    });
   },
 
-  testStartSignIn_selectedTenantInfo_idp_immediateRedirect() {
+  testStartSignIn_selectedTenantInfo_idp_immediateRedirect_success() {
     // Test sign in with IdP for redirect flow when selectedTenantInfo is passed
     // with email and only one provider is enabled.
     configs['API_KEY']['tenants']['tenant1']['immediateFederatedRedirect'] =
@@ -1383,13 +1477,144 @@ testSuite({
     assertEquals(auth1, externalAuth);
     assertEquals('tenant1', externalAuth.tenantId);
     assertEquals('tenant1', internalAuth.tenantId);
-    // signInUiShownCallback should be triggered.
-    assertEquals(1, signInUiShownCallback.getCallCount());
-    assertEquals('tenant1', signInUiShownCallback.getLastCall().getArgument(0));
+    // signInUiShownCallback should not be triggered before immediate redirect.
+    assertEquals(0, signInUiShownCallback.getCallCount());
 
     // Should immediately redirect to IdP without button click.
     internalAuth.assertSignInWithRedirect([expectedProvider]);
-    return internalAuth.process();
+    // Blank page should be displayed with progress bar.
+    assertBlankPageVisible(container);
+    delayForBusyIndicatorAndAssertIndicatorShown(container);
+    return internalAuth.process().then(() => {
+      // signInUiShownCallback should still not be triggered.
+      assertEquals(0, signInUiShownCallback.getCallCount());
+    });
+  },
+
+  testStartSignIn_selectedTenantInfo_idp_immediateRedirect_redirectStatus() {
+    // Test sign in with IdP for redirect flow when selectedTenantInfo is passed
+    // with email and only one provider is enabled and redirect status is set.
+    // This is a special case where user exits during the middle of redirect
+    // sign-in so that the redirect status is not cleared.
+    // Set redirect status with the tenant ID used to start the flow.
+    const redirectStatus = new RedirectStatus('tenant1');
+    storage.setRedirectStatus(redirectStatus);
+    configs['API_KEY']['tenants']['tenant1']['immediateFederatedRedirect'] =
+        true;
+    handler = new FirebaseUiHandler(container, configs);
+    auth1 = handler.getAuth('API_KEY', 'tenant1');
+    const prefilledEmail = 'user@example.com';
+    const selectedTenantInfo = {
+      'email': prefilledEmail,
+      'tenantId': 'tenant1',
+      // Only one federated IdP is available.
+      'providerIds': ['google.com'],
+    };
+    const expectedProvider = idp.getAuthProvider('google.com');
+
+    handler.startSignIn(auth1, selectedTenantInfo);
+
+    const internalAuth = handler.getCurrentAuthUI().getAuth();
+    const externalAuth = handler.getCurrentAuthUI().getExternalAuth();
+    // Verify that the right API key and Auth domain are used.
+    assertEquals('API_KEY', auth1['app']['options']['apiKey']);
+    assertEquals(
+        'subdomain.firebaseapp.com', auth1['app']['options']['authDomain']);
+    // Verify that tenant ID is set on Auth instances.
+    assertEquals(auth1, externalAuth);
+    assertEquals('tenant1', externalAuth.tenantId);
+    assertEquals('tenant1', internalAuth.tenantId);
+
+    // Should immediately redirect to IdP without button click.
+    internalAuth.assertGetRedirectResult(
+        [],
+        function() {
+          // Spinner progress bar should be visible.
+          assertProgressBarVisible(container);
+          // Callback page should be hidden in DOM.
+          assertCallbackPageDomHidden(container);
+          // signInUiShownCallback should not be triggered.
+          assertEquals(0, signInUiShownCallback.getCallCount());
+          return {
+            'user': null,
+          };
+        });
+
+    return internalAuth.process().then(() => {
+      // signInUiShownCallback should not be triggered before immediate
+      // redirect.
+      assertEquals(0, signInUiShownCallback.getCallCount());
+      internalAuth.assertSignInWithRedirect([expectedProvider]);
+      // Blank page should be displayed with progress bar.
+      assertBlankPageVisible(container);
+      delayForBusyIndicatorAndAssertIndicatorShown(container);
+      return internalAuth.process();
+    }).then(() => {
+      // signInUiShownCallback should still not be triggered.
+      assertEquals(0, signInUiShownCallback.getCallCount());
+    });
+  },
+
+  testStartSignIn_selectedTenantInfo_idp_immediateRedirect_error() {
+    // Test sign in with IdP error case for redirect flow when
+    // selectedTenantInfo is passed with email and only one provider is enabled.
+    const networkError = {
+      'code': 'auth/network-request-failed',
+      'message': 'A network error has occurred.',
+    };
+    configs['API_KEY']['tenants']['tenant1']['immediateFederatedRedirect'] =
+        true;
+    handler = new FirebaseUiHandler(container, configs);
+    auth1 = handler.getAuth('API_KEY', 'tenant1');
+    const prefilledEmail = 'user@example.com';
+    const selectedTenantInfo = {
+      'email': prefilledEmail,
+      'tenantId': 'tenant1',
+      // Only one federated IdP is available.
+      'providerIds': ['google.com'],
+    };
+    const expectedProvider = idp.getAuthProvider('google.com');
+    expectedProvider.setCustomParameters({
+      // The prefilled email should be passed to IdP as login_hint.
+      'login_hint': prefilledEmail,
+    });
+
+    handler.startSignIn(auth1, selectedTenantInfo);
+
+    const internalAuth = handler.getCurrentAuthUI().getAuth();
+    const externalAuth = handler.getCurrentAuthUI().getExternalAuth();
+    // Verify that the right API key and Auth domain are used.
+    assertEquals('API_KEY', auth1['app']['options']['apiKey']);
+    assertEquals(
+        'subdomain.firebaseapp.com', auth1['app']['options']['authDomain']);
+    // Verify that tenant ID is set on Auth instances.
+    assertEquals(auth1, externalAuth);
+    assertEquals('tenant1', externalAuth.tenantId);
+    assertEquals('tenant1', internalAuth.tenantId);
+    // signInUiShownCallback should not be triggered.
+    assertEquals(0, signInUiShownCallback.getCallCount());
+
+    // Should immediately redirect to IdP without button click.
+    internalAuth.assertSignInWithRedirect(
+        [expectedProvider],
+        null,
+        () => {
+          // signInUiShown callback should not be triggered.
+          assertEquals(0, signInUiShownCallback.getCallCount());
+          // Simulate error.
+          return networkError;
+        });
+    return internalAuth.process()
+        .then(() => {
+          // signInUiShown callback should be triggered with expected tenant ID.
+          assertEquals(1, signInUiShownCallback.getCallCount());
+          assertEquals(
+              'tenant1', signInUiShownCallback.getLastCall().getArgument(0));
+          // Provider sign-in page should be displayed with error in info bar.
+          assertInfoBarMessage(
+              strings.error({'code': networkError.code}).toString(), container);
+          assertProviderSignInPageVisible(container);
+        });
   },
 
   testStartSignIn_selectedTenantInfo_idp_redirect() {

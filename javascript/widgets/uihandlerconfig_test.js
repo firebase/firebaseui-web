@@ -143,6 +143,7 @@ testSuite({
     // Test when no callbacks are configured.
     assertNull(uiHandlerConfig.getSignInUiShownCallback());
     assertNull(uiHandlerConfig.getSelectTenantUiShownCallback());
+    assertNull(uiHandlerConfig.getSelectTenantUiHiddenCallback());
     assertNull(uiHandlerConfig.getBeforeSignInSuccessCallback());
 
     // Test when empty callbacks are configured.
@@ -151,15 +152,18 @@ testSuite({
 
     assertNull(uiHandlerConfig.getSignInUiShownCallback());
     assertNull(uiHandlerConfig.getSelectTenantUiShownCallback());
+    assertNull(uiHandlerConfig.getSelectTenantUiHiddenCallback());
     assertNull(uiHandlerConfig.getBeforeSignInSuccessCallback());
 
     // Test that the correct callbacks are returned.
     const signInUiShownCallback = (tenantId) => {};
     const selectTenantUiShownCallback = () => {};
+    const selectTenantUiHiddenCallback = () => {};
     const beforeSignInSuccessCallback = (user) => {};
     configObject['callbacks'] = {
       signInUiShown: signInUiShownCallback,
       selectTenantUiShown: selectTenantUiShownCallback,
+      selectTenantUiHidden: selectTenantUiHiddenCallback,
       beforeSignInSuccess: beforeSignInSuccessCallback,
     };
     uiHandlerConfig.setConfig(configObject);
@@ -167,6 +171,8 @@ testSuite({
                  uiHandlerConfig.getSignInUiShownCallback());
     assertEquals(selectTenantUiShownCallback,
                  uiHandlerConfig.getSelectTenantUiShownCallback());
+    assertEquals(selectTenantUiHiddenCallback,
+                 uiHandlerConfig.getSelectTenantUiHiddenCallback());
     assertEquals(beforeSignInSuccessCallback,
                  uiHandlerConfig.getBeforeSignInSuccessCallback());
   },

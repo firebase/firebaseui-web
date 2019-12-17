@@ -122,6 +122,17 @@ class UiHandlerConfig {
   }
 
   /**
+   * Returns the selectTenantUiHidden callback. It is triggered when the
+   * select provider UI is hidden.
+   * @return {?function()} The selectTenantUiHidden callback, null if not
+   *     available.
+   */
+  getSelectTenantUiHiddenCallback() {
+    return /** @type {?function()} */ (
+        this.getCallbacks_()['selectTenantUiHidden'] || null);
+  }
+
+  /**
    * Returns the beforeSignInSuccess callback. It is triggered before the user
    * signs in successfully. The user signing in is passed.
    * @return {?function(!firebase.User)} The beforeSignInSuccess callback,
