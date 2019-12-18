@@ -13,13 +13,6 @@
     "name": "chrome-latest-mac"
   },
   {
-    "browserName" : "internet explorer",
-    "version" : "11.0",
-    "platform" : "Windows 7",
-    "timeZone": "Pacific",
-    "name": "ie-11-windows"
-  },
-  {
     "browserName" : "MicrosoftEdge",
     "platform" : "Windows 10",
     "timeZone": "Pacific",
@@ -43,7 +36,7 @@
   {
     "deviceName": "Android Emulator",
     "platformName": "Android",
-    "platformVersion": "5.1",
+    "platformVersion": "5.6",
     "browserName": "Browser",
     "name": "android-51-sim"
   }
