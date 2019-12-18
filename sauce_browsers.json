@@ -36,8 +36,8 @@
   {
     "deviceName": "Android Emulator",
     "platformName": "Android",
-    "platformVersion": "5.6",
-    "browserName": "Browser",
-    "name": "android-51-sim"
+    "platformVersion": "6.0",
+    "browserName": "Chrome",
+    "name": "android-6-sim"
   }
 ]
