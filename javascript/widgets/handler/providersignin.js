@@ -18,8 +18,8 @@
 
 goog.provide('firebaseui.auth.widget.handler.handleProviderSignIn');
 
-goog.require('firebaseui.auth.AnonymousAuthProvider');
 goog.require('firebaseui.auth.ui.page.ProviderSignIn');
+goog.require('firebaseui.auth.widget.Config');
 goog.require('firebaseui.auth.widget.Handler');
 goog.require('firebaseui.auth.widget.HandlerName');
 goog.require('firebaseui.auth.widget.handler');
@@ -29,15 +29,17 @@ goog.require('firebaseui.auth.widget.handler.common');
 /**
  * Handles provider sign in.
  *
- * @param {firebaseui.auth.AuthUI} app The current Firebase UI instance whose
+ * @param {?firebaseui.auth.AuthUI} app The current Firebase UI instance whose
  *     configuration is used.
- * @param {Element} container The container DOM element.
- * @param {string=} opt_infoBarMessage The message to show on info bar.
+ * @param {?Element} container The container DOM element.
+ * @param {string=} infoBarMessage The optional message to show on info bar.
+ * @param {string=} email The optional email to prefill.
  */
 firebaseui.auth.widget.handler.handleProviderSignIn = function(
     app,
     container,
-    opt_infoBarMessage) {
+    infoBarMessage = undefined,
+    email = undefined) {
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
       function(providerId) {
         // TODO: Consider deleting pending credentials on new sign in.
@@ -46,7 +48,7 @@ firebaseui.auth.widget.handler.handleProviderSignIn = function(
           component.dispose();
           // Handle sign in with email.
           firebaseui.auth.widget.handler.common.handleSignInWithEmail(
-              app, container);
+              app, container, email);
         } else if (providerId ==
                    firebase.auth.PhoneAuthProvider.PROVIDER_ID) {
           // User clicks sign in with phone number button.
@@ -56,7 +58,7 @@ firebaseui.auth.widget.handler.handleProviderSignIn = function(
               firebaseui.auth.widget.HandlerName.PHONE_SIGN_IN_START, app,
               container);
         } else if (providerId ==
-                   firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID) {
+                   firebaseui.auth.widget.Config.ANONYMOUS_PROVIDER_ID) {
           // User clicks continue as guest button.
           firebaseui.auth.widget.handler.common.handleSignInAnonymously(
               /** @type {!firebaseui.auth.AuthUI} */ (app), component);
@@ -65,7 +67,8 @@ firebaseui.auth.widget.handler.handleProviderSignIn = function(
           firebaseui.auth.widget.handler.common.federatedSignIn(
               /** @type {!firebaseui.auth.AuthUI} */ (app),
               component,
-              providerId);
+              providerId,
+              email);
         }
         // Cancel One-Tap on any button click.
         app.cancelOneTapSignIn();
@@ -77,8 +80,8 @@ firebaseui.auth.widget.handler.handleProviderSignIn = function(
   // Set current UI component.
   app.setCurrentComponent(component);
   // Show info bar if necessary.
-  if (opt_infoBarMessage) {
-    component.showInfoBar(opt_infoBarMessage);
+  if (infoBarMessage) {
+    component.showInfoBar(infoBarMessage);
   }
   // Show One-Tap UI if available.
   app.showOneTapSignIn(

@@ -26,7 +26,6 @@ goog.require('firebaseui.auth.widget.handler');
 goog.require('firebaseui.auth.widget.handler.common');
 
 
-
 /**
  * Handles the case where the user had previously signed in with a federated IdP
  * but is now trying to sign in with email/password.

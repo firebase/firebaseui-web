@@ -24,11 +24,9 @@ goog.setTestOnly('firebaseui.auth.widget.handler.testHelper');
 goog.require('firebaseui.auth.Account');
 goog.require('firebaseui.auth.ActionCodeUrlBuilder');
 goog.require('firebaseui.auth.AuthUI');
-goog.require('firebaseui.auth.CredentialHelper');
 goog.require('firebaseui.auth.EventDispatcher');
 goog.require('firebaseui.auth.OAuthResponse');
 goog.require('firebaseui.auth.PendingEmailCredential');
-goog.require('firebaseui.auth.callback.signInSuccess');
 goog.require('firebaseui.auth.idp');
 goog.require('firebaseui.auth.soy2.strings');
 goog.require('firebaseui.auth.storage');
@@ -378,7 +376,8 @@ function setUp() {
     'popupMode': false,
     'tosUrl': tosCallback,
     'privacyPolicyUrl': 'http://localhost/privacy_policy',
-    'credentialHelper': firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
     'callbacks': {
       'signInFailure': signInFailureCallback
     },
@@ -1343,8 +1342,8 @@ function assertPage_(container, idClass) {
  * @param {boolean} redirect The return status of the success callback.
  * @param {boolean=} opt_manualRedirect Whether the developer manually
  *     redirects to redirectUrl.
- * @return {!firebaseui.auth.callback.signInSuccess} sign in success callback
- *     function.
+ * @return {!firebaseui.auth.widget.Config.signInSuccessCallback} sign in
+ *     success callback function.
  */
 function signInSuccessCallback(redirect, opt_manualRedirect) {
   return function(user, credential, redirectUrl) {
@@ -1378,8 +1377,8 @@ function assertSignInSuccessCallbackInvoked(
  * @param {boolean} redirect The return status of the success callback.
  * @param {boolean=} opt_manualRedirect Whether the developer manually
  *     redirects to redirectUrl.
- * @return {!firebaseui.auth.callback.signInSuccessWithAuthResult} sign in
- *     success with auth result callback function.
+ * @return {!firebaseui.auth.widget.Config.signInSuccessWithAuthResultCallback}
+ *     sign in success with auth result callback function.
  */
 function signInSuccessWithAuthResultCallback(redirect, opt_manualRedirect) {
   return function(authResult, redirectUrl) {
@@ -1501,8 +1500,11 @@ function assertResendCountdown(timeRemaining) {
 function assertSignInFailure(expectedError) {
   // Confirm signInFailure callback triggered with expected argument.
   assertEquals(1, signInFailureCallback.getCallCount());
+  // Plain assertObjectEquals cannot be used as Internet Explorer adds the
+  // stack trace as a property of the object.
   assertObjectEquals(
-      expectedError, signInFailureCallback.getLastCall().getArgument(0));
+      expectedError.toPlainObject(),
+      signInFailureCallback.getLastCall().getArgument(0).toPlainObject());
   // Sign in success should not be called.
   assertUndefined(signInCallbackUser);
 }

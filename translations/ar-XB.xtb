@@ -12,11 +12,14 @@
 <translation id="1163771673786684213">‏‮Philippines‬‏</translation>
 <translation id="1170304454812139475">‏‮Romania‬‏</translation>
 <translation id="1194565221977667376">‏‮South‬‏ ‏‮Georgia‬‏ ‏‮and‬‏ ‏‮the‬‏ ‏‮South‬‏ ‏‮Sandwich‬‏ ‏‮Islands‬‏</translation>
-<translation id="124367247840231378">‏‮OK‬‏</translation>
+<translation id="1233977465587641672">‏‮Unrecoverable‬‏ ‏‮data‬‏ ‏‮loss‬‏ ‏‮or‬‏ ‏‮data‬‏ ‏‮corruption‬‏.</translation>
 <translation id="1244846213930750436">‏‮Italy‬‏</translation>
 <translation id="1268266284642694018">‏‮Lebanon‬‏</translation>
 <translation id="1294742657282291237">‏‮Guyana‬‏</translation>
 <translation id="1297168472480293352">‏‮Guatemala‬‏</translation>
+<translation id="1307255433239736397"><ph name="START_PARAGRAPH" />‏‮Something‬‏ ‏‮went‬‏ ‏‮wrong‬‏ ‏‮removing‬‏ ‏‮your‬‏ ‏‮second‬‏ ‏‮factor‬‏.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />‏‮Try‬‏ ‏‮removing‬‏ ‏‮it‬‏ ‏‮again‬‏. ‏‮If‬‏ ‏‮that‬‏ ‏‮doesn‬‏'‏‮t‬‏ ‏‮work‬‏, ‏‮contact‬‏ ‏‮support‬‏ ‏‮for‬‏ ‏‮assistance‬‏.<ph name="END_PARAGRAPH" /></translation>
+<translation id="1310034618729602982">‏‮Try‬‏ ‏‮updating‬‏ ‏‮your‬‏ ‏‮email‬‏ ‏‮again‬‏</translation>
+<translation id="1312824004897469797">‏‮A‬‏ ‏‮network‬‏ ‏‮error‬‏ ‏‮has‬‏ ‏‮occurred‬‏. ‏‮Try‬‏ ‏‮again‬‏ ‏‮later‬‏.</translation>
 <translation id="1315809131562953678">‏‮Enter‬‏ ‏‮a‬‏ ‏‮valid‬‏ ‏‮phone‬‏ ‏‮number‬‏</translation>
 <translation id="1335716056288807013">‏‮By‬‏ ‏‮tapping‬‏ ‏‮Verify‬‏, ‏‮you‬‏ ‏‮are‬‏ ‏‮indicating‬‏ ‏‮that‬‏ ‏‮you‬‏ ‏‮accept‬‏ ‏‮our‬‏ <ph name="START_LINK_1" />‏‮Terms‬‏ ‏‮of‬‏ ‏‮Service‬‏<ph name="END_LINK" /> ‏‮and‬‏ <ph name="START_LINK_2" />‏‮Privacy‬‏ ‏‮Policy‬‏<ph name="END_LINK" />. ‏‮An‬‏ ‏‮SMS‬‏ ‏‮may‬‏ ‏‮be‬‏ ‏‮sent‬‏. ‏‮Message‬‏ &amp;amp; ‏‮data‬‏ ‏‮rates‬‏ ‏‮may‬‏ ‏‮apply‬‏.</translation>
 <translation id="137210131544215127">‏‮Enter‬‏ ‏‮your‬‏ ‏‮password‬‏</translation>
@@ -27,6 +30,7 @@
 <translation id="1479035434297790822">‏‮Too‬‏ ‏‮many‬‏ ‏‮account‬‏ ‏‮requests‬‏ ‏‮are‬‏ ‏‮coming‬‏ ‏‮from‬‏ ‏‮your‬‏ ‏‮IP‬‏ ‏‮address‬‏. ‏‮Try‬‏ ‏‮again‬‏ ‏‮in‬‏ ‏‮a‬‏ ‏‮few‬‏ ‏‮minutes‬‏.</translation>
 <translation id="1483249363694224399">‏‮Sri‬‏ ‏‮Lanka‬‏</translation>
 <translation id="1507995441600689506">‏‮You‬‏ ‏‮can‬‏ ‏‮now‬‏ ‏‮sign‬‏ ‏‮in‬‏ ‏‮with‬‏ ‏‮your‬‏ ‏‮new‬‏ ‏‮account‬‏</translation>
+<translation id="1544981664986460902">‏‮Client‬‏ ‏‮specified‬‏ ‏‮an‬‏ ‏‮invalid‬‏ ‏‮argument‬‏.</translation>
 <translation id="1575848116712334589">‏‮Chad‬‏</translation>
 <translation id="1630237004390596779">‏‮Resend‬‏ ‏‮code‬‏ ‏‮in‬‏ <ph name="STRING" /></translation>
 <translation id="1653501608290591291">‏‮Belarus‬‏</translation>
@@ -62,6 +66,7 @@
 <translation id="2206856445831770486">‏‮Github‬‏</translation>
 <translation id="2223717216014247341">‏‮Privacy‬‏ ‏‮Policy‬‏</translation>
 <translation id="2224563296468523455">‏‮Guam‬‏</translation>
+<translation id="2245182894886860848">‏‮Either‬‏ ‏‮out‬‏ ‏‮of‬‏ ‏‮resource‬‏ ‏‮quota‬‏ ‏‮or‬‏ ‏‮reaching‬‏ ‏‮rate‬‏ ‏‮limiting‬‏.</translation>
 <translation id="2249420035688424170">‏‮Croatia‬‏</translation>
 <translation id="2251583471831926217">‏‮Lithuania‬‏</translation>
 <translation id="227405248692044138">‏‮Malta‬‏</translation>
@@ -71,22 +76,28 @@
 <translation id="2324942959480650701">‏‮Guest‬‏</translation>
 <translation id="2331781584136059536">‏‮Ghana‬‏</translation>
 <translation id="2338909515537249568">‏‮The‬‏ ‏‮browser‬‏ ‏‮you‬‏ ‏‮are‬‏ ‏‮using‬‏ ‏‮does‬‏ ‏‮not‬‏ ‏‮support‬‏ ‏‮Web‬‏ ‏‮Storage‬‏. ‏‮Please‬‏ ‏‮try‬‏ ‏‮again‬‏ ‏‮in‬‏ ‏‮a‬‏ ‏‮different‬‏ ‏‮browser‬‏.</translation>
+<translation id="2342152898808240937">‏‮Request‬‏ ‏‮cancelled‬‏ ‏‮by‬‏ ‏‮the‬‏ ‏‮client‬‏.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />‏‮There‬‏ ‏‮was‬‏ ‏‮a‬‏ ‏‮problem‬‏ ‏‮changing‬‏ ‏‮your‬‏ ‏‮sign‬‏-‏‮in‬‏ ‏‮email‬‏ ‏‮back‬‏.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />‏‮If‬‏ ‏‮you‬‏ ‏‮try‬‏ ‏‮again‬‏ ‏‮and‬‏ ‏‮still‬‏ ‏‮can‬‏’‏‮t‬‏ ‏‮reset‬‏ ‏‮your‬‏ ‏‮email‬‏, ‏‮try‬‏ ‏‮asking‬‏ ‏‮your‬‏ ‏‮administrator‬‏ ‏‮for‬‏ ‏‮help‬‏.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">‏‮Bahrain‬‏</translation>
+<translation id="2392247362473363900">‏‮Internal‬‏ ‏‮server‬‏ ‏‮error‬‏.</translation>
 <translation id="2405828009195143258">‏‮Iran‬‏</translation>
+<translation id="2414459877074534554">‏‮GitHub‬‏</translation>
 <translation id="244437093285883777">‏‮Verifying‬‏ ‏‮you‬‏'‏‮re‬‏ ‏‮not‬‏ ‏‮a‬‏ ‏‮robot‬‏...</translation>
 <translation id="2448227725017851570">‏‮This‬‏ ‏‮code‬‏ ‏‮is‬‏ ‏‮no‬‏ ‏‮longer‬‏ ‏‮valid‬‏</translation>
 <translation id="2448487988481516351">‏‮New‬‏ ‏‮Caledonia‬‏</translation>
 <translation id="2451742558284013472">‏‮Monaco‬‏</translation>
 <translation id="2460064915291012298">‏‮Seychelles‬‏</translation>
+<translation id="2490672522100125425">‏‮The‬‏ <ph name="START_STRONG" /><ph name="FACTOR_ID" /> <ph name="PHONE_NUMBER" /><ph name="END_STRONG" /> ‏‮was‬‏ ‏‮removed‬‏ ‏‮as‬‏ ‏‮a‬‏ ‏‮second‬‏ ‏‮authentication‬‏ ‏‮step‬‏.</translation>
 <translation id="2494962141967044042">‏‮The‬‏ ‏‮current‬‏ ‏‮anonymous‬‏ ‏‮user‬‏ ‏‮failed‬‏ ‏‮to‬‏ ‏‮upgrade‬‏. ‏‮The‬‏ ‏‮non‬‏-‏‮anonymous‬‏ ‏‮credential‬‏ ‏‮is‬‏ ‏‮already‬‏ ‏‮associated‬‏ ‏‮with‬‏ ‏‮a‬‏ ‏‮different‬‏ ‏‮user‬‏ ‏‮account‬‏.</translation>
 <translation id="2541179214468543429">‏‮You‬‏’‏‮ve‬‏ ‏‮entered‬‏ ‏‮an‬‏ ‏‮incorrect‬‏ ‏‮password‬‏ ‏‮too‬‏ ‏‮many‬‏ ‏‮times‬‏. ‏‮Try‬‏ ‏‮again‬‏ ‏‮in‬‏ ‏‮a‬‏ ‏‮few‬‏ ‏‮minutes‬‏.</translation>
 <translation id="2555950711516724700">‏‮Enter‬‏ ‏‮a‬‏ ‏‮valid‬‏ ‏‮phone‬‏ ‏‮number‬‏.</translation>
 <translation id="2561835578785502516">‏‮Your‬‏ ‏‮request‬‏ ‏‮to‬‏ ‏‮reset‬‏ ‏‮your‬‏ ‏‮password‬‏ ‏‮has‬‏ ‏‮expired‬‏ ‏‮or‬‏ ‏‮the‬‏ ‏‮link‬‏ ‏‮has‬‏ ‏‮already‬‏ ‏‮been‬‏ ‏‮used‬‏</translation>
+<translation id="2562498793334241360">‏‮You‬‏ ‏‮can‬‏ ‏‮now‬‏ ‏‮sign‬‏ ‏‮in‬‏ ‏‮with‬‏ ‏‮your‬‏ ‏‮new‬‏ ‏‮email‬‏ <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />.</translation>
 <translation id="2581514546525533462">‏‮The‬‏ ‏‮country‬‏ ‏‮code‬‏ ‏‮provided‬‏ ‏‮is‬‏ ‏‮not‬‏ ‏‮supported‬‏.</translation>
 <translation id="2600950452451016107">‏‮Check‬‏ ‏‮that‬‏ ‏‮you‬‏ ‏‮did‬‏ ‏‮not‬‏ ‏‮misspell‬‏ ‏‮your‬‏ ‏‮email‬‏.</translation>
 <translation id="2610891451939662786">‏‮Twitter‬‏</translation>
 <translation id="2612036261782356367">‏‮Cambodia‬‏</translation>
+<translation id="2614081868476050089">‏‮Service‬‏ ‏‮unavailable‬‏.</translation>
 <translation id="2616650714309312732">‏‮Portugal‬‏</translation>
 <translation id="2619590123270932385">‏‮French‬‏ ‏‮Guiana‬‏</translation>
 <translation id="2621854044487969847">‏‮British‬‏ ‏‮Virgin‬‏ ‏‮Islands‬‏</translation>
@@ -102,6 +113,7 @@
 <translation id="2741235824871026219">‏‮Verify‬‏</translation>
 <translation id="2752984808025184019">‏‮South‬‏ ‏‮Africa‬‏</translation>
 <translation id="2760636260031093254">‏‮Enter‬‏ ‏‮your‬‏ ‏‮email‬‏ ‏‮address‬‏ ‏‮to‬‏ ‏‮continue‬‏</translation>
+<translation id="276938411216176478">‏‮The‬‏ ‏‮user‬‏ ‏‮account‬‏ ‏‮has‬‏ ‏‮been‬‏ ‏‮disabled‬‏ ‏‮by‬‏ ‏‮an‬‏ ‏‮administrator‬‏.</translation>
 <translation id="2782685789517131804">‏‮A‬‏ ‏‮sign‬‏-‏‮in‬‏ ‏‮email‬‏ ‏‮with‬‏ ‏‮additional‬‏ ‏‮instructions‬‏ ‏‮was‬‏ ‏‮sent‬‏ ‏‮to‬‏ <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. ‏‮Check‬‏ ‏‮your‬‏ ‏‮email‬‏ ‏‮to‬‏ ‏‮complete‬‏ ‏‮sign‬‏-‏‮in‬‏.</translation>
 <translation id="2824267666257947103">‏‮Enter‬‏ ‏‮your‬‏ ‏‮password‬‏</translation>
 <translation id="2828509010894808185">‏‮Create‬‏ ‏‮account‬‏</translation>
@@ -109,13 +121,14 @@
 <translation id="2884525438023347369">‏‮By‬‏ ‏‮tapping‬‏ <ph name="BTN" /> ‏‮you‬‏ ‏‮are‬‏ ‏‮indicating‬‏ ‏‮that‬‏ ‏‮you‬‏ ‏‮agree‬‏ ‏‮to‬‏ ‏‮the‬‏ <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">‏‮Canada‬‏</translation>
 <translation id="2911018261311455240">‏‮Denmark‬‏</translation>
+<translation id="2949732021187449522">‏‮Request‬‏ ‏‮deadline‬‏ ‏‮exceeded‬‏.</translation>
 <translation id="295270254328846278">‏‮Austria‬‏</translation>
 <translation id="2976748949054245370">‏‮Emails‬‏ ‏‮don‬‏'‏‮t‬‏ ‏‮match‬‏</translation>
 <translation id="29947009417147243">‏‮South‬‏ ‏‮Sudan‬‏</translation>
 <translation id="3040586343252524572">‏‮Yemen‬‏</translation>
 <translation id="3045244039436637116">‏‮Guinea‬‏-‏‮Bissau‬‏</translation>
 <translation id="3046745817056752783">‏‮Saudi‬‏ ‏‮Arabia‬‏</translation>
-<translation id="311953035679824832">‏‮App‬‏ ‏‮logo‬‏</translation>
+<translation id="3083819527012413063">‏‮An‬‏ ‏‮extra‬‏ ‏‮security‬‏ ‏‮factor‬‏ ‏‮has‬‏ ‏‮been‬‏ ‏‮added‬‏ ‏‮in‬‏ <ph name="APP_NAME" /></translation>
 <translation id="3122584863645047144">‏‮U‬‏.‏‮S‬‏. ‏‮Virgin‬‏ ‏‮Islands‬‏</translation>
 <translation id="3141549453511344986">‏‮Sign‬‏ ‏‮in‬‏ ‏‮with‬‏ ‏‮phone‬‏</translation>
 <translation id="3147551458884186429">‏‮Indonesia‬‏</translation>
@@ -123,6 +136,7 @@
 <translation id="3164676761565983157">‏‮Venezuela‬‏</translation>
 <translation id="3170526549630869494">‏‮Trouble‬‏ ‏‮signing‬‏ ‏‮in‬‏?</translation>
 <translation id="3204914819635733576">‏‮Verify‬‏ ‏‮it‬‏'‏‮s‬‏ ‏‮you‬‏</translation>
+<translation id="3215050409577090361">‏‮An‬‏ ‏‮issue‬‏ ‏‮was‬‏ ‏‮encountered‬‏ ‏‮when‬‏ ‏‮authenticating‬‏ ‏‮your‬‏ ‏‮request‬‏. ‏‮Please‬‏ ‏‮visit‬‏ ‏‮the‬‏ ‏‮URL‬‏ ‏‮that‬‏ ‏‮redirected‬‏ ‏‮you‬‏ ‏‮to‬‏ ‏‮this‬‏ ‏‮page‬‏ ‏‮again‬‏ ‏‮to‬‏ ‏‮restart‬‏ ‏‮the‬‏ ‏‮authentication‬‏ ‏‮process‬‏.</translation>
 <translation id="3216149523061905579">‏‮Dominica‬‏</translation>
 <translation id="3223688630903046698">‏‮New‬‏ ‏‮password‬‏</translation>
 <translation id="3250864391349648273">‏‮Gabon‬‏</translation>
@@ -140,6 +154,7 @@
 <translation id="3434621886769337032">‏‮Gambia‬‏</translation>
 <translation id="3472358534605257432">‏‮Done‬‏</translation>
 <translation id="3479685026618611556">‏‮Cancel‬‏</translation>
+<translation id="3481131180097895739">‏‮Unknown‬‏ ‏‮server‬‏ ‏‮error‬‏.</translation>
 <translation id="3487364398525389372">‏‮Enter‬‏ ‏‮your‬‏ ‏‮account‬‏ ‏‮name‬‏</translation>
 <translation id="3521753471343796628">‏‮Iraq‬‏</translation>
 <translation id="354888504916863713">‏‮Vietnam‬‏</translation>
@@ -151,6 +166,8 @@
 <translation id="3605933028246642593">‏‮Nepal‬‏</translation>
 <translation id="3608140835232496799">‏‮Tokelau‬‏</translation>
 <translation id="3620185428620643248">‏‮The‬‏ ‏‮selected‬‏ ‏‮credential‬‏ ‏‮for‬‏ ‏‮the‬‏ ‏‮authentication‬‏ ‏‮provider‬‏ ‏‮is‬‏ ‏‮not‬‏ ‏‮supported‬‏!</translation>
+<translation id="3658306886462996856">‏‮No‬‏ ‏‮sign‬‏-‏‮in‬‏ ‏‮provider‬‏ ‏‮is‬‏ ‏‮available‬‏ ‏‮for‬‏ ‏‮the‬‏ ‏‮given‬‏ ‏‮email‬‏, ‏‮please‬‏ ‏‮try‬‏ ‏‮with‬‏ ‏‮a‬‏ ‏‮different‬‏ ‏‮email‬‏.</translation>
+<translation id="3695180913983403205">‏‮Please‬‏ ‏‮enter‬‏ ‏‮a‬‏ ‏‮first‬‏ ‏‮and‬‏ ‏‮last‬‏ ‏‮name‬‏.</translation>
 <translation id="3700097473356216716">‏‮Colombia‬‏</translation>
 <translation id="3703067902498234034">‏‮By‬‏ ‏‮tapping‬‏ ‏‮SAVE‬‏ ‏‮you‬‏ ‏‮are‬‏ ‏‮indicating‬‏ ‏‮that‬‏ ‏‮you‬‏ ‏‮agree‬‏ ‏‮to‬‏ ‏‮the‬‏ </translation>
 <translation id="3736041829854387744">‏‮Burundi‬‏</translation>
@@ -158,7 +175,7 @@
 <translation id="3813801701232240278">‏‮Twitter‬‏</translation>
 <translation id="3814740523815122846">‏‮Your‬‏ ‏‮email‬‏ ‏‮has‬‏ ‏‮been‬‏ ‏‮verified‬‏</translation>
 <translation id="3819556544383051267">‏‮Papua‬‏ ‏‮New‬‏ ‏‮Guinea‬‏</translation>
-<translation id="3831901810365396899">‏‮Save‬‏</translation>
+<translation id="3828991952827504549">‏‮Specified‬‏ ‏‮resource‬‏ ‏‮is‬‏ ‏‮not‬‏ ‏‮found‬‏.</translation>
 <translation id="3862053977934420187">‏‮Verifying‬‏...</translation>
 <translation id="3898029444496274961">‏‮Sign‬‏ ‏‮In‬‏</translation>
 <translation id="3905423743526704083">‏‮East‬‏ ‏‮Timor‬‏</translation>
@@ -191,6 +208,7 @@
 <translation id="4440507149645221385">‏‮Phone‬‏</translation>
 <translation id="4450602713221237198">‏‮Resend‬‏</translation>
 <translation id="4498504413765490964">‏‮Honduras‬‏</translation>
+<translation id="450385255996536115">‏‮The‬‏ ‏‮operation‬‏ ‏‮has‬‏ ‏‮timed‬‏ ‏‮out‬‏.</translation>
 <translation id="4515732781724470190">‏‮Niger‬‏</translation>
 <translation id="4521614244485847733">‏‮That‬‏ ‏‮email‬‏ ‏‮address‬‏ ‏‮doesn‬‏'‏‮t‬‏ ‏‮match‬‏ ‏‮an‬‏ ‏‮existing‬‏ ‏‮account‬‏</translation>
 <translation id="4556476996891737119">‏‮Jordan‬‏</translation>
@@ -202,6 +220,7 @@
 <translation id="4723701728629289714">‏‮Israel‬‏</translation>
 <translation id="4725154639671888461">‏‮Error‬‏ ‏‮encountered‬‏</translation>
 <translation id="4751937685196678080">‏‮Number‬‏</translation>
+<translation id="4769553102874508676">‏‮Client‬‏ ‏‮does‬‏ ‏‮not‬‏ ‏‮have‬‏ ‏‮sufficient‬‏ ‏‮permission‬‏.</translation>
 <translation id="4773060157545352832">‏‮Solve‬‏ ‏‮the‬‏ ‏‮reCAPTCHA‬‏</translation>
 <translation id="4775051289386800916">‏‮Nicaragua‬‏</translation>
 <translation id="4783400389150493171">‏‮Burkina‬‏ ‏‮Faso‬‏</translation>
@@ -210,14 +229,18 @@
 <translation id="4871106926303956169">‏‮Turks‬‏ ‏‮and‬‏ ‏‮Caicos‬‏ ‏‮Islands‬‏</translation>
 <translation id="4877597386645466815">‏‮Resend‬‏ ‏‮code‬‏ ‏‮in‬‏ <ph name="TIME_REMAINING" /></translation>
 <translation id="4915406999072654369">‏‮Check‬‏ ‏‮your‬‏ ‏‮email‬‏</translation>
+<translation id="4923375331439013137">‏‮Couldn‬‏'‏‮t‬‏ ‏‮remove‬‏ ‏‮your‬‏ ‏‮second‬‏ ‏‮factor‬‏</translation>
 <translation id="4955175001894453989">‏‮Add‬‏ ‏‮password‬‏</translation>
 <translation id="496366313824211679">‏‮El‬‏ ‏‮Salvador‬‏</translation>
+<translation id="4982483807073820954">‏‮To‬‏ ‏‮change‬‏ ‏‮password‬‏ ‏‮to‬‏ ‏‮your‬‏ ‏‮account‬‏, ‏‮you‬‏ ‏‮will‬‏ ‏‮need‬‏ ‏‮to‬‏ ‏‮sign‬‏ ‏‮in‬‏ ‏‮again‬‏.</translation>
 <translation id="4991626049082973728">‏‮Serbia‬‏</translation>
 <translation id="4991892293325936102">‏‮Belize‬‏</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" />‏‮for‬‏ <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /><ph name="END_PARAGRAPH" /></translation>
 <translation id="5059105734231232362">‏‮For‬‏ ‏‮this‬‏ ‏‮flow‬‏ ‏‮to‬‏ ‏‮successfully‬‏ ‏‮connect‬‏ ‏‮your‬‏ <ph name="IDP_DISPLAY_NAME" /> ‏‮account‬‏ ‏‮with‬‏ ‏‮this‬‏ ‏‮email‬‏, ‏‮you‬‏ ‏‮have‬‏ ‏‮to‬‏ ‏‮open‬‏ ‏‮the‬‏ ‏‮link‬‏ ‏‮on‬‏ ‏‮the‬‏ ‏‮same‬‏ ‏‮device‬‏ ‏‮or‬‏ ‏‮browser‬‏.</translation>
 <translation id="5080084639513001393">‏‮Sweden‬‏</translation>
 <translation id="5080899604429810481">‏‮Saint‬‏ ‏‮Martin‬‏</translation>
+<translation id="5101542506136590241"><ph name="PROVIDER_NAME" /></translation>
+<translation id="5115661695221894994"><ph name="START_PARAGRAPH" />‏‮Your‬‏ ‏‮request‬‏ ‏‮to‬‏ ‏‮verify‬‏ ‏‮and‬‏ ‏‮update‬‏ ‏‮your‬‏ ‏‮email‬‏ ‏‮has‬‏ ‏‮expired‬‏ ‏‮or‬‏ ‏‮the‬‏ ‏‮link‬‏ ‏‮has‬‏ ‏‮already‬‏ ‏‮been‬‏ ‏‮used‬‏.<ph name="END_PARAGRAPH" /></translation>
 <translation id="5143657419516597442">‏‮St‬‏. ‏‮Lucia‬‏</translation>
 <translation id="521218078240459724">@‏‮string‬‏/‏‮app‬‏_‏‮name‬‏</translation>
 <translation id="5241732101105320538">‏‮Check‬‏ ‏‮your‬‏ ‏‮email‬‏</translation>
@@ -225,13 +248,15 @@
 <translation id="5323041129469627535">‏‮Oman‬‏</translation>
 <translation id="5326139833547026317">‏‮Caribbean‬‏ ‏‮Netherlands‬‏</translation>
 <translation id="5347459868860672391">‏‮Updated‬‏ ‏‮email‬‏ ‏‮address‬‏</translation>
-<translation id="5403395913830260677">‏‮Sign‬‏ ‏‮in‬‏ ‏‮with‬‏ ‏‮Twitter‬‏</translation>
+<translation id="5397737236938796917">‏‮You‬‏ ‏‮are‬‏ ‏‮now‬‏ ‏‮successfully‬‏ ‏‮signed‬‏ ‏‮out‬‏.</translation>
+<translation id="5406620662929585965">‏‮Sign‬‏ ‏‮in‬‏ ‏‮with‬‏ ‏‮phone‬‏</translation>
 <translation id="5407010562344541906">‏‮Phone‬‏ ‏‮number‬‏</translation>
 <translation id="5409861738809250803">‏‮You‬‏ ‏‮already‬‏ ‏‮have‬‏ ‏‮an‬‏ ‏‮account‬‏</translation>
 <translation id="5410341463946781720">‏‮Thailand‬‏</translation>
 <translation id="5437927869321223252">‏‮Wrong‬‏ ‏‮code‬‏. ‏‮Try‬‏ ‏‮again‬‏.</translation>
 <translation id="5444635161362535036">‏‮Liechtenstein‬‏</translation>
 <translation id="5483706910421209104">‏‮Edit‬‏ ‏‮name‬‏</translation>
+<translation id="5487696047685227891">‏‮The‬‏ ‏‮device‬‏ ‏‮or‬‏ ‏‮app‬‏ ‏‮was‬‏ ‏‮removed‬‏ ‏‮as‬‏ ‏‮a‬‏ ‏‮second‬‏ ‏‮authentication‬‏ ‏‮step‬‏.</translation>
 <translation id="5490651768073507833">‏‮Try‬‏ ‏‮opening‬‏ ‏‮the‬‏ ‏‮link‬‏ ‏‮using‬‏ ‏‮the‬‏ ‏‮same‬‏ ‏‮device‬‏ ‏‮or‬‏ ‏‮browser‬‏ ‏‮where‬‏ ‏‮you‬‏ ‏‮started‬‏ ‏‮the‬‏ ‏‮sign‬‏-‏‮in‬‏ ‏‮process‬‏.</translation>
 <translation id="5524360735013196510">‏‮Netherlands‬‏</translation>
 <translation id="5528189843379142883">‏‮Equatorial‬‏ ‏‮Guinea‬‏</translation>
@@ -251,11 +276,12 @@
 <translation id="5642254620426025006">‏‮Something‬‏ ‏‮went‬‏ ‏‮wrong‬‏. ‏‮Please‬‏ ‏‮try‬‏ ‏‮again‬‏.</translation>
 <translation id="5649486931917149784">‏‮Password‬‏</translation>
 <translation id="5664080586064341046">‏‮St‬‏. ‏‮Kitts‬‏</translation>
+<translation id="5664118616900466210"><ph name="DISPLAY_NAME" /></translation>
 <translation id="5668881954117611594">‏‮Back‬‏</translation>
 <translation id="5699028034244995851">‏‮Enter‬‏ ‏‮your‬‏ ‏‮email‬‏ ‏‮address‬‏ ‏‮to‬‏ ‏‮continue‬‏</translation>
 <translation id="5701178667798108817">‏‮Verify‬‏ ‏‮your‬‏ ‏‮phone‬‏ ‏‮number‬‏</translation>
 <translation id="5715637701147651513">‏‮Liberia‬‏</translation>
-<translation id="5755179287528310939">‏‮An‬‏ ‏‮account‬‏ ‏‮already‬‏ ‏‮exists‬‏ ‏‮with‬‏ ‏‮that‬‏ ‏‮email‬‏ ‏‮address‬‏.</translation>
+<translation id="5747263508495256858">‏‮Sign‬‏ ‏‮Out‬‏</translation>
 <translation id="5771034676910614239">‏‮Madagascar‬‏</translation>
 <translation id="5818634293686963864">‏‮Kazakhstan‬‏</translation>
 <translation id="5829301468800336085">‏‮Signing‬‏ ‏‮in‬‏...</translation>
@@ -275,18 +301,18 @@
 <translation id="6040759627067155517">‏‮Email‬‏</translation>
 <translation id="6044396095102058216">‏‮This‬‏ ‏‮phone‬‏ ‏‮number‬‏ ‏‮has‬‏ ‏‮been‬‏ ‏‮used‬‏ ‏‮too‬‏ ‏‮many‬‏ ‏‮times‬‏</translation>
 <translation id="6083089720215618333">‏‮The‬‏ ‏‮email‬‏ ‏‮provided‬‏ ‏‮does‬‏ ‏‮not‬‏ ‏‮match‬‏ ‏‮the‬‏ ‏‮current‬‏ ‏‮sign‬‏-‏‮in‬‏ ‏‮session‬‏.</translation>
-<translation id="6100591764138382403">‏‮This‬‏ ‏‮phone‬‏ ‏‮number‬‏ ‏‮has‬‏ ‏‮been‬‏ ‏‮used‬‏ ‏‮too‬‏ ‏‮many‬‏ ‏‮times‬‏.</translation>
-<translation id="61182948399263957">
-<ph name="P_START" />‏‮Sign‬‏ ‏‮in‬‏ ‏‮to‬‏ <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
-<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
+<translation id="6091051069256411999">‏‮Twitter‬‏</translation>
+<translation id="6113531938704280909">‏‮Unlink‬‏ ‏‮account‬‏</translation>
 <translation id="6132202686885223981">‏‮Check‬‏ ‏‮that‬‏ ‏‮your‬‏ ‏‮inbox‬‏ ‏‮space‬‏ ‏‮is‬‏ ‏‮not‬‏ ‏‮running‬‏ ‏‮out‬‏ ‏‮or‬‏ ‏‮other‬‏ ‏‮inbox‬‏ ‏‮settings‬‏ ‏‮related‬‏ ‏‮issues‬‏.</translation>
+<translation id="6135589730599211649">‏‮Client‬‏ ‏‮specified‬‏ ‏‮an‬‏ ‏‮invalid‬‏ ‏‮range‬‏.</translation>
+<translation id="6143147250106939258">‏‮The‬‏ ‏‮quota‬‏ ‏‮for‬‏ ‏‮this‬‏ ‏‮operation‬‏ ‏‮has‬‏ ‏‮been‬‏ ‏‮exceeded‬‏. ‏‮Try‬‏ ‏‮again‬‏ ‏‮later‬‏.</translation>
 <translation id="6189573836664806798">‏‮Paraguay‬‏</translation>
 <translation id="6192657410634245771">‏‮Algeria‬‏</translation>
 <translation id="6213969168046789596">‏‮You‬‏ ‏‮have‬‏ ‏‮entered‬‏ ‏‮an‬‏ ‏‮incorrect‬‏ ‏‮password‬‏ ‏‮too‬‏ ‏‮many‬‏ ‏‮times‬‏. ‏‮Please‬‏ ‏‮try‬‏ ‏‮again‬‏ ‏‮in‬‏ ‏‮a‬‏ ‏‮few‬‏ ‏‮minutes‬‏.</translation>
 <translation id="6216759405419177713">‏‮Norfolk‬‏ ‏‮Island‬‏</translation>
 <translation id="6245066275978703471">‏‮Phone‬‏ ‏‮number‬‏ ‏‮automatically‬‏ ‏‮verified‬‏</translation>
-<translation id="6283536862756552051">‏‮In‬‏ ‏‮order‬‏ ‏‮to‬‏ ‏‮change‬‏ ‏‮your‬‏ ‏‮password‬‏, ‏‮you‬‏ ‏‮first‬‏ ‏‮need‬‏ ‏‮to‬‏ ‏‮enter‬‏ ‏‮your‬‏ ‏‮current‬‏ ‏‮password‬‏.</translation>
-<translation id="6299890279889400823">‏‮Back‬‏</translation>
+<translation id="6269083314054226194">‏‮Network‬‏ ‏‮error‬‏, ‏‮check‬‏ ‏‮your‬‏ ‏‮internet‬‏ ‏‮connection‬‏.</translation>
+<translation id="6295157125625453859">‏‮Verified‬‏!</translation>
 <translation id="6316446940976157217">‏‮India‬‏</translation>
 <translation id="6327723482938582895">‏‮Benin‬‏</translation>
 <translation id="6338643731889005578">‏‮Continue‬‏</translation>
@@ -335,27 +361,33 @@
 <translation id="6921505896641453739">‏‮Email‬‏</translation>
 <translation id="6929813273561975780">‏‮Next‬‏</translation>
 <translation id="6951302238647056860">‏‮This‬‏ ‏‮code‬‏ ‏‮is‬‏ ‏‮no‬‏ ‏‮longer‬‏ ‏‮valid‬‏</translation>
-<translation id="6976724207780605356">‏‮Sign‬‏ ‏‮in‬‏ ‏‮with‬‏ ‏‮Facebook‬‏</translation>
+<translation id="6961220857430789248">‏‮A‬‏ ‏‮sign‬‏-‏‮in‬‏ ‏‮email‬‏ ‏‮with‬‏ ‏‮additional‬‏ ‏‮instrucitons‬‏ ‏‮was‬‏ ‏‮sent‬‏ ‏‮to‬‏ <ph name="STRING" />. ‏‮Check‬‏ ‏‮your‬‏ ‏‮email‬‏ ‏‮to‬‏ ‏‮complete‬‏ ‏‮sign‬‏-‏‮in‬‏.</translation>
 <translation id="6984204927251307445">‏‮Confirm‬‏ ‏‮email‬‏</translation>
 <translation id="6999773882165218263">‏‮First‬‏ &amp;amp; ‏‮last‬‏ ‏‮name‬‏</translation>
 <translation id="7012506961150923116">‏‮Grenada‬‏</translation>
 <translation id="7024571478138322659">‏‮Western‬‏ ‏‮Sahara‬‏</translation>
+<translation id="7025117765722694556">‏‮Request‬‏ ‏‮can‬‏ ‏‮not‬‏ ‏‮be‬‏ ‏‮executed‬‏ ‏‮in‬‏ ‏‮the‬‏ ‏‮current‬‏ ‏‮system‬‏ ‏‮state‬‏.</translation>
 <translation id="7051546522528994719">‏‮There‬‏ ‏‮was‬‏ ‏‮a‬‏ ‏‮problem‬‏ ‏‮verifying‬‏ ‏‮your‬‏ ‏‮phone‬‏ ‏‮number‬‏.</translation>
 <translation id="7064251114893721966">‏‮You‬‏’‏‮ve‬‏ ‏‮already‬‏ ‏‮used‬‏ <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> ‏‮to‬‏ ‏‮sign‬‏ ‏‮in‬‏. ‏‮Enter‬‏ ‏‮your‬‏ ‏‮password‬‏ ‏‮for‬‏ ‏‮that‬‏ ‏‮account‬‏.</translation>
+<translation id="7085136866191400000">‏‮Sign‬‏-‏‮in‬‏ ‏‮email‬‏ ‏‮Sent‬‏</translation>
 <translation id="7089485669419398254">‏‮Ireland‬‏</translation>
 <translation id="7093343209860483088">‏‮Democratic‬‏ ‏‮Republic‬‏ ‏‮Congo‬‏</translation>
 <translation id="7118080999850002096">‏‮Recover‬‏ ‏‮password‬‏</translation>
 <translation id="7150917293543492988">‏‮Republic‬‏ ‏‮of‬‏ ‏‮Congo‬‏</translation>
+<translation id="7157317431934821052">‏‮The‬‏ ‏‮resource‬‏ ‏‮that‬‏ ‏‮a‬‏ ‏‮client‬‏ ‏‮tried‬‏ ‏‮to‬‏ ‏‮create‬‏ ‏‮already‬‏ ‏‮exists‬‏.</translation>
 <translation id="7174424882502155514">‏‮Continue‬‏ ‏‮as‬‏ ‏‮guest‬‏</translation>
 <translation id="7192078949090526171">‏‮San‬‏ ‏‮Marino‬‏</translation>
 <translation id="7197455001919474950">‏‮Cyprus‬‏</translation>
 <translation id="7198563013006562060">‏‮Solomon‬‏ ‏‮Islands‬‏</translation>
 <translation id="7207660930894629055">‏‮Continue‬‏ ‏‮with‬‏ <ph name="USER_EMAIL" />?</translation>
+<translation id="720983450833499456">‏‮To‬‏ ‏‮continue‬‏ ‏‮sign‬‏ ‏‮in‬‏ ‏‮with‬‏ <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> ‏‮on‬‏ ‏‮this‬‏ ‏‮device‬‏, ‏‮you‬‏ ‏‮have‬‏ ‏‮to‬‏ ‏‮recover‬‏ ‏‮the‬‏ ‏‮password‬‏.</translation>
 <translation id="7223410082658239002">‏‮Maldives‬‏</translation>
 <translation id="7254028881697834212">‏‮S‬‏ã‏‮o‬‏ ‏‮Tom‬‏é ‏‮and‬‏ ‏‮Pr‬‏í‏‮ncipe‬‏</translation>
 <translation id="7268827299582726485">‏‮Confirm‬‏ ‏‮your‬‏ ‏‮email‬‏ ‏‮to‬‏ ‏‮complete‬‏ ‏‮sign‬‏ ‏‮in‬‏</translation>
 <translation id="7272145663101316762">‏‮Slovenia‬‏</translation>
 <translation id="7280309713358692490">‏‮South‬‏ ‏‮Korea‬‏</translation>
+<translation id="7283725113395426048">‏‮Concurrency‬‏ ‏‮conflict‬‏, ‏‮such‬‏ ‏‮as‬‏ ‏‮read‬‏-‏‮modify‬‏-‏‮write‬‏ ‏‮conflict‬‏.</translation>
+<translation id="7290147808482957603">‏‮API‬‏ ‏‮method‬‏ ‏‮not‬‏ ‏‮implemented‬‏ ‏‮by‬‏ ‏‮the‬‏ ‏‮server‬‏.</translation>
 <translation id="7291567990403335374">‏‮Lesotho‬‏</translation>
 <translation id="7291656724505689727">‏‮Sign‬‏ ‏‮in‬‏ ‏‮with‬‏ ‏‮phone‬‏</translation>
 <translation id="7320029088567935126">‏‮Try‬‏ ‏‮verifying‬‏ ‏‮your‬‏ ‏‮email‬‏ ‏‮again‬‏</translation>
@@ -375,9 +407,11 @@
         ‏‮to‬‏ ‏‮sign‬‏ ‏‮in‬‏. ‏‮Enter‬‏ ‏‮your‬‏ ‏‮password‬‏ ‏‮for‬‏ ‏‮that‬‏ ‏‮account‬‏.</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{‏‮Password‬‏ ‏‮not‬‏ ‏‮strong‬‏ ‏‮enough‬‏. ‏‮Use‬‏ ‏‮at‬‏ ‏‮least‬‏ <ph name="PH_1" /> ‏‮character‬‏ ‏‮and‬‏ ‏‮a‬‏ ‏‮mix‬‏ ‏‮of‬‏ ‏‮letters‬‏ ‏‮and‬‏ ‏‮numbers‬‏}zero{‏‮Password‬‏ ‏‮not‬‏ ‏‮strong‬‏ ‏‮enough‬‏. ‏‮Use‬‏ ‏‮at‬‏ ‏‮least‬‏ <ph name="PH_1" /> ‏‮characters‬‏ ‏‮and‬‏ ‏‮a‬‏ ‏‮mix‬‏ ‏‮of‬‏ ‏‮letters‬‏ ‏‮and‬‏ ‏‮numbers‬‏}two{‏‮Password‬‏ ‏‮not‬‏ ‏‮strong‬‏ ‏‮enough‬‏. ‏‮Use‬‏ ‏‮at‬‏ ‏‮least‬‏ <ph name="PH_1" /> ‏‮characters‬‏ ‏‮and‬‏ ‏‮a‬‏ ‏‮mix‬‏ ‏‮of‬‏ ‏‮letters‬‏ ‏‮and‬‏ ‏‮numbers‬‏}few{‏‮Password‬‏ ‏‮not‬‏ ‏‮strong‬‏ ‏‮enough‬‏. ‏‮Use‬‏ ‏‮at‬‏ ‏‮least‬‏ <ph name="PH_1" /> ‏‮characters‬‏ ‏‮and‬‏ ‏‮a‬‏ ‏‮mix‬‏ ‏‮of‬‏ ‏‮letters‬‏ ‏‮and‬‏ ‏‮numbers‬‏}many{‏‮Password‬‏ ‏‮not‬‏ ‏‮strong‬‏ ‏‮enough‬‏. ‏‮Use‬‏ ‏‮at‬‏ ‏‮least‬‏ <ph name="PH_1" /> ‏‮characters‬‏ ‏‮and‬‏ ‏‮a‬‏ ‏‮mix‬‏ ‏‮of‬‏ ‏‮letters‬‏ ‏‮and‬‏ ‏‮numbers‬‏}other{‏‮Password‬‏ ‏‮not‬‏ ‏‮strong‬‏ ‏‮enough‬‏. ‏‮Use‬‏ ‏‮at‬‏ ‏‮least‬‏ <ph name="PH_1" /> ‏‮characters‬‏ ‏‮and‬‏ ‏‮a‬‏ ‏‮mix‬‏ ‏‮of‬‏ ‏‮letters‬‏ ‏‮and‬‏ ‏‮numbers‬‏}}</translation>
 <translation id="7699755204074920022">‏‮Zimbabwe‬‏</translation>
-<translation id="7756945311981296300">‏‮Follow‬‏ ‏‮the‬‏ ‏‮instructions‬‏ ‏‮sent‬‏ ‏‮to‬‏ <ph name="STRING" /> ‏‮to‬‏ ‏‮recover‬‏ ‏‮your‬‏ ‏‮password‬‏.</translation>
-<translation id="7782885946428624225">‏‮There‬‏ ‏‮was‬‏ ‏‮a‬‏ ‏‮problem‬‏ ‏‮verifying‬‏ ‏‮your‬‏ ‏‮phone‬‏ ‏‮number‬‏</translation>
+<translation id="7746977132739352062">‏‮Request‬‏ ‏‮not‬‏ ‏‮authenticated‬‏ ‏‮due‬‏ ‏‮to‬‏ ‏‮missing‬‏, ‏‮invalid‬‏, ‏‮or‬‏ ‏‮expired‬‏ ‏‮OAuth‬‏ ‏‮token‬‏.</translation>
+<translation id="7778245738233381641">‏‮Please‬‏ ‏‮provide‬‏ ‏‮a‬‏ 6-‏‮digit‬‏ ‏‮phone‬‏ ‏‮verification‬‏ ‏‮code‬‏.</translation>
+<translation id="7790301903034097323">‏‮Choose‬‏ ‏‮password‬‏</translation>
 <translation id="7796914496604415892">‏‮New‬‏ ‏‮device‬‏ ‏‮or‬‏ ‏‮browser‬‏ ‏‮detected‬‏</translation>
+<translation id="786166109137986817">‏‮Sign‬‏ ‏‮in‬‏ ‏‮to‬‏ <ph name="DISPLAY_NAME" /></translation>
 <translation id="7868540442111212282">‏‮Czech‬‏ ‏‮Republic‬‏</translation>
 <translation id="7874584525604421364">‏‮Tuvalu‬‏</translation>
 <translation id="7926046652648626866">‏‮Sign‬‏ ‏‮in‬‏ ‏‮with‬‏ ‏‮GitHub‬‏</translation>
@@ -403,6 +437,10 @@
 <translation id="8248811348666273823">‏‮Spain‬‏</translation>
 <translation id="8283013172847705078">‏‮Costa‬‏ ‏‮Rica‬‏</translation>
 <translation id="8289427665929658971">‏‮Samoa‬‏</translation>
+<translation id="8320813901740734879">
+<ph name="P_START" />‏‮Your‬‏ ‏‮account‬‏ ‏‮in‬‏ <ph name="APP_NAME" /> ‏‮has‬‏ ‏‮been‬‏ ‏‮updated‬‏ ‏‮with‬‏ <ph name="SECOND_FACTOR" /> ‏‮for‬‏ ‏‮two‬‏-‏‮factor‬‏ ‏‮authentication‬‏.<ph name="P_END" />
+<ph name="P_START" />‏‮If‬‏ ‏‮you‬‏ ‏‮did‬‏ ‏‮not‬‏ ‏‮request‬‏ ‏‮this‬‏ ‏‮modification‬‏, ‏‮please‬‏ ‏‮use‬‏ ‏‮this‬‏ ‏‮the‬‏ ‏‮following‬‏ ‏‮link‬‏ ‏‮to‬‏ ‏‮undo‬‏ ‏‮the‬‏ ‏‮change‬‏.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="8335491854074085727">‏‮Mali‬‏</translation>
 <translation id="8340009229650375501">‏‮Qatar‬‏</translation>
 <translation id="8347635771101835254">‏‮Uruguay‬‏</translation>
@@ -433,6 +471,7 @@
 <translation id="868894957204919930">‏‮Bermuda‬‏</translation>
 <translation id="8694271531070467981">‏‮Niue‬‏</translation>
 <translation id="8745311627715763145">‏‮Guadeloupe‬‏</translation>
+<translation id="8752467400269476994">‏‮Client‬‏ ‏‮specified‬‏ ‏‮an‬‏ ‏‮invalid‬‏ ‏‮project‬‏ ‏‮configuration‬‏.</translation>
 <translation id="8760480624706028033">‏‮Palestinian‬‏ ‏‮Territories‬‏</translation>
 <translation id="8770276147008360348">‏‮Slovakia‬‏</translation>
 <translation id="877434849857020571">‏‮Guernsey‬‏</translation>
@@ -445,19 +484,24 @@
 <translation id="8893950153780006385">‏‮Malaysia‬‏</translation>
 <translation id="8895840173743975193">‏‮Cocos‬‏ [‏‮Keeling‬‏] ‏‮Islands‬‏</translation>
 <translation id="8916080112145514151">‏‮If‬‏ ‏‮you‬‏ ‏‮still‬‏ ‏‮want‬‏ ‏‮to‬‏ ‏‮connect‬‏ ‏‮your‬‏ <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> ‏‮account‬‏, ‏‮open‬‏ ‏‮the‬‏ ‏‮link‬‏ ‏‮on‬‏ ‏‮the‬‏ ‏‮same‬‏ ‏‮device‬‏ ‏‮where‬‏ ‏‮you‬‏ ‏‮started‬‏ ‏‮sign‬‏-‏‮in‬‏. ‏‮Otherwise‬‏, ‏‮tap‬‏ ‏‮Continue‬‏ ‏‮to‬‏ ‏‮sign‬‏-‏‮in‬‏ ‏‮on‬‏ ‏‮this‬‏ ‏‮device‬‏.</translation>
+<translation id="8920674952994839257">‏‮Retry‬‏</translation>
 <translation id="8939353296336237380">‏‮You‬‏ ‏‮originally‬‏ ‏‮intended‬‏ ‏‮to‬‏ ‏‮connect‬‏ <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> ‏‮to‬‏ ‏‮your‬‏ ‏‮email‬‏ ‏‮account‬‏ ‏‮but‬‏ ‏‮have‬‏ ‏‮opened‬‏ ‏‮the‬‏ ‏‮link‬‏ ‏‮on‬‏ ‏‮a‬‏ ‏‮different‬‏ ‏‮device‬‏ ‏‮where‬‏ ‏‮you‬‏ ‏‮are‬‏ ‏‮not‬‏ ‏‮signed‬‏ ‏‮in‬‏.</translation>
 <translation id="8971555482255213064">‏‮Resend‬‏ ‏‮code‬‏ ‏‮in‬‏ 0:<ph name="PH_1" /></translation>
 <translation id="8984161590699631096">‏‮Morocco‬‏</translation>
+<translation id="8994098794339484800">‏‮If‬‏ ‏‮you‬‏ ‏‮don‬‏'‏‮t‬‏ ‏‮recognize‬‏ ‏‮this‬‏ ‏‮device‬‏, ‏‮someone‬‏ ‏‮might‬‏ ‏‮be‬‏ ‏‮trying‬‏ ‏‮to‬‏ ‏‮access‬‏ ‏‮your‬‏ ‏‮account‬‏. ‏‮Consider‬‏ <ph name="START_LINK" />‏‮changing‬‏ ‏‮your‬‏ ‏‮password‬‏ ‏‮right‬‏ ‏‮away‬‏<ph name="END_LINK" />.</translation>
 <translation id="900153878296575829">‏‮Bangladesh‬‏</translation>
 <translation id="9022632332691561239">‏‮Phone‬‏</translation>
 <translation id="9028063588419847334">‏‮Finland‬‏</translation>
 <translation id="9078135685219203661">‏‮United‬‏ ‏‮Arab‬‏ ‏‮Emirates‬‏</translation>
+<translation id="9121203582272050974">‏‮Your‬‏ ‏‮email‬‏ ‏‮has‬‏ ‏‮been‬‏ ‏‮verified‬‏ ‏‮and‬‏ ‏‮changed‬‏</translation>
 <translation id="9156150178611681179">‏‮Password‬‏</translation>
 <translation id="9168877696443530714">‏‮Central‬‏ ‏‮African‬‏ ‏‮Republic‬‏</translation>
 <translation id="9186194643192393179">‏‮Cura‬‏ç‏‮ao‬‏</translation>
+<translation id="9193130710600355008">‏‮We‬‏ ‏‮have‬‏ ‏‮blocked‬‏ ‏‮all‬‏ ‏‮requests‬‏ ‏‮from‬‏ ‏‮this‬‏ ‏‮device‬‏ ‏‮due‬‏ ‏‮to‬‏ ‏‮unusual‬‏ ‏‮activity‬‏. ‏‮Try‬‏ ‏‮again‬‏ ‏‮later‬‏.</translation>
 <translation id="919456844206936371">‏‮Tunisia‬‏</translation>
 <translation id="9209678713072395487">‏‮Password‬‏ ‏‮changed‬‏</translation>
 <translation id="954276184636809129">‏‮Greece‬‏</translation>
+<translation id="959388308828818789">‏‮Removed‬‏ ‏‮second‬‏ ‏‮factor‬‏</translation>
 <translation id="965930633376049617">‏‮Angola‬‏</translation>
 <translation id="988087302893519488">‏‮Kuwait‬‏</translation>
 <translation id="994914101700264849">‏‮The‬‏ ‏‮email‬‏ ‏‮and‬‏ ‏‮password‬‏ ‏‮you‬‏ ‏‮entered‬‏ ‏‮don‬‏'‏‮t‬‏ ‏‮match‬‏</translation>

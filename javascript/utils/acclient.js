@@ -25,7 +25,7 @@ goog.require('goog.asserts');
 
 
 /**
- * @type {accountchooser.Api}
+ * @type {?accountchooser.Api}
  * @private
  */
 firebaseui.auth.acClient.api_ = null;
@@ -215,23 +215,116 @@ firebaseui.auth.acClient.tryStoreAccount =
  * A dummy accountchooser.com API implmentation which is used if
  * accountchooser.com is not available, for instance, the user agent doesn't
  * support SNI.
- *
- * @param {Object} config The configuration.
- * @constructor
  * @implements {accountchooser.Api}
  */
-firebaseui.auth.acClient.DummyApi = function(config) {
-  this.config_ = config;
-  this.config_['callbacks'] = this.config_['callbacks'] || {};
-};
+firebaseui.auth.acClient.DummyApi = class {
+  /**
+   * @param {Object} config The configuration.
+   */
+  constructor(config) {
+    this.config_ = config;
+    this.config_['callbacks'] = this.config_['callbacks'] || {};
+  }
 
 
-/**
- * Triggers the onEmpty callback.
- */
-firebaseui.auth.acClient.DummyApi.prototype.fireOnEmpty = function() {
-  if (goog.isFunction(this.config_['callbacks']['empty'])) {
-    this.config_['callbacks']['empty']();
+  /**
+   * Triggers the onEmpty callback.
+   */
+  fireOnEmpty() {
+    if (goog.isFunction(this.config_['callbacks']['empty'])) {
+      this.config_['callbacks']['empty']();
+    }
+  }
+
+
+  /**
+   * Stores the accounts. The callback is always invoked with a service
+   * unavailable error.
+   *
+   * @param {Array<Object>} accounts The accounts to store.
+   * @param {Object=} opt_config The optional client configuration.
+   */
+  store(accounts, opt_config) {
+    if (goog.isFunction(this.config_['callbacks']['store'])) {
+      this.config_['callbacks']['store'](
+          undefined, firebaseui.auth.acClient.DummyApi.UNAVAILABLE_ERROR_);
+    }
+  }
+
+
+  /**
+   * Selects account. The callback is always invoked with a service unavailable
+   * error.
+   *
+   * @param {Array<Object>} accounts The local accounts to select.
+   * @param {Object=} opt_config The optional client configuration.
+   */
+  select(accounts, opt_config) {
+    if (goog.isFunction(this.config_['callbacks']['select'])) {
+      this.config_['callbacks']['select'](
+          undefined, firebaseui.auth.acClient.DummyApi.UNAVAILABLE_ERROR_);
+    }
+  }
+
+
+  /**
+   * Updates the account. The callback is always invoked with a service
+   * unavailable error.
+   *
+   * @param {Object} account The account to update.
+   * @param {Object=} opt_config The optional client configuration.
+   */
+  update(account, opt_config) {
+    if (goog.isFunction(this.config_['callbacks']['update'])) {
+      this.config_['callbacks']['update'](
+          undefined, firebaseui.auth.acClient.DummyApi.UNAVAILABLE_ERROR_);
+    }
+  }
+
+
+  /**
+   * Checkes if accountchooser.com is disabled. The callback is always invoked
+   * with a `true`.
+   *
+   * @param {function(boolean=, Object=)} callback The callback function.
+   */
+  checkDisabled(callback) {
+    callback(true);
+  }
+
+
+  /**
+   * Checkes if the accountchooser.com is empty. The callback is always invoked
+   * with a service unavailable error.
+   *
+   * @param {function(boolean=, Object=)} callback The callback function.
+   */
+  checkEmpty(callback) {
+    callback(undefined, firebaseui.auth.acClient.DummyApi.UNAVAILABLE_ERROR_);
+  }
+
+
+  /**
+   * Checkes if the account is in accountchooser.com. The callback is always
+   * invoked with a service unavailable error.
+   *
+   * @param {Object} account The account to check.
+   * @param {function(boolean=, Object=)} callback The callback function.
+   */
+  checkAccountExist(account, callback) {
+    callback(undefined, firebaseui.auth.acClient.DummyApi.UNAVAILABLE_ERROR_);
+  }
+
+
+  /**
+   * Checkes if the account should be updated. The callback is always invoked
+   * with a service unavailable error.
+   *
+   * @param {Object} account The account to check.
+   * @param {function(boolean=, Object=)} callback The callback function.
+   */
+  checkShouldUpdate(account, callback) {
+    callback(undefined, firebaseui.auth.acClient.DummyApi.UNAVAILABLE_ERROR_);
   }
 };
 
@@ -244,101 +337,5 @@ firebaseui.auth.acClient.DummyApi.prototype.fireOnEmpty = function() {
 firebaseui.auth.acClient.DummyApi.UNAVAILABLE_ERROR_ = {
   'code': -32000,
   'message': 'Service unavailable',
-  'data': 'Service is unavailable.'
-};
-
-
-/**
- * Stores the accounts. The callback is always invoked with a service
- * unavailable error.
- *
- * @param {Array<Object>} accounts The accounts to store.
- * @param {Object=} opt_config The optional client configuration.
- */
-firebaseui.auth.acClient.DummyApi.prototype.store =
-    function(accounts, opt_config) {
-  if (goog.isFunction(this.config_['callbacks']['store'])) {
-    this.config_['callbacks']['store'](
-        undefined, firebaseui.auth.acClient.DummyApi.UNAVAILABLE_ERROR_);
-  }
-};
-
-
-/**
- * Selects account. The callback is always invoked with a service unavailable
- * error.
- *
- * @param {Array<Object>} accounts The local accounts to select.
- * @param {Object=} opt_config The optional client configuration.
- */
-firebaseui.auth.acClient.DummyApi.prototype.select =
-    function(accounts, opt_config) {
-  if (goog.isFunction(this.config_['callbacks']['select'])) {
-    this.config_['callbacks']['select'](
-        undefined, firebaseui.auth.acClient.DummyApi.UNAVAILABLE_ERROR_);
-  }
-};
-
-
-/**
- * Updates the account. The callback is always invoked with a service
- * unavailable error.
- *
- * @param {Object} account The account to update.
- * @param {Object=} opt_config The optional client configuration.
- */
-firebaseui.auth.acClient.DummyApi.prototype.update =
-    function(account, opt_config) {
-  if (goog.isFunction(this.config_['callbacks']['update'])) {
-    this.config_['callbacks']['update'](
-        undefined, firebaseui.auth.acClient.DummyApi.UNAVAILABLE_ERROR_);
-  }
-};
-
-
-/**
- * Checkes if accountchooser.com is disabled. The callback is always invoked
- * with a `true`.
- *
- * @param {function(boolean=, Object=)} callback The callback function.
- */
-firebaseui.auth.acClient.DummyApi.prototype.checkDisabled = function(callback) {
-  callback(true);
-};
-
-
-/**
- * Checkes if the accountchooser.com is empty. The callback is always invoked
- * with a service unavailable error.
- *
- * @param {function(boolean=, Object=)} callback The callback function.
- */
-firebaseui.auth.acClient.DummyApi.prototype.checkEmpty = function(callback) {
-  callback(undefined, firebaseui.auth.acClient.DummyApi.UNAVAILABLE_ERROR_);
-};
-
-
-/**
- * Checkes if the account is in accountchooser.com. The callback is always
- * invoked with a service unavailable error.
- *
- * @param {Object} account The account to check.
- * @param {function(boolean=, Object=)} callback The callback function.
- */
-firebaseui.auth.acClient.DummyApi.prototype.checkAccountExist =
-    function(account, callback) {
-  callback(undefined, firebaseui.auth.acClient.DummyApi.UNAVAILABLE_ERROR_);
-};
-
-
-/**
- * Checkes if the account should be updated. The callback is always invoked with
- * a service unavailable error.
- *
- * @param {Object} account The account to check.
- * @param {function(boolean=, Object=)} callback The callback function.
- */
-firebaseui.auth.acClient.DummyApi.prototype.checkShouldUpdate =
-    function(account, callback) {
-  callback(undefined, firebaseui.auth.acClient.DummyApi.UNAVAILABLE_ERROR_);
+  'data': 'Service is unavailable.',
 };

@@ -114,7 +114,7 @@ firebaseui.auth.widget.handler.onPasswordLinkingSubmit_ =
             pendingCredential)
             .then(function(linkedUserCredential) {
               var linkedAuthResult =
-                /** @type {!firebaseui.auth.AuthResult} */ ({
+                /** @type {!firebaseui.auth.widget.Config.AuthResult} */ ({
                 'user': linkedUserCredential['user'],
                 'credential': pendingCredential,
                 'operationType': linkedUserCredential['operationType'],

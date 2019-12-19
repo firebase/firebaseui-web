@@ -12,11 +12,14 @@
 <translation id="1163771673786684213">Філіппіни</translation>
 <translation id="1170304454812139475">Румунія</translation>
 <translation id="1194565221977667376">Південна Джорджія та Південні Сандвічеві Острови</translation>
-<translation id="124367247840231378">ОК</translation>
+<translation id="1233977465587641672">Безповоротна втрата чи пошкодження даних.</translation>
 <translation id="1244846213930750436">Італія</translation>
 <translation id="1268266284642694018">Ліван</translation>
 <translation id="1294742657282291237">Гаяна</translation>
 <translation id="1297168472480293352">Гватемала</translation>
+<translation id="1307255433239736397"><ph name="START_PARAGRAPH" />Під час вилучення другого фактора сталася помилка.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Повторіть спробу. Якщо проблема не зникне, зв'яжіться зі службою підтримки.<ph name="END_PARAGRAPH" /></translation>
+<translation id="1310034618729602982">Оновіть електронну адресу ще раз</translation>
+<translation id="1312824004897469797">Сталася помилка мережі. Спробуйте пізніше.</translation>
 <translation id="1315809131562953678">Введіть дійсний номер телефону</translation>
 <translation id="1335716056288807013">Торкаючись кнопки "Підтвердити", ви приймаєте наші <ph name="START_LINK_1" />Умови використання<ph name="END_LINK" /> та <ph name="START_LINK_2" />Політику конфіденційності<ph name="END_LINK" />. Вам може надійти SMS-повідомлення. За SMS і використання трафіку може стягуватися плата.</translation>
 <translation id="137210131544215127">Введіть пароль</translation>
@@ -27,6 +30,7 @@
 <translation id="1479035434297790822">З вашої IP-адреси надходить дуже багато запитів на створення облікового запису. Спробуйте за кілька хвилин.</translation>
 <translation id="1483249363694224399">Шрі-Ланка</translation>
 <translation id="1507995441600689506">Тепер можете ввійти, використовуючи дані нового облікового запису</translation>
+<translation id="1544981664986460902">Клієнт указав недійсний аргумент.</translation>
 <translation id="1575848116712334589">Чад</translation>
 <translation id="1630237004390596779">Повторно надіслати код через <ph name="STRING" /></translation>
 <translation id="1653501608290591291">Білорусь</translation>
@@ -62,6 +66,7 @@
 <translation id="2206856445831770486">Github</translation>
 <translation id="2223717216014247341">Політика конфіденційності</translation>
 <translation id="2224563296468523455">Гуам</translation>
+<translation id="2245182894886860848">Вичерпано квоту ресурсу або досягнуто ліміту частоти викликів.</translation>
 <translation id="2249420035688424170">Хорватія</translation>
 <translation id="2251583471831926217">Литва</translation>
 <translation id="227405248692044138">Мальта</translation>
@@ -71,22 +76,28 @@
 <translation id="2324942959480650701">Гість</translation>
 <translation id="2331781584136059536">Гана</translation>
 <translation id="2338909515537249568">Ваш веб-переглядач не підтримує веб-сховище. Скористайтесь іншим веб-переглядачем.</translation>
+<translation id="2342152898808240937">Запит скасовано клієнтом.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Не вдалося змінити вашу електронну адресу для входу.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Якщо вам не вдасться скинути адресу, зв’яжіться з адміністратором.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Бахрейн</translation>
+<translation id="2392247362473363900">Внутрішня помилка сервера.</translation>
 <translation id="2405828009195143258">Іран</translation>
+<translation id="2414459877074534554">GitHub</translation>
 <translation id="244437093285883777">Перевіряємо, чи ви не робот…</translation>
 <translation id="2448227725017851570">Цей код уже не дійсний</translation>
 <translation id="2448487988481516351">Нова Каледонія</translation>
 <translation id="2451742558284013472">Монако</translation>
 <translation id="2460064915291012298">Сейшельські Острови</translation>
+<translation id="2490672522100125425">Другий фактор автентифікації (<ph name="START_STRONG" /><ph name="FACTOR_ID" /> <ph name="PHONE_NUMBER" /><ph name="END_STRONG" />) вилучено.</translation>
 <translation id="2494962141967044042">Не вдалось оновити поточний анонімний обліковий запис. Указані облікові дані вже пов’язані з іншим обліковим записом користувача.</translation>
 <translation id="2541179214468543429">Ви ввели неправильний пароль забагато разів. Спробуйте за кілька хвилин.</translation>
 <translation id="2561560038714758184">Безпека</translation>
 <translation id="2561835578785502516">Ваш запит на скидання пароля вже не дійсний або посиланням уже скористалися</translation>
+<translation id="2562498793334241360">Тепер ви можете ввійти в обліковий запис за допомогою нової електронної адреси <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />.</translation>
 <translation id="2581514546525533462">Наданий код країни не підтримується.</translation>
 <translation id="2600950452451016107">Переконайтеся, що ви правильно вказали електронну адресу.</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">Камбоджа</translation>
+<translation id="2614081868476050089">Сервіс недоступний.</translation>
 <translation id="2616650714309312732">Португалія</translation>
 <translation id="2619590123270932385">Французька Гвіана</translation>
 <translation id="2621854044487969847">Віргінські Острови (Велика Британія)</translation>
@@ -102,19 +113,21 @@
 <translation id="2741235824871026219">Підтвердити</translation>
 <translation id="2752984808025184019">Південно-Африканська Республіка</translation>
 <translation id="2760636260031093254">Щоб продовжити, введіть електронну адресу</translation>
+<translation id="276938411216176478">Адміністратор вимкнув обліковий запис користувача.</translation>
 <translation id="2782685789517131804">Електронну адресу для входу та додаткові вказівки надіслано на адресу <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Дотримуйтеся цих вказівок, щоб увійти в обліковий запис.</translation>
 <translation id="2828509010894808185">Створити обліковий запис</translation>
 <translation id="2834770837848769530">Афганістан</translation>
 <translation id="2884525438023347369">Торкаючись кнопки "<ph name="BTN" />", ви приймаєте <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">Канада</translation>
 <translation id="2911018261311455240">Данія</translation>
+<translation id="2949732021187449522">Перевищено кінцевий термін запиту.</translation>
 <translation id="295270254328846278">Австрія</translation>
 <translation id="2976748949054245370">Електронні адреси не збігаються</translation>
 <translation id="29947009417147243">Південний Судан</translation>
 <translation id="3040586343252524572">Ємен</translation>
 <translation id="3045244039436637116">Гвінея-Бісау</translation>
 <translation id="3046745817056752783">Саудівська Аравія</translation>
-<translation id="311953035679824832">Логотип додатка</translation>
+<translation id="3083819527012413063">Для входу в додаток <ph name="APP_NAME" /> використовуватиметься додатковий спосіб ідентифікації</translation>
 <translation id="3122584863645047144">Віргінські Острови (США)</translation>
 <translation id="3141549453511344986">Увійти, використовуючи телефон</translation>
 <translation id="3147551458884186429">Індонезія</translation>
@@ -122,6 +135,7 @@
 <translation id="3164676761565983157">Венесуела</translation>
 <translation id="3170526549630869494">Не вдається ввійти?</translation>
 <translation id="3204914819635733576">Підтвердьте свою особу</translation>
+<translation id="3215050409577090361">Під час авторизації запиту сталася помилка. Ще раз перейдіть за URL-адресою, з якої вас було переспрямовано на цю сторінку, щоб перезапустити авторизацію.</translation>
 <translation id="3216149523061905579">Домініка</translation>
 <translation id="3223688630903046698">Новий пароль</translation>
 <translation id="3250864391349648273">Габон</translation>
@@ -139,6 +153,7 @@
 <translation id="3434621886769337032">Гамбія</translation>
 <translation id="3472358534605257432">Готово</translation>
 <translation id="3479685026618611556">Скасувати</translation>
+<translation id="3481131180097895739">Невідома помилка сервера.</translation>
 <translation id="3487364398525389372">Введіть назву свого облікового запису</translation>
 <translation id="3521753471343796628">Ірак</translation>
 <translation id="354888504916863713">В’єтнам</translation>
@@ -150,6 +165,8 @@
 <translation id="3605933028246642593">Непал</translation>
 <translation id="3608140835232496799">Токелау</translation>
 <translation id="3620185428620643248">Облікові дані, вибрані для постачальника послуг автентифікації, не підтримуються.</translation>
+<translation id="3658306886462996856">Для цієї електронної адреси немає опцій для входу. Спробуйте ввійти за допомогою іншої електронної адреси.</translation>
+<translation id="3695180913983403205">Введіть ім’я та прізвище.</translation>
 <translation id="3700097473356216716">Колумбія</translation>
 <translation id="3703067902498234034">Торкаючись опції "ЗБЕРЕГТИ", ви приймаєте </translation>
 <translation id="3736041829854387744">Бурунді</translation>
@@ -157,7 +174,7 @@
 <translation id="3813801701232240278">Твіттер</translation>
 <translation id="3814740523815122846">Вашу електронну адресу підтверджено</translation>
 <translation id="3819556544383051267">Папуа – Нова Гвінея</translation>
-<translation id="3831901810365396899">Зберегти</translation>
+<translation id="3828991952827504549">Указаний ресурс не знайдено.</translation>
 <translation id="3862053977934420187">Підтвердження…</translation>
 <translation id="3898029444496274961">Увійти</translation>
 <translation id="3905423743526704083">Східний Тимор</translation>
@@ -190,6 +207,7 @@
 <translation id="4440507149645221385">Телефон</translation>
 <translation id="4450602713221237198">Надіслати повторно</translation>
 <translation id="4498504413765490964">Гондурас</translation>
+<translation id="450385255996536115">Час очікування операції минув.</translation>
 <translation id="4515732781724470190">Нігер</translation>
 <translation id="4521614244485847733">Ця електронна адреса не відповідає адресі наявного облікового запису</translation>
 <translation id="4556476996891737119">Йорданія</translation>
@@ -201,6 +219,7 @@
 <translation id="4723701728629289714">Ізраїль</translation>
 <translation id="4725154639671888461">Сталася помилка</translation>
 <translation id="4751937685196678080">Номер</translation>
+<translation id="4769553102874508676">Клієнт не має належного дозволу.</translation>
 <translation id="4773060157545352832">Введіть символи reCAPTCHA</translation>
 <translation id="4775051289386800916">Нікарагуа</translation>
 <translation id="4783400389150493171">Буркіна-Фасо</translation>
@@ -209,14 +228,17 @@
 <translation id="4871106926303956169">Острови Теркс і Кайкос</translation>
 <translation id="4877597386645466815">Повторно надіслати код через <ph name="TIME_REMAINING" /></translation>
 <translation id="4915406999072654369">Перевірте свою електронну пошту</translation>
+<translation id="4923375331439013137">Не вдалося вилучити другий фактор</translation>
 <translation id="4955175001894453989">Додати пароль</translation>
 <translation id="496366313824211679">Сальвадор</translation>
+<translation id="4982483807073820954">Щоб змінити пароль облікового запису, потрібно ввійти ще раз.</translation>
 <translation id="4991626049082973728">Сербія</translation>
 <translation id="4991892293325936102">Беліз</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" /> для облікового запису <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /><ph name="END_PARAGRAPH" /></translation>
 <translation id="5059105734231232362">Щоб зв’язати обліковий запис <ph name="IDP_DISPLAY_NAME" /> з цієї електронною адресою, потрібно відкрити посилання на тому самому пристрої або в тому самому веб-переглядачі.</translation>
 <translation id="5080084639513001393">Швеція</translation>
 <translation id="5080899604429810481">Сен-Мартен</translation>
+<translation id="5115661695221894994"><ph name="START_PARAGRAPH" />Ваш запит на підтвердження й оновлення електронної адреси вже не дійсний або посиланням уже скористалися.<ph name="END_PARAGRAPH" /></translation>
 <translation id="5143657419516597442">Сент-Люсія</translation>
 <translation id="521218078240459724">@string/app_name</translation>
 <translation id="5241732101105320538">Перевірте свою електронну пошту</translation>
@@ -224,13 +246,15 @@
 <translation id="5323041129469627535">Оман</translation>
 <translation id="5326139833547026317">Нідерландські Карибські Острови</translation>
 <translation id="5347459868860672391">Змінена електронна адреса</translation>
-<translation id="5403395913830260677">Увійти через Twitter</translation>
+<translation id="5397737236938796917">Ви успішно вийшли.</translation>
+<translation id="5406620662929585965">Увійти, використовуючи телефон</translation>
 <translation id="5407010562344541906">Номер телефону</translation>
 <translation id="5409861738809250803">У вас уже є обліковий запис</translation>
 <translation id="5410341463946781720">Таїланд</translation>
 <translation id="5443669846203963095">Політика конфіденційності</translation>
 <translation id="5444635161362535036">Ліхтенштейн</translation>
 <translation id="5483706910421209104">Змінити ім’я</translation>
+<translation id="5487696047685227891">Другий фактор автентифікації (пристрій або додаток) вилучено.</translation>
 <translation id="5490651768073507833">Спробуйте відкрити посилання на пристрої або у веб-переглядачі, де ви починали процедуру входу.</translation>
 <translation id="5524360735013196510">Нідерланди</translation>
 <translation id="5528189843379142883">Екваторіальна Гвінея</translation>
@@ -254,7 +278,7 @@
 <translation id="5699028034244995851">Щоб продовжити, введіть електронну адресу</translation>
 <translation id="5701178667798108817">Підтвердьте номер телефону</translation>
 <translation id="5715637701147651513">Ліберія</translation>
-<translation id="5755179287528310939">Обліковий запис із такою електронною адресою вже існує.</translation>
+<translation id="5747263508495256858">Вихід</translation>
 <translation id="5771034676910614239">Мадагаскар</translation>
 <translation id="5818634293686963864">Казахстан</translation>
 <translation id="5829301468800336085">Виконується вхід…</translation>
@@ -273,15 +297,20 @@
 <translation id="6032262985756512833">Введіть <ph name="STRING" />-значний код, який ми надіслали на номер</translation>
 <translation id="6044396095102058216">Цей номер телефону використовувався забагато разів</translation>
 <translation id="6083089720215618333">Надана електронна адреса не відповідає поточному сеансу входу.</translation>
-<translation id="6113531938704280909">Від’єднати обліковий запис</translation>
+<translation id="6091051069256411999">Твіттер</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />Увійдіть в обліковий запис у додатку <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6132202686885223981">Перевірте доступний обсяг пам’яті для папки "Вхідні" й інші можливі проблеми з налаштуваннями.</translation>
+<translation id="6135589730599211649">Клієнт указав недійсний діапазон.</translation>
+<translation id="6143147250106939258">Перевищено квоту для цієї операції. Спробуйте пізніше.</translation>
 <translation id="6189573836664806798">Парагвай</translation>
 <translation id="6192657410634245771">Алжир</translation>
 <translation id="6213969168046789596">Ви ввели неправильний пароль забагато разів. Спробуйте за кілька хвилин.</translation>
 <translation id="6216759405419177713">Острів Норфолк</translation>
 <translation id="6245066275978703471">Номер телефону підтверджено автоматично</translation>
-<translation id="6283536862756552051">Щоб змінити пароль, спершу введіть поточний.</translation>
-<translation id="6299890279889400823">Назад</translation>
+<translation id="6269083314054226194">Помилка мережі. Перевірте інтернет-з’єднання.</translation>
+<translation id="6295157125625453859">Підтверджено</translation>
 <translation id="6316446940976157217">Індія</translation>
 <translation id="6327723482938582895">Бенін</translation>
 <translation id="6338643731889005578">Продовжити</translation>
@@ -330,27 +359,33 @@
 <translation id="6921505896641453739">Електронна адреса</translation>
 <translation id="6929813273561975780">Далі</translation>
 <translation id="6951302238647056860">Цей код уже не дійсний</translation>
-<translation id="6976724207780605356">Увійти через Facebook</translation>
+<translation id="6961220857430789248">Посилання для входу та додаткові вказівки надіслано на адресу <ph name="STRING" />. Дотримуйтеся їх, щоб увійти в обліковий запис.</translation>
 <translation id="6984204927251307445">Підтвердьте електронну адресу</translation>
 <translation id="6999773882165218263">Ім’я та прізвище</translation>
 <translation id="7012506961150923116">Гренада</translation>
 <translation id="7024571478138322659">Західна Сахара</translation>
+<translation id="7025117765722694556">У поточному стані системи запит не можна виконати.</translation>
 <translation id="7062299334696934251">Сталася невідома помилка.</translation>
 <translation id="7064251114893721966">Ви вже використовували електронну адресу <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> для входу. Введіть пароль для цього облікового запису.</translation>
+<translation id="7085136866191400000">Електронну адресу для входу надіслано</translation>
 <translation id="7089485669419398254">Ірландія</translation>
 <translation id="7093343209860483088">Демократична Республіка Конго</translation>
 <translation id="7118080999850002096">Відновити пароль</translation>
 <translation id="7150917293543492988">Республіка Конго</translation>
+<translation id="7157317431934821052">Ресурс, який клієнт намагався створити, уже є.</translation>
 <translation id="7174424882502155514">Продовжити як гість</translation>
 <translation id="7192078949090526171">Сан-Марино</translation>
 <translation id="7197455001919474950">Кіпр</translation>
 <translation id="7198563013006562060">Соломонові Острови</translation>
 <translation id="7207660930894629055">Увійти, використовуючи електронну адресу <ph name="USER_EMAIL" />?</translation>
+<translation id="720983450833499456">Щоб увійти в обліковий запис <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> на цьому пристрої, потрібно відновити пароль.</translation>
 <translation id="7223410082658239002">Мальдіви</translation>
 <translation id="7254028881697834212">Сан-Томе і Принсіпі</translation>
 <translation id="7268827299582726485">Підтвердьте електронну адресу, щоб завершити вхід</translation>
 <translation id="7272145663101316762">Словенія</translation>
 <translation id="7280309713358692490">Південна Корея</translation>
+<translation id="7283725113395426048">Конфлікт паралельного доступу, як-от конфлікт "читання-модифікація-запис".</translation>
+<translation id="7290147808482957603">Метод API не застосовано на сервері.</translation>
 <translation id="7291567990403335374">Лесото</translation>
 <translation id="7291656724505689727">Увійти, використовуючи телефон</translation>
 <translation id="7320029088567935126">Ще раз підтвердьте електронну адресу</translation>
@@ -370,8 +405,10 @@
         для входу. Введіть пароль для цього облікового запису.</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{Пароль недостатньо надійний. Введіть принаймні <ph name="PH_1" /> символ та комбінацію літер і цифр}one{Пароль недостатньо надійний. Введіть принаймні <ph name="PH_1" /> символ та комбінацію літер і цифр}few{Пароль недостатньо надійний. Введіть принаймні <ph name="PH_1" /> символи та комбінацію літер і цифр}many{Пароль недостатньо надійний. Введіть принаймні <ph name="PH_1" /> символів та комбінацію літер і цифр}other{Пароль недостатньо надійний. Введіть принаймні <ph name="PH_1" /> символу та комбінацію літер і цифр}}</translation>
 <translation id="7699755204074920022">Зімбабве</translation>
+<translation id="7746977132739352062">Запит не автентифіковано через відсутній, недійсний або прострочений маркер OAuth.</translation>
 <translation id="7782885946428624225">Не вдалося підтвердити ваш номер телефону</translation>
 <translation id="7796914496604415892">Виявлено новий пристрій або веб-переглядач</translation>
+<translation id="786166109137986817">Увійти в обліковий запис у <ph name="DISPLAY_NAME" /></translation>
 <translation id="7868540442111212282">Чехія</translation>
 <translation id="7874584525604421364">Тувалу</translation>
 <translation id="7926046652648626866">Увійти через GitHub</translation>
@@ -426,6 +463,7 @@
 <translation id="868894957204919930">Бермудські Острови</translation>
 <translation id="8694271531070467981">Ніуе</translation>
 <translation id="8745311627715763145">Гваделупа</translation>
+<translation id="8752467400269476994">Клієнт надав недійсну конфігурацію проекту.</translation>
 <translation id="8760480624706028033">Палестинські території</translation>
 <translation id="8770276147008360348">Словаччина</translation>
 <translation id="877434849857020571">Гернсі</translation>
@@ -438,19 +476,24 @@
 <translation id="8893950153780006385">Малайзія</translation>
 <translation id="8895840173743975193">Кокосові (Кілінгові) Острови</translation>
 <translation id="8916080112145514151">Щоб зв’язати обліковий запис <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" />, відкрийте посилання на пристрої, де ви почали входити, або натисніть "Продовжити", щоб увійти на цьому пристрої.</translation>
+<translation id="8920674952994839257">Повторити спробу</translation>
 <translation id="8939353296336237380">Ви збиралися зв’язати обліковий запис <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> зі своєю електронною адресою, але відкрили надане посилання на пристрої, де не виконано вхід.</translation>
 <translation id="8971555482255213064">Повторно надіслати код через 0:<ph name="PH_1" /></translation>
 <translation id="8984161590699631096">Марокко</translation>
+<translation id="8994098794339484800">Якщо ви не впізнаєте цей пристрій, можливо, хтось намагається отримати доступ до вашого облікового запису. Радимо негайно <ph name="START_LINK" />змінити пароль<ph name="END_LINK" />.</translation>
 <translation id="900153878296575829">Бангладеш</translation>
 <translation id="9022632332691561239">Телефон</translation>
 <translation id="9028063588419847334">Фінляндія</translation>
 <translation id="9078135685219203661">Об’єднані Арабські Емірати</translation>
+<translation id="9121203582272050974">Вашу електронну адресу підтверджено та змінено</translation>
 <translation id="9156150178611681179">Пароль</translation>
 <translation id="9168877696443530714">Центрально-Африканська Республіка</translation>
 <translation id="9186194643192393179">Кюрасао</translation>
+<translation id="9193130710600355008">Ми заблокували всі запити з цього пристрою через незвичну активність. Спробуйте пізніше.</translation>
 <translation id="919456844206936371">Туніс</translation>
 <translation id="9209678713072395487">Пароль змінено</translation>
 <translation id="954276184636809129">Греція</translation>
+<translation id="959388308828818789">Другий фактор вилучено</translation>
 <translation id="965930633376049617">Ангола</translation>
 <translation id="988087302893519488">Кувейт</translation>
 <translation id="994914101700264849">Електронна адреса та пароль не збігаються</translation>

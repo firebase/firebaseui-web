@@ -233,6 +233,18 @@
 
 
 /**
+ * Renders a page which simply shows a spinner.
+ */
+{template .spinner}
+  <div class="firebaseui-container firebaseui-id-page-spinner">
+    {call firebaseui.auth.soy2.element.busyIndicator}
+      {param useSpinner: true /}
+    {/call}
+  </div>
+{/template}
+
+
+/**
  * Renders a blank callback page which simply shows an activity loading indicator when calling a
  * remote API so that the user won't be confused by the blank page.
  */
@@ -800,7 +812,7 @@
     <div class="firebaseui-card-actions">
       {if $allowContinue}
         <div class="firebaseui-form-actions">
-          {call firebaseui.auth.soy2.element.submitButton /}
+          {call firebaseui.auth.soy2.element.continueButton /}
         </div>
       {/if}
     </div>
@@ -845,7 +857,7 @@
       <div class="firebaseui-card-actions">
         {if $allowContinue}
           <div class="firebaseui-form-actions">
-            {call firebaseui.auth.soy2.element.submitButton /}
+            {call firebaseui.auth.soy2.element.continueButton /}
           </div>
         {/if}
       </div>
@@ -881,7 +893,7 @@
     <div class="firebaseui-card-actions">
       {if $allowContinue}
         <div class="firebaseui-form-actions">
-          {call firebaseui.auth.soy2.element.submitButton /}
+          {call firebaseui.auth.soy2.element.continueButton /}
         </div>
       {/if}
     </div>
@@ -945,9 +957,207 @@
     <div class="firebaseui-card-actions">
       {if $allowContinue}
         <div class="firebaseui-form-actions">
-          {call firebaseui.auth.soy2.element.submitButton /}
+          {call firebaseui.auth.soy2.element.continueButton /}
         </div>
       {/if}
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Renders a notice page that confirms the user's email has been verified and updated.
+ */
+{template .verifyAndChangeEmailSuccess}
+  {@param email: string} /** The email address being verified and updated to. */
+  {@param? allowContinue: bool} /** Whether to show the continue button. */
+  <div class="mdl-card mdl-shadow--2dp{sp}
+      firebaseui-container firebaseui-id-page-verify-and-change-email-success">
+    <div class="firebaseui-card-header">
+      <h1 class="firebaseui-title">
+        {msg desc="Header of a page telling the user their email address has been verified and
+            updated."}
+          Your email has been verified and changed
+        {/msg}
+      </h1>
+    </div>
+    <div class="firebaseui-card-content">
+      <p class="firebaseui-text">
+        {msg desc="Detailed info of a notice page that the email has been verified and updated."}
+          You can now sign in with your new email <strong>{$email}</strong>.
+        {/msg}
+      </p>
+    </div>
+    <div class="firebaseui-card-actions">
+      {if $allowContinue}
+        <div class="firebaseui-form-actions">
+          {call firebaseui.auth.soy2.element.continueButton /}
+        </div>
+      {/if}
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Renders a notice page for email verification and update failure.
+ */
+{template .verifyAndChangeEmailFailure}
+  {@param? allowContinue: bool} /** Whether to show the continue button. */
+  <div class="mdl-card mdl-shadow--2dp{sp}
+      firebaseui-container firebaseui-id-page-verify-and-change-email-failure">
+    <div class="firebaseui-card-header">
+      <h1 class="firebaseui-title">
+        {msg desc="Header of a page notifying that an email verification and
+            update request has failed"}
+          Try updating your email again
+        {/msg}
+      </h1>
+    </div>
+    <div class="firebaseui-card-content">
+      {msg desc="Detailed info of a notice page that an email verification and update request has
+          failed."}
+        <p class="firebaseui-text">
+          Your request to verify and update your email has expired or the link has already been
+          used.
+        </p>
+      {/msg}
+    </div>
+    <div class="firebaseui-card-actions">
+      {if $allowContinue}
+        <div class="firebaseui-form-actions">
+          {call firebaseui.auth.soy2.element.continueButton /}
+        </div>
+      {/if}
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Renders a notice page for second factor addition revocation success.
+ */
+{template .revertSecondFactorAdditionSuccess}
+  {@param factorId: string} /** The factor ID of the second factor being removed. */
+  {@param? phoneNumber: string} /** The phone number of the phone second factor being removed. */
+  {@param? allowContinue: bool} /** Whether to show the continue button. */
+  <div class="mdl-card mdl-shadow--2dp{sp}
+      firebaseui-container firebaseui-id-page-revert-second-factor-addition-success">
+    <form onsubmit="return false;">
+      <div class="firebaseui-card-header">
+        <h1 class="firebaseui-title">
+          {msg desc="Header of a page notifying that a second factor addition request has been
+              revoked"}
+            Removed second factor
+          {/msg}
+        </h1>
+      </div>
+      <div class="firebaseui-card-content">
+        <p class="firebaseui-text">
+          {switch $factorId}
+            {case 'phone'}
+              {msg desc="Detailed info of a notice page that a phone second factor addition request
+                  has been revoked."}
+                The <strong>{$factorId} {$phoneNumber}</strong> was removed as a second
+                authentication step.
+              {/msg}
+            {default}
+              {msg desc="Detailed info of a notice page that a second factor addition request
+                  has been revoked."}
+                The device or app was removed as a second authentication step.
+              {/msg}
+          {/switch}
+        </p>
+        <p class="firebaseui-text">
+          {msg desc="Message that explains to the user that they can reset their password if they
+              suspect someone has accessed their account."}
+            If you don't recognize this device, someone might be trying to access your account.
+            Consider <a
+                class="firebaseui-link firebaseui-id-reset-password-link"
+                href="javascript:void(0)">
+              changing your password right away
+            </a>.
+          {/msg}
+        </p>
+      </div>
+      <div class="firebaseui-card-actions">
+        {if $allowContinue}
+          <div class="firebaseui-form-actions">
+            {call firebaseui.auth.soy2.element.continueButton /}
+          </div>
+        {/if}
+      </div>
+    </form>
+  </div>
+{/template}
+
+
+/**
+ * Renders a notice page for second factor addition revocation failure.
+ */
+{template .revertSecondFactorAdditionFailure}
+  {@param? allowContinue: bool} /** Whether to show the continue button. */
+  <div class="mdl-card mdl-shadow--2dp{sp}
+      firebaseui-container firebaseui-id-page-revert-second-factor-addition-failure">
+    <div class="firebaseui-card-header">
+      <h1 class="firebaseui-title">
+        {msg desc="Header of a page notifying that the second factor addition revocation request
+            has failed"}
+          Couldn't remove your second factor
+        {/msg}
+      </h1>
+    </div>
+    <div class="firebaseui-card-content">
+      {msg desc="Detailed info of a notice page that the second factor addition revocation request
+          has failed."}
+        <p class="firebaseui-text">
+          Something went wrong removing your second factor.
+        </p>
+        <p class="firebaseui-text">
+          Try removing it again. If that doesn't work, contact support for assistance.
+        </p>
+      {/msg}
+    </div>
+    <div class="firebaseui-card-actions">
+      {if $allowContinue}
+        <div class="firebaseui-form-actions">
+          {call firebaseui.auth.soy2.element.continueButton /}
+        </div>
+      {/if}
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Renders a notice page that shows that an recoverable error was encountered.
+ */
+{template .recoverableError}
+  {@param errorMessage: string} /** The detailed error message. */
+  {@param? allowRetry: bool} /** Whether to show the retry button. */
+  <div class="mdl-card mdl-shadow--2dp firebaseui-container firebaseui-id-page-recoverable-error">
+    <div class="firebaseui-card-header">
+      <h1 class="firebaseui-title">
+        {msg desc="Header of a notice page"}Error encountered{/msg}
+      </h1>
+    </div>
+    <div class="firebaseui-card-content">
+      <p class="firebaseui-text">
+        {$errorMessage}
+      </p>
+    </div>
+    <div class="firebaseui-card-actions">
+      <div class="firebaseui-form-actions">
+        {if $allowRetry}
+          {call firebaseui.auth.soy2.element.submitButton}
+            {param label kind="text"}
+              {msg desc="The retry button to recover from error."}
+                Retry
+              {/msg}
+            {/param}
+          {/call}
+        {/if}
+      </div>
     </div>
   </div>
 {/template}
@@ -1024,7 +1234,7 @@
  * Renders the list of supported sign-in providers.
  */
 {template .providerSignIn}
-  {@param providerConfigs: list<[providerId:string|null, providerName:string|null,
+  {@param providerConfigs: list<[providerId:string, providerName:string|null,
       buttonColor:string|null, iconUrl: string|null]>} /** List of supported IdP configs. */
   <div class="firebaseui-container firebaseui-page-provider-sign-in{sp}
       firebaseui-id-page-provider-sign-in firebaseui-use-spinner">
@@ -1148,5 +1358,88 @@
       </div>
     </form>
     {call firebaseui.auth.soy2.element.resend /}
+  </div>
+{/template}
+
+
+/**
+ * Renders a sign out notice page.
+ */
+{template .signOut}
+  <div class="mdl-card mdl-shadow--2dp firebaseui-container firebaseui-id-page-sign-out">
+    <div class="firebaseui-card-header">
+      <h1 class="firebaseui-title">
+        {msg desc="Header of a sign out notice page"}
+          Sign Out
+        {/msg}
+      </h1>
+    </div>
+    <div class="firebaseui-card-content">
+      <p class="firebaseui-text">
+        {msg desc="Detailed info of a sign out notice page."}
+          You are now successfully signed out.
+        {/msg}
+      </p>
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Renders the list of tenants to select.
+ */
+{template .selectTenant}
+  {@param tenantConfigs: list<[tenantId:string|null, displayName:string, buttonColor:string,
+      iconUrl: string]>} /** List of tenant selection button configs. */
+  <div class="firebaseui-container firebaseui-page-select-tenant firebaseui-id-page-select-tenant">
+    <div class="firebaseui-card-content">
+      <form onsubmit="return false;">
+        <ul class="firebaseui-tenant-list">
+          {foreach $tenantConfig in $tenantConfigs}
+            <li class="firebaseui-list-item">
+              {call firebaseui.auth.soy2.element.tenantSelectionButton}
+                {param tenantConfig: $tenantConfig /}
+              {/call}
+            </li>
+          {/foreach}
+        </ul>
+      </form>
+    </div>
+    <div class="firebaseui-card-footer firebaseui-provider-sign-in-footer">
+      {call firebaseui.auth.soy2.element.fullMessageTosPp data="all" /}
+    </div>
+  </div>
+{/template}
+
+
+/**
+ * Renders a provider match by email page.
+ */
+{template .providerMatchByEmail}
+  <div class="mdl-card mdl-shadow--2dp firebaseui-container{sp}
+              firebaseui-id-page-provider-match-by-email">
+    <form onsubmit="return false;">
+      <div class="firebaseui-card-header">
+        <h1 class="firebaseui-title">
+          {msg desc="Header of the page requesting a user's email to provide the best
+              matching sign-in methods associated with this email."}
+            Sign in
+          {/msg}
+        </h1>
+      </div>
+      <div class="firebaseui-card-content">
+        <div class="firebaseui-relative-wrapper">
+          {call firebaseui.auth.soy2.element.email /}
+        </div>
+      </div>
+      <div class="firebaseui-card-actions">
+        <div class="firebaseui-form-actions">
+          {call firebaseui.auth.soy2.element.submitButton /}
+        </div>
+      </div>
+      <div class="firebaseui-card-footer">
+        {call firebaseui.auth.soy2.element.fullMessageTosPp data="all" /}
+      </div>
+    </form>
   </div>
 {/template}

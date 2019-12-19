@@ -38,7 +38,8 @@ goog.require('goog.ui.Component');
 /**
  * @define {string} The base URL of images.
  */
-goog.define('firebaseui.auth.ui.page.IMAGE_BASE',
+firebaseui.auth.ui.page.IMAGE_BASE = goog.define(
+    'firebaseui.auth.ui.page.IMAGE_BASE',
     'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/');
 
 
@@ -65,6 +66,8 @@ firebaseui.auth.ui.page.DEFAULT_ICON_URLS_ = {
   'microsoft.com': firebaseui.auth.ui.page.IMAGE_BASE + 'microsoft.svg',
   'yahoo.com': firebaseui.auth.ui.page.IMAGE_BASE + 'yahoo.svg',
   'apple.com': firebaseui.auth.ui.page.IMAGE_BASE + 'apple.png',
+  'saml': firebaseui.auth.ui.page.IMAGE_BASE + 'saml.svg',
+  'oidc': firebaseui.auth.ui.page.IMAGE_BASE + 'oidc.svg',
 };
 
 
@@ -84,6 +87,8 @@ firebaseui.auth.ui.page.DEFAULT_BUTTON_COLORS_ = {
   'microsoft.com': '#2F2F2F',
   'yahoo.com': '#720E9E',
   'apple.com': '#000000',
+  'saml': '#007bff',
+  'oidc': '#007bff',
 };
 
 

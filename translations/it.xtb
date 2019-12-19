@@ -12,11 +12,14 @@
 <translation id="1163771673786684213">Filippine</translation>
 <translation id="1170304454812139475">Romania</translation>
 <translation id="1194565221977667376">Georgia del sud e Sandwich australi</translation>
-<translation id="124367247840231378">OK</translation>
+<translation id="1233977465587641672">Perdita di dati non recuperabili o danneggiamento dei dati.</translation>
 <translation id="1244846213930750436">Italia</translation>
 <translation id="1268266284642694018">Libano</translation>
 <translation id="1294742657282291237">Guiana</translation>
 <translation id="1297168472480293352">Guatemala</translation>
+<translation id="1307255433239736397"><ph name="START_PARAGRAPH" />Si è verificato un problema durante la rimozione del secondo fattore.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Prova nuovamente a rimuoverlo. Se il problema persiste, contatta l'assistenza.<ph name="END_PARAGRAPH" /></translation>
+<translation id="1310034618729602982">Prova di nuovo ad aggiornare l'email</translation>
+<translation id="1312824004897469797">Si è verificato un errore di rete. Riprova più tardi.</translation>
 <translation id="1315809131562953678">Inserisci un numero di telefono valido</translation>
 <translation id="1335716056288807013">Se tocchi Verifica, accetti i nostri <ph name="START_LINK_1" />Termini di servizio<ph name="END_LINK" /> e le nostre <ph name="START_LINK_2" />Norme sulla privacy<ph name="END_LINK" />. È possibile che venga inviato un SMS. Potrebbero essere applicate le tariffe per l'invio dei messaggi e per il traffico dati.</translation>
 <translation id="137210131544215127">Inserisci la password</translation>
@@ -27,6 +30,7 @@
 <translation id="1479035434297790822">Troppe richieste di account provenienti dal tuo indirizzo IP. Riprova tra qualche minuto.</translation>
 <translation id="1483249363694224399">Sri Lanka</translation>
 <translation id="1507995441600689506">Ora puoi accedere con il tuo nuovo account</translation>
+<translation id="1544981664986460902">Il client ha specificato un argomento non valido.</translation>
 <translation id="1575848116712334589">Ciad</translation>
 <translation id="1630237004390596779">Invia di nuovo il codice tra <ph name="STRING" /></translation>
 <translation id="1653501608290591291">Bielorussia</translation>
@@ -62,6 +66,7 @@
 <translation id="2206856445831770486">Github</translation>
 <translation id="2223717216014247341">Norme sulla privacy</translation>
 <translation id="2224563296468523455">Guam</translation>
+<translation id="2245182894886860848">Quota di risorse esaurita o vicina alla limitazione della frequenza.</translation>
 <translation id="2249420035688424170">Croazia</translation>
 <translation id="2251583471831926217">Lituania</translation>
 <translation id="227405248692044138">Malta</translation>
@@ -71,22 +76,28 @@
 <translation id="2324942959480650701">Ospite</translation>
 <translation id="2331781584136059536">Ghana</translation>
 <translation id="2338909515537249568">Il browser in uso non supporta l'archiviazione web. Prova con un altro browser.</translation>
+<translation id="2342152898808240937">La richiesta è stata annullata dal client.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Si è verificato un problema reimpostando l'indirizzo email precedente.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Se ritenti e non riesci a reimpostarlo, prova a chiedere aiuto al tuo amministratore.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Bahrein</translation>
+<translation id="2392247362473363900">Errore interno del server.</translation>
 <translation id="2405828009195143258">Iran</translation>
+<translation id="2414459877074534554">GitHub</translation>
 <translation id="244437093285883777">Stiamo verificando che non sei un robot…</translation>
 <translation id="2448227725017851570">Questo codice non è più valido</translation>
 <translation id="2448487988481516351">Nuova Caledonia</translation>
 <translation id="2451742558284013472">Monaco</translation>
 <translation id="2460064915291012298">Seychelles</translation>
+<translation id="2490672522100125425">Il fattore <ph name="START_STRONG" /><ph name="FACTOR_ID" /> <ph name="PHONE_NUMBER" /><ph name="END_STRONG" /> è stato rimosso come secondo passaggio di autenticazione.</translation>
 <translation id="2494962141967044042">Impossibile eseguire l'upgrade per l'utente anonimo attuale. La credenziale non anonima è già associata a un altro account utente.</translation>
 <translation id="2541179214468543429">Hai effettuato troppi tentativi con una password errata. Riprova tra qualche minuto.</translation>
 <translation id="2561560038714758184">Sicurezza</translation>
 <translation id="2561835578785502516">La richiesta di reimpostazione della password è scaduta o il collegamento è già stato utilizzato</translation>
+<translation id="2562498793334241360">Ora puoi accedere con la nuova email: <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />.</translation>
 <translation id="2581514546525533462">Il codice paese fornito non è supportato.</translation>
 <translation id="2600950452451016107">Verifica di avere digitato correttamente l'indirizzo email.</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">Cambogia</translation>
+<translation id="2614081868476050089">Servizio non disponibile.</translation>
 <translation id="2616650714309312732">Portogallo</translation>
 <translation id="2619590123270932385">Guiana francese</translation>
 <translation id="2621854044487969847">Isole Vergini britanniche</translation>
@@ -102,6 +113,7 @@
 <translation id="2741235824871026219">Verifica</translation>
 <translation id="2752984808025184019">Sud Africa</translation>
 <translation id="2760636260031093254">Inserisci il tuo indirizzo email per continuare</translation>
+<translation id="276938411216176478">L'account utente è stato disattivato da un amministratore.</translation>
 <translation id="2782685789517131804">Un'email di accesso con ulteriori istruzioni è stata inviata all'indirizzo <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Controlla la tua casella di posta per completare l'accesso.</translation>
 <translation id="2824267666257947103">Inserisci la password</translation>
 <translation id="2828509010894808185">Crea account</translation>
@@ -109,13 +121,14 @@
 <translation id="2884525438023347369">Se tocchi <ph name="BTN" />, accetti i <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">Canada</translation>
 <translation id="2911018261311455240">Danimarca</translation>
+<translation id="2949732021187449522">Scadenza richiesta superata.</translation>
 <translation id="295270254328846278">Austria</translation>
 <translation id="2976748949054245370">Gli indirizzi email non corrispondono</translation>
 <translation id="29947009417147243">Sudan del Sud</translation>
 <translation id="3040586343252524572">Yemen</translation>
 <translation id="3045244039436637116">Guinea-Bissau</translation>
 <translation id="3046745817056752783">Arabia Saudita</translation>
-<translation id="311953035679824832">Logo dell'applicazione</translation>
+<translation id="3083819527012413063">Un ulteriore fattore di sicurezza è stato aggiunto a <ph name="APP_NAME" /></translation>
 <translation id="3122584863645047144">Isole Vergini americane</translation>
 <translation id="3141549453511344986">Accedi con il telefono</translation>
 <translation id="3147551458884186429">Indonesia</translation>
@@ -123,6 +136,7 @@
 <translation id="3164676761565983157">Venezuela</translation>
 <translation id="3170526549630869494">Problemi di accesso?</translation>
 <translation id="3204914819635733576">Verifica che sei tu</translation>
+<translation id="3215050409577090361">Si è verificato un problema durante l'autenticazione della richiesta. Torna all'URL che ti ha reindirizzato a questa pagina per riavviare il processo di autenticazione.</translation>
 <translation id="3216149523061905579">Dominìca</translation>
 <translation id="3223688630903046698">Nuova password</translation>
 <translation id="3250864391349648273">Gabon</translation>
@@ -140,6 +154,7 @@
 <translation id="3434621886769337032">Gambia</translation>
 <translation id="3472358534605257432">Fine</translation>
 <translation id="3479685026618611556">Annulla</translation>
+<translation id="3481131180097895739">Errore sconosciuto del server.</translation>
 <translation id="3487364398525389372">Inserisci il nome del tuo account</translation>
 <translation id="3521753471343796628">Iraq</translation>
 <translation id="354888504916863713">Vietnam</translation>
@@ -151,6 +166,8 @@
 <translation id="3605933028246642593">Nepal</translation>
 <translation id="3608140835232496799">Tokelau</translation>
 <translation id="3620185428620643248">La credenziale selezionata per il provider di autenticazione non è supportata.</translation>
+<translation id="3658306886462996856">Non sono disponibili metodi di accesso per l'indirizzo email specificato. Prova con un altro.</translation>
+<translation id="3695180913983403205">Inserisci un nome e un cognome.</translation>
 <translation id="3700097473356216716">Colombia</translation>
 <translation id="3703067902498234034">Se tocchi SALVA, accetti i </translation>
 <translation id="3736041829854387744">Burundi</translation>
@@ -158,7 +175,7 @@
 <translation id="3813801701232240278">Twitter</translation>
 <translation id="3814740523815122846">Il tuo indirizzo email è stato verificato</translation>
 <translation id="3819556544383051267">Papua Nuova Guinea</translation>
-<translation id="3831901810365396899">Salva</translation>
+<translation id="3828991952827504549">La risorsa specificata non è stata trovata.</translation>
 <translation id="3862053977934420187">Verifica in corso…</translation>
 <translation id="3898029444496274961">Accedi</translation>
 <translation id="3905423743526704083">Timor Est</translation>
@@ -191,6 +208,7 @@
 <translation id="4440507149645221385">Telefono</translation>
 <translation id="4450602713221237198">Invia di nuovo</translation>
 <translation id="4498504413765490964">Honduras</translation>
+<translation id="450385255996536115">L'operazione è scaduta.</translation>
 <translation id="4515732781724470190">Niger</translation>
 <translation id="4521614244485847733">L'indirizzo email non corrisponde a un account esistente</translation>
 <translation id="4556476996891737119">Giordania</translation>
@@ -202,6 +220,7 @@
 <translation id="4723701728629289714">Israele</translation>
 <translation id="4725154639671888461">Rilevato errore</translation>
 <translation id="4751937685196678080">Numero</translation>
+<translation id="4769553102874508676">Il client non dispone di autorizzazioni sufficienti.</translation>
 <translation id="4773060157545352832">Risolvi il reCAPTCHA</translation>
 <translation id="4775051289386800916">Nicaragua</translation>
 <translation id="4783400389150493171">Burkina Faso</translation>
@@ -210,14 +229,17 @@
 <translation id="4871106926303956169">Isole Turks e Caicos</translation>
 <translation id="4877597386645466815">Invia di nuovo il codice tra <ph name="TIME_REMAINING" /></translation>
 <translation id="4915406999072654369">Controlla la tua casella di posta</translation>
+<translation id="4923375331439013137">Impossibile rimuovere il secondo fattore</translation>
 <translation id="4955175001894453989">Aggiungi password</translation>
 <translation id="496366313824211679">El Salvador</translation>
+<translation id="4982483807073820954">Per modificare la password del tuo account, devi accedere di nuovo.</translation>
 <translation id="4991626049082973728">Serbia</translation>
 <translation id="4991892293325936102">Belize</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" />per <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /><ph name="END_PARAGRAPH" /></translation>
 <translation id="5059105734231232362">Per collegare correttamente l'account <ph name="IDP_DISPLAY_NAME" /> a questo indirizzo email, devi aprire il link sullo stesso dispositivo o browser.</translation>
 <translation id="5080084639513001393">Svezia</translation>
 <translation id="5080899604429810481">Saint Martin</translation>
+<translation id="5115661695221894994"><ph name="START_PARAGRAPH" />La richiesta di verificare e aggiornare l'email è scaduta o il link è già stato utilizzato.<ph name="END_PARAGRAPH" /></translation>
 <translation id="5143657419516597442">Santa Lucia</translation>
 <translation id="521218078240459724">@string/app_name</translation>
 <translation id="5241732101105320538">Controlla la tua casella di posta</translation>
@@ -225,13 +247,15 @@
 <translation id="5323041129469627535">Oman</translation>
 <translation id="5326139833547026317">Isole BES</translation>
 <translation id="5347459868860672391">Indirizzo email aggiornato</translation>
-<translation id="5403395913830260677">Accedi con Twitter</translation>
+<translation id="5397737236938796917">Disconnessione completata.</translation>
+<translation id="5406620662929585965">Accedi con il telefono</translation>
 <translation id="5407010562344541906">Numero di telefono</translation>
 <translation id="5409861738809250803">Hai già un account</translation>
 <translation id="5410341463946781720">Tailandia</translation>
 <translation id="5437927869321223252">Codice errato. Riprova.</translation>
 <translation id="5444635161362535036">Liechtenstein</translation>
 <translation id="5483706910421209104">Modifica nome</translation>
+<translation id="5487696047685227891">Il dispositivo o l'app sono stati rimossi come secondo passaggio di autenticazione.</translation>
 <translation id="5490651768073507833">Prova ad aprire il link utilizzando lo stesso dispositivo o browser dal quale hai iniziato la procedura di accesso.</translation>
 <translation id="5524360735013196510">Paesi Bassi</translation>
 <translation id="5528189843379142883">Guinea Equatoriale</translation>
@@ -255,7 +279,7 @@
 <translation id="5699028034244995851">Inserisci il tuo indirizzo email per continuare</translation>
 <translation id="5701178667798108817">Verifica il numero di telefono</translation>
 <translation id="5715637701147651513">Liberia</translation>
-<translation id="5755179287528310939">Esiste già un account con questo indirizzo email.</translation>
+<translation id="5747263508495256858">Esci</translation>
 <translation id="5771034676910614239">Madagascar</translation>
 <translation id="5818634293686963864">Kazakistan</translation>
 <translation id="5829301468800336085">Accesso in corso...</translation>
@@ -274,15 +298,20 @@
 <translation id="6032262985756512833">Inserisci il codice a <ph name="STRING" /> cifre che abbiamo inviato al numero</translation>
 <translation id="6044396095102058216">Questo numero di telefono è stato usato troppe volte</translation>
 <translation id="6083089720215618333">L'email fornita non corrisponde alla sessione di accesso corrente.</translation>
-<translation id="6113531938704280909">Scollega account</translation>
+<translation id="6091051069256411999">Twitter</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />Accedi a <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6132202686885223981">Verifica che vi sia ancora spazio disponibile nella Posta in arrivo o che non vi siano altri problemi legati alle impostazioni della Posta in arrivo.</translation>
+<translation id="6135589730599211649">Il client ha specificato un intervallo non valido.</translation>
+<translation id="6143147250106939258">La quota per questa operazione è stata superata. Riprova più tardi.</translation>
 <translation id="6189573836664806798">Paraguay</translation>
 <translation id="6192657410634245771">Algeria</translation>
 <translation id="6213969168046789596">Hai effettuato troppi tentativi con una password errata. Riprova tra qualche minuto.</translation>
 <translation id="6216759405419177713">Isola Norfolk</translation>
 <translation id="6245066275978703471">Numero di telefono verificato automaticamente</translation>
-<translation id="6283536862756552051">Per modificare la password, devi prima inserire la password corrente.</translation>
-<translation id="6299890279889400823">Indietro</translation>
+<translation id="6269083314054226194">Errore di rete. Controlla la connessione a Internet.</translation>
+<translation id="6295157125625453859">Verifica eseguita.</translation>
 <translation id="6316446940976157217">India</translation>
 <translation id="6327723482938582895">Benin</translation>
 <translation id="6338643731889005578">Continua</translation>
@@ -331,27 +360,33 @@
 <translation id="6921505896641453739">Indirizzo email</translation>
 <translation id="6929813273561975780">Avanti</translation>
 <translation id="6951302238647056860">Questo codice non è più valido</translation>
-<translation id="6976724207780605356">Accedi con Facebook</translation>
+<translation id="6961220857430789248">Un'email di accesso con ulteriori istruzioni è stata inviata all'indirizzo <ph name="STRING" />. Controlla la tua casella di posta per completare l'accesso.</translation>
 <translation id="6984204927251307445">Conferma email</translation>
 <translation id="6999773882165218263">Nome e cognome</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Sahara occidentale</translation>
+<translation id="7025117765722694556">La richiesta non può essere eseguita nello stato attuale del sistema.</translation>
 <translation id="7062299334696934251">Si è verificato un errore sconosciuto.</translation>
 <translation id="7064251114893721966">Hai già utilizzato <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> per accedere. Inserisci la password di questo account.</translation>
+<translation id="7085136866191400000">Email di accesso inviata</translation>
 <translation id="7089485669419398254">Irlanda</translation>
 <translation id="7093343209860483088">Repubblica democratica del Congo</translation>
 <translation id="7118080999850002096">Recupera la password</translation>
 <translation id="7150917293543492988">Repubblica del Congo</translation>
+<translation id="7157317431934821052">La risorsa che un client ha cercato di creare esiste già.</translation>
 <translation id="7174424882502155514">Continua come ospite</translation>
 <translation id="7192078949090526171">San Marino</translation>
 <translation id="7197455001919474950">Cipro</translation>
 <translation id="7198563013006562060">Isole Salomone</translation>
 <translation id="7207660930894629055">Vuoi continuare con <ph name="USER_EMAIL" />?</translation>
+<translation id="720983450833499456">Per accedere con l'email <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> su questo dispositivo, devi recuperare la password.</translation>
 <translation id="7223410082658239002">Maldive</translation>
 <translation id="7254028881697834212">São Tomé e Príncipe</translation>
 <translation id="7268827299582726485">Conferma l'email per completare l'accesso</translation>
 <translation id="7272145663101316762">Slovenia</translation>
 <translation id="7280309713358692490">Corea del Sud</translation>
+<translation id="7283725113395426048">Conflitto di contemporaneità, ad esempio conflitto di lettura, modifica e scrittura.</translation>
+<translation id="7290147808482957603">Metodo API non implementato dal server.</translation>
 <translation id="7291567990403335374">Lesotho</translation>
 <translation id="7291656724505689727">Accedi con il telefono</translation>
 <translation id="7320029088567935126">Prova a verificare di nuovo il tuo indirizzo email</translation>
@@ -371,9 +406,11 @@
         per accedere. Inserisci la password di questo account.</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{La password non è abbastanza efficace. Utilizza almeno <ph name="PH_1" /> carattere e una combinazione di lettere e numeri.}other{La password non è abbastanza efficace. Utilizza almeno <ph name="PH_1" /> caratteri e una combinazione di lettere e numeri.}}</translation>
 <translation id="7699755204074920022">Zimbabwe</translation>
-<translation id="7756945311981296300">Segui le istruzioni inviate all'indirizzo <ph name="STRING" /> per recuperare la password.</translation>
-<translation id="7782885946428624225">Si è verificato un problema durante la verifica del tuo numero di telefono</translation>
+<translation id="7746977132739352062">La mancata autenticazione della richiesta è dovuta a un token OAuth mancante, non valido o scaduto.</translation>
+<translation id="7778245738233381641">Specifica un codice di verifica telefonica a 6 cifre.</translation>
+<translation id="7790301903034097323">Scegli password</translation>
 <translation id="7796914496604415892">Rilevato nuovo dispositivo o browser</translation>
+<translation id="786166109137986817">Accedi a <ph name="DISPLAY_NAME" /></translation>
 <translation id="7868540442111212282">Repubblica Ceca</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
 <translation id="7926046652648626866">Accedi con GitHub</translation>
@@ -399,6 +436,10 @@
 <translation id="8248811348666273823">Spagna</translation>
 <translation id="8283013172847705078">Costa Rica</translation>
 <translation id="8289427665929658971">Samoa</translation>
+<translation id="8320813901740734879">
+<ph name="P_START" />Il tuo account <ph name="APP_NAME" /> è stato aggiornato con <ph name="SECOND_FACTOR" /> per l'autenticazione a due fattori.<ph name="P_END" />
+<ph name="P_START" />Se non hai richiesto questa modifica, usa il link seguente per annullarla.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="8335491854074085727">Mali</translation>
 <translation id="8340009229650375501">Qatar</translation>
 <translation id="8347635771101835254">Uruguay</translation>
@@ -429,6 +470,7 @@
 <translation id="868894957204919930">Bermuda</translation>
 <translation id="8694271531070467981">Niue</translation>
 <translation id="8745311627715763145">Guadalupa</translation>
+<translation id="8752467400269476994">Il client ha specificato una configurazione di progetto non valida.</translation>
 <translation id="8760480624706028033">Territori palestinesi</translation>
 <translation id="8770276147008360348">Slovacchia</translation>
 <translation id="877434849857020571">Guernsey</translation>
@@ -441,19 +483,24 @@
 <translation id="8893950153780006385">Malesia</translation>
 <translation id="8895840173743975193">Isole Cocos [Keeling]</translation>
 <translation id="8916080112145514151">Se vuoi ancora collegare il tuo account <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" />, apri il link sullo stesso dispositivo sul quale hai iniziato a eseguire l'accesso. Altrimenti, tocca Continua per accedere su questo dispositivo.</translation>
+<translation id="8920674952994839257">Riprova</translation>
 <translation id="8939353296336237380">Inizialmente intendevi collegare l'account <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> al tuo account email, ma hai aperto il link su un altro dispositivo sul quale non hai eseguito l'accesso.</translation>
 <translation id="8971555482255213064">Invia di nuovo il codice tra 0:<ph name="PH_1" /></translation>
 <translation id="8984161590699631096">Marocco</translation>
+<translation id="8994098794339484800">Se non riconosci questo dispositivo, è possibile che qualcuno stia cercando di accedere al tuo account. Ti consigliamo di <ph name="START_LINK" />modificare immediatamente la password<ph name="END_LINK" />.</translation>
 <translation id="900153878296575829">Bangladesh</translation>
 <translation id="9022632332691561239">Telefono</translation>
 <translation id="9028063588419847334">Finlandia</translation>
 <translation id="9078135685219203661">Emirati Arabi Uniti</translation>
+<translation id="9121203582272050974">L'email è stata verificata e modificata</translation>
 <translation id="9156150178611681179">Password</translation>
 <translation id="9168877696443530714">Repubblica Centrafricana</translation>
 <translation id="9186194643192393179">Curaçao</translation>
+<translation id="9193130710600355008">Abbiamo bloccato tutte le richieste da questo dispositivo a causa della sua attività insolita. Riprova più tardi.</translation>
 <translation id="919456844206936371">Tunisia</translation>
 <translation id="9209678713072395487">Password modificata</translation>
 <translation id="954276184636809129">Grecia</translation>
+<translation id="959388308828818789">Secondo fattore rimosso</translation>
 <translation id="965930633376049617">Angola</translation>
 <translation id="988087302893519488">Kuwait</translation>
 <translation id="994914101700264849">L’indirizzo email e la password non corrispondono</translation>

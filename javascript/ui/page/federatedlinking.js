@@ -24,62 +24,48 @@ goog.require('firebaseui.auth.ui.element.form');
 goog.require('firebaseui.auth.ui.page.Base');
 
 
-
 /**
  * Federated account linking UI component.
- * @param {string} email The user's email.
- * @param {?Object} providerConfig The provider config of the IdP we should use
- *     for sign in.
- * @param {function()} onSubmitClick Callback to invoke when the submit button
- *     is clicked.
- * @param {?function()=} opt_tosCallback Callback to invoke when the ToS link
- *     is clicked.
- * @param {?function()=} opt_privacyPolicyCallback Callback to invoke when the
- *     Privacy Policy link is clicked.
- * @param {?goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
- * @constructor
- * @extends {firebaseui.auth.ui.page.Base}
  */
-firebaseui.auth.ui.page.FederatedLinking = function(
-    email,
-    providerConfig,
-    onSubmitClick,
-    opt_tosCallback,
-    opt_privacyPolicyCallback,
-    opt_domHelper) {
-  firebaseui.auth.ui.page.FederatedLinking.base(
-      this,
-      'constructor',
-      firebaseui.auth.soy2.page.federatedLinking,
-      {
-        email: email,
-        providerConfig: providerConfig
-      },
-      opt_domHelper,
-      'federatedLinking',
-      {
-        tosCallback: opt_tosCallback,
-        privacyPolicyCallback: opt_privacyPolicyCallback
-      });
-  this.onSubmitClick_ = onSubmitClick;
-};
-goog.inherits(firebaseui.auth.ui.page.FederatedLinking,
-    firebaseui.auth.ui.page.Base);
+firebaseui.auth.ui.page.FederatedLinking =
+    class extends firebaseui.auth.ui.page.Base {
+  /**
+   * @param {string} email The user's email.
+   * @param {?Object} providerConfig The provider config of the IdP we should
+   *     use for sign in.
+   * @param {function()} onSubmitClick Callback to invoke when the submit button
+   *     is clicked.
+   * @param {?function()=} opt_tosCallback Callback to invoke when the ToS link
+   *     is clicked.
+   * @param {?function()=} opt_privacyPolicyCallback Callback to invoke when the
+   *     Privacy Policy link is clicked.
+   * @param {?goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
+   */
+  constructor(
+      email, providerConfig, onSubmitClick, opt_tosCallback,
+      opt_privacyPolicyCallback, opt_domHelper) {
+    super(
+        firebaseui.auth.soy2.page.federatedLinking,
+        {email: email, providerConfig: providerConfig}, opt_domHelper,
+        'federatedLinking', {
+          tosCallback: opt_tosCallback,
+          privacyPolicyCallback: opt_privacyPolicyCallback
+        });
+    this.onSubmitClick_ = onSubmitClick;
+  }
 
+  /** @override */
+  enterDocument() {
+    this.initFormElement(this.onSubmitClick_);
+    this.getSubmitElement().focus();
+    super.enterDocument();
+  }
 
-/** @override */
-firebaseui.auth.ui.page.FederatedLinking.prototype.enterDocument = function() {
-  this.initFormElement(this.onSubmitClick_);
-  this.getSubmitElement().focus();
-  firebaseui.auth.ui.page.FederatedLinking.base(this, 'enterDocument');
-};
-
-
-/** @override */
-firebaseui.auth.ui.page.FederatedLinking.prototype.disposeInternal =
-    function() {
-  this.onSubmitClick_ = null;
-  firebaseui.auth.ui.page.FederatedLinking.base(this, 'disposeInternal');
+  /** @override */
+  disposeInternal() {
+    this.onSubmitClick_ = null;
+    super.disposeInternal();
+  }
 };
 
 

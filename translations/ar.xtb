@@ -12,11 +12,14 @@
 <translation id="1163771673786684213">الفيلبين</translation>
 <translation id="1170304454812139475">رومانيا</translation>
 <translation id="1194565221977667376">جورجيا الجنوبية وجزر ساندويتش الجنوبية</translation>
-<translation id="124367247840231378">موافق</translation>
+<translation id="1233977465587641672">ثمة بيانات تالفة أو بيانات مفقودة ويتعذّر استرجاعها.</translation>
 <translation id="1244846213930750436">إيطاليا</translation>
 <translation id="1268266284642694018">لبنان</translation>
 <translation id="1294742657282291237">غيانا</translation>
 <translation id="1297168472480293352">غواتيمالا</translation>
+<translation id="1307255433239736397"><ph name="START_PARAGRAPH" />حدث خطأ أثناء إزالة العامل الثاني.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />يُرجى إعادة المحاولة. إذا لم تنجح المحاولة، يُرجى التواصل مع فريق الدعم للحصول على مساعدة.<ph name="END_PARAGRAPH" /></translation>
+<translation id="1310034618729602982">يُرجى محاولة تحديث عنوان بريدك الإلكتروني من جديد</translation>
+<translation id="1312824004897469797">حدث خطأ في الشبكة. يُرجى إعادة المحاولة لاحقًا.</translation>
 <translation id="1315809131562953678">يُرجى إدخال رقم هاتف صالحًا</translation>
 <translation id="1335716056288807013">يشير النقر على "إثبات الملكية" إلى موافقتك على <ph name="START_LINK_1" />بنود الخدمة<ph name="END_LINK" /> و<ph name="START_LINK_2" />سياسة الخصوصية<ph name="END_LINK" />. وقد يتمّ إرسال رسالة قصيرة كما قد تنطبق رسوم الرسائل والبيانات.</translation>
 <translation id="137210131544215127">يجب إدخال كلمة المرور</translation>
@@ -27,6 +30,7 @@
 <translation id="1479035434297790822">ثمة عدد كبير جدًا من الطلبات الواردة من عنوان IP التابع لك. يُرجى المحاولة مجددًا بعد بضع دقائق.</translation>
 <translation id="1483249363694224399">سريلانكا</translation>
 <translation id="1507995441600689506">يمكنك الآن تسجيل الدخول باستخدام حسابك الجديد</translation>
+<translation id="1544981664986460902">حدّد العميل وسيطة غير صالحة.</translation>
 <translation id="1575848116712334589">تشاد</translation>
 <translation id="1630237004390596779">إعادة إرسال الرمز بعد <ph name="STRING" /></translation>
 <translation id="1653501608290591291">بيلاروسيا</translation>
@@ -62,6 +66,7 @@
 <translation id="2206856445831770486">Github</translation>
 <translation id="2223717216014247341">سياسة الخصوصية</translation>
 <translation id="2224563296468523455">غوام</translation>
+<translation id="2245182894886860848">نفذت حصة الموارد أو بلغت حدّ السعر الأقصى المسموح به.</translation>
 <translation id="2249420035688424170">كرواتيا</translation>
 <translation id="2251583471831926217">ليتوانيا</translation>
 <translation id="227405248692044138">مالطة</translation>
@@ -71,22 +76,28 @@
 <translation id="2324942959480650701">ضيف</translation>
 <translation id="2331781584136059536">غانا</translation>
 <translation id="2338909515537249568">لا يدعم المتصفح الذي تستخدمه التخزين على الويب. يُرجى المحاولة مجددًا في متصفّح مختلف.</translation>
+<translation id="2342152898808240937">ألغى العميل الطلب.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />حدثت مشكلة أثناء تغيير البريد الإلكتروني لتسجيل الدخول من جديد.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />في حال المحاولة مجددًا وتعذّر إعادة تعيين البريد الإلكتروني، يُرجى محاولة طلب المساعدة من المشرف.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">البحرين</translation>
+<translation id="2392247362473363900">حدث خطأ في الخادم الداخلي.</translation>
 <translation id="2405828009195143258">إيران</translation>
+<translation id="2414459877074534554">GitHub</translation>
 <translation id="244437093285883777">جارٍ التأكّد من أنك لست برنامج روبوت...</translation>
 <translation id="2448227725017851570">لم يعد هذا الرمز صالحًا</translation>
 <translation id="2448487988481516351">نيوكاليدونيا</translation>
 <translation id="2451742558284013472">موناكو</translation>
 <translation id="2460064915291012298">سيشيل</translation>
+<translation id="2490672522100125425">تمّت إزالة <ph name="START_STRONG" /><ph name="FACTOR_ID" /> <ph name="PHONE_NUMBER" /><ph name="END_STRONG" /> كخطوة مصادقة ثانية.</translation>
 <translation id="2494962141967044042">تعذّرت ترقية حساب المستخدم المجهول الحالي لأنّ بيانات اعتماد الحساب غير المجهول مقترنة بحساب مستخدم آخر.</translation>
 <translation id="2541179214468543429">لقد أدخلت كلمة مرور غير صحيحة لمرات كثيرة جدًا. يُرجى المحاولة مجددًا بعد بضع دقائق.</translation>
 <translation id="2561560038714758184">الأمان</translation>
 <translation id="2561835578785502516">انتهت صلاحية طلبك لإعادة تعيين كلمة المرور أو سبق أن تم استخدام الرابط</translation>
+<translation id="2562498793334241360">يمكنك الآن تسجيل الدخول باستخدام عنوان بريدك الإلكتروني الجديد <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />.</translation>
 <translation id="2581514546525533462">إنّ رمز البلد الذي قدّمته غير مُعتمَد.</translation>
 <translation id="2600950452451016107">التأكّد من كتابة عنوان البريد الإلكتروني بالشكل الصحيح</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">كمبوديا</translation>
+<translation id="2614081868476050089">الخدمة غير متوفّرة.</translation>
 <translation id="2616650714309312732">البرتغال</translation>
 <translation id="2619590123270932385">غويانا الفرنسية</translation>
 <translation id="2621854044487969847">جزر فيرجين البريطانية</translation>
@@ -102,19 +113,21 @@
 <translation id="2741235824871026219">إثبات الملكية</translation>
 <translation id="2752984808025184019">جنوب أفريقيا</translation>
 <translation id="2760636260031093254">يجب إدخال عنوان بريدك الإلكتروني للمتابعة</translation>
+<translation id="276938411216176478">أوقف المشرف حساب المستخدم.</translation>
 <translation id="2782685789517131804">تمّ إرسال رسالة إلكترونية لتسجيل الدخول تتضمّن تعليمات إضافية إلى <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. يُرجى التحقق من بريدك الإلكتروني لإكمال عملية تسجيل الدخول.</translation>
 <translation id="2828509010894808185">إنشاء حساب</translation>
 <translation id="2834770837848769530">أفغانستان</translation>
 <translation id="2884525438023347369">يُعد النقر على <ph name="BTN" /> دليلاً على أنك توافق على <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">كندا</translation>
 <translation id="2911018261311455240">الدنمارك</translation>
+<translation id="2949732021187449522">انتهت المهلة النهائية لتقديم الطلب.</translation>
 <translation id="295270254328846278">النمسا</translation>
 <translation id="2976748949054245370">لا تتطابق رسالتا البريد الإلكتروني</translation>
 <translation id="29947009417147243">جنوب السودان</translation>
 <translation id="3040586343252524572">اليمن</translation>
 <translation id="3045244039436637116">غينيا بيساو</translation>
 <translation id="3046745817056752783">المملكة العربية السعودية</translation>
-<translation id="311953035679824832">شعار التطبيق</translation>
+<translation id="3083819527012413063">لقد تمّت إضافة عامل أمان إضافي في <ph name="APP_NAME" /></translation>
 <translation id="3122584863645047144">جزر فيرجن الأمريكية</translation>
 <translation id="3141549453511344986">تسجيل الدخول عبر رقم الهاتف</translation>
 <translation id="3147551458884186429">إندونيسيا</translation>
@@ -122,6 +135,7 @@
 <translation id="3164676761565983157">فنزويلا</translation>
 <translation id="3170526549630869494">هل تواجه مشكلة في تسجيل الدخول؟</translation>
 <translation id="3204914819635733576">تأكيد ملكية الحساب</translation>
+<translation id="3215050409577090361">حدثت مشكلة أثناء المصادقة على طلبك. لبدء عملية المصادقة من جديد، يُرجى العودة إلى عنوان URL الذي أعاد توجيهك إلى هذه الصفحة.</translation>
 <translation id="3216149523061905579">دومينيكا</translation>
 <translation id="3223688630903046698">كلمة المرور الجديدة</translation>
 <translation id="3250864391349648273">الغابون</translation>
@@ -139,6 +153,7 @@
 <translation id="3434621886769337032">غامبيا</translation>
 <translation id="3472358534605257432">تم</translation>
 <translation id="3479685026618611556">إلغاء</translation>
+<translation id="3481131180097895739">حدث خطأ غير معروف في الخادم.</translation>
 <translation id="3487364398525389372">يجب إدخال اسم حسابك</translation>
 <translation id="3521753471343796628">العراق</translation>
 <translation id="354888504916863713">فيتنام</translation>
@@ -150,6 +165,8 @@
 <translation id="3605933028246642593">نيبال</translation>
 <translation id="3608140835232496799">توكيلاو</translation>
 <translation id="3620185428620643248">لا يمكن استخدام بيانات الاعتماد المُختارة من موفّر المصادقة.</translation>
+<translation id="3658306886462996856">لا يوجد موفر لخدمة تسجيل الدخول للبريد الإلكتروني المحدّد. يُرجى استخدام بريد إلكتروني مختلف.</translation>
+<translation id="3695180913983403205">يُرجى إدخال الاسم الأول واسم العائلة.</translation>
 <translation id="3700097473356216716">كولومبيا</translation>
 <translation id="3703067902498234034">يشير النقر على "حفظ" إلى موافقتك على </translation>
 <translation id="3736041829854387744">بوروندي</translation>
@@ -157,7 +174,7 @@
 <translation id="3813801701232240278">Twitter</translation>
 <translation id="3814740523815122846">تم إثبات ملكية بريدك الإلكتروني</translation>
 <translation id="3819556544383051267">بابوا غينيا الجديدة</translation>
-<translation id="3831901810365396899">حفظ</translation>
+<translation id="3828991952827504549">تعذّر العثور على المورد المحدّد.</translation>
 <translation id="3862053977934420187">جارٍ إثبات الملكية...</translation>
 <translation id="3898029444496274961">تسجيل الدخول</translation>
 <translation id="3905423743526704083">تيمور الشرقية</translation>
@@ -190,6 +207,7 @@
 <translation id="4440507149645221385">الهاتف</translation>
 <translation id="4450602713221237198">إعادة الإرسال</translation>
 <translation id="4498504413765490964">هندوراس</translation>
+<translation id="450385255996536115">انتهت المهلة المحدّدة للعملية.</translation>
 <translation id="4515732781724470190">النيجر</translation>
 <translation id="4521614244485847733">لا يتطابق عنوان البريد الإلكتروني هذا مع حساب حالي</translation>
 <translation id="4556476996891737119">الأردن</translation>
@@ -201,6 +219,7 @@
 <translation id="4723701728629289714">إسرائيل</translation>
 <translation id="4725154639671888461">حدث خطأ</translation>
 <translation id="4751937685196678080">الرقم</translation>
+<translation id="4769553102874508676">لا يملك العميل الأذونات الكافية.</translation>
 <translation id="4773060157545352832">يجب حلّ reCAPTCHA</translation>
 <translation id="4775051289386800916">نيكاراغوا</translation>
 <translation id="4783400389150493171">بوركينا فاسو</translation>
@@ -209,14 +228,17 @@
 <translation id="4871106926303956169">جزر توركس وكايكوس</translation>
 <translation id="4877597386645466815">إعادة إرسال الرمز في غضون <ph name="TIME_REMAINING" /></translation>
 <translation id="4915406999072654369">إثبات ملكية بريدك الإلكتروني</translation>
+<translation id="4923375331439013137">تعذّرت إزالة العامل الثاني</translation>
 <translation id="4955175001894453989">إضافة كلمة مرور</translation>
 <translation id="496366313824211679">السلفادور</translation>
+<translation id="4982483807073820954">لتغيير كلمة المرور في حسابك، يجب تسجيل الدخول من جديد.</translation>
 <translation id="4991626049082973728">صربيا</translation>
 <translation id="4991892293325936102">بليز</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" />التابع لـ <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /><ph name="END_PARAGRAPH" /></translation>
 <translation id="5059105734231232362">لكي تنجح في ربط حسابك على <ph name="IDP_DISPLAY_NAME" /> بهذا البريد الإلكتروني، يجب فتح الرابط على الجهاز أو المتصفّح نفسه.</translation>
 <translation id="5080084639513001393">السويد</translation>
 <translation id="5080899604429810481">جزيرة سانت مارتن</translation>
+<translation id="5115661695221894994"><ph name="START_PARAGRAPH" />انتهت صلاحية طلبك لإثبات ملكية بريدك الإلكتروني وتحديثه أو سبق أن تمّ استخدام الرابط.<ph name="END_PARAGRAPH" /></translation>
 <translation id="5143657419516597442">سانت لوسیا</translation>
 <translation id="521218078240459724">‎@string/app_name</translation>
 <translation id="5241732101105320538">إثبات ملكية بريدك الإلكتروني</translation>
@@ -224,13 +246,15 @@
 <translation id="5323041129469627535">عُمان</translation>
 <translation id="5326139833547026317">الجزر الكاريبية الهولندية</translation>
 <translation id="5347459868860672391">عنوان البريد الإلكتروني المحدّث</translation>
-<translation id="5403395913830260677">تسجيل الدخول عبر Twitter</translation>
+<translation id="5397737236938796917">لقد سجّلت الخروج بنجاح.</translation>
+<translation id="5406620662929585965">تسجيل الدخول عبر رقم الهاتف</translation>
 <translation id="5407010562344541906">رقم الهاتف</translation>
 <translation id="5409861738809250803">لديك حساب حاليًا</translation>
 <translation id="5410341463946781720">تايلاند</translation>
 <translation id="5443669846203963095">سياسة الخصوصية</translation>
 <translation id="5444635161362535036">ليشتنشتاين</translation>
 <translation id="5483706910421209104">تعديل الاسم</translation>
+<translation id="5487696047685227891">تمّت إزالة الجهاز أو التطبيق كخطوة مصادقة ثانية.</translation>
 <translation id="5490651768073507833">حاوِل فتح الرابط باستخدام الجهاز أو المتصفّح نفسه الذي استخدمته عند بدء عملية تسجيل الدخول.</translation>
 <translation id="5524360735013196510">هولندا</translation>
 <translation id="5528189843379142883">غينيا الاستوائية</translation>
@@ -254,7 +278,7 @@
 <translation id="5699028034244995851">يجب إدخال عنوان بريدك الإلكتروني للمتابعة</translation>
 <translation id="5701178667798108817">إثبات ملكية رقم هاتفك</translation>
 <translation id="5715637701147651513">ليبريا</translation>
-<translation id="5755179287528310939">ثمة حساب يستخدم عنوان البريد الإلكتروني هذا.</translation>
+<translation id="5747263508495256858">تسجيل الخروج</translation>
 <translation id="5771034676910614239">مدغشقر</translation>
 <translation id="5818634293686963864">كازاخستان</translation>
 <translation id="5829301468800336085">جارٍ تسجيل الدخول...</translation>
@@ -273,15 +297,20 @@
 <translation id="6032262985756512833">أدخل الرمز المكوّن من <ph name="STRING" /> رقم الذي أرسلناه إلى</translation>
 <translation id="6044396095102058216">تم استخدام رقم الهاتف هذا لعدد كبير جدًا من المرات</translation>
 <translation id="6083089720215618333">لا يتطابق عنوان البريد الإلكتروني الذي تم توفيره مع العنوان المستخدَم في جلسة تسجيل الدخول الحالية.</translation>
-<translation id="6113531938704280909">إلغاء ربط الحساب</translation>
+<translation id="6091051069256411999">Twitter</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />يُرجى تسجيل الدخول إلى <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6132202686885223981">التأكّد من توفّر مساحة فارغة في البريد الوارد أو من عدم حدوث أي مشاكل أخرى في إعدادات البريد الوارد</translation>
+<translation id="6135589730599211649">حدّد العميل نطاقًا زمنيًا غير صالح.</translation>
+<translation id="6143147250106939258">لقد تخطّيت حصة هذه العملية. يُرجى إعادة المحاولة لاحقًا.</translation>
 <translation id="6189573836664806798">باراغواي</translation>
 <translation id="6192657410634245771">الجزائر</translation>
 <translation id="6213969168046789596">لقد أدخلت كلمة مرور غير صحيحة لمرات كثيرة جدًا. يُرجى إعادة المحاولة بعد بضع دقائق.</translation>
 <translation id="6216759405419177713">جزيرة نورفولك</translation>
 <translation id="6245066275978703471">تمّ التحقّق تلقائيًا من رقم الهاتف.</translation>
-<translation id="6283536862756552051">لتغيير كلمة المرور، يجب أولاً إدخال كلمة المرور الحالية.</translation>
-<translation id="6299890279889400823">رجوع</translation>
+<translation id="6269083314054226194">حدث خطأ في الشبكة، يُرجى التحقّق من اتصال الإنترنت.</translation>
+<translation id="6295157125625453859">اكتملت عملية إثبات الملكية!</translation>
 <translation id="6316446940976157217">الهند</translation>
 <translation id="6327723482938582895">بنين</translation>
 <translation id="6338643731889005578">متابعة</translation>
@@ -330,27 +359,33 @@
 <translation id="6921505896641453739">بريد إلكتروني</translation>
 <translation id="6929813273561975780">التالي</translation>
 <translation id="6951302238647056860">لم يعد هذا الرمز صالحًا</translation>
-<translation id="6976724207780605356">تسجيل الدخول عبر Facebook</translation>
+<translation id="6961220857430789248">تمّ إرسال رسالة إلكترونية لتسجيل الدخول تتضمّن تعليمات إضافية إلى <ph name="STRING" />. يُرجى التحقق من بريدك الإلكتروني لإكمال عملية تسجيل الدخول.</translation>
 <translation id="6984204927251307445">تأكيد البريد الإلكتروني</translation>
 <translation id="6999773882165218263">الاسم الأول واسم العائلة</translation>
 <translation id="7012506961150923116">غرينادا</translation>
 <translation id="7024571478138322659">الصحراء الغربية</translation>
+<translation id="7025117765722694556">لا يمكن تنفيذ الطلب في حالة النظام الحالية.</translation>
 <translation id="7062299334696934251">حدث خطأ غير معروف.</translation>
 <translation id="7064251114893721966">لقد سبق أن استخدمت <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> لتسجيل الدخول. يُرجى إدخال كلمة المرور لهذا الحساب.</translation>
+<translation id="7085136866191400000">تمّ إرسال رسالة إلكترونية لتسجيل الدخول</translation>
 <translation id="7089485669419398254">أيرلندا</translation>
 <translation id="7093343209860483088">جمهورية الكونغو الديمقراطية</translation>
 <translation id="7118080999850002096">استرداد كلمة المرور</translation>
 <translation id="7150917293543492988">جمهورية الكونغو</translation>
+<translation id="7157317431934821052">المورد الذي حاول العميل إنشاءه متوفّر مسبقًا.</translation>
 <translation id="7174424882502155514">المتابعة كضيف</translation>
 <translation id="7192078949090526171">سان مارينو</translation>
 <translation id="7197455001919474950">قبرص</translation>
 <translation id="7198563013006562060">جزر سليمان</translation>
 <translation id="7207660930894629055">هل تريد المتابعة باستخدام <ph name="USER_EMAIL" />؟</translation>
+<translation id="720983450833499456">لمتابعة تسجيل الدخول باستخدام حساب <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> على هذا الجهاز، يجب استرداد كلمة المرور.</translation>
 <translation id="7223410082658239002">جزر المالديف</translation>
 <translation id="7254028881697834212">ساو تومي وبرينسيبي</translation>
 <translation id="7268827299582726485">تأكيد البريد الإلكتروني لإكمال عملية تسجيل الدخول</translation>
 <translation id="7272145663101316762">سلوفينيا</translation>
 <translation id="7280309713358692490">كوريا الجنوبية</translation>
+<translation id="7283725113395426048">حدث تعارض في التزامن، مثلاً تعارض في الكتابة والتعديل والقراءة.</translation>
+<translation id="7290147808482957603">لم يطبّق الخادم طريقة واجهة برمجة التطبيقات.</translation>
 <translation id="7291567990403335374">ليسوتو</translation>
 <translation id="7291656724505689727">تسجيل الدخول عبر رقم الهاتف</translation>
 <translation id="7320029088567935126">حاول إثبات ملكية بريدك الإلكتروني مجددًا</translation>
@@ -370,8 +405,10 @@
         لتسجيل الدخول. يُرجى إدخال كلمة المرور لهذا الحساب.</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{كلمة المرور ليست قوية بما فيه الكفاية. يجب استخدام رقم واحد (<ph name="PH_1" />) على الأقل ومزيج من الأحرف والأرقام}zero{كلمة المرور ليست قوية بما فيه الكفاية. يجب استخدام <ph name="PH_1" /> رقم على الأقل ومزيج من الأحرف والأرقام}two{كلمة المرور ليست قوية بما فيه الكفاية. يجب استخدام رقمين (<ph name="PH_1" />) على الأقل ومزيج من الأحرف والأرقام}few{كلمة المرور ليست قوية بما فيه الكفاية. يجب استخدام <ph name="PH_1" /> أرقام على الأقل ومزيج من الأحرف والأرقام}many{كلمة المرور ليست قوية بما فيه الكفاية. يجب استخدام <ph name="PH_1" /> رقمًا على الأقل ومزيج من الأحرف والأرقام}other{كلمة المرور ليست قوية بما فيه الكفاية. يجب استخدام <ph name="PH_1" /> رقم على الأقل ومزيج من الأحرف والأرقام}}</translation>
 <translation id="7699755204074920022">زيمبابوي</translation>
+<translation id="7746977132739352062">تعذّرت مصادقة الطلب بسبب فقدان رمز OAuth المميّز أو استخدام رمز غير صالح أو منتهي الصلاحية.</translation>
 <translation id="7782885946428624225">حدثت مشكلة أثناء إثبات ملكية رقم هاتفك</translation>
 <translation id="7796914496604415892">تمّ رصد جهاز أو متصفّح جديد</translation>
+<translation id="786166109137986817">تسجيل الدخول إلى <ph name="DISPLAY_NAME" /></translation>
 <translation id="7868540442111212282">جمهورية التشيك</translation>
 <translation id="7874584525604421364">توفالو</translation>
 <translation id="7926046652648626866">تسجيل الدخول باستخدام GitHub</translation>
@@ -426,6 +463,7 @@
 <translation id="868894957204919930">برمودا</translation>
 <translation id="8694271531070467981">نيوي</translation>
 <translation id="8745311627715763145">غوادلوب</translation>
+<translation id="8752467400269476994">ضبط العميل إعدادات مشروع غير صالحة.</translation>
 <translation id="8760480624706028033">الأراضي الفلسطينية‬</translation>
 <translation id="8770276147008360348">سلوفاكيا</translation>
 <translation id="877434849857020571">غيرنسي</translation>
@@ -438,19 +476,24 @@
 <translation id="8893950153780006385">ماليزيا</translation>
 <translation id="8895840173743975193">جزر كوكوس [كيلينغ]</translation>
 <translation id="8916080112145514151">لربط حسابك على <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" />، يجب فتح الرابط على الجهاز نفسه حيث سجّلت الدخول في البداية. ولإلغاء عملية الربط، يُرجى النقر على "متابعة" لتسجيل الدخول على هذا الجهاز.</translation>
+<translation id="8920674952994839257">إعادة المحاولة</translation>
 <translation id="8939353296336237380">لقد بدأت هذه العملية بهدف ربط حسابك على <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> ببريدك الإلكتروني إلّا أنك فتحت الرابط على جهاز آخر لم يتمّ تسجيل الدخول عليه.</translation>
 <translation id="8971555482255213064">إعادة إرسال الرمز بعد 0:<ph name="PH_1" /></translation>
 <translation id="8984161590699631096">المغرب</translation>
+<translation id="8994098794339484800">في حال عدم التعرّف على هذا الجهاز، قد يكون أحد المستخدمين يحاول الوصول إلى حسابك. ننصحك <ph name="START_LINK" />بتغيير كلمة المرور على الفور<ph name="END_LINK" />.</translation>
 <translation id="900153878296575829">بنغلاديش</translation>
 <translation id="9022632332691561239">رقم هاتف</translation>
 <translation id="9028063588419847334">فنلندا</translation>
 <translation id="9078135685219203661">الإمارات العربية المتحدة</translation>
+<translation id="9121203582272050974">تمّ إثبات ملكية عنوان بريدك الإلكتروني وتغييره</translation>
 <translation id="9156150178611681179">كلمة المرور</translation>
 <translation id="9168877696443530714">جمهورية أفريقيا الوسطى</translation>
 <translation id="9186194643192393179">كوراساو</translation>
+<translation id="9193130710600355008">لقد حظرنا كلّ الطلبات من هذا الجهاز بسبب نشاط غير معتاد. يُرجى إعادة المحاولة لاحقًا.</translation>
 <translation id="919456844206936371">تونس</translation>
 <translation id="9209678713072395487">تم تغيير كلمة المرور</translation>
 <translation id="954276184636809129">اليونان</translation>
+<translation id="959388308828818789">تمّت إزالة العامل الثاني</translation>
 <translation id="965930633376049617">أنغولا</translation>
 <translation id="988087302893519488">الكويت</translation>
 <translation id="994914101700264849">لا يتطابق البريد الإلكتروني وكلمة المرور اللذين أدخلتهما</translation>

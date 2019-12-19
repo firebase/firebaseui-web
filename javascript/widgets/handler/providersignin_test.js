@@ -21,7 +21,6 @@ goog.setTestOnly('firebaseui.auth.widget.handler.ProviderSignInTest');
 
 goog.require('firebaseui.auth.AuthUI');
 goog.require('firebaseui.auth.AuthUIError');
-goog.require('firebaseui.auth.CredentialHelper');
 goog.require('firebaseui.auth.PendingEmailCredential');
 goog.require('firebaseui.auth.acClient');
 goog.require('firebaseui.auth.idp');
@@ -64,18 +63,20 @@ var signInOptions;
 /**
  * Sets up the provider sign-in page and verifies it was rendered correctly.
  * @param {!firebaseui.auth.widget.Config.SignInFlow} flow The sign-in flow.
- * @param {boolean=} opt_ignoreConfig Whether to ignore config setting assuming
+ * @param {boolean=} ignoreConfig Whether to ignore config setting assuming
  *     it was set externally.
- * @param {boolean=} opt_enableOneTap Whether One-Tap sign-in is enabled.
- * @param {boolean=} opt_disableAdditionalScopes Whether to disable additional
+ * @param {boolean=} enableOneTap Whether One-Tap sign-in is enabled.
+ * @param {boolean=} disableAdditionalScopes Whether to disable additional
  *     scopes.
+ * @param {string=} email The optional email to prefill.
  */
 function setupProviderSignInPage(
-    flow, opt_ignoreConfig, opt_enableOneTap, opt_disableAdditionalScopes) {
+    flow, ignoreConfig = false, enableOneTap = false,
+    disableAdditionalScopes = false, email = undefined) {
   // Test provider sign-in handler.
   signInOptions = [{
     'provider': 'google.com',
-    'scopes': !!opt_disableAdditionalScopes ? [] : ['googl1', 'googl2'],
+    'scopes': !!disableAdditionalScopes ? [] : ['googl1', 'googl2'],
     'customParameters': {'prompt': 'select_account'},
     'authMethod': 'https://accounts.google.com',
     'clientId': '1234567890.apps.googleusercontent.com'
@@ -87,18 +88,19 @@ function setupProviderSignInPage(
     'scopes': ['scope1', 'scope2'],
     'customParameters': {'param': 'value'},
   }];
-  if (!opt_ignoreConfig) {
+  if (!ignoreConfig) {
     app.setConfig({
       'signInOptions': signInOptions,
       'signInFlow': flow,
-      'credentialHelper': !!opt_enableOneTap ?
-          firebaseui.auth.CredentialHelper.GOOGLE_YOLO :
-          firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM
+      'credentialHelper': !!enableOneTap ?
+          firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO :
+          firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM
     });
   }
   // Set sign-in options.
   app.updateConfig('signInOptions', signInOptions);
-  firebaseui.auth.widget.handler.handleProviderSignIn(app, container);
+  firebaseui.auth.widget.handler.handleProviderSignIn(
+      app, container, undefined, email);
   assertProviderSignInPage();
   buttons = getIdpButtons();
   assertEquals(signInOptions.length, buttons.length);
@@ -718,6 +720,62 @@ function testHandleProviderSignIn_popup_success() {
 }
 
 
+function testHandleProviderSignIn_popup_success_prefilledEmail() {
+  // Test successful provider sign-in with popup with prefilled email.
+  // Add additional scopes to test that they are properly passed to the sign-in
+  // method.
+  const prefilledEmail = federatedAccount.getEmail();
+  const expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
+  expectedProvider.addScope('googl1');
+  expectedProvider.addScope('googl2');
+  expectedProvider.setCustomParameters({
+    'prompt': 'select_account',
+    // The prefilled email should be passed to IdP as login_hint.
+    'login_hint': prefilledEmail,
+  });
+  // Render the provider sign-in page and confirm it was rendered correctly.
+  setupProviderSignInPage('popup', false, false, false, prefilledEmail);
+  // Click the first button, which is Google IdP.
+  goog.testing.events.fireClickSequence(buttons[0]);
+
+  // User should be signed in.
+  testAuth.setUser({
+    'email': federatedAccount.getEmail(),
+    'displayName': federatedAccount.getDisplayName()
+  });
+  const cred  = {
+    'providerId': 'google.com',
+    'accessToken': 'ACCESS_TOKEN'
+  };
+  // Sign in with popup triggered.
+  testAuth.assertSignInWithPopup(
+      [expectedProvider],
+      {
+        'user': testAuth.currentUser,
+        'credential': cred
+      });
+  // Sign out from internal instance and then sign in with passed credential to
+  // external instance.
+  return testAuth.process().then(function() {
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
+    return externalAuth.process();
+  }).then(function() {
+    // Pending credential and email should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    // User should be redirected to success URL.
+    testUtil.assertGoTo('http://localhost/home');
+  });
+}
+
+
 function testHandleProviderSignIn_popup_success_oidc() {
   // Test successful OIDC provider sign-in with popup.
   // Add additional scopes to test that they are properly passed to the sign-in
@@ -1086,10 +1144,12 @@ function testHandleProviderSignIn_reset() {
   // Test reset after provider sign-in handler called.
   firebaseui.auth.widget.handler.handleProviderSignIn(app, container);
   assertProviderSignInPage();
+  testAuth.assertSignOut([]);
   // Reset current rendered widget page.
   app.reset();
   // Container should be cleared.
   assertComponentDisposed();
+  return testAuth.process();
 }
 
 
@@ -1265,7 +1325,7 @@ function testHandleProviderSignIn_acCallbacks_unavailable() {
   // Set accountchooser.com callbacks.
   app.setConfig({
     'signInOptions': signInOptions,
-    'credentialHelper': firebaseui.auth.CredentialHelper.NONE,
+    'credentialHelper': firebaseui.auth.widget.Config.CredentialHelper.NONE,
     'callbacks': {
       'accountChooserResult': accountChooserResultCallback,
       'accountChooserInvoked': accountChooserInvokedCallback
@@ -1660,6 +1720,27 @@ function testHandleProviderSignIn_signInWithIdp() {
 }
 
 
+function testHandleProviderSignIn_signInWithIdp_redirect_prefilledEmail() {
+  // Test provider sign-in handler when sign in with IdP is clicked with
+  // prefilled email.
+  const prefilledEmail = 'user@example.com';
+  // Add additional scopes to test that they are properly passed to the sign-in
+  // method.
+  const expectedProvider = getExpectedProviderWithScopes({
+    'prompt': 'select_account',
+    // The prefilled email should be passed to IdP as login_hint.
+    'login_hint': prefilledEmail,
+  });
+  // Render the provider sign-in page and confirm it was rendered correctly.
+  setupProviderSignInPage('redirect', false, false, false, prefilledEmail);
+  // Click the first button, which is sign in with Google button.
+  goog.testing.events.fireClickSequence(buttons[0]);
+
+  testAuth.assertSignInWithRedirect([expectedProvider]);
+  return testAuth.process();
+}
+
+
 function testHandleProviderSignIn_signInWithIdp_cordova() {
   // Test provider sign-in handler when sign in with IdP clicked in a Cordova
   // environment.
@@ -1775,7 +1856,7 @@ function testHandleProviderSignIn_signInWithEmail_acDisabled() {
   // Disable any credential helper.
   app.setConfig({
     'signInOptions': signInOptions,
-    'credentialHelper': firebaseui.auth.CredentialHelper.NONE,
+    'credentialHelper': firebaseui.auth.widget.Config.CredentialHelper.NONE,
     'callbacks': {
       'uiShown': uiShownCallback
     }
@@ -1792,6 +1873,183 @@ function testHandleProviderSignIn_signInWithEmail_acDisabled() {
   assertEquals(uiShownCallbackCount, 0);
   // Force UI shown callback should be set to false.
   assertFalse(firebaseui.auth.widget.handler.common.acForceUiShown_);
+}
+
+
+function testHandleProviderSignIn_signInWithEmail_prefilledEmail() {
+  // Test provider sign-in handler when sign in with email is clicked with
+  // prefilled email.
+  // Disable any credential helper.
+  app.setConfig({
+    'signInOptions': signInOptions,
+    'credentialHelper': firebaseui.auth.widget.Config.CredentialHelper.NONE,
+  });
+  const prefilledEmail = 'user@example.com';
+  // Render provider sign-in using previous config.
+  setupProviderSignInPage('redirect', true, false, false, prefilledEmail);
+  // Click the third button, which is sign in with email button.
+  goog.testing.events.fireClickSequence(buttons[2]);
+
+  testAuth.assertFetchSignInMethodsForEmail(
+        ['user@example.com'],
+        []);
+  return testAuth.process().then(() => {
+    // Password sign-up page should be shown.
+    assertPasswordSignUpPage();
+    // The prefilled email should be populated in the email entry.
+    assertEquals(prefilledEmail, getEmailElement().value);
+    return testAuth.process();
+  });
+}
+
+
+function testHandleProviderSignIn_signInHint_signInWithEmail() {
+  // Test sign in with email in provider sign-in handler with signInHint.
+  const prefilledEmail = 'user@example.com';
+  app.startWithSignInHint(
+      container,
+      {
+        signInOptions: ['google.com', 'password'],
+        credentialHelper: firebaseui.auth.widget.Config.CredentialHelper.NONE,
+      },
+      {
+        emailHint: prefilledEmail,
+      });
+
+  assertProviderSignInPage();
+  const buttons = getIdpButtons();
+  assertEquals(2, buttons.length);
+  assertEquals('google.com', goog.dom.dataset.get(buttons[0], 'providerId'));
+  assertEquals('password', goog.dom.dataset.get(buttons[1], 'providerId'));
+
+  // Click the sign in with email button.
+  goog.testing.events.fireClickSequence(buttons[1]);
+
+  testAuth.assertFetchSignInMethodsForEmail(
+        ['user@example.com'],
+        ['password']);
+  return testAuth.process().then(() => {
+    // Password sign-in page should be shown.
+    assertPasswordSignInPage();
+    // The prefilled email should be populated in the email entry.
+    assertEquals(prefilledEmail, getEmailElement().value);
+    // Clean up the AuthUI instance.
+    testAuth.assertSignOut([]);
+    app.delete();
+    return testAuth.process();
+  });
+}
+
+
+function testHandleProviderSignIn_signInHint_signInWithIdp_popup() {
+  // Test sign in with IdP popup mode in provider sign-in handler with
+  // signInHint.
+  const prefilledEmail = 'user@example.com';
+  const expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
+  expectedProvider.setCustomParameters({
+    // The prefilled email should be passed to IdP as login_hint.
+    'login_hint': prefilledEmail,
+  });
+
+  app.startWithSignInHint(
+      container,
+      {
+        signInOptions: ['google.com', 'password'],
+        credentialHelper: firebaseui.auth.widget.Config.CredentialHelper.NONE,
+        signInFlow: 'popup',
+      },
+      {
+        emailHint: prefilledEmail,
+      });
+
+  assertProviderSignInPage();
+  const buttons = getIdpButtons();
+  assertEquals(2, buttons.length);
+  assertEquals('google.com', goog.dom.dataset.get(buttons[0], 'providerId'));
+  assertEquals('password', goog.dom.dataset.get(buttons[1], 'providerId'));
+
+  // Click the sign in with IdP button.
+  goog.testing.events.fireClickSequence(buttons[0]);
+
+  // User should be signed in.
+  testAuth.setUser({
+    'email': prefilledEmail,
+    'displayName': federatedAccount.getDisplayName()
+  });
+  const cred  = {
+    'providerId': 'google.com',
+    'accessToken': 'ACCESS_TOKEN'
+  };
+  // Sign in with popup triggered.
+  testAuth.assertSignInWithPopup(
+      [expectedProvider],
+      {
+        'user': testAuth.currentUser,
+        'credential': cred
+      });
+  // Sign out from internal instance and then sign in with passed credential to
+  // external instance.
+  return testAuth.process().then(function() {
+    testAuth.assertSignOut([]);
+    return testAuth.process();
+  }).then(function() {
+    externalAuth.assertUpdateCurrentUser(
+        [testAuth.currentUser],
+        function() {
+          externalAuth.setUser(testAuth.currentUser);
+        });
+    return externalAuth.process();
+  }).then(function() {
+    // Pending credential and email should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    // User should be redirected to success URL.
+    testUtil.assertGoTo('http://localhost/home');
+
+    // Clean up the AuthUI instance.
+    testAuth.assertSignOut([]);
+    app.delete();
+    return testAuth.process();
+  });
+}
+
+
+function testHandleProviderSignIn_signInHint_signInWithIdp_redirect() {
+  // Test sign in with IdP redirect mode in provider sign-in handler with
+  // signInHint.
+  const prefilledEmail = 'user@example.com';
+  const expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
+  expectedProvider.setCustomParameters({
+    // The prefilled email should be passed to IdP as login_hint.
+    'login_hint': prefilledEmail,
+  });
+
+  app.startWithSignInHint(
+      container,
+      {
+        signInOptions: ['google.com', 'password'],
+        credentialHelper: firebaseui.auth.widget.Config.CredentialHelper.NONE,
+      },
+      {
+        emailHint: prefilledEmail,
+      });
+
+  assertProviderSignInPage();
+  const buttons = getIdpButtons();
+  assertEquals(2, buttons.length);
+  assertEquals('google.com', goog.dom.dataset.get(buttons[0], 'providerId'));
+  assertEquals('password', goog.dom.dataset.get(buttons[1], 'providerId'));
+
+  // Click the sign in with IdP button.
+  goog.testing.events.fireClickSequence(buttons[0]);
+
+  testAuth.assertSignInWithRedirect([expectedProvider]);
+  return testAuth.process().then(() => {
+    // Clean up the AuthUI instance.
+    testAuth.assertSignOut([]);
+    app.delete();
+    return testAuth.process();
+  });
 }
 
 
@@ -1833,7 +2091,8 @@ function testHandleProviderSignIn_accountChooserSelect_appChange() {
     'siteName': 'Test Site',
     'popupMode': false,
     'tosUrl': 'http://localhost/tos',
-    'credentialHelper': firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM
   });
   app.getExternalAuth().runAuthChangeHandler();
   // Callback page should be rendered.
@@ -1889,9 +2148,13 @@ function testHandleProviderSignIn_accountChooserSelect_appChange() {
     // app2.
     assertPasswordSignInPage();
     assertTrue(firebaseui.auth.storage.isRememberAccount(app2.getAppId()));
-    // Uninstall internal and external auth instances.
-    app2.getAuth().uninstall();
-    app2.getExternalAuth().uninstall();
+    app2.getAuth().assertSignOut([]);
+    app2.delete();
+    return testAuth2.process();
+  }).then(function() {
+    // Uninstall internal auth instances.
+    testAuth2.uninstall();
+    return testAuth.process();
   });
 }
 

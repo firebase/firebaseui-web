@@ -12,11 +12,14 @@
 <translation id="1163771673786684213">Filipinai</translation>
 <translation id="1170304454812139475">Rumunija</translation>
 <translation id="1194565221977667376">Pietų Džordžijos ir Pietų Sandvičo Salos</translation>
-<translation id="124367247840231378">Gerai</translation>
+<translation id="1233977465587641672">Neatkuriamas duomenų praradimas arba jų sugadinimas.</translation>
 <translation id="1244846213930750436">Italija</translation>
 <translation id="1268266284642694018">Libanas</translation>
 <translation id="1294742657282291237">Gajana</translation>
 <translation id="1297168472480293352">Gvatemala</translation>
+<translation id="1307255433239736397"><ph name="START_PARAGRAPH" />Kažkas nepavyko šalinant antrąjį faktorių.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Pabandykite jį dar kartą pašalinti. Jei nepavyks, kreipkitės į palaikymo komandą pagalbos.<ph name="END_PARAGRAPH" /></translation>
+<translation id="1310034618729602982">Pabandykite dar kartą atnaujinti savo el. pašto adresą</translation>
+<translation id="1312824004897469797">Įvyko tinklo klaida. Bandykite dar kartą vėliau.</translation>
 <translation id="1315809131562953678">Įveskite tinkamą telefono numerį</translation>
 <translation id="1335716056288807013">Paliesdami „Patvirtinti“ nurodote, kad sutinkate su <ph name="START_LINK_1" />paslaugų teikimo sąlygomis<ph name="END_LINK" /> ir <ph name="START_LINK_2" />privatumo politika<ph name="END_LINK" />. Gali būti išsiųstas SMS pranešimas, taip pat – taikomi pranešimų ir duomenų įkainiai.</translation>
 <translation id="137210131544215127">Įveskite slaptažodį</translation>
@@ -27,6 +30,7 @@
 <translation id="1479035434297790822">Iš jūsų IP adreso siunčiama per daug paskyros užklausų. Bandykite dar kartą po kelių minučių.</translation>
 <translation id="1483249363694224399">Šri Lanka</translation>
 <translation id="1507995441600689506">Nuo šiol galite prisijungti naudodami naująją paskyrą</translation>
+<translation id="1544981664986460902">Kliento programa nurodė netinkamą argumentą.</translation>
 <translation id="1575848116712334589">Čadas</translation>
 <translation id="1632452818656545062">Paliesdami „<ph name="PH_1" />“ nurodote, kad sutinkate su <ph name="TOS" /> ir <ph name="PP" />. Gali būti išsiųstas SMS pranešimas, taip pat – taikomi pranešimų ir duomenų įkainiai.</translation>
 <translation id="1653501608290591291">Baltarusija</translation>
@@ -62,6 +66,7 @@
 <translation id="2206856445831770486">Github</translation>
 <translation id="2223717216014247341">Privatumo politika</translation>
 <translation id="2224563296468523455">Guamas</translation>
+<translation id="2245182894886860848">Baigėsi išteklių kvota arba pasiektas įvertinimo apribojimas.</translation>
 <translation id="2249420035688424170">Kroatija</translation>
 <translation id="2251583471831926217">Lietuva</translation>
 <translation id="227405248692044138">Malta</translation>
@@ -71,21 +76,27 @@
 <translation id="2324942959480650701">Svečias</translation>
 <translation id="2331781584136059536">Gana</translation>
 <translation id="2338909515537249568">Naršyklė, kurią naudojate, nepalaiko žiniatinklio saugyklos. Bandykite dar kartą naudodami kitą naršyklę.</translation>
+<translation id="2342152898808240937">Kliento programa atšaukė užklausą.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Keičiant prisijungimo el. pašto adresą į pirminį kilo problema.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Jei bandysite dar kartą ir vis tiek nepavyks nustatyti el. pašto adreso iš naujo, bandykite prašyti administratoriaus pagalbos.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Bahreinas</translation>
+<translation id="2392247362473363900">Vidinė serverio klaida.</translation>
 <translation id="2405828009195143258">Iranas</translation>
+<translation id="2414459877074534554">GitHub</translation>
 <translation id="244437093285883777">Tikrinama, ar nesate robotas...</translation>
 <translation id="2448227725017851570">Šis kodas nebegalioja</translation>
 <translation id="2448487988481516351">Naujoji Kaledonija</translation>
 <translation id="2451742558284013472">Monakas</translation>
 <translation id="2460064915291012298">Seišeliai</translation>
+<translation id="2490672522100125425"><ph name="START_STRONG" /><ph name="FACTOR_ID" /> <ph name="PHONE_NUMBER" /><ph name="END_STRONG" /> kaip antrasis tapatumo nustatymo žingsnis buvo pašalintas.</translation>
 <translation id="2494962141967044042">Esamo anoniminio naudotojo naujovinti nepavyko. Neanoniminiai prisijungimo duomenys jau susieti su kito naudotojo paskyra.</translation>
 <translation id="2541179214468543429">Įvedėte netinkamą slaptažodį per daug kartų. Po kelių minučių bandykite dar kartą.</translation>
 <translation id="2561835578785502516">Jūsų užklausa pakeisti slaptažodį nebegalioja arba nuoroda jau buvo panaudota</translation>
+<translation id="2562498793334241360">Nuo šiol galite prisijungti naudodami naująjį el. pašto adresą <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />.</translation>
 <translation id="2581514546525533462">Pateiktas šalies kodas nepalaikomas.</translation>
 <translation id="2600950452451016107">patikrinkite, ar nurodėte tikslų el. pašto adresą;</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">Kambodža</translation>
+<translation id="2614081868476050089">Paslauga nepasiekiama.</translation>
 <translation id="2616650714309312732">Portugalija</translation>
 <translation id="2619590123270932385">Prancūzijos Gviana</translation>
 <translation id="2621854044487969847">Didžiosios Britanijos Mergelių Salos</translation>
@@ -101,19 +112,21 @@
 <translation id="2741235824871026219">Patvirtinti</translation>
 <translation id="2752984808025184019">Pietų Afrikos Respublika</translation>
 <translation id="2760636260031093254">Norėdami tęsti įveskite el. pašto adresą</translation>
+<translation id="276938411216176478">Naudotojo paskyrą išjungė administratorius.</translation>
 <translation id="2782685789517131804">Prisijungimo el. laiškas su papildomomis instrukcijomis išsiųstas adresu <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Patikrinkite el. paštą, kad užbaigtumėte prisijungimą.</translation>
 <translation id="2828509010894808185">Kurti paskyrą</translation>
 <translation id="2834770837848769530">Afganistanas</translation>
 <translation id="2884525438023347369">Paliesdami „<ph name="BTN" />“ nurodote, kad sutinkate su <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">Kanada</translation>
 <translation id="2911018261311455240">Danija</translation>
+<translation id="2949732021187449522">Užklausos galiojimo laikas baigėsi.</translation>
 <translation id="295270254328846278">Austrija</translation>
 <translation id="2976748949054245370">El. paštai nesutampa</translation>
 <translation id="29947009417147243">Pietų Sudanas</translation>
 <translation id="3040586343252524572">Jemenas</translation>
 <translation id="3045244039436637116">Bisau Gvinėja</translation>
 <translation id="3046745817056752783">Saudo Arabija</translation>
-<translation id="311953035679824832">Programos logotipas</translation>
+<translation id="3083819527012413063">Prie „<ph name="APP_NAME" />“ pridėtas papildomas saugos veiksnys</translation>
 <translation id="3122584863645047144">Jungtinių Valstijų Mergelių Salos</translation>
 <translation id="3141549453511344986">Prisijungti nurodant telefono numerį</translation>
 <translation id="3147551458884186429">Indonezija</translation>
@@ -121,6 +134,7 @@
 <translation id="3164676761565983157">Venesuela</translation>
 <translation id="3170526549630869494">Kyla problemų prisijungiant?</translation>
 <translation id="3204914819635733576">Patvirtinkite savo tapatybę</translation>
+<translation id="3215050409577090361">Autentifikuojant jūsų užklausą kilo problema. Dar kartą nueikite URL adresu, kuris peradresavo jus į šį puslapį, ir iš naujo pradėkite autentifikavimo procesą.</translation>
 <translation id="3216149523061905579">Dominika</translation>
 <translation id="3223688630903046698">Naujas slaptažodis</translation>
 <translation id="3250864391349648273">Gabonas</translation>
@@ -138,6 +152,7 @@
 <translation id="3434621886769337032">Gambija</translation>
 <translation id="3472358534605257432">Atlikta</translation>
 <translation id="3479685026618611556">Atšaukti</translation>
+<translation id="3481131180097895739">Nežinoma serverio klaida.</translation>
 <translation id="3487364398525389372">Įveskite paskyroje naudojamą vardą</translation>
 <translation id="3521753471343796628">Irakas</translation>
 <translation id="354888504916863713">Vietnamas</translation>
@@ -149,13 +164,15 @@
 <translation id="3605933028246642593">Nepalas</translation>
 <translation id="3608140835232496799">Tokelau</translation>
 <translation id="3620185428620643248">Pasirinkti tapatybės nustatymo paslaugų teikėjo prisijungimo duomenys nepalaikomi.</translation>
+<translation id="3658306886462996856">Su šiuo el. pašto adresu prisijungimo teikėjas nenurodytas, bandykite prisijungti su kitu el. pašto adresu.</translation>
+<translation id="3695180913983403205">Įveskite vardą ir pavardę.</translation>
 <translation id="3700097473356216716">Kolumbija</translation>
 <translation id="3736041829854387744">Burundis</translation>
 <translation id="3755663127769565780">Mauritanija</translation>
 <translation id="3813801701232240278">Twitter</translation>
 <translation id="3814740523815122846">Jūsų el. pašto adresas patvirtintas</translation>
 <translation id="3819556544383051267">Papua Naujoji Gvinėja</translation>
-<translation id="3831901810365396899">Išsaugoti</translation>
+<translation id="3828991952827504549">Nurodytas išteklius nerastas.</translation>
 <translation id="3862053977934420187">Patvirtinama…</translation>
 <translation id="3898029444496274961">Prisijungti</translation>
 <translation id="3905423743526704083">Rytų Timoras</translation>
@@ -188,6 +205,7 @@
 <translation id="4440507149645221385">Telefono numeris</translation>
 <translation id="4450602713221237198">Siųsti iš naujo</translation>
 <translation id="4498504413765490964">Hondūras</translation>
+<translation id="450385255996536115">Baigėsi operacijai skirtas laikas.</translation>
 <translation id="4515732781724470190">Nigeris</translation>
 <translation id="4521614244485847733">Šis el. pašto adresas neatitinka esamos paskyros</translation>
 <translation id="4556476996891737119">Jordanija</translation>
@@ -199,6 +217,7 @@
 <translation id="4723701728629289714">Izraelis</translation>
 <translation id="4725154639671888461">Įvyko klaida</translation>
 <translation id="4751937685196678080">Numeris</translation>
+<translation id="4769553102874508676">Kliento programai nesuteiktas reikiamas leidimas.</translation>
 <translation id="4773060157545352832">Atlikite reikiamus „reCAPTCHA“ veiksmus</translation>
 <translation id="4775051289386800916">Nikaragva</translation>
 <translation id="4783400389150493171">Burkina Fasas</translation>
@@ -207,27 +226,32 @@
 <translation id="4871106926303956169">Terkso ir Kaikoso Salos</translation>
 <translation id="4877597386645466815">Siųsti kodą iš naujo po <ph name="TIME_REMAINING" /></translation>
 <translation id="4915406999072654369">Patikrinkite el. paštą</translation>
+<translation id="4923375331439013137">Nepavyko pašalinti antrojo faktoriaus</translation>
 <translation id="4955175001894453989">Pridėti slaptažodį</translation>
 <translation id="496366313824211679">Salvadoras</translation>
+<translation id="4982483807073820954">Norėdami pakeisti paskyros slaptažodį, turite prisijungti dar kartą.</translation>
 <translation id="4991626049082973728">Serbija</translation>
 <translation id="4991892293325936102">Belizas</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" />skirtas <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /><ph name="END_PARAGRAPH" /></translation>
 <translation id="5059105734231232362">Norint vykdant šį procesą sėkmingai prijungti <ph name="IDP_DISPLAY_NAME" /> paskyrą naudojant šį el. laišką, turite atidaryti nuorodą tame pačiame įrenginyje ar naršyklėje.</translation>
 <translation id="5080084639513001393">Švedija</translation>
 <translation id="5080899604429810481">Šv. Martyno sala</translation>
+<translation id="5115661695221894994"><ph name="START_PARAGRAPH" />Jūsų užklausa patvirtinti ir atnaujinti el. pašto adresą nebegalioja arba nuoroda jau buvo panaudota.<ph name="END_PARAGRAPH" /></translation>
 <translation id="5143657419516597442">Šv. Liucija</translation>
 <translation id="5241732101105320538">Patikrinkite el. paštą</translation>
 <translation id="5301108536112812420">Jūsų užklausa patvirtinti el. pašto adresą nebegalioja arba nuoroda jau buvo panaudota</translation>
 <translation id="5323041129469627535">Omanas</translation>
 <translation id="5326139833547026317">Karibų Nyderlandai</translation>
 <translation id="5347459868860672391">Atnaujintas el. pašto adresas</translation>
-<translation id="5403395913830260677">Prisijungti per „Twitter“</translation>
+<translation id="5397737236938796917">Dabar sėkmingai atsijungėte.</translation>
+<translation id="5406620662929585965">Prisijungti nurodant telefono numerį</translation>
 <translation id="5407010562344541906">Telefono numeris</translation>
 <translation id="5409861738809250803">Jūs jau turite paskyrą</translation>
 <translation id="5410341463946781720">Tailandas</translation>
 <translation id="5443669846203963095">Privatumo politika</translation>
 <translation id="5444635161362535036">Lichtenšteinas</translation>
 <translation id="5483706910421209104">Redaguoti pavadinimą</translation>
+<translation id="5487696047685227891">Įrenginys arba programa kaip antrasis tapatumo nustatymo žingsnis buvo pašalinti.</translation>
 <translation id="5490651768073507833">Bandykite atidaryti nuorodą naudodami tą patį įrenginį ar naršyklę, kur pradėjote prisijungimo procesą.</translation>
 <translation id="5524360735013196510">Nyderlandai</translation>
 <translation id="5528189843379142883">Pusiaujo Gvinėja</translation>
@@ -251,7 +275,7 @@
 <translation id="5699028034244995851">Norėdami tęsti įveskite el. pašto adresą</translation>
 <translation id="5701178667798108817">Patvirtinkite telefono numerį</translation>
 <translation id="5715637701147651513">Liberija</translation>
-<translation id="5755179287528310939">Šiuo el. pašto adresu jau užregistruota paskyra.</translation>
+<translation id="5747263508495256858">Atsijunkite</translation>
 <translation id="5771034676910614239">Madagaskaras</translation>
 <translation id="5818634293686963864">Kazachstanas</translation>
 <translation id="5829301468800336085">Prisijungiama...</translation>
@@ -270,15 +294,20 @@
 <translation id="6032262985756512833">Įveskite <ph name="STRING" /> skaitmenų kodą, kurį išsiuntėme jums</translation>
 <translation id="6044396095102058216">Šis telefono numeris panaudotas per daug kartų</translation>
 <translation id="6083089720215618333">Pateiktas el. pašto adresas neatitinka esamos prisijungimo sesijos informacijos.</translation>
-<translation id="6113531938704280909">Atsieti paskyrą</translation>
+<translation id="6091051069256411999">Twitter</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />Prisijunkite prie „<ph name="APP_NAME" />“ &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6132202686885223981">patikrinkite, ar gautiesiems skirta saugyklos vieta nepasibaigė arba kitas su gautųjų nustatymais susijusias problemas.</translation>
+<translation id="6135589730599211649">Kliento programa nurodė netinkamą intervalą.</translation>
+<translation id="6143147250106939258">Viršyta šiai operacijai skirta kvota. Bandykite dar kartą vėliau.</translation>
 <translation id="6189573836664806798">Paragvajus</translation>
 <translation id="6192657410634245771">Alžyras</translation>
 <translation id="6213969168046789596">Įvedėte netinkamą slaptažodį per daug kartų. Po kelių minučių bandykite dar kartą.</translation>
 <translation id="6216759405419177713">Norfolko Sala</translation>
 <translation id="6245066275978703471">Telefono numeris patvirtintas automatiškai</translation>
-<translation id="6283536862756552051">Norėdami pakeisti slaptažodį, pirmiausia turite įvesti dabartinį.</translation>
-<translation id="6299890279889400823">Atgal</translation>
+<translation id="6269083314054226194">Tinklo klaida: patikrinkite interneto ryšį.</translation>
+<translation id="6295157125625453859">Patvirtinta.</translation>
 <translation id="6316446940976157217">Indija</translation>
 <translation id="6327723482938582895">Beninas</translation>
 <translation id="6338643731889005578">Tęsti</translation>
@@ -327,27 +356,33 @@
 <translation id="6921505896641453739">El. pašto adresas</translation>
 <translation id="6929813273561975780">Kitas</translation>
 <translation id="6951302238647056860">Šis kodas nebegalioja</translation>
-<translation id="6976724207780605356">Prisijungti per „Facebook“</translation>
+<translation id="6961220857430789248">Prisijungimo el. laiškas su papildomomis instrukcijomis išsiųstas adresu <ph name="STRING" />. Patikrinkite el. paštą, kad užbaigtumėte prisijungimą.</translation>
 <translation id="6984204927251307445">Patvirtinkite el. paštą</translation>
 <translation id="6999773882165218263">Vardas ir pavardė</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Vakarų Sachara</translation>
+<translation id="7025117765722694556">Užklausos įvykdyti esant dabartinei sistemos būsenai negalima.</translation>
 <translation id="7062299334696934251">Įvyko nežinoma klaida.</translation>
 <translation id="7064251114893721966">Jūs jau prisijungėte naudodami <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Įveskite tos paskyros slaptažodį.</translation>
+<translation id="7085136866191400000">Prisijungimo el. laiškas išsiųstas</translation>
 <translation id="7089485669419398254">Airija</translation>
 <translation id="7093343209860483088">Kongo Demokratinė Respublika</translation>
 <translation id="7118080999850002096">Atkurti slaptažodį</translation>
 <translation id="7150917293543492988">Kongo Respublika</translation>
+<translation id="7157317431934821052">Išteklius, kurį kliento programa bandė sukurti, jau yra.</translation>
 <translation id="7174424882502155514">Tęsti kaip svečiui</translation>
 <translation id="7192078949090526171">San Marinas</translation>
 <translation id="7197455001919474950">Kipras</translation>
 <translation id="7198563013006562060">Saliamono Salos</translation>
 <translation id="7207660930894629055">Tęsti naudojant <ph name="USER_EMAIL" />?</translation>
+<translation id="720983450833499456">Jei norite tęsti prisijungimą su <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> šiame įrenginyje, turite atkurti slaptažodį.</translation>
 <translation id="7223410082658239002">Maldyvų Salos</translation>
 <translation id="7254028881697834212">San Tomė ir Prinsipė</translation>
 <translation id="7268827299582726485">Patvirtinkite el. paštą, kad užbaigtumėte prisijungimą</translation>
 <translation id="7272145663101316762">Slovėnija</translation>
 <translation id="7280309713358692490">Pietų Korėja</translation>
+<translation id="7283725113395426048">Vienalaikiškumo konfliktas, pvz., skaitymo, modifikavimo ir rašymo konfliktas.</translation>
+<translation id="7290147808482957603">API metodas neįdiegtas serveryje.</translation>
 <translation id="7291567990403335374">Lesotas</translation>
 <translation id="7291656724505689727">Prisijungti nurodant telefono numerį</translation>
 <translation id="7320029088567935126">Bandykite patvirtinti el. pašto adresą dar kartą</translation>
@@ -366,8 +401,10 @@
 <translation id="7643408533407091568">Jūs jau prisijungėte naudodami <ph name="EMAIL_ADDR" />. Įveskite tos paskyros slaptažodį.</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{Slaptažodis nepakankamai sudėtingas. Naudokite bent <ph name="PH_1" /> simbolį ir raidžių bei skaičių derinį.}one{Slaptažodis nepakankamai sudėtingas. Naudokite bent <ph name="PH_1" /> simbolį ir raidžių bei skaičių derinį.}few{Slaptažodis nepakankamai sudėtingas. Naudokite bent <ph name="PH_1" /> simbolius ir raidžių bei skaičių derinį.}many{Slaptažodis nepakankamai sudėtingas. Naudokite bent <ph name="PH_1" /> simbolio ir raidžių bei skaičių derinį.}other{Slaptažodis nepakankamai sudėtingas. Naudokite bent <ph name="PH_1" /> simbolių ir raidžių bei skaičių derinį.}}</translation>
 <translation id="7699755204074920022">Zimbabvė</translation>
+<translation id="7746977132739352062">Užklausa nepatvirtinta dėl nesamo, netinkamo arba baigusio galioti „OAuth“ prieigos rakto.</translation>
 <translation id="7782885946428624225">Patvirtinant telefono numerį kilo problema</translation>
 <translation id="7796914496604415892">Aptiktas naujas įrenginys arba naršyklė</translation>
+<translation id="786166109137986817">Prisijungti prie „<ph name="DISPLAY_NAME" />“</translation>
 <translation id="7868540442111212282">Čekijos Respublika</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
 <translation id="7926046652648626866">Prisijungti per „GitHub“</translation>
@@ -422,6 +459,7 @@
 <translation id="868894957204919930">Bermudų salos</translation>
 <translation id="8694271531070467981">Niujė</translation>
 <translation id="8745311627715763145">Gvadelupa</translation>
+<translation id="8752467400269476994">Klientas nurodė netinkamus projekto konfigūracijos duomenis.</translation>
 <translation id="8760480624706028033">Palestinos Teritorijos</translation>
 <translation id="8770276147008360348">Slovakija</translation>
 <translation id="877434849857020571">Gernsis</translation>
@@ -434,19 +472,24 @@
 <translation id="8893950153780006385">Malaizija</translation>
 <translation id="8895840173743975193">Kokosų salos</translation>
 <translation id="8916080112145514151">Jei vis tiek norite susieti <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> paskyrą, atidarykite nuorodą tame pačiame įrenginyje, kuriame pradėjote prisijungimo procesą. Jei nenorite, palieskite „Tęsti“ ir prisijunkite šiame įrenginyje.</translation>
+<translation id="8920674952994839257">Bandyti iš naujo</translation>
 <translation id="8939353296336237380">Iš pradžių ketinote susieti <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> ir el. pašto paskyras, bet atidarėte nuorodą kitame įrenginyje, kuriame nesate prisijungę.</translation>
 <translation id="8971555482255213064">Siųsti kodą iš naujo po 0:<ph name="PH_1" /></translation>
 <translation id="8984161590699631096">Marokas</translation>
+<translation id="8994098794339484800">Jei nepažįstate šio įrenginio, galbūt kažkas bando prisijungti prie jūsų paskyros. Pagalvokite, <ph name="START_LINK" />ar nevertėtų tučtuojau pakeisti slaptažodžio<ph name="END_LINK" />.</translation>
 <translation id="900153878296575829">Bangladešas</translation>
 <translation id="9022632332691561239">Telefonas</translation>
 <translation id="9028063588419847334">Suomija</translation>
 <translation id="9078135685219203661">Jungtiniai Arabų Emyratai</translation>
+<translation id="9121203582272050974">Jūsų el. pašto adresas patvirtintas ir pakeistas</translation>
 <translation id="9156150178611681179">Slaptažodis</translation>
 <translation id="9168877696443530714">Centrinės Afrikos Respublika</translation>
 <translation id="9186194643192393179">Kiurasao</translation>
+<translation id="9193130710600355008">Užblokavome visas iš šio įrenginio siunčiamas užklausas dėl neįprastos veiklos. Bandykite dar kartą vėliau.</translation>
 <translation id="919456844206936371">Tunisas</translation>
 <translation id="9209678713072395487">Slaptažodis pakeistas</translation>
 <translation id="954276184636809129">Graikija</translation>
+<translation id="959388308828818789">Pašalintas antrasis faktorius</translation>
 <translation id="965930633376049617">Angola</translation>
 <translation id="988087302893519488">Kuveitas</translation>
 <translation id="994914101700264849">Įvestas slaptažodis neatitinka el. pašto adreso</translation>

@@ -20,7 +20,6 @@ goog.provide('firebaseui.auth.widget.handler.CallbackTest');
 goog.setTestOnly('firebaseui.auth.widget.handler.CallbackTest');
 
 goog.require('firebaseui.auth.AuthUIError');
-goog.require('firebaseui.auth.CredentialHelper');
 goog.require('firebaseui.auth.PendingEmailCredential');
 goog.require('firebaseui.auth.idp');
 goog.require('firebaseui.auth.soy2.strings');
@@ -1224,7 +1223,8 @@ function testHandleCallback_redirectUser_pendingCredential_err_emailAuthOnly() {
   // Test when single email auth provider is used.
   asyncTestCase.waitForSignals(1);
   app.setConfig({
-    'credentialHelper': firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
     'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID]
   });
   var cred  = firebaseui.auth.idp.getAuthCredential({
@@ -1278,7 +1278,8 @@ function testHandleCallback_signedInUser_pendingCred_err_emailAuthOnly_popup() {
   asyncTestCase.waitForSignals(1);
   app.updateConfig('signInFlow', 'popup');
   app.setConfig({
-    'credentialHelper': firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
     'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID]
   });
   var cred  = firebaseui.auth.idp.getAuthCredential({
@@ -1376,7 +1377,8 @@ function testHandleCallback_redirectError_noLinking_emailAuthOnly() {
   // Test when single email auth provider is used.
   asyncTestCase.waitForSignals(1);
   app.setConfig({
-    'credentialHelper': firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
     'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID]
   });
   // Callback rendered.
@@ -1404,7 +1406,8 @@ function testHandleCallback_signInError_noLinking_emailAuthOnly_popup() {
   asyncTestCase.waitForSignals(1);
   app.setConfig({
     'signInFlow': 'popup',
-    'credentialHelper': firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
     'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID]
   });
   // Popup result: reject with a generic error.
@@ -1794,7 +1797,8 @@ function testHandleCallback_redirectError_linkingRequired_err_emailAuthOnly() {
   // Fetch Provider Email request fails in this case.
   // Test when single email auth provider is used.
   app.setConfig({
-    'credentialHelper': firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
     'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID]
   });
   asyncTestCase.waitForSignals(1);
@@ -1838,7 +1842,8 @@ function testHandleCallback_signInErr_linkRequired_err_emailAuthOnly_popup() {
   // Fetch Provider Email request fails in this case.
   // Test when single email auth provider is used.
   app.setConfig({
-    'credentialHelper': firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
     'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID]
   });
   asyncTestCase.waitForSignals(1);
@@ -2004,7 +2009,8 @@ function testHandleCallback_nullUser_emailAuthOnly_acEnabled() {
   // Test when no previous sign-in with redirect is detected and the sign-in
   // page is rendered (email auth provider only, accountchooser.com is enabled).
   app.setConfig({
-    'credentialHelper': firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
     'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID]
   });
   asyncTestCase.waitForSignals(1);
@@ -2047,7 +2053,8 @@ function testHandleCallback_nullUser_emailAuthOnly_acEnabled_newAcctSelect() {
   // page is rendered (email auth provider only, accountchooser.com is enabled).
   // Simulate new account selected.
   app.setConfig({
-    'credentialHelper': firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
     'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID],
     'callbacks': {
       'accountChooserResult': accountChooserResultCallback,
@@ -2113,7 +2120,8 @@ function testHandleCallback_nullUser_emailAuthOnly_acEnabled_existingAccount() {
   // page is rendered (email auth provider only, accountchooser.com is enabled).
   // Simulate existing password account selected.
   app.setConfig({
-    'credentialHelper': firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
     'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID],
     'callbacks': {
       'accountChooserResult': accountChooserResultCallback,
@@ -2174,7 +2182,8 @@ function testHandleCallback_nullUser_emailAuthOnly_acEnabled_addAccount() {
   // page is rendered (email auth provider only, accountchooser.com is enabled).
   // Simulate "Add Account" selected.
   app.setConfig({
-    'credentialHelper': firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
     'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID],
     'callbacks': {
       'accountChooserResult': accountChooserResultCallback,
@@ -2226,7 +2235,7 @@ function testHandleCallback_nullUser_emailAuthOnly_acDisabled() {
   // page is rendered (email auth provider only, credential helpers are
   // disabled).
   app.setConfig({
-    'credentialHelper': firebaseui.auth.CredentialHelper.NONE,
+    'credentialHelper': firebaseui.auth.widget.Config.CredentialHelper.NONE,
     'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID],
     'callbacks': {
       'accountChooserResult': accountChooserResultCallback,
@@ -2277,7 +2286,8 @@ function testHandleCallback_nullUser_emailAuthOnly_acUnavailable() {
   // page is rendered (email auth provider only, accountchooser.com is
   // unavailable).
   app.setConfig({
-    'credentialHelper': firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
     'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID],
     'callbacks': {
       'accountChooserResult': accountChooserResultCallback,
@@ -2444,7 +2454,7 @@ function testHandleCallback_operationNotSupported_passwordOnly_acDisabled() {
   // Set password only provider.
   // Test with accountchooser.com disabled.
   app.setConfig({
-    'credentialHelper': firebaseui.auth.CredentialHelper.NONE,
+    'credentialHelper': firebaseui.auth.widget.Config.CredentialHelper.NONE,
     'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID]
   });
   // Callback rendered.
@@ -2472,7 +2482,8 @@ function testHandleCallback_operationNotSupported_passwordOnly_acEnabled() {
   // Set password only provider.
   // Test with accountchooser.com enabled.
   app.setConfig({
-    'credentialHelper': firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
     'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID]
   });
   // Simulate empty response from accountchooser.com click.

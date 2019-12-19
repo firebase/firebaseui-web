@@ -12,11 +12,14 @@
 <translation id="1163771673786684213">Filipīnas</translation>
 <translation id="1170304454812139475">Rumānija</translation>
 <translation id="1194565221977667376">Dienviddžordžija un Dienvidsendviču Salas</translation>
-<translation id="124367247840231378">Labi</translation>
+<translation id="1233977465587641672">Neatgūstami datu zaudējumi vai datu bojājumi.</translation>
 <translation id="1244846213930750436">Itālija</translation>
 <translation id="1268266284642694018">Libāna</translation>
 <translation id="1294742657282291237">Gajāna</translation>
 <translation id="1297168472480293352">Gvatemala</translation>
+<translation id="1307255433239736397"><ph name="START_PARAGRAPH" />Radās problēma, noņemot otro faktoru.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Mēģiniet noņemt to vēlreiz. Ja problēma netiek novērsta, lūdziet palīdzību atbalsta dienestam.<ph name="END_PARAGRAPH" /></translation>
+<translation id="1310034618729602982">Mēģiniet vēlreiz atjaunināt savu e-pasta adresi</translation>
+<translation id="1312824004897469797">Ir radusies tīkla kļūda. Mēģiniet vēlāk vēlreiz!</translation>
 <translation id="1315809131562953678">Ievadiet derīgu tālruņa numuru</translation>
 <translation id="1335716056288807013">Pieskaroties pogai Verificēt, jūs norādāt, ka piekrītat mūs <ph name="START_LINK_1" />pakalpojumu sniegšanas noteikumiem<ph name="END_LINK" /> un <ph name="START_LINK_2" />konfidencialitātes politikai<ph name="END_LINK" />. Var tikt nosūtīta īsziņa. Var tikt piemērota maksa par ziņojumiem un datu pārsūtīšanu.</translation>
 <translation id="137210131544215127">Ievadiet savu paroli.</translation>
@@ -27,6 +30,7 @@
 <translation id="1479035434297790822">Pārāk daudz kontu pieprasījumu ir nosūtīti no jūsu IP adreses. Pēc dažām minūtēm mēģiniet vēlreiz.</translation>
 <translation id="1483249363694224399">Šrilanka</translation>
 <translation id="1507995441600689506">Tagad varat pierakstīties ar jauno kontu</translation>
+<translation id="1544981664986460902">Klients norādīja nederīgu argumentu.</translation>
 <translation id="1575848116712334589">Čada</translation>
 <translation id="1632452818656545062">Pieskaroties pogai “<ph name="PH_1" />”, jūs norādāt, ka piekrītat šādiem dokumentiem: <ph name="TOS" /> un <ph name="PP" />. Var tikt nosūtīta īsziņa. Var tikt piemērota maksa par ziņojumiem un datu pārsūtīšanu.</translation>
 <translation id="1653501608290591291">Baltkrievija</translation>
@@ -62,6 +66,7 @@
 <translation id="2206856445831770486">Github</translation>
 <translation id="2223717216014247341">Konfidencialitātes politika</translation>
 <translation id="2224563296468523455">Guama</translation>
+<translation id="2245182894886860848">Beigusies resursu kvota vai sasniegts vērtējuma ierobežojums.</translation>
 <translation id="2249420035688424170">Horvātija</translation>
 <translation id="2251583471831926217">Lietuva</translation>
 <translation id="227405248692044138">Malta</translation>
@@ -71,21 +76,27 @@
 <translation id="2324942959480650701">Viesis</translation>
 <translation id="2331781584136059536">Gana</translation>
 <translation id="2338909515537249568">Jūsu izmantotā pārlūkprogramma neatbalsta tīmekļa datu krātuvi. Lūdzu, mēģiniet vēlreiz citā pārlūkprogrammā.</translation>
+<translation id="2342152898808240937">Klients atcēla pieprasījumu.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Radās problēma, mainot atpakaļ pierakstīšanās e-pasta adresi.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Ja mēģināsit vēlreiz un joprojām nevarēsit atiestatīt e-pasta adresi, lūdziet palīdzību administratoram.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Bahreina</translation>
+<translation id="2392247362473363900">Iekšēja servera kļūda.</translation>
 <translation id="2405828009195143258">Irāna</translation>
+<translation id="2414459877074534554">GitHub</translation>
 <translation id="244437093285883777">Notiek verifikācija, lai pārliecinātos, ka neesat robots...</translation>
 <translation id="2448227725017851570">Šis kods vairs nav derīgs</translation>
 <translation id="2448487988481516351">Jaunkaledonija</translation>
 <translation id="2451742558284013472">Monako</translation>
 <translation id="2460064915291012298">Seišelas</translation>
+<translation id="2490672522100125425"><ph name="START_STRONG" /><ph name="FACTOR_ID" /> <ph name="PHONE_NUMBER" /><ph name="END_STRONG" /> kā otrā autentificēšanas darbība tika noņemta.</translation>
 <translation id="2494962141967044042">Pašreizējam anonīmajam lietotājam neizdevās veikt jaunināšanu. Akreditācijas dati, kuri nav anonīmi, jau ir saistīti ar citu lietotāja kontu.</translation>
 <translation id="2541179214468543429">Esat pārāk daudz reižu ievadījis nepareizu paroli. Lūdzu, mēģiniet vēlreiz pēc dažām minūtēm.</translation>
 <translation id="2561835578785502516">Jūsu pieprasījumam par paroles atiestatīšanu ir beidzies termiņš, vai saite jau ir izmantota</translation>
+<translation id="2562498793334241360">Tagad varat pierakstīties ar jauno e-pasta adresi <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />.</translation>
 <translation id="2581514546525533462">Norādītais valsts kods netiek atbalstīts.</translation>
 <translation id="2600950452451016107">Pārbaudiet, vai e-pasta adrese ir pareizi uzrakstīta.</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">Kambodža</translation>
+<translation id="2614081868476050089">Pakalpojums nav pieejams.</translation>
 <translation id="2616650714309312732">Portugāle</translation>
 <translation id="2619590123270932385">Francijas Gviāna</translation>
 <translation id="2621854044487969847">Britu Virdžīnu Salas</translation>
@@ -101,19 +112,21 @@
 <translation id="2741235824871026219">Verificēt</translation>
 <translation id="2752984808025184019">Dienvidāfrika</translation>
 <translation id="2760636260031093254">Lai turpinātu, ievadiet e-pasta adresi</translation>
+<translation id="276938411216176478">Administrators ir atspējojis lietotāja kontu.</translation>
 <translation id="2782685789517131804">Pierakstīšanās e-pasta ziņojums ar papildu norādījumiem tika nosūtīts uz e-pasta adresi <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Pārbaudiet savu e-pastu, lai pabeigtu pierakstīšanos.</translation>
 <translation id="2828509010894808185">Konta izveide</translation>
 <translation id="2834770837848769530">Afganistāna</translation>
 <translation id="2884525438023347369">Pieskaroties pogai <ph name="BTN" />, jūs norādāt, ka piekrītat šādiem noteikumiem: <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">Kanāda</translation>
 <translation id="2911018261311455240">Dānija</translation>
+<translation id="2949732021187449522">Pieprasījuma derīguma termiņš ir pārsniegts.</translation>
 <translation id="295270254328846278">Austrija</translation>
 <translation id="2976748949054245370">E-pasta adreses nesakrīt</translation>
 <translation id="29947009417147243">Dienvidsudāna</translation>
 <translation id="3040586343252524572">Jemena</translation>
 <translation id="3045244039436637116">Gvineja-Bisava</translation>
 <translation id="3046745817056752783">Saūda Arābija</translation>
-<translation id="311953035679824832">Lietotnes logotips</translation>
+<translation id="3083819527012413063">Lietotnē <ph name="APP_NAME" /> ir pievienots vēl viens drošības faktors.</translation>
 <translation id="3122584863645047144">ASV Virdžīnu Salas</translation>
 <translation id="3141549453511344986">Pierakstīties ar tālruni</translation>
 <translation id="3147551458884186429">Indonēzija</translation>
@@ -121,6 +134,7 @@
 <translation id="3164676761565983157">Venecuēla</translation>
 <translation id="3170526549630869494">Vai jums ir problēmas ar pierakstīšanos?</translation>
 <translation id="3204914819635733576">Verificējiet savu identitāti</translation>
+<translation id="3215050409577090361">Autentificējot jūsu pieprasījumu, radās kļūda. Lai atsāktu autentifikācijas procesu, vēlreiz atveriet URL, kas jūs novirzīja uz šo lapu.</translation>
 <translation id="3216149523061905579">Dominika</translation>
 <translation id="3223688630903046698">Jauna parole</translation>
 <translation id="3250864391349648273">Gabona</translation>
@@ -138,6 +152,7 @@
 <translation id="3434621886769337032">Gambija</translation>
 <translation id="3472358534605257432">Gatavs</translation>
 <translation id="3479685026618611556">Atcelt</translation>
+<translation id="3481131180097895739">Nezināma servera kļūda.</translation>
 <translation id="3487364398525389372">Ievadiet savu konta nosaukumu</translation>
 <translation id="3521753471343796628">Irāka</translation>
 <translation id="354888504916863713">Vjetnama</translation>
@@ -149,13 +164,15 @@
 <translation id="3605933028246642593">Nepāla</translation>
 <translation id="3608140835232496799">Tokelau</translation>
 <translation id="3620185428620643248">Netiek atbalstīti autentifikācijas nodrošinātājam atlasītie akreditācijas dati.</translation>
+<translation id="3658306886462996856">Šai e-pasta adresei nav pieejams pierakstīšanās nodrošinātājs. Lūdzu, izmēģiniet citu e-pasta adresi.</translation>
+<translation id="3695180913983403205">Lūdzu, ievadiet vārdu un uzvārdu.</translation>
 <translation id="3700097473356216716">Kolumbija</translation>
 <translation id="3736041829854387744">Burundija</translation>
 <translation id="3755663127769565780">Mauritānija</translation>
 <translation id="3813801701232240278">Twitter</translation>
 <translation id="3814740523815122846">E-pasta adrese ir verificēta</translation>
 <translation id="3819556544383051267">Papua-Jaungvineja</translation>
-<translation id="3831901810365396899">Saglabāt</translation>
+<translation id="3828991952827504549">Norādītais resurss nav atrasts.</translation>
 <translation id="3862053977934420187">Notiek verifikācija...</translation>
 <translation id="3898029444496274961">Pierakstīties</translation>
 <translation id="3905423743526704083">Austrumtimora</translation>
@@ -188,6 +205,7 @@
 <translation id="4440507149645221385">Tālrunis</translation>
 <translation id="4450602713221237198">Nosūtīt vēlreiz</translation>
 <translation id="4498504413765490964">Hondurasa</translation>
+<translation id="450385255996536115">Ir iestājusies darbības noildze.</translation>
 <translation id="4515732781724470190">Nigēra</translation>
 <translation id="4521614244485847733">E-pasta adrese neatbilst esošam kontam</translation>
 <translation id="4556476996891737119">Jordānija</translation>
@@ -199,6 +217,7 @@
 <translation id="4723701728629289714">Izraēla</translation>
 <translation id="4725154639671888461">Ir radusies kļūda</translation>
 <translation id="4751937685196678080">Numurs</translation>
+<translation id="4769553102874508676">Klientam nav atbilstošas atļaujas.</translation>
 <translation id="4773060157545352832">Izpildiet reCAPTCHA uzdevumu</translation>
 <translation id="4775051289386800916">Nikaragva</translation>
 <translation id="4783400389150493171">Burkinafaso</translation>
@@ -207,27 +226,32 @@
 <translation id="4871106926303956169">Tērksas un Kaikosas Salas</translation>
 <translation id="4877597386645466815">Vēlreiz nosūtīt kodu pēc <ph name="TIME_REMAINING" /></translation>
 <translation id="4915406999072654369">Pārbaudiet savu e-pastu</translation>
+<translation id="4923375331439013137">Nevarēja noņemt otro faktoru</translation>
 <translation id="4955175001894453989">Paroles pievienošana</translation>
 <translation id="496366313824211679">Salvadora</translation>
+<translation id="4982483807073820954">Lai mainītu konta paroli, būs vēlreiz jāpierakstās.</translation>
 <translation id="4991626049082973728">Serbija</translation>
 <translation id="4991892293325936102">Beliza</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" />šādam kontam: <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /><ph name="END_PARAGRAPH" /></translation>
 <translation id="5059105734231232362">Lai šī plūsma varētu sekmīgi saistīt <ph name="IDP_DISPLAY_NAME" /> kontu ar šo e-pasta adresi, jums ir jāatver saite tajā pašā ierīcē vai pārlūkprogrammā.</translation>
 <translation id="5080084639513001393">Zviedrija</translation>
 <translation id="5080899604429810481">Senmartēna</translation>
+<translation id="5115661695221894994"><ph name="START_PARAGRAPH" />Jūsu pieprasījumam par e-pasta adreses verifikāciju un atjaunināšanu ir beidzies derīguma termiņš, vai saite jau ir izmantota.<ph name="END_PARAGRAPH" /></translation>
 <translation id="5143657419516597442">Sentlūsija</translation>
 <translation id="5241732101105320538">Pārbaudiet savu e-pastu</translation>
 <translation id="5301108536112812420">Jūsu pieprasījumam par e-pasta adreses verifikāciju ir beidzies termiņš, vai saite jau ir izmantota</translation>
 <translation id="5323041129469627535">Omāna</translation>
 <translation id="5326139833547026317">Nīderlandes Karību salas</translation>
 <translation id="5347459868860672391">Atjaunināta e-pasta adrese</translation>
-<translation id="5403395913830260677">Pierakstīties ar Twitter</translation>
+<translation id="5397737236938796917">Tagad esat sekmīgi izrakstījies.</translation>
+<translation id="5406620662929585965">Pierakstīties ar tālruni</translation>
 <translation id="5407010562344541906">Tālruņa numurs</translation>
 <translation id="5409861738809250803">Jums jau ir konts</translation>
 <translation id="5410341463946781720">Taizeme</translation>
 <translation id="5443669846203963095">Konfidencialitātes politika</translation>
 <translation id="5444635161362535036">Lihtenšteina</translation>
 <translation id="5483706910421209104">Nosaukuma rediģēšana</translation>
+<translation id="5487696047685227891">Šī ierīce vai lietotne tika noņemta kā otrā autentificēšanas darbība.</translation>
 <translation id="5490651768073507833">Mēģiniet atvērt saiti, izmantot to pašu ierīci vai pārlūkprogrammu, kur sākāt pierakstīšanās procesu.</translation>
 <translation id="5524360735013196510">Nīderlande</translation>
 <translation id="5528189843379142883">Ekvatoriālā Gvineja</translation>
@@ -251,7 +275,7 @@
 <translation id="5699028034244995851">Lai turpinātu, ievadiet e-pasta adresi</translation>
 <translation id="5701178667798108817">Tālruņa numura verifikācija</translation>
 <translation id="5715637701147651513">Libērija</translation>
-<translation id="5755179287528310939">Ar šo e-pasta adresi jau pastāv konts.</translation>
+<translation id="5747263508495256858">Izrakstīšanās</translation>
 <translation id="5771034676910614239">Madagaskara</translation>
 <translation id="5818634293686963864">Kazahstāna</translation>
 <translation id="5829301468800336085">Notiek pierakstīšanās...</translation>
@@ -270,15 +294,20 @@
 <translation id="6032262985756512833">Ievadiet <ph name="STRING" /> ciparu kodu, ko nosūtījām uz šādu tālruņa numuru:</translation>
 <translation id="6044396095102058216">Šis tālruņa numurs ir izmantots pārāk daudz reižu</translation>
 <translation id="6083089720215618333">Norādītā e-pasta adrese neatbilst pašreizējai pierakstīšanās sesijai.</translation>
-<translation id="6113531938704280909">Konta atsaistīšana</translation>
+<translation id="6091051069256411999">Twitter</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />Pierakstīšanās lietotnē <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6132202686885223981">Pārbaudiet, vai jūsu iesūtnes krātuve nav beigusies vai nav citu ar iesūtnes iestatījumiem saistītu problēmu.</translation>
+<translation id="6135589730599211649">Klients norādīja nederīgu diapazonu.</translation>
+<translation id="6143147250106939258">Pārsniegta šīs darbības kvota. Mēģiniet vēlāk vēlreiz!</translation>
 <translation id="6189573836664806798">Paragvaja</translation>
 <translation id="6192657410634245771">Alžīrija</translation>
 <translation id="6213969168046789596">Esat pārāk daudz reižu ievadījis nepareizu paroli. Lūdzu, mēģiniet vēlreiz pēc dažām minūtēm.</translation>
 <translation id="6216759405419177713">Norfolkas Sala</translation>
 <translation id="6245066275978703471">Tālruņa numurs tika automātiski verificēts</translation>
-<translation id="6283536862756552051">Lai mainītu paroli, vispirms ir jāievada pašreizējā parole.</translation>
-<translation id="6299890279889400823">Atpakaļ</translation>
+<translation id="6269083314054226194">Tīkla kļūda. Pārbaudiet interneta savienojumu.</translation>
+<translation id="6295157125625453859">Verificēts.</translation>
 <translation id="6316446940976157217">Indija</translation>
 <translation id="6327723482938582895">Benina</translation>
 <translation id="6338643731889005578">Turpināt</translation>
@@ -327,27 +356,33 @@
 <translation id="6921505896641453739">E-pasts</translation>
 <translation id="6929813273561975780">Tālāk</translation>
 <translation id="6951302238647056860">Šis kods vairs nav derīgs</translation>
-<translation id="6976724207780605356">Pierakstīties ar Facebook</translation>
+<translation id="6961220857430789248">Pierakstīšanās e-pasta ziņojums ar papildu norādījumiem tika nosūtīts uz e-pasta adresi <ph name="STRING" />. Pārbaudiet savu e-pastu, lai pabeigtu pierakstīšanos.</translation>
 <translation id="6984204927251307445">E-pasta adreses apstiprināšana</translation>
 <translation id="6999773882165218263">Vārds un uzvārds</translation>
 <translation id="7012506961150923116">Grenāda</translation>
 <translation id="7024571478138322659">Rietumsahāra</translation>
+<translation id="7025117765722694556">Pašreizējā sistēmas stāvoklī pieprasījumu nevar izpildīt.</translation>
 <translation id="7062299334696934251">Radās nezināma kļūda.</translation>
 <translation id="7064251114893721966">Esat jau izmantojis e-pasta adresi <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />, lai pierakstītos. Ievadiet šī konta paroli.</translation>
+<translation id="7085136866191400000">Pierakstīšanās e-pasta ziņojums ir nosūtīts</translation>
 <translation id="7089485669419398254">Īrija</translation>
 <translation id="7093343209860483088">Kongo Demokrātiskā Republika</translation>
 <translation id="7118080999850002096">Paroles atgūšana</translation>
 <translation id="7150917293543492988">Kongo Republika</translation>
+<translation id="7157317431934821052">Jau pastāv resurss, ko klients mēģināja izveidot.</translation>
 <translation id="7174424882502155514">Turpināt kā viesim</translation>
 <translation id="7192078949090526171">Sanmarīno</translation>
 <translation id="7197455001919474950">Kipra</translation>
 <translation id="7198563013006562060">Zālamana Salas</translation>
 <translation id="7207660930894629055">Vai turpināt ar e-pasta adresi <ph name="USER_EMAIL" />?</translation>
+<translation id="720983450833499456">Lai turpinātu, pierakstieties šajā ierīcē, izmantojot e-pasta adresi <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />; jums ir jāatgūst parole.</translation>
 <translation id="7223410082658239002">Maldīvija</translation>
 <translation id="7254028881697834212">Santome un Prinsipi</translation>
 <translation id="7268827299582726485">Apstipriniet e-pasta adresi, lai pabeigtu pierakstīšanos</translation>
 <translation id="7272145663101316762">Slovēnija</translation>
 <translation id="7280309713358692490">Dienvidkoreja</translation>
+<translation id="7283725113395426048">Laiksakritības konflikts, piemēram, lasīšanas/mainīšanas/rakstīšanas konflikts.</translation>
+<translation id="7290147808482957603">API metode nav servera ieviesta.</translation>
 <translation id="7291567990403335374">Lesoto</translation>
 <translation id="7291656724505689727">Pierakstīties ar tālruni</translation>
 <translation id="7320029088567935126">Mēģiniet vēlreiz verificēt savu e-pasta adresi</translation>
@@ -367,8 +402,10 @@
         lai pierakstītos. Ievadiet šī konta paroli.</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{Parole nav pietiekami droša. Izmantojiet vismaz <ph name="PH_1" /> rakstzīmi un burtu un ciparu kombināciju}zero{Parole nav pietiekami droša. Izmantojiet vismaz <ph name="PH_1" /> rakstzīmes un burtu un ciparu kombināciju}one{Parole nav pietiekami droša. Izmantojiet vismaz <ph name="PH_1" /> rakstzīmi un burtu un ciparu kombināciju}other{Parole nav pietiekami droša. Izmantojiet vismaz <ph name="PH_1" /> rakstzīmes un burtu un ciparu kombināciju}}</translation>
 <translation id="7699755204074920022">Zimbabve</translation>
+<translation id="7746977132739352062">Pieprasījums nav autentificēts, jo trūkst OAuth pilnvaras, tā ir nederīga vai beidzies tās termiņš.</translation>
 <translation id="7782885946428624225">Verificējot jūsu tālruņa numuru, radās problēma</translation>
 <translation id="7796914496604415892">Konstatēta jauna ierīce vai pārlūkprogramma</translation>
+<translation id="786166109137986817">Pierakstīties: <ph name="DISPLAY_NAME" /></translation>
 <translation id="7868540442111212282">Čehija</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
 <translation id="7926046652648626866">Pierakstīties, izmantojot GitHub</translation>
@@ -423,6 +460,7 @@
 <translation id="868894957204919930">Bermudu Salas</translation>
 <translation id="8694271531070467981">Niue</translation>
 <translation id="8745311627715763145">Gvadelupa</translation>
+<translation id="8752467400269476994">Klients norādīja nederīgu projekta konfigurāciju.</translation>
 <translation id="8760480624706028033">Palestīna</translation>
 <translation id="8770276147008360348">Slovākija</translation>
 <translation id="877434849857020571">Gērnsija</translation>
@@ -435,19 +473,24 @@
 <translation id="8893950153780006385">Malaizija</translation>
 <translation id="8895840173743975193">Kokosu [Kīlinga] Salas</translation>
 <translation id="8916080112145514151">Ja joprojām vēlaties saistīt savu <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> kontu, atveriet saiti tajā pašā ierīcē, kurā sākāt pierakstīšanos. Pretējā gadījumā pieskarieties vienumam Turpināt, lai pierakstītos šajā ierīcē.</translation>
+<translation id="8920674952994839257">Mēģināt vēlreiz</translation>
 <translation id="8939353296336237380">Sākotnēji vēlējāties saistīt <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> ar savu e-pasta kontu, taču atvērāt saiti citā ierīcē, kurā neesat pierakstījies.</translation>
 <translation id="8971555482255213064">Vēlreiz nosūtīt kodu pēc 0:<ph name="PH_1" /></translation>
 <translation id="8984161590699631096">Maroka</translation>
+<translation id="8994098794339484800">Ja neatpazīstat šo ierīci, iespējams, kāda persona mēģina piekļūt jūsu kontam. Apsveriet iespēju <ph name="START_LINK" />nekavējoties nomainīt paroli<ph name="END_LINK" />.</translation>
 <translation id="900153878296575829">Bangladeša</translation>
 <translation id="9022632332691561239">Tālrunis</translation>
 <translation id="9028063588419847334">Somija</translation>
 <translation id="9078135685219203661">Apvienotie Arābu Emirāti</translation>
+<translation id="9121203582272050974">Jūsu e-pasta adrese ir verificēta un nomainīta</translation>
 <translation id="9156150178611681179">Parole</translation>
 <translation id="9168877696443530714">Centrālāfrikas Republika</translation>
 <translation id="9186194643192393179">Kirasao</translation>
+<translation id="9193130710600355008">Visi pieprasījumi no šīs ierīces ir bloķēti neparastas darbības dēļ. Mēģiniet vēlāk vēlreiz!</translation>
 <translation id="919456844206936371">Tunisija</translation>
 <translation id="9209678713072395487">Parole ir nomainīta</translation>
 <translation id="954276184636809129">Grieķija</translation>
+<translation id="959388308828818789">Noņemts otrais faktors</translation>
 <translation id="965930633376049617">Angola</translation>
 <translation id="988087302893519488">Kuveita</translation>
 <translation id="994914101700264849">Ievadītā e-pasta adrese un parole neatbilst</translation>

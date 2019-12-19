@@ -127,6 +127,9 @@ function testHandlerRegistration() {
       firebaseui.auth.widget.handler.handleProviderSignIn,
       firebaseui.auth.widget.handlers_[HandlerName.PROVIDER_SIGN_IN]);
   assertEquals(
+      firebaseui.auth.widget.handler.handlePrefilledEmailSignIn,
+      firebaseui.auth.widget.handlers_[HandlerName.PREFILLED_EMAIL_SIGN_IN]);
+  assertEquals(
       firebaseui.auth.widget.handler.handleEmailLinkSignInCallback,
       firebaseui.auth.widget.handlers_[
           HandlerName.EMAIL_LINK_SIGN_IN_CALLBACK]);

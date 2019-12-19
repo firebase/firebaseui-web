@@ -12,11 +12,14 @@
 <translation id="1163771673786684213">Filipinler</translation>
 <translation id="1170304454812139475">Romanya</translation>
 <translation id="1194565221977667376">Güney Georgia ve Güney Sandwich Adaları</translation>
-<translation id="124367247840231378">Tamam</translation>
+<translation id="1233977465587641672">Kurtarılamaz veri kaybı veya veri bozulması.</translation>
 <translation id="1244846213930750436">İtalya</translation>
 <translation id="1268266284642694018">Lübnan</translation>
 <translation id="1294742657282291237">Guyana</translation>
 <translation id="1297168472480293352">Guatemala</translation>
+<translation id="1307255433239736397"><ph name="START_PARAGRAPH" />İkinci faktör kaldırılırken hata oluştu.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Faktörü kaldırmayı tekrar deneyin. İşlem gerçekleştirilemezse yardım almak için destek ekibiyle iletişime geçin.<ph name="END_PARAGRAPH" /></translation>
+<translation id="1310034618729602982">E-posta adresinizi güncellemeyi tekrar deneyin</translation>
+<translation id="1312824004897469797">Bir ağ hatası oluştu. Daha sonra tekrar deneyin.</translation>
 <translation id="1315809131562953678">Geçerli bir telefon numarası girin</translation>
 <translation id="1335716056288807013">Doğrula'ya dokunarak <ph name="START_LINK_1" />Hizmet Şartlarımızı<ph name="END_LINK" /> ve <ph name="START_LINK_2" />Gizlilik Politikamızı<ph name="END_LINK" /> kabul ettiğinizi belirtirsiniz. SMS gönderilebilir. Mesaj ve veri ücretleri uygulanabilir.</translation>
 <translation id="137210131544215127">Şifrenizi girin</translation>
@@ -27,6 +30,7 @@
 <translation id="1479035434297790822">IP adresinizden çok fazla sayıda hesap isteği geliyor. Birkaç dakika içinde tekrar deneyin.</translation>
 <translation id="1483249363694224399">Sri Lanka</translation>
 <translation id="1507995441600689506">Artık yeni hesabınızla oturum açabilirsiniz</translation>
+<translation id="1544981664986460902">İstemci, geçersiz bağımsız değişken belirtti.</translation>
 <translation id="1575848116712334589">Çad</translation>
 <translation id="1630237004390596779"><ph name="STRING" /> içinde kodu yeniden gönder</translation>
 <translation id="1653501608290591291">Beyaz Rusya</translation>
@@ -62,6 +66,7 @@
 <translation id="2206856445831770486">Github</translation>
 <translation id="2223717216014247341">Gizlilik Politikası</translation>
 <translation id="2224563296468523455">Guam</translation>
+<translation id="2245182894886860848">Kaynak kotası kalmadı veya hız sınırlamasına yaklaşılıyor.</translation>
 <translation id="2249420035688424170">Hırvatistan</translation>
 <translation id="2251583471831926217">Litvanya</translation>
 <translation id="227405248692044138">Malta</translation>
@@ -71,22 +76,28 @@
 <translation id="2324942959480650701">Misafir</translation>
 <translation id="2331781584136059536">Gana</translation>
 <translation id="2338909515537249568">Kullandığınız tarayıcı Web Depolamasını desteklemiyor. Lütfen farklı bir tarayıcıda tekrar deneyin.</translation>
+<translation id="2342152898808240937">İstek, istemci tarafından iptal edildi.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Oturum açma e-posta adresinizi eski haline döndürürken bir sorun oluştu.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Tekrar dener ve e-posta adresinizi yine sıfırlayamazsanız yöneticinizden yardım istemeyi deneyin.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Bahreyn</translation>
+<translation id="2392247362473363900">Dahili sunucu hatası.</translation>
 <translation id="2405828009195143258">İran</translation>
+<translation id="2414459877074534554">GitHub</translation>
 <translation id="244437093285883777">Robot olmadığınız doğrulanıyor...</translation>
 <translation id="2448227725017851570">Bu kod artık geçerli değil</translation>
 <translation id="2448487988481516351">Yeni Kaledonya</translation>
 <translation id="2451742558284013472">Monako</translation>
 <translation id="2460064915291012298">Seyşeller</translation>
+<translation id="2490672522100125425">İkinci kimlik doğrulama adımı olarak eklenen <ph name="START_STRONG" /><ph name="FACTOR_ID" /> <ph name="PHONE_NUMBER" /><ph name="END_STRONG" /> numaralı telefon kaldırıldı.</translation>
 <translation id="2494962141967044042">Mevcut anonim kullanıcı için yükseltme yapılamadı. Anonim olmayan kimlik bilgileri zaten farklı bir kullanıcı hesabıyla ilişkilendirilmiş.</translation>
 <translation id="2541179214468543429">Çok fazla kez yanlış şifre girdiniz. Birkaç dakika içinde tekrar deneyin.</translation>
 <translation id="2561560038714758184">Güvenlik</translation>
 <translation id="2561835578785502516">Şifrenizi sıfırlama isteğinizin süresi dolmuş veya bağlantı zaten kullanılmış</translation>
+<translation id="2562498793334241360">Artık yeni hesabınız <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> ile oturum açabilirsiniz.</translation>
 <translation id="2581514546525533462">Sağlanan ülke kodu desteklenmiyor.</translation>
 <translation id="2600950452451016107">E-postanızda yazım hatası bulunmadığından emin olun.</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">Kamboçya</translation>
+<translation id="2614081868476050089">Hizmet kullanılamıyor.</translation>
 <translation id="2616650714309312732">Portekiz</translation>
 <translation id="2619590123270932385">Fransız Ginesi</translation>
 <translation id="2621854044487969847">İngiliz Virgin Adaları</translation>
@@ -102,6 +113,7 @@
 <translation id="2741235824871026219">Doğrula</translation>
 <translation id="2752984808025184019">Güney Afrika</translation>
 <translation id="2760636260031093254">Devam etmek için e-posta adresinizi girin</translation>
+<translation id="276938411216176478">Kullanıcı hesabı, bir yönetici tarafından devre dışı bırakıldı.</translation>
 <translation id="2782685789517131804">Ek talimatlar içeren bir oturum açma e-postası <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> adresine gönderildi. Oturum açma işlemini tamamlamak için e-postanızı kontrol edin.</translation>
 <translation id="2824267666257947103">Şifrenizi girin</translation>
 <translation id="2828509010894808185">Hesap oluşturun</translation>
@@ -109,13 +121,14 @@
 <translation id="2884525438023347369"><ph name="BTN" /> öğesine dokunarak şunu kabul ettiğinizi bildirirsiniz: <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">Kanada</translation>
 <translation id="2911018261311455240">Danimarka</translation>
+<translation id="2949732021187449522">İstek bitiş tarihi aşıldı.</translation>
 <translation id="295270254328846278">Avusturya</translation>
 <translation id="2976748949054245370">E-postalar eşleşmiyor</translation>
 <translation id="29947009417147243">Güney Sudan</translation>
 <translation id="3040586343252524572">Yemen</translation>
 <translation id="3045244039436637116">Gine-Bissau</translation>
 <translation id="3046745817056752783">Suudi Arabistan</translation>
-<translation id="311953035679824832">Uygulama logosu</translation>
+<translation id="3083819527012413063"><ph name="APP_NAME" /> uygulamasına ilave güvenlik faktörü eklendi</translation>
 <translation id="3122584863645047144">ABD Virgin Adaları</translation>
 <translation id="3141549453511344986">Telefonla oturum aç</translation>
 <translation id="3147551458884186429">Endonezya</translation>
@@ -123,6 +136,7 @@
 <translation id="3164676761565983157">Venezuela</translation>
 <translation id="3170526549630869494">Oturum açılamıyor mu?</translation>
 <translation id="3204914819635733576">Kimliğinizi doğrulayın</translation>
+<translation id="3215050409577090361">İsteğinizin kimliği doğrulanırken bir sorun oluştu. Kimlik doğrulama sürecini yeniden başlatmak için lütfen sizi bu sayfaya yönlendiren URL'yi ziyaret edin.</translation>
 <translation id="3216149523061905579">Dominik</translation>
 <translation id="3223688630903046698">Yeni şifre</translation>
 <translation id="3250864391349648273">Gabon</translation>
@@ -140,6 +154,7 @@
 <translation id="3434621886769337032">Gambiya</translation>
 <translation id="3472358534605257432">Bitti</translation>
 <translation id="3479685026618611556">İptal</translation>
+<translation id="3481131180097895739">Bilinmeyen sunucu hatası.</translation>
 <translation id="3487364398525389372">Hesap adınızı girin</translation>
 <translation id="3521753471343796628">Irak</translation>
 <translation id="354888504916863713">Vietnam</translation>
@@ -151,6 +166,8 @@
 <translation id="3605933028246642593">Nepal</translation>
 <translation id="3608140835232496799">Tokelau</translation>
 <translation id="3620185428620643248">Kimlik doğrulama sağlayıcı için seçilen kimlik bilgisi desteklenmiyor!</translation>
+<translation id="3658306886462996856">Belirtilen e-posta adresi için kullanılabilen oturum açma hizmeti sağlayıcısı yok. Lütfen işlemi farklı bir e-posta adresiyle deneyin.</translation>
+<translation id="3695180913983403205">Lütfen ad ve soyadı girin.</translation>
 <translation id="3700097473356216716">Kolombiya</translation>
 <translation id="3703067902498234034">KAYDET'e dokunarak, şunu kabul ettiğinizi bildirirsiniz: </translation>
 <translation id="3736041829854387744">Burundi</translation>
@@ -158,7 +175,7 @@
 <translation id="3813801701232240278">Twitter</translation>
 <translation id="3814740523815122846">E-postanız doğrulandı</translation>
 <translation id="3819556544383051267">Papua Yeni Gine</translation>
-<translation id="3831901810365396899">Kaydet</translation>
+<translation id="3828991952827504549">Belirtilen kaynak bulunamadı.</translation>
 <translation id="3862053977934420187">Doğrulanıyor...</translation>
 <translation id="3898029444496274961">Oturum Aç</translation>
 <translation id="3905423743526704083">Doğu Timor</translation>
@@ -191,6 +208,7 @@
 <translation id="4440507149645221385">Telefon</translation>
 <translation id="4450602713221237198">Yeniden Gönder</translation>
 <translation id="4498504413765490964">Honduras</translation>
+<translation id="450385255996536115">İşlem zaman aşımına uğradı.</translation>
 <translation id="4515732781724470190">Nijer</translation>
 <translation id="4521614244485847733">Bu e-posta adresi mevcut bir hesapla eşleşmiyor</translation>
 <translation id="4556476996891737119">Ürdün</translation>
@@ -202,6 +220,7 @@
 <translation id="4723701728629289714">İsrail</translation>
 <translation id="4725154639671888461">Hata ile karşılaşıldı</translation>
 <translation id="4751937685196678080">Sayı</translation>
+<translation id="4769553102874508676">İstemci, gerekli izne sahip değil.</translation>
 <translation id="4773060157545352832">reCAPTCHA'yı çözün</translation>
 <translation id="4775051289386800916">Nikaragua</translation>
 <translation id="4783400389150493171">Burkina Faso</translation>
@@ -210,14 +229,17 @@
 <translation id="4871106926303956169">Turks ve Caicos Adaları</translation>
 <translation id="4877597386645466815"><ph name="TIME_REMAINING" /> içinde kodu yeniden gönder</translation>
 <translation id="4915406999072654369">E-postanızı kontrol edin</translation>
+<translation id="4923375331439013137">İkinci faktörünüz kaldırılamadı</translation>
 <translation id="4955175001894453989">Şifre ekle</translation>
 <translation id="496366313824211679">El Salvador</translation>
+<translation id="4982483807073820954">Hesabınızın şifresini değiştirmek için tekrar oturum açmanız gerekir.</translation>
 <translation id="4991626049082973728">Sırbistan</translation>
 <translation id="4991892293325936102">Belize</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" /><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> için<ph name="END_PARAGRAPH" /></translation>
 <translation id="5059105734231232362">Akışın <ph name="IDP_DISPLAY_NAME" /> hesabınızı bu e-posta adresine sorunsuz şekilde bağlayabilmesi için bağlantıyı aynı cihazda veya tarayıcıda açmanız gerekir.</translation>
 <translation id="5080084639513001393">İsveç</translation>
 <translation id="5080899604429810481">Saint Martin</translation>
+<translation id="5115661695221894994"><ph name="START_PARAGRAPH" />E-posta adresinizi doğrulama ve güncelleme isteğinizin süresi dolmuş ya da bağlantı zaten kullanılmış.<ph name="END_PARAGRAPH" /></translation>
 <translation id="5143657419516597442">St. Lucia</translation>
 <translation id="521218078240459724">@string/app_name</translation>
 <translation id="5241732101105320538">E-postanızı kontrol edin</translation>
@@ -225,13 +247,15 @@
 <translation id="5323041129469627535">Umman</translation>
 <translation id="5326139833547026317">Hollanda Karayipleri</translation>
 <translation id="5347459868860672391">E-posta adresi güncellendi</translation>
-<translation id="5403395913830260677">Twitter ile oturum aç</translation>
+<translation id="5397737236938796917">Oturumu başarıyla kapattınız.</translation>
+<translation id="5406620662929585965">Telefonla oturum aç</translation>
 <translation id="5407010562344541906">Telefon numarası</translation>
 <translation id="5409861738809250803">Zaten bir hesabınız var</translation>
 <translation id="5410341463946781720">Tayland</translation>
 <translation id="5437927869321223252">Yanlış kod. Tekrar deneyin.</translation>
 <translation id="5444635161362535036">Lihtenştayn</translation>
 <translation id="5483706910421209104">Adı düzenleyin</translation>
+<translation id="5487696047685227891">İkinci kimlik doğrulama adımı olarak eklenen cihaz veya uygulama kaldırıldı.</translation>
 <translation id="5490651768073507833">Bağlantıyı, oturum açma işlemini başlattığınız cihazda veya tarayıcıda açmayı deneyin.</translation>
 <translation id="5524360735013196510">Hollanda</translation>
 <translation id="5528189843379142883">Ekvator Ginesi</translation>
@@ -255,7 +279,7 @@
 <translation id="5699028034244995851">Devam etmek için e-posta adresinizi girin</translation>
 <translation id="5701178667798108817">Telefon numaranızı doğrulayın</translation>
 <translation id="5715637701147651513">Liberya</translation>
-<translation id="5755179287528310939">Bu e-posta adresiyle kayıtlı bir hesap zaten var.</translation>
+<translation id="5747263508495256858">Oturumu Kapatın</translation>
 <translation id="5771034676910614239">Madagaskar</translation>
 <translation id="5818634293686963864">Kazakistan</translation>
 <translation id="5829301468800336085">Oturum açılıyor...</translation>
@@ -274,15 +298,20 @@
 <translation id="6032262985756512833">Şu telefon numarasına yolladığımız <ph name="STRING" /> haneli kodu girin:</translation>
 <translation id="6044396095102058216">Bu telefon numarası çok fazla kez kullanıldı</translation>
 <translation id="6083089720215618333">Sağlanan e-posta adresi, mevcut oturum açma oturumuyla eşleşmiyor.</translation>
-<translation id="6113531938704280909">Hesabın bağlantısını kaldırın</translation>
+<translation id="6091051069256411999">Twitter</translation>
+<translation id="61182948399263957">
+<ph name="P_START" /><ph name="APP_NAME" /> uygulamasında oturum açın &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6132202686885223981">Gelen kutunuzdaki boş alanın azalıp azalmadığını ve gelen kutusu ayarlarıyla ilgili başka bir sorun olup olmadığını kontrol edin.</translation>
+<translation id="6135589730599211649">İstemci, geçersiz aralık belirtti.</translation>
+<translation id="6143147250106939258">Bu işlemin kotası aşıldı. Daha sonra tekrar deneyin.</translation>
 <translation id="6189573836664806798">Paraguay</translation>
 <translation id="6192657410634245771">Cezayir</translation>
 <translation id="6213969168046789596">Çok fazla kez yanlış şifre girdiniz. Lütfen birkaç dakika içinde tekrar deneyin.</translation>
 <translation id="6216759405419177713">Norfolk Adası</translation>
 <translation id="6245066275978703471">Telefon numarası otomatik olarak doğrulandı</translation>
-<translation id="6283536862756552051">Şifrenizi değiştirmek için önce mevcut şifrenizi girmeniz gerekir.</translation>
-<translation id="6299890279889400823">Geri</translation>
+<translation id="6269083314054226194">Ağ hatası, internet bağlantınızı kontrol edin.</translation>
+<translation id="6295157125625453859">Doğrulandı!</translation>
 <translation id="6316446940976157217">Hindistan</translation>
 <translation id="6327723482938582895">Benin</translation>
 <translation id="6338643731889005578">Devam</translation>
@@ -331,27 +360,33 @@
 <translation id="6921505896641453739">E-posta</translation>
 <translation id="6929813273561975780">İleri</translation>
 <translation id="6951302238647056860">Bu kod artık geçerli değil</translation>
-<translation id="6976724207780605356">Facebook ile oturum aç</translation>
+<translation id="6961220857430789248"><ph name="STRING" /> adresine ek talimatlar içeren bir oturum açma e-postası gönderildi. Oturum açma işlemini tamamlamak için e-postanızı kontrol edin.</translation>
 <translation id="6984204927251307445">E-posta adresini onaylayın</translation>
 <translation id="6999773882165218263">Ad ve soyadı</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Batı Sahra</translation>
+<translation id="7025117765722694556">Mevcut sistem durumunda istek yürütülemiyor.</translation>
 <translation id="7062299334696934251">Bilinmeyen bir hata oluştu.</translation>
 <translation id="7064251114893721966">Oturum açmak için <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> adresini zaten kullandınız. Bu hesaba ait şifrenizi girin.</translation>
+<translation id="7085136866191400000">Oturum açma e-postası gönderildi</translation>
 <translation id="7089485669419398254">İrlanda</translation>
 <translation id="7093343209860483088">Demokratik Kongo Cumhuriyeti</translation>
 <translation id="7118080999850002096">Şifreyi kurtarın</translation>
 <translation id="7150917293543492988">Kongo Cumhuriyeti</translation>
+<translation id="7157317431934821052">Bir istemcinin oluşturmaya çalıştığı kaynak zaten mevcut.</translation>
 <translation id="7174424882502155514">Misafir olarak devam et</translation>
 <translation id="7192078949090526171">San Marino</translation>
 <translation id="7197455001919474950">Güney Kıbrıs Rum Yönetimi</translation>
 <translation id="7198563013006562060">Solomon Adaları</translation>
 <translation id="7207660930894629055"><ph name="USER_EMAIL" /> ile devam edilsin mi?</translation>
+<translation id="720983450833499456">Bu cihazda <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> ile oturum açmaya devam etmek için şifreyi kurtarmanız gerekir.</translation>
 <translation id="7223410082658239002">Maldivler</translation>
 <translation id="7254028881697834212">São Tomé ve Príncipe</translation>
 <translation id="7268827299582726485">Oturum açma işlemini tamamlamak için e-posta adresinizi onaylayın</translation>
 <translation id="7272145663101316762">Slovenya</translation>
 <translation id="7280309713358692490">Güney Kore</translation>
+<translation id="7283725113395426048">Eşzamanlılık uyuşmazlığı (ör. okuma-değiştirme-yazma uyuşmazlığı).</translation>
+<translation id="7290147808482957603">API yöntemi, sunucu tarafından uygulanmadı.</translation>
 <translation id="7291567990403335374">Lesotho</translation>
 <translation id="7291656724505689727">Telefonla oturum aç</translation>
 <translation id="7320029088567935126">E-postanızı tekrar doğrulamayı deneyin</translation>
@@ -370,9 +405,11 @@
 <translation id="7643408533407091568"><ph name="EMAIL_ADDR" /> adresini oturum açmak için zaten kullandınız. Bu hesap için şifrenizi girin.</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{Şifre yeterince güçlü değil. En az <ph name="PH_1" /> karakter kullanın ve hem harf hem de rakam ekleyin}other{Şifre yeterince güçlü değil. En az <ph name="PH_1" /> karakter kullanın ve hem harf hem de rakam ekleyin}}</translation>
 <translation id="7699755204074920022">Zimbabve</translation>
-<translation id="7756945311981296300">Şifrenizi kurtarmak için <ph name="STRING" /> adresine gönderilen talimatları uygulayın.</translation>
-<translation id="7782885946428624225">Telefon numaranız doğrulanırken bir sorun oluştu</translation>
+<translation id="7746977132739352062">Eksik, geçersiz veya süresi dolmuş OAuth jetonundan dolayı isteğin kimliği doğrulanamadı.</translation>
+<translation id="7778245738233381641">Lütfen 6 haneli bir telefonla doğrulama kodu girin.</translation>
+<translation id="7790301903034097323">Şifre seçin</translation>
 <translation id="7796914496604415892">Yeni bir cihaz veya tarayıcı algılandı</translation>
+<translation id="786166109137986817">Şurada oturum aç: <ph name="DISPLAY_NAME" /></translation>
 <translation id="7868540442111212282">Çek Cumhuriyeti</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
 <translation id="7926046652648626866">GitHub ile oturum aç</translation>
@@ -398,6 +435,10 @@
 <translation id="8248811348666273823">İspanya</translation>
 <translation id="8283013172847705078">Kosta Rika</translation>
 <translation id="8289427665929658971">Samoa</translation>
+<translation id="8320813901740734879">
+<ph name="P_START" /><ph name="APP_NAME" /> uygulamasındaki hesabınız, iki faktörlü kimlik doğrulama için <ph name="SECOND_FACTOR" /> ile güncellendi.<ph name="P_END" />
+<ph name="P_START" />Bu değişikliği siz istemediyseniz işlemi geri almak için aşağıdaki bağlantıyı kullanabilirsiniz.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="8335491854074085727">Mali</translation>
 <translation id="8340009229650375501">Katar</translation>
 <translation id="8347635771101835254">Uruguay</translation>
@@ -428,6 +469,7 @@
 <translation id="868894957204919930">Bermuda</translation>
 <translation id="8694271531070467981">Niue</translation>
 <translation id="8745311627715763145">Guadeloupe</translation>
+<translation id="8752467400269476994">İstemci, geçersiz bir proje yapılandırması belirtti.</translation>
 <translation id="8760480624706028033">Filistin Toprakları</translation>
 <translation id="8770276147008360348">Slovakya</translation>
 <translation id="877434849857020571">Guernsey</translation>
@@ -440,19 +482,24 @@
 <translation id="8893950153780006385">Malezya</translation>
 <translation id="8895840173743975193">Cocos [Keeling] Adaları</translation>
 <translation id="8916080112145514151">Hala <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> hesabınızı bağlamak istiyorsanız bağlantıyı oturum açma işlemini başlattığınız cihazda açın. Hesabınızı bağlamak istemiyorsanız bu cihazda oturum açmak için Devam Et'e dokunun.</translation>
+<translation id="8920674952994839257">Tekrar dene</translation>
 <translation id="8939353296336237380">İlk hedefiniz <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> hesabınızı e-posta hesabınıza bağlamaktı ancak bağlantıyı oturumunuzun açık olmadığı farklı bir cihazda açtınız.</translation>
 <translation id="8971555482255213064">0:<ph name="PH_1" /> içinde kodu yeniden gönder</translation>
 <translation id="8984161590699631096">Fas</translation>
+<translation id="8994098794339484800">Bu cihazı tanımıyorsanız hesabınıza başka biri erişmeye çalışıyor olabilir. <ph name="START_LINK" />Parolanızı hemen değiştirmeniz<ph name="END_LINK" /> önerilir.</translation>
 <translation id="900153878296575829">Bangladeş</translation>
 <translation id="9022632332691561239">Telefon</translation>
 <translation id="9028063588419847334">Finlandiya</translation>
 <translation id="9078135685219203661">Birleşik Arap Emirlikleri</translation>
+<translation id="9121203582272050974">E-posta adresiniz doğrulandı ve değiştirildi</translation>
 <translation id="9156150178611681179">Şifre</translation>
 <translation id="9168877696443530714">Orta Afrika Cumhuriyeti</translation>
 <translation id="9186194643192393179">Curaçao</translation>
+<translation id="9193130710600355008">Olağan dışı etkinlikten dolayı bu cihazdan gelen tüm istekleri engelledik. Daha sonra tekrar deneyin.</translation>
 <translation id="919456844206936371">Tunus</translation>
 <translation id="9209678713072395487">Şifre değiştirildi</translation>
 <translation id="954276184636809129">Yunanistan</translation>
+<translation id="959388308828818789">İkinci faktör kaldırıldı</translation>
 <translation id="965930633376049617">Angola</translation>
 <translation id="988087302893519488">Kuveyt</translation>
 <translation id="994914101700264849">Girdiğiniz e-posta ile şifre eşleşmiyor</translation>

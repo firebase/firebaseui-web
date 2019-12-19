@@ -25,61 +25,48 @@ goog.require('firebaseui.auth.ui.page.Base');
 
 /**
  * Email link sign in linking UI component.
- * @param {string} email The user's email.
- * @param {?Object} providerConfig The provider config of the IdP we should use
- *     for sign in.
- * @param {function()} onSubmitClick Callback to invoke when the submit button
- *     is clicked.
- * @param {?function()=} opt_tosCallback Callback to invoke when the ToS link
- *     is clicked.
- * @param {?function()=} opt_privacyPolicyCallback Callback to invoke when the
- *     Privacy Policy link is clicked.
- * @param {?goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
- * @constructor
- * @extends {firebaseui.auth.ui.page.Base}
  */
-firebaseui.auth.ui.page.EmailLinkSignInLinking = function(
-    email,
-    providerConfig,
-    onSubmitClick,
-    opt_tosCallback,
-    opt_privacyPolicyCallback,
-    opt_domHelper) {
-  // Extend base page class and render email link sign in linking soy template.
-  firebaseui.auth.ui.page.EmailLinkSignInLinking.base(
-      this,
-      'constructor',
-      firebaseui.auth.soy2.page.emailLinkSignInLinking,
-      {
-        email: email,
-        providerConfig: providerConfig
-      },
-      opt_domHelper,
-      'emailLinkSignInLinking',
-      {
-        tosCallback: opt_tosCallback,
-        privacyPolicyCallback: opt_privacyPolicyCallback
-      });
-  this.onSubmitClick_ = onSubmitClick;
-};
-goog.inherits(firebaseui.auth.ui.page.EmailLinkSignInLinking,
-    firebaseui.auth.ui.page.Base);
+firebaseui.auth.ui.page.EmailLinkSignInLinking =
+    class extends firebaseui.auth.ui.page.Base {
+  /**
+   * @param {string} email The user's email.
+   * @param {?Object} providerConfig The provider config of the IdP we should
+   *     use for sign in.
+   * @param {function()} onSubmitClick Callback to invoke when the submit button
+   *     is clicked.
+   * @param {?function()=} opt_tosCallback Callback to invoke when the ToS link
+   *     is clicked.
+   * @param {?function()=} opt_privacyPolicyCallback Callback to invoke when the
+   *     Privacy Policy link is clicked.
+   * @param {?goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
+   */
+  constructor(
+      email, providerConfig, onSubmitClick, opt_tosCallback,
+      opt_privacyPolicyCallback, opt_domHelper) {
+    // Extend base page class and render email link sign in linking soy
+    // template.
+    super(
+        firebaseui.auth.soy2.page.emailLinkSignInLinking,
+        {email: email, providerConfig: providerConfig}, opt_domHelper,
+        'emailLinkSignInLinking', {
+          tosCallback: opt_tosCallback,
+          privacyPolicyCallback: opt_privacyPolicyCallback
+        });
+    this.onSubmitClick_ = onSubmitClick;
+  }
 
+  /** @override */
+  enterDocument() {
+    this.initFormElement(this.onSubmitClick_);
+    this.getSubmitElement().focus();
+    super.enterDocument();
+  }
 
-/** @override */
-firebaseui.auth.ui.page.EmailLinkSignInLinking.prototype.enterDocument =
-    function() {
-  this.initFormElement(this.onSubmitClick_);
-  this.getSubmitElement().focus();
-  firebaseui.auth.ui.page.EmailLinkSignInLinking.base(this, 'enterDocument');
-};
-
-
-/** @override */
-firebaseui.auth.ui.page.EmailLinkSignInLinking.prototype.disposeInternal =
-    function() {
-  this.onSubmitClick_ = null;
-  firebaseui.auth.ui.page.EmailLinkSignInLinking.base(this, 'disposeInternal');
+  /** @override */
+  disposeInternal() {
+    this.onSubmitClick_ = null;
+    super.disposeInternal();
+  }
 };
 
 

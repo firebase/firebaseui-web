@@ -105,60 +105,62 @@ firebaseui.auth.sni.REGEX_MOBILE_MSIE_UA_ =
     /MSIE ([\d.]+).*Windows Phone OS ([\d.]+)/;
 
 
-
 /**
  * Represents a version number for the user agent and platform.
- *
- * @param {string} version The version string.
- * @param {string=} opt_delimiter The delimiter which separates each components
- * of the version. Default is a dot '.'.
- * @constructor
  */
-firebaseui.auth.sni.Version = function(version, opt_delimiter) {
-  this.version_ = version;
-  var parts = version.split(opt_delimiter || '.');
-  this.components_ = [];
-  for (var i = 0; i < parts.length; i++) {
-    this.components_.push(parseInt(parts[i], 10));
-  }
-};
-
-
-/**
- * Compares the version with another one.
- *
- * @param {firebaseui.auth.sni.Version|string} version The version to compare.
- * @return {number} -1, 0 or 1 if it's less than, equal to or greater than the
- *     other.
- */
-firebaseui.auth.sni.Version.prototype.compare = function(version) {
-  if (!(version instanceof firebaseui.auth.sni.Version)) {
-    version = new firebaseui.auth.sni.Version(String(version));
-  }
-  var maxLength = Math.max(this.components_.length, version.components_.length);
-  for (var i = 0; i < maxLength; i++) {
-    var num1 = this.components_[i];
-    var num2 = version.components_[i];
-    if (num1 !== undefined && num2 !== undefined && num1 !== num2) {
-      return num1 - num2;
-    } else if (num1 === undefined) {
-      return -1;
-    } else if (num2 === undefined) {
-      return 1;
+firebaseui.auth.sni.Version = class {
+  /**
+   * @param {string} version The version string.
+   * @param {string=} opt_delimiter The delimiter which separates each
+   *     components of the version. Default is a dot '.'.
+   */
+  constructor(version, opt_delimiter) {
+    this.version_ = version;
+    var parts = version.split(opt_delimiter || '.');
+    this.components_ = [];
+    for (var i = 0; i < parts.length; i++) {
+      this.components_.push(parseInt(parts[i], 10));
     }
   }
-  return 0;
-};
 
 
-/**
- * Checks the version is equal to or greater than another one.
- *
- * @param {firebaseui.auth.sni.Version|string} version The version to compare.
- * @return {boolean} `true` if it's equal to or greater than the other.
- */
-firebaseui.auth.sni.Version.prototype.ge = function(version) {
-  return this.compare(version) >= 0;
+  /**
+   * Compares the version with another one.
+   *
+   * @param {firebaseui.auth.sni.Version|string} version The version to compare.
+   * @return {number} -1, 0 or 1 if it's less than, equal to or greater than the
+   *     other.
+   */
+  compare(version) {
+    if (!(version instanceof firebaseui.auth.sni.Version)) {
+      version = new firebaseui.auth.sni.Version(String(version));
+    }
+    var maxLength =
+        Math.max(this.components_.length, version.components_.length);
+    for (var i = 0; i < maxLength; i++) {
+      var num1 = this.components_[i];
+      var num2 = version.components_[i];
+      if (num1 !== undefined && num2 !== undefined && num1 !== num2) {
+        return num1 - num2;
+      } else if (num1 === undefined) {
+        return -1;
+      } else if (num2 === undefined) {
+        return 1;
+      }
+    }
+    return 0;
+  }
+
+
+  /**
+   * Checks the version is equal to or greater than another one.
+   *
+   * @param {firebaseui.auth.sni.Version|string} version The version to compare.
+   * @return {boolean} `true` if it's equal to or greater than the other.
+   */
+  ge(version) {
+    return this.compare(version) >= 0;
+  }
 };
 
 

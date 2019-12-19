@@ -21,7 +21,6 @@ goog.setTestOnly('firebaseui.auth.widget.handler.CommonTest');
 goog.require('firebaseui.auth.Account');
 goog.require('firebaseui.auth.AuthUI');
 goog.require('firebaseui.auth.AuthUIError');
-goog.require('firebaseui.auth.CredentialHelper');
 goog.require('firebaseui.auth.PendingEmailCredential');
 goog.require('firebaseui.auth.RedirectStatus');
 goog.require('firebaseui.auth.idp');
@@ -1504,7 +1503,7 @@ function testSelectFromAccountChooser_acCallbacks_unavailable() {
   // accountchooser.com callbacks provided.
   // Test when accountchooser.com is unavailable.
   app.setConfig({
-    'credentialHelper': firebaseui.auth.CredentialHelper.NONE,
+    'credentialHelper': firebaseui.auth.widget.Config.CredentialHelper.NONE,
     'callbacks': {
       'accountChooserResult': accountChooserResultCallback,
       'accountChooserInvoked': accountChooserInvokedCallback
@@ -1881,7 +1880,7 @@ function testHandleSignInWithEmail_acNotEnabled() {
       'setRedirectStatus',
       goog.testing.recordFunction());
   app.setConfig({
-    'credentialHelper': firebaseui.auth.CredentialHelper.NONE
+    'credentialHelper': firebaseui.auth.widget.Config.CredentialHelper.NONE
   });
   firebaseui.auth.widget.handler.common.acForceUiShown_ = true;
   firebaseui.auth.widget.handler.common.handleSignInWithEmail(app, container);
@@ -1892,6 +1891,39 @@ function testHandleSignInWithEmail_acNotEnabled() {
   assertFalse(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
   assertFalse(firebaseui.auth.widget.handler.common.acForceUiShown_);
 }
+
+
+function testHandleSignInWithEmail_prefillEmail() {
+  const prefilledEmail = 'user@example';
+  testStubs.replace(
+      firebaseui.auth.storage,
+      'setRedirectStatus',
+      goog.testing.recordFunction());
+  app.setConfig({
+    'credentialHelper': firebaseui.auth.widget.Config.CredentialHelper.NONE
+  });
+  firebaseui.auth.widget.handler.common.acForceUiShown_ = true;
+  firebaseui.auth.widget.handler.common.handleSignInWithEmail(
+      app, container, prefilledEmail);
+  assertBlankPage();
+  /** @suppress {missingRequire} */
+  assertEquals(0,
+      firebaseui.auth.storage.setRedirectStatus.getCallCount());
+  assertFalse(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
+  assertFalse(firebaseui.auth.widget.handler.common.acForceUiShown_);
+
+  testAuth.assertFetchSignInMethodsForEmail(
+      [prefilledEmail],
+      []);
+  return testAuth.process().then(() => {
+    // Password sign-up page should be shown.
+    assertPasswordSignUpPage();
+    // The prefilled email should be populated in the email entry.
+    assertEquals(prefilledEmail, getEmailElement().value);
+    return testAuth.process();
+  });
+}
+
 
 function testLoadAccountchooserJs_externallyLoaded() {
   // Test accountchooser.com client loading when already loaded.
@@ -2077,6 +2109,28 @@ function testFederatedSignIn_success_redirectMode() {
   // Confirm signInWithRedirect called underneath.
   testAuth.assertSignInWithRedirect([expectedProvider]);
   testAuth.process();
+
+}
+
+
+function testFederatedSignIn_success_redirectMode_tenantId() {
+  app.setTenantId('TENANT_ID');
+  var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
+  var component = new firebaseui.auth.ui.page.ProviderSignIn(
+      goog.nullFunction(), []);
+  component.render(container);
+  assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
+  // This will trigger a signInWithRedirect using the expected provider.
+  firebaseui.auth.widget.handler.common.federatedSignIn(
+      app, component, 'google.com');
+  assertTrue(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
+  assertEquals(
+      'TENANT_ID',
+      firebaseui.auth.storage.getRedirectStatus(app.getAppId()).getTenantId());
+  assertProviderSignInPage();
+  // Confirm signInWithRedirect called underneath.
+  testAuth.assertSignInWithRedirect([expectedProvider]);
+  testAuth.process();
 }
 
 
@@ -2126,7 +2180,7 @@ function testFederatedSignIn_error_redirectMode() {
 
 function testFederatedSignIn_success_cordova() {
   simulateCordovaEnvironment();
-  var cred  = firebaseui.auth.idp.getAuthCredential({
+  var cred  = createMockCredential({
     'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   });
@@ -2314,7 +2368,7 @@ function testFederatedSignIn_anonymousUpgrade_success_cordova() {
   simulateCordovaEnvironment();
   app.updateConfig('autoUpgradeAnonymousUsers', true);
   externalAuth.setUser(anonymousUser);
-  var cred  = firebaseui.auth.idp.getAuthCredential({
+  var cred  = createMockCredential({
     'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   });
@@ -2366,7 +2420,7 @@ function testFederatedSignIn_anonymousUpgrade_credInUse_error_cordova() {
   simulateCordovaEnvironment();
   app.updateConfig('autoUpgradeAnonymousUsers', true);
   externalAuth.setUser(anonymousUser);
-  var cred  = firebaseui.auth.idp.getAuthCredential({
+  var cred  = createMockCredential({
     'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   });
@@ -2417,7 +2471,7 @@ function testFederatedSignIn_anonymousUpgrade_emailInUse_error_cordova() {
   simulateCordovaEnvironment();
   app.updateConfig('autoUpgradeAnonymousUsers', true);
   externalAuth.setUser(anonymousUser);
-  var cred  = firebaseui.auth.idp.getAuthCredential({
+  var cred  = createMockCredential({
     'providerId': 'google.com',
     'accessToken': 'ACCESS_TOKEN'
   });
@@ -2560,7 +2614,8 @@ function testHandleGoogleYoloCredential_handledSuccessfully_withScopes() {
       'authMethod': 'https://accounts.google.com',
       'clientId': '1234567890.apps.googleusercontent.com'
     }, 'facebook.com', 'password', 'phone'],
-    'credentialHelper': firebaseui.auth.CredentialHelper.GOOGLE_YOLO
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
   });
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
       goog.nullFunction(), []);
@@ -2590,7 +2645,8 @@ function testHandleGoogleYoloCredential_handledSuccessfully_withoutScopes() {
       'authMethod': 'https://accounts.google.com',
       'clientId': '1234567890.apps.googleusercontent.com'
     }, 'facebook.com', 'password', 'phone'],
-    'credentialHelper': firebaseui.auth.CredentialHelper.GOOGLE_YOLO
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
   });
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
       goog.nullFunction(), []);
@@ -2654,7 +2710,8 @@ function testHandleGoogleYoloCredential_unhandled_withoutScopes() {
       'authMethod': 'https://accounts.google.com',
       'clientId': '1234567890.apps.googleusercontent.com'
     }, 'facebook.com', 'password', 'phone'],
-    'credentialHelper': firebaseui.auth.CredentialHelper.GOOGLE_YOLO
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
   });
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
       goog.nullFunction(), []);
@@ -2696,7 +2753,8 @@ function testHandleGoogleYoloCredential_cancelled_withoutScopes() {
       'authMethod': 'https://accounts.google.com',
       'clientId': '1234567890.apps.googleusercontent.com'
     }, 'facebook.com', 'password', 'phone'],
-    'credentialHelper': firebaseui.auth.CredentialHelper.GOOGLE_YOLO
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
   });
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
       goog.nullFunction(), []);
@@ -2727,7 +2785,8 @@ function testHandleGoogleYoloCredential_unsupportedCredential() {
       'authMethod': 'https://accounts.google.com',
       'clientId': '1234567890.apps.googleusercontent.com'
     }, 'facebook.com', 'password', 'phone'],
-    'credentialHelper': firebaseui.auth.CredentialHelper.GOOGLE_YOLO
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
   });
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
       goog.nullFunction(), []);
@@ -2760,7 +2819,8 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_noScopes() {
       'authMethod': 'https://accounts.google.com',
       'clientId': '1234567890.apps.googleusercontent.com'
     }, 'facebook.com', 'password', 'phone'],
-    'credentialHelper': firebaseui.auth.CredentialHelper.GOOGLE_YOLO
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
   });
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
       googleYoloIdTokenCredential.idToken);
@@ -2820,7 +2880,8 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_credentialInUse() {
       'authMethod': 'https://accounts.google.com',
       'clientId': '1234567890.apps.googleusercontent.com'
     }, 'facebook.com', 'password', 'phone'],
-    'credentialHelper': firebaseui.auth.CredentialHelper.GOOGLE_YOLO
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
   });
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
       googleYoloIdTokenCredential.idToken);
@@ -2876,7 +2937,8 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_fedEmailInUse() {
       'authMethod': 'https://accounts.google.com',
       'clientId': '1234567890.apps.googleusercontent.com'
     }, 'facebook.com', 'password', 'phone'],
-    'credentialHelper': firebaseui.auth.CredentialHelper.GOOGLE_YOLO
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
   });
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
       googleYoloIdTokenCredential.idToken);
@@ -2943,7 +3005,8 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_passEmailInUse() {
       'authMethod': 'https://accounts.google.com',
       'clientId': '1234567890.apps.googleusercontent.com'
     }, 'facebook.com', 'password', 'phone'],
-    'credentialHelper': firebaseui.auth.CredentialHelper.GOOGLE_YOLO
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
   });
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
       googleYoloIdTokenCredential.idToken);
@@ -3020,7 +3083,8 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_withScopes() {
       'authMethod': 'https://accounts.google.com',
       'clientId': '1234567890.apps.googleusercontent.com'
     }, 'facebook.com', 'password', 'phone'],
-    'credentialHelper': firebaseui.auth.CredentialHelper.GOOGLE_YOLO
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
   });
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
       goog.nullFunction(), []);

@@ -23,68 +23,56 @@ goog.require('firebaseui.auth.ui.element.form');
 goog.require('firebaseui.auth.ui.page.Base');
 
 
-
 /**
  * Email mismatch UI component.
- * @param {string} userEmail The email returned by identity provider.
- * @param {string} pendingEmail The email formerly used to sign in.
- * @param {function()} onContinueClick Callback to invoke when the continue
- *     button is clicked.
- * @param {function()} onCancelClick Callback to invoke when the cancel
- *     button is clicked.
- * @param {?function()=} opt_tosCallback Callback to invoke when the ToS link
- *     is clicked.
- * @param {?function()=} opt_privacyPolicyCallback Callback to invoke when the
- *     Privacy Policy link is clicked.
- * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
- * @constructor
- * @extends {firebaseui.auth.ui.page.Base}
  */
-firebaseui.auth.ui.page.EmailMismatch = function(
-    userEmail,
-    pendingEmail,
-    onContinueClick,
-    onCancelClick,
-    opt_tosCallback,
-    opt_privacyPolicyCallback,
-    opt_domHelper) {
-  // Extend base page class and render email mismatch soy template.
-  firebaseui.auth.ui.page.EmailMismatch.base(
-      this,
-      'constructor',
-      firebaseui.auth.soy2.page.emailMismatch,
-      {
-        userEmail: userEmail,
-        pendingEmail: pendingEmail
-      },
-      opt_domHelper,
-      'emailMismatch',
-      {
-        tosCallback: opt_tosCallback,
-        privacyPolicyCallback: opt_privacyPolicyCallback
-      });
-  this.onContinueClick_ = onContinueClick;
-  this.onCancelClick_ = onCancelClick;
-};
-goog.inherits(firebaseui.auth.ui.page.EmailMismatch,
-    firebaseui.auth.ui.page.Base);
+firebaseui.auth.ui.page.EmailMismatch =
+    class extends firebaseui.auth.ui.page.Base {
+  /**
+   * @param {string} userEmail The email returned by identity provider.
+   * @param {string} pendingEmail The email formerly used to sign in.
+   * @param {function()} onContinueClick Callback to invoke when the continue
+   *     button is clicked.
+   * @param {function()} onCancelClick Callback to invoke when the cancel
+   *     button is clicked.
+   * @param {?function()=} opt_tosCallback Callback to invoke when the ToS link
+   *     is clicked.
+   * @param {?function()=} opt_privacyPolicyCallback Callback to invoke when the
+   *     Privacy Policy link is clicked.
+   * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
+   */
+  constructor(
+      userEmail, pendingEmail, onContinueClick, onCancelClick, opt_tosCallback,
+      opt_privacyPolicyCallback, opt_domHelper) {
+    // Extend base page class and render email mismatch soy template.
+    super(
+        firebaseui.auth.soy2.page.emailMismatch,
+        {userEmail: userEmail, pendingEmail: pendingEmail}, opt_domHelper,
+        'emailMismatch', {
+          tosCallback: opt_tosCallback,
+          privacyPolicyCallback: opt_privacyPolicyCallback
+        });
+    this.onContinueClick_ = onContinueClick;
+    this.onCancelClick_ = onCancelClick;
+    /** @type {?} */
+    this.onSubmitClick_;
+  }
 
+  /** @override */
+  enterDocument() {
+    // Initialize form elements with their click handlers.
+    this.initFormElement(this.onContinueClick_, this.onCancelClick_);
+    // Set initial focus on the submit button.
+    this.getSubmitElement().focus();
+    super.enterDocument();
+  }
 
-/** @override */
-firebaseui.auth.ui.page.EmailMismatch.prototype.enterDocument = function() {
-  // Initialize form elements with their click handlers.
-  this.initFormElement(this.onContinueClick_, this.onCancelClick_);
-  // Set initial focus on the submit button.
-  this.getSubmitElement().focus();
-  firebaseui.auth.ui.page.EmailMismatch.base(this, 'enterDocument');
-};
-
-
-/** @override */
-firebaseui.auth.ui.page.EmailMismatch.prototype.disposeInternal = function() {
-  this.onSubmitClick_ = null;
-  this.onCancelClick_ = null;
-  firebaseui.auth.ui.page.EmailMismatch.base(this, 'disposeInternal');
+  /** @override */
+  disposeInternal() {
+    this.onSubmitClick_ = null;
+    this.onCancelClick_ = null;
+    super.disposeInternal();
+  }
 };
 
 

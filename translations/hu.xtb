@@ -12,11 +12,14 @@
 <translation id="1163771673786684213">Fülöp-szigetek</translation>
 <translation id="1170304454812139475">Románia</translation>
 <translation id="1194565221977667376">Dél-Georgia és Déli-Sandwich-szigetek</translation>
-<translation id="124367247840231378">Rendben</translation>
+<translation id="1233977465587641672">Végleges adatvesztés vagy az adatok helyrehozhatatlan sérülése</translation>
 <translation id="1244846213930750436">Olaszország</translation>
 <translation id="1268266284642694018">Libanon</translation>
 <translation id="1294742657282291237">Guyana</translation>
 <translation id="1297168472480293352">Guatemala</translation>
+<translation id="1307255433239736397"><ph name="START_PARAGRAPH" />A második lépcső eltávolítása során hiba történt.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Próbálja meg ismét eltávolítani. Ha nem sikerül, kérjen segítséget az ügyfélszolgálattól.<ph name="END_PARAGRAPH" /></translation>
+<translation id="1310034618729602982">Próbálja újra frissíteni az e-mail-címét</translation>
+<translation id="1312824004897469797">Hálózati hiba történt. Próbálja meg újra később.</translation>
 <translation id="1315809131562953678">Érvényes telefonszámot adjon meg.</translation>
 <translation id="1335716056288807013">Az Ellenőrzés gombra való koppintással elfogadja <ph name="START_LINK_1" />Általános Szerződési Feltételeinket<ph name="END_LINK" /> és <ph name="START_LINK_2" />Adatvédelmi irányelveinket<ph name="END_LINK" />. A rendszer SMS-t küldhet Önnek. A szolgáltató ezért üzenet- és adatforgalmi díjat számíthat fel.</translation>
 <translation id="137210131544215127">Adja meg a jelszót.</translation>
@@ -27,6 +30,7 @@
 <translation id="1479035434297790822">Az Ön IP-címéről túl sok fiókkérelem érkezik. Néhány perc múlva próbálja újra.</translation>
 <translation id="1483249363694224399">Srí Lanka</translation>
 <translation id="1507995441600689506">Most már bejelentkezhet új fiókjával.</translation>
+<translation id="1544981664986460902">Az ügyfél érvénytelen argumentumot adott meg.</translation>
 <translation id="1575848116712334589">Csád</translation>
 <translation id="1630237004390596779">Kód újraküldése ennyi idő elteltével: <ph name="STRING" /></translation>
 <translation id="1653501608290591291">Belarusz</translation>
@@ -62,6 +66,7 @@
 <translation id="2206856445831770486">Github</translation>
 <translation id="2223717216014247341">Adatvédelmi irányelvek</translation>
 <translation id="2224563296468523455">Guam</translation>
+<translation id="2245182894886860848">Elfogyott az erőforráshoz rendelkezésre álló kvóta, vagy hamarosan eléri a megengedett értéket.</translation>
 <translation id="2249420035688424170">Horvátország</translation>
 <translation id="2251583471831926217">Litvánia</translation>
 <translation id="227405248692044138">Málta</translation>
@@ -71,22 +76,28 @@
 <translation id="2324942959480650701">Vendég</translation>
 <translation id="2331781584136059536">Ghána</translation>
 <translation id="2338909515537249568">A böngészője nem támogatja internetes tárhely használatát. Kérjük, egy másik böngészővel próbálja újra.</translation>
+<translation id="2342152898808240937">Az ügyfél visszavonta a kérelmet.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Probléma lépett fel bejelentkezési e-mail-címének visszamódosítása során.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Ha ismételt próbálkozást követően sem sikerül visszaállítania az e-mail-címét, kérjen segítséget a rendszergazdától.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Bahrein</translation>
+<translation id="2392247362473363900">Belső szerverhiba.</translation>
 <translation id="2405828009195143258">Irán</translation>
+<translation id="2414459877074534554">GitHub</translation>
 <translation id="244437093285883777">Annak ellenőrzése, hogy Ön nem robot...</translation>
 <translation id="2448227725017851570">Ez a kód már nem érvényes.</translation>
 <translation id="2448487988481516351">Új-Kaledónia</translation>
 <translation id="2451742558284013472">Monaco</translation>
 <translation id="2460064915291012298">Seychelle-szigetek</translation>
+<translation id="2490672522100125425">A hitelesítés második lépéseként eltávolítottuk a következőt: <ph name="START_STRONG" /><ph name="FACTOR_ID" /> (<ph name="PHONE_NUMBER" /><ph name="END_STRONG" />).</translation>
 <translation id="2494962141967044042">A jelenlegi anonim felhasználó frissítése nem sikerült. A nem anonim hitelesítési adat már egy másik felhasználói fiókhoz van társítva.</translation>
 <translation id="2541179214468543429">Túl sokszor adott meg hibás jelszót. Néhány perc múlva próbálja újra.</translation>
 <translation id="2561560038714758184">Biztonság</translation>
 <translation id="2561835578785502516">A jelszó-visszaállítási kérelem lejárt, vagy pedig már használták a linket.</translation>
+<translation id="2562498793334241360">Most már bejelentkezhet új e-mail-címével (<ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />).</translation>
 <translation id="2581514546525533462">A megadott országkód nem támogatott.</translation>
 <translation id="2600950452451016107">Ellenőrizze, hogy helyesen adta-e meg az e-mail-címét.</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">Kambodzsa</translation>
+<translation id="2614081868476050089">A szolgáltatás nem áll rendelkezésre.</translation>
 <translation id="2616650714309312732">Portugália</translation>
 <translation id="2619590123270932385">Francia Guiana</translation>
 <translation id="2621854044487969847">Brit Virgin-szigetek</translation>
@@ -102,19 +113,21 @@
 <translation id="2741235824871026219">Ellenőrzés</translation>
 <translation id="2752984808025184019">Dél-Afrika</translation>
 <translation id="2760636260031093254">A folytatáshoz adja meg e-mail-címét.</translation>
+<translation id="276938411216176478">A felhasználói fiókot egy adminisztrátor letiltotta.</translation>
 <translation id="2782685789517131804">A további utasításokat tartalmazó bejelentkezési e-mailt elküldtük a(z) <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> e-mail-címre. A bejelentkezés befejezéséhez keresse meg e-mailek között.</translation>
 <translation id="2828509010894808185">Fiók létrehozása</translation>
 <translation id="2834770837848769530">Afganisztán</translation>
 <translation id="2884525438023347369">Ha a(z) <ph name="BTN" /> gombra koppint, az azt jelenti, hogy elfogadja a következőt: <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">Kanada</translation>
 <translation id="2911018261311455240">Dánia</translation>
+<translation id="2949732021187449522">Túllépte a kérelem határidejét.</translation>
 <translation id="295270254328846278">Ausztria</translation>
 <translation id="2976748949054245370">Az e-mail-címek nem egyeznek.</translation>
 <translation id="29947009417147243">Dél-Szudán</translation>
 <translation id="3040586343252524572">Jemen</translation>
 <translation id="3045244039436637116">Bissau-Guinea</translation>
 <translation id="3046745817056752783">Szaúd-Arábia</translation>
-<translation id="311953035679824832">Alkalmazás emblémája</translation>
+<translation id="3083819527012413063">További biztonsági elem került hozzáadásra a(z) <ph name="APP_NAME" /> alkalmazásban</translation>
 <translation id="3122584863645047144">Amerikai Virgin-szigetek</translation>
 <translation id="3141549453511344986">Bejelentkezés telefonnal</translation>
 <translation id="3147551458884186429">Indonézia</translation>
@@ -122,6 +135,7 @@
 <translation id="3164676761565983157">Venezuela</translation>
 <translation id="3170526549630869494">Problémái vannak a bejelentkezéssel?</translation>
 <translation id="3204914819635733576">Igazolja, hogy Ön az</translation>
+<translation id="3215050409577090361">A kérelem hitelesítésekor probléma merült fel. A hitelesítési folyamat újrakezdéséhez kérjük, hogy nyissa meg ismét azt az URL-t, amely Önt erre az oldalra irányította.</translation>
 <translation id="3216149523061905579">Dominika</translation>
 <translation id="3223688630903046698">Új jelszó</translation>
 <translation id="3250864391349648273">Gabon</translation>
@@ -139,6 +153,7 @@
 <translation id="3434621886769337032">Gambia</translation>
 <translation id="3472358534605257432">Kész</translation>
 <translation id="3479685026618611556">Mégse</translation>
+<translation id="3481131180097895739">Ismeretlen szerverhiba.</translation>
 <translation id="3487364398525389372">Adja meg fiókja nevét.</translation>
 <translation id="3521753471343796628">Irak</translation>
 <translation id="354888504916863713">Vietnam</translation>
@@ -150,6 +165,8 @@
 <translation id="3605933028246642593">Nepál</translation>
 <translation id="3608140835232496799">Tokelau-szigetek</translation>
 <translation id="3620185428620643248">A hitelesítésszolgáltató megadott hitelesítési adatai nem támogatottak.</translation>
+<translation id="3658306886462996856">Az adott e-mail-cím esetén nem áll rendelkezésre bejelentkezési szolgáltató; kérjük, próbálkozzon másik e-mail-címmel.</translation>
+<translation id="3695180913983403205">Írja be utónevét és vezetéknevét.</translation>
 <translation id="3700097473356216716">Kolumbia</translation>
 <translation id="3703067902498234034">Ha a MENTÉS lehetőségre koppint, az azt jelenti, hogy elfogadja a következőket: </translation>
 <translation id="3736041829854387744">Burundi</translation>
@@ -157,7 +174,7 @@
 <translation id="3813801701232240278">Twitter</translation>
 <translation id="3814740523815122846">E-mail-címét ellenőriztük</translation>
 <translation id="3819556544383051267">Pápua Új-Guinea</translation>
-<translation id="3831901810365396899">Mentés</translation>
+<translation id="3828991952827504549">A megadott forrás nem található.</translation>
 <translation id="3862053977934420187">Ellenőrzés…</translation>
 <translation id="3898029444496274961">Bejelentkezés</translation>
 <translation id="3905423743526704083">Kelet-Timor</translation>
@@ -190,6 +207,7 @@
 <translation id="4440507149645221385">Telefon</translation>
 <translation id="4450602713221237198">Újraküldés</translation>
 <translation id="4498504413765490964">Honduras</translation>
+<translation id="450385255996536115">A művelet túllépte a megengedett időtartamot.</translation>
 <translation id="4515732781724470190">Niger</translation>
 <translation id="4521614244485847733">Ehhez az e-mail-címhez egyetlen meglévő fiók sem tartozik.</translation>
 <translation id="4556476996891737119">Jordánia</translation>
@@ -201,6 +219,7 @@
 <translation id="4723701728629289714">Izrael</translation>
 <translation id="4725154639671888461">Hiba történt</translation>
 <translation id="4751937685196678080">Szám</translation>
+<translation id="4769553102874508676">Az ügyfél nem rendelkezik megfelelő jogosultsággal.</translation>
 <translation id="4773060157545352832">A reCAPTCHA megoldása után próbálja újra</translation>
 <translation id="4775051289386800916">Nicaragua</translation>
 <translation id="4783400389150493171">Burkina Faso</translation>
@@ -209,14 +228,17 @@
 <translation id="4871106926303956169">Turks- és Caicos-szigetek</translation>
 <translation id="4877597386645466815">Kód újraküldése ennyi idő elteltével: <ph name="TIME_REMAINING" /></translation>
 <translation id="4915406999072654369">Ellenőrizze az e-mailjeit.</translation>
+<translation id="4923375331439013137">Nem sikerült eltávolítani a második lépést</translation>
 <translation id="4955175001894453989">Jelszó hozzáadása</translation>
 <translation id="496366313824211679">Salvador</translation>
+<translation id="4982483807073820954">Fiókja jelszavának módosításához újra be kell jelentkeznie.</translation>
 <translation id="4991626049082973728">Szerbia</translation>
 <translation id="4991892293325936102">Beliz</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" />a következő e-mail-címhez: <ph name="START_STRONG" />(<ph name="EMAIL" />)<ph name="END_STRONG" /><ph name="END_PARAGRAPH" /></translation>
 <translation id="5059105734231232362"><ph name="IDP_DISPLAY_NAME" />-fiójának és az e-mail-címnek az összekapcsolásához a linket ugyanazon az eszközön vagy ugyanabban a böngészőben kell megnyitni.</translation>
 <translation id="5080084639513001393">Svédország</translation>
 <translation id="5080899604429810481">Szent Márton-sziget</translation>
+<translation id="5115661695221894994"><ph name="START_PARAGRAPH" />Az e-mail-címe igazolására és frissítésére vonatkozó kérelem lejárt, vagy már használták a linket.<ph name="END_PARAGRAPH" /></translation>
 <translation id="5143657419516597442">Saint Lucia</translation>
 <translation id="521218078240459724">@string/app_name</translation>
 <translation id="5241732101105320538">Ellenőrizze az e-mailjeit.</translation>
@@ -224,13 +246,15 @@
 <translation id="5323041129469627535">Omán</translation>
 <translation id="5326139833547026317">Holland Karib-térség</translation>
 <translation id="5347459868860672391">E-mail-cím frissítése</translation>
-<translation id="5403395913830260677">Bejelentkezés Twitter-fiókkal</translation>
+<translation id="5397737236938796917">Sikeresen kijelentkezett.</translation>
+<translation id="5406620662929585965">Bejelentkezés telefonnal</translation>
 <translation id="5407010562344541906">Telefonszám</translation>
 <translation id="5409861738809250803">Már rendelkezik fiókkal</translation>
 <translation id="5410341463946781720">Thaiföld</translation>
 <translation id="5443669846203963095">Adatvédelmi irányelvek</translation>
 <translation id="5444635161362535036">Liechtenstein</translation>
 <translation id="5483706910421209104">Név szerkesztése</translation>
+<translation id="5487696047685227891">A hitelesítés második lépéseként eltávolítottuk az eszközt vagy az alkalmazást.</translation>
 <translation id="5490651768073507833">Ugyanazzal az eszközzel vagy böngészővel nyissa meg a linket, amellyel elkezdte a bejelentkezési műveletet.</translation>
 <translation id="5524360735013196510">Hollandia</translation>
 <translation id="5528189843379142883">Egyenlítői-Guinea</translation>
@@ -254,7 +278,7 @@
 <translation id="5699028034244995851">A folytatáshoz adja meg e-mail-címét.</translation>
 <translation id="5701178667798108817">Telefonszám igazolása</translation>
 <translation id="5715637701147651513">Libéria</translation>
-<translation id="5755179287528310939">Ezzel az e-mail-címmel már létezik fiók.</translation>
+<translation id="5747263508495256858">Kijelentkezés</translation>
 <translation id="5771034676910614239">Madagaszkár</translation>
 <translation id="5818634293686963864">Kazahsztán</translation>
 <translation id="5829301468800336085">Bejelentkezés...</translation>
@@ -273,15 +297,20 @@
 <translation id="6032262985756512833">Adja meg a(z) <ph name="STRING" /> számjegyű kódot, melyet ide küldtünk:</translation>
 <translation id="6044396095102058216">Ezt a telefonszámot már túl sokszor használták.</translation>
 <translation id="6083089720215618333">A megadott e-mail-cím nem egyezik meg az aktuális bejelentkezési munkamenetben szereplővel.</translation>
-<translation id="6113531938704280909">Fiók leválasztása</translation>
+<translation id="6091051069256411999">Twitter</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />Jelentkezzen be a(z) <ph name="APP_NAME" /> alkalmazásba&lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6132202686885223981">Ellenőrizze, hogy a beérkező leveleket tartalmazó mappa nem telt-e meg, vagy nincs-e más, a mappával kapcsolatos probléma.</translation>
+<translation id="6135589730599211649">Az ügyfél érvénytelen tartományt adott meg.</translation>
+<translation id="6143147250106939258">Túllépte a műveletre vonatkozó kvótát. Próbálja meg újra később.</translation>
 <translation id="6189573836664806798">Paraguay</translation>
 <translation id="6192657410634245771">Algéria</translation>
 <translation id="6213969168046789596">Túl sokszor adott meg hibás jelszót. Kérjük, néhány perc múlva próbálja újra.</translation>
 <translation id="6216759405419177713">Norfolk-sziget</translation>
 <translation id="6245066275978703471">A telefonszám automatikusan ellenőrizve</translation>
-<translation id="6283536862756552051">A jelszó módosításához előbb meg kell adnia a jelenlegi jelszavát.</translation>
-<translation id="6299890279889400823">Vissza</translation>
+<translation id="6269083314054226194">Hálózati hiba; ellenőrizze az internetkapcsolatot.</translation>
+<translation id="6295157125625453859">Ellenőrzött!</translation>
 <translation id="6316446940976157217">India</translation>
 <translation id="6327723482938582895">Benin</translation>
 <translation id="6338643731889005578">Folytatás</translation>
@@ -330,27 +359,33 @@
 <translation id="6921505896641453739">E-mail</translation>
 <translation id="6929813273561975780">Következő</translation>
 <translation id="6951302238647056860">Ez a kód már nem érvényes.</translation>
-<translation id="6976724207780605356">Bejelentkezés Facebook-fiókkal</translation>
+<translation id="6961220857430789248">A további utasításokat tartalmazó bejelentkezési e-mailt elküldtük ide: <ph name="STRING" />. A bejelentkezés befejezéséhez keresse meg az e-mailjei között.</translation>
 <translation id="6984204927251307445">E-mail-cím megerősítése</translation>
 <translation id="6999773882165218263">Utónév és vezetéknév</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Nyugat-Szahara</translation>
+<translation id="7025117765722694556">A jelenlegi rendszerállapotban a kérelem nem teljesíthető.</translation>
 <translation id="7062299334696934251">Ismeretlen hiba történt.</translation>
 <translation id="7064251114893721966">Ezt az e-mail-fiókot <ph name="START_STRONG" />(<ph name="EMAIL" />)<ph name="END_STRONG" /> már használta bejelentkezésre. Adja meg a fiókhoz tartozó jelszót.</translation>
+<translation id="7085136866191400000">Elküldtük a bejelentkezési e-mailt</translation>
 <translation id="7089485669419398254">Írország</translation>
 <translation id="7093343209860483088">Kongói Demokratikus Köztársaság</translation>
 <translation id="7118080999850002096">Jelszó visszaállítása</translation>
 <translation id="7150917293543492988">Kongói Köztársaság</translation>
+<translation id="7157317431934821052">Egy ügyfél által létrehozni kívánt erőforrás már létezik.</translation>
 <translation id="7174424882502155514">Folytatás vendégként</translation>
 <translation id="7192078949090526171">San Marino</translation>
 <translation id="7197455001919474950">Ciprus</translation>
 <translation id="7198563013006562060">Salamon-szigetek</translation>
 <translation id="7207660930894629055">Folytatja a következővel: <ph name="USER_EMAIL" />?</translation>
+<translation id="720983450833499456">Ha folytatni kívánja a(z) <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> e-mail-címmel való bejelentkezést ezen az eszközön, akkor vissza kell állítania a jelszót.</translation>
 <translation id="7223410082658239002">Maldív-szigetek</translation>
 <translation id="7254028881697834212">São Tomé és Príncipe</translation>
 <translation id="7268827299582726485">A bejelentkezés befejezéséhez erősítse meg az e-mail-címét</translation>
 <translation id="7272145663101316762">Szlovénia</translation>
 <translation id="7280309713358692490">Dél-Korea</translation>
+<translation id="7283725113395426048">Egyidejűségi ütközés, pl. olvasási–módosítási–írási ütközés.</translation>
+<translation id="7290147808482957603">A szerver nem alkalmazott API-módszert.</translation>
 <translation id="7291567990403335374">Lesotho</translation>
 <translation id="7291656724505689727">Bejelentkezés telefonnal</translation>
 <translation id="7320029088567935126">Próbálja újra igazolni az e-mail-címét</translation>
@@ -370,8 +405,10 @@
         bejelentkezésre. Adja meg a fiókhoz tartozó jelszót.</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{A jelszó nem elég erős. Legalább <ph name="PH_1" /> karaktert használjon, amelyben betűk és számok is szerepeljenek.}other{A jelszó nem elég erős. Legalább <ph name="PH_1" /> karaktert használjon, amelyben betűk és számok is szerepeljenek.}}</translation>
 <translation id="7699755204074920022">Zimbabwe</translation>
+<translation id="7746977132739352062">Hiányzó, érvénytelen vagy lejárt OAuth-token miatt a kérelem nem hitelesíthető.</translation>
 <translation id="7782885946428624225">Hiba történt a telefonszám ellenőrzésekor.</translation>
 <translation id="7796914496604415892">A rendszer új eszközt vagy böngészőt észlelt</translation>
+<translation id="786166109137986817">Jelentkezzen be a(z) <ph name="DISPLAY_NAME" /> alkalmazásba</translation>
 <translation id="7868540442111212282">Csehország</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
 <translation id="7926046652648626866">Bejelentkezés GitHubbal</translation>
@@ -426,6 +463,7 @@
 <translation id="868894957204919930">Bermuda-szigetek</translation>
 <translation id="8694271531070467981">Niue</translation>
 <translation id="8745311627715763145">Guadeloupe</translation>
+<translation id="8752467400269476994">Az ügyfél érvénytelen projektbeállítást adott meg.</translation>
 <translation id="8760480624706028033">Palesztin Területek</translation>
 <translation id="8770276147008360348">Szlovákia</translation>
 <translation id="877434849857020571">Guernsey</translation>
@@ -438,19 +476,24 @@
 <translation id="8893950153780006385">Malajzia</translation>
 <translation id="8895840173743975193">Kókusz (Keeling)-szigetek</translation>
 <translation id="8916080112145514151">Ha továbbra is szeretné összekapcsolni <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" />-fiókját, akkor azon az eszközön nyissa meg a linket, amelyen megkezdte a bejelentkezést. Ha ezen az eszközön kíván bejelentkezni, akkor koppintson a Folytatás gombra.</translation>
+<translation id="8920674952994839257">Újra</translation>
 <translation id="8939353296336237380"><ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" />-fiókját eredetileg az e-mail-fiókjával kívánta összekapcsolni, a linket azonban nem azon az eszközön nyitotta meg, amelyen bejelentkezett.</translation>
 <translation id="8971555482255213064">Kód újraküldése ennyi idő elteltével: 0:<ph name="PH_1" /></translation>
 <translation id="8984161590699631096">Marokkó</translation>
+<translation id="8994098794339484800">Ha nem ismeri fel ezt az eszközt, előfordulhat, hogy valaki megpróbált belépni a fiókjába. Érdemes lenne <ph name="START_LINK" />azonnal megváltoztatnia jelszavát<ph name="END_LINK" />.</translation>
 <translation id="900153878296575829">Banglades</translation>
 <translation id="9022632332691561239">Telefon</translation>
 <translation id="9028063588419847334">Finnország</translation>
 <translation id="9078135685219203661">Egyesült Arab Emírségek</translation>
+<translation id="9121203582272050974">E-mail-címe sikeresen igazolva és frissítve</translation>
 <translation id="9156150178611681179">Jelszó</translation>
 <translation id="9168877696443530714">Közép-afrikai Köztársaság</translation>
 <translation id="9186194643192393179">Curaçao</translation>
+<translation id="9193130710600355008">Szokatlan tevékenység miatt az erről az eszközről küldött összes kérelmet letiltottuk. Próbálja meg újra később.</translation>
 <translation id="919456844206936371">Tunézia</translation>
 <translation id="9209678713072395487">Módosult jelszó</translation>
 <translation id="954276184636809129">Görögország</translation>
+<translation id="959388308828818789">Második lépcső eltávolítva</translation>
 <translation id="965930633376049617">Angola</translation>
 <translation id="988087302893519488">Kuvait</translation>
 <translation id="994914101700264849">A megadott e-mail-cím és jelszó nem egyezik.</translation>

@@ -17,95 +17,95 @@
  * providers.
  */
 
-goog.provide('firebaseui.auth.ui.page.ProviderSignInTest');
-goog.setTestOnly('firebaseui.auth.ui.page.ProviderSignInTest');
+goog.module('firebaseui.auth.ui.page.ProviderSignInTest');
+goog.setTestOnly();
 
-goog.require('firebaseui.auth.ui.element.IdpsTestHelper');
-goog.require('firebaseui.auth.ui.element.InfoBarTestHelper');
-goog.require('firebaseui.auth.ui.element.TosPpTestHelper');
-goog.require('firebaseui.auth.ui.page.PageTestHelper');
-goog.require('firebaseui.auth.ui.page.ProviderSignIn');
-goog.require('goog.dom');
-goog.require('goog.dom.TagName');
-goog.require('goog.testing.MockClock');
-goog.require('goog.testing.jsunit');
+const IdpsTestHelper =
+    goog.require('firebaseui.auth.ui.element.IdpsTestHelper');
+const InfoBarTestHelper =
+    goog.require('firebaseui.auth.ui.element.InfoBarTestHelper');
+const MockClock = goog.require('goog.testing.MockClock');
+const PageTestHelper = goog.require('firebaseui.auth.ui.page.PageTestHelper');
+const ProviderSignIn = goog.require('firebaseui.auth.ui.page.ProviderSignIn');
+const TagName = goog.require('goog.dom.TagName');
+const TosPpTestHelper =
+    goog.require('firebaseui.auth.ui.element.TosPpTestHelper');
+const dom = goog.require('goog.dom');
+const testSuite = goog.require('goog.testing.testSuite');
 
+let mockClock;
+let root;
+let component;
+const idpsTestHelper =
+    new IdpsTestHelper().registerTests();
+const infoBarTestHelper =
+    new InfoBarTestHelper().registerTests();
+const tosPpTestHelper =
+    new TosPpTestHelper().registerTests();
+const pageTestHelper =
+    new PageTestHelper().registerTests();
 
-var mockClock;
-var root;
-var component;
-var idpsTestHelper =
-    new firebaseui.auth.ui.element.IdpsTestHelper().registerTests();
-var infoBarTestHelper =
-    new firebaseui.auth.ui.element.InfoBarTestHelper().registerTests();
-var tosPpTestHelper =
-    new firebaseui.auth.ui.element.TosPpTestHelper().registerTests();
-var pageTestHelper =
-    new firebaseui.auth.ui.page.PageTestHelper().registerTests();
+testSuite({
+  setUp() {
+    // Set up clock.
+    mockClock = new MockClock();
+    mockClock.install();
+    root = dom.createDom(TagName.DIV);
+    document.body.appendChild(root);
+    component = new ProviderSignIn(
+        goog.bind(
+            IdpsTestHelper.prototype.onClick,
+            idpsTestHelper),
+        [{
+          providerId: 'google.com',
+        },
+        {
+          providerId: 'password',
+        }],
+        goog.bind(
+            TosPpTestHelper.prototype.onTosLinkClick,
+            tosPpTestHelper),
+        goog.bind(
+            TosPpTestHelper.prototype.onPpLinkClick,
+            tosPpTestHelper));
+    component.render(root);
+    idpsTestHelper.setComponent(component);
+    infoBarTestHelper.setComponent(component);
+    tosPpTestHelper.setComponent(component);
+    // Reset previous state of tosPp helper.
+    tosPpTestHelper.resetState();
+    pageTestHelper.setClock(mockClock).setComponent(component);
+  },
 
+  tearDown() {
+    // Tear down clock.
+    mockClock.tick(Infinity);
+    mockClock.reset();
+    component.dispose();
+    dom.removeNode(root);
+  },
 
-function setUp() {
-  // Set up clock.
-  mockClock = new goog.testing.MockClock();
-  mockClock.install();
-  root = goog.dom.createDom(goog.dom.TagName.DIV);
-  document.body.appendChild(root);
-  component = new firebaseui.auth.ui.page.ProviderSignIn(
-      goog.bind(
-          firebaseui.auth.ui.element.IdpsTestHelper.prototype.onClick,
-          idpsTestHelper),
-      [{
-        providerId: 'google.com'
-      },
-      {
-        providerId: 'password'
-      }],
-      goog.bind(
-          firebaseui.auth.ui.element.TosPpTestHelper.prototype.onTosLinkClick,
-          tosPpTestHelper),
-      goog.bind(
-          firebaseui.auth.ui.element.TosPpTestHelper.prototype.onPpLinkClick,
-          tosPpTestHelper));
-  component.render(root);
-  idpsTestHelper.setComponent(component);
-  infoBarTestHelper.setComponent(component);
-  tosPpTestHelper.setComponent(component);
-  // Reset previous state of tosPp helper.
-  tosPpTestHelper.resetState();
-  pageTestHelper.setClock(mockClock).setComponent(component);
-}
+  testProviderSignIn_pageEvents() {
+    // Run page event tests.
+    // Dispose previously created container since test must run before rendering
+    // the component in docoument.
+    component.dispose();
+    // Initialize component.
+    component = new ProviderSignIn(
+        goog.bind(
+            IdpsTestHelper.prototype.onClick,
+            idpsTestHelper),
+        [{
+          providerId: 'facebook.com',
+        },
+        {
+          providerId: 'password',
+        }]);
+    // Run all page helper tests.
+    pageTestHelper.runTests(component, root);
+  },
 
-
-function tearDown() {
-  // Tear down clock.
-  mockClock.tick(Infinity);
-  mockClock.reset();
-  component.dispose();
-  goog.dom.removeNode(root);
-}
-
-
-function testProviderSignIn_pageEvents() {
-  // Run page event tests.
-  // Dispose previously created container since test must run before rendering
-  // the component in docoument.
-  component.dispose();
-  // Initialize component.
-  component = new firebaseui.auth.ui.page.ProviderSignIn(
-      goog.bind(
-          firebaseui.auth.ui.element.IdpsTestHelper.prototype.onClick,
-          idpsTestHelper),
-      [{
-        providerId: 'facebook.com'
-      },
-      {
-        providerId: 'password'
-      }]);
-  // Run all page helper tests.
-  pageTestHelper.runTests(component, root);
-}
-
-
-function testProviderSignIn_getPageId() {
-  assertEquals('providerSignIn', component.getPageId());
-}
+  testProviderSignIn_getPageId() {
+    assertEquals('providerSignIn', component.getPageId());
+  },
+});

@@ -55,6 +55,64 @@ function testHandleFederatedRedirect() {
 }
 
 
+function testHandleFederatedSignIn_signInHint() {
+  // Test handleFederatedRedirect when signInHint is passed in start.
+  const prefilledEmail = 'user@example.com';
+  const expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
+  expectedProvider.setCustomParameters({'login_hint': prefilledEmail});
+
+  app.startWithSignInHint(
+      container,
+      {
+        signInOptions: ['google.com'],
+        credentialHelper: 'none',
+        immediateFederatedRedirect: true,
+      },
+      {
+        emailHint: prefilledEmail,
+      });
+
+  assertBlankPage();
+  testAuth.assertSignInWithRedirect([expectedProvider]);
+  return testAuth.process().then(() => {
+    // Clean up the AuthUI instance.
+    testAuth.assertSignOut([]);
+    app.delete();
+    return testAuth.process();
+  });
+}
+
+
+function testHandleFederatedRedirect_prefilledEmail() {
+  // Test handleFederatedRedirect with prefilled email.
+  app.setConfig({
+    'immediateFederatedRedirect': true,
+    'signInOptions': [{
+      'provider': 'google.com',
+      'scopes': ['googl1', 'googl2'],
+      'customParameters': {'prompt': 'select_account'}
+    }],
+    'signInFlow':'redirect'
+  });
+  const prefilledEmail = 'user@example.com';
+  const expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
+  expectedProvider.addScope('googl1');
+  expectedProvider.addScope('googl2');
+  expectedProvider.setCustomParameters({
+    'prompt': 'select_account',
+    // The prefilled email should be passed to IdP as login_hint.
+    'login_hint': prefilledEmail,
+  });
+
+  // Call the handler and expect a blank page and the redirect to start.
+  firebaseui.auth.widget.handler.handleFederatedRedirect(
+      app, container, prefilledEmail);
+  assertBlankPage();
+  testAuth.assertSignInWithRedirect([expectedProvider]);
+  return testAuth.process();
+}
+
+
 function testHandleFederatedRedirect_error() {
   // Add additional scopes to test they are properly passed to the redirect
   // method.

@@ -26,61 +26,47 @@ goog.require('firebaseui.auth.ui.page.Base');
 
 /**
  * Email link sign in linking different device UI component.
- * @param {?Object} providerConfig The provider config of the IdP we should use
- *     for sign in.
- * @param {function()} onContinueClick Callback to invoke when the continue
- *     button is clicked.
- * @param {?function()=} opt_tosCallback Callback to invoke when the ToS link
- *     is clicked.
- * @param {?function()=} opt_privacyPolicyCallback Callback to invoke when the
- *     Privacy Policy link is clicked.
- * @param {?goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
- * @constructor
- * @extends {firebaseui.auth.ui.page.Base}
  */
-firebaseui.auth.ui.page.EmailLinkSignInLinkingDifferentDevice = function(
-    providerConfig,
-    onContinueClick,
-    opt_tosCallback,
-    opt_privacyPolicyCallback,
-    opt_domHelper) {
-  // Extend base page class and render Email link sign in linking different
-  // device soy template.
-  firebaseui.auth.ui.page.EmailLinkSignInLinkingDifferentDevice.base(
-      this,
-      'constructor',
-      firebaseui.auth.soy2.page.emailLinkSignInLinkingDifferentDevice,
-      {
-        providerConfig: providerConfig
-      },
-      opt_domHelper,
-      'emailLinkSignInLinkingDifferentDevice',
-      {
-        tosCallback: opt_tosCallback,
-        privacyPolicyCallback: opt_privacyPolicyCallback
-      });
-  this.onContinueClick_ = onContinueClick;
-};
-goog.inherits(firebaseui.auth.ui.page.EmailLinkSignInLinkingDifferentDevice,
-    firebaseui.auth.ui.page.Base);
+firebaseui.auth.ui.page.EmailLinkSignInLinkingDifferentDevice =
+    class extends firebaseui.auth.ui.page.Base {
+  /**
+   * @param {?Object} providerConfig The provider config of the IdP we should
+   *     use for sign in.
+   * @param {function()} onContinueClick Callback to invoke when the continue
+   *     button is clicked.
+   * @param {?function()=} opt_tosCallback Callback to invoke when the ToS link
+   *     is clicked.
+   * @param {?function()=} opt_privacyPolicyCallback Callback to invoke when the
+   *     Privacy Policy link is clicked.
+   * @param {?goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
+   */
+  constructor(
+      providerConfig, onContinueClick, opt_tosCallback,
+      opt_privacyPolicyCallback, opt_domHelper) {
+    // Extend base page class and render Email link sign in linking different
+    // device soy template.
+    super(
+        firebaseui.auth.soy2.page.emailLinkSignInLinkingDifferentDevice,
+        {providerConfig: providerConfig}, opt_domHelper,
+        'emailLinkSignInLinkingDifferentDevice', {
+          tosCallback: opt_tosCallback,
+          privacyPolicyCallback: opt_privacyPolicyCallback
+        });
+    this.onContinueClick_ = onContinueClick;
+  }
 
+  /** @override */
+  enterDocument() {
+    this.initFormElement(this.onContinueClick_);
+    this.getSubmitElement().focus();
+    super.enterDocument();
+  }
 
-/** @override */
-firebaseui.auth.ui.page.EmailLinkSignInLinkingDifferentDevice.prototype
-    .enterDocument = function() {
-  this.initFormElement(this.onContinueClick_);
-  this.getSubmitElement().focus();
-  firebaseui.auth.ui.page.EmailLinkSignInLinkingDifferentDevice.base(
-      this, 'enterDocument');
-};
-
-
-/** @override */
-firebaseui.auth.ui.page.EmailLinkSignInLinkingDifferentDevice.prototype
-    .disposeInternal = function() {
-  this.onContinueClick_ = null;
-  firebaseui.auth.ui.page.EmailLinkSignInLinkingDifferentDevice.base(
-      this, 'disposeInternal');
+  /** @override */
+  disposeInternal() {
+    this.onContinueClick_ = null;
+    super.disposeInternal();
+  }
 };
 
 

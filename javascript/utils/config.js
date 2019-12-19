@@ -18,109 +18,107 @@
 
 goog.provide('firebaseui.auth.Config');
 
-goog.require('goog.Uri');
-
-
 /**
  * Structure for defining and manipulating configuration fields.
- * @constructor
  */
-firebaseui.auth.Config = function() {
+firebaseui.auth.Config = class {
+  constructor() {
+    /**
+     * The instance for storing all configurations.
+     * @type {Object}
+     * @private
+     */
+    this.instance_ = {};
+  }
+
+
   /**
-   * The instance for storing all configurations.
-   * @type {Object}
+   * @param {string} name The name of the configuration.
+   * @return {boolean} Whether the configuration is defined.
    * @private
    */
-  this.instance_ = {};
-};
-
-
-/**
- * @param {string} name The name of the configuration.
- * @return {boolean} Whether the configuration is defined.
- * @private
- */
-firebaseui.auth.Config.prototype.has_ = function(name) {
-  return name.toLowerCase() in this.instance_;
-};
-
-
-/**
- * @param {string} name The name of the configuration.
- * @return {*|undefined} The configuration value.
- * @private
- */
-firebaseui.auth.Config.prototype.get_ = function(name) {
-  return this.instance_[name.toLowerCase()];
-};
-
-
-/**
- * Sets the information for a configuration.
- *
- * @param {string} name The name of the configuration.
- * @param {*|undefined} value The configuration value.
- * @private
- */
-firebaseui.auth.Config.prototype.set_ = function(name, value) {
-  this.instance_[name.toLowerCase()] = value;
-};
-
-
-/**
- * Defines a configuration with the given name and value.
- *
- * @param {string} name The name of the configuration.
- * @param {*=} opt_value The value of the configuration.
- */
-firebaseui.auth.Config.prototype.define = function(name, opt_value) {
-  if (this.has_(name)) {
-    throw new Error('Configuration ' + name + ' has already been defined.');
+  has_(name) {
+    return name.toLowerCase() in this.instance_;
   }
-  this.set_(name, opt_value);
-};
 
 
-/**
- * Updates the configuration and its descendants with the given value.
- *
- * @param {string} name The name of the configuration.
- * @param {*} value The value of the configuration.
- */
-firebaseui.auth.Config.prototype.update = function(name, value) {
-  if (!this.has_(name)) {
-    throw new Error('Configuration ' + name + ' is not defined.');
+  /**
+   * @param {string} name The name of the configuration.
+   * @return {*|undefined} The configuration value.
+   * @private
+   */
+  get_(name) {
+    return this.instance_[name.toLowerCase()];
   }
-  this.set_(name, value);
-};
 
 
-/**
- * Gets the configuration value for the given name. If an unrecognized name is
- * specified, an `Error` is thrown.
- *
- * @param {string} name The name of the configuration.
- * @return {*|undefined} The configuration value.
- */
-firebaseui.auth.Config.prototype.get = function(name) {
-  if (!this.has_(name)) {
-    throw new Error('Configuration ' + name + ' is not defined.');
+  /**
+   * Sets the information for a configuration.
+   *
+   * @param {string} name The name of the configuration.
+   * @param {*|undefined} value The configuration value.
+   * @private
+   */
+  set_(name, value) {
+    this.instance_[name.toLowerCase()] = value;
   }
-  return this.get_(name);
-};
 
 
-/**
- * Gets the configuration value for the given name. If an unrecognized name is
- * specified or the value is not provided, an `Error` is thrown.
- *
- * @param {string} name The name of the configuration.
- * @return {*} The configuration value.
- */
-firebaseui.auth.Config.prototype.getRequired = function(name) {
-  var value = this.get(name);
-  if (!value) {
-    throw new Error('Configuration ' + name + ' is required.');
+  /**
+   * Defines a configuration with the given name and value.
+   *
+   * @param {string} name The name of the configuration.
+   * @param {*=} value The value of the configuration.
+   */
+  define(name, value) {
+    if (this.has_(name)) {
+      throw new Error('Configuration ' + name + ' has already been defined.');
+    }
+    this.set_(name, value);
   }
-  return value;
+
+
+  /**
+   * Updates the configuration and its descendants with the given value.
+   *
+   * @param {string} name The name of the configuration.
+   * @param {*} value The value of the configuration.
+   */
+  update(name, value) {
+    if (!this.has_(name)) {
+      throw new Error('Configuration ' + name + ' is not defined.');
+    }
+    this.set_(name, value);
+  }
+
+
+  /**
+   * Gets the configuration value for the given name. If an unrecognized name is
+   * specified, an `Error` is thrown.
+   *
+   * @param {string} name The name of the configuration.
+   * @return {*|undefined} The configuration value.
+   */
+  get(name) {
+    if (!this.has_(name)) {
+      throw new Error('Configuration ' + name + ' is not defined.');
+    }
+    return this.get_(name);
+  }
+
+
+  /**
+   * Gets the configuration value for the given name. If an unrecognized name is
+   * specified or the value is not provided, an `Error` is thrown.
+   *
+   * @param {string} name The name of the configuration.
+   * @return {*} The configuration value.
+   */
+  getRequired(name) {
+    var value = this.get(name);
+    if (!value) {
+      throw new Error('Configuration ' + name + ' is required.');
+    }
+    return value;
+  }
 };

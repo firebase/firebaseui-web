@@ -16,47 +16,68 @@
  * @fileoverview Dispatches FirebaseUI widget operation to the correct handler.
  */
 
-goog.provide('firebaseui.auth.widget.dispatcher');
+goog.module('firebaseui.auth.widget.dispatcher');
+goog.module.declareLegacyNamespace();
 
-goog.require('firebaseui.auth.acClient');
-goog.require('firebaseui.auth.soy2.strings');
-goog.require('firebaseui.auth.storage');
-goog.require('firebaseui.auth.util');
-goog.require('firebaseui.auth.widget.Config');
-goog.require('firebaseui.auth.widget.HandlerName');
-goog.require('firebaseui.auth.widget.handler');
-goog.require('firebaseui.auth.widget.handler.common');
-goog.require('goog.asserts');
-goog.require('goog.uri.utils');
 
-goog.forwardDeclare('firebaseui.auth.AuthUI');
+const AuthUI = goog.forwardDeclare('firebaseui.auth.AuthUI');
+const Config = goog.require('firebaseui.auth.widget.Config');
+const HandlerName = goog.require('firebaseui.auth.widget.HandlerName');
+const acClient = goog.require('firebaseui.auth.acClient');
+const asserts = goog.require('goog.asserts');
+const common = goog.require('firebaseui.auth.widget.handler.common');
+const handler = goog.require('firebaseui.auth.widget.handler');
+const storage = goog.require('firebaseui.auth.storage');
+const strings = goog.require('firebaseui.auth.soy2.strings');
+const util = goog.require('firebaseui.auth.util');
+const utils = goog.require('goog.uri.utils');
 
+
+/**
+ * The object used to put the public functions on and then export it. All the
+ * public functions have to be exported from this object so that we can use.
+ * property replacer to mock the function. For example:
+ * dispatcher.foo = function() {
+ *   dispatcher.bar();
+ * };
+ * exports = dispatcher;
+ * So that in other files, you can replace dispatcher.bar property.
+ *
+ * Otherwise, if we do:
+ * foo = function() {
+ *   bar();
+ * };
+ * exports = { foo, bar };
+ * In other files, replacing bar() on exported object will not change the
+ * reference to the bar() used in this file.
+ *
+ * @const {!Object}
+ */
+const dispatcher = {};
 
 /**
  * The description of the error message raised when the widget element is not
  * found during initialization.
  * @const {string}
- * @private
  */
-firebaseui.auth.widget.dispatcher.ELEMENT_NOT_FOUND_ = 'Could not find the ' +
+const ELEMENT_NOT_FOUND = 'Could not find the ' +
     'FirebaseUI widget element on the page.';
 
 
 /**
  * Gets the widget mode from the given URL. If no URL is provided, the one for
  * the current page is used.
- *
- * @param {!firebaseui.auth.AuthUI} app The FirebaseUI instance.
+ * @param {!AuthUI} app The FirebaseUI instance.
  * @param {?string=} opt_url The URL from which to extract the mode.
- * @return {?firebaseui.auth.widget.Config.WidgetMode} The widget mode.
+ * @return {?Config.WidgetMode} The widget mode.
  */
-firebaseui.auth.widget.dispatcher.getMode = function(app, opt_url) {
-  var url = opt_url || firebaseui.auth.util.getCurrentUrl();
-  var modeParam = app.getConfig().getQueryParameterForWidgetMode();
-  var modeString = goog.uri.utils.getParamValue(url, modeParam) || '';
+dispatcher.getMode = function(app, opt_url) {
+  const url = opt_url || util.getCurrentUrl();
+  const modeParam = app.getConfig().getQueryParameterForWidgetMode();
+  const modeString = utils.getParamValue(url, modeParam) || '';
   // Normalize the mode.
-  var WidgetMode = firebaseui.auth.widget.Config.WidgetMode;
-  for (var k in WidgetMode) {
+  const WidgetMode = Config.WidgetMode;
+  for (let k in WidgetMode) {
     if (WidgetMode[k].toLowerCase() == modeString.toLowerCase()) {
       return WidgetMode[k];
     }
@@ -65,55 +86,68 @@ firebaseui.auth.widget.dispatcher.getMode = function(app, opt_url) {
   return WidgetMode.CALLBACK;
 };
 
-
 /**
  * Gets the redirect URL from the given URL. If no URL is provided, the one for
  * the current page is used.
- *
- * @param {!firebaseui.auth.AuthUI} app The FirebaseUI instance.
+ * @param {!AuthUI} app The FirebaseUI instance.
  * @param {?string=} opt_url the URL from which to extract the redirect URL.
  * @return {?string} The current redirect URL if available in the URL.
  */
-firebaseui.auth.widget.dispatcher.getRedirectUrl = function(app, opt_url) {
-  var url = opt_url || firebaseui.auth.util.getCurrentUrl();
-  var queryParameterForSignInSuccessUrl =
+dispatcher.getRedirectUrl = function (app, opt_url) {
+  const url = opt_url || util.getCurrentUrl();
+  const queryParameterForSignInSuccessUrl =
       app.getConfig().getQueryParameterForSignInSuccessUrl();
   // Return the value of sign-in success URL from parsed url.
-  var redirectUrl =
-      goog.uri.utils.getParamValue(url, queryParameterForSignInSuccessUrl);
-  return redirectUrl ? firebaseui.auth.util.sanitizeUrl(redirectUrl) : null;
+  const redirectUrl =
+      utils.getParamValue(url, queryParameterForSignInSuccessUrl);
+  return redirectUrl ? util.sanitizeUrl(redirectUrl) : null;
 };
 
+/**
+ * Dispatches the operation to the corresponding handler.
+ * @param {!AuthUI} app The FirebaseUI instance.
+ * @param {string|!Element} e The container element or the query selector.
+ */
+dispatcher.dispatchOperation = function (app, e) {
+  // Check that web storage is available otherwise issue an error and exit.
+  // Some browsers like safari private mode disable web storage.
+  if (storage.isAvailable()) {
+    doDispatchOperation(app, e);
+  } else {
+    // Web storage not supported, display appropriate message.
+    // Get container element.
+    const container = util.getElement(
+        e, ELEMENT_NOT_FOUND);
+    // Show unrecoverable error message.
+    common.handleUnrecoverableError(
+        app,
+        container,
+        strings.errorNoWebStorage().toString());
+  }
+};
 
 /**
  * Gets the URL param identified by name from the given URL. If no URL is
  * provided, the one for the current page is used.
- *
  * @param {string} paramName The name of the URL param.
- * @param {?string=} opt_url The URL from which to extract the app ID.
+ * @param {?string=} url The URL from which to extract the app ID.
  * @return {string} The param value.
- * @private
  */
-firebaseui.auth.widget.dispatcher.getRequiredUrlParam_ = function(paramName,
-    opt_url) {
-  return goog.asserts.assertString(goog.uri.utils.getParamValue(
-      opt_url || firebaseui.auth.util.getCurrentUrl(), paramName));
-};
-
+function getRequiredUrlParam(paramName, url = undefined) {
+  return asserts.assertString(utils.getParamValue(
+      url || util.getCurrentUrl(), paramName));
+}
 
 /**
  * Gets the action code from the given URL. If no URL is provided, the one for
  * the current page is used.
- *
- * @param {?string=} opt_url The URL from which to extract the app ID.
+ * @param {?string=} url The URL from which to extract the app ID.
  * @return {string} The action code.
- * @private
  */
-firebaseui.auth.widget.dispatcher.getActionCode_ = function(opt_url) {
-  return firebaseui.auth.widget.dispatcher.getRequiredUrlParam_('oobCode',
-      opt_url);
-};
-
+function getActionCode(url = undefined) {
+  return getRequiredUrlParam('oobCode',
+      url);
+}
 
 /**
  * Gets the action code continue callback from the given URL. If no URL is
@@ -121,149 +155,117 @@ firebaseui.auth.widget.dispatcher.getActionCode_ = function(opt_url) {
  * go back to the application. This could open an FDL link which redirects to a
  * mobile app or to a web page. If no continue URL is available, no button is
  * shown.
- *
- * @param {?string=} opt_url The URL from which to extract the continue URL.
+ * @param {?string=} url The URL from which to extract the continue URL.
  * @return {?function()} The continue callback that will redirect the page back
  *     to the app. If none available, null is returned.
- * @private
  */
-firebaseui.auth.widget.dispatcher.getContinueCallback_ = function(opt_url) {
-  var continueUrl = goog.uri.utils.getParamValue(
-       opt_url || firebaseui.auth.util.getCurrentUrl(), 'continueUrl');
+function getContinueCallback(url = undefined) {
+  const continueUrl = utils.getParamValue(
+       url || util.getCurrentUrl(), 'continueUrl');
   // If continue URL detected, return a callback URL to redirect to it.
   if (continueUrl) {
-    return function() {
-      firebaseui.auth.util.goTo(/** @type {string} */ (continueUrl));
+    return () => {
+      util.goTo(/** @type {string} */ (continueUrl));
     };
   }
   return null;
-};
-
+}
 
 /**
  * Gets the provider ID from the given URL. If no URL is provided, the one for
  * the current page is used.
- *
- * @param {?string=} opt_url The URL from which to extract the app ID.
+ * @param {?string=} url The URL from which to extract the app ID.
  * @return {string} The provider ID.
- * @private
  */
-firebaseui.auth.widget.dispatcher.getProviderId_ = function(opt_url) {
-  return firebaseui.auth.widget.dispatcher.getRequiredUrlParam_('providerId',
-      opt_url);
-};
-
+function getProviderId(url = undefined) {
+  return getRequiredUrlParam('providerId',
+      url);
+}
 
 /**
- * Dispatches the operation to the corresponding handler.
- *
- * @param {!firebaseui.auth.AuthUI} app The FirebaseUI instance.
+ * @param {!AuthUI} app The FirebaseUI instance.
  * @param {string|!Element} e The container element or the query selector.
  */
-firebaseui.auth.widget.dispatcher.dispatchOperation = function(app, e) {
-  // Check that web storage is available otherwise issue an error and exit.
-  // Some browsers like safari private mode disable web storage.
-  if (firebaseui.auth.storage.isAvailable()) {
-    firebaseui.auth.widget.dispatcher.doDispatchOperation_(app, e);
-  } else {
-    // Web storage not supported, display appropriate message.
-    // Get container element.
-    var container = firebaseui.auth.util.getElement(
-        e, firebaseui.auth.widget.dispatcher.ELEMENT_NOT_FOUND_);
-    // Show unrecoverable error message.
-    firebaseui.auth.widget.handler.common.handleUnrecoverableError(
-        app,
-        container,
-        firebaseui.auth.soy2.strings.errorNoWebStorage().toString());
-  }
-};
-
-
-/**
- * @param {!firebaseui.auth.AuthUI} app The FirebaseUI instance.
- * @param {string|!Element} e The container element or the query selector.
- * @private
- */
-firebaseui.auth.widget.dispatcher.doDispatchOperation_ = function(app, e) {
-  var container = firebaseui.auth.util.getElement(
-        e, firebaseui.auth.widget.dispatcher.ELEMENT_NOT_FOUND_);
-
+function doDispatchOperation(app, e) {
+  const container = util.getElement(
+        e, ELEMENT_NOT_FOUND);
   // TODO: refactor dispatcher to simplify and move logic externally.
-  switch (firebaseui.auth.widget.dispatcher.getMode(app)) {
-    case firebaseui.auth.widget.Config.WidgetMode.CALLBACK:
+  const redirectUrl = dispatcher.getRedirectUrl(app);
+  switch (dispatcher.getMode(app)) {
+    case Config.WidgetMode.CALLBACK:
       // If redirect URL available, save in non persistent storage.
       // Developer could directly go to
       // http://www.widgetpage.com/?signInSuccessUrl=http%3A%2F%2Fwww.google.com
       // On success this should redirect to google.com the same as when
       // mode=select is passed in query parameters.
-      var redirectUrl = firebaseui.auth.widget.dispatcher.getRedirectUrl(app);
       if (redirectUrl) {
-        firebaseui.auth.storage.setRedirectUrl(redirectUrl, app.getAppId());
+        storage.setRedirectUrl(redirectUrl, app.getAppId());
       }
       // Avoid UI flicker if there is no pending redirect.
       if (app.isPendingRedirect()) {
-        firebaseui.auth.widget.handler.handle(
-            firebaseui.auth.widget.HandlerName.CALLBACK, app, container);
+        handler.handle(
+            HandlerName.CALLBACK, app, container);
       } else {
         // No pending redirect. Skip callback screen.
-        firebaseui.auth.widget.handler.common.handleSignInStart(
+        common.handleSignInStart(
             app,
-            container);
+            container,
+            // Pass sign-in email hint if available.
+            app.getSignInEmailHint());
       }
       break;
 
-    case firebaseui.auth.widget.Config.WidgetMode.RESET_PASSWORD:
-      firebaseui.auth.widget.handler.handle(
-          firebaseui.auth.widget.HandlerName.PASSWORD_RESET,
+    case Config.WidgetMode.RESET_PASSWORD:
+      handler.handle(
+          HandlerName.PASSWORD_RESET,
           app,
           container,
-          firebaseui.auth.widget.dispatcher.getActionCode_(),
+          getActionCode(),
           // Check if continue URL is available. if so, display a button to
           // redirect to it.
-          firebaseui.auth.widget.dispatcher.getContinueCallback_());
+          getContinueCallback());
       break;
 
-    case firebaseui.auth.widget.Config.WidgetMode.RECOVER_EMAIL:
-      firebaseui.auth.widget.handler.handle(
-          firebaseui.auth.widget.HandlerName.EMAIL_CHANGE_REVOCATION,
+    case Config.WidgetMode.RECOVER_EMAIL:
+      handler.handle(
+          HandlerName.EMAIL_CHANGE_REVOCATION,
           app,
           container,
-          firebaseui.auth.widget.dispatcher.getActionCode_());
+          getActionCode());
       break;
 
-    case firebaseui.auth.widget.Config.WidgetMode.VERIFY_EMAIL:
-      firebaseui.auth.widget.handler.handle(
-          firebaseui.auth.widget.HandlerName.EMAIL_VERIFICATION,
+    case Config.WidgetMode.VERIFY_EMAIL:
+      handler.handle(
+          HandlerName.EMAIL_VERIFICATION,
           app,
           container,
-          firebaseui.auth.widget.dispatcher.getActionCode_(),
+          getActionCode(),
           // Check if continue URL is available. if so, display a button to
           // redirect to it.
-          firebaseui.auth.widget.dispatcher.getContinueCallback_());
+          getContinueCallback());
       break;
 
-    case firebaseui.auth.widget.Config.WidgetMode.SIGN_IN:
+    case Config.WidgetMode.SIGN_IN:
       // Complete signin.
-      firebaseui.auth.widget.handler.handle(
-          firebaseui.auth.widget.HandlerName.EMAIL_LINK_SIGN_IN_CALLBACK,
+      handler.handle(
+          HandlerName.EMAIL_LINK_SIGN_IN_CALLBACK,
           app,
           container,
-          firebaseui.auth.util.getCurrentUrl());
+          util.getCurrentUrl());
       // Clear URL from email sign-in related query parameters to avoid
       // re-running on reload.
       app.clearEmailSignInState();
       break;
 
-    case firebaseui.auth.widget.Config.WidgetMode.SELECT:
+    case Config.WidgetMode.SELECT:
       // If redirect URL available, save in non-persistent storage.
-      var redirectUrl = firebaseui.auth.widget.dispatcher.getRedirectUrl(app);
       if (redirectUrl) {
-        firebaseui.auth.storage.setRedirectUrl(redirectUrl, app.getAppId());
+        storage.setRedirectUrl(redirectUrl, app.getAppId());
       }
 
-      if (firebaseui.auth.acClient.isInitialized()) {
+      if (acClient.isInitialized()) {
         // Renders provider sign-in or simulates sign in with email click.
-        firebaseui.auth.widget.handler.common.handleSignInStart(
+        common.handleSignInStart(
             app,
             container);
         break;
@@ -271,10 +273,10 @@ firebaseui.auth.widget.dispatcher.doDispatchOperation_ = function(app, e) {
         // Even if accountchooser.com is unavailable as a credential helper,
         // force UI shown callback since this is the first page to display. If
         // empty, render callback handler and do not try to select an account.
-        firebaseui.auth.widget.handler.common.loadAccountchooserJs(
+        common.loadAccountchooserJs(
           app,
-          function() {
-            firebaseui.auth.widget.handler.common.selectFromAccountChooser(
+          () => {
+            common.selectFromAccountChooser(
                 app.getAuthUiGetter(),
                 container,
                 true);
@@ -292,8 +294,10 @@ firebaseui.auth.widget.dispatcher.doDispatchOperation_ = function(app, e) {
       throw new Error('Unhandled widget operation.');
   }
   // By default, UI is shown so invoke the uiShown callback.
-  var uiShownCallback = app.getConfig().getUiShownCallback();
+  const uiShownCallback = app.getConfig().getUiShownCallback();
   if (uiShownCallback) {
     uiShownCallback();
   }
-};
+}
+
+exports = dispatcher;

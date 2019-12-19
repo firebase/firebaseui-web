@@ -12,11 +12,14 @@
 <translation id="1163771673786684213">Philippines</translation>
 <translation id="1170304454812139475">Romania</translation>
 <translation id="1194565221977667376">South Georgia and The South Sandwich Islands</translation>
-<translation id="124367247840231378">OK</translation>
+<translation id="1233977465587641672">Hindi mare-recover na pagkawala ng data o pagkasira ng data.</translation>
 <translation id="1244846213930750436">Italy</translation>
 <translation id="1268266284642694018">Lebanon</translation>
 <translation id="1294742657282291237">Guyana</translation>
 <translation id="1297168472480293352">Guatemala</translation>
+<translation id="1307255433239736397"><ph name="START_PARAGRAPH" />Nagkaproblema sa pag-aalis ng iyong pangalawang factor.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Subukang alisin muli. Kung hindi umubra iyon, makipag-ugnayan sa suporta para sa tulong.<ph name="END_PARAGRAPH" /></translation>
+<translation id="1310034618729602982">Subukang i-update muli ang iyong email</translation>
+<translation id="1312824004897469797">Nagkaroon ng error sa network. Subukang muli sa ibang pagkakataon.</translation>
 <translation id="1315809131562953678">Maglagay ng wastong numero ng telepono</translation>
 <translation id="1335716056288807013">Sa pag-tap sa I-verify, ipinababatid mo na tinatanggap mo ang aming <ph name="START_LINK_1" />Mga Tuntunin ng Serbisyo<ph name="END_LINK" /> at <ph name="START_LINK_2" />Patakaran sa Privacy<ph name="END_LINK" />. Maaaring magpadala ng SMS. Maaaring ipatupad ang mga rate ng pagmemensahe at data.</translation>
 <translation id="137210131544215127">Ilagay ang iyong password</translation>
@@ -27,6 +30,7 @@
 <translation id="1479035434297790822">Masyadong maraming kahilingan ng account mula sa iyong IP address. Subukang muli pagkalipas ng ilang minuto.</translation>
 <translation id="1483249363694224399">Sri Lanka</translation>
 <translation id="1507995441600689506">Makakapag-sign in ka na ngayon gamit ang iyong bagong account</translation>
+<translation id="1544981664986460902">May tinukoy na invalid na argument ang client.</translation>
 <translation id="1575848116712334589">Chad</translation>
 <translation id="1632452818656545062">Sa pag-tap sa "<ph name="PH_1" />", ipinababatid mo na tinatanggap mo ang aming <ph name="TOS" /> at <ph name="PP" />. Maaaring magpadala ng SMS. Maaaring ipatupad ang mga rate ng pagmemensahe at data.</translation>
 <translation id="1653501608290591291">Belarus</translation>
@@ -62,6 +66,7 @@
 <translation id="2206856445831770486">Github</translation>
 <translation id="2223717216014247341">Patakaran sa Privacy</translation>
 <translation id="2224563296468523455">Guam</translation>
+<translation id="2245182894886860848">Maaaring naubusan ng resource quota o malapit na sa limit ng rate.</translation>
 <translation id="2249420035688424170">Croatia</translation>
 <translation id="2251583471831926217">Lithuania</translation>
 <translation id="227405248692044138">Malta</translation>
@@ -71,21 +76,27 @@
 <translation id="2324942959480650701">Bisita</translation>
 <translation id="2331781584136059536">Ghana</translation>
 <translation id="2338909515537249568">Hindi sinusuportahan ng browser na ginagamit mo ang Web Storage. Pakisubukang muli sa ibang browser.</translation>
+<translation id="2342152898808240937">Kinansela ng client ang kahilingan.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Nagkaproblema sa pagbabalik sa iyong email sa pag-sign in.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Kung susubukan mong muli at hindi pa rin ma-reset ang iyong email, subukang humingi ng tulong sa iyong administrator.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Bahrain</translation>
+<translation id="2392247362473363900">Internal na error sa server.</translation>
 <translation id="2405828009195143258">Iran</translation>
+<translation id="2414459877074534554">GitHub</translation>
 <translation id="244437093285883777">Vine-verify na hindi ka robot...</translation>
 <translation id="2448227725017851570">Wala nang bisa ang code na ito</translation>
 <translation id="2448487988481516351">New Caledonia</translation>
 <translation id="2451742558284013472">Monaco</translation>
 <translation id="2460064915291012298">Seychelles</translation>
+<translation id="2490672522100125425">Inalis ang <ph name="START_STRONG" /><ph name="FACTOR_ID" /> <ph name="PHONE_NUMBER" /><ph name="END_STRONG" /> bilang pangalawang hakbang sa pag-authenticate.</translation>
 <translation id="2494962141967044042">Hindi nakapag-upgrade ang kasalukuyang anonymous na user. Nauugnay na ang di-anonymous na kredensyal sa ibang account ng user.</translation>
 <translation id="2541179214468543429">Nagpasok ka ng di-wastong password nang masyadong maraming beses. Pakisubukang muli pagkalipas ng ilang minuto.</translation>
 <translation id="2561835578785502516">Ang iyong kahilingan na i-reset ang iyong password ay nag-expire na o nagamit na ang link</translation>
+<translation id="2562498793334241360">Makakapag-sign in ka na ngayon gamit ang bago mong email <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />.</translation>
 <translation id="2581514546525533462">Hindi suportado ang ibinigay na country code</translation>
 <translation id="2600950452451016107">Tiyakin na hindi ka nagkamali sa pagbaybay ng iyong email.</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">Cambodia</translation>
+<translation id="2614081868476050089">Hindi available ang serbisyo.</translation>
 <translation id="2616650714309312732">Portugal</translation>
 <translation id="2619590123270932385">French Guiana</translation>
 <translation id="2621854044487969847">British Virgin Islands</translation>
@@ -101,19 +112,21 @@
 <translation id="2741235824871026219">I-verify</translation>
 <translation id="2752984808025184019">South Africa</translation>
 <translation id="2760636260031093254">Ilagay ang iyong email address upang magpatuloy</translation>
+<translation id="276938411216176478">Na-disable ng isang administrator ang user account.</translation>
 <translation id="2782685789517131804">Nagpadala ng email sa pag-sign in na may mga karagdagang tagubilin sa <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Tingnan ang iyong email para makumpleto ang pag-sign in.</translation>
 <translation id="2828509010894808185">Gumawa ng account</translation>
 <translation id="2834770837848769530">Afghanistan</translation>
 <translation id="2884525438023347369">Sa pag-tap sa <ph name="BTN" />, ipinababatid mo na sang-ayon ka sa <ph name="TOS" />.</translation>
 <translation id="2909392332969582158">Canada</translation>
 <translation id="2911018261311455240">Denmark</translation>
+<translation id="2949732021187449522">Lumagpas na sa deadline ng kahilingan.</translation>
 <translation id="295270254328846278">Austria</translation>
 <translation id="2976748949054245370">Hindi tumutugma ang mga email</translation>
 <translation id="29947009417147243">South Sudan</translation>
 <translation id="3040586343252524572">Yemen</translation>
 <translation id="3045244039436637116">Guinea-Bissau</translation>
 <translation id="3046745817056752783">Saudi Arabia</translation>
-<translation id="311953035679824832">Logo ng app</translation>
+<translation id="3083819527012413063">May karagdagang seguridad na idinagdag sa <ph name="APP_NAME" /></translation>
 <translation id="3122584863645047144">U.S. Virgin Islands</translation>
 <translation id="3141549453511344986">Mag-sign in gamit ang telepono</translation>
 <translation id="3147551458884186429">Indonesia</translation>
@@ -121,6 +134,7 @@
 <translation id="3164676761565983157">Venezuela</translation>
 <translation id="3170526549630869494">Nagkaproblema sa pag-sign in?</translation>
 <translation id="3204914819635733576">I-verify na ikaw ito</translation>
+<translation id="3215050409577090361">Nagkaproblema habang ino-authenticate ang kahilingan mo. Pakibisita ang URL na muling nag-redirect sa iyo sa page na ito para ma-restart ang proseso ng pag-authenticate.</translation>
 <translation id="3216149523061905579">Dominica</translation>
 <translation id="3223688630903046698">Bagong password</translation>
 <translation id="3250864391349648273">Gabon</translation>
@@ -138,6 +152,7 @@
 <translation id="3434621886769337032">Gambia</translation>
 <translation id="3472358534605257432">Tapos Na</translation>
 <translation id="3479685026618611556">Kanselahin</translation>
+<translation id="3481131180097895739">Hindi kilalang server error.</translation>
 <translation id="3487364398525389372">Ilagay ang pangalan ng iyong account</translation>
 <translation id="3521753471343796628">Iraq</translation>
 <translation id="354888504916863713">Vietnam</translation>
@@ -149,13 +164,15 @@
 <translation id="3605933028246642593">Nepal</translation>
 <translation id="3608140835232496799">Tokelau</translation>
 <translation id="3620185428620643248">Hindi suportado ang napiling kredensyal para sa tagapag-authenticate!</translation>
+<translation id="3658306886462996856">Walang available na provider sa pag-sign-in para sa nasabing email, pakisubukan gamit ang ibang email.</translation>
+<translation id="3695180913983403205">Maglagay ng pangalan at apelyido.</translation>
 <translation id="3700097473356216716">Colombia</translation>
 <translation id="3736041829854387744">Burundi</translation>
 <translation id="3755663127769565780">Mauritania</translation>
 <translation id="3813801701232240278">Twitter</translation>
 <translation id="3814740523815122846">Na-verify na ang iyong email</translation>
 <translation id="3819556544383051267">Papua New Guinea</translation>
-<translation id="3831901810365396899">I-save</translation>
+<translation id="3828991952827504549">Hindi natagpuan ang tinukoy na resource.</translation>
 <translation id="3862053977934420187">Bine-verify...</translation>
 <translation id="3898029444496274961">Mag-sign In</translation>
 <translation id="3905423743526704083">East Timor</translation>
@@ -188,6 +205,7 @@
 <translation id="4440507149645221385">Telepono</translation>
 <translation id="4450602713221237198">Ipadalang Muli</translation>
 <translation id="4498504413765490964">Honduras</translation>
+<translation id="450385255996536115">Nag-time out ang operasyon.</translation>
 <translation id="4515732781724470190">Niger</translation>
 <translation id="4521614244485847733">Hindi tumutugma ang email address na iyon sa isang kasalukuyang account</translation>
 <translation id="4556476996891737119">Jordan</translation>
@@ -199,6 +217,7 @@
 <translation id="4723701728629289714">Israel</translation>
 <translation id="4725154639671888461">Nagkaroon ng error</translation>
 <translation id="4751937685196678080">Numero</translation>
+<translation id="4769553102874508676">Walang sapat na pahintulot ang client.</translation>
 <translation id="4773060157545352832">Sagutin ang reCAPTCHA</translation>
 <translation id="4775051289386800916">Nicaragua</translation>
 <translation id="4783400389150493171">Burkina Faso</translation>
@@ -207,27 +226,32 @@
 <translation id="4871106926303956169">Turks and Caicos Islands</translation>
 <translation id="4877597386645466815">Ipadala muli ang code sa <ph name="TIME_REMAINING" /></translation>
 <translation id="4915406999072654369">Suriin ang iyong email</translation>
+<translation id="4923375331439013137">Hindi maalis ang iyong pangalawang factor</translation>
 <translation id="4955175001894453989">Magdagdag ng password</translation>
 <translation id="496366313824211679">El Salvador</translation>
+<translation id="4982483807073820954">Upang baguhin ang password sa iyong account, kailangan mong mag-sign in muli.</translation>
 <translation id="4991626049082973728">Serbia</translation>
 <translation id="4991892293325936102">Belize</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" />para sa <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /><ph name="END_PARAGRAPH" /></translation>
 <translation id="5059105734231232362">Para matagumpay na maikonekta ng flow na ito ang iyong <ph name="IDP_DISPLAY_NAME" /> account gamit ang email na ito, kailangan mong buksan ang link na ito sa parehong device o browser.</translation>
 <translation id="5080084639513001393">Sweden</translation>
 <translation id="5080899604429810481">Saint Martin</translation>
+<translation id="5115661695221894994"><ph name="START_PARAGRAPH" />Ang kahilingan mong i-verify at i-update ang iyong email ay nag-expire na o nagamit na ang link.<ph name="END_PARAGRAPH" /></translation>
 <translation id="5143657419516597442">St. Lucia</translation>
 <translation id="5241732101105320538">Suriin ang iyong email</translation>
 <translation id="5301108536112812420">Ang iyong kahilingan na i-verify ang iyong email ay nag-expire na o nagamit na ang link</translation>
 <translation id="5323041129469627535">Oman</translation>
 <translation id="5326139833547026317">Caribbean Netherlands</translation>
 <translation id="5347459868860672391">Na-update na email address</translation>
-<translation id="5403395913830260677">Mag-sign in sa Twitter</translation>
+<translation id="5397737236938796917">Matagumpay kang naka-sign out.</translation>
+<translation id="5406620662929585965">Mag-sign in gamit ang telepono</translation>
 <translation id="5407010562344541906">Numero ng telepono</translation>
 <translation id="5409861738809250803">Mayroon ka nang account</translation>
 <translation id="5410341463946781720">Thailand</translation>
 <translation id="5443669846203963095">Patakaran sa Privacy</translation>
 <translation id="5444635161362535036">Liechtenstein</translation>
 <translation id="5483706910421209104">I-edit ang pangalan</translation>
+<translation id="5487696047685227891">Inalis ang device o app bilang pangalawang hakbang sa pag-authenticate.</translation>
 <translation id="5490651768073507833">Subukang buksan ang link gamit ang parehong device o browser kung saan mo sinimulan ang proseso ng pag-sign in.</translation>
 <translation id="5524360735013196510">Netherlands</translation>
 <translation id="5528189843379142883">Equatorial Guinea</translation>
@@ -251,7 +275,7 @@
 <translation id="5699028034244995851">Ilagay ang iyong email address upang magpatuloy</translation>
 <translation id="5701178667798108817">I-verify ang numero ng iyong telepono</translation>
 <translation id="5715637701147651513">Liberia</translation>
-<translation id="5755179287528310939">Mayroon nang account gamit ang email address na iyon.</translation>
+<translation id="5747263508495256858">Mag-sign Out</translation>
 <translation id="5771034676910614239">Madagascar</translation>
 <translation id="5818634293686963864">Kazakhstan</translation>
 <translation id="5829301468800336085">Nagsa-sign in...</translation>
@@ -270,15 +294,20 @@
 <translation id="6032262985756512833">Ilagay ang <ph name="STRING" />-digit na code na ipinadala namin sa</translation>
 <translation id="6044396095102058216">Masyadong maraming beses nang nagamit ang numero ng teleponong ito</translation>
 <translation id="6083089720215618333">Hindi tumutugma ang ibinigay na email sa kasalukuyang session ng pag-sign-in.</translation>
-<translation id="6113531938704280909">I-unlink ang account</translation>
+<translation id="6091051069256411999">Twitter</translation>
+<translation id="61182948399263957">
+<ph name="P_START" />Mag-sign in sa <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6132202686885223981">Tingnan kung hindi pa nauubusan ng espasyo ang iyong inbox o may iba pang isyu na may kinalaman sa mga setting ng inbox.</translation>
+<translation id="6135589730599211649">May tinukoy na invalid na hanay ang client.</translation>
+<translation id="6143147250106939258">Nahigitan ang quota para sa operasyong ito. Subukang muli sa ibang pagkakataon.</translation>
 <translation id="6189573836664806798">Paraguay</translation>
 <translation id="6192657410634245771">Algeria</translation>
 <translation id="6213969168046789596">Nagpasok ka ng di-wastong password nang masyadong maraming beses. Pakisubukang muli pagkalipas ng ilang minuto.</translation>
 <translation id="6216759405419177713">Norfolk Island</translation>
 <translation id="6245066275978703471">Awtomatikong na-verify ang numero ng telepono</translation>
-<translation id="6283536862756552051">Upang baguhin ang iyong password, kailangan mo munang ipasok ang iyong kasalukuyang password.</translation>
-<translation id="6299890279889400823">Bumalik</translation>
+<translation id="6269083314054226194">Error sa network, tingnan ang koneksyon mo sa internet.</translation>
+<translation id="6295157125625453859">Na-verify!</translation>
 <translation id="6316446940976157217">India</translation>
 <translation id="6327723482938582895">Benin</translation>
 <translation id="6338643731889005578">Magpatuloy</translation>
@@ -327,27 +356,33 @@
 <translation id="6921505896641453739">Mag-email</translation>
 <translation id="6929813273561975780">Susunod</translation>
 <translation id="6951302238647056860">Wala nang bisa ang code na ito</translation>
-<translation id="6976724207780605356">Mag-sign in sa Facebook</translation>
+<translation id="6961220857430789248">Nagpadala ng email sa pag-sign in na may mga karagdagang tagubilin sa <ph name="STRING" />. Tingnan ang iyong email para makumpleto ang pag-sign in.</translation>
 <translation id="6984204927251307445">Kumpirmahin ang email</translation>
 <translation id="6999773882165218263">Pangalan at apelyido</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Western Sahara</translation>
+<translation id="7025117765722694556">Hindi maaaring isagawa ang kahilingan sa kasalukuyang status ng system.</translation>
 <translation id="7062299334696934251">Nagkaroon ng hindi malamang error.</translation>
 <translation id="7064251114893721966">Nagamit mo na ang <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> upang mag-sign in. Ilagay ang iyong password para sa account na iyon.</translation>
+<translation id="7085136866191400000">Naipadala na ang email sa pag-sign in</translation>
 <translation id="7089485669419398254">Ireland</translation>
 <translation id="7093343209860483088">Democratic Republic Congo</translation>
 <translation id="7118080999850002096">I-recover ang password</translation>
 <translation id="7150917293543492988">Republic of Congo</translation>
+<translation id="7157317431934821052">Mayroon nang resource na sinubukang gawin ng client.</translation>
 <translation id="7174424882502155514">Magpatuloy bilang bisita</translation>
 <translation id="7192078949090526171">San Marino</translation>
 <translation id="7197455001919474950">Cyprus</translation>
 <translation id="7198563013006562060">Solomon Islands</translation>
 <translation id="7207660930894629055">Magpatuloy sa <ph name="USER_EMAIL" />?</translation>
+<translation id="720983450833499456">Para magpatuloy sa pag-sign in gamit ang <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> sa device na ito, kailangan mong ma-recover ang password.</translation>
 <translation id="7223410082658239002">Maldives</translation>
 <translation id="7254028881697834212">São Tomé and Príncipe</translation>
 <translation id="7268827299582726485">Kumpirmahin ang iyong email para makumpleto ang pag-sign in</translation>
 <translation id="7272145663101316762">Slovenia</translation>
 <translation id="7280309713358692490">South Korea</translation>
+<translation id="7283725113395426048">Concurrency conflict, tulad ng read-modify-write conflict.</translation>
+<translation id="7290147808482957603">Hindi naimplementa ng server ang API method.</translation>
 <translation id="7291567990403335374">Lesotho</translation>
 <translation id="7291656724505689727">Mag-sign in gamit ang telepono</translation>
 <translation id="7320029088567935126">Subukang i-verify muli ang iyong email</translation>
@@ -367,8 +402,10 @@
         upang mag-sign in. Ilagay ang iyong password para sa account na iyon.</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{Hindi masyadong malakas ang password. Gumamit ng <ph name="PH_1" /> character man lang at kumbinasyon ng mga titik at mga numero}one{Hindi masyadong malakas ang password. Gumamit ng <ph name="PH_1" /> character man lang at kumbinasyon ng mga titik at mga numero}other{Hindi masyadong malakas ang password. Gumamit ng <ph name="PH_1" /> na character man lang at kumbinasyon ng mga titik at mga numero}}</translation>
 <translation id="7699755204074920022">Zimbabwe</translation>
+<translation id="7746977132739352062">Hindi na-authenticate ang kahilingan dahil sa nawawala, invalid, o nag-expire na OAuth token.</translation>
 <translation id="7782885946428624225">Nagkaproblema sa pag-verify ng numero ng iyong telepono</translation>
 <translation id="7796914496604415892">May nakitang bagong device o browser</translation>
+<translation id="786166109137986817">Mag-sign in sa <ph name="DISPLAY_NAME" /></translation>
 <translation id="7868540442111212282">Czechia</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
 <translation id="7926046652648626866">Mag-sign in sa GitHub</translation>
@@ -423,6 +460,7 @@
 <translation id="868894957204919930">Bermuda</translation>
 <translation id="8694271531070467981">Niue</translation>
 <translation id="8745311627715763145">Guadeloupe</translation>
+<translation id="8752467400269476994">May tinukoy ang client na invalid na configuration ng proyekto.</translation>
 <translation id="8760480624706028033">Palestinian Territories</translation>
 <translation id="8770276147008360348">Slovakia</translation>
 <translation id="877434849857020571">Guernsey</translation>
@@ -435,19 +473,24 @@
 <translation id="8893950153780006385">Malaysia</translation>
 <translation id="8895840173743975193">Cocos [Keeling] Islands</translation>
 <translation id="8916080112145514151">Kung gusto mo pa ring ikonekta ang iyong <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> account, buksan ang link sa mismong device kung saan ka nagsimula ng pag-sign-in. Kung hindi, i-tap ang Magpatuloy para mag-sign in sa device na ito.</translation>
+<translation id="8920674952994839257">Subukang Muli</translation>
 <translation id="8939353296336237380">Orihinal na sinadya mong ikonekta ang <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> sa iyong email account pero nabuksan ang link sa ibang device kung saan hindi ka naka-sign in.</translation>
 <translation id="8971555482255213064">Ipadala muli ang code sa loob ng 0:<ph name="PH_1" /></translation>
 <translation id="8984161590699631096">Morocco</translation>
+<translation id="8994098794339484800">Kung hindi mo kilala ang device na ito, maaaring may uma-access ng iyong account. Isaalang-alang ang <ph name="START_LINK" />agad na pagpapalit ng iyong password<ph name="END_LINK" />.</translation>
 <translation id="900153878296575829">Bangladesh</translation>
 <translation id="9022632332691561239">Telepono</translation>
 <translation id="9028063588419847334">Finland</translation>
 <translation id="9078135685219203661">United Arab Emirates</translation>
+<translation id="9121203582272050974">Na-verify at pinalitan ang iyong email</translation>
 <translation id="9156150178611681179">Password</translation>
 <translation id="9168877696443530714">Central African Republic</translation>
 <translation id="9186194643192393179">Curaçao</translation>
+<translation id="9193130710600355008">Na-block na namin ang lahat ng kahilingan mula sa device na ito dahil sa kakaibang aktibidad. Subukang muli sa ibang pagkakataon.</translation>
 <translation id="919456844206936371">Tunisia</translation>
 <translation id="9209678713072395487">Pinalitan ang password</translation>
 <translation id="954276184636809129">Greece</translation>
+<translation id="959388308828818789">Inalis ang pangalawang factor</translation>
 <translation id="965930633376049617">Angola</translation>
 <translation id="988087302893519488">Kuwait</translation>
 <translation id="994914101700264849">Hindi nagtutugma ang inilagay mong email at password</translation>

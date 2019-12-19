@@ -123,7 +123,7 @@
  * Renders an identity provider button.
  */
 {template .idpButton}
-  {@param? providerConfig: [providerId:string|null, providerName:string|null,
+  {@param? providerConfig: [providerId:string, providerName:string|null,
       buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
   <button
       class="firebaseui-idp-button mdl-button mdl-js-button mdl-button--raised{sp}
@@ -595,6 +595,10 @@
     {$providerConfig.providerName}
   {elseif $ij.defaultProviderNames[$providerConfig.providerId]}
     {$ij.defaultProviderNames[$providerConfig.providerId]}
+  {elseif strIndexOf($providerConfig.providerId, 'saml.') == 0}
+    {strSub($providerConfig.providerId, 5)}
+  {elseif strIndexOf($providerConfig.providerId, 'oidc.') == 0}
+    {strSub($providerConfig.providerId, 5)}
   {else}
     {$providerConfig.providerId}
   {/if}
@@ -606,7 +610,7 @@
  * The list should match the supported provider IDs in Firebase Auth.
  */
 {template .idpClass_ kind="text"}
-  {@param? providerConfig: [providerId:string|null, providerName:string|null,
+  {@param? providerConfig: [providerId:string, providerName:string|null,
       buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
   {switch $providerConfig.providerId}
     {case 'google.com'}
@@ -635,12 +639,16 @@
  * icon.
  */
 {template .idpLogo_ kind="uri"}
-  {@param? providerConfig: [providerId:string|null, providerName:string|null,
+  {@param? providerConfig: [providerId:string, providerName:string|null,
       buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
   {if $providerConfig.iconUrl}
     {$providerConfig.iconUrl}
   {elseif $ij.defaultIconUrls[$providerConfig.providerId]}
     {$ij.defaultIconUrls[$providerConfig.providerId]}
+  {elseif strIndexOf($providerConfig.providerId, 'saml.') == 0}
+    {$ij.defaultIconUrls['saml']}
+  {elseif strIndexOf($providerConfig.providerId, 'oidc.') == 0}
+    {$ij.defaultIconUrls['oidc']}
   {else}
     {$ij.defaultIconUrls['password']}
   {/if}
@@ -653,13 +661,55 @@
  * password icon.
  */
 {template .idpColor_ kind="text"}
-  {@param? providerConfig: [providerId:string|null, providerName:string|null,
+  {@param? providerConfig: [providerId:string, providerName:string|null,
       buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
   {if $providerConfig.buttonColor}
     {$providerConfig.buttonColor}
   {elseif $ij.defaultButtonColors[$providerConfig.providerId]}
     {$ij.defaultButtonColors[$providerConfig.providerId]}
+  {elseif strIndexOf($providerConfig.providerId, 'saml.') == 0}
+    {$ij.defaultButtonColors['saml']}
+  {elseif strIndexOf($providerConfig.providerId, 'oidc.') == 0}
+    {$ij.defaultButtonColors['oidc']}
   {else}
     {$ij.defaultButtonColors['password']}
   {/if}
+{/template}
+
+
+/**
+ * Renders a tenant selection button.
+ */
+{template .tenantSelectionButton}
+  {@param tenantConfig: [tenantId:string|null, displayName:string, buttonColor:string,
+      iconUrl: string]} /** The tenant selection button config. */
+  {let $tenantClass kind="text"}
+    {if $tenantConfig.tenantId}
+      {$tenantConfig.tenantId}
+    {else}
+      top-level-project
+    {/if}
+  {/let}
+  <button
+      class="firebaseui-tenant-button mdl-button mdl-js-button mdl-button--raised{sp}
+             firebaseui-tenant-selection-{$tenantClass} firebaseui-id-tenant-selection-button"
+      {if $tenantConfig.tenantId}data-tenant-id="{$tenantConfig.tenantId}"{/if}
+      style="background-color:{$tenantConfig.buttonColor}">
+    <span class="firebaseui-idp-icon-wrapper">
+      <img
+          class="firebaseui-idp-icon"
+          alt=""
+          src="{$tenantConfig.iconUrl}">
+    </span>
+    <span class="firebaseui-idp-text firebaseui-idp-text-long">
+      {msg desc="Label for a button to sign in to a tenant. The long version"}
+        Sign in to {$tenantConfig.displayName}
+      {/msg}
+    </span>
+    <span class="firebaseui-idp-text firebaseui-idp-text-short">
+      {msg desc="Label for a button to sign in to a tenant. The short version"}
+        {$tenantConfig.displayName}
+      {/msg}
+    </span>
+  </button>
 {/template}

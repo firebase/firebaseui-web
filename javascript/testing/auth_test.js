@@ -19,6 +19,7 @@
 goog.provide('firebaseui.auth.AuthTest');
 
 goog.require('firebaseui.auth.testing.FakeAppClient');
+goog.require('goog.Promise');
 goog.require('goog.testing.AsyncTestCase');
 goog.require('goog.testing.jsunit');
 

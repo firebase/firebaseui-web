@@ -24,45 +24,38 @@ goog.require('firebaseui.auth.ui.element.newPassword');
 goog.require('firebaseui.auth.ui.page.Base');
 
 
-
 /**
  * Password reset UI component.
- * @param {string} email The email to prefill.
- * @param {function()} onSubmitClick Callback to invoke when the submit button
- *     is clicked.
- * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
- * @constructor
- * @extends {firebaseui.auth.ui.page.Base}
  */
-firebaseui.auth.ui.page.PasswordReset = function(email, onSubmitClick,
-    opt_domHelper) {
-  firebaseui.auth.ui.page.PasswordReset.base(
-      this,
-      'constructor',
-      firebaseui.auth.soy2.page.passwordReset,
-      {email: email},
-      opt_domHelper,
-      'passwordReset');
-  this.onSubmitClick_ = onSubmitClick;
-};
-goog.inherits(firebaseui.auth.ui.page.PasswordReset,
-    firebaseui.auth.ui.page.Base);
+firebaseui.auth.ui.page.PasswordReset =
+    class extends firebaseui.auth.ui.page.Base {
+  /**
+   * @param {string} email The email to prefill.
+   * @param {function()} onSubmitClick Callback to invoke when the submit button
+   *     is clicked.
+   * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
+   */
+  constructor(email, onSubmitClick, opt_domHelper) {
+    super(
+        firebaseui.auth.soy2.page.passwordReset, {email: email}, opt_domHelper,
+        'passwordReset');
+    this.onSubmitClick_ = onSubmitClick;
+  }
 
+  /** @override */
+  enterDocument() {
+    this.initNewPasswordElement();
+    this.initFormElement(this.onSubmitClick_);
+    this.submitOnEnter(this.getNewPasswordElement(), this.onSubmitClick_);
+    this.getNewPasswordElement().focus();
+    super.enterDocument();
+  }
 
-/** @override */
-firebaseui.auth.ui.page.PasswordReset.prototype.enterDocument = function() {
-  this.initNewPasswordElement();
-  this.initFormElement(this.onSubmitClick_);
-  this.submitOnEnter(this.getNewPasswordElement(), this.onSubmitClick_);
-  this.getNewPasswordElement().focus();
-  firebaseui.auth.ui.page.PasswordReset.base(this, 'enterDocument');
-};
-
-
-/** @override */
-firebaseui.auth.ui.page.PasswordReset.prototype.disposeInternal = function() {
-  this.onSubmitClick_ = null;
-  firebaseui.auth.ui.page.PasswordReset.base(this, 'disposeInternal');
+  /** @override */
+  disposeInternal() {
+    this.onSubmitClick_ = null;
+    super.disposeInternal();
+  }
 };
 
 
