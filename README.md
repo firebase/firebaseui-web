@@ -452,7 +452,6 @@ When one is enabled, your users will be prompted with email addresses and
 usernames they have saved from your app or other applications.
 FirebaseUI supports the following credential helpers:
 
-- [one-tap sign-up](#one-tap-sign-up)
 - [accountchooser.com](https://www.accountchooser.com/learnmore.html)
 
 #### accountchooser.com
@@ -464,14 +463,9 @@ website and will be able to select one of their saved accounts. You can
 disable it by specifying the value below. This feature is always disabled for
 non HTTP/HTTPS environments.
 
-#### One-tap sign-up
-
-**The beta test program for this API is currently closed.**
-
 |Credential Helper |Value                                                 |
 |------------------|------------------------------------------------------|
 |accountchooser.com|`firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM`|
-|One-tap sign-up   |`firebaseui.auth.CredentialHelper.GOOGLE_YOLO`        |
 |None (disable)    |`firebaseui.auth.CredentialHelper.NONE`               |
 
 ### Available providers
