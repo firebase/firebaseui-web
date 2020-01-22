@@ -466,7 +466,7 @@ non HTTP/HTTPS environments.
 
 #### One-tap sign-up
 
-> **Note:** The beta test program for this API is currently closed.
+**The beta test program for this API is currently closed.**
 
 |Credential Helper |Value                                                 |
 |------------------|------------------------------------------------------|
