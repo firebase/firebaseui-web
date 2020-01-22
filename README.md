@@ -141,10 +141,8 @@ FirebaseUI includes the following flows:
 by default.)
 6. [Account Chooser](https://www.accountchooser.com/learnmore.html?lang=en) for
 remembering emails
-7. Integration with
-[one-tap sign-up](https://developers.google.com/identity/one-tap/web/overview)
-8. Ability to upgrade anonymous users through sign-in/sign-up
-9. Sign-in as a guest
+7. Ability to upgrade anonymous users through sign-in/sign-up
+8. Sign-in as a guest
 
 ### Configuring sign-in providers
 
@@ -454,7 +452,7 @@ When one is enabled, your users will be prompted with email addresses and
 usernames they have saved from your app or other applications.
 FirebaseUI supports the following credential helpers:
 
-- [one-tap sign-up](https://developers.google.com/identity/one-tap/web/overview)
+- [one-tap sign-up](#one-tap-sign-up)
 - [accountchooser.com](https://www.accountchooser.com/learnmore.html)
 
 #### accountchooser.com
@@ -468,10 +466,9 @@ non HTTP/HTTPS environments.
 
 #### One-tap sign-up
 
-> **Note:** The beta test program for this API is currently closed.  
+> **Note:** The beta test program for this API is currently closed.
 
-[One-tap sign-up](https://developers.google.com/identity/one-tap/web/overview)
-provides seamless authentication flows to
+One-tap sign-up provides seamless authentication flows to
 your users with Google's one tap sign-up and automatic sign-in APIs.
 With one tap sign-up, users are prompted to create an account with a dialog
 that's inline with FirebaseUI NASCAR screen. With just one tap, they get a
@@ -488,8 +485,6 @@ In addition, if you choose to force prompt for Google sign-in, one-tap auto
 sign-in will be automatically disabled.
 One-tap is an additive feature and is only supported in the latest evergreen
 modern browser environments.
-For more information on how to configure one-tap sign-up, refer to the
-[one-tap get started guide](https://developers.google.com/identity/one-tap/web/get-started).
 
 The following example shows how to configure one-tap sign-up with FirebaseUI.
 Along with the corresponding one-tap `credentialHelper`, `clientId` and
