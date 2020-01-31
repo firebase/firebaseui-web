@@ -138,12 +138,14 @@ echo "Published to npm."
 
 echo "Bumping version numbers in README..."
 sed -i "s/firebasejs\/ui\/${CURRENT_VERSION}/firebasejs\/ui\/${NEW_VERSION}/g" README.md
+git add README.md
 echo "Bumped version numbers in README."
 
 echo "Cleaning up release notes..."
 rm CHANGELOG.md
 touch CHANGELOG.md
-git commit -m "[firebase-release] Removed change log and reset repo after ${NEW_VERSION} release" CHANGELOG.md
+git add CHANGELOG.md
+git commit -m "[firebase-release] Removed change log and reset repo after ${NEW_VERSION} release"
 echo "Cleaned up release notes."
 
 echo "Pushing to GitHub..."
