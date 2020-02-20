@@ -952,8 +952,10 @@ Config.WidgetMode = {
   CALLBACK: 'callback',
   RECOVER_EMAIL: 'recoverEmail',
   RESET_PASSWORD: 'resetPassword',
+  REVERT_SECOND_FACTOR_ADDITION: 'revertSecondFactorAddition',
   SELECT: 'select',
   SIGN_IN: 'signIn',
+  VERIFY_AND_CHANGE_EMAIL: 'verifyAndChangeEmail',
   VERIFY_EMAIL: 'verifyEmail',
 };
 

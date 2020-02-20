@@ -63,7 +63,7 @@
 <translation id="2130553359919781209">馬拉威</translation>
 <translation id="2187260952722791093">已驗證！</translation>
 <translation id="2192561962270021282">請輸入您的電話號碼</translation>
-<translation id="2206856445831770486">Github</translation>
+<translation id="2206856445831770486">GitHub</translation>
 <translation id="2223717216014247341">隱私權政策</translation>
 <translation id="2224563296468523455">關島</translation>
 <translation id="2245182894886860848">資源配額用盡或達到頻率限制。</translation>
@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">巴林</translation>
 <translation id="2392247362473363900">內部伺服器發生錯誤。</translation>
 <translation id="2405828009195143258">伊朗</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">正在驗證您是否為自動程式...</translation>
-<translation id="2448227725017851570">這個代碼已經失效</translation>
+<translation id="2422942582251341722">忘記密碼了嗎？</translation>
+<translation id="2446078593003901807">確定</translation>
 <translation id="2448487988481516351">新喀里多尼亞</translation>
 <translation id="2451742558284013472">摩納哥</translation>
 <translation id="2460064915291012298">塞席爾</translation>
@@ -189,7 +188,7 @@
 <translation id="4056653682525186486">使用 <ph name="XXX" /> 登入</translation>
 <translation id="4064888056475403511">請透過最初登入時使用的裝置或瀏覽器來開啟連結。</translation>
 <translation id="4066104405592701692">愛沙尼亞</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">刪除</translation>
 <translation id="4163133799286985193">阿根廷</translation>
 <translation id="4166504762096983411">選擇繼續即表示您同意接受我們的《<ph name="START_LINK_1" />服務條款<ph name="END_LINK" />》與《<ph name="START_LINK_2" />隱私權政策<ph name="END_LINK" />》。</translation>
 <translation id="420554669252656972">請輸入新的電子郵件地址</translation>
@@ -416,7 +415,6 @@
 <translation id="7926046652648626866">使用 GitHub 登入</translation>
 <translation id="792838323404934335">格陵蘭</translation>
 <translation id="7956645158976161232">利比亞</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">肯亞</translation>
 <translation id="8028653067082554952">這項操作會清除與您的帳戶相關聯的所有資料，而且帳戶刪除後即無法復原。確定要刪除帳戶嗎？</translation>
 <translation id="8033786138248870436">輕觸 [驗證] 後系統將會傳送簡訊，您可能需要支付簡訊和數據傳輸費用。</translation>

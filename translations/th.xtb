@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">บาห์เรน</translation>
 <translation id="2392247362473363900">ข้อผิดพลาดภายในเซิร์ฟเวอร์</translation>
 <translation id="2405828009195143258">อิหร่าน</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">กำลังยืนยันว่าคุณไม่ใช่หุ่นยนต์...</translation>
-<translation id="2448227725017851570">ไม่สามารถใช้รหัสนี้ได้อีกต่อไป</translation>
+<translation id="2422942582251341722">หากลืมรหัสผ่าน</translation>
+<translation id="2446078593003901807">ตกลง</translation>
 <translation id="2448487988481516351">นิวแคลิโดเนีย</translation>
 <translation id="2451742558284013472">โมนาโค</translation>
 <translation id="2460064915291012298">เซเชลส์</translation>
@@ -189,7 +188,7 @@
 <translation id="4056653682525186486">ลงชื่อเข้าใช้ด้วย <ph name="XXX" /></translation>
 <translation id="4064888056475403511">ลองเปิดลิงก์โดยใช้อุปกรณ์หรือเบราว์เซอร์เดียวกันกับที่คุณใช้ในขั้นตอนการลงชื่อเข้าใช้</translation>
 <translation id="4066104405592701692">เอสโตเนีย</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">ลบ</translation>
 <translation id="4163133799286985193">อาร์เจนตินา</translation>
 <translation id="4166504762096983411">การดำเนินการต่อแสดงว่าคุณยอมรับ<ph name="START_LINK_1" />ข้อกำหนดในการให้บริการ<ph name="END_LINK" />และ<ph name="START_LINK_2" />นโยบายความเป็นส่วนตัว<ph name="END_LINK" /></translation>
 <translation id="420554669252656972">ป้อนที่อยู่อีเมลใหม่</translation>
@@ -415,7 +414,6 @@
 <translation id="7926046652648626866">ลงชื่อเข้าใช้ด้วย GitHub</translation>
 <translation id="792838323404934335">กรีนแลนด์</translation>
 <translation id="7956645158976161232">ลิเบีย</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">เคนยา</translation>
 <translation id="8028653067082554952">การทำเช่นนี้จะลบข้อมูลทั้งหมดที่เชื่อมโยงกับบัญชีและไม่สามารถเลิกทำได้ คุณแน่ใจไหมว่าต้องการลบบัญชีของคุณ</translation>
 <translation id="8033786138248870436">เมื่อคุณแตะยืนยัน ระบบจะส่ง SMS ให้คุณ อาจมีค่าบริการรับส่งข้อความและค่าบริการอินเทอร์เน็ต</translation>

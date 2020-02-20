@@ -63,7 +63,7 @@
 <translation id="2130553359919781209">मलावी</translation>
 <translation id="2187260952722791093">पुष्टि हो चुकी है!</translation>
 <translation id="2192561962270021282">अपना फ़ोन नंबर डालें</translation>
-<translation id="2206856445831770486">Github</translation>
+<translation id="2206856445831770486">GitHub</translation>
 <translation id="2223717216014247341">निजता नीति</translation>
 <translation id="2224563296468523455">ग्वाम</translation>
 <translation id="2245182894886860848">संसाधन की सीमा खत्म हो गई है या अनुरोध संख्या की सीमा तक पहुंचने वाले हैं.</translation>
@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">बहरीन</translation>
 <translation id="2392247362473363900">सर्वर में गड़बड़ी.</translation>
 <translation id="2405828009195143258">ईरान</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">आप रोबोट नहीं हैं इसकी पुष्टि की जा रही है...</translation>
-<translation id="2448227725017851570">यह कोड अब मान्य नहीं है</translation>
+<translation id="2422942582251341722">पासवर्ड भूल गए?</translation>
+<translation id="2446078593003901807">ठीक</translation>
 <translation id="2448487988481516351">न्यू कैलेडोनिया</translation>
 <translation id="2451742558284013472">मॉनेको</translation>
 <translation id="2460064915291012298">सेशल्स</translation>
@@ -188,7 +187,7 @@
 <translation id="4056653682525186486"><ph name="XXX" /> से प्रवेश करें</translation>
 <translation id="4064888056475403511">उसी डिवाइस या ब्राउज़र का इस्तेमाल करके लिंक खोलने की कोशिश करें जिससे आपने साइन-इन करना शुरू किया था.</translation>
 <translation id="4066104405592701692">एस्टोनिया</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">हटाएं</translation>
 <translation id="4163133799286985193">अर्जेंटीना</translation>
 <translation id="4166504762096983411">जारी रखकर, आप यह बताते हैं कि आप हमारी <ph name="START_LINK_1" />सेवा की शर्तें<ph name="END_LINK" /> और <ph name="START_LINK_2" />निजता नीति<ph name="END_LINK" /> को मंज़ूर करते हैं.</translation>
 <translation id="420554669252656972">नया ईमेल पता डालें</translation>
@@ -414,7 +413,6 @@
 <translation id="7926046652648626866">GitHub के साथ साइन इन करें</translation>
 <translation id="792838323404934335">ग्रीनलैंड</translation>
 <translation id="7956645158976161232">लीबिया</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">केन्या</translation>
 <translation id="8028653067082554952">यह आपके खाते से संबंधित सभी डेटा मिटा देगा और इसे वापस नहीं पाया जा सकता है. क्या आप वाकई अपना खाता हटाना चाहते हैं?</translation>
 <translation id="8033786138248870436">पुष्टि करें टैप करने पर, एक SMS भेजा जा सकता है. संदेश और डेटा दरें लागू हो सकती हैं.</translation>

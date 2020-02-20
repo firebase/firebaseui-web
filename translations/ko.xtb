@@ -63,7 +63,7 @@
 <translation id="2130553359919781209">말라위</translation>
 <translation id="2187260952722791093">인증되었습니다.</translation>
 <translation id="2192561962270021282">전화번호 입력</translation>
-<translation id="2206856445831770486">Github</translation>
+<translation id="2206856445831770486">GitHub</translation>
 <translation id="2223717216014247341">개인정보처리방침</translation>
 <translation id="2224563296468523455">괌</translation>
 <translation id="2245182894886860848">리소스 할당량이 부족하거나 비율 제한에 도달했습니다.</translation>
@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">바레인</translation>
 <translation id="2392247362473363900">내부 서버 오류가 발생했습니다.</translation>
 <translation id="2405828009195143258">이란</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">로봇이 아닌 실제 사용자임을 확인 중...</translation>
-<translation id="2448227725017851570">더 이상 유효하지 않은 코드입니다.</translation>
+<translation id="2422942582251341722">비밀번호 찾기</translation>
+<translation id="2446078593003901807">확인</translation>
 <translation id="2448487988481516351">뉴칼레도니아</translation>
 <translation id="2451742558284013472">모나코</translation>
 <translation id="2460064915291012298">세이셸</translation>
@@ -189,7 +188,7 @@
 <translation id="4056653682525186486"><ph name="XXX" />(으)로 로그인</translation>
 <translation id="4064888056475403511">로그인 절차를 시작하는 데 사용한 것과 동일한 기기나 브라우저로 링크를 열어 보세요.</translation>
 <translation id="4066104405592701692">에스토니아</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">삭제</translation>
 <translation id="4163133799286985193">아르헨티나</translation>
 <translation id="4166504762096983411">계속 진행하면 <ph name="START_LINK_1" />서비스 약관<ph name="END_LINK" /> 및 <ph name="START_LINK_2" />개인정보처리방침<ph name="END_LINK" />에 동의하는 것으로 간주됩니다.</translation>
 <translation id="420554669252656972">새 이메일 주소를 입력해 주세요.</translation>
@@ -416,7 +415,6 @@
 <translation id="7926046652648626866">GitHub로 로그인</translation>
 <translation id="792838323404934335">그린란드</translation>
 <translation id="7956645158976161232">리비아</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">케냐</translation>
 <translation id="8028653067082554952">계정에 연결된 데이터가 모두 삭제되며 삭제를 취소할 수 없습니다. 계정을 삭제하시겠습니까?</translation>
 <translation id="8033786138248870436">'인증'을 탭하면 SMS가 발송될 수 있습니다. 메시지 및 데이터 요금이 부과될 수 있습니다.</translation>

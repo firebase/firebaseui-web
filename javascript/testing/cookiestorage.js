@@ -55,10 +55,10 @@ class FakeCookieStorage extends Disposable {
     var self = this;
     var r = this.replacer_ = new PropertyReplacer();
     r.replace(
-        cookies, 'set', function(key, value, maxAge, path, domain, secure) {
+        cookies, 'set', function(key, value, options) {
           self.mockCookieStorage_[key] = {
             'value': value,
-            'expiration': goog.now() + maxAge * 1000
+            'expiration': goog.now() + options.maxAge * 1000
           };
         });
     r.replace(cookies, 'get', function(key) {

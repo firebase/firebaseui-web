@@ -65,7 +65,7 @@
 <translation id="2130553359919781209">马拉维</translation>
 <translation id="2187260952722791093">已验证！</translation>
 <translation id="2192561962270021282">输入您的电话号码</translation>
-<translation id="2206856445831770486">Github</translation>
+<translation id="2206856445831770486">GitHub</translation>
 <translation id="2223717216014247341">隐私权政策</translation>
 <translation id="2224563296468523455">关岛</translation>
 <translation id="2245182894886860848">资源配额不足或达到了速率限制。</translation>
@@ -83,9 +83,8 @@
 <translation id="2375419764963116430">巴林</translation>
 <translation id="2392247362473363900">内部服务器错误。</translation>
 <translation id="2405828009195143258">伊朗</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">正在验证您是否为机器人…</translation>
-<translation id="2448227725017851570">此验证码已失效</translation>
+<translation id="2422942582251341722">忘记了密码？</translation>
+<translation id="2446078593003901807">确定</translation>
 <translation id="2448487988481516351">新喀里多尼亚</translation>
 <translation id="2451742558284013472">摩纳哥</translation>
 <translation id="2460064915291012298">塞舌尔</translation>
@@ -191,7 +190,7 @@
 <translation id="4056653682525186486">使用<ph name="XXX" />登录</translation>
 <translation id="4064888056475403511">请尝试使用您最初进入登录流程时所用的设备或浏览器打开链接。</translation>
 <translation id="4066104405592701692">爱沙尼亚</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">删除</translation>
 <translation id="4163133799286985193">阿根廷</translation>
 <translation id="4166504762096983411">继续操作即表示您接受我们的<ph name="START_LINK_1" />服务条款<ph name="END_LINK" />和<ph name="START_LINK_2" />隐私权政策<ph name="END_LINK" />。</translation>
 <translation id="420554669252656972">输入新的电子邮件地址</translation>
@@ -263,7 +262,7 @@
 <translation id="5528189843379142883">赤道几内亚</translation>
 <translation id="5529036554155743092">澳大利亚</translation>
 <translation id="5537884323453943551">特立尼达和多巴哥</translation>
-<translation id="5543493820882105191">输入您的名称</translation>
+<translation id="5543493820882105191">输入您的名字</translation>
 <translation id="55439745111619380">阿森松岛</translation>
 <translation id="5569341882117077010">出现网络错误</translation>
 <translation id="5581239183924693195">使用 <ph name="IDP_DISPLAY_NAME" /> 帐号登录</translation>
@@ -417,7 +416,6 @@
 <translation id="7926046652648626866">使用 GitHub 帐号登录</translation>
 <translation id="792838323404934335">格陵兰</translation>
 <translation id="7956645158976161232">利比亚</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">肯尼亚</translation>
 <translation id="8028653067082554952">此操作将清空与您的帐号相关联的所有数据，并且无法撤消。确定要删除帐号吗？</translation>
 <translation id="8033786138248870436">点按“验证”后，系统会向您发送一条短信。这可能会产生短信费用和上网流量费。</translation>

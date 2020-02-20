@@ -44,7 +44,7 @@
 <translation id="1799407952500261728">Wyspy Cooka</translation>
 <translation id="1870056762032541323">Nieprawidłowy kod. Spróbuj jeszcze raz.</translation>
 <translation id="1898579907513173256">Makau</translation>
-<translation id="1929332760123475919"><ph name="P_START" />Witaj <ph name="DISPLAY_NAME" />,<ph name="P_END" /></translation>
+<translation id="1929332760123475919"><ph name="P_START" />Cześć <ph name="DISPLAY_NAME" />,<ph name="P_END" /></translation>
 <translation id="1966996824429980990">Usuwanie konta</translation>
 <translation id="1987722456379605552">Wpisz sześciocyfrowy kod, który wysłaliśmy pod numer <ph name="START_LINK" /><ph name="PHONE_NUMBER" /><ph name="END_LINK" /></translation>
 <translation id="2016421613709283485">Aby odzyskać hasło, wykonaj instrukcje, które wysłaliśmy Ci na adres <ph name="PH_1" />.</translation>
@@ -63,7 +63,7 @@
 <translation id="2130553359919781209">Malawi</translation>
 <translation id="2187260952722791093">Zweryfikowano.</translation>
 <translation id="2192561962270021282">Podaj swój numer telefonu</translation>
-<translation id="2206856445831770486">Github</translation>
+<translation id="2206856445831770486">GitHub</translation>
 <translation id="2223717216014247341">Polityka prywatności</translation>
 <translation id="2224563296468523455">Guam</translation>
 <translation id="2245182894886860848">Limit zasobu został wyczerpany lub usługa aktywuje ograniczanie liczby żądań.</translation>
@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">Bahrajn</translation>
 <translation id="2392247362473363900">Wewnętrzny błąd serwera.</translation>
 <translation id="2405828009195143258">Iran</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">Potwierdź, że nie jesteś robotem.</translation>
-<translation id="2448227725017851570">Ten kod stracił ważność.</translation>
+<translation id="2422942582251341722">Nie pamiętasz hasła?</translation>
+<translation id="2446078593003901807">OK</translation>
 <translation id="2448487988481516351">Nowa Kaledonia</translation>
 <translation id="2451742558284013472">Monako</translation>
 <translation id="2460064915291012298">Seszele</translation>
@@ -189,7 +188,7 @@
 <translation id="4056653682525186486">Zaloguj się przez: <ph name="XXX" /></translation>
 <translation id="4064888056475403511">Otwórz link na tym samym urządzeniu, na którym rozpoczęto proces logowania i w tej samej przeglądarce.</translation>
 <translation id="4066104405592701692">Estonia</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">Usuń</translation>
 <translation id="4163133799286985193">Argentyna</translation>
 <translation id="4166504762096983411">Przechodząc dalej, potwierdzasz, że akceptujesz nasze <ph name="START_LINK_1" />Warunki korzystania z usługi<ph name="END_LINK" /> oraz <ph name="START_LINK_2" />Politykę prywatności<ph name="END_LINK" />.</translation>
 <translation id="420554669252656972">Wpisz nowy adres e-mail</translation>
@@ -415,7 +414,6 @@
 <translation id="7926046652648626866">Zaloguj się przez GitHuba</translation>
 <translation id="792838323404934335">Grenlandia</translation>
 <translation id="7956645158976161232">Libia</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">Kenia</translation>
 <translation id="8028653067082554952">Spowoduje to nieodwracalne usunięcie wszystkich danych powiązanych z Twoim kontem. Czy na pewno chcesz usunąć konto?</translation>
 <translation id="8033786138248870436">Gdy klikniesz Zweryfikuj, może zostać wysłany SMS, przez co operator może pobrać opłatę za przesyłanie wiadomości i danych.</translation>
@@ -424,7 +422,7 @@
 <translation id="8055755007915250245">Czy odłączyć konto?</translation>
 <translation id="8063505483150915580">Wyspa Bożego Narodzenia</translation>
 <translation id="8077378925683571933">
-<ph name="P_START" />Pozdrawiamy,<ph name="P_END" />
+<ph name="P_START" />Pozdrawiamy<ph name="P_END" />
 <ph name="P_START" />Zespół aplikacji <ph name="APP_NAME" /><ph name="P_END" /></translation>
 <translation id="8130982192244529100">Aby można było wysłać kody weryfikacyjne, podaj numer telefonu odbiorcy.</translation>
 <translation id="8138904368098176683">Sudan</translation>

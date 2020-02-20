@@ -1032,7 +1032,7 @@ firebaseui.auth.AuthUI.prototype.showOneTapSignIn = function(handler) {
  * @param {string} email The email to sign in with.
  * @param {?firebaseui.auth.PendingEmailCredential=} opt_pendingCredential The
  *     pending credential to link to the successfully signed in user
- * @return {!firebase.Promise<void>}
+ * @return {!firebase.Promise<void>|!goog.Promise<void>}
  */
 firebaseui.auth.AuthUI.prototype.sendSignInLinkToEmail =
     function(email, opt_pendingCredential) {
@@ -1043,8 +1043,9 @@ firebaseui.auth.AuthUI.prototype.sendSignInLinkToEmail =
   var sid = firebaseui.auth.util.generateRandomAlphaNumericString(32);
   // Assert email link sign-in allowed.
   if (!this.getConfig().isEmailLinkSignInAllowed()) {
-    throw new Error(
-        'Email link sign-in should be enabled to trigger email sending.');
+    return goog.Promise.reject(
+        new Error(
+            'Email link sign-in should be enabled to trigger email sending.'));
   }
   var actionCodeSettings =/** @type {!firebase.auth.ActionCodeSettings} */ (
       this.getConfig().getEmailLinkSignInActionCodeSettings());

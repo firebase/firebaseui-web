@@ -63,7 +63,7 @@
 <translation id="2130553359919781209">Malaui</translation>
 <translation id="2187260952722791093">Verificado</translation>
 <translation id="2192561962270021282">Introduce tu número de teléfono</translation>
-<translation id="2206856445831770486">Github</translation>
+<translation id="2206856445831770486">GitHub</translation>
 <translation id="2223717216014247341">Política de privacidad</translation>
 <translation id="2224563296468523455">Guam</translation>
 <translation id="2245182894886860848">Se ha agotado la cuota del recurso o se ha alcanzado el límite de frecuencia.</translation>
@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">Baréin</translation>
 <translation id="2392247362473363900">Se ha producido un error de servidor interno.</translation>
 <translation id="2405828009195143258">Irán</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">Estamos comprobando que no eres un robot...</translation>
-<translation id="2448227725017851570">Este código ya no es válido</translation>
+<translation id="2422942582251341722">¿Has olvidado la contraseña?</translation>
+<translation id="2446078593003901807">Aceptar</translation>
 <translation id="2448487988481516351">Nueva Caledonia</translation>
 <translation id="2451742558284013472">Mónaco</translation>
 <translation id="2460064915291012298">Seychelles</translation>
@@ -189,7 +188,7 @@
 <translation id="4056653682525186486">Iniciar sesión con <ph name="XXX" /></translation>
 <translation id="4064888056475403511">Prueba a abrir el enlace con el mismo dispositivo o navegador en los que empezaste el proceso de inicio de sesión.</translation>
 <translation id="4066104405592701692">Estonia</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">Eliminar</translation>
 <translation id="4163133799286985193">Argentina</translation>
 <translation id="4166504762096983411">Si continúas, confirmas que aceptas nuestras <ph name="START_LINK_1" />condiciones del servicio<ph name="END_LINK" /> y nuestra <ph name="START_LINK_2" />política de privacidad<ph name="END_LINK" />.</translation>
 <translation id="420554669252656972">Introduce una nueva dirección de correo electrónico</translation>
@@ -416,7 +415,6 @@
 <translation id="7926046652648626866">Iniciar sesión con GitHub</translation>
 <translation id="792838323404934335">Groenlandia</translation>
 <translation id="7956645158976161232">Libia</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">Kenia</translation>
 <translation id="8028653067082554952">Esta acción borrará todos los datos asociados a la cuenta y no se puede deshacer. ¿Seguro que quieres eliminar tu cuenta?</translation>
 <translation id="8033786138248870436">Al tocar Verificar, podría enviarse un SMS. Es posible que se apliquen cargos de mensajería y uso de datos.</translation>

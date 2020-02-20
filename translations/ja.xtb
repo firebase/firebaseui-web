@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">バーレーン</translation>
 <translation id="2392247362473363900">内部サーバーエラーです。</translation>
 <translation id="2405828009195143258">イラン</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">ロボットによる操作でないことを確認しています...</translation>
-<translation id="2448227725017851570">このコードは無効になりました</translation>
+<translation id="2422942582251341722">パスワードをお忘れの場合</translation>
+<translation id="2446078593003901807">OK</translation>
 <translation id="2448487988481516351">ニューカレドニア</translation>
 <translation id="2451742558284013472">モナコ</translation>
 <translation id="2460064915291012298">セーシェル</translation>
@@ -189,7 +188,7 @@
 <translation id="4056653682525186486"><ph name="XXX" /> でログイン</translation>
 <translation id="4064888056475403511">ログイン プロセスを開始したときと同じデバイスまたはブラウザを使用してリンクを開いてみてください。</translation>
 <translation id="4066104405592701692">エストニア</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">削除</translation>
 <translation id="4163133799286985193">アルゼンチン</translation>
 <translation id="4166504762096983411">続行すると、<ph name="START_LINK_1" />利用規約<ph name="END_LINK" />と<ph name="START_LINK_2" />プライバシー ポリシー<ph name="END_LINK" />に同意したことになります。</translation>
 <translation id="420554669252656972">新しいメールアドレスを入力してください</translation>
@@ -415,7 +414,6 @@
 <translation id="7926046652648626866">GitHub でログイン</translation>
 <translation id="792838323404934335">グリーンランド</translation>
 <translation id="7956645158976161232">リビア</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">ケニア</translation>
 <translation id="8028653067082554952">この操作を行うと、アカウントに関連付けられたすべてのデータが削除され、元に戻すことはできません。アカウントを削除してもよろしいですか？</translation>
 <translation id="8033786138248870436">[確認] をタップすると、SMS が送信されます。データ通信料がかかることがあります。</translation>

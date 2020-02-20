@@ -63,7 +63,7 @@
 <translation id="2130553359919781209">مالاوی</translation>
 <translation id="2187260952722791093">تأیید شد!</translation>
 <translation id="2192561962270021282">شماره تلفن خود را وارد کنید</translation>
-<translation id="2206856445831770486">Github</translation>
+<translation id="2206856445831770486">GitHub</translation>
 <translation id="2223717216014247341">خط‌مشی حریم خصوصی</translation>
 <translation id="2224563296468523455">گوام</translation>
 <translation id="2245182894886860848">یا از سهمیه منبع خارج شدید یا از حداکثر مجاز فراتر رفتید.</translation>
@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">بحرین</translation>
 <translation id="2392247362473363900">خطای سرور داخلی.</translation>
 <translation id="2405828009195143258">ایران</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">درحال تأیید اینکه شما ربات نیستید…</translation>
-<translation id="2448227725017851570">این کد دیگر معتبر نیست</translation>
+<translation id="2422942582251341722">گذرواژه‌تان را فراموش کرده‌اید؟</translation>
+<translation id="2446078593003901807">تأیید</translation>
 <translation id="2448487988481516351">کالدونیای جدید</translation>
 <translation id="2451742558284013472">موناکو</translation>
 <translation id="2460064915291012298">سیشل</translation>
@@ -188,7 +187,7 @@
 <translation id="4056653682525186486">ورود به سیستم با <ph name="XXX" /></translation>
 <translation id="4064888056475403511">با همان دستگاه یا مرورگری که فرایند ورود به سیستم را آغاز کردید، پیوند را باز کنید.</translation>
 <translation id="4066104405592701692">استونی</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">حذف</translation>
 <translation id="4163133799286985193">آرژانتین</translation>
 <translation id="4166504762096983411">درصورت ادامه‌دادن، موافقتتان را با <ph name="START_LINK_1" />شرایط خدمات<ph name="END_LINK" /> و <ph name="START_LINK_2" />خطمشی حریم خصوصی<ph name="END_LINK" /> اعلام می‌کنید.</translation>
 <translation id="420554669252656972">نشانی ایمیل  جدید را وارد کنید</translation>
@@ -385,7 +384,7 @@
 <translation id="7272145663101316762">اسلوونی</translation>
 <translation id="7280309713358692490">کره جنوبی</translation>
 <translation id="7283725113395426048">ناسازگاری هم‌روندی، مانند ناسازگاری خواندن-تغییر-نوشتن.</translation>
-<translation id="7290147808482957603">سرور روش «رابط برنامه‌نویسی نرم‌افزار» را پیاده‌سازی نکرده است.</translation>
+<translation id="7290147808482957603">سرور روش «میانای برنامه‌سازی کاربردی» را پیاده‌سازی نکرده است.</translation>
 <translation id="7291567990403335374">لسوتو</translation>
 <translation id="7291656724505689727">ورود به سیستم با تلفن</translation>
 <translation id="7320029088567935126">دوباره رایانامه‌تان را تأیید کنید</translation>
@@ -414,7 +413,6 @@
 <translation id="7926046652648626866">ورود به سیستم با GitHub</translation>
 <translation id="792838323404934335">گرینلند</translation>
 <translation id="7956645158976161232">لیبی</translation>
-<translation id="8013083476285293">Google‏</translation>
 <translation id="8017277252219866084">کنیا</translation>
 <translation id="8028653067082554952">با این کار همه داده‌های مرتبط با حسابتان پاک می‌شود که قابل واگرد نیست. مطمئنید می‌خواهید حسابتان حذف شود؟</translation>
 <translation id="8033786138248870436">با ضربه زدن روی تأیید پیامکی ارسال می‌شود. ممکن است هزینه انتقال داده و پیام اعمال شود.</translation>

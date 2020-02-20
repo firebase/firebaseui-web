@@ -55,9 +55,9 @@ function testCookieMechanism() {
       goog.net.cookies, 'get');
   var cookiesRemove = mockControl.createMethodMock(
       goog.net.cookies, 'remove');
-  cookiesSet('key1', 'value1', 3600, '/path', 'example.com', true).$once();
-  cookiesSet('key2', 'value2', -1, '/', null, false).$once();
-  cookiesSet('key3', 'value3', 3600, '/path', 'example.com', true).$once();
+  cookiesSet('key1', 'value1', {maxAge: 3600, path: '/path', domain: 'example.com', secure: true}).$once();
+  cookiesSet('key2', 'value2', {maxAge: -1, path: '/', domain: null, secure: false}).$once();
+  cookiesSet('key3', 'value3', {maxAge: 3600, path: '/path', domain: 'example.com', secure: true}).$once();
   cookiesGet('key1').$returns('value1').$once();
   cookiesGet('key3').$returns('value3').$once();
   cookiesGet('key2').$returns('value2').$once();

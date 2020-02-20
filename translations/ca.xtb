@@ -19,7 +19,7 @@
 <translation id="1297168472480293352">Guatemala</translation>
 <translation id="1307255433239736397"><ph name="START_PARAGRAPH" />S'ha produït un error en suprimir el segon factor.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Torna-ho a provar. Si no funciona, contacta amb el servei d'assistència per obtenir més ajuda.<ph name="END_PARAGRAPH" /></translation>
 <translation id="1310034618729602982">Torna a provar d'actualitzar la teva adreça electrònica</translation>
-<translation id="1312824004897469797">S'ha produït un error de xarxa. Torna-ho a provar més tard.</translation>
+<translation id="1312824004897469797">S'ha produït un error de la xarxa. Torna-ho a provar més tard.</translation>
 <translation id="1315809131562953678">Introdueix un número de telèfon vàlid</translation>
 <translation id="1335716056288807013">En tocar Verifica, acceptes les nostres <ph name="START_LINK_1" />condicions del servei<ph name="END_LINK" /> i la nostra <ph name="START_LINK_2" />política de privadesa<ph name="END_LINK" />. És possible que s'enviï un SMS. Es poden aplicar tarifes de dades i missatges.</translation>
 <translation id="137210131544215127">Introdueix la teva contrasenya</translation>
@@ -63,7 +63,7 @@
 <translation id="2130553359919781209">Malawi</translation>
 <translation id="2187260952722791093">S'ha verificat.</translation>
 <translation id="2192561962270021282">Introdueix el número de telèfon</translation>
-<translation id="2206856445831770486">Github</translation>
+<translation id="2206856445831770486">GitHub</translation>
 <translation id="2223717216014247341">Política de privadesa</translation>
 <translation id="2224563296468523455">Guam</translation>
 <translation id="2245182894886860848">S'ha esgotat la quota del recurs o s'ha arribat al límit de freqüència.</translation>
@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">Bahrain</translation>
 <translation id="2392247362473363900">Error intern del servidor.</translation>
 <translation id="2405828009195143258">Iran</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">S'està comprovant que no siguis un robot...</translation>
-<translation id="2448227725017851570">Aquest codi ja no és vàlid</translation>
+<translation id="2422942582251341722">Has oblidat la contrasenya?</translation>
+<translation id="2446078593003901807">D'acord</translation>
 <translation id="2448487988481516351">Nova Caledònia</translation>
 <translation id="2451742558284013472">Mònaco</translation>
 <translation id="2460064915291012298">Seychelles</translation>
@@ -188,7 +187,7 @@
 <translation id="4056653682525186486">Inicia la sessió amb <ph name="XXX" /></translation>
 <translation id="4064888056475403511">Prova d'obrir l'enllaç amb el mateix dispositiu o navegador on has començat el procés d'inici de sessió.</translation>
 <translation id="4066104405592701692">Estònia</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">Suprimeix</translation>
 <translation id="4163133799286985193">Argentina</translation>
 <translation id="4166504762096983411">En continuar, indiques que acceptes les nostres <ph name="START_LINK_1" />condicions del servei<ph name="END_LINK" /> i la nostra <ph name="START_LINK_2" />política de privadesa<ph name="END_LINK" />.</translation>
 <translation id="420554669252656972">Introdueix l'adreça electrònica nova</translation>
@@ -262,7 +261,7 @@
 <translation id="5537884323453943551">Trinitat i Tobago</translation>
 <translation id="5543493820882105191">Introdueix el teu nom</translation>
 <translation id="55439745111619380">Illa de l'Ascensió</translation>
-<translation id="5569341882117077010">S'ha produït un error de xarxa</translation>
+<translation id="5569341882117077010">S'ha produït un error de la xarxa</translation>
 <translation id="5581239183924693195">Inicia la sessió amb <ph name="IDP_DISPLAY_NAME" /></translation>
 <translation id="5585451911077299623">Tria una contrasenya</translation>
 <translation id="5602886107840188229">Territori Britànic de l’Oceà Índic</translation>
@@ -309,7 +308,7 @@
 <translation id="6213969168046789596">Has introduït una contrasenya incorrecta massa vegades. Torna-ho a provar d'aquí a uns quants minuts.</translation>
 <translation id="6216759405419177713">Norfolk</translation>
 <translation id="6245066275978703471">El número de telèfon s'ha verificat automàticament</translation>
-<translation id="6269083314054226194">Error de xarxa; comprova la connexió a Internet.</translation>
+<translation id="6269083314054226194">Error de la xarxa; comprova la connexió a Internet.</translation>
 <translation id="6295157125625453859">S'ha verificat.</translation>
 <translation id="6316446940976157217">Índia</translation>
 <translation id="6327723482938582895">Benín</translation>
@@ -414,7 +413,6 @@
 <translation id="7926046652648626866">Inicia la sessió amb GitHub</translation>
 <translation id="792838323404934335">Groenlàndia</translation>
 <translation id="7956645158976161232">Líbia</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">Kènia</translation>
 <translation id="8028653067082554952">Aquesta acció esborrarà totes les dades associades a aquest compte i no es pot desfer. Confirmes que vols suprimir el compte?</translation>
 <translation id="8033786138248870436">En tocar Verifica, és possible que s'enviï un SMS. Es poden aplicar tarifes de dades i missatges.</translation>

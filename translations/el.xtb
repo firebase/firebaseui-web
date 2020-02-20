@@ -63,7 +63,7 @@
 <translation id="2130553359919781209">Μαλάουι</translation>
 <translation id="2187260952722791093">Επαληθεύτηκε!</translation>
 <translation id="2192561962270021282">Εισαγάγετε τον αριθμό τηλεφώνου σας</translation>
-<translation id="2206856445831770486">Github</translation>
+<translation id="2206856445831770486">GitHub</translation>
 <translation id="2223717216014247341">Πολιτική απορρήτου</translation>
 <translation id="2224563296468523455">Γκουάμ</translation>
 <translation id="2245182894886860848">Είτε πόροι εκτός ορίου είτε προσέγγιση του ορίου χρέωσης.</translation>
@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">Μπαχρέιν</translation>
 <translation id="2392247362473363900">Εσωτερικό σφάλμα διακομιστή.</translation>
 <translation id="2405828009195143258">Ιράν</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">Επαλήθευση ότι δεν είστε ρομπότ…</translation>
-<translation id="2448227725017851570">Αυτός ο κωδικός δεν είναι πλέον έγκυρος</translation>
+<translation id="2422942582251341722">Ξεχάσατε τον κωδικό πρόσβασής σας;</translation>
+<translation id="2446078593003901807">ΟΚ</translation>
 <translation id="2448487988481516351">Νέα Καληδονία</translation>
 <translation id="2451742558284013472">Μονακό</translation>
 <translation id="2460064915291012298">Σεϋχέλλες</translation>
@@ -188,7 +187,7 @@
 <translation id="4056653682525186486">Σύνδεση μέσω <ph name="XXX" /></translation>
 <translation id="4064888056475403511">Δοκιμάστε να ανοίξετε τον σύνδεσμο χρησιμοποιώντας την ίδια συσκευή ή το ίδιο πρόγραμμα περιήγησης από όπου ξεκινήσατε τη διαδικασία σύνδεσης.</translation>
 <translation id="4066104405592701692">Εσθονία</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">Διαγραφή</translation>
 <translation id="4163133799286985193">Αργεντινή</translation>
 <translation id="4166504762096983411">Αν συνεχίσετε, δηλώνετε ότι αποδέχεστε τους <ph name="START_LINK_1" />Όρους Παροχής Υπηρεσιών<ph name="END_LINK" /> και την <ph name="START_LINK_2" />Πολιτική απορρήτου<ph name="END_LINK" />.</translation>
 <translation id="420554669252656972">Εισαγάγετε μια νέα διεύθυνση ηλεκτρονικού ταχυδρομείου</translation>
@@ -414,7 +413,6 @@
 <translation id="7926046652648626866">Σύνδεση μέσω GitHub</translation>
 <translation id="792838323404934335">Γροιλανδία</translation>
 <translation id="7956645158976161232">Λιβύη</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">Κένυα</translation>
 <translation id="8028653067082554952">Αυτή η ενέργεια θα διαγράψει όλα τα δεδομένα που συσχετίζονται με τον λογαριασμό σας και δεν είναι δυνατή η αναίρεσή της. Είστε σίγουροι ότι θέλετε να διαγράψετε τον λογαριασμό σας;</translation>
 <translation id="8033786138248870436">Αν πατήσετε "Επαλήθευση", θα σταλεί ένα SMS. Ενδέχεται να ισχύουν χρεώσεις μηνυμάτων και δεδομένων.</translation>

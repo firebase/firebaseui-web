@@ -63,7 +63,7 @@
 <translation id="2130553359919781209">Maláui</translation>
 <translation id="2187260952722791093">Validado!</translation>
 <translation id="2192561962270021282">Introduza o seu número de telefone</translation>
-<translation id="2206856445831770486">Github</translation>
+<translation id="2206856445831770486">GitHub</translation>
 <translation id="2223717216014247341">Política de Privacidade</translation>
 <translation id="2224563296468523455">Guame</translation>
 <translation id="2245182894886860848">Sem quota de recursos ou a atingir a limitação de velocidade.</translation>
@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">Barém</translation>
 <translation id="2392247362473363900">Erro do servidor interno.</translation>
 <translation id="2405828009195143258">Irão</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">A verificar se é um robô...</translation>
-<translation id="2448227725017851570">Este código já não é válido</translation>
+<translation id="2422942582251341722">Esqueceu-se da palavra-passe?</translation>
+<translation id="2446078593003901807">OK</translation>
 <translation id="2448487988481516351">Nova Caledónia</translation>
 <translation id="2451742558284013472">Mónaco</translation>
 <translation id="2460064915291012298">Seicheles</translation>
@@ -186,7 +185,7 @@
 <translation id="4056653682525186486">Iniciar sessão com <ph name="XXX" /></translation>
 <translation id="4064888056475403511">Experimente abrir o link através do mesmo dispositivo ou navegador no qual iniciou o processo de início de sessão.</translation>
 <translation id="4066104405592701692">Estónia</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">Eliminar</translation>
 <translation id="4163133799286985193">Argentina</translation>
 <translation id="4166504762096983411">Ao continuar, indica que aceita os <ph name="START_LINK_1" />Termos de Utilização<ph name="END_LINK" /> e a <ph name="START_LINK_2" />Política de Privacidade<ph name="END_LINK" />.</translation>
 <translation id="420554669252656972">Introduza um novo endereço de email</translation>
@@ -410,7 +409,6 @@
 <translation id="7926046652648626866">Iniciar sessão com o GitHub</translation>
 <translation id="792838323404934335">Gronelândia</translation>
 <translation id="7956645158976161232">Líbia</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">Quénia</translation>
 <translation id="8028653067082554952">Esta ação apaga todos os dados associados à sua conta e não pode ser anulada. Tem a certeza de que pretende eliminar a sua conta?</translation>
 <translation id="8033786138248870436">Ao tocar em Validar, pode gerar o envio de uma SMS. Podem aplicar-se tarifas de dados e de mensagens.</translation>

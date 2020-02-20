@@ -63,7 +63,7 @@
 <translation id="2130553359919781209">Малаві</translation>
 <translation id="2187260952722791093">Підтверджено</translation>
 <translation id="2192561962270021282">Введіть свій номер телефону</translation>
-<translation id="2206856445831770486">Github</translation>
+<translation id="2206856445831770486">GitHub</translation>
 <translation id="2223717216014247341">Політика конфіденційності</translation>
 <translation id="2224563296468523455">Гуам</translation>
 <translation id="2245182894886860848">Вичерпано квоту ресурсу або досягнуто ліміту частоти викликів.</translation>
@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">Бахрейн</translation>
 <translation id="2392247362473363900">Внутрішня помилка сервера.</translation>
 <translation id="2405828009195143258">Іран</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">Перевіряємо, чи ви не робот…</translation>
-<translation id="2448227725017851570">Цей код уже не дійсний</translation>
+<translation id="2422942582251341722">Забули пароль?</translation>
+<translation id="2446078593003901807">ОК</translation>
 <translation id="2448487988481516351">Нова Каледонія</translation>
 <translation id="2451742558284013472">Монако</translation>
 <translation id="2460064915291012298">Сейшельські Острови</translation>
@@ -188,7 +187,7 @@
 <translation id="4056653682525186486">Увійти, використовуючи <ph name="XXX" /></translation>
 <translation id="4064888056475403511">Спробуйте відкрити посилання на пристрої або у веб-переглядачі, де ви починали процедуру входу.</translation>
 <translation id="4066104405592701692">Естонія</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">Видалити</translation>
 <translation id="4163133799286985193">Аргентина</translation>
 <translation id="4166504762096983411">Продовжуючи, ви приймаєте наші <ph name="START_LINK_1" />Умови використання<ph name="END_LINK" /> та <ph name="START_LINK_2" />Політику конфіденційності<ph name="END_LINK" />.</translation>
 <translation id="420554669252656972">Введіть нову електронну адресу</translation>
@@ -414,7 +413,6 @@
 <translation id="7926046652648626866">Увійти через GitHub</translation>
 <translation id="792838323404934335">Гренландія</translation>
 <translation id="7956645158976161232">Лівія</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">Кенія</translation>
 <translation id="8028653067082554952">Усі дані вашого облікового запису буде стерто, і цю дію не можна буде відмінити. Видалити обліковий запис?</translation>
 <translation id="8033786138248870436">Коли ви торкнетесь опції "Підтвердити", вам може надійти SMS-повідомлення. За SMS і використання трафіку може стягуватися плата.</translation>

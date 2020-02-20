@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">Бахрейн</translation>
 <translation id="2392247362473363900">Внутренняя ошибка сервера.</translation>
 <translation id="2405828009195143258">Иран</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">Нам нужно убедиться, что вы не робот...</translation>
-<translation id="2448227725017851570">Этот код уже неактивен.</translation>
+<translation id="2422942582251341722">Забыли пароль?</translation>
+<translation id="2446078593003901807">ОК</translation>
 <translation id="2448487988481516351">Новая Каледония</translation>
 <translation id="2451742558284013472">Монако</translation>
 <translation id="2460064915291012298">Сейшелы</translation>
@@ -189,7 +188,7 @@
 <translation id="4056653682525186486">Войти через аккаунт <ph name="XXX" /></translation>
 <translation id="4064888056475403511">Попробуйте открыть ссылку в браузере или на устройстве, которые вы использовали, чтобы начать процесс входа.</translation>
 <translation id="4066104405592701692">Эстония</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">Удалить</translation>
 <translation id="4163133799286985193">Аргентина</translation>
 <translation id="4166504762096983411">Продолжая, вы принимаете наши <ph name="START_LINK_1" />Условия использования<ph name="END_LINK" /> и <ph name="START_LINK_2" />Политику конфиденциальности<ph name="END_LINK" />.</translation>
 <translation id="420554669252656972">Введите новый адрес</translation>
@@ -415,7 +414,6 @@
 <translation id="7926046652648626866">Войти через аккаунт GitHub</translation>
 <translation id="792838323404934335">Гренландия</translation>
 <translation id="7956645158976161232">Ливия</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">Кения</translation>
 <translation id="8028653067082554952">Все данные в аккаунте будут безвозвратно удалены. Вы уверены, что хотите продолжить?</translation>
 <translation id="8033786138248870436">Нажимая кнопку "Подтвердить", вы соглашаетесь получить SMS. За его отправку и обмен данными может взиматься плата.</translation>

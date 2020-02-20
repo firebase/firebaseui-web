@@ -63,7 +63,7 @@
 <translation id="2130553359919781209">Malawi</translation>
 <translation id="2187260952722791093">Đã xác minh!</translation>
 <translation id="2192561962270021282">Nhập số điện thoại của bạn</translation>
-<translation id="2206856445831770486">Github</translation>
+<translation id="2206856445831770486">GitHub</translation>
 <translation id="2223717216014247341">Chính sách quyền riêng tư</translation>
 <translation id="2224563296468523455">Guam</translation>
 <translation id="2245182894886860848">Hết định mức tài nguyên hoặc đã đạt đến tốc độ giới hạn.</translation>
@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">Bahrain</translation>
 <translation id="2392247362473363900">Lỗi máy chủ nội bộ.</translation>
 <translation id="2405828009195143258">Iran</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">Đang xác minh bạn không phải là rô bốt...</translation>
-<translation id="2448227725017851570">Mã này không còn hợp lệ</translation>
+<translation id="2422942582251341722">Quên mật khẩu?</translation>
+<translation id="2446078593003901807">OK</translation>
 <translation id="2448487988481516351">New Caledonia</translation>
 <translation id="2451742558284013472">Monaco</translation>
 <translation id="2460064915291012298">Seychelles</translation>
@@ -188,7 +187,7 @@
 <translation id="4056653682525186486">Đăng nhập bằng <ph name="XXX" /></translation>
 <translation id="4064888056475403511">Hãy thử mở liên kết bằng cùng một thiết bị hoặc trình duyệt mà bạn dùng để bắt đầu quá trình đăng nhập.</translation>
 <translation id="4066104405592701692">Estonia</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">Xóa</translation>
 <translation id="4163133799286985193">Argentina</translation>
 <translation id="4166504762096983411">Bằng cách tiếp tục, bạn cho biết rằng bạn chấp nhận <ph name="START_LINK_1" />Điều khoản dịch vụ<ph name="END_LINK" /> và <ph name="START_LINK_2" />Chính sách quyền riêng tư<ph name="END_LINK" /> của chúng tôi.</translation>
 <translation id="420554669252656972">Nhập địa chỉ email mới</translation>
@@ -414,7 +413,6 @@
 <translation id="7926046652648626866">Đăng nhập bằng GitHub</translation>
 <translation id="792838323404934335">Greenland</translation>
 <translation id="7956645158976161232">Libya</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">Kenya</translation>
 <translation id="8028653067082554952">Thao tác này sẽ xóa tất cả dữ liệu được liên kết với tài khoản của bạn và không thể hoàn tác. Bạn có chắc chắn muốn xóa tài khoản của bạn không?</translation>
 <translation id="8033786138248870436">Bằng cách nhấn vào Xác minh, bạn có thể nhận được tin nhắn SMS. Có thể áp dụng cước tin nhắn và dữ liệu.</translation>

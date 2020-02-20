@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">Bahrajn</translation>
 <translation id="2392247362473363900">Notranja napaka strežnika.</translation>
 <translation id="2405828009195143258">Iran</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">Preverjamo, da niste robot ...</translation>
-<translation id="2448227725017851570">Ta koda ni več veljavna</translation>
+<translation id="2422942582251341722">Ali ste pozabili geslo?</translation>
+<translation id="2446078593003901807">V redu</translation>
 <translation id="2448487988481516351">Nova Kaledonija</translation>
 <translation id="2451742558284013472">Monako</translation>
 <translation id="2460064915291012298">Sejšeli</translation>
@@ -186,7 +185,7 @@
 <translation id="4056653682525186486">Prijava s sredstvom <ph name="XXX" /></translation>
 <translation id="4064888056475403511">Povezavo poskusite odpreti v isti napravi ali brskalniku, kjer ste začeli postopek prijave.</translation>
 <translation id="4066104405592701692">Estonija</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">Izbriši</translation>
 <translation id="4163133799286985193">Argentina</translation>
 <translation id="4166504762096983411">Z nadaljevanjem potrjujete, da se strinjate z našimi <ph name="START_LINK_1" />pogoji storitve<ph name="END_LINK" /> in <ph name="START_LINK_2" />pravilnikom o zasebnosti<ph name="END_LINK" />.</translation>
 <translation id="420554669252656972">Vnesite nov e-poštni naslov</translation>
@@ -411,7 +410,6 @@
 <translation id="7926046652648626866">Prijava z računom za GitHub</translation>
 <translation id="792838323404934335">Grenlandija</translation>
 <translation id="7956645158976161232">Libija</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">Kenija</translation>
 <translation id="8028653067082554952">S tem dejanjem, ki ga ni mogoče razveljaviti, boste izbrisali vse podatke, povezane z vašim računom. Ali ste prepričani, da želite izbrisati svoj račun?</translation>
 <translation id="8033786138248870436">Če se dotaknete možnosti Preveri, bo morda poslano sporočilo SMS. Pošiljanje sporočila in prenos podatkov boste morda morali plačati.</translation>

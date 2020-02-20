@@ -63,7 +63,7 @@
 <translation id="2130553359919781209">Malawi</translation>
 <translation id="2187260952722791093">Bekræftet!</translation>
 <translation id="2192561962270021282">Angiv dit telefonnummer</translation>
-<translation id="2206856445831770486">Github</translation>
+<translation id="2206856445831770486">GitHub</translation>
 <translation id="2223717216014247341">Privatlivspolitik</translation>
 <translation id="2224563296468523455">Guam</translation>
 <translation id="2245182894886860848">Skyldes enten, at ressourcekvoten er overskredet, eller at rategrænsen er nået.</translation>
@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">Bahrain</translation>
 <translation id="2392247362473363900">Intern serverfejl.</translation>
 <translation id="2405828009195143258">Iran</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">Bekræfter, at du ikke er en robot…</translation>
-<translation id="2448227725017851570">Denne kode er ikke længere gyldig</translation>
+<translation id="2422942582251341722">Har du glemt adgangskoden?</translation>
+<translation id="2446078593003901807">OK</translation>
 <translation id="2448487988481516351">Ny Kaledonien</translation>
 <translation id="2451742558284013472">Monaco</translation>
 <translation id="2460064915291012298">Seychellerne</translation>
@@ -188,7 +187,7 @@
 <translation id="4056653682525186486">Log ind med <ph name="XXX" /></translation>
 <translation id="4064888056475403511">Prøv at åbne linket med samme enhed eller samme browser, som du brugte til at starte loginprocessen.</translation>
 <translation id="4066104405592701692">Estland</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">Slet</translation>
 <translation id="4163133799286985193">Argentina</translation>
 <translation id="4166504762096983411">Ved at fortsætte accepterer du vores <ph name="START_LINK_1" />Servicevilkår<ph name="END_LINK" /> og <ph name="START_LINK_2" />Privatlivspolitik<ph name="END_LINK" />.</translation>
 <translation id="420554669252656972">Angiv en ny mailadresse</translation>
@@ -414,7 +413,6 @@
 <translation id="7926046652648626866">Log ind med GitHub</translation>
 <translation id="792838323404934335">Grønland</translation>
 <translation id="7956645158976161232">Libyen</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">Kenya</translation>
 <translation id="8028653067082554952">Dette vil slette alle data, der er knyttet til din konto, og kan ikke fortrydes. Er du sikker på, at du vil slette din konto?</translation>
 <translation id="8033786138248870436">Der sendes en sms, når du trykker på Bekræft. Der opkræves muligvis gebyrer for beskeder og data.</translation>

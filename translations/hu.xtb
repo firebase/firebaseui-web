@@ -63,7 +63,7 @@
 <translation id="2130553359919781209">Malawi</translation>
 <translation id="2187260952722791093">Ellenőrzött!</translation>
 <translation id="2192561962270021282">Adja meg telefonszámát</translation>
-<translation id="2206856445831770486">Github</translation>
+<translation id="2206856445831770486">GitHub</translation>
 <translation id="2223717216014247341">Adatvédelmi irányelvek</translation>
 <translation id="2224563296468523455">Guam</translation>
 <translation id="2245182894886860848">Elfogyott az erőforráshoz rendelkezésre álló kvóta, vagy hamarosan eléri a megengedett értéket.</translation>
@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">Bahrein</translation>
 <translation id="2392247362473363900">Belső szerverhiba.</translation>
 <translation id="2405828009195143258">Irán</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">Annak ellenőrzése, hogy Ön nem robot...</translation>
-<translation id="2448227725017851570">Ez a kód már nem érvényes.</translation>
+<translation id="2422942582251341722">Elfelejtette a jelszavát?</translation>
+<translation id="2446078593003901807">Rendben</translation>
 <translation id="2448487988481516351">Új-Kaledónia</translation>
 <translation id="2451742558284013472">Monaco</translation>
 <translation id="2460064915291012298">Seychelle-szigetek</translation>
@@ -188,7 +187,7 @@
 <translation id="4056653682525186486">Bejelentkezés a következővel: <ph name="XXX" /></translation>
 <translation id="4064888056475403511">Ugyanazzal az eszközzel vagy böngészővel nyissa meg a linket, amellyel elkezdte a bejelentkezési műveletet.</translation>
 <translation id="4066104405592701692">Észtország</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">Törlés</translation>
 <translation id="4163133799286985193">Argentína</translation>
 <translation id="4166504762096983411">A folytatással elfogadja <ph name="START_LINK_1" />Általános Szerződési Feltételeinket<ph name="END_LINK" /> és <ph name="START_LINK_2" />Adatvédelmi irányelveinket<ph name="END_LINK" />.</translation>
 <translation id="420554669252656972">Adja meg az új e-mail-címet</translation>
@@ -414,7 +413,6 @@
 <translation id="7926046652648626866">Bejelentkezés GitHubbal</translation>
 <translation id="792838323404934335">Grönland</translation>
 <translation id="7956645158976161232">Líbia</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">Kenya</translation>
 <translation id="8028653067082554952">Ezzel az összes fiókadatát törli, és ezt a műveletet nem vonhatja vissza. Biztosan törölni szeretné a fiókját?</translation>
 <translation id="8033786138248870436">Ha az Ellenőrzés gombra koppint, a rendszer SMS-t küldhet Önnek. A szolgáltató ezért üzenet- és adatforgalmi díjat számíthat fel.</translation>

@@ -22,7 +22,7 @@
 <translation id="1312824004897469797">Tapahtui verkkovirhe. Yritä myöhemmin uudelleen.</translation>
 <translation id="1315809131562953678">Anna voimassa oleva puhelinnumero.</translation>
 <translation id="1335716056288807013">Napauttamalla Vahvista vahvistat hyväksyväsi <ph name="START_LINK_1" />käyttöehdot<ph name="END_LINK" /> ja <ph name="START_LINK_2" />tietosuojakäytännön<ph name="END_LINK" />. Tekstiviesti voidaan lähettää, ja datan ja viestien käyttö voi olla maksullista.</translation>
-<translation id="137210131544215127">Anna salasana</translation>
+<translation id="137210131544215127">Lisää salasana</translation>
 <translation id="1393433815796487579">Valmis</translation>
 <translation id="1412449974349991050">Haiti</translation>
 <translation id="144766329299583285">Jos et pyytänyt kirjautumissähköpostiosoitteen vaihtamista, joku saattaa yrittää käyttää tiliäsi ja sinun pitää <ph name="START_LINK" />vaihtaa salasanasi heti<ph name="END_LINK" />.</translation>
@@ -63,7 +63,7 @@
 <translation id="2130553359919781209">Malawi</translation>
 <translation id="2187260952722791093">Vahvistettu!</translation>
 <translation id="2192561962270021282">Anna puhelinnumerosi</translation>
-<translation id="2206856445831770486">Github</translation>
+<translation id="2206856445831770486">GitHub</translation>
 <translation id="2223717216014247341">Tietosuojakäytäntö</translation>
 <translation id="2224563296468523455">Guam</translation>
 <translation id="2245182894886860848">Resurssikiintiö on loppu tai määrää koskeva rajoitus on saavutettu.</translation>
@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">Bahrain</translation>
 <translation id="2392247362473363900">Sisäinen palvelinvirhe</translation>
 <translation id="2405828009195143258">Iran</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">Tarkistamme, ettet ole robotti…</translation>
-<translation id="2448227725017851570">Tämä koodi ei ole enää voimassa.</translation>
+<translation id="2422942582251341722">Unohditko salasanasi?</translation>
+<translation id="2446078593003901807">Ok</translation>
 <translation id="2448487988481516351">Uusi-Kaledonia</translation>
 <translation id="2451742558284013472">Monaco</translation>
 <translation id="2460064915291012298">Seychellit</translation>
@@ -188,7 +187,7 @@
 <translation id="4056653682525186486">Kirjaudu palvelun <ph name="XXX" /> kautta</translation>
 <translation id="4064888056475403511">Kokeile avata linkki käyttäen samaa laitetta tai selainta, jolla aloitit kirjautumisen.</translation>
 <translation id="4066104405592701692">Viro</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">Poista</translation>
 <translation id="4163133799286985193">Argentiina</translation>
 <translation id="4166504762096983411">Jatkamalla vahvistat hyväksyväsi <ph name="START_LINK_1" />käyttöehdot<ph name="END_LINK" /> ja <ph name="START_LINK_2" />tietosuojakäytännön<ph name="END_LINK" />.</translation>
 <translation id="420554669252656972">Anna uusi sähköpostiosoite</translation>
@@ -260,7 +259,7 @@
 <translation id="5528189843379142883">Päiväntasaajan Guinea</translation>
 <translation id="5529036554155743092">Australia</translation>
 <translation id="5537884323453943551">Trinidad ja Tobago</translation>
-<translation id="5543493820882105191">Anna nimesi</translation>
+<translation id="5543493820882105191">Lisää nimesi</translation>
 <translation id="55439745111619380">Ascension-saari</translation>
 <translation id="5569341882117077010">Verkkovirhe tapahtui.</translation>
 <translation id="5581239183924693195">Kirjaudu palvelun <ph name="IDP_DISPLAY_NAME" /> kautta</translation>
@@ -415,7 +414,6 @@
 <translation id="7926046652648626866">Kirjaudu GitHub-tilillä</translation>
 <translation id="792838323404934335">Grönlanti</translation>
 <translation id="7956645158976161232">Libya</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">Kenia</translation>
 <translation id="8028653067082554952">Tämä poistaa kaikki tiliisi liittyvät tiedot, eikä toimintoa voi kumota. Haluatko varmasti poistaa tilisi?</translation>
 <translation id="8033786138248870436">Kun napautat Vahvista, tekstiviesti voidaan lähettää. Datan ja viestien käyttö voi olla maksullista.</translation>

@@ -63,7 +63,7 @@
 <translation id="2130553359919781209">Malawi</translation>
 <translation id="2187260952722791093">Overené.</translation>
 <translation id="2192561962270021282">Zadajte svoje telefónne číslo</translation>
-<translation id="2206856445831770486">Github</translation>
+<translation id="2206856445831770486">GitHub</translation>
 <translation id="2223717216014247341">Pravidlá ochrany súkromia</translation>
 <translation id="2224563296468523455">Guam</translation>
 <translation id="2245182894886860848">Bola vyčerpaná kvóta zdrojov alebo dosiahnutý limit rýchlosti.</translation>
@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">Bahrajn</translation>
 <translation id="2392247362473363900">Interná chyba servera.</translation>
 <translation id="2405828009195143258">Irán</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">Overuje sa, že nie ste robot...</translation>
-<translation id="2448227725017851570">Tento kód už nie je platný</translation>
+<translation id="2422942582251341722">Zabudli ste heslo?</translation>
+<translation id="2446078593003901807">OK</translation>
 <translation id="2448487988481516351">Nová Kaledónia</translation>
 <translation id="2451742558284013472">Monako</translation>
 <translation id="2460064915291012298">Seychely</translation>
@@ -188,7 +187,7 @@
 <translation id="4056653682525186486">Prihlásiť sa cez <ph name="XXX" /></translation>
 <translation id="4064888056475403511">Skúste otvoriť odkaz pomocou toho istého zariadenia, v ktorom ste začali proces prihlásenia.</translation>
 <translation id="4066104405592701692">Estónsko</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">Odstrániť</translation>
 <translation id="4163133799286985193">Argentína</translation>
 <translation id="4166504762096983411">Pokračovaním vyjadrujete súhlas so <ph name="START_LINK_1" />zmluvnými podmienkami<ph name="END_LINK" /> a <ph name="START_LINK_2" />pravidlami ochrany súkromia<ph name="END_LINK" />.</translation>
 <translation id="420554669252656972">Zadajte novú e-mailovú adresu</translation>
@@ -414,7 +413,6 @@
 <translation id="7926046652648626866">Prihlásiť sa cez GitHub</translation>
 <translation id="792838323404934335">Grónsko</translation>
 <translation id="7956645158976161232">Líbya</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">Keňa</translation>
 <translation id="8028653067082554952">Týmto sa vymažú všetky dáta súvisiace s vaším účtom a túto akciu nie je možné vrátiť späť. Naozaj chcete odstrániť svoj účet?</translation>
 <translation id="8033786138248870436">Klepnutím na Overiť možno odoslať SMS. Môžu sa účtovať poplatky za dáta a správy.</translation>

@@ -63,7 +63,7 @@
 <translation id="2130553359919781209">Malavi</translation>
 <translation id="2187260952722791093">Doğrulandı!</translation>
 <translation id="2192561962270021282">Telefon numaranızı girin</translation>
-<translation id="2206856445831770486">Github</translation>
+<translation id="2206856445831770486">GitHub</translation>
 <translation id="2223717216014247341">Gizlilik Politikası</translation>
 <translation id="2224563296468523455">Guam</translation>
 <translation id="2245182894886860848">Kaynak kotası kalmadı veya hız sınırlamasına yaklaşılıyor.</translation>
@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">Bahreyn</translation>
 <translation id="2392247362473363900">Dahili sunucu hatası.</translation>
 <translation id="2405828009195143258">İran</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">Robot olmadığınız doğrulanıyor...</translation>
-<translation id="2448227725017851570">Bu kod artık geçerli değil</translation>
+<translation id="2422942582251341722">Şifrenizi mi unuttunuz?</translation>
+<translation id="2446078593003901807">Tamam</translation>
 <translation id="2448487988481516351">Yeni Kaledonya</translation>
 <translation id="2451742558284013472">Monako</translation>
 <translation id="2460064915291012298">Seyşeller</translation>
@@ -189,7 +188,7 @@
 <translation id="4056653682525186486"><ph name="XXX" /> ile oturum aç</translation>
 <translation id="4064888056475403511">Bağlantıyı, oturum açma işlemini başlattığınız cihazda veya tarayıcıda açmayı deneyin.</translation>
 <translation id="4066104405592701692">Estonya</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">Sil</translation>
 <translation id="4163133799286985193">Arjantin</translation>
 <translation id="4166504762096983411">Devam ederek <ph name="START_LINK_1" />Hizmet Şartlarımızı<ph name="END_LINK" /> ve <ph name="START_LINK_2" />Gizlilik Politikamızı<ph name="END_LINK" /> kabul ettiğinizi belirtirsiniz.</translation>
 <translation id="420554669252656972">Yeni e-posta adresi girin</translation>
@@ -415,7 +414,6 @@
 <translation id="7926046652648626866">GitHub ile oturum aç</translation>
 <translation id="792838323404934335">Grönland</translation>
 <translation id="7956645158976161232">Libya</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">Kenya</translation>
 <translation id="8028653067082554952">Bu işlem, hesabınızla ilişkili tüm verileri siler ve geri alınamaz. Hesabınızı silmek istediğinizden emin misiniz?</translation>
 <translation id="8033786138248870436">Doğrula'ya dokunarak SMS gönderilebilir. Mesaj ve veri ücretleri uygulanabilir.</translation>

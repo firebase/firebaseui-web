@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">Bahrain</translation>
 <translation id="2392247362473363900">Interner Serverfehler.</translation>
 <translation id="2405828009195143258">Iran</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">Bestätigen Sie bitte, dass Sie kein Roboter sind.</translation>
-<translation id="2448227725017851570">Dieser Code ist nicht mehr gültig</translation>
+<translation id="2422942582251341722">Passwort vergessen?</translation>
+<translation id="2446078593003901807">Ok</translation>
 <translation id="2448487988481516351">Neukaledonien</translation>
 <translation id="2451742558284013472">Monaco</translation>
 <translation id="2460064915291012298">Seychellen</translation>
@@ -189,7 +188,7 @@
 <translation id="4056653682525186486">Mit <ph name="XXX" /> anmelden</translation>
 <translation id="4064888056475403511">Öffnen Sie den Link mit demselben Gerät oder Browser, mit dem Sie die Anmeldung begonnen haben.</translation>
 <translation id="4066104405592701692">Estland</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">Löschen</translation>
 <translation id="4163133799286985193">Argentinien</translation>
 <translation id="4166504762096983411">Indem Sie fortfahren, stimmen Sie <ph name="START_LINK_1" />unseren Nutzungsbedingungen<ph name="END_LINK" /> und <ph name="START_LINK_2" />unserer Datenschutzerklärung<ph name="END_LINK" /> zu.</translation>
 <translation id="420554669252656972">Neue E-Mail-Adresse eingeben</translation>
@@ -415,7 +414,6 @@
 <translation id="7926046652648626866">Über GitHub anmelden</translation>
 <translation id="792838323404934335">Grönland</translation>
 <translation id="7956645158976161232">Libyen</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">Kenia</translation>
 <translation id="8028653067082554952">Hierdurch werden alle mit Ihrem Konto verknüpften Daten gelöscht. Dies kann nicht rückgängig gemacht werden. Möchten Sie Ihr Konto wirklich löschen?</translation>
 <translation id="8033786138248870436">Wenn Sie auf "Bestätigen" tippen, erhalten Sie möglicherweise eine Bestätigungs-SMS. Es können Gebühren für SMS und Datenübertragung anfallen.</translation>

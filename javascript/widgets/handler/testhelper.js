@@ -1156,6 +1156,32 @@ function assertEmailVerificationFailurePage() {
 }
 
 
+/** Asserts that verify and change email success page is displayed. */
+function assertVerifyAndChangeEmailSuccessPage() {
+  assertPage_(container, 'firebaseui-id-page-verify-and-change-email-success');
+}
+
+
+/** Asserts that verify and change email failure page is displayed. */
+function assertVerifyAndChangeEmailFailurePage() {
+  assertPage_(container, 'firebaseui-id-page-verify-and-change-email-failure');
+}
+
+
+/** Asserts that revert second factor addition success page is displayed. */
+function assertRevertSecondFactorAdditionSuccessPage() {
+  assertPage_(
+      container, 'firebaseui-id-page-revert-second-factor-addition-success');
+}
+
+
+/** Asserts that revert second factor addition failure page is displayed. */
+function assertRevertSecondFactorAdditionFailurePage() {
+  assertPage_(
+      container, 'firebaseui-id-page-revert-second-factor-addition-failure');
+}
+
+
 function assertSignInButtonPage() {
   assertPage_(container, 'firebaseui-id-page-sign-in-button');
 }

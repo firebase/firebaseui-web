@@ -794,6 +794,57 @@ testSuite({
     testUtil.assertGoTo(continueUrl);
   },
 
+  testDispatchOperation_verifyAndChangeEmail() {
+    const element = dom.createElement('div');
+    setModeAndUrlParams(
+        Config.WidgetMode.VERIFY_AND_CHANGE_EMAIL,
+        {'oobCode': 'ACTION_CODE'});
+    dispatcher.dispatchOperation(app, element);
+    assertHandlerInvoked(
+        firebaseui.auth.widget.HandlerName.VERIFY_AND_CHANGE_EMAIL,
+        app,
+        element,
+        'ACTION_CODE');
+  },
+
+  testDispatchOperation_verifyAndChangeEmail_continueUrl() {
+    const element = dom.createElement('div');
+    const continueUrl = 'http://www.example.com/path/page?a=1#b=2';
+    stub.replace(
+        firebaseui.auth.util,
+        'getCurrentUrl',
+        () => 'http://example.firebaseapp.com/__/auth/action?mode=' +
+              'verifyAndChangeEmail&apiKey=API_KEY&oobCode=ACTION_CODE&' +
+              'continueUrl=' + encodeURIComponent(continueUrl));
+    dispatcher.dispatchOperation(app, element);
+    assertHandlerInvoked(
+        firebaseui.auth.widget.HandlerName.VERIFY_AND_CHANGE_EMAIL,
+        app,
+        element,
+        'ACTION_CODE');
+    // Get callback passed to verify and change email handler and confirm it
+    // redirects to continue URL.
+    const handler =
+        firebaseui.auth.widget.handlers_[
+          firebaseui.auth.widget.HandlerName.VERIFY_AND_CHANGE_EMAIL];
+    const continueCallback = handler.getLastCall().getArgument(3);
+    continueCallback();
+    testUtil.assertGoTo(continueUrl);
+  },
+
+  testDispatchOperation_revertSecondFactorAddition() {
+    const element = dom.createElement('div');
+    setModeAndUrlParams(
+        Config.WidgetMode.REVERT_SECOND_FACTOR_ADDITION,
+        {'oobCode': 'ACTION_CODE'});
+    dispatcher.dispatchOperation(app, element);
+    assertHandlerInvoked(
+        firebaseui.auth.widget.HandlerName.REVERT_SECOND_FACTOR_ADDITION,
+        app,
+        element,
+        'ACTION_CODE');
+  },
+
   testDispatchOperation_resetPassword() {
     const element = dom.createElement('div');
     setModeAndUrlParams(

@@ -19,6 +19,8 @@
 goog.provide('firebaseui.auth.widget.handler.handleEmailChangeRevocation');
 goog.provide('firebaseui.auth.widget.handler.handleEmailVerification');
 goog.provide('firebaseui.auth.widget.handler.handlePasswordReset');
+goog.provide('firebaseui.auth.widget.handler.handleRevertSecondFactorAddition');
+goog.provide('firebaseui.auth.widget.handler.handleVerifyAndChangeEmail');
 
 goog.require('firebaseui.auth.soy2.strings');
 goog.require('firebaseui.auth.ui.element');
@@ -30,6 +32,10 @@ goog.require('firebaseui.auth.ui.page.PasswordRecoveryEmailSent');
 goog.require('firebaseui.auth.ui.page.PasswordReset');
 goog.require('firebaseui.auth.ui.page.PasswordResetFailure');
 goog.require('firebaseui.auth.ui.page.PasswordResetSuccess');
+goog.require('firebaseui.auth.ui.page.RevertSecondFactorAdditionFailure');
+goog.require('firebaseui.auth.ui.page.RevertSecondFactorAdditionSuccess');
+goog.require('firebaseui.auth.ui.page.VerifyAndChangeEmailFailure');
+goog.require('firebaseui.auth.ui.page.VerifyAndChangeEmailSuccess');
 goog.require('firebaseui.auth.widget.Handler');
 goog.require('firebaseui.auth.widget.HandlerName');
 goog.require('firebaseui.auth.widget.handler.common');
@@ -272,6 +278,128 @@ firebaseui.auth.widget.handler.handleEmailVerification = function(
 };
 
 
+/**
+ * Handles the verify and change email action flow.
+ *
+ * @param {!firebaseui.auth.AuthUI} app The current Firebase UI instance whose
+ *     configuration is used.
+ * @param {!Element} container The container DOM element.
+ * @param {string} actionCode The verify and change email action code.
+ * @param {?function()=} onContinueClick The optional callback to invoke when
+ *     the continue button is clicked. If not provided, no continue button is
+ *     displayed.
+ */
+firebaseui.auth.widget.handler.handleVerifyAndChangeEmail = function(
+    app, container, actionCode, onContinueClick) {
+  let email = null;
+  // Gets the email related to the code.
+  app.registerPending(
+      app.getAuth()
+          .checkActionCode(actionCode)
+          .then((info) => {
+            email = info['data']['email'];
+            // Then applies it.
+            return app.getAuth().applyActionCode(actionCode);
+          })
+          .then(
+              () => {
+                const component =
+                    new firebaseui.auth.ui.page.VerifyAndChangeEmailSuccess(
+                        email, onContinueClick);
+                component.render(container);
+                // Set current UI component.
+                app.setCurrentComponent(component);
+              },
+              (error) => {
+                const component =
+                    new firebaseui.auth.ui.page.VerifyAndChangeEmailFailure();
+                component.render(container);
+                // Set current UI component.
+                app.setCurrentComponent(component);
+              }));
+};
+
+
+/**
+ * Handles the revert second factor addition email action flow.
+ *
+ * @param {!firebaseui.auth.AuthUI} app The current Firebase UI instance whose
+ *     configuration is used.
+ * @param {!Element} container The container DOM element.
+ * @param {string} actionCode The revert second factor addition action code.
+ */
+firebaseui.auth.widget.handler.handleRevertSecondFactorAddition =
+    function(app, container, actionCode) {
+  let email = null;
+  let multiFactorInfo = null;
+  app.registerPending(
+      app.getAuth()
+          .checkActionCode(actionCode)
+          .then((info) => {
+            email = info['data']['email'];
+            multiFactorInfo = info['data']['multiFactorInfo'];
+            // Then applies it.
+            return app.getAuth().applyActionCode(actionCode);
+          })
+          .then(() => {
+            firebaseui.auth.widget.handler
+                .handleRevertSecondFactorAdditionSuccess_(
+                    app, container, email, multiFactorInfo);
+          }, (error) => {
+            const component =
+                new firebaseui.auth.ui.page
+                    .RevertSecondFactorAdditionFailure();
+            component.render(container);
+            // Set current UI component.
+            app.setCurrentComponent(component);
+          }));
+};
+
+
+/**
+ * Handles the successful revert second factor addition action.
+ * @param {!firebaseui.auth.AuthUI} app The current Firebase UI instance whose
+ *     configuration is used.
+ * @param {!Element} container The container DOM element.
+ * @param {string} email The email of the acount.
+ * @param {!firebase.auth.MultiFactorInfo} multiFactorInfo The info of
+ *     multi-factor to be unenrolled.
+ * @private
+ */
+firebaseui.auth.widget.handler.handleRevertSecondFactorAdditionSuccess_ =
+    function(app, container, email, multiFactorInfo) {
+  let component = new firebaseui.auth.ui.page.RevertSecondFactorAdditionSuccess(
+      multiFactorInfo['factorId'],
+      () => {
+        component.executePromiseRequest(
+            goog.bind(app.getAuth().sendPasswordResetEmail, app.getAuth()),
+            [email],
+            () => {
+              // Reset password code sent.
+              component.dispose();
+              component =
+                  new firebaseui.auth.ui.page.PasswordRecoveryEmailSent(
+                      email,
+                      undefined,
+                      app.getConfig().getTosUrl(),
+                      app.getConfig().getPrivacyPolicyUrl());
+              component.render(container);
+              // Set current UI component.
+              app.setCurrentComponent(component);
+            }, (error) => {
+              // Failed to send reset password code.
+              component.showInfoBar(
+                  firebaseui.auth.soy2.strings.errorSendPasswordReset()
+                  .toString());
+            });
+      },
+      multiFactorInfo['phoneNumber']);
+  component.render(container);
+  // Set current UI component.
+  app.setCurrentComponent(component);
+};
+
+
 // Register handlers.
 firebaseui.auth.widget.handler.register(
     firebaseui.auth.widget.HandlerName.PASSWORD_RESET,
@@ -288,3 +416,15 @@ firebaseui.auth.widget.handler.register(
     firebaseui.auth.widget.HandlerName.EMAIL_VERIFICATION,
     /** @type {firebaseui.auth.widget.Handler} */
     (firebaseui.auth.widget.handler.handleEmailVerification));
+
+/** @suppress {missingRequire} */
+firebaseui.auth.widget.handler.register(
+    firebaseui.auth.widget.HandlerName.REVERT_SECOND_FACTOR_ADDITION,
+    /** @type {!firebaseui.auth.widget.Handler} */
+    (firebaseui.auth.widget.handler.handleRevertSecondFactorAddition));
+
+/** @suppress {missingRequire} */
+firebaseui.auth.widget.handler.register(
+    firebaseui.auth.widget.HandlerName.VERIFY_AND_CHANGE_EMAIL,
+    /** @type {!firebaseui.auth.widget.Handler} */
+    (firebaseui.auth.widget.handler.handleVerifyAndChangeEmail));
