@@ -99,11 +99,7 @@ const configs = {
       },
       // The callback to trigger when the selection tenant page
       // or enter email for tenant matching page is hidden.
-<<<<<<< HEAD
       selectTenantUiHidden: () => {
-=======
-      selectTenantUihidden: () => {
->>>>>>> 440fa36... 1. Handler of MFA email actions.
         // Hide title and additional display info.
       },
       // The callback to trigger when the sign-in page

@@ -213,6 +213,7 @@
 <translation id="4556476996891737119">요르단</translation>
 <translation id="4571870355114729513"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />(으)로 발송된 안내에 따라 비밀번호를 복구하세요.</translation>
 <translation id="4588392627302012849">이메일로 로그인</translation>
+<translation id="4595119411041064617">'<ph name="PH_1" />' 버튼을 탭하면 SMS가 발송될 수 있으며, 메시지 및 데이터 요금이 부과될 수 있습니다.</translation>
 <translation id="4632709875751031323">러시아</translation>
 <translation id="4644169548516814280">이미 다른 계정에서 사용 중인 이메일 주소입니다.</translation>
 <translation id="4692014002063276828">폴란드</translation>
@@ -227,7 +228,10 @@
 <translation id="4866990546854875813">이 로그인 요청에 연결된 세션이 만료되었거나 삭제되었습니다.</translation>
 <translation id="4871106926303956169">터크스 케이커스 제도</translation>
 <translation id="4877597386645466815"><ph name="TIME_REMAINING" /> 후에 코드 재전송</translation>
-<translation id="4915406999072654369">이메일 확인</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />2단계 인증을 위해 <ph name="SECOND_FACTOR" /> 전화번호로 <ph name="APP_NAME" />의 계정이 업데이트되었습니다.<ph name="P_END" />
+<ph name="P_START" />2단계 인증용 전화번호를 직접 추가하지 않았다면 아래 링크를 클릭하여 삭제하세요.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">인증 2단계 요소를 삭제할 수 없음</translation>
 <translation id="4955175001894453989">비밀번호 추가</translation>
 <translation id="496366313824211679">엘살바도르</translation>

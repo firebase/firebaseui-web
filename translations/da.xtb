@@ -212,6 +212,7 @@
 <translation id="4556476996891737119">Jordan</translation>
 <translation id="4571870355114729513">Følg vejledningen, der blev sendt til <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />, for at gendanne din adgangskode</translation>
 <translation id="4588392627302012849">Log ind med mail</translation>
+<translation id="4595119411041064617">Når du trykker på "<ph name="PH_1" />", sendes der måske en sms. Der opkræves muligvis gebyrer for beskeder og data.</translation>
 <translation id="4632709875751031323">Rusland</translation>
 <translation id="4644169548516814280">Mailadressen bruges allerede af en anden konto</translation>
 <translation id="4692014002063276828">Polen</translation>
@@ -226,7 +227,10 @@
 <translation id="4866990546854875813">Den session, som er tilknyttet denne anmodning om login, er enten udløbet eller ryddet.</translation>
 <translation id="4871106926303956169">Turks- og Caicosøerne</translation>
 <translation id="4877597386645466815">Send koden igen om <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Tjek din mail</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Din konto i <ph name="APP_NAME" /> er blevet opdateret med et telefonnummer til totrinsbekræftelse, der slutter på <ph name="SECOND_FACTOR" />.<ph name="P_END" />
+<ph name="P_START" />Hvis det ikke er dig, der har tilføjet dette telefonnummer til totrinsbekræftelse, skal du klikke på nedenstående link for at fjerne det.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Kunne ikke fjerne din anden faktor</translation>
 <translation id="4955175001894453989">Tilføj adgangskode</translation>
 <translation id="496366313824211679">El Salvador</translation>

@@ -213,6 +213,7 @@
 <translation id="4556476996891737119">จอร์แดน</translation>
 <translation id="4571870355114729513">ทำตามวิธีการที่ส่งไปยัง <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> เพื่อกู้คืนรหัสผ่านของคุณ</translation>
 <translation id="4588392627302012849">ลงชื่อเข้าใช้ด้วยอีเมล</translation>
+<translation id="4595119411041064617">เมื่อคุณแตะ “<ph name="PH_1" />” ระบบจะส่ง SMS ให้คุณ อาจมีค่าบริการรับส่งข้อความและค่าบริการอินเทอร์เน็ต</translation>
 <translation id="4632709875751031323">รัสเซีย</translation>
 <translation id="4644169548516814280">มีบัญชีอื่นใช้ที่อยู่อีเมลนี้อยู่แล้ว</translation>
 <translation id="4692014002063276828">โปแลนด์</translation>
@@ -227,7 +228,10 @@
 <translation id="4866990546854875813">เซสชันที่เชื่อมโยงกับคำขอลงชื่อเข้าใช้นี้หมดอายุหรือถูกล้างไปแล้ว</translation>
 <translation id="4871106926303956169">หมู่เกาะเติกส์และหมู่เกาะเคคอส</translation>
 <translation id="4877597386645466815">ส่งรหัสอีกครั้งใน <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">ตรวจสอบอีเมลของคุณ</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />ระบบได้อัปเดตบัญชีของคุณใน <ph name="APP_NAME" /> แล้วด้วยหมายเลขโทรศัพท์ <ph name="SECOND_FACTOR" /> สำหรับการยืนยันแบบ 2 ขั้นตอน<ph name="P_END" />
+<ph name="P_START" />หากคุณไม่ได้เพิ่มหมายเลขโทรศัพท์นี้สำหรับการยืนยันแบบ 2 ขั้นตอน โปรดคลิกลิงก์ด้านล่างเพื่อนำหมายเลขโทรศัพท์ดังกล่าวออก<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">นำปัจจัยที่ 2 ออกไม่ได้</translation>
 <translation id="4955175001894453989">เพิ่มรหัสผ่าน</translation>
 <translation id="496366313824211679">เอล ซัลวาดอร์</translation>

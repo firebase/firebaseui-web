@@ -210,6 +210,7 @@
 <translation id="4556476996891737119">Jordan</translation>
 <translation id="4571870355114729513">Sundin ang mga tagubilin na ipinadala sa <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> upang ma-recover ang iyong password</translation>
 <translation id="4588392627302012849">Mag-sign in gamit ang email</translation>
+<translation id="4595119411041064617">Sa pag-tap sa “<ph name="PH_1" />,“ maaaring magpadala ng SMS. Maaaring ipatupad ang mga rate ng pagmemensahe at data.</translation>
 <translation id="4632709875751031323">Russia</translation>
 <translation id="4644169548516814280">Ginagamit na ang email address ng ibang account</translation>
 <translation id="4692014002063276828">Poland</translation>
@@ -224,7 +225,10 @@
 <translation id="4866990546854875813">Maaaring nag-expire na o na-clear ang session na kaugnay nitong kahilingan sa pag-sign in.</translation>
 <translation id="4871106926303956169">Turks and Caicos Islands</translation>
 <translation id="4877597386645466815">Ipadala muli ang code sa <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Suriin ang iyong email</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Na-update ang iyong account sa <ph name="APP_NAME" /> gamit ang isang numero ng telepono <ph name="SECOND_FACTOR" /> para sa 2-step na verification.<ph name="P_END" />
+<ph name="P_START" />Kung hindi mo idinagdag ang numero ng telepono na ito para sa 2-step na verification, i-click ang link sa ibaba para maalis ito.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Hindi maalis ang iyong pangalawang factor</translation>
 <translation id="4955175001894453989">Magdagdag ng password</translation>
 <translation id="496366313824211679">El Salvador</translation>

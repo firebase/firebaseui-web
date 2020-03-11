@@ -212,6 +212,7 @@
 <translation id="4556476996891737119">Jordánia</translation>
 <translation id="4571870355114729513">A jelszó visszaállításához kövesse a(z) <ph name="START_STRONG" />(<ph name="EMAIL" />)<ph name="END_STRONG" /> címre elküldött utasításokat.</translation>
 <translation id="4588392627302012849">Bejelentkezés e-mail-fiókkal</translation>
+<translation id="4595119411041064617">Ha a(z) „<ph name="PH_1" />” gombra koppint, a rendszer SMS-t küldhet Önnek. A szolgáltató ezért üzenet- és adatforgalmi díjat számíthat fel.</translation>
 <translation id="4632709875751031323">Oroszország</translation>
 <translation id="4644169548516814280">Az e-mail-címet egy másik fiók már használja.</translation>
 <translation id="4692014002063276828">Lengyelország</translation>
@@ -226,7 +227,10 @@
 <translation id="4866990546854875813">A bejelentkezési kérelemhez kapcsolódó munkamenet lejárt, vagy törölték.</translation>
 <translation id="4871106926303956169">Turks- és Caicos-szigetek</translation>
 <translation id="4877597386645466815">Kód újraküldése ennyi idő elteltével: <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Ellenőrizze az e-mailjeit.</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />A(z) <ph name="APP_NAME" /> szolgáltatásban meglévő fiókja telefonszámmal frissült (<ph name="SECOND_FACTOR" />) a kétlépcsős azonosításhoz.<ph name="P_END" />
+<ph name="P_START" />Ha nem Ön adta hozzá ezt a telefonszámot a kétlépcsős azonosításhoz, a linkre kattintva eltávolíthatja.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Nem sikerült eltávolítani a második lépést</translation>
 <translation id="4955175001894453989">Jelszó hozzáadása</translation>
 <translation id="496366313824211679">Salvador</translation>

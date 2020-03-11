@@ -213,6 +213,7 @@
 <translation id="4556476996891737119">Jordanië</translation>
 <translation id="4571870355114729513">Volg de instructies die naar <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> zijn verzonden om uw wachtwoord te herstellen</translation>
 <translation id="4588392627302012849">Inloggen met e-mailadres</translation>
+<translation id="4595119411041064617">Als u op '<ph name="PH_1" />' tikt, ontvangt u mogelijk een sms. Er kunnen sms- en datakosten in rekening worden gebracht.</translation>
 <translation id="4632709875751031323">Rusland</translation>
 <translation id="4644169548516814280">Dit e-mailadres wordt al gebruikt door een ander account</translation>
 <translation id="4692014002063276828">Polen</translation>
@@ -227,7 +228,10 @@
 <translation id="4866990546854875813">De aan dit inlogverzoek gekoppelde sessie is vervallen of gewist.</translation>
 <translation id="4871106926303956169">Turks- en Caicoseilanden</translation>
 <translation id="4877597386645466815">Code opnieuw verzenden over <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Controleer uw inbox</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Uw account in <ph name="APP_NAME" /> is geüpdatet met het telefoonnummer <ph name="SECOND_FACTOR" /> voor verificatie in twee stappen.<ph name="P_END" />
+<ph name="P_START" />Heeft u dit telefoonnummer niet toegevoegd voor verificatie in twee stappen? Klik dan op de onderstaande link om het te verwijderen.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Kan de tweede stap niet verwijderen</translation>
 <translation id="4955175001894453989">Wachtwoord toevoegen</translation>
 <translation id="496366313824211679">El Salvador</translation>

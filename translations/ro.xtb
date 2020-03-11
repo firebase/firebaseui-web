@@ -212,6 +212,7 @@
 <translation id="4556476996891737119">Iordania</translation>
 <translation id="4571870355114729513">Pentru a vă recupera parola, urmați instrucțiunile trimise la <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /></translation>
 <translation id="4588392627302012849">Conectați-vă cu adresa de e-mail</translation>
+<translation id="4595119411041064617">Dacă atingeți „<ph name="PH_1" />”, poate fi trimis un SMS. Se pot aplica tarife pentru mesaje și date.</translation>
 <translation id="4632709875751031323">Rusia</translation>
 <translation id="4644169548516814280">Adresa de e-mail este folosită deja de alt cont</translation>
 <translation id="4692014002063276828">Polonia</translation>
@@ -226,7 +227,10 @@
 <translation id="4866990546854875813">Sesiunea asociată acestei solicitări de conectare a expirat sau a fost golită.</translation>
 <translation id="4871106926303956169">Insulele Turks și Caicos</translation>
 <translation id="4877597386645466815">Retrimiteți codul în <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Verificați căsuța de e-mail</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Contul dvs. din <ph name="APP_NAME" /> a fost actualizat cu numărul de telefon <ph name="SECOND_FACTOR" /> pentru verificarea în doi pași.<ph name="P_END" />
+<ph name="P_START" />Dacă nu ați adăugat dvs. acest număr de telefon pentru verificarea în doi pași, dați clic pe linkul de mai jos pentru a-l șterge.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Nu s-a putut elimina al doilea factor</translation>
 <translation id="4955175001894453989">Adăugați parola</translation>
 <translation id="496366313824211679">El Salvador</translation>

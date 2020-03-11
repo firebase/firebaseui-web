@@ -212,6 +212,7 @@
 <translation id="4556476996891737119">Jordan</translation>
 <translation id="4571870355114729513">Følg veiledningen som er sendt til <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />, for å gjenopprette passordet ditt</translation>
 <translation id="4588392627302012849">Logg på med e-postadresse</translation>
+<translation id="4595119411041064617">Når du trykker på «<ph name="PH_1" />», kan det bli sendt en SMS. Kostnader for meldinger og datatrafikk kan påløpe.</translation>
 <translation id="4632709875751031323">Russland</translation>
 <translation id="4644169548516814280">E-postadressen brukes allerede av en annen konto</translation>
 <translation id="4692014002063276828">Polen</translation>
@@ -226,7 +227,10 @@
 <translation id="4866990546854875813">Økten som er knyttet til denne påloggingsforespørselen, er enten utløpt eller fjernet.</translation>
 <translation id="4871106926303956169">Turks- og Caicosøyene</translation>
 <translation id="4877597386645466815">Send koden på nytt om <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Sjekk e-posten din</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Kontoen din i <ph name="APP_NAME" /> er oppdatert med følgende telefonnummer for totrinnsbekreftelse: <ph name="SECOND_FACTOR" />.<ph name="P_END" />
+<ph name="P_START" />Hvis du ikke har lagt til dette telefonnummeret for totrinnsbekreftelse, klikker du på linken nedenfor for å fjerne det.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Kunne ikke fjerne den andre faktoren</translation>
 <translation id="4955175001894453989">Legg til passord</translation>
 <translation id="496366313824211679">El Salvador</translation>

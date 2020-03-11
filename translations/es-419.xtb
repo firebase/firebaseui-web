@@ -213,6 +213,7 @@
 <translation id="4556476996891737119">Jordania</translation>
 <translation id="4571870355114729513">Sigue las instrucciones que se enviaron a <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> para restablecer la contraseña.</translation>
 <translation id="4588392627302012849">Acceder con el correo electrónico</translation>
+<translation id="4595119411041064617">Si presionas “<ph name="PH_1" />”, se enviará un SMS. Se aplicarán las tarifas de mensajes y datos.</translation>
 <translation id="4632709875751031323">Rusia</translation>
 <translation id="4644169548516814280">Otra cuenta ya usa esta dirección de correo electrónico.</translation>
 <translation id="4692014002063276828">Polonia</translation>
@@ -227,7 +228,10 @@
 <translation id="4866990546854875813">La sesión asociada con esta solicitud de acceso venció o se borró.</translation>
 <translation id="4871106926303956169">Islas Turcas y Caicos</translation>
 <translation id="4877597386645466815">Reenviar el código en <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Revisa tu correo electrónico</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Se agregó el número de teléfono <ph name="SECOND_FACTOR" /> a tu cuenta de <ph name="APP_NAME" /> para usar la verificación en dos pasos.<ph name="P_END" />
+<ph name="P_START" />Si tú no realizaste este cambio, haz clic en el siguiente vínculo para quitar el número.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">No se pudo quitar tu segundo factor</translation>
 <translation id="4955175001894453989">Agregar contraseña</translation>
 <translation id="496366313824211679">El Salvador</translation>

@@ -212,6 +212,7 @@
 <translation id="4556476996891737119">Ιορδανία</translation>
 <translation id="4571870355114729513">Ακολουθήστε τις οδηγίες που στάλθηκαν στη διεύθυνση <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> για να ανακτήσετε τον κωδικό πρόσβασής σας</translation>
 <translation id="4588392627302012849">Σύνδεση μέσω ηλεκτρονικού ταχυδρομείου</translation>
+<translation id="4595119411041064617">Αν πατήσετε "<ph name="PH_1" />", μπορεί να σταλεί ένα SMS. Ενδέχεται να ισχύουν χρεώσεις μηνυμάτων και δεδομένων.</translation>
 <translation id="4632709875751031323">Ρωσία</translation>
 <translation id="4644169548516814280">Αυτή η διεύθυνση ηλεκτρονικού ταχυδρομείου χρησιμοποιείται ήδη από άλλον λογαριασμό</translation>
 <translation id="4692014002063276828">Πολωνία</translation>
@@ -226,7 +227,10 @@
 <translation id="4866990546854875813">Η περίοδος σύνδεσης που συσχετίζεται με το αίτημα σύνδεσης είτε έληξε είτε διαγράφηκε.</translation>
 <translation id="4871106926303956169">Νησιά Τερκ και Κάικος</translation>
 <translation id="4877597386645466815">Επανάληψη αποστολής κωδικού σε <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Ελέγξτε τα εισερχόμενα του ηλεκτρονικού ταχυδρομείου σας</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Ο λογαριασμός σας στην εφαρμογή <ph name="APP_NAME" /> ενημερώθηκε με έναν αριθμό τηλεφώνου <ph name="SECOND_FACTOR" /> για την επαλήθευση σε 2 βήματα.<ph name="P_END" />
+<ph name="P_START" />Αν δεν προσθέσατε αυτόν τον αριθμό τηλεφώνου για την επαλήθευση σε 2 βήματα, κάντε κλικ παρακάτω για να τον καταργήσετε.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Δεν ήταν δυνατή η κατάργηση του δεύτερου παράγοντα</translation>
 <translation id="4955175001894453989">Προσθήκη κωδικού πρόσβασης</translation>
 <translation id="496366313824211679">Ελ Σαλβαδόρ</translation>

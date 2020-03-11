@@ -212,6 +212,7 @@
 <translation id="4556476996891737119">Йордания</translation>
 <translation id="4571870355114729513">За да възстановите паролата си, изпълнете инструкциите, изпратени до <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /></translation>
 <translation id="4588392627302012849">Вход с имейл</translation>
+<translation id="4595119411041064617">Докосвайки „<ph name="PH_1" />“, може да получите SMS съобщение. То може да се таксува по тарифите за данни и SMS.</translation>
 <translation id="4632709875751031323">Русия</translation>
 <translation id="4644169548516814280">Имейл адресът вече се използва от друг профил</translation>
 <translation id="4692014002063276828">Полша</translation>
@@ -226,7 +227,10 @@
 <translation id="4866990546854875813">Сесията, свързана с тази заявка за вход в профила, е изтекла или бе изчистена.</translation>
 <translation id="4871106926303956169">Търкс и Кайкос, о-ви</translation>
 <translation id="4877597386645466815">Повторно изпращане на кода след <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Проверете електронната си поща</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Профилът ви в приложението <ph name="APP_NAME" /> е актуализиран с телефонния номер <ph name="SECOND_FACTOR" /> за потвърждаване в две стъпки.<ph name="P_END" />
+<ph name="P_START" />Ако не сте добавили този телефонен номер за потвърждаване в две стъпки, кликнете върху връзката по-долу, за да го премахнете.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Втората стъпка не можа да бъде премахната</translation>
 <translation id="4955175001894453989">Добавяне на парола</translation>
 <translation id="496366313824211679">Салвадор</translation>

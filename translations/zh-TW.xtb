@@ -213,6 +213,7 @@
 <translation id="4556476996891737119">約旦</translation>
 <translation id="4571870355114729513">請按照傳送至 <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> 的操作說明，重新取得密碼</translation>
 <translation id="4588392627302012849">使用電子郵件地址登入</translation>
+<translation id="4595119411041064617">輕觸 [<ph name="PH_1" />] 後，系統將會傳送一封簡訊。您可能需支付簡訊和數據傳輸費用。</translation>
 <translation id="4632709875751031323">俄羅斯</translation>
 <translation id="4644169548516814280">已有其他帳戶使用這個電子郵件地址</translation>
 <translation id="4692014002063276828">波蘭</translation>
@@ -227,7 +228,9 @@
 <translation id="4866990546854875813">與這項登入要求相關的工作階段已過期或遭到清除。</translation>
 <translation id="4871106926303956169">特克斯和凱科斯群島</translation>
 <translation id="4877597386645466815">於 <ph name="TIME_REMAINING" /> 後重新傳送確認碼</translation>
-<translation id="4915406999072654369">請查看您的電子郵件</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />你在「<ph name="APP_NAME" />」中的帳戶已經更新，可在兩步驟驗證程序中使用 <ph name="SECOND_FACTOR" /> 這組電話號碼。<ph name="P_END" /><ph name="P_START" />如果你並未新增這組兩步驟驗證電話號碼，請點選下方的連結將其移除。<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">無法移除次要驗證方式</translation>
 <translation id="4955175001894453989">新增密碼</translation>
 <translation id="496366313824211679">薩爾瓦多共和國</translation>

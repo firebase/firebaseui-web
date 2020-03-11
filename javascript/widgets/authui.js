@@ -935,7 +935,7 @@ firebaseui.auth.AuthUI.prototype.checkForDeprecation_ = function() {
 
 
 /**
- * @return {firebaseui.auth.widget.Config} The application configuration.
+ * @return {!firebaseui.auth.widget.Config} The application configuration.
  */
 firebaseui.auth.AuthUI.prototype.getConfig = function() {
   // Check if instance is already destroyed.

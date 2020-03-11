@@ -212,6 +212,7 @@
 <translation id="4556476996891737119">Jordania</translation>
 <translation id="4571870355114729513">Palauta salasanasi noudattamalla osoitteeseen <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> lähetettyjä ohjeita.</translation>
 <translation id="4588392627302012849">Kirjaudu sähköpostilla</translation>
+<translation id="4595119411041064617">Kun napautat <ph name="PH_1" />, tekstiviesti voidaan lähettää. Datan ja viestien käyttö voi olla maksullista.</translation>
 <translation id="4632709875751031323">Venäjä</translation>
 <translation id="4644169548516814280">Tämä sähköpostiosoite on jo rekisteröity toiseen tiliin.</translation>
 <translation id="4692014002063276828">Puola</translation>
@@ -226,7 +227,10 @@
 <translation id="4866990546854875813">Tähän kirjautumispyyntöön liittyvä istunto on joko vanhentunut tai tyhjennetty.</translation>
 <translation id="4871106926303956169">Turks- ja Caicossaaret</translation>
 <translation id="4877597386645466815">Lähetä koodi uudelleen: <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Tarkista sähköpostisi</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Sovelluksen <ph name="APP_NAME" /> tilillesi on päivitetty puhelinnumero <ph name="SECOND_FACTOR" /> kaksivaiheista vahvistusta varten.<ph name="P_END" />
+<ph name="P_START" />Jos et lisännyt tätä puhelinnumeroa kaksivaiheista vahvistusta varten, klikkaa alla olevaa linkkiä poistaaksesi sen.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Toisen todennustason poistaminen epäonnistui</translation>
 <translation id="4955175001894453989">Lisää salasana</translation>
 <translation id="496366313824211679">El Salvador</translation>

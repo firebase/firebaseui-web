@@ -212,6 +212,7 @@
 <translation id="4556476996891737119">Jordan</translation>
 <translation id="4571870355114729513">Slijedite upute za ponovno postavljanje zaporke koje smo poslali na e-adresu <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /></translation>
 <translation id="4588392627302012849">Prijava putem e-adrese</translation>
+<translation id="4595119411041064617">Dodirivanje gumba "<ph name="PH_1" />" može dovesti do slanja SMS poruke. Mogu se primijeniti naknade za slanje poruka i podatkovni promet.</translation>
 <translation id="4632709875751031323">Rusija</translation>
 <translation id="4644169548516814280">Ta e-adresa pripada drugom računu</translation>
 <translation id="4692014002063276828">Poljska</translation>
@@ -226,7 +227,10 @@
 <translation id="4866990546854875813">Sesija povezana s tim zahtjevom za prijavu istekla je ili je uklonjena.</translation>
 <translation id="4871106926303956169">Otoci Turks i Caicos</translation>
 <translation id="4877597386645466815">Ponovno slanje koda za <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Provjerite e-poštu</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Vašem je računu u aplikaciji <ph name="APP_NAME" /> dodan telefonski broj <ph name="SECOND_FACTOR" /> za potvrdu u dva koraka.<ph name="P_END" />
+<ph name="P_START" />Ako niste dodali taj telefonski broj za potvrdu u dva koraka, kliknite vezu u nastavku da biste ga uklonili.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Nismo mogli ukloniti vaš drugi faktor</translation>
 <translation id="4955175001894453989">Dodavanje zaporke</translation>
 <translation id="496366313824211679">Salvador</translation>

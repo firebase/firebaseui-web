@@ -210,6 +210,7 @@
 <translation id="4556476996891737119">Jordanija</translation>
 <translation id="4571870355114729513">Vadovaudamiesi el. pašto adresu <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> išsiųstais nurodymais atkurkite slaptažodį</translation>
 <translation id="4588392627302012849">Prisijungti nurodant el. pašto adresą</translation>
+<translation id="4595119411041064617">Palietus „<ph name="PH_1" />“ gali būti išsiųstas SMS pranešimas. Gali būti taikomi pranešimų ir duomenų įkainiai.</translation>
 <translation id="4632709875751031323">Rusija</translation>
 <translation id="4644169548516814280">El. pašto adresas jau naudojamas kitoje paskyroje</translation>
 <translation id="4692014002063276828">Lenkija</translation>
@@ -224,7 +225,10 @@
 <translation id="4866990546854875813">Su šia prisijungimo užklausa susieta sesija baigė galioti arba buvo išvalyta.</translation>
 <translation id="4871106926303956169">Terkso ir Kaikoso Salos</translation>
 <translation id="4877597386645466815">Siųsti kodą iš naujo po <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Patikrinkite el. paštą</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Prie jūsų paskyros, naudojamos su „<ph name="APP_NAME" />“, pridėtas telefono numeris <ph name="SECOND_FACTOR" />, skirtas patvirtinti dviem veiksmais.<ph name="P_END" />
+<ph name="P_START" />Jei nepridėjote šio telefono numerio ir nenorite patvirtinti dviem veiksmais, pašalinkite jį spustelėdami tolesnę nuorodą.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Nepavyko pašalinti antrojo faktoriaus</translation>
 <translation id="4955175001894453989">Pridėti slaptažodį</translation>
 <translation id="496366313824211679">Salvadoras</translation>

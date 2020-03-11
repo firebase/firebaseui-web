@@ -213,6 +213,7 @@
 <translation id="4556476996891737119">Jordan</translation>
 <translation id="4571870355114729513">Follow the instructions sent to <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> to recover your password</translation>
 <translation id="4588392627302012849">Sign in with email</translation>
+<translation id="4595119411041064617">By tapping '<ph name="PH_1" />', an SMS may be sent. Message &amp; data rates may apply.</translation>
 <translation id="4632709875751031323">Russia</translation>
 <translation id="4644169548516814280">The email address is already being used by another account</translation>
 <translation id="4692014002063276828">Poland</translation>
@@ -227,7 +228,10 @@
 <translation id="4866990546854875813">The session associated with this sign-in request has either expired or was cleared.</translation>
 <translation id="4871106926303956169">Turks and Caicos Islands</translation>
 <translation id="4877597386645466815">Resend code in <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Check your email</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Your account in <ph name="APP_NAME" /> has been updated with a phone number <ph name="SECOND_FACTOR" /> for 2-Step Verification.<ph name="P_END" />
+<ph name="P_START" />If you didn't add this phone number for 2-Step Verification, click the link below to remove it.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Couldn't remove your second factor</translation>
 <translation id="4955175001894453989">Add password</translation>
 <translation id="496366313824211679">El Salvador</translation>

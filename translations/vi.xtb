@@ -212,6 +212,7 @@
 <translation id="4556476996891737119">Jordan</translation>
 <translation id="4571870355114729513">Làm theo hướng dẫn được gửi đến <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> để khôi phục mật khẩu của bạn</translation>
 <translation id="4588392627302012849">Đăng nhập bằng email</translation>
+<translation id="4595119411041064617">Bằng cách nhấn vào “<ph name="PH_1" />”, bạn có thể nhận được một tin nhắn SMS. Cước tin nhắn và dữ liệu có thể áp dụng.</translation>
 <translation id="4632709875751031323">Nga</translation>
 <translation id="4644169548516814280">Địa chỉ email đã được một tài khoản khác sử dụng</translation>
 <translation id="4692014002063276828">Ba Lan</translation>
@@ -226,7 +227,10 @@
 <translation id="4866990546854875813">Phiên hoạt động liên quan đến yêu cầu đăng nhập này đã hết hạn hoặc đã bị xóa.</translation>
 <translation id="4871106926303956169">Quần đảo Turks và Caicos</translation>
 <translation id="4877597386645466815">Gửi lại mã sau <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Kiểm tra email của bạn</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Tài khoản <ph name="APP_NAME" /> của bạn đã được thêm số điện thoại <ph name="SECOND_FACTOR" /> để sử dụng tính năng xác minh 2 bước.<ph name="P_END" />
+<ph name="P_START" />Nếu không phải bạn thêm số điện thoại này để sử dụng tính năng xác minh 2 bước, thì hãy nhấp vào đường liên kết bên dưới để xóa số điện thoại này.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Không thể xóa yếu tố thứ hai</translation>
 <translation id="4955175001894453989">Thêm mật khẩu</translation>
 <translation id="496366313824211679">El Salvador</translation>

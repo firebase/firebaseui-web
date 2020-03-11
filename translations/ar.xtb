@@ -77,12 +77,12 @@
 <translation id="2331781584136059536">غانا</translation>
 <translation id="2338909515537249568">لا يدعم المتصفح الذي تستخدمه التخزين على الويب. يُرجى المحاولة مجددًا في متصفّح مختلف.</translation>
 <translation id="2342152898808240937">ألغى العميل الطلب.</translation>
-<translation id="2356282732642724501"><ph name="START_PARAGRAPH" />حدثت مشكلة أثناء تغيير البريد الإلكتروني لتسجيل الدخول من جديد.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />في حال المحاولة مجددًا وتعذّر إعادة تعيين البريد الإلكتروني، يُرجى محاولة طلب المساعدة من المشرف.<ph name="END_PARAGRAPH" /></translation>
+<translation id="2356282732642724501"><ph name="START_PARAGRAPH" />حدثت مشكلة أثناء تغيير البريد الإلكتروني لتسجيل الدخول من جديد.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />في حال المحاولة مجددًا وتعذّر إعادة ضبط البريد الإلكتروني، يُرجى محاولة طلب المساعدة من المشرف.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">البحرين</translation>
 <translation id="2392247362473363900">حدث خطأ في الخادم الداخلي.</translation>
 <translation id="2405828009195143258">إيران</translation>
 <translation id="2422942582251341722">هل نسيت كلمة المرور؟</translation>
-<translation id="2446078593003901807">موافق</translation>
+<translation id="2446078593003901807">حسنًا</translation>
 <translation id="2448487988481516351">نيوكاليدونيا</translation>
 <translation id="2451742558284013472">موناكو</translation>
 <translation id="2460064915291012298">سيشيل</translation>
@@ -212,6 +212,7 @@
 <translation id="4556476996891737119">الأردن</translation>
 <translation id="4571870355114729513">اتبع التعليمات التي تم إرسالها إلى <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> لاسترداد كلمة المرور</translation>
 <translation id="4588392627302012849">تسجيل الدخول عبر البريد الإلكتروني</translation>
+<translation id="4595119411041064617">عند النقر على "<ph name="PH_1" />"، قد يتمّ إرسال رسالة قصيرة SMS وقد يتمّ تطبيق رسوم الرسائل والبيانات.</translation>
 <translation id="4632709875751031323">روسيا</translation>
 <translation id="4644169548516814280">يتم استخدام عنوان البريد الإلكتروني من قِبل حساب آخر</translation>
 <translation id="4692014002063276828">بولندا</translation>
@@ -226,7 +227,10 @@
 <translation id="4866990546854875813">انتهت صلاحية الجلسة المرتبطة بطلب تسجيل الدخول هذا أو تمّ محوها.</translation>
 <translation id="4871106926303956169">جزر توركس وكايكوس</translation>
 <translation id="4877597386645466815">إعادة إرسال الرمز في غضون <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">إثبات ملكية بريدك الإلكتروني</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />تمّت إضافة رقم الهاتف <ph name="SECOND_FACTOR" /> إلى حسابك على <ph name="APP_NAME" /> بهدف إجراء عملية التحقّق بخطوتين.<ph name="P_END" />
+<ph name="P_START" />وفي حال عدم إضافة رقم الهاتف هذا لإجراء عملية التحقّق بخطوتين، يُرجى النقر على الرابط أدناه لإزالته.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">تعذّرت إزالة العامل الثاني</translation>
 <translation id="4955175001894453989">إضافة كلمة مرور</translation>
 <translation id="496366313824211679">السلفادور</translation>

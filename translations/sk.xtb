@@ -212,6 +212,7 @@
 <translation id="4556476996891737119">Jordánsko</translation>
 <translation id="4571870355114729513">Obnovte svoje heslo podľa pokynov odoslaných na adresu <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /></translation>
 <translation id="4588392627302012849">Prihlásiť sa e-mailom</translation>
+<translation id="4595119411041064617">Klepnutím na tlačidlo <ph name="PH_1" /> možno odoslať SMS. Môžu sa účtovať poplatky za správy a dáta.</translation>
 <translation id="4632709875751031323">Rusko</translation>
 <translation id="4644169548516814280">Túto e-mailovú adresu už používa iný účet</translation>
 <translation id="4692014002063276828">Poľsko</translation>
@@ -226,7 +227,10 @@
 <translation id="4866990546854875813">Relácia spojená s touto žiadosťou o prihlásenie bola vymazaná alebo jej platnosť vypršala.</translation>
 <translation id="4871106926303956169">Turks a Caicos</translation>
 <translation id="4877597386645466815">Znova odoslať kód o <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Skontrolujte si e-mail</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Váš účet v aplikácii <ph name="APP_NAME" /> bol aktualizovaný. Pribudlo v ňom telefónne číslo <ph name="SECOND_FACTOR" /> na účely dvojstupňového overenia.<ph name="P_END" />
+<ph name="P_START" />Ak ste toto telefónne číslo na účely dvojstupňového overenia nepridali vy, odstráňte ho kliknutím na odkaz nižšie.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Druhý prvok sa nepodarilo odstrániť</translation>
 <translation id="4955175001894453989">Pridanie hesla</translation>
 <translation id="496366313824211679">Salvádor</translation>

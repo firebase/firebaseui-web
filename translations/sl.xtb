@@ -210,6 +210,7 @@
 <translation id="4556476996891737119">Jordanija</translation>
 <translation id="4571870355114729513">Če želite obnoviti geslo, sledite navodilom, poslanim na naslov <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /></translation>
 <translation id="4588392627302012849">Prijava z e-poštnim naslovom</translation>
+<translation id="4595119411041064617">Če se dotaknete možnosti »<ph name="PH_1" />«, bo morda poslano sporočilo SMS. Pošiljanje sporočila in prenos podatkov boste morda morali plačati.</translation>
 <translation id="4632709875751031323">Rusija</translation>
 <translation id="4644169548516814280">E-poštni naslov že uporablja drug račun</translation>
 <translation id="4692014002063276828">Poljska</translation>
@@ -224,7 +225,10 @@
 <translation id="4866990546854875813">Seja, povezana s to zahtevo za prijavo, je potekla ali je bila izbrisana.</translation>
 <translation id="4871106926303956169">Otoki Turks in Caicos</translation>
 <translation id="4877597386645466815">Ponovno pošlji kodo čez <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Preverite e-pošto</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />V vaš račun za <ph name="APP_NAME" /> je bila dodana telefonska številka <ph name="SECOND_FACTOR" /> za preverjanje pristnosti v dveh korakih.<ph name="P_END" />
+<ph name="P_START" />Če te telefonske številke za preverjanje pristnosti v dveh korakih niste dodali, kliknite spodnjo povezavo, da jo odstranite.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Drugega dejavnika ni bilo mogoče odstraniti</translation>
 <translation id="4955175001894453989">Dodajanje gesla</translation>
 <translation id="496366313824211679">Salvador</translation>

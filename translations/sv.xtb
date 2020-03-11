@@ -212,6 +212,7 @@
 <translation id="4556476996891737119">Jordanien</translation>
 <translation id="4571870355114729513">Följ anvisningarna som skickats till <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> för att återställa ditt lösenord</translation>
 <translation id="4588392627302012849">Logga in med e-post</translation>
+<translation id="4595119411041064617">Genom att trycka på <ph name="PH_1" /> skickas ett sms. Meddelande- och dataavgifter kan tillkomma.</translation>
 <translation id="4632709875751031323">Ryssland</translation>
 <translation id="4644169548516814280">E-postadressen används redan av ett annat konto</translation>
 <translation id="4692014002063276828">Polen</translation>
@@ -226,7 +227,10 @@
 <translation id="4866990546854875813">Sessionen som hör till den här inloggningsförfrågan har antingen upphört att gälla eller tagits bort.</translation>
 <translation id="4871106926303956169">Turks- och Caicosöarna</translation>
 <translation id="4877597386645466815">Skicka kod igen om <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Kolla dina e-postmeddelanden</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Ditt konto i <ph name="APP_NAME" /> har uppdaterats med ett telefonnummer <ph name="SECOND_FACTOR" /> för tvåstegsverifiering.<ph name="P_END" />
+<ph name="P_START" />Om du inte har lagt till det här telefonnumret för tvåstegsverifiering bör du klicka på länken nedan och ta bort det.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Det gick inte att ta bort din andra faktor</translation>
 <translation id="4955175001894453989">Lägg till lösenord</translation>
 <translation id="496366313824211679">El Salvador</translation>

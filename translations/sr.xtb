@@ -212,6 +212,7 @@
 <translation id="4556476996891737119">Јордан</translation>
 <translation id="4571870355114729513">Пратите упутства послата на <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> да бисте повратили лозинку</translation>
 <translation id="4588392627302012849">Пријави ме помоћу имејла</translation>
+<translation id="4595119411041064617">Ако додирнете „<ph name="PH_1" />“, можда ћете послати SMS. Могу да вам буду наплаћени трошкови слања поруке и преноса података.</translation>
 <translation id="4632709875751031323">Русија</translation>
 <translation id="4644169548516814280">Ту имејл адресу већ користи неки други налог</translation>
 <translation id="4692014002063276828">Пољска</translation>
@@ -226,7 +227,10 @@
 <translation id="4866990546854875813">Сесија повезана са овим захтевом за пријављивање је истекла или je обрисана.</translation>
 <translation id="4871106926303956169">Острва Туркс и Каикос</translation>
 <translation id="4877597386645466815">Кôд се поново шаље за <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Проверите имејл</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Вашем <ph name="APP_NAME" /> налогу је додат број телефона <ph name="SECOND_FACTOR" /> ради верификације у 2 корака.<ph name="P_END" />
+<ph name="P_START" />Ако нисте додали тај број телефона ради верификације у 2 корака, кликните на линк испод да бисте га уклонили.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Други фактор није уклоњен</translation>
 <translation id="4955175001894453989">Додајте лозинку</translation>
 <translation id="496366313824211679">Салвадор</translation>

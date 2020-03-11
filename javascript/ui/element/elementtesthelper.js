@@ -56,7 +56,7 @@ firebaseui.auth.ui.element.ElementTestHelper.prototype.setComponent =
 /**
  * Excludes some tests from being run.
  * @param {...string} var_arg Test names to exclude.
- * @return {firebaseui.auth.ui.element.ElementTestHelper} The test helper
+ * @return {!firebaseui.auth.ui.element.ElementTestHelper} The test helper
  *     itself.
  */
 firebaseui.auth.ui.element.ElementTestHelper.prototype.excludeTests =
@@ -69,7 +69,7 @@ firebaseui.auth.ui.element.ElementTestHelper.prototype.excludeTests =
 
 /**
  * Registers all tests related to the element into the global namespace.
- * @return {firebaseui.auth.ui.element.ElementTestHelper} The test helper
+ * @return {!firebaseui.auth.ui.element.ElementTestHelper} The test helper
  *     itself.
  */
 firebaseui.auth.ui.element.ElementTestHelper.prototype.registerTests =

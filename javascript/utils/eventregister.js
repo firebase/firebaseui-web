@@ -137,7 +137,7 @@ firebaseui.auth.EventDispatcher = class extends goog.events.EventTarget {
   }
 
   /**
-   * @return {Element} The element corresponding to the event dispatcher.
+   * @return {!Element} The element corresponding to the event dispatcher.
    */
   getElement() {
     return this.el_;

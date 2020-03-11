@@ -213,6 +213,7 @@
 <translation id="4556476996891737119">[Ĵöŕðåñ one]</translation>
 <translation id="4571870355114729513">[Föļļöŵ ţĥé îñšţŕûçţîöñš šéñţ ţö ᐅ<ph name="START_STRONG" />ᐊᐅ<ph name="EMAIL" />ᐊᐅ<ph name="END_STRONG" />ᐊ ţö ŕéçövéŕ ýöûŕ þåššŵöŕð one two three four five six seven eight nine ten eleven twelve thirteen]</translation>
 <translation id="4588392627302012849">[Šîĝñ îñ ŵîţĥ émåîļ one two three four]</translation>
+<translation id="4595119411041064617">[Бý ţåþþîñĝ “ᐅ<ph name="PH_1" />ᐊ”, åñ ŠMŠ måý бé šéñţ. Méššåĝé &amp; ðåţå ŕåţéš måý åþþļý. one two three four five six seven eight nine ten eleven twelve thirteen]</translation>
 <translation id="4632709875751031323">[Ŕûššîå one]</translation>
 <translation id="4644169548516814280">[Ţĥé émåîļ åððŕéšš îš åļŕéåðý ûšéð бý åñöţĥéŕ åççöûñţ one two three four five six seven eight nine ten eleven]</translation>
 <translation id="4692014002063276828">[Þöļåñð one]</translation>
@@ -227,7 +228,10 @@
 <translation id="4866990546854875813">[Ţĥé šéššîöñ åššöçîåţéð ŵîţĥ ţĥîš šîĝñ-îñ ŕéqûéšţ ĥåš éîţĥéŕ éxþîŕéð öŕ ŵåš çļéåŕéð. one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen]</translation>
 <translation id="4871106926303956169">[Ţûŕķš åñð Çåîçöš Îšļåñðš one two three four five]</translation>
 <translation id="4877597386645466815">[Ŕéšéñð çöðé îñ ᐅ<ph name="TIME_REMAINING" />ᐊ one two three four]</translation>
-<translation id="4915406999072654369">[Çĥéçķ ýöûŕ émåîļ one two]</translation>
+<translation id="4900116391137165411">[
+ᐅ<ph name="P_START" />ᐊÝöûŕ åççöûñţ îñ ᐅ<ph name="APP_NAME" />ᐊ ĥåš бééñ ûþðåţéð ŵîţĥ å þĥöñé ñûmбéŕ ᐅ<ph name="SECOND_FACTOR" />ᐊ ƒöŕ 2-šţéþ véŕîƒîçåţîöñ.ᐅ<ph name="P_END" />ᐊ
+ᐅ<ph name="P_START" />ᐊÎƒ ýöû ðîðñ'ţ åðð ţĥîš þĥöñé ñûmбéŕ ƒöŕ 2-šţéþ véŕîƒîçåţîöñ, çļîçķ ţĥé ļîñķ бéļöŵ ţö ŕémövé îţ.ᐅ<ph name="P_END" />ᐊ
+ᐅ<ph name="P_START" />ᐊᐅ<ph name="START_LINK" />ᐊᐅ<ph name="CONFIRM_LINK" />ᐊᐅ<ph name="END_LINK" />ᐊᐅ<ph name="P_END" />ᐊ one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty twentyone twentytwo twentythree twentyfour twentyfive twentysix twentyseven twentyeight]</translation>
 <translation id="4923375331439013137">[Çöûļðñ'ţ ŕémövé ýöûŕ šéçöñð ƒåçţöŕ one two three four five six seven]</translation>
 <translation id="4955175001894453989">[Åðð þåššŵöŕð one two]</translation>
 <translation id="496366313824211679">[Éļ Šåļvåðöŕ one two]</translation>

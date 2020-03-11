@@ -213,6 +213,7 @@
 <translation id="4556476996891737119">Jordânia</translation>
 <translation id="4571870355114729513">Siga as instruções enviadas para <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> para recuperar sua senha</translation>
 <translation id="4588392627302012849">Fazer login com o e-mail</translation>
+<translation id="4595119411041064617">Se você tocar em "<ph name="PH_1" />", um SMS poderá ser enviado e tarifas de mensagens e de dados serão cobradas.</translation>
 <translation id="4632709875751031323">Rússia</translation>
 <translation id="4644169548516814280">O endereço de e-mail já está sendo usado por outra conta</translation>
 <translation id="4692014002063276828">Polônia</translation>
@@ -227,7 +228,10 @@
 <translation id="4866990546854875813">A sessão deste login expirou ou foi apagada.</translation>
 <translation id="4871106926303956169">Ilhas Turks e Caicos</translation>
 <translation id="4877597386645466815">Reenviar o código em <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Verifique seu e-mail</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Sua conta no app <ph name="APP_NAME" /> foi atualizada com o número de telefone <ph name="SECOND_FACTOR" /> para a verificação em duas etapas.<ph name="P_END" />
+<ph name="P_START" />Caso você não tenha adicionado esse número de telefone para a verificação, clique no link abaixo para removê-lo.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Não foi possível remover o segundo fator</translation>
 <translation id="4955175001894453989">Adicionar senha</translation>
 <translation id="496366313824211679">El Salvador</translation>
@@ -415,7 +419,7 @@
 <translation id="792838323404934335">Groenlândia</translation>
 <translation id="7956645158976161232">Líbia</translation>
 <translation id="8017277252219866084">Quênia</translation>
-<translation id="8028653067082554952">Esta ação apagará todos os dados associados à sua conta e não poderá ser desfeita. Tem certeza que quer excluir sua conta?</translation>
+<translation id="8028653067082554952">Esta ação apagará todos os dados associados à sua conta e não poderá ser desfeita. Você quer mesmo excluir sua conta?</translation>
 <translation id="8033786138248870436">Talvez você receba um SMS quando tocar em "Verificar". Taxas de mensagens e dados podem ser aplicáveis.</translation>
 <translation id="8047183472745080590">Bolívia</translation>
 <translation id="8047565947836609247">Porto Rico</translation>

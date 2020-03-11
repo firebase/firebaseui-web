@@ -213,6 +213,7 @@
 <translation id="4556476996891737119">Иордания</translation>
 <translation id="4571870355114729513">На адрес <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> отправлено письмо с инструкциями по восстановлению пароля.</translation>
 <translation id="4588392627302012849">Войти по адресу электронной почты</translation>
+<translation id="4595119411041064617">Нажимая кнопку "<ph name="PH_1" />", вы соглашаетесь получить SMS. За его отправку и обмен данными может взиматься плата.</translation>
 <translation id="4632709875751031323">Россия</translation>
 <translation id="4644169548516814280">Этот адрес электронной почты уже используется в другом аккаунте.</translation>
 <translation id="4692014002063276828">Польша</translation>
@@ -227,7 +228,9 @@
 <translation id="4866990546854875813">Время сеанса, связанного с этим запросом входа, истекло, или сеанс был завершен.</translation>
 <translation id="4871106926303956169">Острова Теркс и Кайкос</translation>
 <translation id="4877597386645466815">Отправить код ещё раз можно будет через <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Проверьте электронную почту</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Для вашего аккаунта в приложении "<ph name="APP_NAME" />" добавлен номер телефона <ph name="SECOND_FACTOR" /> для двухэтапной аутентификации.<ph name="P_END" />
+<ph name="P_START" />Если вы не добавляли этот номер телефона для двухэтапной аутентификации, нажмите на ссылку ниже, чтобы удалить его.<ph name="P_END" /> <ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Не удалось отменить двухэтапную аутентификацию</translation>
 <translation id="4955175001894453989">Добавить пароль</translation>
 <translation id="496366313824211679">Эль-Сальвадор</translation>

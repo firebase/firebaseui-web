@@ -210,6 +210,7 @@
 <translation id="4556476996891737119">Jordānija</translation>
 <translation id="4571870355114729513">Izpildiet uz e-pasta adresi <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> nosūtītos norādījumus, lai atgūtu paroli</translation>
 <translation id="4588392627302012849">Pierakstīties ar e-pasta adresi</translation>
+<translation id="4595119411041064617">Pieskaroties pogai <ph name="PH_1" />, var tikt nosūtīta īsziņa. Var tikt piemērota maksa par ziņojumiem un datu pārsūtīšanu.</translation>
 <translation id="4632709875751031323">Krievija</translation>
 <translation id="4644169548516814280">Šo e-pasta adresi jau izmanto cits konts</translation>
 <translation id="4692014002063276828">Polija</translation>
@@ -224,7 +225,10 @@
 <translation id="4866990546854875813">Ar šo pierakstīšanās pieprasījumu saistītajai sesijai ir beidzies termiņš vai tā tika notīrīta.</translation>
 <translation id="4871106926303956169">Tērksas un Kaikosas Salas</translation>
 <translation id="4877597386645466815">Vēlreiz nosūtīt kodu pēc <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Pārbaudiet savu e-pastu</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Jūsu konts lietotnē <ph name="APP_NAME" /> ir atjaunināts, pievienojot tālruņa numuru (<ph name="SECOND_FACTOR" />), lai veiktu divpakāpju verifikāciju.<ph name="P_END" />
+<ph name="P_START" />Ja neesat pievienojis šo tālruņa numuru divpakāpju verifikācijai, noklikšķiniet uz saites tālāk, lai to noņemtu.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Nevarēja noņemt otro faktoru</translation>
 <translation id="4955175001894453989">Paroles pievienošana</translation>
 <translation id="496366313824211679">Salvadora</translation>

@@ -210,6 +210,7 @@
 <translation id="4556476996891737119">Jordânia</translation>
 <translation id="4571870355114729513">Siga as instruções enviadas para <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> para recuperar a palavra-passe</translation>
 <translation id="4588392627302012849">Iniciar sessão com o email</translation>
+<translation id="4595119411041064617">Ao tocar em "<ph name="PH_1" />", pode gerar o envio de uma SMS. Podem aplicar-se tarifas de mensagens e dados.</translation>
 <translation id="4632709875751031323">Rússia</translation>
 <translation id="4644169548516814280">O endereço de email já é utilizado por outra conta</translation>
 <translation id="4692014002063276828">Polónia</translation>
@@ -224,7 +225,10 @@
 <translation id="4866990546854875813">A sessão associada a este pedido de início de sessão expirou ou foi limpa.</translation>
 <translation id="4871106926303956169">Ilhas Turcas e Caicos</translation>
 <translation id="4877597386645466815">Reenviar código em <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Verifique o seu email</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />A sua conta na app <ph name="APP_NAME" /> foi atualizada com um número de telefone <ph name="SECOND_FACTOR" /> para a validação em dois passos.<ph name="P_END" />
+<ph name="P_START" />Se não adicionou este número de telefone para a validação em dois passos, clique no link abaixo para o remover.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Não foi possível remover o seu segundo fator</translation>
 <translation id="4955175001894453989">Adicionar palavra-passe</translation>
 <translation id="496366313824211679">Salvador</translation>

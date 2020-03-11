@@ -212,6 +212,7 @@
 <translation id="4556476996891737119">Jordània</translation>
 <translation id="4571870355114729513">Per recuperar la contrasenya, segueix les instruccions que s'han enviat a <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /></translation>
 <translation id="4588392627302012849">Inicia la sessió amb l'adreça electrònica</translation>
+<translation id="4595119411041064617">En tocar <ph name="PH_1" />, és possible que s'enviï un SMS. Es poden aplicar tarifes de dades i missatges.</translation>
 <translation id="4632709875751031323">Rússia</translation>
 <translation id="4644169548516814280">Ja hi ha un altre compte que utilitza aquesta adreça electrònica</translation>
 <translation id="4692014002063276828">Polònia</translation>
@@ -226,7 +227,10 @@
 <translation id="4866990546854875813">La sessió associada a aquesta sol·licitud d'inici de sessió ha caducat o s'ha esborrat.</translation>
 <translation id="4871106926303956169">Illes Turks i Caicos</translation>
 <translation id="4877597386645466815">Torna a enviar el codi d'aquí a <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Comprova el correu electrònic</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />El teu compte a <ph name="APP_NAME" /> s'ha actualitzat amb un número de telèfon acabat en <ph name="SECOND_FACTOR" /> per a la verificació en dos pasos.<ph name="P_END" />
+<ph name="P_START" />Si no has afegit aquest número de telèfon per a la verificació en dos pasos, fes clic a l'enllaç a continuació per suprimir-lo.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">No s'ha pogut suprimir el segon factor</translation>
 <translation id="4955175001894453989">Afegeix una contrasenya</translation>
 <translation id="496366313824211679">República del Salvador</translation>

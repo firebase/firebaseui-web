@@ -212,6 +212,7 @@
 <translation id="4556476996891737119">जॉर्डन</translation>
 <translation id="4571870355114729513">अपना पासवर्ड फिर से पाने के लिए <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> पर भेजे गए निर्देशों का पालन करें</translation>
 <translation id="4588392627302012849">ईमेल से प्रवेश करें</translation>
+<translation id="4595119411041064617">“<ph name="PH_1" />” पर टैप करने पर, एक मैसेज (एसएमएस) भेजा जा सकता है. मैसेज और डेटा दरें लागू हो सकती हैं.</translation>
 <translation id="4632709875751031323">रूस</translation>
 <translation id="4644169548516814280">ईमेल पता पहले से ही किसी दूसरे खाते के लिए उपयोग में लाया जा चुका है</translation>
 <translation id="4692014002063276828">पोलैंड</translation>
@@ -226,7 +227,10 @@
 <translation id="4866990546854875813">इस साइन-इन अनुरोध से जुड़े हुए सत्र की समय-सीमा या तो खत्म हो गई है या यह सत्र हटा दिया गया है.</translation>
 <translation id="4871106926303956169">टर्क्स और कैकॉस आइलैंड</translation>
 <translation id="4877597386645466815"><ph name="TIME_REMAINING" /> में कोड फिर से भेजें</translation>
-<translation id="4915406999072654369">अपना ईमेल जाँचें</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />दो चरणों में पुष्टि करने के लिए, आपके <ph name="APP_NAME" /> खाते में फ़ोन नंबर <ph name="SECOND_FACTOR" /> जोड़ दिया गया है.<ph name="P_END" />
+<ph name="P_START" />अगर आपने दो चरणों में पुष्टि करने के लिए इस फ़ोन नंबर को नहीं जोड़ा है, तो इसे हटाने के लिए नीचे दिए लिंक पर क्लिक करें.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">पुष्टि करने का दूसरा चरण हटाया नहीं जा सका</translation>
 <translation id="4955175001894453989">पासवर्ड जोड़ें</translation>
 <translation id="496366313824211679">अल सल्वाडोर</translation>

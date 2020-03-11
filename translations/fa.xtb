@@ -212,6 +212,7 @@
 <translation id="4556476996891737119">اردن</translation>
 <translation id="4571870355114729513">برای بازیابی گذرواژه‌تان، دستورالعمل‌های ارسال‌شده به <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> را دنبال کنید</translation>
 <translation id="4588392627302012849">ورود به سیستم با ایمیل </translation>
+<translation id="4595119411041064617">با ضربه زدن روی «<ph name="PH_1" />»، پیامکی برایتان ارسال می‌شود. هزینه پیام و داده اعمال می‌شود.</translation>
 <translation id="4632709875751031323">روسیه</translation>
 <translation id="4644169548516814280">قبلاً یک حساب از این نشانی ایمیل  استفاده کرده است.</translation>
 <translation id="4692014002063276828">لهستان</translation>
@@ -226,7 +227,10 @@
 <translation id="4866990546854875813">جلسه مرتبط با این درخواستِ ورود به سیستم، منقضی یا پاک شد.</translation>
 <translation id="4871106926303956169">جزایر تورکس و کایکوس</translation>
 <translation id="4877597386645466815">ارسال مجدد کد پس از <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">رایانامه‌تان را بررسی کنید</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />حساب <ph name="APP_NAME" /> شما برای راستی‌آزمایی دومرحله‌ای با شماره تلفن <ph name="SECOND_FACTOR" /> به‌روزرسانی شد.<ph name="P_END" />
+<ph name="P_START" />اگر شما این شماره تلفن را برای راستی‌آزمایی دومرحله‌ای اضافه نکرده‌اید، برای حذف آن روی پیوند زیر کلیک کنید.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">عامل دوم برداشته نشد</translation>
 <translation id="4955175001894453989">افزودن گذرواژه</translation>
 <translation id="496366313824211679">السالوادور</translation>

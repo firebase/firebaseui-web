@@ -213,6 +213,7 @@
 <translation id="4556476996891737119">Jordanie</translation>
 <translation id="4571870355114729513">Suivez les instructions envoyées à l'adresse <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> pour récupérer votre mot de passe</translation>
 <translation id="4588392627302012849">Se connecter avec une adresse e-mail</translation>
+<translation id="4595119411041064617">En appuyant sur "<ph name="PH_1" />", vous déclencherez peut-être l'envoi d'un SMS. Des frais de messages et de données peuvent être facturés.</translation>
 <translation id="4632709875751031323">Russie</translation>
 <translation id="4644169548516814280">L'adresse e-mail est déjà utilisée par un autre compte</translation>
 <translation id="4692014002063276828">Pologne</translation>
@@ -227,7 +228,10 @@
 <translation id="4866990546854875813">La session associée à cette demande de connexion a expiré ou a été effacée.</translation>
 <translation id="4871106926303956169">Turks-et-Caïcos (Îles)</translation>
 <translation id="4877597386645466815">Renvoyer le code dans <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Consultez votre boîte de réception</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Un numéro de téléphone <ph name="SECOND_FACTOR" /> a été enregistré dans votre compte <ph name="APP_NAME" /> pour la validation en deux étapes.<ph name="P_END" />
+<ph name="P_START" />Si vous n'avez pas ajouté ce numéro de téléphone, cliquez sur le lien ci-dessous pour le supprimer.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Impossible de supprimer votre deuxième facteur</translation>
 <translation id="4955175001894453989">Ajouter un mot de passe</translation>
 <translation id="496366313824211679">Salvador</translation>

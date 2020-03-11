@@ -212,6 +212,7 @@
 <translation id="4556476996891737119">Jordánsko</translation>
 <translation id="4571870355114729513">Obnovte heslo podle pokynů zaslaných na adresu <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /></translation>
 <translation id="4588392627302012849">Přihlášení pomocí e-mailu</translation>
+<translation id="4595119411041064617">Po klepnutí na možnost <ph name="PH_1" /> může být odeslána SMS. Mohou být účtovány poplatky za zprávy a data.</translation>
 <translation id="4632709875751031323">Rusko</translation>
 <translation id="4644169548516814280">Tuto e-mailovou adresu již používá jiný účet</translation>
 <translation id="4692014002063276828">Polsko</translation>
@@ -226,7 +227,10 @@
 <translation id="4866990546854875813">Relace přidružená k této žádosti o přihlášení buď vypršela, nebo byla vymazána.</translation>
 <translation id="4871106926303956169">Ostrovy Turks a Caicos</translation>
 <translation id="4877597386645466815">Opakované odeslání kódu možné za <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Zkontrolujte svůj e-mail</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />K vašemu účtu v aplikaci <ph name="APP_NAME" /> bylo přidáno telefonní číslo <ph name="SECOND_FACTOR" /> pro dvoufázové ověření.<ph name="P_END" />
+<ph name="P_START" />Pokud jste toto telefonní číslo pro dvoufázové ověření nepřidali, kliknutím na odkaz níže ho odeberete.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Druhý faktor nelze odebrat</translation>
 <translation id="4955175001894453989">Přidat heslo</translation>
 <translation id="496366313824211679">Salvador</translation>

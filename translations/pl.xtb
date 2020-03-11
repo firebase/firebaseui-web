@@ -213,6 +213,7 @@
 <translation id="4556476996891737119">Jordania</translation>
 <translation id="4571870355114729513">Aby odzyskać hasło, wykonaj instrukcje wysłane na adres <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /></translation>
 <translation id="4588392627302012849">Zaloguj się za pomocą e-maila</translation>
+<translation id="4595119411041064617">Gdy klikniesz „<ph name="PH_1" />”, może zostać wysłany SMS. Może to skutkować pobraniem opłaty za przesłanie wiadomości i danych.</translation>
 <translation id="4632709875751031323">Rosja</translation>
 <translation id="4644169548516814280">Tego adresu e-mail używa już inne konto</translation>
 <translation id="4692014002063276828">Polska</translation>
@@ -227,7 +228,10 @@
 <translation id="4866990546854875813">Sesja powiązana z tą prośbą o zalogowanie wygasła lub została wyczyszczona.</translation>
 <translation id="4871106926303956169">Turks i Caicos</translation>
 <translation id="4877597386645466815">Kod można wysłać ponownie za: <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Sprawdź pocztę</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Do Twojego konta w aplikacji <ph name="APP_NAME" /> dodano numer telefonu <ph name="SECOND_FACTOR" />, by umożliwić weryfikację dwuetapową.<ph name="P_END" />
+<ph name="P_START" />Jeżeli ten numer nie został dodany przez Ciebie, kliknij link poniżej, by go usunąć.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Nie udało się usunąć drugiego składnika</translation>
 <translation id="4955175001894453989">Dodaj hasło</translation>
 <translation id="496366313824211679">Salwador</translation>

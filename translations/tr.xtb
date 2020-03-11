@@ -213,6 +213,7 @@
 <translation id="4556476996891737119">Ürdün</translation>
 <translation id="4571870355114729513">Şifrenizi kurtarmak için <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> adresine gönderilen talimatları uygulayın</translation>
 <translation id="4588392627302012849">E-posta ile oturum aç</translation>
+<translation id="4595119411041064617">"<ph name="PH_1" />" öğesine dokunarak SMS gönderilebilir. Mesaj ve veri ücretleri uygulanabilir.</translation>
 <translation id="4632709875751031323">Rusya</translation>
 <translation id="4644169548516814280">Bu e-posta adresi zaten başka bir hesap tarafından kullanılıyor</translation>
 <translation id="4692014002063276828">Polonya</translation>
@@ -227,7 +228,10 @@
 <translation id="4866990546854875813">Bu oturum açma isteğiyle ilişkili oturumun süresi doldu veya oturum kaldırıldı.</translation>
 <translation id="4871106926303956169">Turks ve Caicos Adaları</translation>
 <translation id="4877597386645466815"><ph name="TIME_REMAINING" /> içinde kodu yeniden gönder</translation>
-<translation id="4915406999072654369">E-postanızı kontrol edin</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" /><ph name="APP_NAME" /> hesabınızın telefon numarası, 2 adımlı doğrulama için <ph name="SECOND_FACTOR" /> olarak güncellendi.<ph name="P_END" />
+<ph name="P_START" />Bu telefon numarasını 2 adımlı doğrulama için siz eklemediyseniz kaldırmak için aşağıdaki bağlantıyı tıklayın.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">İkinci faktörünüz kaldırılamadı</translation>
 <translation id="4955175001894453989">Şifre ekle</translation>
 <translation id="496366313824211679">El Salvador</translation>

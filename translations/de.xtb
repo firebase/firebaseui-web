@@ -213,6 +213,7 @@
 <translation id="4556476996891737119">Jordanien</translation>
 <translation id="4571870355114729513">Folgen Sie der an <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> gesendeten Anleitung, um Ihr Passwort zurückzusetzen</translation>
 <translation id="4588392627302012849">Mit E-Mail-Adresse anmelden</translation>
+<translation id="4595119411041064617">Wenn Sie auf "<ph name="PH_1" />" tippen, erhalten Sie möglicherweise eine SMS. Es können Gebühren für SMS und Datenübertragung anfallen.</translation>
 <translation id="4632709875751031323">Russland</translation>
 <translation id="4644169548516814280">Die E-Mail-Adresse wird bereits für ein anderes Konto verwendet</translation>
 <translation id="4692014002063276828">Polen</translation>
@@ -227,7 +228,10 @@
 <translation id="4866990546854875813">Die mit dieser Anmeldeanfrage verknüpfte Sitzung ist entweder abgelaufen oder wurde gelöscht.</translation>
 <translation id="4871106926303956169">Turks- und Caicosinseln</translation>
 <translation id="4877597386645466815">Code in <ph name="TIME_REMAINING" /> erneut senden</translation>
-<translation id="4915406999072654369">Im Posteingang nachsehen</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Für Ihr Konto in der App "<ph name="APP_NAME" />" wurde eine Telefonnummer (<ph name="SECOND_FACTOR" />) für die Bestätigung in zwei Schritten hinzugefügt.<ph name="P_END" />
+<ph name="P_START" />Wenn diese Telefonnummer nicht von Ihnen hinzugefügt wurde, klicken Sie bitte auf den Link unten, um sie wieder zu entfernen.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Zweiter Authentifizierungsschritt konnte nicht entfernt werden</translation>
 <translation id="4955175001894453989">Passwort hinzufügen</translation>
 <translation id="496366313824211679">El Salvador</translation>

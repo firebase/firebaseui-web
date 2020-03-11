@@ -215,6 +215,7 @@
 <translation id="4556476996891737119">约旦</translation>
 <translation id="4571870355114729513">请按照发送到 <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> 的说明找回密码</translation>
 <translation id="4588392627302012849">使用电子邮件地址登录</translation>
+<translation id="4595119411041064617">您点按“<ph name="PH_1" />”后，系统会向您发送一条短信。这可能会产生短信费用和上网流量费。</translation>
 <translation id="4632709875751031323">俄罗斯</translation>
 <translation id="4644169548516814280">此电子邮件地址已被其他帐号使用</translation>
 <translation id="4692014002063276828">波兰</translation>
@@ -229,7 +230,10 @@
 <translation id="4866990546854875813">与此登录请求关联的会话已过期或清除。</translation>
 <translation id="4871106926303956169">特克斯和凯科斯群岛</translation>
 <translation id="4877597386645466815"><ph name="TIME_REMAINING" /> 后可重新发送验证码</translation>
-<translation id="4915406999072654369">请查收电子邮件</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />您在<ph name="APP_NAME" />中的帐号新增了一个电话号码 (<ph name="SECOND_FACTOR" />)，以实现两步验证。<ph name="P_END" />
+<ph name="P_START" />如果您没有添加这个用于两步验证的电话号码，请点击下面的链接将其移除。<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">无法移除您的第二重身份验证</translation>
 <translation id="4955175001894453989">添加密码</translation>
 <translation id="496366313824211679">萨尔瓦多</translation>
