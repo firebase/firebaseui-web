@@ -88,11 +88,12 @@ function initializeCookieStorageMock(maxAge, path, domain, secure) {
   stubs.replace(
       goog.net.cookies,
       'set',
-      function(key, value, optionObject) {
-        assertEquals(maxAge, optionObject.maxAge);
-        assertEquals(path, optionObject.path);
-        assertEquals(domain, optionObject.domain);
-        assertEquals(secure, optionObject.secure);
+      function(key, value, actualMaxAge, actualPath,
+               actualDomain, actualSecure) {
+        assertEquals(maxAge, actualMaxAge);
+        assertEquals(path, actualPath);
+        assertEquals(domain, actualDomain);
+        assertEquals(secure, actualSecure);
         mockCookieStorage[key] = value;
       });
   stubs.replace(
