@@ -63,7 +63,7 @@
 <translation id="2130553359919781209">Malawi</translation>
 <translation id="2187260952722791093">Verified.</translation>
 <translation id="2192561962270021282">Enter your phone number</translation>
-<translation id="2206856445831770486">Github</translation>
+<translation id="2206856445831770486">GitHub</translation>
 <translation id="2223717216014247341">Privacy Policy</translation>
 <translation id="2224563296468523455">Guam</translation>
 <translation id="2245182894886860848">Either out of resource quota or reaching rate limiting.</translation>
@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">Bahrain</translation>
 <translation id="2392247362473363900">Internal server error.</translation>
 <translation id="2405828009195143258">Iran</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">Verifying you're not a robot...</translation>
-<translation id="2448227725017851570">This code is no longer valid</translation>
+<translation id="2422942582251341722">Forgotten password?</translation>
+<translation id="2446078593003901807">OK</translation>
 <translation id="2448487988481516351">New Caledonia</translation>
 <translation id="2451742558284013472">Monaco</translation>
 <translation id="2460064915291012298">Seychelles</translation>
@@ -189,7 +188,7 @@
 <translation id="4056653682525186486">Sign in with <ph name="XXX" /></translation>
 <translation id="4064888056475403511">Try opening the link using the same device or browser where you started the sign-in process.</translation>
 <translation id="4066104405592701692">Estonia</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">Delete</translation>
 <translation id="4163133799286985193">Argentina</translation>
 <translation id="4166504762096983411">By continuing, you are indicating that you accept our <ph name="START_LINK_1" />Terms of Service<ph name="END_LINK" /> and <ph name="START_LINK_2" />Privacy Policy<ph name="END_LINK" />.</translation>
 <translation id="420554669252656972">Enter new email address</translation>
@@ -214,6 +213,7 @@
 <translation id="4556476996891737119">Jordan</translation>
 <translation id="4571870355114729513">Follow the instructions sent to <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> to recover your password</translation>
 <translation id="4588392627302012849">Sign in with email</translation>
+<translation id="4595119411041064617">By tapping '<ph name="PH_1" />', an SMS may be sent. Message &amp; data rates may apply.</translation>
 <translation id="4632709875751031323">Russia</translation>
 <translation id="4644169548516814280">The email address is already being used by another account</translation>
 <translation id="4692014002063276828">Poland</translation>
@@ -228,7 +228,10 @@
 <translation id="4866990546854875813">The session associated with this sign-in request has either expired or was cleared.</translation>
 <translation id="4871106926303956169">Turks and Caicos Islands</translation>
 <translation id="4877597386645466815">Resend code in <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Check your email</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Your account in <ph name="APP_NAME" /> has been updated with a phone number <ph name="SECOND_FACTOR" /> for 2-Step Verification.<ph name="P_END" />
+<ph name="P_START" />If you didn't add this phone number for 2-Step Verification, click the link below to remove it.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Couldn't remove your second factor</translation>
 <translation id="4955175001894453989">Add password</translation>
 <translation id="496366313824211679">El Salvador</translation>
@@ -416,7 +419,6 @@
 <translation id="7926046652648626866">Sign in with GitHub</translation>
 <translation id="792838323404934335">Greenland</translation>
 <translation id="7956645158976161232">Libya</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">Kenya</translation>
 <translation id="8028653067082554952">This will erase all data associated with your account, and can't be undone. Are you sure that you want to delete your account?</translation>
 <translation id="8033786138248870436">By tapping Verify, an SMS may be sent. Message &amp;amp; data rates may apply.</translation>

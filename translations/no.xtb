@@ -63,7 +63,7 @@
 <translation id="2130553359919781209">Malawi</translation>
 <translation id="2187260952722791093">Bekreftet.</translation>
 <translation id="2192561962270021282">Oppgi telefonnummeret ditt</translation>
-<translation id="2206856445831770486">Github</translation>
+<translation id="2206856445831770486">GitHub</translation>
 <translation id="2223717216014247341">Personvernregler</translation>
 <translation id="2224563296468523455">Guam</translation>
 <translation id="2245182894886860848">Ressurskvoten er nesten eller helt oppbrukt.</translation>
@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">Bahrain</translation>
 <translation id="2392247362473363900">Intern tjenerfeil.</translation>
 <translation id="2405828009195143258">Iran</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">Bekrefter at du ikke er en robot ...</translation>
-<translation id="2448227725017851570">Denne koden er ikke lenger gyldig</translation>
+<translation id="2422942582251341722">Har du glemt passordet?</translation>
+<translation id="2446078593003901807">OK</translation>
 <translation id="2448487988481516351">Ny-Caledonia</translation>
 <translation id="2451742558284013472">Monaco</translation>
 <translation id="2460064915291012298">Seychellene</translation>
@@ -188,7 +187,7 @@
 <translation id="4056653682525186486">Logg på med <ph name="XXX" /></translation>
 <translation id="4064888056475403511">Prøv å åpne linken med den samme enheten eller nettleseren som du brukte til å starte påloggingsprosessen.</translation>
 <translation id="4066104405592701692">Estland</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">Slett</translation>
 <translation id="4163133799286985193">Argentina</translation>
 <translation id="4166504762096983411">Ved å fortsette godtar du <ph name="START_LINK_1" />vilkårene for bruk<ph name="END_LINK" /> og <ph name="START_LINK_2" />personvernreglene<ph name="END_LINK" /> våre.</translation>
 <translation id="420554669252656972">Oppgi en ny e-postadresse</translation>
@@ -213,6 +212,7 @@
 <translation id="4556476996891737119">Jordan</translation>
 <translation id="4571870355114729513">Følg veiledningen som er sendt til <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />, for å gjenopprette passordet ditt</translation>
 <translation id="4588392627302012849">Logg på med e-postadresse</translation>
+<translation id="4595119411041064617">Når du trykker på «<ph name="PH_1" />», kan det bli sendt en SMS. Kostnader for meldinger og datatrafikk kan påløpe.</translation>
 <translation id="4632709875751031323">Russland</translation>
 <translation id="4644169548516814280">E-postadressen brukes allerede av en annen konto</translation>
 <translation id="4692014002063276828">Polen</translation>
@@ -227,7 +227,10 @@
 <translation id="4866990546854875813">Økten som er knyttet til denne påloggingsforespørselen, er enten utløpt eller fjernet.</translation>
 <translation id="4871106926303956169">Turks- og Caicosøyene</translation>
 <translation id="4877597386645466815">Send koden på nytt om <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Sjekk e-posten din</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Kontoen din i <ph name="APP_NAME" /> er oppdatert med følgende telefonnummer for totrinnsbekreftelse: <ph name="SECOND_FACTOR" />.<ph name="P_END" />
+<ph name="P_START" />Hvis du ikke har lagt til dette telefonnummeret for totrinnsbekreftelse, klikker du på linken nedenfor for å fjerne det.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Kunne ikke fjerne den andre faktoren</translation>
 <translation id="4955175001894453989">Legg til passord</translation>
 <translation id="496366313824211679">El Salvador</translation>
@@ -414,7 +417,6 @@
 <translation id="7926046652648626866">Logg på med GitHub</translation>
 <translation id="792838323404934335">Grønland</translation>
 <translation id="7956645158976161232">Libya</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">Kenya</translation>
 <translation id="8028653067082554952">Alle data som er tilknyttet kontoen din, blir slettet, og handlingen kan ikke angres. Er du sikker på at du vil slette kontoen din?</translation>
 <translation id="8033786138248870436">Når du trykker på Bekreft, sendes det kanskje en SMS. Kostnader for meldinger og datatrafikk kan påløpe.</translation>

@@ -63,7 +63,7 @@
 <translation id="2130553359919781209">Malawi</translation>
 <translation id="2187260952722791093">Confirmat!</translation>
 <translation id="2192561962270021282">Introduceți numărul de telefon</translation>
-<translation id="2206856445831770486">Github</translation>
+<translation id="2206856445831770486">GitHub</translation>
 <translation id="2223717216014247341">Politică de confidențialitate</translation>
 <translation id="2224563296468523455">Guam</translation>
 <translation id="2245182894886860848">Fie din cota resursei, fie atingând limitarea frecvenței.</translation>
@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">Bahrain</translation>
 <translation id="2392247362473363900">Eroare internă de server.</translation>
 <translation id="2405828009195143258">Iran</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">Se verifică dacă sunteți un robot...</translation>
-<translation id="2448227725017851570">Codul nu mai este valid</translation>
+<translation id="2422942582251341722">Ați uitat parola?</translation>
+<translation id="2446078593003901807">OK</translation>
 <translation id="2448487988481516351">Noua Caledonie</translation>
 <translation id="2451742558284013472">Monaco</translation>
 <translation id="2460064915291012298">Seychelles</translation>
@@ -188,7 +187,7 @@
 <translation id="4056653682525186486">Conectați-vă cu <ph name="XXX" /></translation>
 <translation id="4064888056475403511">Încercați să accesați linkul folosind același dispozitiv sau browser pe care ați început procesul de conectare.</translation>
 <translation id="4066104405592701692">Estonia</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">Ștergeți</translation>
 <translation id="4163133799286985193">Argentina</translation>
 <translation id="4166504762096983411">Dacă alegeți să continuați, sunteți de acord cu <ph name="START_LINK_1" />Termenii și condițiile<ph name="END_LINK" /> și cu <ph name="START_LINK_2" />Politica de confidențialitate<ph name="END_LINK" />.</translation>
 <translation id="420554669252656972">Introduceți adresa nouă de e-mail</translation>
@@ -213,6 +212,7 @@
 <translation id="4556476996891737119">Iordania</translation>
 <translation id="4571870355114729513">Pentru a vă recupera parola, urmați instrucțiunile trimise la <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /></translation>
 <translation id="4588392627302012849">Conectați-vă cu adresa de e-mail</translation>
+<translation id="4595119411041064617">Dacă atingeți „<ph name="PH_1" />”, poate fi trimis un SMS. Se pot aplica tarife pentru mesaje și date.</translation>
 <translation id="4632709875751031323">Rusia</translation>
 <translation id="4644169548516814280">Adresa de e-mail este folosită deja de alt cont</translation>
 <translation id="4692014002063276828">Polonia</translation>
@@ -227,7 +227,10 @@
 <translation id="4866990546854875813">Sesiunea asociată acestei solicitări de conectare a expirat sau a fost golită.</translation>
 <translation id="4871106926303956169">Insulele Turks și Caicos</translation>
 <translation id="4877597386645466815">Retrimiteți codul în <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Verificați căsuța de e-mail</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Contul dvs. din <ph name="APP_NAME" /> a fost actualizat cu numărul de telefon <ph name="SECOND_FACTOR" /> pentru verificarea în doi pași.<ph name="P_END" />
+<ph name="P_START" />Dacă nu ați adăugat dvs. acest număr de telefon pentru verificarea în doi pași, dați clic pe linkul de mai jos pentru a-l șterge.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Nu s-a putut elimina al doilea factor</translation>
 <translation id="4955175001894453989">Adăugați parola</translation>
 <translation id="496366313824211679">El Salvador</translation>
@@ -413,7 +416,6 @@
 <translation id="7926046652648626866">Conectați-vă cu GitHub</translation>
 <translation id="792838323404934335">Groenlanda</translation>
 <translation id="7956645158976161232">Libia</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">Kenya</translation>
 <translation id="8028653067082554952">Toate datele asociate acestui cont vor fi șterse, iar acțiunea nu poate fi anulată. Sigur doriți să vă ștergeți contul?</translation>
 <translation id="8033786138248870436">Dacă atingeți Confirmați, poate fi trimis un SMS. Se pot aplica tarife pentru mesaje și date.</translation>

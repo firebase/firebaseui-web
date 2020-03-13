@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">Bahrain</translation>
 <translation id="2392247362473363900">Interner Serverfehler.</translation>
 <translation id="2405828009195143258">Iran</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">Bestätigen Sie bitte, dass Sie kein Roboter sind.</translation>
-<translation id="2448227725017851570">Dieser Code ist nicht mehr gültig</translation>
+<translation id="2422942582251341722">Passwort vergessen?</translation>
+<translation id="2446078593003901807">Ok</translation>
 <translation id="2448487988481516351">Neukaledonien</translation>
 <translation id="2451742558284013472">Monaco</translation>
 <translation id="2460064915291012298">Seychellen</translation>
@@ -189,7 +188,7 @@
 <translation id="4056653682525186486">Mit <ph name="XXX" /> anmelden</translation>
 <translation id="4064888056475403511">Öffnen Sie den Link mit demselben Gerät oder Browser, mit dem Sie die Anmeldung begonnen haben.</translation>
 <translation id="4066104405592701692">Estland</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">Löschen</translation>
 <translation id="4163133799286985193">Argentinien</translation>
 <translation id="4166504762096983411">Indem Sie fortfahren, stimmen Sie <ph name="START_LINK_1" />unseren Nutzungsbedingungen<ph name="END_LINK" /> und <ph name="START_LINK_2" />unserer Datenschutzerklärung<ph name="END_LINK" /> zu.</translation>
 <translation id="420554669252656972">Neue E-Mail-Adresse eingeben</translation>
@@ -214,6 +213,7 @@
 <translation id="4556476996891737119">Jordanien</translation>
 <translation id="4571870355114729513">Folgen Sie der an <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> gesendeten Anleitung, um Ihr Passwort zurückzusetzen</translation>
 <translation id="4588392627302012849">Mit E-Mail-Adresse anmelden</translation>
+<translation id="4595119411041064617">Wenn Sie auf "<ph name="PH_1" />" tippen, erhalten Sie möglicherweise eine SMS. Es können Gebühren für SMS und Datenübertragung anfallen.</translation>
 <translation id="4632709875751031323">Russland</translation>
 <translation id="4644169548516814280">Die E-Mail-Adresse wird bereits für ein anderes Konto verwendet</translation>
 <translation id="4692014002063276828">Polen</translation>
@@ -228,7 +228,10 @@
 <translation id="4866990546854875813">Die mit dieser Anmeldeanfrage verknüpfte Sitzung ist entweder abgelaufen oder wurde gelöscht.</translation>
 <translation id="4871106926303956169">Turks- und Caicosinseln</translation>
 <translation id="4877597386645466815">Code in <ph name="TIME_REMAINING" /> erneut senden</translation>
-<translation id="4915406999072654369">Im Posteingang nachsehen</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Für Ihr Konto in der App "<ph name="APP_NAME" />" wurde eine Telefonnummer (<ph name="SECOND_FACTOR" />) für die Bestätigung in zwei Schritten hinzugefügt.<ph name="P_END" />
+<ph name="P_START" />Wenn diese Telefonnummer nicht von Ihnen hinzugefügt wurde, klicken Sie bitte auf den Link unten, um sie wieder zu entfernen.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Zweiter Authentifizierungsschritt konnte nicht entfernt werden</translation>
 <translation id="4955175001894453989">Passwort hinzufügen</translation>
 <translation id="496366313824211679">El Salvador</translation>
@@ -415,7 +418,6 @@
 <translation id="7926046652648626866">Über GitHub anmelden</translation>
 <translation id="792838323404934335">Grönland</translation>
 <translation id="7956645158976161232">Libyen</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">Kenia</translation>
 <translation id="8028653067082554952">Hierdurch werden alle mit Ihrem Konto verknüpften Daten gelöscht. Dies kann nicht rückgängig gemacht werden. Möchten Sie Ihr Konto wirklich löschen?</translation>
 <translation id="8033786138248870436">Wenn Sie auf "Bestätigen" tippen, erhalten Sie möglicherweise eine Bestätigungs-SMS. Es können Gebühren für SMS und Datenübertragung anfallen.</translation>

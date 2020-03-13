@@ -63,7 +63,7 @@
 <translation id="2130553359919781209">Malavis</translation>
 <translation id="2187260952722791093">Patvirtinta.</translation>
 <translation id="2192561962270021282">Įveskite telefono numerį</translation>
-<translation id="2206856445831770486">Github</translation>
+<translation id="2206856445831770486">GitHub</translation>
 <translation id="2223717216014247341">Privatumo politika</translation>
 <translation id="2224563296468523455">Guamas</translation>
 <translation id="2245182894886860848">Baigėsi išteklių kvota arba pasiektas įvertinimo apribojimas.</translation>
@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">Bahreinas</translation>
 <translation id="2392247362473363900">Vidinė serverio klaida.</translation>
 <translation id="2405828009195143258">Iranas</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">Tikrinama, ar nesate robotas...</translation>
-<translation id="2448227725017851570">Šis kodas nebegalioja</translation>
+<translation id="2422942582251341722">Pamiršote slaptažodį?</translation>
+<translation id="2446078593003901807">Gerai</translation>
 <translation id="2448487988481516351">Naujoji Kaledonija</translation>
 <translation id="2451742558284013472">Monakas</translation>
 <translation id="2460064915291012298">Seišeliai</translation>
@@ -186,7 +185,7 @@
 <translation id="4056653682525186486">Prisijungti nurodant <ph name="XXX" /></translation>
 <translation id="4064888056475403511">Bandykite atidaryti nuorodą naudodami tą patį įrenginį ar naršyklę, kur pradėjote prisijungimo procesą.</translation>
 <translation id="4066104405592701692">Estija</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">Ištrinti</translation>
 <translation id="4163133799286985193">Argentina</translation>
 <translation id="4166504762096983411">Tęsdami nurodote, kad sutinkate su <ph name="START_LINK_1" />paslaugų teikimo sąlygomis<ph name="END_LINK" /> ir <ph name="START_LINK_2" />privatumo politika<ph name="END_LINK" />.</translation>
 <translation id="420554669252656972">Įveskite naują el. pašto adresą</translation>
@@ -211,6 +210,7 @@
 <translation id="4556476996891737119">Jordanija</translation>
 <translation id="4571870355114729513">Vadovaudamiesi el. pašto adresu <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> išsiųstais nurodymais atkurkite slaptažodį</translation>
 <translation id="4588392627302012849">Prisijungti nurodant el. pašto adresą</translation>
+<translation id="4595119411041064617">Palietus „<ph name="PH_1" />“ gali būti išsiųstas SMS pranešimas. Gali būti taikomi pranešimų ir duomenų įkainiai.</translation>
 <translation id="4632709875751031323">Rusija</translation>
 <translation id="4644169548516814280">El. pašto adresas jau naudojamas kitoje paskyroje</translation>
 <translation id="4692014002063276828">Lenkija</translation>
@@ -225,7 +225,10 @@
 <translation id="4866990546854875813">Su šia prisijungimo užklausa susieta sesija baigė galioti arba buvo išvalyta.</translation>
 <translation id="4871106926303956169">Terkso ir Kaikoso Salos</translation>
 <translation id="4877597386645466815">Siųsti kodą iš naujo po <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Patikrinkite el. paštą</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Prie jūsų paskyros, naudojamos su „<ph name="APP_NAME" />“, pridėtas telefono numeris <ph name="SECOND_FACTOR" />, skirtas patvirtinti dviem veiksmais.<ph name="P_END" />
+<ph name="P_START" />Jei nepridėjote šio telefono numerio ir nenorite patvirtinti dviem veiksmais, pašalinkite jį spustelėdami tolesnę nuorodą.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Nepavyko pašalinti antrojo faktoriaus</translation>
 <translation id="4955175001894453989">Pridėti slaptažodį</translation>
 <translation id="496366313824211679">Salvadoras</translation>
@@ -410,7 +413,6 @@
 <translation id="7926046652648626866">Prisijungti per „GitHub“</translation>
 <translation id="792838323404934335">Grenlandija</translation>
 <translation id="7956645158976161232">Libija</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">Kenija</translation>
 <translation id="8028653067082554952">Tai atlikus bus ištrinti visi su jūsų paskyra susiję duomenys; šio veiksmo anuliuoti negalima. Ar tikrai norite ištrinti paskyrą?</translation>
 <translation id="8033786138248870436">Palietus „Patvirtinti“ bus išsiųstas SMS pranešimas. Gali būti taikomi pranešimų ir duomenų įkainiai.</translation>

@@ -136,4 +136,11 @@ function testHandlerRegistration() {
   assertEquals(
       firebaseui.auth.widget.handler.handleUnsupportedProvider,
       firebaseui.auth.widget.handlers_[HandlerName.UNSUPPORTED_PROVIDER]);
+  assertEquals(
+      firebaseui.auth.widget.handler.handleVerifyAndChangeEmail,
+      firebaseui.auth.widget.handlers_[HandlerName.VERIFY_AND_CHANGE_EMAIL]);
+  assertEquals(
+      firebaseui.auth.widget.handler.handleRevertSecondFactorAddition,
+      firebaseui.auth.widget.handlers_[
+      HandlerName.REVERT_SECOND_FACTOR_ADDITION]);
 }

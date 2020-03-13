@@ -63,7 +63,7 @@
 <translation id="2130553359919781209">말라위</translation>
 <translation id="2187260952722791093">인증되었습니다.</translation>
 <translation id="2192561962270021282">전화번호 입력</translation>
-<translation id="2206856445831770486">Github</translation>
+<translation id="2206856445831770486">GitHub</translation>
 <translation id="2223717216014247341">개인정보처리방침</translation>
 <translation id="2224563296468523455">괌</translation>
 <translation id="2245182894886860848">리소스 할당량이 부족하거나 비율 제한에 도달했습니다.</translation>
@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">바레인</translation>
 <translation id="2392247362473363900">내부 서버 오류가 발생했습니다.</translation>
 <translation id="2405828009195143258">이란</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">로봇이 아닌 실제 사용자임을 확인 중...</translation>
-<translation id="2448227725017851570">더 이상 유효하지 않은 코드입니다.</translation>
+<translation id="2422942582251341722">비밀번호 찾기</translation>
+<translation id="2446078593003901807">확인</translation>
 <translation id="2448487988481516351">뉴칼레도니아</translation>
 <translation id="2451742558284013472">모나코</translation>
 <translation id="2460064915291012298">세이셸</translation>
@@ -189,7 +188,7 @@
 <translation id="4056653682525186486"><ph name="XXX" />(으)로 로그인</translation>
 <translation id="4064888056475403511">로그인 절차를 시작하는 데 사용한 것과 동일한 기기나 브라우저로 링크를 열어 보세요.</translation>
 <translation id="4066104405592701692">에스토니아</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">삭제</translation>
 <translation id="4163133799286985193">아르헨티나</translation>
 <translation id="4166504762096983411">계속 진행하면 <ph name="START_LINK_1" />서비스 약관<ph name="END_LINK" /> 및 <ph name="START_LINK_2" />개인정보처리방침<ph name="END_LINK" />에 동의하는 것으로 간주됩니다.</translation>
 <translation id="420554669252656972">새 이메일 주소를 입력해 주세요.</translation>
@@ -214,6 +213,7 @@
 <translation id="4556476996891737119">요르단</translation>
 <translation id="4571870355114729513"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />(으)로 발송된 안내에 따라 비밀번호를 복구하세요.</translation>
 <translation id="4588392627302012849">이메일로 로그인</translation>
+<translation id="4595119411041064617">'<ph name="PH_1" />' 버튼을 탭하면 SMS가 발송될 수 있으며, 메시지 및 데이터 요금이 부과될 수 있습니다.</translation>
 <translation id="4632709875751031323">러시아</translation>
 <translation id="4644169548516814280">이미 다른 계정에서 사용 중인 이메일 주소입니다.</translation>
 <translation id="4692014002063276828">폴란드</translation>
@@ -228,7 +228,10 @@
 <translation id="4866990546854875813">이 로그인 요청에 연결된 세션이 만료되었거나 삭제되었습니다.</translation>
 <translation id="4871106926303956169">터크스 케이커스 제도</translation>
 <translation id="4877597386645466815"><ph name="TIME_REMAINING" /> 후에 코드 재전송</translation>
-<translation id="4915406999072654369">이메일 확인</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />2단계 인증을 위해 <ph name="SECOND_FACTOR" /> 전화번호로 <ph name="APP_NAME" />의 계정이 업데이트되었습니다.<ph name="P_END" />
+<ph name="P_START" />2단계 인증용 전화번호를 직접 추가하지 않았다면 아래 링크를 클릭하여 삭제하세요.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">인증 2단계 요소를 삭제할 수 없음</translation>
 <translation id="4955175001894453989">비밀번호 추가</translation>
 <translation id="496366313824211679">엘살바도르</translation>
@@ -416,7 +419,6 @@
 <translation id="7926046652648626866">GitHub로 로그인</translation>
 <translation id="792838323404934335">그린란드</translation>
 <translation id="7956645158976161232">리비아</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">케냐</translation>
 <translation id="8028653067082554952">계정에 연결된 데이터가 모두 삭제되며 삭제를 취소할 수 없습니다. 계정을 삭제하시겠습니까?</translation>
 <translation id="8033786138248870436">'인증'을 탭하면 SMS가 발송될 수 있습니다. 메시지 및 데이터 요금이 부과될 수 있습니다.</translation>

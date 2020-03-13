@@ -63,7 +63,7 @@
 <translation id="2130553359919781209">Малави</translation>
 <translation id="2187260952722791093">Потврђено је!</translation>
 <translation id="2192561962270021282">Унесите број телефона</translation>
-<translation id="2206856445831770486">Github</translation>
+<translation id="2206856445831770486">GitHub</translation>
 <translation id="2223717216014247341">Политика приватности</translation>
 <translation id="2224563296468523455">Гвам</translation>
 <translation id="2245182894886860848">Недостаје квота ресурса или је достигнуто ограничење броја ресурса.</translation>
@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">Бахреин</translation>
 <translation id="2392247362473363900">Интерна грешка сервера.</translation>
 <translation id="2405828009195143258">Иран</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">Потврђујемо да нисте робот…</translation>
-<translation id="2448227725017851570">Тај кôд више не важи</translation>
+<translation id="2422942582251341722">Заборавили сте лозинку?</translation>
+<translation id="2446078593003901807">Потврди</translation>
 <translation id="2448487988481516351">Нова Каледонија</translation>
 <translation id="2451742558284013472">Монако</translation>
 <translation id="2460064915291012298">Сејшели</translation>
@@ -188,7 +187,7 @@
 <translation id="4056653682525186486">Пријави ме користећи <ph name="XXX" /></translation>
 <translation id="4064888056475403511">Отворите линк са истог уређаја или из истог прегледача из ког сте покренули поступак пријављивања.</translation>
 <translation id="4066104405592701692">Естонија</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">Избриши</translation>
 <translation id="4163133799286985193">Аргентина</translation>
 <translation id="4166504762096983411">Ако наставите, потврђујете да прихватате <ph name="START_LINK_1" />услове коришћења услуге<ph name="END_LINK" /> и <ph name="START_LINK_2" />политику приватности<ph name="END_LINK" />.</translation>
 <translation id="420554669252656972">Унесите нову имејл адресу</translation>
@@ -213,6 +212,7 @@
 <translation id="4556476996891737119">Јордан</translation>
 <translation id="4571870355114729513">Пратите упутства послата на <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> да бисте повратили лозинку</translation>
 <translation id="4588392627302012849">Пријави ме помоћу имејла</translation>
+<translation id="4595119411041064617">Ако додирнете „<ph name="PH_1" />“, можда ћете послати SMS. Могу да вам буду наплаћени трошкови слања поруке и преноса података.</translation>
 <translation id="4632709875751031323">Русија</translation>
 <translation id="4644169548516814280">Ту имејл адресу већ користи неки други налог</translation>
 <translation id="4692014002063276828">Пољска</translation>
@@ -227,7 +227,10 @@
 <translation id="4866990546854875813">Сесија повезана са овим захтевом за пријављивање је истекла или je обрисана.</translation>
 <translation id="4871106926303956169">Острва Туркс и Каикос</translation>
 <translation id="4877597386645466815">Кôд се поново шаље за <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Проверите имејл</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Вашем <ph name="APP_NAME" /> налогу је додат број телефона <ph name="SECOND_FACTOR" /> ради верификације у 2 корака.<ph name="P_END" />
+<ph name="P_START" />Ако нисте додали тај број телефона ради верификације у 2 корака, кликните на линк испод да бисте га уклонили.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Други фактор није уклоњен</translation>
 <translation id="4955175001894453989">Додајте лозинку</translation>
 <translation id="496366313824211679">Салвадор</translation>
@@ -414,7 +417,6 @@
 <translation id="7926046652648626866">Пријавите се помоћу GitHub-а</translation>
 <translation id="792838323404934335">Гренланд</translation>
 <translation id="7956645158976161232">Либија</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">Кенија</translation>
 <translation id="8028653067082554952">Овим ћете трајно избрисати све податке повезане са налогом. Желите ли стварно да избришете налог?</translation>
 <translation id="8033786138248870436">Ако додирнете Верификуј, можда ћете примити SMS. Можда ће вам бити наплаћена порука и пренос података.</translation>

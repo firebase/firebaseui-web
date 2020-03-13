@@ -212,7 +212,7 @@
 
 /** Translates an error code from Firebase Auth to a user-displayable string. */
 {template .error kind="text"}
-  {@param code: string} /** The error code. */
+  {@param? code: string} /** The error code. */
   {switch $code}
     {case 'auth/email-already-in-use'}
       {msg desc="Error message for when the user is trying to sign up with an email already existing

@@ -63,7 +63,7 @@
 <translation id="2130553359919781209">Малави</translation>
 <translation id="2187260952722791093">Потвърдено!</translation>
 <translation id="2192561962270021282">Въвеждане на телефонния ви номер</translation>
-<translation id="2206856445831770486">Github</translation>
+<translation id="2206856445831770486">GitHub</translation>
 <translation id="2223717216014247341">Декларация за поверителност</translation>
 <translation id="2224563296468523455">Гуам</translation>
 <translation id="2245182894886860848">Квотата за ресурси е надвишена или е достигнато допустимото ограничение.</translation>
@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">Бахрейн</translation>
 <translation id="2392247362473363900">Възникна вътрешна грешка в сървъра.</translation>
 <translation id="2405828009195143258">Иран</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">Потвърждава се, че не сте робот…</translation>
-<translation id="2448227725017851570">Този код вече не е валиден</translation>
+<translation id="2422942582251341722">Забравили сте паролата си?</translation>
+<translation id="2446078593003901807">ОК</translation>
 <translation id="2448487988481516351">Нова Каледония</translation>
 <translation id="2451742558284013472">Монако</translation>
 <translation id="2460064915291012298">Сейшелски острови</translation>
@@ -188,7 +187,7 @@
 <translation id="4056653682525186486">Вход с <ph name="XXX" /></translation>
 <translation id="4064888056475403511">Опитайте да отворите връзката от същото устройство или браузър, където е започнат процесът на влизане в профила.</translation>
 <translation id="4066104405592701692">Естония</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">Изтриване</translation>
 <translation id="4163133799286985193">Аржентина</translation>
 <translation id="4166504762096983411">Продължавайки, приемате нашите <ph name="START_LINK_1" />Общи условия<ph name="END_LINK" /> и <ph name="START_LINK_2" />Декларация за поверителност<ph name="END_LINK" />.</translation>
 <translation id="420554669252656972">Въвеждане на нов имейл адрес</translation>
@@ -213,6 +212,7 @@
 <translation id="4556476996891737119">Йордания</translation>
 <translation id="4571870355114729513">За да възстановите паролата си, изпълнете инструкциите, изпратени до <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /></translation>
 <translation id="4588392627302012849">Вход с имейл</translation>
+<translation id="4595119411041064617">Докосвайки „<ph name="PH_1" />“, може да получите SMS съобщение. То може да се таксува по тарифите за данни и SMS.</translation>
 <translation id="4632709875751031323">Русия</translation>
 <translation id="4644169548516814280">Имейл адресът вече се използва от друг профил</translation>
 <translation id="4692014002063276828">Полша</translation>
@@ -227,7 +227,10 @@
 <translation id="4866990546854875813">Сесията, свързана с тази заявка за вход в профила, е изтекла или бе изчистена.</translation>
 <translation id="4871106926303956169">Търкс и Кайкос, о-ви</translation>
 <translation id="4877597386645466815">Повторно изпращане на кода след <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Проверете електронната си поща</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Профилът ви в приложението <ph name="APP_NAME" /> е актуализиран с телефонния номер <ph name="SECOND_FACTOR" /> за потвърждаване в две стъпки.<ph name="P_END" />
+<ph name="P_START" />Ако не сте добавили този телефонен номер за потвърждаване в две стъпки, кликнете върху връзката по-долу, за да го премахнете.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Втората стъпка не можа да бъде премахната</translation>
 <translation id="4955175001894453989">Добавяне на парола</translation>
 <translation id="496366313824211679">Салвадор</translation>
@@ -413,7 +416,6 @@
 <translation id="7926046652648626866">Вход с GitHub</translation>
 <translation id="792838323404934335">Гренландия</translation>
 <translation id="7956645158976161232">Либия</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">Кения</translation>
 <translation id="8028653067082554952">Това действие ще изтрие всички свързани с профила ви данни и не може да се отмени. Наистина ли искате да изтриете профила?</translation>
 <translation id="8033786138248870436">Докосвайки „Потвърждаване“, може да получите SMS съобщение. То може да се таксува по тарифите за данни и SMS.</translation>

@@ -63,7 +63,7 @@
 <translation id="2130553359919781209">מלאווי</translation>
 <translation id="2187260952722791093">אומת.</translation>
 <translation id="2192561962270021282">מה מספר הטלפון שלך?</translation>
-<translation id="2206856445831770486">Github</translation>
+<translation id="2206856445831770486">GitHub</translation>
 <translation id="2223717216014247341">מדיניות פרטיות</translation>
 <translation id="2224563296468523455">גואם</translation>
 <translation id="2245182894886860848">מכסת המשאבים מוצתה או שהגבלת הקצב של יצירת הבקשות תמוצה בקרוב.</translation>
@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">בחריין</translation>
 <translation id="2392247362473363900">שגיאת שרת פנימית.</translation>
 <translation id="2405828009195143258">איראן</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">מוודא שאינך רובוט...</translation>
-<translation id="2448227725017851570">הקוד הזה כבר לא בתוקף</translation>
+<translation id="2422942582251341722">שכחת את הסיסמה?</translation>
+<translation id="2446078593003901807">אישור</translation>
 <translation id="2448487988481516351">קלדוניה החדשה</translation>
 <translation id="2451742558284013472">מונקו</translation>
 <translation id="2460064915291012298">איי סיישל</translation>
@@ -186,7 +185,7 @@
 <translation id="4056653682525186486">כניסה באמצעות <ph name="XXX" /></translation>
 <translation id="4064888056475403511">מומלץ לפתוח את הקישור באמצעות אותו מכשיר או דפדפן שבהם התחלת את תהליך הכניסה.</translation>
 <translation id="4066104405592701692">אסטוניה</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">מחק</translation>
 <translation id="4163133799286985193">ארגנטינה</translation>
 <translation id="4166504762096983411">המשך התהליך יפורש כהסכמתך ל<ph name="START_LINK_1" />תנאים ולהגבלות<ph name="END_LINK" /> ול<ph name="START_LINK_2" />מדיניות הפרטיות<ph name="END_LINK" /> שלנו.</translation>
 <translation id="420554669252656972">מה כתובת האימייל החדשה?</translation>
@@ -211,6 +210,7 @@
 <translation id="4556476996891737119">ירדן</translation>
 <translation id="4571870355114729513">כדי לשחזר את הסיסמה, עליך לפעול לפי ההוראות ששלחנו לכתובת <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /></translation>
 <translation id="4588392627302012849">כניסה באמצעות אימייל</translation>
+<translation id="4595119411041064617">הקשה על "<ph name="PH_1" />" עשויה לגרום לשליחה של הודעת SMS. ייתכן שיחולו תעריפי הודעות והעברת נתונים.</translation>
 <translation id="4632709875751031323">רוסיה</translation>
 <translation id="4644169548516814280">כתובת האימייל משויכת לחשבון אחר</translation>
 <translation id="4692014002063276828">פולין</translation>
@@ -225,7 +225,10 @@
 <translation id="4866990546854875813">הסשן שמשויך לבקשת הכניסה הזו נמחק או שתוקפו פג.</translation>
 <translation id="4871106926303956169">איי טורקס וקאיקוס</translation>
 <translation id="4877597386645466815">שלח קוד חדש בעוד <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">שלחנו לך אימייל</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />לחשבון שלך באפליקציה <ph name="APP_NAME" /> נוסף מספר הטלפון <ph name="SECOND_FACTOR" /> לצורך אימות דו-שלבי.<ph name="P_END" />
+<ph name="P_START" />אם מספר הטלפון לצורך אימות דו-שלבי לא נוסף על ידך, יש ללחוץ על הקישור שלמטה כדי להסיר אותו.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">לא ניתן היה להסיר את הגורם השני</translation>
 <translation id="4955175001894453989">הוספת סיסמה</translation>
 <translation id="496366313824211679">אל סלוודור</translation>
@@ -411,7 +414,6 @@
 <translation id="7926046652648626866">כניסה באמצעות GitHub</translation>
 <translation id="792838323404934335">גרינלנד</translation>
 <translation id="7956645158976161232">לוב</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">קניה</translation>
 <translation id="8028653067082554952">הפעולה הזו תמחק את כל הנתונים המשויכים לחשבון, ולא ניתן לבטל אותה. למחוק את החשבון?</translation>
 <translation id="8033786138248870436">הקשה על 'אמת' תגרום לשליחה של הודעת SMS. ייתכנו חיובים על ההודעה ועל הנתונים.</translation>

@@ -63,7 +63,7 @@
 <translation id="2130553359919781209">Malāvija</translation>
 <translation id="2187260952722791093">Verificēts.</translation>
 <translation id="2192561962270021282">Ievadiet savu tālruņa numuru</translation>
-<translation id="2206856445831770486">Github</translation>
+<translation id="2206856445831770486">GitHub</translation>
 <translation id="2223717216014247341">Konfidencialitātes politika</translation>
 <translation id="2224563296468523455">Guama</translation>
 <translation id="2245182894886860848">Beigusies resursu kvota vai sasniegts vērtējuma ierobežojums.</translation>
@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">Bahreina</translation>
 <translation id="2392247362473363900">Iekšēja servera kļūda.</translation>
 <translation id="2405828009195143258">Irāna</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">Notiek verifikācija, lai pārliecinātos, ka neesat robots...</translation>
-<translation id="2448227725017851570">Šis kods vairs nav derīgs</translation>
+<translation id="2422942582251341722">Vai aizmirsāt paroli?</translation>
+<translation id="2446078593003901807">Labi</translation>
 <translation id="2448487988481516351">Jaunkaledonija</translation>
 <translation id="2451742558284013472">Monako</translation>
 <translation id="2460064915291012298">Seišelas</translation>
@@ -186,7 +185,7 @@
 <translation id="4056653682525186486">Pierakstīties ar <ph name="XXX" /></translation>
 <translation id="4064888056475403511">Mēģiniet atvērt saiti, izmantot to pašu ierīci vai pārlūkprogrammu, kur sākāt pierakstīšanās procesu.</translation>
 <translation id="4066104405592701692">Igaunija</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">Dzēst</translation>
 <translation id="4163133799286985193">Argentīna</translation>
 <translation id="4166504762096983411">Turpinot jūs norādāt, ka piekrītat mūsu <ph name="START_LINK_1" />pakalpojumu sniegšanas noteikumiem<ph name="END_LINK" /> un <ph name="START_LINK_2" />konfidencialitātes politikai<ph name="END_LINK" />.</translation>
 <translation id="420554669252656972">Ievadiet jaunu e-pasta adresi</translation>
@@ -211,6 +210,7 @@
 <translation id="4556476996891737119">Jordānija</translation>
 <translation id="4571870355114729513">Izpildiet uz e-pasta adresi <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> nosūtītos norādījumus, lai atgūtu paroli</translation>
 <translation id="4588392627302012849">Pierakstīties ar e-pasta adresi</translation>
+<translation id="4595119411041064617">Pieskaroties pogai <ph name="PH_1" />, var tikt nosūtīta īsziņa. Var tikt piemērota maksa par ziņojumiem un datu pārsūtīšanu.</translation>
 <translation id="4632709875751031323">Krievija</translation>
 <translation id="4644169548516814280">Šo e-pasta adresi jau izmanto cits konts</translation>
 <translation id="4692014002063276828">Polija</translation>
@@ -225,7 +225,10 @@
 <translation id="4866990546854875813">Ar šo pierakstīšanās pieprasījumu saistītajai sesijai ir beidzies termiņš vai tā tika notīrīta.</translation>
 <translation id="4871106926303956169">Tērksas un Kaikosas Salas</translation>
 <translation id="4877597386645466815">Vēlreiz nosūtīt kodu pēc <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Pārbaudiet savu e-pastu</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Jūsu konts lietotnē <ph name="APP_NAME" /> ir atjaunināts, pievienojot tālruņa numuru (<ph name="SECOND_FACTOR" />), lai veiktu divpakāpju verifikāciju.<ph name="P_END" />
+<ph name="P_START" />Ja neesat pievienojis šo tālruņa numuru divpakāpju verifikācijai, noklikšķiniet uz saites tālāk, lai to noņemtu.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Nevarēja noņemt otro faktoru</translation>
 <translation id="4955175001894453989">Paroles pievienošana</translation>
 <translation id="496366313824211679">Salvadora</translation>
@@ -411,7 +414,6 @@
 <translation id="7926046652648626866">Pierakstīties, izmantojot GitHub</translation>
 <translation id="792838323404934335">Grenlande</translation>
 <translation id="7956645158976161232">Lībija</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">Kenija</translation>
 <translation id="8028653067082554952">Veicot šo darbību, tiks dzēsti visi ar kontu saistītie dati, un to nevarēs atsaukt. Vai tiešām vēlaties dzēst šo kontu?</translation>
 <translation id="8033786138248870436">Pieskaroties pogai Verificēt, var tikt nosūtīta īsziņa. Var tikt piemērota maksa par ziņojumiem un datu pārsūtīšanu.</translation>

@@ -81,9 +81,8 @@
 <translation id="2375419764963116430">Barein</translation>
 <translation id="2392247362473363900">Ocorreu um erro interno no servidor.</translation>
 <translation id="2405828009195143258">Irã</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">Verificando se você não é um robô...</translation>
-<translation id="2448227725017851570">Este código não é mais válido.</translation>
+<translation id="2422942582251341722">Esqueceu a senha?</translation>
+<translation id="2446078593003901807">Ok</translation>
 <translation id="2448487988481516351">Nova Caledônia</translation>
 <translation id="2451742558284013472">Mônaco</translation>
 <translation id="2460064915291012298">Seicheles</translation>
@@ -189,7 +188,7 @@
 <translation id="4056653682525186486">Fazer login com <ph name="XXX" /></translation>
 <translation id="4064888056475403511">Tente abrir o link usando o mesmo dispositivo ou navegador que você usou para iniciar o processo de login.</translation>
 <translation id="4066104405592701692">Estônia</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">Excluir</translation>
 <translation id="4163133799286985193">Argentina</translation>
 <translation id="4166504762096983411">Ao continuar, você concorda com nossos <ph name="START_LINK_1" />Termos de Serviço<ph name="END_LINK" /> e a <ph name="START_LINK_2" />Política de Privacidade<ph name="END_LINK" />.</translation>
 <translation id="420554669252656972">Digite um novo endereço de e-mail</translation>
@@ -214,6 +213,7 @@
 <translation id="4556476996891737119">Jordânia</translation>
 <translation id="4571870355114729513">Siga as instruções enviadas para <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> para recuperar sua senha</translation>
 <translation id="4588392627302012849">Fazer login com o e-mail</translation>
+<translation id="4595119411041064617">Se você tocar em "<ph name="PH_1" />", um SMS poderá ser enviado e tarifas de mensagens e de dados serão cobradas.</translation>
 <translation id="4632709875751031323">Rússia</translation>
 <translation id="4644169548516814280">O endereço de e-mail já está sendo usado por outra conta</translation>
 <translation id="4692014002063276828">Polônia</translation>
@@ -228,7 +228,10 @@
 <translation id="4866990546854875813">A sessão deste login expirou ou foi apagada.</translation>
 <translation id="4871106926303956169">Ilhas Turks e Caicos</translation>
 <translation id="4877597386645466815">Reenviar o código em <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">Verifique seu e-mail</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />Sua conta no app <ph name="APP_NAME" /> foi atualizada com o número de telefone <ph name="SECOND_FACTOR" /> para a verificação em duas etapas.<ph name="P_END" />
+<ph name="P_START" />Caso você não tenha adicionado esse número de telefone para a verificação, clique no link abaixo para removê-lo.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Não foi possível remover o segundo fator</translation>
 <translation id="4955175001894453989">Adicionar senha</translation>
 <translation id="496366313824211679">El Salvador</translation>
@@ -257,7 +260,7 @@
 <translation id="5483706910421209104">Editar nome</translation>
 <translation id="5487696047685227891">O dispositivo ou aplicativo foi removido como segunda etapa de autenticação.</translation>
 <translation id="5490651768073507833">Tente abrir o link usando o mesmo dispositivo ou navegador que você usou para iniciar o processo de login.</translation>
-<translation id="5524360735013196510">Holanda</translation>
+<translation id="5524360735013196510">Países Baixos</translation>
 <translation id="5528189843379142883">Guiné Equatorial</translation>
 <translation id="5529036554155743092">Austrália</translation>
 <translation id="5537884323453943551">Trinidad e Tobago</translation>
@@ -415,9 +418,8 @@
 <translation id="7926046652648626866">Fazer login com o GitHub</translation>
 <translation id="792838323404934335">Groenlândia</translation>
 <translation id="7956645158976161232">Líbia</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">Quênia</translation>
-<translation id="8028653067082554952">Esta ação apagará todos os dados associados à sua conta e não poderá ser desfeita. Tem certeza que quer excluir sua conta?</translation>
+<translation id="8028653067082554952">Esta ação apagará todos os dados associados à sua conta e não poderá ser desfeita. Você quer mesmo excluir sua conta?</translation>
 <translation id="8033786138248870436">Talvez você receba um SMS quando tocar em "Verificar". Taxas de mensagens e dados podem ser aplicáveis.</translation>
 <translation id="8047183472745080590">Bolívia</translation>
 <translation id="8047565947836609247">Porto Rico</translation>

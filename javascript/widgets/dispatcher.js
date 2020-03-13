@@ -234,9 +234,28 @@ function doDispatchOperation(app, e) {
           getActionCode());
       break;
 
+    case Config.WidgetMode.REVERT_SECOND_FACTOR_ADDITION:
+      handler.handle(
+          HandlerName.REVERT_SECOND_FACTOR_ADDITION,
+          app,
+          container,
+          getActionCode());
+      break;
+
     case Config.WidgetMode.VERIFY_EMAIL:
       handler.handle(
           HandlerName.EMAIL_VERIFICATION,
+          app,
+          container,
+          getActionCode(),
+          // Check if continue URL is available. if so, display a button to
+          // redirect to it.
+          getContinueCallback());
+      break;
+
+    case Config.WidgetMode.VERIFY_AND_CHANGE_EMAIL:
+      handler.handle(
+          HandlerName.VERIFY_AND_CHANGE_EMAIL,
           app,
           container,
           getActionCode(),

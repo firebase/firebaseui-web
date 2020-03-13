@@ -24,6 +24,8 @@ goog.require('firebaseui.auth.widget.handler.common');
 goog.require('firebaseui.auth.widget.handler.handleEmailChangeRevocation');
 goog.require('firebaseui.auth.widget.handler.handleEmailVerification');
 goog.require('firebaseui.auth.widget.handler.handlePasswordReset');
+goog.require('firebaseui.auth.widget.handler.handleRevertSecondFactorAddition');
+goog.require('firebaseui.auth.widget.handler.handleVerifyAndChangeEmail');
 /** @suppress {extraRequire} */
 goog.require('firebaseui.auth.widget.handler.testHelper');
 goog.require('goog.dom.forms');
@@ -32,7 +34,15 @@ goog.require('goog.testing.events');
 goog.require('goog.testing.recordFunction');
 
 
-var asyncTestCase = goog.testing.AsyncTestCase.createAndInstall();
+const asyncTestCase = goog.testing.AsyncTestCase.createAndInstall();
+const now = new Date();
+const multiFactorInfo = {
+  'uid': 'ENROLLMENT_UID1',
+  'displayName': 'work phone',
+  'factorId': 'phone',
+  'enrollmentTime': now.toUTCString(),
+  'phoneNumber': '+*******1234',
+};
 
 
 function testHandlePasswordReset() {
@@ -484,6 +494,264 @@ function testHandleEmailVerification_failureAndNotSignedIn() {
   app.getAuth().process().then(function() {
     // Email verification failure page should show.
     assertEmailVerificationFailurePage();
+    asyncTestCase.signal();
+  });
+}
+
+
+function testHandleVerifyAndChangeEmail_success() {
+  // Test successful verify and change email action.
+  asyncTestCase.waitForSignals(1);
+  // Trigger verify and change email action handler.
+  firebaseui.auth.widget.handler.handleVerifyAndChangeEmail(
+      app, container, 'VERIFY_AND_CHANGE_EMAIL_ACTION_CODE');
+  // Simulate successful verify and change email code.
+  app.getAuth().assertCheckActionCode(
+      ['VERIFY_AND_CHANGE_EMAIL_ACTION_CODE'],
+      {
+        data: {
+          email: 'user@example.com',
+          fromEmail: 'old@example.com',
+        },
+      });
+  app.getAuth().assertApplyActionCode(['VERIFY_AND_CHANGE_EMAIL_ACTION_CODE']);
+
+  return app.getAuth().process().then(() => {
+    // Successful verify and change email page should show.
+    assertVerifyAndChangeEmailSuccessPage();
+    // No continue button should be displayed.
+    assertNull(getSubmitButton());
+    // Reset current rendered widget page.
+    app.getAuth().assertSignOut([]);
+    app.reset();
+    // Container should be cleared.
+    assertComponentDisposed();
+    asyncTestCase.signal();
+  });
+}
+
+
+function testHandleVerifyAndChangeEmail_success_continueButton() {
+  // Test successful verify and change email action with continue button.
+  asyncTestCase.waitForSignals(1);
+  const continueButtonCallback = goog.testing.recordFunction();
+  // Trigger verify and change email action handler.
+  firebaseui.auth.widget.handler.handleVerifyAndChangeEmail(
+      app, container, 'VERIFY_AND_CHANGE_EMAIL_ACTION_CODE',
+      continueButtonCallback);
+  // Simulate successful verify and change email code.
+  app.getAuth().assertCheckActionCode(
+      ['VERIFY_AND_CHANGE_EMAIL_ACTION_CODE'],
+      {
+        data: {
+          email: 'user@example.com',
+          fromEmail: 'old@example.com',
+        },
+      });
+  app.getAuth().assertApplyActionCode(['VERIFY_AND_CHANGE_EMAIL_ACTION_CODE']);
+
+  return app.getAuth().process().then(() => {
+    // Successful verify and change email page should show.
+    assertVerifyAndChangeEmailSuccessPage();
+    // Confirm continue button.
+    assertNotNull(getSubmitButton());
+    assertEquals(0, continueButtonCallback.getCallCount());
+    // Click continue button.
+    submitForm();
+    // Confirm callback triggered.
+    assertEquals(1, continueButtonCallback.getCallCount());
+    asyncTestCase.signal();
+  });
+}
+
+
+function testHandleVerifyAndChangeEmail_checkActionCodefailure() {
+  asyncTestCase.waitForSignals(1);
+  // Trigger verify and change email action handler.
+  firebaseui.auth.widget.handler.handleVerifyAndChangeEmail(
+      app, container, 'VERIFY_AND_CHANGE_EMAIL_ACTION_CODE');
+  // Simulate error in checking action code for verify and change email action.
+  app.getAuth().assertCheckActionCode(
+      ['VERIFY_AND_CHANGE_EMAIL_ACTION_CODE'],
+      null,
+      new Error('INTERNAL_ERROR'));
+  return app.getAuth().process().then(() => {
+    // Verify and change email failure page should show.
+    assertVerifyAndChangeEmailFailurePage();
+    // Reset current rendered widget page.
+    app.getAuth().assertSignOut([]);
+    app.reset();
+    // Container should be cleared.
+    assertComponentDisposed();
+    asyncTestCase.signal();
+  });
+}
+
+
+function testHandleVerifyAndChangeEmail_applyActionCodefailure() {
+  asyncTestCase.waitForSignals(1);
+  // Trigger verify and change email action handler.
+  firebaseui.auth.widget.handler.handleVerifyAndChangeEmail(
+      app, container, 'VERIFY_AND_CHANGE_EMAIL_ACTION_CODE');
+  // Simulate error in applying action code for verify and change email action.
+  app.getAuth().assertCheckActionCode(
+      ['VERIFY_AND_CHANGE_EMAIL_ACTION_CODE'],
+      {
+        data: {
+          email: 'user@example.com',
+          fromEmail: 'old@example.com',
+        },
+      });
+  app.getAuth().assertApplyActionCode(
+      ['VERIFY_AND_CHANGE_EMAIL_ACTION_CODE'],
+      null,
+      new Error('INTERNAL_ERROR'));
+  return app.getAuth().process().then(() => {
+    // Verify and change email failure page should show.
+    assertVerifyAndChangeEmailFailurePage();
+    // Reset current rendered widget page.
+    app.getAuth().assertSignOut([]);
+    app.reset();
+    // Container should be cleared.
+    assertComponentDisposed();
+    asyncTestCase.signal();
+  });
+}
+
+
+function testHandleRevertSecondFactorAddition_resetPassword_success() {
+  asyncTestCase.waitForSignals(1);
+  // Trigger revert second factor addition action handler.
+  firebaseui.auth.widget.handler.handleRevertSecondFactorAddition(
+      app, container, 'REVERT_SECOND_FACTOR_ADDITION_ACTION_CODE');
+  // Simulate successful revert second factor addition change code.
+  app.getAuth().assertCheckActionCode(
+      ['REVERT_SECOND_FACTOR_ADDITION_ACTION_CODE'],
+      {
+        data: {
+          email: 'user@example.com',
+          multiFactorInfo: multiFactorInfo,
+        },
+      });
+  app.getAuth().assertApplyActionCode(
+      ['REVERT_SECOND_FACTOR_ADDITION_ACTION_CODE']);
+  return app.getAuth().process().then(() => {
+    // Successful revert second factor addition page should show.
+    assertRevertSecondFactorAdditionSuccessPage();
+    // Get reset password link.
+    const link = getResetPasswordLinkElement();
+    // Click reset password link.
+    goog.testing.events.fireClickSequence(link);
+    // Simulate successful password reset.
+    app.getAuth().assertSendPasswordResetEmail(['user@example.com']);
+    return app.getAuth().process();
+  }).then(() => {
+    // Password recovery email sent page should show.
+    assertPasswordRecoveryEmailSentPage();
+    // Reset current rendered widget page.
+    app.getAuth().assertSignOut([]);
+    app.reset();
+    // Container should be cleared.
+    assertComponentDisposed();
+    asyncTestCase.signal();
+  });
+}
+
+
+function testHandleRevertSecondFactorAddition_resetPassword_failure() {
+  asyncTestCase.waitForSignals(1);
+  // Trigger revert second factor addition action handler.
+  firebaseui.auth.widget.handler.handleRevertSecondFactorAddition(
+      app, container, 'REVERT_SECOND_FACTOR_ADDITION_ACTION_CODE');
+  // Simulate successful revert second factor addition change code.
+  app.getAuth().assertCheckActionCode(
+      ['REVERT_SECOND_FACTOR_ADDITION_ACTION_CODE'],
+      {
+        data: {
+          email: 'user@example.com',
+          multiFactorInfo: multiFactorInfo,
+        },
+      });
+  app.getAuth().assertApplyActionCode(
+      ['REVERT_SECOND_FACTOR_ADDITION_ACTION_CODE']);
+  return app.getAuth().process().then(() => {
+    // Successful revert second factor addition page should show.
+    assertRevertSecondFactorAdditionSuccessPage();
+    // Get reset password link.
+    const link = getResetPasswordLinkElement();
+    // Click reset password link.
+    goog.testing.events.fireClickSequence(link);
+    // Simulate unsuccessful password reset.
+    app.getAuth().assertSendPasswordResetEmail(
+        ['user@example.com'],
+        null,
+        new Error('INTERNAL_ERROR'));
+    return app.getAuth().process();
+  }).then(() => {
+    // Revert second factor addition success page should still show.
+    assertRevertSecondFactorAdditionSuccessPage();
+    // Info bar should show password reset failure.
+    assertInfoBarMessage(firebaseui.auth.soy2.strings.errorSendPasswordReset()
+        .toString());
+    // Reset current rendered widget page.
+    app.getAuth().assertSignOut([]);
+    app.reset();
+    // Container should be cleared.
+    assertComponentDisposed();
+    asyncTestCase.signal();
+  });
+}
+
+
+function testHandleRevertSecondFactorAddition_checkActionCodefailure() {
+  asyncTestCase.waitForSignals(1);
+  // Trigger revert second factor addition action handler.
+  firebaseui.auth.widget.handler.handleRevertSecondFactorAddition(
+      app, container, 'REVERT_SECOND_FACTOR_ADDITION_ACTION_CODE');
+  // Simulate invalid action code for revert second factor addition.
+  app.getAuth().assertCheckActionCode(
+      ['REVERT_SECOND_FACTOR_ADDITION_ACTION_CODE'],
+      null,
+      new Error('INTERNAL_ERROR'));
+  return app.getAuth().process().then(() => {
+    // Revert second factor addition failure page should show.
+    assertRevertSecondFactorAdditionFailurePage();
+    // Reset current rendered widget page.
+    app.getAuth().assertSignOut([]);
+    app.reset();
+    // Container should be cleared.
+    assertComponentDisposed();
+    asyncTestCase.signal();
+  });
+}
+
+
+function testHandleRevertSecondFactorAddition_applyActionCodefailure() {
+  asyncTestCase.waitForSignals(1);
+  // Trigger revert second factor addition action handler.
+  firebaseui.auth.widget.handler.handleRevertSecondFactorAddition(
+      app, container, 'REVERT_SECOND_FACTOR_ADDITION_ACTION_CODE');
+  // Simulate invalid action code for revert second factor addition.
+  app.getAuth().assertCheckActionCode(
+      ['REVERT_SECOND_FACTOR_ADDITION_ACTION_CODE'],
+      {
+        data: {
+          email: 'user@example.com',
+          multiFactorInfo: multiFactorInfo,
+        },
+      });
+  app.getAuth().assertApplyActionCode(
+      ['REVERT_SECOND_FACTOR_ADDITION_ACTION_CODE'],
+      null,
+      new Error('INTERNAL_ERROR'));
+  return app.getAuth().process().then(() => {
+    // Revert second factor addition failure page should show.
+    assertRevertSecondFactorAdditionFailurePage();
+    // Reset current rendered widget page.
+    app.getAuth().assertSignOut([]);
+    app.reset();
+    // Container should be cleared.
+    assertComponentDisposed();
     asyncTestCase.signal();
   });
 }

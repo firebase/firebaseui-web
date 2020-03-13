@@ -63,7 +63,7 @@
 <translation id="2130553359919781209">مالاوي</translation>
 <translation id="2187260952722791093">اكتملت عملية إثبات الملكية!</translation>
 <translation id="2192561962270021282">إدخال رقم هاتفك</translation>
-<translation id="2206856445831770486">Github</translation>
+<translation id="2206856445831770486">GitHub</translation>
 <translation id="2223717216014247341">سياسة الخصوصية</translation>
 <translation id="2224563296468523455">غوام</translation>
 <translation id="2245182894886860848">نفذت حصة الموارد أو بلغت حدّ السعر الأقصى المسموح به.</translation>
@@ -77,13 +77,12 @@
 <translation id="2331781584136059536">غانا</translation>
 <translation id="2338909515537249568">لا يدعم المتصفح الذي تستخدمه التخزين على الويب. يُرجى المحاولة مجددًا في متصفّح مختلف.</translation>
 <translation id="2342152898808240937">ألغى العميل الطلب.</translation>
-<translation id="2356282732642724501"><ph name="START_PARAGRAPH" />حدثت مشكلة أثناء تغيير البريد الإلكتروني لتسجيل الدخول من جديد.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />في حال المحاولة مجددًا وتعذّر إعادة تعيين البريد الإلكتروني، يُرجى محاولة طلب المساعدة من المشرف.<ph name="END_PARAGRAPH" /></translation>
+<translation id="2356282732642724501"><ph name="START_PARAGRAPH" />حدثت مشكلة أثناء تغيير البريد الإلكتروني لتسجيل الدخول من جديد.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />في حال المحاولة مجددًا وتعذّر إعادة ضبط البريد الإلكتروني، يُرجى محاولة طلب المساعدة من المشرف.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">البحرين</translation>
 <translation id="2392247362473363900">حدث خطأ في الخادم الداخلي.</translation>
 <translation id="2405828009195143258">إيران</translation>
-<translation id="2414459877074534554">GitHub</translation>
-<translation id="244437093285883777">جارٍ التأكّد من أنك لست برنامج روبوت...</translation>
-<translation id="2448227725017851570">لم يعد هذا الرمز صالحًا</translation>
+<translation id="2422942582251341722">هل نسيت كلمة المرور؟</translation>
+<translation id="2446078593003901807">حسنًا</translation>
 <translation id="2448487988481516351">نيوكاليدونيا</translation>
 <translation id="2451742558284013472">موناكو</translation>
 <translation id="2460064915291012298">سيشيل</translation>
@@ -160,7 +159,7 @@
 <translation id="3550380781997195832">عنوان البريد الإلكتروني هذا غير صحيح</translation>
 <translation id="3561568594856945084">مايوت</translation>
 <translation id="3591063723610544836">تسجيل الدخول</translation>
-<translation id="3593480381831738519">إعادة تعيين كلمة المرور</translation>
+<translation id="3593480381831738519">إعادة ضبط كلمة المرور</translation>
 <translation id="3597673897213051724">إرسال</translation>
 <translation id="3605933028246642593">نيبال</translation>
 <translation id="3608140835232496799">توكيلاو</translation>
@@ -188,7 +187,7 @@
 <translation id="4056653682525186486">تسجيل الدخول عبر <ph name="XXX" /></translation>
 <translation id="4064888056475403511">يُرجى محاولة فتح الرابط باستخدام الجهاز أو المتصفّح نفسه الذي استخدمته عند بدء عملية تسجيل الدخول.</translation>
 <translation id="4066104405592701692">إستونيا</translation>
-<translation id="4090385155496329109">Facebook</translation>
+<translation id="4147949012570877154">حذف</translation>
 <translation id="4163133799286985193">الأرجنتين</translation>
 <translation id="4166504762096983411">تشير المتابعة إلى موافقتك على <ph name="START_LINK_1" />بنود الخدمة<ph name="END_LINK" /> و<ph name="START_LINK_2" />سياسة الخصوصية<ph name="END_LINK" />.</translation>
 <translation id="420554669252656972">أدخل عنوان البريد الإلكتروني الجديد</translation>
@@ -213,6 +212,7 @@
 <translation id="4556476996891737119">الأردن</translation>
 <translation id="4571870355114729513">اتبع التعليمات التي تم إرسالها إلى <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> لاسترداد كلمة المرور</translation>
 <translation id="4588392627302012849">تسجيل الدخول عبر البريد الإلكتروني</translation>
+<translation id="4595119411041064617">عند النقر على "<ph name="PH_1" />"، قد يتمّ إرسال رسالة قصيرة SMS وقد يتمّ تطبيق رسوم الرسائل والبيانات.</translation>
 <translation id="4632709875751031323">روسيا</translation>
 <translation id="4644169548516814280">يتم استخدام عنوان البريد الإلكتروني من قِبل حساب آخر</translation>
 <translation id="4692014002063276828">بولندا</translation>
@@ -227,7 +227,10 @@
 <translation id="4866990546854875813">انتهت صلاحية الجلسة المرتبطة بطلب تسجيل الدخول هذا أو تمّ محوها.</translation>
 <translation id="4871106926303956169">جزر توركس وكايكوس</translation>
 <translation id="4877597386645466815">إعادة إرسال الرمز في غضون <ph name="TIME_REMAINING" /></translation>
-<translation id="4915406999072654369">إثبات ملكية بريدك الإلكتروني</translation>
+<translation id="4900116391137165411">
+<ph name="P_START" />تمّت إضافة رقم الهاتف <ph name="SECOND_FACTOR" /> إلى حسابك على <ph name="APP_NAME" /> بهدف إجراء عملية التحقّق بخطوتين.<ph name="P_END" />
+<ph name="P_START" />وفي حال عدم إضافة رقم الهاتف هذا لإجراء عملية التحقّق بخطوتين، يُرجى النقر على الرابط أدناه لإزالته.<ph name="P_END" />
+<ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">تعذّرت إزالة العامل الثاني</translation>
 <translation id="4955175001894453989">إضافة كلمة مرور</translation>
 <translation id="496366313824211679">السلفادور</translation>
@@ -288,7 +291,7 @@
 <translation id="5853516492584814656">تعذّر تحديث عنوان البريد الإلكتروني</translation>
 <translation id="5905720181746284549">لقد سبق أن استخدمت <ph name="STRING" /> لتسجيل الدخول. يُرجى إدخال كلمة المرور لهذا الحساب.</translation>
 <translation id="5921101578434778028">أنغيلا</translation>
-<translation id="5948592577241492942">يتوفر هذا البريد الإلكتروني بدون أي وسيلة تسجيل الدخول. يُرجى إعادة تعيين كلمة المرور لاسترداده.</translation>
+<translation id="5948592577241492942">يتوفر هذا البريد الإلكتروني بدون أي وسيلة تسجيل الدخول. يُرجى إعادة ضبط كلمة المرور لاسترداده.</translation>
 <translation id="5985902459796151462">جمهورية الدومينكان</translation>
 <translation id="5987586156626209007">جيرسي</translation>
 <translation id="5989709845715452405">استرداد كلمة المرور</translation>
@@ -329,7 +332,7 @@
 <translation id="6527597037551425211">البرازيل</translation>
 <translation id="6555167606025370230">متابعة إلى <ph name="APP_NAME" /></translation>
 <translation id="657697593815023638">سوازيلاند</translation>
-<translation id="6584652721889639596">تعذّر إرسال رمز إعادة تعيين كلمة المرور إلى البريد الإلكتروني المحدد</translation>
+<translation id="6584652721889639596">تعذّر إرسال رمز إعادة ضبط كلمة المرور إلى البريد الإلكتروني المحدد</translation>
 <translation id="6608262346670935090">استبعاد</translation>
 <translation id="6611519013130079637">بلجيكا</translation>
 <translation id="6618737424980030515">جورجيا</translation>
@@ -337,7 +340,7 @@
 <translation id="6653313985929651858">تمّ إرسال رسالة إلكترونية لتسجيل الدخول\n</translation>
 <translation id="6655128609744896303">تم إرسال الرمز!</translation>
 <translation id="6683477520421532707">جزيرة ريونيون</translation>
-<translation id="6683810982254923169">حاول إعادة تعيين كلمة المرور من جديد</translation>
+<translation id="6683810982254923169">حاول إعادة ضبط كلمة المرور من جديد</translation>
 <translation id="6689542920381638295">المتابعة كضيف</translation>
 <translation id="6719973195813381061">الإكوادور</translation>
 <translation id="6721310522324861790">السنغال</translation>
@@ -414,7 +417,6 @@
 <translation id="7926046652648626866">تسجيل الدخول باستخدام GitHub</translation>
 <translation id="792838323404934335">غرين لاند</translation>
 <translation id="7956645158976161232">ليبيا</translation>
-<translation id="8013083476285293">Google</translation>
 <translation id="8017277252219866084">كينيا</translation>
 <translation id="8028653067082554952">سيؤدي هذا الإجراء إلى حذف كل البيانات المقترنة بحسابك ولا يمكن التراجع عنه. هل تريد بالتأكيد حذف حسابك؟</translation>
 <translation id="8033786138248870436">عند النقر على "إثبات الملكية"، قد يتم إرسال رسالة قصيرة SMS. وقد تنطبق رسوم البيانات والرسائل.</translation>
@@ -455,7 +457,7 @@
 <translation id="8534746304953308378">توجو</translation>
 <translation id="8572093925387077451">لديك حساب حاليًا</translation>
 <translation id="8585285847459057945">تم تغيير عنوان بريدك الإلكتروني لتسجيل الدخول إلى <ph name="APP_NAME" /></translation>
-<translation id="8585655327529919573">تم إرسال تعليمات إلى البريد الإلكتروني هذا تشرح كيفية إعادة تعيين كلمة المرور.</translation>
+<translation id="8585655327529919573">تم إرسال تعليمات إلى البريد الإلكتروني هذا تشرح كيفية إعادة ضبط كلمة المرور.</translation>
 <translation id="8652838224332661203">ناورو</translation>
 <translation id="8657280305228520442">بروناي</translation>
 <translation id="8657544769531875987">تشيلي</translation>
