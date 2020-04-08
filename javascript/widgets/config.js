@@ -47,6 +47,11 @@ class Config {
         'credentialHelper',
         Config.CredentialHelper.ACCOUNT_CHOOSER_COM);
     /**
+     * Defines if unrecognized email addresses should be prompted to create
+     * an account. If set to false, the full email/password prompt will be shown.
+     */
+    this.config_.define('allowNewAccountCreation', true);
+    /**
      * Determines whether to immediately redirect to the provider's site or
      * instead show the default 'Sign in with Provider' button when there
      * is only a single federated provider in signInOptions. In order for this
@@ -798,6 +803,14 @@ class Config {
   isAccountChooserEnabled() {
     return this.getCredentialHelper() ==
         Config.CredentialHelper.ACCOUNT_CHOOSER_COM;
+  }
+
+  /**
+   * @return {boolean} Whether new accounts should should be allowed to register through the ui
+   */
+  isNewAccountCreationAllowed() {
+    return /** @type {boolean} If new account creation is allwed */ (
+      this.config_.get('allowNewAccountCreation'));
   }
 
   /**

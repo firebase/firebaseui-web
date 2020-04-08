@@ -1266,21 +1266,33 @@ firebaseui.auth.widget.handler.common.isPhoneProviderOnly = function(app) {
 firebaseui.auth.widget.handler.common.handleSignInStart = function(
     app, container, email = undefined, infoBarMessage = undefined) {
   if (firebaseui.auth.widget.handler.common.isPasswordProviderOnly(app)) {
-    // If info bar message is available, do not go to accountchooser.com since
-    // this is a result of some error in the flow and the error message must be
-    // displayed.
-    if (infoBarMessage) {
+    // If new account creation is disabled, just show the full username/password
+    // prompt. No need for the intermediate check.
+    if (app.getConfig().isNewAccountCreationAllowed() === false) {
+      console.log('In block that I added!')
       firebaseui.auth.widget.handler.handle(
-          firebaseui.auth.widget.HandlerName.SIGN_IN,
-          app,
-          container,
-          email,
-          infoBarMessage);
+        firebaseui.auth.widget.HandlerName.PASSWORD_SIGN_IN,
+        app,
+        container,
+        email,
+        infoBarMessage);
     } else {
-      // Email auth provider is the only option, trigger that flow immediately
-      // instead of just showing a single sign-in with email button.
-      firebaseui.auth.widget.handler.common.handleSignInWithEmail(
-          app, container, email);
+      // If info bar message is available, do not go to accountchooser.com since
+      // this is a result of some error in the flow and the error message must be
+      // displayed.
+      if (infoBarMessage) {
+        firebaseui.auth.widget.handler.handle(
+            firebaseui.auth.widget.HandlerName.SIGN_IN,
+            app,
+            container,
+            email,
+            infoBarMessage);
+      } else {
+        // Email auth provider is the only option, trigger that flow immediately
+        // instead of just showing a single sign-in with email button.
+        firebaseui.auth.widget.handler.common.handleSignInWithEmail(
+            app, container, email);
+      }
     }
   } else if (
       app && firebaseui.auth.widget.handler.common.isPhoneProviderOnly(app) &&
