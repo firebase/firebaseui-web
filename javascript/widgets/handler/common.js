@@ -1269,7 +1269,6 @@ firebaseui.auth.widget.handler.common.handleSignInStart = function(
     // If new account creation is disabled, just show the full username/password
     // prompt. No need for the intermediate check.
     if (app.getConfig().isNewAccountCreationAllowed() === false) {
-      console.log('In block that I added!')
       firebaseui.auth.widget.handler.handle(
         firebaseui.auth.widget.HandlerName.PASSWORD_SIGN_IN,
         app,
