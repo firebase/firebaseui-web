@@ -806,10 +806,10 @@ class Config {
   }
 
   /**
-   * @return {boolean} Whether new accounts should should be allowed to register through the ui
+   * @return {boolean} Whether new accounts should be allowed to register through the ui
    */
   isNewAccountCreationAllowed() {
-    return /** @type {boolean} If new account creation is allwed */ (
+    return /** @type {boolean} If new account creation is allowed */ (
       this.config_.get('allowNewAccountCreation'));
   }
 
