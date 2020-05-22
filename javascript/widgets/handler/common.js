@@ -1417,19 +1417,29 @@ firebaseui.auth.widget.handler.common.handleSignInFetchSignInMethodsForEmail =
         opt_displayFullTosPpMessage);
   } else if ((signInMethods.length == 1) && (signInMethods[0] ===
       firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD)) {
-    // Existing email link account.
-    firebaseui.auth.widget.handler.handle(
-        firebaseui.auth.widget.HandlerName.SEND_EMAIL_LINK_FOR_SIGN_IN,
-        app,
-        container,
-        email,
-        function() {
-          // Clicking back button goes back to sign in page.
-          firebaseui.auth.widget.handler.handle(
-              firebaseui.auth.widget.HandlerName.SIGN_IN,
-              app,
-              container);
-        });
+    if (app.getConfig().isEmailLinkSignInAllowed()) {
+      // Existing email link account.
+      firebaseui.auth.widget.handler.handle(
+          firebaseui.auth.widget.HandlerName.SEND_EMAIL_LINK_FOR_SIGN_IN,
+          app,
+          container,
+          email,
+          function() {
+            // Clicking back button goes back to sign in page.
+            firebaseui.auth.widget.handler.handle(
+                firebaseui.auth.widget.HandlerName.SIGN_IN,
+                app,
+                container);
+          });
+    } else {
+      // Email link sign-in is the only option for this user but it is not
+      // supported in the current app configuration.
+      firebaseui.auth.widget.handler.handle(
+          firebaseui.auth.widget.HandlerName.UNSUPPORTED_PROVIDER,
+          app,
+          container,
+          email);
+    }
   } else {
     // Federated Account.
     // The account exists, and is a federated identity account.

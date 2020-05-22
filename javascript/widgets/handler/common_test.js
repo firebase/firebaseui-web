@@ -1925,6 +1925,22 @@ function testHandleSignInWithEmail_prefillEmail() {
 }
 
 
+function testHandleSignInFetchSignInMethodsForEmail_unsupportedProvider() {
+  // When user has previously signed in with email link but only email/password
+  // auth is supported in the app's configuration.
+  var signInMethods = ['emailLink'];
+  var email = 'user@example.com';
+  app.updateConfig('signInOptions',  [{'provider': 'password'}]);
+  firebaseui.auth.widget.handler.common.handleSignInFetchSignInMethodsForEmail(
+      app, container, signInMethods, email);
+  // It should not store pending email.
+  assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+  // Unsupported provider page should show.
+  assertUnsupportedProviderPage(email);
+}
+
+
 function testLoadAccountchooserJs_externallyLoaded() {
   // Test accountchooser.com client loading when already loaded.
   // Reset loadAccountchooserJs stubs.
