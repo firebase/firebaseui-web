@@ -672,26 +672,25 @@ testSuite({
     assertNull(config.getProviderIdFromAuthMethod('unknown'));
   },
 
-  testGetGoogleYoloConfig_availableAndEnabled() {
+  testGetGoogleYoloClientId_availableAndEnabled() {
     config.update('signInOptions', [
       {
         'provider': 'google.com',
         'customParameters': {
           'prompt': 'none',
         },
-        'authMethod': 'https://accounts.google.com',
-        'clientId': '1234567890.apps.googleusercontent.com',
+        'clientId': expectedClientId,
       },
       {
         'provider': 'password',
-        'authMethod': 'googleyolo://id-and-password',
+        'clientId': 'CLIENT_ID2',
       },
       {
-        'authMethod': 'unknown',
+        'clientId': 'CLIENT_ID3',
       },
       {
         'provider': 'facebook.com',
-        // authMethod is required.
+        // Only Google client ID is used.
         'clientId': 'CLIENT_ID',
       },
     ]);
@@ -699,51 +698,38 @@ testSuite({
     config.update(
         'credentialHelper',
         Config.CredentialHelper.GOOGLE_YOLO);
-    const expectedConfig = {
-      'supportedAuthMethods': [
-        'https://accounts.google.com',
-        'googleyolo://id-and-password',
-      ],
-      'supportedIdTokenProviders': [
-        {
-          'uri': 'https://accounts.google.com',
-          'clientId': '1234567890.apps.googleusercontent.com',
-        },
-      ],
-    };
-    assertObjectEquals(expectedConfig, config.getGoogleYoloConfig());
+    assertEquals(expectedClientId, config.getGoogleYoloClientId());
   },
 
-  testGetGoogleYoloConfig_notEnabled() {
+  testGetGoogleYoloClientId_notEnabled() {
     config.update('signInOptions', [
       {
         'provider': 'google.com',
         'customParameters': {
           'prompt': 'none',
         },
-        'authMethod': 'https://accounts.google.com',
-        'clientId': '1234567890.apps.googleusercontent.com',
+        'clientId': expectedClientId,
       },
       {
         'provider': 'password',
-        'authMethod': 'googleyolo://id-and-password',
+        'clientId': 'CLIENT_ID2',
       },
       {
-        'authMethod': 'unknown',
+        'clientId': 'CLIENT_ID3',
       },
       {
         'provider': 'facebook.com',
-        // authMethod is required.
+        // Only Google client ID is used.
         'clientId': 'CLIENT_ID',
       },
     ]);
     // GOOGLE_YOLO credentialHelper not selected.
     config.update(
         'credentialHelper', Config.CredentialHelper.NONE);
-    assertNull(config.getGoogleYoloConfig());
+    assertNull(config.getGoogleYoloClientId());
   },
 
-  testGetGoogleYoloConfig_notAvailable() {
+  testGetGoogleYoloClientId_notAvailable() {
     config.update('signInOptions', [
       {
         'provider': 'google.com',
@@ -762,14 +748,13 @@ testSuite({
       },
       'github.com',
       'password',
-      // authMethod with no provider.
+      // clientId with no provider.
       {
-        'authMethod': 'unknown',
+        'clientId': 'unknown',
       },
-      // clientId with no authMethod.
       {
         'provider': 'facebook.com',
-        // authMethod is required.
+        // Only Google client ID is used.
         'clientId': 'CLIENT_ID',
       },
     ]);
@@ -777,7 +762,7 @@ testSuite({
     config.update(
         'credentialHelper',
         Config.CredentialHelper.GOOGLE_YOLO);
-    assertNull(config.getGoogleYoloConfig());
+    assertNull(config.getGoogleYoloClientId());
   },
 
   testGetPhoneAuthDefaultCountry() {
