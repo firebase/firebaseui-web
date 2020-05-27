@@ -1090,22 +1090,32 @@ firebaseui.auth.widget.handler.common.handleGoogleYoloCredential =
         app, component, providerId, opt_email);
     return goog.Promise.resolve(true);
   };
-  var providerId = app.getConfig().getProviderIdFromAuthMethod(
-      (credential && credential.authMethod) || null);
   // ID token credential available and supported Firebase Auth provider also
   // available.
-  if (credential && credential.idToken &&
-      providerId === firebase.auth.GoogleAuthProvider.PROVIDER_ID) {
+  if (credential &&
+      credential.credential &&
+      credential.clientId === app.getConfig().getGoogleYoloClientId()) {
     // ID token available.
     // Only Google has API to sign-in with an ID token.
     if (app.getConfig().getProviderAdditionalScopes(
             firebase.auth.GoogleAuthProvider.PROVIDER_ID).length) {
+      let email;
+      try {
+        // New one-tap API does not return the credential identitifer.
+        // Parse email from Google ID token.
+        const components  = credential.credential.split('.');
+        const payloadDecoded = JSON.parse(atob(components[1]));
+        email = payloadDecoded['email'];
+      } catch (e) {
+        // Ignore
+      }
       // Scopes available, OAuth flow with additional scopes required.
-      return signInWithProvider(providerId, credential.id);
+      return signInWithProvider(
+          firebase.auth.GoogleAuthProvider.PROVIDER_ID, email);
     } else {
       // Scopes not requested. Sign in with ID token directly.
       return signInWithCredential(firebase.auth.GoogleAuthProvider.credential(
-          credential.idToken));
+          credential.credential));
     }
   } else if (credential) {
     // Unsupported credential.

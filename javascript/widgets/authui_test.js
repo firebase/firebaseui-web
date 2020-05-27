@@ -108,11 +108,11 @@ var options = {
   'apiKey': 'API_KEY',
   'authDomain': 'subdomain.firebaseapp.com'
 };
+var googYoloClientId = '1234567890.apps.googleusercontent.com';
 // Mock googleyolo ID token credential.
 var googleYoloIdTokenCredential = {
-  'idToken': 'ID_TOKEN',
-  'id': 'user@example.com',
-  'authMethod': 'https://accounts.google.com'
+  'credential': 'ID_TOKEN',
+  'clientId': googYoloClientId,
 };
 var mockControl;
 var ignoreArgument;
@@ -1593,14 +1593,11 @@ function testAuthUi_oneTapSignIn_disabled() {
       {
         'provider': 'google.com',
         'customParameters': {'prompt': 'select_account'},
-        'authMethod': 'https://accounts.google.com',
-        'clientId': '1234567890.apps.googleusercontent.com'
+        'clientId': googYoloClientId,
       }
     ],
     'credentialHelper': firebaseui.auth.widget.Config.CredentialHelper.NONE
   };
-  // Expected googyolo config is null.
-  var googYoloConfig = null;
   asyncTestCase.waitForSignals(1);
   var component = new firebaseui.auth.ui.page.Callback();
   component.render(container1);
@@ -1609,7 +1606,7 @@ function testAuthUi_oneTapSignIn_disabled() {
   var getInstance = mockControl.createMethodMock(
       firebaseui.auth.GoogleYolo, 'getInstance');
   getInstance().$returns(googleYolo);
-  // One-Tap should be a no-op since the googleyolo config is null.
+  // One-Tap should be a no-op since the googleyolo client ID is null.
   googleYolo.show(null, true)
       .$once()
       // Simulate no googleyolo credential returned since this is a no-op.
@@ -1647,24 +1644,11 @@ function testAuthUi_oneTapSignIn_autoSignInDisabled() {
       {
         'provider': 'google.com',
         'customParameters': {'prompt': 'select_account'},
-        'authMethod': 'https://accounts.google.com',
-        'clientId': '1234567890.apps.googleusercontent.com'
+        'clientId': googYoloClientId,
       }
     ],
     'credentialHelper':
         firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
-  };
-  // Expected googyolo config corresponding to the above FirebaseUI config.
-  var googYoloConfig = {
-    'supportedAuthMethods': [
-      'https://accounts.google.com'
-    ],
-    'supportedIdTokenProviders': [
-      {
-        'uri': 'https://accounts.google.com',
-        'clientId': '1234567890.apps.googleusercontent.com'
-      }
-    ]
   };
   asyncTestCase.waitForSignals(1);
   var component = new firebaseui.auth.ui.page.Callback();
@@ -1675,7 +1659,7 @@ function testAuthUi_oneTapSignIn_autoSignInDisabled() {
       firebaseui.auth.GoogleYolo, 'getInstance');
   getInstance().$returns(googleYolo);
   // One-Tap should be shown with auto sign-in disabled.
-  googleYolo.show(googYoloConfig, true)
+  googleYolo.show(googYoloClientId, true)
       .$once()
       // Simulate googleyolo credential returned.
       .$returns(goog.Promise.resolve(googleYoloIdTokenCredential));
@@ -1711,24 +1695,11 @@ function testAuthUi_oneTapSignIn_noCurrentComponent() {
       {
         'provider': 'google.com',
         'customParameters': {'prompt': 'select_account'},
-        'authMethod': 'https://accounts.google.com',
-        'clientId': '1234567890.apps.googleusercontent.com'
+        'clientId': googYoloClientId,
       }
     ],
     'credentialHelper':
         firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
-  };
-  // Expected googyolo config corresponding to the above FirebaseUI config.
-  var googYoloConfig = {
-    'supportedAuthMethods': [
-      'https://accounts.google.com'
-    ],
-    'supportedIdTokenProviders': [
-      {
-        'uri': 'https://accounts.google.com',
-        'clientId': '1234567890.apps.googleusercontent.com'
-      }
-    ]
   };
   asyncTestCase.waitForSignals(1);
   var component = new firebaseui.auth.ui.page.Callback();
@@ -1739,9 +1710,9 @@ function testAuthUi_oneTapSignIn_noCurrentComponent() {
       firebaseui.auth.GoogleYolo, 'getInstance');
   getInstance().$returns(googleYolo);
   // One-Tap should be shown with auto sign-in disabled.
-  googleYolo.show(googYoloConfig, true)
+  googleYolo.show(googYoloClientId, true)
       .$once()
-      .$does(function(config, autoSignInDisabled) {
+      .$does(function(clientId, autoSignInDisabled) {
         // Simulate no current component rendered.
         app.setCurrentComponent(null);
         // Simulate googleyolo credential returned.
@@ -1772,24 +1743,11 @@ function testAuthUi_oneTapSignIn_autoSignInEnabled() {
     'signInOptions': [
       {
         'provider': 'google.com',
-        'authMethod': 'https://accounts.google.com',
-        'clientId': '1234567890.apps.googleusercontent.com'
+        'clientId': googYoloClientId,
       }
     ],
     'credentialHelper':
         firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
-  };
-  // Expected googyolo config corresponding to the above FirebaseUI config.
-  var googYoloConfig = {
-    'supportedAuthMethods': [
-      'https://accounts.google.com'
-    ],
-    'supportedIdTokenProviders': [
-      {
-        'uri': 'https://accounts.google.com',
-        'clientId': '1234567890.apps.googleusercontent.com'
-      }
-    ]
   };
   asyncTestCase.waitForSignals(1);
   var component = new firebaseui.auth.ui.page.Callback();
@@ -1800,7 +1758,7 @@ function testAuthUi_oneTapSignIn_autoSignInEnabled() {
       firebaseui.auth.GoogleYolo, 'getInstance');
   getInstance().$returns(googleYolo);
   // One-Tap should be shown with auto sign-in enabled.
-  googleYolo.show(googYoloConfig, false)
+  googleYolo.show(googYoloClientId, false)
       .$once()
       .$returns(goog.Promise.resolve(googleYoloIdTokenCredential));
   // Provided handler should be passed the expected parameters.

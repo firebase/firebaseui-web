@@ -31,6 +31,7 @@ const stub = new PropertyReplacer();
 let testUtil;
 let errorLogMessages = [];
 let warningLogMessages = [];
+const expectedClientId = '1234567890.apps.googleusercontent.com';
 
 testSuite({
   setUp() {

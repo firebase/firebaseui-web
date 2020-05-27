@@ -1011,7 +1011,7 @@ firebaseui.auth.AuthUI.prototype.showOneTapSignIn = function(handler) {
   this.checkIfDestroyed_();
   try {
     this.googleYolo_.show(
-        this.getConfig().getGoogleYoloConfig(), this.isAutoSignInDisabled())
+      this.getConfig().getGoogleYoloClientId(), this.isAutoSignInDisabled())
         .then(function(credential) {
           // Run only when component is available.
           if (self.currentComponent_) {

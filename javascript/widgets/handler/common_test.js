@@ -2627,8 +2627,7 @@ function testHandleGoogleYoloCredential_handledSuccessfully_withScopes() {
       'provider': 'google.com',
       'scopes': ['googl1', 'googl2'],
       'customParameters': {'prompt': 'select_account'},
-      'authMethod': 'https://accounts.google.com',
-      'clientId': '1234567890.apps.googleusercontent.com'
+      'clientId': googYoloClientId,
     }, 'facebook.com', 'password', 'phone'],
     'credentialHelper':
         firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
@@ -2658,8 +2657,7 @@ function testHandleGoogleYoloCredential_handledSuccessfully_withoutScopes() {
     'signInSuccessUrl': 'http://localhost/home',
     'signInOptions': [{
       'provider': 'google.com',
-      'authMethod': 'https://accounts.google.com',
-      'clientId': '1234567890.apps.googleusercontent.com'
+      'clientId': googYoloClientId,
     }, 'facebook.com', 'password', 'phone'],
     'credentialHelper':
         firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
@@ -2679,10 +2677,10 @@ function testHandleGoogleYoloCredential_handledSuccessfully_withoutScopes() {
         asyncTestCase.signal();
       });
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
-      googleYoloIdTokenCredential.idToken);
+      googleYoloIdTokenCredential.credential);
   var cred  = createMockCredential({
     'providerId': 'google.com',
-    'idToken': googleYoloIdTokenCredential.idToken
+    'idToken': googleYoloIdTokenCredential.credential
   });
   testAuth.setUser({
     'email': federatedAccount.getEmail(),
@@ -2723,8 +2721,7 @@ function testHandleGoogleYoloCredential_unhandled_withoutScopes() {
     'signInSuccessUrl': 'http://localhost/home',
     'signInOptions': [{
       'provider': 'google.com',
-      'authMethod': 'https://accounts.google.com',
-      'clientId': '1234567890.apps.googleusercontent.com'
+      'clientId': googYoloClientId,
     }, 'facebook.com', 'password', 'phone'],
     'credentialHelper':
         firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
@@ -2743,7 +2740,7 @@ function testHandleGoogleYoloCredential_unhandled_withoutScopes() {
         asyncTestCase.signal();
       });
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
-      googleYoloIdTokenCredential.idToken);
+      googleYoloIdTokenCredential.credential);
   // Confirm signInWithCredential called underneath with
   // unsuccessful response.
   testAuth.assertSignInWithCredential(
@@ -2766,8 +2763,7 @@ function testHandleGoogleYoloCredential_cancelled_withoutScopes() {
     'signInSuccessUrl': 'http://localhost/home',
     'signInOptions': [{
       'provider': 'google.com',
-      'authMethod': 'https://accounts.google.com',
-      'clientId': '1234567890.apps.googleusercontent.com'
+      'clientId': googYoloClientId,
     }, 'facebook.com', 'password', 'phone'],
     'credentialHelper':
         firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
@@ -2798,8 +2794,7 @@ function testHandleGoogleYoloCredential_unsupportedCredential() {
     'signInSuccessUrl': 'http://localhost/home',
     'signInOptions': [{
       'provider': 'google.com',
-      'authMethod': 'https://accounts.google.com',
-      'clientId': '1234567890.apps.googleusercontent.com'
+      'clientId': googYoloClientId,
     }, 'facebook.com', 'password', 'phone'],
     'credentialHelper':
         firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
@@ -2832,14 +2827,13 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_noScopes() {
     'signInSuccessUrl': 'http://localhost/home',
     'signInOptions': [{
       'provider': 'google.com',
-      'authMethod': 'https://accounts.google.com',
-      'clientId': '1234567890.apps.googleusercontent.com'
+      'clientId': googYoloClientId,
     }, 'facebook.com', 'password', 'phone'],
     'credentialHelper':
         firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
   });
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
-      googleYoloIdTokenCredential.idToken);
+      googleYoloIdTokenCredential.credential);
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
       goog.nullFunction(), []);
   component.render(container);
@@ -2893,14 +2887,13 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_credentialInUse() {
     'signInSuccessUrl': 'http://localhost/home',
     'signInOptions': [{
       'provider': 'google.com',
-      'authMethod': 'https://accounts.google.com',
-      'clientId': '1234567890.apps.googleusercontent.com'
+      'clientId': googYoloClientId,
     }, 'facebook.com', 'password', 'phone'],
     'credentialHelper':
         firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
   });
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
-      googleYoloIdTokenCredential.idToken);
+      googleYoloIdTokenCredential.credential);
   // Expected linkWithCredential error.
   var expectedError = {
     'code': 'auth/credential-already-in-use',
@@ -2950,14 +2943,13 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_fedEmailInUse() {
     'signInSuccessUrl': 'http://localhost/home',
     'signInOptions': [{
       'provider': 'google.com',
-      'authMethod': 'https://accounts.google.com',
-      'clientId': '1234567890.apps.googleusercontent.com'
+      'clientId': googYoloClientId,
     }, 'facebook.com', 'password', 'phone'],
     'credentialHelper':
         firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
   });
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
-      googleYoloIdTokenCredential.idToken);
+      googleYoloIdTokenCredential.credential);
   // Expected linkWithCredential error.
   var expectedError = {
     'code': 'auth/email-already-in-use',
@@ -2968,7 +2960,7 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_fedEmailInUse() {
   var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
       federatedAccount.getEmail(),
       firebase.auth.GoogleAuthProvider.credential(
-          googleYoloIdTokenCredential.idToken, null));
+          googleYoloIdTokenCredential.credential, null));
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
       goog.nullFunction(), []);
   component.render(container);
@@ -3018,14 +3010,13 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_passEmailInUse() {
     'signInSuccessUrl': 'http://localhost/home',
     'signInOptions': [{
       'provider': 'google.com',
-      'authMethod': 'https://accounts.google.com',
-      'clientId': '1234567890.apps.googleusercontent.com'
+      'clientId': googYoloClientId,
     }, 'facebook.com', 'password', 'phone'],
     'credentialHelper':
         firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
   });
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
-      googleYoloIdTokenCredential.idToken);
+      googleYoloIdTokenCredential.credential);
   // Expected linkWithCredential error.
   var expectedError = {
     'code': 'auth/email-already-in-use',
@@ -3036,7 +3027,7 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_passEmailInUse() {
   var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
       federatedAccount.getEmail(),
       firebase.auth.GoogleAuthProvider.credential(
-          googleYoloIdTokenCredential.idToken, null));
+          googleYoloIdTokenCredential.credential, null));
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
       goog.nullFunction(), []);
   component.render(container);
@@ -3096,8 +3087,7 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_withScopes() {
       'provider': 'google.com',
       'scopes': ['googl1', 'googl2'],
       'customParameters': {'prompt': 'select_account'},
-      'authMethod': 'https://accounts.google.com',
-      'clientId': '1234567890.apps.googleusercontent.com'
+      'clientId': googYoloClientId,
     }, 'facebook.com', 'password', 'phone'],
     'credentialHelper':
         firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO

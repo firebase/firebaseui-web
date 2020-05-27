@@ -141,8 +141,10 @@ FirebaseUI includes the following flows:
 by default.)
 6. [Account Chooser](https://www.accountchooser.com/learnmore.html?lang=en) for
 remembering emails
-7. Ability to upgrade anonymous users through sign-in/sign-up
-8. Sign-in as a guest
+7. Integration with
+[one-tap sign-up](https://developers.google.com/identity/one-tap/web/)
+8. Ability to upgrade anonymous users through sign-in/sign-up.
+9. Sign-in as a guest
 
 ### Configuring sign-in providers
 
@@ -452,6 +454,7 @@ When one is enabled, your users will be prompted with email addresses and
 usernames they have saved from your app or other applications.
 FirebaseUI supports the following credential helpers:
 
+- [one-tap sign-up](https://developers.google.com/identity/one-tap/web/)
 - [accountchooser.com](https://www.accountchooser.com/learnmore.html)
 
 #### accountchooser.com
@@ -463,9 +466,70 @@ website and will be able to select one of their saved accounts. You can
 disable it by specifying the value below. This feature is always disabled for
 non HTTP/HTTPS environments.
 
+#### One-tap sign-up
+
+[One-tap sign-up](https://developers.google.com/identity/one-tap/web/)
+provides seamless authentication flows to
+your users with Google's one tap sign-up and automatic sign-in APIs.
+With one tap sign-up, users are prompted to create an account with a dialog
+that's inline with FirebaseUI NASCAR screen. With just one tap, they get a
+secure, token-based, passwordless account with your service, protected by their
+Google Account. As the process is frictionless, users are much more likely to
+register.
+Returning users are signed in automatically, even when they switch devices or
+platforms, or after their session expires.
+One-tap sign-up integrates with FirebaseUI and if you request Google OAuth
+scopes, you will still get back the expected Google OAuth access token even if
+the user goes through the one-tap flow. However, in that case 'redirect' flow is
+always used even when 'popup' is specified.
+In addition, if you choose to force prompt for Google sign-in, one-tap auto
+sign-in will be automatically disabled.
+One-tap is an additive feature and is only supported in the latest evergreen
+modern browser environments.
+For more information on how to configure one-tap sign-up, refer to the
+[one-tap get started guide](https://developers.google.com/identity/one-tap/web/guides/get-google-api-clientid).
+
+The following example shows how to configure one-tap sign-up with FirebaseUI.
+Along with the corresponding one-tap `credentialHelper`, the  Google OAuth
+`clientId` has to be provided with the Firebase Google provider:
+
+```javascript
+ui.start('#firebaseui-auth-container', {
+  signInOptions: [
+    {
+      // Google provider must be enabled in Firebase Console to support one-tap
+      // sign-up.
+      provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      // Required to enable ID token credentials for this provider.
+      // This can be obtained from the Credentials page of the Google APIs
+      // console. Use the same OAuth client ID used for the Google provider
+      // configured with GCIP or Firebase Auth.
+      clientId: 'xxxxxxxxxxxxxxxxx.apps.googleusercontent.com'
+    },
+    firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+    firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+    firebase.auth.GithubAuthProvider.PROVIDER_ID,
+    firebase.auth.EmailAuthProvider.PROVIDER_ID,
+  ],
+  // Required to enable one-tap sign-up credential helper.
+  credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO
+});
+// Auto sign-in for returning users is enabled by default except when prompt is
+// not 'none' in the Google provider custom parameters. To manually disable:
+ui.disableAutoSignIn();
+```
+
+Auto sign-in for returning users can be disabled by calling
+`ui.disableAutoSignIn()`. This may be needed if the FirebaseUI sign-in page is
+being rendered after the user signs out.
+
+To see FirebaseUI in action with one-tap sign-up, check out the FirebaseUI
+[demo app](https://fir-ui-demo-84a6c.firebaseapp.com/).
+
 |Credential Helper |Value                                                 |
 |------------------|------------------------------------------------------|
 |accountchooser.com|`firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM`|
+|One-tap sign-up   |`firebaseui.auth.CredentialHelper.GOOGLE_YOLO`        |
 |None (disable)    |`firebaseui.auth.CredentialHelper.NONE`               |
 
 ### Available providers

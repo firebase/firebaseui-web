@@ -267,7 +267,7 @@ function testHandleProviderSignIn_oneTap_unhandled_withoutScopes() {
   // signInWithCredential should be called to handle the
   // ID token returned by googleyolo.
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
-      googleYoloIdTokenCredential.idToken);
+      googleYoloIdTokenCredential.credential);
   // Simulate an error encountered in signInWithCredential.
   testAuth.assertSignInWithCredential(
       [expectedCredential],
@@ -347,11 +347,11 @@ function testHandleProviderSignIn_oneTap_handledSuccessfully_withoutScopes() {
   // signInWithCredential should be called to handle the
   // ID token returned by googleyolo.
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
-      googleYoloIdTokenCredential.idToken);
+      googleYoloIdTokenCredential.credential);
   // The Firebase Auth mock OAuth credential to return.
   var cred  = firebaseui.auth.idp.getAuthCredential({
     'providerId': 'google.com',
-    'idToken': googleYoloIdTokenCredential.idToken
+    'idToken': googleYoloIdTokenCredential.credential
   });
   // Mock signed in user.
   testAuth.setUser({
@@ -429,7 +429,7 @@ function testHandleProviderSignIn_oneTap_upgradeAnonymous_withoutScopes() {
   // linkWithCredential should be called to handle the
   // ID token returned by googleyolo.
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
-      googleYoloIdTokenCredential.idToken);
+      googleYoloIdTokenCredential.credential);
   // Trigger onAuthStateChanged listener.
   externalAuth.runAuthChangeHandler();
   // linkWithCredential should be called with the expected
@@ -493,7 +493,7 @@ function testHandleProviderSignIn_oneTap_upgradeAnon_noScopes_credInUse() {
   // linkWithCredential should be called to handle the
   // ID token returned by googleyolo.
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
-      googleYoloIdTokenCredential.idToken);
+      googleYoloIdTokenCredential.credential);
   // Expected linkWithCredential error.
   var expectedError = {
     'code': 'auth/credential-already-in-use',
@@ -559,7 +559,7 @@ function testHandleProviderSignIn_oneTap_upgradeAnon_noScopes_fedEmailInUse() {
   // linkWithCredential should be called to handle the
   // ID token returned by googleyolo.
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
-      googleYoloIdTokenCredential.idToken);
+      googleYoloIdTokenCredential.credential);
   // Expected linkWithRedirect error.
   var expectedError = {
     'code': 'auth/email-already-in-use',
@@ -570,7 +570,7 @@ function testHandleProviderSignIn_oneTap_upgradeAnon_noScopes_fedEmailInUse() {
   var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
       federatedAccount.getEmail(),
       firebase.auth.GoogleAuthProvider.credential(
-          googleYoloIdTokenCredential.idToken, null));
+          googleYoloIdTokenCredential.credential, null));
   // Trigger onAuthStateChanged listener.
   externalAuth.runAuthChangeHandler();
   // linkWithCredential should be called with the expected
@@ -629,7 +629,7 @@ function testHandleProviderSignIn_oneTap_upgradeAnon_noScopes_passEmailInUse() {
   // linkWithCredential should be called to handle the
   // ID token returned by googleyolo.
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
-      googleYoloIdTokenCredential.idToken);
+      googleYoloIdTokenCredential.credential);
   // Expected linkWithRedirect error.
   var expectedError = {
     'code': 'auth/email-already-in-use',
@@ -640,7 +640,7 @@ function testHandleProviderSignIn_oneTap_upgradeAnon_noScopes_passEmailInUse() {
   var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
       federatedAccount.getEmail(),
       firebase.auth.GoogleAuthProvider.credential(
-          googleYoloIdTokenCredential.idToken, null));
+          googleYoloIdTokenCredential.credential, null));
   // Trigger onAuthStateChanged listener.
   externalAuth.runAuthChangeHandler();
   // linkWithCredential should be called with the expected
