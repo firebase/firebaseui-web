@@ -257,37 +257,17 @@ class Config {
   }
 
   /**
-   * @return {?SmartLockRequestOptions} The googleyolo configuration options
-   * if available.
+   * @return {?string} The googleyolo configuration client ID if available.
    */
-  getGoogleYoloConfig() {
-    const supportedAuthMethods = [];
-    const supportedIdTokenProviders = [];
-    googArray.forEach(this.getSignInOptions_(), (option) => {
-      if (option['authMethod']) {
-        supportedAuthMethods.push(option['authMethod']);
-        if (option['clientId']) {
-          supportedIdTokenProviders.push({
-            'uri': option['authMethod'],
-            'clientId': option['clientId'],
-          });
-        }
-      }
-    });
-    let config = null;
-    // Ensure configuration is not empty. At least one supportedIdTokenProviders
-    // or supportedAuthMethods needs to be provided.
-    if (this.getCredentialHelper() ===
-        Config.CredentialHelper.GOOGLE_YOLO &&
-        // googleyolo will enforce that clientId is present. Delegate the check
-        // to it. Errors will be surfaced in the console.
-        supportedAuthMethods.length) {
-      config = {
-        'supportedIdTokenProviders': supportedIdTokenProviders,
-        'supportedAuthMethods': supportedAuthMethods,
-      };
+  getGoogleYoloClientId() {
+    const signInOptions = this.getSignInOptionsForProvider_(
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID);
+    if (signInOptions &&
+        signInOptions['clientId'] &&
+        this.getCredentialHelper() === Config.CredentialHelper.GOOGLE_YOLO) {
+      return signInOptions['clientId'] || null;
     }
-    return config;
+    return null;
   }
 
   /**

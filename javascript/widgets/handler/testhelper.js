@@ -97,16 +97,16 @@ var operationNotSupportedError = {
       'application is running on. "location.protocol" must be http, https ' +
       'or chrome-extension and web storage must be enabled.'
 };
+var googYoloClientId = '1234567890.apps.googleusercontent.com';
 // googleyolo ID token credential.
 var googleYoloIdTokenCredential = {
-  'idToken': 'ID_TOKEN',
-  'id': federatedAccount.getEmail(),
-  'authMethod': 'https://accounts.google.com'
+  'credential': 'HEADER.' +
+      btoa(JSON.stringify({email: federatedAccount.getEmail()})) + '.SIGNATURE',
+  'clientId': googYoloClientId,
 };
 // googleyolo non ID token credential.
 var googleYoloOtherCredential = {
-  'id': federatedAccount.getEmail(),
-  'authMethod': 'https://accounts.google.com'
+  'clientId': 'other',
 };
 // Mock anonymous user.
 var anonymousUser = {
