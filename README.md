@@ -139,12 +139,10 @@ FirebaseUI includes the following flows:
 *"One account per email address"* setting is enabled in the
 [Firebase console](https://console.firebase.google.com). This setting is enabled
 by default.)
-6. [Account Chooser](https://www.accountchooser.com/learnmore.html?lang=en) for
-remembering emails
-7. Integration with
+6. Integration with
 [one-tap sign-up](https://developers.google.com/identity/one-tap/web/)
-8. Ability to upgrade anonymous users through sign-in/sign-up.
-9. Sign-in as a guest
+7. Ability to upgrade anonymous users through sign-in/sign-up.
+8. Sign-in as a guest
 
 ### Configuring sign-in providers
 
@@ -364,8 +362,11 @@ FirebaseUI supports the following configuration parameters.
   The Credential Helper to use.
   See <a href="#credential-helper">Credential Helper</a>.
   <br/>
-  <em>Default:</em>
+  <em>Default (before July 31st, 2020):</em>
   <code>firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM</code>
+  <br/>
+  <em>Default (after July 31st, 2020):</em>
+  <code>firebaseui.auth.CredentialHelper.NONE</code>
 </td>
 </tr>
 <tr>
@@ -458,6 +459,9 @@ FirebaseUI supports the following credential helpers:
 - [accountchooser.com](https://www.accountchooser.com/learnmore.html)
 
 #### accountchooser.com
+(`accountchooser.com` will be operating in "universal opt-out" mode
+starting July 31st, 2020, it should no longer be used as a `CredentialHelper`.
+Learn more at https://accountchooser.net/developers.)
 
 When [accountchooser.com](https://www.accountchooser.com/learnmore.html) is
 enabled (enabled by default), upon signing in or
@@ -526,11 +530,11 @@ being rendered after the user signs out.
 To see FirebaseUI in action with one-tap sign-up, check out the FirebaseUI
 [demo app](https://fir-ui-demo-84a6c.firebaseapp.com/).
 
-|Credential Helper |Value                                                 |
-|------------------|------------------------------------------------------|
-|accountchooser.com|`firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM`|
-|One-tap sign-up   |`firebaseui.auth.CredentialHelper.GOOGLE_YOLO`        |
-|None (disable)    |`firebaseui.auth.CredentialHelper.NONE`               |
+|Credential Helper                 |Value                                                 |
+|----------------------------------|------------------------------------------------------|
+|accountchooser.com (deprecated)   |`firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM`|
+|One-tap sign-up                   |`firebaseui.auth.CredentialHelper.GOOGLE_YOLO`        |
+|None (disable)                    |`firebaseui.auth.CredentialHelper.NONE`               |
 
 ### Available providers
 
@@ -1274,7 +1278,7 @@ FirebaseUI is displayed.
             document.getElementById('loader').style.display = 'none';
           }
         },
-        credentialHelper: firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
+        credentialHelper: firebaseui.auth.CredentialHelper.NONE,
         // Query parameter name for mode.
         queryParameterForWidgetMode: 'mode',
         // Query parameter name for sign in success url.

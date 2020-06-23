@@ -77,6 +77,14 @@ firebaseui.auth.widget.handler.common.acForceUiShown_ = false;
  */
 firebaseui.auth.widget.handler.common.acLoader_ = null;
 
+/**
+ * Resets accountchooser.com loader and removes global accountchooser namespace.
+ * This is useful for testing.
+ */
+firebaseui.auth.widget.handler.common.resetAcLoader = function() {
+  firebaseui.auth.widget.handler.common.acLoader_ = null;
+  goog.global['accountchooser'] = undefined;
+};
 
 /**
  * Loads the accountchooser.com client library if it is not loaded before and

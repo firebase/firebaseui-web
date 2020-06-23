@@ -889,7 +889,7 @@ function assertTosPpLinkClicked_(tosUrl, privacyPolicyUrl) {
     'firebaseui-tos-link', container);
   var ppLinkElement = goog.dom.getElementByClass(
     'firebaseui-pp-link', container);
-  if (goog.isFunction(tosUrl)) {
+  if (typeof tosUrl === 'function') {
     assertEquals(0, tosUrl.getCallCount());
     goog.testing.events.fireClickSequence(tosLinkElement);
     assertEquals(1, tosUrl.getCallCount());
@@ -897,7 +897,7 @@ function assertTosPpLinkClicked_(tosUrl, privacyPolicyUrl) {
     goog.testing.events.fireClickSequence(tosLinkElement);
     testUtil.assertOpen(tosUrl, '_blank');
   }
-  if (goog.isFunction(privacyPolicyUrl)) {
+  if (typeof privacyPolicyUrl === 'function') {
     assertEquals(0, privacyPolicyUrl.getCallCount());
     goog.testing.events.fireClickSequence(ppLinkElement);
     assertEquals(1, privacyPolicyUrl.getCallCount());

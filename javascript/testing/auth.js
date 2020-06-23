@@ -115,7 +115,7 @@ class FakeAuthClient extends MockHelper {
    */
   onAuthStateChanged(nextOrObserver, opt_error, opt_completed) {
     // Simplified version of the observer for testing purpose only.
-    var observer = (goog.isFunction(nextOrObserver) && nextOrObserver) ||
+    var observer = (typeof nextOrObserver === 'function' && nextOrObserver) ||
         nextOrObserver['next'];
     if (!observer) {
       throw 'onAuthStateChanged must be called with an Observer or up to three ' +
@@ -154,7 +154,7 @@ class FakeAuthClient extends MockHelper {
    */
   onIdTokenChanged(nextOrObserver, opt_error, opt_completed) {
     // Simplified version of the observer for testing purpose only.
-    var observer = (goog.isFunction(nextOrObserver) && nextOrObserver) ||
+    var observer = (typeof nextOrObserver === 'function' && nextOrObserver) ||
         nextOrObserver['next'];
     if (!observer) {
       throw 'onIdTokenChanged must be called with an Observer or up to three ' +

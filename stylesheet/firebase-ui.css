@@ -499,6 +499,7 @@ input.firebaseui-input-invalid{
 }
 
 .mdl-spinner.firebaseui-busy-indicator {
+  direction: initial;
   height: 56px;
   left: 0px;
   margin: auto;

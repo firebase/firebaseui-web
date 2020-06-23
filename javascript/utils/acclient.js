@@ -231,7 +231,7 @@ firebaseui.auth.acClient.DummyApi = class {
    * Triggers the onEmpty callback.
    */
   fireOnEmpty() {
-    if (goog.isFunction(this.config_['callbacks']['empty'])) {
+    if (typeof this.config_['callbacks']['empty'] === 'function') {
       this.config_['callbacks']['empty']();
     }
   }
@@ -245,7 +245,7 @@ firebaseui.auth.acClient.DummyApi = class {
    * @param {Object=} opt_config The optional client configuration.
    */
   store(accounts, opt_config) {
-    if (goog.isFunction(this.config_['callbacks']['store'])) {
+    if (typeof this.config_['callbacks']['store'] === 'function') {
       this.config_['callbacks']['store'](
           undefined, firebaseui.auth.acClient.DummyApi.UNAVAILABLE_ERROR_);
     }
@@ -260,7 +260,7 @@ firebaseui.auth.acClient.DummyApi = class {
    * @param {Object=} opt_config The optional client configuration.
    */
   select(accounts, opt_config) {
-    if (goog.isFunction(this.config_['callbacks']['select'])) {
+    if (typeof this.config_['callbacks']['select'] === 'function') {
       this.config_['callbacks']['select'](
           undefined, firebaseui.auth.acClient.DummyApi.UNAVAILABLE_ERROR_);
     }
@@ -275,7 +275,7 @@ firebaseui.auth.acClient.DummyApi = class {
    * @param {Object=} opt_config The optional client configuration.
    */
   update(account, opt_config) {
-    if (goog.isFunction(this.config_['callbacks']['update'])) {
+    if (typeof this.config_['callbacks']['update'] === 'function') {
       this.config_['callbacks']['update'](
           undefined, firebaseui.auth.acClient.DummyApi.UNAVAILABLE_ERROR_);
     }

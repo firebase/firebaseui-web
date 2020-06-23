@@ -544,7 +544,7 @@ class FirebaseUiHandler {
     const message = getLocalizedErrorMessage(error['code']) || error['message'];
     this.disposeCurrentComponent_();
     let onRetryClick;
-    if (error['retry'] && goog.isFunction(error['retry'])) {
+    if (error['retry'] && typeof error['retry'] === 'function') {
       onRetryClick = () => {
         this.reset();
         error['retry']();

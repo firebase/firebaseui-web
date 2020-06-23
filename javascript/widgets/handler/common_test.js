@@ -48,6 +48,7 @@ goog.require('firebaseui.auth.widget.handler.handleSignIn');
 goog.require('firebaseui.auth.widget.handler.testHelper');
 goog.require('goog.Promise');
 goog.require('goog.dom.forms');
+goog.require('goog.net.jsloader');
 goog.require('goog.testing.AsyncTestCase');
 goog.require('goog.testing.recordFunction');
 
@@ -1890,6 +1891,61 @@ function testHandleSignInWithEmail_acNotEnabled() {
       firebaseui.auth.storage.setRedirectStatus.getCallCount());
   assertFalse(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
   assertFalse(firebaseui.auth.widget.handler.common.acForceUiShown_);
+}
+
+
+function testHandleSignInWithEmail_accountChooserNotFound() {
+  // This tests when accountchooser.com JS dependency fails to load
+  // that the flow continues to work as expected. This test is needed
+  // to confirm that after accountchooser.com is shutdown, the library
+  // continues to work.
+
+  // This is the actual error that gets thrown when jsloader fails to load.
+  const expectedError = new Error(
+      'Jsloader error (code #0): Error while loading script ' +
+      '//www.gstatic.com/accountchooser/client.js');
+  // Uninstall mock acClient. It is better to test the real thing to ensure
+  // that when the dependency fails to load, the flow will continue to work.
+  testAc.uninstall();
+  firebaseui.auth.widget.handler.common.resetAcLoader();
+  // Track that loading error is triggered.
+  let errorTriggered = false;
+  // Simulate accountchooser.com dependency not found and jsloader failing.
+  testStubs.reset();
+  // Assume widget already rendered and AuthUI global reference set.
+  testStubs.replace(firebaseui.auth.AuthUI, 'getAuthUi', function() {
+    return app;
+  });
+  testStubs.set(firebaseui.auth.util, 'supportsCors', function() {
+    return true;
+  });
+  // Simulate the loading error.
+  testStubs.replace(
+      goog.net.jsloader, 'safeLoad', function() {
+        errorTriggered = true;
+        return goog.Promise.reject(expectedError);
+      });
+
+  // Start sign-in with email handler.
+  // signIn page should be rendered despite accountchooser.com JS dependencies
+  // failing to load.
+  app.setConfig({
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
+  });
+  firebaseui.auth.widget.handler.common.handleSignInWithEmail(app, container);
+  asyncTestCase.waitForSignals(1);
+
+  // Wait 2 cycles to give enough time for logic to run.
+  return goog.Promise.resolve().then(() => {
+    return goog.Promise.resolve();
+  }).then(() => {
+    // Confirm error triggered.
+    assertTrue(errorTriggered);
+    // signIn page should be rendered.
+    assertSignInPage();
+    asyncTestCase.signal();
+  });
 }
 
 
