@@ -83,7 +83,7 @@ function getUiConfig() {
     'privacyPolicyUrl': 'https://www.google.com',
     'credentialHelper': CLIENT_ID && CLIENT_ID != 'YOUR_OAUTH_CLIENT_ID' ?
         firebaseui.auth.CredentialHelper.GOOGLE_YOLO :
-        firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM
+        firebaseui.auth.CredentialHelper.NONE
   };
 }
 

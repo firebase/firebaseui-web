@@ -528,7 +528,7 @@ class Config {
           'Privacy Policy URL is missing, the link will not be displayed.');
     }
     if (tosUrl && privacyPolicyUrl) {
-      if (goog.isFunction(tosUrl)) {
+      if (typeof tosUrl === 'function') {
         return /** @type {function()} */ (tosUrl);
       } else if (typeof tosUrl === 'string') {
         return () => {
@@ -554,7 +554,7 @@ class Config {
           'Term of Service URL is missing, the link will not be displayed.');
     }
     if (tosUrl && privacyPolicyUrl) {
-      if (goog.isFunction(privacyPolicyUrl)) {
+      if (typeof privacyPolicyUrl === 'function') {
           return /** @type {function()} */ (privacyPolicyUrl);
       } else if (typeof privacyPolicyUrl === 'string') {
         return () => {
@@ -769,10 +769,7 @@ class Config {
   }
 
   /**
-   * TODO: for now, only accountchooser.com is available and all logic related
-   * to credential helper relies on it, so this method is provided for ease of
-   * use. It should be removed in the future when FirebaseUI supports several
-   * credential helpers.
+   * TODO: Remove during accountchooser.com opt-out period.
    * @return {boolean} Whether accountchooser.com is enabled.
    */
   isAccountChooserEnabled() {
@@ -792,10 +789,16 @@ class Config {
       return Config.CredentialHelper.NONE;
     }
     const credentialHelper = this.config_.get('credentialHelper');
+    if (credentialHelper === Config.CredentialHelper.ACCOUNT_CHOOSER_COM) {
+      log.warning(
+          'AccountChooser.com will be operating in "universal opt-out" mode '  +
+          'starting July 31st, 2020, ' +
+          'it should no longer be used as a CredentialHelper.' +
+          ' Learn more at https://accountchooser.net/developers');
+    }
     // Make sure the credential helper is valid.
     for (let key in Config.CredentialHelper) {
-      if (Config.CredentialHelper[key] ==
-          credentialHelper) {
+      if (Config.CredentialHelper[key] === credentialHelper) {
         // Return valid flow.
         return Config.CredentialHelper[key];
       }

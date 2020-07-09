@@ -1488,6 +1488,34 @@ testSuite({
     assertArrayEquals([], warningLogMessages);
   },
 
+  testAccountChooserWarningMessage() {
+    const expectedWarningMessage = 'AccountChooser.com will be operating ' +
+        'in "universal opt-out" mode starting July 31st, 2020, ' +
+        'it should no longer be used as a CredentialHelper. ' +
+        'Learn more at https://accountchooser.net/developers';
+    config.update(
+        'credentialHelper', Config.CredentialHelper.ACCOUNT_CHOOSER_COM);
+    assertEquals(
+        Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
+        config.getCredentialHelper());
+    assertArrayEquals([expectedWarningMessage], warningLogMessages);
+
+    // Reset warnings.
+    warningLogMessages = [];
+    config.update(
+        'credentialHelper', Config.CredentialHelper.GOOGLE_YOLO);
+    assertEquals(
+        Config.CredentialHelper.GOOGLE_YOLO,
+        config.getCredentialHelper());
+    assertArrayEquals([], warningLogMessages);
+
+    // Reset warnings.
+    warningLogMessages = [];
+    config.update('credentialHelper', Config.CredentialHelper.NONE);
+    assertEquals(Config.CredentialHelper.NONE, config.getCredentialHelper());
+    assertArrayEquals([], warningLogMessages);
+  },
+
   testGetCredentialHelper_httpOrHttps() {
     // Test credential helper configuration setting, as well as the
     // accountchooser.com enabled helper method, in a HTTP or HTTPS environment.
