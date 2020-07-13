@@ -683,6 +683,38 @@ firebaseui.auth.Callbacks.prototype.uiShown = function() {};
 firebaseui.auth.SignInOption = function() {};
 
 /**
+ * The provider name displayed to end users
+ * (sign-in button label/linking prompt).
+ * Default: provider ID
+ *
+ * @type {string|undefined}
+ */
+firebaseui.auth.SignInOption.prototype.providerName;
+
+/**
+ * The full label of the button, instead of "Sign in with $providerName".
+ * Default: "Sign in with $providerName".
+ *
+ * @type {string|undefined}
+ */
+firebaseui.auth.SignInOption.prototype.fullLabel;
+
+/**
+ * The color of the sign-in button.
+ *
+ * @type {string|undefined}
+ */
+firebaseui.auth.SignInOption.prototype.buttonColor;
+
+/**
+ * The URL of the Identity Provider's icon. This will be displayed on the
+ * provider's sign-in button, etc.
+ *
+ * @type {string|undefined}
+ */
+firebaseui.auth.SignInOption.prototype.iconUrl;
+
+/**
  * The provider ID for the provided sign in option,
  * eg: `firebase.auth.GoogleAuthProvider.PROVIDER_ID`.
  *

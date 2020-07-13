@@ -137,6 +137,8 @@ const configs = {
           {
             provider: 'saml.my-provider1',
             providerName: 'SAML provider',
+            // To customize the full label:
+            // fullLabel: 'ACME Portal',
             buttonColor: '#4666FF',
             iconUrl: 'https://www.example.com/photos/my_idp/saml.png'
           },
@@ -161,6 +163,8 @@ const configs = {
           {
             provider: 'oidc.my-provider1',
             providerName: 'OIDC provider',
+            // To customize the full label:
+            // fullLabel: 'Contractor Login',
             buttonColor: '#4666FF',
             iconUrl: 'https://www.example.com/photos/my_idp/oidc.png'
           },

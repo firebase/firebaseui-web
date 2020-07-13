@@ -1,0 +1,2 @@
+* Extends the ability to customize the default IdP buttons (provider name, icon URL and background color) for providers like Google and Email.
+* Adds the ability to overwrite the entire button label via `fullLabel` for all buttons.

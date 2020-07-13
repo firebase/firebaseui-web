@@ -237,16 +237,30 @@ class Config {
           googArray.contains(
               UI_SUPPORTED_PROVIDERS,
               option['provider'])) {
-        // For built-in providers, provider display name, button color and
-        // icon URL are fixed. The login hint key is also automatically set for
-        // built-in providers that support it.
-        return {
+        // The login hint key is also automatically set for built-in providers
+        // that support it.
+        const providerConfig = {
           providerId: option['provider'],
+          // Since developers may be using G-Suite for Google sign in or
+          // want to label email/password as their own provider, we should
+          // allow customization of these attributes.
+          providerName: option['providerName'] || null,
+          fullLabel: option['fullLabel'] || null,
+          buttonColor: option['buttonColor'] || null,
+          iconUrl: option['iconUrl'] ?
+              util.sanitizeUrl(option['iconUrl']) : null,
         };
+        for (const key in providerConfig) {
+          if (providerConfig[key] === null) {
+            delete providerConfig[key];
+          }
+        }
+        return providerConfig;
       } else {
         return {
           providerId: option['provider'],
           providerName: option['providerName'] || null,
+          fullLabel: option['fullLabel'] || null,
           buttonColor: option['buttonColor'] || null,
           iconUrl: option['iconUrl'] ?
               util.sanitizeUrl(option['iconUrl']) : null,
@@ -914,11 +928,15 @@ Config.SignInFlow = {
  * The provider config object for generic providers.
  * providerId: The provider ID.
  * providerName: The display name of the provider.
+ * fullLabel: The full button label. If both providerName and fullLabel are
+ * provided, we will use fullLabel for long name and providerName for short
+ * name.
  * buttonColor: The color of the sign in button.
  * iconUrl: The URL of the icon on sign in button.
  * loginHintKey: The name to use for the optional login hint parameter.
  * @typedef {{
  *   providerId: string,
+ *   fullLabel: (?string|undefined),
  *   providerName: (?string|undefined),
  *   buttonColor: (?string|undefined),
  *   iconUrl: (?string|undefined),

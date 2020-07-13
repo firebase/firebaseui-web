@@ -311,8 +311,8 @@ testSuite({
       {
         'provider': 'google.com',
         'scopes': ['foo', 'bar'],
-        // providerName, buttonColor and iconUrl should be override with null.
-        'providerName': 'Google',
+        'providerName': 'MyIdp',
+        'fullLabel': 'MyIdp Portal',
         'buttonColor': '#FFB6C1',
         'iconUrl': '<url-of-the-icon-of-the-sign-in-button>',
       },
@@ -320,6 +320,7 @@ testSuite({
       {
         'provider': 'microsoft.com',
         'providerName': 'Microsoft',
+        'fullLabel': 'Microsoft Login',
         'buttonColor': '#FFB6C1',
         'iconUrl': '<url-of-the-icon-of-the-sign-in-button>',
         'loginHintKey': 'login_hint',
@@ -333,6 +334,10 @@ testSuite({
     assertEquals(4, providerConfigs.length);
     assertObjectEquals({
       providerId: 'google.com',
+      providerName: 'MyIdp',
+      fullLabel: 'MyIdp Portal',
+      buttonColor: '#FFB6C1',
+      iconUrl: '<url-of-the-icon-of-the-sign-in-button>',
     }, providerConfigs[0]);
     assertObjectEquals({
       providerId: 'facebook.com',
@@ -340,6 +345,7 @@ testSuite({
     assertObjectEquals({
       providerId: 'microsoft.com',
       providerName: 'Microsoft',
+      fullLabel: 'Microsoft Login',
       buttonColor: '#FFB6C1',
       iconUrl: '<url-of-the-icon-of-the-sign-in-button>',
       loginHintKey: 'login_hint',
@@ -347,6 +353,7 @@ testSuite({
     assertObjectEquals({
       providerId: 'yahoo.com',
       providerName: null,
+      fullLabel: null,
       buttonColor: null,
       iconUrl: null,
       loginHintKey: null,
@@ -358,15 +365,17 @@ testSuite({
       {
         'provider': 'google.com',
         'scopes': ['foo', 'bar'],
-        // providerName, buttonColor and iconUrl should be override with null.
-        'providerName': 'Google',
+        'providerName': 'MyIdp',
+        'fullLabel': 'MyIdp Portal',
         'buttonColor': '#FFB6C1',
         'iconUrl': '<url-of-the-icon-of-the-sign-in-button>',
+        'loginHintKey': 'other',
       },
       'facebook.com',
       {
         'provider': 'microsoft.com',
         'providerName': 'Microsoft',
+        'fullLabel': 'Microsoft Login',
         'buttonColor': '#FFB6C1',
         'iconUrl': '<url-of-the-icon-of-the-sign-in-button>',
         'loginHintKey': 'login_hint',
@@ -381,6 +390,10 @@ testSuite({
     ]);
     assertObjectEquals({
       providerId: 'google.com',
+      providerName: 'MyIdp',
+      fullLabel: 'MyIdp Portal',
+      buttonColor: '#FFB6C1',
+      iconUrl: '<url-of-the-icon-of-the-sign-in-button>',
     }, config.getConfigForProvider('google.com'));
     assertObjectEquals({
       providerId: 'facebook.com',
@@ -388,6 +401,7 @@ testSuite({
     assertObjectEquals({
       providerId: 'microsoft.com',
       providerName: 'Microsoft',
+      fullLabel: 'Microsoft Login',
       buttonColor: '#FFB6C1',
       iconUrl: '<url-of-the-icon-of-the-sign-in-button>',
       loginHintKey: 'login_hint',
@@ -396,6 +410,7 @@ testSuite({
     assertObjectEquals({
       providerId: 'yahoo.com',
       providerName: 'Yahoo',
+      fullLabel: null,
       buttonColor: '#FFB6C1',
       iconUrl: 'about:invalid#zClosurez',
       loginHintKey: null,

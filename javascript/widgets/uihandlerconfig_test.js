@@ -54,6 +54,7 @@ testSuite({
             {
               hd: 'sub-acme.com',
               provider: 'password',
+              fullLabel: 'Sign in as Employee',
               requireDisplayName: false,
             },
           ],
@@ -70,6 +71,7 @@ testSuite({
             {
               hd: 'ocp-supplier1.com',
               provider: 'saml.my-provider1',
+              fullLabel: 'Contractor Portal',
               providerName: 'SAML provider',
               buttonColor: '#4413AD',
               iconUrl: 'https://www.example.com/photos/my_idp/saml.png',
