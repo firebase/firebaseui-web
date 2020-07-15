@@ -140,6 +140,11 @@
       <span class="firebaseui-idp-text firebaseui-idp-text-long">
         {if $providerConfig.fullLabel}
           {$providerConfig.fullLabel}
+        {elseif $providerConfig.providerName}
+          {msg desc="Labels for sign-in buttons, long version"}
+            Sign in with{sp}
+            {call .idpName data="all" /}
+          {/msg}
         {else}
           {msg desc="Label for a button to sign in with an email account that requires a password.
               The long version"}
@@ -161,6 +166,11 @@
       <span class="firebaseui-idp-text firebaseui-idp-text-long">
         {if $providerConfig.fullLabel}
           {$providerConfig.fullLabel}
+        {elseif $providerConfig.providerName}
+          {msg desc="Labels for sign-in buttons, long version"}
+            Sign in with{sp}
+            {call .idpName data="all" /}
+          {/msg}
         {else}
           {msg desc="Label for a button to sign in with phone number.
               The long version"}
@@ -182,6 +192,11 @@
       <span class="firebaseui-idp-text firebaseui-idp-text-long">
         {if $providerConfig.fullLabel}
           {$providerConfig.fullLabel}
+        {elseif $providerConfig.providerName}
+          {msg desc="Labels for sign-in buttons, long version"}
+            Sign in with{sp}
+            {call .idpName data="all" /}
+          {/msg}
         {else}
           {msg desc="Label for a button to continue as a guest user.
               The long version"}
