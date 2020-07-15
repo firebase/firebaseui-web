@@ -30,6 +30,10 @@ interface Callbacks {
 
 interface SignInOption {
   provider: string;
+  providerName?: string;
+  fullLabel?: string;
+  buttonColor?: string;
+  iconUrl?: string;
   hd?: string|RegExp;
 }
 

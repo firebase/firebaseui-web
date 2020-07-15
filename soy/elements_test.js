@@ -229,7 +229,17 @@ function testIdpButton() {
       providerId: 'saml.provider',
     },
     {
+      providerId: 'saml.idp',
+      providerName: 'MySamlIdp',
+      fullLabel: 'Contractor Portal',
+    },
+    {
       providerId: 'oidc.provider',
+    },
+    {
+      providerId: 'oidc.idp',
+      providerName: 'MyOidcIdp',
+      fullLabel: 'Employee Login',
     }];
   var root = goog.dom.getElement('idp-button');
   for (var i = 0; i < idpConfigs.length; i++) {

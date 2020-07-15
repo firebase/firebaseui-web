@@ -644,6 +644,50 @@ function testProviderSignIn() {
 }
 
 
+function testProviderSignIn_buttonCustomization() {
+  var root = goog.dom.getElement('provider-sign-in-customization');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.providerSignIn, {
+        'providerConfigs': [
+          {
+            providerId: 'password',
+            fullName: 'Login with password',
+            providerName: 'Password',
+          },
+          {
+            providerId: 'phone',
+            fullName: 'Phone login',
+            providerName: 'Phone Number',
+          },
+          {
+            providerId: 'google.com',
+            fullName: 'ACME Login',
+            providerName: 'ACME',
+          },
+          {
+            providerId: 'anonymous',
+            fullName: 'Create account later',
+            providerName: 'Skip',
+          },
+          {
+            providerId: 'microsoft.com',
+            providerName: 'Microsoft',
+            buttonColor: '#FFB6C1',
+            iconUrl: 'icon-url',
+            loginHintKey: 'login_hint'
+          },
+          {
+            providerId: 'oidc.provider',
+            providerName: 'MyOidcIdp',
+            fullLabel: 'Employee Login',
+            buttonColor: '#ff00ff',
+            iconUrl: 'icon-url'
+          }]
+      },
+      IJ_DATA_);
+}
+
+
 function testProviderSignIn_busy() {
   var root = goog.dom.getElement('provider-sign-in-busy');
   goog.soy.renderElement(

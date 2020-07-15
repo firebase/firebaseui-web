@@ -641,6 +641,16 @@ parameters.
 </td>
 </tr>
 <tr>
+<td>fullLabel</td>
+<td>No</td>
+<td>
+  The full label of the button. Instead of "Sign in with $providerName", this
+  button label will be used.
+  <em>Default:</em>
+  <code>Sign in with $providerName</code>
+</td>
+</tr>
+<tr>
 <td>buttonColor</td>
 <td>No</td>
 <td>
@@ -694,6 +704,8 @@ ui.start('#firebaseui-auth-container', {
     {
       provider: 'microsoft.com',
       providerName: 'Microsoft',
+      // To override the full label of the button.
+      // fullLabel: 'Login with Microsoft',
       buttonColor: '#2F2F2F',
       iconUrl: '<icon-url-of-sign-in-button>',
       loginHintKey: 'login_hint',
@@ -740,6 +752,16 @@ OIDC providers' `signInOptions` support the following configuration parameters.
 </td>
 </tr>
 <tr>
+<td>fullLabel</td>
+<td>No</td>
+<td>
+  The full label of the button. Instead of "Sign in with $providerName", this
+  button label will be used.
+  <em>Default:</em>
+  <code>Sign in with $providerName</code>
+</td>
+</tr>
+<tr>
 <td>buttonColor</td>
 <td>Yes</td>
 <td>
@@ -770,8 +792,10 @@ OIDC providers' `signInOptions` support the following configuration parameters.
 ui.start('#firebaseui-auth-container', {
   signInOptions: [
     {
-      provider: 'oidc.myProvider`,
+      provider: 'oidc.myProvider',
       providerName: 'MyOIDCProvider',
+      // To override the full label of the button.
+      // fullLabel: 'Employee Login',
       buttonColor: '#2F2F2F',
       iconUrl: '<icon-url-of-sign-in-button>',
       customParameters: {
@@ -814,6 +838,16 @@ SAML providers' `signInOptions` support the following configuration parameters.
 </td>
 </tr>
 <tr>
+<td>fullLabel</td>
+<td>No</td>
+<td>
+  The full label of the button. Instead of "Sign in with $providerName", this
+  button label will be used.
+  <em>Default:</em>
+  <code>Sign in with $providerName</code>
+</td>
+</tr>
+<tr>
 <td>buttonColor</td>
 <td>Yes</td>
 <td>
@@ -839,6 +873,8 @@ ui.start('#firebaseui-auth-container', {
     {
       provider: 'saml.myProvider',
       providerName: 'MySAMLProvider',
+      // To override the full label of the button.
+      // fullLabel: 'Constractor Portal',
       buttonColor: '#2F2F2F',
       iconUrl: '<icon-url-of-sign-in-button>'
     }
