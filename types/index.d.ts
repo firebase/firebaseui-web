@@ -126,6 +126,7 @@ declare namespace firebaseui.auth {
   }
 
   interface TenantConfig extends firebaseui.auth.Config {
+    fullLabel?: string;
     displayName?: string;
     buttonColor?: string;
     iconUrl?: string;

@@ -642,9 +642,9 @@
     {$providerConfig.providerName}
   {elseif $ij.defaultProviderNames[$providerConfig.providerId]}
     {$ij.defaultProviderNames[$providerConfig.providerId]}
-  {elseif strIndexOf($providerConfig.providerId, 'saml.') == 0}
+  {elseif $providerConfig.providerId and strIndexOf($providerConfig.providerId, 'saml.') == 0}
     {strSub($providerConfig.providerId, 5)}
-  {elseif strIndexOf($providerConfig.providerId, 'oidc.') == 0}
+  {elseif $providerConfig.providerId and strIndexOf($providerConfig.providerId, 'oidc.') == 0}
     {strSub($providerConfig.providerId, 5)}
   {else}
     {$providerConfig.providerId}
@@ -728,7 +728,7 @@
  * Renders a tenant selection button.
  */
 {template .tenantSelectionButton}
-  {@param tenantConfig: [tenantId:string|null, displayName:string, buttonColor:string,
+  {@param tenantConfig: [tenantId:string|null, fullLabel:string|null, displayName:string, buttonColor:string,
       iconUrl: string]} /** The tenant selection button config. */
   {let $tenantClass kind="text"}
     {if $tenantConfig.tenantId}
@@ -749,9 +749,13 @@
           src="{$tenantConfig.iconUrl}">
     </span>
     <span class="firebaseui-idp-text firebaseui-idp-text-long">
-      {msg desc="Label for a button to sign in to a tenant. The long version"}
-        Sign in to {$tenantConfig.displayName}
-      {/msg}
+      {if $tenantConfig.fullLabel}
+        {$tenantConfig.fullLabel}
+      {else}
+        {msg desc="Label for a button to sign in to a tenant. The long version"}
+          Sign in to {$tenantConfig.displayName}
+        {/msg}
+      {/if}
     </span>
     <span class="firebaseui-idp-text firebaseui-idp-text-short">
       {msg desc="Label for a button to sign in to a tenant. The short version"}

@@ -87,6 +87,25 @@ function assertBlankPageVisible(container) {
   assertNotNull(dom.getElementByClass('firebaseui-id-page-blank', container));
 }
 
+/**
+ * Asserts the IdP or tenant button has correct labels.
+ * @param {!Element} button The IdP or tenant button.
+ * @param {string} expectedShortLabel The expected short label of the button.
+ * @param {string} expectedLongLabel The expected long label of the button.
+ */
+function assertIdpButtonLabels(button, expectedShortLabel, expectedLongLabel) {
+  const idpTextLong = dom.getElementsByClass(
+    'firebaseui-idp-text-long', button);
+  const idpTextShort = dom.getElementsByClass(
+    'firebaseui-idp-text-short', button);
+
+  assertEquals(
+      expectedLongLabel,
+      dom.getTextContent(idpTextLong[0]));
+  assertEquals(
+      expectedShortLabel,
+      dom.getTextContent(idpTextShort[0]));
+}
 
 /**
  * Asserts the busy indicator is after a short delay.
@@ -374,6 +393,7 @@ testSuite({
         'tenants': {
           // The top-level project UI configuration.
           '_': {
+            'fullLabel': 'ACME Login',
             'displayName': 'ACME',
             'buttonColor': '#FFB6C1',
             'iconUrl': '<icon-url-of-sign-in-button>',
@@ -393,6 +413,7 @@ testSuite({
             'privacyPolicyUrl': 'http://localhost/privacy_policy',
           },
           'tenant1': {
+            'fullLabel': 'Contractor A Portal',
             'displayName': 'Contractor A',
             'buttonColor': '#ADF7B2',
             'iconUrl': '<icon-url-of-sign-in-button>',
@@ -420,6 +441,7 @@ testSuite({
             'privacyPolicyUrl': 'http://localhost/privacy_policy',
           },
           'tenant2': {
+            'fullLabel': 'Contractor B Portal',
             'displayName': 'Contractor B',
             'buttonColor': '#EAC9A1',
             'iconUrl': '<icon-url-of-sign-in-button>',
@@ -490,10 +512,20 @@ testSuite({
         'firebaseui-id-tenant-selection-button', container);
     // Two tenants should be available to be selected from.
     const expectedTenants = ['tenant1', 'tenant2'];
+    // Two expected labels on buttons.
+    const expectedLongLabels = [
+      'Contractor A Portal',
+      'Sign in to Contractor B'
+    ];
+    const expectedShortLabels = ['Contractor A', 'Contractor B'];
+
     assertEquals(expectedTenants.length, buttons.length);
     for (let i = 0; i < buttons.length; i++) {
-      assertEquals(expectedTenants[i],
-                   dataset.get(buttons[i], 'tenantId'));
+      assertEquals(expectedTenants[i], dataset.get(buttons[i], 'tenantId'));
+      assertIdpButtonLabels(
+          buttons[i],
+          expectedShortLabels[i],
+          expectedLongLabels[i]);
     }
 
     // Click the tenant1's button.
@@ -587,10 +619,19 @@ testSuite({
         'firebaseui-id-tenant-selection-button', container);
     // Only two tenants should be available to be selected from.
     const expectedTenants = ['tenant1', 'tenant2'];
+    const expectedLongLabels = [
+      'Contractor A Portal',
+      'Sign in to Contractor B'
+    ];
+    const expectedShortLabels = ['Contractor A', 'Contractor B'];
     assertEquals(expectedTenants.length, buttons.length);
     for (let i = 0; i < buttons.length; i++) {
       assertEquals(expectedTenants[i],
-                   dataset.get(buttons[i], 'tenantId'));
+          dataset.get(buttons[i], 'tenantId'));
+      assertIdpButtonLabels(
+          buttons[i],
+          expectedShortLabels[i],
+          expectedLongLabels[i]);
     }
 
     testingEvents.fireClickSequence(buttons[1]);

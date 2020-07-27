@@ -30,7 +30,7 @@ firebaseui.auth.ui.page.EmailLinkSignInLinking =
     class extends firebaseui.auth.ui.page.Base {
   /**
    * @param {string} email The user's email.
-   * @param {?Object} providerConfig The provider config of the IdP we should
+   * @param {?} providerConfig The provider config of the IdP we should
    *     use for sign in.
    * @param {function()} onSubmitClick Callback to invoke when the submit button
    *     is clicked.

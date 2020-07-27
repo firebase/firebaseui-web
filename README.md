@@ -1536,7 +1536,7 @@ You can refer to the example in this
 [guide](https://cloud.google.com/identity-platform/docs/multi-tenancy-ui).
 
 There is also a
-[quickstart](https://github.com/firebase/quickstart-js/blob/master/auth/multi-tenant-ui.html)
+[quickstart](https://cloud.google.com/identity-platform/docs/multi-tenancy-quickstart)
 app available to demonstrate how to build a single sign-in page with the
 FirebaseUI for two tenants which have different sets of identity providers enabled.
 

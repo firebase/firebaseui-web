@@ -609,6 +609,13 @@ firebaseui.auth.Config.prototype.widgetUrl;
  */
 firebaseui.auth.TenantConfig = function() {};
 
+/**
+ * The tenant full label of the tenant selection button for the option first
+ * flow.
+ *
+ * @type {string|undefined}
+ */
+firebaseui.auth.TenantConfig.prototype.fullLabel;
 
 /**
  * The tenant display name of the tenant selection button for the option first

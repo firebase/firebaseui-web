@@ -557,7 +557,22 @@ function testTenantSelectionButton() {
       displayName: 'ACME',
       buttonColor: '#53B2BF',
       iconUrl: 'icon-url',
-    }];
+    },
+    {
+      tenantId: 'TENANT_1',
+      fullLabel: 'Contractor Login',
+      displayName: 'OIDC',
+      buttonColor: '#4666FF',
+      iconUrl: 'icon-url',
+    },
+    {
+      tenantId: 'TENANT_2',
+      fullLabel: null,
+      displayName: 'Contractor Corp',
+      buttonColor: '#2F2B2E',
+      iconUrl: 'icon-url',
+    }
+  ];
   const root = goog.dom.getElement('tenant-selection-button');
   for (let i = 0; i < tenantConfigs.length; i++) {
     const button = goog.soy.renderAsElement(
