@@ -813,7 +813,22 @@ function testTenantSelect() {
             displayName: 'ACME',
             buttonColor: '#53B2BF',
             iconUrl: 'icon-url',
-          }],
+          },
+          {
+            tenantId: 'TENANT_1',
+            fullLabel: 'Contractor Login',
+            displayName: 'OIDC',
+            buttonColor: '#4666FF',
+            iconUrl: 'icon-url',
+          },
+          {
+            tenantId: 'TENANT_2',
+            fullLabel: null,
+            displayName: 'ACME Corp',
+            buttonColor: '#2F2B2E',
+            iconUrl: 'icon-url',
+          },
+        ],
       },
       IJ_DATA_);
 }
