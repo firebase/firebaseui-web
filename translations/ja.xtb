@@ -1,14 +1,14 @@
 <translationbundle lang="ja">
-<translation id="1003362845472634045">ログインメールを送信しました</translation>
+<translation id="1003362845472634045">サインインメールを送信しました</translation>
 <translation id="10081113082271688">確認コードが正しくありません</translation>
 <translation id="1024070574104100559">セントヴィンセント</translation>
-<translation id="1080228854514607739">メールリンクが無効です。この問題は、メールリンクが期限切れか、すでにログインに使用されている場合に発生する可能性があります。ログインフローをやり直してください。</translation>
+<translation id="1080228854514607739">メールリンクが無効です。この問題は、メールリンクが期限切れか、すでにサインインに使用されている場合に発生する可能性があります。サインインフローをやり直してください。</translation>
 <translation id="1088824719285122027">この電話番号は何度も使用されています</translation>
 <translation id="1111168792069656940">ui_flow</translation>
 <translation id="1130401182255828006">ラトビア</translation>
 <translation id="1133565039750742069">保存</translation>
 <translation id="1139115784936170936">シンガポール</translation>
-<translation id="1163494479861953195">この操作を行うには再度ログインしてください</translation>
+<translation id="1163494479861953195">この操作を行うには再度サインインしてください</translation>
 <translation id="1163771673786684213">フィリピン</translation>
 <translation id="1170304454812139475">ルーマニア</translation>
 <translation id="1194565221977667376">南ジョージア諸島および南サンドウィッチ諸島</translation>
@@ -25,11 +25,11 @@
 <translation id="137210131544215127">パスワードを入力してください</translation>
 <translation id="1393433815796487579">完了</translation>
 <translation id="1412449974349991050">ハイチ</translation>
-<translation id="144766329299583285">ログイン メールアドレスの変更をリクエストしていない場合は、誰かがあなたのアカウントにアクセスしようとしている可能性があります。<ph name="START_LINK" />今すぐパスワードを変更してください<ph name="END_LINK" />。</translation>
+<translation id="144766329299583285">サインイン メールアドレスの変更をリクエストしていない場合は、誰かがあなたのアカウントにアクセスしようとしている可能性があります。<ph name="START_LINK" />今すぐパスワードを変更してください<ph name="END_LINK" />。</translation>
 <translation id="1449981769524156676">ハード島およびマクドナルド諸島</translation>
 <translation id="1479035434297790822">この IP アドレスから多くのアカウント リクエストが送信されています。しばらくしてからもう一度お試しください。</translation>
 <translation id="1483249363694224399">スリランカ</translation>
-<translation id="1507995441600689506">新しいアカウントでログインできるようになりました</translation>
+<translation id="1507995441600689506">新しいアカウントでサインインできるようになりました</translation>
 <translation id="1544981664986460902">クライアントが無効な引数を指定しました。</translation>
 <translation id="1575848116712334589">チャド</translation>
 <translation id="1630237004390596779"><ph name="STRING" />後にコードを再送信</translation>
@@ -59,7 +59,7 @@
 <translation id="2108717231438756650">英国</translation>
 <translation id="2120419640334291526">ケイマン諸島</translation>
 <translation id="2124070231227334770">モルドバ</translation>
-<translation id="2124843735553988177">アプリケーションにログインするには、必要な権限を承認してください</translation>
+<translation id="2124843735553988177">アプリケーションにサインインするには、必要な権限を承認してください</translation>
 <translation id="2130553359919781209">マラウイ</translation>
 <translation id="2187260952722791093">確認済み</translation>
 <translation id="2192561962270021282">電話番号を入力してください</translation>
@@ -72,12 +72,12 @@
 <translation id="227405248692044138">マルタ</translation>
 <translation id="2285049245646335550">カボベルデ</translation>
 <translation id="2301396996587599046">マケドニア</translation>
-<translation id="2310948428656960769">ログインしました</translation>
+<translation id="2310948428656960769">サインインしました</translation>
 <translation id="2324942959480650701">ゲスト</translation>
 <translation id="2331781584136059536">ガーナ</translation>
 <translation id="2338909515537249568">お使いのブラウザは Web Storage に対応していません。他のブラウザでもう一度お試しください。</translation>
 <translation id="2342152898808240937">リクエストはクライアントによってキャンセルされました。</translation>
-<translation id="2356282732642724501"><ph name="START_PARAGRAPH" />ログイン メールアドレスを元に戻す際に問題が発生しました。<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />再度試してもメールアドレスを再設定できない場合は、管理者にお問い合わせください。<ph name="END_PARAGRAPH" /></translation>
+<translation id="2356282732642724501"><ph name="START_PARAGRAPH" />サインイン メールアドレスを元に戻す際に問題が発生しました。<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />再度試してもメールアドレスを再設定できない場合は、管理者にお問い合わせください。<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">バーレーン</translation>
 <translation id="2392247362473363900">内部サーバーエラーです。</translation>
 <translation id="2405828009195143258">イラン</translation>
@@ -91,7 +91,7 @@
 <translation id="2541179214468543429">正しくないパスワードを何度も入力しています。しばらくしてからもう一度お試しください。</translation>
 <translation id="2561560038714758184">セキュリティ</translation>
 <translation id="2561835578785502516">パスワードの再設定のリクエストの期限が切れたか、リンクがすでに使用されています</translation>
-<translation id="2562498793334241360">新しいメールアドレス（<ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />）でログインできるようになりました。</translation>
+<translation id="2562498793334241360">新しいメールアドレス（<ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />）でサインインできるようになりました。</translation>
 <translation id="2581514546525533462">指定した国コードはサポートされていません。</translation>
 <translation id="2600950452451016107">メールアドレスのスペルに誤りがないか確認する。</translation>
 <translation id="2610891451939662786">Twitter</translation>
@@ -108,12 +108,12 @@
 <translation id="2668496398414877352">コソボ</translation>
 <translation id="2674823936234616183">ウズベキスタン</translation>
 <translation id="2696162410887720551">オーランド諸島</translation>
-<translation id="2725769874498146298">ログイン セッションの期限が切れました。もう一度やり直してください。</translation>
+<translation id="2725769874498146298">サインイン セッションの期限が切れました。もう一度やり直してください。</translation>
 <translation id="2741235824871026219">確認</translation>
 <translation id="2752984808025184019">南アフリカ</translation>
 <translation id="2760636260031093254">続行するにはメールアドレスを入力してください</translation>
 <translation id="276938411216176478">ユーザー アカウントが管理者によって無効にされています。</translation>
-<translation id="2782685789517131804">詳細な説明を記載したログインメールを <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> に送信しました。メールを確認してログインを完了してください。</translation>
+<translation id="2782685789517131804">詳細な説明を記載したサインインメールを <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> に送信しました。メールを確認してサインインを完了してください。</translation>
 <translation id="2824267666257947103">パスワードを入力</translation>
 <translation id="2828509010894808185">アカウントの作成</translation>
 <translation id="2834770837848769530">アフガニスタン</translation>
@@ -129,17 +129,17 @@
 <translation id="3046745817056752783">サウジアラビア</translation>
 <translation id="3083819527012413063"><ph name="APP_NAME" /> に別のセキュリティ要素が追加されました。</translation>
 <translation id="3122584863645047144">米領バージン諸島</translation>
-<translation id="3141549453511344986">携帯電話を使用してログイン</translation>
+<translation id="3141549453511344986">携帯電話を使用してサインイン</translation>
 <translation id="3147551458884186429">インドネシア</translation>
-<translation id="3154748063569624719">最初は、<ph name="PENDING_EMAIL" /> でのログインをご希望でした</translation>
+<translation id="3154748063569624719">最初は、<ph name="PENDING_EMAIL" /> でのサインインをご希望でした</translation>
 <translation id="3164676761565983157">ベネズエラ</translation>
-<translation id="3170526549630869494">ログインできない場合</translation>
+<translation id="3170526549630869494">サインインできない場合</translation>
 <translation id="3204914819635733576">ご本人確認</translation>
 <translation id="3215050409577090361">リクエストの認証時に問題が発生しました。このページにリダイレクトした URL に再度アクセスし、認証プロセスをもう一度行ってください。</translation>
 <translation id="3216149523061905579">ドミニカ国</translation>
 <translation id="3223688630903046698">新しいパスワード</translation>
 <translation id="3250864391349648273">ガボン</translation>
-<translation id="3259479674319858599"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> をすでに使用しています。<ph name="IDP_DISPLAY_NAME" /> でログインして続行してください。</translation>
+<translation id="3259479674319858599"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> をすでに使用しています。<ph name="IDP_DISPLAY_NAME" /> でサインインして続行してください。</translation>
 <translation id="3275852444431525182">ニュージーランド</translation>
 <translation id="3314478375063334511">ミャンマー</translation>
 <translation id="3361878270020566601">アイスランド</translation>
@@ -147,7 +147,7 @@
 <translation id="3372254675985592547">キューバ</translation>
 <translation id="3394519231857398207">フランス</translation>
 <translation id="3398534025670554188">中国</translation>
-<translation id="3409391354412142307"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> はすでに使用されています。以下のメールリンクを使用してログインすると、<ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> アカウントを <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> に接続できます。</translation>
+<translation id="3409391354412142307"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> はすでに使用されています。以下のメールリンクを使用してサインインすると、<ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> アカウントを <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> に接続できます。</translation>
 <translation id="3413300222170818119">ザンビア</translation>
 <translation id="3429213469114503705">バチカン市国</translation>
 <translation id="3434621886769337032">ガンビア</translation>
@@ -159,13 +159,13 @@
 <translation id="354888504916863713">ベトナム</translation>
 <translation id="3550380781997195832">メールアドレスが正しくありません</translation>
 <translation id="3561568594856945084">マイヨット島</translation>
-<translation id="3591063723610544836">ログイン</translation>
+<translation id="3591063723610544836">サインイン</translation>
 <translation id="3593480381831738519">パスワードの再設定</translation>
 <translation id="3597673897213051724">送信</translation>
 <translation id="3605933028246642593">ネパール</translation>
 <translation id="3608140835232496799">トケラウ</translation>
 <translation id="3620185428620643248">選択中の認証プロバイダの認証情報はサポートされていません。</translation>
-<translation id="3658306886462996856">指定のメールアドレスで利用可能なログイン プロバイダはありません。別のメールアドレスでお試しください。</translation>
+<translation id="3658306886462996856">指定のメールアドレスで利用可能なサインイン プロバイダはありません。別のメールアドレスでお試しください。</translation>
 <translation id="3695180913983403205">姓と名を入力してください。</translation>
 <translation id="3700097473356216716">コロンビア</translation>
 <translation id="3703067902498234034">[保存] をタップすると、次に同意したことになります: </translation>
@@ -176,7 +176,7 @@
 <translation id="3819556544383051267">パプアニューギニア</translation>
 <translation id="3828991952827504549">指定されたリソースが見つかりません。</translation>
 <translation id="3862053977934420187">確認しています...</translation>
-<translation id="3898029444496274961">ログイン</translation>
+<translation id="3898029444496274961">サインイン</translation>
 <translation id="3905423743526704083">東ティモール</translation>
 <translation id="3908950705971364393">ジブチ</translation>
 <translation id="3954166521214262397">6 桁のコード</translation>
@@ -185,8 +185,8 @@
 <translation id="4011940631682920330">アクション コードが無効です。この問題は、コードの形式が誤っているか期限が切れている、またはコードがすでに使用されている場合に発生する可能性があります。</translation>
 <translation id="4022450612826261789">コソボ</translation>
 <translation id="4025579119565425333">以下の一般的な解決方法をお試しください。</translation>
-<translation id="4056653682525186486"><ph name="XXX" /> でログイン</translation>
-<translation id="4064888056475403511">ログイン プロセスを開始したときと同じデバイスまたはブラウザを使用してリンクを開いてみてください。</translation>
+<translation id="4056653682525186486"><ph name="XXX" /> でサインイン</translation>
+<translation id="4064888056475403511">サインイン プロセスを開始したときと同じデバイスまたはブラウザを使用してリンクを開いてみてください。</translation>
 <translation id="4066104405592701692">エストニア</translation>
 <translation id="4147949012570877154">削除</translation>
 <translation id="4163133799286985193">アルゼンチン</translation>
@@ -212,7 +212,7 @@
 <translation id="4521614244485847733">メールアドレスが既存のアカウントと一致しません</translation>
 <translation id="4556476996891737119">ヨルダン</translation>
 <translation id="4571870355114729513"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> に送信された手順に沿ってパスワードを復元します</translation>
-<translation id="4588392627302012849">メールでログイン</translation>
+<translation id="4588392627302012849">メールでサインイン</translation>
 <translation id="4595119411041064617">[<ph name="PH_1" />] をタップすると、SMS が送信されます。データ通信料がかかることがあります。</translation>
 <translation id="4632709875751031323">ロシア</translation>
 <translation id="4644169548516814280">このメールアドレスは他のアカウントによってすでに使用されています</translation>
@@ -225,7 +225,7 @@
 <translation id="4775051289386800916">ニカラグア</translation>
 <translation id="4783400389150493171">ブルキナファソ</translation>
 <translation id="4852256440857413490">コードが間違っています。もう一度お試しください。</translation>
-<translation id="4866990546854875813">このログイン リクエストに関連付けられたセッションの有効期限が切れているか、クリアされています。</translation>
+<translation id="4866990546854875813">このサインイン リクエストに関連付けられたセッションの有効期限が切れているか、クリアされています。</translation>
 <translation id="4871106926303956169">タークス カイコス諸島</translation>
 <translation id="4877597386645466815"><ph name="TIME_REMAINING" /> 後にコードを再送信</translation>
 <translation id="4900116391137165411">
@@ -235,7 +235,7 @@
 <translation id="4923375331439013137">2 つ目の認証要素を削除できませんでした</translation>
 <translation id="4955175001894453989">パスワードの追加</translation>
 <translation id="496366313824211679">エルサルバドル</translation>
-<translation id="4982483807073820954">アカウントのパスワードを変更するには、再度ログインする必要があります。</translation>
+<translation id="4982483807073820954">アカウントのパスワードを変更するには、再度サインインする必要があります。</translation>
 <translation id="4991626049082973728">セルビア</translation>
 <translation id="4991892293325936102">ベリーズ</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" />メールアドレス: <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /><ph name="END_PARAGRAPH" /></translation>
@@ -251,7 +251,7 @@
 <translation id="5326139833547026317">オランダ領カリブ</translation>
 <translation id="5347459868860672391">メールアドレスを更新しました</translation>
 <translation id="5397737236938796917">ログアウトが完了しました。</translation>
-<translation id="5406620662929585965">電話番号でログイン</translation>
+<translation id="5406620662929585965">電話番号でサインイン</translation>
 <translation id="5407010562344541906">電話番号</translation>
 <translation id="5409861738809250803">アカウントをすでにお持ちです</translation>
 <translation id="5410341463946781720">タイ</translation>
@@ -259,7 +259,7 @@
 <translation id="5444635161362535036">リヒテンシュタイン</translation>
 <translation id="5483706910421209104">名前の編集</translation>
 <translation id="5487696047685227891">デバイスまたはアプリが 2 つ目の認証手順から削除されました。</translation>
-<translation id="5490651768073507833">ログイン プロセスを開始したときと同じデバイスまたはブラウザを使用してリンクを開いてみてください。</translation>
+<translation id="5490651768073507833">サインイン プロセスを開始したときと同じデバイスまたはブラウザを使用してリンクを開いてみてください。</translation>
 <translation id="5524360735013196510">オランダ</translation>
 <translation id="5528189843379142883">赤道ギニア</translation>
 <translation id="5529036554155743092">オーストラリア</translation>
@@ -267,7 +267,7 @@
 <translation id="5543493820882105191">名前を入力</translation>
 <translation id="55439745111619380">アセンション島</translation>
 <translation id="5569341882117077010">ネットワーク エラーが発生しました</translation>
-<translation id="5581239183924693195"><ph name="IDP_DISPLAY_NAME" /> でログイン</translation>
+<translation id="5581239183924693195"><ph name="IDP_DISPLAY_NAME" /> でサインイン</translation>
 <translation id="5585451911077299623">パスワードを設定</translation>
 <translation id="5602886107840188229">英領インド洋地域</translation>
 <translation id="5604510594682955626">ウガンダ</translation>
@@ -285,14 +285,14 @@
 <translation id="5747263508495256858">ログアウト</translation>
 <translation id="5771034676910614239">マダガスカル</translation>
 <translation id="5818634293686963864">カザフスタン</translation>
-<translation id="5829301468800336085">ログインしています...</translation>
+<translation id="5829301468800336085">サインインしています...</translation>
 <translation id="5840765100196379855">パナマ</translation>
 <translation id="5840803301882074743">トンガ</translation>
 <translation id="5850752921356750845">ウォリス フツナ諸島</translation>
 <translation id="5853516492584814656">メールアドレスを更新できません</translation>
-<translation id="5905720181746284549">すでに <ph name="STRING" /> を使用してログインしています。このアカウントのパスワードを入力してください。</translation>
+<translation id="5905720181746284549">すでに <ph name="STRING" /> を使用してサインインしています。このアカウントのパスワードを入力してください。</translation>
 <translation id="5921101578434778028">アンギラ</translation>
-<translation id="5948592577241492942">このメールアドレスはすでに存在しますが、ログインする方法がありません。パスワードを再設定して復元してください。</translation>
+<translation id="5948592577241492942">このメールアドレスはすでに存在しますが、サインインする方法がありません。パスワードを再設定して復元してください。</translation>
 <translation id="5985902459796151462">ドミニカ共和国</translation>
 <translation id="5987586156626209007">ジャージー</translation>
 <translation id="5989709845715452405">パスワードの復元</translation>
@@ -300,10 +300,10 @@
 <translation id="6006148985615990975">ルワンダ</translation>
 <translation id="6032262985756512833">送信された <ph name="STRING" /> 桁のコードを入力してください</translation>
 <translation id="6044396095102058216">この電話番号は何度も使用されています</translation>
-<translation id="6083089720215618333">指定されたメールが現在のログイン セッションと一致しません。</translation>
+<translation id="6083089720215618333">指定されたメールが現在のサインイン セッションと一致しません。</translation>
 <translation id="6091051069256411999">Twitter</translation>
 <translation id="61182948399263957">
-<ph name="P_START" />以下のリンクから <ph name="APP_NAME" /> にログインしてください&lt;/p&gt;&lt;/p&gt;
+<ph name="P_START" />以下のリンクから <ph name="APP_NAME" /> にサインインしてください&lt;/p&gt;&lt;/p&gt;
 <ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6132202686885223981">受信トレイの容量不足や、設定関連のその他の問題がないか確認する。</translation>
 <translation id="6135589730599211649">クライアントが無効な範囲を指定しました。</translation>
@@ -318,13 +318,13 @@
 <translation id="6316446940976157217">インド</translation>
 <translation id="6327723482938582895">ベナン</translation>
 <translation id="6338643731889005578">続行</translation>
-<translation id="6359400968059656782">新しいパスワードでログインできるようになりました</translation>
+<translation id="6359400968059656782">新しいパスワードでサインインできるようになりました</translation>
 <translation id="6363241121027868570">アルバ</translation>
 <translation id="6377222208046638522">ルクセンブルグ</translation>
 <translation id="6381974517529371884">フェロー諸島</translation>
 <translation id="6443180961828792673">コソボ</translation>
 <translation id="6450170205342035038">ブルガリア</translation>
-<translation id="6470057025778734988">このアカウントを使用してログインできなくなります</translation>
+<translation id="6470057025778734988">このアカウントを使用してサインインできなくなります</translation>
 <translation id="6472297146424049005">インターネットの接続を確認する。</translation>
 <translation id="6483116480230343278">登録しています…</translation>
 <translation id="6502083090260346644">[<ph name="STRING" />] をタップすると、SMS が送信されます。データ通信料がかかることがあります。</translation>
@@ -338,7 +338,7 @@
 <translation id="6611519013130079637">ベルギー</translation>
 <translation id="6618737424980030515">ジョージア</translation>
 <translation id="6623411438614744695">ナミビア</translation>
-<translation id="6653313985929651858">ログインメールを送信しました\n</translation>
+<translation id="6653313985929651858">サインインメールを送信しました\n</translation>
 <translation id="6655128609744896303">コード送信完了</translation>
 <translation id="6683477520421532707">レユニオン</translation>
 <translation id="6683810982254923169">パスワードの再設定をもう一度お試しください</translation>
@@ -349,7 +349,7 @@
 <translation id="6728600931059699935">ミクロネシア</translation>
 <translation id="6739369526953005057">香港</translation>
 <translation id="6740430702644152657">アルバニア</translation>
-<translation id="6765051113469046531">ログイン メールアドレスが <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> に戻されました。</translation>
+<translation id="6765051113469046531">サインイン メールアドレスが <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> に戻されました。</translation>
 <translation id="6769550797775698634">カメルーン</translation>
 <translation id="6775190982418995854">スバールバル諸島およびヤンマイエン島</translation>
 <translation id="6775835872637240659">ウクライナ</translation>
@@ -363,15 +363,15 @@
 <translation id="6921505896641453739">メールアドレス</translation>
 <translation id="6929813273561975780">次へ</translation>
 <translation id="6951302238647056860">このコードは無効になりました</translation>
-<translation id="6961220857430789248">詳細な手順を記載したログインメールを <ph name="STRING" /> に送信しました。メールを確認してログインを完了してください。</translation>
+<translation id="6961220857430789248">詳細な手順を記載したサインインメールを <ph name="STRING" /> に送信しました。メールを確認してサインインを完了してください。</translation>
 <translation id="6984204927251307445">メールの確認</translation>
 <translation id="6999773882165218263">あなたの名前</translation>
 <translation id="7012506961150923116">グレナダ</translation>
 <translation id="7024571478138322659">西サハラ</translation>
 <translation id="7025117765722694556">現在のシステム状態ではリクエストを実行できません。</translation>
 <translation id="7062299334696934251">不明なエラーが発生しました。</translation>
-<translation id="7064251114893721966">すでに <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> を使用してログインしています。このアカウントのパスワードを入力してください。</translation>
-<translation id="7085136866191400000">ログインメールを送信しました</translation>
+<translation id="7064251114893721966">すでに <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> を使用してサインインしています。このアカウントのパスワードを入力してください。</translation>
+<translation id="7085136866191400000">サインインメールを送信しました</translation>
 <translation id="7089485669419398254">アイルランド</translation>
 <translation id="7093343209860483088">コンゴ民主共和国</translation>
 <translation id="7118080999850002096">パスワードの復元</translation>
@@ -382,16 +382,16 @@
 <translation id="7197455001919474950">キプロス</translation>
 <translation id="7198563013006562060">ソロモン諸島</translation>
 <translation id="7207660930894629055"><ph name="USER_EMAIL" /> で続行しますか？</translation>
-<translation id="720983450833499456">このデバイスで <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> によるログインを続行するには、パスワードを復元する必要があります。</translation>
+<translation id="720983450833499456">このデバイスで <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> によるサインインを続行するには、パスワードを復元する必要があります。</translation>
 <translation id="7223410082658239002">モルディブ</translation>
 <translation id="7254028881697834212">サントメ プリンシペ</translation>
-<translation id="7268827299582726485">メールを確認してログインを完了してください</translation>
+<translation id="7268827299582726485">メールを確認してサインインを完了してください</translation>
 <translation id="7272145663101316762">スロベニア</translation>
 <translation id="7280309713358692490">韓国</translation>
 <translation id="7283725113395426048">同時実行の競合（読み取り - 変更 - 書き込みの競合など）。</translation>
 <translation id="7290147808482957603">API メソッドはサーバーによって実装されていません。</translation>
 <translation id="7291567990403335374">レソト</translation>
-<translation id="7291656724505689727">電話番号でログイン</translation>
+<translation id="7291656724505689727">電話番号でサインイン</translation>
 <translation id="7320029088567935126">メールアドレスを再度確認してください</translation>
 <translation id="7331038350037712642">アゼルバイジャン</translation>
 <translation id="743266754881673808">Google</translation>
@@ -405,17 +405,17 @@
 <translation id="7592224526951017144">ドイツ</translation>
 <translation id="7595933825828475368">メールが受信できない場合</translation>
 <translation id="7615083347713899917">キルギスタン</translation>
-<translation id="7643408533407091568">すでに <ph name="EMAIL_ADDR" /> を使用してログインしています。このアカウントのパスワードを入力してください。</translation>
+<translation id="7643408533407091568">すでに <ph name="EMAIL_ADDR" /> を使用してサインインしています。このアカウントのパスワードを入力してください。</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{パスワードが十分に安全ではありません。<ph name="PH_1" /> 文字以上で、文字と数字を組み合わせたパスワードを使用してください}other{パスワードが十分に安全ではありません。<ph name="PH_1" /> 文字以上で、文字と数字を組み合わせたパスワードを使用してください}}</translation>
 <translation id="7699755204074920022">ジンバブエ</translation>
 <translation id="7746977132739352062">OAuth トークンがない、もしくは無効、期限切れのためにリクエストが認証されませんでした。</translation>
 <translation id="7778245738233381641">6 桁の電話による確認コードを入力してください。</translation>
 <translation id="7790301903034097323">パスワードを設定</translation>
 <translation id="7796914496604415892">新しいデバイスまたはブラウザが検出されました</translation>
-<translation id="786166109137986817"><ph name="DISPLAY_NAME" /> にログイン</translation>
+<translation id="786166109137986817"><ph name="DISPLAY_NAME" /> にサインイン</translation>
 <translation id="7868540442111212282">チェコ共和国</translation>
 <translation id="7874584525604421364">ツバル</translation>
-<translation id="7926046652648626866">GitHub でログイン</translation>
+<translation id="7926046652648626866">GitHub でサインイン</translation>
 <translation id="792838323404934335">グリーンランド</translation>
 <translation id="7956645158976161232">リビア</translation>
 <translation id="8017277252219866084">ケニア</translation>
@@ -462,7 +462,7 @@
 <translation id="8505941919386646914">マルチニーク</translation>
 <translation id="8534746304953308378">トーゴ</translation>
 <translation id="8572093925387077451">アカウントをすでにお持ちです</translation>
-<translation id="8585285847459057945"><ph name="APP_NAME" /> のログイン用メールアドレスが変更されました</translation>
+<translation id="8585285847459057945"><ph name="APP_NAME" /> のサインイン用メールアドレスが変更されました</translation>
 <translation id="8585655327529919573">このメールアドレスに送信された、パスワードの再設定方法をご確認ください</translation>
 <translation id="8652838224332661203">ナウル</translation>
 <translation id="8657280305228520442">ブルネイ</translation>
@@ -483,9 +483,9 @@
 <translation id="8869797682387766327">マン島</translation>
 <translation id="8893950153780006385">マレーシア</translation>
 <translation id="8895840173743975193">ココス（キーリング）諸島</translation>
-<translation id="8916080112145514151"><ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> アカウントを接続する場合は、ログインを開始したデバイスでリンクを開いてください。元のプロバイダに接続しない場合は、このデバイスで [続行] をタップしてログインしてください。</translation>
+<translation id="8916080112145514151"><ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> アカウントを接続する場合は、サインインを開始したデバイスでリンクを開いてください。元のプロバイダに接続しない場合は、このデバイスで [続行] をタップしてサインインしてください。</translation>
 <translation id="8920674952994839257">再試行</translation>
-<translation id="8939353296336237380">元々は <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> をメール アカウントに接続しようとしましたが、このプロバイダにログインしていないデバイスでリンクが開かれました。</translation>
+<translation id="8939353296336237380">元々は <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> をメール アカウントに接続しようとしましたが、このプロバイダにサインインしていないデバイスでリンクが開かれました。</translation>
 <translation id="8971555482255213064">0:<ph name="PH_1" /> 秒後にコードを再送信します</translation>
 <translation id="8984161590699631096">モロッコ</translation>
 <translation id="8994098794339484800">このデバイスに心当たりがない場合は、他のユーザーがアカウントにアクセスしようとしている可能性があります。<ph name="START_LINK" />今すぐパスワードを変更する<ph name="END_LINK" />ことをおすすめします。</translation>
