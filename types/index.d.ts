@@ -103,6 +103,7 @@ interface PhoneSignInOption extends SignInOption {
 declare namespace firebaseui.auth {
   interface Config {
     acUiConfig?: object;
+    allowNewAccountCreation?: boolean;
     autoUpgradeAnonymousUsers?: boolean;
     callbacks?: Callbacks;
     credentialHelper?: CredentialHelperType;
