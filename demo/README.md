@@ -24,9 +24,7 @@ Run:
 
 ```bash
 git clone https://github.com/firebase/firebaseui-web.git
-cd firebaseui-web
-npm install
-cd demo
+cd firebaseui-web/demo
 ```
 
 This will clone the repository in the current directory.
@@ -50,6 +48,17 @@ cp public/sample-config.js public/config.js
 Then copy and paste the Web snippet code found in the console (either by clicking "Add Firebase to
 your web app" button in your Project overview, or clicking the "Web setup" button in the Auth page)
 in the `config.js` file.
+
+## Integrate One-tap sign-up with FirebaseUI (optional)
+
+If you want to integrate with
+[One-tap sign-up](https://developers.google.com/identity/one-tap/web/overview),
+you will also need the Google OAuth web client ID corresponding to that project
+which can be retrieved from the Google Cloud Console. This value will need to be
+populated in `CLIENT_ID`.
+The domain of the page has to also be whitelisted. Learn more on how to
+[get started with One-tap sign-up](https://developers.google.com/identity/one-tap/web/get-started).
+Skip this step, if you don't want to use One-tap sign-up with FirebaseUI.
 
 ## Deploy
 

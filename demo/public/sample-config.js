@@ -13,13 +13,17 @@
  */
 
 var config = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "your-app.firebaseapp.com",
-  databaseURL: "https://your-app.firebaseio.com",
-  storageBucket: "your-app.appspot.com",
+  apiKey: "AIzaSyBTOVItkDbx63M2vU9SsKWufb5rtdHHD68",
+  authDomain: "fir-ui-demo-84a6c.firebaseapp.com",
+  databaseURL: "https://fir-ui-demo-84a6c.firebaseio.com",
+  projectId: "fir-ui-demo-84a6c",
+  storageBucket: "fir-ui-demo-84a6c.appspot.com",
+  messagingSenderId: "265939374336"
 };
 firebase.initializeApp(config);
 
+
 // Google OAuth Client ID, needed to support One-tap sign-up.
 // Set to null if One-tap sign-up is not supported.
-var CLIENT_ID = 'YOUR_OAUTH_CLIENT_ID';
+var CLIENT_ID =
+    '265939374336-cj26lol6s990fq9fp4s0ri86si3rj86n.apps.googleusercontent.com';

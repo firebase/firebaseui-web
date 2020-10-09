@@ -21,6 +21,7 @@ goog.provide('firebaseui.auth.ui.element.newPassword');
 goog.require('firebaseui.auth.soy2.strings');
 goog.require('firebaseui.auth.ui.element');
 goog.require('goog.dom.classlist');
+goog.requireType('goog.ui.Component');
 
 
 goog.scope(function() {

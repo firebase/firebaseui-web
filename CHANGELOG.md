@@ -1,1 +1,1 @@
-* Allow `fullLabel` customization for tenant selection buttons in FirebaseUI for IAP.
+* Removes all accountchooser.com dependencies and deprecates all related APIs now that it is operating in universal opt-out mode.

@@ -20,6 +20,7 @@ goog.provide('firebaseui.auth.ui.page.Spinner');
 
 goog.require('firebaseui.auth.soy2.page');
 goog.require('firebaseui.auth.ui.page.Base');
+goog.requireType('goog.dom.DomHelper');
 
 
 /**

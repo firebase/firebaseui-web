@@ -21,6 +21,7 @@
 goog.provide('firebaseui.auth.soy2.pageTest');
 goog.setTestOnly('firebaseui.auth.soy2.pageTest');
 
+goog.require('firebaseui.auth.soy2.element');
 goog.require('firebaseui.auth.soy2.page');
 /** @suppress {extraRequire} Required for initViewer helper function. */
 goog.require('firebaseui.auth.soy2.viewHelper');

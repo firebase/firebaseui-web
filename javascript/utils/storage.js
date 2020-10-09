@@ -18,16 +18,15 @@
 
 goog.provide('firebaseui.auth.storage');
 
-goog.require('firebaseui.auth.Account');
 goog.require('firebaseui.auth.CookieMechanism');
 goog.require('firebaseui.auth.PendingEmailCredential');
 goog.require('firebaseui.auth.RedirectStatus');
 goog.require('firebaseui.auth.crypt');
-goog.require('goog.array');
 goog.require('goog.storage.Storage');
 goog.require('goog.storage.mechanism.HTML5LocalStorage');
 goog.require('goog.storage.mechanism.HTML5SessionStorage');
 goog.require('goog.storage.mechanism.mechanismfactory');
+goog.requireType('goog.storage.mechanism.Mechanism');
 
 
 goog.scope(function() {
@@ -105,15 +104,6 @@ storage.Key = {
   REDIRECT_URL: {
     name: 'redirectUrl',
     storage: storage.temporaryStorage_
-  },
-  REMEMBER_ACCOUNT: {
-    name: 'rememberAccount',
-    storage: storage.temporaryStorage_
-  },
-  // Persistent storage.
-  REMEMBERED_ACCOUNTS: {
-    name: 'rememberedAccounts',
-    storage: storage.persistentStorage_
   },
   // Cookie storage.
   EMAIL_FOR_SIGN_IN: {
@@ -232,105 +222,6 @@ storage.removeRedirectUrl = function(opt_id) {
  */
 storage.setRedirectUrl = function(redirectUrl, opt_id) {
   storage.set_(storage.Key.REDIRECT_URL, redirectUrl, opt_id);
-};
-
-
-/**
- * @param {string=} opt_id When operating in multiple app mode, this ID
- *     associates storage values with specific apps.
- * @return {boolean} Whether there is a remember account setting.
- */
-storage.hasRememberAccount = function(opt_id) {
-  return storage.get_(storage.Key.REMEMBER_ACCOUNT, opt_id) != null;
-};
-
-
-/**
- * @param {string=} opt_id When operating in multiple app mode, this ID
- *     associates storage values with specific apps.
- * @return {boolean} Whether or not to remember the account. `false` is
- *     returned if there is no such setting.
- */
-storage.isRememberAccount = function(opt_id) {
-  return !!storage.get_(storage.Key.REMEMBER_ACCOUNT, opt_id);
-};
-
-
-/**
- * Stores the remember account setting.
- *
- * @param {boolean} remember Whether or not to remember the account.
- * @param {string=} opt_id When operating in multiple app mode, this ID
- *     associates storage values with specific apps.
- */
-storage.setRememberAccount = function(remember, opt_id) {
-  storage.set_(storage.Key.REMEMBER_ACCOUNT, remember, opt_id);
-};
-
-
-/**
- * Removes the remember account setting.
- *
- * @param {string=} opt_id When operating in multiple app mode, this ID
- *     associates storage values with specific apps.
- */
-storage.removeRememberAccount = function(opt_id) {
-  storage.remove_(storage.Key.REMEMBER_ACCOUNT, opt_id);
-};
-
-
-/**
- * @param {string=} opt_id When operating in multiple app mode, this ID
- *     associates storage values with specific apps.
- * @return {!Array<!firebaseui.auth.Account>} The remembered accounts.
- */
-storage.getRememberedAccounts = function(opt_id) {
-  var rawAccounts = /** @type {!Array<!Object>} */ (
-      storage.get_(storage.Key.REMEMBERED_ACCOUNTS, opt_id) || []);
-  var accounts = goog.array.map(rawAccounts, function(element) {
-    return firebaseui.auth.Account.fromPlainObject(element);
-  });
-  return goog.array.filter(accounts, x => x != null);
-};
-
-
-/**
- * Remembers an account.
- *
- * @param {!firebaseui.auth.Account} account The account to remember.
- * @param {string=} opt_id When operating in multiple app mode, this ID
- *     associates storage values with specific apps.
- */
-storage.rememberAccount = function(account, opt_id) {
-  var accounts = storage.getRememberedAccounts(opt_id);
-  // Find the account if it's already remembered.
-  var index = goog.array.findIndex(accounts, function(element) {
-    return element.getEmail() == account.getEmail() &&
-      element.getProviderId() == account.getProviderId();
-  });
-  if (index > -1) {
-    goog.array.removeAt(accounts, index);
-  }
-  // Put the last added account to the beginning of the array so it appears as
-  // the first one.
-  accounts.unshift(account);
-  storage.set_(
-      storage.Key.REMEMBERED_ACCOUNTS,
-      goog.array.map(accounts, function(element) {
-        return element.toPlainObject();
-      }),
-      opt_id);
-};
-
-
-/**
- * Removes all remembered accounts.
- *
- * @param {string=} opt_id When operating in multiple app mode, this ID
- *     associates storage values with specific apps.
- */
-storage.removeRememberedAccounts = function(opt_id) {
-  storage.remove_(storage.Key.REMEMBERED_ACCOUNTS, opt_id);
 };
 
 
@@ -476,8 +367,8 @@ storage.getEmailForSignIn = function(encryptionKey, opt_id) {
           encryptionKey,
           /** @type {string} */ (encryptedEmailObject));
       var emailObject = JSON.parse(serilizedEmailObject);
-      email =
-          (emailObject && emailObject[storage.EMAIL_FOR_SIGN_IN_KEY_]) || null;
+      email = /** @type {?string} */ (
+          (emailObject && emailObject[storage.EMAIL_FOR_SIGN_IN_KEY_]) || null);
     } catch (e) {
       // Do nothing.
     }

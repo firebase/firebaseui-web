@@ -66,13 +66,6 @@ testSuite({
     stub.reset();
   },
 
-  testGetAcUiConfig() {
-    assertNull(config.getAcUiConfig());
-    const ui = {favicon: 'http://localhost/favicon.ico'};
-    config.update('acUiConfig', ui);
-    assertObjectEquals(ui, config.getAcUiConfig());
-  },
-
   testGetQueryParameterForSignInSuccessUrl() {
     // Confirm default value for query parameter for sign-in success URL.
     assertEquals(
@@ -93,13 +86,13 @@ testSuite({
     let widgetUrl = config.getRequiredWidgetUrl();
     assertEquals('http://localhost/callback', widgetUrl);
     widgetUrl = config.getRequiredWidgetUrl(
-        Config.WidgetMode.SELECT);
-    assertEquals('http://localhost/callback?mode=select', widgetUrl);
+        Config.WidgetMode.SIGN_IN);
+    assertEquals('http://localhost/callback?mode=signIn', widgetUrl);
 
     config.update('queryParameterForWidgetMode', 'mode2');
     widgetUrl = config.getRequiredWidgetUrl(
-        Config.WidgetMode.SELECT);
-    assertEquals('http://localhost/callback?mode2=select', widgetUrl);
+        Config.WidgetMode.SIGN_IN);
+    assertEquals('http://localhost/callback?mode2=signIn', widgetUrl);
   },
 
   testFederatedProviderShouldImmediatelyRedirect() {
@@ -182,13 +175,13 @@ testSuite({
     let widgetUrl = config.getWidgetUrl();
     assertEquals(window.location.href, widgetUrl);
     widgetUrl = config.getWidgetUrl(
-        Config.WidgetMode.SELECT);
-    assertEquals(window.location.href + '?mode=select', widgetUrl);
+        Config.WidgetMode.SIGN_IN);
+    assertEquals(window.location.href + '?mode=signIn', widgetUrl);
 
     config.update('queryParameterForWidgetMode', 'mode2');
     widgetUrl = config.getWidgetUrl(
-        Config.WidgetMode.SELECT);
-    assertEquals(window.location.href + '?mode2=select', widgetUrl);
+        Config.WidgetMode.SIGN_IN);
+    assertEquals(window.location.href + '?mode2=signIn', widgetUrl);
   },
 
   testGetWidgetUrl_notSpecified_withQueryAndFragment() {
@@ -204,16 +197,16 @@ testSuite({
         util.getCurrentUrl(), widgetUrl);
     // Only the mode query param should be overwritten.
     widgetUrl = config.getWidgetUrl(
-        Config.WidgetMode.SELECT);
+        Config.WidgetMode.SIGN_IN);
     assertEquals(
-        'http://www.example.com/path/?mode2=bar&mode=select#a=1', widgetUrl);
+        'http://www.example.com/path/?mode2=bar&mode=signIn#a=1', widgetUrl);
 
     // Only the mode2 query param should be overwritten.
     config.update('queryParameterForWidgetMode', 'mode2');
     widgetUrl = config.getWidgetUrl(
-        Config.WidgetMode.SELECT);
+        Config.WidgetMode.SIGN_IN);
     assertEquals(
-        'http://www.example.com/path/?mode=foo&mode2=select#a=1', widgetUrl);
+        'http://www.example.com/path/?mode=foo&mode2=signIn#a=1', widgetUrl);
   },
 
   testGetWidgetUrl_specified() {
@@ -221,13 +214,13 @@ testSuite({
     let widgetUrl = config.getWidgetUrl();
     assertEquals('http://localhost/callback', widgetUrl);
     widgetUrl = config.getWidgetUrl(
-        Config.WidgetMode.SELECT);
-    assertEquals('http://localhost/callback?mode=select', widgetUrl);
+        Config.WidgetMode.CALLBACK);
+    assertEquals('http://localhost/callback?mode=callback', widgetUrl);
 
     config.update('queryParameterForWidgetMode', 'mode2');
     widgetUrl = config.getWidgetUrl(
-        Config.WidgetMode.SELECT);
-    assertEquals('http://localhost/callback?mode2=select', widgetUrl);
+        Config.WidgetMode.CALLBACK);
+    assertEquals('http://localhost/callback?mode2=callback', widgetUrl);
   },
 
   testGetSignInSuccessUrl() {
@@ -396,7 +389,7 @@ testSuite({
       iconUrl: '<url-of-the-icon-of-the-sign-in-button>',
     }, config.getConfigForProvider('google.com'));
     assertObjectEquals({
-      providerId: 'facebook.com',
+      providerId: 'facebook.com'
     }, config.getConfigForProvider('facebook.com'));
     assertObjectEquals({
       providerId: 'microsoft.com',
@@ -1427,23 +1420,16 @@ testSuite({
     const signInSuccessCallback = () => true;
     const signInSuccessWithAuthResultCallback = () => true;
     const uiChangedCallback = () => {};
-    const accountChooserInvokedCallback = () => {};
-    const accountChooserResultCallback = () => {};
     const signInFailureCallback = () => {};
     assertNull(config.getUiShownCallback());
     assertNull(config.getSignInSuccessCallback());
     assertNull(config.getSignInSuccessWithAuthResultCallback());
     assertNull(config.getUiChangedCallback());
-    assertNull(config.getAccountChooserInvokedCallback());
-    assertNull(config.getAccountChooserResultCallback());
-    assertNull(config.getAccountChooserResultCallback());
     config.update('callbacks', {
       'uiShown': uiShownCallback,
       'signInSuccess': signInSuccessCallback,
       'signInSuccessWithAuthResult': signInSuccessWithAuthResultCallback,
       'uiChanged': uiChangedCallback,
-      'accountChooserInvoked': accountChooserInvokedCallback,
-      'accountChooserResult': accountChooserResultCallback,
       'signInFailure': signInFailureCallback,
     });
     assertEquals(uiShownCallback, config.getUiShownCallback());
@@ -1453,12 +1439,6 @@ testSuite({
         signInSuccessWithAuthResultCallback,
         config.getSignInSuccessWithAuthResultCallback());
     assertEquals(uiChangedCallback, config.getUiChangedCallback());
-    assertEquals(
-        accountChooserInvokedCallback,
-        config.getAccountChooserInvokedCallback());
-    assertEquals(
-        accountChooserResultCallback,
-        config.getAccountChooserResultCallback());
     assertEquals(
         signInFailureCallback, config.getSignInFailureCallback());
   },
@@ -1503,99 +1483,58 @@ testSuite({
     assertArrayEquals([], warningLogMessages);
   },
 
-  testAccountChooserWarningMessage() {
-    const expectedWarningMessage = 'AccountChooser.com will be operating ' +
-        'in "universal opt-out" mode starting July 31st, 2020, ' +
-        'it should no longer be used as a CredentialHelper. ' +
-        'Learn more at https://accountchooser.net/developers';
-    config.update(
-        'credentialHelper', Config.CredentialHelper.ACCOUNT_CHOOSER_COM);
-    assertEquals(
-        Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
-        config.getCredentialHelper());
-    assertArrayEquals([expectedWarningMessage], warningLogMessages);
-
-    // Reset warnings.
-    warningLogMessages = [];
-    config.update(
-        'credentialHelper', Config.CredentialHelper.GOOGLE_YOLO);
-    assertEquals(
-        Config.CredentialHelper.GOOGLE_YOLO,
-        config.getCredentialHelper());
-    assertArrayEquals([], warningLogMessages);
-
-    // Reset warnings.
-    warningLogMessages = [];
-    config.update('credentialHelper', Config.CredentialHelper.NONE);
-    assertEquals(Config.CredentialHelper.NONE, config.getCredentialHelper());
-    assertArrayEquals([], warningLogMessages);
-  },
-
   testGetCredentialHelper_httpOrHttps() {
-    // Test credential helper configuration setting, as well as the
-    // accountchooser.com enabled helper method, in a HTTP or HTTPS environment.
-    // Simulate HTTP or HTTPS environment.
+    // Test credential helper configuration setting in an
+    // HTTP or HTTPS environment. Simulate HTTP or HTTPS environment.
     stub.replace(
         util,
         'isHttpOrHttps',
         () => true);
-    // Default is accountchooser.com.
-    assertEquals('accountchooser.com', config.getCredentialHelper());
-    assertTrue(config.isAccountChooserEnabled());
+    // Default is none.
+    assertEquals('none', config.getCredentialHelper());
+
+    // Setup accountchooser.com as the credential helper.
+    config.update('credentialHelper', 'accountchooser.com');
+    assertEquals('none', config.getCredentialHelper());
 
     // Use an invalid credential helper.
     config.update('credentialHelper', 'invalid');
-    assertEquals('accountchooser.com', config.getCredentialHelper());
-    assertTrue(config.isAccountChooserEnabled());
-
-    // Explicitly disable credential helper.
-    config.update('credentialHelper', 'none');
     assertEquals('none', config.getCredentialHelper());
-    assertFalse(config.isAccountChooserEnabled());
-
-    // Explicitly enable accountchooser.com.
-    config.update('credentialHelper', 'accountchooser.com');
-    assertEquals('accountchooser.com', config.getCredentialHelper());
-    assertTrue(config.isAccountChooserEnabled());
 
     // Explicitly enable googleyolo.
     config.update('credentialHelper', 'googleyolo');
     assertEquals('googleyolo', config.getCredentialHelper());
-    assertFalse(config.isAccountChooserEnabled());
+
+    // Explicitly disable credential helper.
+    config.update('credentialHelper', 'none');
+    assertEquals('none', config.getCredentialHelper());
   },
 
   testGetCredentialHelper_nonHttpOrHttps() {
-    // Test credential helper configuration setting, as well as the
-    // accountchooser.com enabled helper method, in a non HTTP or HTTPS
+    // Test credential helper configuration setting in a non HTTP or HTTPS
     // environment. This could be a Cordova file environment.
     // Simulate non HTTP or HTTPS environment.
     stub.replace(
         util,
         'isHttpOrHttps',
         () => false);
-    // All should resolve to none.
-    // Default is accountchooser.com.
+    // Default is none.
     assertEquals('none', config.getCredentialHelper());
-    assertFalse(config.isAccountChooserEnabled());
+
+    // Setup accountchooser.com as the credential helper.
+    config.update('credentialHelper', 'accountchooser.com');
+    assertEquals('none', config.getCredentialHelper());
 
     // Use an invalid credential helper.
     config.update('credentialHelper', 'invalid');
     assertEquals('none', config.getCredentialHelper());
-    assertFalse(config.isAccountChooserEnabled());
-
-    // Explicitly disable credential helper.
-    config.update('credentialHelper', 'none');
-    assertEquals('none', config.getCredentialHelper());
-    assertFalse(config.isAccountChooserEnabled());
-
-    // Explicitly enable accountchooser.com.
-    config.update('credentialHelper', 'accountchooser.com');
-    assertEquals('none', config.getCredentialHelper());
-    assertFalse(config.isAccountChooserEnabled());
 
     // Explicitly enable googleyolo.
     config.update('credentialHelper', 'googleyolo');
     assertEquals('none', config.getCredentialHelper());
-    assertFalse(config.isAccountChooserEnabled());
+
+    // Explicitly disable credential helper.
+    config.update('credentialHelper', 'none');
+    assertEquals('none', config.getCredentialHelper());
   },
 });

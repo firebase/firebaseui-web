@@ -53,3 +53,4 @@ function testHandleUnsupportedProvider_back() {
   // Verify that clicking back button goes back to the starting page.
   assertProviderSignInPage();
 }
+

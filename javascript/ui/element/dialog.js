@@ -21,6 +21,7 @@ goog.provide('firebaseui.auth.ui.element.dialog');
 goog.require('firebaseui.auth.ui.element');
 goog.require('firebaseui.auth.ui.mdl');
 goog.require('goog.dom');
+goog.requireType('goog.ui.Component');
 
 
 

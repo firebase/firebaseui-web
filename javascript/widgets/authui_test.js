@@ -1142,14 +1142,6 @@ function testUiChangedCallback() {
   // Test UI changed callbacks called on UI changed.
   createAndInstallTestInstances();
   testStubs.reset();
-  // Simulate accountchooser.com client library loaded.
-  testStubs.set(
-      firebaseui.auth.widget.handler.common,
-      'loadAccountchooserJs',
-      function(app, callback, opt_forceUiShownCallback) {
-        callback();
-      });
-  asyncTestCase.waitForSignals(1);
   // Simulate select mode for current widget mode.
   testStubs.set(
       firebaseui.auth.widget.dispatcher,
@@ -1188,27 +1180,13 @@ function testUiChangedCallback() {
   // Start widget mode.
   app.start(container1, config);
   app.getExternalAuth().runAuthChangeHandler();
-  // UI changed from null to sign in on widget rendering.
+  // UI changed from null directly to providerSignIn page when rendering widget
+  // because there is no pending redirect status triggering callback handler.
   assertTrue(uiChangedCallbackCalled);
   assertEquals(null, fromPage);
-  // This is now going to callback first before provider sign-in.
-  assertEquals('callback', toPage);
-  // Reset flags.
-  fromPage = null;
-  toPage = null;
-  uiChangedCallbackCalled = false;
-  app.getAuth().assertGetRedirectResult(
-      [],
-      {
-        'user': null,
-        'credential': null
-      });
-  app.getAuth().process().then(function() {
-    // When redirect result returns null, it will redirect to provider sign-in.
-    assertTrue(uiChangedCallbackCalled);
-    assertEquals('callback', fromPage);
-    assertEquals('providerSignIn', toPage);
-    asyncTestCase.signal();
+  assertEquals('providerSignIn', toPage);
+  return app.getAuth().process().then(() => {
+    return app.getExternalAuth().process();
   });
 }
 

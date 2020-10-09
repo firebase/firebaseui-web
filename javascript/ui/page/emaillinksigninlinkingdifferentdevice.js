@@ -22,6 +22,7 @@ goog.provide('firebaseui.auth.ui.page.EmailLinkSignInLinkingDifferentDevice');
 goog.require('firebaseui.auth.soy2.page');
 goog.require('firebaseui.auth.ui.element.form');
 goog.require('firebaseui.auth.ui.page.Base');
+goog.requireType('goog.dom.DomHelper');
 
 
 /**

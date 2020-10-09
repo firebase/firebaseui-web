@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>FirebaseUI Auth Demo</title>
-    <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.6/firebase.js"></script>
     <script src="config.js"></script>
     <script src="common.js"></script>
     <script src="dist/firebaseui.js"></script>
@@ -36,6 +36,8 @@
           // TODO(developer): Remove the providers you don't need for your app.
           {
             provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+            // Required to enable this provider in One-Tap Sign-up.
+            authMethod: 'https://accounts.google.com',
             // Required to enable ID token credentials for this provider.
             clientId: CLIENT_ID
           },
@@ -51,13 +53,6 @@
             recaptchaParameters: {
               size: getRecaptchaMode()
             }
-          },
-          {
-            provider: 'microsoft.com',
-            loginHintKey: 'login_hint'
-          },
-          {
-            provider: 'apple.com',
           },
           firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
         ],

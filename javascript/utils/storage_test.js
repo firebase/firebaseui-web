@@ -89,7 +89,7 @@ function initializeCookieStorageMock(maxAge, path, domain, secure) {
       goog.net.cookies,
       'set',
       function(key, value, actualMaxAge, actualPath,
-               actualDomain, actualSecure) {
+              actualDomain, actualSecure) {
         assertEquals(maxAge, actualMaxAge);
         assertEquals(path, actualPath);
         assertEquals(domain, actualDomain);
@@ -207,127 +207,6 @@ function testGetSetRemoveRedirectUrl_withAppId() {
 }
 
 
-function testHasIsSetRememberAccount() {
-  assertFalse(firebaseui.auth.storage.hasRememberAccount());
-  assertFalse(firebaseui.auth.storage.isRememberAccount());
-
-  firebaseui.auth.storage.setRememberAccount(false);
-  assertTrue(firebaseui.auth.storage.hasRememberAccount());
-  assertFalse(firebaseui.auth.storage.isRememberAccount());
-
-  firebaseui.auth.storage.setRememberAccount(true);
-  assertTrue(firebaseui.auth.storage.hasRememberAccount());
-  assertTrue(firebaseui.auth.storage.isRememberAccount());
-}
-
-
-function testHasIsSetRememberAccount_withAppId() {
-  assertFalse(firebaseui.auth.storage.hasRememberAccount(appId));
-  assertFalse(firebaseui.auth.storage.hasRememberAccount(appId2));
-  assertFalse(firebaseui.auth.storage.isRememberAccount(appId));
-  assertFalse(firebaseui.auth.storage.isRememberAccount(appId2));
-
-  firebaseui.auth.storage.setRememberAccount(false, appId);
-  firebaseui.auth.storage.setRememberAccount(true, appId2);
-  assertTrue(firebaseui.auth.storage.hasRememberAccount(appId));
-  assertTrue(firebaseui.auth.storage.hasRememberAccount(appId2));
-  assertFalse(firebaseui.auth.storage.isRememberAccount(appId));
-  assertTrue(firebaseui.auth.storage.isRememberAccount(appId2));
-
-  firebaseui.auth.storage.setRememberAccount(true, appId);
-  firebaseui.auth.storage.setRememberAccount(false, appId2);
-  assertTrue(firebaseui.auth.storage.hasRememberAccount(appId));
-  assertTrue(firebaseui.auth.storage.hasRememberAccount(appId2));
-  assertTrue(firebaseui.auth.storage.isRememberAccount(appId));
-  assertFalse(firebaseui.auth.storage.isRememberAccount(appId2));
-}
-
-
-function testRememberAccountAndGetRemoveRememberedAccounts() {
-  assertObjectEquals([], firebaseui.auth.storage.getRememberedAccounts());
-
-  var account1 = new firebaseui.auth.Account('user1@example.com', 'Test User1');
-  firebaseui.auth.storage.rememberAccount(account1);
-  assertObjectEquals([account1],
-      firebaseui.auth.storage.getRememberedAccounts());
-
-  var account2 = new firebaseui.auth.Account('user2@example.com', 'Test User2');
-  firebaseui.auth.storage.rememberAccount(account2);
-  assertObjectEquals(
-      [account2, account1], firebaseui.auth.storage.getRememberedAccounts());
-
-  // Same email as account1 but with a providerId.
-  var account3 = new firebaseui.auth.Account(
-      'user1@example.com', 'Test User1', null, 'google.com');
-  firebaseui.auth.storage.rememberAccount(account3);
-  assertObjectEquals(
-      [account3, account2, account1],
-      firebaseui.auth.storage.getRememberedAccounts());
-
-  // Same as account2 but with a new displayName.
-  var account4 = new firebaseui.auth.Account('user2@example.com',
-      'New Test User2');
-  firebaseui.auth.storage.rememberAccount(account4);
-  assertObjectEquals(
-      [account4, account3, account1],
-      firebaseui.auth.storage.getRememberedAccounts());
-
-  // Re-add account1.
-  firebaseui.auth.storage.rememberAccount(account1);
-  assertObjectEquals(
-      [account1, account4, account3],
-      firebaseui.auth.storage.getRememberedAccounts());
-
-  firebaseui.auth.storage.removeRememberedAccounts();
-  assertObjectEquals([], firebaseui.auth.storage.getRememberedAccounts());
-}
-
-
-function testRememberAccountAndGetRemoveRememberedAccounts_withAppId() {
-  assertObjectEquals([], firebaseui.auth.storage.getRememberedAccounts(appId));
-  assertObjectEquals([], firebaseui.auth.storage.getRememberedAccounts(appId2));
-
-  var account1 = new firebaseui.auth.Account('user1@example.com', 'Test User1');
-  var account2 = new firebaseui.auth.Account('user2@example.com', 'Test User2');
-  var account3 = new firebaseui.auth.Account(
-      'user3@example.com', 'Test User3', null, 'google.com');
-  var account4 = new firebaseui.auth.Account('user4@example.com',
-      'New Test User4');
-  firebaseui.auth.storage.rememberAccount(account1, appId);
-  assertObjectEquals([account1], firebaseui.auth.storage.getRememberedAccounts(
-      appId));
-
-  firebaseui.auth.storage.rememberAccount(account2, appId);
-  assertObjectEquals(
-      [account2, account1],
-      firebaseui.auth.storage.getRememberedAccounts(appId));
-
-  firebaseui.auth.storage.rememberAccount(account3, appId2);
-  assertObjectEquals(
-      [account3],
-      firebaseui.auth.storage.getRememberedAccounts(appId2));
-
-  firebaseui.auth.storage.rememberAccount(account4, appId2);
-  assertObjectEquals(
-      [account4, account3],
-      firebaseui.auth.storage.getRememberedAccounts(appId2));
-
-  // Re-add account1.
-  firebaseui.auth.storage.rememberAccount(account1, appId);
-  assertObjectEquals(
-      [account1, account2],
-      firebaseui.auth.storage.getRememberedAccounts(appId));
-
-  firebaseui.auth.storage.removeRememberedAccounts(appId);
-  assertObjectEquals([], firebaseui.auth.storage.getRememberedAccounts(appId));
-  assertObjectEquals(
-      [account4, account3],
-      firebaseui.auth.storage.getRememberedAccounts(appId2));
-  firebaseui.auth.storage.removeRememberedAccounts(appId2);
-  assertObjectEquals([], firebaseui.auth.storage.getRememberedAccounts(appId2));
-}
-
-
 function testGetSetRemoveEmailPendingCredential_withAppId() {
   assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(appId));
   assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(appId2));
@@ -361,6 +240,7 @@ function testGetSetRemoveEmailPendingCredential_withAppId() {
   firebaseui.auth.storage.removePendingEmailCredential(appId2);
   assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(appId2));
 }
+
 
 
 function testGetSetRemoveRedirectStatus() {

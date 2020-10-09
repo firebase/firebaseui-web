@@ -30,7 +30,6 @@ goog.require('firebaseui.auth.PendingEmailCredential');
 goog.require('firebaseui.auth.idp');
 goog.require('firebaseui.auth.soy2.strings');
 goog.require('firebaseui.auth.storage');
-goog.require('firebaseui.auth.testing.FakeAcClient');
 goog.require('firebaseui.auth.testing.FakeAppClient');
 goog.require('firebaseui.auth.testing.FakeCookieStorage');
 goog.require('firebaseui.auth.testing.FakeUtil');
@@ -116,7 +115,6 @@ var anonymousUser = {
 
 var container;
 var container2;
-var testAc;
 var testUtil;
 var recaptchaVerifierInstance = null;
 var externalAuthApp;
@@ -167,8 +165,6 @@ var expectedSessionId = 'SESSION_ID_STRING';
 var app;
 var appId = 'glowing-heat-3485';
 
-var accountChooserInvokedCallback;
-var accountChooserResultCallback;
 var authCredential;
 var federatedCredential;
 
@@ -195,19 +191,13 @@ function setUp() {
   testAuth = app.getAuth().install();
 
   mockClock.install();
-  // For testing simulate accountchooser.com js is loaded to prevent loading of
-  // accountchooser.com js during loading and to call callback on load.
-  accountchooser = {};
-  // Reset accountchooser.com force UI shown flag.
-  firebaseui.auth.widget.handler.common.acForceUiShown_ = false;
+
   // For browsers that do not support CORS which rely on gapi for XHR, simulate
   // this capability so as to test XHR requests and responses properly.
   testStubs.set(firebaseui.auth.util, 'supportsCors', function() {
     return true;
   });
-  // Record accountchooser.com callback calls.
-  accountChooserInvokedCallback = goog.testing.recordFunction();
-  accountChooserResultCallback = goog.testing.recordFunction();
+
   testStubs.replace(firebaseui.auth.idp, 'getAuthCredential',
                     createMockCredential);
   // Build mock auth providers.
@@ -313,14 +303,7 @@ function setUp() {
   testStubs.replace(firebaseui.auth.AuthUI, 'getAuthUi', function() {
     return app;
   });
-  // Simulate accountchooser.com loaded.
-  testStubs.set(
-      firebaseui.auth.widget.handler.common, 'loadAccountchooserJs',
-      function(app, callback, opt_forceUiShownCallback) {
-        firebaseui.auth.widget.handler.common.acForceUiShown_ =
-            !!opt_forceUiShownCallback;
-        callback();
-      });
+
   // Mock dialog polyfill.
   window['dialogPolyfill'] = {
     'registerDialog': function(dialog) {
@@ -343,7 +326,6 @@ function setUp() {
   });
   // Render test component in container2.
   testComponent.render(container2);
-  testAc = new firebaseui.auth.testing.FakeAcClient().install();
   testUtil = new firebaseui.auth.testing.FakeUtil().install();
   signInCallbackUser = undefined;
   signInCallbackRedirectUrl = undefined;
@@ -377,7 +359,7 @@ function setUp() {
     'tosUrl': tosCallback,
     'privacyPolicyUrl': 'http://localhost/privacy_policy',
     'credentialHelper':
-        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
+        firebaseui.auth.widget.Config.CredentialHelper.NONE,
     'callbacks': {
       'signInFailure': signInFailureCallback
     },
@@ -412,7 +394,6 @@ function setUp() {
 
 
 function tearDown() {
-  testAc.uninstall();
   testUtil.uninstall();
   goog.dom.removeNode(container);
   goog.dom.removeNode(container2);
@@ -423,8 +404,6 @@ function tearDown() {
   mockClock.reset();
   mockClock.uninstall();
 
-  // accountchooser.com js not loaded.
-  accountchooser = null;
   // Uninstall internal and external auth instance.
   testAuth.uninstall();
   externalAuth.uninstall();
@@ -1470,36 +1449,6 @@ function assertUiShownCallbackNotInvoked() {
 function assertUnrecoverableErrorPage(errorMessage) {
   assertPage_(container, 'firebaseui-id-page-unrecoverable-error');
   assertPageContainsText(errorMessage);
-}
-
-
-/**
- * Asserts that accountChooserInvoked callback is called and runs
- * continue function passed.
- */
-function assertAndRunAccountChooserInvokedCallback() {
-  assertEquals(1, accountChooserInvokedCallback.getCallCount());
-  var onContinue = accountChooserInvokedCallback.getLastCall().getArgument(0);
-  // On continue should be passed.
-  assertNotNull(onContinue);
-  onContinue();
-}
-
-
-/**
- * Asserts that accountChooserResult callback is called with provided type
- * and runs continue function.
- *
- * @param {firebaseui.auth.widget.Config.AccountChooserResult} type The result
- *     type to test for.
- */
-function assertAndRunAccountChooserResultCallback(type) {
-  assertEquals(1, accountChooserResultCallback.getCallCount());
-  assertEquals(type, accountChooserResultCallback.getLastCall().getArgument(0));
-  var onContinue = accountChooserResultCallback.getLastCall().getArgument(1);
-  // On continue should be passed.
-  assertNotNull(onContinue);
-  onContinue();
 }
 
 

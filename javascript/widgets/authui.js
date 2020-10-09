@@ -521,10 +521,6 @@ firebaseui.auth.AuthUI.prototype.startWithSignInHint =
     this.tempAuth_['tenantId'] = this.auth_['tenantId'];
   }
 
-  // There is a problem when config in second call modifies accountchooser.com
-  // related config. eg. acUiConfig
-  // These changes will be ignored as only the first accountchooser.com related
-  // config will be applied.
   this.setConfig(config);
   this.signInHint_ = signInHint || null;
   // Checks if there is pending internal Auth signOut promise. If yes, wait
@@ -1011,7 +1007,7 @@ firebaseui.auth.AuthUI.prototype.showOneTapSignIn = function(handler) {
   this.checkIfDestroyed_();
   try {
     this.googleYolo_.show(
-      this.getConfig().getGoogleYoloClientId(), this.isAutoSignInDisabled())
+        this.getConfig().getGoogleYoloClientId(), this.isAutoSignInDisabled())
         .then(function(credential) {
           // Run only when component is available.
           if (self.currentComponent_) {

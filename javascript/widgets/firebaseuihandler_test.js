@@ -441,7 +441,6 @@ testSuite({
             'privacyPolicyUrl': 'http://localhost/privacy_policy',
           },
           'tenant2': {
-            'fullLabel': 'Contractor B Portal',
             'displayName': 'Contractor B',
             'buttonColor': '#EAC9A1',
             'iconUrl': '<icon-url-of-sign-in-button>',
@@ -619,6 +618,7 @@ testSuite({
         'firebaseui-id-tenant-selection-button', container);
     // Only two tenants should be available to be selected from.
     const expectedTenants = ['tenant1', 'tenant2'];
+    // Two expected labels on buttons.
     const expectedLongLabels = [
       'Contractor A Portal',
       'Sign in to Contractor B'
@@ -626,8 +626,7 @@ testSuite({
     const expectedShortLabels = ['Contractor A', 'Contractor B'];
     assertEquals(expectedTenants.length, buttons.length);
     for (let i = 0; i < buttons.length; i++) {
-      assertEquals(expectedTenants[i],
-          dataset.get(buttons[i], 'tenantId'));
+      assertEquals(expectedTenants[i], dataset.get(buttons[i], 'tenantId'));
       assertIdpButtonLabels(
           buttons[i],
           expectedShortLabels[i],
