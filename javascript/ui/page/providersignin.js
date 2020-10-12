@@ -18,6 +18,7 @@ goog.module('firebaseui.auth.ui.page.ProviderSignIn');
 goog.module.declareLegacyNamespace();
 
 const Base = goog.require('firebaseui.auth.ui.page.Base');
+const DomHelper = goog.requireType('goog.dom.DomHelper');
 const idps = goog.require('firebaseui.auth.ui.element.idps');
 const page = goog.require('firebaseui.auth.soy2.page');
 
@@ -32,7 +33,7 @@ class ProviderSignIn extends Base {
    *     is clicked.
    * @param {?function()=} opt_privacyPolicyCallback Callback to invoke when
    *     the Privacy Policy link is clicked.
-   * @param {?goog.dom.DomHelper=} domHelper Optional DOM helper.
+   * @param {?DomHelper=} domHelper Optional DOM helper.
    */
   constructor(
       onIdpClick, providerConfigs, opt_tosCallback, opt_privacyPolicyCallback,

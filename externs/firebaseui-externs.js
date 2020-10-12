@@ -467,8 +467,8 @@ firebaseui.auth.AuthUIError.prototype.toJSON = function() {};
 
 
 /**
- * The FirebaseUI credential helpers available.
- *
+ * The FirebaseUI credential helpers available. `ACCOUNT_CHOOSER_COM` is
+ * deprecated and will be removed by Jan 31st, 2021.
  * @enum {string}
  */
 firebaseui.auth.CredentialHelper = {
@@ -487,8 +487,10 @@ firebaseui.auth.Config = function() {};
 
 /**
  * The accountchooser.com configuration when it is selected as credential
- * helper.
+ * helper. This is now a no-op and is deprecated and will be removed by
+ * Jan 31st, 2021.
  *
+ * @deprecated
  * @type {!Object|undefined}
  */
 firebaseui.auth.Config.prototype.acUiConfig;
@@ -508,7 +510,8 @@ firebaseui.auth.Config.prototype.autoUpgradeAnonymousUsers;
 firebaseui.auth.Config.prototype.callbacks;
 
 /**
- * Determines which credential helper to use. The default is accountchooser.com.
+ * Determines which credential helper to use. By default, no credential helper
+ * is selected.
  *
  * @type {!firebaseui.auth.CredentialHelper|undefined}
  */
@@ -752,6 +755,7 @@ firebaseui.auth.FederatedSignInOption = function() {};
  * The Auth method (typically the authorization endpoint) needed for one-tap
  * sign-up, eg: 'https://accounts.google.com'.
  *
+ * @deprecated
  * @type {string|undefined}
  */
 firebaseui.auth.FederatedSignInOption.prototype.authMethod;

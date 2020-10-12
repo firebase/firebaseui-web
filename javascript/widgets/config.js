@@ -36,16 +36,17 @@ class Config {
     /** @const @private {!AuthConfig} The AuthUI config object. */
     this.config_ = new AuthConfig();
     // Define FirebaseUI widget configurations and convenient getters.
+    // TODO: This is deprecated and should be removed by Jan 31st, 2021.
     this.config_.define('acUiConfig');
     this.config_.define('autoUpgradeAnonymousUsers');
     this.config_.define('callbacks');
     /**
-     * Determines which credential helper to use. Currently, only
-     * accountchooser.com is available and it is set by default.
+     * Determines which credential helper to use. By default,
+     * no credentialHelper is selected.
      */
     this.config_.define(
         'credentialHelper',
-        Config.CredentialHelper.ACCOUNT_CHOOSER_COM);
+        Config.CredentialHelper.NONE);
     /**
      * Determines whether to immediately redirect to the provider's site or
      * instead show the default 'Sign in with Provider' button when there
@@ -77,11 +78,6 @@ class Config {
     this.config_.define('siteName');
     this.config_.define('tosUrl');
     this.config_.define('widgetUrl');
-  }
-
-  /** @return {?Object} The UI configuration for accountchooser.com. */
-  getAcUiConfig() {
-    return /** @type {?Object} */ (this.config_.get('acUiConfig') || null);
   }
 
   /**
@@ -328,11 +324,10 @@ class Config {
   getRecaptchaParameters() {
     let recaptchaParameters = null;
     googArray.forEach(this.getSignInOptions_(), (option) => {
-      if (option['provider'] ==
-          firebase.auth.PhoneAuthProvider.PROVIDER_ID &&
+      if (option['provider'] == firebase.auth.PhoneAuthProvider.PROVIDER_ID &&
           // Confirm valid object.
           goog.isObject(option['recaptchaParameters']) &&
-          !goog.isArray(option['recaptchaParameters'])) {
+          !Array.isArray(option['recaptchaParameters'])) {
         // Clone original object.
         recaptchaParameters = googObject.clone(option['recaptchaParameters']);
       }
@@ -370,7 +365,7 @@ class Config {
     // Get provided sign-in options for specified provider.
     const signInOptions = this.getSignInOptionsForProvider_(providerId);
     const scopes = signInOptions && signInOptions['scopes'];
-    return goog.isArray(scopes) ? scopes : [];
+    return Array.isArray(scopes) ? scopes : [];
   }
 
   /**
@@ -456,12 +451,12 @@ class Config {
     const blacklistedCountries = signInOptions['blacklistedCountries'];
     // First validate the input.
     if (typeof whitelistedCountries !== 'undefined' &&
-        (!goog.isArray(whitelistedCountries) ||
+        (!Array.isArray(whitelistedCountries) ||
          whitelistedCountries.length == 0)) {
       throw new Error('WhitelistedCountries must be a non-empty array.');
     }
     if (typeof blacklistedCountries !== 'undefined' &&
-        (!goog.isArray(blacklistedCountries))) {
+        (!Array.isArray(blacklistedCountries))) {
       throw new Error('BlacklistedCountries must be an array.');
     }
     // If both whitelist and blacklist are provided, throw error.
@@ -711,30 +706,6 @@ class Config {
   }
 
   /**
-   * @return {?function(?function())} The callback to invoke right when
-   *     accountchooser.com is triggered, a continue function is passed and
-   *     this should be called when the callback is completed, typically
-   *     asynchronously to proceed to accountchooser.com.
-   */
-  getAccountChooserInvokedCallback() {
-    return /** @type {?function(?function())} */ (
-        this.getCallbacks_()['accountChooserInvoked'] || null);
-  }
-
-  /**
-   * @return {?function(?Config.AccountChooserResult, ?function())} The callback
-   *     to invoke on return from accountchooser.com invocation. The code
-   *     result string is passed.
-   */
-  getAccountChooserResultCallback() {
-    /**
-     * @type {?function(?Config.AccountChooserResult, ?function())}
-     */
-    const callback = this.getCallbacks_()['accountChooserResult'] || null;
-    return callback;
-  }
-
-  /**
    * @return {?Config.signInSuccessCallback} The callback to invoke when the
    *     user signs in successfully. The signed in firebase user is passed
    *     into the callback. A second parameter, the Auth credential is also
@@ -783,15 +754,6 @@ class Config {
   }
 
   /**
-   * TODO: Remove during accountchooser.com opt-out period.
-   * @return {boolean} Whether accountchooser.com is enabled.
-   */
-  isAccountChooserEnabled() {
-    return this.getCredentialHelper() ==
-        Config.CredentialHelper.ACCOUNT_CHOOSER_COM;
-  }
-
-  /**
    * @return {!Config.CredentialHelper} The credential helper to use.
    */
   getCredentialHelper() {
@@ -803,13 +765,12 @@ class Config {
       return Config.CredentialHelper.NONE;
     }
     const credentialHelper = this.config_.get('credentialHelper');
+
+    // Manually set deprecated accountchooser.com to none.
     if (credentialHelper === Config.CredentialHelper.ACCOUNT_CHOOSER_COM) {
-      log.warning(
-          'AccountChooser.com will be operating in "universal opt-out" mode '  +
-          'starting July 31st, 2020, ' +
-          'it should no longer be used as a CredentialHelper.' +
-          ' Learn more at https://accountchooser.net/developers');
+      return Config.CredentialHelper.NONE;
     }
+
     // Make sure the credential helper is valid.
     for (let key in Config.CredentialHelper) {
       if (Config.CredentialHelper[key] === credentialHelper) {
@@ -817,8 +778,8 @@ class Config {
         return Config.CredentialHelper[key];
       }
     }
-    // Default to using accountchooser.com.
-    return Config.CredentialHelper.ACCOUNT_CHOOSER_COM;
+    // Default to using none.
+    return Config.CredentialHelper.NONE;
   }
 
   /**
@@ -864,6 +825,7 @@ class Config {
  * @enum {string}
  */
 Config.CredentialHelper = {
+  // TODO: accountchooser.com is no longer supported. Remove by Jan 31st, 2021.
   ACCOUNT_CHOOSER_COM: 'accountchooser.com',
   GOOGLE_YOLO: 'googleyolo',
   NONE: 'none',
@@ -903,17 +865,6 @@ Config.signInSuccessWithAuthResultCallback;
  * @typedef {function(!AuthUIError): (!Promise<void>|void)}
  */
 Config.signInFailureCallback;
-
-/**
- * The accountchooser.com result codes.
- * @enum {string}
- */
-Config.AccountChooserResult = {
-  EMPTY: 'empty',
-  UNAVAILABLE: 'unavailable',
-  ACCOUNT_SELECTED: 'accountSelected',
-  ADD_ACCOUNT: 'addAccount',
-};
 
 /**
  * The type of sign-in flow.

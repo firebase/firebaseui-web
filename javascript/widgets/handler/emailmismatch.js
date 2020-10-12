@@ -51,6 +51,9 @@ goog.require('firebaseui.auth.widget.Handler');
 goog.require('firebaseui.auth.widget.HandlerName');
 goog.require('firebaseui.auth.widget.handler');
 goog.require('firebaseui.auth.widget.handler.common');
+goog.requireType('firebaseui.auth.PendingEmailCredential');
+goog.requireType('firebaseui.auth.ui.page.Base');
+goog.requireType('firebaseui.auth.widget.Config');
 
 
 

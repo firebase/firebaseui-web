@@ -728,8 +728,8 @@
  * Renders a tenant selection button.
  */
 {template .tenantSelectionButton}
-  {@param tenantConfig: [tenantId:string|null, fullLabel:string|null, displayName:string, buttonColor:string,
-      iconUrl: string]} /** The tenant selection button config. */
+  {@param tenantConfig: [tenantId:string|null, fullLabel:string|null, displayName:string,
+      buttonColor:string, iconUrl: string]} /** The tenant selection button config. */
   {let $tenantClass kind="text"}
     {if $tenantConfig.tenantId}
       {$tenantConfig.tenantId}
@@ -764,3 +764,4 @@
     </span>
   </button>
 {/template}
+

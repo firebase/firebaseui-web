@@ -54,7 +54,7 @@
 <translation id="2049229571938383319">San Bartolomé</translation>
 <translation id="2058731785647385204">Montserrat</translation>
 <translation id="2070709910567585968">Las contraseñas seguras contienen 6 caracteres como mínimo y combinan letras y números.</translation>
-<translation id="2074008538308369451">Condiciones del servicio</translation>
+<translation id="2074008538308369451">Términos del Servicio</translation>
 <translation id="2089802663554186342">La sesión ha finalizado</translation>
 <translation id="2108717231438756650">Reino Unido</translation>
 <translation id="2120419640334291526">Islas Caimán</translation>
@@ -64,7 +64,7 @@
 <translation id="2187260952722791093">Verificado</translation>
 <translation id="2192561962270021282">Introduce tu número de teléfono</translation>
 <translation id="2206856445831770486">GitHub</translation>
-<translation id="2223717216014247341">Política de privacidad</translation>
+<translation id="2223717216014247341">Política de Privacidad</translation>
 <translation id="2224563296468523455">Guam</translation>
 <translation id="2245182894886860848">Se ha agotado la cuota del recurso o se ha alcanzado el límite de frecuencia.</translation>
 <translation id="2249420035688424170">Croacia</translation>
@@ -246,6 +246,7 @@
 <translation id="5143657419516597442">Santa Lucía</translation>
 <translation id="521218078240459724">@string/app_name</translation>
 <translation id="5241732101105320538">Consulta tu correo electrónico</translation>
+<translation id="5255830932650472373">Nueva contraseña</translation>
 <translation id="5301108536112812420">La petición para verificar tu correo electrónico ha caducado o ya se ha usado el enlace</translation>
 <translation id="5323041129469627535">Omán</translation>
 <translation id="5326139833547026317">Caribe Neerlandés</translation>
@@ -396,7 +397,7 @@
 <translation id="7331038350037712642">Azerbaiyán</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">Enlace de correo electrónico no válido</translation>
-<translation id="7477065998516229434">condiciones de servicio</translation>
+<translation id="7477065998516229434">Términos del Servicio</translation>
 <translation id="7493245640904888019">Gibraltar</translation>
 <translation id="7510939244824757986">Tanzania</translation>
 <translation id="7526532581122816497">Cuenta vinculada</translation>

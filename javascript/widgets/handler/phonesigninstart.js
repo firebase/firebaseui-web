@@ -317,13 +317,15 @@ firebaseui.auth.widget.handler.onPhoneSignInStartSubmit_ =
         grecaptcha.reset(firebaseui.auth.widget.handler.recaptchaWidgetId_);
         // Reset reCAPTCHA token.
         firebaseui.auth.widget.handler.recaptchaToken_ = null;
-        var errorMessage = (error && error['message']) || '';
+        var errorMessage =
+            /** @type {string} */ ((error && error['message']) || '');
         if (error['code']) {
           // Firebase auth error.
           switch (error['code']) {
             case 'auth/too-many-requests':
-              errorMessage = firebaseui.auth.soy2.strings
-                  .errorTooManyRequestsPhoneNumber().toString();
+              errorMessage =
+                  firebaseui.auth.soy2.strings.errorTooManyRequestsPhoneNumber()
+                      .toString();
               break;
             // Invalid phone number.
             case 'auth/invalid-phone-number':
@@ -337,8 +339,8 @@ firebaseui.auth.widget.handler.onPhoneSignInStartSubmit_ =
                       .toString());
               return;
             default:
-              errorMessage = firebaseui.auth.widget.handler.common
-                  .getErrorMessage(error);
+              errorMessage =
+                  firebaseui.auth.widget.handler.common.getErrorMessage(error);
           }
         }
         // Show error message in the info bar.

@@ -38,12 +38,6 @@ firebaseui.auth.widget.handler.handleSignIn = function(
     app, container, opt_email, opt_infoBarMessage) {
   var isPasswordProviderOnly =
       firebaseui.auth.widget.handler.common.isPasswordProviderOnly(app);
-  // Whether to hide or show the cancel button.
-  var hideCancelButton =
-      // Email auth provider only.
-      isPasswordProviderOnly &&
-      // accountchooser.com disabled.
-      !app.getConfig().isAccountChooserEnabled();
   // Render the UI.
   var component = new firebaseui.auth.ui.page.SignIn(
       // On submit.
@@ -51,11 +45,7 @@ firebaseui.auth.widget.handler.handleSignIn = function(
         firebaseui.auth.widget.handler.onSignInEmailEnter_(app, component);
       },
       // On cancel.
-      hideCancelButton ? null : function() {
-        // Downside is if only email auth provider is selected and
-        // accountchooser.com is disabled, the cancel button will do nothing.
-        // Future improvement would be to not display this button in that
-        // edge case.
+      isPasswordProviderOnly ? null : function() {
         component.dispose();
         firebaseui.auth.widget.handler.common.handleSignInStart(
             app, container, opt_email);

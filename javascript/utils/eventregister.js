@@ -22,6 +22,7 @@ goog.provide('firebaseui.auth.EventRegister');
 
 goog.require('goog.array');
 goog.require('goog.events.EventTarget');
+goog.requireType('goog.events.Event');
 
 
 /**

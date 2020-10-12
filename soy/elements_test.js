@@ -568,7 +568,7 @@ function testTenantSelectionButton() {
     {
       tenantId: 'TENANT_2',
       fullLabel: null,
-      displayName: 'Contractor Corp',
+      displayName: 'ACME Corp',
       buttonColor: '#2F2B2E',
       iconUrl: 'icon-url',
     }

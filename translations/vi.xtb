@@ -81,7 +81,7 @@
 <translation id="2375419764963116430">Bahrain</translation>
 <translation id="2392247362473363900">Lỗi máy chủ nội bộ.</translation>
 <translation id="2405828009195143258">Iran</translation>
-<translation id="2422942582251341722">Quên mật khẩu?</translation>
+<translation id="2422942582251341722">Bạn quên mật khẩu?</translation>
 <translation id="2446078593003901807">OK</translation>
 <translation id="2448487988481516351">New Caledonia</translation>
 <translation id="2451742558284013472">Monaco</translation>
@@ -133,7 +133,7 @@
 <translation id="3154748063569624719">Ban đầu, bạn đã muốn đăng nhập bằng <ph name="PENDING_EMAIL" /></translation>
 <translation id="3164676761565983157">Venezuela</translation>
 <translation id="3170526549630869494">Bạn gặp sự cố khi đăng nhập?</translation>
-<translation id="3204914819635733576">Xác minh đó là bạn</translation>
+<translation id="3204914819635733576">Xác minh danh tính của bạn</translation>
 <translation id="3215050409577090361">Đã xảy ra lỗi khi xác thực yêu cầu của bạn. Vui lòng truy cập lại vào URL đã chuyển bạn đến trang này để bắt đầu lại quá trình xác thực.</translation>
 <translation id="3216149523061905579">Dominica</translation>
 <translation id="3223688630903046698">Mật khẩu mới</translation>
@@ -241,10 +241,11 @@
 <translation id="5059105734231232362">Để quy trình kết nối tài khoản <ph name="IDP_DISPLAY_NAME" /> với email này diễn ra thành công, bạn phải mở liên kết trên cùng một thiết bị hoặc trình duyệt.</translation>
 <translation id="5080084639513001393">Thụy Điển</translation>
 <translation id="5080899604429810481">Saint Martin</translation>
-<translation id="5115661695221894994"><ph name="START_PARAGRAPH" />Yêu cầu xác minh và cập nhật email của bạn đã hết hạn hoặc đường dẫn liên kết đã được sử dụng.<ph name="END_PARAGRAPH" /></translation>
+<translation id="5115661695221894994"><ph name="START_PARAGRAPH" />Yêu cầu xác minh và cập nhật email của bạn đã hết hạn hoặc đường liên kết đã được sử dụng.<ph name="END_PARAGRAPH" /></translation>
 <translation id="5143657419516597442">St. Lucia</translation>
 <translation id="521218078240459724">@string/app_name</translation>
 <translation id="5241732101105320538">Kiểm tra email của bạn</translation>
+<translation id="5255830932650472373">Mật khẩu mới</translation>
 <translation id="5301108536112812420">Yêu cầu xác minh email của bạn đã hết hạn hoặc liên kết đã được sử dụng</translation>
 <translation id="5323041129469627535">Oman</translation>
 <translation id="5326139833547026317">Caribe Hà Lan</translation>
@@ -352,7 +353,7 @@
 <translation id="6769550797775698634">Cameroon</translation>
 <translation id="6775190982418995854">Svalbard và Jan Mayen</translation>
 <translation id="6775835872637240659">Ukraine</translation>
-<translation id="6779584651193963121">Nếu các bước trên không hiệu quả, bạn có thể gửi lại email. Vui lòng lưu ý rằng thao tác này sẽ hủy kích hoạt đường dẫn liên kết trong email cũ.</translation>
+<translation id="6779584651193963121">Nếu các bước trên không hiệu quả, bạn có thể gửi lại email. Vui lòng lưu ý rằng thao tác này sẽ hủy kích hoạt đường liên kết trong email cũ.</translation>
 <translation id="6782010235320729294">Turkmenistan</translation>
 <translation id="6821607741326790458">Jamaica</translation>
 <translation id="6834335872619414720">GitHub</translation>

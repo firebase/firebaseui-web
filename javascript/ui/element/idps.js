@@ -21,6 +21,7 @@ goog.provide('firebaseui.auth.ui.element.idps');
 goog.require('firebaseui.auth.ui.element');
 goog.require('goog.asserts');
 goog.require('goog.dom.dataset');
+goog.requireType('goog.ui.Component');
 
 
 /**

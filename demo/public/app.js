@@ -66,7 +66,7 @@ function getUiConfig() {
         provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
         recaptchaParameters: {
           size: getRecaptchaMode()
-        }
+        },
       },
       {
         provider: 'microsoft.com',

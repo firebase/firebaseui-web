@@ -65,7 +65,7 @@ firebaseui.auth.CookieMechanism =
    */
   set(key, value) {
     goog.net.cookies.set(
-        key, value, this.maxAge_, this.path_, this.domain_, this.secure_);
+      key, value, this.maxAge_, this.path_, this.domain_, this.secure_);
   }
 
   /**

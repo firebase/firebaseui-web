@@ -87,7 +87,8 @@ testSuite({
           credentialHelper: 'none',
         },
         _: {
-          displayName: 'ACME.COM',
+          fullLabel: 'ACME.COM',
+          displayName: 'ACME',
           buttonColor: '#53B2BF',
           iconUrl: '<icon-url-of-sign-in-button>',
           signInOptions: [
@@ -606,7 +607,8 @@ testSuite({
     assertObjectEquals(
         {
           tenantId: null,
-          displayName: 'ACME.COM',
+          fullLabel: 'ACME.COM',
+          displayName: 'ACME',
           buttonColor: '#53B2BF',
           iconUrl: '<icon-url-of-sign-in-button>',
         },

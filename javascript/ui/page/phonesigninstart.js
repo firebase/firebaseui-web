@@ -20,11 +20,14 @@ goog.provide('firebaseui.auth.ui.page.PhoneSignInStart');
 
 goog.require('firebaseui.auth.soy2.page');
 goog.require('firebaseui.auth.ui.element');
+goog.require('firebaseui.auth.ui.element.dialog');
 goog.require('firebaseui.auth.ui.element.form');
 goog.require('firebaseui.auth.ui.element.phoneNumber');
 goog.require('firebaseui.auth.ui.element.recaptcha');
 goog.require('firebaseui.auth.ui.page.Base');
 goog.require('goog.dom.selection');
+goog.requireType('firebaseui.auth.data.country.LookupTree');
+goog.requireType('goog.dom.DomHelper');
 
 
 /**
