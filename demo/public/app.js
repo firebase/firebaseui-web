@@ -42,8 +42,6 @@ function getUiConfig() {
       // TODO(developer): Remove the providers you don't need for your app.
       {
         provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-        // Required to enable this provider in One-Tap Sign-up.
-        authMethod: 'https://accounts.google.com',
         // Required to enable ID token credentials for this provider.
         clientId: CLIENT_ID
       },
@@ -68,7 +66,14 @@ function getUiConfig() {
         provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
         recaptchaParameters: {
           size: getRecaptchaMode()
-        }
+        },
+      },
+      {
+        provider: 'microsoft.com',
+        loginHintKey: 'login_hint'
+      },
+      {
+        provider: 'apple.com',
       },
       firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
     ],
@@ -123,7 +128,7 @@ var handleSignedInUser = function(user) {
   document.getElementById('name').textContent = user.displayName;
   document.getElementById('email').textContent = user.email;
   document.getElementById('phone').textContent = user.phoneNumber;
-  if (user.photoURL){
+  if (user.photoURL) {
     var photoURL = user.photoURL;
     // Append size to the photo URL for Google hosted images to avoid requesting
     // the image with its original resolution (using more bandwidth than needed)

@@ -353,10 +353,10 @@ FirebaseUI supports the following configuration parameters.
 <td>callbacks</td>
 <td>No</td>
 <td>
-  A list of developers <a href="#available-callbacks">callbacks</a> after
+  An object of developers <a href="#available-callbacks">callbacks</a> after
   specific events.
   <br/>
-  <em>Default:</em> <code>[]</code>
+  <em>Default:</em> <code>{}</code>
 </td>
 </tr>
 <tr>
@@ -697,7 +697,7 @@ ui.start('#firebaseui-auth-container', {
       // fullLabel: 'Login with Microsoft',
       buttonColor: '#2F2F2F',
       iconUrl: '<icon-url-of-sign-in-button>',
-      loginHintKey: 'login_hint'
+      loginHintKey: 'login_hint',
       scopes: [
         'mail.read'
       ],
@@ -782,7 +782,7 @@ OIDC providers' `signInOptions` support the following configuration parameters.
 ui.start('#firebaseui-auth-container', {
   signInOptions: [
     {
-      provider: 'oidc.myProvider`,
+      provider: 'oidc.myProvider',
       providerName: 'MyOIDCProvider',
       // To override the full label of the button.
       // fullLabel: 'Employee Login',
@@ -982,7 +982,7 @@ Using email link sign-in with FirebaseUI comes with the following benefits:
   can start the flow on one device and end it on another. This also covers
   Android where email link sign-in is also supported with
   [FirebaseUI-android](https://github.com/firebase/firebaseui-android/) and
-  coming soon to [FirebaseUI-ios](https://github.com/firebase/firebaseui-ios/)
+  [FirebaseUI-ios](https://github.com/firebase/firebaseui-ios/)
   for iOS support.
 - Ability to switch to email link sign-in while continuing to sign-in existing
   users with email and password.
