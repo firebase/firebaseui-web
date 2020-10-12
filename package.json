@@ -40,7 +40,7 @@
   "devDependencies": {
     "closure-builder": "^2.3.8",
     "firebase": "^7.23.0",
-    "firebase-tools": "^7.16.2",
+    "firebase-tools": "^8.12.1",
     "fs-extra": "^3.0.1",
     "google-closure-compiler": "^20190415.0.0",
     "google-closure-library": "^20190415.0.0",
