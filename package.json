@@ -59,7 +59,9 @@
   },
   "dependencies": {
     "dialog-polyfill": "^0.4.7",
-    "material-design-lite": "^1.2.0"
+    "material-design-lite": "^1.2.0",
+    "node-forge": "^0.10.0",
+    "url-regex-safe": "^1.0.2"
   },
   "peerDependencies": {
     "firebase": ">=7.11.0"
