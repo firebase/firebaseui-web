@@ -64,7 +64,7 @@ const MDL_COMPONENTS = [
 
 // The external dependencies needed by FirebaseUI as ES module imports.
 const ESM_DEPS = [
-  'import * as firebase from \'firebase/app\'',
+  'import firebase from \'firebase/app\'',
   'import \'firebase/auth\'',
   'import dialogPolyfill from \'dialog-polyfill\'',
 ].concat(MDL_COMPONENTS.map(component => `import \'material-design-lite/src/${component}\'`));
