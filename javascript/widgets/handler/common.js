@@ -49,6 +49,27 @@ goog.require('goog.array');
 firebaseui.auth.OAuthResponse;
 
 /**
+ * Normalizes the error. This is useful for mapping certain errors to different
+ * errors.
+ * When no mapping is needed, the same error is returned.
+ * This is currently used to map 'auth/invalid-credential' code to
+ * 'auth/user-cancelled' when users do not grant access permission to
+ * Microsoft work account.
+ * @param {*} error The original error.
+ * @return {*} The normalized error.
+ * @package
+ */
+firebaseui.auth.widget.handler.common.normalizeError =
+    function(error) {
+  if (error['code'] === 'auth/invalid-credential' &&
+      error['message'] &&
+      error['message'].indexOf('error=consent_required') !== -1) {
+    return {code: 'auth/user-cancelled'};
+  }
+  return error;
+};
+
+/**
  * Sets the user as signed in with Auth result. Signs in on external Auth
  * instance if not already signed in and then invokes
  * signInSuccessWithAuthResult callback.
@@ -513,7 +534,10 @@ firebaseui.auth.widget.handler.common.federatedSignIn = function(
     if (error['name'] && error['name'] == 'cancel') {
       return;
     }
-    switch (error['code']) {
+    // Normalize the error.
+    const normalizedError =
+        firebaseui.auth.widget.handler.common.normalizeError(error);
+    switch (normalizedError['code']) {
       case 'auth/popup-blocked':
         // Popup blocked, switch to redirect flow as fallback.
          processRedirect();
@@ -533,7 +557,8 @@ firebaseui.auth.widget.handler.common.federatedSignIn = function(
         // For no action errors like network error, just display in info
         // bar in current component. A second attempt could still work.
         component.showInfoBar(
-            firebaseui.auth.widget.handler.common.getErrorMessage(error));
+            firebaseui.auth.widget.handler.common.getErrorMessage(
+                normalizedError));
         break;
       default:
         // Either linking required errors or errors that are
@@ -543,7 +568,7 @@ firebaseui.auth.widget.handler.common.federatedSignIn = function(
             firebaseui.auth.widget.HandlerName.CALLBACK,
             app,
             container,
-            goog.Promise.reject(error));
+            goog.Promise.reject(normalizedError));
         break;
     }
   };

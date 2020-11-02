@@ -239,8 +239,8 @@
     {case 'auth/user-token-expired'}
       {call .errorLoginAgain_ /}
     {case 'auth/weak-password'}
-      {msg desc="Error message for when the user tries to sign in or sign up with a password that
-          is too short."}
+      {msg desc="Error message for when the user tries to sign in or sign up with a password that is
+          too short."}
         Strong passwords have at least 6 characters and a mix of letters and numbers
       {/msg}
     {case 'auth/wrong-password'}
@@ -272,6 +272,7 @@
         The action code is invalid. This can happen if the code is malformed, expired, or has
         already been used.
       {/msg}
+    {default}
   {/switch}
 {/template}
 
