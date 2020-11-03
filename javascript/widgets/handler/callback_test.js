@@ -1961,6 +1961,33 @@ function testHandleCallback_redirectError_userCancelled_noPendingCredential() {
 }
 
 
+function testHandleCallback_redirectError_consentRequired_invalidCredential() {
+  asyncTestCase.waitForSignals(1);
+  // Attempting to get redirect result. Special case error message equals
+  // consent_required. Reject with the user cancelled error.
+  const invalidCredentialError = {
+    'code': 'auth/invalid-credential',
+    'message': 'error=consent_required',
+  };
+  const expectedError = {
+    'code': 'auth/user-cancelled',
+  };
+  testAuth.assertGetRedirectResult([], null, invalidCredentialError);
+  // Callback rendered.
+  firebaseui.auth.widget.handler.handleCallback(app, container);
+  assertCallbackPage();
+  testAuth.process().then(function() {
+    // Redirects to the federated sign-in page.
+    assertProviderSignInPage();
+    // Confirm expected error shown in info bar.
+    assertInfoBarMessage(
+        firebaseui.auth.widget.handler.common.getErrorMessage(
+            expectedError));
+    asyncTestCase.signal();
+  });
+}
+
+
 function testHandleCallback_nullUser() {
   // Test when no previous sign-in with redirect is detected and provider sign
   // in page is rendered.

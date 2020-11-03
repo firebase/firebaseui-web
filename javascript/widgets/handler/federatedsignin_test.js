@@ -439,6 +439,42 @@ function testHandleFederatedSignIn_popup_userCancelled() {
 }
 
 
+function testHandleFederatedSignIn_popup_userCancelled_consentRequired() {
+  // Test federated sign in with popup when user denies permissions on
+  // Microsoft work account.
+  app.updateConfig('signInFlow', 'popup');
+  // Since Microsoft's signInOptions include a loginHintKey definition,
+  // a login_hint should be set in the customParameters.
+  const expectedProvider =
+      getExpectedProviderWithCustomParameters('microsoft.com',
+          {'login_hint': 'user@outlook.com'});
+  firebaseui.auth.widget.handler.handleFederatedSignIn(
+      app, container, 'user@outlook.com', 'microsoft.com');
+  assertFederatedLinkingPage();
+  submitForm();
+  // When microsoft.com consent is rejected, auth/invalid-credential is thrown.
+  // This will get normalized to auth/user-cancelled.
+  const invalidCredentialError = {
+    'code': 'auth/invalid-credential',
+    'message': 'error=consent_required',
+  };
+  const expectedError = {
+    'code': 'auth/user-cancelled',
+  };
+  testAuth.assertSignInWithPopup(
+      [expectedProvider],
+      null,
+      invalidCredentialError);
+  return testAuth.process().then(function() {
+    // Remain on same page and display the error in info bar.
+    assertFederatedLinkingPage();
+    // Show error in info bar.
+    assertInfoBarMessage(
+        firebaseui.auth.widget.handler.common.getErrorMessage(expectedError));
+  });
+}
+
+
 function testHandleFederatedSignIn_popup_popupBlockedError() {
   // Test federated sign in with popup when popup blocked.
   app.updateConfig('signInFlow', 'popup');

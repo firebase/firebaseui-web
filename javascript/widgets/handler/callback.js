@@ -52,31 +52,37 @@ firebaseui.auth.widget.handler.handleCallback =
     firebaseui.auth.widget.handler.handleCallbackResult_(app, component,
         result);
   }, function(error) {
+    // Normalize the error.
+    const normalizedError =
+        firebaseui.auth.widget.handler.common.normalizeError(error);
     // A previous redirect operation was triggered and some error occurred.
     // Test for need confirmation error and handle appropriately.
     // For all other errors, display info bar and show sign in screen.
-    if (error &&
+    if (normalizedError &&
         // Single out need confirmation error as email-already-in-use and
         // credential-already-in-use will also return email and credential
         // and need to be handled differently.
-        (error['code'] == 'auth/account-exists-with-different-credential' ||
-         error['code'] == 'auth/email-already-in-use') &&
-        error['email'] &&
-        error['credential']) {
+        (normalizedError['code'] ==
+         'auth/account-exists-with-different-credential' ||
+         normalizedError['code'] == 'auth/email-already-in-use') &&
+        normalizedError['email'] &&
+        normalizedError['credential']) {
       // Save pending email credential.
       firebaseui.auth.storage.setPendingEmailCredential(
           new firebaseui.auth.PendingEmailCredential(
-              error['email'], error['credential']),
+              normalizedError['email'], normalizedError['credential']),
           app.getAppId());
       firebaseui.auth.widget.handler.handleCallbackLinking_(
-          app, component, error['email']);
-    } else if (error && error['code'] == 'auth/user-cancelled') {
+          app, component, normalizedError['email']);
+    } else if (normalizedError &&
+               normalizedError['code'] == 'auth/user-cancelled') {
       // Should go back to the previous linking screen. A pending email
       // should be present, otherwise there's an error.
-      var pendingCredential =
+      const pendingCredential =
           firebaseui.auth.storage.getPendingEmailCredential(app.getAppId());
-      var message =
-          firebaseui.auth.widget.handler.common.getErrorMessage(error);
+      const message =
+          firebaseui.auth.widget.handler.common.getErrorMessage(
+              normalizedError);
       // If there is a credential too, then the previous screen was federated
       // linking so we process the error as a linking flow.
       if (pendingCredential && pendingCredential.getCredential()) {
@@ -92,14 +98,17 @@ firebaseui.auth.widget.handler.handleCallback =
       } else {
         // Go to the sign-in page with info bar error.
         firebaseui.auth.widget.handler.handleCallbackFailure_(
-            app, component, /** @type {!Error} */ (error));
+            app, component, /** @type {!Error} */ (normalizedError));
       }
-    } else if (error && error['code'] == 'auth/credential-already-in-use') {
+    } else if (normalizedError &&
+               normalizedError['code'] == 'auth/credential-already-in-use') {
       // Do nothing and keep callback UI while onUpgradeError catches and
       // handles this error.
-    } else if (error &&
-        error['code'] == 'auth/operation-not-supported-in-this-environment' &&
-        firebaseui.auth.widget.handler.common.isPasswordProviderOnly(app)) {
+    } else if (normalizedError &&
+               normalizedError['code'] ==
+               'auth/operation-not-supported-in-this-environment' &&
+               firebaseui.auth.widget.handler.common.isPasswordProviderOnly(
+                   app)) {
       // Operation is not supported in this environment but only password
       // provider is enabled. So allow this to proceed as a no redirect result.
       // This will allow developers using password sign-in in Cordova to use
@@ -114,7 +123,7 @@ firebaseui.auth.widget.handler.handleCallback =
     } else {
       // Go to the sign-in page with info bar error.
       firebaseui.auth.widget.handler.handleCallbackFailure_(
-          app, component, /** @type {!Error} */ (error));
+          app, component, /** @type {!Error} */ (normalizedError));
     }
   }));
 };
