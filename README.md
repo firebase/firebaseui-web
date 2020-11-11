@@ -102,6 +102,7 @@ var firebase = require('firebase');
 var firebaseui = require('firebaseui');
 // or using ES6 imports:
 import * as firebaseui from 'firebaseui'
+import 'firebaseui/dist/firebaseui.css'
 ```
 
 Or include the required files in your HTML, if your HTTP Server serves the files
