@@ -78,7 +78,7 @@ const CJS_DEPS = [
 const ESM_IMPORT = ESM_DEPS.join(';') + ';';
 
 // Export firebaseui.auth module.
-const ESM_EXPORT = 'const auth = firebaseui.auth;' +
+const ESM_EXPORT = 'var auth = firebaseui.auth;' +
     'export { auth } ;';
 
 // Adds the cjs module requirement and exports firebaseui.
