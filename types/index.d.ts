@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-declare namespace firebaseui { }
+declare namespace firebaseui {}
 
 export as namespace firebaseui;
 
@@ -30,6 +30,10 @@ interface Callbacks {
 
 interface SignInOption {
   provider: string;
+  providerName?: string;
+  fullLabel?: string;
+  buttonColor?: string;
+  iconUrl?: string;
   hd?: string|RegExp;
 }
 
@@ -102,6 +106,8 @@ interface PhoneSignInOption extends SignInOption {
 
 declare namespace firebaseui.auth {
   interface Config {
+    // This is now a no-op and is deprecated and will be removed by Jan 31st,
+    // 2021.
     acUiConfig?: object;
     autoUpgradeAnonymousUsers?: boolean;
     callbacks?: Callbacks;
@@ -122,6 +128,7 @@ declare namespace firebaseui.auth {
   }
 
   interface TenantConfig extends firebaseui.auth.Config {
+    fullLabel?: string;
     displayName?: string;
     buttonColor?: string;
     iconUrl?: string;
@@ -151,6 +158,8 @@ declare namespace firebaseui.auth {
 
   class CredentialHelper {
     private constructor();
+    // `ACCOUNT_CHOOSER_COM` is deprecated and will be removed by Jan 31st,
+    // 2021.
     static ACCOUNT_CHOOSER_COM: CredentialHelperType;
     static GOOGLE_YOLO: CredentialHelperType;
     static NONE: CredentialHelperType;

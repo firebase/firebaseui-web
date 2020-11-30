@@ -34,25 +34,13 @@ goog.setTestOnly('firebaseui.auth.GoogleYoloTest');
 
 
 var mockControl;
+var ignoreArgument;
 var clock;
-// Mock googleyolo config.
-var googleYoloConfig = {
-  'supportedAuthMethods': [
-    'https://accounts.google.com',
-    'googleyolo://id-and-password'
-  ],
-  'supportedIdTokenProviders': [
-    {
-      'uri': 'https://accounts.google.com',
-      'clientId': '1234567890.apps.googleusercontent.com'
-    }
-  ]
-};
+var googleYoloClientId = '1234567890.apps.googleusercontent.com';
 // Mock credential returned by googleyolo.
 var googleYoloCredential = {
-  'idToken': 'ID_TOKEN',
-  'id': 'user@example.com',
-  'authMethod': 'https://accounts.google.com'
+  'credential': 'ID_TOKEN',
+  'clientId': googleYoloClientId,
 };
 
 
@@ -60,6 +48,7 @@ function setUp() {
   // Install mock clock.
   clock = new goog.testing.MockClock(true);
   mockControl = new goog.testing.MockControl();
+  ignoreArgument = goog.testing.mockmatchers.ignoreArgument;
 }
 
 
@@ -67,117 +56,56 @@ function tearDown() {
   goog.dispose(clock);
   mockControl.$verifyAll();
   mockControl.$tearDown();
-  delete goog.global['googleyolo'];
-  delete goog.global['onGoogleYoloLoad'];
-}
-
-
-/**
- * Returns a googleyolo error for the type provided.
- * @param {string} type The error type.
- * @return {!Error} The corresponding googleyolo error.
- */
-function createGoogleYoloError(type) {
-  var err = new Error;
-  err.type = type;
-  return err;
+  delete goog.global['google'];
+  delete goog.global['onGoogleLibraryLoad'];
 }
 
 
 /** @return {!SmartLockApi} A googleyolo mock object. */
 function initializeGoogleYoloMock() {
   return {
-    'cancelLastOperation': mockControl.createFunctionMock(
-        'cancelLastOperation'),
-    'retrieve': mockControl.createFunctionMock('retrieve'),
-    'hint': mockControl.createFunctionMock('hint')
+    'cancel': mockControl.createFunctionMock('cancel'),
+    'initialize': mockControl.createFunctionMock('initialize'),
+    'prompt': mockControl.createFunctionMock('prompt')
   };
 }
 
 
-function testGoogleYolo_show_autoSignInEnabled_noSavedCredentials() {
-  // Test when auto sign-in is enabled and no saved credentials are available.
-  // Ignore old browsers where googleyolo will not work.
-  if (typeof Promise === 'undefined') {
-    return;
-  }
+function testGoogleYolo_show_autoSignInEnabled() {
+  // Test when auto sign-in is enabled.
   var mockGoogleYolo = initializeGoogleYoloMock();
-  mockGoogleYolo.retrieve(googleYoloConfig).$once().$does(function() {
-    return Promise.reject(createGoogleYoloError('noCredentialsAvailable'));
-  });
-  mockGoogleYolo.hint(googleYoloConfig).$once().$does(function() {
-    return Promise.resolve(googleYoloCredential);
-  });
+  mockGoogleYolo.initialize(ignoreArgument).$once()
+      .$does(function(config) {
+        assertEquals(googleYoloClientId, config.client_id);
+        assertTrue(config.auto_select);
+        config.callback(googleYoloCredential);
+      });
+  mockGoogleYolo.prompt().$once();
   mockControl.$replayAll();
 
   var googleYolo = new firebaseui.auth.GoogleYolo(mockGoogleYolo);
-  return googleYolo.show(googleYoloConfig, false)
+  return googleYolo.show(googleYoloClientId, false)
       .then(function(actualCredential) {
         assertObjectEquals(googleYoloCredential, actualCredential);
       });
 }
 
 
-function testGoogleYolo_show_autoSignInEnabled_userCancelled_whileRetrieve() {
-  // Test when auto sign-in is enabled and user cancels the flow while
-  // retrieving the saved credential.
-  // Ignore old browsers where googleyolo will not work.
-  if (typeof Promise === 'undefined') {
-    return;
-  }
-  var mockGoogleYolo = initializeGoogleYoloMock();
-  mockGoogleYolo.retrieve(googleYoloConfig).$once().$does(function() {
-    return Promise.reject(createGoogleYoloError('userCanceled'));
-  });
-  mockControl.$replayAll();
-
-  var googleYolo = new firebaseui.auth.GoogleYolo(mockGoogleYolo);
-  return googleYolo.show(googleYoloConfig, false)
-      .then(function(actualCredential) {
-        assertNull(actualCredential);
-      });
-}
-
-
-function testGoogleYolo_show_autoSignInEnabled_userCancelled_whileSelection() {
-  // Test when auto sign-in is enabled and user cancels the flow while
-  // selecting a credential from list of accounts.
-  // Ignore old browsers where googleyolo will not work.
-  if (typeof Promise === 'undefined') {
-    return;
-  }
-  var mockGoogleYolo = initializeGoogleYoloMock();
-  mockGoogleYolo.retrieve(googleYoloConfig).$once().$does(function() {
-    return Promise.reject(createGoogleYoloError('noCredentialsAvailable'));
-  });
-  mockGoogleYolo.hint(googleYoloConfig).$once().$does(function() {
-    return Promise.reject(createGoogleYoloError('userCanceled'));
-  });
-  mockControl.$replayAll();
-
-  var googleYolo = new firebaseui.auth.GoogleYolo(mockGoogleYolo);
-  return googleYolo.show(googleYoloConfig, false)
-      .then(function(actualCredential) {
-        assertNull(actualCredential);
-      });
-}
-
-
-function testGoogleYolo_show_autoSignInDisabled_savedCredential() {
+function testGoogleYolo_show_autoSignInDisabled() {
   // Test when auto sign-in is disabled and a credential is selected from
   // list of accounts.
-  // Ignore old browsers where googleyolo will not work.
-  if (typeof Promise === 'undefined') {
-    return;
-  }
   var mockGoogleYolo = initializeGoogleYoloMock();
-  mockGoogleYolo.hint(googleYoloConfig).$once().$does(function() {
-    return Promise.resolve(googleYoloCredential);
-  });
+  mockGoogleYolo.initialize(ignoreArgument).$once()
+      .$does(function(config) {
+        assertEquals(googleYoloClientId, config.client_id);
+        assertFalse(config.auto_select);
+        config.callback(googleYoloCredential);
+      });
+  mockGoogleYolo.prompt().$once();
   mockControl.$replayAll();
 
   var googleYolo = new firebaseui.auth.GoogleYolo(mockGoogleYolo);
-  return googleYolo.show(googleYoloConfig, true)
+  return googleYolo.show(googleYoloClientId, true)
       .then(function(actualCredential) {
         assertObjectEquals(googleYoloCredential, actualCredential);
       });
@@ -186,120 +114,58 @@ function testGoogleYolo_show_autoSignInDisabled_savedCredential() {
 
 function testGoogleYolo_show_autoSignInEnabled_noAvailableCredentials() {
   // Test when auto sign-in is enabled and no credentials are available.
-  // Ignore old browsers where googleyolo will not work.
-  if (typeof Promise === 'undefined') {
-    return;
-  }
   var mockGoogleYolo = initializeGoogleYoloMock();
-  mockGoogleYolo.retrieve(googleYoloConfig).$once().$does(function() {
-    return Promise.reject(createGoogleYoloError('noCredentialsAvailable'));
-  });
-  mockGoogleYolo.hint(googleYoloConfig).$once().$does(function() {
-    return Promise.reject(createGoogleYoloError('noCredentialsAvailable'));
-  });
-  mockControl.$replayAll();
-
-  var googleYolo = new firebaseui.auth.GoogleYolo(mockGoogleYolo);
-  return googleYolo.show(googleYoloConfig, false)
-      .then(function(actualCredential) {
-        assertNull(actualCredential);
+  mockGoogleYolo.initialize(ignoreArgument).$once()
+      .$does(function(config) {
+        assertEquals(googleYoloClientId, config.client_id);
+        assertTrue(config.auto_select);
+        // Simulate no credential. Promise should not resolve.
       });
-}
-
-
-function testGoogleYolo_show_autoSignInEnabled_savedCredentials() {
-  // Test when auto sign-in is enabled and a saved credential is retrieved.
-  // Ignore old browsers where googleyolo will not work.
-  if (typeof Promise === 'undefined') {
-    return;
-  }
-  var mockGoogleYolo = initializeGoogleYoloMock();
-  mockGoogleYolo.retrieve(googleYoloConfig).$once().$does(function() {
-    return Promise.resolve(googleYoloCredential);
-  });
+  mockGoogleYolo.prompt().$once();
   mockControl.$replayAll();
 
   var googleYolo = new firebaseui.auth.GoogleYolo(mockGoogleYolo);
-  return googleYolo.show(googleYoloConfig, false)
+  googleYolo.show(googleYoloClientId, false)
       .then(function(actualCredential) {
-        assertObjectEquals(googleYoloCredential, actualCredential);
-      });
-}
-
-
-function testGoogleYolo_show_autoSignInEnabled_concurrent() {
-  // Test when auto sign-in is enabled and a previous One-Tap UI is already
-  // rendered.
-  // Ignore old browsers where googleyolo will not work.
-  if (typeof Promise === 'undefined') {
-    return;
-  }
-  var mockGoogleYolo = initializeGoogleYoloMock();
-  // The first call will fail with the concurrent request error.
-  mockGoogleYolo.retrieve(googleYoloConfig).$once().$does(function() {
-    return Promise.reject(createGoogleYoloError('illegalConcurrentRequest'));
-  });
-  // The above error will lead to a call to cancelLastOperation.
-  mockGoogleYolo.cancelLastOperation().$once().$does(function() {
-    return Promise.resolve();
-  });
-  // The show routine will be called again.
-  mockGoogleYolo.retrieve(googleYoloConfig).$once().$does(function() {
-    return Promise.resolve(googleYoloCredential);
-  });
-  mockControl.$replayAll();
-
-  var googleYolo = new firebaseui.auth.GoogleYolo(mockGoogleYolo);
-  return googleYolo.show(googleYoloConfig, false)
-      .then(function(actualCredential) {
-        assertObjectEquals(googleYoloCredential, actualCredential);
+        throw new Error('Should not resolve');
       });
 }
 
 
 function testGoogleYolo_cancel() {
   // Tests when cancel is manually called.
-  // Ignore old browsers where googleyolo will not work.
-  if (typeof Promise === 'undefined') {
-    return;
-  }
   // User cancelled flow.
-  var retrieveReject = null;
-  var userCancelledError = createGoogleYoloError('userCanceled');
   var cancelled = false;
   var mockGoogleYolo = initializeGoogleYoloMock();
-  mockGoogleYolo.retrieve(googleYoloConfig).$once().$does(function() {
-    return new Promise(function(resolve, reject) {
-      cancelled = true;
-      retrieveReject = reject;
-    });
-  });
-  mockGoogleYolo.cancelLastOperation().$once().$does(function() {
-    retrieveReject(userCancelledError);
-    return Promise.resolve();
-  });
-  mockGoogleYolo.retrieve(googleYoloConfig).$once().$does(function() {
-    // This will wait until above resolves.
-    assertTrue(cancelled);
-    return Promise.reject(createGoogleYoloError('noCredentialsAvailable'));
-  });
-  // This corresponds to second call to show.
-  mockGoogleYolo.hint(googleYoloConfig).$once().$does(function() {
-    return Promise.resolve(googleYoloCredential);
-  });
+  mockGoogleYolo.initialize(ignoreArgument).$once()
+      .$does(function(config) {
+        assertEquals(googleYoloClientId, config.client_id);
+        assertTrue(config.auto_select);
+        cancelled = true;
+      });
+  mockGoogleYolo.prompt().$once();
+  mockGoogleYolo.cancel().$once();
+  mockGoogleYolo.initialize(ignoreArgument).$once()
+      .$does(function(config) {
+        assertEquals(googleYoloClientId, config.client_id);
+        assertTrue(config.auto_select);
+        assertTrue(cancelled);
+        config.callback(googleYoloCredential);
+      });
+  mockGoogleYolo.prompt().$once();
   mockControl.$replayAll();
 
   var googleYolo = new firebaseui.auth.GoogleYolo(mockGoogleYolo);
   // All calls to cancel should have no effect before show is called.
   googleYolo.cancel();
   googleYolo.cancel();
-  googleYolo.show(googleYoloConfig, false)
+  googleYolo.show(googleYoloClientId, false)
       .then(function(actualCredential) {
         assertNull(actualCredential);
       });
   // This will take effect and cancel the above show call.
   googleYolo.cancel();
-  return googleYolo.show(googleYoloConfig, false)
+  return googleYolo.show(googleYoloClientId, false)
       .then(function(actualCredential) {
         assertObjectEquals(googleYoloCredential, actualCredential);
       });
@@ -308,10 +174,6 @@ function testGoogleYolo_cancel() {
 
 function testGoogleYolo_noGoogleYolo_success() {
   // Tests when googleyolo namespace is not available.
-  // Ignore old browsers where googleyolo will not work.
-  if (typeof Promise === 'undefined') {
-    return;
-  }
   var googleYoloLoader =
       mockControl.createStrictMock(firebaseui.auth.GoogleYolo.Loader);
   var getInstance = mockControl.createMethodMock(
@@ -324,20 +186,29 @@ function testGoogleYolo_noGoogleYolo_success() {
       .$does(function() {
         // Simulate successful load.
         return goog.Promise.resolve().then(function() {
-          goog.global['googleyolo'] = mockGoogleYolo;
+          goog.global['google'] = {
+            'accounts': {
+              'id': mockGoogleYolo,
+            },
+          };
         });
       });
-  mockGoogleYolo.retrieve(googleYoloConfig).$once().$does(function() {
-    return Promise.resolve(googleYoloCredential);
-  });
+  mockGoogleYolo.initialize(ignoreArgument).$once()
+      .$does(function(config) {
+        assertEquals(googleYoloClientId, config.client_id);
+        assertTrue(config.auto_select);
+        config.callback(googleYoloCredential);
+      });
+  mockGoogleYolo.prompt().$once();
   mockControl.$replayAll();
+
   // googleyolo namespace not available. This will dynamically load googleyolo.
   var googleYolo = new firebaseui.auth.GoogleYolo(null);
   // This should do nothing.
   googleYolo.cancel();
-  return googleYolo.show(googleYoloConfig, false)
+  return googleYolo.show(googleYoloClientId, false)
       .then(function(actualCredential) {
-        assertEquals(mockGoogleYolo, goog.global['googleyolo']);
+        assertEquals(mockGoogleYolo, goog.global['google'].accounts.id);
         assertObjectEquals(googleYoloCredential, actualCredential);
       });
 }
@@ -347,10 +218,6 @@ function testGoogleYolo_noGoogleYolo_retrialAfterError() {
   // Tests when googleyolo namespace is not available.
   // This will test a flow where load initially fails and then succeeds after
   // retrial.
-  // Ignore old browsers where googleyolo will not work.
-  if (typeof Promise === 'undefined') {
-    return;
-  }
   var mockGoogleYolo = initializeGoogleYoloMock();
   var googleYoloLoader =
       mockControl.createStrictMock(firebaseui.auth.GoogleYolo.Loader);
@@ -371,24 +238,33 @@ function testGoogleYolo_noGoogleYolo_retrialAfterError() {
       .$does(function() {
         // Simulate successful load.
         return goog.Promise.resolve().then(function() {
-          goog.global['googleyolo'] = mockGoogleYolo;
+          goog.global['google'] = {
+            'accounts': {
+              'id': mockGoogleYolo,
+            },
+          };
         });
       });
-  mockGoogleYolo.retrieve(googleYoloConfig).$once().$does(function() {
-    return Promise.resolve(googleYoloCredential);
-  });
+  mockGoogleYolo.initialize(ignoreArgument).$once()
+      .$does(function(config) {
+        assertEquals(googleYoloClientId, config.client_id);
+        assertTrue(config.auto_select);
+        config.callback(googleYoloCredential);
+      });
+  mockGoogleYolo.prompt().$once();
   mockControl.$replayAll();
+
   // googleyolo namespace not available. This will dynamically load googleyolo.
   var googleYolo = new firebaseui.auth.GoogleYolo(null);
-  return googleYolo.show(googleYoloConfig, false)
+  return googleYolo.show(googleYoloClientId, false)
       .then(function(actualCredential) {
-        assertUndefined(goog.global['googleyolo']);
+        assertUndefined(goog.global['google']);
         assertNull(actualCredential);
         // Try again. This should succeed.
-        return googleYolo.show(googleYoloConfig, false);
+        return googleYolo.show(googleYoloClientId, false);
       })
       .then(function(actualCredential) {
-        assertEquals(mockGoogleYolo, goog.global['googleyolo']);
+        assertEquals(mockGoogleYolo, goog.global['google'].accounts.id);
         assertObjectEquals(googleYoloCredential, actualCredential);
       });
 }
@@ -396,10 +272,6 @@ function testGoogleYolo_noGoogleYolo_retrialAfterError() {
 
 function testGoogleYolo_noop_noConfig() {
   // Tests when googleyolo config is not available.
-  // Ignore old browsers where googleyolo will not work.
-  if (typeof Promise === 'undefined') {
-    return;
-  }
   // No googleyolo config available. All operations will be no-ops.
   var mockGoogleYolo = initializeGoogleYoloMock();
   var googleYolo = new firebaseui.auth.GoogleYolo(mockGoogleYolo);
@@ -410,17 +282,21 @@ function testGoogleYolo_noop_noConfig() {
 }
 
 
-function testGoogleYoloLoader_dynamicLoading() {
+function testGoogleYoloLoader_dynamicLoading_onGoogleLibraryLoad_triggered() {
   var expectedUrl = goog.html.TrustedResourceUrl.fromConstant(
-      goog.string.Const.from('https://smartlock.google.com/client'));
+      goog.string.Const.from('https://accounts.google.com/gsi/client'));
   var safeLoad = mockControl.createMethodMock(goog.net.jsloader, 'safeLoad');
   // As library not available, try to load dynamically.
   safeLoad(expectedUrl)
       .$once()
       .$does(function(url) {
         return goog.Promise.resolve().then(function() {
-          goog.global['googleyolo'] = initializeGoogleYoloMock();
-          goog.global['onGoogleYoloLoad'](goog.global['googleyolo']);
+          goog.global['google'] = {
+            'accounts': {
+              'id': initializeGoogleYoloMock(),
+            },
+          };
+          goog.global['onGoogleLibraryLoad']();
         });
       });
   mockControl.$replayAll();
@@ -428,7 +304,36 @@ function testGoogleYoloLoader_dynamicLoading() {
   var googleYoloLoader = new firebaseui.auth.GoogleYolo.Loader();
   return googleYoloLoader.load().then(function() {
     // googleyolo should be loaded.
-    assertTrue(typeof goog.global['googleyolo'] === 'object');
+    assertTrue(typeof goog.global['google'] === 'object');
+    // This should resolve with cached googleyolo without jsloader called again.
+    return googleYoloLoader.load();
+  });
+}
+
+
+function testGoogleYoloLoader_dynamicLoading_onGoogleLibraryLoad_notCalled() {
+  var expectedUrl = goog.html.TrustedResourceUrl.fromConstant(
+      goog.string.Const.from('https://accounts.google.com/gsi/client'));
+  var safeLoad = mockControl.createMethodMock(goog.net.jsloader, 'safeLoad');
+  // As library not available, try to load dynamically.
+  safeLoad(expectedUrl)
+      .$once()
+      .$does(function(url) {
+        return goog.Promise.resolve().then(function() {
+          // Should still resolve even if onGoogleLibraryLoad is not called.
+          goog.global['google'] = {
+            'accounts': {
+              'id': initializeGoogleYoloMock(),
+            },
+          };
+        });
+      });
+  mockControl.$replayAll();
+
+  var googleYoloLoader = new firebaseui.auth.GoogleYolo.Loader();
+  return googleYoloLoader.load().then(function() {
+    // googleyolo should be loaded.
+    assertTrue(typeof goog.global['google'] === 'object');
     // This should resolve with cached googleyolo without jsloader called again.
     return googleYoloLoader.load();
   });
@@ -442,7 +347,11 @@ function testGoogleYoloLoader_loadedOnDomReady() {
       firebaseui.auth.util, 'onDomReady');
   // Simulate googleyolo already loaded on DOM ready.
   onDomReady().$once().$does(function() {
-    goog.global['googleyolo'] = initializeGoogleYoloMock();
+    goog.global['google'] = {
+      'accounts': {
+        'id': initializeGoogleYoloMock(),
+      },
+    };
     return goog.Promise.resolve();
   });
   mockControl.$replayAll();
@@ -450,14 +359,18 @@ function testGoogleYoloLoader_loadedOnDomReady() {
   var googleYoloLoader = new firebaseui.auth.GoogleYolo.Loader();
   return googleYoloLoader.load().then(function() {
     // googleyolo should be loaded.
-    assertTrue(typeof goog.global['googleyolo'] === 'object');
+    assertTrue(typeof goog.global['google'] === 'object');
   });
 }
 
 
 function testGoogleYoloLoader_loadedBeforeCall() {
   // Simulate already loaded.
-  goog.global['googleyolo'] = initializeGoogleYoloMock();
+  goog.global['google'] = {
+    'accounts': {
+      'id': initializeGoogleYoloMock(),
+    },
+  };
   mockControl.createMethodMock(goog.net.jsloader, 'safeLoad');
   mockControl.createMethodMock(firebaseui.auth.util, 'onDomReady');
   mockControl.$replayAll();
@@ -465,7 +378,7 @@ function testGoogleYoloLoader_loadedBeforeCall() {
   var googleYoloLoader = new firebaseui.auth.GoogleYolo.Loader();
   return googleYoloLoader.load().then(function() {
     // googleyolo should be loaded.
-    assertTrue(typeof goog.global['googleyolo'] === 'object');
+    assertTrue(typeof goog.global['google'] === 'object');
   });
 }
 
@@ -473,7 +386,7 @@ function testGoogleYoloLoader_loadedBeforeCall() {
 function testGoogleYoloLoader_successAfterGenericError() {
   var expectedError = new Error;
   var expectedUrl = goog.html.TrustedResourceUrl.fromConstant(
-      goog.string.Const.from('https://smartlock.google.com/client'));
+      goog.string.Const.from('https://accounts.google.com/gsi/client'));
   var safeLoad = mockControl.createMethodMock(goog.net.jsloader, 'safeLoad');
   // Simulate first load failing with expected error.
   safeLoad(expectedUrl)
@@ -487,8 +400,12 @@ function testGoogleYoloLoader_successAfterGenericError() {
       .$once()
       .$does(function(url) {
         return goog.Promise.resolve().then(function() {
-          goog.global['googleyolo'] = initializeGoogleYoloMock();
-          goog.global['onGoogleYoloLoad'](goog.global['googleyolo']);
+          goog.global['google'] = {
+            'accounts': {
+              'id': initializeGoogleYoloMock(),
+            },
+          };
+          goog.global['onGoogleLibraryLoad']();
         });
       });
   mockControl.$replayAll();
@@ -501,7 +418,7 @@ function testGoogleYoloLoader_successAfterGenericError() {
     return googleYoloLoader.load()
         .then(function() {
           // googleyolo should be loaded.
-          assertTrue(typeof goog.global['googleyolo'] === 'object');
+          assertTrue(typeof goog.global['google'] === 'object');
           // Third call should succeed without jsloader running.
           return googleYoloLoader.load();
         });
@@ -511,7 +428,7 @@ function testGoogleYoloLoader_successAfterGenericError() {
 
 function testGoogleYoloLoader_successAfterTimeout() {
   var expectedUrl = goog.html.TrustedResourceUrl.fromConstant(
-      goog.string.Const.from('https://smartlock.google.com/client'));
+      goog.string.Const.from('https://accounts.google.com/gsi/client'));
   var safeLoad = mockControl.createMethodMock(goog.net.jsloader, 'safeLoad');
   // Simulate first call not resolving.
   safeLoad(expectedUrl)
@@ -519,15 +436,19 @@ function testGoogleYoloLoader_successAfterTimeout() {
       .$does(function(url) {
         // Simulate timeout.
         clock.tick(10000);
-        return new goog.Promise.resolve();
+        return goog.Promise.resolve();
       });
   // Second call will succeed.
   safeLoad(expectedUrl)
       .$once()
       .$does(function(url) {
         return goog.Promise.resolve().then(function() {
-          goog.global['googleyolo'] = initializeGoogleYoloMock();
-          goog.global['onGoogleYoloLoad'](goog.global['googleyolo']);
+          goog.global['google'] = {
+            'accounts': {
+              'id': initializeGoogleYoloMock(),
+            },
+          };
+          goog.global['onGoogleLibraryLoad']();
         });
       });
   mockControl.$replayAll();
@@ -540,7 +461,7 @@ function testGoogleYoloLoader_successAfterTimeout() {
     return googleYoloLoader.load()
         .then(function() {
           // googleyolo should be loaded.
-          assertTrue(typeof goog.global['googleyolo'] === 'object');
+          assertTrue(typeof goog.global['google'] === 'object');
           // Third call should succeed without jsloader running.
           return googleYoloLoader.load();
         });

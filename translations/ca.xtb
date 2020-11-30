@@ -36,7 +36,7 @@
 <translation id="1653501608290591291">Bielorússia</translation>
 <translation id="1667376103923043653">Aquesta adreça electrònica no coincideix amb cap compte.</translation>
 <translation id="173576986138855124">En tocar <ph name="PH_1" />, és possible que s'enviï un SMS. Es poden aplicar tarifes de dades i missatges.</translation>
-<translation id="1739056958326110545">Saint Helena</translation>
+<translation id="1739056958326110545">Santa Helena</translation>
 <translation id="1743026758446868773">Barbados</translation>
 <translation id="1772888465204630090">En tocar Continua, indiques que acceptes les <ph name="START_LINK" />Condicions del servei<ph name="END_LINK" /></translation>
 <translation id="177937029926612729">Armènia</translation>
@@ -99,7 +99,7 @@
 <translation id="2614081868476050089">Servei no disponible.</translation>
 <translation id="2616650714309312732">Portugal</translation>
 <translation id="2619590123270932385">Guaiana Francesa</translation>
-<translation id="2621854044487969847">Illes Verges britàniques</translation>
+<translation id="2621854044487969847">Illes Verges Britàniques</translation>
 <translation id="2623430226615357954">Ignora</translation>
 <translation id="2626214972556632989">Introdueix un número de telèfon vàlid</translation>
 <translation id="2652952163277051394">Aquest tipus de compte no és compatible amb l'aplicació</translation>
@@ -127,7 +127,7 @@
 <translation id="3045244039436637116">Guinea Bissau</translation>
 <translation id="3046745817056752783">Aràbia Saudita</translation>
 <translation id="3083819527012413063">S'ha afegit un factor de seguretat addicional a <ph name="APP_NAME" /></translation>
-<translation id="3122584863645047144">Illes Verges nord-americanes</translation>
+<translation id="3122584863645047144">Illes Verges Nord-americanes</translation>
 <translation id="3141549453511344986">Inicia la sessió amb el telèfon</translation>
 <translation id="3147551458884186429">Indonèsia</translation>
 <translation id="3154748063569624719">Inicialment has intentat iniciar la sessió amb <ph name="PENDING_EMAIL" /></translation>
@@ -245,6 +245,7 @@
 <translation id="5143657419516597442">Saint Lucia</translation>
 <translation id="521218078240459724">@string/app_name</translation>
 <translation id="5241732101105320538">Comprova el correu electrònic</translation>
+<translation id="5255830932650472373">Contrasenya nova</translation>
 <translation id="5301108536112812420">La teva sol·licitud per verificar l'adreça electrònica ha caducat o l'enllaç ja s'ha utilitzat</translation>
 <translation id="5323041129469627535">Oman</translation>
 <translation id="5326139833547026317">Carib neerlandès</translation>
@@ -442,7 +443,7 @@
 <translation id="8361109291694366329">Illes Marshall</translation>
 <translation id="8371947480506692029">Sint Maarten</translation>
 <translation id="8395242001819210481">Antigua i Barbuda</translation>
-<translation id="8399150401520737446">Illes Marianes del Nord</translation>
+<translation id="8399150401520737446">Illes Mariannes Septentrionals</translation>
 <translation id="8414177484126578295">Illes Malvines</translation>
 <translation id="8420860857100049136">Perú</translation>
 <translation id="8422843028108996485">Contrasenya actual</translation>

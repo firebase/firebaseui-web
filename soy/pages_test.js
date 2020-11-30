@@ -21,6 +21,7 @@
 goog.provide('firebaseui.auth.soy2.pageTest');
 goog.setTestOnly('firebaseui.auth.soy2.pageTest');
 
+goog.require('firebaseui.auth.soy2.element');
 goog.require('firebaseui.auth.soy2.page');
 /** @suppress {extraRequire} Required for initViewer helper function. */
 goog.require('firebaseui.auth.soy2.viewHelper');
@@ -644,6 +645,50 @@ function testProviderSignIn() {
 }
 
 
+function testProviderSignIn_buttonCustomization() {
+  var root = goog.dom.getElement('provider-sign-in-customization');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.providerSignIn, {
+        'providerConfigs': [
+          {
+            providerId: 'password',
+            fullName: 'Login with password',
+            providerName: 'Password',
+          },
+          {
+            providerId: 'phone',
+            fullName: 'Phone login',
+            providerName: 'Phone Number',
+          },
+          {
+            providerId: 'google.com',
+            fullName: 'ACME Login',
+            providerName: 'ACME',
+          },
+          {
+            providerId: 'anonymous',
+            fullName: 'Create account later',
+            providerName: 'Skip',
+          },
+          {
+            providerId: 'microsoft.com',
+            providerName: 'Microsoft',
+            buttonColor: '#FFB6C1',
+            iconUrl: 'icon-url',
+            loginHintKey: 'login_hint'
+          },
+          {
+            providerId: 'oidc.provider',
+            providerName: 'MyOidcIdp',
+            fullLabel: 'Employee Login',
+            buttonColor: '#ff00ff',
+            iconUrl: 'icon-url'
+          }]
+      },
+      IJ_DATA_);
+}
+
+
 function testProviderSignIn_busy() {
   var root = goog.dom.getElement('provider-sign-in-busy');
   goog.soy.renderElement(
@@ -769,7 +814,22 @@ function testTenantSelect() {
             displayName: 'ACME',
             buttonColor: '#53B2BF',
             iconUrl: 'icon-url',
-          }],
+          },
+          {
+            tenantId: 'TENANT_1',
+            fullLabel: 'Contractor Login',
+            displayName: 'OIDC',
+            buttonColor: '#4666FF',
+            iconUrl: 'icon-url',
+          },
+          {
+            tenantId: 'TENANT_2',
+            fullLabel: null,
+            displayName: 'ACME Corp',
+            buttonColor: '#2F2B2E',
+            iconUrl: 'icon-url',
+          },
+        ],
       },
       IJ_DATA_);
 }

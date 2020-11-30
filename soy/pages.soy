@@ -537,7 +537,7 @@
  */
 {template .emailLinkSignInLinking}
   {@param email: string}
-  {@param? providerConfig: [providerId:string|null, providerName:string|null,
+  {@param? providerConfig: [providerId:string|null, providerName:string|null, fullLabel:string|null,
       buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
   {let $idpDisplayName kind="text"}{call firebaseui.auth.soy2.element.idpName data="all" /}{/let}
   <div class="mdl-card mdl-shadow--2dp firebaseui-container
@@ -589,7 +589,7 @@
  * Renders an account linking page for an email link account.
  */
 {template .emailLinkSignInLinkingDifferentDevice}
-  {@param? providerConfig: [providerId:string|null, providerName:string|null,
+  {@param? providerConfig: [providerId:string|null, providerName:string|null, fullLabel:string|null,
       buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
   {let $idpDisplayName kind="text"}{call firebaseui.auth.soy2.element.idpName data="all" /}{/let}
   <div class="mdl-card mdl-shadow--2dp firebaseui-container
@@ -638,7 +638,7 @@
  */
 {template .federatedLinking}
   {@param email: string}
-  {@param? providerConfig: [providerId:string|null, providerName:string|null,
+  {@param? providerConfig: [providerId:string|null, providerName:string|null, fullLabel:string|null,
       buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
   {let $idpDisplayName kind="text"}{call firebaseui.auth.soy2.element.idpName data="all" /}{/let}
   <div class="mdl-card mdl-shadow--2dp firebaseui-container firebaseui-id-page-federated-linking">
@@ -1234,7 +1234,7 @@
  * Renders the list of supported sign-in providers.
  */
 {template .providerSignIn}
-  {@param providerConfigs: list<[providerId:string, providerName:string|null,
+  {@param providerConfigs: list<[providerId:string, providerName:string|null, fullLabel:string|null,
       buttonColor:string|null, iconUrl: string|null]>} /** List of supported IdP configs. */
   <div class="firebaseui-container firebaseui-page-provider-sign-in{sp}
       firebaseui-id-page-provider-sign-in firebaseui-use-spinner">
@@ -1389,8 +1389,8 @@
  * Renders the list of tenants to select.
  */
 {template .selectTenant}
-  {@param tenantConfigs: list<[tenantId:string|null, displayName:string, buttonColor:string,
-      iconUrl: string]>} /** List of tenant selection button configs. */
+  {@param tenantConfigs: list<[tenantId:string|null, fullLabel:string|null, displayName:string,
+      buttonColor:string, iconUrl: string]>} /** List of tenant selection button configs. */
   <div class="firebaseui-container firebaseui-page-select-tenant firebaseui-id-page-select-tenant">
     <div class="firebaseui-card-content">
       <form onsubmit="return false;">

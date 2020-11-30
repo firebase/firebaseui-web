@@ -42,8 +42,6 @@ function getUiConfig() {
       // TODO(developer): Remove the providers you don't need for your app.
       {
         provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-        // Required to enable this provider in One-Tap Sign-up.
-        authMethod: 'https://accounts.google.com',
         // Required to enable ID token credentials for this provider.
         clientId: CLIENT_ID
       },
@@ -68,7 +66,7 @@ function getUiConfig() {
         provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
         recaptchaParameters: {
           size: getRecaptchaMode()
-        }
+        },
       },
       {
         provider: 'microsoft.com',
@@ -85,7 +83,7 @@ function getUiConfig() {
     'privacyPolicyUrl': 'https://www.google.com',
     'credentialHelper': CLIENT_ID && CLIENT_ID != 'YOUR_OAUTH_CLIENT_ID' ?
         firebaseui.auth.CredentialHelper.GOOGLE_YOLO :
-        firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM
+        firebaseui.auth.CredentialHelper.NONE
   };
 }
 

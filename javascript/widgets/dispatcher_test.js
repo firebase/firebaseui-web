@@ -19,7 +19,6 @@ goog.setTestOnly();
 
 const AuthUI = goog.require('firebaseui.auth.AuthUI');
 const Config = goog.require('firebaseui.auth.widget.Config');
-const FakeAcClient = goog.require('firebaseui.auth.testing.FakeAcClient');
 const FakeAppClient = goog.require('firebaseui.auth.testing.FakeAppClient');
 const FakeUtil = goog.require('firebaseui.auth.testing.FakeUtil');
 const PropertyReplacer = goog.require('goog.testing.PropertyReplacer');
@@ -37,7 +36,6 @@ const widgetHandler = goog.require('firebaseui.auth.widget.handler');
 let app;
 const appId = 'glowing-heat-3485';
 const stub = new PropertyReplacer();
-let testAc;
 let testUtil;
 let uiShownCallbackCount = 0;
 let externalAuthApp;
@@ -46,37 +44,6 @@ let testAuth;
 /** Callback for tracking uiShown calls. */
 function uiShownCallback() {
     uiShownCallbackCount++;
-}
-
-/**
- * Test helper used to check that selectFromAccountChooser was called with the
- * expected parameters.
- * @param {!AuthUI} app The FirebaseUI app instance.
- * @param {!Element} container The container DOM element for the handler.
- * @param {boolean=} disableSelectOnEmpty Whether to disable selecting an
- *     account when there are no pending results.
- * @param {string=} callbackUrl The URL to return to when the flow finishes.
- *     The default is current URL.
- */
-function assertSelectFromAccountChooserInvoked(
-    app, container, disableSelectOnEmpty = undefined, callbackUrl = undefined) {
-  const selectFromAccountChooser =
-      common.selectFromAccountChooser;
-  assertEquals(
-      1,
-      selectFromAccountChooser.getCallCount());
-  assertEquals(
-      app,
-      selectFromAccountChooser.getLastCall().getArgument(0)());
-  assertEquals(
-      container,
-      selectFromAccountChooser.getLastCall().getArgument(1));
-  assertEquals(
-      disableSelectOnEmpty,
-      selectFromAccountChooser.getLastCall().getArgument(2));
-  assertEquals(
-      callbackUrl,
-      selectFromAccountChooser.getLastCall().getArgument(3));
 }
 
 /**
@@ -166,15 +133,8 @@ testSuite({
       queryParameterForWidgetMode: 'mode',
       widgetUrl: 'http://localhost/firebase',
       'credentialHelper':
-          Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
+          Config.CredentialHelper.NONE,
     });
-    // Record all selectFromAccountChooser calls.
-    stub.set(
-        common,
-        'selectFromAccountChooser',
-        recordFunction(
-            common.selectFromAccountChooser));
-    testAc = new FakeAcClient().install();
     testUtil = new FakeUtil().install();
     // Record all widget handler calls.
     for (let handlerName in firebaseui.auth.widget.HandlerName) {
@@ -188,29 +148,15 @@ testSuite({
     // Reset query parameter for sign-in success URL to default.
     app.updateConfig(
         'queryParameterForSignInSuccessUrl', 'signInSuccessUrl');
-    // Reset accountchooser.com force UI shown flag.
-    common.acForceUiShown_ = false;
     // Assume widget already rendered and Auth UI global reference set.
     stub.replace(
         AuthUI,
         'getAuthUi',
         () => app);
-    // Simulate accountchooser.com client loaded.
-    stub.set(
-        common,
-        'loadAccountchooserJs',
-        (app, callback, opt_forceUiShownCallback) => {
-          common.acForceUiShown_ =
-              !!opt_forceUiShownCallback;
-          callback();
-        });
   },
 
   tearDown() {
     stub.reset();
-    if (testAc) {
-      testAc.uninstall();
-    }
     // Uninstall internal and external Auth instance.
     externalAuthApp.auth().uninstall();
     if (testAuth) {
@@ -225,20 +171,20 @@ testSuite({
   },
 
   testGetMode() {
-    const url = 'http://localhost/callback?mode=select';
+    const url = 'http://localhost/callback?mode=callback';
     assertEquals(
-        Config.WidgetMode.SELECT,
+        Config.WidgetMode.CALLBACK,
         dispatcher.getMode(app, url));
   },
 
   testGetRedirectUrl() {
     const redirectUrl = 'http://www.example.com';
     // No redirect URL available.
-    let url = 'http://localhost/callback?mode=select';
+    let url = 'http://localhost/callback?mode=signIn';
     assertEquals(null,
         dispatcher.getRedirectUrl(app, url));
     // Set current page URL to include a redirect URL.
-    url = 'http://localhost/callback?mode=select&signInSuccessUrl=' +
+    url = 'http://localhost/callback?mode=signIn&signInSuccessUrl=' +
         encodeURIComponent(redirectUrl);
     // Check that the redirect URL is successfully retrieved.
     assertEquals(
@@ -246,7 +192,7 @@ testSuite({
         dispatcher.getRedirectUrl(app, url));
 
     // Update the query parameter for redirect URL.
-    url = 'http://localhost/callback?mode=select&signInSuccessUrl=' +
+    url = 'http://localhost/callback?mode=signIn&signInSuccessUrl=' +
         encodeURIComponent('javascript:doEvilStuff()');
     // Confirm redirect URL is successfully sanitized.
     assertEquals(
@@ -260,7 +206,7 @@ testSuite({
     assertEquals(null,
         dispatcher.getRedirectUrl(app, url));
     // Update the query parameter for redirect URL.
-    url = 'http://localhost/callback?mode=select&continue=' +
+    url = 'http://localhost/callback?mode=signIn&continue=' +
          encodeURIComponent(redirectUrl);
     // Confirm redirect URL using new query parameter is successfully retrieved.
     assertEquals(
@@ -268,7 +214,7 @@ testSuite({
         dispatcher.getRedirectUrl(app, url));
 
     // Update the query parameter for redirect URL.
-    url = 'http://localhost/callback?mode=select&continue=' +
+    url = 'http://localhost/callback?mode=signIn&continue=' +
         encodeURIComponent('javascript:doEvilStuff()');
     // Confirm redirect URL is successfully sanitized.
     assertEquals(
@@ -373,55 +319,12 @@ testSuite({
     const element = dom.createElement('div');
     setModeAndUrlParams(Config.WidgetMode.SELECT);
     dispatcher.dispatchOperation(app, element);
-    assertSelectFromAccountChooserInvoked(app, element, true, undefined);
     assertEquals(uiShownCallbackCount, 1);
-    // Force UI shown callback should be set to true.
-    assertTrue(common.acForceUiShown_);
-    // Callback handler should be invoked.
+    // Provider sign-in should be invoked.
     assertHandlerInvoked(
-        firebaseui.auth.widget.HandlerName.CALLBACK, app, element);
-
-    // accountchooser.com client should be initialized at this point.
-    // Call dispatchOperation again.
-    dispatcher.dispatchOperation(app, element);
-    // Provider sign-in invoked directly.
-    assertHandlerInvoked(
-        firebaseui.auth.widget.HandlerName.PROVIDER_SIGN_IN, app, element);
-    // UI shown callback should be triggered again.
-    assertEquals(uiShownCallbackCount, 2);
-  },
-
-  testDispatchOperation_acDisabled() {
-    // Disable credential helpers and add uiShownCallback.
-    app.setConfig({
-      'credentialHelper': Config.CredentialHelper.NONE,
-      'callbacks': {
-        'uiShown': uiShownCallback,
-      },
-    });
-    // Skip select.
-    testAc.setSkipSelect(true);
-    testAc.setAvailability(false);
-    assertEquals(uiShownCallbackCount, 0);
-    const element = dom.createElement('div');
-    setModeAndUrlParams(Config.WidgetMode.SELECT);
-    dispatcher.dispatchOperation(app, element);
-    assertSelectFromAccountChooserInvoked(app, element, true, undefined);
-    // Callback handler should be invoked.
-    assertHandlerInvoked(
-        firebaseui.auth.widget.HandlerName.CALLBACK, app, element);
-    assertEquals(uiShownCallbackCount, 1);
-    // Force UI shown callback should be set to true.
-    assertTrue(common.acForceUiShown_);
-
-    // accountchooser.com client should be initialized at this point.
-    // Call dispatchOperation again.
-    dispatcher.dispatchOperation(app, element);
-    // Provider sign-in invoked directly.
-    assertHandlerInvoked(
-        firebaseui.auth.widget.HandlerName.PROVIDER_SIGN_IN, app, element);
-    // UI shown callback should be triggered again.
-    assertEquals(uiShownCallbackCount, 2);
+        firebaseui.auth.widget.HandlerName.PROVIDER_SIGN_IN,
+        app,
+        element);
   },
 
   testDispatchOperation_selectWithRedirectUrl() {
@@ -435,18 +338,17 @@ testSuite({
     // No redirect URL.
     assertFalse(storage.hasRedirectUrl(app.getAppId()));
     dispatcher.dispatchOperation(app, element);
-    assertSelectFromAccountChooserInvoked(app, element, true, undefined);
     // Redirect URL should be set now in storage.
     assertTrue(storage.hasRedirectUrl(app.getAppId()));
     // Confirm it is the correct value.
     assertEquals(
         redirectUrl,
         storage.getRedirectUrl(app.getAppId()));
-    // Force UI shown callback should be set to true.
-    assertTrue(common.acForceUiShown_);
-    // Callback handler should be invoked.
+    // Provider sign-in should be invoked.
     assertHandlerInvoked(
-        firebaseui.auth.widget.HandlerName.CALLBACK, app, element);
+        firebaseui.auth.widget.HandlerName.PROVIDER_SIGN_IN,
+        app,
+        element);
   },
 
   testDispatchOperation_selectWithUnsafeRedirectUrl() {
@@ -460,18 +362,17 @@ testSuite({
     // No redirect URL.
     assertFalse(storage.hasRedirectUrl(app.getAppId()));
     dispatcher.dispatchOperation(app, element);
-    assertSelectFromAccountChooserInvoked(app, element, true, undefined);
     // Redirect URL should be set now in storage.
     assertTrue(storage.hasRedirectUrl(app.getAppId()));
     // Confirm the sanitized value is returned.
     assertEquals(
         'about:invalid#zClosurez',
         storage.getRedirectUrl(app.getAppId()));
-    // Force UI shown callback should be set to true.
-    assertTrue(common.acForceUiShown_);
-    // Callback handler should be invoked.
+    // Provider sign-in should be invoked.
     assertHandlerInvoked(
-        firebaseui.auth.widget.HandlerName.CALLBACK, app, element);
+        firebaseui.auth.widget.HandlerName.PROVIDER_SIGN_IN,
+        app,
+        element);
   },
 
   testDispatchOperation_callbackWithRedirectUrl() {
@@ -545,9 +446,11 @@ testSuite({
     assertEquals(
         'about:invalid#zClosurez',
         storage.getRedirectUrl(app.getAppId()));
-    // Callback handler should be invoked.
+    // Provider sign-in handler should be invoked.
     assertHandlerInvoked(
-        firebaseui.auth.widget.HandlerName.CALLBACK, app, element);
+        firebaseui.auth.widget.HandlerName.PROVIDER_SIGN_IN,
+        app,
+        element);
   },
 
   testDispatchOperation_noMode_providerFirst() {

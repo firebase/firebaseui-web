@@ -160,7 +160,7 @@
 <translation id="3550380781997195832">Alamat email yang dimasukkan salah</translation>
 <translation id="3561568594856945084">Mayotte</translation>
 <translation id="3591063723610544836">Login</translation>
-<translation id="3593480381831738519">Setel ulang sandi Anda</translation>
+<translation id="3593480381831738519">Reset sandi Anda</translation>
 <translation id="3597673897213051724">Kirim</translation>
 <translation id="3605933028246642593">Nepal</translation>
 <translation id="3608140835232496799">Tokelau</translation>
@@ -246,6 +246,7 @@
 <translation id="5143657419516597442">Santa Lusia</translation>
 <translation id="521218078240459724">@string/app_name</translation>
 <translation id="5241732101105320538">Periksa email Anda</translation>
+<translation id="5255830932650472373">Sandi baru</translation>
 <translation id="5301108536112812420">Permintaan untuk memverifikasi email sudah tidak berlaku atau link telah digunakan</translation>
 <translation id="5323041129469627535">Oman</translation>
 <translation id="5326139833547026317">Belanda Karibia</translation>
@@ -292,7 +293,7 @@
 <translation id="5853516492584814656">Tidak dapat mengupdate alamat email</translation>
 <translation id="5905720181746284549">Anda telah menggunakan <ph name="STRING" /> untuk login. Masukkan sandi untuk akun tersebut.</translation>
 <translation id="5921101578434778028">Anguila</translation>
-<translation id="5948592577241492942">Email ini sudah ada tanpa sarana login. Setel ulang sandi untuk memulihkan.</translation>
+<translation id="5948592577241492942">Email ini sudah ada tanpa sarana login. Reset sandi untuk memulihkan.</translation>
 <translation id="5985902459796151462">Republik Dominika</translation>
 <translation id="5987586156626209007">Jersey</translation>
 <translation id="5989709845715452405">Pulihkan sandi</translation>
@@ -333,7 +334,7 @@
 <translation id="6527597037551425211">Brasil</translation>
 <translation id="6555167606025370230">Lanjutkan ke <ph name="APP_NAME" /></translation>
 <translation id="657697593815023638">Swaziland</translation>
-<translation id="6584652721889639596">Tidak dapat mengirimkan kode setel ulang sandi ke email yang ditentukan</translation>
+<translation id="6584652721889639596">Tidak dapat mengirimkan kode reset sandi ke email yang ditentukan</translation>
 <translation id="6608262346670935090">Tutup</translation>
 <translation id="6611519013130079637">Belgia</translation>
 <translation id="6618737424980030515">Georgia</translation>

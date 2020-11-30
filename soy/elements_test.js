@@ -229,7 +229,17 @@ function testIdpButton() {
       providerId: 'saml.provider',
     },
     {
+      providerId: 'saml.idp',
+      providerName: 'MySamlIdp',
+      fullLabel: 'Contractor Portal',
+    },
+    {
       providerId: 'oidc.provider',
+    },
+    {
+      providerId: 'oidc.idp',
+      providerName: 'MyOidcIdp',
+      fullLabel: 'Employee Login',
     }];
   var root = goog.dom.getElement('idp-button');
   for (var i = 0; i < idpConfigs.length; i++) {
@@ -547,7 +557,22 @@ function testTenantSelectionButton() {
       displayName: 'ACME',
       buttonColor: '#53B2BF',
       iconUrl: 'icon-url',
-    }];
+    },
+    {
+      tenantId: 'TENANT_1',
+      fullLabel: 'Contractor Login',
+      displayName: 'OIDC',
+      buttonColor: '#4666FF',
+      iconUrl: 'icon-url',
+    },
+    {
+      tenantId: 'TENANT_2',
+      fullLabel: null,
+      displayName: 'ACME Corp',
+      buttonColor: '#2F2B2E',
+      iconUrl: 'icon-url',
+    }
+  ];
   const root = goog.dom.getElement('tenant-selection-button');
   for (let i = 0; i < tenantConfigs.length; i++) {
     const button = goog.soy.renderAsElement(

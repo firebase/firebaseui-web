@@ -38,23 +38,10 @@ goog.require('firebaseui.auth.widget.handler.handleFederatedLinking');
  */
 goog.require('firebaseui.auth.widget.handler.handleFederatedSignIn');
 goog.require('firebaseui.auth.widget.handler.handlePasswordLinking');
-/**
- * @suppress {extraRequire} Required for testing when email auth only sign-in is
- *     triggered and accountchooser.com returns an existing password account
- *     which renders the password sign-in page.
- */
-goog.require('firebaseui.auth.widget.handler.handlePasswordSignIn');
-/**
- * @suppress {extraRequire} Required for testing when email auth only sign-in is
- *     triggered and accountchooser.com returns a new account which renders the
- *     password sign up page.
- */
-goog.require('firebaseui.auth.widget.handler.handlePasswordSignUp');
 goog.require('firebaseui.auth.widget.handler.handleProviderSignIn');
 goog.require('firebaseui.auth.widget.handler.handleSignIn');
 goog.require('firebaseui.auth.widget.handler.testHelper');
 goog.require('goog.Promise');
-goog.require('goog.dom.forms');
 goog.require('goog.testing.AsyncTestCase');
 goog.require('goog.testing.PropertyReplacer');
 goog.require('goog.testing.jsunit');
@@ -1224,7 +1211,7 @@ function testHandleCallback_redirectUser_pendingCredential_err_emailAuthOnly() {
   asyncTestCase.waitForSignals(1);
   app.setConfig({
     'credentialHelper':
-        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
+        firebaseui.auth.widget.Config.CredentialHelper.NONE,
     'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID]
   });
   var cred  = firebaseui.auth.idp.getAuthCredential({
@@ -1279,7 +1266,7 @@ function testHandleCallback_signedInUser_pendingCred_err_emailAuthOnly_popup() {
   app.updateConfig('signInFlow', 'popup');
   app.setConfig({
     'credentialHelper':
-        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
+        firebaseui.auth.widget.Config.CredentialHelper.NONE,
     'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID]
   });
   var cred  = firebaseui.auth.idp.getAuthCredential({
@@ -1378,7 +1365,7 @@ function testHandleCallback_redirectError_noLinking_emailAuthOnly() {
   asyncTestCase.waitForSignals(1);
   app.setConfig({
     'credentialHelper':
-        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
+        firebaseui.auth.widget.Config.CredentialHelper.NONE,
     'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID]
   });
   // Callback rendered.
@@ -1407,7 +1394,7 @@ function testHandleCallback_signInError_noLinking_emailAuthOnly_popup() {
   app.setConfig({
     'signInFlow': 'popup',
     'credentialHelper':
-        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
+        firebaseui.auth.widget.Config.CredentialHelper.NONE,
     'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID]
   });
   // Popup result: reject with a generic error.
@@ -1798,7 +1785,7 @@ function testHandleCallback_redirectError_linkingRequired_err_emailAuthOnly() {
   // Test when single email auth provider is used.
   app.setConfig({
     'credentialHelper':
-        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
+        firebaseui.auth.widget.Config.CredentialHelper.NONE,
     'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID]
   });
   asyncTestCase.waitForSignals(1);
@@ -1843,7 +1830,7 @@ function testHandleCallback_signInErr_linkRequired_err_emailAuthOnly_popup() {
   // Test when single email auth provider is used.
   app.setConfig({
     'credentialHelper':
-        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
+        firebaseui.auth.widget.Config.CredentialHelper.NONE,
     'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID]
   });
   asyncTestCase.waitForSignals(1);
@@ -1974,6 +1961,33 @@ function testHandleCallback_redirectError_userCancelled_noPendingCredential() {
 }
 
 
+function testHandleCallback_redirectError_consentRequired_invalidCredential() {
+  asyncTestCase.waitForSignals(1);
+  // Attempting to get redirect result. Special case error message equals
+  // consent_required. Reject with the user cancelled error.
+  const invalidCredentialError = {
+    'code': 'auth/invalid-credential',
+    'message': 'error=consent_required',
+  };
+  const expectedError = {
+    'code': 'auth/user-cancelled',
+  };
+  testAuth.assertGetRedirectResult([], null, invalidCredentialError);
+  // Callback rendered.
+  firebaseui.auth.widget.handler.handleCallback(app, container);
+  assertCallbackPage();
+  testAuth.process().then(function() {
+    // Redirects to the federated sign-in page.
+    assertProviderSignInPage();
+    // Confirm expected error shown in info bar.
+    assertInfoBarMessage(
+        firebaseui.auth.widget.handler.common.getErrorMessage(
+            expectedError));
+    asyncTestCase.signal();
+  });
+}
+
+
 function testHandleCallback_nullUser() {
   // Test when no previous sign-in with redirect is detected and provider sign
   // in page is rendered.
@@ -2005,232 +2019,7 @@ function testHandleCallback_nullUser() {
 }
 
 
-function testHandleCallback_nullUser_emailAuthOnly_acEnabled() {
-  // Test when no previous sign-in with redirect is detected and the sign-in
-  // page is rendered (email auth provider only, accountchooser.com is enabled).
-  app.setConfig({
-    'credentialHelper':
-        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
-    'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID]
-  });
-  asyncTestCase.waitForSignals(1);
-  // Simulate empty response from accountchooser.com click.
-  testAc.setSkipSelect(true);
-  // Set some pending email to ensure they're deleted after.
-  var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
-      federatedAccount.getEmail());
-  firebaseui.auth.storage.setPendingEmailCredential(
-      pendingEmailCred, app.getAppId());
-  // Callback rendered.
-  firebaseui.auth.widget.handler.handleCallback(app, container);
-  assertCallbackPage();
-  testAuth.setUser(null);
-  // Attempting to get redirect result. Resolve with empty result (no previous
-  // redirect).
-  testAuth.assertGetRedirectResult(
-      [],
-      {
-        'user': null,
-        'credential': null
-      });
-  testAuth.process().then(function() {
-    // This should redirect to the sign-in widget.
-    // Try select should be called.
-    testAc.assertTrySelectAccount(
-        firebaseui.auth.storage.getRememberedAccounts(app.getAppId()),
-        'http://localhost/firebaseui-widget?mode=select');
-    // The sign-in page should show.
-    assertSignInPage();
-    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
-        app.getAppId()));
-    asyncTestCase.signal();
-  });
-}
-
-
-function testHandleCallback_nullUser_emailAuthOnly_acEnabled_newAcctSelect() {
-  // Test when no previous sign-in with redirect is detected and the sign-in
-  // page is rendered (email auth provider only, accountchooser.com is enabled).
-  // Simulate new account selected.
-  app.setConfig({
-    'credentialHelper':
-        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
-    'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID],
-    'callbacks': {
-      'accountChooserResult': accountChooserResultCallback,
-      'accountChooserInvoked': accountChooserInvokedCallback,
-      'uiShown': uiShownCallback
-    }
-  });
-  asyncTestCase.waitForSignals(1);
-  // Simulate password account selected from accountchooser.com.
-  testAc.setSelectedAccount(passwordAccount);
-  // Set some pending email to ensure they're deleted after.
-  var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
-      federatedAccount.getEmail());
-  firebaseui.auth.storage.setPendingEmailCredential(
-      pendingEmailCred, app.getAppId());
-  // Callback rendered.
-  firebaseui.auth.widget.handler.handleCallback(app, container);
-  assertCallbackPage();
-  testAuth.setUser(null);
-  // Attempting to get the redirect result. Resolve with empty result (no
-  // previous redirect).
-  testAuth.assertGetRedirectResult(
-      [],
-      {
-        'user': null,
-        'credential': null
-      });
-  testAuth.process().then(function() {
-    // No pending accountchooser.com response which will trigger try select.
-    testAc.forceOnEmpty();
-    // Confirm accountChooserInvoked is called and run on continue function.
-    assertAndRunAccountChooserInvokedCallback();
-    // Account selection logged.
-    assertAndRunAccountChooserResultCallback('accountSelected');
-    // New account selected will trigger password sign up flow.
-    testAuth.assertFetchSignInMethodsForEmail(
-        [passwordAccount.getEmail()],
-        []);
-    return testAuth.process();
-  }).then(function() {
-    // New password account should be treated as password sign-up in
-    // provider first display mode.
-    assertPasswordSignUpPage();
-    // After accountchooser.com redirects and the password sign-up page renders,
-    // uiShown should be called.
-    assertEquals(uiShownCallbackCount, 1);
-    // New account selected, should trigger password sign up.
-    assertEquals(
-        passwordAccount.getEmail(),
-        goog.dom.forms.getValue(getEmailElement()));
-    assertEquals(
-        passwordAccount.getDisplayName(),
-        goog.dom.forms.getValue(getNameElement()));
-    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
-        app.getAppId()));
-    asyncTestCase.signal();
-  });
-}
-
-
-function testHandleCallback_nullUser_emailAuthOnly_acEnabled_existingAccount() {
-  // Test when no previous sign-in with redirect is detected and the sign-in
-  // page is rendered (email auth provider only, accountchooser.com is enabled).
-  // Simulate existing password account selected.
-  app.setConfig({
-    'credentialHelper':
-        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
-    'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID],
-    'callbacks': {
-      'accountChooserResult': accountChooserResultCallback,
-      'accountChooserInvoked': accountChooserInvokedCallback,
-      'uiShown': uiShownCallback
-    }
-  });
-  asyncTestCase.waitForSignals(1);
-  // Simulate password account selected from accountchooser.com.
-  testAc.setSelectedAccount(passwordAccount);
-  // Set some pending email to ensure they're deleted after.
-  var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
-      federatedAccount.getEmail());
-  firebaseui.auth.storage.setPendingEmailCredential(
-      pendingEmailCred, app.getAppId());
-  // Callback rendered.
-  firebaseui.auth.widget.handler.handleCallback(app, container);
-  assertCallbackPage();
-  testAuth.setUser(null);
-  // Attempting to get redirect result. Resolve with empty result (no previous
-  // redirect).
-  testAuth.assertGetRedirectResult(
-      [],
-      {
-        'user': null,
-        'credential': null
-      });
-  testAuth.process().then(function() {
-    // No pending accountchooser.com response which will trigger try select.
-    testAc.forceOnEmpty();
-    // Confirm accountChooserInvoked is called and run on continue function.
-    assertAndRunAccountChooserInvokedCallback();
-    // Account selection logged.
-    assertAndRunAccountChooserResultCallback('accountSelected');
-    // Existing password account selected will trigger password sign in flow.
-    testAuth.assertFetchSignInMethodsForEmail(
-        [passwordAccount.getEmail()],
-        ['password']);
-    return testAuth.process();
-  }).then(function() {
-    // Existing password account should trigger password sign in.
-    assertPasswordSignInPage();
-    // After accountchooser.com redirects and the password sign-in page renders,
-    // uiShown should be called.
-    assertEquals(uiShownCallbackCount, 1);
-    assertEquals(
-        passwordAccount.getEmail(),
-        goog.dom.forms.getValue(getEmailElement()));
-    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
-        app.getAppId()));
-    asyncTestCase.signal();
-  });
-}
-
-
-function testHandleCallback_nullUser_emailAuthOnly_acEnabled_addAccount() {
-  // Test when no previous sign-in with redirect is detected and the sign-in
-  // page is rendered (email auth provider only, accountchooser.com is enabled).
-  // Simulate "Add Account" selected.
-  app.setConfig({
-    'credentialHelper':
-        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
-    'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID],
-    'callbacks': {
-      'accountChooserResult': accountChooserResultCallback,
-      'accountChooserInvoked': accountChooserInvokedCallback,
-      'uiShown': uiShownCallback
-    }
-  });
-  asyncTestCase.waitForSignals(1);
-  // Simulate add account in accountchooser.com click.
-  testAc.setAddAccount();
-  // Set some pending email to ensure they're deleted after.
-  var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
-      federatedAccount.getEmail());
-  firebaseui.auth.storage.setPendingEmailCredential(
-      pendingEmailCred, app.getAppId());
-  // Callback rendered.
-  firebaseui.auth.widget.handler.handleCallback(app, container);
-  assertCallbackPage();
-  testAuth.setUser(null);
-  // Attempting to get redirect result. Resolve with empty result (no previous
-  // redirect).
-  testAuth.assertGetRedirectResult(
-      [],
-      {
-        'user': null,
-        'credential': null
-      });
-  testAuth.process().then(function() {
-    // No pending accountchooser.com response which will trigger try select.
-    testAc.forceOnEmpty();
-    // Confirm accountChooserInvoked is called and run on continue function.
-    assertAndRunAccountChooserInvokedCallback();
-    // Add account selected logged.
-    assertAndRunAccountChooserResultCallback('addAccount');
-    // Add account should trigger sign in.
-    assertSignInPage();
-    // After accountchooser.com redirects and the sign-in page renders, uiShown
-    // should be called.
-    assertEquals(uiShownCallbackCount, 1);
-    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
-        app.getAppId()));
-    asyncTestCase.signal();
-  });
-}
-
-
-function testHandleCallback_nullUser_emailAuthOnly_acDisabled() {
+function testHandleCallback_nullUser_emailAuthOnly_credentialHelperDisabled() {
   // Test when no previous sign-in with redirect is detected and the sign-in
   // page is rendered (email auth provider only, credential helpers are
   // disabled).
@@ -2238,8 +2027,6 @@ function testHandleCallback_nullUser_emailAuthOnly_acDisabled() {
     'credentialHelper': firebaseui.auth.widget.Config.CredentialHelper.NONE,
     'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID],
     'callbacks': {
-      'accountChooserResult': accountChooserResultCallback,
-      'accountChooserInvoked': accountChooserInvokedCallback,
       'uiShown': uiShownCallback
     }
   });
@@ -2262,10 +2049,6 @@ function testHandleCallback_nullUser_emailAuthOnly_acDisabled() {
         'credential': null
       });
   testAuth.process().then(function() {
-    // Confirm accountChooserInvoked is called and run on continue function.
-    assertAndRunAccountChooserInvokedCallback();
-    // accountchooser.com unavailable logged.
-    assertAndRunAccountChooserResultCallback('unavailable');
     // Redirect to the sign-in page with no error message.
     assertSignInPage();
     // No redirect, no uiShown callback.
@@ -2276,58 +2059,6 @@ function testHandleCallback_nullUser_emailAuthOnly_acDisabled() {
     assertNoInfoBarMessage();
     // No cancel button.
     assertNull(getCancelButton());
-    asyncTestCase.signal();
-  });
-}
-
-
-function testHandleCallback_nullUser_emailAuthOnly_acUnavailable() {
-  // Test when no previous sign-in with redirect is detected and the sign-in
-  // page is rendered (email auth provider only, accountchooser.com is
-  // unavailable).
-  app.setConfig({
-    'credentialHelper':
-        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
-    'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID],
-    'callbacks': {
-      'accountChooserResult': accountChooserResultCallback,
-      'accountChooserInvoked': accountChooserInvokedCallback,
-      'uiShown': uiShownCallback
-    }
-  });
-  // Simulate accountchooser.com not available (browsers that do not support
-  // it).
-  testAc.setSkipSelect(true);
-  testAc.setAvailability(false);
-  asyncTestCase.waitForSignals(1);
-  // Set some pending email to ensure they're deleted after.
-  var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
-      federatedAccount.getEmail());
-  firebaseui.auth.storage.setPendingEmailCredential(
-      pendingEmailCred, app.getAppId());
-  // Callback rendered.
-  firebaseui.auth.widget.handler.handleCallback(app, container);
-  assertCallbackPage();
-  testAuth.setUser(null);
-  // Attempting to get redirect result. Resolve with empty result (no previous
-  // redirect).
-  testAuth.assertGetRedirectResult(
-      [],
-      {
-        'user': null,
-        'credential': null
-      });
-  testAuth.process().then(function() {
-    // Confirm accountChooserInvoked is called and run on continue function.
-    assertAndRunAccountChooserInvokedCallback();
-    // accountchooser.com unavailable logged.
-    assertAndRunAccountChooserResultCallback('unavailable');
-    // Redirect to the sign-in page with no error message.
-    assertSignInPage();
-    // No redirect, no uiShown callback.
-    assertEquals(uiShownCallbackCount, 0);
-    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
-        app.getAppId()));
     asyncTestCase.signal();
   });
 }
@@ -2447,12 +2178,12 @@ function testHandleCallback_operationNotSupported_multiProviders() {
 }
 
 
-function testHandleCallback_operationNotSupported_passwordOnly_acDisabled() {
+function testHandleCallback_operationNotSupported_passOnly_noCredHelper() {
   // Test when callback handler is triggered with only a password provider and
   // the operation is not supported in this environment.
   asyncTestCase.waitForSignals(1);
   // Set password only provider.
-  // Test with accountchooser.com disabled.
+  // Test with no credentialHelper.
   app.setConfig({
     'credentialHelper': firebaseui.auth.widget.Config.CredentialHelper.NONE,
     'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID]
@@ -2470,41 +2201,6 @@ function testHandleCallback_operationNotSupported_passwordOnly_acDisabled() {
     assertSignInPage();
     assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
         app.getAppId()));
-    asyncTestCase.signal();
-  });
-}
-
-
-function testHandleCallback_operationNotSupported_passwordOnly_acEnabled() {
-  // Test when callback handler is triggered with only a password provider and
-  // the operation is not supported in this environment.
-  asyncTestCase.waitForSignals(1);
-  // Set password only provider.
-  // Test with accountchooser.com enabled.
-  app.setConfig({
-    'credentialHelper':
-        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
-    'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID]
-  });
-  // Simulate empty response from accountchooser.com click.
-  testAc.setSkipSelect(true);
-  // Callback rendered.
-  firebaseui.auth.widget.handler.handleCallback(app, container);
-  assertCallbackPage();
-  // Attempting to get redirect result. Reject with an operation not supported
-  // error.
-  testAuth.assertGetRedirectResult([], null, operationNotSupportedError);
-  testAuth.process().then(function() {
-    // Try select should be called.
-    testAc.assertTrySelectAccount(
-        firebaseui.auth.storage.getRememberedAccounts(app.getAppId()),
-        'http://localhost/firebaseui-widget?mode=select');
-    // Redirect to the sign-in page with no error message.
-    assertSignInPage();
-    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
-        app.getAppId()));
-    // No message should be displayed.
-    assertNoInfoBarMessage();
     asyncTestCase.signal();
   });
 }

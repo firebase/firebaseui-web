@@ -28,6 +28,7 @@ goog.require('firebaseui.auth.ui.element.resend');
 goog.require('firebaseui.auth.ui.page.Base');
 goog.require('goog.Timer');
 goog.require('goog.events');
+goog.requireType('goog.dom.DomHelper');
 
 
 /**

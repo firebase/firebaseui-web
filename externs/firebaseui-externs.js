@@ -467,8 +467,8 @@ firebaseui.auth.AuthUIError.prototype.toJSON = function() {};
 
 
 /**
- * The FirebaseUI credential helpers available.
- *
+ * The FirebaseUI credential helpers available. `ACCOUNT_CHOOSER_COM` is
+ * deprecated and will be removed by Jan 31st, 2021.
  * @enum {string}
  */
 firebaseui.auth.CredentialHelper = {
@@ -487,8 +487,10 @@ firebaseui.auth.Config = function() {};
 
 /**
  * The accountchooser.com configuration when it is selected as credential
- * helper.
+ * helper. This is now a no-op and is deprecated and will be removed by
+ * Jan 31st, 2021.
  *
+ * @deprecated
  * @type {!Object|undefined}
  */
 firebaseui.auth.Config.prototype.acUiConfig;
@@ -508,7 +510,8 @@ firebaseui.auth.Config.prototype.autoUpgradeAnonymousUsers;
 firebaseui.auth.Config.prototype.callbacks;
 
 /**
- * Determines which credential helper to use. The default is accountchooser.com.
+ * Determines which credential helper to use. By default, no credential helper
+ * is selected.
  *
  * @type {!firebaseui.auth.CredentialHelper|undefined}
  */
@@ -609,6 +612,13 @@ firebaseui.auth.Config.prototype.widgetUrl;
  */
 firebaseui.auth.TenantConfig = function() {};
 
+/**
+ * The tenant full label of the tenant selection button for the option first
+ * flow.
+ *
+ * @type {string|undefined}
+ */
+firebaseui.auth.TenantConfig.prototype.fullLabel;
 
 /**
  * The tenant display name of the tenant selection button for the option first
@@ -683,6 +693,38 @@ firebaseui.auth.Callbacks.prototype.uiShown = function() {};
 firebaseui.auth.SignInOption = function() {};
 
 /**
+ * The provider name displayed to end users
+ * (sign-in button label/linking prompt).
+ * Default: provider ID
+ *
+ * @type {string|undefined}
+ */
+firebaseui.auth.SignInOption.prototype.providerName;
+
+/**
+ * The full label of the button, instead of "Sign in with $providerName".
+ * Default: "Sign in with $providerName".
+ *
+ * @type {string|undefined}
+ */
+firebaseui.auth.SignInOption.prototype.fullLabel;
+
+/**
+ * The color of the sign-in button.
+ *
+ * @type {string|undefined}
+ */
+firebaseui.auth.SignInOption.prototype.buttonColor;
+
+/**
+ * The URL of the Identity Provider's icon. This will be displayed on the
+ * provider's sign-in button, etc.
+ *
+ * @type {string|undefined}
+ */
+firebaseui.auth.SignInOption.prototype.iconUrl;
+
+/**
  * The provider ID for the provided sign in option,
  * eg: `firebase.auth.GoogleAuthProvider.PROVIDER_ID`.
  *
@@ -713,6 +755,7 @@ firebaseui.auth.FederatedSignInOption = function() {};
  * The Auth method (typically the authorization endpoint) needed for one-tap
  * sign-up, eg: 'https://accounts.google.com'.
  *
+ * @deprecated
  * @type {string|undefined}
  */
 firebaseui.auth.FederatedSignInOption.prototype.authMethod;

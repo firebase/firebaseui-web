@@ -22,7 +22,6 @@ goog.require('firebaseui.auth.Account');
 goog.require('firebaseui.auth.AuthUI');
 goog.require('firebaseui.auth.AuthUIError');
 goog.require('firebaseui.auth.PendingEmailCredential');
-goog.require('firebaseui.auth.RedirectStatus');
 goog.require('firebaseui.auth.idp');
 goog.require('firebaseui.auth.log');
 goog.require('firebaseui.auth.soy2.strings');
@@ -35,9 +34,6 @@ goog.require('firebaseui.auth.widget.handler.common');
 /** @suppress {extraRequire} */
 goog.require('firebaseui.auth.widget.handler.handleEmailLinkSignInSent');
 goog.require('firebaseui.auth.widget.handler.handleFederatedLinking');
-/** @suppress {extraRequire} Required for accountchooser.com page navigation to
- *      work. */
-goog.require('firebaseui.auth.widget.handler.handleFederatedSignIn');
 goog.require('firebaseui.auth.widget.handler.handlePasswordLinking');
 goog.require('firebaseui.auth.widget.handler.handlePasswordSignIn');
 goog.require('firebaseui.auth.widget.handler.handlePasswordSignUp');
@@ -46,7 +42,6 @@ goog.require('firebaseui.auth.widget.handler.handleProviderSignIn');
 goog.require('firebaseui.auth.widget.handler.handleSendEmailLinkForSignIn');
 goog.require('firebaseui.auth.widget.handler.handleSignIn');
 goog.require('firebaseui.auth.widget.handler.testHelper');
-goog.require('goog.Promise');
 goog.require('goog.dom.forms');
 goog.require('goog.testing.AsyncTestCase');
 goog.require('goog.testing.recordFunction');
@@ -59,308 +54,6 @@ var federatedAccount = new firebaseui.auth.Account('user@example.com',
     'Federated User');
 var federatedAccountWithProvider = new firebaseui.auth.Account(
     'user@example.com', 'Federated User', null, 'google.com');
-
-
-// TODO: Update all the tests when accountchooser.com handlers change.
-function testSelectFromAccountChooser_noResponse() {
-  firebaseui.auth.storage.rememberAccount(passwordAccount, app.getAppId());
-  assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
-  firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
-      container);
-  testAc.assertTrySelectAccount([passwordAccount]);
-  assertFalse(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
-  assertTrue(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
-}
-
-
-function testSelectFromAccountChooser_noResponse_tenantId() {
-  // Test that tenant ID is stored before redirecting to accountchooser.com.
-  app.setTenantId('TENANT_ID');
-  firebaseui.auth.storage.rememberAccount(passwordAccount, app.getAppId());
-  assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
-  firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
-      container);
-  testAc.assertTrySelectAccount([passwordAccount]);
-  assertFalse(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
-  assertTrue(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
-  assertEquals(
-      'TENANT_ID',
-      firebaseui.auth.storage.getRedirectStatus(app.getAppId()).getTenantId());
-}
-
-
-function testSelectFromAccountChooser_noResponse_uiShown() {
-  app.setConfig({
-    'callbacks': {
-      'uiShown': uiShownCallback
-    }
-  });
-  testAc.setSkipSelect(true);
-  var redirectStatus = new firebaseui.auth.RedirectStatus();
-  firebaseui.auth.storage.setRedirectStatus(redirectStatus, app.getAppId());
-  assertTrue(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
-  firebaseui.auth.storage.rememberAccount(passwordAccount, app.getAppId());
-  firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
-      container);
-  assertUiShownCallbackInvoked();
-  assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
-  testAc.assertTrySelectAccount([passwordAccount]);
-  assertFalse(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
-}
-
-
-function testSelectFromAccountChooser_registeredFederatedAccount() {
-  // Test when selected account is a registered federated account in
-  // provider-first mode.
-  // Test with signInOptions containing additional scopes.
-  app.updateConfig('signInOptions', signInOptionsWithScopes);
-  asyncTestCase.waitForSignals(1);
-  testAc.setSelectedAccount(federatedAccount);
-  firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
-      container);
-  testAuth.assertFetchSignInMethodsForEmail(
-      [federatedAccount.getEmail()],
-      ['google.com']);
-  testAuth.process().then(function() {
-    assertFederatedLinkingPage(federatedAccount.getEmail());
-    assertTrue(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
-    assertFalse(firebaseui.auth.storage.isRememberAccount(app.getAppId()));
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSelectFromAccountChooser_registeredFedAcct_uiShown() {
-  // Test when selected account is a registered federated account.
-  // Ui shown callback is still called.
-  app.setConfig({
-    'signInOptions': signInOptionsWithScopes,
-    'callbacks': {
-      'uiShown': uiShownCallback
-    }
-  });
-  asyncTestCase.waitForSignals(1);
-  testAc.setSelectedAccount(federatedAccount);
-  firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
-      container);
-  testAuth.assertFetchSignInMethodsForEmail(
-      [federatedAccount.getEmail()],
-      ['google.com']);
-  testAuth.process().then(function() {
-    assertUiShownCallbackInvoked();
-    assertFederatedLinkingPage(federatedAccount.getEmail());
-    assertTrue(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
-    assertFalse(firebaseui.auth.storage.isRememberAccount(app.getAppId()));
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSelectFromAccountChooser_registeredPasswordAccount() {
-  // Test when selected account is a registered password account in
-  // provider-first mode.
-  // Test with signInOptions containing additional scopes.
-  app.updateConfig('signInOptions', signInOptionsWithScopes);
-  asyncTestCase.waitForSignals(1);
-  testAc.setSelectedAccount(passwordAccount);
-  firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
-      container);
-  testAuth.assertFetchSignInMethodsForEmail(
-      [passwordAccount.getEmail()],
-      ['password']);
-  testAuth.process().then(function() {
-    assertPasswordSignInPage();
-    assertEquals(
-        passwordAccount.getEmail(), goog.dom.forms.getValue(getEmailElement()));
-    assertEquals(0, getIdpButtons().length);
-    assertTrue(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
-    assertFalse(firebaseui.auth.storage.isRememberAccount(app.getAppId()));
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSelectFromAccountChooser_registeredEmailLinkAccount() {
-  // Test when selected account is a registered email link account in
-  // provider-first mode.
-  app.updateConfig('signInOptions', emailLinkSignInOptions);
-  var expectedActionCodeSettings = buildActionCodeSettings();
-  asyncTestCase.waitForSignals(1);
-  testAc.setSelectedAccount(passwordAccount);
-  firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
-      container);
-  testAuth.assertFetchSignInMethodsForEmail(
-      [passwordAccount.getEmail()],
-      ['emailLink']);
-  return testAuth.process().then(function() {
-    // Callback page should be rendered.
-    assertCallbackPage();
-    testAuth.assertSendSignInLinkToEmail(
-        [passwordAccount.getEmail(), expectedActionCodeSettings]);
-    assertTrue(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
-    assertFalse(firebaseui.auth.storage.isRememberAccount(app.getAppId()));
-    return testAuth.process();
-  }).then(function () {
-    assertEmailLinkSignInSentPage();
-    // Email for email link sign in should be stored.
-    assertEquals(
-        passwordAccount.getEmail(),
-        firebaseui.auth.storage.getEmailForSignIn('SESSIONID', app.getAppId()));
-    mockClock.tick(3600000);
-    assertFalse(firebaseui.auth.storage.hasEmailForSignIn(app.getAppId()));
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSelectFromAccountChooser_registeredEmailLinkAccount_error() {
-  // Test when selected account is a registered email link account in
-  // provider-first mode. If error is thrown while sending the email, goes back
-  // to the sign in page and show error message.
-  app.updateConfig('signInOptions', emailLinkSignInOptions);
-  var expectedActionCodeSettings = buildActionCodeSettings();
-  asyncTestCase.waitForSignals(1);
-  testAc.setSelectedAccount(passwordAccount);
-  firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
-      container);
-  testAuth.assertFetchSignInMethodsForEmail(
-      [passwordAccount.getEmail()],
-      ['emailLink']);
-  testAuth.process().then(function() {
-    // Callback page should be rendered.
-    assertCallbackPage();
-    testAuth.assertSendSignInLinkToEmail(
-        [passwordAccount.getEmail(), expectedActionCodeSettings], null,
-        internalError);
-    assertTrue(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
-    assertFalse(firebaseui.auth.storage.isRememberAccount(app.getAppId()));
-    return testAuth.process();
-  }).then(function() {
-    // Verify that error message is displayed on the sign in page.
-    assertSignInPage();
-    assertInfoBarMessage(
-        firebaseui.auth.widget.handler.common.getErrorMessage(internalError));
-    assertFalse(firebaseui.auth.storage.hasEmailForSignIn(app.getAppId()));
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSelectFromAccountChooser_unregisteredAccount() {
-  // Test when selected account is an unregistered federated account in
-  // provider-first mode.
-  // Test with signInOptions containing additional scopes.
-  app.updateConfig('signInOptions', signInOptionsWithScopes);
-  asyncTestCase.waitForSignals(1);
-  testAc.setSelectedAccount(federatedAccount);
-  firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
-      container);
-  testAuth.assertFetchSignInMethodsForEmail(
-      [federatedAccount.getEmail()],
-      []);
-  testAuth.process().then(function() {
-    // Unregistered federated account should be treated as password sign up in
-    // provider-first display mode.
-    assertPasswordSignUpPage();
-    assertEquals(
-        federatedAccount.getEmail(),
-        goog.dom.forms.getValue(getEmailElement()));
-    assertEquals(
-        federatedAccount.getDisplayName(),
-        goog.dom.forms.getValue(getNameElement()));
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSelectFromAccountChooser_error() {
-  // Test when error occurs in fetchSignInMethodsForEmail.
-  asyncTestCase.waitForSignals(1);
-  testAc.setSelectedAccount(federatedAccount);
-  firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
-      container);
-  testAuth.assertFetchSignInMethodsForEmail(
-      [federatedAccount.getEmail()], null, internalError);
-  testAuth.process().then(function() {
-    // Unregistered federated account should be treated as password sign up in
-    // provider-first display mode.
-    assertProviderSignInPage();
-    assertInfoBarMessage(
-        firebaseui.auth.widget.handler.common.getErrorMessage(internalError));
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSelectFromAccountChooser_registeredPassAcct_uiShown() {
-  // Test when select account is a registered password account with ui shown
-  // callback.
-  app.setConfig({
-    'callbacks': {
-      'uiShown': uiShownCallback
-    }
-  });
-  asyncTestCase.waitForSignals(1);
-  testAc.setSelectedAccount(passwordAccount);
-  firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
-      container);
-  testAuth.assertFetchSignInMethodsForEmail(
-      [passwordAccount.getEmail()],
-      ['password']);
-  testAuth.process().then(function() {
-    assertUiShownCallbackInvoked();
-    assertPasswordSignInPage();
-    assertEquals(
-        passwordAccount.getEmail(), goog.dom.forms.getValue(getEmailElement()));
-    assertEquals(0, getIdpButtons().length);
-    assertTrue(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
-    assertFalse(firebaseui.auth.storage.isRememberAccount(app.getAppId()));
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSelectFromAccountChooser_addAccount() {
-  testAc.setAddAccount();
-  firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
-      container);
-  // The sign-in page should show.
-  assertSignInPage();
-  assertTosPpFooter(tosCallback, 'http://localhost/privacy_policy');
-  assertFalse(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
-}
-
-
-function testSelectFromAccountChooser_addAccount_passwordOnly() {
-  app.setConfig({
-    'signInOptions': [
-        firebase.auth.EmailAuthProvider.PROVIDER_ID
-      ]
-  });
-  testAc.setAddAccount();
-  firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
-      container);
-  // The sign-in page should show.
-  assertSignInPage();
-  assertTosPpFullMessage(tosCallback, 'http://localhost/privacy_policy');
-  assertFalse(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
-}
-
-
-function testSelectFromAccountChooser_addAccount_uiShown() {
-  // Test add account option from accountchooser.com with ui shown callback.
-  app.setConfig({
-    'callbacks': {
-      'uiShown': uiShownCallback
-    }
-  });
-  testAc.setAddAccount();
-  firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
-      container);
-  assertUiShownCallbackInvoked();
-  assertSignInPage();
-  assertFalse(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
-}
 
 
 function testSetLoggedInWithAuthResult_incompatibilityError() {
@@ -477,11 +170,6 @@ function testSetLoggedInWithAuthResult() {
         expectedAuthResult,
         undefined);
     testUtil.assertGoTo('http://localhost/home');
-    assertEquals(1, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
-    assertObjectEquals(
-        passwordAccount, firebaseui.auth.storage.getRememberedAccounts(
-            app.getAppId())[0]);
     asyncTestCase.signal();
   });
 }
@@ -530,11 +218,6 @@ function testSetLoggedInWithAuthResult_federatedLinking() {
         expectedAuthResult,
         undefined);
     testUtil.assertGoTo('http://localhost/home');
-    assertEquals(1, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
-    assertObjectEquals(
-        federatedAccountWithProvider,
-        firebaseui.auth.storage.getRememberedAccounts(app.getAppId())[0]);
     asyncTestCase.signal();
   });
 }
@@ -585,11 +268,6 @@ function testSetLoggedInWithAuthResult_noRedirect() {
     assertSignInSuccessWithAuthResultCallbackInvoked(
         expectedAuthResult,
         undefined);
-    assertEquals(1, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
-    assertObjectEquals(
-        passwordAccount, firebaseui.auth.storage.getRememberedAccounts(
-            app.getAppId())[0]);
     asyncTestCase.signal();
   });
 }
@@ -601,8 +279,6 @@ function testSetLoggedInWithAuthResult_notRememberAccount() {
       'signInSuccessWithAuthResult': signInSuccessWithAuthResultCallback(true)
     }
   });
-  // Sets the config not to remember accounts.
-  firebaseui.auth.storage.setRememberAccount(false, app.getAppId());
   asyncTestCase.waitForSignals(1);
   var cred = firebase.auth.EmailAuthProvider.credential(
       passwordUser['email'], 'password');
@@ -642,8 +318,6 @@ function testSetLoggedInWithAuthResult_notRememberAccount() {
         expectedAuthResult,
         undefined);
     testUtil.assertGoTo('http://localhost/home');
-    assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
     asyncTestCase.signal();
   });
 }
@@ -661,7 +335,6 @@ function testSetLoggedInWithAuthResult_storageAutoRedirect() {
       'signInSuccessWithAuthResult': signInSuccessWithAuthResultCallback(true)
     }
   });
-  firebaseui.auth.storage.setRememberAccount(false, app.getAppId());
   testAuth.setUser(federatedUser);
   var internalAuthResult = {
     'user': federatedUser,
@@ -698,8 +371,6 @@ function testSetLoggedInWithAuthResult_storageAutoRedirect() {
         redirectUrl);
     // Continue to redirect URL specified in storage.
     testUtil.assertGoTo(redirectUrl);
-    assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
     // Confirm redirect URL is cleared from storage.
     assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
     asyncTestCase.signal();
@@ -717,7 +388,6 @@ function testSetLoggedInWithAuthResult_storageNoRedirect() {
       'signInSuccessWithAuthResult': signInSuccessWithAuthResultCallback(false)
     }
   });
-  firebaseui.auth.storage.setRememberAccount(false, app.getAppId());
   testAuth.setUser(federatedUser);
   var internalAuthResult = {
     'user': federatedUser,
@@ -754,8 +424,6 @@ function testSetLoggedInWithAuthResult_storageNoRedirect() {
         expectedAuthResult,
         redirectUrl);
     testUtil.assertGoTo(null);
-    assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
     // Confirm redirect URL is cleared from storage.
     assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
     asyncTestCase.signal();
@@ -800,11 +468,6 @@ function testSetLoggedInWithAuthResult_onlySignInSuccessCallback() {
         externalAuth.currentUser,
         null,
         undefined);
-    assertEquals(1, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
-    assertObjectEquals(
-        passwordAccount, firebaseui.auth.storage.getRememberedAccounts(
-            app.getAppId())[0]);
     asyncTestCase.signal();
   });
 }
@@ -839,8 +502,6 @@ function testSetLoggedInWithAuthResult_alreadySignedIn() {
         expectedAuthResult,
         undefined);
     testUtil.assertGoTo('http://localhost/home');
-    assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
     asyncTestCase.signal();
   });
 }
@@ -854,7 +515,6 @@ function testSetLoggedInWithAuthResult_redirectNoRedirectUrl() {
       'signInSuccessWithAuthResult': signInSuccessWithAuthResultCallback(true)
     }
   });
-  firebaseui.auth.storage.setRememberAccount(false, app.getAppId());
   testAuth.setUser(federatedUser);
   var internalAuthResult = {
     'user': federatedUser,
@@ -877,8 +537,6 @@ function testSetLoggedInWithAuthResult_redirectNoRedirectUrl() {
         });
     return externalAuth.process();
   }).then(function() {
-    assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
     // Confirm redirect URL is cleared from storage.
     assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
     // No redirect occurred.
@@ -908,7 +566,6 @@ function testSetLoggedInWithAuthResult_updateCurrentUserError() {
       'signInSuccessWithAuthResult': signInSuccessWithAuthResultCallback(true)
     }
   });
-  firebaseui.auth.storage.setRememberAccount(false, app.getAppId());
   testAuth.setUser(federatedUser);
   var internalAuthResult = {
     'user': federatedUser,
@@ -933,8 +590,6 @@ function testSetLoggedInWithAuthResult_updateCurrentUserError() {
         expectedError);
     return externalAuth.process();
   }).then(function() {
-    assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
     // Confirm redirect URL is cleared from storage.
     assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
     // No redirect occurred.
@@ -963,7 +618,6 @@ function testSetLoggedInWithAuthResult_storageManualRedirect() {
           signInSuccessWithAuthResultCallback(false, true)
     }
   });
-  firebaseui.auth.storage.setRememberAccount(false, app.getAppId());
   testAuth.setUser(federatedUser);
   var internalAuthResult = {
     'user': federatedUser,
@@ -1003,8 +657,6 @@ function testSetLoggedInWithAuthResult_storageManualRedirect() {
         redirectUrl);
     // Developer manually continues to redirect URL specified in storage.
     testUtil.assertGoTo(redirectUrl);
-    assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
     // Confirm redirect URL is cleared from storage.
     assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
     asyncTestCase.signal();
@@ -1053,11 +705,6 @@ function testSetLoggedInWithAuthResult_popup() {
         expectedAuthResult,
         undefined);
     testUtil.assertOpenerGoTo('http://localhost/home');
-    assertEquals(1, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
-    assertObjectEquals(
-        federatedAccountWithProvider,
-        firebaseui.auth.storage.getRememberedAccounts(app.getAppId())[0]);
     asyncTestCase.signal();
   });
 }
@@ -1106,11 +753,6 @@ function testSetLoggedInWithAuthResult_popup_noRedirect() {
     assertSignInSuccessWithAuthResultCallbackInvoked(
         expectedAuthResult,
         undefined);
-    assertEquals(1, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
-    assertObjectEquals(
-        federatedAccountWithProvider,
-        firebaseui.auth.storage.getRememberedAccounts(app.getAppId())[0]);
     asyncTestCase.signal();
   });
 }
@@ -1129,8 +771,6 @@ function testSetLoggedInWithAuthResult_popup_storageAutoRedirect() {
       'signInSuccessWithAuthResult': signInSuccessWithAuthResultCallback(true)
     }
   });
-  firebaseui.auth.storage.setRememberAccount(false, app.getAppId());
-
   testAuth.setUser(federatedUser);
   var internalAuthResult = {
     'user': federatedUser,
@@ -1167,8 +807,6 @@ function testSetLoggedInWithAuthResult_popup_storageAutoRedirect() {
         redirectUrl);
     // Continue to redirect URL specified in storage.
     testUtil.assertOpenerGoTo(redirectUrl);
-    assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
     // Confirm redirect URL is cleared from storage.
     assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
     asyncTestCase.signal();
@@ -1187,7 +825,6 @@ function testSetLoggedInWithAuthResult_popup_storageNoRedirect() {
       'signInSuccessWithAuthResult': signInSuccessWithAuthResultCallback(false)
     }
   });
-  firebaseui.auth.storage.setRememberAccount(false, app.getAppId());
   testAuth.setUser(federatedUser);
   var internalAuthResult = {
     'user': federatedUser,
@@ -1227,8 +864,6 @@ function testSetLoggedInWithAuthResult_popup_storageNoRedirect() {
     testUtil.assertOpenerGoTo(null);
     // Callback supplied. Window should only be closed by developer.
     testUtil.assertWindowNotClosed(window);
-    assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
     // Confirm redirect URL is cleared from storage.
     assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
     asyncTestCase.signal();
@@ -1251,7 +886,6 @@ function testSetLoggedInWithAuthResult_popup_storageManualRedirect() {
           signInSuccessWithAuthResultCallback(false, true)
     }
   });
-  firebaseui.auth.storage.setRememberAccount(false, app.getAppId());
   testAuth.setUser(federatedUser);
   var internalAuthResult = {
     'user': federatedUser,
@@ -1293,8 +927,6 @@ function testSetLoggedInWithAuthResult_popup_storageManualRedirect() {
     testUtil.assertWindowNotClosed(window);
     // Developer manually continues to redirect URL specified in storage.
     testUtil.assertGoTo(redirectUrl);
-    assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
     // Confirm redirect URL is cleared from storage.
     assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
     asyncTestCase.signal();
@@ -1311,7 +943,6 @@ function testSetLoggedInWithAuthResult_popup_redirectNoRedirectUrl() {
     }
   });
   testUtil.setHasOpener(true);
-  firebaseui.auth.storage.setRememberAccount(false, app.getAppId());
   testAuth.setUser(federatedUser);
   var internalAuthResult = {
     'user': federatedUser,
@@ -1334,8 +965,6 @@ function testSetLoggedInWithAuthResult_popup_redirectNoRedirectUrl() {
         });
     return externalAuth.process();
   }).then(function() {
-    assertEquals(0, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
     // Confirm redirect URL is cleared from storage.
     assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
     // No redirect occurred.
@@ -1390,11 +1019,6 @@ function testSetLoggedInWithAuthResult_popup_noCallback_storageRedirect() {
     // Assert opener continues to redirect URL specified in storage.
     testUtil.assertOpenerGoTo(redirectUrl);
     testUtil.assertWindowClosed(window);
-    assertEquals(1, firebaseui.auth.storage.getRememberedAccounts(
-        app.getAppId()).length);
-    assertObjectEquals(
-        passwordAccount, firebaseui.auth.storage.getRememberedAccounts(
-            app.getAppId())[0]);
     // Confirm redirect URL is cleared from storage.
     assertFalse(firebaseui.auth.storage.hasRedirectUrl(app.getAppId()));
     asyncTestCase.signal();
@@ -1417,277 +1041,6 @@ function testHandleUnrecoverableError() {
 }
 
 
-function testAccountChooserInvoked() {
-  // accountchooser.com invoked callback.
-  var onContinueRecorded = null;
-  var accountChooserInvokedCalled = false;
-  var accountChooserInvokedCallback = function(onContinue) {
-    onContinueRecorded = onContinue;
-    accountChooserInvokedCalled = true;
-  };
-  // On continue callback.
-  var onContinueCalled = false;
-  var onContinue = function() {
-    onContinueCalled = true;
-  };
-
-  // No callback provided. On continue should be run.
-  firebaseui.auth.widget.handler.common.accountChooserInvoked(app, onContinue);
-  assertFalse(accountChooserInvokedCalled);
-  assertNull(onContinueRecorded);
-  assertTrue(onContinueCalled);
-
-  // accountchooser.com invoked callback provided, callback should be called
-  // with onContinue function passed.
-  onContinueCalled = false;
-  accountChooserInvokedCalled = false;
-  onContinueRecorded = null;
-  app.setConfig({
-    'callbacks': {
-      'accountChooserInvoked': accountChooserInvokedCallback
-    }
-  });
-  firebaseui.auth.widget.handler.common.accountChooserInvoked(app, onContinue);
-  assertTrue(accountChooserInvokedCalled);
-  assertEquals(onContinue, onContinueRecorded);
-  assertFalse(onContinueCalled);
-}
-
-
-function testAccountChooserResult() {
-  var code = firebaseui.auth.widget.Config.AccountChooserResult;
-  // accountchooser.com result callback.
-  var onContinueRecorded = null;
-  var typeRecorded = null;
-  var accountChooserResultCalled = false;
-  var accountChooserResultCallback = function(type, onContinue) {
-    typeRecorded = type;
-    onContinueRecorded = onContinue;
-    accountChooserResultCalled = true;
-  };
-  // On continue callback.
-  var onContinueCalled = false;
-  var onContinue = function() {
-    onContinueCalled = true;
-  };
-
-  // Only continue callback provided.
-  // No accountchooser.com result called. However, on continue is called.
-  firebaseui.auth.widget.handler.common.accountChooserResult(
-      app, code.EMPTY, onContinue);
-  assertFalse(accountChooserResultCalled);
-  assertTrue(onContinueCalled);
-
-  // Config callback provided along with continue callback.
-  // accountchooser.com result called. On continue function passed but not run.
-  app.setConfig({
-    'callbacks': {
-      'accountChooserResult': accountChooserResultCallback
-    }
-  });
-  onContinueRecorded = null;
-  typeRecorded = null;
-  accountChooserResultCalled = false;
-  onContinueCalled = false;
-  firebaseui.auth.widget.handler.common.accountChooserResult(
-      app, code.EMPTY, onContinue);
-  assertTrue(accountChooserResultCalled);
-  assertEquals(onContinue, onContinueRecorded);
-  assertEquals(code.EMPTY, typeRecorded);
-  assertFalse(onContinueCalled);
-}
-
-
-function testSelectFromAccountChooser_acCallbacks_unavailable() {
-  // Test email first mode select from accountchooser.com when
-  // accountchooser.com callbacks provided.
-  // Test when accountchooser.com is unavailable.
-  app.setConfig({
-    'credentialHelper': firebaseui.auth.widget.Config.CredentialHelper.NONE,
-    'callbacks': {
-      'accountChooserResult': accountChooserResultCallback,
-      'accountChooserInvoked': accountChooserInvokedCallback
-    }
-  });
-  // Simulate accountchooser.com being unavailable.
-  testAc.setSkipSelect(true);
-  testAc.setAvailability(false);
-  // Trigger select from accountchooser.com.
-  firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
-      container);
-  // Confirm accountchooser.com invoked callback called and run on continue
-  // function.
-  assertAndRunAccountChooserInvokedCallback();
-  // accountchooser.com unavailable.
-  assertAndRunAccountChooserResultCallback('unavailable');
-  // The sign-in page should show.
-  assertSignInPage();
-}
-
-
-function testSelectFromAccountChooser_acCallbacks_empty() {
-  // Test email-first mode select from accountchooser.com when
-  // accountchooser.com callbacks provided.
-  // Test when accountchooser.com is empty.
-  app.setConfig({
-    'callbacks': {
-      'accountChooserResult': accountChooserResultCallback,
-      'accountChooserInvoked': accountChooserInvokedCallback
-    }
-  });
-  // Simulate empty response from accountchooser.com.
-  testAc.setSkipSelect(true);
-  // Trigger select from accountchooser.com.
-  firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
-      container);
-  // Confirm accountchooser.com invoked callback called and run on continue
-  // function.
-  assertAndRunAccountChooserInvokedCallback();
-  // Empty accountchooser.com response.
-  assertAndRunAccountChooserResultCallback('empty');
-  // The sign-in page should show.
-  assertSignInPage();
-}
-
-
-function testSelectFromAccountChooser_acCallbacks_unregistered() {
-  // Test when an account is selected from accountchooser.com.
-  app.setConfig({
-    'callbacks': {
-      'accountChooserResult': accountChooserResultCallback,
-      'accountChooserInvoked': accountChooserInvokedCallback
-    }
-  });
-  asyncTestCase.waitForSignals(1);
-  // Simulate account selected from accountchooser.com.
-  testAc.setSelectedAccount(passwordAccount);
-  // Trigger select from accountchooser.com.
-  firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
-      container);
-  // No pending accountchooser.com response which will trigger try select.
-  testAc.forceOnEmpty();
-  // Confirm accountchooser.com invoked callback called and run on continue
-  // function.
-  assertAndRunAccountChooserInvokedCallback();
-  // Existing account selected logged.
-  assertAndRunAccountChooserResultCallback('accountSelected');
-
-  testAuth.assertFetchSignInMethodsForEmail(
-      [passwordAccount.getEmail()],
-      []);
-  testAuth.process().then(function() {
-    // Unregistered federated account should be treated as password sign up in
-    // provider-first display mode.
-    assertPasswordSignUpPage();
-    assertEquals(
-        passwordAccount.getEmail(),
-        goog.dom.forms.getValue(getEmailElement()));
-    assertEquals(
-        passwordAccount.getDisplayName(),
-        goog.dom.forms.getValue(getNameElement()));
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSelectFromAccountChooser_acCallbacks_existingAcct() {
-  // Test when an account is selected from accountchooser.com that is a password
-  // user.
-  app.setConfig({
-    'callbacks': {
-      'accountChooserResult': accountChooserResultCallback,
-      'accountChooserInvoked': accountChooserInvokedCallback
-    }
-  });
-  asyncTestCase.waitForSignals(1);
-  // Simulate account selected from accountchooser.com.
-  testAc.setSelectedAccount(passwordAccount);
-  // Trigger select from accountchooser.com.
-  firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
-      container);
-  // No pending accountchooser.com response which will trigger try select.
-  testAc.forceOnEmpty();
-  // Confirm accountchooser.com invoked callback called and run on continue
-  // function.
-  assertAndRunAccountChooserInvokedCallback();
-  // Existing account selected logged.
-  assertAndRunAccountChooserResultCallback('accountSelected');
-  testAuth.assertFetchSignInMethodsForEmail(
-      [passwordAccount.getEmail()],
-      ['google.com', 'password']);
-  testAuth.process().then(function() {
-    assertPasswordSignInPage();
-    assertEquals(
-        passwordAccount.getEmail(), goog.dom.forms.getValue(getEmailElement()));
-    assertEquals(0, getIdpButtons().length);
-    assertTrue(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
-    assertFalse(firebaseui.auth.storage.isRememberAccount(app.getAppId()));
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSelectFromAccountChooser_acCallbacks_existingAccount_error() {
-  // Test select from accountchooser.com when accountchooser.com callbacks
-  // provided. Test when an account is selected from accountchooser.com and
-  // error returned from FirebaseUI server.
-  app.setConfig({
-    'callbacks': {
-      'accountChooserResult': accountChooserResultCallback,
-      'accountChooserInvoked': accountChooserInvokedCallback
-    }
-  });
-  asyncTestCase.waitForSignals(1);
-  // Simulate account selected from accountchooser.com.
-  testAc.setSelectedAccount(federatedAccount);
-  // Trigger select from accountchooser.com.
-  firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
-      container);
-  // No pending accountchooser.com response which will trigger try select.
-  testAc.forceOnEmpty();
-  // Confirm accountchooser.com invoked callback called and run on continue
-  // function.
-  assertAndRunAccountChooserInvokedCallback();
-  // Existing account selected logged.
-  assertAndRunAccountChooserResultCallback('accountSelected');
-  testAuth.assertFetchSignInMethodsForEmail(
-      [federatedAccount.getEmail()], null, internalError);
-  testAuth.process().then(function() {
-    // An error in fetch providers for email should redirect to provider sign in
-    // page with the error message in the info bar.
-    assertProviderSignInPage();
-    assertInfoBarMessage(
-        firebaseui.auth.widget.handler.common.getErrorMessage(internalError));
-    asyncTestCase.signal();
-  });
-}
-
-
-function testSelectFromAccountChooser_acCallbacks_addAccount() {
-  // Test when add account is selected from accountchooser.com.
-  app.setConfig({
-    'callbacks': {
-      'accountChooserResult': accountChooserResultCallback,
-      'accountChooserInvoked': accountChooserInvokedCallback
-    }
-  });
-  // Simulate add account in accountchooser.com click.
-  testAc.setAddAccount();
-  // Trigger select from accountchooser.com.
-  firebaseui.auth.widget.handler.common.selectFromAccountChooser(getApp,
-      container);
-  // No pending accountchooser.com response which will trigger try select.
-  testAc.forceOnEmpty();
-  // Confirm accountchooser.com invoked callback called and run on continue
-  // function.
-  assertAndRunAccountChooserInvokedCallback();
-  // Add account selected logged.
-  assertAndRunAccountChooserResultCallback('addAccount');
-  // The sign-in page should show.
-  assertSignInPage();
-}
-
-
 function testHandleSignInFetchSignInMethodsForEmail_unregistered_password() {
   var signInMethods = [];
   var email = 'user@example.com';
@@ -1703,6 +1056,22 @@ function testHandleSignInFetchSignInMethodsForEmail_unregistered_password() {
     assertEquals(
         displayName,
         goog.dom.forms.getValue(getNameElement()));
+}
+
+
+function testHandleSignInWithEmail() {
+  testStubs.replace(
+      firebaseui.auth.storage,
+      'setRedirectStatus',
+      goog.testing.recordFunction());
+  app.setConfig({
+    'credentialHelper': firebaseui.auth.widget.Config.CredentialHelper.NONE
+  });
+  firebaseui.auth.widget.handler.common.handleSignInWithEmail(app, container);
+  assertSignInPage();
+  /** @suppress {missingRequire} */
+  assertEquals(0,
+      firebaseui.auth.storage.setRedirectStatus.getCallCount());
 }
 
 
@@ -1855,44 +1224,6 @@ function testHandleSignInFetchSignInMethodsForEmail_disabledFederatedAcct() {
 }
 
 
-function testHandleSignInWithEmail_acInitialized() {
-  var onPreSkip = goog.testing.recordFunction(function() {
-    assertTrue(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
-  });
-  testAc.setSkipSelect(true, onPreSkip);
-  firebaseui.auth.widget.handler.common.handleSignInWithEmail(app, container);
-  assertEquals(1, onPreSkip.getCallCount());
-  assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
-  assertFalse(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
-  // Accountchooser client is already initialized.
-  firebaseui.auth.widget.handler.common.handleSignInWithEmail(app, container);
-  testAc.assertTrySelectAccount(
-      firebaseui.auth.storage.getRememberedAccounts(app.getAppId()),
-      'http://localhost/firebaseui-widget?mode=select');
-  assertEquals(2, onPreSkip.getCallCount());
-  assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
-}
-
-
-function testHandleSignInWithEmail_acNotEnabled() {
-  testStubs.replace(
-      firebaseui.auth.storage,
-      'setRedirectStatus',
-      goog.testing.recordFunction());
-  app.setConfig({
-    'credentialHelper': firebaseui.auth.widget.Config.CredentialHelper.NONE
-  });
-  firebaseui.auth.widget.handler.common.acForceUiShown_ = true;
-  firebaseui.auth.widget.handler.common.handleSignInWithEmail(app, container);
-  assertSignInPage();
-  /** @suppress {missingRequire} */
-  assertEquals(0,
-      firebaseui.auth.storage.setRedirectStatus.getCallCount());
-  assertFalse(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
-  assertFalse(firebaseui.auth.widget.handler.common.acForceUiShown_);
-}
-
-
 function testHandleSignInWithEmail_prefillEmail() {
   const prefilledEmail = 'user@example';
   testStubs.replace(
@@ -1902,16 +1233,12 @@ function testHandleSignInWithEmail_prefillEmail() {
   app.setConfig({
     'credentialHelper': firebaseui.auth.widget.Config.CredentialHelper.NONE
   });
-  firebaseui.auth.widget.handler.common.acForceUiShown_ = true;
   firebaseui.auth.widget.handler.common.handleSignInWithEmail(
       app, container, prefilledEmail);
   assertBlankPage();
   /** @suppress {missingRequire} */
   assertEquals(0,
       firebaseui.auth.storage.setRedirectStatus.getCallCount());
-  assertFalse(firebaseui.auth.storage.hasRememberAccount(app.getAppId()));
-  assertFalse(firebaseui.auth.widget.handler.common.acForceUiShown_);
-
   testAuth.assertFetchSignInMethodsForEmail(
       [prefilledEmail],
       []);
@@ -1925,69 +1252,19 @@ function testHandleSignInWithEmail_prefillEmail() {
 }
 
 
-function testLoadAccountchooserJs_externallyLoaded() {
-  // Test accountchooser.com client loading when already loaded.
-  // Reset loadAccountchooserJs stubs.
-  testStubs.reset();
-  // Externally loaded.
-  accountchooser = {};
-  firebaseui.auth.widget.handler.common.acLoader_ = null;
-  asyncTestCase.waitForSignals(1);
-  var callback = function() {
-    asyncTestCase.signal();
-  };
-  firebaseui.auth.widget.handler.common.loadAccountchooserJs(app, callback);
-}
-
-
-function testLoadAccountchooserJs_notLoaded() {
-  // Test accountchooser.com client loading when not loaded.
-  // Reset loadAccountchooserJs stubs.
-  testStubs.reset();
-  // Replace jsloader.
-  var jsLoaderInvoked = 0;
-  testStubs.replace(
-      goog.net.jsloader, 'safeLoad', function() {
-        return goog.Promise.resolve().then(function() {
-          // Should be invoked once.
-          jsLoaderInvoked++;
-          assertEquals(1, jsLoaderInvoked);
-        });
-      });
-  // This will force an attempt to load the client.
-  accountchooser = undefined;
-  firebaseui.auth.widget.handler.common.acLoader_ = null;
-  asyncTestCase.waitForSignals(2);
-  var callback = function() {
-    asyncTestCase.signal();
-  };
-  var callback2 = function() {
-    asyncTestCase.signal();
-  };
-  firebaseui.auth.widget.handler.common.loadAccountchooserJs(app, callback);
-  firebaseui.auth.widget.handler.common.loadAccountchooserJs(app, callback2);
-}
-
-
-function testLoadAccountchooserJs_notSupported() {
-  // Test accountchooser.com client loaded when it is not supported.
-  testStubs.reset();
-  // Simulate accountchooser.com not supported.
-  testStubs.replace(
-      firebaseui.auth.sni,
-      'isSupported',
-      function() {
-        return false;
-      });
-  accountchooser = undefined;
-  firebaseui.auth.widget.handler.common.acLoader_ = null;
-  asyncTestCase.waitForSignals(1);
-  var callback = function() {
-    // Callback should still run even though not supported.
-    assertUndefined(accountchooser);
-    asyncTestCase.signal();
-  };
-  firebaseui.auth.widget.handler.common.loadAccountchooserJs(app, callback);
+function testHandleSignInFetchSignInMethodsForEmail_unsupportedProvider() {
+  // When user has previously signed in with email link but only email/password
+  // auth is supported in the app's configuration.
+  var signInMethods = ['emailLink'];
+  var email = 'user@example.com';
+  app.updateConfig('signInOptions',  [{'provider': 'password'}]);
+  firebaseui.auth.widget.handler.common.handleSignInFetchSignInMethodsForEmail(
+      app, container, signInMethods, email);
+  // It should not store pending email.
+  assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+  // Unsupported provider page should show.
+  assertUnsupportedProviderPage(email);
 }
 
 
@@ -2131,27 +1408,7 @@ function testFederatedSignIn_success_redirectMode_tenantId() {
   // Confirm signInWithRedirect called underneath.
   testAuth.assertSignInWithRedirect([expectedProvider]);
   testAuth.process();
-}
 
-
-function testFederatedSignIn_success_redirectMode_tenantId() {
-  app.setTenantId('TENANT_ID');
-  var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
-  var component = new firebaseui.auth.ui.page.ProviderSignIn(
-      goog.nullFunction(), []);
-  component.render(container);
-  assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
-  // This will trigger a signInWithRedirect using the expected provider.
-  firebaseui.auth.widget.handler.common.federatedSignIn(
-      app, component, 'google.com');
-  assertTrue(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
-  assertEquals(
-      'TENANT_ID',
-      firebaseui.auth.storage.getRedirectStatus(app.getAppId()).getTenantId());
-  assertProviderSignInPage();
-  // Confirm signInWithRedirect called underneath.
-  testAuth.assertSignInWithRedirect([expectedProvider]);
-  testAuth.process();
 }
 
 
@@ -2175,7 +1432,6 @@ function testFederatedSignIn_error_redirectMode() {
     asyncTestCase.signal();
   });
 }
-
 
 
 function testFederatedSignIn_success_cordova() {
@@ -2611,8 +1867,7 @@ function testHandleGoogleYoloCredential_handledSuccessfully_withScopes() {
       'provider': 'google.com',
       'scopes': ['googl1', 'googl2'],
       'customParameters': {'prompt': 'select_account'},
-      'authMethod': 'https://accounts.google.com',
-      'clientId': '1234567890.apps.googleusercontent.com'
+      'clientId': googYoloClientId,
     }, 'facebook.com', 'password', 'phone'],
     'credentialHelper':
         firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
@@ -2642,8 +1897,7 @@ function testHandleGoogleYoloCredential_handledSuccessfully_withoutScopes() {
     'signInSuccessUrl': 'http://localhost/home',
     'signInOptions': [{
       'provider': 'google.com',
-      'authMethod': 'https://accounts.google.com',
-      'clientId': '1234567890.apps.googleusercontent.com'
+      'clientId': googYoloClientId,
     }, 'facebook.com', 'password', 'phone'],
     'credentialHelper':
         firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
@@ -2663,10 +1917,10 @@ function testHandleGoogleYoloCredential_handledSuccessfully_withoutScopes() {
         asyncTestCase.signal();
       });
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
-      googleYoloIdTokenCredential.idToken);
+      googleYoloIdTokenCredential.credential);
   var cred  = createMockCredential({
     'providerId': 'google.com',
-    'idToken': googleYoloIdTokenCredential.idToken
+    'idToken': googleYoloIdTokenCredential.credential,
   });
   testAuth.setUser({
     'email': federatedAccount.getEmail(),
@@ -2707,8 +1961,7 @@ function testHandleGoogleYoloCredential_unhandled_withoutScopes() {
     'signInSuccessUrl': 'http://localhost/home',
     'signInOptions': [{
       'provider': 'google.com',
-      'authMethod': 'https://accounts.google.com',
-      'clientId': '1234567890.apps.googleusercontent.com'
+      'clientId': googYoloClientId,
     }, 'facebook.com', 'password', 'phone'],
     'credentialHelper':
         firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
@@ -2727,7 +1980,7 @@ function testHandleGoogleYoloCredential_unhandled_withoutScopes() {
         asyncTestCase.signal();
       });
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
-      googleYoloIdTokenCredential.idToken);
+      googleYoloIdTokenCredential.credential);
   // Confirm signInWithCredential called underneath with
   // unsuccessful response.
   testAuth.assertSignInWithCredential(
@@ -2750,8 +2003,7 @@ function testHandleGoogleYoloCredential_cancelled_withoutScopes() {
     'signInSuccessUrl': 'http://localhost/home',
     'signInOptions': [{
       'provider': 'google.com',
-      'authMethod': 'https://accounts.google.com',
-      'clientId': '1234567890.apps.googleusercontent.com'
+      'clientId': googYoloClientId,
     }, 'facebook.com', 'password', 'phone'],
     'credentialHelper':
         firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
@@ -2782,8 +2034,7 @@ function testHandleGoogleYoloCredential_unsupportedCredential() {
     'signInSuccessUrl': 'http://localhost/home',
     'signInOptions': [{
       'provider': 'google.com',
-      'authMethod': 'https://accounts.google.com',
-      'clientId': '1234567890.apps.googleusercontent.com'
+      'clientId': googYoloClientId,
     }, 'facebook.com', 'password', 'phone'],
     'credentialHelper':
         firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
@@ -2816,14 +2067,13 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_noScopes() {
     'signInSuccessUrl': 'http://localhost/home',
     'signInOptions': [{
       'provider': 'google.com',
-      'authMethod': 'https://accounts.google.com',
-      'clientId': '1234567890.apps.googleusercontent.com'
+      'clientId': googYoloClientId,
     }, 'facebook.com', 'password', 'phone'],
     'credentialHelper':
         firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
   });
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
-      googleYoloIdTokenCredential.idToken);
+      googleYoloIdTokenCredential.credential);
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
       goog.nullFunction(), []);
   component.render(container);
@@ -2877,14 +2127,13 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_credentialInUse() {
     'signInSuccessUrl': 'http://localhost/home',
     'signInOptions': [{
       'provider': 'google.com',
-      'authMethod': 'https://accounts.google.com',
-      'clientId': '1234567890.apps.googleusercontent.com'
+      'clientId': googYoloClientId,
     }, 'facebook.com', 'password', 'phone'],
     'credentialHelper':
         firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
   });
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
-      googleYoloIdTokenCredential.idToken);
+      googleYoloIdTokenCredential.credential);
   // Expected linkWithCredential error.
   var expectedError = {
     'code': 'auth/credential-already-in-use',
@@ -2934,14 +2183,13 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_fedEmailInUse() {
     'signInSuccessUrl': 'http://localhost/home',
     'signInOptions': [{
       'provider': 'google.com',
-      'authMethod': 'https://accounts.google.com',
-      'clientId': '1234567890.apps.googleusercontent.com'
+      'clientId': googYoloClientId,
     }, 'facebook.com', 'password', 'phone'],
     'credentialHelper':
         firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
   });
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
-      googleYoloIdTokenCredential.idToken);
+      googleYoloIdTokenCredential.credential);
   // Expected linkWithCredential error.
   var expectedError = {
     'code': 'auth/email-already-in-use',
@@ -2952,7 +2200,7 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_fedEmailInUse() {
   var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
       federatedAccount.getEmail(),
       firebase.auth.GoogleAuthProvider.credential(
-          googleYoloIdTokenCredential.idToken, null));
+          googleYoloIdTokenCredential.credential, null));
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
       goog.nullFunction(), []);
   component.render(container);
@@ -3002,14 +2250,13 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_passEmailInUse() {
     'signInSuccessUrl': 'http://localhost/home',
     'signInOptions': [{
       'provider': 'google.com',
-      'authMethod': 'https://accounts.google.com',
-      'clientId': '1234567890.apps.googleusercontent.com'
+      'clientId': googYoloClientId,
     }, 'facebook.com', 'password', 'phone'],
     'credentialHelper':
         firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
   });
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
-      googleYoloIdTokenCredential.idToken);
+      googleYoloIdTokenCredential.credential);
   // Expected linkWithCredential error.
   var expectedError = {
     'code': 'auth/email-already-in-use',
@@ -3020,7 +2267,7 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_passEmailInUse() {
   var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
       federatedAccount.getEmail(),
       firebase.auth.GoogleAuthProvider.credential(
-          googleYoloIdTokenCredential.idToken, null));
+          googleYoloIdTokenCredential.credential, null));
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
       goog.nullFunction(), []);
   component.render(container);
@@ -3080,8 +2327,7 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_withScopes() {
       'provider': 'google.com',
       'scopes': ['googl1', 'googl2'],
       'customParameters': {'prompt': 'select_account'},
-      'authMethod': 'https://accounts.google.com',
-      'clientId': '1234567890.apps.googleusercontent.com'
+      'clientId': googYoloClientId,
     }, 'facebook.com', 'password', 'phone'],
     'credentialHelper':
         firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
