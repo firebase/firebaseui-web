@@ -355,12 +355,14 @@ class FirebaseUiHandler {
         tenantId || UiHandlerConfig.ConfigKeys.TOP_LEVEL_CONFIG_KEY);
     try {
       this.signedInAuth_ = firebase.app(appName).auth();
+      this.signedInAuth_.useEmulator('http://localhost:9099');
     } catch (e) {
       const options = {
         'apiKey': apiKey,
         'authDomain': this.configs_[apiKey].getAuthDomain(),
       };
       const app = firebase.initializeApp(options, appName);
+      app.auth().useEmulator('http://localhost:9099');
       app.auth()['tenantId'] = tenantId;
       this.signedInAuth_ = app.auth();
     }

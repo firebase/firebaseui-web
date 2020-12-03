@@ -61,6 +61,9 @@ goog.exportSymbol(
     'firebaseui.auth.AuthUI.prototype.start',
     firebaseui.auth.AuthUI.prototype.start);
 goog.exportSymbol(
+    'firebaseui.auth.AuthUI.prototype.useEmulator',
+    firebaseui.auth.AuthUI.prototype.useEmulator);
+goog.exportSymbol(
     'firebaseui.auth.AuthUI.prototype.setConfig',
     firebaseui.auth.AuthUI.prototype.setConfig);
 goog.exportSymbol(

@@ -94,7 +94,7 @@ testSuite({
     goog.global.firebase = {};
     const firebase = goog.global.firebase;
     // Used to initialize internal Auth instance.
-    firebase.initializeApp =
+    firebase =
         (options, name) => new FakeAppClient(options, name);
     // Build mock auth providers.
     firebase['auth'] = {};

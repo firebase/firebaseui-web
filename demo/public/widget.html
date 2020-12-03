@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>FirebaseUI Auth Demo</title>
-    <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase.js"></script>
     <script src="config.js"></script>
     <script src="common.js"></script>
     <script src="dist/firebaseui.js"></script>
@@ -69,7 +69,9 @@
       };
 
       // Initialize the FirebaseUI Widget using Firebase.
+      firebase.auth().useEmulator('http://localhost:9099');
       var ui = new firebaseui.auth.AuthUI(firebase.auth());
+      ui.useEmulator('http://localhost:9099');
       // The start method will wait until the DOM is loaded to include the FirebaseUI sign-in widget
       // within the element corresponding to the selector specified.
       ui.start('#firebaseui-auth-container', uiConfig);

@@ -277,7 +277,7 @@ testSuite({
     goog.global.firebase = {};
     const firebase = goog.global.firebase;
     firebase.instances_ = {};
-    firebase.initializeApp = (options, name) => {
+    firebase = (options, name) => {
       // Throw an error if a FirebaseApp already exists for the specified name.
       const key = name || '[DEFAULT]';
       if (firebase.instances_[key]) {

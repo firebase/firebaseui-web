@@ -129,6 +129,7 @@ firebaseui.auth.AuthUI = function(auth, opt_appId) {
    *     instance.
    */
   this.tempAuth_ = tempApp.auth();
+  this.tempAuth_.useEmulator('http://localhost:9099');
   // Log FirebaseUI on internal Auth instance.
   firebaseui.auth.AuthUI.logFirebaseUI_(this.tempAuth_);
   // Change persistence to session to avoid the risk of dangling auth states in
@@ -190,6 +191,15 @@ firebaseui.auth.AuthUI = function(auth, opt_appId) {
   /** @private {boolean} Whether the deprecation warning has been shown. */
   this.warningShown_ = false;
 };
+
+
+/**
+ * Causes FirebaseUI to use emulator
+ * @param {string} url 
+ */
+firebaseui.auth.AuthUI.prototype.useEmulator = function(url) {
+  this.getAuth().useEmulator(url);
+}
 
 
 /**

@@ -37,7 +37,7 @@ function getUiConfig() {
       }
     },
     // Opens IDP Providers sign-in flow in a popup.
-    'signInFlow': 'popup',
+    // 'signInFlow': 'popup',
     'signInOptions': [
       // TODO(developer): Remove the providers you don't need for your app.
       {
@@ -88,7 +88,10 @@ function getUiConfig() {
 }
 
 // Initialize the FirebaseUI Widget using Firebase.
-var ui = new firebaseui.auth.AuthUI(firebase.auth());
+var auth = firebase.auth();
+auth.useEmulator('http://localhost:9099');
+var ui = new firebaseui.auth.AuthUI(auth);
+ui.useEmulator('http://localhost:9099')
 // Disable auto-sign in.
 ui.disableAutoSignIn();
 
