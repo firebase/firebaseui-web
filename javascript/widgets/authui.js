@@ -124,6 +124,8 @@ firebaseui.auth.AuthUI = function(auth, opt_appId) {
     'apiKey': auth['app']['options']['apiKey'],
     'authDomain': auth['app']['options']['authDomain']
   }, auth['app']['name'] + firebaseui.auth.AuthUI.TEMP_APP_NAME_SUFFIX_);
+  tempApp = auth['app'] // #778 temp fix
+
   /**
    * @private {!firebase.auth.Auth} The temporary internal Firebase Auth
    *     instance.
@@ -963,7 +965,7 @@ firebaseui.auth.AuthUI.prototype.checkIfDestroyed_ = function() {
 
 /**
  * Destroys the AuthUI instance.
- * @return {!firebase.Promise} The promise that resolves when the instance
+ * @return {!Promise} The promise that resolves when the instance
  *     is successfully deleted.
  */
 firebaseui.auth.AuthUI.prototype.delete = function() {
@@ -971,7 +973,8 @@ firebaseui.auth.AuthUI.prototype.delete = function() {
   // Check if instance is already destroyed.
   this.checkIfDestroyed_();
   // Delete the temporary app instance.
-  return this.tempAuth_.app.delete().then(function() {
+
+  // #778 temp fix  return this.tempAuth_.app.delete().then(function() {
     // Get instance key.
     var key = firebaseui.auth.AuthUI.getInstanceKey_(self.getAppId());
     // Delete any saved AuthUI instance.
@@ -980,7 +983,8 @@ firebaseui.auth.AuthUI.prototype.delete = function() {
     self.reset();
     // Mark as deleted.
     self.deleted_ = true;
-  });
+  // #778 temp fix  });
+  return new Promise((res) => res())
 };
 
 
