@@ -442,16 +442,20 @@ testSuite({
     assertArrayEquals([], warningLogMessages);
 
     // Phone config with blacklisted reCAPTCHA parameters.
-    const blacklist = {
+    const disallowlist = {
       'sitekey': 'SITEKEY',
       'tabindex': 0,
       'callback': function(token) {},
       'expired-callback': function() {},
     };
     config.update(
-        'signInOptions',
-        ['github.com', {'provider': 'google.com'},
-         {'provider': 'phone', 'recaptchaParameters': blacklist}, 'password']);
+      'signInOptions',
+      ['github.com', {'provider': 'google.com'},
+       {
+         'provider': 'phone',
+         'recaptchaParameters': disallowlist
+       },
+       'password']);
     assertObjectEquals({}, config.getRecaptchaParameters());
     // Expected warning should be logged.
     assertArrayEquals(
@@ -958,7 +962,7 @@ testSuite({
   },
 
   testUpdateConfig_phoneSignInOption_error() {
-    // Tests when both whitelist and blacklist are provided.
+    // Tests when both allowlist and disallowlist are provided.
     let error = assertThrows(() => {
       config.update('signInOptions', [{
         'provider': 'phone',
@@ -969,7 +973,7 @@ testSuite({
     assertEquals(
         'Both whitelistedCountries and blacklistedCountries are provided.',
         error.message);
-    // Tests when empty whitelist is provided.
+    // Tests when empty allowlist is provided.
     error = assertThrows(() => {
       config.update('signInOptions', [{
         'provider': 'phone',
@@ -1022,7 +1026,7 @@ testSuite({
   },
 
   testSetConfig_phoneSignInOption_error() {
-    // Tests when both whitelist and blacklist are provided.
+    // Tests when both allowlist and disallowlist are provided.
     let error = assertThrows(() => {
       config.setConfig({
         'signInOptions': [{
@@ -1035,7 +1039,7 @@ testSuite({
     assertEquals(
         'Both whitelistedCountries and blacklistedCountries are provided.',
         error.message);
-    // Tests when empty whitelist is provided.
+    // Tests when empty allowlist is provided.
     error = assertThrows(() => {
       config.setConfig({
         'signInOptions': [{

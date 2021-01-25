@@ -459,19 +459,19 @@ class Config {
         (!Array.isArray(blacklistedCountries))) {
       throw new Error('BlacklistedCountries must be an array.');
     }
-    // If both whitelist and blacklist are provided, throw error.
+    // If both allowlist and disallowlist are provided, throw error.
     if (whitelistedCountries && blacklistedCountries) {
       throw new Error(
           'Both whitelistedCountries and blacklistedCountries are provided.');
     }
-    // If no whitelist or blacklist provided, return all available countries.
+    // If no allowlist or disallowlist provided, return all available countries.
     if (!whitelistedCountries && !blacklistedCountries) {
       return country.COUNTRY_LIST;
     }
     let countries = [];
     const availableCountries = [];
     if (whitelistedCountries) {
-      // Whitelist is provided.
+      // Allowlist is provided.
       const whitelistedCountryMap = {};
       for (let i = 0; i < whitelistedCountries.length; i++) {
         countries = country
