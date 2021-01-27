@@ -21,8 +21,10 @@ goog.module('firebaseui.auth.testing.FakeAuthClient');
 goog.module.declareLegacyNamespace();
 goog.setTestOnly();
 
-var MockHelper = goog.require('firebaseui.auth.testing.MockHelper');
-var array = goog.require('goog.array');
+const MockHelper = goog.require('firebaseui.auth.testing.MockHelper');
+const Uri = goog.require('goog.Uri');
+const array = goog.require('goog.array');
+
 
 /**
  * Fake Auth API client class.
@@ -37,6 +39,7 @@ class FakeAuthClient extends MockHelper {
     this.user_ = {};
     this['app'] = app;
     this['currentUser'] = null;
+    this['emulatorConfig'] = null;
     var asyncMethods = {};
     // Populate auth async methods.
     for (var key in FakeAuthClient.AuthAsyncMethod) {
@@ -63,6 +66,23 @@ class FakeAuthClient extends MockHelper {
       logFramework: function(framework) {
         self.frameworks_.push(framework);
       }
+    };
+  }
+
+  /**
+   * Mock useEmulator() function from main SDK.
+   * @param {string} url The url to talk to the emulator with.
+   * @param {?Object} options Options for emulator config.
+   */
+  useEmulator(url, options) {
+    const uri = Uri.parse(url);
+    this['emulatorConfig'] = {
+      'protocol': uri.getScheme(),
+      'host': uri.getDomain(),
+      'port': uri.getPort(),
+      'options': {
+        'disableWarnings': options ? options.disableWarnings : false,
+      },
     };
   }
 
