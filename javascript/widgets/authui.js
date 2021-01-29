@@ -129,6 +129,12 @@ firebaseui.auth.AuthUI = function(auth, opt_appId) {
    *     instance.
    */
   this.tempAuth_ = tempApp.auth();
+  const emulatorConfig = auth.emulatorConfig;
+  if (emulatorConfig) {
+    const {protocol, host, port, options} = emulatorConfig;
+    const portString = port === null ? '' : ':' + port;
+    this.tempAuth_.useEmulator(`${protocol}://${host}${portString}`, options);
+  }
   // Log FirebaseUI on internal Auth instance.
   firebaseui.auth.AuthUI.logFirebaseUI_(this.tempAuth_);
   // Change persistence to session to avoid the risk of dangling auth states in

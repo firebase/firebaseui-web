@@ -516,6 +516,7 @@ function testGetExternalAuth() {
   assertEquals('testapp2-firebaseui-temp', app2.getAuth().app.name);
 }
 
+
 function testTempAuth_sessionPersistence() {
   createAndInstallTestInstances();
   // Initialize app.
@@ -525,6 +526,47 @@ function testTempAuth_sessionPersistence() {
   assertEquals('testapp1-firebaseui-temp', app1.getAuth().app.name);
   // Confirm session persistence set on internal instance.
   app.getAuth().assertSetPersistence(['session'], null);
+}
+
+
+function testTempAuth_emulatorConfig() {
+  createAndInstallTestInstances();
+  // Initialize app.
+  testAuth.install();
+  testAuth.useEmulator('http://localhost:1234');
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  // Confirm correct name used for temp instance.
+  assertEquals('testapp1-firebaseui-temp', app1.getAuth().app.name);
+  // Confirm emulator config properly set on internal instance.
+  assertObjectEquals({
+    protocol: 'http',
+    host: 'localhost',
+    port: 1234,
+    options: {
+      disableWarnings: false,
+    }
+  }, app.getAuth().emulatorConfig);
+}
+
+
+function testTempAuth_emulatorConfig_handlesIPV6Hosts() {
+  createAndInstallTestInstances();
+  // Initialize app.
+  testAuth.install();
+  testAuth.useEmulator(
+      'http://[0:0:0:0:0:0:0:0]:1234', {disableWarnings: true});
+  app = new firebaseui.auth.AuthUI(testAuth, 'id0');
+  // Confirm correct name used for temp instance.
+  assertEquals('testapp1-firebaseui-temp', app1.getAuth().app.name);
+  // Confirm emulator config hasn't double-quoted IPv6 address.
+  assertObjectEquals({
+    protocol: 'http',
+    host: '[0:0:0:0:0:0:0:0]',
+    port: 1234,
+    options: {
+      disableWarnings: true,
+    }
+  }, app.getAuth().emulatorConfig);
 }
 
 
