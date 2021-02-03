@@ -375,6 +375,7 @@ input.firebaseui-input-invalid{
   /* If we do not set height here, the default Safari dialog settings make the
    * dialog too tall. */
   height: auto;
+  max-height: fit-content;
   padding: 24px;
   text-align: left;
 }
