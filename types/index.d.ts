@@ -24,7 +24,7 @@ interface Callbacks {
     authResult: any,
     redirectUrl?: string
   ): boolean;
-  signInFailure?(error: firebaseui.auth.AuthUIError): Promise<void>;
+  signInFailure?(error: firebaseui.auth.AuthUIError): Promise<void>|void;
   uiShown?(): void;
 }
 

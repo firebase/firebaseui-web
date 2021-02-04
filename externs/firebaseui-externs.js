@@ -674,8 +674,8 @@ firebaseui.auth.Callbacks.prototype.signInSuccessWithAuthResult =
  *
  * @param {!firebaseui.auth.AuthUIError} error The FirebaseUI error identifying
  *     the reason behind the failure.
- * @return {!Promise<void>} A promise that resolves when the merge conflict
- *     is completed.
+ * @return {!Promise<void>|void} Either void or a promise that resolves when the
+ *     merge conflict is completed.
  */
 firebaseui.auth.Callbacks.prototype.signInFailure = function(error) {};
 
