@@ -1660,6 +1660,77 @@ npm run build build-npm-zh-TW
 
 This will create a binary `npm__zh_tw.js` in the `dist/` folder.
 
+To build a localized ES module of FirebaseUI, run:
+
+```bash
+npm run build build-esm-{LANGUAGE_CODE}
+```
+
+Make sure all underscore symbols in the `LANGUAGE_CODE` are replaced with
+dashes.
+This will generate `dist/esm__{LANGUAGE_CODE}.js`.
+You can then import/require it:
+```javascript
+import firebaseui from './esm__{LANGUAGE_CODE}';
+```
+
+Build names for language codes with underscores, eg. `zh_tw`, `zh_cn`, `pt_pt`
+will be mapped to `zh-TW`, `xh-CN`, `pt-PT`. The underscore will be replaced by
+a hyphen symbol and the subsequent characters will be capitalized.
+
+```bash
+npm run build build-esm-zh-TW
+```
+
+This will create a binary `esm__zh_tw.js` in the `dist/` folder.
+
+### Tips for **TypeScript** users using localized build.
+
+Some may create script tag at runtime to load different localized build via CDN.
+In some use case, however this is not an option. For example when your project
+use **TypeScript**, the compile time static type checking will require the type 
+definition and source code in place to build your code successfully. Simply copy 
+the localized files generated from the commands in previous section to your 
+project may not work. Install the default `firebaseui` package for typings will 
+also override the effect of loading localized build from CDN via dynamic script
+tag. Below we would like to show the steps on how to make the localized build works 
+in TypeScript project. (using `zh-TW` as `LANGUAGE_CODE`)
+
+1. Follow the instructions on building a localized version on your machine.
+
+2. Ensure all of the following commands were executed:
+```bash
+npm run build build-npm-zh-TW
+npm run build build-esm-zh-TW
+npm run build build-js-zh-TW
+```  
+
+3. Now you have all files ready in `dist` folder. Create a folder named `firebaseui`
+in your project source folder (e.g. `src`). You should a folder structure like this:
+```
++-_src
+| +-_firebaseui
+|   +-_dist
+```
+
+4. Copy `package.json` from `firebaseui` repo to `src/firebaseui` of your project.
+
+5. In `src/firebaseui/dist` folder, delete `npm.js`, `npm__en.js`, `firebaseui.js`,
+ `firebaseui__en.js`, `esm.js`, `esm__en.js`. Then rename `npm__zh_tw.js` to `npm.js`,
+ `firebaseui__zh_tw.js` to `firebaseui.js` and `esm__zh_tw.js` to `esm.js`.
+ 
+6. Now you have a local localized firebaseui package in your project. You can now
+import it this way:
+```typescript
+import * as firebaseui from "./firebaseui";
+```
+
+When work with MPA setup instead of SPA, this could provide a workaround for multi
+languages capability for your authentication flow. The down-side includes:
+- Requires different version of your app per language.
+- Requires whole page reload when changing language.
+
+
 ### Running the demo app
 
 To run the demo app, you must have a Firebase project set up on the
