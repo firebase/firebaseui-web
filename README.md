@@ -1660,6 +1660,30 @@ npm run build build-npm-zh-TW
 
 This will create a binary `npm__zh_tw.js` in the `dist/` folder.
 
+To build a localized ES module of FirebaseUI, run:
+
+```bash
+npm run build build-esm-{LANGUAGE_CODE}
+```
+
+Make sure all underscore symbols in the `LANGUAGE_CODE` are replaced with
+dashes.
+This will generate `dist/esm__{LANGUAGE_CODE}.js`.
+You can then import/require it:
+```javascript
+import firebaseui from './esm__{LANGUAGE_CODE}';
+```
+
+Build names for language codes with underscores, eg. `zh_tw`, `zh_cn`, `pt_pt`
+will be mapped to `zh-TW`, `xh-CN`, `pt-PT`. The underscore will be replaced by
+a hyphen symbol and the subsequent characters will be capitalized.
+
+```bash
+npm run build build-esm-zh-TW
+```
+
+This will create a binary `esm__zh_tw.js` in the `dist/` folder.
+
 ### Running the demo app
 
 To run the demo app, you must have a Firebase project set up on the
