@@ -1055,7 +1055,7 @@ if (ui.isPendingRedirect()) {
   ui.start('#firebaseui-auth-container', uiConfig);
 }
 // This can also be done via:
-if ((firebase.auth().isSignInWithEmailLink(window.location.href)) {
+if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
   ui.start('#firebaseui-auth-container', uiConfig);
 }
 ```
