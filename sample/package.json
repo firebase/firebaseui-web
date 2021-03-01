@@ -1,0 +1,28 @@
+{
+    "name": "firebaseui-exp-sample",
+    "private": true,
+    "scripts": {
+        "build": "run-s build:*",
+        "build:clean": "rimraf dist",
+        "build:bundle": "webpack",
+        "build:link-main": "sed -i -e 's/main-bundle.*.js/'\"$(find ./dist -name \"main-*.*.js\" | sed \"s/.*\\///\")\"'/g' ./dist/index.html",
+        "build:link-elements": "sed -i -e 's/customElements-bundle.*.js/'\"$(find ./dist -name \"customElements-*.*.js\" | sed \"s/.*\\///\")\"'/g' ./dist/index.html",
+        "build:link-cleanup": "rimraf ./dist/index.html-e",
+        "serve": "firebase serve"
+    },
+    "devDependencies": {
+        "@rollup/plugin-node-resolve": "^11.1.1",
+        "@rollup/plugin-typescript": "^8.1.1",
+        "@stencil/core": "^2.0.1",
+        "copy-webpack-plugin": "^7.0.0",
+        "firebase": "^0.900.11",
+        "firebase-tools": "^9.5.0",
+        "npm-run-all": "^4.1.5",
+        "rimraf": "^3.0.2",
+        "rollup": "^2.38.4",
+        "ts-loader": "^8.0.14",
+        "typescript": "^4.1.3",
+        "webpack": "^5.20.0",
+        "webpack-cli": "^4.5.0"
+    }
+}

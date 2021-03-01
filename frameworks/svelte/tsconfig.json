@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "outDir": "../../dist/svelte",
+        "noImplicitAny": true,
+        "moduleResolution": "node",
+        "module": "es2020",
+        "target": "es2020",
+        "strict": true,
+        "declaration": true,
+        "experimentalDecorators": true,
+        "skipLibCheck": true,
+        "paths": {
+            "firebaseui": ["../../dist/custom-elements"]
+        }
+    }
+}

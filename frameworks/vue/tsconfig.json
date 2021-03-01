@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "outDir": "../../dist/vue",
+        "noImplicitAny": true,
+        "moduleResolution": "node",
+        "module": "es2020",
+        "target": "es2020",
+        "declaration": true,
+        "experimentalDecorators": true,
+        "skipLibCheck": true,
+        "paths": {
+            "firebaseui": ["../../dist/custom-elements"]
+        }
+    }
+}

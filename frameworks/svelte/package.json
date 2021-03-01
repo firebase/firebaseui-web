@@ -1,0 +1,10 @@
+{
+    "name": "firebaseui-svelte",
+    "private": true,
+    "scripts": {
+        "build": "tsc"
+    },
+    "devDependencies": {
+        "typescript": "^4.1.3"
+    }
+}

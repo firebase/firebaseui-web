@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "noImplicitAny": true,
+        "moduleResolution": "node",
+        "module": "es2020",
+        "target": "es2020",
+        "strict": true,
+        "paths": {
+            "firebaseui": ["../dist/custom-elements"]
+        }
+    }
+}

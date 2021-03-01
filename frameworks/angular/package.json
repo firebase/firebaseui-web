@@ -1,0 +1,12 @@
+{
+    "name": "firebaseui-angular",
+    "private": true,
+    "scripts": {
+        "build": "tsc"
+    },
+    "devDependencies": {
+        "@angular/core": "^11.1.2",
+        "rxjs": "^6.6.3",
+        "typescript": "^4.1.3"
+    }
+}

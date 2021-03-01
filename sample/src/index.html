@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+        <title>FirebaseUI Demo</title>
+        <script type="module" src="customElements-bundle.1.js" async></script>
+        <script type="module" src="main-bundle.1.js" async></script>
+        <style>
+            body {
+                --facebook-auth-button-background-color: green;
+                --facebook-auth-button-color: yellow;
+            }
+            firebase-sign-in-form > ul > li {
+                margin: 1em;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Firebase UI Demo</h1>
+        <div id="signed-in-content" style="display: none;">
+            <p>You are signed in.</p>
+            <div id="user-details-placeholder"></div>
+            <button id="sign-out">Sign out</button>
+        </div>
+        <div id="signed-out-content">
+            <p id="loading-notice">Loading&hellip;</p>
+            <p id="signed-out-notice" style="display: none">You are signed out.</p>
+            <firebase-sign-in-form privacy-policy-url="https://google.com" asset-base-path="/firebaseui/assets">
+                <p>Something, something, custom content!</p>
+                <ul>
+                    <li><google-auth-button></google-auth-button></li>
+                    <li>
+                        <facebook-auth-button>
+                            <img src="/firebaseui/assets/facebook.svg" width="16" heigh="16">
+                            Yo, this is Facebook! I'm overriding the slot.
+                        </facebook-auth-button>
+                    </li>
+                    <li><twitter-auth-button></twitter-auth-button></li>
+                    <li><github-auth-button></github-auth-button></li>
+                    <li><password-email-form></password-email-form></li>
+                    <li><microsoft-auth-button></microsoft-auth-button></li>
+                    <li><apple-auth-button></apple-auth-button></li>
+                    <li><anonymous-auth-button></anonymous-auth-button></li>
+                </ul>
+            </firebase-sign-in-form>
+        </div>
+    </body>
+</html>

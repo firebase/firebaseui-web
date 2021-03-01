@@ -1,0 +1,1 @@
+export const REDIRECT_INITIATED_AT_KEY = 'firebaseUI~authRedirectInitiatedAt';

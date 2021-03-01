@@ -1,0 +1,48 @@
+<html>
+    <head>
+        <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
+    </head>
+    <body>
+        <div id="firebaseui-auth-container"></div>
+        <script src="https://www.gstatic.com/firebasejs/8.2.5/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.5/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
+        <script>
+            firebase.initializeApp({
+                apiKey: "AIzaSyAuTP4cG5noVZJmPJhBT_Uu5_DETT5uFbo",
+                authDomain: "fir-ui-test-7cd1d.firebaseapp.com",
+                projectId: "fir-ui-test-7cd1d",
+                storageBucket: "fir-ui-test-7cd1d.appspot.com",
+                messagingSenderId: "226010084826",
+                appId: "1:226010084826:web:19f3ac2f1afa5920e23ce3"
+            });
+            var ui = new firebaseui.auth.AuthUI(firebase.auth());
+            ui.start('#firebaseui-auth-container', {
+                signInOptions: [
+                    firebase.auth.EmailAuthProvider.PROVIDER_ID,
+                    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+                    firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+                    firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+                ],
+                tosUrl: 'https://google.com',
+                privacyPolicyUrl: 'https://google.com',
+                signInSuccessUrl: '/hidden.html',
+                callbacks: {
+                    signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+                        // User successfully signed in.
+                        // Return type determines whether we continue the redirect automatically
+                        // or whether we leave that to developer to handle.
+                        console.log('signInSuccessWithAuthResult!', authResult, redirectUrl);
+                        return true;
+                    },
+                    uiShown: function() {
+                        // The widget is rendered.
+                        // Hide the loader.
+                       console.log('uiShown!');
+                    }
+                }
+                // Other config options...
+            });
+        </script>
+    </body>
+</html>

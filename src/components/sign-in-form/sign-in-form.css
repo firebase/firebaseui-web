@@ -1,0 +1,24 @@
+:host {
+  display: block;
+}
+
+:host > div.loading-bar {
+  width: 100%;
+  height: 4px;
+  background: transparent;
+  margin-bottom: 1em;
+}
+
+:host([loading]) > div.loading-bar {
+  background: repeating-linear-gradient(to right, red 0%, blue 33%, yellow 66%, red 100%);
+  background-size: 200% auto;
+  background-position: 0 100%;
+  animation: gradient 2s infinite;
+  animation-fill-mode: forwards;
+  animation-timing-function: linear;
+}
+
+@keyframes gradient { 
+  0%   { background-position: 0 0; }
+  100% { background-position: -200% 0; }
+}

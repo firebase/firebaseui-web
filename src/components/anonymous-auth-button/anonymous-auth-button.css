@@ -1,0 +1,17 @@
+:host {
+  display: block;
+}
+
+:host > button {
+  color: white;
+  background-color: #f4b400;
+  padding: 0.6em 1.2em;
+}
+
+:host > button > slot > img {
+  width: 1.3em;
+  height: 1.3em;
+  margin-bottom: -0.3em;
+  margin-right: 1em;
+  margin-left: -0.3em;
+}

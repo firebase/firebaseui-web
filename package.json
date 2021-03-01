@@ -1,67 +1,60 @@
 {
-  "name": "firebaseui",
-  "version": "4.7.3",
+  "name": "firebaseui-exp",
+  "version": "0.500.3",
   "description": "Javascript library for customizable UI on top of Firebase SDK",
-  "files": [
-    "dist/firebaseui.js",
-    "dist/firebaseui.css",
-    "dist/npm.js",
-    "dist/esm.js",
-    "dist/index.d.ts",
-    "dist/externs",
-    "LICENSE",
-    "README.md",
-    "package.json"
-  ],
-  "main": "./dist/npm.js",
-  "module": "./dist/esm.js",
-  "types": "./dist/index.d.ts",
-  "style": "dist/firebaseui.css",
-  "scripts": {
-    "build": "gulp",
-    "build-all": "gulp build-all",
-    "build-soy": "gulp build-soy",
-    "demo": "npm run build && ./buildtools/run_demo.sh",
-    "test": "npm run build && npm run generate-test-files && ./buildtools/run_tests.sh",
-    "serve": "npm run build && npm run generate-test-files && gulp serve",
-    "generate-test-files": "./buildtools/generate_test_files.sh",
-    "prepublish": "npm run test && cp -r dist demo/public"
-  },
-  "test": "npm run test",
   "author": "Google",
   "repository": {
     "type": "git",
     "url": "https://github.com/firebase/firebaseui-web.git"
   },
-  "publishConfig": {
-    "registry": "https://wombat-dressing-room.appspot.com"
-  },
-  "license": "Apache-2.0",
-  "devDependencies": {
-    "closure-builder": "^2.3.8",
-    "firebase": "^8.2.4",
-    "firebase-tools": "^9.3.0",
-    "fs-extra": "^3.0.1",
-    "google-closure-compiler": "^20190415.0.0",
-    "google-closure-library": "^20190415.0.0",
-    "google-closure-templates": "^20150410.0.0",
-    "gulp": "^4.0.2",
-    "gulp-clean-css": "^4.3.0",
-    "gulp-closure-compiler": "^0.4.0",
-    "gulp-concat-css": "^3.1.0",
-    "gulp-connect": "^5.5.0",
-    "gulp-css-flip": "^0.4.0",
-    "gulp-css-inline-images": "^0.1.1",
-    "gulp-sass": "^4.1.0",
-    "gulp-util": "^3.0.7",
-    "protractor": "^7.0.0",
-    "streamqueue": "^1.1.1"
+  "main": "dist/index.cjs.js",
+  "module": "dist/custom-elements/index.js",
+  "es2015": "dist/esm/index.mjs",
+  "es2017": "dist/esm/index.mjs",
+  "types": "dist/custom-elements/index.d.ts",
+  "collection": "dist/collection/collection-manifest.json",
+  "collection:main": "dist/collection/index.js",
+  "unpkg": "dist/firebaseui/firebaseui.esm.js",
+  "files": [
+    "dist/",
+    "loader/"
+  ],
+  "scripts": {
+    "build": "run-s build:*",
+    "build:core": "stencil build --docs",
+    "build:frameworks": "run-p build-framework:*",
+    "build:sample": "cd sample && yarn && yarn build",
+    "build-framework:angular": "cd frameworks/angular && yarn && yarn build",
+    "build-framework:react": "cd frameworks/react && yarn && yarn build",
+    "build-framework:svelte": "cd frameworks/svelte && yarn && yarn build",
+    "build-framework:vue": "cd frameworks/vue && yarn && yarn build",
+    "start": "stencil build --dev --watch --serve",
+    "test": "stencil test --spec --e2e",
+    "test.watch": "stencil test --spec --e2e --watchAll",
+    "generate": "stencil generate",
+    "serve": "cd sample && yarn serve"
   },
   "dependencies": {
-    "dialog-polyfill": "^0.4.7",
-    "material-design-lite": "^1.2.0"
+    "@stencil/core": "^2.0.1",
+    "npm-run-all": "^4.1.5"
   },
   "peerDependencies": {
-    "firebase": ">=8.2.4"
+    "firebase": "^0.900.11"
+  },
+  "sideEffects": false,
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@firebase/app-types": "0.0.900-exp.1b15844a1",
+    "@stencil/angular-output-target": "^0.0.5",
+    "@stencil/react-output-target": "^0.0.9",
+    "@stencil/svelte-output-target": "^0.0.3",
+    "@stencil/vue-output-target": "^0.3.0",
+    "@types/jest": "26.0.20",
+    "@types/puppeteer": "5.4.2",
+    "firebase": "^0.900.11",
+    "jest": "26.6.3",
+    "jest-cli": "26.6.3",
+    "puppeteer": "5.5.0",
+    "svelte": "^3.32.1"
   }
 }
