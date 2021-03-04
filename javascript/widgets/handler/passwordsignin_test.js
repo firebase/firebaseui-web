@@ -20,6 +20,7 @@ goog.provide('firebaseui.auth.widget.handler.PasswordSignInTest');
 goog.setTestOnly('firebaseui.auth.widget.handler.PasswordSignInTest');
 
 goog.require('firebaseui.auth.AuthUIError');
+goog.require('firebaseui.auth.log');
 goog.require('firebaseui.auth.widget.handler.common');
 goog.require('firebaseui.auth.widget.handler.handlePasswordRecovery');
 goog.require('firebaseui.auth.widget.handler.handlePasswordSignIn');

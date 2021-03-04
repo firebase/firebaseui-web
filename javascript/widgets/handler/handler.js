@@ -56,6 +56,7 @@ firebaseui.auth.widget.HandlerName = {
   EMAIL_MISMATCH: 'emailMismatch',
   PROVIDER_SIGN_IN: 'providerSignIn',
   PREFILLED_EMAIL_SIGN_IN: 'prefilledEmailSignIn',
+  UNAUTHORIZED_USER: 'handleUnauthorizedUser',
   UNSUPPORTED_PROVIDER: 'unsupportedProvider',
   VERIFY_AND_CHANGE_EMAIL: 'verifyAndChangeEmail',
   REVERT_SECOND_FACTOR_ADDITION: 'revertSecondFactorAddition',

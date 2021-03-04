@@ -49,12 +49,12 @@ goog.require('goog.array');
 firebaseui.auth.OAuthResponse;
 
 /**
- * Normalizes the error. This is useful for mapping certain errors to different
- * errors.
- * When no mapping is needed, the same error is returned.
- * This is currently used to map 'auth/invalid-credential' code to
- * 'auth/user-cancelled' when users do not grant access permission to
- * Microsoft work account.
+ * Normalizes the error. This is useful for parsing and mapping errors.
+ * 1. Maps 'auth/invalid-credential' code to 'auth/user-cancelled' when users do
+ * not grant access permission to Microsoft work account.
+ * 2. Parses the nested error message from blocking function.
+ * 3. When no mapping or parsing needed, the same error is returned.
+ *
  * @param {*} error The original error.
  * @return {*} The normalized error.
  * @package
@@ -65,9 +65,20 @@ firebaseui.auth.widget.handler.common.normalizeError =
       error['message'] &&
       error['message'].indexOf('error=consent_required') !== -1) {
     return {code: 'auth/user-cancelled'};
+  } else if (error['message'] &&
+             error['message'].indexOf('HTTP Cloud Function returned an error:')
+             !== -1) {
+    const firstIndex = error['message'].indexOf('{');
+    const lastIndex = error['message'].lastIndexOf('}');
+    const errorObject = JSON.parse(
+        error['message'].substring(firstIndex, lastIndex + 1));
+    const newErrorMessage = errorObject && errorObject['error'] &&
+        errorObject['error']['message'];
+    return {code: error['code'], message: newErrorMessage || error['message']};
   }
   return error;
 };
+
 
 /**
  * Sets the user as signed in with Auth result. Signs in on external Auth
@@ -1046,34 +1057,45 @@ firebaseui.auth.widget.handler.common.handleSignInFetchSignInMethodsForEmail =
         opt_displayName,
         opt_infoBarMessage,
         opt_displayFullTosPpMessage) {
-  // Does the account exist?
-  if (!signInMethods.length && app.getConfig().isEmailPasswordSignInAllowed()) {
-    // Account does not exist and password sign-in method is enabled. Go to
-    // password sign up and populate available fields.
-    firebaseui.auth.widget.handler.handle(
-        firebaseui.auth.widget.HandlerName.PASSWORD_SIGN_UP,
-        app,
-        container,
-        email,
-        opt_displayName,
-        undefined,
-        opt_displayFullTosPpMessage);
-  } else if (!signInMethods.length &&
-             app.getConfig().isEmailLinkSignInAllowed()) {
-    // Account does not exist and email link sign-in method is enabled. Send
-    // email link to sign in.
-    firebaseui.auth.widget.handler.handle(
-        firebaseui.auth.widget.HandlerName.SEND_EMAIL_LINK_FOR_SIGN_IN,
-        app,
-        container,
-        email,
-        function() {
-          // Clicking back button goes back to sign in page.
-          firebaseui.auth.widget.handler.handle(
-              firebaseui.auth.widget.HandlerName.SIGN_IN,
-              app,
-              container);
-        });
+  if (!signInMethods.length && (app.getConfig().isEmailPasswordSignInAllowed()
+          || app.getConfig().isEmailLinkSignInAllowed())) {
+    if (app.getConfig().isEmailSignUpDisabled()) {
+      // FirebaseUI auth instance disable sign up.
+      firebaseui.auth.widget.handler.handle(
+          firebaseui.auth.widget.HandlerName.UNAUTHORIZED_USER,
+          app,
+          container,
+          email,
+          firebase.auth.EmailAuthProvider.PROVIDER_ID);
+    } else {
+      if (app.getConfig().isEmailPasswordSignInAllowed()) {
+        // Account does not exist and password sign-in method is enabled. Go to
+        // password sign up and populate available fields.
+        firebaseui.auth.widget.handler.handle(
+            firebaseui.auth.widget.HandlerName.PASSWORD_SIGN_UP,
+            app,
+            container,
+            email,
+            opt_displayName,
+            undefined,
+            opt_displayFullTosPpMessage);
+      } else {
+        // Account does not exist and email link sign-in method is enabled. Send
+        // email link to sign in.
+        firebaseui.auth.widget.handler.handle(
+            firebaseui.auth.widget.HandlerName.SEND_EMAIL_LINK_FOR_SIGN_IN,
+            app,
+            container,
+            email,
+            function() {
+              // Clicking back button goes back to sign in page.
+              firebaseui.auth.widget.handler.handle(
+                  firebaseui.auth.widget.HandlerName.SIGN_IN,
+                  app,
+                  container);
+            });
+      }
+    }
   } else if (goog.array.contains(signInMethods,
       firebase.auth.EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD)) {
     // Existing Password account.

@@ -27,6 +27,7 @@
 <translation id="1412449974349991050">Haitis</translation>
 <translation id="144766329299583285">Jei neprašėte pakeisti savo prisijungimo el. pašto adreso, gali būti, kad kažkas bando pasiekti jūsų paskyrą, tad turėtumėte <ph name="START_LINK" />nedelsdami pakeisti slaptažodį<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">Herdo ir Makdonaldo Salos</translation>
+<translation id="1451880131543823984"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> neturi prieigos teisės peržiūrėti puslapį, dėl kurio pateikta užklausa.</translation>
 <translation id="1479035434297790822">Iš jūsų IP adreso siunčiama per daug paskyros užklausų. Bandykite dar kartą po kelių minučių.</translation>
 <translation id="1483249363694224399">Šri Lanka</translation>
 <translation id="1507995441600689506">Nuo šiol galite prisijungti naudodami naująją paskyrą</translation>
@@ -156,6 +157,7 @@
 <translation id="3521753471343796628">Irakas</translation>
 <translation id="354888504916863713">Vietnamas</translation>
 <translation id="3550380781997195832">Šis el. pašto adresas netinkamas</translation>
+<translation id="3552446912357282301">Susisiekite su <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" />, jei norite gauti prieigos teisę.</translation>
 <translation id="3561568594856945084">Majotas</translation>
 <translation id="3591063723610544836">Prisijungti</translation>
 <translation id="3593480381831738519">Nustatykite slaptažodį iš naujo</translation>
@@ -362,6 +364,7 @@
 <translation id="6951302238647056860">Šis kodas nebegalioja</translation>
 <translation id="6961220857430789248">Prisijungimo el. laiškas su papildomomis instrukcijomis išsiųstas adresu <ph name="STRING" />. Patikrinkite el. paštą, kad užbaigtumėte prisijungimą.</translation>
 <translation id="6984204927251307445">Patvirtinkite el. paštą</translation>
+<translation id="6996552808101270965">Sužinoti daugiau</translation>
 <translation id="6999773882165218263">Vardas ir pavardė</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Vakarų Sachara</translation>
@@ -391,6 +394,7 @@
 <translation id="7291656724505689727">Prisijungti nurodant telefono numerį</translation>
 <translation id="7320029088567935126">Bandykite patvirtinti el. pašto adresą dar kartą</translation>
 <translation id="7331038350037712642">Azerbaidžanas</translation>
+<translation id="7359542696390093035">Nesuteikta prieigos teisė</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">Netinkama el. laiško nuoroda.</translation>
 <translation id="7477065998516229434">Paslaugų teikimo sąlygomis</translation>

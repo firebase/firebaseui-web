@@ -19,6 +19,7 @@ goog.require('firebaseui.auth.ui.element.dialog');
 goog.require('firebaseui.auth.ui.element.listBoxDialog');
 goog.require('goog.Promise');
 goog.require('goog.dom');
+goog.require('goog.style');
 goog.require('goog.testing.MockControl');
 goog.require('goog.testing.events');
 goog.require('goog.testing.jsunit');

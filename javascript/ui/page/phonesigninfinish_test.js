@@ -35,6 +35,7 @@ goog.require('goog.events.KeyCodes');
 goog.require('goog.testing.MockClock');
 goog.require('goog.testing.events');
 goog.require('goog.testing.jsunit');
+goog.requireType('goog.ui.Component');
 
 
 var mockClock;

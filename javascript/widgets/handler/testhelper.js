@@ -667,6 +667,16 @@ function clickSecondaryLink() {
 }
 
 
+/**
+ * Triggers a click on the help link element.
+ */
+function clickHelpLink() {
+  const helpLink = goog.dom.getElementByClass(
+      'firebaseui-id-unauthorized-user-help-link', container);
+  goog.testing.events.fireClickSequence(helpLink);
+}
+
+
 /** @return {?Element} The email element on the current page. */
 function getEmailElement() {
   return goog.dom.getElementByClass('firebaseui-id-email', container);
@@ -989,6 +999,12 @@ function assertBusyIndicatorHidden() {
 }
 
 
+/** Asserts that unauthorized user page is displayed. */
+function assertUnauthorizedUserPage() {
+  assertPage_(container, 'firebaseui-id-page-unauthorized-user');
+}
+
+
 function assertCallbackPage() {
   assertPage_(container, 'firebaseui-id-page-callback');
 }
@@ -1055,6 +1071,36 @@ function assertFederatedLinkingPage(opt_email) {
   assertPage_(container, 'firebaseui-id-page-federated-linking');
   if (opt_email) {
     assertPageContainsText(opt_email);
+  }
+}
+
+
+/** Asserts that there is no help link currently displayed. */
+function assertNoHelpLink() {
+  const element = goog.dom.getElementByClass(
+      'firebaseui-id-unauthorized-user-help-link', container);
+  assertNull(element);
+}
+
+
+/** Asserts that there is help link currently displayed. */
+function assertHelpLink() {
+  const element = goog.dom.getElementByClass(
+      'firebaseui-id-unauthorized-user-help-link', container);
+  assertNotNull(element);
+}
+
+
+/**
+ * Asserts that there is an admin email currently displayed.
+ * @param {string=} adminEmail admin email to check.
+ */
+function assertAdminEmail(adminEmail) {
+  const element = goog.dom.getElementByClass(
+      'firebaseui-id-unauthorized-user-admin-email', container);
+  assertNotNull(element);
+  if (adminEmail) {
+    assertContains(adminEmail, goog.dom.getTextContent(element));
   }
 }
 

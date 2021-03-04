@@ -20,6 +20,7 @@ goog.provide('firebaseui.auth.ui.element.EmailTestHelper');
 goog.setTestOnly('firebaseui.auth.ui.element.EmailTestHelper');
 
 goog.require('firebaseui.auth.soy2.strings');
+goog.require('firebaseui.auth.ui.element');
 goog.require('firebaseui.auth.ui.element.ElementTestHelper');
 goog.require('goog.dom.forms');
 goog.require('goog.events.KeyCodes');

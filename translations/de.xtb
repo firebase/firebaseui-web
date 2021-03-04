@@ -27,6 +27,7 @@
 <translation id="1412449974349991050">Haiti</translation>
 <translation id="144766329299583285">Wenn Sie nicht um Änderung der Anmelde-E-Mail-Adresse gebeten haben, versucht möglicherweise jemand anderes, auf Ihr Konto zuzugreifen. In diesem Fall sollten Sie <ph name="START_LINK" />Ihr Passwort sofort ändern<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">Heard und die McDonaldinseln</translation>
+<translation id="1451880131543823984"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> ist nicht berechtigt, die angefragte Seite aufzurufen.</translation>
 <translation id="1479035434297790822">Über Ihre IP-Adresse werden zu viele Kontoanfragen gesendet. Bitte versuchen Sie es in einigen Minuten noch einmal.</translation>
 <translation id="1483249363694224399">Sri Lanka</translation>
 <translation id="1507995441600689506">Sie können sich jetzt mit Ihrem neuen Konto anmelden</translation>
@@ -158,6 +159,7 @@
 <translation id="3521753471343796628">Irak</translation>
 <translation id="354888504916863713">Vietnam</translation>
 <translation id="3550380781997195832">Diese E-Mail-Adresse ist ungültig</translation>
+<translation id="3552446912357282301">Wenden Sie sich zur Autorisierung an <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" />.</translation>
 <translation id="3561568594856945084">Mayotte</translation>
 <translation id="3591063723610544836">Anmelden</translation>
 <translation id="3593480381831738519">Passwort zurücksetzen</translation>
@@ -366,6 +368,7 @@
 <translation id="6951302238647056860">Dieser Code ist nicht mehr gültig</translation>
 <translation id="6961220857430789248">Wir haben eine Anmelde-E-Mail mit zusätzlichen Informationen an <ph name="STRING" /> gesendet. Bitte öffnen Sie die E-Mail, um die Anmeldung abzuschließen.</translation>
 <translation id="6984204927251307445">E-Mail-Adresse bestätigen</translation>
+<translation id="6996552808101270965">Weitere Informationen</translation>
 <translation id="6999773882165218263">Vor- und Nachname</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Westsahara</translation>
@@ -395,6 +398,7 @@
 <translation id="7291656724505689727">Mit einer Telefonnummer anmelden</translation>
 <translation id="7320029088567935126">Versuchen Sie noch einmal, Ihre E-Mail-Adresse zu bestätigen</translation>
 <translation id="7331038350037712642">Aserbaidschan</translation>
+<translation id="7359542696390093035">Nicht autorisiert</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">Ungültiger E-Mail-Link.</translation>
 <translation id="7477065998516229434">Nutzungsbedingungen</translation>
