@@ -36,13 +36,10 @@ goog.require('firebaseui.auth.widget.handler.common');
  */
 firebaseui.auth.widget.handler.handleUnauthorizedUser = function(
     app, container, email, provider) {
-  console.log('start handing');
   let backCallbackFunction = function () {
       firebaseui.auth.widget.handler.common.handleSignInStart(
           app, container);
   };
-  console.log('auth-provider:');
-  console.log(firebase.auth.EmailAuthProvider.PROVIDER_ID);
   // Defines the backCallbackFunction.
   if (provider === firebase.auth.EmailAuthProvider.PROVIDER_ID) {
     // Email password or Email link.
@@ -62,9 +59,7 @@ firebaseui.auth.widget.handler.handleUnauthorizedUser = function(
       app.getConfig().getEmailProviderHelperLink(),
       app.getConfig().getTosUrl(),
       app.getConfig().getPrivacyPolicyUrl());
-  console.log('start render');
   component.render(container);
-  console.log('rendered');
   // Set current UI component.
   app.setCurrentComponent(component);
 };

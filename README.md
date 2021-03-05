@@ -62,8 +62,8 @@ You just need to include the following script and CSS file in the `<head>` tag
 of your page, below the initialization snippet from the Firebase Console:
 
 ```html
-<script src="https://www.gstatic.com/firebasejs/ui/4.7.3/firebase-ui-auth.js"></script>
-<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.7.3/firebase-ui-auth.css" />
+<script src="https://cdn.firebase.com/libs/firebaseui/2.6.1/firebaseui.js"></script>
+<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.6.1/firebaseui.css" />
 ```
 
 #### Localized Widget
@@ -72,18 +72,20 @@ Localized versions of the widget are available through the CDN. To use a
 localized widget, load the localized JS library instead of the default library:
 
 ```html
-<script src="https://www.gstatic.com/firebasejs/ui/4.7.3/firebase-ui-auth__{LANGUAGE_CODE}.js"></script>
-<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.7.3/firebase-ui-auth.css" />
+<script src="https://www.gstatic.com/firebasejs/ui/2.6.1/firebase-ui-auth__{LANGUAGE_CODE}.js"></script>
+<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/2.6.1/firebase-ui-auth.css" />
 ```
 
-where `{LANGUAGE_CODE}` is replaced by the code of the language you want. For example, the French
-version of the library is available at
-`https://www.gstatic.com/firebasejs/ui/4.7.3/firebase-ui-auth__fr.js`. The list of available
-languages and their respective language codes can be found at [LANGUAGES.md](LANGUAGES.md).
+where `{LANGUAGE_CODE}` is replaced by the code of the language you want. For
+example, the French version of the library is available at
+`https://www.gstatic.com/firebasejs/ui/2.6.1/firebase-ui-auth__fr.js`. The list
+of available languages and their respective language codes can be found at [LANGUAGES.md](LANGUAGES.md).
 
-Right-to-left languages also require the right-to-left version of the stylesheet, available at
-`https://www.gstatic.com/firebasejs/ui/4.7.3/firebase-ui-auth-rtl.css`, instead of the default
-stylesheet. The supported right-to-left languages are Arabic (ar), Farsi (fa), and Hebrew (iw).
+Right-to-left languages also require the right-to-left version of the
+stylesheet, available at
+`https://www.gstatic.com/firebasejs/ui/2.6.1/firebase-ui-auth-rtl.css`,
+instead of the default stylesheet. The supported right-to-left languages are
+Arabic (ar), Farsi (fa), and Hebrew (iw).
 
 ### Option 2: npm Module
 
@@ -102,7 +104,6 @@ var firebase = require('firebase');
 var firebaseui = require('firebaseui');
 // or using ES6 imports:
 import * as firebaseui from 'firebaseui'
-import 'firebaseui/dist/firebaseui.css'
 ```
 
 Or include the required files in your HTML, if your HTTP Server serves the files
@@ -197,8 +198,8 @@ for a more in-depth example, showcasing a Single Page Application mode.
        * TODO(DEVELOPER): Paste the initialization snippet from:
        * Firebase Console > Overview > Add Firebase to your web app. *
        ***************************************************************************************** -->
-    <script src="https://www.gstatic.com/firebasejs/ui/4.7.3/firebase-ui-auth.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.7.3/firebase-ui-auth.css" />
+    <script src="https://cdn.firebase.com/libs/firebaseui/2.6.1/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.6.1/firebaseui.css" />
     <script type="text/javascript">
       // FirebaseUI config.
       var uiConfig = {
@@ -352,10 +353,10 @@ FirebaseUI supports the following configuration parameters.
 <td>callbacks</td>
 <td>No</td>
 <td>
-  An object of developers <a href="#available-callbacks">callbacks</a> after
+  A list of developers <a href="#available-callbacks">callbacks</a> after
   specific events.
   <br/>
-  <em>Default:</em> <code>{}</code>
+  <em>Default:</em> <code>[]</code>
 </td>
 </tr>
 <tr>
@@ -696,7 +697,7 @@ ui.start('#firebaseui-auth-container', {
       // fullLabel: 'Login with Microsoft',
       buttonColor: '#2F2F2F',
       iconUrl: '<icon-url-of-sign-in-button>',
-      loginHintKey: 'login_hint',
+      loginHintKey: 'login_hint'
       scopes: [
         'mail.read'
       ],
@@ -781,7 +782,7 @@ OIDC providers' `signInOptions` support the following configuration parameters.
 ui.start('#firebaseui-auth-container', {
   signInOptions: [
     {
-      provider: 'oidc.myProvider',
+      provider: 'oidc.myProvider`,
       providerName: 'MyOIDCProvider',
       // To override the full label of the button.
       // fullLabel: 'Employee Login',
@@ -1009,7 +1010,7 @@ Using email link sign-in with FirebaseUI comes with the following benefits:
   can start the flow on one device and end it on another. This also covers
   Android where email link sign-in is also supported with
   [FirebaseUI-android](https://github.com/firebase/firebaseui-android/) and
-  [FirebaseUI-ios](https://github.com/firebase/firebaseui-ios/)
+  coming soon to [FirebaseUI-ios](https://github.com/firebase/firebaseui-ios/)
   for iOS support.
 - Ability to switch to email link sign-in while continuing to sign-in existing
   users with email and password.
@@ -1083,7 +1084,7 @@ if (ui.isPendingRedirect()) {
   ui.start('#firebaseui-auth-container', uiConfig);
 }
 // This can also be done via:
-if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
+if ((firebase.auth().isSignInWithEmailLink(window.location.href)) {
   ui.start('#firebaseui-auth-container', uiConfig);
 }
 ```
@@ -1309,8 +1310,8 @@ FirebaseUI is displayed.
        * TODO(DEVELOPER): Paste the initialization snippet from:
        * Firebase Console > Overview > Add Firebase to your web app. *
        ***************************************************************************************** -->
-    <script src="https://www.gstatic.com/firebasejs/ui/4.7.3/firebase-ui-auth.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.7.3/firebase-ui-auth.css" />
+    <script src="https://cdn.firebase.com/libs/firebaseui/2.6.1/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.6.1/firebaseui.css" />
     <script type="text/javascript">
       // FirebaseUI config.
       var uiConfig = {
@@ -1535,7 +1536,7 @@ ui.start('#firebaseui-auth-container', {
 For [GCIP](https://cloud.google.com/identity-platform) customers, you can build
 a tenant-specific sign-in page with FirebaseUI. Make sure you've enabled
 multi-tenancy for your project and configured your tenants. See the
-[Multi-tenancy quickstart](https://cloud.google.com/identity-platform/docs/multi-tenancy-quickstart)
+[Multi-tenancy quickstart](https://cloud.google.com/identity-platform/docs/quickstart-multi-tenancy)
 to learn how.
 
 This feature requires [firebase](https://www.npmjs.com/package/firebase)
@@ -1687,30 +1688,6 @@ npm run build build-npm-zh-TW
 ```
 
 This will create a binary `npm__zh_tw.js` in the `dist/` folder.
-
-To build a localized ES module of FirebaseUI, run:
-
-```bash
-npm run build build-esm-{LANGUAGE_CODE}
-```
-
-Make sure all underscore symbols in the `LANGUAGE_CODE` are replaced with
-dashes.
-This will generate `dist/esm__{LANGUAGE_CODE}.js`.
-You can then import/require it:
-```javascript
-import firebaseui from './esm__{LANGUAGE_CODE}';
-```
-
-Build names for language codes with underscores, eg. `zh_tw`, `zh_cn`, `pt_pt`
-will be mapped to `zh-TW`, `xh-CN`, `pt-PT`. The underscore will be replaced by
-a hyphen symbol and the subsequent characters will be capitalized.
-
-```bash
-npm run build build-esm-zh-TW
-```
-
-This will create a binary `esm__zh_tw.js` in the `dist/` folder.
 
 ### Running the demo app
 

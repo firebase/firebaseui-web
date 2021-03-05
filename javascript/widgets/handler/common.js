@@ -1060,7 +1060,6 @@ firebaseui.auth.widget.handler.common.handleSignInFetchSignInMethodsForEmail =
   if (!signInMethods.length && (app.getConfig().isEmailPasswordSignInAllowed()
           || app.getConfig().isEmailLinkSignInAllowed())) {
     if (app.getConfig().isEmailSignUpDisabled()) {
-      console.log('emailSignUpDisabled');
       // FirebaseUI auth instance disable sign up.
       firebaseui.auth.widget.handler.handle(
           firebaseui.auth.widget.HandlerName.UNAUTHORIZED_USER,
