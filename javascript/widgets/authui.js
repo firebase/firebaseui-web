@@ -88,6 +88,8 @@ goog.require('goog.Promise');
 goog.require('goog.array');
 goog.require('goog.events');
 goog.require('goog.events.EventType');
+goog.requireType('firebaseui.auth.PendingEmailCredential');
+goog.requireType('firebaseui.auth.ui.page.Base');
 
 
 
@@ -219,7 +221,7 @@ firebaseui.auth.AuthUI.resetAllInternals = function() {
 
 
 /**
- * @private {!Object.<!string, !firebaseui.auth.AuthUI>} Map containing the
+ * @private {!Object.<string, !firebaseui.auth.AuthUI>} Map containing the
  *     firebaseui.auth.AuthUI instances keyed by their app IDs.
  */
 firebaseui.auth.AuthUI.instances_ = {};

@@ -43,10 +43,14 @@ goog.require('firebaseui.auth.widget.handler.handlePasswordSignIn');
 goog.require('firebaseui.auth.widget.handler.handlePasswordSignUp');
 goog.require('firebaseui.auth.widget.handler.handlePhoneSignInFinish');
 goog.require('firebaseui.auth.widget.handler.handlePhoneSignInStart');
+goog.require('firebaseui.auth.widget.handler.handlePrefilledEmailSignIn');
 goog.require('firebaseui.auth.widget.handler.handleProviderSignIn');
+goog.require('firebaseui.auth.widget.handler.handleRevertSecondFactorAddition');
 goog.require('firebaseui.auth.widget.handler.handleSendEmailLinkForSignIn');
 goog.require('firebaseui.auth.widget.handler.handleSignIn');
+goog.require('firebaseui.auth.widget.handler.handleUnauthorizedUser');
 goog.require('firebaseui.auth.widget.handler.handleUnsupportedProvider');
+goog.require('firebaseui.auth.widget.handler.handleVerifyAndChangeEmail');
 goog.require('firebaseui.auth.widget.handler.testHelper');
 
 
@@ -133,6 +137,9 @@ function testHandlerRegistration() {
       firebaseui.auth.widget.handler.handleEmailLinkSignInCallback,
       firebaseui.auth.widget.handlers_[
           HandlerName.EMAIL_LINK_SIGN_IN_CALLBACK]);
+  assertEquals(
+      firebaseui.auth.widget.handler.handleUnauthorizedUser,
+      firebaseui.auth.widget.handlers_[HandlerName.UNAUTHORIZED_USER]);
   assertEquals(
       firebaseui.auth.widget.handler.handleUnsupportedProvider,
       firebaseui.auth.widget.handlers_[HandlerName.UNSUPPORTED_PROVIDER]);

@@ -27,6 +27,7 @@
 <translation id="1412449974349991050">Haiti</translation>
 <translation id="144766329299583285">Jika Anda tidak meminta perubahan pada email login, ada kemungkinan seseorang berusaha mengakses akun Anda. Sebaiknya Anda <ph name="START_LINK" />segera mengubah sandi<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">Pulau Heard dan Kepulauan McDonald</translation>
+<translation id="1451880131543823984"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> tidak diizinkan untuk melihat halaman yang diminta.</translation>
 <translation id="1479035434297790822">Terlalu banyak permintaan akun yang berasal dari alamat IP Anda. Coba beberapa menit lagi.</translation>
 <translation id="1483249363694224399">Sri Lanka</translation>
 <translation id="1507995441600689506">Sekarang Anda dapat login dengan akun baru</translation>
@@ -158,6 +159,7 @@
 <translation id="3521753471343796628">Irak</translation>
 <translation id="354888504916863713">Vietnam</translation>
 <translation id="3550380781997195832">Alamat email yang dimasukkan salah</translation>
+<translation id="3552446912357282301">Harap hubungi <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" /> untuk otorisasi.</translation>
 <translation id="3561568594856945084">Mayotte</translation>
 <translation id="3591063723610544836">Login</translation>
 <translation id="3593480381831738519">Reset sandi Anda</translation>
@@ -366,6 +368,7 @@
 <translation id="6951302238647056860">Kode ini sudah tidak valid</translation>
 <translation id="6961220857430789248">Email login dengan petunjuk tambahan telah dikirim ke <ph name="STRING" />. Buka email Anda untuk menyelesaikan proses login.</translation>
 <translation id="6984204927251307445">Konfirmasi email</translation>
+<translation id="6996552808101270965">Pelajari Lebih Lanjut</translation>
 <translation id="6999773882165218263">Nama depan &amp;amp; belakang</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Sahara Barat</translation>
@@ -395,6 +398,7 @@
 <translation id="7291656724505689727">Login dengan nomor telepon</translation>
 <translation id="7320029088567935126">Coba verifikasi email Anda lagi</translation>
 <translation id="7331038350037712642">Azerbaijan</translation>
+<translation id="7359542696390093035">Tidak Diizinkan</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">Link email tidak valid.</translation>
 <translation id="7477065998516229434">Persyaratan Layanan</translation>

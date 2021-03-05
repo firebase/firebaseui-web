@@ -84,11 +84,18 @@ interface ActionCodeSettings {
   dynamicLinkDomain?: string;
 }
 
+interface DisableSignUpConfig {
+  status: boolean;
+  adminEmail?: string;
+  helpLink?: string;
+}
+
 interface EmailSignInOption extends SignInOption {
   forceSameDevice?: boolean;
   requireDisplayName?: boolean;
   signInMethod?: string;
   emailLinkSignIn?(): ActionCodeSettings;
+  disableSignUp?: DisableSignUpConfig;
 }
 
 interface PhoneSignInOption extends SignInOption {

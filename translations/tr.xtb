@@ -27,6 +27,7 @@
 <translation id="1412449974349991050">Haiti</translation>
 <translation id="144766329299583285">Oturum açma e-postanızı değiştirmeyi siz istemediyseniz biri hesabınıza erişmeye çalışıyor olabilir. Bu durumda, <ph name="START_LINK" />şifrenizi hemen değiştirmelisiniz<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">Heard Adası ve McDonald Adaları</translation>
+<translation id="1451880131543823984"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> adlı e-posta adresinin istenen sayfayı görüntüleme yetkisi yok.</translation>
 <translation id="1479035434297790822">IP adresinizden çok fazla sayıda hesap isteği geliyor. Birkaç dakika içinde tekrar deneyin.</translation>
 <translation id="1483249363694224399">Sri Lanka</translation>
 <translation id="1507995441600689506">Artık yeni hesabınızla oturum açabilirsiniz</translation>
@@ -158,6 +159,7 @@
 <translation id="3521753471343796628">Irak</translation>
 <translation id="354888504916863713">Vietnam</translation>
 <translation id="3550380781997195832">E-posta adresi doğru değil</translation>
+<translation id="3552446912357282301">Yetki almak için lütfen <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" /> adresiyle iletişime geçin.</translation>
 <translation id="3561568594856945084">Mayot</translation>
 <translation id="3591063723610544836">Oturum açın</translation>
 <translation id="3593480381831738519">Şifrenizi sıfırlayın</translation>
@@ -366,6 +368,7 @@
 <translation id="6951302238647056860">Bu kod artık geçerli değil</translation>
 <translation id="6961220857430789248"><ph name="STRING" /> adresine ek talimatlar içeren bir oturum açma e-postası gönderildi. Oturum açma işlemini tamamlamak için e-postanızı kontrol edin.</translation>
 <translation id="6984204927251307445">E-posta adresini onaylayın</translation>
+<translation id="6996552808101270965">Daha Fazla Bilgi</translation>
 <translation id="6999773882165218263">Ad ve soyadı</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Batı Sahra</translation>
@@ -395,6 +398,7 @@
 <translation id="7291656724505689727">Telefonla oturum aç</translation>
 <translation id="7320029088567935126">E-postanızı tekrar doğrulamayı deneyin</translation>
 <translation id="7331038350037712642">Azerbaycan</translation>
+<translation id="7359542696390093035">Yetkiniz Yok</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">Geçersiz e-posta bağlantısı.</translation>
 <translation id="7477065998516229434">Hizmet Şartları</translation>

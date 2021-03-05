@@ -931,6 +931,38 @@ firebaseui.auth.OidcSignInOption.prototype.customParameters;
 
 
 /**
+ * Defines configurations for disabling email sign up.
+ *
+ * @interface
+ */
+firebaseui.auth.DisableSignUpConfig = function() {};
+
+/**
+ * Whether new user sign up with email/password or email link is disabled.
+ * The default is false.
+ *
+ * @type {boolean}
+ */
+firebaseui.auth.DisableSignUp.prototype.status;
+
+/**
+ * The optional site administrator email to contact for access when sign up is
+ * disabled.
+ *
+ * @type {string|undefined}
+ */
+firebaseui.auth.DisableSignUp.prototype.adminEmail;
+
+/**
+ * The optional help link to provide information on how to get access to the
+ * site when sign up is disabled.
+ *
+ * @type {string|undefined}
+ */
+firebaseui.auth.DisableSignUp.prototype.helpLink;
+
+
+/**
  * Defines the sign-in option needed to configure the FirebaseUI email sign-in
  * widget.
  *
@@ -963,6 +995,12 @@ firebaseui.auth.EmailSignInOption.prototype.signInMethod;
  * @type {boolean|undefined}
  */
 firebaseui.auth.EmailSignInOption.prototype.forceSameDevice;
+
+/**
+ * The object for configuring disableSignUp options.
+ * @type {firebaseui.auth.DisableSignUpConfig|undefined}
+ */
+firebaseui.auth.EmailSignInOption.prototype.disableSignUp;
 
 /**
  * Defines the optional callback function to return

@@ -47,6 +47,7 @@ goog.require('firebaseui.auth.widget.handler.handleEmailLinkConfirmation');
  */
 goog.require('firebaseui.auth.widget.handler.handleEmailLinkNewDeviceLinking');
 goog.require('goog.Promise');
+goog.requireType('firebaseui.auth.ui.page.Base');
 
 
 /**
@@ -297,16 +298,19 @@ firebaseui.auth.widget.handler.completeEmailLinkSignIn_ = function(
         if (error['name'] && error['name'] == 'cancel') {
           return;
         }
-        var errorMessage =
-            firebaseui.auth.widget.handler.common.getErrorMessage(error);
-        if (error['code'] == 'auth/email-already-in-use' ||
-            error['code'] == 'auth/credential-already-in-use') {
+        const normalizedError =
+            firebaseui.auth.widget.handler.common.normalizeError(error);
+        let errorMessage =
+            firebaseui.auth.widget.handler.common.getErrorMessage(
+                normalizedError);
+        if (normalizedError['code'] == 'auth/email-already-in-use' ||
+            normalizedError['code'] == 'auth/credential-already-in-use') {
           // Clear credentials and email before handing off credential to
           // developer.
           firebaseui.auth.storage.removeEncryptedPendingCredential(
               app.getAppId());
           firebaseui.auth.storage.removeEmailForSignIn(app.getAppId());
-        } else if (error['code'] == 'auth/invalid-email') {
+        } else if (normalizedError['code'] == 'auth/invalid-email') {
           // User provided an invalid email. Ask for confirmation again.
           // On email confirmation, call this handler again with
           // skipCodeCheck set to true.

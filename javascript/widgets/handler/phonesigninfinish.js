@@ -29,6 +29,8 @@ goog.require('firebaseui.auth.widget.Handler');
 goog.require('firebaseui.auth.widget.HandlerName');
 goog.require('firebaseui.auth.widget.handler');
 goog.require('firebaseui.auth.widget.handler.common');
+goog.requireType('firebaseui.auth.widget.Config');
+goog.requireType('goog.Promise');
 
 
 /**
@@ -177,11 +179,14 @@ firebaseui.auth.widget.handler.onPhoneSignInFinishSubmit_ = function(
           component.dismissDialog();
           return;
         }
+        const normalizedError =
+            firebaseui.auth.widget.handler.common.normalizeError(error);
         // Get error message.
-        var errorMessage =
-            firebaseui.auth.widget.handler.common.getErrorMessage(error);
+        const errorMessage =
+            firebaseui.auth.widget.handler.common.getErrorMessage(
+                normalizedError);
         // Some errors are recoverable while others require resending the code.
-        switch (error['code']) {
+        switch (normalizedError['code']) {
           case 'auth/credential-already-in-use':
             // Do nothing when anonymous user is getting upgraded.
             // Developer should handle this in signInFailure callback.

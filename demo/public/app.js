@@ -60,7 +60,12 @@ function getUiConfig() {
         provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
         // Whether the display name should be displayed in Sign Up page.
         requireDisplayName: true,
-        signInMethod: getEmailSignInMethod()
+        signInMethod: getEmailSignInMethod(),
+        disableSignUp: {
+          adminEmail: 'admin@example.com',
+          helpLink: 'https://www.example.com/trouble_signing_in',
+          status: getDisableSignUpStatus()
+        }
       },
       {
         provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
@@ -190,9 +195,11 @@ function handleConfigChange() {
       'input[name="recaptcha"]:checked').value;
   var newEmailSignInMethodValue = document.querySelector(
       'input[name="emailSignInMethod"]:checked').value;
+  var currentStatus = document.getElementById("email-disableSignUp-status").checked;
   location.replace(
       location.pathname + '#recaptcha=' + newRecaptchaValue +
-      '&emailSignInMethod=' + newEmailSignInMethodValue);
+      '&emailSignInMethod=' + newEmailSignInMethodValue +
+      '&disableEmailSignUpStatus=' + currentStatus);
 
   // Reset the inline widget so the config changes are reflected.
   ui.reset();
@@ -233,6 +240,9 @@ var initApp = function() {
   document.querySelector(
       'input[name="emailSignInMethod"][value="' + getEmailSignInMethod() + '"]')
       .checked = true;
+  document.getElementById('email-disableSignUp-status').addEventListener(
+    'change', handleConfigChange);
+  document.getElementById("email-disableSignUp-status").checked = getDisableSignUpStatus();  
 };
 
 window.addEventListener('load', initApp);

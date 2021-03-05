@@ -44,7 +44,12 @@
           firebase.auth.GithubAuthProvider.PROVIDER_ID,
           {
             provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
-            signInMethod: getEmailSignInMethod()
+            signInMethod: getEmailSignInMethod(),
+            disableSignUp: {
+              adminEmail: 'admin@example.com',
+              helpLink: 'https://www.example.com/trouble_signing_in',
+              status: getDisableSignUpStatus()
+            }
           },
           {
             provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
