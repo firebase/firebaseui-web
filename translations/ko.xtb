@@ -27,6 +27,7 @@
 <translation id="1412449974349991050">아이티</translation>
 <translation id="144766329299583285">로그인 이메일 변경을 요청한 적이 없다면 다른 사람이 계정 액세스를 시도하고 있는 경우일 수 있습니다. <ph name="START_LINK" />비밀번호를 지금 바로 변경<ph name="END_LINK" />하시기 바랍니다.</translation>
 <translation id="1449981769524156676">허드 맥도널드 제도</translation>
+<translation id="1451880131543823984"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />은(는) 요청된 페이지를 볼 수 있는 권한이 없습니다.</translation>
 <translation id="1479035434297790822">IP 주소에서 계정 요청이 너무 많이 발생하고 있습니다. 잠시 후에 다시 시도해 주세요.</translation>
 <translation id="1483249363694224399">스리랑카</translation>
 <translation id="1507995441600689506">이제 새 계정으로 로그인할 수 있습니다.</translation>
@@ -158,6 +159,7 @@
 <translation id="3521753471343796628">이라크</translation>
 <translation id="354888504916863713">베트남</translation>
 <translation id="3550380781997195832">이메일 주소가 잘못되었습니다.</translation>
+<translation id="3552446912357282301">승인에 관한 내용은 사이트 관리자(<ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" />)에게 문의하세요.</translation>
 <translation id="3561568594856945084">마요트</translation>
 <translation id="3591063723610544836">로그인</translation>
 <translation id="3593480381831738519">비밀번호 재설정</translation>
@@ -366,6 +368,7 @@
 <translation id="6951302238647056860">더 이상 유효하지 않은 코드입니다.</translation>
 <translation id="6961220857430789248">추가 안내가 포함된 로그인 이메일이 <ph name="STRING" />(으)로 전송되었습니다. 이메일을 확인하여 로그인을 완료하세요.</translation>
 <translation id="6984204927251307445">이메일 확인</translation>
+<translation id="6996552808101270965">자세히 알아보기</translation>
 <translation id="6999773882165218263">이름</translation>
 <translation id="7012506961150923116">그레나다</translation>
 <translation id="7024571478138322659">서사하라</translation>
@@ -395,6 +398,7 @@
 <translation id="7291656724505689727">전화로 로그인</translation>
 <translation id="7320029088567935126">이메일 인증 재시도</translation>
 <translation id="7331038350037712642">아제르바이잔</translation>
+<translation id="7359542696390093035">승인되지 않음</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">잘못된 이메일 링크</translation>
 <translation id="7477065998516229434">서비스 약관</translation>

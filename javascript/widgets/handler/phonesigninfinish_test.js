@@ -24,6 +24,7 @@ goog.setTestOnly('firebaseui.auth.widget.handler.PhoneSignInFinishTest');
 goog.require('firebaseui.auth.PhoneAuthResult');
 goog.require('firebaseui.auth.PhoneNumber');
 goog.require('firebaseui.auth.soy2.strings');
+goog.require('firebaseui.auth.widget.handler');
 goog.require('firebaseui.auth.widget.handler.common');
 goog.require('firebaseui.auth.widget.handler.handlePhoneSignInFinish');
 /** @suppress {extraRequire} Required for page navigation. */
@@ -558,6 +559,78 @@ function testHandlePhoneSignInFinish_error_miscError() {
     // Expected info bar message.
     assertInfoBarMessage(
         firebaseui.auth.widget.handler.common.getErrorMessage(internalError));
+    // Should remain on the same page.
+    assertPhoneSignInFinishPage();
+  });
+}
+
+
+function testHandlePhoneSignInFinish_error_blockingfunctionError() {
+  // Test when an nested error thrown by blocking function
+  // has been parsed correctly.
+  // Render phone sign in finish UI.
+  const blockingfunctionError = {
+    'code': '400',
+    'message':
+        'BLOCKING_FUNCTION_ERROR_RESPONSE : HTTP Cloud Fun' +
+        'ction returned an error: {\"error\":{\"code\":400,' +
+        '\"message\":\"Unauthorized phone number\"' +
+        ',\"status\":\"INVALID_ARGUMENT\"}}',
+  };
+  const expectedError = {
+    'code': '400',
+    'message': 'Unauthorized phone number',
+  };
+  firebaseui.auth.widget.handler.handlePhoneSignInFinish(
+      app, container, phoneNumberValue, resendDelaySeconds,
+      createMockPhoneAuthResultWithError(blockingfunctionError));
+  // Confirm expected page rendered.
+  assertPhoneSignInFinishPage();
+  // Simulate code provided.
+  goog.dom.forms.setValue(getPhoneConfirmationCodeElement(), '123456');
+  // Submit form.
+  submitForm();
+  // Loading dialog should show.
+  assertDialog(
+      firebaseui.auth.soy2.strings.dialogVerifyingPhoneNumber().toString());
+  return goog.Promise.resolve().then(function() {
+    // Dialog should be dismissed.
+    assertNoDialog();
+    // Expected info bar message.
+    assertInfoBarMessage(
+        firebaseui.auth.widget.handler.common.getErrorMessage(expectedError));
+    // Should remain on the same page.
+    assertPhoneSignInFinishPage();
+  });
+}
+
+
+function testHandlePhoneSignInFinish_error_adminRestrictedOperation() {
+  // Test when an admin restricted error is thrown during verification, no
+  // page navigation occurs and only an info bar message is shown.
+  // Render phone sign in finish UI.
+  const expectedError = {
+    'code': 'auth/admin-restricted-operation',
+    'message': 'ADMIN_ONLY_OPERATION',
+  };
+  firebaseui.auth.widget.handler.handlePhoneSignInFinish(
+      app, container, phoneNumberValue, resendDelaySeconds,
+      createMockPhoneAuthResultWithError(expectedError));
+  // Confirm expected page rendered.
+  assertPhoneSignInFinishPage();
+  // Simulate code provided.
+  goog.dom.forms.setValue(getPhoneConfirmationCodeElement(), '123456');
+  // Submit form.
+  submitForm();
+  // Loading dialog should show.
+  assertDialog(
+      firebaseui.auth.soy2.strings.dialogVerifyingPhoneNumber().toString());
+  return goog.Promise.resolve().then(function() {
+    // Dialog should be dismissed.
+    assertNoDialog();
+    // Expected info bar message.
+    assertInfoBarMessage(
+        firebaseui.auth.widget.handler.common.getErrorMessage(expectedError));
     // Should remain on the same page.
     assertPhoneSignInFinishPage();
   });

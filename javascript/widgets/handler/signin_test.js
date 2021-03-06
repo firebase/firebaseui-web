@@ -20,12 +20,15 @@ goog.provide('firebaseui.auth.widget.handler.SignInTest');
 goog.setTestOnly('firebaseui.auth.widget.handler.SignInTest');
 
 goog.require('firebaseui.auth.widget.Config');
+goog.require('firebaseui.auth.widget.handler.common');
 /** @suppress {extraRequire} Required for page navigation to work. */
 goog.require('firebaseui.auth.widget.handler.handleFederatedSignIn');
 goog.require('firebaseui.auth.widget.handler.handlePasswordRecovery');
 /** @suppress {extraRequire} Required for page navigation to work. */
 goog.require('firebaseui.auth.widget.handler.handlePasswordSignIn');
 goog.require('firebaseui.auth.widget.handler.handleSignIn');
+/** @suppress {extraRequire} Required for page navigation to work. */
+goog.require('firebaseui.auth.widget.handler.handleUnauthorizedUser');
 goog.require('firebaseui.auth.widget.handler.testHelper');
 goog.require('goog.dom');
 goog.require('goog.dom.forms');
@@ -225,4 +228,28 @@ function testHandleSignIn_inProcessing() {
       .then(function() {
         assertPasswordSignInPage();
       });
+}
+
+
+function testHandleSignIn_newUserWithEmailSignUpDisabled() {
+  app.updateConfig('signInOptions',
+    [{
+      'provider': 'password',
+      'requireDisplayName': false,
+      'disableSignUp': {
+        'status': true,
+      }
+    }]
+  );
+  firebaseui.auth.widget.handler.handleSignIn(app, container);
+  assertSignInPage();
+  const emailInput = getEmailElement();
+  goog.dom.forms.setValue(emailInput, 'user@example.com');
+  goog.testing.events.fireKeySequence(emailInput, goog.events.KeyCodes.ENTER);
+  assertTrue(app.getConfig().isEmailSignUpDisabled());
+  testAuth.assertFetchSignInMethodsForEmail(
+      ['user@example.com'], []);
+  return testAuth.process().then(function() {
+    assertUnauthorizedUserPage();
+  });
 }

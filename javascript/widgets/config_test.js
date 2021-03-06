@@ -17,6 +17,7 @@
 goog.module('firebaseui.auth.widget.ConfigTest');
 goog.setTestOnly();
 
+const COUNTRY_LIST = goog.require('firebaseui.auth.data.country.COUNTRY_LIST');
 const Config = goog.require('firebaseui.auth.widget.Config');
 const FakeUtil = goog.require('firebaseui.auth.testing.FakeUtil');
 const PropertyReplacer = goog.require('goog.testing.PropertyReplacer');
@@ -449,13 +450,13 @@ testSuite({
       'expired-callback': function() {},
     };
     config.update(
-      'signInOptions',
-      ['github.com', {'provider': 'google.com'},
-       {
-         'provider': 'phone',
-         'recaptchaParameters': disallowlist
-       },
-       'password']);
+        'signInOptions',
+        ['github.com', {'provider': 'google.com'},
+         {
+           'provider': 'phone',
+           'recaptchaParameters': disallowlist
+         },
+         'password']);
     assertObjectEquals({}, config.getRecaptchaParameters());
     // Expected warning should be logged.
     assertArrayEquals(
@@ -576,6 +577,73 @@ testSuite({
           'allow_signup': 'false',
         },
         config.getProviderCustomParameters('github.com'));
+  },
+
+  testIsEmailSignUpDisabled() {
+    assertFalse(config.isEmailSignUpDisabled());
+    config.update('signInOptions', [
+      {
+        'provider': 'password',
+        'requireDisplayName': true,
+        'disableSignUp': {
+          'status': true,
+        }
+      },
+    ]);
+    assertTrue(config.isEmailSignUpDisabled());
+  },
+
+  testGetEmailProviderAdminEmail() {
+    assertNull(config.getEmailProviderAdminEmail());
+    const adminEmail = 'admin@example.com';
+    config.update('signInOptions', [
+      {
+        'provider': 'password',
+        'requireDisplayName': true,
+        'disableSignUp': {
+          'status':  false,
+          'adminEmail': adminEmail,
+        }
+      }
+    ]);
+    assertEquals(adminEmail, config.getEmailProviderAdminEmail());
+  },
+
+  testGetEmailProviderHelperLink() {
+    assertNull(config.getEmailProviderHelperLink());
+    let helpLink = 'https://www.example.com/trouble_signing_in';
+    config.update('signInOptions', [
+      {
+        'provider': 'password',
+        'requireDisplayName': true,
+        'disableSignUp': {
+          'status': true,
+          'helpLink': helpLink,
+        }
+      }
+    ]);
+    let helpLinkCallback = config.getEmailProviderHelperLink();
+    helpLinkCallback();
+    testUtil.assertOpen(helpLink, '_blank');
+    stub.replace(
+        util,
+        'isCordovaInAppBrowserInstalled',
+        () => true);
+    helpLinkCallback();
+    // Target should be _system if Cordova InAppBrowser plugin is installed.
+    testUtil.assertOpen(helpLink, '_system');
+    helpLink = 1023;
+    config.update('signInOptions', [
+      {
+        'provider': 'password',
+        'requireDisplayName': true,
+        'disableSignUp': {
+          'status': true,
+          'helpLink': helpLink,
+        }
+      }
+    ]);
+    assertNull(config.getEmailProviderHelperLink());
   },
 
   testIsAccountSelectionPromptEnabled_googleLoginHint() {
@@ -949,7 +1017,7 @@ testSuite({
       'provider': 'phone',
     }]);
     const countries = config.getPhoneAuthAvailableCountries();
-    assertSameElements(firebaseui.auth.data.country.COUNTRY_LIST, countries);
+    assertSameElements(COUNTRY_LIST, countries);
   },
 
   testGetPhoneAuthSelectedCountries_emptyBlacklist() {
@@ -958,7 +1026,7 @@ testSuite({
       'blacklistedCountries': [],
     }]);
     const countries = config.getPhoneAuthAvailableCountries();
-    assertSameElements(firebaseui.auth.data.country.COUNTRY_LIST, countries);
+    assertSameElements(COUNTRY_LIST, countries);
   },
 
   testUpdateConfig_phoneSignInOption_error() {

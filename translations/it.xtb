@@ -27,6 +27,7 @@
 <translation id="1412449974349991050">Haiti</translation>
 <translation id="144766329299583285">Se non hai chiesto di modificare l'indirizzo email di accesso, è possibile che qualcuno stia tentando di accedere al tuo account e dovresti <ph name="START_LINK" />cambiare subito la password<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">Isole Heard e McDonald</translation>
+<translation id="1451880131543823984"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> non ha l'autorizzazione a visualizzare la pagina richiesta.</translation>
 <translation id="1479035434297790822">Troppe richieste di account provenienti dal tuo indirizzo IP. Riprova tra qualche minuto.</translation>
 <translation id="1483249363694224399">Sri Lanka</translation>
 <translation id="1507995441600689506">Ora puoi accedere con il tuo nuovo account</translation>
@@ -158,6 +159,7 @@
 <translation id="3521753471343796628">Iraq</translation>
 <translation id="354888504916863713">Vietnam</translation>
 <translation id="3550380781997195832">L'indirizzo email non è corretto</translation>
+<translation id="3552446912357282301">Contatta <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" /> per richiedere l'autorizzazione.</translation>
 <translation id="3561568594856945084">Mayotte</translation>
 <translation id="3591063723610544836">Accedi</translation>
 <translation id="3593480381831738519">Reimposta password</translation>
@@ -366,6 +368,7 @@
 <translation id="6951302238647056860">Questo codice non è più valido</translation>
 <translation id="6961220857430789248">Un'email di accesso con ulteriori istruzioni è stata inviata all'indirizzo <ph name="STRING" />. Controlla la tua casella di posta per completare l'accesso.</translation>
 <translation id="6984204927251307445">Conferma email</translation>
+<translation id="6996552808101270965">Scopri di più</translation>
 <translation id="6999773882165218263">Nome e cognome</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Sahara occidentale</translation>
@@ -395,6 +398,7 @@
 <translation id="7291656724505689727">Accedi con il telefono</translation>
 <translation id="7320029088567935126">Prova a verificare di nuovo il tuo indirizzo email</translation>
 <translation id="7331038350037712642">Azerbaigian</translation>
+<translation id="7359542696390093035">Non autorizzato</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">Link via email non valido</translation>
 <translation id="7477065998516229434">Termini di servizio</translation>

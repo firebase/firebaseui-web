@@ -82,12 +82,16 @@ goog.require('firebaseui.auth.widget.handler.handleSendEmailLinkForSignIn');
 /** @suppress {extraRequire} */
 goog.require('firebaseui.auth.widget.handler.handleSignIn');
 /** @suppress {extraRequire} */
+goog.require('firebaseui.auth.widget.handler.handleUnauthorizedUser');
+/** @suppress {extraRequire} */
 goog.require('firebaseui.auth.widget.handler.handleUnsupportedProvider');
 goog.require('firebaseui.auth.widget.handler.startSignIn');
 goog.require('goog.Promise');
 goog.require('goog.array');
 goog.require('goog.events');
 goog.require('goog.events.EventType');
+goog.requireType('firebaseui.auth.PendingEmailCredential');
+goog.requireType('firebaseui.auth.ui.page.Base');
 
 
 
@@ -219,7 +223,7 @@ firebaseui.auth.AuthUI.resetAllInternals = function() {
 
 
 /**
- * @private {!Object.<!string, !firebaseui.auth.AuthUI>} Map containing the
+ * @private {!Object.<string, !firebaseui.auth.AuthUI>} Map containing the
  *     firebaseui.auth.AuthUI instances keyed by their app IDs.
  */
 firebaseui.auth.AuthUI.instances_ = {};

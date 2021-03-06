@@ -46,6 +46,7 @@ goog.require('firebaseui.auth.widget.handler.handlePasswordSignIn');
 /** @suppress {extraRequire} Required for page navigation after form submission
  *      to work. */
 goog.require('firebaseui.auth.widget.handler.handleProviderSignIn');
+goog.require('firebaseui.auth.widget.handler.startSignIn');
 goog.require('goog.Promise');
 goog.require('goog.dom');
 goog.require('goog.dom.TagName');
@@ -56,6 +57,7 @@ goog.require('goog.testing.MockClock');
 goog.require('goog.testing.MockControl');
 goog.require('goog.testing.PropertyReplacer');
 goog.require('goog.testing.jsunit');
+goog.require('goog.testing.mockmatchers');
 goog.require('goog.testing.recordFunction');
 
 goog.setTestOnly('firebaseui.auth.AuthUITest');

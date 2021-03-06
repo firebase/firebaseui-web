@@ -22,6 +22,7 @@ goog.setTestOnly('firebaseui.auth.widget.handler.PhoneSignInStartTest');
 goog.require('firebaseui.auth.AuthUIError');
 goog.require('firebaseui.auth.PhoneNumber');
 goog.require('firebaseui.auth.soy2.strings');
+goog.require('firebaseui.auth.widget.handler');
 goog.require('firebaseui.auth.widget.handler.common');
 /** @suppress {extraRequire} Required for page navigation. */
 goog.require('firebaseui.auth.widget.handler.handlePhoneSignInFinish');

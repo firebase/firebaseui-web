@@ -27,6 +27,7 @@
 <translation id="1412449974349991050">Haiti</translation>
 <translation id="144766329299583285">Če niste zahtevali spremembe e-poštnega naslova za prijavo, morda nekdo poskuša dostopati do vašega računa. <ph name="START_LINK" />Takoj spremenite geslo<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">Heardov otok in McDonaldovi otoki</translation>
+<translation id="1451880131543823984">Uporabnik <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> nima dovoljenja za ogled zahtevane strani.</translation>
 <translation id="1479035434297790822">Z vašega naslova IP prihaja preveč zahtev za ustvarjanje novih računov. Poskusite znova čez nekaj minut.</translation>
 <translation id="1483249363694224399">Šrilanka</translation>
 <translation id="1507995441600689506">Zdaj se lahko prijavite z novim računom</translation>
@@ -156,6 +157,7 @@
 <translation id="3521753471343796628">Irak</translation>
 <translation id="354888504916863713">Vietnam</translation>
 <translation id="3550380781997195832">E-poštni naslov ni pravilen</translation>
+<translation id="3552446912357282301">Za dovoljenje se obrnite na skrbnika <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" />.</translation>
 <translation id="3561568594856945084">Mayotte</translation>
 <translation id="3591063723610544836">Prijava</translation>
 <translation id="3593480381831738519">Ponastavitev gesla</translation>
@@ -362,6 +364,7 @@
 <translation id="6951302238647056860">Ta koda ni več veljavna</translation>
 <translation id="6961220857430789248">E-poštno sporočilo za prijavo z dodatnimi navodili je bilo poslano na <ph name="STRING" />. Preverite e-pošto in dokončajte prijavo.</translation>
 <translation id="6984204927251307445">Potrditev e-poštnega naslova</translation>
+<translation id="6996552808101270965">Več o tem</translation>
 <translation id="6999773882165218263">Ime in priimek</translation>
 <translation id="7012506961150923116">Granada</translation>
 <translation id="7024571478138322659">Zahodna Sahara</translation>
@@ -391,6 +394,7 @@
 <translation id="7291656724505689727">Prijava s telefonom</translation>
 <translation id="7320029088567935126">E-poštni naslov preverite znova</translation>
 <translation id="7331038350037712642">Azerbajdžan</translation>
+<translation id="7359542696390093035">Nimate dovoljenja</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">Neveljavna e-poštna povezava.</translation>
 <translation id="7477065998516229434">pogoji storitve</translation>

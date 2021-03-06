@@ -26,7 +26,10 @@ goog.require('firebaseui.auth.widget.Handler');
 goog.require('firebaseui.auth.widget.HandlerName');
 goog.require('firebaseui.auth.widget.handler');
 goog.require('firebaseui.auth.widget.handler.common');
+goog.require('goog.json');
 goog.require('goog.string');
+goog.requireType('firebaseui.auth.widget.Config');
+goog.requireType('goog.Promise');
 
 
 /**
@@ -141,16 +144,18 @@ firebaseui.auth.widget.handler.onSignUpSubmit_ = function(app, component) {
         if (error['name'] && error['name'] == 'cancel') {
           return;
         }
-        var errorMessage =
-            firebaseui.auth.widget.handler.common.getErrorMessage(error);
-        switch (error['code']) {
+        const normalizedError =
+            firebaseui.auth.widget.handler.common.normalizeError(error);
+        let errorMessage =
+            firebaseui.auth.widget.handler.common.getErrorMessage(
+                normalizedError);
+        switch (normalizedError['code']) {
           case 'auth/email-already-in-use':
             // Check if the user is locked out of their account or just display
             // the email exists error.
             return firebaseui.auth.widget.handler.onEmailExists_(
-                app, component, /** @type {string} */ (email), error);
+                app, component, /** @type {string} */ (email), normalizedError);
             break;
-
           case 'auth/too-many-requests':
             errorMessage = firebaseui.auth.soy2.strings
                 .errorTooManyRequestsCreateAccount().toString();
@@ -163,10 +168,9 @@ firebaseui.auth.widget.handler.onSignUpSubmit_ = function(app, component) {
                 component.getNewPasswordErrorElement(),
                 errorMessage);
             break;
-
           default:
             firebaseui.auth.log.error(
-                'setAccountInfo: ' + goog.json.serialize(error));
+                'setAccountInfo: ' + goog.json.serialize(normalizedError));
             component.showInfoBar(errorMessage);
             break;
         }

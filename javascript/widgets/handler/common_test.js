@@ -41,6 +41,7 @@ goog.require('firebaseui.auth.widget.handler.handleProviderSignIn');
 /** @suppress {extraRequire} */
 goog.require('firebaseui.auth.widget.handler.handleSendEmailLinkForSignIn');
 goog.require('firebaseui.auth.widget.handler.handleSignIn');
+goog.require('firebaseui.auth.widget.handler.handleUnauthorizedUser');
 goog.require('firebaseui.auth.widget.handler.testHelper');
 goog.require('goog.dom.forms');
 goog.require('goog.testing.AsyncTestCase');
@@ -1072,6 +1073,29 @@ function testHandleSignInWithEmail() {
   /** @suppress {missingRequire} */
   assertEquals(0,
       firebaseui.auth.storage.setRedirectStatus.getCallCount());
+}
+
+
+function testHandleSignInFetchSignInMethodsForEmail_unauthorizeduser() {
+  const helpLink = 'https://www.example.com/trouble_signing_in';
+  const adminEmail = 'admin@example.com';
+  app.updateConfig('signInOptions', [
+    {
+      'provider': 'password',
+      'requireDisplayName': true,
+      'disableSignUp': {
+        'status': true,
+        'helpLink': helpLink,
+        'adminEmail': adminEmail,
+      }
+    }
+  ]);
+  const signInMethods = [];
+  const email = 'user@example.com';
+  firebaseui.auth.widget.handler.common.handleSignInFetchSignInMethodsForEmail(
+      app, container, signInMethods, email);
+  // Unauthorized user page is rendered.
+  assertUnauthorizedUserPage();
 }
 
 

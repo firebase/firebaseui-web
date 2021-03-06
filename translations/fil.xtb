@@ -27,6 +27,7 @@
 <translation id="1412449974349991050">Haiti</translation>
 <translation id="144766329299583285">Kung hindi mo hiniling na baguhin ang iyong email sa pag-sign in, posibleng may taong sinusubukang i-access ang iyong account at dapat mong <ph name="START_LINK" />palitan ang iyong password kaagad<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">Heard Island and McDonald Islands</translation>
+<translation id="1451880131543823984">Walang pahintulot ang<ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> na tingnan ang hiniling na page.</translation>
 <translation id="1479035434297790822">Masyadong maraming kahilingan ng account mula sa iyong IP address. Subukang muli pagkalipas ng ilang minuto.</translation>
 <translation id="1483249363694224399">Sri Lanka</translation>
 <translation id="1507995441600689506">Makakapag-sign in ka na ngayon gamit ang iyong bagong account</translation>
@@ -156,6 +157,7 @@
 <translation id="3521753471343796628">Iraq</translation>
 <translation id="354888504916863713">Vietnam</translation>
 <translation id="3550380781997195832">Mali ang email address na iyon</translation>
+<translation id="3552446912357282301">Makipag-ugnayan sa <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" /> para sa pahintulot.</translation>
 <translation id="3561568594856945084">Mayotte</translation>
 <translation id="3591063723610544836">Mag-sign in</translation>
 <translation id="3593480381831738519">I-reset ang iyong password</translation>
@@ -362,6 +364,7 @@
 <translation id="6951302238647056860">Wala nang bisa ang code na ito</translation>
 <translation id="6961220857430789248">Nagpadala ng email sa pag-sign in na may mga karagdagang tagubilin sa <ph name="STRING" />. Tingnan ang iyong email para makumpleto ang pag-sign in.</translation>
 <translation id="6984204927251307445">Kumpirmahin ang email</translation>
+<translation id="6996552808101270965">Matuto Pa</translation>
 <translation id="6999773882165218263">Pangalan at apelyido</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Western Sahara</translation>
@@ -391,6 +394,7 @@
 <translation id="7291656724505689727">Mag-sign in gamit ang telepono</translation>
 <translation id="7320029088567935126">Subukang i-verify muli ang iyong email</translation>
 <translation id="7331038350037712642">Azerbaijan</translation>
+<translation id="7359542696390093035">Hindi Pinahintulutan</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">Invalid na link ng email.</translation>
 <translation id="7477065998516229434">Mga Tuntunin ng Serbisyo</translation>

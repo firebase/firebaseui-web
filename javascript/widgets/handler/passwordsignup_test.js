@@ -523,6 +523,67 @@ function testHandlePasswordSignUp_otherError() {
 }
 
 
+function testHandlePasswordSignUp_blockingfunctionError() {
+  // Test when a nested error thrown by blocking function has been parsed
+  // correctly.
+  // Render password sign up UI.
+  firebaseui.auth.widget.handler.handlePasswordSignUp(
+      app, container, passwordAccount.getEmail());
+  const blockingfunctionError = {
+    'code': '400',
+    'message':
+        'BLOCKING_FUNCTION_ERROR_RESPONSE : HTTP Cloud Fun' +
+        'ction returned an error: {\"error\":{\"code\":400,' +
+        '\"message\":\"Unauthorized email abcd@evil.com\"' +
+        ',\"status\":\"INVALID_ARGUMENT\"}}',
+  };
+  const expectedError =
+  {
+    'code': '400',
+    'message': 'Unauthorized email abcd@evil.com',
+  };
+  assertPasswordSignUpPage();
+  goog.dom.forms.setValue(getNameElement(), 'Password User');
+  goog.dom.forms.setValue(getNewPasswordElement(), '123123');
+  submitForm();
+  testAuth.assertCreateUserWithEmailAndPassword(
+      [passwordAccount.getEmail(), '123123'], null, blockingfunctionError);
+  return testAuth.process().then(function() {
+    // Password sign up page should remain.
+    assertPasswordSignUpPage();
+    // Info bar message should be shown.
+    assertInfoBarMessage(
+        firebaseui.auth.widget.handler.common.getErrorMessage(expectedError));
+  });
+}
+
+
+function testHandlePasswordSignUp_adminRestrictedOperation() {
+  // Test when an admin restricted error is thrown during verification, no
+  // page navigation occurs and only an info bar message is shown.
+  // Render password sign up UI.
+  const error = {
+    'code': 'auth/admin-restricted-operation',
+    'message': 'ADMIN_ONLY_OPERATION',
+  };
+  firebaseui.auth.widget.handler.handlePasswordSignUp(
+      app, container, passwordAccount.getEmail());
+  assertPasswordSignUpPage();
+  goog.dom.forms.setValue(getNameElement(), 'Password User');
+  goog.dom.forms.setValue(getNewPasswordElement(), '123123');
+  submitForm();
+  testAuth.assertCreateUserWithEmailAndPassword(
+      [passwordAccount.getEmail(), '123123'], null, error);
+  return testAuth.process().then(function() {
+    // Password sign up page should remain.
+    assertPasswordSignUpPage();
+    // Info bar message should be shown.
+    assertInfoBarMessage(
+        firebaseui.auth.widget.handler.common.getErrorMessage(error));
+  });
+}
+
+
 function testHandlePasswordSignUp_emailEmpty() {
   firebaseui.auth.widget.handler.handlePasswordSignUp(app, container);
   assertPasswordSignUpPage();

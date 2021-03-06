@@ -27,6 +27,7 @@
 <translation id="1412449974349991050">海地</translation>
 <translation id="144766329299583285">如果您并未请求更改您的登录电子邮件地址，那么可能是有人正在试图访问您的帐号，您应该<ph name="START_LINK" />立即更改您的密码<ph name="END_LINK" />。</translation>
 <translation id="1449981769524156676">赫德岛和麦克唐纳群岛</translation>
+<translation id="1451880131543823984"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> 已获授权，可以查看所请求的页面。</translation>
 <translation id="1479035434297790822">来自您的 IP 地址的帐号请求过多，请过几分钟再试。</translation>
 <translation id="1483249363694224399">斯里兰卡</translation>
 <translation id="1507995441600689506">现在您可以使用新帐号登录了</translation>
@@ -160,6 +161,7 @@
 <translation id="3521753471343796628">伊拉克</translation>
 <translation id="354888504916863713">越南</translation>
 <translation id="3550380781997195832">该电子邮件地址不正确</translation>
+<translation id="3552446912357282301">请与 <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" /> 联系来申请授权。</translation>
 <translation id="3561568594856945084">马约特岛</translation>
 <translation id="3591063723610544836">登录</translation>
 <translation id="3593480381831738519">重置您的密码</translation>
@@ -368,6 +370,7 @@
 <translation id="6951302238647056860">此验证码已失效</translation>
 <translation id="6961220857430789248">系统已将含附加说明的登录电子邮件发送至 <ph name="STRING" />。请查收电子邮件以完成登录。</translation>
 <translation id="6984204927251307445">确认电子邮件地址</translation>
+<translation id="6996552808101270965">了解详情</translation>
 <translation id="6999773882165218263">姓名</translation>
 <translation id="7012506961150923116">格林纳达</translation>
 <translation id="7024571478138322659">西撒哈拉</translation>
@@ -397,6 +400,7 @@
 <translation id="7291656724505689727">使用电话号码登录</translation>
 <translation id="7320029088567935126">尝试重新验证您的电子邮件地址</translation>
 <translation id="7331038350037712642">阿塞拜疆</translation>
+<translation id="7359542696390093035">未获授权</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">电子邮件链接无效。</translation>
 <translation id="7477065998516229434">服务条款</translation>

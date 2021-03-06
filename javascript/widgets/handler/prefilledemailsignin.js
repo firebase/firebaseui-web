@@ -23,6 +23,7 @@ goog.require('firebaseui.auth.widget.Handler');
 goog.require('firebaseui.auth.widget.HandlerName');
 goog.require('firebaseui.auth.widget.handler');
 goog.require('firebaseui.auth.widget.handler.common');
+goog.requireType('goog.Promise');
 
 /**
  * Handles sign-in with prefilled email flow. It's triggered when an email hint

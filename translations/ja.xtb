@@ -27,6 +27,7 @@
 <translation id="1412449974349991050">ハイチ</translation>
 <translation id="144766329299583285">ログイン メールアドレスの変更をリクエストしていない場合は、誰かがあなたのアカウントにアクセスしようとしている可能性があります。<ph name="START_LINK" />今すぐパスワードを変更してください<ph name="END_LINK" />。</translation>
 <translation id="1449981769524156676">ハード島およびマクドナルド諸島</translation>
+<translation id="1451880131543823984"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> にはリクエストされたページを閲覧する権限がありません。</translation>
 <translation id="1479035434297790822">この IP アドレスから多くのアカウント リクエストが送信されています。しばらくしてからもう一度お試しください。</translation>
 <translation id="1483249363694224399">スリランカ</translation>
 <translation id="1507995441600689506">新しいアカウントでログインできるようになりました</translation>
@@ -158,6 +159,7 @@
 <translation id="3521753471343796628">イラク</translation>
 <translation id="354888504916863713">ベトナム</translation>
 <translation id="3550380781997195832">メールアドレスが正しくありません</translation>
+<translation id="3552446912357282301">権限をリクエストするには <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" /> にお問い合わせください。</translation>
 <translation id="3561568594856945084">マイヨット島</translation>
 <translation id="3591063723610544836">ログイン</translation>
 <translation id="3593480381831738519">パスワードの再設定</translation>
@@ -366,6 +368,7 @@
 <translation id="6951302238647056860">このコードは無効になりました</translation>
 <translation id="6961220857430789248">詳細な手順を記載したログインメールを <ph name="STRING" /> に送信しました。メールを確認してログインを完了してください。</translation>
 <translation id="6984204927251307445">メールの確認</translation>
+<translation id="6996552808101270965">詳細</translation>
 <translation id="6999773882165218263">あなたの名前</translation>
 <translation id="7012506961150923116">グレナダ</translation>
 <translation id="7024571478138322659">西サハラ</translation>
@@ -395,6 +398,7 @@
 <translation id="7291656724505689727">電話番号でログイン</translation>
 <translation id="7320029088567935126">メールアドレスを再度確認してください</translation>
 <translation id="7331038350037712642">アゼルバイジャン</translation>
+<translation id="7359542696390093035">権限がありません</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">メールリンクが無効です。</translation>
 <translation id="7477065998516229434">利用規約</translation>
