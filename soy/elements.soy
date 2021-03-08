@@ -236,6 +236,51 @@
   </button>
 {/template}
 
+/**
+ * Renders an customized anonymous button.
+ */
+{template .idpAnonymousButton}
+  {@param? providerConfig: [providerId:string, providerName:string|null, fullLabel:string|null,
+      buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
+  <button
+      class="firebaseui-idp-button mdl-button mdl-js-button mdl-button--raised{sp}
+             {call .idpClass_ data="all" /} firebaseui-id-idp-button"
+      data-provider-id="{$providerConfig.providerId}"
+      style="background-color:{call .idpColor_ data="all" /}; margin-bottom: 50px;">
+    <span class="firebaseui-idp-icon-wrapper">
+      <img
+          class="firebaseui-idp-icon"
+          alt=""
+          src="{call .idpLogo_ data="all" /}">
+    </span>
+    <span class="firebaseui-idp-text firebaseui-idp-text-long">
+        {if $providerConfig.fullLabel}
+          {$providerConfig.fullLabel}
+        {elseif $providerConfig.providerName}
+          {msg desc="Labels for sign-in buttons, long version"}
+            Sign in with{sp}
+            {call .idpName data="all" /}
+          {/msg}
+        {else}
+          {msg desc="Label for a button to continue as a guest user.
+              The long version"}
+            Continue as guest
+          {/msg}
+        {/if}
+    </span>
+    <span class="firebaseui-idp-text firebaseui-idp-text-short">
+        {if $providerConfig.providerName}
+          {$providerConfig.providerName}
+        {else}
+          {msg desc="Label for a button to continue as a guest user.
+              The short version"}
+            Guest
+          {/msg}
+        {/if}
+    </span>
+   
+  </button>
+{/template}
 
 /**
  * Renders a submit button.

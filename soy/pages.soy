@@ -1242,11 +1242,19 @@
       <form onsubmit="return false;">
         <ul class="firebaseui-idp-list">
           {foreach $providerConfig in $providerConfigs}
-            <li class="firebaseui-list-item">
-              {call firebaseui.auth.soy2.element.idpButton}
-                {param providerConfig: $providerConfig /}
-              {/call}
-            </li>
+            {if $providerConfig.providerId == 'anonymous'}
+              <li class="firebaseui-list-item">
+                {call firebaseui.auth.soy2.element.idpButton}
+                  {param providerConfig: $providerConfig /}
+                {/call}
+              </li>
+            {else}
+              <li class="firebaseui-list-item">
+                {call firebaseui.auth.soy2.element.idpAnonymousButton}
+                  {param providerConfig: $providerConfig /}
+                {/call}
+              </li>
+            {/if}
           {/foreach}
         </ul>
       </form>
