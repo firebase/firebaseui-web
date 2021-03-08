@@ -41,8 +41,7 @@ function getEmailSignInMethod() {
  */
 function getDisableSignUpStatus() {
   var config = parseQueryString(location.hash);
-  return config['disableEmailSignUpStatus'] === 'true' ?
-      true : false;
+  return config['disableEmailSignUpStatus'] === 'true';
 }
 
 

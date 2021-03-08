@@ -62,8 +62,6 @@ function getUiConfig() {
         requireDisplayName: true,
         signInMethod: getEmailSignInMethod(),
         disableSignUp: {
-          adminEmail: 'admin@example.com',
-          helpLink: 'https://www.example.com/trouble_signing_in',
           status: getDisableSignUpStatus()
         }
       },
@@ -188,18 +186,18 @@ var deleteAccount = function() {
 
 
 /**
- * Handles when the user changes the reCAPTCHA or email signInMethod config.
+ * Handles when the user changes the reCAPTCHA or email signInMethod or email disableSignUp config.
  */
 function handleConfigChange() {
   var newRecaptchaValue = document.querySelector(
       'input[name="recaptcha"]:checked').value;
   var newEmailSignInMethodValue = document.querySelector(
       'input[name="emailSignInMethod"]:checked').value;
-  var currentStatus = document.getElementById("email-disableSignUp-status").checked;
+  var currentDisableSignUpStatus = document.getElementById("email-disableSignUp-status").checked;
   location.replace(
       location.pathname + '#recaptcha=' + newRecaptchaValue +
       '&emailSignInMethod=' + newEmailSignInMethodValue +
-      '&disableEmailSignUpStatus=' + currentStatus);
+      '&disableEmailSignUpStatus=' + currentDisableSignUpStatus);
   // Reset the inline widget so the config changes are reflected.
   ui.reset();
   ui.start('#firebaseui-container', getUiConfig());
@@ -240,7 +238,7 @@ var initApp = function() {
       'input[name="emailSignInMethod"][value="' + getEmailSignInMethod() + '"]')
       .checked = true;
   document.getElementById('email-disableSignUp-status').addEventListener(
-    'change', handleConfigChange);
+      'change', handleConfigChange);
   document.getElementById("email-disableSignUp-status").checked = getDisableSignUpStatus();  
 };
 
