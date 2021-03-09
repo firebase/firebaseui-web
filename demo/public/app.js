@@ -186,14 +186,16 @@ var deleteAccount = function() {
 
 
 /**
- * Handles when the user changes the reCAPTCHA, email signInMethod or email disableSignUp config.
+ * Handles when the user changes the reCAPTCHA, email signInMethod or email
+ * disableSignUp config.
  */
 function handleConfigChange() {
   var newRecaptchaValue = document.querySelector(
       'input[name="recaptcha"]:checked').value;
   var newEmailSignInMethodValue = document.querySelector(
       'input[name="emailSignInMethod"]:checked').value;
-  var currentDisableSignUpStatus = document.getElementById("email-disableSignUp-status").checked;
+  var currentDisableSignUpStatus =
+      document.getElementById("email-disableSignUp-status").checked;
   location.replace(
       location.pathname + '#recaptcha=' + newRecaptchaValue +
       '&emailSignInMethod=' + newEmailSignInMethodValue +
@@ -239,7 +241,8 @@ var initApp = function() {
       .checked = true;
   document.getElementById('email-disableSignUp-status').addEventListener(
       'change', handleConfigChange);
-  document.getElementById("email-disableSignUp-status").checked = getDisableSignUpStatus();  
+  document.getElementById("email-disableSignUp-status").checked =
+      getDisableSignUpStatus();  
 };
 
 window.addEventListener('load', initApp);
