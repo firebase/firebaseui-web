@@ -186,7 +186,7 @@ var deleteAccount = function() {
 
 
 /**
- * Handles when the user changes the reCAPTCHA or email signInMethod or email disableSignUp config.
+ * Handles when the user changes the reCAPTCHA, email signInMethod or email disableSignUp config.
  */
 function handleConfigChange() {
   var newRecaptchaValue = document.querySelector(
