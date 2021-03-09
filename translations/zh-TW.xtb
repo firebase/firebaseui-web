@@ -27,6 +27,7 @@
 <translation id="1412449974349991050">海地</translation>
 <translation id="144766329299583285">如果您未要求變更用於登入的電子郵件地址，可能是有人試圖存取您的帳戶。建議您<ph name="START_LINK" />立即變更密碼<ph name="END_LINK" />。</translation>
 <translation id="1449981769524156676">赫德島與麥克唐納群島</translation>
+<translation id="1451880131543823984"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> 未獲權限，無法查看要求的頁面。</translation>
 <translation id="1479035434297790822">您的 IP 位址傳送的建立帳戶要求次數過多，請於幾分鐘後再試一次。</translation>
 <translation id="1483249363694224399">斯里蘭卡</translation>
 <translation id="1507995441600689506">現在您可以登入新的帳戶</translation>
@@ -158,6 +159,7 @@
 <translation id="3521753471343796628">伊拉克</translation>
 <translation id="354888504916863713">越南</translation>
 <translation id="3550380781997195832">電子郵件地址不正確</translation>
+<translation id="3552446912357282301">請與 <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" /> 聯絡並要求取得授權。</translation>
 <translation id="3561568594856945084">馬約特</translation>
 <translation id="3591063723610544836">登入</translation>
 <translation id="3593480381831738519">重設密碼</translation>
@@ -365,6 +367,7 @@
 <translation id="6951302238647056860">這個代碼已經失效</translation>
 <translation id="6961220857430789248">系統已將登入電子郵件傳送至 <ph name="STRING" />，其中包含額外的操作說明。請查看您的電子郵件以完成登入程序。</translation>
 <translation id="6984204927251307445">確認電子郵件地址</translation>
+<translation id="6996552808101270965">瞭解詳情</translation>
 <translation id="6999773882165218263">姓氏和名字</translation>
 <translation id="7012506961150923116">格瑞那達</translation>
 <translation id="7024571478138322659">西撒哈拉</translation>
@@ -394,6 +397,7 @@
 <translation id="7291656724505689727">使用電話號碼登入</translation>
 <translation id="7320029088567935126">請再次驗證您的電子郵件地址</translation>
 <translation id="7331038350037712642">亞塞拜然</translation>
+<translation id="7359542696390093035">未獲授權</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">電子郵件連結無效。</translation>
 <translation id="7477065998516229434">服務條款</translation>
@@ -409,7 +413,7 @@
         登入。請輸入這個帳戶的密碼。</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{密碼安全強度不足。請使用至少 <ph name="PH_1" /> 個字元並混用字母和數字}other{密碼安全強度不足。請使用至少 <ph name="PH_1" /> 個字元並混用字母和數字}}</translation>
 <translation id="7699755204074920022">辛巴威</translation>
-<translation id="7746977132739352062">OAuth 憑證遺漏、無效或過期，因此無法驗證要求。</translation>
+<translation id="7746977132739352062">OAuth 權杖遺漏、無效或過期，因此無法驗證要求。</translation>
 <translation id="7778245738233381641">請輸入 6 位數的簡訊驗證碼。</translation>
 <translation id="7790301903034097323">選擇密碼</translation>
 <translation id="7796914496604415892">系統偵測到新的裝置或瀏覽器</translation>

@@ -25,7 +25,6 @@ const MockHelper = goog.require('firebaseui.auth.testing.MockHelper');
 const Uri = goog.require('goog.Uri');
 const array = goog.require('goog.array');
 
-
 /**
  * Fake Auth API client class.
  */

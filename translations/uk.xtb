@@ -27,6 +27,7 @@
 <translation id="1412449974349991050">Гаїті</translation>
 <translation id="144766329299583285">Якщо ви не просили змінити електронну адресу для входу, можливо, хтось намагається отримати доступ до вашого облікового запису. Радимо негайно <ph name="START_LINK" />змінити пароль<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">Острови Херд і МакДональд</translation>
+<translation id="1451880131543823984">Користувач <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> не має дозволу переглядати запитану сторінку.</translation>
 <translation id="1479035434297790822">З вашої IP-адреси надходить дуже багато запитів на створення облікового запису. Спробуйте за кілька хвилин.</translation>
 <translation id="1483249363694224399">Шрі-Ланка</translation>
 <translation id="1507995441600689506">Тепер можете ввійти, використовуючи дані нового облікового запису</translation>
@@ -157,6 +158,7 @@
 <translation id="3521753471343796628">Ірак</translation>
 <translation id="354888504916863713">В’єтнам</translation>
 <translation id="3550380781997195832">Електронна адреса неправильна</translation>
+<translation id="3552446912357282301">Зверніться до адміністратора (<ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" />).</translation>
 <translation id="3561568594856945084">Майотта</translation>
 <translation id="3591063723610544836">Увійти</translation>
 <translation id="3593480381831738519">Скиньте пароль</translation>
@@ -365,6 +367,7 @@
 <translation id="6951302238647056860">Цей код уже не дійсний</translation>
 <translation id="6961220857430789248">Посилання для входу та додаткові вказівки надіслано на адресу <ph name="STRING" />. Дотримуйтеся їх, щоб увійти в обліковий запис.</translation>
 <translation id="6984204927251307445">Підтвердьте електронну адресу</translation>
+<translation id="6996552808101270965">Докладніше</translation>
 <translation id="6999773882165218263">Ім’я та прізвище</translation>
 <translation id="7012506961150923116">Гренада</translation>
 <translation id="7024571478138322659">Західна Сахара</translation>
@@ -394,6 +397,7 @@
 <translation id="7291656724505689727">Увійти, використовуючи телефон</translation>
 <translation id="7320029088567935126">Ще раз підтвердьте електронну адресу</translation>
 <translation id="7331038350037712642">Азербайджан</translation>
+<translation id="7359542696390093035">Недостатньо прав</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">Посилання недійсне.</translation>
 <translation id="7477065998516229434">Умови використання</translation>

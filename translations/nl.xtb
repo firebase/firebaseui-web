@@ -23,10 +23,11 @@
 <translation id="1315809131562953678">Voer een geldig telefoonnummer in</translation>
 <translation id="1335716056288807013">Door op Verifiëren te tikken, geeft u aan dat u onze <ph name="START_LINK_1" />servicevoorwaarden<ph name="END_LINK" /> en ons <ph name="START_LINK_2" />privacybeleid<ph name="END_LINK" /> accepteert. Mogelijk ontvangt u een sms. Er kunnen sms- en datakosten van toepassing zijn.</translation>
 <translation id="137210131544215127">Voer uw wachtwoord in</translation>
-<translation id="1393433815796487579">Gereed</translation>
+<translation id="1393433815796487579">Klaar</translation>
 <translation id="1412449974349991050">Haïti</translation>
 <translation id="144766329299583285">Als u niet heeft gevraagd uw inlog-e-mailadres te wijzigen, probeert iemand mogelijk toegang te krijgen tot uw account en moet u <ph name="START_LINK" />uw wachtwoord meteen wijzigen<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">Heard en McDonaldeilanden</translation>
+<translation id="1451880131543823984"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> is niet geautoriseerd om de aangevraagde pagina te bekijken.</translation>
 <translation id="1479035434297790822">Er komen te veel accountaanvragen van uw IP-adres. Probeer het over enkele minuten opnieuw.</translation>
 <translation id="1483249363694224399">Sri Lanka</translation>
 <translation id="1507995441600689506">U kunt nu inloggen met uw nieuwe account</translation>
@@ -151,13 +152,14 @@
 <translation id="3413300222170818119">Zambia</translation>
 <translation id="3429213469114503705">Vaticaanstad</translation>
 <translation id="3434621886769337032">Gambia</translation>
-<translation id="3472358534605257432">Gereed</translation>
+<translation id="3472358534605257432">Klaar</translation>
 <translation id="3479685026618611556">Annuleren</translation>
 <translation id="3481131180097895739">Onbekende serverfout.</translation>
 <translation id="3487364398525389372">Voer uw accountnaam in</translation>
 <translation id="3521753471343796628">Irak</translation>
 <translation id="354888504916863713">Vietnam</translation>
 <translation id="3550380781997195832">Dit e-mailadres is niet juist</translation>
+<translation id="3552446912357282301">Neem contact op met <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" /> voor autorisatie.</translation>
 <translation id="3561568594856945084">Mayotte</translation>
 <translation id="3591063723610544836">Inloggen</translation>
 <translation id="3593480381831738519">Reset uw wachtwoord</translation>
@@ -229,8 +231,8 @@
 <translation id="4871106926303956169">Turks- en Caicoseilanden</translation>
 <translation id="4877597386645466815">Code opnieuw verzenden over <ph name="TIME_REMAINING" /></translation>
 <translation id="4900116391137165411">
-<ph name="P_START" />Uw account in <ph name="APP_NAME" /> is geüpdatet met het telefoonnummer <ph name="SECOND_FACTOR" /> voor verificatie in twee stappen.<ph name="P_END" />
-<ph name="P_START" />Heeft u dit telefoonnummer niet toegevoegd voor verificatie in twee stappen? Klik dan op de onderstaande link om het te verwijderen.<ph name="P_END" />
+<ph name="P_START" />Uw account in <ph name="APP_NAME" /> is geüpdatet met het telefoonnummer <ph name="SECOND_FACTOR" /> voor verificatie in 2 stappen.<ph name="P_END" />
+<ph name="P_START" />Heeft u dit telefoonnummer niet toegevoegd voor verificatie in 2 stappen? Klik dan op de onderstaande link om het te verwijderen.<ph name="P_END" />
 <ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">Kan de tweede stap niet verwijderen</translation>
 <translation id="4955175001894453989">Wachtwoord toevoegen</translation>
@@ -366,6 +368,7 @@
 <translation id="6951302238647056860">Deze code is niet meer geldig</translation>
 <translation id="6961220857430789248">Er is een inlogmail met aanvullende instructies verzonden naar <ph name="STRING" />. Controleer uw inbox om het inlogproces te voltooien.</translation>
 <translation id="6984204927251307445">E-mailadres bevestigen</translation>
+<translation id="6996552808101270965">Meer informatie</translation>
 <translation id="6999773882165218263">Voor- en achternaam</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Westelijke Sahara</translation>
@@ -395,6 +398,7 @@
 <translation id="7291656724505689727">Inloggen met telefoon</translation>
 <translation id="7320029088567935126">Probeer uw e-mailadres opnieuw te verifiëren</translation>
 <translation id="7331038350037712642">Azerbeidzjan</translation>
+<translation id="7359542696390093035">Niet geautoriseerd</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">Ongeldig e-maillink.</translation>
 <translation id="7477065998516229434">Servicevoorwaarden</translation>
@@ -439,7 +443,7 @@
 <translation id="8283013172847705078">Costa Rica</translation>
 <translation id="8289427665929658971">Samoa</translation>
 <translation id="8320813901740734879">
-<ph name="P_START" />Uw account in <ph name="APP_NAME" /> is geüpdatet met <ph name="SECOND_FACTOR" /> voor authenticatie in twee stappen.<ph name="P_END" />
+<ph name="P_START" />Uw account in <ph name="APP_NAME" /> is geüpdatet met <ph name="SECOND_FACTOR" /> voor verificatie in 2 stappen.<ph name="P_END" />
 <ph name="P_START" />Als u deze aanpassing niet heeft aangevraagd, maak deze dan ongedaan via de volgende link.<ph name="P_END" />
 <ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="8335491854074085727">Mali</translation>

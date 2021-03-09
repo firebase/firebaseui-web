@@ -27,6 +27,7 @@
 <translation id="1412449974349991050">Haiti</translation>
 <translation id="144766329299583285">Caso não tenha solicitado a alteração do seu e-mail de login, é possível que outra pessoa esteja tentando acessar sua conta. <ph name="START_LINK" />Altere sua senha agora<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">Ilhas Heard e McDonald</translation>
+<translation id="1451880131543823984">O e-mail <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> não tem autorização para visualizar a página solicitada.</translation>
 <translation id="1479035434297790822">Seu endereço IP está emitindo muitas solicitações de contas. Tente novamente em alguns minutos.</translation>
 <translation id="1483249363694224399">Sri Lanka</translation>
 <translation id="1507995441600689506">Faça login com a sua nova conta</translation>
@@ -158,6 +159,7 @@
 <translation id="3521753471343796628">Iraque</translation>
 <translation id="354888504916863713">Vietnã</translation>
 <translation id="3550380781997195832">Endereço de e-mail inválido</translation>
+<translation id="3552446912357282301">Entre em contato com <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" /> para receber autorização.</translation>
 <translation id="3561568594856945084">Ilha Mayotte</translation>
 <translation id="3591063723610544836">Fazer login</translation>
 <translation id="3593480381831738519">Redefinir sua senha</translation>
@@ -366,6 +368,7 @@
 <translation id="6951302238647056860">Este código não é mais válido.</translation>
 <translation id="6961220857430789248">Um e-mail de login com mais instruções foi enviado para <ph name="STRING" />. Verifique sua caixa de entrada para concluir o login.</translation>
 <translation id="6984204927251307445">Confirmar e-mail</translation>
+<translation id="6996552808101270965">Saiba mais</translation>
 <translation id="6999773882165218263">Nome e sobrenome</translation>
 <translation id="7012506961150923116">Granada</translation>
 <translation id="7024571478138322659">Saara Ocidental</translation>
@@ -395,6 +398,7 @@
 <translation id="7291656724505689727">Fazer login com o telefone</translation>
 <translation id="7320029088567935126">Verifique seu e-mail novamente</translation>
 <translation id="7331038350037712642">Azerbaijão</translation>
+<translation id="7359542696390093035">Não autorizado</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">Link de e-mail inválido.</translation>
 <translation id="7477065998516229434">Termos de Serviço</translation>

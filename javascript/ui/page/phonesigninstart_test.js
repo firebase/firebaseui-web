@@ -20,6 +20,7 @@ goog.provide('firebaseui.auth.ui.page.PhoneSignInStartTest');
 goog.setTestOnly('firebaseui.auth.ui.page.PhoneSignInStartTest');
 
 goog.require('firebaseui.auth.data.country.COUNTRY_LIST');
+goog.require('firebaseui.auth.data.country.LOOKUP_TREE');
 goog.require('firebaseui.auth.data.country.LookupTree');
 goog.require('firebaseui.auth.ui.element.FormTestHelper');
 goog.require('firebaseui.auth.ui.element.InfoBarTestHelper');
@@ -35,6 +36,7 @@ goog.require('goog.events.KeyCodes');
 goog.require('goog.testing.MockClock');
 goog.require('goog.testing.events');
 goog.require('goog.testing.jsunit');
+goog.requireType('goog.ui.Component');
 
 
 var mockClock;

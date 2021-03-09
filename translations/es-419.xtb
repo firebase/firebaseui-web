@@ -27,6 +27,7 @@
 <translation id="1412449974349991050">Haití</translation>
 <translation id="144766329299583285">Si no pediste cambiar tu correo electrónico de acceso, es posible que otra persona esté tratando de acceder a tu cuenta, por lo que deberías <ph name="START_LINK" />cambiar tu contraseña de inmediato<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">Islas Heard y McDonald</translation>
+<translation id="1451880131543823984"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> no tiene autorización para ver la página solicitada.</translation>
 <translation id="1479035434297790822">Recibimos demasiadas solicitudes de cuenta desde tu dirección IP. Vuelve a intentarlo en unos minutos.</translation>
 <translation id="1483249363694224399">Sri Lanka</translation>
 <translation id="1507995441600689506">Ahora puedes acceder con tu cuenta nueva</translation>
@@ -158,6 +159,7 @@
 <translation id="3521753471343796628">Irak</translation>
 <translation id="354888504916863713">Vietnam</translation>
 <translation id="3550380781997195832">La dirección de correo electrónico es incorrecta</translation>
+<translation id="3552446912357282301">Comunícate con <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" /> para solicitar la autorización.</translation>
 <translation id="3561568594856945084">Mayotte</translation>
 <translation id="3591063723610544836">Acceder</translation>
 <translation id="3593480381831738519">Restablece tu contraseña</translation>
@@ -366,6 +368,7 @@
 <translation id="6951302238647056860">Este código ya no es válido</translation>
 <translation id="6961220857430789248">Se envió un correo electrónico de acceso con instrucciones adicionales a <ph name="STRING" />. Revisa tu bandeja de entrada para completar el proceso.</translation>
 <translation id="6984204927251307445">Confirma el correo electrónico</translation>
+<translation id="6996552808101270965">Más información</translation>
 <translation id="6999773882165218263">Nombre y apellido</translation>
 <translation id="7012506961150923116">Granada</translation>
 <translation id="7024571478138322659">Sáhara Occidental</translation>
@@ -395,6 +398,7 @@
 <translation id="7291656724505689727">Acceder con el teléfono</translation>
 <translation id="7320029088567935126">Intenta verificar tu correo electrónico de nuevo</translation>
 <translation id="7331038350037712642">Azerbaiyán</translation>
+<translation id="7359542696390093035">Sin autorización</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">Vínculo de correo electrónico no válido</translation>
 <translation id="7477065998516229434">Condiciones del Servicio</translation>

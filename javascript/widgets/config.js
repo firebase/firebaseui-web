@@ -281,6 +281,18 @@ class Config {
   }
 
   /**
+   * @return {boolean} Whether the user is disabled to sign up with email.
+   */
+  isEmailSignUpDisabled() {
+    // This is only applicable to email.
+    const emailSignInOption = this.getSignInOptionsForProvider_(
+        firebase.auth.EmailAuthProvider.PROVIDER_ID);
+    return !!(emailSignInOption &&
+              emailSignInOption['disableSignUp'] &&
+              emailSignInOption['disableSignUp']['status']);
+  }
+
+  /**
    * @return {boolean} Whether the user should be prompted to select an
    *     account.
    */
@@ -353,6 +365,36 @@ class Config {
       }
     }
     return recaptchaParameters;
+  }
+
+  /**
+   * @return {?string} The admin contact email when sign up is disabled.
+   */
+  getEmailProviderAdminEmail() {
+    const emailSignInOption = this.getSignInOptionsForProvider_(
+        firebase.auth.EmailAuthProvider.PROVIDER_ID);
+    return (emailSignInOption && emailSignInOption['disableSignUp'] &&
+            emailSignInOption['disableSignUp']['adminEmail']) || null;
+  }
+
+  /**
+   * @return {?function()} The help link click handler when sign up is disabled.
+   */
+  getEmailProviderHelperLink() {
+    const emailSignInOption = this.getSignInOptionsForProvider_(
+        firebase.auth.EmailAuthProvider.PROVIDER_ID);
+    if (emailSignInOption && emailSignInOption['disableSignUp']) {
+      const helpLink = emailSignInOption['disableSignUp']['helpLink'] || null;
+      if (helpLink && typeof helpLink === 'string') {
+        return () => {
+          util.open(
+              /** @type {string} */ (helpLink),
+              util.isCordovaInAppBrowserInstalled() ?
+              '_system' : '_blank');
+        };
+      }
+    }
+    return null;
   }
 
   /**

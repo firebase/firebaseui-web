@@ -878,6 +878,19 @@ You can configure either email/password or email/link sign-in with FirebaseUI by
 providing the relevant object in the configuration <code>signInOptions</code>
 array.
 
+You can disable new user sign up with email providers by setting the flag
+`disableSignUp.status` to `true`. This will display an error message when new
+users attempt to sign up.
+
+Note that this flag will only disable sign up from the UI and will not prevent
+sign up via REST API. It is highly recommended that Identity Platform projects
+enforce this policy via one of these 2 mechanisms:
+
+- Blocking functions: Set a `beforeCreate` trigger to disable sign up for email
+  providers.
+- In the Cloud Console / Settings / USERS tab, uncheck `Enable create (sign-up)`
+  checkbox. Though for this setting, sign up for all providers will be disabled.
+
 <table>
 <thead>
 <tr>
@@ -947,6 +960,21 @@ array.
   handled, custom dynamic link, additional state in the deep link, etc.
   When not provided, the current URL is used and a web only flow is triggered.
   This is only relevant to email link sign-in.
+</td>
+</tr>
+<tr>
+<td>disableSignUp</td>
+<td><code>firebaseui.auth.DisableSignUpConfig</code></td>
+<td>No</td>
+<td>
+  The object for configuring `disableSignUp` options, contains 3 fields:
+  `status(boolean)`: Whether disable user from signing up with email providers
+  (email/password or email link).
+  `adminEmail(string|undefined)`: The optional site administrator email to
+  contact for access when sign up is disabled, for example: `admin@example.com`.
+  `helpLink(string|undefined)`: The optional help link to provide information
+  on how to get access to the site when sign up is disabled. For example:
+  `https://www.example.com/trouble_signing_in`.
 </td>
 </tr>
 </tbody>

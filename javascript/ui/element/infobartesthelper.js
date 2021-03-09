@@ -19,6 +19,7 @@
 goog.provide('firebaseui.auth.ui.element.InfoBarTestHelper');
 goog.setTestOnly('firebaseui.auth.ui.element.InfoBarTestHelper');
 
+goog.require('firebaseui.auth.ui.element');
 goog.require('firebaseui.auth.ui.element.ElementTestHelper');
 goog.require('goog.dom');
 goog.require('goog.events.KeyCodes');
