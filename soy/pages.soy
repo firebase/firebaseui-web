@@ -1242,7 +1242,7 @@
       <form onsubmit="return false;">
         <ul class="firebaseui-idp-list">
           {foreach $providerConfig in $providerConfigs}
-            {if $providerConfig.providerId == 'anonymous'}
+            {if $providerConfig.providerId != 'anonymous'}
               <li class="firebaseui-list-item">
                 {call firebaseui.auth.soy2.element.idpButton}
                   {param providerConfig: $providerConfig /}
@@ -1250,9 +1250,13 @@
               </li>
             {else}
               <li class="firebaseui-list-item">
+                <div style="font-size: 0.9em; margin-bottom:0.8em;">アカウント登録せずに利用する</div>
                 {call firebaseui.auth.soy2.element.idpAnonymousButton}
                   {param providerConfig: $providerConfig /}
                 {/call}
+                <div style="font-size:0.8em;margin:1.2em;">※ログアウトされた場合、購入履歴は残りません。予めご注意ください。</div>
+                <hr style="margin:1.2em;">
+                <div style="font-size: 0.9em; margin-bottom:0.8em;">アカウント登録して利用する</div>
               </li>
             {/if}
           {/foreach}
