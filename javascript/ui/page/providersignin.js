@@ -29,6 +29,9 @@ class ProviderSignIn extends Base {
    *     clicks one IdP button.
    * @param {!Array<!Object>} providerConfigs The provider configs of the IdPs
    *     to display.
+   * @param {?string} anonymousTitle 
+   * @param {?string} anonymousDesc 
+   * @param {?string} memberTitle 
    * @param {?function()=} opt_tosCallback Callback to invoke when the ToS link
    *     is clicked.
    * @param {?function()=} opt_privacyPolicyCallback Callback to invoke when
@@ -36,11 +39,11 @@ class ProviderSignIn extends Base {
    * @param {?DomHelper=} domHelper Optional DOM helper.
    */
   constructor(
-      onIdpClick, providerConfigs, opt_tosCallback, opt_privacyPolicyCallback,
+      onIdpClick, providerConfigs, anonymousTitle, anonymousDesc, memberTitle, opt_tosCallback, opt_privacyPolicyCallback,
       domHelper = undefined) {
     super(
         page.providerSignIn,
-        {providerConfigs: providerConfigs}, domHelper, 'providerSignIn', {
+        {providerConfigs: providerConfigs, anonymousTitle:anonymousTitle, anonymousDesc:anonymousDesc, memberTitle:memberTitle}, domHelper, 'providerSignIn', {
           tosCallback: opt_tosCallback,
           privacyPolicyCallback: opt_privacyPolicyCallback,
         });

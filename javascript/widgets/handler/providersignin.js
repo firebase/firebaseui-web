@@ -74,6 +74,9 @@ firebaseui.auth.widget.handler.handleProviderSignIn = function(
         app.cancelOneTapSignIn();
       },
       app.getConfig().getProviderConfigs(),
+      app.getConfig().getAnonymousTitle(),
+      app.getConfig().getAnonymousDesc(),
+      app.getConfig().getMemberTitle(),
       app.getConfig().getTosUrl(),
       app.getConfig().getPrivacyPolicyUrl());
   component.render(container);

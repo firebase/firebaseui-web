@@ -58,6 +58,9 @@ class Config {
     this.config_.define('immediateFederatedRedirect', false);
     this.config_.define('popupMode', false);
     this.config_.define('privacyPolicyUrl');
+    this.config_.define('anonymousTitle');
+    this.config_.define('anonymousDesc');
+    this.config_.define('memberTitle');
     /** Determines the redirect URL query key. */
     this.config_.define(
         'queryParameterForSignInSuccessUrl', 'signInSuccessUrl');
@@ -266,6 +269,17 @@ class Config {
     });
   }
 
+  getAnonymousTitle() {
+    return this.config_.get('anonymousTitle');
+  }
+
+  getAnonymousDesc() {
+    return this.config_.get('anonymousDesc');
+  }
+
+  getMemberTitle() {
+    return this.config_.get('memberTitle');
+  }
   /**
    * @return {?string} The googleyolo configuration client ID if available.
    */
