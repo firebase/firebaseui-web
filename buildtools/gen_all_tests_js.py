@@ -25,13 +25,13 @@ import common
 
 def main():
   common.cd_to_firebaseui_root()
-  print "var allTests = ["
+  print("var allTests = [")
   _print_test_files_under_root(common.TESTS_BASE_PATH)
-  print "];"
+  print("];")
   # The following is required in the context of protractor.
-  print "if (typeof module !== 'undefined' && module.exports) {"
-  print "  module.exports = allTests;"
-  print "}"
+  print("if (typeof module !== 'undefined' && module.exports) {")
+  print("  module.exports = allTests;")
+  print("}")
 
 
 def _print_test_files_under_root(root):
@@ -41,7 +41,7 @@ def _print_test_files_under_root(root):
     root: The path to the directory.
   """
   for file_name in common.get_files_with_suffix(root, "_test.html"):
-    print "  '%s'," % file_name[2:]  # Ignore the beginning './'.
+    print("  '%s'," % file_name[2:])  # Ignore the beginning './'.
 
 
 if __name__ == "__main__":

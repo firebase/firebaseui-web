@@ -19,7 +19,8 @@
 goog.module('firebaseui.auth.ui.page.SelectTenantTest');
 goog.setTestOnly();
 
-
+const InfoBarTestHelper =
+    goog.require('firebaseui.auth.ui.element.InfoBarTestHelper');
 const KeyCodes = goog.require('goog.events.KeyCodes');
 const MockClock = goog.require('goog.testing.MockClock');
 const PageTestHelper = goog.require('firebaseui.auth.ui.page.PageTestHelper');
@@ -34,6 +35,8 @@ const testSuite = goog.require('goog.testing.testSuite');
 let mockClock;
 let root;
 let component;
+const infoBarTestHelper =
+    new InfoBarTestHelper().registerTests();
 const tosPpTestHelper = new TosPpTestHelper().registerTests();
 const pageTestHelper = new PageTestHelper().registerTests();
 
@@ -75,6 +78,7 @@ testSuite({
             TosPpTestHelper.prototype.onPpLinkClick,
             tosPpTestHelper));
     component.render(root);
+    infoBarTestHelper.setComponent(component);
     tosPpTestHelper.setComponent(component);
     // Reset previous state of tosPp helper.
     tosPpTestHelper.resetState();

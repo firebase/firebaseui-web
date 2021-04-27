@@ -63,8 +63,9 @@ def _gen_html(js_path, template):
 
     _write_file(related_paths.html, generated_html)
 
-  except:  # pylint: disable=bare-except
-    print "HTML generation failed for: %s" % js_path
+  except Exception as e:  # pylint: disable=bare-except
+    print("HTML generation failed for: %s" % js_path)
+    print(e)
 
 
 def _get_related_paths_from_js_path(js_path):
@@ -86,21 +87,22 @@ def _get_related_paths_from_js_path(js_path):
 
 
 def _extract_closure_package(js_data):
-  """Extracts the package name that is goog.provide()d in the JS file.
+  """Extracts the package name that is goog.provide() or goog.module()
+  in the JS file.
 
   Args:
     js_data: The contents of a JS test (*_test.js) file.
 
   Returns:
-    The closure package goog.provide()d by the file.
+    The closure package goog.provide() or good.module() by the file.
 
   Raises:
-    ValueError: The JS does not contain a goog.provide().
+    ValueError: The JS does not contain a goog.provide() or goog.module().
   """
-  matches = re.search(r"goog\.provide\('(.+)'\);", js_data)
+  matches = re.search(r"goog\.(provide|module)\([\n\s]*'(.+)'\);", js_data)
   if matches is None:
-    raise ValueError("goog.provide() not found in file")
-  return matches.group(1)
+    raise ValueError("goog.provide() or goog.module() not found in file")
+  return matches.group(2)
 
 
 def _read_file(path):
