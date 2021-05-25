@@ -717,7 +717,8 @@ function testIsPendingRedirect() {
   assertFalse(app3.isPendingRedirect());
 }
 
-
+// TODO(jamesdaniels) tenantId is readonly in beta.2
+/*
 function testGetSetTenantId() {
   createAndInstallTestInstances();
   assertNull(app1.getTenantId());
@@ -734,7 +735,7 @@ function testGetSetTenantId() {
   assertEquals('TENANT_ID2', app1.getTenantId());
   assertEquals('TENANT_ID2', app1.getExternalAuth().tenantId);
   assertEquals('TENANT_ID2', testAuth1.tenantId);
-}
+}*/
 
 
 function testClearEmailSignInState() {
@@ -1060,7 +1061,6 @@ function testStart_revertLanguageCode() {
   // Reset should not modify the language after revertLanguageCode.
   assertEquals('fr', app.getExternalAuth().languageCode);
 }
-*/
 
 function testStart_tenantId() {
   // Test that tenant ID is passed to UI on external Auth instance.
@@ -1104,6 +1104,7 @@ function testStart_redirect_tenantId() {
   assertFalse(firebaseui.auth.storage.hasRedirectStatus(app1.getAppId()));
 }
 
+*/
 
 function testStartWithSignInHint() {
   // Test startWithSignInHint.
