@@ -53,8 +53,8 @@ You can then `import` the following modules within your source files:
 
 ```javascript
 // Import firebase modules.
-import * as firebase from "firebase/app";
-import "firebase/auth";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
 // Import firebaseui module.
 import * as firebaseui from 'firebaseui'
 // Import gcip-iap module.
@@ -65,8 +65,8 @@ Or use cjs `require` to include the modules:
 
 ```javascript
 // Require firebase modules.
-var firebase = require('firebase/app');
-require('firebase/auth');
+var firebase = require('firebase/compat/app');
+require('firebase/compat/auth');
 // Require firebaseui module.
 var firebaseui = require('firebaseui');
 // Require gcip-iap module.
