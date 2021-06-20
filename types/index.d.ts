@@ -11,6 +11,7 @@
  * express or implied. See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/// <reference types="firebase" />
 
 declare namespace firebaseui {}
 
@@ -20,8 +21,7 @@ type CredentialHelperType = string;
 
 interface Callbacks {
   signInSuccessWithAuthResult?(
-    // tslint:disable-next-line:no-any firebase dependency not available.
-    authResult: any,
+    authResult: firebase.default.auth.UserCredential,
     redirectUrl?: string
   ): boolean;
   signInFailure?(error: firebaseui.auth.AuthUIError): Promise<void>|void;
@@ -141,8 +141,7 @@ declare namespace firebaseui.auth {
 
   class AuthUI {
     static getInstance(appId?: string): AuthUI | null;
-    // tslint:disable-next-line:no-any firebase dependency not available.
-    constructor(auth: any, appId?: string);
+    constructor(auth: firebase.default.auth.Auth, appId?: string);
     disableAutoSignIn(): void;
     start(element: string | Element, config: firebaseui.auth.Config): void;
     setConfig(config: firebaseui.auth.Config): void;
@@ -156,8 +155,7 @@ declare namespace firebaseui.auth {
     private constructor();
     code: string;
     message: string;
-    // tslint:disable-next-line:no-any firebase dependency not available.
-    credential: any | null;
+    credential: firebase.default.auth.AuthCredential | null;
     toJSON(): object;
   }
 
@@ -187,8 +185,7 @@ declare namespace firebaseui.auth {
     signInUiShown?(tenantId: string|null): void;
     selectTenantUiShown?(): void;
     selectTenantUiHidden?(): void;
-    // tslint:disable-next-line:no-any firebase dependency not available.
-    beforeSignInSuccess?(currentUser: any): Promise<any>;
+    beforeSignInSuccess?(currentUser: firebase.default.User): Promise<firebase.default.User>;
   }
 
   interface CIAPError {
@@ -216,10 +213,8 @@ declare namespace firebaseui.auth {
     selectTenant(
         projectConfig: firebaseui.auth.ProjectConfig,
         tenantIds: string[]): Promise<firebaseui.auth.SelectedTenantInfo>;
-    // tslint:disable-next-line:no-any firebase dependency not available.
-    getAuth(apiKey: string, tenantId: string|null): any;
-    // tslint:disable-next-line:no-any firebase dependency not available.
-    startSignIn(auth: any, tenantInfo?: firebaseui.auth.SelectedTenantInfo):
+    getAuth(apiKey: string, tenantId: string | null): firebase.default.auth.Auth;
+    startSignIn(auth: firebase.default.auth.Auth, tenantInfo?: firebaseui.auth.SelectedTenantInfo):
         Promise<any>;  // tslint:disable-line
     reset(): Promise<void>;
     completeSignOut(): Promise<void>;
@@ -227,8 +222,7 @@ declare namespace firebaseui.auth {
     hideProgressBar(): void;
     handleError(error: Error|firebaseui.auth.CIAPError): void;
     languageCode: string | null;
-    // tslint:disable-next-line:no-any firebase dependency not available.
-    processUser(user: any): Promise<any>;
+    processUser(user: firebase.default.User): Promise<firebase.default.User>;
   }
 }
 
