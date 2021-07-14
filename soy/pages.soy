@@ -684,7 +684,7 @@
  * Renders an unauthorized user page.
  */
 {template .unauthorizedUser}
-  {@param? email: string}
+  {@param? userIdentifier: string}
   {@param? adminEmail: string}
   {@param? displayHelpLink: bool}
   <div class="mdl-card mdl-shadow--2dp firebaseui-container
@@ -700,10 +700,10 @@
       </div>
       <div class="firebaseui-card-content">
         <p class="firebaseui-text">
-          {if $email}
+          {if $userIdentifier}
             {msg desc="Message notifying the user that they are not authorized to
                 register an account for the current application."}
-              <strong>{$email}</strong> is not authorized to view the requested page.
+              <strong>{$userIdentifier}</strong> is not authorized to view the requested page.
             {/msg}
           {else}
             User is not authorized to view the requested page.

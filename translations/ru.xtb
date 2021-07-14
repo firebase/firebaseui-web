@@ -329,7 +329,7 @@
 <translation id="6470057025778734988">Вы больше не сможете входить в систему с его помощью.</translation>
 <translation id="6472297146424049005">Проверьте подключение к Интернету.</translation>
 <translation id="6483116480230343278">Идет регистрация…</translation>
-<translation id="6502083090260346644">Нажимая кнопку "<ph name="STRING" />", вы соглашаетесь получить SMS. За его отправку и обмен данными может взиматься плата.</translation>
+<translation id="6494734506607758748">Чтобы изменить адрес электронной почты, связанный с аккаунтом, нужно будет войти в систему ещё раз.</translation>
 <translation id="6508909904815637928">Вануату</translation>
 <translation id="6520863029476703422">Американское Самоа</translation>
 <translation id="6527597037551425211">Бразилия</translation>
@@ -360,6 +360,7 @@
 <translation id="6821607741326790458">Ямайка</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Пакистан</translation>
+<translation id="6852861389112775830">У пользователя с адресом электронной почты <ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> недостаточно прав для просмотра запрошенной страницы.</translation>
 <translation id="6918319418444979243">Отправить ещё раз</translation>
 <translation id="6920167780806379235">Сирия</translation>
 <translation id="6921505896641453739">Адрес электронной почты</translation>

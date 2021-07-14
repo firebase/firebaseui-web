@@ -86,7 +86,10 @@ function getUiConfig() {
     'privacyPolicyUrl': 'https://www.google.com',
     'credentialHelper': CLIENT_ID && CLIENT_ID != 'YOUR_OAUTH_CLIENT_ID' ?
         firebaseui.auth.CredentialHelper.GOOGLE_YOLO :
-        firebaseui.auth.CredentialHelper.NONE
+        firebaseui.auth.CredentialHelper.NONE,
+    'adminRestrictedOperation': {
+      status: getAdminRestrictedOperationStatus()
+    }
   };
 }
 
@@ -196,10 +199,14 @@ function handleConfigChange() {
       'input[name="emailSignInMethod"]:checked').value;
   var currentDisableSignUpStatus =
       document.getElementById("email-disableSignUp-status").checked;
+  var currentAdminRestrictedOperationStatus =
+      document.getElementById("admin-restricted-operation-status").checked;
   location.replace(
       location.pathname + '#recaptcha=' + newRecaptchaValue +
       '&emailSignInMethod=' + newEmailSignInMethodValue +
-      '&disableEmailSignUpStatus=' + currentDisableSignUpStatus);
+      '&disableEmailSignUpStatus=' + currentDisableSignUpStatus +
+      '&adminRestrictedOperationStatus=' +
+      currentAdminRestrictedOperationStatus);
   // Reset the inline widget so the config changes are reflected.
   ui.reset();
   ui.start('#firebaseui-container', getUiConfig());
@@ -243,6 +250,10 @@ var initApp = function() {
       'change', handleConfigChange);
   document.getElementById("email-disableSignUp-status").checked =
       getDisableSignUpStatus();  
+  document.getElementById('admin-restricted-operation-status').addEventListener(
+      'change', handleConfigChange);
+  document.getElementById("admin-restricted-operation-status").checked =
+      getAdminRestrictedOperationStatus();  
 };
 
 window.addEventListener('load', initApp);

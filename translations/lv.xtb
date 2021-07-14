@@ -326,7 +326,7 @@
 <translation id="6470057025778734988">Jūs vairs nevarēsit pierakstīties, izmantojot savu kontu</translation>
 <translation id="6472297146424049005">Pārbaudiet interneta savienojumu.</translation>
 <translation id="6483116480230343278">Notiek reģistrācija...</translation>
-<translation id="6502083090260346644">Pieskaroties pogai <ph name="STRING" />, var tikt nosūtīta īsziņa. Var tikt piemērota maksa par ziņojumiem un datu pārsūtīšanu.</translation>
+<translation id="6494734506607758748">Lai mainītu ar kontu saistīto e-pasta adresi, būs vēlreiz jāpierakstās.</translation>
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Amerikāņu Samoa</translation>
 <translation id="6527597037551425211">Brazīlija</translation>
@@ -357,6 +357,7 @@
 <translation id="6821607741326790458">Jamaika</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistāna</translation>
+<translation id="6852861389112775830">Lietotājs <ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> nav pilnvarots, lai skatītu pieprasīto lapu.</translation>
 <translation id="6918319418444979243">Sūtīt vēlreiz</translation>
 <translation id="6920167780806379235">Sīrija</translation>
 <translation id="6921505896641453739">E-pasts</translation>

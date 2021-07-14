@@ -330,7 +330,7 @@
 <translation id="6470057025778734988">คุณจะไม่สามารถลงชื่อเข้าใช้ด้วยบัญชีของคุณได้อีก</translation>
 <translation id="6472297146424049005">ตรวจสอบการเชื่อมต่ออินเทอร์เน็ต</translation>
 <translation id="6483116480230343278">กำลังลงชื่อสมัครใช้…</translation>
-<translation id="6502083090260346644">เมื่อคุณแตะ <ph name="STRING" /> ระบบจะส่ง SMS ให้คุณ อาจมีค่าบริการรับส่งข้อความและค่าบริการอินเทอร์เน็ต</translation>
+<translation id="6494734506607758748">ในการเปลี่ยนที่อยู่อีเมลที่เชื่อมโยงกับบัญชีของคุณ คุณจะต้องลงชื่อเข้าใช้อีกครั้ง</translation>
 <translation id="6508909904815637928">วานูอาตู</translation>
 <translation id="6520863029476703422">อเมริกันซามัว</translation>
 <translation id="6527597037551425211">บราซิล</translation>
@@ -361,6 +361,7 @@
 <translation id="6821607741326790458">จาเมกา</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">ปากีสถาน</translation>
+<translation id="6852861389112775830"><ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> ไม่ได้รับสิทธิ์ให้ดูหน้าเว็บที่ขอ</translation>
 <translation id="6918319418444979243">ส่งซ้ำ</translation>
 <translation id="6920167780806379235">ซีเรีย</translation>
 <translation id="6921505896641453739">อีเมล</translation>

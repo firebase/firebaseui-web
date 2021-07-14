@@ -329,7 +329,7 @@
 <translation id="6470057025778734988">您將無法再使用自己的帳戶登入</translation>
 <translation id="6472297146424049005">檢查您的網際網路連線。</translation>
 <translation id="6483116480230343278">註冊中…</translation>
-<translation id="6502083090260346644">輕觸 [<ph name="STRING" />] 後系統將會傳送簡訊，您可能需要支付簡訊和數據傳輸費用。</translation>
+<translation id="6494734506607758748">如要變更與您的帳戶相關聯的電子郵件地址，您需要重新登入。</translation>
 <translation id="6508909904815637928">萬那杜</translation>
 <translation id="6520863029476703422">美屬薩摩亞</translation>
 <translation id="6527597037551425211">巴西</translation>
@@ -360,6 +360,7 @@
 <translation id="6821607741326790458">牙買加</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">巴基斯坦</translation>
+<translation id="6852861389112775830"><ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> 未獲授權，無法查看要求的頁面。</translation>
 <translation id="6918319418444979243">重新傳送</translation>
 <translation id="6920167780806379235">敘利亞</translation>
 <translation id="6921505896641453739">電子郵件</translation>

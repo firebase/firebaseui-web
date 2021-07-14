@@ -329,7 +329,7 @@
 <translation id="6470057025778734988">Nu vă veți mai putea conecta folosind contul</translation>
 <translation id="6472297146424049005">Verificați conexiunea la internet.</translation>
 <translation id="6483116480230343278">Se creează un cont...</translation>
-<translation id="6502083090260346644">Dacă atingeți <ph name="STRING" />, poate fi trimis un SMS. Se pot aplica tarife pentru mesaje și date.</translation>
+<translation id="6494734506607758748">Pentru a schimba adresa de e-mail asociată contului, va trebui să vă conectați din nou.</translation>
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Samoa Americană</translation>
 <translation id="6527597037551425211">Brazilia</translation>
@@ -360,6 +360,7 @@
 <translation id="6821607741326790458">Jamaica</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
+<translation id="6852861389112775830"><ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> nu este autorizat(ă) să vadă pagina solicitată.</translation>
 <translation id="6918319418444979243">Retrimiteți</translation>
 <translation id="6920167780806379235">Siria</translation>
 <translation id="6921505896641453739">Adresă de e-mail</translation>

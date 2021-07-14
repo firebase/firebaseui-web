@@ -152,7 +152,7 @@
 <translation id="3429213469114503705">Vatikaani</translation>
 <translation id="3434621886769337032">Gambia</translation>
 <translation id="3472358534605257432">Valmis</translation>
-<translation id="3479685026618611556">Peruuta</translation>
+<translation id="3479685026618611556">Peru</translation>
 <translation id="3481131180097895739">Tuntematon palvelinvirhe</translation>
 <translation id="3487364398525389372">Anna tilin nimi</translation>
 <translation id="3521753471343796628">Irak</translation>
@@ -330,7 +330,7 @@
 <translation id="6470057025778734988">Et enää voi kirjautua sisään tililläsi.</translation>
 <translation id="6472297146424049005">Tarkista internetyhteytesi.</translation>
 <translation id="6483116480230343278">Rekisteröityminen käynnissä…</translation>
-<translation id="6502083090260346644">Kun napautat <ph name="STRING" />, tekstiviesti voidaan lähettää. Datan ja viestien käyttö voi olla maksullista.</translation>
+<translation id="6494734506607758748">Jotta voit vaihtaa tiliisi liittyvän sähköpostiosoitteen, sinun pitää kirjautua sisään uudelleen.</translation>
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Amerikan Samoa</translation>
 <translation id="6527597037551425211">Brasilia</translation>
@@ -361,6 +361,7 @@
 <translation id="6821607741326790458">Jamaika</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
+<translation id="6852861389112775830">Käyttäjällä <ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> ei ole lupaa tarkastella pyydettyä sivua.</translation>
 <translation id="6918319418444979243">Lähetä uudelleen</translation>
 <translation id="6920167780806379235">Syyria</translation>
 <translation id="6921505896641453739">Sähköposti</translation>

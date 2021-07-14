@@ -26,16 +26,19 @@ goog.require('firebaseui.auth.widget.handler.common');
 
 
 /**
- * Handles unauthorized user.
+ * Handles unauthorized users.
  *
  * @param {!firebaseui.auth.AuthUI} app The current Firebase UI instance whose
  *     configuration is used.
  * @param {!Element} container The container DOM element.
- * @param {?string} email The email address of the account.
- * @param {string} provider The provider user uses.
+ * @param {?string} userIdentifier The user identifier of the account, can be
+ *     email address or phone number. When not determinable (federated sign-in
+ *     flows), this is null.
+ * @param {?string} provider The provider used for sign-in, if determinable
+ *     (null otherwise).
  */
 firebaseui.auth.widget.handler.handleUnauthorizedUser = function(
-    app, container, email, provider) {
+    app, container, userIdentifier, provider) {
   let backCallbackFunction = function () {
       firebaseui.auth.widget.handler.common.handleSignInStart(
           app, container);
@@ -48,15 +51,43 @@ firebaseui.auth.widget.handler.handleUnauthorizedUser = function(
       firebaseui.auth.widget.handler.common.handleSignInWithEmail(
           app, container);
     };
+  } else if (provider === firebase.auth.PhoneAuthProvider.PROVIDER_ID) {
+    // Phone provider.
+    backCallbackFunction = function() {
+      // Go back to start email sign in handler.
+      firebaseui.auth.widget.handler.handle(
+          firebaseui.auth.widget.HandlerName.PHONE_SIGN_IN_START,
+          app, container);
+    };
   }
+
+  let adminEmail = null;
+  let helpLinkCallBack = null;
+
+  // There are two scenarios this handler gets called that we need to configure
+  // adminEmail and helpLinkCallBack accordingly.
+  // The first case is in the higher priority:
+  // 1. Email/password or Email Link provider and emailSignUpDisabled status set
+  // to true.
+  // 2. AdminRestrictedOperation status set to true.
+  if (provider === firebase.auth.EmailAuthProvider.PROVIDER_ID &&
+      app.getConfig().isEmailSignUpDisabled()) {
+    adminEmail = app.getConfig().getEmailProviderAdminEmail();
+    helpLinkCallBack = app.getConfig().getEmailProviderHelpLinkCallBack();
+  } else if (app.getConfig().isAdminRestrictedOperationConfigured()) {
+    adminEmail = app.getConfig().getAdminRestrictedOperationAdminEmail();
+    helpLinkCallBack =
+        app.getConfig().getAdminRestrictedOperationHelpLinkCallback();
+  }
+
   const component = new firebaseui.auth.ui.page.UnauthorizedUser(
-      email || null,
+      userIdentifier,
       function () {
         component.dispose();
         backCallbackFunction();
       },
-      app.getConfig().getEmailProviderAdminEmail(),
-      app.getConfig().getEmailProviderHelperLink(),
+      adminEmail,
+      helpLinkCallBack,
       app.getConfig().getTosUrl(),
       app.getConfig().getPrivacyPolicyUrl());
   component.render(container);

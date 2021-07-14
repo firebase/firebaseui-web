@@ -329,7 +329,7 @@
 <translation id="6470057025778734988">لن تتمكن بعد الآن من تسجيل الدخول باستخدام حسابك</translation>
 <translation id="6472297146424049005">التحقّق من الاتصال بالإنترنت</translation>
 <translation id="6483116480230343278">جارٍ الاشتراك...</translation>
-<translation id="6502083090260346644">بالنقر على <ph name="STRING" />، قد يتم إرسال رسالة قصيرة SMS. وقد تنطبق رسوم البيانات والرسائل.</translation>
+<translation id="6494734506607758748">لتغيير عنوان البريد الإلكتروني المقترن بحسابك، يجب تسجيل الدخول من جديد.</translation>
 <translation id="6508909904815637928">فانواتو</translation>
 <translation id="6520863029476703422">ساموا الأمريكية</translation>
 <translation id="6527597037551425211">البرازيل</translation>
@@ -360,6 +360,7 @@
 <translation id="6821607741326790458">جامايكا</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">باكستان</translation>
+<translation id="6852861389112775830">ليس لدى <ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> الإذن بالاطّلاع على الصفحة المطلوبة.</translation>
 <translation id="6918319418444979243">إعادة الإرسال</translation>
 <translation id="6920167780806379235">سوريا</translation>
 <translation id="6921505896641453739">بريد إلكتروني</translation>

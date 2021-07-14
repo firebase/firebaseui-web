@@ -132,6 +132,7 @@ declare namespace firebaseui.auth {
     tosUrl?: (() => void) | string;
     privacyPolicyUrl?: (() => void) | string;
     widgetUrl?: string;
+    adminRestrictedOperation?: DisableSignUpConfig;
   }
 
   interface TenantConfig extends firebaseui.auth.Config {

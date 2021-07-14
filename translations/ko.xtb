@@ -330,7 +330,7 @@
 <translation id="6470057025778734988">이 계정으로 더 이상 로그인할 수 없습니다.</translation>
 <translation id="6472297146424049005">인터넷 연결을 확인합니다.</translation>
 <translation id="6483116480230343278">가입하는 중…</translation>
-<translation id="6502083090260346644"><ph name="STRING" />을(를) 탭하면 SMS가 발송될 수 있습니다. 메시지 및 데이터 요금이 부과될 수 있습니다.</translation>
+<translation id="6494734506607758748">계정에 연결된 이메일 주소를 변경하려면 다시 로그인해야 합니다.</translation>
 <translation id="6508909904815637928">바누아투</translation>
 <translation id="6520863029476703422">아메리칸 사모아</translation>
 <translation id="6527597037551425211">브라질</translation>
@@ -361,6 +361,7 @@
 <translation id="6821607741326790458">자메이카</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">파키스탄</translation>
+<translation id="6852861389112775830"><ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" />에게 요청된 페이지를 볼 수 있는 권한이 없습니다.</translation>
 <translation id="6918319418444979243">재전송</translation>
 <translation id="6920167780806379235">시리아</translation>
 <translation id="6921505896641453739">이메일</translation>

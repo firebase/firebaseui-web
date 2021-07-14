@@ -168,6 +168,20 @@ firebaseui.auth.widget.handler.onSignUpSubmit_ = function(app, component) {
                 component.getNewPasswordErrorElement(),
                 errorMessage);
             break;
+          case 'auth/admin-restricted-operation':
+            if (app.getConfig().isAdminRestrictedOperationConfigured()) {
+              const container = component.getContainer();
+              component.dispose();
+              firebaseui.auth.widget.handler.handle(
+                  firebaseui.auth.widget.HandlerName.UNAUTHORIZED_USER,
+                  app,
+                  container,
+                  email,
+                  firebase.auth.EmailAuthProvider.PROVIDER_ID);
+            } else {
+              component.showInfoBar(errorMessage);
+            }
+            break;
           default:
             firebaseui.auth.log.error(
                 'setAccountInfo: ' + goog.json.serialize(normalizedError));

@@ -24,6 +24,8 @@ goog.require('firebaseui.auth.widget.handler.common');
 goog.require('firebaseui.auth.widget.handler.handlePasswordSignUp');
 goog.require('firebaseui.auth.widget.handler.handleProviderSignIn');
 goog.require('firebaseui.auth.widget.handler.handleSignIn');
+/** @suppress {extraRequire} */
+goog.require('firebaseui.auth.widget.handler.handleUnauthorizedUser');
 goog.require('firebaseui.auth.widget.handler.testHelper');
 goog.require('goog.Promise');
 goog.require('goog.dom');
@@ -558,14 +560,10 @@ function testHandlePasswordSignUp_blockingfunctionError() {
 }
 
 
-function testHandlePasswordSignUp_adminRestrictedOperation() {
+function testHandlePasswordSignUp_adminRestrictedOperation_notConfigured() {
   // Test when an admin restricted error is thrown during verification, no
   // page navigation occurs and only an info bar message is shown.
   // Render password sign up UI.
-  const error = {
-    'code': 'auth/admin-restricted-operation',
-    'message': 'ADMIN_ONLY_OPERATION',
-  };
   firebaseui.auth.widget.handler.handlePasswordSignUp(
       app, container, passwordAccount.getEmail());
   assertPasswordSignUpPage();
@@ -573,13 +571,77 @@ function testHandlePasswordSignUp_adminRestrictedOperation() {
   goog.dom.forms.setValue(getNewPasswordElement(), '123123');
   submitForm();
   testAuth.assertCreateUserWithEmailAndPassword(
-      [passwordAccount.getEmail(), '123123'], null, error);
+      [passwordAccount.getEmail(), '123123'], null,
+      adminRestrictedOperationError);
   return testAuth.process().then(function() {
     // Password sign up page should remain.
     assertPasswordSignUpPage();
     // Info bar message should be shown.
     assertInfoBarMessage(
-        firebaseui.auth.widget.handler.common.getErrorMessage(error));
+        firebaseui.auth.widget.handler.common.getErrorMessage(
+            adminRestrictedOperationError));
+  });
+}
+
+
+function testHandlePasswordSignUp_adminRestrictedOperation_configured() {
+  // Test when an admin restricted error is thrown during verification, no
+  // page navigation occurs and an unauthorized error page is shown.
+  // Render password sign up UI.
+  app.updateConfig('adminRestrictedOperation', adminRestrictedOperationConfig);
+  firebaseui.auth.widget.handler.handlePasswordSignUp(
+      app, container, passwordAccount.getEmail());
+  assertPasswordSignUpPage();
+  goog.dom.forms.setValue(getNameElement(), 'Password User');
+  goog.dom.forms.setValue(getNewPasswordElement(), '123123');
+  submitForm();
+  testAuth.assertCreateUserWithEmailAndPassword(
+      [passwordAccount.getEmail(), '123123'], null,
+      adminRestrictedOperationError);
+  return testAuth.process().then(function() {
+    // Verify unauthorized user page is rendered.
+    assertUnauthorizedUserPage();
+    // Assert cancel button is rendered.
+    assertNotNull(getCancelButton());
+    // Assert admin email is rendered.
+    assertAdminEmail(expectedAdminEmail);
+    // Assert help link is rendered.
+    assertHelpLink();
+    // Click back button.
+    clickSecondaryLink();
+    // Verify that clicking back button goes back to the email sign in page.
+    assertSignInPage();
+  });
+}
+
+
+function testHandlePasswordSignUp_adminRestrictedOperation_infoBarError() {
+  // Test when an admin restricted error is thrown during verification, but
+  // adminRestrictedError config status set to false and infoBar with error
+  // message is shown.
+  // Render password sign up UI.
+  firebaseui.auth.widget.handler.handlePasswordSignUp(
+      app, container, passwordAccount.getEmail());
+  let modifiedAdminRestrictedOperationConfig =
+      Object.assign({}, adminRestrictedOperationConfig);
+  modifiedAdminRestrictedOperationConfig.status = false;
+  app.setConfig({
+    'adminRestrictedOperation': modifiedAdminRestrictedOperationConfig,
+  });
+  assertPasswordSignUpPage();
+  goog.dom.forms.setValue(getNameElement(), 'Password User');
+  goog.dom.forms.setValue(getNewPasswordElement(), '123123');
+  submitForm();
+  testAuth.assertCreateUserWithEmailAndPassword(
+      [passwordAccount.getEmail(), '123123'], null,
+      adminRestrictedOperationError);
+  return testAuth.process().then(function() {
+    // Password sign up page should remain.
+    assertPasswordSignUpPage();
+    // Info bar message should be shown.
+    assertInfoBarMessage(
+        firebaseui.auth.widget.handler.common.getErrorMessage(
+            adminRestrictedOperationError));
   });
 }
 

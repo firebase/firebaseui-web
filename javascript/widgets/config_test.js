@@ -586,6 +586,17 @@ testSuite({
         'provider': 'password',
         'requireDisplayName': true,
         'disableSignUp': {
+          'status': false,
+        }
+      },
+    ]);
+    assertFalse(config.isEmailSignUpDisabled());
+
+    config.update('signInOptions', [
+      {
+        'provider': 'password',
+        'requireDisplayName': true,
+        'disableSignUp': {
           'status': true,
         }
       },
@@ -595,13 +606,25 @@ testSuite({
 
   testGetEmailProviderAdminEmail() {
     assertNull(config.getEmailProviderAdminEmail());
+    config.update('signInOptions', [
+      {
+        'provider': 'password',
+        'requireDisplayName': true,
+        'disableSignUp': {
+          'status':  true,
+          'adminEmail': null,
+        }
+      }
+    ]);
+    assertNull(config.getEmailProviderAdminEmail());
+
     const adminEmail = 'admin@example.com';
     config.update('signInOptions', [
       {
         'provider': 'password',
         'requireDisplayName': true,
         'disableSignUp': {
-          'status':  false,
+          'status':  true,
           'adminEmail': adminEmail,
         }
       }
@@ -609,8 +632,20 @@ testSuite({
     assertEquals(adminEmail, config.getEmailProviderAdminEmail());
   },
 
-  testGetEmailProviderHelperLink() {
-    assertNull(config.getEmailProviderHelperLink());
+  testGetEmailProviderHelpLinkCallBack() {
+    assertNull(config.getEmailProviderHelpLinkCallBack());
+    config.update('signInOptions', [
+      {
+        'provider': 'password',
+        'requireDisplayName': true,
+        'disableSignUp': {
+          'status': true,
+          'helpLink': null,
+        }
+      }
+    ]);
+    assertNull(config.getEmailProviderHelpLinkCallBack());
+
     let helpLink = 'https://www.example.com/trouble_signing_in';
     config.update('signInOptions', [
       {
@@ -622,9 +657,11 @@ testSuite({
         }
       }
     ]);
-    let helpLinkCallback = config.getEmailProviderHelperLink();
+    assertNotNull(config.getEmailProviderHelpLinkCallBack());
+    let helpLinkCallback = config.getEmailProviderHelpLinkCallBack();
     helpLinkCallback();
     testUtil.assertOpen(helpLink, '_blank');
+
     stub.replace(
         util,
         'isCordovaInAppBrowserInstalled',
@@ -632,6 +669,7 @@ testSuite({
     helpLinkCallback();
     // Target should be _system if Cordova InAppBrowser plugin is installed.
     testUtil.assertOpen(helpLink, '_system');
+
     helpLink = 1023;
     config.update('signInOptions', [
       {
@@ -643,7 +681,71 @@ testSuite({
         }
       }
     ]);
-    assertNull(config.getEmailProviderHelperLink());
+    assertNull(config.getEmailProviderHelpLinkCallBack());
+  },
+
+  testAdminRestrictedOperationStatus() {
+    assertFalse(config.isAdminRestrictedOperationConfigured());
+    config.update('adminRestrictedOperation', {
+      'status': true,
+    });
+    assertTrue(config.isAdminRestrictedOperationConfigured());
+
+    config.update('adminRestrictedOperation', {
+      'status': false,
+    });
+    assertFalse(config.isAdminRestrictedOperationConfigured());
+  },
+
+  testGetAdminRestrictedOperationAdminEmail() {
+    assertNull(config.getAdminRestrictedOperationAdminEmail());
+    config.update('adminRestrictedOperation', {
+      'status': true,
+      'adminEmail': null,
+    });
+    assertNull(config.getAdminRestrictedOperationAdminEmail());
+
+    const adminEmail = 'admin@example.com';
+    config.update('adminRestrictedOperation', {
+      'status': true,
+      'adminEmail': adminEmail,
+    });
+    assertEquals(adminEmail, config.getAdminRestrictedOperationAdminEmail());
+  },
+
+  testGetAdminRestrictedOperationHelpLinkCallBack() {
+    assertNull(config.getAdminRestrictedOperationHelpLinkCallback());
+    config.update('adminRestrictedOperation', {
+      'status': true,
+      'helpLink': null,
+    });
+    assertNull(config.getAdminRestrictedOperationHelpLinkCallback());
+
+    let helpLink = 'https://www.example.com/trouble_signing_in';
+    config.update('adminRestrictedOperation', {
+      'status': true,
+      'helpLink': helpLink,
+    });
+    assertNotNull(config.getAdminRestrictedOperationHelpLinkCallback());
+
+    let helpLinkCallback = config.getAdminRestrictedOperationHelpLinkCallback();
+    helpLinkCallback();
+    testUtil.assertOpen(helpLink, '_blank');
+
+    stub.replace(
+        util,
+        'isCordovaInAppBrowserInstalled',
+        () => true);
+    helpLinkCallback();
+    // Target should be _system if Cordova InAppBrowser plugin is installed.
+    testUtil.assertOpen(helpLink, '_system');
+
+    helpLink = 1023;
+    config.update('adminRestrictedOperation', {
+      'status': true,
+      'helpLink': helpLink,
+    });
+    assertNull(config.getAdminRestrictedOperationHelpLinkCallback());
   },
 
   testIsAccountSelectionPromptEnabled_googleLoginHint() {

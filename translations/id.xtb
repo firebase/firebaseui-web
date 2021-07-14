@@ -330,7 +330,7 @@
 <translation id="6470057025778734988">Anda tidak dapat lagi login menggunakan akun Anda</translation>
 <translation id="6472297146424049005">Periksa koneksi internet Anda.</translation>
 <translation id="6483116480230343278">Mendaftar…</translation>
-<translation id="6502083090260346644">Dengan mengetuk <ph name="STRING" />, SMS mungkin akan dikirim. Mungkin dikenakan biaya pesan &amp; data.</translation>
+<translation id="6494734506607758748">Untuk mengubah alamat email yang terkait dengan akun, Anda harus login kembali.</translation>
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Samoa Amerika</translation>
 <translation id="6527597037551425211">Brasil</translation>
@@ -361,6 +361,7 @@
 <translation id="6821607741326790458">Jamaika</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
+<translation id="6852861389112775830"><ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> tidak diizinkan untuk melihat halaman yang diminta.</translation>
 <translation id="6918319418444979243">Kirim ulang</translation>
 <translation id="6920167780806379235">Suriah</translation>
 <translation id="6921505896641453739">Email</translation>
@@ -505,7 +506,7 @@
 <translation id="9186194643192393179">Curaçao</translation>
 <translation id="9193130710600355008">Kami telah memblokir semua permintaan dari perangkat ini karena ada aktivitas yang tidak biasa. Coba lagi nanti.</translation>
 <translation id="919456844206936371">Tunisia</translation>
-<translation id="9209678713072395487">Sandi diganti</translation>
+<translation id="9209678713072395487">Sandi diubah</translation>
 <translation id="954276184636809129">Yunani</translation>
 <translation id="959388308828818789">Faktor kedua telah dihapus</translation>
 <translation id="965930633376049617">Angola</translation>
