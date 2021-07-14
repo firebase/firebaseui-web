@@ -1,3 +1,1 @@
-* Implements support for developers to disable sign up on multiple providers in
-FirebaseUI by defining an adminRestrictedOperation config and adding support in
-unauthorizedUser handler.
+* Improved UI support for all identity provider sign up operations when they are restricted by site administrators.
