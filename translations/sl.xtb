@@ -326,7 +326,7 @@
 <translation id="6470057025778734988">S svojim računom se ne boste mogli več prijaviti</translation>
 <translation id="6472297146424049005">Preverite internetno povezavo.</translation>
 <translation id="6483116480230343278">Registriranje ...</translation>
-<translation id="6502083090260346644">Če se dotaknete možnosti <ph name="STRING" />, bo morda poslano sporočilo SMS. Pošiljanje sporočila in prenos podatkov boste morda morali plačati.</translation>
+<translation id="6494734506607758748">Če želite spremeniti e-poštni naslov, povezan z vašim računom, se boste morali prijaviti znova.</translation>
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Ameriška Samoa</translation>
 <translation id="6527597037551425211">Brazilija</translation>
@@ -357,6 +357,7 @@
 <translation id="6821607741326790458">Jamajka</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
+<translation id="6852861389112775830">Uporabnik <ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> nima dovoljenja za ogled zahtevane strani.</translation>
 <translation id="6918319418444979243">Pošlji znova</translation>
 <translation id="6920167780806379235">Sirija</translation>
 <translation id="6921505896641453739">E-poštni naslov</translation>

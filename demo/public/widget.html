@@ -68,7 +68,10 @@
         'tosUrl': 'https://www.google.com',
         'credentialHelper': CLIENT_ID && CLIENT_ID != 'YOUR_OAUTH_CLIENT_ID' ?
             firebaseui.auth.CredentialHelper.GOOGLE_YOLO :
-            firebaseui.auth.CredentialHelper.NONE
+            firebaseui.auth.CredentialHelper.NONE,
+        'adminRestrictedOperation': {
+          status: getAdminRestrictedOperationStatus()
+        }
       };
 
       // Initialize the FirebaseUI Widget using Firebase.

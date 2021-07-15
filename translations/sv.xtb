@@ -21,7 +21,7 @@
 <translation id="1310034618729602982">Testa att uppdatera din e-post igen</translation>
 <translation id="1312824004897469797">Ett nätverksfel uppstod. Försök igen senare.</translation>
 <translation id="1315809131562953678">Ange ett giltigt telefonnummer</translation>
-<translation id="1335716056288807013">Genom att trycka på Verifiera godkänner du våra <ph name="START_LINK_1" />Användarvillkor<ph name="END_LINK" /> och vår <ph name="START_LINK_2" />Sekretesspolicy<ph name="END_LINK" />. Ett sms kan skickas. Meddelande- och dataavgifter kan tillkomma.</translation>
+<translation id="1335716056288807013">Genom att trycka på Verifiera godkänner du våra <ph name="START_LINK_1" />Användarvillkor<ph name="END_LINK" /> och vår <ph name="START_LINK_2" />Integritetspolicy<ph name="END_LINK" />. Ett sms kan skickas. Meddelande- och dataavgifter kan tillkomma.</translation>
 <translation id="137210131544215127">Ange ditt lösenord</translation>
 <translation id="1393433815796487579">Klart</translation>
 <translation id="1412449974349991050">Haiti</translation>
@@ -65,7 +65,7 @@
 <translation id="2187260952722791093">Verifierat!</translation>
 <translation id="2192561962270021282">Ange ditt telefonnummer</translation>
 <translation id="2206856445831770486">GitHub</translation>
-<translation id="2223717216014247341">Sekretesspolicy</translation>
+<translation id="2223717216014247341">Integritetspolicy</translation>
 <translation id="2224563296468523455">Guam</translation>
 <translation id="2245182894886860848">Antingen har resurskvoten överskridits eller så är gränsen nästan nådd.</translation>
 <translation id="2249420035688424170">Kroatien</translation>
@@ -191,7 +191,7 @@
 <translation id="4066104405592701692">Estland</translation>
 <translation id="4147949012570877154">Radera</translation>
 <translation id="4163133799286985193">Argentina</translation>
-<translation id="4166504762096983411">Genom att fortsätta godkänner du våra <ph name="START_LINK_1" />Användarvillkor<ph name="END_LINK" /> och vår <ph name="START_LINK_2" />Sekretesspolicy<ph name="END_LINK" />.</translation>
+<translation id="4166504762096983411">Genom att fortsätta godkänner du våra <ph name="START_LINK_1" />Användarvillkor<ph name="END_LINK" /> och vår <ph name="START_LINK_2" />Integritetspolicy<ph name="END_LINK" />.</translation>
 <translation id="420554669252656972">Ange en ny e-postadress</translation>
 <translation id="4210333062216604630">Ta bort länk</translation>
 <translation id="4242716276491763916">Guinea</translation>
@@ -257,7 +257,7 @@
 <translation id="5407010562344541906">Telefonnummer</translation>
 <translation id="5409861738809250803">Du har redan ett konto</translation>
 <translation id="5410341463946781720">Thailand</translation>
-<translation id="5443669846203963095">Sekretesspolicy</translation>
+<translation id="5443669846203963095">Integritetspolicy</translation>
 <translation id="5444635161362535036">Liechtenstein</translation>
 <translation id="5483706910421209104">Redigera namn</translation>
 <translation id="5487696047685227891">Enheten eller appen togs bort som andra autentiseringssteg.</translation>
@@ -329,7 +329,7 @@
 <translation id="6470057025778734988">Du kommer inte längre att kunna logga in med kontot</translation>
 <translation id="6472297146424049005">Kontrollera internetanslutningen.</translation>
 <translation id="6483116480230343278">Registrerar …</translation>
-<translation id="6502083090260346644">Tryck på <ph name="STRING" /> så skickas ett sms. Meddelande- och dataavgifter kan tillkomma.</translation>
+<translation id="6494734506607758748">Du måste logga in igen om du vill ändra vilken e-postadress som är länkad till ditt konto.</translation>
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Amerikanska Samoa</translation>
 <translation id="6527597037551425211">Brasilien</translation>
@@ -360,6 +360,7 @@
 <translation id="6821607741326790458">Jamaica</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
+<translation id="6852861389112775830"><ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> har inte behörighet att visa den begärda sidan.</translation>
 <translation id="6918319418444979243">Skicka igen</translation>
 <translation id="6920167780806379235">Syrien</translation>
 <translation id="6921505896641453739">E-post</translation>

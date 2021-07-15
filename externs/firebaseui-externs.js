@@ -603,6 +603,18 @@ firebaseui.auth.Config.prototype.privacyPolicyUrl;
  */
 firebaseui.auth.Config.prototype.widgetUrl;
 
+/**
+ * The configuration mirroring the project user actions ("Enable create")
+ * settings.  When sign-up is disabled in the project settings, this
+ * configuration should be provided with the status field set to `true`. This
+ * does not enforce the policy but is rather useful for providing additional
+ * instructions to the end user when a user tries to create a new user account
+ * and the Auth server blocks the operation.
+ *
+ * @type {firebaseui.auth.DisableSignUpConfig|undefined}
+ */
+firebaseui.auth.Config.prototype.adminRestrictedOperation;
+
 
 /**
  * The tenant level CIAP configuration settings.
@@ -931,15 +943,16 @@ firebaseui.auth.OidcSignInOption.prototype.customParameters;
 
 
 /**
- * Defines configurations for disabling email sign up.
+ * Defines the configuration for how to handle errors associated with disabling
+ * users from signing up using FirebaseUI.
  *
  * @interface
  */
 firebaseui.auth.DisableSignUpConfig = function() {};
 
 /**
- * Whether new user sign up with email/password or email link is disabled.
- * The default is false.
+ * Whether a new user is unable to sign up in FirebaseUI. This is true when a
+ * new user cannot sign up, false otherwise.
  *
  * @type {boolean}
  */

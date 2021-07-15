@@ -329,7 +329,7 @@
 <translation id="6470057025778734988">Вече няма да можете да влизате с профила си</translation>
 <translation id="6472297146424049005">Проверете връзката си с интернет.</translation>
 <translation id="6483116480230343278">Създава се регистрация…</translation>
-<translation id="6502083090260346644">Докосвайки <ph name="STRING" />, може да получите SMS съобщение. То може да се таксува по тарифите за данни и SMS.</translation>
+<translation id="6494734506607758748">За да промените имейл адреса, свързан с профила ви, ще трябва да влезете отново.</translation>
 <translation id="6508909904815637928">Вануату</translation>
 <translation id="6520863029476703422">Американска Самоа</translation>
 <translation id="6527597037551425211">Бразилия</translation>
@@ -360,6 +360,7 @@
 <translation id="6821607741326790458">Ямайка</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Пакистан</translation>
+<translation id="6852861389112775830">За <ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> няма упълномощаване за преглед на заявената страница.</translation>
 <translation id="6918319418444979243">Повторно изпращане</translation>
 <translation id="6920167780806379235">Сирия</translation>
 <translation id="6921505896641453739">Имейл</translation>

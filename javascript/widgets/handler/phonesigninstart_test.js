@@ -30,6 +30,8 @@ goog.require('firebaseui.auth.widget.handler.handlePhoneSignInStart');
 /** @suppress {extraRequire} Required for page navigation after form
  *      cancellation to work. */
 goog.require('firebaseui.auth.widget.handler.handleProviderSignIn');
+/** @suppress {extraRequire} */
+goog.require('firebaseui.auth.widget.handler.handleUnauthorizedUser');
 /** @suppress {extraRequire} Required for test helpers. */
 goog.require('firebaseui.auth.widget.handler.testHelper');
 goog.require('goog.Promise');
@@ -1468,6 +1470,106 @@ function testHandlePhoneSignInStart_invalidPhoneNumberErrorCode() {
         firebaseui.auth.soy2.strings.errorInvalidPhoneNumber().toString(),
         getPhoneNumberErrorMessage());
     assertNoInfoBarMessage();
+  });
+}
+
+
+function testHandlePhoneSignInStart_adminRestrictedOperation_errorPage() {
+  // Test phone sign in start flow when getting admin restricted operation
+  // error and adminRestrictedOperation status set to true.
+  app.setConfig({
+    'signInOptions': ['phone', 'google.com'],
+    'adminRestrictedOperation': adminRestrictedOperationConfig,
+  });
+  // Render phone sign in start UI.
+  firebaseui.auth.widget.handler.handlePhoneSignInStart(
+      app, container);
+  // Confirm expected page rendered.
+  assertPhoneSignInStartPage();
+  // Confirm reCAPTCHA initialized with default parameters.
+  recaptchaVerifierInstance.assertInitializedWithParameters(
+      getRecaptchaElement(), {}, app.getExternalAuth().app);
+   // reCAPTCHA should be rendering.
+  recaptchaVerifierInstance.assertRender([], function() {
+    // Simulate grecaptcha loaded.
+    simulateGrecaptchaLoaded(0);
+    // Return expected widget ID.
+    return 0;
+  });
+  return recaptchaVerifierInstance.process().then(function() {
+    // Simulate invalid phone number inputted.
+    goog.dom.forms.setValue(getPhoneNumberElement(), '1234567890');
+    // Simulate reCAPTCHA solved.
+    recaptchaVerifierInstance.getParameters()['callback']('RECAPTCHA_TOKEN');
+    submitForm();
+    // Sign in with phone number triggered. Simulate expected error thrown.
+    externalAuth.assertSignInWithPhoneNumber(
+        ['+11234567890', recaptchaVerifierInstance], null,
+        adminRestrictedOperationError);
+    return externalAuth.process();
+  }).then(function() {
+    // Verify unauthorized user page is rendered.
+    assertUnauthorizedUserPage();
+    // Assert cancel button is rendered.
+    assertNotNull(getCancelButton());
+    // Assert admin email is rendered.
+    assertAdminEmail(expectedAdminEmail);
+    // Assert help link is rendered.
+    assertHelpLink();
+    // Click cancel.
+    clickSecondaryLink();
+    // Verify that clicking back button goes back to the phone sign in starting
+    // page.
+    assertPhoneSignInStartPage();
+    // Reset current rendered widget page.
+    app.getAuth().assertSignOut([]);
+    app.reset();
+  });
+}
+
+
+function testHandlePhoneSignInStart_adminRestrictedOperation_infoBarError() {
+  // Test phone sign in start flow when getting admin restricted operation
+  // error and adminRestrictedOperation status set to false.
+  let modifiedAdminRestrictedOperationConfig =
+      Object.assign({}, adminRestrictedOperationConfig);
+  modifiedAdminRestrictedOperationConfig.status = false;
+  app.setConfig({
+    'signInOptions': ['phone'],
+    'adminRestrictedOperation': modifiedAdminRestrictedOperationConfig,
+  });
+  // Render phone sign in start UI.
+  firebaseui.auth.widget.handler.handlePhoneSignInStart(
+      app, container);
+  // Confirm expected page rendered.
+  assertPhoneSignInStartPage();
+  // Confirm reCAPTCHA initialized with default parameters.
+  recaptchaVerifierInstance.assertInitializedWithParameters(
+      getRecaptchaElement(), {}, app.getExternalAuth().app);
+   // reCAPTCHA should be rendering.
+  recaptchaVerifierInstance.assertRender([], function() {
+    // Simulate grecaptcha loaded.
+    simulateGrecaptchaLoaded(0);
+    // Return expected widget ID.
+    return 0;
+  });
+  return recaptchaVerifierInstance.process().then(function() {
+    // Simulate invalid phone number inputted.
+    goog.dom.forms.setValue(getPhoneNumberElement(), '1234567890');
+    // Simulate reCAPTCHA solved.
+    recaptchaVerifierInstance.getParameters()['callback']('RECAPTCHA_TOKEN');
+    submitForm();
+    // Sign in with phone number triggered. Simulate expected error thrown.
+    externalAuth.assertSignInWithPhoneNumber(
+        ['+11234567890', recaptchaVerifierInstance], null,
+        adminRestrictedOperationError);
+    return externalAuth.process();
+  }).then(function() {
+    // Should remain on the page and display admin restricted operation error
+    // in the info bar.
+    assertPhoneSignInStartPage();
+    assertInfoBarMessage(firebaseui.auth.widget.handler.common.getErrorMessage(
+        adminRestrictedOperationError));
   });
 }
 

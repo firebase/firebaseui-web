@@ -368,7 +368,7 @@ function testUnauthorizedUser_withEmailAdminEmailHelpLink() {
   const root = goog.dom.getElement('unauthorized-user');
   goog.soy.renderElement(
       root, firebaseui.auth.soy2.page.unauthorizedUser, {
-        email: 'user@example.com',
+        userIdentifier: 'user@example.com',
         adminEmail: 'admin@example.com',
         displayHelpLink: true
       },
@@ -377,10 +377,10 @@ function testUnauthorizedUser_withEmailAdminEmailHelpLink() {
 
 
 function testUnauthorizedUser_withEmailAdminEmail() {
-  const root = goog.dom.getElement('unauthorized-user-email-adminemail');
+  const root = goog.dom.getElement('unauthorized-user-email-admin-email');
   goog.soy.renderElement(
       root, firebaseui.auth.soy2.page.unauthorizedUser, {
-        email: 'user@example.com',
+        userIdentifier: 'user@example.com',
         adminEmail: 'admin@example.com'
       },
       IJ_DATA_);
@@ -388,10 +388,10 @@ function testUnauthorizedUser_withEmailAdminEmail() {
 
 
 function testUnauthorizedUser_withEmailHelpLink() {
-  const root = goog.dom.getElement('unauthorized-user-email-helplink');
+  const root = goog.dom.getElement('unauthorized-user-email-help-link');
   goog.soy.renderElement(
       root, firebaseui.auth.soy2.page.unauthorizedUser, {
-        email: 'user@example.com',
+        userIdentifier: 'user@example.com',
         displayHelpLink: true
       },
       IJ_DATA_);
@@ -402,14 +402,24 @@ function testUnauthorizedUser_withEmail() {
   const root = goog.dom.getElement('unauthorized-user-email');
   goog.soy.renderElement(
       root, firebaseui.auth.soy2.page.unauthorizedUser, {
-        email: 'user@example.com'
+        userIdentifier: 'user@example.com'
       },
       IJ_DATA_);
 }
 
 
-function testUnauthorizedUser_noEmail() {
-  const root = goog.dom.getElement('unauthorized-user-no-email');
+function testUnauthorizedUser_withPhoneNumber() {
+  const root = goog.dom.getElement('unauthorized-user-phone-number');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.unauthorizedUser, {
+        userIdentifier: '+13115550123'
+      },
+      IJ_DATA_);
+}
+
+
+function testUnauthorizedUser_noUserIdentifier() {
+  const root = goog.dom.getElement('unauthorized-user-no-user-identifier');
   goog.soy.renderElement(
       root, firebaseui.auth.soy2.page.unauthorizedUser, {},
       IJ_DATA_);

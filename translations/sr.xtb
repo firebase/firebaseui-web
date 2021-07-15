@@ -329,7 +329,7 @@
 <translation id="6470057025778734988">Више нећете моћи да се пријављујете помоћу налога</translation>
 <translation id="6472297146424049005">Проверите интернет везу.</translation>
 <translation id="6483116480230343278">Регистрација је у току…</translation>
-<translation id="6502083090260346644">Ако додирнете <ph name="STRING" />, можда ћете примити SMS. Можда ће вам бити наплаћена порука и пренос података.</translation>
+<translation id="6494734506607758748">Да бисте променили имејл адресу повезану са налогом, треба да се поново пријавите.</translation>
 <translation id="6508909904815637928">Вануату</translation>
 <translation id="6520863029476703422">Америчка Самоа</translation>
 <translation id="6527597037551425211">Бразил</translation>
@@ -360,6 +360,7 @@
 <translation id="6821607741326790458">Јамајка</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Пакистан</translation>
+<translation id="6852861389112775830"><ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> нема овлашћење да приступи траженој страници.</translation>
 <translation id="6918319418444979243">Поново пошаљи</translation>
 <translation id="6920167780806379235">Сирија</translation>
 <translation id="6921505896641453739">Имејл</translation>

@@ -46,6 +46,15 @@ function getDisableSignUpStatus() {
 
 
 /**
+ * @return {boolean} The admin restricted operation status from the configuration.
+ */
+function getAdminRestrictedOperationStatus() {
+  var config = parseQueryString(location.hash);
+  return config['adminRestrictedOperationStatus'] === 'true';
+}
+
+
+/**
  * @param {string} queryString The full query string.
  * @return {!Object<string, string>} The parsed query parameters.
  */
