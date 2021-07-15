@@ -104,7 +104,9 @@ ui.disableAutoSignIn();
  */
 function getWidgetUrl() {
   return '/widget#recaptcha=' + getRecaptchaMode() + '&emailSignInMethod=' +
-      getEmailSignInMethod();
+      getEmailSignInMethod() + '&disableEmailSignUpStatus=' +
+      getDisableSignUpStatus() + '&adminRestrictedOperationStatus=' +
+      getAdminRestrictedOperationStatus();
 }
 
 
