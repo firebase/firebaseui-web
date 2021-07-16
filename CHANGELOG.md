@@ -1,1 +1,0 @@
-* Improved UI support for all identity provider sign up operations when they are restricted by site administrators.
