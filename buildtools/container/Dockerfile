@@ -1,4 +1,4 @@
-FROM node:8.16.0
+FROM node:14.17.3
 
 # Install dependencies: curl, git, jq, python2 and jre8.
 RUN apt-get update && \
