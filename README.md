@@ -451,6 +451,8 @@ FirebaseUI supports the following configuration parameters.
 <td>adminRestrictedOperation</td>
 <td>No</td>
 <td>
+  This setting is only applicable to "Google Cloud Identity Platform" projects.
+  Learn more about [GCIP](https://cloud.google.com/identity-platform/).
   The object for configuring `adminRestrictedOperation` options, contains 3
   fields:
   `status(boolean)`: This flag should mirror the project user actions
