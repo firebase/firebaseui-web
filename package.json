@@ -1,6 +1,6 @@
 {
   "name": "firebaseui",
-  "version": "5.0.0",
+  "version": "5.0.0-beta.0",
   "description": "Javascript library for customizable UI on top of Firebase SDK",
   "files": [
     "dist/firebaseui.js",
@@ -39,7 +39,7 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "closure-builder": "^2.3.7",
-    "firebase": "^9.0.0-beta.8",
+    "firebase": "9.0.0-beta.8",
     "firebase-tools": "^9.3.0",
     "firebase-v8": "npm:firebase@^8.2.4",
     "fs-extra": "^3.0.1",
@@ -64,6 +64,6 @@
     "material-design-lite": "^1.2.0"
   },
   "peerDependencies": {
-    "firebase": "^9.0.0-beta.8"
+    "firebase": "9.0.0-beta.8"
   }
 }
