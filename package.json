@@ -64,6 +64,6 @@
     "material-design-lite": "^1.2.0"
   },
   "peerDependencies": {
-    "firebase": "^9.0.0-beta.2"
+    "firebase": "^9.0.0-beta.8"
   }
 }

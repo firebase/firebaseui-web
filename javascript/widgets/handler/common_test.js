@@ -1413,6 +1413,7 @@ function testFederatedSignIn_success_redirectMode() {
 
 }
 
+
 function testFederatedSignIn_success_redirectMode_tenantId() {
   app.setTenantId('TENANT_ID');
   var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');

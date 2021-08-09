@@ -205,8 +205,7 @@ function testHandleEmailLinkSignInCallback_noUpgrade_emailConfirmation() {
   });
 }
 
-// TODO(jamesdnaiels) beta.2 tenantId is readonly
-/*
+
 function testHandleEmailLinkSignInCallback_tenantId() {
   // Provide a sign in success callback.
   app.setConfig({
@@ -293,7 +292,7 @@ function testHandleEmailLinkSignInCallback_tenantId() {
     testUtil.assertGoTo('http://localhost/home');
   });
 }
-*/
+
 
 function testHandleEmailLinkSignInCallback_emailMismatch() {
   var email = passwordAccount.getEmail();

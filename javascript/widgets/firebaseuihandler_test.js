@@ -495,10 +495,6 @@ testSuite({
     testStubs.reset();
   },
 
-  testFoo() {
-    assertTrue(true);
-  },
-
   testSelectTenant_optionFirst() {
     handler = new FirebaseUiHandler(container, configs);
     const selectPromise = handler.selectTenant(
@@ -2509,5 +2505,4 @@ testSuite({
       assertEquals('Invalid tenant configuration!', error.message);
     });
   },
-
 });
