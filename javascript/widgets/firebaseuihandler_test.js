@@ -497,11 +497,8 @@ testSuite({
 
   testFoo() {
     assertTrue(true);
-  }
+  },
 
-// TODO(james) this suite is almost entirely red due to the tenantId bug in beta.2
-//             add it back in once tenantId is fixed
-/*
   testSelectTenant_optionFirst() {
     handler = new FirebaseUiHandler(container, configs);
     const selectPromise = handler.selectTenant(
@@ -2512,5 +2509,5 @@ testSuite({
       assertEquals('Invalid tenant configuration!', error.message);
     });
   },
-*/
+
 });

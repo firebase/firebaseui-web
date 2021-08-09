@@ -717,8 +717,6 @@ function testIsPendingRedirect() {
   assertFalse(app3.isPendingRedirect());
 }
 
-// TODO(jamesdaniels) tenantId is readonly in beta.2
-/*
 function testGetSetTenantId() {
   createAndInstallTestInstances();
   assertNull(app1.getTenantId());
@@ -735,7 +733,7 @@ function testGetSetTenantId() {
   assertEquals('TENANT_ID2', app1.getTenantId());
   assertEquals('TENANT_ID2', app1.getExternalAuth().tenantId);
   assertEquals('TENANT_ID2', testAuth1.tenantId);
-}*/
+}
 
 
 function testClearEmailSignInState() {
@@ -969,8 +967,6 @@ function testStart_immediateFederatedRedirect_finishRedirect() {
   });
 }
 
-// TODO(jamesdaniels) beta.2 languageCode is readonly
-/*
 function testSetLang() {
   testStubs.replace(goog, 'LOCALE', 'de');
   // Language code of auth instance is set to goog.LOCALE at initialization.
@@ -1103,8 +1099,6 @@ function testStart_redirect_tenantId() {
   assertEquals('TENANT_ID', testAuth1.tenantId);
   assertFalse(firebaseui.auth.storage.hasRedirectStatus(app1.getAppId()));
 }
-
-*/
 
 function testStartWithSignInHint() {
   // Test startWithSignInHint.

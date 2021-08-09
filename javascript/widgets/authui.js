@@ -521,17 +521,15 @@ firebaseui.auth.AuthUI.prototype.startWithSignInHint =
   // Make sure the locale uses hyphens instead of underscores.
   var unicodeLocale = firebaseui.auth.util.getUnicodeLocale();
   // Sync the language code of Auth instance with widget.
-  // TODO(jamesdaniels) beta.2 auth languageCode is read only
-  // this.auth_.languageCode = unicodeLocale;
-  // this.tempAuth_.languageCode = unicodeLocale;
+  this.auth_.languageCode = unicodeLocale;
+  this.tempAuth_.languageCode = unicodeLocale;
   // At end of flow or on reset, revert is needed.
   this.languageCodePendingRevert_ = true;
 
-  // TODO(jamesdaniels) tenantId is readonly in beta.2
   // Sync the tenant ID from external instance to internal instance.
-  //if (typeof this.auth_['tenantId'] !== 'undefined') {
-  //   this.tempAuth_['tenantId'] = this.auth_['tenantId'];
-  // }
+  if (typeof this.auth_['tenantId'] !== 'undefined') {
+     this.tempAuth_['tenantId'] = this.auth_['tenantId'];
+  }
 
   this.setConfig(config);
   this.signInHint_ = signInHint || null;
@@ -769,8 +767,7 @@ firebaseui.auth.AuthUI.prototype.revertLanguageCode = function() {
   if (typeof this.auth_.languageCode !== 'undefined' &&
       this.languageCodePendingRevert_) {
     this.languageCodePendingRevert_ = false;
-    // TODO(jamesdaniels) beta.2 languageCode is readonly
-    // this.auth_.languageCode = this.originalAuthLanguageCode_;
+    this.auth_.languageCode = this.originalAuthLanguageCode_;
   }
 };
 
@@ -780,9 +777,8 @@ firebaseui.auth.AuthUI.prototype.revertLanguageCode = function() {
  * @param {?string} tenantId The tenant ID.
  */
 firebaseui.auth.AuthUI.prototype.setTenantId = function(tenantId) {
-  // TODO(jamesdaniels) beta.2 tenantId is readonly
-  // this.auth_['tenantId'] = tenantId;
-  // this.tempAuth_['tenantId'] = tenantId;
+  this.auth_['tenantId'] = tenantId;
+  this.tempAuth_['tenantId'] = tenantId;
 };
 
 

@@ -360,8 +360,7 @@ class FirebaseUiHandler {
         'authDomain': this.configs_[apiKey].getAuthDomain(),
       };
       const app = firebase.initializeApp(options, appName);
-      // TODO(jamesdaniels) tenantId is readonly in beta.2
-      // app.auth()['tenantId'] = tenantId;
+      app.auth()['tenantId'] = tenantId;
       this.signedInAuth_ = app.auth();
     }
     return this.signedInAuth_;
