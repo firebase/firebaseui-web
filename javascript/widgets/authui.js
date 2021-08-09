@@ -528,7 +528,7 @@ firebaseui.auth.AuthUI.prototype.startWithSignInHint =
 
   // Sync the tenant ID from external instance to internal instance.
   if (typeof this.auth_['tenantId'] !== 'undefined') {
-     this.tempAuth_['tenantId'] = this.auth_['tenantId'];
+    this.tempAuth_['tenantId'] = this.auth_['tenantId'];
   }
 
   this.setConfig(config);

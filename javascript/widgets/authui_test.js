@@ -717,6 +717,7 @@ function testIsPendingRedirect() {
   assertFalse(app3.isPendingRedirect());
 }
 
+
 function testGetSetTenantId() {
   createAndInstallTestInstances();
   assertNull(app1.getTenantId());
@@ -967,6 +968,7 @@ function testStart_immediateFederatedRedirect_finishRedirect() {
   });
 }
 
+
 function testSetLang() {
   testStubs.replace(goog, 'LOCALE', 'de');
   // Language code of auth instance is set to goog.LOCALE at initialization.
@@ -1058,6 +1060,7 @@ function testStart_revertLanguageCode() {
   assertEquals('fr', app.getExternalAuth().languageCode);
 }
 
+
 function testStart_tenantId() {
   // Test that tenant ID is passed to UI on external Auth instance.
   createAndInstallTestInstances();
@@ -1099,6 +1102,7 @@ function testStart_redirect_tenantId() {
   assertEquals('TENANT_ID', testAuth1.tenantId);
   assertFalse(firebaseui.auth.storage.hasRedirectStatus(app1.getAppId()));
 }
+
 
 function testStartWithSignInHint() {
   // Test startWithSignInHint.
