@@ -451,6 +451,8 @@ FirebaseUI supports the following configuration parameters.
 <td>adminRestrictedOperation</td>
 <td>No</td>
 <td>
+  This setting is only applicable to "Google Cloud Identity Platform" projects.
+  Learn more about [GCIP](https://cloud.google.com/identity-platform/).
   The object for configuring `adminRestrictedOperation` options, contains 3
   fields:
   `status(boolean)`: This flag should mirror the project user actions
@@ -1074,6 +1076,14 @@ ui.start('#firebaseui-auth-container', {
           // Additional state showPromo=1234 can be retrieved from URL on
           // sign-in completion in signInSuccess callback by checking
           // window.location.href.
+          // If you are using a fragment in the URL, additional FirebaseUI
+          // parameters will be appended to the query string component instead
+          // of the fragment.
+          // So for a url: https://www.example.com/#/signin
+          // The completion URL will take the form:
+          // https://www.example.com/?uid_sid=xyz&ui_sd=0#/signin
+          // This should be taken into account when using frameworks with "hash
+          // routing".
           url: 'https://www.example.com/completeSignIn?showPromo=1234',
           // Custom FDL domain.
           dynamicLinkDomain: 'example.page.link',
@@ -1116,6 +1126,12 @@ if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
 
 Additional state passed in the <code>url</code> can be retrieved on sign-in
 completion via the signInSuccess callbacks.
+
+If you are using a fragment in the URL, additional FirebaseUI parameters will be
+appended to the query string component instead of the fragment.
+So for a url `https://www.example.com/#/signin`, the completion URL will take
+the form `https://www.example.com/?uid_sid=xyz&ui_sd=0#/signin`.
+This should be taken into account when using frameworks with "hash routing".
 
 ```javascript
 // ...
