@@ -467,12 +467,10 @@ firebaseui.auth.AuthUIError.prototype.toJSON = function() {};
 
 
 /**
- * The FirebaseUI credential helpers available. `ACCOUNT_CHOOSER_COM` is
- * deprecated and will be removed by Jan 31st, 2021.
+ * The FirebaseUI credential helpers available.
  * @enum {string}
  */
 firebaseui.auth.CredentialHelper = {
-  ACCOUNT_CHOOSER_COM: 'accountchooser.com',
   GOOGLE_YOLO: 'googleyolo',
   NONE: 'none'
 };
@@ -484,16 +482,6 @@ firebaseui.auth.CredentialHelper = {
  * @interface
  */
 firebaseui.auth.Config = function() {};
-
-/**
- * The accountchooser.com configuration when it is selected as credential
- * helper. This is now a no-op and is deprecated and will be removed by
- * Jan 31st, 2021.
- *
- * @deprecated
- * @type {!Object|undefined}
- */
-firebaseui.auth.Config.prototype.acUiConfig;
 
 /**
  * Whether to upgrade anonymous users on sign-in. The default is false.

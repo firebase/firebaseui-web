@@ -62,8 +62,8 @@ You just need to include the following script and CSS file in the `<head>` tag
 of your page, below the initialization snippet from the Firebase Console:
 
 ```html
-<script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js"></script>
-<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
+<script src="https://www.gstatic.com/firebasejs/ui/5.0.0/firebase-ui-auth.js"></script>
+<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/5.0.0/firebase-ui-auth.css" />
 ```
 
 #### Localized Widget
@@ -72,17 +72,17 @@ Localized versions of the widget are available through the CDN. To use a
 localized widget, load the localized JS library instead of the default library:
 
 ```html
-<script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth__{LANGUAGE_CODE}.js"></script>
-<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
+<script src="https://www.gstatic.com/firebasejs/ui/5.0.0/firebase-ui-auth__{LANGUAGE_CODE}.js"></script>
+<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/5.0.0/firebase-ui-auth.css" />
 ```
 
 where `{LANGUAGE_CODE}` is replaced by the code of the language you want. For example, the French
 version of the library is available at
-`https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth__fr.js`. The list of available
+`https://www.gstatic.com/firebasejs/ui/5.0.0/firebase-ui-auth__fr.js`. The list of available
 languages and their respective language codes can be found at [LANGUAGES.md](LANGUAGES.md).
 
 Right-to-left languages also require the right-to-left version of the stylesheet, available at
-`https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth-rtl.css`, instead of the default
+`https://www.gstatic.com/firebasejs/ui/5.0.0/firebase-ui-auth-rtl.css`, instead of the default
 stylesheet. The supported right-to-left languages are Arabic (ar), Farsi (fa), and Hebrew (iw).
 
 ### Option 2: npm Module
@@ -199,8 +199,8 @@ for a more in-depth example, showcasing a Single Page Application mode.
        * In addition, include the firebase-auth SDK:
        * <script src="https://www.gstatic.com/firebasejs/[FIREBASE VERSION USED IN SNIPPET]/firebase-auth.js"></script> *
        ***************************************************************************************** -->
-    <script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
+    <script src="https://www.gstatic.com/firebasejs/ui/5.0.0/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/5.0.0/firebase-ui-auth.css" />
     <script type="text/javascript">
       // FirebaseUI config.
       var uiConfig = {
@@ -1351,8 +1351,8 @@ FirebaseUI is displayed.
        * TODO(DEVELOPER): Paste the initialization snippet from:
        * Firebase Console > Overview > Add Firebase to your web app. *
        ***************************************************************************************** -->
-    <script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
+    <script src="https://www.gstatic.com/firebasejs/ui/5.0.0/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/5.0.0/firebase-ui-auth.css" />
     <script type="text/javascript">
       // FirebaseUI config.
       var uiConfig = {
@@ -1933,11 +1933,18 @@ on a server deployed locally, accessing the application through a `localhost`
 address. However, it doesn't impact applications deployed on a server (as you
 can verify in the [demo app](https://fir-ui-demo-84a6c.firebaseapp.com/)).
 
-## Deprecated APIs
+## Release Notes
 
-As a result of `accountchooser.com` switching to "universal opt-out" mode on
-July 31st, 2020, FirebaseUI will no longer support `accountchooser.com`
-credential helper.
+**Latest**: https://github.com/firebase/firebaseui-web/releases/latest
+
+**For v1.0.0 and superior:** https://github.com/firebase/firebaseui-web/releases
+
+### 5.0.0
+
+`accountchooser.com` has been operating in "universal opt-out" mode and was
+shutdown on July 2021. FirebaseUI-web has stopped supporting this credential
+helper and since version v5.0.0, all related configurations and enums have been
+removed.
 
 - If you are using `firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM`,
   you need to switch to `firebaseui.auth.CredentialHelper.NONE` or
@@ -1948,12 +1955,6 @@ credential helper.
 - `firebaseui.auth.FederatedSignInOption#authMethod` is no longer required to
   be provided by the latest
   [one-tap API](https://developers.google.com/identity/one-tap/web/reference/js-reference).
-
-## Release Notes
-
-**Latest**: https://github.com/firebase/firebaseui-web/releases/latest
-
-**For v1.0.0 and superior:** https://github.com/firebase/firebaseui-web/releases
 
 ### 0.5.0
 

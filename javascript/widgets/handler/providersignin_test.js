@@ -88,7 +88,7 @@ function setupProviderSignInPage(
       'signInFlow': flow,
       'credentialHelper': !!enableOneTap ?
           firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO :
-          firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM
+          firebaseui.auth.widget.Config.CredentialHelper.NONE
     });
   }
   // Set sign-in options.

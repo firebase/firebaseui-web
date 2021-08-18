@@ -113,9 +113,6 @@ interface PhoneSignInOption extends SignInOption {
 
 declare namespace firebaseui.auth {
   interface Config {
-    // This is now a no-op and is deprecated and will be removed by Jan 31st,
-    // 2021.
-    acUiConfig?: object;
     autoUpgradeAnonymousUsers?: boolean;
     callbacks?: Callbacks;
     credentialHelper?: CredentialHelperType;
@@ -166,9 +163,6 @@ declare namespace firebaseui.auth {
 
   class CredentialHelper {
     private constructor();
-    // `ACCOUNT_CHOOSER_COM` is deprecated and will be removed by Jan 31st,
-    // 2021.
-    static ACCOUNT_CHOOSER_COM: CredentialHelperType;
     static GOOGLE_YOLO: CredentialHelperType;
     static NONE: CredentialHelperType;
   }

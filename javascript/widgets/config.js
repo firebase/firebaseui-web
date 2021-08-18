@@ -35,9 +35,6 @@ class Config {
   constructor() {
     /** @const @private {!AuthConfig} The AuthUI config object. */
     this.config_ = new AuthConfig();
-    // Define FirebaseUI widget configurations and convenient getters.
-    // TODO: This is deprecated and should be removed by Jan 31st, 2021.
-    this.config_.define('acUiConfig');
     this.config_.define('autoUpgradeAnonymousUsers');
     this.config_.define('callbacks');
     /**
@@ -857,11 +854,6 @@ class Config {
     }
     const credentialHelper = this.config_.get('credentialHelper');
 
-    // Manually set deprecated accountchooser.com to none.
-    if (credentialHelper === Config.CredentialHelper.ACCOUNT_CHOOSER_COM) {
-      return Config.CredentialHelper.NONE;
-    }
-
     // Make sure the credential helper is valid.
     for (let key in Config.CredentialHelper) {
       if (Config.CredentialHelper[key] === credentialHelper) {
@@ -916,8 +908,6 @@ class Config {
  * @enum {string}
  */
 Config.CredentialHelper = {
-  // TODO: accountchooser.com is no longer supported. Remove by Jan 31st, 2021.
-  ACCOUNT_CHOOSER_COM: 'accountchooser.com',
   GOOGLE_YOLO: 'googleyolo',
   NONE: 'none',
 };
