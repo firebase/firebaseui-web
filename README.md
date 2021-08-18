@@ -1933,11 +1933,18 @@ on a server deployed locally, accessing the application through a `localhost`
 address. However, it doesn't impact applications deployed on a server (as you
 can verify in the [demo app](https://fir-ui-demo-84a6c.firebaseapp.com/)).
 
-## Deprecated APIs
+## Release Notes
 
-As a result of `accountchooser.com` switching to "universal opt-out" mode on
-July 31st, 2020, FirebaseUI will no longer support `accountchooser.com`
-credential helper.
+**Latest**: https://github.com/firebase/firebaseui-web/releases/latest
+
+**For v1.0.0 and superior:** https://github.com/firebase/firebaseui-web/releases
+
+### 5.0.0
+
+`accountchooser.com` has been operating in "universal opt-out" mode and was
+shutdown on July 2021. FirebaseUI-web has stopped supporting this credential
+helper and since version v5.0.0, all related configurations and enums have been
+removed.
 
 - If you are using `firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM`,
   you need to switch to `firebaseui.auth.CredentialHelper.NONE` or
@@ -1948,12 +1955,6 @@ credential helper.
 - `firebaseui.auth.FederatedSignInOption#authMethod` is no longer required to
   be provided by the latest
   [one-tap API](https://developers.google.com/identity/one-tap/web/reference/js-reference).
-
-## Release Notes
-
-**Latest**: https://github.com/firebase/firebaseui-web/releases/latest
-
-**For v1.0.0 and superior:** https://github.com/firebase/firebaseui-web/releases
 
 ### 0.5.0
 

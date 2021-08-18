@@ -83,14 +83,8 @@ firebaseui.auth.Account = class {
    * @return {?firebaseui.auth.Account} The account.
    */
   static fromPlainObject(account) {
-    // TODO: Remove this filter once accountchooser.com supports non-email
-    // accounts. We will also have to figure out how to choose a sign-in method,
-    // since fetchProvidersForEmail won't work.
-    if (account['email']) {
-      return new firebaseui.auth.Account(
-          account['email'], account['displayName'], account['photoUrl'],
-          account['providerId']);
-    }
-    return null;
+    return new firebaseui.auth.Account(
+        account['email'], account['displayName'], account['photoUrl'],
+        account['providerId']);
   }
 };
