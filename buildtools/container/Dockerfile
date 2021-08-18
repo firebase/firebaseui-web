@@ -4,8 +4,8 @@ FROM node:14.17.3
 RUN apt-get update && \
     apt-get install -y curl git jq python openjdk-8-jre-headless
 
-# Install npm at 6.10.2.
-RUN npm install --global npm@6.10.2
+# Install npm at 6.14.13.
+RUN npm install --global npm@6.14.13
 
 # Install hub
 RUN curl -fsSL --output hub.tgz https://github.com/github/hub/releases/download/v2.11.2/hub-linux-amd64-2.11.2.tgz
