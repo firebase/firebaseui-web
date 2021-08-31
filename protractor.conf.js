@@ -60,10 +60,10 @@ config = {
 var arguments = process.argv.slice(3);
 
 // Default options: run tests locally (saucelabs false) and use the env variable
-// GITHUB_RUN_ID to get the tunnel identifier, when using saucelabs.
+// TUNNEL_IDENTIFIER to get the tunnel identifier, when using saucelabs.
 var options = {
   saucelabs: false,
-  tunnelIdentifier: process.env.GITHUB_RUN_ID
+  tunnelIdentifier: process.env.TUNNEL_IDENTIFIER
 };
 
 for (var i = 0; i < arguments.length; i++) {
@@ -77,7 +77,7 @@ for (var i = 0; i < arguments.length; i++) {
 
 if (options.saucelabs) {
   if (!options.tunnelIdentifier) {
-    throw 'No tunnel identifier given! Either the GITHUB_RUN_ID is not ' +
+    throw 'No tunnel identifier given! Either the TUNNEL_IDENTIFIER is not ' +
         'set, or you haven\'t passed the --tunnelIdentifier=xxx argument.';
   }
   // SauceLabs configuration.

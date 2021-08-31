@@ -17,8 +17,6 @@
 # Download and install SauceConnect under Linux 64-bit. To be used when testing
 # with SauceLabs locally. See the instructions in protractor.conf.js file.
 #
-# It should not be used on Travis. Travis already handles SauceConnect.
-#
 # Script copied from the Closure Library repository:
 # https://github.com/google/closure-library/blob/master/scripts/ci/sauce_connect.sh
 #
