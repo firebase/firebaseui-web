@@ -36,5 +36,5 @@ jobs:
         run: npm ci
       - name: Build & run tests
         run: |
-          ./buildtools/sauce_connect.sh
+          ./buildtools/sauce_connect.sh &
           npm test -- --saucelabs
