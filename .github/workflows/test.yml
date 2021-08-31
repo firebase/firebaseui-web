@@ -27,7 +27,7 @@ jobs:
           key: ${{ runner.os }}-10-node_modules-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-10-node_modules-
-      - name: Run tests
-        run: |
-          npm ci
-          npm test -- --saucelabs
+      - name: NPM install
+        run: npm ci
+      - name: Build & run tests
+        run: npm test # -- --saucelabs
