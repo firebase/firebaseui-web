@@ -28,6 +28,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-10-node_modules-
       - name: NPM install
+        if: steps.node_modules_cache.outputs.cache-hit != 'true'
         run: npm ci
       - name: Build & run tests
         run: npm test # -- --saucelabs
