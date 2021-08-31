@@ -17,14 +17,12 @@
 # Download and install SauceConnect under Linux 64-bit. To be used when testing
 # with SauceLabs locally. See the instructions in protractor.conf.js file.
 #
-# It should not be used on Travis. Travis already handles SauceConnect.
-#
 # Script copied from the Closure Library repository:
 # https://github.com/google/closure-library/blob/master/scripts/ci/sauce_connect.sh
 #
 
 # Setup and start Sauce Connect locally.
-CONNECT_URL="https://saucelabs.com/downloads/sc-4.4.1-linux.tar.gz"
+CONNECT_URL="https://saucelabs.com/downloads/sc-4.6.5-linux.tar.gz"
 CONNECT_DIR="/tmp/sauce-connect-$RANDOM"
 CONNECT_DOWNLOAD="sc-latest-linux.tar.gz"
 
@@ -46,8 +44,13 @@ function removeFiles() {
 
 trap removeFiles EXIT
 
-# This will be used by Protractor to connect to SauceConnect.
-TUNNEL_IDENTIFIER="tunnelId-$RANDOM"
+# This will be used by Protractor to connect to SauceConnect
+if [[(! -z "$GITHUB_RUN_ID")]]; then
+  TUNNEL_IDENTIFIER="$GITHUB_RUN_ID"
+else
+  TUNNEL_IDENTIFIER="tunnelId-$RANDOM"
+fi
+
 echo ""
 echo "========================================================================="
 echo "    Tunnel Identifier to pass to Protractor:"

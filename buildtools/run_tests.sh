@@ -23,7 +23,7 @@
 # Can take up to two arguments:
 # --saucelabs: Use SauceLabs instead of phantomJS.
 # --tunnelIdentifier=<tunnelId>: when using SauceLabs, specify the tunnel
-#     identifier. Otherwise, uses the environment variable TRAVIS_JOB_NUMBER.
+#     identifier. Otherwise, uses the environment variable GITHUB_RUN_ID.
 #
 # Prefer to use the `npm test` command as explained below.
 #
@@ -45,7 +45,7 @@
 # This will start the HTTP Server locally, and connect through SauceConnect
 # to SauceLabs remote browsers instances.
 #
-# Travis will run `npm test -- --saucelabs`.
+# Github Actions will run `npm test -- --saucelabs`.
 
 cd "$(dirname $(dirname "$0"))"
 BIN_PATH="./node_modules/.bin"
@@ -71,8 +71,8 @@ trap killServer EXIT
 # If --saucelabs option is passed, forward it to the protractor command adding
 # the second argument that is required for local SauceLabs test run.
 if [[ $1 = "--saucelabs" ]]; then
-  # Enable saucelabs tests only when running locally or when Travis enviroment vars are accessible. 
-  if [[ ( "$TRAVIS" = true  &&  "$TRAVIS_SECURE_ENV_VARS" = true ) || ( -z "$TRAVIS" ) ]]; then
+  # Enable saucelabs tests only when running locally or when CI enviroment vars are accessible. 
+  if [[ ((! -z "$SAUCE_USERNAME") && (! -z "$SAUCE_ACCESS_KEY")) || ( -z "$CI" ) ]]; then
     seleniumStarted=false
     sleep 2
     echo "Using SauceLabs."
