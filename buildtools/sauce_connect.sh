@@ -44,8 +44,13 @@ function removeFiles() {
 
 trap removeFiles EXIT
 
-# This will be used by Protractor to connect to SauceConnect.
-TUNNEL_IDENTIFIER="tunnelId-$RANDOM"
+# This will be used by Protractor to connect to SauceConnect
+if [[(! -z "$GITHUB_RUN_ID")]]; then
+  TUNNEL_IDENTIFIER="$GITHUB_RUN_ID"
+else
+  TUNNEL_IDENTIFIER="tunnelId-$RANDOM"
+fi
+
 echo ""
 echo "========================================================================="
 echo "    Tunnel Identifier to pass to Protractor:"
