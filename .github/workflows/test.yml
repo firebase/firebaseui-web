@@ -8,6 +8,10 @@ on:
     branches: 
       - "**"
 
+env:
+  SAUCE_USERNAME: ${{secrets.SAUCE_USERNAME}}
+  SAUCE_ACCESS_KEY: ${{secrets.SAUCE_ACCESS_KEY}}
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -31,4 +35,4 @@ jobs:
         if: steps.node_modules_cache.outputs.cache-hit != 'true'
         run: npm ci
       - name: Build & run tests
-        run: npm test # -- --saucelabs
+        run: npm test -- --saucelabs
