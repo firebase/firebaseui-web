@@ -22,7 +22,7 @@
 #
 
 # Setup and start Sauce Connect locally.
-CONNECT_URL="https://saucelabs.com/downloads/sc-4.4.1-linux.tar.gz"
+CONNECT_URL="https://saucelabs.com/downloads/sc-4.6.5-linux.tar.gz"
 CONNECT_DIR="/tmp/sauce-connect-$RANDOM"
 CONNECT_DOWNLOAD="sc-latest-linux.tar.gz"
 
