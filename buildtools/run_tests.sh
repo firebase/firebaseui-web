@@ -23,7 +23,7 @@
 # Can take up to two arguments:
 # --saucelabs: Use SauceLabs instead of phantomJS.
 # --tunnelIdentifier=<tunnelId>: when using SauceLabs, specify the tunnel
-#     identifier. Otherwise, uses the environment variable TUNNEL_IDENTIFIER.
+#     identifier. Otherwise, uses the environment variable GITHUB_RUN_ID.
 #
 # Prefer to use the `npm test` command as explained below.
 #
