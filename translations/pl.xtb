@@ -330,7 +330,7 @@
 <translation id="6470057025778734988">Logowanie za pomocą tego konta będzie niemożliwe</translation>
 <translation id="6472297146424049005">Sprawdź połączenie z internetem.</translation>
 <translation id="6483116480230343278">Rejestruję...</translation>
-<translation id="6502083090260346644">Gdy klikniesz <ph name="STRING" />, może zostać wysłany SMS, przez co operator może pobrać opłatę za przesyłanie wiadomości i danych.</translation>
+<translation id="6494734506607758748">Aby zmienić adres e-mail powiązany ze swoim kontem, musisz zalogować się jeszcze raz.</translation>
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Samoa Amerykańskie</translation>
 <translation id="6527597037551425211">Brazylia</translation>
@@ -361,6 +361,7 @@
 <translation id="6821607741326790458">Jamajka</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
+<translation id="6852861389112775830">Użytkownik <ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> nie ma uprawnień do wyświetlenia wybranej strony.</translation>
 <translation id="6918319418444979243">Wyślij ponownie</translation>
 <translation id="6920167780806379235">Syria</translation>
 <translation id="6921505896641453739">E-mail</translation>

@@ -329,7 +329,7 @@
 <translation id="6470057025778734988">अब आप अपने खाते का उपयोग करके प्रवेश करने में सक्षम नहीं होंगे</translation>
 <translation id="6472297146424049005">अपने इंटरनेट कनेक्शन की जाँच करें.</translation>
 <translation id="6483116480230343278">साइन अप करना…</translation>
-<translation id="6502083090260346644"><ph name="STRING" /> टैप करने पर, एक SMS भेजा जा सकता है. संदेश और डेटा दरें लागू हो सकती हैं.</translation>
+<translation id="6494734506607758748">अपने खाते से जुड़े ईमेल पते को बदलने के लिए, आपको फिर से प्रवेश करना होगा.</translation>
 <translation id="6508909904815637928">वनुआतु</translation>
 <translation id="6520863029476703422">अमेरिकन समोआ</translation>
 <translation id="6527597037551425211">ब्राज़ील</translation>
@@ -360,6 +360,7 @@
 <translation id="6821607741326790458">जमैका</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">पाकिस्तान</translation>
+<translation id="6852861389112775830"><ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> को, अनुरोध किया गया पेज देखने की अनुमति नहीं है.</translation>
 <translation id="6918319418444979243">फिर से भेजें</translation>
 <translation id="6920167780806379235">सीरिया</translation>
 <translation id="6921505896641453739">ईमेल</translation>

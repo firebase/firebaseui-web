@@ -329,7 +329,7 @@
 <translation id="6470057025778734988">Više se nećete moći prijaviti svojim računom.</translation>
 <translation id="6472297146424049005">Provjerite internetsku vezu.</translation>
 <translation id="6483116480230343278">Registriranje....</translation>
-<translation id="6502083090260346644">Ako dodirnete <ph name="STRING" />, možda ćemo vam poslati SMS. Moguća je naplata poruke i podatkovnog prometa.</translation>
+<translation id="6494734506607758748">Da biste promijenili e-adresu povezanu sa svojim računom, trebate se ponovo prijaviti.</translation>
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Američka Samoa</translation>
 <translation id="6527597037551425211">Brazil</translation>
@@ -360,6 +360,7 @@
 <translation id="6821607741326790458">Jamajka</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
+<translation id="6852861389112775830">Korisnik <ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> nema autorizaciju za pregled zatražene stranice.</translation>
 <translation id="6918319418444979243">Pošalji ponovo</translation>
 <translation id="6920167780806379235">Sirija</translation>
 <translation id="6921505896641453739">E-adresa</translation>

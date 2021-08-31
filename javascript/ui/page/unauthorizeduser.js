@@ -30,7 +30,8 @@ const page = goog.require('firebaseui.auth.soy2.page');
  */
 class UnauthorizedUser extends Base {
   /**
-   * @param {?string} email The user's email.
+   * @param {?string} userIdentifier The user identifier of the account, can be
+   *     email address or phone number.
    * @param {function()} onCancelClick Callback to invoke when the back button
    *     is clicked.
    * @param {?string=} adminEmail The admin email to contact with.
@@ -43,12 +44,12 @@ class UnauthorizedUser extends Base {
    * @param {?DomHelper=} domHelper Optional DOM helper.
    */
   constructor(
-      email, onCancelClick, adminEmail, emailHelperCallback, tosCallback,
-      privacyPolicyCallback, domHelper) {
+      userIdentifier, onCancelClick, adminEmail, emailHelperCallback,
+      tosCallback, privacyPolicyCallback, domHelper) {
     super(
         page.unauthorizedUser,
         {
-          email: email,
+          userIdentifier: userIdentifier,
           adminEmail: adminEmail,
           displayHelpLink: !!emailHelperCallback
         },

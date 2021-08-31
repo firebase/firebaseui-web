@@ -571,6 +571,23 @@ firebaseui.auth.widget.handler.common.federatedSignIn = function(
             firebaseui.auth.widget.handler.common.getErrorMessage(
                 normalizedError));
         break;
+      case 'auth/admin-restricted-operation':
+        component.dispose();
+        if (app.getConfig().isAdminRestrictedOperationConfigured()) {
+          firebaseui.auth.widget.handler.handle(
+              firebaseui.auth.widget.HandlerName.UNAUTHORIZED_USER,
+              app,
+              container,
+              null,
+              providerId);
+        } else {
+          firebaseui.auth.widget.handler.handle(
+              firebaseui.auth.widget.HandlerName.CALLBACK,
+              app,
+              container,
+              goog.Promise.reject(normalizedError));
+        }
+        break;
       default:
         // Either linking required errors or errors that are
         // unrecoverable.
@@ -733,6 +750,19 @@ firebaseui.auth.widget.handler.common.handleGoogleYoloCredential =
                 app,
                 container,
                 goog.Promise.reject(error));
+            return;
+          } else if (error &&
+                     error['code'] == 'auth/admin-restricted-operation' &&
+                     app.getConfig().isAdminRestrictedOperationConfigured()) {
+            // Render unauthorized user error page.
+            const container = component.getContainer();
+            component.dispose();
+            firebaseui.auth.widget.handler.handle(
+                firebaseui.auth.widget.HandlerName.UNAUTHORIZED_USER,
+                app,
+                container,
+                null,
+                firebase.auth.GoogleAuthProvider.PROVIDER_ID);
             return;
           }
           var errorMessage =

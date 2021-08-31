@@ -330,7 +330,7 @@
 <translation id="6470057025778734988">このアカウントを使用してログインできなくなります</translation>
 <translation id="6472297146424049005">インターネットの接続を確認する。</translation>
 <translation id="6483116480230343278">登録しています…</translation>
-<translation id="6502083090260346644">[<ph name="STRING" />] をタップすると、SMS が送信されます。データ通信料がかかることがあります。</translation>
+<translation id="6494734506607758748">アカウントに関連付けられたメールアドレスを変更するには、再度ログインする必要があります。</translation>
 <translation id="6508909904815637928">バヌアツ</translation>
 <translation id="6520863029476703422">アメリカ領サモア</translation>
 <translation id="6527597037551425211">ブラジル</translation>
@@ -361,6 +361,7 @@
 <translation id="6821607741326790458">ジャマイカ</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">パキスタン</translation>
+<translation id="6852861389112775830"><ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> にはリクエストされたページを閲覧する権限がありません。</translation>
 <translation id="6918319418444979243">再送信</translation>
 <translation id="6920167780806379235">シリア</translation>
 <translation id="6921505896641453739">メールアドレス</translation>

@@ -329,7 +329,7 @@
 <translation id="6470057025778734988">Többé nem fog tudni bejelentkezni a fiókkal.</translation>
 <translation id="6472297146424049005">Ellenőrizze az internetkapcsolatot.</translation>
 <translation id="6483116480230343278">Regisztráció...</translation>
-<translation id="6502083090260346644">Ha az <ph name="STRING" /> lehetőségre koppint, a rendszer SMS-t küldhet Önnek. A szolgáltató ezért üzenet- és adatforgalmi díjat számíthat fel.</translation>
+<translation id="6494734506607758748">A fiókjához tartozó e-mail-cím módosításához újra be kell jelentkeznie.</translation>
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Amerikai Szamoa</translation>
 <translation id="6527597037551425211">Brazília</translation>
@@ -360,6 +360,7 @@
 <translation id="6821607741326790458">Jamaica</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakisztán</translation>
+<translation id="6852861389112775830">A(z) <ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> e-mail-című felhasználó nem jogosult a kért oldal megtekintésére.</translation>
 <translation id="6918319418444979243">Újraküldés</translation>
 <translation id="6920167780806379235">Szíria</translation>
 <translation id="6921505896641453739">E-mail</translation>

@@ -80,9 +80,6 @@ goog.exportSymbol(
     'firebaseui.auth.AuthUIError.prototype.toJSON',
     firebaseui.auth.AuthUIError.prototype.toJSON);
 goog.exportSymbol(
-    'firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM',
-    firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM);
-goog.exportSymbol(
     'firebaseui.auth.CredentialHelper.GOOGLE_YOLO',
     firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO);
 goog.exportSymbol(

@@ -326,7 +326,7 @@
 <translation id="6470057025778734988">לא תהיה יותר אפשרות להיכנס באמצעות החשבון</translation>
 <translation id="6472297146424049005">יש לבדוק את החיבור לאינטרנט.</translation>
 <translation id="6483116480230343278">אנחנו רושמים אותך...</translation>
-<translation id="6502083090260346644">הקשה על <ph name="STRING" /> תגרום לשליחה של הודעת SMS. ייתכנו חיובים על ההודעה ועל נתונים.</translation>
+<translation id="6494734506607758748">כדי לשנות את כתובת האימייל המשויכת לחשבון, עליך להיכנס מחדש.</translation>
 <translation id="6508909904815637928">ונואטו</translation>
 <translation id="6520863029476703422">סמואה האמריקנית</translation>
 <translation id="6527597037551425211">ברזיל</translation>
@@ -357,6 +357,7 @@
 <translation id="6821607741326790458">ג'מייקה</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">פקיסטן</translation>
+<translation id="6852861389112775830">ל-<ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> אין הרשאה להציג את הדף המבוקש.</translation>
 <translation id="6918319418444979243">שליחה מחדש</translation>
 <translation id="6920167780806379235">סוריה</translation>
 <translation id="6921505896641453739">אימייל</translation>

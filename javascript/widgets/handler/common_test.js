@@ -1399,7 +1399,7 @@ function testIsPhoneProviderOnly_multipleProviders() {
 function testFederatedSignIn_success_redirectMode() {
   var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
-      goog.nullFunction(), []);
+      () => {}, []);
   component.render(container);
   assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
   // This will trigger a signInWithRedirect using the expected provider.
@@ -1418,7 +1418,7 @@ function testFederatedSignIn_success_redirectMode_tenantId() {
   app.setTenantId('TENANT_ID');
   var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
-      goog.nullFunction(), []);
+      () => {}, []);
   component.render(container);
   assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
   // This will trigger a signInWithRedirect using the expected provider.
@@ -1439,7 +1439,7 @@ function testFederatedSignIn_success_redirectMode_tenantId() {
 function testFederatedSignIn_error_redirectMode() {
   var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
-      goog.nullFunction(), []);
+      () => {}, []);
   component.render(container);
   asyncTestCase.waitForSignals(1);
   assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
@@ -1466,7 +1466,7 @@ function testFederatedSignIn_success_cordova() {
   });
   var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
-      goog.nullFunction(), []);
+      () => {}, []);
   component.render(container);
   asyncTestCase.waitForSignals(1);
   assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
@@ -1528,7 +1528,7 @@ function testFederatedSignIn_federatedLinkingRequiredError_cordova() {
   var pendingEmailCred = new firebaseui.auth.PendingEmailCredential(
       federatedAccount.getEmail(), federatedCredential);
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
-      goog.nullFunction(), []);
+      () => {}, []);
   component.render(container);
   asyncTestCase.waitForSignals(1);
   assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
@@ -1567,7 +1567,7 @@ function testFederatedSignIn_error_cordova() {
   simulateCordovaEnvironment();
   var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
-      goog.nullFunction(), []);
+      () => {}, []);
   component.render(container);
   asyncTestCase.waitForSignals(1);
   assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
@@ -1596,10 +1596,96 @@ function testFederatedSignIn_error_cordova() {
 }
 
 
+function testFederatedSignIn_adminRestrictedOperationStatusFalse_cordova() {
+  // Test federated sign in when admin restricted error is returned, and
+  // adminRestrictedOperationConfig status is set to false, infobar error
+  // should be shown.
+  simulateCordovaEnvironment();
+  let modifiedAdminRestrictedOperationConfig =
+      Object.assign({}, adminRestrictedOperationConfig);
+  modifiedAdminRestrictedOperationConfig.status = false;
+  app.updateConfig('adminRestrictedOperation',
+                   modifiedAdminRestrictedOperationConfig);
+  const expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
+  const component = new firebaseui.auth.ui.page.ProviderSignIn(
+      () => {}, []);
+  component.render(container);
+  asyncTestCase.waitForSignals(1);
+  assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
+  // This will trigger a signInWithRedirect using the expected provider.
+  firebaseui.auth.widget.handler.common.federatedSignIn(
+      app, component, 'google.com');
+  assertTrue(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
+  assertProviderSignInPage();
+  // Confirm signInWithRedirect called underneath.
+  testAuth.assertSignInWithRedirect([expectedProvider]);
+  return testAuth.process().then(function() {
+    testAuth.assertGetRedirectResult(
+        [],
+        null,
+        adminRestrictedOperationError);
+    return testAuth.process();
+  }).then(function() {
+    assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
+    // Provider sign in page should remain displayed.
+    assertProviderSignInPage();
+    // Confirm error message shown in info bar.
+    assertInfoBarMessage(
+        firebaseui.auth.widget.handler.common.getErrorMessage(
+            adminRestrictedOperationError));
+    asyncTestCase.signal();
+  });
+}
+
+
+function testFederatedSignIn_adminRestrictedOperationStatusTrue_cordova() {
+  // Test federated sign in when admin restricted error is returned, and
+  // adminRestrictedOperationConfig status is set to true, an unauthorized user
+  // page should be shown.
+  simulateCordovaEnvironment();
+  app.updateConfig('adminRestrictedOperation', adminRestrictedOperationConfig);
+  const expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
+  const component = new firebaseui.auth.ui.page.ProviderSignIn(
+      () => {}, []);
+  component.render(container);
+  asyncTestCase.waitForSignals(1);
+  assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
+  // This will trigger a signInWithRedirect using the expected provider.
+  firebaseui.auth.widget.handler.common.federatedSignIn(
+      app, component, 'google.com');
+  assertTrue(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
+  assertProviderSignInPage();
+  // Confirm signInWithRedirect called underneath.
+  testAuth.assertSignInWithRedirect([expectedProvider]);
+  return testAuth.process().then(function() {
+    testAuth.assertGetRedirectResult(
+        [],
+        null,
+        adminRestrictedOperationError);
+    return testAuth.process();
+  }).then(function() {
+    assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
+    // Verify unauthorized user page is rendered.
+    assertUnauthorizedUserPage();
+    // Assert cancel button is rendered.
+    assertNotNull(getCancelButton());
+    // Assert admin email is rendered.
+    assertAdminEmail(expectedAdminEmail);
+    // Assert help link is rendered.
+    assertHelpLink();
+    // Click back button.
+    clickSecondaryLink();
+    // Verify that clicking back button goes back to the starting page.
+    assertProviderSignInPage();
+    asyncTestCase.signal();
+  });
+}
+
+
 function testFederatedSignIn_anonymousUpgrade_success_redirectMode() {
   var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
-      goog.nullFunction(), []);
+      () => {}, []);
   component.render(container);
   app.updateConfig('autoUpgradeAnonymousUsers', true);
   externalAuth.setUser(anonymousUser);
@@ -1622,7 +1708,7 @@ function testFederatedSignIn_anonymousUpgrade_success_redirectMode() {
 function testFederatedSignIn_anonymousUpgrade_error_redirectMode() {
   var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
-      goog.nullFunction(), []);
+      () => {}, []);
   component.render(container);
   app.updateConfig('autoUpgradeAnonymousUsers', true);
   externalAuth.setUser(anonymousUser);
@@ -1654,7 +1740,7 @@ function testFederatedSignIn_anonymousUpgrade_success_cordova() {
   });
   var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
-      goog.nullFunction(), []);
+      () => {}, []);
   component.render(container);
   asyncTestCase.waitForSignals(1);
   assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
@@ -1717,7 +1803,7 @@ function testFederatedSignIn_anonymousUpgrade_credInUse_error_cordova() {
       cred);
   var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
-      goog.nullFunction(), []);
+      () => {}, []);
   component.render(container);
   asyncTestCase.waitForSignals(1);
   assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
@@ -1765,7 +1851,7 @@ function testFederatedSignIn_anonymousUpgrade_emailInUse_error_cordova() {
   };
   var expectedProvider = firebaseui.auth.idp.getAuthProvider('google.com');
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
-      goog.nullFunction(), []);
+      () => {}, []);
   component.render(container);
   asyncTestCase.waitForSignals(1);
   assertFalse(firebaseui.auth.storage.hasRedirectStatus(app.getAppId()));
@@ -1803,7 +1889,7 @@ function testFederatedSignIn_anonymousUpgrade_emailInUse_error_cordova() {
 
 function testHandleSignInAnonymously_success() {
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
-      goog.nullFunction(), []);
+      () => {}, []);
   component.render(container);
   asyncTestCase.waitForSignals(1);
   firebaseui.auth.widget.handler.common.handleSignInAnonymously(
@@ -1828,7 +1914,7 @@ function testHandleSignInAnonymously_signInSuccessCallback() {
     'signInSuccessWithAuthResult': signInSuccessWithAuthResultCallback(true)
   });
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
-      goog.nullFunction(), []);
+      () => {}, []);
   component.render(container);
   asyncTestCase.waitForSignals(1);
   firebaseui.auth.widget.handler.common.handleSignInAnonymously(
@@ -1857,7 +1943,7 @@ function testHandleSignInAnonymously_signInSuccessCallback() {
 
 function testHandleSignInAnonymously_error() {
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
-      goog.nullFunction(), []);
+      () => {}, []);
   component.render(container);
   asyncTestCase.waitForSignals(1);
   firebaseui.auth.widget.handler.common.handleSignInAnonymously(
@@ -1897,7 +1983,7 @@ function testHandleGoogleYoloCredential_handledSuccessfully_withScopes() {
         firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
   });
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
-      goog.nullFunction(), []);
+      () => {}, []);
   component.render(container);
   asyncTestCase.waitForSignals(1);
   // This will trigger a signInWithRedirect using the expected provider.
@@ -1927,7 +2013,7 @@ function testHandleGoogleYoloCredential_handledSuccessfully_withoutScopes() {
         firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
   });
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
-      goog.nullFunction(), []);
+      () => {}, []);
   component.render(container);
   asyncTestCase.waitForSignals(1);
   // This will succeed while callback page will be rendered as the result
@@ -1991,7 +2077,7 @@ function testHandleGoogleYoloCredential_unhandled_withoutScopes() {
         firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
   });
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
-      goog.nullFunction(), []);
+      () => {}, []);
   component.render(container);
   asyncTestCase.waitForSignals(1);
   // This will fail and an error message will be shown.
@@ -2021,6 +2107,108 @@ function testHandleGoogleYoloCredential_unhandled_withoutScopes() {
 }
 
 
+function testHandleGoogleYoloCredential_adminRestrictedOperationStatusTrue() {
+  // Test googleyolo sign in when admin restricted error is returned, and
+  // adminRestrictedOperationConfig status is set to true.
+  // Then unauthorized error page with no user email gets rendered.
+  // Enable googleyolo with Google provider and no additional scopes.
+  app.setConfig({
+    'signInSuccessUrl': 'http://localhost/home',
+    'signInOptions': [{
+      'provider': 'google.com',
+      'clientId': googYoloClientId,
+    }, 'facebook.com','password', 'phone'],
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO,
+    'adminRestrictedOperation': adminRestrictedOperationConfig
+  });
+  const component = new firebaseui.auth.ui.page.ProviderSignIn(
+      () => {}, []);
+  component.render(container);
+  asyncTestCase.waitForSignals(1);
+  // This will resolve with false due to the failing Auth call underneath.
+  firebaseui.auth.widget.handler.common.handleGoogleYoloCredential(
+      app, component, googleYoloIdTokenCredential)
+      .then(function(status) {
+        // Remains on the same page because signInWithCredential is still
+        // processing.
+        assertProviderSignInPage();
+        assertFalse(status);
+        asyncTestCase.signal();
+      });
+  const expectedCredential = firebase.auth.GoogleAuthProvider.credential(
+      googleYoloIdTokenCredential.credential);
+  // Confirm signInWithCredential called underneath with
+  // unsuccessful response.
+  testAuth.assertSignInWithCredential(
+      [expectedCredential],
+      null,
+      adminRestrictedOperationError);
+  testAuth.process().then(function() {
+    // Verify unauthorized user page is rendered.
+    assertUnauthorizedUserPage();
+    // Assert cancel button is rendered.
+    assertNotNull(getCancelButton());
+    // Assert admin email is rendered.
+    assertAdminEmail(expectedAdminEmail);
+    // Assert help link is rendered.
+    assertHelpLink();
+    // Click back button.
+    clickSecondaryLink();
+    // Verify that clicking back button goes back to the starting page.
+    assertProviderSignInPage();
+  });
+}
+
+
+function testHandleGoogleYoloCredential_adminRestrictedOperationStatusFalse() {
+  // Test googleyolo sign in when admin restricted error is returned, and
+  // adminRestrictedOperationConfig status is set to false.
+  // Then the error is rendered in info bar with no unauthorized error page.
+  // Enable googleyolo with Google provider and no additional scopes.
+  let modifiedAdminRestrictedOperationConfig =
+      Object.assign({}, adminRestrictedOperationConfig);
+  modifiedAdminRestrictedOperationConfig.status = false;
+  app.setConfig({
+    'signInSuccessUrl': 'http://localhost/home',
+    'signInOptions': [{
+      'provider': 'google.com',
+      'clientId': googYoloClientId,
+    }, 'facebook.com','password', 'phone'],
+    'credentialHelper':
+        firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO,
+    'adminRestrictedOperation': modifiedAdminRestrictedOperationConfig
+  });
+  const component = new firebaseui.auth.ui.page.ProviderSignIn(
+      () => {}, []);
+  component.render(container);
+  asyncTestCase.waitForSignals(1);
+  // This will resolve with false due to the failing Auth call underneath.
+  firebaseui.auth.widget.handler.common.handleGoogleYoloCredential(
+      app, component, googleYoloIdTokenCredential)
+      .then(function(status) {
+        // Remains on the same page because signInWithCredential is still
+        // processing.
+        assertProviderSignInPage();
+        assertFalse(status);
+        asyncTestCase.signal();
+      });
+  const expectedCredential = firebase.auth.GoogleAuthProvider.credential(
+      googleYoloIdTokenCredential.credential);
+  // Confirm signInWithCredential called underneath with
+  // unsuccessful response.
+  testAuth.assertSignInWithCredential(
+      [expectedCredential],
+      null,
+      adminRestrictedOperationError);
+  testAuth.process().then(function() {
+    assertInfoBarMessage(firebaseui.auth.widget.handler.common.getErrorMessage(
+        adminRestrictedOperationError));
+    assertProviderSignInPage();
+  });
+}
+
+
 function testHandleGoogleYoloCredential_cancelled_withoutScopes() {
   // Enable googleyolo with Google provider and no additional scopes.
   app.setConfig({
@@ -2033,7 +2221,7 @@ function testHandleGoogleYoloCredential_cancelled_withoutScopes() {
         firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
   });
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
-      goog.nullFunction(), []);
+      () => {}, []);
   component.render(container);
   asyncTestCase.waitForSignals(1);
   // This will fail due to the reset call which will interrupt the underlying
@@ -2064,7 +2252,7 @@ function testHandleGoogleYoloCredential_unsupportedCredential() {
         firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
   });
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
-      goog.nullFunction(), []);
+      () => {}, []);
   component.render(container);
   asyncTestCase.waitForSignals(1);
   // Pass unsupported credential and confirm the expected error shown on the
@@ -2099,7 +2287,7 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_noScopes() {
   var expectedCredential = firebase.auth.GoogleAuthProvider.credential(
       googleYoloIdTokenCredential.credential);
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
-      goog.nullFunction(), []);
+      () => {}, []);
   component.render(container);
   asyncTestCase.waitForSignals(1);
   // Simulate anonymous user initially signed in on external instance.
@@ -2171,7 +2359,7 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_credentialInUse() {
       null,
       expectedCredential);
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
-      goog.nullFunction(), []);
+      () => {}, []);
   component.render(container);
   asyncTestCase.waitForSignals(1);
   // Simulate anonymous user initially signed in on external Auth instance.
@@ -2226,7 +2414,7 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_fedEmailInUse() {
       firebase.auth.GoogleAuthProvider.credential(
           googleYoloIdTokenCredential.credential, null));
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
-      goog.nullFunction(), []);
+      () => {}, []);
   component.render(container);
   asyncTestCase.waitForSignals(1);
   // Simulate anonymous user initially signed in on external Auth instance.
@@ -2293,7 +2481,7 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_passEmailInUse() {
       firebase.auth.GoogleAuthProvider.credential(
           googleYoloIdTokenCredential.credential, null));
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
-      goog.nullFunction(), []);
+      () => {}, []);
   component.render(container);
   asyncTestCase.waitForSignals(1);
   // Simulate anonymous user initially signed in on external Auth instance.
@@ -2357,7 +2545,7 @@ function testHandleGoogleYoloCredential_upgradeAnonymous_withScopes() {
         firebaseui.auth.widget.Config.CredentialHelper.GOOGLE_YOLO
   });
   var component = new firebaseui.auth.ui.page.ProviderSignIn(
-      goog.nullFunction(), []);
+      () => {}, []);
   component.render(container);
   asyncTestCase.waitForSignals(1);
   // Simulate anonymous user initially signed in on the external Auth instance.

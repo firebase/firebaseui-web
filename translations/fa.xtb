@@ -329,7 +329,7 @@
 <translation id="6470057025778734988">دیگر نمی‌توانید با استفاده از این حساب وارد سیستم شوید</translation>
 <translation id="6472297146424049005">اتصال اینترنتتان را بررسی کنید.</translation>
 <translation id="6483116480230343278">در حال ثبت‌نام...</translation>
-<translation id="6502083090260346644">با ضربه زدن روی <ph name="STRING" /> پیامکی ارسال می‌شود. ممکن است هزینه انتقال داده و پیام اعمال شود.</translation>
+<translation id="6494734506607758748">برای تغییر نشانی ایمیل  مرتبط با حسابتان باید دوباره وارد سیستم شوید.</translation>
 <translation id="6508909904815637928">وانواتو</translation>
 <translation id="6520863029476703422">ساموآی آمریکا</translation>
 <translation id="6527597037551425211">برزیل</translation>
@@ -360,6 +360,7 @@
 <translation id="6821607741326790458">جامائیکا</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">پاکستان</translation>
+<translation id="6852861389112775830"><ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> اجازه مشاهده صفحه درخواست‌شده را ندارد.</translation>
 <translation id="6918319418444979243">ارسال مجدد</translation>
 <translation id="6920167780806379235">سوریه</translation>
 <translation id="6921505896641453739">ایمیل </translation>

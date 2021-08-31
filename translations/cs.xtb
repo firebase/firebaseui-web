@@ -227,7 +227,7 @@
 <translation id="4783400389150493171">Burkina Faso</translation>
 <translation id="4852256440857413490">Špatný kód. Zkuste to znovu.</translation>
 <translation id="4866990546854875813">Relace přidružená k této žádosti o přihlášení buď vypršela, nebo byla vymazána.</translation>
-<translation id="4871106926303956169">Ostrovy Turks a Caicos</translation>
+<translation id="4871106926303956169">Turks a Caicos</translation>
 <translation id="4877597386645466815">Opakované odeslání kódu možné za <ph name="TIME_REMAINING" /></translation>
 <translation id="4900116391137165411">
 <ph name="P_START" />K vašemu účtu v aplikaci <ph name="APP_NAME" /> bylo přidáno telefonní číslo <ph name="SECOND_FACTOR" /> pro dvoufázové ověření.<ph name="P_END" />
@@ -329,7 +329,7 @@
 <translation id="6470057025778734988">Prostřednictvím tohoto účtu už se nebudete moci přihlásit.</translation>
 <translation id="6472297146424049005">Zkontrolujte připojení k internetu.</translation>
 <translation id="6483116480230343278">Registrace…</translation>
-<translation id="6502083090260346644">Po klepnutí na položku <ph name="STRING" /> může být odeslána SMS. Mohou být účtovány poplatky za zprávy a data.</translation>
+<translation id="6494734506607758748">Chcete-li změnit e-mailovou adresu přidruženou k vašemu účtu, musíte se znovu přihlásit.</translation>
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Americká Samoa</translation>
 <translation id="6527597037551425211">Brazílie</translation>
@@ -360,6 +360,7 @@
 <translation id="6821607741326790458">Jamajka</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pákistán</translation>
+<translation id="6852861389112775830">Účet <ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> nemá oprávnění zobrazit požadovanou stránku.</translation>
 <translation id="6918319418444979243">Odeslat znovu</translation>
 <translation id="6920167780806379235">Sýrie</translation>
 <translation id="6921505896641453739">E-mail</translation>

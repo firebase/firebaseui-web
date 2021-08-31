@@ -254,13 +254,6 @@ function setUp() {
       firebaseui.auth.widget.dispatcher,
       'dispatchOperation',
       goog.testing.recordFunction());
-  // Simulate accountchooser.com loaded.
-  testStubs.set(
-      firebaseui.auth.widget.handler.common,
-      'loadAccountchooserJs',
-      function(app, callback, opt_forceUiShownCallback) {
-        callback();
-      });
   // Install fake test utilities.
   testUtil = new firebaseui.auth.testing.FakeUtil().install();
   ignoreArgument = goog.testing.mockmatchers.ignoreArgument;

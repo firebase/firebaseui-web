@@ -34,7 +34,7 @@
 <translation id="1544981664986460902">Klienten angav et ugyldigt argument.</translation>
 <translation id="1575848116712334589">Tchad</translation>
 <translation id="1630237004390596779">Send koden igen om <ph name="STRING" /></translation>
-<translation id="1653501608290591291">Hviderusland</translation>
+<translation id="1653501608290591291">Belarus</translation>
 <translation id="1667376103923043653">Mailadressen stemmer ikke overens med en eksisterende konto.</translation>
 <translation id="173576986138855124">Når du trykker på "<ph name="PH_1" />", sendes der en sms. Der opkræves muligvis gebyrer for beskeder og data.</translation>
 <translation id="1739056958326110545">St. Helena</translation>
@@ -329,7 +329,7 @@
 <translation id="6470057025778734988">Du kan ikke længere logge ind ved hjælp af din konto</translation>
 <translation id="6472297146424049005">Tjek din internetforbindelse.</translation>
 <translation id="6483116480230343278">Tilmelder…</translation>
-<translation id="6502083090260346644">Der sendes en sms, når du trykker på <ph name="STRING" />. Der opkræves muligvis gebyrer for beskeder og data.</translation>
+<translation id="6494734506607758748">For at ændre den mailadresse, der er knyttet til din konto, skal du logge ind igen.</translation>
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Amerikansk Samoa</translation>
 <translation id="6527597037551425211">Brasilien</translation>
@@ -360,6 +360,7 @@
 <translation id="6821607741326790458">Jamaica</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
+<translation id="6852861389112775830"><ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> har ikke tilladelse til at se den anmodede side.</translation>
 <translation id="6918319418444979243">Send igen</translation>
 <translation id="6920167780806379235">Syrien</translation>
 <translation id="6921505896641453739">Mail</translation>

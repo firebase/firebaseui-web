@@ -40,6 +40,8 @@ goog.require('firebaseui.auth.widget.handler.handleFederatedSignIn');
 goog.require('firebaseui.auth.widget.handler.handlePasswordLinking');
 goog.require('firebaseui.auth.widget.handler.handleProviderSignIn');
 goog.require('firebaseui.auth.widget.handler.handleSignIn');
+/** @suppress {extraRequire} */
+goog.require('firebaseui.auth.widget.handler.handleUnauthorizedUser');
 goog.require('firebaseui.auth.widget.handler.testHelper');
 goog.require('goog.Promise');
 goog.require('goog.testing.AsyncTestCase');
@@ -2173,6 +2175,43 @@ function testHandleCallback_operationNotSupported_multiProviders() {
     assertInfoBarMessage(
         firebaseui.auth.widget.handler.common.getErrorMessage(
             operationNotSupportedError));
+    asyncTestCase.signal();
+  });
+}
+
+
+function testHandleCallback_adminRestrictedOperation_federatedRedirect() {
+  // Test that unauthorized page is rendered when callback handler is called and
+  // federated provider throws an admin restricted error.
+  asyncTestCase.waitForSignals(1);
+  app.updateConfig('adminRestrictedOperation', adminRestrictedOperationConfig);
+  // Pending email from a tentative using email and password sign in.
+  const pendingEmailCred =
+      new firebaseui.auth.PendingEmailCredential(federatedAccount.getEmail());
+  firebaseui.auth.storage.setPendingEmailCredential(
+      pendingEmailCred, app.getAppId());
+  // Callback rendered.
+  firebaseui.auth.widget.handler.handleCallback(app, container);
+  assertCallbackPage();
+  // Attempting to get redirect result. Reject with an operation not supported
+  // error.
+  testAuth.assertGetRedirectResult([], null, adminRestrictedOperationError);
+  testAuth.process().then(function() {
+    // Any pending credential should be cleared from storage.
+    assertFalse(firebaseui.auth.storage.hasPendingEmailCredential(
+        app.getAppId()));
+    // Verify unauthorized user page is rendered.
+    assertUnauthorizedUserPage();
+    // Assert cancel button is rendered.
+    assertNotNull(getCancelButton());
+    // Assert admin email is rendered.
+    assertAdminEmail(expectedAdminEmail);
+    // Assert help link is rendered.
+    assertHelpLink();
+    // Click back button.
+    clickSecondaryLink();
+    // Verify that clicking back button goes back to the starting page.
+    assertProviderSignInPage();
     asyncTestCase.signal();
   });
 }

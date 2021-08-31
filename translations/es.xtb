@@ -23,7 +23,7 @@
 <translation id="1315809131562953678">Introduce un número de teléfono válido</translation>
 <translation id="1335716056288807013">Si tocas Verificar, confirmas que aceptas nuestras <ph name="START_LINK_1" />condiciones del servicio<ph name="END_LINK" /> y nuestra <ph name="START_LINK_2" />política de privacidad<ph name="END_LINK" />. Podría enviarse un SMS, sujeto a las tarifas de mensajes y uso de datos de tu operador.</translation>
 <translation id="137210131544215127">Introduce tu contraseña.</translation>
-<translation id="1393433815796487579">Listo</translation>
+<translation id="1393433815796487579">Hecho</translation>
 <translation id="1412449974349991050">Haití</translation>
 <translation id="144766329299583285">Si no has solicitado cambiar el correo electrónico de inicio de sesión, es posible que alguien esté intentando acceder a tu cuenta. Te recomendamos que <ph name="START_LINK" />cambies tu contraseña inmediatamente<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">Islas Heard y McDonald</translation>
@@ -152,7 +152,7 @@
 <translation id="3413300222170818119">Zambia</translation>
 <translation id="3429213469114503705">Ciudad del Vaticano</translation>
 <translation id="3434621886769337032">Gambia</translation>
-<translation id="3472358534605257432">Listo</translation>
+<translation id="3472358534605257432">Hecho</translation>
 <translation id="3479685026618611556">Cancelar</translation>
 <translation id="3481131180097895739">Se ha producido un error de servidor desconocido.</translation>
 <translation id="3487364398525389372">Introduce el nombre de tu cuenta</translation>
@@ -330,7 +330,7 @@
 <translation id="6470057025778734988">Ya no podrás iniciar sesión con tu cuenta</translation>
 <translation id="6472297146424049005">Comprueba tu conexión a Internet.</translation>
 <translation id="6483116480230343278">Registrando…</translation>
-<translation id="6502083090260346644">Al tocar <ph name="STRING" />, podría enviarse un SMS. Es posible que se apliquen cargos de mensajería y uso de datos.</translation>
+<translation id="6494734506607758748">Para cambiar la dirección de correo electrónico asociada a la cuenta, debes iniciar sesión de nuevo.</translation>
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Samoa Americana</translation>
 <translation id="6527597037551425211">Brasil</translation>
@@ -361,6 +361,7 @@
 <translation id="6821607741326790458">Jamaica</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistán</translation>
+<translation id="6852861389112775830"><ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> no tiene autorización para ver la página solicitada.</translation>
 <translation id="6918319418444979243">Reenviar</translation>
 <translation id="6920167780806379235">Siria</translation>
 <translation id="6921505896641453739">Correo electrónico</translation>

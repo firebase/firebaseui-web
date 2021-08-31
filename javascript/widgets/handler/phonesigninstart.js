@@ -339,6 +339,23 @@ firebaseui.auth.widget.handler.onPhoneSignInStartSubmit_ =
                   firebaseui.auth.soy2.strings.errorInvalidPhoneNumber()
                       .toString());
               return;
+            case 'auth/admin-restricted-operation':
+              if (app.getConfig().isAdminRestrictedOperationConfigured()) {
+                const container = component.getContainer();
+                component.dispose();
+                firebaseui.auth.widget.handler.handle(
+                    firebaseui.auth.widget.HandlerName.UNAUTHORIZED_USER,
+                    app,
+                    container,
+                    phoneNumberValue.getPhoneNumber(),
+                    firebase.auth.PhoneAuthProvider.PROVIDER_ID);
+                return;
+              } else {
+                errorMessage =
+                    firebaseui.auth.widget.handler.common.getErrorMessage(
+                        error);
+              }
+              break;
             default:
               errorMessage =
                   firebaseui.auth.widget.handler.common.getErrorMessage(error);

@@ -467,12 +467,10 @@ firebaseui.auth.AuthUIError.prototype.toJSON = function() {};
 
 
 /**
- * The FirebaseUI credential helpers available. `ACCOUNT_CHOOSER_COM` is
- * deprecated and will be removed by Jan 31st, 2021.
+ * The FirebaseUI credential helpers available.
  * @enum {string}
  */
 firebaseui.auth.CredentialHelper = {
-  ACCOUNT_CHOOSER_COM: 'accountchooser.com',
   GOOGLE_YOLO: 'googleyolo',
   NONE: 'none'
 };
@@ -484,16 +482,6 @@ firebaseui.auth.CredentialHelper = {
  * @interface
  */
 firebaseui.auth.Config = function() {};
-
-/**
- * The accountchooser.com configuration when it is selected as credential
- * helper. This is now a no-op and is deprecated and will be removed by
- * Jan 31st, 2021.
- *
- * @deprecated
- * @type {!Object|undefined}
- */
-firebaseui.auth.Config.prototype.acUiConfig;
 
 /**
  * Whether to upgrade anonymous users on sign-in. The default is false.
@@ -602,6 +590,18 @@ firebaseui.auth.Config.prototype.privacyPolicyUrl;
  * @type {string|undefined}
  */
 firebaseui.auth.Config.prototype.widgetUrl;
+
+/**
+ * The configuration mirroring the project user actions ("Enable create")
+ * settings.  When sign-up is disabled in the project settings, this
+ * configuration should be provided with the status field set to `true`. This
+ * does not enforce the policy but is rather useful for providing additional
+ * instructions to the end user when a user tries to create a new user account
+ * and the Auth server blocks the operation.
+ *
+ * @type {firebaseui.auth.DisableSignUpConfig|undefined}
+ */
+firebaseui.auth.Config.prototype.adminRestrictedOperation;
 
 
 /**
@@ -931,15 +931,16 @@ firebaseui.auth.OidcSignInOption.prototype.customParameters;
 
 
 /**
- * Defines configurations for disabling email sign up.
+ * Defines the configuration for how to handle errors associated with disabling
+ * users from signing up using FirebaseUI.
  *
  * @interface
  */
 firebaseui.auth.DisableSignUpConfig = function() {};
 
 /**
- * Whether new user sign up with email/password or email link is disabled.
- * The default is false.
+ * Whether a new user is unable to sign up in FirebaseUI. This is true when a
+ * new user cannot sign up, false otherwise.
  *
  * @type {boolean}
  */

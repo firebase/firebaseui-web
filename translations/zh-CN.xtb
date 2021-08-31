@@ -332,7 +332,7 @@
 <translation id="6470057025778734988">您将不能再使用您的帐号登录</translation>
 <translation id="6472297146424049005">检查互联网连接。</translation>
 <translation id="6483116480230343278">正在注册…</translation>
-<translation id="6502083090260346644">点按“<ph name="STRING" />”后，系统会向您发送一条短信。这可能会产生短信费用和上网流量费。</translation>
+<translation id="6494734506607758748">要更改与您的帐号相关联的电子邮件地址，您需要重新登录。</translation>
 <translation id="6508909904815637928">瓦努阿图</translation>
 <translation id="6520863029476703422">美属萨摩亚</translation>
 <translation id="6527597037551425211">巴西</translation>
@@ -363,6 +363,7 @@
 <translation id="6821607741326790458">牙买加</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">巴基斯坦</translation>
+<translation id="6852861389112775830"><ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> 已获授权，可以查看所请求的页面。</translation>
 <translation id="6918319418444979243">重新发送</translation>
 <translation id="6920167780806379235">叙利亚</translation>
 <translation id="6921505896641453739">电子邮件地址</translation>

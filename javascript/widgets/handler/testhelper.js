@@ -38,7 +38,6 @@ goog.require('firebaseui.auth.ui.page.Base');
 goog.require('firebaseui.auth.util');
 goog.require('firebaseui.auth.widget.Config');
 goog.require('goog.Promise');
-goog.require('goog.array');
 goog.require('goog.dom');
 goog.require('goog.dom.TagName');
 goog.require('goog.dom.classlist');
@@ -89,6 +88,10 @@ var oauthResponse = /** @type {?firebaseui.auth.OAuthResponse} */ ({
 var internalError = {
   'code': 'auth/internal-error',
   'message': 'An internal error occurred.'
+};
+const adminRestrictedOperationError = {
+  'code': 'auth/admin-restricted-operation',
+  'message': 'This operation is restricted to administrators only.'
 };
 var operationNotSupportedError = {
   'code': 'auth/operation-not-supported-in-this-environment',
@@ -156,6 +159,13 @@ var emailLinkSignInOptions = [
   'google.com',
   'facebook.com'
 ];
+
+const expectedAdminEmail = 'admin@example.com';
+const adminRestrictedOperationConfig = {
+  'status': true,
+  'adminEmail': expectedAdminEmail,
+  'helpLink': 'https://www.example.com/trouble_signing_in',
+};
 
 var testStubs = new goog.testing.PropertyReplacer();
 var mockClock = new goog.testing.MockClock();
@@ -862,7 +872,7 @@ function getPhoneConfirmationCodeErrorMessage() {
 function getKeysForCountrySelectorButtons() {
   var buttons = goog.dom.getElementsByClass(
       'firebaseui-list-box-dialog-button');
-  return goog.array.map(buttons, function(button) {
+  return Array.prototype.map.call(buttons, function(button) {
     return button.getAttribute('data-listboxid');
   });
 }

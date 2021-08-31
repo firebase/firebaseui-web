@@ -329,7 +329,7 @@
 <translation id="6470057025778734988">Δεν θα μπορείτε πλέον να συνδεθείτε χρησιμοποιώντας τον λογαριασμό σας</translation>
 <translation id="6472297146424049005">Ελέγξτε τη σύνδεσή σας στο διαδίκτυο.</translation>
 <translation id="6483116480230343278">Γίνεται εγγραφή…</translation>
-<translation id="6502083090260346644">Αν πατήσετε <ph name="STRING" />, θα σταλεί ένα SMS. Ενδέχεται να ισχύουν χρεώσεις μηνυμάτων και δεδομένων.</translation>
+<translation id="6494734506607758748">Για να αλλάξετε τη διεύθυνση ηλεκτρονικού ταχυδρομείου που συσχετίζεται με τον λογαριασμό σας, θα πρέπει να συνδεθείτε ξανά.</translation>
 <translation id="6508909904815637928">Βανουάτου</translation>
 <translation id="6520863029476703422">Αμερικανικές Σαμόα</translation>
 <translation id="6527597037551425211">Βραζιλία</translation>
@@ -360,6 +360,7 @@
 <translation id="6821607741326790458">Τζαμάικα</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Πακιστάν</translation>
+<translation id="6852861389112775830">Η διεύθυνση <ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> δεν είναι εξουσιοδοτημένη για προβολή της απαιτούμενης σελίδας.</translation>
 <translation id="6918319418444979243">Επανάληψη αποστολής</translation>
 <translation id="6920167780806379235">Συρία</translation>
 <translation id="6921505896641453739">Ηλεκτρονικό ταχυδρομείο</translation>

@@ -21,6 +21,8 @@ goog.provide('firebaseui.auth.ui.element.TosPpTestHelper');
 goog.setTestOnly('firebaseui.auth.ui.element.TosPpTestHelper');
 
 goog.require('firebaseui.auth.ui.element');
+/** @suppress {extraRequire} */
+goog.require('firebaseui.auth.ui.element.ElementTestHelper');
 goog.require('goog.testing.events');
 
 
