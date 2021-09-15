@@ -33,7 +33,7 @@
     "url": "https://github.com/firebase/firebaseui-web.git"
   },
   "publishConfig": {
-    "registry": "https://wombat-dressing-room.appspot.com/firebaseui/_ns"
+    "registry": "https://wombat-dressing-room.appspot.com"
   },
   "license": "Apache-2.0",
   "devDependencies": {
