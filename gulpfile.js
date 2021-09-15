@@ -222,9 +222,9 @@ function buildFirebaseUiJs(locale) {
     closure_entry_point: 'firebaseui.auth.exports',
     define: `goog.LOCALE='${locale}'`,
     externs: [
-      'node_modules/firebase-v8/externs/firebase-app-externs.js',
-      'node_modules/firebase-v8/externs/firebase-auth-externs.js',
-      'node_modules/firebase-v8/externs/firebase-client-auth-externs.js'
+      'firebase-externs/firebase-app-externs.js',
+      'firebase-externs/firebase-auth-externs.js',
+      'firebase-externs/firebase-client-auth-externs.js'
     ],
     only_closure_dependencies: true,
     output_wrapper: OUTPUT_WRAPPER,
