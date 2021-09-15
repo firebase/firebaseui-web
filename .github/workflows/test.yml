@@ -34,7 +34,11 @@ jobs:
       - name: NPM install
         if: steps.node_modules_cache.outputs.cache-hit != 'true'
         run: npm ci
-      - name: Build & run tests
+      - name: Build
+        run: |
+          npm run build
+          npm run generate-test-files
+      - name: Test
         run: |
           ./buildtools/sauce_connect.sh &
-          npm test -- --saucelabs
+          ./buildtools/run_tests.sh --saucelabs
