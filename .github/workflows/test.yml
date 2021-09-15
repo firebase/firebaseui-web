@@ -34,11 +34,9 @@ jobs:
       - name: NPM install
         if: steps.node_modules_cache.outputs.cache-hit != 'true'
         run: npm ci
-      - name: Build
-        run: gulp
-      - name: Generate test files
-        run: npm run generate-test-files
-      - name: Test
+      - name: Build & run tests
+        run: npm run test
+      - name: Run tests in Saucelabs
         run: |
           ./buildtools/sauce_connect.sh &
           ./buildtools/run_tests.sh --saucelabs

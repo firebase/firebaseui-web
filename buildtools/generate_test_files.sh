@@ -24,10 +24,9 @@
 cd "$(dirname $(dirname "$0"))"
 
 echo "Compiling templates..."
-npm run build build-soy
+npm run build-soy
 mkdir -p ./generated
 cp -r ./out/soy/* ./generated
-npm run build clean
 
 echo "Generating dependency file..."
 node $(npm bin)/closure-make-deps \
