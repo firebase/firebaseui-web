@@ -39,4 +39,4 @@ jobs:
       - name: Run tests in Saucelabs
         run: |
           ./buildtools/sauce_connect.sh &
-          ./buildtools/run_tests.sh --saucelabs
+          sleep 10 && ./buildtools/run_tests.sh --saucelabs
