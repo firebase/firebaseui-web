@@ -33,10 +33,11 @@ jobs:
             ${{ runner.os }}-14-node_modules-
       - name: NPM install
         if: steps.node_modules_cache.outputs.cache-hit != 'true'
-        run: npm ci
+        # Start sauce connect here, so it's ready to go by the time we need it
+        run: |
+          npm ci
+          ./buildtools/sauce_connect.sh &
       - name: Build & run tests
         run: npm run test
       - name: Run tests in Saucelabs
-        run: |
-          ./buildtools/sauce_connect.sh &
-          sleep 10 && ./buildtools/run_tests.sh --saucelabs
+        run: ./buildtools/run_tests.sh --saucelabs
