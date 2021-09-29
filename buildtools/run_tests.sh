@@ -87,8 +87,8 @@ else
   cd ../../
   echo "Using Headless Chrome."
   # Updates Selenium Webdriver.
-  echo "$PROTRACTOR_BIN_PATH/webdriver-manager update --gecko=false"
-  $PROTRACTOR_BIN_PATH/webdriver-manager update --gecko=false
+  echo "$PROTRACTOR_BIN_PATH/webdriver-manager update --versions.chrome $(google-chrome --version)  --gecko=false"
+  $PROTRACTOR_BIN_PATH/webdriver-manager update --versions.chrome $(google-chrome --version) --gecko=false
   # Start Selenium Webdriver.
   echo "$PROTRACTOR_BIN_PATH/webdriver-manager start &>/dev/null &"
   $PROTRACTOR_BIN_PATH/webdriver-manager start &>/dev/null &
