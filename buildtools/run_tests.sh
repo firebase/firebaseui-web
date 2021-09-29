@@ -80,17 +80,11 @@ if [[ $1 = "--saucelabs" ]]; then
     $PROTRACTOR_BIN_PATH/protractor protractor.conf.js --saucelabs $2
   fi
 else
-  # https://github.com/angular/webdriver-manager/issues/404
-  echo "Updating webdriver-manager dependency."
-  cd ./node_modules/protractor/
-  npm i webdriver-manager@latest
-  cd ../../
   echo "Using Headless Chrome."
   # Updates Selenium Webdriver.
-  CHROME_VERSION=$(google-chrome --version || echo 'latest')
-  CHROME_VERSION=${CHROME_VERSION##* }
-  echo "$PROTRACTOR_BIN_PATH/webdriver-manager update --versions.chrome $(echo $CHROME_VERSION) --gecko=false"
-  $PROTRACTOR_BIN_PATH/webdriver-manager update --versions.chrome $(echo $CHROME_VERSION) --gecko=false
+  GOOGLE_CHROME_VERSION=$(google-chrome --product-version || echo 'latest')
+  echo "$PROTRACTOR_BIN_PATH/webdriver-manager update --versions.chrome $GOOGLE_CHROME_VERSION --gecko=false"
+  $PROTRACTOR_BIN_PATH/webdriver-manager update --versions.chrome $GOOGLE_CHROME_VERSION --gecko=false
   # Start Selenium Webdriver.
   echo "$PROTRACTOR_BIN_PATH/webdriver-manager start &>/dev/null &"
   $PROTRACTOR_BIN_PATH/webdriver-manager start &>/dev/null &
