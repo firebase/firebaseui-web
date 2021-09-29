@@ -56,7 +56,8 @@
     "gulp-sass": "^4.1.0",
     "gulp-util": "^3.0.7",
     "protractor": "^7.0.0",
-    "streamqueue": "^1.1.1"
+    "streamqueue": "^1.1.1",
+    "webdriver-manager": "^12.1.8"
   },
   "dependencies": {
     "dialog-polyfill": "^0.4.7",
