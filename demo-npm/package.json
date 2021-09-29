@@ -4,10 +4,12 @@
   "private": true,
   "main": "dist/index.js",
   "scripts": {
+    "build": "webpack",
+    "start": "firebase serve",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "firebase": "^9.0.0",
+    "firebase": "^9.1.0",
     "firebaseui": "file:.."
   },
   "devDependencies": {

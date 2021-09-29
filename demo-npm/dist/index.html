@@ -4,6 +4,67 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
-        <div id="firebaseui-container"></div>
+        <div id="container">
+            <h3>FirebaseUI Demo</h3>
+            <div id="loading">Loading...</div>
+            <div id="loaded" class="hidden">
+              <div id="main">
+                <div id="user-signed-in" class="hidden">
+                  <div id="user-info">
+                    <div id="photo-container">
+                      <img id="photo">
+                    </div>
+                    <div id="name"></div>
+                    <div id="email"></div>
+                    <div id="phone"></div>
+                    <div id="is-new-user"></div>
+                    <div class="clearfix"></div>
+                  </div>
+                  <p>
+                    <button id="sign-out">Sign Out</button>
+                    <button id="delete-account">Delete account</button>
+                  </p>
+                </div>
+                <div id="user-signed-out" class="hidden">
+                  <h4>You are signed out.</h4>
+<!--                  <fieldset>
+                    <legend>Configuration</legend>
+                    reCAPTCHA mode for Phone Auth:
+                    <label for="recaptcha-normal">
+                      <input type="radio" id="recaptcha-normal" name="recaptcha" value="normal">
+                      Normal
+                    </label>
+                    <label for="recaptcha-invisible">
+                      <input type="radio" id="recaptcha-invisible" name="recaptcha" value="invisible">
+                      Invisible
+                    </label><br>
+                    Email signInMethod:
+                    <label for="email-signInMethod-password">
+                      <input type="radio" id="email-signInMethod-password" name="emailSignInMethod"
+                             value="password">
+                      Password
+                    </label>
+                    <label for="email-signInMethod-emailLink">
+                      <input type="radio" id="email-signInMethod-emailLink" name="emailSignInMethod"
+                             value="emailLink">
+                      Email Link
+                    </label><br>
+                    <label for="disableEmailSignUpStatus">Disable email sign up:</label>
+                    <input type="checkbox" id="email-disableSignUp-status" name="disableEmailSignUpStatus">
+                    <label for="adminRestrictedOperationStatus">Admin restricted operation status:</label>
+                    <input type="checkbox" id="admin-restricted-operation-status" name="adminRestrictedOperationStatus">
+                  </fieldset>
+                  <p>
+                    <button id="sign-in-with-redirect">Sign In with Redirect</button>
+                    <button id="sign-in-with-popup">Sign In with Popup</button>
+                  </p>-->
+                  <div id="firebaseui-spa">
+                    <h5>Single Page Application mode:</h5>
+                    <div id="firebaseui-container"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
     </body>
 </html>
