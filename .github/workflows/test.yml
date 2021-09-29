@@ -3,9 +3,9 @@ name: Test
 on:
   push:
     branches:
-      - "**"
+      - master
   pull_request:
-    branches: 
+    branches:
       - "**"
 
 env:
@@ -33,8 +33,11 @@ jobs:
             ${{ runner.os }}-14-node_modules-
       - name: NPM install
         if: steps.node_modules_cache.outputs.cache-hit != 'true'
-        run: npm ci
-      - name: Build & run tests
+        # Start sauce connect here, so it's ready to go by the time we need it
         run: |
+          npm ci
           ./buildtools/sauce_connect.sh &
-          npm test -- --saucelabs
+      - name: Build & run tests
+        run: npm run test
+      - name: Run tests in Saucelabs
+        run: ./buildtools/run_tests.sh --saucelabs
