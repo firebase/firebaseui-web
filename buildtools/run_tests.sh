@@ -76,6 +76,10 @@ if [[ $1 = "--saucelabs" ]]; then
     seleniumStarted=false
     sleep 2
     echo "Using SauceLabs."
+    until [ -f '/tmp/sauce-connect-ready' ]
+    do
+      sleep 2
+    done
     # $2 contains the tunnelIdentifier argument if specified, otherwise is empty.
     $PROTRACTOR_BIN_PATH/protractor protractor.conf.js --saucelabs $2
   fi
