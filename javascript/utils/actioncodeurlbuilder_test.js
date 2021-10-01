@@ -135,7 +135,7 @@ function testActionCodeUrlBuilder_clearState() {
       'ui_sd=1&' +
       'ui_sid=SESSION_ID&' +
       'ui_pid=PROVIDER_ID&' +
-      'tenantId=TENANT_ID&' +
+      'tenantId=TENANT_ID_zhadkwfhir&' +
       'lang=en&a=1&b=2#c=2');
 
   // Confirm expected values parsed from url.
@@ -146,7 +146,7 @@ function testActionCodeUrlBuilder_clearState() {
   assertEquals('EMAIL_ACTION_CODE', builder.getOobCode());
   assertEquals('signIn', builder.getMode());
   assertEquals('API_KEY', builder.getApiKey());
-  assertEquals('TENANT_ID', builder.getTenantId());
+  assertEquals('TENANT_ID_zhadkwfhir', builder.getTenantId());
 
   // Clear state of URL from anything related to email action codes.
   builder.clearState();
