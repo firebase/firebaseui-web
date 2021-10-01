@@ -62,8 +62,8 @@ You just need to include the following script and CSS file in the `<head>` tag
 of your page, below the initialization snippet from the Firebase Console:
 
 ```html
-<script src="https://www.gstatic.com/firebasejs/ui/5.0.0/firebase-ui-auth.js"></script>
-<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/5.0.0/firebase-ui-auth.css" />
+<script src="https://www.gstatic.com/firebasejs/ui/6.0.0/firebase-ui-auth.js"></script>
+<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.0/firebase-ui-auth.css" />
 ```
 
 #### Localized Widget
@@ -72,17 +72,17 @@ Localized versions of the widget are available through the CDN. To use a
 localized widget, load the localized JS library instead of the default library:
 
 ```html
-<script src="https://www.gstatic.com/firebasejs/ui/5.0.0/firebase-ui-auth__{LANGUAGE_CODE}.js"></script>
-<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/5.0.0/firebase-ui-auth.css" />
+<script src="https://www.gstatic.com/firebasejs/ui/6.0.0/firebase-ui-auth__{LANGUAGE_CODE}.js"></script>
+<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.0/firebase-ui-auth.css" />
 ```
 
 where `{LANGUAGE_CODE}` is replaced by the code of the language you want. For example, the French
 version of the library is available at
-`https://www.gstatic.com/firebasejs/ui/5.0.0/firebase-ui-auth__fr.js`. The list of available
+`https://www.gstatic.com/firebasejs/ui/6.0.0/firebase-ui-auth__fr.js`. The list of available
 languages and their respective language codes can be found at [LANGUAGES.md](LANGUAGES.md).
 
 Right-to-left languages also require the right-to-left version of the stylesheet, available at
-`https://www.gstatic.com/firebasejs/ui/5.0.0/firebase-ui-auth-rtl.css`, instead of the default
+`https://www.gstatic.com/firebasejs/ui/6.0.0/firebase-ui-auth-rtl.css`, instead of the default
 stylesheet. The supported right-to-left languages are Arabic (ar), Farsi (fa), and Hebrew (iw).
 
 ### Option 2: npm Module
@@ -91,26 +91,15 @@ Install FirebaseUI and its peer-dependency Firebase via npm using the following
 commands:
 
 ```bash
-$ npm install firebase --save
-$ npm install firebaseui --save
+$ npm install firebase firebaseui --save
 ```
 
-You can then `require` the following modules within your source files:
+You can then `import` the following modules within your source files:
 
 ```javascript
-var firebase = require('firebase');
-var firebaseui = require('firebaseui');
-// or using ES6 imports:
+import firebase from ''firebase/compat/app';
 import * as firebaseui from 'firebaseui'
 import 'firebaseui/dist/firebaseui.css'
-```
-
-Or include the required files in your HTML, if your HTTP Server serves the files
-within `node_modules/`:
-
-```html
-<script src="node_modules/firebaseui/dist/firebaseui.js"></script>
-<link type="text/css" rel="stylesheet" href="node_modules/firebaseui/dist/firebaseui.css" />
 ```
 
 ### Option 3: Bower component
@@ -199,8 +188,8 @@ for a more in-depth example, showcasing a Single Page Application mode.
        * In addition, include the firebase-auth SDK:
        * <script src="https://www.gstatic.com/firebasejs/[FIREBASE VERSION USED IN SNIPPET]/firebase-auth.js"></script> *
        ***************************************************************************************** -->
-    <script src="https://www.gstatic.com/firebasejs/ui/5.0.0/firebase-ui-auth.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/5.0.0/firebase-ui-auth.css" />
+    <script src="https://www.gstatic.com/firebasejs/ui/6.0.0/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.0/firebase-ui-auth.css" />
     <script type="text/javascript">
       // FirebaseUI config.
       var uiConfig = {
@@ -1351,8 +1340,8 @@ FirebaseUI is displayed.
        * TODO(DEVELOPER): Paste the initialization snippet from:
        * Firebase Console > Overview > Add Firebase to your web app. *
        ***************************************************************************************** -->
-    <script src="https://www.gstatic.com/firebasejs/ui/5.0.0/firebase-ui-auth.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/5.0.0/firebase-ui-auth.css" />
+    <script src="https://www.gstatic.com/firebasejs/ui/6.0.0/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.0/firebase-ui-auth.css" />
     <script type="text/javascript">
       // FirebaseUI config.
       var uiConfig = {
@@ -1938,6 +1927,26 @@ can verify in the [demo app](https://fir-ui-demo-84a6c.firebaseapp.com/)).
 **Latest**: https://github.com/firebase/firebaseui-web/releases/latest
 
 **For v1.0.0 and superior:** https://github.com/firebase/firebaseui-web/releases
+
+### 6.0.0
+
+FirebaseUI-web v6.0.0 is intended to be used alongside Firebase JS SDK v9 compat.
+
+If using the CDN, change your Firebase imports to:
+
+```html
+<script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-auth-compat.js"></script>
+```
+
+If NPM:
+
+```ts
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+```
+
+[See the Firebase upgrade guide for more information.](https://firebase.google.com/docs/web/modular-upgrade)
 
 ### 5.0.0
 
