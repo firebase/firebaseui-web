@@ -3,9 +3,9 @@ name: Test
 on:
   push:
     branches:
-      - "**"
+      - master
   pull_request:
-    branches: 
+    branches:
       - "**"
 
 env:
@@ -35,6 +35,8 @@ jobs:
         if: steps.node_modules_cache.outputs.cache-hit != 'true'
         run: npm ci
       - name: Build & run tests
+        run: npm run test
+      - name: Run tests in Saucelabs
         run: |
           ./buildtools/sauce_connect.sh &
-          npm test -- --saucelabs
+          ./buildtools/run_tests.sh --saucelabs
