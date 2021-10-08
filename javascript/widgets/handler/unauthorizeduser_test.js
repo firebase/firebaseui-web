@@ -50,9 +50,7 @@ function testHandleUnauthorizedUser_clickBackButton_prefilledEmail() {
   // Verify unauthorized user page is rendered.
   assertUnauthorizedUserPage();
   // Verify userEmail is displayed.
-  // TODO(jamesdaniels) this is our flake. I'm guessing something in the error handling
-  //                    changed in v9/compat. Look into this.
-  // assertPageContainsText(userEmail);
+  assertPageContainsText(userEmail);
   // Verify no help link is rendered.
   assertNoHelpLink();
   // Assert cancel button is rendered.
