@@ -91,26 +91,15 @@ Install FirebaseUI and its peer-dependency Firebase via npm using the following
 commands:
 
 ```bash
-$ npm install firebase --save
-$ npm install firebaseui --save
+$ npm install firebase firebaseui --save
 ```
 
-You can then `require` the following modules within your source files:
+You can then `import` the following modules within your source files:
 
 ```javascript
-var firebase = require('firebase');
-var firebaseui = require('firebaseui');
-// or using ES6 imports:
+import firebase from 'firebase/compat/app';
 import * as firebaseui from 'firebaseui'
 import 'firebaseui/dist/firebaseui.css'
-```
-
-Or include the required files in your HTML, if your HTTP Server serves the files
-within `node_modules/`:
-
-```html
-<script src="node_modules/firebaseui/dist/firebaseui.js"></script>
-<link type="text/css" rel="stylesheet" href="node_modules/firebaseui/dist/firebaseui.css" />
 ```
 
 ### Option 3: Bower component
@@ -193,11 +182,11 @@ for a more in-depth example, showcasing a Single Page Application mode.
   <head>
     <meta charset="UTF-8">
     <title>Sample FirebaseUI App</title>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-auth-compat.js"></script>
     <!-- *******************************************************************************************
        * TODO(DEVELOPER): Paste the initialization snippet from this dialog box:
        * Firebase Console > Project Settings > Add App > Web.
-       * In addition, include the firebase-auth SDK:
-       * <script src="https://www.gstatic.com/firebasejs/[FIREBASE VERSION USED IN SNIPPET]/firebase-auth.js"></script> *
        ***************************************************************************************** -->
     <script src="https://www.gstatic.com/firebasejs/ui/5.0.0/firebase-ui-auth.js"></script>
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/5.0.0/firebase-ui-auth.css" />
@@ -268,6 +257,8 @@ Here is how you would track the Auth state across all your pages:
   <head>
     <meta charset="UTF-8">
     <title>Sample FirebaseUI App</title>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-auth-compat.js"></script>
     <!-- *******************************************************************************************
        * TODO(DEVELOPER): Paste the initialization snippet from:
        * Firebase Console > Overview > Add Firebase to your web app. *
@@ -1347,6 +1338,8 @@ FirebaseUI is displayed.
   <head>
     <meta charset="UTF-8">
     <title>Sample FirebaseUI App</title>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-auth-compat.js"></script>
     <!-- *******************************************************************************************
        * TODO(DEVELOPER): Paste the initialization snippet from:
        * Firebase Console > Overview > Add Firebase to your web app. *
@@ -1938,6 +1931,26 @@ can verify in the [demo app](https://fir-ui-demo-84a6c.firebaseapp.com/)).
 **Latest**: https://github.com/firebase/firebaseui-web/releases/latest
 
 **For v1.0.0 and superior:** https://github.com/firebase/firebaseui-web/releases
+
+### 6.0.0
+
+FirebaseUI-web v6.0.0 is intended to be used alongside Firebase JS SDK v9 compat.
+
+If using the CDN, change your Firebase imports to:
+
+```html
+<script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-auth-compat.js"></script>
+```
+
+If NPM:
+
+```ts
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+```
+
+[See the Firebase upgrade guide for more information.](https://firebase.google.com/docs/web/modular-upgrade)
 
 ### 5.0.0
 
