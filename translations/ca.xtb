@@ -27,13 +27,14 @@
 <translation id="1412449974349991050">Haití</translation>
 <translation id="144766329299583285">Si no has demanat canviar l'adreça electrònica d'inici de sessió, és possible que algú estigui intentant accedir al teu compte i, per tant, et recomanem que <ph name="START_LINK" />canviïs la contrasenya immediatament<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">Illa Heard i Illes McDonald</translation>
+<translation id="1451880131543823984"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> no té autorització per veure la pàgina sol·licitada.</translation>
 <translation id="1479035434297790822">Aquesta adreça IP està enviant massa sol·licituds per crear comptes. Torna-ho a provar d'aquí a uns quants minuts.</translation>
 <translation id="1483249363694224399">Sri Lanka</translation>
 <translation id="1507995441600689506">Ara pots iniciar la sessió amb el teu compte nou</translation>
 <translation id="1544981664986460902">El client ha especificat un argument no vàlid.</translation>
 <translation id="1575848116712334589">Txad</translation>
 <translation id="1630237004390596779">Torna a enviar el codi d'aquí a <ph name="STRING" /></translation>
-<translation id="1653501608290591291">Bielorússia</translation>
+<translation id="1653501608290591291">Belarús</translation>
 <translation id="1667376103923043653">Aquesta adreça electrònica no coincideix amb cap compte.</translation>
 <translation id="173576986138855124">En tocar <ph name="PH_1" />, és possible que s'enviï un SMS. Es poden aplicar tarifes de dades i missatges.</translation>
 <translation id="1739056958326110545">Santa Helena</translation>
@@ -51,7 +52,7 @@
 <translation id="2035855087334775326">Hongria</translation>
 <translation id="2040904406955887821">Surinam</translation>
 <translation id="2046207054419739276">Estats Units</translation>
-<translation id="2049229571938383319">Saint Barthélemy</translation>
+<translation id="2049229571938383319">Saint-Barthélemy</translation>
 <translation id="2058731785647385204">Montserrat</translation>
 <translation id="2070709910567585968">Perquè una contrasenya sigui segura, ha de tenir com a mínim 6 caràcters i combinar lletres i números</translation>
 <translation id="2074008538308369451">Condicions del servei</translation>
@@ -99,7 +100,7 @@
 <translation id="2614081868476050089">Servei no disponible.</translation>
 <translation id="2616650714309312732">Portugal</translation>
 <translation id="2619590123270932385">Guaiana Francesa</translation>
-<translation id="2621854044487969847">Illes Verges Britàniques</translation>
+<translation id="2621854044487969847">Illes Verges britàniques</translation>
 <translation id="2623430226615357954">Ignora</translation>
 <translation id="2626214972556632989">Introdueix un número de telèfon vàlid</translation>
 <translation id="2652952163277051394">Aquest tipus de compte no és compatible amb l'aplicació</translation>
@@ -127,7 +128,7 @@
 <translation id="3045244039436637116">Guinea Bissau</translation>
 <translation id="3046745817056752783">Aràbia Saudita</translation>
 <translation id="3083819527012413063">S'ha afegit un factor de seguretat addicional a <ph name="APP_NAME" /></translation>
-<translation id="3122584863645047144">Illes Verges Nord-americanes</translation>
+<translation id="3122584863645047144">Illes Verges nord-americanes</translation>
 <translation id="3141549453511344986">Inicia la sessió amb el telèfon</translation>
 <translation id="3147551458884186429">Indonèsia</translation>
 <translation id="3154748063569624719">Inicialment has intentat iniciar la sessió amb <ph name="PENDING_EMAIL" /></translation>
@@ -157,6 +158,7 @@
 <translation id="3521753471343796628">Iraq</translation>
 <translation id="354888504916863713">Vietnam</translation>
 <translation id="3550380781997195832">Aquesta adreça electrònica no és correcta</translation>
+<translation id="3552446912357282301">Contacta amb <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" /> per obtenir autorització.</translation>
 <translation id="3561568594856945084">Mayotte</translation>
 <translation id="3591063723610544836">Inicia la sessió</translation>
 <translation id="3593480381831738519">Restableix la contrasenya</translation>
@@ -233,14 +235,14 @@
 <ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">No s'ha pogut suprimir el segon factor</translation>
 <translation id="4955175001894453989">Afegeix una contrasenya</translation>
-<translation id="496366313824211679">República del Salvador</translation>
+<translation id="496366313824211679">El Salvador</translation>
 <translation id="4982483807073820954">Per canviar la contrasenya del teu compte, has de tornar a iniciar la sessió.</translation>
 <translation id="4991626049082973728">Sèrbia</translation>
 <translation id="4991892293325936102">Belize</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" /> per a l'adreça electrònica <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /><ph name="END_PARAGRAPH" /></translation>
 <translation id="5059105734231232362">Perquè el compte que tens a <ph name="IDP_DISPLAY_NAME" /> es connecti amb aquesta adreça electrònica, has d'obrir l'enllaç al mateix dispositiu o navegador.</translation>
 <translation id="5080084639513001393">Suècia</translation>
-<translation id="5080899604429810481">Saint Martin</translation>
+<translation id="5080899604429810481">Saint-Martin</translation>
 <translation id="5115661695221894994"><ph name="START_PARAGRAPH" />La teva sol·licitud per verificar i actualitzar la teva adreça electrònica ha caducat o l'enllaç ja s'ha utilitzat.<ph name="END_PARAGRAPH" /></translation>
 <translation id="5143657419516597442">Saint Lucia</translation>
 <translation id="521218078240459724">@string/app_name</translation>
@@ -248,7 +250,7 @@
 <translation id="5255830932650472373">Contrasenya nova</translation>
 <translation id="5301108536112812420">La teva sol·licitud per verificar l'adreça electrònica ha caducat o l'enllaç ja s'ha utilitzat</translation>
 <translation id="5323041129469627535">Oman</translation>
-<translation id="5326139833547026317">Carib neerlandès</translation>
+<translation id="5326139833547026317">Antilles Neerlandeses</translation>
 <translation id="5347459868860672391">S'ha modificat l'adreça electrònica</translation>
 <translation id="5397737236938796917">Has tancat la sessió correctament.</translation>
 <translation id="5406620662929585965">Inicia la sessió amb el telèfon</translation>
@@ -277,7 +279,7 @@
 <translation id="5636713964613741614">Maurici</translation>
 <translation id="5642254620426025006">S'ha produït un error. Torna-ho a provar.</translation>
 <translation id="5649486931917149784">Contrasenya</translation>
-<translation id="5664080586064341046">Saint Christopher i Nevis</translation>
+<translation id="5664080586064341046">Saint Kitts i Nevis</translation>
 <translation id="5668881954117611594">Enrere</translation>
 <translation id="5699028034244995851">Introdueix l'adreça electrònica per continuar</translation>
 <translation id="5701178667798108817">Verifica el número de telèfon</translation>
@@ -358,6 +360,7 @@
 <translation id="6821607741326790458">Jamaica</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
+<translation id="6852861389112775830"><ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> no té autorització per veure la pàgina sol·licitada.</translation>
 <translation id="6918319418444979243">Torna a enviar</translation>
 <translation id="6920167780806379235">Síria</translation>
 <translation id="6921505896641453739">Adreça electrònica</translation>
@@ -365,8 +368,9 @@
 <translation id="6951302238647056860">Aquest codi ja no és vàlid</translation>
 <translation id="6961220857430789248">S'ha enviat un correu electrònic d'inici de sessió amb més instruccions a <ph name="STRING" />. Comprova si l'has rebut per completar l'inici de sessió.</translation>
 <translation id="6984204927251307445">Confirma l'adreça electrònica</translation>
+<translation id="6996552808101270965">Més informació</translation>
 <translation id="6999773882165218263">Nom i cognoms</translation>
-<translation id="7012506961150923116">Granada</translation>
+<translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Sàhara Occidental</translation>
 <translation id="7025117765722694556">La sol·licitud no s'ha pogut executar per l'estat actual del sistema.</translation>
 <translation id="7062299334696934251">S'ha produït un error desconegut.</translation>
@@ -384,7 +388,7 @@
 <translation id="7207660930894629055">Vols continuar amb <ph name="USER_EMAIL" />?</translation>
 <translation id="720983450833499456">Per iniciar la sessió amb <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> en aquest dispositiu, cal que recuperis la contrasenya.</translation>
 <translation id="7223410082658239002">Maldives</translation>
-<translation id="7254028881697834212">São Tomé i Príncipe</translation>
+<translation id="7254028881697834212">Sao Tomé i Príncipe</translation>
 <translation id="7268827299582726485">Confirma l'adreça electrònica per completar l'inici de sessió</translation>
 <translation id="7272145663101316762">Eslovènia</translation>
 <translation id="7280309713358692490">Corea del Sud</translation>
@@ -394,6 +398,7 @@
 <translation id="7291656724505689727">Inicia la sessió amb el telèfon</translation>
 <translation id="7320029088567935126">Torna a provar de verificar l'adreça electrònica</translation>
 <translation id="7331038350037712642">Azerbaidjan</translation>
+<translation id="7359542696390093035">Sense autorització</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">L'enllaç de correu electrònic no és vàlid.</translation>
 <translation id="7477065998516229434">Condicions del servei</translation>
@@ -418,7 +423,7 @@
 <translation id="7926046652648626866">Inicia la sessió amb GitHub</translation>
 <translation id="792838323404934335">Groenlàndia</translation>
 <translation id="7956645158976161232">Líbia</translation>
-<translation id="8017277252219866084">Kènia</translation>
+<translation id="8017277252219866084">Kenya</translation>
 <translation id="8028653067082554952">Aquesta acció esborrarà totes les dades associades a aquest compte i no es pot desfer. Confirmes que vols suprimir el compte?</translation>
 <translation id="8033786138248870436">En tocar Verifica, és possible que s'enviï un SMS. Es poden aplicar tarifes de dades i missatges.</translation>
 <translation id="8047183472745080590">Bolívia</translation>
@@ -443,8 +448,8 @@
 <translation id="8361109291694366329">Illes Marshall</translation>
 <translation id="8371947480506692029">Sint Maarten</translation>
 <translation id="8395242001819210481">Antigua i Barbuda</translation>
-<translation id="8399150401520737446">Illes Mariannes Septentrionals</translation>
-<translation id="8414177484126578295">Illes Malvines</translation>
+<translation id="8399150401520737446">Illes Mariannes del Nord</translation>
+<translation id="8414177484126578295">Illes Malvines (Falkland)</translation>
 <translation id="8420860857100049136">Perú</translation>
 <translation id="8422843028108996485">Contrasenya actual</translation>
 <translation id="8426535539577812032">Et donem la benvinguda</translation>
@@ -484,7 +489,7 @@
 <translation id="8971555482255213064">Torna a enviar el codi d'aquí a 0:<ph name="PH_1" /></translation>
 <translation id="8984161590699631096">Marroc</translation>
 <translation id="8994098794339484800">Si no reconeixes aquest dispositiu, és possible que algú estigui intentant accedir al teu compte. Et recomanem que <ph name="START_LINK" />canviïs la contrasenya immediatament<ph name="END_LINK" />.</translation>
-<translation id="900153878296575829">Bangla Desh</translation>
+<translation id="900153878296575829">Bangladesh</translation>
 <translation id="9022632332691561239">Telèfon</translation>
 <translation id="9028063588419847334">Finlàndia</translation>
 <translation id="9078135685219203661">Emirats Àrabs Units</translation>

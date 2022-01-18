@@ -27,6 +27,7 @@
 <translation id="1412449974349991050">Haiti</translation>
 <translation id="144766329299583285">Jos et pyytänyt kirjautumissähköpostiosoitteen vaihtamista, joku saattaa yrittää käyttää tiliäsi ja sinun pitää <ph name="START_LINK" />vaihtaa salasanasi heti<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">Heard ja McDonaldinsaaret</translation>
+<translation id="1451880131543823984">Käyttäjällä <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> ei ole lupaa tarkastella pyydettyä sivua.</translation>
 <translation id="1479035434297790822">IP-osoitteestasi on lähetetty liian monta tilipyyntöä. Yritä uudelleen muutaman minuutin kuluttua.</translation>
 <translation id="1483249363694224399">Sri Lanka</translation>
 <translation id="1507995441600689506">Voit nyt kirjautua sisään uudella tililläsi.</translation>
@@ -151,12 +152,13 @@
 <translation id="3429213469114503705">Vatikaani</translation>
 <translation id="3434621886769337032">Gambia</translation>
 <translation id="3472358534605257432">Valmis</translation>
-<translation id="3479685026618611556">Peruuta</translation>
+<translation id="3479685026618611556">Peru</translation>
 <translation id="3481131180097895739">Tuntematon palvelinvirhe</translation>
 <translation id="3487364398525389372">Anna tilin nimi</translation>
 <translation id="3521753471343796628">Irak</translation>
 <translation id="354888504916863713">Vietnam</translation>
 <translation id="3550380781997195832">Virheellinen sähköpostiosoite</translation>
+<translation id="3552446912357282301">Pyydä valtuutusta ottamalla yhteyttä osoitteeseen <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" />.</translation>
 <translation id="3561568594856945084">Mayotte</translation>
 <translation id="3591063723610544836">Kirjaudu sisään</translation>
 <translation id="3593480381831738519">Nollaa salasana</translation>
@@ -328,7 +330,7 @@
 <translation id="6470057025778734988">Et enää voi kirjautua sisään tililläsi.</translation>
 <translation id="6472297146424049005">Tarkista internetyhteytesi.</translation>
 <translation id="6483116480230343278">Rekisteröityminen käynnissä…</translation>
-<translation id="6502083090260346644">Kun napautat <ph name="STRING" />, tekstiviesti voidaan lähettää. Datan ja viestien käyttö voi olla maksullista.</translation>
+<translation id="6494734506607758748">Jotta voit vaihtaa tiliisi liittyvän sähköpostiosoitteen, sinun pitää kirjautua sisään uudelleen.</translation>
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Amerikan Samoa</translation>
 <translation id="6527597037551425211">Brasilia</translation>
@@ -359,6 +361,7 @@
 <translation id="6821607741326790458">Jamaika</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
+<translation id="6852861389112775830">Käyttäjällä <ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> ei ole lupaa tarkastella pyydettyä sivua.</translation>
 <translation id="6918319418444979243">Lähetä uudelleen</translation>
 <translation id="6920167780806379235">Syyria</translation>
 <translation id="6921505896641453739">Sähköposti</translation>
@@ -366,6 +369,7 @@
 <translation id="6951302238647056860">Tämä koodi ei ole enää voimassa.</translation>
 <translation id="6961220857430789248">Lisäohjeita sisältävä kirjautumisviesti lähetettiin osoitteeseen <ph name="STRING" />. Tarkista sähköpostisi kirjautumisen suorittamiseksi loppuun.</translation>
 <translation id="6984204927251307445">Vahvista sähköposti</translation>
+<translation id="6996552808101270965">Lue lisää</translation>
 <translation id="6999773882165218263">Etu- ja sukunimi</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Länsi-Sahara</translation>
@@ -395,6 +399,7 @@
 <translation id="7291656724505689727">Kirjaudu puhelimella</translation>
 <translation id="7320029088567935126">Yritä vahvistaa sähköpostisi uudelleen</translation>
 <translation id="7331038350037712642">Azerbaidzan</translation>
+<translation id="7359542696390093035">Ei valtuutusta</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">Virheellinen sähköpostilinkki</translation>
 <translation id="7477065998516229434">Käyttöehdot</translation>

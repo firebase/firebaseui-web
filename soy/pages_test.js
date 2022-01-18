@@ -364,6 +364,68 @@ function testFederatedLinking() {
 }
 
 
+function testUnauthorizedUser_withEmailAdminEmailHelpLink() {
+  const root = goog.dom.getElement('unauthorized-user');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.unauthorizedUser, {
+        userIdentifier: 'user@example.com',
+        adminEmail: 'admin@example.com',
+        displayHelpLink: true
+      },
+      IJ_DATA_);
+}
+
+
+function testUnauthorizedUser_withEmailAdminEmail() {
+  const root = goog.dom.getElement('unauthorized-user-email-admin-email');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.unauthorizedUser, {
+        userIdentifier: 'user@example.com',
+        adminEmail: 'admin@example.com'
+      },
+      IJ_DATA_);
+}
+
+
+function testUnauthorizedUser_withEmailHelpLink() {
+  const root = goog.dom.getElement('unauthorized-user-email-help-link');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.unauthorizedUser, {
+        userIdentifier: 'user@example.com',
+        displayHelpLink: true
+      },
+      IJ_DATA_);
+}
+
+
+function testUnauthorizedUser_withEmail() {
+  const root = goog.dom.getElement('unauthorized-user-email');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.unauthorizedUser, {
+        userIdentifier: 'user@example.com'
+      },
+      IJ_DATA_);
+}
+
+
+function testUnauthorizedUser_withPhoneNumber() {
+  const root = goog.dom.getElement('unauthorized-user-phone-number');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.unauthorizedUser, {
+        userIdentifier: '+13115550123'
+      },
+      IJ_DATA_);
+}
+
+
+function testUnauthorizedUser_noUserIdentifier() {
+  const root = goog.dom.getElement('unauthorized-user-no-user-identifier');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.unauthorizedUser, {},
+      IJ_DATA_);
+}
+
+
 function testUnsupportedProvider() {
   var root = goog.dom.getElement('unsupported-provider');
   goog.soy.renderElement(

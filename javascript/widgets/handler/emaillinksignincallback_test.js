@@ -23,6 +23,7 @@ goog.require('firebaseui.auth.AuthUIError');
 goog.require('firebaseui.auth.idp');
 goog.require('firebaseui.auth.soy2.strings');
 goog.require('firebaseui.auth.storage');
+goog.require('firebaseui.auth.widget.handler');
 goog.require('firebaseui.auth.widget.handler.common');
 goog.require('firebaseui.auth.widget.handler.handleEmailLinkSignInCallback');
 /** @suppress {extraRequire} Required for accessing test helper utilities. */
@@ -1066,6 +1067,46 @@ function testHandleEmailLinkSignInCallback_oldLinkClicked() {
       ['ACTION_CODE'],
       null,
       expectedError);
+  return waitForCheckActionCode.then(function() {
+    delayForBusyIndicatorAndAssertIndicatorShown();
+    return testAuth.process();
+  }).then(function() {
+    assertBusyIndicatorHidden();
+    // Provider sign-in page should be rendered with error in info bar.
+    assertProviderSignInPage();
+    assertInfoBarMessage(
+        firebaseui.auth.widget.handler.common.getErrorMessage(expectedError));
+  });
+}
+
+
+function testHandleEmailLinkSignInCallback_blockingFunctionError() {
+  const blockingfunctionError = {
+    'code': '400',
+    'message':
+        'BLOCKING_FUNCTION_ERROR_RESPONSE :' +
+        ' HTTP Cloud Function returned an error: ' +
+        '{\"error\":{\"code\":400,\"message\":\"Unauthorized email' +
+        ' "abcd@evil.com"\",\"status\":\"INVALID_ARGUMENT\"}}',
+  };
+  const expectedError =
+  {
+    'code': '400',
+    'message': 'Unauthorized email "abcd@evil.com"',
+  };
+  const email = passwordAccount.getEmail();
+  const link = generateSignInLink('SESSIONID');
+  setupEmailLinkSignIn('SESSIONID', email);
+
+  firebaseui.auth.widget.handler.handleEmailLinkSignInCallback(
+      app, container, link);
+  assertBlankPage();
+
+  // Simulate blocking function error code.
+  const waitForCheckActionCode = testAuth.assertCheckActionCode(
+      ['ACTION_CODE'],
+      null,
+      blockingfunctionError);
   return waitForCheckActionCode.then(function() {
     delayForBusyIndicatorAndAssertIndicatorShown();
     return testAuth.process();

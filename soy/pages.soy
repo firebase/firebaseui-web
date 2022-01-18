@@ -681,6 +681,70 @@
 
 
 /**
+ * Renders an unauthorized user page.
+ */
+{template .unauthorizedUser}
+  {@param? userIdentifier: string}
+  {@param? adminEmail: string}
+  {@param? displayHelpLink: bool}
+  <div class="mdl-card mdl-shadow--2dp firebaseui-container
+              firebaseui-id-page-unauthorized-user">
+    <form onsubmit="return false;">
+      <div class="firebaseui-card-header">
+        <h1 class="firebaseui-title">
+          {msg desc="Header of a page notifying the user that they are not authorized
+              to register an account for the current application."}
+            Not Authorized
+          {/msg}
+        </h1>
+      </div>
+      <div class="firebaseui-card-content">
+        <p class="firebaseui-text">
+          {if $userIdentifier}
+            {msg desc="Message notifying the user that they are not authorized to
+                register an account for the current application."}
+              <strong>{$userIdentifier}</strong> is not authorized to view the requested page.
+            {/msg}
+          {else}
+            User is not authorized to view the requested page.
+          {/if}
+        </p>
+        {if $adminEmail}
+          <p class="firebaseui-text firebaseui-id-unauthorized-user-admin-email">
+            {msg desc="Instructions on how to contact the site administrator for access."}
+              Please contact <strong>{$adminEmail}</strong> for authorization.
+            {/msg}
+          </p>
+        {/if}
+      </div>
+      <div class="firebaseui-card-actions">
+        <div class="firebaseui-form-links">
+          {if $displayHelpLink}
+            <a class="firebaseui-link firebaseui-id-unauthorized-user-help-link"
+                href="javascript:void(0)" target="_blank">
+              {msg desc="Label for the help link"}Learn More{/msg}
+            </a>
+          {/if}
+        </div>
+        <div class="firebaseui-form-actions">
+          {call firebaseui.auth.soy2.element.cancelButton}
+            {param label kind="text"}
+              {msg desc="Label for the button to go back to the previous page."}
+                Back
+              {/msg}
+            {/param}
+          {/call}
+        </div>
+      </div>
+      <div class="firebaseui-card-footer">
+        {call firebaseui.auth.soy2.element.tosPpLink data="all" /}
+      </div>
+    </form>
+  </div>
+{/template}
+
+
+/**
  * Renders an unsupported provider page.
  */
 {template .unsupportedProvider}

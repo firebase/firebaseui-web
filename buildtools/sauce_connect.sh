@@ -17,14 +17,16 @@
 # Download and install SauceConnect under Linux 64-bit. To be used when testing
 # with SauceLabs locally. See the instructions in protractor.conf.js file.
 #
-# It should not be used on Travis. Travis already handles SauceConnect.
-#
 # Script copied from the Closure Library repository:
 # https://github.com/google/closure-library/blob/master/scripts/ci/sauce_connect.sh
 #
 
 # Setup and start Sauce Connect locally.
-CONNECT_URL="https://saucelabs.com/downloads/sc-4.4.1-linux.tar.gz"
+if [[ $OSTYPE == 'darwin'* ]]; then
+  CONNECT_URL="https://saucelabs.com/downloads/sc-4.7.1-osx.zip"
+else
+  CONNECT_URL="https://saucelabs.com/downloads/sc-4.7.1-linux.tar.gz"
+fi
 CONNECT_DIR="/tmp/sauce-connect-$RANDOM"
 CONNECT_DOWNLOAD="sc-latest-linux.tar.gz"
 
@@ -35,8 +37,17 @@ mkdir -p $CONNECT_DIR
 cd $CONNECT_DIR
 curl $CONNECT_URL -o $CONNECT_DOWNLOAD 2> /dev/null 1> /dev/null
 mkdir sauce-connect
-tar --extract --file=$CONNECT_DOWNLOAD --strip-components=1 \
+
+if [[ $OSTYPE == 'darwin'* ]]; then
+  unzip -d sauce-connect $CONNECT_DOWNLOAD &&
+    f=(sauce-connect/*) &&
+    mv sauce-connect/*/* sauce-connect &&
+    rmdir "${f[@]}"
+else
+  tar --extract --file=$CONNECT_DOWNLOAD --strip-components=1 \
     --directory=sauce-connect > /dev/null
+fi
+
 rm $CONNECT_DOWNLOAD
 
 function removeFiles() {
@@ -46,8 +57,13 @@ function removeFiles() {
 
 trap removeFiles EXIT
 
-# This will be used by Protractor to connect to SauceConnect.
-TUNNEL_IDENTIFIER="tunnelId-$RANDOM"
+# This will be used by Protractor to connect to SauceConnect
+if [[(! -z "$GITHUB_RUN_ID")]]; then
+  TUNNEL_IDENTIFIER="$GITHUB_RUN_ID"
+else
+  TUNNEL_IDENTIFIER="tunnelId-$RANDOM"
+fi
+
 echo ""
 echo "========================================================================="
 echo "    Tunnel Identifier to pass to Protractor:"
@@ -60,4 +76,4 @@ echo "Starting Sauce Connect..."
 
 # Start SauceConnect.
 sauce-connect/bin/sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY \
-    -i $TUNNEL_IDENTIFIER
+    -i $TUNNEL_IDENTIFIER -f $BROWSER_PROVIDER_READY_FILE

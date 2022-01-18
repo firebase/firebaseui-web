@@ -19,6 +19,7 @@
 goog.provide('firebaseui.auth.ui.element.IdpsTestHelper');
 goog.setTestOnly('firebaseui.auth.ui.element.IdpsTestHelper');
 
+goog.require('firebaseui.auth.ui.element');
 goog.require('firebaseui.auth.ui.element.ElementTestHelper');
 goog.require('goog.array');
 goog.require('goog.dom.dataset');

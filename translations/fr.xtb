@@ -27,6 +27,7 @@
 <translation id="1412449974349991050">Haïti</translation>
 <translation id="144766329299583285">Si vous n'avez pas demandé à modifier l'adresse de connexion, il se peut que quelqu'un tente d'accéder à votre compte. Vous devriez <ph name="START_LINK" />modifier immédiatement votre mot de passe<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">Heard et McDonald (Îles)</translation>
+<translation id="1451880131543823984"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> n'est pas autorisé à voir la page demandée.</translation>
 <translation id="1479035434297790822">De trop nombreuses demandes de compte proviennent de votre adresse IP. Veuillez réessayer dans quelques minutes.</translation>
 <translation id="1483249363694224399">Sri Lanka</translation>
 <translation id="1507995441600689506">Vous pouvez maintenant vous connecter avec votre nouveau compte</translation>
@@ -158,6 +159,7 @@
 <translation id="3521753471343796628">Iraq</translation>
 <translation id="354888504916863713">Viêt Nam</translation>
 <translation id="3550380781997195832">Cette adresse e-mail n'est pas valide</translation>
+<translation id="3552446912357282301">Veuillez contacter <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" /> pour obtenir l'autorisation.</translation>
 <translation id="3561568594856945084">Mayotte</translation>
 <translation id="3591063723610544836">Se connecter</translation>
 <translation id="3593480381831738519">Réinitialiser votre mot de passe</translation>
@@ -328,7 +330,7 @@
 <translation id="6470057025778734988">Vous ne pourrez plus utiliser votre compte pour vous connecter</translation>
 <translation id="6472297146424049005">Vérifiez votre connexion Internet.</translation>
 <translation id="6483116480230343278">Inscription…</translation>
-<translation id="6502083090260346644">En appuyant sur "<ph name="STRING" />", vous déclencherez peut-être l'envoi d'un SMS. Des frais de messages et de données peuvent être facturés.</translation>
+<translation id="6494734506607758748">Vous devrez vous reconnecter pour modifier l'adresse e-mail associée à votre compte.</translation>
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Samoa américaines</translation>
 <translation id="6527597037551425211">Brésil</translation>
@@ -359,6 +361,7 @@
 <translation id="6821607741326790458">Jamaïque</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
+<translation id="6852861389112775830"><ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> n'est pas autorisé à voir la page demandée.</translation>
 <translation id="6918319418444979243">Renvoyer</translation>
 <translation id="6920167780806379235">Syrie</translation>
 <translation id="6921505896641453739">E-mail</translation>
@@ -366,6 +369,7 @@
 <translation id="6951302238647056860">Ce code n'est plus valide</translation>
 <translation id="6961220857430789248">Un e-mail de connexion avec des instructions supplémentaires a été envoyé à <ph name="STRING" />. Consultez cet e-mail pour vous connecter.</translation>
 <translation id="6984204927251307445">Confirmer l'e-mail</translation>
+<translation id="6996552808101270965">En savoir plus</translation>
 <translation id="6999773882165218263">Nom et prénom</translation>
 <translation id="7012506961150923116">Grenade</translation>
 <translation id="7024571478138322659">Sahara occidental</translation>
@@ -395,6 +399,7 @@
 <translation id="7291656724505689727">Se connecter avec un téléphone</translation>
 <translation id="7320029088567935126">Essayez de valider à nouveau votre adresse e-mail</translation>
 <translation id="7331038350037712642">Azerbaïdjan</translation>
+<translation id="7359542696390093035">Non autorisé</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">Lien envoyé par e-mail non valide</translation>
 <translation id="7477065998516229434">Conditions d'utilisation</translation>

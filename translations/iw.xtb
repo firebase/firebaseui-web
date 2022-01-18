@@ -27,6 +27,7 @@
 <translation id="1412449974349991050">האיטי</translation>
 <translation id="144766329299583285">אם לא ביקשת לשנות את כתובת האימייל לכניסה לחשבון, ייתכן שמישהו מנסה לגשת לחשבון ועליך <ph name="START_LINK" />לשנות מיד את הסיסמה<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">האי הרד ואיי מקדונלד</translation>
+<translation id="1451880131543823984">ל-<ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> אין הרשאה להציג את הדף המבוקש.</translation>
 <translation id="1479035434297790822">קיבלנו יותר מדי בקשות ליצירת חשבון מכתובת ה-IP שלך. אפשר יהיה לנסות שוב בעוד כמה דקות.</translation>
 <translation id="1483249363694224399">סרי לנקה</translation>
 <translation id="1507995441600689506">עכשיו אפשר להיכנס באמצעות החשבון החדש</translation>
@@ -156,6 +157,7 @@
 <translation id="3521753471343796628">עיראק</translation>
 <translation id="354888504916863713">וייטנאם</translation>
 <translation id="3550380781997195832">כתובת האימייל שגויה</translation>
+<translation id="3552446912357282301">יש לפנות למנהל המערכת בכתובת <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" /> כדי לקבל הרשאה.</translation>
 <translation id="3561568594856945084">מאיוט</translation>
 <translation id="3591063723610544836">כניסה</translation>
 <translation id="3593480381831738519">איפוס הסיסמה</translation>
@@ -324,7 +326,7 @@
 <translation id="6470057025778734988">לא תהיה יותר אפשרות להיכנס באמצעות החשבון</translation>
 <translation id="6472297146424049005">יש לבדוק את החיבור לאינטרנט.</translation>
 <translation id="6483116480230343278">אנחנו רושמים אותך...</translation>
-<translation id="6502083090260346644">הקשה על <ph name="STRING" /> תגרום לשליחה של הודעת SMS. ייתכנו חיובים על ההודעה ועל נתונים.</translation>
+<translation id="6494734506607758748">כדי לשנות את כתובת האימייל המשויכת לחשבון, עליך להיכנס מחדש.</translation>
 <translation id="6508909904815637928">ונואטו</translation>
 <translation id="6520863029476703422">סמואה האמריקנית</translation>
 <translation id="6527597037551425211">ברזיל</translation>
@@ -355,6 +357,7 @@
 <translation id="6821607741326790458">ג'מייקה</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">פקיסטן</translation>
+<translation id="6852861389112775830">ל-<ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> אין הרשאה להציג את הדף המבוקש.</translation>
 <translation id="6918319418444979243">שליחה מחדש</translation>
 <translation id="6920167780806379235">סוריה</translation>
 <translation id="6921505896641453739">אימייל</translation>
@@ -362,6 +365,7 @@
 <translation id="6951302238647056860">הקוד הזה כבר לא בתוקף</translation>
 <translation id="6961220857430789248">אימייל לכניסה לחשבון עם הוראות נוספות נשלח אל <ph name="STRING" />. יש לבדוק את תיבת הדואר הנכנס כדי להשלים את תהליך הכניסה.</translation>
 <translation id="6984204927251307445">אישור כתובת האימייל</translation>
+<translation id="6996552808101270965">מידע נוסף</translation>
 <translation id="6999773882165218263">שם פרטי ומשפחה</translation>
 <translation id="7012506961150923116">גרנדה</translation>
 <translation id="7024571478138322659">סהרה המערבית</translation>
@@ -391,6 +395,7 @@
 <translation id="7291656724505689727">כניסה באמצעות הטלפון</translation>
 <translation id="7320029088567935126">לא הצלחנו לאמת את כתובת האימייל</translation>
 <translation id="7331038350037712642">אזרביג'אן</translation>
+<translation id="7359542696390093035">אין לך הרשאה</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">קישור לאימייל לא חוקי</translation>
 <translation id="7477065998516229434">תנאים והגבלות</translation>

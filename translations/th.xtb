@@ -27,6 +27,7 @@
 <translation id="1412449974349991050">เฮติ</translation>
 <translation id="144766329299583285">หากคุณไม่ได้ขอเปลี่ยนอีเมลสำหรับลงชื่อเข้าใช้ อาจเป็นไปได้ว่ามีคนกำลังพยายามเข้าถึงบัญชีของคุณและคุณควร<ph name="START_LINK" />เปลี่ยนรหัสผ่านทันที<ph name="END_LINK" /></translation>
 <translation id="1449981769524156676">เกาะเฮิร์ดและหมู่เกาะแมกดอนัลด์</translation>
+<translation id="1451880131543823984"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> ไม่ได้รับสิทธิ์ให้ดูหน้าเว็บที่ขอ</translation>
 <translation id="1479035434297790822">มีคำขอสร้างบัญชีจากที่อยู่ IP ของคุณมากเกินไป โปรดรอสักครู่แล้วลองอีกครั้ง</translation>
 <translation id="1483249363694224399">ศรีลังกา</translation>
 <translation id="1507995441600689506">ตอนนี้คุณสามารถลงชื่อเข้าใช้ด้วยบัญชีใหม่ได้แล้ว</translation>
@@ -158,6 +159,7 @@
 <translation id="3521753471343796628">อิรัก</translation>
 <translation id="354888504916863713">เวียดนาม</translation>
 <translation id="3550380781997195832">ที่อยู่อีเมลนี้ไม่ถูกต้อง</translation>
+<translation id="3552446912357282301">โปรดติดต่อ <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" /> เพื่อขอรับสิทธิ์</translation>
 <translation id="3561568594856945084">มายอต</translation>
 <translation id="3591063723610544836">ลงชื่อเข้าใช้</translation>
 <translation id="3593480381831738519">รีเซ็ตรหัสผ่านของคุณ</translation>
@@ -328,7 +330,7 @@
 <translation id="6470057025778734988">คุณจะไม่สามารถลงชื่อเข้าใช้ด้วยบัญชีของคุณได้อีก</translation>
 <translation id="6472297146424049005">ตรวจสอบการเชื่อมต่ออินเทอร์เน็ต</translation>
 <translation id="6483116480230343278">กำลังลงชื่อสมัครใช้…</translation>
-<translation id="6502083090260346644">เมื่อคุณแตะ <ph name="STRING" /> ระบบจะส่ง SMS ให้คุณ อาจมีค่าบริการรับส่งข้อความและค่าบริการอินเทอร์เน็ต</translation>
+<translation id="6494734506607758748">ในการเปลี่ยนที่อยู่อีเมลที่เชื่อมโยงกับบัญชีของคุณ คุณจะต้องลงชื่อเข้าใช้อีกครั้ง</translation>
 <translation id="6508909904815637928">วานูอาตู</translation>
 <translation id="6520863029476703422">อเมริกันซามัว</translation>
 <translation id="6527597037551425211">บราซิล</translation>
@@ -359,6 +361,7 @@
 <translation id="6821607741326790458">จาเมกา</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">ปากีสถาน</translation>
+<translation id="6852861389112775830"><ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> ไม่ได้รับสิทธิ์ให้ดูหน้าเว็บที่ขอ</translation>
 <translation id="6918319418444979243">ส่งซ้ำ</translation>
 <translation id="6920167780806379235">ซีเรีย</translation>
 <translation id="6921505896641453739">อีเมล</translation>
@@ -366,6 +369,7 @@
 <translation id="6951302238647056860">ไม่สามารถใช้รหัสนี้ได้อีก</translation>
 <translation id="6961220857430789248">ระบบได้ส่งอีเมลลงชื่อเข้าใช้พร้อมวิธีการเพิ่มเติมไปยัง <ph name="STRING" /> แล้ว โปรดตรวจสอบอีเมลเพื่อลงชื่อเข้าใช้</translation>
 <translation id="6984204927251307445">ยืนยันอีเมล</translation>
+<translation id="6996552808101270965">ดูข้อมูลเพิ่มเติม</translation>
 <translation id="6999773882165218263">ชื่อและนามสกุล</translation>
 <translation id="7012506961150923116">เกรนาดา</translation>
 <translation id="7024571478138322659">สะฮาราตะวันตก</translation>
@@ -395,6 +399,7 @@
 <translation id="7291656724505689727">ลงชื่อเข้าใช้ด้วยโทรศัพท์</translation>
 <translation id="7320029088567935126">ลองยืนยันอีเมลของคุณอีกครั้ง</translation>
 <translation id="7331038350037712642">อาเซอร์ไบจาน</translation>
+<translation id="7359542696390093035">ไม่ได้รับสิทธิ์</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">ลิงก์อีเมลไม่ถูกต้อง</translation>
 <translation id="7477065998516229434">ข้อกำหนดในการให้บริการ</translation>

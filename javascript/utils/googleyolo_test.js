@@ -23,12 +23,14 @@ goog.provide('firebaseui.auth.GoogleYoloTest');
 goog.require('firebaseui.auth.GoogleYolo');
 goog.require('firebaseui.auth.util');
 goog.require('goog.Promise');
+goog.require('goog.dispose');
 goog.require('goog.html.TrustedResourceUrl');
 goog.require('goog.net.jsloader');
 goog.require('goog.string.Const');
 goog.require('goog.testing.MockClock');
 goog.require('goog.testing.MockControl');
 goog.require('goog.testing.jsunit');
+goog.require('goog.testing.mockmatchers');
 
 goog.setTestOnly('firebaseui.auth.GoogleYoloTest');
 

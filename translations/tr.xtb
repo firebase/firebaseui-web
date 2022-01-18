@@ -27,6 +27,7 @@
 <translation id="1412449974349991050">Haiti</translation>
 <translation id="144766329299583285">Oturum açma e-postanızı değiştirmeyi siz istemediyseniz biri hesabınıza erişmeye çalışıyor olabilir. Bu durumda, <ph name="START_LINK" />şifrenizi hemen değiştirmelisiniz<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">Heard Adası ve McDonald Adaları</translation>
+<translation id="1451880131543823984"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> adlı e-posta adresinin istenen sayfayı görüntüleme yetkisi yok.</translation>
 <translation id="1479035434297790822">IP adresinizden çok fazla sayıda hesap isteği geliyor. Birkaç dakika içinde tekrar deneyin.</translation>
 <translation id="1483249363694224399">Sri Lanka</translation>
 <translation id="1507995441600689506">Artık yeni hesabınızla oturum açabilirsiniz</translation>
@@ -158,6 +159,7 @@
 <translation id="3521753471343796628">Irak</translation>
 <translation id="354888504916863713">Vietnam</translation>
 <translation id="3550380781997195832">E-posta adresi doğru değil</translation>
+<translation id="3552446912357282301">Yetki almak için lütfen <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" /> adresiyle iletişime geçin.</translation>
 <translation id="3561568594856945084">Mayot</translation>
 <translation id="3591063723610544836">Oturum açın</translation>
 <translation id="3593480381831738519">Şifrenizi sıfırlayın</translation>
@@ -328,7 +330,7 @@
 <translation id="6470057025778734988">Artık hesabınızı kullanarak oturum açamazsınız</translation>
 <translation id="6472297146424049005">İnternet bağlantınızı kontrol edin.</translation>
 <translation id="6483116480230343278">Kaydolunuyor...</translation>
-<translation id="6502083090260346644"><ph name="STRING" /> öğesine dokunarak SMS gönderilebilir. Mesaj ve veri ücretleri uygulanabilir.</translation>
+<translation id="6494734506607758748">Hesabınızla ilişkilendirilmiş e-posta adresini değiştirmek için tekrar oturum açmanız gerekir.</translation>
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Amerikan Samoası</translation>
 <translation id="6527597037551425211">Brezilya</translation>
@@ -359,6 +361,7 @@
 <translation id="6821607741326790458">Jamaika</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
+<translation id="6852861389112775830"><ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" />, istenen sayfayı görüntüleme yetkisine sahip değil.</translation>
 <translation id="6918319418444979243">Tekrar gönder</translation>
 <translation id="6920167780806379235">Suriye</translation>
 <translation id="6921505896641453739">E-posta</translation>
@@ -366,6 +369,7 @@
 <translation id="6951302238647056860">Bu kod artık geçerli değil</translation>
 <translation id="6961220857430789248"><ph name="STRING" /> adresine ek talimatlar içeren bir oturum açma e-postası gönderildi. Oturum açma işlemini tamamlamak için e-postanızı kontrol edin.</translation>
 <translation id="6984204927251307445">E-posta adresini onaylayın</translation>
+<translation id="6996552808101270965">Daha Fazla Bilgi</translation>
 <translation id="6999773882165218263">Ad ve soyadı</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Batı Sahra</translation>
@@ -395,6 +399,7 @@
 <translation id="7291656724505689727">Telefonla oturum aç</translation>
 <translation id="7320029088567935126">E-postanızı tekrar doğrulamayı deneyin</translation>
 <translation id="7331038350037712642">Azerbaycan</translation>
+<translation id="7359542696390093035">Yetkiniz Yok</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">Geçersiz e-posta bağlantısı.</translation>
 <translation id="7477065998516229434">Hizmet Şartları</translation>

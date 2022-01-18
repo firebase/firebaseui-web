@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8">
     <title>FirebaseUI Auth Demo</title>
-    <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-auth-compat.js"></script>
     <script src="config.js"></script>
     <script src="common.js"></script>
     <script src="dist/firebaseui.js"></script>
@@ -44,7 +45,10 @@
           firebase.auth.GithubAuthProvider.PROVIDER_ID,
           {
             provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
-            signInMethod: getEmailSignInMethod()
+            signInMethod: getEmailSignInMethod(),
+            disableSignUp: {
+              status: getDisableSignUpStatus()
+            }
           },
           {
             provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
@@ -65,7 +69,10 @@
         'tosUrl': 'https://www.google.com',
         'credentialHelper': CLIENT_ID && CLIENT_ID != 'YOUR_OAUTH_CLIENT_ID' ?
             firebaseui.auth.CredentialHelper.GOOGLE_YOLO :
-            firebaseui.auth.CredentialHelper.NONE
+            firebaseui.auth.CredentialHelper.NONE,
+        'adminRestrictedOperation': {
+          status: getAdminRestrictedOperationStatus()
+        }
       };
 
       // Initialize the FirebaseUI Widget using Firebase.

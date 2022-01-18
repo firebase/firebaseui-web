@@ -28,6 +28,9 @@ goog.require('firebaseui.auth.widget.HandlerName');
 goog.require('firebaseui.auth.widget.handler');
 goog.require('firebaseui.auth.widget.handler.common');
 goog.require('goog.array');
+goog.requireType('firebaseui.auth.ui.page.Base');
+goog.requireType('firebaseui.auth.widget.Config');
+goog.requireType('goog.Promise');
 
 
 /**
@@ -120,6 +123,17 @@ firebaseui.auth.widget.handler.handleCallback =
             'user': null,
             'credential': null
           });
+    } else if (normalizedError &&
+               normalizedError['code'] == 'auth/admin-restricted-operation' &&
+               app.getConfig().isAdminRestrictedOperationConfigured()) {
+      component.dispose();
+      firebaseui.auth.storage.removePendingEmailCredential(app.getAppId());
+      firebaseui.auth.widget.handler.handle(
+          firebaseui.auth.widget.HandlerName.UNAUTHORIZED_USER,
+          app,
+          container,
+          null,
+          null);
     } else {
       // Go to the sign-in page with info bar error.
       firebaseui.auth.widget.handler.handleCallbackFailure_(

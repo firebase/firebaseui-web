@@ -27,6 +27,7 @@
 <translation id="1412449974349991050">Haiti</translation>
 <translation id="144766329299583285">Ja nepieprasījāt pierakstīšanās e-pasta adreses nomaiņu, iespējams, kāds mēģina piekļūt jūsu kontam un jums ir <ph name="START_LINK" />nekavējoties jānomaina parole<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">Hērda sala un Makdonalda salas</translation>
+<translation id="1451880131543823984">Lietotājs <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> nav pilnvarots, lai skatītu pieprasīto lapu.</translation>
 <translation id="1479035434297790822">Pārāk daudz kontu pieprasījumu ir nosūtīti no jūsu IP adreses. Pēc dažām minūtēm mēģiniet vēlreiz.</translation>
 <translation id="1483249363694224399">Šrilanka</translation>
 <translation id="1507995441600689506">Tagad varat pierakstīties ar jauno kontu</translation>
@@ -156,6 +157,7 @@
 <translation id="3521753471343796628">Irāka</translation>
 <translation id="354888504916863713">Vjetnama</translation>
 <translation id="3550380781997195832">Šī e-pasta adrese nav pareiza</translation>
+<translation id="3552446912357282301">Lai iegūtu pilnvaru, lūdzu, sazinieties ar administratoru <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" />.</translation>
 <translation id="3561568594856945084">Majota</translation>
 <translation id="3591063723610544836">Pierakstīšanās</translation>
 <translation id="3593480381831738519">Paroles atiestatīšana</translation>
@@ -324,7 +326,7 @@
 <translation id="6470057025778734988">Jūs vairs nevarēsit pierakstīties, izmantojot savu kontu</translation>
 <translation id="6472297146424049005">Pārbaudiet interneta savienojumu.</translation>
 <translation id="6483116480230343278">Notiek reģistrācija...</translation>
-<translation id="6502083090260346644">Pieskaroties pogai <ph name="STRING" />, var tikt nosūtīta īsziņa. Var tikt piemērota maksa par ziņojumiem un datu pārsūtīšanu.</translation>
+<translation id="6494734506607758748">Lai mainītu ar kontu saistīto e-pasta adresi, būs vēlreiz jāpierakstās.</translation>
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Amerikāņu Samoa</translation>
 <translation id="6527597037551425211">Brazīlija</translation>
@@ -355,6 +357,7 @@
 <translation id="6821607741326790458">Jamaika</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistāna</translation>
+<translation id="6852861389112775830">Lietotājs <ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> nav pilnvarots, lai skatītu pieprasīto lapu.</translation>
 <translation id="6918319418444979243">Sūtīt vēlreiz</translation>
 <translation id="6920167780806379235">Sīrija</translation>
 <translation id="6921505896641453739">E-pasts</translation>
@@ -362,6 +365,7 @@
 <translation id="6951302238647056860">Šis kods vairs nav derīgs</translation>
 <translation id="6961220857430789248">Pierakstīšanās e-pasta ziņojums ar papildu norādījumiem tika nosūtīts uz e-pasta adresi <ph name="STRING" />. Pārbaudiet savu e-pastu, lai pabeigtu pierakstīšanos.</translation>
 <translation id="6984204927251307445">E-pasta adreses apstiprināšana</translation>
+<translation id="6996552808101270965">Uzzināt vairāk</translation>
 <translation id="6999773882165218263">Vārds un uzvārds</translation>
 <translation id="7012506961150923116">Grenāda</translation>
 <translation id="7024571478138322659">Rietumsahāra</translation>
@@ -391,6 +395,7 @@
 <translation id="7291656724505689727">Pierakstīties ar tālruni</translation>
 <translation id="7320029088567935126">Mēģiniet vēlreiz verificēt savu e-pasta adresi</translation>
 <translation id="7331038350037712642">Azerbaidžāna</translation>
+<translation id="7359542696390093035">Nav pilnvaru</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">Nederīga e-pasta saite.</translation>
 <translation id="7477065998516229434">Pakalpojumu sniegšanas noteikumi</translation>

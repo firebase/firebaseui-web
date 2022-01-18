@@ -20,7 +20,6 @@ goog.provide('firebaseui.auth.cryptTest');
 
 goog.require('firebaseui.auth.crypt');
 goog.require('firebaseui.auth.util');
-goog.require('goog.array');
 goog.require('goog.crypt');
 goog.require('goog.testing.jsunit');
 
@@ -160,14 +159,13 @@ function testAesEncryptAndDecrypt() {
     // Key will get trimmed.
     firebaseui.auth.util.generateRandomAlphaNumericString(48)
   ];
-  goog.array.forEach(keys, function(key) {
+  keys.forEach(function(key) {
     for (var i = 0; i < testData.length; i++) {
       encryptedData = firebaseui.auth.crypt.aesEncrypt(key, testData[i]);
       // Confirm decrypting the encrypted data will result with expected initial
       // data.
       assertEquals(
-          testData[i],
-          firebaseui.auth.crypt.aesDecrypt(key, encryptedData));
+          testData[i], firebaseui.auth.crypt.aesDecrypt(key, encryptedData));
     }
   });
 }

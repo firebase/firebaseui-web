@@ -24,17 +24,21 @@
 cd "$(dirname $(dirname "$0"))"
 
 echo "Compiling templates..."
-npm run build build-soy
-cp -r ./out/soy ./generated
-npm run build clean
+npm run build-soy
+mkdir -p ./generated
+cp -r ./out/soy/* ./generated
 
 echo "Generating dependency file..."
-CLOSURE_PATH="google-closure-templates/javascript"
-python node_modules/google-closure-library/closure/bin/build/depswriter.py \
-    --root_with_prefix="soy ../../../../soy" \
-    --root_with_prefix="generated ../../../../generated" \
-    --root_with_prefix="javascript ../../../../javascript" \
-    --root_with_prefix="node_modules/$CLOSURE_PATH ../../../$CLOSURE_PATH" \
+node $(npm bin)/closure-make-deps \
+    --closure-path="node_modules/google-closure-library/closure/goog" \
+    --file="node_modules/google-closure-library/closure/goog/deps.js" \
+    --root="soy" \
+    --root="generated" \
+    --root="javascript" \
+    --root="node_modules/google-closure-templates/javascript" \
+    --exclude="generated/all_tests.js" \
+    --exclude="generated/deps.js" \
+    --exclude="javascript/externs" \
     > generated/deps.js
 
 echo "Generating test HTML files..."

@@ -89,7 +89,7 @@ function initializeCookieStorageMock(maxAge, path, domain, secure) {
       goog.net.cookies,
       'set',
       function(key, value, actualMaxAge, actualPath,
-              actualDomain, actualSecure) {
+               actualDomain, actualSecure) {
         assertEquals(maxAge, actualMaxAge);
         assertEquals(path, actualPath);
         assertEquals(domain, actualDomain);

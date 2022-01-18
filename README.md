@@ -62,8 +62,8 @@ You just need to include the following script and CSS file in the `<head>` tag
 of your page, below the initialization snippet from the Firebase Console:
 
 ```html
-<script src="https://www.gstatic.com/firebasejs/ui/4.7.3/firebase-ui-auth.js"></script>
-<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.7.3/firebase-ui-auth.css" />
+<script src="https://www.gstatic.com/firebasejs/ui/6.0.0/firebase-ui-auth.js"></script>
+<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.0/firebase-ui-auth.css" />
 ```
 
 #### Localized Widget
@@ -72,17 +72,17 @@ Localized versions of the widget are available through the CDN. To use a
 localized widget, load the localized JS library instead of the default library:
 
 ```html
-<script src="https://www.gstatic.com/firebasejs/ui/4.7.3/firebase-ui-auth__{LANGUAGE_CODE}.js"></script>
-<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.7.3/firebase-ui-auth.css" />
+<script src="https://www.gstatic.com/firebasejs/ui/6.0.0/firebase-ui-auth__{LANGUAGE_CODE}.js"></script>
+<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.0/firebase-ui-auth.css" />
 ```
 
 where `{LANGUAGE_CODE}` is replaced by the code of the language you want. For example, the French
 version of the library is available at
-`https://www.gstatic.com/firebasejs/ui/4.7.3/firebase-ui-auth__fr.js`. The list of available
+`https://www.gstatic.com/firebasejs/ui/6.0.0/firebase-ui-auth__fr.js`. The list of available
 languages and their respective language codes can be found at [LANGUAGES.md](LANGUAGES.md).
 
 Right-to-left languages also require the right-to-left version of the stylesheet, available at
-`https://www.gstatic.com/firebasejs/ui/4.7.3/firebase-ui-auth-rtl.css`, instead of the default
+`https://www.gstatic.com/firebasejs/ui/6.0.0/firebase-ui-auth-rtl.css`, instead of the default
 stylesheet. The supported right-to-left languages are Arabic (ar), Farsi (fa), and Hebrew (iw).
 
 ### Option 2: npm Module
@@ -91,26 +91,15 @@ Install FirebaseUI and its peer-dependency Firebase via npm using the following
 commands:
 
 ```bash
-$ npm install firebase --save
-$ npm install firebaseui --save
+$ npm install firebase firebaseui --save
 ```
 
-You can then `require` the following modules within your source files:
+You can then `import` the following modules within your source files:
 
 ```javascript
-var firebase = require('firebase');
-var firebaseui = require('firebaseui');
-// or using ES6 imports:
+import firebase from 'firebase/compat/app';
 import * as firebaseui from 'firebaseui'
 import 'firebaseui/dist/firebaseui.css'
-```
-
-Or include the required files in your HTML, if your HTTP Server serves the files
-within `node_modules/`:
-
-```html
-<script src="node_modules/firebaseui/dist/firebaseui.js"></script>
-<link type="text/css" rel="stylesheet" href="node_modules/firebaseui/dist/firebaseui.css" />
 ```
 
 ### Option 3: Bower component
@@ -193,12 +182,14 @@ for a more in-depth example, showcasing a Single Page Application mode.
   <head>
     <meta charset="UTF-8">
     <title>Sample FirebaseUI App</title>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-auth-compat.js"></script>
     <!-- *******************************************************************************************
-       * TODO(DEVELOPER): Paste the initialization snippet from:
-       * Firebase Console > Overview > Add Firebase to your web app. *
+       * TODO(DEVELOPER): Paste the initialization snippet from this dialog box:
+       * Firebase Console > Project Settings > Add App > Web.
        ***************************************************************************************** -->
-    <script src="https://www.gstatic.com/firebasejs/ui/4.7.3/firebase-ui-auth.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.7.3/firebase-ui-auth.css" />
+    <script src="https://www.gstatic.com/firebasejs/ui/6.0.0/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.0/firebase-ui-auth.css" />
     <script type="text/javascript">
       // FirebaseUI config.
       var uiConfig = {
@@ -266,6 +257,8 @@ Here is how you would track the Auth state across all your pages:
   <head>
     <meta charset="UTF-8">
     <title>Sample FirebaseUI App</title>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-auth-compat.js"></script>
     <!-- *******************************************************************************************
        * TODO(DEVELOPER): Paste the initialization snippet from:
        * Firebase Console > Overview > Add Firebase to your web app. *
@@ -443,6 +436,32 @@ FirebaseUI supports the following configuration parameters.
 <td>
   The URL of the Privacy Policy page or a callback function to be invoked
   when Privacy Policy link is clicked.
+</td>
+</tr>
+<tr>
+<td>adminRestrictedOperation</td>
+<td>No</td>
+<td>
+  This setting is only applicable to "Google Cloud Identity Platform" projects.
+  Learn more about [GCIP](https://cloud.google.com/identity-platform/).
+  The object for configuring `adminRestrictedOperation` options, contains 3
+  fields:
+  `status(boolean)`: This flag should mirror the project user actions
+  ("Enable create") settings. When sign-up is disabled in the project settings,
+  this should be set to `true`. Setting this to `true` without disabling sign-up
+  in the project settings will not have any effect. For GCIP projects, this is
+  done by going to the "Settings" page in the "Identity Platform" section in the
+  Cloud Console. Under the "USERS" tab, go to "User actions". Uncheck "Enable
+  create (sign-up)" and click "SAVE".
+  This does not enforce the policy but is rather useful for providing additional
+  instructions to the end user when a user tries to create a new user account
+  and the Auth server blocks the operation. This boolean works on all providers
+  (federated, email/password, email link and phone number).
+  `adminEmail(string|undefined)`: The optional site administrator email to
+  contact for access when sign up is disabled, for example: `admin@example.com`.
+  `helpLink(string|undefined)`: The optional help link to provide information
+  on how to get access to the site when sign up is disabled. For example:
+  `https://www.example.com/trouble_signing_in`.
 </td>
 </tr>
 </tbody>
@@ -878,6 +897,19 @@ You can configure either email/password or email/link sign-in with FirebaseUI by
 providing the relevant object in the configuration <code>signInOptions</code>
 array.
 
+You can disable new user sign up with email providers by setting the flag
+`disableSignUp.status` to `true`. This will display an error message when new
+users attempt to sign up.
+
+Note that this flag will only disable sign up from the UI and will not prevent
+sign up via REST API. It is highly recommended that Identity Platform projects
+enforce this policy via one of these 2 mechanisms:
+
+- Blocking functions: Set a `beforeCreate` trigger to disable sign up for email
+  providers.
+- In the Cloud Console / Settings / USERS tab, uncheck `Enable create (sign-up)`
+  checkbox. Though for this setting, sign up for all providers will be disabled.
+
 <table>
 <thead>
 <tr>
@@ -947,6 +979,21 @@ array.
   handled, custom dynamic link, additional state in the deep link, etc.
   When not provided, the current URL is used and a web only flow is triggered.
   This is only relevant to email link sign-in.
+</td>
+</tr>
+<tr>
+<td>disableSignUp</td>
+<td><code>firebaseui.auth.DisableSignUpConfig</code></td>
+<td>No</td>
+<td>
+  The object for configuring `disableSignUp` options, contains 3 fields:
+  `status(boolean)`: Whether disable user from signing up with email providers
+  (email/password or email link).
+  `adminEmail(string|undefined)`: The optional site administrator email to
+  contact for access when sign up is disabled, for example: `admin@example.com`.
+  `helpLink(string|undefined)`: The optional help link to provide information
+  on how to get access to the site when sign up is disabled. For example:
+  `https://www.example.com/trouble_signing_in`.
 </td>
 </tr>
 </tbody>
@@ -1020,6 +1067,14 @@ ui.start('#firebaseui-auth-container', {
           // Additional state showPromo=1234 can be retrieved from URL on
           // sign-in completion in signInSuccess callback by checking
           // window.location.href.
+          // If you are using a fragment in the URL, additional FirebaseUI
+          // parameters will be appended to the query string component instead
+          // of the fragment.
+          // So for a url: https://www.example.com/#/signin
+          // The completion URL will take the form:
+          // https://www.example.com/?uid_sid=xyz&ui_sd=0#/signin
+          // This should be taken into account when using frameworks with "hash
+          // routing".
           url: 'https://www.example.com/completeSignIn?showPromo=1234',
           // Custom FDL domain.
           dynamicLinkDomain: 'example.page.link',
@@ -1062,6 +1117,12 @@ if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
 
 Additional state passed in the <code>url</code> can be retrieved on sign-in
 completion via the signInSuccess callbacks.
+
+If you are using a fragment in the URL, additional FirebaseUI parameters will be
+appended to the query string component instead of the fragment.
+So for a url `https://www.example.com/#/signin`, the completion URL will take
+the form `https://www.example.com/?uid_sid=xyz&ui_sd=0#/signin`.
+This should be taken into account when using frameworks with "hash routing".
 
 ```javascript
 // ...
@@ -1277,12 +1338,14 @@ FirebaseUI is displayed.
   <head>
     <meta charset="UTF-8">
     <title>Sample FirebaseUI App</title>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-auth-compat.js"></script>
     <!-- *******************************************************************************************
        * TODO(DEVELOPER): Paste the initialization snippet from:
        * Firebase Console > Overview > Add Firebase to your web app. *
        ***************************************************************************************** -->
-    <script src="https://www.gstatic.com/firebasejs/ui/4.7.3/firebase-ui-auth.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.7.3/firebase-ui-auth.css" />
+    <script src="https://www.gstatic.com/firebasejs/ui/6.0.0/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.0/firebase-ui-auth.css" />
     <script type="text/javascript">
       // FirebaseUI config.
       var uiConfig = {
@@ -1863,11 +1926,38 @@ on a server deployed locally, accessing the application through a `localhost`
 address. However, it doesn't impact applications deployed on a server (as you
 can verify in the [demo app](https://fir-ui-demo-84a6c.firebaseapp.com/)).
 
-## Deprecated APIs
+## Release Notes
 
-As a result of `accountchooser.com` switching to "universal opt-out" mode on
-July 31st, 2020, FirebaseUI will no longer support `accountchooser.com`
-credential helper.
+**Latest**: https://github.com/firebase/firebaseui-web/releases/latest
+
+**For v1.0.0 and superior:** https://github.com/firebase/firebaseui-web/releases
+
+### 6.0.0
+
+FirebaseUI-web v6.0.0 is intended to be used alongside Firebase JS SDK v9 compat.
+
+If using the CDN, change your Firebase imports to:
+
+```html
+<script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-auth-compat.js"></script>
+```
+
+If NPM:
+
+```ts
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+```
+
+[See the Firebase upgrade guide for more information.](https://firebase.google.com/docs/web/modular-upgrade)
+
+### 5.0.0
+
+`accountchooser.com` has been operating in "universal opt-out" mode and was
+shutdown on July 2021. FirebaseUI-web has stopped supporting this credential
+helper and since version v5.0.0, all related configurations and enums have been
+removed.
 
 - If you are using `firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM`,
   you need to switch to `firebaseui.auth.CredentialHelper.NONE` or
@@ -1878,12 +1968,6 @@ credential helper.
 - `firebaseui.auth.FederatedSignInOption#authMethod` is no longer required to
   be provided by the latest
   [one-tap API](https://developers.google.com/identity/one-tap/web/reference/js-reference).
-
-## Release Notes
-
-**Latest**: https://github.com/firebase/firebaseui-web/releases/latest
-
-**For v1.0.0 and superior:** https://github.com/firebase/firebaseui-web/releases
 
 ### 0.5.0
 

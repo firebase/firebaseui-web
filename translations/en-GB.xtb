@@ -27,6 +27,7 @@
 <translation id="1412449974349991050">Haiti</translation>
 <translation id="144766329299583285">If you didn't ask to change your sign-in email, it's possible that someone is trying to access your account and you should <ph name="START_LINK" />change your password immediately<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">Heard Island and McDonald Islands</translation>
+<translation id="1451880131543823984"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> is not authorised to view the requested page.</translation>
 <translation id="1479035434297790822">Too many account requests are coming from your IP address. Try again in a few minutes.</translation>
 <translation id="1483249363694224399">Sri Lanka</translation>
 <translation id="1507995441600689506">You can now sign in with your new account</translation>
@@ -158,6 +159,7 @@
 <translation id="3521753471343796628">Iraq</translation>
 <translation id="354888504916863713">Vietnam</translation>
 <translation id="3550380781997195832">Incorrect email address</translation>
+<translation id="3552446912357282301">Please contact <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" /> for authorisation.</translation>
 <translation id="3561568594856945084">Mayotte</translation>
 <translation id="3591063723610544836">Sign in</translation>
 <translation id="3593480381831738519">Reset your password</translation>
@@ -328,7 +330,7 @@
 <translation id="6470057025778734988">You will no longer be able to sign in using your account</translation>
 <translation id="6472297146424049005">Check your internet connection.</translation>
 <translation id="6483116480230343278">Signing up…</translation>
-<translation id="6502083090260346644">By tapping <ph name="STRING" />, an SMS may be sent. Message &amp; data rates may apply.</translation>
+<translation id="6494734506607758748">To change the email address associated with your account, you will need to sign in again.</translation>
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">American Samoa</translation>
 <translation id="6527597037551425211">Brazil</translation>
@@ -359,6 +361,7 @@
 <translation id="6821607741326790458">Jamaica</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
+<translation id="6852861389112775830"><ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> is not authorised to view the requested page.</translation>
 <translation id="6918319418444979243">Resend</translation>
 <translation id="6920167780806379235">Syria</translation>
 <translation id="6921505896641453739">Email</translation>
@@ -366,6 +369,7 @@
 <translation id="6951302238647056860">This code is no longer valid</translation>
 <translation id="6961220857430789248">A sign-in email with additional instructions was sent to <ph name="STRING" />. Check your email to complete sign-in.</translation>
 <translation id="6984204927251307445">Confirm email</translation>
+<translation id="6996552808101270965">Learn more</translation>
 <translation id="6999773882165218263">First name &amp;amp; surname</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Western Sahara</translation>
@@ -395,6 +399,7 @@
 <translation id="7291656724505689727">Sign in with phone</translation>
 <translation id="7320029088567935126">Try verifying your email again</translation>
 <translation id="7331038350037712642">Azerbaijan</translation>
+<translation id="7359542696390093035">Not authorised</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">Invalid email link.</translation>
 <translation id="7477065998516229434">Terms of Service</translation>

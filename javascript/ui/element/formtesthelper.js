@@ -19,6 +19,7 @@
 goog.provide('firebaseui.auth.ui.element.FormTestHelper');
 goog.setTestOnly('firebaseui.auth.ui.element.FormTestHelper');
 
+goog.require('firebaseui.auth.ui.element');
 goog.require('firebaseui.auth.ui.element.ElementTestHelper');
 goog.require('goog.events.KeyCodes');
 goog.require('goog.testing.events');

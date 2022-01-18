@@ -38,7 +38,6 @@ goog.require('firebaseui.auth.ui.page.Base');
 goog.require('firebaseui.auth.util');
 goog.require('firebaseui.auth.widget.Config');
 goog.require('goog.Promise');
-goog.require('goog.array');
 goog.require('goog.dom');
 goog.require('goog.dom.TagName');
 goog.require('goog.dom.classlist');
@@ -89,6 +88,10 @@ var oauthResponse = /** @type {?firebaseui.auth.OAuthResponse} */ ({
 var internalError = {
   'code': 'auth/internal-error',
   'message': 'An internal error occurred.'
+};
+const adminRestrictedOperationError = {
+  'code': 'auth/admin-restricted-operation',
+  'message': 'This operation is restricted to administrators only.'
 };
 var operationNotSupportedError = {
   'code': 'auth/operation-not-supported-in-this-environment',
@@ -156,6 +159,13 @@ var emailLinkSignInOptions = [
   'google.com',
   'facebook.com'
 ];
+
+const expectedAdminEmail = 'admin@example.com';
+const adminRestrictedOperationConfig = {
+  'status': true,
+  'adminEmail': expectedAdminEmail,
+  'helpLink': 'https://www.example.com/trouble_signing_in',
+};
 
 var testStubs = new goog.testing.PropertyReplacer();
 var mockClock = new goog.testing.MockClock();
@@ -667,6 +677,16 @@ function clickSecondaryLink() {
 }
 
 
+/**
+ * Triggers a click on the help link element.
+ */
+function clickHelpLink() {
+  const helpLink = goog.dom.getElementByClass(
+      'firebaseui-id-unauthorized-user-help-link', container);
+  goog.testing.events.fireClickSequence(helpLink);
+}
+
+
 /** @return {?Element} The email element on the current page. */
 function getEmailElement() {
   return goog.dom.getElementByClass('firebaseui-id-email', container);
@@ -852,7 +872,7 @@ function getPhoneConfirmationCodeErrorMessage() {
 function getKeysForCountrySelectorButtons() {
   var buttons = goog.dom.getElementsByClass(
       'firebaseui-list-box-dialog-button');
-  return goog.array.map(buttons, function(button) {
+  return Array.prototype.map.call(buttons, function(button) {
     return button.getAttribute('data-listboxid');
   });
 }
@@ -989,6 +1009,12 @@ function assertBusyIndicatorHidden() {
 }
 
 
+/** Asserts that unauthorized user page is displayed. */
+function assertUnauthorizedUserPage() {
+  assertPage_(container, 'firebaseui-id-page-unauthorized-user');
+}
+
+
 function assertCallbackPage() {
   assertPage_(container, 'firebaseui-id-page-callback');
 }
@@ -1055,6 +1081,36 @@ function assertFederatedLinkingPage(opt_email) {
   assertPage_(container, 'firebaseui-id-page-federated-linking');
   if (opt_email) {
     assertPageContainsText(opt_email);
+  }
+}
+
+
+/** Asserts that there is no help link currently displayed. */
+function assertNoHelpLink() {
+  const element = goog.dom.getElementByClass(
+      'firebaseui-id-unauthorized-user-help-link', container);
+  assertNull(element);
+}
+
+
+/** Asserts that there is help link currently displayed. */
+function assertHelpLink() {
+  const element = goog.dom.getElementByClass(
+      'firebaseui-id-unauthorized-user-help-link', container);
+  assertNotNull(element);
+}
+
+
+/**
+ * Asserts that there is an admin email currently displayed.
+ * @param {string=} adminEmail admin email to check.
+ */
+function assertAdminEmail(adminEmail) {
+  const element = goog.dom.getElementByClass(
+      'firebaseui-id-unauthorized-user-admin-email', container);
+  assertNotNull(element);
+  if (adminEmail) {
+    assertContains(adminEmail, goog.dom.getTextContent(element));
   }
 }
 

@@ -21,6 +21,7 @@ goog.setTestOnly('firebaseui.auth.widget.handler.widgetSelectorTest');
 
 /** @suppress {extraRequire} */
 goog.require('firebaseui.auth.AuthUI');
+goog.require('firebaseui.auth.util');
 goog.require('firebaseui.auth.widget.handler.startSignIn');
 /** @suppress {extraRequire} */
 goog.require('firebaseui.auth.widget.handler.testHelper');

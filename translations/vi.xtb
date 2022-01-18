@@ -27,6 +27,7 @@
 <translation id="1412449974349991050">Haiti</translation>
 <translation id="144766329299583285">Nếu bạn không yêu cầu thay đổi email đăng nhập, thì có thể ai đó đang cố gắng truy cập tài khoản của bạn và bạn nên <ph name="START_LINK" />thay đổi mật khẩu ngay lập tức<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">Đảo Heard và Quần đảo McDonald</translation>
+<translation id="1451880131543823984"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> không được phép xem trang mà mình yêu cầu.</translation>
 <translation id="1479035434297790822">Có quá nhiều yêu cầu tài khoản từ địa chỉ IP của bạn. Hãy thử lại sau một vài phút.</translation>
 <translation id="1483249363694224399">Sri Lanka</translation>
 <translation id="1507995441600689506">Bạn hiện có thể đăng nhập bằng tài khoản mới</translation>
@@ -157,6 +158,7 @@
 <translation id="3521753471343796628">Iraq</translation>
 <translation id="354888504916863713">Việt Nam</translation>
 <translation id="3550380781997195832">Địa chỉ email đó không đúng</translation>
+<translation id="3552446912357282301">Vui lòng liên hệ với <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" /> để được cấp phép.</translation>
 <translation id="3561568594856945084">Mayotte</translation>
 <translation id="3591063723610544836">Đăng nhập</translation>
 <translation id="3593480381831738519">Đặt lại mật khẩu của bạn</translation>
@@ -185,7 +187,7 @@
 <translation id="4022450612826261789">Kosovo</translation>
 <translation id="4025579119565425333">Hãy thử các cách khắc phục vấn đề phổ biến sau:</translation>
 <translation id="4056653682525186486">Đăng nhập bằng <ph name="XXX" /></translation>
-<translation id="4064888056475403511">Hãy thử mở liên kết bằng cùng một thiết bị hoặc trình duyệt mà bạn dùng để bắt đầu quá trình đăng nhập.</translation>
+<translation id="4064888056475403511">Hãy thử mở đường liên kết bằng cùng một thiết bị hoặc trình duyệt mà bạn dùng để bắt đầu quá trình đăng nhập.</translation>
 <translation id="4066104405592701692">Estonia</translation>
 <translation id="4147949012570877154">Xóa</translation>
 <translation id="4163133799286985193">Argentina</translation>
@@ -238,7 +240,7 @@
 <translation id="4991626049082973728">Serbia</translation>
 <translation id="4991892293325936102">Belize</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" />cho <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /><ph name="END_PARAGRAPH" /></translation>
-<translation id="5059105734231232362">Để quy trình kết nối tài khoản <ph name="IDP_DISPLAY_NAME" /> với email này diễn ra thành công, bạn phải mở liên kết trên cùng một thiết bị hoặc trình duyệt.</translation>
+<translation id="5059105734231232362">Để quy trình kết nối tài khoản <ph name="IDP_DISPLAY_NAME" /> với email này diễn ra thành công, bạn phải mở đường liên kết trên cùng một thiết bị hoặc trình duyệt.</translation>
 <translation id="5080084639513001393">Thụy Điển</translation>
 <translation id="5080899604429810481">Saint Martin</translation>
 <translation id="5115661695221894994"><ph name="START_PARAGRAPH" />Yêu cầu xác minh và cập nhật email của bạn đã hết hạn hoặc đường liên kết đã được sử dụng.<ph name="END_PARAGRAPH" /></translation>
@@ -259,7 +261,7 @@
 <translation id="5444635161362535036">Liechtenstein</translation>
 <translation id="5483706910421209104">Chỉnh sửa tên</translation>
 <translation id="5487696047685227891">Thiết bị hoặc ứng dụng này đã không được sử dụng làm bước xác thực thứ hai.</translation>
-<translation id="5490651768073507833">Hãy thử mở liên kết bằng cùng một thiết bị hoặc trình duyệt mà bạn dùng để bắt đầu quá trình đăng nhập.</translation>
+<translation id="5490651768073507833">Hãy thử mở đường liên kết bằng cùng một thiết bị hoặc trình duyệt mà bạn dùng để bắt đầu quá trình đăng nhập.</translation>
 <translation id="5524360735013196510">Hà Lan</translation>
 <translation id="5528189843379142883">Guinea Xích đạo</translation>
 <translation id="5529036554155743092">Úc</translation>
@@ -327,7 +329,7 @@
 <translation id="6470057025778734988">Bạn sẽ không thể đăng nhập bằng tài khoản của bạn</translation>
 <translation id="6472297146424049005">Kiểm tra kết nối Internet của bạn.</translation>
 <translation id="6483116480230343278">Đang đăng ký…</translation>
-<translation id="6502083090260346644">Bằng cách nhấn vào <ph name="STRING" />, bạn có thể nhận được tin nhắn SMS. Có thể áp dụng cước tin nhắn và dữ liệu.</translation>
+<translation id="6494734506607758748">Để thay đổi địa chỉ email được liên kết với tài khoản của bạn, bạn sẽ phải đăng nhập lại.</translation>
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Samoa thuộc Hoa Kỳ</translation>
 <translation id="6527597037551425211">Braxin</translation>
@@ -358,6 +360,7 @@
 <translation id="6821607741326790458">Jamaica</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
+<translation id="6852861389112775830"><ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> không được phép xem trang đã yêu cầu.</translation>
 <translation id="6918319418444979243">Gửi lại</translation>
 <translation id="6920167780806379235">Syria</translation>
 <translation id="6921505896641453739">Email</translation>
@@ -365,6 +368,7 @@
 <translation id="6951302238647056860">Mã này không còn hợp lệ</translation>
 <translation id="6961220857430789248">Email đăng nhập có hướng dẫn bổ sung đã gửi tới <ph name="STRING" />. Hãy tìm email này trong hộp thư của bạn để hoàn tất đăng nhập.</translation>
 <translation id="6984204927251307445">Xác nhận email</translation>
+<translation id="6996552808101270965">Tìm hiểu thêm</translation>
 <translation id="6999773882165218263">Họ và tên</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Tây Sahara</translation>
@@ -394,6 +398,7 @@
 <translation id="7291656724505689727">Đăng nhập bằng điện thoại</translation>
 <translation id="7320029088567935126">Thử xác minh lại email của bạn</translation>
 <translation id="7331038350037712642">Azerbaijan</translation>
+<translation id="7359542696390093035">Không được phép</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">Liên kết email không hợp lệ.</translation>
 <translation id="7477065998516229434">Điều khoản dịch vụ</translation>
@@ -478,9 +483,9 @@
 <translation id="8869797682387766327">Đảo Man</translation>
 <translation id="8893950153780006385">Malaysia</translation>
 <translation id="8895840173743975193">Quần đảo Cocos [Keeling]</translation>
-<translation id="8916080112145514151">Nếu bạn vẫn muốn kết nối với tài khoản <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" />, hãy mở liên kết này trên cùng một thiết bị mà bạn đã đăng nhập từ đầu. Nếu không, hãy nhấn Tiếp tục để đăng nhập trên thiết bị này.</translation>
+<translation id="8916080112145514151">Nếu bạn vẫn muốn kết nối với tài khoản <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" />, hãy mở đường liên kết này trên cùng một thiết bị mà bạn đã đăng nhập từ đầu. Nếu không, hãy nhấn Tiếp tục để đăng nhập trên thiết bị này.</translation>
 <translation id="8920674952994839257">Thử lại</translation>
-<translation id="8939353296336237380">Ban đầu, bạn có ý định kết nối <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> với tài khoản email của bạn nhưng đã mở liên kết trên một thiết bị khác mà bạn chưa đăng nhập.</translation>
+<translation id="8939353296336237380">Ban đầu, bạn có ý định kết nối <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> với tài khoản email của bạn nhưng đã mở đường liên kết trên một thiết bị khác mà bạn chưa đăng nhập.</translation>
 <translation id="8971555482255213064">Gửi lại mã sau 0:<ph name="PH_1" /></translation>
 <translation id="8984161590699631096">Ma-rốc</translation>
 <translation id="8994098794339484800">Nếu bạn không nhận ra thiết bị này, thì có thể có người đang tìm cách truy cập vào tài khoản của bạn. Hãy xem xét việc <ph name="START_LINK" />đổi mật khẩu ngay lập tức<ph name="END_LINK" />.</translation>

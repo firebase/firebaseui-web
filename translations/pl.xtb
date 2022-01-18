@@ -27,6 +27,7 @@
 <translation id="1412449974349991050">Haiti</translation>
 <translation id="144766329299583285">Jeżeli prośba o zmianę e-maila używanego do logowania nie została wysłana przez Ciebie, to możliwe, że ktoś próbuje się dostać na Twoje konto. <ph name="START_LINK" />Jak najszybciej zmień hasło<ph name="END_LINK" /></translation>
 <translation id="1449981769524156676">Wyspy Heard i McDonalda</translation>
+<translation id="1451880131543823984">Użytkownik <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> nie ma uprawnień do wyświetlenia wybranej strony.</translation>
 <translation id="1479035434297790822">Z tego adresu IP wysłano zbyt wiele próśb o utworzenie konta. Spróbuj ponownie za kilka minut.</translation>
 <translation id="1483249363694224399">Sri Lanka</translation>
 <translation id="1507995441600689506">Możesz się teraz zalogować na nowe konto</translation>
@@ -158,6 +159,7 @@
 <translation id="3521753471343796628">Irak</translation>
 <translation id="354888504916863713">Wietnam</translation>
 <translation id="3550380781997195832">Nieprawidłowy adres e-mail</translation>
+<translation id="3552446912357282301">Wyślij e-maila z prośbą o ich przyznanie na adres <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" />.</translation>
 <translation id="3561568594856945084">Majotta</translation>
 <translation id="3591063723610544836">Logowanie</translation>
 <translation id="3593480381831738519">Resetowanie hasła</translation>
@@ -328,7 +330,7 @@
 <translation id="6470057025778734988">Logowanie za pomocą tego konta będzie niemożliwe</translation>
 <translation id="6472297146424049005">Sprawdź połączenie z internetem.</translation>
 <translation id="6483116480230343278">Rejestruję...</translation>
-<translation id="6502083090260346644">Gdy klikniesz <ph name="STRING" />, może zostać wysłany SMS, przez co operator może pobrać opłatę za przesyłanie wiadomości i danych.</translation>
+<translation id="6494734506607758748">Aby zmienić adres e-mail powiązany ze swoim kontem, musisz zalogować się jeszcze raz.</translation>
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Samoa Amerykańskie</translation>
 <translation id="6527597037551425211">Brazylia</translation>
@@ -359,6 +361,7 @@
 <translation id="6821607741326790458">Jamajka</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
+<translation id="6852861389112775830">Użytkownik <ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> nie ma uprawnień do wyświetlenia wybranej strony.</translation>
 <translation id="6918319418444979243">Wyślij ponownie</translation>
 <translation id="6920167780806379235">Syria</translation>
 <translation id="6921505896641453739">E-mail</translation>
@@ -366,6 +369,7 @@
 <translation id="6951302238647056860">Ten kod stracił ważność.</translation>
 <translation id="6961220857430789248">Na adres <ph name="STRING" /> wysłaliśmy e-maila umożliwiającego zalogowanie się z dodatkowymi instrukcjami. Sprawdź pocztę, by się zalogować.</translation>
 <translation id="6984204927251307445">Potwierdź adres e-mail</translation>
+<translation id="6996552808101270965">Więcej informacji</translation>
 <translation id="6999773882165218263">Imię i nazwisko</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Sahara Zachodnia</translation>
@@ -395,6 +399,7 @@
 <translation id="7291656724505689727">Zaloguj się z użyciem numeru telefonu</translation>
 <translation id="7320029088567935126">Spróbuj jeszcze raz zweryfikować adres e-mail</translation>
 <translation id="7331038350037712642">Azerbejdżan</translation>
+<translation id="7359542696390093035">Nie masz uprawnień</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">Nieprawidłowy link z e-maila</translation>
 <translation id="7477065998516229434">Warunki korzystania z usługi</translation>

@@ -35,9 +35,6 @@ class Config {
   constructor() {
     /** @const @private {!AuthConfig} The AuthUI config object. */
     this.config_ = new AuthConfig();
-    // Define FirebaseUI widget configurations and convenient getters.
-    // TODO: This is deprecated and should be removed by Jan 31st, 2021.
-    this.config_.define('acUiConfig');
     this.config_.define('autoUpgradeAnonymousUsers');
     this.config_.define('callbacks');
     /**
@@ -81,6 +78,15 @@ class Config {
     this.config_.define('siteName');
     this.config_.define('tosUrl');
     this.config_.define('widgetUrl');
+    /**
+     * The configuration mirroring the project user actions ("Enable create")
+     * settings. When sign-up is disabled in the project settings, this
+     * configuration should be provided with the status field set to `true`.
+     * This does not enforce the policy but is rather useful for providing
+     * additional instructions to the end user when a user tries to create a
+     * new user account and the Auth server blocks the operation.
+     */
+    this.config_.define('adminRestrictedOperation');
   }
 
   /**
@@ -204,8 +210,7 @@ class Config {
    *     special IdP.
    */
   getProviders() {
-    return googArray.map(
-        this.getSignInOptions_(), (option) => option['provider']);
+    return this.getSignInOptions_().map(option => option['provider']);
   }
 
   /**
@@ -231,23 +236,21 @@ class Config {
    * @return {!Array<!Config.ProviderConfig>} The list of supported IdP configs.
    */
   getProviderConfigs() {
-    return googArray.map(this.getSignInOptions_(), (option) => {
+    return this.getSignInOptions_().map(option => {
       if (idp.isSupportedProvider(option['provider']) ||
-          googArray.contains(
-              UI_SUPPORTED_PROVIDERS,
-              option['provider'])) {
+          googArray.contains(UI_SUPPORTED_PROVIDERS, option['provider'])) {
         // The login hint key is also automatically set for built-in providers
         // that support it.
         const providerConfig = {
-          providerId: option['provider'],
-          // Since developers may be using G-Suite for Google sign in or
+          providerId: option['provider'],  // Since developers may be using
+                                           // G-Suite for Google sign in or
           // want to label email/password as their own provider, we should
           // allow customization of these attributes.
           providerName: option['providerName'] || null,
           fullLabel: option['fullLabel'] || null,
           buttonColor: option['buttonColor'] || null,
-          iconUrl: option['iconUrl'] ?
-              util.sanitizeUrl(option['iconUrl']) : null,
+          iconUrl: option['iconUrl'] ? util.sanitizeUrl(option['iconUrl']) :
+                                       null
         };
         for (const key in providerConfig) {
           if (providerConfig[key] === null) {
@@ -261,9 +264,9 @@ class Config {
           providerName: option['providerName'] || null,
           fullLabel: option['fullLabel'] || null,
           buttonColor: option['buttonColor'] || null,
-          iconUrl: option['iconUrl'] ?
-              util.sanitizeUrl(option['iconUrl']) : null,
-          loginHintKey: option['loginHintKey'] || null,
+          iconUrl: option['iconUrl'] ? util.sanitizeUrl(option['iconUrl']) :
+                                       null,
+          loginHintKey: option['loginHintKey'] || null
         };
       }
     });
@@ -295,6 +298,28 @@ class Config {
   }
 
   /**
+   * @return {boolean} Whether the user is disabled to sign up with email.
+   */
+  isEmailSignUpDisabled() {
+    // This is only applicable to email.
+    const emailSignInOption = this.getSignInOptionsForProvider_(
+        firebase.auth.EmailAuthProvider.PROVIDER_ID);
+    return !!(emailSignInOption &&
+              emailSignInOption['disableSignUp'] &&
+              emailSignInOption['disableSignUp']['status']);
+  }
+
+  /**
+   * @return {boolean} Whether user sign up is admin restricted.
+   */
+  isAdminRestrictedOperationConfigured() {
+    const adminRestrictedOperation =
+        this.config_.get('adminRestrictedOperation') || null;
+    return !!(adminRestrictedOperation &&
+              adminRestrictedOperation['status']);
+  }
+
+  /**
    * @return {boolean} Whether the user should be prompted to select an
    *     account.
    */
@@ -320,7 +345,7 @@ class Config {
   getProviderIdFromAuthMethod(authMethod) {
     let providerId = null;
     // For each supported provider.
-    googArray.forEach(this.getSignInOptions_(), (option) => {
+    this.getSignInOptions_().forEach(option => {
       // Check for matching authMethod.
       if (option['authMethod'] === authMethod) {
         // Get the providerId for that provider.
@@ -337,10 +362,10 @@ class Config {
    */
   getRecaptchaParameters() {
     let recaptchaParameters = null;
-    googArray.forEach(this.getSignInOptions_(), (option) => {
+    this.getSignInOptions_().forEach(option => {
       if (option['provider'] == firebase.auth.PhoneAuthProvider.PROVIDER_ID &&
-          // Confirm valid object.
-          goog.isObject(option['recaptchaParameters']) &&
+          goog.isObject(
+              option['recaptchaParameters']) &&  // Confirm valid object.
           !Array.isArray(option['recaptchaParameters'])) {
         // Clone original object.
         recaptchaParameters = googObject.clone(option['recaptchaParameters']);
@@ -350,14 +375,12 @@ class Config {
       // Keep track of all blacklisted keys passed by the developer.
       const blacklistedKeys = [];
       // Go over all blacklisted keys and remove them from the original object.
-      googArray.forEach(
-          BLACKLISTED_RECAPTCHA_KEYS,
-          (key) => {
-            if (typeof recaptchaParameters[key] !== 'undefined') {
-              blacklistedKeys.push(key);
-              delete recaptchaParameters[key];
-            }
-          });
+      BLACKLISTED_RECAPTCHA_KEYS.forEach(key => {
+        if (typeof recaptchaParameters[key] !== 'undefined') {
+          blacklistedKeys.push(key);
+          delete recaptchaParameters[key];
+        }
+      });
       // Log a warning for invalid keys.
       // This will show on each call.
       if (blacklistedKeys.length) {
@@ -367,6 +390,71 @@ class Config {
       }
     }
     return recaptchaParameters;
+  }
+
+  /**
+   * @return {?string} The admin contact email when users are restricted from
+   *     sign up. Otherwise, null is returned.
+   */
+  getAdminRestrictedOperationAdminEmail() {
+    const adminRestrictedOperation =
+        this.config_.get('adminRestrictedOperation');
+    if (adminRestrictedOperation && adminRestrictedOperation['adminEmail']) {
+      return /** @type {string} */(adminRestrictedOperation['adminEmail']);
+    }
+    return null;
+  }
+
+  /**
+   * @return {?function()} The callback to redirect to the help link when users
+   *     are restricted from sign up. Otherwise, null is returned.
+   */
+  getAdminRestrictedOperationHelpLinkCallback() {
+    const adminRestrictedOperation =
+        this.config_.get('adminRestrictedOperation') || null;
+    if (adminRestrictedOperation) {
+      const helpLink = adminRestrictedOperation['helpLink'] || null;
+      if (helpLink && typeof helpLink === 'string') {
+        return () => {
+          util.open(
+              /** @type {string} */ (helpLink),
+              util.isCordovaInAppBrowserInstalled() ?
+              '_system' : '_blank');
+        };
+      }
+    }
+    return null;
+  }
+
+  /**
+   * @return {?string} The admin contact email when sign up is disabled.
+   */
+  getEmailProviderAdminEmail() {
+    const emailSignInOption = this.getSignInOptionsForProvider_(
+        firebase.auth.EmailAuthProvider.PROVIDER_ID);
+    return (emailSignInOption && emailSignInOption['disableSignUp'] &&
+            emailSignInOption['disableSignUp']['adminEmail']) || null;
+  }
+
+  /**
+   * @return {?function()} The callback to redirect to the help link when email
+   *     provider sign up is disabled.
+   */
+  getEmailProviderHelpLinkCallBack() {
+    const emailSignInOption = this.getSignInOptionsForProvider_(
+        firebase.auth.EmailAuthProvider.PROVIDER_ID);
+    if (emailSignInOption && emailSignInOption['disableSignUp']) {
+      const helpLink = emailSignInOption['disableSignUp']['helpLink'] || null;
+      if (helpLink && typeof helpLink === 'string') {
+        return () => {
+          util.open(
+              /** @type {string} */ (helpLink),
+              util.isCordovaInAppBrowserInstalled() ?
+              '_system' : '_blank');
+        };
+      }
+    }
+    return null;
   }
 
   /**
@@ -780,11 +868,6 @@ class Config {
     }
     const credentialHelper = this.config_.get('credentialHelper');
 
-    // Manually set deprecated accountchooser.com to none.
-    if (credentialHelper === Config.CredentialHelper.ACCOUNT_CHOOSER_COM) {
-      return Config.CredentialHelper.NONE;
-    }
-
     // Make sure the credential helper is valid.
     for (let key in Config.CredentialHelper) {
       if (Config.CredentialHelper[key] === credentialHelper) {
@@ -839,8 +922,6 @@ class Config {
  * @enum {string}
  */
 Config.CredentialHelper = {
-  // TODO: accountchooser.com is no longer supported. Remove by Jan 31st, 2021.
-  ACCOUNT_CHOOSER_COM: 'accountchooser.com',
   GOOGLE_YOLO: 'googleyolo',
   NONE: 'none',
 };
