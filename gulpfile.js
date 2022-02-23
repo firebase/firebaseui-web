@@ -241,9 +241,7 @@ function buildFirebaseUiJs(locale) {
     flags.translations_file = `translations/${locale}.xtb`;
   }
   return compile([
-    'node_modules/google-closure-templates/javascript/soyutils_usegoog.js',
-    'node_modules/google-closure-library/closure/goog/**/*.js',
-    'node_modules/google-closure-library/third_party/closure/goog/**/*.js',
+    'node_modules/google-closure-templates/index.js',
     `${TMP_DIR}/**/*.js`,
     'javascript/**/*.js'
   ], getTmpJsPath(locale), flags);
