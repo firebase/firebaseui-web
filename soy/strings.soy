@@ -91,6 +91,14 @@
 {/template}
 
 
+/** Error message for invalid phone number. */
+{template .errorInvalidMultiFactorHint kind="text"}
+  {msg desc="Error message to be displayed when trying to authenticate with a multi factor info is missing or invalid."}
+    Select a valid factor authentication
+  {/msg}
+{/template}
+
+
 /** Error message for invalid phone verification code. */
 {template .errorInvalidConfirmationCode kind="text"}
   {msg desc="Error message to be displayed when trying to verify a phone number with an SMS code and

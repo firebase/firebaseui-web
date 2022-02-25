@@ -549,6 +549,10 @@ firebaseui.auth.widget.handler.common.federatedSignIn = function(
     const normalizedError =
         firebaseui.auth.widget.handler.common.normalizeError(error);
     switch (normalizedError['code']) {
+      case 'auth/multi-factor-auth-required':
+        component.dispose();
+        firebaseui.auth.widget.handler.handle(firebaseui.auth.widget.HandlerName.MULTI_FACTOR_AUTHENTICATION_START, app, container, error.resolver);
+        break;
       case 'auth/popup-blocked':
         // Popup blocked, switch to redirect flow as fallback.
          processRedirect();

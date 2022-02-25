@@ -1427,6 +1427,57 @@
 
 
 /**
+ * Renders a multi factor authentication start page.
+ */
+{template .multiFactorAuthenticationStart}
+  {@param? enableVisibleRecaptcha: bool} /** Whether to enable the visible reCAPTCHA. */
+  {@param? displayCancelButton: bool} /** Whether to display the cancel button. */
+  {@param? displayFullTosPpMessage: bool} /** Whether to display the full message of ToS and PP. */
+  <div class="mdl-card mdl-shadow--2dp{sp}
+      firebaseui-container firebaseui-id-page-phone-sign-in-start">
+    <form onsubmit="return false;">
+      <div class="firebaseui-card-header">
+        <h1 class="firebaseui-title">
+          {msg desc="Header of the phone number sign-in page."}Choose your phone number{/msg}
+        </h1>
+      </div>
+      <div class="firebaseui-card-content">
+        <div class="firebaseui-relative-wrapper">
+          {call firebaseui.auth.soy2.element.multiFactorInfo data="all" /}
+          {if $enableVisibleRecaptcha}
+            {call firebaseui.auth.soy2.element.recaptcha /}
+          {/if}
+        </div>
+      </div>
+      <div class="firebaseui-card-actions">
+        <div class="firebaseui-form-actions">
+          {if $displayCancelButton}
+            {call firebaseui.auth.soy2.element.cancelButton /}
+          {/if}
+          {call firebaseui.auth.soy2.element.submitButton}
+            {param label kind="text"}
+              {msg desc="The button that initiates the verification of the phone number provided
+                  for an authentication flow by sending a verification code to that phone number."}
+                Verify
+              {/msg}
+            {/param}
+          {/call}
+        </div>
+      </div>
+      <div class="firebaseui-card-footer">
+        {if $displayFullTosPpMessage}
+          {call firebaseui.auth.soy2.element.phoneTosPp data="all" /}
+        {else}
+          {call firebaseui.auth.soy2.element.phoneAuthSmsNotice /}
+          {call firebaseui.auth.soy2.element.tosPpLink data="all" /}
+        {/if}
+      </div>
+    </form>
+  </div>
+{/template}
+
+
+/**
  * Renders a sign out notice page.
  */
 {template .signOut}

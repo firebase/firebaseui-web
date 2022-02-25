@@ -74,6 +74,10 @@ goog.require('firebaseui.auth.widget.handler.handlePhoneSignInFinish');
 /** @suppress {extraRequire} */
 goog.require('firebaseui.auth.widget.handler.handlePhoneSignInStart');
 /** @suppress {extraRequire} */
+goog.require('firebaseui.auth.widget.handler.handleMultiFactorAuthenticationFinish');
+/** @suppress {extraRequire} */
+goog.require('firebaseui.auth.widget.handler.handleMultiFactorAuthenticationStart');
+/** @suppress {extraRequire} */
 goog.require('firebaseui.auth.widget.handler.handlePrefilledEmailSignIn');
 /** @suppress {extraRequire} */
 goog.require('firebaseui.auth.widget.handler.handleProviderSignIn');

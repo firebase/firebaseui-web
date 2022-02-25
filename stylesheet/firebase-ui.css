@@ -450,8 +450,34 @@ input.firebaseui-input-invalid{
   width: 24px;
 }
 
+.firebaseui-multi-factor-info-selector {
+  /* TODO: Use 2x for HD displays. */
+  background-image: url('https://www.gstatic.com/images/icons/material/system/1x/arrow_drop_down_grey600_18dp.png');
+  background-position: right center;
+  background-repeat: no-repeat;
+  background-size: 18px auto;
+  border-radius: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  color: rgba(0, 0, 0, 0.87);
+  flex-shrink: 0;
+  font-size: 16px;
+  font-weight: normal;
+  height: initial;
+  line-height: normal;
+  margin: 20px 0 20px 0;
+  padding: 4px 20px 4px 0;
+  width: 100%;
+}
+
+.firebaseui-multi-factor-info-error {
+  /* Align this with the national number input. Add a margin of
+   * button width (90px) + button margin (24px). */
+  margin-left: 114px;
+}
+
 .firebaseui-list-box-dialog {
   max-height: 90%;
+  height: fit-content;
   overflow: auto;
   padding: 8px 0 0 0;
 }

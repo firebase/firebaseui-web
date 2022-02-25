@@ -83,6 +83,23 @@
 
 
 /**
+ * Renders a multi factor info input field.
+ */
+{template .multiFactorInfo}
+  <div class="firebaseui-multi-factor-info">
+    <button class="firebaseui-id-multi-factor-info-selector firebaseui-multi-factor-info-selector{sp}
+                   mdl-button mdl-js-button">
+      <span class="firebaseui-id-multi-factor-info-selector-text"></span>
+    </button>
+  </div>
+  <div class="firebaseui-error-wrapper">
+    <p class="firebaseui-error firebaseui-text-input-error firebaseui-hidden{sp}
+              firebaseui-multi-factor-info-error firebaseui-id-multi-factor-info-error"></p>
+  </div>
+{/template}
+
+
+/**
  * Renders a phone confirmation code input field.
  */
 {template .phoneConfirmationCode}

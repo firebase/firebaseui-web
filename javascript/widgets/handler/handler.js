@@ -38,6 +38,8 @@ firebaseui.auth.widget.HandlerName = {
   PASSWORD_LINKING: 'passwordLinking',
   PHONE_SIGN_IN_FINISH: 'phoneSignInFinish',
   PHONE_SIGN_IN_START: 'phoneSignInStart',
+  MULTI_FACTOR_AUTHENTICATION_START: 'multiFactorAuthenticationStart',
+  MULTI_FACTOR_AUTHENTICATION_FINISH: 'multiFactorAuthenticationFinish',
   FEDERATED_LINKING: 'federatedLinking',
   FEDERATED_SIGN_IN: 'federatedSignIn',
   FEDERATED_REDIRECT: 'federatedRedirect',
