@@ -57,6 +57,10 @@ function getUiConfig() {
       firebase.auth.TwitterAuthProvider.PROVIDER_ID,
       firebase.auth.GithubAuthProvider.PROVIDER_ID,
       {
+        provider: 'linkedin.com',
+        signInMethod: getLinkedInSignInMethod()
+      },
+      {
         provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
         // Whether the display name should be displayed in Sign Up page.
         requireDisplayName: true,
@@ -213,7 +217,6 @@ function handleConfigChange() {
   ui.reset();
   ui.start('#firebaseui-container', getUiConfig());
 }
-
 
 /**
  * Initializes the app.

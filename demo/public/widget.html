@@ -44,6 +44,10 @@
           firebase.auth.TwitterAuthProvider.PROVIDER_ID,
           firebase.auth.GithubAuthProvider.PROVIDER_ID,
           {
+            provider: 'linkedin.com',
+            signInMethod: getLinkedInSignInMethod(),
+          },
+          {
             provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
             signInMethod: getEmailSignInMethod(),
             disableSignUp: {
