@@ -57,14 +57,6 @@ element.name.getNameErrorElement = function() {
 element.name.validate_ = function(nameElement, errorElement) {
   var valid = !goog.string.isEmptyOrWhitespace(goog.string.makeSafe(
       element.getInputValue(nameElement)));
-
-  // if max length is set to 0, no max length is set
-  // if max length is more than 0, a max length is set
-  const maxLength = 0;
-  if(!(maxLength > 0 && goog.string.makeSafe(
-    element.getInputValue(nameElement)).length <= maxLength)) {
-      valid = false;
-  }
   element.setValid(nameElement, valid);
   if (valid) {
     element.hide(errorElement);

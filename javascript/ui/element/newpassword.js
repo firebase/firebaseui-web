@@ -109,12 +109,20 @@ element.newPassword.getNewPasswordErrorElement = function() {
  */
 element.newPassword.validate_ = function(newPasswordElement, errorElement) {
   var password = element.getInputValue(newPasswordElement) || '';
+
+  // Can change password's minimum length if needed
+  const minLength = 14;
   if (!password) {
     element.setValid(newPasswordElement, false);
     element.show(errorElement,
         firebaseui.auth.soy2.strings.errorMissingPassword().toString());
     return false;
-  } else {
+  } else if (password.length < minLength){
+    element.setValid(newPasswordElement, false);
+    element.show(errorElement, "Password must be longer than " + minLength + " characters");
+    return false;
+  }
+    else {
     element.setValid(newPasswordElement, true);
     element.hide(errorElement);
     return true;
