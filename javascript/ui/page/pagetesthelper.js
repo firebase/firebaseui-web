@@ -209,3 +209,11 @@ page.PageTestHelper.prototype.testExecutePromiseRequest_ = function() {
   });
 };
 });
+
+page.PageTestHelper.prototype.tearDown = function() {
+  // Tear down clock.
+  mockClock.tick(Infinity);
+  mockClock.reset();
+  component.dispose();
+  goog.dom.removeNode(root);
+}
