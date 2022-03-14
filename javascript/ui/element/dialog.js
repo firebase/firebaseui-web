@@ -40,70 +40,17 @@ var element = firebaseui.auth.ui.element;
  */
 element.dialog.showDialog = function(
     dialog, opt_dismissOnBackdropClick, opt_centerRelativeToDocument) {
-  // Dismiss the previous dialog if it exists.
-  element.dialog.dismissDialog.call(this);
+  dismissPrevDialogIfExists(element);
 
-  // Attach the dialog directly to the body. We cannot attach it to the
+  // NOTE: We cannot attach dialog to the
   // component, because dialog-polyfill centers the dialog by setting CSS "top",
   // but the FirebaseUI container has position: relative set, which throws off
   // those calculations.
-  document.body.appendChild(dialog);
-
-  // Show the dialog, polyfilling the showModal() method if necessary.
-  if (!dialog.showModal) {
-    window['dialogPolyfill']['registerDialog'](dialog);
-  }
-  dialog.showModal();
-
-  // Enable MDL for the dialog.
-  firebaseui.auth.ui.mdl.upgrade(dialog);
-
-  if (opt_dismissOnBackdropClick) {
-    // Dismiss the dialog when the backdrop is clicked.
-    element.listenForActionEvent(this, dialog, function(event) {
-      if (element.dialog.isClickOnBackdrop_(event, dialog)) {
-        element.dialog.dismissDialog.call(this);
-      }
-    });
-  }
-  // Check whether to center relative to document body. That is the default.
-  if (!opt_centerRelativeToDocument) {
-    // If not, center the dialog relative to the container if provided.
-    var container = this.getElement().parentElement || /** @type {Element} */ (
-        this.getElement().parentNode);
-    if (container) {
-      var self = this;
-      /**
-       * @private {function()} The realign dialog callback to adjust the
-       *     location of the dialog relative to the container on screen size
-       *     change.
-       */
-      this.realignDialog_ = function() {
-        // If the dialog is closed, remove resize listener.
-        if (!dialog.open) {
-          window.removeEventListener('resize', self.realignDialog_);
-          return;
-        }
-        var dialogHeight = dialog.getBoundingClientRect().height;
-        var containerHeight = container.getBoundingClientRect().height;
-        var containerTop = container.getBoundingClientRect().top -
-            document.body.getBoundingClientRect().top;
-        var containerLeft = container.getBoundingClientRect().left -
-            document.body.getBoundingClientRect().left;
-        var dialogWidth = dialog.getBoundingClientRect().width;
-        var containerWidth = container.getBoundingClientRect().width;
-        dialog.style.top = (containerTop +
-            (containerHeight - dialogHeight) / 2).toString() + 'px';
-        var dialogLeft = containerLeft + (containerWidth - dialogWidth) / 2;
-        dialog.style.left = dialogLeft.toString() + 'px';
-        dialog.style.right = (document.body.getBoundingClientRect().width -
-            dialogLeft - dialogWidth).toString() + 'px';
-      };
-      this.realignDialog_();
-      // On window resize, readjust the alignment of the dialog.
-      window.addEventListener('resize', this.realignDialog_, false);
-    }
-  }
+  attachDialogDirectlyToBody(dialog);
+  showDialogWithPolyfill(dialog);
+  dialogEnableMDL(dialog);
+  addClickToDismissIfRequired(opt_dismissOnBackdropClick, element, dialog);
+  centerRelativeToBodyIfRequired(opt_centerRelativeToDocument, dialog);
 };
 
 
@@ -154,3 +101,78 @@ element.dialog.getDialogElement = function() {
   return goog.dom.getElementByClass('firebaseui-id-dialog');
 };
 });
+
+/**
+ * @private functions to assist showDialog()
+ */
+
+function centerRelativeToBodyIfRequired(opt_centerRelativeToDocument, dialog) {
+  if (!opt_centerRelativeToDocument) {
+    // If not, center the dialog relative to the container if provided.
+    var container = this.getElement().parentElement || /** @type {Element} */ (
+      this.getElement().parentNode);
+    if (container) {
+      var self = this;
+      /**
+       * @private {function()} The realign dialog callback to adjust the
+       *     location of the dialog relative to the container on screen size
+       *     change.
+       */
+      this.realignDialog_ = function () {
+        // If the dialog is closed, remove resize listener.
+        if (!dialog.open) {
+          window.removeEventListener('resize', self.realignDialog_);
+          return;
+        }
+        var dialogHeight = dialog.getBoundingClientRect().height;
+        var containerHeight = container.getBoundingClientRect().height;
+        var containerTop = container.getBoundingClientRect().top -
+          document.body.getBoundingClientRect().top;
+        var containerLeft = container.getBoundingClientRect().left -
+          document.body.getBoundingClientRect().left;
+        var dialogWidth = dialog.getBoundingClientRect().width;
+        var containerWidth = container.getBoundingClientRect().width;
+        dialog.style.top = (containerTop +
+          (containerHeight - dialogHeight) / 2).toString() + 'px';
+        var dialogLeft = containerLeft + (containerWidth - dialogWidth) / 2;
+        dialog.style.left = dialogLeft.toString() + 'px';
+        dialog.style.right = (document.body.getBoundingClientRect().width -
+          dialogLeft - dialogWidth).toString() + 'px';
+      };
+      this.realignDialog_();
+      // On window resize, readjust the alignment of the dialog.
+      window.addEventListener('resize', this.realignDialog_, false);
+    }
+  }
+}
+
+function addClickToDismissIfRequired(opt_dismissOnBackdropClick, element, dialog) {
+  if (opt_dismissOnBackdropClick) {
+    // Dismiss the dialog when the backdrop is clicked.
+    element.listenForActionEvent(this, dialog, function (event) {
+      if (element.dialog.isClickOnBackdrop_(event, dialog)) {
+        element.dialog.dismissDialog.call(this);
+      }
+    });
+  }
+}
+
+function dialogEnableMDL(dialog) {
+  firebaseui.auth.ui.mdl.upgrade(dialog);
+}
+
+function showDialogWithPolyfill(dialog) {
+  if (!dialog.showModal) {
+    window['dialogPolyfill']['registerDialog'](dialog);
+  }
+  dialog.showModal();
+}
+
+function attachDialogDirectlyToBody(dialog) {
+  document.body.appendChild(dialog);
+}
+
+function dismissPrevDialogIfExists(element) {
+  element.dialog.dismissDialog.call(this);
+}
+
