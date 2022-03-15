@@ -51,7 +51,7 @@
             provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
             signInMethod: getEmailSignInMethod(),
             disableSignUp: {
-              status: getDisableSignUpStatus()
+              status: getStatus('disableEmailSignUpStatus'),
             }
           },
           {
@@ -75,7 +75,7 @@
             firebaseui.auth.CredentialHelper.GOOGLE_YOLO :
             firebaseui.auth.CredentialHelper.NONE,
         'adminRestrictedOperation': {
-          status: getAdminRestrictedOperationStatus()
+          status: getStatus('adminRestrictedOperationStatus'),
         }
       };
 

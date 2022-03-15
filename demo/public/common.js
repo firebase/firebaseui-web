@@ -54,7 +54,6 @@ function getEmailSignInMethod() {
   };
   const oauth2 = require('simple-oauth2').create(credentials);
   
-
   app.get('/redirect', (req, res) => {
     // Generate a random state verification cookie.
     const state = req.cookies.state || crypto.randomBytes(20).toString('hex');
@@ -162,22 +161,12 @@ function signInFirebaseTemplate(token, displayName, photoURL, linkedinAccessToke
     </script>`;
  }
 
-
 /**
- * @return {boolean} The disable sign up status from the configuration.
+ * @return {boolean} The status from the configuration of either 'sign up' or 'admin restricted operation.'
  */
-function getDisableSignUpStatus() {
+function getStatus(type) {
   var config = parseQueryString(location.hash);
-  return config['disableEmailSignUpStatus'] === 'true';
-}
-
-
-/**
- * @return {boolean} The admin restricted operation status from the configuration.
- */
-function getAdminRestrictedOperationStatus() {
-  var config = parseQueryString(location.hash);
-  return config['adminRestrictedOperationStatus'] === 'true';
+  return config[type] === 'true';
 }
 
 
