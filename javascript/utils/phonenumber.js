@@ -62,7 +62,7 @@ firebaseui.auth.PhoneNumber = class {
       }
       // Get the national number. Add the + char to the e164_cc string.
       var nationalNumber =
-          trimmedPhoneNumber.substr(countries[0].e164_cc.length + 1);
+          trimmedPhoneNumber.slice(countries[0].e164_cc.length + 1);
       // Return the phone number object.
       return new firebaseui.auth.PhoneNumber(
           countryId, goog.string.trim(nationalNumber));

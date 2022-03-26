@@ -221,7 +221,7 @@ class MockHelper extends Disposable {
    * @private
    */
   static capitalize_(str) {
-    return str.charAt(0).toUpperCase() + str.substr(1);
+    return str.charAt(0).toUpperCase() + str.slice(1);
   }
 }
 
