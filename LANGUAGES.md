@@ -5,8 +5,8 @@
 | ar | Arabic |
 | bg | Bulgarian |
 | ca | Catalan |
-| zh_cn | Chinese (Simplified) |
-| zh_tw | Chinese (Traditional) |
+| zh-CN | Chinese (Simplified) |
+| zh-TW | Chinese (Traditional) |
 | hr | Croatian |
 | cs | Czech |
 | da | Danish |
