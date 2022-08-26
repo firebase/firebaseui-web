@@ -1882,8 +1882,7 @@ disabled. This currently results in an error being thrown upon Firebase Auth
 initialization. Therefore, when following the snippets above, FirebaseUI will
 never get initialized and no UI will be displayed.
 
-### Tips for Single Page apps (`UI Widget is already rendered on the page`
-warning)
+### Tips for Single Page apps (`UI Widget is already rendered on the page` warning)
 
 When re-rendering the FirebaseUI Auth widget (for instance after signing in a
 user, signing her out and trying to sign her in again), it will sometimes log a
