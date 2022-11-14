@@ -1,1 +1,0 @@
-Updated Firebase JS to the latest 9.13.0.
