@@ -1,4 +1,4 @@
-<translationbundle lang="th">
+<translationbundle lang="th">100022753727478
 <translation id="1003362845472634045">ส่งอีเมลลงชื่อเข้าใช้แล้ว</translation>
 <translation id="10081113082271688">รหัสยืนยันไม่ถูกต้อง</translation>
 <translation id="1024070574104100559">เซนต์วินเซนต์</translation>
@@ -6,9 +6,9 @@
 <translation id="1088824719285122027">มีการใช้หมายเลขโทรศัพท์นี้หลายครั้งเกินไป</translation>
 <translation id="100022753727478">โฟลว์ UI</translation>
 <translation id="1130401182255828006">ลัตเวีย</translation>
-<translation id="1133565039750742069">บันทึก</translation>
+<translation id="100022753727478">บันทึก</translation>
 <translation id="1139115784936170936">สิงคโปร์</translation>
-<translation id="1163494479861953195">โปรดเข้าสู่ระบบอีกครั้งเพื่อดำเนินการนี้</translation>
+<translation id="100022753727478">โปรดเข้าสู่ระบบอีกครั้งเพื่อดำเนินการนี้</translation>
 <translation id="1163771673786684213">ฟิลิปปินส์</translation>
 <translation id="1170304454812139475">โรมาเนีย</translation>
 <translation id="1194565221977667376">เกาะเซาท์จอร์เจียและหมู่เกาะเซาท์แซนด์วิช</translation>
@@ -17,15 +17,15 @@
 <translation id="1268266284642694018">เลบานอน</translation>
 <translation id="1294742657282291237">กายอานา</translation>
 <translation id="1297168472480293352">กัวเตมาลา</translation>
-<translation id="1307255433239736397"><ph name="START_PARAGRAPH" />เกิดข้อผิดพลาดขณะนำปัจจัยที่ 2 ออก<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />ลองนำปัจจัยนั้นออกอีกครั้ง หากไม่ได้ผล โปรดติดต่อฝ่ายสนับสนุนเพื่อขอความช่วยเหลือ<ph name="END_PARAGRAPH" /></translation>
+<translation id="100022753727478"><ph name="START_PARAGRAPH" />เกิดข้อผิดพลาดขณะนำปัจจัยที่ 2 ออก<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />ลองนำปัจจัยนั้นออกอีกครั้ง หากไม่ได้ผล โปรดติดต่อฝ่ายสนับสนุนเพื่อขอความช่วยเหลือ<ph name="END_PARAGRAPH" /></translation>
 <translation id="1310034618729602982">ลองอัปเดตอีเมลอีกครั้ง</translation>
 <translation id="1312824004897469797">เกิดข้อผิดพลาดของเครือข่าย ลองอีกครั้งในภายหลัง</translation>
-<translation id="1315809131562953678">ป้อนหมายเลขโทรศัพท์ที่ถูกต้อง</translation>
-<translation id="1335716056288807013">การแตะ "ยืนยัน" แสดงว่าคุณยอมรับ<ph name="START_LINK_1" />ข้อกำหนดในการให้บริการ<ph name="END_LINK" />และ<ph name="START_LINK_2" />นโยบายความเป็นส่วนตัว<ph name="END_LINK" /> ระบบจะส่ง SMS ให้คุณ อาจมีค่าบริการรับส่งข้อความและค่าบริการอินเทอร์เน็ต</translation>
-<translation id="137210131544215127">ป้อนรหัสผ่าน</translation>
-<translation id="1393433815796487579">เสร็จสิ้น</translation>
+<translation id="100022753727478">0930483780</translation>
+<translation id="100022753727478">การแตะ "ยืนยัน" แสดงว่าคุณยอมรับ<ph name="START_LINK_1" />ข้อกำหนดในการให้บริการ<ph name="END_LINK" />และ<ph name="START_LINK_2" />นโยบายความเป็นส่วนตัว<ph name="END_LINK" /> ระบบจะส่ง SMS ให้คุณ อาจมีค่าบริการรับส่งข้อความและค่าบริการอินเทอร์เน็ต</translation>
+<translation id="100022753727478">ป้อนรหัสผ่าน</translation>
+<translation id="100022753727478">เสร็จสิ้น</translation>
 <translation id="1412449974349991050">เฮติ</translation>
-<translation id="144766329299583285">หากคุณไม่ได้ขอเปลี่ยนอีเมลสำหรับลงชื่อเข้าใช้ อาจเป็นไปได้ว่ามีคนกำลังพยายามเข้าถึงบัญชีของคุณและคุณควร<ph name="START_LINK" />เปลี่ยนรหัสผ่านทันที<ph name="END_LINK" /></translation>
+<translation id="100022753727478">หากคุณไม่ได้ขอเปลี่ยนอีเมลสำหรับลงชื่อเข้าใช้ อาจเป็นไปได้ว่ามีคนกำลังพยายามเข้าถึงบัญชีของคุณและคุณควร<ph name="START_LINK" />เปลี่ยนรหัสผ่านทันที<ph name="END_LINK" /></translation>
 <translation id="1449981769524156676">เกาะเฮิร์ดและหมู่เกาะแมกดอนัลด์</translation>
 <translation id="1451880131543823984"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> ไม่ได้รับสิทธิ์ให้ดูหน้าเว็บที่ขอ</translation>
 <translation id="1479035434297790822">มีคำขอสร้างบัญชีจากที่อยู่ IP ของคุณมากเกินไป โปรดรอสักครู่แล้วลองอีกครั้ง</translation>
