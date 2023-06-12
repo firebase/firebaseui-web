@@ -1886,7 +1886,7 @@ never get initialized and no UI will be displayed.
 warning)
 
 When re-rendering the FirebaseUI Auth widget (for instance after signing in a
-user, signing her out and trying to sign her in again), it will sometimes log a
+user, signing them out and trying to sign them in again), it will sometimes log a
 warning:
 
 > UI Widget is already rendered on the page and is pending some user
