@@ -29,7 +29,7 @@ mkdir -p ./generated
 cp -r ./out/soy/* ./generated
 
 echo "Generating dependency file..."
-node $(npm bin)/closure-make-deps \
+node node_modules/.bin/closure-make-deps \
     --closure-path="node_modules/google-closure-library/closure/goog" \
     --file="node_modules/google-closure-library/closure/goog/deps.js" \
     --root="soy" \
