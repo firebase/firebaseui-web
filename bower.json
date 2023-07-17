@@ -22,6 +22,6 @@
     "out"
   ],
   "dependencies": {
-    "firebase": "^9.1.3"
+    "firebase": "^9.1.3 || ^10.0.0"
   }
 }
