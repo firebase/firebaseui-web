@@ -23,10 +23,7 @@ FirebaseUI Auth clients are also available for
 
 FirebaseUI fully supports all recent browsers. Signing in with federated
 providers (Google, Facebook, Twitter, GitHub, Apple, Microsoft, Yahoo, OIDC,
-SAML) is also supported in Cordova/Ionic environments. Additional non-browser
-environments(React Native...) or Chrome extensions will be added once the
-underlying Firebase core SDK supports them in a way that is compatible with
-FirebaseUI.
+SAML).
 
 ## Table of Contents
 
