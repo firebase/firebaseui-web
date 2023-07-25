@@ -190,6 +190,12 @@ for a more in-depth example, showcasing a Single Page Application mode.
        ***************************************************************************************** -->
     <script src="https://www.gstatic.com/firebasejs/ui/6.0.2/firebase-ui-auth.js"></script>
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.2/firebase-ui-auth.css" />
+  </head>
+  <body>
+    <!-- The surrounding HTML is left untouched by FirebaseUI.
+         Your app may use that space for branding, controls and other customizations.-->
+    <h1>Welcome to My Awesome App</h1>
+    <div id="firebaseui-auth-container"></div>
     <script type="text/javascript">
       // FirebaseUI config.
       var uiConfig = {
@@ -213,18 +219,20 @@ for a more in-depth example, showcasing a Single Page Application mode.
           window.location.assign('<your-privacy-policy-url>');
         }
       };
+      
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        //... add here the configuration of your project
+      };
+
+      // Initialize Firebase
+      const app = firebase.initializeApp(firebaseConfig);
 
       // Initialize the FirebaseUI Widget using Firebase.
       var ui = new firebaseui.auth.AuthUI(firebase.auth());
       // The start method will wait until the DOM is loaded.
       ui.start('#firebaseui-auth-container', uiConfig);
     </script>
-  </head>
-  <body>
-    <!-- The surrounding HTML is left untouched by FirebaseUI.
-         Your app may use that space for branding, controls and other customizations.-->
-    <h1>Welcome to My Awesome App</h1>
-    <div id="firebaseui-auth-container"></div>
   </body>
 </html>
 ```
