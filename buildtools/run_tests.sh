@@ -86,7 +86,11 @@ if [[ $1 = "--saucelabs" ]]; then
 else
   echo "Using Headless Chrome."
   # Updates Selenium Webdriver.
-  GOOGLE_CHROME_VERSION=$(google-chrome --product-version || echo 'latest')
+
+  # TODO(jhuleatt) this is failing when `google-chrome --product-version` returns Chrome 115.0.5790.110
+  # so for now, hard code latest
+  # GOOGLE_CHROME_VERSION=$(google-chrome --product-version || echo 'latest')
+  GOOGLE_CHROME_VERSION=$(echo 'latest')
   echo "$PROTRACTOR_BIN_PATH/webdriver-manager update --versions.chrome=$GOOGLE_CHROME_VERSION --gecko=false"
   $PROTRACTOR_BIN_PATH/webdriver-manager update --versions.chrome=$GOOGLE_CHROME_VERSION --gecko=false
   # Start Selenium Webdriver.
