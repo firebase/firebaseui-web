@@ -1,1 +1,0 @@
-- Update `firebase` peer dependency to include `^10.0.0` compat (#1032)
