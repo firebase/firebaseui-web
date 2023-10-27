@@ -210,6 +210,111 @@
 {/template}
 
 
+
+/** Error message for when the user tries to sign in, sign up, or reset password with a
+          password that is not compliant with the policy.. */
+{template .errorMissingPasswordRequirements kind="text"}
+  {@param passwordNotMeetMinLength: bool}                      /** Whether to display the
+                                                                   passwordNotMeetMinLength
+                                                                   error. */
+  {@param minPasswordLength: string}                           /** The minimum password length. */
+  {@param passwordNotMeetMaxLength: bool}                      /** Whether to display the
+                                                                   passwordNotMeetMaxLength
+                                                                   error. */
+  {@param maxPasswordLength: string}                           /** The maximum password length. */
+  {@param passwordNotContainLowercaseLetter: bool}             /** Whether to display the
+                                                                   passwordNotContainLowercaseLetter
+                                                                   error. */
+  {@param passwordNotContainUppercaseLetter: bool}             /** Whether to display the
+                                                                   passwordNotContainUppercaseLetter
+                                                                   error. */
+  {@param passwordNotContainNumericCharacter: bool}            /** Whether to display the
+                                                                   passwordNotContainNumericCharacter
+                                                                   error. */
+  {@param passwordNotContainNonAlphanumericCharacter: bool}    /** Whether to display the
+                                                                   passwordNotContainNonAlphanumericCharacter
+                                                                   error. */
+
+  {call .error}
+    {param code: 'auth/password-does-not-meet-requirements' /}
+  {/call}{sp}
+  [{sp}
+  {if $passwordNotMeetMinLength and $minPasswordLength != null}
+    {call .errorPasswordNotMeetMinLength}
+      {param minPasswordLength: $minPasswordLength /}
+    {/call}.{sp}
+  {/if}
+  {if $passwordNotMeetMaxLength and $maxPasswordLength != null}
+    {call .errorPasswordNotMeetMaxLength}
+      {param maxPasswordLength: $maxPasswordLength /}
+    {/call}.{sp}
+  {/if}
+  {if $passwordNotContainLowercaseLetter}{call .errorPasswordNotContainLowercaseLetter /}.{sp}{/if}
+  {if $passwordNotContainUppercaseLetter}{call .errorPasswordNotContainUppercaseLetter /}.{sp}{/if}
+  {if $passwordNotContainNumericCharacter}{call .errorPasswordNotContainNumericCharacter /}.{sp}{/if}
+  {if $passwordNotContainNonAlphanumericCharacter}
+    {call .errorPasswordNotContainNonAlphanumericCharacter /}.{sp}
+  {/if}
+  ]
+{/template}
+
+
+/** Error message for a password that is shorter than the minimum password length. */
+{template .errorPasswordNotMeetMinLength kind="text"}
+  {@param minPasswordLength: string}    /** The minimum password length. */
+  {msg desc="Error message when the user enters a password that is shorter than the minimum password
+      length."}
+    Password must contain at least {$minPasswordLength} characters
+  {/msg}
+{/template}
+
+
+/** Error message for a password that is longer than the maximum password length. */
+{template .errorPasswordNotMeetMaxLength kind="text"}
+  {@param maxPasswordLength: string}    /** The maximum password length. */
+  {msg desc="Error message when the user enters a password that is longer than the maximum password
+      length."}
+    Password may contain at most {$maxPasswordLength} characters
+  {/msg}
+{/template}
+
+
+/** Error message for a password that does not contain a lower case character. */
+{template .errorPasswordNotContainLowercaseLetter kind="text"}
+  {msg desc="Error message when the user enters a password that does not contain a lower case
+      character."}
+    Password must contain a lower case character
+  {/msg}
+{/template}
+
+
+/** Error message for a password that does not contain an upper case character. */
+{template .errorPasswordNotContainUppercaseLetter kind="text"}
+  {msg desc="Error message when the user enters a password that does not contain an upper case
+      character."}
+    Password must contain an upper case character
+  {/msg}
+{/template}
+
+
+/** Error message for a password that does not contain a numeric character. */
+{template .errorPasswordNotContainNumericCharacter kind="text"}
+  {msg desc="Error message when the user enters a password that does not contain a numeric
+      character."}
+    Password must contain a numeric character
+  {/msg}
+{/template}
+
+
+/** Error message for a password that does not contain a non-alphanumeric character. */
+{template .errorPasswordNotContainNonAlphanumericCharacter kind="text"}
+  {msg desc="Error message when the user enters a password that does not contain a non-alphanumeric
+      character."}
+    Password must contain a non-alphanumeric character
+  {/msg}
+{/template}
+
+
 /** Translates an error code from Firebase Auth to a user-displayable string. */
 {template .error kind="text"}
   {@param? code: string} /** The error code. */
@@ -241,7 +346,7 @@
     {case 'auth/weak-password'}
       {msg desc="Error message for when the user tries to sign in or sign up with a password that is
           too short."}
-        Strong passwords have at least 6 characters and a mix of letters and numbers
+        The password must be at least 6 characters long
       {/msg}
     {case 'auth/wrong-password'}
       {msg desc="Error message for incorrect password."}
@@ -271,6 +376,11 @@
           etc. is invalid."}
         The action code is invalid. This can happen if the code is malformed, expired, or has
         already been used.
+      {/msg}
+    {case 'auth/password-does-not-meet-requirements'}
+      {msg desc="Error message for when the user tries to sign in, sign up, or reset password with a
+          password that is not compliant with the policy."}
+        Missing password requirements:
       {/msg}
     {default}
   {/switch}

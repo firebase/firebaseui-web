@@ -201,6 +201,79 @@ function testHandlePasswordReset_weakPasswordError() {
 }
 
 
+function testHandlePasswordReset_nonCompliantPasswordError() {
+  const errorMessage = 'Missing password requirements: [Password may contain at most 16 characters, Password must contain a lower case character, Password must contain an upper case character, Password must contain a numeric character, Password must contain a non-alphanumeric character]';
+  const error = {
+    'code': 'auth/password-does-not-meet-requirements',
+    'message': errorMessage
+  };
+  asyncTestCase.waitForSignals(1);
+  firebaseui.auth.widget.handler.handlePasswordReset(
+      app, container, 'PASSWORD_RESET_ACTION_CODE');
+  // Successful action code verification.
+  app.getAuth().assertVerifyPasswordResetCode(
+      ['PASSWORD_RESET_ACTION_CODE'], 'user@example.com');
+  app.getAuth()
+      .process()
+      .then(function() {
+        // Password reset page should show.
+        assertPasswordResetPage();
+
+        goog.dom.forms.setValue(getNewPasswordElement(), '123');
+        // Submit password reset form.
+        submitForm();
+        // Simulates password doesn't meet requirements.
+        app.getAuth().assertConfirmPasswordReset(
+            ['PASSWORD_RESET_ACTION_CODE', '123'], null, error);
+        return app.getAuth().process();
+      })
+      .then(function() {
+        // Error message should be shown on the same page.
+        assertPasswordResetPage();
+        assertEquals(
+            firebaseui.auth.widget.handler.common.getErrorMessage(error),
+            getNewPasswordErrorMessage());
+        asyncTestCase.signal();
+      });
+}
+
+
+function testHandlePasswordReset_nonCompliantPassword_emptyError() {
+  const error = {
+    'code': 'auth/password-does-not-meet-requirements',
+    'message': ''
+  };
+  asyncTestCase.waitForSignals(1);
+  firebaseui.auth.widget.handler.handlePasswordReset(
+      app, container, 'PASSWORD_RESET_ACTION_CODE');
+  // Successful action code verification.
+  app.getAuth().assertVerifyPasswordResetCode(
+      ['PASSWORD_RESET_ACTION_CODE'], 'user@example.com');
+  app.getAuth()
+      .process()
+      .then(function() {
+        // Password reset page should show.
+        assertPasswordResetPage();
+
+        goog.dom.forms.setValue(getNewPasswordElement(), '123');
+        // Submit password reset form.
+        submitForm();
+        // Simulates password doesn't meet requirements.
+        app.getAuth().assertConfirmPasswordReset(
+            ['PASSWORD_RESET_ACTION_CODE', '123'], null, error);
+        return app.getAuth().process();
+      })
+      .then(function() {
+        // Error message should be shown on the same page.
+        assertPasswordResetPage();
+        assertEquals(
+            firebaseui.auth.widget.handler.common.getErrorMessage(error),
+            getNewPasswordErrorMessage());
+        asyncTestCase.signal();
+      });
+}
+
+
 function testHandlePasswordReset_failToResetPassword() {
   asyncTestCase.waitForSignals(1);
   firebaseui.auth.widget.handler.handlePasswordReset(
