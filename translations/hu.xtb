@@ -45,8 +45,8 @@
 <translation id="1799407952500261728">Cook-szigetek</translation>
 <translation id="1870056762032541323">Hibás kód. Próbálja újra.</translation>
 <translation id="1898579907513173256">Makaó</translation>
-<translation id="1929332760123475919"><ph name="P_START" />Kedves <ph name="DISPLAY_NAME" />!<ph name="P_END" /></translation>
-<translation id="1966996824429980990">Fiók törlése</translation>
+<translation id="1912929493041975510">A jelszónak legalább 6 karakterből kell állnia</translation>
+<translation id="1933044638365301516">Bejelentkezés a következővel: <ph name="STRING" /></translation>
 <translation id="1987722456379605552">Adja meg a következő telefonszámra elküldött 6 számjegyű kódot: <ph name="START_LINK" /><ph name="PHONE_NUMBER" /><ph name="END_LINK" /></translation>
 <translation id="2016421613709283485">A jelszó visszaállításához kövesse az ide (<ph name="PH_1" />) elküldött utasításokat.</translation>
 <translation id="2035855087334775326">Magyarország</translation>
@@ -54,7 +54,6 @@
 <translation id="2046207054419739276">Amerikai Egyesült Államok</translation>
 <translation id="2049229571938383319">Saint-Barthélemy</translation>
 <translation id="2058731785647385204">Montserrat</translation>
-<translation id="2070709910567585968">Az erős jelszavak legalább 6 karakterből állnak, valamint betűket és számokat egyaránt tartalmaznak.</translation>
 <translation id="2074008538308369451">Általános Szerződési Feltételek</translation>
 <translation id="2089802663554186342">A munkamenet befejeződött</translation>
 <translation id="2108717231438756650">Egyesült Királyság</translation>
@@ -314,9 +313,10 @@
 <translation id="6192657410634245771">Algéria</translation>
 <translation id="6213969168046789596">Túl sokszor adott meg hibás jelszót. Kérjük, néhány perc múlva próbálja újra.</translation>
 <translation id="6216759405419177713">Norfolk-sziget</translation>
-<translation id="6245066275978703471">A telefonszám automatikusan ellenőrizve</translation>
-<translation id="6269083314054226194">Hálózati hiba; ellenőrizze az internetkapcsolatot.</translation>
-<translation id="6295157125625453859">Ellenőrzött!</translation>
+<translation id="6238170540438416559">A(z) „<ph name="PH_1" />” gombra való koppintással elfogadja a következő dokumentumot: <ph name="PP" />. A rendszer SMS-t küldhet Önnek. A szolgáltató ezért üzenet- és adatforgalmi díjat számíthat fel.</translation>
+<translation id="6265373887273416711">Telefonszám igazolása</translation>
+<translation id="6283536862756552051">A jelszó módosításához előbb meg kell adnia a jelenlegi jelszavát.</translation>
+<translation id="6299890279889400823">Vissza</translation>
 <translation id="6316446940976157217">India</translation>
 <translation id="6327723482938582895">Benin</translation>
 <translation id="6338643731889005578">Folytatás</translation>

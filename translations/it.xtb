@@ -31,6 +31,7 @@
 <translation id="1479035434297790822">Troppe richieste di account provenienti dal tuo indirizzo IP. Riprova tra qualche minuto.</translation>
 <translation id="1483249363694224399">Sri Lanka</translation>
 <translation id="1507995441600689506">Ora puoi accedere con il tuo nuovo account</translation>
+<translation id="1535200361681091160">Inserisci l'indirizzo email</translation>
 <translation id="1544981664986460902">Il client ha specificato un argomento non valido.</translation>
 <translation id="1575848116712334589">Ciad</translation>
 <translation id="1630237004390596779">Invia di nuovo il codice tra <ph name="STRING" /></translation>
@@ -45,16 +46,16 @@
 <translation id="1799407952500261728">Isole Cook</translation>
 <translation id="1870056762032541323">Codice errato. Riprova.</translation>
 <translation id="1898579907513173256">Macao</translation>
-<translation id="1929332760123475919"><ph name="P_START" />Buongiorno <ph name="DISPLAY_NAME" />,<ph name="P_END" /></translation>
-<translation id="1966996824429980990">Elimina account</translation>
+<translation id="1912929493041975510">La password deve contenere almeno 6 caratteri</translation>
+<translation id="1933044638365301516">Accedi con <ph name="STRING" /></translation>
 <translation id="1987722456379605552">Inserisci il codice a 6 cifre che abbiamo inviato al numero <ph name="START_LINK" /><ph name="PHONE_NUMBER" /><ph name="END_LINK" /></translation>
-<translation id="2016421613709283485">Seguire le istruzioni inviate all'indirizzo email <ph name="PH_1" /> per recuperare la password.</translation>
+<translation id="1999379687946415948"><ph name="IDV_CODE_PLACE_HOLDER" /> è il tuo codice per <ph name="APP_NAME" />.</translation>
+<translation id="2033662766890821456">Invia di nuovo il codice</translation>
 <translation id="2035855087334775326">Ungheria</translation>
 <translation id="2040904406955887821">Suriname</translation>
 <translation id="2046207054419739276">Stati Uniti</translation>
 <translation id="2049229571938383319">Saint-Barthélemy</translation>
 <translation id="2058731785647385204">Montserrat</translation>
-<translation id="2070709910567585968">Una password efficace è composta da almeno 6 caratteri e contiene una combinazione di lettere e numeri.</translation>
 <translation id="2074008538308369451">Termini di servizio</translation>
 <translation id="2089802663554186342">Sessione terminata</translation>
 <translation id="2108717231438756650">Regno Unito</translation>
@@ -74,6 +75,7 @@
 <translation id="2285049245646335550">Capo Verde</translation>
 <translation id="2301396996587599046">Macedonia</translation>
 <translation id="2310948428656960769">Accesso eseguito</translation>
+<translation id="2321152797538991921">La password deve contenere un carattere non alfanumerico</translation>
 <translation id="2324942959480650701">Ospite</translation>
 <translation id="2331781584136059536">Ghana</translation>
 <translation id="2338909515537249568">Il browser in uso non supporta l'archiviazione web. Prova con un altro browser.</translation>
@@ -139,6 +141,7 @@
 <translation id="3215050409577090361">Si è verificato un problema durante l'autenticazione della richiesta. Torna all'URL che ti ha reindirizzato a questa pagina per riavviare il processo di autenticazione.</translation>
 <translation id="3216149523061905579">Dominìca</translation>
 <translation id="3223688630903046698">Nuova password</translation>
+<translation id="3245143966477136343">La password deve contenere un carattere minuscolo</translation>
 <translation id="3250864391349648273">Gabon</translation>
 <translation id="3259479674319858599">Hai già utilizzato <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Accedi con <ph name="IDP_DISPLAY_NAME" /> per continuare.</translation>
 <translation id="3275852444431525182">Nuova Zelanda</translation>
@@ -216,6 +219,7 @@
 <translation id="4571870355114729513">Seguire le istruzioni inviate a <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> per recuperare la password</translation>
 <translation id="4588392627302012849">Accedi con l'indirizzo email</translation>
 <translation id="4595119411041064617">Se tocchi "<ph name="PH_1" />", è possibile che venga inviato un SMS. Potrebbero essere applicate le tariffe per l'invio dei messaggi e per il traffico dati.</translation>
+<translation id="4603232692404395592">La password può contenere al massimo <ph name="MAX_PASSWORD_LENGTH" /> caratteri</translation>
 <translation id="4632709875751031323">Russia</translation>
 <translation id="4644169548516814280">L'indirizzo email è già utilizzato da un altro account</translation>
 <translation id="4692014002063276828">Polonia</translation>
@@ -277,7 +281,7 @@
 <translation id="5606731250220630939">Norvegia</translation>
 <translation id="5611074838440670731">Questo numero di telefono è stato usato troppe volte</translation>
 <translation id="5630396263271753991">Eritrea</translation>
-<translation id="5636713964613741614">Maurizio</translation>
+<translation id="5636713964613741614">Mauritius</translation>
 <translation id="5642254620426025006">Si è verificato un errore. Riprova.</translation>
 <translation id="5649486931917149784">Password</translation>
 <translation id="5664080586064341046">Saint Kitts</translation>
@@ -311,16 +315,19 @@
 <translation id="6132202686885223981">Verifica che vi sia ancora spazio disponibile nella Posta in arrivo o che non vi siano altri problemi legati alle impostazioni della Posta in arrivo.</translation>
 <translation id="6135589730599211649">Il client ha specificato un intervallo non valido.</translation>
 <translation id="6143147250106939258">La quota per questa operazione è stata superata. Riprova più tardi.</translation>
+<translation id="615787395595800956">Requisiti per la password mancanti:</translation>
 <translation id="6189573836664806798">Paraguay</translation>
 <translation id="6192657410634245771">Algeria</translation>
 <translation id="6213969168046789596">Hai effettuato troppi tentativi con una password errata. Riprova tra qualche minuto.</translation>
 <translation id="6216759405419177713">Isola Norfolk</translation>
-<translation id="6245066275978703471">Numero di telefono verificato automaticamente</translation>
-<translation id="6269083314054226194">Errore di rete. Controlla la connessione a Internet.</translation>
-<translation id="6295157125625453859">Verifica eseguita.</translation>
+<translation id="6238170540438416559">Se tocchi "<ph name="PH_1" />", accetti le nostre <ph name="PP" />. È possibile che venga inviato un SMS. Potrebbero essere applicate le tariffe per l'invio dei messaggi e per il traffico dati.</translation>
+<translation id="6265373887273416711">Verifica il numero di telefono</translation>
+<translation id="6283536862756552051">Per modificare la password, devi prima inserire la password corrente.</translation>
+<translation id="6299890279889400823">Indietro</translation>
 <translation id="6316446940976157217">India</translation>
 <translation id="6327723482938582895">Benin</translation>
 <translation id="6338643731889005578">Continua</translation>
+<translation id="6355621963154078138">La password deve contenere un carattere numerico</translation>
 <translation id="6359400968059656782">Ora puoi accedere con la nuova password</translation>
 <translation id="6363241121027868570">Aruba</translation>
 <translation id="6377222208046638522">Lussemburgo</translation>
@@ -420,6 +427,7 @@
 <translation id="7790301903034097323">Scegli password</translation>
 <translation id="7796914496604415892">Rilevato nuovo dispositivo o browser</translation>
 <translation id="786166109137986817">Accedi a <ph name="DISPLAY_NAME" /></translation>
+<translation id="7863575218808091551">La password deve contenere un carattere maiuscolo</translation>
 <translation id="7868540442111212282">Repubblica Ceca</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
 <translation id="7926046652648626866">Accedi con GitHub</translation>
@@ -493,13 +501,15 @@
 <translation id="8916080112145514151">Se vuoi ancora collegare il tuo account <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" />, apri il link sullo stesso dispositivo sul quale hai iniziato a eseguire l'accesso. Altrimenti, tocca Continua per accedere su questo dispositivo.</translation>
 <translation id="8920674952994839257">Riprova</translation>
 <translation id="8939353296336237380">Inizialmente intendevi collegare l'account <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> al tuo account email, ma hai aperto il link su un altro dispositivo sul quale non hai eseguito l'accesso.</translation>
-<translation id="8971555482255213064">Invia di nuovo il codice tra 0:<ph name="PH_1" /></translation>
+<translation id="8955469172512804617">Se tocchi <ph name="BTN" />, accetti le <ph name="PP" />.</translation>
+<translation id="8980953965669178372">Fine</translation>
 <translation id="8984161590699631096">Marocco</translation>
 <translation id="8994098794339484800">Se non riconosci questo dispositivo, è possibile che qualcuno stia cercando di accedere al tuo account. Ti consigliamo di <ph name="START_LINK" />modificare immediatamente la password<ph name="END_LINK" />.</translation>
 <translation id="900153878296575829">Bangladesh</translation>
 <translation id="9022632332691561239">Telefono</translation>
 <translation id="9028063588419847334">Finlandia</translation>
 <translation id="9078135685219203661">Emirati Arabi Uniti</translation>
+<translation id="9085311482535098646">La password deve contenere almeno <ph name="MIN_PASSWORD_LENGTH" /> caratteri</translation>
 <translation id="9121203582272050974">L'email è stata verificata e modificata</translation>
 <translation id="9156150178611681179">Password</translation>
 <translation id="9168877696443530714">Repubblica Centrafricana</translation>

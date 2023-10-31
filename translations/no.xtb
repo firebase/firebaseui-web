@@ -28,7 +28,7 @@
 <translation id="144766329299583285">Hvis du ikke ba om å endre påloggingsadressen din, er det mulig at noen prøver å få tilgang til kontoen din. Du bør <ph name="START_LINK" />endre passordet ditt umiddelbart<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">Heardøya og McDonaldøyene</translation>
 <translation id="1451880131543823984"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> har ikke autorisasjon til å se den forespurte siden.</translation>
-<translation id="1479035434297790822">Det kommer for mange kontoforespørsler fra IP-adressen din. Prøv igjen om noen minutter.</translation>
+<translation id="1479035434297790822">Det kommer for mange kontoforespørsler fra IP-adressen din. Prøv på nytt om noen minutter.</translation>
 <translation id="1483249363694224399">Sri Lanka</translation>
 <translation id="1507995441600689506">Nå kan du logge på med den nye kontoen din</translation>
 <translation id="1544981664986460902">Klienten oppga et ugyldig argument.</translation>
@@ -45,8 +45,8 @@
 <translation id="1799407952500261728">Cookøyene</translation>
 <translation id="1870056762032541323">Feil kode. Prøv på nytt.</translation>
 <translation id="1898579907513173256">Macao</translation>
-<translation id="1929332760123475919"><ph name="P_START" />Hei, <ph name="DISPLAY_NAME" />!<ph name="P_END" /></translation>
-<translation id="1966996824429980990">Slett kontoen</translation>
+<translation id="1912929493041975510">Passordet må bestå av minst seks tegn</translation>
+<translation id="1933044638365301516">Logg på med <ph name="STRING" /></translation>
 <translation id="1987722456379605552">Oppgi den 6-sifrede koden vi har sendt til <ph name="START_LINK" /><ph name="PHONE_NUMBER" /><ph name="END_LINK" /></translation>
 <translation id="2016421613709283485">Følg veiledningen som er sendt til <ph name="PH_1" />, for å gjenopprette passordet ditt.</translation>
 <translation id="2035855087334775326">Ungarn</translation>
@@ -54,7 +54,6 @@
 <translation id="2046207054419739276">USA</translation>
 <translation id="2049229571938383319">Saint-Barthélemy</translation>
 <translation id="2058731785647385204">Montserrat</translation>
-<translation id="2070709910567585968">Sterke passord består av minst seks tegn og en blanding av bokstaver og tall</translation>
 <translation id="2074008538308369451">Vilkår for bruk</translation>
 <translation id="2089802663554186342">Økten er utløpt</translation>
 <translation id="2108717231438756650">Storbritannia</translation>
@@ -76,7 +75,7 @@
 <translation id="2310948428656960769">Pålogget!</translation>
 <translation id="2324942959480650701">Gjest</translation>
 <translation id="2331781584136059536">Ghana</translation>
-<translation id="2338909515537249568">Nettleseren du bruker, støtter ikke nettlagring. Prøv igjen i en annen nettleser.</translation>
+<translation id="2338909515537249568">Nettleseren du bruker, støtter ikke nettlagring. Prøv på nytt i en annen nettleser.</translation>
 <translation id="2342152898808240937">Forespørselen ble avbrutt av klienten.</translation>
 <translation id="2356282732642724501"><ph name="START_PARAGRAPH" />Det oppsto et problem med å tilbakestille påloggingsadressen din.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Be administratoren din om hjelp hvis du prøver igjen og fortsatt ikke får tilbakestilt e-postadressen.<ph name="END_PARAGRAPH" /></translation>
 <translation id="2375419764963116430">Bahrain</translation>
@@ -89,12 +88,12 @@
 <translation id="2460064915291012298">Seychellene</translation>
 <translation id="2490672522100125425"><ph name="START_STRONG" /><ph name="FACTOR_ID" /> <ph name="PHONE_NUMBER" /><ph name="END_STRONG" /> ble fjernet som andre autentiseringstrinn.</translation>
 <translation id="2494962141967044042">Kunne ikke oppgradere den anonyme brukeren. Den ikke-anonyme legitimasjonen er allerede tilknyttet en annen brukerkonto.</translation>
-<translation id="2541179214468543429">Du har angitt feil passord for mange ganger. Prøv igjen om noen minutter.</translation>
+<translation id="2541179214468543429">Du har angitt feil passord for mange ganger. Prøv på nytt om noen minutter.</translation>
 <translation id="2561560038714758184">Sikkerhet</translation>
 <translation id="2561835578785502516">Forespørselen om å tilbakestille passordet ditt har utløpt, eller så er linken allerede brukt</translation>
 <translation id="2562498793334241360">Nå kan du logge på med den nye e-postadressen, <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />.</translation>
 <translation id="2581514546525533462">Landskoden som er oppgitt, støttes ikke.</translation>
-<translation id="2600950452451016107">Kontrollér at du ikke har skrevet e-postadressen din feil.</translation>
+<translation id="2600950452451016107">Kontroller at du ikke har skrevet e-postadressen din feil.</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">Kambodsja</translation>
 <translation id="2614081868476050089">Tjenesten er ikke tilgjengelig.</translation>
@@ -109,7 +108,7 @@
 <translation id="2668496398414877352">Kosovo</translation>
 <translation id="2674823936234616183">Usbekistan</translation>
 <translation id="2696162410887720551">Åland</translation>
-<translation id="2725769874498146298">Påloggingsøkten din har utløpt. Prøv igjen.</translation>
+<translation id="2725769874498146298">Påloggingsøkten din har utløpt. Prøv på nytt.</translation>
 <translation id="2741235824871026219">Bekreft</translation>
 <translation id="2752984808025184019">Sør-Afrika</translation>
 <translation id="2760636260031093254">Oppgi e-postadressen din for å fortsette</translation>
@@ -307,16 +306,17 @@
 <translation id="61182948399263957">
 <ph name="P_START" />Logg på <ph name="APP_NAME" /> &lt;/p&gt;&lt;/p&gt;
 <ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
-<translation id="6132202686885223981">Kontrollér at innboksen din ikke er full, og se etter andre problemer knyttet til innboksinnstillingene.</translation>
+<translation id="6132202686885223981">Kontroller at innboksen din ikke er full, og se etter andre problemer knyttet til innboksinnstillingene.</translation>
 <translation id="6135589730599211649">Klienten oppga et ugyldig område.</translation>
 <translation id="6143147250106939258">Kvoten for denne operasjonen er overskredet. Prøv på nytt senere.</translation>
 <translation id="6189573836664806798">Paraguay</translation>
 <translation id="6192657410634245771">Algerie</translation>
-<translation id="6213969168046789596">Du har angitt feil passord for mange ganger. Prøv igjen om noen minutter.</translation>
+<translation id="6213969168046789596">Du har angitt feil passord for mange ganger. Prøv på nytt om noen minutter.</translation>
 <translation id="6216759405419177713">Norfolkøya</translation>
-<translation id="6245066275978703471">Telefonnummeret ble bekreftet automatisk</translation>
-<translation id="6269083314054226194">Nettverksfeil. Sjekk internettilkoblingen din.</translation>
-<translation id="6295157125625453859">Bekreftet.</translation>
+<translation id="6238170540438416559">Hvis du trykker på «<ph name="PH_1" />», godtar du <ph name="PP" /> våre. Du kan bli tilsendt en SMS. Kostnader for meldinger og datatrafikk kan påløpe.</translation>
+<translation id="6265373887273416711">Bekreft telefonnummeret ditt</translation>
+<translation id="6283536862756552051">For å endre passordet ditt må du først oppgi det eksisterende passordet.</translation>
+<translation id="6299890279889400823">Tilbake</translation>
 <translation id="6316446940976157217">India</translation>
 <translation id="6327723482938582895">Benin</translation>
 <translation id="6338643731889005578">Fortsett</translation>

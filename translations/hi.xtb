@@ -45,8 +45,8 @@
 <translation id="1799407952500261728">कुक आइलैंड</translation>
 <translation id="1870056762032541323">गलत कोड. फिर से कोशिश करें.</translation>
 <translation id="1898579907513173256">मकाऊ</translation>
-<translation id="1929332760123475919"><ph name="P_START" />नमस्कार <ph name="DISPLAY_NAME" />,<ph name="P_END" /></translation>
-<translation id="1966996824429980990">खाता हटाएं</translation>
+<translation id="1912929493041975510">पासवर्ड कम से कम छह वर्णों का होना चाहिए</translation>
+<translation id="1933044638365301516"><ph name="STRING" /> से प्रवेश करें</translation>
 <translation id="1987722456379605552">हमारी ओर से <ph name="START_LINK" /><ph name="PHONE_NUMBER" /><ph name="END_LINK" /> पर भेजा गया 6-अंकों वाला  कोड डालें</translation>
 <translation id="2016421613709283485">अपना पासवर्ड फिर से पाने के लिए <ph name="PH_1" /> पर भेजे गए निर्देशों का पालन करें.</translation>
 <translation id="2035855087334775326">हंगरी</translation>
@@ -54,7 +54,6 @@
 <translation id="2046207054419739276">संयुक्त राज्य</translation>
 <translation id="2049229571938383319">सेंट बार्थेलेमी</translation>
 <translation id="2058731785647385204">मॉन्टसेरैट</translation>
-<translation id="2070709910567585968">सशक्त पासवर्ड में कम से कम 6 वर्ण होने चाहिए और वे अक्षरों और नंबरों दोनों को मिलाकर बना होना चाहिए</translation>
 <translation id="2074008538308369451">सेवा की शर्तें</translation>
 <translation id="2089802663554186342">सत्र खत्म हो गया है</translation>
 <translation id="2108717231438756650">यूनाइटेड किंगडम</translation>
@@ -94,7 +93,7 @@
 <translation id="2561835578785502516">आपके पासवर्ड रीसेट अनुरोध की समय-सीमा खत्म हो गई है या लिंक का उपयोग पहले ही किया जा चुका है</translation>
 <translation id="2562498793334241360">अब आप अपने नए ईमेल पते <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> से साइन इन कर सकते हैं.</translation>
 <translation id="2581514546525533462">डाला गया देश कोड इस्तेमाल नहीं किया जा सकता है.</translation>
-<translation id="2600950452451016107">देख लें कि आपने ईमेल पते की वर्तनी गलत तो नहीं लिखी है.</translation>
+<translation id="2600950452451016107">देख लें कि आपने ईमेल पते की स्पेलिंग गलत तो नहीं लिखी है.</translation>
 <translation id="2610891451939662786">Twitter</translation>
 <translation id="2612036261782356367">कंबोडिया</translation>
 <translation id="2614081868476050089">सेवा उपलब्ध नहीं है.</translation>
@@ -116,7 +115,7 @@
 <translation id="276938411216176478">उपयोगकर्ता के खाते को एडमिन ने बंद कर दिया है.</translation>
 <translation id="2782685789517131804">साइन-इन पूरा करने के लिए और भी ज़्यादा निर्देशों वाला एक ईमेल <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> पर भेजा गया है. साइन-इन पूरा करने के लिए अपना ईमेल देखें.</translation>
 <translation id="2828509010894808185">खाता बनाएं</translation>
-<translation id="2834770837848769530">अफ़गानिस्तान</translation>
+<translation id="2834770837848769530">अफ़ग़ानिस्तान</translation>
 <translation id="2884525438023347369"><ph name="BTN" /> पर टैप करके आप बताते हैं कि आप <ph name="TOS" /> से सहमत हैं.</translation>
 <translation id="2909392332969582158">कनाडा</translation>
 <translation id="2911018261311455240">डेनमार्क</translation>
@@ -160,14 +159,14 @@
 <translation id="3550380781997195832">वह ईमेल पता सही नहीं है</translation>
 <translation id="3552446912357282301">अनुमति के लिए, कृपया <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" /> से संपर्क करें.</translation>
 <translation id="3561568594856945084">मायोटे</translation>
-<translation id="3591063723610544836">प्रवेश करें</translation>
+<translation id="3591063723610544836">साइन इन करें</translation>
 <translation id="3593480381831738519">अपना पासवर्ड रीसेट करें</translation>
 <translation id="3597673897213051724">भेजें</translation>
 <translation id="3605933028246642593">नेपाल</translation>
 <translation id="3608140835232496799">तोकेलाउ</translation>
 <translation id="3620185428620643248">प्रमाणीकरण देने वाले के लिए चयनित क्रेडेंशियल समर्थित नहीं है!</translation>
 <translation id="3658306886462996856">दिए गए ईमेल से साइन इन नहीं किया जा सकता. कृपया कोई दूसरा ईमेल डालें.</translation>
-<translation id="3695180913983403205">कृपया नाम और उपनाम डालें.</translation>
+<translation id="3695180913983403205">कृपया नाम और सरनेम डालें.</translation>
 <translation id="3700097473356216716">कोलंबिया</translation>
 <translation id="3703067902498234034">सेव करें को टैप करके आप यह बताते हैं कि आप इससे सहमत हैं </translation>
 <translation id="3736041829854387744">बुरुंडी</translation>
@@ -177,7 +176,7 @@
 <translation id="3819556544383051267">पापुआ न्यू गिनी</translation>
 <translation id="3828991952827504549">बताया गया संसाधन नहीं मिला.</translation>
 <translation id="3862053977934420187">पुष्टि कर रहा है…</translation>
-<translation id="3898029444496274961">प्रवेश करें</translation>
+<translation id="3898029444496274961">साइन इन करें</translation>
 <translation id="3905423743526704083">पूर्वी तिमोर</translation>
 <translation id="3908950705971364393">जिबूती</translation>
 <translation id="3954166521214262397">6-अंकों वाला कोड</translation>
@@ -202,7 +201,7 @@
 <translation id="4331763189922924781">मॉन्टेनेग्रो</translation>
 <translation id="4372962701784304822">मोज़ाम्बिक</translation>
 <translation id="4377158577300329881">वह ईमेल पता किसी मौजूदा खाते से मेल नहीं खाता है</translation>
-<translation id="4386334763822785837">तुर्की</translation>
+<translation id="4386334763822785837">तुर्किये</translation>
 <translation id="4413304190485210039">तजिकिस्तान</translation>
 <translation id="4432634970196611353">लाओस</translation>
 <translation id="4440507149645221385">फ़ोन</translation>
@@ -218,7 +217,7 @@
 <translation id="4632709875751031323">रूस</translation>
 <translation id="4644169548516814280">ईमेल पता पहले से ही किसी दूसरे खाते के लिए उपयोग में लाया जा चुका है</translation>
 <translation id="4692014002063276828">पोलैंड</translation>
-<translation id="4723701728629289714">इज़राइल</translation>
+<translation id="4723701728629289714">इज़रायल</translation>
 <translation id="4725154639671888461">गड़बड़ी का सामना करना पड़ा</translation>
 <translation id="4751937685196678080">नंबर</translation>
 <translation id="4769553102874508676">क्लाइंट के पास ज़रूरी अनुमति नहीं है.</translation>
@@ -314,9 +313,10 @@
 <translation id="6192657410634245771">अल्जीरिया</translation>
 <translation id="6213969168046789596">आपने कई बार गलत पासवर्ड डाला है. कृपया कुछ मिनटों में फिर से कोशिश करें.</translation>
 <translation id="6216759405419177713">नॉरफ़ोक आइलैंड</translation>
-<translation id="6245066275978703471">फ़ोन नंबर की अपने आप पुष्टि की गई</translation>
-<translation id="6269083314054226194">नेटवर्क में गड़बड़ी है. देखें कि इंटरनेट काम कर रहा है या नहीं.</translation>
-<translation id="6295157125625453859">पुष्टि हो चुकी है!</translation>
+<translation id="6238170540438416559">“<ph name="PH_1" />” पर टैप करके, आप यह बताते हैं कि आप हमारी <ph name="PP" /> मंज़ूर करते हैं. एक मैसेज (एसएमएस) भेजा जा सकता है. मैसेज और डेटा दरें लागू हो सकती हैं.</translation>
+<translation id="6265373887273416711">अपने फ़ोन नंबर की पुष्टि करें</translation>
+<translation id="6283536862756552051">अपना पासवर्ड बदलने के लिए, आपको पहले अपना मौजूदा पासवर्ड डालना होगा.</translation>
+<translation id="6299890279889400823">वापस जाएं</translation>
 <translation id="6316446940976157217">भारत</translation>
 <translation id="6327723482938582895">बेनिन</translation>
 <translation id="6338643731889005578">जारी रखें</translation>
@@ -349,7 +349,7 @@
 <translation id="6721310522324861790">सेनेगल</translation>
 <translation id="6724344978634903280">बोत्सवाना</translation>
 <translation id="6728600931059699935">माइक्रोनेशिया</translation>
-<translation id="6739369526953005057">हांग कांग</translation>
+<translation id="6739369526953005057">हॉन्ग कॉन्ग</translation>
 <translation id="6740430702644152657">अल्बानिया</translation>
 <translation id="6765051113469046531">आपका साइन-इन ईमेल पता बदलकर वापस <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> कर दिया गया है.</translation>
 <translation id="6769550797775698634">कैमरून</translation>
@@ -369,7 +369,7 @@
 <translation id="6961220857430789248">ज़्यादा निर्देशों वाला एक साइन-इन ईमेल <ph name="STRING" /> पर भेजा गया है. साइन-इन पूरा करने के लिए अपना ईमेल देखें.</translation>
 <translation id="6984204927251307445">ईमेल की पुष्टि करें</translation>
 <translation id="6996552808101270965">ज़्यादा जानें</translation>
-<translation id="6999773882165218263">नाम और उपनाम</translation>
+<translation id="6999773882165218263">नाम और सरनेम</translation>
 <translation id="7012506961150923116">ग्रेनेडा</translation>
 <translation id="7024571478138322659">पश्चिमी सहारा</translation>
 <translation id="7025117765722694556">सिस्टम की मौजूदा स्थिति में अनुरोध पूरा नहीं किया जा सकता.</translation>
