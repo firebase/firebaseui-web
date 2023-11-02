@@ -49,7 +49,8 @@ config = {
   jasmineNodeOpts: {
     // Default time to wait in ms before a test fails.
     defaultTimeoutInterval: 20 * 60 * 1000
-  }
+  },
+  chromeDriver: require(`chromedriver/lib/chromedriver`).path
 };
 
 // Read arguments to the protractor command.
