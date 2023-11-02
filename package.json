@@ -61,6 +61,7 @@
     "webdriver-manager": "^12.1.8"
   },
   "dependencies": {
+    "chromedriver": "^119.0.0",
     "dialog-polyfill": "^0.4.7",
     "material-design-lite": "^1.2.0"
   },
