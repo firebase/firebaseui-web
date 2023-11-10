@@ -298,7 +298,7 @@ element.phoneNumber.selectCountry = function(id, lookupTree,
     if (countries.length && countries[0].e164_cc != country.e164_cc) {
       // Update national number with newly selected code.
       nationalNumber = '+' + country.e164_cc +
-          nationalNumber.substr(countries[0].e164_cc.length + 1);
+          nationalNumber.slice(countries[0].e164_cc.length + 1);
       // Re-populate the number in the form.
       goog.dom.forms.setValue(
           element.phoneNumber.getPhoneNumberElement.call(this), nationalNumber);
@@ -365,7 +365,7 @@ element.phoneNumber.getPhoneNumberValue = function(opt_lookupTree) {
   }
   // Remove country code prefix from national number.
   if (countries.length) {
-    nationalNumber = nationalNumber.substr(countries[0].e164_cc.length + 1);
+    nationalNumber = nationalNumber.slice(countries[0].e164_cc.length + 1);
   }
   // If only country code provided, consider the phone number missing.
   if (!nationalNumber) {
