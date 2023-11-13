@@ -45,8 +45,8 @@
 <translation id="1799407952500261728">جزر كوك</translation>
 <translation id="1870056762032541323">الرمز غير صحيح. يُرجى المحاولة مجددًا.</translation>
 <translation id="1898579907513173256">ماكاو</translation>
-<translation id="1929332760123475919"><ph name="P_START" />مرحبًا <ph name="DISPLAY_NAME" />،<ph name="P_END" /></translation>
-<translation id="1966996824429980990">حذف الحساب</translation>
+<translation id="1912929493041975510">يجب أن تتألف كلمة المرور من 6 أحرف على الأقل.</translation>
+<translation id="1933044638365301516">تسجيل الدخول عبر <ph name="STRING" /></translation>
 <translation id="1987722456379605552">أدخل الرمز المكوّن من 6 أرقام الذي ارسلناه إلى <ph name="START_LINK" /><ph name="PHONE_NUMBER" /><ph name="END_LINK" /></translation>
 <translation id="2016421613709283485">اتبع التعليمات التي تم إرسالها إلى <ph name="PH_1" /> لاسترداد كلمة المرور.</translation>
 <translation id="2035855087334775326">المجر</translation>
@@ -54,7 +54,6 @@
 <translation id="2046207054419739276">الولايات المتحدة</translation>
 <translation id="2049229571938383319">سان بارتليمي</translation>
 <translation id="2058731785647385204">مونتسيرات</translation>
-<translation id="2070709910567585968">تتضمن كلمات المرور القوية 6 أرقام على الأقل ومزيجًا من الأحرف والأرقام</translation>
 <translation id="2074008538308369451">بنود الخدمة</translation>
 <translation id="2089802663554186342">انتهت الجلسة</translation>
 <translation id="2108717231438756650">المملكة المتحدة</translation>
@@ -314,9 +313,10 @@
 <translation id="6192657410634245771">الجزائر</translation>
 <translation id="6213969168046789596">لقد أدخلت كلمة مرور غير صحيحة لمرات كثيرة جدًا. يُرجى إعادة المحاولة بعد بضع دقائق.</translation>
 <translation id="6216759405419177713">جزيرة نورفولك</translation>
-<translation id="6245066275978703471">تمّ التحقّق تلقائيًا من رقم الهاتف.</translation>
-<translation id="6269083314054226194">حدث خطأ في الشبكة، يُرجى التحقّق من اتصال الإنترنت.</translation>
-<translation id="6295157125625453859">اكتملت عملية إثبات الملكية!</translation>
+<translation id="6238170540438416559">يشير النقر على "<ph name="PH_1" />" إلى موافقتك على <ph name="PP" />. وقد يتمّ إرسال رسالة قصيرة كما قد تنطبق رسوم الرسائل والبيانات.</translation>
+<translation id="6265373887273416711">إثبات ملكية رقم هاتفك</translation>
+<translation id="6283536862756552051">لتغيير كلمة المرور، يجب أولاً إدخال كلمة المرور الحالية.</translation>
+<translation id="6299890279889400823">رجوع</translation>
 <translation id="6316446940976157217">الهند</translation>
 <translation id="6327723482938582895">بنين</translation>
 <translation id="6338643731889005578">متابعة</translation>

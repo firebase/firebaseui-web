@@ -383,6 +383,69 @@ firebaseui.auth.widget.handler.common.getSignedInRedirectUrl_ =
  * @package
  */
 firebaseui.auth.widget.handler.common.getErrorMessage = function(error) {
+  // Password policy error message varies depending on the policy violations.
+  // Hence, we construct an error message from the strings file based on the
+  // error message from the backend.
+  if (error['code'] &&
+      error['code'] == 'auth/password-does-not-meet-requirements') {
+    const originalError = error['message'];
+    let minPasswordLength = '';
+    let maxPasswordLength = '';
+    let passwordNotMeetMinLength = false;
+    let passwordNotMeetMaxLength = false;
+    let passwordNotContainLowercaseLetter = false;
+    let passwordNotContainUppercaseLetter = false;
+    let passwordNotContainNumericCharacter = false;
+    let passwordNotContainNonAlphanumericCharacter = false;
+
+    const minLengthErrorMatch =
+        originalError.match(/Password must contain at least (\d+)/);
+    if (minLengthErrorMatch) {
+      passwordNotMeetMinLength = true;
+      minPasswordLength = minLengthErrorMatch[1];
+    }
+    const maxLengthErrorMatch =
+        originalError.match(/Password may contain at most (\d+)/);
+    if (maxLengthErrorMatch) {
+      passwordNotMeetMaxLength = true;
+      maxPasswordLength = maxLengthErrorMatch[1];
+    }
+    // This needs to be hardcoded. Checking against
+    // "firebaseui.auth.soy2.strings.errorPasswordNotContainLowercaseLetter().toString()"
+    // will return a translated string, while originalError is always in
+    // English.
+    if (originalError.includes(
+      'Password must contain a lower case character')) {
+      passwordNotContainLowercaseLetter = true;
+    }
+    if (originalError.includes(
+      'Password must contain an upper case character')) {
+      passwordNotContainUppercaseLetter = true;
+    }
+    if (originalError.includes('Password must contain a numeric character')) {
+      passwordNotContainNumericCharacter = true;
+    }
+    if (originalError.includes(
+      'Password must contain a non-alphanumeric character')) {
+      passwordNotContainNonAlphanumericCharacter = true;
+    }
+
+    return firebaseui.auth.soy2.strings
+        .errorMissingPasswordRequirements({
+          passwordNotMeetMinLength: passwordNotMeetMinLength,
+          minPasswordLength: minPasswordLength,
+          passwordNotMeetMaxLength: passwordNotMeetMaxLength,
+          maxPasswordLength: maxPasswordLength,
+          passwordNotContainLowercaseLetter: passwordNotContainLowercaseLetter,
+          passwordNotContainUppercaseLetter: passwordNotContainUppercaseLetter,
+          passwordNotContainNumericCharacter:
+              passwordNotContainNumericCharacter,
+          passwordNotContainNonAlphanumericCharacter:
+              passwordNotContainNonAlphanumericCharacter
+        })
+        .toString();
+  }
+
   // Try to get an error message from the strings file, or fall back to the
   // error message from the Firebase SDK if none is found.
   var message =

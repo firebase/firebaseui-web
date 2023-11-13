@@ -1336,6 +1336,19 @@ function testGetErrorMessage_unknownError_jsonMessage() {
 }
 
 
+function testGetErrorMessage_passwordPolicyError_message() {
+  const error = {
+    code: 'auth/password-does-not-meet-requirements',
+    message:
+        'Missing password requirements: [Password must contain at least 8 characters, Password may contain at most 16 characters, Password must contain a lower case character, Password must contain an upper case character, Password must contain a numeric character, Password must contain a non-alphanumeric character]'
+  };
+  const message = firebaseui.auth.widget.handler.common.getErrorMessage(error);
+  assertEquals(
+      'Missing password requirements: [ Password must contain at least 8 characters. Password may contain at most 16 characters. Password must contain a lower case character. Password must contain an upper case character. Password must contain a numeric character. Password must contain a non-alphanumeric character. ]',
+      message);
+}
+
+
 function testIsPasswordProviderOnly_multipleMixedProviders() {
   // Set a password and federated providers in the FirebaseUI instance
   // configuration.

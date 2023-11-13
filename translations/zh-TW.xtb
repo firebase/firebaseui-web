@@ -31,6 +31,7 @@
 <translation id="1479035434297790822">您的 IP 位址傳送的建立帳戶要求次數過多，請於幾分鐘後再試一次。</translation>
 <translation id="1483249363694224399">斯里蘭卡</translation>
 <translation id="1507995441600689506">現在您可以登入新的帳戶</translation>
+<translation id="1535200361681091160">輸入您的電子郵件</translation>
 <translation id="1544981664986460902">用戶端指定的引數無效。</translation>
 <translation id="1575848116712334589">查德</translation>
 <translation id="1630237004390596779">於 <ph name="STRING" /> 後重新傳送驗證碼</translation>
@@ -45,16 +46,16 @@
 <translation id="1799407952500261728">庫克群島</translation>
 <translation id="1870056762032541323">驗證碼錯誤，請再試一次。</translation>
 <translation id="1898579907513173256">澳門特別行政區</translation>
-<translation id="1929332760123475919"><ph name="P_START" /><ph name="DISPLAY_NAME" /> 您好：<ph name="P_END" /></translation>
-<translation id="1966996824429980990">刪除帳戶</translation>
+<translation id="1912929493041975510">密碼的長度至少須為 6 個字元</translation>
+<translation id="1933044638365301516">使用 <ph name="STRING" /> 帳戶登入</translation>
 <translation id="1987722456379605552">請輸入我們發送至 <ph name="START_LINK" /><ph name="PHONE_NUMBER" /><ph name="END_LINK" /> 的 6 位數驗證碼</translation>
-<translation id="2016421613709283485">請依照傳送至 <ph name="PH_1" /> 的操作說明，重新取得密碼。</translation>
+<translation id="1999379687946415948">你的「<ph name="APP_NAME" />」驗證碼是 <ph name="IDV_CODE_PLACE_HOLDER" />。</translation>
+<translation id="2033662766890821456">重新傳送驗證碼</translation>
 <translation id="2035855087334775326">匈牙利</translation>
 <translation id="2040904406955887821">蘇利南</translation>
 <translation id="2046207054419739276">美國</translation>
 <translation id="2049229571938383319">聖巴瑟米</translation>
 <translation id="2058731785647385204">蒙哲臘</translation>
-<translation id="2070709910567585968">安全強度高的密碼至少需有 6 個字元並混用字母和數字</translation>
 <translation id="2074008538308369451">服務條款</translation>
 <translation id="2089802663554186342">工作階段已結束</translation>
 <translation id="2108717231438756650">英國</translation>
@@ -74,6 +75,7 @@
 <translation id="2285049245646335550">維德角</translation>
 <translation id="2301396996587599046">馬其頓</translation>
 <translation id="2310948428656960769">登入成功！</translation>
+<translation id="2321152797538991921">密碼必須包含非英數字元</translation>
 <translation id="2324942959480650701">訪客</translation>
 <translation id="2331781584136059536">迦納</translation>
 <translation id="2338909515537249568">您使用的瀏覽器不支援網路儲存空間，請改用其他瀏覽器並再試一次。</translation>
@@ -139,6 +141,7 @@
 <translation id="3215050409577090361">驗證您的要求時發生問題。請再次點選當初將您重新導向至這個頁面的網址，以便重新啟動驗證程序。</translation>
 <translation id="3216149523061905579">多米尼克</translation>
 <translation id="3223688630903046698">新密碼</translation>
+<translation id="3245143966477136343">密碼必須包含小寫字元</translation>
 <translation id="3250864391349648273">加彭</translation>
 <translation id="3259479674319858599">目前您使用的是 <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />。如要繼續，請使用 <ph name="IDP_DISPLAY_NAME" /> 帳戶登入。</translation>
 <translation id="3275852444431525182">紐西蘭</translation>
@@ -216,6 +219,7 @@
 <translation id="4571870355114729513">請按照傳送至 <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> 的操作說明，重新取得密碼</translation>
 <translation id="4588392627302012849">使用電子郵件地址登入</translation>
 <translation id="4595119411041064617">輕觸 [<ph name="PH_1" />] 後，系統將會傳送一封簡訊。您可能需支付簡訊和數據傳輸費用。</translation>
+<translation id="4603232692404395592">密碼不得超過 <ph name="MAX_PASSWORD_LENGTH" /> 個字元</translation>
 <translation id="4632709875751031323">俄羅斯</translation>
 <translation id="4644169548516814280">已有其他帳戶使用這個電子郵件地址</translation>
 <translation id="4692014002063276828">波蘭</translation>
@@ -310,16 +314,19 @@
 <translation id="6132202686885223981">確認收件匣的儲存空間是否足夠，或檢查與收件匣設定相關的其他問題。</translation>
 <translation id="6135589730599211649">用戶端指定的範圍無效。</translation>
 <translation id="6143147250106939258">已超出這項作業的配額上限，請稍後再試。</translation>
+<translation id="615787395595800956">不符合密碼要求：</translation>
 <translation id="6189573836664806798">巴拉圭</translation>
 <translation id="6192657410634245771">阿爾及利亞</translation>
 <translation id="6213969168046789596">您輸入錯誤密碼的次數過多，請於幾分鐘後再試一次。</translation>
 <translation id="6216759405419177713">諾福克島</translation>
-<translation id="6245066275978703471">已自動驗證電話號碼</translation>
-<translation id="6269083314054226194">網路發生錯誤，請檢查您的網際網路連線。</translation>
-<translation id="6295157125625453859">已驗證！</translation>
+<translation id="6238170540438416559">輕觸 [<ph name="PH_1" />] 即表示您同意接受我們的《<ph name="PP" />》。系統將會傳送簡訊給您，不過您可能需要支付簡訊和數據傳輸費用。</translation>
+<translation id="6265373887273416711">驗證您的電話號碼</translation>
+<translation id="6283536862756552051">如要變更密碼，請先輸入目前的密碼。</translation>
+<translation id="6299890279889400823">上一步</translation>
 <translation id="6316446940976157217">印度</translation>
 <translation id="6327723482938582895">貝南</translation>
 <translation id="6338643731889005578">繼續</translation>
+<translation id="6355621963154078138">密碼必須包含數字</translation>
 <translation id="6359400968059656782">現在您可以使用新密碼登入帳戶</translation>
 <translation id="6363241121027868570">阿魯巴島</translation>
 <translation id="6377222208046638522">盧森堡</translation>
@@ -419,6 +426,7 @@
 <translation id="7790301903034097323">選擇密碼</translation>
 <translation id="7796914496604415892">系統偵測到新的裝置或瀏覽器</translation>
 <translation id="786166109137986817">登入 <ph name="DISPLAY_NAME" /></translation>
+<translation id="7863575218808091551">密碼必須包含大寫字元</translation>
 <translation id="7868540442111212282">捷克共和國</translation>
 <translation id="7874584525604421364">吐瓦魯</translation>
 <translation id="7926046652648626866">使用 GitHub 登入</translation>
@@ -490,13 +498,15 @@
 <translation id="8916080112145514151">如果您仍想連結您的 <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> 帳戶，請在開始登入程序的同一部裝置上開啟連結。如不想連結帳戶，請輕觸 [繼續] 以在這部裝置上進行登入程序。</translation>
 <translation id="8920674952994839257">重試</translation>
 <translation id="8939353296336237380">您原先想將 <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> 連結至您的電子郵件帳戶，卻在另一部未登入帳戶的裝置上開啟了連結。</translation>
-<translation id="8971555482255213064">0:<ph name="PH_1" /> 秒後將重新發送驗證碼</translation>
+<translation id="8955469172512804617">輕觸 [<ph name="BTN" />] 即表示您同意《<ph name="PP" />》。</translation>
+<translation id="8980953965669178372">完成</translation>
 <translation id="8984161590699631096">摩洛哥</translation>
 <translation id="8994098794339484800">如果您不認識這部裝置，可能是有人試圖存取您的帳戶。建議您<ph name="START_LINK" />立即變更密碼<ph name="END_LINK" />。</translation>
 <translation id="900153878296575829">孟加拉</translation>
 <translation id="9022632332691561239">電話</translation>
 <translation id="9028063588419847334">芬蘭</translation>
 <translation id="9078135685219203661">阿拉伯聯合大公國</translation>
+<translation id="9085311482535098646">密碼不得少於 <ph name="MIN_PASSWORD_LENGTH" /> 個字元</translation>
 <translation id="9121203582272050974">您的電子郵件地址已通過驗證並變更完成</translation>
 <translation id="9156150178611681179">密碼</translation>
 <translation id="9168877696443530714">中非共和國</translation>

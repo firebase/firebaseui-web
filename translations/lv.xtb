@@ -45,16 +45,15 @@
 <translation id="1799407952500261728">Kuka Salas</translation>
 <translation id="1870056762032541323">Nepareizs kods. Mēģiniet vēlreiz.</translation>
 <translation id="1898579907513173256">Makao</translation>
-<translation id="1929332760123475919"><ph name="P_START" />Labdien, <ph name="DISPLAY_NAME" />!<ph name="P_END" /></translation>
-<translation id="1966996824429980990">Konta dzēšana</translation>
-<translation id="1987722456379605552">Ievadīt 6 ciparu kodu, kas tika nosūtīts uz šādu tālruņa numuru: <ph name="START_LINK" /><ph name="PHONE_NUMBER" /><ph name="END_LINK" /></translation>
+<translation id="1912929493041975510">Parolei ir jābūt vismaz sešas rakstzīmes garai</translation>
+<translation id="1933044638365301516">Pierakstīties ar <ph name="STRING" /></translation>
+<translation id="1987722456379605552">Ievadīt 6 ciparu kodu, kas tika nosūtīts uz šādu tālruņa numuru: <ph name="START_LINK" /><ph name="PHONE_NUMBER" /><ph name="END_LINK" /></translation>
 <translation id="2016421613709283485">Izpildiet uz e-pasta adresi <ph name="PH_1" /> nosūtītos norādījumus, lai atgūtu paroli.</translation>
 <translation id="2035855087334775326">Ungārija</translation>
 <translation id="2040904406955887821">Surinama</translation>
 <translation id="2046207054419739276">Amerikas Savienotās Valstis</translation>
 <translation id="2049229571938383319">Senbartelmī</translation>
 <translation id="2058731785647385204">Montserrata</translation>
-<translation id="2070709910567585968">Drošām parolēm ir vismaz 6 rakstzīmes, un tajās ir burtu un ciparu kombinācija</translation>
 <translation id="2074008538308369451">Pakalpojumu sniegšanas noteikumi</translation>
 <translation id="2089802663554186342">Sesija ir beigusies</translation>
 <translation id="2108717231438756650">Apvienotā Karaliste</translation>
@@ -178,7 +177,7 @@
 <translation id="3898029444496274961">Pierakstīties</translation>
 <translation id="3905423743526704083">Austrumtimora</translation>
 <translation id="3908950705971364393">Džibutija</translation>
-<translation id="3954166521214262397">6 ciparu kods</translation>
+<translation id="3954166521214262397">6 ciparu kods</translation>
 <translation id="3987987513436822097">Komoru Salas</translation>
 <translation id="4009306200855295525">Valsts</translation>
 <translation id="4021489444336102711">Verificēt</translation>
@@ -295,9 +294,9 @@
 <translation id="5985902459796151462">Dominikāna</translation>
 <translation id="5987586156626209007">Džērsija</translation>
 <translation id="5989709845715452405">Paroles atgūšana</translation>
-<translation id="5995596766674622541">Ievadiet 6 ciparu kodu, kas nosūtīts uz šādu tālruņa numuru: <ph name="START_LINK" />&amp;lrm;<ph name="PHONE_NUMBER" /><ph name="END_LINK" /></translation>
+<translation id="5995596766674622541">Ievadiet 6 ciparu kodu, kas nosūtīts uz šādu tālruņa numuru: <ph name="START_LINK" />&amp;lrm;<ph name="PHONE_NUMBER" /><ph name="END_LINK" /></translation>
 <translation id="6006148985615990975">Ruanda</translation>
-<translation id="6032262985756512833">Ievadiet <ph name="STRING" /> ciparu kodu, ko nosūtījām uz šādu tālruņa numuru:</translation>
+<translation id="6032262985756512833">Ievadiet <ph name="STRING" /> ciparu kodu, ko nosūtījām uz šādu tālruņa numuru:</translation>
 <translation id="6044396095102058216">Šis tālruņa numurs ir izmantots pārāk daudz reižu</translation>
 <translation id="6083089720215618333">Norādītā e-pasta adrese neatbilst pašreizējai pierakstīšanās sesijai.</translation>
 <translation id="6091051069256411999">Twitter</translation>
@@ -311,9 +310,10 @@
 <translation id="6192657410634245771">Alžīrija</translation>
 <translation id="6213969168046789596">Esat pārāk daudz reižu ievadījis nepareizu paroli. Lūdzu, mēģiniet vēlreiz pēc dažām minūtēm.</translation>
 <translation id="6216759405419177713">Norfolkas Sala</translation>
-<translation id="6245066275978703471">Tālruņa numurs tika automātiski verificēts</translation>
-<translation id="6269083314054226194">Tīkla kļūda. Pārbaudiet interneta savienojumu.</translation>
-<translation id="6295157125625453859">Verificēts.</translation>
+<translation id="6238170540438416559">Pieskaroties pogai “<ph name="PH_1" />”, jūs norādāt, ka piekrītat šādam dokumentam: <ph name="PP" />. Var tikt nosūtīta īsziņa. Var tikt piemērota maksa par ziņojumiem un datu pārsūtīšanu.</translation>
+<translation id="6265373887273416711">Verificēt tālruņa numuru</translation>
+<translation id="6283536862756552051">Lai mainītu paroli, vispirms ir jāievada pašreizējā parole.</translation>
+<translation id="6299890279889400823">Atpakaļ</translation>
 <translation id="6316446940976157217">Indija</translation>
 <translation id="6327723482938582895">Benina</translation>
 <translation id="6338643731889005578">Turpināt</translation>
@@ -409,7 +409,7 @@
 <translation id="7615083347713899917">Kirgizstāna</translation>
 <translation id="7643408533407091568">Esat jau izmantojis e-pasta adresi <ph name="EMAIL_ADDR" />,
         lai pierakstītos. Ievadiet šī konta paroli.</translation>
-<translation id="7652546345268886994">{plural_var,plural, =1{Parole nav pietiekami droša. Izmantojiet vismaz <ph name="PH_1" /> rakstzīmi un burtu un ciparu kombināciju}zero{Parole nav pietiekami droša. Izmantojiet vismaz <ph name="PH_1" /> rakstzīmes un burtu un ciparu kombināciju}one{Parole nav pietiekami droša. Izmantojiet vismaz <ph name="PH_1" /> rakstzīmi un burtu un ciparu kombināciju}other{Parole nav pietiekami droša. Izmantojiet vismaz <ph name="PH_1" /> rakstzīmes un burtu un ciparu kombināciju}}</translation>
+<translation id="7652546345268886994">{plural_var,plural, =1{Parole nav pietiekami droša. Izmantojiet vismaz <ph name="PH_1" /> rakstzīmi un burtu un ciparu kombināciju}zero{Parole nav pietiekami droša. Izmantojiet vismaz <ph name="PH_1" /> rakstzīmes un burtu un ciparu kombināciju}one{Parole nav pietiekami droša. Izmantojiet vismaz <ph name="PH_1" /> rakstzīmi un burtu un ciparu kombināciju}other{Parole nav pietiekami droša. Izmantojiet vismaz <ph name="PH_1" /> rakstzīmes un burtu un ciparu kombināciju}}</translation>
 <translation id="7699755204074920022">Zimbabve</translation>
 <translation id="7746977132739352062">Pieprasījums nav autentificēts, jo trūkst OAuth pilnvaras, tā ir nederīga vai beidzies tās termiņš.</translation>
 <translation id="7782885946428624225">Verificējot jūsu tālruņa numuru, radās problēma</translation>

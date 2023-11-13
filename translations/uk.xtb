@@ -45,8 +45,8 @@
 <translation id="1799407952500261728">Острови Кука</translation>
 <translation id="1870056762032541323">Неправильний код. Повторіть спробу.</translation>
 <translation id="1898579907513173256">Макао</translation>
-<translation id="1929332760123475919"><ph name="P_START" />Вітаємо, <ph name="DISPLAY_NAME" />!<ph name="P_END" /></translation>
-<translation id="1966996824429980990">Видалити обліковий запис</translation>
+<translation id="1912929493041975510">Пароль має складатися принаймні із 6 символів</translation>
+<translation id="1933044638365301516">Увійти, використовуючи <ph name="STRING" /></translation>
 <translation id="1987722456379605552">Введіть 6-значний код, який ми надіслали на номер <ph name="START_LINK" /><ph name="PHONE_NUMBER" /><ph name="END_LINK" /></translation>
 <translation id="2016421613709283485">Виконайте інструкції з відновлення пароля, надіслані на адресу <ph name="PH_1" />.</translation>
 <translation id="2035855087334775326">Угорщина</translation>
@@ -54,7 +54,6 @@
 <translation id="2046207054419739276">Сполучені Штати Америки</translation>
 <translation id="2049229571938383319">Сен-Бартельмі</translation>
 <translation id="2058731785647385204">Монтсеррат</translation>
-<translation id="2070709910567585968">Надійний пароль має містити принаймні 6 символів та комбінацію літер і цифр</translation>
 <translation id="2074008538308369451">Умови використання</translation>
 <translation id="2089802663554186342">Сеанс завершено</translation>
 <translation id="2108717231438756650">Велика Британія</translation>
@@ -314,9 +313,10 @@
 <translation id="6192657410634245771">Алжир</translation>
 <translation id="6213969168046789596">Ви ввели неправильний пароль забагато разів. Спробуйте за кілька хвилин.</translation>
 <translation id="6216759405419177713">Острів Норфолк</translation>
-<translation id="6245066275978703471">Номер телефону підтверджено автоматично</translation>
-<translation id="6269083314054226194">Помилка мережі. Перевірте інтернет-з’єднання.</translation>
-<translation id="6295157125625453859">Підтверджено</translation>
+<translation id="6238170540438416559">Торкаючись кнопки "<ph name="PH_1" />", ви приймаєте такий документ: <ph name="PP" />. Вам може надійти SMS-повідомлення. За SMS і використання трафіку може стягуватися плата.</translation>
+<translation id="6265373887273416711">Підтвердити номер телефону</translation>
+<translation id="6283536862756552051">Щоб змінити пароль, спершу введіть поточний.</translation>
+<translation id="6299890279889400823">Назад</translation>
 <translation id="6316446940976157217">Індія</translation>
 <translation id="6327723482938582895">Бенін</translation>
 <translation id="6338643731889005578">Продовжити</translation>
@@ -369,7 +369,7 @@
 <translation id="6961220857430789248">Посилання для входу та додаткові вказівки надіслано на адресу <ph name="STRING" />. Дотримуйтеся їх, щоб увійти в обліковий запис.</translation>
 <translation id="6984204927251307445">Підтвердьте електронну адресу</translation>
 <translation id="6996552808101270965">Докладніше</translation>
-<translation id="6999773882165218263">Ім’я та прізвище</translation>
+<translation id="6999773882165218263">Ім’я і прізвище</translation>
 <translation id="7012506961150923116">Гренада</translation>
 <translation id="7024571478138322659">Західна Сахара</translation>
 <translation id="7025117765722694556">У поточному стані системи запит не можна виконати.</translation>
@@ -457,7 +457,7 @@
 <translation id="8448940737083561161">Кірибаті</translation>
 <translation id="847294590390666986">Тайвань</translation>
 <translation id="8477554788963470892">Сьєрра-Леоне</translation>
-<translation id="8498398269542501379">Перевірте – можливо, електронний лист позначено як спам або відфільтровано.</translation>
+<translation id="8498398269542501379">Перевірте – можливо, електронний лист позначено як спам або відфільтровано.</translation>
 <translation id="8505200776212389923">Підтвердження…</translation>
 <translation id="8505941919386646914">Мартиніка</translation>
 <translation id="8534746304953308378">Того</translation>

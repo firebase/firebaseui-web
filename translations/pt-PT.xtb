@@ -19,7 +19,7 @@
 <translation id="1297168472480293352">Guatemala</translation>
 <translation id="1307255433239736397"><ph name="START_PARAGRAPH" />Ocorreu um erro ao remover o seu segundo fator.<ph name="END_PARAGRAPH" /><ph name="START_PARAGRAPH" />Experimente removê-lo novamente. Se isso não funcionar, contacte o apoio técnico para obter assistência.<ph name="END_PARAGRAPH" /></translation>
 <translation id="1310034618729602982">Experimente atualizar o seu email novamente</translation>
-<translation id="1312824004897469797">Ocorreu um erro de rede. Tente novamente mais tarde.</translation>
+<translation id="1312824004897469797">Ocorreu um erro de rede. Tente mais tarde.</translation>
 <translation id="1315809131562953678">Introduza um número de telefone válido</translation>
 <translation id="1335716056288807013">Ao tocar em Validar, indica que aceita os <ph name="START_LINK_1" />Termos de Utilização<ph name="END_LINK" /> e a <ph name="START_LINK_2" />Política de Privacidade<ph name="END_LINK" />. Pode gerar o envio de uma SMS. Podem aplicar-se tarifas de dados e de mensagens.</translation>
 <translation id="137210131544215127">Introduza a palavra-passe</translation>
@@ -45,8 +45,8 @@
 <translation id="1799407952500261728">Ilhas Cook</translation>
 <translation id="1870056762032541323">Código errado. Tente novamente.</translation>
 <translation id="1898579907513173256">Macau</translation>
-<translation id="1929332760123475919"><ph name="P_START" />Olá, <ph name="DISPLAY_NAME" />,<ph name="P_END" /></translation>
-<translation id="1966996824429980990">Eliminar conta</translation>
+<translation id="1912929493041975510">A palavra-passe tem de ter, pelo menos, 6 caracteres</translation>
+<translation id="1933044638365301516">Iniciar sessão com <ph name="STRING" /></translation>
 <translation id="1987722456379605552">Introduza o código de 6 dígitos que enviámos para <ph name="START_LINK" /><ph name="PHONE_NUMBER" /><ph name="END_LINK" /></translation>
 <translation id="2016421613709283485">Siga as instruções enviadas para <ph name="PH_1" /> para recuperar a palavra-passe.</translation>
 <translation id="2035855087334775326">Hungria</translation>
@@ -54,7 +54,6 @@
 <translation id="2046207054419739276">Estados Unidos</translation>
 <translation id="2049229571938383319">São Bartolomeu</translation>
 <translation id="2058731785647385204">Monserrate</translation>
-<translation id="2070709910567585968">Para criar uma palavra-passe forte é necessário utilizar, no mínimo, 6 caracteres e uma combinação de letras e de números</translation>
 <translation id="2074008538308369451">Termos de Utilização</translation>
 <translation id="2089802663554186342">Sessão terminada</translation>
 <translation id="2108717231438756650">Reino Unido</translation>
@@ -306,14 +305,15 @@
 <ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="6132202686885223981">Certifique-se de que a sua caixa de entrada não está a ficar sem espaço disponível nem está com outros problemas relacionados com as definições da caixa de entrada.</translation>
 <translation id="6135589730599211649">O cliente especificou uma alteração inválida.</translation>
-<translation id="6143147250106939258">A quota para esta operação foi excedida. Tente novamente mais tarde.</translation>
+<translation id="6143147250106939258">A quota para esta operação foi excedida. Tente mais tarde.</translation>
 <translation id="6189573836664806798">Paraguai</translation>
 <translation id="6192657410634245771">Argélia</translation>
 <translation id="6213969168046789596">Introduziu uma palavra-passe errada demasiadas vezes. Tente novamente dentro de alguns minutos.</translation>
 <translation id="6216759405419177713">Ilha Norfolk</translation>
-<translation id="6245066275978703471">Número de telefone verificado automaticamente</translation>
-<translation id="6269083314054226194">Erro de rede. Verifique a sua ligação à Internet.</translation>
-<translation id="6295157125625453859">Validado!</translation>
+<translation id="6238170540438416559">Ao tocar em "<ph name="PH_1" />", indica que aceita a nossa <ph name="PP" />. Pode gerar o envio de uma SMS. Podem aplicar-se tarifas de mensagens e dados.</translation>
+<translation id="6265373887273416711">Validar o número de telefone</translation>
+<translation id="6283536862756552051">Para alterar a palavra-passe, primeiro tem de introduzir a palavra-passe atual.</translation>
+<translation id="6299890279889400823">Anterior</translation>
 <translation id="6316446940976157217">Índia</translation>
 <translation id="6327723482938582895">Benim</translation>
 <translation id="6338643731889005578">Continuar</translation>
@@ -382,7 +382,7 @@
 <translation id="7192078949090526171">São Marino</translation>
 <translation id="7197455001919474950">Chipre</translation>
 <translation id="7198563013006562060">Ilhas Salomão</translation>
-<translation id="7207660930894629055">Pretende continuar com <ph name="USER_EMAIL" />?</translation>
+<translation id="7207660930894629055">Quer continuar com <ph name="USER_EMAIL" />?</translation>
 <translation id="720983450833499456">Para continuar a iniciar sessão com <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> neste dispositivo, tem de recuperar a palavra-passe.</translation>
 <translation id="7223410082658239002">Maldivas</translation>
 <translation id="7254028881697834212">São Tomé e Príncipe</translation>
@@ -410,21 +410,21 @@
 <translation id="7643408533407091568">Já utilizou <ph name="EMAIL_ADDR" /> para iniciar sessão. Introduza a palavra-passe da conta em questão.</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{A palavra-passe não é suficientemente forte. Utilize, pelo menos, <ph name="PH_1" /> caráter e uma combinação de letras e números}other{A palavra-passe não é suficientemente forte. Utilize, pelo menos, <ph name="PH_1" /> caracteres e uma combinação de letras e números}}</translation>
 <translation id="7699755204074920022">Zimbabué</translation>
-<translation id="7746977132739352062">Pedido não autenticado devido a token OAuth em falta, inválido ou expirado.</translation>
+<translation id="7746977132739352062">Pedido não autenticado devido o token OAuth em falta, inválido ou expirado.</translation>
 <translation id="7782885946428624225">Ocorreu um problema ao validar o número de telefone</translation>
 <translation id="7796914496604415892">Novo dispositivo ou navegador detetado</translation>
 <translation id="786166109137986817">Iniciar sessão em <ph name="DISPLAY_NAME" /></translation>
-<translation id="7868540442111212282">República Checa</translation>
+<translation id="7868540442111212282">Chéquia</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
 <translation id="7926046652648626866">Iniciar sessão com o GitHub</translation>
 <translation id="792838323404934335">Gronelândia</translation>
 <translation id="7956645158976161232">Líbia</translation>
 <translation id="8017277252219866084">Quénia</translation>
-<translation id="8028653067082554952">Esta ação apaga todos os dados associados à sua conta e não pode ser anulada. Tem a certeza de que pretende eliminar a sua conta?</translation>
+<translation id="8028653067082554952">Esta ação apaga todos os dados associados à sua conta e não pode ser anulada. Tem a certeza de que quer eliminar a sua conta?</translation>
 <translation id="8033786138248870436">Ao tocar em Validar, pode gerar o envio de uma SMS. Podem aplicar-se tarifas de dados e de mensagens.</translation>
 <translation id="8047183472745080590">Bolívia</translation>
 <translation id="8047565947836609247">Porto Rico</translation>
-<translation id="8055755007915250245">Pretende desassociar a conta?</translation>
+<translation id="8055755007915250245">Quer desassociar a conta?</translation>
 <translation id="8063505483150915580">Ilha do Natal</translation>
 <translation id="8077378925683571933">
 <ph name="P_START" />Obrigado,<ph name="P_END" />
@@ -493,7 +493,7 @@
 <translation id="9156150178611681179">Palavra-passe</translation>
 <translation id="9168877696443530714">República Centro-Africana</translation>
 <translation id="9186194643192393179">Curaçau</translation>
-<translation id="9193130710600355008">Bloqueámos todos os pedidos deste dispositivo devido a atividade invulgar. Tente novamente mais tarde.</translation>
+<translation id="9193130710600355008">Bloqueámos todos os pedidos deste dispositivo devido a atividade invulgar. Tente mais tarde.</translation>
 <translation id="919456844206936371">Tunísia</translation>
 <translation id="9209678713072395487">Palavra-passe alterada</translation>
 <translation id="954276184636809129">Grécia</translation>

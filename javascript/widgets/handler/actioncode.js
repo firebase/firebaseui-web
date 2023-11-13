@@ -129,27 +129,36 @@ firebaseui.auth.widget.handler.resetPassword_ = function(
  */
 firebaseui.auth.widget.handler.handlePasswordResetFailure_ = function(
     app, container, opt_component, opt_error) {
-  var errorCode = opt_error && opt_error['code'];
-  if (errorCode == 'auth/weak-password') {
+  const errorCode = opt_error && opt_error['code'];
+  if (errorCode === 'auth/weak-password') {
     // Handles this error differently as it just requires to display a message
     // to the user to use a longer password.
-    var errorMessage =
+    const errorMessage =
         firebaseui.auth.widget.handler.common.getErrorMessage(opt_error);
     firebaseui.auth.ui.element.setValid(
         opt_component.getNewPasswordElement(), false);
     firebaseui.auth.ui.element.show(
         opt_component.getNewPasswordErrorElement(), errorMessage);
     opt_component.getNewPasswordElement().focus();
-    return;
+  } else if (errorCode === 'auth/password-does-not-meet-requirements') {
+    // Pass the error message from the backend which contains all the password
+    // requirements to be met.
+    const errorMessage =
+        firebaseui.auth.widget.handler.common.getErrorMessage(opt_error);
+    firebaseui.auth.ui.element.setValid(
+        opt_component.getNewPasswordElement(), false);
+    firebaseui.auth.ui.element.show(
+        opt_component.getNewPasswordErrorElement(), errorMessage);
+    opt_component.getNewPasswordElement().focus();
+  } else {
+    if (opt_component) {
+      opt_component.dispose();
+    }
+    var component = new firebaseui.auth.ui.page.PasswordResetFailure();
+    component.render(container);
+    // Set current UI component.
+    app.setCurrentComponent(component);
   }
-
-  if (opt_component) {
-    opt_component.dispose();
-  }
-  var component = new firebaseui.auth.ui.page.PasswordResetFailure();
-  component.render(container);
-  // Set current UI component.
-  app.setCurrentComponent(component);
 };
 
 

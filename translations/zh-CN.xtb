@@ -25,17 +25,18 @@
 <translation id="137210131544215127">请输入您的密码</translation>
 <translation id="1393433815796487579">完成</translation>
 <translation id="1412449974349991050">海地</translation>
-<translation id="144766329299583285">如果您并未请求更改您的登录电子邮件地址，那么可能是有人正在试图访问您的帐号，您应该<ph name="START_LINK" />立即更改您的密码<ph name="END_LINK" />。</translation>
+<translation id="144766329299583285">如果您并未请求更改您的登录电子邮件地址，那么可能是有人正在试图访问您的账号，您应该<ph name="START_LINK" />立即更改您的密码<ph name="END_LINK" />。</translation>
 <translation id="1449981769524156676">赫德岛和麦克唐纳群岛</translation>
 <translation id="1451880131543823984"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> 已获授权，可以查看所请求的页面。</translation>
-<translation id="1479035434297790822">来自您的 IP 地址的帐号请求过多，请过几分钟再试。</translation>
+<translation id="1479035434297790822">来自您的 IP 地址的账号请求过多，请过几分钟再试。</translation>
 <translation id="1483249363694224399">斯里兰卡</translation>
-<translation id="1507995441600689506">现在您可以使用新帐号登录了</translation>
+<translation id="1507995441600689506">现在您可以使用新账号登录了</translation>
+<translation id="1535200361681091160">输入您的电子邮件地址</translation>
 <translation id="1544981664986460902">客户端指定了无效参数。</translation>
 <translation id="1575848116712334589">乍得</translation>
 <translation id="1630237004390596779"><ph name="STRING" /> 后可重新发送验证码</translation>
 <translation id="1653501608290591291">白俄罗斯</translation>
-<translation id="1667376103923043653">该电子邮件地址没有相匹配的现有帐号。</translation>
+<translation id="1667376103923043653">该电子邮件地址没有相匹配的现有账号。</translation>
 <translation id="173576986138855124">点按“<ph name="PH_1" />”后，系统会向您发送一条短信。这可能会产生短信费用和上网流量费。</translation>
 <translation id="1739056958326110545">圣赫勒拿</translation>
 <translation id="1743026758446868773">巴巴多斯</translation>
@@ -45,18 +46,16 @@
 <translation id="1799407952500261728">库克群岛</translation>
 <translation id="1870056762032541323">验证码有误，请重试。</translation>
 <translation id="1898579907513173256">澳门</translation>
-<translation id="1929332760123475919"><ph name="P_START" />尊敬的<ph name="DISPLAY_NAME" />：<ph name="P_END" />
-
-您好！</translation>
-<translation id="1966996824429980990">删除帐号</translation>
+<translation id="1912929493041975510">密码长度必须至少为 6 个字符</translation>
+<translation id="1933044638365301516">使用 <ph name="STRING" /> 账号登录</translation>
 <translation id="1987722456379605552">请输入我们发送至 <ph name="START_LINK" /><ph name="PHONE_NUMBER" /><ph name="END_LINK" /> 的 6 位数验证码</translation>
-<translation id="2016421613709283485">请按照发送到 <ph name="PH_1" /> 的说明找回密码。</translation>
+<translation id="1999379687946415948">您的“<ph name="APP_NAME" />”验证码是 <ph name="IDV_CODE_PLACE_HOLDER" />。</translation>
+<translation id="2033662766890821456">重新发送验证码</translation>
 <translation id="2035855087334775326">匈牙利</translation>
 <translation id="2040904406955887821">苏里南</translation>
 <translation id="2046207054419739276">美国</translation>
 <translation id="2049229571938383319">圣巴泰勒米岛</translation>
 <translation id="2058731785647385204">蒙特塞拉特</translation>
-<translation id="2070709910567585968">安全系数高的密码至少包含 6 个字符，由字母和数字组成</translation>
 <translation id="2074008538308369451">服务条款</translation>
 <translation id="2089802663554186342">会话已结束</translation>
 <translation id="2108717231438756650">英国</translation>
@@ -76,6 +75,7 @@
 <translation id="2285049245646335550">佛得角</translation>
 <translation id="2301396996587599046">马其顿</translation>
 <translation id="2310948428656960769">已登录！</translation>
+<translation id="2321152797538991921">密码必须包含非字母数字字符</translation>
 <translation id="2324942959480650701">访客</translation>
 <translation id="2331781584136059536">加纳</translation>
 <translation id="2338909515537249568">您使用的浏览器不支持网络存储。请使用其他浏览器重试。</translation>
@@ -90,7 +90,7 @@
 <translation id="2451742558284013472">摩纳哥</translation>
 <translation id="2460064915291012298">塞舌尔</translation>
 <translation id="2490672522100125425">已移除用于第二步身份验证的 <ph name="START_STRONG" /><ph name="FACTOR_ID" /> <ph name="PHONE_NUMBER" /><ph name="END_STRONG" />。</translation>
-<translation id="2494962141967044042">当前匿名用户未能升级。此非匿名凭据已与另一用户帐号关联。</translation>
+<translation id="2494962141967044042">当前匿名用户未能升级。此非匿名凭据已与另一用户账号关联。</translation>
 <translation id="2541179214468543429">您输入错误密码的次数过多，请过几分钟再试。</translation>
 <translation id="2561560038714758184">安全</translation>
 <translation id="2561835578785502516">您的密码重置请求已过期，或者相关链接已被使用</translation>
@@ -105,7 +105,7 @@
 <translation id="2621854044487969847">英属维尔京群岛</translation>
 <translation id="2623430226615357954">关闭</translation>
 <translation id="2626214972556632989">请输入有效的电话号码</translation>
-<translation id="2652952163277051394">此应用不支持这种类型的帐号</translation>
+<translation id="2652952163277051394">此应用不支持这种类型的账号</translation>
 <translation id="2660271277401013037">操作代码无效。如果该代码格式有误、已过期或已被使用，就可能会发生这种情况。</translation>
 <translation id="2665022736179407256">此代码已过期。</translation>
 <translation id="2668496398414877352">科索沃</translation>
@@ -115,10 +115,10 @@
 <translation id="2741235824871026219">验证</translation>
 <translation id="2752984808025184019">南非</translation>
 <translation id="2760636260031093254">请输入您的电子邮件地址以继续</translation>
-<translation id="276938411216176478">用户帐号已被管理员停用。</translation>
+<translation id="276938411216176478">用户账号已被管理员停用。</translation>
 <translation id="2782685789517131804">系统已将登录电子邮件和附加说明发送至 <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />。请查收电子邮件以完成登录。</translation>
 <translation id="2824267666257947103">输入您的密码</translation>
-<translation id="2828509010894808185">创建帐号</translation>
+<translation id="2828509010894808185">创建账号</translation>
 <translation id="2834770837848769530">阿富汗</translation>
 <translation id="2884525438023347369">点按“<ph name="BTN" />”即表示您同意 <ph name="TOS" />。</translation>
 <translation id="2909392332969582158">加拿大</translation>
@@ -141,8 +141,9 @@
 <translation id="3215050409577090361">在对您的请求进行身份验证时遇到了问题。请再次访问将您重定向至此页面的网址，以重新启动身份验证流程。</translation>
 <translation id="3216149523061905579">多米尼克</translation>
 <translation id="3223688630903046698">新密码</translation>
+<translation id="3245143966477136343">密码必须包含小写字符</translation>
 <translation id="3250864391349648273">加蓬</translation>
-<translation id="3259479674319858599">您已经使用了 <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />。请使用 <ph name="IDP_DISPLAY_NAME" /> 帐号登录以继续操作。</translation>
+<translation id="3259479674319858599">您已经使用了 <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />。请使用 <ph name="IDP_DISPLAY_NAME" /> 账号登录以继续操作。</translation>
 <translation id="3275852444431525182">新西兰</translation>
 <translation id="3314478375063334511">缅甸</translation>
 <translation id="3361878270020566601">冰岛</translation>
@@ -150,14 +151,14 @@
 <translation id="3372254675985592547">古巴</translation>
 <translation id="3394519231857398207">法国</translation>
 <translation id="3398534025670554188">中国</translation>
-<translation id="3409391354412142307">您已经使用了 <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />。您可以先使用下方电子邮件链接登录，然后将<ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" />帐号与 <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> 关联起来。</translation>
+<translation id="3409391354412142307">您已经使用了 <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />。您可以先使用下方电子邮件链接登录，然后将<ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" />账号与 <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> 关联起来。</translation>
 <translation id="3413300222170818119">赞比亚</translation>
 <translation id="3429213469114503705">梵蒂冈</translation>
 <translation id="3434621886769337032">冈比亚</translation>
 <translation id="3472358534605257432">完成</translation>
 <translation id="3479685026618611556">取消</translation>
 <translation id="3481131180097895739">出现未知的服务器错误。</translation>
-<translation id="3487364398525389372">请输入您的帐号名称</translation>
+<translation id="3487364398525389372">请输入您的账号名称</translation>
 <translation id="3521753471343796628">伊拉克</translation>
 <translation id="354888504916863713">越南</translation>
 <translation id="3550380781997195832">该电子邮件地址不正确</translation>
@@ -204,7 +205,7 @@
 <translation id="4329551945958214898">日本</translation>
 <translation id="4331763189922924781">黑山</translation>
 <translation id="4372962701784304822">莫桑比克</translation>
-<translation id="4377158577300329881">该电子邮件地址没有相匹配的现有帐号</translation>
+<translation id="4377158577300329881">该电子邮件地址没有相匹配的现有账号</translation>
 <translation id="4386334763822785837">土耳其</translation>
 <translation id="4413304190485210039">塔吉克斯坦</translation>
 <translation id="4432634970196611353">老挝</translation>
@@ -213,13 +214,14 @@
 <translation id="4498504413765490964">洪都拉斯</translation>
 <translation id="450385255996536115">操作已超时。</translation>
 <translation id="4515732781724470190">尼日尔</translation>
-<translation id="4521614244485847733">该电子邮件地址没有相匹配的现有帐号</translation>
+<translation id="4521614244485847733">该电子邮件地址没有相匹配的现有账号</translation>
 <translation id="4556476996891737119">约旦</translation>
 <translation id="4571870355114729513">请按照发送到 <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> 的说明找回密码</translation>
 <translation id="4588392627302012849">使用电子邮件地址登录</translation>
 <translation id="4595119411041064617">您点按“<ph name="PH_1" />”后，系统会向您发送一条短信。这可能会产生短信费用和上网流量费。</translation>
+<translation id="4603232692404395592">密码最多只能包含 <ph name="MAX_PASSWORD_LENGTH" /> 个字符</translation>
 <translation id="4632709875751031323">俄罗斯</translation>
-<translation id="4644169548516814280">此电子邮件地址已被其他帐号使用</translation>
+<translation id="4644169548516814280">此电子邮件地址已被其他账号使用</translation>
 <translation id="4692014002063276828">波兰</translation>
 <translation id="4723701728629289714">以色列</translation>
 <translation id="4725154639671888461">遇到错误</translation>
@@ -233,17 +235,17 @@
 <translation id="4871106926303956169">特克斯和凯科斯群岛</translation>
 <translation id="4877597386645466815"><ph name="TIME_REMAINING" /> 后可重新发送验证码</translation>
 <translation id="4900116391137165411">
-<ph name="P_START" />您在<ph name="APP_NAME" />中的帐号新增了一个电话号码 (<ph name="SECOND_FACTOR" />)，以实现两步验证。<ph name="P_END" />
+<ph name="P_START" />您在<ph name="APP_NAME" />中的账号新增了一个电话号码 (<ph name="SECOND_FACTOR" />)，以实现两步验证。<ph name="P_END" />
 <ph name="P_START" />如果您没有添加这个用于两步验证的电话号码，请点击下面的链接将其移除。<ph name="P_END" />
 <ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">无法移除您的第二重身份验证</translation>
 <translation id="4955175001894453989">添加密码</translation>
 <translation id="496366313824211679">萨尔瓦多</translation>
-<translation id="4982483807073820954">要更改帐号的密码，您需要重新登录。</translation>
+<translation id="4982483807073820954">要更改账号的密码，您需要重新登录。</translation>
 <translation id="4991626049082973728">塞尔维亚</translation>
 <translation id="4991892293325936102">伯利兹</translation>
 <translation id="5042136001778337830"><ph name="START_PARAGRAPH" />电子邮件地址：<ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /><ph name="END_PARAGRAPH" /></translation>
-<translation id="5059105734231232362">为了完成此流程，顺利将您的<ph name="IDP_DISPLAY_NAME" />帐号与此电子邮件地址关联起来，您必须使用相同的设备或浏览器打开链接。</translation>
+<translation id="5059105734231232362">为了完成此流程，顺利将您的<ph name="IDP_DISPLAY_NAME" />账号与此电子邮件地址关联起来，您必须使用相同的设备或浏览器打开链接。</translation>
 <translation id="5080084639513001393">瑞典</translation>
 <translation id="5080899604429810481">圣马丁岛</translation>
 <translation id="5115661695221894994"><ph name="START_PARAGRAPH" />您要求验证并跟新电子邮件地址的请求已过期，或者相关链接已被使用。<ph name="END_PARAGRAPH" /></translation>
@@ -255,10 +257,10 @@
 <translation id="5323041129469627535">阿曼</translation>
 <translation id="5326139833547026317">荷兰加勒比</translation>
 <translation id="5347459868860672391">电子邮件地址已更新</translation>
-<translation id="5397737236938796917">您现在已成功退出帐号。</translation>
+<translation id="5397737236938796917">您现在已成功退出账号。</translation>
 <translation id="5406620662929585965">使用电话号码登录</translation>
 <translation id="5407010562344541906">电话号码</translation>
-<translation id="5409861738809250803">您已经有帐号了</translation>
+<translation id="5409861738809250803">您已经有账号了</translation>
 <translation id="5410341463946781720">泰国</translation>
 <translation id="5437927869321223252">验证码有误，请重试。</translation>
 <translation id="5444635161362535036">列支敦士登</translation>
@@ -272,7 +274,7 @@
 <translation id="5543493820882105191">输入您的名字</translation>
 <translation id="55439745111619380">阿森松岛</translation>
 <translation id="5569341882117077010">出现网络错误</translation>
-<translation id="5581239183924693195">使用 <ph name="IDP_DISPLAY_NAME" /> 帐号登录</translation>
+<translation id="5581239183924693195">使用 <ph name="IDP_DISPLAY_NAME" /> 账号登录</translation>
 <translation id="5585451911077299623">设置密码</translation>
 <translation id="5602886107840188229">英属印度洋领地</translation>
 <translation id="5604510594682955626">乌干达</translation>
@@ -287,7 +289,7 @@
 <translation id="5699028034244995851">请输入您的电子邮件地址以继续</translation>
 <translation id="5701178667798108817">验证您的电话号码</translation>
 <translation id="5715637701147651513">利比里亚</translation>
-<translation id="5747263508495256858">退出帐号</translation>
+<translation id="5747263508495256858">退出账号</translation>
 <translation id="5771034676910614239">马达加斯加</translation>
 <translation id="5818634293686963864">哈萨克斯坦</translation>
 <translation id="5829301468800336085">正在登录…</translation>
@@ -295,9 +297,9 @@
 <translation id="5840803301882074743">汤加</translation>
 <translation id="5850752921356750845">瓦利斯和富图纳</translation>
 <translation id="5853516492584814656">无法更新您的电子邮件地址</translation>
-<translation id="5905720181746284549">您已经使用 <ph name="STRING" /> 登录了，请输入该帐号的密码。</translation>
+<translation id="5905720181746284549">您已经使用 <ph name="STRING" /> 登录了，请输入该账号的密码。</translation>
 <translation id="5921101578434778028">安圭拉</translation>
-<translation id="5948592577241492942">此电子邮件地址已存在，但未指定任何登录方式。请重置密码以恢复帐号。</translation>
+<translation id="5948592577241492942">此电子邮件地址已存在，但未指定任何登录方式。请重置密码以恢复账号。</translation>
 <translation id="5985902459796151462">多米尼加共和国</translation>
 <translation id="5987586156626209007">泽西岛</translation>
 <translation id="5989709845715452405">找回密码</translation>
@@ -313,26 +315,29 @@
 <translation id="6132202686885223981">确保收件箱空间充足，且不存在其他与收件箱设置有关的问题。</translation>
 <translation id="6135589730599211649">客户端指定了无效范围。</translation>
 <translation id="6143147250106939258">已超出此操作的配额，请稍后再试。</translation>
+<translation id="615787395595800956">有密码要求未满足：</translation>
 <translation id="6189573836664806798">巴拉圭</translation>
 <translation id="6192657410634245771">阿尔及利亚</translation>
 <translation id="6213969168046789596">您输入错误密码的次数过多，请过几分钟再试。</translation>
 <translation id="6216759405419177713">诺福克岛</translation>
-<translation id="6245066275978703471">电话号码已自动验证</translation>
-<translation id="6269083314054226194">网络错误，请检查您的互联网连接。</translation>
-<translation id="6295157125625453859">已验证！</translation>
+<translation id="6238170540438416559">点按“<ph name="PH_1" />”即表示您接受我们的<ph name="PP" />。系统会向您发送一条短信。这可能会产生短信费用和上网流量费。</translation>
+<translation id="6265373887273416711">验证您的电话号码</translation>
+<translation id="6283536862756552051">要更改密码，您需要先输入当前的密码。</translation>
+<translation id="6299890279889400823">返回</translation>
 <translation id="6316446940976157217">印度</translation>
 <translation id="6327723482938582895">贝宁</translation>
 <translation id="6338643731889005578">继续</translation>
+<translation id="6355621963154078138">密码必须包含数字字符</translation>
 <translation id="6359400968059656782">现在您可以使用新密码登录了</translation>
 <translation id="6363241121027868570">阿鲁巴</translation>
 <translation id="6377222208046638522">卢森堡</translation>
 <translation id="6381974517529371884">法罗群岛</translation>
 <translation id="6443180961828792673">科索沃</translation>
 <translation id="6450170205342035038">保加利亚</translation>
-<translation id="6470057025778734988">您将不能再使用您的帐号登录</translation>
+<translation id="6470057025778734988">您将不能再使用您的账号登录</translation>
 <translation id="6472297146424049005">检查互联网连接。</translation>
 <translation id="6483116480230343278">正在注册…</translation>
-<translation id="6494734506607758748">要更改与您的帐号相关联的电子邮件地址，您需要重新登录。</translation>
+<translation id="6494734506607758748">要更改与您的账号相关联的电子邮件地址，您需要重新登录。</translation>
 <translation id="6508909904815637928">瓦努阿图</translation>
 <translation id="6520863029476703422">美属萨摩亚</translation>
 <translation id="6527597037551425211">巴西</translation>
@@ -377,7 +382,7 @@
 <translation id="7024571478138322659">西撒哈拉</translation>
 <translation id="7025117765722694556">请求无法在当前系统状态下执行。</translation>
 <translation id="7062299334696934251">发生未知错误。</translation>
-<translation id="7064251114893721966">您已经使用 <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> 登录了，请输入该帐号的密码。</translation>
+<translation id="7064251114893721966">您已经使用 <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> 登录了，请输入该账号的密码。</translation>
 <translation id="7085136866191400000">已发送登录电子邮件</translation>
 <translation id="7089485669419398254">爱尔兰</translation>
 <translation id="7093343209860483088">刚果民主共和国</translation>
@@ -407,13 +412,13 @@
 <translation id="7477065998516229434">服务条款</translation>
 <translation id="7493245640904888019">直布罗陀</translation>
 <translation id="7510939244824757986">坦桑尼亚</translation>
-<translation id="7526532581122816497">已关联的帐号</translation>
+<translation id="7526532581122816497">已关联的账号</translation>
 <translation id="7560587702704358921">圣皮埃尔和密克隆群岛</translation>
 <translation id="7569285452790032317">索马里</translation>
 <translation id="7592224526951017144">德国</translation>
 <translation id="7595933825828475368">无法收到电子邮件？</translation>
 <translation id="7615083347713899917">吉尔吉斯斯坦</translation>
-<translation id="7643408533407091568">您已经使用 <ph name="EMAIL_ADDR" /> 登录了，请输入该帐号的密码。</translation>
+<translation id="7643408533407091568">您已经使用 <ph name="EMAIL_ADDR" /> 登录了，请输入该账号的密码。</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{密码的安全系数不够高。请使用至少 <ph name="PH_1" /> 个字符，并混合使用字母和数字}other{密码的安全系数不够高。请使用至少 <ph name="PH_1" /> 个字符，并混合使用字母和数字}}</translation>
 <translation id="7699755204074920022">津巴布韦</translation>
 <translation id="7746977132739352062">由于 OAuth 令牌丢失、无效或过期，请求未通过身份验证。</translation>
@@ -421,21 +426,21 @@
 <translation id="7790301903034097323">选择密码</translation>
 <translation id="7796914496604415892">检测到新设备或新浏览器</translation>
 <translation id="786166109137986817">登录<ph name="DISPLAY_NAME" /></translation>
+<translation id="7863575218808091551">密码必须包含大写字符</translation>
 <translation id="7868540442111212282">捷克</translation>
 <translation id="7874584525604421364">图瓦卢</translation>
-<translation id="7926046652648626866">使用 GitHub 帐号登录</translation>
+<translation id="7926046652648626866">使用 GitHub 账号登录</translation>
 <translation id="792838323404934335">格陵兰</translation>
 <translation id="7956645158976161232">利比亚</translation>
 <translation id="8017277252219866084">肯尼亚</translation>
-<translation id="8028653067082554952">此操作将清空与您的帐号相关联的所有数据，并且无法撤消。确定要删除帐号吗？</translation>
+<translation id="8028653067082554952">此操作将清空与您的账号相关联的所有数据，并且无法撤消。确定要删除账号吗？</translation>
 <translation id="8033786138248870436">点按“验证”后，系统会向您发送一条短信。这可能会产生短信费用和上网流量费。</translation>
 <translation id="8047183472745080590">玻利维亚</translation>
 <translation id="8047565947836609247">波多黎各</translation>
-<translation id="8055755007915250245">要取消帐号关联吗？</translation>
+<translation id="8055755007915250245">要取消账号关联吗？</translation>
 <translation id="8063505483150915580">圣诞岛</translation>
 <translation id="8077378925683571933">
 <ph name="P_START" />此致<ph name="P_END" />
-
 <ph name="P_START" /><ph name="APP_NAME" />团队敬上<ph name="P_END" /></translation>
 <translation id="8130982192244529100">要发送验证码，请提供接收人的电话号码。</translation>
 <translation id="8138904368098176683">苏丹</translation>
@@ -447,7 +452,7 @@
 <translation id="8283013172847705078">哥斯达黎加</translation>
 <translation id="8289427665929658971">萨摩亚</translation>
 <translation id="8320813901740734879">
-<ph name="P_START" />您在<ph name="APP_NAME" />中的帐号新增了<ph name="SECOND_FACTOR" />，以实现双重身份验证。<ph name="P_END" />
+<ph name="P_START" />您在<ph name="APP_NAME" />中的账号新增了<ph name="SECOND_FACTOR" />，以实现双重身份验证。<ph name="P_END" />
 <ph name="P_START" />如果您没有请求过此项修改，请使用以下链接撤销该更改。<ph name="P_END" />
 <ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="8335491854074085727">马里</translation>
@@ -470,8 +475,8 @@
 <translation id="8505200776212389923">正在验证…</translation>
 <translation id="8505941919386646914">马提尼克</translation>
 <translation id="8534746304953308378">多哥</translation>
-<translation id="8572093925387077451">您已经有帐号了</translation>
-<translation id="8585285847459057945">您的“<ph name="APP_NAME" />”帐号的登录电子邮件地址已更改</translation>
+<translation id="8572093925387077451">您已经有账号了</translation>
+<translation id="8585285847459057945">您的“<ph name="APP_NAME" />”账号的登录电子邮件地址已更改</translation>
 <translation id="8585655327529919573">向此电子邮件地址发送关于如何重置密码的说明</translation>
 <translation id="8652838224332661203">瑙鲁</translation>
 <translation id="8657280305228520442">文莱</translation>
@@ -492,16 +497,18 @@
 <translation id="8869797682387766327">马恩岛</translation>
 <translation id="8893950153780006385">马来西亚</translation>
 <translation id="8895840173743975193">科科斯（基林）群岛</translation>
-<translation id="8916080112145514151">如果您仍希望关联您的<ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" />帐号，请在您最初开始登录时所用的设备上打开此链接。否则，请点按“继续”以在当前设备上登录。</translation>
+<translation id="8916080112145514151">如果您仍希望关联您的<ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" />账号，请在您最初开始登录时所用的设备上打开此链接。否则，请点按“继续”以在当前设备上登录。</translation>
 <translation id="8920674952994839257">重试</translation>
-<translation id="8939353296336237380">您最初的目的是将<ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" />与您的电子邮件帐号关联起来，但是您换用其他未登录的设备打开了此链接。</translation>
-<translation id="8971555482255213064"><ph name="PH_1" /> 后可重新发送验证码</translation>
+<translation id="8939353296336237380">您最初的目的是将<ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" />与您的电子邮件账号关联起来，但是您换用其他未登录的设备打开了此链接。</translation>
+<translation id="8955469172512804617">点按“<ph name="BTN" />”即表示您同意 <ph name="PP" />。</translation>
+<translation id="8980953965669178372">完成</translation>
 <translation id="8984161590699631096">摩洛哥</translation>
-<translation id="8994098794339484800">如果您不认识此设备，那么可能是有人在试图访问您的帐号。建议您<ph name="START_LINK" />立即更改密码<ph name="END_LINK" />。</translation>
+<translation id="8994098794339484800">如果您不认识此设备，那么可能是有人在试图访问您的账号。建议您<ph name="START_LINK" />立即更改密码<ph name="END_LINK" />。</translation>
 <translation id="900153878296575829">孟加拉国</translation>
 <translation id="9022632332691561239">电话号码</translation>
 <translation id="9028063588419847334">芬兰</translation>
 <translation id="9078135685219203661">阿拉伯联合酋长国</translation>
+<translation id="9085311482535098646">密码必须包含至少 <ph name="MIN_PASSWORD_LENGTH" /> 个字符</translation>
 <translation id="9121203582272050974">您的电子邮件地址已经验证并更改</translation>
 <translation id="9156150178611681179">密码</translation>
 <translation id="9168877696443530714">中非共和国</translation>

@@ -45,8 +45,8 @@
 <translation id="1799407952500261728">Кукова Острва</translation>
 <translation id="1870056762032541323">Кôд није тачан. Пробајте поново.</translation>
 <translation id="1898579907513173256">Макао</translation>
-<translation id="1929332760123475919"><ph name="P_START" />Здраво <ph name="DISPLAY_NAME" />,<ph name="P_END" /></translation>
-<translation id="1966996824429980990">Избриши налог</translation>
+<translation id="1912929493041975510">Лозинка мора да има најмање 6 знакова</translation>
+<translation id="1933044638365301516">Пријавите се помоћу <ph name="STRING" />-а</translation>
 <translation id="1987722456379605552">Унесите 6-цифрени кôд који смо послали на <ph name="START_LINK" /><ph name="PHONE_NUMBER" /><ph name="END_LINK" /></translation>
 <translation id="2016421613709283485">Пратите упутства која су вам послана на <ph name="PH_1" /> да бисте повратили лозинку.</translation>
 <translation id="2035855087334775326">Мађарска</translation>
@@ -54,7 +54,6 @@
 <translation id="2046207054419739276">Сједињене Америчке Државе</translation>
 <translation id="2049229571938383319">Свети Бартоломеј</translation>
 <translation id="2058731785647385204">Монсерат</translation>
-<translation id="2070709910567585968">Јаке лозинке имају бар 6 знакова, уз комбинацију слова и бројева</translation>
 <translation id="2074008538308369451">Услови коришћења услуге</translation>
 <translation id="2089802663554186342">Сесија је завршена</translation>
 <translation id="2108717231438756650">Уједињено Краљевство</translation>
@@ -277,7 +276,7 @@
 <translation id="5611074838440670731">Овај број телефона је употребљен превише пута</translation>
 <translation id="5630396263271753991">Еритреја</translation>
 <translation id="5636713964613741614">Маурицијус</translation>
-<translation id="5642254620426025006">Нешто није у реду. Пробајте поново.</translation>
+<translation id="5642254620426025006">Дошло је до грешке. Пробајте поново.</translation>
 <translation id="5649486931917149784">Лозинка</translation>
 <translation id="5664080586064341046">Сент Китс</translation>
 <translation id="5668881954117611594">Назад</translation>
@@ -314,9 +313,10 @@
 <translation id="6192657410634245771">Алжир</translation>
 <translation id="6213969168046789596">Превише пута сте унели нетачну лозинку. Пробајте поново за пар минута.</translation>
 <translation id="6216759405419177713">Острво Норфолк</translation>
-<translation id="6245066275978703471">Број телефона је аутоматски верификован</translation>
-<translation id="6269083314054226194">Дошло је до мрежне грешке, проверите интернет везу.</translation>
-<translation id="6295157125625453859">Потврђено је!</translation>
+<translation id="6238170540438416559">Ако додирнете „<ph name="PH_1" />“, потврђујете да прихватате документ <ph name="PP" />. Можда ћете послати SMS. Могу да вам буду наплаћени трошкови слања поруке и преноса података.</translation>
+<translation id="6265373887273416711">Верификујте број телефона</translation>
+<translation id="6283536862756552051">Да бисте променили лозинку, треба да унесете тренутну лозинку.</translation>
+<translation id="6299890279889400823">Назад</translation>
 <translation id="6316446940976157217">Индија</translation>
 <translation id="6327723482938582895">Бенин</translation>
 <translation id="6338643731889005578">Настави</translation>

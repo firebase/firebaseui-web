@@ -21,7 +21,7 @@
 <translation id="1310034618729602982">ایمیلتان را دوباره به‌روزرسانی کنید</translation>
 <translation id="1312824004897469797">خطای شبکه رخ داد. بعداً دوباره امتحان کنید.</translation>
 <translation id="1315809131562953678">شماره تلفن معتبری وارد کنید</translation>
-<translation id="1335716056288807013">درصورت ضربه‌زدن روی «تأیید»، موافقتتان را با <ph name="START_LINK_1" />شرایط خدمات<ph name="END_LINK" /> و <ph name="START_LINK_2" />خطمشی حریم‌خصوصی<ph name="END_LINK" /> اعلام می‌کنید. پیامکی ارسال خواهد شد و ممکن است هزینه داده و «پیام» محاسبه شود.</translation>
+<translation id="1335716056288807013">درصورت ضربه‌زدن روی «تأیید»، موافقتتان را با <ph name="START_LINK_1" />شرایط خدمات<ph name="END_LINK" /> و <ph name="START_LINK_2" />خطمشی حریم خصوصی<ph name="END_LINK" /> اعلام می‌کنید. پیامکی ارسال خواهد شد و ممکن است هزینه داده و «پیام» محاسبه شود.</translation>
 <translation id="137210131544215127">گذرواژه‌تان را وارد کنید</translation>
 <translation id="1393433815796487579">انجام شد</translation>
 <translation id="1412449974349991050">هاییتی</translation>
@@ -45,8 +45,8 @@
 <translation id="1799407952500261728">جزایر کوک</translation>
 <translation id="1870056762032541323">کد اشتباه است. دوباره امتحان کنید.</translation>
 <translation id="1898579907513173256">ماکائو</translation>
-<translation id="1929332760123475919"><ph name="P_START" />سلام <ph name="DISPLAY_NAME" />،<ph name="P_END" /></translation>
-<translation id="1966996824429980990">حذف حساب</translation>
+<translation id="1912929493041975510">گذرواژه باید حداقل ۶ نویسه داشته باشد</translation>
+<translation id="1933044638365301516">ورود به سیستم با <ph name="STRING" /></translation>
 <translation id="1987722456379605552">کد ۶ رقمی‌ای که به <ph name="START_LINK" /><ph name="PHONE_NUMBER" /><ph name="END_LINK" /> ارسال کردیم را وارد کنید</translation>
 <translation id="2016421613709283485">برای بازیابی گذرواژه‌تان، دستورالعمل‌های ارسال‌شده به <ph name="PH_1" /> را دنبال کنید.</translation>
 <translation id="2035855087334775326">مجارستان</translation>
@@ -54,7 +54,6 @@
 <translation id="2046207054419739276">ایالات متحده امریکا</translation>
 <translation id="2049229571938383319">سن بارتلمی</translation>
 <translation id="2058731785647385204">مونتسرات</translation>
-<translation id="2070709910567585968">گذرواژه قوی باید حداقل شامل ۶ نویسه و ترکیبی از حروف و اعداد باشد</translation>
 <translation id="2074008538308369451">شرایط خدمات</translation>
 <translation id="2089802663554186342">جلسه تمام شد</translation>
 <translation id="2108717231438756650">پادشاهی متحد بریتانیا</translation>
@@ -65,7 +64,7 @@
 <translation id="2187260952722791093">تأیید شد!</translation>
 <translation id="2192561962270021282">شماره تلفن خود را وارد کنید</translation>
 <translation id="2206856445831770486">GitHub</translation>
-<translation id="2223717216014247341">خط‌مشی حریم‌خصوصی</translation>
+<translation id="2223717216014247341">خط‌مشی حریم خصوصی</translation>
 <translation id="2224563296468523455">گوام</translation>
 <translation id="2245182894886860848">یا از سهمیه منبع خارج شدید یا از حداکثر مجاز فراتر رفتید.</translation>
 <translation id="2249420035688424170">کرواسی</translation>
@@ -134,7 +133,7 @@
 <translation id="3154748063569624719">در اصل می‌خواستید با <ph name="PENDING_EMAIL" /> وارد سیستم شوید</translation>
 <translation id="3164676761565983157">ونزوئلا</translation>
 <translation id="3170526549630869494">مشکل در ورود به سیستم؟</translation>
-<translation id="3204914819635733576">تأیید کنید این خود شما هستید</translation>
+<translation id="3204914819635733576">تأیید کنید این شمایید</translation>
 <translation id="3215050409577090361">هنگام راستی‌آزمایی درخواستتان خطایی رخ داد. لطفاً برای بازراه‌اندازی فرایند راستی‌آزمایی، دوباره به نشانی وبی که شما را به این صفحه هدایت کرد بروید.</translation>
 <translation id="3216149523061905579">دومینیکا</translation>
 <translation id="3223688630903046698">گذرواژه جدید</translation>
@@ -191,7 +190,7 @@
 <translation id="4066104405592701692">استونی</translation>
 <translation id="4147949012570877154">حذف</translation>
 <translation id="4163133799286985193">آرژانتین</translation>
-<translation id="4166504762096983411">درصورت ادامه‌دادن، موافقتتان را با <ph name="START_LINK_1" />شرایط خدمات<ph name="END_LINK" /> و <ph name="START_LINK_2" />خطمشی حریم‌خصوصی<ph name="END_LINK" /> اعلام می‌کنید.</translation>
+<translation id="4166504762096983411">درصورت ادامه‌دادن، موافقتتان را با <ph name="START_LINK_1" />شرایط خدمات<ph name="END_LINK" /> و <ph name="START_LINK_2" />خطمشی حریم خصوصی<ph name="END_LINK" /> اعلام می‌کنید.</translation>
 <translation id="420554669252656972">نشانی ایمیل  جدید را وارد کنید</translation>
 <translation id="4210333062216604630">لغو پیوند</translation>
 <translation id="4242716276491763916">جمهوری گینه</translation>
@@ -314,9 +313,10 @@
 <translation id="6192657410634245771">الجزایر</translation>
 <translation id="6213969168046789596">دفعات خیلی زیادی گذرواژه را نادرست وارد کرده‌اید. لطفاً پس از چند دقیقه دوباره امتحان کنید.</translation>
 <translation id="6216759405419177713">جزیره نورفک</translation>
-<translation id="6245066275978703471">شماره تلفن به‌طور خودکار به‌تأیید رسید</translation>
-<translation id="6269083314054226194">خطای شبکه. اتصال اینترنت را بررسی کنید.</translation>
-<translation id="6295157125625453859">تأیید شد!</translation>
+<translation id="6238170540438416559">درصورت ضربه‌زدن روی «<ph name="PH_1" />»، موافقتتان را با <ph name="PP" /> اعلام می‌کنید. پیامکی ارسال می‌شود. ممکن است هزینه داده و «پیام» محاسبه شود.</translation>
+<translation id="6265373887273416711">تأیید شماره تلفن</translation>
+<translation id="6283536862756552051">برای تغییر گذرواژه‌‌، ابتدا باید گذرواژه کنونی‌تان را وارد کنید.</translation>
+<translation id="6299890279889400823">قبلی</translation>
 <translation id="6316446940976157217">هند</translation>
 <translation id="6327723482938582895">بنین</translation>
 <translation id="6338643731889005578">ادامه</translation>
@@ -344,7 +344,7 @@
 <translation id="6655128609744896303">کد ارسال شد!</translation>
 <translation id="6683477520421532707">رئونیون</translation>
 <translation id="6683810982254923169">بازنشانی دوباره گذرواژه‌ کاربر</translation>
-<translation id="6689542920381638295">ادامه به‌عنوان مهمان</translation>
+<translation id="6689542920381638295">ادامه دادن به‌عنوان مهمان</translation>
 <translation id="6719973195813381061">اکوادور</translation>
 <translation id="6721310522324861790">سنگال</translation>
 <translation id="6724344978634903280">بوتسوانا</translation>
@@ -381,7 +381,7 @@
 <translation id="7118080999850002096">بازیابی گذرواژه</translation>
 <translation id="7150917293543492988">جمهوری کنگو</translation>
 <translation id="7157317431934821052">منبعی که کارخواه قصد ایجادش را داشت از قبل موجود است.</translation>
-<translation id="7174424882502155514">ادامه به‌عنوان مهمان</translation>
+<translation id="7174424882502155514">ادامه دادن به‌عنوان مهمان</translation>
 <translation id="7192078949090526171">سن مارینو</translation>
 <translation id="7197455001919474950">قبرس</translation>
 <translation id="7198563013006562060">جزایر سلیمان</translation>
@@ -424,7 +424,7 @@
 <translation id="792838323404934335">گرینلند</translation>
 <translation id="7956645158976161232">لیبی</translation>
 <translation id="8017277252219866084">کنیا</translation>
-<translation id="8028653067082554952">با این کار همه داده‌های مرتبط با حسابتان پاک می‌شود که قابل واگرد نیست. مطمئنید می‌خواهید حسابتان حذف شود؟</translation>
+<translation id="8028653067082554952">با این کار همه داده‌های مرتبط با حسابتان پاک می‌شود که واگردشدنی نیست. مطمئنید می‌خواهید حسابتان حذف شود؟</translation>
 <translation id="8033786138248870436">با ضربه زدن روی تأیید پیامکی ارسال می‌شود. ممکن است هزینه انتقال داده و پیام اعمال شود.</translation>
 <translation id="8047183472745080590">بولیوی</translation>
 <translation id="8047565947836609247">پورتوریکو</translation>
@@ -458,7 +458,7 @@
 <translation id="847294590390666986">تایوان</translation>
 <translation id="8477554788963470892">سیرالئون</translation>
 <translation id="8498398269542501379">ببینید ایمیل به‌عنوان هرزنامه یا فیلترشده مشخص نشده باشد.</translation>
-<translation id="8505200776212389923">درحال تأیید…</translation>
+<translation id="8505200776212389923">درحال تأیید کردن…</translation>
 <translation id="8505941919386646914">مارتینیک</translation>
 <translation id="8534746304953308378">توگو</translation>
 <translation id="8572093925387077451">از قبل حسابی دارید</translation>

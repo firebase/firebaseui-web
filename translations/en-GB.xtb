@@ -31,6 +31,7 @@
 <translation id="1479035434297790822">Too many account requests are coming from your IP address. Try again in a few minutes.</translation>
 <translation id="1483249363694224399">Sri Lanka</translation>
 <translation id="1507995441600689506">You can now sign in with your new account</translation>
+<translation id="1535200361681091160">Enter your email</translation>
 <translation id="1544981664986460902">Client specified an invalid argument.</translation>
 <translation id="1575848116712334589">Chad</translation>
 <translation id="1630237004390596779">Resend code in <ph name="STRING" /></translation>
@@ -45,16 +46,16 @@
 <translation id="1799407952500261728">Cook Islands</translation>
 <translation id="1870056762032541323">Wrong code. Try again.</translation>
 <translation id="1898579907513173256">Macau</translation>
-<translation id="1929332760123475919"><ph name="P_START" />Hello <ph name="DISPLAY_NAME" />,<ph name="P_END" /></translation>
-<translation id="1966996824429980990">Delete account</translation>
+<translation id="1912929493041975510">The password must be at least six characters long</translation>
+<translation id="1933044638365301516">Sign in with <ph name="STRING" /></translation>
 <translation id="1987722456379605552">Enter the 6-digit code that we sent to <ph name="START_LINK" /><ph name="PHONE_NUMBER" /><ph name="END_LINK" /></translation>
-<translation id="2016421613709283485">Follow the instructions sent to <ph name="PH_1" /> to recover your password.</translation>
+<translation id="1999379687946415948"><ph name="IDV_CODE_PLACE_HOLDER" /> is your code for <ph name="APP_NAME" />.</translation>
+<translation id="2033662766890821456">Resend code</translation>
 <translation id="2035855087334775326">Hungary</translation>
 <translation id="2040904406955887821">Suriname</translation>
 <translation id="2046207054419739276">United States</translation>
 <translation id="2049229571938383319">Saint Barthélemy</translation>
 <translation id="2058731785647385204">Montserrat</translation>
-<translation id="2070709910567585968">Strong passwords have at least 6 characters and a mix of letters and numbers</translation>
 <translation id="2074008538308369451">Terms of Service</translation>
 <translation id="2089802663554186342">Session ended</translation>
 <translation id="2108717231438756650">United Kingdom</translation>
@@ -74,6 +75,7 @@
 <translation id="2285049245646335550">Cape Verde</translation>
 <translation id="2301396996587599046">Macedonia</translation>
 <translation id="2310948428656960769">Signed in!</translation>
+<translation id="2321152797538991921">Password must contain a non-alphanumeric character</translation>
 <translation id="2324942959480650701">Guest</translation>
 <translation id="2331781584136059536">Ghana</translation>
 <translation id="2338909515537249568">The browser you are using does not support Web Storage. Please try again in a different browser.</translation>
@@ -139,6 +141,7 @@
 <translation id="3215050409577090361">An issue was encountered when authenticating your request. Please visit the URL that redirected you to this page again to restart the authentication process.</translation>
 <translation id="3216149523061905579">Dominica</translation>
 <translation id="3223688630903046698">New password</translation>
+<translation id="3245143966477136343">Password must contain a lowercase character</translation>
 <translation id="3250864391349648273">Gabon</translation>
 <translation id="3259479674319858599">You've already used <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" />. Sign in with <ph name="IDP_DISPLAY_NAME" /> to continue.</translation>
 <translation id="3275852444431525182">New Zealand</translation>
@@ -216,6 +219,7 @@
 <translation id="4571870355114729513">Follow the instructions sent to <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> to recover your password</translation>
 <translation id="4588392627302012849">Sign in with email</translation>
 <translation id="4595119411041064617">By tapping '<ph name="PH_1" />', an SMS may be sent. Message &amp; data rates may apply.</translation>
+<translation id="4603232692404395592">Password may contain at most <ph name="MAX_PASSWORD_LENGTH" /> characters</translation>
 <translation id="4632709875751031323">Russia</translation>
 <translation id="4644169548516814280">The email address is already being used by another account</translation>
 <translation id="4692014002063276828">Poland</translation>
@@ -266,7 +270,7 @@
 <translation id="5524360735013196510">Netherlands</translation>
 <translation id="5528189843379142883">Equatorial Guinea</translation>
 <translation id="5529036554155743092">Australia</translation>
-<translation id="5537884323453943551">Trinidad and Tobago</translation>
+<translation id="5537884323453943551">Trinidad and Tobago</translation>
 <translation id="5543493820882105191">Enter your name</translation>
 <translation id="55439745111619380">Ascension Island</translation>
 <translation id="5569341882117077010">A network error has occurred</translation>
@@ -311,16 +315,19 @@
 <translation id="6132202686885223981">Check that your inbox space is not running out, or for other inbox settings-related issues.</translation>
 <translation id="6135589730599211649">Client specified an invalid range.</translation>
 <translation id="6143147250106939258">The quota for this operation has been exceeded. Try again later.</translation>
+<translation id="615787395595800956">Missing password requirements:</translation>
 <translation id="6189573836664806798">Paraguay</translation>
 <translation id="6192657410634245771">Algeria</translation>
 <translation id="6213969168046789596">You have entered an incorrect password too many times. Please try again in a few minutes.</translation>
 <translation id="6216759405419177713">Norfolk Island</translation>
-<translation id="6245066275978703471">Phone number automatically verified</translation>
-<translation id="6269083314054226194">Network error, check your Internet connection.</translation>
-<translation id="6295157125625453859">Verified.</translation>
+<translation id="6238170540438416559">By tapping '<ph name="PH_1" />', you are indicating that you accept our <ph name="PP" />. An SMS may be sent. Message &amp; data rates may apply.</translation>
+<translation id="6265373887273416711">Verify your phone number</translation>
+<translation id="6283536862756552051">In order to change your password, you first need to enter your current password.</translation>
+<translation id="6299890279889400823">Back</translation>
 <translation id="6316446940976157217">India</translation>
 <translation id="6327723482938582895">Benin</translation>
 <translation id="6338643731889005578">Continue</translation>
+<translation id="6355621963154078138">Password must contain a numeric character</translation>
 <translation id="6359400968059656782">You can now sign in with your new password</translation>
 <translation id="6363241121027868570">Aruba</translation>
 <translation id="6377222208046638522">Luxembourg</translation>
@@ -378,7 +385,7 @@
 <translation id="7064251114893721966">You've already used <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> to sign in. Enter your password for that account.</translation>
 <translation id="7085136866191400000">Sign-in email sent</translation>
 <translation id="7089485669419398254">Ireland</translation>
-<translation id="7093343209860483088">Democratic Republic of the Congo</translation>
+<translation id="7093343209860483088">Democratic Republic of the Congo</translation>
 <translation id="7118080999850002096">Recover password</translation>
 <translation id="7150917293543492988">Republic of Congo</translation>
 <translation id="7157317431934821052">The resource that a client tried to create already exists.</translation>
@@ -420,6 +427,7 @@
 <translation id="7790301903034097323">Choose password</translation>
 <translation id="7796914496604415892">New device or browser detected</translation>
 <translation id="786166109137986817">Sign in to <ph name="DISPLAY_NAME" /></translation>
+<translation id="7863575218808091551">Password must contain an uppercase character</translation>
 <translation id="7868540442111212282">Czechia</translation>
 <translation id="7874584525604421364">Tuvalu</translation>
 <translation id="7926046652648626866">Sign in with GitHub</translation>
@@ -493,13 +501,15 @@
 <translation id="8916080112145514151">If you still want to connect your <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> account, open the link on the device that you used to start the sign in process. Otherwise, tap "Continue" to sign in on this device.</translation>
 <translation id="8920674952994839257">Retry</translation>
 <translation id="8939353296336237380">You originally intended to connect <ph name="START_STRONG" /><ph name="IDP_DISPLAY_NAME" /><ph name="END_STRONG" /> to your email account, but have opened the link on a different device on which you are not signed in.</translation>
-<translation id="8971555482255213064">Resend code in 0:<ph name="PH_1" /></translation>
+<translation id="8955469172512804617">By tapping <ph name="BTN" /> you are indicating that you agree to the <ph name="PP" />.</translation>
+<translation id="8980953965669178372">Done</translation>
 <translation id="8984161590699631096">Morocco</translation>
 <translation id="8994098794339484800">If you don't recognise this device, someone might be trying to access your account. Consider <ph name="START_LINK" />changing your password right away<ph name="END_LINK" />.</translation>
 <translation id="900153878296575829">Bangladesh</translation>
 <translation id="9022632332691561239">Phone</translation>
 <translation id="9028063588419847334">Finland</translation>
 <translation id="9078135685219203661">United Arab Emirates</translation>
+<translation id="9085311482535098646">Password must contain at least <ph name="MIN_PASSWORD_LENGTH" /> characters</translation>
 <translation id="9121203582272050974">Your email has been verified and changed</translation>
 <translation id="9156150178611681179">Password</translation>
 <translation id="9168877696443530714">Central African Republic</translation>
