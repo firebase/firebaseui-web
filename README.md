@@ -935,7 +935,7 @@ enforce this policy via one of these 2 mechanisms:
 <td>No</td>
 <td>
   Defines whether to require the user to provide a display name during email
-  and password sign up.
+  and password sign up. Note: this has no effect when using the <code>firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD</code>.
   <br/>
   <em>Default:</em> <code>true</code>
 </td>
