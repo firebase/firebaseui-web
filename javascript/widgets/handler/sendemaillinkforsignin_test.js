@@ -25,6 +25,8 @@ goog.require('firebaseui.auth.widget.handler.common');
 goog.require('firebaseui.auth.widget.handler.handleEmailLinkSignInSent');
 goog.require('firebaseui.auth.widget.handler.handleSendEmailLinkForSignIn');
 /** @suppress {extraRequire} */
+goog.require('firebaseui.auth.widget.handler.handleUnauthorizedUser');
+/** @suppress {extraRequire} */
 goog.require('firebaseui.auth.widget.handler.testHelper');
 goog.require('goog.dom.forms');
 goog.require('goog.testing.recordFunction');
@@ -79,7 +81,7 @@ function testHandleSendEmailLinkForSignIn_anonymousUpgrade() {
 }
 
 
-function testHandleSendEmailLinkForSignIn_error() {
+function testHandleSendEmailLinkForSignIn_internalError() {
   app.updateConfig('signInOptions', emailLinkSignInOptions);
   var expectedActionCodeSettings = buildActionCodeSettings();
   var cancelButtonCallback = goog.testing.recordFunction();
@@ -99,5 +101,35 @@ function testHandleSendEmailLinkForSignIn_error() {
     // Show error in info bar.
     assertInfoBarMessage(
         firebaseui.auth.widget.handler.common.getErrorMessage(internalError));
+  });
+}
+
+
+function testHandleSendEmailLinkForSignIn_adminRestrictedOperationError() {
+  app.updateConfig('signInOptions', emailLinkSignInOptions);
+  app.updateConfig('adminRestrictedOperation', adminRestrictedOperationConfig);
+  const expectedActionCodeSettings = buildActionCodeSettings();
+  const cancelButtonCallback = goog.testing.recordFunction();
+  firebaseui.auth.widget.handler.handleSendEmailLinkForSignIn(
+      app, container, 'user@example.com', cancelButtonCallback);
+  assertCallbackPage();
+  return testAuth.process().then(function() {
+    testAuth.assertSendSignInLinkToEmail(
+        ['user@example.com', expectedActionCodeSettings], null,
+        adminRestrictedOperationError);
+    return testAuth.process();
+  }).then(function() {
+    // Verify unauthorized user page is rendered.
+    assertUnauthorizedUserPage();
+    // Assert cancel button is rendered.
+    assertNotNull(getCancelButton());
+    // Assert admin email is rendered.
+    assertAdminEmail(expectedAdminEmail);
+    // Assert help link is rendered.
+    assertHelpLink();
+    // Click back button.
+    clickSecondaryLink();
+    // Verify that clicking back button goes back to the email sign in page.
+    assertSignInPage();
   });
 }

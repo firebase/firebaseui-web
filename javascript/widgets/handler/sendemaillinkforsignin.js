@@ -49,16 +49,26 @@ firebaseui.auth.widget.handler.handleSendEmailLinkForSignIn = function(
       onCancelClick,
       function(error) {
         component.dispose();
-        // Error occurs while sending the email. Go back to the sign in page
-        // with prefilled email and error message.
-        var errorMessage =
-            firebaseui.auth.widget.handler.common.getErrorMessage(error);
-        firebaseui.auth.widget.handler.handle(
-            firebaseui.auth.widget.HandlerName.SIGN_IN,
-            app,
-            container,
-            email,
-            errorMessage);
+        if (error && error['code'] == 'auth/admin-restricted-operation' &&
+            app.getConfig().isAdminRestrictedOperationConfigured()) {
+          firebaseui.auth.widget.handler.handle(
+              firebaseui.auth.widget.HandlerName.UNAUTHORIZED_USER,
+              app,
+              container,
+              email,
+              firebase.auth.EmailAuthProvider.PROVIDER_ID);
+        } else {
+          // Error occurs while sending the email. Go back to the sign in page
+          // with prefilled email and error message.
+          const errorMessage =
+              firebaseui.auth.widget.handler.common.getErrorMessage(error);
+          firebaseui.auth.widget.handler.handle(
+              firebaseui.auth.widget.HandlerName.SIGN_IN,
+              app,
+              container,
+              email,
+              errorMessage);
+        }
       });
 };
 

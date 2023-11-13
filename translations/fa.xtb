@@ -21,12 +21,13 @@
 <translation id="1310034618729602982">ایمیلتان را دوباره به‌روزرسانی کنید</translation>
 <translation id="1312824004897469797">خطای شبکه رخ داد. بعداً دوباره امتحان کنید.</translation>
 <translation id="1315809131562953678">شماره تلفن معتبری وارد کنید</translation>
-<translation id="1335716056288807013">درصورت ضربه‌زدن روی «تأیید»، موافقتتان را با <ph name="START_LINK_1" />شرایط خدمات<ph name="END_LINK" /> و <ph name="START_LINK_2" />خطمشی حریم خصوصی<ph name="END_LINK" /> اعلام می‌کنید. پیامکی ارسال خواهد شد و ممکن است هزینه داده و «پیام» محاسبه شود.</translation>
+<translation id="1335716056288807013">درصورت ضربه‌زدن روی «تأیید»، موافقتتان را با <ph name="START_LINK_1" />شرایط خدمات<ph name="END_LINK" /> و <ph name="START_LINK_2" />خطمشی حریم‌خصوصی<ph name="END_LINK" /> اعلام می‌کنید. پیامکی ارسال خواهد شد و ممکن است هزینه داده و «پیام» محاسبه شود.</translation>
 <translation id="137210131544215127">گذرواژه‌تان را وارد کنید</translation>
 <translation id="1393433815796487579">انجام شد</translation>
 <translation id="1412449974349991050">هاییتی</translation>
 <translation id="144766329299583285">اگر درخواست تغییر ایمیل  ورود به سیستم توسط شما انجام نشد، ممکن است شخصی در صدد دسترسی به حسابتان باشد و باید <ph name="START_LINK" />فوراً گذرواژه‌تان را تغییر دهید<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">جزیره هرد و جزایر مک‌دونالد</translation>
+<translation id="1451880131543823984"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> اجازه مشاهده صفحه درخواست‌شده را ندارد.</translation>
 <translation id="1479035434297790822">تعداد زیادی درخواست حساب از نشانی IP شما درحال ارسال است. پس از چند دقیقه دوباره امتحان کنید.</translation>
 <translation id="1483249363694224399">سریلانکا</translation>
 <translation id="1507995441600689506">اکنون می‌توانید با حساب جدیدتان وارد سیستم شوید</translation>
@@ -64,7 +65,7 @@
 <translation id="2187260952722791093">تأیید شد!</translation>
 <translation id="2192561962270021282">شماره تلفن خود را وارد کنید</translation>
 <translation id="2206856445831770486">GitHub</translation>
-<translation id="2223717216014247341">خط‌مشی حریم خصوصی</translation>
+<translation id="2223717216014247341">خط‌مشی حریم‌خصوصی</translation>
 <translation id="2224563296468523455">گوام</translation>
 <translation id="2245182894886860848">یا از سهمیه منبع خارج شدید یا از حداکثر مجاز فراتر رفتید.</translation>
 <translation id="2249420035688424170">کرواسی</translation>
@@ -86,7 +87,7 @@
 <translation id="2448487988481516351">کالدونیای جدید</translation>
 <translation id="2451742558284013472">موناکو</translation>
 <translation id="2460064915291012298">سیشل</translation>
-<translation id="2490672522100125425"><ph name="START_STRONG" /><ph name="FACTOR_ID" /> <ph name="PHONE_NUMBER" /><ph name="END_STRONG" /> به‌عنوان مرحله دوم احراز هویت برداشته شد.</translation>
+<translation id="2490672522100125425"><ph name="START_STRONG" /><ph name="FACTOR_ID" /> <ph name="PHONE_NUMBER" /><ph name="END_STRONG" /> به‌عنوان مرحله دوم اصالت‌سنجی برداشته شد.</translation>
 <translation id="2494962141967044042">کاربر ناشناس فعلی ارتقا داده نشد. اطلاعات کاربری شناخته‌شده قبلاً با حساب کاربری دیگری مرتبط شده است.</translation>
 <translation id="2541179214468543429">دفعات زیادی گذرواژه اشتباه وارد کرده‌اید. پس از چند دقیقه دوباره امتحان کنید.</translation>
 <translation id="2561560038714758184">امنیت</translation>
@@ -157,13 +158,14 @@
 <translation id="3521753471343796628">عراق</translation>
 <translation id="354888504916863713">ویتنام</translation>
 <translation id="3550380781997195832">این نشانی ایمیل  درست نیست</translation>
+<translation id="3552446912357282301">برای صدور مجوز با <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" /> تماس بگیرید.</translation>
 <translation id="3561568594856945084">مایوت</translation>
 <translation id="3591063723610544836">ورود به سیستم</translation>
 <translation id="3593480381831738519">بازنشانی گذرواژه‌ کاربر</translation>
 <translation id="3597673897213051724">ارسال</translation>
 <translation id="3605933028246642593">نپال</translation>
 <translation id="3608140835232496799">توکلائو</translation>
-<translation id="3620185428620643248">اطلاعات کاربری انتخاب‌شده برای ارائه‌دهنده احراز هویت، پشتیبانی نمی‌شود!</translation>
+<translation id="3620185428620643248">اطلاعات کاربری انتخاب‌شده برای ارائه‌دهنده اصالت‌سنجی، پشتیبانی نمی‌شود!</translation>
 <translation id="3658306886462996856">ایمیل موردنظر، ارائه‌دهنده ورود به سیستم ندارد. لطفاً ایمیل دیگری را امتحان کنید.</translation>
 <translation id="3695180913983403205">لطفاً نام و نام خانوادگی را وارد کنید.</translation>
 <translation id="3700097473356216716">کلمبیا</translation>
@@ -189,7 +191,7 @@
 <translation id="4066104405592701692">استونی</translation>
 <translation id="4147949012570877154">حذف</translation>
 <translation id="4163133799286985193">آرژانتین</translation>
-<translation id="4166504762096983411">درصورت ادامه‌دادن، موافقتتان را با <ph name="START_LINK_1" />شرایط خدمات<ph name="END_LINK" /> و <ph name="START_LINK_2" />خطمشی حریم خصوصی<ph name="END_LINK" /> اعلام می‌کنید.</translation>
+<translation id="4166504762096983411">درصورت ادامه‌دادن، موافقتتان را با <ph name="START_LINK_1" />شرایط خدمات<ph name="END_LINK" /> و <ph name="START_LINK_2" />خطمشی حریم‌خصوصی<ph name="END_LINK" /> اعلام می‌کنید.</translation>
 <translation id="420554669252656972">نشانی ایمیل  جدید را وارد کنید</translation>
 <translation id="4210333062216604630">لغو پیوند</translation>
 <translation id="4242716276491763916">جمهوری گینه</translation>
@@ -228,8 +230,8 @@
 <translation id="4871106926303956169">جزایر تورکس و کایکوس</translation>
 <translation id="4877597386645466815">ارسال مجدد کد پس از <ph name="TIME_REMAINING" /></translation>
 <translation id="4900116391137165411">
-<ph name="P_START" />حساب <ph name="APP_NAME" /> شما برای راستی‌آزمایی دومرحله‌ای با شماره تلفن <ph name="SECOND_FACTOR" /> به‌روزرسانی شد.<ph name="P_END" />
-<ph name="P_START" />اگر شما این شماره تلفن را برای راستی‌آزمایی دومرحله‌ای اضافه نکرده‌اید، برای حذف آن روی پیوند زیر کلیک کنید.<ph name="P_END" />
+<ph name="P_START" />حساب <ph name="APP_NAME" /> شما برای درستی‌سنجی دومرحله‌ای با شماره تلفن <ph name="SECOND_FACTOR" /> به‌روزرسانی شد.<ph name="P_END" />
+<ph name="P_START" />اگر شما این شماره تلفن را برای درستی‌سنجی دومرحله‌ای اضافه نکرده‌اید، برای حذف آن روی پیوند زیر کلیک کنید.<ph name="P_END" />
 <ph name="P_START" /><ph name="START_LINK" /><ph name="CONFIRM_LINK" /><ph name="END_LINK" /><ph name="P_END" /></translation>
 <translation id="4923375331439013137">عامل دوم برداشته نشد</translation>
 <translation id="4955175001894453989">افزودن گذرواژه</translation>
@@ -245,6 +247,7 @@
 <translation id="5143657419516597442">سنت لوسیا</translation>
 <translation id="521218078240459724">string/app_name@</translation>
 <translation id="5241732101105320538">رایانامه‌تان را بررسی کنید</translation>
+<translation id="5255830932650472373">گذرواژه جدید</translation>
 <translation id="5301108536112812420">درخواست مبنی بر تأیید رایانامه‌تان منقضی شده است یا پیوند قبلاً استفاده شده است</translation>
 <translation id="5323041129469627535">عمان</translation>
 <translation id="5326139833547026317">جزایر کارائیب هلند</translation>
@@ -257,7 +260,7 @@
 <translation id="5443669846203963095">خط‌مشی رازداری</translation>
 <translation id="5444635161362535036">لیختن‌اشتاین</translation>
 <translation id="5483706910421209104">ویرایش نام</translation>
-<translation id="5487696047685227891">دستگاه یا برنامه به‌عنوان مرحله دوم احراز هویت برداشته شد.</translation>
+<translation id="5487696047685227891">دستگاه یا برنامه به‌عنوان مرحله دوم اصالت‌سنجی برداشته شد.</translation>
 <translation id="5490651768073507833">با همان دستگاه یا مرورگری که فرایند ورود به سیستم را آغاز کردید، پیوند را باز کنید.</translation>
 <translation id="5524360735013196510">هلند</translation>
 <translation id="5528189843379142883">گینه استوایی</translation>
@@ -326,7 +329,7 @@
 <translation id="6470057025778734988">دیگر نمی‌توانید با استفاده از این حساب وارد سیستم شوید</translation>
 <translation id="6472297146424049005">اتصال اینترنتتان را بررسی کنید.</translation>
 <translation id="6483116480230343278">در حال ثبت‌نام...</translation>
-<translation id="6502083090260346644">با ضربه زدن روی <ph name="STRING" /> پیامکی ارسال می‌شود. ممکن است هزینه انتقال داده و پیام اعمال شود.</translation>
+<translation id="6494734506607758748">برای تغییر نشانی ایمیل  مرتبط با حسابتان باید دوباره وارد سیستم شوید.</translation>
 <translation id="6508909904815637928">وانواتو</translation>
 <translation id="6520863029476703422">ساموآی آمریکا</translation>
 <translation id="6527597037551425211">برزیل</translation>
@@ -357,6 +360,7 @@
 <translation id="6821607741326790458">جامائیکا</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">پاکستان</translation>
+<translation id="6852861389112775830"><ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> اجازه مشاهده صفحه درخواست‌شده را ندارد.</translation>
 <translation id="6918319418444979243">ارسال مجدد</translation>
 <translation id="6920167780806379235">سوریه</translation>
 <translation id="6921505896641453739">ایمیل </translation>
@@ -364,6 +368,7 @@
 <translation id="6951302238647056860">این کد دیگر معتبر نیست</translation>
 <translation id="6961220857430789248">ایمیل ورود به سیستم، حاوی دستورالعمل‌های بیشتر، به <ph name="STRING" /> ارسال شد. برای تکمیل ورود به سیستم، ایمیلتان را بررسی کنید.</translation>
 <translation id="6984204927251307445">تأیید ایمیل</translation>
+<translation id="6996552808101270965">بیشتر بدانید</translation>
 <translation id="6999773882165218263">نام و نام خانوادگی</translation>
 <translation id="7012506961150923116">گرنادا</translation>
 <translation id="7024571478138322659">صحرای غربی</translation>
@@ -393,6 +398,7 @@
 <translation id="7291656724505689727">ورود به سیستم با تلفن</translation>
 <translation id="7320029088567935126">دوباره رایانامه‌تان را تأیید کنید</translation>
 <translation id="7331038350037712642">آذربایجان</translation>
+<translation id="7359542696390093035">مجاز نیستید</translation>
 <translation id="743266754881673808">Google‏</translation>
 <translation id="744894552966168763">پیوند ایمیل نامعتبر است.</translation>
 <translation id="7477065998516229434">شرایط خدمات</translation>
@@ -408,7 +414,7 @@
       استفاده کرده‌اید. گذرواژه این حساب را وارد کنید.</translation>
 <translation id="7652546345268886994">{plural_var,plural, =1{گذرواژه به اندازه کافی قوی نیست. حداقل باید از <ph name="PH_1" /> نویسه و ترکیبی از حروف و اعداد استفاده شود}one{گذرواژه به اندازه کافی قوی نیست. حداقل باید از <ph name="PH_1" /> نویسه و ترکیبی از حروف و اعداد استفاده شود}other{گذرواژه به اندازه کافی قوی نیست. حداقل باید از <ph name="PH_1" /> نویسه و ترکیبی از حروف و اعداد استفاده شود}}</translation>
 <translation id="7699755204074920022">زیمبابوه</translation>
-<translation id="7746977132739352062">درخواست به‌دلیل نبود کد OAuth یا منقضی یا نامعتبر بودن آن احراز هویت نشد.</translation>
+<translation id="7746977132739352062">درخواست به‌دلیل نبود کد OAuth یا منقضی یا نامعتبر بودن آن اصالت‌سنجی نشد.</translation>
 <translation id="7782885946428624225">مشکلی در تأیید شماره تلفنتان پیش آمد</translation>
 <translation id="7796914496604415892">دستگاه یا مرورگر جدید شناسایی شد</translation>
 <translation id="786166109137986817">ورود به سیستم <ph name="DISPLAY_NAME" /></translation>

@@ -18,7 +18,6 @@
 
 goog.provide('firebaseui.auth.crypt');
 
-goog.require('goog.array');
 goog.require('goog.crypt');
 goog.require('goog.crypt.Aes');
 
@@ -34,7 +33,7 @@ firebaseui.auth.crypt.aesEncrypt = function(key, data) {
   var aes = new goog.crypt.Aes(firebaseui.auth.crypt.getAesKeyArray_(key));
   var inputArr = goog.crypt.stringToByteArray(data);
   // Split into 16 byte chunks (block size per AES spec).
-  var chunk = goog.array.splice(inputArr, 0, 16);
+  var chunk = inputArr.splice(0, 16);
   var stream  = '';
   var paddingLength = 0;
   while (chunk.length) {
@@ -44,7 +43,7 @@ firebaseui.auth.crypt.aesEncrypt = function(key, data) {
       chunk.push(0);
     }
     stream += goog.crypt.byteArrayToHex(aes.encrypt(chunk));
-    chunk = goog.array.splice(inputArr, 0, 16);
+    chunk = inputArr.splice(0, 16);
   }
   return stream;
 };
@@ -61,11 +60,11 @@ firebaseui.auth.crypt.aesDecrypt = function(key, data) {
   var inputArr = goog.crypt.hexToByteArray(data);
 
   // Split into 16 byte chunks (block size per AES spec).
-  var chunk = goog.array.splice(inputArr, 0, 16);
+  var chunk = inputArr.splice(0, 16);
   var stream  = '';
   while (chunk.length) {
     stream += goog.crypt.byteArrayToString(aes.decrypt(chunk));
-    chunk = goog.array.splice(inputArr, 0, 16);
+    chunk = inputArr.splice(0, 16);
   }
   // Remove trailing padding.
   return stream.replace(/(\x00)+$/, '');

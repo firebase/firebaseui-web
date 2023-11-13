@@ -13,13 +13,6 @@
     "name": "chrome-latest-mac"
   },
   {
-    "browserName" : "MicrosoftEdge",
-    "platform" : "Windows 10",
-    "timeZone": "Pacific",
-    "version" : "16.16299",
-    "name": "edge-16-windows"
-  },
-  {
     "browserName" : "safari",
     "version" : "10.0",
     "platform" : "OS X 10.11",

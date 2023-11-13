@@ -27,6 +27,7 @@
 <translation id="1412449974349991050">Haiti</translation>
 <translation id="144766329299583285">Se não solicitou a alteração do email de início de sessão, é possível que alguém esteja a tentar aceder à sua conta, pelo que deve <ph name="START_LINK" />alterar a palavra-passe imediatamente<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">Ilha Heard e Ilhas McDonald</translation>
+<translation id="1451880131543823984"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> não tem autorização para ver a página solicitada.</translation>
 <translation id="1479035434297790822">O seu endereço de IP enviou demasiados pedidos de conta. Tente novamente dentro de alguns minutos.</translation>
 <translation id="1483249363694224399">Sri Lanca</translation>
 <translation id="1507995441600689506">Já pode iniciar sessão com a nova conta</translation>
@@ -156,6 +157,7 @@
 <translation id="3521753471343796628">Iraque</translation>
 <translation id="354888504916863713">Vietname</translation>
 <translation id="3550380781997195832">O endereço de email não está correto</translation>
+<translation id="3552446912357282301">Contacte <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" /> para obter autorização.</translation>
 <translation id="3561568594856945084">Maiote</translation>
 <translation id="3591063723610544836">Iniciar sessão</translation>
 <translation id="3593480381831738519">Repor a palavra-passe</translation>
@@ -242,6 +244,7 @@
 <translation id="5115661695221894994"><ph name="START_PARAGRAPH" />O seu pedido para validar e atualizar o email expirou ou o link já foi utilizado.<ph name="END_PARAGRAPH" /></translation>
 <translation id="5143657419516597442">Santa Lúcia</translation>
 <translation id="5241732101105320538">Verifique o seu email</translation>
+<translation id="5255830932650472373">Nova palavra-passe</translation>
 <translation id="5301108536112812420">O seu pedido de validação do email expirou ou o link já foi utilizado</translation>
 <translation id="5323041129469627535">Omã</translation>
 <translation id="5326139833547026317">Países Baixos Caribenhos</translation>
@@ -323,7 +326,7 @@
 <translation id="6470057025778734988">Deixará de poder iniciar sessão com a sua conta</translation>
 <translation id="6472297146424049005">Verifique a ligação à Internet.</translation>
 <translation id="6483116480230343278">A realizar a inscrição...</translation>
-<translation id="6502083090260346644">Ao tocar em <ph name="STRING" />, pode gerar o envio de uma SMS. Podem aplicar-se tarifas de mensagens e dados.</translation>
+<translation id="6494734506607758748">Para alterar o endereço de email associado à sua conta, é necessário iniciar sessão novamente.</translation>
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Samoa Americana</translation>
 <translation id="6527597037551425211">Brasil</translation>
@@ -354,6 +357,7 @@
 <translation id="6821607741326790458">Jamaica</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Paquistão</translation>
+<translation id="6852861389112775830"><ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> não tem autorização para ver a página solicitada.</translation>
 <translation id="6918319418444979243">Reenviar</translation>
 <translation id="6920167780806379235">Síria</translation>
 <translation id="6921505896641453739">Email</translation>
@@ -361,6 +365,7 @@
 <translation id="6951302238647056860">Este código já não é válido</translation>
 <translation id="6961220857430789248">Enviámos um email de início de sessão com instruções adicionais para <ph name="STRING" />. Consulte o seu email para concluir o início de sessão.</translation>
 <translation id="6984204927251307445">Confirmar email</translation>
+<translation id="6996552808101270965">Saber mais</translation>
 <translation id="6999773882165218263">Nome próprio e apelido</translation>
 <translation id="7012506961150923116">Granada</translation>
 <translation id="7024571478138322659">Sara Ocidental</translation>
@@ -390,6 +395,7 @@
 <translation id="7291656724505689727">Iniciar sessão com o telemóvel</translation>
 <translation id="7320029088567935126">Tente validar o email novamente</translation>
 <translation id="7331038350037712642">Azerbaijão</translation>
+<translation id="7359542696390093035">Sem autorização</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">Link de email inválido.</translation>
 <translation id="7477065998516229434">Termos de Utilização</translation>

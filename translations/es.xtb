@@ -23,10 +23,11 @@
 <translation id="1315809131562953678">Introduce un número de teléfono válido</translation>
 <translation id="1335716056288807013">Si tocas Verificar, confirmas que aceptas nuestras <ph name="START_LINK_1" />condiciones del servicio<ph name="END_LINK" /> y nuestra <ph name="START_LINK_2" />política de privacidad<ph name="END_LINK" />. Podría enviarse un SMS, sujeto a las tarifas de mensajes y uso de datos de tu operador.</translation>
 <translation id="137210131544215127">Introduce tu contraseña.</translation>
-<translation id="1393433815796487579">Listo</translation>
+<translation id="1393433815796487579">Hecho</translation>
 <translation id="1412449974349991050">Haití</translation>
 <translation id="144766329299583285">Si no has solicitado cambiar el correo electrónico de inicio de sesión, es posible que alguien esté intentando acceder a tu cuenta. Te recomendamos que <ph name="START_LINK" />cambies tu contraseña inmediatamente<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">Islas Heard y McDonald</translation>
+<translation id="1451880131543823984"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> no tiene autorización para ver la página solicitada.</translation>
 <translation id="1479035434297790822">Estamos recibiendo demasiadas peticiones desde tu dirección IP. Vuelve a intentarlo en unos minutos.</translation>
 <translation id="1483249363694224399">Sri Lanka</translation>
 <translation id="1507995441600689506">Ya puedes iniciar sesión con la cuenta nueva</translation>
@@ -54,7 +55,7 @@
 <translation id="2049229571938383319">San Bartolomé</translation>
 <translation id="2058731785647385204">Montserrat</translation>
 <translation id="2070709910567585968">Las contraseñas seguras contienen 6 caracteres como mínimo y combinan letras y números.</translation>
-<translation id="2074008538308369451">Condiciones del servicio</translation>
+<translation id="2074008538308369451">Términos del Servicio</translation>
 <translation id="2089802663554186342">La sesión ha finalizado</translation>
 <translation id="2108717231438756650">Reino Unido</translation>
 <translation id="2120419640334291526">Islas Caimán</translation>
@@ -64,7 +65,7 @@
 <translation id="2187260952722791093">Verificado</translation>
 <translation id="2192561962270021282">Introduce tu número de teléfono</translation>
 <translation id="2206856445831770486">GitHub</translation>
-<translation id="2223717216014247341">Política de privacidad</translation>
+<translation id="2223717216014247341">Política de Privacidad</translation>
 <translation id="2224563296468523455">Guam</translation>
 <translation id="2245182894886860848">Se ha agotado la cuota del recurso o se ha alcanzado el límite de frecuencia.</translation>
 <translation id="2249420035688424170">Croacia</translation>
@@ -151,13 +152,14 @@
 <translation id="3413300222170818119">Zambia</translation>
 <translation id="3429213469114503705">Ciudad del Vaticano</translation>
 <translation id="3434621886769337032">Gambia</translation>
-<translation id="3472358534605257432">Listo</translation>
+<translation id="3472358534605257432">Hecho</translation>
 <translation id="3479685026618611556">Cancelar</translation>
 <translation id="3481131180097895739">Se ha producido un error de servidor desconocido.</translation>
 <translation id="3487364398525389372">Introduce el nombre de tu cuenta</translation>
 <translation id="3521753471343796628">Irak</translation>
 <translation id="354888504916863713">Vietnam</translation>
 <translation id="3550380781997195832">La dirección de correo electrónico no es correcta</translation>
+<translation id="3552446912357282301">Ponte en contacto con <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" /> para solicitar la autorización.</translation>
 <translation id="3561568594856945084">Mayotte</translation>
 <translation id="3591063723610544836">Iniciar sesión</translation>
 <translation id="3593480381831738519">Cambiar la contraseña</translation>
@@ -246,6 +248,7 @@
 <translation id="5143657419516597442">Santa Lucía</translation>
 <translation id="521218078240459724">@string/app_name</translation>
 <translation id="5241732101105320538">Consulta tu correo electrónico</translation>
+<translation id="5255830932650472373">Nueva contraseña</translation>
 <translation id="5301108536112812420">La petición para verificar tu correo electrónico ha caducado o ya se ha usado el enlace</translation>
 <translation id="5323041129469627535">Omán</translation>
 <translation id="5326139833547026317">Caribe Neerlandés</translation>
@@ -327,7 +330,7 @@
 <translation id="6470057025778734988">Ya no podrás iniciar sesión con tu cuenta</translation>
 <translation id="6472297146424049005">Comprueba tu conexión a Internet.</translation>
 <translation id="6483116480230343278">Registrando…</translation>
-<translation id="6502083090260346644">Al tocar <ph name="STRING" />, podría enviarse un SMS. Es posible que se apliquen cargos de mensajería y uso de datos.</translation>
+<translation id="6494734506607758748">Para cambiar la dirección de correo electrónico asociada a la cuenta, debes iniciar sesión de nuevo.</translation>
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Samoa Americana</translation>
 <translation id="6527597037551425211">Brasil</translation>
@@ -358,6 +361,7 @@
 <translation id="6821607741326790458">Jamaica</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistán</translation>
+<translation id="6852861389112775830"><ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> no tiene autorización para ver la página solicitada.</translation>
 <translation id="6918319418444979243">Reenviar</translation>
 <translation id="6920167780806379235">Siria</translation>
 <translation id="6921505896641453739">Correo electrónico</translation>
@@ -365,6 +369,7 @@
 <translation id="6951302238647056860">Este código ya no es válido</translation>
 <translation id="6961220857430789248">Se ha enviado un correo electrónico de inicio de sesión con más instrucciones a <ph name="STRING" />. Consulta tu bandeja de entrada para completar el inicio de sesión.</translation>
 <translation id="6984204927251307445">Confirma tu correo electrónico</translation>
+<translation id="6996552808101270965">Más información</translation>
 <translation id="6999773882165218263">Nombre y apellidos</translation>
 <translation id="7012506961150923116">Granada</translation>
 <translation id="7024571478138322659">Sáhara Occidental</translation>
@@ -394,9 +399,10 @@
 <translation id="7291656724505689727">Iniciar sesión con el teléfono</translation>
 <translation id="7320029088567935126">Prueba a verificar el correo electrónico de nuevo</translation>
 <translation id="7331038350037712642">Azerbaiyán</translation>
+<translation id="7359542696390093035">Sin autorización</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">Enlace de correo electrónico no válido</translation>
-<translation id="7477065998516229434">condiciones de servicio</translation>
+<translation id="7477065998516229434">Términos del Servicio</translation>
 <translation id="7493245640904888019">Gibraltar</translation>
 <translation id="7510939244824757986">Tanzania</translation>
 <translation id="7526532581122816497">Cuenta vinculada</translation>

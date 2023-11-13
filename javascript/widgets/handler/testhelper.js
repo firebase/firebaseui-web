@@ -30,7 +30,6 @@ goog.require('firebaseui.auth.PendingEmailCredential');
 goog.require('firebaseui.auth.idp');
 goog.require('firebaseui.auth.soy2.strings');
 goog.require('firebaseui.auth.storage');
-goog.require('firebaseui.auth.testing.FakeAcClient');
 goog.require('firebaseui.auth.testing.FakeAppClient');
 goog.require('firebaseui.auth.testing.FakeCookieStorage');
 goog.require('firebaseui.auth.testing.FakeUtil');
@@ -39,7 +38,6 @@ goog.require('firebaseui.auth.ui.page.Base');
 goog.require('firebaseui.auth.util');
 goog.require('firebaseui.auth.widget.Config');
 goog.require('goog.Promise');
-goog.require('goog.array');
 goog.require('goog.dom');
 goog.require('goog.dom.TagName');
 goog.require('goog.dom.classlist');
@@ -91,22 +89,26 @@ var internalError = {
   'code': 'auth/internal-error',
   'message': 'An internal error occurred.'
 };
+const adminRestrictedOperationError = {
+  'code': 'auth/admin-restricted-operation',
+  'message': 'This operation is restricted to administrators only.'
+};
 var operationNotSupportedError = {
   'code': 'auth/operation-not-supported-in-this-environment',
   'message': 'This operation is not supported in the environment this ' +
       'application is running on. "location.protocol" must be http, https ' +
       'or chrome-extension and web storage must be enabled.'
 };
+var googYoloClientId = '1234567890.apps.googleusercontent.com';
 // googleyolo ID token credential.
 var googleYoloIdTokenCredential = {
-  'idToken': 'ID_TOKEN',
-  'id': federatedAccount.getEmail(),
-  'authMethod': 'https://accounts.google.com'
+  'credential': 'HEADER.' +
+      btoa(JSON.stringify({email: federatedAccount.getEmail()})) + '.SIGNATURE',
+  'clientId': googYoloClientId,
 };
 // googleyolo non ID token credential.
 var googleYoloOtherCredential = {
-  'id': federatedAccount.getEmail(),
-  'authMethod': 'https://accounts.google.com'
+  'clientId': 'other',
 };
 // Mock anonymous user.
 var anonymousUser = {
@@ -116,7 +118,6 @@ var anonymousUser = {
 
 var container;
 var container2;
-var testAc;
 var testUtil;
 var recaptchaVerifierInstance = null;
 var externalAuthApp;
@@ -159,6 +160,13 @@ var emailLinkSignInOptions = [
   'facebook.com'
 ];
 
+const expectedAdminEmail = 'admin@example.com';
+const adminRestrictedOperationConfig = {
+  'status': true,
+  'adminEmail': expectedAdminEmail,
+  'helpLink': 'https://www.example.com/trouble_signing_in',
+};
+
 var testStubs = new goog.testing.PropertyReplacer();
 var mockClock = new goog.testing.MockClock();
 
@@ -167,8 +175,6 @@ var expectedSessionId = 'SESSION_ID_STRING';
 var app;
 var appId = 'glowing-heat-3485';
 
-var accountChooserInvokedCallback;
-var accountChooserResultCallback;
 var authCredential;
 var federatedCredential;
 
@@ -195,19 +201,13 @@ function setUp() {
   testAuth = app.getAuth().install();
 
   mockClock.install();
-  // For testing simulate accountchooser.com js is loaded to prevent loading of
-  // accountchooser.com js during loading and to call callback on load.
-  accountchooser = {};
-  // Reset accountchooser.com force UI shown flag.
-  firebaseui.auth.widget.handler.common.acForceUiShown_ = false;
+
   // For browsers that do not support CORS which rely on gapi for XHR, simulate
   // this capability so as to test XHR requests and responses properly.
   testStubs.set(firebaseui.auth.util, 'supportsCors', function() {
     return true;
   });
-  // Record accountchooser.com callback calls.
-  accountChooserInvokedCallback = goog.testing.recordFunction();
-  accountChooserResultCallback = goog.testing.recordFunction();
+
   testStubs.replace(firebaseui.auth.idp, 'getAuthCredential',
                     createMockCredential);
   // Build mock auth providers.
@@ -313,14 +313,7 @@ function setUp() {
   testStubs.replace(firebaseui.auth.AuthUI, 'getAuthUi', function() {
     return app;
   });
-  // Simulate accountchooser.com loaded.
-  testStubs.set(
-      firebaseui.auth.widget.handler.common, 'loadAccountchooserJs',
-      function(app, callback, opt_forceUiShownCallback) {
-        firebaseui.auth.widget.handler.common.acForceUiShown_ =
-            !!opt_forceUiShownCallback;
-        callback();
-      });
+
   // Mock dialog polyfill.
   window['dialogPolyfill'] = {
     'registerDialog': function(dialog) {
@@ -343,7 +336,6 @@ function setUp() {
   });
   // Render test component in container2.
   testComponent.render(container2);
-  testAc = new firebaseui.auth.testing.FakeAcClient().install();
   testUtil = new firebaseui.auth.testing.FakeUtil().install();
   signInCallbackUser = undefined;
   signInCallbackRedirectUrl = undefined;
@@ -377,7 +369,7 @@ function setUp() {
     'tosUrl': tosCallback,
     'privacyPolicyUrl': 'http://localhost/privacy_policy',
     'credentialHelper':
-        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
+        firebaseui.auth.widget.Config.CredentialHelper.NONE,
     'callbacks': {
       'signInFailure': signInFailureCallback
     },
@@ -412,7 +404,6 @@ function setUp() {
 
 
 function tearDown() {
-  testAc.uninstall();
   testUtil.uninstall();
   goog.dom.removeNode(container);
   goog.dom.removeNode(container2);
@@ -423,8 +414,6 @@ function tearDown() {
   mockClock.reset();
   mockClock.uninstall();
 
-  // accountchooser.com js not loaded.
-  accountchooser = null;
   // Uninstall internal and external auth instance.
   testAuth.uninstall();
   externalAuth.uninstall();
@@ -688,6 +677,16 @@ function clickSecondaryLink() {
 }
 
 
+/**
+ * Triggers a click on the help link element.
+ */
+function clickHelpLink() {
+  const helpLink = goog.dom.getElementByClass(
+      'firebaseui-id-unauthorized-user-help-link', container);
+  goog.testing.events.fireClickSequence(helpLink);
+}
+
+
 /** @return {?Element} The email element on the current page. */
 function getEmailElement() {
   return goog.dom.getElementByClass('firebaseui-id-email', container);
@@ -873,7 +872,7 @@ function getPhoneConfirmationCodeErrorMessage() {
 function getKeysForCountrySelectorButtons() {
   var buttons = goog.dom.getElementsByClass(
       'firebaseui-list-box-dialog-button');
-  return goog.array.map(buttons, function(button) {
+  return Array.prototype.map.call(buttons, function(button) {
     return button.getAttribute('data-listboxid');
   });
 }
@@ -889,7 +888,7 @@ function assertTosPpLinkClicked_(tosUrl, privacyPolicyUrl) {
     'firebaseui-tos-link', container);
   var ppLinkElement = goog.dom.getElementByClass(
     'firebaseui-pp-link', container);
-  if (goog.isFunction(tosUrl)) {
+  if (typeof tosUrl === 'function') {
     assertEquals(0, tosUrl.getCallCount());
     goog.testing.events.fireClickSequence(tosLinkElement);
     assertEquals(1, tosUrl.getCallCount());
@@ -897,7 +896,7 @@ function assertTosPpLinkClicked_(tosUrl, privacyPolicyUrl) {
     goog.testing.events.fireClickSequence(tosLinkElement);
     testUtil.assertOpen(tosUrl, '_blank');
   }
-  if (goog.isFunction(privacyPolicyUrl)) {
+  if (typeof privacyPolicyUrl === 'function') {
     assertEquals(0, privacyPolicyUrl.getCallCount());
     goog.testing.events.fireClickSequence(ppLinkElement);
     assertEquals(1, privacyPolicyUrl.getCallCount());
@@ -1010,6 +1009,12 @@ function assertBusyIndicatorHidden() {
 }
 
 
+/** Asserts that unauthorized user page is displayed. */
+function assertUnauthorizedUserPage() {
+  assertPage_(container, 'firebaseui-id-page-unauthorized-user');
+}
+
+
 function assertCallbackPage() {
   assertPage_(container, 'firebaseui-id-page-callback');
 }
@@ -1076,6 +1081,36 @@ function assertFederatedLinkingPage(opt_email) {
   assertPage_(container, 'firebaseui-id-page-federated-linking');
   if (opt_email) {
     assertPageContainsText(opt_email);
+  }
+}
+
+
+/** Asserts that there is no help link currently displayed. */
+function assertNoHelpLink() {
+  const element = goog.dom.getElementByClass(
+      'firebaseui-id-unauthorized-user-help-link', container);
+  assertNull(element);
+}
+
+
+/** Asserts that there is help link currently displayed. */
+function assertHelpLink() {
+  const element = goog.dom.getElementByClass(
+      'firebaseui-id-unauthorized-user-help-link', container);
+  assertNotNull(element);
+}
+
+
+/**
+ * Asserts that there is an admin email currently displayed.
+ * @param {string=} adminEmail admin email to check.
+ */
+function assertAdminEmail(adminEmail) {
+  const element = goog.dom.getElementByClass(
+      'firebaseui-id-unauthorized-user-admin-email', container);
+  assertNotNull(element);
+  if (adminEmail) {
+    assertContains(adminEmail, goog.dom.getTextContent(element));
   }
 }
 
@@ -1470,36 +1505,6 @@ function assertUiShownCallbackNotInvoked() {
 function assertUnrecoverableErrorPage(errorMessage) {
   assertPage_(container, 'firebaseui-id-page-unrecoverable-error');
   assertPageContainsText(errorMessage);
-}
-
-
-/**
- * Asserts that accountChooserInvoked callback is called and runs
- * continue function passed.
- */
-function assertAndRunAccountChooserInvokedCallback() {
-  assertEquals(1, accountChooserInvokedCallback.getCallCount());
-  var onContinue = accountChooserInvokedCallback.getLastCall().getArgument(0);
-  // On continue should be passed.
-  assertNotNull(onContinue);
-  onContinue();
-}
-
-
-/**
- * Asserts that accountChooserResult callback is called with provided type
- * and runs continue function.
- *
- * @param {firebaseui.auth.widget.Config.AccountChooserResult} type The result
- *     type to test for.
- */
-function assertAndRunAccountChooserResultCallback(type) {
-  assertEquals(1, accountChooserResultCallback.getCallCount());
-  assertEquals(type, accountChooserResultCallback.getLastCall().getArgument(0));
-  var onContinue = accountChooserResultCallback.getLastCall().getArgument(1);
-  // On continue should be passed.
-  assertNotNull(onContinue);
-  onContinue();
 }
 
 

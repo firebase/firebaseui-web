@@ -196,13 +196,13 @@ class MockHelper extends Disposable {
         // Resolve API promise if not already resolved.
         resolveAssert();
         if (error) {
-          if (goog.isFunction(error)) {
+          if (typeof error === 'function') {
             req['reject'](error());
           } else {
             req['reject'](error);
           }
         } else {
-          if (goog.isFunction(resp)) {
+          if (typeof resp === 'function') {
             req['resolve'](resp());
           } else {
             req['resolve'](resp);

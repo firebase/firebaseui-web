@@ -19,14 +19,16 @@
 goog.provide('firebaseui.auth.widget.handler.SignInTest');
 goog.setTestOnly('firebaseui.auth.widget.handler.SignInTest');
 
-goog.require('firebaseui.auth.storage');
 goog.require('firebaseui.auth.widget.Config');
+goog.require('firebaseui.auth.widget.handler.common');
 /** @suppress {extraRequire} Required for page navigation to work. */
 goog.require('firebaseui.auth.widget.handler.handleFederatedSignIn');
 goog.require('firebaseui.auth.widget.handler.handlePasswordRecovery');
 /** @suppress {extraRequire} Required for page navigation to work. */
 goog.require('firebaseui.auth.widget.handler.handlePasswordSignIn');
 goog.require('firebaseui.auth.widget.handler.handleSignIn');
+/** @suppress {extraRequire} Required for page navigation to work. */
+goog.require('firebaseui.auth.widget.handler.handleUnauthorizedUser');
 goog.require('firebaseui.auth.widget.handler.testHelper');
 goog.require('goog.dom');
 goog.require('goog.dom.forms');
@@ -73,7 +75,6 @@ function testHandleSignIn() {
       ['password']);
   return testAuth.process().then(function() {
     assertPasswordSignInPage();
-    assertTrue(firebaseui.auth.storage.isRememberAccount(app.getAppId()));
   });
 }
 
@@ -93,34 +94,8 @@ function testHandleSignIn_cancelButtonClick_multipleProviders() {
 }
 
 
-function testHandleSignIn_cancelButtonClick_emailProviderOnly() {
-  // Simulate existing password account selected in accountchooser.com.
-  testAc.setSelectedAccount(passwordAccount);
-  app.updateConfig('signInOptions', ['password']);
-  firebaseui.auth.widget.handler.handleSignIn(
-      app, container, passwordAccount.getEmail());
-  assertSignInPage();
-  // Only password provider is the configured, signIn page is the first page,
-  // full message should be displayed.
-  assertTosPpFullMessage(tosCallback, 'http://localhost/privacy_policy');
-  // Click cancel.
-  clickSecondaryLink();
-  // handleSignInWithEmail should be called underneath.
-  // If accountchoose.com is enabled, page will redirect to it.
-  testAuth.assertFetchSignInMethodsForEmail(
-      [passwordAccount.getEmail()],
-      ['password']);
-  testAuth.process().then(function() {
-    assertPasswordSignInPage();
-    var emailInput = getEmailElement();
-    assertEquals(
-        passwordAccount.getEmail(), goog.dom.forms.getValue(emailInput));
-  });
-}
-
-
-function testHandleSignIn_acDisabled_emailProviderOnly() {
-  // Simulate accountchooser.com disabled and email provider only.
+function testHandleSignIn_emailProviderOnly() {
+  // Simulate email provider only.
   // No cancel button should be displayed.
   app.setConfig({
     'credentialHelper': firebaseui.auth.widget.Config.CredentialHelper.NONE,
@@ -137,29 +112,12 @@ function testHandleSignIn_acDisabled_emailProviderOnly() {
 }
 
 
-function testHandleSignIn_acEnabled_emailProviderOnly() {
-  // Simulate accountchooser.com enabled and email provider only.
-  // Cancel button should still be displayed.
+function testHandleSignIn_multiProviders() {
+  // Simulate multiple email providers and no credential helper.
+  // Cancel button should be displayed.
   app.setConfig({
     'credentialHelper':
-        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
-    'signInOptions': [firebase.auth.EmailAuthProvider.PROVIDER_ID]
-  });
-  firebaseui.auth.widget.handler.handleSignIn(
-      app, container, passwordAccount.getEmail());
-  assertSignInPage();
-  assertTosPpFullMessage(tosCallback, 'http://localhost/privacy_policy');
-  // Cancel button available.
-  assertNotNull(getCancelButton());
-}
-
-
-function testHandleSignIn_acDisabled_multiProviders() {
-  // Simulate accountchooser.com disabled and multiple auth providers.
-  // Cancel button should still be displayed.
-  app.setConfig({
-    'credentialHelper':
-        firebaseui.auth.widget.Config.CredentialHelper.ACCOUNT_CHOOSER_COM,
+        firebaseui.auth.widget.Config.CredentialHelper.NONE,
     'signInOptions': [
       firebase.auth.EmailAuthProvider.PROVIDER_ID,
       firebase.auth.GoogleAuthProvider.PROVIDER_ID
@@ -201,8 +159,6 @@ function testHandleSignIn_accountLookupError() {
   return testAuth.process().then(function() {
     // Should remain on the same page.
     assertSignInPage();
-    // Account should not be remembered.
-    assertFalse(firebaseui.auth.storage.isRememberAccount(app.getAppId()));
     // Error message should be displayed in the info bar.
     assertInfoBarMessage(
         firebaseui.auth.widget.handler.common.getErrorMessage(expectedError));
@@ -233,27 +189,6 @@ function testHandleSignIn_federatedSignIn() {
       ['google.com']);
   return testAuth.process().then(function() {
     assertFederatedLinkingPage();
-  });
-}
-
-
-function testHandleSignIn_accountChooserDisabled() {
-  // Test that when credential helpers are disabled, remember account is not
-  // shown and is disabled.
-  app.updateConfig('credentialHelper',
-                   firebaseui.auth.widget.Config.CredentialHelper.NONE);
-  firebaseui.auth.widget.handler.handleSignIn(app, container);
-  assertSignInPage();
-  var emailInput = getEmailElement();
-  goog.dom.forms.setValue(emailInput, 'user@example.com');
-  goog.testing.events.fireKeySequence(emailInput, goog.events.KeyCodes.ENTER);
-
-  testAuth.assertFetchSignInMethodsForEmail(
-      ['user@example.com'],
-      ['password']);
-  return testAuth.process().then(function() {
-    assertPasswordSignInPage();
-    assertFalse(firebaseui.auth.storage.isRememberAccount(app.getAppId()));
   });
 }
 
@@ -293,4 +228,28 @@ function testHandleSignIn_inProcessing() {
       .then(function() {
         assertPasswordSignInPage();
       });
+}
+
+
+function testHandleSignIn_newUserWithEmailSignUpDisabled() {
+  app.updateConfig('signInOptions',
+    [{
+      'provider': 'password',
+      'requireDisplayName': false,
+      'disableSignUp': {
+        'status': true,
+      }
+    }]
+  );
+  firebaseui.auth.widget.handler.handleSignIn(app, container);
+  assertSignInPage();
+  const emailInput = getEmailElement();
+  goog.dom.forms.setValue(emailInput, 'user@example.com');
+  goog.testing.events.fireKeySequence(emailInput, goog.events.KeyCodes.ENTER);
+  assertTrue(app.getConfig().isEmailSignUpDisabled());
+  testAuth.assertFetchSignInMethodsForEmail(
+      ['user@example.com'], []);
+  return testAuth.process().then(function() {
+    assertUnauthorizedUserPage();
+  });
 }

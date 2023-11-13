@@ -20,7 +20,6 @@ goog.setTestOnly('firebaseui.auth.data.countryTest');
 
 goog.require('firebaseui.auth.data.country');
 goog.require('firebaseui.auth.data.country.LookupTree');
-goog.require('goog.array');
 goog.require('goog.testing.jsunit');
 goog.require('goog.userAgent');
 goog.require('goog.userAgent.product');
@@ -33,16 +32,11 @@ goog.require('goog.userAgent.product');
  * @param {string} locale
  */
 function assertSortCountryListForLocale(sortedNames, inputNames, locale) {
-  var countryList = goog.array.map(inputNames, function(name) {
-    return {
-      name: name,
-      e164_key: '',
-      e164_cc: '',
-      iso2_cc: ''
-    };
+  var countryList = inputNames.map(function(name) {
+    return {name: name, e164_key: '', e164_cc: '', iso2_cc: ''};
   });
   firebaseui.auth.data.country.sortCountryListForLocale(countryList, locale);
-  var actualSortedNames = goog.array.map(countryList, function(country) {
+  var actualSortedNames = countryList.map(function(country) {
     return country.name;
   });
   assertArrayEquals(sortedNames, actualSortedNames);
@@ -55,7 +49,7 @@ function assertSortCountryListForLocale(sortedNames, inputNames, locale) {
  * @return {!Array<string>} List of country iso2_cc names.
  */
 function getCountryCodesForList(countries) {
-  return goog.array.map(countries, function(country) {
+  return countries.map(function(country) {
     return country.iso2_cc;
   });
 }
@@ -158,7 +152,7 @@ function testGetCountriesByIso2() {
  */
 function testGetCountriesByIso2_multipleMatches() {
   var countries = firebaseui.auth.data.country.getCountriesByIso2('xk');
-  var actualCodes = goog.array.map(countries, function(country) {
+  var actualCodes = countries.map(function(country) {
     return country.e164_cc;
   });
   assertSameElements(['377', '381', '386'], actualCodes);
@@ -185,7 +179,7 @@ function testGetCountriesByE164Code() {
  */
 function testGetCountriesByE164Code_multipleMatches() {
   var countries = firebaseui.auth.data.country.getCountriesByE164Code('44');
-  var actualKeys = goog.array.map(countries, function(country) {
+  var actualKeys = countries.map(function(country) {
     return country.e164_key;
   });
   assertSameElements(['44-GG-0', '44-IM-0', '44-JE-0', '44-GB-0'], actualKeys);
@@ -219,7 +213,7 @@ function testGetCountriesByE164eOrIsoCode_iso() {
 function testGetCountriesByE164OrIsoCode_e164_multipleMatches() {
   var countries =
       firebaseui.auth.data.country.getCountriesByE164OrIsoCode('+44');
-  var actualKeys = goog.array.map(countries, function(country) {
+  var actualKeys = countries.map(function(country) {
     return country.e164_key;
   });
   assertSameElements(['44-GG-0', '44-IM-0', '44-JE-0', '44-GB-0'], actualKeys);
@@ -229,7 +223,7 @@ function testGetCountriesByE164OrIsoCode_e164_multipleMatches() {
 function testGetCountriesByE164OrIsoCode_iso_multipleMatches() {
   var countries =
       firebaseui.auth.data.country.getCountriesByE164OrIsoCode('xk');
-  var actualKeys = goog.array.map(countries, function(country) {
+  var actualKeys = countries.map(function(country) {
     return country.e164_key;
   });
   assertSameElements(['377-XK-0', '381-XK-0', '386-XK-0'], actualKeys);

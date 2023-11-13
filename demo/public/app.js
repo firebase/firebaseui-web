@@ -42,8 +42,6 @@ function getUiConfig() {
       // TODO(developer): Remove the providers you don't need for your app.
       {
         provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-        // Required to enable this provider in One-Tap Sign-up.
-        authMethod: 'https://accounts.google.com',
         // Required to enable ID token credentials for this provider.
         clientId: CLIENT_ID
       },
@@ -62,13 +60,16 @@ function getUiConfig() {
         provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
         // Whether the display name should be displayed in Sign Up page.
         requireDisplayName: true,
-        signInMethod: getEmailSignInMethod()
+        signInMethod: getEmailSignInMethod(),
+        disableSignUp: {
+          status: getDisableSignUpStatus()
+        }
       },
       {
         provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
         recaptchaParameters: {
           size: getRecaptchaMode()
-        }
+        },
       },
       {
         provider: 'microsoft.com',
@@ -85,7 +86,10 @@ function getUiConfig() {
     'privacyPolicyUrl': 'https://www.google.com',
     'credentialHelper': CLIENT_ID && CLIENT_ID != 'YOUR_OAUTH_CLIENT_ID' ?
         firebaseui.auth.CredentialHelper.GOOGLE_YOLO :
-        firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM
+        firebaseui.auth.CredentialHelper.NONE,
+    'adminRestrictedOperation': {
+      status: getAdminRestrictedOperationStatus()
+    }
   };
 }
 
@@ -100,7 +104,9 @@ ui.disableAutoSignIn();
  */
 function getWidgetUrl() {
   return '/widget#recaptcha=' + getRecaptchaMode() + '&emailSignInMethod=' +
-      getEmailSignInMethod();
+      getEmailSignInMethod() + '&disableEmailSignUpStatus=' +
+      getDisableSignUpStatus() + '&adminRestrictedOperationStatus=' +
+      getAdminRestrictedOperationStatus();
 }
 
 
@@ -185,17 +191,24 @@ var deleteAccount = function() {
 
 
 /**
- * Handles when the user changes the reCAPTCHA or email signInMethod config.
+ * Handles when the user changes the reCAPTCHA, email signInMethod or email
+ * disableSignUp config.
  */
 function handleConfigChange() {
   var newRecaptchaValue = document.querySelector(
       'input[name="recaptcha"]:checked').value;
   var newEmailSignInMethodValue = document.querySelector(
       'input[name="emailSignInMethod"]:checked').value;
+  var currentDisableSignUpStatus =
+      document.getElementById("email-disableSignUp-status").checked;
+  var currentAdminRestrictedOperationStatus =
+      document.getElementById("admin-restricted-operation-status").checked;
   location.replace(
       location.pathname + '#recaptcha=' + newRecaptchaValue +
-      '&emailSignInMethod=' + newEmailSignInMethodValue);
-
+      '&emailSignInMethod=' + newEmailSignInMethodValue +
+      '&disableEmailSignUpStatus=' + currentDisableSignUpStatus +
+      '&adminRestrictedOperationStatus=' +
+      currentAdminRestrictedOperationStatus);
   // Reset the inline widget so the config changes are reflected.
   ui.reset();
   ui.start('#firebaseui-container', getUiConfig());
@@ -235,6 +248,14 @@ var initApp = function() {
   document.querySelector(
       'input[name="emailSignInMethod"][value="' + getEmailSignInMethod() + '"]')
       .checked = true;
+  document.getElementById('email-disableSignUp-status').addEventListener(
+      'change', handleConfigChange);
+  document.getElementById("email-disableSignUp-status").checked =
+      getDisableSignUpStatus();  
+  document.getElementById('admin-restricted-operation-status').addEventListener(
+      'change', handleConfigChange);
+  document.getElementById("admin-restricted-operation-status").checked =
+      getAdminRestrictedOperationStatus();  
 };
 
 window.addEventListener('load', initApp);

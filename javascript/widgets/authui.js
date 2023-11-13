@@ -82,12 +82,16 @@ goog.require('firebaseui.auth.widget.handler.handleSendEmailLinkForSignIn');
 /** @suppress {extraRequire} */
 goog.require('firebaseui.auth.widget.handler.handleSignIn');
 /** @suppress {extraRequire} */
+goog.require('firebaseui.auth.widget.handler.handleUnauthorizedUser');
+/** @suppress {extraRequire} */
 goog.require('firebaseui.auth.widget.handler.handleUnsupportedProvider');
 goog.require('firebaseui.auth.widget.handler.startSignIn');
 goog.require('goog.Promise');
 goog.require('goog.array');
 goog.require('goog.events');
 goog.require('goog.events.EventType');
+goog.requireType('firebaseui.auth.PendingEmailCredential');
+goog.requireType('firebaseui.auth.ui.page.Base');
 
 
 
@@ -129,6 +133,12 @@ firebaseui.auth.AuthUI = function(auth, opt_appId) {
    *     instance.
    */
   this.tempAuth_ = tempApp.auth();
+  const emulatorConfig = auth.emulatorConfig;
+  if (emulatorConfig) {
+    const {protocol, host, port, options} = emulatorConfig;
+    const portString = port === null ? '' : ':' + port;
+    this.tempAuth_.useEmulator(`${protocol}://${host}${portString}`, options);
+  }
   // Log FirebaseUI on internal Auth instance.
   firebaseui.auth.AuthUI.logFirebaseUI_(this.tempAuth_);
   // Change persistence to session to avoid the risk of dangling auth states in
@@ -213,7 +223,7 @@ firebaseui.auth.AuthUI.resetAllInternals = function() {
 
 
 /**
- * @private {!Object.<!string, !firebaseui.auth.AuthUI>} Map containing the
+ * @private {!Object.<string, !firebaseui.auth.AuthUI>} Map containing the
  *     firebaseui.auth.AuthUI instances keyed by their app IDs.
  */
 firebaseui.auth.AuthUI.instances_ = {};
@@ -521,10 +531,6 @@ firebaseui.auth.AuthUI.prototype.startWithSignInHint =
     this.tempAuth_['tenantId'] = this.auth_['tenantId'];
   }
 
-  // There is a problem when config in second call modifies accountchooser.com
-  // related config. eg. acUiConfig
-  // These changes will be ignored as only the first accountchooser.com related
-  // config will be applied.
   this.setConfig(config);
   this.signInHint_ = signInHint || null;
   // Checks if there is pending internal Auth signOut promise. If yes, wait
@@ -574,9 +580,7 @@ firebaseui.auth.AuthUI.prototype.initElement_ = function(element) {
   // Make sure the locale uses hyphens instead of underscores.
   container.setAttribute('lang', firebaseui.auth.util.getUnicodeLocale());
 
-  // Only one auth instance can be rendered per page. This is because
-  // accountchooser.com callbacks are set once to the AuthUI instance that
-  // first calls them.
+  // Only one auth instance can be rendered per page.
   if (firebaseui.auth.AuthUI.widgetAuthUi_) {
     // Already rendered, automatically reset.
     // First check if there is a pending operation on that widget, if so,
@@ -606,7 +610,7 @@ firebaseui.auth.AuthUI.prototype.initElement_ = function(element) {
       this.currentComponent_.getPageId() == 'blank' &&
       this.getConfig().federatedProviderShouldImmediatelyRedirect();
   // Removes pending status of previous redirect operations including redirect
-  // back from accountchooser.com and federated sign in.
+  // back from federated sign in.
   // Remove status after dispatchOperation completes as that operation depends
   // on this information.
   if (firebaseui.auth.storage.hasRedirectStatus(this.getAppId()) &&
@@ -803,7 +807,7 @@ firebaseui.auth.AuthUI.prototype.reset = function() {
   // Clear email link sign-in state from URL if needed.
   this.clearEmailSignInState();
   // Removes pending status of previous redirect operations including redirect
-  // back from accountchooser.com and federated sign in.
+  // back from federated sign in.
   firebaseui.auth.storage.removeRedirectStatus(this.getAppId());
   // Cancel One-Tap last operation.
   this.cancelOneTapSignIn();
@@ -1011,7 +1015,7 @@ firebaseui.auth.AuthUI.prototype.showOneTapSignIn = function(handler) {
   this.checkIfDestroyed_();
   try {
     this.googleYolo_.show(
-        this.getConfig().getGoogleYoloConfig(), this.isAutoSignInDisabled())
+        this.getConfig().getGoogleYoloClientId(), this.isAutoSignInDisabled())
         .then(function(credential) {
           // Run only when component is available.
           if (self.currentComponent_) {

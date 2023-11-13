@@ -27,6 +27,7 @@
 <translation id="1412449974349991050">Haiti</translation>
 <translation id="144766329299583285">Ako niste zatražili promjenu e-adrese za prijavu, moguće je da netko drugi pokušava pristupiti vašem računu. U tom slučaju trebali biste <ph name="START_LINK" />promijeniti zaporku odmah<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">Otoci Heard i McDonald</translation>
+<translation id="1451880131543823984">Korisnik <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> nema autorizaciju za pregled zatražene stranice.</translation>
 <translation id="1479035434297790822">S vaše je IP adrese došlo previše zahtjeva za izradu računa. Pokušajte ponovo za nekoliko minuta.</translation>
 <translation id="1483249363694224399">Šri Lanka</translation>
 <translation id="1507995441600689506">Sada se možete prijaviti novim računom</translation>
@@ -157,6 +158,7 @@
 <translation id="3521753471343796628">Irak</translation>
 <translation id="354888504916863713">Vijetnam</translation>
 <translation id="3550380781997195832">Ta e-adresa nije točna</translation>
+<translation id="3552446912357282301">Obratite se administratoru putem adrese <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" /> radi autorizacije.</translation>
 <translation id="3561568594856945084">Mayotte</translation>
 <translation id="3591063723610544836">Prijava</translation>
 <translation id="3593480381831738519">Ponovno postavljanje zaporke</translation>
@@ -245,6 +247,7 @@
 <translation id="5143657419516597442">Sveta Lucija</translation>
 <translation id="521218078240459724">@string/app_name</translation>
 <translation id="5241732101105320538">Provjerite e-poštu</translation>
+<translation id="5255830932650472373">Nova zaporka</translation>
 <translation id="5301108536112812420">Vaš je zahtjev za potvrdu e-adrese istekao ili je veza iskorištena</translation>
 <translation id="5323041129469627535">Oman</translation>
 <translation id="5326139833547026317">Karipski otoci Nizozemske</translation>
@@ -326,7 +329,7 @@
 <translation id="6470057025778734988">Više se nećete moći prijaviti svojim računom.</translation>
 <translation id="6472297146424049005">Provjerite internetsku vezu.</translation>
 <translation id="6483116480230343278">Registriranje....</translation>
-<translation id="6502083090260346644">Ako dodirnete <ph name="STRING" />, možda ćemo vam poslati SMS. Moguća je naplata poruke i podatkovnog prometa.</translation>
+<translation id="6494734506607758748">Da biste promijenili e-adresu povezanu sa svojim računom, trebate se ponovo prijaviti.</translation>
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Američka Samoa</translation>
 <translation id="6527597037551425211">Brazil</translation>
@@ -357,6 +360,7 @@
 <translation id="6821607741326790458">Jamajka</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
+<translation id="6852861389112775830">Korisnik <ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> nema autorizaciju za pregled zatražene stranice.</translation>
 <translation id="6918319418444979243">Pošalji ponovo</translation>
 <translation id="6920167780806379235">Sirija</translation>
 <translation id="6921505896641453739">E-adresa</translation>
@@ -364,6 +368,7 @@
 <translation id="6951302238647056860">Kôd više nije važeći</translation>
 <translation id="6961220857430789248">E-poruka za prijavu s dodatnim uputama poslana je na adresu <ph name="STRING" />. Provjerite e-poštu da biste dovršili prijavu.</translation>
 <translation id="6984204927251307445">Potvrdite e-adresu</translation>
+<translation id="6996552808101270965">Saznajte više</translation>
 <translation id="6999773882165218263">Ime i prezime</translation>
 <translation id="7012506961150923116">Granada</translation>
 <translation id="7024571478138322659">Zapadna Sahara</translation>
@@ -393,6 +398,7 @@
 <translation id="7291656724505689727">Prijava putem telefona</translation>
 <translation id="7320029088567935126">Pokušajte ponovo potvrditi e-adresu</translation>
 <translation id="7331038350037712642">Azerbajdžan</translation>
+<translation id="7359542696390093035">Nemate autorizaciju</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">Nevažeća veza u e-poruci.</translation>
 <translation id="7477065998516229434">Uvjeti pružanja usluge</translation>

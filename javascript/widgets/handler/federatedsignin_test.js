@@ -31,6 +31,8 @@ goog.require('firebaseui.auth.widget.handler.handleFederatedSignIn');
  *      to work. */
 goog.require('firebaseui.auth.widget.handler.handleProviderSignIn');
 /** @suppress {extraRequire} */
+goog.require('firebaseui.auth.widget.handler.handleUnauthorizedUser');
+/** @suppress {extraRequire} */
 goog.require('firebaseui.auth.widget.handler.testHelper');
 
 
@@ -439,6 +441,42 @@ function testHandleFederatedSignIn_popup_userCancelled() {
 }
 
 
+function testHandleFederatedSignIn_popup_userCancelled_consentRequired() {
+  // Test federated sign in with popup when user denies permissions on
+  // Microsoft work account.
+  app.updateConfig('signInFlow', 'popup');
+  // Since Microsoft's signInOptions include a loginHintKey definition,
+  // a login_hint should be set in the customParameters.
+  const expectedProvider =
+      getExpectedProviderWithCustomParameters('microsoft.com',
+          {'login_hint': 'user@outlook.com'});
+  firebaseui.auth.widget.handler.handleFederatedSignIn(
+      app, container, 'user@outlook.com', 'microsoft.com');
+  assertFederatedLinkingPage();
+  submitForm();
+  // When microsoft.com consent is rejected, auth/invalid-credential is thrown.
+  // This will get normalized to auth/user-cancelled.
+  const invalidCredentialError = {
+    'code': 'auth/invalid-credential',
+    'message': 'error=consent_required',
+  };
+  const expectedError = {
+    'code': 'auth/user-cancelled',
+  };
+  testAuth.assertSignInWithPopup(
+      [expectedProvider],
+      null,
+      invalidCredentialError);
+  return testAuth.process().then(function() {
+    // Remain on same page and display the error in info bar.
+    assertFederatedLinkingPage();
+    // Show error in info bar.
+    assertInfoBarMessage(
+        firebaseui.auth.widget.handler.common.getErrorMessage(expectedError));
+  });
+}
+
+
 function testHandleFederatedSignIn_popup_popupBlockedError() {
   // Test federated sign in with popup when popup blocked.
   app.updateConfig('signInFlow', 'popup');
@@ -524,6 +562,79 @@ function testHandleFederatedSignIn_popup_unrecoverableError() {
     // Show error in info bar.
     assertInfoBarMessage(
         firebaseui.auth.widget.handler.common.getErrorMessage(internalError));
+  });
+}
+
+
+function testHandleFederatedSignIn_popup_adminRestrictedError() {
+  // Test federated sign in with popup when admin restricted error is returned,
+  // and adminRestrictedOperationConfig status is set to true, an unauthorized
+  // user page is shown.
+  app.setConfig({
+    'signInFlow': 'popup',
+    'adminRestrictedOperation': adminRestrictedOperationConfig,
+  });
+  // Add additional scopes to test they are properly passed to sign-in method.
+  const expectedProvider = getExpectedProviderWithScopes({
+    'login_hint': 'user@gmail.com',
+    'prompt': 'select_account'
+  });
+  firebaseui.auth.widget.handler.handleFederatedSignIn(
+      app, container, 'user@gmail.com', 'google.com');
+  assertFederatedLinkingPage();
+  submitForm();
+
+  // Sign in with popup returns unrecoverable error.
+  testAuth.assertSignInWithPopup([expectedProvider], null,
+                                 adminRestrictedOperationError);
+  return testAuth.process().then(function() {
+    // Verify unauthorized user page is rendered.
+    assertUnauthorizedUserPage();
+    // Assert cancel button is rendered.
+    assertNotNull(getCancelButton());
+    // Assert admin email is rendered.
+    assertAdminEmail(expectedAdminEmail);
+    // Assert help link is rendered.
+    assertHelpLink();
+    // Click back button.
+    clickSecondaryLink();
+    // Verify that clicking back button goes back to the starting page.
+    assertProviderSignInPage();
+  });
+}
+
+
+function testHandleFederatedSignIn_popup_adminRestricted_infoBarError() {
+  // Test federated sign in with popup when admin restricted error is returned
+  // but adminRestrictedOperationConfig status is set to false, info bar error
+  // is shown.
+  let modifiedAdminRestrictedOperationConfig =
+      Object.assign({}, adminRestrictedOperationConfig);
+  modifiedAdminRestrictedOperationConfig.status = false;
+  app.setConfig({
+    'signInFlow': 'popup',
+    'adminRestrictedOperation': modifiedAdminRestrictedOperationConfig,
+  });
+  // Add additional scopes to test they are properly passed to sign-in method.
+  const expectedProvider = getExpectedProviderWithScopes({
+    'login_hint': 'user@gmail.com',
+    'prompt': 'select_account'
+  });
+  firebaseui.auth.widget.handler.handleFederatedSignIn(
+      app, container, 'user@gmail.com', 'google.com');
+  assertFederatedLinkingPage();
+  submitForm();
+
+  // Sign in with popup returns unrecoverable error.
+  testAuth.assertSignInWithPopup([expectedProvider], null,
+                                 adminRestrictedOperationError);
+  return testAuth.process().then(function() {
+    // Navigate to provider sign in page and displays the error in info bar.
+    assertProviderSignInPage();
+    // Show error in info bar.
+    assertInfoBarMessage(
+        firebaseui.auth.widget.handler.common.getErrorMessage(
+            adminRestrictedOperationError));
   });
 }
 

@@ -27,6 +27,7 @@
 <translation id="1412449974349991050">Хаити</translation>
 <translation id="144766329299583285">Ако нисте затражили да промените имејл са којег се пријављујете, онда вероватно неко покушава да приступи вашем налогу и требало <ph name="START_LINK" />одмах да промените лозинку<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">Хердово Острво и Мекдоналдова Острва</translation>
+<translation id="1451880131543823984"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> нема овлашћење да приступи траженој страници.</translation>
 <translation id="1479035434297790822">Са ваше IP адресе потиче превише захтева за налог. Пробајте поново за пар минута.</translation>
 <translation id="1483249363694224399">Шри Ланка</translation>
 <translation id="1507995441600689506">Сада можете да се пријавите помоћу новог налога</translation>
@@ -157,6 +158,7 @@
 <translation id="3521753471343796628">Ирак</translation>
 <translation id="354888504916863713">Вијетнам</translation>
 <translation id="3550380781997195832">Имејл адреса није тачна</translation>
+<translation id="3552446912357282301">За овлашћење се обратите на <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" />.</translation>
 <translation id="3561568594856945084">Мајот</translation>
 <translation id="3591063723610544836">Пријавите се</translation>
 <translation id="3593480381831738519">Ресетујте лозинку</translation>
@@ -245,6 +247,7 @@
 <translation id="5143657419516597442">Света Луција</translation>
 <translation id="521218078240459724">@string/app_name</translation>
 <translation id="5241732101105320538">Проверите имејл</translation>
+<translation id="5255830932650472373">Нова лозинка</translation>
 <translation id="5301108536112812420">Захтев за верификацију имејла је истекао или је линк већ употребљен</translation>
 <translation id="5323041129469627535">Оман</translation>
 <translation id="5326139833547026317">Карипска Холандија</translation>
@@ -326,7 +329,7 @@
 <translation id="6470057025778734988">Више нећете моћи да се пријављујете помоћу налога</translation>
 <translation id="6472297146424049005">Проверите интернет везу.</translation>
 <translation id="6483116480230343278">Регистрација је у току…</translation>
-<translation id="6502083090260346644">Ако додирнете <ph name="STRING" />, можда ћете примити SMS. Можда ће вам бити наплаћена порука и пренос података.</translation>
+<translation id="6494734506607758748">Да бисте променили имејл адресу повезану са налогом, треба да се поново пријавите.</translation>
 <translation id="6508909904815637928">Вануату</translation>
 <translation id="6520863029476703422">Америчка Самоа</translation>
 <translation id="6527597037551425211">Бразил</translation>
@@ -357,6 +360,7 @@
 <translation id="6821607741326790458">Јамајка</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Пакистан</translation>
+<translation id="6852861389112775830"><ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> нема овлашћење да приступи траженој страници.</translation>
 <translation id="6918319418444979243">Поново пошаљи</translation>
 <translation id="6920167780806379235">Сирија</translation>
 <translation id="6921505896641453739">Имејл</translation>
@@ -364,6 +368,7 @@
 <translation id="6951302238647056860">Тај кôд више не важи</translation>
 <translation id="6961220857430789248">Имејл за пријављивање са додатним упутствима је послат на <ph name="STRING" />. Проверите имејл да бисте довршили пријављивање.</translation>
 <translation id="6984204927251307445">Потврдите имејл адресу</translation>
+<translation id="6996552808101270965">Сазнајте више</translation>
 <translation id="6999773882165218263">Име и презиме</translation>
 <translation id="7012506961150923116">Гренада</translation>
 <translation id="7024571478138322659">Западна Сахара</translation>
@@ -393,6 +398,7 @@
 <translation id="7291656724505689727">Пријави ме помоћу телефона</translation>
 <translation id="7320029088567935126">Пробајте поново да верификујете имејл</translation>
 <translation id="7331038350037712642">Азербејџан</translation>
+<translation id="7359542696390093035">Немате овлашћења</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">Линк у имејлу је неважећи.</translation>
 <translation id="7477065998516229434">Услови коришћења услуге</translation>
@@ -406,7 +412,7 @@
 <translation id="7615083347713899917">Киргистан</translation>
 <translation id="7643408533407091568">Већ сте користили адресу <ph name="EMAIL_ADDR" />
         за пријављивање. Унесите лозинку за тај налог.</translation>
-<translation id="7652546345268886994">{plural_var,plural, =1{Лозинка није довољно јака. Употребите бар <ph name="PH_1" /> знак, уз комбинацију бројева и слова}one{Лозинка није довољно јака. Употребите бар <ph name="PH_1" /> знак, уз комбинацију бројева и слова}few{Лозинка није довољно јака. Употребите бар <ph name="PH_1" /> знака, уз комбинацију бројева и слова}other{Лозинка није довољно јака. Употребите бар <ph name="PH_1" /> знакова, уз комбинацију бројева и слова}}</translation>
+<translation id="7652546345268886994">{plural_var,plural, =1{Лозинка није довољно јака. Користите бар <ph name="PH_1" /> знак, уз комбинацију бројева и слова}one{Лозинка није довољно јака. Користите бар <ph name="PH_1" /> знак, уз комбинацију бројева и слова}few{Лозинка није довољно јака. Користите бар <ph name="PH_1" /> знака, уз комбинацију бројева и слова}other{Лозинка није довољно јака. Користите бар <ph name="PH_1" /> знакова, уз комбинацију бројева и слова}}</translation>
 <translation id="7699755204074920022">Зимбабве</translation>
 <translation id="7746977132739352062">Није потврђен идентитет захтева због OAuth токена који недостаје, неважећи је или је истекао.</translation>
 <translation id="7782885946428624225">Дошло је до проблема при верификацији броја телефона</translation>
@@ -443,7 +449,7 @@
 <translation id="8371947480506692029">Свети Мартин (холандски)</translation>
 <translation id="8395242001819210481">Антигва и Барбуда</translation>
 <translation id="8399150401520737446">Северна Маријанска Острва</translation>
-<translation id="8414177484126578295">Фокландска (Малвинска) Острва</translation>
+<translation id="8414177484126578295">Фолкландска (Малвинска) острва</translation>
 <translation id="8420860857100049136">Перу</translation>
 <translation id="8422843028108996485">Тренутна лозинка</translation>
 <translation id="8426535539577812032">Добро дошли</translation>

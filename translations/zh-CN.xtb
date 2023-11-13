@@ -27,6 +27,7 @@
 <translation id="1412449974349991050">海地</translation>
 <translation id="144766329299583285">如果您并未请求更改您的登录电子邮件地址，那么可能是有人正在试图访问您的帐号，您应该<ph name="START_LINK" />立即更改您的密码<ph name="END_LINK" />。</translation>
 <translation id="1449981769524156676">赫德岛和麦克唐纳群岛</translation>
+<translation id="1451880131543823984"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> 已获授权，可以查看所请求的页面。</translation>
 <translation id="1479035434297790822">来自您的 IP 地址的帐号请求过多，请过几分钟再试。</translation>
 <translation id="1483249363694224399">斯里兰卡</translation>
 <translation id="1507995441600689506">现在您可以使用新帐号登录了</translation>
@@ -160,6 +161,7 @@
 <translation id="3521753471343796628">伊拉克</translation>
 <translation id="354888504916863713">越南</translation>
 <translation id="3550380781997195832">该电子邮件地址不正确</translation>
+<translation id="3552446912357282301">请与 <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" /> 联系来申请授权。</translation>
 <translation id="3561568594856945084">马约特岛</translation>
 <translation id="3591063723610544836">登录</translation>
 <translation id="3593480381831738519">重置您的密码</translation>
@@ -248,6 +250,7 @@
 <translation id="5143657419516597442">圣卢西亚</translation>
 <translation id="521218078240459724">@string/app_name</translation>
 <translation id="5241732101105320538">请查收电子邮件</translation>
+<translation id="5255830932650472373">新密码</translation>
 <translation id="5301108536112812420">您的电子邮件地址验证请求已过期，或者相关链接已被使用</translation>
 <translation id="5323041129469627535">阿曼</translation>
 <translation id="5326139833547026317">荷兰加勒比</translation>
@@ -329,7 +332,7 @@
 <translation id="6470057025778734988">您将不能再使用您的帐号登录</translation>
 <translation id="6472297146424049005">检查互联网连接。</translation>
 <translation id="6483116480230343278">正在注册…</translation>
-<translation id="6502083090260346644">点按“<ph name="STRING" />”后，系统会向您发送一条短信。这可能会产生短信费用和上网流量费。</translation>
+<translation id="6494734506607758748">要更改与您的帐号相关联的电子邮件地址，您需要重新登录。</translation>
 <translation id="6508909904815637928">瓦努阿图</translation>
 <translation id="6520863029476703422">美属萨摩亚</translation>
 <translation id="6527597037551425211">巴西</translation>
@@ -360,6 +363,7 @@
 <translation id="6821607741326790458">牙买加</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">巴基斯坦</translation>
+<translation id="6852861389112775830"><ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> 已获授权，可以查看所请求的页面。</translation>
 <translation id="6918319418444979243">重新发送</translation>
 <translation id="6920167780806379235">叙利亚</translation>
 <translation id="6921505896641453739">电子邮件地址</translation>
@@ -367,6 +371,7 @@
 <translation id="6951302238647056860">此验证码已失效</translation>
 <translation id="6961220857430789248">系统已将含附加说明的登录电子邮件发送至 <ph name="STRING" />。请查收电子邮件以完成登录。</translation>
 <translation id="6984204927251307445">确认电子邮件地址</translation>
+<translation id="6996552808101270965">了解详情</translation>
 <translation id="6999773882165218263">姓名</translation>
 <translation id="7012506961150923116">格林纳达</translation>
 <translation id="7024571478138322659">西撒哈拉</translation>
@@ -396,6 +401,7 @@
 <translation id="7291656724505689727">使用电话号码登录</translation>
 <translation id="7320029088567935126">尝试重新验证您的电子邮件地址</translation>
 <translation id="7331038350037712642">阿塞拜疆</translation>
+<translation id="7359542696390093035">未获授权</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">电子邮件链接无效。</translation>
 <translation id="7477065998516229434">服务条款</translation>

@@ -145,13 +145,14 @@ function testGoTo_unsafeUrl() {
   };
   stubs.reset();
 
-  // Confirm URLs are sanitized before redirection.
-  firebaseui.auth.util.goTo(
-      'javascript:doEvilStuff()', mockWin);
-  assertEquals(1, mockWin.location.assign.getCallCount());
-  assertEquals(
-      'about:invalid#zClosurez',
-      mockWin.location.assign.getLastCall().getArgument(0));
+  // Confirm unsafe URLs throw an assertion error and no location.assign is
+  // called.
+  assertThrows(function() {
+    firebaseui.auth.util.goTo(
+        'javascript:doEvilStuff()', mockWin);
+  });
+  // location.assign should not be called due to assertion error.
+  assertEquals(0, mockWin.location.assign.getCallCount());
 }
 
 
@@ -185,13 +186,14 @@ function testOpenerGoTo_unsafeUrl() {
   };
   stubs.reset();
 
-  // Confirm URLs are sanitized before redirection.
-  firebaseui.auth.util.openerGoTo(
-      'javascript:doEvilStuff()', mockWin);
-  assertEquals(1, mockWin.opener.location.assign.getCallCount());
-  assertEquals(
-      'about:invalid#zClosurez',
-      mockWin.opener.location.assign.getLastCall().getArgument(0));
+  // Confirm unsafe URLs throw an assertion error and no location.assign is
+  // called.
+  assertThrows(function() {
+    firebaseui.auth.util.openerGoTo(
+        'javascript:doEvilStuff()', mockWin);
+  });
+  // location.assign should not be called due to assertion error.
+  assertEquals(0, mockWin.opener.location.assign.getCallCount());
 }
 
 

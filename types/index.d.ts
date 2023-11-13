@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-declare namespace firebaseui { }
+declare namespace firebaseui {}
 
 export as namespace firebaseui;
 
@@ -24,12 +24,16 @@ interface Callbacks {
     authResult: any,
     redirectUrl?: string
   ): boolean;
-  signInFailure?(error: firebaseui.auth.AuthUIError): Promise<void>;
+  signInFailure?(error: firebaseui.auth.AuthUIError): Promise<void>|void;
   uiShown?(): void;
 }
 
 interface SignInOption {
   provider: string;
+  providerName?: string;
+  fullLabel?: string;
+  buttonColor?: string;
+  iconUrl?: string;
   hd?: string|RegExp;
 }
 
@@ -80,11 +84,18 @@ interface ActionCodeSettings {
   dynamicLinkDomain?: string;
 }
 
+interface DisableSignUpConfig {
+  status: boolean;
+  adminEmail?: string;
+  helpLink?: string;
+}
+
 interface EmailSignInOption extends SignInOption {
   forceSameDevice?: boolean;
   requireDisplayName?: boolean;
   signInMethod?: string;
   emailLinkSignIn?(): ActionCodeSettings;
+  disableSignUp?: DisableSignUpConfig;
 }
 
 interface PhoneSignInOption extends SignInOption {
@@ -102,7 +113,6 @@ interface PhoneSignInOption extends SignInOption {
 
 declare namespace firebaseui.auth {
   interface Config {
-    acUiConfig?: object;
     autoUpgradeAnonymousUsers?: boolean;
     callbacks?: Callbacks;
     credentialHelper?: CredentialHelperType;
@@ -119,9 +129,11 @@ declare namespace firebaseui.auth {
     tosUrl?: (() => void) | string;
     privacyPolicyUrl?: (() => void) | string;
     widgetUrl?: string;
+    adminRestrictedOperation?: DisableSignUpConfig;
   }
 
   interface TenantConfig extends firebaseui.auth.Config {
+    fullLabel?: string;
     displayName?: string;
     buttonColor?: string;
     iconUrl?: string;
@@ -151,7 +163,6 @@ declare namespace firebaseui.auth {
 
   class CredentialHelper {
     private constructor();
-    static ACCOUNT_CHOOSER_COM: CredentialHelperType;
     static GOOGLE_YOLO: CredentialHelperType;
     static NONE: CredentialHelperType;
   }

@@ -25,6 +25,7 @@ goog.require('firebaseui.auth.ui.element.form');
 goog.require('firebaseui.auth.ui.element.name');
 goog.require('firebaseui.auth.ui.element.newPassword');
 goog.require('firebaseui.auth.ui.page.Base');
+goog.requireType('goog.dom.DomHelper');
 
 
 /**

@@ -18,6 +18,7 @@ goog.module('firebaseui.auth.ui.page.ProviderMatchByEmail');
 goog.module.declareLegacyNamespace();
 
 const Base = goog.require('firebaseui.auth.ui.page.Base');
+const DomHelper = goog.requireType('goog.dom.DomHelper');
 const email = goog.require('firebaseui.auth.ui.element.email');
 const form = goog.require('firebaseui.auth.ui.element.form');
 const page = goog.require('firebaseui.auth.soy2.page');
@@ -35,7 +36,7 @@ class ProviderMatchByEmail extends Base {
    *     ToS link is clicked.
    * @param {?function()=} privacyPolicyCallback The optional callback to
    *     invoke when the Privacy Policy link is clicked.
-   * @param {?goog.dom.DomHelper=} domHelper Optional DOM helper.
+   * @param {?DomHelper=} domHelper Optional DOM helper.
    */
   constructor(
       onEmailEnter, tosCallback = undefined, privacyPolicyCallback = undefined,
