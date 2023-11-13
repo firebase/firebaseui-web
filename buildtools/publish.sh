@@ -114,9 +114,9 @@ if [ ! -s CHANGELOG.md ]; then
 fi
 echo "Made sure there is a changelog."
 
-echo "Running npm install..."
-npm install
-echo "Ran npm install."
+echo "Running npm ci..."
+npm ci
+echo "Ran npm ci."
 
 CURRENT_VERSION=$(jq -r ".version" package.json)
 echo "Making a $VERSION version..."

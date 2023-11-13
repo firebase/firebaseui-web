@@ -22,11 +22,10 @@ goog.module.declareLegacyNamespace();
 
 const AuthUI = goog.require('firebaseui.auth.AuthUI');
 const Base = goog.require('firebaseui.auth.ui.page.Base');
+const Config = goog.requireType('firebaseui.auth.Config');
 const GoogPromise = goog.require('goog.Promise');
-const ProviderMatchByEmail =
-    goog.require('firebaseui.auth.ui.page.ProviderMatchByEmail');
-const RecoverableError =
-    goog.require('firebaseui.auth.ui.page.RecoverableError');
+const ProviderMatchByEmail = goog.require('firebaseui.auth.ui.page.ProviderMatchByEmail');
+const RecoverableError = goog.require('firebaseui.auth.ui.page.RecoverableError');
 const SelectTenant = goog.require('firebaseui.auth.ui.page.SelectTenant');
 const SignOut = goog.require('firebaseui.auth.ui.page.SignOut');
 const Spinner = goog.require('firebaseui.auth.ui.page.Spinner');
@@ -544,7 +543,7 @@ class FirebaseUiHandler {
     const message = getLocalizedErrorMessage(error['code']) || error['message'];
     this.disposeCurrentComponent_();
     let onRetryClick;
-    if (error['retry'] && goog.isFunction(error['retry'])) {
+    if (error['retry'] && typeof error['retry'] === 'function') {
       onRetryClick = () => {
         this.reset();
         error['retry']();
@@ -609,7 +608,7 @@ function getLocalizedErrorMessage(code) {
  *     top-level project config.
  * @typedef {{
  *   authDomain: string,
- *   tenants: !Object<string, !firebaseui.auth.Config>
+ *   tenants: !Object<string, !Config>
  * }}
  */
 let CIAPHandlerConfig;

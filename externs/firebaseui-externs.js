@@ -468,11 +468,9 @@ firebaseui.auth.AuthUIError.prototype.toJSON = function() {};
 
 /**
  * The FirebaseUI credential helpers available.
- *
  * @enum {string}
  */
 firebaseui.auth.CredentialHelper = {
-  ACCOUNT_CHOOSER_COM: 'accountchooser.com',
   GOOGLE_YOLO: 'googleyolo',
   NONE: 'none'
 };
@@ -484,14 +482,6 @@ firebaseui.auth.CredentialHelper = {
  * @interface
  */
 firebaseui.auth.Config = function() {};
-
-/**
- * The accountchooser.com configuration when it is selected as credential
- * helper.
- *
- * @type {!Object|undefined}
- */
-firebaseui.auth.Config.prototype.acUiConfig;
 
 /**
  * Whether to upgrade anonymous users on sign-in. The default is false.
@@ -508,7 +498,8 @@ firebaseui.auth.Config.prototype.autoUpgradeAnonymousUsers;
 firebaseui.auth.Config.prototype.callbacks;
 
 /**
- * Determines which credential helper to use. The default is accountchooser.com.
+ * Determines which credential helper to use. By default, no credential helper
+ * is selected.
  *
  * @type {!firebaseui.auth.CredentialHelper|undefined}
  */
@@ -600,6 +591,18 @@ firebaseui.auth.Config.prototype.privacyPolicyUrl;
  */
 firebaseui.auth.Config.prototype.widgetUrl;
 
+/**
+ * The configuration mirroring the project user actions ("Enable create")
+ * settings.  When sign-up is disabled in the project settings, this
+ * configuration should be provided with the status field set to `true`. This
+ * does not enforce the policy but is rather useful for providing additional
+ * instructions to the end user when a user tries to create a new user account
+ * and the Auth server blocks the operation.
+ *
+ * @type {firebaseui.auth.DisableSignUpConfig|undefined}
+ */
+firebaseui.auth.Config.prototype.adminRestrictedOperation;
+
 
 /**
  * The tenant level CIAP configuration settings.
@@ -609,6 +612,13 @@ firebaseui.auth.Config.prototype.widgetUrl;
  */
 firebaseui.auth.TenantConfig = function() {};
 
+/**
+ * The tenant full label of the tenant selection button for the option first
+ * flow.
+ *
+ * @type {string|undefined}
+ */
+firebaseui.auth.TenantConfig.prototype.fullLabel;
 
 /**
  * The tenant display name of the tenant selection button for the option first
@@ -664,8 +674,8 @@ firebaseui.auth.Callbacks.prototype.signInSuccessWithAuthResult =
  *
  * @param {!firebaseui.auth.AuthUIError} error The FirebaseUI error identifying
  *     the reason behind the failure.
- * @return {!Promise<void>} A promise that resolves when the merge conflict
- *     is completed.
+ * @return {!Promise<void>|void} Either void or a promise that resolves when the
+ *     merge conflict is completed.
  */
 firebaseui.auth.Callbacks.prototype.signInFailure = function(error) {};
 
@@ -681,6 +691,38 @@ firebaseui.auth.Callbacks.prototype.uiShown = function() {};
  * @interface
  */
 firebaseui.auth.SignInOption = function() {};
+
+/**
+ * The provider name displayed to end users
+ * (sign-in button label/linking prompt).
+ * Default: provider ID
+ *
+ * @type {string|undefined}
+ */
+firebaseui.auth.SignInOption.prototype.providerName;
+
+/**
+ * The full label of the button, instead of "Sign in with $providerName".
+ * Default: "Sign in with $providerName".
+ *
+ * @type {string|undefined}
+ */
+firebaseui.auth.SignInOption.prototype.fullLabel;
+
+/**
+ * The color of the sign-in button.
+ *
+ * @type {string|undefined}
+ */
+firebaseui.auth.SignInOption.prototype.buttonColor;
+
+/**
+ * The URL of the Identity Provider's icon. This will be displayed on the
+ * provider's sign-in button, etc.
+ *
+ * @type {string|undefined}
+ */
+firebaseui.auth.SignInOption.prototype.iconUrl;
 
 /**
  * The provider ID for the provided sign in option,
@@ -713,6 +755,7 @@ firebaseui.auth.FederatedSignInOption = function() {};
  * The Auth method (typically the authorization endpoint) needed for one-tap
  * sign-up, eg: 'https://accounts.google.com'.
  *
+ * @deprecated
  * @type {string|undefined}
  */
 firebaseui.auth.FederatedSignInOption.prototype.authMethod;
@@ -888,6 +931,39 @@ firebaseui.auth.OidcSignInOption.prototype.customParameters;
 
 
 /**
+ * Defines the configuration for how to handle errors associated with disabling
+ * users from signing up using FirebaseUI.
+ *
+ * @interface
+ */
+firebaseui.auth.DisableSignUpConfig = function() {};
+
+/**
+ * Whether a new user is unable to sign up in FirebaseUI. This is true when a
+ * new user cannot sign up, false otherwise.
+ *
+ * @type {boolean}
+ */
+firebaseui.auth.DisableSignUp.prototype.status;
+
+/**
+ * The optional site administrator email to contact for access when sign up is
+ * disabled.
+ *
+ * @type {string|undefined}
+ */
+firebaseui.auth.DisableSignUp.prototype.adminEmail;
+
+/**
+ * The optional help link to provide information on how to get access to the
+ * site when sign up is disabled.
+ *
+ * @type {string|undefined}
+ */
+firebaseui.auth.DisableSignUp.prototype.helpLink;
+
+
+/**
  * Defines the sign-in option needed to configure the FirebaseUI email sign-in
  * widget.
  *
@@ -920,6 +996,12 @@ firebaseui.auth.EmailSignInOption.prototype.signInMethod;
  * @type {boolean|undefined}
  */
 firebaseui.auth.EmailSignInOption.prototype.forceSameDevice;
+
+/**
+ * The object for configuring disableSignUp options.
+ * @type {firebaseui.auth.DisableSignUpConfig|undefined}
+ */
+firebaseui.auth.EmailSignInOption.prototype.disableSignUp;
 
 /**
  * Defines the optional callback function to return

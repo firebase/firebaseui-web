@@ -36,7 +36,7 @@
  * This will start the HTTP Server locally, and connect through SauceConnect
  * to SauceLabs remote browsers instances.
  *
- * Travis will run `npm test -- --saucelabs`.
+ * Github will run `npm test -- --saucelabs`.
  */
 
 // Common configuration.
@@ -49,7 +49,8 @@ config = {
   jasmineNodeOpts: {
     // Default time to wait in ms before a test fails.
     defaultTimeoutInterval: 20 * 60 * 1000
-  }
+  },
+  chromeDriver: require(`chromedriver/lib/chromedriver`).path
 };
 
 // Read arguments to the protractor command.
@@ -60,10 +61,10 @@ config = {
 var arguments = process.argv.slice(3);
 
 // Default options: run tests locally (saucelabs false) and use the env variable
-// TRAVIS_JOB_NUMBER to get the tunnel identifier, when using saucelabs.
+// GITHUB_RUN_ID to get the tunnel identifier, when using saucelabs.
 var options = {
   saucelabs: false,
-  tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER
+  tunnelIdentifier: process.env.GITHUB_RUN_ID
 };
 
 for (var i = 0; i < arguments.length; i++) {
@@ -77,7 +78,7 @@ for (var i = 0; i < arguments.length; i++) {
 
 if (options.saucelabs) {
   if (!options.tunnelIdentifier) {
-    throw 'No tunnel identifier given! Either the TRAVIS_JOB_NUMBER is not ' +
+    throw 'No tunnel identifier given! Either the GITHUB_RUN_ID is not ' +
         'set, or you haven\'t passed the --tunnelIdentifier=xxx argument.';
   }
   // SauceLabs configuration.

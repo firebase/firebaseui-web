@@ -537,7 +537,7 @@
  */
 {template .emailLinkSignInLinking}
   {@param email: string}
-  {@param? providerConfig: [providerId:string|null, providerName:string|null,
+  {@param? providerConfig: [providerId:string|null, providerName:string|null, fullLabel:string|null,
       buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
   {let $idpDisplayName kind="text"}{call firebaseui.auth.soy2.element.idpName data="all" /}{/let}
   <div class="mdl-card mdl-shadow--2dp firebaseui-container
@@ -589,7 +589,7 @@
  * Renders an account linking page for an email link account.
  */
 {template .emailLinkSignInLinkingDifferentDevice}
-  {@param? providerConfig: [providerId:string|null, providerName:string|null,
+  {@param? providerConfig: [providerId:string|null, providerName:string|null, fullLabel:string|null,
       buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
   {let $idpDisplayName kind="text"}{call firebaseui.auth.soy2.element.idpName data="all" /}{/let}
   <div class="mdl-card mdl-shadow--2dp firebaseui-container
@@ -638,7 +638,7 @@
  */
 {template .federatedLinking}
   {@param email: string}
-  {@param? providerConfig: [providerId:string|null, providerName:string|null,
+  {@param? providerConfig: [providerId:string|null, providerName:string|null, fullLabel:string|null,
       buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
   {let $idpDisplayName kind="text"}{call firebaseui.auth.soy2.element.idpName data="all" /}{/let}
   <div class="mdl-card mdl-shadow--2dp firebaseui-container firebaseui-id-page-federated-linking">
@@ -667,6 +667,70 @@
               {msg desc="Label of a button that signs in a user with a federated identity provider
                   (e.g. Sign in with Google, Sign in with Facebook)."}
                 Sign in with {$idpDisplayName}
+              {/msg}
+            {/param}
+          {/call}
+        </div>
+      </div>
+      <div class="firebaseui-card-footer">
+        {call firebaseui.auth.soy2.element.tosPpLink data="all" /}
+      </div>
+    </form>
+  </div>
+{/template}
+
+
+/**
+ * Renders an unauthorized user page.
+ */
+{template .unauthorizedUser}
+  {@param? userIdentifier: string}
+  {@param? adminEmail: string}
+  {@param? displayHelpLink: bool}
+  <div class="mdl-card mdl-shadow--2dp firebaseui-container
+              firebaseui-id-page-unauthorized-user">
+    <form onsubmit="return false;">
+      <div class="firebaseui-card-header">
+        <h1 class="firebaseui-title">
+          {msg desc="Header of a page notifying the user that they are not authorized
+              to register an account for the current application."}
+            Not Authorized
+          {/msg}
+        </h1>
+      </div>
+      <div class="firebaseui-card-content">
+        <p class="firebaseui-text">
+          {if $userIdentifier}
+            {msg desc="Message notifying the user that they are not authorized to
+                register an account for the current application."}
+              <strong>{$userIdentifier}</strong> is not authorized to view the requested page.
+            {/msg}
+          {else}
+            User is not authorized to view the requested page.
+          {/if}
+        </p>
+        {if $adminEmail}
+          <p class="firebaseui-text firebaseui-id-unauthorized-user-admin-email">
+            {msg desc="Instructions on how to contact the site administrator for access."}
+              Please contact <strong>{$adminEmail}</strong> for authorization.
+            {/msg}
+          </p>
+        {/if}
+      </div>
+      <div class="firebaseui-card-actions">
+        <div class="firebaseui-form-links">
+          {if $displayHelpLink}
+            <a class="firebaseui-link firebaseui-id-unauthorized-user-help-link"
+                href="javascript:void(0)" target="_blank">
+              {msg desc="Label for the help link"}Learn More{/msg}
+            </a>
+          {/if}
+        </div>
+        <div class="firebaseui-form-actions">
+          {call firebaseui.auth.soy2.element.cancelButton}
+            {param label kind="text"}
+              {msg desc="Label for the button to go back to the previous page."}
+                Back
               {/msg}
             {/param}
           {/call}
@@ -1234,7 +1298,7 @@
  * Renders the list of supported sign-in providers.
  */
 {template .providerSignIn}
-  {@param providerConfigs: list<[providerId:string, providerName:string|null,
+  {@param providerConfigs: list<[providerId:string, providerName:string|null, fullLabel:string|null,
       buttonColor:string|null, iconUrl: string|null]>} /** List of supported IdP configs. */
   <div class="firebaseui-container firebaseui-page-provider-sign-in{sp}
       firebaseui-id-page-provider-sign-in firebaseui-use-spinner">
@@ -1389,8 +1453,8 @@
  * Renders the list of tenants to select.
  */
 {template .selectTenant}
-  {@param tenantConfigs: list<[tenantId:string|null, displayName:string, buttonColor:string,
-      iconUrl: string]>} /** List of tenant selection button configs. */
+  {@param tenantConfigs: list<[tenantId:string|null, fullLabel:string|null, displayName:string,
+      buttonColor:string, iconUrl: string]>} /** List of tenant selection button configs. */
   <div class="firebaseui-container firebaseui-page-select-tenant firebaseui-id-page-select-tenant">
     <div class="firebaseui-card-content">
       <form onsubmit="return false;">

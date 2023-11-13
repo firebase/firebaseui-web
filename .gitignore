@@ -5,6 +5,7 @@ node_modules/
 generated/
 out/
 dist/
+.firebase
 
 # Generated files.
 *.log

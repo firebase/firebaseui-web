@@ -42,7 +42,8 @@ FirebaseUI.
 10. [React DOM Setup](#react-dom-setup)
 11. [Angular Setup](#angular-setup)
 12. [Known issues](#known-issues)
-13. [Release Notes](#release-notes)
+13. [Deprecated APIs](#deprecated-apis)
+14. [Release Notes](#release-notes)
 
 ## Demo
 
@@ -61,27 +62,27 @@ You just need to include the following script and CSS file in the `<head>` tag
 of your page, below the initialization snippet from the Firebase Console:
 
 ```html
-<script src="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.js"></script>
-<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.css" />
+<script src="https://www.gstatic.com/firebasejs/ui/6.1.0/firebase-ui-auth.js"></script>
+<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.1.0/firebase-ui-auth.css" />
 ```
 
 #### Localized Widget
 
-Localized versions of the widget are available through the CDN. To use a localized widget, load the
-localized JS library instead of the default library:
+Localized versions of the widget are available through the CDN. To use a
+localized widget, load the localized JS library instead of the default library:
 
 ```html
-<script src="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth__{LANGUAGE_CODE}.js"></script>
-<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.css" />
+<script src="https://www.gstatic.com/firebasejs/ui/6.1.0/firebase-ui-auth__{LANGUAGE_CODE}.js"></script>
+<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.1.0/firebase-ui-auth.css" />
 ```
 
 where `{LANGUAGE_CODE}` is replaced by the code of the language you want. For example, the French
 version of the library is available at
-`https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth__fr.js`. The list of available
+`https://www.gstatic.com/firebasejs/ui/6.1.0/firebase-ui-auth__fr.js`. The list of available
 languages and their respective language codes can be found at [LANGUAGES.md](LANGUAGES.md).
 
 Right-to-left languages also require the right-to-left version of the stylesheet, available at
-`https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth-rtl.css`, instead of the default
+`https://www.gstatic.com/firebasejs/ui/6.1.0/firebase-ui-auth-rtl.css`, instead of the default
 stylesheet. The supported right-to-left languages are Arabic (ar), Farsi (fa), and Hebrew (iw).
 
 ### Option 2: npm Module
@@ -90,25 +91,15 @@ Install FirebaseUI and its peer-dependency Firebase via npm using the following
 commands:
 
 ```bash
-$ npm install firebase --save
-$ npm install firebaseui --save
+$ npm install firebase firebaseui --save
 ```
 
-You can then `require` the following modules within your source files:
+You can then `import` the following modules within your source files:
 
 ```javascript
-var firebase = require('firebase');
-var firebaseui = require('firebaseui');
-// or using ES6 imports:
+import firebase from 'firebase/compat/app';
 import * as firebaseui from 'firebaseui'
-```
-
-Or include the required files in your HTML, if your HTTP Server serves the files
-within `node_modules/`:
-
-```html
-<script src="node_modules/firebaseui/dist/firebaseui.js"></script>
-<link type="text/css" rel="stylesheet" href="node_modules/firebaseui/dist/firebaseui.css" />
+import 'firebaseui/dist/firebaseui.css'
 ```
 
 ### Option 3: Bower component
@@ -139,9 +130,9 @@ FirebaseUI includes the following flows:
 *"One account per email address"* setting is enabled in the
 [Firebase console](https://console.firebase.google.com). This setting is enabled
 by default.)
-6. [Account Chooser](https://www.accountchooser.com/learnmore.html?lang=en) for
-remembering emails
-7. Ability to upgrade anonymous users through sign-in/sign-up
+6. Integration with
+[one-tap sign-up](https://developers.google.com/identity/one-tap/web/)
+7. Ability to upgrade anonymous users through sign-in/sign-up.
 8. Sign-in as a guest
 
 ### Configuring sign-in providers
@@ -172,7 +163,7 @@ instructions:
 ### Starting the sign-in flow
 
 You first need to initialize your
-[Firebase app](https://firebase.google.com/docs/web/setup#prerequisites). The
+[Firebase app](https://firebase.google.com/docs/web/setup). The
 `firebase.auth.Auth` instance should be passed to the constructor of
 `firebaseui.auth.AuthUI`. You can then call the `start` method with the CSS
 selector that determines where to create the widget, and a configuration object.
@@ -191,12 +182,14 @@ for a more in-depth example, showcasing a Single Page Application mode.
   <head>
     <meta charset="UTF-8">
     <title>Sample FirebaseUI App</title>
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth-compat.js"></script>
     <!-- *******************************************************************************************
-       * TODO(DEVELOPER): Paste the initialization snippet from:
-       * Firebase Console > Overview > Add Firebase to your web app. *
+       * TODO(DEVELOPER): Paste the initialization snippet from this dialog box:
+       * Firebase Console > Project Settings > Add App > Web.
        ***************************************************************************************** -->
-    <script src="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.css" />
+    <script src="https://www.gstatic.com/firebasejs/ui/6.1.0/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.1.0/firebase-ui-auth.css" />
     <script type="text/javascript">
       // FirebaseUI config.
       var uiConfig = {
@@ -236,14 +229,15 @@ for a more in-depth example, showcasing a Single Page Application mode.
 </html>
 ```
 
-**This is only relevant for single page apps or apps where the sign-in UI is rendered conditionally (e.g. button click)**
+**This is only relevant for single page apps or apps where the sign-in UI is
+rendered conditionally (e.g. button click)**
 
-When redirecting back from accountchooser.com, Identity Providers like Google
+When redirecting back from Identity Providers like Google
 and Facebook or email link sign-in, `start()` method needs to be called to
 finish the sign-in flow.
-If it requires a user interaction to start the initial sign-in process, you need to
-check if there is a pending redirect operation going on on page load to check whether `start()`
-needs to be called.
+If it requires a user interaction to start the initial sign-in process, you need
+to check if there is a pending redirect operation going on on page load to check
+whether `start()` needs to be called.
 
 To check if there is a pending redirect operation to complete a sign-in attempt,
 check `isPendingRedirect()` before deciding whether to render FirebaseUI
@@ -263,6 +257,8 @@ Here is how you would track the Auth state across all your pages:
   <head>
     <meta charset="UTF-8">
     <title>Sample FirebaseUI App</title>
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth-compat.js"></script>
     <!-- *******************************************************************************************
        * TODO(DEVELOPER): Paste the initialization snippet from:
        * Firebase Console > Overview > Add Firebase to your web app. *
@@ -305,7 +301,7 @@ Here is how you would track the Auth state across all your pages:
       };
 
       window.addEventListener('load', function() {
-        initApp();
+        initApp()
       });
     </script>
   </head>
@@ -349,7 +345,7 @@ FirebaseUI supports the following configuration parameters.
 <td>callbacks</td>
 <td>No</td>
 <td>
-  An object of developers <a href="#available-callbacks">callbacks</a> after
+  An object of developers' <a href="#available-callbacks">callbacks</a> after
   specific events.
   <br/>
   <em>Default:</em> <code>{}</code>
@@ -363,7 +359,7 @@ FirebaseUI supports the following configuration parameters.
   See <a href="#credential-helper">Credential Helper</a>.
   <br/>
   <em>Default:</em>
-  <code>firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM</code>
+  <code>firebaseui.auth.CredentialHelper.NONE</code>
 </td>
 </tr>
 <tr>
@@ -442,6 +438,32 @@ FirebaseUI supports the following configuration parameters.
   when Privacy Policy link is clicked.
 </td>
 </tr>
+<tr>
+<td>adminRestrictedOperation</td>
+<td>No</td>
+<td>
+  This setting is only applicable to "Google Cloud Identity Platform" projects.
+  Learn more about [GCIP](https://cloud.google.com/identity-platform/).
+  The object for configuring `adminRestrictedOperation` options, contains 3
+  fields:
+  `status(boolean)`: This flag should mirror the project user actions
+  ("Enable create") settings. When sign-up is disabled in the project settings,
+  this should be set to `true`. Setting this to `true` without disabling sign-up
+  in the project settings will not have any effect. For GCIP projects, this is
+  done by going to the "Settings" page in the "Identity Platform" section in the
+  Cloud Console. Under the "USERS" tab, go to "User actions". Uncheck "Enable
+  create (sign-up)" and click "SAVE".
+  This does not enforce the policy but is rather useful for providing additional
+  instructions to the end user when a user tries to create a new user account
+  and the Auth server blocks the operation. This boolean works on all providers
+  (federated, email/password, email link and phone number).
+  `adminEmail(string|undefined)`: The optional site administrator email to
+  contact for access when sign up is disabled, for example: `admin@example.com`.
+  `helpLink(string|undefined)`: The optional help link to provide information
+  on how to get access to the site when sign up is disabled. For example:
+  `https://www.example.com/trouble_signing_in`.
+</td>
+</tr>
 </tbody>
 </table>
 
@@ -450,23 +472,73 @@ FirebaseUI supports the following configuration parameters.
 The role of a credential helper is to help your users sign into your website.
 When one is enabled, your users will be prompted with email addresses and
 usernames they have saved from your app or other applications.
-FirebaseUI supports the following credential helpers:
+FirebaseUI supports the one-tap sign-up credential helper. `accountchooser.com`
+is no longer supported.
 
-- [accountchooser.com](https://www.accountchooser.com/learnmore.html)
+#### One-tap sign-up
 
-#### accountchooser.com
+[One-tap sign-up](https://developers.google.com/identity/one-tap/web/)
+provides seamless authentication flows to
+your users with Google's one tap sign-up and automatic sign-in APIs.
+With one tap sign-up, users are prompted to create an account with a dialog
+that's inline with FirebaseUI NASCAR screen. With just one tap, they get a
+secure, token-based, passwordless account with your service, protected by their
+Google Account. As the process is frictionless, users are much more likely to
+register.
+Returning users are signed in automatically, even when they switch devices or
+platforms, or after their session expires.
+One-tap sign-up integrates with FirebaseUI and if you request Google OAuth
+scopes, you will still get back the expected Google OAuth access token even if
+the user goes through the one-tap flow. However, in that case 'redirect' flow is
+always used even when 'popup' is specified.
+In addition, if you choose to force prompt for Google sign-in, one-tap auto
+sign-in will be automatically disabled.
+One-tap is an additive feature and is only supported in the latest evergreen
+modern browser environments.
+For more information on how to configure one-tap sign-up, refer to the
+[one-tap get started guide](https://developers.google.com/identity/one-tap/web/guides/get-google-api-clientid).
 
-When [accountchooser.com](https://www.accountchooser.com/learnmore.html) is
-enabled (enabled by default), upon signing in or
-signing up with email, the user will be redirected to the accountchooser.com
-website and will be able to select one of their saved accounts. You can
-disable it by specifying the value below. This feature is always disabled for
-non HTTP/HTTPS environments.
+The following example shows how to configure one-tap sign-up with FirebaseUI.
+Along with the corresponding one-tap `credentialHelper`, the  Google OAuth
+`clientId` has to be provided with the Firebase Google provider:
 
-|Credential Helper |Value                                                 |
-|------------------|------------------------------------------------------|
-|accountchooser.com|`firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM`|
-|None (disable)    |`firebaseui.auth.CredentialHelper.NONE`               |
+```javascript
+ui.start('#firebaseui-auth-container', {
+  signInOptions: [
+    {
+      // Google provider must be enabled in Firebase Console to support one-tap
+      // sign-up.
+      provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      // Required to enable ID token credentials for this provider.
+      // This can be obtained from the Credentials page of the Google APIs
+      // console. Use the same OAuth client ID used for the Google provider
+      // configured with GCIP or Firebase Auth.
+      clientId: 'xxxxxxxxxxxxxxxxx.apps.googleusercontent.com'
+    },
+    firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+    firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+    firebase.auth.GithubAuthProvider.PROVIDER_ID,
+    firebase.auth.EmailAuthProvider.PROVIDER_ID,
+  ],
+  // Required to enable one-tap sign-up credential helper.
+  credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO
+});
+// Auto sign-in for returning users is enabled by default except when prompt is
+// not 'none' in the Google provider custom parameters. To manually disable:
+ui.disableAutoSignIn();
+```
+
+Auto sign-in for returning users can be disabled by calling
+`ui.disableAutoSignIn()`. This may be needed if the FirebaseUI sign-in page is
+being rendered after the user signs out.
+
+To see FirebaseUI in action with one-tap sign-up, check out the FirebaseUI
+[demo app](https://fir-ui-demo-84a6c.firebaseapp.com/).
+
+|Credential Helper                 |Value                                                 |
+|----------------------------------|------------------------------------------------------|
+|One-tap sign-up                   |`firebaseui.auth.CredentialHelper.GOOGLE_YOLO`        |
+|None (disable)                    |`firebaseui.auth.CredentialHelper.NONE`               |
 
 ### Available providers
 
@@ -479,7 +551,7 @@ non HTTP/HTTPS environments.
 |Email and password|`firebase.auth.EmailAuthProvider.PROVIDER_ID`   |
 |Phone number      |`firebase.auth.PhoneAuthProvider.PROVIDER_ID`   |
 |Anonymous         |`firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID`|
-|Apple             |`apple.com`                                     |
+|Apple             |`apple.com`                                 |
 |Microsoft         |`microsoft.com`                                 |
 |Yahoo             |`yahoo.com`                                     |
 |SAML (GCIP only)  |`saml.*********`                               |
@@ -517,8 +589,10 @@ ui.start('#firebaseui-auth-container', {
         auth_type: 'reauthenticate'
       }
     },
-    firebase.auth.TwitterAuthProvider.PROVIDER_ID, // Twitter does not support scopes.
-    firebase.auth.EmailAuthProvider.PROVIDER_ID // Other providers don't need to be given as object.
+    // Twitter does not support scopes.
+    firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+    // Other providers don't need to be given as object.
+    firebase.auth.EmailAuthProvider.PROVIDER_ID
   ]
 });
 ```
@@ -532,7 +606,8 @@ and [Yahoo](https://firebase.google.com/docs/auth/web/yahoo-oauth)
 by integrating generic OAuth Login into your app.
 
 You just need to pass the provider ID in `signInOptions`, FirebaseUI provides
-the default configurations for the sign in button(button color, icon and display name):
+the default configurations for the sign in button(button color, icon and display
+name):
 
 ```javascript
 ui.start('#firebaseui-auth-container', {
@@ -570,6 +645,16 @@ parameters.
   eg. "Microsoft"
   <em>Default:</em>
   <code>provider ID</code>
+</td>
+</tr>
+<tr>
+<td>fullLabel</td>
+<td>No</td>
+<td>
+  The full label of the button. Instead of "Sign in with $providerName", this
+  button label will be used.
+  <em>Default:</em>
+  <code>Sign in with $providerName</code>
 </td>
 </tr>
 <tr>
@@ -626,6 +711,8 @@ ui.start('#firebaseui-auth-container', {
     {
       provider: 'microsoft.com',
       providerName: 'Microsoft',
+      // To override the full label of the button.
+      // fullLabel: 'Login with Microsoft',
       buttonColor: '#2F2F2F',
       iconUrl: '<icon-url-of-sign-in-button>',
       loginHintKey: 'login_hint',
@@ -642,7 +729,8 @@ ui.start('#firebaseui-auth-container', {
 
 ### OpenID Connect (OIDC) providers (GCIP only)
 
-For [GCIP](https://cloud.google.com/identity-cp) customers, you can enable your app for
+For [GCIP](https://cloud.google.com/identity-cp) customers, you can enable your
+app for
 [OpenID Connect (OIDC)](https://cloud.google.com/identity-cp/docs/how-to-enable-application-for-oidc)
 authentication with FirebaseUI.
 
@@ -669,6 +757,16 @@ OIDC providers' `signInOptions` support the following configuration parameters.
   The provider name displayed to end users (sign in button/linking prompt).
   <em>Default:</em>
   <code>provider ID</code>
+</td>
+</tr>
+<tr>
+<td>fullLabel</td>
+<td>No</td>
+<td>
+  The full label of the button. Instead of "Sign in with $providerName", this
+  button label will be used.
+  <em>Default:</em>
+  <code>Sign in with $providerName</code>
 </td>
 </tr>
 <tr>
@@ -702,8 +800,10 @@ OIDC providers' `signInOptions` support the following configuration parameters.
 ui.start('#firebaseui-auth-container', {
   signInOptions: [
     {
-      provider: 'oidc.myProvider`,
+      provider: 'oidc.myProvider',
       providerName: 'MyOIDCProvider',
+      // To override the full label of the button.
+      // fullLabel: 'Employee Login',
       buttonColor: '#2F2F2F',
       iconUrl: '<icon-url-of-sign-in-button>',
       customParameters: {
@@ -716,7 +816,8 @@ ui.start('#firebaseui-auth-container', {
 
 ### SAML providers (GCIP only)
 
-For [GCIP](https://cloud.google.com/identity-cp) customers, you can enable your app for
+For [GCIP](https://cloud.google.com/identity-cp) customers, you can enable your
+app for
 [SAML](https://cloud.google.com/identity-cp/docs/how-to-enable-application-for-saml)
 authentication with FirebaseUI.
 
@@ -746,6 +847,16 @@ SAML providers' `signInOptions` support the following configuration parameters.
 </td>
 </tr>
 <tr>
+<td>fullLabel</td>
+<td>No</td>
+<td>
+  The full label of the button. Instead of "Sign in with $providerName", this
+  button label will be used.
+  <em>Default:</em>
+  <code>Sign in with $providerName</code>
+</td>
+</tr>
+<tr>
 <td>buttonColor</td>
 <td>Yes</td>
 <td>
@@ -771,6 +882,8 @@ ui.start('#firebaseui-auth-container', {
     {
       provider: 'saml.myProvider',
       providerName: 'MySAMLProvider',
+      // To override the full label of the button.
+      // fullLabel: 'Constractor Portal',
       buttonColor: '#2F2F2F',
       iconUrl: '<icon-url-of-sign-in-button>'
     }
@@ -783,6 +896,19 @@ ui.start('#firebaseui-auth-container', {
 You can configure either email/password or email/link sign-in with FirebaseUI by
 providing the relevant object in the configuration <code>signInOptions</code>
 array.
+
+You can disable new user sign up with email providers by setting the flag
+`disableSignUp.status` to `true`. This will display an error message when new
+users attempt to sign up.
+
+Note that this flag will only disable sign up from the UI and will not prevent
+sign up via REST API. It is highly recommended that Identity Platform projects
+enforce this policy via one of these 2 mechanisms:
+
+- Blocking functions: Set a `beforeCreate` trigger to disable sign up for email
+  providers.
+- In the Cloud Console / Settings / USERS tab, uncheck `Enable create (sign-up)`
+  checkbox. Though for this setting, sign up for all providers will be disabled.
 
 <table>
 <thead>
@@ -855,6 +981,21 @@ array.
   This is only relevant to email link sign-in.
 </td>
 </tr>
+<tr>
+<td>disableSignUp</td>
+<td><code>firebaseui.auth.DisableSignUpConfig</code></td>
+<td>No</td>
+<td>
+  The object for configuring `disableSignUp` options, contains 3 fields:
+  `status(boolean)`: Whether disable user from signing up with email providers
+  (email/password or email link).
+  `adminEmail(string|undefined)`: The optional site administrator email to
+  contact for access when sign up is disabled, for example: `admin@example.com`.
+  `helpLink(string|undefined)`: The optional help link to provide information
+  on how to get access to the site when sign up is disabled. For example:
+  `https://www.example.com/trouble_signing_in`.
+</td>
+</tr>
 </tbody>
 </table>
 
@@ -885,9 +1026,10 @@ Using email link sign-in with FirebaseUI comes with the following benefits:
 - Enforces security and privacy best practices.
 - Ability to force same device flows or allow cross device flows where a user
   can start the flow on one device and end it on another. This also covers
-  Android and iOS where email link sign-in is also supported with
+  Android where email link sign-in is also supported with
   [FirebaseUI-android](https://github.com/firebase/firebaseui-android/) and
-  [FirebaseUI-ios](https://github.com/firebase/firebaseui-ios/).
+  [FirebaseUI-ios](https://github.com/firebase/firebaseui-ios/)
+  for iOS support.
 - Ability to switch to email link sign-in while continuing to sign-in existing
   users with email and password.
 - Ability to support account linking, where an existing email link user signing
@@ -925,6 +1067,14 @@ ui.start('#firebaseui-auth-container', {
           // Additional state showPromo=1234 can be retrieved from URL on
           // sign-in completion in signInSuccess callback by checking
           // window.location.href.
+          // If you are using a fragment in the URL, additional FirebaseUI
+          // parameters will be appended to the query string component instead
+          // of the fragment.
+          // So for a url: https://www.example.com/#/signin
+          // The completion URL will take the form:
+          // https://www.example.com/?uid_sid=xyz&ui_sd=0#/signin
+          // This should be taken into account when using frameworks with "hash
+          // routing".
           url: 'https://www.example.com/completeSignIn?showPromo=1234',
           // Custom FDL domain.
           dynamicLinkDomain: 'example.page.link',
@@ -960,13 +1110,19 @@ if (ui.isPendingRedirect()) {
   ui.start('#firebaseui-auth-container', uiConfig);
 }
 // This can also be done via:
-if ((firebase.auth().isSignInWithEmailLink(window.location.href)) {
+if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
   ui.start('#firebaseui-auth-container', uiConfig);
 }
 ```
 
 Additional state passed in the <code>url</code> can be retrieved on sign-in
 completion via the signInSuccess callbacks.
+
+If you are using a fragment in the URL, additional FirebaseUI parameters will be
+appended to the query string component instead of the fragment.
+So for a url `https://www.example.com/#/signin`, the completion URL will take
+the form `https://www.example.com/?uid_sid=xyz&ui_sd=0#/signin`.
+This should be taken into account when using frameworks with "hash routing".
 
 ```javascript
 // ...
@@ -1009,9 +1165,10 @@ The default country to select in the phone number input can also be set.
 the phone number input will default to the United States (+1).
 
 The countries to select can also be configured with `blacklistedCountries` or
-`whitelistedCountries`. It accepts either ISO (alpha-2) or E164 (prefix with '+')
-formatted country code. Invalid country code will be ignored.
-`whitelistedCountries` and `blacklistedCountries` cannot be specified at the same time.
+`whitelistedCountries`. It accepts either ISO (alpha-2) or E164
+(prefix with '+') formatted country code. Invalid country code will be ignored.
+`whitelistedCountries` and `blacklistedCountries` cannot be specified at the
+same time.
 
 The following options are currently supported. Any other
 parameters will be ignored.
@@ -1046,8 +1203,8 @@ ui.start('#firebaseui-auth-container', {
       // You can provide a 'whitelistedCountries' or 'blacklistedCountries' for
       // countries to select. It takes an array of either ISO (alpha-2) or
       // E164 (prefix with '+') formatted country codes. If 'defaultCountry' is
-      // not whitelisted or is blacklisted, the default country will be set to the
-      // first country available (alphabetical order). Notice that
+      // not whitelisted or is blacklisted, the default country will be set to
+      // the first country available (alphabetical order). Notice that
       // 'whitelistedCountries' and 'blacklistedCountries' cannot be specified
       // at the same time.
       whitelistedCountries: ['US', '+44']
@@ -1080,16 +1237,21 @@ ui.start('#firebaseui-auth-container', {
 Two sign in flows are available:
 
 - `redirect`, the default, will perform a full page redirect to the sign-in page
-of the provider (Google, Facebook...). This is recommended for mobile apps.
+  of the provider (Google, Facebook...). This is recommended for mobile apps.
 - The `popup` flow will open a popup to the sign-in page of the provider. If the
-popup is blocked by the browser, it will fall back to a full page redirect.
+  popup is blocked by the browser, it will fall back to a full page redirect.
 
 ### Available callbacks
 
 #### `signInSuccessWithAuthResult(authResult, redirectUrl)`
 
-The `signInSuccessWithAuthResult` callback is invoked when user signs in successfully.
-The authResult provided here is a `firebaseui.auth.AuthResult` object, which includes the current logged in user, the credential used to sign in the user, additional user info indicating if the user is new or existing and operation type like 'signIn' or 'link'. This callback will replace `signInSuccess` in future.
+The `signInSuccessWithAuthResult` callback is invoked when user signs in
+successfully.
+The authResult provided here is a `firebaseui.auth.AuthResult` object, which
+includes the current logged in user, the credential used to sign in the user,
+additional user info indicating if the user is new or existing and operation
+type like 'signIn' or 'link'. This callback will replace `signInSuccess` in
+future.
 
 **Parameters:**
 
@@ -1104,17 +1266,18 @@ If the callback returns `true`, then the page is automatically redirected
 depending on the case:
 
 - If no `signInSuccessUrl` parameter was given in the URL (See:
-[Overwriting the sign-in success URL](#overwriting-the-sign-in-success-url))
-then the default `signInSuccessUrl` in config is used.
+  [Overwriting the sign-in success URL](#overwriting-the-sign-in-success-url))
+  then the default `signInSuccessUrl` in config is used.
 - If the value is provided in the URL, that value will be used instead of the
-static `signInSuccessUrl` in config.
+  static `signInSuccessUrl` in config.
 
 If the callback returns `false` or nothing, the page is not automatically
 redirected.
 
 #### `signInSuccess(currentUser, credential, redirectUrl)`
 
-This callback will be deprecated and will be replaced by `signInSuccessWithAuthResult` which takes `firebaseui.auth.AuthResult`.
+This callback will be deprecated and will be replaced by
+`signInSuccessWithAuthResult` which takes `firebaseui.auth.AuthResult`.
 
 **Parameters:**
 
@@ -1130,10 +1293,10 @@ If the callback returns `true`, then the page is automatically redirected
 depending on the case:
 
 - If no `signInSuccessUrl` parameter was given in the URL (See:
-[Overwriting the sign-in success URL](#overwriting-the-sign-in-success-url))
-then the default `signInSuccessUrl` in config is used.
+  [Overwriting the sign-in success URL](#overwriting-the-sign-in-success-url))
+  then the default `signInSuccessUrl` in config is used.
 - If the value is provided in the URL, that value will be used instead of the
-static `signInSuccessUrl` in config.
+  static `signInSuccessUrl` in config.
 
 If the callback returns `false` or nothing, the page is not automatically
 redirected.
@@ -1175,12 +1338,14 @@ FirebaseUI is displayed.
   <head>
     <meta charset="UTF-8">
     <title>Sample FirebaseUI App</title>
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth-compat.js"></script>
     <!-- *******************************************************************************************
        * TODO(DEVELOPER): Paste the initialization snippet from:
        * Firebase Console > Overview > Add Firebase to your web app. *
        ***************************************************************************************** -->
-    <script src="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.css" />
+    <script src="https://www.gstatic.com/firebasejs/ui/6.1.0/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.1.0/firebase-ui-auth.css" />
     <script type="text/javascript">
       // FirebaseUI config.
       var uiConfig = {
@@ -1192,8 +1357,8 @@ FirebaseUI is displayed.
             var providerId = authResult.additionalUserInfo.providerId;
             var operationType = authResult.operationType;
             // Do something with the returned AuthResult.
-            // Return type determines whether we continue the redirect automatically
-            // or whether we leave that to developer to handle.
+            // Return type determines whether we continue the redirect
+            // automatically or whether we leave that to developer to handle.
             return true;
           },
           signInFailure: function(error) {
@@ -1210,7 +1375,7 @@ FirebaseUI is displayed.
             document.getElementById('loader').style.display = 'none';
           }
         },
-        credentialHelper: firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
+        credentialHelper: firebaseui.auth.CredentialHelper.NONE,
         // Query parameter name for mode.
         queryParameterForWidgetMode: 'mode',
         // Query parameter name for sign in success url.
@@ -1402,13 +1567,14 @@ ui.start('#firebaseui-auth-container', {
 
 ### Multi-tenancy support
 
-For [GCIP](https://cloud.google.com/identity-platform) customers, you can build a
-tenant-specific sign-in page with FirebaseUI. Make sure you've enabled
+For [GCIP](https://cloud.google.com/identity-platform) customers, you can build
+a tenant-specific sign-in page with FirebaseUI. Make sure you've enabled
 multi-tenancy for your project and configured your tenants. See the
-[Multi-tenancy quickstart](https://cloud.google.com/identity-platform/docs/quickstart-multi-tenancy)
+[Multi-tenancy quickstart](https://cloud.google.com/identity-platform/docs/multi-tenancy-quickstart)
 to learn how.
 
-This feature requires [firebase](https://www.npmjs.com/package/firebase) version 6.6.0 or higher.
+This feature requires [firebase](https://www.npmjs.com/package/firebase)
+version 6.6.0 or higher.
 
 
 To use FirebaseUI with multi-tenancy, you need to set the tenant ID on the
@@ -1432,9 +1598,10 @@ You can refer to the example in this
 [guide](https://cloud.google.com/identity-platform/docs/multi-tenancy-ui).
 
 There is also a
-[quickstart](https://github.com/firebase/quickstart-js/blob/master/auth/multi-tenant-ui.html)
+[quickstart](https://cloud.google.com/identity-platform/docs/multi-tenancy-quickstart)
 app available to demonstrate how to build a single sign-in page with the
-FirebaseUI for two tenants which have different sets of identity providers enabled.
+FirebaseUI for two tenants which have different sets of identity providers
+enabled.
 
 
 ## Customizing FirebaseUI for authentication
@@ -1556,6 +1723,30 @@ npm run build build-npm-zh-TW
 
 This will create a binary `npm__zh_tw.js` in the `dist/` folder.
 
+To build a localized ES module of FirebaseUI, run:
+
+```bash
+npm run build build-esm-{LANGUAGE_CODE}
+```
+
+Make sure all underscore symbols in the `LANGUAGE_CODE` are replaced with
+dashes.
+This will generate `dist/esm__{LANGUAGE_CODE}.js`.
+You can then import/require it:
+```javascript
+import firebaseui from './esm__{LANGUAGE_CODE}';
+```
+
+Build names for language codes with underscores, eg. `zh_tw`, `zh_cn`, `pt_pt`
+will be mapped to `zh-TW`, `xh-CN`, `pt-PT`. The underscore will be replaced by
+a hyphen symbol and the subsequent characters will be capitalized.
+
+```bash
+npm run build build-esm-zh-TW
+```
+
+This will create a binary `esm__zh_tw.js` in the `dist/` folder.
+
 ### Running the demo app
 
 To run the demo app, you must have a Firebase project set up on the
@@ -1567,7 +1758,7 @@ cp demo/public/sample-config.js demo/public/config.js
 ```
 
 Copy the data from the "Add Firebase to your web app" flow in Firebase Console.
-Next, run:
+Next, run
 
 ```bash
 npm run demo
@@ -1585,7 +1776,7 @@ All unit tests can be run on the command line (via PhantomJS) with:
 npm test
 ```
 
-Alternatively, the unit tests can be run manually by running:
+Alternatively, the unit tests can be run manually by running
 
 ```bash
 npm run serve
@@ -1660,21 +1851,19 @@ In order to integrate FirebaseUI with your Cordova application, you need to
 follow these steps:
 
 - Install the necessary Cordova plugins, make the necessary Firebase Console
-changes and update your config.xml file as documented in
-[OAuth Sign-In for Cordova](https://firebase.google.com/docs/auth/web/cordova)
+  changes and update your config.xml file as documented in
+  [OAuth Sign-In for Cordova](https://firebase.google.com/docs/auth/web/cordova)
 - After you have successfully configured your application, you can use
-FirebaseUI in your Cordova application just like any other traditional browser
-applications.
+  FirebaseUI in your Cordova application just like any other traditional browser
+  applications.
 
 Keep in mind the following while you set up the app:
 - Only `redirect` `signInFlow` is supported as Firebase Auth does not support
-`popup` mode for Cordova.
+  `popup` mode for Cordova.
 - `firebase.auth.PhoneAuthProvider.PROVIDER_ID` is not currently supported.
-- As the application runs within an embedded webview, `accountchooser.com` will
-always be disabled.
 - If you are providing a `Content-Security-Policy` make sure you add the
-appropriate exceptions for FirebaseUI resources (`style-src`, `media-src`,
-`img-src`, `script-src`, etc.) and underlying Firebase JS SDK.
+  appropriate exceptions for FirebaseUI resources (`style-src`, `media-src`,
+  `img-src`, `script-src`, etc.) and underlying Firebase JS SDK.
 
 ## React DOM Setup
 
@@ -1693,16 +1882,11 @@ disabled. This currently results in an error being thrown upon Firebase Auth
 initialization. Therefore, when following the snippets above, FirebaseUI will
 never get initialized and no UI will be displayed.
 
-### Firebase Auth OAuth popup/redirect operations may not work when 3rd party cookies are disabled
-
-When a user disables 3rd party cookies in their browser, the mechanism for
-returning the result of an OAuth popup/redirect as implemented by the
-underlying `firebase-auth.js` library may be broken on some browsers.
-
-### Tips for Single Page apps (`UI Widget is already rendered on the page` warning)
+### Tips for Single Page apps (`UI Widget is already rendered on the page`
+warning)
 
 When re-rendering the FirebaseUI Auth widget (for instance after signing in a
-user, signing her out and trying to sign her in again), it will sometimes log a
+user, signing them out and trying to sign them in again), it will sometimes log a
 warning:
 
 > UI Widget is already rendered on the page and is pending some user
@@ -1734,15 +1918,56 @@ can only have one AuthUI instance with the same `appId` or the same Auth
 instance.
 
 
-### FirebaseUI is broken in IE11 when deployed on a local server accessed through `localhost` (but works when deployed on a remote server)
+### FirebaseUI is broken in IE11 when deployed on a local server accessed
+through `localhost` (but works when deployed on a remote server)
 
-Several developers reported issues with IE11 when testing the widget integration on a server deployed locally, accessing the application through a `localhost` address. However, it doesn't impact applications deployed on a server (as you can verify in the [demo app](https://fir-ui-demo-84a6c.firebaseapp.com/)).
+Several developers reported issues with IE11 when testing the widget integration
+on a server deployed locally, accessing the application through a `localhost`
+address. However, it doesn't impact applications deployed on a server (as you
+can verify in the [demo app](https://fir-ui-demo-84a6c.firebaseapp.com/)).
 
 ## Release Notes
 
 **Latest**: https://github.com/firebase/firebaseui-web/releases/latest
 
 **For v1.0.0 and superior:** https://github.com/firebase/firebaseui-web/releases
+
+### 6.0.0
+
+FirebaseUI-web v6.0.0 is intended to be used alongside Firebase JS SDK v9 or v10 [compat](https://firebase.google.com/docs/web/modular-upgrade#about_the_namespaced_compat_libraries).
+
+If using the CDN, change your Firebase imports to:
+
+```html
+<script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth-compat.js"></script>
+```
+
+If NPM:
+
+```ts
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+```
+
+[See the Firebase upgrade guide for more information.](https://firebase.google.com/docs/web/modular-upgrade)
+
+### 5.0.0
+
+`accountchooser.com` has been operating in "universal opt-out" mode and was
+shutdown on July 2021. FirebaseUI-web has stopped supporting this credential
+helper and since version v5.0.0, all related configurations and enums have been
+removed.
+
+- If you are using `firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM`,
+  you need to switch to `firebaseui.auth.CredentialHelper.NONE` or
+  `firebaseui.auth.CredentialHelper.GOOGLE_YOLO`. Follow the instruction on
+  [one-tap sign-up](#one-tap-sign-up) when switching to the latter.
+- If you are configuring `acUiConfig` in the UI configurations, this is no
+  longer supported and should not be used.
+- `firebaseui.auth.FederatedSignInOption#authMethod` is no longer required to
+  be provided by the latest
+  [one-tap API](https://developers.google.com/identity/one-tap/web/reference/js-reference).
 
 ### 0.5.0
 
@@ -1751,16 +1976,17 @@ for the issues covered in this release. Below is a summary of the most important
 ones:
 
 - FirebaseUI now supports **Single Page Application**: a `reset` method was
-added to allow to dispose of the widget. When the user leaves a page where the
-FirebaseUI widget was rendered (for instance in the `componentWillUnmount`
-method of a React component), call the `reset` method of the
-`firebaseui.auth.AuthUI` instance you created. Also, call the `reset` method
-before rendering again the widget if one has already been rendered on the page.
-Please refer to the [demo app](demo/) for guidance on how to use FirebaseUI in a
-Single Page Application context.
-- **Custom scopes** can now be added for each provider. See [Configure OAuth providers](configure-oauth-providers).
+  added to allow to dispose of the widget. When the user leaves a page where the
+  FirebaseUI widget was rendered (for instance in the `componentWillUnmount`
+  method of a React component), call the `reset` method of the
+  `firebaseui.auth.AuthUI` instance you created. Also, call the `reset` method
+  before rendering again the widget if one has already been rendered on the
+  page. Please refer to the [demo app](demo/) for guidance on how to use
+  FirebaseUI in a Single Page Application context.
+- **Custom scopes** can now be added for each provider. See
+  [Configure OAuth providers](configure-oauth-providers).
 - Several issues, different but related to the `displayName` not being present
-after sign up with email and password, have been fixed.
+  after sign up with email and password, have been fixed.
 - A new config parameter has been added: `signInFlow`. It allows to specify
-whether the Identity Providers sign in flows should be done through `redirect`
-(the default) or `popup`. See [Sign In Flows](sign-in-flows).
+  whether the Identity Providers sign in flows should be done through `redirect`
+  (the default) or `popup`. See [Sign In Flows](sign-in-flows).

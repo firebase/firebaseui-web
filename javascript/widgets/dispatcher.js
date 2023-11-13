@@ -23,7 +23,6 @@ goog.module.declareLegacyNamespace();
 const AuthUI = goog.forwardDeclare('firebaseui.auth.AuthUI');
 const Config = goog.require('firebaseui.auth.widget.Config');
 const HandlerName = goog.require('firebaseui.auth.widget.HandlerName');
-const acClient = goog.require('firebaseui.auth.acClient');
 const asserts = goog.require('goog.asserts');
 const common = goog.require('firebaseui.auth.widget.handler.common');
 const handler = goog.require('firebaseui.auth.widget.handler');
@@ -281,31 +280,10 @@ function doDispatchOperation(app, e) {
       if (redirectUrl) {
         storage.setRedirectUrl(redirectUrl, app.getAppId());
       }
-
-      if (acClient.isInitialized()) {
-        // Renders provider sign-in or simulates sign in with email click.
-        common.handleSignInStart(
-            app,
-            container);
-        break;
-      } else {
-        // Even if accountchooser.com is unavailable as a credential helper,
-        // force UI shown callback since this is the first page to display. If
-        // empty, render callback handler and do not try to select an account.
-        common.loadAccountchooserJs(
-          app,
-          () => {
-            common.selectFromAccountChooser(
-                app.getAuthUiGetter(),
-                container,
-                true);
-          },
-          // Force UI shown callback to trigger since this is the first UI to be
-          // displayed on the page.
-          true);
-        // uiShown Callback is handled by selectFromAccountChooser.
-        return;
-      }
+      // Renders provider sign-in or simulates sign in with email click in the
+      // beginning sign-in page.
+      common.handleSignInStart(app, container);
+      break;
 
     default:
       // firebaseui.auth.widget.dispatcher.getMode() guaranteed to return a

@@ -22,6 +22,7 @@ goog.require('firebaseui.auth.ui.page.DifferentDeviceError');
 goog.require('firebaseui.auth.widget.HandlerName');
 goog.require('firebaseui.auth.widget.handler');
 goog.require('firebaseui.auth.widget.handler.common');
+goog.requireType('firebaseui.auth.widget.Handler');
 
 
 /**

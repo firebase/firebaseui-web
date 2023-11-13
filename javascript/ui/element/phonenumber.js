@@ -228,16 +228,15 @@ element.phoneNumber.isCountryAvailable_ = function(countryId,
  * @private
  */
 element.phoneNumber.createListBoxItemList_ = function(availableCountries) {
-  return goog.array.map(availableCountries,
-      function(country) {
-        return {
-          id: country.e164_key,
-          iconClass: 'firebaseui-flag ' +
-              element.phoneNumber.getFlagClass_(country),
-          label: country.name + ' ' +
-              element.phoneNumber.makeDisplayableCountryCode_(country.e164_cc)
-        };
-      });
+  return availableCountries.map(function(country) {
+    return {
+      id: country.e164_key,
+      iconClass:
+          'firebaseui-flag ' + element.phoneNumber.getFlagClass_(country),
+      label: country.name + ' ' +
+          element.phoneNumber.makeDisplayableCountryCode_(country.e164_cc)
+    };
+  });
 };
 
 

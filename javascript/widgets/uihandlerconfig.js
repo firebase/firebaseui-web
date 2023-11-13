@@ -332,6 +332,7 @@ class UiHandlerConfig {
     return {
       tenantId: tenantId !== UiHandlerConfig.ConfigKeys.TOP_LEVEL_CONFIG_KEY ?
           tenantId : null,
+      fullLabel: tenantConfig['fullLabel'] || null,
       displayName: tenantConfig['displayName'],
       iconUrl: tenantConfig['iconUrl'],
       buttonColor: tenantConfig['buttonColor'],

@@ -21,6 +21,7 @@
 goog.provide('firebaseui.auth.soy2.pageTest');
 goog.setTestOnly('firebaseui.auth.soy2.pageTest');
 
+goog.require('firebaseui.auth.soy2.element');
 goog.require('firebaseui.auth.soy2.page');
 /** @suppress {extraRequire} Required for initViewer helper function. */
 goog.require('firebaseui.auth.soy2.viewHelper');
@@ -363,6 +364,68 @@ function testFederatedLinking() {
 }
 
 
+function testUnauthorizedUser_withEmailAdminEmailHelpLink() {
+  const root = goog.dom.getElement('unauthorized-user');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.unauthorizedUser, {
+        userIdentifier: 'user@example.com',
+        adminEmail: 'admin@example.com',
+        displayHelpLink: true
+      },
+      IJ_DATA_);
+}
+
+
+function testUnauthorizedUser_withEmailAdminEmail() {
+  const root = goog.dom.getElement('unauthorized-user-email-admin-email');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.unauthorizedUser, {
+        userIdentifier: 'user@example.com',
+        adminEmail: 'admin@example.com'
+      },
+      IJ_DATA_);
+}
+
+
+function testUnauthorizedUser_withEmailHelpLink() {
+  const root = goog.dom.getElement('unauthorized-user-email-help-link');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.unauthorizedUser, {
+        userIdentifier: 'user@example.com',
+        displayHelpLink: true
+      },
+      IJ_DATA_);
+}
+
+
+function testUnauthorizedUser_withEmail() {
+  const root = goog.dom.getElement('unauthorized-user-email');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.unauthorizedUser, {
+        userIdentifier: 'user@example.com'
+      },
+      IJ_DATA_);
+}
+
+
+function testUnauthorizedUser_withPhoneNumber() {
+  const root = goog.dom.getElement('unauthorized-user-phone-number');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.unauthorizedUser, {
+        userIdentifier: '+13115550123'
+      },
+      IJ_DATA_);
+}
+
+
+function testUnauthorizedUser_noUserIdentifier() {
+  const root = goog.dom.getElement('unauthorized-user-no-user-identifier');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.unauthorizedUser, {},
+      IJ_DATA_);
+}
+
+
 function testUnsupportedProvider() {
   var root = goog.dom.getElement('unsupported-provider');
   goog.soy.renderElement(
@@ -644,6 +707,50 @@ function testProviderSignIn() {
 }
 
 
+function testProviderSignIn_buttonCustomization() {
+  var root = goog.dom.getElement('provider-sign-in-customization');
+  goog.soy.renderElement(
+      root, firebaseui.auth.soy2.page.providerSignIn, {
+        'providerConfigs': [
+          {
+            providerId: 'password',
+            fullName: 'Login with password',
+            providerName: 'Password',
+          },
+          {
+            providerId: 'phone',
+            fullName: 'Phone login',
+            providerName: 'Phone Number',
+          },
+          {
+            providerId: 'google.com',
+            fullName: 'ACME Login',
+            providerName: 'ACME',
+          },
+          {
+            providerId: 'anonymous',
+            fullName: 'Create account later',
+            providerName: 'Skip',
+          },
+          {
+            providerId: 'microsoft.com',
+            providerName: 'Microsoft',
+            buttonColor: '#FFB6C1',
+            iconUrl: 'icon-url',
+            loginHintKey: 'login_hint'
+          },
+          {
+            providerId: 'oidc.provider',
+            providerName: 'MyOidcIdp',
+            fullLabel: 'Employee Login',
+            buttonColor: '#ff00ff',
+            iconUrl: 'icon-url'
+          }]
+      },
+      IJ_DATA_);
+}
+
+
 function testProviderSignIn_busy() {
   var root = goog.dom.getElement('provider-sign-in-busy');
   goog.soy.renderElement(
@@ -769,7 +876,22 @@ function testTenantSelect() {
             displayName: 'ACME',
             buttonColor: '#53B2BF',
             iconUrl: 'icon-url',
-          }],
+          },
+          {
+            tenantId: 'TENANT_1',
+            fullLabel: 'Contractor Login',
+            displayName: 'OIDC',
+            buttonColor: '#4666FF',
+            iconUrl: 'icon-url',
+          },
+          {
+            tenantId: 'TENANT_2',
+            fullLabel: null,
+            displayName: 'ACME Corp',
+            buttonColor: '#2F2B2E',
+            iconUrl: 'icon-url',
+          },
+        ],
       },
       IJ_DATA_);
 }

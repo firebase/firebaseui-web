@@ -28,6 +28,7 @@ goog.require('goog.object');
 goog.require('goog.testing.events');
 goog.require('goog.testing.events.Event');
 goog.require('goog.ui.Component');
+goog.requireType('goog.events.KeyCodes');
 
 
 

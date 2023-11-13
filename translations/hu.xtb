@@ -27,6 +27,7 @@
 <translation id="1412449974349991050">Haiti</translation>
 <translation id="144766329299583285">Ha nem kérte bejelentkezési e-mail-címének módosítását, akkor lehetséges, hogy valaki megpróbál hozzáférni a fiókjához. Ebben az esetben <ph name="START_LINK" />azonnal változtassa meg a jelszavát<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">Heard-sziget és McDonald-szigetek</translation>
+<translation id="1451880131543823984">A(z) <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> e-mail-című felhasználó nem jogosult a kért oldal megtekintésére.</translation>
 <translation id="1479035434297790822">Az Ön IP-címéről túl sok fiókkérelem érkezik. Néhány perc múlva próbálja újra.</translation>
 <translation id="1483249363694224399">Srí Lanka</translation>
 <translation id="1507995441600689506">Most már bejelentkezhet új fiókjával.</translation>
@@ -157,6 +158,7 @@
 <translation id="3521753471343796628">Irak</translation>
 <translation id="354888504916863713">Vietnam</translation>
 <translation id="3550380781997195832">Az e-mail-cím helytelen.</translation>
+<translation id="3552446912357282301">Jogosultságért forduljon a következőhöz: <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" />.</translation>
 <translation id="3561568594856945084">Mayotte</translation>
 <translation id="3591063723610544836">Bejelentkezés</translation>
 <translation id="3593480381831738519">Jelszó visszaállítása</translation>
@@ -245,6 +247,7 @@
 <translation id="5143657419516597442">Saint Lucia</translation>
 <translation id="521218078240459724">@string/app_name</translation>
 <translation id="5241732101105320538">Ellenőrizze az e-mailjeit.</translation>
+<translation id="5255830932650472373">Az új jelszó</translation>
 <translation id="5301108536112812420">Az e-mail-címe igazolására vonatkozó kérelem lejárt, vagy pedig már használták a linket.</translation>
 <translation id="5323041129469627535">Omán</translation>
 <translation id="5326139833547026317">Holland Karib-térség</translation>
@@ -326,7 +329,7 @@
 <translation id="6470057025778734988">Többé nem fog tudni bejelentkezni a fiókkal.</translation>
 <translation id="6472297146424049005">Ellenőrizze az internetkapcsolatot.</translation>
 <translation id="6483116480230343278">Regisztráció...</translation>
-<translation id="6502083090260346644">Ha az <ph name="STRING" /> lehetőségre koppint, a rendszer SMS-t küldhet Önnek. A szolgáltató ezért üzenet- és adatforgalmi díjat számíthat fel.</translation>
+<translation id="6494734506607758748">A fiókjához tartozó e-mail-cím módosításához újra be kell jelentkeznie.</translation>
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Amerikai Szamoa</translation>
 <translation id="6527597037551425211">Brazília</translation>
@@ -357,6 +360,7 @@
 <translation id="6821607741326790458">Jamaica</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakisztán</translation>
+<translation id="6852861389112775830">A(z) <ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> e-mail-című felhasználó nem jogosult a kért oldal megtekintésére.</translation>
 <translation id="6918319418444979243">Újraküldés</translation>
 <translation id="6920167780806379235">Szíria</translation>
 <translation id="6921505896641453739">E-mail</translation>
@@ -364,6 +368,7 @@
 <translation id="6951302238647056860">Ez a kód már nem érvényes.</translation>
 <translation id="6961220857430789248">A további utasításokat tartalmazó bejelentkezési e-mailt elküldtük ide: <ph name="STRING" />. A bejelentkezés befejezéséhez keresse meg az e-mailjei között.</translation>
 <translation id="6984204927251307445">E-mail-cím megerősítése</translation>
+<translation id="6996552808101270965">További információ</translation>
 <translation id="6999773882165218263">Utónév és vezetéknév</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Nyugat-Szahara</translation>
@@ -393,6 +398,7 @@
 <translation id="7291656724505689727">Bejelentkezés telefonnal</translation>
 <translation id="7320029088567935126">Próbálja újra igazolni az e-mail-címét</translation>
 <translation id="7331038350037712642">Azerbajdzsán</translation>
+<translation id="7359542696390093035">Nem jogosult</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">Érvénytelen e-mail-link.</translation>
 <translation id="7477065998516229434">Általános Szerződési Feltételek</translation>

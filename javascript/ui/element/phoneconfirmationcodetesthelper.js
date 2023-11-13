@@ -24,7 +24,6 @@ goog.setTestOnly('firebaseui.auth.ui.element.PhoneConfirmationCodeTestHelper');
 goog.require('firebaseui.auth.ui.element');
 /** @suppress {extraRequire} Required for test helpers. */
 goog.require('firebaseui.auth.ui.element.ElementTestHelper');
-goog.require('goog.array');
 goog.require('goog.dom.forms');
 goog.require('goog.events.KeyCodes');
 
@@ -75,7 +74,7 @@ element.PhoneConfirmationCodeTestHelper.prototype
     '1234567',  // too long
     'a12356',   // char
   ];
-  goog.array.forEach(invalidCodes, function(code) {
+  invalidCodes.forEach(function(code) {
     goog.dom.forms.setValue(e, code);
     assertNull(this.component.checkAndGetPhoneConfirmationCode());
   }, this);
@@ -84,7 +83,7 @@ element.PhoneConfirmationCodeTestHelper.prototype
     '123456',
     '000123',  // leading zeroes
   ];
-  goog.array.forEach(validCodes, function(code) {
+  validCodes.forEach(function(code) {
     goog.dom.forms.setValue(e, code);
     assertNotNull(this.component.checkAndGetPhoneConfirmationCode());
   }, this);

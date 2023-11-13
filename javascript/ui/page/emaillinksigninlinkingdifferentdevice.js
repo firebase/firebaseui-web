@@ -22,6 +22,7 @@ goog.provide('firebaseui.auth.ui.page.EmailLinkSignInLinkingDifferentDevice');
 goog.require('firebaseui.auth.soy2.page');
 goog.require('firebaseui.auth.ui.element.form');
 goog.require('firebaseui.auth.ui.page.Base');
+goog.requireType('goog.dom.DomHelper');
 
 
 /**
@@ -30,7 +31,7 @@ goog.require('firebaseui.auth.ui.page.Base');
 firebaseui.auth.ui.page.EmailLinkSignInLinkingDifferentDevice =
     class extends firebaseui.auth.ui.page.Base {
   /**
-   * @param {?Object} providerConfig The provider config of the IdP we should
+   * @param {?} providerConfig The provider config of the IdP we should
    *     use for sign in.
    * @param {function()} onContinueClick Callback to invoke when the continue
    *     button is clicked.

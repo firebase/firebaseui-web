@@ -18,6 +18,7 @@ goog.module('firebaseui.auth.ui.page.SelectTenant');
 goog.module.declareLegacyNamespace();
 
 const Base = goog.require('firebaseui.auth.ui.page.Base');
+const DomHelper = goog.requireType('goog.dom.DomHelper');
 const dataset = goog.require('goog.dom.dataset');
 const element = goog.require('firebaseui.auth.ui.element');
 const page = goog.require('firebaseui.auth.soy2.page');
@@ -33,7 +34,7 @@ class SelectTenant extends Base {
    *     ToS link is clicked.
    * @param {?function()=} privacyPolicyCallback Optional callback to invoke
    *     when the Privacy Policy link is clicked.
-   * @param {?goog.dom.DomHelper=} domHelper Optional DOM helper.
+   * @param {?DomHelper=} domHelper Optional DOM helper.
    */
   constructor(
       onTenantClick, tenantConfigs, tosCallback = undefined,

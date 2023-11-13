@@ -19,6 +19,7 @@
 goog.provide('firebaseui.auth.ui.element.recaptcha');
 
 goog.require('firebaseui.auth.ui.element');
+goog.requireType('goog.ui.Component');
 
 
 goog.scope(function() {

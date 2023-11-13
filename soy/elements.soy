@@ -123,7 +123,7 @@
  * Renders an identity provider button.
  */
 {template .idpButton}
-  {@param? providerConfig: [providerId:string, providerName:string|null,
+  {@param? providerConfig: [providerId:string, providerName:string|null, fullLabel:string|null,
       buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
   <button
       class="firebaseui-idp-button mdl-button mdl-js-button mdl-button--raised{sp}
@@ -138,52 +138,99 @@
     </span>
     {if $providerConfig.providerId == 'password'}
       <span class="firebaseui-idp-text firebaseui-idp-text-long">
-        {msg desc="Label for a button to sign in with an email account that requires a password.
-            The long version"}
-          Sign in with email
-        {/msg}
+        {if $providerConfig.fullLabel}
+          {$providerConfig.fullLabel}
+        {elseif $providerConfig.providerName}
+          {msg desc="Labels for sign-in buttons, long version"}
+            Sign in with{sp}
+            {call .idpName data="all" /}
+          {/msg}
+        {else}
+          {msg desc="Label for a button to sign in with an email account that requires a password.
+              The long version"}
+            Sign in with email
+          {/msg}
+        {/if}
       </span>
       <span class="firebaseui-idp-text firebaseui-idp-text-short">
-        {msg desc="Label for a button to sign in with an email account that requires a password.
-            The short version"}
-          Email
-        {/msg}
+        {if $providerConfig.providerName}
+          {$providerConfig.providerName}
+        {else}
+          {msg desc="Label for a button to sign in with an email account that requires a password.
+              The short version"}
+            Email
+          {/msg}
+        {/if}
       </span>
     {elseif $providerConfig.providerId == 'phone'}
       <span class="firebaseui-idp-text firebaseui-idp-text-long">
-        {msg desc="Label for a button to sign in with phone number.
-            The long version"}
-          Sign in with phone
-        {/msg}
+        {if $providerConfig.fullLabel}
+          {$providerConfig.fullLabel}
+        {elseif $providerConfig.providerName}
+          {msg desc="Labels for sign-in buttons, long version"}
+            Sign in with{sp}
+            {call .idpName data="all" /}
+          {/msg}
+        {else}
+          {msg desc="Label for a button to sign in with phone number.
+              The long version"}
+            Sign in with phone
+          {/msg}
+        {/if}
       </span>
       <span class="firebaseui-idp-text firebaseui-idp-text-short">
-        {msg desc="Label for a button to sign in with phone number.
-            The short version"}
-          Phone
-        {/msg}
+        {if $providerConfig.providerName}
+          {$providerConfig.providerName}
+        {else}
+          {msg desc="Label for a button to sign in with phone number.
+              The short version"}
+            Phone
+          {/msg}
+        {/if}
       </span>
     {elseif $providerConfig.providerId == 'anonymous'}
       <span class="firebaseui-idp-text firebaseui-idp-text-long">
-        {msg desc="Label for a button to continue as a guest user.
-            The long version"}
-          Continue as guest
-        {/msg}
+        {if $providerConfig.fullLabel}
+          {$providerConfig.fullLabel}
+        {elseif $providerConfig.providerName}
+          {msg desc="Labels for sign-in buttons, long version"}
+            Sign in with{sp}
+            {call .idpName data="all" /}
+          {/msg}
+        {else}
+          {msg desc="Label for a button to continue as a guest user.
+              The long version"}
+            Continue as guest
+          {/msg}
+        {/if}
       </span>
       <span class="firebaseui-idp-text firebaseui-idp-text-short">
-        {msg desc="Label for a button to continue as a guest user.
-            The short version"}
-          Guest
-        {/msg}
+        {if $providerConfig.providerName}
+          {$providerConfig.providerName}
+        {else}
+          {msg desc="Label for a button to continue as a guest user.
+              The short version"}
+            Guest
+          {/msg}
+        {/if}
       </span>
     {else}
       <span class="firebaseui-idp-text firebaseui-idp-text-long">
-        {msg desc="Labels for sign-in buttons, long version"}
-          Sign in with{sp}
-          {call .idpName data="all" /}
-        {/msg}
+        {if $providerConfig.fullLabel}
+          {$providerConfig.fullLabel}
+        {else}
+          {msg desc="Labels for sign-in buttons, long version"}
+            Sign in with{sp}
+            {call .idpName data="all" /}
+          {/msg}
+        {/if}
       </span>
       <span class="firebaseui-idp-text firebaseui-idp-text-short">
+        {if $providerConfig.providerName}
+          {$providerConfig.providerName}
+        {else}
           {call .idpName data="all" /}
+        {/if}
       </span>
     {/if}
   </button>
@@ -589,15 +636,15 @@
  * The list should match the supported provider IDs in Firebase Auth.
  */
 {template .idpName kind="text"}
-  {@param? providerConfig: [providerId:string|null, providerName:string|null,
+  {@param? providerConfig: [providerId:string|null, providerName:string|null, fullLabel:string|null,
       buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
   {if $providerConfig.providerName}
     {$providerConfig.providerName}
   {elseif $ij.defaultProviderNames[$providerConfig.providerId]}
     {$ij.defaultProviderNames[$providerConfig.providerId]}
-  {elseif strIndexOf($providerConfig.providerId, 'saml.') == 0}
+  {elseif $providerConfig.providerId and strIndexOf($providerConfig.providerId, 'saml.') == 0}
     {strSub($providerConfig.providerId, 5)}
-  {elseif strIndexOf($providerConfig.providerId, 'oidc.') == 0}
+  {elseif $providerConfig.providerId and strIndexOf($providerConfig.providerId, 'oidc.') == 0}
     {strSub($providerConfig.providerId, 5)}
   {else}
     {$providerConfig.providerId}
@@ -610,7 +657,7 @@
  * The list should match the supported provider IDs in Firebase Auth.
  */
 {template .idpClass_ kind="text"}
-  {@param? providerConfig: [providerId:string, providerName:string|null,
+  {@param? providerConfig: [providerId:string, providerName:string|null, fullLabel:string|null,
       buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
   {switch $providerConfig.providerId}
     {case 'google.com'}
@@ -639,7 +686,7 @@
  * icon.
  */
 {template .idpLogo_ kind="uri"}
-  {@param? providerConfig: [providerId:string, providerName:string|null,
+  {@param? providerConfig: [providerId:string, providerName:string|null, fullLabel:string|null,
       buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
   {if $providerConfig.iconUrl}
     {$providerConfig.iconUrl}
@@ -661,7 +708,7 @@
  * password icon.
  */
 {template .idpColor_ kind="text"}
-  {@param? providerConfig: [providerId:string, providerName:string|null,
+  {@param? providerConfig: [providerId:string, providerName:string|null, fullLabel:string|null,
       buttonColor:string|null, iconUrl: string|null]} /** The IdP provider config. */
   {if $providerConfig.buttonColor}
     {$providerConfig.buttonColor}
@@ -681,8 +728,8 @@
  * Renders a tenant selection button.
  */
 {template .tenantSelectionButton}
-  {@param tenantConfig: [tenantId:string|null, displayName:string, buttonColor:string,
-      iconUrl: string]} /** The tenant selection button config. */
+  {@param tenantConfig: [tenantId:string|null, fullLabel:string|null, displayName:string,
+      buttonColor:string, iconUrl: string]} /** The tenant selection button config. */
   {let $tenantClass kind="text"}
     {if $tenantConfig.tenantId}
       {$tenantConfig.tenantId}
@@ -702,9 +749,13 @@
           src="{$tenantConfig.iconUrl}">
     </span>
     <span class="firebaseui-idp-text firebaseui-idp-text-long">
-      {msg desc="Label for a button to sign in to a tenant. The long version"}
-        Sign in to {$tenantConfig.displayName}
-      {/msg}
+      {if $tenantConfig.fullLabel}
+        {$tenantConfig.fullLabel}
+      {else}
+        {msg desc="Label for a button to sign in to a tenant. The long version"}
+          Sign in to {$tenantConfig.displayName}
+        {/msg}
+      {/if}
     </span>
     <span class="firebaseui-idp-text firebaseui-idp-text-short">
       {msg desc="Label for a button to sign in to a tenant. The short version"}
@@ -713,3 +764,4 @@
     </span>
   </button>
 {/template}
+

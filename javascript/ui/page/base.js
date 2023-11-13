@@ -33,6 +33,7 @@ goog.require('goog.events.Event');
 goog.require('goog.object');
 goog.require('goog.soy');
 goog.require('goog.ui.Component');
+goog.requireType('goog.Promise');
 
 
 /**
@@ -121,6 +122,7 @@ firebaseui.auth.ui.page.IJ_DATA_ = {
   defaultButtonColors: firebaseui.auth.ui.page.DEFAULT_BUTTON_COLORS_,
   defaultProviderNames: firebaseui.auth.ui.page.DEFAULT_PROVIDER_NAMES_,
 };
+
 
 
 /**

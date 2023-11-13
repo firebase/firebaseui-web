@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>FirebaseUI Auth Demo</title>
     <link rel="manifest" href="manifest.json">
-    <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth-compat.js"></script>
     <script src="config.js"></script>
     <script src="common.js"></script>
     <link href="style.css" rel="stylesheet" type="text/css" media="screen" />
@@ -57,7 +58,11 @@
                 <input type="radio" id="email-signInMethod-emailLink" name="emailSignInMethod"
                        value="emailLink">
                 Email Link
-              </label>
+              </label><br>
+              <label for="email-disableSignUp-status">Disable email sign up:</label>
+              <input type="checkbox" id="email-disableSignUp-status" name="disableEmailSignUpStatus">
+              <label for="admin-restricted-operation-status">Admin restricted operation status:</label>
+              <input type="checkbox" id="admin-restricted-operation-status" name="adminRestrictedOperationStatus">
             </fieldset>
             <p>
               <button id="sign-in-with-redirect">Sign In with Redirect</button>

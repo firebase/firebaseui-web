@@ -35,17 +35,15 @@ class Config {
   constructor() {
     /** @const @private {!AuthConfig} The AuthUI config object. */
     this.config_ = new AuthConfig();
-    // Define FirebaseUI widget configurations and convenient getters.
-    this.config_.define('acUiConfig');
     this.config_.define('autoUpgradeAnonymousUsers');
     this.config_.define('callbacks');
     /**
-     * Determines which credential helper to use. Currently, only
-     * accountchooser.com is available and it is set by default.
+     * Determines which credential helper to use. By default,
+     * no credentialHelper is selected.
      */
     this.config_.define(
         'credentialHelper',
-        Config.CredentialHelper.ACCOUNT_CHOOSER_COM);
+        Config.CredentialHelper.NONE);
     /**
      * Determines whether to immediately redirect to the provider's site or
      * instead show the default 'Sign in with Provider' button when there
@@ -77,11 +75,15 @@ class Config {
     this.config_.define('siteName');
     this.config_.define('tosUrl');
     this.config_.define('widgetUrl');
-  }
-
-  /** @return {?Object} The UI configuration for accountchooser.com. */
-  getAcUiConfig() {
-    return /** @type {?Object} */ (this.config_.get('acUiConfig') || null);
+    /**
+     * The configuration mirroring the project user actions ("Enable create")
+     * settings. When sign-up is disabled in the project settings, this
+     * configuration should be provided with the status field set to `true`.
+     * This does not enforce the policy but is rather useful for providing
+     * additional instructions to the end user when a user tries to create a
+     * new user account and the Auth server blocks the operation.
+     */
+    this.config_.define('adminRestrictedOperation');
   }
 
   /**
@@ -205,8 +207,7 @@ class Config {
    *     special IdP.
    */
   getProviders() {
-    return googArray.map(
-        this.getSignInOptions_(), (option) => option['provider']);
+    return this.getSignInOptions_().map(option => option['provider']);
   }
 
   /**
@@ -232,62 +233,76 @@ class Config {
    * @return {!Array<!Config.ProviderConfig>} The list of supported IdP configs.
    */
   getProviderConfigs() {
-    return googArray.map(this.getSignInOptions_(), (option) => {
+    return this.getSignInOptions_().map(option => {
       if (idp.isSupportedProvider(option['provider']) ||
-          googArray.contains(
-              UI_SUPPORTED_PROVIDERS,
-              option['provider'])) {
-        // For built-in providers, provider display name, button color and
-        // icon URL are fixed. The login hint key is also automatically set for
-        // built-in providers that support it.
-        return {
-          providerId: option['provider'],
+          googArray.contains(UI_SUPPORTED_PROVIDERS, option['provider'])) {
+        // The login hint key is also automatically set for built-in providers
+        // that support it.
+        const providerConfig = {
+          providerId: option['provider'],  // Since developers may be using
+                                           // G-Suite for Google sign in or
+          // want to label email/password as their own provider, we should
+          // allow customization of these attributes.
+          providerName: option['providerName'] || null,
+          fullLabel: option['fullLabel'] || null,
+          buttonColor: option['buttonColor'] || null,
+          iconUrl: option['iconUrl'] ? util.sanitizeUrl(option['iconUrl']) :
+                                       null
         };
+        for (const key in providerConfig) {
+          if (providerConfig[key] === null) {
+            delete providerConfig[key];
+          }
+        }
+        return providerConfig;
       } else {
         return {
           providerId: option['provider'],
           providerName: option['providerName'] || null,
+          fullLabel: option['fullLabel'] || null,
           buttonColor: option['buttonColor'] || null,
-          iconUrl: option['iconUrl'] ?
-              util.sanitizeUrl(option['iconUrl']) : null,
-          loginHintKey: option['loginHintKey'] || null,
+          iconUrl: option['iconUrl'] ? util.sanitizeUrl(option['iconUrl']) :
+                                       null,
+          loginHintKey: option['loginHintKey'] || null
         };
       }
     });
   }
 
   /**
-   * @return {?SmartLockRequestOptions} The googleyolo configuration options
-   * if available.
+   * @return {?string} The googleyolo configuration client ID if available.
    */
-  getGoogleYoloConfig() {
-    const supportedAuthMethods = [];
-    const supportedIdTokenProviders = [];
-    googArray.forEach(this.getSignInOptions_(), (option) => {
-      if (option['authMethod']) {
-        supportedAuthMethods.push(option['authMethod']);
-        if (option['clientId']) {
-          supportedIdTokenProviders.push({
-            'uri': option['authMethod'],
-            'clientId': option['clientId'],
-          });
-        }
-      }
-    });
-    let config = null;
-    // Ensure configuration is not empty. At least one supportedIdTokenProviders
-    // or supportedAuthMethods needs to be provided.
-    if (this.getCredentialHelper() ===
-        Config.CredentialHelper.GOOGLE_YOLO &&
-        // googleyolo will enforce that clientId is present. Delegate the check
-        // to it. Errors will be surfaced in the console.
-        supportedAuthMethods.length) {
-      config = {
-        'supportedIdTokenProviders': supportedIdTokenProviders,
-        'supportedAuthMethods': supportedAuthMethods,
-      };
+  getGoogleYoloClientId() {
+    const signInOptions = this.getSignInOptionsForProvider_(
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID);
+    if (signInOptions &&
+        signInOptions['clientId'] &&
+        this.getCredentialHelper() === Config.CredentialHelper.GOOGLE_YOLO) {
+      return signInOptions['clientId'] || null;
     }
-    return config;
+    return null;
+  }
+
+  /**
+   * @return {boolean} Whether the user is disabled to sign up with email.
+   */
+  isEmailSignUpDisabled() {
+    // This is only applicable to email.
+    const emailSignInOption = this.getSignInOptionsForProvider_(
+        firebase.auth.EmailAuthProvider.PROVIDER_ID);
+    return !!(emailSignInOption &&
+              emailSignInOption['disableSignUp'] &&
+              emailSignInOption['disableSignUp']['status']);
+  }
+
+  /**
+   * @return {boolean} Whether user sign up is admin restricted.
+   */
+  isAdminRestrictedOperationConfigured() {
+    const adminRestrictedOperation =
+        this.config_.get('adminRestrictedOperation') || null;
+    return !!(adminRestrictedOperation &&
+              adminRestrictedOperation['status']);
   }
 
   /**
@@ -316,7 +331,7 @@ class Config {
   getProviderIdFromAuthMethod(authMethod) {
     let providerId = null;
     // For each supported provider.
-    googArray.forEach(this.getSignInOptions_(), (option) => {
+    this.getSignInOptions_().forEach(option => {
       // Check for matching authMethod.
       if (option['authMethod'] === authMethod) {
         // Get the providerId for that provider.
@@ -333,12 +348,11 @@ class Config {
    */
   getRecaptchaParameters() {
     let recaptchaParameters = null;
-    googArray.forEach(this.getSignInOptions_(), (option) => {
-      if (option['provider'] ==
-          firebase.auth.PhoneAuthProvider.PROVIDER_ID &&
-          // Confirm valid object.
-          goog.isObject(option['recaptchaParameters']) &&
-          !goog.isArray(option['recaptchaParameters'])) {
+    this.getSignInOptions_().forEach(option => {
+      if (option['provider'] == firebase.auth.PhoneAuthProvider.PROVIDER_ID &&
+          goog.isObject(
+              option['recaptchaParameters']) &&  // Confirm valid object.
+          !Array.isArray(option['recaptchaParameters'])) {
         // Clone original object.
         recaptchaParameters = googObject.clone(option['recaptchaParameters']);
       }
@@ -347,14 +361,12 @@ class Config {
       // Keep track of all blacklisted keys passed by the developer.
       const blacklistedKeys = [];
       // Go over all blacklisted keys and remove them from the original object.
-      googArray.forEach(
-          BLACKLISTED_RECAPTCHA_KEYS,
-          (key) => {
-            if (typeof recaptchaParameters[key] !== 'undefined') {
-              blacklistedKeys.push(key);
-              delete recaptchaParameters[key];
-            }
-          });
+      BLACKLISTED_RECAPTCHA_KEYS.forEach(key => {
+        if (typeof recaptchaParameters[key] !== 'undefined') {
+          blacklistedKeys.push(key);
+          delete recaptchaParameters[key];
+        }
+      });
       // Log a warning for invalid keys.
       // This will show on each call.
       if (blacklistedKeys.length) {
@@ -367,6 +379,71 @@ class Config {
   }
 
   /**
+   * @return {?string} The admin contact email when users are restricted from
+   *     sign up. Otherwise, null is returned.
+   */
+  getAdminRestrictedOperationAdminEmail() {
+    const adminRestrictedOperation =
+        this.config_.get('adminRestrictedOperation');
+    if (adminRestrictedOperation && adminRestrictedOperation['adminEmail']) {
+      return /** @type {string} */(adminRestrictedOperation['adminEmail']);
+    }
+    return null;
+  }
+
+  /**
+   * @return {?function()} The callback to redirect to the help link when users
+   *     are restricted from sign up. Otherwise, null is returned.
+   */
+  getAdminRestrictedOperationHelpLinkCallback() {
+    const adminRestrictedOperation =
+        this.config_.get('adminRestrictedOperation') || null;
+    if (adminRestrictedOperation) {
+      const helpLink = adminRestrictedOperation['helpLink'] || null;
+      if (helpLink && typeof helpLink === 'string') {
+        return () => {
+          util.open(
+              /** @type {string} */ (helpLink),
+              util.isCordovaInAppBrowserInstalled() ?
+              '_system' : '_blank');
+        };
+      }
+    }
+    return null;
+  }
+
+  /**
+   * @return {?string} The admin contact email when sign up is disabled.
+   */
+  getEmailProviderAdminEmail() {
+    const emailSignInOption = this.getSignInOptionsForProvider_(
+        firebase.auth.EmailAuthProvider.PROVIDER_ID);
+    return (emailSignInOption && emailSignInOption['disableSignUp'] &&
+            emailSignInOption['disableSignUp']['adminEmail']) || null;
+  }
+
+  /**
+   * @return {?function()} The callback to redirect to the help link when email
+   *     provider sign up is disabled.
+   */
+  getEmailProviderHelpLinkCallBack() {
+    const emailSignInOption = this.getSignInOptionsForProvider_(
+        firebase.auth.EmailAuthProvider.PROVIDER_ID);
+    if (emailSignInOption && emailSignInOption['disableSignUp']) {
+      const helpLink = emailSignInOption['disableSignUp']['helpLink'] || null;
+      if (helpLink && typeof helpLink === 'string') {
+        return () => {
+          util.open(
+              /** @type {string} */ (helpLink),
+              util.isCordovaInAppBrowserInstalled() ?
+              '_system' : '_blank');
+        };
+      }
+    }
+    return null;
+  }
+
+  /**
    * @param {string} providerId The provider id whose additional scopes are to
    *     be returned.
    * @return {!Array<string>} The list of additional scopes for specified
@@ -376,7 +453,7 @@ class Config {
     // Get provided sign-in options for specified provider.
     const signInOptions = this.getSignInOptionsForProvider_(providerId);
     const scopes = signInOptions && signInOptions['scopes'];
-    return goog.isArray(scopes) ? scopes : [];
+    return Array.isArray(scopes) ? scopes : [];
   }
 
   /**
@@ -462,27 +539,27 @@ class Config {
     const blacklistedCountries = signInOptions['blacklistedCountries'];
     // First validate the input.
     if (typeof whitelistedCountries !== 'undefined' &&
-        (!goog.isArray(whitelistedCountries) ||
+        (!Array.isArray(whitelistedCountries) ||
          whitelistedCountries.length == 0)) {
       throw new Error('WhitelistedCountries must be a non-empty array.');
     }
     if (typeof blacklistedCountries !== 'undefined' &&
-        (!goog.isArray(blacklistedCountries))) {
+        (!Array.isArray(blacklistedCountries))) {
       throw new Error('BlacklistedCountries must be an array.');
     }
-    // If both whitelist and blacklist are provided, throw error.
+    // If both allowlist and disallowlist are provided, throw error.
     if (whitelistedCountries && blacklistedCountries) {
       throw new Error(
           'Both whitelistedCountries and blacklistedCountries are provided.');
     }
-    // If no whitelist or blacklist provided, return all available countries.
+    // If no allowlist or disallowlist provided, return all available countries.
     if (!whitelistedCountries && !blacklistedCountries) {
       return country.COUNTRY_LIST;
     }
     let countries = [];
     const availableCountries = [];
     if (whitelistedCountries) {
-      // Whitelist is provided.
+      // Allowlist is provided.
       const whitelistedCountryMap = {};
       for (let i = 0; i < whitelistedCountries.length; i++) {
         countries = country
@@ -548,7 +625,7 @@ class Config {
           'Privacy Policy URL is missing, the link will not be displayed.');
     }
     if (tosUrl && privacyPolicyUrl) {
-      if (goog.isFunction(tosUrl)) {
+      if (typeof tosUrl === 'function') {
         return /** @type {function()} */ (tosUrl);
       } else if (typeof tosUrl === 'string') {
         return () => {
@@ -574,7 +651,7 @@ class Config {
           'Term of Service URL is missing, the link will not be displayed.');
     }
     if (tosUrl && privacyPolicyUrl) {
-      if (goog.isFunction(privacyPolicyUrl)) {
+      if (typeof privacyPolicyUrl === 'function') {
           return /** @type {function()} */ (privacyPolicyUrl);
       } else if (typeof privacyPolicyUrl === 'string') {
         return () => {
@@ -717,30 +794,6 @@ class Config {
   }
 
   /**
-   * @return {?function(?function())} The callback to invoke right when
-   *     accountchooser.com is triggered, a continue function is passed and
-   *     this should be called when the callback is completed, typically
-   *     asynchronously to proceed to accountchooser.com.
-   */
-  getAccountChooserInvokedCallback() {
-    return /** @type {?function(?function())} */ (
-        this.getCallbacks_()['accountChooserInvoked'] || null);
-  }
-
-  /**
-   * @return {?function(?Config.AccountChooserResult, ?function())} The callback
-   *     to invoke on return from accountchooser.com invocation. The code
-   *     result string is passed.
-   */
-  getAccountChooserResultCallback() {
-    /**
-     * @type {?function(?Config.AccountChooserResult, ?function())}
-     */
-    const callback = this.getCallbacks_()['accountChooserResult'] || null;
-    return callback;
-  }
-
-  /**
    * @return {?Config.signInSuccessCallback} The callback to invoke when the
    *     user signs in successfully. The signed in firebase user is passed
    *     into the callback. A second parameter, the Auth credential is also
@@ -789,18 +842,6 @@ class Config {
   }
 
   /**
-   * TODO: for now, only accountchooser.com is available and all logic related
-   * to credential helper relies on it, so this method is provided for ease of
-   * use. It should be removed in the future when FirebaseUI supports several
-   * credential helpers.
-   * @return {boolean} Whether accountchooser.com is enabled.
-   */
-  isAccountChooserEnabled() {
-    return this.getCredentialHelper() ==
-        Config.CredentialHelper.ACCOUNT_CHOOSER_COM;
-  }
-
-  /**
    * @return {!Config.CredentialHelper} The credential helper to use.
    */
   getCredentialHelper() {
@@ -812,16 +853,16 @@ class Config {
       return Config.CredentialHelper.NONE;
     }
     const credentialHelper = this.config_.get('credentialHelper');
+
     // Make sure the credential helper is valid.
     for (let key in Config.CredentialHelper) {
-      if (Config.CredentialHelper[key] ==
-          credentialHelper) {
+      if (Config.CredentialHelper[key] === credentialHelper) {
         // Return valid flow.
         return Config.CredentialHelper[key];
       }
     }
-    // Default to using accountchooser.com.
-    return Config.CredentialHelper.ACCOUNT_CHOOSER_COM;
+    // Default to using none.
+    return Config.CredentialHelper.NONE;
   }
 
   /**
@@ -867,7 +908,6 @@ class Config {
  * @enum {string}
  */
 Config.CredentialHelper = {
-  ACCOUNT_CHOOSER_COM: 'accountchooser.com',
   GOOGLE_YOLO: 'googleyolo',
   NONE: 'none',
 };
@@ -908,17 +948,6 @@ Config.signInSuccessWithAuthResultCallback;
 Config.signInFailureCallback;
 
 /**
- * The accountchooser.com result codes.
- * @enum {string}
- */
-Config.AccountChooserResult = {
-  EMPTY: 'empty',
-  UNAVAILABLE: 'unavailable',
-  ACCOUNT_SELECTED: 'accountSelected',
-  ADD_ACCOUNT: 'addAccount',
-};
-
-/**
  * The type of sign-in flow.
  * @enum {string}
  */
@@ -931,11 +960,15 @@ Config.SignInFlow = {
  * The provider config object for generic providers.
  * providerId: The provider ID.
  * providerName: The display name of the provider.
+ * fullLabel: The full button label. If both providerName and fullLabel are
+ * provided, we will use fullLabel for long name and providerName for short
+ * name.
  * buttonColor: The color of the sign in button.
  * iconUrl: The URL of the icon on sign in button.
  * loginHintKey: The name to use for the optional login hint parameter.
  * @typedef {{
  *   providerId: string,
+ *   fullLabel: (?string|undefined),
  *   providerName: (?string|undefined),
  *   buttonColor: (?string|undefined),
  *   iconUrl: (?string|undefined),

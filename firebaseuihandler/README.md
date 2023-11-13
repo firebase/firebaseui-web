@@ -53,8 +53,8 @@ You can then `import` the following modules within your source files:
 
 ```javascript
 // Import firebase modules.
-import * as firebase from "firebase/app";
-import "firebase/auth";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
 // Import firebaseui module.
 import * as firebaseui from 'firebaseui'
 // Import gcip-iap module.
@@ -65,8 +65,8 @@ Or use cjs `require` to include the modules:
 
 ```javascript
 // Require firebase modules.
-var firebase = require('firebase/app');
-require('firebase/auth');
+var firebase = require('firebase/compat/app');
+require('firebase/compat/auth');
 // Require firebaseui module.
 var firebaseui = require('firebaseui');
 // Require gcip-iap module.
@@ -116,6 +116,8 @@ const configs = {
     tenants: {
       // Tenant configuration for tenant ID tenantId1.
       tenantId1: {
+        // To customize the full tenant selection button label:
+        // fullLabel: 'ACME Portal',
         // Display name, button color and icon URL of the
         // tenant selection button.
         displayName: 'ACME',
@@ -137,6 +139,8 @@ const configs = {
           {
             provider: 'saml.my-provider1',
             providerName: 'SAML provider',
+            // To customize the full label:
+            // fullLabel: 'ACME Portal',
             buttonColor: '#4666FF',
             iconUrl: 'https://www.example.com/photos/my_idp/saml.png'
           },
@@ -145,6 +149,8 @@ const configs = {
       },
       // Tenant configuration for tenant ID tenantId2.
       tenantId2: {
+        // To customize the full tenant selection button label:
+        // fullLabel: 'OCP Portal',
         displayName: 'OCP',
         buttonColor: '#2F2F2F',
         iconUrl: '<icon-url-of-sign-in-button>',
@@ -161,6 +167,8 @@ const configs = {
           {
             provider: 'oidc.my-provider1',
             providerName: 'OIDC provider',
+            // To customize the full label:
+            // fullLabel: 'Contractor Login',
             buttonColor: '#4666FF',
             iconUrl: 'https://www.example.com/photos/my_idp/oidc.png'
           },
@@ -211,6 +219,8 @@ The following is an example of a tenant configured to use options mode:
 
 ```javascript
 tenantId1: {
+  // To customize the full tenant selection button label:
+  // fullLabel: 'ACME Portal',
   displayName: 'ACME',
   buttonColor: '#2F2F2F',
   iconUrl: '<icon-url-of-sign-in-button>',
@@ -378,6 +388,10 @@ interface Callbacks {
 
 // Interface that represents the tenant-level configurations.
 interface TenantConfig {
+  // The full label for the tenant in the tenant selection buttion. Only needed
+  // if you are using the option first mode.
+  // When not provided, the "Sign in to $displayName" label is used.
+  fullLabel?: string;
   // The display name for tenant in the tenant selection button. Only needed if
   // you are using the option first mode.
   displayName?: string;

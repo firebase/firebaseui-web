@@ -27,6 +27,7 @@
 <translation id="1412449974349991050">Гаити</translation>
 <translation id="144766329299583285">Если вы не отправляли запрос на изменение адреса электронной почты для входа в аккаунт, возможно, кто-то пытается получить доступ к вашему аккаунту. Рекомендуем <ph name="START_LINK" />изменить пароль прямо сейчас<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">Остров Херд и острова Макдональд</translation>
+<translation id="1451880131543823984">У пользователя с адресом электронной почты <ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> недостаточно прав для просмотра запрашиваемой страницы.</translation>
 <translation id="1479035434297790822">С вашего IP-адреса поступает слишком много запросов на создание аккаунта. Повторите попытку через несколько минут.</translation>
 <translation id="1483249363694224399">Шри-Ланка</translation>
 <translation id="1507995441600689506">Теперь вы можете входить в систему через новый аккаунт</translation>
@@ -158,6 +159,7 @@
 <translation id="3521753471343796628">Ирак</translation>
 <translation id="354888504916863713">Вьетнам</translation>
 <translation id="3550380781997195832">Неверный адрес электронной почты.</translation>
+<translation id="3552446912357282301">Чтобы получить доступ, обратитесь к администратору по адресу электронной почты <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" />.</translation>
 <translation id="3561568594856945084">Майотта</translation>
 <translation id="3591063723610544836">Вход в систему</translation>
 <translation id="3593480381831738519">Сброс пароля</translation>
@@ -245,6 +247,7 @@
 <translation id="5143657419516597442">Сент-Люсия</translation>
 <translation id="521218078240459724">@string/app_name</translation>
 <translation id="5241732101105320538">Проверьте электронную почту</translation>
+<translation id="5255830932650472373">Новый пароль</translation>
 <translation id="5301108536112812420">Срок действия запроса на подтверждение адреса электронной почты истек, или ссылка уже использована.</translation>
 <translation id="5323041129469627535">Оман</translation>
 <translation id="5326139833547026317">Бонэйр, Синт-Эстатиус и Саба</translation>
@@ -326,7 +329,7 @@
 <translation id="6470057025778734988">Вы больше не сможете входить в систему с его помощью.</translation>
 <translation id="6472297146424049005">Проверьте подключение к Интернету.</translation>
 <translation id="6483116480230343278">Идет регистрация…</translation>
-<translation id="6502083090260346644">Нажимая кнопку "<ph name="STRING" />", вы соглашаетесь получить SMS. За его отправку и обмен данными может взиматься плата.</translation>
+<translation id="6494734506607758748">Чтобы изменить адрес электронной почты, связанный с аккаунтом, нужно будет войти в систему ещё раз.</translation>
 <translation id="6508909904815637928">Вануату</translation>
 <translation id="6520863029476703422">Американское Самоа</translation>
 <translation id="6527597037551425211">Бразилия</translation>
@@ -357,6 +360,7 @@
 <translation id="6821607741326790458">Ямайка</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Пакистан</translation>
+<translation id="6852861389112775830">У пользователя с адресом электронной почты <ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> недостаточно прав для просмотра запрошенной страницы.</translation>
 <translation id="6918319418444979243">Отправить ещё раз</translation>
 <translation id="6920167780806379235">Сирия</translation>
 <translation id="6921505896641453739">Адрес электронной почты</translation>
@@ -364,6 +368,7 @@
 <translation id="6951302238647056860">Этот код уже неактивен.</translation>
 <translation id="6961220857430789248">На адрес электронной почты <ph name="STRING" /> отправлено письмо с информацией о том, как войти в аккаунт. Изучите его и выполните инструкции.</translation>
 <translation id="6984204927251307445">Подтвердите адрес электронной почты</translation>
+<translation id="6996552808101270965">Подробнее…</translation>
 <translation id="6999773882165218263">Имя и фамилия</translation>
 <translation id="7012506961150923116">Гренада</translation>
 <translation id="7024571478138322659">Западная Сахара</translation>
@@ -393,6 +398,7 @@
 <translation id="7291656724505689727">Войти по номеру телефона</translation>
 <translation id="7320029088567935126">Повторите попытку</translation>
 <translation id="7331038350037712642">Азербайджан</translation>
+<translation id="7359542696390093035">Доступ запрещен</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">Недействительная ссылка</translation>
 <translation id="7477065998516229434">Условия использования</translation>

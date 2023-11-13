@@ -17,6 +17,7 @@
 goog.module('firebaseui.auth.widget.ConfigTest');
 goog.setTestOnly();
 
+const COUNTRY_LIST = goog.require('firebaseui.auth.data.country.COUNTRY_LIST');
 const Config = goog.require('firebaseui.auth.widget.Config');
 const FakeUtil = goog.require('firebaseui.auth.testing.FakeUtil');
 const PropertyReplacer = goog.require('goog.testing.PropertyReplacer');
@@ -31,6 +32,7 @@ const stub = new PropertyReplacer();
 let testUtil;
 let errorLogMessages = [];
 let warningLogMessages = [];
+const expectedClientId = '1234567890.apps.googleusercontent.com';
 
 testSuite({
   setUp() {
@@ -65,13 +67,6 @@ testSuite({
     stub.reset();
   },
 
-  testGetAcUiConfig() {
-    assertNull(config.getAcUiConfig());
-    const ui = {favicon: 'http://localhost/favicon.ico'};
-    config.update('acUiConfig', ui);
-    assertObjectEquals(ui, config.getAcUiConfig());
-  },
-
   testGetQueryParameterForSignInSuccessUrl() {
     // Confirm default value for query parameter for sign-in success URL.
     assertEquals(
@@ -92,13 +87,13 @@ testSuite({
     let widgetUrl = config.getRequiredWidgetUrl();
     assertEquals('http://localhost/callback', widgetUrl);
     widgetUrl = config.getRequiredWidgetUrl(
-        Config.WidgetMode.SELECT);
-    assertEquals('http://localhost/callback?mode=select', widgetUrl);
+        Config.WidgetMode.SIGN_IN);
+    assertEquals('http://localhost/callback?mode=signIn', widgetUrl);
 
     config.update('queryParameterForWidgetMode', 'mode2');
     widgetUrl = config.getRequiredWidgetUrl(
-        Config.WidgetMode.SELECT);
-    assertEquals('http://localhost/callback?mode2=select', widgetUrl);
+        Config.WidgetMode.SIGN_IN);
+    assertEquals('http://localhost/callback?mode2=signIn', widgetUrl);
   },
 
   testFederatedProviderShouldImmediatelyRedirect() {
@@ -181,13 +176,13 @@ testSuite({
     let widgetUrl = config.getWidgetUrl();
     assertEquals(window.location.href, widgetUrl);
     widgetUrl = config.getWidgetUrl(
-        Config.WidgetMode.SELECT);
-    assertEquals(window.location.href + '?mode=select', widgetUrl);
+        Config.WidgetMode.SIGN_IN);
+    assertEquals(window.location.href + '?mode=signIn', widgetUrl);
 
     config.update('queryParameterForWidgetMode', 'mode2');
     widgetUrl = config.getWidgetUrl(
-        Config.WidgetMode.SELECT);
-    assertEquals(window.location.href + '?mode2=select', widgetUrl);
+        Config.WidgetMode.SIGN_IN);
+    assertEquals(window.location.href + '?mode2=signIn', widgetUrl);
   },
 
   testGetWidgetUrl_notSpecified_withQueryAndFragment() {
@@ -203,16 +198,16 @@ testSuite({
         util.getCurrentUrl(), widgetUrl);
     // Only the mode query param should be overwritten.
     widgetUrl = config.getWidgetUrl(
-        Config.WidgetMode.SELECT);
+        Config.WidgetMode.SIGN_IN);
     assertEquals(
-        'http://www.example.com/path/?mode2=bar&mode=select#a=1', widgetUrl);
+        'http://www.example.com/path/?mode2=bar&mode=signIn#a=1', widgetUrl);
 
     // Only the mode2 query param should be overwritten.
     config.update('queryParameterForWidgetMode', 'mode2');
     widgetUrl = config.getWidgetUrl(
-        Config.WidgetMode.SELECT);
+        Config.WidgetMode.SIGN_IN);
     assertEquals(
-        'http://www.example.com/path/?mode=foo&mode2=select#a=1', widgetUrl);
+        'http://www.example.com/path/?mode=foo&mode2=signIn#a=1', widgetUrl);
   },
 
   testGetWidgetUrl_specified() {
@@ -220,13 +215,13 @@ testSuite({
     let widgetUrl = config.getWidgetUrl();
     assertEquals('http://localhost/callback', widgetUrl);
     widgetUrl = config.getWidgetUrl(
-        Config.WidgetMode.SELECT);
-    assertEquals('http://localhost/callback?mode=select', widgetUrl);
+        Config.WidgetMode.CALLBACK);
+    assertEquals('http://localhost/callback?mode=callback', widgetUrl);
 
     config.update('queryParameterForWidgetMode', 'mode2');
     widgetUrl = config.getWidgetUrl(
-        Config.WidgetMode.SELECT);
-    assertEquals('http://localhost/callback?mode2=select', widgetUrl);
+        Config.WidgetMode.CALLBACK);
+    assertEquals('http://localhost/callback?mode2=callback', widgetUrl);
   },
 
   testGetSignInSuccessUrl() {
@@ -310,8 +305,8 @@ testSuite({
       {
         'provider': 'google.com',
         'scopes': ['foo', 'bar'],
-        // providerName, buttonColor and iconUrl should be override with null.
-        'providerName': 'Google',
+        'providerName': 'MyIdp',
+        'fullLabel': 'MyIdp Portal',
         'buttonColor': '#FFB6C1',
         'iconUrl': '<url-of-the-icon-of-the-sign-in-button>',
       },
@@ -319,6 +314,7 @@ testSuite({
       {
         'provider': 'microsoft.com',
         'providerName': 'Microsoft',
+        'fullLabel': 'Microsoft Login',
         'buttonColor': '#FFB6C1',
         'iconUrl': '<url-of-the-icon-of-the-sign-in-button>',
         'loginHintKey': 'login_hint',
@@ -332,6 +328,10 @@ testSuite({
     assertEquals(4, providerConfigs.length);
     assertObjectEquals({
       providerId: 'google.com',
+      providerName: 'MyIdp',
+      fullLabel: 'MyIdp Portal',
+      buttonColor: '#FFB6C1',
+      iconUrl: '<url-of-the-icon-of-the-sign-in-button>',
     }, providerConfigs[0]);
     assertObjectEquals({
       providerId: 'facebook.com',
@@ -339,6 +339,7 @@ testSuite({
     assertObjectEquals({
       providerId: 'microsoft.com',
       providerName: 'Microsoft',
+      fullLabel: 'Microsoft Login',
       buttonColor: '#FFB6C1',
       iconUrl: '<url-of-the-icon-of-the-sign-in-button>',
       loginHintKey: 'login_hint',
@@ -346,6 +347,7 @@ testSuite({
     assertObjectEquals({
       providerId: 'yahoo.com',
       providerName: null,
+      fullLabel: null,
       buttonColor: null,
       iconUrl: null,
       loginHintKey: null,
@@ -357,15 +359,17 @@ testSuite({
       {
         'provider': 'google.com',
         'scopes': ['foo', 'bar'],
-        // providerName, buttonColor and iconUrl should be override with null.
-        'providerName': 'Google',
+        'providerName': 'MyIdp',
+        'fullLabel': 'MyIdp Portal',
         'buttonColor': '#FFB6C1',
         'iconUrl': '<url-of-the-icon-of-the-sign-in-button>',
+        'loginHintKey': 'other',
       },
       'facebook.com',
       {
         'provider': 'microsoft.com',
         'providerName': 'Microsoft',
+        'fullLabel': 'Microsoft Login',
         'buttonColor': '#FFB6C1',
         'iconUrl': '<url-of-the-icon-of-the-sign-in-button>',
         'loginHintKey': 'login_hint',
@@ -380,13 +384,18 @@ testSuite({
     ]);
     assertObjectEquals({
       providerId: 'google.com',
+      providerName: 'MyIdp',
+      fullLabel: 'MyIdp Portal',
+      buttonColor: '#FFB6C1',
+      iconUrl: '<url-of-the-icon-of-the-sign-in-button>',
     }, config.getConfigForProvider('google.com'));
     assertObjectEquals({
-      providerId: 'facebook.com',
+      providerId: 'facebook.com'
     }, config.getConfigForProvider('facebook.com'));
     assertObjectEquals({
       providerId: 'microsoft.com',
       providerName: 'Microsoft',
+      fullLabel: 'Microsoft Login',
       buttonColor: '#FFB6C1',
       iconUrl: '<url-of-the-icon-of-the-sign-in-button>',
       loginHintKey: 'login_hint',
@@ -395,6 +404,7 @@ testSuite({
     assertObjectEquals({
       providerId: 'yahoo.com',
       providerName: 'Yahoo',
+      fullLabel: null,
       buttonColor: '#FFB6C1',
       iconUrl: 'about:invalid#zClosurez',
       loginHintKey: null,
@@ -433,7 +443,7 @@ testSuite({
     assertArrayEquals([], warningLogMessages);
 
     // Phone config with blacklisted reCAPTCHA parameters.
-    const blacklist = {
+    const disallowlist = {
       'sitekey': 'SITEKEY',
       'tabindex': 0,
       'callback': function(token) {},
@@ -442,7 +452,11 @@ testSuite({
     config.update(
         'signInOptions',
         ['github.com', {'provider': 'google.com'},
-         {'provider': 'phone', 'recaptchaParameters': blacklist}, 'password']);
+         {
+           'provider': 'phone',
+           'recaptchaParameters': disallowlist
+         },
+         'password']);
     assertObjectEquals({}, config.getRecaptchaParameters());
     // Expected warning should be logged.
     assertArrayEquals(
@@ -565,6 +579,175 @@ testSuite({
         config.getProviderCustomParameters('github.com'));
   },
 
+  testIsEmailSignUpDisabled() {
+    assertFalse(config.isEmailSignUpDisabled());
+    config.update('signInOptions', [
+      {
+        'provider': 'password',
+        'requireDisplayName': true,
+        'disableSignUp': {
+          'status': false,
+        }
+      },
+    ]);
+    assertFalse(config.isEmailSignUpDisabled());
+
+    config.update('signInOptions', [
+      {
+        'provider': 'password',
+        'requireDisplayName': true,
+        'disableSignUp': {
+          'status': true,
+        }
+      },
+    ]);
+    assertTrue(config.isEmailSignUpDisabled());
+  },
+
+  testGetEmailProviderAdminEmail() {
+    assertNull(config.getEmailProviderAdminEmail());
+    config.update('signInOptions', [
+      {
+        'provider': 'password',
+        'requireDisplayName': true,
+        'disableSignUp': {
+          'status':  true,
+          'adminEmail': null,
+        }
+      }
+    ]);
+    assertNull(config.getEmailProviderAdminEmail());
+
+    const adminEmail = 'admin@example.com';
+    config.update('signInOptions', [
+      {
+        'provider': 'password',
+        'requireDisplayName': true,
+        'disableSignUp': {
+          'status':  true,
+          'adminEmail': adminEmail,
+        }
+      }
+    ]);
+    assertEquals(adminEmail, config.getEmailProviderAdminEmail());
+  },
+
+  testGetEmailProviderHelpLinkCallBack() {
+    assertNull(config.getEmailProviderHelpLinkCallBack());
+    config.update('signInOptions', [
+      {
+        'provider': 'password',
+        'requireDisplayName': true,
+        'disableSignUp': {
+          'status': true,
+          'helpLink': null,
+        }
+      }
+    ]);
+    assertNull(config.getEmailProviderHelpLinkCallBack());
+
+    let helpLink = 'https://www.example.com/trouble_signing_in';
+    config.update('signInOptions', [
+      {
+        'provider': 'password',
+        'requireDisplayName': true,
+        'disableSignUp': {
+          'status': true,
+          'helpLink': helpLink,
+        }
+      }
+    ]);
+    assertNotNull(config.getEmailProviderHelpLinkCallBack());
+    let helpLinkCallback = config.getEmailProviderHelpLinkCallBack();
+    helpLinkCallback();
+    testUtil.assertOpen(helpLink, '_blank');
+
+    stub.replace(
+        util,
+        'isCordovaInAppBrowserInstalled',
+        () => true);
+    helpLinkCallback();
+    // Target should be _system if Cordova InAppBrowser plugin is installed.
+    testUtil.assertOpen(helpLink, '_system');
+
+    helpLink = 1023;
+    config.update('signInOptions', [
+      {
+        'provider': 'password',
+        'requireDisplayName': true,
+        'disableSignUp': {
+          'status': true,
+          'helpLink': helpLink,
+        }
+      }
+    ]);
+    assertNull(config.getEmailProviderHelpLinkCallBack());
+  },
+
+  testAdminRestrictedOperationStatus() {
+    assertFalse(config.isAdminRestrictedOperationConfigured());
+    config.update('adminRestrictedOperation', {
+      'status': true,
+    });
+    assertTrue(config.isAdminRestrictedOperationConfigured());
+
+    config.update('adminRestrictedOperation', {
+      'status': false,
+    });
+    assertFalse(config.isAdminRestrictedOperationConfigured());
+  },
+
+  testGetAdminRestrictedOperationAdminEmail() {
+    assertNull(config.getAdminRestrictedOperationAdminEmail());
+    config.update('adminRestrictedOperation', {
+      'status': true,
+      'adminEmail': null,
+    });
+    assertNull(config.getAdminRestrictedOperationAdminEmail());
+
+    const adminEmail = 'admin@example.com';
+    config.update('adminRestrictedOperation', {
+      'status': true,
+      'adminEmail': adminEmail,
+    });
+    assertEquals(adminEmail, config.getAdminRestrictedOperationAdminEmail());
+  },
+
+  testGetAdminRestrictedOperationHelpLinkCallBack() {
+    assertNull(config.getAdminRestrictedOperationHelpLinkCallback());
+    config.update('adminRestrictedOperation', {
+      'status': true,
+      'helpLink': null,
+    });
+    assertNull(config.getAdminRestrictedOperationHelpLinkCallback());
+
+    let helpLink = 'https://www.example.com/trouble_signing_in';
+    config.update('adminRestrictedOperation', {
+      'status': true,
+      'helpLink': helpLink,
+    });
+    assertNotNull(config.getAdminRestrictedOperationHelpLinkCallback());
+
+    let helpLinkCallback = config.getAdminRestrictedOperationHelpLinkCallback();
+    helpLinkCallback();
+    testUtil.assertOpen(helpLink, '_blank');
+
+    stub.replace(
+        util,
+        'isCordovaInAppBrowserInstalled',
+        () => true);
+    helpLinkCallback();
+    // Target should be _system if Cordova InAppBrowser plugin is installed.
+    testUtil.assertOpen(helpLink, '_system');
+
+    helpLink = 1023;
+    config.update('adminRestrictedOperation', {
+      'status': true,
+      'helpLink': helpLink,
+    });
+    assertNull(config.getAdminRestrictedOperationHelpLinkCallback());
+  },
+
   testIsAccountSelectionPromptEnabled_googleLoginHint() {
     config.update('signInOptions', [
       {
@@ -671,26 +854,25 @@ testSuite({
     assertNull(config.getProviderIdFromAuthMethod('unknown'));
   },
 
-  testGetGoogleYoloConfig_availableAndEnabled() {
+  testGetGoogleYoloClientId_availableAndEnabled() {
     config.update('signInOptions', [
       {
         'provider': 'google.com',
         'customParameters': {
           'prompt': 'none',
         },
-        'authMethod': 'https://accounts.google.com',
-        'clientId': '1234567890.apps.googleusercontent.com',
+        'clientId': expectedClientId,
       },
       {
         'provider': 'password',
-        'authMethod': 'googleyolo://id-and-password',
+        'clientId': 'CLIENT_ID2',
       },
       {
-        'authMethod': 'unknown',
+        'clientId': 'CLIENT_ID3',
       },
       {
         'provider': 'facebook.com',
-        // authMethod is required.
+        // Only Google client ID is used.
         'clientId': 'CLIENT_ID',
       },
     ]);
@@ -698,51 +880,38 @@ testSuite({
     config.update(
         'credentialHelper',
         Config.CredentialHelper.GOOGLE_YOLO);
-    const expectedConfig = {
-      'supportedAuthMethods': [
-        'https://accounts.google.com',
-        'googleyolo://id-and-password',
-      ],
-      'supportedIdTokenProviders': [
-        {
-          'uri': 'https://accounts.google.com',
-          'clientId': '1234567890.apps.googleusercontent.com',
-        },
-      ],
-    };
-    assertObjectEquals(expectedConfig, config.getGoogleYoloConfig());
+    assertEquals(expectedClientId, config.getGoogleYoloClientId());
   },
 
-  testGetGoogleYoloConfig_notEnabled() {
+  testGetGoogleYoloClientId_notEnabled() {
     config.update('signInOptions', [
       {
         'provider': 'google.com',
         'customParameters': {
           'prompt': 'none',
         },
-        'authMethod': 'https://accounts.google.com',
-        'clientId': '1234567890.apps.googleusercontent.com',
+        'clientId': expectedClientId,
       },
       {
         'provider': 'password',
-        'authMethod': 'googleyolo://id-and-password',
+        'clientId': 'CLIENT_ID2',
       },
       {
-        'authMethod': 'unknown',
+        'clientId': 'CLIENT_ID3',
       },
       {
         'provider': 'facebook.com',
-        // authMethod is required.
+        // Only Google client ID is used.
         'clientId': 'CLIENT_ID',
       },
     ]);
     // GOOGLE_YOLO credentialHelper not selected.
     config.update(
         'credentialHelper', Config.CredentialHelper.NONE);
-    assertNull(config.getGoogleYoloConfig());
+    assertNull(config.getGoogleYoloClientId());
   },
 
-  testGetGoogleYoloConfig_notAvailable() {
+  testGetGoogleYoloClientId_notAvailable() {
     config.update('signInOptions', [
       {
         'provider': 'google.com',
@@ -761,14 +930,13 @@ testSuite({
       },
       'github.com',
       'password',
-      // authMethod with no provider.
+      // clientId with no provider.
       {
-        'authMethod': 'unknown',
+        'clientId': 'unknown',
       },
-      // clientId with no authMethod.
       {
         'provider': 'facebook.com',
-        // authMethod is required.
+        // Only Google client ID is used.
         'clientId': 'CLIENT_ID',
       },
     ]);
@@ -776,7 +944,7 @@ testSuite({
     config.update(
         'credentialHelper',
         Config.CredentialHelper.GOOGLE_YOLO);
-    assertNull(config.getGoogleYoloConfig());
+    assertNull(config.getGoogleYoloClientId());
   },
 
   testGetPhoneAuthDefaultCountry() {
@@ -951,7 +1119,7 @@ testSuite({
       'provider': 'phone',
     }]);
     const countries = config.getPhoneAuthAvailableCountries();
-    assertSameElements(firebaseui.auth.data.country.COUNTRY_LIST, countries);
+    assertSameElements(COUNTRY_LIST, countries);
   },
 
   testGetPhoneAuthSelectedCountries_emptyBlacklist() {
@@ -960,11 +1128,11 @@ testSuite({
       'blacklistedCountries': [],
     }]);
     const countries = config.getPhoneAuthAvailableCountries();
-    assertSameElements(firebaseui.auth.data.country.COUNTRY_LIST, countries);
+    assertSameElements(COUNTRY_LIST, countries);
   },
 
   testUpdateConfig_phoneSignInOption_error() {
-    // Tests when both whitelist and blacklist are provided.
+    // Tests when both allowlist and disallowlist are provided.
     let error = assertThrows(() => {
       config.update('signInOptions', [{
         'provider': 'phone',
@@ -975,7 +1143,7 @@ testSuite({
     assertEquals(
         'Both whitelistedCountries and blacklistedCountries are provided.',
         error.message);
-    // Tests when empty whitelist is provided.
+    // Tests when empty allowlist is provided.
     error = assertThrows(() => {
       config.update('signInOptions', [{
         'provider': 'phone',
@@ -1028,7 +1196,7 @@ testSuite({
   },
 
   testSetConfig_phoneSignInOption_error() {
-    // Tests when both whitelist and blacklist are provided.
+    // Tests when both allowlist and disallowlist are provided.
     let error = assertThrows(() => {
       config.setConfig({
         'signInOptions': [{
@@ -1041,7 +1209,7 @@ testSuite({
     assertEquals(
         'Both whitelistedCountries and blacklistedCountries are provided.',
         error.message);
-    // Tests when empty whitelist is provided.
+    // Tests when empty allowlist is provided.
     error = assertThrows(() => {
       config.setConfig({
         'signInOptions': [{
@@ -1426,23 +1594,16 @@ testSuite({
     const signInSuccessCallback = () => true;
     const signInSuccessWithAuthResultCallback = () => true;
     const uiChangedCallback = () => {};
-    const accountChooserInvokedCallback = () => {};
-    const accountChooserResultCallback = () => {};
     const signInFailureCallback = () => {};
     assertNull(config.getUiShownCallback());
     assertNull(config.getSignInSuccessCallback());
     assertNull(config.getSignInSuccessWithAuthResultCallback());
     assertNull(config.getUiChangedCallback());
-    assertNull(config.getAccountChooserInvokedCallback());
-    assertNull(config.getAccountChooserResultCallback());
-    assertNull(config.getAccountChooserResultCallback());
     config.update('callbacks', {
       'uiShown': uiShownCallback,
       'signInSuccess': signInSuccessCallback,
       'signInSuccessWithAuthResult': signInSuccessWithAuthResultCallback,
       'uiChanged': uiChangedCallback,
-      'accountChooserInvoked': accountChooserInvokedCallback,
-      'accountChooserResult': accountChooserResultCallback,
       'signInFailure': signInFailureCallback,
     });
     assertEquals(uiShownCallback, config.getUiShownCallback());
@@ -1452,12 +1613,6 @@ testSuite({
         signInSuccessWithAuthResultCallback,
         config.getSignInSuccessWithAuthResultCallback());
     assertEquals(uiChangedCallback, config.getUiChangedCallback());
-    assertEquals(
-        accountChooserInvokedCallback,
-        config.getAccountChooserInvokedCallback());
-    assertEquals(
-        accountChooserResultCallback,
-        config.getAccountChooserResultCallback());
     assertEquals(
         signInFailureCallback, config.getSignInFailureCallback());
   },
@@ -1503,70 +1658,57 @@ testSuite({
   },
 
   testGetCredentialHelper_httpOrHttps() {
-    // Test credential helper configuration setting, as well as the
-    // accountchooser.com enabled helper method, in a HTTP or HTTPS environment.
-    // Simulate HTTP or HTTPS environment.
+    // Test credential helper configuration setting in an
+    // HTTP or HTTPS environment. Simulate HTTP or HTTPS environment.
     stub.replace(
         util,
         'isHttpOrHttps',
         () => true);
-    // Default is accountchooser.com.
-    assertEquals('accountchooser.com', config.getCredentialHelper());
-    assertTrue(config.isAccountChooserEnabled());
+    // Default is none.
+    assertEquals('none', config.getCredentialHelper());
+
+    // Setup accountchooser.com as the credential helper.
+    config.update('credentialHelper', 'accountchooser.com');
+    assertEquals('none', config.getCredentialHelper());
 
     // Use an invalid credential helper.
     config.update('credentialHelper', 'invalid');
-    assertEquals('accountchooser.com', config.getCredentialHelper());
-    assertTrue(config.isAccountChooserEnabled());
-
-    // Explicitly disable credential helper.
-    config.update('credentialHelper', 'none');
     assertEquals('none', config.getCredentialHelper());
-    assertFalse(config.isAccountChooserEnabled());
-
-    // Explicitly enable accountchooser.com.
-    config.update('credentialHelper', 'accountchooser.com');
-    assertEquals('accountchooser.com', config.getCredentialHelper());
-    assertTrue(config.isAccountChooserEnabled());
 
     // Explicitly enable googleyolo.
     config.update('credentialHelper', 'googleyolo');
     assertEquals('googleyolo', config.getCredentialHelper());
-    assertFalse(config.isAccountChooserEnabled());
+
+    // Explicitly disable credential helper.
+    config.update('credentialHelper', 'none');
+    assertEquals('none', config.getCredentialHelper());
   },
 
   testGetCredentialHelper_nonHttpOrHttps() {
-    // Test credential helper configuration setting, as well as the
-    // accountchooser.com enabled helper method, in a non HTTP or HTTPS
+    // Test credential helper configuration setting in a non HTTP or HTTPS
     // environment. This could be a Cordova file environment.
     // Simulate non HTTP or HTTPS environment.
     stub.replace(
         util,
         'isHttpOrHttps',
         () => false);
-    // All should resolve to none.
-    // Default is accountchooser.com.
+    // Default is none.
     assertEquals('none', config.getCredentialHelper());
-    assertFalse(config.isAccountChooserEnabled());
+
+    // Setup accountchooser.com as the credential helper.
+    config.update('credentialHelper', 'accountchooser.com');
+    assertEquals('none', config.getCredentialHelper());
 
     // Use an invalid credential helper.
     config.update('credentialHelper', 'invalid');
     assertEquals('none', config.getCredentialHelper());
-    assertFalse(config.isAccountChooserEnabled());
-
-    // Explicitly disable credential helper.
-    config.update('credentialHelper', 'none');
-    assertEquals('none', config.getCredentialHelper());
-    assertFalse(config.isAccountChooserEnabled());
-
-    // Explicitly enable accountchooser.com.
-    config.update('credentialHelper', 'accountchooser.com');
-    assertEquals('none', config.getCredentialHelper());
-    assertFalse(config.isAccountChooserEnabled());
 
     // Explicitly enable googleyolo.
     config.update('credentialHelper', 'googleyolo');
     assertEquals('none', config.getCredentialHelper());
-    assertFalse(config.isAccountChooserEnabled());
+
+    // Explicitly disable credential helper.
+    config.update('credentialHelper', 'none');
+    assertEquals('none', config.getCredentialHelper());
   },
 });

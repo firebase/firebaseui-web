@@ -24,6 +24,7 @@ goog.require('firebaseui.auth.ui.element.email');
 goog.require('firebaseui.auth.ui.element.form');
 goog.require('firebaseui.auth.ui.page.Base');
 goog.require('goog.dom.selection');
+goog.requireType('goog.dom.DomHelper');
 
 
 /**

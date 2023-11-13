@@ -27,6 +27,7 @@
 <translation id="1412449974349991050">Haiti</translation>
 <translation id="144766329299583285">Jika Anda tidak meminta perubahan pada email login, ada kemungkinan seseorang berusaha mengakses akun Anda. Sebaiknya Anda <ph name="START_LINK" />segera mengubah sandi<ph name="END_LINK" />.</translation>
 <translation id="1449981769524156676">Pulau Heard dan Kepulauan McDonald</translation>
+<translation id="1451880131543823984"><ph name="START_STRONG" /><ph name="EMAIL" /><ph name="END_STRONG" /> tidak diizinkan untuk melihat halaman yang diminta.</translation>
 <translation id="1479035434297790822">Terlalu banyak permintaan akun yang berasal dari alamat IP Anda. Coba beberapa menit lagi.</translation>
 <translation id="1483249363694224399">Sri Lanka</translation>
 <translation id="1507995441600689506">Sekarang Anda dapat login dengan akun baru</translation>
@@ -158,9 +159,10 @@
 <translation id="3521753471343796628">Irak</translation>
 <translation id="354888504916863713">Vietnam</translation>
 <translation id="3550380781997195832">Alamat email yang dimasukkan salah</translation>
+<translation id="3552446912357282301">Harap hubungi <ph name="START_STRONG" /><ph name="ADMIN_EMAIL" /><ph name="END_STRONG" /> untuk otorisasi.</translation>
 <translation id="3561568594856945084">Mayotte</translation>
 <translation id="3591063723610544836">Login</translation>
-<translation id="3593480381831738519">Setel ulang sandi Anda</translation>
+<translation id="3593480381831738519">Reset sandi Anda</translation>
 <translation id="3597673897213051724">Kirim</translation>
 <translation id="3605933028246642593">Nepal</translation>
 <translation id="3608140835232496799">Tokelau</translation>
@@ -246,6 +248,7 @@
 <translation id="5143657419516597442">Santa Lusia</translation>
 <translation id="521218078240459724">@string/app_name</translation>
 <translation id="5241732101105320538">Periksa email Anda</translation>
+<translation id="5255830932650472373">Sandi baru</translation>
 <translation id="5301108536112812420">Permintaan untuk memverifikasi email sudah tidak berlaku atau link telah digunakan</translation>
 <translation id="5323041129469627535">Oman</translation>
 <translation id="5326139833547026317">Belanda Karibia</translation>
@@ -292,7 +295,7 @@
 <translation id="5853516492584814656">Tidak dapat mengupdate alamat email</translation>
 <translation id="5905720181746284549">Anda telah menggunakan <ph name="STRING" /> untuk login. Masukkan sandi untuk akun tersebut.</translation>
 <translation id="5921101578434778028">Anguila</translation>
-<translation id="5948592577241492942">Email ini sudah ada tanpa sarana login. Setel ulang sandi untuk memulihkan.</translation>
+<translation id="5948592577241492942">Email ini sudah ada tanpa sarana login. Reset sandi untuk memulihkan.</translation>
 <translation id="5985902459796151462">Republik Dominika</translation>
 <translation id="5987586156626209007">Jersey</translation>
 <translation id="5989709845715452405">Pulihkan sandi</translation>
@@ -327,13 +330,13 @@
 <translation id="6470057025778734988">Anda tidak dapat lagi login menggunakan akun Anda</translation>
 <translation id="6472297146424049005">Periksa koneksi internet Anda.</translation>
 <translation id="6483116480230343278">Mendaftar…</translation>
-<translation id="6502083090260346644">Dengan mengetuk <ph name="STRING" />, SMS mungkin akan dikirim. Mungkin dikenakan biaya pesan &amp; data.</translation>
+<translation id="6494734506607758748">Untuk mengubah alamat email yang terkait dengan akun, Anda harus login kembali.</translation>
 <translation id="6508909904815637928">Vanuatu</translation>
 <translation id="6520863029476703422">Samoa Amerika</translation>
 <translation id="6527597037551425211">Brasil</translation>
 <translation id="6555167606025370230">Lanjutkan ke <ph name="APP_NAME" /></translation>
 <translation id="657697593815023638">Swaziland</translation>
-<translation id="6584652721889639596">Tidak dapat mengirimkan kode setel ulang sandi ke email yang ditentukan</translation>
+<translation id="6584652721889639596">Tidak dapat mengirimkan kode reset sandi ke email yang ditentukan</translation>
 <translation id="6608262346670935090">Tutup</translation>
 <translation id="6611519013130079637">Belgia</translation>
 <translation id="6618737424980030515">Georgia</translation>
@@ -358,6 +361,7 @@
 <translation id="6821607741326790458">Jamaika</translation>
 <translation id="6834335872619414720">GitHub</translation>
 <translation id="6845933166697056698">Pakistan</translation>
+<translation id="6852861389112775830"><ph name="START_STRONG" /><ph name="USER_IDENTIFIER" /><ph name="END_STRONG" /> tidak diizinkan untuk melihat halaman yang diminta.</translation>
 <translation id="6918319418444979243">Kirim ulang</translation>
 <translation id="6920167780806379235">Suriah</translation>
 <translation id="6921505896641453739">Email</translation>
@@ -365,6 +369,7 @@
 <translation id="6951302238647056860">Kode ini sudah tidak valid</translation>
 <translation id="6961220857430789248">Email login dengan petunjuk tambahan telah dikirim ke <ph name="STRING" />. Buka email Anda untuk menyelesaikan proses login.</translation>
 <translation id="6984204927251307445">Konfirmasi email</translation>
+<translation id="6996552808101270965">Pelajari Lebih Lanjut</translation>
 <translation id="6999773882165218263">Nama depan &amp;amp; belakang</translation>
 <translation id="7012506961150923116">Grenada</translation>
 <translation id="7024571478138322659">Sahara Barat</translation>
@@ -394,6 +399,7 @@
 <translation id="7291656724505689727">Login dengan nomor telepon</translation>
 <translation id="7320029088567935126">Coba verifikasi email Anda lagi</translation>
 <translation id="7331038350037712642">Azerbaijan</translation>
+<translation id="7359542696390093035">Tidak Diizinkan</translation>
 <translation id="743266754881673808">Google</translation>
 <translation id="744894552966168763">Link email tidak valid.</translation>
 <translation id="7477065998516229434">Persyaratan Layanan</translation>
@@ -500,7 +506,7 @@
 <translation id="9186194643192393179">Curaçao</translation>
 <translation id="9193130710600355008">Kami telah memblokir semua permintaan dari perangkat ini karena ada aktivitas yang tidak biasa. Coba lagi nanti.</translation>
 <translation id="919456844206936371">Tunisia</translation>
-<translation id="9209678713072395487">Sandi diganti</translation>
+<translation id="9209678713072395487">Sandi diubah</translation>
 <translation id="954276184636809129">Yunani</translation>
 <translation id="959388308828818789">Faktor kedua telah dihapus</translation>
 <translation id="965930633376049617">Angola</translation>

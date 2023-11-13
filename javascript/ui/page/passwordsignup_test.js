@@ -34,6 +34,7 @@ goog.require('goog.testing.MockClock');
 goog.require('goog.testing.events');
 goog.require('goog.testing.jsunit');
 goog.require('goog.userAgent');
+goog.requireType('goog.ui.Component');
 
 
 var mockClock;

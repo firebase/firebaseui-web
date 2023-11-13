@@ -67,12 +67,10 @@ firebaseui.auth.ui.mdl.performOnMdlComponents_ = function(element, operation) {
       !window['componentHandler'][operation]) {
     return;
   }
-  goog.array.forEach(firebaseui.auth.ui.mdl.MDL_COMPONENT_CLASSES_,
-      function(className) {
+  firebaseui.auth.ui.mdl.MDL_COMPONENT_CLASSES_.forEach(function(className) {
     if (goog.dom.classlist.contains(element, className)) {
       window['componentHandler'][operation](element);
     }
-
     var matchingElements = goog.dom.getElementsByClass(className, element);
     goog.array.forEach(matchingElements, function(mdlElement) {
       window['componentHandler'][operation](mdlElement);
