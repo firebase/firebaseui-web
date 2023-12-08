@@ -23,9 +23,9 @@
 
 # Setup and start Sauce Connect locally.
 if [[ $OSTYPE == 'darwin'* ]]; then
-  CONNECT_URL="https://saucelabs.com/downloads/sc-4.7.1-osx.zip"
+  CONNECT_URL="https://saucelabs.com/downloads/sc-4.9.2-osx.zip"
 else
-  CONNECT_URL="https://saucelabs.com/downloads/sc-4.7.1-linux.tar.gz"
+  CONNECT_URL="https://saucelabs.com/downloads/sc-4.9.2-linux.tar.gz"
 fi
 CONNECT_DIR="/tmp/sauce-connect-$RANDOM"
 CONNECT_DOWNLOAD="sc-latest-linux.tar.gz"
