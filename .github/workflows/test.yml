@@ -21,16 +21,16 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v2-beta
         with:
-          node-version: '14'
+          node-version: '18'
           check-latest: true
       - name: node_modules cache
         id: node_modules_cache
         uses: actions/cache@v2
         with:
           path: ./node_modules
-          key: ${{ runner.os }}-14-node_modules-${{ hashFiles('package-lock.json') }}
+          key: ${{ runner.os }}-18-node_modules-${{ hashFiles('package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-14-node_modules-
+            ${{ runner.os }}-18-node_modules-
       - name: NPM install
         if: steps.node_modules_cache.outputs.cache-hit != 'true'
         run: npm ci
