@@ -58,10 +58,9 @@
     "protractor": "^7.0.0",
     "sass": "^1.49.7",
     "streamqueue": "^1.1.1",
-    "webdriver-manager": "^12.1.8"
+    "chromedriver": "^119.0.1"
   },
   "dependencies": {
-    "chromedriver": "^118.0.0",
     "dialog-polyfill": "^0.4.7",
     "material-design-lite": "^1.2.0"
   },
