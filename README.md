@@ -2,7 +2,7 @@
 
 # FirebaseUI for Web — Auth
 
-FirebaseUI is an open-source JavaScript library for Web that provides simple,
+FirebaseUI is an open-source JavaScript library for the Web that provides simple,
 customizable UI bindings on top of [Firebase](https://firebase.google.com) SDKs
 to eliminate boilerplate code and promote best practices.
 
@@ -1390,7 +1390,7 @@ FirebaseUI is displayed.
           firebase.auth.TwitterAuthProvider.PROVIDER_ID,
           {
             provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
-            // Whether the display name should be displayed in the Sign Up page.
+            // Whether the display name should be displayed on the Sign Up page.
             requireDisplayName: true
           },
           {
@@ -1407,7 +1407,7 @@ FirebaseUI is displayed.
         // Set to true if you only have a single federated provider like
         // firebase.auth.GoogleAuthProvider.PROVIDER_ID and you would like to
         // immediately redirect to the provider's site instead of showing a
-        // 'Sign in with Provider' button first. In order for this to take
+        // 'Sign in with Provider' button first. For this to take
         // effect, the signInFlow option must also be set to 'redirect'.
         immediateFederatedRedirect: false,
         // tosUrl and privacyPolicyUrl accept either url string or a callback
@@ -1587,7 +1587,7 @@ var auth = firebase.auth();
 var ui = new firebaseui.auth.AuthUI(auth);
 // Set the tenant ID on Auth instance.
 auth.tenantId = selectedTenantId;
-// Start the sign-in flow in selected tenant.
+// Start the sign-in flow in the selected tenant.
 // All sign-in attempts will now use this tenant ID.
 ui.start('#firebaseui-auth-container', selectedTenantConfig);
 ```
@@ -1600,7 +1600,7 @@ You can refer to the example in this
 There is also a
 [quickstart](https://cloud.google.com/identity-platform/docs/multi-tenancy-quickstart)
 app available to demonstrate how to build a single sign-in page with the
-FirebaseUI for two tenants which have different sets of identity providers
+FirebaseUI for two tenants that have different sets of identity providers
 enabled.
 
 
@@ -1871,7 +1871,7 @@ In React DOM applications you can use the [FirebaseUI Web React Wrapper](https:/
 
 ## Angular Setup
 
-In Angular applications you can use this [FirebaseUI Web Angular Wrapper](https://github.com/RaphaelJenni/firebaseui-angular) from the community.
+In Angular applications, you can use this [FirebaseUI Web Angular Wrapper](https://github.com/RaphaelJenni/firebaseui-angular) from the community.
 
 ## Known issues
 
@@ -1961,7 +1961,7 @@ removed.
 
 - If you are using `firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM`,
   you need to switch to `firebaseui.auth.CredentialHelper.NONE` or
-  `firebaseui.auth.CredentialHelper.GOOGLE_YOLO`. Follow the instruction on
+  `firebaseui.auth.CredentialHelper.GOOGLE_YOLO`. Follow the instructions on
   [one-tap sign-up](#one-tap-sign-up) when switching to the latter.
 - If you are configuring `acUiConfig` in the UI configurations, this is no
   longer supported and should not be used.
