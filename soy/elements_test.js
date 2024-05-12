@@ -85,21 +85,13 @@ function setUpPage() {
   initViewer('elements.soy');
 
   // Add a dialog polyfill if not provided in the bootstrap code.
-  if (!window['dialogPolyfill'] ||
-      !window['dialogPolyfill']['registerDialog']) {
-    window['dialogPolyfill'] = {
-      'registerDialog': function(dialog) {
-        dialog.open = false;
-        dialog.showModal = function() {
-          dialog.open = true;
-        };
-        dialog.close = function() {
-          dialog.open = false;
-        };
-      }
-    };
-  }
+  window['dialogPolyfill']?.['registerDialog'] ??= function(dialog) {
+    dialog.open = false;
+    dialog.showModal = () => { dialog.open = true; };
+    dialog.close = () => { dialog.open = false; };
+  };
 }
+
 
 
 function tearDownPage() {
