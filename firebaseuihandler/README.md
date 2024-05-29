@@ -291,7 +291,7 @@ callbacks: {
 ```
 
 ### Configuring a single federated provider
-If you only have one tenant/top-level project configured for the IAP resouce and
+If you only have one tenant/top-level project configured for the IAP resource and
 only one provider enabled for the tenant/project, FirebaseUI will act as a proxy
 between the IAP resource and the federated IdP without showing any UI before
 redirecting to the IdP sign-in page:
