@@ -416,10 +416,10 @@ interface TenantConfig {
   // selection screen.
   signInOptions: Array<string|SignInOption>;
   // The URL of the Terms of Service page or a callback function to be invoked
-  // when Terms of Service link is clicked after the tenant is determind.
+  // when Terms of Service link is clicked after the tenant is determined.
   tosUrl?: (() => void) | string;
   // The URL of the Terms of Service page or a callback function to be invoked
-  // when Terms of Service link is clicked after the tenant is determind.
+  // when Terms of Service link is clicked after the tenant is determined.
   privacyPolicyUrl?: (() => void) | string;
 }
 
