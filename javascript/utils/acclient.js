@@ -212,7 +212,7 @@ firebaseui.auth.acClient.tryStoreAccount =
 
 
 /**
- * A dummy accountchooser.com API implmentation which is used if
+ * A dummy accountchooser.com API implementation which is used if
  * accountchooser.com is not available, for instance, the user agent doesn't
  * support SNI.
  * @implements {accountchooser.Api}
