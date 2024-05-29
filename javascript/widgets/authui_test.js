@@ -4705,7 +4705,7 @@ function testfinishSignInAndRetrieveDataWithAuthResult_upgradeAnon_credInUse() {
 }
 
 
-function testfinishSignInAndRetrieveDataWithAuthResult_upgrdAnon_emailInUse() {
+function testfinishSignInAndRetrieveDataWithAuthResult_upgradeAnon_emailInUse() {
   var expectedError = {
     'code': 'auth/email-already-in-use',
     'message': 'MESSAGE',
