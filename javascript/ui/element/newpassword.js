@@ -46,11 +46,11 @@ element.newPassword.getPasswordToggleElement = function() {
 };
 
 
-/** @private {string} The CSS class for the "visiblility on" eye icon. */
+/** @private {string} The CSS class for the "visibility on" eye icon. */
 var CLASS_TOGGLE_ON_ = 'firebaseui-input-toggle-on';
 
 
-/** @private {string} The CSS class for the "visiblility off" eye icon. */
+/** @private {string} The CSS class for the "visibility off" eye icon. */
 var CLASS_TOGGLE_OFF_ = 'firebaseui-input-toggle-off';
 
 
