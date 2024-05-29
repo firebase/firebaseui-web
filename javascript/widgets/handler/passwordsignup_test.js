@@ -682,7 +682,7 @@ function testHandlePasswordSignUp_nameEmpty() {
 }
 
 
-function testHandlePasswordSignUp_passwordEmptyOrMissmatch() {
+function testHandlePasswordSignUp_passwordEmptyOrMismatch() {
   firebaseui.auth.widget.handler.handlePasswordSignUp(
       app, container, passwordAccount.getEmail());
   assertPasswordSignUpPage();
