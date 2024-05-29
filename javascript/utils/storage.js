@@ -292,7 +292,7 @@ storage.hasRedirectStatus = function(opt_id) {
 
 /**
  * Returns the pending redirect status. Returns null if there is no unresolved
- * redirect opertions.
+ * redirect operations.
  *
  * @param {string=} opt_id When operating in multiple app mode, this ID
  *     associates storage values with specific apps.
