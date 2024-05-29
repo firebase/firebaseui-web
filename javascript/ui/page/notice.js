@@ -40,7 +40,7 @@ goog.requireType('goog.dom.DomHelper');
 
 
 /**
- * A UI component represnting a notice.
+ * A UI component representing a notice.
  * @param {function(ARG_TYPES, null=, Object.<string, *>=):*} template The Soy
  *     template for the component.
  * @param {ARG_TYPES=} opt_templateData The data for the template.
