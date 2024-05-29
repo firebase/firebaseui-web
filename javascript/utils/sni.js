@@ -185,7 +185,7 @@ firebaseui.auth.sni.isSupported = function(opt_userAgent) {
       if (ua.indexOf('Opera Mobi') >= 0) {
         return ua.indexOf('Android') >= 0 && version.ge('10.1');
       }
-      // Desktop Opera 8.0 or later suppports SNI.
+      // Desktop Opera 8.0 or later supports SNI.
       return version.ge('8.0');
     } else if (result = ua.match(firebaseui.auth.sni.REGEX_FIREFOX_UA_)) {
       // Firefox 2.0 or later supports SNI.
