@@ -1053,7 +1053,7 @@ ui.start('#firebaseui-auth-container', {
       provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
       // Use email link authentication and do not require password.
       // Note this setting affects new users only.
-      // For pre-existing users, they will still be prompted to provide their
+      // For preexisting users, they will still be prompted to provide their
       // passwords on sign-in.
       signInMethod: firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD,
       // Allow the user the ability to complete sign-in cross device, including
