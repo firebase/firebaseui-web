@@ -883,7 +883,7 @@ ui.start('#firebaseui-auth-container', {
       provider: 'saml.myProvider',
       providerName: 'MySAMLProvider',
       // To override the full label of the button.
-      // fullLabel: 'Constractor Portal',
+      // fullLabel: 'Contractor Portal',
       buttonColor: '#2F2F2F',
       iconUrl: '<icon-url-of-sign-in-button>'
     }
