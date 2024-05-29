@@ -530,7 +530,7 @@ function testHandleEmailMismatch_signIn_continue_signInWithAuthResultCb() {
 
 
 function testHandleEmailMismatch_linking_cancel() {
-  // Test handlEmailMismatch when cancel button is clicked and the user was
+  // Test handleEmailMismatch when cancel button is clicked and the user was
   // doing the linking flow.
 
   // The credentials returned from the provider.
@@ -558,7 +558,7 @@ function testHandleEmailMismatch_linking_cancel() {
 
 
 function testHandleEmailMismatch_linking_cancel_upgradeAnonymous() {
-  // Test handlEmailMismatch when cancel button is clicked and the user was
+  // Test handleEmailMismatch when cancel button is clicked and the user was
   // doing the linking flow with an eligible anonymous user available.
 
   // Enable anonymous user upgrade.
@@ -593,7 +593,7 @@ function testHandleEmailMismatch_linking_cancel_upgradeAnonymous() {
 
 
 function testHandleEmailMismatch_signIn_cancel() {
-  // Test handlEmailMismatch when cancel button is clicked and the user was
+  // Test handleEmailMismatch when cancel button is clicked and the user was
   // doing the sign-in flow.
 
   // The credentials returned from the provider.
