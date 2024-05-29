@@ -90,10 +90,10 @@ function tearDown() {
 
 
 function testEmailLinkSignInSent_troubleGettingEmailLinkClicked() {
-  var troubleGettingEmaillink = component.getTroubleGettingEmailLink();
-  assertNotNull(troubleGettingEmaillink);
+  var troubleGettingEmailLink = component.getTroubleGettingEmailLink();
+  assertNotNull(troubleGettingEmailLink);
   assertFalse(troubleGettingEmailClicked);
-  goog.testing.events.fireClickSequence(troubleGettingEmaillink);
+  goog.testing.events.fireClickSequence(troubleGettingEmailLink);
   assertTrue(troubleGettingEmailClicked);
 }
 
