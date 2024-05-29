@@ -271,7 +271,7 @@ function testFilterProperties_initialValue() {
   const sourceObj = Object.assign({property4: 'd'}, expectedObj);
 
   // The additional properties should be removed, the properties on initial
-  // value shoud be copied over.
+  // value should be copied over.
   assertObjectEquals(
       {
         property1: 'a',
