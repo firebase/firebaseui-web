@@ -283,7 +283,7 @@ firebaseui.auth.acClient.DummyApi = class {
 
 
   /**
-   * Checkes if accountchooser.com is disabled. The callback is always invoked
+   * Checks if accountchooser.com is disabled. The callback is always invoked
    * with a `true`.
    *
    * @param {function(boolean=, Object=)} callback The callback function.
@@ -294,7 +294,7 @@ firebaseui.auth.acClient.DummyApi = class {
 
 
   /**
-   * Checkes if the accountchooser.com is empty. The callback is always invoked
+   * Checks if the accountchooser.com is empty. The callback is always invoked
    * with a service unavailable error.
    *
    * @param {function(boolean=, Object=)} callback The callback function.
@@ -305,7 +305,7 @@ firebaseui.auth.acClient.DummyApi = class {
 
 
   /**
-   * Checkes if the account is in accountchooser.com. The callback is always
+   * Checks if the account is in accountchooser.com. The callback is always
    * invoked with a service unavailable error.
    *
    * @param {Object} account The account to check.
@@ -317,7 +317,7 @@ firebaseui.auth.acClient.DummyApi = class {
 
 
   /**
-   * Checkes if the account should be updated. The callback is always invoked
+   * Checks if the account should be updated. The callback is always invoked
    * with a service unavailable error.
    *
    * @param {Object} account The account to check.
