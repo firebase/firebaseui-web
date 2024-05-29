@@ -1062,7 +1062,7 @@ firebaseui.auth.PhoneSignInOption.prototype.defaultNationalNumber;
 
 /**
  * The full phone number string instead of the 'defaultCountry' and
- * 'defaultNationalNumber'. The 'defaultCountry' and 'defaultNationaNumber'
+ * 'defaultNationalNumber'. The 'defaultCountry' and 'defaultNationalNumber'
  * will always have higher priority than 'loginHint' which will be ignored in
  * their favor.
  * Example: '+11234567890'

@@ -485,7 +485,7 @@ class Config {
 
   /**
    * Returns the default country to select for phone authentication.
-   * @return {?string} The default naional number, or null if phone auth is not
+   * @return {?string} The default national number, or null if phone auth is not
    *     enabled.
    */
   getPhoneAuthDefaultNationalNumber() {

@@ -1195,7 +1195,7 @@ ui.start('#firebaseui-auth-container', {
       // populate the country selector. So for countries that share the same
       // country code, the selected country may not be the expected one.
       // In that case, pass the 'defaultCountry' instead to ensure the exact
-      // country is selected. The 'defaultCountry' and 'defaultNationaNumber'
+      // country is selected. The 'defaultCountry' and 'defaultNationalNumber'
       // will always have higher priority than 'loginHint' which will be ignored
       // in their favor. In this case, the default country will be 'GB' even
       // though 'loginHint' specified the country code as '+1'.
