@@ -24,7 +24,7 @@ goog.requireType('goog.dom.DomHelper');
 
 
 /**
- * Spinner page UI componenet.
+ * Spinner page UI component.
  */
 firebaseui.auth.ui.page.Spinner = class extends firebaseui.auth.ui.page.Base {
   /**
