@@ -350,7 +350,7 @@ firebaseui.auth.AuthUI.prototype.getRedirectResult = function() {
             }));
       }
     };
-    // Initialize current user if auto upgrade is enabled beforing running
+    // Initialize current user if auto upgrade is enabled before running
     // callback and returning result.
     this.getRedirectResult_ = this.initializeForAutoUpgrade_(cb);
   }
@@ -1076,7 +1076,7 @@ firebaseui.auth.AuthUI.prototype.sendSignInLinkToEmail =
     return /** @type {!firebase.Promise<void>} */ (
         self.getAuth().sendSignInLinkToEmail(email, actionCodeSettings));
   };
-  // Initialize current user if auto upgrade is enabled beforing running
+  // Initialize current user if auto upgrade is enabled before running
   // callback and returning result.
   return this.initializeForAutoUpgrade_(cb).then(function() {
     firebaseui.auth.storage.setEmailForSignIn(sid, email, self.getAppId());
@@ -1326,7 +1326,7 @@ firebaseui.auth.AuthUI.prototype.startSignInWithEmailAndPassword =
             return result;
           }
         };
-        // Initialize current user if auto upgrade is enabled beforing running
+        // Initialize current user if auto upgrade is enabled before running
         // callback and returning result.
         return self.initializeForAutoUpgrade_(cb);
       }));
@@ -1362,7 +1362,7 @@ firebaseui.auth.AuthUI.prototype.startCreateUserWithEmailAndPassword =
               email, password));
     }
   };
-  // Initialize current user if auto upgrade is enabled beforing running
+  // Initialize current user if auto upgrade is enabled before running
   // callback and returning result.
   return this.initializeForAutoUpgrade_(cb);
 };
@@ -1409,7 +1409,7 @@ firebaseui.auth.AuthUI.prototype.startSignInWithCredential =
       return self.getAuth().signInWithCredential(credential);
     }
   };
-  // Initialize current user if auto upgrade is enabled beforing running
+  // Initialize current user if auto upgrade is enabled before running
   // callback and returning result.
   return this.initializeForAutoUpgrade_(cb);
 };
@@ -1459,7 +1459,7 @@ firebaseui.auth.AuthUI.prototype.startSignInWithPopup = function(provider) {
       return self.getAuth().signInWithPopup(provider);
     }
   };
-  // Initialize current user if auto upgrade is enabled beforing running
+  // Initialize current user if auto upgrade is enabled before running
   // callback and returning result.
   return this.initializeForAutoUpgrade_(cb);
 };
@@ -1499,7 +1499,7 @@ firebaseui.auth.AuthUI.prototype.startSignInWithRedirect = function(provider) {
       return self.getAuth().signInWithRedirect(provider);
     }
   };
-  // Initialize current user if auto upgrade is enabled beforing running
+  // Initialize current user if auto upgrade is enabled before running
   // callback and returning result.
   return this.initializeForAutoUpgrade_(cb).then(
       function() {
@@ -1556,7 +1556,7 @@ firebaseui.auth.AuthUI.prototype.startSignInWithPhoneNumber =
           });
     }
   };
-  // Initialize current user if auto upgrade is enabled beforing running
+  // Initialize current user if auto upgrade is enabled before running
   // callback and returning result.
   return this.initializeForAutoUpgrade_(cb);
 };
@@ -1669,7 +1669,7 @@ firebaseui.auth.AuthUI.prototype.finishSignInAndRetrieveDataWithAuthResult =
       });
     }
   };
-  // Initialize current user if auto upgrade is enabled beforing running
+  // Initialize current user if auto upgrade is enabled before running
   // callback and returning result.
   return this.initializeForAutoUpgrade_(cb);
 };
