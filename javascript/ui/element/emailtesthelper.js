@@ -105,7 +105,7 @@ element.EmailTestHelper.prototype.testOnTextChangedClearError_ = function() {
   this.checkErrorShown(error,
       firebaseui.auth.soy2.strings.errorMissingEmail().toString());
 
-  // Emulate that a 'u' is typed in to name input.
+  // Emulate that a 'u' is typed into name input.
   goog.dom.forms.setValue(email, 'u');
   this.fireInputEvent(email, goog.events.KeyCodes.U);
   this.checkInputValid(email);

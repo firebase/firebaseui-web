@@ -89,7 +89,7 @@ element.NameTestHelper.prototype.testOnNameChange_ = function() {
   this.checkErrorShown(error,
       firebaseui.auth.soy2.strings.errorMissingName().toString());
 
-  // Emulate that a 'J' is typed in to name input.
+  // Emulate that a 'J' is typed into name input.
   goog.dom.forms.setValue(name, 'J');
   this.fireInputEvent(name, goog.events.KeyCodes.J);
   this.checkInputValid(name);

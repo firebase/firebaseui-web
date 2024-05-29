@@ -126,7 +126,7 @@ element.PhoneNumberTestHelper.prototype.testOnTextChangedClearError_ =
   this.checkInputInvalid(phoneNumber);
   this.checkErrorShown(error, errorMessage);
 
-  // Emulate that a '1' is typed in to the phone number input. The error should
+  // Emulate that a '1' is typed into the phone number input. The error should
   // be cleared.
   goog.dom.forms.setValue(phoneNumber, '1');
   this.fireInputEvent(phoneNumber, goog.events.KeyCodes.NUM_ONE);
@@ -144,7 +144,7 @@ element.PhoneNumberTestHelper.prototype.testOnCodeInputWithNationalNumber_ =
 
   // Country selector defaults to US.
   assertEquals('\u200e+1', countrySelector.textContent);
-  // Emulate that a '+1' is typed in to the phone number input. Make sure
+  // Emulate that a '+1' is typed into the phone number input. Make sure
   // US is country selected.
   goog.dom.forms.setValue(phoneNumber, '+1');
   this.fireInputEvent(phoneNumber, goog.events.KeyCodes.PLUS_SIGN);

@@ -156,7 +156,7 @@ element.NewPasswordTestHelper.prototype.testOnPasswordChange_ = function() {
   this.checkErrorShown(error,
       firebaseui.auth.soy2.strings.errorMissingPassword().toString());
 
-  // Emulate that a 'P' is typed in to new password input.
+  // Emulate that a 'P' is typed into new password input.
   goog.dom.forms.setValue(password, 'P');
   this.fireInputEvent(password, goog.events.KeyCodes.P);
   this.checkInputValid(password);
