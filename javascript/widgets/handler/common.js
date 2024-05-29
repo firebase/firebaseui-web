@@ -869,7 +869,7 @@ firebaseui.auth.widget.handler.common.handleGoogleYoloCredential =
             firebase.auth.GoogleAuthProvider.PROVIDER_ID).length) {
       let email;
       try {
-        // New one-tap API does not return the credential identitifer.
+        // New one-tap API does not return the credential identifier.
         // Parse email from Google ID token.
         const components  = credential.credential.split('.');
         const payloadDecoded = JSON.parse(atob(components[1]));
