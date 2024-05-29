@@ -44,7 +44,7 @@ class UiHandlerConfig {
   }
 
   /**
-   * Validates and sets the plain configuration settting object.
+   * Validates and sets the plain configuration setting object.
    * @param {!Object} config The configuration setting object.
    */
   setConfig(config) {
