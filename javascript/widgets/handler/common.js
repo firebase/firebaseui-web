@@ -533,7 +533,7 @@ firebaseui.auth.widget.handler.common.getAuthProvider_ = function(
   var customParameters =
       app.getConfig().getProviderCustomParameters(providerId) || {};
   // Some providers accept an email address as a login hint. If the email is
-  // set and if the provider supports it, add it to the custom paramaters.
+  // set and if the provider supports it, add it to the custom parameters.
   if (opt_email) {
     var loginHintKey;
     // Since the name of the parameter is known for Google and GitHub, set this
