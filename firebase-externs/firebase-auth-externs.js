@@ -2351,7 +2351,7 @@ firebase.auth.AuthError.prototype.phoneNumber;
 /**
  * The tenant ID being used for sign-in/linking. If you use
  * {@link firebase.auth.signInWithRedirect} to sign in, you have to
- * set the tenant ID on Auth instanace again as the tenant ID is not
+ * set the tenant ID on Auth instance again as the tenant ID is not
  * persisted after redirection.
  *
  * @type {string|undefined}

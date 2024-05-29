@@ -95,7 +95,7 @@ firebaseui.auth.widget.handler.common.normalizeError =
  *     external Auth instance. If true, current user on external Auth instance
  *     should be passed in from Auth result. Should be true for anonymous
  *     upgrade flow and phone Auth flow since user already logged in on
- *     external Auth instnace.
+ *     external Auth instance.
  * @return {!goog.Promise} A promise that resolves on login completion.
  * @package
  */
