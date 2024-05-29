@@ -185,7 +185,7 @@ firebaseui.auth.acClient.tryStoreAccount =
   firebaseui.auth.acClient.api_.checkAccountExist(acAccount,
       function(exist, error) {
     if (!exist && !error) {
-      // It doens't exist in accountchooser.com.
+      // It doesn't exist in accountchooser.com.
       firebaseui.auth.acClient.api_.store([acAccount], options);
     } else if (!error) {
       // It exists. Check whether we should update it.
