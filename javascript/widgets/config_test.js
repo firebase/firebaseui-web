@@ -1362,7 +1362,7 @@ testSuite({
     tosCallback = () => {};
     config.update('tosUrl', tosCallback);
     assertEquals(tosCallback, config.getTosUrl());
-    // Tests if invalid tyoe is passed to tosUrl config.
+    // Tests if invalid type is passed to tosUrl config.
     config.update('tosUrl', 123456);
     assertNull(config.getTosUrl());
   },
@@ -1398,7 +1398,7 @@ testSuite({
     privacyPolicyCallback = () => {};
     config.update('privacyPolicyUrl', privacyPolicyCallback);
     assertEquals(privacyPolicyCallback, config.getPrivacyPolicyUrl());
-    // Tests if invalid tyoe is passed to tosUrl config.
+    // Tests if invalid type is passed to tosUrl config.
     config.update('privacyPolicyUrl', 123456);
     assertNull(config.getPrivacyPolicyUrl());
   },
