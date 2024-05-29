@@ -587,7 +587,7 @@ function testGetInstance() {
   assertEquals(app2, firebaseui.auth.AuthUI.getInstance('id2'));
   assertEquals(app3, firebaseui.auth.AuthUI.getInstance());
   assertNull(firebaseui.auth.AuthUI.getInstance('id0'));
-  // Trying to create a new instance with an existing appId wil throw the
+  // Trying to create a new instance with an existing appId will throw the
   // expected error.
   var error = assertThrows(function() {
     new firebaseui.auth.AuthUI(testAuth1, 'id1');
