@@ -30,7 +30,7 @@ function testHandleUnsupportedProvider() {
   assertUnsupportedProviderPage('user@example.com');
   // Click recover password button.
   submitForm();
-  // Verify that password revover screen is dispalyed.
+  // Verify that password revover screen is displayed.
   assertPasswordRecoveryPage();
   submitForm();
 
