@@ -146,7 +146,7 @@ provider you want to use in their own developer app settings. Please read the
 - [Google](https://firebase.google.com/docs/auth/web/google-signin#before_you_begin)
 - [Facebook](https://firebase.google.com/docs/auth/web/facebook-login#before_you_begin)
 - [Twitter](https://firebase.google.com/docs/auth/web/twitter-login#before_you_begin)
-- [Github](https://firebase.google.com/docs/auth/web/github-auth#before_you_begin)
+- [GitHub](https://firebase.google.com/docs/auth/web/github-auth#before_you_begin)
 - [Anonymous](https://firebase.google.com/docs/auth/web/anonymous-auth#before_you_begin)
 - [Email link](https://firebase.google.com/docs/auth/web/email-link-auth#before_you_begin)
 - [Apple](https://firebase.google.com/docs/auth/web/apple)
@@ -547,7 +547,7 @@ To see FirebaseUI in action with one-tap sign-up, check out the FirebaseUI
 |Google            |`firebase.auth.GoogleAuthProvider.PROVIDER_ID`  |
 |Facebook          |`firebase.auth.FacebookAuthProvider.PROVIDER_ID`|
 |Twitter           |`firebase.auth.TwitterAuthProvider.PROVIDER_ID` |
-|Github            |`firebase.auth.GithubAuthProvider.PROVIDER_ID`  |
+|GitHub            |`firebase.auth.GithubAuthProvider.PROVIDER_ID`  |
 |Email and password|`firebase.auth.EmailAuthProvider.PROVIDER_ID`   |
 |Phone number      |`firebase.auth.PhoneAuthProvider.PROVIDER_ID`   |
 |Anonymous         |`firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID`|
@@ -1837,7 +1837,7 @@ the incoming link when the user clicks it to complete sign-in.
 |Google            |`firebase.auth.GoogleAuthProvider.PROVIDER_ID`  |
 |Facebook          |`firebase.auth.FacebookAuthProvider.PROVIDER_ID`|
 |Twitter           |`firebase.auth.TwitterAuthProvider.PROVIDER_ID` |
-|Github            |`firebase.auth.GithubAuthProvider.PROVIDER_ID`  |
+|GitHub            |`firebase.auth.GithubAuthProvider.PROVIDER_ID`  |
 |Email and password|`firebase.auth.EmailAuthProvider.PROVIDER_ID`   |
 |Anonymous         |`firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID`|
 |Microsoft         |`microsoft.com`                                |

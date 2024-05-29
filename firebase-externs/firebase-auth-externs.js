@@ -2585,7 +2585,7 @@ firebase.auth.FacebookAuthProvider.prototype.setCustomParameters = function (
 ) {};
 
 /**
- * Github auth provider.
+ * GitHub auth provider.
  *
  * GitHub requires an OAuth 2.0 redirect, so you can either handle the redirect
  * directly, or use the signInWithPopup handler:
@@ -2669,7 +2669,7 @@ firebase.auth.GithubAuthProvider.GITHUB_SIGN_IN_METHOD;
  *     event.authResponse.accessToken
  * );
  *
- * @param {string} token Github access token.
+ * @param {string} token GitHub access token.
  * @return {!firebase.auth.OAuthCredential} The auth provider credential.
  */
 firebase.auth.GithubAuthProvider.credential = function (token) {};
@@ -2678,7 +2678,7 @@ firebase.auth.GithubAuthProvider.credential = function (token) {};
 firebase.auth.GithubAuthProvider.prototype.providerId;
 
 /**
- * @param {string} scope Github OAuth scope.
+ * @param {string} scope GitHub OAuth scope.
  * @return {!firebase.auth.AuthProvider} The provider instance itself.
  */
 firebase.auth.GithubAuthProvider.prototype.addScope = function (scope) {};

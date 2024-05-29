@@ -45,7 +45,7 @@
 # This will start the HTTP Server locally, and connect through SauceConnect
 # to SauceLabs remote browsers instances.
 #
-# Github Actions will run `npm test -- --saucelabs`.
+# GitHub Actions will run `npm test -- --saucelabs`.
 
 cd "$(dirname $(dirname "$0"))"
 BIN_PATH="./node_modules/.bin"
