@@ -65,7 +65,7 @@ firebaseui.auth.sni.REGEX_SAFARI_UA_ =
 
 
 /**
- * RE for matching old Safari's user agent (Sarafi 1 & 2).
+ * RE for matching old Safari's user agent (Safari 1 & 2).
  * @const {RegExp}
  * @private
  */
