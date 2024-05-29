@@ -463,7 +463,7 @@ storage.removeEncryptedPendingCredential = function(opt_id) {
 
 
 /**
- * Stores the encrpted pending email credential for the specified application
+ * Stores the encrypted pending email credential for the specified application
  * ID.
  *
  * @param {string} encryptionKey The encryption key to encrypt the credential.
