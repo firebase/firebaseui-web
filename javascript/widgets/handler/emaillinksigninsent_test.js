@@ -57,7 +57,7 @@ function testHandleEmailLinkSignInSent_troubleGettingEmail() {
         firebaseui.auth.storage.getEmailForSignIn('SESSIONID', app.getAppId()));
     // Email link sent page is displayed again after resending the email link.
     assertEmailLinkSignInSentPage();
-    // Verfiy that the same onCancelClick handler is passed from email link
+    // Verify that the same onCancelClick handler is passed from email link
     // sign in sent page to email not received page and then back to email link
     // sign in sent page.
     assertEquals(0, cancelButtonCallback.getCallCount());
@@ -108,7 +108,7 @@ function testHandleEmailLinkSignInSent_troubleGettingEmail_pendingCredential() {
             'SESSIONID', app.getAppId()));
     // Email link sent page is displayed again after resending the email link.
     assertEmailLinkSignInSentPage();
-    // Verfiy that the same onCancelClick handler is passed from email link
+    // Verify that the same onCancelClick handler is passed from email link
     // sign in sent page to email not received page and then back to email link
     // sign in sent page.
     assertEquals(0, cancelButtonCallback.getCallCount());
@@ -165,7 +165,7 @@ function testHandleEmailLinkSignInSent_trouble_pendingCred_anonUpgrade() {
             'SESSIONID', app.getAppId()));
     // Email link sent page is displayed again after resending the email link.
     assertEmailLinkSignInSentPage();
-    // Verfiy that the same onCancelClick handler is passed from email link
+    // Verify that the same onCancelClick handler is passed from email link
     // sign in sent page to email not received page and then back to email link
     // sign in sent page.
     assertEquals(0, cancelButtonCallback.getCallCount());

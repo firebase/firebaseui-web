@@ -95,7 +95,7 @@ function testHandleSendEmailLinkForSignIn_internalError() {
   }).then(function() {
     // Go back to the sign in page for error cases.
     assertSignInPage();
-    // Verfiy email is prefilled.
+    // Verify email is prefilled.
     assertEquals(
         'user@example.com', goog.dom.forms.getValue(getEmailElement()));
     // Show error in info bar.
