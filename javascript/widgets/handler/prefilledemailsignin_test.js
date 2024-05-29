@@ -26,7 +26,7 @@ goog.require('firebaseui.auth.widget.handler.handlePrefilledEmailSignIn');
 goog.require('firebaseui.auth.widget.handler.testHelper');
 
 
-function testHandlePrefilledEmailSignIn_paaswordSignUp() {
+function testHandlePrefilledEmailSignIn_passwordSignUp() {
   // Test password sign-up with prefilled email flow.
   const prefilledEmail = 'user@example.com';
   firebaseui.auth.widget.handler.handlePrefilledEmailSignIn(
