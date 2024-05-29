@@ -2152,7 +2152,7 @@ function testHandleCallback_operationNotSupported_multiProviders() {
   // Test when callback handler is triggered with multiple providers and
   // the operation is not supported in this environment.
   asyncTestCase.waitForSignals(1);
-  // Set mutliple providers.
+  // Set multiple providers.
   app.setConfig({
     'signInOptions': [
       firebase.auth.EmailAuthProvider.PROVIDER_ID,
