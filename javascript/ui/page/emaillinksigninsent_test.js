@@ -44,7 +44,7 @@ var pageTestHelper =
     new firebaseui.auth.ui.page.PageTestHelper().registerTests();
 
 var troubleGettingEmailClicked;
-var onTroubleGetingEmailLinkClick;
+var onTroubleGettingEmailLinkClick;
 
 
 function setUp() {
@@ -52,14 +52,14 @@ function setUp() {
   mockClock = new goog.testing.MockClock();
   mockClock.install();
   troubleGettingEmailClicked = false;
-  onTroubleGetingEmailLinkClick = function() {
+  onTroubleGettingEmailLinkClick = function() {
     troubleGettingEmailClicked = true;
   };
   root = goog.dom.createDom(goog.dom.TagName.DIV);
   document.body.appendChild(root);
   component = new firebaseui.auth.ui.page.EmailLinkSignInSent(
       'user@example.com',
-      onTroubleGetingEmailLinkClick,
+      onTroubleGettingEmailLinkClick,
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onLinkClick,
           formTestHelper),
@@ -113,7 +113,7 @@ function testEmailLinkSignInSent_pageEvents() {
   // Initialize component.
   component = new firebaseui.auth.ui.page.EmailLinkSignInSent(
       'user@example.com',
-      onTroubleGetingEmailLinkClick,
+      onTroubleGettingEmailLinkClick,
       goog.bind(
           firebaseui.auth.ui.element.FormTestHelper.prototype.onLinkClick,
           formTestHelper));
