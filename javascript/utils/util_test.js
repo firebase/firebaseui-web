@@ -287,7 +287,7 @@ function testFilterProperties_initialValue() {
 
 function testFilterProperties_initialValueOverridden() {
   // Test that expected properties are copied over and properties on initial
-  // value are overriden if present on the source object.
+  // value are overridden if present on the source object.
   const expectedObj = {
     property1: 'a',
     property2: 'b',
