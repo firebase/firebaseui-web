@@ -131,7 +131,7 @@ element.phoneNumber.initPhoneNumberElement = function(opt_lookupTree,
     // Get current country ID selected.
     var selectedCountry = firebaseui.auth.data.country.getCountryByKey(
         this.phoneNumberSelectedCountryId_);
-    // Get matching countries if national number countains it.
+    // Get matching countries if national number contains it.
     var countries = lookupTree.search(nationalNumber);
     var predefinedDefaultCountryAvailable =
         element.phoneNumber.isCountryAvailable_(
