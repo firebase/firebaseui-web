@@ -2220,7 +2220,7 @@ function testUpgradeWithEmailLink_emailExists_pendingCredential_conflict() {
       'isNewUser': false
     }
   };
-  // Simulate anononymous user signed in for upgrade flow.
+  // Simulate anonymous user signed in for upgrade flow.
   app.getExternalAuth().setUser(anonymousUser);
 
   app.upgradeWithEmailLink(
@@ -2302,7 +2302,7 @@ function testUpgradeWithEmailLink_newEmail_success() {
       'isNewUser': false
     }
   };
-  // Simulate anononymous user signed in for upgrade flow.
+  // Simulate anonymous user signed in for upgrade flow.
   app.getExternalAuth().setUser(anonymousUser);
 
   app.upgradeWithEmailLink(app.getExternalAuth().currentUser, email, link)
@@ -2345,7 +2345,7 @@ function testUpgradeWithEmailLink_error() {
   app.getAuth().install();
   app.getExternalAuth().install();
   asyncTestCase.waitForSignals(1);
-  // Simulate anononymous user signed in for upgrade flow.
+  // Simulate anonymous user signed in for upgrade flow.
   app.getExternalAuth().setUser(anonymousUser);
 
   // Confirm backend error passed through to client.
@@ -4095,7 +4095,7 @@ function testStartSignInAnonymously_success() {
 }
 
 
-function testStartSignInAnonymously_upgradeAnon_isAnonmous_success() {
+function testStartSignInAnonymously_upgradeAnon_isAnonymous_success() {
   testApp = new firebaseui.auth.testing.FakeAppClient(options);
   testAuth = testApp.auth();
   app = new firebaseui.auth.AuthUI(testAuth, 'id0');

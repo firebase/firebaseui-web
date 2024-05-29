@@ -1547,7 +1547,7 @@ ui.start('#firebaseui-auth-container', {
             return app.database().ref('users/' + user.uid).set(data);
           })
           .then(function() {
-            // Delete anonymnous user.
+            // Delete anonymous user.
             return anonymousUser.delete();
           }).then(function() {
             // Clear data in case a new user signs in, and the state change
