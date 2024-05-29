@@ -363,10 +363,10 @@ storage.getEmailForSignIn = function(encryptionKey, opt_id) {
   var email = null;
   if (encryptedEmailObject) {
     try {
-      var serilizedEmailObject = firebaseui.auth.crypt.aesDecrypt(
+      var serializedEmailObject = firebaseui.auth.crypt.aesDecrypt(
           encryptionKey,
           /** @type {string} */ (encryptedEmailObject));
-      var emailObject = JSON.parse(serilizedEmailObject);
+      var emailObject = JSON.parse(serializedEmailObject);
       email = /** @type {?string} */ (
           (emailObject && emailObject[storage.EMAIL_FOR_SIGN_IN_KEY_]) || null);
     } catch (e) {
