@@ -388,7 +388,7 @@ interface Callbacks {
 
 // Interface that represents the tenant-level configurations.
 interface TenantConfig {
-  // The full label for the tenant in the tenant selection buttion. Only needed
+  // The full label for the tenant in the tenant selection button. Only needed
   // if you are using the option first mode.
   // When not provided, the "Sign in to $displayName" label is used.
   fullLabel?: string;
