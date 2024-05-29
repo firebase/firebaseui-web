@@ -163,7 +163,7 @@ firebaseui.auth.util.isMobileBrowser = function() {
  * @return {boolean} True if the browser supports CORS.
  */
 firebaseui.auth.util.supportsCors = function() {
-  // Among all supported browsers, onluy IE8 and IE9 don't support CORS.
+  // Among all supported browsers, only IE8 and IE9 don't support CORS.
   return !goog.userAgent.IE || // Not IE.
       !goog.userAgent.DOCUMENT_MODE || // No document mode == IE Edge
       goog.userAgent.DOCUMENT_MODE > 9;
