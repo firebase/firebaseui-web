@@ -642,7 +642,7 @@ firebaseui.auth.AuthUI.prototype.initializeForAutoUpgrade_ = function(cb) {
   // If initial state already determined, run callback with the current
   // upgradeable user and return its result.
   if (this.initialStateReady_) {
-    return cb(this.getUpgradableUser_());
+    return cb(this.getUpgradeableUser_());
   }
   // On reset, clear initial state as Auth state listener will be unsubscribed.
   this.registerPending(function() {
@@ -658,7 +658,7 @@ firebaseui.auth.AuthUI.prototype.initializeForAutoUpgrade_ = function(cb) {
         // Resolve promise only initially with initial upgradeable user.
         if (!self.initialStateReady_) {
           self.initialStateReady_ = true;
-          resolve(cb(self.getUpgradableUser_()));
+          resolve(cb(self.getUpgradeableUser_()));
         }
       }));
     });
@@ -680,7 +680,7 @@ firebaseui.auth.AuthUI.prototype.initializeForAutoUpgrade_ = function(cb) {
  *     null otherwise.
  * @private
  */
-firebaseui.auth.AuthUI.prototype.getUpgradableUser_ = function() {
+firebaseui.auth.AuthUI.prototype.getUpgradeableUser_ = function() {
   // Check if instance is already destroyed.
   this.checkIfDestroyed_();
   // This is typically run after initial onAuthStateChanged listener is
