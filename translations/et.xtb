@@ -1,0 +1,524 @@
+<translationbundle lang="et">
+  <translation id="1003362845472634045">Sisselogimise e-kiri saadetud</translation>
+  <translation id="10081113082271688">Vale kinnituskood</translation>
+  <translation id="1024070574104100559">Saint Vincent</translation>
+  <translation id="1080228854514607739">E-posti link on kehtetu. See võib juhtuda, kui e-posti link on aegunud või juba kasutatud sisselogimiseks. Palun taaskäivitage sisselogimisprotsess.</translation>
+  <translation id="1088824719285122027">Seda telefoninumbrit on kasutatud liiga palju kordi</translation>
+  <translation id="1111168792069656940">ui_flow</translation>
+  <translation id="1130401182255828006">Läti</translation>
+  <translation id="1133565039750742069">Salvesta</translation>
+  <translation id="1139115784936170936">Singapur</translation>
+  <translation id="1163494479861953195">Palun logige uuesti sisse, et seda toimingut teha</translation>
+  <translation id="1163771673786684213">Filipiinid</translation>
+  <translation id="1170304454812139475">Rumeenia</translation>
+  <translation id="1194565221977667376">Lõuna-Georgia ja Lõuna-Sandwichi saared</translation>
+  <translation id="1233977465587641672">Taastamatu andmekadu või andmete rikutus.</translation>
+  <translation id="1244846213930750436">Itaalia</translation>
+  <translation id="1268266284642694018">Liibanon</translation>
+  <translation id="1294742657282291237">Guyana</translation>
+  <translation id="1297168472480293352">Guatemala</translation>
+  <translation id="1307255433239736397"><ph name="START_PARAGRAPH"/>Midagi läks valesti, kui teie teist tegurit eemaldati.<ph name="END_PARAGRAPH"/><ph name="START_PARAGRAPH"/>Proovige see uuesti eemaldada. Kui see ei tööta, võtke ühendust toega.<ph name="END_PARAGRAPH"/></translation>
+  <translation id="1310034618729602982">Proovige oma e-posti uuesti värskendada</translation>
+  <translation id="1312824004897469797">Esines võrguviga. Proovige hiljem uuesti.</translation>
+  <translation id="1315809131562953678">Sisestage kehtiv telefoninumber</translation>
+  <translation id="1335716056288807013">Puudutades Verify, kinnitate, et nõustute meie <ph name="START_LINK_1"/>kasutustingimustega<ph name="END_LINK"/> ja <ph name="START_LINK_2"/>privaatsuspoliitikaga<ph name="END_LINK"/>. Võib saata SMS. Sõnumi- ja andmesidetasud võivad kehtida.</translation>
+  <translation id="137210131544215127">Sisestage oma parool</translation>
+  <translation id="1393433815796487579">Valmis</translation>
+  <translation id="1412449974349991050">Haiti</translation>
+  <translation id="144766329299583285">Kui te ei palunud oma sisselogimise e-posti aadressi muuta, võib keegi proovida teie kontole juurde pääseda ja te peaksite <ph name="START_LINK"/>kohe oma parooli muutma<ph name="END_LINK"/>.</translation>
+  <translation id="1449981769524156676">Heard ja McDonaldi saared</translation>
+  <translation id="1451880131543823984"><ph name="START_STRONG"/><ph name="EMAIL"/><ph name="END_STRONG"/> ei ole volitatud vaatama taotletud lehte.</translation>
+  <translation id="1479035434297790822">Teie IP-aadressilt tuleb liiga palju kontotaotlusi. Proovige mõne minuti pärast uuesti.</translation>
+  <translation id="1483249363694224399">Sri Lanka</translation>
+  <translation id="1507995441600689506">Nüüd saate oma uue kontoga sisse logida</translation>
+  <translation id="1535200361681091160">Sisestage oma e-posti aadress</translation>
+  <translation id="1544981664986460902">Klient määras kehtetu argumendi.</translation>
+  <translation id="1575848116712334589">Tšaad</translation>
+  <translation id="1630237004390596779">Koodi uuesti saatmine <ph name="STRING"/></translation>
+  <translation id="1653501608290591291">Valgevene</translation>
+  <translation id="1667376103923043653">See e-posti aadress ei vasta olemasolevale kontole.</translation>
+  <translation id="173576986138855124">Puudutades „<ph name="PH_1"/>“, võib saata SMS. Sõnumi- ja andmesidetasud võivad kehtida.</translation>
+  <translation id="1739056958326110545">Saint Helena</translation>
+  <translation id="1743026758446868773">Barbados</translation>
+  <translation id="1772888465204630090">Puudutades Jätka, kinnitate, et nõustute <ph name="START_LINK"/>kasutustingimustega<ph name="END_LINK"/></translation>
+  <translation id="177937029926612729">Armeenia</translation>
+  <translation id="179194004476893686">Bosnia ja Hertsegoviina</translation>
+  <translation id="1799407952500261728">Cooki saared</translation>
+  <translation id="1870056762032541323">Vale kood. Proovige uuesti.</translation>
+  <translation id="1898579907513173256">Macau</translation>
+  <translation id="1912929493041975510">Parool peab olema vähemalt kuus tähemärki pikk</translation>
+  <translation id="1933044638365301516">Logige sisse koos <ph name="STRING"/></translation>
+  <translation id="1987722456379605552">Sisestage 6-kohaline kood, mille saatsime <ph name="START_LINK"/><ph name="PHONE_NUMBER"/><ph name="END_LINK"/></translation>
+  <translation id="1999379687946415948"><ph name="IDV_CODE_PLACE_HOLDER"/> on teie kood <ph name="APP_NAME"/> jaoks.</translation>
+  <translation id="2033662766890821456">Koodi uuesti saatmine</translation>
+  <translation id="2035855087334775326">Ungari</translation>
+  <translation id="2040904406955887821">Suriname</translation>
+  <translation id="2046207054419739276">Ameerika Ühendriigid</translation>
+  <translation id="2049229571938383319">Saint Barthélemy</translation>
+  <translation id="2058731785647385204">Montserrat</translation>
+  <translation id="2074008538308369451">Kasutustingimused</translation>
+  <translation id="2089802663554186342">Sessioon lõppes</translation>
+  <translation id="2108717231438756650">Ühendkuningriik</translation>
+  <translation id="2120419640334291526">Kaimani saared</translation>
+  <translation id="2124070231227334770">Moldova</translation>
+  <translation id="2124843735553988177">Palun lubage vajalikud load, et rakendusse sisse logida</translation>
+  <translation id="2130553359919781209">Malawi</translation>
+  <translation id="2187260952722791093">Kinnitatud.</translation>
+  <translation id="2192561962270021282">Sisestage oma telefoninumber</translation>
+  <translation id="2206856445831770486">GitHub</translation>
+  <translation id="2223717216014247341">Privaatsuspoliitika</translation>
+  <translation id="2224563296468523455">Guam</translation>
+  <translation id="2245182894886860848">Kas ressursside kvoot on otsas või jõuab kiiruspiiranguni.</translation>
+  <translation id="2249420035688424170">Horvaatia</translation>
+  <translation id="2251583471831926217">Leedu</translation>
+  <translation id="227405248692044138">Malta</translation>
+  <translation id="2285049245646335550">Roheneemesaared</translation>
+  <translation id="2301396996587599046">Makedoonia</translation>
+  <translation id="2310948428656960769">Sisselogitud!</translation>
+  <translation id="2321152797538991921">Parool peab sisaldama mitte-tähestikulist märki</translation>
+  <translation id="2324942959480650701">Külaline</translation>
+  <translation id="2331781584136059536">Ghana</translation>
+  <translation id="2338909515537249568">Teie kasutatav brauser ei toeta veebisalvestust. Proovige uuesti teises brauseris.</translation>
+  <translation id="2342152898808240937">Päringu tühistas klient.</translation>
+  <translation id="2356282732642724501"><ph name="START_PARAGRAPH"/>Teie sisselogimise e-posti aadressi muutmine ebaõnnestus.<ph name="END_PARAGRAPH"/><ph name="START_PARAGRAPH"/>Kui proovite uuesti ja ei saa ikka oma e-posti lähtestada, proovige paluda abi oma administraatorilt.<ph name="END_PARAGRAPH"/></translation>
+  <translation id="2375419764963116430">Bahrein</translation>
+  <translation id="2392247362473363900">Sisemine serveri viga.</translation>
+  <translation id="2405828009195143258">Iraan</translation>
+  <translation id="2422942582251341722">Unustasid parooli?</translation>
+  <translation id="2446078593003901807">OK</translation>
+  <translation id="2448487988481516351">Uus-Kaledoonia</translation>
+  <translation id="2451742558284013472">Monaco</translation>
+  <translation id="2460064915291012298">Seišellid</translation>
+  <translation id="2490672522100125425"><ph name="START_STRONG"/><ph name="FACTOR_ID"/> <ph name="PHONE_NUMBER"/><ph name="END_STRONG"/> eemaldati teisese autentimissammuna.</translation>
+  <translation id="2494962141967044042">Praegune anonüümne kasutaja ei suutnud uuendada. Mitteanonüümne mandaad on juba seotud teise kasutajakontoga.</translation>
+  <translation id="2541179214468543429">Olete sisestanud vale parooli liiga palju kordi. Proovige mõne minuti pärast uuesti.</translation>
+  <translation id="2561560038714758184">Turvalisus</translation>
+  <translation id="2561835578785502516">Teie parooli lähtestamise taotlus on aegunud või link on juba kasutatud</translation>
+  <translation id="2562498793334241360">Nüüd saate oma uue e-posti aadressiga sisse logida <ph name="START_STRONG"/><ph name="EMAIL"/><ph name="END_STRONG"/>.</translation>
+  <translation id="2581514546525533462">Esitatud riigikood ei ole toetatud.</translation>
+  <translation id="2600950452451016107">Kontrollige, et te ei ole oma e-posti valesti kirjutanud.</translation>
+  <translation id="2610891451939662786">Twitter</translation>
+  <translation id="2612036261782356367">Kambodža</translation>
+  <translation id="2614081868476050089">Teenus pole saadaval.</translation>
+  <translation id="2616650714309312732">Portugal</translation>
+  <translation id="2619590123270932385">Prantsuse Guajaana</translation>
+  <translation id="2621854044487969847">Briti Neitsisaared</translation>
+  <translation id="2623430226615357954">Loobu</translation>
+  <translation id="2626214972556632989">Sisestage kehtiv telefoninumber</translation>
+  <translation id="2652952163277051394">Seda tüüpi kontot see rakendus ei toeta</translation>
+  <translation id="2660271277401013037">Toimingukood on kehtetu. See võib juhtuda, kui kood on valesti vormistatud, aegunud või juba kasutatud.</translation>
+  <translation id="2665022736179407256">See kood on aegunud.</translation>
+  <translation id="2668496398414877352">Kosovo</translation>
+  <translation id="2674823936234616183">Usbekistan</translation>
+  <translation id="2696162410887720551">Ålandi saared</translation>
+  <translation id="2725769874498146298">Teie sisselogimisseanss on aegunud. Palun proovige uuesti.</translation>
+  <translation id="2741235824871026219">Kinnita</translation>
+  <translation id="2752984808025184019">Lõuna-Aafrika</translation>
+  <translation id="2760636260031093254">Sisestage oma e-posti aadress, et jätkata</translation>
+  <translation id="276938411216176478">Kasutajakonto on administraatori poolt keelatud.</translation>
+  <translation id="2782685789517131804">Sisselogimise e-kiri koos täiendavate juhistega saadeti <ph name="START_STRONG"/><ph name="EMAIL"/><ph name="END_STRONG"/>. Kontrollige oma e-posti, et lõpetada sisselogimine.</translation>
+  <translation id="2824267666257947103">Sisestage oma parool</translation>
+  <translation id="2828509010894808185">Loo konto</translation>
+  <translation id="2834770837848769530">Afganistan</translation>
+  <translation id="2884525438023347369">Puudutades <ph name="BTN"/> kinnitate, et nõustute <ph name="TOS"/>.</translation>
+  <translation id="2909392332969582158">Kanada</translation>
+  <translation id="2911018261311455240">Taani</translation>
+  <translation id="2949732021187449522">Päringu tähtaeg on ületatud.</translation>
+  <translation id="295270254328846278">Austria</translation>
+  <translation id="2976748949054245370">E-postid ei ühti</translation>
+  <translation id="29947009417147243">Lõuna-Sudaan</translation>
+  <translation id="3040586343252524572">Jeemen</translation>
+  <translation id="3045244039436637116">Guinea-Bissau</translation>
+  <translation id="3046745817056752783">Saudi Araabia</translation>
+  <translation id="3083819527012413063">Täiendav turvategur on lisatud <ph name="APP_NAME"/></translation>
+  <translation id="3122584863645047144">USA Neitsisaared</translation>
+  <translation id="3141549453511344986">Logige sisse telefoniga</translation>
+  <translation id="3147551458884186429">Indoneesia</translation>
+  <translation id="3154748063569624719">Algul tahtsite sisse logida <ph name="PENDING_EMAIL"/></translation>
+  <translation id="3164676761565983157">Venezuela</translation>
+  <translation id="3170526549630869494">Probleeme sisselogimisega?</translation>
+  <translation id="3204914819635733576">Kinnitage, et olete teie</translation>
+  <translation id="3215050409577090361">Teie autentimispäringu kontrollimisel tekkis probleem. Palun külastage uuesti URL-i, mis teid sellele lehele suunas, et autentimisprotsessi uuesti alustada.</translation>
+  <translation id="3216149523061905579">Dominica</translation>
+  <translation id="3223688630903046698">Uus parool</translation>
+  <translation id="3245143966477136343">Parool peab sisaldama väikest tähte</translation>
+  <translation id="3250864391349648273">Gabon</translation>
+  <translation id="3259479674319858599">Olete juba kasutanud <ph name="START_STRONG"/><ph name="EMAIL"/><ph name="END_STRONG"/>. Jätkamiseks logige sisse <ph name="IDP_DISPLAY_NAME"/> abil.</translation>
+  <translation id="3275852444431525182">Uus-Meremaa</translation>
+  <translation id="3314478375063334511">Myanmar [Birma]</translation>
+  <translation id="3361878270020566601">Island</translation>
+  <translation id="3364952477229333586">Etioopia</translation>
+  <translation id="3372254675985592547">Kuuba</translation>
+  <translation id="3394519231857398207">Prantsusmaa</translation>
+  <translation id="3398534025670554188">Hiina</translation>
+  <translation id="3409391354412142307">Olete juba kasutanud <ph name="START_STRONG"/><ph name="EMAIL"/><ph name="END_STRONG"/>. Saate oma <ph name="START_STRONG"/><ph name="IDP_DISPLAY_NAME"/><ph name="END_STRONG"/> konto ühendada <ph name="START_STRONG"/><ph name="EMAIL"/><ph name="END_STRONG"/>-ga, logides alloleva e-posti lingiga sisse.</translation>
+  <translation id="3413300222170818119">Sambia</translation>
+  <translation id="3429213469114503705">Vatikan</translation>
+  <translation id="3434621886769337032">Gambia</translation>
+  <translation id="3472358534605257432">Valmis</translation>
+  <translation id="3479685026618611556">Loobu</translation>
+  <translation id="3481131180097895739">Tundmatu serveri viga.</translation>
+  <translation id="3487364398525389372">Sisestage oma kontonimi</translation>
+  <translation id="3521753471343796628">Iraak</translation>
+  <translation id="354888504916863713">Vietnam</translation>
+  <translation id="3550380781997195832">Vale e-posti aadress</translation>
+  <translation id="3552446912357282301">Palun võtke ühendust <ph name="START_STRONG"/><ph name="ADMIN_EMAIL"/><ph name="END_STRONG"/> loal.</translation>
+  <translation id="3561568594856945084">Mayotte</translation>
+  <translation id="3591063723610544836">Logi sisse</translation>
+  <translation id="3593480381831738519">Lähtesta parool</translation>
+  <translation id="3597673897213051724">Saada</translation>
+  <translation id="3605933028246642593">Nepaal</translation>
+  <translation id="3608140835232496799">Tokelau</translation>
+  <translation id="3620185428620643248">Valitud autentimisteenusepakkuja mandaati ei toetata!</translation>
+  <translation id="3658306886462996856">Antud e-posti jaoks pole saadaval ühtegi sisselogimisteenuse pakkujat. Proovige uuesti teise e-posti aadressiga.</translation>
+  <translation id="3695180913983403205">Sisestage eesnimi ja perekonnanimi.</translation>
+  <translation id="3700097473356216716">Colombia</translation>
+  <translation id="3703067902498234034">Puudutades SALVESTA kinnitate, et nõustute </translation>
+  <translation id="3736041829854387744">Burundi</translation>
+  <translation id="3755663127769565780">Mauritaania</translation>
+  <translation id="3813801701232240278">Twitter</translation>
+  <translation id="3814740523815122846">Teie e-posti aadress on kinnitatud</translation>
+  <translation id="3819556544383051267">Paapua Uus-Guinea</translation>
+  <translation id="3828991952827504549">Täpsustatud ressurssi ei leitud.</translation>
+  <translation id="3862053977934420187">Kinnitan...</translation>
+  <translation id="3898029444496274961">Logi sisse</translation>
+  <translation id="3905423743526704083">Ida-Timor</translation>
+  <translation id="3908950705971364393">Djibouti</translation>
+  <translation id="3954166521214262397">6-kohaline kood</translation>
+  <translation id="3987987513436822097">Komoorid</translation>
+  <translation id="3998148019488053682">Kinnitamiskood ei tohi olla tühi.</translation>
+  <translation id="4011940631682920330">Toimingukood on kehtetu. See võib juhtuda, kui kood on valesti vormistatud, aegunud või juba kasutatud.</translation>
+  <translation id="4022450612826261789">Kosovo</translation>
+  <translation id="4025579119565425333">Proovige neid tavalisi lahendusi:</translation>
+  <translation id="4056653682525186486">Logige sisse koos <ph name="XXX"/></translation>
+  <translation id="4064888056475403511">Proovige avada link samas seadmes või brauseris, kus alustasite sisselogimisprotsessi.</translation>
+  <translation id="4066104405592701692">Eesti</translation>
+  <translation id="4147949012570877154">Kustuta</translation>
+  <translation id="4163133799286985193">Argentina</translation>
+  <translation id="4166504762096983411">Jätkates kinnitate, et nõustute meie <ph name="START_LINK_1"/>kasutustingimustega<ph name="END_LINK"/> ja <ph name="START_LINK_2"/>privaatsuspoliitikaga<ph name="END_LINK"/>.</translation>
+  <translation id="420554669252656972">Sisestage uus e-posti aadress</translation>
+  <translation id="4210333062216604630">Eemalda ühendus</translation>
+  <translation id="4242716276491763916">Guinea Conakry</translation>
+  <translation id="4248546264350694306">Šveits</translation>
+  <translation id="4266056491449352939">Andorra</translation>
+  <translation id="4322167048992801895">Probleemid e-kirja saamisega?</translation>
+  <translation id="4329551945958214898">Jaapan</translation>
+  <translation id="4331763189922924781">Montenegro</translation>
+  <translation id="4372962701784304822">Mosambiik</translation>
+  <translation id="4377158577300329881">See e-posti aadress ei vasta olemasolevale kontole</translation>
+  <translation id="4386334763822785837">Türgi</translation>
+  <translation id="4413304190485210039">Tadžikistan</translation>
+  <translation id="4432634970196611353">Laos</translation>
+  <translation id="4440507149645221385">Telefon</translation>
+  <translation id="4450602713221237198">Saada uuesti</translation>
+  <translation id="4498504413765490964">Honduras</translation>
+  <translation id="450385255996536115">Toiming aegus.</translation>
+  <translation id="4515732781724470190">Nigeeria</translation>
+  <translation id="4521614244485847733">See e-posti aadress ei vasta olemasolevale kontole</translation>
+  <translation id="4556476996891737119">Jordaania</translation>
+  <translation id="4571870355114729513">Järgige juhiseid, mis saadeti <ph name="START_STRONG"/><ph name="EMAIL"/><ph name="END_STRONG"/> parooli taastamiseks</translation>
+  <translation id="4588392627302012849">Logige sisse e-posti aadressiga</translation>
+  <translation id="4595119411041064617">Puudutades &apos;<ph name="PH_1"/>&apos;, võib saata SMS. Sõnumi- ja andmesidetasud võivad kehtida.</translation>
+  <translation id="4603232692404395592">Parool võib sisaldada kuni <ph name="MAX_PASSWORD_LENGTH"/> märki</translation>
+  <translation id="4632709875751031323">Venemaa</translation>
+  <translation id="4644169548516814280">E-posti aadressi juba kasutab teine konto</translation>
+  <translation id="4692014002063276828">Poola</translation>
+  <translation id="4723701728629289714">Iisrael</translation>
+  <translation id="4725154639671888461">Tekkis viga</translation>
+  <translation id="4751937685196678080">Number</translation>
+  <translation id="4769553102874508676">Kliendil pole piisavalt luba.</translation>
+  <translation id="4773060157545352832">Lahendage reCAPTCHA</translation>
+  <translation id="4775051289386800916">Nicaragua</translation>
+  <translation id="4783400389150493171">Burkina Faso</translation>
+  <translation id="4852256440857413490">Vale kood. Proovige uuesti.</translation>
+  <translation id="4866990546854875813">Sisselogimistaotlusega seotud seanss on kas aegunud või kustutatud.</translation>
+  <translation id="4871106926303956169">Turksi ja Caicose saared</translation>
+  <translation id="4877597386645466815">Koodi uuesti saatmine <ph name="TIME_REMAINING"/></translation>
+  <translation id="4900116391137165411">
+<ph name="P_START"/>Teie konto <ph name="APP_NAME"/>-s on uuendatud telefoninumbriga <ph name="SECOND_FACTOR"/> kaheastmelise kinnitamise jaoks.<ph name="P_END"/>
+<ph name="P_START"/>Kui te ei lisanud seda telefoninumbrit kaheastmeliseks kinnitamiseks, klõpsake selle eemaldamiseks alloleval lingil.<ph name="P_END"/>
+<ph name="P_START"/><ph name="START_LINK"/><ph name="CONFIRM_LINK"/><ph name="END_LINK"/><ph name="P_END"/></translation>
+  <translation id="4923375331439013137">Teist tegurit ei saanud eemaldada</translation>
+  <translation id="4955175001894453989">Lisa parool</translation>
+  <translation id="496366313824211679">El Salvador</translation>
+  <translation id="4982483807073820954">Konto parooli muutmiseks peate uuesti sisse logima.</translation>
+  <translation id="4991626049082973728">Serbia</translation>
+  <translation id="4991892293325936102">Belize</translation>
+  <translation id="5042136001778337830"><ph name="START_PARAGRAPH"/>sest <ph name="START_STRONG"/><ph name="EMAIL"/><ph name="END_STRONG"/><ph name="END_PARAGRAPH"/></translation>
+  <translation id="5059105734231232362">Selle voo edukaks ühendamiseks teie <ph name="IDP_DISPLAY_NAME"/> konto selle e-posti aadressiga peate lingi avama samas seadmes või brauseris.</translation>
+  <translation id="5080084639513001393">Rootsi</translation>
+  <translation id="5080899604429810481">Saint Martin</translation>
+  <translation id="5115661695221894994"><ph name="START_PARAGRAPH"/>Teie e-posti kinnitamise ja värskendamise taotlus on aegunud või link on juba kasutatud.<ph name="END_PARAGRAPH"/></translation>
+  <translation id="5143657419516597442">Saint Lucia</translation>
+  <translation id="521218078240459724">@string/app_name</translation>
+  <translation id="5241732101105320538">Kontrollige oma e-posti</translation>
+  <translation id="5255830932650472373">Uus parool</translation>
+  <translation id="5301108536112812420">Teie e-posti kinnitamise taotlus on aegunud või link on juba kasutatud</translation>
+  <translation id="5323041129469627535">Omaan</translation>
+  <translation id="5326139833547026317">Hollandi Kariibi mere saared</translation>
+  <translation id="5347459868860672391">Uuendatud e-posti aadress</translation>
+  <translation id="5397737236938796917">Olete nüüd edukalt välja logitud.</translation>
+  <translation id="5406620662929585965">Logige sisse telefoniga</translation>
+  <translation id="5407010562344541906">Telefoninumber</translation>
+  <translation id="5409861738809250803">Teil on juba konto olemas</translation>
+  <translation id="5410341463946781720">Tai</translation>
+  <translation id="5437927869321223252">Vale kood. Proovige uuesti.</translation>
+  <translation id="5444635161362535036">Liechtenstein</translation>
+  <translation id="5483706910421209104">Redigeeri nime</translation>
+  <translation id="5487696047685227891">Seade või rakendus eemaldati teisese autentimissammuna.</translation>
+  <translation id="5490651768073507833">Proovige avada link samas seadmes või brauseris, kus alustasite sisselogimisprotsessi.</translation>
+  <translation id="5524360735013196510">Holland</translation>
+  <translation id="5528189843379142883">Ekvatoriaal-Guinea</translation>
+  <translation id="5529036554155743092">Austraalia</translation>
+  <translation id="5537884323453943551">Trinidad ja Tobago</translation>
+  <translation id="5543493820882105191">Sisestage oma nimi</translation>
+  <translation id="55439745111619380">Ascensioni saar</translation>
+  <translation id="5569341882117077010">Esines võrguviga</translation>
+  <translation id="5581239183924693195">Logige sisse koos <ph name="IDP_DISPLAY_NAME"/></translation>
+  <translation id="5585451911077299623">Vali parool</translation>
+  <translation id="5602886107840188229">Briti India ookeani ala</translation>
+  <translation id="5604510594682955626">Uganda</translation>
+  <translation id="5606731250220630939">Norra</translation>
+  <translation id="5611074838440670731">Seda telefoninumbrit on kasutatud liiga palju kordi</translation>
+  <translation id="5630396263271753991">Eritrea</translation>
+  <translation id="5636713964613741614">Mauritius</translation>
+  <translation id="5642254620426025006">Midagi läks valesti. Proovige uuesti.</translation>
+  <translation id="5649486931917149784">Parool</translation>
+  <translation id="5664080586064341046">St Kitts</translation>
+  <translation id="5668881954117611594">Tagasi</translation>
+  <translation id="5699028034244995851">Sisestage oma e-posti aadress, et jätkata</translation>
+  <translation id="5701178667798108817">Kinnitage oma telefoninumber</translation>
+  <translation id="5715637701147651513">Libeeria</translation>
+  <translation id="5747263508495256858">Logi välja</translation>
+  <translation id="5771034676910614239">Madagaskar</translation>
+  <translation id="5818634293686963864">Kasahstan</translation>
+  <translation id="5829301468800336085">Sisselogimine...</translation>
+  <translation id="5840765100196379855">Panama</translation>
+  <translation id="5840803301882074743">Tonga</translation>
+  <translation id="5850752921356750845">Wallis ja Futuna</translation>
+  <translation id="5853516492584814656">Teie e-posti aadressi ei õnnestunud värskendada</translation>
+  <translation id="5905720181746284549">Olete juba kasutanud <ph name="STRING"/> sisselogimiseks. Sisestage selle konto parool.</translation>
+  <translation id="5921101578434778028">Anguilla</translation>
+  <translation id="5948592577241492942">See e-posti aadress on juba olemas ilma sisselogimise võimaluseta. Parooli taastamiseks palun lähtestage parool.</translation>
+  <translation id="5985902459796151462">Dominikaani Vabariik</translation>
+  <translation id="5987586156626209007">Jersey</translation>
+  <translation id="5989709845715452405">Taasta parool</translation>
+  <translation id="5995596766674622541">Sisestage 6-kohaline kood, mille saatsime <ph name="START_LINK"/>&amp;lrm;<ph name="PHONE_NUMBER"/><ph name="END_LINK"/></translation>
+  <translation id="6006148985615990975">Rwanda</translation>
+  <translation id="6032262985756512833">Sisestage <ph name="STRING"/>-kohaline kood, mille me teile saatsime</translation>
+  <translation id="6044396095102058216">Seda telefoninumbrit on kasutatud liiga palju kordi</translation>
+  <translation id="6083089720215618333">Esitatud e-posti aadress ei vasta praegusele sisselogimisseansile.</translation>
+  <translation id="6091051069256411999">Twitter</translation>
+  <translation id="61182948399263957">
+<ph name="P_START"/>Logige sisse <ph name="APP_NAME"/>-sse &lt;/p&gt;&lt;/p&gt;
+<ph name="P_START"/><ph name="START_LINK"/><ph name="CONFIRM_LINK"/><ph name="END_LINK"/><ph name="P_END"/></translation>
+  <translation id="6132202686885223981">Kontrollige, kas teie postkast ei ole täis või kas pole muid postkasti seadetega seotud probleeme.</translation>
+  <translation id="6135589730599211649">Klient määras kehtetu vahemiku.</translation>
+  <translation id="6143147250106939258">Selle toimingu kvoot on ületatud. Proovige hiljem uuesti.</translation>
+  <translation id="615787395595800956">Parooli nõuded puuduvad:</translation>
+  <translation id="6189573836664806798">Paraguay</translation>
+  <translation id="6192657410634245771">Alžeeria</translation>
+  <translation id="6213969168046789596">Olete sisestanud vale parooli liiga palju kordi. Palun proovige mõne minuti pärast uuesti.</translation>
+  <translation id="6216759405419177713">Norfolki saar</translation>
+  <translation id="6238170540438416559">Puudutades &apos;<ph name="PH_1"/>&apos;, kinnitate, et nõustute meie <ph name="PP"/>. Võib saata SMS. Sõnumi- ja andmesidetasud võivad kehtida.</translation>
+  <translation id="6265373887273416711">Kinnitage oma telefoninumber</translation>
+  <translation id="6283536862756552051">Parooli muutmiseks peate esmalt sisestama oma praeguse parooli.</translation>
+  <translation id="6299890279889400823">Tagasi</translation>
+  <translation id="6316446940976157217">India</translation>
+  <translation id="6327723482938582895">Benin</translation>
+  <translation id="6338643731889005578">Jätka</translation>
+  <translation id="6355621963154078138">Parool peab sisaldama numbrit</translation>
+  <translation id="6359400968059656782">Nüüd saate oma uue parooliga sisse logida</translation>
+  <translation id="6363241121027868570">Aruba</translation>
+  <translation id="6377222208046638522">Luksemburg</translation>
+  <translation id="6381974517529371884">Fääri saared</translation>
+  <translation id="6443180961828792673">Kosovo</translation>
+  <translation id="6450170205342035038">Bulgaaria</translation>
+  <translation id="6470057025778734988">Te ei saa enam oma kontoga sisse logida</translation>
+  <translation id="6472297146424049005">Kontrollige oma internetiühendust.</translation>
+  <translation id="6483116480230343278">Registreerimine...</translation>
+  <translation id="6494734506607758748">Oma kontoga seotud e-posti aadressi muutmiseks peate uuesti sisse logima.</translation>
+  <translation id="6508909904815637928">Vanuatu</translation>
+  <translation id="6520863029476703422">Ameerika Samoa</translation>
+  <translation id="6527597037551425211">Brasiilia</translation>
+  <translation id="6555167606025370230">Jätkake <ph name="APP_NAME"/></translation>
+  <translation id="657697593815023638">Svaasimaa</translation>
+  <translation id="6584652721889639596">Parooli lähtestamise koodi ei õnnestunud määratud e-posti aadressile saata</translation>
+  <translation id="6608262346670935090">Loobu</translation>
+  <translation id="6611519013130079637">Belgia</translation>
+  <translation id="6618737424980030515">Gruusia</translation>
+  <translation id="6623411438614744695">Namiibia</translation>
+  <translation id="6653313985929651858">Sisselogimise e-kiri saadetud</translation>
+  <translation id="6655128609744896303">Kood saadetud.</translation>
+  <translation id="6683477520421532707">Réunion</translation>
+  <translation id="6683810982254923169">Proovige oma parooli uuesti lähtestada</translation>
+  <translation id="6689542920381638295">Jätka külalisena</translation>
+  <translation id="6719973195813381061">Ecuador</translation>
+  <translation id="6721310522324861790">Senegal</translation>
+  <translation id="6724344978634903280">Botswana</translation>
+  <translation id="6728600931059699935">Mikroneesia</translation>
+  <translation id="6739369526953005057">Hongkong</translation>
+  <translation id="6740430702644152657">Albaania</translation>
+  <translation id="6765051113469046531">Teie sisselogimise e-posti aadress muudeti tagasi <ph name="START_STRONG"/><ph name="EMAIL"/><ph name="END_STRONG"/>.</translation>
+  <translation id="6769550797775698634">Kamerun</translation>
+  <translation id="6775190982418995854">Svalbard ja Jan Mayen</translation>
+  <translation id="6775835872637240659">Kui ülaltoodud sammud ei töötanud, saate meili uuesti saata. Pange tähele, et see deaktiveerib vanemas meilis oleva lingi.</translation>
+  <translation id="6782010235320729294">Türkmenistan</translation>
+  <translation id="6821607741326790458">Jamaica</translation>
+  <translation id="6834335872619414720">GitHub</translation>
+  <translation id="6845933166697056698">Pakistan</translation>
+  <translation id="6852861389112775830"><ph name="START_STRONG"/><ph name="USER_IDENTIFIER"/><ph name="END_STRONG"/> ei ole volitatud vaatama taotletud lehte.</translation>
+  <translation id="6918319418444979243">Saada uuesti</translation>
+  <translation id="6920167780806379235">Süüria</translation>
+  <translation id="6921505896641453739">E-post</translation>
+  <translation id="6929813273561975780">Järgmine</translation>
+  <translation id="6951302238647056860">See kood ei ole enam kehtiv</translation>
+  <translation id="6961220857430789248">Sisselogimise e-kiri koos täiendavate juhistega saadeti <ph name="STRING"/>. Kontrollige oma e-posti, et lõpetada sisselogimine.</translation>
+  <translation id="6984204927251307445">Kinnitage e-post</translation>
+  <translation id="6996552808101270965">Lisateave</translation>
+  <translation id="6999773882165218263">Eesnimi ja perekonnanimi</translation>
+  <translation id="7012506961150923116">Grenada</translation>
+  <translation id="7024571478138322659">Lääne-Sahara</translation>
+  <translation id="7025117765722694556">Päringut ei saa praeguses süsteemi olekus täita.</translation>
+  <translation id="7062299334696934251">Tekkis tundmatu viga.</translation>
+  <translation id="7064251114893721966">Olete juba kasutanud <ph name="START_STRONG"/><ph name="EMAIL"/><ph name="END_STRONG"/> sisselogimiseks. Sisestage selle konto parool.</translation>
+  <translation id="7085136866191400000">Sisselogimise e-kiri saadetud</translation>
+  <translation id="7089485669419398254">Iirimaa</translation>
+  <translation id="7093343209860483088">Kongo Demokraatlik Vabariik</translation>
+  <translation id="7118080999850002096">Taasta parool</translation>
+  <translation id="7150917293543492988">Kongo Vabariik</translation>
+  <translation id="7157317431934821052">Klient püüdis luua juba olemasolevat ressurssi.</translation>
+  <translation id="7174424882502155514">Jätka külalisena</translation>
+  <translation id="7192078949090526171">San Marino</translation>
+  <translation id="7197455001919474950">Küpros</translation>
+  <translation id="7198563013006562060">Saalomoni Saared</translation>
+  <translation id="7207660930894629055">Kas soovite jätkata kasutades <ph name="USER_EMAIL"/>?</translation>
+  <translation id="720983450833499456">Sisselogimiseks selle seadmega aadressil <ph name="START_STRONG"/><ph name="EMAIL"/><ph name="END_STRONG"/>, peate parooli taastama.</translation>
+  <translation id="7223410082658239002">Maldiivid</translation>
+  <translation id="7254028881697834212">São Tomé ja Príncipe</translation>
+  <translation id="7268827299582726485">Kinnitage oma e-post sisselogimise lõpetamiseks</translation>
+  <translation id="7272145663101316762">Sloveenia</translation>
+  <translation id="7280309713358692490">Lõuna-Korea</translation>
+  <translation id="7283725113395426048">Konkurentsikonflikt, näiteks lugemis-muutmis-kirjutamis-konflikt.</translation>
+  <translation id="7290147808482957603">API meetod pole serveri poolt rakendatud.</translation>
+  <translation id="7291567990403335374">Lesotho</translation>
+  <translation id="7291656724505689727">Logige sisse telefoniga</translation>
+  <translation id="7320029088567935126">Proovige oma e-posti uuesti kinnitada</translation>
+  <translation id="7331038350037712642">Aserbaidžaan</translation>
+  <translation id="7359542696390093035">Mitte volitatud</translation>
+  <translation id="743266754881673808">Google</translation>
+  <translation id="744894552966168763">Kehtetu e-posti link.</translation>
+  <translation id="7477065998516229434">Kasutustingimused</translation>
+  <translation id="7493245640904888019">Gibraltar</translation>
+  <translation id="7510939244824757986">Tansaania</translation>
+  <translation id="7526532581122816497">Lingitud konto</translation>
+  <translation id="7560587702704358921">Saint Pierre ja Miquelon</translation>
+  <translation id="7569285452790032317">Somaalia</translation>
+  <translation id="7592224526951017144">Saksamaa</translation>
+  <translation id="7595933825828475368">Probleemid e-kirja saamisega?</translation>
+  <translation id="7615083347713899917">Kõrgõzstan</translation>
+  <translation id="7643408533407091568">Olete juba kasutanud <ph name="EMAIL_ADDR"/>
+        sisselogimiseks. Sisestage selle konto parool.</translation>
+  <translation id="7652546345268886994">{plural_var,plural, =1{Parool ei ole piisavalt tugev. Kasutage vähemalt <ph name="PH_1"/> tähemärki ja tähtede ning numbrite segu}other{Parool ei ole piisavalt tugev. Kasutage vähemalt <ph name="PH_1"/> tähemärki ja tähtede ning numbrite segu}}</translation>
+  <translation id="7699755204074920022">Zimbabwe</translation>
+  <translation id="7746977132739352062">Päringut ei autentitud puuduva, kehtetu või aegunud OAuth-mandaadi tõttu.</translation>
+  <translation id="7778245738233381641">Palun sisestage 6-kohaline telefonikinnituskood.</translation>
+  <translation id="7790301903034097323">Vali parool</translation>
+  <translation id="7796914496604415892">Uus seade või brauser tuvastatud</translation>
+  <translation id="786166109137986817">Logige sisse <ph name="DISPLAY_NAME"/></translation>
+  <translation id="7863575218808091551">Parool peab sisaldama suurtähte</translation>
+  <translation id="7868540442111212282">Tšehhi Vabariik</translation>
+  <translation id="7874584525604421364">Tuvalu</translation>
+  <translation id="7926046652648626866">Logige sisse koos GitHub</translation>
+  <translation id="792838323404934335">Gröönimaa</translation>
+  <translation id="7956645158976161232">Liibüa</translation>
+  <translation id="8017277252219866084">Keenia</translation>
+  <translation id="8028653067082554952">See kustutab kõik teie kontoga seotud andmed ja ei saa tagasi võtta. Kas olete kindel, et soovite oma konto kustutada?</translation>
+  <translation id="8033786138248870436">Puudutades Kinnita, võib saata SMS. Sõnumi- ja andmesidetasud võivad kehtida.</translation>
+  <translation id="8047183472745080590">Boliivia</translation>
+  <translation id="8047565947836609247">Puerto Rico</translation>
+  <translation id="8055755007915250245">Kas eemaldada konto ühendus?</translation>
+  <translation id="8063505483150915580">Jõulusaar</translation>
+  <translation id="8077378925683571933">
+<ph name="P_START"/>Aitäh,<ph name="P_END"/>
+<ph name="P_START"/>Teie <ph name="APP_NAME"/> meeskond<ph name="P_END"/></translation>
+  <translation id="8130982192244529100">Kinnituskoodide saatmiseks esitage saaja telefoninumber.</translation>
+  <translation id="8138904368098176683">Sudaan</translation>
+  <translation id="815425460105074455">Bahama</translation>
+  <translation id="8177114080110296189">Elevandiluurannik</translation>
+  <translation id="8192724270853215748">Belau</translation>
+  <translation id="8210009914905612114">Mongoolia</translation>
+  <translation id="8248811348666273823">Hispaania</translation>
+  <translation id="8283013172847705078">Costa Rica</translation>
+  <translation id="8289427665929658971">Samoa</translation>
+  <translation id="8320813901740734879">
+<ph name="P_START"/>Teie konto <ph name="APP_NAME"/>-s on uuendatud <ph name="SECOND_FACTOR"/> kaheastmelise autentimise jaoks.<ph name="P_END"/>
+<ph name="P_START"/>Kui te ei taotlenud seda muudatust, kasutage muutuse tagasi võtmiseks allolevat linki.<ph name="P_END"/>
+<ph name="P_START"/><ph name="START_LINK"/><ph name="CONFIRM_LINK"/><ph name="END_LINK"/><ph name="P_END"/></translation>
+  <translation id="8335491854074085727">Mali</translation>
+  <translation id="8340009229650375501">Katar</translation>
+  <translation id="8347635771101835254">Uruguay</translation>
+  <translation id="8356629306226578917">Egiptus</translation>
+  <translation id="8361109291694366329">Marshalli Saared</translation>
+  <translation id="8371947480506692029">Sint Maarten</translation>
+  <translation id="8395242001819210481">Antigua ja Barbuda</translation>
+  <translation id="8399150401520737446">Põhja-Mariaanid</translation>
+  <translation id="8414177484126578295">Falklandi saared [Islas Malvinas]</translation>
+  <translation id="8420860857100049136">Peruu</translation>
+  <translation id="8422843028108996485">Praegune parool</translation>
+  <translation id="8426535539577812032">Tere tulemast</translation>
+  <translation id="8426971145354765033">Fidži</translation>
+  <translation id="8448940737083561161">Kiribati</translation>
+  <translation id="847294590390666986">Taiwan</translation>
+  <translation id="8477554788963470892">Sierra Leone</translation>
+  <translation id="8498398269542501379">Kontrollige, kas e-kiri on märgitud rämpspostiks või filtreeritud.</translation>
+  <translation id="8505200776212389923">Kinnitan...</translation>
+  <translation id="8505941919386646914">Martinique</translation>
+  <translation id="8534746304953308378">Togo</translation>
+  <translation id="8572093925387077451">Teil on juba konto olemas</translation>
+  <translation id="8585285847459057945">Teie sisselogimise e-posti aadress muudeti <ph name="APP_NAME"/> jaoks</translation>
+  <translation id="8585655327529919573">Saage sellele e-posti aadressile juhised, kuidas oma parool lähtestada</translation>
+  <translation id="8652838224332661203">Nauru</translation>
+  <translation id="8657280305228520442">Brunei</translation>
+  <translation id="8657544769531875987">Tšiili</translation>
+  <translation id="8683728957718760076">Prantsuse Polüneesia</translation>
+  <translation id="868894957204919930">Bermuda</translation>
+  <translation id="8694271531070467981">Niue</translation>
+  <translation id="8745311627715763145">Guadeloupe</translation>
+  <translation id="8752467400269476994">Klient määras kehtetu projektikonfiguratsiooni.</translation>
+  <translation id="8760480624706028033">Palestiina territooriumid</translation>
+  <translation id="8770276147008360348">Slovakkia</translation>
+  <translation id="877434849857020571">Guernsey</translation>
+  <translation id="8784650258250067845">Nigeeria</translation>
+  <translation id="8826577014688910360">Põhja-Korea</translation>
+  <translation id="8833554344900398690"><ph name="IDV_CODE_PLACE_HOLDER"/> on teie kinnituskood.</translation>
+  <translation id="8835993416611657377">Mehhiko</translation>
+  <translation id="884992060285817042">Bhutan</translation>
+  <translation id="8869797682387766327">Mani saar</translation>
+  <translation id="8893950153780006385">Malaisia</translation>
+  <translation id="8895840173743975193">Kookossaarte [Keeling] saared</translation>
+  <translation id="8916080112145514151">Kui soovite endiselt oma <ph name="START_STRONG"/><ph name="IDP_DISPLAY_NAME"/><ph name="END_STRONG"/> kontot ühendada, avage link seadmes, mida kasutasite sisselogimisprotsessi alustamiseks. Vastasel juhul puudutage nuppu "Jätka", et selle seadmega sisse logida.</translation>
+  <translation id="8920674952994839257">Proovi uuesti</translation>
+  <translation id="8939353296336237380">Algul kavatsesite oma e-posti kontoga ühendada <ph name="START_STRONG"/><ph name="IDP_DISPLAY_NAME"/><ph name="END_STRONG"/>, kuid olete avanud lingi teises seadmes, milles te pole sisse logitud.</translation>
+  <translation id="8955469172512804617">Puudutades <ph name="BTN"/> kinnitate, et nõustute <ph name="PP"/>.</translation>
+  <translation id="8980953965669178372">Valmis</translation>
+  <translation id="8984161590699631096">Maroko</translation>
+  <translation id="8994098794339484800">Kui te seda seadet ei tunne, võib keegi proovida teie kontole juurde pääseda. Mõelge <ph name="START_LINK"/>parooli muutmisele kohe<ph name="END_LINK"/>.</translation>
+  <translation id="900153878296575829">Bangladesh</translation>
+  <translation id="9022632332691561239">Telefon</translation>
+  <translation id="9028063588419847334">Soome</translation>
+  <translation id="9078135685219203661">Araabia Ühendemiraadid</translation>
+  <translation id="9085311482535098646">Parool peab sisaldama vähemalt <ph name="MIN_PASSWORD_LENGTH"/> tähemärki</translation>
+  <translation id="9121203582272050974">Teie e-posti aadress on kinnitatud ja muudetud</translation>
+  <translation id="9156150178611681179">Parool</translation>
+  <translation id="9168877696443530714">Kesk-Aafrika Vabariik</translation>
+  <translation id="9186194643192393179">Curaçao</translation>
+  <translation id="9193130710600355008">Oleme blokeerinud kõik selle seadme päringud ebatavalise tegevuse tõttu. Proovige hiljem uuesti.</translation>
+  <translation id="919456844206936371">Tuneesia</translation>
+  <translation id="9209678713072395487">Parool muudetud</translation>
+  <translation id="954276184636809129">Kreeka</translation>
+  <translation id="959388308828818789">Teine tegur eemaldatud</translation>
+  <translation id="965930633376049617">Angola</translation>
+  <translation id="988087302893519488">Kuveit</translation>
+  <translation id="994914101700264849">Sisestatud e-post ja parool ei ühti</translation>
+</translationbundle>
