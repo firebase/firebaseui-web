@@ -1871,7 +1871,7 @@ In React DOM applications you can use the [FirebaseUI Web React Wrapper](https:/
 
 ## Angular Setup
 
-In Angular applications you can use this [FirebaseUI Web Angular Wrapper](https://github.com/RaphaelJenni/firebaseui-angular) from the community.
+In Angular applications you can use this [FirebaseUI Web Angular Wrapper](https://www.npmjs.com/package/firebaseui-auth-angular) from the community.
 
 ## Known issues
 
