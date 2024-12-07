@@ -324,13 +324,13 @@
 
 
 /**
- * Renders two text input fields for setting first and last name.
+ * Renders a text input fields for setting displayName.
  */
 {template .name}
   {@param? name: string} /** The display name to prefill. */
   <div class="firebaseui-textfield mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
     <label class="mdl-textfield__label firebaseui-label" for="ui-sign-in-name-input">
-      {msg desc="Label of a field for setting the user's name."}First &amp; last name{/msg}
+      {msg desc="Label of a field for setting the user's name."}Full name{/msg}
     </label>
     <input
         type="text"
