@@ -1,0 +1,32 @@
+{
+  "name": "@firebaseui/root",
+  "private": true,
+  "scripts": {
+    "emulators": "firebase emulators:start --only auth",
+    "build": "pnpm run build:translations && pnpm run build:core && pnpm run build:react",
+    "build:core": "pnpm --filter=@firebase-ui/core run build",
+    "build:translations": "pnpm --filter=@firebase-ui/translations run build",
+    "build:react": "pnpm --filter=@firebase-ui/react run build",
+    
+    "publish:tags:core": "pnpm --filter=@firebase-ui/core run publish:tags",
+    "publish:tags:translations": "pnpm --filter=@firebase-ui/translations run publish:tags",
+    "publish:tags:react": "pnpm --filter=@firebase-ui/react run publish:tags",
+    "publish:tags:angular": "pnpm --filter=@firebase-ui/angular run publish:tags",
+    "publish:tags:styles": "pnpm --filter=@firebase-ui/styles run publish:tags",
+    "publish:tags:all": "pnpm i && pnpm run publish:tags:core && pnpm run publish:tags:translations && pnpm run publish:tags:react && pnpm run publish:tags:styles && pnpm run publish:tags:angular",
+
+    "release:core": "pnpm --filter=@firebase-ui/core run release",
+    "release:translations": "pnpm --filter=@firebase-ui/translations run release",
+    "release:react": "pnpm --filter=@firebase-ui/react run release",
+    "release:angular": "pnpm --filter=@firebase-ui/angular run release",
+    "release:styles": "pnpm --filter=@firebase-ui/styles run release",
+    "release:all": "pnpm i && pnpm run release:core && pnpm run release:translations && pnpm run release:react && pnpm run release:styles && pnpm run release:angular"
+  },
+  "devDependencies": {
+    "rimraf": "^6.0.1",
+    "typescript": "^5.7.3",
+    "vite": "^6.0.11",
+    "vite-plugin-dts": "^4.2.3",
+    "vite-tsconfig-paths": "^5.0.1"
+  }
+}

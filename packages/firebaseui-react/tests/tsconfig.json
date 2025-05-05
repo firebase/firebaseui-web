@@ -1,0 +1,28 @@
+{
+    "extends": "../tsconfig.test.json",
+    "include": [
+        "./**/*.tsx",
+        "./**/*.ts"
+    ],
+    "compilerOptions": {
+        "jsx": "react-jsx",
+        "esModuleInterop": true,
+        "types": [
+            "vitest/globals",
+            "node",
+            "@testing-library/jest-dom"
+        ],
+        "baseUrl": "..",
+        "paths": {
+            "@firebase-ui/core": [
+                "../firebaseui-core/src/index.ts"
+            ],
+            "@firebase-ui/core/*": [
+                "../firebaseui-core/src/*"
+            ],
+            "~/*": [
+                "src/*"
+            ]
+        }
+    }
+}

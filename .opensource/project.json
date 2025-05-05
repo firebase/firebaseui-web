@@ -1,0 +1,19 @@
+{
+    "name": "FirebaseUI for Web",
+  
+    "platforms": [
+      "Web"
+    ],
+  
+    "content": "README.md",
+
+    "pages" : {
+        "LANGUAGES.md": "Supported Languages"
+    },
+  
+    "related": [
+      "firebase/firebaseui-android",
+      "firebase/firebaseui-ios",
+      "firebase/firebaseui-web-react"
+    ]
+}

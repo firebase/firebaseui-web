@@ -1,0 +1,33 @@
+# Source
+src/
+
+# Config files
+tsconfig.json
+.prettierrc
+*.config.js
+*.config.ts
+
+# Development
+node_modules/
+.vscode/
+.idea/
+.DS_Store
+
+# Tests
+__tests__/
+*.test.ts
+*.spec.ts
+coverage/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment
+.env*
+
+# Build process
+tsup.config.ts 
