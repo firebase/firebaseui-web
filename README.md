@@ -14,7 +14,7 @@ npm install firebase
 
 ###  Framework-specific Installation
 
-Packages have created for both `React` and `Angular`.
+Packages have created for both `React` and `Angular`. For now, they're only available as direct downloads from this repository. Add the following to your `package.json` file:
 
 <details>
   <summary>React</summary>
@@ -22,15 +22,13 @@ Packages have created for both `React` and `Angular`.
   ```json
   {
     "dependencies": {
-    "@firebase-ui/react": "https://github.com/firebase/firebaseui-web/releases/download/%40firebase-ui%2Freact%400.0.1/firebase-ui-react-0.0.1.tgz",  
-    "@firebase-ui/core": "https://github.com/firebase/firebaseui-web/releases/download/%40firebase-ui%2Fcore%400.0.1/firebase-ui-core-0.0.1.tgz",
-    "@firebase-ui/styles": "https://github.com/firebase/firebaseui-web/releases/download/%40firebase-ui%2Fstyles%400.0.1/firebase-ui-styles-0.0.1.tgz",
-    "@firebase-ui/translations": "https://github.com/firebase/firebaseui-web/releases/download/%40firebase-ui%2Ftranslations%400.0.1/firebase-ui-translations-0.0.1.tgz",
+      "@firebase-ui/react": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-react-0.0.1.tgz",  
+      "@firebase-ui/core": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-core-0.0.1.tgz",
+      "@firebase-ui/styles": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-styles-0.0.1.tgz",
+      "@firebase-ui/translations": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-translations-0.0.1.tgz",
     }
   }
   ```
-
-  (Once published, this will be `npm install @firebase-ui/react`)
 
 </details>
 
@@ -42,17 +40,14 @@ Packages have created for both `React` and `Angular`.
   ```json
   {
     "dependencies": {
-      "@firebase-ui/angular": "[path-to-repo/releases/firebase-ui-angular-0.0.1.tgz](https://github.com/firebase/firebaseui-web/releases/download/%40firebase-ui%2Fcore%400.0.1/firebase-ui-angular-0.0.1.tgz)",
-      "@angular/fire": "^19.0.0"
-      "@firebase-ui/core": "https://github.com/firebase/firebaseui-web/releases/download/%40firebase-ui%2Fcore%400.0.1/firebase-ui-core-0.0.1.tgz",
-      "@firebase-ui/styles": "https://github.com/firebase/firebaseui-web/releases/download/%40firebase-ui%2Fstyles%400.0.1/firebase-ui-styles-0.0.1.tgz",
-      "@firebase-ui/translations": "https://github.com/firebase/firebaseui-web/releases/download/%40firebase-ui%2Ftranslations%400.0.1/firebase-ui-translations-0.0.1.tgz",
-
+      "@angular/fire": "^19.1.0",
+      "@firebase-ui/angular": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-angular-0.0.1.tgz",
+      "@firebase-ui/core": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-core-0.0.1.tgz",
+      "@firebase-ui/styles": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-styles-0.0.1.tgz",
+      "@firebase-ui/translations": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-translations-0.0.1.tgz",
     }
   }
   ```
-
-  (Once published, this will be `npm install @firebase-ui/angular @angular/fire`)
 
 </details>
 
