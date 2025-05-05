@@ -1,6 +1,10 @@
-[![Build Status](https://travis-ci.org/firebase/firebaseui-web.svg?branch=master)](https://travis-ci.org/firebase/firebaseui-web)
-
 # FirebaseUI for Web — Auth
+
+---
+
+**Update**: [Announcing FirebaseUI v7 (alpha)](https://github.com/firebase/firebaseui-web/issues/1144), a rewrite of this library to support the modular Firebase JS SDK, theming, and easier integration in popular web frameworks.
+
+---
 
 FirebaseUI is an open-source JavaScript library for Web that provides simple,
 customizable UI bindings on top of [Firebase](https://firebase.google.com) SDKs
