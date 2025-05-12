@@ -44,7 +44,7 @@ class UiHandlerConfig {
   }
 
   /**
-   * Validates and sets the plain configuration settting object.
+   * Validates and sets the plain configuration setting object.
    * @param {!Object} config The configuration setting object.
    */
   setConfig(config) {
@@ -73,7 +73,7 @@ class UiHandlerConfig {
   }
 
   /**
-   * Returns the display mode for the tenant selction flow. Default to
+   * Returns the display mode for the tenant selection flow. Default to
    * option first mode.
    * @return {!UiHandlerConfig.DisplayMode} The display mode.
    */

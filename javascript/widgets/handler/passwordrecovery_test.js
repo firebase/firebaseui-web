@@ -128,7 +128,7 @@ function testHandlePasswordRecovery_emailInvalid() {
 }
 
 
-function testHandlePasswordRecovery_inProccessing() {
+function testHandlePasswordRecovery_inProcessing() {
   firebaseui.auth.widget.handler.handlePasswordRecovery(
       app, container, passwordAccount.getEmail());
   assertPasswordRecoveryPage();

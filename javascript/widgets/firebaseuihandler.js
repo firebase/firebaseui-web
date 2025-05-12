@@ -604,7 +604,7 @@ function getLocalizedErrorMessage(code) {
 /**
  * The project level configuration object.
  * authDomain: The Auth domain.
- * tenants: The tenant level configuations keyed by tenant ID or '_' for
+ * tenants: The tenant level configurations keyed by tenant ID or '_' for
  *     top-level project config.
  * @typedef {{
  *   authDomain: string,

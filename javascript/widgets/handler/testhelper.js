@@ -1459,7 +1459,7 @@ function signInSuccessWithAuthResultCallback(redirect, opt_manualRedirect) {
 
 
 /**
- * @param {!fireabaseui.auth.AuthResult} authResult The returned auth result.
+ * @param {!firebaseui.auth.AuthResult} authResult The returned auth result.
  * @param {string=} opt_redirectUrl The redirect URL if available.
  */
 function assertSignInSuccessWithAuthResultCallbackInvoked(

@@ -587,7 +587,7 @@ function testGetInstance() {
   assertEquals(app2, firebaseui.auth.AuthUI.getInstance('id2'));
   assertEquals(app3, firebaseui.auth.AuthUI.getInstance());
   assertNull(firebaseui.auth.AuthUI.getInstance('id0'));
-  // Trying to create a new instance with an existing appId wil throw the
+  // Trying to create a new instance with an existing appId will throw the
   // expected error.
   var error = assertThrows(function() {
     new firebaseui.auth.AuthUI(testAuth1, 'id1');
@@ -2220,7 +2220,7 @@ function testUpgradeWithEmailLink_emailExists_pendingCredential_conflict() {
       'isNewUser': false
     }
   };
-  // Simulate anononymous user signed in for upgrade flow.
+  // Simulate anonymous user signed in for upgrade flow.
   app.getExternalAuth().setUser(anonymousUser);
 
   app.upgradeWithEmailLink(
@@ -2302,7 +2302,7 @@ function testUpgradeWithEmailLink_newEmail_success() {
       'isNewUser': false
     }
   };
-  // Simulate anononymous user signed in for upgrade flow.
+  // Simulate anonymous user signed in for upgrade flow.
   app.getExternalAuth().setUser(anonymousUser);
 
   app.upgradeWithEmailLink(app.getExternalAuth().currentUser, email, link)
@@ -2345,7 +2345,7 @@ function testUpgradeWithEmailLink_error() {
   app.getAuth().install();
   app.getExternalAuth().install();
   asyncTestCase.waitForSignals(1);
-  // Simulate anononymous user signed in for upgrade flow.
+  // Simulate anonymous user signed in for upgrade flow.
   app.getExternalAuth().setUser(anonymousUser);
 
   // Confirm backend error passed through to client.
@@ -4095,7 +4095,7 @@ function testStartSignInAnonymously_success() {
 }
 
 
-function testStartSignInAnonymously_upgradeAnon_isAnonmous_success() {
+function testStartSignInAnonymously_upgradeAnon_isAnonymous_success() {
   testApp = new firebaseui.auth.testing.FakeAppClient(options);
   testAuth = testApp.auth();
   app = new firebaseui.auth.AuthUI(testAuth, 'id0');
@@ -4705,7 +4705,7 @@ function testfinishSignInAndRetrieveDataWithAuthResult_upgradeAnon_credInUse() {
 }
 
 
-function testfinishSignInAndRetrieveDataWithAuthResult_upgrdAnon_emailInUse() {
+function testfinishSignInAndRetrieveDataWithAuthResult_upgradeAnon_emailInUse() {
   var expectedError = {
     'code': 'auth/email-already-in-use',
     'message': 'MESSAGE',

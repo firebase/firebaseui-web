@@ -486,7 +486,7 @@ function testHandleEmailVerification_success() {
 
 
 function testHandleEmailVerification_success_continueButton() {
-  // Test successful email verificaiton with continue button.
+  // Test successful email verification with continue button.
   asyncTestCase.waitForSignals(1);
   var continueButtonCallback = goog.testing.recordFunction();
 

@@ -150,7 +150,7 @@ provider you want to use in their own developer app settings. Please read the
 - [Google](https://firebase.google.com/docs/auth/web/google-signin#before_you_begin)
 - [Facebook](https://firebase.google.com/docs/auth/web/facebook-login#before_you_begin)
 - [Twitter](https://firebase.google.com/docs/auth/web/twitter-login#before_you_begin)
-- [Github](https://firebase.google.com/docs/auth/web/github-auth#before_you_begin)
+- [GitHub](https://firebase.google.com/docs/auth/web/github-auth#before_you_begin)
 - [Anonymous](https://firebase.google.com/docs/auth/web/anonymous-auth#before_you_begin)
 - [Email link](https://firebase.google.com/docs/auth/web/email-link-auth#before_you_begin)
 - [Apple](https://firebase.google.com/docs/auth/web/apple)
@@ -551,7 +551,7 @@ To see FirebaseUI in action with one-tap sign-up, check out the FirebaseUI
 |Google            |`firebase.auth.GoogleAuthProvider.PROVIDER_ID`  |
 |Facebook          |`firebase.auth.FacebookAuthProvider.PROVIDER_ID`|
 |Twitter           |`firebase.auth.TwitterAuthProvider.PROVIDER_ID` |
-|Github            |`firebase.auth.GithubAuthProvider.PROVIDER_ID`  |
+|GitHub            |`firebase.auth.GithubAuthProvider.PROVIDER_ID`  |
 |Email and password|`firebase.auth.EmailAuthProvider.PROVIDER_ID`   |
 |Phone number      |`firebase.auth.PhoneAuthProvider.PROVIDER_ID`   |
 |Anonymous         |`firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID`|
@@ -887,7 +887,7 @@ ui.start('#firebaseui-auth-container', {
       provider: 'saml.myProvider',
       providerName: 'MySAMLProvider',
       // To override the full label of the button.
-      // fullLabel: 'Constractor Portal',
+      // fullLabel: 'Contractor Portal',
       buttonColor: '#2F2F2F',
       iconUrl: '<icon-url-of-sign-in-button>'
     }
@@ -1057,7 +1057,7 @@ ui.start('#firebaseui-auth-container', {
       provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
       // Use email link authentication and do not require password.
       // Note this setting affects new users only.
-      // For pre-existing users, they will still be prompted to provide their
+      // For preexisting users, they will still be prompted to provide their
       // passwords on sign-in.
       signInMethod: firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD,
       // Allow the user the ability to complete sign-in cross device, including
@@ -1199,7 +1199,7 @@ ui.start('#firebaseui-auth-container', {
       // populate the country selector. So for countries that share the same
       // country code, the selected country may not be the expected one.
       // In that case, pass the 'defaultCountry' instead to ensure the exact
-      // country is selected. The 'defaultCountry' and 'defaultNationaNumber'
+      // country is selected. The 'defaultCountry' and 'defaultNationalNumber'
       // will always have higher priority than 'loginHint' which will be ignored
       // in their favor. In this case, the default country will be 'GB' even
       // though 'loginHint' specified the country code as '+1'.
@@ -1551,7 +1551,7 @@ ui.start('#firebaseui-auth-container', {
             return app.database().ref('users/' + user.uid).set(data);
           })
           .then(function() {
-            // Delete anonymnous user.
+            // Delete anonymous user.
             return anonymousUser.delete();
           }).then(function() {
             // Clear data in case a new user signs in, and the state change
@@ -1841,7 +1841,7 @@ the incoming link when the user clicks it to complete sign-in.
 |Google            |`firebase.auth.GoogleAuthProvider.PROVIDER_ID`  |
 |Facebook          |`firebase.auth.FacebookAuthProvider.PROVIDER_ID`|
 |Twitter           |`firebase.auth.TwitterAuthProvider.PROVIDER_ID` |
-|Github            |`firebase.auth.GithubAuthProvider.PROVIDER_ID`  |
+|GitHub            |`firebase.auth.GithubAuthProvider.PROVIDER_ID`  |
 |Email and password|`firebase.auth.EmailAuthProvider.PROVIDER_ID`   |
 |Anonymous         |`firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID`|
 |Microsoft         |`microsoft.com`                                |

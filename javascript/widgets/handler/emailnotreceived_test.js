@@ -55,7 +55,7 @@ function testHandleEmailNotReceived_resend() {
     // Email link sent page should be rendered.
     assertEmailLinkSignInSentPage();
 
-    // Verfiy that the onCancelClick handler is passed to email link sign in
+    // Verify that the onCancelClick handler is passed to email link sign in
     // sent page.
     assertEquals(0, cancelButtonCallback.getCallCount());
     // Click cancel button.
@@ -129,7 +129,7 @@ function testHandleEmailNotReceived_resend_pendingCredential() {
             'SESSIONID', app.getAppId()));
     assertEmailLinkSignInSentPage();
 
-    // Verfiy that the onCancelClick handler is passed to email link sign in
+    // Verify that the onCancelClick handler is passed to email link sign in
     // sent page.
     assertEquals(0, cancelButtonCallback.getCallCount());
     // Click cancel button.
@@ -180,7 +180,7 @@ function testHandleEmailNotReceived_resend_pendingCredential_anonUpgrade() {
             'SESSIONID', app.getAppId()));
     assertEmailLinkSignInSentPage();
 
-    // Verfiy that the onCancelClick handler is passed to email link sign in
+    // Verify that the onCancelClick handler is passed to email link sign in
     // sent page.
     assertEquals(0, cancelButtonCallback.getCallCount());
     // Click cancel button.

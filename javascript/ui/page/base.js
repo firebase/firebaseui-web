@@ -188,7 +188,7 @@ firebaseui.auth.ui.page.Base.EventType = {
 
 
 /**
- * @return {?string} The identifier for the urrent page.
+ * @return {?string} The identifier for the current page.
  */
 firebaseui.auth.ui.page.Base.prototype.getPageId = function() {
   return this.pageId_;

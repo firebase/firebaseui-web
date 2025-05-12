@@ -185,7 +185,7 @@ firebaseui.auth.acClient.tryStoreAccount =
   firebaseui.auth.acClient.api_.checkAccountExist(acAccount,
       function(exist, error) {
     if (!exist && !error) {
-      // It doens't exist in accountchooser.com.
+      // It doesn't exist in accountchooser.com.
       firebaseui.auth.acClient.api_.store([acAccount], options);
     } else if (!error) {
       // It exists. Check whether we should update it.
@@ -212,7 +212,7 @@ firebaseui.auth.acClient.tryStoreAccount =
 
 
 /**
- * A dummy accountchooser.com API implmentation which is used if
+ * A dummy accountchooser.com API implementation which is used if
  * accountchooser.com is not available, for instance, the user agent doesn't
  * support SNI.
  * @implements {accountchooser.Api}
@@ -283,7 +283,7 @@ firebaseui.auth.acClient.DummyApi = class {
 
 
   /**
-   * Checkes if accountchooser.com is disabled. The callback is always invoked
+   * Checks if accountchooser.com is disabled. The callback is always invoked
    * with a `true`.
    *
    * @param {function(boolean=, Object=)} callback The callback function.
@@ -294,7 +294,7 @@ firebaseui.auth.acClient.DummyApi = class {
 
 
   /**
-   * Checkes if the accountchooser.com is empty. The callback is always invoked
+   * Checks if the accountchooser.com is empty. The callback is always invoked
    * with a service unavailable error.
    *
    * @param {function(boolean=, Object=)} callback The callback function.
@@ -305,7 +305,7 @@ firebaseui.auth.acClient.DummyApi = class {
 
 
   /**
-   * Checkes if the account is in accountchooser.com. The callback is always
+   * Checks if the account is in accountchooser.com. The callback is always
    * invoked with a service unavailable error.
    *
    * @param {Object} account The account to check.
@@ -317,7 +317,7 @@ firebaseui.auth.acClient.DummyApi = class {
 
 
   /**
-   * Checkes if the account should be updated. The callback is always invoked
+   * Checks if the account should be updated. The callback is always invoked
    * with a service unavailable error.
    *
    * @param {Object} account The account to check.

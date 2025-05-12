@@ -32,7 +32,7 @@ firebaseui.auth.ui.page.EmailLinkSignInSent =
     class extends firebaseui.auth.ui.page.Base {
   /**
    * @param {string} email The email formerly used to sign in.
-   * @param {function()} onTroubleGetingEmailLinkClick Callback to invoke when
+   * @param {function()} onTroubleGettingEmailLinkClick Callback to invoke when
    *     the trouble getting email link is clicked.
    * @param {function()} onCancelClick Callback to invoke when the back button
    *     is clicked.
@@ -43,7 +43,7 @@ firebaseui.auth.ui.page.EmailLinkSignInSent =
    * @param {?goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
    */
   constructor(
-      email, onTroubleGetingEmailLinkClick, onCancelClick, opt_tosCallback,
+      email, onTroubleGettingEmailLinkClick, onCancelClick, opt_tosCallback,
       opt_privacyPolicyCallback, opt_domHelper) {
     // Extend base page class and render email link sign in sent soy template.
     super(
@@ -52,7 +52,7 @@ firebaseui.auth.ui.page.EmailLinkSignInSent =
           tosCallback: opt_tosCallback,
           privacyPolicyCallback: opt_privacyPolicyCallback
         });
-    this.onTroubleGetingEmailLinkClick_ = onTroubleGetingEmailLinkClick;
+    this.onTroubleGettingEmailLinkClick_ = onTroubleGettingEmailLinkClick;
     this.onCancelClick_ = onCancelClick;
   }
 
@@ -67,7 +67,7 @@ firebaseui.auth.ui.page.EmailLinkSignInSent =
     // Handle action event for trouble getting email link.
     firebaseui.auth.ui.element.listenForActionEvent(
         this, this.getTroubleGettingEmailLink(), function(e) {
-          self.onTroubleGetingEmailLinkClick_();
+          self.onTroubleGettingEmailLinkClick_();
         });
     // Set initial focus on the cancel button.
     this.getSecondaryLinkElement().focus();
@@ -83,7 +83,7 @@ firebaseui.auth.ui.page.EmailLinkSignInSent =
 
   /** @override */
   disposeInternal() {
-    this.onTroubleGetingEmailLinkClick_ = null;
+    this.onTroubleGettingEmailLinkClick_ = null;
     this.onCancelClick_ = null;
     super.disposeInternal();
   }

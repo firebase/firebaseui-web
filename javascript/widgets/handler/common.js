@@ -95,7 +95,7 @@ firebaseui.auth.widget.handler.common.normalizeError =
  *     external Auth instance. If true, current user on external Auth instance
  *     should be passed in from Auth result. Should be true for anonymous
  *     upgrade flow and phone Auth flow since user already logged in on
- *     external Auth instnace.
+ *     external Auth instance.
  * @return {!goog.Promise} A promise that resolves on login completion.
  * @package
  */
@@ -533,7 +533,7 @@ firebaseui.auth.widget.handler.common.getAuthProvider_ = function(
   var customParameters =
       app.getConfig().getProviderCustomParameters(providerId) || {};
   // Some providers accept an email address as a login hint. If the email is
-  // set and if the provider supports it, add it to the custom paramaters.
+  // set and if the provider supports it, add it to the custom parameters.
   if (opt_email) {
     var loginHintKey;
     // Since the name of the parameter is known for Google and GitHub, set this
@@ -869,7 +869,7 @@ firebaseui.auth.widget.handler.common.handleGoogleYoloCredential =
             firebase.auth.GoogleAuthProvider.PROVIDER_ID).length) {
       let email;
       try {
-        // New one-tap API does not return the credential identitifer.
+        // New one-tap API does not return the credential identifier.
         // Parse email from Google ID token.
         const components  = credential.credential.split('.');
         const payloadDecoded = JSON.parse(atob(components[1]));

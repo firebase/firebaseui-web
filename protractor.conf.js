@@ -36,7 +36,7 @@
  * This will start the HTTP Server locally, and connect through SauceConnect
  * to SauceLabs remote browsers instances.
  *
- * Github will run `npm test -- --saucelabs`.
+ * GitHub will run `npm test -- --saucelabs`.
  */
 
 // Common configuration.

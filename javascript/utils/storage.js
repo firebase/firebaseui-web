@@ -292,7 +292,7 @@ storage.hasRedirectStatus = function(opt_id) {
 
 /**
  * Returns the pending redirect status. Returns null if there is no unresolved
- * redirect opertions.
+ * redirect operations.
  *
  * @param {string=} opt_id When operating in multiple app mode, this ID
  *     associates storage values with specific apps.
@@ -363,10 +363,10 @@ storage.getEmailForSignIn = function(encryptionKey, opt_id) {
   var email = null;
   if (encryptedEmailObject) {
     try {
-      var serilizedEmailObject = firebaseui.auth.crypt.aesDecrypt(
+      var serializedEmailObject = firebaseui.auth.crypt.aesDecrypt(
           encryptionKey,
           /** @type {string} */ (encryptedEmailObject));
-      var emailObject = JSON.parse(serilizedEmailObject);
+      var emailObject = JSON.parse(serializedEmailObject);
       email = /** @type {?string} */ (
           (emailObject && emailObject[storage.EMAIL_FOR_SIGN_IN_KEY_]) || null);
     } catch (e) {
@@ -463,7 +463,7 @@ storage.removeEncryptedPendingCredential = function(opt_id) {
 
 
 /**
- * Stores the encrpted pending email credential for the specified application
+ * Stores the encrypted pending email credential for the specified application
  * ID.
  *
  * @param {string} encryptionKey The encryption key to encrypt the credential.

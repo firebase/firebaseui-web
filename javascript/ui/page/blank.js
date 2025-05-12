@@ -24,7 +24,7 @@ goog.requireType('goog.dom.DomHelper');
 
 
 /**
- * Blank page UI componenet.
+ * Blank page UI component.
  */
 firebaseui.auth.ui.page.Blank = class extends firebaseui.auth.ui.page.Base {
   /**

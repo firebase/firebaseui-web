@@ -2057,7 +2057,7 @@ firebase.auth.Auth.prototype.signInAnonymously = function () {};
  * <h4>Error Codes</h4>
  * <dl>
  * <dt>auth/invalid-user-token</dt>
- * <dd>Thrown if the user to be updated belongs to a diffent Firebase
+ * <dd>Thrown if the user to be updated belongs to a different Firebase
  *     project.</dd>
  * <dt>auth/user-token-expired</dt>
  * <dd>Thrown if the token of the user to be updated is expired.</dd>
@@ -2351,7 +2351,7 @@ firebase.auth.AuthError.prototype.phoneNumber;
 /**
  * The tenant ID being used for sign-in/linking. If you use
  * {@link firebase.auth.signInWithRedirect} to sign in, you have to
- * set the tenant ID on Auth instanace again as the tenant ID is not
+ * set the tenant ID on Auth instance again as the tenant ID is not
  * persisted after redirection.
  *
  * @type {string|undefined}
@@ -2585,7 +2585,7 @@ firebase.auth.FacebookAuthProvider.prototype.setCustomParameters = function (
 ) {};
 
 /**
- * Github auth provider.
+ * GitHub auth provider.
  *
  * GitHub requires an OAuth 2.0 redirect, so you can either handle the redirect
  * directly, or use the signInWithPopup handler:
@@ -2669,7 +2669,7 @@ firebase.auth.GithubAuthProvider.GITHUB_SIGN_IN_METHOD;
  *     event.authResponse.accessToken
  * );
  *
- * @param {string} token Github access token.
+ * @param {string} token GitHub access token.
  * @return {!firebase.auth.OAuthCredential} The auth provider credential.
  */
 firebase.auth.GithubAuthProvider.credential = function (token) {};
@@ -2678,7 +2678,7 @@ firebase.auth.GithubAuthProvider.credential = function (token) {};
 firebase.auth.GithubAuthProvider.prototype.providerId;
 
 /**
- * @param {string} scope Github OAuth scope.
+ * @param {string} scope GitHub OAuth scope.
  * @return {!firebase.auth.AuthProvider} The provider instance itself.
  */
 firebase.auth.GithubAuthProvider.prototype.addScope = function (scope) {};

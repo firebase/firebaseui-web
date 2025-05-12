@@ -59,7 +59,7 @@ var translatableMsgs = fullCountryData.map(function(countryData) {
 console.log(translatableMsgs);
 
 // Make the JSON object reference the translatable messages.
-// This is kind of hacky since we set the the value to a string containing the
+// This is kind of hacky since we set the value to a string containing the
 // variable name, and then unquote the string below.
 outputCountryData = outputCountryData.map(function(countryData) {
   countryData.name = getCountryNameVariable(countryData);

@@ -486,7 +486,7 @@ function testLoadingDialogLongText() {
     iconClass: 'mdl-spinner mdl-spinner--single-color mdl-js-spinner ' +
         'firebaseui-progress-dialog-loading-icon is-active',
     message: 'I am loading dialog that has very long text. Seriously, the ' +
-        'text is really really long.',
+        'text is really, really, long.',
   };
   var dialog = goog.soy.renderAsElement(
       firebaseui.auth.soy2.element.progressDialog, data, IJ_DATA_);

@@ -153,7 +153,7 @@ gulp.task('build-soy', () => new Promise((resolve, reject) => {
  * @param {!Array<string>} srcs The JS sources to compile.
  * @param {string} out The path to the output JS file.
  * @param {!Object} args Additional arguments to Closure compiler.
- * @return {*} A stream that finishes when compliation finishes.
+ * @return {*} A stream that finishes when compilation finishes.
  */
 function compile(srcs, out, args) {
   // Get the compiler arguments, using the defaults if not specified.

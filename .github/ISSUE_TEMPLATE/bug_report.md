@@ -8,7 +8,7 @@ about: Create a report to help us improve
 <!--
 Are you in the right place?
   * For issues or feature requests related to __the code in this repository__
-    file a Github issue.
+    file a GitHub issue.
     * If this is a __feature request__ make sure the issue title starts with "FR:".
   * For general technical questions, post a question on [StackOverflow](http://stackoverflow.com/)
     with the firebase-authentication tag.

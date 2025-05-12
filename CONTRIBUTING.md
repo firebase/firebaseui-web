@@ -33,7 +33,7 @@ feature development in FirebaseUI.
 ### Code reviews
 
 All submissions, including submissions by project members, require review. We
-use Github pull requests for this purpose. Please refer to the
+use GitHub pull requests for this purpose. Please refer to the
 [Style Guide](STYLEGUIDE.md) and ensure you respect it before submitting a PR.
 
 ### The small print

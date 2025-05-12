@@ -24,7 +24,7 @@ if [[ $# -eq 0 ]] ; then
     exit 1
 fi
 
-# Retrieve flag source images from Github.
+# Retrieve flag source images from GitHub.
 TMP_DIR=$(mktemp -d)
 FLAGS_DIR="$TMP_DIR/region-flags"
 git clone https://github.com/googlei18n/region-flags.git "$FLAGS_DIR"

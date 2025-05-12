@@ -188,7 +188,7 @@ function testSignIn_footerOnly_noUrl() {
 function testSignIn_pageEvents() {
   // Run page event tests.
   // Dispose previously created container since test must run before rendering
-  // the component in docoument.
+  // the component in document.
   component.dispose();
   // Initialize component.
   component = new firebaseui.auth.ui.page.SignIn(

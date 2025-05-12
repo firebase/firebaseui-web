@@ -25,7 +25,7 @@ goog.requireType('goog.dom.DomHelper');
 
 
 /**
- * Callback page UI componenet.
+ * Callback page UI component.
  */
 firebaseui.auth.ui.page.Callback = class extends firebaseui.auth.ui.page.Base {
   /**

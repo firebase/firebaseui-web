@@ -104,7 +104,7 @@ element.PhoneConfirmationCodeTestHelper.prototype.testOnTextChangedClearError_ =
   this.checkInputInvalid(confirmationCode);
   this.checkErrorShown(error, errorMessage);
 
-  // Emulate that a '1' is typed in to the phone number input. The error should
+  // Emulate that a '1' is typed into the phone number input. The error should
   // be cleared.
   goog.dom.forms.setValue(confirmationCode, '1');
   this.fireInputEvent(confirmationCode, goog.events.KeyCodes.NUM_ONE);

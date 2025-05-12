@@ -209,7 +209,7 @@ function testSetLoggedInWithAuthResult_federatedLinking() {
       // User returned should be the one signed in external Auth instance.
       'user': externalAuth.currentUser,
       'credential': federatedCredential,
-      // Opeartion type for linking flow should still be signIn.
+      // Operation type for linking flow should still be signIn.
       'operationType': 'signIn',
       // isNewUser should be false for linking flow.
       'additionalUserInfo':  {'providerId': 'google.com', 'isNewUser': false}

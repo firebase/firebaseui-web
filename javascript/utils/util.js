@@ -163,7 +163,7 @@ firebaseui.auth.util.isMobileBrowser = function() {
  * @return {boolean} True if the browser supports CORS.
  */
 firebaseui.auth.util.supportsCors = function() {
-  // Among all supported browsers, onluy IE8 and IE9 don't support CORS.
+  // Among all supported browsers, only IE8 and IE9 don't support CORS.
   return !goog.userAgent.IE || // Not IE.
       !goog.userAgent.DOCUMENT_MODE || // No document mode == IE Edge
       goog.userAgent.DOCUMENT_MODE > 9;
@@ -221,7 +221,7 @@ firebaseui.auth.util.popup =
 /**
  * Gets the element in the current document by the query selector.
  * If an Element is passed in, it is returned.
- * An `Error` is thrown if the element can not be found.
+ * An `Error` is thrown if the element cannot be found.
  *
  * @param {string|Element} element The element or the query selector.
  * @param {string=} opt_notFoundDesc Error description when element not

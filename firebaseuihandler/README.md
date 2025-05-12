@@ -291,7 +291,7 @@ callbacks: {
 ```
 
 ### Configuring a single federated provider
-If you only have one tenant/top-level project configured for the IAP resouce and
+If you only have one tenant/top-level project configured for the IAP resource and
 only one provider enabled for the tenant/project, FirebaseUI will act as a proxy
 between the IAP resource and the federated IdP without showing any UI before
 redirecting to the IdP sign-in page:
@@ -388,7 +388,7 @@ interface Callbacks {
 
 // Interface that represents the tenant-level configurations.
 interface TenantConfig {
-  // The full label for the tenant in the tenant selection buttion. Only needed
+  // The full label for the tenant in the tenant selection button. Only needed
   // if you are using the option first mode.
   // When not provided, the "Sign in to $displayName" label is used.
   fullLabel?: string;
@@ -416,10 +416,10 @@ interface TenantConfig {
   // selection screen.
   signInOptions: Array<string|SignInOption>;
   // The URL of the Terms of Service page or a callback function to be invoked
-  // when Terms of Service link is clicked after the tenant is determind.
+  // when Terms of Service link is clicked after the tenant is determined.
   tosUrl?: (() => void) | string;
   // The URL of the Terms of Service page or a callback function to be invoked
-  // when Terms of Service link is clicked after the tenant is determind.
+  // when Terms of Service link is clicked after the tenant is determined.
   privacyPolicyUrl?: (() => void) | string;
 }
 

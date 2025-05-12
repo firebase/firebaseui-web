@@ -372,7 +372,7 @@ firebaseui.auth.widget.handler.handleRevertSecondFactorAddition =
  * @param {!firebaseui.auth.AuthUI} app The current Firebase UI instance whose
  *     configuration is used.
  * @param {!Element} container The container DOM element.
- * @param {string} email The email of the acount.
+ * @param {string} email The email of the account.
  * @param {!firebase.auth.MultiFactorInfo} multiFactorInfo The info of
  *     multi-factor to be unenrolled.
  * @private

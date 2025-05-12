@@ -47,7 +47,7 @@ firebaseui.auth.PhoneNumber = class {
     // but that dependency is too large to bundle with FirebaseUI-web, so we
     // will attempt a best effort approach to parse the 2 components.
     var trimmedPhoneNumber = goog.string.trim(phoneNumberStr);
-    // Get matching countries if national number countains it.
+    // Get matching countries if national number contains it.
     var countries =
         firebaseui.auth.data.country.LOOKUP_TREE.search(trimmedPhoneNumber);
     if (countries.length > 0) {

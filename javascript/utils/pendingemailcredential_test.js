@@ -54,7 +54,7 @@ function setUp() {
   credentialObject = {
     'providerId': 'google.com',
     'signInMethod': 'google.com',
-    'oauthAcessToken': 'ACCESS_TOKEN'
+    'oauthAccessToken': 'ACCESS_TOKEN'
   };
   credential = {
     'providerId': 'google.com',
