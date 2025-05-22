@@ -14,7 +14,11 @@
  * limitations under the License.
  */
 
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import {
+  ApplicationConfig,
+  provideZoneChangeDetection,
+  isDevMode,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -43,7 +47,12 @@ export const appConfig: ApplicationConfig = {
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideAuth(() => {
       const auth = getAuth();
-      connectAuthEmulator(auth, 'http://localhost:9099');
+
+      if (isDevMode()) {
+        /** Enable emulators in development */
+        connectAuthEmulator(auth, 'http://localhost:9099');
+      }
+
       return auth;
     }),
     provideFirebaseUI((apps) => initializeUI({ app: apps[0] })),

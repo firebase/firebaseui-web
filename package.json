@@ -7,6 +7,7 @@
     "build:core": "pnpm --filter=@firebase-ui/core run build",
     "build:translations": "pnpm --filter=@firebase-ui/translations run build",
     "build:react": "pnpm --filter=@firebase-ui/react run build",
+    "build:angular": "pnpm --filter=@firebase-ui/angular run build",
     
     "publish:tags:core": "pnpm --filter=@firebase-ui/core run publish:tags",
     "publish:tags:translations": "pnpm --filter=@firebase-ui/translations run publish:tags",
