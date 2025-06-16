@@ -18,18 +18,28 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { Auth, User, authState } from '@angular/fire/auth';
-import { EmailLinkAuthScreenComponent } from '@firebase-ui/angular';
+import {
+  EmailLinkAuthScreenComponent,
+  GoogleSignInButtonComponent,
+} from '@firebase-ui/angular';
 
 @Component({
-  selector: 'app-email-link',
+  selector: 'app-email-link-oauth',
   standalone: true,
-  imports: [CommonModule, RouterModule, EmailLinkAuthScreenComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    EmailLinkAuthScreenComponent,
+    GoogleSignInButtonComponent,
+  ],
   template: `
-    <fui-email-link-auth-screen></fui-email-link-auth-screen>
+    <fui-email-link-auth-screen>
+      <fui-google-sign-in-button></fui-google-sign-in-button>
+    </fui-email-link-auth-screen>
   `,
   styles: [],
 })
-export class EmailLinkComponent implements OnInit {
+export class EmailLinkOAuthComponent implements OnInit {
   private auth = inject(Auth);
   private router = inject(Router);
 
