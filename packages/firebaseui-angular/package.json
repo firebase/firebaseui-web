@@ -21,8 +21,8 @@
   "peerDependencies": {
     "@angular/common": "^19.1.0",
     "@angular/core": "^19.1.0",
-    "@firebase-ui/core": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-core-0.0.1.tgz",
-    "@firebase-ui/translations": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-translations-0.0.1.tgz"
+    "@firebase-ui/core": "workspace:*",
+    "@firebase-ui/translations": "workspace:*"
   },
   "dependencies": {
     "@tanstack/angular-form": "^1.1.0",
