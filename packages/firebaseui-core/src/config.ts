@@ -68,6 +68,7 @@ export function initializeUI(config: FirebaseUIConfigurationOptions, name: strin
         [translation.locale]: translation.translations,
       };
     },
+    //TODO: Do we always want to include English here?
     { [english.locale]: english.translations } as TranslationsConfig
   );
 
