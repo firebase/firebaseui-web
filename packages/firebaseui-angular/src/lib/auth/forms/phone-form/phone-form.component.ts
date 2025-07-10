@@ -165,6 +165,7 @@ export class PhoneNumberFormComponent implements OnInit, OnDestroy {
 
   async initRecaptcha() {
     const verifier = new RecaptchaVerifier(
+      //@ts-ignore
       (await firstValueFrom(this.ui.config())).getAuth(),
       this.recaptchaContainer.nativeElement,
       {
@@ -525,6 +526,7 @@ export class PhoneFormComponent implements OnInit, OnDestroy {
       }
 
       const verifier = new RecaptchaVerifier(
+        //@ts-ignore
         (await firstValueFrom(this.ui.config())).getAuth(),
         recaptchaContainer,
         {
