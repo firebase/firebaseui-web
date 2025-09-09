@@ -20,8 +20,8 @@
     "release": "pnpm pack --pack-destination ../../releases/"
   },
   "peerDependencies": {
-    "@angular/common": "^19.1.0",
-    "@angular/core": "^19.1.0",
+    "@angular/common": "^20.0.0",
+    "@angular/core": "^20.0.0",
     "@firebase-ui/core": "workspace:*",
     "@firebase-ui/translations": "workspace:*"
   },
@@ -33,10 +33,10 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@angular/fire": "^19.1.0",
-    "@angular/forms": "^19.2.11",
-    "@angular/router": "^19.2.11",
-    "ng-packagr": "^19.1.0",
+    "@angular/fire": "^20.0.1",
+    "@angular/forms": "^20.0.0",
+    "@angular/router": "^20.2.4",
+    "ng-packagr": "^20.2.0",
     "rxjs": "^7.8.2"
   }
 }
