@@ -62,4 +62,28 @@ describe("Button Component", () => {
 
     expect(button).toBeDisabled();
   });
+
+  it("renders as a Slot component when asChild is true", () => {
+    render(
+      <Button asChild>
+        <a href="/test">Link Button</a>
+      </Button>
+    );
+    const link = screen.getByRole("link", { name: /link button/i });
+    
+    expect(link).toBeInTheDocument();
+    expect(link).toHaveClass("fui-button");
+    expect(link.tagName).toBe("A");
+    expect(link).toHaveAttribute("href", "/test");
+  });
+
+  it("renders as a button element when asChild is false or undefined", () => {
+    const { rerender } = render(<Button>Regular Button</Button>);
+    let button = screen.getByRole("button", { name: /regular button/i });
+    expect(button.tagName).toBe("BUTTON");
+
+    rerender(<Button asChild={false}>Regular Button</Button>);
+    button = screen.getByRole("button", { name: /regular button/i });
+    expect(button.tagName).toBe("BUTTON");
+  });
 });

@@ -15,6 +15,7 @@
  */
 
 import { ButtonHTMLAttributes } from "react";
+import { Slot } from "@radix-ui/react-slot"
 import { cn } from "~/utils/cn";
 
 const buttonVariants = {
@@ -26,21 +27,21 @@ type ButtonVariant = keyof typeof buttonVariants;
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
+  asChild?: boolean;
 }
 
 export function Button({
-  children,
   className,
   variant = "primary",
+  asChild,
   ...props
 }: ButtonProps) {
+  const Comp = asChild ? Slot : "button";
+
   return (
-    <button
-      type="button"
+    <Comp
       className={cn(buttonVariants[variant], className)}
       {...props}
-    >
-      {children}
-    </button>
+    />
   );
 }
