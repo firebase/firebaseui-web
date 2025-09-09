@@ -1,0 +1,42 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - "**"
+
+env:
+  SAUCE_USERNAME: ${{secrets.SAUCE_USERNAME}}
+  SAUCE_ACCESS_KEY: ${{secrets.SAUCE_ACCESS_KEY}}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: '18'
+          check-latest: true
+      - name: node_modules cache
+        id: node_modules_cache
+        uses: actions/cache@v2
+        with:
+          path: ./node_modules
+          key: ${{ runner.os }}-18-node_modules-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-18-node_modules-
+      - name: NPM install
+        if: steps.node_modules_cache.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: Build & run tests
+        run: npm run test
+      - name: Run tests in Saucelabs
+        run: |
+          ./buildtools/sauce_connect.sh &
+          ./buildtools/run_tests.sh --saucelabs
