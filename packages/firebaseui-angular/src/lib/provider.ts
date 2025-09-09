@@ -45,12 +45,28 @@ type PolicyConfig = {
 };
 
 export function provideFirebaseUI(
-  uiFactory: (apps: FirebaseApps) => FirebaseUIType,
+  uiFactory: (apps: FirebaseApps) => FirebaseUIType
 ): EnvironmentProviders {
   const providers: Provider[] = [
     // TODO: This should depend on the FirebaseAuth provider via deps,
     // see https://github.com/angular/angularfire/blob/35e0a9859299010488852b1826e4083abe56528f/src/firestore/firestore.module.ts#L76
-    { provide: FIREBASE_UI_STORE, useFactory: uiFactory, deps: [FirebaseApps] },
+    {
+      provide: FIREBASE_UI_STORE,
+      useFactory: () => {
+        try {
+          // Try to get FirebaseApps, but handle the case where it's not available (SSR)
+          const apps = inject(FirebaseApps, { optional: true });
+          if (!apps || apps.length === 0) {
+            return null as any;
+          }
+          return uiFactory(apps);
+        } catch (error) {
+          // Return null for SSR when FirebaseApps is not available
+          return null as any;
+        }
+      },
+    },
+    FirebaseUI,
   ];
 
   return makeEnvironmentProviders(providers);
@@ -59,16 +75,17 @@ export function provideFirebaseUI(
 export function provideFirebaseUIPolicies(factory: () => PolicyConfig) {
   const providers: Provider[] = [
     { provide: FIREBASE_UI_POLICIES, useFactory: factory },
+    FirebaseUIPolicies,
   ];
 
   return makeEnvironmentProviders(providers);
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class FirebaseUI {
-  private store = inject(FIREBASE_UI_STORE);
+  private store = inject(FIREBASE_UI_STORE, { optional: true });
   private destroyed$: ReplaySubject<void> = new ReplaySubject(1);
 
   config() {
@@ -77,14 +94,21 @@ export class FirebaseUI {
 
   translation<T extends TranslationCategory>(
     category: T,
-    key: TranslationKey<T>,
+    key: TranslationKey<T>
   ) {
     return this.config().pipe(
-      map((config) => getTranslation(config, category, key)),
+      map((config) => getTranslation(config, category, key))
     );
   }
 
-  useStore<T>(store: Store<T>): Observable<T> {
+  useStore<T>(store: Store<T> | null): Observable<T> {
+    if (!store) {
+      // Return an observable that emits a default value for SSR when store is not available
+      return new Observable<T>((subscriber) => {
+        subscriber.next({} as T);
+        subscriber.complete();
+      });
+    }
     return new Observable<T>((sub) => {
       sub.next(store.get());
       return store.subscribe((value) => sub.next(value));
