@@ -20,13 +20,11 @@ import {
   isDevMode,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
-
 import { routes } from './app.routes';
 import {
   provideClientHydration,
   withEventReplay,
 } from '@angular/platform-browser';
-
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideAuth, getAuth, connectAuthEmulator } from '@angular/fire/auth';
 import {
@@ -47,12 +45,10 @@ export const appConfig: ApplicationConfig = {
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideAuth(() => {
       const auth = getAuth();
-
       if (isDevMode()) {
         /** Enable emulators in development */
         connectAuthEmulator(auth, 'http://localhost:9099');
       }
-
       return auth;
     }),
     provideFirebaseUI((apps) => initializeUI({ app: apps[0] })),

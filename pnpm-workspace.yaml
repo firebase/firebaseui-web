@@ -15,7 +15,7 @@
 packages:
   - packages/*
   - packages/angular/projects/*
-  # - examples/* Remove until all package depenencies are published to npm
+  - examples/angular
 onlyBuiltDependencies:
   - '@parcel/watcher'
   - esbuild
