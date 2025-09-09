@@ -23,6 +23,7 @@
     "lint": "tsc --noEmit",
     "format": "prettier --write \"src/**/*.ts\"",
     "clean": "rimraf dist",
+    "test": "vitest run",
     "test:unit": "vitest run tests/unit",
     "test:unit:watch": "vitest tests/unit",
     "test:integration": "vitest run tests/integration",

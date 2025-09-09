@@ -24,6 +24,8 @@
     "lint": "tsc --noEmit",
     "format": "prettier --write \"src/**/*.ts\"",
     "clean": "rimraf dist",
+    "test": "echo \"No tests specified\" && exit 0",
+    "test:watch": "echo \"No tests specified\" && exit 0",
     "publish:tags": "sh -c 'TAG=\"${npm_package_name}@${npm_package_version}\"; git tag --list \"$TAG\" | grep . || git tag \"$TAG\"; git push origin \"$TAG\"'",
     "release": "npm run build && pnpm pack --pack-destination ../../releases/"
   },

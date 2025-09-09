@@ -15,6 +15,9 @@
   },
   "scripts": {
     "build": "ng-packagr -p ng-package.json",
+    "test": "ng test --watch=false --browsers=ChromeHeadless --project=firebase-ui-angular",
+    "test:watch": "ng test --watch=true --project=firebase-ui-angular",
+    "test:ci": "ng test --watch=false --browsers=ChromeHeadless --code-coverage --project=firebase-ui-angular",
     "publish:tags": "sh -c 'TAG=\"${npm_package_name}@${npm_package_version}\"; git tag --list \"$TAG\" | grep . || git tag \"$TAG\"; git push origin \"$TAG\"'",
     "release": "pnpm pack --pack-destination ../../releases/"
   },
@@ -32,10 +35,26 @@
   },
   "sideEffects": false,
   "devDependencies": {
+    "@angular-devkit/build-angular": "^19.1.0",
+    "@angular/cli": "^19.1.0",
+    "@angular/compiler": "^19.1.0",
     "@angular/fire": "^19.1.0",
     "@angular/forms": "^19.2.11",
     "@angular/router": "^19.2.11",
+    "@angular/platform-browser": "^19.1.0",
+    "@angular/platform-browser-dynamic": "^19.1.0",
+    "firebase": "^11.0.0",
+    "jasmine-core": "^5.1.0",
+    "@types/jasmine": "^5.1.0",
+    "karma": "^6.4.0",
+    "karma-chrome-launcher": "^3.2.0",
+    "karma-coverage": "^2.2.0",
+    "karma-jasmine": "^5.1.0",
+    "karma-jasmine-html-reporter": "^2.1.0",
     "ng-packagr": "^19.1.0",
-    "rxjs": "^7.8.2"
+    "rxjs": "^7.8.2",
+    "typescript": "~5.6.2",
+    "zone.js": "^0.15.0",
+    "@types/node": "^22.13.8"
   }
 }
