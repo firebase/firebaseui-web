@@ -80,7 +80,7 @@ describe("Firebase UI Auth", () => {
   const mockCredential = { type: "password", token: "mock-token" };
   const mockUserCredential = { user: { uid: "mock-uid" } };
   const mockConfirmationResult = { verificationId: "mock-verification-id" };
-  const mockError = { name: "FirebaseError", code: "auth/user-not-found" };
+  const _mockError = { name: "FirebaseError", code: "auth/user-not-found" };
   const mockProvider = { providerId: "google.com" };
 
   beforeEach(() => {

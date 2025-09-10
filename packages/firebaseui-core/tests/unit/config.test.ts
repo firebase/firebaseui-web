@@ -17,7 +17,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { initializeUI, $config } from "../../src/config";
 import { english } from "@firebase-ui/translations";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged as _onAuthStateChanged } from "firebase/auth";
 
 vi.mock("firebase/auth", () => ({
   getAuth: vi.fn(),

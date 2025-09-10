@@ -26,7 +26,7 @@ import {
   sendPasswordResetEmail,
   signInWithOAuth,
   completeEmailLinkSignIn,
-  confirmPhoneNumber,
+  confirmPhoneNumber as _confirmPhoneNumber,
 } from "../../src/auth";
 import { FirebaseUIError } from "../../src/errors";
 import { initializeUI, FirebaseUI } from "../../src/config";
@@ -54,7 +54,9 @@ describe("Firebase UI Auth Integration", () => {
     if (auth.currentUser) {
       try {
         await deleteUser(auth.currentUser);
-      } catch {}
+      } catch (_error) {
+        // Ignore deletion errors
+      }
       await signOut(auth);
     }
     window.localStorage.clear();
@@ -65,7 +67,9 @@ describe("Firebase UI Auth Integration", () => {
     if (auth.currentUser) {
       try {
         await deleteUser(auth.currentUser);
-      } catch {}
+      } catch (_error) {
+        // Ignore deletion errors
+      }
       await signOut(auth);
     }
     window.localStorage.clear();
@@ -199,7 +203,7 @@ describe("Firebase UI Auth Integration", () => {
     it("should maintain user data when upgrading anonymous account", async () => {
       // First create an anonymous user
       const anonResult = await signInAnonymously(ui.get());
-      const anonUid = anonResult.user.uid;
+      const _anonUid = anonResult.user.uid;
 
       // Then upgrade to email/password
       const email = getUniqueEmail();

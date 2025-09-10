@@ -48,7 +48,7 @@ describe("Email Link Authentication Integration", () => {
       if (currentUser) {
         await deleteUser(currentUser);
       }
-    } catch (error) {
+    } catch (_error) {
       // Ignore cleanup errors
     }
   });

@@ -16,27 +16,74 @@
 
 import js from "@eslint/js";
 import prettier from "eslint-config-prettier";
+import tseslint from "@typescript-eslint/eslint-plugin";
+import tsparser from "@typescript-eslint/parser";
 
 export default [
   { ignores: ["dist/**", "node_modules/**"] },
   js.configs.recommended,
   prettier,
   {
-    files: ["**/*.ts"],
+    files: ["src/**/*.ts"],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: "module",
+      parser: tsparser,
       parserOptions: {
         project: "./tsconfig.json",
       },
+      globals: {
+        window: "readonly",
+        console: "readonly",
+      },
+    },
+    plugins: {
+      "@typescript-eslint": tseslint,
     },
     rules: {
-      "no-unused-vars": ["error", { varsIgnorePattern: "^_", argsIgnorePattern: "^_" }],
+      "no-unused-vars": "off", // Turn off base rule
       "no-console": "warn",
       "prefer-const": "error",
       "no-var": "error",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { varsIgnorePattern: "^_", argsIgnorePattern: "^_", caughtErrorsIgnorePattern: "^_" },
+      ],
       "@typescript-eslint/no-explicit-any": "warn",
-      "@typescript-eslint/no-unused-vars": ["error", { varsIgnorePattern: "^_", argsIgnorePattern: "^_" }],
+    },
+  },
+  {
+    files: ["tests/**/*.ts", "*.config.ts"],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: "module",
+      parser: tsparser,
+      globals: {
+        window: "readonly",
+        console: "readonly",
+        describe: "readonly",
+        it: "readonly",
+        expect: "readonly",
+        beforeEach: "readonly",
+        afterEach: "readonly",
+        beforeAll: "readonly",
+        afterAll: "readonly",
+        vi: "readonly",
+      },
+    },
+    plugins: {
+      "@typescript-eslint": tseslint,
+    },
+    rules: {
+      "no-unused-vars": "off", // Turn off base rule
+      "no-console": "warn",
+      "prefer-const": "error",
+      "no-var": "error",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { varsIgnorePattern: "^_", argsIgnorePattern: "^_", caughtErrorsIgnorePattern: "^_" },
+      ],
+      "@typescript-eslint/no-explicit-any": "warn",
     },
   },
 ];

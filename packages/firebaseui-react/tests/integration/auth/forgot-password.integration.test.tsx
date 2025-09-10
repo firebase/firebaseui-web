@@ -59,7 +59,7 @@ describe("Forgot Password Integration", () => {
       if (auth.currentUser) {
         await deleteUser(auth.currentUser);
       }
-    } catch (error) {
+    } catch (_error) {
       // Ignore errors if user doesn't exist
     }
     await signOut(auth);
@@ -72,7 +72,7 @@ describe("Forgot Password Integration", () => {
       if (auth.currentUser) {
         await deleteUser(auth.currentUser);
       }
-    } catch (error) {
+    } catch (_error) {
       // Ignore errors if user doesn't exist
     }
   });
@@ -81,9 +81,9 @@ describe("Forgot Password Integration", () => {
     // Create a user first - handle case where user might already exist
     try {
       await createUserWithEmailAndPassword(auth, testEmail, testPassword);
-    } catch (error) {
-      if (error instanceof Error) {
-        const firebaseError = error as { code?: string; message: string };
+    } catch (_error) {
+      if (_error instanceof Error) {
+        const firebaseError = _error as { code?: string; message: string };
         // If the user already exists, that's fine for this test
         if (firebaseError.code !== "auth/email-already-in-use") {
           // Skip non-relevant errors

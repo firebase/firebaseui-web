@@ -217,7 +217,7 @@ describe("EmailLinkForm", () => {
       try {
         // Simulate the action that would throw an error
         await sendSignInLinkToEmail(expect.anything(), "invalid-email");
-      } catch (error) {
+      } catch (_error) {
         // Simulate the error being caught and error state being set
         setFormErrorMock("Invalid email");
         // Don't rethrow the error - we've handled it here

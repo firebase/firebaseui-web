@@ -18,25 +18,40 @@ import js from "@eslint/js";
 import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 import prettier from "eslint-config-prettier";
+import tseslint from "@typescript-eslint/eslint-plugin";
+import tsparser from "@typescript-eslint/parser";
 
 export default [
   { ignores: ["dist/**", "node_modules/**"] },
   js.configs.recommended,
   prettier,
   {
-    files: ["**/*.{ts,tsx}"],
+    files: ["src/**/*.{ts,tsx}"],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: "module",
+      parser: tsparser,
       parserOptions: {
+        project: "./tsconfig.app.json",
         ecmaFeatures: {
           jsx: true,
         },
+      },
+      globals: {
+        window: "readonly",
+        console: "readonly",
+        document: "readonly",
+        HTMLInputElement: "readonly",
+        HTMLFormElement: "readonly",
+        Event: "readonly",
+        setTimeout: "readonly",
+        React: "readonly",
       },
     },
     plugins: {
       react,
       "react-hooks": reactHooks,
+      "@typescript-eslint": tseslint,
     },
     settings: {
       react: {
@@ -46,7 +61,7 @@ export default [
     rules: {
       ...react.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
-      "no-unused-vars": ["error", { varsIgnorePattern: "^_", argsIgnorePattern: "^_" }],
+      "no-unused-vars": "off", // Turn off base rule
       "no-console": "warn",
       "prefer-const": "error",
       "no-var": "error",
@@ -54,6 +69,63 @@ export default [
       "react/react-in-jsx-scope": "off",
       "react/jsx-uses-react": "off",
       "react/jsx-uses-vars": "error",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { varsIgnorePattern: "^_", argsIgnorePattern: "^_", caughtErrorsIgnorePattern: "^_" },
+      ],
+      "@typescript-eslint/no-explicit-any": "warn",
+    },
+  },
+  {
+    files: ["tests/**/*.{ts,tsx}", "*.config.ts"],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: "module",
+      parser: tsparser,
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+      globals: {
+        window: "readonly",
+        console: "readonly",
+        describe: "readonly",
+        it: "readonly",
+        expect: "readonly",
+        beforeEach: "readonly",
+        afterEach: "readonly",
+        beforeAll: "readonly",
+        afterAll: "readonly",
+        vi: "readonly",
+      },
+    },
+    plugins: {
+      react,
+      "react-hooks": reactHooks,
+      "@typescript-eslint": tseslint,
+    },
+    settings: {
+      react: {
+        version: "detect",
+      },
+    },
+    rules: {
+      ...react.configs.recommended.rules,
+      ...reactHooks.configs.recommended.rules,
+      "no-unused-vars": "off", // Turn off base rule
+      "no-console": "warn",
+      "prefer-const": "error",
+      "no-var": "error",
+      "react/prop-types": "off",
+      "react/react-in-jsx-scope": "off",
+      "react/jsx-uses-react": "off",
+      "react/jsx-uses-vars": "error",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { varsIgnorePattern: "^_", argsIgnorePattern: "^_", caughtErrorsIgnorePattern: "^_" },
+      ],
+      "@typescript-eslint/no-explicit-any": "warn",
     },
   },
 ];

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi as _vi } from "vitest";
 import { getTranslation } from "../../src/translations";
 import { english } from "@firebase-ui/translations";
 

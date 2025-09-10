@@ -57,7 +57,7 @@ describe("Register Integration", () => {
       if (auth.currentUser) {
         await deleteUser(auth.currentUser);
       }
-    } catch (error) {
+    } catch (_error) {
       // Ignore errors if user doesn't exist
     }
     await signOut(auth);
@@ -76,17 +76,20 @@ describe("Register Integration", () => {
           if (auth.currentUser) {
             await deleteUser(auth.currentUser);
           }
-        } catch (error) {
+        } catch (_error) {
           // If user not found, that's fine - it means it's already been deleted or never created
-          const firebaseError = error as { code?: string };
+          const firebaseError = _error as { code?: string };
           if (firebaseError.code === "auth/user-not-found") {
+            // User not found, that's fine - it means it's already been deleted
           } else {
+            // Some other error occurred during cleanup
+            console.warn("Unexpected error during cleanup:", firebaseError);
           }
         }
       }
-    } catch (error) {
+    } catch (_error) {
       // Throw error on cleanup failure
-      throw new Error(`Cleanup process failed: ${error instanceof Error ? error.message : String(error)}`);
+      throw new Error(`Cleanup process failed: ${_error instanceof Error ? _error.message : String(_error)}`);
     }
   });
 
@@ -182,10 +185,10 @@ describe("Register Integration", () => {
           const userCredential = await signInWithEmailAndPassword(auth, testEmail, testPassword);
 
           expect(userCredential.user.email).toBe(testEmail);
-        } catch (error) {
+        } catch (_error) {
           // If we can't sign in, the test should fail
-          if (error instanceof Error) {
-            throw new Error(`User creation verification failed: ${error.message}`);
+          if (_error instanceof Error) {
+            throw new Error(`User creation verification failed: ${_error.message}`);
           }
         }
       },
@@ -412,11 +415,11 @@ describe("Register Integration", () => {
           const userCredential = await signInWithEmailAndPassword(auth, testEmail, testPassword);
 
           expect(userCredential.user.email).toBe(testEmail);
-        } catch (error) {
+        } catch (_error) {
           // If sign-in fails, the user might not have been created successfully
           // This could indicate an actual issue with the registration process
-          if (error instanceof Error) {
-            const firebaseError = error as { code?: string; message: string };
+          if (_error instanceof Error) {
+            const firebaseError = _error as { code?: string; message: string };
 
             // Check if there's an error message in the UI that explains the issue
             const errorElements = container.querySelectorAll(".fui-form__error");

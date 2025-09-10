@@ -54,6 +54,7 @@ export function getBehavior<T extends BehaviorKey>(ui: FirebaseUIConfiguration, 
 export function autoAnonymousLogin(): Behavior<"autoAnonymousLogin"> {
   /** No-op on Server render */
   if (typeof window === "undefined") {
+    // eslint-disable-next-line no-console
     console.log("[autoAnonymousLogin] SSR mode — returning noop behavior");
     return {
       autoAnonymousLogin: async (_ui) => {

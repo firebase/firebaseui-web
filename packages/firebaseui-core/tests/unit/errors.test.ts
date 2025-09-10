@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi as _vi } from "vitest";
 import { FirebaseUIError, handleFirebaseError } from "../../src/errors";
-import { english } from "@firebase-ui/translations";
+import { english as _english } from "@firebase-ui/translations";
 
 describe("FirebaseUIError", () => {
   describe("constructor", () => {
@@ -196,7 +196,7 @@ describe("FirebaseUIError", () => {
 
         try {
           handleFirebaseError(mockUi as any, error);
-        } catch (e) {
+        } catch (_e) {
           expect(window.sessionStorage.getItem("pendingCred")).toBeNull();
         }
       });
@@ -212,7 +212,7 @@ describe("FirebaseUIError", () => {
 
         try {
           handleFirebaseError(mockUi as any, error, { enableHandleExistingCredential: true });
-        } catch (e) {
+        } catch (_e) {
           expect(window.sessionStorage.getItem("pendingCred")).toBeNull();
         }
       });
