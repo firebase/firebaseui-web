@@ -87,9 +87,7 @@ vi.mock("../../../../src/components/field-info", () => ({
     .fn()
     .mockImplementation(({ field }) => (
       <div data-testid="field-info">
-        {field.state.meta.errors.length > 0 && (
-          <span>{field.state.meta.errors[0]}</span>
-        )}
+        {field.state.meta.errors.length > 0 && <span>{field.state.meta.errors[0]}</span>}
       </div>
     )),
 }));
@@ -117,9 +115,7 @@ describe("RegisterForm", () => {
   it("renders the form correctly", () => {
     render(<RegisterForm />);
 
-    expect(
-      screen.getByRole("textbox", { name: /email address/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole("textbox", { name: /email address/i })).toBeInTheDocument();
     expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
     expect(screen.getByTestId("policies")).toBeInTheDocument();
     expect(screen.getByTestId("submit-button")).toBeInTheDocument();
@@ -147,19 +143,13 @@ describe("RegisterForm", () => {
     });
 
     // Check that the registration function was called
-    expect(createUserWithEmailAndPassword).toHaveBeenCalledWith(
-      expect.anything(),
-      "test@example.com",
-      "password123"
-    );
+    expect(createUserWithEmailAndPassword).toHaveBeenCalledWith(expect.anything(), "test@example.com", "password123");
   });
 
   it("displays error message when registration fails", async () => {
     // Mock the registration function to reject with an error
     const mockError = new Error("Email already in use");
-    (createUserWithEmailAndPassword as Mock).mockRejectedValueOnce(
-      mockError
-    );
+    (createUserWithEmailAndPassword as Mock).mockRejectedValueOnce(mockError);
 
     render(<RegisterForm />);
 
@@ -231,7 +221,7 @@ describe("RegisterForm", () => {
     const onBackToSignInClickMock = vi.fn();
     render(<RegisterForm onBackToSignInClick={onBackToSignInClickMock} />);
 
-    const backButton = document.querySelector('.fui-form__action')!;
+    const backButton = document.querySelector(".fui-form__action")!;
     expect(backButton).toBeInTheDocument();
 
     fireEvent.click(backButton);

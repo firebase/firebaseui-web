@@ -14,29 +14,24 @@
  * limitations under the License.
  */
 
-import { Component, inject, Input, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { injectForm, TanStackField } from '@tanstack/angular-form';
-import { FirebaseUI } from '../../../provider';
-import { ButtonComponent } from '../../../components/button/button.component';
-import { TermsAndPrivacyComponent } from '../../../components/terms-and-privacy/terms-and-privacy.component';
+import { Component, inject, Input, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { injectForm, TanStackField } from "@tanstack/angular-form";
+import { FirebaseUI } from "../../../provider";
+import { ButtonComponent } from "../../../components/button/button.component";
+import { TermsAndPrivacyComponent } from "../../../components/terms-and-privacy/terms-and-privacy.component";
 import {
   createEmailLinkFormSchema,
   FirebaseUIError,
   completeEmailLinkSignIn,
   sendSignInLinkToEmail,
-} from '@firebase-ui/core';
-import { firstValueFrom } from 'rxjs';
+} from "@firebase-ui/core";
+import { firstValueFrom } from "rxjs";
 
 @Component({
-  selector: 'fui-email-link-form',
+  selector: "fui-email-link-form",
   standalone: true,
-  imports: [
-    CommonModule,
-    TanStackField,
-    ButtonComponent,
-    TermsAndPrivacyComponent,
-  ],
+  imports: [CommonModule, TanStackField, ButtonComponent, TermsAndPrivacyComponent],
   template: `
     <div *ngIf="emailSent" class="fui-form">
       {{ emailSentMessage | async }}
@@ -55,13 +50,8 @@ import { firstValueFrom } from 'rxjs';
               (input)="email.api.handleChange($any($event).target.value)"
               [attr.aria-invalid]="!!email.api.state.meta.errors.length"
             />
-            <span
-              role="alert"
-              aria-live="polite"
-              class="fui-form__error"
-              *ngIf="!!email.api.state.meta.errors.length"
-            >
-              {{ email.api.state.meta.errors.join(', ') }}
+            <span role="alert" aria-live="polite" class="fui-form__error" *ngIf="!!email.api.state.meta.errors.length">
+              {{ email.api.state.meta.errors.join(", ") }}
             </span>
           </label>
         </ng-container>
@@ -88,7 +78,7 @@ export class EmailLinkFormComponent implements OnInit {
 
   form = injectForm({
     defaultValues: {
-      email: '',
+      email: "",
     },
   });
 
@@ -107,9 +97,7 @@ export class EmailLinkFormComponent implements OnInit {
 
       this.completeSignIn();
     } catch (error) {
-      this.formError = await firstValueFrom(
-        this.ui.translation('errors', 'unknownError')
-      );
+      this.formError = await firstValueFrom(this.ui.translation("errors", "unknownError"));
     }
   }
 
@@ -152,9 +140,7 @@ export class EmailLinkFormComponent implements OnInit {
           return;
         }
 
-        this.formError = await firstValueFrom(
-          this.ui.translation('errors', 'unknownError')
-        );
+        this.formError = await firstValueFrom(this.ui.translation("errors", "unknownError"));
         return;
       }
 
@@ -167,21 +153,19 @@ export class EmailLinkFormComponent implements OnInit {
         return;
       }
 
-      this.formError = await firstValueFrom(
-        this.ui.translation('errors', 'unknownError')
-      );
+      this.formError = await firstValueFrom(this.ui.translation("errors", "unknownError"));
     }
   }
 
   get emailLabel() {
-    return this.ui.translation('labels', 'emailAddress');
+    return this.ui.translation("labels", "emailAddress");
   }
 
   get sendSignInLinkLabel() {
-    return this.ui.translation('labels', 'sendSignInLink');
+    return this.ui.translation("labels", "sendSignInLink");
   }
 
   get emailSentMessage() {
-    return this.ui.translation('messages', 'signInLinkSent');
+    return this.ui.translation("messages", "signInLinkSent");
   }
 }

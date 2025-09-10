@@ -46,9 +46,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Header currentUser={currentUser} />
         <FirebaseUIProvider>{children}</FirebaseUIProvider>
       </body>

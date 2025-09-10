@@ -35,11 +35,7 @@ export function CardHeader({ children, className, ...props }: CardProps) {
   );
 }
 
-export function CardTitle({
-  children,
-  className,
-  ...props
-}: HTMLAttributes<HTMLHeadingElement>) {
+export function CardTitle({ children, className, ...props }: HTMLAttributes<HTMLHeadingElement>) {
   return (
     <h2 className={cn("fui-card__title", className)} {...props}>
       {children}
@@ -47,11 +43,7 @@ export function CardTitle({
   );
 }
 
-export function CardSubtitle({
-  children,
-  className,
-  ...props
-}: HTMLAttributes<HTMLParagraphElement>) {
+export function CardSubtitle({ children, className, ...props }: HTMLAttributes<HTMLParagraphElement>) {
   return (
     <p className={cn("fui-card__subtitle", className)} {...props}>
       {children}

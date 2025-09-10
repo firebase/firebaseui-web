@@ -14,4 +14,4 @@
  * limitations under the License.
  */
 
-export * from './phone-screen.component';
+export * from "./phone-screen.component";

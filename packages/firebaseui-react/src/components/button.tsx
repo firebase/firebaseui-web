@@ -15,7 +15,7 @@
  */
 
 import { ButtonHTMLAttributes } from "react";
-import { Slot } from "@radix-ui/react-slot"
+import { Slot } from "@radix-ui/react-slot";
 import { cn } from "~/utils/cn";
 
 const buttonVariants = {
@@ -30,18 +30,8 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   asChild?: boolean;
 }
 
-export function Button({
-  className,
-  variant = "primary",
-  asChild,
-  ...props
-}: ButtonProps) {
+export function Button({ className, variant = "primary", asChild, ...props }: ButtonProps) {
   const Comp = asChild ? Slot : "button";
 
-  return (
-    <Comp
-      className={cn(buttonVariants[variant], className)}
-      {...props}
-    />
-  );
+  return <Comp className={cn(buttonVariants[variant], className)} {...props} />;
 }

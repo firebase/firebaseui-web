@@ -39,10 +39,7 @@ export function RegisterForm({ onBackToSignInClick }: RegisterFormProps) {
 
   const [formError, setFormError] = useState<string | null>(null);
   const [firstValidationOccured, setFirstValidationOccured] = useState(false);
-  const emailFormSchema = useMemo(
-    () => createEmailFormSchema(ui.translations),
-    [ui.translations]
-  );
+  const emailFormSchema = useMemo(() => createEmailFormSchema(ui.translations), [ui.translations]);
 
   const form = useForm<EmailFormSchema>({
     defaultValues: {
@@ -86,10 +83,7 @@ export function RegisterForm({ onBackToSignInClick }: RegisterFormProps) {
               <label htmlFor={field.name}>
                 <span>{getTranslation(ui, "labels", "emailAddress")}</span>
                 <input
-                  aria-invalid={
-                    field.state.meta.isTouched &&
-                    field.state.meta.errors.length > 0
-                  }
+                  aria-invalid={field.state.meta.isTouched && field.state.meta.errors.length > 0}
                   id={field.name}
                   name={field.name}
                   type="email"
@@ -121,10 +115,7 @@ export function RegisterForm({ onBackToSignInClick }: RegisterFormProps) {
               <label htmlFor={field.name}>
                 <span>{getTranslation(ui, "labels", "password")}</span>
                 <input
-                  aria-invalid={
-                    field.state.meta.isTouched &&
-                    field.state.meta.errors.length > 0
-                  }
+                  aria-invalid={field.state.meta.isTouched && field.state.meta.errors.length > 0}
                   id={field.name}
                   name={field.name}
                   type="password"
@@ -165,8 +156,7 @@ export function RegisterForm({ onBackToSignInClick }: RegisterFormProps) {
             onClick={onBackToSignInClick}
             className="fui-form__action"
           >
-            {getTranslation(ui, "prompts", "haveAccount")}{" "}
-            {getTranslation(ui, "labels", "signIn")} &rarr;
+            {getTranslation(ui, "prompts", "haveAccount")} {getTranslation(ui, "labels", "signIn")} &rarr;
           </button>
         </div>
       )}

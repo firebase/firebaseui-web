@@ -30,13 +30,7 @@ vi.mock("~/hooks", () => ({
 
 // Mock the OAuthButton component
 vi.mock("~/auth/oauth/oauth-button", () => ({
-  OAuthButton: ({
-    children,
-    provider,
-  }: {
-    children: React.ReactNode;
-    provider: any;
-  }) => (
+  OAuthButton: ({ children, provider }: { children: React.ReactNode; provider: any }) => (
     <div data-testid="oauth-button" data-provider={provider.constructor.name}>
       {children}
     </div>
@@ -55,10 +49,7 @@ vi.mock("firebase/auth", () => ({
 describe("GoogleSignInButton", () => {
   it("renders with the correct provider", () => {
     render(<GoogleSignInButton />);
-    expect(screen.getByTestId("oauth-button")).toHaveAttribute(
-      "data-provider",
-      "GoogleAuthProvider"
-    );
+    expect(screen.getByTestId("oauth-button")).toHaveAttribute("data-provider", "GoogleAuthProvider");
   });
 
   it("renders with the Google icon SVG", () => {

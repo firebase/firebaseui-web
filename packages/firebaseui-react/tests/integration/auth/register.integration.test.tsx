@@ -18,13 +18,7 @@ import { describe, it, expect, afterAll, beforeEach } from "vitest";
 import { screen, fireEvent, waitFor, act, render } from "@testing-library/react";
 import { RegisterForm } from "../../../src/auth/forms/register-form";
 import { initializeApp } from "firebase/app";
-import {
-  getAuth,
-  connectAuthEmulator,
-  deleteUser,
-  signOut,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { getAuth, connectAuthEmulator, deleteUser, signOut, signInWithEmailAndPassword } from "firebase/auth";
 import { initializeUI } from "@firebase-ui/core";
 import { FirebaseUIProvider } from "~/context";
 
@@ -55,9 +49,7 @@ describe("Register Integration", () => {
   beforeEach(async () => {
     // Generate a unique email for each test with a valid format
     // Ensure the email doesn't contain any special characters that might fail validation
-    testEmail = `test.${Date.now()}.${Math.floor(
-      Math.random() * 10000
-    )}@example.com`;
+    testEmail = `test.${Date.now()}.${Math.floor(Math.random() * 10000)}@example.com`;
 
     // Try to sign in with the test email and delete the user if it exists
     try {
@@ -94,11 +86,7 @@ describe("Register Integration", () => {
       }
     } catch (error) {
       // Throw error on cleanup failure
-      throw new Error(
-        `Cleanup process failed: ${
-          error instanceof Error ? error.message : String(error)
-        }`
-      );
+      throw new Error(`Cleanup process failed: ${error instanceof Error ? error.message : String(error)}`);
     }
   });
 
@@ -191,19 +179,13 @@ describe("Register Integration", () => {
 
         // If we're not signed in yet, check if the user exists by trying to sign in
         try {
-          const userCredential = await signInWithEmailAndPassword(
-            auth,
-            testEmail,
-            testPassword
-          );
+          const userCredential = await signInWithEmailAndPassword(auth, testEmail, testPassword);
 
           expect(userCredential.user.email).toBe(testEmail);
         } catch (error) {
           // If we can't sign in, the test should fail
           if (error instanceof Error) {
-            throw new Error(
-              `User creation verification failed: ${error.message}`
-            );
+            throw new Error(`User creation verification failed: ${error.message}`);
           }
         }
       },
@@ -213,8 +195,8 @@ describe("Register Integration", () => {
 
   it("should handle invalid email format", async () => {
     // This test verifies that the form validation prevents submission with an invalid email
-      const { container } = render(
-        <FirebaseUIProvider ui={ui}>
+    const { container } = render(
+      <FirebaseUIProvider ui={ui}>
         <RegisterForm />
       </FirebaseUIProvider>
     );
@@ -372,8 +354,7 @@ describe("Register Integration", () => {
         // Check for any success indicators in the UI
         const successMessage = screen.queryByText(
           (text) =>
-            (text?.toLowerCase().includes("account") &&
-              text?.toLowerCase().includes("created")) ||
+            (text?.toLowerCase().includes("account") && text?.toLowerCase().includes("created")) ||
             text?.toLowerCase().includes("success") ||
             text?.toLowerCase().includes("registered")
         );
@@ -428,11 +409,7 @@ describe("Register Integration", () => {
       } else {
         // No success message found, try to sign in to verify user creation
         try {
-          const userCredential = await signInWithEmailAndPassword(
-            auth,
-            testEmail,
-            testPassword
-          );
+          const userCredential = await signInWithEmailAndPassword(auth, testEmail, testPassword);
 
           expect(userCredential.user.email).toBe(testEmail);
         } catch (error) {
@@ -442,15 +419,12 @@ describe("Register Integration", () => {
             const firebaseError = error as { code?: string; message: string };
 
             // Check if there's an error message in the UI that explains the issue
-            const errorElements =
-              container.querySelectorAll(".fui-form__error");
+            const errorElements = container.querySelectorAll(".fui-form__error");
 
             const hasValidationError = Array.from(errorElements).some((el) => {
               const text = el.textContent?.toLowerCase() || "";
               const isValidationError =
-                text.includes("email") ||
-                text.includes("password") ||
-                text.includes("required");
+                text.includes("email") || text.includes("password") || text.includes("required");
 
               return isValidationError;
             });
@@ -461,25 +435,18 @@ describe("Register Integration", () => {
             } else if (firebaseError.code === "auth/user-not-found") {
               // This suggests the user wasn't created successfully
               // Let's check if there are any error messages in the UI that might explain why
-              const anyErrorElement =
-                container.querySelector(".fui-form__error");
+              const anyErrorElement = container.querySelector(".fui-form__error");
 
               if (anyErrorElement) {
                 // There's an error message that might explain why registration failed
-                throw new Error(
-                  `Registration failed with error: ${anyErrorElement.textContent}`
-                );
+                throw new Error(`Registration failed with error: ${anyErrorElement.textContent}`);
               } else {
                 // No error message found, this might indicate an issue with the test or implementation
-                throw new Error(
-                  "User not found after registration attempt, but no error message displayed"
-                );
+                throw new Error("User not found after registration attempt, but no error message displayed");
               }
             } else {
               // Some other error occurred during sign-in
-              throw new Error(
-                `Sign-in failed with error: ${firebaseError.code} - ${firebaseError.message}`
-              );
+              throw new Error(`Sign-in failed with error: ${firebaseError.code} - ${firebaseError.message}`);
             }
           }
         }
@@ -498,18 +465,12 @@ describe("Register Integration", () => {
 
     // Wait for form to be rendered
     await waitFor(() => {
-      expect(
-        newContainer.container.querySelector('input[type="email"]')
-      ).not.toBeNull();
+      expect(newContainer.container.querySelector('input[type="email"]')).not.toBeNull();
     });
 
     // Fill in email
-    const newEmailInput = newContainer.container.querySelector(
-      'input[type="email"]'
-    );
-    const newPasswordInput = newContainer.container.querySelector(
-      'input[type="password"]'
-    );
+    const newEmailInput = newContainer.container.querySelector('input[type="email"]');
+    const newPasswordInput = newContainer.container.querySelector('input[type="password"]');
     const submitButtons = newContainer.container.querySelectorAll('button[type="submit"]')!;
     const newSubmitButton = submitButtons[submitButtons.length - 1]; // Get the most recently added button
 
@@ -527,8 +488,7 @@ describe("Register Integration", () => {
     await waitFor(
       () => {
         // Check for error message
-        const errorElement =
-          newContainer.container.querySelector(".fui-form__error");
+        const errorElement = newContainer.container.querySelector(".fui-form__error");
         expect(errorElement).not.toBeNull();
 
         if (errorElement) {

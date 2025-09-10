@@ -12,7 +12,6 @@
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
     "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
-    
     "test": "pnpm run test:core && pnpm run test:react && pnpm run test:angular && pnpm run test:translations && pnpm run test:styles",
     "test:core": "pnpm --filter=@firebase-ui/core run test",
     "test:react": "pnpm --filter=@firebase-ui/react run test",
@@ -23,14 +22,12 @@
     "test:core:watch": "pnpm --filter=@firebase-ui/core run test:unit:watch",
     "test:react:watch": "pnpm --filter=@firebase-ui/react run test:unit:watch",
     "test:angular:watch": "pnpm --filter=@firebase-ui/angular run test:watch",
-    
     "publish:tags:core": "pnpm --filter=@firebase-ui/core run publish:tags",
     "publish:tags:translations": "pnpm --filter=@firebase-ui/translations run publish:tags",
     "publish:tags:react": "pnpm --filter=@firebase-ui/react run publish:tags",
     "publish:tags:angular": "pnpm --filter=@firebase-ui/angular run publish:tags",
     "publish:tags:styles": "pnpm --filter=@firebase-ui/styles run publish:tags",
     "publish:tags:all": "pnpm i && pnpm run publish:tags:core && pnpm run publish:tags:translations && pnpm run publish:tags:react && pnpm run publish:tags:styles && pnpm run publish:tags:angular",
-
     "release:core": "pnpm --filter=@firebase-ui/core run release",
     "release:translations": "pnpm --filter=@firebase-ui/translations run release",
     "release:react": "pnpm --filter=@firebase-ui/react run release",

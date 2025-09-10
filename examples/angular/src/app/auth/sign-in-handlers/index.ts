@@ -14,4 +14,4 @@
  * limitations under the License.
  */
 
-export * from './sign-in-handlers.component';
+export * from "./sign-in-handlers.component";

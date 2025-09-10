@@ -45,9 +45,7 @@ vi.mock("@firebase-ui/core", async (originalImport) => {
         phoneNumber: { required: "Phone number is required" },
       }),
     }),
-    formatPhoneNumberWithCountry: vi.fn(
-      (phoneNumber, dialCode) => `${dialCode}${phoneNumber}`
-    ),
+    formatPhoneNumberWithCountry: vi.fn((phoneNumber, dialCode) => `${dialCode}${phoneNumber}`),
   };
 });
 
@@ -116,9 +114,7 @@ vi.mock("../../../../src/components/field-info", () => ({
     .fn()
     .mockImplementation(({ field }) => (
       <div data-testid="field-info">
-        {field.state.meta.errors.length > 0 && (
-          <span>{field.state.meta.errors[0]}</span>
-        )}
+        {field.state.meta.errors.length > 0 && <span>{field.state.meta.errors[0]}</span>}
       </div>
     )),
 }));
@@ -171,9 +167,7 @@ describe("PhoneForm", () => {
   it("renders the phone number form initially", () => {
     render(<PhoneForm />);
 
-    expect(
-      screen.getByRole("textbox", { name: /phone number/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole("textbox", { name: /phone number/i })).toBeInTheDocument();
     expect(screen.getByTestId("country-selector")).toBeInTheDocument();
     expect(screen.getByTestId("policies")).toBeInTheDocument();
     expect(screen.getByTestId("submit-button")).toBeInTheDocument();
@@ -212,9 +206,7 @@ describe("PhoneForm", () => {
   it("displays error message when phone verification fails", async () => {
     const mockError = new Error("Invalid phone number");
     (mockError as any).code = "auth/invalid-phone-number";
-    (
-      signInWithPhoneNumber as unknown as ReturnType<typeof vi.fn>
-    ).mockRejectedValueOnce(mockError);
+    (signInWithPhoneNumber as unknown as ReturnType<typeof vi.fn>).mockRejectedValueOnce(mockError);
 
     render(<PhoneForm />);
 

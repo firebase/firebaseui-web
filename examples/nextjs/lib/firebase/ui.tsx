@@ -19,11 +19,7 @@
 import { ui } from "@/lib/firebase/clientApp";
 import { ConfigProvider } from "@firebase-ui/react";
 
-export function FirebaseUIProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function FirebaseUIProvider({ children }: { children: React.ReactNode }) {
   return (
     <ConfigProvider
       ui={ui}

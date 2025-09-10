@@ -40,10 +40,7 @@ export function EmailLinkForm(_: EmailLinkFormProps) {
   const [emailSent, setEmailSent] = useState(false);
   const [firstValidationOccured, setFirstValidationOccured] = useState(false);
 
-  const emailLinkFormSchema = useMemo(
-    () => createEmailLinkFormSchema(ui.translations),
-    [ui.translations]
-  );
+  const emailLinkFormSchema = useMemo(() => createEmailLinkFormSchema(ui.translations), [ui.translations]);
 
   const form = useForm({
     defaultValues: {
@@ -106,10 +103,7 @@ export function EmailLinkForm(_: EmailLinkFormProps) {
               <label htmlFor={field.name}>
                 <span>{getTranslation(ui, "labels", "emailAddress")}</span>
                 <input
-                  aria-invalid={
-                    field.state.meta.isTouched &&
-                    field.state.meta.errors.length > 0
-                  }
+                  aria-invalid={field.state.meta.isTouched && field.state.meta.errors.length > 0}
                   id={field.name}
                   name={field.name}
                   type="email"

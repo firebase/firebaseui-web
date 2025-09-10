@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-import { english, Locale, RegisteredTranslations, TranslationsConfig } from '@firebase-ui/translations';
-import type { FirebaseApp } from 'firebase/app';
-import { Auth, getAuth } from 'firebase/auth';
-import { deepMap, DeepMapStore, map } from 'nanostores';
-import { Behavior, type BehaviorHandlers, type BehaviorKey, getBehavior, hasBehavior } from './behaviors';
-import { FirebaseUIState } from './state';
+import { english, Locale, RegisteredTranslations, TranslationsConfig } from "@firebase-ui/translations";
+import type { FirebaseApp } from "firebase/app";
+import { Auth, getAuth } from "firebase/auth";
+import { deepMap, DeepMapStore, map } from "nanostores";
+import { Behavior, type BehaviorHandlers, type BehaviorKey, getBehavior, hasBehavior } from "./behaviors";
+import { FirebaseUIState } from "./state";
 
 type FirebaseUIConfigurationOptions = {
   app: FirebaseApp;
   locale?: Locale | undefined;
   translations?: RegisteredTranslations[] | undefined;
   behaviors?: Partial<Behavior<keyof BehaviorHandlers>>[] | undefined;
-  recaptchaMode?: 'normal' | 'invisible' | undefined;
+  recaptchaMode?: "normal" | "invisible" | undefined;
 };
 
 export type FirebaseUIConfiguration = {
@@ -38,14 +38,14 @@ export type FirebaseUIConfiguration = {
   locale: Locale;
   translations: TranslationsConfig;
   behaviors: Partial<Record<BehaviorKey, BehaviorHandlers[BehaviorKey]>>;
-  recaptchaMode: 'normal' | 'invisible';
+  recaptchaMode: "normal" | "invisible";
 };
 
 export const $config = map<Record<string, DeepMapStore<FirebaseUIConfiguration>>>({});
 
 export type FirebaseUI = DeepMapStore<FirebaseUIConfiguration>;
 
-export function initializeUI(config: FirebaseUIConfigurationOptions, name: string = '[DEFAULT]'): FirebaseUI {
+export function initializeUI(config: FirebaseUIConfigurationOptions, name: string = "[DEFAULT]"): FirebaseUI {
   // Reduce the behaviors to a single object.
   const behaviors = config.behaviors?.reduce(
     (acc, behavior) => {
@@ -79,24 +79,24 @@ export function initializeUI(config: FirebaseUIConfigurationOptions, name: strin
         const current = $config.get()[name]!;
         current.setKey(`locale`, locale);
       },
-      state: behaviors?.autoAnonymousLogin ? 'signing-in' : 'loading',
+      state: behaviors?.autoAnonymousLogin ? "signing-in" : "loading",
       setState: (state: FirebaseUIState) => {
         const current = $config.get()[name]!;
         current.setKey(`state`, state);
       },
       translations,
       behaviors: behaviors ?? {},
-      recaptchaMode: config.recaptchaMode ?? 'normal',
+      recaptchaMode: config.recaptchaMode ?? "normal",
     })
   );
 
   const ui = $config.get()[name]!;
 
   // TODO(ehesp): Should this belong here - if not, where should it be?
-  if (hasBehavior(ui.get(), 'autoAnonymousLogin')) {
-    getBehavior(ui.get(), 'autoAnonymousLogin')(ui.get());
+  if (hasBehavior(ui.get(), "autoAnonymousLogin")) {
+    getBehavior(ui.get(), "autoAnonymousLogin")(ui.get());
   } else {
-    ui.setKey('state', 'idle');
+    ui.setKey("state", "idle");
   }
 
   return ui;

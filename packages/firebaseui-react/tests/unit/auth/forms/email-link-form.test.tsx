@@ -48,11 +48,7 @@ vi.mock("@firebase-ui/core", async (importOriginal) => {
   };
 });
 
-import {
-  FirebaseUIError,
-  sendSignInLinkToEmail,
-  completeEmailLinkSignIn,
-} from "@firebase-ui/core";
+import { FirebaseUIError, sendSignInLinkToEmail, completeEmailLinkSignIn } from "@firebase-ui/core";
 
 // Mock React's useState to control state for testing
 const useStateMock = vi.fn();
@@ -188,16 +184,10 @@ describe("EmailLinkForm", () => {
     const { container } = render(<EmailLinkForm />);
 
     // Get the form element
-    const form = container.getElementsByClassName(
-      "fui-form"
-    )[0] as HTMLFormElement;
+    const form = container.getElementsByClassName("fui-form")[0] as HTMLFormElement;
 
     // Set up the form submit handler
-    (global as any).formOnSubmit = async ({
-      value,
-    }: {
-      value: { email: string };
-    }) => {
+    (global as any).formOnSubmit = async ({ value }: { value: { email: string } }) => {
       await sendSignInLinkToEmail(expect.anything(), value.email);
     };
 
@@ -206,10 +196,7 @@ describe("EmailLinkForm", () => {
       fireEvent.submit(form);
     });
 
-    expect(mockSendSignInLink).toHaveBeenCalledWith(
-      expect.anything(),
-      "test@example.com",
-    );
+    expect(mockSendSignInLink).toHaveBeenCalledWith(expect.anything(), "test@example.com");
   });
 
   it("handles error when sending email link fails", async () => {
@@ -223,9 +210,7 @@ describe("EmailLinkForm", () => {
     const { container } = render(<EmailLinkForm />);
 
     // Get the form element
-    const form = container.getElementsByClassName(
-      "fui-form"
-    )[0] as HTMLFormElement;
+    const form = container.getElementsByClassName("fui-form")[0] as HTMLFormElement;
 
     // Set up the form submit handler to simulate error
     (global as any).formOnSubmit = async () => {
@@ -254,9 +239,7 @@ describe("EmailLinkForm", () => {
     const { container } = render(<EmailLinkForm />);
 
     // Get the form element
-    const form = container.getElementsByClassName(
-      "fui-form"
-    )[0] as HTMLFormElement;
+    const form = container.getElementsByClassName("fui-form")[0] as HTMLFormElement;
 
     // Set up the form submit handler
     (global as any).formOnSubmit = async () => {

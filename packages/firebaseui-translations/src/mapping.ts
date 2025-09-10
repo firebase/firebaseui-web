@@ -16,13 +16,7 @@
 
 import { enUS } from "./locales/en-us";
 import { Locale, english } from ".";
-import type {
-  ErrorKey,
-  TranslationCategory,
-  TranslationKey,
-  TranslationsConfig,
-  TranslationSet,
-} from "./types";
+import type { ErrorKey, TranslationCategory, TranslationKey, TranslationsConfig, TranslationSet } from "./types";
 
 export const ERROR_CODE_MAP = {
   "auth/user-not-found": "userNotFound",
@@ -46,8 +40,7 @@ export const ERROR_CODE_MAP = {
   "auth/requires-recent-login": "requiresRecentLogin",
   "auth/provider-already-linked": "providerAlreadyLinked",
   "auth/invalid-verification-code": "invalidVerificationCode",
-  "auth/account-exists-with-different-credential":
-    "accountExistsWithDifferentCredential",
+  "auth/account-exists-with-different-credential": "accountExistsWithDifferentCredential",
 } satisfies Record<string, ErrorKey>;
 
 export type ErrorCode = keyof typeof ERROR_CODE_MAP;
@@ -58,9 +51,9 @@ export function getTranslation<T extends TranslationCategory>(
   translations: TranslationsConfig | undefined,
   locale: Locale | undefined = undefined
 ): string {
-  const userPreferredTranslationSet = translations?.[
-    locale ?? english.locale
-  ]?.[category] as TranslationSet<T> | undefined;
+  const userPreferredTranslationSet = translations?.[locale ?? english.locale]?.[category] as
+    | TranslationSet<T>
+    | undefined;
 
   // Try user's preferred language first
   if (userPreferredTranslationSet && key in userPreferredTranslationSet) {
@@ -68,9 +61,7 @@ export function getTranslation<T extends TranslationCategory>(
   }
 
   // Fall back to English translations if provided
-  const fallbackTranslationSet = translations?.["en"]?.[category] as
-    | TranslationSet<T>
-    | undefined;
+  const fallbackTranslationSet = translations?.["en"]?.[category] as TranslationSet<T> | undefined;
   if (fallbackTranslationSet && key in fallbackTranslationSet) {
     return fallbackTranslationSet[key];
   }

@@ -54,47 +54,17 @@ ReactDOM.createRoot(root).render(
     <FirebaseUIProvider>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route
-          path="/screens/sign-in-auth-screen"
-          element={<SignInAuthScreenPage />}
-        />
-        <Route
-          path="/screens/sign-in-auth-screen-w-handlers"
-          element={<SignInAuthScreenWithHandlersPage />}
-        />
-        <Route
-          path="/screens/sign-in-auth-screen-w-oauth"
-          element={<SignInAuthScreenWithOAuthPage />}
-        />
-        <Route
-          path="/screens/email-link-auth-screen"
-          element={<EmailLinkAuthScreenPage />}
-        />
-        <Route
-          path="/screens/email-link-auth-screen-w-oauth"
-          element={<EmailLinkAuthScreenWithOAuthPage />}
-        />
-        <Route
-          path="/screens/phone-auth-screen"
-          element={<PhoneAuthScreenPage />}
-        />
-        <Route
-          path="/screens/phone-auth-screen-w-oauth"
-          element={<PhoneAuthScreenWithOAuthPage />}
-        />
-        <Route
-          path="/screens/sign-up-auth-screen"
-          element={<SignUpAuthScreenPage />}
-        />
-        <Route
-          path="/screens/sign-up-auth-screen-w-oauth"
-          element={<SignUpAuthScreenWithOAuthPage />}
-        />
+        <Route path="/screens/sign-in-auth-screen" element={<SignInAuthScreenPage />} />
+        <Route path="/screens/sign-in-auth-screen-w-handlers" element={<SignInAuthScreenWithHandlersPage />} />
+        <Route path="/screens/sign-in-auth-screen-w-oauth" element={<SignInAuthScreenWithOAuthPage />} />
+        <Route path="/screens/email-link-auth-screen" element={<EmailLinkAuthScreenPage />} />
+        <Route path="/screens/email-link-auth-screen-w-oauth" element={<EmailLinkAuthScreenWithOAuthPage />} />
+        <Route path="/screens/phone-auth-screen" element={<PhoneAuthScreenPage />} />
+        <Route path="/screens/phone-auth-screen-w-oauth" element={<PhoneAuthScreenWithOAuthPage />} />
+        <Route path="/screens/sign-up-auth-screen" element={<SignUpAuthScreenPage />} />
+        <Route path="/screens/sign-up-auth-screen-w-oauth" element={<SignUpAuthScreenWithOAuthPage />} />
         <Route path="/screens/oauth-screen" element={<OAuthScreenPage />} />
-        <Route
-          path="/screens/password-reset-screen"
-          element={<PasswordResetScreenPage />}
-        />
+        <Route path="/screens/password-reset-screen" element={<PasswordResetScreenPage />} />
       </Routes>
     </FirebaseUIProvider>
   </BrowserRouter>

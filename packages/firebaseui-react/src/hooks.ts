@@ -32,9 +32,6 @@ export function useUI() {
  */
 export function useAuth(ui?: FirebaseUIConfiguration | undefined) {
   const config = ui ?? useUI();
-  const auth = useMemo(
-    () => ui?.getAuth() ?? getAuth(config.app),
-    [config.app],
-  );
+  const auth = useMemo(() => ui?.getAuth() ?? getAuth(config.app), [config.app]);
   return auth;
 }

@@ -16,11 +16,7 @@
 
 "use client";
 
-import {
-  FirebaseUIError,
-  getTranslation,
-  signInWithOAuth,
-} from "@firebase-ui/core";
+import { FirebaseUIError, getTranslation, signInWithOAuth } from "@firebase-ui/core";
 import type { AuthProvider } from "firebase/auth";
 import type { PropsWithChildren } from "react";
 import { useState } from "react";
@@ -52,12 +48,7 @@ export function OAuthButton({ provider, children }: OAuthButtonProps) {
 
   return (
     <div>
-      <Button
-        type="button"
-        disabled={ui.state !== "idle"}
-        onClick={handleOAuthSignIn}
-        className="fui-provider__button"
-      >
+      <Button type="button" disabled={ui.state !== "idle"} onClick={handleOAuthSignIn} className="fui-provider__button">
         {children}
       </Button>
       {error && <div className="fui-form__error">{error}</div>}

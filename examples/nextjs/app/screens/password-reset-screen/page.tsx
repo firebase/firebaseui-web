@@ -19,9 +19,5 @@
 import { PasswordResetScreen } from "@firebase-ui/react";
 
 export default function PasswordResetScreenPage() {
-  return (
-    <PasswordResetScreen
-      onBackToSignInClick={() => {}}
-    />
-  );
+  return <PasswordResetScreen onBackToSignInClick={() => {}} />;
 }

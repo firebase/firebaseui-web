@@ -14,29 +14,29 @@
  * limitations under the License.
  */
 
-import js from '@eslint/js';
-import prettier from 'eslint-config-prettier';
+import js from "@eslint/js";
+import prettier from "eslint-config-prettier";
 
 export default [
-  { ignores: ['dist/**', 'node_modules/**', '.angular/**'] },
+  { ignores: ["dist/**", "node_modules/**", ".angular/**"] },
   js.configs.recommended,
   prettier,
   {
-    files: ['**/*.ts'],
+    files: ["**/*.ts"],
     languageOptions: {
       ecmaVersion: 2022,
-      sourceType: 'module',
+      sourceType: "module",
       parserOptions: {
-        project: './tsconfig.json',
+        project: "./tsconfig.json",
       },
     },
     rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^_', argsIgnorePattern: '^_' }],
-      'no-console': 'warn',
-      'prefer-const': 'error',
-      'no-var': 'error',
-      '@typescript-eslint/no-explicit-any': 'warn',
-      '@typescript-eslint/no-unused-vars': ['error', { varsIgnorePattern: '^_', argsIgnorePattern: '^_' }],
+      "no-unused-vars": ["error", { varsIgnorePattern: "^_", argsIgnorePattern: "^_" }],
+      "no-console": "warn",
+      "prefer-const": "error",
+      "no-var": "error",
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-unused-vars": ["error", { varsIgnorePattern: "^_", argsIgnorePattern: "^_" }],
     },
   },
 ];

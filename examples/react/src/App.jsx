@@ -23,97 +23,62 @@ function App() {
   return (
     <div className="p-8 ">
       <h1 className="text-3xl font-bold mb-6">Firebase UI Demo</h1>
-      <div className="mb-6">
-        {user && <div>Welcome: {user.email || user.phoneNumber}</div>}
-      </div>
+      <div className="mb-6">{user && <div>Welcome: {user.email || user.phoneNumber}</div>}</div>
       <div>
         <h2 className="text-2xl font-bold mb-4">Auth Screens</h2>
         <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <li>
-            <NavLink
-              to="/screens/sign-in-auth-screen"
-              className="text-blue-500 hover:underline"
-            >
+            <NavLink to="/screens/sign-in-auth-screen" className="text-blue-500 hover:underline">
               Sign In Auth Screen
             </NavLink>
           </li>
           <li>
-            <NavLink
-              to="/screens/sign-in-auth-screen-w-handlers"
-              className="text-blue-500 hover:underline"
-            >
+            <NavLink to="/screens/sign-in-auth-screen-w-handlers" className="text-blue-500 hover:underline">
               Sign In Auth Screen with Handlers
             </NavLink>
           </li>
           <li>
-            <NavLink
-              to="/screens/sign-in-auth-screen-w-oauth"
-              className="text-blue-500 hover:underline"
-            >
+            <NavLink to="/screens/sign-in-auth-screen-w-oauth" className="text-blue-500 hover:underline">
               Sign In Auth Screen with OAuth
             </NavLink>
           </li>
           <li>
-            <NavLink
-              to="/screens/email-link-auth-screen"
-              className="text-blue-500 hover:underline"
-            >
+            <NavLink to="/screens/email-link-auth-screen" className="text-blue-500 hover:underline">
               Email Link Auth Screen
             </NavLink>
           </li>
           <li>
-            <NavLink
-              to="/screens/email-link-auth-screen-w-oauth"
-              className="text-blue-500 hover:underline"
-            >
+            <NavLink to="/screens/email-link-auth-screen-w-oauth" className="text-blue-500 hover:underline">
               Email Link Auth Screen with OAuth
             </NavLink>
           </li>
           <li>
-            <NavLink
-              to="/screens/phone-auth-screen"
-              className="text-blue-500 hover:underline"
-            >
+            <NavLink to="/screens/phone-auth-screen" className="text-blue-500 hover:underline">
               Phone Auth Screen
             </NavLink>
           </li>
           <li>
-            <NavLink
-              to="/screens/phone-auth-screen-w-oauth"
-              className="text-blue-500 hover:underline"
-            >
+            <NavLink to="/screens/phone-auth-screen-w-oauth" className="text-blue-500 hover:underline">
               Phone Auth Screen with OAuth
             </NavLink>
           </li>
           <li>
-            <NavLink
-              to="/screens/sign-up-auth-screen"
-              className="text-blue-500 hover:underline"
-            >
+            <NavLink to="/screens/sign-up-auth-screen" className="text-blue-500 hover:underline">
               Sign Up Auth Screen
             </NavLink>
           </li>
           <li>
-            <NavLink
-              to="/screens/sign-up-auth-screen-w-oauth"
-              className="text-blue-500 hover:underline"
-            >
+            <NavLink to="/screens/sign-up-auth-screen-w-oauth" className="text-blue-500 hover:underline">
               Sign Up Auth Screen with OAuth
             </NavLink>
           </li>
           <li>
-            <NavLink
-              to="/screens/oauth-screen"
-              className="text-blue-500 hover:underline"
-            >
+            <NavLink to="/screens/oauth-screen" className="text-blue-500 hover:underline">
               OAuth Screen
             </NavLink>
           </li>
           <li>
-            <NavLink
-              to="/screens/password-reset-screen"
-              className="text-blue-500 hover:underline"
-            >
+            <NavLink to="/screens/password-reset-screen" className="text-blue-500 hover:underline">
               Password Reset Screen
             </NavLink>
           </li>

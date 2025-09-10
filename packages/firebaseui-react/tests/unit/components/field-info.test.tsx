@@ -102,13 +102,7 @@ describe("FieldInfo Component", () => {
     const errorMessage = "This field is required";
     const field = createMockFieldWithErrors([errorMessage]);
 
-    render(
-      <FieldInfo
-        field={field}
-        data-testid="error-message"
-        aria-labelledby="form-field"
-      />
-    );
+    render(<FieldInfo field={field} data-testid="error-message" aria-labelledby="form-field" />);
 
     const errorElement = screen.getByTestId("error-message");
     expect(errorElement).toHaveAttribute("aria-labelledby", "form-field");

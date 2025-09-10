@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-import js from '@eslint/js';
-import prettier from 'eslint-config-prettier';
+import js from "@eslint/js";
+import prettier from "eslint-config-prettier";
 
 export default [
-  { ignores: ['**/dist/**', '**/node_modules/**', '**/releases/**', '**/.angular/**'] },
+  { ignores: ["**/dist/**", "**/node_modules/**", "**/releases/**", "**/.angular/**"] },
   js.configs.recommended,
   prettier,
   {
-    files: ['**/*.{js,jsx,ts,tsx}'],
+    files: ["**/*.{js,jsx,ts,tsx}"],
     languageOptions: {
       ecmaVersion: 2022,
-      sourceType: 'module',
+      sourceType: "module",
       parserOptions: {
         ecmaFeatures: {
           jsx: true,
@@ -34,29 +34,29 @@ export default [
     },
     rules: {
       // Core JavaScript rules
-      'no-unused-vars': ['error', { varsIgnorePattern: '^_', argsIgnorePattern: '^_' }],
-      'no-console': 'warn',
-      'prefer-const': 'error',
-      'no-var': 'error',
-      
+      "no-unused-vars": ["error", { varsIgnorePattern: "^_", argsIgnorePattern: "^_" }],
+      "no-console": "warn",
+      "prefer-const": "error",
+      "no-var": "error",
+
       // Security and best practices
-      'no-debugger': 'error',
-      'no-eval': 'error',
-      'no-implied-eval': 'error',
-      'no-new-func': 'error',
-      'no-script-url': 'error',
-      'no-with': 'error',
-      
+      "no-debugger": "error",
+      "no-eval": "error",
+      "no-implied-eval": "error",
+      "no-new-func": "error",
+      "no-script-url": "error",
+      "no-with": "error",
+
       // Modern JavaScript preferences
-      'prefer-arrow-callback': 'error',
-      'prefer-template': 'error',
-      'prefer-destructuring': ['error', { object: true, array: false }],
-      
+      "prefer-arrow-callback": "error",
+      "prefer-template": "error",
+      "prefer-destructuring": ["error", { object: true, array: false }],
+
       // Code quality
-      'eqeqeq': ['error', 'always'],
-      'no-duplicate-imports': 'error',
-      'no-useless-return': 'error',
-      'no-useless-concat': 'error',
+      eqeqeq: ["error", "always"],
+      "no-duplicate-imports": "error",
+      "no-useless-return": "error",
+      "no-useless-concat": "error",
     },
   },
 ];

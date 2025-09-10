@@ -36,9 +36,7 @@ describe("cn utility", () => {
 
   it("handles arrays and objects of class names", () => {
     expect(cn("base", ["class1", "class2"])).toBe("base class1 class2");
-    expect(cn("base", { conditional: true, ignored: false })).toBe(
-      "base conditional"
-    );
+    expect(cn("base", { conditional: true, ignored: false })).toBe("base conditional");
   });
 
   it("handles null, undefined and false values", () => {

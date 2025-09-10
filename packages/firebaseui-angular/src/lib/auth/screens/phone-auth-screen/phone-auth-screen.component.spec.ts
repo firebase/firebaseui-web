@@ -14,38 +14,38 @@
  * limitations under the License.
  */
 
-import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { of } from 'rxjs';
-import { FirebaseUI } from '../../../provider';
-import { PhoneAuthScreenComponent } from './phone-auth-screen.component';
+import { CommonModule } from "@angular/common";
+import { Component, Input } from "@angular/core";
+import { TestBed, fakeAsync, tick } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { of } from "rxjs";
+import { FirebaseUI } from "../../../provider";
+import { PhoneAuthScreenComponent } from "./phone-auth-screen.component";
 
 // Mock Card components
 @Component({
-  selector: 'fui-card',
+  selector: "fui-card",
   template: '<div class="fui-card"><ng-content></ng-content></div>',
   standalone: true,
 })
 class MockCardComponent {}
 
 @Component({
-  selector: 'fui-card-header',
+  selector: "fui-card-header",
   template: '<div class="fui-card-header"><ng-content></ng-content></div>',
   standalone: true,
 })
 class MockCardHeaderComponent {}
 
 @Component({
-  selector: 'fui-card-title',
+  selector: "fui-card-title",
   template: '<h2 class="fui-card-title"><ng-content></ng-content></h2>',
   standalone: true,
 })
 class MockCardTitleComponent {}
 
 @Component({
-  selector: 'fui-card-subtitle',
+  selector: "fui-card-subtitle",
   template: '<p class="fui-card-subtitle"><ng-content></ng-content></p>',
   standalone: true,
 })
@@ -53,7 +53,7 @@ class MockCardSubtitleComponent {}
 
 // Mock PhoneForm component
 @Component({
-  selector: 'fui-phone-form',
+  selector: "fui-phone-form",
   template: `
     <div data-testid="phone-form">
       Phone Form
@@ -68,7 +68,7 @@ class MockPhoneFormComponent {
 
 // Mock Divider component
 @Component({
-  selector: 'fui-divider',
+  selector: "fui-divider",
   template: '<div class="fui-divider"><ng-content></ng-content></div>',
   standalone: true,
 })
@@ -77,14 +77,14 @@ class MockDividerComponent {}
 // Create mock for FirebaseUi provider
 class MockFirebaseUi {
   translation(category: string, key: string) {
-    if (category === 'labels' && key === 'signIn') {
-      return of('Sign in');
+    if (category === "labels" && key === "signIn") {
+      return of("Sign in");
     }
-    if (category === 'prompts' && key === 'signInToAccount') {
-      return of('Sign in to your account');
+    if (category === "prompts" && key === "signInToAccount") {
+      return of("Sign in to your account");
     }
-    if (category === 'messages' && key === 'dividerOr') {
-      return of('OR');
+    if (category === "messages" && key === "dividerOr") {
+      return of("OR");
     }
     return of(`${category}.${key}`);
   }
@@ -110,7 +110,7 @@ class TestHostWithChildrenComponent {}
 })
 class TestHostWithoutChildrenComponent {}
 
-describe('PhoneAuthScreenComponent', () => {
+describe("PhoneAuthScreenComponent", () => {
   let mockFirebaseUi: MockFirebaseUi;
 
   beforeEach(async () => {
@@ -147,39 +147,35 @@ describe('PhoneAuthScreenComponent', () => {
     });
   });
 
-  it('should create', () => {
+  it("should create", () => {
     const fixture = TestBed.createComponent(PhoneAuthScreenComponent);
     const component = fixture.componentInstance;
     expect(component).toBeTruthy();
   });
 
-  it('displays the correct title and subtitle', () => {
+  it("displays the correct title and subtitle", () => {
     const fixture = TestBed.createComponent(PhoneAuthScreenComponent);
     fixture.detectChanges();
 
-    const titleEl = fixture.debugElement.query(By.css('.fui-card-title'));
-    const subtitleEl = fixture.debugElement.query(By.css('.fui-card-subtitle'));
+    const titleEl = fixture.debugElement.query(By.css(".fui-card-title"));
+    const subtitleEl = fixture.debugElement.query(By.css(".fui-card-subtitle"));
 
-    expect(titleEl.nativeElement.textContent).toBe('Sign in');
-    expect(subtitleEl.nativeElement.textContent).toBe(
-      'Sign in to your account'
-    );
+    expect(titleEl.nativeElement.textContent).toBe("Sign in");
+    expect(subtitleEl.nativeElement.textContent).toBe("Sign in to your account");
   });
 
-  it('includes the PhoneForm with the correct resendDelay prop', () => {
+  it("includes the PhoneForm with the correct resendDelay prop", () => {
     const fixture = TestBed.createComponent(PhoneAuthScreenComponent);
     const component = fixture.componentInstance;
     component.resendDelay = 60;
     fixture.detectChanges();
 
-    const phoneFormEl = fixture.debugElement.query(
-      By.css('[data-testid="phone-form"]')
-    );
+    const phoneFormEl = fixture.debugElement.query(By.css('[data-testid="phone-form"]'));
     expect(phoneFormEl).toBeTruthy();
-    expect(phoneFormEl.nativeElement.textContent).toContain('Resend Delay: 60');
+    expect(phoneFormEl.nativeElement.textContent).toContain("Resend Delay: 60");
   });
 
-  it('renders children when provided', fakeAsync(() => {
+  it("renders children when provided", fakeAsync(() => {
     const fixture = TestBed.createComponent(TestHostWithChildrenComponent);
     fixture.detectChanges();
 
@@ -187,18 +183,16 @@ describe('PhoneAuthScreenComponent', () => {
     tick(0);
     fixture.detectChanges();
 
-    const buttonEl = fixture.debugElement.query(
-      By.css('[data-testid="test-button"]')
-    );
-    const dividerEl = fixture.debugElement.query(By.css('.fui-divider'));
+    const buttonEl = fixture.debugElement.query(By.css('[data-testid="test-button"]'));
+    const dividerEl = fixture.debugElement.query(By.css(".fui-divider"));
 
     expect(buttonEl).toBeTruthy();
-    expect(buttonEl.nativeElement.textContent).toBe('Test Button');
+    expect(buttonEl.nativeElement.textContent).toBe("Test Button");
     expect(dividerEl).toBeTruthy();
-    expect(dividerEl.nativeElement.textContent).toBe('OR');
+    expect(dividerEl.nativeElement.textContent).toBe("OR");
   }));
 
-  it('does not render children or divider when not provided', fakeAsync(() => {
+  it("does not render children or divider when not provided", fakeAsync(() => {
     const fixture = TestBed.createComponent(TestHostWithoutChildrenComponent);
     fixture.detectChanges();
 
@@ -206,7 +200,7 @@ describe('PhoneAuthScreenComponent', () => {
     tick(0);
     fixture.detectChanges();
 
-    const dividerEl = fixture.debugElement.query(By.css('.fui-divider'));
+    const dividerEl = fixture.debugElement.query(By.css(".fui-divider"));
     expect(dividerEl).toBeFalsy();
   }));
 });

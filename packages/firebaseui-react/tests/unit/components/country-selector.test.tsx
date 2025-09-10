@@ -43,17 +43,9 @@ describe("CountrySelector Component", () => {
   });
 
   it("applies custom className", () => {
-    render(
-      <CountrySelector
-        value={defaultCountry}
-        onChange={mockOnChange}
-        className="custom-class"
-      />
-    );
+    render(<CountrySelector value={defaultCountry} onChange={mockOnChange} className="custom-class" />);
 
-    const selector = screen
-      .getByRole("combobox")
-      .closest(".fui-country-selector");
+    const selector = screen.getByRole("combobox").closest(".fui-country-selector");
     expect(selector).toHaveClass("fui-country-selector");
     expect(selector).toHaveClass("custom-class");
   });
@@ -64,9 +56,7 @@ describe("CountrySelector Component", () => {
     const select = screen.getByRole("combobox");
 
     // Find a different country to select
-    const newCountry = countryData.find(
-      (country) => country.code !== defaultCountry.code
-    );
+    const newCountry = countryData.find((country) => country.code !== defaultCountry.code);
 
     if (newCountry) {
       // Change the selection
@@ -77,9 +67,7 @@ describe("CountrySelector Component", () => {
       expect(mockOnChange).toHaveBeenCalledWith(newCountry);
     } else {
       // Fail the test if no different country is found
-      expect.fail(
-        "No different country found in countryData. Test cannot proceed."
-      );
+      expect.fail("No different country found in countryData. Test cannot proceed.");
     }
   });
 
@@ -95,13 +83,9 @@ describe("CountrySelector Component", () => {
     // Check if a specific country exists in the dropdown
     const usCountry = countryData.find((country) => country.code === "US");
     if (usCountry) {
-      const usOption = Array.from(options).find(
-        (option) => option.value === usCountry.code
-      );
+      const usOption = Array.from(options).find((option) => option.value === usCountry.code);
       expect(usOption).toBeInTheDocument();
-      expect(usOption?.textContent).toBe(
-        `${usCountry.dialCode} (${usCountry.name})`
-      );
+      expect(usOption?.textContent).toBe(`${usCountry.dialCode} (${usCountry.name})`);
     } else {
       // Fail the test if US country is not found
       expect.fail("US country not found in countryData. Test cannot proceed.");

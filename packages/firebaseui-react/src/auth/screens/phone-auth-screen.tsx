@@ -18,22 +18,14 @@ import type { PropsWithChildren } from "react";
 import { getTranslation } from "@firebase-ui/core";
 import { Divider } from "~/components/divider";
 import { useUI } from "~/hooks";
-import {
-  Card,
-  CardHeader,
-  CardSubtitle,
-  CardTitle,
-} from "../../components/card";
+import { Card, CardHeader, CardSubtitle, CardTitle } from "../../components/card";
 import { PhoneForm } from "../forms/phone-form";
 
 export type PhoneAuthScreenProps = PropsWithChildren<{
   resendDelay?: number;
 }>;
 
-export function PhoneAuthScreen({
-  children,
-  resendDelay,
-}: PhoneAuthScreenProps) {
+export function PhoneAuthScreen({ children, resendDelay }: PhoneAuthScreenProps) {
   const ui = useUI();
 
   const titleText = getTranslation(ui, "labels", "signIn");

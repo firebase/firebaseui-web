@@ -20,7 +20,7 @@ import { GoogleSignInButton, SignInAuthScreen } from "@firebase-ui/react";
 import { useNavigate } from "react-router";
 
 export default function SignInAuthScreenWithOAuthPage() {
- let navigate = useNavigate();
+  let navigate = useNavigate();
 
   return (
     <SignInAuthScreen

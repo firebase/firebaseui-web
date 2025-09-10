@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { InjectionToken } from '@angular/core';
+import { InjectionToken } from "@angular/core";
 
 export interface PolicyConfig {
   termsOfServiceUrl: string;
   privacyPolicyUrl: string;
 }
 
-export const POLICY_CONFIG = new InjectionToken<PolicyConfig>('PolicyConfig');
+export const POLICY_CONFIG = new InjectionToken<PolicyConfig>("PolicyConfig");

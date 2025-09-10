@@ -23,13 +23,11 @@ export const enUS = {
     wrongPassword: "Incorrect password",
     invalidEmail: "Please enter a valid email address",
     userDisabled: "This account has been disabled",
-    networkRequestFailed:
-      "Unable to connect to the server. Please check your internet connection",
+    networkRequestFailed: "Unable to connect to the server. Please check your internet connection",
     tooManyRequests: "Too many failed attempts. Please try again later",
     emailAlreadyInUse: "An account already exists with this email",
     weakPassword: "Password should be at least 8 characters",
-    operationNotAllowed:
-      "Email/password accounts are not enabled. Please contact support.",
+    operationNotAllowed: "Email/password accounts are not enabled. Please contact support.",
     invalidPhoneNumber: "The phone number is invalid",
     missingPhoneNumber: "Please provide a phone number",
     quotaExceeded: "SMS quota exceeded. Please try again later",
@@ -38,12 +36,9 @@ export const enUS = {
     missingVerificationId: "Please complete the reCAPTCHA verification first.",
     missingEmail: "Please provide an email address",
     invalidActionCode: "The password reset link is invalid or has expired",
-    credentialAlreadyInUse:
-      "An account already exists with this email. Please sign in with that account.",
-    requiresRecentLogin:
-      "This operation requires a recent login. Please sign in again.",
-    providerAlreadyLinked:
-      "This phone number is already linked to another account",
+    credentialAlreadyInUse: "An account already exists with this email. Please sign in with that account.",
+    requiresRecentLogin: "This operation requires a recent login. Please sign in again.",
+    providerAlreadyLinked: "This phone number is already linked to another account",
     invalidVerificationCode: "Invalid verification code. Please try again",
     unknownError: "An unexpected error occurred",
     popupClosed: "The sign-in popup was closed. Please try again.",

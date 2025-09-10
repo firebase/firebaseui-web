@@ -14,30 +14,21 @@
  * limitations under the License.
  */
 
-import { Component, inject, Input, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { injectForm, TanStackField } from '@tanstack/angular-form';
-import { FirebaseUI } from '../../../provider';
-import { Auth } from '@angular/fire/auth';
-import { ButtonComponent } from '../../../components/button/button.component';
-import { TermsAndPrivacyComponent } from '../../../components/terms-and-privacy/terms-and-privacy.component';
-import {
-  createForgotPasswordFormSchema,
-  FirebaseUIError,
-  sendPasswordResetEmail,
-} from '@firebase-ui/core';
-import { firstValueFrom } from 'rxjs';
-import { Router } from '@angular/router';
+import { Component, inject, Input, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { injectForm, TanStackField } from "@tanstack/angular-form";
+import { FirebaseUI } from "../../../provider";
+import { Auth } from "@angular/fire/auth";
+import { ButtonComponent } from "../../../components/button/button.component";
+import { TermsAndPrivacyComponent } from "../../../components/terms-and-privacy/terms-and-privacy.component";
+import { createForgotPasswordFormSchema, FirebaseUIError, sendPasswordResetEmail } from "@firebase-ui/core";
+import { firstValueFrom } from "rxjs";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'fui-forgot-password-form',
+  selector: "fui-forgot-password-form",
   standalone: true,
-  imports: [
-    CommonModule,
-    TanStackField,
-    ButtonComponent,
-    TermsAndPrivacyComponent,
-  ],
+  imports: [CommonModule, TanStackField, ButtonComponent, TermsAndPrivacyComponent],
   template: `
     <div *ngIf="emailSent" class="fui-form__success">
       {{ checkEmailForResetMessage | async }}
@@ -56,13 +47,8 @@ import { Router } from '@angular/router';
               (input)="email.api.handleChange($any($event).target.value)"
               [attr.aria-invalid]="!!email.api.state.meta.errors.length"
             />
-            <span
-              role="alert"
-              aria-live="polite"
-              class="fui-form__error"
-              *ngIf="!!email.api.state.meta.errors.length"
-            >
-              {{ email.api.state.meta.errors.join(', ') }}
+            <span role="alert" aria-live="polite" class="fui-form__error" *ngIf="!!email.api.state.meta.errors.length">
+              {{ email.api.state.meta.errors.join(", ") }}
             </span>
           </label>
         </ng-container>
@@ -78,11 +64,7 @@ import { Router } from '@angular/router';
       </fieldset>
 
       <div class="flex justify-center items-center" *ngIf="signInRoute">
-        <button
-          type="button"
-          (click)="navigateTo(signInRoute)"
-          class="fui-form__action"
-        >
+        <button type="button" (click)="navigateTo(signInRoute)" class="fui-form__action">
           {{ backToSignInLabel | async }} &rarr;
         </button>
       </div>
@@ -102,7 +84,7 @@ export class ForgotPasswordFormComponent implements OnInit {
 
   form = injectForm({
     defaultValues: {
-      email: '',
+      email: "",
     },
   });
 
@@ -110,9 +92,7 @@ export class ForgotPasswordFormComponent implements OnInit {
     try {
       this.config = await firstValueFrom(this.ui.config());
 
-      this.formSchema = createForgotPasswordFormSchema(
-        this.config?.translations
-      );
+      this.formSchema = createForgotPasswordFormSchema(this.config?.translations);
 
       this.form.update({
         validators: {
@@ -121,9 +101,7 @@ export class ForgotPasswordFormComponent implements OnInit {
         },
       });
     } catch (error) {
-      this.formError = await firstValueFrom(
-        this.ui.translation('errors', 'unknownError')
-      );
+      this.formError = await firstValueFrom(this.ui.translation("errors", "unknownError"));
     }
   }
 
@@ -156,9 +134,7 @@ export class ForgotPasswordFormComponent implements OnInit {
           return;
         }
 
-        this.formError = await firstValueFrom(
-          this.ui.translation('errors', 'unknownError')
-        );
+        this.formError = await firstValueFrom(this.ui.translation("errors", "unknownError"));
         return;
       }
 
@@ -172,9 +148,7 @@ export class ForgotPasswordFormComponent implements OnInit {
         return;
       }
 
-      this.formError = await firstValueFrom(
-        this.ui.translation('errors', 'unknownError')
-      );
+      this.formError = await firstValueFrom(this.ui.translation("errors", "unknownError"));
     }
   }
 
@@ -183,18 +157,18 @@ export class ForgotPasswordFormComponent implements OnInit {
   }
 
   get emailLabel() {
-    return this.ui.translation('labels', 'emailAddress');
+    return this.ui.translation("labels", "emailAddress");
   }
 
   get resetPasswordLabel() {
-    return this.ui.translation('labels', 'resetPassword');
+    return this.ui.translation("labels", "resetPassword");
   }
 
   get backToSignInLabel() {
-    return this.ui.translation('labels', 'backToSignIn');
+    return this.ui.translation("labels", "backToSignIn");
   }
 
   get checkEmailForResetMessage() {
-    return this.ui.translation('messages', 'checkEmailForReset');
+    return this.ui.translation("messages", "checkEmailForReset");
   }
 }

@@ -18,12 +18,7 @@ import type { PropsWithChildren } from "react";
 import { getTranslation } from "@firebase-ui/core";
 import { Divider } from "~/components/divider";
 import { useUI } from "~/hooks";
-import {
-  Card,
-  CardHeader,
-  CardSubtitle,
-  CardTitle,
-} from "../../components/card";
+import { Card, CardHeader, CardSubtitle, CardTitle } from "../../components/card";
 import { EmailLinkForm } from "../forms/email-link-form";
 
 export type EmailLinkAuthScreenProps = PropsWithChildren;
