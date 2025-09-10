@@ -47,7 +47,6 @@ import {
 import { interval, Subscription, firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
 import { takeWhile } from 'rxjs/operators';
-import { z } from 'zod';
 
 @Component({
   selector: 'fui-phone-number-form',

@@ -22,39 +22,23 @@
     "release": "pnpm pack --pack-destination ../../releases/"
   },
   "peerDependencies": {
-    "@angular/common": "^19.1.0",
-    "@angular/core": "^19.1.0",
+    "@angular/common": "catalog:peerDependencies",
+    "@angular/core": "catalog:peerDependencies",
     "@firebase-ui/core": "workspace:*",
     "@firebase-ui/translations": "workspace:*"
   },
   "dependencies": {
     "@tanstack/angular-form": "^1.1.0",
-    "nanostores": "^0.11.3",
-    "tslib": "^2.3.0",
-    "zod": "^3.24.1"
+    "tslib": "^2.8.1",
+    "nanostores": "catalog:"
   },
   "sideEffects": false,
   "devDependencies": {
-    "@angular-devkit/build-angular": "^19.1.0",
-    "@angular/cli": "^19.1.0",
-    "@angular/compiler": "^19.1.0",
-    "@angular/fire": "^19.1.0",
-    "@angular/forms": "^19.2.11",
-    "@angular/router": "^19.2.11",
-    "@angular/platform-browser": "^19.1.0",
-    "@angular/platform-browser-dynamic": "^19.1.0",
-    "firebase": "^11.0.0",
-    "jasmine-core": "^5.1.0",
-    "@types/jasmine": "^5.1.0",
-    "karma": "^6.4.0",
-    "karma-chrome-launcher": "^3.2.0",
-    "karma-coverage": "^2.2.0",
-    "karma-jasmine": "^5.1.0",
-    "karma-jasmine-html-reporter": "^2.1.0",
+    "@angular/core": "catalog:",
+    "@angular/forms": "catalog:",
+    "@angular/router": "catalog:",
+    "@angular/fire": "catalog:",
     "ng-packagr": "^19.1.0",
-    "rxjs": "^7.8.2",
-    "typescript": "~5.6.2",
-    "zone.js": "^0.15.0",
-    "@types/node": "^22.13.8"
+    "rxjs": "catalog:"
   }
 }
