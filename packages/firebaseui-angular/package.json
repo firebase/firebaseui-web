@@ -15,36 +15,30 @@
   },
   "scripts": {
     "build": "ng-packagr -p ng-package.json",
-    "lint": "eslint . --ext .ts",
-    "lint:fix": "eslint . --ext .ts --fix",
-    "format": "prettier --write \"src/**/*.ts\"",
-    "format:check": "prettier --check \"src/**/*.ts\"",
+    "test": "ng test --watch=false --browsers=ChromeHeadless --project=firebase-ui-angular",
+    "test:watch": "ng test --watch=true --project=firebase-ui-angular",
+    "test:ci": "ng test --watch=false --browsers=ChromeHeadless --code-coverage --project=firebase-ui-angular",
     "publish:tags": "sh -c 'TAG=\"${npm_package_name}@${npm_package_version}\"; git tag --list \"$TAG\" | grep . || git tag \"$TAG\"; git push origin \"$TAG\"'",
     "release": "pnpm pack --pack-destination ../../releases/"
   },
   "peerDependencies": {
-    "@angular/common": "^19.1.0",
-    "@angular/core": "^19.1.0",
+    "@angular/common": "catalog:peerDependencies",
+    "@angular/core": "catalog:peerDependencies",
     "@firebase-ui/core": "workspace:*",
     "@firebase-ui/translations": "workspace:*"
   },
   "dependencies": {
     "@tanstack/angular-form": "^1.1.0",
-    "nanostores": "^0.11.3",
-    "tslib": "^2.3.0",
-    "zod": "^3.24.1"
+    "tslib": "^2.8.1",
+    "nanostores": "catalog:"
   },
   "sideEffects": false,
   "devDependencies": {
-    "@angular/fire": "^19.1.0",
-    "@angular/forms": "^19.2.11",
-    "@angular/router": "^19.2.11",
-    "@eslint/js": "^9.22.0",
-    "eslint": "^9.22.0",
-    "eslint-config-prettier": "^9.1.0",
+    "@angular/core": "catalog:",
+    "@angular/forms": "catalog:",
+    "@angular/router": "catalog:",
+    "@angular/fire": "catalog:",
     "ng-packagr": "^19.1.0",
-    "prettier": "^3.1.1",
-    "rxjs": "^7.8.2",
-    "typescript": "^5.7.3"
+    "rxjs": "catalog:"
   }
 }

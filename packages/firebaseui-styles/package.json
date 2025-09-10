@@ -10,13 +10,12 @@
     "prepare": "pnpm run build",
     "build": "npx -y @tailwindcss/cli -i ./src.css -o ./dist.css --minify",
     "build:local": "pnpm run build && pnpm pack",
-    "format": "prettier --write \"src/**/*.css\"",
-    "format:check": "prettier --check \"src/**/*.css\"",
+    "test": "echo \"No tests specified\" && exit 0",
+    "test:watch": "echo \"No tests specified\" && exit 0",
     "publish:tags": "sh -c 'TAG=\"${npm_package_name}@${npm_package_version}\"; git tag --list \"$TAG\" | grep . || git tag \"$TAG\"; git push origin \"$TAG\"'",
     "release": "pnpm run build && pnpm pack --pack-destination ../../releases/"
   },
   "devDependencies": {
-    "prettier": "^3.1.1",
-    "tailwindcss": "^4.0.0"
+    "tailwindcss": "catalog:"
   }
 }

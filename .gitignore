@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Angular
+.angular
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

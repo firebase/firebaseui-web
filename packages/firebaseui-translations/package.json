@@ -24,13 +24,15 @@
     "lint": "tsc --noEmit",
     "format": "prettier --write \"src/**/*.ts\"",
     "clean": "rimraf dist",
+    "test": "echo \"No tests specified\" && exit 0",
+    "test:watch": "echo \"No tests specified\" && exit 0",
     "publish:tags": "sh -c 'TAG=\"${npm_package_name}@${npm_package_version}\"; git tag --list \"$TAG\" | grep . || git tag \"$TAG\"; git push origin \"$TAG\"'",
     "release": "npm run build && pnpm pack --pack-destination ../../releases/"
   },
   "devDependencies": {
-    "prettier": "^3.1.1",
-    "rimraf": "^6.0.1",
-    "tsup": "^8.0.1",
-    "typescript": "^5.7.3"
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
+    "tsup": "catalog:",
+    "typescript": "catalog:"
   }
 }
