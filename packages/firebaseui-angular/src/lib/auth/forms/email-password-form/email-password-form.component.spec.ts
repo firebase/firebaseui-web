@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { CommonModule } from "@angular/common";
+import { Component, Input } from "@angular/core";
 import {
   ComponentFixture,
   TestBed,
   fakeAsync,
   tick,
-} from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { Router, provideRouter } from '@angular/router';
-import { TanStackField } from '@tanstack/angular-form';
-import { getFirebaseUITestProviders } from '../../../testing/test-helpers';
-import { EmailPasswordFormComponent } from './email-password-form.component';
+} from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { Router, provideRouter } from "@angular/router";
+import { TanStackField } from "@tanstack/angular-form";
+import { getFirebaseUITestProviders } from "../../../testing/test-helpers";
+import { EmailPasswordFormComponent } from "./email-password-form.component";
 
 // Define window properties for testing
 declare global {
@@ -38,25 +38,25 @@ declare global {
 
 // Mock Button component
 @Component({
-  selector: 'fui-button',
+  selector: "fui-button",
   template: `<button (click)="click.emit()" data-testid="submit-button">
     <ng-content></ng-content>
   </button>`,
   standalone: true,
 })
 class MockButtonComponent {
-  @Input() type: string = 'button';
+  @Input() type: string = "button";
 }
 
 // Mock TermsAndPrivacy component
 @Component({
-  selector: 'fui-terms-and-privacy',
+  selector: "fui-terms-and-privacy",
   template: `<div data-testid="terms-and-privacy"></div>`,
   standalone: true,
 })
 class MockTermsAndPrivacyComponent {}
 
-describe('EmailPasswordFormComponent', () => {
+describe("EmailPasswordFormComponent", () => {
   let component: EmailPasswordFormComponent;
   let fixture: ComponentFixture<EmailPasswordFormComponent>;
   let mockRouter: any;
@@ -64,16 +64,16 @@ describe('EmailPasswordFormComponent', () => {
 
   // Expected error messages from the actual implementation
   const errorMessages = {
-    invalidEmail: 'Please enter a valid email address',
-    passwordTooShort: 'Password should be at least 8 characters',
-    unknownError: 'An unknown error occurred',
+    invalidEmail: "Please enter a valid email address",
+    passwordTooShort: "Password should be at least 8 characters",
+    unknownError: "An unknown error occurred",
   };
 
   // Mock schema returned by createEmailFormSchema
   const mockSchema = {
     safeParse: (data: any) => {
       // Test email validation
-      if (!data.email.includes('@')) {
+      if (!data.email.includes("@")) {
         return {
           success: false,
           error: {
@@ -101,22 +101,22 @@ describe('EmailPasswordFormComponent', () => {
   beforeEach(async () => {
     // Mock router
     mockRouter = {
-      navigateByUrl: jasmine.createSpy('navigateByUrl'),
+      navigateByUrl: jasmine.createSpy("navigateByUrl"),
     };
 
     // Create spies for the global functions
     signInSpy = jasmine
-      .createSpy('signInWithEmailAndPassword')
+      .createSpy("signInWithEmailAndPassword")
       .and.returnValue(Promise.resolve());
 
     // Define the function on the window object
-    Object.defineProperty(window, 'signInWithEmailAndPassword', {
+    Object.defineProperty(window, "signInWithEmailAndPassword", {
       value: signInSpy,
       writable: true,
       configurable: true,
     });
 
-    Object.defineProperty(window, 'createEmailFormSchema', {
+    Object.defineProperty(window, "createEmailFormSchema", {
       value: () => mockSchema,
       writable: true,
       configurable: true,
@@ -141,17 +141,17 @@ describe('EmailPasswordFormComponent', () => {
     component = fixture.componentInstance;
 
     // Set required inputs
-    component.forgotPasswordRoute = '/forgot-password';
-    component.registerRoute = '/register';
+    component.forgotPasswordRoute = "/forgot-password";
+    component.registerRoute = "/register";
 
     // Mock the validateAndSignIn method without any TypeScript errors
-    component.validateAndSignIn = jasmine.createSpy('validateAndSignIn');
+    component.validateAndSignIn = jasmine.createSpy("validateAndSignIn");
 
     fixture.detectChanges();
     await fixture.whenStable(); // Wait for async ngOnInit
   });
 
-  it('renders the form correctly', () => {
+  it("renders the form correctly", () => {
     expect(component).toBeTruthy();
 
     // Check essential elements are present
@@ -162,9 +162,9 @@ describe('EmailPasswordFormComponent', () => {
       By.css('input[type="password"]')
     );
     const termsAndPrivacy = fixture.debugElement.query(
-      By.css('fui-terms-and-privacy')
+      By.css("fui-terms-and-privacy")
     );
-    const submitButton = fixture.debugElement.query(By.css('fui-button'));
+    const submitButton = fixture.debugElement.query(By.css("fui-button"));
 
     expect(emailInput).toBeTruthy();
     expect(passwordInput).toBeTruthy();
@@ -172,16 +172,16 @@ describe('EmailPasswordFormComponent', () => {
     expect(submitButton).toBeTruthy();
   });
 
-  it('submits the form when handleSubmit is called', fakeAsync(() => {
+  it("submits the form when handleSubmit is called", fakeAsync(() => {
     // Set values directly on the form state
-    component.form.state.values.email = 'test@example.com';
-    component.form.state.values.password = 'password123';
+    component.form.state.values.email = "test@example.com";
+    component.form.state.values.password = "password123";
 
     // Create a submit event
-    const event = new Event('submit');
+    const event = new Event("submit");
     Object.defineProperties(event, {
-      preventDefault: { value: jasmine.createSpy('preventDefault') },
-      stopPropagation: { value: jasmine.createSpy('stopPropagation') },
+      preventDefault: { value: jasmine.createSpy("preventDefault") },
+      stopPropagation: { value: jasmine.createSpy("stopPropagation") },
     });
 
     // Call handleSubmit directly
@@ -190,41 +190,41 @@ describe('EmailPasswordFormComponent', () => {
 
     // Check if validateAndSignIn was called with correct values
     expect(component.validateAndSignIn).toHaveBeenCalledWith(
-      'test@example.com',
-      'password123'
+      "test@example.com",
+      "password123"
     );
   }));
 
-  it('displays error message when sign in fails', fakeAsync(() => {
+  it("displays error message when sign in fails", fakeAsync(() => {
     // Manually set the error
-    component.formError = 'Invalid credentials';
+    component.formError = "Invalid credentials";
     fixture.detectChanges();
 
     // Check that the error message is displayed in the DOM
-    const formErrorEl = fixture.debugElement.query(By.css('.fui-form__error'));
+    const formErrorEl = fixture.debugElement.query(By.css(".fui-form__error"));
     expect(formErrorEl).toBeTruthy();
     expect(formErrorEl.nativeElement.textContent.trim()).toBe(
-      'Invalid credentials'
+      "Invalid credentials"
     );
   }));
 
-  it('shows an error message for invalid input', () => {
+  it("shows an error message for invalid input", () => {
     // Manually set error message for testing
     component.formError = errorMessages.invalidEmail;
     fixture.detectChanges();
 
     // Check for error display in the DOM
-    const formErrorEl = fixture.debugElement.query(By.css('.fui-form__error'));
+    const formErrorEl = fixture.debugElement.query(By.css(".fui-form__error"));
     expect(formErrorEl).toBeTruthy();
     expect(formErrorEl.nativeElement.textContent.trim()).toBe(
       errorMessages.invalidEmail
     );
   });
 
-  it('navigates to register route when that button is clicked', () => {
+  it("navigates to register route when that button is clicked", () => {
     // Find the register button (second action button)
     const registerButton = fixture.debugElement.queryAll(
-      By.css('.fui-form__action')
+      By.css(".fui-form__action")
     )[1];
     expect(registerButton).toBeTruthy();
 
@@ -232,13 +232,13 @@ describe('EmailPasswordFormComponent', () => {
     registerButton.nativeElement.click();
 
     // Check navigation was triggered
-    expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/register');
+    expect(mockRouter.navigateByUrl).toHaveBeenCalledWith("/register");
   });
 
-  it('navigates to forgot password route when that button is clicked', () => {
+  it("navigates to forgot password route when that button is clicked", () => {
     // Find the forgot password button (first action button)
     const forgotPasswordButton = fixture.debugElement.queryAll(
-      By.css('.fui-form__action')
+      By.css(".fui-form__action")
     )[0];
     expect(forgotPasswordButton).toBeTruthy();
 
@@ -246,6 +246,6 @@ describe('EmailPasswordFormComponent', () => {
     forgotPasswordButton.nativeElement.click();
 
     // Check navigation was triggered
-    expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/forgot-password');
+    expect(mockRouter.navigateByUrl).toHaveBeenCalledWith("/forgot-password");
   });
 });
