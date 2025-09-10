@@ -112,17 +112,17 @@ importers:
         specifier: ^5.0.1
         version: 5.1.4(typescript@5.9.2)(vite@6.3.6(@types/node@24.3.1)(less@4.4.1)(sass@1.92.1))
 
-  packages/firebaseui-angular:
+  packages/angular:
     dependencies:
       '@angular/common':
         specifier: catalog:peerDependencies
         version: 20.2.4(@angular/core@20.2.4(rxjs@7.8.2))(rxjs@7.8.2)
       '@firebase-ui/core':
         specifier: workspace:*
-        version: link:../firebaseui-core
+        version: link:../core
       '@firebase-ui/translations':
         specifier: workspace:*
-        version: link:../firebaseui-translations
+        version: link:../translations
       '@tanstack/angular-form':
         specifier: ^1.1.0
         version: 1.19.5(@angular/common@20.2.4(@angular/core@20.2.4(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@20.2.4(rxjs@7.8.2))
@@ -152,11 +152,11 @@ importers:
         specifier: 'catalog:'
         version: 7.8.2
 
-  packages/firebaseui-core:
+  packages/core:
     dependencies:
       '@firebase-ui/translations':
         specifier: workspace:*
-        version: link:../firebaseui-translations
+        version: link:../translations
       nanostores:
         specifier: 'catalog:'
         version: 1.0.1
@@ -192,14 +192,14 @@ importers:
         specifier: 'catalog:'
         version: 3.2.4(@types/node@24.3.1)(jsdom@26.1.0)(less@4.4.1)(sass@1.92.1)
 
-  packages/firebaseui-react:
+  packages/react:
     dependencies:
       '@firebase-ui/core':
         specifier: workspace:*
-        version: link:../firebaseui-core
+        version: link:../core
       '@firebase-ui/styles':
         specifier: workspace:*
-        version: link:../firebaseui-styles
+        version: link:../styles
       '@nanostores/react':
         specifier: ^0.8.4
         version: 0.8.4(nanostores@1.0.1)(react@19.1.1)
@@ -271,13 +271,13 @@ importers:
         specifier: 'catalog:'
         version: 3.4.1
 
-  packages/firebaseui-styles:
+  packages/styles:
     devDependencies:
       tailwindcss:
         specifier: 'catalog:'
         version: 4.1.13
 
-  packages/firebaseui-translations:
+  packages/translations:
     devDependencies:
       prettier:
         specifier: 'catalog:'

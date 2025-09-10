@@ -43,7 +43,7 @@ import {
   formatPhoneNumberWithCountry,
   confirmPhoneNumber,
   signInWithPhoneNumber,
-} from '@firebase-ui/core';
+} from 'core';
 import { interval, Subscription, firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
 import { takeWhile } from 'rxjs/operators';

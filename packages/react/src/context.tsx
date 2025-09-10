@@ -35,9 +35,7 @@ export function FirebaseUIProvider({
   const value = useStore(ui);
   return (
     <FirebaseUIContext.Provider value={value}>
-      <PolicyProvider policies={policies}>
-        {children}
-      </PolicyProvider>
+      <PolicyProvider policies={policies}>{children}</PolicyProvider>
     </FirebaseUIContext.Provider>
   );
 }

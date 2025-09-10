@@ -27,7 +27,7 @@ import {
   ConfirmationResult,
   RecaptchaVerifier,
 } from "@angular/fire/auth";
-import { FirebaseUIError } from "@firebase-ui/core";
+import { FirebaseUIError } from "core";
 import { TanStackField } from "@tanstack/angular-form";
 import { firstValueFrom, of } from "rxjs";
 import { FirebaseUI, FirebaseUIPolicies } from "../../../provider";

@@ -15,9 +15,9 @@
   },
   "scripts": {
     "build": "ng-packagr -p ng-package.json",
-    "test": "ng test --watch=false --browsers=ChromeHeadless --project=firebase-ui-angular",
-    "test:watch": "ng test --watch=true --project=firebase-ui-angular",
-    "test:ci": "ng test --watch=false --browsers=ChromeHeadless --code-coverage --project=firebase-ui-angular",
+    "test": "ng test --watch=false --browsers=ChromeHeadless --project=angular",
+    "test:watch": "ng test --watch=true --project=angular",
+    "test:ci": "ng test --watch=false --browsers=ChromeHeadless --code-coverage --project=angular",
     "publish:tags": "sh -c 'TAG=\"${npm_package_name}@${npm_package_version}\"; git tag --list \"$TAG\" | grep . || git tag \"$TAG\"; git push origin \"$TAG\"'",
     "release": "pnpm pack --pack-destination ../../releases/"
   },

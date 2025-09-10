@@ -30,7 +30,7 @@ import {
 import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
 import { Observable, ReplaySubject } from 'rxjs';
 import { Store } from 'nanostores';
-import { TranslationCategory, TranslationKey } from '@firebase-ui/translations';
+import { TranslationCategory, TranslationKey } from 'translations';
 
 const FIREBASE_UI_STORE = new InjectionToken<FirebaseUIType>(
   'firebaseui.store',
