@@ -11,7 +11,11 @@
     "test": "ng test",
     "test:unit": "ng test --exclude=\"**/integration/**\" --no-watch --no-progress --browsers=ChromeHeadless",
     "test:integration": "ng test --include=\"**/tests/integration/**/*.spec.ts\" --no-watch --no-progress --browsers=ChromeHeadless",
-    "serve:ssr:angular-ssr": "node dist/angular-ssr/server/server.mjs"
+    "serve:ssr:angular-ssr": "node dist/angular-ssr/server/server.mjs",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "format": "prettier --write \"src/**/*.{ts,html,css,scss}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,html,css,scss}\""
   },
   "dependencies": {
     "@angular/animations": "^19.1.0",
@@ -41,10 +45,13 @@
     "@angular-devkit/build-angular": "^19.1.7",
     "@angular/cli": "^19.1.7",
     "@angular/compiler-cli": "^19.1.0",
+    "@eslint/js": "^9.22.0",
     "@tanstack/angular-form": "^0.42.0",
     "@types/express": "^4.17.17",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^18.18.0",
+    "eslint": "^9.22.0",
+    "eslint-config-prettier": "^9.1.0",
     "firebase": "^11",
     "jasmine-core": "~5.5.0",
     "karma": "~6.4.0",
@@ -54,6 +61,7 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "nanostores": "^0.11.3",
     "ng-packagr": "^19.1.0",
+    "prettier": "^3.1.1",
     "typescript": "~5.7.2"
   }
 }

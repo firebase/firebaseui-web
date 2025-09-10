@@ -8,6 +8,10 @@
     "build:translations": "pnpm --filter=@firebase-ui/translations run build",
     "build:react": "pnpm --filter=@firebase-ui/react run build",
     "build:angular": "pnpm --filter=@firebase-ui/angular run build",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
+    "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
     
     "publish:tags:core": "pnpm --filter=@firebase-ui/core run publish:tags",
     "publish:tags:translations": "pnpm --filter=@firebase-ui/translations run publish:tags",
@@ -24,6 +28,11 @@
     "release:all": "pnpm i && pnpm run release:core && pnpm run release:translations && pnpm run release:react && pnpm run release:styles && pnpm run release:angular"
   },
   "devDependencies": {
+    "@eslint/js": "^9.22.0",
+    "eslint": "^9.22.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "prettier": "^3.1.1",
     "rimraf": "^6.0.1",
     "typescript": "^5.7.3",
     "vite": "^6.0.11",
