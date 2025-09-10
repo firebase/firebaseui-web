@@ -14,8 +14,58 @@
 
 packages:
   - packages/*
-  - packages/angular/projects/*
-  # - examples/* Remove until all package depenencies are published to npm
+
+catalogs:
+  peerDependencies:
+    firebase: ^12
+    react: ^19
+    react-dom: ^19
+    "@angular/core": ^20.2.4
+    "@angular/common": ^20.2.4
+
+catalog:
+  # Firebase
+  firebase: ^12.2.1
+
+  # Build tools
+  typescript: ^5.9.2
+  tailwindcss: ^4.1.13
+  vite: ^7.1.5
+  tsup: ^8.5.0
+  rimraf: ^6.0.1
+
+  # React
+  react: ^19.1.1
+  react-dom: ^19.1.1
+  "@types/react": ^19.1.12
+  "@types/react-dom": ^19.1.9
+  "@vitejs/plugin-react": ^5.0.2
+
+  # Angular
+  rxjs: ^7.8.2
+  "@angular/core": ^20.2.4
+  "@angular/common": ^20.2.4
+  "@angular/forms": ^20.2.4
+  "@angular/router": ^20.2.4
+  "@angular/fire": ^20.0.1
+
+  # Testing
+  vitest: ^3.2.4
+  jsdom: ^26.1.0
+  vitest-tsconfig-paths: ^3.4.1
+  "@types/jsdom": ^21.1.7
+  "@testing-library/react": ^16.3.0
+  "@testing-library/jest-dom": ^6.8.0
+
+  # Code quality
+  prettier: ^3.6.2
+  eslint: ^9.35.0
+
+  # Shared utilities
+  zod: ^3.24.1 # TODO: Can this be upgraded to v4?
+  nanostores: ^1.0.1
+  "@types/node": ^24.3.1
+
 onlyBuiltDependencies:
   - '@parcel/watcher'
   - esbuild
