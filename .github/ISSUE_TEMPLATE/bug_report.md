@@ -26,26 +26,27 @@ Are you in the right place?
 - Browser version: **\_**
 - Firebase UI version: **\_**
 - Firebase SDK version: **\_**
+- Package name: **\_**
 
 <!-- Step 3 -->
 
 ### [REQUIRED] Describe the problem
 
-#### Steps to reproduce:
+#### Steps to reproduce
 
 <!--
   What happened? How can we make the problem occur?
   This could be a description, log/console output, etc.
 -->
 
-#### Relevant Code:
+#### Relevant Code
 
 <!--
   Reproduce the issue on StackBlitz and provide your forked URL
   or give us some sample code below
 -->
 
-https://stackblitz.com/fork/firebase-issue-sandbox
+<https://stackblitz.com/fork/firebase-issue-sandbox>
 
 ```javascript
 // TODO(you): code here to reproduce the problem
