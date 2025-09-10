@@ -78,6 +78,7 @@ export function RegisterForm({ onBackToSignInClick }: RegisterFormProps) {
       <fieldset>
         <form.Field
           name="email"
+          // eslint-disable-next-line react/no-children-prop
           children={(field) => (
             <>
               <label htmlFor={field.name}>
@@ -110,6 +111,7 @@ export function RegisterForm({ onBackToSignInClick }: RegisterFormProps) {
       <fieldset>
         <form.Field
           name="password"
+          // eslint-disable-next-line react/no-children-prop
           children={(field) => (
             <>
               <label htmlFor={field.name}>

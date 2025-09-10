@@ -45,7 +45,19 @@ export default [
         HTMLFormElement: "readonly",
         Event: "readonly",
         setTimeout: "readonly",
+        clearTimeout: "readonly",
+        clearInterval: "readonly",
         React: "readonly",
+        global: "readonly",
+        describe: "readonly",
+        it: "readonly",
+        expect: "readonly",
+        beforeEach: "readonly",
+        afterEach: "readonly",
+        beforeAll: "readonly",
+        afterAll: "readonly",
+        vi: "readonly",
+        __dirname: "readonly",
       },
     },
     plugins: {
@@ -62,6 +74,7 @@ export default [
       ...react.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
       "no-unused-vars": "off", // Turn off base rule
+      "no-undef": "off", // Turn off base rule - TypeScript handles this better
       "no-console": "warn",
       "prefer-const": "error",
       "no-var": "error",
@@ -90,6 +103,15 @@ export default [
       globals: {
         window: "readonly",
         console: "readonly",
+        document: "readonly",
+        HTMLInputElement: "readonly",
+        HTMLFormElement: "readonly",
+        Event: "readonly",
+        setTimeout: "readonly",
+        clearTimeout: "readonly",
+        clearInterval: "readonly",
+        React: "readonly",
+        global: "readonly",
         describe: "readonly",
         it: "readonly",
         expect: "readonly",
@@ -98,6 +120,7 @@ export default [
         beforeAll: "readonly",
         afterAll: "readonly",
         vi: "readonly",
+        __dirname: "readonly",
       },
     },
     plugins: {
@@ -114,6 +137,7 @@ export default [
       ...react.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
       "no-unused-vars": "off", // Turn off base rule
+      "no-undef": "off", // Turn off base rule - TypeScript handles this better
       "no-console": "warn",
       "prefer-const": "error",
       "no-var": "error",

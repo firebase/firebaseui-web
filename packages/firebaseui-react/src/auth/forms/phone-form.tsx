@@ -83,6 +83,7 @@ function PhoneNumberForm({ onSubmit, formError, recaptchaVerifier, recaptchaCont
       <fieldset>
         <phoneForm.Field
           name="phoneNumber"
+          // eslint-disable-next-line react/no-children-prop
           children={(field) => (
             <>
               <label htmlFor={field.name}>
@@ -232,6 +233,7 @@ function VerificationForm({
       <fieldset>
         <verificationForm.Field
           name="verificationCode"
+          // eslint-disable-next-line react/no-children-prop
           children={(field) => (
             <>
               <label htmlFor={field.name}>

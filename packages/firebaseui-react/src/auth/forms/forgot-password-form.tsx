@@ -83,6 +83,7 @@ export function ForgotPasswordForm({ onBackToSignInClick }: ForgotPasswordFormPr
       <fieldset>
         <form.Field
           name="email"
+          // eslint-disable-next-line react/no-children-prop
           children={(field) => (
             <>
               <label htmlFor={field.name}>
