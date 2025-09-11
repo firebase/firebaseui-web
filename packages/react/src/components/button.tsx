@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { ButtonHTMLAttributes } from "react";
+import { ComponentProps } from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cn } from "~/utils/cn";
 
@@ -25,10 +25,10 @@ const buttonVariants = {
 
 type ButtonVariant = keyof typeof buttonVariants;
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export type ButtonProps = ComponentProps<"button"> & {
   variant?: ButtonVariant;
   asChild?: boolean;
-}
+};
 
 export function Button({ className, variant = "primary", asChild, ...props }: ButtonProps) {
   const Comp = asChild ? Slot : "button";
