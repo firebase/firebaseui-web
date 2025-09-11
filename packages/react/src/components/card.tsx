@@ -50,3 +50,11 @@ export function CardSubtitle({ children, className, ...props }: HTMLAttributes<H
     </p>
   );
 }
+
+export function CardContent({ children, className, ...props }: HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div {...props}>
+      {children}
+    </div>
+  );
+}
