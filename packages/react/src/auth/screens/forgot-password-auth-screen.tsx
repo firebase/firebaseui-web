@@ -16,14 +16,12 @@
 
 import { getTranslation } from "@firebase-ui/core";
 import { useUI } from "~/hooks";
-import { Card, CardHeader, CardSubtitle, CardTitle } from "../../components/card";
-import { ForgotPasswordForm } from "../forms/forgot-password-form";
+import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "../../components/card";
+import { ForgotPasswordAuthForm, type ForgotPasswordAuthFormProps } from "../forms/forgot-password-auth-form";
 
-export type PasswordResetScreenProps = {
-  onBackToSignInClick?: () => void;
-};
+export type ForgotPasswordAuthScreenProps = ForgotPasswordAuthFormProps;
 
-export function PasswordResetScreen({ onBackToSignInClick }: PasswordResetScreenProps) {
+export function ForgotPasswordAuthScreen(props: ForgotPasswordAuthScreenProps) {
   const ui = useUI();
 
   const titleText = getTranslation(ui, "labels", "resetPassword");
@@ -36,7 +34,9 @@ export function PasswordResetScreen({ onBackToSignInClick }: PasswordResetScreen
           <CardTitle>{titleText}</CardTitle>
           <CardSubtitle>{subtitleText}</CardSubtitle>
         </CardHeader>
-        <ForgotPasswordForm onBackToSignInClick={onBackToSignInClick} />
+        <CardContent>
+          <ForgotPasswordAuthForm {...props} />
+        </CardContent>
       </Card>
     </div>
   );

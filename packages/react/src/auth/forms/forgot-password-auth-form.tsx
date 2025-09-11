@@ -30,11 +30,12 @@ import { Button } from "../../components/button";
 import { FieldInfo } from "../../components/field-info";
 import { Policies } from "../../components/policies";
 
-interface ForgotPasswordFormProps {
+export type ForgotPasswordAuthFormProps = {
+  onPasswordSent?: () => void;
   onBackToSignInClick?: () => void;
 }
 
-export function ForgotPasswordForm({ onBackToSignInClick }: ForgotPasswordFormProps) {
+export function ForgotPasswordAuthForm({ onBackToSignInClick, onPasswordSent }: ForgotPasswordAuthFormProps) {
   const ui = useUI();
 
   const [formError, setFormError] = useState<string | null>(null);
@@ -55,6 +56,7 @@ export function ForgotPasswordForm({ onBackToSignInClick }: ForgotPasswordFormPr
       try {
         await sendPasswordResetEmail(ui, value.email);
         setEmailSent(true);
+        onPasswordSent?.();
       } catch (error) {
         if (error instanceof FirebaseUIError) {
           setFormError(error.message);

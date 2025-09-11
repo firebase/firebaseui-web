@@ -16,7 +16,7 @@
 
 import { describe, it, expect, afterAll, beforeEach } from "vitest";
 import { fireEvent, waitFor, act, render } from "@testing-library/react";
-import { ForgotPasswordForm } from "../../../src/auth/forms/forgot-password-form";
+import { ForgotPasswordForm } from "../../../src/auth/forms/forgot-password-auth-form";
 import { initializeApp } from "firebase/app";
 import {
   getAuth,

@@ -24,7 +24,7 @@ export { SignUpAuthScreen, type SignUpAuthScreenProps } from "./screens/sign-up-
 
 export { OAuthScreen, type OAuthScreenProps } from "./screens/oauth-screen";
 
-export { PasswordResetScreen, type PasswordResetScreenProps } from "./screens/password-reset-screen";
+export { ForgotPasswordAuthScreen, type ForgotPasswordAuthScreenProps } from "./screens/forgot-password-auth-screen";
 
 /** Export forms */
 export { EmailPasswordForm, type EmailPasswordFormProps } from "./forms/email-password-form";

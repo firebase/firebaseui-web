@@ -16,7 +16,7 @@
 
 import { describe, it, expect, vi, beforeEach, Mock } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { ForgotPasswordForm } from "./forgot-password-form";
+import { ForgotPasswordForm } from "./forgot-password-auth-form";
 import { act } from "react";
 
 // Mock the dependencies
