@@ -52,6 +52,7 @@
     "karma-jasmine-html-reporter": "^2.1.0",
     "jasmine-core": "^5.1.0",
     "@types/jasmine": "^5.1.0",
+    "@types/node": "catalog:",
     "zone.js": "catalog:",
     "ng-packagr": "^20.0.0",
     "rxjs": "catalog:",
