@@ -45,7 +45,7 @@ import {
   completeEmailLinkSignIn,
 } from "../../src/auth";
 import { FirebaseUIConfiguration } from "../../src/config";
-import { english } from "@firebase-ui/translations";
+import { enUs } from "@firebase-ui/translations";
 
 // Mock all Firebase Auth functions
 vi.mock("firebase/auth", async () => {
@@ -100,8 +100,7 @@ describe("Firebase UI Auth", () => {
       setLocale: vi.fn(),
       state: "idle",
       setState: vi.fn(),
-      locale: "en-US",
-      translations: { "en-US": english.translations },
+      locale: enUs,
       behaviors: {},
       recaptchaMode: "normal",
     };
