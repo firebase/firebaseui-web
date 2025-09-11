@@ -14,21 +14,18 @@
  * limitations under the License.
  */
 
-/** Export screens */
-export { EmailLinkAuthScreen, type EmailLinkAuthScreenProps } from "./screens/email-link-auth-screen";
-export { SignInAuthScreen, type SignInAuthScreenProps } from "./screens/sign-in-auth-screen";
-
-export { PhoneAuthScreen, type PhoneAuthScreenProps } from "./screens/phone-auth-screen";
-
-export { SignUpAuthScreen, type SignUpAuthScreenProps } from "./screens/sign-up-auth-screen";
-
-export { OAuthScreen, type OAuthScreenProps } from "./screens/oauth-screen";
-
-export { ForgotPasswordAuthScreen, type ForgotPasswordAuthScreenProps } from "./screens/forgot-password-auth-screen";
-
+export { EmailLinkAuthForm, type EmailLinkAuthFormProps } from "./forms/email-link-auth-form";
+export { ForgotPasswordAuthForm, type ForgotPasswordAuthFormProps } from "./forms/forgot-password-auth-form";
+export { PhoneAuthForm, type PhoneAuthFormProps } from "./forms/phone-auth-form";
 export { SignInAuthForm, type SignInAuthFormProps } from "./forms/sign-in-auth-form";
-
 export { SignUpAuthForm, type SignUpAuthFormProps } from "./forms/sign-up-auth-form";
 
-/** Export Buttons */
-export { GoogleSignInButton } from "./oauth/google-sign-in-button";
+export { EmailLinkAuthScreen, type EmailLinkAuthScreenProps } from "./screens/email-link-auth-screen";
+export { ForgotPasswordAuthScreen, type ForgotPasswordAuthScreenProps } from "./screens/forgot-password-auth-screen";
+export { OAuthScreen, type OAuthScreenProps } from "./screens/oauth-screen";
+export { PhoneAuthScreen, type PhoneAuthScreenProps } from "./screens/phone-auth-screen";
+export { SignInAuthScreen, type SignInAuthScreenProps } from "./screens/sign-in-auth-screen";
+export { SignUpAuthScreen, type SignUpAuthScreenProps } from "./screens/sign-up-auth-screen";
+
+export { GoogleSignInButton, GoogleIcon, type GoogleSignInButtonProps } from "./oauth/google-sign-in-button";
+export { OAuthButton, type OAuthButtonProps } from "./oauth/oauth-button";

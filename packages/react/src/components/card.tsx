@@ -17,7 +17,7 @@
 import type { ComponentProps, PropsWithChildren } from "react";
 import { cn } from "~/utils/cn";
 
-type CardProps = PropsWithChildren<ComponentProps<"div">>;
+export type CardProps = PropsWithChildren<ComponentProps<"div">>;
 
 export function Card({ children, className, ...props }: CardProps) {
   return (
