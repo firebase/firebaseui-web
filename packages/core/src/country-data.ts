@@ -13,14 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export interface CountryData {
-  name: string;
-  dialCode: string;
-  code: string;
-  emoji: string;
-};
 
-export const countryData: CountryData[] = [
+export const countryData = [
   { name: "United States", dialCode: "+1", code: "US", emoji: "🇺🇸" },
   { name: "United Kingdom", dialCode: "+44", code: "GB", emoji: "🇬🇧" },
   { name: "Afghanistan", dialCode: "+93", code: "AF", emoji: "🇦🇫" },
@@ -269,13 +263,17 @@ export const countryData: CountryData[] = [
   { name: "Zambia", dialCode: "+260", code: "ZM", emoji: "🇿🇲" },
   { name: "Zimbabwe", dialCode: "+263", code: "ZW", emoji: "🇿🇼" },
   { name: "Åland Islands", dialCode: "+358", code: "AX", emoji: "🇦🇽" },
-];
+] as const;
 
-export function getCountryByDialCode(dialCode: string): CountryData | undefined {
+export type CountryData = (typeof countryData)[number];
+
+export type CountryCodes = CountryData["code"];
+
+export function getCountryByDialCode(dialCode: string): (typeof countryData)[number] | undefined {
   return countryData.find((country) => country.dialCode === dialCode);
 }
 
-export function getCountryByCode(code: string): CountryData | undefined {
+export function getCountryByCode(code: string): (typeof countryData)[number] | undefined {
   return countryData.find((country) => country.code === code.toUpperCase());
 }
 

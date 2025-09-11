@@ -16,18 +16,22 @@
 
 "use client";
 
-import { CountryData, countryData } from "@firebase-ui/core";
+import { CountryCodes, CountryData, countryData } from "@firebase-ui/core";
+import { ComponentProps } from "react";
 import { cn } from "~/utils/cn";
 
-interface CountrySelectorProps {
+export type CountrySelectorProps = ComponentProps<"div"> & {
   value: CountryData;
   onChange: (country: CountryData) => void;
-  className?: string;
-}
+  allowedCountries?: CountryCodes[];
+};
 
-export function CountrySelector({ value, onChange, className }: CountrySelectorProps) {
+export function CountrySelector({ value, onChange, allowedCountries, className, ...props }: CountrySelectorProps) {
+
+  const countries = allowedCountries ? countryData.filter((c) => allowedCountries.includes(c.code)) : countryData;
+
   return (
-    <div className={cn("fui-country-selector", className)}>
+    <div className={cn("fui-country-selector", className)} {...props}>
       <div className="fui-country-selector__wrapper">
         <span className="fui-country-selector__flag">{value.emoji}</span>
         <div className="fui-country-selector__select-wrapper">
@@ -36,13 +40,13 @@ export function CountrySelector({ value, onChange, className }: CountrySelectorP
             className="fui-country-selector__select"
             value={value.code}
             onChange={(e) => {
-              const country = countryData.find((c) => c.code === e.target.value);
+              const country = countries.find((c) => c.code === e.target.value);
               if (country) {
                 onChange(country);
               }
             }}
           >
-            {countryData.map((country) => (
+            {countries.map((country) => (
               <option key={`${country.code}-${country.dialCode}`} value={country.code}>
                 {country.dialCode} ({country.name})
               </option>
