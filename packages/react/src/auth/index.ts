@@ -28,7 +28,7 @@ export { ForgotPasswordAuthScreen, type ForgotPasswordAuthScreenProps } from "./
 
 export { SignInAuthForm, type SignInAuthFormProps } from "./forms/sign-in-auth-form";
 
-export { RegisterForm, type RegisterFormProps } from "./forms/register-form";
+export { SignUpAuthForm, type SignUpAuthFormProps } from "./forms/sign-up-auth-form";
 
 /** Export Buttons */
 export { GoogleSignInButton } from "./oauth/google-sign-in-button";

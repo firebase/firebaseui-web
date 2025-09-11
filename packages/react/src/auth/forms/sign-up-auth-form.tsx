@@ -29,12 +29,14 @@ import { useUI } from "~/hooks";
 import { Button } from "../../components/button";
 import { FieldInfo } from "../../components/field-info";
 import { Policies } from "../../components/policies";
+import { type UserCredential } from "firebase/auth";
 
-export interface RegisterFormProps {
+export type SignUpAuthFormProps = {
+  onSignUp?: (credential: UserCredential) => void;
   onBackToSignInClick?: () => void;
 }
 
-export function RegisterForm({ onBackToSignInClick }: RegisterFormProps) {
+export function SignUpAuthForm({ onBackToSignInClick, onSignUp }: SignUpAuthFormProps) {
   const ui = useUI();
 
   const [formError, setFormError] = useState<string | null>(null);
@@ -53,7 +55,8 @@ export function RegisterForm({ onBackToSignInClick }: RegisterFormProps) {
     onSubmit: async ({ value }) => {
       setFormError(null);
       try {
-        await createUserWithEmailAndPassword(ui, value.email, value.password);
+        const credential = await createUserWithEmailAndPassword(ui, value.email, value.password);
+        onSignUp?.(credential);
       } catch (error) {
         if (error instanceof FirebaseUIError) {
           setFormError(error.message);

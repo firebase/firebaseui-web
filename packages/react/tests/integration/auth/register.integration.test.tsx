@@ -16,7 +16,7 @@
 
 import { describe, it, expect, afterAll, beforeEach } from "vitest";
 import { screen, fireEvent, waitFor, act, render } from "@testing-library/react";
-import { RegisterForm } from "../../../src/auth/forms/register-form";
+import { RegisterForm } from "../../../src/auth/forms/sign-up-auth-form";
 import { initializeApp } from "firebase/app";
 import { getAuth, connectAuthEmulator, deleteUser, signOut, signInWithEmailAndPassword } from "firebase/auth";
 import { initializeUI } from "@firebase-ui/core";

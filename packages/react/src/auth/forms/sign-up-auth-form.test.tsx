@@ -16,7 +16,7 @@
 
 import { describe, it, expect, vi, beforeEach, Mock } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { RegisterForm } from "./register-form";
+import { SignUpAuthForm } from "./sign-up-auth-form";
 import { act } from "react";
 
 // Mock the dependencies
@@ -113,7 +113,7 @@ describe("RegisterForm", () => {
   });
 
   it("renders the form correctly", () => {
-    render(<RegisterForm />);
+    render(<SignUpAuthForm />);
 
     expect(screen.getByRole("textbox", { name: /email address/i })).toBeInTheDocument();
     expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
@@ -122,7 +122,7 @@ describe("RegisterForm", () => {
   });
 
   it("submits the form when the button is clicked", async () => {
-    render(<RegisterForm />);
+    render(<SignUpAuthForm />);
 
     // Get the submit button
     const submitButton = screen.getByTestId("submit-button");
@@ -151,7 +151,7 @@ describe("RegisterForm", () => {
     const mockError = new Error("Email already in use");
     (createUserWithEmailAndPassword as Mock).mockRejectedValueOnce(mockError);
 
-    render(<RegisterForm />);
+    render(<SignUpAuthForm />);
 
     // Get the submit button
     const submitButton = screen.getByTestId("submit-button");
@@ -180,7 +180,7 @@ describe("RegisterForm", () => {
   });
 
   it("validates on blur for the first time", async () => {
-    render(<RegisterForm />);
+    render(<SignUpAuthForm />);
 
     const emailInput = screen.getByRole("textbox", { name: /email address/i });
     const passwordInput = screen.getByDisplayValue("password123");
@@ -195,7 +195,7 @@ describe("RegisterForm", () => {
   });
 
   it("validates on input after first blur", async () => {
-    render(<RegisterForm />);
+    render(<SignUpAuthForm />);
 
     const emailInput = screen.getByRole("textbox", { name: /email address/i });
     const passwordInput = screen.getByDisplayValue("password123");
@@ -219,7 +219,7 @@ describe("RegisterForm", () => {
   // TODO: Fix this test
   it.skip("displays back to sign in button when provided", () => {
     const onBackToSignInClickMock = vi.fn();
-    render(<RegisterForm onBackToSignInClick={onBackToSignInClickMock} />);
+    render(<SignUpAuthForm onBackToSignInClick={onBackToSignInClickMock} />);
 
     const backButton = document.querySelector(".fui-form__action")!;
     expect(backButton).toBeInTheDocument();
