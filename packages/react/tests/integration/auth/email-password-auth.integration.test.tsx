@@ -16,7 +16,7 @@
 
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { screen, fireEvent, waitFor, act, render } from "@testing-library/react";
-import { EmailPasswordForm } from "../../../src/auth/forms/email-password-form";
+import { EmailPasswordForm } from "../../../src/auth/forms/sign-in-auth-form";
 import { initializeApp } from "firebase/app";
 import {
   getAuth,

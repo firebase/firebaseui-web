@@ -16,7 +16,7 @@
 
 import { describe, it, expect, vi, beforeEach, Mock } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { EmailPasswordForm } from "./email-password-form";
+import { SignInAuthForm } from "./sign-in-auth-form";
 import { act } from "react";
 
 // Mock the dependencies
@@ -108,13 +108,13 @@ vi.mock("../../../../src/components/button", () => ({
 // Import the actual functions after mocking
 import { signInWithEmailAndPassword } from "@firebase-ui/core";
 
-describe("EmailPasswordForm", () => {
+describe("SignInAuthForm", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it("renders the form correctly", () => {
-    render(<EmailPasswordForm />);
+    render(<SignInAuthForm />);
 
     expect(screen.getByRole("textbox", { name: /email address/i })).toBeInTheDocument();
     expect(screen.getByTestId("policies")).toBeInTheDocument();
@@ -122,7 +122,7 @@ describe("EmailPasswordForm", () => {
   });
 
   it("submits the form when the button is clicked", async () => {
-    render(<EmailPasswordForm />);
+    render(<SignInAuthForm />);
 
     // Get the submit button
     const submitButton = screen.getByTestId("submit-button");
@@ -151,7 +151,7 @@ describe("EmailPasswordForm", () => {
     const mockError = new Error("Invalid credentials");
     (signInWithEmailAndPassword as Mock).mockRejectedValueOnce(mockError);
 
-    render(<EmailPasswordForm />);
+    render(<SignInAuthForm />);
 
     // Get the submit button
     const submitButton = screen.getByTestId("submit-button");
@@ -176,7 +176,7 @@ describe("EmailPasswordForm", () => {
   });
 
   it("validates on blur for the first time", async () => {
-    render(<EmailPasswordForm />);
+    render(<SignInAuthForm />);
 
     const emailInput = screen.getByRole("textbox", { name: /email address/i });
     const passwordInput = screen.getByDisplayValue("password123");
@@ -191,7 +191,7 @@ describe("EmailPasswordForm", () => {
   });
 
   it("validates on input after first blur", async () => {
-    render(<EmailPasswordForm />);
+    render(<SignInAuthForm />);
 
     const emailInput = screen.getByRole("textbox", { name: /email address/i });
     const passwordInput = screen.getByDisplayValue("password123");

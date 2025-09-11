@@ -29,13 +29,15 @@ import { useUI } from "~/hooks";
 import { Button } from "../../components/button";
 import { FieldInfo } from "../../components/field-info";
 import { Policies } from "../../components/policies";
+import { UserCredential } from "firebase/auth";
 
-export interface EmailPasswordFormProps {
+export type SignInAuthFormProps = {
+  onSignIn?: (credential: UserCredential) => void;
   onForgotPasswordClick?: () => void;
   onRegisterClick?: () => void;
 }
 
-export function EmailPasswordForm({ onForgotPasswordClick, onRegisterClick }: EmailPasswordFormProps) {
+export function SignInAuthForm({ onSignIn, onForgotPasswordClick, onRegisterClick }: SignInAuthFormProps) {
   const ui = useUI();
 
   const [formError, setFormError] = useState<string | null>(null);
@@ -56,7 +58,8 @@ export function EmailPasswordForm({ onForgotPasswordClick, onRegisterClick }: Em
     onSubmit: async ({ value }) => {
       setFormError(null);
       try {
-        await signInWithEmailAndPassword(ui, value.email, value.password);
+        const credential = await signInWithEmailAndPassword(ui, value.email, value.password);
+        onSignIn?.(credential);
       } catch (error) {
         if (error instanceof FirebaseUIError) {
           setFormError(error.message);
