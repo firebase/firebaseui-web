@@ -1,0 +1,21 @@
+{
+  "name": "@firebase-ui/styles",
+  "version": "0.0.1",
+  "type": "module",
+  "files": [
+    "dist.css",
+    "src"
+  ],
+  "scripts": {
+    "prepare": "pnpm run build",
+    "build": "npx -y @tailwindcss/cli -i ./src.css -o ./dist.css --minify",
+    "build:local": "pnpm run build && pnpm pack",
+    "test": "echo \"No tests specified\" && exit 0",
+    "test:watch": "echo \"No tests specified\" && exit 0",
+    "publish:tags": "sh -c 'TAG=\"${npm_package_name}@${npm_package_version}\"; git tag --list \"$TAG\" | grep . || git tag \"$TAG\"; git push origin \"$TAG\"'",
+    "release": "pnpm run build && pnpm pack --pack-destination ../../releases/"
+  },
+  "devDependencies": {
+    "tailwindcss": "catalog:"
+  }
+}

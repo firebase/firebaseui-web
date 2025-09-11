@@ -15,9 +15,7 @@
             "outputPath": "dist/angular-ssr",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
@@ -25,9 +23,7 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.css"
-            ],
+            "styles": ["src/styles.css"],
             "scripts": [],
             "server": "src/main.server.ts",
             "prerender": true,
@@ -77,10 +73,7 @@
         "test": {
           "builder": "@angular/build:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               {
@@ -88,31 +81,29 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.css"
-            ],
+            "styles": ["src/styles.css"],
             "scripts": []
           }
         }
       }
     },
-    "firebaseui-angular": {
+    "angular": {
       "projectType": "library",
-      "root": "projects/firebaseui-angular",
-      "sourceRoot": "projects/firebaseui-angular/src",
+      "root": "projects/angular",
+      "sourceRoot": "projects/angular/src",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular/build:ng-packagr",
           "options": {
-            "project": "projects/firebaseui-angular/ng-package.json"
+            "project": "projects/angular/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/firebaseui-angular/tsconfig.lib.prod.json"
+              "tsConfig": "projects/angular/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/firebaseui-angular/tsconfig.lib.json"
+              "tsConfig": "projects/angular/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -120,11 +111,8 @@
         "test": {
           "builder": "@angular/build:karma",
           "options": {
-            "tsConfig": "projects/firebaseui-angular/tsconfig.spec.json",
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ]
+            "tsConfig": "projects/angular/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"]
           }
         }
       }

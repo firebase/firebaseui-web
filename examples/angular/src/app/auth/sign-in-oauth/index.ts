@@ -14,4 +14,4 @@
  * limitations under the License.
  */
 
-export * from './sign-in-oauth.component';
+export * from "./sign-in-oauth.component";

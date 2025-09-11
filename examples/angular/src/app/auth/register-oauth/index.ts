@@ -14,4 +14,4 @@
  * limitations under the License.
  */
 
-export * from './register-oauth.component';
+export * from "./register-oauth.component";

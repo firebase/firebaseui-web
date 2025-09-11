@@ -1,0 +1,167 @@
+/**
+ * Copyright 2025 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@theme {
+  --color-primary: var(--fui-primary);
+  --color-primary-hover: var(--fui-primary-hover);
+  --color-primary-surface: var(--fui-primary-surface);
+  --color-text: var(--fui-text);
+  --color-text-muted: var(--fui-text-muted);
+  --color-background: var(--fui-background);
+  --color-border: var(--fui-border);
+  --color-input: var(--fui-input);
+  --color-error: var(--fui-error);
+  --radius: var(--fui-radius);
+  --radius-card: var(--fui-radius-card);
+}
+
+@layer theme {
+  :root {
+    /* The primary color is used for the button and link colors */
+    --fui-primary: var(--color-black);
+    /* The primary hover color is used for the button and link colors when hovered */
+    --fui-primary-hover: --alpha(var(--fui-primary) / 85%);
+    /* The primary surface color is used for the button text color */
+    --fui-primary-surface: var(--color-white);
+    /* The text color used for body text */
+    --fui-text: var(--color-black);
+    /* The muted text color used for body text, such as subtitles */
+    --fui-text-muted: var(--color-gray-800);
+    /* The background color of the cards */
+    --fui-background: var(--color-white);
+    /* The border color used for none input fields */
+    --fui-border: var(--color-gray-200);
+    /* The input color used for input fields */
+    --fui-input: var(--color-gray-300);
+    /* The error color used for error messages */
+    --fui-error: var(--color-red-500);
+    /* The radius used for the input fields */
+    --fui-radius: var(--radius-sm);
+    /* The radius used for the cards */
+    --fui-radius-card: var(--radius-xl);
+  }
+}
+
+@layer components {
+  .fui-screen {
+    @apply pt-24 max-w-md mx-auto;
+  }
+
+  .fui-card {
+    @apply bg-background p-10 border border-border rounded-card space-y-6;
+  }
+
+  .fui-card__header {
+    @apply text-center space-y-1;
+  }
+
+  .fui-card__title {
+    @apply text-xl font-bold text-text;
+  }
+
+  .fui-card__subtitle {
+    @apply text-sm text-text-muted;
+  }
+
+  .fui-form {
+    @apply space-y-6;
+  }
+
+  .fui-form fieldset,
+  .fui-form fieldset > label {
+    @apply flex flex-col gap-2 text-text;
+  }
+
+  .fui-form fieldset > label > span {
+    @apply inline-flex gap-3 text-sm font-medium;
+  }
+
+  .fui-form .fui-form__action {
+    @apply px-1 hover:underline text-xs text-text-muted;
+  }
+
+  .fui-form fieldset > label > input {
+    @apply border-1 border-input rounded px-2 py-2 text-sm focus:outline-2 focus:outline-primary shadow-xs bg-transparent;
+  }
+
+  .fui-form fieldset > label > input[aria-invalid="true"] {
+    @apply outline-error outline-2;
+  }
+
+  .fui-form .fui-form__error {
+    @apply text-error text-center text-xs;
+  }
+
+  .fui-success {
+    @apply text-center text-xs;
+  }
+
+  .fui-button {
+    @apply w-full flex items-center justify-center gap-3 px-4 py-2 rounded text-sm font-medium shadow-xs bg-primary text-primary-surface transition hover:bg-primary-hover hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .fui-button--secondary {
+    @apply bg-transparent text-text border border-input hover:bg-background hover:border-primary;
+  }
+
+  .fui-provider__button > svg {
+    @apply w-5 h-5;
+  }
+
+  .fui-divider {
+    @apply flex items-center gap-3;
+  }
+
+  .fui-divider__line {
+    @apply flex-1 h-px bg-border;
+  }
+
+  .fui-divider__text {
+    @apply text-text-muted text-xs;
+  }
+
+  .fui-phone-input {
+    @apply flex gap-2 items-center;
+  }
+
+  .fui-phone-input__number-input {
+    @apply border-1 border-input rounded px-2 py-2 text-sm focus:outline-2 focus:outline-primary shadow-xs bg-transparent flex-1;
+  }
+
+  .fui-phone-input__number-input[aria-invalid="true"] {
+    @apply outline-error outline-2;
+  }
+
+  .fui-country-selector {
+    @apply relative inline-block w-[80px];
+  }
+
+  .fui-country-selector__wrapper {
+    @apply relative flex items-center border-1 border-input rounded bg-transparent overflow-hidden;
+  }
+
+  .fui-country-selector__flag {
+    @apply absolute left-2 text-lg pointer-events-none;
+  }
+
+  .fui-country-selector select {
+    @apply w-full pl-8 pr-2 py-2 text-sm focus:outline-2 focus:outline-primary shadow-xs bg-transparent appearance-none cursor-pointer text-transparent;
+  }
+
+  .fui-country-selector__dial-code {
+    @apply absolute left-8 top-1/2 -translate-y-1/2 text-sm pointer-events-none text-text;
+  }
+}

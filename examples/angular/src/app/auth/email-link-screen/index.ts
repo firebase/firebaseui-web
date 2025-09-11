@@ -14,4 +14,4 @@
  * limitations under the License.
  */
 
-export * from './email-link-screen.component';
+export * from "./email-link-screen.component";
