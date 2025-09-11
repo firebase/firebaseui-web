@@ -18,7 +18,7 @@
 
 import {
   confirmPhoneNumber,
-  CountryData,
+  CountryCode,
   countryData,
   createPhoneFormSchema,
   FirebaseUIError,
@@ -47,7 +47,8 @@ function PhoneNumberForm({ onSubmit, formError, recaptchaVerifier, recaptchaCont
   const ui = useUI();
 
   // TODO(ehesp): How does this support allowed countries?
-  const [selectedCountry, setSelectedCountry] = useState<CountryData>(countryData[0]);
+  // TODO(ehesp): How does this support default country?
+  const [selectedCountry, setSelectedCountry] = useState<CountryCode>(countryData[0].code);
   const [firstValidationOccured, setFirstValidationOccured] = useState(false);
 
   const phoneFormSchema = useMemo(
@@ -67,7 +68,7 @@ function PhoneNumberForm({ onSubmit, formError, recaptchaVerifier, recaptchaCont
       onSubmit: phoneFormSchema,
     },
     onSubmit: async ({ value }) => {
-      const formattedNumber = formatPhoneNumberWithCountry(value.phoneNumber, selectedCountry.dialCode);
+      const formattedNumber = formatPhoneNumberWithCountry(value.phoneNumber, selectedCountry);
       await onSubmit(formattedNumber);
     },
   });
@@ -94,7 +95,7 @@ function PhoneNumberForm({ onSubmit, formError, recaptchaVerifier, recaptchaCont
                 <div className="fui-phone-input">
                   <CountrySelector
                     value={selectedCountry}
-                    onChange={(country) => setSelectedCountry(country as CountryData)}
+                    onChange={(code) => setSelectedCountry(code as CountryCode)}
                     className="fui-phone-input__country-selector"
                   />
                   <input

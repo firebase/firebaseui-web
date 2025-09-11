@@ -267,17 +267,22 @@ export const countryData = [
 
 export type CountryData = (typeof countryData)[number];
 
-export type CountryCodes = CountryData["code"];
+export type CountryCode = CountryData["code"];
 
-export function getCountryByDialCode(dialCode: string): (typeof countryData)[number] | undefined {
+export function getCountryByDialCode(dialCode: string): CountryData | undefined {
   return countryData.find((country) => country.dialCode === dialCode);
 }
 
-export function getCountryByCode(code: string): (typeof countryData)[number] | undefined {
+export function getCountryByCode(code: CountryCode): CountryData | undefined {
   return countryData.find((country) => country.code === code.toUpperCase());
 }
 
-export function formatPhoneNumberWithCountry(phoneNumber: string, countryDialCode: string): string {
+export function formatPhoneNumberWithCountry(phoneNumber: string, countryCode: CountryCode): string {
+  const countryData = getCountryByCode(countryCode);
+  if (!countryData) {
+    return phoneNumber;
+  }
+  const countryDialCode = countryData.dialCode;
   // Remove any existing dial code if present
   const cleanNumber = phoneNumber.replace(/^\+\d+/, "").trim();
   return `${countryDialCode}${cleanNumber}`;
