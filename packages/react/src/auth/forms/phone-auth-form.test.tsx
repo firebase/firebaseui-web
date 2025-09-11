@@ -16,7 +16,7 @@
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { PhoneForm } from "../../../../src/auth/forms/phone-form";
+import { PhoneAuthForm } from "./phone-auth-form";
 import { act } from "react";
 
 // Mock Firebase Auth
@@ -156,7 +156,7 @@ vi.mock("../../../../src/components/country-selector", () => ({
 // Import the actual functions after mocking
 import { signInWithPhoneNumber } from "@firebase-ui/core";
 
-describe("PhoneForm", () => {
+describe("PhoneAuthForm", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     // Reset the global state
@@ -165,7 +165,7 @@ describe("PhoneForm", () => {
   });
 
   it("renders the phone number form initially", () => {
-    render(<PhoneForm />);
+    render(<PhoneAuthForm />);
 
     expect(screen.getByRole("textbox", { name: /phone number/i })).toBeInTheDocument();
     expect(screen.getByTestId("country-selector")).toBeInTheDocument();
@@ -174,7 +174,7 @@ describe("PhoneForm", () => {
   });
 
   it("attempts to send verification code when phone number is submitted", async () => {
-    render(<PhoneForm />);
+    render(<PhoneAuthForm />);
 
     // Get the submit button
     const submitButton = screen.getByTestId("submit-button");
@@ -208,7 +208,7 @@ describe("PhoneForm", () => {
     (mockError as any).code = "auth/invalid-phone-number";
     (signInWithPhoneNumber as unknown as ReturnType<typeof vi.fn>).mockRejectedValueOnce(mockError);
 
-    render(<PhoneForm />);
+    render(<PhoneAuthForm />);
 
     // Get the submit button
     const submitButton = screen.getByTestId("submit-button");
@@ -236,7 +236,7 @@ describe("PhoneForm", () => {
   });
 
   it("validates on blur for the first time", async () => {
-    render(<PhoneForm />);
+    render(<PhoneAuthForm />);
 
     const phoneInput = screen.getByRole("textbox", { name: /phone number/i });
 
@@ -249,7 +249,7 @@ describe("PhoneForm", () => {
   });
 
   it("validates on input after first blur", async () => {
-    render(<PhoneForm />);
+    render(<PhoneAuthForm />);
 
     const phoneInput = screen.getByRole("textbox", { name: /phone number/i });
 

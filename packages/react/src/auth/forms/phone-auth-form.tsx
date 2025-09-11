@@ -30,7 +30,7 @@ import { useForm } from "@tanstack/react-form";
 import { ConfirmationResult, RecaptchaVerifier } from "firebase/auth";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { z } from "zod";
-import { useAuth, useUI } from "~/hooks";
+import { useUI } from "~/hooks";
 import { Button } from "../../components/button";
 import { CountrySelector } from "../../components/country-selector";
 import { FieldInfo } from "../../components/field-info";
@@ -46,6 +46,7 @@ interface PhoneNumberFormProps {
 function PhoneNumberForm({ onSubmit, formError, recaptchaVerifier, recaptchaContainerRef }: PhoneNumberFormProps) {
   const ui = useUI();
 
+  // TODO(ehesp): How does this support allowed countries?
   const [selectedCountry, setSelectedCountry] = useState<CountryData>(countryData[0]);
   const [firstValidationOccured, setFirstValidationOccured] = useState(false);
 
@@ -71,6 +72,8 @@ function PhoneNumberForm({ onSubmit, formError, recaptchaVerifier, recaptchaCont
     },
   });
 
+  // TODO(ehesp): Country data onChange types are not matching
+
   return (
     <form
       className="fui-form"
@@ -91,7 +94,7 @@ function PhoneNumberForm({ onSubmit, formError, recaptchaVerifier, recaptchaCont
                 <div className="fui-phone-input">
                   <CountrySelector
                     value={selectedCountry}
-                    onChange={setSelectedCountry}
+                    onChange={(country) => setSelectedCountry(country as CountryData)}
                     className="fui-phone-input__country-selector"
                   />
                   <input
@@ -291,13 +294,12 @@ function VerificationForm({
   );
 }
 
-export interface PhoneFormProps {
+export type PhoneAuthFormProps = {
   resendDelay?: number;
 }
 
-export function PhoneForm({ resendDelay = 30 }: PhoneFormProps) {
+export function PhoneAuthForm({ resendDelay = 30 }: PhoneAuthFormProps) {
   const ui = useUI();
-  const auth = useAuth(ui);
 
   const [formError, setFormError] = useState<string | null>(null);
   const [confirmationResult, setConfirmationResult] = useState<ConfirmationResult | null>(null);
@@ -310,8 +312,9 @@ export function PhoneForm({ resendDelay = 30 }: PhoneFormProps) {
   useEffect(() => {
     if (!recaptchaContainerRef.current) return;
 
-    const verifier = new RecaptchaVerifier(auth, recaptchaContainerRef.current, {
-      size: ui.recaptchaMode ?? "normal",
+    const verifier = new RecaptchaVerifier(ui.auth, recaptchaContainerRef.current, {
+      // size: ui.recaptchaMode ?? "normal", TODO(ehesp): Get this from the useRecaptchaVerifier hook once implemented
+      size: "normal",
     });
 
     setRecaptchaVerifier(verifier);
@@ -320,7 +323,7 @@ export function PhoneForm({ resendDelay = 30 }: PhoneFormProps) {
       verifier.clear();
       setRecaptchaVerifier(null);
     };
-  }, [auth, ui.recaptchaMode]);
+  }, [ui]);
 
   const handlePhoneSubmit = async (number: string) => {
     setFormError(null);
@@ -356,8 +359,9 @@ export function PhoneForm({ resendDelay = 30 }: PhoneFormProps) {
         recaptchaVerifier.clear();
       }
 
-      const verifier = new RecaptchaVerifier(auth, recaptchaContainerRef.current, {
-        size: ui.recaptchaMode ?? "normal",
+      const verifier = new RecaptchaVerifier(ui.auth, recaptchaContainerRef.current, {
+        // size: ui.recaptchaMode ?? "normal", // TODO(ehesp): Get this from the useRecaptchaVerifier hook once implemented
+        size: "normal",
       });
       setRecaptchaVerifier(verifier);
 
