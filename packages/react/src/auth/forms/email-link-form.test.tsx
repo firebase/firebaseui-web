@@ -16,7 +16,7 @@
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent, act } from "@testing-library/react";
-import { EmailLinkForm } from "../../../../src/auth/forms/email-link-form";
+import { EmailLinkForm } from "./email-link-form";
 
 // Mock Firebase UI Core
 vi.mock("@firebase-ui/core", async (importOriginal) => {

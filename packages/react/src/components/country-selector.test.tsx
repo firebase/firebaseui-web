@@ -17,7 +17,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { CountrySelector } from "../../../src/components/country-selector";
+import { CountrySelector } from "./country-selector";
 import { countryData } from "@firebase-ui/core";
 
 describe("CountrySelector Component", () => {

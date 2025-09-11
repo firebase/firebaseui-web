@@ -17,4 +17,5 @@
 export * from "./auth";
 export * from "./hooks";
 export * from "./components";
+// TODO(ehesp):Why is this exported as ConfigProvider?
 export { FirebaseUIProvider as ConfigProvider } from "./context";

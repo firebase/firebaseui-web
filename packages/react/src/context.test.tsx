@@ -16,7 +16,7 @@
 
 import { describe, it, expect } from "vitest";
 import { render, act } from "@testing-library/react";
-import { FirebaseUIProvider, FirebaseUIContext } from "../../../src/context";
+import { FirebaseUIProvider, FirebaseUIContext } from "./context";
 import { map } from "nanostores";
 import { useContext } from "react";
 import { FirebaseUI, FirebaseUIConfiguration } from "@firebase-ui/core";

@@ -16,15 +16,21 @@
 
 import { describe, it, expect, vi, beforeEach, Mock } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { RegisterForm } from "../../../../src/auth/forms/register-form";
+import { EmailPasswordForm } from "./email-password-form";
 import { act } from "react";
 
 // Mock the dependencies
-vi.mock("@firebase-ui/core", async (originalImport) => {
-  const mod = await originalImport<typeof import("@firebase-ui/core")>();
+vi.mock("@firebase-ui/core", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@firebase-ui/core")>();
   return {
     ...mod,
-    createUserWithEmailAndPassword: vi.fn().mockResolvedValue(undefined),
+    signInWithEmailAndPassword: vi.fn().mockResolvedValue(undefined),
+    FirebaseUIError: class FirebaseUIError extends Error {
+      constructor(error: any) {
+        super(error.message || "Unknown error");
+        this.name = "FirebaseUIError";
+      }
+    },
   };
 });
 
@@ -66,15 +72,10 @@ vi.mock("@tanstack/react-form", () => {
 vi.mock("../../../../src/hooks", () => ({
   useAuth: vi.fn().mockReturnValue({}),
   useUI: vi.fn().mockReturnValue({
-    locale: "en-US",
     translations: {
       "en-US": {
         labels: {
           emailAddress: "Email Address",
-          password: "Password",
-        },
-        errors: {
-          unknownError: "Unknown error",
         },
       },
     },
@@ -105,24 +106,23 @@ vi.mock("../../../../src/components/button", () => ({
 }));
 
 // Import the actual functions after mocking
-import { createUserWithEmailAndPassword } from "@firebase-ui/core";
+import { signInWithEmailAndPassword } from "@firebase-ui/core";
 
-describe("RegisterForm", () => {
+describe("EmailPasswordForm", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it("renders the form correctly", () => {
-    render(<RegisterForm />);
+    render(<EmailPasswordForm />);
 
     expect(screen.getByRole("textbox", { name: /email address/i })).toBeInTheDocument();
-    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
     expect(screen.getByTestId("policies")).toBeInTheDocument();
     expect(screen.getByTestId("submit-button")).toBeInTheDocument();
   });
 
   it("submits the form when the button is clicked", async () => {
-    render(<RegisterForm />);
+    render(<EmailPasswordForm />);
 
     // Get the submit button
     const submitButton = screen.getByTestId("submit-button");
@@ -142,16 +142,16 @@ describe("RegisterForm", () => {
       }
     });
 
-    // Check that the registration function was called
-    expect(createUserWithEmailAndPassword).toHaveBeenCalledWith(expect.anything(), "test@example.com", "password123");
+    // Check that the authentication function was called
+    expect(signInWithEmailAndPassword).toHaveBeenCalledWith(expect.anything(), "test@example.com", "password123");
   });
 
-  it("displays error message when registration fails", async () => {
-    // Mock the registration function to reject with an error
-    const mockError = new Error("Email already in use");
-    (createUserWithEmailAndPassword as Mock).mockRejectedValueOnce(mockError);
+  it("displays error message when sign in fails", async () => {
+    // Mock the sign in function to reject with an error
+    const mockError = new Error("Invalid credentials");
+    (signInWithEmailAndPassword as Mock).mockRejectedValueOnce(mockError);
 
-    render(<RegisterForm />);
+    render(<EmailPasswordForm />);
 
     // Get the submit button
     const submitButton = screen.getByTestId("submit-button");
@@ -162,25 +162,21 @@ describe("RegisterForm", () => {
 
       // Directly call the onSubmit function with form values
       if ((global as any).formOnSubmit) {
-        await (global as any)
-          .formOnSubmit({
-            value: {
-              email: "test@example.com",
-              password: "password123",
-            },
-          })
-          .catch(() => {
-            // Catch the error here to prevent test from failing
-          });
+        await (global as any).formOnSubmit({
+          value: {
+            email: "test@example.com",
+            password: "password123",
+          },
+        });
       }
     });
 
-    // Check that the registration function was called
-    expect(createUserWithEmailAndPassword).toHaveBeenCalled();
+    // Check that the authentication function was called
+    expect(signInWithEmailAndPassword).toHaveBeenCalled();
   });
 
   it("validates on blur for the first time", async () => {
-    render(<RegisterForm />);
+    render(<EmailPasswordForm />);
 
     const emailInput = screen.getByRole("textbox", { name: /email address/i });
     const passwordInput = screen.getByDisplayValue("password123");
@@ -195,7 +191,7 @@ describe("RegisterForm", () => {
   });
 
   it("validates on input after first blur", async () => {
-    render(<RegisterForm />);
+    render(<EmailPasswordForm />);
 
     const emailInput = screen.getByRole("textbox", { name: /email address/i });
     const passwordInput = screen.getByDisplayValue("password123");
@@ -214,17 +210,5 @@ describe("RegisterForm", () => {
 
     // Check that handleBlur and form.update were called
     expect((global as any).formOnSubmit).toBeDefined();
-  });
-
-  // TODO: Fix this test
-  it.skip("displays back to sign in button when provided", () => {
-    const onBackToSignInClickMock = vi.fn();
-    render(<RegisterForm onBackToSignInClick={onBackToSignInClickMock} />);
-
-    const backButton = document.querySelector(".fui-form__action")!;
-    expect(backButton).toBeInTheDocument();
-
-    fireEvent.click(backButton);
-    expect(onBackToSignInClickMock).toHaveBeenCalled();
   });
 });
