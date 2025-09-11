@@ -16,7 +16,7 @@
 
 import { describe, it, expect, afterAll } from "vitest";
 import { fireEvent, waitFor, act, render } from "@testing-library/react";
-import { EmailLinkForm } from "../../../src/auth/forms/email-link-form";
+import { EmailLinkForm } from "../../../src/auth/forms/email-link-auth-form";
 import { initializeApp } from "firebase/app";
 import { getAuth, connectAuthEmulator, deleteUser } from "firebase/auth";
 import { initializeUI } from "@firebase-ui/core";

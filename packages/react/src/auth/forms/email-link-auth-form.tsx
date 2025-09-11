@@ -30,9 +30,11 @@ import { Button } from "../../components/button";
 import { FieldInfo } from "../../components/field-info";
 import { Policies } from "../../components/policies";
 
-interface EmailLinkFormProps {}
+export type EmailLinkAuthFormProps = {
+  onEmailSent?: () => void;
+};
 
-export function EmailLinkForm(_: EmailLinkFormProps) {
+export function EmailLinkAuthForm({ onEmailSent }: EmailLinkAuthFormProps) {
   const ui = useUI();
 
   const [formError, setFormError] = useState<string | null>(null);
@@ -54,6 +56,7 @@ export function EmailLinkForm(_: EmailLinkFormProps) {
       try {
         await sendSignInLinkToEmail(ui, value.email);
         setEmailSent(true);
+        onEmailSent?.();
       } catch (error) {
         if (error instanceof FirebaseUIError) {
           setFormError(error.message);
