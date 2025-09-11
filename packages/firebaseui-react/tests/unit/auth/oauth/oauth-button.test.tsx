@@ -30,7 +30,6 @@ vi.mock("@firebase-ui/core", async (importOriginal) => {
   };
 });
 
-
 // Create a mock provider that matches the AuthProvider interface
 const mockGoogleProvider = { providerId: "google.com" } as AuthProvider;
 
@@ -57,11 +56,7 @@ describe("OAuthButton Component", () => {
   });
 
   it("renders a button with the provided children", () => {
-    render(
-      <OAuthButton provider={mockGoogleProvider}>
-        Sign in with Google
-      </OAuthButton>
-    );
+    render(<OAuthButton provider={mockGoogleProvider}>Sign in with Google</OAuthButton>);
 
     const button = screen.getByTestId("oauth-button");
     expect(button).toBeInTheDocument();
@@ -73,40 +68,27 @@ describe("OAuthButton Component", () => {
     // Mock the signInWithOAuth to resolve immediately
     vi.mocked(signInWithOAuth).mockResolvedValueOnce(undefined);
 
-    render(
-      <OAuthButton provider={mockGoogleProvider}>
-        Sign in with Google
-      </OAuthButton>
-    );
+    render(<OAuthButton provider={mockGoogleProvider}>Sign in with Google</OAuthButton>);
 
     const button = screen.getByTestId("oauth-button");
     fireEvent.click(button);
 
     await waitFor(() => {
       expect(signInWithOAuth).toHaveBeenCalledTimes(1);
-      expect(signInWithOAuth).toHaveBeenCalledWith(
-        expect.anything(),
-        mockGoogleProvider
-      );
+      expect(signInWithOAuth).toHaveBeenCalledWith(expect.anything(), mockGoogleProvider);
     });
   });
 
   // TODO: Fix this test
   it.skip("displays error message when non-Firebase error occurs", async () => {
     // Mock console.error to prevent test output noise
-    const consoleErrorSpy = vi
-      .spyOn(console, "error")
-      .mockImplementation(() => {});
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 
     // Mock a non-Firebase error to trigger console.error
     const regularError = new Error("Regular error");
     vi.mocked(signInWithOAuth).mockRejectedValueOnce(regularError);
 
-    render(
-      <OAuthButton provider={mockGoogleProvider}>
-        Sign in with Google
-      </OAuthButton>
-    );
+    render(<OAuthButton provider={mockGoogleProvider}>Sign in with Google</OAuthButton>);
 
     const button = screen.getByTestId("oauth-button");
 

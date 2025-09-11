@@ -14,37 +14,37 @@
  * limitations under the License.
  */
 
-import { Provider } from '@angular/core';
-import { FirebaseUI, FirebaseUIPolicies } from '../provider';
-import { Auth } from '@angular/fire/auth';
-import { InjectionToken } from '@angular/core';
-import { of } from 'rxjs';
+import { Provider } from "@angular/core";
+import { FirebaseUI, FirebaseUIPolicies } from "../provider";
+import { Auth } from "@angular/fire/auth";
+import { InjectionToken } from "@angular/core";
+import { of } from "rxjs";
 
 // Mock for the Auth service
 export const mockAuth = {
   appVerificationDisabledForTesting: true,
-  languageCode: 'en',
+  languageCode: "en",
   settings: {
     appVerificationDisabledForTesting: true,
   },
   app: {
     options: {
-      apiKey: 'fake-api-key',
+      apiKey: "fake-api-key",
     },
-    name: 'test',
+    name: "test",
     automaticDataCollectionEnabled: false,
     appVerificationDisabledForTesting: true,
   },
-  signInWithPopup: jasmine.createSpy('signInWithPopup'),
-  signInWithRedirect: jasmine.createSpy('signInWithRedirect'),
-  signInWithPhoneNumber: jasmine.createSpy('signInWithPhoneNumber'),
+  signInWithPopup: jasmine.createSpy("signInWithPopup"),
+  signInWithRedirect: jasmine.createSpy("signInWithRedirect"),
+  signInWithPhoneNumber: jasmine.createSpy("signInWithPhoneNumber"),
 };
 
 // Mock for FirebaseUi provider
 export const mockFirebaseUi = {
   config: () =>
     of({
-      language: 'en',
+      language: "en",
       enableAutoUpgradeAnonymous: false,
       enableHandleExistingCredential: false,
       translations: {},
@@ -52,28 +52,28 @@ export const mockFirebaseUi = {
   translation: (category: string, key: string) => {
     const translations: Record<string, Record<string, string>> = {
       labels: {
-        emailAddress: 'Email Address',
-        password: 'Password',
-        forgotPassword: 'Forgot Password',
-        signIn: 'Sign In',
-        register: 'Register',
-        displayName: 'Display Name',
-        confirmPassword: 'Confirm Password',
-        resetPassword: 'Reset Password',
-        backToSignIn: 'Back to Sign In',
+        emailAddress: "Email Address",
+        password: "Password",
+        forgotPassword: "Forgot Password",
+        signIn: "Sign In",
+        register: "Register",
+        displayName: "Display Name",
+        confirmPassword: "Confirm Password",
+        resetPassword: "Reset Password",
+        backToSignIn: "Back to Sign In",
       },
       prompts: {
         noAccount: "Don't have an account?",
-        alreadyAccount: 'Already have an account?',
+        alreadyAccount: "Already have an account?",
       },
       messages: {
-        checkEmailForReset: 'Check your email for reset instructions',
+        checkEmailForReset: "Check your email for reset instructions",
       },
       errors: {
-        unknownError: 'An unknown error occurred',
-        invalidEmail: 'Please enter a valid email address',
-        passwordTooShort: 'Password should be at least 8 characters',
-        passwordsDoNotMatch: 'Passwords do not match',
+        unknownError: "An unknown error occurred",
+        invalidEmail: "Please enter a valid email address",
+        passwordTooShort: "Password should be at least 8 characters",
+        passwordsDoNotMatch: "Passwords do not match",
       },
     };
     return of(translations[category]?.[key] || `${category}.${key}`);
@@ -84,7 +84,7 @@ export const mockFirebaseUi = {
 export const mockNanoStores = {
   useStore: () =>
     of({
-      language: 'en',
+      language: "en",
       enableAutoUpgradeAnonymous: false,
       enableHandleExistingCredential: false,
       translations: {},
@@ -92,7 +92,7 @@ export const mockNanoStores = {
 };
 
 // Mock for the FirebaseUI store token
-export const FIREBASE_UI_STORE = new InjectionToken<any>('firebaseui.store');
+export const FIREBASE_UI_STORE = new InjectionToken<any>("firebaseui.store");
 
 // Helper function to get all Firebase UI related providers for testing
 export function getFirebaseUITestProviders(): Provider[] {
@@ -103,7 +103,7 @@ export function getFirebaseUITestProviders(): Provider[] {
       provide: FIREBASE_UI_STORE,
       useValue: {
         config: {
-          language: 'en',
+          language: "en",
           enableAutoUpgradeAnonymous: false,
           enableHandleExistingCredential: false,
           translations: {},
@@ -113,8 +113,8 @@ export function getFirebaseUITestProviders(): Provider[] {
     {
       provide: FirebaseUIPolicies,
       useValue: {
-        termsOfServiceUrl: '/terms',
-        privacyPolicyUrl: '/privacy',
+        termsOfServiceUrl: "/terms",
+        privacyPolicyUrl: "/privacy",
       },
     },
   ];

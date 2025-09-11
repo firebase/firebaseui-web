@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
 
 @Component({
-  selector: 'fui-card',
+  selector: "fui-card",
   standalone: true,
   imports: [],
   template: `
@@ -27,15 +27,14 @@ import { CommonModule } from '@angular/common';
     </div>
   `,
 })
-export class CardComponent {
-}
+export class CardComponent {}
 
 @Component({
-  selector: 'fui-card-header',
+  selector: "fui-card-header",
   standalone: true,
   imports: [CommonModule],
   host: {
-    style: 'display: block;',
+    style: "display: block;",
   },
   template: `
     <div class="fui-card__header">
@@ -43,11 +42,10 @@ export class CardComponent {
     </div>
   `,
 })
-export class CardHeaderComponent {
-}
+export class CardHeaderComponent {}
 
 @Component({
-  selector: 'fui-card-title',
+  selector: "fui-card-title",
   standalone: true,
   imports: [CommonModule],
   template: `
@@ -56,11 +54,10 @@ export class CardHeaderComponent {
     </h2>
   `,
 })
-export class CardTitleComponent {
-}
+export class CardTitleComponent {}
 
 @Component({
-  selector: 'fui-card-subtitle',
+  selector: "fui-card-subtitle",
   standalone: true,
   imports: [CommonModule],
   template: `
@@ -69,5 +66,4 @@ export class CardTitleComponent {
     </p>
   `,
 })
-export class CardSubtitleComponent {
-}
+export class CardSubtitleComponent {}

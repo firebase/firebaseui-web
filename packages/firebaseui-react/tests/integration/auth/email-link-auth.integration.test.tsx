@@ -48,7 +48,7 @@ describe("Email Link Authentication Integration", () => {
       if (currentUser) {
         await deleteUser(currentUser);
       }
-    } catch (error) {
+    } catch (_error) {
       // Ignore cleanup errors
     }
   });
@@ -111,13 +111,9 @@ describe("Email Link Authentication Integration", () => {
 
           errorElements.forEach((element) => {
             const errorText = element.textContent?.toLowerCase() || "";
-            
+
             // Only fail if there's a critical error (not validation related)
-            if (
-              !errorText.includes("email") &&
-              !errorText.includes("valid") &&
-              !errorText.includes("required")
-            ) {
+            if (!errorText.includes("email") && !errorText.includes("valid") && !errorText.includes("required")) {
               hasCriticalError = true;
               criticalErrorText = errorText;
             }
@@ -125,10 +121,9 @@ describe("Email Link Authentication Integration", () => {
 
           // If we have critical errors, the test should fail with a descriptive message
           if (hasCriticalError) {
-            expect(
-              criticalErrorText,
-              `Critical error found in email link test: ${criticalErrorText}`
-            ).toContain("email"); // This will fail with a descriptive message
+            expect(criticalErrorText, `Critical error found in email link test: ${criticalErrorText}`).toContain(
+              "email"
+            ); // This will fail with a descriptive message
           }
         }
       },

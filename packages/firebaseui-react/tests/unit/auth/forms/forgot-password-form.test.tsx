@@ -96,9 +96,7 @@ vi.mock("../../../../src/components/field-info", () => ({
     .fn()
     .mockImplementation(({ field }) => (
       <div data-testid="field-info">
-        {field.state.meta.errors.length > 0 && (
-          <span>{field.state.meta.errors[0]}</span>
-        )}
+        {field.state.meta.errors.length > 0 && <span>{field.state.meta.errors[0]}</span>}
       </div>
     )),
 }));
@@ -126,9 +124,7 @@ describe("ForgotPasswordForm", () => {
   it("renders the form correctly", () => {
     render(<ForgotPasswordForm />);
 
-    expect(
-      screen.getByRole("textbox", { name: /email address/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole("textbox", { name: /email address/i })).toBeInTheDocument();
     expect(screen.getByTestId("submit-button")).toBeInTheDocument();
   });
 
@@ -153,10 +149,7 @@ describe("ForgotPasswordForm", () => {
     });
 
     // Check that the password reset function was called
-    expect(sendPasswordResetEmail).toHaveBeenCalledWith(
-      expect.anything(),
-      "test@example.com"
-    );
+    expect(sendPasswordResetEmail).toHaveBeenCalledWith(expect.anything(), "test@example.com");
   });
 
   it("displays error message when password reset fails", async () => {
@@ -226,14 +219,12 @@ describe("ForgotPasswordForm", () => {
   // TODO: Fix this test
   it.skip("displays back to sign in button when provided", () => {
     const onBackToSignInClickMock = vi.fn();
-    render(
-      <ForgotPasswordForm onBackToSignInClick={onBackToSignInClickMock} />
-    );
-    
+    render(<ForgotPasswordForm onBackToSignInClick={onBackToSignInClickMock} />);
+
     const backButton = screen.getByText(/back button/i);
     expect(backButton).toHaveClass("fui-form__action");
     expect(backButton).toBeInTheDocument();
-    
+
     fireEvent.click(backButton);
     expect(onBackToSignInClickMock).toHaveBeenCalled();
   });

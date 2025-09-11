@@ -14,4 +14,4 @@
  * limitations under the License.
  */
 
-export * from './header.component';
+export * from "./header.component";

@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { Component, Input, ElementRef, AfterContentInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Input, ElementRef, AfterContentInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
 
 @Component({
-  selector: 'fui-divider',
+  selector: "fui-divider",
   standalone: true,
   imports: [CommonModule],
   template: `
@@ -34,7 +34,7 @@ import { CommonModule } from '@angular/common';
 export class DividerComponent implements AfterContentInit {
   hasContent = false;
 
-  @Input() text: string = '';
+  @Input() text: string = "";
 
   get textContent(): string {
     return this.text;

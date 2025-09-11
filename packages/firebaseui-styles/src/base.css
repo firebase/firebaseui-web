@@ -81,11 +81,11 @@
   }
 
   .fui-form fieldset,
-  .fui-form fieldset>label {
+  .fui-form fieldset > label {
     @apply flex flex-col gap-2 text-text;
   }
 
-  .fui-form fieldset>label>span {
+  .fui-form fieldset > label > span {
     @apply inline-flex gap-3 text-sm font-medium;
   }
 
@@ -93,11 +93,11 @@
     @apply px-1 hover:underline text-xs text-text-muted;
   }
 
-  .fui-form fieldset>label>input {
+  .fui-form fieldset > label > input {
     @apply border-1 border-input rounded px-2 py-2 text-sm focus:outline-2 focus:outline-primary shadow-xs bg-transparent;
   }
 
-  .fui-form fieldset>label>input[aria-invalid="true"] {
+  .fui-form fieldset > label > input[aria-invalid="true"] {
     @apply outline-error outline-2;
   }
 
@@ -117,7 +117,7 @@
     @apply bg-transparent text-text border border-input hover:bg-background hover:border-primary;
   }
 
-  .fui-provider__button>svg {
+  .fui-provider__button > svg {
     @apply w-5 h-5;
   }
 

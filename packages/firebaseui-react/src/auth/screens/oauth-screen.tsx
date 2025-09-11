@@ -16,12 +16,7 @@
 
 import { getTranslation } from "@firebase-ui/core";
 import { useUI } from "~/hooks";
-import {
-  Card,
-  CardHeader,
-  CardSubtitle,
-  CardTitle,
-} from "../../components/card";
+import { Card, CardHeader, CardSubtitle, CardTitle } from "../../components/card";
 import { PropsWithChildren } from "react";
 import { Policies } from "~/components/policies";
 

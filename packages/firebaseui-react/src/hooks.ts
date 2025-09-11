@@ -31,10 +31,8 @@ export function useUI() {
  * If no UI configuration is provided, use the auth instance from the context.
  */
 export function useAuth(ui?: FirebaseUIConfiguration | undefined) {
-  const config = ui ?? useUI();
-  const auth = useMemo(
-    () => ui?.getAuth() ?? getAuth(config.app),
-    [config.app],
-  );
+  const contextUI = useUI();
+  const config = ui ?? contextUI;
+  const auth = useMemo(() => ui?.getAuth() ?? getAuth(config.app), [config.app]);
   return auth;
 }

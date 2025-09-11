@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-'use client';
+"use client";
 
 import Link from "next/link";
 import { useUser } from "../firebase/hooks";
@@ -39,7 +39,15 @@ export function Header(props: { currentUser: User | null }) {
         </div>
         <div className="flex-grow flex items-center justify-end">
           <ul className="text-sm flex items-center gap-6 *:hover:opacity-75">
-            {user ? <li><button onClick={onSignOut}>Sign Out</button></li> : <li><Link href="/sign-in">Sign In</Link></li>}
+            {user ? (
+              <li>
+                <button onClick={onSignOut}>Sign Out</button>
+              </li>
+            ) : (
+              <li>
+                <Link href="/sign-in">Sign In</Link>
+              </li>
+            )}
           </ul>
         </div>
       </div>

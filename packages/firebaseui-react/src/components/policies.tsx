@@ -30,11 +30,9 @@ export interface PolicyProps {
   privacyPolicyUrl: Url;
 }
 
-const PolicyContext = createContext<PolicyProps | undefined>(
-  undefined
-);
+const PolicyContext = createContext<PolicyProps | undefined>(undefined);
 
-export function PolicyProvider({ children, policies }: { children: React.ReactNode, policies?: PolicyProps }) {
+export function PolicyProvider({ children, policies }: { children: React.ReactNode; policies?: PolicyProps }) {
   return <PolicyContext.Provider value={policies}>{children}</PolicyContext.Provider>;
 }
 

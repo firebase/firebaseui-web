@@ -88,17 +88,13 @@ vi.mock("../../../../src/components/field-info", () => ({
     .fn()
     .mockImplementation(({ field }) => (
       <div data-testid="field-info">
-        {field.state.meta.errors.length > 0 && (
-          <span>{field.state.meta.errors[0]}</span>
-        )}
+        {field.state.meta.errors.length > 0 && <span>{field.state.meta.errors[0]}</span>}
       </div>
     )),
 }));
 
 vi.mock("../../../../src/components/policies", () => ({
-  Policies: vi
-    .fn()
-    .mockReturnValue(<div data-testid="policies" />),
+  Policies: vi.fn().mockReturnValue(<div data-testid="policies" />),
 }));
 
 vi.mock("../../../../src/components/button", () => ({
@@ -120,9 +116,7 @@ describe("EmailPasswordForm", () => {
   it("renders the form correctly", () => {
     render(<EmailPasswordForm />);
 
-    expect(
-      screen.getByRole("textbox", { name: /email address/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole("textbox", { name: /email address/i })).toBeInTheDocument();
     expect(screen.getByTestId("policies")).toBeInTheDocument();
     expect(screen.getByTestId("submit-button")).toBeInTheDocument();
   });
@@ -149,11 +143,7 @@ describe("EmailPasswordForm", () => {
     });
 
     // Check that the authentication function was called
-    expect(signInWithEmailAndPassword).toHaveBeenCalledWith(
-      expect.anything(),
-      "test@example.com",
-      "password123"
-    );
+    expect(signInWithEmailAndPassword).toHaveBeenCalledWith(expect.anything(), "test@example.com", "password123");
   });
 
   it("displays error message when sign in fails", async () => {

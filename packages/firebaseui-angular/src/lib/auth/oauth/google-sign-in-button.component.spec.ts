@@ -14,22 +14,19 @@
  * limitations under the License.
  */
 
-import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Auth, GoogleAuthProvider } from '@angular/fire/auth';
-import { By } from '@angular/platform-browser';
-import { of } from 'rxjs';
-import { FirebaseUI } from '../../provider';
-import { GoogleSignInButtonComponent } from './google-sign-in-button.component';
+import { CommonModule } from "@angular/common";
+import { Component, Input } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { Auth, GoogleAuthProvider } from "@angular/fire/auth";
+import { By } from "@angular/platform-browser";
+import { of } from "rxjs";
+import { FirebaseUI } from "../../provider";
+import { GoogleSignInButtonComponent } from "./google-sign-in-button.component";
 
 // Mock OAuthButton component
 @Component({
-  selector: 'fui-oauth-button',
-  template: `<div
-    data-testid="oauth-button"
-    data-provider="{{ provider?.constructor.name }}"
-  >
+  selector: "fui-oauth-button",
+  template: `<div data-testid="oauth-button" data-provider="{{ provider?.constructor.name }}">
     <ng-content></ng-content>
   </div>`,
   standalone: true,
@@ -41,8 +38,8 @@ class MockOAuthButtonComponent {
 // Create mock for FirebaseUi provider
 class MockFirebaseUi {
   translation(category: string, key: string) {
-    if (category === 'labels' && key === 'signInWithGoogle') {
-      return of('Sign in with Google');
+    if (category === "labels" && key === "signInWithGoogle") {
+      return of("Sign in with Google");
     }
     return of(`${category}.${key}`);
   }
@@ -57,7 +54,7 @@ class TestGoogleSignInButtonComponent extends GoogleSignInButtonComponent {
   }
 }
 
-describe('GoogleSignInButtonComponent', () => {
+describe("GoogleSignInButtonComponent", () => {
   let component: TestGoogleSignInButtonComponent;
   let fixture: ComponentFixture<TestGoogleSignInButtonComponent>;
   let mockFirebaseUi: MockFirebaseUi;
@@ -65,17 +62,10 @@ describe('GoogleSignInButtonComponent', () => {
 
   beforeEach(async () => {
     mockFirebaseUi = new MockFirebaseUi();
-    mockAuth = jasmine.createSpyObj('Auth', [
-      'signInWithPopup',
-      'signInWithRedirect',
-    ]);
+    mockAuth = jasmine.createSpyObj("Auth", ["signInWithPopup", "signInWithRedirect"]);
 
     await TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        TestGoogleSignInButtonComponent,
-        MockOAuthButtonComponent,
-      ],
+      imports: [CommonModule, TestGoogleSignInButtonComponent, MockOAuthButtonComponent],
       providers: [
         { provide: FirebaseUI, useValue: mockFirebaseUi },
         { provide: Auth, useValue: mockAuth },
@@ -102,51 +92,45 @@ describe('GoogleSignInButtonComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 
-  it('should use the GoogleAuthProvider', () => {
+  it("should use the GoogleAuthProvider", () => {
     expect(component.googleProvider instanceof GoogleAuthProvider).toBeTrue();
   });
 
-  it('should render with the correct provider', () => {
-    const oauthButton = fixture.debugElement.query(
-      By.css('[data-testid="oauth-button"]')
-    );
+  it("should render with the correct provider", () => {
+    const oauthButton = fixture.debugElement.query(By.css('[data-testid="oauth-button"]'));
     // Skip this test if the element isn't found - it's likely not rendering correctly in test environment
     if (!oauthButton) {
-      console.warn('OAuth button element not found in test environment');
-      pending('Test environment issue - OAuth button not rendered');
+      console.warn("OAuth button element not found in test environment");
+      pending("Test environment issue - OAuth button not rendered");
       return;
     }
-    expect(oauthButton.nativeElement.getAttribute('data-provider')).toBe(
-      'GoogleAuthProvider'
-    );
+    expect(oauthButton.nativeElement.getAttribute("data-provider")).toBe("GoogleAuthProvider");
   });
 
-  it('should render with the Google icon SVG', () => {
-    const svg = fixture.debugElement.query(By.css('svg'));
+  it("should render with the Google icon SVG", () => {
+    const svg = fixture.debugElement.query(By.css("svg"));
     // Skip this test if the element isn't found
     if (!svg) {
-      console.warn('SVG element not found in test environment');
-      pending('Test environment issue - SVG not rendered');
+      console.warn("SVG element not found in test environment");
+      pending("Test environment issue - SVG not rendered");
       return;
     }
-    expect(
-      svg.nativeElement.classList.contains('fui-provider__icon')
-    ).toBeTrue();
+    expect(svg.nativeElement.classList.contains("fui-provider__icon")).toBeTrue();
   });
 
-  it('should display the correct sign-in text', () => {
+  it("should display the correct sign-in text", () => {
     fixture.detectChanges(); // Make sure the async pipe is resolved
-    const span = fixture.debugElement.query(By.css('span'));
+    const span = fixture.debugElement.query(By.css("span"));
     // Skip this test if the element isn't found
     if (!span) {
-      console.warn('Span element not found in test environment');
-      pending('Test environment issue - span not rendered');
+      console.warn("Span element not found in test environment");
+      pending("Test environment issue - span not rendered");
       return;
     }
-    expect(span.nativeElement.textContent).toBe('Sign in with Google');
+    expect(span.nativeElement.textContent).toBe("Sign in with Google");
   });
 });

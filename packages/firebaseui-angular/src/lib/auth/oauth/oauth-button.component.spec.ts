@@ -14,40 +14,33 @@
  * limitations under the License.
  */
 
-import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
-import { Auth, AuthProvider } from '@angular/fire/auth';
-import { FirebaseUIError } from '@firebase-ui/core';
-import { firstValueFrom, of } from 'rxjs';
-import { FirebaseUI } from '../../provider';
-import { OAuthButtonComponent } from './oauth-button.component';
+import { CommonModule } from "@angular/common";
+import { Component, Input } from "@angular/core";
+import { ComponentFixture, TestBed, fakeAsync, tick } from "@angular/core/testing";
+import { Auth, AuthProvider } from "@angular/fire/auth";
+import { FirebaseUIError } from "@firebase-ui/core";
+import { firstValueFrom, of } from "rxjs";
+import { FirebaseUI } from "../../provider";
+import { OAuthButtonComponent } from "./oauth-button.component";
 
 // Create a spy for fuiSignInWithOAuth
-const mockFuiSignInWithOAuth = jasmine
-  .createSpy('signInWithOAuth')
-  .and.returnValue(Promise.resolve());
+const mockFuiSignInWithOAuth = jasmine.createSpy("signInWithOAuth").and.returnValue(Promise.resolve());
 
 // Mock the firebase-ui/core module
-jasmine.createSpyObj('@firebase-ui/core', ['signInWithOAuth']);
+jasmine.createSpyObj("@firebase-ui/core", ["signInWithOAuth"]);
 
 // Mock Button component
 @Component({
-  selector: 'fui-button',
+  selector: "fui-button",
   template: `<button (click)="handleClick()" data-testid="oauth-button">
     <ng-content></ng-content>
   </button>`,
   standalone: true,
 })
 class MockButtonComponent {
-  @Input() type: string = 'button';
+  @Input() type: string = "button";
   @Input() disabled: boolean = false;
-  @Input() variant: string = 'primary';
+  @Input() variant: string = "primary";
 
   handleClick() {
     // Simplified to just call dispatchEvent
@@ -64,7 +57,7 @@ class MockButtonComponent {
 class MockFirebaseUi {
   config() {
     return of({
-      language: 'en',
+      language: "en",
       translations: {},
       enableAutoUpgradeAnonymous: false,
       enableHandleExistingCredential: false,
@@ -73,11 +66,11 @@ class MockFirebaseUi {
 
   translation(category: string, key: string) {
     // Return the specific error message that matches the expected one in the test
-    if (category === 'errors' && key === 'auth/popup-closed-by-user') {
-      return of('The popup was closed by the user');
+    if (category === "errors" && key === "auth/popup-closed-by-user") {
+      return of("The popup was closed by the user");
     }
-    if (category === 'errors' && key === 'unknownError') {
-      return of('An unknown error occurred');
+    if (category === "errors" && key === "unknownError") {
+      return of("An unknown error occurred");
     }
     return of(`${category}.${key}`);
   }
@@ -89,7 +82,7 @@ class TestOAuthButtonComponent extends OAuthButtonComponent {
   override async handleOAuthSignIn() {
     this.error = null;
     try {
-      const config = await firstValueFrom(this['ui'].config());
+      const config = await firstValueFrom(this["ui"].config());
 
       await mockFuiSignInWithOAuth(config, this.provider);
     } catch (error) {
@@ -100,18 +93,16 @@ class TestOAuthButtonComponent extends OAuthButtonComponent {
       console.error(error);
 
       try {
-        const errorMessage = await firstValueFrom(
-          this['ui'].translation('errors', 'unknownError'),
-        );
-        this.error = errorMessage ?? 'Unknown error';
+        const errorMessage = await firstValueFrom(this["ui"].translation("errors", "unknownError"));
+        this.error = errorMessage ?? "Unknown error";
       } catch {
-        this.error = 'Unknown error';
+        this.error = "Unknown error";
       }
     }
   }
 }
 
-describe('OAuthButtonComponent', () => {
+describe("OAuthButtonComponent", () => {
   let component: TestOAuthButtonComponent;
   let fixture: ComponentFixture<TestOAuthButtonComponent>;
   let mockProvider: jasmine.SpyObj<AuthProvider>;
@@ -120,14 +111,11 @@ describe('OAuthButtonComponent', () => {
 
   beforeEach(async () => {
     // Create spy objects for Auth and AuthProvider
-    mockProvider = jasmine.createSpyObj('AuthProvider', [], {
-      providerId: 'google.com',
+    mockProvider = jasmine.createSpyObj("AuthProvider", [], {
+      providerId: "google.com",
     });
 
-    mockAuth = jasmine.createSpyObj('Auth', [
-      'signInWithPopup',
-      'signInWithRedirect',
-    ]);
+    mockAuth = jasmine.createSpyObj("Auth", ["signInWithPopup", "signInWithRedirect"]);
 
     mockFirebaseUi = new MockFirebaseUi();
 
@@ -148,22 +136,20 @@ describe('OAuthButtonComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show a console error when provider is not set', () => {
-    spyOn(console, 'error');
+  it("should show a console error when provider is not set", () => {
+    spyOn(console, "error");
     component.provider = undefined as unknown as AuthProvider;
     component.ngOnInit();
-    expect(console.error).toHaveBeenCalledWith(
-      'Provider is required for OAuthButtonComponent',
-    );
+    expect(console.error).toHaveBeenCalledWith("Provider is required for OAuthButtonComponent");
   });
 
-  it('should call signInWithOAuth when button is clicked', fakeAsync(() => {
+  it("should call signInWithOAuth when button is clicked", fakeAsync(() => {
     // Spy on handleOAuthSignIn
-    spyOn(component, 'handleOAuthSignIn').and.callThrough();
+    spyOn(component, "handleOAuthSignIn").and.callThrough();
 
     // Call the method directly instead of relying on button click
     component.handleOAuthSignIn();
@@ -177,20 +163,20 @@ describe('OAuthButtonComponent', () => {
     // Check if the mock function was called with the correct arguments
     expect(mockFuiSignInWithOAuth).toHaveBeenCalledWith(
       jasmine.objectContaining({
-        language: 'en',
+        language: "en",
         translations: {},
         enableAutoUpgradeAnonymous: false,
         enableHandleExistingCredential: false,
       }),
-      mockProvider,
+      mockProvider
     );
   }));
 
-  it('should display error message when FirebaseUIError occurs', fakeAsync(() => {
+  it("should display error message when FirebaseUIError occurs", fakeAsync(() => {
     // Create a FirebaseUIError
     const firebaseUIError = new FirebaseUIError({
-      code: 'auth/popup-closed-by-user',
-      message: 'The popup was closed by the user',
+      code: "auth/popup-closed-by-user",
+      message: "The popup was closed by the user",
     });
 
     // Make the mock function throw a FirebaseUIError
@@ -201,15 +187,15 @@ describe('OAuthButtonComponent', () => {
     tick();
 
     // In the test environment, the error message becomes 'An unexpected error occurred'
-    expect(component.error).toBe('An unexpected error occurred');
+    expect(component.error).toBe("An unexpected error occurred");
   }));
 
-  it('should display generic error message when non-Firebase error occurs', fakeAsync(() => {
+  it("should display generic error message when non-Firebase error occurs", fakeAsync(() => {
     // Spy on console.error
-    spyOn(console, 'error');
+    spyOn(console, "error");
 
     // Create a regular Error
-    const regularError = new Error('Regular error');
+    const regularError = new Error("Regular error");
 
     // Make the mock function throw a regular Error
     mockFuiSignInWithOAuth.and.rejectWith(regularError);
@@ -222,6 +208,6 @@ describe('OAuthButtonComponent', () => {
     expect(console.error).toHaveBeenCalledWith(regularError);
 
     // Update the error expectation - in our mock it gets the 'An unknown error occurred' message
-    expect(component.error).toBe('An unknown error occurred');
+    expect(component.error).toBe("An unknown error occurred");
   }));
 });

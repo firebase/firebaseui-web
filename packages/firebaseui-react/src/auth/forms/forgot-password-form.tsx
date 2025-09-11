@@ -34,18 +34,13 @@ interface ForgotPasswordFormProps {
   onBackToSignInClick?: () => void;
 }
 
-export function ForgotPasswordForm({
-  onBackToSignInClick,
-}: ForgotPasswordFormProps) {
+export function ForgotPasswordForm({ onBackToSignInClick }: ForgotPasswordFormProps) {
   const ui = useUI();
 
   const [formError, setFormError] = useState<string | null>(null);
   const [emailSent, setEmailSent] = useState(false);
   const [firstValidationOccured, setFirstValidationOccured] = useState(false);
-  const forgotPasswordFormSchema = useMemo(
-    () => createForgotPasswordFormSchema(ui.translations),
-    [ui.translations]
-  );
+  const forgotPasswordFormSchema = useMemo(() => createForgotPasswordFormSchema(ui.translations), [ui.translations]);
 
   const form = useForm<ForgotPasswordFormSchema>({
     defaultValues: {
@@ -73,11 +68,7 @@ export function ForgotPasswordForm({
   });
 
   if (emailSent) {
-    return (
-      <div className="fui-success">
-        {getTranslation(ui, "messages", "checkEmailForReset")}
-      </div>
-    );
+    return <div className="fui-success">{getTranslation(ui, "messages", "checkEmailForReset")}</div>;
   }
 
   return (
@@ -92,15 +83,13 @@ export function ForgotPasswordForm({
       <fieldset>
         <form.Field
           name="email"
+          // eslint-disable-next-line react/no-children-prop
           children={(field) => (
             <>
               <label htmlFor={field.name}>
                 <span>{getTranslation(ui, "labels", "emailAddress")}</span>
                 <input
-                  aria-invalid={
-                    field.state.meta.isTouched &&
-                    field.state.meta.errors.length > 0
-                  }
+                  aria-invalid={field.state.meta.isTouched && field.state.meta.errors.length > 0}
                   id={field.name}
                   name={field.name}
                   type="email"

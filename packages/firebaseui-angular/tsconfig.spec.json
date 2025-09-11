@@ -3,14 +3,8 @@
 {
   "compilerOptions": {
     "outDir": "../../out-tsc/spec",
-    "types": [
-      "jasmine",
-      "node"
-    ],
-    "lib": [
-      "es2018",
-      "dom"
-    ],
+    "types": ["jasmine", "node"],
+    "lib": ["es2018", "dom"],
     "target": "es2018",
     "module": "es2020",
     "moduleResolution": "node",
@@ -24,12 +18,6 @@
     "sourceMap": true,
     "declaration": false
   },
-  "include": [
-    "src/**/*.spec.ts",
-    "src/**/*.d.ts",
-    "src/**/*.ts"
-  ],
-  "files": [
-    "src/test.ts"
-  ]
+  "include": ["src/**/*.spec.ts", "src/**/*.d.ts", "src/**/*.ts"],
+  "files": ["src/test.ts"]
 }

@@ -21,32 +21,23 @@ import {
   InjectionToken,
   Injectable,
   inject,
-} from '@angular/core';
-import { FirebaseApps } from '@angular/fire/app';
-import {
-  type FirebaseUI as FirebaseUIType,
-  getTranslation,
-} from '@firebase-ui/core';
-import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
-import { Observable, ReplaySubject } from 'rxjs';
-import { Store } from 'nanostores';
-import { TranslationCategory, TranslationKey } from '@firebase-ui/translations';
+} from "@angular/core";
+import { FirebaseApps } from "@angular/fire/app";
+import { type FirebaseUI as FirebaseUIType, getTranslation } from "@firebase-ui/core";
+import { distinctUntilChanged, map, takeUntil } from "rxjs/operators";
+import { Observable, ReplaySubject } from "rxjs";
+import { Store } from "nanostores";
+import { TranslationCategory, TranslationKey } from "@firebase-ui/translations";
 
-const FIREBASE_UI_STORE = new InjectionToken<FirebaseUIType>(
-  'firebaseui.store',
-);
-const FIREBASE_UI_POLICIES = new InjectionToken<PolicyConfig>(
-  'firebaseui.policies',
-);
+const FIREBASE_UI_STORE = new InjectionToken<FirebaseUIType>("firebaseui.store");
+const FIREBASE_UI_POLICIES = new InjectionToken<PolicyConfig>("firebaseui.policies");
 
 type PolicyConfig = {
   termsOfServiceUrl: string;
   privacyPolicyUrl: string;
 };
 
-export function provideFirebaseUI(
-  uiFactory: (apps: FirebaseApps) => FirebaseUIType,
-): EnvironmentProviders {
+export function provideFirebaseUI(uiFactory: (apps: FirebaseApps) => FirebaseUIType): EnvironmentProviders {
   const providers: Provider[] = [
     // TODO: This should depend on the FirebaseAuth provider via deps,
     // see https://github.com/angular/angularfire/blob/35e0a9859299010488852b1826e4083abe56528f/src/firestore/firestore.module.ts#L76
@@ -57,15 +48,13 @@ export function provideFirebaseUI(
 }
 
 export function provideFirebaseUIPolicies(factory: () => PolicyConfig) {
-  const providers: Provider[] = [
-    { provide: FIREBASE_UI_POLICIES, useFactory: factory },
-  ];
+  const providers: Provider[] = [{ provide: FIREBASE_UI_POLICIES, useFactory: factory }];
 
   return makeEnvironmentProviders(providers);
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class FirebaseUI {
   private store = inject(FIREBASE_UI_STORE);
@@ -75,13 +64,8 @@ export class FirebaseUI {
     return this.useStore(this.store);
   }
 
-  translation<T extends TranslationCategory>(
-    category: T,
-    key: TranslationKey<T>,
-  ) {
-    return this.config().pipe(
-      map((config) => getTranslation(config, category, key)),
-    );
+  translation<T extends TranslationCategory>(category: T, key: TranslationKey<T>) {
+    return this.config().pipe(map((config) => getTranslation(config, category, key)));
   }
 
   useStore<T>(store: Store<T>): Observable<T> {
@@ -98,7 +82,7 @@ export class FirebaseUI {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class FirebaseUIPolicies {
   private policies = inject(FIREBASE_UI_POLICIES);

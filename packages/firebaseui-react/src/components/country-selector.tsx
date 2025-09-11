@@ -25,11 +25,7 @@ interface CountrySelectorProps {
   className?: string;
 }
 
-export function CountrySelector({
-  value,
-  onChange,
-  className,
-}: CountrySelectorProps) {
+export function CountrySelector({ value, onChange, className }: CountrySelectorProps) {
   return (
     <div className={cn("fui-country-selector", className)}>
       <div className="fui-country-selector__wrapper">
@@ -47,10 +43,7 @@ export function CountrySelector({
             }}
           >
             {countryData.map((country) => (
-              <option
-                key={`${country.code}-${country.dialCode}`}
-                value={country.code}
-              >
+              <option key={`${country.code}-${country.dialCode}`} value={country.code}>
                 {country.dialCode} ({country.name})
               </option>
             ))}

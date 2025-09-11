@@ -17,12 +17,7 @@
 import { PropsWithChildren } from "react";
 import { Divider } from "~/components/divider";
 import { useUI } from "~/hooks";
-import {
-  Card,
-  CardHeader,
-  CardSubtitle,
-  CardTitle,
-} from "../../components/card";
+import { Card, CardHeader, CardSubtitle, CardTitle } from "../../components/card";
 import { RegisterForm } from "../forms/register-form";
 import { getTranslation } from "@firebase-ui/core";
 
@@ -30,10 +25,7 @@ export type SignUpAuthScreenProps = PropsWithChildren<{
   onBackToSignInClick?: () => void;
 }>;
 
-export function SignUpAuthScreen({
-  onBackToSignInClick,
-  children,
-}: SignUpAuthScreenProps) {
+export function SignUpAuthScreen({ onBackToSignInClick, children }: SignUpAuthScreenProps) {
   const ui = useUI();
 
   const titleText = getTranslation(ui, "labels", "register");

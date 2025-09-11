@@ -14,25 +14,17 @@
  * limitations under the License.
  */
 
-import { Component } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { ButtonComponent } from './button.component';
+import { Component } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { ButtonComponent } from "./button.component";
 
 @Component({
   template: `
-    <fui-button (click)="handleClick()" data-testid="test-button"
-      >Click me</fui-button
-    >
-    <fui-button variant="secondary" data-testid="secondary-button"
-      >Secondary</fui-button
-    >
-    <fui-button class="custom-class" data-testid="custom-class-button"
-      >Custom Class</fui-button
-    >
-    <fui-button [disabled]="true" data-testid="disabled-button"
-      >Disabled</fui-button
-    >
+    <fui-button (click)="handleClick()" data-testid="test-button">Click me</fui-button>
+    <fui-button variant="secondary" data-testid="secondary-button">Secondary</fui-button>
+    <fui-button class="custom-class" data-testid="custom-class-button">Custom Class</fui-button>
+    <fui-button [disabled]="true" data-testid="disabled-button">Disabled</fui-button>
   `,
   standalone: true,
   imports: [ButtonComponent],
@@ -45,7 +37,7 @@ class TestHostComponent {
   }
 }
 
-describe('ButtonComponent', () => {
+describe("ButtonComponent", () => {
   let fixture: ComponentFixture<TestHostComponent>;
   let hostComponent: TestHostComponent;
 
@@ -59,44 +51,34 @@ describe('ButtonComponent', () => {
     fixture.detectChanges();
   });
 
-  it('renders with default variant (primary)', () => {
-    const buttonEl = fixture.debugElement.query(
-      By.css('[data-testid="test-button"]')
-    );
-    const button = buttonEl.nativeElement.querySelector('button');
+  it("renders with default variant (primary)", () => {
+    const buttonEl = fixture.debugElement.query(By.css('[data-testid="test-button"]'));
+    const button = buttonEl.nativeElement.querySelector("button");
 
     expect(button).toBeTruthy();
-    expect(button.classList.contains('fui-button')).toBeTrue();
-    expect(button.classList.contains('fui-button--secondary')).toBeFalse();
-    expect(button.textContent.trim()).toBe('Click me');
+    expect(button.classList.contains("fui-button")).toBeTrue();
+    expect(button.classList.contains("fui-button--secondary")).toBeFalse();
+    expect(button.textContent.trim()).toBe("Click me");
   });
 
-  it('renders with secondary variant', () => {
-    const buttonEl = fixture.debugElement.query(
-      By.css('[data-testid="secondary-button"]')
-    );
-    const button = buttonEl.nativeElement.querySelector('button');
+  it("renders with secondary variant", () => {
+    const buttonEl = fixture.debugElement.query(By.css('[data-testid="secondary-button"]'));
+    const button = buttonEl.nativeElement.querySelector("button");
 
     expect(button).toBeTruthy();
-    expect(button.classList.contains('fui-button')).toBeTrue();
-    expect(button.classList.contains('fui-button--secondary')).toBeTrue();
+    expect(button.classList.contains("fui-button")).toBeTrue();
+    expect(button.classList.contains("fui-button--secondary")).toBeTrue();
   });
 
-  it('applies custom className', () => {
-    const buttonEl = fixture.debugElement.query(
-      By.css('[data-testid="custom-class-button"]')
-    );
+  it("applies custom className", () => {
+    const buttonEl = fixture.debugElement.query(By.css('[data-testid="custom-class-button"]'));
 
-    expect(
-      buttonEl.nativeElement.classList.contains('custom-class')
-    ).toBeTrue();
+    expect(buttonEl.nativeElement.classList.contains("custom-class")).toBeTrue();
   });
 
-  it('handles click events', () => {
-    const buttonEl = fixture.debugElement.query(
-      By.css('[data-testid="test-button"]')
-    );
-    const button = buttonEl.nativeElement.querySelector('button');
+  it("handles click events", () => {
+    const buttonEl = fixture.debugElement.query(By.css('[data-testid="test-button"]'));
+    const button = buttonEl.nativeElement.querySelector("button");
 
     expect(hostComponent.clicks).toBe(0);
 
@@ -106,11 +88,9 @@ describe('ButtonComponent', () => {
     expect(hostComponent.clicks).toBe(1);
   });
 
-  it('can be disabled', () => {
-    const buttonEl = fixture.debugElement.query(
-      By.css('[data-testid="disabled-button"]')
-    );
-    const button = buttonEl.query(By.css('button'));
+  it("can be disabled", () => {
+    const buttonEl = fixture.debugElement.query(By.css('[data-testid="disabled-button"]'));
+    const button = buttonEl.query(By.css("button"));
 
     expect(button).toBeTruthy();
     expect(button.nativeElement.disabled).toBeTrue();

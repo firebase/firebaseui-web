@@ -16,12 +16,7 @@
 
 import { CommonModule } from "@angular/common";
 import { Component, Input } from "@angular/core";
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-} from "@angular/core/testing";
+import { ComponentFixture, TestBed, fakeAsync, tick } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 import { Router, provideRouter } from "@angular/router";
 import { TanStackField } from "@tanstack/angular-form";
@@ -93,9 +88,7 @@ describe("ForgotPasswordFormComponent", () => {
     };
 
     // Create spies for the global functions
-    sendResetEmailSpy = jasmine
-      .createSpy("sendPasswordResetEmail")
-      .and.returnValue(Promise.resolve());
+    sendResetEmailSpy = jasmine.createSpy("sendPasswordResetEmail").and.returnValue(Promise.resolve());
 
     // Define the function on the window object
     Object.defineProperty(window, "sendPasswordResetEmail", {
@@ -118,11 +111,7 @@ describe("ForgotPasswordFormComponent", () => {
         MockButtonComponent,
         MockTermsAndPrivacyComponent,
       ],
-      providers: [
-        provideRouter([]),
-        { provide: Router, useValue: mockRouter },
-        ...getFirebaseUITestProviders(),
-      ],
+      providers: [provideRouter([]), { provide: Router, useValue: mockRouter }, ...getFirebaseUITestProviders()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ForgotPasswordFormComponent);
@@ -147,12 +136,8 @@ describe("ForgotPasswordFormComponent", () => {
     expect(component).toBeTruthy();
 
     // Check essential elements are present
-    const emailInput = fixture.debugElement.query(
-      By.css('input[type="email"]')
-    );
-    const termsAndPrivacy = fixture.debugElement.query(
-      By.css("fui-terms-and-privacy")
-    );
+    const emailInput = fixture.debugElement.query(By.css('input[type="email"]'));
+    const termsAndPrivacy = fixture.debugElement.query(By.css("fui-terms-and-privacy"));
     const submitButton = fixture.debugElement.query(By.css("fui-button"));
 
     expect(emailInput).toBeTruthy();
@@ -196,13 +181,9 @@ describe("ForgotPasswordFormComponent", () => {
     fixture.detectChanges();
 
     // Check for success message
-    const successMessage = fixture.debugElement.query(
-      By.css(".fui-form__success")
-    );
+    const successMessage = fixture.debugElement.query(By.css(".fui-form__success"));
     expect(successMessage).toBeTruthy();
-    expect(successMessage.nativeElement.textContent.trim()).toContain(
-      "Check your email"
-    );
+    expect(successMessage.nativeElement.textContent.trim()).toContain("Check your email");
   });
 
   it("navigates to sign in route when back button is clicked", () => {

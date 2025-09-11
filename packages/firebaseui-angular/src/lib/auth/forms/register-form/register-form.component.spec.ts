@@ -16,12 +16,7 @@
 
 import { CommonModule } from "@angular/common";
 import { Component, Input } from "@angular/core";
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-} from "@angular/core/testing";
+import { ComponentFixture, TestBed, fakeAsync, tick } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 import { Router, provideRouter } from "@angular/router";
 import { TanStackField } from "@tanstack/angular-form";
@@ -100,9 +95,7 @@ describe("RegisterFormComponent", () => {
     };
 
     // Create spies for the global functions
-    signUpSpy = jasmine
-      .createSpy("fuiCreateUserWithEmailAndPassword")
-      .and.returnValue(Promise.resolve());
+    signUpSpy = jasmine.createSpy("fuiCreateUserWithEmailAndPassword").and.returnValue(Promise.resolve());
 
     // Define the function on the window object
     Object.defineProperty(window, "fuiCreateUserWithEmailAndPassword", {
@@ -118,18 +111,8 @@ describe("RegisterFormComponent", () => {
     });
 
     await TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        RegisterFormComponent,
-        TanStackField,
-        MockButtonComponent,
-        MockTermsAndPrivacyComponent,
-      ],
-      providers: [
-        provideRouter([]),
-        { provide: Router, useValue: mockRouter },
-        ...getFirebaseUITestProviders(),
-      ],
+      imports: [CommonModule, RegisterFormComponent, TanStackField, MockButtonComponent, MockTermsAndPrivacyComponent],
+      providers: [provideRouter([]), { provide: Router, useValue: mockRouter }, ...getFirebaseUITestProviders()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(RegisterFormComponent);
@@ -154,15 +137,9 @@ describe("RegisterFormComponent", () => {
     expect(component).toBeTruthy();
 
     // Check essential elements are present
-    const emailInput = fixture.debugElement.query(
-      By.css('input[type="email"]')
-    );
-    const passwordInput = fixture.debugElement.query(
-      By.css('input[type="password"]')
-    );
-    const termsAndPrivacy = fixture.debugElement.query(
-      By.css("fui-terms-and-privacy")
-    );
+    const emailInput = fixture.debugElement.query(By.css('input[type="email"]'));
+    const passwordInput = fixture.debugElement.query(By.css('input[type="password"]'));
+    const termsAndPrivacy = fixture.debugElement.query(By.css("fui-terms-and-privacy"));
     const submitButton = fixture.debugElement.query(By.css("fui-button"));
 
     expect(emailInput).toBeTruthy();
@@ -188,10 +165,7 @@ describe("RegisterFormComponent", () => {
     tick();
 
     // Check if registerUser was called with correct values
-    expect(component.registerUser).toHaveBeenCalledWith(
-      "test@example.com",
-      "password123"
-    );
+    expect(component.registerUser).toHaveBeenCalledWith("test@example.com", "password123");
   }));
 
   it("displays error message when registration fails", fakeAsync(() => {
@@ -202,9 +176,7 @@ describe("RegisterFormComponent", () => {
     // Check that the error message is displayed in the DOM
     const formErrorEl = fixture.debugElement.query(By.css(".fui-form__error"));
     expect(formErrorEl).toBeTruthy();
-    expect(formErrorEl.nativeElement.textContent.trim()).toBe(
-      "Email already in use"
-    );
+    expect(formErrorEl.nativeElement.textContent.trim()).toBe("Email already in use");
   }));
 
   it("navigates to sign in route when the link is clicked", () => {

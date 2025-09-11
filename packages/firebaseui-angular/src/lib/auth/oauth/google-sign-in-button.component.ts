@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { OAuthButtonComponent } from './oauth-button.component';
-import { FirebaseUI } from '../../provider';
-import { GoogleAuthProvider } from '@angular/fire/auth';
+import { Component, inject } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { OAuthButtonComponent } from "./oauth-button.component";
+import { FirebaseUI } from "../../provider";
+import { GoogleAuthProvider } from "@angular/fire/auth";
 
 @Component({
-  selector: 'fui-google-sign-in-button',
+  selector: "fui-google-sign-in-button",
   standalone: true,
   imports: [CommonModule, OAuthButtonComponent],
   template: `
@@ -51,13 +51,13 @@ import { GoogleAuthProvider } from '@angular/fire/auth';
       </svg>
       <span>{{ signInWithGoogleLabel | async }}</span>
     </fui-oauth-button>
-  `
+  `,
 })
 export class GoogleSignInButtonComponent {
   private ui = inject(FirebaseUI);
   googleProvider = new GoogleAuthProvider();
 
   get signInWithGoogleLabel() {
-    return this.ui.translation('labels', 'signInWithGoogle');
+    return this.ui.translation("labels", "signInWithGoogle");
   }
 }

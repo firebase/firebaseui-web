@@ -9,7 +9,5 @@
     "inlineSources": true,
     "types": []
   },
-  "exclude": [
-    "**/*.spec.ts"
-  ]
+  "exclude": ["**/*.spec.ts"]
 }

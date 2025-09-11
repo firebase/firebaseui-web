@@ -55,9 +55,7 @@ describe("TermsAndPrivacy Component", () => {
     );
 
     // Check that the text and links are rendered
-    expect(
-      screen.getByText(/By continuing, you agree to our/)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/By continuing, you agree to our/)).toBeInTheDocument();
 
     const tosLink = screen.getByText("Terms of Service");
     expect(tosLink).toBeInTheDocument();

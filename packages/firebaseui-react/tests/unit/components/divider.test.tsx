@@ -44,9 +44,7 @@ describe("Divider Component", () => {
   });
 
   it("applies custom className", () => {
-    render(
-      <Divider data-testid="divider-custom-class" className="custom-class" />
-    );
+    render(<Divider data-testid="divider-custom-class" className="custom-class" />);
     const divider = screen.getByTestId("divider-custom-class");
 
     expect(divider).toHaveClass("fui-divider");
