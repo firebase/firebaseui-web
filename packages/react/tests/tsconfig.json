@@ -1,6 +1,6 @@
 {
   "extends": "../tsconfig.test.json",
-  "include": ["./**/*.tsx", "./**/*.ts", "../src/components/button.test.tsx", "../src/hooks.test.tsx", "../src/context.test.tsx", "../setup-test.ts", "../src/auth/forms/email-link-form.test.tsx", "../src/auth/forms/email-password-form.test.tsx", "../src/auth/forms/forgot-password-form.test.tsx", "../src/auth/forms/register-form.test.tsx", "../src/auth/oauth/google-sign-in-button.test.tsx", "../src/auth/screens/password-reset-screen.test.tsx",, "../src/auth/screens/oauth-screen.test.tsx" "../src/auth/screens/email-link-auth-screen.test.tsx", "../src/auth/screens/sign-in-auth-screen.test.tsx", "../src/auth/screens/phone-auth-screen.test.tsx"],
+  "include": ["./**/*.test.tsx", "./**/*.test.ts"],
   "compilerOptions": {
     "jsx": "react-jsx",
     "esModuleInterop": true,
