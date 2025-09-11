@@ -7,8 +7,7 @@
     "types": ["vitest/globals", "node", "@testing-library/jest-dom"],
     "baseUrl": "..",
     "paths": {
-      "@firebase-ui/core": ["../firebaseui-core/src/index.ts"],
-      "@firebase-ui/core/*": ["../firebaseui-core/src/*"],
+      "@firebase-ui/core": ["../core/src/index.ts"],
       "~/*": ["src/*"]
     }
   }
