@@ -25,7 +25,7 @@ catalogs:
 
 catalog:
   # Firebase
-  firebase: ^12.2.1
+  firebase: ^11.8.0
 
   # Build tools
   typescript: ^5.9.2
