@@ -14,14 +14,7 @@
  * limitations under the License.
  */
 
-import {
-  english,
-  ERROR_CODE_MAP,
-  ErrorCode,
-  getTranslation,
-  Locale,
-  TranslationsConfig,
-} from "@firebase-ui/translations";
+import { enUs, ERROR_CODE_MAP, ErrorCode, getTranslation, Locale, TranslationsConfig } from "@firebase-ui/translations";
 import { FirebaseUIConfiguration } from "./config";
 export class FirebaseUIError extends Error {
   code: string;
@@ -29,7 +22,7 @@ export class FirebaseUIError extends Error {
   constructor(error: any, translations?: TranslationsConfig, locale?: Locale) {
     const errorCode: ErrorCode = error?.customData?.message?.match?.(/\(([^)]+)\)/)?.at(1) || error?.code || "unknown";
     const translationKey = ERROR_CODE_MAP[errorCode] || "unknownError";
-    const message = getTranslation("errors", translationKey, translations, locale ?? english.locale);
+    const message = getTranslation("errors", translationKey, translations, locale ?? enUs.locale);
 
     super(message);
     this.name = "FirebaseUIError";

@@ -15,7 +15,7 @@
  */
 
 import { enUS } from "./locales/en-us";
-import { Locale, english } from ".";
+import { Locale, enUs } from ".";
 import type { ErrorKey, TranslationCategory, TranslationKey, TranslationsConfig, TranslationSet } from "./types";
 
 export const ERROR_CODE_MAP = {
@@ -51,7 +51,7 @@ export function getTranslation<T extends TranslationCategory>(
   translations: TranslationsConfig | undefined,
   locale: Locale | undefined = undefined
 ): string {
-  const userPreferredTranslationSet = translations?.[locale ?? english.locale]?.[category] as
+  const userPreferredTranslationSet = translations?.[locale ?? enUs.locale]?.[category] as
     | TranslationSet<T>
     | undefined;
 

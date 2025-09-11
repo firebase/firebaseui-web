@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { english, Locale, RegisteredTranslations, TranslationsConfig } from "@firebase-ui/translations";
+import { enUs, Locale, RegisteredLocale, TranslationsConfig } from "@firebase-ui/translations";
 import type { FirebaseApp } from "firebase/app";
 import { Auth, getAuth } from "firebase/auth";
 import { deepMap, DeepMapStore, map } from "nanostores";
@@ -24,7 +24,7 @@ import { FirebaseUIState } from "./state";
 type FirebaseUIConfigurationOptions = {
   app: FirebaseApp;
   locale?: Locale | undefined;
-  translations?: RegisteredTranslations[] | undefined;
+  translations?: RegisteredLocale[] | undefined;
   behaviors?: Partial<Behavior<keyof BehaviorHandlers>>[] | undefined;
   recaptchaMode?: "normal" | "invisible" | undefined;
 };
@@ -60,7 +60,7 @@ export function initializeUI(config: FirebaseUIConfigurationOptions, name: strin
   config.translations ??= [];
 
   // TODO: Is this right?
-  config.translations.push(english);
+  config.translations.push(enUs);
 
   const translations = config.translations?.reduce((acc, translation) => {
     return {
@@ -74,7 +74,7 @@ export function initializeUI(config: FirebaseUIConfigurationOptions, name: strin
     deepMap<FirebaseUIConfiguration>({
       app: config.app,
       getAuth: () => getAuth(config.app),
-      locale: config.locale ?? english.locale,
+      locale: config.locale ?? enUs.locale,
       setLocale: (locale: Locale) => {
         const current = $config.get()[name]!;
         current.setKey(`locale`, locale);
