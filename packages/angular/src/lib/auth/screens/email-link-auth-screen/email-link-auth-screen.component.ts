@@ -14,15 +14,20 @@
  * limitations under the License.
  */
 
-import { Component, inject, Input, AfterContentInit, ViewChild, ElementRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CardComponent, CardHeaderComponent, CardTitleComponent, CardSubtitleComponent } from '../../../components/card/card.component';
-import { FirebaseUI } from '../../../provider';
-import { EmailLinkFormComponent } from '../../forms/email-link-form/email-link-form.component';
-import { DividerComponent } from '../../../components/divider/divider.component';
+import { Component, inject, Input, AfterContentInit, ViewChild, ElementRef } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import {
+  CardComponent,
+  CardHeaderComponent,
+  CardTitleComponent,
+  CardSubtitleComponent,
+} from "../../../components/card/card.component";
+import { FirebaseUI } from "../../../provider";
+import { EmailLinkFormComponent } from "../../forms/email-link-form/email-link-form.component";
+import { DividerComponent } from "../../../components/divider/divider.component";
 
 @Component({
-  selector: 'fui-email-link-auth-screen',
+  selector: "fui-email-link-auth-screen",
   standalone: true,
   imports: [
     CommonModule,
@@ -41,7 +46,7 @@ import { DividerComponent } from '../../../components/divider/divider.component'
           <fui-card-subtitle>{{ subtitleText | async }}</fui-card-subtitle>
         </fui-card-header>
         <fui-email-link-form></fui-email-link-form>
-        
+
         <ng-container *ngIf="hasContent">
           <fui-divider>{{ dividerOrLabel | async }}</fui-divider>
           <div class="space-y-4 mt-6" #contentContainer>
@@ -50,13 +55,12 @@ import { DividerComponent } from '../../../components/divider/divider.component'
         </ng-container>
       </fui-card>
     </div>
-  `
+  `,
 })
 export class EmailLinkAuthScreenComponent implements AfterContentInit {
   private ui = inject(FirebaseUI);
 
-
-  @ViewChild('contentContainer') contentContainer!: ElementRef;
+  @ViewChild("contentContainer") contentContainer!: ElementRef;
   private _hasProjectedContent = false;
 
   get hasContent(): boolean {
@@ -64,21 +68,21 @@ export class EmailLinkAuthScreenComponent implements AfterContentInit {
   }
 
   get titleText() {
-    return this.ui.translation('labels', 'signIn');
+    return this.ui.translation("labels", "signIn");
   }
 
   get subtitleText() {
-    return this.ui.translation('prompts', 'signInToAccount');
+    return this.ui.translation("prompts", "signInToAccount");
   }
 
   get dividerOrLabel() {
-    return this.ui.translation('messages', 'dividerOr');
+    return this.ui.translation("messages", "dividerOr");
   }
 
   ngAfterContentInit() {
     // Set to true initially to ensure the container is rendered
     this._hasProjectedContent = true;
-    
+
     // We need to use setTimeout to check after the view is rendered
     setTimeout(() => {
       // Check if there's any actual content in the container
@@ -86,8 +90,10 @@ export class EmailLinkAuthScreenComponent implements AfterContentInit {
         const container = this.contentContainer.nativeElement;
         // Only consider it to have content if there are child nodes that aren't just whitespace
         this._hasProjectedContent = Array.from(container.childNodes as NodeListOf<Node>).some((node: Node) => {
-          return node.nodeType === Node.ELEMENT_NODE || 
-                (node.nodeType === Node.TEXT_NODE && node.textContent && node.textContent.trim() !== '');
+          return (
+            node.nodeType === Node.ELEMENT_NODE ||
+            (node.nodeType === Node.TEXT_NODE && node.textContent && node.textContent.trim() !== "")
+          );
         });
       } else {
         this._hasProjectedContent = false;

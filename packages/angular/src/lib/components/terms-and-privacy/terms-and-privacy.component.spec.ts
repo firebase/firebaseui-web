@@ -14,39 +14,37 @@
  * limitations under the License.
  */
 
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { BehaviorSubject } from 'rxjs';
+import { TestBed, fakeAsync, tick } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { BehaviorSubject } from "rxjs";
 
-import { FirebaseUI, FirebaseUIPolicies } from '../../provider';
-import { TermsAndPrivacyComponent } from './terms-and-privacy.component';
+import { FirebaseUI, FirebaseUIPolicies } from "../../provider";
+import { TermsAndPrivacyComponent } from "./terms-and-privacy.component";
 
 class MockFirebaseUI {
-  private _termsText = new BehaviorSubject<string>('Terms of Service');
-  private _privacyText = new BehaviorSubject<string>('Privacy Policy');
-  private _templateText = new BehaviorSubject<string>(
-    'By continuing, you agree to our {tos} and {privacy}',
-  );
+  private _termsText = new BehaviorSubject<string>("Terms of Service");
+  private _privacyText = new BehaviorSubject<string>("Privacy Policy");
+  private _templateText = new BehaviorSubject<string>("By continuing, you agree to our {tos} and {privacy}");
 
   translation(section: string, key: string) {
-    if (section === 'labels' && key === 'termsOfService') {
+    if (section === "labels" && key === "termsOfService") {
       return this._termsText.asObservable();
     }
-    if (section === 'labels' && key === 'privacyPolicy') {
+    if (section === "labels" && key === "privacyPolicy") {
       return this._privacyText.asObservable();
     }
-    if (section === 'messages' && key === 'termsAndPrivacy') {
+    if (section === "messages" && key === "termsAndPrivacy") {
       return this._templateText.asObservable();
     }
     return new BehaviorSubject<string>(`${section}.${key}`).asObservable();
   }
 
   setTranslation(section: string, key: string, value: string) {
-    if (section === 'labels' && key === 'termsOfService') {
+    if (section === "labels" && key === "termsOfService") {
       this._termsText.next(value);
-    } else if (section === 'labels' && key === 'privacyPolicy') {
+    } else if (section === "labels" && key === "privacyPolicy") {
       this._privacyText.next(value);
-    } else if (section === 'messages' && key === 'termsAndPrivacy') {
+    } else if (section === "messages" && key === "termsAndPrivacy") {
       this._templateText.next(value);
     }
   }
@@ -81,39 +79,35 @@ function configureComponentTest({
   return { fixture, component, mockFirebaseUI };
 }
 
-describe('TermsAndPrivacyComponent', () => {
-  it('renders component with terms and privacy links', fakeAsync(() => {
+describe("TermsAndPrivacyComponent", () => {
+  it("renders component with terms and privacy links", fakeAsync(() => {
     const { fixture } = configureComponentTest({
-      tosUrl: 'https://example.com/terms',
-      privacyPolicyUrl: 'https://example.com/privacy',
+      tosUrl: "https://example.com/terms",
+      privacyPolicyUrl: "https://example.com/privacy",
     });
 
     tick();
     fixture.detectChanges();
 
-    const container = fixture.debugElement.query(By.css('.text-text-muted'));
+    const container = fixture.debugElement.query(By.css(".text-text-muted"));
     expect(container).toBeTruthy();
 
     const textContent = container.nativeElement.textContent;
-    expect(textContent).toContain('By continuing, you agree to our');
+    expect(textContent).toContain("By continuing, you agree to our");
 
     const tosLink = fixture.debugElement
-      .queryAll(By.css('a'))
-      .find((el) => el.nativeElement.textContent.includes('Terms of Service'));
+      .queryAll(By.css("a"))
+      .find((el) => el.nativeElement.textContent.includes("Terms of Service"));
     expect(tosLink).toBeTruthy();
-    expect(tosLink!.nativeElement.getAttribute('target')).toBe('_blank');
-    expect(tosLink!.nativeElement.getAttribute('rel')).toBe(
-      'noopener noreferrer',
-    );
+    expect(tosLink!.nativeElement.getAttribute("target")).toBe("_blank");
+    expect(tosLink!.nativeElement.getAttribute("rel")).toBe("noopener noreferrer");
 
-    const privacyLink = fixture.debugElement.query(
-      By.css('a[href="https://example.com/privacy"]'),
-    );
+    const privacyLink = fixture.debugElement.query(By.css('a[href="https://example.com/privacy"]'));
     expect(privacyLink).toBeTruthy();
-    expect(privacyLink.nativeElement.textContent.trim()).toBe('Privacy Policy');
+    expect(privacyLink.nativeElement.textContent.trim()).toBe("Privacy Policy");
   }));
 
-  it('does not render when both tosUrl and privacyPolicyUrl are not provided', fakeAsync(() => {
+  it("does not render when both tosUrl and privacyPolicyUrl are not provided", fakeAsync(() => {
     const { fixture } = configureComponentTest({
       tosUrl: null,
       privacyPolicyUrl: null,
@@ -122,77 +116,65 @@ describe('TermsAndPrivacyComponent', () => {
     tick();
     fixture.detectChanges();
 
-    const container = fixture.debugElement.query(By.css('.text-text-muted'));
+    const container = fixture.debugElement.query(By.css(".text-text-muted"));
     expect(container).toBeFalsy();
   }));
 
-  it('renders with tosUrl when privacyPolicyUrl is not provided', fakeAsync(() => {
+  it("renders with tosUrl when privacyPolicyUrl is not provided", fakeAsync(() => {
     const { fixture } = configureComponentTest({
-      tosUrl: 'https://example.com/terms',
+      tosUrl: "https://example.com/terms",
       privacyPolicyUrl: null,
     });
 
     tick();
     fixture.detectChanges();
 
-    const container = fixture.debugElement.query(By.css('.text-text-muted'));
+    const container = fixture.debugElement.query(By.css(".text-text-muted"));
     expect(container).toBeTruthy();
 
-    const tosLink = fixture.debugElement.query(
-      By.css('a[href="https://example.com/terms"]'),
-    );
+    const tosLink = fixture.debugElement.query(By.css('a[href="https://example.com/terms"]'));
     expect(tosLink).toBeTruthy();
 
-    const privacyLink = fixture.debugElement.query(
-      By.css('a[href="https://example.com/privacy"]'),
-    );
+    const privacyLink = fixture.debugElement.query(By.css('a[href="https://example.com/privacy"]'));
     expect(privacyLink).toBeFalsy();
   }));
 
-  it('renders with privacyPolicyUrl when tosUrl is not provided', fakeAsync(() => {
+  it("renders with privacyPolicyUrl when tosUrl is not provided", fakeAsync(() => {
     const { fixture } = configureComponentTest({
       tosUrl: null,
-      privacyPolicyUrl: 'https://example.com/privacy',
+      privacyPolicyUrl: "https://example.com/privacy",
     });
 
     tick();
     fixture.detectChanges();
 
-    const container = fixture.debugElement.query(By.css('.text-text-muted'));
+    const container = fixture.debugElement.query(By.css(".text-text-muted"));
     expect(container).toBeTruthy();
 
-    const tosLink = fixture.debugElement.query(
-      By.css('a[href="https://example.com/terms"]'),
-    );
+    const tosLink = fixture.debugElement.query(By.css('a[href="https://example.com/terms"]'));
     expect(tosLink).toBeFalsy();
 
-    const privacyLink = fixture.debugElement.query(
-      By.css('a[href="https://example.com/privacy"]'),
-    );
+    const privacyLink = fixture.debugElement.query(By.css('a[href="https://example.com/privacy"]'));
     expect(privacyLink).toBeTruthy();
   }));
 
-  it('uses custom template text when provided', fakeAsync(() => {
+  it("uses custom template text when provided", fakeAsync(() => {
     const { fixture, mockFirebaseUI } = configureComponentTest({
-      tosUrl: 'https://example.com/terms',
-      privacyPolicyUrl: 'https://example.com/privacy',
+      tosUrl: "https://example.com/terms",
+      privacyPolicyUrl: "https://example.com/privacy",
     });
 
-    mockFirebaseUI.setTranslation(
-      'messages',
-      'termsAndPrivacy',
-      'Custom template with {tos} and {privacy}',
-    );
+    mockFirebaseUI.setTranslation("messages", "termsAndPrivacy", "Custom template with {tos} and {privacy}");
 
     tick();
     fixture.detectChanges();
 
-    const container = fixture.debugElement.query(By.css('.text-text-muted'));
+    const container = fixture.debugElement.query(By.css(".text-text-muted"));
     expect(container).toBeTruthy();
 
     const textContent = container.nativeElement.textContent;
-    expect(textContent).toContain('Custom template with');
-    expect(textContent).toContain('Terms of Service');
-    expect(textContent).toContain('Privacy Policy');
+    expect(textContent).toContain("Custom template with");
+    expect(textContent).toContain("Terms of Service");
+    expect(textContent).toContain("Privacy Policy");
   }));
 });

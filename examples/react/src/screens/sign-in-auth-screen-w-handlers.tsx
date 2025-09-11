@@ -19,10 +19,5 @@
 import { SignInAuthScreen } from "@firebase-ui/react";
 
 export default function SignInAuthScreenWithHandlersPage() {
-  return (
-    <SignInAuthScreen
-      onForgotPasswordClick={() => {}}
-      onRegisterClick={() => {}}
-    />
-  );
+  return <SignInAuthScreen onForgotPasswordClick={() => {}} onRegisterClick={() => {}} />;
 }

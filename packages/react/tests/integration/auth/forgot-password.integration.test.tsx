@@ -59,7 +59,7 @@ describe("Forgot Password Integration", () => {
       if (auth.currentUser) {
         await deleteUser(auth.currentUser);
       }
-    } catch (error) {
+    } catch (_error) {
       // Ignore errors if user doesn't exist
     }
     await signOut(auth);
@@ -72,7 +72,7 @@ describe("Forgot Password Integration", () => {
       if (auth.currentUser) {
         await deleteUser(auth.currentUser);
       }
-    } catch (error) {
+    } catch (_error) {
       // Ignore errors if user doesn't exist
     }
   });
@@ -81,11 +81,11 @@ describe("Forgot Password Integration", () => {
     // Create a user first - handle case where user might already exist
     try {
       await createUserWithEmailAndPassword(auth, testEmail, testPassword);
-    } catch (error) {
-      if (error instanceof Error) {
-        const firebaseError = error as { code?: string, message: string };
+    } catch (_error) {
+      if (_error instanceof Error) {
+        const firebaseError = _error as { code?: string; message: string };
         // If the user already exists, that's fine for this test
-        if (firebaseError.code !== 'auth/email-already-in-use') {
+        if (firebaseError.code !== "auth/email-already-in-use") {
           // Skip non-relevant errors
         }
       }
@@ -130,38 +130,35 @@ describe("Forgot Password Integration", () => {
       () => {
         // Check for success message
         const successMessage = container.querySelector(".fui-form__success");
-        
+
         // If we have a success message, the test passes
         if (successMessage) {
           expect(successMessage).toBeTruthy();
           return;
         }
-        
+
         // Check for error messages
         const errorElements = container.querySelectorAll(".fui-form__error");
-        
+
         // If there are error elements, check if they're just validation errors
         if (errorElements.length > 0) {
           let hasCriticalError = false;
-          let criticalErrorText = '';
-          
-          errorElements.forEach(element => {
-            const errorText = element.textContent?.toLowerCase() || '';
+          let criticalErrorText = "";
+
+          errorElements.forEach((element) => {
+            const errorText = element.textContent?.toLowerCase() || "";
             // Only fail if there's a critical error (not validation related)
-            if (!errorText.includes('email') && 
-                !errorText.includes('valid') && 
-                !errorText.includes('required')) {
+            if (!errorText.includes("email") && !errorText.includes("valid") && !errorText.includes("required")) {
               hasCriticalError = true;
               criticalErrorText = errorText;
             }
           });
-          
+
           // If we have critical errors, the test should fail with a descriptive message
           if (hasCriticalError) {
-            expect(
-              criticalErrorText, 
-              `Critical error found in forgot password test: ${criticalErrorText}`
-            ).toContain('email'); // This will fail with a descriptive message
+            expect(criticalErrorText, `Critical error found in forgot password test: ${criticalErrorText}`).toContain(
+              "email"
+            ); // This will fail with a descriptive message
           }
         }
       },
@@ -203,9 +200,7 @@ describe("Forgot Password Integration", () => {
         const errorElement = container.querySelector(".fui-form__error");
         expect(errorElement).not.toBeNull();
         if (errorElement) {
-          expect(errorElement.textContent).toBe(
-            "Please enter a valid email address"
-          );
+          expect(errorElement.textContent).toBe("Please enter a valid email address");
         }
       },
       { timeout: 10000 }

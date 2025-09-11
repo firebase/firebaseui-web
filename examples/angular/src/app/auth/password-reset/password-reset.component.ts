@@ -14,21 +14,17 @@
  * limitations under the License.
  */
 
-import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
-import { Auth, User, authState } from '@angular/fire/auth';
-import { PasswordResetScreenComponent } from '@firebase-ui/angular';
+import { Component, OnInit, inject } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { Router, RouterModule } from "@angular/router";
+import { Auth, User, authState } from "@angular/fire/auth";
+import { PasswordResetScreenComponent } from "@firebase-ui/angular";
 
 @Component({
-  selector: 'app-password-reset',
+  selector: "app-password-reset",
   standalone: true,
   imports: [CommonModule, RouterModule, PasswordResetScreenComponent],
-  template: `
-    <fui-password-reset-screen
-      [signInRoute]="'/sign-in'"
-    ></fui-password-reset-screen>
-  `,
+  template: ` <fui-password-reset-screen [signInRoute]="'/sign-in'"></fui-password-reset-screen> `,
   styles: [],
 })
 export class PasswordResetComponent implements OnInit {
@@ -39,7 +35,7 @@ export class PasswordResetComponent implements OnInit {
     // Check if user is already authenticated and redirect to home page
     authState(this.auth).subscribe((user: User | null) => {
       if (user) {
-        this.router.navigate(['/']);
+        this.router.navigate(["/"]);
       }
     });
   }

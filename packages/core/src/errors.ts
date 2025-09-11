@@ -21,18 +21,18 @@ import {
   getTranslation,
   Locale,
   TranslationsConfig,
-} from '@firebase-ui/translations';
-import { FirebaseUIConfiguration } from './config';
+} from "@firebase-ui/translations";
+import { FirebaseUIConfiguration } from "./config";
 export class FirebaseUIError extends Error {
   code: string;
 
   constructor(error: any, translations?: TranslationsConfig, locale?: Locale) {
-    const errorCode: ErrorCode = error?.customData?.message?.match?.(/\(([^)]+)\)/)?.at(1) || error?.code || 'unknown';
-    const translationKey = ERROR_CODE_MAP[errorCode] || 'unknownError';
-    const message = getTranslation('errors', translationKey, translations, locale ?? english.locale);
+    const errorCode: ErrorCode = error?.customData?.message?.match?.(/\(([^)]+)\)/)?.at(1) || error?.code || "unknown";
+    const translationKey = ERROR_CODE_MAP[errorCode] || "unknownError";
+    const message = getTranslation("errors", translationKey, translations, locale ?? english.locale);
 
     super(message);
-    this.name = 'FirebaseUIError';
+    this.name = "FirebaseUIError";
     this.code = errorCode;
   }
 }
@@ -45,16 +45,16 @@ export function handleFirebaseError(
   }
 ): never {
   const { translations, locale: defaultLocale } = ui;
-  if (error?.code === 'auth/account-exists-with-different-credential') {
+  if (error?.code === "auth/account-exists-with-different-credential") {
     if (opts?.enableHandleExistingCredential && error.credential) {
-      window.sessionStorage.setItem('pendingCred', JSON.stringify(error.credential));
+      window.sessionStorage.setItem("pendingCred", JSON.stringify(error.credential));
     } else {
-      window.sessionStorage.removeItem('pendingCred');
+      window.sessionStorage.removeItem("pendingCred");
     }
 
     throw new FirebaseUIError(
       {
-        code: 'auth/account-exists-with-different-credential',
+        code: "auth/account-exists-with-different-credential",
         customData: {
           email: error.customData?.email,
         },
@@ -65,8 +65,8 @@ export function handleFirebaseError(
   }
 
   // TODO: Debug why instanceof FirebaseError is not working
-  if (error?.name === 'FirebaseError') {
+  if (error?.name === "FirebaseError") {
     throw new FirebaseUIError(error, translations, defaultLocale);
   }
-  throw new FirebaseUIError({ code: 'unknown' }, translations, defaultLocale);
+  throw new FirebaseUIError({ code: "unknown" }, translations, defaultLocale);
 }

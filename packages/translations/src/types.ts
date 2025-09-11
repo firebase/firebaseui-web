@@ -15,12 +15,8 @@
  */
 
 export type TranslationCategory = keyof Required<Translations>;
-export type TranslationKey<T extends TranslationCategory> =
-  keyof Required<Translations>[T];
-export type TranslationSet<T extends TranslationCategory> = Record<
-  TranslationKey<T>,
-  string
->;
+export type TranslationKey<T extends TranslationCategory> = keyof Required<Translations>[T];
+export type TranslationSet<T extends TranslationCategory> = Record<TranslationKey<T>, string>;
 export type ErrorKey = keyof Required<Translations>["errors"];
 export type MessageKey = keyof Required<Translations>["messages"];
 export type LabelKey = keyof Required<Translations>["labels"];

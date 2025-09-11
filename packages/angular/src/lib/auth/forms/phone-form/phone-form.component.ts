@@ -14,27 +14,15 @@
  * limitations under the License.
  */
 
-import {
-  Component,
-  inject,
-  Input,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-  ElementRef,
-} from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { injectForm, TanStackField } from '@tanstack/angular-form';
-import { FirebaseUI } from '../../../provider';
-import {
-  Auth,
-  ConfirmationResult,
-  RecaptchaVerifier,
-} from '@angular/fire/auth';
-import { map } from 'rxjs/operators';
-import { ButtonComponent } from '../../../components/button/button.component';
-import { TermsAndPrivacyComponent } from '../../../components/terms-and-privacy/terms-and-privacy.component';
-import { CountrySelectorComponent } from '../../../components/country-selector/country-selector.component';
+import { Component, inject, Input, OnDestroy, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { injectForm, TanStackField } from "@tanstack/angular-form";
+import { FirebaseUI } from "../../../provider";
+import { Auth, ConfirmationResult, RecaptchaVerifier } from "@angular/fire/auth";
+import { map } from "rxjs/operators";
+import { ButtonComponent } from "../../../components/button/button.component";
+import { TermsAndPrivacyComponent } from "../../../components/terms-and-privacy/terms-and-privacy.component";
+import { CountrySelectorComponent } from "../../../components/country-selector/country-selector.component";
 import {
   CountryData,
   countryData,
@@ -43,29 +31,19 @@ import {
   formatPhoneNumberWithCountry,
   confirmPhoneNumber,
   signInWithPhoneNumber,
-} from 'core';
-import { interval, Subscription, firstValueFrom } from 'rxjs';
-import { Router } from '@angular/router';
-import { takeWhile } from 'rxjs/operators';
+} from "@firebase-ui/core";
+import { interval, Subscription, firstValueFrom } from "rxjs";
+import { Router } from "@angular/router";
+import { takeWhile } from "rxjs/operators";
 
 @Component({
-  selector: 'fui-phone-number-form',
+  selector: "fui-phone-number-form",
   standalone: true,
-  imports: [
-    CommonModule,
-    TanStackField,
-    ButtonComponent,
-    TermsAndPrivacyComponent,
-    CountrySelectorComponent,
-  ],
+  imports: [CommonModule, TanStackField, ButtonComponent, TermsAndPrivacyComponent, CountrySelectorComponent],
   template: `
     <form (submit)="handleSubmit($event)" class="fui-form">
       <fieldset>
-        <ng-container
-          [tanstackField]="form"
-          name="phoneNumber"
-          #phoneNumber="field"
-        >
+        <ng-container [tanstackField]="form" name="phoneNumber" #phoneNumber="field">
           <label [for]="phoneNumber.api.name">
             <span>{{ phoneNumberLabel | async }}</span>
             <div class="fui-phone-input">
@@ -80,9 +58,7 @@ import { takeWhile } from 'rxjs/operators';
                 [name]="phoneNumber.api.name"
                 [value]="phoneNumber.api.state.value"
                 (blur)="phoneNumber.api.handleBlur()"
-                (input)="
-                  phoneNumber.api.handleChange($any($event).target.value)
-                "
+                (input)="phoneNumber.api.handleChange($any($event).target.value)"
                 [attr.aria-invalid]="!!phoneNumber.api.state.meta.errors.length"
                 class="fui-phone-input__number-input"
               />
@@ -93,7 +69,7 @@ import { takeWhile } from 'rxjs/operators';
               class="fui-form__error"
               *ngIf="!!phoneNumber.api.state.meta.errors.length"
             >
-              {{ phoneNumber.api.state.meta.errors.join(', ') }}
+              {{ phoneNumber.api.state.meta.errors.join(", ") }}
             </span>
           </label>
         </ng-container>
@@ -120,7 +96,7 @@ export class PhoneNumberFormComponent implements OnInit, OnDestroy {
   @Input() onSubmit!: (phoneNumber: string) => Promise<void>;
   @Input() formError: string | null = null;
   @Input() showTerms = true;
-  @ViewChild('recaptchaContainer', { static: true })
+  @ViewChild("recaptchaContainer", { static: true })
   recaptchaContainer!: ElementRef<HTMLDivElement>;
 
   recaptchaVerifier: RecaptchaVerifier | null = null;
@@ -130,7 +106,7 @@ export class PhoneNumberFormComponent implements OnInit, OnDestroy {
 
   form = injectForm({
     defaultValues: {
-      phoneNumber: '',
+      phoneNumber: "",
     },
   });
 
@@ -167,8 +143,8 @@ export class PhoneNumberFormComponent implements OnInit, OnDestroy {
       (await firstValueFrom(this.ui.config())).getAuth(),
       this.recaptchaContainer.nativeElement,
       {
-        size: this.config?.recaptchaMode ?? 'normal',
-      },
+        size: this.config?.recaptchaMode ?? "normal",
+      }
     );
     this.recaptchaVerifier = verifier;
   }
@@ -198,21 +174,16 @@ export class PhoneNumberFormComponent implements OnInit, OnDestroy {
 
         if (validationErrors.phoneNumber?._errors?.length) {
           // We can't set formError directly since it's an input, so we need to call the parent
-          await this.onSubmit(
-            'VALIDATION_ERROR:' + validationErrors.phoneNumber._errors[0],
-          );
+          await this.onSubmit("VALIDATION_ERROR:" + validationErrors.phoneNumber._errors[0]);
           return;
         }
 
-        await this.onSubmit('VALIDATION_ERROR:Invalid phone number');
+        await this.onSubmit("VALIDATION_ERROR:Invalid phone number");
         return;
       }
 
       // Format number and submit
-      const formattedNumber = formatPhoneNumberWithCountry(
-        phoneNumber,
-        this.selectedCountry.dialCode,
-      );
+      const formattedNumber = formatPhoneNumberWithCountry(phoneNumber, this.selectedCountry.dialCode);
       await this.onSubmit(formattedNumber);
     } catch (error) {
       console.error(error);
@@ -224,31 +195,22 @@ export class PhoneNumberFormComponent implements OnInit, OnDestroy {
   }
 
   get phoneNumberLabel() {
-    return this.ui.translation('labels', 'phoneNumber');
+    return this.ui.translation("labels", "phoneNumber");
   }
 
   get sendCodeLabel() {
-    return this.ui.translation('labels', 'sendCode');
+    return this.ui.translation("labels", "sendCode");
   }
 }
 
 @Component({
-  selector: 'fui-verification-form',
+  selector: "fui-verification-form",
   standalone: true,
-  imports: [
-    CommonModule,
-    TanStackField,
-    ButtonComponent,
-    TermsAndPrivacyComponent,
-  ],
+  imports: [CommonModule, TanStackField, ButtonComponent, TermsAndPrivacyComponent],
   template: `
     <form (submit)="handleSubmit($event)" class="fui-form">
       <fieldset>
-        <ng-container
-          [tanstackField]="form"
-          name="verificationCode"
-          #verificationCode="field"
-        >
+        <ng-container [tanstackField]="form" name="verificationCode" #verificationCode="field">
           <label [for]="verificationCode.api.name">
             <span>{{ verificationCodeLabel | async }}</span>
             <input
@@ -257,12 +219,8 @@ export class PhoneNumberFormComponent implements OnInit, OnDestroy {
               [name]="verificationCode.api.name"
               [value]="verificationCode.api.state.value"
               (blur)="verificationCode.api.handleBlur()"
-              (input)="
-                verificationCode.api.handleChange($any($event).target.value)
-              "
-              [attr.aria-invalid]="
-                !!verificationCode.api.state.meta.errors.length
-              "
+              (input)="verificationCode.api.handleChange($any($event).target.value)"
+              [attr.aria-invalid]="!!verificationCode.api.state.meta.errors.length"
             />
             <span
               role="alert"
@@ -270,7 +228,7 @@ export class PhoneNumberFormComponent implements OnInit, OnDestroy {
               class="fui-form__error"
               *ngIf="!!verificationCode.api.state.meta.errors.length"
             >
-              {{ verificationCode.api.state.meta.errors.join(', ') }}
+              {{ verificationCode.api.state.meta.errors.join(", ") }}
             </span>
           </label>
         </ng-container>
@@ -288,12 +246,7 @@ export class PhoneNumberFormComponent implements OnInit, OnDestroy {
         <fui-button type="submit">
           {{ verifyCodeLabel | async }}
         </fui-button>
-        <fui-button
-          type="button"
-          (click)="onResend()"
-          [disabled]="isResending || !canResend"
-          variant="secondary"
-        >
+        <fui-button type="button" (click)="onResend()" [disabled]="isResending || !canResend" variant="secondary">
           <ng-container *ngIf="isResending">
             {{ sendingLabel | async }}
           </ng-container>
@@ -321,7 +274,7 @@ export class VerificationFormComponent implements OnInit, OnDestroy {
   @Input() isResending = false;
   @Input() canResend = false;
   @Input() timeLeft = 0;
-  @ViewChild('recaptchaContainer', { static: true })
+  @ViewChild("recaptchaContainer", { static: true })
   recaptchaContainer!: ElementRef<HTMLDivElement>;
 
   private formSchema: any;
@@ -329,7 +282,7 @@ export class VerificationFormComponent implements OnInit, OnDestroy {
 
   form = injectForm({
     defaultValues: {
-      verificationCode: '',
+      verificationCode: "",
     },
   });
 
@@ -378,13 +331,11 @@ export class VerificationFormComponent implements OnInit, OnDestroy {
         const validationErrors = validationResult.error.format();
 
         if (validationErrors.verificationCode?._errors?.length) {
-          await this.onSubmit(
-            'VALIDATION_ERROR:' + validationErrors.verificationCode._errors[0],
-          );
+          await this.onSubmit("VALIDATION_ERROR:" + validationErrors.verificationCode._errors[0]);
           return;
         }
 
-        await this.onSubmit('VALIDATION_ERROR:Invalid verification code');
+        await this.onSubmit("VALIDATION_ERROR:Invalid verification code");
         return;
       }
 
@@ -395,24 +346,24 @@ export class VerificationFormComponent implements OnInit, OnDestroy {
   }
 
   get verificationCodeLabel() {
-    return this.ui.translation('labels', 'verificationCode');
+    return this.ui.translation("labels", "verificationCode");
   }
 
   get verifyCodeLabel() {
-    return this.ui.translation('labels', 'verifyCode');
+    return this.ui.translation("labels", "verifyCode");
   }
 
   get resendCodeLabel() {
-    return this.ui.translation('labels', 'resendCode');
+    return this.ui.translation("labels", "resendCode");
   }
 
   get sendingLabel() {
-    return this.ui.translation('labels', 'sending');
+    return this.ui.translation("labels", "sending");
   }
 }
 
 @Component({
-  selector: 'fui-phone-form',
+  selector: "fui-phone-form",
   standalone: true,
   imports: [CommonModule, PhoneNumberFormComponent, VerificationFormComponent],
   template: `
@@ -447,7 +398,7 @@ export class PhoneFormComponent implements OnInit, OnDestroy {
   formError: string | null = null;
   confirmationResult: ConfirmationResult | null = null;
   recaptchaVerifier: RecaptchaVerifier | null = null;
-  phoneNumber = '';
+  phoneNumber = "";
   isResending = false;
   timeLeft = 0;
   canResend = false;
@@ -470,20 +421,20 @@ export class PhoneFormComponent implements OnInit, OnDestroy {
   async handlePhoneSubmit(number: string): Promise<void> {
     this.formError = null;
 
-    if (number.startsWith('VALIDATION_ERROR:')) {
-      this.formError = number.substring('VALIDATION_ERROR:'.length);
+    if (number.startsWith("VALIDATION_ERROR:")) {
+      this.formError = number.substring("VALIDATION_ERROR:".length);
       return;
     }
 
     try {
       if (!this.recaptchaVerifier) {
-        throw new Error('ReCAPTCHA not initialized');
+        throw new Error("ReCAPTCHA not initialized");
       }
 
       const result = await signInWithPhoneNumber(
         await firstValueFrom(this.ui.config()),
         number,
-        this.recaptchaVerifier,
+        this.recaptchaVerifier
       );
 
       this.phoneNumber = number;
@@ -495,9 +446,7 @@ export class PhoneFormComponent implements OnInit, OnDestroy {
         return;
       }
       console.error(error);
-      this.formError = await firstValueFrom(
-        this.ui.translation('errors', 'unknownError'),
-      );
+      this.formError = await firstValueFrom(this.ui.translation("errors", "unknownError"));
     }
   }
 
@@ -516,27 +465,17 @@ export class PhoneFormComponent implements OnInit, OnDestroy {
 
       // We need to get the recaptcha container from the verification form
       // This is a bit hacky, but it works for now
-      const recaptchaContainer = document.querySelector(
-        '.fui-recaptcha-container',
-      ) as HTMLDivElement;
+      const recaptchaContainer = document.querySelector(".fui-recaptcha-container") as HTMLDivElement;
       if (!recaptchaContainer) {
-        throw new Error('ReCAPTCHA container not found');
+        throw new Error("ReCAPTCHA container not found");
       }
 
-      const verifier = new RecaptchaVerifier(
-        (await firstValueFrom(this.ui.config())).getAuth(),
-        recaptchaContainer,
-        {
-          size: this.config?.recaptchaMode ?? 'normal',
-        },
-      );
+      const verifier = new RecaptchaVerifier((await firstValueFrom(this.ui.config())).getAuth(), recaptchaContainer, {
+        size: this.config?.recaptchaMode ?? "normal",
+      });
       this.recaptchaVerifier = verifier;
 
-      const result = await signInWithPhoneNumber(
-        await firstValueFrom(this.ui.config()),
-        this.phoneNumber,
-        verifier,
-      );
+      const result = await signInWithPhoneNumber(await firstValueFrom(this.ui.config()), this.phoneNumber, verifier);
 
       this.confirmationResult = result;
       this.startTimer();
@@ -545,7 +484,7 @@ export class PhoneFormComponent implements OnInit, OnDestroy {
         this.formError = error.message;
       } else {
         console.error(error);
-        this.ui.translation('errors', 'unknownError').subscribe((message) => {
+        this.ui.translation("errors", "unknownError").subscribe((message) => {
           this.formError = message;
         });
       }
@@ -555,32 +494,26 @@ export class PhoneFormComponent implements OnInit, OnDestroy {
   }
 
   async handleVerificationSubmit(code: string): Promise<void> {
-    if (code.startsWith('VALIDATION_ERROR:')) {
-      this.formError = code.substring('VALIDATION_ERROR:'.length);
+    if (code.startsWith("VALIDATION_ERROR:")) {
+      this.formError = code.substring("VALIDATION_ERROR:".length);
       return;
     }
 
     if (!this.confirmationResult) {
-      throw new Error('Confirmation result not initialized');
+      throw new Error("Confirmation result not initialized");
     }
 
     this.formError = null;
 
     try {
-      await confirmPhoneNumber(
-        await firstValueFrom(this.ui.config()),
-        this.confirmationResult,
-        code,
-      );
+      await confirmPhoneNumber(await firstValueFrom(this.ui.config()), this.confirmationResult, code);
     } catch (error) {
       if (error instanceof FirebaseUIError) {
         this.formError = error.message;
         return;
       }
       console.error(error);
-      this.formError = await firstValueFrom(
-        this.ui.translation('errors', 'unknownError'),
-      );
+      this.formError = await firstValueFrom(this.ui.translation("errors", "unknownError"));
     }
   }
 

@@ -14,19 +14,14 @@
  * limitations under the License.
  */
 
-import { CommonModule } from '@angular/common';
-import { Component, InjectionToken, Input } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
-import { Auth } from '@angular/fire/auth';
-import { By } from '@angular/platform-browser';
-import { provideRouter } from '@angular/router';
-import { TanStackField } from '@tanstack/angular-form';
-import { initializeApp } from 'firebase/app';
+import { CommonModule } from "@angular/common";
+import { Component, InjectionToken, Input } from "@angular/core";
+import { ComponentFixture, TestBed, fakeAsync, tick } from "@angular/core/testing";
+import { Auth } from "@angular/fire/auth";
+import { By } from "@angular/platform-browser";
+import { provideRouter } from "@angular/router";
+import { TanStackField } from "@tanstack/angular-form";
+import { initializeApp } from "firebase/app";
 import {
   connectAuthEmulator,
   createUserWithEmailAndPassword,
@@ -34,31 +29,31 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   signOut,
-} from 'firebase/auth';
-import { of } from 'rxjs';
-import { ForgotPasswordFormComponent } from '../../../auth/forms/forgot-password-form/forgot-password-form.component';
-import { ButtonComponent } from '../../../components/button/button.component';
-import { TermsAndPrivacyComponent } from '../../../components/terms-and-privacy/terms-and-privacy.component';
-import { FirebaseUI } from '../../../provider';
+} from "firebase/auth";
+import { of } from "rxjs";
+import { ForgotPasswordFormComponent } from "../../../auth/forms/forgot-password-form/forgot-password-form.component";
+import { ButtonComponent } from "../../../components/button/button.component";
+import { TermsAndPrivacyComponent } from "../../../components/terms-and-privacy/terms-and-privacy.component";
+import { FirebaseUI } from "../../../provider";
 
 // Create token for Firebase UI store
-const FIREBASE_UI_STORE = new InjectionToken<any>('firebaseui.store');
+const FIREBASE_UI_STORE = new InjectionToken<any>("firebaseui.store");
 
 // Mock Button component for testing
 @Component({
-  selector: 'fui-button',
+  selector: "fui-button",
   template: `<button [type]="type" class="fui-button">
     <ng-content></ng-content>
   </button>`,
   standalone: true,
 })
 class MockButtonComponent {
-  @Input() type: string = 'button';
+  @Input() type: string = "button";
 }
 
 // Mock TermsAndPrivacy component for testing
 @Component({
-  selector: 'fui-terms-and-privacy',
+  selector: "fui-terms-and-privacy",
   template: `<div class="fui-terms-and-privacy"></div>`,
   standalone: true,
 })
@@ -66,25 +61,25 @@ class MockTermsAndPrivacyComponent {}
 
 // Initialize Firebase with test configuration
 const firebaseConfig = {
-  apiKey: 'demo-api-key',
-  authDomain: 'demo-firebaseui.firebaseapp.com',
-  projectId: 'demo-firebaseui',
+  apiKey: "demo-api-key",
+  authDomain: "demo-firebaseui.firebaseapp.com",
+  projectId: "demo-firebaseui",
 };
 
 // Initialize Firebase app once for all tests
-const app = initializeApp(firebaseConfig, 'forgot-password-integration-tests');
+const app = initializeApp(firebaseConfig, "forgot-password-integration-tests");
 const auth = getAuth(app);
 
 // Connect to the auth emulator
-connectAuthEmulator(auth, 'http://localhost:9099', { disableWarnings: true });
+connectAuthEmulator(auth, "http://localhost:9099", { disableWarnings: true });
 
-describe('Forgot Password Integration', () => {
+describe("Forgot Password Integration", () => {
   let component: ForgotPasswordFormComponent;
   let fixture: ComponentFixture<ForgotPasswordFormComponent>;
 
   // Test user
   const testEmail = `test-${Date.now()}@example.com`;
-  const testPassword = 'Test123!';
+  const testPassword = "Test123!";
 
   // Prepare component before each test
   beforeEach(async () => {
@@ -104,19 +99,19 @@ describe('Forgot Password Integration', () => {
     const mockFirebaseUi = {
       config: () =>
         of({
-          language: 'en',
+          language: "en",
           enableAutoUpgradeAnonymous: false,
           enableHandleExistingCredential: false,
           translations: {},
         }),
-      translation: () => of('Email'),
+      translation: () => of("Email"),
     };
 
     // Mock for the NANOSTORES service
     const mockNanoStores = {
       useStore: () =>
         of({
-          language: 'en',
+          language: "en",
           enableAutoUpgradeAnonymous: false,
           enableHandleExistingCredential: false,
           translations: {},
@@ -139,7 +134,7 @@ describe('Forgot Password Integration', () => {
           provide: FIREBASE_UI_STORE,
           useValue: {
             config: {
-              language: 'en',
+              language: "en",
               enableAutoUpgradeAnonymous: false,
               enableHandleExistingCredential: false,
               translations: {},
@@ -166,7 +161,7 @@ describe('Forgot Password Integration', () => {
 
     fixture = TestBed.createComponent(ForgotPasswordFormComponent);
     component = fixture.componentInstance;
-    component.signInRoute = '/signin'; // Required input property
+    component.signInRoute = "/signin"; // Required input property
     fixture.detectChanges();
     await fixture.whenStable();
   });
@@ -184,23 +179,19 @@ describe('Forgot Password Integration', () => {
     }
   });
 
-  it('should successfully send password reset email', fakeAsync(() => {
+  it("should successfully send password reset email", fakeAsync(() => {
     // Find email input
-    const emailInput = fixture.debugElement.query(
-      By.css('input[type="email"]'),
-    ).nativeElement;
+    const emailInput = fixture.debugElement.query(By.css('input[type="email"]')).nativeElement;
 
     // Fill in the form
     emailInput.value = testEmail;
-    emailInput.dispatchEvent(new Event('input'));
-    emailInput.dispatchEvent(new Event('blur'));
+    emailInput.dispatchEvent(new Event("input"));
+    emailInput.dispatchEvent(new Event("blur"));
 
     fixture.detectChanges();
 
     // Find and click the submit button
-    const submitButton = fixture.debugElement.query(
-      By.css('fui-button button'),
-    ).nativeElement;
+    const submitButton = fixture.debugElement.query(By.css("fui-button button")).nativeElement;
     submitButton.click();
 
     // Wait for Firebase operation to complete
@@ -208,25 +199,18 @@ describe('Forgot Password Integration', () => {
     fixture.detectChanges();
 
     // Check for success by verifying no critical error message exists
-    const errorElements = fixture.debugElement.queryAll(
-      By.css('.fui-form__error'),
-    );
+    const errorElements = fixture.debugElement.queryAll(By.css(".fui-form__error"));
 
     let hasCriticalError = false;
-    let criticalErrorText = '';
+    let criticalErrorText = "";
 
     errorElements.forEach((errorElement) => {
-      const errorText =
-        errorElement.nativeElement.textContent?.toLowerCase() || '';
+      const errorText = errorElement.nativeElement.textContent?.toLowerCase() || "";
       // Only fail if there's a critical error (not validation related)
 
-      console.error('ERROR TEXT:', errorText);
+      console.error("ERROR TEXT:", errorText);
 
-      if (
-        !errorText.includes('email') &&
-        !errorText.includes('valid') &&
-        !errorText.includes('required')
-      ) {
+      if (!errorText.includes("email") && !errorText.includes("valid") && !errorText.includes("required")) {
         hasCriticalError = true;
         criticalErrorText = errorText;
       }
@@ -236,23 +220,19 @@ describe('Forgot Password Integration', () => {
     expect(hasCriticalError).toBeFalse();
   }));
 
-  it('should handle invalid email format', fakeAsync(() => {
+  it("should handle invalid email format", fakeAsync(() => {
     // Find email input
-    const emailInput = fixture.debugElement.query(
-      By.css('input[type="email"]'),
-    ).nativeElement;
+    const emailInput = fixture.debugElement.query(By.css('input[type="email"]')).nativeElement;
 
     // Fill in form with invalid email
-    emailInput.value = 'invalid-email';
-    emailInput.dispatchEvent(new Event('input'));
-    emailInput.dispatchEvent(new Event('blur'));
+    emailInput.value = "invalid-email";
+    emailInput.dispatchEvent(new Event("input"));
+    emailInput.dispatchEvent(new Event("blur"));
 
     fixture.detectChanges();
 
     // Find and click the submit button
-    const submitButton = fixture.debugElement.query(
-      By.css('fui-button button'),
-    ).nativeElement;
+    const submitButton = fixture.debugElement.query(By.css("fui-button button")).nativeElement;
     submitButton.click();
 
     // Wait for validation to complete
@@ -260,9 +240,7 @@ describe('Forgot Password Integration', () => {
     fixture.detectChanges();
 
     // Verify error is shown
-    const errorElements = fixture.debugElement.queryAll(
-      By.css('.fui-form__error'),
-    );
+    const errorElements = fixture.debugElement.queryAll(By.css(".fui-form__error"));
     expect(errorElements.length).toBeGreaterThan(0);
   }));
 });

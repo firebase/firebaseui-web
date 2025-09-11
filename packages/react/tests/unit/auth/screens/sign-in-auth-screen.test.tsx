@@ -46,10 +46,7 @@ vi.mock("~/auth/forms/email-password-form", () => ({
     onRegisterClick?: () => void;
   }) => (
     <div data-testid="email-password-form">
-      <button
-        data-testid="forgot-password-button"
-        onClick={onForgotPasswordClick}
-      >
+      <button data-testid="forgot-password-button" onClick={onForgotPasswordClick}>
         Forgot Password
       </button>
       <button data-testid="register-button" onClick={onRegisterClick}>
@@ -81,9 +78,7 @@ describe("SignInAuthScreen", () => {
 
   it("passes onForgotPasswordClick to EmailPasswordForm", () => {
     const mockOnForgotPasswordClick = vi.fn();
-    const { getByTestId } = render(
-      <SignInAuthScreen onForgotPasswordClick={mockOnForgotPasswordClick} />
-    );
+    const { getByTestId } = render(<SignInAuthScreen onForgotPasswordClick={mockOnForgotPasswordClick} />);
 
     const forgotPasswordButton = getByTestId("forgot-password-button");
     fireEvent.click(forgotPasswordButton);
@@ -93,9 +88,7 @@ describe("SignInAuthScreen", () => {
 
   it("passes onRegisterClick to EmailPasswordForm", () => {
     const mockOnRegisterClick = vi.fn();
-    const { getByTestId } = render(
-      <SignInAuthScreen onRegisterClick={mockOnRegisterClick} />
-    );
+    const { getByTestId } = render(<SignInAuthScreen onRegisterClick={mockOnRegisterClick} />);
 
     const registerButton = getByTestId("register-button");
     fireEvent.click(registerButton);

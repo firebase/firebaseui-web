@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FirebaseUI, FirebaseUIPolicies } from '../../provider';
-import { map } from 'rxjs';
+import { Component, inject } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FirebaseUI, FirebaseUIPolicies } from "../../provider";
+import { map } from "rxjs";
 
 @Component({
-  selector: 'fui-terms-and-privacy',
+  selector: "fui-terms-and-privacy",
   standalone: true,
   imports: [CommonModule],
   template: `
@@ -64,23 +64,23 @@ export class TermsAndPrivacyComponent {
     return !!(this.tosUrl || this.privacyPolicyUrl);
   }
 
-  termsText = this.ui.translation('labels', 'termsOfService');
-  privacyText = this.ui.translation('labels', 'privacyPolicy');
+  termsText = this.ui.translation("labels", "termsOfService");
+  privacyText = this.ui.translation("labels", "privacyPolicy");
 
-  parts = this.ui.translation('messages', 'termsAndPrivacy').pipe(
+  parts = this.ui.translation("messages", "termsAndPrivacy").pipe(
     map((text) => {
       const parts = text.split(/({tos}|{privacy})/);
       return parts.map((part) => {
-        if (part === '{tos}') return { type: 'tos' };
-        if (part === '{privacy}') return { type: 'privacy' };
-        return { type: 'text', content: part };
+        if (part === "{tos}") return { type: "tos" };
+        if (part === "{privacy}") return { type: "privacy" };
+        return { type: "text", content: part };
       });
-    }),
+    })
   );
 
   handleUrl(url: string) {
     if (url) {
-      window.open(url, '_blank', 'noopener,noreferrer');
+      window.open(url, "_blank", "noopener,noreferrer");
     }
   }
 }

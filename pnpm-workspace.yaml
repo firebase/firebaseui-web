@@ -20,8 +20,8 @@ catalogs:
     firebase: ^12
     react: ^19
     react-dom: ^19
-    "@angular/core": ^20.2.4
-    "@angular/common": ^20.2.4
+    "@angular/core": ^20.2.2
+    "@angular/common": ^20.2.2
 
 catalog:
   # Firebase
@@ -43,11 +43,18 @@ catalog:
 
   # Angular
   rxjs: ^7.8.2
-  "@angular/core": ^20.2.4
-  "@angular/common": ^20.2.4
-  "@angular/forms": ^20.2.4
-  "@angular/router": ^20.2.4
+  "@angular/core": ^20.2.2
+  "@angular/common": ^20.2.2
+  "@angular/forms": ^20.2.2
+  "@angular/router": ^20.2.2
   "@angular/fire": ^20.0.1
+  "@angular/compiler": ^20.2.2
+  "@angular/compiler-cli": ^20.2.2
+  "@angular/platform-browser": ^20.2.2
+  "@angular/platform-browser-dynamic": ^20.2.2
+  "@angular-devkit/build-angular": ^20.2.2
+  "@angular/cli": ^20.2.2
+  "zone.js": ^0.15.0
 
   # Testing
   vitest: ^3.2.4

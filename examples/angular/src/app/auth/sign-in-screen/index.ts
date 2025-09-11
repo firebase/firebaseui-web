@@ -14,4 +14,4 @@
  * limitations under the License.
  */
 
-export * from './sign-in-screen.component';
+export * from "./sign-in-screen.component";

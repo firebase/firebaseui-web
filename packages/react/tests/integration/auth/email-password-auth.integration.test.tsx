@@ -15,13 +15,7 @@
  */
 
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
-import {
-  screen,
-  fireEvent,
-  waitFor,
-  act,
-  render,
-} from "@testing-library/react";
+import { screen, fireEvent, waitFor, act, render } from "@testing-library/react";
 import { EmailPasswordForm } from "../../../src/auth/forms/email-password-form";
 import { initializeApp } from "firebase/app";
 import {
@@ -62,9 +56,7 @@ describe("Email Password Authentication Integration", () => {
     try {
       await createUserWithEmailAndPassword(auth, testEmail, testPassword);
     } catch (error) {
-      throw new Error(
-        `Failed to set up test user: ${error instanceof Error ? error.message : String(error)}`
-      );
+      throw new Error(`Failed to set up test user: ${error instanceof Error ? error.message : String(error)}`);
     }
   });
 
@@ -76,11 +68,7 @@ describe("Email Password Authentication Integration", () => {
         await deleteUser(auth.currentUser);
       } else {
         // Try to sign in first
-        const userCredential = await signInWithEmailAndPassword(
-          auth,
-          testEmail,
-          testPassword
-        );
+        const userCredential = await signInWithEmailAndPassword(auth, testEmail, testPassword);
         await deleteUser(userCredential.user);
       }
     } catch (error) {

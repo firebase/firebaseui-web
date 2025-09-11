@@ -14,14 +14,19 @@
  * limitations under the License.
  */
 
-import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CardComponent, CardHeaderComponent, CardTitleComponent, CardSubtitleComponent } from '../../../components/card/card.component';
-import { FirebaseUI } from '../../../provider';
-import { TermsAndPrivacyComponent } from '../../../components/terms-and-privacy/terms-and-privacy.component';
+import { Component, inject } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import {
+  CardComponent,
+  CardHeaderComponent,
+  CardTitleComponent,
+  CardSubtitleComponent,
+} from "../../../components/card/card.component";
+import { FirebaseUI } from "../../../provider";
+import { TermsAndPrivacyComponent } from "../../../components/terms-and-privacy/terms-and-privacy.component";
 
 @Component({
-  selector: 'fui-oauth-screen',
+  selector: "fui-oauth-screen",
   standalone: true,
   imports: [
     CommonModule,
@@ -42,16 +47,16 @@ import { TermsAndPrivacyComponent } from '../../../components/terms-and-privacy/
         <fui-terms-and-privacy></fui-terms-and-privacy>
       </fui-card>
     </div>
-  `
+  `,
 })
 export class OAuthScreenComponent {
   private ui = inject(FirebaseUI);
 
   get titleText() {
-    return this.ui.translation('labels', 'signIn');
+    return this.ui.translation("labels", "signIn");
   }
 
   get subtitleText() {
-    return this.ui.translation('prompts', 'signInToAccount');
+    return this.ui.translation("prompts", "signInToAccount");
   }
 }

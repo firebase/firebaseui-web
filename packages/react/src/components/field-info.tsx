@@ -22,20 +22,11 @@ interface FieldInfoProps<TData> extends HTMLAttributes<HTMLDivElement> {
   field: FieldApi<TData, any>;
 }
 
-export function FieldInfo<TData>({
-  field,
-  className,
-  ...props
-}: FieldInfoProps<TData>) {
+export function FieldInfo<TData>({ field, className, ...props }: FieldInfoProps<TData>) {
   return (
     <>
       {field.state.meta.isTouched && field.state.meta.errors.length ? (
-        <div
-          role="alert"
-          aria-live="polite"
-          className={cn("fui-form__error", className)}
-          {...props}
-        >
+        <div role="alert" aria-live="polite" className={cn("fui-form__error", className)} {...props}>
           {field.state.meta.errors[0]}
         </div>
       ) : null}

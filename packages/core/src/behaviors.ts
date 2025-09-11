@@ -23,8 +23,8 @@ import {
   signInAnonymously,
   User,
   UserCredential,
-} from 'firebase/auth';
-import { FirebaseUIConfiguration } from './config';
+} from "firebase/auth";
+import { FirebaseUIConfiguration } from "./config";
 
 export type BehaviorHandlers = {
   autoAnonymousLogin: (ui: FirebaseUIConfiguration) => Promise<User>;
@@ -51,14 +51,15 @@ export function getBehavior<T extends BehaviorKey>(ui: FirebaseUIConfiguration, 
   return ui.behaviors[key] as Behavior[T];
 }
 
-export function autoAnonymousLogin(): Behavior<'autoAnonymousLogin'> {
+export function autoAnonymousLogin(): Behavior<"autoAnonymousLogin"> {
   /** No-op on Server render */
-  if (typeof window === 'undefined') {
-    console.log('[autoAnonymousLogin] SSR mode — returning noop behavior');
+  if (typeof window === "undefined") {
+    // eslint-disable-next-line no-console
+    console.log("[autoAnonymousLogin] SSR mode — returning noop behavior");
     return {
       autoAnonymousLogin: async (_ui) => {
         /** Return a placeholder user object */
-        return { uid: 'server-placeholder' } as unknown as User;
+        return { uid: "server-placeholder" } as unknown as User;
       },
     };
   }
@@ -69,7 +70,7 @@ export function autoAnonymousLogin(): Behavior<'autoAnonymousLogin'> {
 
       const user = await new Promise<User>((resolve) => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
-          ui.setState('signing-in');
+          ui.setState("signing-in");
           if (!user) {
             signInAnonymously(auth);
             return;
@@ -79,14 +80,14 @@ export function autoAnonymousLogin(): Behavior<'autoAnonymousLogin'> {
           resolve(user);
         });
       });
-      ui.setState('idle');
+      ui.setState("idle");
       return user;
     },
   };
 }
 
 export function autoUpgradeAnonymousUsers(): Behavior<
-  'autoUpgradeAnonymousCredential' | 'autoUpgradeAnonymousProvider'
+  "autoUpgradeAnonymousCredential" | "autoUpgradeAnonymousProvider"
 > {
   return {
     autoUpgradeAnonymousCredential: async (ui, credential) => {
@@ -98,9 +99,9 @@ export function autoUpgradeAnonymousUsers(): Behavior<
         return;
       }
 
-      ui.setState('linking');
+      ui.setState("linking");
       const result = await linkWithCredential(currentUser, credential);
-      ui.setState('idle');
+      ui.setState("idle");
       return result;
     },
     autoUpgradeAnonymousProvider: async (ui, provider) => {
@@ -111,7 +112,7 @@ export function autoUpgradeAnonymousUsers(): Behavior<
         return;
       }
 
-      ui.setState('linking');
+      ui.setState("linking");
       await linkWithRedirect(currentUser, provider);
       // We don't modify state here since the user is redirected.
       // If we support popups, we'd need to modify state here.

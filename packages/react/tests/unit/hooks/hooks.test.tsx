@@ -43,18 +43,16 @@ describe("Hooks", () => {
     app: mockApp,
     getAuth: vi.fn(),
     setLocale: vi.fn(),
-    state: 'idle',
+    state: "idle",
     setState: vi.fn(),
-    locale: 'en',
+    locale: "en",
     translations: mockTranslations,
     behaviors: {},
-    recaptchaMode: 'normal',
+    recaptchaMode: "normal",
   };
 
   const wrapper = ({ children }: { children: React.ReactNode }) => (
-    <FirebaseUIContext.Provider value={mockConfig as any}>
-      {children}
-    </FirebaseUIContext.Provider>
+    <FirebaseUIContext.Provider value={mockConfig as any}>{children}</FirebaseUIContext.Provider>
   );
 
   beforeEach(() => {

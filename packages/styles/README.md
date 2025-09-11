@@ -30,4 +30,3 @@ pnpm build
 ```
 
 This command will source the `src.css` file and output the compiled CSS to the `dist.css` file.
-

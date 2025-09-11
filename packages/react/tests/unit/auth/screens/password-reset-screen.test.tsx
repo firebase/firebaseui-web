@@ -38,11 +38,7 @@ vi.mock("~/hooks", () => ({
 
 // Mock the ForgotPasswordForm component
 vi.mock("~/auth/forms/forgot-password-form", () => ({
-  ForgotPasswordForm: ({
-    onBackToSignInClick,
-  }: {
-    onBackToSignInClick?: () => void;
-  }) => (
+  ForgotPasswordForm: ({ onBackToSignInClick }: { onBackToSignInClick?: () => void }) => (
     <div data-testid="forgot-password-form">
       <button onClick={onBackToSignInClick} data-testid="back-button">
         Back to Sign In
@@ -62,9 +58,7 @@ describe("PasswordResetScreen", () => {
     const { getByText } = render(<PasswordResetScreen />);
 
     expect(getByText("Reset Password")).toBeInTheDocument();
-    expect(
-      getByText("Enter your email to reset your password")
-    ).toBeInTheDocument();
+    expect(getByText("Enter your email to reset your password")).toBeInTheDocument();
   });
 
   it("calls useUI to get the locale", () => {
@@ -80,9 +74,7 @@ describe("PasswordResetScreen", () => {
   });
 
   it("passes onBackToSignInClick to ForgotPasswordForm", () => {
-    const { getByTestId } = render(
-      <PasswordResetScreen onBackToSignInClick={mockOnBackToSignInClick} />
-    );
+    const { getByTestId } = render(<PasswordResetScreen onBackToSignInClick={mockOnBackToSignInClick} />);
 
     // Click the back button in the mocked form
     fireEvent.click(getByTestId("back-button"));

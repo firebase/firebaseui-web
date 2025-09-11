@@ -6,7 +6,10 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
+    "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,md}\""
   },
   "dependencies": {
     "@firebase-ui/react": "workspace:*",
@@ -26,6 +29,7 @@
     "@types/react-dom": "^19",
     "postcss": "^8.5.2",
     "postcss-load-config": "^6.0.1",
+    "prettier": "^3.1.1",
     "tailwindcss": "^4.0.6",
     "typescript": "^5"
   }

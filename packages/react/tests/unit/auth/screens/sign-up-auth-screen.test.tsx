@@ -49,16 +49,9 @@ vi.mock("~/hooks", () => ({
 
 // Mock RegisterForm component
 vi.mock("~/auth/forms/register-form", () => ({
-  RegisterForm: ({
-    onBackToSignInClick,
-  }: {
-    onBackToSignInClick?: () => void;
-  }) => (
+  RegisterForm: ({ onBackToSignInClick }: { onBackToSignInClick?: () => void }) => (
     <div data-testid="register-form">
-      <button
-        data-testid="back-to-sign-in-button"
-        onClick={onBackToSignInClick}
-      >
+      <button data-testid="back-to-sign-in-button" onClick={onBackToSignInClick}>
         Back to Sign In
       </button>
     </div>
@@ -70,9 +63,7 @@ describe("SignUpAuthScreen", () => {
     render(<SignUpAuthScreen />);
 
     expect(screen.getByText("Create Account")).toBeInTheDocument();
-    expect(
-      screen.getByText("Enter your details to create an account")
-    ).toBeInTheDocument();
+    expect(screen.getByText("Enter your details to create an account")).toBeInTheDocument();
   });
 
   it("includes the RegisterForm component", () => {

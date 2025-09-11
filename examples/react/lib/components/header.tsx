@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-'use client';
+"use client";
 
 import { NavLink } from "react-router";
 import { useUser } from "../firebase/hooks";
@@ -37,7 +37,15 @@ export function Header() {
         </div>
         <div className="flex-grow flex items-center justify-end">
           <ul className="text-sm flex items-center gap-6 *:hover:opacity-75">
-            {user ? <li><button onClick={onSignOut}>Sign Out</button></li> : <li><NavLink to="/sign-in">Sign In</NavLink></li>}
+            {user ? (
+              <li>
+                <button onClick={onSignOut}>Sign Out</button>
+              </li>
+            ) : (
+              <li>
+                <NavLink to="/sign-in">Sign In</NavLink>
+              </li>
+            )}
           </ul>
         </div>
       </div>

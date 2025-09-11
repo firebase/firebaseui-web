@@ -14,25 +14,21 @@
  * limitations under the License.
  */
 
-import { Component, inject, Input, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ButtonComponent } from '../../components/button/button.component';
-import { FirebaseUI } from '../../provider';
-import { Auth, AuthProvider } from '@angular/fire/auth';
-import { FirebaseUIError, signInWithOAuth } from '@firebase-ui/core';
-import { firstValueFrom } from 'rxjs';
+import { Component, inject, Input, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { ButtonComponent } from "../../components/button/button.component";
+import { FirebaseUI } from "../../provider";
+import { Auth, AuthProvider } from "@angular/fire/auth";
+import { FirebaseUIError, signInWithOAuth } from "@firebase-ui/core";
+import { firstValueFrom } from "rxjs";
 
 @Component({
-  selector: 'fui-oauth-button',
+  selector: "fui-oauth-button",
   standalone: true,
   imports: [CommonModule, ButtonComponent],
   template: `
     <div>
-      <fui-button
-        type="button"
-        (click)="handleOAuthSignIn()"
-        class="fui-provider__button"
-      >
+      <fui-button type="button" (click)="handleOAuthSignIn()" class="fui-provider__button">
         <ng-content></ng-content>
       </fui-button>
       <div class="fui-form__error" *ngIf="error">{{ error }}</div>
@@ -48,7 +44,7 @@ export class OAuthButtonComponent implements OnInit {
 
   ngOnInit() {
     if (!this.provider) {
-      console.error('Provider is required for OAuthButtonComponent');
+      console.error("Provider is required for OAuthButtonComponent");
     }
   }
 
@@ -62,9 +58,9 @@ export class OAuthButtonComponent implements OnInit {
         return;
       }
       console.error(error);
-      firstValueFrom(this.ui.translation('errors', 'unknownError'))
+      firstValueFrom(this.ui.translation("errors", "unknownError"))
         .then((message) => (this.error = message))
-        .catch(() => (this.error = 'Unknown error'));
+        .catch(() => (this.error = "Unknown error"));
     }
   }
 }

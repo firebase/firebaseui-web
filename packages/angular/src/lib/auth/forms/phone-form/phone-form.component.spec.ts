@@ -31,11 +31,7 @@ import { FirebaseUIError } from "core";
 import { TanStackField } from "@tanstack/angular-form";
 import { firstValueFrom, of } from "rxjs";
 import { FirebaseUI, FirebaseUIPolicies } from "../../../provider";
-import {
-  PhoneFormComponent,
-  PhoneNumberFormComponent,
-  VerificationFormComponent,
-} from "./phone-form.component";
+import { PhoneFormComponent, PhoneNumberFormComponent, VerificationFormComponent } from "./phone-form.component";
 import { mockAuth } from "../../../testing/test-helpers";
 // Mock providePolicies function
 const mockProvidePolicies = () => ({
@@ -47,14 +43,12 @@ const mockProvidePolicies = () => ({
 });
 
 // Mock Firebase UI Core functions
-const mockFuiSignInWithPhoneNumber = jasmine
-  .createSpy("signInWithPhoneNumber")
-  .and.returnValue(
-    Promise.resolve({
-      confirm: jasmine.createSpy("confirm").and.returnValue(Promise.resolve()),
-      verificationId: "mock-verification-id",
-    } as ConfirmationResult)
-  );
+const mockFuiSignInWithPhoneNumber = jasmine.createSpy("signInWithPhoneNumber").and.returnValue(
+  Promise.resolve({
+    confirm: jasmine.createSpy("confirm").and.returnValue(Promise.resolve()),
+    verificationId: "mock-verification-id",
+  } as ConfirmationResult)
+);
 
 const mockFuiConfirmPhoneNumber = jasmine
   .createSpy("fuiConfirmPhoneNumber")
@@ -86,15 +80,8 @@ class MockTermsAndPrivacyComponent {}
 @Component({
   selector: "fui-country-selector",
   template: `<div data-testid="country-selector">
-    <select
-      [value]="value?.code"
-      (change)="handleChange($event)"
-      data-testid="country-select"
-    >
-      <option
-        *ngFor="let country of countries; trackBy: trackByCode"
-        [value]="country.code"
-      >
+    <select [value]="value?.code" (change)="handleChange($event)" data-testid="country-select">
+      <option *ngFor="let country of countries; trackBy: trackByCode" [value]="country.code">
         {{ country.name }} ({{ country.dialCode }})
       </option>
     </select>
@@ -144,14 +131,13 @@ class MockFirebaseUi {
 class TestPhoneFormComponent extends PhoneFormComponent {
   // Replace the initRecaptcha method to simplify testing
   initRecaptcha() {
-    const mockRecaptchaVerifier = jasmine.createSpyObj<RecaptchaVerifier>(
-      "RecaptchaVerifier",
-      ["render", "clear", "verify"]
-    );
+    const mockRecaptchaVerifier = jasmine.createSpyObj<RecaptchaVerifier>("RecaptchaVerifier", [
+      "render",
+      "clear",
+      "verify",
+    ]);
     mockRecaptchaVerifier.render.and.returnValue(Promise.resolve(1));
-    mockRecaptchaVerifier.verify.and.returnValue(
-      Promise.resolve("verification-token")
-    );
+    mockRecaptchaVerifier.verify.and.returnValue(Promise.resolve("verification-token"));
 
     this.recaptchaVerifier = mockRecaptchaVerifier;
     return Promise.resolve();
@@ -182,15 +168,10 @@ class TestPhoneFormComponent extends PhoneFormComponent {
 
       this.phoneNumber = phoneNumber;
       // Call our mock function directly
-      const result = await mockFuiSignInWithPhoneNumber(
-        await this.testGetAuth(),
-        phoneNumber,
-        this.recaptchaVerifier,
-        {
-          translations: {},
-          language: "en",
-        }
-      );
+      const result = await mockFuiSignInWithPhoneNumber(await this.testGetAuth(), phoneNumber, this.recaptchaVerifier, {
+        translations: {},
+        language: "en",
+      });
 
       this.confirmationResult = result;
       this.startTimer();
@@ -268,14 +249,13 @@ class TestPhoneFormComponent extends PhoneFormComponent {
 class TestPhoneNumberFormComponent extends PhoneNumberFormComponent {
   // Replace the initRecaptcha method
   override initRecaptcha() {
-    const mockRecaptchaVerifier = jasmine.createSpyObj<RecaptchaVerifier>(
-      "RecaptchaVerifier",
-      ["render", "clear", "verify"]
-    );
+    const mockRecaptchaVerifier = jasmine.createSpyObj<RecaptchaVerifier>("RecaptchaVerifier", [
+      "render",
+      "clear",
+      "verify",
+    ]);
     mockRecaptchaVerifier.render.and.returnValue(Promise.resolve(1));
-    mockRecaptchaVerifier.verify.and.returnValue(
-      Promise.resolve("verification-token")
-    );
+    mockRecaptchaVerifier.verify.and.returnValue(Promise.resolve("verification-token"));
 
     this.recaptchaVerifier = mockRecaptchaVerifier;
     return Promise.resolve();
@@ -297,19 +277,36 @@ describe("PhoneFormComponent", () => {
     mockFuiSignInWithPhoneNumber.calls.reset();
     mockFuiConfirmPhoneNumber.calls.reset();
 
-    mockRecaptchaVerifier = jasmine.createSpyObj<RecaptchaVerifier>(
-      "RecaptchaVerifier",
-      ["render", "clear", "verify"]
-    );
+    mockRecaptchaVerifier = jasmine.createSpyObj<RecaptchaVerifier>("RecaptchaVerifier", ["render", "clear", "verify"]);
     mockRecaptchaVerifier.render.and.returnValue(Promise.resolve(1));
-    mockRecaptchaVerifier.verify.and.returnValue(
-      Promise.resolve("verification-token")
-    );
+    mockRecaptchaVerifier.verify.and.returnValue(Promise.resolve("verification-token"));
 
     // Create mock schema for phone validation
-    (window as any).createPhoneFormSchema = jasmine
-      .createSpy("createPhoneFormSchema")
-      .and.returnValue({
+    (window as any).createPhoneFormSchema = jasmine.createSpy("createPhoneFormSchema").and.returnValue({
+      safeParse: (data: any) => {
+        if (data.phoneNumber && !data.phoneNumber.match(/^\d{10}$/)) {
+          return {
+            success: false,
+            error: {
+              format: () => ({
+                phoneNumber: { _errors: ["Invalid phone number"] },
+              }),
+            },
+          };
+        }
+        if (data.verificationCode && !data.verificationCode.match(/^\d{6}$/)) {
+          return {
+            success: false,
+            error: {
+              format: () => ({
+                verificationCode: { _errors: ["Invalid verification code"] },
+              }),
+            },
+          };
+        }
+        return { success: true };
+      },
+      pick: () => ({
         safeParse: (data: any) => {
           if (data.phoneNumber && !data.phoneNumber.match(/^\d{10}$/)) {
             return {
@@ -321,52 +318,22 @@ describe("PhoneFormComponent", () => {
               },
             };
           }
-          if (
-            data.verificationCode &&
-            !data.verificationCode.match(/^\d{6}$/)
-          ) {
+          if (data.verificationCode && !data.verificationCode.match(/^\d{6}$/)) {
             return {
               success: false,
               error: {
                 format: () => ({
-                  verificationCode: { _errors: ["Invalid verification code"] },
+                  verificationCode: {
+                    _errors: ["Invalid verification code"],
+                  },
                 }),
               },
             };
           }
           return { success: true };
         },
-        pick: () => ({
-          safeParse: (data: any) => {
-            if (data.phoneNumber && !data.phoneNumber.match(/^\d{10}$/)) {
-              return {
-                success: false,
-                error: {
-                  format: () => ({
-                    phoneNumber: { _errors: ["Invalid phone number"] },
-                  }),
-                },
-              };
-            }
-            if (
-              data.verificationCode &&
-              !data.verificationCode.match(/^\d{6}$/)
-            ) {
-              return {
-                success: false,
-                error: {
-                  format: () => ({
-                    verificationCode: {
-                      _errors: ["Invalid verification code"],
-                    },
-                  }),
-                },
-              };
-            }
-            return { success: true };
-          },
-        }),
-      });
+      }),
+    });
 
     mockFirebaseUi = new MockFirebaseUi();
 
@@ -382,18 +349,12 @@ describe("PhoneFormComponent", () => {
       },
       languageCode: "en",
       settings: { appVerificationDisabledForTesting: true },
-      signInWithPhoneNumber: jasmine
-        .createSpy("signInWithPhoneNumber")
-        .and.returnValue(
-          Promise.resolve({
-            confirm: jasmine
-              .createSpy("confirm")
-              .and.returnValue(Promise.resolve()),
-          })
-        ),
-      signInWithCredential: jasmine
-        .createSpy("signInWithCredential")
-        .and.returnValue(Promise.resolve()),
+      signInWithPhoneNumber: jasmine.createSpy("signInWithPhoneNumber").and.returnValue(
+        Promise.resolve({
+          confirm: jasmine.createSpy("confirm").and.returnValue(Promise.resolve()),
+        })
+      ),
+      signInWithCredential: jasmine.createSpy("signInWithCredential").and.returnValue(Promise.resolve()),
     };
 
     TestBed.configureTestingModule({
@@ -421,18 +382,14 @@ describe("PhoneFormComponent", () => {
     }).compileComponents();
 
     // Mock RecaptchaVerifier constructor
-    (window as any).RecaptchaVerifier = jasmine
-      .createSpy("RecaptchaVerifier")
-      .and.returnValue(mockRecaptchaVerifier);
+    (window as any).RecaptchaVerifier = jasmine.createSpy("RecaptchaVerifier").and.returnValue(mockRecaptchaVerifier);
 
     fixture = TestBed.createComponent(TestPhoneFormComponent);
     component = fixture.componentInstance;
     component.recaptchaVerifier = mockRecaptchaVerifier;
 
     // Mock DOM methods
-    spyOn(document, "querySelector").and.returnValue(
-      document.createElement("div")
-    );
+    spyOn(document, "querySelector").and.returnValue(document.createElement("div"));
 
     // Directly replace timer with mock implementation
     component.startTimer = function () {

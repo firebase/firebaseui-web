@@ -71,9 +71,7 @@ export default function Example1() {
               <div className="mx-auto max-w-md">
                 <div className="mb-8 space-y-2">
                   <h2 className="text-2xl font-bold">Create Account</h2>
-                  <p className="text-sm text-gray-600">
-                    Join thousands of users worldwide
-                  </p>
+                  <p className="text-sm text-gray-600">Join thousands of users worldwide</p>
                 </div>
                 <RegisterForm />
                 <div className="mt-6 text-center text-sm text-gray-500">
@@ -86,9 +84,7 @@ export default function Example1() {
               <div>
                 <div className="mb-8 space-y-2">
                   <h2 className="text-2xl font-bold">Welcome Back</h2>
-                  <p className="text-sm text-gray-600">
-                    Sign in to your account to continue
-                  </p>
+                  <p className="text-sm text-gray-600">Sign in to your account to continue</p>
                 </div>
                 <EmailPasswordForm onForgotPasswordClick={() => {}} />
               </div>
@@ -98,9 +94,7 @@ export default function Example1() {
               <div className="flex flex-col">
                 <div className="mb-8 space-y-2">
                   <h2 className="text-2xl font-bold">New Here?</h2>
-                  <p className="text-sm text-gray-600">
-                    Create an account and get access to all features
-                  </p>
+                  <p className="text-sm text-gray-600">Create an account and get access to all features</p>
                 </div>
 
                 <div className="mb-8 space-y-4">
@@ -112,19 +106,12 @@ export default function Example1() {
                         viewBox="0 0 24 24"
                         stroke="currentColor"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M5 13l4 4L19 7"
-                        />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
                     <div>
                       <h3 className="font-medium">Free Forever</h3>
-                      <p className="text-sm text-gray-600">
-                        Get started with our free plan and upgrade anytime
-                      </p>
+                      <p className="text-sm text-gray-600">Get started with our free plan and upgrade anytime</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
@@ -135,19 +122,12 @@ export default function Example1() {
                         viewBox="0 0 24 24"
                         stroke="currentColor"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M5 13l4 4L19 7"
-                        />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
                     <div>
                       <h3 className="font-medium">Premium Support</h3>
-                      <p className="text-sm text-gray-600">
-                        24/7 support for all your questions
-                      </p>
+                      <p className="text-sm text-gray-600">24/7 support for all your questions</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
@@ -158,19 +138,12 @@ export default function Example1() {
                         viewBox="0 0 24 24"
                         stroke="currentColor"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M5 13l4 4L19 7"
-                        />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
                     <div>
                       <h3 className="font-medium">Regular Updates</h3>
-                      <p className="text-sm text-gray-600">
-                        New features and improvements every month
-                      </p>
+                      <p className="text-sm text-gray-600">New features and improvements every month</p>
                     </div>
                   </div>
                 </div>
@@ -193,28 +166,16 @@ export default function Example1() {
             <div>
               <h3 className="font-semibold mb-4">Product</h3>
               <div className="flex flex-col gap-2">
-                <a
-                  href="#"
-                  className="text-sm text-gray-600 hover:text-[var(--fui-primary)]"
-                >
+                <a href="#" className="text-sm text-gray-600 hover:text-[var(--fui-primary)]">
                   Features
                 </a>
-                <a
-                  href="#"
-                  className="text-sm text-gray-600 hover:text-[var(--fui-primary)]"
-                >
+                <a href="#" className="text-sm text-gray-600 hover:text-[var(--fui-primary)]">
                   Integrations
                 </a>
-                <a
-                  href="#"
-                  className="text-sm text-gray-600 hover:text-[var(--fui-primary)]"
-                >
+                <a href="#" className="text-sm text-gray-600 hover:text-[var(--fui-primary)]">
                   Enterprise
                 </a>
-                <a
-                  href="#"
-                  className="text-sm text-gray-600 hover:text-[var(--fui-primary)]"
-                >
+                <a href="#" className="text-sm text-gray-600 hover:text-[var(--fui-primary)]">
                   Solutions
                 </a>
               </div>
@@ -222,28 +183,16 @@ export default function Example1() {
             <div>
               <h3 className="font-semibold mb-4">Resources</h3>
               <div className="flex flex-col gap-2">
-                <a
-                  href="#"
-                  className="text-sm text-gray-600 hover:text-[var(--fui-primary)]"
-                >
+                <a href="#" className="text-sm text-gray-600 hover:text-[var(--fui-primary)]">
                   Documentation
                 </a>
-                <a
-                  href="#"
-                  className="text-sm text-gray-600 hover:text-[var(--fui-primary)]"
-                >
+                <a href="#" className="text-sm text-gray-600 hover:text-[var(--fui-primary)]">
                   Guides
                 </a>
-                <a
-                  href="#"
-                  className="text-sm text-gray-600 hover:text-[var(--fui-primary)]"
-                >
+                <a href="#" className="text-sm text-gray-600 hover:text-[var(--fui-primary)]">
                   Help Center
                 </a>
-                <a
-                  href="#"
-                  className="text-sm text-gray-600 hover:text-[var(--fui-primary)]"
-                >
+                <a href="#" className="text-sm text-gray-600 hover:text-[var(--fui-primary)]">
                   API Status
                 </a>
               </div>
@@ -251,28 +200,16 @@ export default function Example1() {
             <div>
               <h3 className="font-semibold mb-4">Company</h3>
               <div className="flex flex-col gap-2">
-                <a
-                  href="#"
-                  className="text-sm text-gray-600 hover:text-[var(--fui-primary)]"
-                >
+                <a href="#" className="text-sm text-gray-600 hover:text-[var(--fui-primary)]">
                   About Us
                 </a>
-                <a
-                  href="#"
-                  className="text-sm text-gray-600 hover:text-[var(--fui-primary)]"
-                >
+                <a href="#" className="text-sm text-gray-600 hover:text-[var(--fui-primary)]">
                   Blog
                 </a>
-                <a
-                  href="#"
-                  className="text-sm text-gray-600 hover:text-[var(--fui-primary)]"
-                >
+                <a href="#" className="text-sm text-gray-600 hover:text-[var(--fui-primary)]">
                   Careers
                 </a>
-                <a
-                  href="#"
-                  className="text-sm text-gray-600 hover:text-[var(--fui-primary)]"
-                >
+                <a href="#" className="text-sm text-gray-600 hover:text-[var(--fui-primary)]">
                   Press
                 </a>
               </div>
@@ -280,28 +217,16 @@ export default function Example1() {
             <div>
               <h3 className="font-semibold mb-4">Legal</h3>
               <div className="flex flex-col gap-2">
-                <a
-                  href="#"
-                  className="text-sm text-gray-600 hover:text-[var(--fui-primary)]"
-                >
+                <a href="#" className="text-sm text-gray-600 hover:text-[var(--fui-primary)]">
                   Privacy
                 </a>
-                <a
-                  href="#"
-                  className="text-sm text-gray-600 hover:text-[var(--fui-primary)]"
-                >
+                <a href="#" className="text-sm text-gray-600 hover:text-[var(--fui-primary)]">
                   Terms
                 </a>
-                <a
-                  href="#"
-                  className="text-sm text-gray-600 hover:text-[var(--fui-primary)]"
-                >
+                <a href="#" className="text-sm text-gray-600 hover:text-[var(--fui-primary)]">
                   Security
                 </a>
-                <a
-                  href="#"
-                  className="text-sm text-gray-600 hover:text-[var(--fui-primary)]"
-                >
+                <a href="#" className="text-sm text-gray-600 hover:text-[var(--fui-primary)]">
                   Cookies
                 </a>
               </div>

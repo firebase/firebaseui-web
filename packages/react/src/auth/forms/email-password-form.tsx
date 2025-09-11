@@ -30,25 +30,19 @@ import { Button } from "../../components/button";
 import { FieldInfo } from "../../components/field-info";
 import { Policies } from "../../components/policies";
 
-export interface EmailPasswordFormProps  {
+export interface EmailPasswordFormProps {
   onForgotPasswordClick?: () => void;
   onRegisterClick?: () => void;
 }
 
-export function EmailPasswordForm({
-  onForgotPasswordClick,
-  onRegisterClick,
-}: EmailPasswordFormProps) {
+export function EmailPasswordForm({ onForgotPasswordClick, onRegisterClick }: EmailPasswordFormProps) {
   const ui = useUI();
 
   const [formError, setFormError] = useState<string | null>(null);
   const [firstValidationOccured, setFirstValidationOccured] = useState(false);
 
   // TODO: Do we need to memoize this?
-  const emailFormSchema = useMemo(
-    () => createEmailFormSchema(ui.translations),
-    [ui.translations]
-  );
+  const emailFormSchema = useMemo(() => createEmailFormSchema(ui.translations), [ui.translations]);
 
   const form = useForm<EmailFormSchema>({
     defaultValues: {
@@ -87,15 +81,13 @@ export function EmailPasswordForm({
       <fieldset>
         <form.Field
           name="email"
+          // eslint-disable-next-line react/no-children-prop
           children={(field) => (
             <>
               <label htmlFor={field.name}>
                 <span>{getTranslation(ui, "labels", "emailAddress")}</span>
                 <input
-                  aria-invalid={
-                    field.state.meta.isTouched &&
-                    field.state.meta.errors.length > 0
-                  }
+                  aria-invalid={field.state.meta.isTouched && field.state.meta.errors.length > 0}
                   id={field.name}
                   name={field.name}
                   type="email"
@@ -122,13 +114,12 @@ export function EmailPasswordForm({
       <fieldset>
         <form.Field
           name="password"
+          // eslint-disable-next-line react/no-children-prop
           children={(field) => (
             <>
               <label htmlFor={field.name}>
                 <span className="flex">
-                  <span className="flex-grow">
-                    {getTranslation(ui, "labels", "password")}
-                  </span>
+                  <span className="flex-grow">{getTranslation(ui, "labels", "password")}</span>
                   <button
                     type="button"
                     disabled={ui.state !== "idle" ? true : false}
@@ -139,10 +130,7 @@ export function EmailPasswordForm({
                   </button>
                 </span>
                 <input
-                  aria-invalid={
-                    field.state.meta.isTouched &&
-                    field.state.meta.errors.length > 0
-                  }
+                  aria-invalid={field.state.meta.isTouched && field.state.meta.errors.length > 0}
                   id={field.name}
                   name={field.name}
                   type="password"
@@ -183,8 +171,7 @@ export function EmailPasswordForm({
             onClick={onRegisterClick}
             className="fui-form__action"
           >
-            {getTranslation(ui, "prompts", "noAccount")}{" "}
-            {getTranslation(ui, "labels", "register")}
+            {getTranslation(ui, "prompts", "noAccount")} {getTranslation(ui, "labels", "register")}
           </button>
         </div>
       )}

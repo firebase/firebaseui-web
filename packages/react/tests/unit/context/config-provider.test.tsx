@@ -30,7 +30,7 @@ function TestConsumer() {
 describe("ConfigProvider", () => {
   it("provides the config value to children", () => {
     // Create a mock config store with the correct FUIConfig properties
-    const mockConfig = map<Pick<FirebaseUIConfiguration, 'locale'>>({
+    const mockConfig = map<Pick<FirebaseUIConfiguration, "locale">>({
       locale: "en-US",
     }) as FirebaseUI;
 
@@ -45,7 +45,7 @@ describe("ConfigProvider", () => {
 
   it("updates when the config store changes", () => {
     // Create a mock config store
-    const mockConfig = map<Pick<FirebaseUIConfiguration, 'locale'>>({
+    const mockConfig = map<Pick<FirebaseUIConfiguration, "locale">>({
       locale: "en-US",
     }) as FirebaseUI;
 
