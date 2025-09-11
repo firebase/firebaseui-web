@@ -42,7 +42,7 @@ export function EmailPasswordForm({ onForgotPasswordClick, onRegisterClick }: Em
   const [firstValidationOccured, setFirstValidationOccured] = useState(false);
 
   // TODO: Do we need to memoize this?
-  const emailFormSchema = useMemo(() => createEmailFormSchema(ui.translations), [ui.translations]);
+  const emailFormSchema = useMemo(() => createEmailFormSchema(ui), [ui]);
 
   const form = useForm<EmailFormSchema>({
     defaultValues: {

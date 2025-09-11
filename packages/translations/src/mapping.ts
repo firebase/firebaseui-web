@@ -15,8 +15,8 @@
  */
 
 import { enUS } from "./locales/en-us";
-import { Locale, enUs } from ".";
-import type { ErrorKey, TranslationCategory, TranslationKey, TranslationsConfig, TranslationSet } from "./types";
+import { RegisteredLocale } from ".";
+import type { ErrorKey, TranslationCategory, TranslationKey, TranslationSet } from "./types";
 
 export const ERROR_CODE_MAP = {
   "auth/user-not-found": "userNotFound",
@@ -46,27 +46,27 @@ export const ERROR_CODE_MAP = {
 export type ErrorCode = keyof typeof ERROR_CODE_MAP;
 
 export function getTranslation<T extends TranslationCategory>(
+  locale: RegisteredLocale,
   category: T,
   key: TranslationKey<T>,
-  translations: TranslationsConfig | undefined,
-  locale: Locale | undefined = undefined
 ): string {
-  const userPreferredTranslationSet = translations?.[locale ?? enUs.locale]?.[category] as
-    | TranslationSet<T>
-    | undefined;
+  const userTranslationSet = locale.translations[category] as TranslationSet<T> | undefined;
+  const translatedString = userTranslationSet?.[key];
 
-  // Try user's preferred language first
-  if (userPreferredTranslationSet && key in userPreferredTranslationSet) {
-    return userPreferredTranslationSet[key];
+  if (translatedString) {
+    return translatedString;
   }
 
-  // Fall back to English translations if provided
-  const fallbackTranslationSet = translations?.["en"]?.[category] as TranslationSet<T> | undefined;
-  if (fallbackTranslationSet && key in fallbackTranslationSet) {
-    return fallbackTranslationSet[key];
+  // Check fallback locale if it exists
+  if (locale.fallback) {
+    const fallbackTranslation = getTranslation(locale.fallback, category, key);
+    
+    if (fallbackTranslation) {
+      return fallbackTranslation;
+    }
   }
 
-  // Default to built-in English translations
-  const defaultTranslationSet = enUS[category] as TranslationSet<T>;
-  return defaultTranslationSet[key];
+  // Fall back to English translations
+  const fallbackTranslationSet = enUS[category] as TranslationSet<T>;
+  return fallbackTranslationSet[key];
 }

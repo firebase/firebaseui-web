@@ -22,5 +22,5 @@ export function getTranslation<T extends TranslationCategory>(
   category: T,
   key: TranslationKey<T>
 ) {
-  return _getTranslation(category, key, ui.translations, ui.locale);
+  return _getTranslation(ui.locale, category, key);
 }

@@ -20,7 +20,7 @@ import { injectForm, TanStackField } from "@tanstack/angular-form";
 import { FirebaseUI } from "../../../provider";
 import { ButtonComponent } from "../../../components/button/button.component";
 import { TermsAndPrivacyComponent } from "../../../components/terms-and-privacy/terms-and-privacy.component";
-import { createEmailFormSchema, EmailFormSchema, FirebaseUIError, signInWithEmailAndPassword } from "@firebase-ui/core";
+import { createEmailFormSchema, EmailFormSchema, FirebaseUIConfiguration, FirebaseUIError, signInWithEmailAndPassword } from "@firebase-ui/core";
 import { firstValueFrom } from "rxjs";
 import { Router } from "@angular/router";
 
@@ -105,7 +105,7 @@ export class EmailPasswordFormComponent implements OnInit {
 
   formError: string | null = null;
   private formSchema: any;
-  private config: any;
+  private config: FirebaseUIConfiguration;
 
   form = injectForm({
     defaultValues: {
@@ -120,7 +120,7 @@ export class EmailPasswordFormComponent implements OnInit {
       this.config = await firstValueFrom(this.ui.config());
 
       // Create schema once
-      this.formSchema = createEmailFormSchema(this.config?.translations);
+      this.formSchema = createEmailFormSchema(this.config);
 
       // Apply schema to form validators
       this.form.update({

@@ -97,6 +97,49 @@ describe("index.ts", () => {
       // The translations should be the same reference
       expect(result.translations).toBe(mockTranslations);
     });
+
+    it("should register a locale with fallback", () => {
+      const mockTranslations: Translations = {
+        errors: {
+          userNotFound: "Test error message",
+        },
+      };
+
+      const fallbackLocale = registerLocale("en-US", mockTranslations);
+      const result = registerLocale("fr-FR", mockTranslations, fallbackLocale);
+
+      expect(result.locale).toBe("fr-FR");
+      expect(result.translations).toBe(mockTranslations);
+      expect(result.fallback).toBe(fallbackLocale);
+    });
+
+    it("should handle nested fallbacks", () => {
+      const level1Translations: Translations = {
+        errors: {
+          userNotFound: "Level 1 error",
+        },
+      };
+
+      const level2Translations: Translations = {
+        errors: {
+          wrongPassword: "Level 2 error",
+        },
+      };
+
+      const level3Translations: Translations = {
+        errors: {
+          invalidEmail: "Level 3 error",
+        },
+      };
+
+      const level1 = registerLocale("en-US", level1Translations);
+      const level2 = registerLocale("fr-FR", level2Translations, level1);
+      const level3 = registerLocale("es-ES", level3Translations, level2);
+
+      expect(level3.fallback).toBe(level2);
+      expect(level2.fallback).toBe(level1);
+      expect(level1.fallback).toBeUndefined();
+    });
   });
 
   describe("enUs export", () => {

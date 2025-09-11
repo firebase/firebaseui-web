@@ -40,7 +40,7 @@ export function ForgotPasswordForm({ onBackToSignInClick }: ForgotPasswordFormPr
   const [formError, setFormError] = useState<string | null>(null);
   const [emailSent, setEmailSent] = useState(false);
   const [firstValidationOccured, setFirstValidationOccured] = useState(false);
-  const forgotPasswordFormSchema = useMemo(() => createForgotPasswordFormSchema(ui.translations), [ui.translations]);
+  const forgotPasswordFormSchema = useMemo(() => createForgotPasswordFormSchema(ui), [ui]);
 
   const form = useForm<ForgotPasswordFormSchema>({
     defaultValues: {

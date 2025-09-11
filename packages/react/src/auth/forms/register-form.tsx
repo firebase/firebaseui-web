@@ -39,7 +39,7 @@ export function RegisterForm({ onBackToSignInClick }: RegisterFormProps) {
 
   const [formError, setFormError] = useState<string | null>(null);
   const [firstValidationOccured, setFirstValidationOccured] = useState(false);
-  const emailFormSchema = useMemo(() => createEmailFormSchema(ui.translations), [ui.translations]);
+  const emailFormSchema = useMemo(() => createEmailFormSchema(ui), [ui]);
 
   const form = useForm<EmailFormSchema>({
     defaultValues: {

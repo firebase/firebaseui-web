@@ -24,6 +24,7 @@ import {
   EmailFormSchema,
   FirebaseUIError,
   createUserWithEmailAndPassword,
+  FirebaseUIConfiguration,
 } from "@firebase-ui/core";
 import { Auth } from "@angular/fire/auth";
 import { TermsAndPrivacyComponent } from "../../../components/terms-and-privacy/terms-and-privacy.component";
@@ -105,7 +106,7 @@ export class RegisterFormComponent implements OnInit {
 
   formError: string | null = null;
   private formSchema: any;
-  private config: any;
+  private config: FirebaseUIConfiguration;
 
   form = injectForm({
     defaultValues: {
@@ -118,7 +119,7 @@ export class RegisterFormComponent implements OnInit {
     try {
       this.config = await firstValueFrom(this.ui.config());
 
-      this.formSchema = createEmailFormSchema(this.config?.translations);
+      this.formSchema = createEmailFormSchema(this.config);
 
       this.form.update({
         validators: {

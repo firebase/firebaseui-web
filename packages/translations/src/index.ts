@@ -22,13 +22,18 @@ export * from "./mapping";
 
 export type Locale = "en-US" | `${string}-${string}` | string;
 
-export function registerLocale(locale: Locale, translations: Translations) {
+export function registerLocale(locale: Locale, translations: Translations, fallback?: RegisteredLocale): RegisteredLocale {
   return {
     locale,
     translations,
+    fallback,
   };
 }
 
 export const enUs = registerLocale("en-US", enUS);
 
-export type RegisteredLocale = ReturnType<typeof registerLocale>;
+export type RegisteredLocale = {
+  locale: Locale;
+  translations: Translations;
+  fallback?: RegisteredLocale;
+};
