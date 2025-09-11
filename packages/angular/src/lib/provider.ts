@@ -21,16 +21,13 @@ import {
   InjectionToken,
   Injectable,
   inject,
-} from '@angular/core';
-import { FirebaseApps } from '@angular/fire/app';
-import {
-  type FirebaseUI as FirebaseUIType,
-  getTranslation,
-} from '@firebase-ui/core';
-import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
-import { Observable, ReplaySubject } from 'rxjs';
-import { Store } from 'nanostores';
-import { TranslationCategory, TranslationKey } from 'translations';
+} from "@angular/core";
+import { FirebaseApps } from "@angular/fire/app";
+import { type FirebaseUI as FirebaseUIType, getTranslation } from "@firebase-ui/core";
+import { distinctUntilChanged, map, takeUntil } from "rxjs/operators";
+import { Observable, ReplaySubject } from "rxjs";
+import { Store } from "nanostores";
+import { TranslationCategory, TranslationKey } from "@firebase-ui/translations";
 
 const FIREBASE_UI_STORE = new InjectionToken<FirebaseUIType>("firebaseui.store");
 const FIREBASE_UI_POLICIES = new InjectionToken<PolicyConfig>("firebaseui.policies");

@@ -16,18 +16,9 @@
 
 import { CommonModule } from "@angular/common";
 import { Component, Input } from "@angular/core";
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-} from "@angular/core/testing";
-import {
-  Auth,
-  ConfirmationResult,
-  RecaptchaVerifier,
-} from "@angular/fire/auth";
-import { FirebaseUIError } from "core";
+import { ComponentFixture, TestBed, fakeAsync, tick } from "@angular/core/testing";
+import { Auth, ConfirmationResult, RecaptchaVerifier } from "@angular/fire/auth";
+import { FirebaseUIError } from "@firebase-ui/core";
 import { TanStackField } from "@tanstack/angular-form";
 import { firstValueFrom, of } from "rxjs";
 import { FirebaseUI, FirebaseUIPolicies } from "../../../provider";
