@@ -25,7 +25,6 @@ import {
   AuthProvider,
   ConfirmationResult,
   EmailAuthProvider,
-  getAuth,
   linkWithCredential,
   PhoneAuthProvider,
   RecaptchaVerifier,
@@ -43,7 +42,7 @@ async function handlePendingCredential(ui: FirebaseUIConfiguration, user: UserCr
 
   try {
     const pendingCred = JSON.parse(pendingCredString);
-    ui.setState("linking");
+    ui.setState("pending");
     const result = await linkWithCredential(user.user, pendingCred);
     ui.setState("idle");
     window.sessionStorage.removeItem("pendingCred");
@@ -60,7 +59,6 @@ export async function signInWithEmailAndPassword(
   password: string
 ): Promise<UserCredential> {
   try {
-    const auth = getAuth(ui.app);
     const credential = EmailAuthProvider.credential(email, password);
 
     if (hasBehavior(ui, "autoUpgradeAnonymousCredential")) {
@@ -71,8 +69,8 @@ export async function signInWithEmailAndPassword(
       }
     }
 
-    ui.setState("signing-in");
-    const result = await signInWithCredential(auth, credential);
+    ui.setState("pending");
+    const result = await signInWithCredential(ui.auth, credential);
     return handlePendingCredential(ui, result);
   } catch (error) {
     handleFirebaseError(ui, error);
@@ -87,7 +85,6 @@ export async function createUserWithEmailAndPassword(
   password: string
 ): Promise<UserCredential> {
   try {
-    const auth = getAuth(ui.app);
     const credential = EmailAuthProvider.credential(email, password);
 
     if (hasBehavior(ui, "autoUpgradeAnonymousCredential")) {
@@ -98,8 +95,8 @@ export async function createUserWithEmailAndPassword(
       }
     }
 
-    ui.setState("creating-user");
-    const result = await _createUserWithEmailAndPassword(auth, email, password);
+    ui.setState("pending");
+    const result = await _createUserWithEmailAndPassword(ui.auth, email, password);
     return handlePendingCredential(ui, result);
   } catch (error) {
     handleFirebaseError(ui, error);
@@ -114,9 +111,8 @@ export async function signInWithPhoneNumber(
   recaptchaVerifier: RecaptchaVerifier
 ): Promise<ConfirmationResult> {
   try {
-    const auth = getAuth(ui.app);
-    ui.setState("signing-in");
-    return await _signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier);
+    ui.setState("pending");
+    return await _signInWithPhoneNumber(ui.auth, phoneNumber, recaptchaVerifier);
   } catch (error) {
     handleFirebaseError(ui, error);
   } finally {
@@ -130,8 +126,7 @@ export async function confirmPhoneNumber(
   verificationCode: string
 ): Promise<UserCredential> {
   try {
-    const auth = getAuth(ui.app);
-    const currentUser = auth.currentUser;
+    const currentUser = ui.auth.currentUser;
     const credential = PhoneAuthProvider.credential(confirmationResult.verificationId, verificationCode);
 
     if (currentUser?.isAnonymous && hasBehavior(ui, "autoUpgradeAnonymousCredential")) {
@@ -142,8 +137,8 @@ export async function confirmPhoneNumber(
       }
     }
 
-    ui.setState("signing-in");
-    const result = await signInWithCredential(auth, credential);
+    ui.setState("pending");
+    const result = await signInWithCredential(ui.auth, credential);
     return handlePendingCredential(ui, result);
   } catch (error) {
     handleFirebaseError(ui, error);
@@ -154,9 +149,8 @@ export async function confirmPhoneNumber(
 
 export async function sendPasswordResetEmail(ui: FirebaseUIConfiguration, email: string): Promise<void> {
   try {
-    const auth = getAuth(ui.app);
-    ui.setState("sending-password-reset-email");
-    await _sendPasswordResetEmail(auth, email);
+    ui.setState("pending");
+    await _sendPasswordResetEmail(ui.auth, email);
   } catch (error) {
     handleFirebaseError(ui, error);
   } finally {
@@ -166,16 +160,14 @@ export async function sendPasswordResetEmail(ui: FirebaseUIConfiguration, email:
 
 export async function sendSignInLinkToEmail(ui: FirebaseUIConfiguration, email: string): Promise<void> {
   try {
-    const auth = getAuth(ui.app);
-
     const actionCodeSettings = {
       url: window.location.href,
       // TODO(ehesp): Check this...
       handleCodeInApp: true,
     } satisfies ActionCodeSettings;
 
-    ui.setState("sending-sign-in-link-to-email");
-    await _sendSignInLinkToEmail(auth, email, actionCodeSettings);
+    ui.setState("pending");
+    await _sendSignInLinkToEmail(ui.auth, email, actionCodeSettings);
     window.localStorage.setItem("emailForSignIn", email);
   } catch (error) {
     handleFirebaseError(ui, error);
@@ -190,7 +182,6 @@ export async function signInWithEmailLink(
   link: string
 ): Promise<UserCredential> {
   try {
-    const auth = ui.getAuth();
     const credential = EmailAuthProvider.credentialWithLink(email, link);
 
     if (hasBehavior(ui, "autoUpgradeAnonymousCredential")) {
@@ -200,8 +191,8 @@ export async function signInWithEmailLink(
       }
     }
 
-    ui.setState("signing-in");
-    const result = await signInWithCredential(auth, credential);
+    ui.setState("pending");
+    const result = await signInWithCredential(ui.auth, credential);
     return handlePendingCredential(ui, result);
   } catch (error) {
     handleFirebaseError(ui, error);
@@ -212,9 +203,8 @@ export async function signInWithEmailLink(
 
 export async function signInAnonymously(ui: FirebaseUIConfiguration): Promise<UserCredential> {
   try {
-    const auth = getAuth(ui.app);
-    ui.setState("signing-in");
-    const result = await _signInAnonymously(auth);
+    ui.setState("pending");
+    const result = await _signInAnonymously(ui.auth);
     return handlePendingCredential(ui, result);
   } catch (error) {
     handleFirebaseError(ui, error);
@@ -225,16 +215,14 @@ export async function signInAnonymously(ui: FirebaseUIConfiguration): Promise<Us
 
 export async function signInWithOAuth(ui: FirebaseUIConfiguration, provider: AuthProvider): Promise<void> {
   try {
-    const auth = getAuth(ui.app);
-
     if (hasBehavior(ui, "autoUpgradeAnonymousProvider")) {
       await getBehavior(ui, "autoUpgradeAnonymousProvider")(ui, provider);
       // If we get to here, the user is not anonymous, otherwise they
       // have been redirected to the provider's sign in page.
     }
 
-    ui.setState("signing-in");
-    await signInWithRedirect(auth, provider);
+    ui.setState("pending");
+    await signInWithRedirect(ui.auth, provider);
     // We don't modify state here since the user is redirected.
     // If we support popups, we'd need to modify state here.
   } catch (error) {
@@ -249,15 +237,14 @@ export async function completeEmailLinkSignIn(
   currentUrl: string
 ): Promise<UserCredential | null> {
   try {
-    const auth = ui.getAuth();
-    if (!_isSignInWithEmailLink(auth, currentUrl)) {
+    if (!_isSignInWithEmailLink(ui.auth, currentUrl)) {
       return null;
     }
 
     const email = window.localStorage.getItem("emailForSignIn");
     if (!email) return null;
 
-    ui.setState("signing-in");
+    ui.setState("pending");
     const result = await signInWithEmailLink(ui, email, currentUrl);
     ui.setState("idle");
     return handlePendingCredential(ui, result);

@@ -38,6 +38,7 @@ export function handleFirebaseError(
     enableHandleExistingCredential?: boolean;
   }
 ): never {
+  // TODO(ehesp): Type error as unknown, check instance of FirebaseError
   if (error?.code === "auth/account-exists-with-different-credential") {
     if (opts?.enableHandleExistingCredential && error.credential) {
       window.sessionStorage.setItem("pendingCred", JSON.stringify(error.credential));

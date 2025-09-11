@@ -66,22 +66,17 @@ export function autoAnonymousLogin(): Behavior<"autoAnonymousLogin"> {
 
   return {
     autoAnonymousLogin: async (ui) => {
-      const auth = ui.getAuth();
+      const auth = ui.auth;
 
-      const user = await new Promise<User>((resolve) => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-          ui.setState("signing-in");
-          if (!user) {
-            signInAnonymously(auth);
-            return;
-          }
+      await auth.authStateReady();
 
-          unsubscribe();
-          resolve(user);
-        });
-      });
+      if (!auth.currentUser) {
+        ui.setState("loading");
+        await signInAnonymously(auth);
+      }
+
       ui.setState("idle");
-      return user;
+      return auth.currentUser!;
     },
   };
 }
@@ -91,28 +86,26 @@ export function autoUpgradeAnonymousUsers(): Behavior<
 > {
   return {
     autoUpgradeAnonymousCredential: async (ui, credential) => {
-      const auth = ui.getAuth();
-      const currentUser = auth.currentUser;
+      const currentUser = ui.auth.currentUser;
 
       // Check if the user is anonymous. If not, we can't upgrade them.
       if (!currentUser?.isAnonymous) {
         return;
       }
 
-      ui.setState("linking");
+      ui.setState("pending");
       const result = await linkWithCredential(currentUser, credential);
       ui.setState("idle");
       return result;
     },
     autoUpgradeAnonymousProvider: async (ui, provider) => {
-      const auth = ui.getAuth();
-      const currentUser = auth.currentUser;
+      const currentUser = ui.auth.currentUser;
 
       if (!currentUser?.isAnonymous) {
         return;
       }
 
-      ui.setState("linking");
+      ui.setState("pending");
       await linkWithRedirect(currentUser, provider);
       // We don't modify state here since the user is redirected.
       // If we support popups, we'd need to modify state here.

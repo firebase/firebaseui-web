@@ -91,18 +91,16 @@ describe("Firebase UI Auth", () => {
     (EmailAuthProvider.credential as any).mockReturnValue(mockCredential);
     (EmailAuthProvider.credentialWithLink as any).mockReturnValue(mockCredential);
     (PhoneAuthProvider.credential as any).mockReturnValue(mockCredential);
-    (getAuth as any).mockReturnValue(mockAuth);
 
     // Create a mock FirebaseUIConfiguration
     mockUi = {
       app: { name: "test" } as any,
-      getAuth: () => mockAuth,
+      auth: mockAuth,
       setLocale: vi.fn(),
       state: "idle",
       setState: vi.fn(),
       locale: enUs,
       behaviors: {},
-      recaptchaMode: "normal",
     };
   });
 

@@ -13,8 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import { CountryData } from "./types";
+export interface CountryData {
+  name: string;
+  dialCode: string;
+  code: string;
+  emoji: string;
+};
 
 export const countryData: CountryData[] = [
   { name: "United States", dialCode: "+1", code: "US", emoji: "🇺🇸" },

@@ -23,20 +23,19 @@ import { FirebaseUIState } from "./state";
 
 type FirebaseUIConfigurationOptions = {
   app: FirebaseApp;
+  auth?: Auth;
   locale?: RegisteredLocale;
   behaviors?: Partial<Behavior<keyof BehaviorHandlers>>[];
-  recaptchaMode?: "normal" | "invisible";
 };
 
 export type FirebaseUIConfiguration = {
   app: FirebaseApp;
-  getAuth: () => Auth;
+  auth: Auth;
   setLocale: (locale: RegisteredLocale) => void;
   state: FirebaseUIState;
   setState: (state: FirebaseUIState) => void;
   locale: RegisteredLocale;
   behaviors: Partial<Record<BehaviorKey, BehaviorHandlers[BehaviorKey]>>;
-  recaptchaMode: "normal" | "invisible";
 };
 
 export const $config = map<Record<string, DeepMapStore<FirebaseUIConfiguration>>>({});
@@ -59,19 +58,18 @@ export function initializeUI(config: FirebaseUIConfigurationOptions, name: strin
     name,
     deepMap<FirebaseUIConfiguration>({
       app: config.app,
-      getAuth: () => getAuth(config.app),
+      auth: config.auth || getAuth(config.app),
       locale: config.locale ?? enUs,
       setLocale: (locale: RegisteredLocale) => {
         const current = $config.get()[name]!;
         current.setKey(`locale`, locale);
       },
-      state: behaviors?.autoAnonymousLogin ? "signing-in" : "loading",
+      state: behaviors?.autoAnonymousLogin ? "loading" : "idle",
       setState: (state: FirebaseUIState) => {
         const current = $config.get()[name]!;
         current.setKey(`state`, state);
       },
       behaviors: behaviors ?? {},
-      recaptchaMode: config.recaptchaMode ?? "normal",
     })
   );
 
