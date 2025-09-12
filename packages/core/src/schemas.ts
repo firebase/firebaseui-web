@@ -23,7 +23,7 @@ export const LoginTypes = ["email", "phone", "anonymous", "emailLink", "google"]
 export type LoginType = (typeof LoginTypes)[number];
 export type AuthMode = "signIn" | "signUp";
 
-export function createEmailFormSchema(ui: FirebaseUIConfiguration) {
+export function createSignInAuthFormSchema(ui: FirebaseUIConfiguration) {
   return z.object({
     email: z.string().email({ message: getTranslation(ui, "errors", "invalidEmail") }),
     password: z.string().min(8, { message: getTranslation(ui, "errors", "weakPassword") }),
@@ -55,7 +55,7 @@ export function createPhoneFormSchema(ui: FirebaseUIConfiguration) {
   });
 }
 
-export type EmailFormSchema = z.infer<ReturnType<typeof createEmailFormSchema>>;
+export type SignInAuthFormSchema = z.infer<ReturnType<typeof createSignInAuthFormSchema>>;
 export type ForgotPasswordFormSchema = z.infer<ReturnType<typeof createForgotPasswordFormSchema>>;
 export type EmailLinkFormSchema = z.infer<ReturnType<typeof createEmailLinkFormSchema>>;
 export type PhoneFormSchema = z.infer<ReturnType<typeof createPhoneFormSchema>>;
