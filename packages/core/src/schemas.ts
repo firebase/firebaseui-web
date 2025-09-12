@@ -49,7 +49,7 @@ export function createEmailLinkAuthFormSchema(ui: FirebaseUIConfiguration) {
   });
 }
 
-export function createPhoneFormSchema(ui: FirebaseUIConfiguration) {
+export function createPhoneAuthFormSchema(ui: FirebaseUIConfiguration) {
   return z.object({
     phoneNumber: z
       .string()
@@ -66,4 +66,4 @@ export type SignInAuthFormSchema = z.infer<ReturnType<typeof createSignInAuthFor
 export type SignUpAuthFormSchema = z.infer<ReturnType<typeof createSignUpAuthFormSchema>>;
 export type ForgotPasswordAuthFormSchema = z.infer<ReturnType<typeof createForgotPasswordAuthFormSchema>>;
 export type EmailLinkAuthFormSchema = z.infer<ReturnType<typeof createEmailLinkAuthFormSchema>>;
-export type PhoneFormSchema = z.infer<ReturnType<typeof createPhoneFormSchema>>;
+export type PhoneAuthFormSchema = z.infer<ReturnType<typeof createPhoneAuthFormSchema>>;
