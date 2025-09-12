@@ -46,7 +46,7 @@ export function provideFirebaseUI(uiFactory: (apps: FirebaseApps) => FirebaseUIT
       useFactory: () => {
         try {
           // Try to get FirebaseApps, but handle the case where it's not available (SSR)
-          const apps = inject(FirebaseApps, { optional: true });
+          const apps = inject(FirebaseApps);
           if (!apps || apps.length === 0) {
             return null as any;
           }
@@ -73,7 +73,7 @@ export function provideFirebaseUIPolicies(factory: () => PolicyConfig) {
   providedIn: "root",
 })
 export class FirebaseUI {
-  private store = inject(FIREBASE_UI_STORE, { optional: true });
+  private store = inject(FIREBASE_UI_STORE);
   private destroyed$: ReplaySubject<void> = new ReplaySubject(1);
 
   config() {
