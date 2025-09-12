@@ -17,11 +17,11 @@
 "use client";
 
 import {
-  createEmailFormSchema,
+  createSignInAuthFormSchema,
   FirebaseUIError,
   getTranslation,
   signInWithEmailAndPassword,
-  type EmailFormSchema,
+  type SignInAuthFormSchema,
 } from "@firebase-ui/core";
 import { useForm } from "@tanstack/react-form";
 import { useMemo, useState } from "react";
@@ -44,9 +44,9 @@ export function SignInAuthForm({ onSignIn, onForgotPasswordClick, onRegisterClic
   const [firstValidationOccured, setFirstValidationOccured] = useState(false);
 
   // TODO: Do we need to memoize this?
-  const emailFormSchema = useMemo(() => createEmailFormSchema(ui), [ui]);
+  const emailFormSchema = useMemo(() => createSignInAuthFormSchema(ui), [ui]);
 
-  const form = useForm<EmailFormSchema>({
+  const form = useForm<SignInAuthFormSchema>({
     defaultValues: {
       email: "",
       password: "",

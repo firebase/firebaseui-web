@@ -18,10 +18,10 @@
 
 import {
   FirebaseUIError,
-  createEmailFormSchema,
+  createSignUpAuthFormSchema,
   createUserWithEmailAndPassword,
   getTranslation,
-  type EmailFormSchema,
+  type SignUpAuthFormSchema,
 } from "@firebase-ui/core";
 import { useForm } from "@tanstack/react-form";
 import { useMemo, useState } from "react";
@@ -41,9 +41,9 @@ export function SignUpAuthForm({ onBackToSignInClick, onSignUp }: SignUpAuthForm
 
   const [formError, setFormError] = useState<string | null>(null);
   const [firstValidationOccured, setFirstValidationOccured] = useState(false);
-  const emailFormSchema = useMemo(() => createEmailFormSchema(ui), [ui]);
+  const emailFormSchema = useMemo(() => createSignUpAuthFormSchema(ui), [ui]);
 
-  const form = useForm<EmailFormSchema>({
+  const form = useForm<SignUpAuthFormSchema>({
     defaultValues: {
       email: "",
       password: "",

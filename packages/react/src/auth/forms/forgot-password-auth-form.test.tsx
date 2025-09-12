@@ -16,7 +16,7 @@
 
 import { describe, it, expect, vi, beforeEach, Mock } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { ForgotPasswordForm } from "./forgot-password-auth-form";
+import { ForgotPasswordAuthForm } from "./forgot-password-auth-form";
 import { act } from "react";
 
 // Mock the dependencies
@@ -122,14 +122,14 @@ describe("ForgotPasswordForm", () => {
   });
 
   it("renders the form correctly", () => {
-    render(<ForgotPasswordForm />);
+    render(<ForgotPasswordAuthForm />);
 
     expect(screen.getByRole("textbox", { name: /email address/i })).toBeInTheDocument();
     expect(screen.getByTestId("submit-button")).toBeInTheDocument();
   });
 
   it("submits the form when the button is clicked", async () => {
-    render(<ForgotPasswordForm />);
+    render(<ForgotPasswordAuthForm />);
 
     // Get the submit button
     const submitButton = screen.getByTestId("submit-button");
@@ -157,7 +157,7 @@ describe("ForgotPasswordForm", () => {
     const mockError = new Error("Invalid email");
     (sendPasswordResetEmail as Mock).mockRejectedValueOnce(mockError);
 
-    render(<ForgotPasswordForm />);
+    render(<ForgotPasswordAuthForm />);
 
     // Get the submit button
     const submitButton = screen.getByTestId("submit-button");
@@ -185,7 +185,7 @@ describe("ForgotPasswordForm", () => {
   });
 
   it("validates on blur for the first time", async () => {
-    render(<ForgotPasswordForm />);
+    render(<ForgotPasswordAuthForm />);
 
     const emailInput = screen.getByRole("textbox", { name: /email address/i });
 
@@ -198,7 +198,7 @@ describe("ForgotPasswordForm", () => {
   });
 
   it("validates on input after first blur", async () => {
-    render(<ForgotPasswordForm />);
+    render(<ForgotPasswordAuthForm />);
 
     const emailInput = screen.getByRole("textbox", { name: /email address/i });
 
@@ -219,7 +219,7 @@ describe("ForgotPasswordForm", () => {
   // TODO: Fix this test
   it.skip("displays back to sign in button when provided", () => {
     const onBackToSignInClickMock = vi.fn();
-    render(<ForgotPasswordForm onBackToSignInClick={onBackToSignInClickMock} />);
+    render(<ForgotPasswordAuthForm onBackToSignInClick={onBackToSignInClickMock} />);
 
     const backButton = screen.getByText(/back button/i);
     expect(backButton).toHaveClass("fui-form__action");

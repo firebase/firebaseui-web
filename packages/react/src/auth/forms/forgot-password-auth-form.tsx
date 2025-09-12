@@ -17,11 +17,11 @@
 "use client";
 
 import {
-  createForgotPasswordFormSchema,
+  createForgotPasswordAuthFormSchema,
   FirebaseUIError,
   getTranslation,
   sendPasswordResetEmail,
-  type ForgotPasswordFormSchema,
+  type ForgotPasswordAuthFormSchema,
 } from "@firebase-ui/core";
 import { useForm } from "@tanstack/react-form";
 import { useMemo, useState } from "react";
@@ -41,9 +41,9 @@ export function ForgotPasswordAuthForm({ onBackToSignInClick, onPasswordSent }: 
   const [formError, setFormError] = useState<string | null>(null);
   const [emailSent, setEmailSent] = useState(false);
   const [firstValidationOccured, setFirstValidationOccured] = useState(false);
-  const forgotPasswordFormSchema = useMemo(() => createForgotPasswordFormSchema(ui), [ui]);
+  const forgotPasswordFormSchema = useMemo(() => createForgotPasswordAuthFormSchema(ui), [ui]);
 
-  const form = useForm<ForgotPasswordFormSchema>({
+  const form = useForm<ForgotPasswordAuthFormSchema>({
     defaultValues: {
       email: "",
     },

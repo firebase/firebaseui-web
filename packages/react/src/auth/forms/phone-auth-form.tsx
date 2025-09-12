@@ -20,7 +20,7 @@ import {
   confirmPhoneNumber,
   CountryCode,
   countryData,
-  createPhoneFormSchema,
+  createPhoneAuthFormSchema,
   FirebaseUIError,
   formatPhoneNumberWithCountry,
   getTranslation,
@@ -53,7 +53,7 @@ function PhoneNumberForm({ onSubmit, formError, recaptchaVerifier, recaptchaCont
 
   const phoneFormSchema = useMemo(
     () =>
-      createPhoneFormSchema(ui).pick({
+      createPhoneAuthFormSchema(ui).pick({
         phoneNumber: true,
       }),
     [ui]
@@ -206,7 +206,7 @@ function VerificationForm({
 
   const verificationFormSchema = useMemo(
     () =>
-      createPhoneFormSchema(ui).pick({
+      createPhoneAuthFormSchema(ui).pick({
         verificationCode: true,
       }),
     [ui]

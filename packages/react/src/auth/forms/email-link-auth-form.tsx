@@ -19,7 +19,7 @@
 import {
   FirebaseUIError,
   completeEmailLinkSignIn,
-  createEmailLinkFormSchema,
+  createEmailLinkAuthFormSchema,
   getTranslation,
   sendSignInLinkToEmail,
 } from "@firebase-ui/core";
@@ -41,7 +41,7 @@ export function EmailLinkAuthForm({ onEmailSent }: EmailLinkAuthFormProps) {
   const [emailSent, setEmailSent] = useState(false);
   const [firstValidationOccured, setFirstValidationOccured] = useState(false);
 
-  const emailLinkFormSchema = useMemo(() => createEmailLinkFormSchema(ui), [ui]);
+  const emailLinkFormSchema = useMemo(() => createEmailLinkAuthFormSchema(ui), [ui]);
 
   const form = useForm({
     defaultValues: {
