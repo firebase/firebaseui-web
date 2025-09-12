@@ -30,6 +30,13 @@ export function createSignInAuthFormSchema(ui: FirebaseUIConfiguration) {
   });
 }
 
+export function createSignUpAuthFormSchema(ui: FirebaseUIConfiguration) {
+  return z.object({
+    email: z.string().email({ message: getTranslation(ui, "errors", "invalidEmail") }),
+    password: z.string().min(8, { message: getTranslation(ui, "errors", "weakPassword") }),
+  });
+}
+
 export function createForgotPasswordAuthFormSchema(ui: FirebaseUIConfiguration) {
   return z.object({
     email: z.string().email({ message: getTranslation(ui, "errors", "invalidEmail") }),
@@ -56,6 +63,7 @@ export function createPhoneFormSchema(ui: FirebaseUIConfiguration) {
 }
 
 export type SignInAuthFormSchema = z.infer<ReturnType<typeof createSignInAuthFormSchema>>;
+export type SignUpAuthFormSchema = z.infer<ReturnType<typeof createSignUpAuthFormSchema>>;
 export type ForgotPasswordAuthFormSchema = z.infer<ReturnType<typeof createForgotPasswordAuthFormSchema>>;
 export type EmailLinkFormSchema = z.infer<ReturnType<typeof createEmailLinkFormSchema>>;
 export type PhoneFormSchema = z.infer<ReturnType<typeof createPhoneFormSchema>>;
