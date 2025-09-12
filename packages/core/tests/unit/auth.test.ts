@@ -41,7 +41,7 @@ import {
   sendSignInLinkToEmail,
   signInWithEmailLink,
   signInAnonymously,
-  signInWithOAuth,
+  signInWithProvider,
   completeEmailLinkSignIn,
 } from "../../src/auth";
 import { FirebaseUIConfiguration } from "../../src/config";
@@ -302,11 +302,11 @@ describe("Firebase UI Auth", () => {
     });
   });
 
-  describe("signInWithOAuth", () => {
+  describe("signInWithProvider", () => {
     it("should sign in with OAuth provider", async () => {
       (signInWithRedirect as any).mockResolvedValue(undefined);
 
-      await signInWithOAuth(mockUi, mockProvider as any);
+      await signInWithProvider(mockUi, mockProvider as any);
 
       expect(signInWithRedirect).toHaveBeenCalledWith(mockAuth, mockProvider);
     });
@@ -318,7 +318,7 @@ describe("Firebase UI Auth", () => {
 
       mockUi.behaviors.autoUpgradeAnonymousProvider = vi.fn();
 
-      await signInWithOAuth(mockUi, mockProvider as any);
+      await signInWithProvider(mockUi, mockProvider as any);
 
       expect(mockUi.behaviors.autoUpgradeAnonymousProvider).toHaveBeenCalledWith(mockUi, mockProvider);
     });
