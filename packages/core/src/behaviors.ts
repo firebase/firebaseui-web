@@ -19,7 +19,6 @@ import {
   AuthProvider,
   linkWithCredential,
   linkWithRedirect,
-  onAuthStateChanged,
   signInAnonymously,
   User,
   UserCredential,
