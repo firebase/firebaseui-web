@@ -31,6 +31,7 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"],
+      "~/tests/*": ["./tests/*"],
       "@firebase-ui/translations": ["../translations/src/index.ts"]
     }
   },

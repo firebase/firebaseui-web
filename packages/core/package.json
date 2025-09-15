@@ -60,6 +60,7 @@
     "tsup": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
+    "vitest-tsconfig-paths": "catalog:",
     "vitest": "catalog:"
   }
 }

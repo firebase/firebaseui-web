@@ -35,21 +35,9 @@ vi.mock("./errors", () => ({
 import { signInWithCredential, EmailAuthProvider, PhoneAuthProvider, createUserWithEmailAndPassword as _createUserWithEmailAndPassword, signInWithPhoneNumber as _signInWithPhoneNumber, sendPasswordResetEmail as _sendPasswordResetEmail, sendSignInLinkToEmail as _sendSignInLinkToEmail, signInAnonymously as _signInAnonymously, signInWithRedirect, isSignInWithEmailLink as _isSignInWithEmailLink, UserCredential, Auth, ConfirmationResult, AuthProvider } from "firebase/auth";
 import { hasBehavior, getBehavior } from "./behaviors";
 import { handleFirebaseError } from "./errors";
-import { enUs } from "@firebase-ui/translations";
-import { FirebaseApp, FirebaseError } from "firebase/app";
+import { FirebaseError } from "firebase/app";
 
-function createMockUI(overrides?: Partial<FirebaseUIConfiguration>): FirebaseUIConfiguration {
-  return {
-    app: {} as FirebaseApp,
-    auth: {} as Auth,
-    setLocale: vi.fn(),
-    state: "idle",
-    setState: vi.fn(),
-    locale: enUs,
-    behaviors: {},
-    ...overrides,
-  };
-}
+import { createMockUI } from "~/tests/utils";
 
 // TODO(ehesp): Add tests for handlePendingCredential.
 
