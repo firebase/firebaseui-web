@@ -1,9 +1,9 @@
 import { FirebaseApp } from "firebase/app";
 import { Auth } from "firebase/auth";
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect } from "vitest";
 import { initializeUI } from "./config";
 import { enUs, registerLocale } from "@firebase-ui/translations";
-import { autoAnonymousLogin, autoUpgradeAnonymousUsers } from "./behaviors";
+import { autoUpgradeAnonymousUsers } from "./behaviors";
 
 describe('initializeUI', () => {
   it('should return a valid deep store with default values', () => {

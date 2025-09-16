@@ -27,9 +27,9 @@ import {
   signInWithProvider,
   completeEmailLinkSignIn,
   confirmPhoneNumber as _confirmPhoneNumber,
-} from "../../src/auth";
-import { FirebaseUIError } from "../../src/errors";
-import { initializeUI, FirebaseUI } from "../../src/config";
+} from "../src/auth";
+import { FirebaseUIError } from "../src/errors";
+import { initializeUI, FirebaseUI } from "../src/config";
 
 describe("Firebase UI Auth Integration", () => {
   let auth: Auth;
