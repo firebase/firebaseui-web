@@ -22,27 +22,27 @@ afterEach(() => {
   cleanup();
 });
 
-describe("Button Component", () => {
+describe("<Button />", () => {
   it("renders with default variant (primary)", () => {
     render(<Button>Click me</Button>);
     const button = screen.getByRole("button", { name: /click me/i });
     expect(button).toBeDefined();
-    expect(button.className).toContain("fui-button");
-    expect(button.className).not.toContain("fui-button--secondary");
+    expect(button).toHaveClass("fui-button");
+    expect(button).not.toHaveClass("fui-button--secondary");
   });
 
   it("renders with secondary variant", () => {
     render(<Button variant="secondary">Click me</Button>);
     const button = screen.getByRole("button", { name: /click me/i });
-    expect(button.className).toContain("fui-button");
-    expect(button.className).toContain("fui-button--secondary");
+    expect(button).toHaveClass("fui-button");
+    expect(button).toHaveClass("fui-button--secondary");
   });
 
   it("applies custom className", () => {
     render(<Button className="custom-class">Click me</Button>);
     const button = screen.getByRole("button", { name: /click me/i });
-    expect(button.className).toContain("fui-button");
-    expect(button.className).toContain("custom-class");
+    expect(button).toHaveClass("fui-button");
+    expect(button).toHaveClass("custom-class");
   });
 
   it("handles click events", () => {
@@ -63,7 +63,7 @@ describe("Button Component", () => {
     );
     const button = screen.getByTestId("test-button");
 
-    expect(button.hasAttribute("disabled")).toBe(true);
+    expect(button).toHaveAttribute("disabled");
   });
 
   it("renders as a Slot component when asChild is true", () => {
@@ -75,9 +75,9 @@ describe("Button Component", () => {
     const link = screen.getByRole("link", { name: /link button/i });
 
     expect(link).toBeDefined();
-    expect(link.className).toContain("fui-button");
+    expect(link).toHaveClass("fui-button");
     expect(link.tagName).toBe("A");
-    expect(link.getAttribute("href")).toBe("/test");
+    expect(link).toHaveAttribute("href", "/test");
   });
 
   it("renders as a button element when asChild is false or undefined", () => {

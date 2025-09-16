@@ -53,7 +53,7 @@ export function CardSubtitle({ children, className, ...props }: ComponentProps<"
 
 export function CardContent({ children, className, ...props }: ComponentProps<"div">) {
   return (
-    <div {...props}>
+    <div className={cn("fui-card__content", className)} {...props}>
       {children}
     </div>
   );

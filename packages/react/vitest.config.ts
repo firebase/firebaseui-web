@@ -26,5 +26,6 @@ export default mergeConfig(viteConfig, {
     include: ["**/*.{test,spec}.{js,ts,jsx,tsx}"],
     // Exclude build output and node_modules
     exclude: ["node_modules/**/*", "dist/**/*"],
+    setupFiles: ["./setup-test.ts"],
   },
 });
