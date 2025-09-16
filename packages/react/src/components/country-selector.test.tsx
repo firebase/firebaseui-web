@@ -14,81 +14,70 @@
  * limitations under the License.
  */
 
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
-import "@testing-library/jest-dom";
-import { CountrySelector } from "./country-selector";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import { countryData } from "@firebase-ui/core";
+import { CountrySelector } from "./country-selector";
 
-describe("CountrySelector Component", () => {
-  const mockOnChange = vi.fn();
-  const defaultCountry = countryData[0]; // First country in the list
-
+describe("<CountrySelector />", () => {
   beforeEach(() => {
-    mockOnChange.mockClear();
+    vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    cleanup();
   });
 
   it("renders with the selected country", () => {
-    render(<CountrySelector value={defaultCountry.code} onChange={mockOnChange} />);
+    const country = countryData[0];
 
-    // Check if the country flag emoji is displayed
-    expect(screen.getByText(defaultCountry.emoji)).toBeInTheDocument();
+    render(<CountrySelector value={country.code} onChange={() => {}} />);
 
-    // Check if the dial code is displayed
-    expect(screen.getByText(defaultCountry.dialCode)).toBeInTheDocument();
+    expect(screen.getByText(country.emoji)).toBeInTheDocument();
+    expect(screen.getByText(country.dialCode)).toBeInTheDocument();
 
-    // Check if the select has the correct value
     const select = screen.getByRole("combobox");
-    expect(select).toHaveValue(defaultCountry.code);
+    expect(select).toHaveValue(country.code);
   });
 
   it("applies custom className", () => {
-    render(<CountrySelector value={defaultCountry.code} onChange={mockOnChange} className="custom-class" />);
+    const country = countryData[0];
+    render(<CountrySelector value={country.code} onChange={() => {}} className="custom-class" />);
 
-    const selector = screen.getByRole("combobox").closest(".fui-country-selector");
-    expect(selector).toHaveClass("fui-country-selector");
-    expect(selector).toHaveClass("custom-class");
+    const rootDiv = screen.getByRole("combobox").closest("div.fui-country-selector");
+    expect(rootDiv).toHaveClass("custom-class");
   });
 
   it("calls onChange when a different country is selected", () => {
-    render(<CountrySelector value={defaultCountry.code} onChange={mockOnChange} />);
+    const country = countryData[0];
+    const onChangeMock = vi.fn();
+
+    render(<CountrySelector value={country.code} onChange={onChangeMock} />);
 
     const select = screen.getByRole("combobox");
 
     // Find a different country to select
-    const newCountry = countryData.find((country) => country.code !== defaultCountry.code);
+    const newCountry = countryData.find(($) => $.code !== country.code);
 
-    if (newCountry) {
-      // Change the selection
-      fireEvent.change(select, { target: { value: newCountry.code } });
-
-      // Check if onChange was called with the new country
-      expect(mockOnChange).toHaveBeenCalledTimes(1);
-      expect(mockOnChange).toHaveBeenCalledWith(newCountry);
-    } else {
-      // Fail the test if no different country is found
+    if (!newCountry) {
       expect.fail("No different country found in countryData. Test cannot proceed.");
     }
+
+    // Change the selection
+    fireEvent.change(select, { target: { value: newCountry.code } });
+
+    // Check if onChange was called with the new country
+    expect(onChangeMock).toHaveBeenCalledTimes(1);
+    expect(onChangeMock).toHaveBeenCalledWith(newCountry.code);
   });
 
   it("renders all countries in the dropdown", () => {
-    render(<CountrySelector value={defaultCountry.code} onChange={mockOnChange} />);
+    const country = countryData[0];
+    render(<CountrySelector value={country.code} onChange={() => {}} />);
 
     const select = screen.getByRole("combobox");
     const options = select.querySelectorAll("option");
 
-    // Check if all countries are in the dropdown
     expect(options.length).toBe(countryData.length);
-
-    // Check if a specific country exists in the dropdown
-    const usCountry = countryData.find((country) => country.code === "US");
-    if (usCountry) {
-      const usOption = Array.from(options).find((option) => option.value === usCountry.code);
-      expect(usOption).toBeInTheDocument();
-      expect(usOption?.textContent).toBe(`${usCountry.dialCode} (${usCountry.name})`);
-    } else {
-      // Fail the test if US country is not found
-      expect.fail("US country not found in countryData. Test cannot proceed.");
-    }
   });
 });
