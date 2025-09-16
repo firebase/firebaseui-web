@@ -44,17 +44,11 @@ export function provideFirebaseUI(uiFactory: (apps: FirebaseApps) => FirebaseUIT
     {
       provide: FIREBASE_UI_STORE,
       useFactory: () => {
-        try {
-          // Try to get FirebaseApps, but handle the case where it's not available (SSR)
-          const apps = inject(FirebaseApps);
-          if (!apps || apps.length === 0) {
-            return null as any;
-          }
-          return uiFactory(apps);
-        } catch (error) {
-          // Return null for SSR when FirebaseApps is not available
+        const apps = inject(FirebaseApps);
+        if (!apps || apps.length === 0) {
           return null as any;
         }
+        return uiFactory(apps);
       },
     },
     FirebaseUI,
