@@ -14,32 +14,35 @@
  * limitations under the License.
  */
 
-import { describe, it, expect, vi } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
-import "@testing-library/jest-dom";
+import { describe, it, expect, vi, afterEach } from "vitest";
+import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import { Button } from "./button";
+
+afterEach(() => {
+  cleanup();
+});
 
 describe("Button Component", () => {
   it("renders with default variant (primary)", () => {
     render(<Button>Click me</Button>);
     const button = screen.getByRole("button", { name: /click me/i });
-    expect(button).toBeInTheDocument();
-    expect(button).toHaveClass("fui-button");
-    expect(button).not.toHaveClass("fui-button--secondary");
+    expect(button).toBeDefined();
+    expect(button.className).toContain("fui-button");
+    expect(button.className).not.toContain("fui-button--secondary");
   });
 
   it("renders with secondary variant", () => {
     render(<Button variant="secondary">Click me</Button>);
     const button = screen.getByRole("button", { name: /click me/i });
-    expect(button).toHaveClass("fui-button");
-    expect(button).toHaveClass("fui-button--secondary");
+    expect(button.className).toContain("fui-button");
+    expect(button.className).toContain("fui-button--secondary");
   });
 
   it("applies custom className", () => {
     render(<Button className="custom-class">Click me</Button>);
     const button = screen.getByRole("button", { name: /click me/i });
-    expect(button).toHaveClass("fui-button");
-    expect(button).toHaveClass("custom-class");
+    expect(button.className).toContain("fui-button");
+    expect(button.className).toContain("custom-class");
   });
 
   it("handles click events", () => {
@@ -60,7 +63,7 @@ describe("Button Component", () => {
     );
     const button = screen.getByTestId("test-button");
 
-    expect(button).toBeDisabled();
+    expect(button.hasAttribute("disabled")).toBe(true);
   });
 
   it("renders as a Slot component when asChild is true", () => {
@@ -71,10 +74,10 @@ describe("Button Component", () => {
     );
     const link = screen.getByRole("link", { name: /link button/i });
 
-    expect(link).toBeInTheDocument();
-    expect(link).toHaveClass("fui-button");
+    expect(link).toBeDefined();
+    expect(link.className).toContain("fui-button");
     expect(link.tagName).toBe("A");
-    expect(link).toHaveAttribute("href", "/test");
+    expect(link.getAttribute("href")).toBe("/test");
   });
 
   it("renders as a button element when asChild is false or undefined", () => {
