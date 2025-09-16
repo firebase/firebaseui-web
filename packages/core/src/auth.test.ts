@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPhoneNumber, confirmPhoneNumber, sendPasswordResetEmail, sendSignInLinkToEmail, signInWithEmailLink, signInAnonymously, signInWithProvider, completeEmailLinkSignIn,  } from "./auth";
-import type { FirebaseUIConfiguration } from "./config";
 
 // Mock the external dependencies
 vi.mock("firebase/auth", () => ({

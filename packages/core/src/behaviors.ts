@@ -17,13 +17,11 @@
 import {
   AuthCredential,
   AuthProvider,
-  linkWithCredential,
-  linkWithRedirect,
-  signInAnonymously,
   User,
   UserCredential,
 } from "firebase/auth";
 import { FirebaseUIConfiguration } from "./config";
+import { getAuthImp } from "./imp/auth";
 
 export type BehaviorHandlers = {
   autoAnonymousLogin: (ui: FirebaseUIConfiguration) => Promise<User>;
@@ -71,7 +69,7 @@ export function autoAnonymousLogin(): Behavior<"autoAnonymousLogin"> {
 
       if (!auth.currentUser) {
         ui.setState("loading");
-        await signInAnonymously(auth);
+        await getAuthImp(ui).signInAnonymously(auth);
       }
 
       ui.setState("idle");
@@ -93,7 +91,7 @@ export function autoUpgradeAnonymousUsers(): Behavior<
       }
 
       ui.setState("pending");
-      const result = await linkWithCredential(currentUser, credential);
+      const result = await getAuthImp(ui).linkWithCredential(currentUser, credential);
       ui.setState("idle");
       return result;
     },
@@ -105,7 +103,7 @@ export function autoUpgradeAnonymousUsers(): Behavior<
       }
 
       ui.setState("pending");
-      await linkWithRedirect(currentUser, provider);
+      await getAuthImp(ui).linkWithRedirect(currentUser, provider);
       // We don't modify state here since the user is redirected.
       // If we support popups, we'd need to modify state here.
     },
