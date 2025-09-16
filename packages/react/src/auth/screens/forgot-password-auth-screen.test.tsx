@@ -29,7 +29,7 @@ vi.mock("~/auth/forms/forgot-password-auth-form", () => ({
   ),
 }));
 
-describe("ForgotPasswordAuthScreen", () => {
+describe("<ForgotPasswordAuthScreen />", () => {
   afterEach(() => {
     cleanup();
   });

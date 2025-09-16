@@ -28,7 +28,7 @@ vi.mock("~/components/divider", () => ({
   Divider: () => <div data-testid="divider">Divider</div>,
 }));
 
-describe("EmailLinkAuthScreen", () => {
+describe("<EmailLinkAuthScreen />", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });

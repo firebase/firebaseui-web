@@ -4,7 +4,6 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -14,76 +13,120 @@
  * limitations under the License.
  */
 
-import { describe, it, expect, vi } from "vitest";
-import { render } from "@testing-library/react";
+import { describe, it, expect, vi, afterEach } from "vitest";
+import { render, screen, cleanup } from "@testing-library/react";
 import { OAuthScreen } from "~/auth/screens/oauth-screen";
+import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
+import { registerLocale } from "@firebase-ui/translations";
 
-// Mock hooks
-vi.mock("~/hooks", () => ({
-  useUI: () => ({
-    locale: "en-US",
-    translations: {
-      "en-US": {
-        labels: {
-          signIn: "Sign In",
-          signInToAccount: "Sign in to your account",
-        },
-      },
-    },
-  }),
-}));
+vi.mock("~/components/policies", async (originalModule) => {
+  const module = await originalModule();
+  return {
+    ...(module as object),
+    Policies: () => <div data-testid="policies">Policies</div>,
+  };
+});
 
-// Mock getTranslation
-// vi.mock("@firebase-ui/core", () => ({
-//   getTranslation: vi.fn((category, key) => {
-//     if (category === "labels" && key === "signIn") return "Sign In";
-//     if (category === "prompts" && key === "signInToAccount")
-//       return "Sign in to your account";
-//     return key;
-//   }),
-// }));
+afterEach(() => {
+  cleanup();
+});
 
-// Mock TermsAndPrivacy component
-vi.mock("../../../../src/components/policies", () => ({
-  Policies: () => <div data-testid="policies">Policies</div>,
-}));
-
-describe("OAuthScreen", () => {
-  it("renders with correct title and subtitle", () => {
-    const { getByText } = render(<OAuthScreen>OAuth Provider</OAuthScreen>);
-
-    expect(getByText("Sign In")).toBeInTheDocument();
-    expect(getByText("Sign in to your account")).toBeInTheDocument();
+describe("<OAuthScreen />", () => {
+  afterEach(() => {
+    vi.clearAllMocks();
   });
 
-  it("calls useConfig to get the language", () => {
-    render(<OAuthScreen>OAuth Provider</OAuthScreen>);
+  it("renders with correct title and subtitle", () => {
+    const ui = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          signIn: "signIn",
+        },
+        prompts: {
+          signInToAccount: "signInToAccount",
+        },
+      }),
+    });
 
-    // This test implicitly tests that useConfig is called through the mock
-    // If it hadn't been called, the title and subtitle wouldn't render correctly
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <OAuthScreen>OAuth Provider</OAuthScreen>
+      </CreateFirebaseUIProvider>
+    );
+
+    const title = screen.getByText("signIn");
+    expect(title).toBeDefined();
+    expect(title.className).toContain("fui-card__title");
+
+    const subtitle = screen.getByText("signInToAccount");
+    expect(subtitle).toBeDefined();
+    expect(subtitle.className).toContain("fui-card__subtitle");
   });
 
   it("renders children", () => {
-    const { getByText } = render(<OAuthScreen>OAuth Provider</OAuthScreen>);
+    const ui = createMockUI();
 
-    expect(getByText("OAuth Provider")).toBeInTheDocument();
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <OAuthScreen>OAuth Provider</OAuthScreen>
+      </CreateFirebaseUIProvider>
+    );
+
+    expect(screen.getByText("OAuth Provider")).toBeDefined();
   });
 
   it("renders multiple children when provided", () => {
-    const { getByText } = render(
-      <OAuthScreen>
-        <div>Provider 1</div>
-        <div>Provider 2</div>
-      </OAuthScreen>
+    const ui = createMockUI();
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <OAuthScreen>
+          <div>Provider 1</div>
+          <div>Provider 2</div>
+        </OAuthScreen>
+      </CreateFirebaseUIProvider>
     );
 
-    expect(getByText("Provider 1")).toBeInTheDocument();
-    expect(getByText("Provider 2")).toBeInTheDocument();
+    expect(screen.getByText("Provider 1")).toBeDefined();
+    expect(screen.getByText("Provider 2")).toBeDefined();
   });
 
   it("includes the Policies component", () => {
-    const { getByTestId } = render(<OAuthScreen>OAuth Provider</OAuthScreen>);
+    const ui = createMockUI();
 
-    expect(getByTestId("policies")).toBeInTheDocument();
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <OAuthScreen>OAuth Provider</OAuthScreen>
+      </CreateFirebaseUIProvider>
+    );
+
+    expect(screen.getByTestId("policies")).toBeDefined();
+  });
+
+  it("renders children before the Policies component", () => {
+    const ui = createMockUI();
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <OAuthScreen>
+          <div data-testid="oauth-provider">OAuth Provider</div>
+        </OAuthScreen>
+      </CreateFirebaseUIProvider>
+    );
+
+    const oauthProvider = screen.getByTestId("oauth-provider");
+    const policies = screen.getByTestId("policies");
+
+    // Both should be present
+    expect(oauthProvider).toBeDefined();
+    expect(policies).toBeDefined();
+
+    // OAuth provider should come before policies in the DOM
+    const cardContent = oauthProvider.parentElement;
+    const children = Array.from(cardContent?.children || []);
+    const oauthIndex = children.indexOf(oauthProvider);
+    const policiesIndex = children.indexOf(policies);
+
+    expect(oauthIndex).toBeLessThan(policiesIndex);
   });
 });
