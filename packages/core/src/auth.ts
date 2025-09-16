@@ -213,7 +213,7 @@ export async function signInAnonymously(ui: FirebaseUIConfiguration): Promise<Us
   }
 }
 
-export async function signInWithOAuth(ui: FirebaseUIConfiguration, provider: AuthProvider): Promise<void> {
+export async function signInWithProvider(ui: FirebaseUIConfiguration, provider: AuthProvider): Promise<void> {
   try {
     if (hasBehavior(ui, "autoUpgradeAnonymousProvider")) {
       await getBehavior(ui, "autoUpgradeAnonymousProvider")(ui, provider);
@@ -222,6 +222,8 @@ export async function signInWithOAuth(ui: FirebaseUIConfiguration, provider: Aut
     }
 
     ui.setState("pending");
+
+    // TODO(ehesp): Handle popup or redirect based on behavior
     await signInWithRedirect(ui.auth, provider);
     // We don't modify state here since the user is redirected.
     // If we support popups, we'd need to modify state here.
