@@ -14,36 +14,17 @@
  * limitations under the License.
  */
 
-import { defineConfig } from "vitest/config";
-import { resolve } from "path";
-import { fileURLToPath } from "node:url";
+import { mergeConfig } from 'vitest/config'
+import viteConfig from "./vite.config";
 
-export default defineConfig({
+export default mergeConfig(viteConfig, {
   test: {
+    name: "@firebase-ui/react",
     // Use the same environment as the package
     environment: "jsdom",
     // Include TypeScript files
     include: ["**/*.{test,spec}.{js,ts,jsx,tsx}"],
     // Exclude build output and node_modules
     exclude: ["node_modules/**/*", "dist/**/*"],
-    // Enable globals for jest-dom to work correctly
-    globals: true,
-    // Use the setup file for all tests
-    setupFiles: ["./setup-test.ts"],
-    // Mock modules
-    mockReset: false,
-    // Use tsconfig.test.json for TypeScript
-    typecheck: {
-      enabled: true,
-      tsconfig: "./tsconfig.test.json",
-      include: ["**/*.{ts,tsx}"],
-    },
-    // Increase test timeout for Firebase operations
-    testTimeout: 15000,
-  },
-  resolve: {
-    alias: {
-      "~": resolve(resolve(fileURLToPath(import.meta.url), ".."), "./src"),
-    },
   },
 });

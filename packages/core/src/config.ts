@@ -21,7 +21,7 @@ import { deepMap, DeepMapStore, map } from "nanostores";
 import { Behavior, type BehaviorHandlers, type BehaviorKey, getBehavior, hasBehavior } from "./behaviors";
 import { FirebaseUIState } from "./state";
 
-type FirebaseUIConfigurationOptions = {
+export type FirebaseUIConfigurationOptions = {
   app: FirebaseApp;
   auth?: Auth;
   locale?: RegisteredLocale;

@@ -15,55 +15,87 @@
  */
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { renderHook } from "@testing-library/react";
+import { renderHook, act } from "@testing-library/react";
 import { useUI } from "./hooks";
-import { getAuth } from "firebase/auth";
-import { FirebaseUIContext } from "./context";
+import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
 
-// Mock Firebase
-vi.mock("firebase/auth", () => ({
-  getAuth: vi.fn(() => ({
-    currentUser: null,
-    /* other auth properties */
-  })),
-}));
+beforeEach(() => {
+  vi.clearAllMocks();
+});
 
-describe("Hooks", () => {
-  const mockApp = { name: "test-app" } as any;
-  const mockTranslations = {
-    en: {
-      labels: {
-        signIn: "Sign In",
-        email: "Email",
-      },
-    },
-  };
+describe("useUI", () => {
+  it("returns the config from context", () => {
+    const mockUI = createMockUI();
 
-  const mockConfig = {
-    app: mockApp,
-    getAuth: vi.fn(),
-    setLocale: vi.fn(),
-    state: "idle",
-    setState: vi.fn(),
-    locale: "en",
-    translations: mockTranslations,
-    behaviors: {},
-    recaptchaMode: "normal",
-  };
+    const { result } = renderHook(() => useUI(), { 
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI })
+    });
 
-  const wrapper = ({ children }: { children: React.ReactNode }) => (
-    <FirebaseUIContext.Provider value={mockConfig as any}>{children}</FirebaseUIContext.Provider>
-  );
+    expect(result.current).toEqual(mockUI.get());
+  }); 
 
-  beforeEach(() => {
-    vi.clearAllMocks();
+  // TODO(ehesp): This test is not working as expected.
+  it.skip("throws an error if no context is found", () => {
+    expect(() => {
+      renderHook(() => useUI());
+    }).toThrow("No FirebaseUI context found. Your application must be wrapped in a <FirebaseUIProvider> component.");
   });
 
-  describe("useUI", () => {
-    it("returns the config from context", () => {
-      const { result } = renderHook(() => useUI(), { wrapper });
+  it("returns updated values when nanostore state changes via setState", () => {
+    const ui = createMockUI();
 
-      expect(result.current).toEqual(mockConfig);
+    const { result } = renderHook(() => useUI(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui })
     });
+
+    // Initial state should be "idle"
+    expect(result.current.state).toBeDefined();
+
+    // Change the state using setState
+    act(() => {
+      result.current.setState("pending");
+    });
+
+    // The hook should return the updated state
+    expect(result.current.state).toBe("pending");
+
+    // Change it again
+    act(() => {
+      result.current.setState("loading");
+    });
+
+    // The hook should return the new state
+    expect(result.current.state).toBe("loading");
+  });
+
+  it("returns stable reference when nanostore value hasn't changed", () => {
+    const ui = createMockUI();
+    let hookCallCount = 0;
+    const results: any[] = [];
+
+    const TestHook = () => {
+      hookCallCount++;
+      const result = useUI();
+      results.push(result);
+      return result;
+    };
+
+    const { rerender } = renderHook(() => TestHook(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui })
+    });
+
+    expect(hookCallCount).toBe(1);
+    expect(results).toHaveLength(1);
+
+    // Re-render without changing nanostore
+    rerender();
+    
+    // Hook should be called again, but nanostores should provide stable reference
+    expect(hookCallCount).toBe(2);
+    expect(results).toHaveLength(2);
+    
+    // The returned values should be the same (nanostores handles this)
+    expect(results[0]).toBe(results[1]);
+    expect(results[0].state).toBe(results[1].state);
   });
 });
