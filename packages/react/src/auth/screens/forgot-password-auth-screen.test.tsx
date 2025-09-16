@@ -4,7 +4,6 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -15,31 +14,14 @@
  */
 
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { render, fireEvent } from "@testing-library/react";
-import { PasswordResetScreen } from "~/auth/screens/forgot-password-auth-screen";
-import * as hooks from "~/hooks";
+import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import { ForgotPasswordAuthScreen } from "~/auth/screens/forgot-password-auth-screen";
+import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
+import { registerLocale } from "@firebase-ui/translations";
 
-// Mock the hooks
-vi.mock("~/hooks", () => ({
-  useUI: vi.fn(() => ({
-    locale: "en-US",
-    translations: {
-      "en-US": {
-        labels: {
-          resetPassword: "Reset Password",
-        },
-        prompts: {
-          enterEmailToReset: "Enter your email to reset your password",
-        },
-      },
-    },
-  })),
-}));
-
-// Mock the ForgotPasswordForm component
-vi.mock("~/auth/forms/forgot-password-form", () => ({
-  ForgotPasswordForm: ({ onBackToSignInClick }: { onBackToSignInClick?: () => void }) => (
-    <div data-testid="forgot-password-form">
+vi.mock("~/auth/forms/forgot-password-auth-form", () => ({
+  ForgotPasswordAuthForm: ({ onBackToSignInClick }: { onBackToSignInClick?: () => void }) => (
+    <div data-testid="forgot-password-auth-form">
       <button onClick={onBackToSignInClick} data-testid="back-button">
         Back to Sign In
       </button>
@@ -47,37 +29,67 @@ vi.mock("~/auth/forms/forgot-password-form", () => ({
   ),
 }));
 
-describe("PasswordResetScreen", () => {
-  const mockOnBackToSignInClick = vi.fn();
+describe("ForgotPasswordAuthScreen", () => {
+  afterEach(() => {
+    cleanup();
+  });
 
   afterEach(() => {
     vi.clearAllMocks();
   });
 
   it("renders with correct title and subtitle", () => {
-    const { getByText } = render(<PasswordResetScreen />);
+    const ui = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          resetPassword: "resetPassword",
+        },
+        prompts: {
+          enterEmailToReset: "enterEmailToReset",
+        },
+      }),
+    });
 
-    expect(getByText("Reset Password")).toBeInTheDocument();
-    expect(getByText("Enter your email to reset your password")).toBeInTheDocument();
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <ForgotPasswordAuthScreen />
+      </CreateFirebaseUIProvider>
+    );
+
+    const title = screen.getByText("resetPassword");
+    expect(title).toBeDefined();
+    expect(title.className).toContain("fui-card__title");
+
+    const subtitle = screen.getByText("enterEmailToReset");
+    expect(subtitle).toBeDefined();
+    expect(subtitle.className).toContain("fui-card__subtitle");
   });
 
-  it("calls useUI to get the locale", () => {
-    render(<PasswordResetScreen />);
+  it("renders the <ForgotPasswordAuthForm /> component", () => {
+    const ui = createMockUI();
 
-    expect(hooks.useUI).toHaveBeenCalled();
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <ForgotPasswordAuthScreen />
+      </CreateFirebaseUIProvider>
+    );
+
+    // Mocked so only has as test id
+    expect(screen.getByTestId("forgot-password-auth-form")).toBeDefined();
   });
 
-  it("includes the ForgotPasswordForm component", () => {
-    const { getByTestId } = render(<PasswordResetScreen />);
+  it("passes onBackToSignInClick to ForgotPasswordAuthForm", () => {
+    const mockOnBackToSignInClick = vi.fn();
+    const ui = createMockUI();
 
-    expect(getByTestId("forgot-password-form")).toBeInTheDocument();
-  });
-
-  it("passes onBackToSignInClick to ForgotPasswordForm", () => {
-    const { getByTestId } = render(<PasswordResetScreen onBackToSignInClick={mockOnBackToSignInClick} />);
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <ForgotPasswordAuthScreen onBackToSignInClick={mockOnBackToSignInClick} />
+      </CreateFirebaseUIProvider>
+    );
 
     // Click the back button in the mocked form
-    fireEvent.click(getByTestId("back-button"));
+    fireEvent.click(screen.getByTestId("back-button"));
 
     // Verify the callback was called
     expect(mockOnBackToSignInClick).toHaveBeenCalledTimes(1);
