@@ -15,26 +15,18 @@
  */
 
 import {
-  createUserWithEmailAndPassword as _createUserWithEmailAndPassword,
-  isSignInWithEmailLink as _isSignInWithEmailLink,
-  sendPasswordResetEmail as _sendPasswordResetEmail,
-  sendSignInLinkToEmail as _sendSignInLinkToEmail,
-  signInAnonymously as _signInAnonymously,
-  signInWithPhoneNumber as _signInWithPhoneNumber,
-  ActionCodeSettings,
-  AuthProvider,
-  ConfirmationResult,
+  type ActionCodeSettings,
+  type AuthProvider,
+  type ConfirmationResult,
+  type RecaptchaVerifier,
+  type UserCredential,
   EmailAuthProvider,
-  linkWithCredential,
   PhoneAuthProvider,
-  RecaptchaVerifier,
-  signInWithCredential,
-  signInWithRedirect,
-  UserCredential,
 } from "firebase/auth";
 import { getBehavior, hasBehavior } from "./behaviors";
 import { FirebaseUIConfiguration } from "./config";
 import { handleFirebaseError } from "./errors";
+import { getAuthImp } from "./imp/auth";
 
 async function handlePendingCredential(ui: FirebaseUIConfiguration, user: UserCredential): Promise<UserCredential> {
   const pendingCredString = window.sessionStorage.getItem("pendingCred");
@@ -43,7 +35,7 @@ async function handlePendingCredential(ui: FirebaseUIConfiguration, user: UserCr
   try {
     const pendingCred = JSON.parse(pendingCredString);
     ui.setState("pending");
-    const result = await linkWithCredential(user.user, pendingCred);
+    const result = await getAuthImp(ui).linkWithCredential(user.user, pendingCred);
     ui.setState("idle");
     window.sessionStorage.removeItem("pendingCred");
     return result;
@@ -63,14 +55,14 @@ export async function signInWithEmailAndPassword(
 
     if (hasBehavior(ui, "autoUpgradeAnonymousCredential")) {
       const result = await getBehavior(ui, "autoUpgradeAnonymousCredential")(ui, credential);
-      
+
       if (result) {
         return handlePendingCredential(ui, result);
       }
     }
 
     ui.setState("pending");
-    const result = await signInWithCredential(ui.auth, credential);
+    const result = await getAuthImp(ui).signInWithCredential(ui.auth, credential);
     return handlePendingCredential(ui, result);
   } catch (error) {
     handleFirebaseError(ui, error);
@@ -96,7 +88,7 @@ export async function createUserWithEmailAndPassword(
     }
 
     ui.setState("pending");
-    const result = await _createUserWithEmailAndPassword(ui.auth, email, password);
+    const result = await getAuthImp(ui).createUserWithEmailAndPassword(ui.auth, email, password);
     return handlePendingCredential(ui, result);
   } catch (error) {
     handleFirebaseError(ui, error);
@@ -112,7 +104,7 @@ export async function signInWithPhoneNumber(
 ): Promise<ConfirmationResult> {
   try {
     ui.setState("pending");
-    return await _signInWithPhoneNumber(ui.auth, phoneNumber, recaptchaVerifier);
+    return await getAuthImp(ui).signInWithPhoneNumber(ui.auth, phoneNumber, recaptchaVerifier);
   } catch (error) {
     handleFirebaseError(ui, error);
   } finally {
@@ -138,7 +130,7 @@ export async function confirmPhoneNumber(
     }
 
     ui.setState("pending");
-    const result = await signInWithCredential(ui.auth, credential);
+    const result = await getAuthImp(ui).signInWithCredential(ui.auth, credential);
     return handlePendingCredential(ui, result);
   } catch (error) {
     handleFirebaseError(ui, error);
@@ -150,7 +142,7 @@ export async function confirmPhoneNumber(
 export async function sendPasswordResetEmail(ui: FirebaseUIConfiguration, email: string): Promise<void> {
   try {
     ui.setState("pending");
-    await _sendPasswordResetEmail(ui.auth, email);
+    await getAuthImp(ui).sendPasswordResetEmail(ui.auth, email);
   } catch (error) {
     handleFirebaseError(ui, error);
   } finally {
@@ -167,7 +159,7 @@ export async function sendSignInLinkToEmail(ui: FirebaseUIConfiguration, email: 
     } satisfies ActionCodeSettings;
 
     ui.setState("pending");
-    await _sendSignInLinkToEmail(ui.auth, email, actionCodeSettings);
+    await getAuthImp(ui).sendSignInLinkToEmail(ui.auth, email, actionCodeSettings);
     // TODO: Should this be a behavior ("storageStrategy")?
     window.localStorage.setItem("emailForSignIn", email);
   } catch (error) {
@@ -193,7 +185,7 @@ export async function signInWithEmailLink(
     }
 
     ui.setState("pending");
-    const result = await signInWithCredential(ui.auth, credential);
+    const result = await getAuthImp(ui).signInWithCredential(ui.auth, credential);
     return handlePendingCredential(ui, result);
   } catch (error) {
     handleFirebaseError(ui, error);
@@ -205,7 +197,7 @@ export async function signInWithEmailLink(
 export async function signInAnonymously(ui: FirebaseUIConfiguration): Promise<UserCredential> {
   try {
     ui.setState("pending");
-    const result = await _signInAnonymously(ui.auth);
+    const result = await getAuthImp(ui).signInAnonymously(ui.auth);
     return handlePendingCredential(ui, result);
   } catch (error) {
     handleFirebaseError(ui, error);
@@ -225,7 +217,7 @@ export async function signInWithProvider(ui: FirebaseUIConfiguration, provider: 
     ui.setState("pending");
 
     // TODO(ehesp): Handle popup or redirect based on behavior
-    await signInWithRedirect(ui.auth, provider);
+    await getAuthImp(ui).signInWithRedirect(ui.auth, provider);
     // We don't modify state here since the user is redirected.
     // If we support popups, we'd need to modify state here.
   } catch (error) {
@@ -240,7 +232,7 @@ export async function completeEmailLinkSignIn(
   currentUrl: string
 ): Promise<UserCredential | null> {
   try {
-    if (!_isSignInWithEmailLink(ui.auth, currentUrl)) {
+    if (!getAuthImp(ui).isSignInWithEmailLink(ui.auth, currentUrl)) {
       return null;
     }
 
@@ -248,7 +240,7 @@ export async function completeEmailLinkSignIn(
     if (!email) return null;
 
     ui.setState("pending");
-    const result = await signInWithEmailLink(ui, email, currentUrl);
+    const result = await getAuthImp(ui).signInWithEmailLink(ui.auth, email, currentUrl);
     ui.setState("idle"); // TODO(ehesp): Do we need this here?
     return handlePendingCredential(ui, result);
   } catch (error) {
