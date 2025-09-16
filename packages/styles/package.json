@@ -7,9 +7,16 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "style": "./dist.css",
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
+    },
+    "./tailwind": {
+      "style": "./src/base.css"
+    },
+    "./themes/*": {
+      "style": "./src/themes/*.css"
     }
   },
   "files": [
