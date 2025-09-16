@@ -13,6 +13,7 @@ releases/
 # Generated files
 *.min.js
 *.min.css
+packages/styles/dist.css
 
 # Logs
 *.log
