@@ -17,3 +17,7 @@ export function createMockUI(overrides?: Partial<FirebaseUIConfigurationOptions>
 export const createFirebaseUIProvider = ({ children, ui }: { children: React.ReactNode, ui: FirebaseUI }) => (
   <FirebaseUIProvider ui={ui}>{children}</FirebaseUIProvider>
 );
+
+export function CreateFirebaseUIProvider({ children, ui }: { children: React.ReactNode, ui: FirebaseUI }) {
+  return <FirebaseUIProvider ui={ui}>{children}</FirebaseUIProvider>;
+}
