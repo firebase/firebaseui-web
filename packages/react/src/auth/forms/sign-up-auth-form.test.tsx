@@ -14,217 +14,236 @@
  * limitations under the License.
  */
 
-import { describe, it, expect, vi, beforeEach, Mock } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
-import { SignUpAuthForm } from "./sign-up-auth-form";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { render, screen, fireEvent, renderHook, cleanup } from "@testing-library/react";
+import { SignUpAuthForm, useSignUpAuthForm, useSignUpAuthFormAction } from "./sign-up-auth-form";
 import { act } from "react";
+import { createUserWithEmailAndPassword } from "@firebase-ui/core";
+import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
+import { registerLocale } from "@firebase-ui/translations";
+import type { UserCredential } from "firebase/auth";
+import { FirebaseUIProvider } from "~/context";
 
-// Mock the dependencies
-vi.mock("@firebase-ui/core", async (originalImport) => {
-  const mod = await originalImport<typeof import("@firebase-ui/core")>();
+vi.mock("@firebase-ui/core", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@firebase-ui/core")>();
   return {
     ...mod,
-    createUserWithEmailAndPassword: vi.fn().mockResolvedValue(undefined),
+    createUserWithEmailAndPassword: vi.fn(),
   };
 });
 
-// Mock @tanstack/react-form library
-vi.mock("@tanstack/react-form", () => {
-  const handleSubmitMock = vi.fn().mockImplementation((callback) => {
-    // Store the callback to call it directly in tests
-    (global as any).formSubmitCallback = callback;
-    return Promise.resolve();
-  });
-
+vi.mock("~/components/form", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("~/components/form")>();
   return {
-    useForm: vi.fn().mockImplementation(({ onSubmit }) => {
-      // Save the onSubmit function to call it directly in tests
-      (global as any).formOnSubmit = onSubmit;
-
-      return {
-        handleSubmit: handleSubmitMock,
-        Field: ({ children, name }: any) => {
-          const field = {
-            name,
-            state: {
-              value: name === "email" ? "test@example.com" : "password123",
-              meta: {
-                isTouched: false,
-                errors: [],
-              },
-            },
-            handleBlur: vi.fn(),
-            handleChange: vi.fn(),
-          };
-          return children(field);
-        },
-      };
-    }),
+    ...mod,
+    form: {
+      ...mod.form,
+      ErrorMessage: () => <div data-testid="error-message">Error Message</div>,
+    },
   };
 });
 
-vi.mock("../../../../src/hooks", () => ({
-  useAuth: vi.fn().mockReturnValue({}),
-  useUI: vi.fn().mockReturnValue({
-    locale: "en-US",
-    translations: {
-      "en-US": {
-        labels: {
-          emailAddress: "Email Address",
-          password: "Password",
-        },
-        errors: {
-          unknownError: "Unknown error",
-        },
-      },
-    },
-  }),
-}));
-
-// Mock the components
-vi.mock("../../../../src/components/field-info", () => ({
-  FieldInfo: vi
-    .fn()
-    .mockImplementation(({ field }) => (
-      <div data-testid="field-info">
-        {field.state.meta.errors.length > 0 && <span>{field.state.meta.errors[0]}</span>}
-      </div>
-    )),
-}));
-
-vi.mock("../../../../src/components/policies", () => ({
-  Policies: vi.fn().mockReturnValue(<div data-testid="policies" />),
-}));
-
-vi.mock("../../../../src/components/button", () => ({
-  Button: vi.fn().mockImplementation(({ children, type, onClick }) => (
-    <button type={type} onClick={onClick} data-testid="submit-button">
-      {children}
-    </button>
-  )),
-}));
-
-// Import the actual functions after mocking
-import { createUserWithEmailAndPassword } from "@firebase-ui/core";
-
-describe("RegisterForm", () => {
+describe("useSignUpAuthFormAction", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it("renders the form correctly", () => {
-    render(<SignUpAuthForm />);
+  it("should return a callback which accept an email and password", async () => {
+    const createUserWithEmailAndPasswordMock = vi.mocked(createUserWithEmailAndPassword);
+    const mockUI = createMockUI();
 
-    expect(screen.getByRole("textbox", { name: /email address/i })).toBeInTheDocument();
-    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
-    expect(screen.getByTestId("policies")).toBeInTheDocument();
-    expect(screen.getByTestId("submit-button")).toBeInTheDocument();
-  });
-
-  it("submits the form when the button is clicked", async () => {
-    render(<SignUpAuthForm />);
-
-    // Get the submit button
-    const submitButton = screen.getByTestId("submit-button");
-
-    // Trigger form submission
-    await act(async () => {
-      fireEvent.click(submitButton);
-
-      // Directly call the onSubmit function with form values
-      if ((global as any).formOnSubmit) {
-        await (global as any).formOnSubmit({
-          value: {
-            email: "test@example.com",
-            password: "password123",
-          },
-        });
-      }
+    const { result } = renderHook(() => useSignUpAuthFormAction(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
-    // Check that the registration function was called
-    expect(createUserWithEmailAndPassword).toHaveBeenCalledWith(expect.anything(), "test@example.com", "password123");
-  });
-
-  it("displays error message when registration fails", async () => {
-    // Mock the registration function to reject with an error
-    const mockError = new Error("Email already in use");
-    (createUserWithEmailAndPassword as Mock).mockRejectedValueOnce(mockError);
-
-    render(<SignUpAuthForm />);
-
-    // Get the submit button
-    const submitButton = screen.getByTestId("submit-button");
-
-    // Trigger form submission
     await act(async () => {
-      fireEvent.click(submitButton);
-
-      // Directly call the onSubmit function with form values
-      if ((global as any).formOnSubmit) {
-        await (global as any)
-          .formOnSubmit({
-            value: {
-              email: "test@example.com",
-              password: "password123",
-            },
-          })
-          .catch(() => {
-            // Catch the error here to prevent test from failing
-          });
-      }
+      await result.current({ email: "test@example.com", password: "password123" });
     });
 
-    // Check that the registration function was called
-    expect(createUserWithEmailAndPassword).toHaveBeenCalled();
+    expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(expect.any(Object), "test@example.com", "password123");
   });
 
-  it("validates on blur for the first time", async () => {
-    render(<SignUpAuthForm />);
+  it("should return a credential on success", async () => {
+    const mockCredential = { credential: true } as unknown as UserCredential;
 
-    const emailInput = screen.getByRole("textbox", { name: /email address/i });
-    const passwordInput = screen.getByDisplayValue("password123");
+    const createUserWithEmailAndPasswordMock = vi.mocked(createUserWithEmailAndPassword).mockResolvedValue(mockCredential);
 
-    await act(async () => {
-      fireEvent.blur(emailInput);
-      fireEvent.blur(passwordInput);
+    const mockUI = createMockUI();
+
+    const { result } = renderHook(() => useSignUpAuthFormAction(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
-    // Check that handleBlur was called
-    expect((global as any).formOnSubmit).toBeDefined();
+    await act(async () => {
+      const credential = await result.current({ email: "test@example.com", password: "password123" });
+      expect(credential).toBe(mockCredential);
+    });
+
+    expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(expect.any(Object), "test@example.com", "password123");
   });
 
-  it("validates on input after first blur", async () => {
-    render(<SignUpAuthForm />);
+  it("should throw an unknown error when its not a FirebaseUIError", async () => {
+    const createUserWithEmailAndPasswordMock = vi
+      .mocked(createUserWithEmailAndPassword)
+      .mockRejectedValue(new Error("Unknown error"));
 
-    const emailInput = screen.getByRole("textbox", { name: /email address/i });
-    const passwordInput = screen.getByDisplayValue("password123");
-
-    // First validation on blur
-    await act(async () => {
-      fireEvent.blur(emailInput);
-      fireEvent.blur(passwordInput);
+    const mockUI = createMockUI({
+      locale: registerLocale("es-ES", {
+        errors: {
+          unknownError: "unknownError",
+        },
+      }),
     });
 
-    // Then validation should happen on input
-    await act(async () => {
-      fireEvent.input(emailInput, { target: { value: "test@example.com" } });
-      fireEvent.input(passwordInput, { target: { value: "password123" } });
+    const { result } = renderHook(() => useSignUpAuthFormAction(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
-    // Check that handleBlur and form.update were called
-    expect((global as any).formOnSubmit).toBeDefined();
+    await expect(async () => {
+      await act(async () => {
+        await result.current({ email: "test@example.com", password: "password123" });
+      });
+    }).rejects.toThrow("unknownError");
+
+    expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(mockUI.get(), "test@example.com", "password123");
+  });
+});
+
+describe("useSignUpAuthForm", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
   });
 
-  // TODO: Fix this test
-  it.skip("displays back to sign in button when provided", () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  it("should allow the form to be submitted", async () => {
+    const mockUI = createMockUI();
+    const createUserWithEmailAndPasswordMock = vi.mocked(createUserWithEmailAndPassword);
+
+    const { result } = renderHook(() => useSignUpAuthForm(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    act(() => {
+      result.current.setFieldValue("email", "test@example.com");
+      result.current.setFieldValue("password", "password123");
+    });
+
+    await act(async () => {
+      await result.current.handleSubmit();
+    });
+
+    expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(mockUI.get(), "test@example.com", "password123");
+  });
+
+  it("should not allow the form to be submitted if the form is invalid", async () => {
+    const mockUI = createMockUI();
+    const createUserWithEmailAndPasswordMock = vi.mocked(createUserWithEmailAndPassword);
+
+    const { result } = renderHook(() => useSignUpAuthForm(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    act(() => {
+      result.current.setFieldValue("email", "123");
+    });
+
+    await act(async () => {
+      await result.current.handleSubmit();
+    });
+
+    expect(result.current.getFieldMeta("email")!.errors[0].length).toBeGreaterThan(0);
+    expect(createUserWithEmailAndPasswordMock).not.toHaveBeenCalled();
+  });
+});
+
+describe("<SignUpAuthForm />", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("should render the form correctly", () => {
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          createAccount: "createAccount",
+        },
+      }),
+    });
+
+    const { container } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <SignUpAuthForm />
+      </FirebaseUIProvider>
+    );
+
+    // There should be only one form
+    const form = container.querySelectorAll("form.fui-form");
+    expect(form.length).toBe(1);
+
+    // Make sure we have an email and password input
+    expect(screen.getByRole("textbox", { name: /email/i })).toBeInTheDocument();
+    expect(screen.getByRole("textbox", { name: /password/i })).toBeInTheDocument();
+
+    // Ensure the "Create Account" button is present and is a submit button
+    const createAccountButton = screen.getByRole("button", { name: "createAccount" });
+    expect(createAccountButton).toBeInTheDocument();
+    expect(createAccountButton).toHaveAttribute("type", "submit");
+  });
+
+  it("should render the back to sign in button callback when onBackToSignInClick is provided", () => {
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        prompts: {
+          haveAccount: "foo",
+        },
+        labels: {
+          signIn: "bar",
+        },
+      }),
+    });
+
     const onBackToSignInClickMock = vi.fn();
-    render(<SignUpAuthForm onBackToSignInClick={onBackToSignInClickMock} />);
 
-    const backButton = document.querySelector(".fui-form__action")!;
-    expect(backButton).toBeInTheDocument();
+    render(
+      <FirebaseUIProvider ui={mockUI}>
+        <SignUpAuthForm onBackToSignInClick={onBackToSignInClickMock} />
+      </FirebaseUIProvider>
+    );
 
-    fireEvent.click(backButton);
+    const name = "foo bar";
+
+    const backToSignInButton = screen.getByRole("button", { name });
+    expect(backToSignInButton).toBeInTheDocument();
+    expect(backToSignInButton).toHaveTextContent(name);
+
+    // Make sure it's a button so it doesn't submit the form
+    expect(backToSignInButton).toHaveAttribute("type", "button");
+
+    fireEvent.click(backToSignInButton);
     expect(onBackToSignInClickMock).toHaveBeenCalled();
+  });
+
+  it('should trigger validation errors when the form is blurred', () => {
+    const mockUI = createMockUI();
+
+    const { container } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <SignUpAuthForm />
+      </FirebaseUIProvider>
+    );
+
+    const form = container.querySelector("form.fui-form");
+    expect(form).toBeInTheDocument();
+
+    const input = screen.getByRole("textbox", { name: /email/i });
+
+    act(() => {
+      fireEvent.blur(input);
+    });
+
+    expect(screen.getByText("Please enter a valid email address")).toBeInTheDocument();
   });
 });
