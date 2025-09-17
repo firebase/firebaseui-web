@@ -17,10 +17,10 @@
 "use client";
 
 import { FirebaseUIError, getTranslation, signInWithEmailAndPassword } from "@firebase-ui/core";
-import { UserCredential } from "firebase/auth";
+import type { UserCredential } from "firebase/auth";
 import { useSignInAuthFormSchema, useUI } from "~/hooks";
 import { form } from "~/components/form";
-import { Policies } from "../../components/policies";
+import { Policies } from "~/components/policies";
 import { useCallback } from "react";
 
 export type SignInAuthFormProps = {
