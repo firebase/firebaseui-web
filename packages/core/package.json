@@ -44,10 +44,10 @@
   "author": "TODO",
   "license": "MIT",
   "peerDependencies": {
+    "@firebase-ui/translations": "workspace:*",
     "firebase": "catalog:peerDependencies"
   },
   "dependencies": {
-    "@firebase-ui/translations": "workspace:*",
     "nanostores": "catalog:",
     "zod": "catalog:"
   },
