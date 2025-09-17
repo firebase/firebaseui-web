@@ -17,7 +17,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { CountrySelector } from "./country-selector";
+import { CountrySelector } from "../../../src/components/country-selector";
 import { countryData } from "@firebase-ui/core";
 
 describe("CountrySelector Component", () => {
@@ -29,7 +29,7 @@ describe("CountrySelector Component", () => {
   });
 
   it("renders with the selected country", () => {
-    render(<CountrySelector value={defaultCountry.code} onChange={mockOnChange} />);
+    render(<CountrySelector value={defaultCountry} onChange={mockOnChange} />);
 
     // Check if the country flag emoji is displayed
     expect(screen.getByText(defaultCountry.emoji)).toBeInTheDocument();
@@ -43,7 +43,7 @@ describe("CountrySelector Component", () => {
   });
 
   it("applies custom className", () => {
-    render(<CountrySelector value={defaultCountry.code} onChange={mockOnChange} className="custom-class" />);
+    render(<CountrySelector value={defaultCountry} onChange={mockOnChange} className="custom-class" />);
 
     const selector = screen.getByRole("combobox").closest(".fui-country-selector");
     expect(selector).toHaveClass("fui-country-selector");
@@ -51,7 +51,7 @@ describe("CountrySelector Component", () => {
   });
 
   it("calls onChange when a different country is selected", () => {
-    render(<CountrySelector value={defaultCountry.code} onChange={mockOnChange} />);
+    render(<CountrySelector value={defaultCountry} onChange={mockOnChange} />);
 
     const select = screen.getByRole("combobox");
 
@@ -72,7 +72,7 @@ describe("CountrySelector Component", () => {
   });
 
   it("renders all countries in the dropdown", () => {
-    render(<CountrySelector value={defaultCountry.code} onChange={mockOnChange} />);
+    render(<CountrySelector value={defaultCountry} onChange={mockOnChange} />);
 
     const select = screen.getByRole("combobox");
     const options = select.querySelectorAll("option");

@@ -17,7 +17,7 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { Card, CardHeader, CardTitle, CardSubtitle } from "./card";
+import { Card, CardHeader, CardTitle, CardSubtitle } from "../../../src/components/card";
 
 describe("Card Components", () => {
   describe("Card", () => {

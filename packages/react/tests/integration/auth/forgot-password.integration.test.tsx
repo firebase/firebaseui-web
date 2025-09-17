@@ -14,11 +14,18 @@
  * limitations under the License.
  */
 
-import { describe, it, expect, afterAll } from "vitest";
+import { describe, it, expect, afterAll, beforeEach } from "vitest";
 import { fireEvent, waitFor, act, render } from "@testing-library/react";
-import { EmailLinkAuthForm } from "../src";
+import { ForgotPasswordForm } from "../../../src/auth/forms/forgot-password-form";
 import { initializeApp } from "firebase/app";
-import { getAuth, connectAuthEmulator, deleteUser } from "firebase/auth";
+import {
+  getAuth,
+  connectAuthEmulator,
+  deleteUser,
+  signOut,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { initializeUI } from "@firebase-ui/core";
 import { FirebaseUIProvider } from "~/context";
 
@@ -32,56 +39,85 @@ const firebaseConfig = {
 // Initialize app once for all tests
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+
+// Connect to the auth emulator
 connectAuthEmulator(auth, "http://localhost:9099", { disableWarnings: true });
 
 const ui = initializeUI({
   app,
 });
 
-describe("Email Link Authentication Integration", () => {
+describe("Forgot Password Integration", () => {
   const testEmail = `test-${Date.now()}@example.com`;
+  const testPassword = "Test123!";
+
+  // Clean up before each test
+  beforeEach(async () => {
+    // Try to sign in with the test email and delete the user if it exists
+    try {
+      await signInWithEmailAndPassword(auth, testEmail, testPassword);
+      if (auth.currentUser) {
+        await deleteUser(auth.currentUser);
+      }
+    } catch (_error) {
+      // Ignore errors if user doesn't exist
+    }
+    await signOut(auth);
+  });
 
   // Clean up after tests
   afterAll(async () => {
     try {
-      const currentUser = auth.currentUser;
-      if (currentUser) {
-        await deleteUser(currentUser);
+      await signInWithEmailAndPassword(auth, testEmail, testPassword);
+      if (auth.currentUser) {
+        await deleteUser(auth.currentUser);
       }
     } catch (_error) {
-      // Ignore cleanup errors
+      // Ignore errors if user doesn't exist
     }
   });
 
-  it("should successfully initiate email link sign in", async () => {
-    // For integration tests with the Firebase emulator, we need to ensure localStorage is available
-    const emailForSignInKey = "emailForSignIn";
+  it("should successfully send password reset email", async () => {
+    // Create a user first - handle case where user might already exist
+    try {
+      await createUserWithEmailAndPassword(auth, testEmail, testPassword);
+    } catch (_error) {
+      if (_error instanceof Error) {
+        const firebaseError = _error as { code?: string; message: string };
+        // If the user already exists, that's fine for this test
+        if (firebaseError.code !== "auth/email-already-in-use") {
+          // Skip non-relevant errors
+        }
+      }
+    }
+    await signOut(auth);
 
-    // Clear any existing values that might affect the test
-    window.localStorage.removeItem(emailForSignInKey);
+    // For integration tests, we want to test the actual implementation
 
     const { container } = render(
       <FirebaseUIProvider ui={ui}>
-        <EmailLinkAuthForm />
+        <ForgotPasswordForm />
       </FirebaseUIProvider>
     );
 
-    // Get the email input
+    // Wait for form to be rendered
+    await waitFor(() => {
+      expect(container.querySelector('input[type="email"]')).not.toBeNull();
+    });
+
     const emailInput = container.querySelector('input[type="email"]');
     expect(emailInput).not.toBeNull();
 
-    // Change the email input value
     await act(async () => {
       if (emailInput) {
         fireEvent.change(emailInput, { target: { value: testEmail } });
+        fireEvent.blur(emailInput);
       }
     });
 
-    // Get the submit button
     const submitButton = container.querySelector('button[type="submit"]')!;
     expect(submitButton).not.toBeNull();
 
-    // Click the submit button
     await act(async () => {
       fireEvent.click(submitButton);
     });
@@ -111,7 +147,6 @@ describe("Email Link Authentication Integration", () => {
 
           errorElements.forEach((element) => {
             const errorText = element.textContent?.toLowerCase() || "";
-
             // Only fail if there's a critical error (not validation related)
             if (!errorText.includes("email") && !errorText.includes("valid") && !errorText.includes("required")) {
               hasCriticalError = true;
@@ -121,25 +156,27 @@ describe("Email Link Authentication Integration", () => {
 
           // If we have critical errors, the test should fail with a descriptive message
           if (hasCriticalError) {
-            expect(criticalErrorText, `Critical error found in email link test: ${criticalErrorText}`).toContain(
+            expect(criticalErrorText, `Critical error found in forgot password test: ${criticalErrorText}`).toContain(
               "email"
             ); // This will fail with a descriptive message
           }
         }
       },
-      { timeout: 5000 }
+      { timeout: 10000 }
     );
-
-    // Clean up
-    window.localStorage.removeItem(emailForSignInKey);
   });
 
   it("should handle invalid email format", async () => {
     const { container } = render(
       <FirebaseUIProvider ui={ui}>
-        <EmailLinkAuthForm />
+        <ForgotPasswordForm />
       </FirebaseUIProvider>
     );
+
+    // Wait for form to be rendered
+    await waitFor(() => {
+      expect(container.querySelector('input[type="email"]')).not.toBeNull();
+    });
 
     const emailInput = container.querySelector('input[type="email"]');
     expect(emailInput).not.toBeNull();
@@ -147,7 +184,6 @@ describe("Email Link Authentication Integration", () => {
     await act(async () => {
       if (emailInput) {
         fireEvent.change(emailInput, { target: { value: "invalid-email" } });
-        // Trigger blur to show validation error
         fireEvent.blur(emailInput);
       }
     });
@@ -159,8 +195,15 @@ describe("Email Link Authentication Integration", () => {
       fireEvent.click(submitButton);
     });
 
-    await waitFor(() => {
-      expect(container.querySelector(".fui-form__error")).not.toBeNull();
-    });
+    await waitFor(
+      () => {
+        const errorElement = container.querySelector(".fui-form__error");
+        expect(errorElement).not.toBeNull();
+        if (errorElement) {
+          expect(errorElement.textContent).toBe("Please enter a valid email address");
+        }
+      },
+      { timeout: 10000 }
+    );
   });
 });

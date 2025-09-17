@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import type { ComponentProps, PropsWithChildren } from "react";
+import type { HTMLAttributes, PropsWithChildren } from "react";
 import { cn } from "~/utils/cn";
 
-export type CardProps = PropsWithChildren<ComponentProps<"div">>;
+type CardProps = PropsWithChildren<HTMLAttributes<HTMLDivElement>>;
 
 export function Card({ children, className, ...props }: CardProps) {
   return (
@@ -35,7 +35,7 @@ export function CardHeader({ children, className, ...props }: CardProps) {
   );
 }
 
-export function CardTitle({ children, className, ...props }: ComponentProps<"h2">) {
+export function CardTitle({ children, className, ...props }: HTMLAttributes<HTMLHeadingElement>) {
   return (
     <h2 className={cn("fui-card__title", className)} {...props}>
       {children}
@@ -43,18 +43,10 @@ export function CardTitle({ children, className, ...props }: ComponentProps<"h2"
   );
 }
 
-export function CardSubtitle({ children, className, ...props }: ComponentProps<"p">) {
+export function CardSubtitle({ children, className, ...props }: HTMLAttributes<HTMLParagraphElement>) {
   return (
     <p className={cn("fui-card__subtitle", className)} {...props}>
       {children}
     </p>
-  );
-}
-
-export function CardContent({ children, className, ...props }: ComponentProps<"div">) {
-  return (
-    <div {...props}>
-      {children}
-    </div>
   );
 }

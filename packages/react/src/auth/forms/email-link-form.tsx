@@ -17,49 +17,43 @@
 "use client";
 
 import {
-  createSignInAuthFormSchema,
   FirebaseUIError,
+  completeEmailLinkSignIn,
+  createEmailLinkFormSchema,
   getTranslation,
-  signInWithEmailAndPassword,
-  type SignInAuthFormSchema,
+  sendSignInLinkToEmail,
 } from "@firebase-ui/core";
 import { useForm } from "@tanstack/react-form";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useUI } from "~/hooks";
 import { Button } from "../../components/button";
 import { FieldInfo } from "../../components/field-info";
 import { Policies } from "../../components/policies";
-import { UserCredential } from "firebase/auth";
 
-export type SignInAuthFormProps = {
-  onSignIn?: (credential: UserCredential) => void;
-  onForgotPasswordClick?: () => void;
-  onRegisterClick?: () => void;
-}
+interface EmailLinkFormProps {}
 
-export function SignInAuthForm({ onSignIn, onForgotPasswordClick, onRegisterClick }: SignInAuthFormProps) {
+export function EmailLinkForm(_: EmailLinkFormProps) {
   const ui = useUI();
 
   const [formError, setFormError] = useState<string | null>(null);
+  const [emailSent, setEmailSent] = useState(false);
   const [firstValidationOccured, setFirstValidationOccured] = useState(false);
 
-  // TODO: Do we need to memoize this?
-  const emailFormSchema = useMemo(() => createSignInAuthFormSchema(ui), [ui]);
+  const emailLinkFormSchema = useMemo(() => createEmailLinkFormSchema(ui), [ui]);
 
-  const form = useForm<SignInAuthFormSchema>({
+  const form = useForm({
     defaultValues: {
       email: "",
-      password: "",
     },
     validators: {
-      onBlur: emailFormSchema,
-      onSubmit: emailFormSchema,
+      onBlur: emailLinkFormSchema,
+      onSubmit: emailLinkFormSchema,
     },
     onSubmit: async ({ value }) => {
       setFormError(null);
       try {
-        const credential = await signInWithEmailAndPassword(ui, value.email, value.password);
-        onSignIn?.(credential);
+        await sendSignInLinkToEmail(ui, value.email);
+        setEmailSent(true);
       } catch (error) {
         if (error instanceof FirebaseUIError) {
           setFormError(error.message);
@@ -71,6 +65,25 @@ export function SignInAuthForm({ onSignIn, onForgotPasswordClick, onRegisterClic
       }
     },
   });
+
+  // Handle email link sign-in if URL contains the link
+  useEffect(() => {
+    const completeSignIn = async () => {
+      try {
+        await completeEmailLinkSignIn(ui, window.location.href);
+      } catch (error) {
+        if (error instanceof FirebaseUIError) {
+          setFormError(error.message);
+        }
+      }
+    };
+
+    void completeSignIn();
+  }, [ui]);
+
+  if (emailSent) {
+    return <div className="fui-success">{getTranslation(ui, "messages", "signInLinkSent")}</div>;
+  }
 
   return (
     <form
@@ -114,70 +127,14 @@ export function SignInAuthForm({ onSignIn, onForgotPasswordClick, onRegisterClic
         />
       </fieldset>
 
-      <fieldset>
-        <form.Field
-          name="password"
-          // eslint-disable-next-line react/no-children-prop
-          children={(field) => (
-            <>
-              <label htmlFor={field.name}>
-                <span className="flex">
-                  <span className="flex-grow">{getTranslation(ui, "labels", "password")}</span>
-                  <button
-                    type="button"
-                    disabled={ui.state !== "idle" ? true : false}
-                    onClick={onForgotPasswordClick}
-                    className="fui-form__action"
-                  >
-                    {getTranslation(ui, "labels", "forgotPassword")}
-                  </button>
-                </span>
-                <input
-                  aria-invalid={field.state.meta.isTouched && field.state.meta.errors.length > 0}
-                  id={field.name}
-                  name={field.name}
-                  type="password"
-                  value={field.state.value}
-                  onBlur={() => {
-                    setFirstValidationOccured(true);
-                    field.handleBlur();
-                  }}
-                  onInput={(e) => {
-                    field.handleChange((e.target as HTMLInputElement).value);
-                    if (firstValidationOccured) {
-                      field.handleBlur();
-                      form.update();
-                    }
-                  }}
-                />
-                <FieldInfo field={field} />
-              </label>
-            </>
-          )}
-        />
-      </fieldset>
-
       <Policies />
 
       <fieldset>
-        <Button type="submit" disabled={ui.state !== "idle" ? true : false}>
-          {getTranslation(ui, "labels", "signIn")}
+        <Button type="submit" disabled={ui.state !== "idle"}>
+          {getTranslation(ui, "labels", "sendSignInLink")}
         </Button>
         {formError && <div className="fui-form__error">{formError}</div>}
       </fieldset>
-
-      {onRegisterClick && (
-        <div className="flex justify-center items-center">
-          <button
-            type="button"
-            disabled={ui.state !== "idle" ? true : false}
-            onClick={onRegisterClick}
-            className="fui-form__action"
-          >
-            {getTranslation(ui, "prompts", "noAccount")} {getTranslation(ui, "labels", "register")}
-          </button>
-        </div>
-      )}
     </form>
   );
 }

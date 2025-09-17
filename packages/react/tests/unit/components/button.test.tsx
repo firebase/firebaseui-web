@@ -17,7 +17,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { Button } from "./button";
+import { Button } from "../../../src/components/button";
 
 describe("Button Component", () => {
   it("renders with default variant (primary)", () => {

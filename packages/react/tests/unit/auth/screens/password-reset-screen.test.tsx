@@ -16,7 +16,7 @@
 
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { render, fireEvent } from "@testing-library/react";
-import { PasswordResetScreen } from "~/auth/screens/forgot-password-auth-screen";
+import { PasswordResetScreen } from "~/auth/screens/password-reset-screen";
 import * as hooks from "~/hooks";
 
 // Mock the hooks

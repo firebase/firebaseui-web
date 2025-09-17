@@ -14,17 +14,24 @@
  * limitations under the License.
  */
 
-import { ComponentProps } from "react";
+import { ButtonHTMLAttributes } from "react";
 import { Slot } from "@radix-ui/react-slot";
-import { buttonVariant, type ButtonVariant } from "@firebase-ui/styles";
 import { cn } from "~/utils/cn";
 
-export type ButtonProps = ComponentProps<"button"> & {
+const buttonVariants = {
+  primary: "fui-button",
+  secondary: "fui-button fui-button--secondary",
+} as const;
+
+type ButtonVariant = keyof typeof buttonVariants;
+
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   asChild?: boolean;
-};
+}
 
 export function Button({ className, variant = "primary", asChild, ...props }: ButtonProps) {
   const Comp = asChild ? Slot : "button";
-  return <Comp className={cn(buttonVariant({ variant }), className)} {...props} />;
+
+  return <Comp className={cn(buttonVariants[variant], className)} {...props} />;
 }

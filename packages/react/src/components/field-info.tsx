@@ -15,12 +15,12 @@
  */
 
 import type { FieldApi } from "@tanstack/react-form";
-import { ComponentProps } from "react";
+import { HTMLAttributes } from "react";
 import { cn } from "~/utils/cn";
 
-export type FieldInfoProps<TData> = ComponentProps<"div"> & {
+interface FieldInfoProps<TData> extends HTMLAttributes<HTMLDivElement> {
   field: FieldApi<TData, any>;
-};
+}
 
 export function FieldInfo<TData>({ field, className, ...props }: FieldInfoProps<TData>) {
   return (

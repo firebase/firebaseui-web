@@ -16,9 +16,9 @@
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderHook } from "@testing-library/react";
-import { useUI } from "./hooks";
+import { useUI, useAuth } from "../../../src/hooks";
 import { getAuth } from "firebase/auth";
-import { FirebaseUIContext } from "./context";
+import { FirebaseUIContext } from "../../../src/context";
 
 // Mock Firebase
 vi.mock("firebase/auth", () => ({
@@ -59,11 +59,20 @@ describe("Hooks", () => {
     vi.clearAllMocks();
   });
 
-  describe("useUI", () => {
+  describe("useConfig", () => {
     it("returns the config from context", () => {
       const { result } = renderHook(() => useUI(), { wrapper });
 
       expect(result.current).toEqual(mockConfig);
+    });
+  });
+
+  describe("useAuth", () => {
+    it("returns the authentication instance from Firebase", () => {
+      const { result } = renderHook(() => useAuth(), { wrapper });
+
+      expect(getAuth).toHaveBeenCalledWith(mockApp);
+      expect(result.current).toBeDefined();
     });
   });
 });

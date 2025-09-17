@@ -18,9 +18,9 @@
 
 import {
   confirmPhoneNumber,
-  CountryCode,
+  CountryData,
   countryData,
-  createPhoneAuthFormSchema,
+  createPhoneFormSchema,
   FirebaseUIError,
   formatPhoneNumberWithCountry,
   getTranslation,
@@ -30,7 +30,7 @@ import { useForm } from "@tanstack/react-form";
 import { ConfirmationResult, RecaptchaVerifier } from "firebase/auth";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { z } from "zod";
-import { useUI } from "~/hooks";
+import { useAuth, useUI } from "~/hooks";
 import { Button } from "../../components/button";
 import { CountrySelector } from "../../components/country-selector";
 import { FieldInfo } from "../../components/field-info";
@@ -46,14 +46,12 @@ interface PhoneNumberFormProps {
 function PhoneNumberForm({ onSubmit, formError, recaptchaVerifier, recaptchaContainerRef }: PhoneNumberFormProps) {
   const ui = useUI();
 
-  // TODO(ehesp): How does this support allowed countries?
-  // TODO(ehesp): How does this support default country?
-  const [selectedCountry, setSelectedCountry] = useState<CountryCode>(countryData[0].code);
+  const [selectedCountry, setSelectedCountry] = useState<CountryData>(countryData[0]);
   const [firstValidationOccured, setFirstValidationOccured] = useState(false);
 
   const phoneFormSchema = useMemo(
     () =>
-      createPhoneAuthFormSchema(ui).pick({
+      createPhoneFormSchema(ui).pick({
         phoneNumber: true,
       }),
     [ui]
@@ -68,12 +66,10 @@ function PhoneNumberForm({ onSubmit, formError, recaptchaVerifier, recaptchaCont
       onSubmit: phoneFormSchema,
     },
     onSubmit: async ({ value }) => {
-      const formattedNumber = formatPhoneNumberWithCountry(value.phoneNumber, selectedCountry);
+      const formattedNumber = formatPhoneNumberWithCountry(value.phoneNumber, selectedCountry.dialCode);
       await onSubmit(formattedNumber);
     },
   });
-
-  // TODO(ehesp): Country data onChange types are not matching
 
   return (
     <form
@@ -95,7 +91,7 @@ function PhoneNumberForm({ onSubmit, formError, recaptchaVerifier, recaptchaCont
                 <div className="fui-phone-input">
                   <CountrySelector
                     value={selectedCountry}
-                    onChange={(code) => setSelectedCountry(code as CountryCode)}
+                    onChange={setSelectedCountry}
                     className="fui-phone-input__country-selector"
                   />
                   <input
@@ -206,7 +202,7 @@ function VerificationForm({
 
   const verificationFormSchema = useMemo(
     () =>
-      createPhoneAuthFormSchema(ui).pick({
+      createPhoneFormSchema(ui).pick({
         verificationCode: true,
       }),
     [ui]
@@ -295,12 +291,13 @@ function VerificationForm({
   );
 }
 
-export type PhoneAuthFormProps = {
+export interface PhoneFormProps {
   resendDelay?: number;
 }
 
-export function PhoneAuthForm({ resendDelay = 30 }: PhoneAuthFormProps) {
+export function PhoneForm({ resendDelay = 30 }: PhoneFormProps) {
   const ui = useUI();
+  const auth = useAuth(ui);
 
   const [formError, setFormError] = useState<string | null>(null);
   const [confirmationResult, setConfirmationResult] = useState<ConfirmationResult | null>(null);
@@ -313,9 +310,8 @@ export function PhoneAuthForm({ resendDelay = 30 }: PhoneAuthFormProps) {
   useEffect(() => {
     if (!recaptchaContainerRef.current) return;
 
-    const verifier = new RecaptchaVerifier(ui.auth, recaptchaContainerRef.current, {
-      // size: ui.recaptchaMode ?? "normal", TODO(ehesp): Get this from the useRecaptchaVerifier hook once implemented
-      size: "normal",
+    const verifier = new RecaptchaVerifier(auth, recaptchaContainerRef.current, {
+      size: ui.recaptchaMode ?? "normal",
     });
 
     setRecaptchaVerifier(verifier);
@@ -324,7 +320,7 @@ export function PhoneAuthForm({ resendDelay = 30 }: PhoneAuthFormProps) {
       verifier.clear();
       setRecaptchaVerifier(null);
     };
-  }, [ui]);
+  }, [auth, ui.recaptchaMode]);
 
   const handlePhoneSubmit = async (number: string) => {
     setFormError(null);
@@ -360,9 +356,8 @@ export function PhoneAuthForm({ resendDelay = 30 }: PhoneAuthFormProps) {
         recaptchaVerifier.clear();
       }
 
-      const verifier = new RecaptchaVerifier(ui.auth, recaptchaContainerRef.current, {
-        // size: ui.recaptchaMode ?? "normal", // TODO(ehesp): Get this from the useRecaptchaVerifier hook once implemented
-        size: "normal",
+      const verifier = new RecaptchaVerifier(auth, recaptchaContainerRef.current, {
+        size: ui.recaptchaMode ?? "normal",
       });
       setRecaptchaVerifier(verifier);
 

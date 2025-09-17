@@ -15,8 +15,8 @@
  */
 
 import { describe, it, expect } from "vitest";
-import { render } from "@testing-library/react";
-import { FirebaseUIProvider, FirebaseUIContext } from "./context";
+import { render, act } from "@testing-library/react";
+import { FirebaseUIProvider, FirebaseUIContext } from "../../../src/context";
 import { map } from "nanostores";
 import { useContext } from "react";
 import { FirebaseUI, FirebaseUIConfiguration } from "@firebase-ui/core";
@@ -43,27 +43,26 @@ describe("ConfigProvider", () => {
     expect(getByTestId("test-value").textContent).toBe("en-US");
   });
 
-  // TODO(ehesp): This test is not working
-  it.skip("updates when the config store changes", () => {
-    // // Create a mock config store
-    // const mockConfig = map<Pick<FirebaseUIConfiguration, "locale">>({
-    //   locale: "en-US",
-    // }) as FirebaseUI;
+  it("updates when the config store changes", () => {
+    // Create a mock config store
+    const mockConfig = map<Pick<FirebaseUIConfiguration, "locale">>({
+      locale: "en-US",
+    }) as FirebaseUI;
 
-    // const { getByTestId } = render(
-    //   <FirebaseUIProvider ui={mockConfig}>
-    //     <TestConsumer />
-    //   </FirebaseUIProvider>
-    // );
+    const { getByTestId } = render(
+      <FirebaseUIProvider ui={mockConfig}>
+        <TestConsumer />
+      </FirebaseUIProvider>
+    );
 
-    // expect(getByTestId("test-value").textContent).toBe("en-US");
+    expect(getByTestId("test-value").textContent).toBe("en-US");
 
-    // // Update the config store inside act()
-    // act(() => {
-    //   mockConfig.setKey("locale", "fr-FR");
-    // });
+    // Update the config store inside act()
+    act(() => {
+      mockConfig.setKey("locale", "fr-FR");
+    });
 
-    // // Check that the context value was updated
-    // expect(getByTestId("test-value").textContent).toBe("fr-FR");
+    // Check that the context value was updated
+    expect(getByTestId("test-value").textContent).toBe("fr-FR");
   });
 });

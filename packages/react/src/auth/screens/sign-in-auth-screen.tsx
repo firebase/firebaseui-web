@@ -18,12 +18,15 @@ import type { PropsWithChildren } from "react";
 import { getTranslation } from "@firebase-ui/core";
 import { Divider } from "~/components/divider";
 import { useUI } from "~/hooks";
-import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "../../components/card";
-import { SignInAuthForm, type SignInAuthFormProps } from "../forms/sign-in-auth-form";
+import { Card, CardHeader, CardSubtitle, CardTitle } from "../../components/card";
+import { EmailPasswordForm } from "../forms/email-password-form";
 
-export type SignInAuthScreenProps = PropsWithChildren<SignInAuthFormProps>;
+export type SignInAuthScreenProps = PropsWithChildren<{
+  onForgotPasswordClick?: () => void;
+  onRegisterClick?: () => void;
+}>;
 
-export function SignInAuthScreen({ children, ...props }: SignInAuthScreenProps) {
+export function SignInAuthScreen({ onForgotPasswordClick, onRegisterClick, children }: SignInAuthScreenProps) {
   const ui = useUI();
 
   const titleText = getTranslation(ui, "labels", "signIn");
@@ -36,15 +39,13 @@ export function SignInAuthScreen({ children, ...props }: SignInAuthScreenProps) 
           <CardTitle>{titleText}</CardTitle>
           <CardSubtitle>{subtitleText}</CardSubtitle>
         </CardHeader>
-        <CardContent>
-          <SignInAuthForm {...props} />
-          {children ? (
-            <>
-              <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>
-              <div className="space-y-4">{children}</div>
-            </>
-          ) : null}
-        </CardContent>
+        <EmailPasswordForm onForgotPasswordClick={onForgotPasswordClick} onRegisterClick={onRegisterClick} />
+        {children ? (
+          <>
+            <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>
+            <div className="space-y-4">{children}</div>
+          </>
+        ) : null}
       </Card>
     </div>
   );

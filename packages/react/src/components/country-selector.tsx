@@ -16,42 +16,33 @@
 
 "use client";
 
-import { CountryCode, countryData, getCountryByCode } from "@firebase-ui/core";
-import { ComponentProps } from "react";
+import { CountryData, countryData } from "@firebase-ui/core";
 import { cn } from "~/utils/cn";
 
-export type CountrySelectorProps = ComponentProps<"div"> & {
-  value: CountryCode;
-  onChange: (code: CountryCode) => void;
-  allowedCountries?: CountryCode[];
-};
+interface CountrySelectorProps {
+  value: CountryData;
+  onChange: (country: CountryData) => void;
+  className?: string;
+}
 
-export function CountrySelector({ value, onChange, allowedCountries, className, ...props }: CountrySelectorProps) {
-
-  const country = getCountryByCode(value);
-  const countries = allowedCountries ? countryData.filter((c) => allowedCountries.includes(c.code)) : countryData;
-
-  if (!country) {
-    return null;
-  }
-
+export function CountrySelector({ value, onChange, className }: CountrySelectorProps) {
   return (
-    <div className={cn("fui-country-selector", className)} {...props}>
+    <div className={cn("fui-country-selector", className)}>
       <div className="fui-country-selector__wrapper">
-        <span className="fui-country-selector__flag">{country.emoji}</span>
+        <span className="fui-country-selector__flag">{value.emoji}</span>
         <div className="fui-country-selector__select-wrapper">
-          <span className="fui-country-selector__dial-code">{country.dialCode}</span>
+          <span className="fui-country-selector__dial-code">{value.dialCode}</span>
           <select
             className="fui-country-selector__select"
-            value={country.code}
+            value={value.code}
             onChange={(e) => {
-              const country = getCountryByCode(e.target.value as CountryCode);
+              const country = countryData.find((c) => c.code === e.target.value);
               if (country) {
-                onChange(country.code);
+                onChange(country);
               }
             }}
           >
-            {countries.map((country) => (
+            {countryData.map((country) => (
               <option key={`${country.code}-${country.dialCode}`} value={country.code}>
                 {country.dialCode} ({country.name})
               </option>

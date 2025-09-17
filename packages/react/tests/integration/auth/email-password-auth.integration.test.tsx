@@ -16,7 +16,7 @@
 
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { screen, fireEvent, waitFor, act, render } from "@testing-library/react";
-import { SignInAuthForm } from "../src";
+import { EmailPasswordForm } from "../../../src/auth/forms/email-password-form";
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
@@ -79,7 +79,7 @@ describe("Email Password Authentication Integration", () => {
   it("should successfully sign in with email and password using actual Firebase Auth", async () => {
     const { container } = render(
       <FirebaseUIProvider ui={ui}>
-        <SignInAuthForm />
+        <EmailPasswordForm />
       </FirebaseUIProvider>
     );
 
@@ -117,7 +117,7 @@ describe("Email Password Authentication Integration", () => {
   it("should fail when using invalid credentials", async () => {
     const { container } = render(
       <FirebaseUIProvider ui={ui}>
-        <SignInAuthForm />
+        <EmailPasswordForm />
       </FirebaseUIProvider>
     );
 
@@ -155,7 +155,7 @@ describe("Email Password Authentication Integration", () => {
   it("should show an error message for invalid credentials", async () => {
     const { container } = render(
       <FirebaseUIProvider ui={ui}>
-        <SignInAuthForm />
+        <EmailPasswordForm />
       </FirebaseUIProvider>
     );
 

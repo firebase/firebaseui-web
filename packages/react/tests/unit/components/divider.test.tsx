@@ -17,7 +17,7 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { Divider } from "./divider";
+import { Divider } from "../../../src/components/divider";
 
 describe("Divider Component", () => {
   it("renders a divider with no text", () => {

@@ -18,12 +18,12 @@ import type { PropsWithChildren } from "react";
 import { getTranslation } from "@firebase-ui/core";
 import { Divider } from "~/components/divider";
 import { useUI } from "~/hooks";
-import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "../../components/card";
-import { EmailLinkAuthForm, type EmailLinkAuthFormProps } from "../forms/email-link-auth-form";
+import { Card, CardHeader, CardSubtitle, CardTitle } from "../../components/card";
+import { EmailLinkForm } from "../forms/email-link-form";
 
-export type EmailLinkAuthScreenProps = PropsWithChildren<EmailLinkAuthFormProps>;
+export type EmailLinkAuthScreenProps = PropsWithChildren;
 
-export function EmailLinkAuthScreen({ children, onEmailSent }: EmailLinkAuthScreenProps) {
+export function EmailLinkAuthScreen({ children }: EmailLinkAuthScreenProps) {
   const ui = useUI();
 
   const titleText = getTranslation(ui, "labels", "signIn");
@@ -36,15 +36,13 @@ export function EmailLinkAuthScreen({ children, onEmailSent }: EmailLinkAuthScre
           <CardTitle>{titleText}</CardTitle>
           <CardSubtitle>{subtitleText}</CardSubtitle>
         </CardHeader>
-        <CardContent>
-          <EmailLinkAuthForm onEmailSent={onEmailSent} />
-          {children ? (
-            <>
-              <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>
-              <div className="space-y-4">{children}</div>
-            </>
-          ) : null}
-        </CardContent>
+        <EmailLinkForm />
+        {children ? (
+          <>
+            <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>
+            <div className="space-y-4">{children}</div>
+          </>
+        ) : null}
       </Card>
     </div>
   );

@@ -18,7 +18,7 @@ import { getTranslation } from "@firebase-ui/core";
 import { createContext, useContext } from "react";
 import { useUI } from "~/hooks";
 
-export type PolicyURL =
+type Url =
   | string
   | URL
   | (() => string | URL | void)
@@ -26,8 +26,8 @@ export type PolicyURL =
   | (() => Promise<string | URL | void>);
 
 export interface PolicyProps {
-  termsOfServiceUrl: PolicyURL;
-  privacyPolicyUrl: PolicyURL;
+  termsOfServiceUrl: Url;
+  privacyPolicyUrl: Url;
 }
 
 const PolicyContext = createContext<PolicyProps | undefined>(undefined);
@@ -46,7 +46,7 @@ export function Policies() {
 
   const { termsOfServiceUrl, privacyPolicyUrl } = policies;
 
-  async function handleUrl(urlOrFunction: PolicyURL) {
+  async function handleUrl(urlOrFunction: Url) {
     let url: string | URL | void;
 
     if (typeof urlOrFunction === "function") {

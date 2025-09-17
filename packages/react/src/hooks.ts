@@ -14,18 +14,25 @@
  * limitations under the License.
  */
 
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
+import { getAuth } from "firebase/auth";
 import { FirebaseUIContext } from "./context";
+import { FirebaseUIConfiguration } from "@firebase-ui/core";
 
 /**
  * Get the UI configuration from the context.
  */
 export function useUI() {
-  const ui = useContext(FirebaseUIContext);
+  return useContext(FirebaseUIContext);
+}
 
-  if (!ui) {
-    throw new Error("No FirebaseUI context found. Your application must be wrapped in a <FirebaseUIProvider> component.");
-  }
-
-  return ui;
+/**
+ * Get the auth instance from the UI configuration.
+ * If no UI configuration is provided, use the auth instance from the context.
+ */
+export function useAuth(ui?: FirebaseUIConfiguration | undefined) {
+  const contextUI = useUI();
+  const config = ui ?? contextUI;
+  const auth = useMemo(() => ui?.getAuth() ?? getAuth(config.app), [config.app]);
+  return auth;
 }

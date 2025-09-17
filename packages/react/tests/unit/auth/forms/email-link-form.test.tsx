@@ -16,7 +16,7 @@
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent, act } from "@testing-library/react";
-import { EmailLinkAuthForm } from "./email-link-auth-form";
+import { EmailLinkForm } from "../../../../src/auth/forms/email-link-form";
 
 // Mock Firebase UI Core
 vi.mock("@firebase-ui/core", async (importOriginal) => {
@@ -154,7 +154,7 @@ vi.mock("react", async () => {
 const mockSendSignInLink = vi.mocked(sendSignInLinkToEmail);
 const mockCompleteEmailLink = vi.mocked(completeEmailLinkSignIn);
 
-describe("EmailLinkAuthForm", () => {
+describe("EmailLinkForm", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     // Reset the global state
@@ -164,7 +164,7 @@ describe("EmailLinkAuthForm", () => {
   });
 
   it("renders the email link form", () => {
-    render(<EmailLinkAuthForm />);
+    render(<EmailLinkForm />);
 
     expect(screen.getByLabelText("Email")).toBeInTheDocument();
     expect(screen.getByText("sendSignInLink")).toBeInTheDocument();
@@ -173,7 +173,7 @@ describe("EmailLinkAuthForm", () => {
   it("attempts to complete email link sign-in on load", () => {
     mockCompleteEmailLink.mockResolvedValue(null);
 
-    render(<EmailLinkAuthForm />);
+    render(<EmailLinkForm />);
 
     expect(mockCompleteEmailLink).toHaveBeenCalled();
   });
@@ -181,7 +181,7 @@ describe("EmailLinkAuthForm", () => {
   it("submits the form and sends sign-in link to email", async () => {
     mockSendSignInLink.mockResolvedValue(undefined);
 
-    const { container } = render(<EmailLinkAuthForm />);
+    const { container } = render(<EmailLinkForm />);
 
     // Get the form element
     const form = container.getElementsByClassName("fui-form")[0] as HTMLFormElement;
@@ -199,45 +199,44 @@ describe("EmailLinkAuthForm", () => {
     expect(mockSendSignInLink).toHaveBeenCalledWith(expect.anything(), "test@example.com");
   });
 
-  // TODO(ehesp): Fix this test
-  it.skip("handles error when sending email link fails", async () => {
-    // // Mock the error that will be thrown
-    // const mockError = new FirebaseUIError({
-    //   code: "auth/invalid-email",
-    //   message: "Invalid email",
-    // });
-    // mockSendSignInLink.mockRejectedValue(mockError);
+  it("handles error when sending email link fails", async () => {
+    // Mock the error that will be thrown
+    const mockError = new FirebaseUIError({
+      code: "auth/invalid-email",
+      message: "Invalid email",
+    });
+    mockSendSignInLink.mockRejectedValue(mockError);
 
-    // const { container } = render(<EmailLinkAuthForm />);
+    const { container } = render(<EmailLinkForm />);
 
-    // // Get the form element
-    // const form = container.getElementsByClassName("fui-form")[0] as HTMLFormElement;
+    // Get the form element
+    const form = container.getElementsByClassName("fui-form")[0] as HTMLFormElement;
 
-    // // Set up the form submit handler to simulate error
-    // (global as any).formOnSubmit = async () => {
-    //   try {
-    //     // Simulate the action that would throw an error
-    //     await sendSignInLinkToEmail(expect.anything(), "invalid-email");
-    //   } catch (_error) {
-    //     // Simulate the error being caught and error state being set
-    //     setFormErrorMock("Invalid email");
-    //     // Don't rethrow the error - we've handled it here
-    //   }
-    // };
+    // Set up the form submit handler to simulate error
+    (global as any).formOnSubmit = async () => {
+      try {
+        // Simulate the action that would throw an error
+        await sendSignInLinkToEmail(expect.anything(), "invalid-email");
+      } catch (_error) {
+        // Simulate the error being caught and error state being set
+        setFormErrorMock("Invalid email");
+        // Don't rethrow the error - we've handled it here
+      }
+    };
 
-    // // Submit the form
-    // await act(async () => {
-    //   fireEvent.submit(form);
-    // });
+    // Submit the form
+    await act(async () => {
+      fireEvent.submit(form);
+    });
 
-    // // Verify that the error state was updated
-    // expect(setFormErrorMock).toHaveBeenCalledWith("Invalid email");
+    // Verify that the error state was updated
+    expect(setFormErrorMock).toHaveBeenCalledWith("Invalid email");
   });
 
   it("handles success when email is sent", async () => {
     mockSendSignInLink.mockResolvedValue(undefined);
 
-    const { container } = render(<EmailLinkAuthForm />);
+    const { container } = render(<EmailLinkForm />);
 
     // Get the form element
     const form = container.getElementsByClassName("fui-form")[0] as HTMLFormElement;
@@ -258,7 +257,7 @@ describe("EmailLinkAuthForm", () => {
   });
 
   it("validates on blur for the first time", async () => {
-    render(<EmailLinkAuthForm />);
+    render(<EmailLinkForm />);
 
     const emailInput = screen.getByLabelText("Email");
 
@@ -271,7 +270,7 @@ describe("EmailLinkAuthForm", () => {
   });
 
   it("validates on input after first blur", async () => {
-    render(<EmailLinkAuthForm />);
+    render(<EmailLinkForm />);
 
     const emailInput = screen.getByLabelText("Email");
 

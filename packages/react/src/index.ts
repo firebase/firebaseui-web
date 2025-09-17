@@ -17,4 +17,4 @@
 export * from "./auth";
 export * from "./hooks";
 export * from "./components";
-export { FirebaseUIProvider, type FirebaseUIProviderProps } from "./context";
+export { FirebaseUIProvider as ConfigProvider } from "./context";
