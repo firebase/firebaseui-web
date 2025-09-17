@@ -27,5 +27,7 @@ export default mergeConfig(viteConfig, {
     // Exclude build output and node_modules
     exclude: ["node_modules/**/*", "dist/**/*"],
     setupFiles: ["./setup-test.ts"],
+    // Only see logs from failing tests.
+    silent: 'passed-only',
   },
 });

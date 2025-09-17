@@ -15,9 +15,10 @@
  */
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { renderHook, act } from "@testing-library/react";
-import { useUI } from "./hooks";
+import { renderHook, act, cleanup } from "@testing-library/react";
+import { useUI, useSignInAuthFormSchema } from "./hooks";
 import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
+import { registerLocale } from "@firebase-ui/translations";
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -98,4 +99,123 @@ describe("useUI", () => {
     expect(results[0]).toBe(results[1]);
     expect(results[0].state).toBe(results[1].state);
   });
+});
+
+describe("useSignInAuthFormSchema", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    cleanup();
+  });
+
+
+  it("returns schema with default English error messages", () => {
+    const mockUI = createMockUI();
+
+    const { result } = renderHook(() => useSignInAuthFormSchema(), { 
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI })
+    });
+
+    const schema = result.current;
+    
+    // Test invalid email validation - should use default English message
+    const emailResult = schema.safeParse({ email: "invalid-email", password: "validpassword123" });
+    expect(emailResult.success).toBe(false);
+    if (!emailResult.success) {
+      expect(emailResult.error.issues[0].message).toBe("Please enter a valid email address");
+    }
+    
+    // Test weak password validation - should use default English message
+    const passwordResult = schema.safeParse({ email: "test@example.com", password: "123" });
+    expect(passwordResult.success).toBe(false);
+    if (!passwordResult.success) {
+      expect(passwordResult.error.issues[0].message).toBe("Password should be at least 8 characters");
+    }
+  });
+
+  it("returns schema with custom error messages when locale changes", () => {
+    const customTranslations = {
+      errors: {
+        invalidEmail: "Por favor ingresa un email válido",
+        weakPassword: "La contraseña debe tener al menos 8 caracteres",
+      },
+    };
+    
+    const customLocale = registerLocale("es-ES", customTranslations);
+    const mockUI = createMockUI({ locale: customLocale });
+
+    const { result } = renderHook(() => useSignInAuthFormSchema(), { 
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI })
+    });
+
+    const schema = result.current;
+    
+    // Test invalid email validation with custom message
+    const emailResult = schema.safeParse({ email: "invalid-email", password: "validpassword123" });
+    expect(emailResult.success).toBe(false);
+    if (!emailResult.success) {
+      expect(emailResult.error.issues[0].message).toBe("Por favor ingresa un email válido");
+    }
+    
+    // Test weak password validation with custom message
+    const passwordResult = schema.safeParse({ email: "test@example.com", password: "123" });
+    expect(passwordResult.success).toBe(false);
+    if (!passwordResult.success) {
+      expect(passwordResult.error.issues[0].message).toBe("La contraseña debe tener al menos 8 caracteres");
+    }
+  });
+
+
+  it("returns stable reference when UI hasn't changed", () => {
+    const mockUI = createMockUI();
+
+    const { result, rerender } = renderHook(() => useSignInAuthFormSchema(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI })
+    });
+
+    const initialSchema = result.current;
+
+    // Re-render without changing UI
+    rerender();
+    
+    // The returned schema should be the same reference due to useMemo
+    expect(result.current).toBe(initialSchema);
+  });
+
+  it("returns new schema when locale changes", () => {
+    const mockUI = createMockUI();
+
+    const { result, rerender } = renderHook(() => useSignInAuthFormSchema(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI })
+    });
+
+    const initialSchema = result.current;
+
+    // Change the locale
+    const customTranslations = {
+      errors: {
+        invalidEmail: "Custom email error",
+        weakPassword: "Custom password error",
+      },
+    };
+    const customLocale = registerLocale("fr-FR", customTranslations);
+    
+    act(() => {
+      mockUI.setKey("locale", customLocale);
+    });
+
+    // Re-render after locale change
+    rerender();
+    
+    // The returned schema should be a different reference due to locale change
+    expect(result.current).not.toBe(initialSchema);
+    
+    // The new schema should have the custom error messages
+    const emailResult = result.current.safeParse({ email: "invalid-email", password: "validpassword123" });
+    expect(emailResult.success).toBe(false);
+    
+    if (!emailResult.success) {
+      expect(emailResult.error.issues[0].message).toBe("Custom email error");
+    }
+  });
+
 });

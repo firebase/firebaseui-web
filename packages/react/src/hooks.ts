@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { FirebaseUIContext } from "./context";
+import { createSignInAuthFormSchema } from "@firebase-ui/core";
 
 /**
  * Get the UI configuration from the context.
@@ -28,4 +29,9 @@ export function useUI() {
   }
 
   return ui;
+}
+
+export function useSignInAuthFormSchema() {
+  const ui = useUI();
+  return useMemo(() => createSignInAuthFormSchema(ui), [ui]);
 }
