@@ -28,6 +28,7 @@ vi.mock('@firebase-ui/core', async (importOriginal) => {
   return {
     ...(mod as object),
     signInWithProvider: vi.fn(),
+    // TODO: This will need updating when core lands
     FirebaseUIError: class FirebaseUIError extends Error {
       code: string;
       constructor(error: any, _ui: any) {
@@ -90,7 +91,7 @@ describe("<OAuthButton />", () => {
     );
 
     const button = screen.getByTestId("oauth-button");
-    expect(button.className).toContain("fui-provider__button");
+    expect(button).toHaveClass("fui-provider__button");
     expect(button.getAttribute("type")).toBe("button");
   });
 
