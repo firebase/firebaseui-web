@@ -16,7 +16,7 @@
 
 "use client";
 
-import { FirebaseUIError, getTranslation, signInWithOAuth } from "@firebase-ui/core";
+import { FirebaseUIError, getTranslation, signInWithProvider } from "@firebase-ui/core";
 import type { AuthProvider } from "firebase/auth";
 import type { PropsWithChildren } from "react";
 import { useState } from "react";
@@ -35,7 +35,7 @@ export function OAuthButton({ provider, children }: OAuthButtonProps) {
   const handleOAuthSignIn = async () => {
     setError(null);
     try {
-      await signInWithOAuth(ui, provider);
+      await signInWithProvider(ui, provider);
     } catch (error) {
       if (error instanceof FirebaseUIError) {
         setError(error.message);

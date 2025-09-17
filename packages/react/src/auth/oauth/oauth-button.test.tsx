@@ -4,7 +4,6 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -14,99 +13,227 @@
  * limitations under the License.
  */
 
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import "@testing-library/jest-dom";
-import { OAuthButton } from "../../../../src/auth/oauth/oauth-button";
+import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
+import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import { OAuthButton } from "./oauth-button";
+import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
+import { registerLocale } from "@firebase-ui/translations";
 import type { AuthProvider } from "firebase/auth";
-import { signInWithOAuth } from "@firebase-ui/core";
+import { ComponentProps } from "react";
 
-// Mock signInWithOAuth function
-vi.mock("@firebase-ui/core", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@firebase-ui/core")>();
+import { signInWithProvider } from "@firebase-ui/core";
+
+vi.mock('@firebase-ui/core', async (importOriginal) => {
+  const mod = await importOriginal();
   return {
-    ...mod,
-    signInWithOAuth: vi.fn(),
+    ...(mod as object),
+    signInWithProvider: vi.fn(),
+    // TODO: This will need updating when core lands
+    FirebaseUIError: class FirebaseUIError extends Error {
+      code: string;
+      constructor(error: any, _ui: any) {
+        const errorCode = error?.code || "unknown";
+        const message = errorCode === "auth/user-not-found" 
+          ? "No account found with this email address"
+          : errorCode === "auth/wrong-password"
+          ? "The password is invalid or the user does not have a password"
+          : "An unexpected error occurred";
+        super(message);
+        this.name = "FirebaseUIError";
+        this.code = errorCode;
+      }
+    },
   };
 });
 
-// Create a mock provider that matches the AuthProvider interface
-const mockGoogleProvider = { providerId: "google.com" } as AuthProvider;
+vi.mock("~/components/button", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("~/components/button")>();
+  return {
+    ...mod,
+    Button: (props: ComponentProps<"button">) => (
+      <mod.Button data-testid="oauth-button" {...props} />
+    ),
+  }
+});
 
-// Mock React hooks from the package
-const useAuthMock = vi.fn();
+afterEach(() => {
+  cleanup();
+});
 
-vi.mock("../../../../src/hooks", () => ({
-  useAuth: () => useAuthMock(),
-  useUI: () => vi.fn(),
-}));
+describe("<OAuthButton />", () => {
+  const mockGoogleProvider = { providerId: "google.com" } as AuthProvider;
 
-// Mock the Button component
-vi.mock("../../../../src/components/button", () => ({
-  Button: ({ children, onClick, disabled }: any) => (
-    <button onClick={onClick} disabled={disabled} data-testid="oauth-button">
-      {children}
-    </button>
-  ),
-}));
-
-describe("OAuthButton Component", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it("renders a button with the provided children", () => {
-    render(<OAuthButton provider={mockGoogleProvider}>Sign in with Google</OAuthButton>);
+    const ui = createMockUI();
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <OAuthButton provider={mockGoogleProvider}>Sign in with Google</OAuthButton>
+      </CreateFirebaseUIProvider>
+    );
 
     const button = screen.getByTestId("oauth-button");
-    expect(button).toBeInTheDocument();
-    expect(button).toHaveTextContent("Sign in with Google");
+    expect(button).toBeDefined();
+    expect(button.textContent).toBe("Sign in with Google");
   });
 
-  // TODO: Fix this test
-  it.skip("calls signInWithOAuth when clicked", async () => {
-    // Mock the signInWithOAuth to resolve immediately
-    vi.mocked(signInWithOAuth).mockResolvedValueOnce(undefined);
+  it("applies correct CSS classes", () => {
+    const ui = createMockUI();
 
-    render(<OAuthButton provider={mockGoogleProvider}>Sign in with Google</OAuthButton>);
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <OAuthButton provider={mockGoogleProvider}>Sign in with Google</OAuthButton>
+      </CreateFirebaseUIProvider>
+    );
+
+    const button = screen.getByTestId("oauth-button");
+    expect(button).toHaveClass("fui-provider__button");
+    expect(button.getAttribute("type")).toBe("button");
+  });
+
+  it("is disabled when UI state is not idle", () => {
+    const ui = createMockUI();
+    ui.setKey("state", "pending");
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <OAuthButton provider={mockGoogleProvider}>Sign in with Google</OAuthButton>
+      </CreateFirebaseUIProvider>
+    );
+
+    const button = screen.getByTestId("oauth-button");
+    expect(button).toHaveAttribute("disabled");
+  });
+
+  it("is enabled when UI state is idle", () => {
+    const ui = createMockUI();
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <OAuthButton provider={mockGoogleProvider}>Sign in with Google</OAuthButton>
+      </CreateFirebaseUIProvider>
+    );
+
+    const button = screen.getByTestId("oauth-button");
+    expect(button).not.toHaveAttribute("disabled");
+  });
+
+  it("calls signInWithProvider when clicked", async () => {
+    const mockSignInWithProvider = vi.mocked(signInWithProvider);
+    mockSignInWithProvider.mockResolvedValue(undefined);
+
+    const ui = createMockUI();
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <OAuthButton provider={mockGoogleProvider}>Sign in with Google</OAuthButton>
+      </CreateFirebaseUIProvider>
+    );
 
     const button = screen.getByTestId("oauth-button");
     fireEvent.click(button);
 
-    await waitFor(() => {
-      expect(signInWithOAuth).toHaveBeenCalledTimes(1);
-      expect(signInWithOAuth).toHaveBeenCalledWith(expect.anything(), mockGoogleProvider);
-    });
+    expect(mockSignInWithProvider).toHaveBeenCalledTimes(1);
+    expect(mockSignInWithProvider).toHaveBeenCalledWith(expect.anything(), mockGoogleProvider);
   });
 
-  // TODO: Fix this test
-  it.skip("displays error message when non-Firebase error occurs", async () => {
+  it("displays FirebaseUIError message when FirebaseUIError occurs", async () => {
+    const { FirebaseUIError } = await import("@firebase-ui/core");
+    const mockSignInWithProvider = vi.mocked(signInWithProvider);
+    const ui = createMockUI();
+    const mockError = new FirebaseUIError({ code: "auth/user-not-found" }, ui.get());
+    mockSignInWithProvider.mockRejectedValue(mockError);
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <OAuthButton provider={mockGoogleProvider}>Sign in with Google</OAuthButton>
+      </CreateFirebaseUIProvider>
+    );
+
+    const button = screen.getByTestId("oauth-button");
+    fireEvent.click(button);
+
+    // Wait for error to appear
+    await new Promise(resolve => setTimeout(resolve, 0));
+
+    // The error message will be the translated message for auth/user-not-found
+    const errorMessage = screen.getByText("No account found with this email address");
+    expect(errorMessage).toBeDefined();
+    expect(errorMessage.className).toContain("fui-form__error");
+  });
+
+  it("displays unknown error message when non-Firebase error occurs", async () => {
+    const mockSignInWithProvider = vi.mocked(signInWithProvider);
+    const regularError = new Error("Regular error");
+    mockSignInWithProvider.mockRejectedValue(regularError);
+
     // Mock console.error to prevent test output noise
     const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 
-    // Mock a non-Firebase error to trigger console.error
-    const regularError = new Error("Regular error");
-    vi.mocked(signInWithOAuth).mockRejectedValueOnce(regularError);
+    const ui = createMockUI({
+      locale: registerLocale("test", {
+        errors: {
+          unknownError: "unknownError",
+        },
+      }),
+    });
 
-    render(<OAuthButton provider={mockGoogleProvider}>Sign in with Google</OAuthButton>);
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <OAuthButton provider={mockGoogleProvider}>Sign in with Google</OAuthButton>
+      </CreateFirebaseUIProvider>
+    );
 
     const button = screen.getByTestId("oauth-button");
-
-    // Click the button to trigger the error
     fireEvent.click(button);
 
-    // Wait for the error message to be displayed
-    await waitFor(() => {
-      // Verify console.error was called with the regular error
-      expect(consoleErrorSpy).toHaveBeenCalledWith(regularError);
+    // Wait for error to appear
+    await new Promise(resolve => setTimeout(resolve, 0));
 
-      // Verify the error message is displayed
-      const errorMessage = screen.getByText("An unknown error occurred");
-      expect(errorMessage).toBeInTheDocument();
-      expect(errorMessage).toHaveClass("fui-form__error");
-    });
+    expect(consoleErrorSpy).toHaveBeenCalledWith(regularError);
+
+    const errorMessage = screen.getByText("unknownError");
+    expect(errorMessage).toBeDefined();
+    expect(errorMessage.className).toContain("fui-form__error");
 
     // Restore console.error
     consoleErrorSpy.mockRestore();
+  });
+
+  it("clears error when button is clicked again", async () => {
+    const { FirebaseUIError } = await import("@firebase-ui/core");
+    const mockSignInWithProvider = vi.mocked(signInWithProvider);
+    const ui = createMockUI();
+    
+    // First call fails, second call succeeds
+    mockSignInWithProvider
+      .mockRejectedValueOnce(new FirebaseUIError({ code: "auth/wrong-password" }, ui.get()))
+      .mockResolvedValueOnce(undefined);
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <OAuthButton provider={mockGoogleProvider}>Sign in with Google</OAuthButton>
+      </CreateFirebaseUIProvider>
+    );
+
+    const button = screen.getByTestId("oauth-button");
+
+    // First click - should show error
+    fireEvent.click(button);
+    await new Promise(resolve => setTimeout(resolve, 0));
+
+    // The error message will be the translated message for auth/wrong-password
+    const errorMessage = screen.getByText("The password is invalid or the user does not have a password");
+    expect(errorMessage).toBeDefined();
+
+    // Second click - should clear error
+    fireEvent.click(button);
+    await new Promise(resolve => setTimeout(resolve, 0));
+
+    expect(screen.queryByText("The password is invalid or the user does not have a password")).toBeNull();
   });
 });

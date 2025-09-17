@@ -4,7 +4,6 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -14,43 +13,15 @@
  * limitations under the License.
  */
 
-import { describe, expect, it, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
+import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import { SignUpAuthScreen } from "~/auth/screens/sign-up-auth-screen";
+import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
+import { registerLocale } from "@firebase-ui/translations";
 
-// Mock hooks
-vi.mock("~/hooks", () => ({
-  useUI: () => ({
-    locale: "en-US",
-    translations: {
-      "en-US": {
-        labels: {
-          register: "Create Account",
-          dividerOr: "OR",
-        },
-        prompts: {
-          enterDetailsToCreate: "Enter your details to create an account",
-        },
-      },
-    },
-  }),
-}));
-
-// Mock translations
-// vi.mock("@firebase-ui/core", () => ({
-//   getTranslation: vi.fn((category, key) => {
-//     if (category === "labels" && key === "register") return "Create Account";
-//     if (category === "prompts" && key === "enterDetailsToCreate")
-//       return "Enter your details to create an account";
-//     if (category === "messages" && key === "dividerOr") return "OR";
-//     return `${category}.${key}`;
-//   }),
-// }));
-
-// Mock RegisterForm component
-vi.mock("~/auth/forms/register-form", () => ({
-  RegisterForm: ({ onBackToSignInClick }: { onBackToSignInClick?: () => void }) => (
-    <div data-testid="register-form">
+vi.mock("~/auth/forms/sign-up-auth-form", () => ({
+  SignUpAuthForm: ({ onBackToSignInClick }: { onBackToSignInClick?: () => void }) => (
+    <div data-testid="sign-up-auth-form">
       <button data-testid="back-to-sign-in-button" onClick={onBackToSignInClick}>
         Back to Sign In
       </button>
@@ -58,44 +29,135 @@ vi.mock("~/auth/forms/register-form", () => ({
   ),
 }));
 
-describe("SignUpAuthScreen", () => {
-  it("renders the correct title and subtitle", () => {
-    render(<SignUpAuthScreen />);
+vi.mock("~/components/divider", async (originalModule) => {
+  const module = await originalModule();
+  return {
+    ...(module as object),
+    Divider: ({ children }: { children: React.ReactNode }) => (
+      <div data-testid="divider">{children}</div>
+    ),
+  };
+});
 
-    expect(screen.getByText("Create Account")).toBeInTheDocument();
-    expect(screen.getByText("Enter your details to create an account")).toBeInTheDocument();
+describe("<SignUpAuthScreen />", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
   });
 
-  it("includes the RegisterForm component", () => {
-    render(<SignUpAuthScreen />);
-
-    expect(screen.getByTestId("register-form")).toBeInTheDocument();
+  afterEach(() => {
+    cleanup();
   });
 
-  it("passes the onBackToSignInClick prop to the RegisterForm", async () => {
-    const onBackToSignInClick = vi.fn();
-    render(<SignUpAuthScreen onBackToSignInClick={onBackToSignInClick} />);
+  it("renders with correct title and subtitle", () => {
+    const ui = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          register: "register",
+        },
+        prompts: {
+          enterDetailsToCreate: "enterDetailsToCreate",
+        },
+      }),
+    });
 
-    const backButton = screen.getByTestId("back-to-sign-in-button");
-    backButton.click();
-
-    expect(onBackToSignInClick).toHaveBeenCalled();
-  });
-
-  it("renders children when provided", () => {
     render(
-      <SignUpAuthScreen>
-        <div data-testid="test-child">Child element</div>
-      </SignUpAuthScreen>
+      <CreateFirebaseUIProvider ui={ui}>
+        <SignUpAuthScreen />
+      </CreateFirebaseUIProvider>
     );
 
-    expect(screen.getByTestId("test-child")).toBeInTheDocument();
-    expect(screen.getByText("or")).toBeInTheDocument();
+    const title = screen.getByText("register");
+    expect(title).toBeDefined();
+    expect(title.className).toContain("fui-card__title");
+
+    const subtitle = screen.getByText("enterDetailsToCreate");
+    expect(subtitle).toBeDefined();
+    expect(subtitle.className).toContain("fui-card__subtitle");
   });
 
-  it("does not render divider or children container when no children are provided", () => {
-    render(<SignUpAuthScreen />);
+  it("renders the <SignUpAuthForm /> component", () => {
+    const ui = createMockUI();
 
-    expect(screen.queryByText("or")).not.toBeInTheDocument();
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <SignUpAuthScreen />
+      </CreateFirebaseUIProvider>
+    );
+
+    // Mocked so only has as test id
+    expect(screen.getByTestId("sign-up-auth-form")).toBeDefined();
+  });
+
+  it("passes onBackToSignInClick to SignUpAuthForm", () => {
+    const mockOnBackToSignInClick = vi.fn();
+    const ui = createMockUI();
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <SignUpAuthScreen onBackToSignInClick={mockOnBackToSignInClick} />
+      </CreateFirebaseUIProvider>
+    );
+
+    const backButton = screen.getByTestId("back-to-sign-in-button");
+    fireEvent.click(backButton);
+
+    expect(mockOnBackToSignInClick).toHaveBeenCalledTimes(1);
+  });
+
+  it("renders a divider with children when present", () => {
+    const ui = createMockUI({
+      locale: registerLocale("test", {
+        messages: {
+          dividerOr: "dividerOr",
+        },
+      }),
+    });
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <SignUpAuthScreen>
+          <div data-testid="test-child">Test Child</div>
+        </SignUpAuthScreen>
+      </CreateFirebaseUIProvider>
+    );
+
+    expect(screen.getByTestId("divider")).toBeDefined();
+    expect(screen.getByText("dividerOr")).toBeDefined();
+    expect(screen.getByTestId("test-child")).toBeDefined();
+  });
+
+  it("does not render divider and children when no children are provided", () => {
+    const ui = createMockUI();
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <SignUpAuthScreen />
+      </CreateFirebaseUIProvider>
+    );
+
+    expect(screen.queryByTestId("divider")).toBeNull();
+  });
+
+  it("renders multiple children when provided", () => {
+    const ui = createMockUI({
+      locale: registerLocale("test", {
+        messages: {
+          dividerOr: "dividerOr",
+        },
+      }),
+    });
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <SignUpAuthScreen>
+          <div data-testid="child-1">Child 1</div>
+          <div data-testid="child-2">Child 2</div>
+        </SignUpAuthScreen>
+      </CreateFirebaseUIProvider>
+    );
+
+    expect(screen.getByTestId("divider")).toBeDefined();
+    expect(screen.getByTestId("child-1")).toBeDefined();
+    expect(screen.getByTestId("child-2")).toBeDefined();
   });
 });

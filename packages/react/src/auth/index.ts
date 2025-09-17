@@ -17,7 +17,12 @@
 export { EmailLinkAuthForm, type EmailLinkAuthFormProps } from "./forms/email-link-auth-form";
 export { ForgotPasswordAuthForm, type ForgotPasswordAuthFormProps } from "./forms/forgot-password-auth-form";
 export { PhoneAuthForm, type PhoneAuthFormProps } from "./forms/phone-auth-form";
-export { SignInAuthForm, type SignInAuthFormProps } from "./forms/sign-in-auth-form";
+export {
+  SignInAuthForm,
+  useSignInAuthForm,
+  useSignInAuthFormAction,
+  type SignInAuthFormProps,
+} from "./forms/sign-in-auth-form";
 export { SignUpAuthForm, type SignUpAuthFormProps } from "./forms/sign-up-auth-form";
 
 export { EmailLinkAuthScreen, type EmailLinkAuthScreenProps } from "./screens/email-link-auth-screen";
