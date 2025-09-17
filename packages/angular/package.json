@@ -23,7 +23,8 @@
     "release": "pnpm pack --pack-destination ../../releases/"
   },
   "peerDependencies": {
-    "@angular/fire": "catalog:peerDependencies"
+    "@angular/fire": "catalog:peerDependencies",
+    "@firebase-ui/translations": "workspace:*"
   },
   "dependencies": {
     "@firebase-ui/core": "workspace:*",
@@ -35,6 +36,7 @@
   "sideEffects": false,
   "devDependencies": {
     "@angular/core": "catalog:",
+    "@angular/common": "catalog:",
     "@angular/forms": "catalog:",
     "@angular/router": "catalog:",
     "@angular/fire": "catalog:",
