@@ -35,12 +35,12 @@
   },
   "peerDependencies": {
     "@firebase-ui/core": "workspace:*",
-    "@firebase-ui/styles": "workspace:*",
     "firebase": "catalog:peerDependencies",
     "react": "catalog:peerDependencies",
     "react-dom": "catalog:peerDependencies"
   },
   "dependencies": {
+    "@firebase-ui/styles": "workspace:*",
     "@nanostores/react": "^0.8.4",
     "@radix-ui/react-slot": "^1.2.3",
     "@tanstack/react-form": "^0.41.3",

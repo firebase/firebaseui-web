@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import { HTMLAttributes } from "react";
+import { ComponentProps, PropsWithChildren } from "react";
 import { cn } from "~/utils/cn";
 
-type DividerProps = HTMLAttributes<HTMLDivElement>;
+export type DividerProps = PropsWithChildren<ComponentProps<"div">>;
 
 export function Divider({ className, children, ...props }: DividerProps) {
   if (!children) {

@@ -17,11 +17,11 @@
 "use client";
 
 import {
-  createEmailFormSchema,
   FirebaseUIError,
+  createSignUpAuthFormSchema,
+  createUserWithEmailAndPassword,
   getTranslation,
-  signInWithEmailAndPassword,
-  type EmailFormSchema,
+  type SignUpAuthFormSchema,
 } from "@firebase-ui/core";
 import { useForm } from "@tanstack/react-form";
 import { useMemo, useState } from "react";
@@ -29,22 +29,21 @@ import { useUI } from "~/hooks";
 import { Button } from "../../components/button";
 import { FieldInfo } from "../../components/field-info";
 import { Policies } from "../../components/policies";
+import { type UserCredential } from "firebase/auth";
 
-export interface EmailPasswordFormProps {
-  onForgotPasswordClick?: () => void;
-  onRegisterClick?: () => void;
+export type SignUpAuthFormProps = {
+  onSignUp?: (credential: UserCredential) => void;
+  onBackToSignInClick?: () => void;
 }
 
-export function EmailPasswordForm({ onForgotPasswordClick, onRegisterClick }: EmailPasswordFormProps) {
+export function SignUpAuthForm({ onBackToSignInClick, onSignUp }: SignUpAuthFormProps) {
   const ui = useUI();
 
   const [formError, setFormError] = useState<string | null>(null);
   const [firstValidationOccured, setFirstValidationOccured] = useState(false);
+  const emailFormSchema = useMemo(() => createSignUpAuthFormSchema(ui), [ui]);
 
-  // TODO: Do we need to memoize this?
-  const emailFormSchema = useMemo(() => createEmailFormSchema(ui), [ui]);
-
-  const form = useForm<EmailFormSchema>({
+  const form = useForm<SignUpAuthFormSchema>({
     defaultValues: {
       email: "",
       password: "",
@@ -56,7 +55,8 @@ export function EmailPasswordForm({ onForgotPasswordClick, onRegisterClick }: Em
     onSubmit: async ({ value }) => {
       setFormError(null);
       try {
-        await signInWithEmailAndPassword(ui, value.email, value.password);
+        const credential = await createUserWithEmailAndPassword(ui, value.email, value.password);
+        onSignUp?.(credential);
       } catch (error) {
         if (error instanceof FirebaseUIError) {
           setFormError(error.message);
@@ -118,17 +118,7 @@ export function EmailPasswordForm({ onForgotPasswordClick, onRegisterClick }: Em
           children={(field) => (
             <>
               <label htmlFor={field.name}>
-                <span className="flex">
-                  <span className="flex-grow">{getTranslation(ui, "labels", "password")}</span>
-                  <button
-                    type="button"
-                    disabled={ui.state !== "idle" ? true : false}
-                    onClick={onForgotPasswordClick}
-                    className="fui-form__action"
-                  >
-                    {getTranslation(ui, "labels", "forgotPassword")}
-                  </button>
-                </span>
+                <span>{getTranslation(ui, "labels", "password")}</span>
                 <input
                   aria-invalid={field.state.meta.isTouched && field.state.meta.errors.length > 0}
                   id={field.name}
@@ -157,21 +147,21 @@ export function EmailPasswordForm({ onForgotPasswordClick, onRegisterClick }: Em
       <Policies />
 
       <fieldset>
-        <Button type="submit" disabled={ui.state !== "idle" ? true : false}>
-          {getTranslation(ui, "labels", "signIn")}
+        <Button type="submit" disabled={ui.state !== "idle"}>
+          {getTranslation(ui, "labels", "createAccount")}
         </Button>
         {formError && <div className="fui-form__error">{formError}</div>}
       </fieldset>
 
-      {onRegisterClick && (
+      {onBackToSignInClick && (
         <div className="flex justify-center items-center">
           <button
             type="button"
-            disabled={ui.state !== "idle" ? true : false}
-            onClick={onRegisterClick}
+            disabled={ui.state !== "idle"}
+            onClick={onBackToSignInClick}
             className="fui-form__action"
           >
-            {getTranslation(ui, "prompts", "noAccount")} {getTranslation(ui, "labels", "register")}
+            {getTranslation(ui, "prompts", "haveAccount")} {getTranslation(ui, "labels", "signIn")} &rarr;
           </button>
         </div>
       )}

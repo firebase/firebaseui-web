@@ -17,15 +17,13 @@
 import { PropsWithChildren } from "react";
 import { Divider } from "~/components/divider";
 import { useUI } from "~/hooks";
-import { Card, CardHeader, CardSubtitle, CardTitle } from "../../components/card";
-import { RegisterForm } from "../forms/register-form";
+import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "../../components/card";
+import { SignUpAuthForm, type SignUpAuthFormProps } from "../forms/sign-up-auth-form";
 import { getTranslation } from "@firebase-ui/core";
 
-export type SignUpAuthScreenProps = PropsWithChildren<{
-  onBackToSignInClick?: () => void;
-}>;
+export type SignUpAuthScreenProps = PropsWithChildren<SignUpAuthFormProps>;
 
-export function SignUpAuthScreen({ onBackToSignInClick, children }: SignUpAuthScreenProps) {
+export function SignUpAuthScreen({ children, ...props }: SignUpAuthScreenProps) {
   const ui = useUI();
 
   const titleText = getTranslation(ui, "labels", "register");
@@ -38,13 +36,15 @@ export function SignUpAuthScreen({ onBackToSignInClick, children }: SignUpAuthSc
           <CardTitle>{titleText}</CardTitle>
           <CardSubtitle>{subtitleText}</CardSubtitle>
         </CardHeader>
-        <RegisterForm onBackToSignInClick={onBackToSignInClick} />
-        {children ? (
-          <>
-            <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>
-            <div className="space-y-4">{children}</div>
-          </>
-        ) : null}
+        <CardContent>
+          <SignUpAuthForm {...props} />
+          {children ? (
+            <>
+              <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>
+              <div className="space-y-4">{children}</div>
+            </>
+          ) : null}
+        </CardContent>
       </Card>
     </div>
   );

@@ -16,7 +16,7 @@
 
 import { describe, it, expect, afterAll, beforeEach } from "vitest";
 import { screen, fireEvent, waitFor, act, render } from "@testing-library/react";
-import { RegisterForm } from "../../../src/auth/forms/register-form";
+import { SignUpAuthForm } from "../src";
 import { initializeApp } from "firebase/app";
 import { getAuth, connectAuthEmulator, deleteUser, signOut, signInWithEmailAndPassword } from "firebase/auth";
 import { initializeUI } from "@firebase-ui/core";
@@ -96,7 +96,7 @@ describe("Register Integration", () => {
   it("should successfully register a new user", async () => {
     const { container } = render(
       <FirebaseUIProvider ui={ui}>
-        <RegisterForm />
+        <SignUpAuthForm />
       </FirebaseUIProvider>
     );
 
@@ -200,7 +200,7 @@ describe("Register Integration", () => {
     // This test verifies that the form validation prevents submission with an invalid email
     const { container } = render(
       <FirebaseUIProvider ui={ui}>
-        <RegisterForm />
+        <SignUpAuthForm />
       </FirebaseUIProvider>
     );
 
@@ -276,7 +276,7 @@ describe("Register Integration", () => {
     // First register a user
     const { container } = render(
       <FirebaseUIProvider ui={ui}>
-        <RegisterForm />
+        <SignUpAuthForm />
       </FirebaseUIProvider>
     );
 
@@ -462,7 +462,7 @@ describe("Register Integration", () => {
     // Try to register with same email
     const newContainer = render(
       <FirebaseUIProvider ui={ui}>
-        <RegisterForm />
+        <SignUpAuthForm />
       </FirebaseUIProvider>
     );
 

@@ -22,7 +22,8 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"],
-      "@firebase-ui/core": ["../core/src/index.ts"]
+      "@firebase-ui/core": ["../core/src/index.ts"],
+      "@firebase-ui/styles": ["../styles/src/index.ts"]
     }
   },
   "include": ["vite.config.ts"]

@@ -17,11 +17,11 @@
 "use client";
 
 import {
+  createForgotPasswordAuthFormSchema,
   FirebaseUIError,
-  createEmailFormSchema,
-  createUserWithEmailAndPassword,
   getTranslation,
-  type EmailFormSchema,
+  sendPasswordResetEmail,
+  type ForgotPasswordAuthFormSchema,
 } from "@firebase-ui/core";
 import { useForm } from "@tanstack/react-form";
 import { useMemo, useState } from "react";
@@ -30,30 +30,33 @@ import { Button } from "../../components/button";
 import { FieldInfo } from "../../components/field-info";
 import { Policies } from "../../components/policies";
 
-export interface RegisterFormProps {
+export type ForgotPasswordAuthFormProps = {
+  onPasswordSent?: () => void;
   onBackToSignInClick?: () => void;
 }
 
-export function RegisterForm({ onBackToSignInClick }: RegisterFormProps) {
+export function ForgotPasswordAuthForm({ onBackToSignInClick, onPasswordSent }: ForgotPasswordAuthFormProps) {
   const ui = useUI();
 
   const [formError, setFormError] = useState<string | null>(null);
+  const [emailSent, setEmailSent] = useState(false);
   const [firstValidationOccured, setFirstValidationOccured] = useState(false);
-  const emailFormSchema = useMemo(() => createEmailFormSchema(ui), [ui]);
+  const forgotPasswordFormSchema = useMemo(() => createForgotPasswordAuthFormSchema(ui), [ui]);
 
-  const form = useForm<EmailFormSchema>({
+  const form = useForm<ForgotPasswordAuthFormSchema>({
     defaultValues: {
       email: "",
-      password: "",
     },
     validators: {
-      onBlur: emailFormSchema,
-      onSubmit: emailFormSchema,
+      onBlur: forgotPasswordFormSchema,
+      onSubmit: forgotPasswordFormSchema,
     },
     onSubmit: async ({ value }) => {
       setFormError(null);
       try {
-        await createUserWithEmailAndPassword(ui, value.email, value.password);
+        await sendPasswordResetEmail(ui, value.email);
+        setEmailSent(true);
+        onPasswordSent?.();
       } catch (error) {
         if (error instanceof FirebaseUIError) {
           setFormError(error.message);
@@ -65,6 +68,10 @@ export function RegisterForm({ onBackToSignInClick }: RegisterFormProps) {
       }
     },
   });
+
+  if (emailSent) {
+    return <div className="fui-success">{getTranslation(ui, "messages", "checkEmailForReset")}</div>;
+  }
 
   return (
     <form
@@ -108,44 +115,11 @@ export function RegisterForm({ onBackToSignInClick }: RegisterFormProps) {
         />
       </fieldset>
 
-      <fieldset>
-        <form.Field
-          name="password"
-          // eslint-disable-next-line react/no-children-prop
-          children={(field) => (
-            <>
-              <label htmlFor={field.name}>
-                <span>{getTranslation(ui, "labels", "password")}</span>
-                <input
-                  aria-invalid={field.state.meta.isTouched && field.state.meta.errors.length > 0}
-                  id={field.name}
-                  name={field.name}
-                  type="password"
-                  value={field.state.value}
-                  onBlur={() => {
-                    setFirstValidationOccured(true);
-                    field.handleBlur();
-                  }}
-                  onInput={(e) => {
-                    field.handleChange((e.target as HTMLInputElement).value);
-                    if (firstValidationOccured) {
-                      field.handleBlur();
-                      form.update();
-                    }
-                  }}
-                />
-                <FieldInfo field={field} />
-              </label>
-            </>
-          )}
-        />
-      </fieldset>
-
       <Policies />
 
       <fieldset>
         <Button type="submit" disabled={ui.state !== "idle"}>
-          {getTranslation(ui, "labels", "createAccount")}
+          {getTranslation(ui, "labels", "resetPassword")}
         </Button>
         {formError && <div className="fui-form__error">{formError}</div>}
       </fieldset>
@@ -158,7 +132,7 @@ export function RegisterForm({ onBackToSignInClick }: RegisterFormProps) {
             onClick={onBackToSignInClick}
             className="fui-form__action"
           >
-            {getTranslation(ui, "prompts", "haveAccount")} {getTranslation(ui, "labels", "signIn")} &rarr;
+            {getTranslation(ui, "labels", "backToSignIn")} &rarr;
           </button>
         </div>
       )}

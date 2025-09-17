@@ -16,7 +16,7 @@
 
 import { describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { GoogleSignInButton } from "~/auth/oauth/google-sign-in-button";
+import { GoogleIcon, GoogleSignInButton } from "~/auth/oauth/google-sign-in-button";
 
 // Mock hooks
 vi.mock("~/hooks", () => ({
@@ -64,3 +64,12 @@ describe("GoogleSignInButton", () => {
     expect(screen.getByText("foo bar")).toBeInTheDocument();
   });
 });
+
+it("exports a valid GoogleIcon component which is an svg", () => {
+  const { container } = render(<GoogleIcon />);
+  const svg = container.querySelector("svg");
+  expect(svg).toBeInTheDocument();
+  expect(svg?.tagName.toLowerCase()).toBe("svg");
+  expect(svg).toHaveClass("fui-provider__icon");
+});
+

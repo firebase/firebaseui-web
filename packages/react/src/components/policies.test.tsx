@@ -17,7 +17,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { Policies, PolicyProvider } from "../../../src/components/policies";
+import { Policies, PolicyProvider } from "./policies";
 
 // Mock useUI hook
 vi.mock("~/hooks", () => ({

@@ -14,17 +14,38 @@
  * limitations under the License.
  */
 
-import { describe, it, expect, vi, beforeEach, Mock } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { RegisterForm } from "../../../../src/auth/forms/register-form";
+import { PhoneAuthForm } from "./phone-auth-form";
 import { act } from "react";
 
-// Mock the dependencies
+// Mock Firebase Auth
+vi.mock("firebase/auth", () => ({
+  RecaptchaVerifier: vi.fn().mockImplementation(() => ({
+    render: vi.fn().mockResolvedValue(123),
+    clear: vi.fn(),
+    verify: vi.fn().mockResolvedValue("verification-token"),
+  })),
+  ConfirmationResult: vi.fn(),
+}));
+
+// Mock the core dependencies
 vi.mock("@firebase-ui/core", async (originalImport) => {
   const mod = await originalImport<typeof import("@firebase-ui/core")>();
   return {
     ...mod,
-    createUserWithEmailAndPassword: vi.fn().mockResolvedValue(undefined),
+    signInWithPhoneNumber: vi.fn().mockResolvedValue({
+      confirm: vi.fn().mockResolvedValue(undefined),
+    }),
+    confirmPhoneNumber: vi.fn().mockResolvedValue(undefined),
+    createPhoneFormSchema: vi.fn().mockReturnValue({
+      phoneNumber: { required: "Phone number is required" },
+      verificationCode: { required: "Verification code is required" },
+      pick: vi.fn().mockReturnValue({
+        phoneNumber: { required: "Phone number is required" },
+      }),
+    }),
+    formatPhoneNumberWithCountry: vi.fn((phoneNumber, dialCode) => `${dialCode}${phoneNumber}`),
   };
 });
 
@@ -47,7 +68,7 @@ vi.mock("@tanstack/react-form", () => {
           const field = {
             name,
             state: {
-              value: name === "email" ? "test@example.com" : "password123",
+              value: name === "phoneNumber" ? "1234567890" : "123456",
               meta: {
                 isTouched: false,
                 errors: [],
@@ -63,6 +84,7 @@ vi.mock("@tanstack/react-form", () => {
   };
 });
 
+// Mock hooks
 vi.mock("../../../../src/hooks", () => ({
   useAuth: vi.fn().mockReturnValue({}),
   useUI: vi.fn().mockReturnValue({
@@ -70,8 +92,13 @@ vi.mock("../../../../src/hooks", () => ({
     translations: {
       "en-US": {
         labels: {
-          emailAddress: "Email Address",
-          password: "Password",
+          phoneNumber: "Phone Number",
+          verificationCode: "Verification Code",
+          sendVerificationCode: "Send Verification Code",
+          resendVerificationCode: "Resend Verification Code",
+          enterVerificationCode: "Enter Verification Code",
+          continue: "Continue",
+          backToSignIn: "Back to Sign In",
         },
         errors: {
           unknownError: "Unknown error",
@@ -104,25 +131,50 @@ vi.mock("../../../../src/components/button", () => ({
   )),
 }));
 
-// Import the actual functions after mocking
-import { createUserWithEmailAndPassword } from "@firebase-ui/core";
+vi.mock("../../../../src/components/country-selector", () => ({
+  CountrySelector: vi.fn().mockImplementation(({ value, onChange }) => (
+    <div data-testid="country-selector">
+      <select
+        onChange={(e) =>
+          onChange &&
+          onChange({
+            code: e.target.value,
+            name: e.target.value === "US" ? "United States" : "United Kingdom",
+            dialCode: e.target.value === "US" ? "+1" : "+44",
+            emoji: e.target.value === "US" ? "🇺🇸" : "🇬🇧",
+          })
+        }
+        value={value?.code}
+      >
+        <option value="US">United States</option>
+        <option value="GB">United Kingdom</option>
+      </select>
+    </div>
+  )),
+}));
 
-describe("RegisterForm", () => {
+// Import the actual functions after mocking
+import { signInWithPhoneNumber } from "@firebase-ui/core";
+
+describe("PhoneAuthForm", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    // Reset the global state
+    (global as any).formOnSubmit = null;
+    (global as any).formSubmitCallback = null;
   });
 
-  it("renders the form correctly", () => {
-    render(<RegisterForm />);
+  it("renders the phone number form initially", () => {
+    render(<PhoneAuthForm />);
 
-    expect(screen.getByRole("textbox", { name: /email address/i })).toBeInTheDocument();
-    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
+    expect(screen.getByRole("textbox", { name: /phone number/i })).toBeInTheDocument();
+    expect(screen.getByTestId("country-selector")).toBeInTheDocument();
     expect(screen.getByTestId("policies")).toBeInTheDocument();
     expect(screen.getByTestId("submit-button")).toBeInTheDocument();
   });
 
-  it("submits the form when the button is clicked", async () => {
-    render(<RegisterForm />);
+  it("attempts to send verification code when phone number is submitted", async () => {
+    render(<PhoneAuthForm />);
 
     // Get the submit button
     const submitButton = screen.getByTestId("submit-button");
@@ -135,23 +187,28 @@ describe("RegisterForm", () => {
       if ((global as any).formOnSubmit) {
         await (global as any).formOnSubmit({
           value: {
-            email: "test@example.com",
-            password: "password123",
+            phoneNumber: "1234567890",
           },
         });
       }
     });
 
-    // Check that the registration function was called
-    expect(createUserWithEmailAndPassword).toHaveBeenCalledWith(expect.anything(), "test@example.com", "password123");
+    // Check that the phone verification function was called with any parameters
+    expect(signInWithPhoneNumber).toHaveBeenCalled();
+    // Verify the phone number is in the second parameter
+    expect(signInWithPhoneNumber).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.stringMatching(/1234567890/),
+      expect.anything()
+    );
   });
 
-  it("displays error message when registration fails", async () => {
-    // Mock the registration function to reject with an error
-    const mockError = new Error("Email already in use");
-    (createUserWithEmailAndPassword as Mock).mockRejectedValueOnce(mockError);
+  it("displays error message when phone verification fails", async () => {
+    const mockError = new Error("Invalid phone number");
+    (mockError as any).code = "auth/invalid-phone-number";
+    (signInWithPhoneNumber as unknown as ReturnType<typeof vi.fn>).mockRejectedValueOnce(mockError);
 
-    render(<RegisterForm />);
+    render(<PhoneAuthForm />);
 
     // Get the submit button
     const submitButton = screen.getByTestId("submit-button");
@@ -165,29 +222,26 @@ describe("RegisterForm", () => {
         await (global as any)
           .formOnSubmit({
             value: {
-              email: "test@example.com",
-              password: "password123",
+              phoneNumber: "1234567890",
             },
           })
           .catch(() => {
-            // Catch the error here to prevent test from failing
+            // Catch the error to prevent it from failing the test
           });
       }
     });
 
-    // Check that the registration function was called
-    expect(createUserWithEmailAndPassword).toHaveBeenCalled();
+    // The UI should show the error message in the form__error div
+    expect(screen.getByText("Unknown error")).toBeInTheDocument();
   });
 
   it("validates on blur for the first time", async () => {
-    render(<RegisterForm />);
+    render(<PhoneAuthForm />);
 
-    const emailInput = screen.getByRole("textbox", { name: /email address/i });
-    const passwordInput = screen.getByDisplayValue("password123");
+    const phoneInput = screen.getByRole("textbox", { name: /phone number/i });
 
     await act(async () => {
-      fireEvent.blur(emailInput);
-      fireEvent.blur(passwordInput);
+      fireEvent.blur(phoneInput);
     });
 
     // Check that handleBlur was called
@@ -195,36 +249,21 @@ describe("RegisterForm", () => {
   });
 
   it("validates on input after first blur", async () => {
-    render(<RegisterForm />);
+    render(<PhoneAuthForm />);
 
-    const emailInput = screen.getByRole("textbox", { name: /email address/i });
-    const passwordInput = screen.getByDisplayValue("password123");
+    const phoneInput = screen.getByRole("textbox", { name: /phone number/i });
 
     // First validation on blur
     await act(async () => {
-      fireEvent.blur(emailInput);
-      fireEvent.blur(passwordInput);
+      fireEvent.blur(phoneInput);
     });
 
     // Then validation should happen on input
     await act(async () => {
-      fireEvent.input(emailInput, { target: { value: "test@example.com" } });
-      fireEvent.input(passwordInput, { target: { value: "password123" } });
+      fireEvent.input(phoneInput, { target: { value: "1234567890" } });
     });
 
     // Check that handleBlur and form.update were called
     expect((global as any).formOnSubmit).toBeDefined();
-  });
-
-  // TODO: Fix this test
-  it.skip("displays back to sign in button when provided", () => {
-    const onBackToSignInClickMock = vi.fn();
-    render(<RegisterForm onBackToSignInClick={onBackToSignInClickMock} />);
-
-    const backButton = document.querySelector(".fui-form__action")!;
-    expect(backButton).toBeInTheDocument();
-
-    fireEvent.click(backButton);
-    expect(onBackToSignInClickMock).toHaveBeenCalled();
   });
 });

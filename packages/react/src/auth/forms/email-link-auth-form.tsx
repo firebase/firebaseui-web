@@ -17,44 +17,46 @@
 "use client";
 
 import {
-  createForgotPasswordFormSchema,
   FirebaseUIError,
+  completeEmailLinkSignIn,
+  createEmailLinkAuthFormSchema,
   getTranslation,
-  sendPasswordResetEmail,
-  type ForgotPasswordFormSchema,
+  sendSignInLinkToEmail,
 } from "@firebase-ui/core";
 import { useForm } from "@tanstack/react-form";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useUI } from "~/hooks";
 import { Button } from "../../components/button";
 import { FieldInfo } from "../../components/field-info";
 import { Policies } from "../../components/policies";
 
-interface ForgotPasswordFormProps {
-  onBackToSignInClick?: () => void;
-}
+export type EmailLinkAuthFormProps = {
+  onEmailSent?: () => void;
+};
 
-export function ForgotPasswordForm({ onBackToSignInClick }: ForgotPasswordFormProps) {
+export function EmailLinkAuthForm({ onEmailSent }: EmailLinkAuthFormProps) {
   const ui = useUI();
 
   const [formError, setFormError] = useState<string | null>(null);
   const [emailSent, setEmailSent] = useState(false);
   const [firstValidationOccured, setFirstValidationOccured] = useState(false);
-  const forgotPasswordFormSchema = useMemo(() => createForgotPasswordFormSchema(ui), [ui]);
 
-  const form = useForm<ForgotPasswordFormSchema>({
+  const emailLinkFormSchema = useMemo(() => createEmailLinkAuthFormSchema(ui), [ui]);
+
+  const form = useForm({
     defaultValues: {
       email: "",
     },
     validators: {
-      onBlur: forgotPasswordFormSchema,
-      onSubmit: forgotPasswordFormSchema,
+      onBlur: emailLinkFormSchema,
+      onSubmit: emailLinkFormSchema,
     },
     onSubmit: async ({ value }) => {
       setFormError(null);
       try {
-        await sendPasswordResetEmail(ui, value.email);
+        await sendSignInLinkToEmail(ui, value.email);
         setEmailSent(true);
+        onEmailSent?.();
       } catch (error) {
         if (error instanceof FirebaseUIError) {
           setFormError(error.message);
@@ -67,8 +69,23 @@ export function ForgotPasswordForm({ onBackToSignInClick }: ForgotPasswordFormPr
     },
   });
 
+  // Handle email link sign-in if URL contains the link
+  useEffect(() => {
+    const completeSignIn = async () => {
+      try {
+        await completeEmailLinkSignIn(ui, window.location.href);
+      } catch (error) {
+        if (error instanceof FirebaseUIError) {
+          setFormError(error.message);
+        }
+      }
+    };
+
+    void completeSignIn();
+  }, [ui]);
+
   if (emailSent) {
-    return <div className="fui-success">{getTranslation(ui, "messages", "checkEmailForReset")}</div>;
+    return <div className="fui-success">{getTranslation(ui, "messages", "signInLinkSent")}</div>;
   }
 
   return (
@@ -117,23 +134,10 @@ export function ForgotPasswordForm({ onBackToSignInClick }: ForgotPasswordFormPr
 
       <fieldset>
         <Button type="submit" disabled={ui.state !== "idle"}>
-          {getTranslation(ui, "labels", "resetPassword")}
+          {getTranslation(ui, "labels", "sendSignInLink")}
         </Button>
         {formError && <div className="fui-form__error">{formError}</div>}
       </fieldset>
-
-      {onBackToSignInClick && (
-        <div className="flex justify-center items-center">
-          <button
-            type="button"
-            disabled={ui.state !== "idle"}
-            onClick={onBackToSignInClick}
-            className="fui-form__action"
-          >
-            {getTranslation(ui, "labels", "backToSignIn")} &rarr;
-          </button>
-        </div>
-      )}
     </form>
   );
 }
