@@ -41,7 +41,17 @@ export function provideFirebaseUI(uiFactory: (apps: FirebaseApps) => FirebaseUIT
   const providers: Provider[] = [
     // TODO: This should depend on the FirebaseAuth provider via deps,
     // see https://github.com/angular/angularfire/blob/35e0a9859299010488852b1826e4083abe56528f/src/firestore/firestore.module.ts#L76
-    { provide: FIREBASE_UI_STORE, useFactory: uiFactory, deps: [FirebaseApps] },
+    {
+      provide: FIREBASE_UI_STORE,
+      useFactory: () => {
+        const apps = inject(FirebaseApps);
+        if (!apps || apps.length === 0) {
+          return null as any;
+        }
+        return uiFactory(apps);
+      },
+    },
+    FirebaseUI,
   ];
 
   return makeEnvironmentProviders(providers);
@@ -68,7 +78,14 @@ export class FirebaseUI {
     return this.config().pipe(map((config) => getTranslation(config, category, key)));
   }
 
-  useStore<T>(store: Store<T>): Observable<T> {
+  useStore<T>(store: Store<T> | null): Observable<T> {
+    if (!store) {
+      // Return an observable that emits a default value for SSR when store is not available
+      return new Observable<T>((subscriber) => {
+        subscriber.next({} as T);
+        subscriber.complete();
+      });
+    }
     return new Observable<T>((sub) => {
       sub.next(store.get());
       return store.subscribe((value) => sub.next(value));

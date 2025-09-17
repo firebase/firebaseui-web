@@ -16,4 +16,4 @@
 
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
-@import "@firebase-ui/styles/src/base.css";
+@import "@firebase-ui/styles/tailwind";

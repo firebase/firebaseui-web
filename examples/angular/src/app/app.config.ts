@@ -37,12 +37,10 @@ export const appConfig: ApplicationConfig = {
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideAuth(() => {
       const auth = getAuth();
-
       if (isDevMode()) {
         /** Enable emulators in development */
         connectAuthEmulator(auth, "http://localhost:9099");
       }
-
       return auth;
     }),
     provideFirebaseUI((apps) => initializeUI({ app: apps[0] })),
