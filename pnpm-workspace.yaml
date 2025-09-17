@@ -67,8 +67,7 @@ catalog:
 
 catalogs:
   peerDependencies:
-    '@angular/common': ^20.2.2
-    '@angular/core': ^20.2.2
+    '@angular/fire': ^20
     firebase: ^11 || ^12
     react: ^19
     react-dom: ^19
