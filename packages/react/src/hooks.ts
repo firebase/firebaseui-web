@@ -16,7 +16,7 @@
 
 import { useContext, useMemo } from "react";
 import { FirebaseUIContext } from "./context";
-import { createSignInAuthFormSchema } from "@firebase-ui/core";
+import { createEmailLinkAuthFormSchema, createForgotPasswordAuthFormSchema, createPhoneAuthFormSchema, createSignInAuthFormSchema, createSignUpAuthFormSchema } from "@firebase-ui/core";
 
 /**
  * Get the UI configuration from the context.
@@ -34,4 +34,24 @@ export function useUI() {
 export function useSignInAuthFormSchema() {
   const ui = useUI();
   return useMemo(() => createSignInAuthFormSchema(ui), [ui]);
+}
+
+export function useSignUpAuthFormSchema() {
+  const ui = useUI();
+  return useMemo(() => createSignUpAuthFormSchema(ui), [ui]);
+}
+
+export function useForgotPasswordAuthFormSchema() {
+  const ui = useUI();
+  return useMemo(() => createForgotPasswordAuthFormSchema(ui), [ui]);
+}
+
+export function useEmailLinkAuthFormSchema() {
+  const ui = useUI();
+  return useMemo(() => createEmailLinkAuthFormSchema(ui), [ui]);
+}
+
+export function usePhoneAuthFormSchema() {
+  const ui = useUI();
+  return useMemo(() => createPhoneAuthFormSchema(ui), [ui]);
 }
