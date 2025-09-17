@@ -14,218 +14,198 @@
  * limitations under the License.
  */
 
-import { describe, it, expect, vi, beforeEach, Mock } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
-import { ForgotPasswordAuthForm } from "./forgot-password-auth-form";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { render, screen, fireEvent, renderHook, cleanup } from "@testing-library/react";
+import { ForgotPasswordAuthForm, useForgotPasswordAuthForm, useForgotPasswordAuthFormAction } from "./forgot-password-auth-form";
 import { act } from "react";
+import { sendPasswordResetEmail } from "@firebase-ui/core";
+import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
+import { registerLocale } from "@firebase-ui/translations";
+import { FirebaseUIProvider } from "~/context";
 
-// Mock the dependencies
 vi.mock("@firebase-ui/core", async (importOriginal) => {
   const mod = await importOriginal<typeof import("@firebase-ui/core")>();
   return {
     ...mod,
-    sendPasswordResetEmail: vi.fn().mockImplementation(() => {
-      return Promise.resolve();
-    }),
-    // FirebaseUIError: class FirebaseUIError extends Error {
-    //   code: string;
-    //   constructor(error: any) {
-    //     super(error.message || "Unknown error");
-    //     this.name = "FirebaseUIError";
-    //     this.code = error.code || "unknown-error";
-    //   }
-    // },
-    // createForgotPasswordFormSchema: vi.fn().mockReturnValue({
-    //   email: { required: "Email is required" },
-    // }),
+    sendPasswordResetEmail: vi.fn(),
   };
 });
 
-// Mock @tanstack/react-form library
-vi.mock("@tanstack/react-form", () => {
-  const handleSubmitMock = vi.fn().mockImplementation((callback) => {
-    // Store the callback to call it directly in tests
-    (global as any).formSubmitCallback = callback;
-    return Promise.resolve();
-  });
-
-  return {
-    useForm: vi.fn().mockImplementation(({ onSubmit }) => {
-      // Save the onSubmit function to call it directly in tests
-      (global as any).formOnSubmit = onSubmit;
-
-      return {
-        handleSubmit: handleSubmitMock,
-        Field: ({ children, name }: any) => {
-          const field = {
-            name,
-            state: {
-              value: name === "email" ? "test@example.com" : "",
-              meta: {
-                isTouched: false,
-                errors: [],
-              },
-            },
-            handleBlur: vi.fn(),
-            handleChange: vi.fn(),
-          };
-          return children(field);
-        },
-      };
-    }),
-  };
-});
-
-vi.mock("../../../../src/hooks", () => ({
-  useAuth: vi.fn().mockReturnValue({}),
-  useUI: vi.fn().mockReturnValue({
-    locale: "en-US",
-    translations: {
-      "en-US": {
-        labels: {
-          backToSignIn: "back button",
-        },
-      },
-    },
-  }),
-}));
-
-// Mock the components
-vi.mock("../../../../src/components/field-info", () => ({
-  FieldInfo: vi
-    .fn()
-    .mockImplementation(({ field }) => (
-      <div data-testid="field-info">
-        {field.state.meta.errors.length > 0 && <span>{field.state.meta.errors[0]}</span>}
-      </div>
-    )),
-}));
-
-vi.mock("../../../../src/components/policies", () => ({
-  Policies: vi.fn().mockReturnValue(<div data-testid="policies" />),
-}));
-
-vi.mock("../../../../src/components/button", () => ({
-  Button: vi.fn().mockImplementation(({ children, type, onClick }) => (
-    <button type={type} onClick={onClick} data-testid="submit-button">
-      {children}
-    </button>
-  )),
-}));
-
-// Import the actual functions after mocking
-import { sendPasswordResetEmail } from "@firebase-ui/core";
-
-describe("ForgotPasswordForm", () => {
+describe("useForgotPasswordAuthFormAction", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it("renders the form correctly", () => {
-    render(<ForgotPasswordAuthForm />);
+  it("should return a callback which accept an email", async () => {
+    const sendPasswordResetEmailMock = vi.mocked(sendPasswordResetEmail);
+    const mockUI = createMockUI();
 
-    expect(screen.getByRole("textbox", { name: /email address/i })).toBeInTheDocument();
-    expect(screen.getByTestId("submit-button")).toBeInTheDocument();
-  });
-
-  it("submits the form when the button is clicked", async () => {
-    render(<ForgotPasswordAuthForm />);
-
-    // Get the submit button
-    const submitButton = screen.getByTestId("submit-button");
-
-    // Trigger form submission
-    await act(async () => {
-      fireEvent.click(submitButton);
-
-      // Directly call the onSubmit function with form values
-      if ((global as any).formOnSubmit) {
-        await (global as any).formOnSubmit({
-          value: {
-            email: "test@example.com",
-          },
-        });
-      }
+    const { result } = renderHook(() => useForgotPasswordAuthFormAction(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
-    // Check that the password reset function was called
-    expect(sendPasswordResetEmail).toHaveBeenCalledWith(expect.anything(), "test@example.com");
-  });
-
-  it("displays error message when password reset fails", async () => {
-    // Mock the reset function to reject with an error
-    const mockError = new Error("Invalid email");
-    (sendPasswordResetEmail as Mock).mockRejectedValueOnce(mockError);
-
-    render(<ForgotPasswordAuthForm />);
-
-    // Get the submit button
-    const submitButton = screen.getByTestId("submit-button");
-
-    // Trigger form submission
     await act(async () => {
-      fireEvent.click(submitButton);
-
-      // Directly call the onSubmit function with form values
-      if ((global as any).formOnSubmit) {
-        await (global as any)
-          .formOnSubmit({
-            value: {
-              email: "test@example.com",
-            },
-          })
-          .catch(() => {
-            // Catch the error here to prevent test from failing
-          });
-      }
+      await result.current({ email: "test@example.com" });
     });
 
-    // Check that the password reset function was called
-    expect(sendPasswordResetEmail).toHaveBeenCalled();
+    expect(sendPasswordResetEmailMock).toHaveBeenCalledWith(expect.any(Object), "test@example.com");
   });
 
-  it("validates on blur for the first time", async () => {
-    render(<ForgotPasswordAuthForm />);
+  it("should throw an unknown error when its not a FirebaseUIError", async () => {
+    const sendPasswordResetEmailMock = vi
+      .mocked(sendPasswordResetEmail)
+      .mockRejectedValue(new Error("Unknown error"));
 
-    const emailInput = screen.getByRole("textbox", { name: /email address/i });
-
-    await act(async () => {
-      fireEvent.blur(emailInput);
+    const mockUI = createMockUI({
+      locale: registerLocale("es-ES", {
+        errors: {
+          unknownError: "unknownError",
+        },
+      }),
     });
 
-    // Check that handleBlur was called
-    expect((global as any).formOnSubmit).toBeDefined();
+    const { result } = renderHook(() => useForgotPasswordAuthFormAction(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    await expect(async () => {
+      await act(async () => {
+        await result.current({ email: "test@example.com" });
+      });
+    }).rejects.toThrow("unknownError");
+
+    expect(sendPasswordResetEmailMock).toHaveBeenCalledWith(mockUI.get(), "test@example.com");
+  });
+});
+
+describe("useForgotPasswordAuthForm", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
   });
 
-  it("validates on input after first blur", async () => {
-    render(<ForgotPasswordAuthForm />);
-
-    const emailInput = screen.getByRole("textbox", { name: /email address/i });
-
-    // First validation on blur
-    await act(async () => {
-      fireEvent.blur(emailInput);
-    });
-
-    // Then validation should happen on input
-    await act(async () => {
-      fireEvent.input(emailInput, { target: { value: "test@example.com" } });
-    });
-
-    // Check that handleBlur and form.update were called
-    expect((global as any).formOnSubmit).toBeDefined();
+  afterEach(() => {
+    cleanup();
   });
 
-  // TODO: Fix this test
-  it.skip("displays back to sign in button when provided", () => {
+  it("should allow the form to be submitted", async () => {
+    const mockUI = createMockUI();
+    const sendPasswordResetEmailMock = vi.mocked(sendPasswordResetEmail);
+
+    const { result } = renderHook(() => useForgotPasswordAuthForm(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    act(() => {
+      result.current.setFieldValue("email", "test@example.com");
+    });
+
+    await act(async () => {
+      await result.current.handleSubmit();
+    });
+
+    expect(sendPasswordResetEmailMock).toHaveBeenCalledWith(mockUI.get(), "test@example.com");
+  });
+
+  it("should not allow the form to be submitted if the form is invalid", async () => {
+    const mockUI = createMockUI();
+    const sendPasswordResetEmailMock = vi.mocked(sendPasswordResetEmail);
+
+    const { result } = renderHook(() => useForgotPasswordAuthForm(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    act(() => {
+      result.current.setFieldValue("email", "123");
+    });
+
+    await act(async () => {
+      await result.current.handleSubmit();
+    });
+
+    expect(result.current.getFieldMeta("email")!.errors[0].length).toBeGreaterThan(0);
+    expect(sendPasswordResetEmailMock).not.toHaveBeenCalled();
+  });
+});
+
+describe("<ForgotPasswordAuthForm />", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("should render the form correctly", () => {
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          resetPassword: "resetPassword",
+        },
+      }),
+    });
+
+    const { container } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <ForgotPasswordAuthForm />
+      </FirebaseUIProvider>
+    );
+
+    // There should be only one form
+    const form = container.querySelectorAll("form.fui-form");
+    expect(form.length).toBe(1);
+
+    // Make sure we have an email input
+    expect(screen.getByRole("textbox", { name: /email/i })).toBeInTheDocument();
+
+    // Ensure the "Reset Password" button is present and is a submit button
+    const resetPasswordButton = screen.getByRole("button", { name: "resetPassword" });
+    expect(resetPasswordButton).toBeInTheDocument();
+    expect(resetPasswordButton).toHaveAttribute("type", "submit");
+  });
+
+  it("should render the back to sign in button callback when onBackToSignInClick is provided", () => {
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          backToSignIn: "backToSignIn",
+        },
+      }),
+    });
+
     const onBackToSignInClickMock = vi.fn();
-    render(<ForgotPasswordAuthForm onBackToSignInClick={onBackToSignInClickMock} />);
 
-    const backButton = screen.getByText(/back button/i);
-    expect(backButton).toHaveClass("fui-form__action");
-    expect(backButton).toBeInTheDocument();
+    render(
+      <FirebaseUIProvider ui={mockUI}>
+        <ForgotPasswordAuthForm onBackToSignInClick={onBackToSignInClickMock} />
+      </FirebaseUIProvider>
+    );
 
-    fireEvent.click(backButton);
+    const backToSignInButton = screen.getByRole("button", { name: "backToSignIn" });
+    expect(backToSignInButton).toBeInTheDocument();
+    expect(backToSignInButton).toHaveTextContent("backToSignIn");
+
+    // Make sure it's a button so it doesn't submit the form
+    expect(backToSignInButton).toHaveAttribute("type", "button");
+
+    fireEvent.click(backToSignInButton);
     expect(onBackToSignInClickMock).toHaveBeenCalled();
+  });
+
+  it('should trigger validation errors when the form is blurred', () => {
+    const mockUI = createMockUI();
+
+    const { container } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <ForgotPasswordAuthForm />
+      </FirebaseUIProvider>
+    );
+
+    const form = container.querySelector("form.fui-form");
+    expect(form).toBeInTheDocument();
+
+    const input = screen.getByRole("textbox", { name: /email/i });
+
+    act(() => {
+      fireEvent.blur(input);
+    });
+
+    expect(screen.getByText("Please enter a valid email address")).toBeInTheDocument();
   });
 });
