@@ -43,7 +43,7 @@
     "@firebase-ui/styles": "workspace:*",
     "@nanostores/react": "^0.8.4",
     "@radix-ui/react-slot": "^1.2.3",
-    "@tanstack/react-form": "^0.41.3",
+    "@tanstack/react-form": "^1.20.0",
     "clsx": "^2.1.1",
     "tailwind-merge": "^3.0.1",
     "zod": "catalog:"
