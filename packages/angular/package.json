@@ -14,6 +14,7 @@
     }
   },
   "scripts": {
+    "prepare": "pnpm run build",
     "build": "ng-packagr -p ng-package.json",
     "test": "ng test --watch=false --browsers=ChromeHeadless --project=firebase-ui-angular",
     "test:watch": "ng test --watch=true --project=firebase-ui-angular",
