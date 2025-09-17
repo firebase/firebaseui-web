@@ -54,7 +54,7 @@ export function createPhoneAuthFormSchema(ui: FirebaseUIConfiguration) {
     phoneNumber: z
       .string()
       .min(1, { message: getTranslation(ui, "errors", "missingPhoneNumber") })
-      .min(10, { message: getTranslation(ui, "errors", "invalidPhoneNumber") }),
+      .max(10, { message: getTranslation(ui, "errors", "invalidPhoneNumber") }),
     verificationCode: z.string().refine((val) => !val || val.length >= 6, {
       message: getTranslation(ui, "errors", "invalidVerificationCode"),
     }),

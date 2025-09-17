@@ -24,12 +24,12 @@ import {
   sendSignInLinkToEmail,
   signInAnonymously,
   sendPasswordResetEmail,
-  signInWithOAuth,
+  signInWithProvider,
   completeEmailLinkSignIn,
   confirmPhoneNumber as _confirmPhoneNumber,
-} from "../../src/auth";
-import { FirebaseUIError } from "../../src/errors";
-import { initializeUI, FirebaseUI } from "../../src/config";
+} from "../src/auth";
+import { FirebaseUIError } from "../src/errors";
+import { initializeUI, FirebaseUI } from "../src/config";
 
 describe("Firebase UI Auth Integration", () => {
   let auth: Auth;
@@ -141,7 +141,7 @@ describe("Firebase UI Auth Integration", () => {
     it("should handle enableAutoUpgradeAnonymous flag for OAuth", async () => {
       const provider = new GoogleAuthProvider();
       await signInAnonymously(ui.get());
-      await expect(signInWithOAuth(ui.get(), provider)).rejects.toThrow();
+      await expect(signInWithProvider(ui.get(), provider)).rejects.toThrow();
     });
   });
 

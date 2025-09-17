@@ -63,7 +63,7 @@ export async function signInWithEmailAndPassword(
 
     if (hasBehavior(ui, "autoUpgradeAnonymousCredential")) {
       const result = await getBehavior(ui, "autoUpgradeAnonymousCredential")(ui, credential);
-
+      
       if (result) {
         return handlePendingCredential(ui, result);
       }
@@ -168,6 +168,7 @@ export async function sendSignInLinkToEmail(ui: FirebaseUIConfiguration, email: 
 
     ui.setState("pending");
     await _sendSignInLinkToEmail(ui.auth, email, actionCodeSettings);
+    // TODO: Should this be a behavior ("storageStrategy")?
     window.localStorage.setItem("emailForSignIn", email);
   } catch (error) {
     handleFirebaseError(ui, error);
@@ -248,7 +249,7 @@ export async function completeEmailLinkSignIn(
 
     ui.setState("pending");
     const result = await signInWithEmailLink(ui, email, currentUrl);
-    ui.setState("idle");
+    ui.setState("idle"); // TODO(ehesp): Do we need this here?
     return handlePendingCredential(ui, result);
   } catch (error) {
     handleFirebaseError(ui, error);
