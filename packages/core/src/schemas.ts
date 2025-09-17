@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { z } from "zod";
+import * as z from "zod";
 import { RecaptchaVerifier } from "firebase/auth";
 import { getTranslation } from "./translations";
 import { FirebaseUIConfiguration } from "./config";
@@ -25,27 +25,27 @@ export type AuthMode = "signIn" | "signUp";
 
 export function createSignInAuthFormSchema(ui: FirebaseUIConfiguration) {
   return z.object({
-    email: z.string().email({ message: getTranslation(ui, "errors", "invalidEmail") }),
-    password: z.string().min(8, { message: getTranslation(ui, "errors", "weakPassword") }),
+    email: z.email(getTranslation(ui, "errors", "invalidEmail")),
+    password: z.string().min(8, getTranslation(ui, "errors", "weakPassword")),
   });
 }
 
 export function createSignUpAuthFormSchema(ui: FirebaseUIConfiguration) {
   return z.object({
-    email: z.string().email({ message: getTranslation(ui, "errors", "invalidEmail") }),
-    password: z.string().min(8, { message: getTranslation(ui, "errors", "weakPassword") }),
+    email: z.email(getTranslation(ui, "errors", "invalidEmail")),
+    password: z.string().min(6, getTranslation(ui, "errors", "weakPassword")),
   });
 }
 
 export function createForgotPasswordAuthFormSchema(ui: FirebaseUIConfiguration) {
   return z.object({
-    email: z.string().email({ message: getTranslation(ui, "errors", "invalidEmail") }),
+    email: z.email(getTranslation(ui, "errors", "invalidEmail")),
   });
 }
 
 export function createEmailLinkAuthFormSchema(ui: FirebaseUIConfiguration) {
   return z.object({
-    email: z.string().email({ message: getTranslation(ui, "errors", "invalidEmail") }),
+    email: z.email(getTranslation(ui, "errors", "invalidEmail")),
   });
 }
 
@@ -53,10 +53,10 @@ export function createPhoneAuthFormSchema(ui: FirebaseUIConfiguration) {
   return z.object({
     phoneNumber: z
       .string()
-      .min(1, { message: getTranslation(ui, "errors", "missingPhoneNumber") })
-      .max(10, { message: getTranslation(ui, "errors", "invalidPhoneNumber") }),
+      .min(1, getTranslation(ui, "errors", "missingPhoneNumber"))
+      .max(10, getTranslation(ui, "errors", "invalidPhoneNumber")),
     verificationCode: z.string().refine((val) => !val || val.length >= 6, {
-      message: getTranslation(ui, "errors", "invalidVerificationCode"),
+      error: getTranslation(ui, "errors", "invalidVerificationCode"),
     }),
     recaptchaVerifier: z.instanceof(RecaptchaVerifier),
   });
