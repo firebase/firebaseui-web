@@ -74,6 +74,9 @@ catalog:
   nanostores: ^1.0.1
   "@types/node": ^24.3.1
 
+overrides:
+  "@firebase-ui/core": "workspace:*"
+
 onlyBuiltDependencies:
   - '@parcel/watcher'
   - esbuild

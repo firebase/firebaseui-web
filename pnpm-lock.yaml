@@ -110,6 +110,9 @@ catalogs:
       specifier: ^20.2.2
       version: 20.3.0
 
+overrides:
+  '@firebase-ui/core': workspace:*
+
 importers:
 
   .:

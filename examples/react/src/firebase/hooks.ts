@@ -14,21 +14,20 @@
  * limitations under the License.
  */
 
-"use client";
+import { useState } from "react";
 
-import { ui } from "./clientApp";
-import { ConfigProvider } from "@firebase-ui/react";
+import { onAuthStateChanged } from "firebase/auth";
+import { User } from "firebase/auth";
+import { useEffect } from "react";
+import { auth } from "./firebase";
 
-export function FirebaseUIProvider({ children }: { children: React.ReactNode }) {
-  return (
-    <ConfigProvider
-      ui={ui}
-      policies={{
-        termsOfServiceUrl: "https://www.google.com",
-        privacyPolicyUrl: "https://www.google.com",
-      }}
-    >
-      {children}
-    </ConfigProvider>
-  );
+export function useUser(initalUser?: User | null) {
+  const [user, setUser] = useState<User | null>(initalUser ?? null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, setUser);
+    return () => unsubscribe();
+  }, []);
+
+  return user;
 }

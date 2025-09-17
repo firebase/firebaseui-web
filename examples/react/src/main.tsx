@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-import { BrowserRouter, RouterProvider, Routes, Route } from "react-router";
+import { BrowserRouter, Routes, Route } from "react-router";
 
-import React from "react";
 import ReactDOM from "react-dom/client";
+import { FirebaseUIProvider } from "@firebase-ui/react";
+
+import { ui } from "./firebase/firebase";
 
 import App from "./App";
-import { Header } from "../lib/components/header";
-import { FirebaseUIProvider } from "../lib/firebase/ui";
+import { Header } from "./components/header";
 
 /** Sign In */
 import SignInAuthScreenPage from "./screens/sign-in-auth-screen";
@@ -44,14 +45,20 @@ import SignUpAuthScreenWithOAuthPage from "./screens/sign-up-auth-screen";
 import OAuthScreenPage from "./screens/oauth-screen";
 
 /** Password Reset */
-import PasswordResetScreenPage from "./screens/password-reset-screen";
+import ForgotPasswordPage from "./screens/forgot-password-screen";
 
-const root = document.getElementById("root");
+const root = document.getElementById("root")!;
 
 ReactDOM.createRoot(root).render(
   <BrowserRouter>
     <Header />
-    <FirebaseUIProvider>
+    <FirebaseUIProvider
+      ui={ui}
+      policies={{
+        termsOfServiceUrl: "https://www.google.com",
+        privacyPolicyUrl: "https://www.google.com",
+      }}
+    >
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/screens/sign-in-auth-screen" element={<SignInAuthScreenPage />} />
@@ -64,7 +71,7 @@ ReactDOM.createRoot(root).render(
         <Route path="/screens/sign-up-auth-screen" element={<SignUpAuthScreenPage />} />
         <Route path="/screens/sign-up-auth-screen-w-oauth" element={<SignUpAuthScreenWithOAuthPage />} />
         <Route path="/screens/oauth-screen" element={<OAuthScreenPage />} />
-        <Route path="/screens/password-reset-screen" element={<PasswordResetScreenPage />} />
+        <Route path="/screens/forgot-password-screen" element={<ForgotPasswordPage />} />
       </Routes>
     </FirebaseUIProvider>
   </BrowserRouter>

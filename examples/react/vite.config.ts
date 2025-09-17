@@ -13,3 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+export default defineConfig({
+  plugins: [tailwindcss(), react()],
+  resolve: {
+    alias: {
+      "~": path.resolve(path.dirname(fileURLToPath(import.meta.url)), "./src"),
+    },
+  },
+});
