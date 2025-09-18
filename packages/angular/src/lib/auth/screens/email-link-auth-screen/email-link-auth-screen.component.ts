@@ -21,6 +21,7 @@ import {
   CardHeaderComponent,
   CardTitleComponent,
   CardSubtitleComponent,
+  CardContentComponent,
 } from "../../../components/card/card.component";
 import { FirebaseUI } from "../../../provider";
 import { EmailLinkFormComponent } from "../../forms/email-link-form/email-link-form.component";
@@ -35,6 +36,7 @@ import { DividerComponent } from "../../../components/divider/divider.component"
     CardHeaderComponent,
     CardTitleComponent,
     CardSubtitleComponent,
+    CardContentComponent,
     EmailLinkFormComponent,
     DividerComponent,
   ],
@@ -45,14 +47,16 @@ import { DividerComponent } from "../../../components/divider/divider.component"
           <fui-card-title>{{ titleText | async }}</fui-card-title>
           <fui-card-subtitle>{{ subtitleText | async }}</fui-card-subtitle>
         </fui-card-header>
-        <fui-email-link-form></fui-email-link-form>
+        <fui-card-content>
+          <fui-email-link-form></fui-email-link-form>
 
-        <ng-container *ngIf="hasContent">
-          <fui-divider>{{ dividerOrLabel | async }}</fui-divider>
-          <div class="space-y-4 mt-6" #contentContainer>
-            <ng-content></ng-content>
-          </div>
-        </ng-container>
+          <ng-container *ngIf="hasContent">
+            <fui-divider>{{ dividerOrLabel | async }}</fui-divider>
+            <div class="space-y-4 mt-6" #contentContainer>
+              <ng-content></ng-content>
+            </div>
+          </ng-container>
+        </fui-card-content>
       </fui-card>
     </div>
   `,

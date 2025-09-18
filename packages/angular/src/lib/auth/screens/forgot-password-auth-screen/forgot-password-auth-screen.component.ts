@@ -21,6 +21,7 @@ import {
   CardHeaderComponent,
   CardTitleComponent,
   CardSubtitleComponent,
+  CardContentComponent,
 } from "../../../components/card/card.component";
 import { FirebaseUI, injectTranslation } from "../../../provider";
 import { ForgotPasswordAuthFormComponent } from "../../forms/forgot-password-auth-form/forgot-password-auth-form.component";
@@ -34,6 +35,7 @@ import { ForgotPasswordAuthFormComponent } from "../../forms/forgot-password-aut
     CardHeaderComponent,
     CardTitleComponent,
     CardSubtitleComponent,
+    CardContentComponent,
     ForgotPasswordAuthFormComponent,
   ],
   template: `
@@ -43,9 +45,9 @@ import { ForgotPasswordAuthFormComponent } from "../../forms/forgot-password-aut
           <fui-card-title>{{ titleText() }}</fui-card-title>
           <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
         </fui-card-header>
-        <fui-forgot-password-auth-form
-          (signIn)="signIn"
-        ></fui-forgot-password-auth-form>
+        <fui-card-content>
+          <fui-forgot-password-auth-form (signIn)="(signIn)"></fui-forgot-password-auth-form>
+        </fui-card-content>
       </fui-card>
     </div>
   `,

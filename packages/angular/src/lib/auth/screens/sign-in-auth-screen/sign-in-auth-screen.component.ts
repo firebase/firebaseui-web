@@ -21,6 +21,7 @@ import {
   CardHeaderComponent,
   CardTitleComponent,
   CardSubtitleComponent,
+  CardContentComponent,
 } from "../../../components/card/card.component";
 import { injectTranslation } from "../../../provider";
 import { SignInAuthFormComponent } from "../../forms/sign-in-auth-form/sign-in-auth-form.component";
@@ -35,6 +36,7 @@ import { DividerComponent } from "../../../components/divider/divider.component"
     CardHeaderComponent,
     CardTitleComponent,
     CardSubtitleComponent,
+    CardContentComponent,
     SignInAuthFormComponent,
     DividerComponent,
   ],
@@ -45,17 +47,16 @@ import { DividerComponent } from "../../../components/divider/divider.component"
           <fui-card-title>{{ titleText() }}</fui-card-title>
           <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
         </fui-card-header>
-        <fui-sign-in-auth-form
-          (forgotPassword)="forgotPassword"
-          (register)="register"
-        ></fui-sign-in-auth-form>
+        <fui-card-content>
+          <fui-sign-in-auth-form (forgotPassword)="(forgotPassword)" (register)="(register)"></fui-sign-in-auth-form>
 
-        @if (hasChildren) {
-          <fui-divider>{{ dividerOrLabel() }}</fui-divider>
-          <div class="space-y-4 mt-6">
-            <ng-content></ng-content>
-          </div>
-        }
+          @if (hasChildren) {
+            <fui-divider>{{ dividerOrLabel() }}</fui-divider>
+            <div class="space-y-4 mt-6">
+              <ng-content></ng-content>
+            </div>
+          }
+        </fui-card-content>
       </fui-card>
     </div>
   `,

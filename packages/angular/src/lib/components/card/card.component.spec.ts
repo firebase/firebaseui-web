@@ -57,7 +57,9 @@ class TestCardSubtitleHostComponent {}
         <fui-card-title>Card Title</fui-card-title>
         <fui-card-subtitle>Card Subtitle</fui-card-subtitle>
       </fui-card-header>
-      <div>Card Body Content</div>
+      <fui-card-content>
+        <div>Card Body Content</div>
+      </fui-card-content>
     </fui-card>
   `,
   standalone: true,

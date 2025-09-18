@@ -23,7 +23,8 @@ import { CommonModule } from "@angular/common";
   imports: [],
   template: `
     <div class="fui-card">
-      <ng-content></ng-content>
+      <ng-content select="fui-card-header"></ng-content>
+      <ng-content select="fui-card-content"></ng-content>
     </div>
   `,
 })
@@ -33,12 +34,10 @@ export class CardComponent {}
   selector: "fui-card-header",
   standalone: true,
   imports: [CommonModule],
-  host: {
-    style: "display: block;",
-  },
   template: `
     <div class="fui-card__header">
-      <ng-content></ng-content>
+      <ng-content select="fui-card-title"></ng-content>
+      <ng-content select="fui-card-subtitle"></ng-content>
     </div>
   `,
 })
@@ -67,3 +66,15 @@ export class CardTitleComponent {}
   `,
 })
 export class CardSubtitleComponent {}
+
+@Component({
+  selector: "fui-card-content",
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <div>
+      <ng-content></ng-content>
+    </div>
+  `,
+})
+export class CardContentComponent {}

@@ -21,6 +21,7 @@ import {
   CardHeaderComponent,
   CardTitleComponent,
   CardSubtitleComponent,
+  CardContentComponent,
 } from "../../../components/card/card.component";
 import { FirebaseUI } from "../../../provider";
 import { TermsAndPrivacyComponent } from "../../../components/terms-and-privacy/terms-and-privacy.component";
@@ -34,6 +35,7 @@ import { TermsAndPrivacyComponent } from "../../../components/terms-and-privacy/
     CardHeaderComponent,
     CardTitleComponent,
     CardSubtitleComponent,
+    CardContentComponent,
     TermsAndPrivacyComponent,
   ],
   template: `
@@ -43,8 +45,10 @@ import { TermsAndPrivacyComponent } from "../../../components/terms-and-privacy/
           <fui-card-title>{{ titleText | async }}</fui-card-title>
           <fui-card-subtitle>{{ subtitleText | async }}</fui-card-subtitle>
         </fui-card-header>
-        <ng-content></ng-content>
-        <fui-terms-and-privacy></fui-terms-and-privacy>
+        <fui-card-content>
+          <ng-content></ng-content>
+          <fui-terms-and-privacy></fui-terms-and-privacy>
+        </fui-card-content>
       </fui-card>
     </div>
   `,
