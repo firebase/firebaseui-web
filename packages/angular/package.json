@@ -29,7 +29,7 @@
     "@firebase-ui/translations": "workspace:*"
   },
   "dependencies": {
-    "@tanstack/angular-form": "^1.1.0",
+    "@tanstack/angular-form": "^1.21.1",
     "@firebase-ui/styles": "workspace:*",
     "tslib": "^2.8.1",
     "clsx": "^2.1.1",

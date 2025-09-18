@@ -305,8 +305,8 @@ importers:
         specifier: workspace:*
         version: link:../translations
       '@tanstack/angular-form':
-        specifier: ^1.1.0
-        version: 1.19.5(@angular/common@20.3.0(@angular/core@20.3.0(@angular/compiler@20.3.0)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.0(@angular/compiler@20.3.0)(rxjs@7.8.2)(zone.js@0.15.1))
+        specifier: ^1.21.1
+        version: 1.21.1(@angular/common@20.3.0(@angular/core@20.3.0(@angular/compiler@20.3.0)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.0(@angular/compiler@20.3.0)(rxjs@7.8.2)(zone.js@0.15.1))
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -2882,8 +2882,8 @@ packages:
     peerDependencies:
       '@angular/core': '>=19.0.0'
 
-  '@tanstack/angular-form@1.19.5':
-    resolution: {integrity: sha512-oqgl3lEyuTqASroxmYv+O9U0GViIIqaX/WfNeKjR0pwbNeZ3hW8we6CJklQN44qtZzoC8RQTaZTCNBc5+zmBWQ==}
+  '@tanstack/angular-form@1.21.1':
+    resolution: {integrity: sha512-ZtQtCQxvt273sSdT3awFqh3Op0wvdPeLYRliiWrehgHo6MR311scStl0BG9cvQq9d2zkQM5F/+EYQF3Vo0tJpw==}
     peerDependencies:
       '@angular/core': '>=19.0.0'
 
@@ -2893,14 +2893,18 @@ packages:
       '@angular/common': '>=19.0.0'
       '@angular/core': '>=19.0.0'
 
+  '@tanstack/devtools-event-client@0.2.4':
+    resolution: {integrity: sha512-oqRF1KNYtVUcJV/xXDf3OdJ+wynIcrVxML5a+JBaNFgnyclu14gV1sxi8QfuNMznreyvNxajJbZMS8HHtO+MTA==}
+    engines: {node: '>=18'}
+
   '@tanstack/form-core@0.41.4':
     resolution: {integrity: sha512-XZJtN7mWJmi3apsc2J+GpWbcsXbv0pWBkZKP47ZW1QD/2Tj1UWsM6JjcaAkzIlrBdaoEFYmrHToLKr/Ddk8BVg==}
 
   '@tanstack/form-core@0.42.1':
     resolution: {integrity: sha512-jTU0jyHqFceujdtPNv3jPVej1dTqBwa8TYdIyWB5BCwRVUBZEp1PiYEBkC9r92xu5fMpBiKc+JKud3eeVjuMiA==}
 
-  '@tanstack/form-core@1.19.5':
-    resolution: {integrity: sha512-MhHk/f3fOVhm2kHAEOg+yJklSY84C3qSwwYwAUzAQw6i5ZQquBdB2aYzg89FFXNkhmLcEl9hJCqRZVw4NHzDMQ==}
+  '@tanstack/form-core@1.21.1':
+    resolution: {integrity: sha512-JoMIRa/VpMRtlFp9LGun8otLHycYI2jE7Pg5e9ziNxoSkAIlG9FENeZ3E62et3bEU64hU2yG4DlUqyDjj1wwoA==}
 
   '@tanstack/react-form@0.41.4':
     resolution: {integrity: sha512-uIfIDZJNqR1dLW03TNByK/woyKd2jfXIrEBq6DPJbqupqyfYXTDo5TMd/7koTYLO4dgTM5wd+2v3uBX3M2bRaA==}
@@ -10097,11 +10101,11 @@ snapshots:
     transitivePeerDependencies:
       - '@angular/common'
 
-  '@tanstack/angular-form@1.19.5(@angular/common@20.3.0(@angular/core@20.3.0(@angular/compiler@20.3.0)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.0(@angular/compiler@20.3.0)(rxjs@7.8.2)(zone.js@0.15.1))':
+  '@tanstack/angular-form@1.21.1(@angular/common@20.3.0(@angular/core@20.3.0(@angular/compiler@20.3.0)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.0(@angular/compiler@20.3.0)(rxjs@7.8.2)(zone.js@0.15.1))':
     dependencies:
       '@angular/core': 20.3.0(@angular/compiler@20.3.0)(rxjs@7.8.2)(zone.js@0.15.1)
       '@tanstack/angular-store': 0.7.5(@angular/common@20.3.0(@angular/core@20.3.0(@angular/compiler@20.3.0)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.0(@angular/compiler@20.3.0)(rxjs@7.8.2)(zone.js@0.15.1))
-      '@tanstack/form-core': 1.19.5
+      '@tanstack/form-core': 1.21.1
       tslib: 2.8.1
     transitivePeerDependencies:
       - '@angular/common'
@@ -10113,6 +10117,8 @@ snapshots:
       '@tanstack/store': 0.7.5
       tslib: 2.8.1
 
+  '@tanstack/devtools-event-client@0.2.4': {}
+
   '@tanstack/form-core@0.41.4':
     dependencies:
       '@tanstack/store': 0.7.5
@@ -10121,8 +10127,9 @@ snapshots:
     dependencies:
       '@tanstack/store': 0.7.5
 
-  '@tanstack/form-core@1.19.5':
+  '@tanstack/form-core@1.21.1':
     dependencies:
+      '@tanstack/devtools-event-client': 0.2.4
       '@tanstack/store': 0.7.5
 
   '@tanstack/react-form@0.41.4(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.2)':
