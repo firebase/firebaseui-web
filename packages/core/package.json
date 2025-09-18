@@ -47,9 +47,9 @@
     "firebase": "catalog:peerDependencies"
   },
   "dependencies": {
+    "@firebase-ui/translations": "workspace:*",
     "nanostores": "catalog:",
-    "zod": "catalog:",
-    "@firebase-ui/translations": "workspace:*"
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@types/jsdom": "catalog:",
