@@ -27,10 +27,10 @@
     "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\" \"tests/**/*.ts\"",
     "clean": "rimraf dist",
-    "test:unit": "vitest run tests/unit",
-    "test:unit:watch": "vitest tests/unit",
-    "test:integration": "vitest run tests/integration",
-    "test:integration:watch": "vitest tests/integration",
+    "test:unit": "vitest run src",
+    "test:unit:watch": "vitest tests",
+    "test:integration": "vitest run tests",
+    "test:integration:watch": "vitest integration",
     "test": "vitest run",
     "publish:tags": "sh -c 'TAG=\"${npm_package_name}@${npm_package_version}\"; git tag --list \"$TAG\" | grep . || git tag \"$TAG\"; git push origin \"$TAG\"'",
     "release": "pnpm run build && pnpm pack --pack-destination --pack-destination ../../releases/"
@@ -60,6 +60,7 @@
     "tsup": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
+    "vitest-tsconfig-paths": "catalog:",
     "vitest": "catalog:"
   }
 }
