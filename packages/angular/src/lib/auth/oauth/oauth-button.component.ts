@@ -28,9 +28,9 @@ import { firstValueFrom } from "rxjs";
   imports: [CommonModule, ButtonComponent],
   template: `
     <div>
-      <fui-button type="button" (click)="handleOAuthSignIn()" class="fui-provider__button">
+      <button fui-button type="button" (click)="handleOAuthSignIn()" class="fui-provider__button">
         <ng-content></ng-content>
-      </fui-button>
+      </button>
       <div class="fui-form__error" *ngIf="error">{{ error }}</div>
     </div>
   `,

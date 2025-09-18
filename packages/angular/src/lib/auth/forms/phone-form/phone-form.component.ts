@@ -83,9 +83,9 @@ import { takeWhile } from "rxjs/operators";
       <fui-terms-and-privacy></fui-terms-and-privacy>
 
       <fieldset>
-        <fui-button type="submit" [disabled]="!recaptchaVerifier">
+        <button fui-button type="submit" [disabled]="!recaptchaVerifier">
           {{ sendCodeLabel | async }}
-        </fui-button>
+        </button>
         <div class="fui-form__error" *ngIf="formError">{{ formError }}</div>
       </fieldset>
     </form>
@@ -244,10 +244,10 @@ export class PhoneNumberFormComponent implements OnInit, OnDestroy {
       </ng-container>
 
       <fieldset>
-        <fui-button type="submit">
+        <button fui-button type="submit">
           {{ verifyCodeLabel | async }}
-        </fui-button>
-        <fui-button type="button" (click)="onResend()" [disabled]="isResending || !canResend" variant="secondary">
+        </button>
+        <button fui-button type="button" (click)="onResend()" [disabled]="isResending || !canResend" variant="secondary">
           <ng-container *ngIf="isResending">
             {{ sendingLabel | async }}
           </ng-container>
@@ -257,7 +257,7 @@ export class PhoneNumberFormComponent implements OnInit, OnDestroy {
           <ng-container *ngIf="!isResending && canResend">
             {{ resendCodeLabel | async }}
           </ng-container>
-        </fui-button>
+        </button>
         <div class="fui-form__error" *ngIf="formError">{{ formError }}</div>
       </fieldset>
 

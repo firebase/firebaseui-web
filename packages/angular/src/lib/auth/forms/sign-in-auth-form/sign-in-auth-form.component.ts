@@ -82,9 +82,9 @@ import { FirebaseUIError, signInWithEmailAndPassword } from "@firebase-ui/core";
       <fui-terms-and-privacy></fui-terms-and-privacy>
 
       <fieldset>
-        <fui-button type="submit">
+        <button fui-button type="submit">
           {{ signInLabel() }}
-        </fui-button>
+        </button>
         <div class="fui-form__error" *ngIf="formError">{{ formError }}</div>
       </fieldset>
 

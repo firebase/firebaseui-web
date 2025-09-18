@@ -14,24 +14,9 @@
  * limitations under the License.
  */
 
-import { Component, HostBinding, Input } from "@angular/core";
-import { buttonVariant, type ButtonVariant } from "@firebase-ui/styles";
-import { cn } from "../../utils";
+import { twMerge } from "tailwind-merge";
+import { clsx } from "clsx";
 
-@Component({
-  selector: "button[fui-button]",
-  template: `<ng-content></ng-content>`,
-  standalone: true,
-})
-export class ButtonComponent {
-  @Input()
-  @HostBinding("class")
-  className: string = "";
-
-  @Input() variant?: ButtonVariant;
-
-  @HostBinding("attr.class")
-  get getButtonClasses(): string {
-    return cn(buttonVariant({ variant: this.variant }), this.className);
-  }
+export function cn(...inputs: Parameters<typeof clsx>) {
+  return twMerge(clsx(...inputs));
 }

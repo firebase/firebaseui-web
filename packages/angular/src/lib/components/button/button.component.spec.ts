@@ -21,10 +21,10 @@ import { ButtonComponent } from "./button.component";
 
 @Component({
   template: `
-    <fui-button (click)="handleClick()" data-testid="test-button">Click me</fui-button>
-    <fui-button variant="secondary" data-testid="secondary-button">Secondary</fui-button>
-    <fui-button class="custom-class" data-testid="custom-class-button">Custom Class</fui-button>
-    <fui-button [disabled]="true" data-testid="disabled-button">Disabled</fui-button>
+    <button fui-button (click)="handleClick()" data-testid="test-button">Click me</fui-button>
+    <button fui-button variant="secondary" data-testid="secondary-button">Secondary</fui-button>
+    <button fui-button class="custom-class" data-testid="custom-class-button">Custom Class</fui-button>
+    <button fui-button [disabled]="true" data-testid="disabled-button">Disabled</fui-button>
   `,
   standalone: true,
   imports: [ButtonComponent],
