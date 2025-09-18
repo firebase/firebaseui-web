@@ -20,7 +20,7 @@ import { CommonModule } from "@angular/common";
 import { By } from "@angular/platform-browser";
 import { of } from "rxjs";
 import { FirebaseUI } from "../../../provider";
-import { PasswordResetScreenComponent } from "./password-reset-screen.component";
+import { PasswordResetScreenComponent } from "./forgot-password-auth-screen.component";
 
 // Mock Card components
 @Component({

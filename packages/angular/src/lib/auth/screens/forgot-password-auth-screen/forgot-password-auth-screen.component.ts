@@ -22,11 +22,11 @@ import {
   CardTitleComponent,
   CardSubtitleComponent,
 } from "../../../components/card/card.component";
-import { FirebaseUI } from "../../../provider";
-import { ForgotPasswordFormComponent } from "../../forms/forgot-password-form/forgot-password-form.component";
+import { FirebaseUI, injectTranslation } from "../../../provider";
+import { ForgotPasswordAuthFormComponent } from "../../forms/forgot-password-auth-form/forgot-password-auth-form.component";
 
 @Component({
-  selector: "fui-password-reset-screen",
+  selector: "fui-forgot-password-auth-screen",
   standalone: true,
   imports: [
     CommonModule,
@@ -34,30 +34,25 @@ import { ForgotPasswordFormComponent } from "../../forms/forgot-password-form/fo
     CardHeaderComponent,
     CardTitleComponent,
     CardSubtitleComponent,
-    ForgotPasswordFormComponent,
+    ForgotPasswordAuthFormComponent,
   ],
   template: `
     <div class="fui-screen">
       <fui-card>
         <fui-card-header>
-          <fui-card-title>{{ titleText | async }}</fui-card-title>
-          <fui-card-subtitle>{{ subtitleText | async }}</fui-card-subtitle>
+          <fui-card-title>{{ titleText() }}</fui-card-title>
+          <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
         </fui-card-header>
-        <fui-forgot-password-form [signInRoute]="signInRoute"></fui-forgot-password-form>
+        <fui-forgot-password-auth-form
+          (signIn)="signIn"
+        ></fui-forgot-password-auth-form>
       </fui-card>
     </div>
   `,
 })
 export class PasswordResetScreenComponent {
-  private ui = inject(FirebaseUI);
+  titleText = injectTranslation("labels", "resetPassword");
+  subtitleText = injectTranslation("prompts", "enterEmailToReset");
 
-  @Input() signInRoute: string = "";
-
-  get titleText() {
-    return this.ui.translation("labels", "resetPassword");
-  }
-
-  get subtitleText() {
-    return this.ui.translation("prompts", "enterEmailToReset");
-  }
+  @Output() signIn = new EventEmitter<void>();
 }
