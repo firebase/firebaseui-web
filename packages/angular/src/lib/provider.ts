@@ -21,9 +21,11 @@ import {
   InjectionToken,
   Injectable,
   inject,
+  signal, computed, effect,
+  Signal,
 } from "@angular/core";
 import { FirebaseApps } from "@angular/fire/app";
-import { type FirebaseUI as FirebaseUIType, getTranslation } from "@firebase-ui/core";
+import { createEmailLinkAuthFormSchema, createForgotPasswordAuthFormSchema, createPhoneAuthFormSchema, createSignInAuthFormSchema, createSignUpAuthFormSchema, FirebaseUIConfiguration, type FirebaseUI as FirebaseUIType, getTranslation, SignInAuthFormSchema } from "@firebase-ui/core";
 import { distinctUntilChanged, map, takeUntil } from "rxjs/operators";
 import { Observable, ReplaySubject } from "rxjs";
 import { Store } from "nanostores";
@@ -46,7 +48,7 @@ export function provideFirebaseUI(uiFactory: (apps: FirebaseApps) => FirebaseUIT
       useFactory: () => {
         const apps = inject(FirebaseApps);
         if (!apps || apps.length === 0) {
-          return null as any;
+          throw new Error("No Firebase apps found");
         }
         return uiFactory(apps);
       },
@@ -61,6 +63,49 @@ export function provideFirebaseUIPolicies(factory: () => PolicyConfig) {
   const providers: Provider[] = [{ provide: FIREBASE_UI_POLICIES, useFactory: factory }];
 
   return makeEnvironmentProviders(providers);
+}
+
+
+// Provides a signal with a subscription to the FirebaseUIConfiguration
+export function injectUI() {
+  const store = inject(FIREBASE_UI_STORE);
+  const ui = signal<FirebaseUIConfiguration>(store.get());
+  
+  effect(() => {
+    return store.subscribe(ui.set);
+  });
+  
+  return ui.asReadonly();
+}
+
+export function injectTranslation<T extends TranslationCategory>(category: T, key: TranslationKey<T>) {
+  const ui = injectUI();
+  return computed(() => getTranslation(ui(), category, key));
+}
+
+export function injectSignInAuthFormSchema(): Signal<ReturnType<typeof createSignInAuthFormSchema>> {
+  const ui = injectUI();
+  return computed(() => createSignInAuthFormSchema(ui()));
+}
+
+export function injectSignUpAuthFormSchema(): Signal<ReturnType<typeof createSignUpAuthFormSchema>> {
+  const ui = injectUI();
+  return computed(() => createSignUpAuthFormSchema(ui()));
+}
+
+export function injectForgotPasswordAuthFormSchema(): Signal<ReturnType<typeof createForgotPasswordAuthFormSchema>> {
+  const ui = injectUI();
+  return computed(() => createForgotPasswordAuthFormSchema(ui()));
+}
+
+export function injectEmailLinkAuthFormSchema(): Signal<ReturnType<typeof createEmailLinkAuthFormSchema>> {
+  const ui = injectUI();
+  return computed(() => createEmailLinkAuthFormSchema(ui()));
+}
+
+export function injectPhoneAuthFormSchema(): Signal<ReturnType<typeof createPhoneAuthFormSchema>> {
+  const ui = injectUI();
+  return computed(() => createPhoneAuthFormSchema(ui()));
 }
 
 @Injectable({
