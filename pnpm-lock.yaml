@@ -297,9 +297,6 @@ importers:
       '@firebase-ui/styles':
         specifier: workspace:*
         version: link:../styles
-      '@firebase-ui/translations':
-        specifier: workspace:*
-        version: link:../translations
       '@tanstack/angular-form':
         specifier: ^1.1.0
         version: 1.20.0(@angular/common@20.3.0(@angular/core@20.3.0(@angular/compiler@20.3.0)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.0(@angular/compiler@20.3.0)(rxjs@7.8.2)(zone.js@0.15.1))
