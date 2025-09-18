@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, Input, ElementRef, AfterContentInit } from "@angular/core";
+import { Component, Input, ElementRef, AfterContentInit, ContentChild } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
 @Component({
@@ -24,35 +24,24 @@ import { CommonModule } from "@angular/common";
   template: `
     <div class="fui-divider my-6">
       <div class="fui-divider__line"></div>
-      <div class="fui-divider__text" *ngIf="hasContent">
-        <ng-content></ng-content>
-      </div>
-      <div class="fui-divider__line" *ngIf="hasContent"></div>
+      @if (hasChildren) {
+        <div class="fui-divider__text">
+          <ng-content></ng-content>
+        </div>
+      }
+
+      @if (!hasChildren) {
+        <div class="fui-divider__line"></div>
+      }
     </div>
   `,
 })
 export class DividerComponent implements AfterContentInit {
-  hasContent = false;
+  @ContentChild(ElementRef) children: ElementRef | undefined;
 
-  @Input() text: string = "";
+  hasChildren = false;
 
-  get textContent(): string {
-    return this.text;
-  }
-
-  constructor(private elementRef: ElementRef) {}
-
-  ngAfterContentInit() {
-    // Check if text input is provided
-    if (this.text) {
-      this.hasContent = true;
-      return;
-    }
-
-    // Otherwise check for projected content
-    const directContent = this.elementRef.nativeElement.textContent?.trim();
-    if (directContent) {
-      this.hasContent = true;
-    }
+  ngAfterContentInit(): void {
+    this.hasChildren = !!this.children;
   }
 }
