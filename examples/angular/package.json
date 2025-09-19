@@ -1,6 +1,7 @@
 {
   "name": "angular-example",
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -51,6 +52,8 @@
     "@types/jasmine": "~5.1.0",
     "@types/node": "^20.19.0",
     "eslint": "^9.22.0",
+    "@typescript-eslint/eslint-plugin": "^8.43.0",
+    "@typescript-eslint/parser": "^8.43.0",
     "eslint-config-prettier": "^9.1.0",
     "firebase": "^11",
     "jasmine-core": "~5.5.0",
