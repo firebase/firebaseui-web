@@ -41,7 +41,7 @@
     "react-dom": "catalog:peerDependencies"
   },
   "dependencies": {
-    "@nanostores/react": "^0.8.4",
+    "@nanostores/react": "^1.0.0",
     "@radix-ui/react-slot": "^1.2.3",
     "@tanstack/react-form": "^0.41.3",
     "clsx": "^2.1.1",

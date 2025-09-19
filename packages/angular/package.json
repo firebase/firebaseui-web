@@ -14,6 +14,7 @@
     }
   },
   "scripts": {
+    "prepare": "pnpm run build",
     "build": "ng-packagr -p ng-package.json",
     "test": "ng test --watch=false --browsers=ChromeHeadless --project=firebase-ui-angular",
     "test:watch": "ng test --watch=true --project=firebase-ui-angular",
@@ -22,20 +23,19 @@
     "release": "pnpm pack --pack-destination ../../releases/"
   },
   "peerDependencies": {
-    "@angular/common": "catalog:peerDependencies",
-    "@angular/core": "catalog:peerDependencies",
-    "@firebase-ui/core": "workspace:*",
-    "@firebase-ui/translations": "workspace:*"
+    "@angular/fire": "catalog:peerDependencies"
   },
   "dependencies": {
+    "@firebase-ui/core": "workspace:*",
+    "@firebase-ui/styles": "workspace:*",
     "@tanstack/angular-form": "^1.1.0",
     "tslib": "^2.8.1",
-    "nanostores": "catalog:",
-    "firebase": "catalog:"
+    "nanostores": "catalog:"
   },
   "sideEffects": false,
   "devDependencies": {
     "@angular/core": "catalog:",
+    "@angular/common": "catalog:",
     "@angular/forms": "catalog:",
     "@angular/router": "catalog:",
     "@angular/fire": "catalog:",
@@ -45,6 +45,7 @@
     "@angular/compiler-cli": "catalog:",
     "@angular/platform-browser": "catalog:",
     "@angular/platform-browser-dynamic": "catalog:",
+    "firebase": "catalog:",
     "karma": "^6.4.4",
     "karma-chrome-launcher": "^3.2.0",
     "karma-coverage": "^2.2.1",
