@@ -23,6 +23,7 @@ import { TanStackField } from "@tanstack/angular-form";
 import { firstValueFrom, of } from "rxjs";
 import { FirebaseUI, FirebaseUIPolicies } from "../../../provider";
 import { PhoneFormComponent, PhoneNumberFormComponent, VerificationFormComponent } from "./phone-form.component";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import { mockAuth } from "../../../testing/test-helpers";
 // Mock providePolicies function
 const mockProvidePolicies = () => ({
@@ -34,16 +35,12 @@ const mockProvidePolicies = () => ({
 });
 
 // Mock Firebase UI Core functions
-const mockFuiSignInWithPhoneNumber = jasmine.createSpy("signInWithPhoneNumber").and.returnValue(
-  Promise.resolve({
-    confirm: jasmine.createSpy("confirm").and.returnValue(Promise.resolve()),
-    verificationId: "mock-verification-id",
-  } as ConfirmationResult)
-);
+const mockFuiSignInWithPhoneNumber = vi.fn().mockResolvedValue({
+  confirm: vi.fn().mockResolvedValue(undefined),
+  verificationId: "mock-verification-id",
+} as ConfirmationResult);
 
-const mockFuiConfirmPhoneNumber = jasmine
-  .createSpy("fuiConfirmPhoneNumber")
-  .and.returnValue(Promise.resolve({} as any));
+const mockFuiConfirmPhoneNumber = vi.fn().mockResolvedValue({} as any);
 
 // Mock Button component
 @Component({

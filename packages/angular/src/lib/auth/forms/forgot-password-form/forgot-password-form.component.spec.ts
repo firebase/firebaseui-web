@@ -22,6 +22,7 @@ import { Router, provideRouter } from "@angular/router";
 import { TanStackField } from "@tanstack/angular-form";
 import { getFirebaseUITestProviders } from "../../../testing/test-helpers";
 import { ForgotPasswordFormComponent } from "./forgot-password-form.component";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 
 // Define window properties for testing
 declare global {
@@ -84,11 +85,11 @@ describe("ForgotPasswordFormComponent", () => {
   beforeEach(async () => {
     // Mock router
     mockRouter = {
-      navigateByUrl: jasmine.createSpy("navigateByUrl"),
+      navigateByUrl: vi.fn(),
     };
 
     // Create spies for the global functions
-    sendResetEmailSpy = jasmine.createSpy("sendPasswordResetEmail").and.returnValue(Promise.resolve());
+    sendResetEmailSpy = vi.fn().mockResolvedValue(undefined);
 
     // Define the function on the window object
     Object.defineProperty(window, "sendPasswordResetEmail", {

@@ -22,6 +22,7 @@ import { Router, provideRouter } from "@angular/router";
 import { TanStackField } from "@tanstack/angular-form";
 import { getFirebaseUITestProviders } from "../../../testing/test-helpers";
 import { EmailPasswordFormComponent } from "./email-password-form.component";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 
 // Define window properties for testing
 declare global {
@@ -55,7 +56,7 @@ describe("EmailPasswordFormComponent", () => {
   let component: EmailPasswordFormComponent;
   let fixture: ComponentFixture<EmailPasswordFormComponent>;
   let mockRouter: any;
-  let signInSpy: jasmine.Spy;
+  let signInSpy: ReturnType<typeof vi.fn>;
 
   // Expected error messages from the actual implementation
   const errorMessages = {
@@ -96,11 +97,11 @@ describe("EmailPasswordFormComponent", () => {
   beforeEach(async () => {
     // Mock router
     mockRouter = {
-      navigateByUrl: jasmine.createSpy("navigateByUrl"),
+      navigateByUrl: vi.fn(),
     };
 
     // Create spies for the global functions
-    signInSpy = jasmine.createSpy("signInWithEmailAndPassword").and.returnValue(Promise.resolve());
+    signInSpy = vi.fn().mockResolvedValue(undefined);
 
     // Define the function on the window object
     Object.defineProperty(window, "signInWithEmailAndPassword", {
@@ -134,7 +135,7 @@ describe("EmailPasswordFormComponent", () => {
     component.registerRoute = "/register";
 
     // Mock the validateAndSignIn method without any TypeScript errors
-    component.validateAndSignIn = jasmine.createSpy("validateAndSignIn");
+    component.validateAndSignIn = vi.fn();
 
     fixture.detectChanges();
     await fixture.whenStable(); // Wait for async ngOnInit
@@ -163,8 +164,8 @@ describe("EmailPasswordFormComponent", () => {
     // Create a submit event
     const event = new Event("submit");
     Object.defineProperties(event, {
-      preventDefault: { value: jasmine.createSpy("preventDefault") },
-      stopPropagation: { value: jasmine.createSpy("stopPropagation") },
+      preventDefault: { value: vi.fn() },
+      stopPropagation: { value: vi.fn() },
     });
 
     // Call handleSubmit directly

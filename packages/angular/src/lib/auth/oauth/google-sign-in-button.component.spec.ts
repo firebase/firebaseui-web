@@ -22,6 +22,7 @@ import { By } from "@angular/platform-browser";
 import { of } from "rxjs";
 import { FirebaseUI } from "../../provider";
 import { GoogleSignInButtonComponent } from "./google-sign-in-button.component";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 
 // Mock OAuthButton component
 @Component({
@@ -58,11 +59,14 @@ describe("GoogleSignInButtonComponent", () => {
   let component: TestGoogleSignInButtonComponent;
   let fixture: ComponentFixture<TestGoogleSignInButtonComponent>;
   let mockFirebaseUi: MockFirebaseUi;
-  let mockAuth: jasmine.SpyObj<Auth>;
+  let mockAuth: any;
 
   beforeEach(async () => {
     mockFirebaseUi = new MockFirebaseUi();
-    mockAuth = jasmine.createSpyObj("Auth", ["signInWithPopup", "signInWithRedirect"]);
+    mockAuth = {
+      signInWithPopup: vi.fn(),
+      signInWithRedirect: vi.fn(),
+    };
 
     await TestBed.configureTestingModule({
       imports: [CommonModule, TestGoogleSignInButtonComponent, MockOAuthButtonComponent],

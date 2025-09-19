@@ -22,12 +22,15 @@ import { FirebaseUIError } from "@firebase-ui/core";
 import { firstValueFrom, of } from "rxjs";
 import { FirebaseUI } from "../../provider";
 import { OAuthButtonComponent } from "./oauth-button.component";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 
 // Create a spy for fuiSignInWithOAuth
-const mockFuiSignInWithOAuth = jasmine.createSpy("signInWithOAuth").and.returnValue(Promise.resolve());
+const mockFuiSignInWithOAuth = vi.fn().mockResolvedValue(undefined);
 
 // Mock the firebase-ui/core module
-jasmine.createSpyObj("@firebase-ui/core", ["signInWithOAuth"]);
+vi.mock("@firebase-ui/core", () => ({
+  signInWithOAuth: mockFuiSignInWithOAuth,
+}));
 
 // Mock Button component
 @Component({

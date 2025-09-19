@@ -22,6 +22,7 @@ import { Router, provideRouter } from "@angular/router";
 import { TanStackField } from "@tanstack/angular-form";
 import { getFirebaseUITestProviders } from "../../../testing/test-helpers";
 import { RegisterFormComponent } from "./register-form.component";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 
 // Define window properties for testing
 declare global {
@@ -91,11 +92,11 @@ describe("RegisterFormComponent", () => {
   beforeEach(async () => {
     // Mock router
     mockRouter = {
-      navigateByUrl: jasmine.createSpy("navigateByUrl"),
+      navigateByUrl: vi.fn(),
     };
 
     // Create spies for the global functions
-    signUpSpy = jasmine.createSpy("fuiCreateUserWithEmailAndPassword").and.returnValue(Promise.resolve());
+    signUpSpy = vi.fn().mockResolvedValue(undefined);
 
     // Define the function on the window object
     Object.defineProperty(window, "fuiCreateUserWithEmailAndPassword", {
