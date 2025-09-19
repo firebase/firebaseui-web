@@ -101,7 +101,7 @@ describe("GoogleSignInButtonComponent", () => {
   });
 
   it("should use the GoogleAuthProvider", () => {
-    expect(component.googleProvider instanceof GoogleAuthProvider).toBeTrue();
+    expect(component.googleProvider instanceof GoogleAuthProvider).toBeTruthy();
   });
 
   it("should render with the correct provider", () => {
@@ -123,7 +123,7 @@ describe("GoogleSignInButtonComponent", () => {
       pending("Test environment issue - SVG not rendered");
       return;
     }
-    expect(svg.nativeElement.classList.contains("fui-provider__icon")).toBeTrue();
+    expect(svg.nativeElement.classList.contains("fui-provider__icon")).toBeTruthy();
   });
 
   it("should display the correct sign-in text", () => {

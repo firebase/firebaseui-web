@@ -18,18 +18,15 @@ import { CommonModule } from "@angular/common";
 import { Component, Input } from "@angular/core";
 import { ComponentFixture, TestBed, fakeAsync, tick } from "@angular/core/testing";
 import { Auth, AuthProvider } from "@angular/fire/auth";
-import { FirebaseUIError } from "@firebase-ui/core";
+import { FirebaseUIError, signInWithOAuth } from "@firebase-ui/core";
 import { firstValueFrom, of } from "rxjs";
 import { FirebaseUI } from "../../provider";
 import { OAuthButtonComponent } from "./oauth-button.component";
 import { describe, it, expect, beforeEach, vi } from "vitest";
 
-// Create a spy for fuiSignInWithOAuth
-const mockFuiSignInWithOAuth = vi.fn().mockResolvedValue(undefined);
-
 // Mock the firebase-ui/core module
 vi.mock("@firebase-ui/core", () => ({
-  signInWithOAuth: mockFuiSignInWithOAuth,
+  signInWithOAuth: vi.fn().mockResolvedValue(undefined),
 }));
 
 // Mock Button component
@@ -87,7 +84,7 @@ class TestOAuthButtonComponent extends OAuthButtonComponent {
     try {
       const config = await firstValueFrom(this["ui"].config());
 
-      await mockFuiSignInWithOAuth(config, this.provider);
+      await vi.mocked(signInWithOAuth)(config, this.provider);
     } catch (error) {
       if (error instanceof FirebaseUIError) {
         this.error = error.message;
@@ -123,7 +120,7 @@ describe("OAuthButtonComponent", () => {
     mockFirebaseUi = new MockFirebaseUi();
 
     // Reset mock before each test
-    mockFuiSignInWithOAuth.calls.reset();
+    vi.mocked(signInWithOAuth).mockClear();
 
     await TestBed.configureTestingModule({
       imports: [CommonModule, TestOAuthButtonComponent, MockButtonComponent],
@@ -164,8 +161,8 @@ describe("OAuthButtonComponent", () => {
     tick();
 
     // Check if the mock function was called with the correct arguments
-    expect(mockFuiSignInWithOAuth).toHaveBeenCalledWith(
-      jasmine.objectContaining({
+    expect(vi.mocked(signInWithOAuth)).toHaveBeenCalledWith(
+      expect.objectContaining({
         language: "en",
         translations: {},
         enableAutoUpgradeAnonymous: false,
@@ -183,7 +180,7 @@ describe("OAuthButtonComponent", () => {
     });
 
     // Make the mock function throw a FirebaseUIError
-    mockFuiSignInWithOAuth.and.rejectWith(firebaseUIError);
+    vi.mocked(signInWithOAuth).mockRejectedValue(firebaseUIError);
 
     // Trigger the sign-in
     component.handleOAuthSignIn();
@@ -201,7 +198,7 @@ describe("OAuthButtonComponent", () => {
     const regularError = new Error("Regular error");
 
     // Make the mock function throw a regular Error
-    mockFuiSignInWithOAuth.and.rejectWith(regularError);
+    vi.mocked(signInWithOAuth).mockRejectedValue(regularError);
 
     // Trigger the sign-in
     component.handleOAuthSignIn();

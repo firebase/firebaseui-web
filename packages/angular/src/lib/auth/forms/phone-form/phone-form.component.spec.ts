@@ -262,8 +262,8 @@ describe("PhoneFormComponent", () => {
 
   beforeEach(function () {
     // Reset the spies before each test
-    mockFuiSignInWithPhoneNumber.calls.reset();
-    mockFuiConfirmPhoneNumber.calls.reset();
+    mockFuiSignInWithPhoneNumber.mockClear();
+    mockFuiConfirmPhoneNumber.mockClear();
 
     mockRecaptchaVerifier = jasmine.createSpyObj<RecaptchaVerifier>("RecaptchaVerifier", ["render", "clear", "verify"]);
     mockRecaptchaVerifier.render.and.returnValue(Promise.resolve(1));
@@ -452,6 +452,6 @@ describe("PhoneFormComponent", () => {
     component.resendDelay = 2;
     component.startTimer();
     expect(component.timeLeft).toBe(1);
-    expect(component.canResend).toBeTrue();
+    expect(component.canResend).toBeTruthy();
   });
 });

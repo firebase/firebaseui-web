@@ -65,7 +65,7 @@ describe("DividerComponent", () => {
     const dividerEl = dividerHost.query(By.css(".fui-divider"));
 
     expect(dividerEl).toBeTruthy();
-    expect(dividerEl.nativeElement.classList.contains("fui-divider")).toBeTrue();
+    expect(dividerEl.nativeElement.classList.contains("fui-divider")).toBeTruthy();
 
     // Check for a single divider line when no text
     const dividerLines = dividerEl.queryAll(By.css(".fui-divider__line"));
@@ -108,6 +108,6 @@ describe("DividerComponent", () => {
     const dividerHost = inputTextFixture.debugElement.query(By.css('[data-testid="divider-with-input-text"]'));
 
     // Class should be on the host element
-    expect(dividerHost.nativeElement.classList.contains("custom-class")).toBeTrue();
+    expect(dividerHost.nativeElement.classList.contains("custom-class")).toBeTruthy();
   });
 });

@@ -16,18 +16,119 @@
 
 // This file is required by vitest.config.ts and sets up the Angular testing environment
 
+// Import Zone.js testing utilities first
 import "zone.js";
 import "zone.js/testing";
-import { getTestBed } from "@angular/core/testing";
+
+// Import Angular testing utilities
+import { getTestBed, TestBed } from "@angular/core/testing";
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from "@angular/platform-browser-dynamic/testing";
-import { expect, vi } from "vitest";
+
+// Import Vitest utilities
+import { expect, vi, afterEach } from "vitest";
 import * as matchers from "@testing-library/jest-dom/matchers";
 
 // Extend Vitest's expect with jest-dom matchers
 expect.extend(matchers);
 
-// Initialize Angular testing environment
-getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
+// Initialize the testing environment with Zone.js support
+if (!TestBed.platform) {
+  TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting(), {
+    teardown: { destroyAfterEach: false },
+  });
+}
+
+// Reset TestBed after each test to prevent configuration conflicts
+afterEach(() => {
+  TestBed.resetTestingModule();
+});
+
+// Make Vitest globals available
+declare global {
+  const spyOn: typeof vi.spyOn;
+  const pending: (reason?: string) => void;
+  const jasmine: any;
+}
+
+// Define global test utilities
+globalThis.spyOn = (obj: any, method: string) => {
+  const spy = vi.spyOn(obj, method);
+  // Add Jasmine-compatible methods
+  spy.and = {
+    callFake: (fn: Function) => {
+      spy.mockImplementation(fn);
+      return spy;
+    },
+    returnValue: (value: any) => {
+      spy.mockReturnValue(value);
+      return spy;
+    },
+    callThrough: () => {
+      spy.mockImplementation((...args: any[]) => obj[method](...args));
+      return spy;
+    },
+  };
+  spy.calls = {
+    reset: () => spy.mockClear(),
+    all: () => spy.mock.calls,
+    count: () => spy.mock.calls.length,
+    mostRecent: () => spy.mock.calls[spy.mock.calls.length - 1] || { args: [] },
+    first: () => spy.mock.calls[0] || { args: [] },
+  };
+  return spy;
+};
+globalThis.pending = (reason?: string) => {
+  throw new Error(`Test pending: ${reason || "No reason provided"}`);
+};
+
+// Mock Jasmine for compatibility
+globalThis.jasmine = {
+  createSpyObj: (name: string, methods: string[], properties?: any) => {
+    const obj: any = {};
+    methods.forEach((method) => {
+      const spy = vi.fn();
+      // Add Jasmine-compatible methods
+      spy.and = {
+        returnValue: (value: any) => {
+          spy.mockReturnValue(value);
+          return spy;
+        },
+        callFake: (fn: Function) => {
+          spy.mockImplementation(fn);
+          return spy;
+        },
+        callThrough: () => {
+          spy.mockImplementation((...args: any[]) => obj[method](...args));
+          return spy;
+        },
+      };
+      obj[method] = spy;
+    });
+    if (properties) {
+      Object.assign(obj, properties);
+    }
+    return obj;
+  },
+  createSpy: (name: string) => {
+    const spy = vi.fn();
+    // Add Jasmine-compatible methods
+    spy.and = {
+      returnValue: (value: any) => {
+        spy.mockReturnValue(value);
+        return spy;
+      },
+      callFake: (fn: Function) => {
+        spy.mockImplementation(fn);
+        return spy;
+      },
+      callThrough: () => {
+        spy.mockImplementation((...args: any[]) => spy(...args));
+        return spy;
+      },
+    };
+    return spy;
+  },
+};
 
 // Mock global objects that might be needed for Firebase UI testing
 Object.defineProperty(window, "signInWithEmailAndPassword", {

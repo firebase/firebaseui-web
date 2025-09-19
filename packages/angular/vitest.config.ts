@@ -49,6 +49,22 @@ export default defineConfig({
     env: {
       NODE_ENV: "test",
     },
+    // Define global test utilities
+    define: {
+      global: "globalThis",
+    },
+    // Pool options for better Zone.js compatibility
+    pool: "forks",
+    poolOptions: {
+      forks: {
+        singleFork: true,
+      },
+    },
+    // Better isolation for Angular tests
+    isolate: true,
+    // Reset modules between tests
+    clearMocks: true,
+    restoreMocks: true,
   },
   resolve: {
     alias: {
