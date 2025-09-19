@@ -184,7 +184,7 @@ describe("OAuthButtonComponent", () => {
 
     // Trigger the sign-in
     component.handleOAuthSignIn();
-    
+
     // Wait for any async operations to complete
     await new Promise((resolve) => setTimeout(resolve, 0));
 
@@ -201,7 +201,7 @@ describe("OAuthButtonComponent", () => {
 
     // Trigger the sign-in
     component.handleOAuthSignIn();
-    
+
     // Wait for any async operations to complete
     await new Promise((resolve) => setTimeout(resolve, 0));
 
