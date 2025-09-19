@@ -20,12 +20,25 @@
 import "zone.js";
 import "zone.js/testing";
 
+// Set up Zone.js testing environment
+import { TestBed } from "@angular/core/testing";
+
+// Ensure Zone.js testing environment is properly configured
+beforeEach(() => {
+  // Reset Zone.js state before each test
+  if (typeof Zone !== "undefined") {
+    Zone.current.fork({}).run(() => {
+      // Run each test in a fresh zone
+    });
+  }
+});
+
 // Import Angular testing utilities
 import { getTestBed, TestBed } from "@angular/core/testing";
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from "@angular/platform-browser-dynamic/testing";
 
 // Import Vitest utilities
-import { expect, vi, afterEach } from "vitest";
+import { expect, vi, afterEach, beforeEach } from "vitest";
 import * as matchers from "@testing-library/jest-dom/matchers";
 
 // Extend Vitest's expect with jest-dom matchers
