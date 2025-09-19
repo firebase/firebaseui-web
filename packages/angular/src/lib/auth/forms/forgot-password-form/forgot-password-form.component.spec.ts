@@ -56,7 +56,7 @@ describe("ForgotPasswordFormComponent", () => {
   let component: ForgotPasswordFormComponent;
   let fixture: ComponentFixture<ForgotPasswordFormComponent>;
   let mockRouter: any;
-  let sendResetEmailSpy: jasmine.Spy;
+  let sendResetEmailSpy: any;
 
   // Expected error messages from the actual implementation
   const errorMessages = {
@@ -153,8 +153,8 @@ describe("ForgotPasswordFormComponent", () => {
     // Create a submit event
     const event = new Event("submit");
     Object.defineProperties(event, {
-      preventDefault: { value: jasmine.createSpy("preventDefault") },
-      stopPropagation: { value: jasmine.createSpy("stopPropagation") },
+      preventDefault: { value: vi.fn() },
+      stopPropagation: { value: vi.fn() },
     });
 
     // Call handleSubmit directly

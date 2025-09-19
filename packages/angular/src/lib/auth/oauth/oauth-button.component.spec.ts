@@ -111,17 +111,20 @@ class TestOAuthButtonComponent extends OAuthButtonComponent {
 describe("OAuthButtonComponent", () => {
   let component: TestOAuthButtonComponent;
   let fixture: ComponentFixture<TestOAuthButtonComponent>;
-  let mockProvider: jasmine.SpyObj<AuthProvider>;
-  let mockAuth: jasmine.SpyObj<Auth>;
+  let mockProvider: any;
+  let mockAuth: any;
   let mockFirebaseUi: MockFirebaseUi;
 
   beforeEach(async () => {
     // Create spy objects for Auth and AuthProvider
-    mockProvider = jasmine.createSpyObj("AuthProvider", [], {
+    mockProvider = {
       providerId: "google.com",
-    });
+    };
 
-    mockAuth = jasmine.createSpyObj("Auth", ["signInWithPopup", "signInWithRedirect"]);
+    mockAuth = {
+      signInWithPopup: vi.fn(),
+      signInWithRedirect: vi.fn(),
+    };
 
     mockFirebaseUi = new MockFirebaseUi();
 

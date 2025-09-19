@@ -119,13 +119,13 @@ class MockFirebaseUi {
 class TestPhoneFormComponent extends PhoneFormComponent {
   // Replace the initRecaptcha method to simplify testing
   initRecaptcha() {
-    const mockRecaptchaVerifier = jasmine.createSpyObj<RecaptchaVerifier>("RecaptchaVerifier", [
-      "render",
-      "clear",
-      "verify",
-    ]);
-    mockRecaptchaVerifier.render.and.returnValue(Promise.resolve(1));
-    mockRecaptchaVerifier.verify.and.returnValue(Promise.resolve("verification-token"));
+    const mockRecaptchaVerifier = {
+      render: vi.fn(),
+      clear: vi.fn(),
+      verify: vi.fn(),
+    };
+    mockRecaptchaVerifier.render.mockResolvedValue(1);
+    mockRecaptchaVerifier.verify.mockResolvedValue("verification-token");
 
     this.recaptchaVerifier = mockRecaptchaVerifier;
     return Promise.resolve();
@@ -237,13 +237,13 @@ class TestPhoneFormComponent extends PhoneFormComponent {
 class TestPhoneNumberFormComponent extends PhoneNumberFormComponent {
   // Replace the initRecaptcha method
   override initRecaptcha() {
-    const mockRecaptchaVerifier = jasmine.createSpyObj<RecaptchaVerifier>("RecaptchaVerifier", [
-      "render",
-      "clear",
-      "verify",
-    ]);
-    mockRecaptchaVerifier.render.and.returnValue(Promise.resolve(1));
-    mockRecaptchaVerifier.verify.and.returnValue(Promise.resolve("verification-token"));
+    const mockRecaptchaVerifier = {
+      render: vi.fn(),
+      clear: vi.fn(),
+      verify: vi.fn(),
+    };
+    mockRecaptchaVerifier.render.mockResolvedValue(1);
+    mockRecaptchaVerifier.verify.mockResolvedValue("verification-token");
 
     this.recaptchaVerifier = mockRecaptchaVerifier;
     return Promise.resolve();
@@ -257,7 +257,7 @@ class TestVerificationFormComponent extends VerificationFormComponent {
 describe("PhoneFormComponent", () => {
   let component: TestPhoneFormComponent;
   let fixture: ComponentFixture<TestPhoneFormComponent>;
-  let mockRecaptchaVerifier: jasmine.SpyObj<RecaptchaVerifier>;
+  let mockRecaptchaVerifier: any;
   let mockFirebaseUi: MockFirebaseUi;
 
   beforeEach(function () {
@@ -265,12 +265,14 @@ describe("PhoneFormComponent", () => {
     mockFuiSignInWithPhoneNumber.mockClear();
     mockFuiConfirmPhoneNumber.mockClear();
 
-    mockRecaptchaVerifier = jasmine.createSpyObj<RecaptchaVerifier>("RecaptchaVerifier", ["render", "clear", "verify"]);
-    mockRecaptchaVerifier.render.and.returnValue(Promise.resolve(1));
-    mockRecaptchaVerifier.verify.and.returnValue(Promise.resolve("verification-token"));
+    mockRecaptchaVerifier = {
+      render: vi.fn().mockResolvedValue(1),
+      clear: vi.fn(),
+      verify: vi.fn().mockResolvedValue("verification-token"),
+    };
 
     // Create mock schema for phone validation
-    (window as any).createPhoneFormSchema = jasmine.createSpy("createPhoneFormSchema").and.returnValue({
+    (window as any).createPhoneFormSchema = vi.fn().mockReturnValue({
       safeParse: (data: any) => {
         if (data.phoneNumber && !data.phoneNumber.match(/^\d{10}$/)) {
           return {
@@ -337,12 +339,10 @@ describe("PhoneFormComponent", () => {
       },
       languageCode: "en",
       settings: { appVerificationDisabledForTesting: true },
-      signInWithPhoneNumber: jasmine.createSpy("signInWithPhoneNumber").and.returnValue(
-        Promise.resolve({
-          confirm: jasmine.createSpy("confirm").and.returnValue(Promise.resolve()),
-        })
-      ),
-      signInWithCredential: jasmine.createSpy("signInWithCredential").and.returnValue(Promise.resolve()),
+      signInWithPhoneNumber: vi.fn().mockResolvedValue({
+        confirm: vi.fn().mockResolvedValue(undefined),
+      }),
+      signInWithCredential: vi.fn().mockResolvedValue(undefined),
     };
 
     TestBed.configureTestingModule({
@@ -370,7 +370,7 @@ describe("PhoneFormComponent", () => {
     }).compileComponents();
 
     // Mock RecaptchaVerifier constructor
-    (window as any).RecaptchaVerifier = jasmine.createSpy("RecaptchaVerifier").and.returnValue(mockRecaptchaVerifier);
+    (window as any).RecaptchaVerifier = vi.fn().mockReturnValue(mockRecaptchaVerifier);
 
     fixture = TestBed.createComponent(TestPhoneFormComponent);
     component = fixture.componentInstance;
@@ -429,7 +429,7 @@ describe("PhoneFormComponent", () => {
   it("should call fuiConfirmPhoneNumber when handling verification code submission", async () => {
     // Set up the confirmation result first
     const mockConfirmationResult = {
-      confirm: jasmine.createSpy("confirm").and.returnValue(Promise.resolve()),
+      confirm: vi.fn().mockResolvedValue(undefined),
       verificationId: "mock-verification-id",
     } as ConfirmationResult;
 

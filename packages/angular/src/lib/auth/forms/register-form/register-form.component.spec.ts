@@ -56,7 +56,7 @@ describe("RegisterFormComponent", () => {
   let component: RegisterFormComponent;
   let fixture: ComponentFixture<RegisterFormComponent>;
   let mockRouter: any;
-  let signUpSpy: jasmine.Spy;
+  let signUpSpy: any;
 
   // Mock schema returned by createEmailFormSchema
   const mockSchema = {
@@ -157,8 +157,8 @@ describe("RegisterFormComponent", () => {
     // Create a submit event
     const event = new Event("submit");
     Object.defineProperties(event, {
-      preventDefault: { value: jasmine.createSpy("preventDefault") },
-      stopPropagation: { value: jasmine.createSpy("stopPropagation") },
+      preventDefault: { value: vi.fn() },
+      stopPropagation: { value: vi.fn() },
     });
 
     // Call handleSubmit directly
