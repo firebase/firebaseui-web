@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, inject, Input, AfterContentInit, ViewChild, ElementRef } from "@angular/core";
+import { Component, AfterContentInit, ViewChild, ElementRef, EventEmitter, Output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   CardComponent,
@@ -23,7 +23,7 @@ import {
   CardSubtitleComponent,
   CardContentComponent,
 } from "../../../components/card/card.component";
-import { FirebaseUI } from "../../../provider";
+import { injectTranslation, injectUI } from "../../../provider";
 import { EmailLinkFormComponent } from "../../forms/email-link-form/email-link-form.component";
 import { DividerComponent } from "../../../components/divider/divider.component";
 
@@ -44,14 +44,14 @@ import { DividerComponent } from "../../../components/divider/divider.component"
     <div class="fui-screen">
       <fui-card>
         <fui-card-header>
-          <fui-card-title>{{ titleText | async }}</fui-card-title>
-          <fui-card-subtitle>{{ subtitleText | async }}</fui-card-subtitle>
+          <fui-card-title>{{ titleText }}</fui-card-title>
+          <fui-card-subtitle>{{ subtitleText }}</fui-card-subtitle>
         </fui-card-header>
         <fui-card-content>
           <fui-email-link-form></fui-email-link-form>
 
           <ng-container *ngIf="hasContent">
-            <fui-divider>{{ dividerOrLabel | async }}</fui-divider>
+            <fui-divider>{{ dividerOrLabel }}</fui-divider>
             <div class="space-y-4 mt-6" #contentContainer>
               <ng-content></ng-content>
             </div>
@@ -62,25 +62,18 @@ import { DividerComponent } from "../../../components/divider/divider.component"
   `,
 })
 export class EmailLinkAuthScreenComponent implements AfterContentInit {
-  private ui = inject(FirebaseUI);
+  private ui = injectUI();
+
+  titleText = injectTranslation("labels", "signIn");
+  subtitleText = injectTranslation("labels", "signInToAccount");
+  dividerOrLabel = injectTranslation("labels", "dividerOr");
 
   @ViewChild("contentContainer") contentContainer!: ElementRef;
+  @Output() emailSent = new EventEmitter<any>();
   private _hasProjectedContent = false;
 
   get hasContent(): boolean {
     return this._hasProjectedContent;
-  }
-
-  get titleText() {
-    return this.ui.translation("labels", "signIn");
-  }
-
-  get subtitleText() {
-    return this.ui.translation("prompts", "signInToAccount");
-  }
-
-  get dividerOrLabel() {
-    return this.ui.translation("messages", "dividerOr");
   }
 
   ngAfterContentInit() {
