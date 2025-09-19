@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
- @layer theme {
+@layer theme {
   :root {
     /* The primary color is used for the button and link colors */
     --fui-primary: var(--color-black);
