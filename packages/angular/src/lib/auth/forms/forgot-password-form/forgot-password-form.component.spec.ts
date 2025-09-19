@@ -16,7 +16,7 @@
 
 import { CommonModule } from "@angular/common";
 import { Component, Input } from "@angular/core";
-import { ComponentFixture, TestBed, fakeAsync, tick } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 import { Router, provideRouter } from "@angular/router";
 import { TanStackField } from "@tanstack/angular-form";
@@ -146,7 +146,7 @@ describe("ForgotPasswordFormComponent", () => {
     expect(submitButton).toBeTruthy();
   });
 
-  it("submits the form when handleSubmit is called", fakeAsync(() => {
+  it("submits the form when handleSubmit is called", async () => {
     // Set values directly on the form state
     component.form.state.values.email = "test@example.com";
 
@@ -159,22 +159,27 @@ describe("ForgotPasswordFormComponent", () => {
 
     // Call handleSubmit directly
     component.handleSubmit(event as SubmitEvent);
-    tick();
+    
+    // Wait for any async operations to complete
+    await new Promise(resolve => setTimeout(resolve, 0));
 
     // Check if resetPassword was called with correct values
     expect(component.resetPassword).toHaveBeenCalledWith("test@example.com");
-  }));
+  });
 
-  it("displays error message when reset fails", fakeAsync(() => {
+  it("displays error message when reset fails", async () => {
     // Manually set the error
     component.formError = "Invalid email";
     fixture.detectChanges();
+    
+    // Wait for any async operations to complete
+    await new Promise(resolve => setTimeout(resolve, 0));
 
     // Check that the error message is displayed in the DOM
     const formErrorEl = fixture.debugElement.query(By.css(".fui-form__error"));
     expect(formErrorEl).toBeTruthy();
     expect(formErrorEl.nativeElement.textContent.trim()).toBe("Invalid email");
-  }));
+  });
 
   it("shows success message when email is sent", () => {
     // Set emailSent to true
