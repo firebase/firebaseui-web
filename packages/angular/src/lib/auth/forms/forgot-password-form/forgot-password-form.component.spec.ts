@@ -159,9 +159,9 @@ describe("ForgotPasswordFormComponent", () => {
 
     // Call handleSubmit directly
     component.handleSubmit(event as SubmitEvent);
-    
+
     // Wait for any async operations to complete
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     // Check if resetPassword was called with correct values
     expect(component.resetPassword).toHaveBeenCalledWith("test@example.com");
@@ -171,9 +171,9 @@ describe("ForgotPasswordFormComponent", () => {
     // Manually set the error
     component.formError = "Invalid email";
     fixture.detectChanges();
-    
+
     // Wait for any async operations to complete
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     // Check that the error message is displayed in the DOM
     const formErrorEl = fixture.debugElement.query(By.css(".fui-form__error"));

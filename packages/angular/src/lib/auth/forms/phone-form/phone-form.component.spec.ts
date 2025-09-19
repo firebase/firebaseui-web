@@ -403,9 +403,9 @@ describe("PhoneFormComponent", () => {
 
   it("should call signInWithPhoneNumber when handling phone submission", async () => {
     component.handlePhoneSubmit("1234567890");
-    
+
     // Wait for any async operations to complete
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     expect(mockFuiSignInWithPhoneNumber).toHaveBeenCalled();
   });
@@ -419,9 +419,9 @@ describe("PhoneFormComponent", () => {
     mockFuiSignInWithPhoneNumber.mockRejectedValue(mockError);
 
     component.handlePhoneSubmit("1234567890");
-    
+
     // Wait for any async operations to complete
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     expect(component.formError).toBe("The phone number is invalid");
   });
@@ -436,9 +436,9 @@ describe("PhoneFormComponent", () => {
     component.confirmationResult = mockConfirmationResult;
 
     component.handleVerificationSubmit("123456");
-    
+
     // Wait for any async operations to complete
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     expect(mockFuiConfirmPhoneNumber).toHaveBeenCalled();
   });
@@ -449,9 +449,9 @@ describe("PhoneFormComponent", () => {
     component.phoneNumber = "1234567890";
 
     component.handleResend();
-    
+
     // Wait for any async operations to complete
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     expect(mockFuiSignInWithPhoneNumber).toHaveBeenCalled();
   });

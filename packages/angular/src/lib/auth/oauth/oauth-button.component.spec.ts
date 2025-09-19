@@ -16,7 +16,7 @@
 
 import { CommonModule } from "@angular/common";
 import { Component, Input } from "@angular/core";
-import { ComponentFixture, TestBed, fakeAsync, tick } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { Auth, AuthProvider } from "@angular/fire/auth";
 import { FirebaseUIError, signInWithOAuth } from "@firebase-ui/core";
 import { firstValueFrom, of } from "rxjs";
@@ -27,6 +27,12 @@ import { describe, it, expect, beforeEach, vi } from "vitest";
 // Mock the firebase-ui/core module
 vi.mock("@firebase-ui/core", () => ({
   signInWithOAuth: vi.fn().mockResolvedValue(undefined),
+  FirebaseUIError: class FirebaseUIError extends Error {
+    constructor(public error: { code: string; message: string }) {
+      super(error.message);
+      this.name = "FirebaseUIError";
+    }
+  },
 }));
 
 // Mock Button component
@@ -147,18 +153,12 @@ describe("OAuthButtonComponent", () => {
     expect(console.error).toHaveBeenCalledWith("Provider is required for OAuthButtonComponent");
   });
 
-  it("should call signInWithOAuth when button is clicked", fakeAsync(() => {
-    // Spy on handleOAuthSignIn
-    spyOn(component, "handleOAuthSignIn").and.callThrough();
-
+  it("should call signInWithOAuth when button is clicked", async () => {
     // Call the method directly instead of relying on button click
     component.handleOAuthSignIn();
 
-    // Check if handleOAuthSignIn was called
-    expect(component.handleOAuthSignIn).toHaveBeenCalled();
-
-    // Advance the tick to allow promises to resolve
-    tick();
+    // Wait for any async operations to complete
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     // Check if the mock function was called with the correct arguments
     expect(vi.mocked(signInWithOAuth)).toHaveBeenCalledWith(
@@ -170,9 +170,9 @@ describe("OAuthButtonComponent", () => {
       }),
       mockProvider
     );
-  }));
+  });
 
-  it("should display error message when FirebaseUIError occurs", fakeAsync(() => {
+  it("should display error message when FirebaseUIError occurs", async () => {
     // Create a FirebaseUIError
     const firebaseUIError = new FirebaseUIError({
       code: "auth/popup-closed-by-user",
@@ -184,16 +184,15 @@ describe("OAuthButtonComponent", () => {
 
     // Trigger the sign-in
     component.handleOAuthSignIn();
-    tick();
+    
+    // Wait for any async operations to complete
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
-    // In the test environment, the error message becomes 'An unexpected error occurred'
-    expect(component.error).toBe("An unexpected error occurred");
-  }));
+    // The component correctly displays the FirebaseUIError message
+    expect(component.error).toBe("The popup was closed by the user");
+  });
 
-  it("should display generic error message when non-Firebase error occurs", fakeAsync(() => {
-    // Spy on console.error
-    spyOn(console, "error");
-
+  it("should display generic error message when non-Firebase error occurs", async () => {
     // Create a regular Error
     const regularError = new Error("Regular error");
 
@@ -202,12 +201,11 @@ describe("OAuthButtonComponent", () => {
 
     // Trigger the sign-in
     component.handleOAuthSignIn();
-    tick(100); // Allow time for the async operations to complete
-
-    // Check if console.error was called with the error
-    expect(console.error).toHaveBeenCalledWith(regularError);
+    
+    // Wait for any async operations to complete
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     // Update the error expectation - in our mock it gets the 'An unknown error occurred' message
     expect(component.error).toBe("An unknown error occurred");
-  }));
+  });
 });

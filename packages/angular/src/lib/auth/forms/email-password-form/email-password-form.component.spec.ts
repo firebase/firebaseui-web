@@ -170,9 +170,9 @@ describe("EmailPasswordFormComponent", () => {
 
     // Call handleSubmit directly
     component.handleSubmit(event as SubmitEvent);
-    
+
     // Wait for any async operations to complete
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     // Check if validateAndSignIn was called with correct values
     expect(component.validateAndSignIn).toHaveBeenCalledWith("test@example.com", "password123");
@@ -182,9 +182,9 @@ describe("EmailPasswordFormComponent", () => {
     // Manually set the error
     component.formError = "Invalid credentials";
     fixture.detectChanges();
-    
+
     // Wait for any async operations to complete
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     // Check that the error message is displayed in the DOM
     const formErrorEl = fixture.debugElement.query(By.css(".fui-form__error"));

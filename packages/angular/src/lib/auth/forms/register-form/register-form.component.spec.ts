@@ -163,9 +163,9 @@ describe("RegisterFormComponent", () => {
 
     // Call handleSubmit directly
     component.handleSubmit(event as SubmitEvent);
-    
+
     // Wait for any async operations to complete
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     // Check if registerUser was called with correct values
     expect(component.registerUser).toHaveBeenCalledWith("test@example.com", "password123");
@@ -175,9 +175,9 @@ describe("RegisterFormComponent", () => {
     // Manually set the error
     component.formError = "Email already in use";
     fixture.detectChanges();
-    
+
     // Wait for any async operations to complete
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     // Check that the error message is displayed in the DOM
     const formErrorEl = fixture.debugElement.query(By.css(".fui-form__error"));
