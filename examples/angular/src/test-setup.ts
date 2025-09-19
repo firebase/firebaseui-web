@@ -20,8 +20,9 @@
 import "zone.js";
 import "zone.js/testing";
 
-// Set up Zone.js testing environment
-import { TestBed } from "@angular/core/testing";
+// Import Angular testing utilities
+import { getTestBed, TestBed } from "@angular/core/testing";
+import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from "@angular/platform-browser-dynamic/testing";
 
 // Ensure Zone.js testing environment is properly configured
 beforeEach(() => {
@@ -32,10 +33,6 @@ beforeEach(() => {
     });
   }
 });
-
-// Import Angular testing utilities
-import { getTestBed } from "@angular/core/testing";
-import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from "@angular/platform-browser-dynamic/testing";
 
 // Import Vitest utilities
 import { expect, vi, afterEach, beforeEach } from "vitest";
@@ -60,7 +57,6 @@ afterEach(() => {
 declare global {
   const spyOn: typeof vi.spyOn;
   const pending: (reason?: string) => void;
-  const jasmine: any;
 }
 
 // Define global test utilities
@@ -85,73 +81,11 @@ globalThis.spyOn = (obj: any, method: string) => {
     reset: () => spy.mockClear(),
     all: () => spy.mock.calls,
     count: () => spy.mock.calls.length,
-    mostRecent: () => spy.mock.calls[spy.mock.calls.length - 1],
-    any: () => spy.mock.calls.length > 0,
+    mostRecent: () => spy.mock.calls[spy.mock.calls.length - 1] || { args: [] },
+    first: () => spy.mock.calls[0] || { args: [] },
   };
   return spy;
 };
 globalThis.pending = (reason?: string) => {
   throw new Error(`Test pending: ${reason || "No reason provided"}`);
-};
-
-// Mock Jasmine for compatibility
-globalThis.jasmine = {
-  createSpy: (name: string) => {
-    const spy = vi.fn();
-    spy.and = {
-      returnValue: (value: any) => {
-        spy.mockReturnValue(value);
-        return spy;
-      },
-      callFake: (fn: Function) => {
-        spy.mockImplementation(fn);
-        return spy;
-      },
-      callThrough: () => {
-        // For createSpy, there's no original method to call through
-        return spy;
-      },
-    };
-    spy.calls = {
-      reset: () => spy.mockClear(),
-      all: () => spy.mock.calls,
-      count: () => spy.mock.calls.length,
-      mostRecent: () => spy.mock.calls[spy.mock.calls.length - 1],
-      any: () => spy.mock.calls.length > 0,
-    };
-    return spy;
-  },
-  createSpyObj: (name: string, methods: string[], properties?: any) => {
-    const obj: any = {};
-    methods.forEach((method) => {
-      const spy = vi.fn();
-      // Add Jasmine-compatible methods
-      spy.and = {
-        returnValue: (value: any) => {
-          spy.mockReturnValue(value);
-          return spy;
-        },
-        callFake: (fn: Function) => {
-          spy.mockImplementation(fn);
-          return spy;
-        },
-        callThrough: () => {
-          // For createSpyObj, there's no original method to call through
-          return spy;
-        },
-      };
-      spy.calls = {
-        reset: () => spy.mockClear(),
-        all: () => spy.mock.calls,
-        count: () => spy.mock.calls.length,
-        mostRecent: () => spy.mock.calls[spy.mock.calls.length - 1],
-        any: () => spy.mock.calls.length > 0,
-      };
-      obj[method] = spy;
-    });
-    if (properties) {
-      Object.assign(obj, properties);
-    }
-    return obj;
-  },
 };
