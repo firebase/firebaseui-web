@@ -21,10 +21,11 @@ import { By } from "@angular/platform-browser";
 import { of } from "rxjs";
 import { FirebaseUI } from "../../../provider";
 import { SignInAuthScreenComponent } from "./sign-in-auth-screen.component";
+import { CardComponent } from "../../../components/card/card.component";
 
 // Mock Card components
 @Component({
-  selector: "fui-card",
+  selector: "fui-card-signin",
   template: '<div class="fui-card"><ng-content></ng-content></div>',
   standalone: true,
 })
@@ -124,7 +125,7 @@ describe("SignInAuthScreenComponent", () => {
         SignInAuthScreenComponent,
         TestHostWithChildrenComponent,
         TestHostWithoutChildrenComponent,
-        MockCardComponent,
+        CardComponent,
         MockCardHeaderComponent,
         MockCardTitleComponent,
         MockCardSubtitleComponent,

@@ -24,7 +24,7 @@ import { PasswordResetScreenComponent } from "./password-reset-screen.component"
 
 // Mock Card components
 @Component({
-  selector: "fui-card",
+  selector: "fui-card-password-reset",
   template: '<div class="fui-card"><ng-content></ng-content></div>',
   standalone: true,
 })

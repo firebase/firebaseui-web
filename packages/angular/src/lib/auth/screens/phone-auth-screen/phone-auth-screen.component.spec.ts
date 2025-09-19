@@ -24,7 +24,7 @@ import { PhoneAuthScreenComponent } from "./phone-auth-screen.component";
 
 // Mock Card components
 @Component({
-  selector: "fui-card",
+  selector: "fui-card-phone",
   template: '<div class="fui-card"><ng-content></ng-content></div>',
   standalone: true,
 })

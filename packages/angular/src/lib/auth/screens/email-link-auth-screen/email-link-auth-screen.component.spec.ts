@@ -32,7 +32,7 @@ class MockEmailLinkFormComponent {}
 
 // Mock Card components
 @Component({
-  selector: "fui-card",
+  selector: "fui-card-email-link",
   template: '<div class="fui-card"><ng-content></ng-content></div>',
   standalone: true,
 })

@@ -24,7 +24,7 @@ import { OAuthScreenComponent } from "./oauth-screen.component";
 
 // Mock Card components
 @Component({
-  selector: "fui-card",
+  selector: "fui-card-oauth",
   template: '<div class="fui-card"><ng-content></ng-content></div>',
   standalone: true,
 })
