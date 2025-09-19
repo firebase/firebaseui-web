@@ -26,7 +26,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Run ESLint on core packages
-        run: pnpm --filter=@firebase-ui/core run lint && pnpm --filter=@firebase-ui/react run lint && pnpm --filter=@firebase-ui/translations run lint && pnpm --filter=@firebase-ui/styles run lint
+        run: pnpm --filter="@firebase-ui/*" run lint
+      - name: Run ESLint on example apps
+        run: pnpm --filter="angular-example" --filter="nextjs" --filter="react" run lint
       - name: Check Prettier formatting
         run: pnpm format:check
 
