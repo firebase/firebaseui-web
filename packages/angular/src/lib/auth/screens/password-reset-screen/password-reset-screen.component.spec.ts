@@ -21,6 +21,7 @@ import { By } from "@angular/platform-browser";
 import { of } from "rxjs";
 import { FirebaseUI } from "../../../provider";
 import { PasswordResetScreenComponent } from "./password-reset-screen.component";
+import { CardComponent } from "../../../components/card/card.component";
 
 // Mock Card components
 @Component({
@@ -91,7 +92,7 @@ describe("PasswordResetScreenComponent", () => {
       imports: [
         CommonModule,
         PasswordResetScreenComponent,
-        MockCardComponent,
+        CardComponent,
         MockCardHeaderComponent,
         MockCardTitleComponent,
         MockCardSubtitleComponent,

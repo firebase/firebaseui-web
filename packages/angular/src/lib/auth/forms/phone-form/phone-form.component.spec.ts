@@ -16,7 +16,7 @@
 
 import { CommonModule } from "@angular/common";
 import { Component, Input } from "@angular/core";
-import { ComponentFixture, TestBed, fakeAsync, tick } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { Auth, ConfirmationResult, RecaptchaVerifier } from "@angular/fire/auth";
 import { FirebaseUIError } from "@firebase-ui/core";
 import { TanStackField } from "@tanstack/angular-form";
@@ -401,28 +401,32 @@ describe("PhoneFormComponent", () => {
     expect(component.confirmationResult).toBeNull();
   });
 
-  it("should call signInWithPhoneNumber when handling phone submission", fakeAsync(() => {
+  it("should call signInWithPhoneNumber when handling phone submission", async () => {
     component.handlePhoneSubmit("1234567890");
-    tick();
+    
+    // Wait for any async operations to complete
+    await new Promise(resolve => setTimeout(resolve, 0));
 
     expect(mockFuiSignInWithPhoneNumber).toHaveBeenCalled();
-  }));
+  });
 
-  it("should show an error message when phone submission fails", fakeAsync(() => {
+  it("should show an error message when phone submission fails", async () => {
     const mockError = new FirebaseUIError({
       code: "auth/invalid-phone-number",
       message: "The phone number is invalid",
     });
 
-    mockFuiSignInWithPhoneNumber.and.rejectWith(mockError);
+    mockFuiSignInWithPhoneNumber.mockRejectedValue(mockError);
 
     component.handlePhoneSubmit("1234567890");
-    tick();
+    
+    // Wait for any async operations to complete
+    await new Promise(resolve => setTimeout(resolve, 0));
 
     expect(component.formError).toBe("The phone number is invalid");
-  }));
+  });
 
-  it("should call fuiConfirmPhoneNumber when handling verification code submission", fakeAsync(() => {
+  it("should call fuiConfirmPhoneNumber when handling verification code submission", async () => {
     // Set up the confirmation result first
     const mockConfirmationResult = {
       confirm: jasmine.createSpy("confirm").and.returnValue(Promise.resolve()),
@@ -432,21 +436,25 @@ describe("PhoneFormComponent", () => {
     component.confirmationResult = mockConfirmationResult;
 
     component.handleVerificationSubmit("123456");
-    tick();
+    
+    // Wait for any async operations to complete
+    await new Promise(resolve => setTimeout(resolve, 0));
 
     expect(mockFuiConfirmPhoneNumber).toHaveBeenCalled();
-  }));
+  });
 
-  it("should call signInWithPhoneNumber when handling resend code", fakeAsync(() => {
+  it("should call signInWithPhoneNumber when handling resend code", async () => {
     component.confirmationResult = {} as ConfirmationResult;
     component.canResend = true;
     component.phoneNumber = "1234567890";
 
     component.handleResend();
-    tick();
+    
+    // Wait for any async operations to complete
+    await new Promise(resolve => setTimeout(resolve, 0));
 
     expect(mockFuiSignInWithPhoneNumber).toHaveBeenCalled();
-  }));
+  });
 
   it("should update timer and resend flag", () => {
     component.resendDelay = 2;

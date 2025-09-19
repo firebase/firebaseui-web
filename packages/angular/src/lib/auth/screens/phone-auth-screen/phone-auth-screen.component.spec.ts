@@ -21,6 +21,7 @@ import { By } from "@angular/platform-browser";
 import { of } from "rxjs";
 import { FirebaseUI } from "../../../provider";
 import { PhoneAuthScreenComponent } from "./phone-auth-screen.component";
+import { CardComponent } from "../../../components/card/card.component";
 
 // Mock Card components
 @Component({
@@ -122,7 +123,7 @@ describe("PhoneAuthScreenComponent", () => {
         PhoneAuthScreenComponent,
         TestHostWithChildrenComponent,
         TestHostWithoutChildrenComponent,
-        MockCardComponent,
+        CardComponent,
         MockCardHeaderComponent,
         MockCardTitleComponent,
         MockCardSubtitleComponent,

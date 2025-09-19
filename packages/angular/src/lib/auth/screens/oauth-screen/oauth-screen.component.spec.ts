@@ -21,6 +21,7 @@ import { By } from "@angular/platform-browser";
 import { of } from "rxjs";
 import { FirebaseUI } from "../../../provider";
 import { OAuthScreenComponent } from "./oauth-screen.component";
+import { CardComponent } from "../../../components/card/card.component";
 
 // Mock Card components
 @Component({
@@ -109,7 +110,7 @@ describe("OAuthScreenComponent", () => {
         OAuthScreenComponent,
         TestHostWithSingleChildComponent,
         TestHostWithMultipleChildrenComponent,
-        MockCardComponent,
+        CardComponent,
         MockCardHeaderComponent,
         MockCardTitleComponent,
         MockCardSubtitleComponent,

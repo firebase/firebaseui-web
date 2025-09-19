@@ -21,6 +21,7 @@ import { By } from "@angular/platform-browser";
 import { of } from "rxjs";
 import { FirebaseUI } from "../../../provider";
 import { EmailLinkAuthScreenComponent } from "./email-link-auth-screen.component";
+import { CardComponent } from "../../../components/card/card.component";
 
 // Mock EmailLinkForm component
 @Component({
@@ -115,7 +116,7 @@ describe("EmailLinkAuthScreenComponent", () => {
         EmailLinkAuthScreenComponent,
         TestHostWithChildrenComponent,
         TestHostWithoutChildrenComponent,
-        MockCardComponent,
+        CardComponent,
         MockCardHeaderComponent,
         MockCardTitleComponent,
         MockCardSubtitleComponent,
