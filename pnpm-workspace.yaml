@@ -13,7 +13,10 @@
 # limitations under the License.
 
 packages:
-  - packages/*
+  - packages/angular
+  - packages/core
+  - packages/styles
+  - packages/translations
   - examples/angular
 
 catalogs:
