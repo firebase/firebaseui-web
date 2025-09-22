@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, inject, Input, AfterContentInit, ViewChild, ElementRef } from "@angular/core";
+import { Component, EventEmitter, Output, AfterContentInit, ViewChild, ElementRef } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   CardComponent,
@@ -23,7 +23,7 @@ import {
   CardSubtitleComponent,
   CardContentComponent,
 } from "../../../components/card/card.component";
-import { FirebaseUI } from "../../../provider";
+import { injectSignInAuthFormSchema, injectTranslation, injectUI } from "../../../provider";
 import { PhoneFormComponent } from "../../forms/phone-form/phone-form.component";
 import { DividerComponent } from "../../../components/divider/divider.component";
 
@@ -44,14 +44,14 @@ import { DividerComponent } from "../../../components/divider/divider.component"
     <div class="fui-screen">
       <fui-card>
         <fui-card-header>
-          <fui-card-title>{{ titleText | async }}</fui-card-title>
-          <fui-card-subtitle>{{ subtitleText | async }}</fui-card-subtitle>
+          <fui-card-title>{{ titleText }}</fui-card-title>
+          <fui-card-subtitle>{{ subtitleText }}</fui-card-subtitle>
         </fui-card-header>
         <fui-card-content>
           <fui-phone-form [resendDelay]="resendDelay"></fui-phone-form>
 
           <ng-container *ngIf="hasContent">
-            <fui-divider>{{ dividerOrLabel | async }}</fui-divider>
+            <fui-divider>{{ dividerOrLabel }}</fui-divider>
             <div class="space-y-4 mt-6" #contentContainer>
               <ng-content></ng-content>
             </div>
@@ -62,9 +62,7 @@ import { DividerComponent } from "../../../components/divider/divider.component"
   `,
 })
 export class PhoneAuthScreenComponent implements AfterContentInit {
-  private ui = inject(FirebaseUI);
-
-  @Input() resendDelay = 30;
+  private ui = injectUI();
 
   @ViewChild("contentContainer") contentContainer!: ElementRef;
   private _hasProjectedContent = false;
@@ -73,17 +71,11 @@ export class PhoneAuthScreenComponent implements AfterContentInit {
     return this._hasProjectedContent;
   }
 
-  get titleText() {
-    return this.ui.translation("labels", "signIn");
-  }
+  titleText = injectTranslation("labels", "signIn");
+  subtitleText = injectTranslation("labels", "signInToAccount");
+  dividerOrLabel = injectTranslation("labels", "dividerOr");
 
-  get subtitleText() {
-    return this.ui.translation("prompts", "signInToAccount");
-  }
-
-  get dividerOrLabel() {
-    return this.ui.translation("messages", "dividerOr");
-  }
+  @Output() resendDelay = new EventEmitter<void>();
 
   ngAfterContentInit() {
     // Set to true initially to ensure the container is rendered
