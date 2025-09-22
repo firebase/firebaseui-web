@@ -16,6 +16,10 @@
 
 import { Component, EventEmitter, Output, AfterContentInit, ElementRef, ContentChild } from "@angular/core";
 import { CommonModule } from "@angular/common";
+
+import { injectTranslation } from "../../../provider";
+import { SignInAuthFormComponent } from "../../forms/sign-in-auth-form/sign-in-auth-form.component";
+import { DividerComponent } from "../../../components/divider/divider.component";
 import {
   CardComponent,
   CardHeaderComponent,
@@ -23,10 +27,6 @@ import {
   CardSubtitleComponent,
   CardContentComponent,
 } from "../../../components/card/card.component";
-import { injectTranslation } from "../../../provider";
-import { SignInAuthFormComponent } from "../../forms/sign-in-auth-form/sign-in-auth-form.component";
-import { DividerComponent } from "../../../components/divider/divider.component";
-
 @Component({
   selector: "fui-sign-in-auth-screen",
   standalone: true,
@@ -52,7 +52,7 @@ import { DividerComponent } from "../../../components/divider/divider.component"
 
           @if (hasChildren) {
             <fui-divider>{{ dividerOrLabel() }}</fui-divider>
-            <div class="space-y-4 mt-6">
+            <div>
               <ng-content></ng-content>
             </div>
           }

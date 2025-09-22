@@ -65,8 +65,6 @@ export class FormActionComponent {
 
   @HostBinding('attr.type')
   readonly type = 'button';
-
-  field = injectField<string>()
 }
 
 @Component({

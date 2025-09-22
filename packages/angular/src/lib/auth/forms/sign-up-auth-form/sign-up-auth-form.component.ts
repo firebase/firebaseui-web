@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-import { Component, EventEmitter, Output, OnInit } from "@angular/core";
+import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { injectForm, TanStackAppField, TanStackField } from "@tanstack/angular-form";
+import { FirebaseUIError, createUserWithEmailAndPassword } from "@firebase-ui/core";
 import { UserCredential } from "@angular/fire/auth";
-import { injectForm, TanStackField, TanStackAppField } from "@tanstack/angular-form";
-import { FirebaseUIError, signInWithEmailAndPassword } from "@firebase-ui/core";
 
-import { injectSignInAuthFormSchema, injectTranslation, injectUI } from "../../../provider";
 import { TermsAndPrivacyComponent } from "../../../components/terms-and-privacy/terms-and-privacy.component";
+import { injectSignUpAuthFormSchema, injectTranslation, injectUI } from "../../../provider";
 import {
   FormInputComponent,
   FormSubmitComponent,
@@ -29,8 +29,7 @@ import {
 } from "../../../components/form/form.component";
 
 @Component({
-  selector: "fui-sign-in-auth-form",
-  standalone: true,
+  selector: "fui-sign-up-auth-form",
   imports: [
     CommonModule,
     TanStackField,
@@ -51,45 +50,43 @@ import {
         ></fui-form-input>
       </fieldset>
       <fieldset>
-        <fui-form-input name="password" tanstack-app-field [tanstackField]="form" label="{{ passwordLabel() }}">
-          @if (forgotPassword) {
-            <button fui-form-action (click)="forgotPassword.emit()">
-              {{ forgotPasswordLabel() }}
-            </button>
-          }
-        </fui-form-input>
+        <fui-form-input
+          name="password"
+          tanstack-app-field
+          [tanstackField]="form"
+          label="{{ passwordLabel() }}"
+        ></fui-form-input>
       </fieldset>
 
       <fui-terms-and-privacy></fui-terms-and-privacy>
 
       <fieldset>
         <fui-form-submit>
-          {{ signInLabel() }}
+          {{ createAccountLabel() }}
         </fui-form-submit>
         <fui-form-error-message></fui-form-error-message>
       </fieldset>
 
-      @if (register) {
-        <button fui-form-action (click)="register.emit()">{{ noAccountLabel() }} {{ registerLabel() }}</button>
+      @if (signIn) {
+        <button fui-form-action (click)="signIn.emit()">{{ haveAccountLabel() }} {{ signInLabel() }} &rarr;</button>
       }
     </form>
   `,
+  standalone: true,
 })
-export class SignInAuthFormComponent implements OnInit {
+export class SignUpAuthFormComponent implements OnInit {
   private ui = injectUI();
-  private formSchema = injectSignInAuthFormSchema();
+  private formSchema = injectSignUpAuthFormSchema();
 
   emailLabel = injectTranslation("labels", "emailAddress");
   passwordLabel = injectTranslation("labels", "password");
-  forgotPasswordLabel = injectTranslation("labels", "forgotPassword");
+  createAccountLabel = injectTranslation("labels", "createAccount");
+  haveAccountLabel = injectTranslation("prompts", "haveAccount");
   signInLabel = injectTranslation("labels", "signIn");
-  noAccountLabel = injectTranslation("prompts", "noAccount");
-  registerLabel = injectTranslation("labels", "register");
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
-  @Output() forgotPassword = new EventEmitter<void>();
-  @Output() register = new EventEmitter<void>();
-  @Output() signIn?: EventEmitter<UserCredential>;
+  @Output() signUp?: EventEmitter<UserCredential>;
+  @Output() signIn?: EventEmitter<void>;
 
   form = injectForm({
     defaultValues: {
@@ -111,8 +108,8 @@ export class SignInAuthFormComponent implements OnInit {
         onSubmit: this.formSchema(),
         onSubmitAsync: async ({ value }) => {
           try {
-            const credential = await signInWithEmailAndPassword(this.ui(), value.email, value.password);
-            this.signIn?.emit(credential);
+            const credential = await createUserWithEmailAndPassword(this.ui(), value.email, value.password);
+            this.signUp?.emit(credential);
           } catch (error) {
             if (error instanceof FirebaseUIError) {
               return error.message;
