@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, EventEmitter, inject, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   CardComponent,
@@ -23,7 +23,7 @@ import {
   CardSubtitleComponent,
   CardContentComponent,
 } from "../../../components/card/card.component";
-import { FirebaseUI, injectTranslation } from "../../../provider";
+import { injectTranslation } from "../../../provider";
 import { ForgotPasswordAuthFormComponent } from "../../forms/forgot-password-auth-form/forgot-password-auth-form.component";
 
 @Component({
@@ -46,15 +46,16 @@ import { ForgotPasswordAuthFormComponent } from "../../forms/forgot-password-aut
           <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
         </fui-card-header>
         <fui-card-content>
-          <fui-forgot-password-auth-form (signIn)="(signIn)"></fui-forgot-password-auth-form>
+          <fui-forgot-password-auth-form (passwordSent)="(passwordSent)" (backToSignIn)="(backToSignIn)"></fui-forgot-password-auth-form>
         </fui-card-content>
       </fui-card>
     </div>
   `,
 })
-export class PasswordResetScreenComponent {
+export class ForgotPasswordAuthScreenComponent {
   titleText = injectTranslation("labels", "resetPassword");
   subtitleText = injectTranslation("prompts", "enterEmailToReset");
 
-  @Output() signIn = new EventEmitter<void>();
+  @Output() passwordSent = new EventEmitter<void>();
+  @Output() backToSignIn = new EventEmitter<void>();
 }

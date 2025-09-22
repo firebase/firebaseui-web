@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, EventEmitter, Output } from "@angular/core";
+import { Component, EventEmitter, OnInit, Output, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { injectForm, TanStackField } from "@tanstack/angular-form";
 import { injectForgotPasswordAuthFormSchema, injectTranslation, injectUI } from "../../../provider";
@@ -27,13 +27,13 @@ import { FirebaseUIError, sendPasswordResetEmail } from "@firebase-ui/core";
   standalone: true,
   imports: [CommonModule, TanStackField, ButtonComponent, TermsAndPrivacyComponent],
   template: `
-    @if (emailSent) {
+    @if (emailSent()) {
       <div class="fui-form__success">
         {{ checkEmailForResetMessage() }}
       </div>
     }
 
-    @if (!emailSent) {
+    @if (!emailSent()) {
       <form (submit)="handleSubmit($event)" class="fui-form">
         <fieldset>
           <ng-container [tanstackField]="form" name="email" #email="field">
@@ -80,9 +80,11 @@ import { FirebaseUIError, sendPasswordResetEmail } from "@firebase-ui/core";
     }
   `,
 })
-export class ForgotPasswordAuthFormComponent {
+export class ForgotPasswordAuthFormComponent implements OnInit {
   private ui = injectUI();
   private formSchema = injectForgotPasswordAuthFormSchema();
+
+  emailSent = signal<boolean>(false);
 
   emailLabel = injectTranslation("labels", "emailAddress");
   resetPasswordLabel = injectTranslation("labels", "resetPassword");
@@ -90,66 +92,40 @@ export class ForgotPasswordAuthFormComponent {
   checkEmailForResetMessage = injectTranslation("messages", "checkEmailForReset");
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
-  @Output() signIn = new EventEmitter<void>();
-
-  formError: string | null = null;
-  emailSent = false;
+  @Output() passwordSent = new EventEmitter<void>();
+  @Output() backToSignIn = new EventEmitter<void>();
 
   form = injectForm({
     defaultValues: {
       email: "",
     },
-    validators: {
-      onSubmit: this.formSchema(),
-      onBlur: this.formSchema(),
-    },
-  }) as any; // TODO(ehesp): Fix this - types go too deep
+  });
 
   async handleSubmit(event: SubmitEvent) {
     event.preventDefault();
     event.stopPropagation();
-
-    const email = this.form.state.values.email;
-
-    if (!email) {
-      return;
-    }
-
-    await this.resetPassword(email);
+    this.form.handleSubmit();
   }
 
-  // TODO - this should be handled in the form submit?
-  async resetPassword(email: string) {
-    this.formError = null;
+  async ngOnInit() {
+    this.form.update({
+      validators: {
+        onBlur: this.formSchema(),
+        onSubmit: this.formSchema(),
+        onSubmitAsync: async ({ value }) => {
+          try {
+            await sendPasswordResetEmail(this.ui(), value.email);
+            this.emailSent.set(true);
+            this.passwordSent?.emit();
+          } catch (error) {
+            if (error instanceof FirebaseUIError) {
+              return error.message;
+            }
 
-    try {
-      const validationResult = this.formSchema().safeParse({
-        email,
-      });
-
-      if (!validationResult.success) {
-        const validationErrors = validationResult.error.format();
-
-        if (validationErrors.email?._errors?.length) {
-          this.formError = validationErrors.email._errors[0];
-          return;
-        }
-
-        this.formError = this.unknownErrorLabel();
-        return;
-      }
-
-      // Send password reset email
-      await sendPasswordResetEmail(this.ui(), email);
-
-      this.emailSent = true;
-    } catch (error) {
-      if (error instanceof FirebaseUIError) {
-        this.formError = error.message;
-        return;
-      }
-
-      this.formError = this.unknownErrorLabel();
-    }
+            return this.unknownErrorLabel();
+          }
+        },
+      },
+    });
   }
 }
