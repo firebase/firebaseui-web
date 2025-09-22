@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, EventEmitter, Output, AfterContentInit, ViewChild, ElementRef } from "@angular/core";
+import { Component, Input, AfterContentInit, ElementRef, ContentChild } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   CardComponent,
@@ -23,7 +23,7 @@ import {
   CardSubtitleComponent,
   CardContentComponent,
 } from "../../../components/card/card.component";
-import { injectSignInAuthFormSchema, injectTranslation, injectUI } from "../../../provider";
+import { injectTranslation } from "../../../provider";
 import { PhoneFormComponent } from "../../forms/phone-form/phone-form.component";
 import { DividerComponent } from "../../../components/divider/divider.component";
 
@@ -50,52 +50,29 @@ import { DividerComponent } from "../../../components/divider/divider.component"
         <fui-card-content>
           <fui-phone-form [resendDelay]="resendDelay"></fui-phone-form>
 
-          <ng-container *ngIf="hasContent">
+          @if (hasChildren) {
             <fui-divider>{{ dividerOrLabel() }}</fui-divider>
-            <div class="space-y-4 mt-6" #contentContainer>
+            <div class="space-y-4 mt-6">
               <ng-content></ng-content>
             </div>
-          </ng-container>
+          }
         </fui-card-content>
       </fui-card>
     </div>
   `,
 })
 export class PhoneAuthScreenComponent implements AfterContentInit {
-  private ui = injectUI();
-
-  @ViewChild("contentContainer") contentContainer!: ElementRef;
-  private _hasProjectedContent = false;
-
-  get hasContent(): boolean {
-    return this._hasProjectedContent;
-  }
-
   titleText = injectTranslation("labels", "signIn");
-  subtitleText = injectTranslation("labels", "signInToAccount");
-  dividerOrLabel = injectTranslation("labels", "dividerOr");
+  subtitleText = injectTranslation("prompts", "signInToAccount");
+  dividerOrLabel = injectTranslation("messages", "dividerOr");
 
-  @Output() resendDelay = new EventEmitter<void>();
+  @Input() resendDelay = 30;
 
-  ngAfterContentInit() {
-    // Set to true initially to ensure the container is rendered
-    this._hasProjectedContent = true;
+  @ContentChild(ElementRef) children: ElementRef | undefined;
 
-    // We need to use setTimeout to check after the view is rendered
-    setTimeout(() => {
-      // Check if there's any actual content in the container
-      if (this.contentContainer && this.contentContainer.nativeElement) {
-        const container = this.contentContainer.nativeElement;
-        // Only consider it to have content if there are child nodes that aren't just whitespace
-        this._hasProjectedContent = Array.from(container.childNodes as NodeListOf<Node>).some((node: Node) => {
-          return (
-            node.nodeType === Node.ELEMENT_NODE ||
-            (node.nodeType === Node.TEXT_NODE && node.textContent && node.textContent.trim() !== "")
-          );
-        });
-      } else {
-        this._hasProjectedContent = false;
-      }
-    });
+  hasChildren = false;
+
+  ngAfterContentInit(): void {
+    this.hasChildren = !!this.children;
   }
 }
