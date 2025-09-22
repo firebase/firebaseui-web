@@ -247,7 +247,13 @@ export class PhoneNumberFormComponent implements OnInit, OnDestroy {
         <button fui-button type="submit">
           {{ verifyCodeLabel | async }}
         </button>
-        <button fui-button type="button" (click)="onResend()" [disabled]="isResending || !canResend" variant="secondary">
+        <button
+          fui-button
+          type="button"
+          (click)="onResend()"
+          [disabled]="isResending || !canResend"
+          variant="secondary"
+        >
           <ng-container *ngIf="isResending">
             {{ sendingLabel | async }}
           </ng-container>
