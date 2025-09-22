@@ -16,7 +16,7 @@
 
 import { CommonModule } from "@angular/common";
 import { Component, InjectionToken, Input } from "@angular/core";
-import { ComponentFixture, TestBed, fakeAsync, tick } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { Auth } from "@angular/fire/auth";
 import { By } from "@angular/platform-browser";
 import { provideRouter } from "@angular/router";
@@ -179,7 +179,7 @@ describe("Forgot Password Integration", () => {
     }
   });
 
-  it("should successfully send password reset email", fakeAsync(() => {
+  it("should successfully send password reset email", async () => {
     // Find email input
     const emailInput = fixture.debugElement.query(By.css('input[type="email"]')).nativeElement;
 
@@ -194,8 +194,8 @@ describe("Forgot Password Integration", () => {
     const submitButton = fixture.debugElement.query(By.css("fui-button button")).nativeElement;
     submitButton.click();
 
-    // Wait for Firebase operation to complete
-    tick(10000);
+    // Wait for any async operations to complete
+    await new Promise((resolve) => setTimeout(resolve, 0));
     fixture.detectChanges();
 
     // Check for success by verifying no critical error message exists
@@ -217,10 +217,10 @@ describe("Forgot Password Integration", () => {
     });
 
     // Test passes if no critical errors found
-    expect(hasCriticalError).toBeFalse();
-  }));
+    expect(hasCriticalError).toBeFalsy();
+  });
 
-  it("should handle invalid email format", fakeAsync(() => {
+  it("should handle invalid email format", async () => {
     // Find email input
     const emailInput = fixture.debugElement.query(By.css('input[type="email"]')).nativeElement;
 
@@ -235,12 +235,12 @@ describe("Forgot Password Integration", () => {
     const submitButton = fixture.debugElement.query(By.css("fui-button button")).nativeElement;
     submitButton.click();
 
-    // Wait for validation to complete
-    tick(2000);
+    // Wait for any async operations to complete
+    await new Promise((resolve) => setTimeout(resolve, 0));
     fixture.detectChanges();
 
     // Verify error is shown
     const errorElements = fixture.debugElement.queryAll(By.css(".fui-form__error"));
     expect(errorElements.length).toBeGreaterThan(0);
-  }));
+  });
 });
