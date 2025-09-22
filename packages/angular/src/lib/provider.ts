@@ -21,15 +21,29 @@ import {
   InjectionToken,
   Injectable,
   inject,
-  signal, computed, effect,
+  signal,
+  computed,
+  effect,
   Signal,
 } from "@angular/core";
 import { FirebaseApps } from "@angular/fire/app";
-import { createEmailLinkAuthFormSchema, createForgotPasswordAuthFormSchema, createPhoneAuthFormSchema, createSignInAuthFormSchema, createSignUpAuthFormSchema, FirebaseUIConfiguration, type FirebaseUI as FirebaseUIType, getTranslation, SignInAuthFormSchema } from "@firebase-ui/core";
+import {
+  type FirebaseUI as FirebaseUIType,
+  getTranslation,
+  createEmailLinkAuthFormSchema,
+  createForgotPasswordAuthFormSchema,
+  createPhoneAuthFormSchema,
+  createSignInAuthFormSchema,
+  createSignUpAuthFormSchema,
+  FirebaseUIConfiguration,
+  type FirebaseUI as FirebaseUIType,
+  getTranslation,
+} from "@firebase-ui/core";
+import {} from "@firebase-ui/core";
+import { Tail } from "../types";
 import { distinctUntilChanged, map, takeUntil } from "rxjs/operators";
 import { Observable, ReplaySubject } from "rxjs";
 import { Store } from "nanostores";
-import { TranslationCategory, TranslationKey } from "@firebase-ui/translations";
 
 const FIREBASE_UI_STORE = new InjectionToken<FirebaseUIType>("firebaseui.store");
 const FIREBASE_UI_POLICIES = new InjectionToken<PolicyConfig>("firebaseui.policies");
@@ -65,16 +79,15 @@ export function provideFirebaseUIPolicies(factory: () => PolicyConfig) {
   return makeEnvironmentProviders(providers);
 }
 
-
 // Provides a signal with a subscription to the FirebaseUIConfiguration
 export function injectUI() {
   const store = inject(FIREBASE_UI_STORE);
   const ui = signal<FirebaseUIConfiguration>(store.get());
-  
+
   effect(() => {
     return store.subscribe(ui.set);
   });
-  
+
   return ui.asReadonly();
 }
 
@@ -119,8 +132,9 @@ export class FirebaseUI {
     return this.useStore(this.store);
   }
 
-  translation<T extends TranslationCategory>(category: T, key: TranslationKey<T>) {
-    return this.config().pipe(map((config) => getTranslation(config, category, key)));
+  //TODO: This should be typed more specifically from the translations package
+  translation(...args: Tail) {
+    return this.config().pipe(map((config) => getTranslation(config, ...args)));
   }
 
   useStore<T>(store: Store<T> | null): Observable<T> {

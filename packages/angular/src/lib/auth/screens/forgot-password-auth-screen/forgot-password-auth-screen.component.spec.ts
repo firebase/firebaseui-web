@@ -21,10 +21,11 @@ import { By } from "@angular/platform-browser";
 import { of } from "rxjs";
 import { FirebaseUI } from "../../../provider";
 import { PasswordResetScreenComponent } from "./forgot-password-auth-screen.component";
+import { CardComponent } from "../../../components/card/card.component";
 
 // Mock Card components
 @Component({
-  selector: "fui-card",
+  selector: "fui-card-password-reset",
   template: '<div class="fui-card"><ng-content></ng-content></div>',
   standalone: true,
 })
@@ -91,7 +92,7 @@ describe("PasswordResetScreenComponent", () => {
       imports: [
         CommonModule,
         PasswordResetScreenComponent,
-        MockCardComponent,
+        CardComponent,
         MockCardHeaderComponent,
         MockCardTitleComponent,
         MockCardSubtitleComponent,

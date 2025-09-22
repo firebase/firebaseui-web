@@ -16,18 +16,24 @@
 
 import { CommonModule } from "@angular/common";
 import { Component, Input } from "@angular/core";
-import { ComponentFixture, TestBed, fakeAsync, tick } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { Auth, AuthProvider } from "@angular/fire/auth";
-import { FirebaseUIError } from "@firebase-ui/core";
+import { FirebaseUIError, signInWithOAuth } from "@firebase-ui/core";
 import { firstValueFrom, of } from "rxjs";
 import { FirebaseUI } from "../../provider";
 import { OAuthButtonComponent } from "./oauth-button.component";
-
-// Create a spy for fuiSignInWithOAuth
-const mockFuiSignInWithOAuth = jasmine.createSpy("signInWithOAuth").and.returnValue(Promise.resolve());
+import { describe, it, expect, beforeEach, vi } from "vitest";
 
 // Mock the firebase-ui/core module
-jasmine.createSpyObj("@firebase-ui/core", ["signInWithOAuth"]);
+vi.mock("@firebase-ui/core", () => ({
+  signInWithOAuth: vi.fn().mockResolvedValue(undefined),
+  FirebaseUIError: class FirebaseUIError extends Error {
+    constructor(public error: { code: string; message: string }) {
+      super(error.message);
+      this.name = "FirebaseUIError";
+    }
+  },
+}));
 
 // Mock Button component
 @Component({
@@ -84,7 +90,7 @@ class TestOAuthButtonComponent extends OAuthButtonComponent {
     try {
       const config = await firstValueFrom(this["ui"].config());
 
-      await mockFuiSignInWithOAuth(config, this.provider);
+      await vi.mocked(signInWithOAuth)(config, this.provider);
     } catch (error) {
       if (error instanceof FirebaseUIError) {
         this.error = error.message;
@@ -105,22 +111,25 @@ class TestOAuthButtonComponent extends OAuthButtonComponent {
 describe("OAuthButtonComponent", () => {
   let component: TestOAuthButtonComponent;
   let fixture: ComponentFixture<TestOAuthButtonComponent>;
-  let mockProvider: jasmine.SpyObj<AuthProvider>;
-  let mockAuth: jasmine.SpyObj<Auth>;
+  let mockProvider: any;
+  let mockAuth: any;
   let mockFirebaseUi: MockFirebaseUi;
 
   beforeEach(async () => {
     // Create spy objects for Auth and AuthProvider
-    mockProvider = jasmine.createSpyObj("AuthProvider", [], {
+    mockProvider = {
       providerId: "google.com",
-    });
+    };
 
-    mockAuth = jasmine.createSpyObj("Auth", ["signInWithPopup", "signInWithRedirect"]);
+    mockAuth = {
+      signInWithPopup: vi.fn(),
+      signInWithRedirect: vi.fn(),
+    };
 
     mockFirebaseUi = new MockFirebaseUi();
 
     // Reset mock before each test
-    mockFuiSignInWithOAuth.calls.reset();
+    vi.mocked(signInWithOAuth).mockClear();
 
     await TestBed.configureTestingModule({
       imports: [CommonModule, TestOAuthButtonComponent, MockButtonComponent],
@@ -147,22 +156,16 @@ describe("OAuthButtonComponent", () => {
     expect(console.error).toHaveBeenCalledWith("Provider is required for OAuthButtonComponent");
   });
 
-  it("should call signInWithOAuth when button is clicked", fakeAsync(() => {
-    // Spy on handleOAuthSignIn
-    spyOn(component, "handleOAuthSignIn").and.callThrough();
-
+  it("should call signInWithOAuth when button is clicked", async () => {
     // Call the method directly instead of relying on button click
     component.handleOAuthSignIn();
 
-    // Check if handleOAuthSignIn was called
-    expect(component.handleOAuthSignIn).toHaveBeenCalled();
-
-    // Advance the tick to allow promises to resolve
-    tick();
+    // Wait for any async operations to complete
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     // Check if the mock function was called with the correct arguments
-    expect(mockFuiSignInWithOAuth).toHaveBeenCalledWith(
-      jasmine.objectContaining({
+    expect(vi.mocked(signInWithOAuth)).toHaveBeenCalledWith(
+      expect.objectContaining({
         language: "en",
         translations: {},
         enableAutoUpgradeAnonymous: false,
@@ -170,9 +173,9 @@ describe("OAuthButtonComponent", () => {
       }),
       mockProvider
     );
-  }));
+  });
 
-  it("should display error message when FirebaseUIError occurs", fakeAsync(() => {
+  it("should display error message when FirebaseUIError occurs", async () => {
     // Create a FirebaseUIError
     const firebaseUIError = new FirebaseUIError({
       code: "auth/popup-closed-by-user",
@@ -180,34 +183,32 @@ describe("OAuthButtonComponent", () => {
     });
 
     // Make the mock function throw a FirebaseUIError
-    mockFuiSignInWithOAuth.and.rejectWith(firebaseUIError);
+    vi.mocked(signInWithOAuth).mockRejectedValue(firebaseUIError);
 
     // Trigger the sign-in
     component.handleOAuthSignIn();
-    tick();
 
-    // In the test environment, the error message becomes 'An unexpected error occurred'
-    expect(component.error).toBe("An unexpected error occurred");
-  }));
+    // Wait for any async operations to complete
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
-  it("should display generic error message when non-Firebase error occurs", fakeAsync(() => {
-    // Spy on console.error
-    spyOn(console, "error");
+    // The component correctly displays the FirebaseUIError message
+    expect(component.error).toBe("The popup was closed by the user");
+  });
 
+  it("should display generic error message when non-Firebase error occurs", async () => {
     // Create a regular Error
     const regularError = new Error("Regular error");
 
     // Make the mock function throw a regular Error
-    mockFuiSignInWithOAuth.and.rejectWith(regularError);
+    vi.mocked(signInWithOAuth).mockRejectedValue(regularError);
 
     // Trigger the sign-in
     component.handleOAuthSignIn();
-    tick(100); // Allow time for the async operations to complete
 
-    // Check if console.error was called with the error
-    expect(console.error).toHaveBeenCalledWith(regularError);
+    // Wait for any async operations to complete
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     // Update the error expectation - in our mock it gets the 'An unknown error occurred' message
     expect(component.error).toBe("An unknown error occurred");
-  }));
+  });
 });

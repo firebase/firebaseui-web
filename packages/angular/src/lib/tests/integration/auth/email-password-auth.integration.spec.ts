@@ -16,7 +16,7 @@
 
 import { CommonModule } from "@angular/common";
 import { Component, InjectionToken, Input } from "@angular/core";
-import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { Auth } from "@angular/fire/auth";
 import { By } from "@angular/platform-browser";
 import { provideRouter } from "@angular/router";
@@ -115,7 +115,7 @@ describe("Email Password Authentication Integration", () => {
   });
 
   // Prepare component before each test
-  beforeEach(waitForAsync(async () => {
+  beforeEach(async () => {
     // Create a mock FirebaseUi provider
     const mockFirebaseUi = {
       config: () =>
@@ -179,9 +179,9 @@ describe("Email Password Authentication Integration", () => {
 
     fixture.detectChanges();
     await fixture.whenStable();
-  }));
+  });
 
-  it("should successfully sign in with valid credentials", fakeAsync(() => {
+  it("should successfully sign in with valid credentials", async () => {
     // Find form inputs
     const emailInput = fixture.debugElement.query(By.css('input[type="email"]')).nativeElement;
     const passwordInput = fixture.debugElement.query(By.css('input[type="password"]')).nativeElement;
@@ -201,8 +201,8 @@ describe("Email Password Authentication Integration", () => {
     const form = fixture.debugElement.query(By.css("form")).nativeElement;
     form.dispatchEvent(new Event("submit"));
 
-    // Wait for the auth operation to complete
-    tick(5000);
+    // Wait for any async operations to complete
+    await new Promise((resolve) => setTimeout(resolve, 0));
     fixture.detectChanges();
 
     // Verify no error is shown
@@ -215,9 +215,9 @@ describe("Email Password Authentication Integration", () => {
     });
 
     expect(formLevelError).toBeFalsy();
-  }));
+  });
 
-  it("should show an error message when using invalid credentials", fakeAsync(() => {
+  it("should show an error message when using invalid credentials", async () => {
     // Find form inputs
     const emailInput = fixture.debugElement.query(By.css('input[type="email"]')).nativeElement;
     const passwordInput = fixture.debugElement.query(By.css('input[type="password"]')).nativeElement;
@@ -237,8 +237,8 @@ describe("Email Password Authentication Integration", () => {
     const form = fixture.debugElement.query(By.css("form")).nativeElement;
     form.dispatchEvent(new Event("submit"));
 
-    // Wait for the auth operation to complete
-    tick(5000);
+    // Wait for any async operations to complete
+    await new Promise((resolve) => setTimeout(resolve, 0));
     fixture.detectChanges();
 
     // Verify that an error is shown
@@ -256,5 +256,5 @@ describe("Email Password Authentication Integration", () => {
 
     expect(formLevelError).toBeTruthy();
     expect(formLevelError?.nativeElement.textContent).toContain("Invalid email/password");
-  }));
+  });
 });

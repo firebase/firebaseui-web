@@ -48,14 +48,14 @@ describe("ButtonVariant type", () => {
   it("should accept valid variant values", () => {
     const primaryVariant: ButtonVariant = "primary";
     const secondaryVariant: ButtonVariant = "secondary";
-    
+
     expect(primaryVariant).toBe("primary");
     expect(secondaryVariant).toBe("secondary");
   });
 
   it("should work with buttonVariant function", () => {
     const variants: ButtonVariant[] = ["primary", "secondary"];
-    
+
     variants.forEach((variant) => {
       const result = buttonVariant({ variant });
       expect(typeof result).toBe("string");

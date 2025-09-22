@@ -15,19 +15,6 @@
             "project": "ng-package.json"
           }
         },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "src/test.ts",
-            "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
-            "polyfills": ["zone.js", "zone.js/testing"],
-            "styles": [],
-            "scripts": [],
-            "assets": [],
-            "include": ["src/**/*.spec.ts", "src/**/*.d.ts"]
-          }
-        }
       }
     }
   }
