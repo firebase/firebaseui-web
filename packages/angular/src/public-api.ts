@@ -19,7 +19,7 @@ export { SignInAuthScreenComponent } from "./lib/auth/screens/sign-in-auth-scree
 export { PhoneAuthScreenComponent } from "./lib/auth/screens/phone-auth-screen/phone-auth-screen.component";
 export { SignUpAuthScreenComponent } from "./lib/auth/screens/sign-up-auth-screen/sign-up-auth-screen.component";
 export { OAuthScreenComponent } from "./lib/auth/screens/oauth-screen/oauth-screen.component";
-export { PasswordResetScreenComponent } from "./lib/auth/screens/password-reset-screen/password-reset-screen.component";
+export { PasswordResetScreenComponent } from "./lib/auth/screens/forgot-password-auth-screen/forgot-password-auth-screen.component";
 export { GoogleSignInButtonComponent } from "./lib/auth/oauth/google-sign-in-button.component";
 
 // Provider

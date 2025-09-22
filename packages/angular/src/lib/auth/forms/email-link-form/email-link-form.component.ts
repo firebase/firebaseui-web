@@ -21,7 +21,7 @@ import { FirebaseUI } from "../../../provider";
 import { ButtonComponent } from "../../../components/button/button.component";
 import { TermsAndPrivacyComponent } from "../../../components/terms-and-privacy/terms-and-privacy.component";
 import {
-  createEmailLinkFormSchema,
+  createEmailLinkAuthFormSchema,
   FirebaseUIError,
   completeEmailLinkSignIn,
   sendSignInLinkToEmail,
@@ -87,7 +87,7 @@ export class EmailLinkFormComponent implements OnInit {
     try {
       this.config = await firstValueFrom(this.ui.config());
 
-      this.formSchema = createEmailLinkFormSchema(this.config);
+      this.formSchema = createEmailLinkAuthFormSchema(this.config);
 
       this.form.update({
         validators: {

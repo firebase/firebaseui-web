@@ -65,8 +65,8 @@ export class EmailLinkAuthScreenComponent implements AfterContentInit {
   private ui = injectUI();
 
   titleText = injectTranslation("labels", "signIn");
-  subtitleText = injectTranslation("labels", "signInToAccount");
-  dividerOrLabel = injectTranslation("labels", "dividerOr");
+  subtitleText = injectTranslation("prompts", "signInToAccount");
+  dividerOrLabel = injectTranslation("messages", "dividerOr");
 
   @ViewChild("contentContainer") contentContainer!: ElementRef;
   @Output() emailSent = new EventEmitter<any>();

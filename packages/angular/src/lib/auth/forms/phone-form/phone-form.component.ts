@@ -26,7 +26,7 @@ import { CountrySelectorComponent } from "../../../components/country-selector/c
 import {
   CountryData,
   countryData,
-  createPhoneFormSchema,
+  createPhoneAuthFormSchema,
   FirebaseUIError,
   formatPhoneNumberWithCountry,
   confirmPhoneNumber,
@@ -115,7 +115,7 @@ export class PhoneNumberFormComponent implements OnInit, OnDestroy {
     try {
       this.config = await firstValueFrom(this.ui.config());
 
-      this.formSchema = createPhoneFormSchema(this.config).pick({
+      this.formSchema = createPhoneAuthFormSchema(this.config).pick({
         phoneNumber: true,
       });
 
@@ -141,10 +141,10 @@ export class PhoneNumberFormComponent implements OnInit, OnDestroy {
 
   async initRecaptcha() {
     const verifier = new RecaptchaVerifier(
-      (await firstValueFrom(this.ui.config())).getAuth(),
+      (await firstValueFrom(this.ui.config())).auth,
       this.recaptchaContainer.nativeElement,
       {
-        size: this.config?.recaptchaMode ?? "normal",
+        size: "normal",
       }
     );
     this.recaptchaVerifier = verifier;
@@ -184,7 +184,7 @@ export class PhoneNumberFormComponent implements OnInit, OnDestroy {
       }
 
       // Format number and submit
-      const formattedNumber = formatPhoneNumberWithCountry(phoneNumber, this.selectedCountry.dialCode);
+      const formattedNumber = formatPhoneNumberWithCountry(phoneNumber, this.selectedCountry.code);
       await this.onSubmit(formattedNumber);
     } catch (error) {
       console.error(error);
@@ -292,7 +292,7 @@ export class VerificationFormComponent implements OnInit, OnDestroy {
       this.config = await firstValueFrom(this.ui.config());
 
       // Create schema once
-      this.formSchema = createPhoneFormSchema(this.config?.translations).pick({
+      this.formSchema = createPhoneAuthFormSchema(this.config?.translations).pick({
         verificationCode: true,
       });
 
@@ -471,8 +471,8 @@ export class PhoneFormComponent implements OnInit, OnDestroy {
         throw new Error("ReCAPTCHA container not found");
       }
 
-      const verifier = new RecaptchaVerifier((await firstValueFrom(this.ui.config())).getAuth(), recaptchaContainer, {
-        size: this.config?.recaptchaMode ?? "normal",
+      const verifier = new RecaptchaVerifier((await firstValueFrom(this.ui.config())).auth, recaptchaContainer, {
+        size: "normal",
       });
       this.recaptchaVerifier = verifier;
 

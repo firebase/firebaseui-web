@@ -26,8 +26,8 @@ import { SignInAuthScreenComponent } from "@firebase-ui/angular";
   imports: [CommonModule, RouterModule, SignInAuthScreenComponent],
   template: `
     <fui-sign-in-auth-screen
-      [forgotPasswordRoute]="'/forgot-password'"
-      [registerRoute]="'/register'"
+      (forgotPassword)="this.router.navigate(["/forgot-password"])"
+      (register)="this.router.navigate(["/register"]);"
     ></fui-sign-in-auth-screen>
   `,
   styles: [],

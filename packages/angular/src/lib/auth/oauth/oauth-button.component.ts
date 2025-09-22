@@ -19,7 +19,7 @@ import { CommonModule } from "@angular/common";
 import { ButtonComponent } from "../../components/button/button.component";
 import { FirebaseUI } from "../../provider";
 import { Auth, AuthProvider } from "@angular/fire/auth";
-import { FirebaseUIError, signInWithOAuth } from "@firebase-ui/core";
+import { FirebaseUIError, signInWithProvider } from "@firebase-ui/core";
 import { firstValueFrom } from "rxjs";
 
 @Component({
@@ -51,7 +51,7 @@ export class OAuthButtonComponent implements OnInit {
   async handleOAuthSignIn() {
     this.error = null;
     try {
-      await signInWithOAuth(await firstValueFrom(this.ui.config()), this.provider);
+      await signInWithProvider(await firstValueFrom(this.ui.config()), this.provider);
     } catch (error) {
       if (error instanceof FirebaseUIError) {
         this.error = error.message;

@@ -11,6 +11,8 @@
     "firebase",
     "nanostores",
     "tslib",
-    "zod"
+    "zod",
+    "clsx",
+    "tailwind-merge"
   ]
 }

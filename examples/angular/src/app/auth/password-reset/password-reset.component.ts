@@ -24,7 +24,7 @@ import { PasswordResetScreenComponent } from "@firebase-ui/angular";
   selector: "app-password-reset",
   standalone: true,
   imports: [CommonModule, RouterModule, PasswordResetScreenComponent],
-  template: ` <fui-password-reset-screen [signInRoute]="'/sign-in'"></fui-password-reset-screen> `,
+  template: ` <fui-forgot-password-auth-screen (signIn)="this.router.navigate(["/sign-in"])"></fui-forgot-password-auth-screen> `,
   styles: [],
 })
 export class PasswordResetComponent implements OnInit {

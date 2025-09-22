@@ -25,7 +25,7 @@ import { SignInAuthScreenComponent, GoogleSignInButtonComponent } from "@firebas
   standalone: true,
   imports: [CommonModule, RouterModule, SignInAuthScreenComponent, GoogleSignInButtonComponent],
   template: `
-    <fui-sign-in-auth-screen forgotPasswordRoute="/forgot-password" registerRoute="/register">
+    <fui-sign-in-auth-screen (forgotPassword)="this.router.navigate(["/forgot-password"])" (register)="this.router.navigate(["/register"])">
       <fui-google-sign-in-button></fui-google-sign-in-button>
       <div>
         <a routerLink="/sign-in/phone">Sign in with phone number</a>

@@ -20,8 +20,7 @@ import { FirebaseUI } from "../../../provider";
 import { CommonModule } from "@angular/common";
 import { injectForm, TanStackField } from "@tanstack/angular-form";
 import {
-  createEmailFormSchema,
-  EmailFormSchema,
+  createSignUpAuthFormSchema,
   FirebaseUIError,
   createUserWithEmailAndPassword,
   FirebaseUIConfiguration,
@@ -83,9 +82,9 @@ import { Router } from "@angular/router";
       <fui-terms-and-privacy></fui-terms-and-privacy>
 
       <fieldset>
-        <fui-button type="submit">
+        <button fui-button type="submit">
           {{ createAccountLabel | async }}
-        </fui-button>
+        </button>
         <div class="fui-form__error" *ngIf="formError">{{ formError }}</div>
       </fieldset>
 
@@ -119,7 +118,7 @@ export class RegisterFormComponent implements OnInit {
     try {
       this.config = await firstValueFrom(this.ui.config());
 
-      this.formSchema = createEmailFormSchema(this.config);
+      this.formSchema = createSignUpAuthFormSchema(this.config);
 
       this.form.update({
         validators: {
