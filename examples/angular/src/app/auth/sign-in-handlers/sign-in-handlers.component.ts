@@ -26,15 +26,15 @@ import { SignInAuthScreenComponent } from "@firebase-ui/angular";
   imports: [CommonModule, RouterModule, SignInAuthScreenComponent],
   template: `
     <fui-sign-in-auth-screen
-      (forgotPassword)="this.router.navigate(["/forgot-password"])"
-      (register)="this.router.navigate(["/register"]);"
+      (forgotPassword)="this.router.navigate(['/forgot-password'])"
+      (register)="this.router.navigate(['/register'])"
     ></fui-sign-in-auth-screen>
   `,
   styles: [],
 })
 export class SignInHandlersComponent implements OnInit {
   private auth = inject(Auth);
-  private router = inject(Router);
+  public router = inject(Router);
 
   ngOnInit() {
     // Check if user is already authenticated and redirect to home page

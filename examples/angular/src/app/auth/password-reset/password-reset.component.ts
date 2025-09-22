@@ -24,12 +24,14 @@ import { PasswordResetScreenComponent } from "@firebase-ui/angular";
   selector: "app-password-reset",
   standalone: true,
   imports: [CommonModule, RouterModule, PasswordResetScreenComponent],
-  template: ` <fui-forgot-password-auth-screen (signIn)="this.router.navigate(["/sign-in"])"></fui-forgot-password-auth-screen> `,
+  template: `<fui-forgot-password-auth-screen
+    (signIn)="this.router.navigate(['/sign-in'])"
+  ></fui-forgot-password-auth-screen>`,
   styles: [],
 })
 export class PasswordResetComponent implements OnInit {
   private auth = inject(Auth);
-  private router = inject(Router);
+  public router = inject(Router);
 
   ngOnInit() {
     // Check if user is already authenticated and redirect to home page
