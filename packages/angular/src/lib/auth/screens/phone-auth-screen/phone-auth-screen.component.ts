@@ -44,14 +44,14 @@ import { DividerComponent } from "../../../components/divider/divider.component"
     <div class="fui-screen">
       <fui-card>
         <fui-card-header>
-          <fui-card-title>{{ titleText }}</fui-card-title>
-          <fui-card-subtitle>{{ subtitleText }}</fui-card-subtitle>
+          <fui-card-title>{{ titleText() }}</fui-card-title>
+          <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
         </fui-card-header>
         <fui-card-content>
           <fui-phone-form [resendDelay]="resendDelay"></fui-phone-form>
 
           <ng-container *ngIf="hasContent">
-            <fui-divider>{{ dividerOrLabel }}</fui-divider>
+            <fui-divider>{{ dividerOrLabel() }}</fui-divider>
             <div class="space-y-4 mt-6" #contentContainer>
               <ng-content></ng-content>
             </div>
