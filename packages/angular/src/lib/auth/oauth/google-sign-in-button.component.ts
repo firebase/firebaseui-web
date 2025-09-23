@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import { Component, inject } from "@angular/core";
+import { Component, input } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { OAuthButtonComponent } from "./oauth-button.component";
-import { FirebaseUI } from "../../provider";
+import { injectTranslation, injectUI } from "../../provider";
 import { GoogleAuthProvider } from "@angular/fire/auth";
 
 @Component({
@@ -54,10 +54,14 @@ import { GoogleAuthProvider } from "@angular/fire/auth";
   `,
 })
 export class GoogleSignInButtonComponent {
-  private ui = inject(FirebaseUI);
-  googleProvider = new GoogleAuthProvider();
+  ui = injectUI();
+  signInWithGoogleLabel = injectTranslation("labels", "signInWithGoogle");
 
-  get signInWithGoogleLabel() {
-    return this.ui.translation("labels", "signInWithGoogle");
+  private defaultProvider = new GoogleAuthProvider();
+
+  provider = input<GoogleAuthProvider>();
+
+  get googleProvider() {
+    return this.provider() || this.defaultProvider;
   }
 }
