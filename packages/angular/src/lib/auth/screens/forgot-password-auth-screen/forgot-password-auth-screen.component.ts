@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, EventEmitter, Output } from "@angular/core";
+import { Component, output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   CardComponent,
@@ -56,6 +56,6 @@ export class ForgotPasswordAuthScreenComponent {
   titleText = injectTranslation("labels", "resetPassword");
   subtitleText = injectTranslation("prompts", "enterEmailToReset");
 
-  @Output() passwordSent?: EventEmitter<void>;
-  @Output() backToSignIn?: EventEmitter<void>;
+  passwordSent = output<void>();
+  backToSignIn = output<void>();
 }

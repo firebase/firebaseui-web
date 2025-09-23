@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, EventEmitter, Output, AfterContentInit, ElementRef, ContentChild } from "@angular/core";
+import { Component, EventEmitter, Output, AfterContentInit, ElementRef, ContentChild, output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
 import { injectTranslation } from "../../../provider";
@@ -66,8 +66,8 @@ export class SignInAuthScreenComponent implements AfterContentInit {
   subtitleText = injectTranslation("prompts", "signInToAccount");
   dividerOrLabel = injectTranslation("messages", "dividerOr");
 
-  @Output() forgotPassword = new EventEmitter<void>();
-  @Output() register = new EventEmitter<void>();
+  forgotPassword = output<void>();
+  register = output<void>();
 
   @ContentChild(ElementRef) children: ElementRef | undefined;
 

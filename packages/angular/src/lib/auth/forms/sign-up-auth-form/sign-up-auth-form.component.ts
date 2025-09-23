@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { Component, OnInit, output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { injectForm, TanStackAppField, TanStackField } from "@tanstack/angular-form";
 import { FirebaseUIError, createUserWithEmailAndPassword } from "@firebase-ui/core";
@@ -85,8 +85,8 @@ export class SignUpAuthFormComponent implements OnInit {
   signInLabel = injectTranslation("labels", "signIn");
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
-  @Output() signUp?: EventEmitter<UserCredential>;
-  @Output() signIn?: EventEmitter<void>;
+  signUp = output<UserCredential>();
+  signIn = output<void>();
 
   form = injectForm({
     defaultValues: {

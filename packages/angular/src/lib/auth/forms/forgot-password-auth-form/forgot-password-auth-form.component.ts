@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, EventEmitter, OnInit, Output, signal } from "@angular/core";
+import { Component, OnInit, output, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { injectForm, TanStackAppField, TanStackField } from "@tanstack/angular-form";
 import { FirebaseUIError, sendPasswordResetEmail } from "@firebase-ui/core";
@@ -87,8 +87,9 @@ export class ForgotPasswordAuthFormComponent implements OnInit {
   checkEmailForResetMessage = injectTranslation("messages", "checkEmailForReset");
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
-  @Output() passwordSent?: EventEmitter<void>;
-  @Output() backToSignIn?: EventEmitter<void>;
+
+  passwordSent = output<void>();
+  backToSignIn = output<void>();
 
   form = injectForm({
     defaultValues: {

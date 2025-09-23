@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, AfterContentInit, ViewChild, ElementRef, EventEmitter, Output, ContentChild } from "@angular/core";
+import { Component, AfterContentInit, ElementRef, ContentChild, output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   CardComponent,
@@ -67,8 +67,8 @@ export class EmailLinkAuthScreenComponent implements AfterContentInit {
   subtitleText = injectTranslation("prompts", "signInToAccount");
   dividerOrLabel = injectTranslation("messages", "dividerOr");
 
-  @Output() emailSent?: EventEmitter<void>;
-  @Output() signIn?: EventEmitter<UserCredential>;
+  emailSent = output<void>();
+  signIn = output<UserCredential>();
 
   @ContentChild(ElementRef) children: ElementRef | undefined;
 

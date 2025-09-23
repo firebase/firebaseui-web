@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, EventEmitter, Output, OnInit } from "@angular/core";
+import { Component, OnInit, output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { UserCredential } from "@angular/fire/auth";
 import { injectForm, TanStackField, TanStackAppField } from "@tanstack/angular-form";
@@ -87,9 +87,9 @@ export class SignInAuthFormComponent implements OnInit {
   registerLabel = injectTranslation("labels", "register");
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
-  @Output() forgotPassword = new EventEmitter<void>();
-  @Output() register = new EventEmitter<void>();
-  @Output() signIn?: EventEmitter<UserCredential>;
+  forgotPassword = output<void>();
+  register = output<void>();
+  signIn = output<UserCredential>();
 
   form = injectForm({
     defaultValues: {

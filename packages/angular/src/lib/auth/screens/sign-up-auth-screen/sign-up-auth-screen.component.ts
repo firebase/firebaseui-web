@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, EventEmitter, Output, AfterContentInit, ElementRef, ContentChild } from "@angular/core";
+import { Component, AfterContentInit, ElementRef, ContentChild, output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { UserCredential } from "@angular/fire/auth";
 
@@ -69,8 +69,8 @@ export class SignUpAuthScreenComponent implements AfterContentInit {
   subtitleText = injectTranslation("prompts", "enterDetailsToCreate");
   dividerOrLabel = injectTranslation("messages", "dividerOr");
 
-  @Output() signUp?: EventEmitter<UserCredential>;
-  @Output() signIn?: EventEmitter<void>;
+  signUp = output<UserCredential>();
+  signIn = output<void>();
 
   @ContentChild(ElementRef) children: ElementRef | undefined;
 

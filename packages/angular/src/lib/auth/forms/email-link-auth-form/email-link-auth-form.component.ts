@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { Component, OnInit, output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { injectForm, TanStackAppField, TanStackField } from "@tanstack/angular-form";
 import { UserCredential } from "@angular/fire/auth";
@@ -79,8 +79,8 @@ export class EmailLinkAuthFormComponent implements OnInit {
   emailSentMessage = injectTranslation("messages", "signInLinkSent");
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
-  @Output() emailSent?: EventEmitter<void>;
-  @Output() signIn?: EventEmitter<UserCredential>;
+  emailSent = output<void>();
+  signIn = output<UserCredential>();
 
   form = injectForm({
     defaultValues: {
