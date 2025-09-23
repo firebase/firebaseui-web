@@ -18,6 +18,9 @@
     "sourceMap": true,
     "declaration": false
   },
+  "angularCompilerOptions": {
+    "strictTemplates": true
+  },
   "include": ["src/**/*.spec.ts", "src/**/*.d.ts", "src/**/*.ts"],
   "files": ["src/test.ts"]
 }

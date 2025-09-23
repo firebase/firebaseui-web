@@ -32,8 +32,6 @@
     "@tanstack/angular-form": "^1.21.1",
     "@firebase-ui/styles": "workspace:*",
     "tslib": "^2.8.1",
-    "clsx": "^2.1.1",
-    "tailwind-merge": "^3.0.1",
     "nanostores": "catalog:",
     "firebase": "catalog:"
   },

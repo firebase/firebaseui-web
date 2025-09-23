@@ -14,13 +14,27 @@
  * limitations under the License.
  */
 
-export { EmailLinkAuthScreenComponent } from "./lib/auth/screens/email-link-auth-screen/email-link-auth-screen.component";
-export { SignInAuthScreenComponent } from "./lib/auth/screens/sign-in-auth-screen/sign-in-auth-screen.component";
-export { PhoneAuthScreenComponent } from "./lib/auth/screens/phone-auth-screen/phone-auth-screen.component";
-export { SignUpAuthScreenComponent } from "./lib/auth/screens/sign-up-auth-screen/sign-up-auth-screen.component";
-export { OAuthScreenComponent } from "./lib/auth/screens/oauth-screen/oauth-screen.component";
-export { PasswordResetScreenComponent } from "./lib/auth/screens/password-reset-screen/password-reset-screen.component";
+export { EmailLinkAuthFormComponent } from "./lib/auth/forms/email-link-auth-form/email-link-auth-form.component";
+export { ForgotPasswordAuthFormComponent } from "./lib/auth/forms/forgot-password-auth-form/forgot-password-auth-form.component";
+export { PhoneAuthFormComponent } from "./lib/auth/forms/phone-auth-form/phone-auth-form.component";
+export { SignInAuthFormComponent } from "./lib/auth/forms/sign-in-auth-form/sign-in-auth-form.component";
+export { SignUpAuthFormComponent } from "./lib/auth/forms/sign-up-auth-form/sign-up-auth-form.component";
+
 export { GoogleSignInButtonComponent } from "./lib/auth/oauth/google-sign-in-button.component";
+export { OAuthButtonComponent } from "./lib/auth/oauth/oauth-button.component";
+
+export { EmailLinkAuthScreenComponent } from "./lib/auth/screens/email-link-auth-screen/email-link-auth-screen.component";
+export { ForgotPasswordAuthScreenComponent } from "./lib/auth/screens/forgot-password-auth-screen/forgot-password-auth-screen.component";
+export { OAuthScreenComponent } from "./lib/auth/screens/oauth-screen/oauth-screen.component";
+export { PhoneAuthScreenComponent } from "./lib/auth/screens/phone-auth-screen/phone-auth-screen.component";
+export { SignInAuthScreenComponent } from "./lib/auth/screens/sign-in-auth-screen/sign-in-auth-screen.component";
+export { SignUpAuthScreenComponent } from "./lib/auth/screens/sign-up-auth-screen/sign-up-auth-screen.component";
+
+export { ButtonComponent } from "./lib/components/button/button.component";
+export { CardComponent } from "./lib/components/card/card.component";
+export { CountrySelectorComponent } from "./lib/components/country-selector/country-selector.component";
+export { DividerComponent } from "./lib/components/divider/divider.component";
+export { PoliciesComponent } from "./lib/components/policies/policies.component";
 
 // Provider
 export * from "./lib/provider";

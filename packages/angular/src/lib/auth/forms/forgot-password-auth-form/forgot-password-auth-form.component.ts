@@ -67,7 +67,7 @@ import { injectForgotPasswordAuthFormSchema, injectTranslation, injectUI } from 
         </fieldset>
 
         @if (backToSignIn) {
-          <button fui-form-action (click)="signIn.emit()">
+          <button fui-form-action (click)="backToSignIn.emit()">
             {{ backToSignInLabel() }} &rarr;
           </button>
         }

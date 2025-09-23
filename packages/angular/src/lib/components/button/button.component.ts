@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-import { Component, HostBinding, Input } from "@angular/core";
+import { Component, HostBinding, input } from "@angular/core";
 import { buttonVariant, type ButtonVariant } from "@firebase-ui/styles";
-import { cn } from "../../utils";
 
 @Component({
   selector: "button[fui-button]",
@@ -24,14 +23,10 @@ import { cn } from "../../utils";
   standalone: true,
 })
 export class ButtonComponent {
-  @Input()
-  @HostBinding("class")
-  className: string = "";
-
-  @Input() variant?: ButtonVariant;
+  variant = input<ButtonVariant>();
 
   @HostBinding("attr.class")
   get getButtonClasses(): string {
-    return cn(buttonVariant({ variant: this.variant }), this.className);
+    return buttonVariant({ variant: this.variant() });
   }
 }

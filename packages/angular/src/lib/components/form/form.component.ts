@@ -1,27 +1,26 @@
-import { Component, HostBinding, input, Input } from '@angular/core'
-import { AnyFieldApi, injectField, injectForm } from '@tanstack/angular-form'
-import { cn } from '../../utils';
-import { ButtonComponent } from '../button/button.component';
+import { Component, computed, input } from "@angular/core";
+import { AnyFieldApi, injectField, injectForm } from "@tanstack/angular-form";
+import { ButtonComponent } from "../button/button.component";
 
 @Component({
-  selector: 'fui-form-metadata',
+  selector: "fui-form-metadata",
   standalone: true,
   template: `
-    @if(field.state.meta.isTouched && field.state.meta.errors.length > 0) {
+    @if (field().state.meta.isTouched && field().state.meta.errors.length > 0) {
       <div>
         <div role="alert" aria-live="polite" class="fui-form__error">
-          {{ field.state.meta.errors.join(", ") }}
+          {{ field().state.meta.errors.join(", ") }}
         </div>
       </div>
     }
   `,
 })
 export class FormMetadataComponent {
-  @Input() field: AnyFieldApi;
+  field = input.required<AnyFieldApi>();
 }
 
 @Component({
-  selector: 'fui-form-input',
+  selector: "fui-form-input",
   standalone: true,
   imports: [FormMetadataComponent],
   template: `
@@ -36,59 +35,42 @@ export class FormMetadataComponent {
         (input)="field.api.handleChange($any($event).target.value)"
       />
       <ng-content></ng-content>
-      <fui-form-metadata [field]="field"></fui-form-metadata>
+      <fui-form-metadata [field]="field.api"></fui-form-metadata>
     </label>
   `,
 })
 export class FormInputComponent {
-  field = injectField<string>()
-
+  field = injectField<string>();
   label = input.required<string>();
 }
 
 @Component({
-  selector: 'button[fui-form-action]',
+  selector: "button[fui-form-action]",
   standalone: true,
-  template: `
-    <ng-content></ng-content>
-  `,
+  host: {
+    type: "button",
+    class: "fui-form__action",
+  },
+  template: `<ng-content></ng-content> `,
 })
-export class FormActionComponent {
-  @Input()
-  @HostBinding("class")
-  className: string = "";
-
-  @HostBinding("attr.class")
-  get getButtonClasses(): string {
-    return cn("fui-form__action", this.className);
-  }
-
-  @HostBinding('attr.type')
-  readonly type = 'button';
-}
+export class FormActionComponent {}
 
 @Component({
-  selector: 'fui-form-submit',
+  selector: "fui-form-submit",
   standalone: true,
   imports: [ButtonComponent],
+  host: {
+    type: "submit",
+  },
   template: `
-    <button fui-button [class]="buttonClasses" [disabled]="isSubmitting">
+    <button fui-button class="fui-form__action" [class]="class()" [disabled]="isSubmitting">
       <ng-content></ng-content>
     </button>
   `,
 })
 export class FormSubmitComponent {
-  @Input()
-  className: string = "";
-
-  @HostBinding('attr.type')
-  readonly type = 'submit';
-
-  form = injectForm()
-
-  get buttonClasses(): string {
-    return cn("fui-form__action", this.className);
-  }
+  class = input<string>();
+  form = injectForm();
 
   get isSubmitting(): boolean {
     return this.form.state.isSubmitting;
@@ -96,16 +78,20 @@ export class FormSubmitComponent {
 }
 
 @Component({
-  selector: 'fui-form-error-message',
+  selector: "fui-form-error-message",
   standalone: true,
   template: `
-    @if (form.state.errorMap.onSubmit) {
+    @if (errorMessage()) {
       <div class="fui-form__error">
-        {{ form.state.errorMap.onSubmit.toString() }}
+        {{ errorMessage() }}
       </div>
     }
   `,
 })
 export class FormErrorMessageComponent {
-    form = injectForm()
+  form = injectForm();
+
+  errorMessage = computed(() => {
+    return this.form.state.errorMap?.onSubmit ? String(this.form.state.errorMap.onSubmit) : undefined;
+  });
 }
