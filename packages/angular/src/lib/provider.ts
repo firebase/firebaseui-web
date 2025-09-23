@@ -21,11 +21,23 @@ import {
   InjectionToken,
   Injectable,
   inject,
-  signal, computed, effect,
+  signal,
+  computed,
+  effect,
   Signal,
 } from "@angular/core";
 import { FirebaseApps } from "@angular/fire/app";
-import { createEmailLinkAuthFormSchema, createForgotPasswordAuthFormSchema, createPhoneAuthFormSchema, createSignInAuthFormSchema, createSignUpAuthFormSchema, FirebaseUIConfiguration, type FirebaseUI as FirebaseUIType, getTranslation, SignInAuthFormSchema } from "@firebase-ui/core";
+import {
+  createEmailLinkAuthFormSchema,
+  createForgotPasswordAuthFormSchema,
+  createPhoneAuthFormSchema,
+  createSignInAuthFormSchema,
+  createSignUpAuthFormSchema,
+  FirebaseUIConfiguration,
+  type FirebaseUI as FirebaseUIType,
+  getTranslation,
+  SignInAuthFormSchema,
+} from "@firebase-ui/core";
 import { distinctUntilChanged, map, takeUntil } from "rxjs/operators";
 import { Observable, ReplaySubject } from "rxjs";
 import { Store } from "nanostores";
@@ -53,7 +65,6 @@ export function provideFirebaseUI(uiFactory: (apps: FirebaseApps) => FirebaseUIT
         return uiFactory(apps);
       },
     },
-    FirebaseUI,
   ];
 
   return makeEnvironmentProviders(providers);
@@ -65,16 +76,15 @@ export function provideFirebaseUIPolicies(factory: () => PolicyConfig) {
   return makeEnvironmentProviders(providers);
 }
 
-
 // Provides a signal with a subscription to the FirebaseUIConfiguration
 export function injectUI() {
   const store = inject(FIREBASE_UI_STORE);
   const ui = signal<FirebaseUIConfiguration>(store.get());
-  
+
   effect(() => {
     return store.subscribe(ui.set);
   });
-  
+
   return ui.asReadonly();
 }
 
@@ -107,42 +117,6 @@ export function injectPhoneAuthFormSchema(): Signal<ReturnType<typeof createPhon
   const ui = injectUI();
   return computed(() => createPhoneAuthFormSchema(ui()));
 }
-
-@Injectable({
-  providedIn: "root",
-})
-export class FirebaseUI {
-  private store = inject(FIREBASE_UI_STORE);
-  private destroyed$: ReplaySubject<void> = new ReplaySubject(1);
-
-  config() {
-    return this.useStore(this.store);
-  }
-
-  translation<T extends TranslationCategory>(category: T, key: TranslationKey<T>) {
-    return this.config().pipe(map((config) => getTranslation(config, category, key)));
-  }
-
-  useStore<T>(store: Store<T> | null): Observable<T> {
-    if (!store) {
-      // Return an observable that emits a default value for SSR when store is not available
-      return new Observable<T>((subscriber) => {
-        subscriber.next({} as T);
-        subscriber.complete();
-      });
-    }
-    return new Observable<T>((sub) => {
-      sub.next(store.get());
-      return store.subscribe((value) => sub.next(value));
-    }).pipe(distinctUntilChanged(), takeUntil(this.destroyed$));
-  }
-
-  ngOnDestroy(): void {
-    this.destroyed$.next();
-    this.destroyed$.complete();
-  }
-}
-
 @Injectable({
   providedIn: "root",
 })

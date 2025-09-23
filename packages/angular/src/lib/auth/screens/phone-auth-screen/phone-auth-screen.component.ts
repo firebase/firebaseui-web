@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, inject, Input, AfterContentInit, ViewChild, ElementRef } from "@angular/core";
+import { Component, AfterContentInit, ElementRef, ContentChild, input } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   CardComponent,
@@ -23,8 +23,8 @@ import {
   CardSubtitleComponent,
   CardContentComponent,
 } from "../../../components/card/card.component";
-import { FirebaseUI } from "../../../provider";
-import { PhoneFormComponent } from "../../forms/phone-form/phone-form.component";
+import { injectTranslation } from "../../../provider";
+import { PhoneAuthFormComponent } from "../../forms/phone-auth-form/phone-auth-form.component";
 import { DividerComponent } from "../../../components/divider/divider.component";
 
 @Component({
@@ -37,73 +37,42 @@ import { DividerComponent } from "../../../components/divider/divider.component"
     CardTitleComponent,
     CardSubtitleComponent,
     CardContentComponent,
-    PhoneFormComponent,
+    PhoneAuthFormComponent,
     DividerComponent,
   ],
   template: `
     <div class="fui-screen">
       <fui-card>
         <fui-card-header>
-          <fui-card-title>{{ titleText | async }}</fui-card-title>
-          <fui-card-subtitle>{{ subtitleText | async }}</fui-card-subtitle>
+          <fui-card-title>{{ titleText() }}</fui-card-title>
+          <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
         </fui-card-header>
         <fui-card-content>
-          <fui-phone-form [resendDelay]="resendDelay"></fui-phone-form>
+          <fui-phone-auth-form [resendDelay]="resendDelay()"></fui-phone-auth-form>
 
-          <ng-container *ngIf="hasContent">
-            <fui-divider>{{ dividerOrLabel | async }}</fui-divider>
-            <div class="space-y-4 mt-6" #contentContainer>
+          @if (hasChildren) {
+            <fui-divider>{{ dividerOrLabel() }}</fui-divider>
+            <div class="space-y-4 mt-6">
               <ng-content></ng-content>
             </div>
-          </ng-container>
+          }
         </fui-card-content>
       </fui-card>
     </div>
   `,
 })
 export class PhoneAuthScreenComponent implements AfterContentInit {
-  private ui = inject(FirebaseUI);
+  titleText = injectTranslation("labels", "signIn");
+  subtitleText = injectTranslation("prompts", "signInToAccount");
+  dividerOrLabel = injectTranslation("messages", "dividerOr");
 
-  @Input() resendDelay = 30;
+  resendDelay = input<number>(30);
 
-  @ViewChild("contentContainer") contentContainer!: ElementRef;
-  private _hasProjectedContent = false;
+  @ContentChild(ElementRef) children: ElementRef | undefined;
 
-  get hasContent(): boolean {
-    return this._hasProjectedContent;
-  }
+  hasChildren = false;
 
-  get titleText() {
-    return this.ui.translation("labels", "signIn");
-  }
-
-  get subtitleText() {
-    return this.ui.translation("prompts", "signInToAccount");
-  }
-
-  get dividerOrLabel() {
-    return this.ui.translation("messages", "dividerOr");
-  }
-
-  ngAfterContentInit() {
-    // Set to true initially to ensure the container is rendered
-    this._hasProjectedContent = true;
-
-    // We need to use setTimeout to check after the view is rendered
-    setTimeout(() => {
-      // Check if there's any actual content in the container
-      if (this.contentContainer && this.contentContainer.nativeElement) {
-        const container = this.contentContainer.nativeElement;
-        // Only consider it to have content if there are child nodes that aren't just whitespace
-        this._hasProjectedContent = Array.from(container.childNodes as NodeListOf<Node>).some((node: Node) => {
-          return (
-            node.nodeType === Node.ELEMENT_NODE ||
-            (node.nodeType === Node.TEXT_NODE && node.textContent && node.textContent.trim() !== "")
-          );
-        });
-      } else {
-        this._hasProjectedContent = false;
-      }
-    });
+  ngAfterContentInit(): void {
+    this.hasChildren = !!this.children;
   }
 }
