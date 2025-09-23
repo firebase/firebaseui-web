@@ -74,112 +74,113 @@
 }
 
 @layer components {
-  .fui-screen {
+  /* Using :where() to reduce CSS specificity - allows users to easily override with their own Tailwind classes */
+  :where(.fui-screen) {
     @apply pt-24 max-w-md mx-auto;
   }
 
-  .fui-card {
+  :where(.fui-card) {
     @apply bg-background p-10 border border-border rounded-card space-y-6;
   }
 
-  .fui-card__header {
+  :where(.fui-card__header) {
     @apply text-center space-y-1;
   }
 
-  .fui-card__title {
+  :where(.fui-card__title) {
     @apply text-xl font-bold text-text;
   }
 
-  .fui-card__subtitle {
+  :where(.fui-card__subtitle) {
     @apply text-sm text-text-muted;
   }
 
-  .fui-form {
+  :where(.fui-form) {
     @apply space-y-6;
   }
 
-  .fui-form fieldset,
-  .fui-form fieldset > label {
+  :where(.fui-form fieldset),
+  :where(.fui-form fieldset > label) {
     @apply flex flex-col gap-2 text-text;
   }
 
-  .fui-form fieldset > label > span {
+  :where(.fui-form fieldset > label > span) {
     @apply inline-flex gap-3 text-sm font-medium;
   }
 
-  .fui-form .fui-form__action {
+  :where(.fui-form .fui-form__action) {
     @apply px-1 hover:underline text-xs text-text-muted;
   }
 
-  .fui-form fieldset > label > input {
+  :where(.fui-form fieldset > label > input) {
     @apply border-1 border-input rounded px-2 py-2 text-sm focus:outline-2 focus:outline-primary shadow-xs bg-transparent;
   }
 
-  .fui-form fieldset > label > input[aria-invalid="true"] {
+  :where(.fui-form fieldset > label > input[aria-invalid="true"]) {
     @apply outline-error outline-2;
   }
 
-  .fui-form .fui-form__error {
+  :where(.fui-form .fui-form__error) {
     @apply text-error text-center text-xs;
   }
 
-  .fui-success {
+  :where(.fui-success) {
     @apply text-center text-xs;
   }
 
-  .fui-button {
+  :where(.fui-button) {
     @apply w-full flex items-center justify-center gap-3 px-4 py-2 rounded text-sm font-medium shadow-xs bg-primary text-primary-surface transition hover:bg-primary-hover hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
-  .fui-button--secondary {
+  :where(.fui-button--secondary) {
     @apply bg-transparent text-text border border-input hover:bg-background hover:border-primary;
   }
 
-  .fui-provider__button > svg {
+  :where(.fui-provider__button > svg) {
     @apply w-5 h-5;
   }
 
-  .fui-divider {
+  :where(.fui-divider) {
     @apply flex items-center gap-3;
   }
 
-  .fui-divider__line {
+  :where(.fui-divider__line) {
     @apply flex-1 h-px bg-border;
   }
 
-  .fui-divider__text {
+  :where(.fui-divider__text) {
     @apply text-text-muted text-xs;
   }
 
-  .fui-phone-input {
+  :where(.fui-phone-input) {
     @apply flex gap-2 items-center;
   }
 
-  .fui-phone-input__number-input {
+  :where(.fui-phone-input__number-input) {
     @apply border-1 border-input rounded px-2 py-2 text-sm focus:outline-2 focus:outline-primary shadow-xs bg-transparent flex-1;
   }
 
-  .fui-phone-input__number-input[aria-invalid="true"] {
+  :where(.fui-phone-input__number-input[aria-invalid="true"]) {
     @apply outline-error outline-2;
   }
 
-  .fui-country-selector {
+  :where(.fui-country-selector) {
     @apply relative inline-block w-[80px];
   }
 
-  .fui-country-selector__wrapper {
+  :where(.fui-country-selector__wrapper) {
     @apply relative flex items-center border-1 border-input rounded bg-transparent overflow-hidden;
   }
 
-  .fui-country-selector__flag {
+  :where(.fui-country-selector__flag) {
     @apply absolute left-2 text-lg pointer-events-none;
   }
 
-  .fui-country-selector select {
+  :where(.fui-country-selector select) {
     @apply w-full pl-8 pr-2 py-2 text-sm focus:outline-2 focus:outline-primary shadow-xs bg-transparent appearance-none cursor-pointer text-transparent;
   }
 
-  .fui-country-selector__dial-code {
+  :where(.fui-country-selector__dial-code) {
     @apply absolute left-8 top-1/2 -translate-y-1/2 text-sm pointer-events-none text-text;
   }
 }
