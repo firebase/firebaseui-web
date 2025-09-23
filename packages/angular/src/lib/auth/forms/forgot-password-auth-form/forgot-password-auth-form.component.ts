@@ -16,16 +16,29 @@
 
 import { Component, EventEmitter, OnInit, Output, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { injectForm, TanStackField } from "@tanstack/angular-form";
-import { injectForgotPasswordAuthFormSchema, injectTranslation, injectUI } from "../../../provider";
-import { ButtonComponent } from "../../../components/button/button.component";
-import { TermsAndPrivacyComponent } from "../../../components/terms-and-privacy/terms-and-privacy.component";
+import { injectForm, TanStackAppField, TanStackField } from "@tanstack/angular-form";
 import { FirebaseUIError, sendPasswordResetEmail } from "@firebase-ui/core";
+
+import {
+  FormInputComponent,
+  FormSubmitComponent,
+  FormErrorMessageComponent,
+} from "../../../components/form/form.component";
+import { TermsAndPrivacyComponent } from "../../../components/terms-and-privacy/terms-and-privacy.component";
+import { injectForgotPasswordAuthFormSchema, injectTranslation, injectUI } from "../../../provider";
 
 @Component({
   selector: "fui-forgot-password-auth-form",
   standalone: true,
-  imports: [CommonModule, TanStackField, ButtonComponent, TermsAndPrivacyComponent],
+  imports: [
+    CommonModule,
+    TanStackField,
+    TanStackAppField,
+    TermsAndPrivacyComponent,
+    FormInputComponent,
+    FormSubmitComponent,
+    FormErrorMessageComponent,
+  ],
   template: `
     @if (emailSent()) {
       <div class="fui-form__success">
@@ -36,45 +49,27 @@ import { FirebaseUIError, sendPasswordResetEmail } from "@firebase-ui/core";
     @if (!emailSent()) {
       <form (submit)="handleSubmit($event)" class="fui-form">
         <fieldset>
-          <ng-container [tanstackField]="form" name="email" #email="field">
-            <label [for]="email.api.name">
-              <span>{{ emailLabel() }}</span>
-              <input
-                type="email"
-                [id]="email.api.name"
-                [name]="email.api.name"
-                [value]="email.api.state.value"
-                (blur)="email.api.handleBlur()"
-                (input)="email.api.handleChange($any($event).target.value)"
-                [attr.aria-invalid]="!!email.api.state.meta.errors.length"
-              />
-              <span
-                role="alert"
-                aria-live="polite"
-                class="fui-form__error"
-                *ngIf="!!email.api.state.meta.errors.length"
-              >
-                {{ email.api.state.meta.errors.join(", ") }}
-              </span>
-            </label>
-          </ng-container>
+          <fui-form-input
+            name="email"
+            tanstack-app-field
+            [tanstackField]="form"
+            label="{{ emailLabel() }}"
+          ></fui-form-input>
         </fieldset>
 
         <fui-terms-and-privacy></fui-terms-and-privacy>
 
         <fieldset>
-          <button fui-button type="submit">
+          <fui-form-submit>
             {{ resetPasswordLabel() }}
-          </button>
-          <div class="fui-form__error" *ngIf="formError">{{ formError }}</div>
+          </fui-form-submit>
+          <fui-form-error-message></fui-form-error-message>
         </fieldset>
 
-        @if (signIn) {
-          <div class="flex justify-center items-center">
-            <button type="button" (click)="signIn.emit()" class="fui-form__action">
-              {{ backToSignInLabel() }} &rarr;
-            </button>
-          </div>
+        @if (backToSignIn) {
+          <button fui-form-action (click)="signIn.emit()">
+            {{ backToSignInLabel() }} &rarr;
+          </button>
         }
       </form>
     }
@@ -92,8 +87,8 @@ export class ForgotPasswordAuthFormComponent implements OnInit {
   checkEmailForResetMessage = injectTranslation("messages", "checkEmailForReset");
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
-  @Output() passwordSent = new EventEmitter<void>();
-  @Output() backToSignIn = new EventEmitter<void>();
+  @Output() passwordSent?: EventEmitter<void>;
+  @Output() backToSignIn?: EventEmitter<void>;
 
   form = injectForm({
     defaultValues: {

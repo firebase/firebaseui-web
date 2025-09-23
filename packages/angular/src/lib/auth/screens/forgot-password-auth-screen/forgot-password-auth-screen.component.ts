@@ -56,6 +56,6 @@ export class ForgotPasswordAuthScreenComponent {
   titleText = injectTranslation("labels", "resetPassword");
   subtitleText = injectTranslation("prompts", "enterEmailToReset");
 
-  @Output() passwordSent = new EventEmitter<void>();
-  @Output() backToSignIn = new EventEmitter<void>();
+  @Output() passwordSent?: EventEmitter<void>;
+  @Output() backToSignIn?: EventEmitter<void>;
 }
