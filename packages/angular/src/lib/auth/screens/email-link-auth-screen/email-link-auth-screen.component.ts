@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, AfterContentInit, ElementRef, ContentChild, output } from "@angular/core";
+import { Component, ElementRef, output, contentChildren, computed } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   CardComponent,
@@ -49,9 +49,9 @@ import { UserCredential } from "@angular/fire/auth";
           <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
         </fui-card-header>
         <fui-card-content>
-          <fui-email-link-auth-form (emailSent)="emailSent" (signIn)="signIn"></fui-email-link-auth-form>
+          <fui-email-link-auth-form (emailSent)="(emailSent)" (signIn)="(signIn)"></fui-email-link-auth-form>
 
-          @if (hasChildren) {
+          @if (hasChildren()) {
             <fui-divider>{{ dividerOrLabel() }}</fui-divider>
             <div>
               <ng-content></ng-content>
@@ -62,7 +62,7 @@ import { UserCredential } from "@angular/fire/auth";
     </div>
   `,
 })
-export class EmailLinkAuthScreenComponent implements AfterContentInit {
+export class EmailLinkAuthScreenComponent {
   titleText = injectTranslation("labels", "signIn");
   subtitleText = injectTranslation("prompts", "signInToAccount");
   dividerOrLabel = injectTranslation("messages", "dividerOr");
@@ -70,11 +70,6 @@ export class EmailLinkAuthScreenComponent implements AfterContentInit {
   emailSent = output<void>();
   signIn = output<UserCredential>();
 
-  @ContentChild(ElementRef) children: ElementRef | undefined;
-
-  hasChildren = false;
-
-  ngAfterContentInit(): void {
-    this.hasChildren = !!this.children;
-  }
+  children = contentChildren<ElementRef>(ElementRef);
+  hasChildren = computed(() => this.children().length > 0);
 }

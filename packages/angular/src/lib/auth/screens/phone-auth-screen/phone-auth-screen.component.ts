@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, AfterContentInit, ElementRef, ContentChild, input } from "@angular/core";
+import { Component, ElementRef, input, computed, contentChildren } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   CardComponent,
@@ -50,7 +50,7 @@ import { DividerComponent } from "../../../components/divider/divider.component"
         <fui-card-content>
           <fui-phone-auth-form [resendDelay]="resendDelay()"></fui-phone-auth-form>
 
-          @if (hasChildren) {
+          @if (hasChildren()) {
             <fui-divider>{{ dividerOrLabel() }}</fui-divider>
             <div class="space-y-4 mt-6">
               <ng-content></ng-content>
@@ -61,18 +61,14 @@ import { DividerComponent } from "../../../components/divider/divider.component"
     </div>
   `,
 })
-export class PhoneAuthScreenComponent implements AfterContentInit {
+export class PhoneAuthScreenComponent {
   titleText = injectTranslation("labels", "signIn");
   subtitleText = injectTranslation("prompts", "signInToAccount");
   dividerOrLabel = injectTranslation("messages", "dividerOr");
 
   resendDelay = input<number>(30);
 
-  @ContentChild(ElementRef) children: ElementRef | undefined;
+  children = contentChildren<ElementRef>(ElementRef);
+  hasChildren = computed(() => this.children().length > 0);
 
-  hasChildren = false;
-
-  ngAfterContentInit(): void {
-    this.hasChildren = !!this.children;
-  }
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, EventEmitter, Output, AfterContentInit, ElementRef, ContentChild, output } from "@angular/core";
+import { Component, ElementRef, output, contentChildren, computed } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
 import { injectTranslation } from "../../../provider";
@@ -50,7 +50,7 @@ import {
         <fui-card-content>
           <fui-sign-in-auth-form (forgotPassword)="(forgotPassword)" (register)="(register)"></fui-sign-in-auth-form>
 
-          @if (hasChildren) {
+          @if (hasChildren()) {
             <fui-divider>{{ dividerOrLabel() }}</fui-divider>
             <div>
               <ng-content></ng-content>
@@ -61,7 +61,7 @@ import {
     </div>
   `,
 })
-export class SignInAuthScreenComponent implements AfterContentInit {
+export class SignInAuthScreenComponent {
   titleText = injectTranslation("labels", "signIn");
   subtitleText = injectTranslation("prompts", "signInToAccount");
   dividerOrLabel = injectTranslation("messages", "dividerOr");
@@ -69,11 +69,6 @@ export class SignInAuthScreenComponent implements AfterContentInit {
   forgotPassword = output<void>();
   register = output<void>();
 
-  @ContentChild(ElementRef) children: ElementRef | undefined;
-
-  hasChildren = false;
-
-  ngAfterContentInit(): void {
-    this.hasChildren = !!this.children;
-  }
+  children = contentChildren<ElementRef>(ElementRef);
+  hasChildren = computed(() => this.children().length > 0);
 }

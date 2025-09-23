@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, Input, ElementRef, AfterContentInit, ContentChild } from "@angular/core";
+import { Component, ElementRef, computed, contentChildren } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
 @Component({
@@ -28,20 +28,13 @@ import { CommonModule } from "@angular/common";
         <div class="fui-divider__text">
           <ng-content></ng-content>
         </div>
-      }
-
-      @if (!hasChildren) {
+      } @else {
         <div class="fui-divider__line"></div>
       }
     </div>
   `,
 })
-export class DividerComponent implements AfterContentInit {
-  @ContentChild(ElementRef) children: ElementRef | undefined;
-
-  hasChildren = false;
-
-  ngAfterContentInit(): void {
-    this.hasChildren = !!this.children;
-  }
+export class DividerComponent {
+  children = contentChildren<ElementRef>(ElementRef);
+  hasChildren = computed(() => this.children().length > 0);
 }
