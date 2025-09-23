@@ -21,7 +21,7 @@ import { injectForm, TanStackField, TanStackAppField } from "@tanstack/angular-f
 import { FirebaseUIError, signInWithEmailAndPassword } from "@firebase-ui/core";
 
 import { injectSignInAuthFormSchema, injectTranslation, injectUI } from "../../../provider";
-import { TermsAndPrivacyComponent } from "../../../components/terms-and-privacy/terms-and-privacy.component";
+import { PoliciesComponent } from "../../../components/policies/policies.component";
 import {
   FormInputComponent,
   FormSubmitComponent,
@@ -35,7 +35,7 @@ import {
     CommonModule,
     TanStackField,
     TanStackAppField,
-    TermsAndPrivacyComponent,
+    PoliciesComponent,
     FormInputComponent,
     FormSubmitComponent,
     FormErrorMessageComponent,
@@ -60,7 +60,7 @@ import {
         </fui-form-input>
       </fieldset>
 
-      <fui-terms-and-privacy></fui-terms-and-privacy>
+      <fui-policies />
 
       <fieldset>
         <fui-form-submit>

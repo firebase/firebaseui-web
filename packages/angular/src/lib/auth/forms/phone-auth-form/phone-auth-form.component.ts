@@ -29,7 +29,7 @@ import { CommonModule } from "@angular/common";
 import { injectForm, TanStackAppField, TanStackField } from "@tanstack/angular-form";
 import { injectPhoneAuthFormSchema, injectTranslation, injectUI } from "../../../provider";
 import { ConfirmationResult, RecaptchaVerifier, UserCredential } from "@angular/fire/auth";
-import { TermsAndPrivacyComponent } from "../../../components/terms-and-privacy/terms-and-privacy.component";
+import { PoliciesComponent } from "../../../components/policies/policies.component";
 import { CountrySelectorComponent } from "../../../components/country-selector/country-selector.component";
 import {
   FormInputComponent,
@@ -52,7 +52,7 @@ import {
     CommonModule,
     TanStackField,
     TanStackAppField,
-    TermsAndPrivacyComponent,
+    PoliciesComponent,
     FormInputComponent,
     FormSubmitComponent,
     FormErrorMessageComponent,
@@ -72,7 +72,7 @@ import {
       <fieldset>
         <div class="fui-recaptcha-container" #recaptchaContainer></div>
       </fieldset>
-      <fui-terms-and-privacy></fui-terms-and-privacy>
+      <fui-policies />
       <fieldset>
         <fui-form-submit>
           {{ sendCodeLabel() }}
@@ -165,7 +165,7 @@ export class PhoneNumberFormComponent implements OnInit {
     CommonModule,
     TanStackField,
     TanStackAppField,
-    TermsAndPrivacyComponent,
+    PoliciesComponent,
     FormInputComponent,
     FormSubmitComponent,
     FormErrorMessageComponent,
@@ -181,7 +181,7 @@ export class PhoneNumberFormComponent implements OnInit {
         ></fui-form-input>
       </fieldset>
 
-      <fui-terms-and-privacy></fui-terms-and-privacy>
+      <fui-policies />
 
       <fieldset>
         <fui-form-submit>

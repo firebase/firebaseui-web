@@ -36,11 +36,7 @@ import {
   FirebaseUIConfiguration,
   type FirebaseUI as FirebaseUIType,
   getTranslation,
-  SignInAuthFormSchema,
 } from "@firebase-ui/core";
-import { distinctUntilChanged, map, takeUntil } from "rxjs/operators";
-import { Observable, ReplaySubject } from "rxjs";
-import { Store } from "nanostores";
 import { TranslationCategory, TranslationKey } from "@firebase-ui/translations";
 
 const FIREBASE_UI_STORE = new InjectionToken<FirebaseUIType>("firebaseui.store");
@@ -117,17 +113,7 @@ export function injectPhoneAuthFormSchema(): Signal<ReturnType<typeof createPhon
   const ui = injectUI();
   return computed(() => createPhoneAuthFormSchema(ui()));
 }
-@Injectable({
-  providedIn: "root",
-})
-export class FirebaseUIPolicies {
-  private policies = inject(FIREBASE_UI_POLICIES);
 
-  get termsOfServiceUrl() {
-    return this.policies.termsOfServiceUrl;
-  }
-
-  get privacyPolicyUrl() {
-    return this.policies.privacyPolicyUrl;
-  }
+export function injectPolicies(): PolicyConfig | null {
+  return inject<PolicyConfig | null>(FIREBASE_UI_POLICIES, { optional: true });
 }

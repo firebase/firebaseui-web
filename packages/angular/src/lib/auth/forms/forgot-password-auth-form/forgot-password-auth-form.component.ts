@@ -24,7 +24,7 @@ import {
   FormSubmitComponent,
   FormErrorMessageComponent,
 } from "../../../components/form/form.component";
-import { TermsAndPrivacyComponent } from "../../../components/terms-and-privacy/terms-and-privacy.component";
+import { PoliciesComponent } from "../../../components/policies/policies.component";
 import { injectForgotPasswordAuthFormSchema, injectTranslation, injectUI } from "../../../provider";
 
 @Component({
@@ -34,7 +34,7 @@ import { injectForgotPasswordAuthFormSchema, injectTranslation, injectUI } from 
     CommonModule,
     TanStackField,
     TanStackAppField,
-    TermsAndPrivacyComponent,
+    PoliciesComponent,
     FormInputComponent,
     FormSubmitComponent,
     FormErrorMessageComponent,
@@ -57,7 +57,7 @@ import { injectForgotPasswordAuthFormSchema, injectTranslation, injectUI } from 
           ></fui-form-input>
         </fieldset>
 
-        <fui-terms-and-privacy></fui-terms-and-privacy>
+        <fui-policies />
 
         <fieldset>
           <fui-form-submit>

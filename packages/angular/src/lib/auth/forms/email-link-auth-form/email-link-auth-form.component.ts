@@ -25,7 +25,7 @@ import {
 } from "@firebase-ui/core";
 
 import { injectEmailLinkAuthFormSchema, injectTranslation, injectUI } from "../../../provider";
-import { TermsAndPrivacyComponent } from "../../../components/terms-and-privacy/terms-and-privacy.component";
+import { PoliciesComponent } from "../../../components/policies/policies.component";
 import { FormErrorMessageComponent, FormInputComponent, FormSubmitComponent } from "../../../components/form/form.component";
 
 @Component({
@@ -33,9 +33,9 @@ import { FormErrorMessageComponent, FormInputComponent, FormSubmitComponent } fr
   standalone: true,
   imports: [
     CommonModule,
+    PoliciesComponent,
     TanStackField,
     TanStackAppField,
-    TermsAndPrivacyComponent,
     FormInputComponent,
     FormSubmitComponent,
     FormErrorMessageComponent,
@@ -57,9 +57,7 @@ import { FormErrorMessageComponent, FormInputComponent, FormSubmitComponent } fr
             label="{{ emailLabel() }}"
           ></fui-form-input>
         </fieldset>
-
-        <fui-terms-and-privacy></fui-terms-and-privacy>
-
+        <fui-policies />
         <fieldset>
           <fui-form-submit>
             {{ sendSignInLinkLabel() }}

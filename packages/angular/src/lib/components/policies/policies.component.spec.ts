@@ -18,8 +18,8 @@ import { TestBed, fakeAsync, tick } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 import { BehaviorSubject } from "rxjs";
 
-import { FirebaseUI, FirebaseUIPolicies } from "../../provider";
-import { TermsAndPrivacyComponent } from "./terms-and-privacy.component";
+import { PoliciesComponent } from "./policies.component";
+import { getFirebaseUITestProviders } from "../../testing/test-helpers";
 
 class MockFirebaseUI {
   private _termsText = new BehaviorSubject<string>("Terms of Service");
@@ -60,11 +60,15 @@ function configureComponentTest({
   const mockFirebaseUI = new MockFirebaseUI();
 
   TestBed.configureTestingModule({
-    imports: [TermsAndPrivacyComponent],
+    imports: [PoliciesComponent],
     providers: [
-      { provide: FirebaseUI, useValue: mockFirebaseUI },
+      ...getFirebaseUITestProviders(),
       {
-        provide: FirebaseUIPolicies,
+        provide: 'FIREBASE_UI_STORE',
+        useValue: mockFirebaseUI,
+      },
+      {
+        provide: 'FIREBASE_UI_POLICIES',
         useValue: {
           termsOfServiceUrl: tosUrl,
           privacyPolicyUrl: privacyPolicyUrl,
@@ -73,13 +77,13 @@ function configureComponentTest({
     ],
   }).compileComponents();
 
-  const fixture = TestBed.createComponent(TermsAndPrivacyComponent);
+  const fixture = TestBed.createComponent(PoliciesComponent);
   const component = fixture.componentInstance;
 
   return { fixture, component, mockFirebaseUI };
 }
 
-describe("TermsAndPrivacyComponent", () => {
+describe("PoliciesComponent", () => {
   it("renders component with terms and privacy links", fakeAsync(() => {
     const { fixture } = configureComponentTest({
       tosUrl: "https://example.com/terms",
