@@ -16,12 +16,13 @@
 
 import { CommonModule } from "@angular/common";
 import { Component, Input } from "@angular/core";
-import { ComponentFixture, TestBed, fakeAsync, tick } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 import { Router, provideRouter } from "@angular/router";
 import { TanStackField } from "@tanstack/angular-form";
 import { getFirebaseUITestProviders } from "../../../testing/test-helpers";
 import { EmailPasswordFormComponent } from "./email-password-form.component";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 
 // Define window properties for testing
 declare global {
@@ -55,7 +56,7 @@ describe("EmailPasswordFormComponent", () => {
   let component: EmailPasswordFormComponent;
   let fixture: ComponentFixture<EmailPasswordFormComponent>;
   let mockRouter: any;
-  let signInSpy: jasmine.Spy;
+  let signInSpy: ReturnType<typeof vi.fn>;
 
   // Expected error messages from the actual implementation
   const errorMessages = {
@@ -96,11 +97,11 @@ describe("EmailPasswordFormComponent", () => {
   beforeEach(async () => {
     // Mock router
     mockRouter = {
-      navigateByUrl: jasmine.createSpy("navigateByUrl"),
+      navigateByUrl: vi.fn(),
     };
 
     // Create spies for the global functions
-    signInSpy = jasmine.createSpy("signInWithEmailAndPassword").and.returnValue(Promise.resolve());
+    signInSpy = vi.fn().mockResolvedValue(undefined);
 
     // Define the function on the window object
     Object.defineProperty(window, "signInWithEmailAndPassword", {
@@ -134,7 +135,7 @@ describe("EmailPasswordFormComponent", () => {
     component.registerRoute = "/register";
 
     // Mock the validateAndSignIn method without any TypeScript errors
-    component.validateAndSignIn = jasmine.createSpy("validateAndSignIn");
+    component.validateAndSignIn = vi.fn();
 
     fixture.detectChanges();
     await fixture.whenStable(); // Wait for async ngOnInit
@@ -155,7 +156,7 @@ describe("EmailPasswordFormComponent", () => {
     expect(submitButton).toBeTruthy();
   });
 
-  it("submits the form when handleSubmit is called", fakeAsync(() => {
+  it("submits the form when handleSubmit is called", async () => {
     // Set values directly on the form state
     component.form.state.values.email = "test@example.com";
     component.form.state.values.password = "password123";
@@ -163,28 +164,33 @@ describe("EmailPasswordFormComponent", () => {
     // Create a submit event
     const event = new Event("submit");
     Object.defineProperties(event, {
-      preventDefault: { value: jasmine.createSpy("preventDefault") },
-      stopPropagation: { value: jasmine.createSpy("stopPropagation") },
+      preventDefault: { value: vi.fn() },
+      stopPropagation: { value: vi.fn() },
     });
 
     // Call handleSubmit directly
     component.handleSubmit(event as SubmitEvent);
-    tick();
+
+    // Wait for any async operations to complete
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     // Check if validateAndSignIn was called with correct values
     expect(component.validateAndSignIn).toHaveBeenCalledWith("test@example.com", "password123");
-  }));
+  });
 
-  it("displays error message when sign in fails", fakeAsync(() => {
+  it("displays error message when sign in fails", async () => {
     // Manually set the error
     component.formError = "Invalid credentials";
     fixture.detectChanges();
+
+    // Wait for any async operations to complete
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     // Check that the error message is displayed in the DOM
     const formErrorEl = fixture.debugElement.query(By.css(".fui-form__error"));
     expect(formErrorEl).toBeTruthy();
     expect(formErrorEl.nativeElement.textContent.trim()).toBe("Invalid credentials");
-  }));
+  });
 
   it("shows an error message for invalid input", () => {
     // Manually set error message for testing
