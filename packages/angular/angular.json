@@ -14,7 +14,7 @@
           "options": {
             "project": "ng-package.json"
           }
-        },
+        }
       }
     }
   }

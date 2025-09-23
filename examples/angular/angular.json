@@ -69,7 +69,7 @@
         },
         "extract-i18n": {
           "builder": "@angular/build:extract-i18n"
-        },
+        }
       }
     },
     "angular": {
@@ -92,7 +92,7 @@
             }
           },
           "defaultConfiguration": "production"
-        },
+        }
       }
     }
   },

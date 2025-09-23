@@ -16,6 +16,8 @@
 
 import js from "@eslint/js";
 import prettier from "eslint-config-prettier";
+import typescript from "@typescript-eslint/eslint-plugin";
+import typescriptParser from "@typescript-eslint/parser";
 
 export default [
   { ignores: ["dist/**", "node_modules/**", ".angular/**"] },
@@ -26,13 +28,18 @@ export default [
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: "module",
+      parser: typescriptParser,
       parserOptions: {
         project: "./tsconfig.json",
       },
     },
+    plugins: {
+      "@typescript-eslint": typescript,
+    },
     rules: {
-      "no-unused-vars": ["error", { varsIgnorePattern: "^_", argsIgnorePattern: "^_" }],
-      "no-console": "warn",
+      "no-unused-vars": "off", // Use TypeScript version instead
+      "no-console": "off", // Allow console in examples
+      "no-undef": "off", // TypeScript handles this
       "prefer-const": "error",
       "no-var": "error",
       "@typescript-eslint/no-explicit-any": "warn",

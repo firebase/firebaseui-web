@@ -21,14 +21,13 @@ import "zone.js";
 import "zone.js/testing";
 
 // Import Angular testing utilities
-import { getTestBed, TestBed } from "@angular/core/testing";
-import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from "@angular/platform-browser-dynamic/testing";
+import { TestBed } from "@angular/core/testing";
 
 // Ensure Zone.js testing environment is properly configured
 beforeEach(() => {
   // Reset Zone.js state before each test
   if (typeof Zone !== "undefined") {
-    Zone.current.fork({}).run(() => {
+    Zone.current.fork({ name: "test-zone" }).run(() => {
       // Run each test in a fresh zone
     });
   }
@@ -40,13 +39,6 @@ import * as matchers from "@testing-library/jest-dom/matchers";
 
 // Extend Vitest's expect with jest-dom matchers
 expect.extend(matchers);
-
-// Initialize the testing environment with Zone.js support
-if (!TestBed.platform) {
-  TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting(), {
-    teardown: { destroyAfterEach: false },
-  });
-}
 
 // Reset TestBed after each test to prevent configuration conflicts
 afterEach(() => {
@@ -60,11 +52,11 @@ declare global {
 }
 
 // Define global test utilities
-globalThis.spyOn = (obj: any, method: string) => {
+(globalThis as any).spyOn = (obj: any, method: string) => {
   const spy = vi.spyOn(obj, method);
   // Add Jasmine-compatible methods
-  spy.and = {
-    callFake: (fn: Function) => {
+  (spy as any).and = {
+    callFake: (fn: (...args: any[]) => any) => {
       spy.mockImplementation(fn);
       return spy;
     },
@@ -77,7 +69,7 @@ globalThis.spyOn = (obj: any, method: string) => {
       return spy;
     },
   };
-  spy.calls = {
+  (spy as any).calls = {
     reset: () => spy.mockClear(),
     all: () => spy.mock.calls,
     count: () => spy.mock.calls.length,
@@ -86,6 +78,6 @@ globalThis.spyOn = (obj: any, method: string) => {
   };
   return spy;
 };
-globalThis.pending = (reason?: string) => {
+(globalThis as any).pending = (reason?: string) => {
   throw new Error(`Test pending: ${reason || "No reason provided"}`);
 };

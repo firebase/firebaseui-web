@@ -22,7 +22,7 @@
 
 @layer theme, components, utilities;
 
- /* Bring in theme vars so Tailwind can resolve tokens in @apply */
+/* Bring in theme vars so Tailwind can resolve tokens in @apply */
 @import "tailwindcss/theme.css" layer(theme);
 
 /* Load utilities so @apply can expand, but do NOT emit any utility classes */
