@@ -1,6 +1,7 @@
 {
   "name": "@firebaseui/root",
   "private": true,
+  "type": "module",
   "scripts": {
     "emulators": "firebase emulators:start --only auth --project demo-test",
     "build": "pnpm run build:translations && pnpm run build:core && pnpm run build:react",
