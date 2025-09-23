@@ -46,7 +46,14 @@ import { FormsModule } from "@angular/forms";
 export class CountrySelectorComponent {
   countries = countryData;
   value = model<CountryCode>();
-  selected = computed(() => countryData.find((c) => c.code === this.value()));
+  
+  selected = computed(() => {
+    if (!this.value()) {
+      return countryData[0];
+    }
+
+    return countryData.find((c) => c.code === this.value()) as CountryData;
+  });
 
   handleCountryChange(code: string) {
     const country = this.countries.find((c) => c.code === code) as CountryData;
