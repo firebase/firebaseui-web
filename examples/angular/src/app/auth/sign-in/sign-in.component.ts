@@ -55,6 +55,6 @@ export class SignInComponent implements OnInit {
   }
 
   goToRegister() {
-    this.router.navigate(["/register"]);
+    this.router.navigate(["/sign-up"]);
   }
 }

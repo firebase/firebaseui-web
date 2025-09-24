@@ -18,20 +18,16 @@ import { Component, OnInit, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Router, RouterModule } from "@angular/router";
 import { Auth, User, authState } from "@angular/fire/auth";
-import { SignInAuthScreenComponent, GoogleSignInButtonComponent } from "@firebase-ui/angular";
+import { SignUpAuthScreenComponent } from "@firebase-ui/angular";
 
 @Component({
-  selector: "app-sign-in-oauth",
+  selector: "app-register",
   standalone: true,
-  imports: [CommonModule, RouterModule, SignInAuthScreenComponent, GoogleSignInButtonComponent],
-  template: `
-    <fui-sign-in-auth-screen (forgotPassword)="goToForgotPassword()" (register)="goToRegister()">
-      <fui-google-sign-in-button></fui-google-sign-in-button>
-    </fui-sign-in-auth-screen>
-  `,
+  imports: [CommonModule, RouterModule, SignUpAuthScreenComponent],
+  template: ` <fui-sign-up-auth-screen (signIn)="goToSignIn()"></fui-sign-up-auth-screen> `,
   styles: [],
 })
-export class SignInOAuthComponent implements OnInit {
+export class RegisterComponent implements OnInit {
   private auth = inject(Auth);
   private router = inject(Router);
 
@@ -44,11 +40,7 @@ export class SignInOAuthComponent implements OnInit {
     });
   }
 
-  goToForgotPassword() {
-    this.router.navigate(["/forgot-password"]);
-  }
-
-  goToRegister() {
-    this.router.navigate(["/sign-up"]);
+  goToSignIn() {
+    this.router.navigate(["/sign-in"]);
   }
 }
