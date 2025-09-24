@@ -26,7 +26,7 @@ import { PhoneAuthScreenComponent, GoogleSignInButtonComponent } from "@firebase
   imports: [CommonModule, RouterModule, PhoneAuthScreenComponent, GoogleSignInButtonComponent],
   template: `
     <fui-phone-auth-screen>
-      <fui-google-sign-in-button></fui-google-sign-in-button>
+      <fui-google-sign-in-button />
     </fui-phone-auth-screen>
   `,
   styles: [],

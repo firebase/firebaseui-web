@@ -69,8 +69,8 @@ import {
         <fui-form-error-message></fui-form-error-message>
       </fieldset>
 
-      @if (register) {
-        <button fui-form-action (click)="register.emit()">{{ noAccountLabel() }} {{ registerLabel() }}</button>
+      @if (signUp) {
+        <button fui-form-action (click)="signUp.emit()">{{ noAccountLabel() }} {{ registerLabel() }}</button>
       }
     </form>
   `,
@@ -88,7 +88,7 @@ export class SignInAuthFormComponent implements OnInit {
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
   forgotPassword = output<void>();
-  register = output<void>();
+  signUp = output<void>();
   signIn = output<UserCredential>();
 
   form = injectForm({

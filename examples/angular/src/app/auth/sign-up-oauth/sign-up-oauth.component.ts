@@ -18,21 +18,20 @@ import { Component, OnInit, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Router, RouterModule } from "@angular/router";
 import { Auth, User, authState } from "@angular/fire/auth";
-import { SignInAuthScreenComponent } from "@firebase-ui/angular";
+import { SignUpAuthScreenComponent, GoogleSignInButtonComponent } from "@firebase-ui/angular";
 
 @Component({
-  selector: "app-sign-in-handlers",
+  selector: "app-sign-up-oauth",
   standalone: true,
-  imports: [CommonModule, RouterModule, SignInAuthScreenComponent],
+  imports: [CommonModule, RouterModule, SignUpAuthScreenComponent, GoogleSignInButtonComponent],
   template: `
-    <fui-sign-in-auth-screen
-      [forgotPasswordRoute]="'/forgot-password'"
-      [registerRoute]="'/register'"
-    ></fui-sign-in-auth-screen>
+    <fui-sign-up-auth-screen>
+      <fui-google-sign-in-button></fui-google-sign-in-button>
+    </fui-sign-up-auth-screen>
   `,
   styles: [],
 })
-export class SignInHandlersComponent implements OnInit {
+export class SignUpOAuthComponent implements OnInit {
   private auth = inject(Auth);
   private router = inject(Router);
 

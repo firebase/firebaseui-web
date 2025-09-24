@@ -48,7 +48,7 @@ import {
           <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
         </fui-card-header>
         <fui-card-content>
-          <fui-sign-in-auth-form (forgotPassword)="(forgotPassword)" (register)="(register)"></fui-sign-in-auth-form>
+          <fui-sign-in-auth-form (forgotPassword)="(forgotPassword)" (signUp)="(signUp)"></fui-sign-in-auth-form>
 
           @if (hasChildren()) {
             <fui-divider>{{ dividerOrLabel() }}</fui-divider>
@@ -67,7 +67,7 @@ export class SignInAuthScreenComponent {
   dividerOrLabel = injectTranslation("messages", "dividerOr");
 
   forgotPassword = output<void>();
-  register = output<void>();
+  signUp = output<void>();
 
   children = contentChildren<ElementRef>(ElementRef);
   hasChildren = computed(() => this.children().length > 0);
