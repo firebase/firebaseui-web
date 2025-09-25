@@ -35,6 +35,7 @@ import {
   FormInputComponent,
   FormSubmitComponent,
   FormErrorMessageComponent,
+  FormActionComponent,
 } from "../../../components/form/form.component";
 import {
   countryData,
@@ -171,6 +172,7 @@ export class PhoneNumberFormComponent implements OnInit {
     FormInputComponent,
     FormSubmitComponent,
     FormErrorMessageComponent,
+    FormActionComponent,
   ],
   template: `
     <form (submit)="handleSubmit($event)" class="fui-form">

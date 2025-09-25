@@ -26,6 +26,7 @@ import {
   FormInputComponent,
   FormSubmitComponent,
   FormErrorMessageComponent,
+  FormActionComponent,
 } from "../../../components/form/form.component";
 
 @Component({
@@ -39,6 +40,7 @@ import {
     FormInputComponent,
     FormSubmitComponent,
     FormErrorMessageComponent,
+    FormActionComponent,
   ],
   template: `
     <form (submit)="handleSubmit($event)" class="fui-form">
@@ -70,7 +72,7 @@ import {
       </fieldset>
 
       @if (signUp) {
-        <button fui-form-action (click)="signUp.emit()">{{ noAccountLabel() }} {{ registerLabel() }}</button>
+        <button fui-form-action (click)="foo()">{{ noAccountLabel() }} {{ registerLabel() }}</button>
       }
     </form>
   `,
@@ -99,6 +101,10 @@ export class SignInAuthFormComponent implements OnInit {
   });
 
   state = injectStore(this.form, (state) => state);
+
+  foo() {
+    console.log("foo");
+  }
 
   handleSubmit(event: SubmitEvent) {
     event.preventDefault();

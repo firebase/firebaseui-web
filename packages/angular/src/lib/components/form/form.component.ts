@@ -1,4 +1,4 @@
-import { Component, computed, input, effect } from "@angular/core";
+import { Component, computed, input, effect, HostBinding } from "@angular/core";
 import { AnyFieldApi, AnyFormApi, AnyFormState, FormApi, FormState, injectField, injectForm, injectStore } from "@tanstack/angular-form";
 import { ButtonComponent } from "../button/button.component";
 
@@ -49,8 +49,8 @@ export class FormInputComponent {
   selector: "button[fui-form-action]",
   standalone: true,
   host: {
-    type: "button",
     class: "fui-form__action",
+    type: "button",
   },
   template: `<ng-content></ng-content> `,
 })

@@ -23,6 +23,7 @@ import {
   FormInputComponent,
   FormSubmitComponent,
   FormErrorMessageComponent,
+  FormActionComponent,
 } from "../../../components/form/form.component";
 import { PoliciesComponent } from "../../../components/policies/policies.component";
 import { injectForgotPasswordAuthFormSchema, injectTranslation, injectUI } from "../../../provider";
@@ -38,6 +39,7 @@ import { injectForgotPasswordAuthFormSchema, injectTranslation, injectUI } from 
     FormInputComponent,
     FormSubmitComponent,
     FormErrorMessageComponent,
+    FormActionComponent,
   ],
   template: `
     @if (emailSent()) {

@@ -26,6 +26,7 @@ import {
   FormInputComponent,
   FormSubmitComponent,
   FormErrorMessageComponent,
+  FormActionComponent,
 } from "../../../components/form/form.component";
 
 @Component({
@@ -38,6 +39,7 @@ import {
     FormInputComponent,
     FormSubmitComponent,
     FormErrorMessageComponent,
+    FormActionComponent,
   ],
   template: `
     <form (submit)="handleSubmit($event)" class="fui-form">
