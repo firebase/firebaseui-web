@@ -13,8 +13,11 @@
 # limitations under the License.
 
 packages:
-  - packages/*
-  - examples/angular
+  - packages/core
+  - packages/react
+  - packages/styles
+  - packages/translations
+  - examples/react
 
 catalogs:
   peerDependencies:

@@ -17,27 +17,27 @@
 "use client";
 
 import { getTranslation } from "@firebase-ui/core";
-import { GoogleAuthProvider } from "firebase/auth";
+import { FacebookAuthProvider } from "firebase/auth";
 import { useUI } from "~/hooks";
 import { OAuthButton } from "./oauth-button";
-import GoogleSvgLogo from "~/components/logos/google/Logo";
+import FacebookSvgLogo from "~/components/logos/facebook/Logo";
 
-export type GoogleSignInButtonProps = {
-  provider?: GoogleAuthProvider;
-  themed?: boolean | 'neutral';
+export type FacebookSignInButtonProps = {
+  provider?: FacebookAuthProvider;
+  themed?: boolean;
 };
 
-export function GoogleSignInButton({ provider, themed }: GoogleSignInButtonProps) {
+export function FacebookSignInButton({ provider, themed }: FacebookSignInButtonProps) {
   const ui = useUI();
 
   return (
-    <OAuthButton provider={provider || new GoogleAuthProvider()} themed={themed}>
-      <GoogleLogo />
-      <span>{getTranslation(ui, "labels", "signInWithGoogle")}</span>
+    <OAuthButton provider={provider || new FacebookAuthProvider()} themed={themed}>
+      <FacebookLogo />
+      <span>{getTranslation(ui, "labels", "signInWithFacebook")}</span>
     </OAuthButton>
   );
 }
 
-export function GoogleLogo() {
-  return <GoogleSvgLogo className="fui-provider__icon" />;
+export function FacebookLogo() {
+  return <FacebookSvgLogo className="fui-provider__icon" />;
 }

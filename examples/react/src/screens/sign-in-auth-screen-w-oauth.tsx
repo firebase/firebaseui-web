@@ -16,18 +16,37 @@
 
 "use client";
 
-import { GoogleSignInButton, SignInAuthScreen } from "@firebase-ui/react";
+import { OAuthButton } from "@firebase-ui/react";
+import {
+  AppleSignInButton,
+  GoogleSignInButton,
+  SignInAuthScreen,
+  FacebookSignInButton,
+  GitHubSignInButton,
+  MicrosoftSignInButton,
+  TwitterSignInButton,
+} from "@firebase-ui/react";
+import { OAuthProvider } from "firebase/auth";
 import { useNavigate } from "react-router";
 
 export default function SignInAuthScreenWithOAuthPage() {
   const navigate = useNavigate();
+
+  const p = new OAuthProvider('oidc.foobar')
 
   return (
     <SignInAuthScreen
       onForgotPasswordClick={() => navigate("/password-reset-screen")}
       onRegisterClick={() => navigate("/sign-up-auth-screen")}
     >
-      <GoogleSignInButton />
+      <div className="space-y-2">
+        <GoogleSignInButton />
+        <FacebookSignInButton />
+        <AppleSignInButton />
+        <GitHubSignInButton />
+        <MicrosoftSignInButton />
+        <TwitterSignInButton />
+      </div>
     </SignInAuthScreen>
   );
 }

@@ -32,5 +32,10 @@ export { PhoneAuthScreen, type PhoneAuthScreenProps } from "./screens/phone-auth
 export { SignInAuthScreen, type SignInAuthScreenProps } from "./screens/sign-in-auth-screen";
 export { SignUpAuthScreen, type SignUpAuthScreenProps } from "./screens/sign-up-auth-screen";
 
-export { GoogleSignInButton, GoogleIcon, type GoogleSignInButtonProps } from "./oauth/google-sign-in-button";
+export { AppleSignInButton, AppleLogo, type AppleSignInButtonProps } from "./oauth/apple-sign-in-button";
+export { FacebookSignInButton, FacebookLogo, type FacebookSignInButtonProps } from "./oauth/facebook-sign-in-button";
+export { GitHubSignInButton, GitHubLogo, type GitHubSignInButtonProps } from "./oauth/github-sign-in-button";
+export { GoogleSignInButton, GoogleLogo, type GoogleSignInButtonProps } from "./oauth/google-sign-in-button";
+export { MicrosoftSignInButton, MicrosoftLogo, type MicrosoftSignInButtonProps } from "./oauth/microsoft-sign-in-button";
+export { TwitterSignInButton, TwitterLogo, type TwitterSignInButtonProps } from "./oauth/twitter-sign-in-button";
 export { OAuthButton, type OAuthButtonProps } from "./oauth/oauth-button";

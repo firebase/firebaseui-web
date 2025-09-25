@@ -17,27 +17,27 @@
 "use client";
 
 import { getTranslation } from "@firebase-ui/core";
-import { GoogleAuthProvider } from "firebase/auth";
+import { OAuthProvider } from "firebase/auth";
 import { useUI } from "~/hooks";
 import { OAuthButton } from "./oauth-button";
-import GoogleSvgLogo from "~/components/logos/google/Logo";
+import MicrosoftSvgLogo from "~/components/logos/microsoft/Logo";
 
-export type GoogleSignInButtonProps = {
-  provider?: GoogleAuthProvider;
-  themed?: boolean | 'neutral';
+export type MicrosoftSignInButtonProps = {
+  provider?: OAuthProvider;
+  themed?: boolean;
 };
 
-export function GoogleSignInButton({ provider, themed }: GoogleSignInButtonProps) {
+export function MicrosoftSignInButton({ provider, themed }: MicrosoftSignInButtonProps) {
   const ui = useUI();
 
   return (
-    <OAuthButton provider={provider || new GoogleAuthProvider()} themed={themed}>
-      <GoogleLogo />
-      <span>{getTranslation(ui, "labels", "signInWithGoogle")}</span>
+    <OAuthButton provider={provider || new OAuthProvider("microsoft.com")} themed={themed}>
+      <MicrosoftLogo />
+      <span>{getTranslation(ui, "labels", "signInWithMicrosoft")}</span>
     </OAuthButton>
   );
 }
 
-export function GoogleLogo() {
-  return <GoogleSvgLogo className="fui-provider__icon" />;
+export function MicrosoftLogo() {
+  return <MicrosoftSvgLogo className="fui-provider__icon" />;
 }

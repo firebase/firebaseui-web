@@ -17,27 +17,27 @@
 "use client";
 
 import { getTranslation } from "@firebase-ui/core";
-import { GoogleAuthProvider } from "firebase/auth";
+import { TwitterAuthProvider } from "firebase/auth";
 import { useUI } from "~/hooks";
 import { OAuthButton } from "./oauth-button";
-import GoogleSvgLogo from "~/components/logos/google/Logo";
+import TwitterSvgLogo from "~/components/logos/twitter/Logo";
 
-export type GoogleSignInButtonProps = {
-  provider?: GoogleAuthProvider;
-  themed?: boolean | 'neutral';
+export type TwitterSignInButtonProps = {
+  provider?: TwitterAuthProvider;
+  themed?: boolean;
 };
 
-export function GoogleSignInButton({ provider, themed }: GoogleSignInButtonProps) {
+export function TwitterSignInButton({ provider, themed }: TwitterSignInButtonProps) {
   const ui = useUI();
 
   return (
-    <OAuthButton provider={provider || new GoogleAuthProvider()} themed={themed}>
-      <GoogleLogo />
-      <span>{getTranslation(ui, "labels", "signInWithGoogle")}</span>
+    <OAuthButton provider={provider || new TwitterAuthProvider()} themed={themed}>
+      <TwitterLogo />
+      <span>{getTranslation(ui, "labels", "signInWithTwitter")}</span>
     </OAuthButton>
   );
 }
 
-export function GoogleLogo() {
-  return <GoogleSvgLogo className="fui-provider__icon" />;
+export function TwitterLogo() {
+  return <TwitterSvgLogo className="fui-provider__icon" />;
 }
