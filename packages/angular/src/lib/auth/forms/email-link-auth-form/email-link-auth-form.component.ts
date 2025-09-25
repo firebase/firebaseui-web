@@ -16,7 +16,7 @@
 
 import { Component, OnInit, output } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { injectForm, TanStackAppField, TanStackField } from "@tanstack/angular-form";
+import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanstack/angular-form";
 import { UserCredential } from "@angular/fire/auth";
 import {
   FirebaseUIError,
@@ -59,10 +59,10 @@ import { FormErrorMessageComponent, FormInputComponent, FormSubmitComponent } fr
         </fieldset>
         <fui-policies />
         <fieldset>
-          <fui-form-submit>
+          <fui-form-submit [state]="state()">
             {{ sendSignInLinkLabel() }}
           </fui-form-submit>
-          <fui-form-error-message></fui-form-error-message>
+          <fui-form-error-message [state]="state()" />
         </fieldset>
       </form>
     }
@@ -85,6 +85,8 @@ export class EmailLinkAuthFormComponent implements OnInit {
       email: "",
     },
   });
+
+  state = injectStore(this.form, (state) => state);
 
   handleSubmit(event: SubmitEvent) {
     event.preventDefault();

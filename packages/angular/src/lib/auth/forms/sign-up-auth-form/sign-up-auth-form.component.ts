@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import { Component, OnInit, output } from "@angular/core";
+import { Component, OnInit, output, effect } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { injectForm, TanStackAppField, TanStackField } from "@tanstack/angular-form";
+import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanstack/angular-form";
 import { FirebaseUIError, createUserWithEmailAndPassword } from "@firebase-ui/core";
 import { UserCredential } from "@angular/fire/auth";
 
@@ -61,10 +61,10 @@ import {
       <fui-policies />
 
       <fieldset>
-        <fui-form-submit>
+        <fui-form-submit [state]="state()">
           {{ createAccountLabel() }}
         </fui-form-submit>
-        <fui-form-error-message></fui-form-error-message>
+        <fui-form-error-message [state]="state()" />
       </fieldset>
 
       @if (signIn) {
@@ -94,6 +94,8 @@ export class SignUpAuthFormComponent implements OnInit {
       password: "",
     },
   });
+
+  state = injectStore(this.form, (state) => state);
 
   handleSubmit(event: SubmitEvent) {
     event.preventDefault();

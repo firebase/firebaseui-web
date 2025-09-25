@@ -16,7 +16,7 @@
 
 import { Component, OnInit, output, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { injectForm, TanStackAppField, TanStackField } from "@tanstack/angular-form";
+import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanstack/angular-form";
 import { FirebaseUIError, sendPasswordResetEmail } from "@firebase-ui/core";
 
 import {
@@ -60,10 +60,10 @@ import { injectForgotPasswordAuthFormSchema, injectTranslation, injectUI } from 
         <fui-policies />
 
         <fieldset>
-          <fui-form-submit>
+          <fui-form-submit [state]="state()">
             {{ resetPasswordLabel() }}
           </fui-form-submit>
-          <fui-form-error-message></fui-form-error-message>
+          <fui-form-error-message [state]="state()" />
         </fieldset>
 
         @if (backToSignIn) {
@@ -96,6 +96,8 @@ export class ForgotPasswordAuthFormComponent implements OnInit {
       email: "",
     },
   });
+
+  state = injectStore(this.form, (state) => state);
 
   async handleSubmit(event: SubmitEvent) {
     event.preventDefault();

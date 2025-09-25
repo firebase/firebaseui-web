@@ -26,7 +26,7 @@ export type AuthMode = "signIn" | "signUp";
 export function createSignInAuthFormSchema(ui: FirebaseUIConfiguration) {
   return z.object({
     email: z.email(getTranslation(ui, "errors", "invalidEmail")),
-    password: z.string().min(8, getTranslation(ui, "errors", "weakPassword")),
+    password: z.string().min(6, getTranslation(ui, "errors", "weakPassword")),
   });
 }
 

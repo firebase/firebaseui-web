@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import { Component, OnInit, output } from "@angular/core";
+import { Component, OnInit, output, effect } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { UserCredential } from "@angular/fire/auth";
-import { injectForm, TanStackField, TanStackAppField } from "@tanstack/angular-form";
+import { injectForm, TanStackField, TanStackAppField, injectStore } from "@tanstack/angular-form";
 import { FirebaseUIError, signInWithEmailAndPassword } from "@firebase-ui/core";
 
 import { injectSignInAuthFormSchema, injectTranslation, injectUI } from "../../../provider";
@@ -63,10 +63,10 @@ import {
       <fui-policies />
 
       <fieldset>
-        <fui-form-submit>
+        <fui-form-submit [state]="state()">
           {{ signInLabel() }}
         </fui-form-submit>
-        <fui-form-error-message></fui-form-error-message>
+        <fui-form-error-message [state]="state()" />
       </fieldset>
 
       @if (signUp) {
@@ -98,6 +98,8 @@ export class SignInAuthFormComponent implements OnInit {
     },
   });
 
+  state = injectStore(this.form, (state) => state);
+
   handleSubmit(event: SubmitEvent) {
     event.preventDefault();
     event.stopPropagation();
@@ -107,13 +109,16 @@ export class SignInAuthFormComponent implements OnInit {
   ngOnInit() {
     this.form.update({
       validators: {
+        onChange: this.formSchema(),
         onBlur: this.formSchema(),
         onSubmit: this.formSchema(),
         onSubmitAsync: async ({ value }) => {
+          console.log("onSubmitAsync", value);
           try {
             const credential = await signInWithEmailAndPassword(this.ui(), value.email, value.password);
             this.signIn?.emit(credential);
           } catch (error) {
+            console.log("error", error);
             if (error instanceof FirebaseUIError) {
               return error.message;
             }

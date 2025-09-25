@@ -1,15 +1,15 @@
-import { Component, computed, input } from "@angular/core";
-import { AnyFieldApi, injectField, injectForm } from "@tanstack/angular-form";
+import { Component, computed, input, effect } from "@angular/core";
+import { AnyFieldApi, AnyFormApi, AnyFormState, FormApi, FormState, injectField, injectForm, injectStore } from "@tanstack/angular-form";
 import { ButtonComponent } from "../button/button.component";
 
 @Component({
   selector: "fui-form-metadata",
   standalone: true,
   template: `
-    @if (field().state.meta.isTouched && field().state.meta.errors.length > 0) {
+    @if (field().state.meta.isTouched && errors().length > 0) {
       <div>
         <div role="alert" aria-live="polite" class="fui-form__error">
-          {{ field().state.meta.errors.join(", ") }}
+          {{ errors() }}
         </div>
       </div>
     }
@@ -17,6 +17,7 @@ import { ButtonComponent } from "../button/button.component";
 })
 export class FormMetadataComponent {
   field = input.required<AnyFieldApi>();
+  errors = computed(() => this.field().state.meta.errors.map((error) => error.message).join(", "));
 }
 
 @Component({
@@ -63,18 +64,16 @@ export class FormActionComponent {}
     type: "submit",
   },
   template: `
-    <button fui-button class="fui-form__action" [class]="class()" [disabled]="isSubmitting">
+    <button fui-button class="fui-form__action" [class]="class()" [disabled]="isSubmitting()">
       <ng-content></ng-content>
     </button>
   `,
 })
 export class FormSubmitComponent {
   class = input<string>();
-  form = injectForm();
+  state = input.required<AnyFormState>();
 
-  get isSubmitting(): boolean {
-    return this.form.state.isSubmitting;
-  }
+  isSubmitting = computed(() => this.state().isSubmitting);
 }
 
 @Component({
@@ -89,9 +88,9 @@ export class FormSubmitComponent {
   `,
 })
 export class FormErrorMessageComponent {
-  form = injectForm();
+  state = input.required<AnyFormState>();
 
   errorMessage = computed(() => {
-    return this.form.state.errorMap?.onSubmit ? String(this.form.state.errorMap.onSubmit) : undefined;
+    return this.state().errorMap?.onSubmit ? String(this.state().errorMap.onSubmit) : undefined;
   });
 }

@@ -26,7 +26,7 @@ import {
   viewChild,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { injectForm, TanStackAppField, TanStackField } from "@tanstack/angular-form";
+import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanstack/angular-form";
 import { injectPhoneAuthFormSchema, injectTranslation, injectUI } from "../../../provider";
 import { ConfirmationResult, RecaptchaVerifier, UserCredential } from "@angular/fire/auth";
 import { PoliciesComponent } from "../../../components/policies/policies.component";
@@ -74,10 +74,10 @@ import {
       </fieldset>
       <fui-policies />
       <fieldset>
-        <fui-form-submit>
+        <fui-form-submit [state]="state()">
           {{ sendCodeLabel() }}
         </fui-form-submit>
-        <fui-form-error-message></fui-form-error-message>
+        <fui-form-error-message [state]="state()" />
       </fieldset>
     </form>
   `,
@@ -107,6 +107,8 @@ export class PhoneNumberFormComponent implements OnInit {
       phoneNumber: "",
     },
   });
+
+  state = injectStore(this.form, (state) => state);
 
   async ngOnInit() {
     this.phoneFormSchema = this.pickPhoneFormSchema();
@@ -184,10 +186,10 @@ export class PhoneNumberFormComponent implements OnInit {
       <fui-policies />
 
       <fieldset>
-        <fui-form-submit>
+        <fui-form-submit [state]="state()">
           {{ verifyCodeLabel() }}
         </fui-form-submit>
-        <fui-form-error-message></fui-form-error-message>
+        <fui-form-error-message [state]="state()" />
       </fieldset>
 
       <fieldset>
@@ -237,6 +239,8 @@ export class VerificationFormComponent implements OnInit {
       verificationCode: "",
     },
   });
+
+  state = injectStore(this.form, (state) => state);
 
   async ngOnInit() {
     this.verificationFormSchema = this.pickVerificationFormSchema();
