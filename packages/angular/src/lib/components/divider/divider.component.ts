@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, ElementRef, computed, contentChildren } from "@angular/core";
+import { Component, ElementRef, computed, viewChild } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
 @Component({
@@ -24,17 +24,18 @@ import { CommonModule } from "@angular/common";
   template: `
     <div class="fui-divider my-6">
       <div class="fui-divider__line"></div>
-      @if (hasChildren) {
-        <div class="fui-divider__text">
-          <ng-content></ng-content>
-        </div>
-      } @else {
+
+      <div class="fui-divider__text" #contentContainer>
+        <ng-content></ng-content>
+      </div>
+
+      @if (hasChildren()) {
         <div class="fui-divider__line"></div>
       }
     </div>
   `,
 })
 export class DividerComponent {
-  children = contentChildren<ElementRef>(ElementRef);
-  hasChildren = computed(() => this.children().length > 0);
+  contentContainer = viewChild.required<ElementRef>("contentContainer");
+  hasChildren = computed(() => this.contentContainer().nativeElement.children.length > 0);
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, ElementRef, output, contentChildren, computed } from "@angular/core";
+import { Component, ElementRef, output, viewChild, computed } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
 import { injectTranslation } from "../../../provider";
@@ -50,13 +50,13 @@ import { UserCredential } from "@angular/fire/auth";
         </fui-card-header>
         <fui-card-content>
           <fui-sign-in-auth-form (forgotPassword)="forgotPassword.emit()" (signUp)="signUp.emit()" (signIn)="signIn.emit($event)"></fui-sign-in-auth-form>
-
+          
           @if (hasChildren()) {
             <fui-divider>{{ dividerOrLabel() }}</fui-divider>
-            <div>
-              <ng-content></ng-content>
-            </div>
           }
+          <div #contentContainer>
+            <ng-content></ng-content>
+          </div>
         </fui-card-content>
       </fui-card>
     </div>
@@ -71,6 +71,6 @@ export class SignInAuthScreenComponent {
   signUp = output<void>();
   signIn = output<UserCredential>();
 
-  children = contentChildren<ElementRef>(ElementRef);
-  hasChildren = computed(() => this.children().length > 0);
+  contentContainer = viewChild.required<ElementRef>('contentContainer');
+  hasChildren = computed(() => this.contentContainer().nativeElement.children.length > 0);
 }

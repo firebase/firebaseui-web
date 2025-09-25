@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, ElementRef, input, output, computed, contentChildren } from "@angular/core";
+import { Component, ElementRef, input, output, computed, viewChild } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   CardComponent,
@@ -53,10 +53,10 @@ import { UserCredential } from "@angular/fire/auth";
 
           @if (hasChildren()) {
             <fui-divider>{{ dividerOrLabel() }}</fui-divider>
-            <div class="space-y-4 mt-6">
-              <ng-content></ng-content>
-            </div>
           }
+          <div #contentContainer>
+            <ng-content></ng-content>
+          </div>
         </fui-card-content>
       </fui-card>
     </div>
@@ -70,7 +70,6 @@ export class PhoneAuthScreenComponent {
   resendDelay = input<number>(30);
   signIn = output<UserCredential>();
 
-  children = contentChildren<ElementRef>(ElementRef);
-  hasChildren = computed(() => this.children().length > 0);
-
+  contentContainer = viewChild.required<ElementRef>("contentContainer");
+  hasChildren = computed(() => this.contentContainer().nativeElement.children.length > 0);
 }

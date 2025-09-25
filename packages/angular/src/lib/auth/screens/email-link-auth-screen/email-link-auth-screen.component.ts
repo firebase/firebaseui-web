@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, ElementRef, output, contentChildren, computed } from "@angular/core";
+import { Component, ElementRef, output, computed, viewChild } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   CardComponent,
@@ -49,14 +49,17 @@ import { UserCredential } from "@angular/fire/auth";
           <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
         </fui-card-header>
         <fui-card-content>
-          <fui-email-link-auth-form (emailSent)="emailSent.emit()" (signIn)="signIn.emit($event)"></fui-email-link-auth-form>
+          <fui-email-link-auth-form
+            (emailSent)="emailSent.emit()"
+            (signIn)="signIn.emit($event)"
+          ></fui-email-link-auth-form>
 
           @if (hasChildren()) {
             <fui-divider>{{ dividerOrLabel() }}</fui-divider>
-            <div>
-              <ng-content></ng-content>
-            </div>
           }
+          <div #contentContainer>
+            <ng-content></ng-content>
+          </div>
         </fui-card-content>
       </fui-card>
     </div>
@@ -70,6 +73,6 @@ export class EmailLinkAuthScreenComponent {
   emailSent = output<void>();
   signIn = output<UserCredential>();
 
-  children = contentChildren<ElementRef>(ElementRef);
-  hasChildren = computed(() => this.children().length > 0);
+  contentContainer = viewChild.required<ElementRef>('contentContainer');
+  hasChildren = computed(() => this.contentContainer().nativeElement.children.length > 0);
 }
