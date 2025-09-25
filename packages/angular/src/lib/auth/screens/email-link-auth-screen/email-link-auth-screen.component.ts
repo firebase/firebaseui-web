@@ -49,7 +49,7 @@ import { UserCredential } from "@angular/fire/auth";
           <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
         </fui-card-header>
         <fui-card-content>
-          <fui-email-link-auth-form (emailSent)="(emailSent)" (signIn)="(signIn)"></fui-email-link-auth-form>
+          <fui-email-link-auth-form (emailSent)="emailSent.emit()" (signIn)="signIn.emit($event)"></fui-email-link-auth-form>
 
           @if (hasChildren()) {
             <fui-divider>{{ dividerOrLabel() }}</fui-divider>

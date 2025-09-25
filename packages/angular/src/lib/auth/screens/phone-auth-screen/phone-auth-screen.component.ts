@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, ElementRef, input, computed, contentChildren } from "@angular/core";
+import { Component, ElementRef, input, output, computed, contentChildren } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   CardComponent,
@@ -26,6 +26,7 @@ import {
 import { injectTranslation } from "../../../provider";
 import { PhoneAuthFormComponent } from "../../forms/phone-auth-form/phone-auth-form.component";
 import { DividerComponent } from "../../../components/divider/divider.component";
+import { UserCredential } from "@angular/fire/auth";
 
 @Component({
   selector: "fui-phone-auth-screen",
@@ -48,7 +49,7 @@ import { DividerComponent } from "../../../components/divider/divider.component"
           <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
         </fui-card-header>
         <fui-card-content>
-          <fui-phone-auth-form [resendDelay]="resendDelay()"></fui-phone-auth-form>
+          <fui-phone-auth-form [resendDelay]="resendDelay()" (signIn)="signIn.emit($event)"></fui-phone-auth-form>
 
           @if (hasChildren()) {
             <fui-divider>{{ dividerOrLabel() }}</fui-divider>
@@ -67,6 +68,7 @@ export class PhoneAuthScreenComponent {
   dividerOrLabel = injectTranslation("messages", "dividerOr");
 
   resendDelay = input<number>(30);
+  signIn = output<UserCredential>();
 
   children = contentChildren<ElementRef>(ElementRef);
   hasChildren = computed(() => this.children().length > 0);

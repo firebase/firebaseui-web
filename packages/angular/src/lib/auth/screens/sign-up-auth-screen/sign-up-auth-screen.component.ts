@@ -51,7 +51,7 @@ import {
           <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
         </fui-card-header>
         <fui-card-content>
-          <fui-sign-up-auth-form (signIn)="(signIn)" (signUp)="(signUp)"></fui-sign-up-auth-form>
+          <fui-sign-up-auth-form (signIn)="signIn.emit()" (signUp)="signUp.emit($event)"></fui-sign-up-auth-form>
 
           @if (hasChildren()) {
             <fui-divider>{{ dividerOrLabel() }}</fui-divider>

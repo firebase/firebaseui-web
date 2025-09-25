@@ -295,7 +295,7 @@ export class VerificationFormComponent implements OnInit {
   template: `
     <div class="fui-form-container">
       @if (confirmationResult()) {
-        <fui-verification-form [confirmationResult]="confirmationResult()" [resendDelay]="resendDelay()" />
+        <fui-verification-form [confirmationResult]="confirmationResult()" [resendDelay]="resendDelay()" (signIn)="signIn.emit($event)" />
       } @else {
         <fui-phone-number-form (onSubmit)="confirmationResult.set($event)" />
       }
@@ -305,4 +305,5 @@ export class VerificationFormComponent implements OnInit {
 export class PhoneAuthFormComponent {
   confirmationResult = signal<ConfirmationResult | null>(null);
   resendDelay = input<number>(30);
+  signIn = output<UserCredential>();
 }

@@ -27,6 +27,7 @@ import {
   CardSubtitleComponent,
   CardContentComponent,
 } from "../../../components/card/card.component";
+import { UserCredential } from "@angular/fire/auth";
 @Component({
   selector: "fui-sign-in-auth-screen",
   standalone: true,
@@ -48,7 +49,7 @@ import {
           <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
         </fui-card-header>
         <fui-card-content>
-          <fui-sign-in-auth-form (forgotPassword)="(forgotPassword)" (signUp)="(signUp)"></fui-sign-in-auth-form>
+          <fui-sign-in-auth-form (forgotPassword)="forgotPassword.emit()" (signUp)="signUp.emit()" (signIn)="signIn.emit($event)"></fui-sign-in-auth-form>
 
           @if (hasChildren()) {
             <fui-divider>{{ dividerOrLabel() }}</fui-divider>
@@ -68,6 +69,7 @@ export class SignInAuthScreenComponent {
 
   forgotPassword = output<void>();
   signUp = output<void>();
+  signIn = output<UserCredential>();
 
   children = contentChildren<ElementRef>(ElementRef);
   hasChildren = computed(() => this.children().length > 0);
