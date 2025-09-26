@@ -3,7 +3,7 @@
 {
   "compilerOptions": {
     "outDir": "../../out-tsc/spec",
-    "types": ["jasmine", "node"],
+    "types": ["vitest/globals", "node", "@testing-library/jest-dom"],
     "lib": ["es2018", "dom"],
     "target": "es2018",
     "module": "es2020",
@@ -22,5 +22,5 @@
     "strictTemplates": true
   },
   "include": ["src/**/*.spec.ts", "src/**/*.d.ts", "src/**/*.ts"],
-  "files": ["src/test.ts"]
+  "files": ["src/test-setup.ts"]
 }

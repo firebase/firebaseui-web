@@ -28,7 +28,7 @@ The packages also exports themes which overrides the CSS variables with preset c
 ```css
 @import "tailwindcss";
 @import "@firebase-ui/styles/tailwind";
-@import "@firebase-ui/styles/themes/brualist"
+@import "@firebase-ui/styles/themes/brualist";
 ```
 
 ## Building

@@ -16,7 +16,7 @@
 
 import { CommonModule } from "@angular/common";
 import { Component, InjectionToken, Input } from "@angular/core";
-import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { Auth } from "@angular/fire/auth";
 import { By } from "@angular/platform-browser";
 import { provideRouter } from "@angular/router";
@@ -91,7 +91,7 @@ describe("Email Link Authentication Integration", () => {
   });
 
   // Prepare component before each test
-  beforeEach(waitForAsync(async () => {
+  beforeEach(async () => {
     // Ensure localStorage is cleared before each test
     window.localStorage.removeItem(emailForSignInKey);
 
@@ -147,9 +147,9 @@ describe("Email Link Authentication Integration", () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     await fixture.whenStable();
-  }));
+  });
 
-  it("should successfully initiate email link sign in", fakeAsync(() => {
+  it("should successfully initiate email link sign in", async () => {
     // Find email input
     const emailInput = fixture.debugElement.query(By.css('input[type="email"]')).nativeElement;
 
@@ -164,8 +164,8 @@ describe("Email Link Authentication Integration", () => {
     const submitButton = fixture.debugElement.query(By.css("fui-button button")).nativeElement;
     submitButton.click();
 
-    // Wait for Firebase operation to complete
-    tick(5000);
+    // Wait for any async operations to complete
+    await new Promise((resolve) => setTimeout(resolve, 0));
     fixture.detectChanges();
 
     // Check for success by verifying no critical error message exists
@@ -184,10 +184,10 @@ describe("Email Link Authentication Integration", () => {
     });
 
     // Test passes if no critical errors found
-    expect(hasCriticalError).toBeFalse();
-  }));
+    expect(hasCriticalError).toBeFalsy();
+  });
 
-  it("should handle invalid email format", fakeAsync(() => {
+  it("should handle invalid email format", async () => {
     // Find email input
     const emailInput = fixture.debugElement.query(By.css('input[type="email"]')).nativeElement;
 
@@ -202,12 +202,12 @@ describe("Email Link Authentication Integration", () => {
     const submitButton = fixture.debugElement.query(By.css("fui-button button")).nativeElement;
     submitButton.click();
 
-    // Wait for validation to complete
-    tick(2000);
+    // Wait for any async operations to complete
+    await new Promise((resolve) => setTimeout(resolve, 0));
     fixture.detectChanges();
 
     // Verify error is shown
     const errorElements = fixture.debugElement.queryAll(By.css(".fui-form__error"));
     expect(errorElements.length).toBeGreaterThan(0);
-  }));
+  });
 });

@@ -15,6 +15,9 @@ dist-ssr
 # Angular
 .angular
 
+# Next.js
+.next
+
 # Coverage
 coverage
 

@@ -24,7 +24,7 @@ import { PasswordResetScreenComponent } from "./forgot-password-auth-screen.comp
 
 // Mock Card components
 @Component({
-  selector: "fui-card",
+  selector: "fui-card-password-reset",
   template: '<div class="fui-card"><ng-content></ng-content></div>',
   standalone: true,
 })
@@ -91,7 +91,7 @@ describe("PasswordResetScreenComponent", () => {
       imports: [
         CommonModule,
         PasswordResetScreenComponent,
-        MockCardComponent,
+        CardComponent,
         MockCardHeaderComponent,
         MockCardTitleComponent,
         MockCardSubtitleComponent,

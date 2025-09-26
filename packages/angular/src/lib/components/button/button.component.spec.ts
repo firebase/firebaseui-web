@@ -18,6 +18,7 @@ import { Component } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 import { ButtonComponent } from "./button.component";
+import { describe, it, expect, beforeEach } from "vitest";
 
 @Component({
   template: `
@@ -56,8 +57,8 @@ describe("ButtonComponent", () => {
     const button = buttonEl.nativeElement.querySelector("button");
 
     expect(button).toBeTruthy();
-    expect(button.classList.contains("fui-button")).toBeTrue();
-    expect(button.classList.contains("fui-button--secondary")).toBeFalse();
+    expect(button.classList.contains("fui-button")).toBe(true);
+    expect(button.classList.contains("fui-button--secondary")).toBe(false);
     expect(button.textContent.trim()).toBe("Click me");
   });
 
@@ -66,14 +67,14 @@ describe("ButtonComponent", () => {
     const button = buttonEl.nativeElement.querySelector("button");
 
     expect(button).toBeTruthy();
-    expect(button.classList.contains("fui-button")).toBeTrue();
-    expect(button.classList.contains("fui-button--secondary")).toBeTrue();
+    expect(button.classList.contains("fui-button")).toBe(true);
+    expect(button.classList.contains("fui-button--secondary")).toBe(true);
   });
 
   it("applies custom className", () => {
     const buttonEl = fixture.debugElement.query(By.css('[data-testid="custom-class-button"]'));
 
-    expect(buttonEl.nativeElement.classList.contains("custom-class")).toBeTrue();
+    expect(buttonEl.nativeElement.classList.contains("custom-class")).toBe(true);
   });
 
   it("handles click events", () => {
@@ -93,6 +94,6 @@ describe("ButtonComponent", () => {
     const button = buttonEl.query(By.css("button"));
 
     expect(button).toBeTruthy();
-    expect(button.nativeElement.disabled).toBeTrue();
+    expect(button.nativeElement.disabled).toBe(true);
   });
 });

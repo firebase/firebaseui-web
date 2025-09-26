@@ -9,6 +9,29 @@ on:
       - "**"
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          check-latest: true
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+      - name: Install dependencies
+        run: pnpm install
+      - name: Run ESLint on core packages
+        run: pnpm --filter="@firebase-ui/*" run lint
+      - name: Run ESLint on example apps
+        run: pnpm --filter="angular-example" --filter="nextjs" --filter="react" run lint
+      - name: Check Prettier formatting
+        run: pnpm format:check
+
   test:
     runs-on: ubuntu-latest
     steps:

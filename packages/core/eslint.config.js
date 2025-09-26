@@ -41,7 +41,7 @@ export default [
       "@typescript-eslint": tseslint,
     },
     rules: {
-      "no-unused-vars": "off", // Turn off base rule
+      "no-unused-vars": "off",
       "no-console": "warn",
       "prefer-const": "error",
       "no-var": "error",
@@ -75,7 +75,7 @@ export default [
       "@typescript-eslint": tseslint,
     },
     rules: {
-      "no-unused-vars": "off", // Turn off base rule
+      "no-unused-vars": "off",
       "no-console": "warn",
       "prefer-const": "error",
       "no-var": "error",

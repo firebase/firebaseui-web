@@ -18,6 +18,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { FormsModule } from "@angular/forms";
 import { By } from "@angular/platform-browser";
 import { countryData } from "@firebase-ui/core";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 
 import { CountrySelectorComponent } from "./country-selector.component";
 
@@ -64,7 +65,7 @@ describe("CountrySelectorComponent", () => {
 
   it("calls onChange when a different country is selected", () => {
     // Spy on the onChange event
-    spyOn(component.onChange, "emit");
+    const emitSpy = vi.spyOn(component.onChange, "emit");
 
     // Find a different country to select
     const newCountry = countryData.find((country) => country.code !== defaultCountry.code);
