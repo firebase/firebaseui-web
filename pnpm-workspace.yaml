@@ -15,18 +15,12 @@
 packages:
   - packages/*
   - examples/angular
-
-catalogs:
-  peerDependencies:
-    firebase: ^12
-    react: ^19
-    react-dom: ^19
-    "@angular/core": ^20.2.2
-    "@angular/common": ^20.2.2
+  - examples/nextjs
+  - examples/react
 
 catalog:
   # Firebase
-  firebase: ^11.8.0
+  firebase: ^11.10.0
 
   # Build tools
   typescript: ^5.9.2
@@ -73,6 +67,13 @@ catalog:
   zod: ^4.1.9
   nanostores: ^1.0.1
   "@types/node": ^24.3.1
+
+catalogs:
+  peerDependencies:
+    '@angular/fire': ^20
+    firebase: ^11 || ^12
+    react: ^19
+    react-dom: ^19
 
 onlyBuiltDependencies:
   - '@parcel/watcher'

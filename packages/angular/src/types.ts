@@ -14,18 +14,7 @@
  * limitations under the License.
  */
 
-/**
- * This file is the entrypoint for the dist.css file build process.
- * It imports the tailwindcss and base.css, allowing for users to import
- * the firebaseui-styles package without having to install tailwindcss.
- */
-
-@layer theme, components, utilities;
-
-/* Bring in theme vars so Tailwind can resolve tokens in @apply */
-@import "tailwindcss/theme.css" layer(theme);
-
-/* Load utilities so @apply can expand, but do NOT emit any utility classes */
-@import "tailwindcss/utilities.css" layer(utilities) source(none);
-
-@import "./src/base.css";
+export type Tail = [
+  any, // category
+  any, // key
+];

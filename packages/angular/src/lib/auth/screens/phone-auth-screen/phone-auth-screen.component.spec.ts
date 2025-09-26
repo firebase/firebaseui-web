@@ -16,15 +16,16 @@
 
 import { CommonModule } from "@angular/common";
 import { Component, Input } from "@angular/core";
-import { TestBed, fakeAsync, tick } from "@angular/core/testing";
+import { TestBed } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 import { of } from "rxjs";
 import { FirebaseUI } from "../../../provider";
 import { PhoneAuthScreenComponent } from "./phone-auth-screen.component";
+import { CardComponent } from "../../../components/card/card.component";
 
 // Mock Card components
 @Component({
-  selector: "fui-card",
+  selector: "fui-card-phone",
   template: '<div class="fui-card"><ng-content></ng-content></div>',
   standalone: true,
 })
@@ -122,7 +123,7 @@ describe("PhoneAuthScreenComponent", () => {
         PhoneAuthScreenComponent,
         TestHostWithChildrenComponent,
         TestHostWithoutChildrenComponent,
-        MockCardComponent,
+        CardComponent,
         MockCardHeaderComponent,
         MockCardTitleComponent,
         MockCardSubtitleComponent,
@@ -175,12 +176,12 @@ describe("PhoneAuthScreenComponent", () => {
     expect(phoneFormEl.nativeElement.textContent).toContain("Resend Delay: 60");
   });
 
-  it("renders children when provided", fakeAsync(() => {
+  it("renders children when provided", async () => {
     const fixture = TestBed.createComponent(TestHostWithChildrenComponent);
     fixture.detectChanges();
 
-    // Wait for the setTimeout in ngAfterContentInit
-    tick(0);
+    // Wait for any async operations to complete
+    await new Promise((resolve) => setTimeout(resolve, 0));
     fixture.detectChanges();
 
     const buttonEl = fixture.debugElement.query(By.css('[data-testid="test-button"]'));
@@ -190,17 +191,17 @@ describe("PhoneAuthScreenComponent", () => {
     expect(buttonEl.nativeElement.textContent).toBe("Test Button");
     expect(dividerEl).toBeTruthy();
     expect(dividerEl.nativeElement.textContent).toBe("OR");
-  }));
+  });
 
-  it("does not render children or divider when not provided", fakeAsync(() => {
+  it("does not render children or divider when not provided", async () => {
     const fixture = TestBed.createComponent(TestHostWithoutChildrenComponent);
     fixture.detectChanges();
 
-    // Wait for the setTimeout in ngAfterContentInit
-    tick(0);
+    // Wait for any async operations to complete
+    await new Promise((resolve) => setTimeout(resolve, 0));
     fixture.detectChanges();
 
     const dividerEl = fixture.debugElement.query(By.css(".fui-divider"));
     expect(dividerEl).toBeFalsy();
-  }));
+  });
 });

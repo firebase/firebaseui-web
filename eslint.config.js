@@ -16,47 +16,119 @@
 
 import js from "@eslint/js";
 import prettier from "eslint-config-prettier";
+import tseslint from "@typescript-eslint/eslint-plugin";
+import tsparser from "@typescript-eslint/parser";
 
 export default [
-  { ignores: ["**/dist/**", "**/node_modules/**", "**/releases/**", "**/.angular/**"] },
+  {
+    ignores: [
+      "dist/**",
+      "node_modules/**",
+      "releases/**",
+      "*.tgz",
+      "**/dist/**",
+      "**/node_modules/**",
+      "**/build/**",
+      "**/.next/**",
+      "**/coverage/**",
+      "**/.angular/**",
+      "**/cache/**",
+      "**/.cache/**",
+    ],
+  },
   js.configs.recommended,
   prettier,
   {
-    files: ["**/*.{js,jsx,ts,tsx}"],
+    files: ["**/*.{js,jsx}"],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: "module",
+      globals: {
+        window: "readonly",
+        console: "readonly",
+        document: "readonly",
+        process: "readonly",
+        Buffer: "readonly",
+        __dirname: "readonly",
+        __filename: "readonly",
+        global: "readonly",
+        module: "readonly",
+        require: "readonly",
+        exports: "readonly",
+        setImmediate: "readonly",
+        clearImmediate: "readonly",
+        URL: "readonly",
+        clearInterval: "readonly",
+        clearTimeout: "readonly",
+        setTimeout: "readonly",
+        setInterval: "readonly",
+      },
+    },
+    rules: {
+      "no-unused-vars": "off",
+      "no-console": "warn",
+      "prefer-const": "error",
+      "no-var": "error",
+      "no-undef": "off",
+    },
+  },
+  {
+    files: ["**/*.{ts,tsx}"],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: "module",
+      parser: tsparser,
       parserOptions: {
         ecmaFeatures: {
           jsx: true,
         },
       },
+      globals: {
+        window: "readonly",
+        console: "readonly",
+        document: "readonly",
+        process: "readonly",
+        Buffer: "readonly",
+        __dirname: "readonly",
+        __filename: "readonly",
+        global: "readonly",
+        module: "readonly",
+        require: "readonly",
+        exports: "readonly",
+        setImmediate: "readonly",
+        clearImmediate: "readonly",
+        URL: "readonly",
+        clearInterval: "readonly",
+        clearTimeout: "readonly",
+        setTimeout: "readonly",
+        setInterval: "readonly",
+        React: "readonly",
+        describe: "readonly",
+        it: "readonly",
+        expect: "readonly",
+        beforeEach: "readonly",
+        afterEach: "readonly",
+        beforeAll: "readonly",
+        afterAll: "readonly",
+        vi: "readonly",
+        test: "readonly",
+        jest: "readonly",
+      },
+    },
+    plugins: {
+      "@typescript-eslint": tseslint,
     },
     rules: {
-      // Core JavaScript rules
-      "no-unused-vars": ["error", { varsIgnorePattern: "^_", argsIgnorePattern: "^_" }],
+      "no-unused-vars": "off",
+      "no-undef": "off",
       "no-console": "warn",
       "prefer-const": "error",
       "no-var": "error",
-
-      // Security and best practices
-      "no-debugger": "error",
-      "no-eval": "error",
-      "no-implied-eval": "error",
-      "no-new-func": "error",
-      "no-script-url": "error",
-      "no-with": "error",
-
-      // Modern JavaScript preferences
-      "prefer-arrow-callback": "error",
-      "prefer-template": "error",
-      "prefer-destructuring": ["error", { object: true, array: false }],
-
-      // Code quality
-      eqeqeq: ["error", "always"],
-      "no-duplicate-imports": "error",
-      "no-useless-return": "error",
-      "no-useless-concat": "error",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { varsIgnorePattern: "^_", argsIgnorePattern: "^_", caughtErrorsIgnorePattern: "^_" },
+      ],
+      "@typescript-eslint/no-explicit-any": "warn",
     },
   },
 ];

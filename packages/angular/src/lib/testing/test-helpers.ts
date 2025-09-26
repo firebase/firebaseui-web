@@ -19,6 +19,7 @@ import { FirebaseUI, FirebaseUIPolicies } from "../provider";
 import { Auth } from "@angular/fire/auth";
 import { InjectionToken } from "@angular/core";
 import { of } from "rxjs";
+import { vi } from "vitest";
 
 // Mock for the Auth service
 export const mockAuth = {
@@ -35,9 +36,9 @@ export const mockAuth = {
     automaticDataCollectionEnabled: false,
     appVerificationDisabledForTesting: true,
   },
-  signInWithPopup: jasmine.createSpy("signInWithPopup"),
-  signInWithRedirect: jasmine.createSpy("signInWithRedirect"),
-  signInWithPhoneNumber: jasmine.createSpy("signInWithPhoneNumber"),
+  signInWithPopup: vi.fn(),
+  signInWithRedirect: vi.fn(),
+  signInWithPhoneNumber: vi.fn(),
 };
 
 // Mock for FirebaseUi provider
