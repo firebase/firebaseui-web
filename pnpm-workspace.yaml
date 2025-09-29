@@ -18,8 +18,6 @@ packages:
   - packages/translations
   - packages/styles
   - examples/angular
-  - examples/nextjs
-  - examples/react
 
 catalog:
   # Firebase

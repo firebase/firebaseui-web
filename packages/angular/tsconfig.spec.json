@@ -1,26 +1,15 @@
-/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
-/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
 {
+  "extends": "./tsconfig.build.json",
   "compilerOptions": {
-    "outDir": "../../out-tsc/spec",
-    "types": ["vitest/globals", "node", "@testing-library/jest-dom"],
-    "lib": ["es2018", "dom"],
-    "target": "es2018",
-    "module": "es2020",
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "strict": false,
-    "noImplicitAny": false,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "sourceMap": true,
-    "declaration": false
+    "outDir": "./out-tsc/spec",
+    "target": "es2016",
+    "types": ["vitest/globals", "node"],
+    "paths": {
+      "~/tests/*": ["./tests/*"],
+      "@firebase-ui/core": ["../core/src/index.ts"],
+      "@firebase-ui/styles": ["../styles/src/index.ts"]
+    }
   },
-  "angularCompilerOptions": {
-    "strictTemplates": true
-  },
-  "include": ["src/**/*.spec.ts", "src/**/*.d.ts", "src/**/*.ts"],
-  "files": ["src/test-setup.ts"]
+  "files": ["setup-test.ts"],
+  "include": ["tests/**/*.spec.ts", "tests/**/*.d.ts", "setup-test.ts"]
 }

@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "Bundler",
+    "useDefineForClassFields": false,
+    "paths": {
+      "~/*": ["./src/*"],
+      "~/tests/*": ["./tests/*"],
+      "@firebase-ui/core": ["../core/src/index.ts"],
+      "@firebase-ui/styles": ["../styles/src/index.ts"]
+    }
+  },
+  "include": ["src", "tests", "eslint.config.js", "vite.config.ts", "setup-test.ts"]
+}
