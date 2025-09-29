@@ -62,7 +62,7 @@ export function useEmailLinkAuthForm(onSuccess?: EmailLinkAuthFormProps["onEmail
       onSubmitAsync: async ({ value }) => {
         try {
           await action(value);
-          onSuccess?.();
+          return onSuccess?.();
         } catch (error) {
           return error instanceof Error ? error.message : String(error);
         }

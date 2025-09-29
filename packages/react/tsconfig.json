@@ -1,27 +1,8 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "skipLibCheck": true,
-    "types": ["@testing-library/jest-dom"],
-
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "isolatedModules": true,
-    "moduleDetection": "force",
-    "noEmit": true,
     "jsx": "react-jsx",
-
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true,
-    "baseUrl": ".",
+    "moduleResolution": "Bundler",
     "paths": {
       "~/*": ["./src/*"],
       "~/tests/*": ["./tests/*"],
@@ -29,5 +10,5 @@
       "@firebase-ui/styles": ["../styles/src/index.ts"]
     }
   },
-  "include": ["src", "vite.config.ts", "tests", "./setup-test.ts"]
+  "include": ["src", "eslint.config.js", "vite.config.ts", "setup-test.ts"]
 }

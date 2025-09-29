@@ -64,7 +64,7 @@ export function useSignInAuthForm(onSuccess?: SignInAuthFormProps["onSignIn"]) {
       onSubmitAsync: async ({ value }) => {
         try {
           const credential = await action(value);
-          onSuccess?.(credential);
+          return onSuccess?.(credential);
         } catch (error) {
           return error instanceof Error ? error.message : String(error);
         }

@@ -63,8 +63,8 @@ function ErrorMessage() {
   return (
     <form.Subscribe selector={(state) => [state.errorMap]}>
       {([errorMap]) => {
-        if (errorMap.onSubmit) {
-          return <div className="fui-form__error">{errorMap.onSubmit.toString()}</div>;
+        if (errorMap?.onSubmit) {
+          return <div className="fui-form__error">{String(errorMap.onSubmit)}</div>;
         }
 
         return null;

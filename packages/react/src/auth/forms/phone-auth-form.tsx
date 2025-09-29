@@ -118,7 +118,7 @@ function PhoneNumberForm({ onSubmit, recaptchaVerifier, recaptchaContainerRef }:
       onSubmitAsync: async ({ value }) => {
         try {
           const formattedNumber = formatPhoneNumberWithCountry(value.phoneNumber, selectedCountry);
-          await onSubmit(formattedNumber);
+          return await onSubmit(formattedNumber);
         } catch (error) {
           return error instanceof Error ? error.message : String(error);
         }
@@ -259,7 +259,7 @@ function VerificationForm({
       onSubmit: verificationFormSchema,
       onSubmitAsync: async ({ value }) => {
         try {
-          await onSubmit(value.verificationCode);
+          return await onSubmit(value.verificationCode);
         } catch (error) {
           return error instanceof Error ? error.message : String(error);
         }
