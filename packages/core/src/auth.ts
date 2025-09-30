@@ -22,12 +22,12 @@ import {
   signInAnonymously as _signInAnonymously,
   signInWithPhoneNumber as _signInWithPhoneNumber,
   ActionCodeSettings,
+  ApplicationVerifier,
   AuthProvider,
   ConfirmationResult,
   EmailAuthProvider,
   linkWithCredential,
   PhoneAuthProvider,
-  RecaptchaVerifier,
   signInWithCredential,
   signInWithRedirect,
   UserCredential,
@@ -108,11 +108,11 @@ export async function createUserWithEmailAndPassword(
 export async function signInWithPhoneNumber(
   ui: FirebaseUIConfiguration,
   phoneNumber: string,
-  recaptchaVerifier: RecaptchaVerifier
+  appVerifier: ApplicationVerifier
 ): Promise<ConfirmationResult> {
   try {
     ui.setState("pending");
-    return await _signInWithPhoneNumber(ui.auth, phoneNumber, recaptchaVerifier);
+    return await _signInWithPhoneNumber(ui.auth, phoneNumber, appVerifier);
   } catch (error) {
     handleFirebaseError(ui, error);
   } finally {
