@@ -3,7 +3,7 @@ import { Auth } from "firebase/auth";
 import { describe, it, expect } from "vitest";
 import { initializeUI } from "./config";
 import { enUs, registerLocale } from "@firebase-ui/translations";
-import { autoUpgradeAnonymousUsers } from "./behaviors";
+import { autoUpgradeAnonymousUsers, defaultBehaviors } from "./behaviors";
 
 describe('initializeUI', () => {
   it('should return a valid deep store with default values', () => {
@@ -17,12 +17,12 @@ describe('initializeUI', () => {
     expect(ui.get()).toBeDefined();
     expect(ui.get().app).toBe(config.app);
     expect(ui.get().auth).toBe(config.auth);
-    expect(ui.get().behaviors).toEqual({});
+    expect(ui.get().behaviors).toEqual(defaultBehaviors);
     expect(ui.get().state).toEqual("idle");
     expect(ui.get().locale).toEqual(enUs);
   });
 
-  it('should merge behaviors', () => {
+  it('should merge behaviors with defaultBehaviors', () => {
     const config = {
       app: {} as FirebaseApp,
       auth: {} as Auth,
@@ -32,6 +32,11 @@ describe('initializeUI', () => {
     const ui = initializeUI(config);
     expect(ui).toBeDefined();
     expect(ui.get()).toBeDefined();
+    
+    // Should have default behaviors
+    expect(ui.get().behaviors).toHaveProperty("recaptchaVerification");
+    
+    // Should have custom behaviors
     expect(ui.get().behaviors).toHaveProperty("autoUpgradeAnonymousCredential");
     expect(ui.get().behaviors).toHaveProperty("autoUpgradeAnonymousProvider");
   });
@@ -65,6 +70,64 @@ describe('initializeUI', () => {
     expect(ui.get().locale.locale).toEqual('test1');
     ui.get().setLocale(testLocale2);
     expect(ui.get().locale.locale).toEqual('test2');
+  });
+
+  it('should include defaultBehaviors even when no custom behaviors are provided', () => {
+    const config = {
+      app: {} as FirebaseApp,
+      auth: {} as Auth,
+    };
+
+    const ui = initializeUI(config);
+    expect(ui.get().behaviors).toEqual(defaultBehaviors);
+    expect(ui.get().behaviors).toHaveProperty("recaptchaVerification");
+  });
+
+  it('should allow overriding default behaviors', () => {
+    const customRecaptchaVerification = {
+      recaptchaVerification: () => {
+        // Custom implementation
+        return {} as any;
+      }
+    };
+
+    const config = {
+      app: {} as FirebaseApp,
+      auth: {} as Auth,
+      behaviors: [customRecaptchaVerification],
+    };
+
+    const ui = initializeUI(config);
+    expect(ui.get().behaviors).toHaveProperty("recaptchaVerification");
+    expect(ui.get().behaviors.recaptchaVerification).toBe(customRecaptchaVerification.recaptchaVerification);
+  });
+
+  it('should merge multiple behavior objects correctly', () => {
+    const behavior1 = autoUpgradeAnonymousUsers();
+    const behavior2 = {
+      recaptchaVerification: () => {
+        // Custom recaptcha implementation
+        return {} as any;
+      }
+    };
+
+    const config = {
+      app: {} as FirebaseApp,
+      auth: {} as Auth,
+      behaviors: [behavior1, behavior2],
+    };
+
+    const ui = initializeUI(config);
+    
+    // Should have default behaviors
+    expect(ui.get().behaviors).toHaveProperty("recaptchaVerification");
+    
+    // Should have autoUpgrade behaviors
+    expect(ui.get().behaviors).toHaveProperty("autoUpgradeAnonymousCredential");
+    expect(ui.get().behaviors).toHaveProperty("autoUpgradeAnonymousProvider");
+    
+    // Should have custom recaptcha implementation
+    expect(ui.get().behaviors.recaptchaVerification).toBe(behavior2.recaptchaVerification);
   });
 });
 

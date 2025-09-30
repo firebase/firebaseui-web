@@ -18,7 +18,14 @@ import { enUs, RegisteredLocale } from "@firebase-ui/translations";
 import type { FirebaseApp } from "firebase/app";
 import { Auth, getAuth } from "firebase/auth";
 import { deepMap, DeepMapStore, map } from "nanostores";
-import { Behavior, type BehaviorHandlers, type BehaviorKey, getBehavior, hasBehavior } from "./behaviors";
+import {
+  Behavior,
+  type BehaviorHandlers,
+  type BehaviorKey,
+  defaultBehaviors,
+  getBehavior,
+  hasBehavior,
+} from "./behaviors";
 import { FirebaseUIState } from "./state";
 
 type FirebaseUIConfigurationOptions = {
@@ -44,14 +51,14 @@ export type FirebaseUI = DeepMapStore<FirebaseUIConfiguration>;
 
 export function initializeUI(config: FirebaseUIConfigurationOptions, name: string = "[DEFAULT]"): FirebaseUI {
   // Reduce the behaviors to a single object.
-  const behaviors = config.behaviors?.reduce(
+  const behaviors = config.behaviors?.reduce<Partial<Record<BehaviorKey, BehaviorHandlers[BehaviorKey]>>>(
     (acc, behavior) => {
       return {
         ...acc,
         ...behavior,
       };
     },
-    {} as Record<BehaviorKey, BehaviorHandlers[BehaviorKey]>
+    defaultBehaviors
   );
 
   $config.setKey(
@@ -69,7 +76,7 @@ export function initializeUI(config: FirebaseUIConfigurationOptions, name: strin
         const current = $config.get()[name]!;
         current.setKey(`state`, state);
       },
-      behaviors: behaviors ?? {},
+      behaviors: behaviors ?? defaultBehaviors,
     })
   );
 
