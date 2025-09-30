@@ -16,38 +16,43 @@
 
 "use client";
 
-import { CountryCode, countryData, getCountryByCode } from "@firebase-ui/core";
-import { ComponentProps } from "react";
+import { CountryData } from "@firebase-ui/core";
+import { getCountries, getDefaultCountry } from "@firebase-ui/core";
+import { ComponentProps, useImperativeHandle, useState } from "react";
+import { useUI } from "~/hooks";
 import { cn } from "~/utils/cn";
 
-export type CountrySelectorProps = ComponentProps<"div"> & {
-  value: CountryCode;
-  onChange: (code: CountryCode) => void;
-  allowedCountries?: CountryCode[];
-};
+export type CountrySelectorProps = ComponentProps<"div"> & { ref?: React.Ref<CountrySelectorRef> };
 
-export function CountrySelector({ value, onChange, allowedCountries, className, ...props }: CountrySelectorProps) {
+export interface CountrySelectorRef {
+  getCountry: () => CountryData;
+  setCountry: (country: CountryData) => void;
+}
 
-  const country = getCountryByCode(value);
-  const countries = allowedCountries ? countryData.filter((c) => allowedCountries.includes(c.code)) : countryData;
+export function CountrySelector({ className, ref, ...props }: CountrySelectorProps) {
+  const ui = useUI();
+  const [selected, setSelected] = useState<CountryData>(getDefaultCountry(ui));
+  const countries = getCountries(ui);
 
-  if (!country) {
-    return null;
-  }
+  useImperativeHandle(ref, () => ({
+    getCountry: () => selected,
+    setCountry: (country: CountryData) => setSelected(country),
+  }));
 
   return (
     <div className={cn("fui-country-selector", className)} {...props}>
       <div className="fui-country-selector__wrapper">
-        <span className="fui-country-selector__flag">{country.emoji}</span>
+        <span className="fui-country-selector__flag">{selected.emoji}</span>
         <div className="fui-country-selector__select-wrapper">
-          <span className="fui-country-selector__dial-code">{country.dialCode}</span>
+          <span className="fui-country-selector__dial-code">{selected.dialCode}</span>
           <select
             className="fui-country-selector__select"
-            value={country.code}
+            value={selected.code}
             onChange={(e) => {
-              const country = getCountryByCode(e.target.value as CountryCode);
+              const country = countries.find((country) => country.code === e.target.value);
+
               if (country) {
-                onChange(country.code);
+                setSelected(country);
               }
             }}
           >

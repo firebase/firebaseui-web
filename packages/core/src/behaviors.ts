@@ -25,6 +25,7 @@ import {
   RecaptchaVerifier,
 } from "firebase/auth";
 import { FirebaseUIConfiguration } from "./config";
+import { CountryCode } from "./country-data";
 
 export type BehaviorHandlers = {
   autoAnonymousLogin: (ui: FirebaseUIConfiguration) => Promise<User>;
@@ -34,6 +35,7 @@ export type BehaviorHandlers = {
   ) => Promise<UserCredential | undefined>;
   autoUpgradeAnonymousProvider: (ui: FirebaseUIConfiguration, provider: AuthProvider) => Promise<undefined | never>;
   recaptchaVerification: (ui: FirebaseUIConfiguration, element: HTMLElement) => RecaptchaVerifier;
+  countryCodes: CountryCodes;
 };
 
 export type Behavior<T extends keyof BehaviorHandlers = keyof BehaviorHandlers> = Pick<BehaviorHandlers, T>;
@@ -129,6 +131,17 @@ export function recaptchaVerification(options?: RecaptchaVerification): Behavior
         tabindex: options?.tabindex ?? 0,
       });
     },
+  };
+}
+
+export type CountryCodes = {
+  allowedCountries?: CountryCode[];
+  defaultCountry?: CountryCode;
+};
+
+export function countryCodes(options?: CountryCodes): Behavior<"countryCodes"> {
+  return {
+    countryCodes: options ?? {},
   };
 }
 

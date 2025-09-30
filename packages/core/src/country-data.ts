@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
+import { FirebaseUIConfiguration, getBehavior, hasBehavior } from ".";
+
 export const countryData = [
-  { name: "United States", dialCode: "+1", code: "US", emoji: "🇺🇸" },
-  { name: "United Kingdom", dialCode: "+44", code: "GB", emoji: "🇬🇧" },
   { name: "Afghanistan", dialCode: "+93", code: "AF", emoji: "🇦🇫" },
   { name: "Albania", dialCode: "+355", code: "AL", emoji: "🇦🇱" },
   { name: "Algeria", dialCode: "+213", code: "DZ", emoji: "🇩🇿" },
@@ -251,6 +251,8 @@ export const countryData = [
   { name: "Uganda", dialCode: "+256", code: "UG", emoji: "🇺🇬" },
   { name: "Ukraine", dialCode: "+380", code: "UA", emoji: "🇺🇦" },
   { name: "United Arab Emirates", dialCode: "+971", code: "AE", emoji: "🇦🇪" },
+  { name: "United Kingdom", dialCode: "+44", code: "GB", emoji: "🇬🇧" },
+  { name: "United States", dialCode: "+1", code: "US", emoji: "🇺🇸" },
   { name: "Uruguay", dialCode: "+598", code: "UY", emoji: "🇺🇾" },
   { name: "Uzbekistan", dialCode: "+998", code: "UZ", emoji: "🇺🇿" },
   { name: "Vanuatu", dialCode: "+678", code: "VU", emoji: "🇻🇺" },
@@ -263,27 +265,73 @@ export const countryData = [
   { name: "Zambia", dialCode: "+260", code: "ZM", emoji: "🇿🇲" },
   { name: "Zimbabwe", dialCode: "+263", code: "ZW", emoji: "🇿🇼" },
   { name: "Åland Islands", dialCode: "+358", code: "AX", emoji: "🇦🇽" },
-] as const;
+] as const satisfies CountryData[];
 
-export type CountryData = (typeof countryData)[number];
+export type CountryData = {
+  name: string;
+  dialCode: string;
+  code: string;
+  emoji: string;
+}
 
 export type CountryCode = CountryData["code"];
 
-export function getCountryByDialCode(dialCode: string): CountryData | undefined {
-  return countryData.find((country) => country.dialCode === dialCode);
-}
-
-export function getCountryByCode(code: CountryCode): CountryData | undefined {
-  return countryData.find((country) => country.code === code.toUpperCase());
-}
-
-export function formatPhoneNumberWithCountry(phoneNumber: string, countryCode: CountryCode): string {
-  const countryData = getCountryByCode(countryCode);
-  if (!countryData) {
-    return phoneNumber;
+export function getCountries(ui: FirebaseUIConfiguration): CountryData[] {
+  if (!hasBehavior(ui, "countryCodes")) {
+    return countryData;
   }
+
+  const countryCodes = getBehavior(ui, "countryCodes");
+  return countryData.filter((country) => countryCodes.allowedCountries?.includes(country.code));
+}
+
+export function getDefaultCountry(ui: FirebaseUIConfiguration): CountryData {
+  if (!hasBehavior(ui, "countryCodes")) {
+    return countryData[0];
+  }
+
+  const countryCodes = getBehavior(ui, "countryCodes");
+  const defaultCountry = countryData.find((country) => country.code === countryCodes.defaultCountry);
+  return defaultCountry ?? countryData[0];
+}
+
+export function formatPhoneNumber(phoneNumber: string, countryData?: CountryData): string {
+  // Remove any whitespace and non-digit characters except +
+  let cleanedPhoneNumber = phoneNumber.replace(/[^\d+]/g, "").trim();
+
+  if (!countryData) {
+    return cleanedPhoneNumber;
+  }
+
   const countryDialCode = countryData.dialCode;
-  // Remove any existing dial code if present
-  const cleanNumber = phoneNumber.replace(/^\+\d+/, "").trim();
-  return `${countryDialCode}${cleanNumber}`;
+
+  // If the number already starts with a +, it might already have a country code
+  if (cleanedPhoneNumber.startsWith("+")) {
+    // Check if it already has the correct country code
+    if (cleanedPhoneNumber.startsWith(countryDialCode)) {
+      return cleanedPhoneNumber;
+    }
+    
+    // If it has a different country code, we need to replace it
+    // Find the first occurrence of a country code pattern
+    const existingDialCodeMatch = cleanedPhoneNumber.match(/^\+\d{1,4}/);
+    if (existingDialCodeMatch) {
+      const existingDialCode = existingDialCodeMatch[0];
+      const numberWithoutDialCode = cleanedPhoneNumber.substring(existingDialCode.length);
+      return `${countryDialCode}${numberWithoutDialCode}`;
+    }
+  }
+
+  // If the number starts with 0 (common in many countries), remove it
+  if (cleanedPhoneNumber.startsWith("0")) {
+    cleanedPhoneNumber = cleanedPhoneNumber.substring(1);
+  }
+
+  // If the number already starts with the country dial code (without +), add the +
+  if (cleanedPhoneNumber.startsWith(countryDialCode.substring(1))) {
+    return `+${cleanedPhoneNumber}`;
+  }
+
+  // Otherwise, prepend the country dial code
+  return `${countryDialCode}${cleanedPhoneNumber}`;
 }
