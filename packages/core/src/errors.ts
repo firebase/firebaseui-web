@@ -22,7 +22,7 @@ import { getTranslation } from "./translations";
 export class FirebaseUIError extends FirebaseError {
   constructor(ui: FirebaseUIConfiguration, error: FirebaseError) {
     const message = getTranslation(ui, "errors", ERROR_CODE_MAP[error.code as ErrorCode]);
-    super(error.code, message);
+    super(error.code, message || error.message);
 
     // Ensures that `instanceof FirebaseUIError` works, alongside `instanceof FirebaseError`
     Object.setPrototypeOf(this, FirebaseUIError.prototype);

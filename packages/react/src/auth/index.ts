@@ -14,16 +14,39 @@
  * limitations under the License.
  */
 
-export { EmailLinkAuthForm, type EmailLinkAuthFormProps, useEmailLinkAuthFormAction, useEmailLinkAuthForm } from "./forms/email-link-auth-form";
-export { ForgotPasswordAuthForm, type ForgotPasswordAuthFormProps, useForgotPasswordAuthFormAction, useForgotPasswordAuthForm } from "./forms/forgot-password-auth-form";
-export { PhoneAuthForm, type PhoneAuthFormProps, usePhoneAuthFormAction, usePhoneVerificationFormAction, usePhoneResendAction } from "./forms/phone-auth-form";
+export {
+  EmailLinkAuthForm,
+  type EmailLinkAuthFormProps,
+  useEmailLinkAuthFormAction,
+  useEmailLinkAuthForm,
+} from "./forms/email-link-auth-form";
+export {
+  ForgotPasswordAuthForm,
+  type ForgotPasswordAuthFormProps,
+  useForgotPasswordAuthFormAction,
+  useForgotPasswordAuthForm,
+} from "./forms/forgot-password-auth-form";
+export {
+  PhoneAuthForm,
+  type PhoneAuthFormProps,
+  usePhoneNumberForm,
+  usePhoneNumberFormAction,
+  useVerificationForm,
+  useVerificationFormAction,
+  usePhoneResendAction,
+} from "./forms/phone-auth-form";
 export {
   SignInAuthForm,
   type SignInAuthFormProps,
   useSignInAuthForm,
   useSignInAuthFormAction,
 } from "./forms/sign-in-auth-form";
-export { SignUpAuthForm, type SignUpAuthFormProps, useSignUpAuthForm, useSignUpAuthFormAction } from "./forms/sign-up-auth-form";
+export {
+  SignUpAuthForm,
+  type SignUpAuthFormProps,
+  useSignUpAuthForm,
+  useSignUpAuthFormAction,
+} from "./forms/sign-up-auth-form";
 
 export { EmailLinkAuthScreen, type EmailLinkAuthScreenProps } from "./screens/email-link-auth-screen";
 export { ForgotPasswordAuthScreen, type ForgotPasswordAuthScreenProps } from "./screens/forgot-password-auth-screen";

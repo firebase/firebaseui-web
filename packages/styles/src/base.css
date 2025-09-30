@@ -100,11 +100,11 @@
   }
 
   :where(.fui-form fieldset),
-  :where(.fui-form fieldset > label) {
+  :where(.fui-form fieldset label) {
     @apply flex flex-col gap-2 text-text;
   }
 
-  :where(.fui-form fieldset > label > span) {
+  :where(.fui-form fieldset label span) {
     @apply inline-flex gap-3 text-sm font-medium;
   }
 
@@ -112,16 +112,20 @@
     @apply px-1 hover:underline text-xs text-text-muted;
   }
 
-  :where(.fui-form fieldset > label > input) {
-    @apply border-1 border-input rounded px-2 py-2 text-sm focus:outline-2 focus:outline-primary shadow-xs bg-transparent;
+  :where(.fui-form fieldset label input) {
+    @apply w-full border-1 border-input rounded px-2 py-2 text-sm focus:outline-2 focus:outline-primary shadow-xs bg-transparent;
   }
 
-  :where(.fui-form fieldset > label > input[aria-invalid="true"]) {
-    @apply outline-error outline-2;
+  :where(.fui-form fieldset label input[aria-invalid="true"]) {
+    @apply border-error outline-error outline-2;
+  }
+
+  :where(.fui-form fieldset label div[data-input-group]) {
+    @apply flex items-center gap-2;
   }
 
   :where(.fui-form .fui-form__error) {
-    @apply text-error text-center text-xs;
+    @apply text-error text-left text-xs;
   }
 
   :where(.fui-success) {
@@ -165,11 +169,11 @@
   }
 
   :where(.fui-country-selector) {
-    @apply relative inline-block w-[80px];
+    @apply relative inline-block w-[120px];
   }
 
   :where(.fui-country-selector__wrapper) {
-    @apply relative flex items-center border-1 border-input rounded bg-transparent overflow-hidden;
+    @apply relative flex items-center outline-1 outline-input rounded bg-transparent overflow-hidden;
   }
 
   :where(.fui-country-selector__flag) {
@@ -182,5 +186,13 @@
 
   :where(.fui-country-selector__dial-code) {
     @apply absolute left-8 top-1/2 -translate-y-1/2 text-sm pointer-events-none text-text;
+  }
+
+  :where(.fui-form fieldset label div[data-input-group]:has(input[aria-invalid="true"]) .fui-country-selector) {
+    @apply outline-error outline-2 rounded;
+  }
+
+  :where(.fui-form fieldset label div[data-input-group]:has(input[aria-invalid="true"]) .fui-country-selector .fui-country-selector__wrapper) {
+    @apply outline-error outline-2 rounded;
   }
 }

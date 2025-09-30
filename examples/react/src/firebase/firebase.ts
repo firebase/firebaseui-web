@@ -25,11 +25,12 @@ export const firebaseApp = getApps().length === 0 ? initializeApp(firebaseConfig
 
 export const auth = getAuth(firebaseApp);
 
-export const ui = initializeUI({
-  app: firebaseApp,
-  behaviors: [autoAnonymousLogin()],
-});
-
 if (import.meta.env.MODE === "development") {
   connectAuthEmulator(auth, "http://localhost:9099");
 }
+
+export const ui = initializeUI({
+  app: firebaseApp,
+  auth,
+  behaviors: [autoAnonymousLogin()],
+});

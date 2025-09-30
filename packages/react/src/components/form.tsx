@@ -1,4 +1,4 @@
-import { ComponentProps, PropsWithChildren } from "react";
+import { ComponentProps, PropsWithChildren, ReactNode } from "react";
 import { AnyFieldApi, createFormHook, createFormHookContexts } from "@tanstack/react-form";
 import { Button } from "./button";
 import { cn } from "~/utils/cn";
@@ -9,7 +9,7 @@ function FieldMetadata({ className, ...props }: ComponentProps<"div"> & { field:
   if (!props.field.state.meta.isTouched || !props.field.state.meta.errors.length) {
     return null;
   }
-  
+
   return (
     <div>
       <div role="alert" aria-live="polite" className={cn("fui-form__error", className)} {...props}>
@@ -19,24 +19,27 @@ function FieldMetadata({ className, ...props }: ComponentProps<"div"> & { field:
   );
 }
 
-function Input(props: PropsWithChildren<ComponentProps<"input"> & { label: string }>) {
+function Input(props: PropsWithChildren<ComponentProps<"input"> & { label: string; before?: ReactNode }>) {
   const field = useFieldContext<string>();
 
   return (
     <label htmlFor={field.name}>
       <span>{props.label}</span>
-      <input
-        aria-invalid={field.state.meta.isTouched && field.state.meta.errors.length > 0}
-        id={field.name}
-        name={field.name}
-        value={field.state.value}
-        onBlur={() => {
-          field.handleBlur();
-        }}
-        onChange={(e) => {
-          field.handleChange(e.target.value);
-        }}
-      />
+      <div data-input-group>
+        {props.before}
+        <input
+          aria-invalid={field.state.meta.isTouched && field.state.meta.errors.length > 0}
+          id={field.name}
+          name={field.name}
+          value={field.state.value}
+          onBlur={() => {
+            field.handleBlur();
+          }}
+          onChange={(e) => {
+            field.handleChange(e.target.value);
+          }}
+        />
+      </div>
       {props.children ? <>{props.children}</> : null}
       <FieldMetadata field={field} />
     </label>
