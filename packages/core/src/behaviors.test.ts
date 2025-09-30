@@ -1,12 +1,13 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { createMockUI } from "~/tests/utils";
-import { autoAnonymousLogin, autoUpgradeAnonymousUsers, getBehavior, hasBehavior } from "./behaviors";
-import { Auth, signInAnonymously, User, UserCredential, linkWithCredential, linkWithRedirect, AuthCredential, AuthProvider } from "firebase/auth";
+import { autoAnonymousLogin, autoUpgradeAnonymousUsers, getBehavior, hasBehavior, recaptchaVerification } from "./behaviors";
+import { Auth, signInAnonymously, User, UserCredential, linkWithCredential, linkWithRedirect, AuthCredential, AuthProvider, RecaptchaVerifier } from "firebase/auth";
 
 vi.mock("firebase/auth", () => ({
   signInAnonymously: vi.fn(),
   linkWithCredential: vi.fn(),
   linkWithRedirect: vi.fn(),
+  RecaptchaVerifier: vi.fn(),
 }));
 
 describe("hasBehavior", () => {
@@ -218,3 +219,104 @@ describe("autoUpgradeAnonymousUsers", () => {
     });
   });
 });
+
+describe("recaptchaVerification", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("should create a RecaptchaVerifier with default options", () => {
+    const mockRecaptchaVerifier = { render: vi.fn() };
+    vi.mocked(RecaptchaVerifier).mockImplementation(() => mockRecaptchaVerifier as any);
+    
+    const mockElement = document.createElement("div");
+    const mockUI = createMockUI();
+    
+    const behavior = recaptchaVerification();
+    const result = behavior.recaptchaVerification(mockUI, mockElement);
+
+    expect(RecaptchaVerifier).toHaveBeenCalledWith(mockUI.auth, mockElement, {
+      size: "invisible",
+      theme: "light",
+      tabindex: 0,
+    });
+    expect(result).toBe(mockRecaptchaVerifier);
+  });
+
+  it("should create a RecaptchaVerifier with custom options", () => {
+    const mockRecaptchaVerifier = { render: vi.fn() };
+    vi.mocked(RecaptchaVerifier).mockImplementation(() => mockRecaptchaVerifier as any);
+    
+    const mockElement = document.createElement("div");
+    const mockUI = createMockUI();
+    const customOptions = {
+      size: "normal" as const,
+      theme: "dark" as const,
+      tabindex: 5,
+    };
+    
+    const behavior = recaptchaVerification(customOptions);
+    const result = behavior.recaptchaVerification(mockUI, mockElement);
+
+    expect(RecaptchaVerifier).toHaveBeenCalledWith(mockUI.auth, mockElement, {
+      size: "normal",
+      theme: "dark",
+      tabindex: 5,
+    });
+    expect(result).toBe(mockRecaptchaVerifier);
+  });
+
+  it("should create a RecaptchaVerifier with partial custom options", () => {
+    const mockRecaptchaVerifier = { render: vi.fn() };
+    vi.mocked(RecaptchaVerifier).mockImplementation(() => mockRecaptchaVerifier as any);
+    
+    const mockElement = document.createElement("div");
+    const mockUI = createMockUI();
+    const partialOptions = {
+      size: "compact" as const,
+    };
+    
+    const behavior = recaptchaVerification(partialOptions);
+    const result = behavior.recaptchaVerification(mockUI, mockElement);
+
+    expect(RecaptchaVerifier).toHaveBeenCalledWith(mockUI.auth, mockElement, {
+      size: "compact",
+      theme: "light",
+      tabindex: 0,
+    });
+    expect(result).toBe(mockRecaptchaVerifier);
+  });
+
+  it("should work with hasBehavior and getBehavior", () => {
+    const mockRecaptchaVerifier = { render: vi.fn() };
+    vi.mocked(RecaptchaVerifier).mockImplementation(() => mockRecaptchaVerifier as any);
+    
+    const mockElement = document.createElement("div");
+    const mockUI = createMockUI({
+      behaviors: {
+        recaptchaVerification: recaptchaVerification().recaptchaVerification,
+      },
+    });
+
+    expect(hasBehavior(mockUI, "recaptchaVerification")).toBe(true);
+    
+    const behavior = getBehavior(mockUI, "recaptchaVerification");
+    const result = behavior(mockUI, mockElement);
+
+    expect(RecaptchaVerifier).toHaveBeenCalledWith(mockUI.auth, mockElement, {
+      size: "invisible",
+      theme: "light",
+      tabindex: 0,
+    });
+    expect(result).toBe(mockRecaptchaVerifier);
+  });
+
+  it("should throw error when trying to get non-existent recaptchaVerification behavior", () => {
+    const mockUI = createMockUI();
+    
+    expect(hasBehavior(mockUI, "recaptchaVerification")).toBe(false);
+    expect(() => getBehavior(mockUI, "recaptchaVerification")).toThrow("Behavior recaptchaVerification not found");
+  });
+});
+
+
