@@ -21,6 +21,7 @@ import {
   sendSignInLinkToEmail as _sendSignInLinkToEmail,
   signInAnonymously as _signInAnonymously,
   signInWithPhoneNumber as _signInWithPhoneNumber,
+  signInWithCredential as _signInWithCredential,
   ActionCodeSettings,
   ApplicationVerifier,
   AuthProvider,
@@ -28,8 +29,6 @@ import {
   EmailAuthProvider,
   linkWithCredential,
   PhoneAuthProvider,
-  signInWithCredential,
-  signInWithRedirect,
   UserCredential,
 } from "firebase/auth";
 import { getBehavior, hasBehavior } from "./behaviors";
@@ -70,7 +69,7 @@ export async function signInWithEmailAndPassword(
     }
 
     ui.setState("pending");
-    const result = await signInWithCredential(ui.auth, credential);
+    const result = await _signInWithCredential(ui.auth, credential);
     return handlePendingCredential(ui, result);
   } catch (error) {
     handleFirebaseError(ui, error);
@@ -138,7 +137,7 @@ export async function confirmPhoneNumber(
     }
 
     ui.setState("pending");
-    const result = await signInWithCredential(ui.auth, credential);
+    const result = await _signInWithCredential(ui.auth, credential);
     return handlePendingCredential(ui, result);
   } catch (error) {
     handleFirebaseError(ui, error);
@@ -193,7 +192,7 @@ export async function signInWithEmailLink(
     }
 
     ui.setState("pending");
-    const result = await signInWithCredential(ui.auth, credential);
+    const result = await _signInWithCredential(ui.auth, credential);
     return handlePendingCredential(ui, result);
   } catch (error) {
     handleFirebaseError(ui, error);
@@ -214,20 +213,21 @@ export async function signInAnonymously(ui: FirebaseUIConfiguration): Promise<Us
   }
 }
 
-export async function signInWithProvider(ui: FirebaseUIConfiguration, provider: AuthProvider): Promise<void> {
+export async function signInWithProvider(ui: FirebaseUIConfiguration, provider: AuthProvider): Promise<never | UserCredential> {
   try {
     if (hasBehavior(ui, "autoUpgradeAnonymousProvider")) {
-      await getBehavior(ui, "autoUpgradeAnonymousProvider")(ui, provider);
-      // If we get to here, the user is not anonymous, otherwise they
-      // have been redirected to the provider's sign in page.
+      const result = await getBehavior(ui, "autoUpgradeAnonymousProvider")(ui, provider);
+     
+      // If we hit this point, the user is either not anonymous (undefined), or they have been linked
+      // via a popup flow (UserCredential). If they have been redirected, they will never get to here.
+      if (result) {
+        return result;
+      }
+      // If they hit this point, they are not anonymous and we need to sign them in.
     }
 
-    ui.setState("pending");
-
-    // TODO(ehesp): Handle popup or redirect based on behavior
-    await signInWithRedirect(ui.auth, provider);
-    // We don't modify state here since the user is redirected.
-    // If we support popups, we'd need to modify state here.
+    const strategy = getBehavior(ui, "providerSignInStrategy");
+    return await strategy(ui, provider);
   } catch (error) {
     handleFirebaseError(ui, error);
   } finally {

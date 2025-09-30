@@ -23,6 +23,9 @@ import {
   User,
   UserCredential,
   RecaptchaVerifier,
+  signInWithRedirect,
+  signInWithPopup,
+  linkWithPopup,
 } from "firebase/auth";
 import { FirebaseUIConfiguration } from "./config";
 
@@ -32,8 +35,10 @@ export type BehaviorHandlers = {
     ui: FirebaseUIConfiguration,
     credential: AuthCredential
   ) => Promise<UserCredential | undefined>;
-  autoUpgradeAnonymousProvider: (ui: FirebaseUIConfiguration, provider: AuthProvider) => Promise<undefined | never>;
+  autoUpgradeAnonymousProvider: (ui: FirebaseUIConfiguration, provider: AuthProvider) => Promise<never | undefined | UserCredential>;
   recaptchaVerification: (ui: FirebaseUIConfiguration, element: HTMLElement) => RecaptchaVerifier;
+  providerSignInStrategy: (ui: FirebaseUIConfiguration, provider: AuthProvider) => Promise<never | UserCredential>;
+  providerLinkStrategy: (ui: FirebaseUIConfiguration, user: User, provider: AuthProvider) => Promise<never | UserCredential>;
 };
 
 export type Behavior<T extends keyof BehaviorHandlers = keyof BehaviorHandlers> = Pick<BehaviorHandlers, T>;
@@ -107,9 +112,8 @@ export function autoUpgradeAnonymousUsers(): Behavior<
       }
 
       ui.setState("pending");
-      await linkWithRedirect(currentUser, provider);
-      // We don't modify state here since the user is redirected.
-      // If we support popups, we'd need to modify state here.
+      const strategy = getBehavior(ui, "providerLinkStrategy");
+      return await strategy(ui, currentUser, provider);
     },
   };
 }
@@ -132,6 +136,33 @@ export function recaptchaVerification(options?: RecaptchaVerification): Behavior
   };
 }
 
+export function providerRedirectStrategy(): Behavior<"providerSignInStrategy" | "providerLinkStrategy"> {
+  return {
+    providerSignInStrategy: async (ui, provider) => {
+      ui.setState("pending");
+      return signInWithRedirect(ui.auth, provider);
+    },
+    providerLinkStrategy: async (ui, user, provider) => {
+      ui.setState("pending");
+      return linkWithRedirect(user, provider);
+    },
+  };
+}
+
+export function providerPopupStrategy(): Behavior<"providerSignInStrategy" | "providerLinkStrategy"> {
+  return {
+    providerSignInStrategy: async (ui, provider) => {
+      ui.setState("pending");
+      return signInWithPopup(ui.auth, provider);
+    },
+    providerLinkStrategy: async (ui, user, provider) => {
+      ui.setState("pending");
+      return linkWithPopup(user, provider);
+    },
+  };
+}
+
 export const defaultBehaviors = {
+  ...providerRedirectStrategy(),
   ...recaptchaVerification(),
 };
