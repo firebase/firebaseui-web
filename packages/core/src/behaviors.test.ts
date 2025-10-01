@@ -102,9 +102,10 @@ describe("autoAnonymousLogin", () => {
   });
 
   it("should return noop behavior in SSR mode", async () => {
-    // Mock window as undefined to simulate SSR
+    
     const originalWindow = global.window;
-    // @ts-ignore
+
+    // @ts-expect-error
     delete global.window;
 
     const behavior = autoAnonymousLogin();
@@ -325,7 +326,6 @@ describe("oneTapSignIn", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     
-    // Mock window and document
     Object.defineProperty(window, 'google', {
       value: {
         accounts: {
@@ -338,7 +338,6 @@ describe("oneTapSignIn", () => {
       writable: true,
     });
     
-    // Mock document methods
     Object.defineProperty(document, 'createElement', {
       value: vi.fn(() => ({
         setAttribute: vi.fn(),
@@ -472,24 +471,21 @@ describe("oneTapSignIn", () => {
     const behavior = oneTapSignIn(options);
     behavior.oneTapSignIn(mockUI);
     
-    // Simulate script load and get the callback
     const onload = mockScript.onload;
     if (onload && typeof onload === 'function') {
       onload();
     }
     
-    // Get the callback function that was passed to initialize
     const initializeCall = vi.mocked(window.google.accounts.id.initialize).mock.calls[0];
     const callback = initializeCall?.[0]?.callback;
     
-    // Simulate the callback with a mock response
     const mockResponse = {
       credential: "test-credential-string",
       select_by: "user" as const,
     };
     
     if (callback && typeof callback === 'function') {
-      await callback(mockResponse);
+      callback(mockResponse);
     }
     
     expect(GoogleAuthProvider.credential).toHaveBeenCalledWith("test-credential-string");
@@ -562,9 +558,9 @@ describe("oneTapSignIn", () => {
   });
 
   it("should return early in SSR mode", () => {
-    // Mock window as undefined to simulate SSR
     const originalWindow = global.window;
-    // @ts-ignore
+
+    // @ts-expect-error
     delete global.window;
 
     const mockUI = createMockUI();
@@ -577,7 +573,6 @@ describe("oneTapSignIn", () => {
     
     expect(document.createElement).not.toHaveBeenCalled();
     
-    // Restore window
     global.window = originalWindow;
   });
 
