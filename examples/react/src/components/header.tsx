@@ -19,7 +19,7 @@
 import { NavLink } from "react-router";
 import { useUser } from "../firebase/hooks";
 import { signOut, type User } from "firebase/auth";
-import { auth } from "../firebase/clientApp";
+import { auth } from "../firebase/firebase";
 
 export function Header() {
   const user = useUser();

@@ -15,7 +15,7 @@
  */
 
 import { NavLink } from "react-router";
-import { useUser } from "../lib/firebase/hooks";
+import { useUser } from "./firebase/hooks";
 
 function App() {
   const user = useUser();

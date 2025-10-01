@@ -16,73 +16,87 @@
 
 "use client";
 
-import {
-  FirebaseUIError,
-  completeEmailLinkSignIn,
-  createEmailLinkAuthFormSchema,
-  getTranslation,
-  sendSignInLinkToEmail,
-} from "@firebase-ui/core";
-import { useForm } from "@tanstack/react-form";
-import { useEffect, useMemo, useState } from "react";
-import { useUI } from "~/hooks";
-import { Button } from "../../components/button";
-import { FieldInfo } from "../../components/field-info";
-import { Policies } from "../../components/policies";
+import { FirebaseUIError, completeEmailLinkSignIn, getTranslation, sendSignInLinkToEmail } from "@firebase-ui/core";
+import type { UserCredential } from "firebase/auth";
+import { useEmailLinkAuthFormSchema, useUI } from "~/hooks";
+import { form } from "~/components/form";
+import { Policies } from "~/components/policies";
+import { useCallback, useEffect, useState } from "react";
 
 export type EmailLinkAuthFormProps = {
   onEmailSent?: () => void;
+  onSignIn?: (credential: UserCredential) => void;
 };
 
-export function EmailLinkAuthForm({ onEmailSent }: EmailLinkAuthFormProps) {
+export function useEmailLinkAuthFormAction() {
   const ui = useUI();
 
-  const [formError, setFormError] = useState<string | null>(null);
-  const [emailSent, setEmailSent] = useState(false);
-  const [firstValidationOccured, setFirstValidationOccured] = useState(false);
+  return useCallback(
+    async ({ email }: { email: string }) => {
+      try {
+        return await sendSignInLinkToEmail(ui, email);
+      } catch (error) {
+        if (error instanceof FirebaseUIError) {
+          throw new Error(error.message);
+        }
 
-  const emailLinkFormSchema = useMemo(() => createEmailLinkAuthFormSchema(ui), [ui]);
+        console.error(error);
+        throw new Error(getTranslation(ui, "errors", "unknownError"));
+      }
+    },
+    [ui]
+  );
+}
 
-  const form = useForm({
+export function useEmailLinkAuthForm(onSuccess?: EmailLinkAuthFormProps["onEmailSent"]) {
+  const schema = useEmailLinkAuthFormSchema();
+  const action = useEmailLinkAuthFormAction();
+
+  return form.useAppForm({
     defaultValues: {
       email: "",
     },
     validators: {
-      onBlur: emailLinkFormSchema,
-      onSubmit: emailLinkFormSchema,
-    },
-    onSubmit: async ({ value }) => {
-      setFormError(null);
-      try {
-        await sendSignInLinkToEmail(ui, value.email);
-        setEmailSent(true);
-        onEmailSent?.();
-      } catch (error) {
-        if (error instanceof FirebaseUIError) {
-          setFormError(error.message);
-          return;
+      onBlur: schema,
+      onSubmit: schema,
+      onSubmitAsync: async ({ value }) => {
+        try {
+          await action(value);
+          return onSuccess?.();
+        } catch (error) {
+          return error instanceof Error ? error.message : String(error);
         }
-
-        console.error(error);
-        setFormError(getTranslation(ui, "errors", "unknownError"));
-      }
+      },
     },
   });
+}
 
-  // Handle email link sign-in if URL contains the link
+export function useEmailLinkAuthFormCompleteSignIn(onSignIn?: EmailLinkAuthFormProps["onSignIn"]) {
+  const ui = useUI();
+
   useEffect(() => {
     const completeSignIn = async () => {
-      try {
-        await completeEmailLinkSignIn(ui, window.location.href);
-      } catch (error) {
-        if (error instanceof FirebaseUIError) {
-          setFormError(error.message);
-        }
+      const credential = await completeEmailLinkSignIn(ui, window.location.href);
+
+      if (credential) {
+        onSignIn?.(credential);
       }
     };
 
     void completeSignIn();
   }, [ui]);
+}
+
+export function EmailLinkAuthForm({ onEmailSent, onSignIn }: EmailLinkAuthFormProps) {
+  const ui = useUI();
+  const [emailSent, setEmailSent] = useState(false);
+
+  const form = useEmailLinkAuthForm(() => {
+    setEmailSent(true);
+    onEmailSent?.();
+  });
+
+  useEmailLinkAuthFormCompleteSignIn(onSignIn);
 
   if (emailSent) {
     return <div className="fui-success">{getTranslation(ui, "messages", "signInLinkSent")}</div>;
@@ -97,47 +111,16 @@ export function EmailLinkAuthForm({ onEmailSent }: EmailLinkAuthFormProps) {
         await form.handleSubmit();
       }}
     >
-      <fieldset>
-        <form.Field
-          name="email"
-          // eslint-disable-next-line react/no-children-prop
-          children={(field) => (
-            <>
-              <label htmlFor={field.name}>
-                <span>{getTranslation(ui, "labels", "emailAddress")}</span>
-                <input
-                  aria-invalid={field.state.meta.isTouched && field.state.meta.errors.length > 0}
-                  id={field.name}
-                  name={field.name}
-                  type="email"
-                  value={field.state.value}
-                  onBlur={() => {
-                    setFirstValidationOccured(true);
-                    field.handleBlur();
-                  }}
-                  onInput={(e) => {
-                    field.handleChange((e.target as HTMLInputElement).value);
-                    if (firstValidationOccured) {
-                      field.handleBlur();
-                      form.update();
-                    }
-                  }}
-                />
-                <FieldInfo field={field} />
-              </label>
-            </>
-          )}
-        />
-      </fieldset>
-
-      <Policies />
-
-      <fieldset>
-        <Button type="submit" disabled={ui.state !== "idle"}>
-          {getTranslation(ui, "labels", "sendSignInLink")}
-        </Button>
-        {formError && <div className="fui-form__error">{formError}</div>}
-      </fieldset>
+      <form.AppForm>
+        <fieldset>
+          <form.AppField name="email" children={(field) => <field.Input label="Email" type="email" />} />
+        </fieldset>
+        <Policies />
+        <fieldset>
+          <form.SubmitButton>{getTranslation(ui, "labels", "sendSignInLink")}</form.SubmitButton>
+          <form.ErrorMessage />
+        </fieldset>
+      </form.AppForm>
     </form>
   );
 }

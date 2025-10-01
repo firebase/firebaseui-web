@@ -13,3 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import { useState } from "react";
+
+import { onAuthStateChanged } from "firebase/auth";
+import { User } from "firebase/auth";
+import { useEffect } from "react";
+import { auth } from "./firebase";
+
+export function useUser(initalUser?: User | null) {
+  const [user, setUser] = useState<User | null>(initalUser ?? null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, setUser);
+    return () => unsubscribe();
+  }, []);
+
+  return user;
+}

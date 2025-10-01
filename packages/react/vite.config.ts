@@ -24,7 +24,9 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      "@firebase-ui/core": path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../firebaseui-core/src"),
+      "@firebase-ui/core": path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../core/src"),
+      "@firebase-ui/styles": path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../styles/src"),
+      "~/tests": path.resolve(path.dirname(fileURLToPath(import.meta.url)), "./tests"),
       "~": path.resolve(path.dirname(fileURLToPath(import.meta.url)), "./src"),
     },
   },

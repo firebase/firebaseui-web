@@ -16,42 +16,26 @@
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
-import "@testing-library/jest-dom";
-import { Policies, PolicyProvider } from "./policies";
+import { Policies } from "./policies";
+import { FirebaseUIProvider } from "~/context";
+import { createMockUI } from "~/tests/utils";
 
-// Mock useUI hook
-vi.mock("~/hooks", () => ({
-  useUI: vi.fn(() => ({
-    locale: "en-US",
-    translations: {
-      "en-US": {
-        labels: {
-          termsOfService: "Terms of Service",
-          privacyPolicy: "Privacy Policy",
-        },
-        messages: {
-          termsAndPrivacy: "By continuing, you agree to our {tos} and {privacy}",
-        },
-      },
-    },
-  })),
-}));
-
-describe("TermsAndPrivacy Component", () => {
+describe("<Policies />", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it("renders component with terms and privacy links", () => {
     render(
-      <PolicyProvider
+      <FirebaseUIProvider
+        ui={createMockUI()}
         policies={{
           termsOfServiceUrl: "https://example.com/terms",
           privacyPolicyUrl: "https://example.com/privacy",
         }}
       >
-        <Policies></Policies>
-      </PolicyProvider>
+        <Policies />
+      </FirebaseUIProvider>
     );
 
     // Check that the text and links are rendered
@@ -72,9 +56,9 @@ describe("TermsAndPrivacy Component", () => {
 
   it("returns null when both tosUrl and privacyPolicyUrl are not provided", () => {
     const { container } = render(
-      <PolicyProvider policies={undefined}>
-        <Policies></Policies>
-      </PolicyProvider>
+      <FirebaseUIProvider ui={createMockUI()} policies={undefined}>
+        <Policies />
+      </FirebaseUIProvider>
     );
     expect(container).toBeEmptyDOMElement();
   });

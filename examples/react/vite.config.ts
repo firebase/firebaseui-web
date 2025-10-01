@@ -14,20 +14,17 @@
  * limitations under the License.
  */
 
-import { useState } from "react";
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-import { onAuthStateChanged } from "firebase/auth";
-import { User } from "firebase/auth";
-import { useEffect } from "react";
-import { auth } from "./clientApp";
-
-export function useUser(initalUser?: User | null) {
-  const [user, setUser] = useState<User | null>(initalUser ?? null);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, setUser);
-    return () => unsubscribe();
-  }, []);
-
-  return user;
-}
+export default defineConfig({
+  plugins: [tailwindcss(), react()],
+  resolve: {
+    alias: {
+      "~": path.resolve(path.dirname(fileURLToPath(import.meta.url)), "./src"),
+    },
+  },
+});

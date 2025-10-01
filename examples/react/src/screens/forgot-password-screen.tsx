@@ -14,22 +14,10 @@
  * limitations under the License.
  */
 
-import type { FieldApi } from "@tanstack/react-form";
-import { ComponentProps } from "react";
-import { cn } from "~/utils/cn";
+"use client";
 
-export type FieldInfoProps<TData> = ComponentProps<"div"> & {
-  field: FieldApi<TData, any>;
-};
+import { ForgotPasswordAuthScreen } from "@firebase-ui/react";
 
-export function FieldInfo<TData>({ field, className, ...props }: FieldInfoProps<TData>) {
-  return (
-    <>
-      {field.state.meta.isTouched && field.state.meta.errors.length ? (
-        <div role="alert" aria-live="polite" className={cn("fui-form__error", className)} {...props}>
-          {field.state.meta.errors[0]}
-        </div>
-      ) : null}
-    </>
-  );
+export default function ForgotPasswordPage() {
+  return <ForgotPasswordAuthScreen onBackToSignInClick={() => {}} />;
 }

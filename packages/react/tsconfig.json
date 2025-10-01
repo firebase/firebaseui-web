@@ -1,11 +1,14 @@
 {
-  "files": [],
-  "references": [
-    {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.node.json"
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "moduleResolution": "Bundler",
+    "paths": {
+      "~/*": ["./src/*"],
+      "~/tests/*": ["./tests/*"],
+      "@firebase-ui/core": ["../core/src/index.ts"],
+      "@firebase-ui/styles": ["../styles/src/index.ts"]
     }
-  ]
+  },
+  "include": ["src", "eslint.config.js", "vite.config.ts", "setup-test.ts"]
 }

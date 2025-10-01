@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
-    "target": "ES2022",
-    "lib": ["ES2023"],
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
 
@@ -12,6 +12,9 @@
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
+    "jsx": "react-jsx",
+
+    "types": ["vite/client"],
 
     /* Linting */
     "strict": true,
@@ -22,9 +25,7 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"],
-      "@firebase-ui/core": ["../core/src/index.ts"],
-      "@firebase-ui/styles": ["../styles/src/index.ts"]
     }
   },
-  "include": ["vite.config.ts"]
+  "include": ["src", "vite.config.ts"]
 }

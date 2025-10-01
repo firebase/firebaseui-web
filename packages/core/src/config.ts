@@ -28,7 +28,7 @@ import {
 } from "./behaviors";
 import { FirebaseUIState } from "./state";
 
-type FirebaseUIConfigurationOptions = {
+export type FirebaseUIConfigurationOptions = {
   app: FirebaseApp;
   auth?: Auth;
   locale?: RegisteredLocale;

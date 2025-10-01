@@ -34,16 +34,16 @@
     "release": "pnpm run build && pnpm pack --pack-destination --pack-destination ../../releases/"
   },
   "peerDependencies": {
-    "@firebase-ui/core": "workspace:*",
     "firebase": "catalog:peerDependencies",
     "react": "catalog:peerDependencies",
     "react-dom": "catalog:peerDependencies"
   },
   "dependencies": {
+    "@firebase-ui/core": "workspace:*",
     "@firebase-ui/styles": "workspace:*",
     "@nanostores/react": "^1.0.0",
     "@radix-ui/react-slot": "^1.2.3",
-    "@tanstack/react-form": "^0.41.3",
+    "@tanstack/react-form": "^1.20.0",
     "clsx": "^2.1.1",
     "tailwind-merge": "^3.0.1",
     "zod": "catalog:"
