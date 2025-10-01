@@ -14,13 +14,17 @@
  * limitations under the License.
  */
 
-import { mergeApplicationConfig, ApplicationConfig } from "@angular/core";
-import { provideServerRendering, withRoutes } from "@angular/ssr";
-import { serverRoutes } from "./app.routes.server";
-import { appConfig } from "./app.config";
+import { defineConfig, type Options } from "tsup";
 
-const serverConfig: ApplicationConfig = {
-  providers: [provideServerRendering(withRoutes(serverRoutes))],
+const config: Options = {
+  entry: ["src/index.ts"],
+  format: ["cjs", "esm"],
+  dts: true,
+  splitting: false,
+  sourcemap: true,
+  clean: true,
+  treeshake: true,
+  minify: true,
 };
 
-export const config = mergeApplicationConfig(appConfig, serverConfig);
+export default defineConfig(config);

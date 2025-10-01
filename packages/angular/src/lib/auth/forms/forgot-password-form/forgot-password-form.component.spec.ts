@@ -16,12 +16,13 @@
 
 import { CommonModule } from "@angular/common";
 import { Component, Input } from "@angular/core";
-import { ComponentFixture, TestBed, fakeAsync, tick } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 import { Router, provideRouter } from "@angular/router";
 import { TanStackField } from "@tanstack/angular-form";
 import { getFirebaseUITestProviders } from "../../../testing/test-helpers";
 import { ForgotPasswordFormComponent } from "./forgot-password-form.component";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 
 // Define window properties for testing
 declare global {
@@ -55,7 +56,7 @@ describe("ForgotPasswordFormComponent", () => {
   let component: ForgotPasswordFormComponent;
   let fixture: ComponentFixture<ForgotPasswordFormComponent>;
   let mockRouter: any;
-  let sendResetEmailSpy: jasmine.Spy;
+  let sendResetEmailSpy: any;
 
   // Expected error messages from the actual implementation
   const errorMessages = {
@@ -84,11 +85,11 @@ describe("ForgotPasswordFormComponent", () => {
   beforeEach(async () => {
     // Mock router
     mockRouter = {
-      navigateByUrl: jasmine.createSpy("navigateByUrl"),
+      navigateByUrl: vi.fn(),
     };
 
     // Create spies for the global functions
-    sendResetEmailSpy = jasmine.createSpy("sendPasswordResetEmail").and.returnValue(Promise.resolve());
+    sendResetEmailSpy = vi.fn().mockResolvedValue(undefined);
 
     // Define the function on the window object
     Object.defineProperty(window, "sendPasswordResetEmail", {
@@ -145,35 +146,40 @@ describe("ForgotPasswordFormComponent", () => {
     expect(submitButton).toBeTruthy();
   });
 
-  it("submits the form when handleSubmit is called", fakeAsync(() => {
+  it("submits the form when handleSubmit is called", async () => {
     // Set values directly on the form state
     component.form.state.values.email = "test@example.com";
 
     // Create a submit event
     const event = new Event("submit");
     Object.defineProperties(event, {
-      preventDefault: { value: jasmine.createSpy("preventDefault") },
-      stopPropagation: { value: jasmine.createSpy("stopPropagation") },
+      preventDefault: { value: vi.fn() },
+      stopPropagation: { value: vi.fn() },
     });
 
     // Call handleSubmit directly
     component.handleSubmit(event as SubmitEvent);
-    tick();
+
+    // Wait for any async operations to complete
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     // Check if resetPassword was called with correct values
     expect(component.resetPassword).toHaveBeenCalledWith("test@example.com");
-  }));
+  });
 
-  it("displays error message when reset fails", fakeAsync(() => {
+  it("displays error message when reset fails", async () => {
     // Manually set the error
     component.formError = "Invalid email";
     fixture.detectChanges();
+
+    // Wait for any async operations to complete
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     // Check that the error message is displayed in the DOM
     const formErrorEl = fixture.debugElement.query(By.css(".fui-form__error"));
     expect(formErrorEl).toBeTruthy();
     expect(formErrorEl.nativeElement.textContent.trim()).toBe("Invalid email");
-  }));
+  });
 
   it("shows success message when email is sent", () => {
     // Set emailSent to true

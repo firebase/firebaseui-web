@@ -16,12 +16,13 @@
 
 import { CommonModule } from "@angular/common";
 import { Component, Input } from "@angular/core";
-import { ComponentFixture, TestBed, fakeAsync, tick } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 import { Router, provideRouter } from "@angular/router";
 import { TanStackField } from "@tanstack/angular-form";
 import { getFirebaseUITestProviders } from "../../../testing/test-helpers";
 import { RegisterFormComponent } from "./register-form.component";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 
 // Define window properties for testing
 declare global {
@@ -55,7 +56,7 @@ describe("RegisterFormComponent", () => {
   let component: RegisterFormComponent;
   let fixture: ComponentFixture<RegisterFormComponent>;
   let mockRouter: any;
-  let signUpSpy: jasmine.Spy;
+  let signUpSpy: any;
 
   // Mock schema returned by createEmailFormSchema
   const mockSchema = {
@@ -91,11 +92,11 @@ describe("RegisterFormComponent", () => {
   beforeEach(async () => {
     // Mock router
     mockRouter = {
-      navigateByUrl: jasmine.createSpy("navigateByUrl"),
+      navigateByUrl: vi.fn(),
     };
 
     // Create spies for the global functions
-    signUpSpy = jasmine.createSpy("fuiCreateUserWithEmailAndPassword").and.returnValue(Promise.resolve());
+    signUpSpy = vi.fn().mockResolvedValue(undefined);
 
     // Define the function on the window object
     Object.defineProperty(window, "fuiCreateUserWithEmailAndPassword", {
@@ -148,7 +149,7 @@ describe("RegisterFormComponent", () => {
     expect(submitButton).toBeTruthy();
   });
 
-  it("submits the form when handleSubmit is called", fakeAsync(() => {
+  it("submits the form when handleSubmit is called", async () => {
     // Set values directly on the form state
     component.form.state.values.email = "test@example.com";
     component.form.state.values.password = "password123";
@@ -156,28 +157,33 @@ describe("RegisterFormComponent", () => {
     // Create a submit event
     const event = new Event("submit");
     Object.defineProperties(event, {
-      preventDefault: { value: jasmine.createSpy("preventDefault") },
-      stopPropagation: { value: jasmine.createSpy("stopPropagation") },
+      preventDefault: { value: vi.fn() },
+      stopPropagation: { value: vi.fn() },
     });
 
     // Call handleSubmit directly
     component.handleSubmit(event as SubmitEvent);
-    tick();
+
+    // Wait for any async operations to complete
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     // Check if registerUser was called with correct values
     expect(component.registerUser).toHaveBeenCalledWith("test@example.com", "password123");
-  }));
+  });
 
-  it("displays error message when registration fails", fakeAsync(() => {
+  it("displays error message when registration fails", async () => {
     // Manually set the error
     component.formError = "Email already in use";
     fixture.detectChanges();
+
+    // Wait for any async operations to complete
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     // Check that the error message is displayed in the DOM
     const formErrorEl = fixture.debugElement.query(By.css(".fui-form__error"));
     expect(formErrorEl).toBeTruthy();
     expect(formErrorEl.nativeElement.textContent.trim()).toBe("Email already in use");
-  }));
+  });
 
   it("navigates to sign in route when the link is clicked", () => {
     // Find the sign in link

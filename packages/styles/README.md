@@ -10,7 +10,7 @@ If you are using Tailwind CSS in your project, you can import the source files d
 
 ```css
 @import "tailwindcss";
-@import "@firebase-ui/styles/src/base.css";
+@import "@firebase-ui/styles/tailwind";
 ```
 
 ### With CSS
@@ -18,7 +18,17 @@ If you are using Tailwind CSS in your project, you can import the source files d
 Alternatively, you can import fully compiled CSS files into your project. This output contains both the tailwind styles and the FirebaseUI styles.
 
 ```jsx
-import "@firebase-ui/styles/dist.css";
+import "@firebase-ui/styles";
+```
+
+## Themes
+
+The packages also exports themes which overrides the CSS variables with preset colors. These can be imported from your CSS:
+
+```css
+@import "tailwindcss";
+@import "@firebase-ui/styles/tailwind";
+@import "@firebase-ui/styles/themes/brualist";
 ```
 
 ## Building

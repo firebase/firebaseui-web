@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { TestBed, fakeAsync, tick } from "@angular/core/testing";
+import { TestBed } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 import { BehaviorSubject } from "rxjs";
 
@@ -80,13 +80,14 @@ function configureComponentTest({
 }
 
 describe("TermsAndPrivacyComponent", () => {
-  it("renders component with terms and privacy links", fakeAsync(() => {
+  it("renders component with terms and privacy links", async () => {
     const { fixture } = configureComponentTest({
       tosUrl: "https://example.com/terms",
       privacyPolicyUrl: "https://example.com/privacy",
     });
 
-    tick();
+    // Wait for any async operations to complete
+    await new Promise((resolve) => setTimeout(resolve, 0));
     fixture.detectChanges();
 
     const container = fixture.debugElement.query(By.css(".text-text-muted"));
@@ -105,28 +106,30 @@ describe("TermsAndPrivacyComponent", () => {
     const privacyLink = fixture.debugElement.query(By.css('a[href="https://example.com/privacy"]'));
     expect(privacyLink).toBeTruthy();
     expect(privacyLink.nativeElement.textContent.trim()).toBe("Privacy Policy");
-  }));
+  });
 
-  it("does not render when both tosUrl and privacyPolicyUrl are not provided", fakeAsync(() => {
+  it("does not render when both tosUrl and privacyPolicyUrl are not provided", async () => {
     const { fixture } = configureComponentTest({
       tosUrl: null,
       privacyPolicyUrl: null,
     });
 
-    tick();
+    // Wait for any async operations to complete
+    await new Promise((resolve) => setTimeout(resolve, 0));
     fixture.detectChanges();
 
     const container = fixture.debugElement.query(By.css(".text-text-muted"));
     expect(container).toBeFalsy();
-  }));
+  });
 
-  it("renders with tosUrl when privacyPolicyUrl is not provided", fakeAsync(() => {
+  it("renders with tosUrl when privacyPolicyUrl is not provided", async () => {
     const { fixture } = configureComponentTest({
       tosUrl: "https://example.com/terms",
       privacyPolicyUrl: null,
     });
 
-    tick();
+    // Wait for any async operations to complete
+    await new Promise((resolve) => setTimeout(resolve, 0));
     fixture.detectChanges();
 
     const container = fixture.debugElement.query(By.css(".text-text-muted"));
@@ -137,15 +140,16 @@ describe("TermsAndPrivacyComponent", () => {
 
     const privacyLink = fixture.debugElement.query(By.css('a[href="https://example.com/privacy"]'));
     expect(privacyLink).toBeFalsy();
-  }));
+  });
 
-  it("renders with privacyPolicyUrl when tosUrl is not provided", fakeAsync(() => {
+  it("renders with privacyPolicyUrl when tosUrl is not provided", async () => {
     const { fixture } = configureComponentTest({
       tosUrl: null,
       privacyPolicyUrl: "https://example.com/privacy",
     });
 
-    tick();
+    // Wait for any async operations to complete
+    await new Promise((resolve) => setTimeout(resolve, 0));
     fixture.detectChanges();
 
     const container = fixture.debugElement.query(By.css(".text-text-muted"));
@@ -156,9 +160,9 @@ describe("TermsAndPrivacyComponent", () => {
 
     const privacyLink = fixture.debugElement.query(By.css('a[href="https://example.com/privacy"]'));
     expect(privacyLink).toBeTruthy();
-  }));
+  });
 
-  it("uses custom template text when provided", fakeAsync(() => {
+  it("uses custom template text when provided", async () => {
     const { fixture, mockFirebaseUI } = configureComponentTest({
       tosUrl: "https://example.com/terms",
       privacyPolicyUrl: "https://example.com/privacy",
@@ -166,7 +170,8 @@ describe("TermsAndPrivacyComponent", () => {
 
     mockFirebaseUI.setTranslation("messages", "termsAndPrivacy", "Custom template with {tos} and {privacy}");
 
-    tick();
+    // Wait for any async operations to complete
+    await new Promise((resolve) => setTimeout(resolve, 0));
     fixture.detectChanges();
 
     const container = fixture.debugElement.query(By.css(".text-text-muted"));
@@ -176,5 +181,5 @@ describe("TermsAndPrivacyComponent", () => {
     expect(textContent).toContain("Custom template with");
     expect(textContent).toContain("Terms of Service");
     expect(textContent).toContain("Privacy Policy");
-  }));
+  });
 });

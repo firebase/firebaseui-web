@@ -24,10 +24,10 @@ import {
 } from "@angular/core";
 import { FirebaseApps } from "@angular/fire/app";
 import { type FirebaseUI as FirebaseUIType, getTranslation } from "@firebase-ui/core";
+import { Tail } from "../types";
 import { distinctUntilChanged, map, takeUntil } from "rxjs/operators";
 import { Observable, ReplaySubject } from "rxjs";
 import { Store } from "nanostores";
-import { TranslationCategory, TranslationKey } from "@firebase-ui/translations";
 
 const FIREBASE_UI_STORE = new InjectionToken<FirebaseUIType>("firebaseui.store");
 const FIREBASE_UI_POLICIES = new InjectionToken<PolicyConfig>("firebaseui.policies");
@@ -41,7 +41,17 @@ export function provideFirebaseUI(uiFactory: (apps: FirebaseApps) => FirebaseUIT
   const providers: Provider[] = [
     // TODO: This should depend on the FirebaseAuth provider via deps,
     // see https://github.com/angular/angularfire/blob/35e0a9859299010488852b1826e4083abe56528f/src/firestore/firestore.module.ts#L76
-    { provide: FIREBASE_UI_STORE, useFactory: uiFactory, deps: [FirebaseApps] },
+    {
+      provide: FIREBASE_UI_STORE,
+      useFactory: () => {
+        const apps = inject(FirebaseApps);
+        if (!apps || apps.length === 0) {
+          return null as any;
+        }
+        return uiFactory(apps);
+      },
+    },
+    FirebaseUI,
   ];
 
   return makeEnvironmentProviders(providers);
@@ -64,11 +74,19 @@ export class FirebaseUI {
     return this.useStore(this.store);
   }
 
-  translation<T extends TranslationCategory>(category: T, key: TranslationKey<T>) {
-    return this.config().pipe(map((config) => getTranslation(config, category, key)));
+  //TODO: This should be typed more specifically from the translations package
+  translation(...args: Tail) {
+    return this.config().pipe(map((config) => getTranslation(config, ...args)));
   }
 
-  useStore<T>(store: Store<T>): Observable<T> {
+  useStore<T>(store: Store<T> | null): Observable<T> {
+    if (!store) {
+      // Return an observable that emits a default value for SSR when store is not available
+      return new Observable<T>((subscriber) => {
+        subscriber.next({} as T);
+        subscriber.complete();
+      });
+    }
     return new Observable<T>((sub) => {
       sub.next(store.get());
       return store.subscribe((value) => sub.next(value));

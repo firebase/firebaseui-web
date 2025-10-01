@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE/2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-import { mergeApplicationConfig, ApplicationConfig } from "@angular/core";
-import { provideServerRendering, withRoutes } from "@angular/ssr";
-import { serverRoutes } from "./app.routes.server";
-import { appConfig } from "./app.config";
+import { defineConfig } from "vitest/config";
 
-const serverConfig: ApplicationConfig = {
-  providers: [provideServerRendering(withRoutes(serverRoutes))],
-};
-
-export const config = mergeApplicationConfig(appConfig, serverConfig);
+export default defineConfig({
+  test: {
+    // Use the same environment as the package
+    environment: "jsdom",
+    // Include TypeScript files
+    include: ["src/**/*.{test,spec}.{js,ts}"],
+    // Exclude build output and node_modules
+    exclude: ["node_modules/**/*", "dist/**/*"],
+  },
+});

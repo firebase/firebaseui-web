@@ -131,13 +131,13 @@ If you are using [TailwindCSS](https://tailwindcss.com/), import the base CSS fr
 
 ```css
 @import "tailwindcss";
-@import "@firebase-ui/styles/src/base.css";
+@import "@firebase-ui/styles/tailwind";
 ```
 
 If you are not using Tailwind, import the distributable CSS in your project:
 
 ```css
-@import "@firebase-ui/styles/dist.css";
+@import "@firebase-ui/styles";
 ```
 
 To learn more about theming, view the [theming](#theming) section.
