@@ -24,7 +24,7 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"],
-      "@firebase-ui/core": ["../firebaseui-core/src"]
+      "@firebase-ui/core": ["../core/src/index.ts"]
     }
   },
   "include": ["src"]

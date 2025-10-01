@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { english, Locale, RegisteredTranslations, TranslationsConfig } from "@firebase-ui/translations";
+import { enUs, RegisteredLocale } from "@firebase-ui/translations";
 import type { FirebaseApp } from "firebase/app";
 import { Auth, getAuth } from "firebase/auth";
 import { deepMap, DeepMapStore, map } from "nanostores";
@@ -23,20 +23,18 @@ import { FirebaseUIState } from "./state";
 
 type FirebaseUIConfigurationOptions = {
   app: FirebaseApp;
-  locale?: Locale | undefined;
-  translations?: RegisteredTranslations[] | undefined;
-  behaviors?: Partial<Behavior<keyof BehaviorHandlers>>[] | undefined;
-  recaptchaMode?: "normal" | "invisible" | undefined;
+  locale?: RegisteredLocale;
+  behaviors?: Partial<Behavior<keyof BehaviorHandlers>>[];
+  recaptchaMode?: "normal" | "invisible";
 };
 
 export type FirebaseUIConfiguration = {
   app: FirebaseApp;
   getAuth: () => Auth;
-  setLocale: (locale: Locale) => void;
+  setLocale: (locale: RegisteredLocale) => void;
   state: FirebaseUIState;
   setState: (state: FirebaseUIState) => void;
-  locale: Locale;
-  translations: TranslationsConfig;
+  locale: RegisteredLocale;
   behaviors: Partial<Record<BehaviorKey, BehaviorHandlers[BehaviorKey]>>;
   recaptchaMode: "normal" | "invisible";
 };
@@ -57,25 +55,13 @@ export function initializeUI(config: FirebaseUIConfigurationOptions, name: strin
     {} as Record<BehaviorKey, BehaviorHandlers[BehaviorKey]>
   );
 
-  config.translations ??= [];
-
-  // TODO: Is this right?
-  config.translations.push(english);
-
-  const translations = config.translations?.reduce((acc, translation) => {
-    return {
-      ...acc,
-      [translation.locale]: translation.translations,
-    };
-  }, {} as TranslationsConfig);
-
   $config.setKey(
     name,
     deepMap<FirebaseUIConfiguration>({
       app: config.app,
       getAuth: () => getAuth(config.app),
-      locale: config.locale ?? english.locale,
-      setLocale: (locale: Locale) => {
+      locale: config.locale ?? enUs,
+      setLocale: (locale: RegisteredLocale) => {
         const current = $config.get()[name]!;
         current.setKey(`locale`, locale);
       },
@@ -84,7 +70,6 @@ export function initializeUI(config: FirebaseUIConfigurationOptions, name: strin
         const current = $config.get()[name]!;
         current.setKey(`state`, state);
       },
-      translations,
       behaviors: behaviors ?? {},
       recaptchaMode: config.recaptchaMode ?? "normal",
     })

@@ -25,7 +25,7 @@ import {
 } from "@firebase-ui/core";
 import { useForm } from "@tanstack/react-form";
 import { useEffect, useMemo, useState } from "react";
-import { useAuth, useUI } from "~/hooks";
+import { useUI } from "~/hooks";
 import { Button } from "../../components/button";
 import { FieldInfo } from "../../components/field-info";
 import { Policies } from "../../components/policies";
@@ -34,13 +34,12 @@ interface EmailLinkFormProps {}
 
 export function EmailLinkForm(_: EmailLinkFormProps) {
   const ui = useUI();
-  const auth = useAuth(ui);
 
   const [formError, setFormError] = useState<string | null>(null);
   const [emailSent, setEmailSent] = useState(false);
   const [firstValidationOccured, setFirstValidationOccured] = useState(false);
 
-  const emailLinkFormSchema = useMemo(() => createEmailLinkFormSchema(ui.translations), [ui.translations]);
+  const emailLinkFormSchema = useMemo(() => createEmailLinkFormSchema(ui), [ui]);
 
   const form = useForm({
     defaultValues: {
@@ -80,7 +79,7 @@ export function EmailLinkForm(_: EmailLinkFormProps) {
     };
 
     void completeSignIn();
-  }, [auth, ui.translations]);
+  }, [ui]);
 
   if (emailSent) {
     return <div className="fui-success">{getTranslation(ui, "messages", "signInLinkSent")}</div>;

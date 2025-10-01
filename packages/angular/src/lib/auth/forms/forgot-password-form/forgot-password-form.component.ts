@@ -21,7 +21,7 @@ import { FirebaseUI } from "../../../provider";
 import { Auth } from "@angular/fire/auth";
 import { ButtonComponent } from "../../../components/button/button.component";
 import { TermsAndPrivacyComponent } from "../../../components/terms-and-privacy/terms-and-privacy.component";
-import { createForgotPasswordFormSchema, FirebaseUIError, sendPasswordResetEmail } from "@firebase-ui/core";
+import { createForgotPasswordFormSchema, FirebaseUIConfiguration, FirebaseUIError, sendPasswordResetEmail } from "@firebase-ui/core";
 import { firstValueFrom } from "rxjs";
 import { Router } from "@angular/router";
 
@@ -80,7 +80,7 @@ export class ForgotPasswordFormComponent implements OnInit {
   formError: string | null = null;
   emailSent = false;
   private formSchema: any;
-  private config: any;
+  private config: FirebaseUIConfiguration;
 
   form = injectForm({
     defaultValues: {
@@ -92,7 +92,7 @@ export class ForgotPasswordFormComponent implements OnInit {
     try {
       this.config = await firstValueFrom(this.ui.config());
 
-      this.formSchema = createForgotPasswordFormSchema(this.config?.translations);
+      this.formSchema = createForgotPasswordFormSchema(this.config);
 
       this.form.update({
         validators: {

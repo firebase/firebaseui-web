@@ -14,22 +14,16 @@
  * limitations under the License.
  */
 
-import {
-  english,
-  ERROR_CODE_MAP,
-  ErrorCode,
-  getTranslation,
-  Locale,
-  TranslationsConfig,
-} from "@firebase-ui/translations";
+import { ERROR_CODE_MAP, ErrorCode } from "@firebase-ui/translations";
+import { getTranslation } from "./translations";
 import { FirebaseUIConfiguration } from "./config";
 export class FirebaseUIError extends Error {
   code: string;
 
-  constructor(error: any, translations?: TranslationsConfig, locale?: Locale) {
+  constructor(error: any, ui: FirebaseUIConfiguration) {
     const errorCode: ErrorCode = error?.customData?.message?.match?.(/\(([^)]+)\)/)?.at(1) || error?.code || "unknown";
     const translationKey = ERROR_CODE_MAP[errorCode] || "unknownError";
-    const message = getTranslation("errors", translationKey, translations, locale ?? english.locale);
+    const message = getTranslation(ui, "errors", translationKey);
 
     super(message);
     this.name = "FirebaseUIError";
@@ -44,7 +38,6 @@ export function handleFirebaseError(
     enableHandleExistingCredential?: boolean;
   }
 ): never {
-  const { translations, locale: defaultLocale } = ui;
   if (error?.code === "auth/account-exists-with-different-credential") {
     if (opts?.enableHandleExistingCredential && error.credential) {
       window.sessionStorage.setItem("pendingCred", JSON.stringify(error.credential));
@@ -59,14 +52,13 @@ export function handleFirebaseError(
           email: error.customData?.email,
         },
       },
-      translations,
-      defaultLocale
+      ui,
     );
   }
 
   // TODO: Debug why instanceof FirebaseError is not working
   if (error?.name === "FirebaseError") {
-    throw new FirebaseUIError(error, translations, defaultLocale);
+    throw new FirebaseUIError(error, ui);
   }
-  throw new FirebaseUIError({ code: "unknown" }, translations, defaultLocale);
+  throw new FirebaseUIError({ code: "unknown" }, ui);
 }

@@ -51,10 +51,10 @@ function PhoneNumberForm({ onSubmit, formError, recaptchaVerifier, recaptchaCont
 
   const phoneFormSchema = useMemo(
     () =>
-      createPhoneFormSchema(ui.translations).pick({
+      createPhoneFormSchema(ui).pick({
         phoneNumber: true,
       }),
-    [ui.translations]
+    [ui]
   );
 
   const phoneForm = useForm<z.infer<typeof phoneFormSchema>>({
@@ -202,10 +202,10 @@ function VerificationForm({
 
   const verificationFormSchema = useMemo(
     () =>
-      createPhoneFormSchema(ui.translations).pick({
+      createPhoneFormSchema(ui).pick({
         verificationCode: true,
       }),
-    [ui.translations]
+    [ui]
   );
 
   const verificationForm = useForm<z.infer<typeof verificationFormSchema>>({

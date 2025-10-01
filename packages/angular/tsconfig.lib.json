@@ -7,7 +7,12 @@
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
-    "types": []
+    "types": [],
+    "baseUrl": ".",
+    "paths": {
+      "@firebase-ui/core": ["../core/src/index.ts"],
+      "@firebase-ui/translations": ["../translations/src/index.ts"]
+    }
   },
   "exclude": ["**/*.spec.ts"]
 }

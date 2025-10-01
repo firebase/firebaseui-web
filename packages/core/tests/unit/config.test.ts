@@ -16,7 +16,7 @@
 
 import { describe, it, expect, vi } from "vitest";
 import { initializeUI, $config } from "../../src/config";
-import { english } from "@firebase-ui/translations";
+import { enUs } from "@firebase-ui/translations";
 import { onAuthStateChanged as _onAuthStateChanged } from "firebase/auth";
 
 vi.mock("firebase/auth", () => ({
@@ -39,13 +39,10 @@ describe("Config", () => {
       expect(store.get()).toEqual({
         app: config.app,
         getAuth: expect.any(Function),
-        locale: "en-US",
+        locale: enUs,
         setLocale: expect.any(Function),
         state: "idle",
         setState: expect.any(Function),
-        translations: {
-          "en-US": english.translations,
-        },
         behaviors: {},
         recaptchaMode: "normal",
       });
@@ -65,13 +62,10 @@ describe("Config", () => {
       expect(store.get()).toEqual({
         app: config.app,
         getAuth: expect.any(Function),
-        locale: "en-US",
+        locale: enUs,
         setLocale: expect.any(Function),
         state: "idle",
         setState: expect.any(Function),
-        translations: {
-          "en-US": english.translations,
-        },
         behaviors: {},
         recaptchaMode: "normal",
       });
@@ -136,13 +130,10 @@ describe("Config", () => {
       expect(store.get()).toEqual({
         app: config.app,
         getAuth: expect.any(Function),
-        locale: "en-US",
+        locale: enUs,
         setLocale: expect.any(Function),
         state: "idle",
         setState: expect.any(Function),
-        translations: {
-          "en-US": english.translations,
-        },
         behaviors: {
           autoAnonymousLogin: expect.any(Function),
           autoUpgradeAnonymousCredential: expect.any(Function),

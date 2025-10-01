@@ -20,15 +20,20 @@ import { Translations } from "./types";
 export type * from "./types";
 export * from "./mapping";
 
-export type Locale = "en-US" | `${string}-${string}`;
+export type Locale = "en-US" | `${string}-${string}` | string;
 
-export function customLanguage(locale: Locale, translations: Translations) {
+export function registerLocale(locale: Locale, translations: Translations, fallback?: RegisteredLocale): RegisteredLocale {
   return {
     locale,
     translations,
+    fallback,
   };
 }
 
-export const english = customLanguage("en-US", enUS);
+export const enUs = registerLocale("en-US", enUS);
 
-export type RegisteredTranslations = ReturnType<typeof customLanguage>;
+export type RegisteredLocale = {
+  locale: Locale;
+  translations: Translations;
+  fallback?: RegisteredLocale;
+};
