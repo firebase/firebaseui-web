@@ -1,15 +1,42 @@
 import { FirebaseApp } from "firebase/app";
 import { Auth } from "firebase/auth";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { initializeUI } from "./config";
 import { enUs, registerLocale } from "@firebase-ui/translations";
 import { autoUpgradeAnonymousUsers, defaultBehaviors } from "./behaviors";
 
 describe('initializeUI', () => {
-  it('should return a valid deep store with default values', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('should call authStateReady when initializing UI', async () => {
+    const mockAuthStateReady = vi.fn().mockResolvedValue(undefined);
+    const mockAuth = {
+      authStateReady: mockAuthStateReady,
+    } as unknown as Auth;
+
     const config = {
       app: {} as FirebaseApp,
-      auth: {} as Auth,
+      auth: mockAuth,
+    };
+
+    const ui = initializeUI(config);
+    
+    // Wait for the authStateReady promise to resolve
+    await new Promise(resolve => setTimeout(resolve, 0));
+    
+    expect(mockAuthStateReady).toHaveBeenCalled();
+    expect(ui).toBeDefined();
+  });
+
+  it('should return a valid deep store with default values', () => {
+    const mockAuthStateReady = vi.fn().mockResolvedValue(undefined);
+    const config = {
+      app: {} as FirebaseApp,
+      auth: {
+        authStateReady: mockAuthStateReady,
+      } as unknown as Auth,
     };
 
     const ui = initializeUI(config);
@@ -23,9 +50,12 @@ describe('initializeUI', () => {
   });
 
   it('should merge behaviors with defaultBehaviors', () => {
+    const mockAuthStateReady = vi.fn().mockResolvedValue(undefined);
     const config = {
       app: {} as FirebaseApp,
-      auth: {} as Auth,
+      auth: {
+        authStateReady: mockAuthStateReady,
+      } as unknown as Auth,
       behaviors: [autoUpgradeAnonymousUsers()],
     };
 
@@ -42,9 +72,12 @@ describe('initializeUI', () => {
   });
 
   it('should set state and update state when called', () => {
+    const mockAuthStateReady = vi.fn().mockResolvedValue(undefined);
     const config = {
       app: {} as FirebaseApp,
-      auth: {} as Auth,
+      auth: {
+        authStateReady: mockAuthStateReady,
+      } as unknown as Auth,
     };
 
     const ui = initializeUI(config);
@@ -59,9 +92,12 @@ describe('initializeUI', () => {
     const testLocale1 = registerLocale('test1', {});
     const testLocale2 = registerLocale('test2', {});
     
+    const mockAuthStateReady = vi.fn().mockResolvedValue(undefined);
     const config = {
       app: {} as FirebaseApp,
-      auth: {} as Auth,
+      auth: {
+        authStateReady: mockAuthStateReady,
+      } as unknown as Auth,
     };
 
     const ui = initializeUI(config);
@@ -73,9 +109,12 @@ describe('initializeUI', () => {
   });
 
   it('should include defaultBehaviors even when no custom behaviors are provided', () => {
+    const mockAuthStateReady = vi.fn().mockResolvedValue(undefined);
     const config = {
       app: {} as FirebaseApp,
-      auth: {} as Auth,
+      auth: {
+        authStateReady: mockAuthStateReady,
+      } as unknown as Auth,
     };
 
     const ui = initializeUI(config);
@@ -91,9 +130,12 @@ describe('initializeUI', () => {
       }
     };
 
+    const mockAuthStateReady = vi.fn().mockResolvedValue(undefined);
     const config = {
       app: {} as FirebaseApp,
-      auth: {} as Auth,
+      auth: {
+        authStateReady: mockAuthStateReady,
+      } as unknown as Auth,
       behaviors: [customRecaptchaVerification],
     };
 
@@ -111,9 +153,12 @@ describe('initializeUI', () => {
       }
     };
 
+    const mockAuthStateReady = vi.fn().mockResolvedValue(undefined);
     const config = {
       app: {} as FirebaseApp,
-      auth: {} as Auth,
+      auth: {
+        authStateReady: mockAuthStateReady,
+      } as unknown as Auth,
       behaviors: [behavior1, behavior2],
     };
 

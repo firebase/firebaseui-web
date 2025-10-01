@@ -80,14 +80,21 @@ export function initializeUI(config: FirebaseUIConfigurationOptions, name: strin
     })
   );
 
-  const ui = $config.get()[name]!;
+  const store = $config.get()[name]!;
+  const ui = store.get();
+  
+  ui.auth.authStateReady().then(() => {
+    if (hasBehavior(ui, "autoAnonymousLogin")) {
+      getBehavior(ui, "autoAnonymousLogin")(ui);
+    } else {
+      store.setKey("state", "idle");
+    }
+  
+    if (hasBehavior(ui, "oneTapSignIn")) {
+      getBehavior(ui, "oneTapSignIn")(ui);
+    }
+  });
 
-  // TODO(ehesp): Should this belong here - if not, where should it be?
-  if (hasBehavior(ui.get(), "autoAnonymousLogin")) {
-    getBehavior(ui.get(), "autoAnonymousLogin")(ui.get());
-  } else {
-    ui.setKey("state", "idle");
-  }
 
-  return ui;
+  return store;
 }

@@ -52,6 +52,7 @@
     "zod": "catalog:"
   },
   "devDependencies": {
+    "@types/google-one-tap": "^1.2.6",
     "@types/jsdom": "catalog:",
     "firebase": "catalog:",
     "jsdom": "catalog:",
@@ -60,7 +61,7 @@
     "tsup": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
-    "vitest-tsconfig-paths": "catalog:",
-    "vitest": "catalog:"
+    "vitest": "catalog:",
+    "vitest-tsconfig-paths": "catalog:"
   }
 }

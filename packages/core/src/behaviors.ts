@@ -23,8 +23,11 @@ import {
   User,
   UserCredential,
   RecaptchaVerifier,
+  GoogleAuthProvider,
 } from "firebase/auth";
 import { FirebaseUIConfiguration } from "./config";
+import { IdConfiguration } from "google-one-tap";
+import { signInWithCredential } from "./auth";
 
 export type BehaviorHandlers = {
   autoAnonymousLogin: (ui: FirebaseUIConfiguration) => Promise<User>;
@@ -34,6 +37,7 @@ export type BehaviorHandlers = {
   ) => Promise<UserCredential | undefined>;
   autoUpgradeAnonymousProvider: (ui: FirebaseUIConfiguration, provider: AuthProvider) => Promise<undefined | never>;
   recaptchaVerification: (ui: FirebaseUIConfiguration, element: HTMLElement) => RecaptchaVerifier;
+  oneTapSignIn: (ui: FirebaseUIConfiguration) => void;
 };
 
 export type Behavior<T extends keyof BehaviorHandlers = keyof BehaviorHandlers> = Pick<BehaviorHandlers, T>;
@@ -68,8 +72,6 @@ export function autoAnonymousLogin(): Behavior<"autoAnonymousLogin"> {
   return {
     autoAnonymousLogin: async (ui) => {
       const auth = ui.auth;
-
-      await auth.authStateReady();
 
       if (!auth.currentUser) {
         ui.setState("loading");
@@ -130,6 +132,60 @@ export function recaptchaVerification(options?: RecaptchaVerification): Behavior
       });
     },
   };
+}
+
+export type OneTapSignIn = {
+  clientId: IdConfiguration['client_id'];
+  autoSelect?: IdConfiguration['auto_select'];
+  cancelOnTapOutside?: IdConfiguration['cancel_on_tap_outside'];
+  context?: IdConfiguration['context'];
+  uxMode?: IdConfiguration['ux_mode'];
+  logLevel?: IdConfiguration['log_level'];
+};
+
+export function oneTapSignIn(options: OneTapSignIn): Behavior<"oneTapSignIn"> {
+  return {
+    oneTapSignIn: (ui) => {
+      if (typeof window === "undefined") {
+        return;
+      }
+
+      // Only show one-tap if user is not signed in OR if they are anonymous.
+      // Don't show if user is already signed in with a real account.
+      if (ui.auth.currentUser && !ui.auth.currentUser.isAnonymous) {
+        return;
+      }
+
+      // Prevent multiple instances of the script from being loaded, e.g. hot reload.
+      if (document.querySelector('script[data-one-tap-sign-in]')) {
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.setAttribute('data-one-tap-sign-in', 'true');
+      script.src = 'https://accounts.google.com/gsi/client';
+      script.async = true;
+
+      script.onload = () => {
+        window.google.accounts.id.initialize({
+          client_id: options.clientId,
+          auto_select: options.autoSelect,
+          cancel_on_tap_outside: options.cancelOnTapOutside,
+          context: options.context,
+          ux_mode: options.uxMode,
+          log_level: options.logLevel,
+          callback: async (response) => {
+            const credential = GoogleAuthProvider.credential(response.credential);
+            await signInWithCredential(ui, credential);
+          },
+        });
+
+        window.google.accounts.id.prompt();
+      };
+
+      document.body.appendChild(script);
+    },
+  }
 }
 
 export const defaultBehaviors = {
