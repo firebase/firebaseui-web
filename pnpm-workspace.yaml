@@ -14,9 +14,7 @@
 
 packages:
   - packages/*
-  - examples/angular
-  - examples/nextjs
-  - examples/react
+  - examples/*
 
 catalog:
   # Firebase
