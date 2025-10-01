@@ -16,7 +16,7 @@
 
 import { enUs, RegisteredLocale } from "@firebase-ui/translations";
 import type { FirebaseApp } from "firebase/app";
-import { Auth, getAuth } from "firebase/auth";
+import { Auth, getAuth, type MultiFactorResolver } from "firebase/auth";
 import { deepMap, DeepMapStore, map } from "nanostores";
 import {
   Behavior,
@@ -43,6 +43,8 @@ export type FirebaseUIConfiguration = {
   setState: (state: FirebaseUIState) => void;
   locale: RegisteredLocale;
   behaviors: Partial<Record<BehaviorKey, BehaviorHandlers[BehaviorKey]>>;
+  multiFactorResolver?: MultiFactorResolver;
+  setMultiFactorResolver: (resolver?: MultiFactorResolver) => void;
 };
 
 export const $config = map<Record<string, DeepMapStore<FirebaseUIConfiguration>>>({});
@@ -77,6 +79,11 @@ export function initializeUI(config: FirebaseUIConfigurationOptions, name: strin
         current.setKey(`state`, state);
       },
       behaviors: behaviors ?? defaultBehaviors,
+      multiFactorResolver: undefined,
+      setMultiFactorResolver: (resolver?: MultiFactorResolver) => {
+        const current = $config.get()[name]!;
+        current.setKey(`multiFactorResolver`, resolver);
+      },
     })
   );
 
