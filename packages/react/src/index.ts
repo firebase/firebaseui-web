@@ -14,6 +14,11 @@
  * limitations under the License.
  */
 
+import { registerFramework } from "@firebase-ui/core";
+import pkgJson from '../package.json';
+
+registerFramework("react", pkgJson.version);
+
 export * from "./auth";
 export * from "./hooks";
 export * from "./components";
