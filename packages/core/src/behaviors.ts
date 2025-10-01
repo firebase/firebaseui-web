@@ -19,10 +19,10 @@ import {
   AuthProvider,
   linkWithCredential,
   linkWithRedirect,
-  onAuthStateChanged,
   signInAnonymously,
   User,
   UserCredential,
+  RecaptchaVerifier,
 } from "firebase/auth";
 import { FirebaseUIConfiguration } from "./config";
 
@@ -33,6 +33,7 @@ export type BehaviorHandlers = {
     credential: AuthCredential
   ) => Promise<UserCredential | undefined>;
   autoUpgradeAnonymousProvider: (ui: FirebaseUIConfiguration, provider: AuthProvider) => Promise<undefined | never>;
+  recaptchaVerification: (ui: FirebaseUIConfiguration, element: HTMLElement) => RecaptchaVerifier;
 };
 
 export type Behavior<T extends keyof BehaviorHandlers = keyof BehaviorHandlers> = Pick<BehaviorHandlers, T>;
@@ -66,22 +67,17 @@ export function autoAnonymousLogin(): Behavior<"autoAnonymousLogin"> {
 
   return {
     autoAnonymousLogin: async (ui) => {
-      const auth = ui.getAuth();
+      const auth = ui.auth;
 
-      const user = await new Promise<User>((resolve) => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-          ui.setState("signing-in");
-          if (!user) {
-            signInAnonymously(auth);
-            return;
-          }
+      await auth.authStateReady();
 
-          unsubscribe();
-          resolve(user);
-        });
-      });
+      if (!auth.currentUser) {
+        ui.setState("loading");
+        await signInAnonymously(auth);
+      }
+
       ui.setState("idle");
-      return user;
+      return auth.currentUser!;
     },
   };
 }
@@ -91,28 +87,26 @@ export function autoUpgradeAnonymousUsers(): Behavior<
 > {
   return {
     autoUpgradeAnonymousCredential: async (ui, credential) => {
-      const auth = ui.getAuth();
-      const currentUser = auth.currentUser;
+      const currentUser = ui.auth.currentUser;
 
       // Check if the user is anonymous. If not, we can't upgrade them.
       if (!currentUser?.isAnonymous) {
         return;
       }
 
-      ui.setState("linking");
+      ui.setState("pending");
       const result = await linkWithCredential(currentUser, credential);
       ui.setState("idle");
       return result;
     },
     autoUpgradeAnonymousProvider: async (ui, provider) => {
-      const auth = ui.getAuth();
-      const currentUser = auth.currentUser;
+      const currentUser = ui.auth.currentUser;
 
       if (!currentUser?.isAnonymous) {
         return;
       }
 
-      ui.setState("linking");
+      ui.setState("pending");
       await linkWithRedirect(currentUser, provider);
       // We don't modify state here since the user is redirected.
       // If we support popups, we'd need to modify state here.
@@ -120,40 +114,24 @@ export function autoUpgradeAnonymousUsers(): Behavior<
   };
 }
 
-// export function autoUpgradeAnonymousCredential(): RegisteredBehavior<'autoUpgradeAnonymousCredential'> {
-//   return {
-//     key: 'autoUpgradeAnonymousCredential',
-//     handler: async (auth, credential) => {
-//       const currentUser = auth.currentUser;
+export type RecaptchaVerification = {
+  size?: "normal" | "invisible" | "compact";
+  theme?: "light" | "dark";
+  tabindex?: number;
+};
 
-//       // Check if the user is anonymous. If not, we can't upgrade them.
-//       if (!currentUser?.isAnonymous) {
-//         return;
-//       }
+export function recaptchaVerification(options?: RecaptchaVerification): Behavior<"recaptchaVerification"> {
+  return {
+    recaptchaVerification: (ui, element) => {
+      return new RecaptchaVerifier(ui.auth, element, {
+        size: options?.size ?? "invisible",
+        theme: options?.theme ?? "light",
+        tabindex: options?.tabindex ?? 0,
+      });
+    },
+  };
+}
 
-//       $state.set('linking');
-//       const result = await linkWithCredential(currentUser, credential);
-//       $state.set('idle');
-//       return result;
-//     },
-//   };
-// }
-
-// export function autoUpgradeAnonymousProvider(): RegisteredBehavior<'autoUpgradeAnonymousCredential'> {
-//   return {
-//     key: 'autoUpgradeAnonymousProvider',
-//     handler: async (auth, credential) => {
-//       const currentUser = auth.currentUser;
-
-//       // Check if the user is anonymous. If not, we can't upgrade them.
-//       if (!currentUser?.isAnonymous) {
-//         return;
-//       }
-
-//       $state.set('linking');
-//       const result = await linkWithRedirect(currentUser, credential);
-//       $state.set('idle');
-//       return result;
-//     },
-//   };
-// }
+export const defaultBehaviors = {
+  ...recaptchaVerification(),
+};

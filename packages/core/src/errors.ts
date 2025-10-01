@@ -15,50 +15,45 @@
  */
 
 import { ERROR_CODE_MAP, ErrorCode } from "@firebase-ui/translations";
-import { getTranslation } from "./translations";
+import { FirebaseError } from "firebase/app";
+import { AuthCredential } from "firebase/auth";
 import { FirebaseUIConfiguration } from "./config";
-export class FirebaseUIError extends Error {
-  code: string;
+import { getTranslation } from "./translations";
+export class FirebaseUIError extends FirebaseError {
+  constructor(ui: FirebaseUIConfiguration, error: FirebaseError) {
+    const message = getTranslation(ui, "errors", ERROR_CODE_MAP[error.code as ErrorCode]);
+    super(error.code, message);
 
-  constructor(error: any, ui: FirebaseUIConfiguration) {
-    const errorCode: ErrorCode = error?.customData?.message?.match?.(/\(([^)]+)\)/)?.at(1) || error?.code || "unknown";
-    const translationKey = ERROR_CODE_MAP[errorCode] || "unknownError";
-    const message = getTranslation(ui, "errors", translationKey);
-
-    super(message);
-    this.name = "FirebaseUIError";
-    this.code = errorCode;
+    // Ensures that `instanceof FirebaseUIError` works, alongside `instanceof FirebaseError`
+    Object.setPrototypeOf(this, FirebaseUIError.prototype);
   }
 }
 
 export function handleFirebaseError(
   ui: FirebaseUIConfiguration,
-  error: any,
-  opts?: {
-    enableHandleExistingCredential?: boolean;
-  }
+  error: unknown,
 ): never {
-  if (error?.code === "auth/account-exists-with-different-credential") {
-    if (opts?.enableHandleExistingCredential && error.credential) {
-      window.sessionStorage.setItem("pendingCred", JSON.stringify(error.credential));
-    } else {
-      window.sessionStorage.removeItem("pendingCred");
-    }
-
-    throw new FirebaseUIError(
-      {
-        code: "auth/account-exists-with-different-credential",
-        customData: {
-          email: error.customData?.email,
-        },
-      },
-      ui,
-    );
+  // If it's not a Firebase error, then we just throw it and preserve the original error.
+  if (!isFirebaseError(error)) {
+    throw error;
   }
 
-  // TODO: Debug why instanceof FirebaseError is not working
-  if (error?.name === "FirebaseError") {
-    throw new FirebaseUIError(error, ui);
+  // TODO(ehesp): Type error as unknown, check instance of FirebaseError
+  // TODO(ehesp): Support via behavior
+  if (error.code === "auth/account-exists-with-different-credential" && errorContainsCredential(error)) {
+    window.sessionStorage.setItem("pendingCred", JSON.stringify(error.credential.toJSON()));
   }
-  throw new FirebaseUIError({ code: "unknown" }, ui);
+
+  throw new FirebaseUIError(ui, error);
+}
+
+// Utility to obtain whether something is a FirebaseError
+function isFirebaseError(error: unknown): error is FirebaseError {
+  // Calling instanceof FirebaseError is not working - not sure why yet.
+  return !!error && typeof error === "object" && "code" in error && "message" in error;
+}
+
+// Utility to obtain whether something is a FirebaseError that contains a credential - doesn't seemed to be typed?
+function errorContainsCredential(error: FirebaseError): error is FirebaseError & { credential: AuthCredential } {
+  return 'credential' in error;
 }

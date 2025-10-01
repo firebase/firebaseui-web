@@ -21,15 +21,17 @@ import { createContext } from "react";
 
 export const FirebaseUIContext = createContext<FirebaseUIConfiguration>({} as FirebaseUIConfiguration);
 
+export type FirebaseUIProviderProps = {
+  children: React.ReactNode;
+  ui: FirebaseUI;
+  policies?: PolicyProps;
+};
+
 export function FirebaseUIProvider({
   children,
   ui,
   policies,
-}: {
-  children: React.ReactNode;
-  ui: FirebaseUI;
-  policies?: PolicyProps;
-}) {
+}: FirebaseUIProviderProps) {
   const value = useStore(ui);
   return (
     <FirebaseUIContext.Provider value={value}>

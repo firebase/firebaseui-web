@@ -62,7 +62,7 @@ catalog:
   eslint: ^9.35.0
 
   # Shared utilities
-  zod: ^3.24.1 # TODO: Can this be upgraded to v4?
+  zod: ^4.1.9
   nanostores: ^1.0.1
   "@types/node": ^24.3.1
 
