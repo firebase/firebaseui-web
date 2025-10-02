@@ -7,5 +7,5 @@ import { registerVersion } from "firebase/app";
  * @param version The version of the framework being registered.
  */
 export function registerFramework(framework: string, version: string) {
-  registerVersion("firebase-ui", version, framework);
+  registerVersion("firebase-ui-web", version, framework);
 }

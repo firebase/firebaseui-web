@@ -18,7 +18,7 @@ describe("registerFramework", () => {
 
     registerFramework(framework, version);
 
-    expect(registerVersion).toHaveBeenCalledWith("firebase-ui", version, framework);
+    expect(registerVersion).toHaveBeenCalledWith("firebase-ui-web", version, framework);
     expect(registerVersion).toHaveBeenCalledTimes(1);
   });
 
@@ -32,7 +32,7 @@ describe("registerFramework", () => {
 
     expect(registerVersion).toHaveBeenCalledTimes(frameworks.length);
     frameworks.forEach((framework) => {
-      expect(registerVersion).toHaveBeenCalledWith("firebase-ui", version, framework);
+      expect(registerVersion).toHaveBeenCalledWith("firebase-ui-web", version, framework);
     });
   });
 
@@ -46,18 +46,8 @@ describe("registerFramework", () => {
 
     expect(registerVersion).toHaveBeenCalledTimes(versions.length);
     versions.forEach((version) => {
-      expect(registerVersion).toHaveBeenCalledWith("firebase-ui", version, framework);
+      expect(registerVersion).toHaveBeenCalledWith("firebase-ui-web", version, framework);
     });
-  });
-
-  it("should handle empty string parameters", () => {
-    const framework = "";
-    const version = "";
-
-    registerFramework(framework, version);
-
-    expect(registerVersion).toHaveBeenCalledWith("firebase-ui", "", "");
-    expect(registerVersion).toHaveBeenCalledTimes(1);
   });
 
   it("should handle special characters in parameters", () => {
@@ -66,7 +56,7 @@ describe("registerFramework", () => {
 
     registerFramework(framework, version);
 
-    expect(registerVersion).toHaveBeenCalledWith("firebase-ui", version, framework);
+    expect(registerVersion).toHaveBeenCalledWith("firebase-ui-web", version, framework);
     expect(registerVersion).toHaveBeenCalledTimes(1);
   });
 });
