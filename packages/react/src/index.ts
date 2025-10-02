@@ -15,7 +15,7 @@
  */
 
 import { registerFramework } from "@firebase-ui/core";
-import pkgJson from '../package.json';
+import pkgJson from "../package.json";
 
 export * from "./auth";
 export * from "./hooks";

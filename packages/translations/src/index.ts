@@ -22,7 +22,11 @@ export * from "./mapping";
 
 export type Locale = "en-US" | `${string}-${string}` | string;
 
-export function registerLocale(locale: Locale, translations: Translations, fallback?: RegisteredLocale): RegisteredLocale {
+export function registerLocale(
+  locale: Locale,
+  translations: Translations,
+  fallback?: RegisteredLocale
+): RegisteredLocale {
   return {
     locale,
     translations,

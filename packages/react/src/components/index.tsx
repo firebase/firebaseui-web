@@ -19,4 +19,4 @@ export { Card, CardHeader, CardTitle, CardSubtitle, CardContent, type CardProps 
 export { CountrySelector, type CountrySelectorProps } from "./country-selector";
 export { Policies, type PolicyProps, type PolicyURL } from "./policies";
 export { Divider, type DividerProps } from "./divider";
-export { form } from './form';
+export { form } from "./form";

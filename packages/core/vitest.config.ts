@@ -15,11 +15,11 @@
  */
 
 import { defineConfig } from "vitest/config";
-import tsconfigPaths from 'vite-tsconfig-paths'
+import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
   test: {
-    name: '@firebase-ui/core',
+    name: "@firebase-ui/core",
     environment: "jsdom",
     exclude: ["node_modules/**/*", "dist/**/*"],
   },

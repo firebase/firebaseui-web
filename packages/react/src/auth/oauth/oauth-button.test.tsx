@@ -23,7 +23,7 @@ import { ComponentProps } from "react";
 
 import { signInWithProvider } from "@firebase-ui/core";
 
-vi.mock('@firebase-ui/core', async (importOriginal) => {
+vi.mock("@firebase-ui/core", async (importOriginal) => {
   const mod = await importOriginal();
   return {
     ...(mod as object),
@@ -33,11 +33,12 @@ vi.mock('@firebase-ui/core', async (importOriginal) => {
       code: string;
       constructor(error: any, _ui: any) {
         const errorCode = error?.code || "unknown";
-        const message = errorCode === "auth/user-not-found" 
-          ? "No account found with this email address"
-          : errorCode === "auth/wrong-password"
-          ? "The password is invalid or the user does not have a password"
-          : "An unexpected error occurred";
+        const message =
+          errorCode === "auth/user-not-found"
+            ? "No account found with this email address"
+            : errorCode === "auth/wrong-password"
+              ? "The password is invalid or the user does not have a password"
+              : "An unexpected error occurred";
         super(message);
         this.name = "FirebaseUIError";
         this.code = errorCode;
@@ -50,10 +51,8 @@ vi.mock("~/components/button", async (importOriginal) => {
   const mod = await importOriginal<typeof import("~/components/button")>();
   return {
     ...mod,
-    Button: (props: ComponentProps<"button">) => (
-      <mod.Button data-testid="oauth-button" {...props} />
-    ),
-  }
+    Button: (props: ComponentProps<"button">) => <mod.Button data-testid="oauth-button" {...props} />,
+  };
 });
 
 afterEach(() => {
@@ -158,7 +157,7 @@ describe("<OAuthButton />", () => {
     fireEvent.click(button);
 
     // Wait for error to appear
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     // The error message will be the translated message for auth/user-not-found
     const errorMessage = screen.getByText("No account found with this email address");
@@ -192,7 +191,7 @@ describe("<OAuthButton />", () => {
     fireEvent.click(button);
 
     // Wait for error to appear
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     expect(consoleErrorSpy).toHaveBeenCalledWith(regularError);
 
@@ -208,7 +207,7 @@ describe("<OAuthButton />", () => {
     const { FirebaseUIError } = await import("@firebase-ui/core");
     const mockSignInWithProvider = vi.mocked(signInWithProvider);
     const ui = createMockUI();
-    
+
     // First call fails, second call succeeds
     mockSignInWithProvider
       .mockRejectedValueOnce(new FirebaseUIError({ code: "auth/wrong-password" }, ui.get()))
@@ -224,7 +223,7 @@ describe("<OAuthButton />", () => {
 
     // First click - should show error
     fireEvent.click(button);
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     // The error message will be the translated message for auth/wrong-password
     const errorMessage = screen.getByText("The password is invalid or the user does not have a password");
@@ -232,7 +231,7 @@ describe("<OAuthButton />", () => {
 
     // Second click - should clear error
     fireEvent.click(button);
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     expect(screen.queryByText("The password is invalid or the user does not have a password")).toBeNull();
   });

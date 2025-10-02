@@ -60,9 +60,8 @@ export function autoUpgradeAnonymousUsers(
     autoUpgradeAnonymousProvider: callableBehavior((ui, provider) =>
       anonymousUpgradeHandlers.autoUpgradeAnonymousProviderHandler(ui, provider, options?.onUpgrade)
     ),
-    autoUpgradeAnonymousUserRedirectHandler: redirectBehavior(
-      (ui, credential) =>
-        anonymousUpgradeHandlers.autoUpgradeAnonymousUserRedirectHandler(ui, credential, options?.onUpgrade)
+    autoUpgradeAnonymousUserRedirectHandler: redirectBehavior((ui, credential) =>
+      anonymousUpgradeHandlers.autoUpgradeAnonymousUserRedirectHandler(ui, credential, options?.onUpgrade)
     ),
   };
 }

@@ -1,10 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { 
-  countryData, 
-  getCountryByDialCode, 
-  getCountryByCode, 
-  formatPhoneNumberWithCountry 
-} from "./country-data";
+import { countryData, getCountryByDialCode, getCountryByCode, formatPhoneNumberWithCountry } from "./country-data";
 
 describe("CountryData", () => {
   describe("CountryData interface", () => {
@@ -14,12 +9,12 @@ describe("CountryData", () => {
         expect(country).toHaveProperty("dialCode");
         expect(country).toHaveProperty("code");
         expect(country).toHaveProperty("emoji");
-        
+
         expect(typeof country.name).toBe("string");
         expect(typeof country.dialCode).toBe("string");
         expect(typeof country.code).toBe("string");
         expect(typeof country.emoji).toBe("string");
-        
+
         expect(country.name.length).toBeGreaterThan(0);
         expect(country.dialCode).toMatch(/^\+\d+$/);
         expect(country.code).toMatch(/^[A-Z]{2}$/);
@@ -78,9 +73,9 @@ describe("CountryData", () => {
     });
 
     it("should handle dial codes with multiple countries", () => {
-      const countries = countryData.filter(country => country.dialCode === "+1");
+      const countries = countryData.filter((country) => country.dialCode === "+1");
       expect(countries.length).toBeGreaterThan(1);
-      
+
       // Should return the first match (US)
       const result = getCountryByDialCode("+1");
       expect(result?.code).toBe("US");
@@ -174,13 +169,13 @@ describe("CountryData", () => {
     });
 
     it("should handle countries with multiple dial codes", () => {
-      const kosovoCountries = countryData.filter(country => country.code === "XK");
+      const kosovoCountries = countryData.filter((country) => country.code === "XK");
       expect(kosovoCountries.length).toBeGreaterThan(1);
-      
+
       const result1 = getCountryByDialCode("+377");
       const result2 = getCountryByDialCode("+381");
       const result3 = getCountryByDialCode("+386");
-      
+
       expect(result1?.code).toBe("XK");
       expect(result2?.code).toBe("XK");
       expect(result3?.code).toBe("XK");

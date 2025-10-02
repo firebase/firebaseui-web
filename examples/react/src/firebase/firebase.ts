@@ -27,9 +27,12 @@ export const auth = getAuth(firebaseApp);
 
 export const ui = initializeUI({
   app: firebaseApp,
-  behaviors: [autoAnonymousLogin(), oneTapSignIn({
-    clientId: '200312857118-lscdui98fkaq7ffr81446blafjn5o6r0.apps.googleusercontent.com',
-  })],
+  behaviors: [
+    autoAnonymousLogin(),
+    oneTapSignIn({
+      clientId: "200312857118-lscdui98fkaq7ffr81446blafjn5o6r0.apps.googleusercontent.com",
+    }),
+  ],
 });
 
 if (import.meta.env.MODE === "development") {

@@ -29,7 +29,7 @@ describe("form export", () => {
 
     render(
       <hook.AppForm>
-        <hook.AppField name="foo" children={(field) => <field.Input label="Foo" />} />
+        <hook.AppField name="foo">{(field) => <field.Input label="Foo" />}</hook.AppField>
         <hook.ErrorMessage />
         <hook.SubmitButton>Submit</hook.SubmitButton>
         <hook.Action>Action</hook.Action>
@@ -55,7 +55,7 @@ describe("form export", () => {
 
       const { container } = render(
         <hook.AppForm>
-          <hook.AppField name="foo" children={(field) => <field.Input label="Foo" />} />
+          <hook.AppField name="foo">{(field) => <field.Input label="Foo" />}</hook.AppField>
         </hook.AppForm>
       );
 
@@ -77,14 +77,13 @@ describe("form export", () => {
 
       render(
         <hook.AppForm>
-          <hook.AppField
-            name="foo"
-            children={(field) => (
+          <hook.AppField name="foo">
+            {(field) => (
               <field.Input label="Foo">
                 <div data-testid="test-child">Test Child</div>
               </field.Input>
             )}
-          />
+          </hook.AppField>
         </hook.AppForm>
       );
 
@@ -109,8 +108,9 @@ describe("form export", () => {
               },
             }}
             name="foo"
-            children={(field) => <field.Input label="Foo" />}
-          />
+          >
+            {(field) => <field.Input label="Foo" />}
+          </hook.AppField>
         </hook.AppForm>
       );
 

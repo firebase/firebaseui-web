@@ -16,7 +16,14 @@
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderHook, act, cleanup } from "@testing-library/react";
-import { useUI, useSignInAuthFormSchema, useSignUpAuthFormSchema, useForgotPasswordAuthFormSchema, useEmailLinkAuthFormSchema, usePhoneAuthFormSchema } from "./hooks";
+import {
+  useUI,
+  useSignInAuthFormSchema,
+  useSignUpAuthFormSchema,
+  useForgotPasswordAuthFormSchema,
+  useEmailLinkAuthFormSchema,
+  usePhoneAuthFormSchema,
+} from "./hooks";
 import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
 import { registerLocale } from "@firebase-ui/translations";
 
@@ -28,12 +35,12 @@ describe("useUI", () => {
   it("returns the config from context", () => {
     const mockUI = createMockUI();
 
-    const { result } = renderHook(() => useUI(), { 
-      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI })
+    const { result } = renderHook(() => useUI(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
     expect(result.current).toEqual(mockUI.get());
-  }); 
+  });
 
   // TODO(ehesp): This test is not working as expected.
   it.skip("throws an error if no context is found", () => {
@@ -46,7 +53,7 @@ describe("useUI", () => {
     const ui = createMockUI();
 
     const { result } = renderHook(() => useUI(), {
-      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui })
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui }),
     });
 
     expect(result.current.state).toBeDefined();
@@ -77,17 +84,17 @@ describe("useUI", () => {
     };
 
     const { rerender } = renderHook(() => TestHook(), {
-      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui })
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui }),
     });
 
     expect(hookCallCount).toBe(1);
     expect(results).toHaveLength(1);
 
     rerender();
-    
+
     expect(hookCallCount).toBe(2);
     expect(results).toHaveLength(2);
-    
+
     expect(results[0]).toBe(results[1]);
     expect(results[0].state).toBe(results[1].state);
   });
@@ -99,22 +106,21 @@ describe("useSignInAuthFormSchema", () => {
     cleanup();
   });
 
-
   it("returns schema with default English error messages", () => {
     const mockUI = createMockUI();
 
-    const { result } = renderHook(() => useSignInAuthFormSchema(), { 
-      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI })
+    const { result } = renderHook(() => useSignInAuthFormSchema(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
     const schema = result.current;
-    
+
     const emailResult = schema.safeParse({ email: "invalid-email", password: "validpassword123" });
     expect(emailResult.success).toBe(false);
     if (!emailResult.success) {
       expect(emailResult.error.issues[0].message).toBe("Please enter a valid email address");
     }
-    
+
     const passwordResult = schema.safeParse({ email: "test@example.com", password: "123" });
     expect(passwordResult.success).toBe(false);
     if (!passwordResult.success) {
@@ -129,22 +135,22 @@ describe("useSignInAuthFormSchema", () => {
         weakPassword: "La contraseña debe tener al menos 8 caracteres",
       },
     };
-    
+
     const customLocale = registerLocale("es-ES", customTranslations);
     const mockUI = createMockUI({ locale: customLocale });
 
-    const { result } = renderHook(() => useSignInAuthFormSchema(), { 
-      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI })
+    const { result } = renderHook(() => useSignInAuthFormSchema(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
     const schema = result.current;
-    
+
     const emailResult = schema.safeParse({ email: "invalid-email", password: "validpassword123" });
     expect(emailResult.success).toBe(false);
     if (!emailResult.success) {
       expect(emailResult.error.issues[0].message).toBe("Por favor ingresa un email válido");
     }
-    
+
     const passwordResult = schema.safeParse({ email: "test@example.com", password: "123" });
     expect(passwordResult.success).toBe(false);
     if (!passwordResult.success) {
@@ -152,18 +158,17 @@ describe("useSignInAuthFormSchema", () => {
     }
   });
 
-
   it("returns stable reference when UI hasn't changed", () => {
     const mockUI = createMockUI();
 
     const { result, rerender } = renderHook(() => useSignInAuthFormSchema(), {
-      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI })
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
     const initialSchema = result.current;
 
     rerender();
-    
+
     expect(result.current).toBe(initialSchema);
   });
 
@@ -171,7 +176,7 @@ describe("useSignInAuthFormSchema", () => {
     const mockUI = createMockUI();
 
     const { result, rerender } = renderHook(() => useSignInAuthFormSchema(), {
-      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI })
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
     const initialSchema = result.current;
@@ -183,18 +188,18 @@ describe("useSignInAuthFormSchema", () => {
       },
     };
     const customLocale = registerLocale("fr-FR", customTranslations);
-    
+
     act(() => {
       mockUI.setKey("locale", customLocale);
     });
 
     rerender();
-    
+
     expect(result.current).not.toBe(initialSchema);
-    
+
     const emailResult = result.current.safeParse({ email: "invalid-email", password: "validpassword123" });
     expect(emailResult.success).toBe(false);
-    
+
     if (!emailResult.success) {
       expect(emailResult.error.issues[0].message).toBe("Custom email error");
     }
@@ -210,18 +215,22 @@ describe("useSignUpAuthFormSchema", () => {
   it("returns schema with default English error messages", () => {
     const mockUI = createMockUI();
 
-    const { result } = renderHook(() => useSignUpAuthFormSchema(), { 
-      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI })
+    const { result } = renderHook(() => useSignUpAuthFormSchema(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
     const schema = result.current;
-    
-    const emailResult = schema.safeParse({ email: "invalid-email", password: "validpassword123", confirmPassword: "validpassword123" });
+
+    const emailResult = schema.safeParse({
+      email: "invalid-email",
+      password: "validpassword123",
+      confirmPassword: "validpassword123",
+    });
     expect(emailResult.success).toBe(false);
     if (!emailResult.success) {
       expect(emailResult.error.issues[0].message).toBe("Please enter a valid email address");
     }
-    
+
     const passwordResult = schema.safeParse({ email: "test@example.com", password: "123", confirmPassword: "123" });
     expect(passwordResult.success).toBe(false);
     if (!passwordResult.success) {
@@ -236,22 +245,26 @@ describe("useSignUpAuthFormSchema", () => {
         weakPassword: "La contraseña debe tener al menos 8 caracteres",
       },
     };
-    
+
     const customLocale = registerLocale("es-ES", customTranslations);
     const mockUI = createMockUI({ locale: customLocale });
 
-    const { result } = renderHook(() => useSignUpAuthFormSchema(), { 
-      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI })
+    const { result } = renderHook(() => useSignUpAuthFormSchema(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
     const schema = result.current;
-    
-    const emailResult = schema.safeParse({ email: "invalid-email", password: "validpassword123", confirmPassword: "validpassword123" });
+
+    const emailResult = schema.safeParse({
+      email: "invalid-email",
+      password: "validpassword123",
+      confirmPassword: "validpassword123",
+    });
     expect(emailResult.success).toBe(false);
     if (!emailResult.success) {
       expect(emailResult.error.issues[0].message).toBe("Por favor ingresa un email válido");
     }
-    
+
     const passwordResult = schema.safeParse({ email: "test@example.com", password: "123", confirmPassword: "123" });
     expect(passwordResult.success).toBe(false);
     if (!passwordResult.success) {
@@ -263,13 +276,13 @@ describe("useSignUpAuthFormSchema", () => {
     const mockUI = createMockUI();
 
     const { result, rerender } = renderHook(() => useSignUpAuthFormSchema(), {
-      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI })
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
     const initialSchema = result.current;
 
     rerender();
-    
+
     expect(result.current).toBe(initialSchema);
   });
 
@@ -277,7 +290,7 @@ describe("useSignUpAuthFormSchema", () => {
     const mockUI = createMockUI();
 
     const { result, rerender } = renderHook(() => useSignUpAuthFormSchema(), {
-      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI })
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
     const initialSchema = result.current;
@@ -289,18 +302,22 @@ describe("useSignUpAuthFormSchema", () => {
       },
     };
     const customLocale = registerLocale("fr-FR", customTranslations);
-    
+
     act(() => {
       mockUI.setKey("locale", customLocale);
     });
 
     rerender();
-    
+
     expect(result.current).not.toBe(initialSchema);
-    
-    const emailResult = result.current.safeParse({ email: "invalid-email", password: "validpassword123", confirmPassword: "validpassword123" });
+
+    const emailResult = result.current.safeParse({
+      email: "invalid-email",
+      password: "validpassword123",
+      confirmPassword: "validpassword123",
+    });
     expect(emailResult.success).toBe(false);
-    
+
     if (!emailResult.success) {
       expect(emailResult.error.issues[0].message).toBe("Custom email error");
     }
@@ -316,12 +333,12 @@ describe("useForgotPasswordAuthFormSchema", () => {
   it("returns schema with default English error messages", () => {
     const mockUI = createMockUI();
 
-    const { result } = renderHook(() => useForgotPasswordAuthFormSchema(), { 
-      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI })
+    const { result } = renderHook(() => useForgotPasswordAuthFormSchema(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
     const schema = result.current;
-    
+
     const emailResult = schema.safeParse({ email: "invalid-email" });
     expect(emailResult.success).toBe(false);
     if (!emailResult.success) {
@@ -335,16 +352,16 @@ describe("useForgotPasswordAuthFormSchema", () => {
         invalidEmail: "Por favor ingresa un email válido",
       },
     };
-    
+
     const customLocale = registerLocale("es-ES", customTranslations);
     const mockUI = createMockUI({ locale: customLocale });
 
-    const { result } = renderHook(() => useForgotPasswordAuthFormSchema(), { 
-      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI })
+    const { result } = renderHook(() => useForgotPasswordAuthFormSchema(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
     const schema = result.current;
-    
+
     const emailResult = schema.safeParse({ email: "invalid-email" });
     expect(emailResult.success).toBe(false);
     if (!emailResult.success) {
@@ -356,13 +373,13 @@ describe("useForgotPasswordAuthFormSchema", () => {
     const mockUI = createMockUI();
 
     const { result, rerender } = renderHook(() => useForgotPasswordAuthFormSchema(), {
-      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI })
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
     const initialSchema = result.current;
 
     rerender();
-    
+
     expect(result.current).toBe(initialSchema);
   });
 
@@ -370,7 +387,7 @@ describe("useForgotPasswordAuthFormSchema", () => {
     const mockUI = createMockUI();
 
     const { result, rerender } = renderHook(() => useForgotPasswordAuthFormSchema(), {
-      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI })
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
     const initialSchema = result.current;
@@ -381,18 +398,18 @@ describe("useForgotPasswordAuthFormSchema", () => {
       },
     };
     const customLocale = registerLocale("fr-FR", customTranslations);
-    
+
     act(() => {
       mockUI.setKey("locale", customLocale);
     });
 
     rerender();
-    
+
     expect(result.current).not.toBe(initialSchema);
-    
+
     const emailResult = result.current.safeParse({ email: "invalid-email" });
     expect(emailResult.success).toBe(false);
-    
+
     if (!emailResult.success) {
       expect(emailResult.error.issues[0].message).toBe("Custom email error");
     }
@@ -408,12 +425,12 @@ describe("useEmailLinkAuthFormSchema", () => {
   it("returns schema with default English error messages", () => {
     const mockUI = createMockUI();
 
-    const { result } = renderHook(() => useEmailLinkAuthFormSchema(), { 
-      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI })
+    const { result } = renderHook(() => useEmailLinkAuthFormSchema(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
     const schema = result.current;
-    
+
     const emailResult = schema.safeParse({ email: "invalid-email" });
     expect(emailResult.success).toBe(false);
     if (!emailResult.success) {
@@ -427,16 +444,16 @@ describe("useEmailLinkAuthFormSchema", () => {
         invalidEmail: "Por favor ingresa un email válido",
       },
     };
-    
+
     const customLocale = registerLocale("es-ES", customTranslations);
     const mockUI = createMockUI({ locale: customLocale });
 
-    const { result } = renderHook(() => useEmailLinkAuthFormSchema(), { 
-      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI })
+    const { result } = renderHook(() => useEmailLinkAuthFormSchema(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
     const schema = result.current;
-    
+
     const emailResult = schema.safeParse({ email: "invalid-email" });
     expect(emailResult.success).toBe(false);
     if (!emailResult.success) {
@@ -448,13 +465,13 @@ describe("useEmailLinkAuthFormSchema", () => {
     const mockUI = createMockUI();
 
     const { result, rerender } = renderHook(() => useEmailLinkAuthFormSchema(), {
-      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI })
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
     const initialSchema = result.current;
 
     rerender();
-    
+
     expect(result.current).toBe(initialSchema);
   });
 
@@ -462,7 +479,7 @@ describe("useEmailLinkAuthFormSchema", () => {
     const mockUI = createMockUI();
 
     const { result, rerender } = renderHook(() => useEmailLinkAuthFormSchema(), {
-      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI })
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
     const initialSchema = result.current;
@@ -473,18 +490,18 @@ describe("useEmailLinkAuthFormSchema", () => {
       },
     };
     const customLocale = registerLocale("fr-FR", customTranslations);
-    
+
     act(() => {
       mockUI.setKey("locale", customLocale);
     });
 
     rerender();
-    
+
     expect(result.current).not.toBe(initialSchema);
-    
+
     const emailResult = result.current.safeParse({ email: "invalid-email" });
     expect(emailResult.success).toBe(false);
-    
+
     if (!emailResult.success) {
       expect(emailResult.error.issues[0].message).toBe("Custom email error");
     }
@@ -500,12 +517,12 @@ describe("usePhoneAuthFormSchema", () => {
   it("returns schema with default English error messages", () => {
     const mockUI = createMockUI();
 
-    const { result } = renderHook(() => usePhoneAuthFormSchema(), { 
-      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI })
+    const { result } = renderHook(() => usePhoneAuthFormSchema(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
     const schema = result.current;
-    
+
     const phoneResult = schema.safeParse({ phoneNumber: "invalid-phone" });
     expect(phoneResult.success).toBe(false);
     if (!phoneResult.success) {
@@ -519,16 +536,16 @@ describe("usePhoneAuthFormSchema", () => {
         invalidPhoneNumber: "Por favor ingresa un número de teléfono válido",
       },
     };
-    
+
     const customLocale = registerLocale("es-ES", customTranslations);
     const mockUI = createMockUI({ locale: customLocale });
 
-    const { result } = renderHook(() => usePhoneAuthFormSchema(), { 
-      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI })
+    const { result } = renderHook(() => usePhoneAuthFormSchema(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
     const schema = result.current;
-    
+
     const phoneResult = schema.safeParse({ phoneNumber: "invalid-phone" });
     expect(phoneResult.success).toBe(false);
     if (!phoneResult.success) {
@@ -540,13 +557,13 @@ describe("usePhoneAuthFormSchema", () => {
     const mockUI = createMockUI();
 
     const { result, rerender } = renderHook(() => usePhoneAuthFormSchema(), {
-      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI })
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
     const initialSchema = result.current;
 
     rerender();
-    
+
     expect(result.current).toBe(initialSchema);
   });
 
@@ -554,7 +571,7 @@ describe("usePhoneAuthFormSchema", () => {
     const mockUI = createMockUI();
 
     const { result, rerender } = renderHook(() => usePhoneAuthFormSchema(), {
-      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI })
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
     const initialSchema = result.current;
@@ -565,18 +582,18 @@ describe("usePhoneAuthFormSchema", () => {
       },
     };
     const customLocale = registerLocale("fr-FR", customTranslations);
-    
+
     act(() => {
       mockUI.setKey("locale", customLocale);
     });
 
     rerender();
-    
+
     expect(result.current).not.toBe(initialSchema);
-    
+
     const phoneResult = result.current.safeParse({ phoneNumber: "invalid-phone" });
     expect(phoneResult.success).toBe(false);
-    
+
     if (!phoneResult.success) {
       expect(phoneResult.error.issues[0].message).toBe("Custom phone error");
     }

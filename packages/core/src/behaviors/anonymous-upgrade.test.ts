@@ -1,6 +1,19 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { Auth, AuthCredential, AuthProvider, linkWithCredential, linkWithRedirect, User, UserCredential } from "firebase/auth";
-import { autoUpgradeAnonymousCredentialHandler, autoUpgradeAnonymousProviderHandler, autoUpgradeAnonymousUserRedirectHandler, OnUpgradeCallback } from "./anonymous-upgrade";
+import {
+  Auth,
+  AuthCredential,
+  AuthProvider,
+  linkWithCredential,
+  linkWithRedirect,
+  User,
+  UserCredential,
+} from "firebase/auth";
+import {
+  autoUpgradeAnonymousCredentialHandler,
+  autoUpgradeAnonymousProviderHandler,
+  autoUpgradeAnonymousUserRedirectHandler,
+  OnUpgradeCallback,
+} from "./anonymous-upgrade";
 import { createMockUI } from "~/tests/utils";
 import { getBehavior } from "~/behaviors";
 
@@ -41,11 +54,11 @@ describe("autoUpgradeAnonymousCredentialHandler", () => {
     const mockUI = createMockUI({ auth: mockAuth });
     const mockCredential = { providerId: "password" } as AuthCredential;
     const mockResult = { user: { uid: "upgraded-123" } } as UserCredential;
-    
+
     vi.mocked(linkWithCredential).mockResolvedValue(mockResult);
-    
+
     const onUpgrade = vi.fn().mockResolvedValue(undefined);
-    
+
     const result = await autoUpgradeAnonymousCredentialHandler(mockUI, mockCredential, onUpgrade);
 
     expect(onUpgrade).toHaveBeenCalledWith(mockUI, "anonymous-123", mockResult);
@@ -58,13 +71,14 @@ describe("autoUpgradeAnonymousCredentialHandler", () => {
     const mockUI = createMockUI({ auth: mockAuth });
     const mockCredential = { providerId: "password" } as AuthCredential;
     const mockResult = { user: { uid: "upgraded-123" } } as UserCredential;
-    
+
     vi.mocked(linkWithCredential).mockResolvedValue(mockResult);
-    
+
     const onUpgrade = vi.fn().mockRejectedValue(new Error("Callback error"));
-    
-    await expect(autoUpgradeAnonymousCredentialHandler(mockUI, mockCredential, onUpgrade))
-      .rejects.toThrow("Callback error");
+
+    await expect(autoUpgradeAnonymousCredentialHandler(mockUI, mockCredential, onUpgrade)).rejects.toThrow(
+      "Callback error"
+    );
   });
 
   it("should not upgrade when user is not anonymous", async () => {
@@ -104,8 +118,8 @@ describe("autoUpgradeAnonymousProviderHandler", () => {
     const mockProviderLinkStrategy = vi.fn().mockResolvedValue(mockResult);
     vi.mocked(getBehavior).mockReturnValue(mockProviderLinkStrategy);
 
-    const localStorageSpy = vi.spyOn(Storage.prototype, 'setItem');
-    const localStorageRemoveSpy = vi.spyOn(Storage.prototype, 'removeItem');
+    const localStorageSpy = vi.spyOn(Storage.prototype, "setItem");
+    const localStorageRemoveSpy = vi.spyOn(Storage.prototype, "removeItem");
 
     const result = await autoUpgradeAnonymousProviderHandler(mockUI, mockProvider);
 
@@ -146,8 +160,9 @@ describe("autoUpgradeAnonymousProviderHandler", () => {
 
     const onUpgrade = vi.fn().mockRejectedValue(new Error("Callback error"));
 
-    await expect(autoUpgradeAnonymousProviderHandler(mockUI, mockProvider, onUpgrade))
-      .rejects.toThrow("Callback error");
+    await expect(autoUpgradeAnonymousProviderHandler(mockUI, mockProvider, onUpgrade)).rejects.toThrow(
+      "Callback error"
+    );
   });
 
   it("should not upgrade when user is not anonymous", async () => {
@@ -183,13 +198,13 @@ describe("autoUpgradeAnonymousUserRedirectHandler", () => {
     const mockUI = createMockUI();
     const mockCredential = { user: { uid: "upgraded-123" } } as UserCredential;
     const oldUserId = "anonymous-123";
-    
+
     window.localStorage.setItem("fbui:upgrade:oldUserId", oldUserId);
-    
+
     const onUpgrade = vi.fn().mockResolvedValue(undefined);
-    
+
     await autoUpgradeAnonymousUserRedirectHandler(mockUI, mockCredential, onUpgrade);
-    
+
     expect(onUpgrade).toHaveBeenCalledWith(mockUI, oldUserId, mockCredential);
     expect(window.localStorage.getItem("fbui:upgrade:oldUserId")).toBeNull();
   });
@@ -197,24 +212,24 @@ describe("autoUpgradeAnonymousUserRedirectHandler", () => {
   it("should not call onUpgrade callback when no oldUserId in localStorage", async () => {
     const mockUI = createMockUI();
     const mockCredential = { user: { uid: "upgraded-123" } } as UserCredential;
-    
+
     const onUpgrade = vi.fn().mockResolvedValue(undefined);
-    
+
     await autoUpgradeAnonymousUserRedirectHandler(mockUI, mockCredential, onUpgrade);
-    
+
     expect(onUpgrade).not.toHaveBeenCalled();
   });
 
   it("should not call onUpgrade callback when no credential provided", async () => {
     const mockUI = createMockUI();
     const oldUserId = "anonymous-123";
-    
+
     window.localStorage.setItem("fbui:upgrade:oldUserId", oldUserId);
-    
+
     const onUpgrade = vi.fn().mockResolvedValue(undefined);
-    
+
     await autoUpgradeAnonymousUserRedirectHandler(mockUI, null, onUpgrade);
-    
+
     expect(onUpgrade).not.toHaveBeenCalled();
   });
 
@@ -222,11 +237,11 @@ describe("autoUpgradeAnonymousUserRedirectHandler", () => {
     const mockUI = createMockUI();
     const mockCredential = { user: { uid: "upgraded-123" } } as UserCredential;
     const oldUserId = "anonymous-123";
-    
+
     window.localStorage.setItem("fbui:upgrade:oldUserId", oldUserId);
-    
+
     await autoUpgradeAnonymousUserRedirectHandler(mockUI, mockCredential);
-    
+
     // Should not throw and should clean up localStorage even when no callback provided
     expect(window.localStorage.getItem("fbui:upgrade:oldUserId")).toBeNull();
   });
@@ -235,14 +250,15 @@ describe("autoUpgradeAnonymousUserRedirectHandler", () => {
     const mockUI = createMockUI();
     const mockCredential = { user: { uid: "upgraded-123" } } as UserCredential;
     const oldUserId = "anonymous-123";
-    
+
     window.localStorage.setItem("fbui:upgrade:oldUserId", oldUserId);
-    
+
     const onUpgrade = vi.fn().mockRejectedValue(new Error("Callback error"));
-    
-    await expect(autoUpgradeAnonymousUserRedirectHandler(mockUI, mockCredential, onUpgrade))
-      .rejects.toThrow("Callback error");
-    
+
+    await expect(autoUpgradeAnonymousUserRedirectHandler(mockUI, mockCredential, onUpgrade)).rejects.toThrow(
+      "Callback error"
+    );
+
     // Should clean up localStorage even when callback throws error
     expect(window.localStorage.getItem("fbui:upgrade:oldUserId")).toBeNull();
   });

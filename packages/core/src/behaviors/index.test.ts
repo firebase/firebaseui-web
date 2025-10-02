@@ -148,16 +148,16 @@ describe("autoUpgradeAnonymousUsers", () => {
   it("should pass onUpgrade callback to handlers when called", async () => {
     const mockOnUpgrade = vi.fn();
     const behavior = autoUpgradeAnonymousUsers({ onUpgrade: mockOnUpgrade });
-    
+
     const mockUI = createMockUI();
     const mockCredential = { providerId: "password" } as any;
     const mockProvider = { providerId: "google.com" } as any;
     const mockUserCredential = { user: { uid: "upgraded-123" } } as any;
 
-    const { 
+    const {
       autoUpgradeAnonymousCredentialHandler,
       autoUpgradeAnonymousProviderHandler,
-      autoUpgradeAnonymousUserRedirectHandler 
+      autoUpgradeAnonymousUserRedirectHandler,
     } = await import("./anonymous-upgrade");
 
     await behavior.autoUpgradeAnonymousCredential.handler(mockUI, mockCredential);

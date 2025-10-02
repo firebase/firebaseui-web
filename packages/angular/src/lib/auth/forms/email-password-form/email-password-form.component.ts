@@ -20,7 +20,13 @@ import { injectForm, TanStackField } from "@tanstack/angular-form";
 import { FirebaseUI } from "../../../provider";
 import { ButtonComponent } from "../../../components/button/button.component";
 import { TermsAndPrivacyComponent } from "../../../components/terms-and-privacy/terms-and-privacy.component";
-import { createEmailFormSchema, EmailFormSchema, FirebaseUIConfiguration, FirebaseUIError, signInWithEmailAndPassword } from "@firebase-ui/core";
+import {
+  createEmailFormSchema,
+  EmailFormSchema,
+  FirebaseUIConfiguration,
+  FirebaseUIError,
+  signInWithEmailAndPassword,
+} from "@firebase-ui/core";
 import { firstValueFrom } from "rxjs";
 import { Router } from "@angular/router";
 

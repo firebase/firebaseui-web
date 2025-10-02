@@ -10,5 +10,5 @@
       "@firebase-ui/styles": ["../styles/src/index.ts"]
     }
   },
-  "include": ["src", "eslint.config.js", "vite.config.ts", "setup-test.ts"]
+  "include": ["src", "vite.config.ts", "setup-test.ts"]
 }

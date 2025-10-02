@@ -22,6 +22,5 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "ES2020"
-  },
-  "include": ["eslint.config.js"]
+  }
 }

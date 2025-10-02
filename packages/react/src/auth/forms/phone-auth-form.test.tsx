@@ -16,7 +16,13 @@
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, renderHook, cleanup } from "@testing-library/react";
-import { PhoneAuthForm, usePhoneAuthFormAction, usePhoneVerificationFormAction, usePhoneResendAction, useResendTimer } from "./phone-auth-form";
+import {
+  PhoneAuthForm,
+  usePhoneAuthFormAction,
+  usePhoneVerificationFormAction,
+  usePhoneResendAction,
+  useResendTimer,
+} from "./phone-auth-form";
 import { act } from "react";
 
 // Mock Firebase Auth
@@ -158,7 +164,7 @@ describe("useResendTimer", () => {
 
   it("should clean up timer on unmount", () => {
     const clearIntervalSpy = vi.spyOn(global, "clearInterval");
-    
+
     const { result, unmount } = renderHook(() => useResendTimer(10));
 
     act(() => {
@@ -253,9 +259,7 @@ describe("usePhoneAuthFormAction", () => {
   });
 
   it("should throw an unknown error when its not a FirebaseUIError", async () => {
-    const signInWithPhoneNumberMock = vi
-      .mocked(signInWithPhoneNumber)
-      .mockRejectedValue(new Error("Unknown error"));
+    const signInWithPhoneNumberMock = vi.mocked(signInWithPhoneNumber).mockRejectedValue(new Error("Unknown error"));
 
     const mockUI = createMockUI({
       locale: registerLocale("es-ES", {
@@ -363,7 +367,7 @@ describe("<PhoneAuthForm />", () => {
     expect(sendCodeButton).toHaveAttribute("type", "submit");
   });
 
-  it('should trigger validation errors when the form is blurred', () => {
+  it("should trigger validation errors when the form is blurred", () => {
     const mockUI = createMockUI();
 
     const { container } = render(
