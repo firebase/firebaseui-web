@@ -29,7 +29,6 @@ import {
   EmailAuthProvider,
   linkWithCredential,
   PhoneAuthProvider,
-  signInWithRedirect,
   UserCredential,
   AuthCredential,
 } from "firebase/auth";
@@ -224,20 +223,24 @@ export async function signInAnonymously(ui: FirebaseUIConfiguration): Promise<Us
   }
 }
 
-export async function signInWithProvider(ui: FirebaseUIConfiguration, provider: AuthProvider): Promise<void> {
+export async function signInWithProvider(ui: FirebaseUIConfiguration, provider: AuthProvider): Promise<UserCredential | never> {
   try {
     if (hasBehavior(ui, "autoUpgradeAnonymousProvider")) {
-      await getBehavior(ui, "autoUpgradeAnonymousProvider")(ui, provider);
-      // If we get to here, the user is not anonymous, otherwise they
-      // have been redirected to the provider's sign in page.
+      const credential = await getBehavior(ui, "autoUpgradeAnonymousProvider")(ui, provider);
+
+      // If we got here, the user is either not anonymous, or they have been linked
+      // via a popup, and the credential has been created.
+      if (credential) {
+        return handlePendingCredential(ui, credential);
+      }
     }
 
-    ui.setState("pending");
+    const strategy = getBehavior(ui, "providerSignInStrategy");
+    const result = await strategy(ui, provider);
 
-    // TODO(ehesp): Handle popup or redirect based on behavior
-    await signInWithRedirect(ui.auth, provider);
-    // We don't modify state here since the user is redirected.
-    // If we support popups, we'd need to modify state here.
+    // If we got here, the user has been signed in via a popup.
+    // Otherwise, they will have been redirected.
+    return handlePendingCredential(ui, result);
   } catch (error) {
     handleFirebaseError(ui, error);
   } finally {
