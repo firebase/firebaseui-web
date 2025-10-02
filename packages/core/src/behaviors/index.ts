@@ -1,5 +1,5 @@
 import type { FirebaseUIConfiguration } from "~/config";
-import type { RecaptchaVerifier } from "firebase/auth";
+import type { RecaptchaVerifier, UserCredential } from "firebase/auth";
 import * as anonymousUpgradeHandlers from "./anonymous-upgrade";
 import * as autoAnonymousLoginHandlers from "./auto-anonymous-login";
 import * as recaptchaHandlers from "./recaptcha";
@@ -21,12 +21,18 @@ type Registry = {
   >;
   autoUpgradeAnonymousProvider: CallableBehavior<typeof anonymousUpgradeHandlers.autoUpgradeAnonymousProviderHandler>;
   autoUpgradeAnonymousUserRedirectHandler: RedirectBehavior<
-    typeof anonymousUpgradeHandlers.autoUpgradeAnonymousUserRedirectHandler
+    (
+      ui: FirebaseUIConfiguration,
+      credential: UserCredential | null,
+      onUpgrade?: anonymousUpgradeHandlers.OnUpgradeCallback
+    ) => ReturnType<typeof anonymousUpgradeHandlers.autoUpgradeAnonymousUserRedirectHandler>
   >;
   recaptchaVerification: CallableBehavior<(ui: FirebaseUIConfiguration, element: HTMLElement) => RecaptchaVerifier>;
   providerSignInStrategy: CallableBehavior<providerStrategyHandlers.ProviderSignInStrategyHandler>;
   providerLinkStrategy: CallableBehavior<providerStrategyHandlers.ProviderLinkStrategyHandler>;
-  oneTapSignIn: InitBehavior<(ui: FirebaseUIConfiguration) => ReturnType<typeof oneTapSignInHandlers.oneTapSignInHandler>>;
+  oneTapSignIn: InitBehavior<
+    (ui: FirebaseUIConfiguration) => ReturnType<typeof oneTapSignInHandlers.oneTapSignInHandler>
+  >;
 };
 
 export type Behavior<T extends keyof Registry = keyof Registry> = Pick<Registry, T>;
@@ -38,14 +44,25 @@ export function autoAnonymousLogin(): Behavior<"autoAnonymousLogin"> {
   };
 }
 
-export function autoUpgradeAnonymousUsers(): Behavior<
+export type AutoUpgradeAnonymousUsersOptions = {
+  onUpgrade?: anonymousUpgradeHandlers.OnUpgradeCallback;
+};
+
+export function autoUpgradeAnonymousUsers(
+  options?: AutoUpgradeAnonymousUsersOptions
+): Behavior<
   "autoUpgradeAnonymousCredential" | "autoUpgradeAnonymousProvider" | "autoUpgradeAnonymousUserRedirectHandler"
 > {
   return {
-    autoUpgradeAnonymousCredential: callableBehavior(anonymousUpgradeHandlers.autoUpgradeAnonymousCredentialHandler),
-    autoUpgradeAnonymousProvider: callableBehavior(anonymousUpgradeHandlers.autoUpgradeAnonymousProviderHandler),
+    autoUpgradeAnonymousCredential: callableBehavior((ui, credential) =>
+      anonymousUpgradeHandlers.autoUpgradeAnonymousCredentialHandler(ui, credential, options?.onUpgrade)
+    ),
+    autoUpgradeAnonymousProvider: callableBehavior((ui, provider) =>
+      anonymousUpgradeHandlers.autoUpgradeAnonymousProviderHandler(ui, provider, options?.onUpgrade)
+    ),
     autoUpgradeAnonymousUserRedirectHandler: redirectBehavior(
-      anonymousUpgradeHandlers.autoUpgradeAnonymousUserRedirectHandler
+      (ui, credential) =>
+        anonymousUpgradeHandlers.autoUpgradeAnonymousUserRedirectHandler(ui, credential, options?.onUpgrade)
     ),
   };
 }
