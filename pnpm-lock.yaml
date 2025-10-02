@@ -516,6 +516,9 @@ importers:
       nanostores:
         specifier: 'catalog:'
         version: 1.0.1
+      qrcode-generator:
+        specifier: ^2.0.4
+        version: 2.0.4
       zod:
         specifier: 'catalog:'
         version: 4.1.11
@@ -6616,6 +6619,9 @@ packages:
   qjobs@1.2.0:
     resolution: {integrity: sha512-8YOJEHtxpySA3fFDyCRxA+UUV+fA+rTWnuWvylOK/NCjhY+b4ocCtmu8TtsWb+mYeU+GCHf/S66KZF/AsteKHg==}
     engines: {node: '>=0.9'}
+
+  qrcode-generator@2.0.4:
+    resolution: {integrity: sha512-mZSiP6RnbHl4xL2Ap5HfkjLnmxfKcPWpWe/c+5XxCuetEenqmNFf1FH/ftXPCtFG5/TDobjsjz6sSNL0Sr8Z9g==}
 
   qs@6.13.0:
     resolution: {integrity: sha512-+38qI9SOr8tfZ4QmJNplMUxqjbe7LKvvZgWdExBOmd+egZTtjLB67Gu0HRX3u/XOq7UU2Nx6nsjvS16Z9uwfpg==}
@@ -15012,6 +15018,8 @@ snapshots:
 
   qjobs@1.2.0:
     optional: true
+
+  qrcode-generator@2.0.4: {}
 
   qs@6.13.0:
     dependencies:

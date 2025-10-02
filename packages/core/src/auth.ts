@@ -31,7 +31,9 @@ import {
   PhoneAuthProvider,
   UserCredential,
   AuthCredential,
+  TotpSecret,
 } from "firebase/auth";
+import QRCode from 'qrcode-generator';
 import { FirebaseUIConfiguration } from "./config";
 import { handleFirebaseError } from "./errors";
 import { hasBehavior, getBehavior } from "./behaviors/index";
@@ -270,4 +272,19 @@ export async function completeEmailLinkSignIn(
     ui.setState("idle");
     window.localStorage.removeItem("emailForSignIn");
   }
+}
+
+export function generateTotpQrCode(ui: FirebaseUIConfiguration, secret: TotpSecret, accountName?: string, issuer?: string): string {
+  const currentUser = ui.auth.currentUser;
+
+  if (!currentUser) {
+    throw new Error("User must be authenticated to generate a TOTP QR code");
+  }
+
+  const uri = secret.generateQrCodeUrl(accountName || currentUser.email || "", issuer);
+
+  const qr = QRCode(0, 'L');
+  qr.addData(uri);
+  qr.make();
+  return qr.createDataURL();
 }
