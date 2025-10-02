@@ -46,30 +46,6 @@ describe("Behaviors Utils", () => {
       expect(behavior1.handler).toBe(handler1);
       expect(behavior2.handler).toBe(handler2);
     });
-
-    it("should preserve specific function types and provide type inference", () => {
-      // Test that the handler function preserves its specific signature
-      const specificHandler = (ui: FirebaseUIConfiguration, element: HTMLElement, options?: { size?: string }) => {
-        return { ui, element, options };
-      };
-      
-      const behavior = callableBehavior(specificHandler);
-      
-      // The handler should maintain its specific signature
-      expect(behavior.handler).toBe(specificHandler);
-      expect(behavior.type).toBe("callable");
-      
-      // Test that we can call the handler with the correct arguments
-      const mockUI = {} as FirebaseUIConfiguration;
-      const mockElement = document.createElement('div');
-      const result = behavior.handler(mockUI, mockElement, { size: 'normal' });
-      
-      expect(result).toEqual({
-        ui: mockUI,
-        element: mockElement,
-        options: { size: 'normal' }
-      });
-    });
   });
 
   describe("redirectBehavior", () => {

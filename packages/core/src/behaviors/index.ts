@@ -3,6 +3,7 @@ import type { RecaptchaVerifier } from "firebase/auth";
 import * as anonymousUpgradeHandlers from "./anonymous-upgrade";
 import * as autoAnonymousLoginHandlers from "./auto-anonymous-login";
 import * as recaptchaHandlers from "./recaptcha";
+import * as oneTapSignInHandlers from "./one-tap";
 import {
   callableBehavior,
   initBehavior,
@@ -22,6 +23,7 @@ type Registry = {
     typeof anonymousUpgradeHandlers.autoUpgradeAnonymousUserRedirectHandler
   >;
   recaptchaVerification: CallableBehavior<(ui: FirebaseUIConfiguration, element: HTMLElement) => RecaptchaVerifier>;
+  oneTapSignIn: InitBehavior<(ui: FirebaseUIConfiguration) => ReturnType<typeof oneTapSignInHandlers.oneTapSignInHandler>>;
 };
 
 export type Behavior<T extends keyof Registry = keyof Registry> = Pick<Registry, T>;
@@ -52,6 +54,14 @@ export function recaptchaVerification(options?: RecaptchaVerificationOptions): B
     recaptchaVerification: callableBehavior((ui, element) =>
       recaptchaHandlers.recaptchaVerificationHandler(ui, element, options)
     ),
+  };
+}
+
+export type OneTapSignInOptions = oneTapSignInHandlers.OneTapSignInOptions;
+
+export function oneTapSignIn(options: OneTapSignInOptions): Behavior<"oneTapSignIn"> {
+  return {
+    oneTapSignIn: initBehavior((ui) => oneTapSignInHandlers.oneTapSignInHandler(ui, options)),
   };
 }
 

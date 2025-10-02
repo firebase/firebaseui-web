@@ -21,6 +21,7 @@ import {
   sendSignInLinkToEmail as _sendSignInLinkToEmail,
   signInAnonymously as _signInAnonymously,
   signInWithPhoneNumber as _signInWithPhoneNumber,
+  signInWithCredential as _signInWithCredential,
   ActionCodeSettings,
   ApplicationVerifier,
   AuthProvider,
@@ -28,9 +29,9 @@ import {
   EmailAuthProvider,
   linkWithCredential,
   PhoneAuthProvider,
-  signInWithCredential,
   signInWithRedirect,
   UserCredential,
+  AuthCredential,
 } from "firebase/auth";
 import { FirebaseUIConfiguration } from "./config";
 import { handleFirebaseError } from "./errors";
@@ -70,7 +71,7 @@ export async function signInWithEmailAndPassword(
     }
 
     ui.setState("pending");
-    const result = await signInWithCredential(ui.auth, credential);
+    const result = await _signInWithCredential(ui.auth, credential);
     return handlePendingCredential(ui, result);
   } catch (error) {
     handleFirebaseError(ui, error);
@@ -138,7 +139,7 @@ export async function confirmPhoneNumber(
     }
 
     ui.setState("pending");
-    const result = await signInWithCredential(ui.auth, credential);
+    const result = await _signInWithCredential(ui.auth, credential);
     return handlePendingCredential(ui, result);
   } catch (error) {
     handleFirebaseError(ui, error);
@@ -182,18 +183,27 @@ export async function signInWithEmailLink(
   email: string,
   link: string
 ): Promise<UserCredential> {
-  try {
-    const credential = EmailAuthProvider.credentialWithLink(email, link);
+  const credential = EmailAuthProvider.credentialWithLink(email, link);
+  return signInWithCredential(ui, credential);
+}
 
+export async function signInWithCredential(
+  ui: FirebaseUIConfiguration,
+  credential: AuthCredential
+): Promise<UserCredential> {
+  try {
     if (hasBehavior(ui, "autoUpgradeAnonymousCredential")) {
-      const result = await getBehavior(ui, "autoUpgradeAnonymousCredential")(ui, credential);
-      if (result) {
-        return handlePendingCredential(ui, result);
+      const userCredential = await getBehavior(ui, "autoUpgradeAnonymousCredential")(ui, credential);
+
+      // If they got here, they're either not anonymous or they've been linked.
+      // If the credential has been linked, we don't need to sign them in, so return early.
+      if (userCredential) {
+        return handlePendingCredential(ui, userCredential);
       }
     }
 
     ui.setState("pending");
-    const result = await signInWithCredential(ui.auth, credential);
+    const result = await _signInWithCredential(ui.auth, credential);
     return handlePendingCredential(ui, result);
   } catch (error) {
     handleFirebaseError(ui, error);
