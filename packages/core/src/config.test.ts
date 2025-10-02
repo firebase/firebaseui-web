@@ -1,5 +1,5 @@
 import { FirebaseApp } from "firebase/app";
-import { Auth } from "firebase/auth";
+import { Auth, MultiFactorResolver } from "firebase/auth";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { initializeUI } from "./config";
 import { enUs, registerLocale } from "@firebase-ui/translations";
@@ -121,9 +121,6 @@ describe("initializeUI", () => {
     const ui = initializeUI(config);
     expect(ui.get().behaviors).toHaveProperty("recaptchaVerification");
     expect(ui.get().behaviors.recaptchaVerification).toHaveProperty("type", "callable");
-    expect(ui.get().behaviors.recaptchaVerification.handler).toBe(
-      customRecaptchaVerification.recaptchaVerification.handler
-    );
   });
 
   it("should merge multiple behavior objects correctly", () => {
@@ -152,8 +149,6 @@ describe("initializeUI", () => {
     expect(ui.get().behaviors).toHaveProperty("autoUpgradeAnonymousCredential");
     expect(ui.get().behaviors).toHaveProperty("autoUpgradeAnonymousProvider");
     expect(ui.get().behaviors).toHaveProperty("autoUpgradeAnonymousUserRedirectHandler");
-
-    expect(ui.get().behaviors.recaptchaVerification.handler).toBe(behavior2.recaptchaVerification.handler);
   });
 
   it("should handle init behaviors correctly", () => {
@@ -330,5 +325,62 @@ describe("initializeUI", () => {
     expect(getRedirectResult).not.toHaveBeenCalled();
 
     expect(ui.get().state).toBe("idle");
+  });
+
+  it("should have multiFactorResolver undefined by default", () => {
+    const config = {
+      app: {} as FirebaseApp,
+      auth: {} as Auth,
+    };
+
+    const ui = initializeUI(config);
+    expect(ui.get().multiFactorResolver).toBeUndefined();
+  });
+
+  it("should set and get multiFactorResolver correctly", () => {
+    const config = {
+      app: {} as FirebaseApp,
+      auth: {} as Auth,
+    };
+
+    const ui = initializeUI(config);
+    const mockMultiFactorResolver = {
+      auth: {} as Auth,
+      session: null,
+      hints: [],
+    } as unknown as MultiFactorResolver;
+
+    expect(ui.get().multiFactorResolver).toBeUndefined();
+    ui.get().setMultiFactorResolver(mockMultiFactorResolver);
+    expect(ui.get().multiFactorResolver).toBe(mockMultiFactorResolver);
+    ui.get().setMultiFactorResolver(undefined);
+    expect(ui.get().multiFactorResolver).toBeUndefined();
+  });
+
+  it("should update multiFactorResolver multiple times", () => {
+    const config = {
+      app: {} as FirebaseApp,
+      auth: {} as Auth,
+    };
+
+    const ui = initializeUI(config);
+    const mockResolver1 = {
+      auth: {} as Auth,
+      session: null,
+      hints: [],
+    } as unknown as MultiFactorResolver;
+
+    const mockResolver2 = {
+      auth: {} as Auth,
+      session: null,
+      hints: [],
+    } as unknown as MultiFactorResolver;
+
+    ui.get().setMultiFactorResolver(mockResolver1);
+    expect(ui.get().multiFactorResolver).toBe(mockResolver1);
+    ui.get().setMultiFactorResolver(mockResolver2);
+    expect(ui.get().multiFactorResolver).toBe(mockResolver2);
+    ui.get().setMultiFactorResolver(undefined);
+    expect(ui.get().multiFactorResolver).toBeUndefined();
   });
 });

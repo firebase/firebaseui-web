@@ -16,7 +16,7 @@
 
 import { enUs, RegisteredLocale } from "@firebase-ui/translations";
 import type { FirebaseApp } from "firebase/app";
-import { Auth, getAuth, getRedirectResult } from "firebase/auth";
+import { Auth, getAuth, getRedirectResult, MultiFactorResolver } from "firebase/auth";
 import { deepMap, DeepMapStore, map } from "nanostores";
 import { Behavior, Behaviors, defaultBehaviors } from "./behaviors";
 import type { InitBehavior, RedirectBehavior } from "./behaviors/utils";
@@ -37,6 +37,8 @@ export type FirebaseUIConfiguration = {
   setState: (state: FirebaseUIState) => void;
   locale: RegisteredLocale;
   behaviors: Behaviors;
+  multiFactorResolver?: MultiFactorResolver;
+  setMultiFactorResolver: (multiFactorResolver?: MultiFactorResolver) => void;
 };
 
 export const $config = map<Record<string, DeepMapStore<FirebaseUIConfiguration>>>({});
@@ -70,6 +72,11 @@ export function initializeUI(config: FirebaseUIConfigurationOptions, name: strin
       // Since we've got config.behaviors?.reduce above, we need to default to defaultBehaviors
       // if no behaviors are provided, as they wont be in the reducer.
       behaviors: behaviors ?? (defaultBehaviors as Behavior),
+      multiFactorResolver: undefined,
+      setMultiFactorResolver: (resolver?: MultiFactorResolver) => {
+        const current = $config.get()[name]!;
+        current.setKey(`multiFactorResolver`, resolver);
+      },
     })
   );
 
