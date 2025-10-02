@@ -32,9 +32,9 @@ import {
   signInWithRedirect,
   UserCredential,
 } from "firebase/auth";
-import { getBehavior, hasBehavior } from "./behaviors";
 import { FirebaseUIConfiguration } from "./config";
 import { handleFirebaseError } from "./errors";
+import { hasBehavior, getBehavior } from "./behaviors/index";
 
 async function handlePendingCredential(ui: FirebaseUIConfiguration, user: UserCredential): Promise<UserCredential> {
   const pendingCredString = window.sessionStorage.getItem("pendingCred");

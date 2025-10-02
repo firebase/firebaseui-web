@@ -103,20 +103,29 @@ describe("CountryData", () => {
     });
 
     it("should handle case insensitive country codes", () => {
+      // @ts-expect-error - we want to test case insensitivity
       expect(getCountryByCode("us")).toBeDefined();
+      // @ts-expect-error - we want to test case insensitivity
       expect(getCountryByCode("Us")).toBeDefined();
+      // @ts-expect-error - we want to test case insensitivity
       expect(getCountryByCode("uS")).toBeDefined();
+
       expect(getCountryByCode("US")).toBeDefined();
-      
+      // @ts-expect-error - we want to test case insensitivity
       const result = getCountryByCode("us");
       expect(result?.code).toBe("US");
     });
 
     it("should return undefined for invalid country code", () => {
+      // @ts-expect-error - we want to test invalid country code
       expect(getCountryByCode("XX")).toBeUndefined();
+      // @ts-expect-error - we want to test invalid country code
       expect(getCountryByCode("INVALID")).toBeUndefined();
+      // @ts-expect-error - we want to test case insensitivity
       expect(getCountryByCode("")).toBeUndefined();
+      // @ts-expect-error - we want to test invalid country code
       expect(getCountryByCode("U")).toBeUndefined();
+      // @ts-expect-error - we want to test invalid country code
       expect(getCountryByCode("USA")).toBeUndefined();
     });
 
@@ -127,41 +136,41 @@ describe("CountryData", () => {
 
   describe("formatPhoneNumberWithCountry", () => {
     it("should format phone number with country dial code", () => {
-      expect(formatPhoneNumberWithCountry("1234567890", "+1")).toBe("+11234567890");
-      expect(formatPhoneNumberWithCountry("1234567890", "+44")).toBe("+441234567890");
-      expect(formatPhoneNumberWithCountry("1234567890", "+81")).toBe("+811234567890");
+      expect(formatPhoneNumberWithCountry("1234567890", "US")).toBe("+11234567890");
+      expect(formatPhoneNumberWithCountry("1234567890", "GB")).toBe("+441234567890");
+      expect(formatPhoneNumberWithCountry("1234567890", "JP")).toBe("+811234567890");
     });
 
     it("should handle phone numbers with spaces", () => {
-      expect(formatPhoneNumberWithCountry("123 456 7890", "+1")).toBe("+1123 456 7890");
-      expect(formatPhoneNumberWithCountry(" 1234567890 ", "+1")).toBe("+11234567890");
+      expect(formatPhoneNumberWithCountry("123 456 7890", "US")).toBe("+1123 456 7890");
+      expect(formatPhoneNumberWithCountry(" 1234567890 ", "US")).toBe("+11234567890");
     });
 
     it("should handle empty phone numbers", () => {
-      expect(formatPhoneNumberWithCountry("", "+1")).toBe("+1");
-      expect(formatPhoneNumberWithCountry("   ", "+1")).toBe("+1");
+      expect(formatPhoneNumberWithCountry("", "US")).toBe("+1");
+      expect(formatPhoneNumberWithCountry("   ", "US")).toBe("+1");
     });
 
     it("should handle phone numbers with dashes and parentheses", () => {
-      expect(formatPhoneNumberWithCountry("(123) 456-7890", "+1")).toBe("+1(123) 456-7890");
-      expect(formatPhoneNumberWithCountry("123-456-7890", "+1")).toBe("+1123-456-7890");
+      expect(formatPhoneNumberWithCountry("(123) 456-7890", "US")).toBe("+1(123) 456-7890");
+      expect(formatPhoneNumberWithCountry("123-456-7890", "US")).toBe("+1123-456-7890");
     });
 
     it("should handle international numbers with existing dial codes", () => {
-      expect(formatPhoneNumberWithCountry("+44 20 7946 0958", "+1")).toBe("+120 7946 0958");
-      expect(formatPhoneNumberWithCountry("+81 3 1234 5678", "+44")).toBe("+443 1234 5678");
+      expect(formatPhoneNumberWithCountry("+44 20 7946 0958", "US")).toBe("+120 7946 0958");
+      expect(formatPhoneNumberWithCountry("+81 3 1234 5678", "GB")).toBe("+443 1234 5678");
     });
 
     it("should handle edge cases", () => {
-      expect(formatPhoneNumberWithCountry("1234567890", "+1234")).toBe("+12341234567890");
-      expect(formatPhoneNumberWithCountry("1234567890", "+7")).toBe("+71234567890");
+      expect(formatPhoneNumberWithCountry("1234567890", "MC")).toBe("+3771234567890");
+      expect(formatPhoneNumberWithCountry("1234567890", "RU")).toBe("+71234567890");
     });
   });
 
   describe("Edge cases and error handling", () => {
     it("should handle very long phone numbers", () => {
       const longNumber = "12345678901234567890";
-      expect(formatPhoneNumberWithCountry(longNumber, "+1")).toBe("+112345678901234567890");
+      expect(formatPhoneNumberWithCountry(longNumber, "US")).toBe("+112345678901234567890");
     });
 
     it("should handle countries with multiple dial codes", () => {
