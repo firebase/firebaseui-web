@@ -3,6 +3,7 @@ import type { RecaptchaVerifier } from "firebase/auth";
 import * as anonymousUpgradeHandlers from "./anonymous-upgrade";
 import * as autoAnonymousLoginHandlers from "./auto-anonymous-login";
 import * as recaptchaHandlers from "./recaptcha";
+import * as providerStrategyHandlers from "./provider-strategy";
 import {
   callableBehavior,
   initBehavior,
@@ -22,6 +23,8 @@ type Registry = {
     typeof anonymousUpgradeHandlers.autoUpgradeAnonymousUserRedirectHandler
   >;
   recaptchaVerification: CallableBehavior<(ui: FirebaseUIConfiguration, element: HTMLElement) => RecaptchaVerifier>;
+  providerSignInStrategy: CallableBehavior<providerStrategyHandlers.ProviderSignInStrategyHandler>;
+  providerLinkStrategy: CallableBehavior<providerStrategyHandlers.ProviderLinkStrategyHandler>;
 };
 
 export type Behavior<T extends keyof Registry = keyof Registry> = Pick<Registry, T>;
@@ -55,6 +58,20 @@ export function recaptchaVerification(options?: RecaptchaVerificationOptions): B
   };
 }
 
+export function providerRedirectStrategy(): Behavior<"providerSignInStrategy" | "providerLinkStrategy"> {
+  return {
+    providerSignInStrategy: callableBehavior(providerStrategyHandlers.signInWithRediectHandler),
+    providerLinkStrategy: callableBehavior(providerStrategyHandlers.linkWithRedirectHandler),
+  };
+}
+
+export function providerPopupStrategy(): Behavior<"providerSignInStrategy" | "providerLinkStrategy"> {
+  return {
+    providerSignInStrategy: callableBehavior(providerStrategyHandlers.signInWithPopupHandler),
+    providerLinkStrategy: callableBehavior(providerStrategyHandlers.linkWithPopupHandler),
+  };
+}
+
 export function hasBehavior<T extends keyof Registry>(ui: FirebaseUIConfiguration, key: T): boolean {
   return !!ui.behaviors[key];
 }
@@ -69,4 +86,5 @@ export function getBehavior<T extends keyof Registry>(ui: FirebaseUIConfiguratio
 
 export const defaultBehaviors: Behavior<"recaptchaVerification"> = {
   ...recaptchaVerification(),
+  ...providerRedirectStrategy(),
 };

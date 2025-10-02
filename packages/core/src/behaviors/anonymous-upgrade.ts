@@ -1,11 +1,11 @@
 import { AuthCredential, AuthProvider, linkWithCredential, linkWithRedirect } from "firebase/auth";
 import { FirebaseUIConfiguration } from "~/config";
 import { RedirectHandler } from "./utils";
+import { getBehavior } from "~/behaviors";
 
 export const autoUpgradeAnonymousCredentialHandler = async (ui: FirebaseUIConfiguration, credential: AuthCredential) => {
   const currentUser = ui.auth.currentUser;
 
-  // Check if the user is anonymous. If not, we can't upgrade them.
   if (!currentUser?.isAnonymous) {
     return;
   }
@@ -24,11 +24,7 @@ export const autoUpgradeAnonymousProviderHandler = async (ui: FirebaseUIConfigur
     return;
   }
 
-  ui.setState("pending");
-  // TODO... this should use redirect OR popup
-  await linkWithRedirect(currentUser, provider);
-  // We don't modify state here since the user is redirected.
-  // If we support popups, we'd need to modify state here.
+  return getBehavior(ui, "providerLinkStrategy")(ui, currentUser, provider);
 };
 
 export const autoUpgradeAnonymousUserRedirectHandler: RedirectHandler = async () => {
