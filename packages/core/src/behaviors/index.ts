@@ -4,6 +4,7 @@ import * as anonymousUpgradeHandlers from "./anonymous-upgrade";
 import * as autoAnonymousLoginHandlers from "./auto-anonymous-login";
 import * as recaptchaHandlers from "./recaptcha";
 import * as providerStrategyHandlers from "./provider-strategy";
+import * as oneTapSignInHandlers from "./one-tap";
 import {
   callableBehavior,
   initBehavior,
@@ -25,6 +26,7 @@ type Registry = {
   recaptchaVerification: CallableBehavior<(ui: FirebaseUIConfiguration, element: HTMLElement) => RecaptchaVerifier>;
   providerSignInStrategy: CallableBehavior<providerStrategyHandlers.ProviderSignInStrategyHandler>;
   providerLinkStrategy: CallableBehavior<providerStrategyHandlers.ProviderLinkStrategyHandler>;
+  oneTapSignIn: InitBehavior<(ui: FirebaseUIConfiguration) => ReturnType<typeof oneTapSignInHandlers.oneTapSignInHandler>>;
 };
 
 export type Behavior<T extends keyof Registry = keyof Registry> = Pick<Registry, T>;
@@ -69,6 +71,14 @@ export function providerPopupStrategy(): Behavior<"providerSignInStrategy" | "pr
   return {
     providerSignInStrategy: callableBehavior(providerStrategyHandlers.signInWithPopupHandler),
     providerLinkStrategy: callableBehavior(providerStrategyHandlers.linkWithPopupHandler),
+  };
+}
+
+export type OneTapSignInOptions = oneTapSignInHandlers.OneTapSignInOptions;
+
+export function oneTapSignIn(options: OneTapSignInOptions): Behavior<"oneTapSignIn"> {
+  return {
+    oneTapSignIn: initBehavior((ui) => oneTapSignInHandlers.oneTapSignInHandler(ui, options)),
   };
 }
 
