@@ -9,6 +9,13 @@ import {
   defaultBehaviors,
 } from "./index";
 
+// Mock the anonymous-upgrade handlers
+vi.mock("./anonymous-upgrade", () => ({
+  autoUpgradeAnonymousCredentialHandler: vi.fn(),
+  autoUpgradeAnonymousProviderHandler: vi.fn(),
+  autoUpgradeAnonymousUserRedirectHandler: vi.fn(),
+}));
+
 vi.mock("firebase/auth", () => ({
   RecaptchaVerifier: vi.fn(),
 }));
@@ -123,6 +130,43 @@ describe("autoUpgradeAnonymousUsers", () => {
     expect(typeof behavior.autoUpgradeAnonymousCredential.handler).toBe("function");
     expect(typeof behavior.autoUpgradeAnonymousProvider.handler).toBe("function");
     expect(typeof behavior.autoUpgradeAnonymousUserRedirectHandler.handler).toBe("function");
+  });
+
+  it("should work with onUpgrade callback option", () => {
+    const mockOnUpgrade = vi.fn();
+    const behavior = autoUpgradeAnonymousUsers({ onUpgrade: mockOnUpgrade });
+
+    expect(behavior).toHaveProperty("autoUpgradeAnonymousCredential");
+    expect(behavior).toHaveProperty("autoUpgradeAnonymousProvider");
+    expect(behavior).toHaveProperty("autoUpgradeAnonymousUserRedirectHandler");
+
+    expect(typeof behavior.autoUpgradeAnonymousCredential.handler).toBe("function");
+    expect(typeof behavior.autoUpgradeAnonymousProvider.handler).toBe("function");
+    expect(typeof behavior.autoUpgradeAnonymousUserRedirectHandler.handler).toBe("function");
+  });
+
+  it("should pass onUpgrade callback to handlers when called", async () => {
+    const mockOnUpgrade = vi.fn();
+    const behavior = autoUpgradeAnonymousUsers({ onUpgrade: mockOnUpgrade });
+    
+    const mockUI = createMockUI();
+    const mockCredential = { providerId: "password" } as any;
+    const mockProvider = { providerId: "google.com" } as any;
+    const mockUserCredential = { user: { uid: "upgraded-123" } } as any;
+
+    const { 
+      autoUpgradeAnonymousCredentialHandler,
+      autoUpgradeAnonymousProviderHandler,
+      autoUpgradeAnonymousUserRedirectHandler 
+    } = await import("./anonymous-upgrade");
+
+    await behavior.autoUpgradeAnonymousCredential.handler(mockUI, mockCredential);
+    await behavior.autoUpgradeAnonymousProvider.handler(mockUI, mockProvider);
+    await behavior.autoUpgradeAnonymousUserRedirectHandler.handler(mockUI, mockUserCredential);
+
+    expect(autoUpgradeAnonymousCredentialHandler).toHaveBeenCalledWith(mockUI, mockCredential, mockOnUpgrade);
+    expect(autoUpgradeAnonymousProviderHandler).toHaveBeenCalledWith(mockUI, mockProvider, mockOnUpgrade);
+    expect(autoUpgradeAnonymousUserRedirectHandler).toHaveBeenCalledWith(mockUI, mockUserCredential, mockOnUpgrade);
   });
 
   it("should not include other behaviors", () => {
