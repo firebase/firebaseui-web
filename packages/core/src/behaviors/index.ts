@@ -25,6 +25,7 @@ type Registry = {
 };
 
 export type Behavior<T extends keyof Registry = keyof Registry> = Pick<Registry, T>;
+export type Behaviors = Partial<Registry>;
 
 export function autoAnonymousLogin(): Behavior<"autoAnonymousLogin"> {
   return {

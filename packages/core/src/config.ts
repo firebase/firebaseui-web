@@ -18,7 +18,7 @@ import { enUs, RegisteredLocale } from "@firebase-ui/translations";
 import type { FirebaseApp } from "firebase/app";
 import { Auth, getAuth, getRedirectResult } from "firebase/auth";
 import { deepMap, DeepMapStore, map } from "nanostores";
-import { Behavior, defaultBehaviors } from "./behaviors";
+import { Behavior, Behaviors, defaultBehaviors } from "./behaviors";
 import type { InitBehavior, RedirectBehavior } from "./behaviors/utils";
 import { FirebaseUIState } from "./state";
 
@@ -36,7 +36,7 @@ export type FirebaseUIConfiguration = {
   state: FirebaseUIState;
   setState: (state: FirebaseUIState) => void;
   locale: RegisteredLocale;
-  behaviors: Behavior;
+  behaviors: Behaviors;
 };
 
 export const $config = map<Record<string, DeepMapStore<FirebaseUIConfiguration>>>({});
