@@ -7,7 +7,8 @@
       "~/*": ["./src/*"],
       "~/tests/*": ["./tests/*"],
       "@firebase-ui/core": ["../core/src/index.ts"],
-      "@firebase-ui/styles": ["../styles/src/index.ts"]
+      "@firebase-ui/styles": ["../styles/src/index.ts"],
+      "@firebase-ui/translations": ["../translations/src/index.ts"]
     }
   },
   "include": ["src", "eslint.config.js", "vite.config.ts", "setup-test.ts"]

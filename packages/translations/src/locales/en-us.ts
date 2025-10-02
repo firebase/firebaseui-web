@@ -57,6 +57,7 @@ export const enUS = {
   labels: {
     emailAddress: "Email Address",
     password: "Password",
+    displayName: "Display Name",
     forgotPassword: "Forgot Password?",
     register: "Register",
     signIn: "Sign In",

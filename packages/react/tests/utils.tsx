@@ -9,7 +9,7 @@ export function createMockUI(overrides?: Partial<FirebaseUIConfigurationOptions>
     app: {} as FirebaseApp,
     auth: {} as Auth,
     locale: enUs,
-    behaviors: [] as Partial<Behavior<keyof BehaviorHandlers>>[],
+    behaviors: [],
     ...overrides,
   });
 }

@@ -16,12 +16,18 @@
 
 "use client";
 
-import { FirebaseUIError, getTranslation, createUserWithEmailAndPassword } from "@firebase-ui/core";
+import { FirebaseUIError, getTranslation, createUserWithEmailAndPassword, hasBehavior } from "@firebase-ui/core";
 import type { UserCredential } from "firebase/auth";
 import { useSignUpAuthFormSchema, useUI } from "~/hooks";
 import { form } from "~/components/form";
 import { Policies } from "~/components/policies";
 import { useCallback } from "react";
+import { z } from "zod";
+
+export function useRequireDisplayName() {
+  const ui = useUI();
+  return hasBehavior(ui, "requireDisplayName");
+}
 
 export type SignUpAuthFormProps = {
   onSignUp?: (credential: UserCredential) => void;
@@ -32,9 +38,9 @@ export function useSignUpAuthFormAction() {
   const ui = useUI();
 
   return useCallback(
-    async ({ email, password }: { email: string; password: string }) => {
+    async ({ email, password, displayName }: { email: string; password: string; displayName?: string }) => {
       try {
-        return await createUserWithEmailAndPassword(ui, email, password);
+        return await createUserWithEmailAndPassword(ui, email, password, displayName);
       } catch (error) {
         if (error instanceof FirebaseUIError) {
           throw new Error(error.message);
@@ -49,14 +55,17 @@ export function useSignUpAuthFormAction() {
 }
 
 export function useSignUpAuthForm(onSuccess?: SignUpAuthFormProps["onSignUp"]) {
+  const ui = useUI();
   const schema = useSignUpAuthFormSchema();
   const action = useSignUpAuthFormAction();
+  const requireDisplayName = useRequireDisplayName();
 
   return form.useAppForm({
     defaultValues: {
       email: "",
       password: "",
-    },
+      displayName: requireDisplayName ? "" : undefined,
+    } as z.infer<typeof schema>,
     validators: {
       onBlur: schema,
       onSubmit: schema,
@@ -75,6 +84,7 @@ export function useSignUpAuthForm(onSuccess?: SignUpAuthFormProps["onSignUp"]) {
 export function SignUpAuthForm({ onBackToSignInClick, onSignUp }: SignUpAuthFormProps) {
   const ui = useUI();
   const form = useSignUpAuthForm(onSignUp);
+  const requireDisplayName = useRequireDisplayName();
 
   return (
     <form
@@ -87,16 +97,19 @@ export function SignUpAuthForm({ onBackToSignInClick, onSignUp }: SignUpAuthForm
     >
       <form.AppForm>
         <fieldset>
-          <form.AppField name="email" children={(field) => <field.Input label="Email" type="email" />} />
+          <form.AppField name="email" children={(field) => <field.Input label={getTranslation(ui, "labels", "emailAddress")} type="email" />} />
         </fieldset>
         <fieldset>
-          <form.AppField name="password" children={(field) => <field.Input label="Password" type="password" />} />
+          <form.AppField name="password" children={(field) => <field.Input label={getTranslation(ui, "labels", "password")} type="password" />} />
         </fieldset>
+        {requireDisplayName ? (
+          <fieldset>
+            <form.AppField name="displayName" children={(field) => <field.Input label={getTranslation(ui, "labels", "displayName")} />} />
+          </fieldset>
+        ) : null}
         <Policies />
         <fieldset>
-          <form.SubmitButton>
-            {getTranslation(ui, "labels", "createAccount")}
-          </form.SubmitButton>
+          <form.SubmitButton>{getTranslation(ui, "labels", "createAccount")}</form.SubmitButton>
           <form.ErrorMessage />
         </fieldset>
         {onBackToSignInClick ? (

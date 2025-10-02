@@ -16,7 +16,7 @@
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, renderHook, cleanup } from "@testing-library/react";
-import { SignUpAuthForm, useSignUpAuthForm, useSignUpAuthFormAction } from "./sign-up-auth-form";
+import { SignUpAuthForm, useSignUpAuthForm, useSignUpAuthFormAction, useRequireDisplayName } from "./sign-up-auth-form";
 import { act } from "react";
 import { createUserWithEmailAndPassword } from "@firebase-ui/core";
 import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
@@ -60,7 +60,7 @@ describe("useSignUpAuthFormAction", () => {
       await result.current({ email: "test@example.com", password: "password123" });
     });
 
-    expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(expect.any(Object), "test@example.com", "password123");
+    expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(expect.any(Object), "test@example.com", "password123", undefined);
   });
 
   it("should return a credential on success", async () => {
@@ -79,7 +79,7 @@ describe("useSignUpAuthFormAction", () => {
       expect(credential).toBe(mockCredential);
     });
 
-    expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(expect.any(Object), "test@example.com", "password123");
+    expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(expect.any(Object), "test@example.com", "password123", undefined);
   });
 
   it("should throw an unknown error when its not a FirebaseUIError", async () => {
@@ -105,7 +105,23 @@ describe("useSignUpAuthFormAction", () => {
       });
     }).rejects.toThrow("unknownError");
 
-    expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(mockUI.get(), "test@example.com", "password123");
+    expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(mockUI.get(), "test@example.com", "password123", undefined);
+  });
+
+  it("should return a callback which accepts email, password, and displayName", async () => {
+    const mockCredential = { credential: true } as unknown as UserCredential;
+    const createUserWithEmailAndPasswordMock = vi.mocked(createUserWithEmailAndPassword).mockResolvedValue(mockCredential);
+    const mockUI = createMockUI();
+
+    const { result } = renderHook(() => useSignUpAuthFormAction(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    await act(async () => {
+      await result.current({ email: "test@example.com", password: "password123", displayName: "John Doe" });
+    });
+
+    expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(expect.any(Object), "test@example.com", "password123", "John Doe");
   });
 });
 
@@ -119,8 +135,9 @@ describe("useSignUpAuthForm", () => {
   });
 
   it("should allow the form to be submitted", async () => {
+    const mockCredential = { credential: true } as unknown as UserCredential;
     const mockUI = createMockUI();
-    const createUserWithEmailAndPasswordMock = vi.mocked(createUserWithEmailAndPassword);
+    const createUserWithEmailAndPasswordMock = vi.mocked(createUserWithEmailAndPassword).mockResolvedValue(mockCredential);
 
     const { result } = renderHook(() => useSignUpAuthForm(), {
       wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
@@ -129,13 +146,14 @@ describe("useSignUpAuthForm", () => {
     act(() => {
       result.current.setFieldValue("email", "test@example.com");
       result.current.setFieldValue("password", "password123");
+      // Don't set displayName - let it be undefined (optional)
     });
 
     await act(async () => {
       await result.current.handleSubmit();
     });
 
-    expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(mockUI.get(), "test@example.com", "password123");
+    expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(mockUI.get(), "test@example.com", "password123", undefined);
   });
 
   it("should not allow the form to be submitted if the form is invalid", async () => {
@@ -157,6 +175,27 @@ describe("useSignUpAuthForm", () => {
     expect(result.current.getFieldMeta("email")!.errors[0].length).toBeGreaterThan(0);
     expect(createUserWithEmailAndPasswordMock).not.toHaveBeenCalled();
   });
+
+  it("should allow the form to be submitted with displayName", async () => {
+    const mockUI = createMockUI();
+    const createUserWithEmailAndPasswordMock = vi.mocked(createUserWithEmailAndPassword);
+
+    const { result } = renderHook(() => useSignUpAuthForm(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    act(() => {
+      result.current.setFieldValue("email", "test@example.com");
+      result.current.setFieldValue("password", "password123");
+      result.current.setFieldValue("displayName", "John Doe");
+    });
+
+    await act(async () => {
+      await result.current.handleSubmit();
+    });
+
+    expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(mockUI.get(), "test@example.com", "password123", "John Doe");
+  });
 });
 
 describe("<SignUpAuthForm />", () => {
@@ -164,11 +203,17 @@ describe("<SignUpAuthForm />", () => {
     vi.clearAllMocks();
   });
 
+  afterEach(() => {
+    cleanup();
+  });
+
   it("should render the form correctly", () => {
     const mockUI = createMockUI({
       locale: registerLocale("test", {
         labels: {
           createAccount: "createAccount",
+          emailAddress: "emailAddress",
+          password: "password",
         },
       }),
     });
@@ -183,9 +228,9 @@ describe("<SignUpAuthForm />", () => {
     const form = container.querySelectorAll("form.fui-form");
     expect(form.length).toBe(1);
 
-    // Make sure we have an email and password input
-    expect(screen.getByRole("textbox", { name: /email/i })).toBeInTheDocument();
-    expect(screen.getByRole("textbox", { name: /password/i })).toBeInTheDocument();
+    // Make sure we have an email and password input with translated labels
+    expect(screen.getByRole("textbox", { name: /emailAddress/ })).toBeInTheDocument();
+    expect(screen.getByRole("textbox", { name: /password/ })).toBeInTheDocument();
 
     // Ensure the "Create Account" button is present and is a submit button
     const createAccountButton = screen.getByRole("button", { name: "createAccount" });
@@ -245,5 +290,185 @@ describe("<SignUpAuthForm />", () => {
     });
 
     expect(screen.getByText("Please enter a valid email address")).toBeInTheDocument();
+  });
+
+  it("should render displayName field when requireDisplayName behavior is enabled", () => {
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          createAccount: "createAccount",
+          emailAddress: "emailAddress",
+          password: "password",
+          displayName: "displayName",
+        },
+      }),
+      behaviors: [
+        {
+          requireDisplayName: { type: "callable" as const, handler: vi.fn() },
+        }
+      ],
+    });
+
+    const { container } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <SignUpAuthForm />
+      </FirebaseUIProvider>
+    );
+
+    // There should be only one form
+    const form = container.querySelectorAll("form.fui-form");
+    expect(form.length).toBe(1);
+
+    // Make sure we have all three inputs with translated labels
+    expect(screen.getByRole("textbox", { name: /emailAddress/ })).toBeInTheDocument();
+    expect(screen.getByRole("textbox", { name: /password/ })).toBeInTheDocument();
+    expect(screen.getByRole("textbox", { name: /displayName/ })).toBeInTheDocument();
+
+    // Ensure the "Create Account" button is present and is a submit button
+    const createAccountButton = screen.getByRole("button", { name: "createAccount" });
+    expect(createAccountButton).toBeInTheDocument();
+    expect(createAccountButton).toHaveAttribute("type", "submit");
+  });
+
+  it("should not render displayName field when requireDisplayName behavior is not enabled", () => {
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          createAccount: "createAccount",
+          emailAddress: "emailAddress",
+          password: "password",
+          displayName: "displayName",
+        },
+      }),
+      behaviors: [], // Explicitly set empty behaviors array
+    });
+
+    const { container } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <SignUpAuthForm />
+      </FirebaseUIProvider>
+    );
+
+    // There should be only one form
+    const form = container.querySelectorAll("form.fui-form");
+    expect(form.length).toBe(1);
+
+    // Make sure we have email and password inputs but not displayName
+    expect(screen.getByRole("textbox", { name: /emailAddress/ })).toBeInTheDocument();
+    expect(screen.getByRole("textbox", { name: /password/ })).toBeInTheDocument();
+    expect(screen.queryByRole("textbox", { name: /displayName/ })).not.toBeInTheDocument();
+
+    // Ensure the "Create Account" button is present and is a submit button
+    const createAccountButton = screen.getByRole("button", { name: "createAccount" });
+    expect(createAccountButton).toBeInTheDocument();
+    expect(createAccountButton).toHaveAttribute("type", "submit");
+  });
+
+  it('should trigger displayName validation errors when the form is blurred and requireDisplayName is enabled', () => {
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        errors: {
+          displayNameRequired: "Please provide a display name",
+        },
+        labels: {
+          displayName: "displayName",
+        },
+      }),
+      behaviors: [
+        {
+          requireDisplayName: { type: "callable" as const, handler: vi.fn() },
+        }
+      ],
+    });
+
+    const { container } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <SignUpAuthForm />
+      </FirebaseUIProvider>
+    );
+
+    const form = container.querySelector("form.fui-form");
+    expect(form).toBeInTheDocument();
+
+    const displayNameInput = screen.getByRole("textbox", { name: /displayName/ });
+
+    act(() => {
+      fireEvent.blur(displayNameInput);
+    });
+
+    expect(screen.getByText("Please provide a display name")).toBeInTheDocument();
+  });
+
+  it('should not trigger displayName validation when requireDisplayName is not enabled', () => {
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        errors: {
+          displayNameRequired: "Please provide a display name",
+        },
+        labels: {
+          displayName: "displayName",
+        },
+      }),
+    });
+
+    const { container } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <SignUpAuthForm />
+      </FirebaseUIProvider>
+    );
+
+    const form = container.querySelector("form.fui-form");
+    expect(form).toBeInTheDocument();
+
+    // Display name field should not be present
+    expect(screen.queryByRole("textbox", { name: "displayName" })).not.toBeInTheDocument();
+  });
+});
+
+describe("useRequireDisplayName", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    cleanup();
+  });
+
+  it("should return true when requireDisplayName behavior is enabled", () => {
+    const mockUI = createMockUI({
+      behaviors: [
+        {
+          requireDisplayName: { type: "callable" as const, handler: vi.fn() },
+        }
+      ],
+    });
+
+    const { result } = renderHook(() => useRequireDisplayName(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    expect(result.current).toBe(true);
+  });
+
+  it("should return false when requireDisplayName behavior is not enabled", () => {
+    const mockUI = createMockUI({
+      behaviors: [],
+    });
+
+    const { result } = renderHook(() => useRequireDisplayName(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    expect(result.current).toBe(false);
+  });
+
+  it("should return false when behaviors array is empty", () => {
+    const mockUI = createMockUI();
+
+    const { result } = renderHook(() => useRequireDisplayName(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    expect(result.current).toBe(false);
   });
 });
