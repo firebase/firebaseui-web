@@ -33,8 +33,10 @@ import {
   AuthCredential,
 } from "firebase/auth";
 import { FirebaseUIConfiguration } from "./config";
-import { handleFirebaseError } from "./errors";
+import { FirebaseUIError, handleFirebaseError } from "./errors";
 import { hasBehavior, getBehavior } from "./behaviors/index";
+import { FirebaseError } from "firebase/app";
+import { getTranslation } from "./translations";
 
 async function handlePendingCredential(ui: FirebaseUIConfiguration, user: UserCredential): Promise<UserCredential> {
   const pendingCredString = window.sessionStorage.getItem("pendingCred");
@@ -63,7 +65,7 @@ export async function signInWithEmailAndPassword(
 
     if (hasBehavior(ui, "autoUpgradeAnonymousCredential")) {
       const result = await getBehavior(ui, "autoUpgradeAnonymousCredential")(ui, credential);
-      
+
       if (result) {
         return handlePendingCredential(ui, result);
       }
@@ -82,21 +84,35 @@ export async function signInWithEmailAndPassword(
 export async function createUserWithEmailAndPassword(
   ui: FirebaseUIConfiguration,
   email: string,
-  password: string
+  password: string,
+  displayName?: string
 ): Promise<UserCredential> {
   try {
     const credential = EmailAuthProvider.credential(email, password);
+
+    if (hasBehavior(ui, "requireDisplayName") && !displayName) {
+      throw new FirebaseError("auth/display-name-required", getTranslation(ui, "errors", "displayNameRequired"));
+    }
 
     if (hasBehavior(ui, "autoUpgradeAnonymousCredential")) {
       const result = await getBehavior(ui, "autoUpgradeAnonymousCredential")(ui, credential);
 
       if (result) {
+        if (hasBehavior(ui, "requireDisplayName")) {
+          await getBehavior(ui, "requireDisplayName")(ui, result.user, displayName!);
+        }
+
         return handlePendingCredential(ui, result);
       }
     }
 
     ui.setState("pending");
     const result = await _createUserWithEmailAndPassword(ui.auth, email, password);
+
+    if (hasBehavior(ui, "requireDisplayName")) {
+      await getBehavior(ui, "requireDisplayName")(ui, result.user, displayName!);
+    }
+
     return handlePendingCredential(ui, result);
   } catch (error) {
     handleFirebaseError(ui, error);
@@ -223,7 +239,10 @@ export async function signInAnonymously(ui: FirebaseUIConfiguration): Promise<Us
   }
 }
 
-export async function signInWithProvider(ui: FirebaseUIConfiguration, provider: AuthProvider): Promise<UserCredential | never> {
+export async function signInWithProvider(
+  ui: FirebaseUIConfiguration,
+  provider: AuthProvider
+): Promise<UserCredential | never> {
   try {
     if (hasBehavior(ui, "autoUpgradeAnonymousProvider")) {
       const credential = await getBehavior(ui, "autoUpgradeAnonymousProvider")(ui, provider);

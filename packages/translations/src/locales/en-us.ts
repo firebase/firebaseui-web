@@ -44,6 +44,7 @@ export const enUS = {
     popupClosed: "The sign-in popup was closed. Please try again.",
     accountExistsWithDifferentCredential:
       "An account already exists with this email. Please sign in with the original provider.",
+    displayNameRequired: "Please provide a display name",
   },
   messages: {
     passwordResetEmailSent: "Password reset email sent successfully",

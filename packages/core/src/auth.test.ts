@@ -193,7 +193,11 @@ describe("createUserWithEmailAndPassword", () => {
     const password = "password123";
 
     const credential = EmailAuthProvider.credential(email, password);
-    vi.mocked(hasBehavior).mockReturnValue(true);
+    vi.mocked(hasBehavior).mockImplementation((ui, behavior) => {
+      if (behavior === "autoUpgradeAnonymousCredential") return true;
+      if (behavior === "requireDisplayName") return false;
+      return false;
+    });
     const mockBehavior = vi.fn().mockResolvedValue({ providerId: "password" } as UserCredential);
     vi.mocked(getBehavior).mockReturnValue(mockBehavior);
 
@@ -215,7 +219,11 @@ describe("createUserWithEmailAndPassword", () => {
     const password = "password123";
 
     const credential = EmailAuthProvider.credential(email, password);
-    vi.mocked(hasBehavior).mockReturnValue(true);
+    vi.mocked(hasBehavior).mockImplementation((ui, behavior) => {
+      if (behavior === "autoUpgradeAnonymousCredential") return true;
+      if (behavior === "requireDisplayName") return false;
+      return false;
+    });
     const mockBehavior = vi.fn().mockResolvedValue(undefined);
     vi.mocked(getBehavior).mockReturnValue(mockBehavior);
 
@@ -248,6 +256,123 @@ describe("createUserWithEmailAndPassword", () => {
 
     expect(handleFirebaseError).toHaveBeenCalledWith(mockUI, error);
     expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
+  });
+
+  it("should call handleFirebaseError when requireDisplayName behavior is enabled but no displayName provided", async () => {
+    const mockUI = createMockUI();
+    const email = "test@example.com";
+    const password = "password123";
+
+    vi.mocked(hasBehavior).mockImplementation((_, behavior) => {
+      if (behavior === "requireDisplayName") return true;
+      if (behavior === "autoUpgradeAnonymousCredential") return false;
+      return false;
+    });
+
+    await createUserWithEmailAndPassword(mockUI, email, password);
+
+    expect(hasBehavior).toHaveBeenCalledWith(mockUI, "requireDisplayName");
+    expect(_createUserWithEmailAndPassword).not.toHaveBeenCalled();
+    expect(handleFirebaseError).toHaveBeenCalled();
+  });
+
+  it("should call requireDisplayName behavior when enabled and displayName provided", async () => {
+    const mockUI = createMockUI();
+    const email = "test@example.com";
+    const password = "password123";
+    const displayName = "John Doe";
+
+    const mockRequireDisplayNameBehavior = vi.fn().mockResolvedValue(undefined);
+    const mockResult = { providerId: "password", user: { uid: "user123" } } as UserCredential;
+
+    vi.mocked(hasBehavior).mockImplementation((_, behavior) => {
+      if (behavior === "requireDisplayName") return true;
+      if (behavior === "autoUpgradeAnonymousCredential") return false;
+      return false;
+    });
+    vi.mocked(getBehavior).mockReturnValue(mockRequireDisplayNameBehavior);
+    vi.mocked(_createUserWithEmailAndPassword).mockResolvedValue(mockResult);
+
+    const result = await createUserWithEmailAndPassword(mockUI, email, password, displayName);
+
+    expect(hasBehavior).toHaveBeenCalledWith(mockUI, "requireDisplayName");
+    expect(getBehavior).toHaveBeenCalledWith(mockUI, "requireDisplayName");
+    expect(mockRequireDisplayNameBehavior).toHaveBeenCalledWith(mockUI, mockResult.user, displayName);
+    expect(result).toBe(mockResult);
+  });
+
+  it("should call requireDisplayName behavior after autoUpgradeAnonymousCredential when both enabled", async () => {
+    const mockUI = createMockUI();
+    const email = "test@example.com";
+    const password = "password123";
+    const displayName = "John Doe";
+
+    const mockAutoUpgradeBehavior = vi.fn().mockResolvedValue({ providerId: "upgraded", user: { uid: "upgraded-user" } } as UserCredential);
+    const mockRequireDisplayNameBehavior = vi.fn().mockResolvedValue(undefined);
+    const credential = EmailAuthProvider.credential(email, password);
+
+    vi.mocked(hasBehavior).mockImplementation((_, behavior) => {
+      if (behavior === "requireDisplayName") return true;
+      if (behavior === "autoUpgradeAnonymousCredential") return true;
+      return false;
+    });
+
+    vi.mocked(getBehavior).mockImplementation((_, behavior) => {
+      if (behavior === "autoUpgradeAnonymousCredential") return mockAutoUpgradeBehavior;
+      if (behavior === "requireDisplayName") return mockRequireDisplayNameBehavior;
+      return vi.fn();
+    });
+
+    vi.mocked(EmailAuthProvider.credential).mockReturnValue(credential);
+
+    const result = await createUserWithEmailAndPassword(mockUI, email, password, displayName);
+
+    expect(hasBehavior).toHaveBeenCalledWith(mockUI, "requireDisplayName");
+    expect(hasBehavior).toHaveBeenCalledWith(mockUI, "autoUpgradeAnonymousCredential");
+    expect(mockAutoUpgradeBehavior).toHaveBeenCalledWith(mockUI, credential);
+    expect(mockRequireDisplayNameBehavior).toHaveBeenCalledWith(mockUI, { uid: "upgraded-user" }, displayName);
+    expect(result).toEqual({ providerId: "upgraded", user: { uid: "upgraded-user" } });
+  });
+
+  it("should not call requireDisplayName behavior when not enabled", async () => {
+    const mockUI = createMockUI();
+    const email = "test@example.com";
+    const password = "password123";
+    const displayName = "John Doe";
+
+    const mockResult = { providerId: "password", user: { uid: "user123" } } as UserCredential;
+
+    vi.mocked(hasBehavior).mockReturnValue(false);
+    vi.mocked(_createUserWithEmailAndPassword).mockResolvedValue(mockResult);
+
+    const result = await createUserWithEmailAndPassword(mockUI, email, password, displayName);
+
+    expect(hasBehavior).toHaveBeenCalledWith(mockUI, "requireDisplayName");
+    expect(getBehavior).not.toHaveBeenCalledWith(mockUI, "requireDisplayName");
+    expect(result).toBe(mockResult);
+  });
+
+  it("should handle requireDisplayName behavior errors", async () => {
+    const mockUI = createMockUI();
+    const email = "test@example.com";
+    const password = "password123";
+    const displayName = "John Doe";
+
+    const mockRequireDisplayNameBehavior = vi.fn().mockRejectedValue(new Error("Display name update failed"));
+    const mockResult = { providerId: "password", user: { uid: "user123" } } as UserCredential;
+
+    vi.mocked(hasBehavior).mockImplementation((_, behavior) => {
+      if (behavior === "requireDisplayName") return true;
+      if (behavior === "autoUpgradeAnonymousCredential") return false;
+      return false;
+    });
+    vi.mocked(getBehavior).mockReturnValue(mockRequireDisplayNameBehavior);
+    vi.mocked(_createUserWithEmailAndPassword).mockResolvedValue(mockResult);
+
+    await createUserWithEmailAndPassword(mockUI, email, password, displayName);
+
+    expect(mockRequireDisplayNameBehavior).toHaveBeenCalledWith(mockUI, mockResult.user, displayName);
+    expect(handleFirebaseError).toHaveBeenCalled();
   });
 });
 

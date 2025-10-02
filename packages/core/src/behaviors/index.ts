@@ -5,6 +5,7 @@ import * as autoAnonymousLoginHandlers from "./auto-anonymous-login";
 import * as recaptchaHandlers from "./recaptcha";
 import * as providerStrategyHandlers from "./provider-strategy";
 import * as oneTapSignInHandlers from "./one-tap";
+import * as requireDisplayNameHandlers from "./require-display-name";
 import {
   callableBehavior,
   initBehavior,
@@ -33,6 +34,7 @@ type Registry = {
   oneTapSignIn: InitBehavior<
     (ui: FirebaseUIConfiguration) => ReturnType<typeof oneTapSignInHandlers.oneTapSignInHandler>
   >;
+  requireDisplayName: CallableBehavior<typeof requireDisplayNameHandlers.requireDisplayNameHandler>;
 };
 
 export type Behavior<T extends keyof Registry = keyof Registry> = Pick<Registry, T>;
@@ -60,9 +62,8 @@ export function autoUpgradeAnonymousUsers(
     autoUpgradeAnonymousProvider: callableBehavior((ui, provider) =>
       anonymousUpgradeHandlers.autoUpgradeAnonymousProviderHandler(ui, provider, options?.onUpgrade)
     ),
-    autoUpgradeAnonymousUserRedirectHandler: redirectBehavior(
-      (ui, credential) =>
-        anonymousUpgradeHandlers.autoUpgradeAnonymousUserRedirectHandler(ui, credential, options?.onUpgrade)
+    autoUpgradeAnonymousUserRedirectHandler: redirectBehavior((ui, credential) =>
+      anonymousUpgradeHandlers.autoUpgradeAnonymousUserRedirectHandler(ui, credential, options?.onUpgrade)
     ),
   };
 }
@@ -96,6 +97,12 @@ export type OneTapSignInOptions = oneTapSignInHandlers.OneTapSignInOptions;
 export function oneTapSignIn(options: OneTapSignInOptions): Behavior<"oneTapSignIn"> {
   return {
     oneTapSignIn: initBehavior((ui) => oneTapSignInHandlers.oneTapSignInHandler(ui, options)),
+  };
+}
+
+export function requireDisplayName(): Behavior<"requireDisplayName"> {
+  return {
+    requireDisplayName: callableBehavior(requireDisplayNameHandlers.requireDisplayNameHandler),
   };
 }
 

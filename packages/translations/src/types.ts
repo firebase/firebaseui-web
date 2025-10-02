@@ -41,6 +41,7 @@ export type Translations = {
     captchaCheckFailed?: string;
     missingVerificationId?: string;
     missingEmail?: string;
+    displayNameRequired?: string;
     invalidActionCode?: string;
     credentialAlreadyInUse?: string;
     requiresRecentLogin?: string;

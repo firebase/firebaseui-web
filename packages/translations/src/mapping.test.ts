@@ -60,6 +60,10 @@ describe("mapping.ts", () => {
       expect(ERROR_CODE_MAP["auth/account-exists-with-different-credential"]).toBe("accountExistsWithDifferentCredential");
     });
 
+    it("should map display name error codes", () => {
+      expect(ERROR_CODE_MAP["auth/display-name-required"]).toBe("displayNameRequired");
+    });
+
     it("should have correct type structure", () => {
       const errorKeys = Object.values(ERROR_CODE_MAP);
       const validErrorKeys = [
@@ -69,7 +73,8 @@ describe("mapping.ts", () => {
         "missingPhoneNumber", "quotaExceeded", "codeExpired",
         "captchaCheckFailed", "missingVerificationId", "missingEmail",
         "invalidActionCode", "credentialAlreadyInUse", "requiresRecentLogin",
-        "providerAlreadyLinked", "invalidVerificationCode", "accountExistsWithDifferentCredential"
+        "providerAlreadyLinked", "invalidVerificationCode", "accountExistsWithDifferentCredential",
+        "displayNameRequired"
       ];
 
       errorKeys.forEach(key => {

@@ -41,6 +41,7 @@ export const ERROR_CODE_MAP = {
   "auth/provider-already-linked": "providerAlreadyLinked",
   "auth/invalid-verification-code": "invalidVerificationCode",
   "auth/account-exists-with-different-credential": "accountExistsWithDifferentCredential",
+  "auth/display-name-required": "displayNameRequired",
 } satisfies Record<string, ErrorKey>;
 
 export type ErrorCode = keyof typeof ERROR_CODE_MAP;
