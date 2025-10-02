@@ -1,0 +1,33 @@
+import type { UserCredential } from "firebase/auth";
+import type { FirebaseUIConfiguration } from "~/config";
+
+export type CallableHandler<T extends (...args: any[]) => any = (...args: any[]) => any> = T;
+export type InitHandler = (ui: FirebaseUIConfiguration) => Promise<void> | void;
+export type RedirectHandler = (ui: FirebaseUIConfiguration, result: UserCredential | null) => Promise<void> | void;
+
+export type CallableBehavior<T extends CallableHandler = CallableHandler> = {
+  type: "callable";
+  handler: T;
+};
+
+export type RedirectBehavior<T extends RedirectHandler = RedirectHandler> = {
+  type: "redirect";
+  handler: T;
+};
+
+export type InitBehavior<T extends InitHandler = InitHandler> = {
+  type: "init";
+  handler: T;
+};
+
+export function callableBehavior<T extends CallableHandler>(handler: T): CallableBehavior<T> {
+  return { type: "callable" as const, handler };
+}
+
+export function redirectBehavior<T extends RedirectHandler = RedirectHandler>(handler: T): RedirectBehavior<T> {
+  return { type: "redirect" as const, handler };
+}
+
+export function initBehavior<T extends InitHandler = InitHandler>(handler: T): InitBehavior<T> {
+  return { type: "init" as const, handler };
+}
