@@ -16,7 +16,7 @@
 
 import { ERROR_CODE_MAP, ErrorCode } from "@firebase-ui/translations";
 import { FirebaseError } from "firebase/app";
-import { AuthCredential } from "firebase/auth";
+import { AuthCredential, getMultiFactorResolver, MultiFactorError } from "firebase/auth";
 import { FirebaseUIConfiguration } from "./config";
 import { getTranslation } from "./translations";
 export class FirebaseUIError extends FirebaseError {
@@ -42,6 +42,12 @@ export function handleFirebaseError(
   // TODO(ehesp): Support via behavior
   if (error.code === "auth/account-exists-with-different-credential" && errorContainsCredential(error)) {
     window.sessionStorage.setItem("pendingCred", JSON.stringify(error.credential.toJSON()));
+  }
+
+  // Update the UI with the multi-factor resolver if the error is thrown.
+  if (error.code === "auth/multi-factor-auth-required") {
+    const resolver = getMultiFactorResolver(ui.auth, error as MultiFactorError);
+    ui.setMultiFactorResolver(resolver);
   }
 
   throw new FirebaseUIError(ui, error);
