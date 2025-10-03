@@ -55,7 +55,6 @@ export function useSignUpAuthFormAction() {
 }
 
 export function useSignUpAuthForm(onSuccess?: SignUpAuthFormProps["onSignUp"]) {
-  const ui = useUI();
   const schema = useSignUpAuthFormSchema();
   const action = useSignUpAuthFormAction();
   const requireDisplayName = useRequireDisplayName();
