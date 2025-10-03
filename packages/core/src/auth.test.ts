@@ -32,7 +32,6 @@ vi.mock("firebase/auth", () => ({
   linkWithCredential: vi.fn(),
 }));
 
-
 vi.mock("./behaviors", () => ({
   hasBehavior: vi.fn(),
   getBehavior: vi.fn(),
@@ -995,7 +994,9 @@ describe("generateTotpQrCode", () => {
       generateQrCodeUrl: vi.fn(),
     } as unknown as TotpSecret;
 
-    expect(() => generateTotpQrCode(mockUI, mockSecret)).toThrow("User must be authenticated to generate a TOTP QR code");
+    expect(() => generateTotpQrCode(mockUI, mockSecret)).toThrow(
+      "User must be authenticated to generate a TOTP QR code"
+    );
     expect(mockSecret.generateQrCodeUrl).not.toHaveBeenCalled();
   });
 
@@ -1007,7 +1008,9 @@ describe("generateTotpQrCode", () => {
       generateQrCodeUrl: vi.fn(),
     } as unknown as TotpSecret;
 
-    expect(() => generateTotpQrCode(mockUI, mockSecret)).toThrow("User must be authenticated to generate a TOTP QR code");
+    expect(() => generateTotpQrCode(mockUI, mockSecret)).toThrow(
+      "User must be authenticated to generate a TOTP QR code"
+    );
     expect(mockSecret.generateQrCodeUrl).not.toHaveBeenCalled();
   });
 });

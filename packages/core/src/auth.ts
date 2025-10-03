@@ -33,7 +33,7 @@ import {
   AuthCredential,
   TotpSecret,
 } from "firebase/auth";
-import QRCode from 'qrcode-generator';
+import QRCode from "qrcode-generator";
 import { FirebaseUIConfiguration } from "./config";
 import { handleFirebaseError } from "./errors";
 import { hasBehavior, getBehavior } from "./behaviors/index";
@@ -277,7 +277,12 @@ export async function completeEmailLinkSignIn(
   }
 }
 
-export function generateTotpQrCode(ui: FirebaseUIConfiguration, secret: TotpSecret, accountName?: string, issuer?: string): string {
+export function generateTotpQrCode(
+  ui: FirebaseUIConfiguration,
+  secret: TotpSecret,
+  accountName?: string,
+  issuer?: string
+): string {
   const currentUser = ui.auth.currentUser;
 
   if (!currentUser) {
@@ -286,7 +291,7 @@ export function generateTotpQrCode(ui: FirebaseUIConfiguration, secret: TotpSecr
 
   const uri = secret.generateQrCodeUrl(accountName || currentUser.email || "", issuer);
 
-  const qr = QRCode(0, 'L');
+  const qr = QRCode(0, "L");
   qr.addData(uri);
   qr.make();
   return qr.createDataURL();
