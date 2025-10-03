@@ -27,7 +27,6 @@ export type CountrySelectorProps = ComponentProps<"div"> & {
 };
 
 export function CountrySelector({ value, onChange, allowedCountries, className, ...props }: CountrySelectorProps) {
-
   const country = getCountryByCode(value);
   const countries = allowedCountries ? countryData.filter((c) => allowedCountries.includes(c.code)) : countryData;
 

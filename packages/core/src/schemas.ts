@@ -38,7 +38,7 @@ export function createSignUpAuthFormSchema(ui: FirebaseUIConfiguration) {
   return z.object({
     email: z.email(getTranslation(ui, "errors", "invalidEmail")),
     password: z.string().min(6, getTranslation(ui, "errors", "weakPassword")),
-    displayName: requireDisplayName 
+    displayName: requireDisplayName
       ? z.string().min(1, displayNameRequiredMessage)
       : z.string().min(1, displayNameRequiredMessage).optional(),
   });

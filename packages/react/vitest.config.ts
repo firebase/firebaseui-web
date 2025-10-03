@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { mergeConfig } from 'vitest/config'
+import { mergeConfig } from "vitest/config";
 import viteConfig from "./vite.config";
 
 export default mergeConfig(viteConfig, {
@@ -28,6 +28,6 @@ export default mergeConfig(viteConfig, {
     exclude: ["node_modules/**/*", "dist/**/*"],
     setupFiles: ["./setup-test.ts"],
     // Only see logs from failing tests.
-    silent: 'passed-only',
+    silent: "passed-only",
   },
 });

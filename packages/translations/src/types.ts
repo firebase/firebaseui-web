@@ -75,6 +75,11 @@ export type Translations = {
     sendCode?: string;
     verifyCode?: string;
     signInWithGoogle?: string;
+    signInWithFacebook?: string;
+    signInWithApple?: string;
+    signInWithTwitter?: string;
+    signInWithMicrosoft?: string;
+    signInWithGitHub?: string;
     signInWithEmailLink?: string;
     sendSignInLink?: string;
     termsOfService?: string;

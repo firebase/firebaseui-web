@@ -60,13 +60,20 @@ describe("useSignUpAuthFormAction", () => {
       await result.current({ email: "test@example.com", password: "password123" });
     });
 
-    expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(expect.any(Object), "test@example.com", "password123", undefined);
+    expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(
+      expect.any(Object),
+      "test@example.com",
+      "password123",
+      undefined
+    );
   });
 
   it("should return a credential on success", async () => {
     const mockCredential = { credential: true } as unknown as UserCredential;
 
-    const createUserWithEmailAndPasswordMock = vi.mocked(createUserWithEmailAndPassword).mockResolvedValue(mockCredential);
+    const createUserWithEmailAndPasswordMock = vi
+      .mocked(createUserWithEmailAndPassword)
+      .mockResolvedValue(mockCredential);
 
     const mockUI = createMockUI();
 
@@ -79,7 +86,12 @@ describe("useSignUpAuthFormAction", () => {
       expect(credential).toBe(mockCredential);
     });
 
-    expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(expect.any(Object), "test@example.com", "password123", undefined);
+    expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(
+      expect.any(Object),
+      "test@example.com",
+      "password123",
+      undefined
+    );
   });
 
   it("should throw an unknown error when its not a FirebaseUIError", async () => {
@@ -105,12 +117,19 @@ describe("useSignUpAuthFormAction", () => {
       });
     }).rejects.toThrow("unknownError");
 
-    expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(mockUI.get(), "test@example.com", "password123", undefined);
+    expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(
+      mockUI.get(),
+      "test@example.com",
+      "password123",
+      undefined
+    );
   });
 
   it("should return a callback which accepts email, password, and displayName", async () => {
     const mockCredential = { credential: true } as unknown as UserCredential;
-    const createUserWithEmailAndPasswordMock = vi.mocked(createUserWithEmailAndPassword).mockResolvedValue(mockCredential);
+    const createUserWithEmailAndPasswordMock = vi
+      .mocked(createUserWithEmailAndPassword)
+      .mockResolvedValue(mockCredential);
     const mockUI = createMockUI();
 
     const { result } = renderHook(() => useSignUpAuthFormAction(), {
@@ -121,7 +140,12 @@ describe("useSignUpAuthFormAction", () => {
       await result.current({ email: "test@example.com", password: "password123", displayName: "John Doe" });
     });
 
-    expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(expect.any(Object), "test@example.com", "password123", "John Doe");
+    expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(
+      expect.any(Object),
+      "test@example.com",
+      "password123",
+      "John Doe"
+    );
   });
 });
 
@@ -137,7 +161,9 @@ describe("useSignUpAuthForm", () => {
   it("should allow the form to be submitted", async () => {
     const mockCredential = { credential: true } as unknown as UserCredential;
     const mockUI = createMockUI();
-    const createUserWithEmailAndPasswordMock = vi.mocked(createUserWithEmailAndPassword).mockResolvedValue(mockCredential);
+    const createUserWithEmailAndPasswordMock = vi
+      .mocked(createUserWithEmailAndPassword)
+      .mockResolvedValue(mockCredential);
 
     const { result } = renderHook(() => useSignUpAuthForm(), {
       wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
@@ -153,7 +179,12 @@ describe("useSignUpAuthForm", () => {
       await result.current.handleSubmit();
     });
 
-    expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(mockUI.get(), "test@example.com", "password123", undefined);
+    expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(
+      mockUI.get(),
+      "test@example.com",
+      "password123",
+      undefined
+    );
   });
 
   it("should not allow the form to be submitted if the form is invalid", async () => {
@@ -194,7 +225,12 @@ describe("useSignUpAuthForm", () => {
       await result.current.handleSubmit();
     });
 
-    expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(mockUI.get(), "test@example.com", "password123", "John Doe");
+    expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(
+      mockUI.get(),
+      "test@example.com",
+      "password123",
+      "John Doe"
+    );
   });
 });
 
@@ -271,7 +307,7 @@ describe("<SignUpAuthForm />", () => {
     expect(onBackToSignInClickMock).toHaveBeenCalled();
   });
 
-  it('should trigger validation errors when the form is blurred', () => {
+  it("should trigger validation errors when the form is blurred", () => {
     const mockUI = createMockUI();
 
     const { container } = render(
@@ -305,7 +341,7 @@ describe("<SignUpAuthForm />", () => {
       behaviors: [
         {
           requireDisplayName: { type: "callable" as const, handler: vi.fn() },
-        }
+        },
       ],
     });
 
@@ -364,7 +400,7 @@ describe("<SignUpAuthForm />", () => {
     expect(createAccountButton).toHaveAttribute("type", "submit");
   });
 
-  it('should trigger displayName validation errors when the form is blurred and requireDisplayName is enabled', () => {
+  it("should trigger displayName validation errors when the form is blurred and requireDisplayName is enabled", () => {
     const mockUI = createMockUI({
       locale: registerLocale("test", {
         errors: {
@@ -377,7 +413,7 @@ describe("<SignUpAuthForm />", () => {
       behaviors: [
         {
           requireDisplayName: { type: "callable" as const, handler: vi.fn() },
-        }
+        },
       ],
     });
 
@@ -399,7 +435,7 @@ describe("<SignUpAuthForm />", () => {
     expect(screen.getByText("Please provide a display name")).toBeInTheDocument();
   });
 
-  it('should not trigger displayName validation when requireDisplayName is not enabled', () => {
+  it("should not trigger displayName validation when requireDisplayName is not enabled", () => {
     const mockUI = createMockUI({
       locale: registerLocale("test", {
         errors: {
@@ -439,7 +475,7 @@ describe("useRequireDisplayName", () => {
       behaviors: [
         {
           requireDisplayName: { type: "callable" as const, handler: vi.fn() },
-        }
+        },
       ],
     });
 

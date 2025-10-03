@@ -26,6 +26,7 @@ export type FirebaseUIConfigurationOptions = {
   app: FirebaseApp;
   auth?: Auth;
   locale?: RegisteredLocale;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   behaviors?: Behavior<any>[];
 };
 
@@ -87,7 +88,7 @@ export function initializeUI(config: FirebaseUIConfigurationOptions, name: strin
   if (typeof window !== "undefined") {
     const initBehaviors: InitBehavior[] = [];
     const redirectBehaviors: RedirectBehavior[] = [];
-  
+
     for (const behavior of Object.values(ui.behaviors)) {
       if (behavior.type === "redirect") {
         redirectBehaviors.push(behavior);

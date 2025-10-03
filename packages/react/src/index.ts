@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 /**
  * Copyright 2025 Google LLC
  *
@@ -15,11 +16,13 @@
  */
 
 import { registerFramework } from "@firebase-ui/core";
-import pkgJson from '../package.json';
+import pkgJson from "../package.json";
 
 export * from "./auth";
 export * from "./hooks";
 export * from "./components";
 export { FirebaseUIProvider, type FirebaseUIProviderProps } from "./context";
 
-registerFramework("react", pkgJson.version);
+if (import.meta.env.PROD) {
+  registerFramework("react", pkgJson.version);
+}

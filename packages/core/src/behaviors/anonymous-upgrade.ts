@@ -1,10 +1,18 @@
-import { AuthCredential, AuthProvider, linkWithCredential, linkWithRedirect, UserCredential } from "firebase/auth";
+import { AuthCredential, AuthProvider, linkWithCredential, UserCredential } from "firebase/auth";
 import { FirebaseUIConfiguration } from "~/config";
 import { getBehavior } from "~/behaviors";
 
-export type OnUpgradeCallback = (ui: FirebaseUIConfiguration, oldUserId: string, credential: UserCredential) => Promise<void> | void;
+export type OnUpgradeCallback = (
+  ui: FirebaseUIConfiguration,
+  oldUserId: string,
+  credential: UserCredential
+) => Promise<void> | void;
 
-export const autoUpgradeAnonymousCredentialHandler = async (ui: FirebaseUIConfiguration, credential: AuthCredential, onUpgrade?: OnUpgradeCallback) => {
+export const autoUpgradeAnonymousCredentialHandler = async (
+  ui: FirebaseUIConfiguration,
+  credential: AuthCredential,
+  onUpgrade?: OnUpgradeCallback
+) => {
   const currentUser = ui.auth.currentUser;
 
   if (!currentUser?.isAnonymous) {
@@ -24,7 +32,11 @@ export const autoUpgradeAnonymousCredentialHandler = async (ui: FirebaseUIConfig
   return result;
 };
 
-export const autoUpgradeAnonymousProviderHandler = async (ui: FirebaseUIConfiguration, provider: AuthProvider, onUpgrade?: OnUpgradeCallback) => {
+export const autoUpgradeAnonymousProviderHandler = async (
+  ui: FirebaseUIConfiguration,
+  provider: AuthProvider,
+  onUpgrade?: OnUpgradeCallback
+) => {
   const currentUser = ui.auth.currentUser;
 
   if (!currentUser?.isAnonymous) {
@@ -50,7 +62,11 @@ export const autoUpgradeAnonymousProviderHandler = async (ui: FirebaseUIConfigur
   return result;
 };
 
-export const autoUpgradeAnonymousUserRedirectHandler = async (ui: FirebaseUIConfiguration, credential: UserCredential | null, onUpgrade?: OnUpgradeCallback) => {
+export const autoUpgradeAnonymousUserRedirectHandler = async (
+  ui: FirebaseUIConfiguration,
+  credential: UserCredential | null,
+  onUpgrade?: OnUpgradeCallback
+) => {
   const oldUserId = window.localStorage.getItem("fbui:upgrade:oldUserId");
 
   // Always clean up localStorage once we've retrieved the oldUserId
