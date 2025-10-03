@@ -104,7 +104,9 @@ export function SignUpAuthForm({ onBackToSignInClick, onSignUp }: SignUpAuthForm
         </fieldset>
         {requireDisplayName ? (
           <fieldset>
-            <form.AppField name="displayName" children={(field) => <field.Input label={getTranslation(ui, "labels", "displayName")} />} />
+            <form.AppField name="displayName">
+              {(field) => <field.Input label={getTranslation(ui, "labels", "displayName")} />}
+            </form.AppField>
           </fieldset>
         ) : null}
         <Policies />
