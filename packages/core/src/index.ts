@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 /**
  * Copyright 2025 Google LLC
  *
@@ -14,6 +15,9 @@
  * limitations under the License.
  */
 
+import { registerFramework } from "./register-framework";
+import pkgJson from "../package.json";
+
 export * from "./auth";
 export * from "./behaviors";
 export * from "./config";
@@ -21,3 +25,8 @@ export * from "./errors";
 export * from "./schemas";
 export * from "./country-data";
 export * from "./translations";
+export * from "./register-framework";
+
+if (import.meta.env.PROD) {
+  registerFramework("core", pkgJson.version);
+}

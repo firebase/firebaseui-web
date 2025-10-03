@@ -118,7 +118,7 @@ function PhoneNumberForm({ onSubmit, recaptchaVerifier, recaptchaContainerRef }:
       onSubmitAsync: async ({ value }) => {
         try {
           const formattedNumber = formatPhoneNumberWithCountry(value.phoneNumber, selectedCountry);
-          await onSubmit(formattedNumber);
+          return await onSubmit(formattedNumber);
         } catch (error) {
           return error instanceof Error ? error.message : String(error);
         }
@@ -139,9 +139,8 @@ function PhoneNumberForm({ onSubmit, recaptchaVerifier, recaptchaContainerRef }:
     >
       <phoneForm.AppForm>
         <fieldset>
-          <phoneForm.AppField
-            name="phoneNumber"
-            children={(field) => (
+          <phoneForm.AppField name="phoneNumber">
+            {(field) => (
               <label htmlFor={field.name}>
                 <span>{getTranslation(ui, "labels", "phoneNumber")}</span>
                 <div className="fui-phone-input">
@@ -168,7 +167,7 @@ function PhoneNumberForm({ onSubmit, recaptchaVerifier, recaptchaContainerRef }:
                 )}
               </label>
             )}
-          />
+          </phoneForm.AppField>
         </fieldset>
 
         <fieldset>
@@ -259,7 +258,7 @@ function VerificationForm({
       onSubmit: verificationFormSchema,
       onSubmitAsync: async ({ value }) => {
         try {
-          await onSubmit(value.verificationCode);
+          return await onSubmit(value.verificationCode);
         } catch (error) {
           return error instanceof Error ? error.message : String(error);
         }
@@ -278,7 +277,9 @@ function VerificationForm({
     >
       <verificationForm.AppForm>
         <fieldset>
-          <verificationForm.AppField name="verificationCode" children={(field) => <field.Input label="Verification Code" type="text" />} />
+          <verificationForm.AppField name="verificationCode">
+            {(field) => <field.Input label="Verification Code" type="text" />}
+          </verificationForm.AppField>
         </fieldset>
 
         <fieldset>
@@ -311,7 +312,7 @@ function VerificationForm({
 
 export type PhoneAuthFormProps = {
   resendDelay?: number;
-}
+};
 
 export function PhoneAuthForm({ resendDelay = 30 }: PhoneAuthFormProps) {
   const ui = useUI();

@@ -167,10 +167,10 @@ describe("<GoogleSignInButton />", () => {
 
     const oauthButton = screen.getByTestId("oauth-button");
     expect(oauthButton).toBeDefined();
-    
+
     const svg = oauthButton.querySelector(".fui-provider__icon");
     const text = oauthButton.querySelector("span");
-    
+
     expect(svg).toBeDefined();
     expect(text).toBeDefined();
     expect(text?.textContent).toBe("Sign in with Google");
@@ -181,7 +181,7 @@ describe("<GoogleIcon />", () => {
   it("renders as an SVG element", () => {
     const { container } = render(<GoogleIcon />);
     const svg = container.querySelector("svg");
-    
+
     expect(svg).toBeDefined();
     expect(svg?.tagName.toLowerCase()).toBe("svg");
   });
@@ -189,14 +189,14 @@ describe("<GoogleIcon />", () => {
   it("has the correct CSS class", () => {
     const { container } = render(<GoogleIcon />);
     const svg = container.querySelector("svg");
-    
+
     expect(svg).toHaveClass("fui-provider__icon");
   });
 
   it("has the correct viewBox attribute", () => {
     const { container } = render(<GoogleIcon />);
     const svg = container.querySelector("svg");
-    
+
     expect(svg?.getAttribute("viewBox")).toBe("0 0 48 48");
   });
 });

@@ -19,7 +19,7 @@
 import { initializeApp, getApps } from "firebase/app";
 import { firebaseConfig } from "./config";
 import { connectAuthEmulator, getAuth } from "firebase/auth";
-import { autoAnonymousLogin, initializeUI } from "@firebase-ui/core";
+import { autoAnonymousLogin, initializeUI, oneTapSignIn } from "@firebase-ui/core";
 
 export const firebaseApp = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
@@ -27,7 +27,12 @@ export const auth = getAuth(firebaseApp);
 
 export const ui = initializeUI({
   app: firebaseApp,
-  behaviors: [autoAnonymousLogin()],
+  behaviors: [
+    autoAnonymousLogin(),
+    oneTapSignIn({
+      clientId: "200312857118-lscdui98fkaq7ffr81446blafjn5o6r0.apps.googleusercontent.com",
+    }),
+  ],
 });
 
 if (import.meta.env.MODE === "development") {

@@ -64,7 +64,7 @@ export function useSignInAuthForm(onSuccess?: SignInAuthFormProps["onSignIn"]) {
       onSubmitAsync: async ({ value }) => {
         try {
           const credential = await action(value);
-          onSuccess?.(credential);
+          return onSuccess?.(credential);
         } catch (error) {
           return error instanceof Error ? error.message : String(error);
         }
@@ -88,12 +88,11 @@ export function SignInAuthForm({ onSignIn, onForgotPasswordClick, onRegisterClic
     >
       <form.AppForm>
         <fieldset>
-          <form.AppField name="email" children={(field) => <field.Input label="Email" type="email" />} />
+          <form.AppField name="email">{(field) => <field.Input label="Email" type="email" />}</form.AppField>
         </fieldset>
         <fieldset>
-          <form.AppField
-            name="password"
-            children={(field) => (
+          <form.AppField name="password">
+            {(field) => (
               <field.Input label="Password" type="password">
                 {onForgotPasswordClick ? (
                   <form.Action onClick={onForgotPasswordClick}>
@@ -102,13 +101,11 @@ export function SignInAuthForm({ onSignIn, onForgotPasswordClick, onRegisterClic
                 ) : null}
               </field.Input>
             )}
-          />
+          </form.AppField>
         </fieldset>
         <Policies />
         <fieldset>
-          <form.SubmitButton>
-            {getTranslation(ui, "labels", "signIn")}
-          </form.SubmitButton>
+          <form.SubmitButton>{getTranslation(ui, "labels", "signIn")}</form.SubmitButton>
           <form.ErrorMessage />
         </fieldset>
         {onRegisterClick ? (

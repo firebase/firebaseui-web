@@ -3,31 +3,38 @@ name: Test
 on:
   push:
     branches:
-      - "**"
+      - "@invertase/v7-development"
   pull_request:
-    branches:
-      - "**"
 
 jobs:
+
   test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Setup node
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           check-latest: true
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
           version: latest
+
       - name: Install dependencies
         run: pnpm install
+
+      - name: Build packages
+        run: pnpm run build
+
       - name: Install Firebase CLI
         run: npm i -g firebase-tools@14.15.2
-      - name: Start Firebase emulator and run tests
+
+      - name: Start Firebase emulator
         run: |
           firebase emulators:start --only auth --project demo-test &
           sleep 15
@@ -36,5 +43,7 @@ jobs:
             echo "Waiting for emulator to start..."
             sleep 2
           done
-          echo "Emulator is ready, running tests..."
-          pnpm test
+          echo "Emulator is ready"
+
+      - name: Run tests
+        run: pnpm test

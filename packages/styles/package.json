@@ -12,13 +12,13 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./tailwind": {
-      "style": "./src/base.css"
-    },
-    "./themes/*": {
-      "style": "./src/themes/*.css"
-    }
+    "./dist.css": "./dist.css",
+    "./tailwind": "./src/base.css",
+    "./themes/*": "./src/themes/*.css"
   },
+  "sideEffects": [
+    "**/*.css"
+  ],
   "files": [
     "dist.css",
     "src"
@@ -26,7 +26,7 @@
   "scripts": {
     "prepare": "pnpm run build",
     "build": "tsup && pnpm run build:css",
-    "build:css": "npx -y @tailwindcss/cli -i ./src.css -o ./dist.css --minify",
+    "build:css": "pnpm dlx @tailwindcss/cli -i ./src.css -o ./dist.css --minify",
     "build:local": "pnpm run build && pnpm pack",
     "lint": "tsc --noEmit",
     "format": "prettier --write \"src/**/*.ts\"",
@@ -37,7 +37,6 @@
     "release": "pnpm run build && pnpm pack --pack-destination ../../releases/"
   },
   "devDependencies": {
-    "prettier": "catalog:",
     "rimraf": "catalog:",
     "tailwindcss": "catalog:",
     "tsup": "catalog:",

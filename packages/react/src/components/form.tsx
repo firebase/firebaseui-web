@@ -9,7 +9,7 @@ function FieldMetadata({ className, ...props }: ComponentProps<"div"> & { field:
   if (!props.field.state.meta.isTouched || !props.field.state.meta.errors.length) {
     return null;
   }
-  
+
   return (
     <div>
       <div role="alert" aria-live="polite" className={cn("fui-form__error", className)} {...props}>
@@ -63,8 +63,8 @@ function ErrorMessage() {
   return (
     <form.Subscribe selector={(state) => [state.errorMap]}>
       {([errorMap]) => {
-        if (errorMap.onSubmit) {
-          return <div className="fui-form__error">{errorMap.onSubmit.toString()}</div>;
+        if (errorMap?.onSubmit) {
+          return <div className="fui-form__error">{String(errorMap.onSubmit)}</div>;
         }
 
         return null;

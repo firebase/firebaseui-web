@@ -20,5 +20,12 @@
  * the firebaseui-styles package without having to install tailwindcss.
  */
 
-@import "tailwindcss";
+@layer theme, components, utilities;
+
+/* Bring in theme vars so Tailwind can resolve tokens in @apply */
+@import "tailwindcss/theme.css" layer(theme);
+
+/* Load utilities so @apply can expand, but do NOT emit any utility classes */
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+
 @import "./src/base.css";

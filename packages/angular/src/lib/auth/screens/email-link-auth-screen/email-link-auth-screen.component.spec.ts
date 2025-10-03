@@ -16,11 +16,12 @@
 
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
-import { TestBed, fakeAsync, tick } from "@angular/core/testing";
+import { TestBed } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 import { of } from "rxjs";
 import { FirebaseUI } from "../../../provider";
 import { EmailLinkAuthScreenComponent } from "./email-link-auth-screen.component";
+import { CardComponent } from "../../../components/card/card.component";
 
 // Mock EmailLinkForm component
 @Component({
@@ -32,7 +33,7 @@ class MockEmailLinkFormComponent {}
 
 // Mock Card components
 @Component({
-  selector: "fui-card",
+  selector: "fui-card-email-link",
   template: '<div class="fui-card"><ng-content></ng-content></div>',
   standalone: true,
 })
@@ -115,7 +116,7 @@ describe("EmailLinkAuthScreenComponent", () => {
         EmailLinkAuthScreenComponent,
         TestHostWithChildrenComponent,
         TestHostWithoutChildrenComponent,
-        MockCardComponent,
+        CardComponent,
         MockCardHeaderComponent,
         MockCardTitleComponent,
         MockCardSubtitleComponent,
@@ -166,25 +167,24 @@ describe("EmailLinkAuthScreenComponent", () => {
     expect(formEl.nativeElement.textContent).toBe("Email Link Form");
   });
 
-  it("does not render divider and children when no children are provided", fakeAsync(() => {
+  it("does not render divider and children when no children are provided", async () => {
     const fixture = TestBed.createComponent(TestHostWithoutChildrenComponent);
     fixture.detectChanges();
 
-    // Initially hasContent will be true
-    // We need to wait for the setTimeout in ngAfterContentInit
-    tick(0);
+    // Wait for any async operations to complete
+    await new Promise((resolve) => setTimeout(resolve, 0));
     fixture.detectChanges();
 
     const dividerEl = fixture.debugElement.query(By.css(".fui-divider"));
     expect(dividerEl).toBeFalsy();
-  }));
+  });
 
-  it("renders divider and children when children are provided", fakeAsync(() => {
+  it("renders divider and children when children are provided", async () => {
     const fixture = TestBed.createComponent(TestHostWithChildrenComponent);
     fixture.detectChanges();
 
-    // Wait for the setTimeout in ngAfterContentInit
-    tick(0);
+    // Wait for any async operations to complete
+    await new Promise((resolve) => setTimeout(resolve, 0));
     fixture.detectChanges();
 
     const dividerEl = fixture.debugElement.query(By.css(".fui-divider"));
@@ -194,5 +194,5 @@ describe("EmailLinkAuthScreenComponent", () => {
     const childEl = fixture.debugElement.query(By.css(".test-child"));
     expect(childEl).toBeTruthy();
     expect(childEl.nativeElement.textContent).toBe("Test Child");
-  }));
+  });
 });
