@@ -21,6 +21,7 @@ import { OAuthProvider } from "firebase/auth";
 import { useUI } from "~/hooks";
 import { OAuthButton } from "./oauth-button";
 import AppleSvgLogo from "~/components/logos/apple/Logo";
+import { cn } from "~/utils/cn";
 
 export type AppleSignInButtonProps = {
   provider?: OAuthProvider;
@@ -38,6 +39,6 @@ export function AppleSignInButton({ provider, themed }: AppleSignInButtonProps) 
   );
 }
 
-export function AppleLogo() {
-  return <AppleSvgLogo className="fui-provider__icon" />;
+export function AppleLogo({ className, ...props }: React.SVGProps<SVGSVGElement>) {
+  return <AppleSvgLogo className={cn("fui-provider__icon", className)} {...props} />;
 }

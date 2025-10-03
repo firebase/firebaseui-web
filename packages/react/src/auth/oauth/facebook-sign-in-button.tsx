@@ -21,6 +21,7 @@ import { FacebookAuthProvider } from "firebase/auth";
 import { useUI } from "~/hooks";
 import { OAuthButton } from "./oauth-button";
 import FacebookSvgLogo from "~/components/logos/facebook/Logo";
+import { cn } from "~/utils/cn";
 
 export type FacebookSignInButtonProps = {
   provider?: FacebookAuthProvider;
@@ -38,6 +39,6 @@ export function FacebookSignInButton({ provider, themed }: FacebookSignInButtonP
   );
 }
 
-export function FacebookLogo() {
-  return <FacebookSvgLogo className="fui-provider__icon" />;
+export function FacebookLogo({ className, ...props }: React.SVGProps<SVGSVGElement>) {
+  return <FacebookSvgLogo className={cn("fui-provider__icon", className)} {...props} />;
 }

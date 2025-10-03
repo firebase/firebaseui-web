@@ -15,14 +15,14 @@
 
 import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
-import { GoogleLogo, GoogleSignInButton } from "./google-sign-in-button";
+import { FacebookLogo, FacebookSignInButton } from "./facebook-sign-in-button";
 import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
 import { registerLocale } from "@firebase-ui/translations";
 
 vi.mock("firebase/auth", () => ({
-  GoogleAuthProvider: class GoogleAuthProvider {
+  FacebookAuthProvider: class FacebookAuthProvider {
     constructor() {
-      this.providerId = "google.com";
+      this.providerId = "facebook.com";
     }
     providerId: string;
   },
@@ -32,7 +32,7 @@ afterEach(() => {
   cleanup();
 });
 
-describe("<GoogleSignInButton />", () => {
+describe("<FacebookSignInButton />", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -41,58 +41,58 @@ describe("<GoogleSignInButton />", () => {
     const ui = createMockUI({
       locale: registerLocale("test", {
         labels: {
-          signInWithGoogle: "Sign in with Google",
+          signInWithFacebook: "Sign in with Facebook",
         },
       }),
     });
 
     render(
       <CreateFirebaseUIProvider ui={ui}>
-        <GoogleSignInButton />
+        <FacebookSignInButton />
       </CreateFirebaseUIProvider>
     );
 
     const button = screen.getByRole("button");
     expect(button).toBeDefined();
-    expect(button.getAttribute("data-provider")).toBe("google.com");
+    expect(button.getAttribute("data-provider")).toBe("facebook.com");
   });
 
   it("renders with custom provider when provided", () => {
     const ui = createMockUI({
       locale: registerLocale("test", {
         labels: {
-          signInWithGoogle: "Sign in with Google",
+          signInWithFacebook: "Sign in with Facebook",
         },
       }),
     });
 
-    const customProvider = new (class CustomGoogleProvider {
-      providerId = "custom.google.com";
+    const customProvider = new (class CustomFacebookProvider {
+      providerId = "custom.facebook.com";
     })() as any;
 
     render(
       <CreateFirebaseUIProvider ui={ui}>
-        <GoogleSignInButton provider={customProvider} />
+        <FacebookSignInButton provider={customProvider} />
       </CreateFirebaseUIProvider>
     );
 
     const button = screen.getByRole("button");
     expect(button).toBeDefined();
-    expect(button.getAttribute("data-provider")).toBe("custom.google.com");
+    expect(button.getAttribute("data-provider")).toBe("custom.facebook.com");
   });
 
-  it("renders with the Google icon", () => {
+  it("renders with the Facebook icon", () => {
     const ui = createMockUI({
       locale: registerLocale("test", {
         labels: {
-          signInWithGoogle: "Sign in with Google",
+          signInWithFacebook: "Sign in with Facebook",
         },
       }),
     });
 
     render(
       <CreateFirebaseUIProvider ui={ui}>
-        <GoogleSignInButton />
+        <FacebookSignInButton />
       </CreateFirebaseUIProvider>
     );
 
@@ -106,50 +106,50 @@ describe("<GoogleSignInButton />", () => {
     const ui = createMockUI({
       locale: registerLocale("test", {
         labels: {
-          signInWithGoogle: "Sign in with Google",
+          signInWithFacebook: "Sign in with Facebook",
         },
       }),
     });
 
     render(
       <CreateFirebaseUIProvider ui={ui}>
-        <GoogleSignInButton />
+        <FacebookSignInButton />
       </CreateFirebaseUIProvider>
     );
 
-    expect(screen.getByText("Sign in with Google")).toBeDefined();
+    expect(screen.getByText("Sign in with Facebook")).toBeDefined();
   });
 
   it("renders with different translated text for different locales", () => {
     const ui = createMockUI({
       locale: registerLocale("test", {
         labels: {
-          signInWithGoogle: "Iniciar sesión con Google",
+          signInWithFacebook: "Iniciar sesión con Facebook",
         },
       }),
     });
 
     render(
       <CreateFirebaseUIProvider ui={ui}>
-        <GoogleSignInButton />
+        <FacebookSignInButton />
       </CreateFirebaseUIProvider>
     );
 
-    expect(screen.getByText("Iniciar sesión con Google")).toBeDefined();
+    expect(screen.getByText("Iniciar sesión con Facebook")).toBeDefined();
   });
 
   it("renders as a button with correct classes", () => {
     const ui = createMockUI({
       locale: registerLocale("test", {
         labels: {
-          signInWithGoogle: "Sign in with Google",
+          signInWithFacebook: "Sign in with Facebook",
         },
       }),
     });
 
     render(
       <CreateFirebaseUIProvider ui={ui}>
-        <GoogleSignInButton />
+        <FacebookSignInButton />
       </CreateFirebaseUIProvider>
     );
 
@@ -159,9 +159,9 @@ describe("<GoogleSignInButton />", () => {
   });
 });
 
-describe("<GoogleLogo />", () => {
+describe("<FacebookLogo />", () => {
   it("renders as an SVG element", () => {
-    const { container } = render(<GoogleLogo />);
+    const { container } = render(<FacebookLogo />);
     const svg = container.querySelector("svg");
 
     expect(svg).toBeDefined();
@@ -169,21 +169,14 @@ describe("<GoogleLogo />", () => {
   });
 
   it("has the correct CSS class", () => {
-    const { container } = render(<GoogleLogo />);
+    const { container } = render(<FacebookLogo />);
     const svg = container.querySelector("svg");
 
     expect(svg).toHaveClass("fui-provider__icon");
   });
 
-  it("has the correct viewBox attribute", () => {
-    const { container } = render(<GoogleLogo />);
-    const svg = container.querySelector("svg");
-
-    expect(svg?.getAttribute("viewBox")).toBe("0 0 48 48");
-  });
-
   it("forwards custom SVG props", () => {
-    const { container } = render(<GoogleLogo data-testid="custom-svg" className="foo" width={32} />);
+    const { container } = render(<FacebookLogo data-testid="custom-svg" className="foo" width={32} />);
     const svg = container.querySelector('svg[data-testid="custom-svg"]');
 
     expect(svg).toBeDefined();

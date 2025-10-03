@@ -57,6 +57,10 @@ export { AppleSignInButton, AppleLogo, type AppleSignInButtonProps } from "./oau
 export { FacebookSignInButton, FacebookLogo, type FacebookSignInButtonProps } from "./oauth/facebook-sign-in-button";
 export { GitHubSignInButton, GitHubLogo, type GitHubSignInButtonProps } from "./oauth/github-sign-in-button";
 export { GoogleSignInButton, GoogleLogo, type GoogleSignInButtonProps } from "./oauth/google-sign-in-button";
-export { MicrosoftSignInButton, MicrosoftLogo, type MicrosoftSignInButtonProps } from "./oauth/microsoft-sign-in-button";
+export {
+  MicrosoftSignInButton,
+  MicrosoftLogo,
+  type MicrosoftSignInButtonProps,
+} from "./oauth/microsoft-sign-in-button";
 export { TwitterSignInButton, TwitterLogo, type TwitterSignInButtonProps } from "./oauth/twitter-sign-in-button";
 export { OAuthButton, type OAuthButtonProps } from "./oauth/oauth-button";

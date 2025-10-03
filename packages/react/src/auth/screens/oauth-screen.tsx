@@ -25,7 +25,6 @@ export type OAuthScreenProps = PropsWithChildren;
 export function OAuthScreen({ children }: OAuthScreenProps) {
   const ui = useUI();
 
-  // TODO: Translations for oauth providers
   const titleText = getTranslation(ui, "labels", "signIn");
   const subtitleText = getTranslation(ui, "prompts", "signInToAccount");
 

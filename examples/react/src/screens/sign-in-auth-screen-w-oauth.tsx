@@ -16,7 +16,6 @@
 
 "use client";
 
-import { OAuthButton } from "@firebase-ui/react";
 import {
   AppleSignInButton,
   GoogleSignInButton,
@@ -26,13 +25,10 @@ import {
   MicrosoftSignInButton,
   TwitterSignInButton,
 } from "@firebase-ui/react";
-import { OAuthProvider } from "firebase/auth";
 import { useNavigate } from "react-router";
 
 export default function SignInAuthScreenWithOAuthPage() {
   const navigate = useNavigate();
-
-  const p = new OAuthProvider('oidc.foobar')
 
   return (
     <SignInAuthScreen

@@ -21,6 +21,7 @@ import { OAuthProvider } from "firebase/auth";
 import { useUI } from "~/hooks";
 import { OAuthButton } from "./oauth-button";
 import MicrosoftSvgLogo from "~/components/logos/microsoft/Logo";
+import { cn } from "~/utils/cn";
 
 export type MicrosoftSignInButtonProps = {
   provider?: OAuthProvider;
@@ -38,6 +39,6 @@ export function MicrosoftSignInButton({ provider, themed }: MicrosoftSignInButto
   );
 }
 
-export function MicrosoftLogo() {
-  return <MicrosoftSvgLogo className="fui-provider__icon" />;
+export function MicrosoftLogo({ className, ...props }: React.SVGProps<SVGSVGElement>) {
+  return <MicrosoftSvgLogo className={cn("fui-provider__icon", className)} {...props} />;
 }

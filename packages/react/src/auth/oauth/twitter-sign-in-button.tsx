@@ -21,6 +21,7 @@ import { TwitterAuthProvider } from "firebase/auth";
 import { useUI } from "~/hooks";
 import { OAuthButton } from "./oauth-button";
 import TwitterSvgLogo from "~/components/logos/twitter/Logo";
+import { cn } from "~/utils/cn";
 
 export type TwitterSignInButtonProps = {
   provider?: TwitterAuthProvider;
@@ -38,6 +39,6 @@ export function TwitterSignInButton({ provider, themed }: TwitterSignInButtonPro
   );
 }
 
-export function TwitterLogo() {
-  return <TwitterSvgLogo className="fui-provider__icon" />;
+export function TwitterLogo({ className, ...props }: React.SVGProps<SVGSVGElement>) {
+  return <TwitterSvgLogo className={cn("fui-provider__icon", className)} {...props} />;
 }

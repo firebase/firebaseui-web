@@ -21,6 +21,7 @@ import { GithubAuthProvider } from "firebase/auth";
 import { useUI } from "~/hooks";
 import { OAuthButton } from "./oauth-button";
 import GitHubSvgLogo from "~/components/logos/github/Logo";
+import { cn } from "~/utils/cn";
 
 export type GitHubSignInButtonProps = {
   provider?: GithubAuthProvider;
@@ -38,6 +39,6 @@ export function GitHubSignInButton({ provider, themed }: GitHubSignInButtonProps
   );
 }
 
-export function GitHubLogo() {
-  return <GitHubSvgLogo className="fui-provider__icon" />;
+export function GitHubLogo({ className, ...props }: React.SVGProps<SVGSVGElement>) {
+  return <GitHubSvgLogo className={cn("fui-provider__icon", className)} {...props} />;
 }

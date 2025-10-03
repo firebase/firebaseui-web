@@ -21,10 +21,11 @@ import { GoogleAuthProvider } from "firebase/auth";
 import { useUI } from "~/hooks";
 import { OAuthButton } from "./oauth-button";
 import GoogleSvgLogo from "~/components/logos/google/Logo";
+import { cn } from "~/utils/cn";
 
 export type GoogleSignInButtonProps = {
   provider?: GoogleAuthProvider;
-  themed?: boolean | 'neutral';
+  themed?: boolean | "neutral";
 };
 
 export function GoogleSignInButton({ provider, themed }: GoogleSignInButtonProps) {
@@ -38,6 +39,6 @@ export function GoogleSignInButton({ provider, themed }: GoogleSignInButtonProps
   );
 }
 
-export function GoogleLogo() {
-  return <GoogleSvgLogo className="fui-provider__icon" />;
+export function GoogleLogo({ className, ...props }: React.SVGProps<SVGSVGElement>) {
+  return <GoogleSvgLogo className={cn("fui-provider__icon", className)} {...props} />;
 }
