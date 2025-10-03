@@ -22,4 +22,6 @@ export * from "./hooks";
 export * from "./components";
 export { FirebaseUIProvider, type FirebaseUIProviderProps } from "./context";
 
-registerFramework("react", pkgJson.version);
+if (!process.env.VITEST) {
+  registerFramework("react", pkgJson.version);
+}

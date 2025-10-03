@@ -17,7 +17,6 @@
 import { registerFramework } from "./register-framework";
 import pkgJson from "../package.json";
 
-registerFramework("core", pkgJson.version);
 
 export * from "./auth";
 export * from "./behaviors";
@@ -27,3 +26,7 @@ export * from "./schemas";
 export * from "./country-data";
 export * from "./translations";
 export * from "./register-framework";
+
+// if (!process.env.VITEST) {
+//   registerFramework("core", pkgJson.version);
+// }
