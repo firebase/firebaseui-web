@@ -15,26 +15,16 @@
 
 import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
-import { GoogleIcon, GoogleSignInButton } from "./google-sign-in-button";
+import { GoogleLogo, GoogleSignInButton } from "./google-sign-in-button";
 import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
 import { registerLocale } from "@firebase-ui/translations";
-import { ComponentProps } from "react";
 
-// Mock the OAuthButton component
-vi.mock("./oauth-button", () => ({
-  OAuthButton: ({ children, provider }: ComponentProps<"div"> & { provider: any }) => (
-    <div data-testid="oauth-button" data-provider={provider?.constructor?.name || "GoogleAuthProvider"}>
-      {children}
-    </div>
-  ),
-}));
-
-// Mock the GoogleAuthProvider
 vi.mock("firebase/auth", () => ({
   GoogleAuthProvider: class GoogleAuthProvider {
     constructor() {
-      // Empty constructor
+      this.providerId = "google.com";
     }
+    providerId: string;
   },
 }));
 
@@ -62,9 +52,9 @@ describe("<GoogleSignInButton />", () => {
       </CreateFirebaseUIProvider>
     );
 
-    const oauthButton = screen.getByTestId("oauth-button");
-    expect(oauthButton).toBeDefined();
-    expect(oauthButton.getAttribute("data-provider")).toBe("GoogleAuthProvider");
+    const button = screen.getByRole("button");
+    expect(button).toBeDefined();
+    expect(button.getAttribute("data-provider")).toBe("google.com");
   });
 
   it("renders with custom provider when provided", () => {
@@ -77,20 +67,18 @@ describe("<GoogleSignInButton />", () => {
     });
 
     const customProvider = new (class CustomGoogleProvider {
-      constructor() {
-        // Empty constructor
-      }
-    })();
+      providerId = "custom.google.com";
+    })() as any;
 
     render(
       <CreateFirebaseUIProvider ui={ui}>
-        <GoogleSignInButton provider={customProvider as any} />
+        <GoogleSignInButton provider={customProvider} />
       </CreateFirebaseUIProvider>
     );
 
-    const oauthButton = screen.getByTestId("oauth-button");
-    expect(oauthButton).toBeDefined();
-    expect(oauthButton.getAttribute("data-provider")).toBe("CustomGoogleProvider");
+    const button = screen.getByRole("button");
+    expect(button).toBeDefined();
+    expect(button.getAttribute("data-provider")).toBe("custom.google.com");
   });
 
   it("renders with the Google icon", () => {
@@ -150,7 +138,7 @@ describe("<GoogleSignInButton />", () => {
     expect(screen.getByText("Iniciar sesión con Google")).toBeDefined();
   });
 
-  it("passes children to OAuthButton", () => {
+  it("renders as a button with correct classes", () => {
     const ui = createMockUI({
       locale: registerLocale("test", {
         labels: {
@@ -165,38 +153,42 @@ describe("<GoogleSignInButton />", () => {
       </CreateFirebaseUIProvider>
     );
 
-    const oauthButton = screen.getByTestId("oauth-button");
-    expect(oauthButton).toBeDefined();
-    
-    const svg = oauthButton.querySelector(".fui-provider__icon");
-    const text = oauthButton.querySelector("span");
-    
-    expect(svg).toBeDefined();
-    expect(text).toBeDefined();
-    expect(text?.textContent).toBe("Sign in with Google");
+    const button = screen.getByRole("button");
+    expect(button).toHaveClass("fui-provider__button");
+    expect(button.getAttribute("type")).toBe("button");
   });
 });
 
-describe("<GoogleIcon />", () => {
+describe("<GoogleLogo />", () => {
   it("renders as an SVG element", () => {
-    const { container } = render(<GoogleIcon />);
+    const { container } = render(<GoogleLogo />);
     const svg = container.querySelector("svg");
-    
+
     expect(svg).toBeDefined();
     expect(svg?.tagName.toLowerCase()).toBe("svg");
   });
 
   it("has the correct CSS class", () => {
-    const { container } = render(<GoogleIcon />);
+    const { container } = render(<GoogleLogo />);
     const svg = container.querySelector("svg");
-    
+
     expect(svg).toHaveClass("fui-provider__icon");
   });
 
   it("has the correct viewBox attribute", () => {
-    const { container } = render(<GoogleIcon />);
+    const { container } = render(<GoogleLogo />);
     const svg = container.querySelector("svg");
-    
+
     expect(svg?.getAttribute("viewBox")).toBe("0 0 48 48");
+  });
+
+  it("forwards custom SVG props", () => {
+    const { container } = render(<GoogleLogo data-testid="custom-svg" className="foo" width={32} />);
+    const svg = container.querySelector('svg[data-testid="custom-svg"]');
+
+    expect(svg).toBeDefined();
+    expect(svg!.getAttribute("width")).toBe("32");
+    expect(svg).toHaveClass("fui-provider__icon");
+    expect(svg).toHaveClass("foo");
   });
 });

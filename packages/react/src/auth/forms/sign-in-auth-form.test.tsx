@@ -254,7 +254,7 @@ describe("<SignInAuthForm />", () => {
     expect(onRegisterClickMock).toHaveBeenCalled();
   });
 
-  it('should trigger validation errors when the form is blurred', () => {
+  it("should trigger validation errors when the form is blurred", () => {
     const mockUI = createMockUI();
 
     const { container } = render(

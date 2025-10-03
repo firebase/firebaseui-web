@@ -33,9 +33,7 @@ vi.mock("~/components/divider", async (originalModule) => {
   const module = await originalModule();
   return {
     ...(module as object),
-    Divider: ({ children }: { children: React.ReactNode }) => (
-      <div data-testid="divider">{children}</div>
-    ),
+    Divider: ({ children }: { children: React.ReactNode }) => <div data-testid="divider">{children}</div>,
   };
 });
 

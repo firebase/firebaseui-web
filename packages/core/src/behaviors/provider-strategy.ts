@@ -1,8 +1,23 @@
-import { AuthProvider, linkWithPopup, linkWithRedirect, signInWithPopup, signInWithRedirect, User, UserCredential } from "firebase/auth";
+import {
+  AuthProvider,
+  linkWithPopup,
+  linkWithRedirect,
+  signInWithPopup,
+  signInWithRedirect,
+  User,
+  UserCredential,
+} from "firebase/auth";
 import { FirebaseUIConfiguration } from "~/config";
 
-export type ProviderSignInStrategyHandler = (ui: FirebaseUIConfiguration, provider: AuthProvider) => Promise<never | UserCredential>
-export type ProviderLinkStrategyHandler = (ui: FirebaseUIConfiguration, user: User, provider: AuthProvider) => Promise<never | UserCredential>;
+export type ProviderSignInStrategyHandler = (
+  ui: FirebaseUIConfiguration,
+  provider: AuthProvider
+) => Promise<never | UserCredential>;
+export type ProviderLinkStrategyHandler = (
+  ui: FirebaseUIConfiguration,
+  user: User,
+  provider: AuthProvider
+) => Promise<never | UserCredential>;
 
 export const signInWithRediectHandler: ProviderSignInStrategyHandler = async (ui, provider) => {
   ui.setState("pending");

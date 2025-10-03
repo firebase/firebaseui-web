@@ -49,7 +49,7 @@ async function handlePendingCredential(ui: FirebaseUIConfiguration, user: UserCr
     ui.setState("idle");
     window.sessionStorage.removeItem("pendingCred");
     return result;
-  } catch (_error) {
+  } catch {
     window.sessionStorage.removeItem("pendingCred");
     return user;
   }

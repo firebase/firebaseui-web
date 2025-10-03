@@ -84,7 +84,7 @@ export function useEmailLinkAuthFormCompleteSignIn(onSignIn?: EmailLinkAuthFormP
     };
 
     void completeSignIn();
-  }, [ui]);
+  }, [ui, onSignIn]);
 }
 
 export function EmailLinkAuthForm({ onEmailSent, onSignIn }: EmailLinkAuthFormProps) {
@@ -113,7 +113,7 @@ export function EmailLinkAuthForm({ onEmailSent, onSignIn }: EmailLinkAuthFormPr
     >
       <form.AppForm>
         <fieldset>
-          <form.AppField name="email" children={(field) => <field.Input label="Email" type="email" />} />
+          <form.AppField name="email">{(field) => <field.Input label="Email" type="email" />}</form.AppField>
         </fieldset>
         <Policies />
         <fieldset>

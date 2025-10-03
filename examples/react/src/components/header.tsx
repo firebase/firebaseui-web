@@ -18,7 +18,7 @@
 
 import { NavLink } from "react-router";
 import { useUser } from "../firebase/hooks";
-import { signOut, type User } from "firebase/auth";
+import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase";
 
 export function Header() {
@@ -26,7 +26,8 @@ export function Header() {
 
   async function onSignOut() {
     await signOut(auth);
-    router.push("/sign-in");
+    // TODO: Use the router instead of window.location.href
+    window.location.href = "/";
   }
 
   return (
