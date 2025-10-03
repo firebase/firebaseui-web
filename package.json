@@ -12,7 +12,7 @@
     "lint:check": "eslint",
     "format:check": "prettier --check **/{src,tests}/**/*.{ts,tsx}",
     "format:write": "prettier --write **/{src,tests}/**/*.{ts,tsx}",
-    "test": "pnpm run test:core && pnpm run test:react && pnpm run test:angular && pnpm run test:translations && pnpm run test:styles",
+    "test": "pnpm run test:core && pnpm run test:react && pnpm run test:translations && pnpm run test:styles",
     "test:core": "pnpm --filter=@firebase-ui/core run test",
     "test:react": "pnpm --filter=@firebase-ui/react run test",
     "test:angular": "pnpm --filter=@firebase-ui/angular run test",

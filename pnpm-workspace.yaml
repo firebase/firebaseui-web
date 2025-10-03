@@ -35,7 +35,7 @@ catalog:
   typescript: ^5.9.2
   vite: ^7.1.5
   vitest: ^3.2.4
-  vitest-tsconfig-paths: ^3.4.1
+  vite-tsconfig-paths: ^5.1.4
   zod: ^4.1.9
   zone.js: ^0.15.0
 

@@ -25,7 +25,7 @@ import {
   usePhoneAuthFormSchema,
 } from "./hooks";
 import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
-import { registerLocale } from "@firebase-ui/translations";
+import { registerLocale, enUs } from "@firebase-ui/translations";
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -118,13 +118,13 @@ describe("useSignInAuthFormSchema", () => {
     const emailResult = schema.safeParse({ email: "invalid-email", password: "validpassword123" });
     expect(emailResult.success).toBe(false);
     if (!emailResult.success) {
-      expect(emailResult.error.issues[0].message).toBe("Please enter a valid email address");
+      expect(emailResult.error.issues[0]!.message).toBe(enUs.translations.errors!.invalidEmail);
     }
 
     const passwordResult = schema.safeParse({ email: "test@example.com", password: "123" });
     expect(passwordResult.success).toBe(false);
     if (!passwordResult.success) {
-      expect(passwordResult.error.issues[0].message).toBe("Password should be at least 8 characters");
+      expect(passwordResult.error.issues[0]!.message).toBe(enUs.translations.errors!.weakPassword);
     }
   });
 
@@ -148,13 +148,13 @@ describe("useSignInAuthFormSchema", () => {
     const emailResult = schema.safeParse({ email: "invalid-email", password: "validpassword123" });
     expect(emailResult.success).toBe(false);
     if (!emailResult.success) {
-      expect(emailResult.error.issues[0].message).toBe("Por favor ingresa un email válido");
+      expect(emailResult.error.issues[0]!.message).toBe("Por favor ingresa un email válido");
     }
 
     const passwordResult = schema.safeParse({ email: "test@example.com", password: "123" });
     expect(passwordResult.success).toBe(false);
     if (!passwordResult.success) {
-      expect(passwordResult.error.issues[0].message).toBe("La contraseña debe tener al menos 8 caracteres");
+      expect(passwordResult.error.issues[0]!.message).toBe("La contraseña debe tener al menos 8 caracteres");
     }
   });
 
@@ -201,7 +201,7 @@ describe("useSignInAuthFormSchema", () => {
     expect(emailResult.success).toBe(false);
 
     if (!emailResult.success) {
-      expect(emailResult.error.issues[0].message).toBe("Custom email error");
+      expect(emailResult.error.issues[0]!.message).toBe("Custom email error");
     }
   });
 });
@@ -228,13 +228,13 @@ describe("useSignUpAuthFormSchema", () => {
     });
     expect(emailResult.success).toBe(false);
     if (!emailResult.success) {
-      expect(emailResult.error.issues[0].message).toBe("Please enter a valid email address");
+      expect(emailResult.error.issues[0]!.message).toBe(enUs.translations.errors!.invalidEmail);
     }
 
     const passwordResult = schema.safeParse({ email: "test@example.com", password: "123", confirmPassword: "123" });
     expect(passwordResult.success).toBe(false);
     if (!passwordResult.success) {
-      expect(passwordResult.error.issues[0].message).toBe("Password should be at least 8 characters");
+      expect(passwordResult.error.issues[0]!.message).toBe(enUs.translations.errors!.weakPassword);
     }
   });
 
@@ -262,13 +262,13 @@ describe("useSignUpAuthFormSchema", () => {
     });
     expect(emailResult.success).toBe(false);
     if (!emailResult.success) {
-      expect(emailResult.error.issues[0].message).toBe("Por favor ingresa un email válido");
+      expect(emailResult.error.issues[0]!.message).toBe("Por favor ingresa un email válido");
     }
 
     const passwordResult = schema.safeParse({ email: "test@example.com", password: "123", confirmPassword: "123" });
     expect(passwordResult.success).toBe(false);
     if (!passwordResult.success) {
-      expect(passwordResult.error.issues[0].message).toBe("La contraseña debe tener al menos 8 caracteres");
+      expect(passwordResult.error.issues[0]!.message).toBe("La contraseña debe tener al menos 8 caracteres");
     }
   });
 
@@ -319,7 +319,7 @@ describe("useSignUpAuthFormSchema", () => {
     expect(emailResult.success).toBe(false);
 
     if (!emailResult.success) {
-      expect(emailResult.error.issues[0].message).toBe("Custom email error");
+      expect(emailResult.error.issues[0]!.message).toBe("Custom email error");
     }
   });
 });
@@ -342,7 +342,7 @@ describe("useForgotPasswordAuthFormSchema", () => {
     const emailResult = schema.safeParse({ email: "invalid-email" });
     expect(emailResult.success).toBe(false);
     if (!emailResult.success) {
-      expect(emailResult.error.issues[0].message).toBe("Please enter a valid email address");
+      expect(emailResult.error.issues[0]!.message).toBe(enUs.translations.errors!.invalidEmail);
     }
   });
 
@@ -365,7 +365,7 @@ describe("useForgotPasswordAuthFormSchema", () => {
     const emailResult = schema.safeParse({ email: "invalid-email" });
     expect(emailResult.success).toBe(false);
     if (!emailResult.success) {
-      expect(emailResult.error.issues[0].message).toBe("Por favor ingresa un email válido");
+      expect(emailResult.error.issues[0]!.message).toBe("Por favor ingresa un email válido");
     }
   });
 
@@ -411,7 +411,7 @@ describe("useForgotPasswordAuthFormSchema", () => {
     expect(emailResult.success).toBe(false);
 
     if (!emailResult.success) {
-      expect(emailResult.error.issues[0].message).toBe("Custom email error");
+      expect(emailResult.error.issues[0]!.message).toBe("Custom email error");
     }
   });
 });
@@ -434,7 +434,7 @@ describe("useEmailLinkAuthFormSchema", () => {
     const emailResult = schema.safeParse({ email: "invalid-email" });
     expect(emailResult.success).toBe(false);
     if (!emailResult.success) {
-      expect(emailResult.error.issues[0].message).toBe("Please enter a valid email address");
+      expect(emailResult.error.issues[0]!.message).toBe(enUs.translations.errors!.invalidEmail);
     }
   });
 
@@ -457,7 +457,7 @@ describe("useEmailLinkAuthFormSchema", () => {
     const emailResult = schema.safeParse({ email: "invalid-email" });
     expect(emailResult.success).toBe(false);
     if (!emailResult.success) {
-      expect(emailResult.error.issues[0].message).toBe("Por favor ingresa un email válido");
+      expect(emailResult.error.issues[0]!.message).toBe("Por favor ingresa un email válido");
     }
   });
 
@@ -503,7 +503,7 @@ describe("useEmailLinkAuthFormSchema", () => {
     expect(emailResult.success).toBe(false);
 
     if (!emailResult.success) {
-      expect(emailResult.error.issues[0].message).toBe("Custom email error");
+      expect(emailResult.error.issues[0]!.message).toBe("Custom email error");
     }
   });
 });
@@ -526,7 +526,7 @@ describe("usePhoneAuthFormSchema", () => {
     const phoneResult = schema.safeParse({ phoneNumber: "invalid-phone" });
     expect(phoneResult.success).toBe(false);
     if (!phoneResult.success) {
-      expect(phoneResult.error.issues[0].message).toBe("Please enter a valid phone number");
+      expect(phoneResult.error.issues[0]!.message).toBe(enUs.translations.errors!.invalidPhoneNumber);
     }
   });
 
@@ -549,7 +549,7 @@ describe("usePhoneAuthFormSchema", () => {
     const phoneResult = schema.safeParse({ phoneNumber: "invalid-phone" });
     expect(phoneResult.success).toBe(false);
     if (!phoneResult.success) {
-      expect(phoneResult.error.issues[0].message).toBe("Por favor ingresa un número de teléfono válido");
+      expect(phoneResult.error.issues[0]!.message).toBe("Por favor ingresa un número de teléfono válido");
     }
   });
 
@@ -595,7 +595,7 @@ describe("usePhoneAuthFormSchema", () => {
     expect(phoneResult.success).toBe(false);
 
     if (!phoneResult.success) {
-      expect(phoneResult.error.issues[0].message).toBe("Custom phone error");
+      expect(phoneResult.error.issues[0]!.message).toBe("Custom phone error");
     }
   });
 });
