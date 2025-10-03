@@ -3,10 +3,8 @@ name: Lint and Format Check
 on:
   push:
     branches:
-      - "**"
+      - "@invertase/v7-development"
   pull_request:
-    branches:
-      - "**"
 
 jobs:
   lint:
