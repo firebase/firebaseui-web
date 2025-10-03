@@ -35,7 +35,7 @@ export function OAuthScreen({ children }: OAuthScreenProps) {
           <CardTitle>{titleText}</CardTitle>
           <CardSubtitle>{subtitleText}</CardSubtitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="fui-screen__children">
           {children}
           <Policies />
         </CardContent>

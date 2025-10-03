@@ -41,7 +41,7 @@ export function SignInAuthScreen({ children, ...props }: SignInAuthScreenProps) 
           {children ? (
             <>
               <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>
-              <div className="space-y-4">{children}</div>
+              <div className="fui-screen__children">{children}</div>
             </>
           ) : null}
         </CardContent>

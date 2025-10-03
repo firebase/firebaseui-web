@@ -79,6 +79,10 @@
     @apply pt-24 max-w-md mx-auto;
   }
 
+  :where(.fui-screen .fui-screen__children) {
+    @apply space-y-2;
+  }
+
   :where(.fui-card) {
     @apply bg-background p-10 border border-border rounded-card space-y-6;
   }
@@ -145,7 +149,7 @@
   }
 
   :where(.fui-divider) {
-    @apply flex items-center gap-3;
+    @apply flex items-center gap-3 my-4;
   }
 
   :where(.fui-divider__line) {
@@ -153,7 +157,7 @@
   }
 
   :where(.fui-divider__text) {
-    @apply text-text-muted text-xs my-2;
+    @apply text-text-muted text-xs;
   }
 
   :where(.fui-phone-input) {
@@ -187,6 +191,15 @@
   :where(.fui-country-selector__dial-code) {
     @apply absolute left-8 top-1/2 -translate-y-1/2 text-sm pointer-events-none text-text;
   }
+
+  :where(.fui-policies) {
+    @apply text-text-muted text-center text-xs;
+  }
+
+  :where(.fui-policies a, .fui-policies button) {
+    @apply hover:underline font-semibold;
+  }
+
 
   .fui-provider__button[data-provider="google.com"][data-themed="true"] {
     --google-primary: #131314;

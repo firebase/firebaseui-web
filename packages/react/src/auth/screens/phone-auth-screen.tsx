@@ -41,7 +41,7 @@ export function PhoneAuthScreen({ children, ...props }: PhoneAuthScreenProps) {
           {children ? (
             <>
               <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>
-              <div className="space-y-4">{children}</div>
+              <div className="fui-screen__children">{children}</div>
             </>
           ) : null}
         </CardContent>
