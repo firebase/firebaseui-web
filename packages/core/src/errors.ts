@@ -29,10 +29,7 @@ export class FirebaseUIError extends FirebaseError {
   }
 }
 
-export function handleFirebaseError(
-  ui: FirebaseUIConfiguration,
-  error: unknown,
-): never {
+export function handleFirebaseError(ui: FirebaseUIConfiguration, error: unknown): never {
   // If it's not a Firebase error, then we just throw it and preserve the original error.
   if (!isFirebaseError(error)) {
     throw error;
@@ -61,5 +58,5 @@ function isFirebaseError(error: unknown): error is FirebaseError {
 
 // Utility to obtain whether something is a FirebaseError that contains a credential - doesn't seemed to be typed?
 function errorContainsCredential(error: FirebaseError): error is FirebaseError & { credential: AuthCredential } {
-  return 'credential' in error;
+  return "credential" in error;
 }

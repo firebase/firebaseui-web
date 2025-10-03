@@ -11,10 +11,12 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
-    }
+    },
+    "./brands/*": "./brands/*"
   },
   "files": [
-    "dist"
+    "dist",
+    "brands"
   ],
   "scripts": {
     "prepare": "pnpm run build",
@@ -56,12 +58,10 @@
     "@types/jsdom": "catalog:",
     "firebase": "catalog:",
     "jsdom": "catalog:",
-    "prettier": "catalog:",
     "rimraf": "catalog:",
     "tsup": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
-    "vitest": "catalog:",
-    "vitest-tsconfig-paths": "catalog:"
+    "vitest": "catalog:"
   }
 }

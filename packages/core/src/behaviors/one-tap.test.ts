@@ -20,27 +20,27 @@ const mockGoogleAccounts = {
   },
 };
 
-Object.defineProperty(window, 'google', {
+Object.defineProperty(window, "google", {
   value: { accounts: mockGoogleAccounts },
   writable: true,
 });
 
-Object.defineProperty(document, 'createElement', {
+Object.defineProperty(document, "createElement", {
   value: vi.fn(() => ({
     setAttribute: vi.fn(),
-    src: '',
+    src: "",
     async: false,
     onload: null,
   })),
   writable: true,
 });
 
-Object.defineProperty(document, 'querySelector', {
+Object.defineProperty(document, "querySelector", {
   value: vi.fn(),
   writable: true,
 });
 
-Object.defineProperty(document.body, 'appendChild', {
+Object.defineProperty(document.body, "appendChild", {
   value: vi.fn(),
   writable: true,
 });
@@ -55,16 +55,16 @@ describe("oneTapSignInHandler", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    
+
     mockScript = {
       setAttribute: vi.fn(),
-      src: '',
+      src: "",
       async: false,
       onload: null,
     };
-    
+
     mockCreateElement = vi.fn(() => mockScript);
-    Object.defineProperty(document, 'createElement', {
+    Object.defineProperty(document, "createElement", {
       value: mockCreateElement,
       writable: true,
     });
@@ -80,11 +80,11 @@ describe("oneTapSignInHandler", () => {
     it("should not initialize one-tap when user is already signed in with real account", async () => {
       const mockUser = { isAnonymous: false, uid: "real-user-123" } as User;
       mockUI = createMockUI({ auth: { currentUser: mockUser } as Auth });
-      
+
       const options: OneTapSignInOptions = { clientId: "test-client-id" };
-      
+
       await oneTapSignInHandler(mockUI, options);
-      
+
       expect(document.createElement).not.toHaveBeenCalled();
       expect(mockGoogleAccounts.id.initialize).not.toHaveBeenCalled();
     });
@@ -92,27 +92,27 @@ describe("oneTapSignInHandler", () => {
     it("should initialize one-tap when user is anonymous", async () => {
       const mockUser = { isAnonymous: true, uid: "anonymous-123" } as User;
       mockUI = createMockUI({ auth: { currentUser: mockUser } as Auth });
-      
+
       const options: OneTapSignInOptions = { clientId: "test-client-id" };
-      
+
       await oneTapSignInHandler(mockUI, options);
-      
-      expect(document.createElement).toHaveBeenCalledWith('script');
-      expect(mockScript.setAttribute).toHaveBeenCalledWith('data-one-tap-sign-in', 'true');
-      expect(mockScript.src).toBe('https://accounts.google.com/gsi/client');
+
+      expect(document.createElement).toHaveBeenCalledWith("script");
+      expect(mockScript.setAttribute).toHaveBeenCalledWith("data-one-tap-sign-in", "true");
+      expect(mockScript.src).toBe("https://accounts.google.com/gsi/client");
       expect(mockScript.async).toBe(true);
     });
 
     it("should initialize one-tap when no current user exists", async () => {
       mockUI = createMockUI({ auth: { currentUser: null } as Auth });
-      
+
       const options: OneTapSignInOptions = { clientId: "test-client-id" };
-      
+
       await oneTapSignInHandler(mockUI, options);
-      
-      expect(document.createElement).toHaveBeenCalledWith('script');
-      expect(mockScript.setAttribute).toHaveBeenCalledWith('data-one-tap-sign-in', 'true');
-      expect(mockScript.src).toBe('https://accounts.google.com/gsi/client');
+
+      expect(document.createElement).toHaveBeenCalledWith("script");
+      expect(mockScript.setAttribute).toHaveBeenCalledWith("data-one-tap-sign-in", "true");
+      expect(mockScript.src).toBe("https://accounts.google.com/gsi/client");
       expect(mockScript.async).toBe(true);
     });
   });
@@ -120,26 +120,26 @@ describe("oneTapSignInHandler", () => {
   describe("script loading prevention", () => {
     it("should not load script if one-tap script already exists", async () => {
       mockUI = createMockUI({ auth: { currentUser: null } as Auth });
-      
-      const existingScript = { tagName: 'script' };
+
+      const existingScript = { tagName: "script" };
       vi.mocked(document.querySelector).mockReturnValue(existingScript as any);
-      
+
       const options: OneTapSignInOptions = { clientId: "test-client-id" };
-      
+
       await oneTapSignInHandler(mockUI, options);
-      
+
       expect(document.createElement).not.toHaveBeenCalled();
       expect(mockGoogleAccounts.id.initialize).not.toHaveBeenCalled();
     });
 
     it("should check for existing script with correct selector", async () => {
       mockUI = createMockUI({ auth: { currentUser: null } as Auth });
-      
+
       const options: OneTapSignInOptions = { clientId: "test-client-id" };
-      
+
       await oneTapSignInHandler(mockUI, options);
-      
-      expect(document.querySelector).toHaveBeenCalledWith('script[data-one-tap-sign-in]');
+
+      expect(document.querySelector).toHaveBeenCalledWith("script[data-one-tap-sign-in]");
     });
   });
 
@@ -150,25 +150,25 @@ describe("oneTapSignInHandler", () => {
 
     it("should create and append script with correct attributes", async () => {
       const options: OneTapSignInOptions = { clientId: "test-client-id" };
-      
+
       await oneTapSignInHandler(mockUI, options);
-      
-      expect(document.createElement).toHaveBeenCalledWith('script');
-      expect(mockScript.setAttribute).toHaveBeenCalledWith('data-one-tap-sign-in', 'true');
-      expect(mockScript.src).toBe('https://accounts.google.com/gsi/client');
+
+      expect(document.createElement).toHaveBeenCalledWith("script");
+      expect(mockScript.setAttribute).toHaveBeenCalledWith("data-one-tap-sign-in", "true");
+      expect(mockScript.src).toBe("https://accounts.google.com/gsi/client");
       expect(mockScript.async).toBe(true);
       expect(document.body.appendChild).toHaveBeenCalledWith(mockScript);
     });
 
     it("should initialize Google One Tap with basic options", async () => {
       const options: OneTapSignInOptions = { clientId: "test-client-id" };
-      
+
       await oneTapSignInHandler(mockUI, options);
-      
+
       if (mockScript.onload) {
         mockScript.onload();
       }
-      
+
       expect(mockGoogleAccounts.id.initialize).toHaveBeenCalledWith({
         client_id: "test-client-id",
         auto_select: undefined,
@@ -189,13 +189,13 @@ describe("oneTapSignInHandler", () => {
         uxMode: "popup",
         logLevel: "debug",
       };
-      
+
       await oneTapSignInHandler(mockUI, options);
-      
+
       if (mockScript.onload) {
         mockScript.onload();
       }
-      
+
       expect(mockGoogleAccounts.id.initialize).toHaveBeenCalledWith({
         client_id: "test-client-id",
         auto_select: true,
@@ -209,13 +209,13 @@ describe("oneTapSignInHandler", () => {
 
     it("should call prompt after initialization", async () => {
       const options: OneTapSignInOptions = { clientId: "test-client-id" };
-      
+
       await oneTapSignInHandler(mockUI, options);
-      
+
       if (mockScript.onload) {
         mockScript.onload();
       }
-      
+
       expect(mockGoogleAccounts.id.prompt).toHaveBeenCalled();
     });
   });
@@ -229,21 +229,21 @@ describe("oneTapSignInHandler", () => {
       const options: OneTapSignInOptions = { clientId: "test-client-id" };
       const mockCredential = { providerId: "google.com" };
       const mockGoogleCredential = { credential: "google-credential-token" };
-      
+
       vi.mocked(GoogleAuthProvider.credential).mockReturnValue(mockCredential as any);
       vi.mocked(signInWithCredential).mockResolvedValue({} as any);
-      
+
       await oneTapSignInHandler(mockUI, options);
-      
+
       if (mockScript.onload) {
         mockScript.onload();
       }
-      
+
       const initializeCall = vi.mocked(mockGoogleAccounts.id.initialize).mock.calls[0];
       const callback = initializeCall?.[0]?.callback;
-      
+
       await callback(mockGoogleCredential);
-      
+
       expect(GoogleAuthProvider.credential).toHaveBeenCalledWith("google-credential-token");
       expect(signInWithCredential).toHaveBeenCalledWith(mockUI, mockCredential);
     });
@@ -251,20 +251,20 @@ describe("oneTapSignInHandler", () => {
     it("should handle callback errors gracefully", async () => {
       const options: OneTapSignInOptions = { clientId: "test-client-id" };
       const mockError = new Error("Google One Tap error");
-      
+
       vi.mocked(GoogleAuthProvider.credential).mockImplementation(() => {
         throw mockError;
       });
-      
+
       await oneTapSignInHandler(mockUI, options);
-      
+
       if (mockScript.onload) {
         mockScript.onload();
       }
-      
+
       const initializeCall = vi.mocked(mockGoogleAccounts.id.initialize).mock.calls[0];
       const callback = initializeCall?.[0]?.callback;
-      
+
       await expect(callback({ credential: "invalid-token" })).rejects.toThrow("Google One Tap error");
     });
   });
@@ -276,13 +276,13 @@ describe("oneTapSignInHandler", () => {
 
     it("should handle minimal options", async () => {
       const options: OneTapSignInOptions = { clientId: "minimal-client-id" };
-      
+
       await oneTapSignInHandler(mockUI, options);
-      
+
       if (mockScript.onload) {
         mockScript.onload();
       }
-      
+
       expect(mockGoogleAccounts.id.initialize).toHaveBeenCalledWith({
         client_id: "minimal-client-id",
         auto_select: undefined,
@@ -303,13 +303,13 @@ describe("oneTapSignInHandler", () => {
         uxMode: "redirect",
         logLevel: "warn",
       };
-      
+
       await oneTapSignInHandler(mockUI, options);
-      
+
       if (mockScript.onload) {
         mockScript.onload();
       }
-      
+
       expect(mockGoogleAccounts.id.initialize).toHaveBeenCalledWith({
         client_id: "full-options-client-id",
         auto_select: false,

@@ -21,7 +21,12 @@ import { FirebaseUI } from "../../../provider";
 import { Auth } from "@angular/fire/auth";
 import { ButtonComponent } from "../../../components/button/button.component";
 import { TermsAndPrivacyComponent } from "../../../components/terms-and-privacy/terms-and-privacy.component";
-import { createForgotPasswordFormSchema, FirebaseUIConfiguration, FirebaseUIError, sendPasswordResetEmail } from "@firebase-ui/core";
+import {
+  createForgotPasswordFormSchema,
+  FirebaseUIConfiguration,
+  FirebaseUIError,
+  sendPasswordResetEmail,
+} from "@firebase-ui/core";
 import { firstValueFrom } from "rxjs";
 import { Router } from "@angular/router";
 

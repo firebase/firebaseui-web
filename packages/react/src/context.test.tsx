@@ -104,11 +104,11 @@ describe("FirebaseUIProvider", () => {
         <TestConsumer />
       </TestProvider>
     );
-    
+
     // Provider should render again, but nanostores should provide stable reference
     expect(providerRenderCount).toBe(2);
     expect(contextValues).toHaveLength(2);
-    
+
     // The context values should be the same reference (nanostores handles this)
     expect(contextValues[0]).toBe(contextValues[1]);
     expect(contextValues[0].state).toBe(contextValues[1].state);
@@ -118,7 +118,7 @@ describe("FirebaseUIProvider", () => {
     const mockUI = createMockUI();
     const mockPolicies = {
       privacyPolicyUrl: "https://example.com/privacy",
-      termsOfServiceUrl: "https://example.com/terms"
+      termsOfServiceUrl: "https://example.com/terms",
     };
 
     const { getByTestId } = render(

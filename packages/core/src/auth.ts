@@ -49,7 +49,7 @@ async function handlePendingCredential(ui: FirebaseUIConfiguration, user: UserCr
     ui.setState("idle");
     window.sessionStorage.removeItem("pendingCred");
     return result;
-  } catch (_error) {
+  } catch {
     window.sessionStorage.removeItem("pendingCred");
     return user;
   }
@@ -65,7 +65,7 @@ export async function signInWithEmailAndPassword(
 
     if (hasBehavior(ui, "autoUpgradeAnonymousCredential")) {
       const result = await getBehavior(ui, "autoUpgradeAnonymousCredential")(ui, credential);
-      
+
       if (result) {
         return handlePendingCredential(ui, result);
       }
@@ -225,7 +225,10 @@ export async function signInAnonymously(ui: FirebaseUIConfiguration): Promise<Us
   }
 }
 
-export async function signInWithProvider(ui: FirebaseUIConfiguration, provider: AuthProvider): Promise<UserCredential | never> {
+export async function signInWithProvider(
+  ui: FirebaseUIConfiguration,
+  provider: AuthProvider
+): Promise<UserCredential | never> {
   try {
     if (hasBehavior(ui, "autoUpgradeAnonymousProvider")) {
       const credential = await getBehavior(ui, "autoUpgradeAnonymousProvider")(ui, provider);

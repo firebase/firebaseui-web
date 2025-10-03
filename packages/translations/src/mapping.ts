@@ -48,7 +48,7 @@ export type ErrorCode = keyof typeof ERROR_CODE_MAP;
 export function getTranslation<T extends TranslationCategory>(
   locale: RegisteredLocale,
   category: T,
-  key: TranslationKey<T>,
+  key: TranslationKey<T>
 ): string {
   const userTranslationSet = locale.translations[category] as TranslationSet<T> | undefined;
   const translatedString = userTranslationSet?.[key];
@@ -60,7 +60,7 @@ export function getTranslation<T extends TranslationCategory>(
   // Check fallback locale if it exists
   if (locale.fallback) {
     const fallbackTranslation = getTranslation(locale.fallback, category, key);
-    
+
     if (fallbackTranslation) {
       return fallbackTranslation;
     }

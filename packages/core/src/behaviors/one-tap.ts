@@ -4,12 +4,12 @@ import type { FirebaseUIConfiguration } from "~/config";
 import { signInWithCredential } from "~/auth";
 
 export type OneTapSignInOptions = {
-  clientId: IdConfiguration['client_id'];
-  autoSelect?: IdConfiguration['auto_select'];
-  cancelOnTapOutside?: IdConfiguration['cancel_on_tap_outside'];
-  context?: IdConfiguration['context'];
-  uxMode?: IdConfiguration['ux_mode'];
-  logLevel?: IdConfiguration['log_level'];
+  clientId: IdConfiguration["client_id"];
+  autoSelect?: IdConfiguration["auto_select"];
+  cancelOnTapOutside?: IdConfiguration["cancel_on_tap_outside"];
+  context?: IdConfiguration["context"];
+  uxMode?: IdConfiguration["ux_mode"];
+  logLevel?: IdConfiguration["log_level"];
 };
 
 export const oneTapSignInHandler = async (ui: FirebaseUIConfiguration, options: OneTapSignInOptions) => {
@@ -20,13 +20,13 @@ export const oneTapSignInHandler = async (ui: FirebaseUIConfiguration, options: 
   }
 
   // Prevent multiple instances of the script from being loaded, e.g. hot reload.
-  if (document.querySelector('script[data-one-tap-sign-in]')) {
+  if (document.querySelector("script[data-one-tap-sign-in]")) {
     return;
   }
 
-  const script = document.createElement('script');
-  script.setAttribute('data-one-tap-sign-in', 'true');
-  script.src = 'https://accounts.google.com/gsi/client';
+  const script = document.createElement("script");
+  script.setAttribute("data-one-tap-sign-in", "true");
+  script.src = "https://accounts.google.com/gsi/client";
   script.async = true;
 
   script.onload = () => {

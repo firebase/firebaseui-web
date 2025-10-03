@@ -16,7 +16,11 @@
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, renderHook, cleanup } from "@testing-library/react";
-import { ForgotPasswordAuthForm, useForgotPasswordAuthForm, useForgotPasswordAuthFormAction } from "./forgot-password-auth-form";
+import {
+  ForgotPasswordAuthForm,
+  useForgotPasswordAuthForm,
+  useForgotPasswordAuthFormAction,
+} from "./forgot-password-auth-form";
 import { act } from "react";
 import { sendPasswordResetEmail } from "@firebase-ui/core";
 import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
@@ -52,9 +56,7 @@ describe("useForgotPasswordAuthFormAction", () => {
   });
 
   it("should throw an unknown error when its not a FirebaseUIError", async () => {
-    const sendPasswordResetEmailMock = vi
-      .mocked(sendPasswordResetEmail)
-      .mockRejectedValue(new Error("Unknown error"));
+    const sendPasswordResetEmailMock = vi.mocked(sendPasswordResetEmail).mockRejectedValue(new Error("Unknown error"));
 
     const mockUI = createMockUI({
       locale: registerLocale("es-ES", {
@@ -188,7 +190,7 @@ describe("<ForgotPasswordAuthForm />", () => {
     expect(onBackToSignInClickMock).toHaveBeenCalled();
   });
 
-  it('should trigger validation errors when the form is blurred', () => {
+  it("should trigger validation errors when the form is blurred", () => {
     const mockUI = createMockUI();
 
     const { container } = render(

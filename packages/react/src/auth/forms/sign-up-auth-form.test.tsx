@@ -60,13 +60,19 @@ describe("useSignUpAuthFormAction", () => {
       await result.current({ email: "test@example.com", password: "password123" });
     });
 
-    expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(expect.any(Object), "test@example.com", "password123");
+    expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(
+      expect.any(Object),
+      "test@example.com",
+      "password123"
+    );
   });
 
   it("should return a credential on success", async () => {
     const mockCredential = { credential: true } as unknown as UserCredential;
 
-    const createUserWithEmailAndPasswordMock = vi.mocked(createUserWithEmailAndPassword).mockResolvedValue(mockCredential);
+    const createUserWithEmailAndPasswordMock = vi
+      .mocked(createUserWithEmailAndPassword)
+      .mockResolvedValue(mockCredential);
 
     const mockUI = createMockUI();
 
@@ -79,7 +85,11 @@ describe("useSignUpAuthFormAction", () => {
       expect(credential).toBe(mockCredential);
     });
 
-    expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(expect.any(Object), "test@example.com", "password123");
+    expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(
+      expect.any(Object),
+      "test@example.com",
+      "password123"
+    );
   });
 
   it("should throw an unknown error when its not a FirebaseUIError", async () => {
@@ -226,7 +236,7 @@ describe("<SignUpAuthForm />", () => {
     expect(onBackToSignInClickMock).toHaveBeenCalled();
   });
 
-  it('should trigger validation errors when the form is blurred', () => {
+  it("should trigger validation errors when the form is blurred", () => {
     const mockUI = createMockUI();
 
     const { container } = render(

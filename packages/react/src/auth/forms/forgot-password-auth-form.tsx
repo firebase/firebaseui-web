@@ -93,19 +93,15 @@ export function ForgotPasswordAuthForm({ onBackToSignInClick, onPasswordSent }: 
     >
       <form.AppForm>
         <fieldset>
-          <form.AppField name="email" children={(field) => <field.Input label="Email" type="email" />} />
+          <form.AppField name="email">{(field) => <field.Input label="Email" type="email" />}</form.AppField>
         </fieldset>
         <Policies />
         <fieldset>
-          <form.SubmitButton>
-            {getTranslation(ui, "labels", "resetPassword")}
-          </form.SubmitButton>
+          <form.SubmitButton>{getTranslation(ui, "labels", "resetPassword")}</form.SubmitButton>
           <form.ErrorMessage />
         </fieldset>
         {onBackToSignInClick ? (
-          <form.Action onClick={onBackToSignInClick}>
-            {getTranslation(ui, "labels", "backToSignIn")}
-          </form.Action>
+          <form.Action onClick={onBackToSignInClick}>{getTranslation(ui, "labels", "backToSignIn")}</form.Action>
         ) : null}
       </form.AppForm>
     </form>

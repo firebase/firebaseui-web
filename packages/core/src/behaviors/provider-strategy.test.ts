@@ -1,10 +1,19 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { Auth, AuthProvider, linkWithPopup, linkWithRedirect, signInWithPopup, signInWithRedirect, User, UserCredential } from "firebase/auth";
-import { 
-  signInWithRediectHandler, 
-  signInWithPopupHandler, 
-  linkWithRedirectHandler, 
-  linkWithPopupHandler 
+import {
+  Auth,
+  AuthProvider,
+  linkWithPopup,
+  linkWithRedirect,
+  signInWithPopup,
+  signInWithRedirect,
+  User,
+  UserCredential,
+} from "firebase/auth";
+import {
+  signInWithRediectHandler,
+  signInWithPopupHandler,
+  linkWithRedirectHandler,
+  linkWithPopupHandler,
 } from "./provider-strategy";
 import { createMockUI } from "~/tests/utils";
 
@@ -113,4 +122,3 @@ describe("linkWithPopupHandler", () => {
     expect(mockUI.setState).not.toHaveBeenCalledWith("idle");
   });
 });
-
