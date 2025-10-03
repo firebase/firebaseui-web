@@ -192,6 +192,15 @@
     @apply absolute left-8 top-1/2 -translate-y-1/2 text-sm pointer-events-none text-text;
   }
 
+  :where(.fui-policies) {
+    @apply text-text-muted text-center text-xs;
+  }
+
+  :where(.fui-policies a, .fui-policies button) {
+    @apply hover:underline font-semibold;
+  }
+
+
   .fui-provider__button[data-provider="google.com"][data-themed="true"] {
     --google-primary: #131314;
     --color-primary: var(--google-primary);
