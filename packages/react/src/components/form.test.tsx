@@ -202,7 +202,7 @@ describe("form export", () => {
   });
 
   describe("<ErrorMessage />", () => {
-    it.only("should render the ErrorMessage if the onSubmit error is set", async () => {
+    it("should render the ErrorMessage if the onSubmit error is set", async () => {
       const { result } = renderHook(() => {
         return form.useAppForm({
           validators: {
