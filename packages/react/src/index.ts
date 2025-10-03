@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 /**
  * Copyright 2025 Google LLC
  *
@@ -22,6 +23,6 @@ export * from "./hooks";
 export * from "./components";
 export { FirebaseUIProvider, type FirebaseUIProviderProps } from "./context";
 
-if (!process.env.VITEST) {
+if (import.meta.env.PROD) {
   registerFramework("react", pkgJson.version);
 }
