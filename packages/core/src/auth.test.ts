@@ -307,7 +307,9 @@ describe("createUserWithEmailAndPassword", () => {
     const password = "password123";
     const displayName = "John Doe";
 
-    const mockAutoUpgradeBehavior = vi.fn().mockResolvedValue({ providerId: "upgraded", user: { uid: "upgraded-user" } } as UserCredential);
+    const mockAutoUpgradeBehavior = vi
+      .fn()
+      .mockResolvedValue({ providerId: "upgraded", user: { uid: "upgraded-user" } } as UserCredential);
     const mockRequireDisplayNameBehavior = vi.fn().mockResolvedValue(undefined);
     const credential = EmailAuthProvider.credential(email, password);
 

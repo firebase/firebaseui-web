@@ -34,7 +34,6 @@ describe("requireDisplayNameHandler", () => {
 
     vi.mocked(updateProfile).mockRejectedValue(mockError);
 
-    await expect(requireDisplayNameHandler(mockUI, mockUser, displayName))
-      .rejects.toThrow("Profile update failed");
+    await expect(requireDisplayNameHandler(mockUI, mockUser, displayName)).rejects.toThrow("Profile update failed");
   });
 });

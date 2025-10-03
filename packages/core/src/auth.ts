@@ -33,7 +33,7 @@ import {
   AuthCredential,
 } from "firebase/auth";
 import { FirebaseUIConfiguration } from "./config";
-import { FirebaseUIError, handleFirebaseError } from "./errors";
+import { handleFirebaseError } from "./errors";
 import { hasBehavior, getBehavior } from "./behaviors/index";
 import { FirebaseError } from "firebase/app";
 import { getTranslation } from "./translations";
