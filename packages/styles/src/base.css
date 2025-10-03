@@ -79,6 +79,10 @@
     @apply pt-24 max-w-md mx-auto;
   }
 
+  :where(.fui-screen .fui-screen__children) {
+    @apply space-y-2;
+  }
+
   :where(.fui-card) {
     @apply bg-background p-10 border border-border rounded-card space-y-6;
   }
@@ -145,7 +149,7 @@
   }
 
   :where(.fui-divider) {
-    @apply flex items-center gap-3;
+    @apply flex items-center gap-3 my-4;
   }
 
   :where(.fui-divider__line) {
@@ -153,7 +157,7 @@
   }
 
   :where(.fui-divider__text) {
-    @apply text-text-muted text-xs my-2;
+    @apply text-text-muted text-xs;
   }
 
   :where(.fui-phone-input) {
