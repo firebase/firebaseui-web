@@ -17,28 +17,28 @@
 "use client";
 
 import { getTranslation } from "@firebase-ui/core";
-import { GoogleAuthProvider } from "firebase/auth";
+import { GithubAuthProvider } from "firebase/auth";
 import { useUI } from "~/hooks";
 import { OAuthButton } from "./oauth-button";
-import GoogleSvgLogo from "~/components/logos/google/Logo";
+import GitHubSvgLogo from "~/components/logos/github/Logo";
 import { cn } from "~/utils/cn";
 
-export type GoogleSignInButtonProps = {
-  provider?: GoogleAuthProvider;
-  themed?: boolean | "neutral";
+export type GitHubSignInButtonProps = {
+  provider?: GithubAuthProvider;
+  themed?: boolean;
 };
 
-export function GoogleSignInButton({ provider, themed }: GoogleSignInButtonProps) {
+export function GitHubSignInButton({ provider, themed }: GitHubSignInButtonProps) {
   const ui = useUI();
 
   return (
-    <OAuthButton provider={provider || new GoogleAuthProvider()} themed={themed}>
-      <GoogleLogo />
-      <span>{getTranslation(ui, "labels", "signInWithGoogle")}</span>
+    <OAuthButton provider={provider || new GithubAuthProvider()} themed={themed}>
+      <GitHubLogo />
+      <span>{getTranslation(ui, "labels", "signInWithGitHub")}</span>
     </OAuthButton>
   );
 }
 
-export function GoogleLogo({ className, ...props }: React.SVGProps<SVGSVGElement>) {
-  return <GoogleSvgLogo className={cn("fui-provider__icon", className)} {...props} />;
+export function GitHubLogo({ className, ...props }: React.SVGProps<SVGSVGElement>) {
+  return <GitHubSvgLogo className={cn("fui-provider__icon", className)} {...props} />;
 }

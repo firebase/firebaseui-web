@@ -17,8 +17,9 @@
   ],
   "scripts": {
     "prepare": "pnpm run build",
-    "build": "tsup",
+    "build": "tsup && pnpm run build:logos",
     "build:local": "pnpm run build && pnpm pack",
+    "build:logos": "pnpm dlx @svgr/cli --icon --typescript --no-index --jsx-runtime automatic --out-dir src/components/logos ../core/brands",
     "dev": "tsup --watch",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
@@ -58,13 +59,14 @@
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "catalog:",
     "firebase": "catalog:",
-    "nanostores": "catalog:",
     "jsdom": "catalog:",
+    "nanostores": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "tsup": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
+    "vite-plugin-svgr": "^4.5.0",
     "vitest": "catalog:"
   }
 }

@@ -17,28 +17,28 @@
 "use client";
 
 import { getTranslation } from "@firebase-ui/core";
-import { GoogleAuthProvider } from "firebase/auth";
+import { OAuthProvider } from "firebase/auth";
 import { useUI } from "~/hooks";
 import { OAuthButton } from "./oauth-button";
-import GoogleSvgLogo from "~/components/logos/google/Logo";
+import AppleSvgLogo from "~/components/logos/apple/Logo";
 import { cn } from "~/utils/cn";
 
-export type GoogleSignInButtonProps = {
-  provider?: GoogleAuthProvider;
-  themed?: boolean | "neutral";
+export type AppleSignInButtonProps = {
+  provider?: OAuthProvider;
+  themed?: boolean;
 };
 
-export function GoogleSignInButton({ provider, themed }: GoogleSignInButtonProps) {
+export function AppleSignInButton({ provider, themed }: AppleSignInButtonProps) {
   const ui = useUI();
 
   return (
-    <OAuthButton provider={provider || new GoogleAuthProvider()} themed={themed}>
-      <GoogleLogo />
-      <span>{getTranslation(ui, "labels", "signInWithGoogle")}</span>
+    <OAuthButton provider={provider || new OAuthProvider("apple.com")} themed={themed}>
+      <AppleLogo />
+      <span>{getTranslation(ui, "labels", "signInWithApple")}</span>
     </OAuthButton>
   );
 }
 
-export function GoogleLogo({ className, ...props }: React.SVGProps<SVGSVGElement>) {
-  return <GoogleSvgLogo className={cn("fui-provider__icon", className)} {...props} />;
+export function AppleLogo({ className, ...props }: React.SVGProps<SVGSVGElement>) {
+  return <AppleSvgLogo className={cn("fui-provider__icon", className)} {...props} />;
 }
