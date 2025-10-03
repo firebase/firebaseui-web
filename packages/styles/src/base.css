@@ -95,10 +95,6 @@
     @apply text-sm text-text-muted;
   }
 
-  :where(.fui-card__content) {
-    @apply space-y-2;
-  }
-
   :where(.fui-form) {
     @apply space-y-6;
   }
