@@ -1,9 +1,12 @@
+import parser from "yargs-parser";
 import fs from "fs";
 import path from "path";
 import { execSync } from "child_process";
 
-// Get the domain from CLI args
-const [, , domain] = process.argv;
+const args = parser(process.argv.slice(2));
+const domain = String(args.domain);
+const publicDir = args.publicDir ? String(args.publicDir) : "public";
+const isDev = !!args.dev;
 
 if (!domain) {
   console.error("Missing domain argument");
@@ -13,16 +16,21 @@ if (!domain) {
 const registryPath = path.resolve("registry-spec.json");
 const registryRaw = fs.readFileSync(registryPath, "utf8");
 
-const replaced = registryRaw.replace(/{{\s*DOMAIN\s*}}/g, domain);
+let replaced = registryRaw.replace(/{{\s*DOMAIN\s*}}/g, domain);
+
+// Replace dependency placeholder based on dev flag
+replaced = replaced.replace(/{{\s*DEP\s*\|\s*([^}]+)\s*}}/g, (_, packageName) => {
+  return isDev ? `${packageName.trim()}@workspace:*` : packageName.trim();
+});
 fs.writeFileSync("registry.json", replaced, "utf8");
 
-const publicRDir = path.resolve("public", "r");
+const publicRDir = path.resolve(publicDir);
 if (fs.existsSync(publicRDir)) {
   execSync("rm -rf " + publicRDir, { stdio: "inherit" });
 }
 
 try {
-  execSync("shadcn build", { stdio: "inherit" });
+  execSync(`shadcn build -o ${publicDir}`, { stdio: "inherit" });
 } finally {
   execSync("rm registry.json");
 }

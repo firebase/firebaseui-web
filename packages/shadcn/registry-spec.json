@@ -8,8 +8,8 @@
       "type": "registry:block",
       "title": "Sign In Auth Form",
       "description": "A form allowing users to sign in with email and password.",
-      "dependencies": ["@firebase-ui/react"],
-      "registryDependencies": ["input", "button", "form", "{{ DOMAIN }}/r/policies"],
+      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "registryDependencies": ["input", "button", "form", "{{ DOMAIN }}/policies.json"],
       "files": [
         {
           "path": "src/registry/sign-in-auth-form.tsx",
@@ -22,7 +22,7 @@
       "type": "registry:block",
       "title": "Policies",
       "description": "A component allowing users to navigate to the terms of service and privacy policy.",
-      "dependencies": ["@firebase-ui/react"],
+      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
       "files": [
         {
           "path": "src/registry/policies.tsx",
