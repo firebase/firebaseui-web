@@ -96,10 +96,14 @@ export function SignUpAuthForm({ onBackToSignInClick, onSignUp }: SignUpAuthForm
     >
       <form.AppForm>
         <fieldset>
-          <form.AppField name="email">{(field) => <field.Input label="Email" type="email" />}</form.AppField>
+          <form.AppField name="email">
+            {(field) => <field.Input label={getTranslation(ui, "labels", "emailAddress")} type="email" />}
+          </form.AppField>
         </fieldset>
         <fieldset>
-          <form.AppField name="password">{(field) => <field.Input label="Password" type="password" />}</form.AppField>
+          <form.AppField name="password">
+            {(field) => <field.Input label={getTranslation(ui, "labels", "password")} type="password" />}
+          </form.AppField>
         </fieldset>
         {requireDisplayName ? (
           <fieldset>

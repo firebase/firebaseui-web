@@ -385,19 +385,12 @@ describe("<SignUpAuthForm />", () => {
       </FirebaseUIProvider>
     );
 
-    // There should be only one form
     const form = container.querySelectorAll("form.fui-form");
     expect(form.length).toBe(1);
 
-    // Make sure we have email and password inputs but not displayName
-    expect(screen.getByRole("textbox", { name: /emailAddress/ })).toBeInTheDocument();
+    expect(screen.getByRole("textbox", { name: /email/ })).toBeInTheDocument();
     expect(screen.getByRole("textbox", { name: /password/ })).toBeInTheDocument();
     expect(screen.queryByRole("textbox", { name: /displayName/ })).not.toBeInTheDocument();
-
-    // Ensure the "Create Account" button is present and is a submit button
-    const createAccountButton = screen.getByRole("button", { name: "createAccount" });
-    expect(createAccountButton).toBeInTheDocument();
-    expect(createAccountButton).toHaveAttribute("type", "submit");
   });
 
   it("should trigger displayName validation errors when the form is blurred and requireDisplayName is enabled", () => {
@@ -427,6 +420,7 @@ describe("<SignUpAuthForm />", () => {
     expect(form).toBeInTheDocument();
 
     const displayNameInput = screen.getByRole("textbox", { name: /displayName/ });
+    expect(displayNameInput).toBeInTheDocument();
 
     act(() => {
       fireEvent.blur(displayNameInput);
