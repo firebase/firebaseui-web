@@ -20,18 +20,17 @@ import {
   sendPasswordResetEmail as _sendPasswordResetEmail,
   sendSignInLinkToEmail as _sendSignInLinkToEmail,
   signInAnonymously as _signInAnonymously,
-  signInWithPhoneNumber as _signInWithPhoneNumber,
   signInWithCredential as _signInWithCredential,
   ActionCodeSettings,
   ApplicationVerifier,
   AuthProvider,
-  ConfirmationResult,
   EmailAuthProvider,
   linkWithCredential,
   PhoneAuthProvider,
   UserCredential,
   AuthCredential,
   TotpSecret,
+  PhoneInfoOptions,
 } from "firebase/auth";
 import QRCode from "qrcode-generator";
 import { FirebaseUIConfiguration } from "./config";
@@ -121,14 +120,15 @@ export async function createUserWithEmailAndPassword(
   }
 }
 
-export async function signInWithPhoneNumber(
+export async function verifyPhoneNumber(
   ui: FirebaseUIConfiguration,
-  phoneNumber: string,
+  phoneNumber: PhoneInfoOptions | string,
   appVerifier: ApplicationVerifier
-): Promise<ConfirmationResult> {
+): Promise<string> {
   try {
     ui.setState("pending");
-    return await _signInWithPhoneNumber(ui.auth, phoneNumber, appVerifier);
+    const provider = new PhoneAuthProvider(ui.auth);
+    return await provider.verifyPhoneNumber(phoneNumber, appVerifier);
   } catch (error) {
     handleFirebaseError(ui, error);
   } finally {
@@ -138,13 +138,13 @@ export async function signInWithPhoneNumber(
 
 export async function confirmPhoneNumber(
   ui: FirebaseUIConfiguration,
-  confirmationResult: ConfirmationResult,
+  verificationId: string,
   verificationCode: string
 ): Promise<UserCredential> {
   try {
     ui.setState("pending");
     const currentUser = ui.auth.currentUser;
-    const credential = PhoneAuthProvider.credential(confirmationResult.verificationId, verificationCode);
+    const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
 
     if (currentUser?.isAnonymous && hasBehavior(ui, "autoUpgradeAnonymousCredential")) {
       const result = await getBehavior(ui, "autoUpgradeAnonymousCredential")(ui, credential);
