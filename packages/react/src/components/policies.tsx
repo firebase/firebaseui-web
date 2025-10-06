@@ -26,7 +26,7 @@ export interface PolicyProps {
   onNavigate?: (url: PolicyURL) => void;
 }
 
-const PolicyContext = createContext<PolicyProps | undefined>(undefined);
+export const PolicyContext = createContext<PolicyProps | undefined>(undefined);
 
 export function PolicyProvider({ children, policies }: { children: React.ReactNode; policies?: PolicyProps }) {
   return <PolicyContext.Provider value={policies}>{children}</PolicyContext.Provider>;
