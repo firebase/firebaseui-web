@@ -1,0 +1,18 @@
+import path from "path";
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [react(), tailwindcss()],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+      "@firebase-ui/core": path.resolve(__dirname, "../core/src"),
+      "@firebase-ui/react": path.resolve(__dirname, "../react/src"),
+      "@firebase-ui/translations": path.resolve(__dirname, "../translations/src"),
+      "@firebase-ui/styles": path.resolve(__dirname, "../styles/src"),
+    },
+  },
+});

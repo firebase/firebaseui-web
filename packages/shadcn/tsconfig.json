@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "moduleResolution": "Bundler",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@firebase-ui/core": ["../core/src/index.ts"],
+      "@firebase-ui/react": ["../react/src/index.ts"],
+      "@firebase-ui/translations": ["../translations/src/index.ts"],
+      "@firebase-ui/styles": ["../styles/src/index.ts"]
+    }
+  },
+  "include": ["src", "vite.config.ts"]
+}
