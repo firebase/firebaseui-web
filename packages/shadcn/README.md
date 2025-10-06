@@ -2,10 +2,10 @@
 
 ## Building the registry
 
-To build the registry, run the `build` script:
+To build the registry, run the `registry:build` script:
 
 ```
-pnpm build
+pnpm registry:build
 ```
 
 Note, the script run (`build.ts`) expects a domain, which replaces the `{{ DOMAIN }}` field within the 

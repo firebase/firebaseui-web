@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsx build.ts https://ui.firebase.com",
+    "registry:build": "tsx build.ts https://ui.firebase.com",
     "lint": "eslint .",
     "preview": "vite preview"
   },
