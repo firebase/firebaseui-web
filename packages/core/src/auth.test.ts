@@ -10,6 +10,7 @@ import {
   signInWithCredential,
   signInAnonymously,
   signInWithProvider,
+  generateTotpQrCode,
 } from "./auth";
 
 vi.mock("firebase/auth", () => ({
@@ -56,6 +57,7 @@ import {
   Auth,
   ConfirmationResult,
   AuthProvider,
+  TotpSecret,
 } from "firebase/auth";
 import { hasBehavior, getBehavior } from "./behaviors";
 import { handleFirebaseError } from "./errors";
@@ -1049,5 +1051,93 @@ describe("signInWithProvider", () => {
 
     expect(handleFirebaseError).toHaveBeenCalledWith(mockUI, error);
     expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["idle"]]);
+  });
+});
+
+describe("generateTotpQrCode", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("should generate QR code successfully with authenticated user", () => {
+    const mockUI = createMockUI({
+      auth: { currentUser: { email: "test@example.com" } } as Auth,
+    });
+    const mockSecret = {
+      generateQrCodeUrl: vi.fn().mockReturnValue("otpauth://totp/test@example.com?secret=ABC123&issuer=TestApp"),
+    } as unknown as TotpSecret;
+
+    const result = generateTotpQrCode(mockUI, mockSecret);
+
+    expect(mockSecret.generateQrCodeUrl).toHaveBeenCalledWith("test@example.com", undefined);
+    expect(result).toMatch(/^data:image\/gif;base64,/);
+  });
+
+  it("should generate QR code with custom account name and issuer", () => {
+    const mockUI = createMockUI({
+      auth: { currentUser: { email: "test@example.com" } } as Auth,
+    });
+    const mockSecret = {
+      generateQrCodeUrl: vi.fn().mockReturnValue("otpauth://totp/CustomAccount?secret=ABC123&issuer=CustomIssuer"),
+    } as unknown as TotpSecret;
+
+    const result = generateTotpQrCode(mockUI, mockSecret, "CustomAccount", "CustomIssuer");
+
+    expect(mockSecret.generateQrCodeUrl).toHaveBeenCalledWith("CustomAccount", "CustomIssuer");
+    expect(result).toMatch(/^data:image\/gif;base64,/);
+  });
+
+  it("should use user email as account name when no custom account name provided", () => {
+    const mockUI = createMockUI({
+      auth: { currentUser: { email: "user@example.com" } } as Auth,
+    });
+    const mockSecret = {
+      generateQrCodeUrl: vi.fn().mockReturnValue("otpauth://totp/user@example.com?secret=ABC123"),
+    } as unknown as TotpSecret;
+
+    generateTotpQrCode(mockUI, mockSecret);
+
+    expect(mockSecret.generateQrCodeUrl).toHaveBeenCalledWith("user@example.com", undefined);
+  });
+
+  it("should use empty string as account name when user has no email", () => {
+    const mockUI = createMockUI({
+      auth: { currentUser: { email: null } } as Auth,
+    });
+    const mockSecret = {
+      generateQrCodeUrl: vi.fn().mockReturnValue("otpauth://totp/?secret=ABC123"),
+    } as unknown as TotpSecret;
+
+    generateTotpQrCode(mockUI, mockSecret);
+
+    expect(mockSecret.generateQrCodeUrl).toHaveBeenCalledWith("", undefined);
+  });
+
+  it("should throw error when user is not authenticated", () => {
+    const mockUI = createMockUI({
+      auth: { currentUser: null } as Auth,
+    });
+    const mockSecret = {
+      generateQrCodeUrl: vi.fn(),
+    } as unknown as TotpSecret;
+
+    expect(() => generateTotpQrCode(mockUI, mockSecret)).toThrow(
+      "User must be authenticated to generate a TOTP QR code"
+    );
+    expect(mockSecret.generateQrCodeUrl).not.toHaveBeenCalled();
+  });
+
+  it("should throw error when currentUser is undefined", () => {
+    const mockUI = createMockUI({
+      auth: { currentUser: undefined } as unknown as Auth,
+    });
+    const mockSecret = {
+      generateQrCodeUrl: vi.fn(),
+    } as unknown as TotpSecret;
+
+    expect(() => generateTotpQrCode(mockUI, mockSecret)).toThrow(
+      "User must be authenticated to generate a TOTP QR code"
+    );
+    expect(mockSecret.generateQrCodeUrl).not.toHaveBeenCalled();
   });
 });

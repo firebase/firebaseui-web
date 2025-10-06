@@ -51,6 +51,7 @@
   "dependencies": {
     "@firebase-ui/translations": "workspace:*",
     "nanostores": "catalog:",
+    "qrcode-generator": "^2.0.4",
     "zod": "catalog:"
   },
   "devDependencies": {
