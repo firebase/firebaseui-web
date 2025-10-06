@@ -36,15 +36,13 @@ import { FirebaseUIConfiguration } from "./config";
 import { handleFirebaseError } from "./errors";
 import { hasBehavior, getBehavior } from "./behaviors/index";
 
-async function handlePendingCredential(ui: FirebaseUIConfiguration, user: UserCredential): Promise<UserCredential> {
+async function handlePendingCredential(_ui: FirebaseUIConfiguration, user: UserCredential): Promise<UserCredential> {
   const pendingCredString = window.sessionStorage.getItem("pendingCred");
   if (!pendingCredString) return user;
 
   try {
     const pendingCred = JSON.parse(pendingCredString);
-    ui.setState("pending");
     const result = await linkWithCredential(user.user, pendingCred);
-    ui.setState("idle");
     window.sessionStorage.removeItem("pendingCred");
     return result;
   } catch {
@@ -59,6 +57,7 @@ export async function signInWithEmailAndPassword(
   password: string
 ): Promise<UserCredential> {
   try {
+    ui.setState("pending");
     const credential = EmailAuthProvider.credential(email, password);
 
     if (hasBehavior(ui, "autoUpgradeAnonymousCredential")) {
@@ -69,7 +68,6 @@ export async function signInWithEmailAndPassword(
       }
     }
 
-    ui.setState("pending");
     const result = await _signInWithCredential(ui.auth, credential);
     return handlePendingCredential(ui, result);
   } catch (error) {
@@ -85,6 +83,7 @@ export async function createUserWithEmailAndPassword(
   password: string
 ): Promise<UserCredential> {
   try {
+    ui.setState("pending");
     const credential = EmailAuthProvider.credential(email, password);
 
     if (hasBehavior(ui, "autoUpgradeAnonymousCredential")) {
@@ -95,7 +94,6 @@ export async function createUserWithEmailAndPassword(
       }
     }
 
-    ui.setState("pending");
     const result = await _createUserWithEmailAndPassword(ui.auth, email, password);
     return handlePendingCredential(ui, result);
   } catch (error) {
@@ -126,6 +124,7 @@ export async function confirmPhoneNumber(
   verificationCode: string
 ): Promise<UserCredential> {
   try {
+    ui.setState("pending");
     const currentUser = ui.auth.currentUser;
     const credential = PhoneAuthProvider.credential(confirmationResult.verificationId, verificationCode);
 
@@ -137,7 +136,6 @@ export async function confirmPhoneNumber(
       }
     }
 
-    ui.setState("pending");
     const result = await _signInWithCredential(ui.auth, credential);
     return handlePendingCredential(ui, result);
   } catch (error) {
@@ -160,13 +158,13 @@ export async function sendPasswordResetEmail(ui: FirebaseUIConfiguration, email:
 
 export async function sendSignInLinkToEmail(ui: FirebaseUIConfiguration, email: string): Promise<void> {
   try {
+    ui.setState("pending");
     const actionCodeSettings = {
       url: window.location.href,
       // TODO(ehesp): Check this...
       handleCodeInApp: true,
     } satisfies ActionCodeSettings;
 
-    ui.setState("pending");
     await _sendSignInLinkToEmail(ui.auth, email, actionCodeSettings);
     // TODO: Should this be a behavior ("storageStrategy")?
     window.localStorage.setItem("emailForSignIn", email);
@@ -191,6 +189,7 @@ export async function signInWithCredential(
   credential: AuthCredential
 ): Promise<UserCredential> {
   try {
+    ui.setState("pending");
     if (hasBehavior(ui, "autoUpgradeAnonymousCredential")) {
       const userCredential = await getBehavior(ui, "autoUpgradeAnonymousCredential")(ui, credential);
 
@@ -201,7 +200,6 @@ export async function signInWithCredential(
       }
     }
 
-    ui.setState("pending");
     const result = await _signInWithCredential(ui.auth, credential);
     return handlePendingCredential(ui, result);
   } catch (error) {
@@ -228,6 +226,7 @@ export async function signInWithProvider(
   provider: AuthProvider
 ): Promise<UserCredential | never> {
   try {
+    ui.setState("pending");
     if (hasBehavior(ui, "autoUpgradeAnonymousProvider")) {
       const credential = await getBehavior(ui, "autoUpgradeAnonymousProvider")(ui, provider);
 
@@ -265,7 +264,6 @@ export async function completeEmailLinkSignIn(
 
     ui.setState("pending");
     const result = await signInWithEmailLink(ui, email, currentUrl);
-    ui.setState("idle"); // TODO(ehesp): Do we need this here?
     return handlePendingCredential(ui, result);
   } catch (error) {
     handleFirebaseError(ui, error);

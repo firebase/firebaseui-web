@@ -21,14 +21,12 @@ export const autoUpgradeAnonymousCredentialHandler = async (
 
   const oldUserId = currentUser.uid;
 
-  ui.setState("pending");
   const result = await linkWithCredential(currentUser, credential);
 
   if (onUpgrade) {
     await onUpgrade(ui, oldUserId, result);
   }
 
-  ui.setState("idle");
   return result;
 };
 

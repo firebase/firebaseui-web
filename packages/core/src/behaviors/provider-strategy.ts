@@ -20,25 +20,17 @@ export type ProviderLinkStrategyHandler = (
 ) => Promise<never | UserCredential>;
 
 export const signInWithRediectHandler: ProviderSignInStrategyHandler = async (ui, provider) => {
-  ui.setState("pending");
   return signInWithRedirect(ui.auth, provider);
 };
 
 export const signInWithPopupHandler: ProviderSignInStrategyHandler = async (ui, provider) => {
-  ui.setState("pending");
-  const result = await signInWithPopup(ui.auth, provider);
-  ui.setState("idle");
-  return result;
+  return signInWithPopup(ui.auth, provider);
 };
 
-export const linkWithRedirectHandler: ProviderLinkStrategyHandler = async (ui, user, provider) => {
-  ui.setState("pending");
+export const linkWithRedirectHandler: ProviderLinkStrategyHandler = async (_ui, user, provider) => {
   return linkWithRedirect(user, provider);
 };
 
-export const linkWithPopupHandler: ProviderLinkStrategyHandler = async (ui, user, provider) => {
-  ui.setState("pending");
-  const result = await linkWithPopup(user, provider);
-  ui.setState("idle");
-  return result;
+export const linkWithPopupHandler: ProviderLinkStrategyHandler = async (_ui, user, provider) => {
+  return linkWithPopup(user, provider);
 };
