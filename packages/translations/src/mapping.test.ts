@@ -62,6 +62,10 @@ describe("mapping.ts", () => {
       );
     });
 
+    it("should map display name error codes", () => {
+      expect(ERROR_CODE_MAP["auth/display-name-required"]).toBe("displayNameRequired");
+    });
+
     it("should have correct type structure", () => {
       const errorKeys = Object.values(ERROR_CODE_MAP);
       const validErrorKeys = [
@@ -87,6 +91,7 @@ describe("mapping.ts", () => {
         "providerAlreadyLinked",
         "invalidVerificationCode",
         "accountExistsWithDifferentCredential",
+        "displayNameRequired",
       ];
 
       errorKeys.forEach((key) => {

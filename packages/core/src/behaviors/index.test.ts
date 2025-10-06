@@ -6,14 +6,18 @@ import {
   getBehavior,
   hasBehavior,
   recaptchaVerification,
+  requireDisplayName,
   defaultBehaviors,
 } from "./index";
 
-// Mock the anonymous-upgrade handlers
 vi.mock("./anonymous-upgrade", () => ({
   autoUpgradeAnonymousCredentialHandler: vi.fn(),
   autoUpgradeAnonymousProviderHandler: vi.fn(),
   autoUpgradeAnonymousUserRedirectHandler: vi.fn(),
+}));
+
+vi.mock("./require-display-name", () => ({
+  requireDisplayNameHandler: vi.fn(),
 }));
 
 vi.mock("firebase/auth", () => ({
@@ -49,6 +53,7 @@ describe("hasBehavior", () => {
         autoUpgradeAnonymousCredential: { type: "callable" as const, handler: vi.fn() },
         autoUpgradeAnonymousProvider: { type: "callable" as const, handler: vi.fn() },
         recaptchaVerification: { type: "callable" as const, handler: vi.fn() },
+        requireDisplayName: { type: "callable" as const, handler: vi.fn() },
       } as any,
     });
 
@@ -56,6 +61,7 @@ describe("hasBehavior", () => {
     expect(hasBehavior(mockUI, "autoUpgradeAnonymousCredential")).toBe(true);
     expect(hasBehavior(mockUI, "autoUpgradeAnonymousProvider")).toBe(true);
     expect(hasBehavior(mockUI, "recaptchaVerification")).toBe(true);
+    expect(hasBehavior(mockUI, "requireDisplayName")).toBe(true);
   });
 });
 
@@ -83,6 +89,7 @@ describe("getBehavior", () => {
       autoUpgradeAnonymousCredential: { type: "callable" as const, handler: vi.fn() },
       autoUpgradeAnonymousProvider: { type: "callable" as const, handler: vi.fn() },
       recaptchaVerification: { type: "callable" as const, handler: vi.fn() },
+      requireDisplayName: { type: "callable" as const, handler: vi.fn() },
     };
 
     const ui = createMockUI({ behaviors: mockBehaviors as any });
@@ -93,6 +100,7 @@ describe("getBehavior", () => {
     );
     expect(getBehavior(ui, "autoUpgradeAnonymousProvider")).toBe(mockBehaviors.autoUpgradeAnonymousProvider.handler);
     expect(getBehavior(ui, "recaptchaVerification")).toBe(mockBehaviors.recaptchaVerification.handler);
+    expect(getBehavior(ui, "requireDisplayName")).toBe(mockBehaviors.requireDisplayName.handler);
   });
 });
 
@@ -211,6 +219,30 @@ describe("recaptchaVerification", () => {
   });
 });
 
+describe("requireDisplayName", () => {
+  it("should return behavior with correct structure", () => {
+    const behavior = requireDisplayName();
+
+    expect(behavior).toHaveProperty("requireDisplayName");
+    expect(behavior.requireDisplayName).toHaveProperty("type", "callable");
+    expect(behavior.requireDisplayName).toHaveProperty("handler");
+    expect(typeof behavior.requireDisplayName.handler).toBe("function");
+  });
+
+  it("should call the requireDisplayNameHandler when executed", async () => {
+    const behavior = requireDisplayName();
+    const mockUI = createMockUI();
+    const mockUser = { uid: "test-user-123" } as any;
+    const displayName = "John Doe";
+
+    const { requireDisplayNameHandler } = await import("./require-display-name");
+
+    await behavior.requireDisplayName.handler(mockUI, mockUser, displayName);
+
+    expect(requireDisplayNameHandler).toHaveBeenCalledWith(mockUI, mockUser, displayName);
+  });
+});
+
 describe("defaultBehaviors", () => {
   it("should include recaptchaVerification by default", () => {
     expect(defaultBehaviors).toHaveProperty("recaptchaVerification");
@@ -222,5 +254,6 @@ describe("defaultBehaviors", () => {
     expect(defaultBehaviors).not.toHaveProperty("autoAnonymousLogin");
     expect(defaultBehaviors).not.toHaveProperty("autoUpgradeAnonymousCredential");
     expect(defaultBehaviors).not.toHaveProperty("autoUpgradeAnonymousProvider");
+    expect(defaultBehaviors).not.toHaveProperty("requireDisplayName");
   });
 });

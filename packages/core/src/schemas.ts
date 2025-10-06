@@ -18,6 +18,7 @@ import * as z from "zod";
 import { RecaptchaVerifier } from "firebase/auth";
 import { getTranslation } from "./translations";
 import { FirebaseUIConfiguration } from "./config";
+import { hasBehavior } from "./behaviors";
 
 export const LoginTypes = ["email", "phone", "anonymous", "emailLink", "google"] as const;
 export type LoginType = (typeof LoginTypes)[number];
@@ -31,9 +32,15 @@ export function createSignInAuthFormSchema(ui: FirebaseUIConfiguration) {
 }
 
 export function createSignUpAuthFormSchema(ui: FirebaseUIConfiguration) {
+  const requireDisplayName = hasBehavior(ui, "requireDisplayName");
+  const displayNameRequiredMessage = getTranslation(ui, "errors", "displayNameRequired");
+
   return z.object({
     email: z.email(getTranslation(ui, "errors", "invalidEmail")),
     password: z.string().min(6, getTranslation(ui, "errors", "weakPassword")),
+    displayName: requireDisplayName
+      ? z.string().min(1, displayNameRequiredMessage)
+      : z.string().min(1, displayNameRequiredMessage).optional(),
   });
 }
 
