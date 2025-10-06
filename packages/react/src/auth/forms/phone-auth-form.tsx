@@ -17,15 +17,15 @@
 "use client";
 
 import {
-  confirmPhoneNumber,
   CountryCode,
   countryData,
   FirebaseUIError,
   formatPhoneNumberWithCountry,
   getTranslation,
-  signInWithPhoneNumber,
+  verifyPhoneNumber,
+  confirmPhoneNumber,
 } from "@firebase-ui/core";
-import { ConfirmationResult, RecaptchaVerifier, UserCredential } from "firebase/auth";
+import { RecaptchaVerifier, UserCredential } from "firebase/auth";
 import { useCallback, useRef, useState } from "react";
 import { usePhoneAuthFormSchema, useRecaptchaVerifier, useUI } from "~/hooks";
 import { form } from "~/components/form";
@@ -37,7 +37,7 @@ export function usePhoneNumberFormAction() {
 
   return useCallback(
     async ({ phoneNumber, recaptchaVerifier }: { phoneNumber: string; recaptchaVerifier: RecaptchaVerifier }) => {
-      return await signInWithPhoneNumber(ui, phoneNumber, recaptchaVerifier);
+      return await verifyPhoneNumber(ui, phoneNumber, recaptchaVerifier);
     },
     [ui]
   );
@@ -45,7 +45,7 @@ export function usePhoneNumberFormAction() {
 
 type UsePhoneNumberForm = {
   recaptchaVerifier: RecaptchaVerifier;
-  onSuccess: (confirmationResult: ConfirmationResult) => void;
+  onSuccess: (verificationId: string) => void;
   formatPhoneNumber?: (phoneNumber: string) => string;
 };
 
@@ -74,7 +74,7 @@ export function usePhoneNumberForm({ recaptchaVerifier, onSuccess, formatPhoneNu
 }
 
 type PhoneNumberFormProps = {
-  onSubmit: (confirmationResult: ConfirmationResult) => void;
+  onSubmit: (verificationId: string) => void;
 };
 
 export function PhoneNumberForm(props: PhoneNumberFormProps) {
@@ -133,19 +133,19 @@ export function useVerifyPhoneNumberFormAction() {
   const ui = useUI();
 
   return useCallback(
-    async ({ confirmation, code }: { confirmation: ConfirmationResult; code: string }) => {
-      return await confirmPhoneNumber(ui, confirmation, code);
+    async ({ verificationId, verificationCode }: { verificationId: string; verificationCode: string }) => {
+      return await confirmPhoneNumber(ui, verificationId, verificationCode);
     },
     [ui]
   );
 }
 
 type UseVerifyPhoneNumberForm = {
-  confirmation: ConfirmationResult;
+  verificationId: string;
   onSuccess: (credential: UserCredential) => void;
 };
 
-export function useVerifyPhoneNumberForm({ confirmation, onSuccess }: UseVerifyPhoneNumberForm) {
+export function useVerifyPhoneNumberForm({ verificationId, onSuccess }: UseVerifyPhoneNumberForm) {
   const schema = usePhoneAuthFormSchema().pick({ verificationCode: true });
   const action = useVerifyPhoneNumberFormAction();
 
@@ -158,7 +158,7 @@ export function useVerifyPhoneNumberForm({ confirmation, onSuccess }: UseVerifyP
       onBlur: schema,
       onSubmitAsync: async ({ value }) => {
         try {
-          const credential = await action({ confirmation, code: value.verificationCode });
+          const credential = await action({ verificationId, verificationCode: value.verificationCode });
           return onSuccess(credential);
         } catch (error) {
           return error instanceof FirebaseUIError ? error.message : String(error);
@@ -170,12 +170,12 @@ export function useVerifyPhoneNumberForm({ confirmation, onSuccess }: UseVerifyP
 
 type VerifyPhoneNumberFormProps = {
   onSuccess: (credential: UserCredential) => void;
-  confirmation: ConfirmationResult;
+  verificationId: string;
 };
 
 function VerifyPhoneNumberForm(props: VerifyPhoneNumberFormProps) {
   const ui = useUI();
-  const form = useVerifyPhoneNumberForm({ confirmation: props.confirmation, onSuccess: props.onSuccess });
+  const form = useVerifyPhoneNumberForm({ verificationId: props.verificationId, onSuccess: props.onSuccess });
 
   return (
     <form
@@ -206,15 +206,15 @@ export type PhoneAuthFormProps = {
 };
 
 export function PhoneAuthForm(props: PhoneAuthFormProps) {
-  const [result, setResult] = useState<ConfirmationResult | null>(null);
+  const [verificationId, setVerificationId] = useState<string | null>(null);
 
-  if (!result) {
-    return <PhoneNumberForm onSubmit={setResult} />;
+  if (!verificationId) {
+    return <PhoneNumberForm onSubmit={setVerificationId} />;
   }
 
   return (
     <VerifyPhoneNumberForm
-      confirmation={result}
+      verificationId={verificationId}
       onSuccess={(credential) => {
         props.onSignIn?.(credential);
       }}

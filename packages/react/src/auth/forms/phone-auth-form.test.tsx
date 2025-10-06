@@ -40,7 +40,7 @@ vi.mock("@firebase-ui/core", async (importOriginal) => {
   const mod = await importOriginal<typeof import("@firebase-ui/core")>();
   return {
     ...mod,
-    signInWithPhoneNumber: vi.fn(),
+    verifyPhoneNumber: vi.fn(),
     confirmPhoneNumber: vi.fn(),
     formatPhoneNumberWithCountry: vi.fn((phoneNumber, dialCode) => `${dialCode}${phoneNumber}`),
   };
@@ -69,7 +69,7 @@ vi.mock("~/hooks", async (importOriginal) => {
   };
 });
 
-import { signInWithPhoneNumber, confirmPhoneNumber } from "@firebase-ui/core";
+import { verifyPhoneNumber, confirmPhoneNumber } from "@firebase-ui/core";
 import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
 import { registerLocale } from "@firebase-ui/translations";
 import { FirebaseUIProvider } from "~/context";
@@ -102,7 +102,7 @@ describe("usePhoneNumberFormAction", () => {
   });
 
   it("should return a callback which accepts phone number and recaptcha verifier", async () => {
-    const signInWithPhoneNumberMock = vi.mocked(signInWithPhoneNumber);
+    const verifyPhoneNumberMock = vi.mocked(verifyPhoneNumber);
     const mockUI = createMockUI();
     const mockRecaptchaVerifier = { render: vi.fn(), clear: vi.fn(), verify: vi.fn() };
 
@@ -114,12 +114,12 @@ describe("usePhoneNumberFormAction", () => {
       await result.current({ phoneNumber: "1234567890", recaptchaVerifier: mockRecaptchaVerifier as any });
     });
 
-    expect(signInWithPhoneNumberMock).toHaveBeenCalledWith(expect.any(Object), "1234567890", mockRecaptchaVerifier);
+    expect(verifyPhoneNumberMock).toHaveBeenCalledWith(expect.any(Object), "1234567890", mockRecaptchaVerifier);
   });
 
-  it("should return a confirmation result on success", async () => {
-    const mockConfirmationResult = { confirm: vi.fn() } as any;
-    const signInWithPhoneNumberMock = vi.mocked(signInWithPhoneNumber).mockResolvedValue(mockConfirmationResult);
+  it("should return a verification ID on success", async () => {
+    const mockVerificationId = "test-verification-id";
+    const verifyPhoneNumberMock = vi.mocked(verifyPhoneNumber).mockResolvedValue(mockVerificationId);
     const mockUI = createMockUI();
     const mockRecaptchaVerifier = { render: vi.fn(), clear: vi.fn(), verify: vi.fn() };
 
@@ -128,18 +128,18 @@ describe("usePhoneNumberFormAction", () => {
     });
 
     await act(async () => {
-      const confirmationResult = await result.current({
+      const verificationId = await result.current({
         phoneNumber: "1234567890",
         recaptchaVerifier: mockRecaptchaVerifier as any,
       });
-      expect(confirmationResult).toBe(mockConfirmationResult);
+      expect(verificationId).toBe(mockVerificationId);
     });
 
-    expect(signInWithPhoneNumberMock).toHaveBeenCalledWith(expect.any(Object), "1234567890", mockRecaptchaVerifier);
+    expect(verifyPhoneNumberMock).toHaveBeenCalledWith(expect.any(Object), "1234567890", mockRecaptchaVerifier);
   });
 
   it("should throw an unknown error when its not a FirebaseUIError", async () => {
-    const signInWithPhoneNumberMock = vi.mocked(signInWithPhoneNumber).mockRejectedValue(new Error("Unknown error"));
+    const verifyPhoneNumberMock = vi.mocked(verifyPhoneNumber).mockRejectedValue(new Error("Unknown error"));
 
     const mockUI = createMockUI({
       locale: registerLocale("es-ES", {
@@ -161,7 +161,7 @@ describe("usePhoneNumberFormAction", () => {
       });
     }).rejects.toThrow("Unknown error");
 
-    expect(signInWithPhoneNumberMock).toHaveBeenCalledWith(mockUI.get(), "1234567890", mockRecaptchaVerifier);
+    expect(verifyPhoneNumberMock).toHaveBeenCalledWith(mockUI.get(), "1234567890", mockRecaptchaVerifier);
   });
 });
 
@@ -176,8 +176,8 @@ describe("usePhoneNumberForm", () => {
 
   it("should allow the form to be submitted with valid phone number", async () => {
     const mockUI = createMockUI();
-    const mockConfirmationResult = { confirm: vi.fn() } as any;
-    const signInWithPhoneNumberMock = vi.mocked(signInWithPhoneNumber).mockResolvedValue(mockConfirmationResult);
+    const mockVerificationId = "test-verification-id";
+    const verifyPhoneNumberMock = vi.mocked(verifyPhoneNumber).mockResolvedValue(mockVerificationId);
     const mockRecaptchaVerifier = { render: vi.fn(), clear: vi.fn(), verify: vi.fn() };
 
     const { result } = renderHook(
@@ -199,12 +199,12 @@ describe("usePhoneNumberForm", () => {
       await result.current.handleSubmit();
     });
 
-    expect(signInWithPhoneNumberMock).toHaveBeenCalledWith(mockUI.get(), "1234567890", mockRecaptchaVerifier);
+    expect(verifyPhoneNumberMock).toHaveBeenCalledWith(mockUI.get(), "1234567890", mockRecaptchaVerifier);
   });
 
   it("should not allow the form to be submitted if the form is invalid", async () => {
     const mockUI = createMockUI();
-    const signInWithPhoneNumberMock = vi.mocked(signInWithPhoneNumber);
+    const verifyPhoneNumberMock = vi.mocked(verifyPhoneNumber);
     const mockRecaptchaVerifier = { render: vi.fn(), clear: vi.fn(), verify: vi.fn() };
 
     const { result } = renderHook(
@@ -229,16 +229,16 @@ describe("usePhoneNumberForm", () => {
     const fieldMeta = result.current.getFieldMeta("phoneNumber");
     expect(fieldMeta?.errors).toBeDefined();
     expect(fieldMeta?.errors.length).toBeGreaterThan(0);
-    expect(signInWithPhoneNumberMock).not.toHaveBeenCalled();
+    expect(verifyPhoneNumberMock).not.toHaveBeenCalled();
   });
 
   it("should call onSuccess callback when form submission succeeds", async () => {
     const mockUI = createMockUI();
     const mockRecaptchaVerifier = { render: vi.fn(), clear: vi.fn(), verify: vi.fn() };
-    const mockConfirmationResult = { confirm: vi.fn() } as any;
+    const mockVerificationId = "test-verification-id";
     const onSuccessMock = vi.fn();
 
-    vi.mocked(signInWithPhoneNumber).mockResolvedValue(mockConfirmationResult);
+    vi.mocked(verifyPhoneNumber).mockResolvedValue(mockVerificationId);
 
     const { result } = renderHook(
       () =>
@@ -259,7 +259,7 @@ describe("usePhoneNumberForm", () => {
       await result.current.handleSubmit();
     });
 
-    expect(onSuccessMock).toHaveBeenCalledWith(mockConfirmationResult);
+    expect(onSuccessMock).toHaveBeenCalledWith(mockVerificationId);
   });
 });
 
@@ -268,38 +268,38 @@ describe("useVerifyPhoneNumberFormAction", () => {
     vi.clearAllMocks();
   });
 
-  it("should return a callback which accepts confirmation result and code", async () => {
+  it("should return a callback which accepts verification ID and code", async () => {
     const confirmPhoneNumberMock = vi.mocked(confirmPhoneNumber);
     const mockUI = createMockUI();
-    const mockConfirmationResult = { confirm: vi.fn() };
+    const mockVerificationId = "test-verification-id";
 
     const { result } = renderHook(() => useVerifyPhoneNumberFormAction(), {
       wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
     await act(async () => {
-      await result.current({ confirmation: mockConfirmationResult as any, code: "123456" });
+      await result.current({ verificationId: mockVerificationId, verificationCode: "123456" });
     });
 
-    expect(confirmPhoneNumberMock).toHaveBeenCalledWith(expect.any(Object), mockConfirmationResult, "123456");
+    expect(confirmPhoneNumberMock).toHaveBeenCalledWith(expect.any(Object), mockVerificationId, "123456");
   });
 
   it("should return a credential on success", async () => {
     const mockCredential = { credential: true } as unknown as UserCredential;
     const confirmPhoneNumberMock = vi.mocked(confirmPhoneNumber).mockResolvedValue(mockCredential);
     const mockUI = createMockUI();
-    const mockConfirmationResult = { confirm: vi.fn() };
+    const mockVerificationId = "test-verification-id";
 
     const { result } = renderHook(() => useVerifyPhoneNumberFormAction(), {
       wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
     await act(async () => {
-      const credential = await result.current({ confirmation: mockConfirmationResult as any, code: "123456" });
+      const credential = await result.current({ verificationId: mockVerificationId, verificationCode: "123456" });
       expect(credential).toBe(mockCredential);
     });
 
-    expect(confirmPhoneNumberMock).toHaveBeenCalledWith(expect.any(Object), mockConfirmationResult, "123456");
+    expect(confirmPhoneNumberMock).toHaveBeenCalledWith(expect.any(Object), mockVerificationId, "123456");
   });
 
   it("should throw an unknown error when its not a FirebaseUIError", async () => {
@@ -313,7 +313,7 @@ describe("useVerifyPhoneNumberFormAction", () => {
       }),
     });
 
-    const mockConfirmationResult = { confirm: vi.fn() };
+    const mockVerificationId = "test-verification-id";
 
     const { result } = renderHook(() => useVerifyPhoneNumberFormAction(), {
       wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
@@ -321,11 +321,11 @@ describe("useVerifyPhoneNumberFormAction", () => {
 
     await expect(async () => {
       await act(async () => {
-        await result.current({ confirmation: mockConfirmationResult as any, code: "123456" });
+        await result.current({ verificationId: mockVerificationId, verificationCode: "123456" });
       });
     }).rejects.toThrow("Unknown error");
 
-    expect(confirmPhoneNumberMock).toHaveBeenCalledWith(mockUI.get(), mockConfirmationResult, "123456");
+    expect(confirmPhoneNumberMock).toHaveBeenCalledWith(mockUI.get(), mockVerificationId, "123456");
   });
 });
 
@@ -341,12 +341,12 @@ describe("useVerifyPhoneNumberForm", () => {
   it("should allow the form to be submitted with valid verification code", async () => {
     const mockUI = createMockUI();
     const confirmPhoneNumberMock = vi.mocked(confirmPhoneNumber);
-    const mockConfirmationResult = { confirm: vi.fn() } as any;
+    const mockVerificationId = "test-verification-id";
 
     const { result } = renderHook(
       () =>
         useVerifyPhoneNumberForm({
-          confirmation: mockConfirmationResult,
+          verificationId: mockVerificationId,
           onSuccess: vi.fn(),
         }),
       {
@@ -362,18 +362,18 @@ describe("useVerifyPhoneNumberForm", () => {
       await result.current.handleSubmit();
     });
 
-    expect(confirmPhoneNumberMock).toHaveBeenCalledWith(mockUI.get(), mockConfirmationResult, "123456");
+    expect(confirmPhoneNumberMock).toHaveBeenCalledWith(mockUI.get(), mockVerificationId, "123456");
   });
 
   it("should not allow the form to be submitted if the form is invalid", async () => {
     const mockUI = createMockUI();
     const confirmPhoneNumberMock = vi.mocked(confirmPhoneNumber);
-    const mockConfirmationResult = { confirm: vi.fn() } as any;
+    const mockVerificationId = "test-verification-id";
 
     const { result } = renderHook(
       () =>
         useVerifyPhoneNumberForm({
-          confirmation: mockConfirmationResult,
+          verificationId: mockVerificationId,
           onSuccess: vi.fn(),
         }),
       {
@@ -395,7 +395,7 @@ describe("useVerifyPhoneNumberForm", () => {
 
   it("should call onSuccess callback when form submission succeeds", async () => {
     const mockUI = createMockUI();
-    const mockConfirmationResult = { confirm: vi.fn() } as any;
+    const mockVerificationId = "test-verification-id";
     const mockCredential = { credential: true } as unknown as UserCredential;
     const onSuccessMock = vi.fn();
 
@@ -404,7 +404,7 @@ describe("useVerifyPhoneNumberForm", () => {
     const { result } = renderHook(
       () =>
         useVerifyPhoneNumberForm({
-          confirmation: mockConfirmationResult,
+          verificationId: mockVerificationId,
           onSuccess: onSuccessMock,
         }),
       {

@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  signInWithPhoneNumber,
+  verifyPhoneNumber,
   confirmPhoneNumber,
   sendPasswordResetEmail,
   sendSignInLinkToEmail,
@@ -16,7 +16,6 @@ import {
 vi.mock("firebase/auth", () => ({
   signInWithCredential: vi.fn(),
   createUserWithEmailAndPassword: vi.fn(),
-  signInWithPhoneNumber: vi.fn(),
   sendPasswordResetEmail: vi.fn(),
   sendSignInLinkToEmail: vi.fn(),
   signInAnonymously: vi.fn(),
@@ -26,9 +25,9 @@ vi.mock("firebase/auth", () => ({
     credential: vi.fn(),
     credentialWithLink: vi.fn(),
   },
-  PhoneAuthProvider: {
+  PhoneAuthProvider: Object.assign(vi.fn(), {
     credential: vi.fn(),
-  },
+  }),
   linkWithCredential: vi.fn(),
 }));
 
@@ -47,15 +46,12 @@ import {
   EmailAuthProvider,
   PhoneAuthProvider,
   createUserWithEmailAndPassword as _createUserWithEmailAndPassword,
-  signInWithPhoneNumber as _signInWithPhoneNumber,
   sendPasswordResetEmail as _sendPasswordResetEmail,
   sendSignInLinkToEmail as _sendSignInLinkToEmail,
   signInAnonymously as _signInAnonymously,
-  signInWithRedirect,
   isSignInWithEmailLink as _isSignInWithEmailLink,
   UserCredential,
   Auth,
-  ConfirmationResult,
   AuthProvider,
   TotpSecret,
 } from "firebase/auth";
@@ -195,7 +191,7 @@ describe("createUserWithEmailAndPassword", () => {
     const password = "password123";
 
     const credential = EmailAuthProvider.credential(email, password);
-    vi.mocked(hasBehavior).mockImplementation((ui, behavior) => {
+    vi.mocked(hasBehavior).mockImplementation((_, behavior) => {
       if (behavior === "autoUpgradeAnonymousCredential") return true;
       if (behavior === "requireDisplayName") return false;
       return false;
@@ -221,7 +217,7 @@ describe("createUserWithEmailAndPassword", () => {
     const password = "password123";
 
     const credential = EmailAuthProvider.credential(email, password);
-    vi.mocked(hasBehavior).mockImplementation((ui, behavior) => {
+    vi.mocked(hasBehavior).mockImplementation((_, behavior) => {
       if (behavior === "autoUpgradeAnonymousCredential") return true;
       if (behavior === "requireDisplayName") return false;
       return false;
@@ -380,44 +376,54 @@ describe("createUserWithEmailAndPassword", () => {
   });
 });
 
-describe("signInWithPhoneNumber", () => {
+describe("verifyPhoneNumber", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it("should update state and call signInWithPhoneNumber successfully", async () => {
+  it("should update state and call PhoneAuthProvider.verifyPhoneNumber successfully", async () => {
     const mockUI = createMockUI();
     const phoneNumber = "+1234567890";
-    const mockRecaptchaVerifier = {} as any;
-    const mockConfirmationResult = {
-      verificationId: "test-verification-id",
-      confirm: vi.fn(),
-    } as any;
+    const mockAppVerifier = {} as any;
+    const mockVerificationId = "test-verification-id";
 
-    vi.mocked(_signInWithPhoneNumber).mockResolvedValue(mockConfirmationResult);
+    const mockVerifyPhoneNumber = vi.fn().mockResolvedValue(mockVerificationId);
+    vi.mocked(PhoneAuthProvider).mockImplementation(
+      () =>
+        ({
+          verifyPhoneNumber: mockVerifyPhoneNumber,
+        }) as any
+    );
 
-    const result = await signInWithPhoneNumber(mockUI, phoneNumber, mockRecaptchaVerifier);
+    const result = await verifyPhoneNumber(mockUI, phoneNumber, mockAppVerifier);
 
     // Verify state management
     expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
 
-    // Verify the Firebase function was called with correct parameters
-    expect(_signInWithPhoneNumber).toHaveBeenCalledWith(mockUI.auth, phoneNumber, mockRecaptchaVerifier);
-    expect(_signInWithPhoneNumber).toHaveBeenCalledTimes(1);
+    // Verify the PhoneAuthProvider was created and verifyPhoneNumber was called
+    expect(PhoneAuthProvider).toHaveBeenCalledWith(mockUI.auth);
+    expect(mockVerifyPhoneNumber).toHaveBeenCalledWith(phoneNumber, mockAppVerifier);
+    expect(mockVerifyPhoneNumber).toHaveBeenCalledTimes(1);
 
     // Verify the result
-    expect(result).toEqual(mockConfirmationResult);
+    expect(result).toEqual(mockVerificationId);
   });
 
   it("should call handleFirebaseError if an error is thrown", async () => {
     const mockUI = createMockUI();
     const phoneNumber = "+1234567890";
-    const mockRecaptchaVerifier = {} as any;
+    const mockAppVerifier = {} as any;
     const error = new FirebaseError("auth/invalid-phone-number", "Invalid phone number");
 
-    vi.mocked(_signInWithPhoneNumber).mockRejectedValue(error);
+    const mockVerifyPhoneNumber = vi.fn().mockRejectedValue(error);
+    vi.mocked(PhoneAuthProvider).mockImplementation(
+      () =>
+        ({
+          verifyPhoneNumber: mockVerifyPhoneNumber,
+        }) as any
+    );
 
-    await signInWithPhoneNumber(mockUI, phoneNumber, mockRecaptchaVerifier);
+    await verifyPhoneNumber(mockUI, phoneNumber, mockAppVerifier);
 
     // Verify error handling
     expect(handleFirebaseError).toHaveBeenCalledWith(mockUI, error);
@@ -429,12 +435,18 @@ describe("signInWithPhoneNumber", () => {
   it("should handle recaptcha verification errors", async () => {
     const mockUI = createMockUI();
     const phoneNumber = "+1234567890";
-    const mockRecaptchaVerifier = {} as any;
+    const mockAppVerifier = {} as any;
     const error = new Error("reCAPTCHA verification failed");
 
-    vi.mocked(_signInWithPhoneNumber).mockRejectedValue(error);
+    const mockVerifyPhoneNumber = vi.fn().mockRejectedValue(error);
+    vi.mocked(PhoneAuthProvider).mockImplementation(
+      () =>
+        ({
+          verifyPhoneNumber: mockVerifyPhoneNumber,
+        }) as any
+    );
 
-    await signInWithPhoneNumber(mockUI, phoneNumber, mockRecaptchaVerifier);
+    await verifyPhoneNumber(mockUI, phoneNumber, mockAppVerifier);
 
     // Verify error handling
     expect(handleFirebaseError).toHaveBeenCalledWith(mockUI, error);
@@ -453,15 +465,15 @@ describe("confirmPhoneNumber", () => {
     const mockUI = createMockUI({
       auth: { currentUser: null } as Auth,
     });
-    const confirmationResult = { verificationId: "test-verification-id" } as ConfirmationResult;
+    const verificationId = "test-verification-id";
     const verificationCode = "123456";
 
-    const credential = PhoneAuthProvider.credential(confirmationResult.verificationId, verificationCode);
+    const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
     vi.mocked(hasBehavior).mockReturnValue(false);
     vi.mocked(PhoneAuthProvider.credential).mockReturnValue(credential);
     vi.mocked(_signInWithCredential).mockResolvedValue({ providerId: "phone" } as UserCredential);
 
-    const result = await confirmPhoneNumber(mockUI, confirmationResult, verificationCode);
+    const result = await confirmPhoneNumber(mockUI, verificationId, verificationCode);
 
     // Since currentUser is null, the behavior should not called.
     expect(hasBehavior).toHaveBeenCalledTimes(0);
@@ -480,16 +492,16 @@ describe("confirmPhoneNumber", () => {
     const mockUI = createMockUI({
       auth: { currentUser: { isAnonymous: true } } as Auth,
     });
-    const confirmationResult = { verificationId: "test-verification-id" } as ConfirmationResult;
+    const verificationId = "test-verification-id";
     const verificationCode = "123456";
 
-    const credential = PhoneAuthProvider.credential(confirmationResult.verificationId, verificationCode);
+    const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
     vi.mocked(hasBehavior).mockReturnValue(true);
     vi.mocked(PhoneAuthProvider.credential).mockReturnValue(credential);
     const mockBehavior = vi.fn().mockResolvedValue({ providerId: "phone" } as UserCredential);
     vi.mocked(getBehavior).mockReturnValue(mockBehavior);
 
-    const result = await confirmPhoneNumber(mockUI, confirmationResult, verificationCode);
+    const result = await confirmPhoneNumber(mockUI, verificationId, verificationCode);
 
     expect(hasBehavior).toHaveBeenCalledWith(mockUI, "autoUpgradeAnonymousCredential");
     expect(getBehavior).toHaveBeenCalledWith(mockUI, "autoUpgradeAnonymousCredential");
@@ -505,14 +517,14 @@ describe("confirmPhoneNumber", () => {
     const mockUI = createMockUI({
       auth: { currentUser: { isAnonymous: false } } as Auth,
     });
-    const confirmationResult = { verificationId: "test-verification-id" } as ConfirmationResult;
+    const verificationId = "test-verification-id";
     const verificationCode = "123456";
 
-    const credential = PhoneAuthProvider.credential(confirmationResult.verificationId, verificationCode);
+    const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
     vi.mocked(PhoneAuthProvider.credential).mockReturnValue(credential);
     vi.mocked(_signInWithCredential).mockResolvedValue({ providerId: "phone" } as UserCredential);
 
-    const result = await confirmPhoneNumber(mockUI, confirmationResult, verificationCode);
+    const result = await confirmPhoneNumber(mockUI, verificationId, verificationCode);
 
     // Behavior should not be called when user is not anonymous
     expect(hasBehavior).not.toHaveBeenCalled();
@@ -527,14 +539,14 @@ describe("confirmPhoneNumber", () => {
     const mockUI = createMockUI({
       auth: { currentUser: null } as Auth,
     });
-    const confirmationResult = { verificationId: "test-verification-id" } as ConfirmationResult;
+    const verificationId = "test-verification-id";
     const verificationCode = "123456";
 
-    const credential = PhoneAuthProvider.credential(confirmationResult.verificationId, verificationCode);
+    const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
     vi.mocked(PhoneAuthProvider.credential).mockReturnValue(credential);
     vi.mocked(_signInWithCredential).mockResolvedValue({ providerId: "phone" } as UserCredential);
 
-    const result = await confirmPhoneNumber(mockUI, confirmationResult, verificationCode);
+    const result = await confirmPhoneNumber(mockUI, verificationId, verificationCode);
 
     // Behavior should not be called when user is null
     expect(hasBehavior).not.toHaveBeenCalled();
@@ -549,16 +561,16 @@ describe("confirmPhoneNumber", () => {
     const mockUI = createMockUI({
       auth: { currentUser: { isAnonymous: true } } as Auth,
     });
-    const confirmationResult = { verificationId: "test-verification-id" } as ConfirmationResult;
+    const verificationId = "test-verification-id";
     const verificationCode = "123456";
 
-    const credential = PhoneAuthProvider.credential(confirmationResult.verificationId, verificationCode);
+    const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
     vi.mocked(hasBehavior).mockReturnValue(true);
     vi.mocked(PhoneAuthProvider.credential).mockReturnValue(credential);
     const mockBehavior = vi.fn().mockResolvedValue(undefined);
     vi.mocked(getBehavior).mockReturnValue(mockBehavior);
 
-    await confirmPhoneNumber(mockUI, confirmationResult, verificationCode);
+    await confirmPhoneNumber(mockUI, verificationId, verificationCode);
 
     expect(hasBehavior).toHaveBeenCalledWith(mockUI, "autoUpgradeAnonymousCredential");
     expect(getBehavior).toHaveBeenCalledWith(mockUI, "autoUpgradeAnonymousCredential");
@@ -576,14 +588,14 @@ describe("confirmPhoneNumber", () => {
     const mockUI = createMockUI({
       auth: { currentUser: null } as Auth,
     });
-    const confirmationResult = { verificationId: "test-verification-id" } as ConfirmationResult;
+    const verificationId = "test-verification-id";
     const verificationCode = "123456";
 
     const error = new FirebaseError("auth/invalid-verification-code", "Invalid verification code");
 
     vi.mocked(_signInWithCredential).mockRejectedValue(error);
 
-    await confirmPhoneNumber(mockUI, confirmationResult, verificationCode);
+    await confirmPhoneNumber(mockUI, verificationId, verificationCode);
 
     expect(handleFirebaseError).toHaveBeenCalledWith(mockUI, error);
     expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
