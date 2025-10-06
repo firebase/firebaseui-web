@@ -9,10 +9,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      "@firebase-ui/core": path.resolve(__dirname, "../core/src"),
-      "@firebase-ui/react": path.resolve(__dirname, "../react/src"),
-      "@firebase-ui/translations": path.resolve(__dirname, "../translations/src"),
-      "@firebase-ui/styles": path.resolve(__dirname, "../styles/src"),
+      "@/tests": path.resolve(__dirname, "./tests"),
     },
   },
 });

@@ -617,6 +617,9 @@ importers:
 
   packages/shadcn:
     dependencies:
+      '@firebase-ui/core':
+        specifier: workspace:*
+        version: link:../core
       '@firebase-ui/react':
         specifier: workspace:*
         version: link:../react
@@ -651,9 +654,18 @@ importers:
         specifier: 'catalog:'
         version: 4.1.11
     devDependencies:
+      '@firebase-ui/translations':
+        specifier: workspace:*
+        version: link:../translations
       '@tailwindcss/vite':
         specifier: ^4.1.14
         version: 4.1.14(vite@7.1.5(@types/node@24.3.1)(jiti@2.6.1)(less@4.4.1)(lightningcss@1.30.1)(sass@1.92.1)(terser@5.43.1)(tsx@4.20.6))
+      '@testing-library/jest-dom':
+        specifier: 'catalog:'
+        version: 6.8.0
+      '@testing-library/react':
+        specifier: 'catalog:'
+        version: 16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.1.9(@types/react@19.1.16))(@types/react@19.1.16)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@types/node':
         specifier: 'catalog:'
         version: 24.3.1
@@ -666,6 +678,9 @@ importers:
       '@vitejs/plugin-react':
         specifier: 'catalog:'
         version: 5.0.4(vite@7.1.5(@types/node@24.3.1)(jiti@2.6.1)(less@4.4.1)(lightningcss@1.30.1)(sass@1.92.1)(terser@5.43.1)(tsx@4.20.6))
+      firebase:
+        specifier: 'catalog:'
+        version: 11.10.0
       react:
         specifier: 'catalog:'
         version: 19.1.1
@@ -690,6 +705,9 @@ importers:
       vite:
         specifier: 'catalog:'
         version: 7.1.5(@types/node@24.3.1)(jiti@2.6.1)(less@4.4.1)(lightningcss@1.30.1)(sass@1.92.1)(terser@5.43.1)(tsx@4.20.6)
+      vitest:
+        specifier: 'catalog:'
+        version: 3.2.4(@types/node@24.3.1)(@vitest/ui@3.2.4)(jiti@2.6.1)(jsdom@26.1.0)(less@4.4.1)(lightningcss@1.30.1)(msw@2.11.3(@types/node@24.3.1)(typescript@5.9.2))(sass@1.92.1)(terser@5.43.1)(tsx@4.20.6)
 
   packages/styles:
     dependencies:
