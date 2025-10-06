@@ -3,6 +3,7 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "moduleResolution": "Bundler",
+    "types": ["vite/client"],
     "paths": {
       "@/*": ["./src/*"],
       "@firebase-ui/core": ["../core/src/index.ts"],
