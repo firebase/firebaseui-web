@@ -22,7 +22,8 @@ import {
   useSignUpAuthFormSchema,
   useForgotPasswordAuthFormSchema,
   useEmailLinkAuthFormSchema,
-  usePhoneAuthFormSchema,
+  usePhoneAuthNumberFormSchema,
+  usePhoneAuthVerifyFormSchema,
 } from "./hooks";
 import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
 import { registerLocale, enUs } from "@firebase-ui/translations";
@@ -508,7 +509,7 @@ describe("useEmailLinkAuthFormSchema", () => {
   });
 });
 
-describe("usePhoneAuthFormSchema", () => {
+describe("usePhoneAuthNumberFormSchema", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     cleanup();
@@ -517,7 +518,7 @@ describe("usePhoneAuthFormSchema", () => {
   it("returns schema with default English error messages", () => {
     const mockUI = createMockUI();
 
-    const { result } = renderHook(() => usePhoneAuthFormSchema(), {
+    const { result } = renderHook(() => usePhoneAuthNumberFormSchema(), {
       wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
@@ -540,7 +541,7 @@ describe("usePhoneAuthFormSchema", () => {
     const customLocale = registerLocale("es-ES", customTranslations);
     const mockUI = createMockUI({ locale: customLocale });
 
-    const { result } = renderHook(() => usePhoneAuthFormSchema(), {
+    const { result } = renderHook(() => usePhoneAuthNumberFormSchema(), {
       wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
@@ -556,7 +557,7 @@ describe("usePhoneAuthFormSchema", () => {
   it("returns stable reference when UI hasn't changed", () => {
     const mockUI = createMockUI();
 
-    const { result, rerender } = renderHook(() => usePhoneAuthFormSchema(), {
+    const { result, rerender } = renderHook(() => usePhoneAuthNumberFormSchema(), {
       wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
@@ -570,7 +571,7 @@ describe("usePhoneAuthFormSchema", () => {
   it("returns new schema when locale changes", () => {
     const mockUI = createMockUI();
 
-    const { result, rerender } = renderHook(() => usePhoneAuthFormSchema(), {
+    const { result, rerender } = renderHook(() => usePhoneAuthNumberFormSchema(), {
       wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
@@ -596,6 +597,98 @@ describe("usePhoneAuthFormSchema", () => {
 
     if (!phoneResult.success) {
       expect(phoneResult.error.issues[0]!.message).toBe("Custom phone error");
+    }
+  });
+});
+
+describe("usePhoneAuthVerifyFormSchema", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    cleanup();
+  });
+
+  it("returns schema with default English error messages", () => {
+    const mockUI = createMockUI();
+
+    const { result } = renderHook(() => usePhoneAuthVerifyFormSchema(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    const schema = result.current;
+
+    const verifyResult = schema.safeParse({ verificationId: "test-id", verificationCode: "123" });
+    expect(verifyResult.success).toBe(false);
+    if (!verifyResult.success) {
+      expect(verifyResult.error.issues[0]!.message).toBe(enUs.translations.errors!.invalidVerificationCode);
+    }
+  });
+
+  it("returns schema with custom error messages when locale changes", () => {
+    const customTranslations = {
+      errors: {
+        invalidVerificationCode: "Por favor ingresa un código de verificación válido",
+      },
+    };
+
+    const customLocale = registerLocale("es-ES", customTranslations);
+    const mockUI = createMockUI({ locale: customLocale });
+
+    const { result } = renderHook(() => usePhoneAuthVerifyFormSchema(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    const schema = result.current;
+
+    const verifyResult = schema.safeParse({ verificationId: "test-id", verificationCode: "123" });
+    expect(verifyResult.success).toBe(false);
+    if (!verifyResult.success) {
+      expect(verifyResult.error.issues[0]!.message).toBe("Por favor ingresa un código de verificación válido");
+    }
+  });
+
+  it("returns stable reference when UI hasn't changed", () => {
+    const mockUI = createMockUI();
+
+    const { result, rerender } = renderHook(() => usePhoneAuthVerifyFormSchema(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    const initialSchema = result.current;
+
+    rerender();
+
+    expect(result.current).toBe(initialSchema);
+  });
+
+  it("returns new schema when locale changes", () => {
+    const mockUI = createMockUI();
+
+    const { result, rerender } = renderHook(() => usePhoneAuthVerifyFormSchema(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    const initialSchema = result.current;
+
+    const customTranslations = {
+      errors: {
+        invalidVerificationCode: "Custom verification error",
+      },
+    };
+    const customLocale = registerLocale("fr-FR", customTranslations);
+
+    act(() => {
+      mockUI.setKey("locale", customLocale);
+    });
+
+    rerender();
+
+    expect(result.current).not.toBe(initialSchema);
+
+    const verifyResult = result.current.safeParse({ verificationId: "test-id", verificationCode: "123" });
+    expect(verifyResult.success).toBe(false);
+
+    if (!verifyResult.success) {
+      expect(verifyResult.error.issues[0]!.message).toBe("Custom verification error");
     }
   });
 });

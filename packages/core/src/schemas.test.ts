@@ -3,7 +3,8 @@ import { createMockUI } from "~/tests/utils";
 import {
   createEmailLinkAuthFormSchema,
   createForgotPasswordAuthFormSchema,
-  createPhoneAuthFormSchema,
+  createPhoneAuthNumberFormSchema,
+  createPhoneAuthVerifyFormSchema,
   createSignInAuthFormSchema,
   createSignUpAuthFormSchema,
 } from "./schemas";
@@ -204,11 +205,11 @@ describe("createEmailLinkAuthFormSchema", () => {
   });
 });
 
-describe("createPhoneAuthFormSchema", () => {
-  it("should create a phone auth form schema and show missing phone number error", () => {
+describe("createPhoneAuthNumberFormSchema", () => {
+  it("should create a phone auth number form schema and show missing phone number error", () => {
     const testLocale = registerLocale("test", {
       errors: {
-        missingPhoneNumber: "createPhoneAuthFormSchema + missingPhoneNumber",
+        missingPhoneNumber: "createPhoneAuthNumberFormSchema + missingPhoneNumber",
       },
     });
 
@@ -216,7 +217,7 @@ describe("createPhoneAuthFormSchema", () => {
       locale: testLocale,
     });
 
-    const schema = createPhoneAuthFormSchema(mockUI);
+    const schema = createPhoneAuthNumberFormSchema(mockUI);
 
     // Cause the schema to fail...
     // TODO(ehesp): If no value is provided, the schema error is just "Required" - should this also be translated?
@@ -227,13 +228,13 @@ describe("createPhoneAuthFormSchema", () => {
     expect(result.success).toBe(false);
     expect(result.error).toBeDefined();
 
-    expect(result.error?.issues[0]?.message).toBe("createPhoneAuthFormSchema + missingPhoneNumber");
+    expect(result.error?.issues[0]?.message).toBe("createPhoneAuthNumberFormSchema + missingPhoneNumber");
   });
 
-  it("should create a phone auth form schema and show an error if the phone number is too long", () => {
+  it("should create a phone auth number form schema and show an error if the phone number is too long", () => {
     const testLocale = registerLocale("test", {
       errors: {
-        invalidPhoneNumber: "createPhoneAuthFormSchema + invalidPhoneNumber",
+        invalidPhoneNumber: "createPhoneAuthNumberFormSchema + invalidPhoneNumber",
       },
     });
 
@@ -241,26 +242,26 @@ describe("createPhoneAuthFormSchema", () => {
       locale: testLocale,
     });
 
-    const schema = createPhoneAuthFormSchema(mockUI);
+    const schema = createPhoneAuthNumberFormSchema(mockUI);
 
     // Cause the schema to fail...
     // TODO(ehesp): If no value is provided, the schema error is just "Required" - should this also be translated?
     const result = schema.safeParse({
       phoneNumber: "12345678901",
-      verificationCode: "123",
-      recaptchaVerifier: null,
     });
 
     expect(result.success).toBe(false);
     expect(result.error).toBeDefined();
 
-    expect(result.error?.issues[0]?.message).toBe("createPhoneAuthFormSchema + invalidPhoneNumber");
+    expect(result.error?.issues[0]?.message).toBe("createPhoneAuthNumberFormSchema + invalidPhoneNumber");
   });
+});
 
-  it("should create a phone auth form schema and show an error if the verification code is too short", () => {
+describe("createPhoneAuthVerifyFormSchema", () => {
+  it("should create a phone auth verify form schema and show missing verification ID error", () => {
     const testLocale = registerLocale("test", {
       errors: {
-        invalidVerificationCode: "createPhoneAuthFormSchema + invalidVerificationCode",
+        missingVerificationId: "createPhoneAuthVerifyFormSchema + missingVerificationId",
       },
     });
 
@@ -268,18 +269,43 @@ describe("createPhoneAuthFormSchema", () => {
       locale: testLocale,
     });
 
-    const schema = createPhoneAuthFormSchema(mockUI);
+    const schema = createPhoneAuthVerifyFormSchema(mockUI);
 
     const result = schema.safeParse({
-      phoneNumber: "1234567890",
+      verificationId: "",
+      verificationCode: "123456",
+    });
+
+    expect(result.success).toBe(false);
+    expect(result.error).toBeDefined();
+
+    expect(result.error?.issues[0]?.message).toBe("createPhoneAuthVerifyFormSchema + missingVerificationId");
+  });
+
+  it("should create a phone auth verify form schema and show an error if the verification code is too short", () => {
+    const testLocale = registerLocale("test", {
+      errors: {
+        invalidVerificationCode: "createPhoneAuthVerifyFormSchema + invalidVerificationCode",
+      },
+    });
+
+    const mockUI = createMockUI({
+      locale: testLocale,
+    });
+
+    const schema = createPhoneAuthVerifyFormSchema(mockUI);
+
+    const result = schema.safeParse({
+      verificationId: "test-verification-id",
       verificationCode: "123",
-      recaptchaVerifier: {} as RecaptchaVerifier, // Workaround for RecaptchaVerifier failing with Node env.
     });
 
     expect(result.success).toBe(false);
     expect(result.error).toBeDefined();
     expect(
-      result.error?.issues.some((issue) => issue.message === "createPhoneAuthFormSchema + invalidVerificationCode")
+      result.error?.issues.some(
+        (issue) => issue.message === "createPhoneAuthVerifyFormSchema + invalidVerificationCode"
+      )
     ).toBe(true);
   });
 });

@@ -27,7 +27,7 @@ import {
 } from "@firebase-ui/core";
 import { RecaptchaVerifier, UserCredential } from "firebase/auth";
 import { useCallback, useRef, useState } from "react";
-import { usePhoneAuthFormSchema, useRecaptchaVerifier, useUI } from "~/hooks";
+import { usePhoneAuthNumberFormSchema, usePhoneAuthVerifyFormSchema, useRecaptchaVerifier, useUI } from "~/hooks";
 import { form } from "~/components/form";
 import { Policies } from "~/components/policies";
 import { CountrySelector } from "~/components/country-selector";
@@ -51,7 +51,7 @@ type UsePhoneNumberForm = {
 
 export function usePhoneNumberForm({ recaptchaVerifier, onSuccess, formatPhoneNumber }: UsePhoneNumberForm) {
   const action = usePhoneNumberFormAction();
-  const schema = usePhoneAuthFormSchema().pick({ phoneNumber: true });
+  const schema = usePhoneAuthNumberFormSchema();
 
   return form.useAppForm({
     defaultValues: {
@@ -146,11 +146,12 @@ type UseVerifyPhoneNumberForm = {
 };
 
 export function useVerifyPhoneNumberForm({ verificationId, onSuccess }: UseVerifyPhoneNumberForm) {
-  const schema = usePhoneAuthFormSchema().pick({ verificationCode: true });
+  const schema = usePhoneAuthVerifyFormSchema();
   const action = useVerifyPhoneNumberFormAction();
 
   return form.useAppForm({
     defaultValues: {
+      verificationId,
       verificationCode: "",
     },
     validators: {
@@ -158,7 +159,7 @@ export function useVerifyPhoneNumberForm({ verificationId, onSuccess }: UseVerif
       onBlur: schema,
       onSubmitAsync: async ({ value }) => {
         try {
-          const credential = await action({ verificationId, verificationCode: value.verificationCode });
+          const credential = await action(value);
           return onSuccess(credential);
         } catch (error) {
           return error instanceof FirebaseUIError ? error.message : String(error);

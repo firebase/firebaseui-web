@@ -18,7 +18,8 @@ import { useContext, useMemo, useEffect } from "react";
 import {
   createEmailLinkAuthFormSchema,
   createForgotPasswordAuthFormSchema,
-  createPhoneAuthFormSchema,
+  createPhoneAuthNumberFormSchema,
+  createPhoneAuthVerifyFormSchema,
   createSignInAuthFormSchema,
   createSignUpAuthFormSchema,
   getBehavior,
@@ -61,9 +62,14 @@ export function useEmailLinkAuthFormSchema() {
   return useMemo(() => createEmailLinkAuthFormSchema(ui), [ui]);
 }
 
-export function usePhoneAuthFormSchema() {
+export function usePhoneAuthNumberFormSchema() {
   const ui = useUI();
-  return useMemo(() => createPhoneAuthFormSchema(ui), [ui]);
+  return useMemo(() => createPhoneAuthNumberFormSchema(ui), [ui]);
+}
+
+export function usePhoneAuthVerifyFormSchema() {
+  const ui = useUI();
+  return useMemo(() => createPhoneAuthVerifyFormSchema(ui), [ui]);
 }
 
 export function useRecaptchaVerifier(ref: React.RefObject<HTMLDivElement | null>) {
