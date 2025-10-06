@@ -62,6 +62,7 @@ export type Translations = {
   labels?: {
     emailAddress?: string;
     password?: string;
+    displayName?: string;
     forgotPassword?: string;
     register?: string;
     signIn?: string;
