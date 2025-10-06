@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-import { useContext, useMemo } from "react";
-import { FirebaseUIContext } from "./context";
+import { useContext, useMemo, useEffect } from "react";
 import {
   createEmailLinkAuthFormSchema,
   createForgotPasswordAuthFormSchema,
   createPhoneAuthFormSchema,
   createSignInAuthFormSchema,
   createSignUpAuthFormSchema,
+  getBehavior,
+  hasBehavior,
 } from "@firebase-ui/core";
+import { FirebaseUIContext } from "./context";
 
 /**
  * Get the UI configuration from the context.
@@ -62,4 +64,22 @@ export function useEmailLinkAuthFormSchema() {
 export function usePhoneAuthFormSchema() {
   const ui = useUI();
   return useMemo(() => createPhoneAuthFormSchema(ui), [ui]);
+}
+
+export function useRecaptchaVerifier(ref: React.RefObject<HTMLDivElement | null>) {
+  const ui = useUI();
+
+  const verifier = useMemo(() => {
+    return ref.current && hasBehavior(ui, "recaptchaVerification")
+      ? getBehavior(ui, "recaptchaVerification")(ui, ref.current)
+      : null;
+  }, [ref, ui]);
+
+  useEffect(() => {
+    if (verifier) {
+      verifier.render();
+    }
+  }, [verifier]);
+
+  return verifier;
 }

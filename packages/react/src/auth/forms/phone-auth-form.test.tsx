@@ -18,12 +18,14 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, renderHook, cleanup } from "@testing-library/react";
 import {
   PhoneAuthForm,
-  usePhoneAuthFormAction,
-  usePhoneVerificationFormAction,
-  usePhoneResendAction,
-  useResendTimer,
+  usePhoneNumberFormAction,
+  usePhoneNumberForm,
+  useVerifyPhoneNumberFormAction,
+  useVerifyPhoneNumberForm,
+  PhoneNumberForm,
 } from "./phone-auth-form";
 import { act } from "react";
+import type { UserCredential } from "firebase/auth";
 
 vi.mock("firebase/auth", () => ({
   RecaptchaVerifier: vi.fn().mockImplementation(() => ({
@@ -55,6 +57,18 @@ vi.mock("~/components/form", async (importOriginal) => {
   };
 });
 
+vi.mock("~/hooks", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("~/hooks")>();
+  return {
+    ...mod,
+    useRecaptchaVerifier: vi.fn().mockReturnValue({
+      render: vi.fn(),
+      clear: vi.fn(),
+      verify: vi.fn(),
+    }),
+  };
+});
+
 import { signInWithPhoneNumber, confirmPhoneNumber } from "@firebase-ui/core";
 import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
 import { registerLocale } from "@firebase-ui/translations";
@@ -82,160 +96,7 @@ vi.mock("~/components/country-selector", () => ({
   )),
 }));
 
-describe("useResendTimer", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-    vi.useFakeTimers();
-  });
-
-  afterEach(() => {
-    vi.useRealTimers();
-  });
-
-  it("should initialize with correct default values", () => {
-    const { result } = renderHook(() => useResendTimer(30));
-
-    expect(result.current.timeLeft).toBe(0);
-    expect(result.current.canResend).toBe(true);
-  });
-
-  it("should start timer and count down correctly", async () => {
-    const { result } = renderHook(() => useResendTimer(5));
-
-    act(() => {
-      result.current.startTimer();
-    });
-
-    expect(result.current.timeLeft).toBe(5);
-    expect(result.current.canResend).toBe(false);
-
-    // Advance timer by 1 second
-    act(() => {
-      vi.advanceTimersByTime(1000);
-    });
-
-    expect(result.current.timeLeft).toBe(4);
-    expect(result.current.canResend).toBe(false);
-
-    // Advance timer by 3 more seconds
-    act(() => {
-      vi.advanceTimersByTime(3000);
-    });
-
-    expect(result.current.timeLeft).toBe(1);
-    expect(result.current.canResend).toBe(false);
-
-    // Advance timer by final second
-    act(() => {
-      vi.advanceTimersByTime(1000);
-    });
-
-    expect(result.current.timeLeft).toBe(0);
-    expect(result.current.canResend).toBe(true);
-  });
-
-  it("should handle multiple timer starts correctly", () => {
-    const { result } = renderHook(() => useResendTimer(3));
-
-    // Start first timer
-    act(() => {
-      result.current.startTimer();
-    });
-
-    expect(result.current.timeLeft).toBe(3);
-
-    // Advance by 1 second
-    act(() => {
-      vi.advanceTimersByTime(1000);
-    });
-
-    expect(result.current.timeLeft).toBe(2);
-
-    // Start timer again (should reset)
-    act(() => {
-      result.current.startTimer();
-    });
-
-    expect(result.current.timeLeft).toBe(3);
-    expect(result.current.canResend).toBe(false);
-  });
-
-  it("should clean up timer on unmount", () => {
-    const clearIntervalSpy = vi.spyOn(global, "clearInterval");
-
-    const { result, unmount } = renderHook(() => useResendTimer(10));
-
-    act(() => {
-      result.current.startTimer();
-    });
-
-    unmount();
-
-    expect(clearIntervalSpy).toHaveBeenCalled();
-  });
-
-  it("should handle zero delay correctly", () => {
-    const { result } = renderHook(() => useResendTimer(0));
-
-    act(() => {
-      result.current.startTimer();
-    });
-
-    expect(result.current.timeLeft).toBe(0);
-    expect(result.current.canResend).toBe(false); // Timer is active but will complete immediately
-
-    // Advance timer to trigger the interval callback
-    act(() => {
-      vi.advanceTimersByTime(1000);
-    });
-
-    expect(result.current.timeLeft).toBe(0);
-    expect(result.current.canResend).toBe(true);
-  });
-
-  it("should handle single second delay correctly", () => {
-    const { result } = renderHook(() => useResendTimer(1));
-
-    act(() => {
-      result.current.startTimer();
-    });
-
-    expect(result.current.timeLeft).toBe(1);
-    expect(result.current.canResend).toBe(false);
-
-    // Advance by 1 second
-    act(() => {
-      vi.advanceTimersByTime(1000);
-    });
-
-    expect(result.current.timeLeft).toBe(0);
-    expect(result.current.canResend).toBe(true);
-  });
-
-  it("should maintain correct state during countdown", () => {
-    const { result } = renderHook(() => useResendTimer(3));
-
-    act(() => {
-      result.current.startTimer();
-    });
-
-    // Check initial state
-    expect(result.current.timeLeft).toBe(3);
-    expect(result.current.canResend).toBe(false);
-
-    // Check state at each second
-    for (let i = 2; i >= 0; i--) {
-      act(() => {
-        vi.advanceTimersByTime(1000);
-      });
-
-      expect(result.current.timeLeft).toBe(i);
-      expect(result.current.canResend).toBe(i === 0);
-    }
-  });
-});
-
-describe("usePhoneAuthFormAction", () => {
+describe("usePhoneNumberFormAction", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -245,15 +106,36 @@ describe("usePhoneAuthFormAction", () => {
     const mockUI = createMockUI();
     const mockRecaptchaVerifier = { render: vi.fn(), clear: vi.fn(), verify: vi.fn() };
 
-    const { result } = renderHook(() => usePhoneAuthFormAction(), {
+    const { result } = renderHook(() => usePhoneNumberFormAction(), {
       wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
     await act(async () => {
-      await result.current({ phoneNumber: "+1234567890", recaptchaVerifier: mockRecaptchaVerifier as any });
+      await result.current({ phoneNumber: "1234567890", recaptchaVerifier: mockRecaptchaVerifier as any });
     });
 
-    expect(signInWithPhoneNumberMock).toHaveBeenCalledWith(expect.any(Object), "+1234567890", mockRecaptchaVerifier);
+    expect(signInWithPhoneNumberMock).toHaveBeenCalledWith(expect.any(Object), "1234567890", mockRecaptchaVerifier);
+  });
+
+  it("should return a confirmation result on success", async () => {
+    const mockConfirmationResult = { confirm: vi.fn() } as any;
+    const signInWithPhoneNumberMock = vi.mocked(signInWithPhoneNumber).mockResolvedValue(mockConfirmationResult);
+    const mockUI = createMockUI();
+    const mockRecaptchaVerifier = { render: vi.fn(), clear: vi.fn(), verify: vi.fn() };
+
+    const { result } = renderHook(() => usePhoneNumberFormAction(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    await act(async () => {
+      const confirmationResult = await result.current({
+        phoneNumber: "1234567890",
+        recaptchaVerifier: mockRecaptchaVerifier as any,
+      });
+      expect(confirmationResult).toBe(mockConfirmationResult);
+    });
+
+    expect(signInWithPhoneNumberMock).toHaveBeenCalledWith(expect.any(Object), "1234567890", mockRecaptchaVerifier);
   });
 
   it("should throw an unknown error when its not a FirebaseUIError", async () => {
@@ -269,21 +151,119 @@ describe("usePhoneAuthFormAction", () => {
 
     const mockRecaptchaVerifier = { render: vi.fn(), clear: vi.fn(), verify: vi.fn() };
 
-    const { result } = renderHook(() => usePhoneAuthFormAction(), {
+    const { result } = renderHook(() => usePhoneNumberFormAction(), {
       wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
     await expect(async () => {
       await act(async () => {
-        await result.current({ phoneNumber: "+1234567890", recaptchaVerifier: mockRecaptchaVerifier as any });
+        await result.current({ phoneNumber: "1234567890", recaptchaVerifier: mockRecaptchaVerifier as any });
       });
-    }).rejects.toThrow("unknownError");
+    }).rejects.toThrow("Unknown error");
 
-    expect(signInWithPhoneNumberMock).toHaveBeenCalledWith(mockUI.get(), "+1234567890", mockRecaptchaVerifier);
+    expect(signInWithPhoneNumberMock).toHaveBeenCalledWith(mockUI.get(), "1234567890", mockRecaptchaVerifier);
   });
 });
 
-describe("usePhoneVerificationFormAction", () => {
+describe("usePhoneNumberForm", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    cleanup();
+  });
+
+  it("should allow the form to be submitted with valid phone number", async () => {
+    const mockUI = createMockUI();
+    const mockConfirmationResult = { confirm: vi.fn() } as any;
+    const signInWithPhoneNumberMock = vi.mocked(signInWithPhoneNumber).mockResolvedValue(mockConfirmationResult);
+    const mockRecaptchaVerifier = { render: vi.fn(), clear: vi.fn(), verify: vi.fn() };
+
+    const { result } = renderHook(
+      () =>
+        usePhoneNumberForm({
+          recaptchaVerifier: mockRecaptchaVerifier as any,
+          onSuccess: vi.fn(),
+        }),
+      {
+        wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+      }
+    );
+
+    act(() => {
+      result.current.setFieldValue("phoneNumber", "1234567890");
+    });
+
+    await act(async () => {
+      await result.current.handleSubmit();
+    });
+
+    expect(signInWithPhoneNumberMock).toHaveBeenCalledWith(mockUI.get(), "1234567890", mockRecaptchaVerifier);
+  });
+
+  it("should not allow the form to be submitted if the form is invalid", async () => {
+    const mockUI = createMockUI();
+    const signInWithPhoneNumberMock = vi.mocked(signInWithPhoneNumber);
+    const mockRecaptchaVerifier = { render: vi.fn(), clear: vi.fn(), verify: vi.fn() };
+
+    const { result } = renderHook(
+      () =>
+        usePhoneNumberForm({
+          recaptchaVerifier: mockRecaptchaVerifier as any,
+          onSuccess: vi.fn(),
+        }),
+      {
+        wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+      }
+    );
+
+    act(() => {
+      result.current.setFieldValue("phoneNumber", "12345678901"); // too long
+    });
+
+    await act(async () => {
+      await result.current.handleSubmit();
+    });
+
+    const fieldMeta = result.current.getFieldMeta("phoneNumber");
+    expect(fieldMeta?.errors).toBeDefined();
+    expect(fieldMeta?.errors.length).toBeGreaterThan(0);
+    expect(signInWithPhoneNumberMock).not.toHaveBeenCalled();
+  });
+
+  it("should call onSuccess callback when form submission succeeds", async () => {
+    const mockUI = createMockUI();
+    const mockRecaptchaVerifier = { render: vi.fn(), clear: vi.fn(), verify: vi.fn() };
+    const mockConfirmationResult = { confirm: vi.fn() } as any;
+    const onSuccessMock = vi.fn();
+
+    vi.mocked(signInWithPhoneNumber).mockResolvedValue(mockConfirmationResult);
+
+    const { result } = renderHook(
+      () =>
+        usePhoneNumberForm({
+          recaptchaVerifier: mockRecaptchaVerifier as any,
+          onSuccess: onSuccessMock,
+        }),
+      {
+        wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+      }
+    );
+
+    act(() => {
+      result.current.setFieldValue("phoneNumber", "1234567890");
+    });
+
+    await act(async () => {
+      await result.current.handleSubmit();
+    });
+
+    expect(onSuccessMock).toHaveBeenCalledWith(mockConfirmationResult);
+  });
+});
+
+describe("useVerifyPhoneNumberFormAction", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -293,37 +273,212 @@ describe("usePhoneVerificationFormAction", () => {
     const mockUI = createMockUI();
     const mockConfirmationResult = { confirm: vi.fn() };
 
-    const { result } = renderHook(() => usePhoneVerificationFormAction(), {
+    const { result } = renderHook(() => useVerifyPhoneNumberFormAction(), {
       wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
     await act(async () => {
-      await result.current({ confirmationResult: mockConfirmationResult as any, code: "123456" });
+      await result.current({ confirmation: mockConfirmationResult as any, code: "123456" });
     });
 
     expect(confirmPhoneNumberMock).toHaveBeenCalledWith(expect.any(Object), mockConfirmationResult, "123456");
   });
-});
 
-describe("usePhoneResendAction", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
-  it("should return a callback which accepts phone number and recaptcha verifier", async () => {
-    const signInWithPhoneNumberMock = vi.mocked(signInWithPhoneNumber).mockResolvedValue({ confirm: vi.fn() } as any);
+  it("should return a credential on success", async () => {
+    const mockCredential = { credential: true } as unknown as UserCredential;
+    const confirmPhoneNumberMock = vi.mocked(confirmPhoneNumber).mockResolvedValue(mockCredential);
     const mockUI = createMockUI();
-    const mockRecaptchaVerifier = { render: vi.fn(), clear: vi.fn(), verify: vi.fn() };
+    const mockConfirmationResult = { confirm: vi.fn() };
 
-    const { result } = renderHook(() => usePhoneResendAction(), {
+    const { result } = renderHook(() => useVerifyPhoneNumberFormAction(), {
       wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
     await act(async () => {
-      await result.current({ phoneNumber: "+1234567890", recaptchaVerifier: mockRecaptchaVerifier as any });
+      const credential = await result.current({ confirmation: mockConfirmationResult as any, code: "123456" });
+      expect(credential).toBe(mockCredential);
     });
 
-    expect(signInWithPhoneNumberMock).toHaveBeenCalledWith(expect.any(Object), "+1234567890", mockRecaptchaVerifier);
+    expect(confirmPhoneNumberMock).toHaveBeenCalledWith(expect.any(Object), mockConfirmationResult, "123456");
+  });
+
+  it("should throw an unknown error when its not a FirebaseUIError", async () => {
+    const confirmPhoneNumberMock = vi.mocked(confirmPhoneNumber).mockRejectedValue(new Error("Unknown error"));
+
+    const mockUI = createMockUI({
+      locale: registerLocale("es-ES", {
+        errors: {
+          unknownError: "unknownError",
+        },
+      }),
+    });
+
+    const mockConfirmationResult = { confirm: vi.fn() };
+
+    const { result } = renderHook(() => useVerifyPhoneNumberFormAction(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    await expect(async () => {
+      await act(async () => {
+        await result.current({ confirmation: mockConfirmationResult as any, code: "123456" });
+      });
+    }).rejects.toThrow("Unknown error");
+
+    expect(confirmPhoneNumberMock).toHaveBeenCalledWith(mockUI.get(), mockConfirmationResult, "123456");
+  });
+});
+
+describe("useVerifyPhoneNumberForm", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    cleanup();
+  });
+
+  it("should allow the form to be submitted with valid verification code", async () => {
+    const mockUI = createMockUI();
+    const confirmPhoneNumberMock = vi.mocked(confirmPhoneNumber);
+    const mockConfirmationResult = { confirm: vi.fn() } as any;
+
+    const { result } = renderHook(
+      () =>
+        useVerifyPhoneNumberForm({
+          confirmation: mockConfirmationResult,
+          onSuccess: vi.fn(),
+        }),
+      {
+        wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+      }
+    );
+
+    act(() => {
+      result.current.setFieldValue("verificationCode", "123456");
+    });
+
+    await act(async () => {
+      await result.current.handleSubmit();
+    });
+
+    expect(confirmPhoneNumberMock).toHaveBeenCalledWith(mockUI.get(), mockConfirmationResult, "123456");
+  });
+
+  it("should not allow the form to be submitted if the form is invalid", async () => {
+    const mockUI = createMockUI();
+    const confirmPhoneNumberMock = vi.mocked(confirmPhoneNumber);
+    const mockConfirmationResult = { confirm: vi.fn() } as any;
+
+    const { result } = renderHook(
+      () =>
+        useVerifyPhoneNumberForm({
+          confirmation: mockConfirmationResult,
+          onSuccess: vi.fn(),
+        }),
+      {
+        wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+      }
+    );
+
+    act(() => {
+      result.current.setFieldValue("verificationCode", "123");
+    });
+
+    await act(async () => {
+      await result.current.handleSubmit();
+    });
+
+    expect(result.current.getFieldMeta("verificationCode")!.errors[0].length).toBeGreaterThan(0);
+    expect(confirmPhoneNumberMock).not.toHaveBeenCalled();
+  });
+
+  it("should call onSuccess callback when form submission succeeds", async () => {
+    const mockUI = createMockUI();
+    const mockConfirmationResult = { confirm: vi.fn() } as any;
+    const mockCredential = { credential: true } as unknown as UserCredential;
+    const onSuccessMock = vi.fn();
+
+    vi.mocked(confirmPhoneNumber).mockResolvedValue(mockCredential);
+
+    const { result } = renderHook(
+      () =>
+        useVerifyPhoneNumberForm({
+          confirmation: mockConfirmationResult,
+          onSuccess: onSuccessMock,
+        }),
+      {
+        wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+      }
+    );
+
+    act(() => {
+      result.current.setFieldValue("verificationCode", "123456");
+    });
+
+    await act(async () => {
+      await result.current.handleSubmit();
+    });
+
+    expect(onSuccessMock).toHaveBeenCalledWith(mockCredential);
+  });
+});
+
+describe("<PhoneNumberForm />", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    cleanup();
+  });
+
+  it("should render the phone number form correctly", () => {
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          sendCode: "sendCode",
+          phoneNumber: "phoneNumber",
+        },
+      }),
+    });
+
+    const { container } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <PhoneNumberForm onSubmit={vi.fn()} />
+      </FirebaseUIProvider>
+    );
+
+    const form = container.querySelectorAll("form.fui-form");
+    expect(form.length).toBe(1);
+
+    expect(screen.getByRole("textbox", { name: /phoneNumber/i })).toBeInTheDocument();
+    expect(screen.getByTestId("country-selector")).toBeInTheDocument();
+
+    const sendCodeButton = screen.getByRole("button", { name: "sendCode" });
+    expect(sendCodeButton).toBeInTheDocument();
+    expect(sendCodeButton).toHaveAttribute("type", "submit");
+  });
+
+  it("should trigger validation errors when the form is blurred", () => {
+    const mockUI = createMockUI();
+
+    const { container } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <PhoneNumberForm onSubmit={vi.fn()} />
+      </FirebaseUIProvider>
+    );
+
+    const form = container.querySelector("form.fui-form");
+    expect(form).toBeInTheDocument();
+
+    const input = screen.getByRole("textbox", { name: /phone number/i });
+
+    act(() => {
+      fireEvent.blur(input);
+    });
+
+    expect(screen.getByText("Please provide a phone number")).toBeInTheDocument();
   });
 });
 
@@ -341,6 +496,7 @@ describe("<PhoneAuthForm />", () => {
       locale: registerLocale("test", {
         labels: {
           sendCode: "sendCode",
+          phoneNumber: "phoneNumber",
         },
       }),
     });
@@ -351,39 +507,37 @@ describe("<PhoneAuthForm />", () => {
       </FirebaseUIProvider>
     );
 
-    // There should be only one form
     const form = container.querySelectorAll("form.fui-form");
     expect(form.length).toBe(1);
 
-    // Make sure we have a phone number input
-    expect(screen.getByRole("textbox", { name: /phone number/i })).toBeInTheDocument();
+    expect(screen.getByRole("textbox", { name: /phoneNumber/i })).toBeInTheDocument();
     expect(screen.getByTestId("country-selector")).toBeInTheDocument();
 
-    // Ensure the "Send Code" button is present and is a submit button
     const sendCodeButton = screen.getByRole("button", { name: "sendCode" });
     expect(sendCodeButton).toBeInTheDocument();
     expect(sendCodeButton).toHaveAttribute("type", "submit");
   });
 
-  // TODO: Enable me once the phobe auth form is updated
-  it.skip("should trigger validation errors when the form is blurred", () => {
-    const mockUI = createMockUI();
+  it("should render phone number form initially and handle form submission", () => {
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          sendCode: "sendCode",
+          phoneNumber: "phoneNumber",
+        },
+      }),
+    });
 
-    const { container } = render(
+    const onSignInMock = vi.fn();
+
+    render(
       <FirebaseUIProvider ui={mockUI}>
-        <PhoneAuthForm />
+        <PhoneAuthForm onSignIn={onSignInMock} />
       </FirebaseUIProvider>
     );
 
-    const form = container.querySelector("form.fui-form");
-    expect(form).toBeInTheDocument();
-
-    const input = screen.getByRole("textbox", { name: /phone number/i });
-
-    act(() => {
-      fireEvent.blur(input);
-    });
-
-    expect(screen.getByText("Please provide a phone number, The phone number is invalid")).toBeInTheDocument();
+    expect(screen.getByRole("textbox", { name: /phoneNumber/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "sendCode" })).toBeInTheDocument();
+    expect(screen.getByTestId("country-selector")).toBeInTheDocument();
   });
 });

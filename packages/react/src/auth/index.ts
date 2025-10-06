@@ -29,9 +29,10 @@ export {
 export {
   PhoneAuthForm,
   type PhoneAuthFormProps,
-  usePhoneAuthFormAction,
-  usePhoneVerificationFormAction,
-  usePhoneResendAction,
+  usePhoneNumberForm,
+  usePhoneNumberFormAction,
+  useVerifyPhoneNumberForm,
+  useVerifyPhoneNumberFormAction,
 } from "./forms/phone-auth-form";
 export {
   SignInAuthForm,
