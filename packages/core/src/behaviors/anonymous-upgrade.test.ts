@@ -43,8 +43,6 @@ describe("autoUpgradeAnonymousCredentialHandler", () => {
     const result = await autoUpgradeAnonymousCredentialHandler(mockUI, mockCredential);
 
     expect(linkWithCredential).toHaveBeenCalledWith(mockUser, mockCredential);
-    expect(mockUI.setState).toHaveBeenCalledWith("pending");
-    expect(mockUI.setState).toHaveBeenCalledWith("idle");
     expect(result).toBe(mockResult);
   });
 

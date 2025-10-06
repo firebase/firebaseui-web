@@ -114,8 +114,8 @@ describe("signInWithEmailAndPassword", () => {
     expect(mockBehavior).toHaveBeenCalledWith(mockUI, credential);
     expect(result.providerId).toBe("password");
 
-    // Only the `finally` block is called here.
-    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["idle"]]);
+    // Auth method sets pending at start, then idle in finally block.
+    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
   });
 
   it("should call the autoUpgradeAnonymousCredential behavior if enabled and handle no result from the behavior", async () => {
@@ -211,8 +211,8 @@ describe("createUserWithEmailAndPassword", () => {
     expect(mockBehavior).toHaveBeenCalledWith(mockUI, credential);
     expect(result.providerId).toBe("password");
 
-    // Only the `finally` block is called here.
-    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["idle"]]);
+    // Auth method sets pending at start, then idle in finally block.
+    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
   });
 
   it("should call the autoUpgradeAnonymousCredential behavior if enabled and handle no result from the behavior", async () => {
@@ -497,8 +497,8 @@ describe("confirmPhoneNumber", () => {
     expect(mockBehavior).toHaveBeenCalledWith(mockUI, credential);
     expect(result.providerId).toBe("phone");
 
-    // Only the `finally` block is called here.
-    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["idle"]]);
+    // Auth method sets pending at start, then idle in finally block.
+    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
   });
 
   it("should not call behavior when user is not anonymous", async () => {
@@ -770,8 +770,8 @@ describe("signInWithEmailLink", () => {
     expect(mockBehavior).toHaveBeenCalledWith(mockUI, credential);
     expect(result.providerId).toBe("emailLink");
 
-    // Only the `finally` block is called here.
-    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["idle"]]);
+    // Auth method sets pending at start, then idle in finally block.
+    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
   });
 
   it("should call the autoUpgradeAnonymousCredential behavior if enabled and handle no result from the behavior", async () => {
@@ -868,8 +868,8 @@ describe("signInWithCredential", () => {
     expect(mockBehavior).toHaveBeenCalledWith(mockUI, credential);
     expect(result.providerId).toBe("password");
 
-    // Only the `finally` block is called here.
-    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["idle"]]);
+    // Auth method sets pending at start, then idle in finally block.
+    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
   });
 
   it("should call the autoUpgradeAnonymousCredential behavior if enabled and handle no result from the behavior", async () => {
@@ -923,7 +923,7 @@ describe("signInWithCredential", () => {
 
     expect(handleFirebaseError).toHaveBeenCalledWith(mockUI, error);
 
-    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["idle"]]);
+    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
 
     expect(_signInWithCredential).not.toHaveBeenCalled();
   });
@@ -1050,7 +1050,7 @@ describe("signInWithProvider", () => {
     await signInWithProvider(mockUI, provider);
 
     expect(handleFirebaseError).toHaveBeenCalledWith(mockUI, error);
-    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["idle"]]);
+    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
   });
 });
 
