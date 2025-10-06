@@ -18,6 +18,7 @@ import { useContext, useMemo, useEffect } from "react";
 import {
   createEmailLinkAuthFormSchema,
   createForgotPasswordAuthFormSchema,
+  createMultiFactorPhoneAuthVerifyFormSchema,
   createPhoneAuthNumberFormSchema,
   createPhoneAuthVerifyFormSchema,
   createSignInAuthFormSchema,
@@ -70,6 +71,11 @@ export function usePhoneAuthNumberFormSchema() {
 export function usePhoneAuthVerifyFormSchema() {
   const ui = useUI();
   return useMemo(() => createPhoneAuthVerifyFormSchema(ui), [ui]);
+}
+
+export function useMultiFactorPhoneAuthVerifyFormSchema() {
+  const ui = useUI();
+  return useMemo(() => createMultiFactorPhoneAuthVerifyFormSchema(ui), [ui]);
 }
 
 export function useRecaptchaVerifier(ref: React.RefObject<HTMLDivElement | null>) {

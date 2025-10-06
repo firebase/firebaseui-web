@@ -73,9 +73,20 @@ export function createPhoneAuthVerifyFormSchema(ui: FirebaseUIConfiguration) {
   });
 }
 
+export function createMultiFactorPhoneAuthVerifyFormSchema(ui: FirebaseUIConfiguration) {
+  const schema = createPhoneAuthVerifyFormSchema(ui);
+  return schema.extend({
+    // TODO: Translation...
+    displayName: z.string().min(1, "TODO!!!"),
+  });
+}
+
 export type SignInAuthFormSchema = z.infer<ReturnType<typeof createSignInAuthFormSchema>>;
 export type SignUpAuthFormSchema = z.infer<ReturnType<typeof createSignUpAuthFormSchema>>;
 export type ForgotPasswordAuthFormSchema = z.infer<ReturnType<typeof createForgotPasswordAuthFormSchema>>;
 export type EmailLinkAuthFormSchema = z.infer<ReturnType<typeof createEmailLinkAuthFormSchema>>;
 export type PhoneAuthNumberFormSchema = z.infer<ReturnType<typeof createPhoneAuthNumberFormSchema>>;
 export type PhoneAuthVerifyFormSchema = z.infer<ReturnType<typeof createPhoneAuthVerifyFormSchema>>;
+export type MultiFactorPhoneAuthNumberFormSchema = z.infer<
+  ReturnType<typeof createMultiFactorPhoneAuthVerifyFormSchema>
+>;

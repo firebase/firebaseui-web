@@ -30,7 +30,9 @@ import {
   UserCredential,
   AuthCredential,
   TotpSecret,
-  PhoneInfoOptions,
+  MultiFactorAssertion,
+  multiFactor,
+  MultiFactorUser,
 } from "firebase/auth";
 import QRCode from "qrcode-generator";
 import { FirebaseUIConfiguration } from "./config";
@@ -122,13 +124,23 @@ export async function createUserWithEmailAndPassword(
 
 export async function verifyPhoneNumber(
   ui: FirebaseUIConfiguration,
-  phoneNumber: PhoneInfoOptions | string,
-  appVerifier: ApplicationVerifier
+  phoneNumber: string,
+  appVerifier: ApplicationVerifier,
+  multiFactorUser?: MultiFactorUser
 ): Promise<string> {
   try {
     ui.setState("pending");
     const provider = new PhoneAuthProvider(ui.auth);
-    return await provider.verifyPhoneNumber(phoneNumber, appVerifier);
+    const session = await multiFactorUser?.getSession();
+    return await provider.verifyPhoneNumber(
+      session
+        ? {
+            phoneNumber,
+            session,
+          }
+        : phoneNumber,
+      appVerifier
+    );
   } catch (error) {
     handleFirebaseError(ui, error);
   } finally {
@@ -309,4 +321,18 @@ export function generateTotpQrCode(
   qr.addData(uri);
   qr.make();
   return qr.createDataURL();
+}
+
+export async function signInWithMultiFactorAssertion(ui: FirebaseUIConfiguration, assertion: MultiFactorAssertion) {
+  await ui.multiFactorResolver?.resolveSignIn(assertion);
+  throw new Error("Not implemented");
+}
+
+export async function enrollWithMultiFactorAssertion(
+  ui: FirebaseUIConfiguration,
+  assertion: MultiFactorAssertion,
+  displayName?: string
+) {
+  await multiFactor(ui.auth.currentUser!).enroll(assertion, displayName);
+  throw new Error("Not implemented");
 }
