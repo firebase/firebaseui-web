@@ -16,7 +16,15 @@
 
 import { useContext, useMemo, useEffect, useState } from "react";
 import type { RecaptchaVerifier } from "firebase/auth";
-import { createEmailLinkAuthFormSchema, createForgotPasswordAuthFormSchema, createPhoneAuthFormSchema, createSignInAuthFormSchema, createSignUpAuthFormSchema, getBehavior, hasBehavior } from "@firebase-ui/core";
+import {
+  createEmailLinkAuthFormSchema,
+  createForgotPasswordAuthFormSchema,
+  createPhoneAuthFormSchema,
+  createSignInAuthFormSchema,
+  createSignUpAuthFormSchema,
+  getBehavior,
+  hasBehavior,
+} from "@firebase-ui/core";
 import { FirebaseUIContext } from "./context";
 
 /**
@@ -26,7 +34,9 @@ export function useUI() {
   const ui = useContext(FirebaseUIContext);
 
   if (!ui) {
-    throw new Error("No FirebaseUI context found. Your application must be wrapped in a <FirebaseUIProvider> component.");
+    throw new Error(
+      "No FirebaseUI context found. Your application must be wrapped in a <FirebaseUIProvider> component."
+    );
   }
 
   return ui;
@@ -60,10 +70,10 @@ export function usePhoneAuthFormSchema() {
 export function useRecaptchaVerifier(ref: React.RefObject<HTMLDivElement | null>) {
   const ui = useUI();
   const [recaptchaVerifier, setRecaptchaVerifier] = useState<RecaptchaVerifier | null>(null);
-  
+
   useEffect(() => {
     const element = ref.current;
-    
+
     if (!element || !hasBehavior(ui, "recaptchaVerification")) {
       setRecaptchaVerifier(null);
       return;
@@ -79,6 +89,6 @@ export function useRecaptchaVerifier(ref: React.RefObject<HTMLDivElement | null>
       verifier.clear();
     };
   }, []);
-  
+
   return recaptchaVerifier;
 }

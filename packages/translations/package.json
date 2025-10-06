@@ -30,7 +30,6 @@
     "release": "npm run build && pnpm pack --pack-destination ../../releases/"
   },
   "devDependencies": {
-    "prettier": "catalog:",
     "rimraf": "catalog:",
     "vitest": "catalog:",
     "tsup": "catalog:",

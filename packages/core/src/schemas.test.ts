@@ -1,29 +1,35 @@
 import { describe, it, expect } from "vitest";
 import { createMockUI } from "~/tests/utils";
-import { createEmailLinkAuthFormSchema, createForgotPasswordAuthFormSchema, createPhoneAuthFormSchema, createSignInAuthFormSchema, createSignUpAuthFormSchema } from "./schemas";
+import {
+  createEmailLinkAuthFormSchema,
+  createForgotPasswordAuthFormSchema,
+  createPhoneAuthFormSchema,
+  createSignInAuthFormSchema,
+  createSignUpAuthFormSchema,
+} from "./schemas";
 import { registerLocale } from "@firebase-ui/translations";
 import { RecaptchaVerifier } from "firebase/auth";
 
 describe("createSignInAuthFormSchema", () => {
   it("should create a sign in auth form schema with valid error messages", () => {
-    const testLocale = registerLocale('test', {
+    const testLocale = registerLocale("test", {
       errors: {
         invalidEmail: "createSignInAuthFormSchema + invalidEmail",
         weakPassword: "createSignInAuthFormSchema + weakPassword",
       },
     });
-    
+
     const mockUI = createMockUI({
       locale: testLocale,
     });
 
     const schema = createSignInAuthFormSchema(mockUI);
-    
+
     // Cause the schema to fail...
     // TODO(ehesp): If no value is provided, the schema error is just "Required" - should this also be translated?
     const result = schema.safeParse({
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     });
 
     expect(result.success).toBe(false);
@@ -37,24 +43,24 @@ describe("createSignInAuthFormSchema", () => {
 
 describe("createSignUpAuthFormSchema", () => {
   it("should create a sign up auth form schema with valid error messages", () => {
-    const testLocale = registerLocale('test', {
+    const testLocale = registerLocale("test", {
       errors: {
         invalidEmail: "createSignUpAuthFormSchema + invalidEmail",
         weakPassword: "createSignUpAuthFormSchema + weakPassword",
       },
     });
-    
+
     const mockUI = createMockUI({
       locale: testLocale,
     });
 
     const schema = createSignUpAuthFormSchema(mockUI);
-    
+
     // Cause the schema to fail...
     // TODO(ehesp): If no value is provided, the schema error is just "Required" - should this also be translated?
     const result = schema.safeParse({
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     });
 
     expect(result.success).toBe(false);
@@ -68,22 +74,22 @@ describe("createSignUpAuthFormSchema", () => {
 
 describe("createForgotPasswordAuthFormSchema", () => {
   it("should create a forgot password form schema with valid error messages", () => {
-    const testLocale = registerLocale('test', {
+    const testLocale = registerLocale("test", {
       errors: {
         invalidEmail: "createForgotPasswordAuthFormSchema + invalidEmail",
       },
     });
-    
+
     const mockUI = createMockUI({
       locale: testLocale,
     });
 
     const schema = createForgotPasswordAuthFormSchema(mockUI);
-    
+
     // Cause the schema to fail...
     // TODO(ehesp): If no value is provided, the schema error is just "Required" - should this also be translated?
     const result = schema.safeParse({
-      email: '',
+      email: "",
     });
 
     expect(result.success).toBe(false);
@@ -96,50 +102,50 @@ describe("createForgotPasswordAuthFormSchema", () => {
 
 describe("createEmailLinkAuthFormSchema", () => {
   it("should create a forgot password form schema with valid error messages", () => {
-    const testLocale = registerLocale('test', {
+    const testLocale = registerLocale("test", {
       errors: {
         invalidEmail: "createEmailLinkAuthFormSchema + invalidEmail",
       },
     });
-    
+
     const mockUI = createMockUI({
       locale: testLocale,
     });
 
     const schema = createEmailLinkAuthFormSchema(mockUI);
-    
+
     // Cause the schema to fail...
     // TODO(ehesp): If no value is provided, the schema error is just "Required" - should this also be translated?
     const result = schema.safeParse({
-      email: '',
+      email: "",
     });
 
     expect(result.success).toBe(false);
     expect(result.error).toBeDefined();
     expect(result.error?.issues.length).toBe(1);
-    
+
     expect(result.error?.issues[0]?.message).toBe("createEmailLinkAuthFormSchema + invalidEmail");
   });
 });
 
 describe("createPhoneAuthFormSchema", () => {
   it("should create a phone auth form schema and show missing phone number error", () => {
-    const testLocale = registerLocale('test', {
+    const testLocale = registerLocale("test", {
       errors: {
         missingPhoneNumber: "createPhoneAuthFormSchema + missingPhoneNumber",
       },
     });
-    
+
     const mockUI = createMockUI({
       locale: testLocale,
     });
 
     const schema = createPhoneAuthFormSchema(mockUI);
-    
+
     // Cause the schema to fail...
     // TODO(ehesp): If no value is provided, the schema error is just "Required" - should this also be translated?
     const result = schema.safeParse({
-      phoneNumber: '',
+      phoneNumber: "",
     });
 
     expect(result.success).toBe(false);
@@ -149,23 +155,23 @@ describe("createPhoneAuthFormSchema", () => {
   });
 
   it("should create a phone auth form schema and show an error if the phone number is too long", () => {
-    const testLocale = registerLocale('test', {
+    const testLocale = registerLocale("test", {
       errors: {
         invalidPhoneNumber: "createPhoneAuthFormSchema + invalidPhoneNumber",
       },
     });
-    
+
     const mockUI = createMockUI({
       locale: testLocale,
     });
 
     const schema = createPhoneAuthFormSchema(mockUI);
-    
+
     // Cause the schema to fail...
     // TODO(ehesp): If no value is provided, the schema error is just "Required" - should this also be translated?
     const result = schema.safeParse({
-      phoneNumber: '12345678901',
-      verificationCode: '123',
+      phoneNumber: "12345678901",
+      verificationCode: "123",
       recaptchaVerifier: null,
     });
 
@@ -176,7 +182,7 @@ describe("createPhoneAuthFormSchema", () => {
   });
 
   it("should create a phone auth form schema and show an error if the verification code is too short", () => {
-    const testLocale = registerLocale('test', {
+    const testLocale = registerLocale("test", {
       errors: {
         invalidVerificationCode: "createPhoneAuthFormSchema + invalidVerificationCode",
       },
@@ -189,13 +195,15 @@ describe("createPhoneAuthFormSchema", () => {
     const schema = createPhoneAuthFormSchema(mockUI);
 
     const result = schema.safeParse({
-      phoneNumber: '1234567890',
-      verificationCode: '123',
+      phoneNumber: "1234567890",
+      verificationCode: "123",
       recaptchaVerifier: {} as RecaptchaVerifier, // Workaround for RecaptchaVerifier failing with Node env.
     });
 
     expect(result.success).toBe(false);
     expect(result.error).toBeDefined();
-    expect(result.error?.issues.some(issue => issue.message === "createPhoneAuthFormSchema + invalidVerificationCode")).toBe(true);
+    expect(
+      result.error?.issues.some((issue) => issue.message === "createPhoneAuthFormSchema + invalidVerificationCode")
+    ).toBe(true);
   });
 });

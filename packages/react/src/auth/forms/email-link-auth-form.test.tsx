@@ -16,7 +16,12 @@
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, renderHook, cleanup, waitFor } from "@testing-library/react";
-import { EmailLinkAuthForm, useEmailLinkAuthForm, useEmailLinkAuthFormAction, useEmailLinkAuthFormCompleteSignIn } from "./email-link-auth-form";
+import {
+  EmailLinkAuthForm,
+  useEmailLinkAuthForm,
+  useEmailLinkAuthFormAction,
+  useEmailLinkAuthFormCompleteSignIn,
+} from "./email-link-auth-form";
 import { act } from "react";
 import { sendSignInLinkToEmail, completeEmailLinkSignIn } from "@firebase-ui/core";
 import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
@@ -95,7 +100,6 @@ describe("useEmailLinkAuthFormCompleteSignIn", () => {
     await waitFor(() => {
       expect(completeEmailLinkSignInMock).toHaveBeenCalledWith(mockUI.get(), window.location.href);
     });
-
   });
 });
 
@@ -120,9 +124,7 @@ describe("useEmailLinkAuthFormAction", () => {
   });
 
   it("should throw an unknown error when its not a FirebaseUIError", async () => {
-    const sendSignInLinkToEmailMock = vi
-      .mocked(sendSignInLinkToEmail)
-      .mockRejectedValue(new Error("Unknown error"));
+    const sendSignInLinkToEmailMock = vi.mocked(sendSignInLinkToEmail).mockRejectedValue(new Error("Unknown error"));
 
     const mockUI = createMockUI({
       locale: registerLocale("es-ES", {
@@ -255,7 +257,7 @@ describe("<EmailLinkAuthForm />", () => {
 
     await act(async () => {
       // Wait for the useEffect to complete
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
     expect(completeEmailLinkSignInMock).toHaveBeenCalledWith(mockUI.get(), window.location.href);
@@ -275,14 +277,14 @@ describe("<EmailLinkAuthForm />", () => {
 
     await act(async () => {
       // Wait for the useEffect to complete
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
     expect(completeEmailLinkSignInMock).toHaveBeenCalledWith(mockUI.get(), window.location.href);
     expect(onSignInMock).not.toHaveBeenCalled();
   });
 
-  it('should trigger validation errors when the form is blurred', () => {
+  it("should trigger validation errors when the form is blurred", () => {
     const mockUI = createMockUI();
 
     const { container } = render(

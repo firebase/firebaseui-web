@@ -79,6 +79,10 @@
     @apply pt-24 max-w-md mx-auto;
   }
 
+  :where(.fui-screen .fui-screen__children) {
+    @apply space-y-2;
+  }
+
   :where(.fui-card) {
     @apply bg-background p-10 border border-border rounded-card space-y-6;
   }
@@ -140,12 +144,16 @@
     @apply bg-transparent text-text border border-input hover:bg-background hover:border-primary;
   }
 
-  :where(.fui-provider__button > svg) {
+  :where(.fui-button.fui-provider__button) {
+    @apply border border-border;
+  }
+
+  :where(.fui-provider__button > svg, .fui-provider__button > img) {
     @apply w-5 h-5;
   }
 
   :where(.fui-divider) {
-    @apply flex items-center gap-3;
+    @apply flex items-center gap-3 my-4;
   }
 
   :where(.fui-divider__line) {
@@ -194,5 +202,110 @@
 
   :where(.fui-form fieldset label div[data-input-group]:has(input[aria-invalid="true"]) .fui-country-selector .fui-country-selector__wrapper) {
     @apply outline-error outline-2 rounded;
+  }
+  
+  :where(.fui-policies) {
+    @apply text-text-muted text-center text-xs;
+  }
+
+  :where(.fui-policies a, .fui-policies button) {
+    @apply hover:underline font-semibold;
+  }
+
+
+  .fui-provider__button[data-provider="google.com"][data-themed="true"] {
+    --google-primary: #131314;
+    --color-primary: var(--google-primary);
+    --color-primary-hover: --alpha(var(--google-primary) / 85%);
+    --color-primary-surface: #FFFFFF;
+    --color-border: var(--google-primary);
+  }
+
+  .fui-provider__button[data-provider="google.com"][data-themed="neutral"] {
+    --google-primary: #F2F2F2;
+    --color-primary: var(--google-primary);
+    --color-primary-hover: --alpha(var(--google-primary) / 85%);
+    --color-primary-surface: #1F1F1F;
+    --color-border: transparent;
+  }
+
+  @variant dark {
+    .fui-provider__button[data-provider="google.com"][data-themed="true"] {
+      --google-primary: #FFFFFF;
+      --color-primary: var(--google-primary);
+      --color-primary-hover: --alpha(var(--google-primary) / 85%);
+      --color-primary-surface: #1F1F1F;
+      --color-border: #747775;
+    }
+  }
+
+  .fui-provider__button[data-provider="facebook.com"][data-themed="true"] {
+    --facebook-primary: #1877F2;
+    --color-primary: var(--facebook-primary);
+    --color-primary-hover: --alpha(var(--facebook-primary) / 85%);
+    --color-primary-surface: var(--color-white);
+    --color-border: var(--facebook-primary);
+  }
+
+  .fui-provider__button[data-provider="apple.com"][data-themed="true"] {
+    --apple-primary: #000000;
+    --color-primary: var(--apple-primary);
+    --color-primary-hover: --alpha(var(--apple-primary) / 85%);
+    --color-primary-surface: #FFFFFF;
+    --color-border: var(--apple-primary);
+  }
+
+  @variant dark {
+    .fui-provider__button[data-provider="apple.com"][data-themed="true"] {
+      --apple-primary: var(--color-white);
+      --color-primary: var(--apple-primary);
+      --color-primary-hover: --alpha(var(--apple-primary) / 85%);
+      --color-primary-surface: var(--color-black);
+      --color-border: var(--color-white);
+    }
+  }
+
+  .fui-provider__button[data-provider="github.com"][data-themed="true"] {
+    --github-primary: #000000;
+    --color-primary: var(--github-primary);
+    --color-primary-hover: --alpha(var(--github-primary) / 85%);
+    --color-primary-surface: #FFFFFF;
+    --color-border: var(--github-primary);
+  }
+
+  @variant dark {
+    .fui-provider__button[data-provider="github.com"][data-themed="true"] {
+      --github-primary: var(--color-white);
+      --color-primary: var(--github-primary);
+      --color-primary-hover: --alpha(var(--github-primary) / 85%);
+      --color-primary-surface: var(--color-black);
+      --color-border: var(--color-white);
+    }
+  }
+
+  .fui-provider__button[data-provider="microsoft.com"][data-themed="true"] {
+    --microsoft-primary: #2F2F2F;
+    --color-primary: var(--microsoft-primary);
+    --color-primary-hover: --alpha(var(--microsoft-primary) / 85%);
+    --color-primary-surface: #FFFFFF;
+    --color-border: var(--microsoft-primary);
+  }
+
+  @variant dark {
+    .fui-provider__button[data-provider="microsoft.com"][data-themed="true"] {
+      --microsoft-primary: var(--color-white);
+      --color-primary: var(--microsoft-primary);
+      --color-primary-hover: --alpha(var(--microsoft-primary) / 85%);
+      --color-primary-surface: #5E5E5E;
+      --color-border: var(--color-white);
+    }
+  }
+  
+  .fui-provider__button[data-provider="twitter.com"][data-themed="true"] {
+    --twitter-primary: #1DA1F2;
+    --color-primary: var(--twitter-primary);
+    --color-primary-hover: --alpha(var(--twitter-primary) / 85%);
+    --color-primary-surface: #FFFFFF;
+    --color-border: var(--twitter-primary);
   }
 }

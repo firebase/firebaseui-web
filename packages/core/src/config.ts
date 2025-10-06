@@ -16,23 +16,18 @@
 
 import { enUs, RegisteredLocale } from "@firebase-ui/translations";
 import type { FirebaseApp } from "firebase/app";
-import { Auth, getAuth } from "firebase/auth";
+import { Auth, getAuth, getRedirectResult, MultiFactorResolver } from "firebase/auth";
 import { deepMap, DeepMapStore, map } from "nanostores";
-import {
-  Behavior,
-  type BehaviorHandlers,
-  type BehaviorKey,
-  defaultBehaviors,
-  getBehavior,
-  hasBehavior,
-} from "./behaviors";
+import { Behavior, Behaviors, defaultBehaviors } from "./behaviors";
+import type { InitBehavior, RedirectBehavior } from "./behaviors/utils";
 import { FirebaseUIState } from "./state";
 
 export type FirebaseUIConfigurationOptions = {
   app: FirebaseApp;
   auth?: Auth;
   locale?: RegisteredLocale;
-  behaviors?: Partial<Behavior<keyof BehaviorHandlers>>[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  behaviors?: Behavior<any>[];
 };
 
 export type FirebaseUIConfiguration = {
@@ -42,7 +37,9 @@ export type FirebaseUIConfiguration = {
   state: FirebaseUIState;
   setState: (state: FirebaseUIState) => void;
   locale: RegisteredLocale;
-  behaviors: Partial<Record<BehaviorKey, BehaviorHandlers[BehaviorKey]>>;
+  behaviors: Behaviors;
+  multiFactorResolver?: MultiFactorResolver;
+  setMultiFactorResolver: (multiFactorResolver?: MultiFactorResolver) => void;
 };
 
 export const $config = map<Record<string, DeepMapStore<FirebaseUIConfiguration>>>({});
@@ -51,15 +48,12 @@ export type FirebaseUI = DeepMapStore<FirebaseUIConfiguration>;
 
 export function initializeUI(config: FirebaseUIConfigurationOptions, name: string = "[DEFAULT]"): FirebaseUI {
   // Reduce the behaviors to a single object.
-  const behaviors = config.behaviors?.reduce<Partial<Record<BehaviorKey, BehaviorHandlers[BehaviorKey]>>>(
-    (acc, behavior) => {
-      return {
-        ...acc,
-        ...behavior,
-      };
-    },
-    defaultBehaviors
-  );
+  const behaviors = config.behaviors?.reduce<Behavior>((acc, behavior) => {
+    return {
+      ...acc,
+      ...behavior,
+    };
+  }, defaultBehaviors as Behavior);
 
   $config.setKey(
     name,
@@ -71,23 +65,53 @@ export function initializeUI(config: FirebaseUIConfigurationOptions, name: strin
         const current = $config.get()[name]!;
         current.setKey(`locale`, locale);
       },
-      state: behaviors?.autoAnonymousLogin ? "loading" : "idle",
+      state: "idle",
       setState: (state: FirebaseUIState) => {
         const current = $config.get()[name]!;
         current.setKey(`state`, state);
       },
-      behaviors: behaviors ?? defaultBehaviors,
+      // Since we've got config.behaviors?.reduce above, we need to default to defaultBehaviors
+      // if no behaviors are provided, as they wont be in the reducer.
+      behaviors: behaviors ?? (defaultBehaviors as Behavior),
+      multiFactorResolver: undefined,
+      setMultiFactorResolver: (resolver?: MultiFactorResolver) => {
+        const current = $config.get()[name]!;
+        current.setKey(`multiFactorResolver`, resolver);
+      },
     })
   );
 
-  const ui = $config.get()[name]!;
+  const store = $config.get()[name]!;
+  const ui = store.get();
 
-  // TODO(ehesp): Should this belong here - if not, where should it be?
-  if (hasBehavior(ui.get(), "autoAnonymousLogin")) {
-    getBehavior(ui.get(), "autoAnonymousLogin")(ui.get());
-  } else {
-    ui.setKey("state", "idle");
+  // If we're client-side, execute the init and redirect behaviors.
+  if (typeof window !== "undefined") {
+    const initBehaviors: InitBehavior[] = [];
+    const redirectBehaviors: RedirectBehavior[] = [];
+
+    for (const behavior of Object.values(ui.behaviors)) {
+      if (behavior.type === "redirect") {
+        redirectBehaviors.push(behavior);
+      } else if (behavior.type === "init") {
+        initBehaviors.push(behavior);
+      }
+    }
+
+    if (initBehaviors.length > 0) {
+      store.setKey("state", "loading");
+      ui.auth.authStateReady().then(() => {
+        Promise.all(initBehaviors.map((behavior) => behavior.handler(ui))).then(() => {
+          store.setKey("state", "idle");
+        });
+      });
+    }
+
+    if (redirectBehaviors.length > 0) {
+      getRedirectResult(ui.auth).then((result) => {
+        Promise.all(redirectBehaviors.map((behavior) => behavior.handler(ui, result)));
+      });
+    }
   }
 
-  return ui;
+  return store;
 }

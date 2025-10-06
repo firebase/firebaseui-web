@@ -9,5 +9,5 @@
       "@firebase-ui/translations": ["../translations/src/index.ts"]
     }
   },
-  "include": ["src", "eslint.config.js", "vitest.config.ts", "tsup.config.ts"]
+  "include": ["src", "vitest.config.ts", "tsup.config.ts"]
 }
