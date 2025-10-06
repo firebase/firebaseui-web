@@ -164,7 +164,7 @@ describe("<SignInAuthForm />", () => {
     vi.clearAllMocks();
   });
 
-  it.only("should render the form correctly", () => {
+  it("should render the form correctly", () => {
     const mockUI = createMockUI({
       locale: registerLocale("test", {
         labels: {
