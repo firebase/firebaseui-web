@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-import { useContext, useMemo, useEffect, useState } from "react";
-import type { RecaptchaVerifier } from "firebase/auth";
+import { useContext, useMemo, useEffect } from "react";
 import {
   createEmailLinkAuthFormSchema,
   createForgotPasswordAuthFormSchema,
@@ -69,26 +68,18 @@ export function usePhoneAuthFormSchema() {
 
 export function useRecaptchaVerifier(ref: React.RefObject<HTMLDivElement | null>) {
   const ui = useUI();
-  const [recaptchaVerifier, setRecaptchaVerifier] = useState<RecaptchaVerifier | null>(null);
+
+  const verifier = useMemo(() => {
+    return ref.current && hasBehavior(ui, "recaptchaVerification")
+      ? getBehavior(ui, "recaptchaVerification")(ui, ref.current)
+      : null;
+  }, [ref, ui]);
 
   useEffect(() => {
-    const element = ref.current;
-
-    if (!element || !hasBehavior(ui, "recaptchaVerification")) {
-      setRecaptchaVerifier(null);
-      return;
+    if (verifier) {
+      verifier.render();
     }
+  }, [verifier]);
 
-    const verifier = getBehavior(ui, "recaptchaVerification")(ui, element);
-
-    verifier.render().then(() => {
-      setRecaptchaVerifier(verifier);
-    });
-
-    return () => {
-      verifier.clear();
-    };
-  }, []);
-
-  return recaptchaVerifier;
+  return verifier;
 }
