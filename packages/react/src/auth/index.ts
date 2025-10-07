@@ -66,4 +66,4 @@ export {
   type MicrosoftSignInButtonProps,
 } from "./oauth/microsoft-sign-in-button";
 export { TwitterSignInButton, TwitterLogo, type TwitterSignInButtonProps } from "./oauth/twitter-sign-in-button";
-export { OAuthButton, type OAuthButtonProps } from "./oauth/oauth-button";
+export { OAuthButton, useSignInWithProvider, type OAuthButtonProps } from "./oauth/oauth-button";
