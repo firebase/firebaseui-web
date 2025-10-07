@@ -99,6 +99,34 @@
           "type": "registry:component"
         }
       ]
+    },
+    {
+      "name": "email-link-auth-screen",
+      "type": "registry:block",
+      "title": "Email Link Auth Screen",
+      "description": "A screen allowing users to sign in via email link.",
+      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "registryDependencies": ["separator", "card", "{{ DOMAIN }}/email-link-auth-form.json"],
+      "files": [
+        {
+          "path": "src/registry/email-link-auth-screen.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "email-link-auth-form",
+      "type": "registry:block",
+      "title": "Email Link Auth Form",
+      "description": "A form allowing users to sign in via email link.",
+      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "registryDependencies": ["input", "button", "form", "{{ DOMAIN }}/policies.json"],
+      "files": [
+        {
+          "path": "src/registry/email-link-auth-form.tsx",
+          "type": "registry:component"
+        }
+      ]
     }
   ]
 }

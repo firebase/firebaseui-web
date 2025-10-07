@@ -19,6 +19,7 @@ export {
   type EmailLinkAuthFormProps,
   useEmailLinkAuthFormAction,
   useEmailLinkAuthForm,
+  useEmailLinkAuthFormCompleteSignIn,
 } from "./forms/email-link-auth-form";
 export {
   ForgotPasswordAuthForm,
