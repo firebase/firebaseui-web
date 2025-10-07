@@ -14,8 +14,8 @@
  */
 
 import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
-import { render, screen, fireEvent, cleanup } from "@testing-library/react";
-import { OAuthButton } from "./oauth-button";
+import { render, screen, fireEvent, cleanup, renderHook, act } from "@testing-library/react";
+import { OAuthButton, useSignInWithProvider } from "./oauth-button";
 import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
 import { enUs, registerLocale } from "@firebase-ui/translations";
 import type { AuthProvider, UserCredential } from "firebase/auth";
@@ -222,5 +222,152 @@ describe("<OAuthButton />", () => {
     await new Promise((resolve) => setTimeout(resolve, 0));
 
     expect(screen.queryByText(expectedError)).toBeNull();
+  });
+});
+
+describe("useSignInWithProvider", () => {
+  const mockGoogleProvider = { providerId: "google.com" } as AuthProvider;
+  const mockFacebookProvider = { providerId: "facebook.com" } as AuthProvider;
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("returns error and callback", () => {
+    const ui = createMockUI();
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <CreateFirebaseUIProvider ui={ui}>{children}</CreateFirebaseUIProvider>
+    );
+
+    const { result } = renderHook(() => useSignInWithProvider(mockGoogleProvider), { wrapper });
+
+    expect(result.current.error).toBeNull();
+    expect(typeof result.current.callback).toBe("function");
+  });
+
+  it("calls signInWithProvider when callback is executed", async () => {
+    const mockSignInWithProvider = vi.mocked(signInWithProvider);
+    const ui = createMockUI();
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <CreateFirebaseUIProvider ui={ui}>{children}</CreateFirebaseUIProvider>
+    );
+
+    const { result } = renderHook(() => useSignInWithProvider(mockGoogleProvider), { wrapper });
+
+    await act(async () => {
+      await result.current.callback();
+    });
+
+    expect(mockSignInWithProvider).toHaveBeenCalledTimes(1);
+    expect(mockSignInWithProvider).toHaveBeenCalledWith(ui.get(), mockGoogleProvider);
+  });
+
+  it("sets error state when FirebaseUIError occurs", async () => {
+    const { FirebaseUIError } = await import("@firebase-ui/core");
+    const mockSignInWithProvider = vi.mocked(signInWithProvider);
+    const ui = createMockUI();
+    const mockError = new FirebaseUIError(
+      ui.get(),
+      new FirebaseError("auth/user-not-found", "No account found with this email address")
+    );
+    mockSignInWithProvider.mockRejectedValue(mockError);
+
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <CreateFirebaseUIProvider ui={ui}>{children}</CreateFirebaseUIProvider>
+    );
+
+    const { result } = renderHook(() => useSignInWithProvider(mockGoogleProvider), { wrapper });
+
+    await act(async () => {
+      await result.current.callback();
+    });
+
+    expect(result.current.error).toBe("No account found with this email address");
+  });
+
+  it("sets unknown error message when non-Firebase error occurs", async () => {
+    const mockSignInWithProvider = vi.mocked(signInWithProvider);
+    const regularError = new Error("Regular error");
+    mockSignInWithProvider.mockRejectedValue(regularError);
+
+    // Mock console.error to prevent test output noise
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    const ui = createMockUI({
+      locale: registerLocale("test", {
+        errors: {
+          unknownError: "unknownError",
+        },
+      }),
+    });
+
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <CreateFirebaseUIProvider ui={ui}>{children}</CreateFirebaseUIProvider>
+    );
+
+    const { result } = renderHook(() => useSignInWithProvider(mockGoogleProvider), { wrapper });
+
+    await act(async () => {
+      await result.current.callback();
+    });
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith(regularError);
+    expect(result.current.error).toBe("unknownError");
+
+    // Restore console.error
+    consoleErrorSpy.mockRestore();
+  });
+
+  it("clears error when callback is called again", async () => {
+    const { FirebaseUIError } = await import("@firebase-ui/core");
+    const mockSignInWithProvider = vi.mocked(signInWithProvider);
+    const ui = createMockUI();
+
+    // First call fails, second call succeeds
+    mockSignInWithProvider
+      .mockRejectedValueOnce(
+        new FirebaseUIError(ui.get(), new FirebaseError("auth/wrong-password", "Incorrect password"))
+      )
+      .mockResolvedValueOnce({} as UserCredential);
+
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <CreateFirebaseUIProvider ui={ui}>{children}</CreateFirebaseUIProvider>
+    );
+
+    const { result } = renderHook(() => useSignInWithProvider(mockGoogleProvider), { wrapper });
+
+    // First call - should set error
+    await act(async () => {
+      await result.current.callback();
+    });
+
+    expect(result.current.error).toBe("Incorrect password");
+
+    // Second call - should clear error
+    await act(async () => {
+      await result.current.callback();
+    });
+
+    expect(result.current.error).toBeNull();
+  });
+
+  it("maintains stable callback reference when provider changes", () => {
+    const ui = createMockUI();
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <CreateFirebaseUIProvider ui={ui}>{children}</CreateFirebaseUIProvider>
+    );
+
+    const { result, rerender } = renderHook(({ provider }) => useSignInWithProvider(provider), {
+      wrapper,
+      initialProps: { provider: mockGoogleProvider },
+    });
+
+    const firstCallback = result.current.callback;
+
+    // Change provider
+    rerender({ provider: mockFacebookProvider });
+
+    // Callback should be different due to dependency change
+    expect(result.current.callback).not.toBe(firstCallback);
   });
 });
