@@ -45,6 +45,7 @@ export {
   type SignUpAuthFormProps,
   useSignUpAuthForm,
   useSignUpAuthFormAction,
+  useRequireDisplayName,
 } from "./forms/sign-up-auth-form";
 
 export { EmailLinkAuthScreen, type EmailLinkAuthScreenProps } from "./screens/email-link-auth-screen";

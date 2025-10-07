@@ -43,6 +43,34 @@
           "type": "registry:component"
         }
       ]
+    },
+    {
+      "name": "sign-up-auth-screen",
+      "type": "registry:block",
+      "title": "Sign Up Auth Screen",
+      "description": "A screen allowing users to sign up with email and password.",
+      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "registryDependencies": ["separator", "card", "{{ DOMAIN }}/sign-up-auth-form.json"],
+      "files": [
+        {
+          "path": "src/registry/sign-up-auth-screen.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "sign-up-auth-form",
+      "type": "registry:block",
+      "title": "Sign Up Auth Form",
+      "description": "A form allowing users to sign up with email and password.",
+      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "registryDependencies": ["input", "button", "form", "{{ DOMAIN }}/policies.json"],
+      "files": [
+        {
+          "path": "src/registry/sign-up-auth-form.tsx",
+          "type": "registry:component"
+        }
+      ]
     }
   ]
 }
