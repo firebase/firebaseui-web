@@ -7,6 +7,7 @@ import tseslint from "typescript-eslint";
 import pluginPrettier from "eslint-plugin-prettier";
 import pluginReact from "eslint-plugin-react";
 import pluginReactHooks from "eslint-plugin-react-hooks";
+import pluginAngular from "angular-eslint";
 
 const config: any[] = [
   globalIgnores([
@@ -30,6 +31,11 @@ const config: any[] = [
       "arrow-body-style": "off",
       "prefer-arrow-callback": "off",
     },
+  },
+  {
+    // Angular package specific rules
+    files: ["packages/angular/src/**/*.{ts,tsx}"],
+    processor: pluginAngular.processInlineTemplates,
   },
   {
     // React package specific rules

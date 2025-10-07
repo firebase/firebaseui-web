@@ -9,6 +9,7 @@
       "~/*": ["./src/*"],
       "~/tests/*": ["./tests/*"],
       "@firebase-ui/core": ["../core/src/index.ts"],
+      "@firebase-ui/translations": ["../translations/src/index.ts"],
       "@firebase-ui/styles": ["../styles/src/index.ts"]
     }
   },
