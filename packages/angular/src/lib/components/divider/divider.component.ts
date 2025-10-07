@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, ElementRef, computed, viewChild } from "@angular/core";
+import { Component, computed, contentChild, contentChildren, ElementRef, input, TemplateRef, viewChild } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
 @Component({
@@ -24,18 +24,22 @@ import { CommonModule } from "@angular/common";
   template: `
     <div class="fui-divider my-6">
       <div class="fui-divider__line"></div>
-
-      <div class="fui-divider__text" #contentContainer>
-        <ng-content></ng-content>
-      </div>
-
-      @if (hasChildren()) {
-        <div class="fui-divider__line"></div>
-      }
+      has-specific-content: {{ hasProjected() }}
+      <ng-container *ngIf="hasProjected();">
+        <div class="wrapper">
+          <ng-content></ng-content>
+        </div>
+      </ng-container>
+      <ng-content #projectedContent></ng-content>
     </div>
   `,
 })
 export class DividerComponent {
-  contentContainer = viewChild.required<ElementRef>("contentContainer");
-  hasChildren = computed(() => this.contentContainer().nativeElement.children.length > 0);
+  // Check for projected content using template reference
+  projectedContent = contentChild<any>('projectedContent');
+
+  hasProjected = computed(() => {
+    const content = this.projectedContent();
+    return content && content.nativeElement.children.length > 0;
+  });
 }

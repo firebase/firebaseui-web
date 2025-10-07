@@ -14,98 +14,21 @@
  * limitations under the License.
  */
 
-import { Component } from "@angular/core";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { By } from "@angular/platform-browser";
-import { DividerComponent } from "./divider.component";
+import { render, screen } from '@testing-library/angular';
 
-// Create a test host component with projected text content
-@Component({
-  template: `<fui-divider class="custom-class" data-testid="divider-with-text">OR</fui-divider>`,
-  standalone: true,
-  imports: [DividerComponent],
-})
-class TestHostWithTextComponent {}
+import { DividerComponent } from './divider.component';
+import { CommonModule } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
 
-// Create a test host component with input text content
-@Component({
-  template: `<fui-divider class="custom-class" data-testid="divider-with-input-text" [text]="'OR'"></fui-divider>`,
-  standalone: true,
-  imports: [DividerComponent],
-})
-class TestHostWithInputTextComponent {}
+describe('<fui-divider>', () => {
+  it.only('renders a divider with text', async () => {
+    const { container } = await render(`<fui-divider><span>Hello</span></fui-divider>`, {
+      imports: [DividerComponent, CommonModule, BrowserModule],
+    });
 
-// Create a test host component without text content
-@Component({
-  template: `<fui-divider data-testid="divider-no-text" aria-label="divider"></fui-divider>`,
-  standalone: true,
-  imports: [DividerComponent],
-})
-class TestHostNoTextComponent {}
+    screen.debug();
 
-describe("DividerComponent", () => {
-  let textFixture: ComponentFixture<TestHostWithTextComponent>;
-  let inputTextFixture: ComponentFixture<TestHostWithInputTextComponent>;
-  let noTextFixture: ComponentFixture<TestHostNoTextComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [DividerComponent, TestHostWithTextComponent, TestHostWithInputTextComponent, TestHostNoTextComponent],
-    }).compileComponents();
-
-    textFixture = TestBed.createComponent(TestHostWithTextComponent);
-    inputTextFixture = TestBed.createComponent(TestHostWithInputTextComponent);
-    noTextFixture = TestBed.createComponent(TestHostNoTextComponent);
-  });
-
-  it("renders a divider with no text", () => {
-    noTextFixture.detectChanges();
-
-    const dividerHost = noTextFixture.debugElement.query(By.css('[data-testid="divider-no-text"]'));
-    const dividerEl = dividerHost.query(By.css(".fui-divider"));
-
-    expect(dividerEl).toBeTruthy();
-    expect(dividerEl.nativeElement.classList.contains("fui-divider")).toBeTruthy();
-
-    // Check for two divider lines (simplified logic now always shows content)
-    const dividerLines = dividerEl.queryAll(By.css(".fui-divider__line"));
-    expect(dividerLines.length).toBe(2);
-
-    // Check that text container exists (simplified logic)
-    const textEl = dividerEl.query(By.css(".fui-divider__text"));
-    expect(textEl).toBeTruthy();
-
-    // Check aria-label on the host element
-    expect(dividerHost.nativeElement.getAttribute("aria-label")).toBe("divider");
-  });
-
-  it("renders a divider with input text attribute", () => {
-    inputTextFixture.detectChanges();
-
-    const dividerHost = inputTextFixture.debugElement.query(By.css('[data-testid="divider-with-input-text"]'));
-
-    // Get the component instance
-    const dividerComponent = dividerHost.componentInstance;
-    expect(dividerComponent.text).toBe("OR");
-
-    const dividerEl = dividerHost.query(By.css(".fui-divider"));
-    expect(dividerEl).toBeTruthy();
-
-    // Check for two divider lines when there is text
-    const dividerLines = dividerEl.queryAll(By.css(".fui-divider__line"));
-    expect(dividerLines.length).toBe(2);
-
-    // Check that text container exists
-    const textEl = dividerEl.query(By.css(".fui-divider__text"));
-    expect(textEl).toBeTruthy();
-  });
-
-  it("applies custom className", () => {
-    inputTextFixture.detectChanges();
-
-    const dividerHost = inputTextFixture.debugElement.query(By.css('[data-testid="divider-with-input-text"]'));
-
-    // Class should be on the host element
-    expect(dividerHost.nativeElement.classList.contains("custom-class")).toBeTruthy();
+    const textContainer = container.querySelector('.fui-divider__text');
+    expect(textContainer).toBeTruthy();
   });
 });

@@ -14,17 +14,19 @@
  * limitations under the License.
  */
 
-import "@analogjs/vitest-angular/setup-snapshots";
-import "@testing-library/jest-dom/vitest";
+import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone/index.mjs';
+import "@testing-library/jest-dom";
 
 import "@angular/compiler";
-import { BrowserTestingModule, platformBrowserTesting } from "@angular/platform-browser/testing";
-import { NgModule, provideZonelessChangeDetection } from "@angular/core";
-import { getTestBed } from "@angular/core/testing";
+// import { BrowserTestingModule, platformBrowserTesting } from "@angular/platform-browser/testing";
+// import { NgModule, provideZonelessChangeDetection } from "@angular/core";
+// import { getTestBed } from "@angular/core/testing";
 
-@NgModule({
-  providers: [provideZonelessChangeDetection()],
-})
-export class ZonelessTestModule {}
+setupZoneTestEnv();
 
-getTestBed().initTestEnvironment([BrowserTestingModule, ZonelessTestModule], platformBrowserTesting());
+// @NgModule({
+//   providers: [provideZonelessChangeDetection()],
+// })
+// export class ZonelessTestModule {}
+
+// getTestBed().initTestEnvironment([BrowserTestingModule, ZonelessTestModule], platformBrowserTesting());
