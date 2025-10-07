@@ -154,7 +154,34 @@
           "path": "src/registry/google-sign-in-button.tsx",
           "type": "registry:component"
         }
-      ]
+      ],
+      "css": {
+        "@layer components": {
+          "button[data-provider='google.com'][data-themed='true']": {
+            "--google-primary": "#131314",
+            "--color-primary": "var(--google-primary)",
+            "--color-primary-hover": "--alpha(var(--google-primary) / 85%)",
+            "--color-primary-surface": "#FFFFFF",
+            "--color-border": "var(--google-primary)"
+          },
+          "button[data-provider='google.com'][data-themed='neutral']": {
+            "--google-primary": "#F2F2F2",
+            "--color-primary": "var(--google-primary)",
+            "--color-primary-hover": "--alpha(var(--google-primary) / 85%)",
+            "--color-primary-surface": "#1F1F1F",
+            "--color-border": "transparent"
+          }
+        },
+        "@variant dark": {
+          "button[data-provider='google.com'][data-themed='true']": {
+            "--google-primary": "#FFFFFF",
+            "--color-primary": "var(--google-primary)",
+            "--color-primary-hover": "--alpha(var(--google-primary) / 85%)",
+            "--color-primary-surface": "#1F1F1F",
+            "--color-border": "#747775"
+          }
+        }
+      }
     }
   ]
 }
