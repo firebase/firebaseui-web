@@ -4,6 +4,20 @@
   "homepage": "{{ DOMAIN }}",
   "items": [
     {
+      "name": "sign-in-auth-screen",
+      "type": "registry:block",
+      "title": "Sign In Auth Screen",
+      "description": "A screen allowing users to sign in with email and password.",
+      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "registryDependencies": ["separator", "card", "{{ DOMAIN }}/sign-in-auth-form.json"],
+      "files": [
+        {
+          "path": "src/registry/sign-in-auth-screen.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "sign-in-auth-form",
       "type": "registry:block",
       "title": "Sign In Auth Form",
