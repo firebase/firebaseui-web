@@ -14,278 +14,294 @@
  * limitations under the License.
  */
 
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, fireEvent, act } from "@testing-library/react";
-import { EmailLinkAuthForm } from "./email-link-auth-form";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { render, screen, fireEvent, renderHook, cleanup, waitFor } from "@testing-library/react";
+import {
+  EmailLinkAuthForm,
+  useEmailLinkAuthForm,
+  useEmailLinkAuthFormAction,
+  useEmailLinkAuthFormCompleteSignIn,
+} from "./email-link-auth-form";
+import { act } from "react";
+import { sendSignInLinkToEmail, completeEmailLinkSignIn } from "@firebase-ui/core";
+import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
+import { registerLocale } from "@firebase-ui/translations";
+import { FirebaseUIProvider } from "~/context";
+import type { UserCredential } from "firebase/auth";
 
-// Mock Firebase UI Core
 vi.mock("@firebase-ui/core", async (importOriginal) => {
   const mod = await importOriginal<typeof import("@firebase-ui/core")>();
-  const FirebaseUIError = vi.fn();
-  FirebaseUIError.prototype.message = "Test error message";
-
   return {
     ...mod,
-    FirebaseUIError: class FirebaseUIError {
-      message: string;
-      code?: string;
-
-      constructor({ code, message }: { code: string; message: string }) {
-        this.code = code;
-        this.message = message;
-      }
-    },
-    completeEmailLinkSignIn: vi.fn(),
     sendSignInLinkToEmail: vi.fn(),
-    createEmailLinkFormSchema: () => ({
-      email: {
-        validate: (value: string) => {
-          if (!value) return "Email is required";
-          return undefined;
-        },
-      },
-    }),
+    completeEmailLinkSignIn: vi.fn(),
   };
 });
 
-import { FirebaseUIError, sendSignInLinkToEmail, completeEmailLinkSignIn } from "@firebase-ui/core";
-
-// Mock React's useState to control state for testing
-const useStateMock = vi.fn();
-const setFormErrorMock = vi.fn();
-const setEmailSentMock = vi.fn();
-
-// Mock hooks
-vi.mock("../../../../src/hooks", () => ({
-  useUI: vi.fn(() => ({
-    locale: "en-US",
-    translations: {
-      "en-US": {
-        labels: {
-          emailAddress: "Email",
-          sendSignInLink: "sendSignInLink",
-        },
-      },
-    },
-  })),
-  useAuth: vi.fn(() => ({})),
-}));
-
-// Mock form
-vi.mock("@tanstack/react-form", () => ({
-  useForm: () => {
-    const formState = {
-      email: "test@example.com",
-    };
-
-    return {
-      Field: ({ name, children }: any) => {
-        // Create a mock field with the required methods and state management
-        const field = {
-          name,
-          handleBlur: vi.fn(),
-          handleChange: vi.fn((value: string) => {
-            formState[name as keyof typeof formState] = value;
-          }),
-          state: {
-            value: formState[name as keyof typeof formState] || "",
-            meta: { isTouched: false, errors: [] },
-          },
-        };
-
-        return children(field);
-      },
-      handleSubmit: vi.fn().mockImplementation(async () => {
-        // Call the onSubmit handler with the form state
-        await (global as any).formOnSubmit?.({ value: formState });
-      }),
-    };
-  },
-}));
-
-// Mock components
-vi.mock("../../../../src/components/field-info", () => ({
-  FieldInfo: () => <div data-testid="field-info" />,
-}));
-
-vi.mock("../../../../src/components/policies", () => ({
-  Policies: () => <div data-testid="policies">Policies</div>,
-}));
-
-vi.mock("../../../../src/components/button", () => ({
-  Button: ({
-    children,
-    onClick,
-    type,
-    ...rest
-  }: {
-    children: React.ReactNode;
-    onClick?: () => void;
-    type?: "submit" | "reset" | "button";
-    [key: string]: any;
-  }) => (
-    <button onClick={onClick} type={type} data-testid="submit-button" {...rest}>
-      {children}
-    </button>
-  ),
-}));
-
-// Mock react useState to control state in tests
-vi.mock("react", async () => {
-  const actual = (await vi.importActual("react")) as typeof import("react");
+vi.mock("~/components/form", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("~/components/form")>();
   return {
-    ...actual,
-    useState: vi.fn().mockImplementation((initialValue) => {
-      useStateMock(initialValue);
-      // For formError state
-      if (initialValue === null) {
-        return [null, setFormErrorMock];
-      }
-      // For emailSent state
-      if (initialValue === false) {
-        return [false, setEmailSentMock];
-      }
-      // Default behavior for other useState calls
-      return actual.useState(initialValue);
-    }),
+    ...mod,
+    form: {
+      ...mod.form,
+      ErrorMessage: () => <div data-testid="error-message">Error Message</div>,
+    },
   };
 });
 
-const mockSendSignInLink = vi.mocked(sendSignInLinkToEmail);
-const mockCompleteEmailLink = vi.mocked(completeEmailLinkSignIn);
-
-describe("EmailLinkAuthForm", () => {
+describe("useEmailLinkAuthFormCompleteSignIn", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    // Reset the global state
-    (global as any).formOnSubmit = null;
-    setFormErrorMock.mockReset();
-    setEmailSentMock.mockReset();
   });
 
-  it("renders the email link form", () => {
-    render(<EmailLinkAuthForm />);
+  it("should call onSignIn when email link sign-in is completed successfully", async () => {
+    const mockCredential = { credential: true } as unknown as UserCredential;
+    const completeEmailLinkSignInMock = vi.mocked(completeEmailLinkSignIn).mockResolvedValue(mockCredential);
+    const onSignInMock = vi.fn();
+    const mockUI = createMockUI();
 
-    expect(screen.getByLabelText("Email")).toBeInTheDocument();
-    expect(screen.getByText("sendSignInLink")).toBeInTheDocument();
-  });
-
-  it("attempts to complete email link sign-in on load", () => {
-    mockCompleteEmailLink.mockResolvedValue(null);
-
-    render(<EmailLinkAuthForm />);
-
-    expect(mockCompleteEmailLink).toHaveBeenCalled();
-  });
-
-  it("submits the form and sends sign-in link to email", async () => {
-    mockSendSignInLink.mockResolvedValue(undefined);
-
-    const { container } = render(<EmailLinkAuthForm />);
-
-    // Get the form element
-    const form = container.getElementsByClassName("fui-form")[0] as HTMLFormElement;
-
-    // Set up the form submit handler
-    (global as any).formOnSubmit = async ({ value }: { value: { email: string } }) => {
-      await sendSignInLinkToEmail(expect.anything(), value.email);
-    };
-
-    // Submit the form
-    await act(async () => {
-      fireEvent.submit(form);
+    renderHook(() => useEmailLinkAuthFormCompleteSignIn(onSignInMock), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
-    expect(mockSendSignInLink).toHaveBeenCalledWith(expect.anything(), "test@example.com");
+    await waitFor(() => {
+      expect(completeEmailLinkSignInMock).toHaveBeenCalledWith(mockUI.get(), window.location.href);
+      expect(onSignInMock).toHaveBeenCalledWith(mockCredential);
+    });
   });
 
-  // TODO(ehesp): Fix this test
-  it.skip("handles error when sending email link fails", async () => {
-    // // Mock the error that will be thrown
-    // const mockError = new FirebaseUIError({
-    //   code: "auth/invalid-email",
-    //   message: "Invalid email",
-    // });
-    // mockSendSignInLink.mockRejectedValue(mockError);
+  it("should not call onSignIn when email link sign-in returns null", async () => {
+    const completeEmailLinkSignInMock = vi.mocked(completeEmailLinkSignIn).mockResolvedValue(null);
+    const onSignInMock = vi.fn();
+    const mockUI = createMockUI();
 
-    // const { container } = render(<EmailLinkAuthForm />);
+    renderHook(() => useEmailLinkAuthFormCompleteSignIn(onSignInMock), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
 
-    // // Get the form element
-    // const form = container.getElementsByClassName("fui-form")[0] as HTMLFormElement;
+    await waitFor(() => {
+      expect(completeEmailLinkSignInMock).toHaveBeenCalledWith(mockUI.get(), window.location.href);
+      expect(onSignInMock).not.toHaveBeenCalled();
+    });
 
-    // // Set up the form submit handler to simulate error
-    // (global as any).formOnSubmit = async () => {
-    //   try {
-    //     // Simulate the action that would throw an error
-    //     await sendSignInLinkToEmail(expect.anything(), "invalid-email");
-    //   } catch (_error) {
-    //     // Simulate the error being caught and error state being set
-    //     setFormErrorMock("Invalid email");
-    //     // Don't rethrow the error - we've handled it here
-    //   }
-    // };
-
-    // // Submit the form
-    // await act(async () => {
-    //   fireEvent.submit(form);
-    // });
-
-    // // Verify that the error state was updated
-    // expect(setFormErrorMock).toHaveBeenCalledWith("Invalid email");
+    expect(completeEmailLinkSignInMock).toHaveBeenCalledWith(mockUI.get(), window.location.href);
+    expect(onSignInMock).not.toHaveBeenCalled();
   });
 
-  it("handles success when email is sent", async () => {
-    mockSendSignInLink.mockResolvedValue(undefined);
+  it("should not call onSignIn when onSignIn is not provided", async () => {
+    const mockCredential = { credential: true } as unknown as UserCredential;
+    const completeEmailLinkSignInMock = vi.mocked(completeEmailLinkSignIn).mockResolvedValue(mockCredential);
+    const mockUI = createMockUI();
 
-    const { container } = render(<EmailLinkAuthForm />);
-
-    // Get the form element
-    const form = container.getElementsByClassName("fui-form")[0] as HTMLFormElement;
-
-    // Set up the form submit handler
-    (global as any).formOnSubmit = async () => {
-      // Simulate successful email send by setting emailSent to true
-      setEmailSentMock(true);
-    };
-
-    // Submit the form
-    await act(async () => {
-      fireEvent.submit(form);
+    renderHook(() => useEmailLinkAuthFormCompleteSignIn(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
-    // Verify that the success state was updated
-    expect(setEmailSentMock).toHaveBeenCalledWith(true);
+    await waitFor(() => {
+      expect(completeEmailLinkSignInMock).toHaveBeenCalledWith(mockUI.get(), window.location.href);
+    });
+  });
+});
+
+describe("useEmailLinkAuthFormAction", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
   });
 
-  it("validates on blur for the first time", async () => {
-    render(<EmailLinkAuthForm />);
+  it("should return a callback which accept an email", async () => {
+    const sendSignInLinkToEmailMock = vi.mocked(sendSignInLinkToEmail);
+    const mockUI = createMockUI();
 
-    const emailInput = screen.getByLabelText("Email");
-
-    await act(async () => {
-      fireEvent.blur(emailInput);
+    const { result } = renderHook(() => useEmailLinkAuthFormAction(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
-    // Check that form validation is available
-    expect((global as any).formOnSubmit).toBeDefined();
+    await act(async () => {
+      await result.current({ email: "test@example.com" });
+    });
+
+    expect(sendSignInLinkToEmailMock).toHaveBeenCalledWith(expect.any(Object), "test@example.com");
   });
 
-  it("validates on input after first blur", async () => {
-    render(<EmailLinkAuthForm />);
+  it("should throw an unknown error when its not a FirebaseUIError", async () => {
+    const sendSignInLinkToEmailMock = vi.mocked(sendSignInLinkToEmail).mockRejectedValue(new Error("Unknown error"));
 
-    const emailInput = screen.getByLabelText("Email");
-
-    // First validation on blur
-    await act(async () => {
-      fireEvent.blur(emailInput);
+    const mockUI = createMockUI({
+      locale: registerLocale("es-ES", {
+        errors: {
+          unknownError: "unknownError",
+        },
+      }),
     });
 
-    // Then validation should happen on input
-    await act(async () => {
-      fireEvent.input(emailInput, { target: { value: "test@example.com" } });
+    const { result } = renderHook(() => useEmailLinkAuthFormAction(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
-    // Check that form validation is available
-    expect((global as any).formOnSubmit).toBeDefined();
+    await expect(async () => {
+      await act(async () => {
+        await result.current({ email: "test@example.com" });
+      });
+    }).rejects.toThrow("unknownError");
+
+    expect(sendSignInLinkToEmailMock).toHaveBeenCalledWith(mockUI.get(), "test@example.com");
+  });
+});
+
+describe("useEmailLinkAuthForm", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    cleanup();
+  });
+
+  it("should allow the form to be submitted", async () => {
+    const mockUI = createMockUI();
+    const sendSignInLinkToEmailMock = vi.mocked(sendSignInLinkToEmail);
+
+    const { result } = renderHook(() => useEmailLinkAuthForm(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    act(() => {
+      result.current.setFieldValue("email", "test@example.com");
+    });
+
+    await act(async () => {
+      await result.current.handleSubmit();
+    });
+
+    expect(sendSignInLinkToEmailMock).toHaveBeenCalledWith(mockUI.get(), "test@example.com");
+  });
+
+  it("should not allow the form to be submitted if the form is invalid", async () => {
+    const mockUI = createMockUI();
+    const sendSignInLinkToEmailMock = vi.mocked(sendSignInLinkToEmail);
+
+    const { result } = renderHook(() => useEmailLinkAuthForm(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    act(() => {
+      result.current.setFieldValue("email", "123");
+    });
+
+    await act(async () => {
+      await result.current.handleSubmit();
+    });
+
+    expect(result.current.getFieldMeta("email")!.errors[0].length).toBeGreaterThan(0);
+    expect(sendSignInLinkToEmailMock).not.toHaveBeenCalled();
+  });
+});
+
+describe("<EmailLinkAuthForm />", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("should render the form correctly", () => {
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          sendSignInLink: "sendSignInLink",
+        },
+      }),
+    });
+
+    const { container } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <EmailLinkAuthForm />
+      </FirebaseUIProvider>
+    );
+
+    // There should be only one form
+    const form = container.querySelectorAll("form.fui-form");
+    expect(form.length).toBe(1);
+
+    // Make sure we have an email input
+    expect(screen.getByRole("textbox", { name: /email/i })).toBeInTheDocument();
+
+    // Ensure the "Send Sign In Link" button is present and is a submit button
+    const sendSignInLinkButton = screen.getByRole("button", { name: "sendSignInLink" });
+    expect(sendSignInLinkButton).toBeInTheDocument();
+    expect(sendSignInLinkButton).toHaveAttribute("type", "submit");
+  });
+
+  it("should attempt to complete email link sign-in on load", () => {
+    const completeEmailLinkSignInMock = vi.mocked(completeEmailLinkSignIn);
+    const mockUI = createMockUI();
+
+    render(
+      <FirebaseUIProvider ui={mockUI}>
+        <EmailLinkAuthForm />
+      </FirebaseUIProvider>
+    );
+
+    expect(completeEmailLinkSignInMock).toHaveBeenCalled();
+  });
+
+  it("should call onSignIn when email link sign-in is completed successfully", async () => {
+    const mockCredential = { credential: true } as unknown as UserCredential;
+    const completeEmailLinkSignInMock = vi.mocked(completeEmailLinkSignIn).mockResolvedValue(mockCredential);
+    const onSignInMock = vi.fn();
+    const mockUI = createMockUI();
+
+    render(
+      <FirebaseUIProvider ui={mockUI}>
+        <EmailLinkAuthForm onSignIn={onSignInMock} />
+      </FirebaseUIProvider>
+    );
+
+    await act(async () => {
+      // Wait for the useEffect to complete
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    });
+
+    expect(completeEmailLinkSignInMock).toHaveBeenCalledWith(mockUI.get(), window.location.href);
+    expect(onSignInMock).toHaveBeenCalledWith(mockCredential);
+  });
+
+  it("should not call onSignIn when email link sign-in returns null", async () => {
+    const completeEmailLinkSignInMock = vi.mocked(completeEmailLinkSignIn).mockResolvedValue(null);
+    const onSignInMock = vi.fn();
+    const mockUI = createMockUI();
+
+    render(
+      <FirebaseUIProvider ui={mockUI}>
+        <EmailLinkAuthForm onSignIn={onSignInMock} />
+      </FirebaseUIProvider>
+    );
+
+    await act(async () => {
+      // Wait for the useEffect to complete
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    });
+
+    expect(completeEmailLinkSignInMock).toHaveBeenCalledWith(mockUI.get(), window.location.href);
+    expect(onSignInMock).not.toHaveBeenCalled();
+  });
+
+  it("should trigger validation errors when the form is blurred", () => {
+    const mockUI = createMockUI();
+
+    const { container } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <EmailLinkAuthForm />
+      </FirebaseUIProvider>
+    );
+
+    const form = container.querySelector("form.fui-form");
+    expect(form).toBeInTheDocument();
+
+    const input = screen.getByRole("textbox", { name: /email/i });
+
+    act(() => {
+      fireEvent.blur(input);
+    });
+
+    expect(screen.getByText("Please enter a valid email address")).toBeInTheDocument();
   });
 });

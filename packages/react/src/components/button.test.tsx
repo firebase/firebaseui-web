@@ -14,16 +14,19 @@
  * limitations under the License.
  */
 
-import { describe, it, expect, vi } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
-import "@testing-library/jest-dom";
+import { describe, it, expect, vi, afterEach } from "vitest";
+import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import { Button } from "./button";
 
-describe("Button Component", () => {
+afterEach(() => {
+  cleanup();
+});
+
+describe("<Button />", () => {
   it("renders with default variant (primary)", () => {
     render(<Button>Click me</Button>);
     const button = screen.getByRole("button", { name: /click me/i });
-    expect(button).toBeInTheDocument();
+    expect(button).toBeDefined();
     expect(button).toHaveClass("fui-button");
     expect(button).not.toHaveClass("fui-button--secondary");
   });
@@ -60,7 +63,7 @@ describe("Button Component", () => {
     );
     const button = screen.getByTestId("test-button");
 
-    expect(button).toBeDisabled();
+    expect(button).toHaveAttribute("disabled");
   });
 
   it("renders as a Slot component when asChild is true", () => {
@@ -71,7 +74,7 @@ describe("Button Component", () => {
     );
     const link = screen.getByRole("link", { name: /link button/i });
 
-    expect(link).toBeInTheDocument();
+    expect(link).toBeDefined();
     expect(link).toHaveClass("fui-button");
     expect(link.tagName).toBe("A");
     expect(link).toHaveAttribute("href", "/test");

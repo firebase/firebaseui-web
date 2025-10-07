@@ -4,7 +4,6 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -14,73 +13,145 @@
  * limitations under the License.
  */
 
-import { describe, it, expect, vi } from "vitest";
-import { render } from "@testing-library/react";
+import { describe, it, expect, vi, afterEach } from "vitest";
+import { render, screen, cleanup } from "@testing-library/react";
 import { PhoneAuthScreen } from "~/auth/screens/phone-auth-screen";
+import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
+import { registerLocale } from "@firebase-ui/translations";
 
-// Mock the hooks
-vi.mock("~/hooks", () => ({
-  useUI: () => ({
-    locale: "en-US",
-    translations: {
-      "en-US": {
-        labels: {
-          signIn: "Sign in",
-          dividerOr: "or",
-        },
-        prompts: {
-          signInToAccount: "Sign in to your account",
-        },
-      },
-    },
-  }),
-}));
-
-// Mock the PhoneForm component
-vi.mock("~/auth/forms/phone-form", () => ({
-  PhoneForm: ({ resendDelay }: { resendDelay?: number }) => (
-    <div data-testid="phone-form" data-resend-delay={resendDelay}>
-      Phone Form
+vi.mock("~/auth/forms/phone-auth-form", () => ({
+  PhoneAuthForm: ({ resendDelay }: { resendDelay?: number }) => (
+    <div data-testid="phone-auth-form" data-resend-delay={resendDelay}>
+      Phone Auth Form
     </div>
   ),
 }));
 
-describe("PhoneAuthScreen", () => {
-  it("displays the correct title and subtitle", () => {
-    const { getByText } = render(<PhoneAuthScreen />);
+vi.mock("~/components/divider", async (originalModule) => {
+  const module = await originalModule();
+  return {
+    ...(module as object),
+    Divider: ({ children }: { children: React.ReactNode }) => <div data-testid="divider">{children}</div>,
+  };
+});
 
-    expect(getByText("Sign in")).toBeInTheDocument();
-    expect(getByText("Sign in to your account")).toBeInTheDocument();
+afterEach(() => {
+  cleanup();
+});
+
+describe("<PhoneAuthScreen />", () => {
+  afterEach(() => {
+    vi.clearAllMocks();
   });
 
-  it("calls useConfig to retrieve the language", () => {
-    const { getByText } = render(<PhoneAuthScreen />);
+  it("renders with correct title and subtitle", () => {
+    const ui = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          signIn: "signIn",
+        },
+        prompts: {
+          signInToAccount: "signInToAccount",
+        },
+      }),
+    });
 
-    expect(getByText("Sign in")).toBeInTheDocument();
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <PhoneAuthScreen />
+      </CreateFirebaseUIProvider>
+    );
+
+    const title = screen.getByText("signIn");
+    expect(title).toBeDefined();
+    expect(title.className).toContain("fui-card__title");
+
+    const subtitle = screen.getByText("signInToAccount");
+    expect(subtitle).toBeDefined();
+    expect(subtitle.className).toContain("fui-card__subtitle");
   });
 
-  it("includes the PhoneForm with the correct resendDelay prop", () => {
-    const { getByTestId } = render(<PhoneAuthScreen resendDelay={60} />);
+  it("renders the <PhoneAuthForm /> component", () => {
+    const ui = createMockUI();
 
-    const phoneForm = getByTestId("phone-form");
-    expect(phoneForm).toBeInTheDocument();
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <PhoneAuthScreen />
+      </CreateFirebaseUIProvider>
+    );
+
+    // Mocked so only has as test id
+    expect(screen.getByTestId("phone-auth-form")).toBeDefined();
+  });
+
+  it("passes resendDelay prop to PhoneAuthForm", () => {
+    const ui = createMockUI();
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <PhoneAuthScreen resendDelay={60} />
+      </CreateFirebaseUIProvider>
+    );
+
+    const phoneForm = screen.getByTestId("phone-auth-form");
+    expect(phoneForm).toBeDefined();
     expect(phoneForm.getAttribute("data-resend-delay")).toBe("60");
   });
 
-  it("renders children when provided", () => {
-    const { getByText, getByTestId } = render(
-      <PhoneAuthScreen>
-        <button data-testid="test-button">Test Button</button>
-      </PhoneAuthScreen>
+  it("renders a divider with children when present", () => {
+    const ui = createMockUI({
+      locale: registerLocale("test", {
+        messages: {
+          dividerOr: "dividerOr",
+        },
+      }),
+    });
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <PhoneAuthScreen>
+          <div data-testid="test-child">Test Child</div>
+        </PhoneAuthScreen>
+      </CreateFirebaseUIProvider>
     );
 
-    expect(getByTestId("test-button")).toBeInTheDocument();
-    expect(getByText("or")).toBeInTheDocument();
+    expect(screen.getByTestId("divider")).toBeDefined();
+    expect(screen.getByText("dividerOr")).toBeDefined();
+    expect(screen.getByTestId("test-child")).toBeDefined();
   });
 
-  it("does not render children or divider when not provided", () => {
-    const { queryByText } = render(<PhoneAuthScreen />);
+  it("does not render divider and children when no children are provided", () => {
+    const ui = createMockUI();
 
-    expect(queryByText("or")).not.toBeInTheDocument();
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <PhoneAuthScreen />
+      </CreateFirebaseUIProvider>
+    );
+
+    expect(screen.queryByTestId("divider")).toBeNull();
+  });
+
+  it("renders multiple children when provided", () => {
+    const ui = createMockUI({
+      locale: registerLocale("test", {
+        messages: {
+          dividerOr: "dividerOr",
+        },
+      }),
+    });
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <PhoneAuthScreen>
+          <div data-testid="child-1">Child 1</div>
+          <div data-testid="child-2">Child 2</div>
+        </PhoneAuthScreen>
+      </CreateFirebaseUIProvider>
+    );
+
+    expect(screen.getByTestId("divider")).toBeDefined();
+    expect(screen.getByTestId("child-1")).toBeDefined();
+    expect(screen.getByTestId("child-2")).toBeDefined();
   });
 });

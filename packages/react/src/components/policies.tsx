@@ -15,19 +15,15 @@
  */
 
 import { getTranslation } from "@firebase-ui/core";
-import { createContext, useContext } from "react";
+import { cloneElement, createContext, useContext } from "react";
 import { useUI } from "~/hooks";
 
-export type PolicyURL =
-  | string
-  | URL
-  | (() => string | URL | void)
-  | Promise<string | URL | void>
-  | (() => Promise<string | URL | void>);
+export type PolicyURL = string | URL;
 
 export interface PolicyProps {
   termsOfServiceUrl: PolicyURL;
   privacyPolicyUrl: PolicyURL;
+  onNavigate?: (url: PolicyURL) => void;
 }
 
 const PolicyContext = createContext<PolicyProps | undefined>(undefined);
@@ -44,64 +40,33 @@ export function Policies() {
     return null;
   }
 
-  const { termsOfServiceUrl, privacyPolicyUrl } = policies;
-
-  async function handleUrl(urlOrFunction: PolicyURL) {
-    let url: string | URL | void;
-
-    if (typeof urlOrFunction === "function") {
-      const urlOrPromise = urlOrFunction();
-      if (typeof urlOrPromise === "string" || urlOrPromise instanceof URL) {
-        url = urlOrPromise;
-      } else {
-        url = await urlOrPromise;
-      }
-    } else if (urlOrFunction instanceof Promise) {
-      url = await urlOrFunction;
-    } else {
-      url = urlOrFunction;
-    }
-
-    if (url) {
-      window.open(url.toString(), "_blank");
-    }
-  }
-
-  const termsText = getTranslation(ui, "labels", "termsOfService");
-  const privacyText = getTranslation(ui, "labels", "privacyPolicy");
+  const { termsOfServiceUrl, privacyPolicyUrl, onNavigate } = policies;
   const termsAndPrivacyText = getTranslation(ui, "messages", "termsAndPrivacy");
-
   const parts = termsAndPrivacyText.split(/(\{tos\}|\{privacy\})/);
 
+  const Handler = onNavigate ? <button /> : <a target="_blank" rel="noopener noreferrer" />;
+
   return (
-    <div className="text-text-muted text-xs text-start">
+    <div className="fui-policies">
       {parts.map((part: string, index: number) => {
         if (part === "{tos}") {
-          return (
-            <a
-              key={index}
-              onClick={() => handleUrl(termsOfServiceUrl)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-text-muted hover:underline font-semibold"
-            >
-              {termsText}
-            </a>
-          );
+          return cloneElement(Handler, {
+            key: index,
+            onClick: onNavigate ? () => onNavigate(termsOfServiceUrl) : undefined,
+            href: onNavigate ? undefined : termsOfServiceUrl,
+            children: getTranslation(ui, "labels", "termsOfService"),
+          });
         }
+
         if (part === "{privacy}") {
-          return (
-            <a
-              key={index}
-              onClick={() => handleUrl(privacyPolicyUrl)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-text-muted hover:underline font-semibold"
-            >
-              {privacyText}
-            </a>
-          );
+          return cloneElement(Handler, {
+            key: index,
+            onClick: onNavigate ? () => onNavigate(privacyPolicyUrl) : undefined,
+            href: onNavigate ? undefined : privacyPolicyUrl,
+            children: getTranslation(ui, "labels", "privacyPolicy"),
+          });
         }
+
         return <span key={index}>{part}</span>;
       })}
     </div>

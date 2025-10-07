@@ -14,68 +14,146 @@
  * limitations under the License.
  */
 
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen } from "@testing-library/react";
-import "@testing-library/jest-dom";
-import { Policies, PolicyProvider } from "./policies";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { render, fireEvent, cleanup } from "@testing-library/react";
+import { Policies } from "./policies";
+import { FirebaseUIProvider } from "~/context";
+import { createMockUI } from "~/tests/utils";
 
-// Mock useUI hook
-vi.mock("~/hooks", () => ({
-  useUI: vi.fn(() => ({
-    locale: "en-US",
-    translations: {
-      "en-US": {
-        labels: {
-          termsOfService: "Terms of Service",
-          privacyPolicy: "Privacy Policy",
-        },
-        messages: {
-          termsAndPrivacy: "By continuing, you agree to our {tos} and {privacy}",
-        },
-      },
-    },
-  })),
-}));
-
-describe("TermsAndPrivacy Component", () => {
+describe("<Policies />", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it("renders component with terms and privacy links", () => {
-    render(
-      <PolicyProvider
+  afterEach(() => {
+    cleanup();
+  });
+
+  it("renders component with terms and privacy links using anchor tags", () => {
+    const { container } = render(
+      <FirebaseUIProvider
+        ui={createMockUI()}
         policies={{
           termsOfServiceUrl: "https://example.com/terms",
           privacyPolicyUrl: "https://example.com/privacy",
         }}
       >
-        <Policies></Policies>
-      </PolicyProvider>
+        <Policies />
+      </FirebaseUIProvider>
     );
 
     // Check that the text and links are rendered
-    expect(screen.getByText(/By continuing, you agree to our/)).toBeInTheDocument();
+    expect(container.querySelector(".fui-policies")).toBeInTheDocument();
 
-    const tosLink = screen.getByText("Terms of Service");
+    const tosLink = container.querySelector('a[href="https://example.com/terms"]');
     expect(tosLink).toBeInTheDocument();
-    expect(tosLink.tagName).toBe("A");
+    expect(tosLink?.tagName).toBe("A");
     expect(tosLink).toHaveAttribute("target", "_blank");
     expect(tosLink).toHaveAttribute("rel", "noopener noreferrer");
+    expect(tosLink).toHaveTextContent("Terms of Service");
 
-    const privacyLink = screen.getByText("Privacy Policy");
+    const privacyLink = container.querySelector('a[href="https://example.com/privacy"]');
     expect(privacyLink).toBeInTheDocument();
-    expect(privacyLink.tagName).toBe("A");
+    expect(privacyLink?.tagName).toBe("A");
     expect(privacyLink).toHaveAttribute("target", "_blank");
     expect(privacyLink).toHaveAttribute("rel", "noopener noreferrer");
+    expect(privacyLink).toHaveTextContent("Privacy Policy");
   });
 
-  it("returns null when both tosUrl and privacyPolicyUrl are not provided", () => {
+  it("renders component with custom navigation handler using buttons", () => {
+    const mockNavigate = vi.fn();
     const { container } = render(
-      <PolicyProvider policies={undefined}>
-        <Policies></Policies>
-      </PolicyProvider>
+      <FirebaseUIProvider
+        ui={createMockUI()}
+        policies={{
+          termsOfServiceUrl: "https://example.com/terms",
+          privacyPolicyUrl: "https://example.com/privacy",
+          onNavigate: mockNavigate,
+        }}
+      >
+        <Policies />
+      </FirebaseUIProvider>
+    );
+
+    // Check that the text and buttons are rendered
+    expect(container.querySelector(".fui-policies")).toBeInTheDocument();
+
+    const tosButton = container.querySelector("button");
+    expect(tosButton).toBeInTheDocument();
+    expect(tosButton?.tagName).toBe("BUTTON");
+    expect(tosButton).not.toHaveAttribute("href");
+    expect(tosButton).not.toHaveAttribute("target");
+    expect(tosButton).toHaveTextContent("Terms of Service");
+
+    const privacyButton = container.querySelectorAll("button")[1];
+    expect(privacyButton).toBeInTheDocument();
+    expect(privacyButton?.tagName).toBe("BUTTON");
+    expect(privacyButton).not.toHaveAttribute("href");
+    expect(privacyButton).not.toHaveAttribute("target");
+    expect(privacyButton).toHaveTextContent("Privacy Policy");
+
+    fireEvent.click(tosButton!);
+    expect(mockNavigate).toHaveBeenCalledWith("https://example.com/terms");
+
+    fireEvent.click(privacyButton!);
+    expect(mockNavigate).toHaveBeenCalledWith("https://example.com/privacy");
+  });
+
+  it("handles URL objects correctly", () => {
+    const termsUrl = new URL("https://example.com/terms");
+    const privacyUrl = new URL("https://example.com/privacy");
+    const { container } = render(
+      <FirebaseUIProvider
+        ui={createMockUI()}
+        policies={{
+          termsOfServiceUrl: termsUrl,
+          privacyPolicyUrl: privacyUrl,
+        }}
+      >
+        <Policies />
+      </FirebaseUIProvider>
+    );
+
+    const tosLink = container.querySelector('a[href="https://example.com/terms"]');
+    expect(tosLink).toHaveAttribute("href", "https://example.com/terms");
+
+    const privacyLink = container.querySelector('a[href="https://example.com/privacy"]');
+    expect(privacyLink).toHaveAttribute("href", "https://example.com/privacy");
+  });
+
+  it("returns null when policies are not provided", () => {
+    const { container } = render(
+      <FirebaseUIProvider ui={createMockUI()} policies={undefined}>
+        <Policies />
+      </FirebaseUIProvider>
     );
     expect(container).toBeEmptyDOMElement();
+  });
+
+  it("handles custom navigation with URL objects", () => {
+    const mockNavigate = vi.fn();
+    const termsUrl = new URL("https://example.com/terms");
+    const privacyUrl = new URL("https://example.com/privacy");
+    const { container } = render(
+      <FirebaseUIProvider
+        ui={createMockUI()}
+        policies={{
+          termsOfServiceUrl: termsUrl,
+          privacyPolicyUrl: privacyUrl,
+          onNavigate: mockNavigate,
+        }}
+      >
+        <Policies />
+      </FirebaseUIProvider>
+    );
+
+    const tosButton = container.querySelector("button");
+    const privacyButton = container.querySelectorAll("button")[1];
+
+    fireEvent.click(tosButton!);
+    expect(mockNavigate).toHaveBeenCalledWith(termsUrl);
+
+    fireEvent.click(privacyButton!);
+    expect(mockNavigate).toHaveBeenCalledWith(privacyUrl);
   });
 });

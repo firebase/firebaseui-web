@@ -16,7 +16,7 @@
 
 "use client";
 
-import { FirebaseUIError, getTranslation, signInWithOAuth } from "@firebase-ui/core";
+import { FirebaseUIError, getTranslation, signInWithProvider } from "@firebase-ui/core";
 import type { AuthProvider } from "firebase/auth";
 import type { PropsWithChildren } from "react";
 import { useState } from "react";
@@ -25,9 +25,10 @@ import { useUI } from "~/hooks";
 
 export type OAuthButtonProps = PropsWithChildren<{
   provider: AuthProvider;
+  themed?: boolean | string;
 }>;
 
-export function OAuthButton({ provider, children }: OAuthButtonProps) {
+export function OAuthButton({ provider, children, themed }: OAuthButtonProps) {
   const ui = useUI();
 
   const [error, setError] = useState<string | null>(null);
@@ -35,7 +36,7 @@ export function OAuthButton({ provider, children }: OAuthButtonProps) {
   const handleOAuthSignIn = async () => {
     setError(null);
     try {
-      await signInWithOAuth(ui, provider);
+      await signInWithProvider(ui, provider);
     } catch (error) {
       if (error instanceof FirebaseUIError) {
         setError(error.message);
@@ -48,7 +49,14 @@ export function OAuthButton({ provider, children }: OAuthButtonProps) {
 
   return (
     <div>
-      <Button type="button" disabled={ui.state !== "idle"} onClick={handleOAuthSignIn} className="fui-provider__button">
+      <Button
+        type="button"
+        data-themed={themed}
+        data-provider={provider.providerId}
+        disabled={ui.state !== "idle"}
+        onClick={handleOAuthSignIn}
+        className="fui-provider__button"
+      >
         {children}
       </Button>
       {error && <div className="fui-form__error">{error}</div>}

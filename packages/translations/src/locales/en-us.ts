@@ -44,6 +44,7 @@ export const enUS = {
     popupClosed: "The sign-in popup was closed. Please try again.",
     accountExistsWithDifferentCredential:
       "An account already exists with this email. Please sign in with the original provider.",
+    displayNameRequired: "Please provide a display name",
   },
   messages: {
     passwordResetEmailSent: "Password reset email sent successfully",
@@ -56,6 +57,7 @@ export const enUS = {
   labels: {
     emailAddress: "Email Address",
     password: "Password",
+    displayName: "Display Name",
     forgotPassword: "Forgot Password?",
     register: "Register",
     signIn: "Sign In",
@@ -68,6 +70,11 @@ export const enUS = {
     sendCode: "Send Code",
     verifyCode: "Verify Code",
     signInWithGoogle: "Sign in with Google",
+    signInWithFacebook: "Sign in with Facebook",
+    signInWithApple: "Sign in with Apple",
+    signInWithMicrosoft: "Sign in with Microsoft",
+    signInWithGitHub: "Sign in with GitHub",
+    signInWithTwitter: "Sign in with Twitter",
     signInWithEmailLink: "Sign in with Email Link",
     sendSignInLink: "Send Sign-in Link",
     termsOfService: "Terms of Service",

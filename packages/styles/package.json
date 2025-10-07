@@ -37,7 +37,6 @@
     "release": "pnpm run build && pnpm pack --pack-destination ../../releases/"
   },
   "devDependencies": {
-    "prettier": "catalog:",
     "rimraf": "catalog:",
     "tailwindcss": "catalog:",
     "tsup": "catalog:",

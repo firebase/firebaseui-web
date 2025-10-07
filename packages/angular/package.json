@@ -15,7 +15,7 @@
     }
   },
   "scripts": {
-    "prepare": "pnpm run build",
+    "prepare": "echo 'Skipping prepare for angular'; exit 0",
     "build": "ng-packagr -p ng-package.json",
     "test": "vitest run",
     "test:watch": "vitest",

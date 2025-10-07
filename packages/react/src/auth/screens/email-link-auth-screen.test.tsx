@@ -15,79 +15,80 @@
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render } from "@testing-library/react";
+import { render, screen, cleanup } from "@testing-library/react";
 import { EmailLinkAuthScreen } from "~/auth/screens/email-link-auth-screen";
-import * as hooks from "~/hooks";
+import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
+import { registerLocale } from "@firebase-ui/translations";
 
-// Mock the hooks
-vi.mock("~/hooks", () => ({
-  useUI: vi.fn(() => ({
-    locale: "en-US",
-    translations: {
-      "en-US": {
-        labels: {
-          signIn: "Sign In",
-        },
-        prompts: {
-          signInToAccount: "Sign in to your account",
-        },
-        messages: {
-          dividerOr: "or",
-        },
-      },
-    },
-  })),
+vi.mock("~/auth/forms/email-link-auth-form", () => ({
+  EmailLinkAuthForm: () => <div data-testid="email-link-auth-form">Email Link Form</div>,
 }));
 
-// Mock the EmailLinkForm component
-vi.mock("~/auth/forms/email-link-form", () => ({
-  EmailLinkForm: () => <div data-testid="email-link-form">Email Link Form</div>,
+vi.mock("~/components/divider", () => ({
+  Divider: () => <div data-testid="divider">Divider</div>,
 }));
 
-describe("EmailLinkAuthScreen", () => {
+describe("<EmailLinkAuthScreen />", () => {
   beforeEach(() => {
-    // Setup default mock values
-    vi.mocked(hooks.useUI).mockReturnValue({
-      locale: "en-US",
-    } as any);
-  });
-
-  afterEach(() => {
     vi.clearAllMocks();
   });
 
+  afterEach(() => {
+    cleanup();
+  });
+
   it("renders with correct title and subtitle", () => {
-    const { getByText } = render(<EmailLinkAuthScreen />);
+    const ui = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          signIn: "signIn",
+        },
+        prompts: {
+          signInToAccount: "signInToAccount",
+        },
+      }),
+    });
 
-    expect(getByText("Sign In")).toBeInTheDocument();
-    expect(getByText("Sign in to your account")).toBeInTheDocument();
-  });
-
-  it("calls useUI to get the locale", () => {
-    render(<EmailLinkAuthScreen />);
-    expect(hooks.useUI).toHaveBeenCalled();
-  });
-
-  it("includes the EmailLinkForm component", () => {
-    const { getByTestId } = render(<EmailLinkAuthScreen />);
-
-    expect(getByTestId("email-link-form")).toBeInTheDocument();
-  });
-
-  it("does not render divider and children when no children are provided", () => {
-    const { queryByText } = render(<EmailLinkAuthScreen />);
-
-    expect(queryByText("or")).not.toBeInTheDocument();
-  });
-
-  it("renders divider and children when children are provided", () => {
-    const { getByText } = render(
-      <EmailLinkAuthScreen>
-        <div>Test Child</div>
-      </EmailLinkAuthScreen>
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <EmailLinkAuthScreen />
+      </CreateFirebaseUIProvider>
     );
 
-    expect(getByText("or")).toBeInTheDocument();
-    expect(getByText("Test Child")).toBeInTheDocument();
+    const title = screen.getByText("signIn");
+    expect(title).toBeInTheDocument();
+    expect(title).toHaveClass("fui-card__title");
+
+    const subtitle = screen.getByText("signInToAccount");
+    expect(subtitle).toBeInTheDocument();
+    expect(subtitle).toHaveClass("fui-card__subtitle");
+  });
+
+  it("renders the <EmailLinkForm /> component", () => {
+    const ui = createMockUI();
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <EmailLinkAuthScreen />
+      </CreateFirebaseUIProvider>
+    );
+
+    // Mocked so only has as test id
+    expect(screen.getByTestId("email-link-auth-form")).toBeInTheDocument();
+  });
+
+  it("renders the a divider with children when present", () => {
+    const ui = createMockUI();
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <EmailLinkAuthScreen>
+          <div data-testid="test-child">Test Child</div>
+        </EmailLinkAuthScreen>
+      </CreateFirebaseUIProvider>
+    );
+
+    expect(screen.getByTestId("divider")).toBeInTheDocument();
+    expect(screen.getByTestId("test-child")).toBeInTheDocument();
   });
 });

@@ -27,11 +27,7 @@ export type FirebaseUIProviderProps = {
   policies?: PolicyProps;
 };
 
-export function FirebaseUIProvider({
-  children,
-  ui,
-  policies,
-}: FirebaseUIProviderProps) {
+export function FirebaseUIProvider({ children, ui, policies }: FirebaseUIProviderProps) {
   const value = useStore(ui);
   return (
     <FirebaseUIContext.Provider value={value}>

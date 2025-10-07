@@ -29,5 +29,4 @@ export default defineConfig({
     ".tsx": "tsx",
     ".jsx": "jsx",
   },
-  tsconfig: "./tsconfig.app.json",
 });

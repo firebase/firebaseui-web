@@ -11,10 +11,12 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
-    }
+    },
+    "./brands/*": "./brands/*"
   },
   "files": [
-    "dist"
+    "dist",
+    "brands"
   ],
   "scripts": {
     "prepare": "pnpm run build",
@@ -49,18 +51,18 @@
   "dependencies": {
     "@firebase-ui/translations": "workspace:*",
     "nanostores": "catalog:",
+    "qrcode-generator": "^2.0.4",
     "zod": "catalog:"
   },
   "devDependencies": {
+    "@types/google-one-tap": "^1.2.6",
     "@types/jsdom": "catalog:",
     "firebase": "catalog:",
     "jsdom": "catalog:",
-    "prettier": "catalog:",
     "rimraf": "catalog:",
     "tsup": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
-    "vitest-tsconfig-paths": "catalog:",
     "vitest": "catalog:"
   }
 }

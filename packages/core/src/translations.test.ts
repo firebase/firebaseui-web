@@ -17,12 +17,12 @@ describe("getTranslation", () => {
         userNotFound: "test + userNotFound",
       },
     });
-    
+
     vi.mocked(_getTranslation).mockReturnValue("test + userNotFound");
 
     const mockUI = createMockUI({ locale: testLocale });
     const translation = getTranslation(mockUI, "errors", "userNotFound");
-    
+
     expect(translation).toBe("test + userNotFound");
     expect(_getTranslation).toHaveBeenCalledWith(testLocale, "errors", "userNotFound");
   });

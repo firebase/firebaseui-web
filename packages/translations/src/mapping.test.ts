@@ -57,22 +57,44 @@ describe("mapping.ts", () => {
       expect(ERROR_CODE_MAP["auth/credential-already-in-use"]).toBe("credentialAlreadyInUse");
       expect(ERROR_CODE_MAP["auth/requires-recent-login"]).toBe("requiresRecentLogin");
       expect(ERROR_CODE_MAP["auth/provider-already-linked"]).toBe("providerAlreadyLinked");
-      expect(ERROR_CODE_MAP["auth/account-exists-with-different-credential"]).toBe("accountExistsWithDifferentCredential");
+      expect(ERROR_CODE_MAP["auth/account-exists-with-different-credential"]).toBe(
+        "accountExistsWithDifferentCredential"
+      );
+    });
+
+    it("should map display name error codes", () => {
+      expect(ERROR_CODE_MAP["auth/display-name-required"]).toBe("displayNameRequired");
     });
 
     it("should have correct type structure", () => {
       const errorKeys = Object.values(ERROR_CODE_MAP);
       const validErrorKeys = [
-        "userNotFound", "wrongPassword", "invalidEmail", "userDisabled",
-        "networkRequestFailed", "tooManyRequests", "emailAlreadyInUse",
-        "weakPassword", "operationNotAllowed", "invalidPhoneNumber",
-        "missingPhoneNumber", "quotaExceeded", "codeExpired",
-        "captchaCheckFailed", "missingVerificationId", "missingEmail",
-        "invalidActionCode", "credentialAlreadyInUse", "requiresRecentLogin",
-        "providerAlreadyLinked", "invalidVerificationCode", "accountExistsWithDifferentCredential"
+        "userNotFound",
+        "wrongPassword",
+        "invalidEmail",
+        "userDisabled",
+        "networkRequestFailed",
+        "tooManyRequests",
+        "emailAlreadyInUse",
+        "weakPassword",
+        "operationNotAllowed",
+        "invalidPhoneNumber",
+        "missingPhoneNumber",
+        "quotaExceeded",
+        "codeExpired",
+        "captchaCheckFailed",
+        "missingVerificationId",
+        "missingEmail",
+        "invalidActionCode",
+        "credentialAlreadyInUse",
+        "requiresRecentLogin",
+        "providerAlreadyLinked",
+        "invalidVerificationCode",
+        "accountExistsWithDifferentCredential",
+        "displayNameRequired",
       ];
 
-      errorKeys.forEach(key => {
+      errorKeys.forEach((key) => {
         expect(validErrorKeys).toContain(key);
       });
     });
@@ -84,10 +106,10 @@ describe("mapping.ts", () => {
         "auth/user-not-found",
         "auth/wrong-password",
         "auth/invalid-email",
-        "auth/network-request-failed"
+        "auth/network-request-failed",
       ];
 
-      testErrorCodes.forEach(code => {
+      testErrorCodes.forEach((code) => {
         expect(ERROR_CODE_MAP[code]).toBeDefined();
       });
     });
@@ -107,7 +129,7 @@ describe("mapping.ts", () => {
       };
 
       const locale = registerLocale("fr-FR", customTranslations);
-      
+
       expect(getTranslation(locale, "errors", "userNotFound")).toBe("Utilisateur non trouvé");
       expect(getTranslation(locale, "errors", "wrongPassword")).toBe("Mot de passe incorrect");
       expect(getTranslation(locale, "labels", "emailAddress")).toBe("Adresse e-mail");
@@ -123,10 +145,10 @@ describe("mapping.ts", () => {
       };
 
       const locale = registerLocale("fr-FR", partialTranslations);
-      
+
       // Should return custom translation when available
       expect(getTranslation(locale, "errors", "userNotFound")).toBe("Custom error message");
-      
+
       // Should fall back to English when not available
       expect(getTranslation(locale, "errors", "wrongPassword")).toBe("Incorrect password");
       expect(getTranslation(locale, "labels", "emailAddress")).toBe("Email Address");
@@ -149,10 +171,10 @@ describe("mapping.ts", () => {
 
       const fallbackLocale = registerLocale("en-US", fallbackTranslations);
       const primaryLocale = registerLocale("fr-FR", primaryTranslations, fallbackLocale);
-      
+
       // Should return primary translation when available
       expect(getTranslation(primaryLocale, "errors", "userNotFound")).toBe("Primary error message");
-      
+
       // Should use fallback when not available in primary
       expect(getTranslation(primaryLocale, "errors", "wrongPassword")).toBe("Fallback password error");
     });
@@ -179,18 +201,20 @@ describe("mapping.ts", () => {
       const level1 = registerLocale("en-US", level1Translations);
       const level2 = registerLocale("fr-FR", level2Translations, level1);
       const level3 = registerLocale("es-ES", level3Translations, level2);
-      
+
       // Should return level 3 translation when available
       expect(getTranslation(level3, "errors", "invalidEmail")).toBe("Level 3 error");
-      
+
       // Should fall back to level 2 when not in level 3
       expect(getTranslation(level3, "errors", "wrongPassword")).toBe("Level 2 error");
-      
+
       // Should fall back to level 1 when not in level 2 or 3
       expect(getTranslation(level3, "errors", "userNotFound")).toBe("Level 1 error");
-      
+
       // Should fall back to English when not in any level
-      expect(getTranslation(level3, "errors", "networkRequestFailed")).toBe("Unable to connect to the server. Please check your internet connection");
+      expect(getTranslation(level3, "errors", "networkRequestFailed")).toBe(
+        "Unable to connect to the server. Please check your internet connection"
+      );
     });
 
     it("should work with all translation categories", () => {
@@ -210,7 +234,7 @@ describe("mapping.ts", () => {
       };
 
       const locale = registerLocale("fr-FR", customTranslations);
-      
+
       expect(getTranslation(locale, "errors", "userNotFound")).toBe("Custom error");
       expect(getTranslation(locale, "messages", "passwordResetEmailSent")).toBe("Custom message");
       expect(getTranslation(locale, "labels", "emailAddress")).toBe("Custom label");
@@ -220,7 +244,7 @@ describe("mapping.ts", () => {
     it("should handle empty translations gracefully", () => {
       const emptyTranslations: Translations = {};
       const locale = registerLocale("fr-FR", emptyTranslations);
-      
+
       // Should fall back to English for all translations
       expect(getTranslation(locale, "errors", "userNotFound")).toBe("No account found with this email address");
       expect(getTranslation(locale, "labels", "emailAddress")).toBe("Email Address");
@@ -237,10 +261,10 @@ describe("mapping.ts", () => {
       };
 
       const locale = registerLocale("fr-FR", partialTranslations);
-      
+
       // Should return custom translation when available
       expect(getTranslation(locale, "errors", "userNotFound")).toBe("Custom error");
-      
+
       // Should fall back to English for undefined categories
       expect(getTranslation(locale, "labels", "emailAddress")).toBe("Email Address");
       expect(getTranslation(locale, "messages", "dividerOr")).toBe("or");
@@ -255,13 +279,13 @@ describe("mapping.ts", () => {
       };
 
       const locale = registerLocale("fr-FR", customTranslations);
-      
+
       // These should compile without errors and work correctly
       const errorTranslation = getTranslation(locale, "errors", "userNotFound");
       const labelTranslation = getTranslation(locale, "labels", "emailAddress");
       const messageTranslation = getTranslation(locale, "messages", "dividerOr");
       const promptTranslation = getTranslation(locale, "prompts", "noAccount");
-      
+
       expect(typeof errorTranslation).toBe("string");
       expect(typeof labelTranslation).toBe("string");
       expect(typeof messageTranslation).toBe("string");
@@ -300,12 +324,14 @@ describe("mapping.ts", () => {
       const english = registerLocale("en-US", englishTranslations);
       const french = registerLocale("fr-FR", frenchTranslations, english);
       const spanish = registerLocale("es-ES", spanishTranslations, french);
-      
+
       // Test the fallback chain
       expect(getTranslation(spanish, "errors", "invalidEmail")).toBe("Spanish email error");
       expect(getTranslation(spanish, "errors", "wrongPassword")).toBe("French password error");
       expect(getTranslation(spanish, "errors", "userNotFound")).toBe("English error");
-      expect(getTranslation(spanish, "errors", "networkRequestFailed")).toBe("Unable to connect to the server. Please check your internet connection");
+      expect(getTranslation(spanish, "errors", "networkRequestFailed")).toBe(
+        "Unable to connect to the server. Please check your internet connection"
+      );
     });
   });
 });

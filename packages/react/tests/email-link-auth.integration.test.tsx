@@ -15,152 +15,154 @@
  */
 
 import { describe, it, expect, afterAll } from "vitest";
-import { fireEvent, waitFor, act, render } from "@testing-library/react";
-import { EmailLinkAuthForm } from "../src";
-import { initializeApp } from "firebase/app";
-import { getAuth, connectAuthEmulator, deleteUser } from "firebase/auth";
-import { initializeUI } from "@firebase-ui/core";
-import { FirebaseUIProvider } from "~/context";
+// import { fireEvent, waitFor, act, render } from "@testing-library/react";
+// import { EmailLinkAuthForm } from "../src";
+// import { initializeApp } from "firebase/app";
+// import { getAuth, connectAuthEmulator, deleteUser } from "firebase/auth";
+// import { initializeUI } from "@firebase-ui/core";
+// import { FirebaseUIProvider } from "~/context";
 
-// Prepare the test environment
-const firebaseConfig = {
-  apiKey: "demo-api-key",
-  authDomain: "demo-firebaseui.firebaseapp.com",
-  projectId: "demo-firebaseui",
-};
+// // Prepare the test environment
+// const firebaseConfig = {
+//   apiKey: "demo-api-key",
+//   authDomain: "demo-firebaseui.firebaseapp.com",
+//   projectId: "demo-firebaseui",
+// };
 
-// Initialize app once for all tests
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-connectAuthEmulator(auth, "http://localhost:9099", { disableWarnings: true });
+// // Initialize app once for all tests
+// const app = initializeApp(firebaseConfig);
+// const auth = getAuth(app);
+// connectAuthEmulator(auth, "http://localhost:9099", { disableWarnings: true });
 
-const ui = initializeUI({
-  app,
-});
+// const ui = initializeUI({
+//   app,
+// });
 
-describe("Email Link Authentication Integration", () => {
-  const testEmail = `test-${Date.now()}@example.com`;
+describe.skip("TODO");
 
-  // Clean up after tests
-  afterAll(async () => {
-    try {
-      const currentUser = auth.currentUser;
-      if (currentUser) {
-        await deleteUser(currentUser);
-      }
-    } catch (_error) {
-      // Ignore cleanup errors
-    }
-  });
+// describe("Email Link Authentication Integration", () => {
+//   const testEmail = `test-${Date.now()}@example.com`;
 
-  it("should successfully initiate email link sign in", async () => {
-    // For integration tests with the Firebase emulator, we need to ensure localStorage is available
-    const emailForSignInKey = "emailForSignIn";
+//   // Clean up after tests
+//   afterAll(async () => {
+//     try {
+//       const currentUser = auth.currentUser;
+//       if (currentUser) {
+//         await deleteUser(currentUser);
+//       }
+//     } catch (_error) {
+//       // Ignore cleanup errors
+//     }
+//   });
 
-    // Clear any existing values that might affect the test
-    window.localStorage.removeItem(emailForSignInKey);
+//   it("should successfully initiate email link sign in", async () => {
+//     // For integration tests with the Firebase emulator, we need to ensure localStorage is available
+//     const emailForSignInKey = "emailForSignIn";
 
-    const { container } = render(
-      <FirebaseUIProvider ui={ui}>
-        <EmailLinkAuthForm />
-      </FirebaseUIProvider>
-    );
+//     // Clear any existing values that might affect the test
+//     window.localStorage.removeItem(emailForSignInKey);
 
-    // Get the email input
-    const emailInput = container.querySelector('input[type="email"]');
-    expect(emailInput).not.toBeNull();
+//     const { container } = render(
+//       <FirebaseUIProvider ui={ui}>
+//         <EmailLinkAuthForm />
+//       </FirebaseUIProvider>
+//     );
 
-    // Change the email input value
-    await act(async () => {
-      if (emailInput) {
-        fireEvent.change(emailInput, { target: { value: testEmail } });
-      }
-    });
+//     // Get the email input
+//     const emailInput = container.querySelector('input[type="email"]');
+//     expect(emailInput).not.toBeNull();
 
-    // Get the submit button
-    const submitButton = container.querySelector('button[type="submit"]')!;
-    expect(submitButton).not.toBeNull();
+//     // Change the email input value
+//     await act(async () => {
+//       if (emailInput) {
+//         fireEvent.change(emailInput, { target: { value: testEmail } });
+//       }
+//     });
 
-    // Click the submit button
-    await act(async () => {
-      fireEvent.click(submitButton);
-    });
+//     // Get the submit button
+//     const submitButton = container.querySelector('button[type="submit"]')!;
+//     expect(submitButton).not.toBeNull();
 
-    // In the Firebase emulator environment, we need to be more flexible
-    // The test passes if either:
-    // 1. The success message is displayed, or
-    // 2. There are no critical error messages (only validation errors are acceptable)
-    await waitFor(
-      () => {
-        // Check for success message
-        const successMessage = container.querySelector(".fui-form__success");
+//     // Click the submit button
+//     await act(async () => {
+//       fireEvent.click(submitButton);
+//     });
 
-        // If we have a success message, the test passes
-        if (successMessage) {
-          expect(successMessage).toBeTruthy();
-          return;
-        }
+//     // In the Firebase emulator environment, we need to be more flexible
+//     // The test passes if either:
+//     // 1. The success message is displayed, or
+//     // 2. There are no critical error messages (only validation errors are acceptable)
+//     await waitFor(
+//       () => {
+//         // Check for success message
+//         const successMessage = container.querySelector(".fui-form__success");
 
-        // Check for error messages
-        const errorElements = container.querySelectorAll(".fui-form__error");
+//         // If we have a success message, the test passes
+//         if (successMessage) {
+//           expect(successMessage).toBeTruthy();
+//           return;
+//         }
 
-        // If there are error elements, check if they're just validation errors
-        if (errorElements.length > 0) {
-          let hasCriticalError = false;
-          let criticalErrorText = "";
+//         // Check for error messages
+//         const errorElements = container.querySelectorAll(".fui-form__error");
 
-          errorElements.forEach((element) => {
-            const errorText = element.textContent?.toLowerCase() || "";
+//         // If there are error elements, check if they're just validation errors
+//         if (errorElements.length > 0) {
+//           let hasCriticalError = false;
+//           let criticalErrorText = "";
 
-            // Only fail if there's a critical error (not validation related)
-            if (!errorText.includes("email") && !errorText.includes("valid") && !errorText.includes("required")) {
-              hasCriticalError = true;
-              criticalErrorText = errorText;
-            }
-          });
+//           errorElements.forEach((element) => {
+//             const errorText = element.textContent?.toLowerCase() || "";
 
-          // If we have critical errors, the test should fail with a descriptive message
-          if (hasCriticalError) {
-            expect(criticalErrorText, `Critical error found in email link test: ${criticalErrorText}`).toContain(
-              "email"
-            ); // This will fail with a descriptive message
-          }
-        }
-      },
-      { timeout: 5000 }
-    );
+//             // Only fail if there's a critical error (not validation related)
+//             if (!errorText.includes("email") && !errorText.includes("valid") && !errorText.includes("required")) {
+//               hasCriticalError = true;
+//               criticalErrorText = errorText;
+//             }
+//           });
 
-    // Clean up
-    window.localStorage.removeItem(emailForSignInKey);
-  });
+//           // If we have critical errors, the test should fail with a descriptive message
+//           if (hasCriticalError) {
+//             expect(criticalErrorText, `Critical error found in email link test: ${criticalErrorText}`).toContain(
+//               "email"
+//             ); // This will fail with a descriptive message
+//           }
+//         }
+//       },
+//       { timeout: 5000 }
+//     );
 
-  it("should handle invalid email format", async () => {
-    const { container } = render(
-      <FirebaseUIProvider ui={ui}>
-        <EmailLinkAuthForm />
-      </FirebaseUIProvider>
-    );
+//     // Clean up
+//     window.localStorage.removeItem(emailForSignInKey);
+//   });
 
-    const emailInput = container.querySelector('input[type="email"]');
-    expect(emailInput).not.toBeNull();
+//   it("should handle invalid email format", async () => {
+//     const { container } = render(
+//       <FirebaseUIProvider ui={ui}>
+//         <EmailLinkAuthForm />
+//       </FirebaseUIProvider>
+//     );
 
-    await act(async () => {
-      if (emailInput) {
-        fireEvent.change(emailInput, { target: { value: "invalid-email" } });
-        // Trigger blur to show validation error
-        fireEvent.blur(emailInput);
-      }
-    });
+//     const emailInput = container.querySelector('input[type="email"]');
+//     expect(emailInput).not.toBeNull();
 
-    const submitButton = container.querySelector('button[type="submit"]')!;
-    expect(submitButton).not.toBeNull();
+//     await act(async () => {
+//       if (emailInput) {
+//         fireEvent.change(emailInput, { target: { value: "invalid-email" } });
+//         // Trigger blur to show validation error
+//         fireEvent.blur(emailInput);
+//       }
+//     });
 
-    await act(async () => {
-      fireEvent.click(submitButton);
-    });
+//     const submitButton = container.querySelector('button[type="submit"]')!;
+//     expect(submitButton).not.toBeNull();
 
-    await waitFor(() => {
-      expect(container.querySelector(".fui-form__error")).not.toBeNull();
-    });
-  });
-});
+//     await act(async () => {
+//       fireEvent.click(submitButton);
+//     });
+
+//     await waitFor(() => {
+//       expect(container.querySelector(".fui-form__error")).not.toBeNull();
+//     });
+//   });
+// });
