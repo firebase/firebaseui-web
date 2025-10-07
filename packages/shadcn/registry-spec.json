@@ -127,6 +127,34 @@
           "type": "registry:component"
         }
       ]
+    },
+    {
+      "name": "oauth-button",
+      "type": "registry:block",
+      "title": "OAuth Button",
+      "description": "A button component for OAuth authentication providers.",
+      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "registryDependencies": ["button"],
+      "files": [
+        {
+          "path": "src/registry/oauth-button.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "google-sign-in-button",
+      "type": "registry:block",
+      "title": "Google Sign In Button",
+      "description": "A button component for Google OAuth authentication.",
+      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "registryDependencies": ["{{ DOMAIN }}/oauth-button.json"],
+      "files": [
+        {
+          "path": "src/registry/google-sign-in-button.tsx",
+          "type": "registry:component"
+        }
+      ]
     }
   ]
 }

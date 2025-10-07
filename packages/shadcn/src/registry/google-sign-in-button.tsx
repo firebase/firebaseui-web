@@ -1,0 +1,20 @@
+"use client";
+
+import { GoogleAuthProvider } from "firebase/auth";
+import { getTranslation } from "@firebase-ui/core";
+import { useUI, GoogleSignInButtonProps, GoogleLogo } from "@firebase-ui/react";
+
+import { OAuthButton } from "@/registry/oauth-button";
+
+export type { GoogleSignInButtonProps };
+
+export function GoogleSignInButton({ provider, themed }: GoogleSignInButtonProps) {
+  const ui = useUI();
+
+  return (
+    <OAuthButton provider={provider || new GoogleAuthProvider()} themed={themed}>
+      <GoogleLogo />
+      <span>{getTranslation(ui, "labels", "signInWithGoogle")}</span>
+    </OAuthButton>
+  );
+}
