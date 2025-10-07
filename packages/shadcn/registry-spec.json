@@ -71,6 +71,34 @@
           "type": "registry:component"
         }
       ]
+    },
+    {
+      "name": "forgot-password-auth-screen",
+      "type": "registry:block",
+      "title": "Forgot Password Auth Screen",
+      "description": "A screen allowing users to reset their password via email.",
+      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "registryDependencies": ["card", "{{ DOMAIN }}/forgot-password-auth-form.json"],
+      "files": [
+        {
+          "path": "src/registry/forgot-password-auth-screen.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "forgot-password-auth-form",
+      "type": "registry:block",
+      "title": "Forgot Password Auth Form",
+      "description": "A form allowing users to reset their password via email.",
+      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "registryDependencies": ["input", "button", "form", "{{ DOMAIN }}/policies.json"],
+      "files": [
+        {
+          "path": "src/registry/forgot-password-auth-form.tsx",
+          "type": "registry:component"
+        }
+      ]
     }
   ]
 }
