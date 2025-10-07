@@ -18,7 +18,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import { SignUpAuthForm } from "./sign-up-auth-form";
 import { act } from "react";
-import { useSignUpAuthFormAction } from "@firebase-ui/react";
+import { useSignUpAuthFormAction, useRequireDisplayName } from "@firebase-ui/react";
 import { createMockUI } from "../../tests/utils";
 import { registerLocale } from "@firebase-ui/translations";
 import { FirebaseUIProvider } from "@firebase-ui/react";
@@ -37,6 +37,7 @@ vi.mock("@firebase-ui/react", async (importOriginal) => {
   return {
     ...mod,
     useSignUpAuthFormAction: vi.fn(),
+    useRequireDisplayName: vi.fn(),
   };
 });
 
@@ -180,10 +181,11 @@ describe("<SignUpAuthForm />", () => {
       fireEvent.click(submitButton);
     });
 
-    expect(await screen.findByText("foo")).toBeInTheDocument();
+    expect(await screen.findByText("Error: foo")).toBeInTheDocument();
   });
 
   it("should render displayName field when requireDisplayName is true", () => {
+    vi.mocked(useRequireDisplayName).mockReturnValue(true);
     const mockUI = createMockUI({
       locale: registerLocale("test", {
         labels: {
@@ -213,6 +215,7 @@ describe("<SignUpAuthForm />", () => {
   });
 
   it("should not render displayName field when requireDisplayName is false", () => {
+    vi.mocked(useRequireDisplayName).mockReturnValue(false);
     const mockUI = createMockUI({
       locale: registerLocale("test", {
         labels: {
@@ -238,6 +241,7 @@ describe("<SignUpAuthForm />", () => {
   });
 
   it("should call the onSignUp callback with displayName when requireDisplayName is true", async () => {
+    vi.mocked(useRequireDisplayName).mockReturnValue(true);
     const mockAction = vi.fn().mockResolvedValue({} as unknown as UserCredential);
     vi.mocked(useSignUpAuthFormAction).mockReturnValue(mockAction);
     const onSignUpMock = vi.fn();

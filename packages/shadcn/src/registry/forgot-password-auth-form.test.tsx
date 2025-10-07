@@ -164,7 +164,7 @@ describe("<ForgotPasswordAuthForm />", () => {
       fireEvent.click(submitButton);
     });
 
-    expect(await screen.findByText("foo")).toBeInTheDocument();
+    expect(await screen.findByText("Error: foo")).toBeInTheDocument();
   });
 
   it("should show success message after successful submission", async () => {
