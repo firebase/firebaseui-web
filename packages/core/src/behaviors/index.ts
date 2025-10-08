@@ -6,6 +6,7 @@ import * as recaptchaHandlers from "./recaptcha";
 import * as providerStrategyHandlers from "./provider-strategy";
 import * as oneTapSignInHandlers from "./one-tap";
 import * as requireDisplayNameHandlers from "./require-display-name";
+import * as countryCodesHandlers from "./country-codes";
 import {
   callableBehavior,
   initBehavior,
@@ -35,6 +36,7 @@ type Registry = {
     (ui: FirebaseUIConfiguration) => ReturnType<typeof oneTapSignInHandlers.oneTapSignInHandler>
   >;
   requireDisplayName: CallableBehavior<typeof requireDisplayNameHandlers.requireDisplayNameHandler>;
+  countryCodes: CallableBehavior<typeof countryCodesHandlers.countryCodesHandler>;
 };
 
 export type Behavior<T extends keyof Registry = keyof Registry> = Pick<Registry, T>;
@@ -106,6 +108,12 @@ export function requireDisplayName(): Behavior<"requireDisplayName"> {
   };
 }
 
+export function countryCodes(options?: countryCodesHandlers.CountryCodesOptions): Behavior<"countryCodes"> {
+  return {
+    countryCodes: callableBehavior(() => countryCodesHandlers.countryCodesHandler(options)),
+  };
+}
+
 export function hasBehavior<T extends keyof Registry>(ui: FirebaseUIConfiguration, key: T): boolean {
   return !!ui.behaviors[key];
 }
@@ -121,4 +129,5 @@ export function getBehavior<T extends keyof Registry>(ui: FirebaseUIConfiguratio
 export const defaultBehaviors: Behavior<"recaptchaVerification"> = {
   ...recaptchaVerification(),
   ...providerRedirectStrategy(),
+  ...countryCodes(),
 };
