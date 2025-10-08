@@ -11,6 +11,8 @@ import {
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
+export type { CountrySelectorRef };
+
 export const CountrySelector = forwardRef<CountrySelectorRef, CountrySelectorProps>((props, ref) => {
   const countries = useCountries();
   const defaultCountry = useDefaultCountry();
@@ -35,7 +37,7 @@ export const CountrySelector = forwardRef<CountrySelectorRef, CountrySelectorPro
 
   return (
     <Select value={selected.code} onValueChange={setCountry}>
-      <SelectTrigger>
+      <SelectTrigger className="w-[120px]">
         <SelectValue>
           {selected.emoji} {selected.dialCode}
         </SelectValue>
