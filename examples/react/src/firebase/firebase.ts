@@ -35,7 +35,7 @@ export const ui = initializeUI({
     countryCodes({
       allowedCountries: ["US", "CA", "GB"],
       defaultCountry: "GB",
-    })
+    }),
   ],
 });
 
