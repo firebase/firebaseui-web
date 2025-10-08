@@ -83,7 +83,7 @@ export function PhoneNumberForm(props: PhoneNumberFormProps) {
   const form = usePhoneNumberForm({
     recaptchaVerifier: recaptchaVerifier!,
     onSuccess: props.onSubmit,
-    formatPhoneNumber: (phoneNumber) => formatPhoneNumber(phoneNumber, countrySelector.current?.getCountry()),
+    formatPhoneNumber: (phoneNumber) => formatPhoneNumber(phoneNumber, countrySelector.current!.getCountry()),
   });
 
   return (
