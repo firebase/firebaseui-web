@@ -16,7 +16,13 @@
 
 export { Button, type ButtonProps } from "./button";
 export { Card, CardHeader, CardTitle, CardSubtitle, CardContent, type CardProps } from "./card";
-export { CountrySelector, type CountrySelectorProps } from "./country-selector";
+export {
+  CountrySelector,
+  type CountrySelectorProps,
+  type CountrySelectorRef,
+  useCountries,
+  useDefaultCountry,
+} from "./country-selector";
 export { Policies, type PolicyProps, type PolicyURL } from "./policies";
 export { Divider, type DividerProps } from "./divider";
 export { form } from "./form";
