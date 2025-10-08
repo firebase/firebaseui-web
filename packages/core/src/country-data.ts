@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-import { FirebaseUIConfiguration, getBehavior, hasBehavior } from ".";
-
 export const countryData = [
   { name: "Afghanistan", dialCode: "+93", code: "AF", emoji: "🇦🇫" },
   { name: "Albania", dialCode: "+355", code: "AL", emoji: "🇦🇱" },
@@ -272,28 +270,9 @@ export type CountryData = {
   dialCode: string;
   code: string;
   emoji: string;
-}
+};
 
-export type CountryCode = CountryData["code"];
-
-export function getCountries(ui: FirebaseUIConfiguration): CountryData[] {
-  if (!hasBehavior(ui, "countryCodes")) {
-    return countryData;
-  }
-
-  const countryCodes = getBehavior(ui, "countryCodes");
-  return countryData.filter((country) => countryCodes.allowedCountries?.includes(country.code));
-}
-
-export function getDefaultCountry(ui: FirebaseUIConfiguration): CountryData {
-  if (!hasBehavior(ui, "countryCodes")) {
-    return countryData[0];
-  }
-
-  const countryCodes = getBehavior(ui, "countryCodes");
-  const defaultCountry = countryData.find((country) => country.code === countryCodes.defaultCountry);
-  return defaultCountry ?? countryData[0];
-}
+export type CountryCode = (typeof countryData)[number]["code"];
 
 export function formatPhoneNumber(phoneNumber: string, countryData?: CountryData): string {
   // Remove any whitespace and non-digit characters except +
@@ -311,7 +290,7 @@ export function formatPhoneNumber(phoneNumber: string, countryData?: CountryData
     if (cleanedPhoneNumber.startsWith(countryDialCode)) {
       return cleanedPhoneNumber;
     }
-    
+
     // If it has a different country code, we need to replace it
     // Find the first occurrence of a country code pattern
     const existingDialCodeMatch = cleanedPhoneNumber.match(/^\+\d{1,4}/);

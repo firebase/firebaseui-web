@@ -16,28 +16,49 @@
 
 "use client";
 
-import { CountryData } from "@firebase-ui/core";
-import { getCountries, getDefaultCountry } from "@firebase-ui/core";
-import { ComponentProps, useImperativeHandle, useState } from "react";
+import { CountryCode, type CountryData, getBehavior } from "@firebase-ui/core";
+import { ComponentProps, forwardRef, useImperativeHandle, useState, useCallback } from "react";
 import { useUI } from "~/hooks";
 import { cn } from "~/utils/cn";
 
-export type CountrySelectorProps = ComponentProps<"div"> & { ref?: React.Ref<CountrySelectorRef> };
-
 export interface CountrySelectorRef {
   getCountry: () => CountryData;
-  setCountry: (country: CountryData) => void;
+  setCountry: (code: CountryCode) => void;
 }
 
-export function CountrySelector({ className, ref, ...props }: CountrySelectorProps) {
-  const ui = useUI();
-  const [selected, setSelected] = useState<CountryData>(getDefaultCountry(ui));
-  const countries = getCountries(ui);
+export type CountrySelectorProps = ComponentProps<"div">;
 
-  useImperativeHandle(ref, () => ({
-    getCountry: () => selected,
-    setCountry: (country: CountryData) => setSelected(country),
-  }));
+export function useCountries() {
+  const ui = useUI();
+  return getBehavior(ui, "countryCodes")().allowedCountries;
+}
+
+export function useDefaultCountry() {
+  const ui = useUI();
+  return getBehavior(ui, "countryCodes")().defaultCountry;
+}
+
+export const CountrySelector = forwardRef<CountrySelectorRef, CountrySelectorProps>(({ className, ...props }, ref) => {
+  const countries = useCountries();
+  const defaultCountry = useDefaultCountry();
+  const [selected, setSelected] = useState<CountryData>(defaultCountry);
+
+  const setCountry = useCallback(
+    (code: CountryCode) => {
+      const foundCountry = countries.find((country) => country.code === code);
+      setSelected(foundCountry!);
+    },
+    [countries]
+  );
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      getCountry: () => selected,
+      setCountry,
+    }),
+    [selected, setCountry]
+  );
 
   return (
     <div className={cn("fui-country-selector", className)} {...props}>
@@ -66,4 +87,6 @@ export function CountrySelector({ className, ref, ...props }: CountrySelectorPro
       </div>
     </div>
   );
-}
+});
+
+CountrySelector.displayName = "CountrySelector";
