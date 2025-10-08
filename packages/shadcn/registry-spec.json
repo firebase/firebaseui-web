@@ -207,6 +207,40 @@
           }
         }
       }
+    },
+    {
+      "name": "github-sign-in-button",
+      "type": "registry:block",
+      "title": "GitHub Sign In Button",
+      "description": "A button component for GitHub OAuth authentication.",
+      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "registryDependencies": ["{{ DOMAIN }}/oauth-button.json"],
+      "files": [
+        {
+          "path": "src/registry/github-sign-in-button.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "css": {
+        "@layer components": {
+          "button[data-provider='github.com'][data-themed='true']": {
+            "--github-primary": "#000000",
+            "--color-primary": "var(--github-primary)",
+            "--color-primary-hover": "--alpha(var(--github-primary) / 85%)",
+            "--color-primary-surface": "#FFFFFF",
+            "--color-border": "var(--github-primary)"
+          }
+        },
+        "@variant dark": {
+          "button[data-provider='github.com'][data-themed='true']": {
+            "--github-primary": "var(--color-white)",
+            "--color-primary": "var(--github-primary)",
+            "--color-primary-hover": "--alpha(var(--github-primary) / 85%)",
+            "--color-primary-surface": "var(--color-black)",
+            "--color-border": "var(--color-white)"
+          }
+        }
+      }
     }
   ]
 }
