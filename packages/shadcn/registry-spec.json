@@ -182,6 +182,31 @@
           }
         }
       }
+    },
+    {
+      "name": "facebook-sign-in-button",
+      "type": "registry:block",
+      "title": "Facebook Sign In Button",
+      "description": "A button component for Facebook OAuth authentication.",
+      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "registryDependencies": ["{{ DOMAIN }}/oauth-button.json"],
+      "files": [
+        {
+          "path": "src/registry/facebook-sign-in-button.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "css": {
+        "@layer components": {
+          "button[data-provider='facebook.com'][data-themed='true']": {
+            "--facebook-primary": "#1877F2",
+            "--color-primary": "var(--facebook-primary)",
+            "--color-primary-hover": "--alpha(var(--facebook-primary) / 85%)",
+            "--color-primary-surface": "var(--color-white)",
+            "--color-border": "var(--facebook-primary)"
+          }
+        }
+      }
     }
   ]
 }
