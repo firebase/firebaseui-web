@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Routes } from "@angular/router";
+import { type Routes } from "@angular/router";
 
 export const routes: Routes = [
   {

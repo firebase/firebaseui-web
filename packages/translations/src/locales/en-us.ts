@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Translations } from "../types";
+import { type Translations } from "../types";
 
 // TODO: Should this be required or optional?
 export const enUS = {

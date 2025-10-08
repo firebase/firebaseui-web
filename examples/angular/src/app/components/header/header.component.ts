@@ -17,9 +17,9 @@
 import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
-import { Auth, User, authState, signOut } from "@angular/fire/auth";
+import { Auth, type User, authState, signOut } from "@angular/fire/auth";
 import { Router } from "@angular/router";
-import { Observable } from "rxjs";
+import { type Observable } from "rxjs";
 
 @Component({
   selector: "app-header",

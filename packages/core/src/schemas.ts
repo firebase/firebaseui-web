@@ -16,7 +16,7 @@
 
 import * as z from "zod";
 import { getTranslation } from "./translations";
-import { FirebaseUIConfiguration } from "./config";
+import { type FirebaseUIConfiguration } from "./config";
 import { hasBehavior } from "./behaviors";
 
 export const LoginTypes = ["email", "phone", "anonymous", "emailLink", "google"] as const;

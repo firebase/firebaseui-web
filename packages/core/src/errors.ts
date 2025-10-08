@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import { ERROR_CODE_MAP, ErrorCode } from "@firebase-ui/translations";
+import { ERROR_CODE_MAP, type ErrorCode } from "@firebase-ui/translations";
 import { FirebaseError } from "firebase/app";
-import { AuthCredential, getMultiFactorResolver, MultiFactorError } from "firebase/auth";
-import { FirebaseUIConfiguration } from "./config";
+import { type AuthCredential, getMultiFactorResolver, type MultiFactorError } from "firebase/auth";
+import { type FirebaseUIConfiguration } from "./config";
 import { getTranslation } from "./translations";
 export class FirebaseUIError extends FirebaseError {
   constructor(ui: FirebaseUIConfiguration, error: FirebaseError) {

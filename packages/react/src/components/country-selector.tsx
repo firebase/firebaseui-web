@@ -16,8 +16,8 @@
 
 "use client";
 
-import { CountryCode, countryData, getCountryByCode } from "@firebase-ui/core";
-import { ComponentProps } from "react";
+import { type CountryCode, countryData, getCountryByCode } from "@firebase-ui/core";
+import { type ComponentProps } from "react";
 import { cn } from "~/utils/cn";
 
 export type CountrySelectorProps = ComponentProps<"div"> & {

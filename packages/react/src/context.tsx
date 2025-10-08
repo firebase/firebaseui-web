@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { FirebaseUIConfiguration, type FirebaseUI } from "@firebase-ui/core";
+import { type FirebaseUIConfiguration, type FirebaseUI } from "@firebase-ui/core";
 import { useStore } from "@nanostores/react";
 import { type PolicyProps, PolicyProvider } from "~/components/policies";
 import { createContext } from "react";

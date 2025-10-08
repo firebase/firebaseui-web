@@ -1,5 +1,5 @@
-import { ComponentProps, PropsWithChildren, ReactNode } from "react";
-import { AnyFieldApi, createFormHook, createFormHookContexts } from "@tanstack/react-form";
+import { type ComponentProps, type PropsWithChildren, type ReactNode } from "react";
+import { type AnyFieldApi, createFormHook, createFormHookContexts } from "@tanstack/react-form";
 import { Button } from "./button";
 import { cn } from "~/utils/cn";
 

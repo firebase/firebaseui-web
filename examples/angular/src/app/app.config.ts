@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { ApplicationConfig, provideZoneChangeDetection, isDevMode } from "@angular/core";
+import { type ApplicationConfig, provideZoneChangeDetection, isDevMode } from "@angular/core";
 import { provideRouter } from "@angular/router";
 
 import { routes } from "./app.routes";

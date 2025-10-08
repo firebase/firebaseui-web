@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { ComponentProps, PropsWithChildren } from "react";
+import { type ComponentProps, type PropsWithChildren } from "react";
 import { cn } from "~/utils/cn";
 
 export type DividerProps = PropsWithChildren<ComponentProps<"div">>;
