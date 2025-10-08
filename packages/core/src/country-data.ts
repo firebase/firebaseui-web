@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import { formatIncompletePhoneNumber, parsePhoneNumberWithError, type CountryCode } from "libphonenumber-js";
+
 export const countryData = [
   { name: "Afghanistan", dialCode: "+93", code: "AF", emoji: "🇦🇫" },
   { name: "Albania", dialCode: "+355", code: "AL", emoji: "🇦🇱" },
@@ -110,7 +112,6 @@ export const countryData = [
   { name: "Guinea-Bissau", dialCode: "+245", code: "GW", emoji: "🇬🇼" },
   { name: "Guyana", dialCode: "+592", code: "GY", emoji: "🇬🇾" },
   { name: "Haiti", dialCode: "+509", code: "HT", emoji: "🇭🇹" },
-  { name: "Heard Island and McDonald Islands", dialCode: "+672", code: "HM", emoji: "🇭🇲" },
   { name: "Honduras", dialCode: "+504", code: "HN", emoji: "🇭🇳" },
   { name: "Hong Kong", dialCode: "+852", code: "HK", emoji: "🇭🇰" },
   { name: "Hungary", dialCode: "+36", code: "HU", emoji: "🇭🇺" },
@@ -220,7 +221,6 @@ export const countryData = [
   { name: "Solomon Islands", dialCode: "+677", code: "SB", emoji: "🇸🇧" },
   { name: "Somalia", dialCode: "+252", code: "SO", emoji: "🇸🇴" },
   { name: "South Africa", dialCode: "+27", code: "ZA", emoji: "🇿🇦" },
-  { name: "South Georgia and the South Sandwich Islands", dialCode: "+500", code: "GS", emoji: "🇬🇸" },
   { name: "South Korea", dialCode: "+82", code: "KR", emoji: "🇰🇷" },
   { name: "South Sudan", dialCode: "+211", code: "SS", emoji: "🇸🇸" },
   { name: "Spain", dialCode: "+34", code: "ES", emoji: "🇪🇸" },
@@ -268,49 +268,36 @@ export const countryData = [
 export type CountryData = {
   name: string;
   dialCode: string;
-  code: string;
+  code: CountryCode;
   emoji: string;
 };
 
-export type CountryCode = (typeof countryData)[number]["code"];
+export type { CountryCode };
 
-export function formatPhoneNumber(phoneNumber: string, countryData?: CountryData): string {
-  // Remove any whitespace and non-digit characters except +
-  let cleanedPhoneNumber = phoneNumber.replace(/[^\d+]/g, "").trim();
+export function formatPhoneNumber(phoneNumber: string, countryData: CountryData): string {
+  try {
+    const parsedNumber = parsePhoneNumberWithError(phoneNumber, countryData.code);
 
-  if (!countryData) {
-    return cleanedPhoneNumber;
+    if (parsedNumber && parsedNumber.isValid()) {
+      // Return the E164 format.
+      return parsedNumber.number;
+    }
+  } catch {
+    // If parsing fails, try to format as incomplete number
   }
 
-  const countryDialCode = countryData.dialCode;
-
-  // If the number already starts with a +, it might already have a country code
-  if (cleanedPhoneNumber.startsWith("+")) {
-    // Check if it already has the correct country code
-    if (cleanedPhoneNumber.startsWith(countryDialCode)) {
-      return cleanedPhoneNumber;
+  try {
+    // Try to format as incomplete number with country
+    const formatted = formatIncompletePhoneNumber(phoneNumber, countryData.code);
+    // Remove spaces from the formatted result.
+    return formatted.replace(/\s/g, "");
+  } catch {
+    // If all else fails, just clean the number and prepend country code
+    const cleaned = phoneNumber.replace(/[^\d+]/g, "").trim();
+    if (cleaned.startsWith("+")) {
+      return cleaned;
     }
 
-    // If it has a different country code, we need to replace it
-    // Find the first occurrence of a country code pattern
-    const existingDialCodeMatch = cleanedPhoneNumber.match(/^\+\d{1,4}/);
-    if (existingDialCodeMatch) {
-      const existingDialCode = existingDialCodeMatch[0];
-      const numberWithoutDialCode = cleanedPhoneNumber.substring(existingDialCode.length);
-      return `${countryDialCode}${numberWithoutDialCode}`;
-    }
+    return `${countryData.dialCode}${cleaned}`;
   }
-
-  // If the number starts with 0 (common in many countries), remove it
-  if (cleanedPhoneNumber.startsWith("0")) {
-    cleanedPhoneNumber = cleanedPhoneNumber.substring(1);
-  }
-
-  // If the number already starts with the country dial code (without +), add the +
-  if (cleanedPhoneNumber.startsWith(countryDialCode.substring(1))) {
-    return `+${cleanedPhoneNumber}`;
-  }
-
-  // Otherwise, prepend the country dial code
-  return `${countryDialCode}${cleanedPhoneNumber}`;
 }

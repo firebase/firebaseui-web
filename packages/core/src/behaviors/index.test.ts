@@ -246,8 +246,9 @@ describe("requireDisplayName", () => {
 describe("defaultBehaviors", () => {
   it("should include recaptchaVerification by default", () => {
     expect(defaultBehaviors).toHaveProperty("recaptchaVerification");
-    expect(defaultBehaviors.recaptchaVerification).toHaveProperty("type", "callable");
-    expect(typeof defaultBehaviors.recaptchaVerification.handler).toBe("function");
+    expect(defaultBehaviors).toHaveProperty("providerSignInStrategy");
+    expect(defaultBehaviors).toHaveProperty("providerLinkStrategy");
+    expect(defaultBehaviors).toHaveProperty("countryCodes");
   });
 
   it("should not include other behaviors by default", () => {

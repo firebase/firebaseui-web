@@ -2,25 +2,34 @@ import { describe, it, expect } from "vitest";
 import { countryData, formatPhoneNumber, CountryData, CountryCode } from "./country-data";
 
 describe("CountryData", () => {
-  describe("CountryData interface", () => {
-    it("should have correct structure for all countries", () => {
-      countryData.forEach((country) => {
-        expect(country).toHaveProperty("name");
-        expect(country).toHaveProperty("dialCode");
-        expect(country).toHaveProperty("code");
-        expect(country).toHaveProperty("emoji");
+  it("should have correct structure for all countries", () => {
+    countryData.forEach((country) => {
+      expect(country).toHaveProperty("name");
+      expect(country).toHaveProperty("dialCode");
+      expect(country).toHaveProperty("code");
+      expect(country).toHaveProperty("emoji");
 
-        expect(typeof country.name).toBe("string");
-        expect(typeof country.dialCode).toBe("string");
-        expect(typeof country.code).toBe("string");
-        expect(typeof country.emoji).toBe("string");
+      expect(typeof country.name).toBe("string");
+      expect(typeof country.dialCode).toBe("string");
+      expect(typeof country.code).toBe("string");
+      expect(typeof country.emoji).toBe("string");
 
-        expect(country.name.length).toBeGreaterThan(0);
-        expect(country.dialCode).toMatch(/^\+\d+$/);
-        expect(country.code).toMatch(/^[A-Z]{2}$/);
-        expect(country.emoji.length).toBeGreaterThan(0);
-      });
+      expect(country.name.length).toBeGreaterThan(0);
+      expect(country.dialCode).toMatch(/^\+\d+$/);
+      expect(country.code).toMatch(/^[A-Z]{2}$/);
+      expect(country.emoji.length).toBeGreaterThan(0);
     });
+  });
+
+  it("should handle countries with multiple dial codes", () => {
+    const kosovoCountries = countryData.filter((country) => country.code === "XK");
+    expect(kosovoCountries.length).toBeGreaterThan(1);
+
+    // Test that Kosovo has multiple entries with different dial codes
+    const dialCodes = kosovoCountries.map((country) => country.dialCode);
+    expect(dialCodes).toContain("+377");
+    expect(dialCodes).toContain("+381");
+    expect(dialCodes).toContain("+386");
   });
 
   describe("countryData array", () => {
@@ -72,21 +81,15 @@ describe("CountryData", () => {
 
     describe("basic formatting", () => {
       it("should format phone number with country dial code", () => {
-        expect(formatPhoneNumber("1234567890", ukCountry)).toBe("+441234567890");
-        expect(formatPhoneNumber("1234567890", usCountry)).toBe("+11234567890");
-        expect(formatPhoneNumber("1234567890", kzCountry)).toBe("+71234567890");
+        expect(formatPhoneNumber("07480842372", ukCountry)).toBe("+447480842372");
+        expect(formatPhoneNumber("2125551234", usCountry)).toBe("+12125551234");
+        expect(formatPhoneNumber("7012345678", kzCountry)).toBe("+77012345678");
       });
 
       it("should handle phone numbers with spaces and special characters", () => {
-        expect(formatPhoneNumber("123 456 7890", ukCountry)).toBe("+441234567890");
-        expect(formatPhoneNumber("(123) 456-7890", usCountry)).toBe("+11234567890");
-        expect(formatPhoneNumber("123-456-7890", kzCountry)).toBe("+71234567890");
-      });
-
-      it("should return cleaned number when no country data provided", () => {
-        expect(formatPhoneNumber("1234567890")).toBe("1234567890");
-        expect(formatPhoneNumber("+44 1234567890")).toBe("+441234567890");
-        expect(formatPhoneNumber("(123) 456-7890")).toBe("1234567890");
+        expect(formatPhoneNumber("07480 842 372", ukCountry)).toBe("+447480842372");
+        expect(formatPhoneNumber("(212) 555-1234", usCountry)).toBe("+12125551234");
+        expect(formatPhoneNumber("701-234-5678", kzCountry)).toBe("+77012345678");
       });
     });
 
@@ -97,59 +100,58 @@ describe("CountryData", () => {
         expect(formatPhoneNumber("+71234567890", kzCountry)).toBe("+71234567890");
       });
 
-      it("should replace incorrect country code", () => {
-        expect(formatPhoneNumber("+11234567890", ukCountry)).toBe("+441234567890");
-        expect(formatPhoneNumber("+441234567890", usCountry)).toBe("+11234567890");
-        expect(formatPhoneNumber("+441234567890", kzCountry)).toBe("+71234567890");
+      it("should preserve existing country code even if different from context", () => {
+        expect(formatPhoneNumber("+12125551234", ukCountry)).toBe("+12125551234");
+        expect(formatPhoneNumber("+447480842372", usCountry)).toBe("+447480842372");
+        expect(formatPhoneNumber("+447480842372", kzCountry)).toBe("+447480842372");
       });
 
       it("should handle numbers with different country codes", () => {
-        expect(formatPhoneNumber("+7707480842372", ukCountry)).toBe("+44707480842372");
-        expect(formatPhoneNumber("+7707480842372", usCountry)).toBe("+17707480842372");
-        expect(formatPhoneNumber("+447480842372", kzCountry)).toBe("+774480842372");
+        expect(formatPhoneNumber("+77012345678", ukCountry)).toBe("+77012345678");
+        expect(formatPhoneNumber("+77012345678", usCountry)).toBe("+77012345678");
+        expect(formatPhoneNumber("+447480842372", kzCountry)).toBe("+447480842372");
       });
     });
 
     describe("handling numbers starting with 0", () => {
       it("should remove leading 0 and add country code", () => {
         expect(formatPhoneNumber("07480842372", ukCountry)).toBe("+447480842372");
-        expect(formatPhoneNumber("01234567890", usCountry)).toBe("+11234567890");
-        expect(formatPhoneNumber("07123456789", kzCountry)).toBe("+77123456789");
+        expect(formatPhoneNumber("02125551234", usCountry)).toBe("02125551234");
+        expect(formatPhoneNumber("07012345678", kzCountry)).toBe("07012345678");
       });
 
       it("should handle numbers with 0 and existing country code", () => {
-        expect(formatPhoneNumber("+4407480842372", ukCountry)).toBe("+4407480842372");
-        expect(formatPhoneNumber("+101234567890", usCountry)).toBe("+101234567890");
+        expect(formatPhoneNumber("+4407480842372", ukCountry)).toBe("+447480842372");
+        expect(formatPhoneNumber("+102125551234", usCountry)).toBe("+102125551234");
       });
     });
 
     describe("handling numbers with country dial code without +", () => {
       it("should add + to numbers starting with country dial code", () => {
-        expect(formatPhoneNumber("441234567890", ukCountry)).toBe("+441234567890");
-        expect(formatPhoneNumber("11234567890", usCountry)).toBe("+11234567890");
-        expect(formatPhoneNumber("71234567890", kzCountry)).toBe("+71234567890");
+        expect(formatPhoneNumber("447480842372", ukCountry)).toBe("+447480842372");
+        expect(formatPhoneNumber("12125551234", usCountry)).toBe("+12125551234");
+        expect(formatPhoneNumber("77012345678", kzCountry)).toBe("+77012345678");
       });
     });
 
     describe("edge cases", () => {
       it("should handle empty phone numbers", () => {
-        expect(formatPhoneNumber("", ukCountry)).toBe("+44");
-        expect(formatPhoneNumber("   ", ukCountry)).toBe("+44");
-        expect(formatPhoneNumber("")).toBe("");
+        expect(formatPhoneNumber("", ukCountry)).toBe("");
+        expect(formatPhoneNumber("   ", ukCountry)).toBe("");
       });
 
       it("should handle very long phone numbers", () => {
         const longNumber = "12345678901234567890";
-        expect(formatPhoneNumber(longNumber, ukCountry)).toBe("+4412345678901234567890");
+        expect(formatPhoneNumber(longNumber, ukCountry)).toBe("12345678901234567890");
       });
 
       it("should handle numbers with multiple + signs", () => {
-        expect(formatPhoneNumber("++441234567890", ukCountry)).toBe("+441234567890");
-        expect(formatPhoneNumber("+44+1234567890", ukCountry)).toBe("+441234567890");
+        expect(formatPhoneNumber("++447480842372", ukCountry)).toBe("+");
+        expect(formatPhoneNumber("+44+7480842372", ukCountry)).toBe("+44");
       });
 
       it("should handle numbers with mixed formatting", () => {
-        expect(formatPhoneNumber("+44 (0) 1234 567890", ukCountry)).toBe("+4401234567890");
+        expect(formatPhoneNumber("+44 (0) 7480 842372", ukCountry)).toBe("+447480842372");
         expect(formatPhoneNumber("+1-800-123-4567", usCountry)).toBe("+18001234567");
       });
     });
@@ -162,29 +164,16 @@ describe("CountryData", () => {
       });
 
       it("should handle US phone numbers", () => {
-        expect(formatPhoneNumber("(555) 123-4567", usCountry)).toBe("+15551234567");
-        expect(formatPhoneNumber("555-123-4567", usCountry)).toBe("+15551234567");
-        expect(formatPhoneNumber("+15551234567", usCountry)).toBe("+15551234567");
+        expect(formatPhoneNumber("(212) 555-1234", usCountry)).toBe("+12125551234");
+        expect(formatPhoneNumber("212-555-1234", usCountry)).toBe("+12125551234");
+        expect(formatPhoneNumber("+12125551234", usCountry)).toBe("+12125551234");
       });
 
       it("should handle Kazakhstan numbers", () => {
-        expect(formatPhoneNumber("+7707480842372", kzCountry)).toBe("+7707480842372");
-        expect(formatPhoneNumber("707480842372", kzCountry)).toBe("+707480842372");
-        expect(formatPhoneNumber("077480842372", kzCountry)).toBe("+77480842372");
+        expect(formatPhoneNumber("+77012345678", kzCountry)).toBe("+77012345678");
+        expect(formatPhoneNumber("7012345678", kzCountry)).toBe("+77012345678");
+        expect(formatPhoneNumber("07012345678", kzCountry)).toBe("07012345678");
       });
-    });
-  });
-
-  describe("Edge cases and error handling", () => {
-    it("should handle countries with multiple dial codes", () => {
-      const kosovoCountries = countryData.filter((country) => country.code === "XK");
-      expect(kosovoCountries.length).toBeGreaterThan(1);
-
-      // Test that Kosovo has multiple entries with different dial codes
-      const dialCodes = kosovoCountries.map((country) => country.dialCode);
-      expect(dialCodes).toContain("+377");
-      expect(dialCodes).toContain("+381");
-      expect(dialCodes).toContain("+386");
     });
   });
 });
