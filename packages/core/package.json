@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "@firebase-ui/translations": "workspace:*",
+    "libphonenumber-js": "^1.12.23",
     "nanostores": "catalog:",
     "qrcode-generator": "^2.0.4",
     "zod": "catalog:"
