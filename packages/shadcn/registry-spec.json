@@ -334,6 +334,20 @@
           }
         }
       }
+    },
+    {
+      "name": "country-selector",
+      "type": "registry:block",
+      "title": "Country Selector",
+      "description": "A country selector component for phone number input with country codes and flags.",
+      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "registryDependencies": ["select"],
+      "files": [
+        {
+          "path": "src/registry/country-selector.tsx",
+          "type": "registry:component"
+        }
+      ]
     }
   ]
 }
