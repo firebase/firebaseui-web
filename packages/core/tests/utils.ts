@@ -14,6 +14,8 @@ export function createMockUI(overrides?: Partial<FirebaseUIConfiguration>): Fire
     setState: vi.fn(),
     locale: enUs,
     behaviors: {},
+    multiFactorResolver: undefined,
+    setMultiFactorResolver: vi.fn(),
     ...overrides,
   };
 }

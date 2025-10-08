@@ -41,6 +41,7 @@ export type Translations = {
     captchaCheckFailed?: string;
     missingVerificationId?: string;
     missingEmail?: string;
+    displayNameRequired?: string;
     invalidActionCode?: string;
     credentialAlreadyInUse?: string;
     requiresRecentLogin?: string;
@@ -61,6 +62,7 @@ export type Translations = {
   labels?: {
     emailAddress?: string;
     password?: string;
+    displayName?: string;
     forgotPassword?: string;
     register?: string;
     signIn?: string;
@@ -73,6 +75,11 @@ export type Translations = {
     sendCode?: string;
     verifyCode?: string;
     signInWithGoogle?: string;
+    signInWithFacebook?: string;
+    signInWithApple?: string;
+    signInWithTwitter?: string;
+    signInWithMicrosoft?: string;
+    signInWithGitHub?: string;
     signInWithEmailLink?: string;
     sendSignInLink?: string;
     termsOfService?: string;

@@ -16,10 +16,9 @@
 
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import "@testing-library/jest-dom";
 import { Divider } from "./divider";
 
-describe("Divider Component", () => {
+describe("<Divider />", () => {
   it("renders a divider with no text", () => {
     render(<Divider data-testid="divider-no-text" />);
     const divider = screen.getByTestId("divider-no-text");

@@ -1,72 +1,43 @@
-# Copyright 2025 Google LLC
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 packages:
   - packages/*
-  - examples/angular
-  - examples/nextjs
-  - examples/react
+  - examples/*
 
 catalog:
-  # Firebase
+  '@angular-devkit/build-angular': ^20.2.2
+  '@angular/cli': ^20.2.2
+  '@angular/common': ^20.2.2
+  '@angular/compiler': ^20.2.2
+  '@angular/compiler-cli': ^20.2.2
+  '@angular/core': ^20.2.2
+  '@angular/fire': ^20.0.1
+  '@angular/forms': ^20.2.2
+  '@angular/platform-browser': ^20.2.2
+  '@angular/platform-browser-dynamic': ^20.2.2
+  '@angular/router': ^20.2.2
+  '@testing-library/jest-dom': ^6.8.0
+  '@testing-library/react': ^16.3.0
+  '@types/jsdom': ^21.1.7
+  '@types/node': ^24.3.1
+  '@types/react': ^19.1.12
+  '@types/react-dom': ^19.1.9
+  '@vitejs/plugin-react': ^5.0.2
+  eslint: ^9.35.0
   firebase: ^11.10.0
-
-  # Build tools
-  typescript: ^5.9.2
-  tailwindcss: ^4.1.13
-  vite: ^7.1.5
-  tsup: ^8.5.0
-  rimraf: ^6.0.1
-
-  # React
+  jsdom: ^26.1.0
+  nanostores: ^1.0.1
+  prettier: ^3.6.2
   react: ^19.1.1
   react-dom: ^19.1.1
-  "@types/react": ^19.1.12
-  "@types/react-dom": ^19.1.9
-  "@vitejs/plugin-react": ^5.0.2
-
-  # Angular
+  rimraf: ^6.0.1
   rxjs: ^7.8.2
-  "@angular/core": ^20.2.2
-  "@angular/common": ^20.2.2
-  "@angular/forms": ^20.2.2
-  "@angular/router": ^20.2.2
-  "@angular/fire": ^20.0.1
-  "@angular/compiler": ^20.2.2
-  "@angular/compiler-cli": ^20.2.2
-  "@angular/platform-browser": ^20.2.2
-  "@angular/platform-browser-dynamic": ^20.2.2
-  "@angular-devkit/build-angular": ^20.2.2
-  "@angular/cli": ^20.2.2
-  "zone.js": ^0.15.0
-
-  # Testing
+  tailwindcss: ^4.1.13
+  tsup: ^8.5.0
+  typescript: ^5.9.2
+  vite: ^7.1.5
   vitest: ^3.2.4
-  jsdom: ^26.1.0
-  vitest-tsconfig-paths: ^3.4.1
-  "@types/jsdom": ^21.1.7
-  "@testing-library/react": ^16.3.0
-  "@testing-library/jest-dom": ^6.8.0
-
-  # Code quality
-  prettier: ^3.6.2
-  eslint: ^9.35.0
-
-  # Shared utilities
+  vite-tsconfig-paths: ^5.1.4
   zod: ^4.1.9
-  nanostores: ^1.0.1
-  "@types/node": ^24.3.1
+  zone.js: ^0.15.0
 
 catalogs:
   peerDependencies:

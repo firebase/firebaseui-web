@@ -17,63 +17,77 @@
 "use client";
 
 import {
-  confirmPhoneNumber,
   CountryCode,
   countryData,
-  createPhoneAuthFormSchema,
   FirebaseUIError,
   formatPhoneNumberWithCountry,
   getTranslation,
-  signInWithPhoneNumber,
+  verifyPhoneNumber,
+  confirmPhoneNumber,
 } from "@firebase-ui/core";
-import { useForm } from "@tanstack/react-form";
-import { ConfirmationResult, RecaptchaVerifier } from "firebase/auth";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { z } from "zod";
-import { useUI } from "~/hooks";
-import { Button } from "../../components/button";
-import { CountrySelector } from "../../components/country-selector";
-import { FieldInfo } from "../../components/field-info";
-import { Policies } from "../../components/policies";
+import { RecaptchaVerifier, UserCredential } from "firebase/auth";
+import { useCallback, useRef, useState } from "react";
+import { usePhoneAuthNumberFormSchema, usePhoneAuthVerifyFormSchema, useRecaptchaVerifier, useUI } from "~/hooks";
+import { form } from "~/components/form";
+import { Policies } from "~/components/policies";
+import { CountrySelector } from "~/components/country-selector";
 
-interface PhoneNumberFormProps {
-  onSubmit: (phoneNumber: string) => Promise<void>;
-  formError: string | null;
-  recaptchaVerifier: RecaptchaVerifier | null;
-  recaptchaContainerRef: React.RefObject<HTMLDivElement | null>;
-}
-
-function PhoneNumberForm({ onSubmit, formError, recaptchaVerifier, recaptchaContainerRef }: PhoneNumberFormProps) {
+export function usePhoneNumberFormAction() {
   const ui = useUI();
 
-  // TODO(ehesp): How does this support allowed countries?
-  // TODO(ehesp): How does this support default country?
-  const [selectedCountry, setSelectedCountry] = useState<CountryCode>(countryData[0].code);
-  const [firstValidationOccured, setFirstValidationOccured] = useState(false);
-
-  const phoneFormSchema = useMemo(
-    () =>
-      createPhoneAuthFormSchema(ui).pick({
-        phoneNumber: true,
-      }),
+  return useCallback(
+    async ({ phoneNumber, recaptchaVerifier }: { phoneNumber: string; recaptchaVerifier: RecaptchaVerifier }) => {
+      return await verifyPhoneNumber(ui, phoneNumber, recaptchaVerifier);
+    },
     [ui]
   );
+}
 
-  const phoneForm = useForm<z.infer<typeof phoneFormSchema>>({
+type UsePhoneNumberForm = {
+  recaptchaVerifier: RecaptchaVerifier;
+  onSuccess: (verificationId: string) => void;
+  formatPhoneNumber?: (phoneNumber: string) => string;
+};
+
+export function usePhoneNumberForm({ recaptchaVerifier, onSuccess, formatPhoneNumber }: UsePhoneNumberForm) {
+  const action = usePhoneNumberFormAction();
+  const schema = usePhoneAuthNumberFormSchema();
+
+  return form.useAppForm({
     defaultValues: {
       phoneNumber: "",
     },
     validators: {
-      onBlur: phoneFormSchema,
-      onSubmit: phoneFormSchema,
-    },
-    onSubmit: async ({ value }) => {
-      const formattedNumber = formatPhoneNumberWithCountry(value.phoneNumber, selectedCountry);
-      await onSubmit(formattedNumber);
+      onBlur: schema,
+      onSubmit: schema,
+      onSubmitAsync: async ({ value }) => {
+        try {
+          const formatted = formatPhoneNumber ? formatPhoneNumber(value.phoneNumber) : value.phoneNumber;
+          const confirmationResult = await action({ phoneNumber: formatted, recaptchaVerifier });
+          return onSuccess(confirmationResult);
+        } catch (error) {
+          return error instanceof FirebaseUIError ? error.message : String(error);
+        }
+      },
     },
   });
+}
 
-  // TODO(ehesp): Country data onChange types are not matching
+type PhoneNumberFormProps = {
+  onSubmit: (verificationId: string) => void;
+};
+
+export function PhoneNumberForm(props: PhoneNumberFormProps) {
+  const ui = useUI();
+  const recaptchaContainerRef = useRef<HTMLDivElement>(null);
+  const recaptchaVerifier = useRecaptchaVerifier(recaptchaContainerRef);
+  const form = usePhoneNumberForm({
+    recaptchaVerifier: recaptchaVerifier!,
+    onSuccess: props.onSubmit,
+    formatPhoneNumber: (phoneNumber) => formatPhoneNumberWithCountry(phoneNumber, selectedCountry),
+  });
+
+  const [selectedCountry, setSelectedCountry] = useState<CountryCode>(countryData[0].code);
 
   return (
     <form
@@ -81,149 +95,88 @@ function PhoneNumberForm({ onSubmit, formError, recaptchaVerifier, recaptchaCont
       onSubmit={async (e) => {
         e.preventDefault();
         e.stopPropagation();
-        await phoneForm.handleSubmit();
+        await form.handleSubmit();
       }}
     >
-      <fieldset>
-        <phoneForm.Field
-          name="phoneNumber"
-          // eslint-disable-next-line react/no-children-prop
-          children={(field) => (
-            <>
-              <label htmlFor={field.name}>
-                <span>{getTranslation(ui, "labels", "phoneNumber")}</span>
-                <div className="fui-phone-input">
+      <form.AppForm>
+        <fieldset>
+          <form.AppField name="phoneNumber">
+            {(field) => (
+              <field.Input
+                label={getTranslation(ui, "labels", "phoneNumber")}
+                type="tel"
+                before={
                   <CountrySelector
                     value={selectedCountry}
                     onChange={(code) => setSelectedCountry(code as CountryCode)}
                     className="fui-phone-input__country-selector"
                   />
-                  <input
-                    aria-invalid={field.state.meta.isTouched && field.state.meta.errors.length > 0}
-                    id={field.name}
-                    name={field.name}
-                    type="tel"
-                    value={field.state.value}
-                    onBlur={() => {
-                      setFirstValidationOccured(true);
-                      field.handleBlur();
-                    }}
-                    onInput={(e) => {
-                      field.handleChange((e.target as HTMLInputElement).value);
-                      if (firstValidationOccured) {
-                        field.handleBlur();
-                        phoneForm.update();
-                      }
-                    }}
-                    className="fui-phone-input__number-input"
-                  />
-                </div>
-                <FieldInfo field={field} />
-              </label>
-            </>
-          )}
-        />
-      </fieldset>
-
-      <fieldset>
-        <div className="fui-recaptcha-container" ref={recaptchaContainerRef} />
-      </fieldset>
-
-      <Policies />
-
-      <fieldset>
-        <Button type="submit" disabled={!recaptchaVerifier || ui.state !== "idle"}>
-          {getTranslation(ui, "labels", "sendCode")}
-        </Button>
-        {formError && <div className="fui-form__error">{formError}</div>}
-      </fieldset>
+                }
+              />
+            )}
+          </form.AppField>
+        </fieldset>
+        <fieldset>
+          <div className="fui-recaptcha-container" ref={recaptchaContainerRef} />
+        </fieldset>
+        <Policies />
+        <fieldset>
+          <form.SubmitButton>{getTranslation(ui, "labels", "sendCode")}</form.SubmitButton>
+          <form.ErrorMessage />
+        </fieldset>
+      </form.AppForm>
     </form>
   );
 }
 
-function useResendTimer(initialDelay: number) {
-  const [timeLeft, setTimeLeft] = useState(0);
-  const [isActive, setIsActive] = useState(false);
-  const timerRef = useRef<number>(0);
-
-  useEffect(() => {
-    return () => {
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-      }
-    };
-  }, [initialDelay]);
-
-  const startTimer = useCallback(() => {
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-    }
-
-    setTimeLeft(initialDelay);
-    setIsActive(true);
-
-    timerRef.current = window.setInterval(() => {
-      setTimeLeft((prev) => {
-        const next = prev <= 1 ? 0 : prev - 1;
-        if (prev <= 1) {
-          if (timerRef.current) {
-            clearInterval(timerRef.current);
-          }
-          setIsActive(false);
-        }
-        return next;
-      });
-    }, 1000);
-  }, [initialDelay]);
-
-  const canResend = !isActive && timeLeft === 0;
-
-  return { timeLeft, canResend, startTimer };
-}
-
-interface VerificationFormProps {
-  onSubmit: (code: string) => Promise<void>;
-  onResend: () => Promise<void>;
-  formError: string | null;
-  isResending: boolean;
-  canResend: boolean;
-  timeLeft: number;
-  recaptchaContainerRef: React.RefObject<HTMLDivElement | null>;
-}
-
-function VerificationForm({
-  onSubmit,
-  onResend,
-  formError,
-  isResending,
-  canResend,
-  timeLeft,
-  recaptchaContainerRef,
-}: VerificationFormProps) {
+export function useVerifyPhoneNumberFormAction() {
   const ui = useUI();
 
-  const [firstValidationOccured, setFirstValidationOccured] = useState(false);
-
-  const verificationFormSchema = useMemo(
-    () =>
-      createPhoneAuthFormSchema(ui).pick({
-        verificationCode: true,
-      }),
+  return useCallback(
+    async ({ verificationId, verificationCode }: { verificationId: string; verificationCode: string }) => {
+      return await confirmPhoneNumber(ui, verificationId, verificationCode);
+    },
     [ui]
   );
+}
 
-  const verificationForm = useForm<z.infer<typeof verificationFormSchema>>({
+type UseVerifyPhoneNumberForm = {
+  verificationId: string;
+  onSuccess: (credential: UserCredential) => void;
+};
+
+export function useVerifyPhoneNumberForm({ verificationId, onSuccess }: UseVerifyPhoneNumberForm) {
+  const schema = usePhoneAuthVerifyFormSchema();
+  const action = useVerifyPhoneNumberFormAction();
+
+  return form.useAppForm({
     defaultValues: {
+      verificationId,
       verificationCode: "",
     },
     validators: {
-      onBlur: verificationFormSchema,
-      onSubmit: verificationFormSchema,
-    },
-    onSubmit: async ({ value }) => {
-      await onSubmit(value.verificationCode);
+      onSubmit: schema,
+      onBlur: schema,
+      onSubmitAsync: async ({ value }) => {
+        try {
+          const credential = await action(value);
+          return onSuccess(credential);
+        } catch (error) {
+          return error instanceof FirebaseUIError ? error.message : String(error);
+        }
+      },
     },
   });
+}
+
+type VerifyPhoneNumberFormProps = {
+  onSuccess: (credential: UserCredential) => void;
+  verificationId: string;
+};
+
+function VerifyPhoneNumberForm(props: VerifyPhoneNumberFormProps) {
+  const ui = useUI();
+  const form = useVerifyPhoneNumberForm({ verificationId: props.verificationId, onSuccess: props.onSuccess });
 
   return (
     <form
@@ -231,195 +184,41 @@ function VerificationForm({
       onSubmit={async (e) => {
         e.preventDefault();
         e.stopPropagation();
-        await verificationForm.handleSubmit();
+        await form.handleSubmit();
       }}
     >
-      <fieldset>
-        <verificationForm.Field
-          name="verificationCode"
-          // eslint-disable-next-line react/no-children-prop
-          children={(field) => (
-            <>
-              <label htmlFor={field.name}>
-                <span>{getTranslation(ui, "labels", "verificationCode")}</span>
-                <input
-                  aria-invalid={field.state.meta.isTouched && field.state.meta.errors.length > 0}
-                  id={field.name}
-                  name={field.name}
-                  type="text"
-                  value={field.state.value}
-                  onBlur={() => {
-                    setFirstValidationOccured(true);
-                    field.handleBlur();
-                  }}
-                  onInput={(e) => {
-                    field.handleChange((e.target as HTMLInputElement).value);
-                    if (firstValidationOccured) {
-                      field.handleBlur();
-                      verificationForm.update();
-                    }
-                  }}
-                />
-                <FieldInfo field={field} />
-              </label>
-            </>
-          )}
-        />
-      </fieldset>
-
-      <fieldset>
-        <div className="fui-recaptcha-container" ref={recaptchaContainerRef} />
-      </fieldset>
-
-      <Policies />
-
-      <fieldset>
-        <Button type="submit" disabled={ui.state !== "idle"}>
-          {getTranslation(ui, "labels", "verifyCode")}
-        </Button>
-        <Button
-          type="button"
-          disabled={isResending || !canResend || ui.state !== "idle"}
-          onClick={onResend}
-          variant="secondary"
-        >
-          {isResending
-            ? getTranslation(ui, "labels", "sending")
-            : !canResend
-              ? `${getTranslation(ui, "labels", "resendCode")} (${timeLeft}s)`
-              : getTranslation(ui, "labels", "resendCode")}
-        </Button>
-        {formError && <div className="fui-form__error">{formError}</div>}
-      </fieldset>
+      <form.AppForm>
+        <fieldset>
+          <form.AppField name="verificationCode">
+            {(field) => <field.Input label={getTranslation(ui, "labels", "verificationCode")} type="text" />}
+          </form.AppField>
+        </fieldset>
+        <fieldset>
+          <form.SubmitButton>{getTranslation(ui, "labels", "verifyCode")}</form.SubmitButton>
+          <form.ErrorMessage />
+        </fieldset>
+      </form.AppForm>
     </form>
   );
 }
 
 export type PhoneAuthFormProps = {
-  resendDelay?: number;
-}
+  onSignIn?: (credential: UserCredential) => void;
+};
 
-export function PhoneAuthForm({ resendDelay = 30 }: PhoneAuthFormProps) {
-  const ui = useUI();
+export function PhoneAuthForm(props: PhoneAuthFormProps) {
+  const [verificationId, setVerificationId] = useState<string | null>(null);
 
-  const [formError, setFormError] = useState<string | null>(null);
-  const [confirmationResult, setConfirmationResult] = useState<ConfirmationResult | null>(null);
-  const [recaptchaVerifier, setRecaptchaVerifier] = useState<RecaptchaVerifier | null>(null);
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [isResending, setIsResending] = useState(false);
-  const recaptchaContainerRef = useRef<HTMLDivElement | null>(null);
-  const { timeLeft, canResend, startTimer } = useResendTimer(resendDelay);
-
-  useEffect(() => {
-    if (!recaptchaContainerRef.current) return;
-
-    const verifier = new RecaptchaVerifier(ui.auth, recaptchaContainerRef.current, {
-      // size: ui.recaptchaMode ?? "normal", TODO(ehesp): Get this from the useRecaptchaVerifier hook once implemented
-      size: "normal",
-    });
-
-    setRecaptchaVerifier(verifier);
-
-    return () => {
-      verifier.clear();
-      setRecaptchaVerifier(null);
-    };
-  }, [ui]);
-
-  const handlePhoneSubmit = async (number: string) => {
-    setFormError(null);
-    try {
-      if (!recaptchaVerifier) {
-        throw new Error("ReCAPTCHA not initialized");
-      }
-
-      const result = await signInWithPhoneNumber(ui, number, recaptchaVerifier);
-      setPhoneNumber(number);
-      setConfirmationResult(result);
-      startTimer();
-    } catch (error) {
-      if (error instanceof FirebaseUIError) {
-        setFormError(error.message);
-        return;
-      }
-      console.error(error);
-      setFormError(getTranslation(ui, "errors", "unknownError"));
-    }
-  };
-
-  const handleResend = async () => {
-    if (isResending || !canResend || !phoneNumber || !recaptchaContainerRef.current) {
-      return;
-    }
-
-    setIsResending(true);
-    setFormError(null);
-
-    try {
-      if (recaptchaVerifier) {
-        recaptchaVerifier.clear();
-      }
-
-      const verifier = new RecaptchaVerifier(ui.auth, recaptchaContainerRef.current, {
-        // size: ui.recaptchaMode ?? "normal", // TODO(ehesp): Get this from the useRecaptchaVerifier hook once implemented
-        size: "normal",
-      });
-      setRecaptchaVerifier(verifier);
-
-      const result = await signInWithPhoneNumber(ui, phoneNumber, verifier);
-      setConfirmationResult(result);
-      startTimer();
-    } catch (error) {
-      if (error instanceof FirebaseUIError) {
-        setFormError(error.message);
-      } else {
-        console.error(error);
-        setFormError(getTranslation(ui, "errors", "unknownError"));
-      }
-    } finally {
-      setIsResending(false);
-    }
-  };
-
-  const handleVerificationSubmit = async (code: string) => {
-    if (!confirmationResult) {
-      throw new Error("Confirmation result not initialized");
-    }
-
-    setFormError(null);
-
-    try {
-      await confirmPhoneNumber(ui, confirmationResult, code);
-    } catch (error) {
-      if (error instanceof FirebaseUIError) {
-        setFormError(error.message);
-        return;
-      }
-      console.error(error);
-      setFormError(getTranslation(ui, "errors", "unknownError"));
-    }
-  };
+  if (!verificationId) {
+    return <PhoneNumberForm onSubmit={setVerificationId} />;
+  }
 
   return (
-    <div className="fui-form-container">
-      {confirmationResult ? (
-        <VerificationForm
-          onSubmit={handleVerificationSubmit}
-          onResend={handleResend}
-          formError={formError}
-          isResending={isResending}
-          canResend={canResend}
-          timeLeft={timeLeft}
-          recaptchaContainerRef={recaptchaContainerRef}
-        />
-      ) : (
-        <PhoneNumberForm
-          onSubmit={handlePhoneSubmit}
-          formError={formError}
-          recaptchaVerifier={recaptchaVerifier}
-          recaptchaContainerRef={recaptchaContainerRef}
-        />
-      )}
-    </div>
+    <VerifyPhoneNumberForm
+      verificationId={verificationId}
+      onSuccess={(credential) => {
+        props.onSignIn?.(credential);
+      }}
+    />
   );
 }

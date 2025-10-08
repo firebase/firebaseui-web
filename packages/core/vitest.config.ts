@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-import { defineConfig } from "vitest/config";
-import tsconfigPaths from 'vite-tsconfig-paths'
+import { mergeConfig } from "vitest/config";
+import viteConfig from "./vite.config";
 
-export default defineConfig({
+export default mergeConfig(viteConfig, {
   test: {
-    name: '@firebase-ui/core',
+    name: "@firebase-ui/core",
     environment: "jsdom",
     exclude: ["node_modules/**/*", "dist/**/*"],
   },
-  plugins: [tsconfigPaths()],
 });

@@ -15,9 +15,9 @@
  */
 
 import * as z from "zod";
-import { RecaptchaVerifier } from "firebase/auth";
 import { getTranslation } from "./translations";
 import { FirebaseUIConfiguration } from "./config";
+import { hasBehavior } from "./behaviors";
 
 export const LoginTypes = ["email", "phone", "anonymous", "emailLink", "google"] as const;
 export type LoginType = (typeof LoginTypes)[number];
@@ -31,9 +31,15 @@ export function createSignInAuthFormSchema(ui: FirebaseUIConfiguration) {
 }
 
 export function createSignUpAuthFormSchema(ui: FirebaseUIConfiguration) {
+  const requireDisplayName = hasBehavior(ui, "requireDisplayName");
+  const displayNameRequiredMessage = getTranslation(ui, "errors", "displayNameRequired");
+
   return z.object({
     email: z.email(getTranslation(ui, "errors", "invalidEmail")),
     password: z.string().min(6, getTranslation(ui, "errors", "weakPassword")),
+    displayName: requireDisplayName
+      ? z.string().min(1, displayNameRequiredMessage)
+      : z.string().min(1, displayNameRequiredMessage).optional(),
   });
 }
 
@@ -49,16 +55,21 @@ export function createEmailLinkAuthFormSchema(ui: FirebaseUIConfiguration) {
   });
 }
 
-export function createPhoneAuthFormSchema(ui: FirebaseUIConfiguration) {
+export function createPhoneAuthNumberFormSchema(ui: FirebaseUIConfiguration) {
   return z.object({
     phoneNumber: z
       .string()
       .min(1, getTranslation(ui, "errors", "missingPhoneNumber"))
       .max(10, getTranslation(ui, "errors", "invalidPhoneNumber")),
+  });
+}
+
+export function createPhoneAuthVerifyFormSchema(ui: FirebaseUIConfiguration) {
+  return z.object({
+    verificationId: z.string().min(1, getTranslation(ui, "errors", "missingVerificationId")),
     verificationCode: z.string().refine((val) => !val || val.length >= 6, {
       error: getTranslation(ui, "errors", "invalidVerificationCode"),
     }),
-    recaptchaVerifier: z.instanceof(RecaptchaVerifier),
   });
 }
 
@@ -66,4 +77,5 @@ export type SignInAuthFormSchema = z.infer<ReturnType<typeof createSignInAuthFor
 export type SignUpAuthFormSchema = z.infer<ReturnType<typeof createSignUpAuthFormSchema>>;
 export type ForgotPasswordAuthFormSchema = z.infer<ReturnType<typeof createForgotPasswordAuthFormSchema>>;
 export type EmailLinkAuthFormSchema = z.infer<ReturnType<typeof createEmailLinkAuthFormSchema>>;
-export type PhoneAuthFormSchema = z.infer<ReturnType<typeof createPhoneAuthFormSchema>>;
+export type PhoneAuthNumberFormSchema = z.infer<ReturnType<typeof createPhoneAuthNumberFormSchema>>;
+export type PhoneAuthVerifyFormSchema = z.infer<ReturnType<typeof createPhoneAuthVerifyFormSchema>>;

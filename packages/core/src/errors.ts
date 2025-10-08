@@ -16,23 +16,20 @@
 
 import { ERROR_CODE_MAP, ErrorCode } from "@firebase-ui/translations";
 import { FirebaseError } from "firebase/app";
-import { AuthCredential } from "firebase/auth";
+import { AuthCredential, getMultiFactorResolver, MultiFactorError } from "firebase/auth";
 import { FirebaseUIConfiguration } from "./config";
 import { getTranslation } from "./translations";
 export class FirebaseUIError extends FirebaseError {
   constructor(ui: FirebaseUIConfiguration, error: FirebaseError) {
     const message = getTranslation(ui, "errors", ERROR_CODE_MAP[error.code as ErrorCode]);
-    super(error.code, message);
+    super(error.code, message || error.message);
 
     // Ensures that `instanceof FirebaseUIError` works, alongside `instanceof FirebaseError`
     Object.setPrototypeOf(this, FirebaseUIError.prototype);
   }
 }
 
-export function handleFirebaseError(
-  ui: FirebaseUIConfiguration,
-  error: unknown,
-): never {
+export function handleFirebaseError(ui: FirebaseUIConfiguration, error: unknown): never {
   // If it's not a Firebase error, then we just throw it and preserve the original error.
   if (!isFirebaseError(error)) {
     throw error;
@@ -42,6 +39,12 @@ export function handleFirebaseError(
   // TODO(ehesp): Support via behavior
   if (error.code === "auth/account-exists-with-different-credential" && errorContainsCredential(error)) {
     window.sessionStorage.setItem("pendingCred", JSON.stringify(error.credential.toJSON()));
+  }
+
+  // Update the UI with the multi-factor resolver if the error is thrown.
+  if (error.code === "auth/multi-factor-auth-required") {
+    const resolver = getMultiFactorResolver(ui.auth, error as MultiFactorError);
+    ui.setMultiFactorResolver(resolver);
   }
 
   throw new FirebaseUIError(ui, error);
@@ -55,5 +58,5 @@ function isFirebaseError(error: unknown): error is FirebaseError {
 
 // Utility to obtain whether something is a FirebaseError that contains a credential - doesn't seemed to be typed?
 function errorContainsCredential(error: FirebaseError): error is FirebaseError & { credential: AuthCredential } {
-  return 'credential' in error;
+  return "credential" in error;
 }

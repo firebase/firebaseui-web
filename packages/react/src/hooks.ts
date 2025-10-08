@@ -14,7 +14,17 @@
  * limitations under the License.
  */
 
-import { useContext } from "react";
+import { useContext, useMemo, useEffect } from "react";
+import {
+  createEmailLinkAuthFormSchema,
+  createForgotPasswordAuthFormSchema,
+  createPhoneAuthNumberFormSchema,
+  createPhoneAuthVerifyFormSchema,
+  createSignInAuthFormSchema,
+  createSignUpAuthFormSchema,
+  getBehavior,
+  hasBehavior,
+} from "@firebase-ui/core";
 import { FirebaseUIContext } from "./context";
 
 /**
@@ -24,8 +34,58 @@ export function useUI() {
   const ui = useContext(FirebaseUIContext);
 
   if (!ui) {
-    throw new Error("No FirebaseUI context found. Your application must be wrapped in a <FirebaseUIProvider> component.");
+    throw new Error(
+      "No FirebaseUI context found. Your application must be wrapped in a <FirebaseUIProvider> component."
+    );
   }
 
   return ui;
+}
+
+export function useSignInAuthFormSchema() {
+  const ui = useUI();
+  return useMemo(() => createSignInAuthFormSchema(ui), [ui]);
+}
+
+export function useSignUpAuthFormSchema() {
+  const ui = useUI();
+  return useMemo(() => createSignUpAuthFormSchema(ui), [ui]);
+}
+
+export function useForgotPasswordAuthFormSchema() {
+  const ui = useUI();
+  return useMemo(() => createForgotPasswordAuthFormSchema(ui), [ui]);
+}
+
+export function useEmailLinkAuthFormSchema() {
+  const ui = useUI();
+  return useMemo(() => createEmailLinkAuthFormSchema(ui), [ui]);
+}
+
+export function usePhoneAuthNumberFormSchema() {
+  const ui = useUI();
+  return useMemo(() => createPhoneAuthNumberFormSchema(ui), [ui]);
+}
+
+export function usePhoneAuthVerifyFormSchema() {
+  const ui = useUI();
+  return useMemo(() => createPhoneAuthVerifyFormSchema(ui), [ui]);
+}
+
+export function useRecaptchaVerifier(ref: React.RefObject<HTMLDivElement | null>) {
+  const ui = useUI();
+
+  const verifier = useMemo(() => {
+    return ref.current && hasBehavior(ui, "recaptchaVerification")
+      ? getBehavior(ui, "recaptchaVerification")(ui, ref.current)
+      : null;
+  }, [ref, ui]);
+
+  useEffect(() => {
+    if (verifier) {
+      verifier.render();
+    }
+  }, [verifier]);
+
+  return verifier;
 }
