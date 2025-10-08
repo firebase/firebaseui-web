@@ -275,6 +275,40 @@
           }
         }
       }
+    },
+    {
+      "name": "microsoft-sign-in-button",
+      "type": "registry:block",
+      "title": "Microsoft Sign In Button",
+      "description": "A button component for Microsoft OAuth authentication.",
+      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "registryDependencies": ["{{ DOMAIN }}/oauth-button.json"],
+      "files": [
+        {
+          "path": "src/registry/microsoft-sign-in-button.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "css": {
+        "@layer components": {
+          "button[data-provider='microsoft.com'][data-themed='true']": {
+            "--microsoft-primary": "#2F2F2F",
+            "--color-primary": "var(--microsoft-primary)",
+            "--color-primary-hover": "--alpha(var(--microsoft-primary) / 85%)",
+            "--color-primary-surface": "#FFFFFF",
+            "--color-border": "var(--microsoft-primary)"
+          }
+        },
+        "@variant dark": {
+          "button[data-provider='microsoft.com'][data-themed='true']": {
+            "--microsoft-primary": "var(--color-white)",
+            "--color-primary": "var(--microsoft-primary)",
+            "--color-primary-hover": "--alpha(var(--microsoft-primary) / 85%)",
+            "--color-primary-surface": "#5E5E5E",
+            "--color-border": "var(--color-white)"
+          }
+        }
+      }
     }
   ]
 }

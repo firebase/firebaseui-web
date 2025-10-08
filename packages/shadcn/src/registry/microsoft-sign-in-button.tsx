@@ -1,0 +1,20 @@
+"use client";
+
+import { OAuthProvider } from "firebase/auth";
+import { getTranslation } from "@firebase-ui/core";
+import { useUI, MicrosoftSignInButtonProps, MicrosoftLogo } from "@firebase-ui/react";
+
+import { OAuthButton } from "@/registry/oauth-button";
+
+export type { MicrosoftSignInButtonProps };
+
+export function MicrosoftSignInButton({ provider, themed }: MicrosoftSignInButtonProps) {
+  const ui = useUI();
+
+  return (
+    <OAuthButton provider={provider || new OAuthProvider("microsoft.com")} themed={themed}>
+      <MicrosoftLogo />
+      <span>{getTranslation(ui, "labels", "signInWithMicrosoft")}</span>
+    </OAuthButton>
+  );
+}
