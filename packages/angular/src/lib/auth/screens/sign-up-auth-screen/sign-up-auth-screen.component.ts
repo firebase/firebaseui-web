@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-import { Component, ElementRef, output, computed, viewChild } from "@angular/core";
+import { Component, output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { UserCredential } from "@angular/fire/auth";
 
 import { injectTranslation } from "../../../provider";
 import { SignUpAuthFormComponent } from "../../forms/sign-up-auth-form/sign-up-auth-form.component";
-import { DividerComponent } from "../../../components/divider/divider.component";
 import {
   CardComponent,
   CardHeaderComponent,
@@ -40,7 +39,6 @@ import {
     CardSubtitleComponent,
     CardContentComponent,
     SignUpAuthFormComponent,
-    DividerComponent,
   ],
   template: `
     <div class="fui-screen">
@@ -50,14 +48,8 @@ import {
           <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
         </fui-card-header>
         <fui-card-content>
-          <fui-sign-up-auth-form (signIn)="signIn.emit()" (signUp)="signUp.emit($event)"></fui-sign-up-auth-form>
-
-          @if (hasChildren()) {
-            <fui-divider>{{ dividerOrLabel() }}</fui-divider>
-          }
-          <div #contentContainer>
-            <ng-content></ng-content>
-          </div>
+          <fui-sign-up-auth-form (signIn)="signIn.emit()" (signUp)="signUp.emit($event)" />
+          <ng-content />
         </fui-card-content>
       </fui-card>
     </div>
@@ -66,11 +58,7 @@ import {
 export class SignUpAuthScreenComponent {
   titleText = injectTranslation("labels", "register");
   subtitleText = injectTranslation("prompts", "enterDetailsToCreate");
-  dividerOrLabel = injectTranslation("messages", "dividerOr");
 
   signUp = output<UserCredential>();
   signIn = output<void>();
-
-  contentContainer = viewChild.required<ElementRef>("contentContainer");
-  hasChildren = computed(() => this.contentContainer().nativeElement.children.length > 0);
 }
