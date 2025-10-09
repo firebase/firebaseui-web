@@ -1,5 +1,5 @@
-import { Component, computed, input, effect, HostBinding } from "@angular/core";
-import { AnyFieldApi, AnyFormApi, AnyFormState, FormApi, FormState, injectField, injectForm, injectStore } from "@tanstack/angular-form";
+import { Component, computed, input } from "@angular/core";
+import { AnyFieldApi, AnyFormState, injectField } from "@tanstack/angular-form";
 import { ButtonComponent } from "../button/button.component";
 
 @Component({
