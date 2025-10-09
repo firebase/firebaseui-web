@@ -25,6 +25,7 @@ import {
 } from "../../../components/card/card.component";
 import { injectTranslation } from "../../../provider";
 import { PoliciesComponent } from "../../../components/policies/policies.component";
+import { ContentComponent } from "../../../components/content/content.component";
 
 @Component({
   selector: "fui-oauth-screen",
@@ -37,6 +38,7 @@ import { PoliciesComponent } from "../../../components/policies/policies.compone
     CardSubtitleComponent,
     CardContentComponent,
     PoliciesComponent,
+    ContentComponent,
   ],
   template: `
     <div class="fui-screen">
@@ -46,7 +48,9 @@ import { PoliciesComponent } from "../../../components/policies/policies.compone
           <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
         </fui-card-header>
         <fui-card-content>
-          <ng-content></ng-content>
+          <fui-content>
+            <ng-content></ng-content>
+          </fui-content>
           <fui-policies />
         </fui-card-content>
       </fui-card>

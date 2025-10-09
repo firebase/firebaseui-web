@@ -14,170 +14,193 @@
  * limitations under the License.
  */
 
-import { CommonModule } from "@angular/common";
+import { render, screen } from "@testing-library/angular";
 import { Component } from "@angular/core";
-import { TestBed } from "@angular/core/testing";
-import { By } from "@angular/platform-browser";
-import { of } from "rxjs";
-import { FirebaseUI } from "../../../provider";
+
 import { OAuthScreenComponent } from "./oauth-screen.component";
-import { CardComponent } from "../../../components/card/card.component";
+import {
+  CardComponent,
+  CardHeaderComponent,
+  CardTitleComponent,
+  CardSubtitleComponent,
+  CardContentComponent,
+} from "../../../components/card/card.component";
+import { ContentComponent } from "../../../components/content/content.component";
 
-// Mock Card components
-@Component({
-  selector: "fui-card-oauth",
-  template: '<div class="fui-card"><ng-content></ng-content></div>',
-  standalone: true,
-})
-class MockCardComponent {}
-
-@Component({
-  selector: "fui-card-header",
-  template: '<div class="fui-card-header"><ng-content></ng-content></div>',
-  standalone: true,
-})
-class MockCardHeaderComponent {}
+jest.mock("../../../provider", () => ({
+  injectTranslation: jest.fn(),
+}));
 
 @Component({
-  selector: "fui-card-title",
-  template: '<h2 class="fui-card-title"><ng-content></ng-content></h2>',
+  selector: "fui-policies",
+  template: '<div data-testid="policies">Policies</div>',
   standalone: true,
 })
-class MockCardTitleComponent {}
+class MockPoliciesComponent {}
 
-@Component({
-  selector: "fui-card-subtitle",
-  template: '<p class="fui-card-subtitle"><ng-content></ng-content></p>',
-  standalone: true,
-})
-class MockCardSubtitleComponent {}
-
-// Mock TermsAndPrivacy component
-@Component({
-  selector: "fui-terms-and-privacy",
-  template: '<div data-testid="terms-and-privacy">Terms and Privacy</div>',
-  standalone: true,
-})
-class MockTermsAndPrivacyComponent {}
-
-// Create mock for FirebaseUi provider
-class MockFirebaseUi {
-  translation(category: string, key: string) {
-    if (category === "labels" && key === "signIn") {
-      return of("Sign In");
-    }
-    if (category === "prompts" && key === "signInToAccount") {
-      return of("Sign in to your account");
-    }
-    return of(`${category}.${key}`);
-  }
-}
-
-// Test component with content projection
 @Component({
   template: `
     <fui-oauth-screen>
-      <div class="test-provider">OAuth Provider</div>
+      <div data-testid="oauth-provider">OAuth Provider</div>
     </fui-oauth-screen>
   `,
   standalone: true,
   imports: [OAuthScreenComponent],
 })
-class TestHostWithSingleChildComponent {}
+class TestHostWithContentComponent {}
 
-// Test component with multiple providers
 @Component({
   template: `
     <fui-oauth-screen>
-      <div class="test-provider-1">Provider 1</div>
-      <div class="test-provider-2">Provider 2</div>
+      <div data-testid="provider-1">Provider 1</div>
+      <div data-testid="provider-2">Provider 2</div>
     </fui-oauth-screen>
   `,
   standalone: true,
   imports: [OAuthScreenComponent],
 })
-class TestHostWithMultipleChildrenComponent {}
+class TestHostWithMultipleProvidersComponent {}
 
-describe("OAuthScreenComponent", () => {
-  let mockFirebaseUi: MockFirebaseUi;
+@Component({
+  template: `<fui-oauth-screen></fui-oauth-screen>`,
+  standalone: true,
+  imports: [OAuthScreenComponent],
+})
+class TestHostWithoutContentComponent {}
 
-  beforeEach(async () => {
-    mockFirebaseUi = new MockFirebaseUi();
-
-    await TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        OAuthScreenComponent,
-        TestHostWithSingleChildComponent,
-        TestHostWithMultipleChildrenComponent,
-        CardComponent,
-        MockCardHeaderComponent,
-        MockCardTitleComponent,
-        MockCardSubtitleComponent,
-        MockTermsAndPrivacyComponent,
-      ],
-      providers: [{ provide: FirebaseUI, useValue: mockFirebaseUi }],
-    }).compileComponents();
-
-    TestBed.overrideComponent(OAuthScreenComponent, {
-      set: {
-        imports: [
-          CommonModule,
-          MockCardComponent,
-          MockCardHeaderComponent,
-          MockCardTitleComponent,
-          MockCardSubtitleComponent,
-          MockTermsAndPrivacyComponent,
-        ],
-      },
+describe("<fui-oauth-screen>", () => {
+  beforeEach(() => {
+    const { injectTranslation } = require("../../../provider");
+    injectTranslation.mockImplementation((category: string, key: string) => {
+      const mockTranslations: Record<string, Record<string, string>> = {
+        labels: {
+          signIn: "Sign In",
+        },
+        prompts: {
+          signInToAccount: "Sign in to your account",
+        },
+      };
+      return () => mockTranslations[category]?.[key] || `${category}.${key}`;
     });
   });
 
-  it("should create", () => {
-    const fixture = TestBed.createComponent(OAuthScreenComponent);
-    const component = fixture.componentInstance;
-    expect(component).toBeTruthy();
+  it("renders with correct title and subtitle", async () => {
+    await render(TestHostWithoutContentComponent, {
+      imports: [
+        OAuthScreenComponent,
+        MockPoliciesComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+        ContentComponent,
+      ],
+    });
+
+    expect(screen.getByText("Sign In")).toBeInTheDocument();
+    expect(screen.getByText("Sign in to your account")).toBeInTheDocument();
   });
 
-  it("renders with correct title and subtitle", () => {
-    const fixture = TestBed.createComponent(OAuthScreenComponent);
-    fixture.detectChanges();
+  it("includes the Policies component", async () => {
+    await render(TestHostWithoutContentComponent, {
+      imports: [
+        OAuthScreenComponent,
+        MockPoliciesComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+        ContentComponent,
+      ],
+    });
 
-    const titleEl = fixture.debugElement.query(By.css(".fui-card-title"));
-    const subtitleEl = fixture.debugElement.query(By.css(".fui-card-subtitle"));
-
-    expect(titleEl.nativeElement.textContent).toBe("Sign In");
-    expect(subtitleEl.nativeElement.textContent).toBe("Sign in to your account");
+    const policies = screen.getByTestId("policies");
+    expect(policies).toBeInTheDocument();
+    expect(policies).toHaveTextContent("Policies");
   });
 
-  it("renders children when provided", () => {
-    const fixture = TestBed.createComponent(TestHostWithSingleChildComponent);
-    fixture.detectChanges();
+  it("renders projected content wrapped in fui-content", async () => {
+    await render(TestHostWithContentComponent, {
+      imports: [
+        OAuthScreenComponent,
+        MockPoliciesComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+        ContentComponent,
+      ],
+    });
 
-    const providerEl = fixture.debugElement.query(By.css(".test-provider"));
-    expect(providerEl).toBeTruthy();
-    expect(providerEl.nativeElement.textContent).toBe("OAuth Provider");
+    const provider = screen.getByTestId("oauth-provider");
+    expect(provider).toBeInTheDocument();
+    expect(provider).toHaveTextContent("OAuth Provider");
   });
 
-  it("renders multiple children when provided", () => {
-    const fixture = TestBed.createComponent(TestHostWithMultipleChildrenComponent);
-    fixture.detectChanges();
+  it("renders multiple providers wrapped in fui-content", async () => {
+    await render(TestHostWithMultipleProvidersComponent, {
+      imports: [
+        OAuthScreenComponent,
+        MockPoliciesComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+        ContentComponent,
+      ],
+    });
 
-    const provider1El = fixture.debugElement.query(By.css(".test-provider-1"));
-    const provider2El = fixture.debugElement.query(By.css(".test-provider-2"));
+    const provider1 = screen.getByTestId("provider-1");
+    const provider2 = screen.getByTestId("provider-2");
 
-    expect(provider1El).toBeTruthy();
-    expect(provider1El.nativeElement.textContent).toBe("Provider 1");
-
-    expect(provider2El).toBeTruthy();
-    expect(provider2El.nativeElement.textContent).toBe("Provider 2");
+    expect(provider1).toBeInTheDocument();
+    expect(provider1).toHaveTextContent("Provider 1");
+    expect(provider2).toBeInTheDocument();
+    expect(provider2).toHaveTextContent("Provider 2");
   });
 
-  it("includes the TermsAndPrivacy component", () => {
-    const fixture = TestBed.createComponent(OAuthScreenComponent);
-    fixture.detectChanges();
+  it("has correct CSS classes", async () => {
+    const { container } = await render(TestHostWithoutContentComponent, {
+      imports: [
+        OAuthScreenComponent,
+        MockPoliciesComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+        ContentComponent,
+      ],
+    });
 
-    const termsEl = fixture.debugElement.query(By.css('[data-testid="terms-and-privacy"]'));
-    expect(termsEl).toBeTruthy();
+    expect(container.querySelector(".fui-screen")).toBeInTheDocument();
+    expect(container.querySelector(".fui-card")).toBeInTheDocument();
+    expect(container.querySelector(".fui-card__header")).toBeInTheDocument();
+    expect(container.querySelector(".fui-card__title")).toBeInTheDocument();
+    expect(container.querySelector(".fui-card__subtitle")).toBeInTheDocument();
+    expect(container.querySelector(".fui-card__content")).toBeInTheDocument();
+  });
+
+  it("calls injectTranslation with correct parameters", async () => {
+    const { injectTranslation } = require("../../../provider");
+    await render(TestHostWithoutContentComponent, {
+      imports: [
+        OAuthScreenComponent,
+        MockPoliciesComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+        ContentComponent,
+      ],
+    });
+
+    expect(injectTranslation).toHaveBeenCalledWith("labels", "signIn");
+    expect(injectTranslation).toHaveBeenCalledWith("prompts", "signInToAccount");
   });
 });
