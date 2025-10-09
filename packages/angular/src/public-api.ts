@@ -25,6 +25,7 @@ export { FacebookSignInButtonComponent } from "./lib/auth/oauth/facebook-sign-in
 export { AppleSignInButtonComponent } from "./lib/auth/oauth/apple-sign-in-button.component";
 export { MicrosoftSignInButtonComponent } from "./lib/auth/oauth/microsoft-sign-in-button.component";
 export { TwitterSignInButtonComponent } from "./lib/auth/oauth/twitter-sign-in-button.component";
+export { GithubSignInButtonComponent } from "./lib/auth/oauth/github-sign-in-button.component";
 export { OAuthButtonComponent } from "./lib/auth/oauth/oauth-button.component";
 
 export { EmailLinkAuthScreenComponent } from "./lib/auth/screens/email-link-auth-screen/email-link-auth-screen.component";
