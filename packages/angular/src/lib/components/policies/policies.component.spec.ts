@@ -14,174 +14,249 @@
  * limitations under the License.
  */
 
-import { TestBed } from "@angular/core/testing";
-import { By } from "@angular/platform-browser";
+import { render, screen } from "@testing-library/angular";
+import { Component } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 
 import { PoliciesComponent } from "./policies.component";
-import { getFirebaseUITestProviders } from "../../testing/test-helpers";
 
-class MockFirebaseUI {
-  private _termsText = new BehaviorSubject<string>("Terms of Service");
-  private _privacyText = new BehaviorSubject<string>("Privacy Policy");
-  private _templateText = new BehaviorSubject<string>("By continuing, you agree to our {tos} and {privacy}");
+jest.mock("../../provider", () => ({
+  injectUI: jest.fn(),
+  injectPolicies: jest.fn(),
+  injectTranslation: jest.fn(),
+}));
 
-  translation(section: string, key: string) {
-    if (section === "labels" && key === "termsOfService") {
-      return this._termsText.asObservable();
-    }
-    if (section === "labels" && key === "privacyPolicy") {
-      return this._privacyText.asObservable();
-    }
-    if (section === "messages" && key === "termsAndPrivacy") {
-      return this._templateText.asObservable();
-    }
-    return new BehaviorSubject<string>(`${section}.${key}`).asObservable();
-  }
-
-  setTranslation(section: string, key: string, value: string) {
-    if (section === "labels" && key === "termsOfService") {
-      this._termsText.next(value);
-    } else if (section === "labels" && key === "privacyPolicy") {
-      this._privacyText.next(value);
-    } else if (section === "messages" && key === "termsAndPrivacy") {
-      this._templateText.next(value);
-    }
-  }
-}
-
-function configureComponentTest({
-  tosUrl,
-  privacyPolicyUrl,
-}: {
-  tosUrl?: string | null;
-  privacyPolicyUrl?: string | null;
-}) {
-  const mockFirebaseUI = new MockFirebaseUI();
-
-  TestBed.configureTestingModule({
-    imports: [PoliciesComponent],
-    providers: [
-      ...getFirebaseUITestProviders(),
-      {
-        provide: 'FIREBASE_UI_STORE',
-        useValue: mockFirebaseUI,
+@Component({
+  template: `<fui-policies></fui-policies>`,
+  standalone: true,
+  imports: [PoliciesComponent],
+  providers: [
+    {
+      provide: "FIREBASE_UI_STORE",
+      useValue: {
+        get: () => ({}),
+        subscribe: (callback: any) => callback({}),
       },
-      {
-        provide: 'FIREBASE_UI_POLICIES',
-        useValue: {
-          termsOfServiceUrl: tosUrl,
-          privacyPolicyUrl: privacyPolicyUrl,
-        },
+    },
+    {
+      provide: "FIREBASE_UI_POLICIES",
+      useValue: {
+        termsOfServiceUrl: "https://example.com/terms",
+        privacyPolicyUrl: "https://example.com/privacy",
       },
-    ],
-  }).compileComponents();
+    },
+  ],
+})
+class TestPoliciesWithBothUrlsHostComponent {}
 
-  const fixture = TestBed.createComponent(PoliciesComponent);
-  const component = fixture.componentInstance;
+@Component({
+  template: `<fui-policies></fui-policies>`,
+  standalone: true,
+  imports: [PoliciesComponent],
+  providers: [
+    {
+      provide: "FIREBASE_UI_STORE",
+      useValue: {
+        get: () => ({}),
+        subscribe: (callback: any) => callback({}),
+      },
+    },
+    {
+      provide: "FIREBASE_UI_POLICIES",
+      useValue: null,
+    },
+  ],
+})
+class TestPoliciesWithNoUrlsHostComponent {}
 
-  return { fixture, component, mockFirebaseUI };
-}
+@Component({
+  template: `<fui-policies></fui-policies>`,
+  standalone: true,
+  imports: [PoliciesComponent],
+  providers: [
+    {
+      provide: "FIREBASE_UI_STORE",
+      useValue: {
+        get: () => ({}),
+        subscribe: (callback: any) => callback({}),
+      },
+    },
+    {
+      provide: "FIREBASE_UI_POLICIES",
+      useValue: {
+        termsOfServiceUrl: "https://example.com/terms",
+        privacyPolicyUrl: null,
+      },
+    },
+  ],
+})
+class TestPoliciesWithTosOnlyHostComponent {}
 
-describe("PoliciesComponent", () => {
-  it("renders component with terms and privacy links", fakeAsync(() => {
-    const { fixture } = configureComponentTest({
-      tosUrl: "https://example.com/terms",
+@Component({
+  template: `<fui-policies></fui-policies>`,
+  standalone: true,
+  imports: [PoliciesComponent],
+  providers: [
+    {
+      provide: "FIREBASE_UI_STORE",
+      useValue: {
+        get: () => ({}),
+        subscribe: (callback: any) => callback({}),
+      },
+    },
+    {
+      provide: "FIREBASE_UI_POLICIES",
+      useValue: {
+        termsOfServiceUrl: null,
+        privacyPolicyUrl: "https://example.com/privacy",
+      },
+    },
+  ],
+})
+class TestPoliciesWithPrivacyOnlyHostComponent {}
+
+@Component({
+  template: `<fui-policies></fui-policies>`,
+  standalone: true,
+  imports: [PoliciesComponent],
+  providers: [
+    {
+      provide: "FIREBASE_UI_STORE",
+      useValue: {
+        get: () => ({}),
+        subscribe: (callback: any) => callback({}),
+      },
+    },
+    {
+      provide: "FIREBASE_UI_POLICIES",
+      useValue: {
+        termsOfServiceUrl: "https://example.com/terms",
+        privacyPolicyUrl: "https://example.com/privacy",
+      },
+    },
+  ],
+})
+class TestPoliciesWithCustomTemplateHostComponent {}
+
+describe("<fui-policies>", () => {
+  beforeEach(() => {
+    const { injectUI, injectPolicies, injectTranslation } = require("../../provider");
+
+    injectUI.mockReturnValue(() => ({}));
+    injectPolicies.mockReturnValue({
+      termsOfServiceUrl: "https://example.com/terms",
       privacyPolicyUrl: "https://example.com/privacy",
     });
+    injectTranslation.mockImplementation((category: string, key: string) => {
+      const mockTranslations: Record<string, Record<string, string>> = {
+        labels: {
+          termsOfService: "Terms of Service",
+          privacyPolicy: "Privacy Policy",
+        },
+        messages: {
+          termsAndPrivacy: "By continuing, you agree to our {tos} and {privacy}",
+        },
+      };
+      return () => mockTranslations[category]?.[key] || `${category}.${key}`;
+    });
+  });
 
-    // Wait for any async operations to complete
-    await new Promise((resolve) => setTimeout(resolve, 0));
-    fixture.detectChanges();
+  it("renders component with terms and privacy links", async () => {
+    const { container } = await render(TestPoliciesWithBothUrlsHostComponent);
 
-    const container = fixture.debugElement.query(By.css(".text-text-muted"));
-    expect(container).toBeTruthy();
+    const policiesContainer = container.querySelector(".fui-policies");
+    expect(policiesContainer).toBeTruthy();
 
-    const textContent = container.nativeElement.textContent;
-    expect(textContent).toContain("By continuing, you agree to our");
-
-    const tosLink = fixture.debugElement
-      .queryAll(By.css("a"))
-      .find((el) => el.nativeElement.textContent.includes("Terms of Service"));
+    const tosLink = container.querySelector('a[href="https://example.com/terms"]');
     expect(tosLink).toBeTruthy();
-    expect(tosLink!.nativeElement.getAttribute("target")).toBe("_blank");
-    expect(tosLink!.nativeElement.getAttribute("rel")).toBe("noopener noreferrer");
+    expect(tosLink?.tagName).toBe("A");
+    expect(tosLink).toHaveAttribute("target", "_blank");
+    expect(tosLink).toHaveAttribute("rel", "noopener noreferrer");
+    expect(tosLink).toHaveTextContent("Terms of Service");
 
-    const privacyLink = fixture.debugElement.query(By.css('a[href="https://example.com/privacy"]'));
+    const privacyLink = container.querySelector('a[href="https://example.com/privacy"]');
     expect(privacyLink).toBeTruthy();
-    expect(privacyLink.nativeElement.textContent.trim()).toBe("Privacy Policy");
+    expect(privacyLink?.tagName).toBe("A");
+    expect(privacyLink).toHaveAttribute("target", "_blank");
+    expect(privacyLink).toHaveAttribute("rel", "noopener noreferrer");
+    expect(privacyLink).toHaveTextContent("Privacy Policy");
+
+    // Check that the template text is rendered
+    const textContent = policiesContainer?.textContent;
+    expect(textContent).toContain("By continuing, you agree to our");
   });
 
   it("does not render when both tosUrl and privacyPolicyUrl are not provided", async () => {
-    const { fixture } = configureComponentTest({
-      tosUrl: null,
-      privacyPolicyUrl: null,
-    });
+    const { injectPolicies } = require("../../provider");
+    injectPolicies.mockReturnValue(null);
 
-    // Wait for any async operations to complete
-    await new Promise((resolve) => setTimeout(resolve, 0));
-    fixture.detectChanges();
+    const { container } = await render(TestPoliciesWithNoUrlsHostComponent);
 
-    const container = fixture.debugElement.query(By.css(".text-text-muted"));
-    expect(container).toBeFalsy();
+    const policiesContainer = container.querySelector(".fui-policies");
+    expect(policiesContainer).toBeFalsy();
   });
 
   it("renders with tosUrl when privacyPolicyUrl is not provided", async () => {
-    const { fixture } = configureComponentTest({
-      tosUrl: "https://example.com/terms",
+    const { injectPolicies } = require("../../provider");
+    injectPolicies.mockReturnValue({
+      termsOfServiceUrl: "https://example.com/terms",
       privacyPolicyUrl: null,
     });
 
-    // Wait for any async operations to complete
-    await new Promise((resolve) => setTimeout(resolve, 0));
-    fixture.detectChanges();
+    const { container } = await render(TestPoliciesWithTosOnlyHostComponent);
 
-    const container = fixture.debugElement.query(By.css(".text-text-muted"));
-    expect(container).toBeTruthy();
+    const policiesContainer = container.querySelector(".fui-policies");
+    expect(policiesContainer).toBeTruthy();
 
-    const tosLink = fixture.debugElement.query(By.css('a[href="https://example.com/terms"]'));
+    const tosLink = container.querySelector('a[href="https://example.com/terms"]');
     expect(tosLink).toBeTruthy();
+    expect(tosLink).toHaveTextContent("Terms of Service");
 
-    const privacyLink = fixture.debugElement.query(By.css('a[href="https://example.com/privacy"]'));
+    const privacyLink = container.querySelector('a[href="https://example.com/privacy"]');
     expect(privacyLink).toBeFalsy();
   });
 
   it("renders with privacyPolicyUrl when tosUrl is not provided", async () => {
-    const { fixture } = configureComponentTest({
-      tosUrl: null,
+    const { injectPolicies } = require("../../provider");
+    injectPolicies.mockReturnValue({
+      termsOfServiceUrl: null,
       privacyPolicyUrl: "https://example.com/privacy",
     });
 
-    // Wait for any async operations to complete
-    await new Promise((resolve) => setTimeout(resolve, 0));
-    fixture.detectChanges();
+    const { container } = await render(TestPoliciesWithPrivacyOnlyHostComponent);
 
-    const container = fixture.debugElement.query(By.css(".text-text-muted"));
-    expect(container).toBeTruthy();
+    const policiesContainer = container.querySelector(".fui-policies");
+    expect(policiesContainer).toBeTruthy();
 
-    const tosLink = fixture.debugElement.query(By.css('a[href="https://example.com/terms"]'));
+    const tosLink = container.querySelector('a[href="https://example.com/terms"]');
     expect(tosLink).toBeFalsy();
 
-    const privacyLink = fixture.debugElement.query(By.css('a[href="https://example.com/privacy"]'));
+    const privacyLink = container.querySelector('a[href="https://example.com/privacy"]');
     expect(privacyLink).toBeTruthy();
+    expect(privacyLink).toHaveTextContent("Privacy Policy");
   });
 
   it("uses custom template text when provided", async () => {
-    const { fixture, mockFirebaseUI } = configureComponentTest({
-      tosUrl: "https://example.com/terms",
-      privacyPolicyUrl: "https://example.com/privacy",
+    const { injectTranslation } = require("../../provider");
+    injectTranslation.mockImplementation((category: string, key: string) => {
+      const mockTranslations: Record<string, Record<string, string>> = {
+        labels: {
+          termsOfService: "Terms of Service",
+          privacyPolicy: "Privacy Policy",
+        },
+        messages: {
+          termsAndPrivacy: "Custom template with {tos} and {privacy}",
+        },
+      };
+      return () => mockTranslations[category]?.[key] || `${category}.${key}`;
     });
 
-    mockFirebaseUI.setTranslation("messages", "termsAndPrivacy", "Custom template with {tos} and {privacy}");
+    const { container } = await render(TestPoliciesWithCustomTemplateHostComponent);
 
-    // Wait for any async operations to complete
-    await new Promise((resolve) => setTimeout(resolve, 0));
-    fixture.detectChanges();
+    const policiesContainer = container.querySelector(".fui-policies");
+    expect(policiesContainer).toBeTruthy();
 
-    const container = fixture.debugElement.query(By.css(".text-text-muted"));
-    expect(container).toBeTruthy();
-
-    const textContent = container.nativeElement.textContent;
+    const textContent = policiesContainer?.textContent;
     expect(textContent).toContain("Custom template with");
     expect(textContent).toContain("Terms of Service");
     expect(textContent).toContain("Privacy Policy");

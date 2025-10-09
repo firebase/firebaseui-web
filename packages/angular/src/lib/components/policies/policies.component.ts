@@ -16,7 +16,7 @@
 
 import { Component, computed, Signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { injectPolicies, injectTranslation, injectUI } from "../../provider";
+import { injectPolicies, injectTranslation } from "../../provider";
 
 type PolicyPart =
   | { type: "tos"; url: string; text: string }
@@ -29,24 +29,14 @@ type PolicyPart =
   imports: [CommonModule],
   template: `
     @if (shouldShow()) {
-      <div class="text-text-muted text-xs text-start my-6">
+      <div class="fui-policies">
         @for (part of policyParts(); track $index) {
           @if (part.type === "tos") {
-            <a
-              [attr.href]="part.url"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-text-muted hover:underline font-semibold cursor-pointer"
-            >
+            <a [attr.href]="part.url" target="_blank" rel="noopener noreferrer">
               {{ part.text }}
             </a>
           } @else if (part.type === "privacy") {
-            <a
-              [attr.href]="part.url"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-text-muted hover:underline font-semibold cursor-pointer"
-            >
+            <a [attr.href]="part.url" target="_blank" rel="noopener noreferrer">
               {{ part.text }}
             </a>
           } @else {
@@ -58,7 +48,6 @@ type PolicyPart =
   `,
 })
 export class PoliciesComponent {
-  private readonly ui = injectUI();
   private readonly policies = injectPolicies();
 
   private readonly termsText = injectTranslation("labels", "termsOfService");
