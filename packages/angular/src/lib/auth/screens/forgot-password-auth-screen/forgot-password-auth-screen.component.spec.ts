@@ -14,136 +14,120 @@
  * limitations under the License.
  */
 
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { Component, Input } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { By } from "@angular/platform-browser";
-import { of } from "rxjs";
-import { FirebaseUI } from "../../../provider";
-import { PasswordResetScreenComponent } from "./forgot-password-auth-screen.component";
+import { render, screen } from "@testing-library/angular";
+import { Component } from "@angular/core";
 
-// Mock Card components
-@Component({
-  selector: "fui-card-password-reset",
-  template: '<div class="fui-card"><ng-content></ng-content></div>',
-  standalone: true,
-})
-class MockCardComponent {}
+import { ForgotPasswordAuthScreenComponent } from "./forgot-password-auth-screen.component";
+import {
+  CardComponent,
+  CardHeaderComponent,
+  CardTitleComponent,
+  CardSubtitleComponent,
+  CardContentComponent,
+} from "../../../components/card/card.component";
 
-@Component({
-  selector: "fui-card-header",
-  template: '<div class="fui-card-header"><ng-content></ng-content></div>',
-  standalone: true,
-})
-class MockCardHeaderComponent {}
+jest.mock("../../../provider", () => ({
+  injectTranslation: jest.fn(),
+}));
 
 @Component({
-  selector: "fui-card-title",
-  template: '<h2 class="fui-card-title"><ng-content></ng-content></h2>',
-  standalone: true,
-})
-class MockCardTitleComponent {}
-
-@Component({
-  selector: "fui-card-subtitle",
-  template: '<p class="fui-card-subtitle"><ng-content></ng-content></p>',
-  standalone: true,
-})
-class MockCardSubtitleComponent {}
-
-// Mock ForgotPasswordForm component
-@Component({
-  selector: "fui-forgot-password-form",
+  selector: "fui-forgot-password-auth-form",
   template: `
-    <div data-testid="forgot-password-form">
-      Forgot Password Form
-      <p>Sign In Route: {{ signInRoute }}</p>
+    <div data-testid="forgot-password-auth-form">
+      Forgot Password Auth Form
     </div>
   `,
   standalone: true,
 })
-class MockForgotPasswordFormComponent {
-  @Input() signInRoute: string = "";
-}
+class MockForgotPasswordAuthFormComponent {}
 
-// Create mock for FirebaseUi provider
-class MockFirebaseUi {
-  translation(category: string, key: string) {
-    if (category === "labels" && key === "resetPassword") {
-      return of("Reset Password");
-    }
-    if (category === "prompts" && key === "enterEmailToReset") {
-      return of("Enter your email to reset your password");
-    }
-    return of(`${category}.${key}`);
-  }
-}
+describe("<fui-forgot-password-auth-screen>", () => {
+  beforeEach(() => {
+    const { injectTranslation } = require("../../../provider");
+    injectTranslation.mockImplementation((category: string, key: string) => {
+      const mockTranslations: Record<string, Record<string, string>> = {
+        labels: {
+          resetPassword: "Reset Password",
+        },
+        prompts: {
+          enterEmailToReset: "Enter your email to reset your password",
+        },
+      };
+      return () => mockTranslations[category]?.[key] || `${category}.${key}`;
+    });
+  });
 
-describe("PasswordResetScreenComponent", () => {
-  let component: PasswordResetScreenComponent;
-  let fixture: ComponentFixture<PasswordResetScreenComponent>;
-  let mockFirebaseUi: MockFirebaseUi;
-
-  beforeEach(async () => {
-    mockFirebaseUi = new MockFirebaseUi();
-
-    await TestBed.configureTestingModule({
+  it("renders with correct title and subtitle", async () => {
+    await render(ForgotPasswordAuthScreenComponent, {
       imports: [
-        CommonModule,
-        PasswordResetScreenComponent,
+        ForgotPasswordAuthScreenComponent,
+        MockForgotPasswordAuthFormComponent,
         CardComponent,
-        MockCardHeaderComponent,
-        MockCardTitleComponent,
-        MockCardSubtitleComponent,
-        MockForgotPasswordFormComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
       ],
-      providers: [{ provide: FirebaseUI, useValue: mockFirebaseUi }],
-    }).compileComponents();
-
-    TestBed.overrideComponent(PasswordResetScreenComponent, {
-      set: {
-        imports: [
-          CommonModule,
-          MockCardComponent,
-          MockCardHeaderComponent,
-          MockCardTitleComponent,
-          MockCardSubtitleComponent,
-          MockForgotPasswordFormComponent,
-        ],
-      },
     });
 
-    fixture = TestBed.createComponent(PasswordResetScreenComponent);
-    component = fixture.componentInstance;
+    expect(screen.getByText("Reset Password")).toBeInTheDocument();
+    expect(screen.getByText("Enter your email to reset your password")).toBeInTheDocument();
   });
 
-  it("should create", () => {
-    expect(component).toBeTruthy();
+  it("includes the ForgotPasswordAuthForm component", async () => {
+    await render(ForgotPasswordAuthScreenComponent, {
+      imports: [
+        ForgotPasswordAuthScreenComponent,
+        MockForgotPasswordAuthFormComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
+
+    const form = screen.getByTestId("forgot-password-auth-form");
+    expect(form).toBeInTheDocument();
+    expect(form).toHaveTextContent("Forgot Password Auth Form");
   });
 
-  it("renders with correct title and subtitle", () => {
-    fixture.detectChanges();
+  it("has correct CSS classes", async () => {
+    const { container } = await render(ForgotPasswordAuthScreenComponent, {
+      imports: [
+        ForgotPasswordAuthScreenComponent,
+        MockForgotPasswordAuthFormComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
 
-    const titleEl = fixture.debugElement.query(By.css(".fui-card-title"));
-    const subtitleEl = fixture.debugElement.query(By.css(".fui-card-subtitle"));
-
-    expect(titleEl.nativeElement.textContent).toBe("Reset Password");
-    expect(subtitleEl.nativeElement.textContent).toBe("Enter your email to reset your password");
+    expect(container.querySelector(".fui-screen")).toBeInTheDocument();
+    expect(container.querySelector(".fui-card")).toBeInTheDocument();
+    expect(container.querySelector(".fui-card__header")).toBeInTheDocument();
+    expect(container.querySelector(".fui-card__title")).toBeInTheDocument();
+    expect(container.querySelector(".fui-card__subtitle")).toBeInTheDocument();
+    expect(container.querySelector(".fui-card__content")).toBeInTheDocument();
   });
 
-  it("includes the ForgotPasswordForm component", () => {
-    fixture.detectChanges();
+  it("calls injectTranslation with correct parameters", async () => {
+    const { injectTranslation } = require("../../../provider");
+    await render(ForgotPasswordAuthScreenComponent, {
+      imports: [
+        ForgotPasswordAuthScreenComponent,
+        MockForgotPasswordAuthFormComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
 
-    const formEl = fixture.debugElement.query(By.css('[data-testid="forgot-password-form"]'));
-    expect(formEl).toBeTruthy();
-    expect(formEl.nativeElement.textContent).toContain("Forgot Password Form");
-  });
-
-  it("passes signInRoute to ForgotPasswordForm", () => {
-    component.signInRoute = "/custom-sign-in-route";
-    fixture.detectChanges();
-
-    const formEl = fixture.debugElement.query(By.css('[data-testid="forgot-password-form"]'));
-    expect(formEl.nativeElement.textContent).toContain("Sign In Route: /custom-sign-in-route");
+    expect(injectTranslation).toHaveBeenCalledWith("labels", "resetPassword");
+    expect(injectTranslation).toHaveBeenCalledWith("prompts", "enterEmailToReset");
   });
 });

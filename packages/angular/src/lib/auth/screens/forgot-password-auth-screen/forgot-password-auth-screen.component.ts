@@ -46,7 +46,7 @@ import { ForgotPasswordAuthFormComponent } from "../../forms/forgot-password-aut
           <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
         </fui-card-header>
         <fui-card-content>
-          <fui-forgot-password-auth-form (passwordSent)="passwordSent.emit()" (backToSignIn)="backToSignIn.emit()"></fui-forgot-password-auth-form>
+          <fui-forgot-password-auth-form (passwordSent)="passwordSent.emit()" (backToSignIn)="backToSignIn.emit()" />
         </fui-card-content>
       </fui-card>
     </div>
