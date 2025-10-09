@@ -21,6 +21,7 @@ export { SignInAuthFormComponent } from "./lib/auth/forms/sign-in-auth-form/sign
 export { SignUpAuthFormComponent } from "./lib/auth/forms/sign-up-auth-form/sign-up-auth-form.component";
 
 export { GoogleSignInButtonComponent } from "./lib/auth/oauth/google-sign-in-button.component";
+export { FacebookSignInButtonComponent } from "./lib/auth/oauth/facebook-sign-in-button.component";
 export { OAuthButtonComponent } from "./lib/auth/oauth/oauth-button.component";
 
 export { EmailLinkAuthScreenComponent } from "./lib/auth/screens/email-link-auth-screen/email-link-auth-screen.component";
