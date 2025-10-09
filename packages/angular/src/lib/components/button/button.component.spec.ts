@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import { render, screen, fireEvent, } from "@testing-library/angular";
+import { render, screen, fireEvent } from "@testing-library/angular";
 
 import { ButtonComponent } from "./button.component";
 
@@ -26,5 +25,39 @@ describe("<button fui-button>", () => {
     expect(button).toBeDefined();
     expect(button).toHaveClass("fui-button");
     expect(button).not.toHaveClass("fui-button--secondary");
+  });
+
+  it("renders with secondary variant", async () => {
+    await render(`<button fui-button [variant]="'secondary'">Click me</button>`, { imports: [ButtonComponent] });
+    const button = screen.getByRole("button", { name: /click me/i });
+    expect(button).toHaveClass("fui-button");
+    expect(button).toHaveClass("fui-button--secondary");
+  });
+
+  it("applies custom class", async () => {
+    await render(`<button fui-button class="custom-class">Click me</button>`, { imports: [ButtonComponent] });
+    const button = screen.getByRole("button", { name: /click me/i });
+    expect(button).toHaveClass("fui-button");
+    expect(button).toHaveClass("custom-class");
+  });
+
+  it("handles click events", async () => {
+    const handleClick = jest.fn();
+    await render(`<button fui-button (click)="handleClick()">Click me</button>`, { 
+      imports: [ButtonComponent],
+      componentProperties: { handleClick }
+    });
+    const button = screen.getByRole("button", { name: /click me/i });
+
+    fireEvent.click(button);
+
+    expect(handleClick).toHaveBeenCalledTimes(1);
+  });
+
+  it("passes other props to the button element", async () => {
+    await render(`<button fui-button data-testid="test-button" disabled>Click me</button>`, { imports: [ButtonComponent] });
+    const button = screen.getByTestId("test-button");
+
+    expect(button).toHaveAttribute("disabled");
   });
 });

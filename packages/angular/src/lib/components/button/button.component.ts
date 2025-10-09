@@ -25,7 +25,7 @@ import { buttonVariant, type ButtonVariant } from "@firebase-ui/styles";
 export class ButtonComponent {
   variant = input<ButtonVariant>();
 
-  @HostBinding("attr.class")
+  @HostBinding("class")
   get getButtonClasses(): string {
     return buttonVariant({ variant: this.variant() });
   }
