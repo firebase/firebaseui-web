@@ -14,126 +14,104 @@
  * limitations under the License.
  */
 
-import { CommonModule } from "@angular/common";
-import { Component, Input } from "@angular/core";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { Auth, GoogleAuthProvider } from "@angular/fire/auth";
-import { By } from "@angular/platform-browser";
-import { of } from "rxjs";
-import { FirebaseUI } from "../../provider";
+import { render, screen } from "@testing-library/angular";
+import { Component, signal } from "@angular/core";
+
 import { GoogleSignInButtonComponent } from "./google-sign-in-button.component";
-import { describe, it, expect, beforeEach, vi } from "vitest";
 
-// Mock OAuthButton component
+jest.mock("../../provider", () => ({
+  injectUI: jest.fn(),
+  injectTranslation: jest.fn(),
+}));
+
+jest.mock("@angular/fire/auth", () => ({
+  GoogleAuthProvider: class GoogleAuthProvider {
+    providerId = "google.com";
+  },
+}));
+
+jest.mock("@firebase-ui/core", () => ({
+  signInWithProvider: jest.fn(),
+  FirebaseUIError: class FirebaseUIError extends Error {
+    constructor(message: string) {
+      super(message);
+      this.name = "FirebaseUIError";
+    }
+  },
+}));
+
 @Component({
-  selector: "fui-oauth-button",
-  template: `<div data-testid="oauth-button" data-provider="{{ provider?.constructor.name }}">
-    <ng-content></ng-content>
-  </div>`,
+  template: `<fui-google-sign-in-button></fui-google-sign-in-button>`,
   standalone: true,
+  imports: [GoogleSignInButtonComponent],
 })
-class MockOAuthButtonComponent {
-  @Input() provider: any;
+class TestGoogleSignInButtonHostComponent {}
+
+@Component({
+  template: `<fui-google-sign-in-button [provider]="customProvider"></fui-google-sign-in-button>`,
+  standalone: true,
+  imports: [GoogleSignInButtonComponent],
+})
+class TestGoogleSignInButtonWithCustomProviderHostComponent {
+  customProvider = { providerId: "custom.google.com" };
 }
 
-// Create mock for FirebaseUi provider
-class MockFirebaseUi {
-  translation(category: string, key: string) {
-    if (category === "labels" && key === "signInWithGoogle") {
-      return of("Sign in with Google");
-    }
-    return of(`${category}.${key}`);
-  }
-}
+describe("<fui-google-sign-in-button>", () => {
+  beforeEach(() => {
+    const { injectUI, injectTranslation } = require("../../provider");
 
-// Create a test component that extends GoogleSignInButtonComponent
-class TestGoogleSignInButtonComponent extends GoogleSignInButtonComponent {
-  // Override GoogleAuthProvider creation to avoid Auth dependency
-  constructor() {
-    super();
-    this.googleProvider = new GoogleAuthProvider();
-  }
-}
-
-describe("GoogleSignInButtonComponent", () => {
-  let component: TestGoogleSignInButtonComponent;
-  let fixture: ComponentFixture<TestGoogleSignInButtonComponent>;
-  let mockFirebaseUi: MockFirebaseUi;
-  let mockAuth: any;
-
-  beforeEach(async () => {
-    mockFirebaseUi = new MockFirebaseUi();
-    mockAuth = {
-      signInWithPopup: vi.fn(),
-      signInWithRedirect: vi.fn(),
-    };
-
-    await TestBed.configureTestingModule({
-      imports: [CommonModule, TestGoogleSignInButtonComponent, MockOAuthButtonComponent],
-      providers: [
-        { provide: FirebaseUI, useValue: mockFirebaseUi },
-        { provide: Auth, useValue: mockAuth },
-      ],
-    }).compileComponents();
-
-    // Override the OAuthButtonComponent
-    TestBed.overrideComponent(TestGoogleSignInButtonComponent, {
-      set: {
-        template: `
-          <fui-oauth-button [provider]="googleProvider">
-            <svg class="fui-provider__icon" style="width: 20px; height: 20px;">
-              <!-- SVG content simplified for test -->
-              <path></path>
-            </svg>
-            <span>{{ signInWithGoogleLabel | async }}</span>
-          </fui-oauth-button>
-        `,
-      },
+    injectUI.mockReturnValue(() => ({}));
+    injectTranslation.mockImplementation((category: string, key: string) => {
+      const mockTranslations: Record<string, Record<string, string>> = {
+        labels: {
+          signInWithGoogle: "Sign in with Google",
+        },
+      };
+      return () => mockTranslations[category]?.[key] || `${category}.${key}`;
     });
-
-    fixture = TestBed.createComponent(TestGoogleSignInButtonComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  it("should create", () => {
-    expect(component).toBeTruthy();
+  it("renders with the correct provider", async () => {
+    await render(TestGoogleSignInButtonHostComponent);
+
+    const button = screen.getByRole("button");
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveAttribute("data-provider", "google.com");
   });
 
-  it("should use the GoogleAuthProvider", () => {
-    expect(component.googleProvider instanceof GoogleAuthProvider).toBeTruthy();
+  it("renders with custom provider when provided", async () => {
+    await render(TestGoogleSignInButtonWithCustomProviderHostComponent);
+
+    const button = screen.getByRole("button");
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveAttribute("data-provider", "custom.google.com");
   });
 
-  it.skip("should render with the correct provider", () => {
-    const oauthButton = fixture.debugElement.query(By.css('[data-testid="oauth-button"]'));
-    // Skip this test if the element isn't found - it's likely not rendering correctly in test environment
-    if (!oauthButton) {
-      console.warn("OAuth button element not found in test environment");
-      return;
-    }
-    expect(oauthButton.nativeElement.getAttribute("data-provider")).toBe("GoogleAuthProvider");
+  it("renders with the Google icon", async () => {
+    await render(TestGoogleSignInButtonHostComponent);
+
+    const svg = document.querySelector(".fui-provider__icon");
+    expect(svg).toBeInTheDocument();
+    expect(svg).toHaveAttribute("viewBox", "0 0 48 48");
   });
 
-  it("should render with the Google icon SVG", () => {
-    const svg = fixture.debugElement.query(By.css("svg"));
-    // Skip this test if the element isn't found
-    if (!svg) {
-      console.warn("SVG element not found in test environment");
-      pending("Test environment issue - SVG not rendered");
-      return;
-    }
-    expect(svg.nativeElement.classList.contains("fui-provider__icon")).toBeTruthy();
+  it("renders with the correct translated text", async () => {
+    await render(TestGoogleSignInButtonHostComponent);
+
+    expect(screen.getByText("Sign in with Google")).toBeInTheDocument();
   });
 
-  it("should display the correct sign-in text", () => {
-    fixture.detectChanges(); // Make sure the async pipe is resolved
-    const span = fixture.debugElement.query(By.css("span"));
-    // Skip this test if the element isn't found
-    if (!span) {
-      console.warn("Span element not found in test environment");
-      pending("Test environment issue - span not rendered");
-      return;
-    }
-    expect(span.nativeElement.textContent).toBe("Sign in with Google");
+  it("renders as a button with correct classes", async () => {
+    await render(TestGoogleSignInButtonHostComponent);
+
+    const button = screen.getByRole("button");
+    expect(button).toHaveClass("fui-provider__button");
+  });
+
+  it("uses default provider when no provider is provided", async () => {
+    await render(TestGoogleSignInButtonHostComponent);
+
+    const button = screen.getByRole("button");
+    expect(button).toHaveAttribute("data-provider", "google.com");
   });
 });
