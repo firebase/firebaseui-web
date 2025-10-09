@@ -17,6 +17,7 @@ const config: any[] = [
     "**/.next/**",
     "**/.angular/**",
     "**/releases/**",
+    "**/shadcn/public-dev/**",
     "packages/styles/dist.css",
     "packages/angular/**",
   ]),
@@ -30,6 +31,14 @@ const config: any[] = [
       "prettier/prettier": "error",
       "arrow-body-style": "off",
       "prefer-arrow-callback": "off",
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        {
+          disallowTypeAnnotations: false,
+          prefer: "type-imports",
+          fixStyle: "inline-type-imports",
+        },
+      ],
     },
   },
   {
@@ -65,6 +74,7 @@ const config: any[] = [
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/consistent-type-imports": "off",
     },
   },
 ];

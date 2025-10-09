@@ -14,8 +14,12 @@
  * limitations under the License.
  */
 
-import { getTranslation as _getTranslation, TranslationCategory, TranslationKey } from "@firebase-ui/translations";
-import { FirebaseUIConfiguration } from "./config";
+import {
+  getTranslation as _getTranslation,
+  type TranslationCategory,
+  type TranslationKey,
+} from "@firebase-ui/translations";
+import { type FirebaseUIConfiguration } from "./config";
 
 export function getTranslation<T extends TranslationCategory>(
   ui: FirebaseUIConfiguration,

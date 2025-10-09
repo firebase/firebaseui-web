@@ -1,5 +1,5 @@
 import { RecaptchaVerifier } from "firebase/auth";
-import { FirebaseUIConfiguration } from "~/config";
+import { type FirebaseUIConfiguration } from "~/config";
 
 export type RecaptchaVerificationOptions = {
   size?: "normal" | "invisible" | "compact";

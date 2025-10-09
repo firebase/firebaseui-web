@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import { enUs, RegisteredLocale } from "@firebase-ui/translations";
+import { enUs, type RegisteredLocale } from "@firebase-ui/translations";
 import type { FirebaseApp } from "firebase/app";
-import { Auth, getAuth, getRedirectResult, MultiFactorResolver } from "firebase/auth";
-import { deepMap, DeepMapStore, map } from "nanostores";
-import { Behavior, Behaviors, defaultBehaviors } from "./behaviors";
+import { type Auth, getAuth, getRedirectResult, type MultiFactorResolver } from "firebase/auth";
+import { deepMap, type DeepMapStore, map } from "nanostores";
+import { type Behavior, type Behaviors, defaultBehaviors } from "./behaviors";
 import type { InitBehavior, RedirectBehavior } from "./behaviors/utils";
-import { FirebaseUIState } from "./state";
+import { type FirebaseUIState } from "./state";
 
 export type FirebaseUIConfigurationOptions = {
   app: FirebaseApp;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { RenderMode, ServerRoute } from "@angular/ssr";
+import { RenderMode, type ServerRoute } from "@angular/ssr";
 
 export const serverRoutes: ServerRoute[] = [
   /** Home page - perfect for SSG as it's a static landing page */

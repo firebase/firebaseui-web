@@ -17,8 +17,8 @@
 import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
-import { Auth, User, authState } from "@angular/fire/auth";
-import { Observable } from "rxjs";
+import { Auth, type User, authState } from "@angular/fire/auth";
+import { type Observable } from "rxjs";
 
 @Component({
   selector: "app-home",

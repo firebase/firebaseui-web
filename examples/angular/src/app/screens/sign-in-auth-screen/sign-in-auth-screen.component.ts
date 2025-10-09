@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-import { Component } from "@angular/core";
+import { Component, type OnInit, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { Router, RouterModule } from "@angular/router";
+import { Auth, type User, authState } from "@angular/fire/auth";
 import { SignInAuthScreenComponent } from "@firebase-ui/angular";
 
 @Component({

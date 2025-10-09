@@ -1,13 +1,13 @@
 import {
-  AuthProvider,
+  type AuthProvider,
   linkWithPopup,
   linkWithRedirect,
   signInWithPopup,
   signInWithRedirect,
-  User,
-  UserCredential,
+  type User,
+  type UserCredential,
 } from "firebase/auth";
-import { FirebaseUIConfiguration } from "~/config";
+import { type FirebaseUIConfiguration } from "~/config";
 
 export type ProviderSignInStrategyHandler = (
   ui: FirebaseUIConfiguration,

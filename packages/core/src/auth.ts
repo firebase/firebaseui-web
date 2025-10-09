@@ -21,19 +21,19 @@ import {
   sendSignInLinkToEmail as _sendSignInLinkToEmail,
   signInAnonymously as _signInAnonymously,
   signInWithCredential as _signInWithCredential,
-  ActionCodeSettings,
-  ApplicationVerifier,
-  AuthProvider,
   EmailAuthProvider,
   linkWithCredential,
   PhoneAuthProvider,
-  UserCredential,
-  AuthCredential,
-  TotpSecret,
-  PhoneInfoOptions,
+  type ActionCodeSettings,
+  type ApplicationVerifier,
+  type AuthProvider,
+  type UserCredential,
+  type AuthCredential,
+  type TotpSecret,
+  type PhoneInfoOptions,
 } from "firebase/auth";
 import QRCode from "qrcode-generator";
-import { FirebaseUIConfiguration } from "./config";
+import { type FirebaseUIConfiguration } from "./config";
 import { handleFirebaseError } from "./errors";
 import { hasBehavior, getBehavior } from "./behaviors/index";
 import { FirebaseError } from "firebase/app";

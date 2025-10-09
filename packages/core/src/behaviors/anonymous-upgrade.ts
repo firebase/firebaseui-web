@@ -1,5 +1,5 @@
-import { AuthCredential, AuthProvider, linkWithCredential, UserCredential } from "firebase/auth";
-import { FirebaseUIConfiguration } from "~/config";
+import { type AuthCredential, type AuthProvider, linkWithCredential, type UserCredential } from "firebase/auth";
+import { type FirebaseUIConfiguration } from "~/config";
 import { getBehavior } from "~/behaviors";
 
 export type OnUpgradeCallback = (
