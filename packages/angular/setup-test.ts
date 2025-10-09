@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone/index.mjs';
+import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
 import "@testing-library/jest-dom";
 
 import "@angular/compiler";
+
 // import { BrowserTestingModule, platformBrowserTesting } from "@angular/platform-browser/testing";
 // import { NgModule, provideZonelessChangeDetection } from "@angular/core";
 // import { getTestBed } from "@angular/core/testing";

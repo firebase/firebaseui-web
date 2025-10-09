@@ -30,14 +30,13 @@ import { FirebaseApps } from "@angular/fire/app";
 import {
   createEmailLinkAuthFormSchema,
   createForgotPasswordAuthFormSchema,
-  createPhoneAuthFormSchema,
+  createPhoneAuthNumberFormSchema,
   createSignInAuthFormSchema,
   createSignUpAuthFormSchema,
   FirebaseUIConfiguration,
   type FirebaseUI as FirebaseUIType,
   getTranslation,
 } from "@firebase-ui/core";
-import { TranslationCategory, TranslationKey } from "@firebase-ui/translations";
 
 const FIREBASE_UI_STORE = new InjectionToken<FirebaseUIType>("firebaseui.store");
 const FIREBASE_UI_POLICIES = new InjectionToken<PolicyConfig>("firebaseui.policies");
@@ -84,9 +83,9 @@ export function injectUI() {
   return ui.asReadonly();
 }
 
-export function injectTranslation<T extends TranslationCategory>(category: T, key: TranslationKey<T>) {
+export function injectTranslation(category: string, key: string) {
   const ui = injectUI();
-  return computed(() => getTranslation(ui(), category, key));
+  return computed(() => getTranslation(ui(), category as any, key as any));
 }
 
 export function injectSignInAuthFormSchema(): Signal<ReturnType<typeof createSignInAuthFormSchema>> {
@@ -109,9 +108,9 @@ export function injectEmailLinkAuthFormSchema(): Signal<ReturnType<typeof create
   return computed(() => createEmailLinkAuthFormSchema(ui()));
 }
 
-export function injectPhoneAuthFormSchema(): Signal<ReturnType<typeof createPhoneAuthFormSchema>> {
+export function injectPhoneAuthFormSchema(): Signal<ReturnType<typeof createPhoneAuthNumberFormSchema>> {
   const ui = injectUI();
-  return computed(() => createPhoneAuthFormSchema(ui()));
+  return computed(() => createPhoneAuthNumberFormSchema(ui()));
 }
 
 export function injectPolicies(): PolicyConfig | null {
