@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, ElementRef, output, computed, viewChild } from "@angular/core";
+import { Component, output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   CardComponent,
@@ -25,7 +25,6 @@ import {
 } from "../../../components/card/card.component";
 import { injectTranslation } from "../../../provider";
 import { EmailLinkAuthFormComponent } from "../../forms/email-link-auth-form/email-link-auth-form.component";
-import { DividerComponent } from "../../../components/divider/divider.component";
 import { UserCredential } from "@angular/fire/auth";
 
 @Component({
@@ -39,7 +38,6 @@ import { UserCredential } from "@angular/fire/auth";
     CardSubtitleComponent,
     CardContentComponent,
     EmailLinkAuthFormComponent,
-    DividerComponent,
   ],
   template: `
     <div class="fui-screen">
@@ -52,14 +50,8 @@ import { UserCredential } from "@angular/fire/auth";
           <fui-email-link-auth-form
             (emailSent)="emailSent.emit()"
             (signIn)="signIn.emit($event)"
-          ></fui-email-link-auth-form>
-
-          @if (hasChildren()) {
-            <fui-divider>{{ dividerOrLabel() }}</fui-divider>
-          }
-          <div #contentContainer>
-            <ng-content></ng-content>
-          </div>
+          />
+          <ng-content></ng-content>
         </fui-card-content>
       </fui-card>
     </div>
@@ -68,11 +60,7 @@ import { UserCredential } from "@angular/fire/auth";
 export class EmailLinkAuthScreenComponent {
   titleText = injectTranslation("labels", "signIn");
   subtitleText = injectTranslation("prompts", "signInToAccount");
-  dividerOrLabel = injectTranslation("messages", "dividerOr");
 
   emailSent = output<void>();
   signIn = output<UserCredential>();
-
-  contentContainer = viewChild.required<ElementRef>('contentContainer');
-  hasChildren = computed(() => this.contentContainer().nativeElement.children.length > 0);
 }
