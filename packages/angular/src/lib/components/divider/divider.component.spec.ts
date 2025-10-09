@@ -17,18 +17,37 @@
 import { render, screen } from '@testing-library/angular';
 
 import { DividerComponent } from './divider.component';
-import { CommonModule } from '@angular/common';
-import { BrowserModule } from '@angular/platform-browser';
 
 describe('<fui-divider>', () => {
-  it.only('renders a divider with text', async () => {
-    const { container } = await render(`<fui-divider><span>Hello</span></fui-divider>`, {
-      imports: [DividerComponent, CommonModule, BrowserModule],
+  it('renders a divider with no text', async () => {
+    const { container } = await render(DividerComponent, {
+      inputs: {
+        label: undefined,
+      }
     });
 
-    screen.debug();
+    const divider = container.querySelector('.fui-divider');
+    expect(divider).toBeTruthy();
+    expect(divider).toHaveClass('fui-divider');
+    expect(divider?.querySelector('.fui-divider__line')).toBeTruthy();
+    expect(divider?.querySelector('.fui-divider__text')).toBeFalsy();
+  });
 
-    const textContainer = container.querySelector('.fui-divider__text');
-    expect(textContainer).toBeTruthy();
+  it('renders a divider with text', async () => {
+    const dividerText = 'OR';
+    const { container } = await render(DividerComponent, {
+      inputs: {
+        label: dividerText,
+      }
+    });
+
+    const divider = container.querySelector('.fui-divider');
+    const textElement = screen.getByText(dividerText);
+
+    expect(divider).toBeTruthy();
+    expect(divider).toHaveClass('fui-divider');
+    expect(divider?.querySelectorAll('.fui-divider__line')).toHaveLength(2);
+    expect(textElement).toBeTruthy();
+    expect(textElement.closest('.fui-divider__text')).toBeTruthy();
   });
 });
