@@ -36,6 +36,8 @@ import {
   FirebaseUIConfiguration,
   type FirebaseUI as FirebaseUIType,
   getTranslation,
+  getBehavior,
+  type CountryData,
 } from "@firebase-ui/core";
 
 const FIREBASE_UI_STORE = new InjectionToken<FirebaseUIType>("firebaseui.store");
@@ -115,4 +117,14 @@ export function injectPhoneAuthFormSchema(): Signal<ReturnType<typeof createPhon
 
 export function injectPolicies(): PolicyConfig | null {
   return inject<PolicyConfig | null>(FIREBASE_UI_POLICIES, { optional: true });
+}
+
+export function injectCountries(): Signal<CountryData[]> {
+  const ui = injectUI();
+  return computed(() => getBehavior(ui(), "countryCodes")().allowedCountries);
+}
+
+export function injectDefaultCountry(): Signal<CountryData> {
+  const ui = injectUI();
+  return computed(() => getBehavior(ui(), "countryCodes")().defaultCountry);
 }

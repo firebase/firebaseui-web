@@ -14,90 +14,94 @@
  * limitations under the License.
  */
 
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { render, screen, fireEvent } from "@testing-library/angular";
+import { Component, signal } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { By } from "@angular/platform-browser";
-import { countryData } from "@firebase-ui/core";
-import { describe, it, expect, beforeEach, vi } from "vitest";
 
 import { CountrySelectorComponent } from "./country-selector.component";
 
-describe("CountrySelectorComponent", () => {
-  let component: CountrySelectorComponent;
-  let fixture: ComponentFixture<CountrySelectorComponent>;
-  const defaultCountry = countryData[0]; // First country in the list
+jest.mock("../../provider", () => ({
+  injectCountries: jest.fn(),
+  injectDefaultCountry: jest.fn(),
+}));
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [CountrySelectorComponent, FormsModule],
-    }).compileComponents();
+const mockCountryData = [
+  { name: "United States", dialCode: "+1", code: "US", emoji: "🇺🇸" },
+  { name: "United Kingdom", dialCode: "+44", code: "GB", emoji: "🇬🇧" },
+  { name: "Canada", dialCode: "+1", code: "CA", emoji: "🇨🇦" },
+  { name: "Germany", dialCode: "+49", code: "DE", emoji: "🇩🇪" },
+  { name: "France", dialCode: "+33", code: "FR", emoji: "🇫🇷" },
+] as const;
 
-    fixture = TestBed.createComponent(CountrySelectorComponent);
-    component = fixture.componentInstance;
-    component.value = defaultCountry;
-    fixture.detectChanges();
+@Component({
+  template: `<fui-country-selector [value]="value()" (valueChange)="onValueChange($event)"></fui-country-selector>`,
+  standalone: true,
+  imports: [CountrySelectorComponent, FormsModule],
+})
+class TestCountrySelectorHostComponent {
+  value = signal("US");
+  onValueChange = jest.fn();
+}
+
+@Component({
+  template: `<fui-country-selector [value]="value()" class="custom-class"></fui-country-selector>`,
+  standalone: true,
+  imports: [CountrySelectorComponent, FormsModule],
+})
+class TestCountrySelectorWithCustomClassHostComponent {
+  value = signal("US");
+}
+
+describe("<fui-country-selector>", () => {
+  const defaultCountry = mockCountryData.find((country) => country.code === "US")!;
+
+  beforeEach(() => {
+    const { injectCountries, injectDefaultCountry } = require("../../provider");
+
+    injectCountries.mockReturnValue(signal(mockCountryData));
+    injectDefaultCountry.mockReturnValue(signal(defaultCountry));
   });
 
-  it("renders with the selected country", () => {
-    // Check if the country flag emoji is displayed
-    const flagElement = fixture.debugElement.query(By.css(".fui-country-selector__flag"));
-    expect(flagElement.nativeElement.textContent).toBe(defaultCountry.emoji);
+  it("renders with the default country", async () => {
+    await render(TestCountrySelectorHostComponent);
 
-    // Check if the dial code is displayed
-    const dialCodeElement = fixture.debugElement.query(By.css(".fui-country-selector__dial-code"));
-    expect(dialCodeElement.nativeElement.textContent).toBe(defaultCountry.dialCode);
+    expect(screen.getByText(defaultCountry.emoji)).toBeInTheDocument();
+    expect(screen.getByText(defaultCountry.dialCode)).toBeInTheDocument();
 
-    // Check if the select has the correct value
-    const selectElement = fixture.debugElement.query(By.css("select"));
-    expect(selectElement.nativeElement.value).toBe(defaultCountry.code);
+    const select = screen.getByRole("combobox");
+    expect(select).toHaveValue(defaultCountry.code);
   });
 
-  it("applies custom className", () => {
-    // Set custom class
-    component.className = "custom-class";
-    fixture.detectChanges();
+  it("applies custom className", async () => {
+    const { container } = await render(TestCountrySelectorWithCustomClassHostComponent);
 
-    // Check if the custom class is applied
-    const container = fixture.debugElement.query(By.css(".fui-country-selector"));
-    expect(container.nativeElement.classList.contains("custom-class")).toBeTruthy();
-    expect(container.nativeElement.classList.contains("fui-country-selector")).toBeTruthy();
+    const hostElement = container.querySelector("fui-country-selector");
+    expect(hostElement).toHaveClass("custom-class");
   });
 
-  it("calls onChange when a different country is selected", () => {
-    // Spy on the onChange event
-    const emitSpy = vi.spyOn(component.onChange, "emit");
+  it("calls valueChange when a different country is selected", async () => {
+    const { fixture } = await render(TestCountrySelectorHostComponent);
+    const hostComponent = fixture.componentInstance;
 
-    // Find a different country to select
-    const newCountry = countryData.find((country) => country.code !== defaultCountry.code);
+    const newCountry = mockCountryData.find((country) => country.code === "GB")!;
 
-    if (newCountry) {
-      // Get the select element
-      const selectElement = fixture.debugElement.query(By.css("select")).nativeElement;
-
-      // Change the selection
-      selectElement.value = newCountry.code;
-      selectElement.dispatchEvent(new Event("change"));
-      fixture.detectChanges();
-
-      // Check if onChange was called with the new country
-      expect(component.onChange.emit).toHaveBeenCalledWith(newCountry);
-    } else {
-      // Fail the test if no different country is found
-      fail("No different country found in countryData. Test cannot proceed.");
-    }
+    const select = screen.getByRole("combobox");
+    fireEvent.change(select, { target: { value: newCountry.code } });
+    expect(hostComponent.onValueChange).toHaveBeenCalledWith(newCountry.code);
   });
 
-  it("renders all countries in the dropdown", () => {
-    const selectElement = fixture.debugElement.query(By.css("select")).nativeElement;
-    const options = selectElement.querySelectorAll("option");
+  it("renders all countries in the dropdown", async () => {
+    await render(TestCountrySelectorHostComponent);
 
-    // Check if all countries are in the dropdown
-    expect(options.length).toBe(countryData.length);
+    const select = screen.getByRole("combobox");
+    const options = select.querySelectorAll("option");
 
-    // Check if a specific country exists in the dropdown
-    const usCountry = countryData.find((country) => country.code === "US");
+    expect(options).toHaveLength(mockCountryData.length);
+
+    const usCountry = mockCountryData.find((country) => country.code === "US");
+    expect(usCountry).toBeTruthy();
+
     if (usCountry) {
-      // Properly cast the NodeList to an array of HTMLOptionElement
       const optionsArray = Array.from(options) as HTMLOptionElement[];
       const usOption = optionsArray.find((option: HTMLOptionElement) => option.value === usCountry.code);
       expect(usOption).toBeTruthy();
@@ -105,8 +109,35 @@ describe("CountrySelectorComponent", () => {
         expect(usOption.textContent?.trim()).toBe(`${usCountry.dialCode} (${usCountry.name})`);
       }
     } else {
-      // Fail the test if US country is not found
-      fail("US country not found in countryData. Test cannot proceed.");
+      fail("US country not found in mockCountryData");
     }
+  });
+
+  it("displays country information correctly", async () => {
+    await render(TestCountrySelectorHostComponent);
+
+    const options = screen.getAllByRole("option");
+    options.forEach((option) => {
+      const text = option.textContent;
+      expect(text).toMatch(/^\+\d+ \([^)]+\)$/);
+    });
+  });
+
+  it("updates display when value changes", async () => {
+    const { fixture } = await render(TestCountrySelectorHostComponent);
+    const hostComponent = fixture.componentInstance;
+
+    const newCountry = mockCountryData.find((country) => country.code === "GB")!;
+
+    hostComponent.value.set(newCountry.code);
+    fixture.detectChanges();
+
+    await fixture.whenStable();
+
+    expect(screen.getByText(newCountry.emoji)).toBeInTheDocument();
+    expect(screen.getByText(newCountry.dialCode)).toBeInTheDocument();
+
+    const select = screen.getByRole("combobox");
+    expect(select).toHaveValue(newCountry.code);
   });
 });

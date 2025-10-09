@@ -16,8 +16,9 @@
 
 import { Component, computed, model } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { CountryCode, CountryData, countryData } from "@firebase-ui/core";
+import { type CountryCode } from "@firebase-ui/core";
 import { FormsModule } from "@angular/forms";
+import { injectCountries, injectDefaultCountry } from "../../provider";
 
 @Component({
   selector: "fui-country-selector",
@@ -34,7 +35,7 @@ import { FormsModule } from "@angular/forms";
             [ngModel]="selected().code"
             (ngModelChange)="handleCountryChange($event)"
           >
-            @for (country of countries; track country.code) {
+            @for (country of countries(); track country.code) {
               <option [value]="country.code">{{ country.dialCode }} ({{ country.name }})</option>
             }
           </select>
@@ -44,19 +45,20 @@ import { FormsModule } from "@angular/forms";
   `,
 })
 export class CountrySelectorComponent {
-  countries = countryData;
+  countries = injectCountries();
+  defaultCountry = injectDefaultCountry();
   value = model<CountryCode>();
   
   selected = computed(() => {
     if (!this.value()) {
-      return countryData[0];
+      return this.defaultCountry();
     }
 
-    return countryData.find((c) => c.code === this.value()) as CountryData;
+    return this.countries().find((c) => c.code === this.value()) || this.defaultCountry();
   });
 
   handleCountryChange(code: string) {
-    const country = this.countries.find((c) => c.code === code) as CountryData;
+    const country = this.countries().find((c) => c.code === code);
 
     if (country) {
       this.value.update(() => country.code as CountryCode);
