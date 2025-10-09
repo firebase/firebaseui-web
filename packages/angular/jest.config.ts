@@ -5,6 +5,7 @@ const config: Config = {
   ...createCjsPreset(),
   setupFilesAfterEnv: ["<rootDir>/setup-test.ts"],
   coveragePathIgnorePatterns: ["/node_modules/", "/dist/"],
+  testEnvironment: "jsdom",
 };
 
 export default config;

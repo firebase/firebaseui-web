@@ -19,6 +19,9 @@ import "@testing-library/jest-dom";
 
 import "@angular/compiler";
 
+// Add fetch polyfill for Firebase
+import 'whatwg-fetch';
+
 // import { BrowserTestingModule, platformBrowserTesting } from "@angular/platform-browser/testing";
 // import { NgModule, provideZonelessChangeDetection } from "@angular/core";
 // import { getTestBed } from "@angular/core/testing";

@@ -32,6 +32,7 @@ import { FirebaseUIError, signInWithProvider } from "@firebase-ui/core";
         type="button"
         (click)="handleOAuthSignIn()"
         [disabled]="ui().state !== 'idle'"
+        [attr.data-provider]="provider().providerId"
         class="fui-provider__button"
       >
         <ng-content></ng-content>
