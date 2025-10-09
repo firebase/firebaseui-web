@@ -72,7 +72,7 @@ export class CardSubtitleComponent {}
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div>
+    <div class="fui-card__content">
       <ng-content></ng-content>
     </div>
   `,
