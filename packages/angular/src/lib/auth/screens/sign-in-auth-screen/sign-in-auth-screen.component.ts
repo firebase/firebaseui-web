@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-import { Component, ElementRef, output, viewChild, computed } from "@angular/core";
+import { Component, output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
 import { injectTranslation } from "../../../provider";
 import { SignInAuthFormComponent } from "../../forms/sign-in-auth-form/sign-in-auth-form.component";
-import { DividerComponent } from "../../../components/divider/divider.component";
 import {
   CardComponent,
   CardHeaderComponent,
@@ -39,7 +38,6 @@ import { UserCredential } from "@angular/fire/auth";
     CardSubtitleComponent,
     CardContentComponent,
     SignInAuthFormComponent,
-    DividerComponent,
   ],
   template: `
     <div class="fui-screen">
@@ -49,14 +47,8 @@ import { UserCredential } from "@angular/fire/auth";
           <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
         </fui-card-header>
         <fui-card-content>
-          <fui-sign-in-auth-form (forgotPassword)="forgotPassword.emit()" (signUp)="signUp.emit()" (signIn)="signIn.emit($event)"></fui-sign-in-auth-form>
-          
-          @if (hasChildren()) {
-            <fui-divider>{{ dividerOrLabel() }}</fui-divider>
-          }
-          <div #contentContainer>
-            <ng-content></ng-content>
-          </div>
+          <fui-sign-in-auth-form (forgotPassword)="forgotPassword.emit()" (signUp)="signUp.emit()" (signIn)="signIn.emit($event)" />
+          <ng-content />
         </fui-card-content>
       </fui-card>
     </div>
@@ -65,12 +57,8 @@ import { UserCredential } from "@angular/fire/auth";
 export class SignInAuthScreenComponent {
   titleText = injectTranslation("labels", "signIn");
   subtitleText = injectTranslation("prompts", "signInToAccount");
-  dividerOrLabel = injectTranslation("messages", "dividerOr");
 
   forgotPassword = output<void>();
   signUp = output<void>();
   signIn = output<UserCredential>();
-
-  contentContainer = viewChild.required<ElementRef>('contentContainer');
-  hasChildren = computed(() => this.contentContainer().nativeElement.children.length > 0);
 }
