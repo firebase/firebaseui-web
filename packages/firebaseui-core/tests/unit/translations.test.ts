@@ -142,4 +142,29 @@ describe('getTranslation', () => {
     const translation = getTranslation(mockUi as any, 'errors', 'userNotFound');
     expect(translation).toBe('No account found with this email address');
   });
+
+  it('should allow custom en-US translation to overwrite the default one', () => {
+    const customEnUs = {
+      locale: 'en-US',
+      translations: {
+        errors: {
+          userNotFound: 'Custom override message',
+        },
+      },
+    };
+
+    const config = {
+      translations: [customEnUs],
+    };
+
+    const result = config.translations.reduce(
+      (acc, t) => ({
+        ...acc,
+        [t.locale]: t.translations,
+      }),
+      { [english.locale]: english.translations }
+    );
+
+    expect(result['en-US'].errors.userNotFound).toBe('Custom override message');
+  });
 });

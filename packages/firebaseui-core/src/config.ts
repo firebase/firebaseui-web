@@ -59,15 +59,18 @@ export function initializeUI(config: FirebaseUIConfigurationOptions, name: strin
 
   config.translations ??= [];
 
-  // TODO: Is this right?
-  config.translations.push(english);
-
-  const translations = config.translations?.reduce((acc, translation) => {
-    return {
-      ...acc,
-      [translation.locale]: translation.translations,
-    };
-  }, {} as TranslationsConfig);
+  // Map the translations to a TranslationsConfig object.
+  // If no translations are provided, use the English translations as default.
+  const translations = config.translations?.reduce(
+    (acc, translation) => {
+      return {
+        ...acc,
+        [translation.locale]: translation.translations,
+      };
+    },
+    //TODO: Do we always want to include English here?
+    { [english.locale]: english.translations } as TranslationsConfig
+  );
 
   $config.setKey(
     name,
