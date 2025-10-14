@@ -40,6 +40,7 @@ export { CardComponent } from "./lib/components/card/card.component";
 export { CountrySelectorComponent } from "./lib/components/country-selector/country-selector.component";
 export { DividerComponent } from "./lib/components/divider/divider.component";
 export { PoliciesComponent } from "./lib/components/policies/policies.component";
+export { ContentComponent } from "./lib/components/content/content.component";
 
 // Provider
 export * from "./lib/provider";
