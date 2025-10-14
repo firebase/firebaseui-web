@@ -47,7 +47,7 @@ import { UserCredential } from "@angular/fire/auth";
           <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
         </fui-card-header>
         <fui-card-content>
-          <fui-phone-auth-form [resendDelay]="resendDelay()" (signIn)="signIn.emit($event)" />
+          <fui-phone-auth-form (signIn)="signIn.emit($event)" />
           <ng-content />
         </fui-card-content>
       </fui-card>
