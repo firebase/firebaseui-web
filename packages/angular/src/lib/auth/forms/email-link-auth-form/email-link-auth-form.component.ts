@@ -18,11 +18,7 @@ import { Component, effect, output, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanstack/angular-form";
 import { UserCredential } from "@angular/fire/auth";
-import {
-  FirebaseUIError,
-  completeEmailLinkSignIn,
-  sendSignInLinkToEmail,
-} from "@firebase-ui/core";
+import { FirebaseUIError, completeEmailLinkSignIn, sendSignInLinkToEmail } from "@firebase-ui/core";
 
 import {
   FormInputComponent,
@@ -54,12 +50,7 @@ import { injectEmailLinkAuthFormSchema, injectTranslation, injectUI } from "../.
     @if (!emailSentState()) {
       <form (submit)="handleSubmit($event)" class="fui-form">
         <fieldset>
-          <fui-form-input
-            name="email"
-            tanstack-app-field
-            [tanstackField]="form"
-            label="{{ emailLabel() }}"
-          />
+          <fui-form-input name="email" tanstack-app-field [tanstackField]="form" label="{{ emailLabel() }}" />
         </fieldset>
 
         <fui-policies />

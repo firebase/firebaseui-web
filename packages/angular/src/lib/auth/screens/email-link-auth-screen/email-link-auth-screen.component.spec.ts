@@ -32,11 +32,7 @@ jest.mock("../../../provider", () => ({
 
 @Component({
   selector: "fui-email-link-auth-form",
-  template: `
-    <div data-testid="email-link-auth-form">
-      Email Link Auth Form
-    </div>
-  `,
+  template: ` <div data-testid="email-link-auth-form">Email Link Auth Form</div> `,
   standalone: true,
 })
 class MockEmailLinkAuthFormComponent {}

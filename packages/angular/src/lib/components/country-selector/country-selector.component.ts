@@ -48,7 +48,7 @@ export class CountrySelectorComponent {
   countries = injectCountries();
   defaultCountry = injectDefaultCountry();
   value = model<CountryCode>();
-  
+
   selected = computed(() => {
     if (!this.value()) {
       return this.defaultCountry();

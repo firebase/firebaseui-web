@@ -43,9 +43,9 @@ describe("<button fui-button>", () => {
 
   it("handles click events", async () => {
     const handleClick = jest.fn();
-    await render(`<button fui-button (click)="handleClick()">Click me</button>`, { 
+    await render(`<button fui-button (click)="handleClick()">Click me</button>`, {
       imports: [ButtonComponent],
-      componentProperties: { handleClick }
+      componentProperties: { handleClick },
     });
     const button = screen.getByRole("button", { name: /click me/i });
 
@@ -55,7 +55,9 @@ describe("<button fui-button>", () => {
   });
 
   it("passes other props to the button element", async () => {
-    await render(`<button fui-button data-testid="test-button" disabled>Click me</button>`, { imports: [ButtonComponent] });
+    await render(`<button fui-button data-testid="test-button" disabled>Click me</button>`, {
+      imports: [ButtonComponent],
+    });
     const button = screen.getByTestId("test-button");
 
     expect(button).toHaveAttribute("disabled");

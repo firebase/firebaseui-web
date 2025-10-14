@@ -47,10 +47,7 @@ import { UserCredential } from "@angular/fire/auth";
           <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
         </fui-card-header>
         <fui-card-content>
-          <fui-email-link-auth-form
-            (emailSent)="emailSent.emit()"
-            (signIn)="signIn.emit($event)"
-          />
+          <fui-email-link-auth-form (emailSent)="emailSent.emit()" (signIn)="signIn.emit($event)" />
           <ng-content></ng-content>
         </fui-card-content>
       </fui-card>

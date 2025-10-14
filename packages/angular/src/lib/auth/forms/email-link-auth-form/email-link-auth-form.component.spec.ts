@@ -33,12 +33,7 @@ describe("<fui-email-link-auth-form />", () => {
   let mockFirebaseUIError: any;
 
   beforeEach(() => {
-    const {
-      injectUI,
-      injectEmailLinkAuthFormSchema,
-      injectTranslation,
-      injectPolicies,
-    } = require("../../../provider");
+    const { injectUI, injectEmailLinkAuthFormSchema, injectTranslation, injectPolicies } = require("../../../provider");
     const { sendSignInLinkToEmail, completeEmailLinkSignIn, FirebaseUIError } = require("@firebase-ui/core");
 
     mockSendSignInLinkToEmail = sendSignInLinkToEmail;
@@ -300,11 +295,10 @@ describe("<fui-email-link-auth-form />", () => {
 
     component.form.setFieldValue("email", "nonexistent@example.com");
     fixture.detectChanges();
-    
+
     await component.form.handleSubmit();
     await fixture.whenStable();
     fixture.detectChanges();
-
 
     expect(component.emailSentState()).toBe(false);
     expect(screen.getByText(errorMessage)).toBeInTheDocument();
@@ -330,7 +324,7 @@ describe("<fui-email-link-auth-form />", () => {
 
     component.form.setFieldValue("email", "test@example.com");
     fixture.detectChanges();
-    
+
     await component.form.handleSubmit();
     await fixture.whenStable();
     fixture.detectChanges();

@@ -47,7 +47,11 @@ import { UserCredential } from "@angular/fire/auth";
           <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
         </fui-card-header>
         <fui-card-content>
-          <fui-sign-in-auth-form (forgotPassword)="forgotPassword.emit()" (signUp)="signUp.emit()" (signIn)="signIn.emit($event)" />
+          <fui-sign-in-auth-form
+            (forgotPassword)="forgotPassword.emit()"
+            (signUp)="signUp.emit()"
+            (signIn)="signIn.emit($event)"
+          />
           <ng-content />
         </fui-card-content>
       </fui-card>

@@ -105,7 +105,7 @@ describe("<fui-content>", () => {
 
     const divider = container.querySelector(".fui-divider");
     const contentWrapper = container.querySelector(".fui-screen__children");
-    
+
     expect(divider).toBeTruthy();
     expect(contentWrapper).toBeTruthy();
   });

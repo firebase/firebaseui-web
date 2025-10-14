@@ -35,12 +35,7 @@ describe("<fui-sign-up-auth-form />", () => {
   let mockFirebaseUIError: any;
 
   beforeEach(() => {
-    const {
-      injectUI,
-      injectSignUpAuthFormSchema,
-      injectTranslation,
-      injectPolicies,
-    } = require("../../../provider");
+    const { injectUI, injectSignUpAuthFormSchema, injectTranslation, injectPolicies } = require("../../../provider");
     const { createUserWithEmailAndPassword, hasBehavior, FirebaseUIError } = require("@firebase-ui/core");
     mockCreateUserWithEmailAndPassword = createUserWithEmailAndPassword;
     mockHasBehavior = hasBehavior;

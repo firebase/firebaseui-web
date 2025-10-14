@@ -14,19 +14,15 @@
  * limitations under the License.
  */
 
-import {
-  Component,
-  ElementRef,
-  effect,
-  input,
-  signal,
-  output,
-  computed,
-  viewChild,
-} from "@angular/core";
+import { Component, ElementRef, effect, input, signal, output, computed, viewChild } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanstack/angular-form";
-import { injectPhoneAuthFormSchema, injectPhoneAuthVerifyFormSchema, injectTranslation, injectUI } from "../../../provider";
+import {
+  injectPhoneAuthFormSchema,
+  injectPhoneAuthVerifyFormSchema,
+  injectTranslation,
+  injectUI,
+} from "../../../provider";
 import { RecaptchaVerifier, UserCredential } from "@angular/fire/auth";
 import { PoliciesComponent } from "../../../components/policies/policies.component";
 import { CountrySelectorComponent } from "../../../components/country-selector/country-selector.component";
@@ -115,7 +111,7 @@ export class PhoneNumberFormComponent {
           onBlur: this.formSchema(),
           onSubmit: this.formSchema(),
           onSubmitAsync: async ({ value }) => {
-            const selectedCountry = countryData.find(c => c.code === this.country());
+            const selectedCountry = countryData.find((c) => c.code === this.country());
             const formattedNumber = formatPhoneNumber(value.phoneNumber, selectedCountry!);
 
             try {
@@ -142,7 +138,6 @@ export class PhoneNumberFormComponent {
       });
     });
   }
-
 
   async handleSubmit(event: SubmitEvent) {
     event.preventDefault();
@@ -196,7 +191,6 @@ export class VerificationFormComponent {
   verifyCodeLabel = injectTranslation("labels", "verifyCode");
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
-
   form = injectForm({
     defaultValues: {
       verificationId: "",
@@ -234,13 +228,11 @@ export class VerificationFormComponent {
     });
   }
 
-
   async handleSubmit(event: SubmitEvent) {
     event.preventDefault();
     event.stopPropagation();
     this.form.handleSubmit();
   }
-
 }
 
 @Component({
@@ -250,9 +242,7 @@ export class VerificationFormComponent {
   template: `
     <div class="fui-form-container">
       @if (verificationId()) {
-        <fui-verification-form 
-          [verificationId]="verificationId()!" 
-          (signIn)="signIn.emit($event)" />
+        <fui-verification-form [verificationId]="verificationId()!" (signIn)="signIn.emit($event)" />
       } @else {
         <fui-phone-number-form (onSubmit)="handlePhoneSubmit($event)" />
       }

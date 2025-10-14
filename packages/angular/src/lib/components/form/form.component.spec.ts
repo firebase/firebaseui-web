@@ -17,11 +17,11 @@
 import { render, screen } from "@testing-library/angular";
 import { Component, signal } from "@angular/core";
 
-import { 
-  FormMetadataComponent, 
-  FormActionComponent, 
-  FormSubmitComponent, 
-  FormErrorMessageComponent 
+import {
+  FormMetadataComponent,
+  FormActionComponent,
+  FormSubmitComponent,
+  FormErrorMessageComponent,
 } from "./form.component";
 import { ButtonComponent } from "../button/button.component";
 
@@ -36,9 +36,9 @@ class TestFormMetadataHostComponent {
     state: {
       meta: {
         isTouched: true,
-        errors: [{ message: "Test error" }]
-      }
-    }
+        errors: [{ message: "Test error" }],
+      },
+    },
   } as any);
 }
 
@@ -58,7 +58,7 @@ class TestFormActionHostComponent {}
 })
 class TestFormSubmitHostComponent {
   state = signal({
-    isSubmitting: false
+    isSubmitting: false,
   } as any);
   customClass = signal("custom-submit-class");
 }
@@ -72,19 +72,18 @@ class TestFormSubmitHostComponent {
 class TestFormErrorMessageHostComponent {
   state = signal({
     errorMap: {
-      onSubmit: "Test error message"
-    }
+      onSubmit: "Test error message",
+    },
   } as any);
 }
 
 describe("Form Components", () => {
-
   describe("<fui-form-metadata>", () => {
     it("renders error message when field has errors and is touched", async () => {
       await render(TestFormMetadataHostComponent);
-      
+
       const errorElement = screen.getByRole("alert");
-      
+
       expect(errorElement).toBeTruthy();
       expect(errorElement).toHaveClass("fui-form__error");
       expect(errorElement).toHaveTextContent("Test error");
@@ -92,36 +91,36 @@ describe("Form Components", () => {
 
     it("does not render error message when field has no errors", async () => {
       const component = await render(TestFormMetadataHostComponent);
-      
+
       // Update the field to have no errors
       component.fixture.componentInstance.field.set({
         state: {
           meta: {
             isTouched: true,
-            errors: []
-          }
-        }
+            errors: [],
+          },
+        },
       } as any);
       component.fixture.detectChanges();
-      
+
       const errorElement = screen.queryByRole("alert");
       expect(errorElement).toBeFalsy();
     });
 
     it("does not render error message when field is not touched", async () => {
       const component = await render(TestFormMetadataHostComponent);
-      
+
       // Update the field to not be touched
       component.fixture.componentInstance.field.set({
         state: {
           meta: {
             isTouched: false,
-            errors: [{ message: "Test error" }]
-          }
-        }
+            errors: [{ message: "Test error" }],
+          },
+        },
       } as any);
       component.fixture.detectChanges();
-      
+
       const errorElement = screen.queryByRole("alert");
       expect(errorElement).toBeFalsy();
     });
@@ -130,9 +129,9 @@ describe("Form Components", () => {
   describe("<button fui-form-action>", () => {
     it("renders a button with correct attributes", async () => {
       await render(TestFormActionHostComponent);
-      
+
       const button = screen.getByTestId("test-action");
-      
+
       expect(button).toBeTruthy();
       expect(button).toHaveClass("fui-form__action");
       expect(button).toHaveAttribute("type", "button");
@@ -143,10 +142,10 @@ describe("Form Components", () => {
   describe("<fui-form-submit>", () => {
     it("renders a submit button", async () => {
       const { container } = await render(TestFormSubmitHostComponent);
-      
+
       const button = screen.getByRole("button", { name: "Submit" });
-      const hostElement = container.querySelector('fui-form-submit');
-      
+      const hostElement = container.querySelector("fui-form-submit");
+
       expect(button).toBeTruthy();
       expect(button).toHaveClass("fui-form__action");
       expect(button).toHaveClass("custom-submit-class");
@@ -156,22 +155,22 @@ describe("Form Components", () => {
 
     it("disables button when form is submitting", async () => {
       const component = await render(TestFormSubmitHostComponent);
-      
+
       component.fixture.componentInstance.state.set({
-        isSubmitting: true
+        isSubmitting: true,
       } as any);
       component.fixture.detectChanges();
-      
+
       const button = screen.getByRole("button", { name: "Submit" });
-      
+
       expect(button).toHaveAttribute("disabled");
     });
 
     it("applies custom class", async () => {
       await render(TestFormSubmitHostComponent);
-      
+
       const button = screen.getByRole("button", { name: "Submit" });
-      
+
       expect(button).toHaveClass("custom-submit-class");
     });
   });
@@ -179,36 +178,35 @@ describe("Form Components", () => {
   describe("<fui-form-error-message>", () => {
     it("renders error message when onSubmit error exists", async () => {
       await render(TestFormErrorMessageHostComponent);
-      
+
       const errorElement = screen.getByText("Test error message");
-      
+
       expect(errorElement).toBeTruthy();
       expect(errorElement).toHaveClass("fui-form__error");
     });
 
     it("does not render error message when no onSubmit error", async () => {
       const component = await render(TestFormErrorMessageHostComponent);
-      
+
       component.fixture.componentInstance.state.set({
-        errorMap: {}
+        errorMap: {},
       } as any);
       component.fixture.detectChanges();
-      
+
       const errorElement = screen.queryByText("Test error message");
       expect(errorElement).toBeFalsy();
     });
 
     it("does not render error message when errorMap is null", async () => {
       const component = await render(TestFormErrorMessageHostComponent);
-      
+
       component.fixture.componentInstance.state.set({
-        errorMap: null
+        errorMap: null,
       } as any);
       component.fixture.detectChanges();
-      
+
       const errorElement = screen.queryByText("Test error message");
       expect(errorElement).toBeFalsy();
     });
   });
-
 });

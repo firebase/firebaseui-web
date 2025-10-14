@@ -14,40 +14,40 @@
  * limitations under the License.
  */
 
-import { render, screen } from '@testing-library/angular';
+import { render, screen } from "@testing-library/angular";
 
-import { DividerComponent } from './divider.component';
+import { DividerComponent } from "./divider.component";
 
-describe('<fui-divider>', () => {
-  it('renders a divider with no text', async () => {
+describe("<fui-divider>", () => {
+  it("renders a divider with no text", async () => {
     const { container } = await render(DividerComponent, {
       inputs: {
         label: undefined,
-      }
+      },
     });
 
-    const divider = container.querySelector('.fui-divider');
+    const divider = container.querySelector(".fui-divider");
     expect(divider).toBeTruthy();
-    expect(divider).toHaveClass('fui-divider');
-    expect(divider?.querySelector('.fui-divider__line')).toBeTruthy();
-    expect(divider?.querySelector('.fui-divider__text')).toBeFalsy();
+    expect(divider).toHaveClass("fui-divider");
+    expect(divider?.querySelector(".fui-divider__line")).toBeTruthy();
+    expect(divider?.querySelector(".fui-divider__text")).toBeFalsy();
   });
 
-  it('renders a divider with text', async () => {
-    const dividerText = 'OR';
+  it("renders a divider with text", async () => {
+    const dividerText = "OR";
     const { container } = await render(DividerComponent, {
       inputs: {
         label: dividerText,
-      }
+      },
     });
 
-    const divider = container.querySelector('.fui-divider');
+    const divider = container.querySelector(".fui-divider");
     const textElement = screen.getByText(dividerText);
 
     expect(divider).toBeTruthy();
-    expect(divider).toHaveClass('fui-divider');
-    expect(divider?.querySelectorAll('.fui-divider__line')).toHaveLength(2);
+    expect(divider).toHaveClass("fui-divider");
+    expect(divider?.querySelectorAll(".fui-divider__line")).toHaveLength(2);
     expect(textElement).toBeTruthy();
-    expect(textElement.closest('.fui-divider__text')).toBeTruthy();
+    expect(textElement.closest(".fui-divider__text")).toBeTruthy();
   });
 });

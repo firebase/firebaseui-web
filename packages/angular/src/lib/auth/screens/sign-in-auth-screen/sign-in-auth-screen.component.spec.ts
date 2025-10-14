@@ -32,15 +32,10 @@ jest.mock("../../../provider", () => ({
 
 @Component({
   selector: "fui-sign-in-auth-form",
-  template: `
-    <div data-testid="sign-in-auth-form">
-      Sign In Auth Form
-    </div>
-  `,
+  template: ` <div data-testid="sign-in-auth-form">Sign In Auth Form</div> `,
   standalone: true,
 })
 class MockSignInAuthFormComponent {}
-
 
 @Component({
   template: `

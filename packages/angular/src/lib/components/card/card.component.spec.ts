@@ -16,38 +16,53 @@
 
 import { render, screen } from "@testing-library/angular";
 
-import { CardComponent, CardHeaderComponent, CardTitleComponent, CardSubtitleComponent, CardContentComponent } from "./card.component";
+import {
+  CardComponent,
+  CardHeaderComponent,
+  CardTitleComponent,
+  CardSubtitleComponent,
+  CardContentComponent,
+} from "./card.component";
 
 describe("<fui-card>", () => {
   it("renders a card with children", async () => {
-    await render(`<fui-card data-testid="test-card"><fui-card-content>Card content</fui-card-content></fui-card>`, { imports: [CardComponent, CardContentComponent] });
+    await render(`<fui-card data-testid="test-card"><fui-card-content>Card content</fui-card-content></fui-card>`, {
+      imports: [CardComponent, CardContentComponent],
+    });
     const card = screen.getByTestId("test-card");
-    const cardDiv = card.querySelector('.fui-card');
+    const cardDiv = card.querySelector(".fui-card");
 
     expect(cardDiv).toHaveClass("fui-card");
     expect(cardDiv).toHaveTextContent("Card content");
   });
 
   it("applies custom class", async () => {
-    await render(`<fui-card data-testid="test-card" class="custom-class"><fui-card-content>Card content</fui-card-content></fui-card>`, { imports: [CardComponent, CardContentComponent] });
+    await render(
+      `<fui-card data-testid="test-card" class="custom-class"><fui-card-content>Card content</fui-card-content></fui-card>`,
+      { imports: [CardComponent, CardContentComponent] }
+    );
     const card = screen.getByTestId("test-card");
-    const cardDiv = card.querySelector('.fui-card');
+    const cardDiv = card.querySelector(".fui-card");
 
     expect(cardDiv).toHaveClass("fui-card");
     expect(card).toHaveClass("custom-class");
   });
 
   it("passes other props to the div element", async () => {
-    await render(`<fui-card data-testid="test-card" aria-label="card"><fui-card-content>Card content</fui-card-content></fui-card>`, { imports: [CardComponent, CardContentComponent] });
+    await render(
+      `<fui-card data-testid="test-card" aria-label="card"><fui-card-content>Card content</fui-card-content></fui-card>`,
+      { imports: [CardComponent, CardContentComponent] }
+    );
     const card = screen.getByTestId("test-card");
-    const cardDiv = card.querySelector('.fui-card');
+    const cardDiv = card.querySelector(".fui-card");
 
     expect(cardDiv).toHaveClass("fui-card");
     expect(card).toHaveAttribute("aria-label", "card");
   });
 
   it("renders a complete card with all subcomponents", async () => {
-    await render(`
+    await render(
+      `
       <fui-card data-testid="complete-card">
         <fui-card-header data-testid="complete-header">
           <fui-card-title>Card Title</fui-card-title>
@@ -57,9 +72,11 @@ describe("<fui-card>", () => {
           <div>Card Body Content</div>
         </fui-card-content>
       </fui-card>
-    `, { 
-      imports: [CardComponent, CardHeaderComponent, CardTitleComponent, CardSubtitleComponent, CardContentComponent] 
-    });
+    `,
+      {
+        imports: [CardComponent, CardHeaderComponent, CardTitleComponent, CardSubtitleComponent, CardContentComponent],
+      }
+    );
 
     const card = screen.getByTestId("complete-card");
     const header = screen.getByTestId("complete-header");
@@ -67,10 +84,10 @@ describe("<fui-card>", () => {
     const subtitle = screen.getByText("Card Subtitle");
     const content = screen.getByText("Card Body Content");
 
-    expect(card.querySelector('.fui-card')).toHaveClass("fui-card");
+    expect(card.querySelector(".fui-card")).toHaveClass("fui-card");
     expect(title).toHaveClass("fui-card__title");
     expect(subtitle).toHaveClass("fui-card__subtitle");
-    expect(header.querySelector('.fui-card__header')).toHaveClass("fui-card__header");
+    expect(header.querySelector(".fui-card__header")).toHaveClass("fui-card__header");
     expect(content).toBeTruthy();
 
     expect(header).toContainElement(title);
@@ -81,18 +98,24 @@ describe("<fui-card>", () => {
 
   describe("<fui-card-header>", () => {
     it("renders a card header with children", async () => {
-      await render(`<fui-card-header data-testid="test-header"><fui-card-title>Header content</fui-card-title></fui-card-header>`, { imports: [CardHeaderComponent, CardTitleComponent] });
+      await render(
+        `<fui-card-header data-testid="test-header"><fui-card-title>Header content</fui-card-title></fui-card-header>`,
+        { imports: [CardHeaderComponent, CardTitleComponent] }
+      );
       const header = screen.getByTestId("test-header");
-      const headerDiv = header.querySelector('.fui-card__header');
+      const headerDiv = header.querySelector(".fui-card__header");
 
       expect(headerDiv).toHaveClass("fui-card__header");
       expect(headerDiv).toHaveTextContent("Header content");
     });
 
     it("applies custom className", async () => {
-      await render(`<fui-card-header data-testid="test-header" class="custom-header"><fui-card-title>Header content</fui-card-title></fui-card-header>`, { imports: [CardHeaderComponent, CardTitleComponent] });
+      await render(
+        `<fui-card-header data-testid="test-header" class="custom-header"><fui-card-title>Header content</fui-card-title></fui-card-header>`,
+        { imports: [CardHeaderComponent, CardTitleComponent] }
+      );
       const header = screen.getByTestId("test-header");
-      const headerDiv = header.querySelector('.fui-card__header');
+      const headerDiv = header.querySelector(".fui-card__header");
 
       expect(headerDiv).toHaveClass("fui-card__header");
       expect(header).toHaveClass("custom-header");
@@ -109,7 +132,9 @@ describe("<fui-card>", () => {
     });
 
     it("applies custom className", async () => {
-      await render(`<fui-card-title data-testid="title-host" class="custom-title">Title content</fui-card-title>`, { imports: [CardTitleComponent] });
+      await render(`<fui-card-title data-testid="title-host" class="custom-title">Title content</fui-card-title>`, {
+        imports: [CardTitleComponent],
+      });
       const title = screen.getByRole("heading", { name: "Title content" });
       const titleHost = screen.getByTestId("title-host");
 
@@ -128,7 +153,10 @@ describe("<fui-card>", () => {
     });
 
     it("applies custom className", async () => {
-      await render(`<fui-card-subtitle data-testid="subtitle-host" class="custom-subtitle">Subtitle content</fui-card-subtitle>`, { imports: [CardSubtitleComponent] });
+      await render(
+        `<fui-card-subtitle data-testid="subtitle-host" class="custom-subtitle">Subtitle content</fui-card-subtitle>`,
+        { imports: [CardSubtitleComponent] }
+      );
       const subtitle = screen.getByText("Subtitle content");
       const subtitleHost = screen.getByTestId("subtitle-host");
 
@@ -147,7 +175,9 @@ describe("<fui-card>", () => {
     });
 
     it("applies custom className", async () => {
-      await render(`<fui-card-content data-testid="content-host" class="custom-content">Content</fui-card-content>`, { imports: [CardContentComponent] });
+      await render(`<fui-card-content data-testid="content-host" class="custom-content">Content</fui-card-content>`, {
+        imports: [CardContentComponent],
+      });
       const content = screen.getByText("Content");
       const contentHost = screen.getByTestId("content-host");
 

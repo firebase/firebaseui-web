@@ -17,7 +17,11 @@ import { ButtonComponent } from "../button/button.component";
 })
 export class FormMetadataComponent {
   field = input.required<AnyFieldApi>();
-  errors = computed(() => this.field().state.meta.errors.map((error) => error.message).join(", "));
+  errors = computed(() =>
+    this.field()
+      .state.meta.errors.map((error) => error.message)
+      .join(", ")
+  );
 }
 
 @Component({

@@ -17,7 +17,11 @@
 import { render, screen } from "@testing-library/angular";
 import { CommonModule } from "@angular/common";
 import { TanStackField, TanStackAppField } from "@tanstack/angular-form";
-import { PhoneAuthFormComponent, PhoneNumberFormComponent, VerificationFormComponent } from "./phone-auth-form.component";
+import {
+  PhoneAuthFormComponent,
+  PhoneNumberFormComponent,
+  VerificationFormComponent,
+} from "./phone-auth-form.component";
 import {
   FormInputComponent,
   FormSubmitComponent,
@@ -74,7 +78,7 @@ describe("<fui-phone-auth-form />", () => {
       injectPolicies,
     } = require("../../../provider");
     const { verifyPhoneNumber, confirmPhoneNumber, formatPhoneNumber, FirebaseUIError } = require("@firebase-ui/core");
-    
+
     mockVerifyPhoneNumber = verifyPhoneNumber;
     mockConfirmPhoneNumber = confirmPhoneNumber;
     mockFormatPhoneNumber = formatPhoneNumber;
@@ -113,9 +117,7 @@ describe("<fui-phone-auth-form />", () => {
       return () => key;
     });
 
-    injectCountries.mockReturnValue(() => [
-      { name: "United States", dialCode: "+1", code: "US", emoji: "🇺🇸" },
-    ]);
+    injectCountries.mockReturnValue(() => [{ name: "United States", dialCode: "+1", code: "US", emoji: "🇺🇸" }]);
 
     injectDefaultCountry.mockReturnValue(() => ({
       name: "United States",
@@ -162,9 +164,9 @@ describe("<fui-phone-auth-form />", () => {
 
     const component = fixture.componentInstance;
     const testData = { verificationId: "test-id", phoneNumber: "+1234567890" };
-    
+
     component.handlePhoneSubmit(testData);
-    
+
     expect(component.verificationId()).toBe("test-id");
   });
 
@@ -184,7 +186,7 @@ describe("<fui-phone-auth-form />", () => {
     // <fui-phone-number-form />
     expect(screen.getByText("Phone Number")).toBeInTheDocument();
     expect(screen.getByText("Send Code")).toBeInTheDocument();
-    
+
     // <fui-verification-form />
     expect(screen.queryByText("Verification Code")).not.toBeInTheDocument();
   });
@@ -209,7 +211,7 @@ describe("<fui-phone-auth-form />", () => {
     // <fui-verification-form />
     expect(screen.getByText("Verification Code")).toBeInTheDocument();
     expect(screen.getByText("Verify Code")).toBeInTheDocument();
-    
+
     // <fui-phone-number-form />
     expect(screen.queryByText("Phone Number")).not.toBeInTheDocument();
   });
@@ -229,7 +231,7 @@ describe("<fui-phone-number-form />", () => {
       injectPolicies,
     } = require("../../../provider");
     const { verifyPhoneNumber, formatPhoneNumber } = require("@firebase-ui/core");
-    
+
     mockVerifyPhoneNumber = verifyPhoneNumber;
     mockFormatPhoneNumber = formatPhoneNumber;
 
@@ -261,9 +263,7 @@ describe("<fui-phone-number-form />", () => {
       return () => key;
     });
 
-    injectCountries.mockReturnValue(() => [
-      { name: "United States", dialCode: "+1", code: "US", emoji: "🇺🇸" },
-    ]);
+    injectCountries.mockReturnValue(() => [{ name: "United States", dialCode: "+1", code: "US", emoji: "🇺🇸" }]);
 
     injectDefaultCountry.mockReturnValue(() => ({
       name: "United States",
@@ -281,12 +281,7 @@ describe("<fui-phone-number-form />", () => {
   it("should render phone number input", async () => {
     await render(PhoneNumberFormComponent, {
       imports: [CommonModule, TanStackField, TanStackAppField],
-      declarations: [
-        FormInputComponent,
-        FormSubmitComponent,
-        FormErrorMessageComponent,
-        FormActionComponent,
-      ],
+      declarations: [FormInputComponent, FormSubmitComponent, FormErrorMessageComponent, FormActionComponent],
     });
 
     expect(screen.getByText("Phone Number")).toBeInTheDocument();
@@ -306,7 +301,7 @@ describe("<fui-verification-form />", () => {
       injectPolicies,
     } = require("../../../provider");
     const { confirmPhoneNumber } = require("@firebase-ui/core");
-    
+
     mockConfirmPhoneNumber = confirmPhoneNumber;
 
     injectUI.mockReturnValue(() => ({
@@ -337,9 +332,7 @@ describe("<fui-verification-form />", () => {
       return () => key;
     });
 
-    injectCountries.mockReturnValue(() => [
-      { name: "United States", dialCode: "+1", code: "US", emoji: "🇺🇸" },
-    ]);
+    injectCountries.mockReturnValue(() => [{ name: "United States", dialCode: "+1", code: "US", emoji: "🇺🇸" }]);
 
     injectDefaultCountry.mockReturnValue(() => ({
       name: "United States",
@@ -356,12 +349,7 @@ describe("<fui-verification-form />", () => {
   it("should render verification code input", async () => {
     await render(VerificationFormComponent, {
       imports: [CommonModule, TanStackField, TanStackAppField],
-      declarations: [
-        FormInputComponent,
-        FormSubmitComponent,
-        FormErrorMessageComponent,
-        FormActionComponent,
-      ],
+      declarations: [FormInputComponent, FormSubmitComponent, FormErrorMessageComponent, FormActionComponent],
       componentInputs: {
         verificationId: "test-verification-id",
         phoneNumber: "+1234567890",
