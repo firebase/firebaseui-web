@@ -19,6 +19,10 @@
 import { readdir, readFile, writeFile, mkdir } from "fs/promises";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import { exec } from "child_process";
+import { promisify } from "util";
+
+const execAsync = promisify(exec);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -37,6 +41,17 @@ function toPascalCase(str: string): string {
 // Convert brand name to kebab-case for file names
 function toKebabCase(str: string): string {
   return str.toLowerCase().replace(/\s+/g, "-");
+}
+
+// Format generated files with Prettier
+async function formatWithPrettier(filePath: string): Promise<void> {
+  try {
+    // Run prettier from the root directory to use the root prettier config
+    const rootDir = join(__dirname, "../../");
+    await execAsync(`cd "${rootDir}" && pnpm prettier --write "${filePath}"`);
+  } catch (error) {
+    console.warn(`⚠️  Failed to format ${filePath}: ${error instanceof Error ? error.message : "Unknown error"}`);
+  }
 }
 
 // Generate Angular component template from SVG content
@@ -117,6 +132,9 @@ async function generateLogoComponents(): Promise<void> {
         const componentPath = join(ANGULAR_LOGOS_DIR, componentFileName);
 
         await writeFile(componentPath, componentContent, "utf-8");
+        
+        // Format the generated file with Prettier
+        await formatWithPrettier(componentPath);
 
         console.log(`✅ Generated ${brandName} logo component: ${componentFileName}`);
       } catch (error) {
@@ -136,6 +154,9 @@ async function generateLogoComponents(): Promise<void> {
 
     const indexPath = join(ANGULAR_LOGOS_DIR, "index.ts");
     await writeFile(indexPath, indexContent, "utf-8");
+    
+    // Format the index file with Prettier
+    await formatWithPrettier(indexPath);
 
     console.log("📄 Generated index.ts file");
     console.log("🎉 Logo component generation complete!");
