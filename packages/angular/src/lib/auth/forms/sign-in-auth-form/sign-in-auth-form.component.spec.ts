@@ -1,229 +1,402 @@
-/**
- * Copyright 2025 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
+import { render, screen, waitFor } from "@testing-library/angular";
 import { CommonModule } from "@angular/common";
-import { Component, Input } from "@angular/core";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { By } from "@angular/platform-browser";
-import { Router, provideRouter } from "@angular/router";
-import { TanStackField } from "@tanstack/angular-form";
-import { getFirebaseUITestProviders } from "../../../testing/test-helpers";
-import { EmailPasswordFormComponent } from "./email-password-form.component";
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { TanStackField, TanStackAppField } from "@tanstack/angular-form";
+import { SignInAuthFormComponent } from "./sign-in-auth-form.component";
+import {
+  FormInputComponent,
+  FormSubmitComponent,
+  FormErrorMessageComponent,
+  FormActionComponent,
+} from "../../../components/form/form.component";
+import { PoliciesComponent } from "../../../components/policies/policies.component";
+import { UserCredential } from "@angular/fire/auth";
 
-// Define window properties for testing
-declare global {
-  interface Window {
-    signInWithEmailAndPassword: any;
-    createEmailFormSchema: any;
-  }
-}
+jest.mock("../../../provider", () => ({
+  injectUI: jest.fn(),
+  injectSignInAuthFormSchema: jest.fn(),
+  injectTranslation: jest.fn(),
+  injectPolicies: jest.fn(),
+}));
 
-// Mock Button component
-@Component({
-  selector: "fui-button",
-  template: `<button (click)="click.emit()" data-testid="submit-button">
-    <ng-content></ng-content>
-  </button>`,
-  standalone: true,
-})
-class MockButtonComponent {
-  @Input() type: string = "button";
-}
+jest.mock("@firebase-ui/core", () => ({
+  signInWithEmailAndPassword: jest.fn(),
+  FirebaseUIError: class FirebaseUIError extends Error {
+    constructor(message: string) {
+      super(message);
+      this.name = "FirebaseUIError";
+    }
+  },
+}));
 
-// Mock TermsAndPrivacy component
-@Component({
-  selector: "fui-terms-and-privacy",
-  template: `<div data-testid="terms-and-privacy"></div>`,
-  standalone: true,
-})
-class MockTermsAndPrivacyComponent {}
+describe("<fui-sign-in-auth-form />", () => {
+  let mockSignInWithEmailAndPassword: any;
+  let mockFirebaseUIError: any;
 
-describe("EmailPasswordFormComponent", () => {
-  let component: EmailPasswordFormComponent;
-  let fixture: ComponentFixture<EmailPasswordFormComponent>;
-  let mockRouter: any;
-  let signInSpy: ReturnType<typeof vi.fn>;
+  beforeEach(() => {
+    const {
+      injectUI,
+      injectSignInAuthFormSchema,
+      injectTranslation,
+      injectPolicies,
+    } = require("../../../provider");
+    const { signInWithEmailAndPassword, FirebaseUIError } = require("@firebase-ui/core");
+    mockSignInWithEmailAndPassword = signInWithEmailAndPassword;
+    mockFirebaseUIError = FirebaseUIError;
 
-  // Expected error messages from the actual implementation
-  const errorMessages = {
-    invalidEmail: "Please enter a valid email address",
-    passwordTooShort: "Password should be at least 8 characters",
-    unknownError: "An unknown error occurred",
-  };
-
-  // Mock schema returned by createEmailFormSchema
-  const mockSchema = {
-    safeParse: (data: any) => {
-      // Test email validation
-      if (!data.email.includes("@")) {
-        return {
-          success: false,
-          error: {
-            format: () => ({
-              email: { _errors: [errorMessages.invalidEmail] },
-            }),
+    injectUI.mockReturnValue(() => ({
+      app: {},
+      auth: {},
+      locale: {
+        locale: "en-US",
+        translations: {
+          labels: {
+            emailAddress: "Email Address",
+            password: "Password",
+            signIn: "Sign In",
+            forgotPassword: "Forgot Password",
+            register: "Register",
+            termsOfService: "Terms of Service",
+            privacyPolicy: "Privacy Policy",
           },
-        };
-      }
-      // Test password validation
-      if (data.password.length < 8) {
-        return {
-          success: false,
-          error: {
-            format: () => ({
-              password: { _errors: [errorMessages.passwordTooShort] },
-            }),
+          prompts: {
+            noAccount: "Don't have an account?",
           },
-        };
-      }
-      return { success: true };
-    },
-  };
+          messages: {
+            termsAndPrivacy: "By continuing, you agree to our {tos} and {privacy}",
+          },
+          errors: {
+            unknownError: "An unknown error occurred",
+            invalidEmail: "Please enter a valid email address",
+            invalidPassword: "Please enter a valid password",
+          },
+        },
+        fallback: undefined,
+      },
+    }));
 
-  beforeEach(async () => {
-    // Mock router
-    mockRouter = {
-      navigateByUrl: vi.fn(),
-    };
+    // Mock form schema - create a Zod schema that matches the real implementation
+    // TODO(ehesp): Use real createSignInAuthFormSchema when Jest ESM support improves
+    // Currently blocked by nanostores ESM-only dependency in @firebase-ui/core
+    injectSignInAuthFormSchema.mockReturnValue(() => {
+      const { z } = require("zod");
 
-    // Create spies for the global functions
-    signInSpy = vi.fn().mockResolvedValue(undefined);
-
-    // Define the function on the window object
-    Object.defineProperty(window, "signInWithEmailAndPassword", {
-      value: signInSpy,
-      writable: true,
-      configurable: true,
+      return z.object({
+        email: z.string().email("Please enter a valid email address"),
+        password: z.string().min(1, "Please enter a valid password"),
+      });
     });
 
-    Object.defineProperty(window, "createEmailFormSchema", {
-      value: () => mockSchema,
-      writable: true,
-      configurable: true,
+    injectTranslation.mockImplementation((category: string, key: string) => {
+      const mockTranslations: Record<string, Record<string, string>> = {
+        labels: {
+          emailAddress: "Email Address",
+          password: "Password",
+          signIn: "Sign In",
+          forgotPassword: "Forgot Password",
+          register: "Register",
+          termsOfService: "Terms of Service",
+          privacyPolicy: "Privacy Policy",
+        },
+        prompts: {
+          noAccount: "Don't have an account?",
+        },
+        messages: {
+          termsAndPrivacy: "By continuing, you agree to our {tos} and {privacy}",
+        },
+        errors: {
+          unknownError: "An unknown error occurred",
+          invalidEmail: "Please enter a valid email address",
+          invalidPassword: "Please enter a valid password",
+        },
+      };
+      return () => mockTranslations[category]?.[key] || `${category}.${key}`;
     });
 
-    await TestBed.configureTestingModule({
+    injectPolicies.mockReturnValue({
+      termsOfServiceUrl: "https://example.com/terms",
+      privacyPolicyUrl: "https://example.com/privacy",
+    });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("should render the form initially", async () => {
+    await render(SignInAuthFormComponent, {
       imports: [
         CommonModule,
-        EmailPasswordFormComponent,
+        SignInAuthFormComponent,
         TanStackField,
-        MockButtonComponent,
-        MockTermsAndPrivacyComponent,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
       ],
-      providers: [provideRouter([]), { provide: Router, useValue: mockRouter }, ...getFirebaseUITestProviders()],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(EmailPasswordFormComponent);
-    component = fixture.componentInstance;
-
-    // Set required inputs
-    component.forgotPasswordRoute = "/forgot-password";
-    component.registerRoute = "/register";
-
-    // Mock the validateAndSignIn method without any TypeScript errors
-    component.validateAndSignIn = vi.fn();
-
-    fixture.detectChanges();
-    await fixture.whenStable(); // Wait for async ngOnInit
-  });
-
-  it("renders the form correctly", () => {
-    expect(component).toBeTruthy();
-
-    // Check essential elements are present
-    const emailInput = fixture.debugElement.query(By.css('input[type="email"]'));
-    const passwordInput = fixture.debugElement.query(By.css('input[type="password"]'));
-    const termsAndPrivacy = fixture.debugElement.query(By.css("fui-terms-and-privacy"));
-    const submitButton = fixture.debugElement.query(By.css("fui-button"));
-
-    expect(emailInput).toBeTruthy();
-    expect(passwordInput).toBeTruthy();
-    expect(termsAndPrivacy).toBeTruthy();
-    expect(submitButton).toBeTruthy();
-  });
-
-  it("submits the form when handleSubmit is called", async () => {
-    // Set values directly on the form state
-    component.form.state.values.email = "test@example.com";
-    component.form.state.values.password = "password123";
-
-    // Create a submit event
-    const event = new Event("submit");
-    Object.defineProperties(event, {
-      preventDefault: { value: vi.fn() },
-      stopPropagation: { value: vi.fn() },
     });
 
-    // Call handleSubmit directly
-    component.handleSubmit(event as SubmitEvent);
-
-    // Wait for any async operations to complete
-    await new Promise((resolve) => setTimeout(resolve, 0));
-
-    // Check if validateAndSignIn was called with correct values
-    expect(component.validateAndSignIn).toHaveBeenCalledWith("test@example.com", "password123");
+    expect(screen.getByLabelText("Email Address")).toBeInTheDocument();
+    expect(screen.getByLabelText("Password")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Sign In" })).toBeInTheDocument();
+    expect(screen.getByText("By continuing, you agree to our")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Forgot Password" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Don't have an account? Register" })).toBeInTheDocument();
   });
 
-  it("displays error message when sign in fails", async () => {
-    // Manually set the error
-    component.formError = "Invalid credentials";
+  it("should have correct translation labels", async () => {
+    const { fixture } = await render(SignInAuthFormComponent, {
+      imports: [
+        CommonModule,
+        SignInAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
+      ],
+    });
+    const component = fixture.componentInstance;
+
+    expect(component.emailLabel()).toBe("Email Address");
+    expect(component.passwordLabel()).toBe("Password");
+    expect(component.signInLabel()).toBe("Sign In");
+    expect(component.forgotPasswordLabel()).toBe("Forgot Password");
+    expect(component.noAccountLabel()).toBe("Don't have an account?");
+    expect(component.registerLabel()).toBe("Register");
+    expect(component.unknownErrorLabel()).toBe("An unknown error occurred");
+  });
+
+  it("should initialize form with empty values", async () => {
+    const { fixture } = await render(SignInAuthFormComponent, {
+      imports: [
+        CommonModule,
+        SignInAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
+      ],
+    });
+    const component = fixture.componentInstance;
+    expect(component.form.getFieldValue("email")).toBe("");
+    expect(component.form.getFieldValue("password")).toBe("");
+  });
+
+  it("should prevent default and stop propagation on form submit", async () => {
+    const { fixture } = await render(SignInAuthFormComponent, {
+      imports: [
+        CommonModule,
+        SignInAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
+      ],
+    });
+    const component = fixture.componentInstance;
+    component.form.setFieldValue("email", "test@example.com");
+    component.form.setFieldValue("password", "password123");
     fixture.detectChanges();
 
-    // Wait for any async operations to complete
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    const submitEvent = new Event("submit") as SubmitEvent;
+    const preventDefaultSpy = jest.fn();
+    const stopPropagationSpy = jest.fn();
 
-    // Check that the error message is displayed in the DOM
-    const formErrorEl = fixture.debugElement.query(By.css(".fui-form__error"));
-    expect(formErrorEl).toBeTruthy();
-    expect(formErrorEl.nativeElement.textContent.trim()).toBe("Invalid credentials");
+    Object.defineProperties(submitEvent, {
+      preventDefault: { value: preventDefaultSpy },
+      stopPropagation: { value: stopPropagationSpy },
+    });
+
+    component.handleSubmit(submitEvent);
+    await fixture.whenStable();
+
+    expect(preventDefaultSpy).toHaveBeenCalled();
+    expect(stopPropagationSpy).toHaveBeenCalled();
   });
 
-  it("shows an error message for invalid input", () => {
-    // Manually set error message for testing
-    component.formError = errorMessages.invalidEmail;
+  it("should handle form submission with valid credentials", async () => {
+    const mockCredential = { user: { uid: "test-uid" } } as UserCredential;
+    mockSignInWithEmailAndPassword.mockResolvedValue(mockCredential);
+
+    const { fixture } = await render(SignInAuthFormComponent, {
+      imports: [
+        CommonModule,
+        SignInAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
+      ],
+    });
+
+    const component = fixture.componentInstance;
+    const signInSpy = jest.spyOn(component.signIn, "emit");
+
+    component.form.setFieldValue("email", "test@example.com");
+    component.form.setFieldValue("password", "password123");
     fixture.detectChanges();
 
-    // Check for error display in the DOM
-    const formErrorEl = fixture.debugElement.query(By.css(".fui-form__error"));
-    expect(formErrorEl).toBeTruthy();
-    expect(formErrorEl.nativeElement.textContent.trim()).toBe(errorMessages.invalidEmail);
+    await component.form.handleSubmit();
+    await fixture.whenStable();
+
+    expect(signInSpy).toHaveBeenCalledWith(mockCredential);
+    expect(mockSignInWithEmailAndPassword).toHaveBeenCalledWith(
+      expect.objectContaining({
+        app: expect.any(Object),
+        auth: expect.any(Object),
+      }),
+      "test@example.com",
+      "password123"
+    );
   });
 
-  it("navigates to register route when that button is clicked", () => {
-    // Find the register button (second action button)
-    const registerButton = fixture.debugElement.queryAll(By.css(".fui-form__action"))[1];
-    expect(registerButton).toBeTruthy();
+  it("should handle FirebaseUIError and display error message", async () => {
+    const errorMessage = "Invalid credentials";
+    mockSignInWithEmailAndPassword.mockRejectedValue(new mockFirebaseUIError(errorMessage));
 
-    // Click the button
-    registerButton.nativeElement.click();
+    const { fixture } = await render(SignInAuthFormComponent, {
+      imports: [
+        CommonModule,
+        SignInAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
+      ],
+    });
 
-    // Check navigation was triggered
-    expect(mockRouter.navigateByUrl).toHaveBeenCalledWith("/register");
+    const component = fixture.componentInstance;
+
+    component.form.setFieldValue("email", "test@example.com");
+    component.form.setFieldValue("password", "wrongpassword");
+    fixture.detectChanges();
+
+    await component.form.handleSubmit();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(screen.getByText(errorMessage)).toBeInTheDocument();
   });
 
-  it("navigates to forgot password route when that button is clicked", () => {
-    // Find the forgot password button (first action button)
-    const forgotPasswordButton = fixture.debugElement.queryAll(By.css(".fui-form__action"))[0];
-    expect(forgotPasswordButton).toBeTruthy();
+  it("should handle unknown errors and display generic error message", async () => {
+    mockSignInWithEmailAndPassword.mockRejectedValue(new Error("Network error"));
 
-    // Click the button
-    forgotPasswordButton.nativeElement.click();
+    const { fixture } = await render(SignInAuthFormComponent, {
+      imports: [
+        CommonModule,
+        SignInAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
+      ],
+    });
 
-    // Check navigation was triggered
-    expect(mockRouter.navigateByUrl).toHaveBeenCalledWith("/forgot-password");
+    const component = fixture.componentInstance;
+
+    component.form.setFieldValue("email", "test@example.com");
+    component.form.setFieldValue("password", "password123");
+    fixture.detectChanges();
+
+    await component.form.handleSubmit();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(screen.getByText("An unknown error occurred")).toBeInTheDocument();
+  });
+
+  it("should use the same validation logic as the real createSignInAuthFormSchema", async () => {
+    const { fixture } = await render(SignInAuthFormComponent, {
+      imports: [
+        CommonModule,
+        SignInAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
+      ],
+    });
+
+    const component = fixture.componentInstance;
+
+    component.form.setFieldValue("email", "invalid-email");
+    component.form.setFieldValue("password", "password123");
+    fixture.detectChanges();
+
+    expect(component.form.state.errorMap).toBeDefined();
+
+    component.form.setFieldValue("email", "test@example.com");
+    component.form.setFieldValue("password", "password123");
+    fixture.detectChanges();
+
+    expect(component.form.state.errors).toHaveLength(0);
+  });
+
+  it("should emit forgotPassword when forgot password button is clicked", async () => {
+    const { fixture } = await render(SignInAuthFormComponent, {
+      imports: [
+        CommonModule,
+        SignInAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
+      ],
+    });
+    const component = fixture.componentInstance;
+    const forgotPasswordSpy = jest.spyOn(component.forgotPassword, "emit");
+
+    const forgotPasswordButton = screen.getByRole("button", { name: "Forgot Password" });
+    forgotPasswordButton.click();
+
+    expect(forgotPasswordSpy).toHaveBeenCalled();
+  });
+
+  it("should emit signUp when sign up button is clicked", async () => {
+    const { fixture } = await render(SignInAuthFormComponent, {
+      imports: [
+        CommonModule,
+        SignInAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
+      ],
+    });
+    const component = fixture.componentInstance;
+    const signUpSpy = jest.spyOn(component.signUp, "emit");
+
+    const signUpButton = screen.getByRole("button", { name: "Don't have an account? Register" });
+    signUpButton.click();
+
+    expect(signUpSpy).toHaveBeenCalled();
   });
 });

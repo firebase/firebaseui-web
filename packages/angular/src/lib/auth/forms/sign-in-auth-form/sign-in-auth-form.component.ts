@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, OnInit, output, effect } from "@angular/core";
+import { Component, output, effect } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { UserCredential } from "@angular/fire/auth";
 import { injectForm, TanStackField, TanStackAppField, injectStore } from "@tanstack/angular-form";
@@ -77,7 +77,7 @@ import {
     </form>
   `,
 })
-export class SignInAuthFormComponent implements OnInit {
+export class SignInAuthFormComponent {
   private ui = injectUI();
   private formSchema = injectSignInAuthFormSchema();
 
@@ -108,27 +108,28 @@ export class SignInAuthFormComponent implements OnInit {
     this.form.handleSubmit();
   }
 
-  ngOnInit() {
-    this.form.update({
-      validators: {
-        onChange: this.formSchema(),
-        onBlur: this.formSchema(),
-        onSubmit: this.formSchema(),
-        onSubmitAsync: async ({ value }) => {
-          console.log("onSubmitAsync", value);
-          try {
-            const credential = await signInWithEmailAndPassword(this.ui(), value.email, value.password);
-            this.signIn?.emit(credential);
-          } catch (error) {
-            console.log("error", error);
-            if (error instanceof FirebaseUIError) {
-              return error.message;
-            }
+  constructor() {
+    effect(() => {
+      this.form.update({
+        validators: {
+          onChange: this.formSchema(),
+          onBlur: this.formSchema(),
+          onSubmit: this.formSchema(),
+          onSubmitAsync: async ({ value }) => {
+            try {
+              const credential = await signInWithEmailAndPassword(this.ui(), value.email, value.password);
+              this.signIn?.emit(credential);
+              return;
+            } catch (error) {
+              if (error instanceof FirebaseUIError) {
+                return error.message;
+              }
 
-            return this.unknownErrorLabel();
-          }
+              return this.unknownErrorLabel();
+            }
+          },
         },
-      },
+      });
     });
   }
 }
