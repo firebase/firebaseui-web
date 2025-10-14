@@ -30,6 +30,7 @@ import {
   createEmailLinkAuthFormSchema,
   createForgotPasswordAuthFormSchema,
   createPhoneAuthNumberFormSchema,
+  createPhoneAuthVerifyFormSchema,
   createSignInAuthFormSchema,
   createSignUpAuthFormSchema,
   FirebaseUIConfiguration,
@@ -112,6 +113,11 @@ export function injectEmailLinkAuthFormSchema(): Signal<ReturnType<typeof create
 export function injectPhoneAuthFormSchema(): Signal<ReturnType<typeof createPhoneAuthNumberFormSchema>> {
   const ui = injectUI();
   return computed(() => createPhoneAuthNumberFormSchema(ui()));
+}
+
+export function injectPhoneAuthVerifyFormSchema(): Signal<ReturnType<typeof createPhoneAuthVerifyFormSchema>> {
+  const ui = injectUI();
+  return computed(() => createPhoneAuthVerifyFormSchema(ui()));
 }
 
 export function injectPolicies(): PolicyConfig | null {

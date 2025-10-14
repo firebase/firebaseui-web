@@ -16,7 +16,6 @@
 
 import {
   Component,
-  OnInit,
   ElementRef,
   effect,
   input,
@@ -27,22 +26,21 @@ import {
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanstack/angular-form";
-import { injectPhoneAuthFormSchema, injectTranslation, injectUI } from "../../../provider";
-import { ConfirmationResult, RecaptchaVerifier, UserCredential } from "@angular/fire/auth";
+import { injectPhoneAuthFormSchema, injectPhoneAuthVerifyFormSchema, injectTranslation, injectUI } from "../../../provider";
+import { RecaptchaVerifier, UserCredential } from "@angular/fire/auth";
 import { PoliciesComponent } from "../../../components/policies/policies.component";
 import { CountrySelectorComponent } from "../../../components/country-selector/country-selector.component";
 import {
   FormInputComponent,
   FormSubmitComponent,
   FormErrorMessageComponent,
-  FormActionComponent,
 } from "../../../components/form/form.component";
 import {
   countryData,
   FirebaseUIError,
-  formatPhoneNumberWithCountry,
+  formatPhoneNumber,
   confirmPhoneNumber,
-  signInWithPhoneNumber,
+  verifyPhoneNumber,
   CountryCode,
 } from "@firebase-ui/core";
 
@@ -83,12 +81,11 @@ import {
     </form>
   `,
 })
-export class PhoneNumberFormComponent implements OnInit {
+export class PhoneNumberFormComponent {
   private ui = injectUI();
   private formSchema = injectPhoneAuthFormSchema();
-  private phoneFormSchema: ReturnType<typeof this.pickPhoneFormSchema>;
 
-  onSubmit = output<ConfirmationResult>();
+  onSubmit = output<{ verificationId: string; phoneNumber: string }>();
   country = signal<CountryCode>(countryData[0].code);
 
   phoneNumberLabel = injectTranslation("labels", "phoneNumber");
@@ -111,20 +108,20 @@ export class PhoneNumberFormComponent implements OnInit {
 
   state = injectStore(this.form, (state) => state);
 
-  async ngOnInit() {
-    this.phoneFormSchema = this.pickPhoneFormSchema();
-
+  constructor() {
     effect(() => {
       this.form.update({
         validators: {
-          onBlur: this.phoneFormSchema(),
-          onSubmit: this.phoneFormSchema(),
+          onBlur: this.formSchema(),
+          onSubmit: this.formSchema(),
           onSubmitAsync: async ({ value }) => {
-            const formattedNumber = formatPhoneNumberWithCountry(value.phoneNumber, this.country());
+            const selectedCountry = countryData.find(c => c.code === this.country());
+            const formattedNumber = formatPhoneNumber(value.phoneNumber, selectedCountry!);
 
             try {
-              const result = await signInWithPhoneNumber(this.ui(), formattedNumber, this.recaptchaVerifier());
-              this.onSubmit.emit(result);
+              const verificationId = await verifyPhoneNumber(this.ui(), formattedNumber, this.recaptchaVerifier());
+              this.onSubmit.emit({ verificationId, phoneNumber: formattedNumber });
+              return;
             } catch (error) {
               if (error instanceof FirebaseUIError) {
                 return error.message;
@@ -146,13 +143,6 @@ export class PhoneNumberFormComponent implements OnInit {
     });
   }
 
-  private pickPhoneFormSchema() {
-    return computed(() =>
-      this.formSchema().pick({
-        phoneNumber: true,
-      })
-    );
-  }
 
   async handleSubmit(event: SubmitEvent) {
     event.preventDefault();
@@ -172,7 +162,6 @@ export class PhoneNumberFormComponent implements OnInit {
     FormInputComponent,
     FormSubmitComponent,
     FormErrorMessageComponent,
-    FormActionComponent,
   ],
   template: `
     <form (submit)="handleSubmit($event)" class="fui-form">
@@ -193,69 +182,45 @@ export class PhoneNumberFormComponent implements OnInit {
         </fui-form-submit>
         <fui-form-error-message [state]="state()" />
       </fieldset>
-
-      <fieldset>
-        <button fui-form-action (click)="onResend()">
-          @if (isResending()) {
-            {{ sendingLabel() }}
-          } @else {
-            {{ resendCodeLabel() }}
-          }
-        </button>
-      </fieldset>
     </form>
   `,
 })
-export class VerificationFormComponent implements OnInit {
+export class VerificationFormComponent {
   private ui = injectUI();
-  private formSchema = injectPhoneAuthFormSchema();
-  private verificationFormSchema: ReturnType<typeof this.pickVerificationFormSchema>;
+  private formSchema = injectPhoneAuthVerifyFormSchema();
 
-  confirmationResult = input.required<ConfirmationResult>();
-  resendDelay = input<number>(30);
+  verificationId = input.required<string>();
   signIn = output<UserCredential>();
-
-  isResending = signal<boolean>(false);
 
   verificationCodeLabel = injectTranslation("labels", "verificationCode");
   verifyCodeLabel = injectTranslation("labels", "verifyCode");
-  resendCodeLabel = injectTranslation("labels", "resendCode");
-  sendingLabel = injectTranslation("labels", "sending");
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
-  // @Input() onSubmit!: (code: string) => Promise<void>;
-  // @Input() onResend!: () => Promise<void>;
-  // @Input() formError: string | null = null;
-  // @Input() showTerms = false;
-  // @Input() isResending = false;
-  // @Input() canResend = false;
-  // @Input() timeLeft = 0;
-  // @ViewChild("recaptchaContainer", { static: true })
-  // recaptchaContainer!: ElementRef<HTMLDivElement>;
-
-  // private formSchema: any;
-  // private config: any;
 
   form = injectForm({
     defaultValues: {
+      verificationId: "",
       verificationCode: "",
     },
   });
 
   state = injectStore(this.form, (state) => state);
 
-  async ngOnInit() {
-    this.verificationFormSchema = this.pickVerificationFormSchema();
+  constructor() {
+    effect(() => {
+      this.form.setFieldValue("verificationId", this.verificationId());
+    });
 
     effect(() => {
       this.form.update({
         validators: {
-          onBlur: this.verificationFormSchema(),
-          onSubmit: this.verificationFormSchema(),
+          onBlur: this.formSchema(),
+          onSubmit: this.formSchema(),
           onSubmitAsync: async ({ value }) => {
             try {
-              const credential = await confirmPhoneNumber(this.ui(), this.confirmationResult(), value.verificationCode);
+              const credential = await confirmPhoneNumber(this.ui(), this.verificationId(), value.verificationCode);
               this.signIn.emit(credential);
+              return;
             } catch (error) {
               if (error instanceof FirebaseUIError) {
                 return error.message;
@@ -269,13 +234,6 @@ export class VerificationFormComponent implements OnInit {
     });
   }
 
-  private pickVerificationFormSchema() {
-    return computed(() =>
-      this.formSchema().pick({
-        verificationCode: true,
-      })
-    );
-  }
 
   async handleSubmit(event: SubmitEvent) {
     event.preventDefault();
@@ -283,9 +241,6 @@ export class VerificationFormComponent implements OnInit {
     this.form.handleSubmit();
   }
 
-  async onResend() {
-    alert("TODO: Implement resend code");
-  }
 }
 
 @Component({
@@ -294,16 +249,21 @@ export class VerificationFormComponent implements OnInit {
   imports: [CommonModule, PhoneNumberFormComponent, VerificationFormComponent],
   template: `
     <div class="fui-form-container">
-      @if (confirmationResult()) {
-        <fui-verification-form [confirmationResult]="confirmationResult()" [resendDelay]="resendDelay()" (signIn)="signIn.emit($event)" />
+      @if (verificationId()) {
+        <fui-verification-form 
+          [verificationId]="verificationId()!" 
+          (signIn)="signIn.emit($event)" />
       } @else {
-        <fui-phone-number-form (onSubmit)="confirmationResult.set($event)" />
+        <fui-phone-number-form (onSubmit)="handlePhoneSubmit($event)" />
       }
     </div>
   `,
 })
 export class PhoneAuthFormComponent {
-  confirmationResult = signal<ConfirmationResult | null>(null);
-  resendDelay = input<number>(30);
+  verificationId = signal<string | null>(null);
   signIn = output<UserCredential>();
+
+  handlePhoneSubmit(data: { verificationId: string; phoneNumber: string }) {
+    this.verificationId.set(data.verificationId);
+  }
 }
