@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, OnInit, output } from "@angular/core";
+import { Component, effect, output, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanstack/angular-form";
 import { UserCredential } from "@angular/fire/auth";
@@ -24,30 +24,34 @@ import {
   sendSignInLinkToEmail,
 } from "@firebase-ui/core";
 
-import { injectEmailLinkAuthFormSchema, injectTranslation, injectUI } from "../../../provider";
+import {
+  FormInputComponent,
+  FormSubmitComponent,
+  FormErrorMessageComponent,
+} from "../../../components/form/form.component";
 import { PoliciesComponent } from "../../../components/policies/policies.component";
-import { FormErrorMessageComponent, FormInputComponent, FormSubmitComponent } from "../../../components/form/form.component";
+import { injectEmailLinkAuthFormSchema, injectTranslation, injectUI } from "../../../provider";
 
 @Component({
   selector: "fui-email-link-auth-form",
   standalone: true,
   imports: [
     CommonModule,
-    PoliciesComponent,
     TanStackField,
     TanStackAppField,
+    PoliciesComponent,
     FormInputComponent,
     FormSubmitComponent,
     FormErrorMessageComponent,
   ],
   template: `
-    @if (emailSent) {
-      <div class="fui-form">
+    @if (emailSentState()) {
+      <div class="fui-form__success">
         {{ emailSentMessage() }}
       </div>
     }
 
-    @if (!emailSent) {
+    @if (!emailSentState()) {
       <form (submit)="handleSubmit($event)" class="fui-form">
         <fieldset>
           <fui-form-input
@@ -55,9 +59,11 @@ import { FormErrorMessageComponent, FormInputComponent, FormSubmitComponent } fr
             tanstack-app-field
             [tanstackField]="form"
             label="{{ emailLabel() }}"
-          ></fui-form-input>
+          />
         </fieldset>
+
         <fui-policies />
+
         <fieldset>
           <fui-form-submit [state]="state()">
             {{ sendSignInLinkLabel() }}
@@ -68,9 +74,11 @@ import { FormErrorMessageComponent, FormInputComponent, FormSubmitComponent } fr
     }
   `,
 })
-export class EmailLinkAuthFormComponent implements OnInit {
+export class EmailLinkAuthFormComponent {
   private ui = injectUI();
   private formSchema = injectEmailLinkAuthFormSchema();
+
+  emailSentState = signal<boolean>(false);
 
   emailLabel = injectTranslation("labels", "emailAddress");
   sendSignInLinkLabel = injectTranslation("labels", "sendSignInLink");
@@ -88,32 +96,36 @@ export class EmailLinkAuthFormComponent implements OnInit {
 
   state = injectStore(this.form, (state) => state);
 
-  handleSubmit(event: SubmitEvent) {
+  async handleSubmit(event: SubmitEvent) {
     event.preventDefault();
     event.stopPropagation();
     this.form.handleSubmit();
   }
 
-  async ngOnInit() {
+  constructor() {
     this.completeSignIn();
 
-    this.form.update({
-      validators: {
-        onBlur: this.formSchema(),
-        onSubmit: this.formSchema(),
-        onSubmitAsync: async ({ value }) => {
-          try {
-            await sendSignInLinkToEmail(this.ui(), value.email);
-            this.emailSent?.emit();
-          } catch (error) {
-            if (error instanceof FirebaseUIError) {
-              return error.message;
-            }
+    effect(() => {
+      this.form.update({
+        validators: {
+          onBlur: this.formSchema(),
+          onSubmit: this.formSchema(),
+          onSubmitAsync: async ({ value }) => {
+            try {
+              await sendSignInLinkToEmail(this.ui(), value.email);
+              this.emailSentState.set(true);
+              this.emailSent?.emit();
+              return;
+            } catch (error) {
+              if (error instanceof FirebaseUIError) {
+                return error.message;
+              }
 
-            return this.unknownErrorLabel();
-          }
+              return this.unknownErrorLabel();
+            }
+          },
         },
-      },
+      });
     });
   }
 
