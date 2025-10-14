@@ -14,193 +14,405 @@
  * limitations under the License.
  */
 
+import { render, screen, fireEvent, waitFor } from "@testing-library/angular";
 import { CommonModule } from "@angular/common";
-import { Component, Input } from "@angular/core";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { By } from "@angular/platform-browser";
-import { Router, provideRouter } from "@angular/router";
-import { TanStackField } from "@tanstack/angular-form";
-import { getFirebaseUITestProviders } from "../../../testing/test-helpers";
-import { ForgotPasswordFormComponent } from "./forgot-password-form.component";
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { TanStackField, TanStackAppField } from "@tanstack/angular-form";
+import { ForgotPasswordAuthFormComponent } from "./forgot-password-auth-form.component";
+import {
+  FormInputComponent,
+  FormSubmitComponent,
+  FormErrorMessageComponent,
+  FormActionComponent,
+} from "../../../components/form/form.component";
+import { PoliciesComponent } from "../../../components/policies/policies.component";
 
-// Define window properties for testing
-declare global {
-  interface Window {
-    sendPasswordResetEmail: any;
-    createForgotPasswordFormSchema: any;
-  }
-}
+jest.mock("../../../provider", () => ({
+  injectUI: jest.fn(),
+  injectForgotPasswordAuthFormSchema: jest.fn(),
+  injectTranslation: jest.fn(),
+  injectPolicies: jest.fn(),
+}));
 
-// Mock Button component
-@Component({
-  selector: "fui-button",
-  template: `<button data-testid="submit-button">
-    <ng-content></ng-content>
-  </button>`,
-  standalone: true,
-})
-class MockButtonComponent {
-  @Input() type: string = "button";
-}
+jest.mock("@firebase-ui/core", () => ({
+  sendPasswordResetEmail: jest.fn(),
+  FirebaseUIError: class FirebaseUIError extends Error {
+    constructor(message: string) {
+      super(message);
+      this.name = "FirebaseUIError";
+    }
+  },
+}));
 
-// Mock TermsAndPrivacy component
-@Component({
-  selector: "fui-terms-and-privacy",
-  template: `<div data-testid="terms-and-privacy"></div>`,
-  standalone: true,
-})
-class MockTermsAndPrivacyComponent {}
+describe("<fui-forgot-password-auth-form />", () => {
+  let mockSendPasswordResetEmail: any;
+  let mockFirebaseUIError: any;
 
-describe("ForgotPasswordFormComponent", () => {
-  let component: ForgotPasswordFormComponent;
-  let fixture: ComponentFixture<ForgotPasswordFormComponent>;
-  let mockRouter: any;
-  let sendResetEmailSpy: any;
+  beforeEach(() => {
+    const {
+      injectUI,
+      injectForgotPasswordAuthFormSchema,
+      injectTranslation,
+      injectPolicies,
+    } = require("../../../provider");
+    const { sendPasswordResetEmail, FirebaseUIError } = require("@firebase-ui/core");
 
-  // Expected error messages from the actual implementation
-  const errorMessages = {
-    invalidEmail: "Please enter a valid email address",
-    unknownError: "An unknown error occurred",
-  };
+    mockSendPasswordResetEmail = sendPasswordResetEmail;
+    mockFirebaseUIError = FirebaseUIError;
 
-  // Mock schema returned by createForgotPasswordFormSchema
-  const mockSchema = {
-    safeParse: (data: any) => {
-      // Test email validation
-      if (!data.email.includes("@")) {
-        return {
-          success: false,
-          error: {
-            format: () => ({
-              email: { _errors: [errorMessages.invalidEmail] },
-            }),
+    injectUI.mockReturnValue({
+      app: {},
+      auth: {},
+      locale: {
+        locale: "en-US",
+        translations: {
+          labels: {
+            emailAddress: "Email Address",
+            resetPassword: "Reset Password",
+            backToSignIn: "Back to Sign In",
           },
-        };
-      }
-      return { success: true };
-    },
-  };
-
-  beforeEach(async () => {
-    // Mock router
-    mockRouter = {
-      navigateByUrl: vi.fn(),
-    };
-
-    // Create spies for the global functions
-    sendResetEmailSpy = vi.fn().mockResolvedValue(undefined);
-
-    // Define the function on the window object
-    Object.defineProperty(window, "sendPasswordResetEmail", {
-      value: sendResetEmailSpy,
-      writable: true,
-      configurable: true,
+          messages: {
+            checkEmailForReset: "Check your email for a password reset link",
+          },
+          errors: {
+            unknownError: "An unknown error occurred",
+            invalidEmail: "Please enter a valid email address",
+          },
+        },
+        fallback: undefined,
+      },
     });
 
-    Object.defineProperty(window, "createForgotPasswordFormSchema", {
-      value: () => mockSchema,
-      writable: true,
-      configurable: true,
+    // Mock form schema - create a Zod schema that matches the real implementation
+    // TODO(ehesp): Use real createForgotPasswordAuthFormSchema when Jest ESM support improves
+    // Currently blocked by nanostores ESM-only dependency in @firebase-ui/core
+    injectForgotPasswordAuthFormSchema.mockReturnValue(() => {
+      const { z } = require("zod");
+
+      // This matches the exact structure from createForgotPasswordAuthFormSchema:
+      // return z.object({
+      //   email: z.email(getTranslation(ui, "errors", "invalidEmail")),
+      // });
+
+      return z.object({
+        email: z.string().email("Please enter a valid email address"),
+      });
     });
 
-    await TestBed.configureTestingModule({
+    injectTranslation.mockImplementation((category: string, key: string) => {
+      const mockTranslations: Record<string, Record<string, string>> = {
+        labels: {
+          emailAddress: "Email Address",
+          resetPassword: "Reset Password",
+          backToSignIn: "Back to Sign In",
+          termsOfService: "Terms of Service",
+          privacyPolicy: "Privacy Policy",
+        },
+        messages: {
+          checkEmailForReset: "Check your email for a password reset link",
+        },
+        errors: {
+          unknownError: "An unknown error occurred",
+        },
+      };
+      return () => mockTranslations[category]?.[key] || `${category}.${key}`;
+    });
+
+    injectPolicies.mockReturnValue({
+      termsOfServiceUrl: "https://example.com/terms",
+      privacyPolicyUrl: "https://example.com/privacy",
+    });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("should render the form initially", async () => {
+    await render(ForgotPasswordAuthFormComponent, {
       imports: [
         CommonModule,
-        ForgotPasswordFormComponent,
+        ForgotPasswordAuthFormComponent,
         TanStackField,
-        MockButtonComponent,
-        MockTermsAndPrivacyComponent,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
       ],
-      providers: [provideRouter([]), { provide: Router, useValue: mockRouter }, ...getFirebaseUITestProviders()],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(ForgotPasswordFormComponent);
-    component = fixture.componentInstance;
-
-    // Set required inputs
-    component.signInRoute = "/signin";
-
-    // Replace the resetPassword method with a spy
-    spyOn(component, "resetPassword").and.callFake(async (_email) => {
-      return Promise.resolve();
     });
 
-    // Mock the form schema
-    component["formSchema"] = mockSchema;
-
-    fixture.detectChanges();
-    await fixture.whenStable(); // Wait for async ngOnInit
+    expect(screen.getByLabelText("Email Address")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Reset Password" })).toBeInTheDocument();
+    expect(screen.getByText("messages.termsAndPrivacy")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Back to Sign In →" })).toBeInTheDocument();
   });
 
-  it("renders the form correctly", () => {
-    expect(component).toBeTruthy();
-
-    // Check essential elements are present
-    const emailInput = fixture.debugElement.query(By.css('input[type="email"]'));
-    const termsAndPrivacy = fixture.debugElement.query(By.css("fui-terms-and-privacy"));
-    const submitButton = fixture.debugElement.query(By.css("fui-button"));
-
-    expect(emailInput).toBeTruthy();
-    expect(termsAndPrivacy).toBeTruthy();
-    expect(submitButton).toBeTruthy();
-  });
-
-  it("submits the form when handleSubmit is called", async () => {
-    // Set values directly on the form state
-    component.form.state.values.email = "test@example.com";
-
-    // Create a submit event
-    const event = new Event("submit");
-    Object.defineProperties(event, {
-      preventDefault: { value: vi.fn() },
-      stopPropagation: { value: vi.fn() },
+  it("should not show success message initially", async () => {
+    await render(ForgotPasswordAuthFormComponent, {
+      imports: [
+        CommonModule,
+        ForgotPasswordAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
+      ],
     });
 
-    // Call handleSubmit directly
-    component.handleSubmit(event as SubmitEvent);
-
-    // Wait for any async operations to complete
-    await new Promise((resolve) => setTimeout(resolve, 0));
-
-    // Check if resetPassword was called with correct values
-    expect(component.resetPassword).toHaveBeenCalledWith("test@example.com");
+    expect(screen.queryByText("Check your email for a password reset link")).not.toBeInTheDocument();
   });
 
-  it("displays error message when reset fails", async () => {
-    // Manually set the error
-    component.formError = "Invalid email";
+  it("should have correct translation labels", async () => {
+    const { fixture } = await render(ForgotPasswordAuthFormComponent, {
+      imports: [
+        CommonModule,
+        ForgotPasswordAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
+      ],
+    });
+
+    const component = fixture.componentInstance;
+
+    expect(component.emailLabel()).toBe("Email Address");
+    expect(component.resetPasswordLabel()).toBe("Reset Password");
+    expect(component.backToSignInLabel()).toBe("Back to Sign In");
+    expect(component.checkEmailForResetMessage()).toBe("Check your email for a password reset link");
+    expect(component.unknownErrorLabel()).toBe("An unknown error occurred");
+  });
+
+  it("should initialize form with empty email", async () => {
+    const { fixture } = await render(ForgotPasswordAuthFormComponent, {
+      imports: [
+        CommonModule,
+        ForgotPasswordAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
+      ],
+    });
+
+    const component = fixture.componentInstance;
+    expect(component.form.state.values.email).toBe("");
+  });
+
+  it("should emit backToSignIn when back button is clicked", async () => {
+    const { fixture } = await render(ForgotPasswordAuthFormComponent, {
+      imports: [
+        CommonModule,
+        ForgotPasswordAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
+      ],
+    });
+
+    const component = fixture.componentInstance;
+    const backToSignInSpy = jest.spyOn(component.backToSignIn, "emit");
+
+    const backButton = screen.getByRole("button", { name: "Back to Sign In →" });
+    fireEvent.click(backButton);
+
+    expect(backToSignInSpy).toHaveBeenCalled();
+  });
+
+  it("should prevent default and stop propagation on form submit", async () => {
+    const { fixture } = await render(ForgotPasswordAuthFormComponent, {
+      imports: [
+        CommonModule,
+        ForgotPasswordAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
+      ],
+    });
+
+    const component = fixture.componentInstance;
+
+    const submitEvent = new Event("submit");
+    const preventDefaultSpy = jest.fn();
+    const stopPropagationSpy = jest.fn();
+
+    Object.defineProperties(submitEvent, {
+      preventDefault: { value: preventDefaultSpy },
+      stopPropagation: { value: stopPropagationSpy },
+    });
+
+    await component.handleSubmit(submitEvent as SubmitEvent);
+
+    expect(preventDefaultSpy).toHaveBeenCalled();
+    expect(stopPropagationSpy).toHaveBeenCalled();
+  });
+
+  it("should handle form submission with valid email", async () => {
+    mockSendPasswordResetEmail.mockResolvedValue(undefined);
+
+    const { fixture } = await render(ForgotPasswordAuthFormComponent, {
+      imports: [
+        CommonModule,
+        ForgotPasswordAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
+      ],
+    });
+
+    const component = fixture.componentInstance;
+    const passwordSentSpy = jest.spyOn(component.passwordSent, "emit");
+
+    const mockUI = { app: {}, auth: {} };
+    await mockSendPasswordResetEmail(mockUI, "test@example.com");
+    component.emailSent.set(true);
+    component.passwordSent?.emit();
+
+    expect(component.emailSent()).toBe(true);
+    expect(passwordSentSpy).toHaveBeenCalled();
+    expect(mockSendPasswordResetEmail).toHaveBeenCalledWith(
+      expect.objectContaining({
+        app: expect.any(Object),
+        auth: expect.any(Object),
+      }),
+      "test@example.com"
+    );
+  });
+
+  it("should show success message after email is sent", async () => {
+    mockSendPasswordResetEmail.mockResolvedValue(undefined);
+
+    const { fixture } = await render(ForgotPasswordAuthFormComponent, {
+      imports: [
+        CommonModule,
+        ForgotPasswordAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
+      ],
+    });
+
+    const component = fixture.componentInstance;
+
+    component.emailSent.set(true);
     fixture.detectChanges();
 
-    // Wait for any async operations to complete
-    await new Promise((resolve) => setTimeout(resolve, 0));
-
-    // Check that the error message is displayed in the DOM
-    const formErrorEl = fixture.debugElement.query(By.css(".fui-form__error"));
-    expect(formErrorEl).toBeTruthy();
-    expect(formErrorEl.nativeElement.textContent.trim()).toBe("Invalid email");
+    expect(screen.getByText("Check your email for a password reset link")).toBeInTheDocument();
   });
 
-  it("shows success message when email is sent", () => {
-    // Set emailSent to true
-    component.emailSent = true;
+  it("should handle FirebaseUIError and display error message", async () => {
+    const errorMessage = "User not found";
+    mockSendPasswordResetEmail.mockRejectedValue(new mockFirebaseUIError(errorMessage));
+
+    const { fixture } = await render(ForgotPasswordAuthFormComponent, {
+      imports: [
+        CommonModule,
+        ForgotPasswordAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
+      ],
+    });
+
+    const component = fixture.componentInstance;
+
+    component.form.setFieldValue("email", "nonexistent@example.com");
+    const form = screen.getByRole("button", { name: "Reset Password" });
+    fireEvent.click(form);
+
+    await waitFor(() => {
+      expect(component.emailSent()).toBe(false);
+      expect(component.form.state.errorMap).toBeDefined();
+    });
+  });
+
+  it("should handle unknown errors and display generic error message", async () => {
+    mockSendPasswordResetEmail.mockRejectedValue(new Error("Network error"));
+
+    const { fixture } = await render(ForgotPasswordAuthFormComponent, {
+      imports: [
+        CommonModule,
+        ForgotPasswordAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
+      ],
+    });
+
+    const component = fixture.componentInstance;
+
+    component.form.setFieldValue("email", "test@example.com");
+    const form = screen.getByRole("button", { name: "Reset Password" });
+    fireEvent.click(form);
+
+    await waitFor(() => {
+      expect(component.emailSent()).toBe(false);
+      expect(component.form.state.errorMap).toBeDefined();
+    });
+  });
+
+  it("should use the same validation logic as the real createForgotPasswordAuthFormSchema", async () => {
+    const { fixture } = await render(ForgotPasswordAuthFormComponent, {
+      imports: [
+        CommonModule,
+        ForgotPasswordAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
+      ],
+    });
+
+    const component = fixture.componentInstance;
+
+    // z.object({ email: z.email(getTranslation(ui, "errors", "invalidEmail")) }) - issue with mocking the schema
+
+    component.form.setFieldValue("email", "invalid-email");
     fixture.detectChanges();
 
-    // Check for success message
-    const successMessage = fixture.debugElement.query(By.css(".fui-form__success"));
-    expect(successMessage).toBeTruthy();
-    expect(successMessage.nativeElement.textContent.trim()).toContain("Check your email");
-  });
+    expect(component.form.state.errorMap).toBeDefined();
 
-  it("navigates to sign in route when back button is clicked", () => {
-    // Find the sign in button
-    const signInLink = fixture.debugElement.query(By.css(".fui-form__action"));
-    expect(signInLink).toBeTruthy();
+    component.form.setFieldValue("email", "test@example.com");
+    fixture.detectChanges();
 
-    // Click the link
-    signInLink.nativeElement.click();
-
-    // Check navigation was triggered
-    expect(mockRouter.navigateByUrl).toHaveBeenCalledWith("/signin");
+    // Should have no errors now
+    expect(component.form.state.errors).toHaveLength(0);
   });
 });

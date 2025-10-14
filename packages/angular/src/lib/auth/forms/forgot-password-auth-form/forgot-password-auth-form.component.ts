@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, OnInit, output, signal } from "@angular/core";
+import { Component, effect, output, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanstack/angular-form";
 import { FirebaseUIError, sendPasswordResetEmail } from "@firebase-ui/core";
@@ -56,7 +56,7 @@ import { injectForgotPasswordAuthFormSchema, injectTranslation, injectUI } from 
             tanstack-app-field
             [tanstackField]="form"
             label="{{ emailLabel() }}"
-          ></fui-form-input>
+          />
         </fieldset>
 
         <fui-policies />
@@ -69,15 +69,13 @@ import { injectForgotPasswordAuthFormSchema, injectTranslation, injectUI } from 
         </fieldset>
 
         @if (backToSignIn) {
-          <button fui-form-action (click)="backToSignIn.emit()">
-            {{ backToSignInLabel() }} &rarr;
-          </button>
+          <button fui-form-action (click)="backToSignIn.emit()">{{ backToSignInLabel() }} &rarr;</button>
         }
       </form>
     }
   `,
 })
-export class ForgotPasswordAuthFormComponent implements OnInit {
+export class ForgotPasswordAuthFormComponent {
   private ui = injectUI();
   private formSchema = injectForgotPasswordAuthFormSchema();
 
@@ -88,7 +86,6 @@ export class ForgotPasswordAuthFormComponent implements OnInit {
   backToSignInLabel = injectTranslation("labels", "backToSignIn");
   checkEmailForResetMessage = injectTranslation("messages", "checkEmailForReset");
   unknownErrorLabel = injectTranslation("errors", "unknownError");
-
 
   passwordSent = output<void>();
   backToSignIn = output<void>();
@@ -107,25 +104,28 @@ export class ForgotPasswordAuthFormComponent implements OnInit {
     this.form.handleSubmit();
   }
 
-  async ngOnInit() {
-    this.form.update({
-      validators: {
-        onBlur: this.formSchema(),
-        onSubmit: this.formSchema(),
-        onSubmitAsync: async ({ value }) => {
-          try {
-            await sendPasswordResetEmail(this.ui(), value.email);
-            this.emailSent.set(true);
-            this.passwordSent?.emit();
-          } catch (error) {
-            if (error instanceof FirebaseUIError) {
-              return error.message;
-            }
+  constructor() {
+    effect(() => {
+      this.form.update({
+        validators: {
+          onBlur: this.formSchema(),
+          onSubmit: this.formSchema(),
+          onSubmitAsync: async ({ value }) => {
+            try {
+              await sendPasswordResetEmail(this.ui(), value.email);
+              this.emailSent.set(true);
+              this.passwordSent?.emit();
+              return;
+            } catch (error) {
+              if (error instanceof FirebaseUIError) {
+                return error.message;
+              }
 
-            return this.unknownErrorLabel();
-          }
+              return this.unknownErrorLabel();
+            }
+          },
         },
-      },
+      });
     });
   }
 }

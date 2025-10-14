@@ -18,9 +18,7 @@
     "prepare": "echo 'Skipping prepare for angular'; exit 0",
     "build": "pnpm run build:logos && ng-packagr -p ng-package.json",
     "build:logos": "tsx generate-logos.ts",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:ci": "vitest run --coverage",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
     "publish:tags": "sh -c 'TAG=\"${npm_package_name}@${npm_package_version}\"; git tag --list \"$TAG\" | grep . || git tag \"$TAG\"; git push origin \"$TAG\"'",
     "release": "pnpm pack --pack-destination ../../releases/"
   },
@@ -61,7 +59,7 @@
     "ts-node": "^10.9.2",
     "tsx": "^4.20.6",
     "typescript": "catalog:",
-    "whatwg-fetch": "^3.6.20",
+    "zod": "catalog:",
     "zone.js": "catalog:"
   }
 }
