@@ -19,26 +19,7 @@ import { Component, signal } from "@angular/core";
 
 import { GoogleSignInButtonComponent } from "./google-sign-in-button.component";
 
-jest.mock("../../provider", () => ({
-  injectUI: jest.fn(),
-  injectTranslation: jest.fn(),
-}));
-
-jest.mock("@angular/fire/auth", () => ({
-  GoogleAuthProvider: class GoogleAuthProvider {
-    providerId = "google.com";
-  },
-}));
-
-jest.mock("@firebase-ui/core", () => ({
-  signInWithProvider: jest.fn(),
-  FirebaseUIError: class FirebaseUIError extends Error {
-    constructor(message: string) {
-      super(message);
-      this.name = "FirebaseUIError";
-    }
-  },
-}));
+// Mocks are handled by jest.config.ts moduleNameMapper and test-helpers.ts
 
 @Component({
   template: `<fui-google-sign-in-button></fui-google-sign-in-button>`,

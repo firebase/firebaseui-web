@@ -19,29 +19,7 @@ import { Component } from "@angular/core";
 
 import { MicrosoftSignInButtonComponent } from "./microsoft-sign-in-button.component";
 
-jest.mock("../../provider", () => ({
-  injectUI: jest.fn(),
-  injectTranslation: jest.fn(),
-}));
-
-jest.mock("@angular/fire/auth", () => ({
-  OAuthProvider: class OAuthProvider {
-    constructor(providerId: string) {
-      this.providerId = providerId;
-    }
-    providerId: string;
-  },
-}));
-
-jest.mock("@firebase-ui/core", () => ({
-  signInWithProvider: jest.fn(),
-  FirebaseUIError: class FirebaseUIError extends Error {
-    constructor(message: string) {
-      super(message);
-      this.name = "FirebaseUIError";
-    }
-  },
-}));
+// Mocks are handled by jest.config.ts moduleNameMapper and test-helpers.ts
 
 @Component({
   template: `<fui-microsoft-sign-in-button></fui-microsoft-sign-in-button>`,

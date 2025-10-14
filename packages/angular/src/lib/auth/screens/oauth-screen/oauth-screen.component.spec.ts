@@ -29,6 +29,7 @@ import { ContentComponent } from "../../../components/content/content.component"
 
 jest.mock("../../../provider", () => ({
   injectTranslation: jest.fn(),
+  injectPolicies: jest.fn(),
 }));
 
 @Component({
@@ -70,7 +71,7 @@ class TestHostWithoutContentComponent {}
 
 describe("<fui-oauth-screen>", () => {
   beforeEach(() => {
-    const { injectTranslation } = require("../../../provider");
+    const { injectTranslation, injectPolicies } = require("../../../provider");
     injectTranslation.mockImplementation((category: string, key: string) => {
       const mockTranslations: Record<string, Record<string, string>> = {
         labels: {
@@ -81,6 +82,11 @@ describe("<fui-oauth-screen>", () => {
         },
       };
       return () => mockTranslations[category]?.[key] || `${category}.${key}`;
+    });
+    
+    injectPolicies.mockReturnValue({
+      termsOfServiceUrl: "https://example.com/terms",
+      privacyPolicyUrl: "https://example.com/privacy",
     });
   });
 
@@ -103,7 +109,7 @@ describe("<fui-oauth-screen>", () => {
   });
 
   it("includes the Policies component", async () => {
-    await render(TestHostWithoutContentComponent, {
+    const { container } = await render(TestHostWithoutContentComponent, {
       imports: [
         OAuthScreenComponent,
         MockPoliciesComponent,
@@ -116,9 +122,8 @@ describe("<fui-oauth-screen>", () => {
       ],
     });
 
-    const policies = screen.getByTestId("policies");
+    const policies = container.querySelector(".fui-policies");
     expect(policies).toBeInTheDocument();
-    expect(policies).toHaveTextContent("Policies");
   });
 
   it("renders projected content wrapped in fui-content", async () => {

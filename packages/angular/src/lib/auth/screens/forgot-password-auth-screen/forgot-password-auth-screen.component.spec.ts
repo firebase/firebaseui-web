@@ -15,7 +15,6 @@
  */
 
 import { render, screen } from "@testing-library/angular";
-import { Component } from "@angular/core";
 
 import { ForgotPasswordAuthScreenComponent } from "./forgot-password-auth-screen.component";
 import {
@@ -25,17 +24,6 @@ import {
   CardSubtitleComponent,
   CardContentComponent,
 } from "../../../components/card/card.component";
-
-jest.mock("../../../provider", () => ({
-  injectTranslation: jest.fn(),
-}));
-
-@Component({
-  selector: "fui-forgot-password-auth-form",
-  template: ` <div data-testid="forgot-password-auth-form">Forgot Password Auth Form</div> `,
-  standalone: true,
-})
-class MockForgotPasswordAuthFormComponent {}
 
 describe("<fui-forgot-password-auth-screen>", () => {
   beforeEach(() => {
@@ -57,7 +45,6 @@ describe("<fui-forgot-password-auth-screen>", () => {
     await render(ForgotPasswordAuthScreenComponent, {
       imports: [
         ForgotPasswordAuthScreenComponent,
-        MockForgotPasswordAuthFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -66,15 +53,14 @@ describe("<fui-forgot-password-auth-screen>", () => {
       ],
     });
 
-    expect(screen.getByText("Reset Password")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Reset Password" })).toBeInTheDocument();
     expect(screen.getByText("Enter your email to reset your password")).toBeInTheDocument();
   });
 
   it("includes the ForgotPasswordAuthForm component", async () => {
-    await render(ForgotPasswordAuthScreenComponent, {
+    const { container } = await render(ForgotPasswordAuthScreenComponent, {
       imports: [
         ForgotPasswordAuthScreenComponent,
-        MockForgotPasswordAuthFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -83,16 +69,14 @@ describe("<fui-forgot-password-auth-screen>", () => {
       ],
     });
 
-    const form = screen.getByTestId("forgot-password-auth-form");
+    const form = container.querySelector(".fui-form");
     expect(form).toBeInTheDocument();
-    expect(form).toHaveTextContent("Forgot Password Auth Form");
   });
 
   it("has correct CSS classes", async () => {
     const { container } = await render(ForgotPasswordAuthScreenComponent, {
       imports: [
         ForgotPasswordAuthScreenComponent,
-        MockForgotPasswordAuthFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -114,7 +98,6 @@ describe("<fui-forgot-password-auth-screen>", () => {
     await render(ForgotPasswordAuthScreenComponent, {
       imports: [
         ForgotPasswordAuthScreenComponent,
-        MockForgotPasswordAuthFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,

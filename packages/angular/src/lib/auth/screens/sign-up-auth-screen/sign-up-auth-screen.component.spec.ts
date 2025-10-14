@@ -26,17 +26,6 @@ import {
   CardContentComponent,
 } from "../../../components/card/card.component";
 
-jest.mock("../../../provider", () => ({
-  injectTranslation: jest.fn(),
-}));
-
-@Component({
-  selector: "fui-sign-up-auth-form",
-  template: ` <div data-testid="sign-up-auth-form">Sign Up Auth Form</div> `,
-  standalone: true,
-})
-class MockSignUpAuthFormComponent {}
-
 @Component({
   template: `
     <fui-sign-up-auth-screen>
@@ -75,7 +64,6 @@ describe("<fui-sign-up-auth-screen>", () => {
     await render(TestHostWithoutContentComponent, {
       imports: [
         SignUpAuthScreenComponent,
-        MockSignUpAuthFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -89,10 +77,9 @@ describe("<fui-sign-up-auth-screen>", () => {
   });
 
   it("includes the SignUpAuthForm component", async () => {
-    await render(TestHostWithoutContentComponent, {
+    const { container } = await render(TestHostWithoutContentComponent, {
       imports: [
         SignUpAuthScreenComponent,
-        MockSignUpAuthFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -101,16 +88,14 @@ describe("<fui-sign-up-auth-screen>", () => {
       ],
     });
 
-    const form = screen.getByTestId("sign-up-auth-form");
+    const form = container.querySelector(".fui-form");
     expect(form).toBeInTheDocument();
-    expect(form).toHaveTextContent("Sign Up Auth Form");
   });
 
   it("renders projected content when provided", async () => {
     await render(TestHostWithContentComponent, {
       imports: [
         SignUpAuthScreenComponent,
-        MockSignUpAuthFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -128,7 +113,6 @@ describe("<fui-sign-up-auth-screen>", () => {
     const { container } = await render(TestHostWithoutContentComponent, {
       imports: [
         SignUpAuthScreenComponent,
-        MockSignUpAuthFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -150,7 +134,6 @@ describe("<fui-sign-up-auth-screen>", () => {
     await render(TestHostWithoutContentComponent, {
       imports: [
         SignUpAuthScreenComponent,
-        MockSignUpAuthFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,

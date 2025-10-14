@@ -19,26 +19,7 @@ import { Component } from "@angular/core";
 
 import { TwitterSignInButtonComponent } from "./twitter-sign-in-button.component";
 
-jest.mock("../../provider", () => ({
-  injectUI: jest.fn(),
-  injectTranslation: jest.fn(),
-}));
-
-jest.mock("@angular/fire/auth", () => ({
-  TwitterAuthProvider: class TwitterAuthProvider {
-    providerId = "twitter.com";
-  },
-}));
-
-jest.mock("@firebase-ui/core", () => ({
-  signInWithProvider: jest.fn(),
-  FirebaseUIError: class FirebaseUIError extends Error {
-    constructor(message: string) {
-      super(message);
-      this.name = "FirebaseUIError";
-    }
-  },
-}));
+// Mocks are handled by jest.config.ts moduleNameMapper and test-helpers.ts
 
 @Component({
   template: `<fui-twitter-sign-in-button></fui-twitter-sign-in-button>`,

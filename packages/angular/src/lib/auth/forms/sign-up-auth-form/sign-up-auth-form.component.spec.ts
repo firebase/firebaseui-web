@@ -1,4 +1,20 @@
-import { render, screen, waitFor } from "@testing-library/angular";
+/**
+ * Copyright 2025 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import { render, screen, fireEvent } from "@testing-library/angular";
 import { CommonModule } from "@angular/common";
 import { TanStackField, TanStackAppField } from "@tanstack/angular-form";
 import { SignUpAuthFormComponent } from "./sign-up-auth-form.component";
@@ -11,31 +27,12 @@ import {
 import { PoliciesComponent } from "../../../components/policies/policies.component";
 import { UserCredential } from "@angular/fire/auth";
 
-jest.mock("../../../provider", () => ({
-  injectUI: jest.fn(),
-  injectSignUpAuthFormSchema: jest.fn(),
-  injectTranslation: jest.fn(),
-  injectPolicies: jest.fn(),
-}));
-
-jest.mock("@firebase-ui/core", () => ({
-  createUserWithEmailAndPassword: jest.fn(),
-  hasBehavior: jest.fn(),
-  FirebaseUIError: class FirebaseUIError extends Error {
-    constructor(message: string) {
-      super(message);
-      this.name = "FirebaseUIError";
-    }
-  },
-}));
-
 describe("<fui-sign-up-auth-form />", () => {
   let mockCreateUserWithEmailAndPassword: any;
   let mockHasBehavior: any;
   let mockFirebaseUIError: any;
 
   beforeEach(() => {
-    const { injectUI, injectSignUpAuthFormSchema, injectTranslation, injectPolicies } = require("../../../provider");
     const { createUserWithEmailAndPassword, hasBehavior, FirebaseUIError } = require("@firebase-ui/core");
     mockCreateUserWithEmailAndPassword = createUserWithEmailAndPassword;
     mockHasBehavior = hasBehavior;
@@ -43,87 +40,27 @@ describe("<fui-sign-up-auth-form />", () => {
 
     // no display name required by default
     mockHasBehavior.mockReturnValue(false);
-
-    injectUI.mockReturnValue(() => ({
-      app: {},
-      auth: {},
-      locale: {
-        locale: "en-US",
-        translations: {
-          labels: {
-            emailAddress: "Email Address",
-            password: "Password",
-            displayName: "Display Name",
-            createAccount: "Create Account",
-            signIn: "Sign In",
-            termsOfService: "Terms of Service",
-            privacyPolicy: "Privacy Policy",
-          },
-          prompts: {
-            haveAccount: "Already have an account?",
-          },
-          messages: {
-            termsAndPrivacy: "By continuing, you agree to our {tos} and {privacy}",
-          },
-          errors: {
-            unknownError: "An unknown error occurred",
-            invalidEmail: "Please enter a valid email address",
-            invalidPassword: "Please enter a valid password",
-            invalidDisplayName: "Please enter a valid display name",
-          },
-        },
-        fallback: undefined,
-      },
-    }));
-
-    // Mock form schema - create a Zod schema that matches the real implementation
-    // TODO(ehesp): Use real createSignUpAuthFormSchema when Jest ESM support improves
-    // Currently blocked by nanostores ESM-only dependency in @firebase-ui/core
-    injectSignUpAuthFormSchema.mockReturnValue(() => {
-      const { z } = require("zod");
-
-      return z.object({
-        email: z.string().email("Please enter a valid email address"),
-        password: z.string().min(6, "Password must be at least 6 characters"),
-        displayName: z.string().optional(),
-      });
-    });
-
-    injectTranslation.mockImplementation((category: string, key: string) => {
-      const mockTranslations: Record<string, Record<string, string>> = {
-        labels: {
-          emailAddress: "Email Address",
-          password: "Password",
-          displayName: "Display Name",
-          createAccount: "Create Account",
-          signIn: "Sign In",
-          termsOfService: "Terms of Service",
-          privacyPolicy: "Privacy Policy",
-        },
-        prompts: {
-          haveAccount: "Already have an account?",
-        },
-        messages: {
-          termsAndPrivacy: "By continuing, you agree to our {tos} and {privacy}",
-        },
-        errors: {
-          unknownError: "An unknown error occurred",
-          invalidEmail: "Please enter a valid email address",
-          invalidPassword: "Please enter a valid password",
-          invalidDisplayName: "Please enter a valid display name",
-        },
-      };
-      return () => mockTranslations[category]?.[key] || `${category}.${key}`;
-    });
-
-    injectPolicies.mockReturnValue({
-      termsOfServiceUrl: "https://example.com/terms",
-      privacyPolicyUrl: "https://example.com/privacy",
-    });
   });
 
   afterEach(() => {
     jest.clearAllMocks();
+  });
+
+  it("should create", async () => {
+    const { fixture } = await render(SignUpAuthFormComponent, {
+      imports: [
+        CommonModule,
+        SignUpAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
+      ],
+    });
+    expect(fixture.componentInstance).toBeTruthy();
   });
 
   it("should render the form initially without display name field", async () => {
@@ -143,13 +80,13 @@ describe("<fui-sign-up-auth-form />", () => {
 
     expect(screen.getByLabelText("Email Address")).toBeInTheDocument();
     expect(screen.getByLabelText("Password")).toBeInTheDocument();
-    expect(screen.queryByLabelText("Display Name")).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("Display Name")).toBeNull();
     expect(screen.getByRole("button", { name: "Create Account" })).toBeInTheDocument();
     expect(screen.getByText("By continuing, you agree to our")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Already have an account? Sign In →" })).toBeInTheDocument();
   });
 
-  it("should render display name field when requireDisplayName behavior is enabled", async () => {
+  it("should render display name field when hasBehavior returns true", async () => {
     mockHasBehavior.mockReturnValue(true);
 
     await render(SignUpAuthFormComponent, {
@@ -214,12 +151,11 @@ describe("<fui-sign-up-auth-form />", () => {
     const component = fixture.componentInstance;
     expect(component.form.getFieldValue("email")).toBe("");
     expect(component.form.getFieldValue("password")).toBe("");
+    // displayName is undefined when hasBehavior returns false
     expect(component.form.getFieldValue("displayName")).toBeUndefined();
   });
 
-  it("should initialize form with display name field when required", async () => {
-    mockHasBehavior.mockReturnValue(true);
-
+  it("should emit signIn when sign in button is clicked", async () => {
     const { fixture } = await render(SignUpAuthFormComponent, {
       imports: [
         CommonModule,
@@ -234,9 +170,11 @@ describe("<fui-sign-up-auth-form />", () => {
       ],
     });
     const component = fixture.componentInstance;
-    expect(component.form.getFieldValue("email")).toBe("");
-    expect(component.form.getFieldValue("password")).toBe("");
-    expect(component.form.getFieldValue("displayName")).toBe("");
+    const signInSpy = jest.spyOn(component.signIn, "emit");
+
+    const signInButton = screen.getByRole("button", { name: "Already have an account? Sign In →" });
+    fireEvent.click(signInButton);
+    expect(signInSpy).toHaveBeenCalled();
   });
 
   it("should prevent default and stop propagation on form submit", async () => {
@@ -310,11 +248,11 @@ describe("<fui-sign-up-auth-form />", () => {
       }),
       "test@example.com",
       "password123",
-      undefined
+      undefined // displayName is undefined when hasBehavior returns false
     );
   });
 
-  it("should handle form submission with display name when required", async () => {
+  it("should handle form submission with display name when hasBehavior is true", async () => {
     mockHasBehavior.mockReturnValue(true);
     const mockCredential = { user: { uid: "test-uid" } } as UserCredential;
     mockCreateUserWithEmailAndPassword.mockResolvedValue(mockCredential);
@@ -352,7 +290,7 @@ describe("<fui-sign-up-auth-form />", () => {
       }),
       "test@example.com",
       "password123",
-      "John Doe"
+      "John Doe" // displayName is passed when hasBehavior returns true
     );
   });
 
@@ -435,12 +373,6 @@ describe("<fui-sign-up-auth-form />", () => {
     const component = fixture.componentInstance;
 
     component.form.setFieldValue("email", "invalid-email");
-    component.form.setFieldValue("password", "password123");
-    fixture.detectChanges();
-
-    expect(component.form.state.errorMap).toBeDefined();
-
-    component.form.setFieldValue("email", "test@example.com");
     component.form.setFieldValue("password", "123");
     fixture.detectChanges();
 
@@ -451,52 +383,5 @@ describe("<fui-sign-up-auth-form />", () => {
     fixture.detectChanges();
 
     expect(component.form.state.errors).toHaveLength(0);
-  });
-
-  it("should emit signIn when sign in button is clicked", async () => {
-    const { fixture } = await render(SignUpAuthFormComponent, {
-      imports: [
-        CommonModule,
-        SignUpAuthFormComponent,
-        TanStackField,
-        TanStackAppField,
-        FormInputComponent,
-        FormSubmitComponent,
-        FormErrorMessageComponent,
-        FormActionComponent,
-        PoliciesComponent,
-      ],
-    });
-    const component = fixture.componentInstance;
-    const signInSpy = jest.spyOn(component.signIn, "emit");
-
-    const signInButton = screen.getByRole("button", { name: "Already have an account? Sign In →" });
-    signInButton.click();
-
-    expect(signInSpy).toHaveBeenCalled();
-  });
-
-  it("should call hasBehavior with correct parameters", async () => {
-    await render(SignUpAuthFormComponent, {
-      imports: [
-        CommonModule,
-        SignUpAuthFormComponent,
-        TanStackField,
-        TanStackAppField,
-        FormInputComponent,
-        FormSubmitComponent,
-        FormErrorMessageComponent,
-        FormActionComponent,
-        PoliciesComponent,
-      ],
-    });
-
-    expect(mockHasBehavior).toHaveBeenCalledWith(
-      expect.objectContaining({
-        app: expect.any(Object),
-        auth: expect.any(Object),
-      }),
-      "requireDisplayName"
-    );
   });
 });

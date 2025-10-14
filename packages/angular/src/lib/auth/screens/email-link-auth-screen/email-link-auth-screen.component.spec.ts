@@ -26,16 +26,6 @@ import {
   CardContentComponent,
 } from "../../../components/card/card.component";
 
-jest.mock("../../../provider", () => ({
-  injectTranslation: jest.fn(),
-}));
-
-@Component({
-  selector: "fui-email-link-auth-form",
-  template: ` <div data-testid="email-link-auth-form">Email Link Auth Form</div> `,
-  standalone: true,
-})
-class MockEmailLinkAuthFormComponent {}
 
 @Component({
   template: `
@@ -75,7 +65,6 @@ describe("<fui-email-link-auth-screen>", () => {
     await render(TestHostWithoutContentComponent, {
       imports: [
         EmailLinkAuthScreenComponent,
-        MockEmailLinkAuthFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -92,7 +81,6 @@ describe("<fui-email-link-auth-screen>", () => {
     await render(TestHostWithoutContentComponent, {
       imports: [
         EmailLinkAuthScreenComponent,
-        MockEmailLinkAuthFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -101,16 +89,15 @@ describe("<fui-email-link-auth-screen>", () => {
       ],
     });
 
-    const form = screen.getByTestId("email-link-auth-form");
+    const form = screen.getByRole("button", { name: "labels.sendSignInLink" });
     expect(form).toBeInTheDocument();
-    expect(form).toHaveTextContent("Email Link Auth Form");
+    expect(form).toHaveClass("fui-form__action", "fui-button");
   });
 
   it("renders projected content when provided", async () => {
     await render(TestHostWithContentComponent, {
       imports: [
         EmailLinkAuthScreenComponent,
-        MockEmailLinkAuthFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -128,7 +115,6 @@ describe("<fui-email-link-auth-screen>", () => {
     const { container } = await render(TestHostWithoutContentComponent, {
       imports: [
         EmailLinkAuthScreenComponent,
-        MockEmailLinkAuthFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -150,7 +136,6 @@ describe("<fui-email-link-auth-screen>", () => {
     await render(TestHostWithoutContentComponent, {
       imports: [
         EmailLinkAuthScreenComponent,
-        MockEmailLinkAuthFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,

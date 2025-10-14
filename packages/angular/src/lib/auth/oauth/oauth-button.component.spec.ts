@@ -14,201 +14,175 @@
  * limitations under the License.
  */
 
-import { CommonModule } from "@angular/common";
-import { Component, Input } from "@angular/core";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { Auth, AuthProvider } from "@angular/fire/auth";
-import { FirebaseUIError, signInWithOAuth } from "@firebase-ui/core";
-import { firstValueFrom, of } from "rxjs";
-import { FirebaseUI } from "../../provider";
+import { render, screen, fireEvent, waitFor } from "@testing-library/angular";
+import { Component } from "@angular/core";
 import { OAuthButtonComponent } from "./oauth-button.component";
-import { describe, it, expect, beforeEach, vi } from "vitest";
+// ButtonComponent is imported by OAuthButtonComponent
+import { AuthProvider } from "@angular/fire/auth";
 
-// Mock the firebase-ui/core module
-vi.mock("@firebase-ui/core", () => ({
-  signInWithOAuth: vi.fn().mockResolvedValue(undefined),
-  FirebaseUIError: class FirebaseUIError extends Error {
-    constructor(public error: { code: string; message: string }) {
-      super(error.message);
-      this.name = "FirebaseUIError";
-    }
-  },
-}));
+// Mocks are handled by jest.config.ts moduleNameMapper and test-helpers.ts
 
-// Mock Button component
 @Component({
-  selector: "fui-button",
-  template: `<button (click)="handleClick()" data-testid="oauth-button">
-    <ng-content></ng-content>
-  </button>`,
+  template: `
+    <fui-oauth-button [provider]="provider">
+      Sign in with Google
+    </fui-oauth-button>
+  `,
   standalone: true,
+  imports: [OAuthButtonComponent],
 })
-class MockButtonComponent {
-  @Input() type: string = "button";
-  @Input() disabled: boolean = false;
-  @Input() variant: string = "primary";
-
-  handleClick() {
-    // Simplified to just call dispatchEvent
-    this.dispatchEvent();
-  }
-
-  // Method to dispatch the click event
-  dispatchEvent() {
-    // The parent component will handle this
-  }
+class TestOAuthButtonHostComponent {
+  provider: AuthProvider = { providerId: "google.com" } as AuthProvider;
 }
 
-// Create mock for FirebaseUi provider
-class MockFirebaseUi {
-  config() {
-    return of({
-      language: "en",
-      translations: {},
-      enableAutoUpgradeAnonymous: false,
-      enableHandleExistingCredential: false,
+@Component({
+  template: `
+    <fui-oauth-button [provider]="provider">
+      Sign in with Facebook
+    </fui-oauth-button>
+  `,
+  standalone: true,
+  imports: [OAuthButtonComponent],
+})
+class TestOAuthButtonWithCustomProviderHostComponent {
+  provider: AuthProvider = { providerId: "facebook.com" } as AuthProvider;
+}
+
+describe("<fui-oauth-button>", () => {
+  let mockSignInWithProvider: any;
+  let mockFirebaseUIError: any;
+
+  beforeEach(() => {
+    const { signInWithProvider, FirebaseUIError } = require("@firebase-ui/core");
+    mockSignInWithProvider = signInWithProvider;
+    mockFirebaseUIError = FirebaseUIError;
+
+    // Reset mocks
+    mockSignInWithProvider.mockClear();
+  });
+
+  it("should create", async () => {
+    const { fixture } = await render(TestOAuthButtonHostComponent, {
+      imports: [OAuthButtonComponent],
     });
-  }
-
-  translation(category: string, key: string) {
-    // Return the specific error message that matches the expected one in the test
-    if (category === "errors" && key === "auth/popup-closed-by-user") {
-      return of("The popup was closed by the user");
-    }
-    if (category === "errors" && key === "unknownError") {
-      return of("An unknown error occurred");
-    }
-    return of(`${category}.${key}`);
-  }
-}
-
-// Create a test component that extends OAuthButtonComponent
-class TestOAuthButtonComponent extends OAuthButtonComponent {
-  // Override handleOAuthSignIn to use our mock function
-  override async handleOAuthSignIn() {
-    this.error = null;
-    try {
-      const config = await firstValueFrom(this["ui"].config());
-
-      await vi.mocked(signInWithOAuth)(config, this.provider);
-    } catch (error) {
-      if (error instanceof FirebaseUIError) {
-        this.error = error.message;
-        return;
-      }
-      console.error(error);
-
-      try {
-        const errorMessage = await firstValueFrom(this["ui"].translation("errors", "unknownError"));
-        this.error = errorMessage ?? "Unknown error";
-      } catch {
-        this.error = "Unknown error";
-      }
-    }
-  }
-}
-
-describe("OAuthButtonComponent", () => {
-  let component: TestOAuthButtonComponent;
-  let fixture: ComponentFixture<TestOAuthButtonComponent>;
-  let mockProvider: any;
-  let mockAuth: any;
-  let mockFirebaseUi: MockFirebaseUi;
-
-  beforeEach(async () => {
-    // Create spy objects for Auth and AuthProvider
-    mockProvider = {
-      providerId: "google.com",
-    };
-
-    mockAuth = {
-      signInWithPopup: vi.fn(),
-      signInWithRedirect: vi.fn(),
-    };
-
-    mockFirebaseUi = new MockFirebaseUi();
-
-    // Reset mock before each test
-    vi.mocked(signInWithOAuth).mockClear();
-
-    await TestBed.configureTestingModule({
-      imports: [CommonModule, TestOAuthButtonComponent, MockButtonComponent],
-      providers: [
-        { provide: FirebaseUI, useValue: mockFirebaseUi },
-        { provide: Auth, useValue: mockAuth },
-      ],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(TestOAuthButtonComponent);
-    component = fixture.componentInstance;
-    component.provider = mockProvider;
-    fixture.detectChanges();
+    expect(fixture.componentInstance).toBeTruthy();
   });
 
-  it("should create", () => {
-    expect(component).toBeTruthy();
+  it("should render with correct provider", async () => {
+    await render(TestOAuthButtonHostComponent, {
+      imports: [OAuthButtonComponent],
+    });
+
+    expect(screen.getByText("Sign in with Google")).toBeInTheDocument();
+    expect(screen.getByRole("button")).toHaveAttribute("data-provider", "google.com");
   });
 
-  it("should show a console error when provider is not set", () => {
-    spyOn(console, "error");
-    component.provider = undefined as unknown as AuthProvider;
-    component.ngOnInit();
-    expect(console.error).toHaveBeenCalledWith("Provider is required for OAuthButtonComponent");
+  it("should render with custom provider when provided", async () => {
+    await render(TestOAuthButtonWithCustomProviderHostComponent, {
+      imports: [OAuthButtonComponent],
+    });
+
+    expect(screen.getByText("Sign in with Facebook")).toBeInTheDocument();
+    expect(screen.getByRole("button")).toHaveAttribute("data-provider", "facebook.com");
   });
 
-  it("should call signInWithOAuth when button is clicked", async () => {
-    // Call the method directly instead of relying on button click
-    component.handleOAuthSignIn();
+  it("should call signInWithProvider when button is clicked", async () => {
+    mockSignInWithProvider.mockResolvedValue(undefined);
 
-    // Wait for any async operations to complete
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    const { fixture } = await render(TestOAuthButtonHostComponent, {
+      imports: [OAuthButtonComponent],
+    });
 
-    // Check if the mock function was called with the correct arguments
-    expect(vi.mocked(signInWithOAuth)).toHaveBeenCalledWith(
-      expect.objectContaining({
-        language: "en",
-        translations: {},
-        enableAutoUpgradeAnonymous: false,
-        enableHandleExistingCredential: false,
-      }),
-      mockProvider
-    );
+    const button = screen.getByRole("button");
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(mockSignInWithProvider).toHaveBeenCalledWith(
+        expect.objectContaining({
+          app: expect.any(Object),
+          auth: expect.any(Object),
+        }),
+        expect.objectContaining({
+          providerId: "google.com",
+        })
+      );
+    });
   });
 
   it("should display error message when FirebaseUIError occurs", async () => {
-    // Create a FirebaseUIError
-    const firebaseUIError = new FirebaseUIError({
-      code: "auth/popup-closed-by-user",
-      message: "The popup was closed by the user",
+    const errorMessage = "The popup was closed by the user";
+    mockSignInWithProvider.mockRejectedValue(new mockFirebaseUIError(errorMessage));
+
+    await render(TestOAuthButtonHostComponent, {
+      imports: [OAuthButtonComponent],
     });
 
-    // Make the mock function throw a FirebaseUIError
-    vi.mocked(signInWithOAuth).mockRejectedValue(firebaseUIError);
+    const button = screen.getByRole("button");
+    fireEvent.click(button);
 
-    // Trigger the sign-in
-    component.handleOAuthSignIn();
-
-    // Wait for any async operations to complete
-    await new Promise((resolve) => setTimeout(resolve, 0));
-
-    // The component correctly displays the FirebaseUIError message
-    expect(component.error).toBe("The popup was closed by the user");
+    await waitFor(() => {
+      expect(screen.getByText(errorMessage)).toBeInTheDocument();
+    });
   });
 
   it("should display generic error message when non-Firebase error occurs", async () => {
-    // Create a regular Error
-    const regularError = new Error("Regular error");
+    mockSignInWithProvider.mockRejectedValue(new Error("Network error"));
 
-    // Make the mock function throw a regular Error
-    vi.mocked(signInWithOAuth).mockRejectedValue(regularError);
+    await render(TestOAuthButtonHostComponent, {
+      imports: [OAuthButtonComponent],
+    });
 
-    // Trigger the sign-in
-    component.handleOAuthSignIn();
+    const button = screen.getByRole("button");
+    fireEvent.click(button);
 
-    // Wait for any async operations to complete
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    await waitFor(() => {
+      expect(screen.getByText("An unknown error occurred")).toBeInTheDocument();
+    });
+  });
 
-    // Update the error expectation - in our mock it gets the 'An unknown error occurred' message
-    expect(component.error).toBe("An unknown error occurred");
+  it("should have correct CSS classes", async () => {
+    const { container } = await render(TestOAuthButtonHostComponent, {
+      imports: [OAuthButtonComponent],
+    });
+
+    const button = container.querySelector(".fui-provider__button");
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveClass("fui-provider__button");
+  });
+
+  it("should have correct button attributes", async () => {
+    await render(TestOAuthButtonHostComponent, {
+      imports: [OAuthButtonComponent],
+    });
+
+    const button = screen.getByRole("button");
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveAttribute("type", "button");
+    expect(button).toHaveAttribute("data-provider", "google.com");
+  });
+
+  it("should clear error when sign-in is attempted again", async () => {
+    // First, trigger an error
+    mockSignInWithProvider.mockRejectedValueOnce(new mockFirebaseUIError("First error"));
+
+    const { fixture } = await render(TestOAuthButtonHostComponent, {
+      imports: [OAuthButtonComponent],
+    });
+
+    const button = screen.getByRole("button");
+    
+    // First click - should show error
+    fireEvent.click(button);
+    await waitFor(() => {
+      expect(screen.getByText("First error")).toBeInTheDocument();
+    });
+
+    // Second click - should clear error and attempt again
+    mockSignInWithProvider.mockResolvedValueOnce(undefined);
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(screen.queryByText("First error")).not.toBeInTheDocument();
+    });
   });
 });

@@ -1,3 +1,19 @@
+/**
+ * Copyright 2025 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import { render, screen, waitFor } from "@testing-library/angular";
 import { CommonModule } from "@angular/common";
 import { TanStackField, TanStackAppField } from "@tanstack/angular-form";
@@ -8,24 +24,7 @@ import {
   FormErrorMessageComponent,
 } from "../../../components/form/form.component";
 import { PoliciesComponent } from "../../../components/policies/policies.component";
-
-jest.mock("../../../provider", () => ({
-  injectUI: jest.fn(),
-  injectEmailLinkAuthFormSchema: jest.fn(),
-  injectTranslation: jest.fn(),
-  injectPolicies: jest.fn(),
-}));
-
-jest.mock("@firebase-ui/core", () => ({
-  sendSignInLinkToEmail: jest.fn(),
-  completeEmailLinkSignIn: jest.fn(),
-  FirebaseUIError: class FirebaseUIError extends Error {
-    constructor(message: string) {
-      super(message);
-      this.name = "FirebaseUIError";
-    }
-  },
-}));
+import { UserCredential } from "@angular/fire/auth";
 
 describe("<fui-email-link-auth-form />", () => {
   let mockSendSignInLinkToEmail: any;
@@ -33,75 +32,13 @@ describe("<fui-email-link-auth-form />", () => {
   let mockFirebaseUIError: any;
 
   beforeEach(() => {
-    const { injectUI, injectEmailLinkAuthFormSchema, injectTranslation, injectPolicies } = require("../../../provider");
     const { sendSignInLinkToEmail, completeEmailLinkSignIn, FirebaseUIError } = require("@firebase-ui/core");
-
     mockSendSignInLinkToEmail = sendSignInLinkToEmail;
     mockCompleteEmailLinkSignIn = completeEmailLinkSignIn;
     mockFirebaseUIError = FirebaseUIError;
 
-    injectUI.mockReturnValue(() => ({
-      app: {},
-      auth: {},
-      locale: {
-        locale: "en-US",
-        translations: {
-          labels: {
-            emailAddress: "Email Address",
-            sendSignInLink: "Send Sign In Link",
-          },
-          messages: {
-            signInLinkSent: "Check your email for a sign in link",
-          },
-          errors: {
-            unknownError: "An unknown error occurred",
-            invalidEmail: "Please enter a valid email address",
-          },
-        },
-        fallback: undefined,
-      },
-    }));
-
-    // Mock form schema - create a Zod schema that matches the real implementation
-    // TODO(ehesp): Use real createEmailLinkAuthFormSchema when Jest ESM support improves
-    // Currently blocked by nanostores ESM-only dependency in @firebase-ui/core
-    injectEmailLinkAuthFormSchema.mockReturnValue(() => {
-      const { z } = require("zod");
-
-      // This matches the exact structure from createEmailLinkAuthFormSchema:
-      // return z.object({
-      //   email: z.email(getTranslation(ui, "errors", "invalidEmail")),
-      // });
-
-      return z.object({
-        email: z.string().email("Please enter a valid email address"),
-      });
-    });
-
-    injectTranslation.mockImplementation((category: string, key: string) => {
-      const mockTranslations: Record<string, Record<string, string>> = {
-        labels: {
-          emailAddress: "Email Address",
-          sendSignInLink: "Send Sign In Link",
-          termsOfService: "Terms of Service",
-          privacyPolicy: "Privacy Policy",
-        },
-        messages: {
-          signInLinkSent: "Check your email for a sign in link",
-          termsAndPrivacy: "By continuing, you agree to our {tos} and {privacy}",
-        },
-        errors: {
-          unknownError: "An unknown error occurred",
-          invalidEmail: "Please enter a valid email address",
-        },
-      };
-      return () => mockTranslations[category]?.[key] || `${category}.${key}`;
-    });
-
-    injectPolicies.mockReturnValue({
-      termsOfServiceUrl: "https://example.com/terms",
-      privacyPolicyUrl: "https://example.com/privacy",
-    });
+    
+    mockCompleteEmailLinkSignIn.mockResolvedValue(null);
   });
 
   afterEach(() => {
@@ -295,7 +232,7 @@ describe("<fui-email-link-auth-form />", () => {
 
     component.form.setFieldValue("email", "nonexistent@example.com");
     fixture.detectChanges();
-
+    
     await component.form.handleSubmit();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -324,7 +261,7 @@ describe("<fui-email-link-auth-form />", () => {
 
     component.form.setFieldValue("email", "test@example.com");
     fixture.detectChanges();
-
+    
     await component.form.handleSubmit();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -349,8 +286,6 @@ describe("<fui-email-link-auth-form />", () => {
 
     const component = fixture.componentInstance;
 
-    // z.object({ email: z.email(getTranslation(ui, "errors", "invalidEmail")) }) - issue with mocking the schema
-
     component.form.setFieldValue("email", "invalid-email");
     fixture.detectChanges();
 
@@ -363,7 +298,7 @@ describe("<fui-email-link-auth-form />", () => {
   });
 
   it("should call completeSignIn on initialization", async () => {
-    const mockCredential = { user: { uid: "test-uid" } };
+    const mockCredential = { user: { uid: "test-uid" } } as UserCredential;
     mockCompleteEmailLinkSignIn.mockResolvedValue(mockCredential);
 
     await render(EmailLinkAuthFormComponent, {

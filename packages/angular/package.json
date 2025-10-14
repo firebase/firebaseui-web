@@ -18,7 +18,7 @@
     "prepare": "pnpm run build",
     "build": "pnpm run build:logos && ng-packagr -p ng-package.json",
     "build:logos": "tsx generate-logos.ts",
-    "test": "node --experimental-vm-modules node_modules/.bin/jest",
+    "test": "jest",
     "publish:tags": "sh -c 'TAG=\"${npm_package_name}@${npm_package_version}\"; git tag --list \"$TAG\" | grep . || git tag \"$TAG\"; git push origin \"$TAG\"'",
     "release": "pnpm pack --pack-destination ../../releases/"
   },

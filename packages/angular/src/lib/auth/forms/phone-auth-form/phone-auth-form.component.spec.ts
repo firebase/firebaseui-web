@@ -30,37 +30,6 @@ import {
 } from "../../../components/form/form.component";
 import { UserCredential } from "@angular/fire/auth";
 
-jest.mock("../../../provider", () => ({
-  injectUI: jest.fn(),
-  injectPhoneAuthFormSchema: jest.fn(),
-  injectPhoneAuthVerifyFormSchema: jest.fn(),
-  injectTranslation: jest.fn(),
-  injectCountries: jest.fn(),
-  injectDefaultCountry: jest.fn(),
-  injectPolicies: jest.fn(),
-}));
-
-jest.mock("@firebase-ui/core", () => ({
-  verifyPhoneNumber: jest.fn(),
-  confirmPhoneNumber: jest.fn(),
-  formatPhoneNumber: jest.fn(),
-  countryData: [{ name: "United States", dialCode: "+1", code: "US", emoji: "🇺🇸" }],
-  FirebaseUIError: class FirebaseUIError extends Error {
-    constructor(message: string) {
-      super(message);
-      this.name = "FirebaseUIError";
-    }
-  },
-}));
-
-jest.mock("@angular/fire/auth", () => ({
-  RecaptchaVerifier: jest.fn().mockImplementation(() => ({
-    clear: jest.fn(),
-    render: jest.fn(),
-  })),
-  UserCredential: jest.fn(),
-}));
-
 describe("<fui-phone-auth-form />", () => {
   let mockVerifyPhoneNumber: any;
   let mockConfirmPhoneNumber: any;
@@ -68,77 +37,40 @@ describe("<fui-phone-auth-form />", () => {
   let mockFirebaseUIError: any;
 
   beforeEach(() => {
-    const {
-      injectUI,
-      injectPhoneAuthFormSchema,
-      injectPhoneAuthVerifyFormSchema,
-      injectTranslation,
-      injectCountries,
-      injectDefaultCountry,
-      injectPolicies,
-    } = require("../../../provider");
     const { verifyPhoneNumber, confirmPhoneNumber, formatPhoneNumber, FirebaseUIError } = require("@firebase-ui/core");
-
     mockVerifyPhoneNumber = verifyPhoneNumber;
     mockConfirmPhoneNumber = confirmPhoneNumber;
     mockFormatPhoneNumber = formatPhoneNumber;
     mockFirebaseUIError = FirebaseUIError;
+  });
 
-    injectUI.mockReturnValue(() => ({
-      app: {},
-      auth: {},
-      locale: {
-        locale: "en-US",
-        setLocale: jest.fn(),
-      },
-      state: "idle",
-      setState: jest.fn(),
-      behaviors: {},
-      multiFactorResolver: undefined,
-      setMultiFactorResolver: jest.fn(),
-    }));
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
-    injectPhoneAuthFormSchema.mockReturnValue(() => ({
-      parse: jest.fn(),
-      safeParse: jest.fn(),
-    }));
-
-    injectPhoneAuthVerifyFormSchema.mockReturnValue(() => ({
-      parse: jest.fn(),
-      safeParse: jest.fn(),
-    }));
-
-    injectTranslation.mockImplementation((category: string, key: string) => {
-      if (category === "labels" && key === "phoneNumber") return () => "Phone Number";
-      if (category === "labels" && key === "sendCode") return () => "Send Code";
-      if (category === "labels" && key === "verificationCode") return () => "Verification Code";
-      if (category === "labels" && key === "verifyCode") return () => "Verify Code";
-      if (category === "errors" && key === "unknownError") return () => "Unknown error";
-      return () => key;
+  it("should create", async () => {
+    const { fixture } = await render(PhoneAuthFormComponent, {
+      imports: [
+        CommonModule,
+        PhoneAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+      ],
     });
-
-    injectCountries.mockReturnValue(() => [{ name: "United States", dialCode: "+1", code: "US", emoji: "🇺🇸" }]);
-
-    injectDefaultCountry.mockReturnValue(() => ({
-      name: "United States",
-      dialCode: "+1",
-      code: "US",
-      emoji: "🇺🇸",
-    }));
-
-    injectPolicies.mockReturnValue(null);
-
-    mockVerifyPhoneNumber.mockResolvedValue("mock-verification-id");
-    mockConfirmPhoneNumber.mockResolvedValue({} as UserCredential);
-    mockFormatPhoneNumber.mockImplementation((phoneNumber: string) => `+1${phoneNumber}`);
+    expect(fixture.componentInstance).toBeTruthy();
   });
 
   it("should render phone number form initially", async () => {
     await render(PhoneAuthFormComponent, {
-      imports: [CommonModule, TanStackField, TanStackAppField],
-      declarations: [
-        PhoneNumberFormComponent,
-        VerificationFormComponent,
+      imports: [
+        CommonModule,
+        PhoneAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
         FormInputComponent,
         FormSubmitComponent,
         FormErrorMessageComponent,
@@ -146,57 +78,17 @@ describe("<fui-phone-auth-form />", () => {
       ],
     });
 
-    expect(screen.getByText("Phone Number")).toBeInTheDocument();
+    expect(screen.getByLabelText("Phone Number")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Send Verification Code" })).toBeInTheDocument();
   });
 
-  it("should handle phone number submission", async () => {
+  it("should render verification form after phone number is submitted", async () => {
     const { fixture } = await render(PhoneAuthFormComponent, {
-      imports: [CommonModule, TanStackField, TanStackAppField],
-      declarations: [
-        PhoneNumberFormComponent,
-        VerificationFormComponent,
-        FormInputComponent,
-        FormSubmitComponent,
-        FormErrorMessageComponent,
-        FormActionComponent,
-      ],
-    });
-
-    const component = fixture.componentInstance;
-    const testData = { verificationId: "test-id", phoneNumber: "+1234567890" };
-
-    component.handlePhoneSubmit(testData);
-
-    expect(component.verificationId()).toBe("test-id");
-  });
-
-  it("should conditionally render phone number form when verificationId is null", async () => {
-    await render(PhoneAuthFormComponent, {
-      imports: [CommonModule, TanStackField, TanStackAppField],
-      declarations: [
-        PhoneNumberFormComponent,
-        VerificationFormComponent,
-        FormInputComponent,
-        FormSubmitComponent,
-        FormErrorMessageComponent,
-        FormActionComponent,
-      ],
-    });
-
-    // <fui-phone-number-form />
-    expect(screen.getByText("Phone Number")).toBeInTheDocument();
-    expect(screen.getByText("Send Code")).toBeInTheDocument();
-
-    // <fui-verification-form />
-    expect(screen.queryByText("Verification Code")).not.toBeInTheDocument();
-  });
-
-  it("should conditionally render verification form when verificationId is set", async () => {
-    const { fixture } = await render(PhoneAuthFormComponent, {
-      imports: [CommonModule, TanStackField, TanStackAppField],
-      declarations: [
-        PhoneNumberFormComponent,
-        VerificationFormComponent,
+      imports: [
+        CommonModule,
+        PhoneAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
         FormInputComponent,
         FormSubmitComponent,
         FormErrorMessageComponent,
@@ -208,154 +100,203 @@ describe("<fui-phone-auth-form />", () => {
     component.verificationId.set("test-verification-id");
     fixture.detectChanges();
 
-    // <fui-verification-form />
-    expect(screen.getByText("Verification Code")).toBeInTheDocument();
-    expect(screen.getByText("Verify Code")).toBeInTheDocument();
-
-    // <fui-phone-number-form />
-    expect(screen.queryByText("Phone Number")).not.toBeInTheDocument();
-  });
-});
-
-describe("<fui-phone-number-form />", () => {
-  let mockVerifyPhoneNumber: any;
-  let mockFormatPhoneNumber: any;
-
-  beforeEach(() => {
-    const {
-      injectUI,
-      injectPhoneAuthFormSchema,
-      injectTranslation,
-      injectCountries,
-      injectDefaultCountry,
-      injectPolicies,
-    } = require("../../../provider");
-    const { verifyPhoneNumber, formatPhoneNumber } = require("@firebase-ui/core");
-
-    mockVerifyPhoneNumber = verifyPhoneNumber;
-    mockFormatPhoneNumber = formatPhoneNumber;
-
-    injectUI.mockReturnValue(() => ({
-      app: {},
-      auth: {},
-      locale: {
-        locale: "en-US",
-        setLocale: jest.fn(),
-      },
-      state: "idle",
-      setState: jest.fn(),
-      behaviors: {},
-      multiFactorResolver: undefined,
-      setMultiFactorResolver: jest.fn(),
-    }));
-
-    injectPhoneAuthFormSchema.mockReturnValue(() => ({
-      parse: jest.fn(),
-      safeParse: jest.fn(),
-    }));
-
-    injectTranslation.mockImplementation((category: string, key: string) => {
-      if (category === "labels" && key === "phoneNumber") return () => "Phone Number";
-      if (category === "labels" && key === "sendCode") return () => "Send Code";
-      if (category === "labels" && key === "verificationCode") return () => "Verification Code";
-      if (category === "labels" && key === "verifyCode") return () => "Verify Code";
-      if (category === "errors" && key === "unknownError") return () => "Unknown error";
-      return () => key;
-    });
-
-    injectCountries.mockReturnValue(() => [{ name: "United States", dialCode: "+1", code: "US", emoji: "🇺🇸" }]);
-
-    injectDefaultCountry.mockReturnValue(() => ({
-      name: "United States",
-      dialCode: "+1",
-      code: "US",
-      emoji: "🇺🇸",
-    }));
-
-    injectPolicies.mockReturnValue(null);
-
-    mockVerifyPhoneNumber.mockResolvedValue("mock-verification-id");
-    mockFormatPhoneNumber.mockImplementation((phoneNumber: string) => `+1${phoneNumber}`);
+    expect(screen.getByLabelText("Verification Code")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Verify Code" })).toBeInTheDocument();
   });
 
-  it("should render phone number input", async () => {
-    await render(PhoneNumberFormComponent, {
-      imports: [CommonModule, TanStackField, TanStackAppField],
-      declarations: [FormInputComponent, FormSubmitComponent, FormErrorMessageComponent, FormActionComponent],
+  it("should handle phone number submission", async () => {
+    const mockVerificationId = "test-verification-id";
+    mockVerifyPhoneNumber.mockResolvedValue(mockVerificationId);
+
+    const { fixture } = await render(PhoneAuthFormComponent, {
+      imports: [
+        CommonModule,
+        PhoneAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+      ],
     });
 
-    expect(screen.getByText("Phone Number")).toBeInTheDocument();
-  });
-});
+    const component = fixture.componentInstance;
+    
+    // Simulate the phone number form submission
+    component.handlePhoneSubmit({ verificationId: mockVerificationId, phoneNumber: "+1234567890" });
+    fixture.detectChanges();
 
-describe("<fui-verification-form />", () => {
-  let mockConfirmPhoneNumber: any;
-
-  beforeEach(() => {
-    const {
-      injectUI,
-      injectPhoneAuthVerifyFormSchema,
-      injectTranslation,
-      injectCountries,
-      injectDefaultCountry,
-      injectPolicies,
-    } = require("../../../provider");
-    const { confirmPhoneNumber } = require("@firebase-ui/core");
-
-    mockConfirmPhoneNumber = confirmPhoneNumber;
-
-    injectUI.mockReturnValue(() => ({
-      app: {},
-      auth: {},
-      locale: {
-        locale: "en-US",
-        setLocale: jest.fn(),
-      },
-      state: "idle",
-      setState: jest.fn(),
-      behaviors: {},
-      multiFactorResolver: undefined,
-      setMultiFactorResolver: jest.fn(),
-    }));
-
-    injectPhoneAuthVerifyFormSchema.mockReturnValue(() => ({
-      parse: jest.fn(),
-      safeParse: jest.fn(),
-    }));
-
-    injectTranslation.mockImplementation((category: string, key: string) => {
-      if (category === "labels" && key === "phoneNumber") return () => "Phone Number";
-      if (category === "labels" && key === "sendCode") return () => "Send Code";
-      if (category === "labels" && key === "verificationCode") return () => "Verification Code";
-      if (category === "labels" && key === "verifyCode") return () => "Verify Code";
-      if (category === "errors" && key === "unknownError") return () => "Unknown error";
-      return () => key;
-    });
-
-    injectCountries.mockReturnValue(() => [{ name: "United States", dialCode: "+1", code: "US", emoji: "🇺🇸" }]);
-
-    injectDefaultCountry.mockReturnValue(() => ({
-      name: "United States",
-      dialCode: "+1",
-      code: "US",
-      emoji: "🇺🇸",
-    }));
-
-    injectPolicies.mockReturnValue(null);
-
-    mockConfirmPhoneNumber.mockResolvedValue({} as UserCredential);
+    expect(component.verificationId()).toBe(mockVerificationId);
   });
 
-  it("should render verification code input", async () => {
-    await render(VerificationFormComponent, {
-      imports: [CommonModule, TanStackField, TanStackAppField],
-      declarations: [FormInputComponent, FormSubmitComponent, FormErrorMessageComponent, FormActionComponent],
-      componentInputs: {
-        verificationId: "test-verification-id",
-        phoneNumber: "+1234567890",
-      },
+  it("should handle verification code submission", async () => {
+    const mockCredential = { user: { uid: "test-uid" } } as UserCredential;
+    mockConfirmPhoneNumber.mockResolvedValue(mockCredential);
+
+    const { fixture } = await render(PhoneAuthFormComponent, {
+      imports: [
+        CommonModule,
+        PhoneAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+      ],
     });
 
-    expect(screen.getByText("Verification Code")).toBeInTheDocument();
+    const component = fixture.componentInstance;
+    component.verificationId.set("test-verification-id");
+    fixture.detectChanges();
+
+    const signInSpy = jest.spyOn(component.signIn, "emit");
+
+    // Simulate the verification form emitting the signIn event
+    component.signIn.emit(mockCredential);
+
+    expect(signInSpy).toHaveBeenCalledWith(mockCredential);
+  });
+
+  it("should handle FirebaseUIError in phone verification", async () => {
+    const errorMessage = "Invalid phone number";
+    mockVerifyPhoneNumber.mockRejectedValue(new mockFirebaseUIError(errorMessage));
+
+    const { fixture } = await render(PhoneAuthFormComponent, {
+      imports: [
+        CommonModule,
+        PhoneAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+      ],
+    });
+
+    const component = fixture.componentInstance;
+    
+    // Get the phone number form component and trigger form submission
+    const phoneFormComponent = fixture.debugElement.query(
+      (el) => el.componentInstance instanceof PhoneNumberFormComponent
+    )?.componentInstance as PhoneNumberFormComponent;
+    
+    expect(phoneFormComponent).toBeTruthy();
+    
+    phoneFormComponent.form.setFieldValue("phoneNumber", "1234567890");
+    fixture.detectChanges();
+    
+    await phoneFormComponent.form.handleSubmit();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(screen.getByText(errorMessage)).toBeInTheDocument();
+    expect(component.verificationId()).toBeNull();
+  });
+
+  it("should handle FirebaseUIError in code verification", async () => {
+    const errorMessage = "Invalid verification code";
+    mockConfirmPhoneNumber.mockRejectedValue(new mockFirebaseUIError(errorMessage));
+
+    const { fixture } = await render(PhoneAuthFormComponent, {
+      imports: [
+        CommonModule,
+        PhoneAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+      ],
+    });
+
+    const component = fixture.componentInstance;
+    component.verificationId.set("test-verification-id");
+    fixture.detectChanges();
+
+    // Get the verification form component and trigger form submission
+    const verificationFormComponent = fixture.debugElement.query(
+      (el) => el.componentInstance instanceof VerificationFormComponent
+    )?.componentInstance as VerificationFormComponent;
+    
+    expect(verificationFormComponent).toBeTruthy();
+    
+    verificationFormComponent.form.setFieldValue("verificationCode", "123456");
+    fixture.detectChanges();
+    
+    await verificationFormComponent.form.handleSubmit();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(screen.getByText(errorMessage)).toBeInTheDocument();
+    expect(component.verificationId()).toBe("test-verification-id");
+  });
+
+  it("should format phone number correctly", async () => {
+    const formattedNumber = "+1 (234) 567-8900";
+    mockFormatPhoneNumber.mockReturnValue(formattedNumber);
+    mockVerifyPhoneNumber.mockResolvedValue("test-verification-id");
+
+    const { fixture } = await render(PhoneAuthFormComponent, {
+      imports: [
+        CommonModule,
+        PhoneAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+      ],
+    });
+
+    const component = fixture.componentInstance;
+    
+    // Get the phone number form component and trigger form submission
+    const phoneFormComponent = fixture.debugElement.query(
+      (el) => el.componentInstance instanceof PhoneNumberFormComponent
+    )?.componentInstance as PhoneNumberFormComponent;
+    
+    expect(phoneFormComponent).toBeTruthy();
+    
+    phoneFormComponent.form.setFieldValue("phoneNumber", "1234567890");
+    phoneFormComponent.country.set("US" as any);
+    fixture.detectChanges();
+    
+    await phoneFormComponent.form.handleSubmit();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(mockFormatPhoneNumber).toHaveBeenCalledWith("1234567890", expect.objectContaining({ code: "US" }));
+    expect(mockVerifyPhoneNumber).toHaveBeenCalledWith(expect.any(Object), formattedNumber, expect.any(Object));
+    expect(component.verificationId()).toBe("test-verification-id");
+  });
+
+  it("should reset form when going back to phone number step", async () => {
+    const { fixture } = await render(PhoneAuthFormComponent, {
+      imports: [
+        CommonModule,
+        PhoneAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+      ],
+    });
+
+    const component = fixture.componentInstance;
+    component.verificationId.set("test-verification-id");
+    fixture.detectChanges();
+
+    component.verificationId.set(null);
+    fixture.detectChanges();
+
+    expect(screen.getByLabelText("Phone Number")).toBeInTheDocument();
+    expect(screen.queryByLabelText("Verification Code")).toBeNull();
   });
 });

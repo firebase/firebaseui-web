@@ -1,4 +1,20 @@
-import { render, screen, waitFor } from "@testing-library/angular";
+/**
+ * Copyright 2025 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import { render, screen, fireEvent } from "@testing-library/angular";
 import { CommonModule } from "@angular/common";
 import { TanStackField, TanStackAppField } from "@tanstack/angular-form";
 import { SignInAuthFormComponent } from "./sign-in-auth-form.component";
@@ -11,110 +27,35 @@ import {
 import { PoliciesComponent } from "../../../components/policies/policies.component";
 import { UserCredential } from "@angular/fire/auth";
 
-jest.mock("../../../provider", () => ({
-  injectUI: jest.fn(),
-  injectSignInAuthFormSchema: jest.fn(),
-  injectTranslation: jest.fn(),
-  injectPolicies: jest.fn(),
-}));
-
-jest.mock("@firebase-ui/core", () => ({
-  signInWithEmailAndPassword: jest.fn(),
-  FirebaseUIError: class FirebaseUIError extends Error {
-    constructor(message: string) {
-      super(message);
-      this.name = "FirebaseUIError";
-    }
-  },
-}));
-
 describe("<fui-sign-in-auth-form />", () => {
   let mockSignInWithEmailAndPassword: any;
   let mockFirebaseUIError: any;
 
   beforeEach(() => {
-    const { injectUI, injectSignInAuthFormSchema, injectTranslation, injectPolicies } = require("../../../provider");
     const { signInWithEmailAndPassword, FirebaseUIError } = require("@firebase-ui/core");
     mockSignInWithEmailAndPassword = signInWithEmailAndPassword;
     mockFirebaseUIError = FirebaseUIError;
-
-    injectUI.mockReturnValue(() => ({
-      app: {},
-      auth: {},
-      locale: {
-        locale: "en-US",
-        translations: {
-          labels: {
-            emailAddress: "Email Address",
-            password: "Password",
-            signIn: "Sign In",
-            forgotPassword: "Forgot Password",
-            register: "Register",
-            termsOfService: "Terms of Service",
-            privacyPolicy: "Privacy Policy",
-          },
-          prompts: {
-            noAccount: "Don't have an account?",
-          },
-          messages: {
-            termsAndPrivacy: "By continuing, you agree to our {tos} and {privacy}",
-          },
-          errors: {
-            unknownError: "An unknown error occurred",
-            invalidEmail: "Please enter a valid email address",
-            invalidPassword: "Please enter a valid password",
-          },
-        },
-        fallback: undefined,
-      },
-    }));
-
-    // Mock form schema - create a Zod schema that matches the real implementation
-    // TODO(ehesp): Use real createSignInAuthFormSchema when Jest ESM support improves
-    // Currently blocked by nanostores ESM-only dependency in @firebase-ui/core
-    injectSignInAuthFormSchema.mockReturnValue(() => {
-      const { z } = require("zod");
-
-      return z.object({
-        email: z.string().email("Please enter a valid email address"),
-        password: z.string().min(1, "Please enter a valid password"),
-      });
-    });
-
-    injectTranslation.mockImplementation((category: string, key: string) => {
-      const mockTranslations: Record<string, Record<string, string>> = {
-        labels: {
-          emailAddress: "Email Address",
-          password: "Password",
-          signIn: "Sign In",
-          forgotPassword: "Forgot Password",
-          register: "Register",
-          termsOfService: "Terms of Service",
-          privacyPolicy: "Privacy Policy",
-        },
-        prompts: {
-          noAccount: "Don't have an account?",
-        },
-        messages: {
-          termsAndPrivacy: "By continuing, you agree to our {tos} and {privacy}",
-        },
-        errors: {
-          unknownError: "An unknown error occurred",
-          invalidEmail: "Please enter a valid email address",
-          invalidPassword: "Please enter a valid password",
-        },
-      };
-      return () => mockTranslations[category]?.[key] || `${category}.${key}`;
-    });
-
-    injectPolicies.mockReturnValue({
-      termsOfServiceUrl: "https://example.com/terms",
-      privacyPolicyUrl: "https://example.com/privacy",
-    });
   });
 
   afterEach(() => {
     jest.clearAllMocks();
+  });
+
+  it("should create", async () => {
+    const { fixture } = await render(SignInAuthFormComponent, {
+      imports: [
+        CommonModule,
+        SignInAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
+      ],
+    });
+    expect(fixture.componentInstance).toBeTruthy();
   });
 
   it("should render the form initially", async () => {
@@ -158,8 +99,8 @@ describe("<fui-sign-in-auth-form />", () => {
 
     expect(component.emailLabel()).toBe("Email Address");
     expect(component.passwordLabel()).toBe("Password");
-    expect(component.signInLabel()).toBe("Sign In");
     expect(component.forgotPasswordLabel()).toBe("Forgot Password");
+    expect(component.signInLabel()).toBe("Sign In");
     expect(component.noAccountLabel()).toBe("Don't have an account?");
     expect(component.registerLabel()).toBe("Register");
     expect(component.unknownErrorLabel()).toBe("An unknown error occurred");
@@ -182,6 +123,50 @@ describe("<fui-sign-in-auth-form />", () => {
     const component = fixture.componentInstance;
     expect(component.form.getFieldValue("email")).toBe("");
     expect(component.form.getFieldValue("password")).toBe("");
+  });
+
+  it("should emit forgotPassword when forgot password button is clicked", async () => {
+    const { fixture } = await render(SignInAuthFormComponent, {
+      imports: [
+        CommonModule,
+        SignInAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
+      ],
+    });
+    const component = fixture.componentInstance;
+    const forgotPasswordSpy = jest.spyOn(component.forgotPassword, "emit");
+
+    const forgotPasswordButton = screen.getByRole("button", { name: "Forgot Password" });
+    fireEvent.click(forgotPasswordButton);
+    expect(forgotPasswordSpy).toHaveBeenCalled();
+  });
+
+  it("should emit signUp when sign up button is clicked", async () => {
+    const { fixture } = await render(SignInAuthFormComponent, {
+      imports: [
+        CommonModule,
+        SignInAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
+      ],
+    });
+    const component = fixture.componentInstance;
+    const signUpSpy = jest.spyOn(component.signUp, "emit");
+
+    const signUpButton = screen.getByRole("button", { name: "Don't have an account? Register" });
+    fireEvent.click(signUpButton);
+    expect(signUpSpy).toHaveBeenCalled();
   });
 
   it("should prevent default and stop propagation on form submit", async () => {
@@ -337,7 +322,7 @@ describe("<fui-sign-in-auth-form />", () => {
     const component = fixture.componentInstance;
 
     component.form.setFieldValue("email", "invalid-email");
-    component.form.setFieldValue("password", "password123");
+    component.form.setFieldValue("password", "");
     fixture.detectChanges();
 
     expect(component.form.state.errorMap).toBeDefined();
@@ -347,51 +332,5 @@ describe("<fui-sign-in-auth-form />", () => {
     fixture.detectChanges();
 
     expect(component.form.state.errors).toHaveLength(0);
-  });
-
-  it("should emit forgotPassword when forgot password button is clicked", async () => {
-    const { fixture } = await render(SignInAuthFormComponent, {
-      imports: [
-        CommonModule,
-        SignInAuthFormComponent,
-        TanStackField,
-        TanStackAppField,
-        FormInputComponent,
-        FormSubmitComponent,
-        FormErrorMessageComponent,
-        FormActionComponent,
-        PoliciesComponent,
-      ],
-    });
-    const component = fixture.componentInstance;
-    const forgotPasswordSpy = jest.spyOn(component.forgotPassword, "emit");
-
-    const forgotPasswordButton = screen.getByRole("button", { name: "Forgot Password" });
-    forgotPasswordButton.click();
-
-    expect(forgotPasswordSpy).toHaveBeenCalled();
-  });
-
-  it("should emit signUp when sign up button is clicked", async () => {
-    const { fixture } = await render(SignInAuthFormComponent, {
-      imports: [
-        CommonModule,
-        SignInAuthFormComponent,
-        TanStackField,
-        TanStackAppField,
-        FormInputComponent,
-        FormSubmitComponent,
-        FormErrorMessageComponent,
-        FormActionComponent,
-        PoliciesComponent,
-      ],
-    });
-    const component = fixture.componentInstance;
-    const signUpSpy = jest.spyOn(component.signUp, "emit");
-
-    const signUpButton = screen.getByRole("button", { name: "Don't have an account? Register" });
-    signUpButton.click();
-
-    expect(signUpSpy).toHaveBeenCalled();
   });
 });

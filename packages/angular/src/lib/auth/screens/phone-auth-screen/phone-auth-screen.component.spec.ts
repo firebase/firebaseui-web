@@ -26,19 +26,7 @@ import {
   CardContentComponent,
 } from "../../../components/card/card.component";
 
-jest.mock("../../../provider", () => ({
-  injectTranslation: jest.fn(),
-}));
 
-// Mock PhoneAuthForm component
-@Component({
-  selector: "fui-phone-auth-form",
-  template: ` <div data-testid="phone-auth-form">Phone Auth Form</div> `,
-  standalone: true,
-})
-class MockPhoneAuthFormComponent {}
-
-// Test component with content projection
 @Component({
   template: `
     <fui-phone-auth-screen>
@@ -50,7 +38,6 @@ class MockPhoneAuthFormComponent {}
 })
 class TestHostWithContentComponent {}
 
-// Test component without content projection
 @Component({
   template: `<fui-phone-auth-screen></fui-phone-auth-screen>`,
   standalone: true,
@@ -78,7 +65,6 @@ describe("<fui-phone-auth-screen>", () => {
     await render(TestHostWithoutContentComponent, {
       imports: [
         PhoneAuthScreenComponent,
-        MockPhoneAuthFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -91,29 +77,28 @@ describe("<fui-phone-auth-screen>", () => {
     expect(screen.getByText("Sign in to your account")).toBeInTheDocument();
   });
 
-  it("includes the PhoneAuthForm component", async () => {
-    await render(TestHostWithoutContentComponent, {
-      imports: [
-        PhoneAuthScreenComponent,
-        MockPhoneAuthFormComponent,
-        CardComponent,
-        CardHeaderComponent,
-        CardTitleComponent,
-        CardSubtitleComponent,
-        CardContentComponent,
-      ],
-    });
+      it("includes the PhoneAuthForm component", async () => {
+        await render(TestHostWithoutContentComponent, {
+          imports: [
+            PhoneAuthScreenComponent,
+            CardComponent,
+            CardHeaderComponent,
+            CardTitleComponent,
+            CardSubtitleComponent,
+            CardContentComponent,
+          ],
+        });
 
-    const form = screen.getByTestId("phone-auth-form");
-    expect(form).toBeInTheDocument();
-    expect(form).toHaveTextContent("Phone Auth Form");
-  });
+        // Look for form elements by class instead of role
+        const form = document.querySelector(".fui-form");
+        expect(form).toBeInTheDocument();
+        expect(form).toHaveClass("fui-form");
+      });
 
   it("renders projected content when provided", async () => {
     await render(TestHostWithContentComponent, {
       imports: [
         PhoneAuthScreenComponent,
-        MockPhoneAuthFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -131,7 +116,6 @@ describe("<fui-phone-auth-screen>", () => {
     const { container } = await render(TestHostWithoutContentComponent, {
       imports: [
         PhoneAuthScreenComponent,
-        MockPhoneAuthFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -153,7 +137,6 @@ describe("<fui-phone-auth-screen>", () => {
     await render(TestHostWithoutContentComponent, {
       imports: [
         PhoneAuthScreenComponent,
-        MockPhoneAuthFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
