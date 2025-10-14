@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import { Component, OnInit, output, effect } from "@angular/core";
+import { Component, output, effect, computed } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanstack/angular-form";
-import { FirebaseUIError, createUserWithEmailAndPassword } from "@firebase-ui/core";
+import { FirebaseUIError, createUserWithEmailAndPassword, hasBehavior } from "@firebase-ui/core";
 import { UserCredential } from "@angular/fire/auth";
 
 import { PoliciesComponent } from "../../../components/policies/policies.component";
@@ -59,6 +59,16 @@ import {
           label="{{ passwordLabel() }}"
         ></fui-form-input>
       </fieldset>
+      @if (requireDisplayNameField()) {
+        <fieldset>
+          <fui-form-input
+            name="displayName"
+            tanstack-app-field
+            [tanstackField]="form"
+            label="{{ displayNameLabel() }}"
+          ></fui-form-input>
+        </fieldset>
+      }
 
       <fui-policies />
 
@@ -76,11 +86,16 @@ import {
   `,
   standalone: true,
 })
-export class SignUpAuthFormComponent implements OnInit {
+export class SignUpAuthFormComponent {
   private ui = injectUI();
   private formSchema = injectSignUpAuthFormSchema();
 
+  requireDisplayNameField = computed(() => {
+    return hasBehavior(this.ui(), "requireDisplayName");
+  });
+
   emailLabel = injectTranslation("labels", "emailAddress");
+  displayNameLabel = injectTranslation("labels", "displayName");
   passwordLabel = injectTranslation("labels", "password");
   createAccountLabel = injectTranslation("labels", "createAccount");
   haveAccountLabel = injectTranslation("prompts", "haveAccount");
@@ -94,6 +109,7 @@ export class SignUpAuthFormComponent implements OnInit {
     defaultValues: {
       email: "",
       password: "",
+      displayName: this.requireDisplayNameField() ? "" : undefined,
     },
   });
 
@@ -105,24 +121,32 @@ export class SignUpAuthFormComponent implements OnInit {
     this.form.handleSubmit();
   }
 
-  ngOnInit() {
-    this.form.update({
-      validators: {
-        onBlur: this.formSchema(),
-        onSubmit: this.formSchema(),
-        onSubmitAsync: async ({ value }) => {
-          try {
-            const credential = await createUserWithEmailAndPassword(this.ui(), value.email, value.password);
-            this.signUp?.emit(credential);
-          } catch (error) {
-            if (error instanceof FirebaseUIError) {
-              return error.message;
-            }
+  constructor() {
+    effect(() => {
+      this.form.update({
+        validators: {
+          onBlur: this.formSchema(),
+          onSubmit: this.formSchema(),
+          onSubmitAsync: async ({ value }) => {
+            try {
+              const credential = await createUserWithEmailAndPassword(
+                this.ui(),
+                value.email,
+                value.password,
+                value.displayName
+              );
+              this.signUp?.emit(credential);
+              return;
+            } catch (error) {
+              if (error instanceof FirebaseUIError) {
+                return error.message;
+              }
 
-            return this.unknownErrorLabel();
-          }
+              return this.unknownErrorLabel();
+            }
+          },
         },
-      },
+      });
     });
   }
 }
