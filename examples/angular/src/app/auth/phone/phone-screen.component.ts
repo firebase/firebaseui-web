@@ -24,7 +24,7 @@ import { PhoneAuthScreenComponent } from "@firebase-ui/angular";
   selector: "app-phone",
   standalone: true,
   imports: [CommonModule, RouterModule, PhoneAuthScreenComponent],
-  template: ` <fui-phone-auth-screen [resendDelay]="2"></fui-phone-auth-screen>`,
+  template: ` <fui-phone-auth-screen></fui-phone-auth-screen>`,
   styles: [],
 })
 export class PhoneComponent implements OnInit {
