@@ -19,8 +19,8 @@ import type { Auth } from "firebase/auth";
 import { Behavior, FirebaseUIConfigurationOptions } from "@firebase-ui/core";
 import { provideFirebaseUI, provideFirebaseUIPolicies } from "../provider";
 import { FirebaseApps } from "@angular/fire/app";
+import { type RegisteredLocale } from "@firebase-ui/translations";
 
-// Mock locale for testing
 const mockLocale = {
   locale: "en-US",
   translations: {
@@ -29,9 +29,8 @@ const mockLocale = {
     errors: {},
   },
   fallback: undefined,
-};
+} satisfies RegisteredLocale;
 
-// Mock FirebaseUI store
 const mockFirebaseUI = {
   get: () => ({
     app: {} as FirebaseApp,
@@ -46,7 +45,6 @@ const mockFirebaseUI = {
   subscribe: jest.fn(),
 };
 
-// Mock core functions - simplified approach
 const mockGetTranslation = jest.fn((ui, category, key) => {
   return ui.locale.translations[category]?.[key] || `${category}.${key}`;
 });
@@ -76,7 +74,6 @@ class MockFirebaseUIError extends Error {
   }
 }
 
-// Mock the module
 jest.mock("@firebase-ui/core", () => ({
   getTranslation: mockGetTranslation,
   createForgotPasswordAuthFormSchema: mockCreateForgotPasswordAuthFormSchema,
@@ -85,19 +82,20 @@ jest.mock("@firebase-ui/core", () => ({
 }));
 
 export function createMockUI(overrides?: Partial<FirebaseUIConfigurationOptions>) {
-  return mockFirebaseUI as any;
+  return {
+    ...mockFirebaseUI,
+    ...overrides,
+  } as any;
 }
 
 export function getFirebaseUITestProviders(uiOverrides?: Partial<FirebaseUIConfigurationOptions>) {
   const mockUI = createMockUI(uiOverrides);
-  
+
   return [
-    // Mock FirebaseApps
     {
       provide: FirebaseApps,
       useValue: [{} as FirebaseApp],
     },
-    // Provide FirebaseUI
     provideFirebaseUI(() => mockUI),
     provideFirebaseUIPolicies(() => ({ termsOfServiceUrl: "", privacyPolicyUrl: "" })),
   ];
