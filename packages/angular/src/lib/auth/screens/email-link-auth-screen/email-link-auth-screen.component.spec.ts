@@ -26,7 +26,6 @@ import {
   CardContentComponent,
 } from "../../../components/card/card.component";
 
-
 @Component({
   template: `
     <fui-email-link-auth-screen>

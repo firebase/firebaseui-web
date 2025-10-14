@@ -83,7 +83,7 @@ describe("<fui-oauth-screen>", () => {
       };
       return () => mockTranslations[category]?.[key] || `${category}.${key}`;
     });
-    
+
     injectPolicies.mockReturnValue({
       termsOfServiceUrl: "https://example.com/terms",
       privacyPolicyUrl: "https://example.com/privacy",

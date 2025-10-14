@@ -122,7 +122,7 @@ describe("<fui-phone-auth-form />", () => {
     });
 
     const component = fixture.componentInstance;
-    
+
     // Simulate the phone number form submission
     component.handlePhoneSubmit({ verificationId: mockVerificationId, phoneNumber: "+1234567890" });
     fixture.detectChanges();
@@ -177,17 +177,17 @@ describe("<fui-phone-auth-form />", () => {
     });
 
     const component = fixture.componentInstance;
-    
+
     // Get the phone number form component and trigger form submission
     const phoneFormComponent = fixture.debugElement.query(
       (el) => el.componentInstance instanceof PhoneNumberFormComponent
     )?.componentInstance as PhoneNumberFormComponent;
-    
+
     expect(phoneFormComponent).toBeTruthy();
-    
+
     phoneFormComponent.form.setFieldValue("phoneNumber", "1234567890");
     fixture.detectChanges();
-    
+
     await phoneFormComponent.form.handleSubmit();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -221,12 +221,12 @@ describe("<fui-phone-auth-form />", () => {
     const verificationFormComponent = fixture.debugElement.query(
       (el) => el.componentInstance instanceof VerificationFormComponent
     )?.componentInstance as VerificationFormComponent;
-    
+
     expect(verificationFormComponent).toBeTruthy();
-    
+
     verificationFormComponent.form.setFieldValue("verificationCode", "123456");
     fixture.detectChanges();
-    
+
     await verificationFormComponent.form.handleSubmit();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -254,18 +254,18 @@ describe("<fui-phone-auth-form />", () => {
     });
 
     const component = fixture.componentInstance;
-    
+
     // Get the phone number form component and trigger form submission
     const phoneFormComponent = fixture.debugElement.query(
       (el) => el.componentInstance instanceof PhoneNumberFormComponent
     )?.componentInstance as PhoneNumberFormComponent;
-    
+
     expect(phoneFormComponent).toBeTruthy();
-    
+
     phoneFormComponent.form.setFieldValue("phoneNumber", "1234567890");
     phoneFormComponent.country.set("US" as any);
     fixture.detectChanges();
-    
+
     await phoneFormComponent.form.handleSubmit();
     await fixture.whenStable();
     fixture.detectChanges();

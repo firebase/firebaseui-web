@@ -37,7 +37,6 @@ describe("<fui-email-link-auth-form />", () => {
     mockCompleteEmailLinkSignIn = completeEmailLinkSignIn;
     mockFirebaseUIError = FirebaseUIError;
 
-    
     mockCompleteEmailLinkSignIn.mockResolvedValue(null);
   });
 
@@ -232,7 +231,7 @@ describe("<fui-email-link-auth-form />", () => {
 
     component.form.setFieldValue("email", "nonexistent@example.com");
     fixture.detectChanges();
-    
+
     await component.form.handleSubmit();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -261,7 +260,7 @@ describe("<fui-email-link-auth-form />", () => {
 
     component.form.setFieldValue("email", "test@example.com");
     fixture.detectChanges();
-    
+
     await component.form.handleSubmit();
     await fixture.whenStable();
     fixture.detectChanges();

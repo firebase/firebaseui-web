@@ -26,7 +26,6 @@ import {
   CardContentComponent,
 } from "../../../components/card/card.component";
 
-
 @Component({
   template: `
     <fui-phone-auth-screen>
@@ -77,23 +76,23 @@ describe("<fui-phone-auth-screen>", () => {
     expect(screen.getByText("Sign in to your account")).toBeInTheDocument();
   });
 
-      it("includes the PhoneAuthForm component", async () => {
-        await render(TestHostWithoutContentComponent, {
-          imports: [
-            PhoneAuthScreenComponent,
-            CardComponent,
-            CardHeaderComponent,
-            CardTitleComponent,
-            CardSubtitleComponent,
-            CardContentComponent,
-          ],
-        });
+  it("includes the PhoneAuthForm component", async () => {
+    await render(TestHostWithoutContentComponent, {
+      imports: [
+        PhoneAuthScreenComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
 
-        // Look for form elements by class instead of role
-        const form = document.querySelector(".fui-form");
-        expect(form).toBeInTheDocument();
-        expect(form).toHaveClass("fui-form");
-      });
+    // Look for form elements by class instead of role
+    const form = document.querySelector(".fui-form");
+    expect(form).toBeInTheDocument();
+    expect(form).toHaveClass("fui-form");
+  });
 
   it("renders projected content when provided", async () => {
     await render(TestHostWithContentComponent, {

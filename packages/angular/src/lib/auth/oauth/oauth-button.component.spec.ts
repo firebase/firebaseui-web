@@ -23,11 +23,7 @@ import { AuthProvider } from "@angular/fire/auth";
 // Mocks are handled by jest.config.ts moduleNameMapper and test-helpers.ts
 
 @Component({
-  template: `
-    <fui-oauth-button [provider]="provider">
-      Sign in with Google
-    </fui-oauth-button>
-  `,
+  template: ` <fui-oauth-button [provider]="provider"> Sign in with Google </fui-oauth-button> `,
   standalone: true,
   imports: [OAuthButtonComponent],
 })
@@ -36,11 +32,7 @@ class TestOAuthButtonHostComponent {
 }
 
 @Component({
-  template: `
-    <fui-oauth-button [provider]="provider">
-      Sign in with Facebook
-    </fui-oauth-button>
-  `,
+  template: ` <fui-oauth-button [provider]="provider"> Sign in with Facebook </fui-oauth-button> `,
   standalone: true,
   imports: [OAuthButtonComponent],
 })
@@ -170,7 +162,7 @@ describe("<fui-oauth-button>", () => {
     });
 
     const button = screen.getByRole("button");
-    
+
     // First click - should show error
     fireEvent.click(button);
     await waitFor(() => {
