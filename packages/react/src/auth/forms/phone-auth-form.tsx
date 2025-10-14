@@ -28,7 +28,7 @@ import { useCallback, useRef, useState } from "react";
 import { usePhoneAuthNumberFormSchema, usePhoneAuthVerifyFormSchema, useRecaptchaVerifier, useUI } from "~/hooks";
 import { form } from "~/components/form";
 import { Policies } from "~/components/policies";
-import { CountrySelector, CountrySelectorRef } from "~/components/country-selector";
+import { CountrySelector, type CountrySelectorRef } from "~/components/country-selector";
 
 export function usePhoneNumberFormAction() {
   const ui = useUI();
