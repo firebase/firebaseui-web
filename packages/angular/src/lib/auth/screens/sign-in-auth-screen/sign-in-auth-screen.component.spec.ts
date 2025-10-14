@@ -30,7 +30,6 @@ jest.mock("../../../provider", () => ({
   injectTranslation: jest.fn(),
 }));
 
-// Mock SignInAuthForm component
 @Component({
   selector: "fui-sign-in-auth-form",
   template: `
@@ -43,7 +42,6 @@ jest.mock("../../../provider", () => ({
 class MockSignInAuthFormComponent {}
 
 
-// Test component with content projection
 @Component({
   template: `
     <fui-sign-in-auth-screen>
@@ -55,7 +53,6 @@ class MockSignInAuthFormComponent {}
 })
 class TestHostWithContentComponent {}
 
-// Test component without content projection
 @Component({
   template: `<fui-sign-in-auth-screen></fui-sign-in-auth-screen>`,
   standalone: true,
