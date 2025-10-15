@@ -28,9 +28,9 @@ The dependency graph is:
 
 ```
 graph TD
-  core --> angular;
-  core --> react;
   core --> translations;
+  react --> core;
+  angular --> core;
   angular --> styles;
   react --> styles;
   shadcn --> react;
@@ -41,9 +41,7 @@ graph TD
 - All packages extend the same base `tsconfig.json` file.
 - Where possible, prefer Vitest testing framework.
 
-## Context
-
-Additional context for packages available:
+## Additional Context
 
 - `core`: @./packages/core/GEMINI.md
 - `react`: @./packages/react/GEMINI.md
