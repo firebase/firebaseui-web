@@ -23,7 +23,7 @@ import { TermsAndPrivacyComponent } from "../../../components/terms-and-privacy/
 import {
   createEmailFormSchema,
   EmailFormSchema,
-  FirebaseUIConfiguration,
+  FirebaseUI,
   FirebaseUIError,
   signInWithEmailAndPassword,
 } from "@firebase-ui/core";
@@ -111,7 +111,7 @@ export class EmailPasswordFormComponent implements OnInit {
 
   formError: string | null = null;
   private formSchema: any;
-  private config: FirebaseUIConfiguration;
+  private config: FirebaseUI;
 
   form = injectForm({
     defaultValues: {

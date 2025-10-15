@@ -7,14 +7,11 @@ import {
   type User,
   type UserCredential,
 } from "firebase/auth";
-import { type FirebaseUIConfiguration } from "~/config";
+import { type FirebaseUI } from "~/config";
 
-export type ProviderSignInStrategyHandler = (
-  ui: FirebaseUIConfiguration,
-  provider: AuthProvider
-) => Promise<never | UserCredential>;
+export type ProviderSignInStrategyHandler = (ui: FirebaseUI, provider: AuthProvider) => Promise<never | UserCredential>;
 export type ProviderLinkStrategyHandler = (
-  ui: FirebaseUIConfiguration,
+  ui: FirebaseUI,
   user: User,
   provider: AuthProvider
 ) => Promise<never | UserCredential>;
