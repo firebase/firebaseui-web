@@ -19,12 +19,8 @@ import {
   type TranslationCategory,
   type TranslationKey,
 } from "@firebase-ui/translations";
-import { type FirebaseUIConfiguration } from "./config";
+import { type FirebaseUI } from "./config";
 
-export function getTranslation<T extends TranslationCategory>(
-  ui: FirebaseUIConfiguration,
-  category: T,
-  key: TranslationKey<T>
-) {
+export function getTranslation<T extends TranslationCategory>(ui: FirebaseUI, category: T, key: TranslationKey<T>) {
   return _getTranslation(ui.locale, category, key);
 }

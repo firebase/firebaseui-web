@@ -24,7 +24,7 @@ import {
   EmailFormSchema,
   FirebaseUIError,
   createUserWithEmailAndPassword,
-  FirebaseUIConfiguration,
+  FirebaseUI,
 } from "@firebase-ui/core";
 import { Auth } from "@angular/fire/auth";
 import { TermsAndPrivacyComponent } from "../../../components/terms-and-privacy/terms-and-privacy.component";
@@ -106,7 +106,7 @@ export class RegisterFormComponent implements OnInit {
 
   formError: string | null = null;
   private formSchema: any;
-  private config: FirebaseUIConfiguration;
+  private config: FirebaseUI;
 
   form = injectForm({
     defaultValues: {

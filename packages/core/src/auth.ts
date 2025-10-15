@@ -33,13 +33,13 @@ import {
   type PhoneInfoOptions,
 } from "firebase/auth";
 import QRCode from "qrcode-generator";
-import { type FirebaseUIConfiguration } from "./config";
+import { type FirebaseUI } from "./config";
 import { handleFirebaseError } from "./errors";
 import { hasBehavior, getBehavior } from "./behaviors/index";
 import { FirebaseError } from "firebase/app";
 import { getTranslation } from "./translations";
 
-async function handlePendingCredential(_ui: FirebaseUIConfiguration, user: UserCredential): Promise<UserCredential> {
+async function handlePendingCredential(_ui: FirebaseUI, user: UserCredential): Promise<UserCredential> {
   const pendingCredString = window.sessionStorage.getItem("pendingCred");
   if (!pendingCredString) return user;
 
@@ -55,7 +55,7 @@ async function handlePendingCredential(_ui: FirebaseUIConfiguration, user: UserC
 }
 
 export async function signInWithEmailAndPassword(
-  ui: FirebaseUIConfiguration,
+  ui: FirebaseUI,
   email: string,
   password: string
 ): Promise<UserCredential> {
@@ -81,7 +81,7 @@ export async function signInWithEmailAndPassword(
 }
 
 export async function createUserWithEmailAndPassword(
-  ui: FirebaseUIConfiguration,
+  ui: FirebaseUI,
   email: string,
   password: string,
   displayName?: string
@@ -121,7 +121,7 @@ export async function createUserWithEmailAndPassword(
 }
 
 export async function verifyPhoneNumber(
-  ui: FirebaseUIConfiguration,
+  ui: FirebaseUI,
   phoneNumber: PhoneInfoOptions | string,
   appVerifier: ApplicationVerifier
 ): Promise<string> {
@@ -137,7 +137,7 @@ export async function verifyPhoneNumber(
 }
 
 export async function confirmPhoneNumber(
-  ui: FirebaseUIConfiguration,
+  ui: FirebaseUI,
   verificationId: string,
   verificationCode: string
 ): Promise<UserCredential> {
@@ -163,7 +163,7 @@ export async function confirmPhoneNumber(
   }
 }
 
-export async function sendPasswordResetEmail(ui: FirebaseUIConfiguration, email: string): Promise<void> {
+export async function sendPasswordResetEmail(ui: FirebaseUI, email: string): Promise<void> {
   try {
     ui.setState("pending");
     await _sendPasswordResetEmail(ui.auth, email);
@@ -174,7 +174,7 @@ export async function sendPasswordResetEmail(ui: FirebaseUIConfiguration, email:
   }
 }
 
-export async function sendSignInLinkToEmail(ui: FirebaseUIConfiguration, email: string): Promise<void> {
+export async function sendSignInLinkToEmail(ui: FirebaseUI, email: string): Promise<void> {
   try {
     ui.setState("pending");
     const actionCodeSettings = {
@@ -193,19 +193,12 @@ export async function sendSignInLinkToEmail(ui: FirebaseUIConfiguration, email: 
   }
 }
 
-export async function signInWithEmailLink(
-  ui: FirebaseUIConfiguration,
-  email: string,
-  link: string
-): Promise<UserCredential> {
+export async function signInWithEmailLink(ui: FirebaseUI, email: string, link: string): Promise<UserCredential> {
   const credential = EmailAuthProvider.credentialWithLink(email, link);
   return signInWithCredential(ui, credential);
 }
 
-export async function signInWithCredential(
-  ui: FirebaseUIConfiguration,
-  credential: AuthCredential
-): Promise<UserCredential> {
+export async function signInWithCredential(ui: FirebaseUI, credential: AuthCredential): Promise<UserCredential> {
   try {
     ui.setState("pending");
     if (hasBehavior(ui, "autoUpgradeAnonymousCredential")) {
@@ -227,7 +220,7 @@ export async function signInWithCredential(
   }
 }
 
-export async function signInAnonymously(ui: FirebaseUIConfiguration): Promise<UserCredential> {
+export async function signInAnonymously(ui: FirebaseUI): Promise<UserCredential> {
   try {
     ui.setState("pending");
     const result = await _signInAnonymously(ui.auth);
@@ -239,10 +232,7 @@ export async function signInAnonymously(ui: FirebaseUIConfiguration): Promise<Us
   }
 }
 
-export async function signInWithProvider(
-  ui: FirebaseUIConfiguration,
-  provider: AuthProvider
-): Promise<UserCredential | never> {
+export async function signInWithProvider(ui: FirebaseUI, provider: AuthProvider): Promise<UserCredential | never> {
   try {
     ui.setState("pending");
     if (hasBehavior(ui, "autoUpgradeAnonymousProvider")) {
@@ -268,10 +258,7 @@ export async function signInWithProvider(
   }
 }
 
-export async function completeEmailLinkSignIn(
-  ui: FirebaseUIConfiguration,
-  currentUrl: string
-): Promise<UserCredential | null> {
+export async function completeEmailLinkSignIn(ui: FirebaseUI, currentUrl: string): Promise<UserCredential | null> {
   try {
     if (!_isSignInWithEmailLink(ui.auth, currentUrl)) {
       return null;
@@ -291,12 +278,7 @@ export async function completeEmailLinkSignIn(
   }
 }
 
-export function generateTotpQrCode(
-  ui: FirebaseUIConfiguration,
-  secret: TotpSecret,
-  accountName?: string,
-  issuer?: string
-): string {
+export function generateTotpQrCode(ui: FirebaseUI, secret: TotpSecret, accountName?: string, issuer?: string): string {
   const currentUser = ui.auth.currentUser;
 
   if (!currentUser) {
