@@ -33,14 +33,14 @@ import {
   createPhoneAuthVerifyFormSchema,
   createSignInAuthFormSchema,
   createSignUpAuthFormSchema,
-  FirebaseUIConfiguration,
+  FirebaseUIStore,
   type FirebaseUI as FirebaseUIType,
   getTranslation,
   getBehavior,
   type CountryData,
 } from "@firebase-ui/core";
 
-const FIREBASE_UI_STORE = new InjectionToken<FirebaseUIType>("firebaseui.store");
+const FIREBASE_UI_STORE = new InjectionToken<FirebaseUIStore>("firebaseui.store");
 const FIREBASE_UI_POLICIES = new InjectionToken<PolicyConfig>("firebaseui.policies");
 
 type PolicyConfig = {
@@ -48,7 +48,7 @@ type PolicyConfig = {
   privacyPolicyUrl: string;
 };
 
-export function provideFirebaseUI(uiFactory: (apps: FirebaseApps) => FirebaseUIType): EnvironmentProviders {
+export function provideFirebaseUI(uiFactory: (apps: FirebaseApps) => FirebaseUIStore): EnvironmentProviders {
   const providers: Provider[] = [
     // TODO: This should depend on the FirebaseAuth provider via deps,
     // see https://github.com/angular/angularfire/blob/35e0a9859299010488852b1826e4083abe56528f/src/firestore/firestore.module.ts#L76
@@ -73,10 +73,10 @@ export function provideFirebaseUIPolicies(factory: () => PolicyConfig) {
   return makeEnvironmentProviders(providers);
 }
 
-// Provides a signal with a subscription to the FirebaseUIConfiguration
+// Provides a signal with a subscription to the FirebaseUIStore
 export function injectUI() {
   const store = inject(FIREBASE_UI_STORE);
-  const ui = signal<FirebaseUIConfiguration>(store.get());
+  const ui = signal<FirebaseUIType>(store.get());
 
   effect(() => {
     return store.subscribe(ui.set);
