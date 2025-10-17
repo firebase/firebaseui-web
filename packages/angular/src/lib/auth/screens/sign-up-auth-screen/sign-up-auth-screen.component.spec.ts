@@ -14,204 +14,135 @@
  * limitations under the License.
  */
 
-import { CommonModule } from "@angular/common";
-import { Component, Input } from "@angular/core";
-import { TestBed } from "@angular/core/testing";
-import { By } from "@angular/platform-browser";
-import { of } from "rxjs";
-import { FirebaseUI } from "../../../provider";
+import { render, screen } from "@testing-library/angular";
+import { Component } from "@angular/core";
+
 import { SignUpAuthScreenComponent } from "./sign-up-auth-screen.component";
-import { CardComponent } from "../../../components/card/card.component";
+import {
+  CardComponent,
+  CardHeaderComponent,
+  CardTitleComponent,
+  CardSubtitleComponent,
+  CardContentComponent,
+} from "../../../components/card/card.component";
 
-// Mock Card components
-@Component({
-  selector: "fui-card-signup",
-  template: '<div class="fui-card"><ng-content></ng-content></div>',
-  standalone: true,
-})
-class MockCardComponent {}
-
-@Component({
-  selector: "fui-card-header",
-  template: '<div class="fui-card-header"><ng-content></ng-content></div>',
-  standalone: true,
-})
-class MockCardHeaderComponent {}
-
-@Component({
-  selector: "fui-card-title",
-  template: '<h2 class="fui-card-title"><ng-content></ng-content></h2>',
-  standalone: true,
-})
-class MockCardTitleComponent {}
-
-@Component({
-  selector: "fui-card-subtitle",
-  template: '<p class="fui-card-subtitle"><ng-content></ng-content></p>',
-  standalone: true,
-})
-class MockCardSubtitleComponent {}
-
-// Mock RegisterForm component
-@Component({
-  selector: "fui-register-form",
-  template: `
-    <div data-testid="register-form">
-      Register Form
-      <p>Sign In Route: {{ signInRoute }}</p>
-    </div>
-  `,
-  standalone: true,
-})
-class MockRegisterFormComponent {
-  @Input() signInRoute: string = "";
-}
-
-// Mock Divider component
-@Component({
-  selector: "fui-divider",
-  template: '<div class="fui-divider"><ng-content></ng-content></div>',
-  standalone: true,
-})
-class MockDividerComponent {}
-
-// Create mock for FirebaseUi provider
-class MockFirebaseUi {
-  translation(category: string, key: string) {
-    if (category === "labels" && key === "register") {
-      return of("Create Account");
-    }
-    if (category === "prompts" && key === "enterDetailsToCreate") {
-      return of("Enter your details to create an account");
-    }
-    if (category === "messages" && key === "dividerOr") {
-      return of("OR");
-    }
-    return of(`${category}.${key}`);
-  }
-}
-
-// Test component with content projection
 @Component({
   template: `
     <fui-sign-up-auth-screen>
-      <div data-testid="test-child">Child element</div>
+      <div data-testid="projected-content">Test Content</div>
     </fui-sign-up-auth-screen>
   `,
   standalone: true,
   imports: [SignUpAuthScreenComponent],
 })
-class TestHostWithChildrenComponent {}
+class TestHostWithContentComponent {}
 
-// Test component without content projection
 @Component({
-  template: ` <fui-sign-up-auth-screen></fui-sign-up-auth-screen> `,
+  template: `<fui-sign-up-auth-screen></fui-sign-up-auth-screen>`,
   standalone: true,
   imports: [SignUpAuthScreenComponent],
 })
-class TestHostWithoutChildrenComponent {}
+class TestHostWithoutContentComponent {}
 
-describe("SignUpAuthScreenComponent", () => {
-  let mockFirebaseUi: MockFirebaseUi;
-
-  beforeEach(async () => {
-    mockFirebaseUi = new MockFirebaseUi();
-
-    await TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        SignUpAuthScreenComponent,
-        TestHostWithChildrenComponent,
-        TestHostWithoutChildrenComponent,
-        CardComponent,
-        MockCardHeaderComponent,
-        MockCardTitleComponent,
-        MockCardSubtitleComponent,
-        MockRegisterFormComponent,
-        MockDividerComponent,
-      ],
-      providers: [{ provide: FirebaseUI, useValue: mockFirebaseUi }],
-    }).compileComponents();
-
-    TestBed.overrideComponent(SignUpAuthScreenComponent, {
-      set: {
-        imports: [
-          CommonModule,
-          MockCardComponent,
-          MockCardHeaderComponent,
-          MockCardTitleComponent,
-          MockCardSubtitleComponent,
-          MockRegisterFormComponent,
-          MockDividerComponent,
-        ],
-      },
+describe("<fui-sign-up-auth-screen>", () => {
+  beforeEach(() => {
+    const { injectTranslation } = require("../../../provider");
+    injectTranslation.mockImplementation((category: string, key: string) => {
+      const mockTranslations: Record<string, Record<string, string>> = {
+        labels: {
+          register: "Create Account",
+        },
+        prompts: {
+          enterDetailsToCreate: "Enter your details to create an account",
+        },
+      };
+      return () => mockTranslations[category]?.[key] || `${category}.${key}`;
     });
   });
 
-  it("should create", () => {
-    const fixture = TestBed.createComponent(SignUpAuthScreenComponent);
-    const component = fixture.componentInstance;
-    expect(component).toBeTruthy();
+  it("renders with correct title and subtitle", async () => {
+    await render(TestHostWithoutContentComponent, {
+      imports: [
+        SignUpAuthScreenComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
+
+    expect(screen.getByText("Create Account")).toBeInTheDocument();
+    expect(screen.getByText("Enter your details to create an account")).toBeInTheDocument();
   });
 
-  it("renders the correct title and subtitle", () => {
-    const fixture = TestBed.createComponent(SignUpAuthScreenComponent);
-    fixture.detectChanges();
+  it("includes the SignUpAuthForm component", async () => {
+    const { container } = await render(TestHostWithoutContentComponent, {
+      imports: [
+        SignUpAuthScreenComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
 
-    const titleEl = fixture.debugElement.query(By.css(".fui-card-title"));
-    const subtitleEl = fixture.debugElement.query(By.css(".fui-card-subtitle"));
-
-    expect(titleEl.nativeElement.textContent).toBe("Create Account");
-    expect(subtitleEl.nativeElement.textContent).toBe("Enter your details to create an account");
+    const form = container.querySelector(".fui-form");
+    expect(form).toBeInTheDocument();
   });
 
-  it("includes the RegisterForm component", () => {
-    const fixture = TestBed.createComponent(SignUpAuthScreenComponent);
-    fixture.detectChanges();
+  it("renders projected content when provided", async () => {
+    await render(TestHostWithContentComponent, {
+      imports: [
+        SignUpAuthScreenComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
 
-    const formEl = fixture.debugElement.query(By.css('[data-testid="register-form"]'));
-    expect(formEl).toBeTruthy();
-    expect(formEl.nativeElement.textContent).toContain("Register Form");
+    const projectedContent = screen.getByTestId("projected-content");
+    expect(projectedContent).toBeInTheDocument();
+    expect(projectedContent).toHaveTextContent("Test Content");
   });
 
-  it("passes signInRoute to RegisterForm", () => {
-    const fixture = TestBed.createComponent(SignUpAuthScreenComponent);
-    const component = fixture.componentInstance;
+  it("has correct CSS classes", async () => {
+    const { container } = await render(TestHostWithoutContentComponent, {
+      imports: [
+        SignUpAuthScreenComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
 
-    component.signInRoute = "/sign-in";
-
-    fixture.detectChanges();
-
-    const formEl = fixture.debugElement.query(By.css('[data-testid="register-form"]'));
-    expect(formEl.nativeElement.textContent).toContain("Sign In Route: /sign-in");
+    expect(container.querySelector(".fui-screen")).toBeInTheDocument();
+    expect(container.querySelector(".fui-card")).toBeInTheDocument();
+    expect(container.querySelector(".fui-card__header")).toBeInTheDocument();
+    expect(container.querySelector(".fui-card__title")).toBeInTheDocument();
+    expect(container.querySelector(".fui-card__subtitle")).toBeInTheDocument();
+    expect(container.querySelector(".fui-card__content")).toBeInTheDocument();
   });
 
-  it("renders children when provided", async () => {
-    const fixture = TestBed.createComponent(TestHostWithChildrenComponent);
-    fixture.detectChanges();
+  it("calls injectTranslation with correct parameters", async () => {
+    const { injectTranslation } = require("../../../provider");
+    await render(TestHostWithoutContentComponent, {
+      imports: [
+        SignUpAuthScreenComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
 
-    // Wait for any async operations to complete
-    await new Promise((resolve) => setTimeout(resolve, 0));
-    fixture.detectChanges();
-
-    const childEl = fixture.debugElement.query(By.css('[data-testid="test-child"]'));
-    const dividerEl = fixture.debugElement.query(By.css(".fui-divider"));
-
-    expect(childEl).toBeTruthy();
-    expect(childEl.nativeElement.textContent).toBe("Child element");
-    expect(dividerEl).toBeTruthy();
-    expect(dividerEl.nativeElement.textContent).toBe("OR");
-  });
-
-  it("does not render divider or children container when no children are provided", async () => {
-    const fixture = TestBed.createComponent(TestHostWithoutChildrenComponent);
-    fixture.detectChanges();
-
-    // Wait for any async operations to complete
-    await new Promise((resolve) => setTimeout(resolve, 0));
-    fixture.detectChanges();
-
-    const dividerEl = fixture.debugElement.query(By.css(".fui-divider"));
-    expect(dividerEl).toBeFalsy();
+    expect(injectTranslation).toHaveBeenCalledWith("labels", "register");
+    expect(injectTranslation).toHaveBeenCalledWith("prompts", "enterDetailsToCreate");
   });
 });

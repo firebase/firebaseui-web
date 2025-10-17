@@ -24,7 +24,7 @@ import { EmailLinkAuthScreenComponent } from "@firebase-ui/angular";
   selector: "app-email-link",
   standalone: true,
   imports: [CommonModule, RouterModule, EmailLinkAuthScreenComponent],
-  template: ` <fui-email-link-auth-screen></fui-email-link-auth-screen> `,
+  template: `<fui-email-link-auth-screen></fui-email-link-auth-screen> `,
   styles: [],
 })
 export class EmailLinkComponent implements OnInit {

@@ -14,27 +14,28 @@
  * limitations under the License.
  */
 
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, computed, model } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { CountryData, countryData } from "@firebase-ui/core";
+import { type CountryCode } from "@firebase-ui/core";
 import { FormsModule } from "@angular/forms";
+import { injectCountries, injectDefaultCountry } from "../../provider";
 
 @Component({
   selector: "fui-country-selector",
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <div class="fui-country-selector" [class]="className">
+    <div class="fui-country-selector">
       <div class="fui-country-selector__wrapper">
-        <span class="fui-country-selector__flag">{{ value.emoji }}</span>
+        <span class="fui-country-selector__flag">{{ selected().emoji }}</span>
         <div class="fui-country-selector__select-wrapper">
-          <span class="fui-country-selector__dial-code">{{ value.dialCode }}</span>
+          <span class="fui-country-selector__dial-code">{{ selected().dialCode }}</span>
           <select
             class="fui-country-selector__select"
-            [ngModel]="value.code"
+            [ngModel]="selected().code"
             (ngModelChange)="handleCountryChange($event)"
           >
-            @for (country of countries; track country.code) {
+            @for (country of countries(); track country.code) {
               <option [value]="country.code">{{ country.dialCode }} ({{ country.name }})</option>
             }
           </select>
@@ -44,16 +45,23 @@ import { FormsModule } from "@angular/forms";
   `,
 })
 export class CountrySelectorComponent {
-  @Input() value: CountryData = countryData[0];
-  @Input() className: string = "";
-  @Output() onChange = new EventEmitter<CountryData>();
+  countries = injectCountries();
+  defaultCountry = injectDefaultCountry();
+  value = model<CountryCode>();
 
-  countries = countryData;
+  selected = computed(() => {
+    if (!this.value()) {
+      return this.defaultCountry();
+    }
+
+    return this.countries().find((c) => c.code === this.value()) || this.defaultCountry();
+  });
 
   handleCountryChange(code: string) {
-    const country = this.countries.find((c) => c.code === code);
+    const country = this.countries().find((c) => c.code === code);
+
     if (country) {
-      this.onChange.emit(country);
+      this.value.update(() => country.code as CountryCode);
     }
   }
 }

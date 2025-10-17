@@ -24,7 +24,7 @@ import { SignUpAuthScreenComponent } from "@firebase-ui/angular";
   selector: "app-sign-up",
   standalone: true,
   imports: [CommonModule, RouterModule, SignUpAuthScreenComponent],
-  template: ` <fui-sign-up-auth-screen></fui-sign-up-auth-screen> `,
+  template: ` <fui-sign-up-auth-screen (signIn)="goToSignIn()"></fui-sign-up-auth-screen> `,
   styles: [],
 })
 export class SignUpComponent implements OnInit {
@@ -38,5 +38,9 @@ export class SignUpComponent implements OnInit {
         this.router.navigate(["/"]);
       }
     });
+  }
+
+  goToSignIn() {
+    this.router.navigate(["/sign-in"]);
   }
 }
