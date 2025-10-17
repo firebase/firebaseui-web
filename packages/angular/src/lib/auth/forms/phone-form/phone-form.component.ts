@@ -31,7 +31,7 @@ import {
   formatPhoneNumberWithCountry,
   confirmPhoneNumber,
   signInWithPhoneNumber,
-  FirebaseUIConfiguration,
+  FirebaseUI,
 } from "@firebase-ui/core";
 import { interval, Subscription, firstValueFrom } from "rxjs";
 import { Router } from "@angular/router";
@@ -103,7 +103,7 @@ export class PhoneNumberFormComponent implements OnInit, OnDestroy {
   recaptchaVerifier: RecaptchaVerifier | null = null;
   selectedCountry: CountryData = countryData[0];
   private formSchema: any;
-  private config: FirebaseUIConfiguration;
+  private config: FirebaseUI;
 
   form = injectForm({
     defaultValues: {

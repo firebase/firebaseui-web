@@ -19,17 +19,28 @@ import {
   EnvironmentProviders,
   makeEnvironmentProviders,
   InjectionToken,
-  Injectable,
   inject,
+  signal,
+  computed,
+  effect,
+  Signal,
 } from "@angular/core";
 import { FirebaseApps } from "@angular/fire/app";
-import { type FirebaseUI as FirebaseUIType, getTranslation } from "@firebase-ui/core";
-import { Tail } from "../types";
-import { distinctUntilChanged, map, takeUntil } from "rxjs/operators";
-import { Observable, ReplaySubject } from "rxjs";
-import { Store } from "nanostores";
+import {
+  createEmailLinkAuthFormSchema,
+  createForgotPasswordAuthFormSchema,
+  createPhoneAuthNumberFormSchema,
+  createPhoneAuthVerifyFormSchema,
+  createSignInAuthFormSchema,
+  createSignUpAuthFormSchema,
+  FirebaseUIStore,
+  type FirebaseUI as FirebaseUIType,
+  getTranslation,
+  getBehavior,
+  type CountryData,
+} from "@firebase-ui/core";
 
-const FIREBASE_UI_STORE = new InjectionToken<FirebaseUIType>("firebaseui.store");
+const FIREBASE_UI_STORE = new InjectionToken<FirebaseUIStore>("firebaseui.store");
 const FIREBASE_UI_POLICIES = new InjectionToken<PolicyConfig>("firebaseui.policies");
 
 type PolicyConfig = {
@@ -37,7 +48,7 @@ type PolicyConfig = {
   privacyPolicyUrl: string;
 };
 
-export function provideFirebaseUI(uiFactory: (apps: FirebaseApps) => FirebaseUIType): EnvironmentProviders {
+export function provideFirebaseUI(uiFactory: (apps: FirebaseApps) => FirebaseUIStore): EnvironmentProviders {
   const providers: Provider[] = [
     // TODO: This should depend on the FirebaseAuth provider via deps,
     // see https://github.com/angular/angularfire/blob/35e0a9859299010488852b1826e4083abe56528f/src/firestore/firestore.module.ts#L76
@@ -46,12 +57,11 @@ export function provideFirebaseUI(uiFactory: (apps: FirebaseApps) => FirebaseUIT
       useFactory: () => {
         const apps = inject(FirebaseApps);
         if (!apps || apps.length === 0) {
-          return null as any;
+          throw new Error("No Firebase apps found");
         }
         return uiFactory(apps);
       },
     },
-    FirebaseUI,
   ];
 
   return makeEnvironmentProviders(providers);
@@ -63,53 +73,63 @@ export function provideFirebaseUIPolicies(factory: () => PolicyConfig) {
   return makeEnvironmentProviders(providers);
 }
 
-@Injectable({
-  providedIn: "root",
-})
-export class FirebaseUI {
-  private store = inject(FIREBASE_UI_STORE);
-  private destroyed$: ReplaySubject<void> = new ReplaySubject(1);
+// Provides a signal with a subscription to the FirebaseUIStore
+export function injectUI() {
+  const store = inject(FIREBASE_UI_STORE);
+  const ui = signal<FirebaseUIType>(store.get());
 
-  config() {
-    return this.useStore(this.store);
-  }
+  effect(() => {
+    return store.subscribe(ui.set);
+  });
 
-  //TODO: This should be typed more specifically from the translations package
-  translation(...args: Tail) {
-    return this.config().pipe(map((config) => getTranslation(config, ...args)));
-  }
-
-  useStore<T>(store: Store<T> | null): Observable<T> {
-    if (!store) {
-      // Return an observable that emits a default value for SSR when store is not available
-      return new Observable<T>((subscriber) => {
-        subscriber.next({} as T);
-        subscriber.complete();
-      });
-    }
-    return new Observable<T>((sub) => {
-      sub.next(store.get());
-      return store.subscribe((value) => sub.next(value));
-    }).pipe(distinctUntilChanged(), takeUntil(this.destroyed$));
-  }
-
-  ngOnDestroy(): void {
-    this.destroyed$.next();
-    this.destroyed$.complete();
-  }
+  return ui.asReadonly();
 }
 
-@Injectable({
-  providedIn: "root",
-})
-export class FirebaseUIPolicies {
-  private policies = inject(FIREBASE_UI_POLICIES);
+export function injectTranslation(category: string, key: string) {
+  const ui = injectUI();
+  return computed(() => getTranslation(ui(), category as any, key as any));
+}
 
-  get termsOfServiceUrl() {
-    return this.policies.termsOfServiceUrl;
-  }
+export function injectSignInAuthFormSchema(): Signal<ReturnType<typeof createSignInAuthFormSchema>> {
+  const ui = injectUI();
+  return computed(() => createSignInAuthFormSchema(ui()));
+}
 
-  get privacyPolicyUrl() {
-    return this.policies.privacyPolicyUrl;
-  }
+export function injectSignUpAuthFormSchema(): Signal<ReturnType<typeof createSignUpAuthFormSchema>> {
+  const ui = injectUI();
+  return computed(() => createSignUpAuthFormSchema(ui()));
+}
+
+export function injectForgotPasswordAuthFormSchema(): Signal<ReturnType<typeof createForgotPasswordAuthFormSchema>> {
+  const ui = injectUI();
+  return computed(() => createForgotPasswordAuthFormSchema(ui()));
+}
+
+export function injectEmailLinkAuthFormSchema(): Signal<ReturnType<typeof createEmailLinkAuthFormSchema>> {
+  const ui = injectUI();
+  return computed(() => createEmailLinkAuthFormSchema(ui()));
+}
+
+export function injectPhoneAuthFormSchema(): Signal<ReturnType<typeof createPhoneAuthNumberFormSchema>> {
+  const ui = injectUI();
+  return computed(() => createPhoneAuthNumberFormSchema(ui()));
+}
+
+export function injectPhoneAuthVerifyFormSchema(): Signal<ReturnType<typeof createPhoneAuthVerifyFormSchema>> {
+  const ui = injectUI();
+  return computed(() => createPhoneAuthVerifyFormSchema(ui()));
+}
+
+export function injectPolicies(): PolicyConfig | null {
+  return inject<PolicyConfig | null>(FIREBASE_UI_POLICIES, { optional: true });
+}
+
+export function injectCountries(): Signal<CountryData[]> {
+  const ui = injectUI();
+  return computed(() => getBehavior(ui(), "countryCodes")().allowedCountries);
+}
+
+export function injectDefaultCountry(): Signal<CountryData> {
+  const ui = injectUI();
+  return computed(() => getBehavior(ui(), "countryCodes")().defaultCountry);
 }

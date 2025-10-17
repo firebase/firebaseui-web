@@ -15,7 +15,7 @@
  */
 
 import { enUS } from "./locales/en-us";
-import { Translations } from "./types";
+import { type Translations } from "./types";
 
 export type * from "./types";
 export * from "./mapping";

@@ -14,16 +14,18 @@
  * limitations under the License.
  */
 
-import { Component, inject } from "@angular/core";
+import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   CardComponent,
   CardHeaderComponent,
   CardTitleComponent,
   CardSubtitleComponent,
+  CardContentComponent,
 } from "../../../components/card/card.component";
-import { FirebaseUI } from "../../../provider";
-import { TermsAndPrivacyComponent } from "../../../components/terms-and-privacy/terms-and-privacy.component";
+import { injectTranslation } from "../../../provider";
+import { PoliciesComponent } from "../../../components/policies/policies.component";
+import { ContentComponent } from "../../../components/content/content.component";
 
 @Component({
   selector: "fui-oauth-screen",
@@ -34,29 +36,28 @@ import { TermsAndPrivacyComponent } from "../../../components/terms-and-privacy/
     CardHeaderComponent,
     CardTitleComponent,
     CardSubtitleComponent,
-    TermsAndPrivacyComponent,
+    CardContentComponent,
+    PoliciesComponent,
+    ContentComponent,
   ],
   template: `
     <div class="fui-screen">
       <fui-card>
         <fui-card-header>
-          <fui-card-title>{{ titleText | async }}</fui-card-title>
-          <fui-card-subtitle>{{ subtitleText | async }}</fui-card-subtitle>
+          <fui-card-title>{{ titleText() }}</fui-card-title>
+          <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
         </fui-card-header>
-        <ng-content></ng-content>
-        <fui-terms-and-privacy></fui-terms-and-privacy>
+        <fui-card-content>
+          <fui-content>
+            <ng-content></ng-content>
+          </fui-content>
+          <fui-policies />
+        </fui-card-content>
       </fui-card>
     </div>
   `,
 })
 export class OAuthScreenComponent {
-  private ui = inject(FirebaseUI);
-
-  get titleText() {
-    return this.ui.translation("labels", "signIn");
-  }
-
-  get subtitleText() {
-    return this.ui.translation("prompts", "signInToAccount");
-  }
+  titleText = injectTranslation("labels", "signIn");
+  subtitleText = injectTranslation("prompts", "signInToAccount");
 }

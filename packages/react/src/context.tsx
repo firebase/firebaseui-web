@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-import { FirebaseUIConfiguration, type FirebaseUI } from "@firebase-ui/core";
+import { type FirebaseUIStore, type FirebaseUI } from "@firebase-ui/core";
 import { useStore } from "@nanostores/react";
 import { type PolicyProps, PolicyProvider } from "~/components/policies";
 import { createContext } from "react";
 
-export const FirebaseUIContext = createContext<FirebaseUIConfiguration>({} as FirebaseUIConfiguration);
+export const FirebaseUIContext = createContext<FirebaseUI>({} as FirebaseUI);
 
 export type FirebaseUIProviderProps = {
   children: React.ReactNode;
-  ui: FirebaseUI;
+  ui: FirebaseUIStore;
   policies?: PolicyProps;
 };
 

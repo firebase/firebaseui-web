@@ -1,9 +1,9 @@
 import { FirebaseApp } from "firebase/app";
 import { Auth, MultiFactorResolver } from "firebase/auth";
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { initializeUI } from "./config";
 import { enUs, registerLocale } from "@firebase-ui/translations";
-import { autoUpgradeAnonymousUsers, autoAnonymousLogin, defaultBehaviors } from "./behaviors";
+import { autoUpgradeAnonymousUsers, autoAnonymousLogin } from "./behaviors";
 
 // Mock Firebase Auth
 vi.mock("firebase/auth", () => ({

@@ -15,7 +15,7 @@
  */
 
 import { enUS } from "./locales/en-us";
-import { RegisteredLocale } from ".";
+import { type RegisteredLocale } from ".";
 import type { ErrorKey, TranslationCategory, TranslationKey, TranslationSet } from "./types";
 
 export const ERROR_CODE_MAP = {

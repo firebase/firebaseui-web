@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-import { enUs, RegisteredLocale } from "@firebase-ui/translations";
+import { enUs, type RegisteredLocale } from "@firebase-ui/translations";
 import type { FirebaseApp } from "firebase/app";
-import { Auth, getAuth, getRedirectResult, MultiFactorResolver } from "firebase/auth";
-import { deepMap, DeepMapStore, map } from "nanostores";
-import { Behavior, Behaviors, defaultBehaviors } from "./behaviors";
+import { type Auth, getAuth, getRedirectResult, type MultiFactorResolver } from "firebase/auth";
+import { deepMap, type DeepMapStore, map } from "nanostores";
+import { type Behavior, type Behaviors, defaultBehaviors } from "./behaviors";
 import type { InitBehavior, RedirectBehavior } from "./behaviors/utils";
-import { FirebaseUIState } from "./state";
+import { type FirebaseUIState } from "./state";
 
-export type FirebaseUIConfigurationOptions = {
+export type FirebaseUIOptions = {
   app: FirebaseApp;
   auth?: Auth;
   locale?: RegisteredLocale;
@@ -30,7 +30,7 @@ export type FirebaseUIConfigurationOptions = {
   behaviors?: Behavior<any>[];
 };
 
-export type FirebaseUIConfiguration = {
+export type FirebaseUI = {
   app: FirebaseApp;
   auth: Auth;
   setLocale: (locale: RegisteredLocale) => void;
@@ -42,11 +42,11 @@ export type FirebaseUIConfiguration = {
   setMultiFactorResolver: (multiFactorResolver?: MultiFactorResolver) => void;
 };
 
-export const $config = map<Record<string, DeepMapStore<FirebaseUIConfiguration>>>({});
+export const $config = map<Record<string, DeepMapStore<FirebaseUI>>>({});
 
-export type FirebaseUI = DeepMapStore<FirebaseUIConfiguration>;
+export type FirebaseUIStore = DeepMapStore<FirebaseUI>;
 
-export function initializeUI(config: FirebaseUIConfigurationOptions, name: string = "[DEFAULT]"): FirebaseUI {
+export function initializeUI(config: FirebaseUIOptions, name: string = "[DEFAULT]"): FirebaseUIStore {
   // Reduce the behaviors to a single object.
   const behaviors = config.behaviors?.reduce<Behavior>((acc, behavior) => {
     return {
@@ -57,7 +57,7 @@ export function initializeUI(config: FirebaseUIConfigurationOptions, name: strin
 
   $config.setKey(
     name,
-    deepMap<FirebaseUIConfiguration>({
+    deepMap<FirebaseUI>({
       app: config.app,
       auth: config.auth || getAuth(config.app),
       locale: config.locale ?? enUs,

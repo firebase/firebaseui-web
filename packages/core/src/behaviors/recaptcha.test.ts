@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { RecaptchaVerifier } from "firebase/auth";
 import { recaptchaVerificationHandler, type RecaptchaVerificationOptions } from "./recaptcha";
-import type { FirebaseUIConfiguration } from "~/config";
+import type { FirebaseUI } from "~/config";
 import { createMockUI } from "~/tests/utils";
 
 vi.mock("firebase/auth", () => ({
@@ -79,7 +79,7 @@ describe("Recaptcha Verification Handler", () => {
     it("should pass correct auth instance", () => {
       const mockUI = createMockUI();
       const customAuth = { uid: "test-uid" } as any;
-      const customUI = { auth: customAuth } as FirebaseUIConfiguration;
+      const customUI = { auth: customAuth } as FirebaseUI;
 
       recaptchaVerificationHandler(customUI, mockElement);
 

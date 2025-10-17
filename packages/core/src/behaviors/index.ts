@@ -1,4 +1,4 @@
-import type { FirebaseUIConfiguration } from "~/config";
+import type { FirebaseUI } from "~/config";
 import type { RecaptchaVerifier, UserCredential } from "firebase/auth";
 import * as anonymousUpgradeHandlers from "./anonymous-upgrade";
 import * as autoAnonymousLoginHandlers from "./auto-anonymous-login";
@@ -24,17 +24,15 @@ type Registry = {
   autoUpgradeAnonymousProvider: CallableBehavior<typeof anonymousUpgradeHandlers.autoUpgradeAnonymousProviderHandler>;
   autoUpgradeAnonymousUserRedirectHandler: RedirectBehavior<
     (
-      ui: FirebaseUIConfiguration,
+      ui: FirebaseUI,
       credential: UserCredential | null,
       onUpgrade?: anonymousUpgradeHandlers.OnUpgradeCallback
     ) => ReturnType<typeof anonymousUpgradeHandlers.autoUpgradeAnonymousUserRedirectHandler>
   >;
-  recaptchaVerification: CallableBehavior<(ui: FirebaseUIConfiguration, element: HTMLElement) => RecaptchaVerifier>;
+  recaptchaVerification: CallableBehavior<(ui: FirebaseUI, element: HTMLElement) => RecaptchaVerifier>;
   providerSignInStrategy: CallableBehavior<providerStrategyHandlers.ProviderSignInStrategyHandler>;
   providerLinkStrategy: CallableBehavior<providerStrategyHandlers.ProviderLinkStrategyHandler>;
-  oneTapSignIn: InitBehavior<
-    (ui: FirebaseUIConfiguration) => ReturnType<typeof oneTapSignInHandlers.oneTapSignInHandler>
-  >;
+  oneTapSignIn: InitBehavior<(ui: FirebaseUI) => ReturnType<typeof oneTapSignInHandlers.oneTapSignInHandler>>;
   requireDisplayName: CallableBehavior<typeof requireDisplayNameHandlers.requireDisplayNameHandler>;
   countryCodes: CallableBehavior<typeof countryCodesHandlers.countryCodesHandler>;
 };
@@ -114,11 +112,11 @@ export function countryCodes(options?: countryCodesHandlers.CountryCodesOptions)
   };
 }
 
-export function hasBehavior<T extends keyof Registry>(ui: FirebaseUIConfiguration, key: T): boolean {
+export function hasBehavior<T extends keyof Registry>(ui: FirebaseUI, key: T): boolean {
   return !!ui.behaviors[key];
 }
 
-export function getBehavior<T extends keyof Registry>(ui: FirebaseUIConfiguration, key: T): Registry[T]["handler"] {
+export function getBehavior<T extends keyof Registry>(ui: FirebaseUI, key: T): Registry[T]["handler"] {
   if (!hasBehavior(ui, key)) {
     throw new Error(`Behavior ${key} not found`);
   }

@@ -7,6 +7,7 @@ import tseslint from "typescript-eslint";
 import pluginPrettier from "eslint-plugin-prettier";
 import pluginReact from "eslint-plugin-react";
 import pluginReactHooks from "eslint-plugin-react-hooks";
+import pluginAngular from "angular-eslint";
 
 const config: any[] = [
   globalIgnores([
@@ -16,6 +17,7 @@ const config: any[] = [
     "**/.next/**",
     "**/.angular/**",
     "**/releases/**",
+    "**/shadcn/public-dev/**",
     "packages/styles/dist.css",
     "packages/angular/**",
     "packages/shadcn/public",
@@ -30,7 +32,20 @@ const config: any[] = [
       "prettier/prettier": "error",
       "arrow-body-style": "off",
       "prefer-arrow-callback": "off",
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        {
+          disallowTypeAnnotations: false,
+          prefer: "type-imports",
+          fixStyle: "inline-type-imports",
+        },
+      ],
     },
+  },
+  {
+    // Angular package specific rules
+    files: ["packages/angular/src/**/*.{ts,tsx}"],
+    processor: pluginAngular.processInlineTemplates,
   },
   {
     // React package specific rules
@@ -60,6 +75,7 @@ const config: any[] = [
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/consistent-type-imports": "off",
     },
   },
 ];

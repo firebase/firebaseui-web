@@ -15,8 +15,8 @@
  */
 
 // src/app/policies/providePolicies.ts
-import { Provider } from "@angular/core";
-import { POLICY_CONFIG, PolicyConfig } from "./policy.config";
+import { type Provider } from "@angular/core";
+import { POLICY_CONFIG, type PolicyConfig } from "./policy.config";
 
 export function providePolicies(): Provider {
   return {

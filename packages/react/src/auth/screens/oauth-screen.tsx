@@ -17,7 +17,7 @@
 import { getTranslation } from "@firebase-ui/core";
 import { useUI } from "~/hooks";
 import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "../../components/card";
-import { PropsWithChildren } from "react";
+import { type PropsWithChildren } from "react";
 import { Policies } from "~/components/policies";
 
 export type OAuthScreenProps = PropsWithChildren;
