@@ -16,21 +16,21 @@
 
 import * as z from "zod";
 import { getTranslation } from "./translations";
-import { type FirebaseUIConfiguration } from "./config";
+import { type FirebaseUI } from "./config";
 import { hasBehavior } from "./behaviors";
 
 export const LoginTypes = ["email", "phone", "anonymous", "emailLink", "google"] as const;
 export type LoginType = (typeof LoginTypes)[number];
 export type AuthMode = "signIn" | "signUp";
 
-export function createSignInAuthFormSchema(ui: FirebaseUIConfiguration) {
+export function createSignInAuthFormSchema(ui: FirebaseUI) {
   return z.object({
     email: z.email(getTranslation(ui, "errors", "invalidEmail")),
     password: z.string().min(6, getTranslation(ui, "errors", "weakPassword")),
   });
 }
 
-export function createSignUpAuthFormSchema(ui: FirebaseUIConfiguration) {
+export function createSignUpAuthFormSchema(ui: FirebaseUI) {
   const requireDisplayName = hasBehavior(ui, "requireDisplayName");
   const displayNameRequiredMessage = getTranslation(ui, "errors", "displayNameRequired");
 
@@ -43,19 +43,19 @@ export function createSignUpAuthFormSchema(ui: FirebaseUIConfiguration) {
   });
 }
 
-export function createForgotPasswordAuthFormSchema(ui: FirebaseUIConfiguration) {
+export function createForgotPasswordAuthFormSchema(ui: FirebaseUI) {
   return z.object({
     email: z.email(getTranslation(ui, "errors", "invalidEmail")),
   });
 }
 
-export function createEmailLinkAuthFormSchema(ui: FirebaseUIConfiguration) {
+export function createEmailLinkAuthFormSchema(ui: FirebaseUI) {
   return z.object({
     email: z.email(getTranslation(ui, "errors", "invalidEmail")),
   });
 }
 
-export function createPhoneAuthNumberFormSchema(ui: FirebaseUIConfiguration) {
+export function createPhoneAuthNumberFormSchema(ui: FirebaseUI) {
   return z.object({
     phoneNumber: z
       .string()
@@ -64,7 +64,7 @@ export function createPhoneAuthNumberFormSchema(ui: FirebaseUIConfiguration) {
   });
 }
 
-export function createPhoneAuthVerifyFormSchema(ui: FirebaseUIConfiguration) {
+export function createPhoneAuthVerifyFormSchema(ui: FirebaseUI) {
   return z.object({
     verificationId: z.string().min(1, getTranslation(ui, "errors", "missingVerificationId")),
     verificationCode: z.string().refine((val) => !val || val.length >= 6, {
