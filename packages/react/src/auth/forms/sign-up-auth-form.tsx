@@ -22,7 +22,7 @@ import { useSignUpAuthFormSchema, useUI } from "~/hooks";
 import { form } from "~/components/form";
 import { Policies } from "~/components/policies";
 import { useCallback } from "react";
-import { z } from "zod";
+import { type z } from "zod";
 
 export function useRequireDisplayName() {
   const ui = useUI();

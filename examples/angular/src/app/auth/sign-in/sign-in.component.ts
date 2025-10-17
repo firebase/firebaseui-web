@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import { Component, OnInit, inject } from "@angular/core";
+import { Component, type OnInit, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Router, RouterModule } from "@angular/router";
-import { Auth, User, authState } from "@angular/fire/auth";
+import { Auth, type User, authState } from "@angular/fire/auth";
 import { SignInAuthScreenComponent, GoogleSignInButtonComponent } from "@firebase-ui/angular";
 
 @Component({
@@ -25,8 +25,8 @@ import { SignInAuthScreenComponent, GoogleSignInButtonComponent } from "@firebas
   standalone: true,
   imports: [CommonModule, RouterModule, SignInAuthScreenComponent, GoogleSignInButtonComponent],
   template: `
-    <fui-sign-in-auth-screen forgotPasswordRoute="/forgot-password" registerRoute="/register">
-      <fui-google-sign-in-button></fui-google-sign-in-button>
+    <fui-sign-in-auth-screen (forgotPassword)="goToForgotPassword()" (signUp)="goToSignUp()">
+      <fui-google-sign-in-button />
       <div>
         <a routerLink="/sign-in/phone">Sign in with phone number</a>
       </div>
@@ -48,5 +48,13 @@ export class SignInComponent implements OnInit {
         this.router.navigate(["/"]);
       }
     });
+  }
+
+  goToForgotPassword() {
+    this.router.navigate(["/forgot-password"]);
+  }
+
+  goToSignUp() {
+    this.router.navigate(["/sign-up"]);
   }
 }

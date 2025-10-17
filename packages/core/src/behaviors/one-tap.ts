@@ -1,6 +1,6 @@
 import { GoogleAuthProvider } from "firebase/auth";
 import type { IdConfiguration } from "google-one-tap";
-import type { FirebaseUIConfiguration } from "~/config";
+import type { FirebaseUI } from "~/config";
 import { signInWithCredential } from "~/auth";
 
 export type OneTapSignInOptions = {
@@ -12,7 +12,7 @@ export type OneTapSignInOptions = {
   logLevel?: IdConfiguration["log_level"];
 };
 
-export const oneTapSignInHandler = async (ui: FirebaseUIConfiguration, options: OneTapSignInOptions) => {
+export const oneTapSignInHandler = async (ui: FirebaseUI, options: OneTapSignInOptions) => {
   // Only show one-tap if user is not signed in OR if they are anonymous.
   // Don't show if user is already signed in with a real account.
   if (ui.auth.currentUser && !ui.auth.currentUser.isAnonymous) {

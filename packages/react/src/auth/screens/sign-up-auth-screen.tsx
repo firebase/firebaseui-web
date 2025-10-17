@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { PropsWithChildren } from "react";
+import { type PropsWithChildren } from "react";
 import { Divider } from "~/components/divider";
 import { useUI } from "~/hooks";
 import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "../../components/card";

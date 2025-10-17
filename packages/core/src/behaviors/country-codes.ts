@@ -1,4 +1,4 @@
-import { CountryCode, countryData } from "../country-data";
+import { type CountryCode, countryData } from "../country-data";
 
 export type CountryCodesOptions = {
   // The allowed countries are the countries that will be shown in the country selector

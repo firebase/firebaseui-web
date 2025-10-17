@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-import { Component, OnInit, inject } from "@angular/core";
+import { Component, type OnInit, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Router, RouterModule } from "@angular/router";
-import { Auth, User, authState } from "@angular/fire/auth";
+import { Auth, type User, authState } from "@angular/fire/auth";
 import { EmailLinkAuthScreenComponent } from "@firebase-ui/angular";
 
 @Component({
   selector: "app-email-link",
   standalone: true,
   imports: [CommonModule, RouterModule, EmailLinkAuthScreenComponent],
-  template: ` <fui-email-link-auth-screen></fui-email-link-auth-screen> `,
+  template: `<fui-email-link-auth-screen></fui-email-link-auth-screen> `,
   styles: [],
 })
 export class EmailLinkComponent implements OnInit {

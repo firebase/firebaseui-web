@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import { ERROR_CODE_MAP, ErrorCode } from "@firebase-ui/translations";
+import { ERROR_CODE_MAP, type ErrorCode } from "@firebase-ui/translations";
 import { FirebaseError } from "firebase/app";
-import { AuthCredential, getMultiFactorResolver, MultiFactorError } from "firebase/auth";
-import { FirebaseUIConfiguration } from "./config";
+import { type AuthCredential, getMultiFactorResolver, type MultiFactorError } from "firebase/auth";
+import { type FirebaseUI } from "./config";
 import { getTranslation } from "./translations";
 export class FirebaseUIError extends FirebaseError {
-  constructor(ui: FirebaseUIConfiguration, error: FirebaseError) {
+  constructor(ui: FirebaseUI, error: FirebaseError) {
     const message = getTranslation(ui, "errors", ERROR_CODE_MAP[error.code as ErrorCode]);
     super(error.code, message || error.message);
 
@@ -29,7 +29,7 @@ export class FirebaseUIError extends FirebaseError {
   }
 }
 
-export function handleFirebaseError(ui: FirebaseUIConfiguration, error: unknown): never {
+export function handleFirebaseError(ui: FirebaseUI, error: unknown): never {
   // If it's not a Firebase error, then we just throw it and preserve the original error.
   if (!isFirebaseError(error)) {
     throw error;

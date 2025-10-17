@@ -14,194 +14,137 @@
  * limitations under the License.
  */
 
-import { CommonModule } from "@angular/common";
-import { Component, Input } from "@angular/core";
-import { TestBed } from "@angular/core/testing";
-import { By } from "@angular/platform-browser";
-import { of } from "rxjs";
-import { FirebaseUI } from "../../../provider";
+import { render, screen } from "@testing-library/angular";
+import { Component } from "@angular/core";
+
 import { PhoneAuthScreenComponent } from "./phone-auth-screen.component";
-import { CardComponent } from "../../../components/card/card.component";
+import {
+  CardComponent,
+  CardHeaderComponent,
+  CardTitleComponent,
+  CardSubtitleComponent,
+  CardContentComponent,
+} from "../../../components/card/card.component";
 
-// Mock Card components
-@Component({
-  selector: "fui-card-phone",
-  template: '<div class="fui-card"><ng-content></ng-content></div>',
-  standalone: true,
-})
-class MockCardComponent {}
-
-@Component({
-  selector: "fui-card-header",
-  template: '<div class="fui-card-header"><ng-content></ng-content></div>',
-  standalone: true,
-})
-class MockCardHeaderComponent {}
-
-@Component({
-  selector: "fui-card-title",
-  template: '<h2 class="fui-card-title"><ng-content></ng-content></h2>',
-  standalone: true,
-})
-class MockCardTitleComponent {}
-
-@Component({
-  selector: "fui-card-subtitle",
-  template: '<p class="fui-card-subtitle"><ng-content></ng-content></p>',
-  standalone: true,
-})
-class MockCardSubtitleComponent {}
-
-// Mock PhoneForm component
-@Component({
-  selector: "fui-phone-form",
-  template: `
-    <div data-testid="phone-form">
-      Phone Form
-      <p>Resend Delay: {{ resendDelay }}</p>
-    </div>
-  `,
-  standalone: true,
-})
-class MockPhoneFormComponent {
-  @Input() resendDelay: number = 30;
-}
-
-// Mock Divider component
-@Component({
-  selector: "fui-divider",
-  template: '<div class="fui-divider"><ng-content></ng-content></div>',
-  standalone: true,
-})
-class MockDividerComponent {}
-
-// Create mock for FirebaseUi provider
-class MockFirebaseUi {
-  translation(category: string, key: string) {
-    if (category === "labels" && key === "signIn") {
-      return of("Sign in");
-    }
-    if (category === "prompts" && key === "signInToAccount") {
-      return of("Sign in to your account");
-    }
-    if (category === "messages" && key === "dividerOr") {
-      return of("OR");
-    }
-    return of(`${category}.${key}`);
-  }
-}
-
-// Test component with content projection
 @Component({
   template: `
     <fui-phone-auth-screen>
-      <button data-testid="test-button">Test Button</button>
+      <div data-testid="projected-content">Test Content</div>
     </fui-phone-auth-screen>
   `,
   standalone: true,
   imports: [PhoneAuthScreenComponent],
 })
-class TestHostWithChildrenComponent {}
+class TestHostWithContentComponent {}
 
-// Test component without content projection
 @Component({
-  template: ` <fui-phone-auth-screen></fui-phone-auth-screen> `,
+  template: `<fui-phone-auth-screen></fui-phone-auth-screen>`,
   standalone: true,
   imports: [PhoneAuthScreenComponent],
 })
-class TestHostWithoutChildrenComponent {}
+class TestHostWithoutContentComponent {}
 
-describe("PhoneAuthScreenComponent", () => {
-  let mockFirebaseUi: MockFirebaseUi;
-
-  beforeEach(async () => {
-    mockFirebaseUi = new MockFirebaseUi();
-
-    await TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        PhoneAuthScreenComponent,
-        TestHostWithChildrenComponent,
-        TestHostWithoutChildrenComponent,
-        CardComponent,
-        MockCardHeaderComponent,
-        MockCardTitleComponent,
-        MockCardSubtitleComponent,
-        MockPhoneFormComponent,
-        MockDividerComponent,
-      ],
-      providers: [{ provide: FirebaseUI, useValue: mockFirebaseUi }],
-    }).compileComponents();
-
-    TestBed.overrideComponent(PhoneAuthScreenComponent, {
-      set: {
-        imports: [
-          CommonModule,
-          MockCardComponent,
-          MockCardHeaderComponent,
-          MockCardTitleComponent,
-          MockCardSubtitleComponent,
-          MockPhoneFormComponent,
-          MockDividerComponent,
-        ],
-      },
+describe("<fui-phone-auth-screen>", () => {
+  beforeEach(() => {
+    const { injectTranslation } = require("../../../provider");
+    injectTranslation.mockImplementation((category: string, key: string) => {
+      const mockTranslations: Record<string, Record<string, string>> = {
+        labels: {
+          signIn: "Sign In",
+        },
+        prompts: {
+          signInToAccount: "Sign in to your account",
+        },
+      };
+      return () => mockTranslations[category]?.[key] || `${category}.${key}`;
     });
   });
 
-  it("should create", () => {
-    const fixture = TestBed.createComponent(PhoneAuthScreenComponent);
-    const component = fixture.componentInstance;
-    expect(component).toBeTruthy();
+  it("renders with correct title and subtitle", async () => {
+    await render(TestHostWithoutContentComponent, {
+      imports: [
+        PhoneAuthScreenComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
+
+    expect(screen.getByText("Sign In")).toBeInTheDocument();
+    expect(screen.getByText("Sign in to your account")).toBeInTheDocument();
   });
 
-  it("displays the correct title and subtitle", () => {
-    const fixture = TestBed.createComponent(PhoneAuthScreenComponent);
-    fixture.detectChanges();
+  it("includes the PhoneAuthForm component", async () => {
+    await render(TestHostWithoutContentComponent, {
+      imports: [
+        PhoneAuthScreenComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
 
-    const titleEl = fixture.debugElement.query(By.css(".fui-card-title"));
-    const subtitleEl = fixture.debugElement.query(By.css(".fui-card-subtitle"));
-
-    expect(titleEl.nativeElement.textContent).toBe("Sign in");
-    expect(subtitleEl.nativeElement.textContent).toBe("Sign in to your account");
+    // Look for form elements by class instead of role
+    const form = document.querySelector(".fui-form");
+    expect(form).toBeInTheDocument();
+    expect(form).toHaveClass("fui-form");
   });
 
-  it("includes the PhoneForm with the correct resendDelay prop", () => {
-    const fixture = TestBed.createComponent(PhoneAuthScreenComponent);
-    const component = fixture.componentInstance;
-    component.resendDelay = 60;
-    fixture.detectChanges();
+  it("renders projected content when provided", async () => {
+    await render(TestHostWithContentComponent, {
+      imports: [
+        PhoneAuthScreenComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
 
-    const phoneFormEl = fixture.debugElement.query(By.css('[data-testid="phone-form"]'));
-    expect(phoneFormEl).toBeTruthy();
-    expect(phoneFormEl.nativeElement.textContent).toContain("Resend Delay: 60");
+    const projectedContent = screen.getByTestId("projected-content");
+    expect(projectedContent).toBeInTheDocument();
+    expect(projectedContent).toHaveTextContent("Test Content");
   });
 
-  it("renders children when provided", async () => {
-    const fixture = TestBed.createComponent(TestHostWithChildrenComponent);
-    fixture.detectChanges();
+  it("has correct CSS classes", async () => {
+    const { container } = await render(TestHostWithoutContentComponent, {
+      imports: [
+        PhoneAuthScreenComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
 
-    // Wait for any async operations to complete
-    await new Promise((resolve) => setTimeout(resolve, 0));
-    fixture.detectChanges();
-
-    const buttonEl = fixture.debugElement.query(By.css('[data-testid="test-button"]'));
-    const dividerEl = fixture.debugElement.query(By.css(".fui-divider"));
-
-    expect(buttonEl).toBeTruthy();
-    expect(buttonEl.nativeElement.textContent).toBe("Test Button");
-    expect(dividerEl).toBeTruthy();
-    expect(dividerEl.nativeElement.textContent).toBe("OR");
+    expect(container.querySelector(".fui-screen")).toBeInTheDocument();
+    expect(container.querySelector(".fui-card")).toBeInTheDocument();
+    expect(container.querySelector(".fui-card__header")).toBeInTheDocument();
+    expect(container.querySelector(".fui-card__title")).toBeInTheDocument();
+    expect(container.querySelector(".fui-card__subtitle")).toBeInTheDocument();
+    expect(container.querySelector(".fui-card__content")).toBeInTheDocument();
   });
 
-  it("does not render children or divider when not provided", async () => {
-    const fixture = TestBed.createComponent(TestHostWithoutChildrenComponent);
-    fixture.detectChanges();
+  it("calls injectTranslation with correct parameters", async () => {
+    const { injectTranslation } = require("../../../provider");
+    await render(TestHostWithoutContentComponent, {
+      imports: [
+        PhoneAuthScreenComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
 
-    // Wait for any async operations to complete
-    await new Promise((resolve) => setTimeout(resolve, 0));
-    fixture.detectChanges();
-
-    const dividerEl = fixture.debugElement.query(By.css(".fui-divider"));
-    expect(dividerEl).toBeFalsy();
+    expect(injectTranslation).toHaveBeenCalledWith("labels", "signIn");
+    expect(injectTranslation).toHaveBeenCalledWith("prompts", "signInToAccount");
   });
 });

@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-import { Component, inject, Input, OnInit } from "@angular/core";
+import { Component, input, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ButtonComponent } from "../../components/button/button.component";
-import { FirebaseUI } from "../../provider";
-import { Auth, AuthProvider } from "@angular/fire/auth";
-import { FirebaseUIError, signInWithOAuth } from "@firebase-ui/core";
-import { firstValueFrom } from "rxjs";
+import { injectTranslation, injectUI } from "../../provider";
+import { AuthProvider } from "@angular/fire/auth";
+import { FirebaseUIError, signInWithProvider } from "@firebase-ui/core";
 
 @Component({
   selector: "fui-oauth-button",
@@ -28,39 +27,41 @@ import { firstValueFrom } from "rxjs";
   imports: [CommonModule, ButtonComponent],
   template: `
     <div>
-      <fui-button type="button" (click)="handleOAuthSignIn()" class="fui-provider__button">
+      <button
+        fui-button
+        type="button"
+        (click)="handleOAuthSignIn()"
+        [disabled]="ui().state !== 'idle'"
+        [attr.data-provider]="provider().providerId"
+        class="fui-provider__button"
+      >
         <ng-content></ng-content>
-      </fui-button>
-      <div class="fui-form__error" *ngIf="error">{{ error }}</div>
+      </button>
+
+      @if (error()) {
+        <div class="fui-form__error">{{ error() }}</div>
+      }
     </div>
   `,
 })
-export class OAuthButtonComponent implements OnInit {
-  private ui = inject(FirebaseUI);
-
-  @Input() provider!: AuthProvider;
-
-  error: string | null = null;
-
-  ngOnInit() {
-    if (!this.provider) {
-      console.error("Provider is required for OAuthButtonComponent");
-    }
-  }
+export class OAuthButtonComponent {
+  ui = injectUI();
+  unknownErrorLabel = injectTranslation("errors", "unknownError");
+  provider = input.required<AuthProvider>();
+  error = signal<string | undefined>(undefined);
 
   async handleOAuthSignIn() {
-    this.error = null;
+    this.error.set(undefined);
     try {
-      await signInWithOAuth(await firstValueFrom(this.ui.config()), this.provider);
+      await signInWithProvider(this.ui(), this.provider());
     } catch (error) {
       if (error instanceof FirebaseUIError) {
-        this.error = error.message;
+        this.error.set(error.message);
         return;
       }
+
       console.error(error);
-      firstValueFrom(this.ui.translation("errors", "unknownError"))
-        .then((message) => (this.error = message))
-        .catch(() => (this.error = "Unknown error"));
+      this.error.set(this.unknownErrorLabel());
     }
   }
 }
