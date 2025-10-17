@@ -6,7 +6,7 @@ import {
   useEmailLinkAuthFormAction,
   useEmailLinkAuthFormSchema,
   useEmailLinkAuthFormCompleteSignIn,
-  EmailLinkAuthFormProps,
+  type EmailLinkAuthFormProps,
 } from "@firebase-ui/react";
 import { useForm } from "react-hook-form";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";

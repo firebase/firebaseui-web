@@ -1,6 +1,6 @@
 "use client";
 
-import { useUI, SignInAuthScreenProps } from "@firebase-ui/react";
+import { useUI, type SignInAuthScreenProps } from "@firebase-ui/react";
 import { getTranslation } from "@firebase-ui/core";
 
 import { SignInAuthForm } from "@/registry/sign-in-auth-form";

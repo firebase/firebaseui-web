@@ -80,7 +80,6 @@ vi.mock("./country-selector", () => ({
 
 import React from "react";
 
-
 describe("<PhoneAuthForm />", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -162,7 +161,7 @@ describe("<PhoneAuthForm />", () => {
     const mockCredential = { credential: true } as unknown as UserCredential;
     const mockPhoneAction = vi.fn().mockResolvedValue(mockVerificationId);
     const mockVerifyAction = vi.fn().mockResolvedValue(mockCredential);
-    
+
     vi.mocked(usePhoneNumberFormAction).mockReturnValue(mockPhoneAction);
     vi.mocked(useVerifyPhoneNumberFormAction).mockReturnValue(mockVerifyAction);
 
@@ -176,7 +175,6 @@ describe("<PhoneAuthForm />", () => {
         },
       }),
     });
-
 
     const onSignInMock = vi.fn();
 
@@ -258,7 +256,7 @@ describe("<PhoneAuthForm />", () => {
     const mockVerificationId = "test-verification-id";
     const mockPhoneAction = vi.fn().mockResolvedValue(mockVerificationId);
     const mockVerifyAction = vi.fn().mockRejectedValue(new Error("Invalid verification code"));
-    
+
     vi.mocked(usePhoneNumberFormAction).mockReturnValue(mockPhoneAction);
     vi.mocked(useVerifyPhoneNumberFormAction).mockReturnValue(mockVerifyAction);
 
@@ -320,7 +318,10 @@ describe("<PhoneAuthForm />", () => {
       }),
     });
 
-    const firebaseError = new FirebaseUIError(mockUI.get(), new FirebaseError("auth/invalid-phone-number", "Invalid phone number format"));
+    const firebaseError = new FirebaseUIError(
+      mockUI.get(),
+      new FirebaseError("auth/invalid-phone-number", "Invalid phone number format")
+    );
     const mockAction = vi.fn().mockRejectedValue(firebaseError);
     vi.mocked(usePhoneNumberFormAction).mockReturnValue(mockAction);
 

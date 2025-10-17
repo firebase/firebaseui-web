@@ -5,7 +5,7 @@ import {
   useSignUpAuthFormAction,
   useSignUpAuthFormSchema,
   useUI,
-  SignUpAuthFormProps,
+  type SignUpAuthFormProps,
   useRequireDisplayName,
 } from "@firebase-ui/react";
 import { useForm } from "react-hook-form";

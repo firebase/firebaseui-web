@@ -2,7 +2,7 @@
 
 import { OAuthProvider } from "firebase/auth";
 import { getTranslation } from "@firebase-ui/core";
-import { useUI, AppleSignInButtonProps, AppleLogo } from "@firebase-ui/react";
+import { useUI, type AppleSignInButtonProps, AppleLogo } from "@firebase-ui/react";
 
 import { OAuthButton } from "@/registry/oauth-button";
 

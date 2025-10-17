@@ -2,7 +2,7 @@
 
 import { OAuthProvider } from "firebase/auth";
 import { getTranslation } from "@firebase-ui/core";
-import { useUI, MicrosoftSignInButtonProps, MicrosoftLogo } from "@firebase-ui/react";
+import { useUI, type MicrosoftSignInButtonProps, MicrosoftLogo } from "@firebase-ui/react";
 
 import { OAuthButton } from "@/registry/oauth-button";
 

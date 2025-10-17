@@ -2,7 +2,7 @@
 
 import {
   CountrySelector,
-  PhoneAuthFormProps,
+  type PhoneAuthFormProps,
   usePhoneAuthNumberFormSchema,
   usePhoneAuthVerifyFormSchema,
   usePhoneNumberFormAction,
@@ -19,15 +19,15 @@ import {
   FirebaseUIError,
   formatPhoneNumber,
   getTranslation,
-  PhoneAuthNumberFormSchema,
-  PhoneAuthVerifyFormSchema,
+  type PhoneAuthNumberFormSchema,
+  type PhoneAuthVerifyFormSchema,
 } from "@firebase-ui/core";
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Policies } from "@/registry/policies";
-import { CountrySelectorRef } from "@/registry/country-selector";
+import { type CountrySelectorRef } from "@/registry/country-selector";
 
 type VerifyPhoneNumberFormProps = {
   verificationId: string;

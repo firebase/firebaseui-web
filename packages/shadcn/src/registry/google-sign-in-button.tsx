@@ -2,7 +2,7 @@
 
 import { GoogleAuthProvider } from "firebase/auth";
 import { getTranslation } from "@firebase-ui/core";
-import { useUI, GoogleSignInButtonProps, GoogleLogo } from "@firebase-ui/react";
+import { useUI, type GoogleSignInButtonProps, GoogleLogo } from "@firebase-ui/react";
 
 import { OAuthButton } from "@/registry/oauth-button";
 

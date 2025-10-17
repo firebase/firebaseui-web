@@ -5,7 +5,7 @@ import {
   useForgotPasswordAuthFormAction,
   useForgotPasswordAuthFormSchema,
   useUI,
-  ForgotPasswordAuthFormProps,
+  type ForgotPasswordAuthFormProps,
 } from "@firebase-ui/react";
 import { useForm } from "react-hook-form";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";

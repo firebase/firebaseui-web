@@ -1,6 +1,6 @@
 "use client";
 
-import { useUI, ForgotPasswordAuthScreenProps } from "@firebase-ui/react";
+import { useUI, type ForgotPasswordAuthScreenProps } from "@firebase-ui/react";
 import { getTranslation } from "@firebase-ui/core";
 
 import { ForgotPasswordAuthForm } from "@/registry/forgot-password-auth-form";

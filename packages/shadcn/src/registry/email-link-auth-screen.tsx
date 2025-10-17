@@ -1,6 +1,6 @@
 "use client";
 
-import { useUI, EmailLinkAuthScreenProps } from "@firebase-ui/react";
+import { useUI, type EmailLinkAuthScreenProps } from "@firebase-ui/react";
 import { getTranslation } from "@firebase-ui/core";
 
 import { EmailLinkAuthForm } from "@/registry/email-link-auth-form";
