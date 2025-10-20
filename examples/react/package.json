@@ -18,8 +18,8 @@
     "@firebase-ui/styles": "workspace:*",
     "@firebase-ui/translations": "workspace:*",
     "firebase": "^11.6.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
     "react-router": "^7.5.1"
   },
   "devDependencies": {
