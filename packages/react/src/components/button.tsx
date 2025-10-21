@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { ComponentProps } from "react";
+import { type ComponentProps } from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { buttonVariant, type ButtonVariant } from "@firebase-ui/styles";
 import { cn } from "~/utils/cn";

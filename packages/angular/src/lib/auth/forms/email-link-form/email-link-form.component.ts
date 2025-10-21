@@ -25,7 +25,7 @@ import {
   FirebaseUIError,
   completeEmailLinkSignIn,
   sendSignInLinkToEmail,
-  FirebaseUIConfiguration,
+  FirebaseUI,
 } from "@firebase-ui/core";
 import { firstValueFrom } from "rxjs";
 
@@ -75,7 +75,7 @@ export class EmailLinkFormComponent implements OnInit {
   formError: string | null = null;
   emailSent = false;
   private formSchema: any;
-  private config: FirebaseUIConfiguration;
+  private config: FirebaseUI;
 
   form = injectForm({
     defaultValues: {

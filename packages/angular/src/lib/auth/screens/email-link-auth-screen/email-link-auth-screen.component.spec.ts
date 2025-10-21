@@ -14,185 +14,136 @@
  * limitations under the License.
  */
 
-import { CommonModule } from "@angular/common";
+import { render, screen } from "@testing-library/angular";
 import { Component } from "@angular/core";
-import { TestBed } from "@angular/core/testing";
-import { By } from "@angular/platform-browser";
-import { of } from "rxjs";
-import { FirebaseUI } from "../../../provider";
+
 import { EmailLinkAuthScreenComponent } from "./email-link-auth-screen.component";
-import { CardComponent } from "../../../components/card/card.component";
+import {
+  CardComponent,
+  CardHeaderComponent,
+  CardTitleComponent,
+  CardSubtitleComponent,
+  CardContentComponent,
+} from "../../../components/card/card.component";
 
-// Mock EmailLinkForm component
-@Component({
-  selector: "fui-email-link-form",
-  template: '<div data-testid="email-link-form">Email Link Form</div>',
-  standalone: true,
-})
-class MockEmailLinkFormComponent {}
-
-// Mock Card components
-@Component({
-  selector: "fui-card-email-link",
-  template: '<div class="fui-card"><ng-content></ng-content></div>',
-  standalone: true,
-})
-class MockCardComponent {}
-
-@Component({
-  selector: "fui-card-header",
-  template: '<div class="fui-card-header"><ng-content></ng-content></div>',
-  standalone: true,
-})
-class MockCardHeaderComponent {}
-
-@Component({
-  selector: "fui-card-title",
-  template: '<h2 class="fui-card-title"><ng-content></ng-content></h2>',
-  standalone: true,
-})
-class MockCardTitleComponent {}
-
-@Component({
-  selector: "fui-card-subtitle",
-  template: '<p class="fui-card-subtitle"><ng-content></ng-content></p>',
-  standalone: true,
-})
-class MockCardSubtitleComponent {}
-
-// Mock Divider component
-@Component({
-  selector: "fui-divider",
-  template: '<div class="fui-divider"><ng-content></ng-content></div>',
-  standalone: true,
-})
-class MockDividerComponent {}
-
-// Create mock for FirebaseUi provider
-class MockFirebaseUi {
-  translation(category: string, key: string) {
-    if (category === "labels" && key === "signIn") {
-      return of("Sign In");
-    }
-    if (category === "prompts" && key === "signInToAccount") {
-      return of("Sign in to your account");
-    }
-    if (category === "messages" && key === "dividerOr") {
-      return of("or");
-    }
-    return of(`${category}.${key}`);
-  }
-}
-
-// Test component with content projection
 @Component({
   template: `
     <fui-email-link-auth-screen>
-      <div class="test-child">Test Child</div>
+      <div data-testid="projected-content">Test Content</div>
     </fui-email-link-auth-screen>
   `,
   standalone: true,
   imports: [EmailLinkAuthScreenComponent],
 })
-class TestHostWithChildrenComponent {}
+class TestHostWithContentComponent {}
 
-// Test component without content projection
 @Component({
-  template: ` <fui-email-link-auth-screen></fui-email-link-auth-screen> `,
+  template: `<fui-email-link-auth-screen></fui-email-link-auth-screen>`,
   standalone: true,
   imports: [EmailLinkAuthScreenComponent],
 })
-class TestHostWithoutChildrenComponent {}
+class TestHostWithoutContentComponent {}
 
-describe("EmailLinkAuthScreenComponent", () => {
-  let mockFirebaseUi: MockFirebaseUi;
-
-  beforeEach(async () => {
-    mockFirebaseUi = new MockFirebaseUi();
-
-    await TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        EmailLinkAuthScreenComponent,
-        TestHostWithChildrenComponent,
-        TestHostWithoutChildrenComponent,
-        CardComponent,
-        MockCardHeaderComponent,
-        MockCardTitleComponent,
-        MockCardSubtitleComponent,
-        MockEmailLinkFormComponent,
-        MockDividerComponent,
-      ],
-      providers: [{ provide: FirebaseUI, useValue: mockFirebaseUi }],
-    }).compileComponents();
-
-    TestBed.overrideComponent(EmailLinkAuthScreenComponent, {
-      set: {
-        imports: [
-          CommonModule,
-          MockCardComponent,
-          MockCardHeaderComponent,
-          MockCardTitleComponent,
-          MockCardSubtitleComponent,
-          MockEmailLinkFormComponent,
-          MockDividerComponent,
-        ],
-      },
+describe("<fui-email-link-auth-screen>", () => {
+  beforeEach(() => {
+    const { injectTranslation } = require("../../../provider");
+    injectTranslation.mockImplementation((category: string, key: string) => {
+      const mockTranslations: Record<string, Record<string, string>> = {
+        labels: {
+          signIn: "Sign In",
+        },
+        prompts: {
+          signInToAccount: "Sign in to your account",
+        },
+      };
+      return () => mockTranslations[category]?.[key] || `${category}.${key}`;
     });
   });
 
-  it("should create", () => {
-    const fixture = TestBed.createComponent(EmailLinkAuthScreenComponent);
-    const component = fixture.componentInstance;
-    expect(component).toBeTruthy();
+  it("renders with correct title and subtitle", async () => {
+    await render(TestHostWithoutContentComponent, {
+      imports: [
+        EmailLinkAuthScreenComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
+
+    expect(screen.getByText("Sign In")).toBeInTheDocument();
+    expect(screen.getByText("Sign in to your account")).toBeInTheDocument();
   });
 
-  it("renders with correct title and subtitle", () => {
-    const fixture = TestBed.createComponent(EmailLinkAuthScreenComponent);
-    fixture.detectChanges();
+  it("includes the EmailLinkAuthForm component", async () => {
+    await render(TestHostWithoutContentComponent, {
+      imports: [
+        EmailLinkAuthScreenComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
 
-    const titleEl = fixture.debugElement.query(By.css(".fui-card-title"));
-    const subtitleEl = fixture.debugElement.query(By.css(".fui-card-subtitle"));
-
-    expect(titleEl.nativeElement.textContent).toBe("Sign In");
-    expect(subtitleEl.nativeElement.textContent).toBe("Sign in to your account");
+    const form = screen.getByRole("button", { name: "labels.sendSignInLink" });
+    expect(form).toBeInTheDocument();
+    expect(form).toHaveClass("fui-form__action", "fui-button");
   });
 
-  it("includes the EmailLinkForm component", () => {
-    const fixture = TestBed.createComponent(EmailLinkAuthScreenComponent);
-    fixture.detectChanges();
+  it("renders projected content when provided", async () => {
+    await render(TestHostWithContentComponent, {
+      imports: [
+        EmailLinkAuthScreenComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
 
-    const formEl = fixture.debugElement.query(By.css('[data-testid="email-link-form"]'));
-    expect(formEl).toBeTruthy();
-    expect(formEl.nativeElement.textContent).toBe("Email Link Form");
+    const projectedContent = screen.getByTestId("projected-content");
+    expect(projectedContent).toBeInTheDocument();
+    expect(projectedContent).toHaveTextContent("Test Content");
   });
 
-  it("does not render divider and children when no children are provided", async () => {
-    const fixture = TestBed.createComponent(TestHostWithoutChildrenComponent);
-    fixture.detectChanges();
+  it("has correct CSS classes", async () => {
+    const { container } = await render(TestHostWithoutContentComponent, {
+      imports: [
+        EmailLinkAuthScreenComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
 
-    // Wait for any async operations to complete
-    await new Promise((resolve) => setTimeout(resolve, 0));
-    fixture.detectChanges();
-
-    const dividerEl = fixture.debugElement.query(By.css(".fui-divider"));
-    expect(dividerEl).toBeFalsy();
+    expect(container.querySelector(".fui-screen")).toBeInTheDocument();
+    expect(container.querySelector(".fui-card")).toBeInTheDocument();
+    expect(container.querySelector(".fui-card__header")).toBeInTheDocument();
+    expect(container.querySelector(".fui-card__title")).toBeInTheDocument();
+    expect(container.querySelector(".fui-card__subtitle")).toBeInTheDocument();
+    expect(container.querySelector(".fui-card__content")).toBeInTheDocument();
   });
 
-  it("renders divider and children when children are provided", async () => {
-    const fixture = TestBed.createComponent(TestHostWithChildrenComponent);
-    fixture.detectChanges();
+  it("calls injectTranslation with correct parameters", async () => {
+    const { injectTranslation } = require("../../../provider");
+    await render(TestHostWithoutContentComponent, {
+      imports: [
+        EmailLinkAuthScreenComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
 
-    // Wait for any async operations to complete
-    await new Promise((resolve) => setTimeout(resolve, 0));
-    fixture.detectChanges();
-
-    const dividerEl = fixture.debugElement.query(By.css(".fui-divider"));
-    expect(dividerEl).toBeTruthy();
-    expect(dividerEl.nativeElement.textContent).toBe("or");
-
-    const childEl = fixture.debugElement.query(By.css(".test-child"));
-    expect(childEl).toBeTruthy();
-    expect(childEl.nativeElement.textContent).toBe("Test Child");
+    expect(injectTranslation).toHaveBeenCalledWith("labels", "signIn");
+    expect(injectTranslation).toHaveBeenCalledWith("prompts", "signInToAccount");
   });
 });

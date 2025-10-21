@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-import { Component, OnInit, inject } from "@angular/core";
+import { Component, type OnInit, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Router, RouterModule } from "@angular/router";
-import { Auth, User, authState } from "@angular/fire/auth";
-import { PasswordResetScreenComponent } from "@firebase-ui/angular";
+import { Auth, type User, authState } from "@angular/fire/auth";
+import { ForgotPasswordAuthScreenComponent } from "@firebase-ui/angular";
 
 @Component({
   selector: "app-forgot-password",
   standalone: true,
-  imports: [CommonModule, RouterModule, PasswordResetScreenComponent],
-  template: ` <fui-password-reset-screen signInRoute="/sign-in"></fui-password-reset-screen> `,
+  imports: [CommonModule, RouterModule, ForgotPasswordAuthScreenComponent],
+  template: `<fui-forgot-password-auth-screen (backToSignIn)="backToSignIn()"></fui-forgot-password-auth-screen> `,
   styles: [],
 })
 export class ForgotPasswordComponent implements OnInit {
@@ -38,5 +38,9 @@ export class ForgotPasswordComponent implements OnInit {
         this.router.navigate(["/"]);
       }
     });
+  }
+
+  backToSignIn() {
+    this.router.navigate(["/sign-in"]);
   }
 }

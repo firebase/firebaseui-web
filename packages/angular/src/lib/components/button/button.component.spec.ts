@@ -14,86 +14,52 @@
  * limitations under the License.
  */
 
-import { Component } from "@angular/core";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { By } from "@angular/platform-browser";
+import { render, screen, fireEvent } from "@testing-library/angular";
+
 import { ButtonComponent } from "./button.component";
-import { describe, it, expect, beforeEach } from "vitest";
 
-@Component({
-  template: `
-    <fui-button (click)="handleClick()" data-testid="test-button">Click me</fui-button>
-    <fui-button variant="secondary" data-testid="secondary-button">Secondary</fui-button>
-    <fui-button class="custom-class" data-testid="custom-class-button">Custom Class</fui-button>
-    <fui-button [disabled]="true" data-testid="disabled-button">Disabled</fui-button>
-  `,
-  standalone: true,
-  imports: [ButtonComponent],
-})
-class TestHostComponent {
-  clicks = 0;
-
-  handleClick() {
-    this.clicks++;
-  }
-}
-
-describe("ButtonComponent", () => {
-  let fixture: ComponentFixture<TestHostComponent>;
-  let hostComponent: TestHostComponent;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ButtonComponent, TestHostComponent],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(TestHostComponent);
-    hostComponent = fixture.componentInstance;
-    fixture.detectChanges();
+describe("<button fui-button>", () => {
+  it("renders with default variant (primary)", async () => {
+    await render(`<button fui-button>Click me</button>`, { imports: [ButtonComponent] });
+    const button = screen.getByRole("button", { name: /click me/i });
+    expect(button).toBeDefined();
+    expect(button).toHaveClass("fui-button");
+    expect(button).not.toHaveClass("fui-button--secondary");
   });
 
-  it("renders with default variant (primary)", () => {
-    const buttonEl = fixture.debugElement.query(By.css('[data-testid="test-button"]'));
-    const button = buttonEl.nativeElement.querySelector("button");
-
-    expect(button).toBeTruthy();
-    expect(button.classList.contains("fui-button")).toBe(true);
-    expect(button.classList.contains("fui-button--secondary")).toBe(false);
-    expect(button.textContent.trim()).toBe("Click me");
+  it("renders with secondary variant", async () => {
+    await render(`<button fui-button [variant]="'secondary'">Click me</button>`, { imports: [ButtonComponent] });
+    const button = screen.getByRole("button", { name: /click me/i });
+    expect(button).toHaveClass("fui-button");
+    expect(button).toHaveClass("fui-button--secondary");
   });
 
-  it("renders with secondary variant", () => {
-    const buttonEl = fixture.debugElement.query(By.css('[data-testid="secondary-button"]'));
-    const button = buttonEl.nativeElement.querySelector("button");
-
-    expect(button).toBeTruthy();
-    expect(button.classList.contains("fui-button")).toBe(true);
-    expect(button.classList.contains("fui-button--secondary")).toBe(true);
+  it("applies custom class", async () => {
+    await render(`<button fui-button class="custom-class">Click me</button>`, { imports: [ButtonComponent] });
+    const button = screen.getByRole("button", { name: /click me/i });
+    expect(button).toHaveClass("fui-button");
+    expect(button).toHaveClass("custom-class");
   });
 
-  it("applies custom className", () => {
-    const buttonEl = fixture.debugElement.query(By.css('[data-testid="custom-class-button"]'));
+  it("handles click events", async () => {
+    const handleClick = jest.fn();
+    await render(`<button fui-button (click)="handleClick()">Click me</button>`, {
+      imports: [ButtonComponent],
+      componentProperties: { handleClick },
+    });
+    const button = screen.getByRole("button", { name: /click me/i });
 
-    expect(buttonEl.nativeElement.classList.contains("custom-class")).toBe(true);
+    fireEvent.click(button);
+
+    expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
-  it("handles click events", () => {
-    const buttonEl = fixture.debugElement.query(By.css('[data-testid="test-button"]'));
-    const button = buttonEl.nativeElement.querySelector("button");
+  it("passes other props to the button element", async () => {
+    await render(`<button fui-button data-testid="test-button" disabled>Click me</button>`, {
+      imports: [ButtonComponent],
+    });
+    const button = screen.getByTestId("test-button");
 
-    expect(hostComponent.clicks).toBe(0);
-
-    button.click();
-    fixture.detectChanges();
-
-    expect(hostComponent.clicks).toBe(1);
-  });
-
-  it("can be disabled", () => {
-    const buttonEl = fixture.debugElement.query(By.css('[data-testid="disabled-button"]'));
-    const button = buttonEl.query(By.css("button"));
-
-    expect(button).toBeTruthy();
-    expect(button.nativeElement.disabled).toBe(true);
+    expect(button).toHaveAttribute("disabled");
   });
 });

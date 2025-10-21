@@ -1,15 +1,11 @@
-import { AuthCredential, AuthProvider, linkWithCredential, UserCredential } from "firebase/auth";
-import { FirebaseUIConfiguration } from "~/config";
+import { type AuthCredential, type AuthProvider, linkWithCredential, type UserCredential } from "firebase/auth";
+import { type FirebaseUI } from "~/config";
 import { getBehavior } from "~/behaviors";
 
-export type OnUpgradeCallback = (
-  ui: FirebaseUIConfiguration,
-  oldUserId: string,
-  credential: UserCredential
-) => Promise<void> | void;
+export type OnUpgradeCallback = (ui: FirebaseUI, oldUserId: string, credential: UserCredential) => Promise<void> | void;
 
 export const autoUpgradeAnonymousCredentialHandler = async (
-  ui: FirebaseUIConfiguration,
+  ui: FirebaseUI,
   credential: AuthCredential,
   onUpgrade?: OnUpgradeCallback
 ) => {
@@ -31,7 +27,7 @@ export const autoUpgradeAnonymousCredentialHandler = async (
 };
 
 export const autoUpgradeAnonymousProviderHandler = async (
-  ui: FirebaseUIConfiguration,
+  ui: FirebaseUI,
   provider: AuthProvider,
   onUpgrade?: OnUpgradeCallback
 ) => {
@@ -61,7 +57,7 @@ export const autoUpgradeAnonymousProviderHandler = async (
 };
 
 export const autoUpgradeAnonymousUserRedirectHandler = async (
-  ui: FirebaseUIConfiguration,
+  ui: FirebaseUI,
   credential: UserCredential | null,
   onUpgrade?: OnUpgradeCallback
 ) => {

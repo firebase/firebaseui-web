@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { RenderMode, ServerRoute } from "@angular/ssr";
+import { RenderMode, type ServerRoute } from "@angular/ssr";
 
 export const serverRoutes: ServerRoute[] = [
   /** Home page - perfect for SSG as it's a static landing page */
@@ -22,39 +22,48 @@ export const serverRoutes: ServerRoute[] = [
     path: "",
     renderMode: RenderMode.Prerender,
   },
-  /** Key auth screen demos - good for SSG as they showcase Firebase UI components */
+  /** Static auth demos - good for SSG as they showcase Firebase UI components */
   {
-    path: "screens/sign-in-auth-screen",
+    path: "sign-in",
     renderMode: RenderMode.Prerender,
   },
   {
-    path: "screens/oauth-screen",
-    renderMode: RenderMode.Prerender,
-  },
-  {
-    path: "screens/sign-up-auth-screen",
-    renderMode: RenderMode.Prerender,
-  },
-  {
-    path: "screens/email-link-auth-screen",
-    renderMode: RenderMode.Prerender,
-  },
-  {
-    path: "screens/phone-auth-screen",
+    path: "oauth",
     renderMode: RenderMode.Prerender,
   },
   /** Interactive auth routes - better as CSR for user interaction */
   {
-    path: "sign-in",
-    renderMode: RenderMode.Client,
-  },
-  {
-    path: "register",
+    path: "sign-up",
     renderMode: RenderMode.Client,
   },
   {
     path: "forgot-password",
     renderMode: RenderMode.Client,
+  },
+  /** Dynamic auth routes - good for SSR as they may need server-side data */
+  {
+    path: "email-link",
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: "email-link-oauth",
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: "phone",
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: "phone-oauth",
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: "sign-in-oauth",
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: "sign-up-oauth",
+    renderMode: RenderMode.Server,
   },
   /** All other routes will be rendered on the server (SSR) */
   {

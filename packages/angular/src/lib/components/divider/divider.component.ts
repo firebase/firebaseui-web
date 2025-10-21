@@ -14,7 +14,16 @@
  * limitations under the License.
  */
 
-import { Component, Input, AfterContentInit, ContentChild, ElementRef } from "@angular/core";
+import {
+  Component,
+  computed,
+  contentChild,
+  contentChildren,
+  ElementRef,
+  input,
+  TemplateRef,
+  viewChild,
+} from "@angular/core";
 import { CommonModule } from "@angular/common";
 
 @Component({
@@ -24,31 +33,13 @@ import { CommonModule } from "@angular/common";
   template: `
     <div class="fui-divider my-6">
       <div class="fui-divider__line"></div>
-      <div class="fui-divider__text" *ngIf="hasContent">
-        <ng-content></ng-content>
-      </div>
-      <div class="fui-divider__line" *ngIf="hasContent"></div>
+      @if (label()) {
+        <div class="fui-divider__text">{{ label() }}</div>
+        <div class="fui-divider__line"></div>
+      }
     </div>
   `,
 })
-export class DividerComponent implements AfterContentInit {
-  hasContent = false;
-
-  @Input() text: string = "";
-
-  get textContent(): string {
-    return this.text;
-  }
-
-  ngAfterContentInit() {
-    // Check if text input is provided
-    if (this.text) {
-      this.hasContent = true;
-      return;
-    }
-
-    // For projected content, we'll assume it exists if the component is rendered
-    // This is a simplified approach that works for testing
-    this.hasContent = true;
-  }
+export class DividerComponent {
+  label = input<string>();
 }

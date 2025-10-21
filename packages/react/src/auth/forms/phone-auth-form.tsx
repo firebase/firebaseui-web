@@ -17,20 +17,18 @@
 "use client";
 
 import {
-  CountryCode,
-  countryData,
   FirebaseUIError,
-  formatPhoneNumberWithCountry,
+  formatPhoneNumber,
   getTranslation,
   verifyPhoneNumber,
   confirmPhoneNumber,
 } from "@firebase-ui/core";
-import { RecaptchaVerifier, UserCredential } from "firebase/auth";
+import { type RecaptchaVerifier, type UserCredential } from "firebase/auth";
 import { useCallback, useRef, useState } from "react";
 import { usePhoneAuthNumberFormSchema, usePhoneAuthVerifyFormSchema, useRecaptchaVerifier, useUI } from "~/hooks";
 import { form } from "~/components/form";
 import { Policies } from "~/components/policies";
-import { CountrySelector } from "~/components/country-selector";
+import { CountrySelector, type CountrySelectorRef } from "~/components/country-selector";
 
 export function usePhoneNumberFormAction() {
   const ui = useUI();
@@ -81,13 +79,12 @@ export function PhoneNumberForm(props: PhoneNumberFormProps) {
   const ui = useUI();
   const recaptchaContainerRef = useRef<HTMLDivElement>(null);
   const recaptchaVerifier = useRecaptchaVerifier(recaptchaContainerRef);
+  const countrySelector = useRef<CountrySelectorRef>(null);
   const form = usePhoneNumberForm({
     recaptchaVerifier: recaptchaVerifier!,
     onSuccess: props.onSubmit,
-    formatPhoneNumber: (phoneNumber) => formatPhoneNumberWithCountry(phoneNumber, selectedCountry),
+    formatPhoneNumber: (phoneNumber) => formatPhoneNumber(phoneNumber, countrySelector.current!.getCountry()),
   });
-
-  const [selectedCountry, setSelectedCountry] = useState<CountryCode>(countryData[0].code);
 
   return (
     <form
@@ -105,13 +102,7 @@ export function PhoneNumberForm(props: PhoneNumberFormProps) {
               <field.Input
                 label={getTranslation(ui, "labels", "phoneNumber")}
                 type="tel"
-                before={
-                  <CountrySelector
-                    value={selectedCountry}
-                    onChange={(code) => setSelectedCountry(code as CountryCode)}
-                    className="fui-phone-input__country-selector"
-                  />
-                }
+                before={<CountrySelector ref={countrySelector} className="fui-phone-input__country-selector" />}
               />
             )}
           </form.AppField>
