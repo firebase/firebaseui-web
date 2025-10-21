@@ -20,24 +20,25 @@ export function MultiFactorAuthEnrollmentForm(props: MultiFactorAuthEnrollmentFo
     throw new Error("MultiFactorAuthEnrollmentForm must have at least one hint");
   }
 
-  const [selectedHint, setSelectedHint] = useState<Hint | undefined>(hints.length === 1 ? hints[0] : undefined);
+  // If only a single hint is provided, select it by default to improve UX.
+  const [hint, setHint] = useState<Hint | undefined>(hints.length === 1 ? hints[0] : undefined);
 
-  if (selectedHint) {
-    if (selectedHint === FactorId.TOTP) {
+  if (hint) {
+    if (hint === FactorId.TOTP) {
       return <TotpMultiFactorEnrollmentForm onSuccess={props.onEnrollment} />;
     }
 
-    if (selectedHint === FactorId.PHONE) {
+    if (hint === FactorId.PHONE) {
       return <SmsMultiFactorEnrollmentForm onSuccess={props.onEnrollment} />;
     }
 
-    throw new Error(`Unknown multi-factor enrollment type: ${selectedHint}`);
+    throw new Error(`Unknown multi-factor enrollment type: ${hint}`);
   }
 
   return (
     <>
       {hints.map((hint) => (
-        <div key={hint} onClick={() => setSelectedHint(hint)}>
+        <div key={hint} onClick={() => setHint(hint)}>
           {hint}
         </div>
       ))}

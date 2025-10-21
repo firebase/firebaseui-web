@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "~/compon
 import { useUI } from "~/hooks";
 import {
   MultiFactorAuthEnrollmentForm,
-  MultiFactorAuthEnrollmentFormProps,
+  type MultiFactorAuthEnrollmentFormProps,
 } from "../forms/multi-factor-auth-enrollment-form";
 
 export type MultiFactorAuthEnrollmentScreenProps = MultiFactorAuthEnrollmentFormProps;
