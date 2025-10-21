@@ -18,6 +18,7 @@ import { useContext, useMemo, useEffect } from "react";
 import {
   createEmailLinkAuthFormSchema,
   createForgotPasswordAuthFormSchema,
+  createMultiFactorPhoneAuthNumberFormSchema,
   createMultiFactorPhoneAuthVerifyFormSchema,
   createPhoneAuthNumberFormSchema,
   createPhoneAuthVerifyFormSchema,
@@ -71,6 +72,11 @@ export function usePhoneAuthNumberFormSchema() {
 export function usePhoneAuthVerifyFormSchema() {
   const ui = useUI();
   return useMemo(() => createPhoneAuthVerifyFormSchema(ui), [ui]);
+}
+
+export function useMultiFactorPhoneAuthNumberFormSchema() {
+  const ui = useUI();
+  return useMemo(() => createMultiFactorPhoneAuthNumberFormSchema(ui), [ui]);
 }
 
 export function useMultiFactorPhoneAuthVerifyFormSchema() {

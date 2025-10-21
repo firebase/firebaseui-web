@@ -1,18 +1,20 @@
+import { useCallback, useRef, useState } from "react";
+import { multiFactor, PhoneAuthProvider, PhoneMultiFactorGenerator, type RecaptchaVerifier } from "firebase/auth";
 import {
-  CountryCode,
-  countryData,
+  enrollWithMultiFactorAssertion,
   FirebaseUIError,
-  formatPhoneNumberWithCountry,
+  formatPhoneNumber,
   getTranslation,
-  signInWithMultiFactorAssertion,
   verifyPhoneNumber,
 } from "@firebase-ui/core";
-import { multiFactor, PhoneAuthProvider, PhoneMultiFactorGenerator, RecaptchaVerifier } from "firebase/auth";
-import { useCallback, useRef, useState } from "react";
-import { CountrySelector } from "~/components/country-selector";
+import { CountrySelector, type CountrySelectorRef } from "~/components/country-selector";
 import { form } from "~/components/form";
-import { useMultiFactorPhoneAuthVerifyFormSchema, useRecaptchaVerifier, useUI } from "~/hooks";
-import { usePhoneNumberForm } from "../phone-auth-form";
+import {
+  useMultiFactorPhoneAuthNumberFormSchema,
+  useMultiFactorPhoneAuthVerifyFormSchema,
+  useRecaptchaVerifier,
+  useUI,
+} from "~/hooks";
 
 export function useSmsMultiFactorEnrollmentPhoneAuthFormAction() {
   const ui = useUI();
@@ -20,27 +22,62 @@ export function useSmsMultiFactorEnrollmentPhoneAuthFormAction() {
   return useCallback(
     async ({ phoneNumber, recaptchaVerifier }: { phoneNumber: string; recaptchaVerifier: RecaptchaVerifier }) => {
       const mfaUser = multiFactor(ui.auth.currentUser!);
-      return await verifyPhoneNumber(ui, phoneNumber, recaptchaVerifier, mfaUser);
+      const session = await mfaUser.getSession();
+      return await verifyPhoneNumber(ui, phoneNumber, recaptchaVerifier, session);
     },
     [ui]
   );
 }
 
+type UseSmsMultiFactorEnrollmentPhoneNumberForm = {
+  recaptchaVerifier: RecaptchaVerifier;
+  onSuccess: (verificationId: string, displayName?: string) => void;
+  formatPhoneNumber?: (phoneNumber: string) => string;
+};
+
+export function useSmsMultiFactorEnrollmentPhoneNumberForm({
+  recaptchaVerifier,
+  onSuccess,
+  formatPhoneNumber,
+}: UseSmsMultiFactorEnrollmentPhoneNumberForm) {
+  const action = useSmsMultiFactorEnrollmentPhoneAuthFormAction();
+  const schema = useMultiFactorPhoneAuthNumberFormSchema();
+
+  return form.useAppForm({
+    defaultValues: {
+      displayName: "",
+      phoneNumber: "",
+    },
+    validators: {
+      onBlur: schema,
+      onSubmit: schema,
+      onSubmitAsync: async ({ value }) => {
+        try {
+          const formatted = formatPhoneNumber ? formatPhoneNumber(value.phoneNumber) : value.phoneNumber;
+          const confirmationResult = await action({ phoneNumber: formatted, recaptchaVerifier });
+          return onSuccess(confirmationResult, value.displayName);
+        } catch (error) {
+          return error instanceof FirebaseUIError ? error.message : String(error);
+        }
+      },
+    },
+  });
+}
+
 type MultiFactorEnrollmentPhoneNumberFormProps = {
-  onSubmit: (verificationId: string) => void;
+  onSubmit: (verificationId: string, displayName?: string) => void;
 };
 
 function MultiFactorEnrollmentPhoneNumberForm(props: MultiFactorEnrollmentPhoneNumberFormProps) {
   const ui = useUI();
   const recaptchaContainerRef = useRef<HTMLDivElement>(null);
   const recaptchaVerifier = useRecaptchaVerifier(recaptchaContainerRef);
-  const form = usePhoneNumberForm({
+  const countrySelector = useRef<CountrySelectorRef>(null);
+  const form = useSmsMultiFactorEnrollmentPhoneNumberForm({
     recaptchaVerifier: recaptchaVerifier!,
     onSuccess: props.onSubmit,
-    formatPhoneNumber: (phoneNumber) => formatPhoneNumberWithCountry(phoneNumber, selectedCountry),
+    formatPhoneNumber: (phoneNumber) => formatPhoneNumber(phoneNumber, countrySelector.current!.getCountry()),
   });
-
-  const [selectedCountry, setSelectedCountry] = useState<CountryCode>(countryData[0].code);
 
   return (
     <form
@@ -53,18 +90,17 @@ function MultiFactorEnrollmentPhoneNumberForm(props: MultiFactorEnrollmentPhoneN
     >
       <form.AppForm>
         <fieldset>
+          <form.AppField name="displayName">
+            {(field) => <field.Input label={getTranslation(ui, "labels", "displayName")} type="text" />}
+          </form.AppField>
+        </fieldset>
+        <fieldset>
           <form.AppField name="phoneNumber">
             {(field) => (
               <field.Input
                 label={getTranslation(ui, "labels", "phoneNumber")}
                 type="tel"
-                before={
-                  <CountrySelector
-                    value={selectedCountry}
-                    onChange={(code) => setSelectedCountry(code as CountryCode)}
-                    className="fui-phone-input__country-selector"
-                  />
-                }
+                before={<CountrySelector ref={countrySelector} />}
               />
             )}
           </form.AppField>
@@ -84,10 +120,18 @@ function MultiFactorEnrollmentPhoneNumberForm(props: MultiFactorEnrollmentPhoneN
 export function useMultiFactorEnrollmentVerifyPhoneNumberFormAction() {
   const ui = useUI();
   return useCallback(
-    async ({ verificationId, verificationCode }: { verificationId: string; verificationCode: string }) => {
+    async ({
+      verificationId,
+      verificationCode,
+      displayName,
+    }: {
+      verificationId: string;
+      verificationCode: string;
+      displayName?: string;
+    }) => {
       const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
       const assertion = PhoneMultiFactorGenerator.assertion(credential);
-      return await signInWithMultiFactorAssertion(ui, assertion);
+      return await enrollWithMultiFactorAssertion(ui, assertion, displayName);
     },
     [ui]
   );
@@ -95,11 +139,13 @@ export function useMultiFactorEnrollmentVerifyPhoneNumberFormAction() {
 
 type UseMultiFactorEnrollmentVerifyPhoneNumberForm = {
   verificationId: string;
+  displayName?: string;
   onSuccess: () => void;
 };
 
 export function useMultiFactorEnrollmentVerifyPhoneNumberForm({
   verificationId,
+  displayName,
   onSuccess,
 }: UseMultiFactorEnrollmentVerifyPhoneNumberForm) {
   const schema = useMultiFactorPhoneAuthVerifyFormSchema();
@@ -107,7 +153,7 @@ export function useMultiFactorEnrollmentVerifyPhoneNumberForm({
 
   return form.useAppForm({
     defaultValues: {
-      displayName: "",
+      verificationId,
       verificationCode: "",
     },
     validators: {
@@ -115,7 +161,7 @@ export function useMultiFactorEnrollmentVerifyPhoneNumberForm({
       onBlur: schema,
       onSubmitAsync: async ({ value }) => {
         try {
-          await action({ verificationId, verificationCode: value.verificationCode });
+          await action({ ...value, displayName });
           return onSuccess();
         } catch (error) {
           return error instanceof FirebaseUIError ? error.message : String(error);
@@ -127,13 +173,14 @@ export function useMultiFactorEnrollmentVerifyPhoneNumberForm({
 
 type MultiFactorEnrollmentVerifyPhoneNumberFormProps = {
   verificationId: string;
+  displayName?: string;
   onSuccess: () => void;
 };
 
 export function MultiFactorEnrollmentVerifyPhoneNumberForm(props: MultiFactorEnrollmentVerifyPhoneNumberFormProps) {
   const ui = useUI();
   const form = useMultiFactorEnrollmentVerifyPhoneNumberForm({
-    verificationId: props.verificationId,
+    ...props,
     onSuccess: props.onSuccess,
   });
 
@@ -147,11 +194,6 @@ export function MultiFactorEnrollmentVerifyPhoneNumberForm(props: MultiFactorEnr
       }}
     >
       <form.AppForm>
-        <fieldset>
-          <form.AppField name="displayName">
-            {(field) => <field.Input label={getTranslation(ui, "labels", "displayName")} type="text" />}
-          </form.AppField>
-        </fieldset>
         <fieldset>
           <form.AppField name="verificationCode">
             {(field) => <field.Input label={getTranslation(ui, "labels", "verificationCode")} type="text" />}
@@ -167,15 +209,28 @@ export type SmsMultiFactorEnrollmentFormProps = {
 };
 
 export function SmsMultiFactorEnrollmentForm(props: SmsMultiFactorEnrollmentFormProps) {
-  const [verificationId, setVerificationId] = useState<string | null>(null);
+  const ui = useUI();
 
-  if (!verificationId) {
-    return <MultiFactorEnrollmentPhoneNumberForm onSubmit={setVerificationId} />;
+  const [verification, setVerification] = useState<{
+    verificationId: string;
+    displayName?: string;
+  } | null>(null);
+
+  if (!ui.auth.currentUser) {
+    throw new Error("User must be authenticated to enroll with multi-factor authentication");
+  }
+
+  if (!verification) {
+    return (
+      <MultiFactorEnrollmentPhoneNumberForm
+        onSubmit={(verificationId, displayName) => setVerification({ verificationId, displayName })}
+      />
+    );
   }
 
   return (
     <MultiFactorEnrollmentVerifyPhoneNumberForm
-      verificationId={verificationId}
+      {...verification}
       onSuccess={() => {
         props.onSuccess?.();
       }}

@@ -24,16 +24,15 @@ import {
   EmailAuthProvider,
   linkWithCredential,
   PhoneAuthProvider,
+  multiFactor,
   type ActionCodeSettings,
   type ApplicationVerifier,
   type AuthProvider,
   type UserCredential,
   type AuthCredential,
   type TotpSecret,
-  type PhoneInfoOptions,
-  MultiFactorAssertion,
-  multiFactor,
-  MultiFactorUser,
+  type MultiFactorAssertion,
+  type MultiFactorSession,
 } from "firebase/auth";
 import QRCode from "qrcode-generator";
 import { type FirebaseUI } from "./config";
@@ -127,12 +126,11 @@ export async function verifyPhoneNumber(
   ui: FirebaseUI,
   phoneNumber: string,
   appVerifier: ApplicationVerifier,
-  multiFactorUser?: MultiFactorUser
+  session?: MultiFactorSession
 ): Promise<string> {
   try {
     ui.setState("pending");
     const provider = new PhoneAuthProvider(ui.auth);
-    const session = await multiFactorUser?.getSession();
     return await provider.verifyPhoneNumber(
       session
         ? {
@@ -315,7 +313,13 @@ export async function enrollWithMultiFactorAssertion(
   ui: FirebaseUI,
   assertion: MultiFactorAssertion,
   displayName?: string
-) {
-  await multiFactor(ui.auth.currentUser!).enroll(assertion, displayName);
-  throw new Error("Not implemented");
+): Promise<void> {
+  try {
+    ui.setState("pending");
+    await multiFactor(ui.auth.currentUser!).enroll(assertion, displayName);
+  } catch (error) {
+    handleFirebaseError(ui, error);
+  } finally {
+    ui.setState("idle");
+  }
 }
