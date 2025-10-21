@@ -22,8 +22,7 @@ export function useSmsMultiFactorEnrollmentPhoneAuthFormAction() {
   return useCallback(
     async ({ phoneNumber, recaptchaVerifier }: { phoneNumber: string; recaptchaVerifier: RecaptchaVerifier }) => {
       const mfaUser = multiFactor(ui.auth.currentUser!);
-      const session = await mfaUser.getSession();
-      return await verifyPhoneNumber(ui, phoneNumber, recaptchaVerifier, session);
+      return await verifyPhoneNumber(ui, phoneNumber, recaptchaVerifier, mfaUser);
     },
     [ui]
   );

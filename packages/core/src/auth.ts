@@ -24,6 +24,7 @@ import {
   EmailAuthProvider,
   linkWithCredential,
   PhoneAuthProvider,
+  TotpMultiFactorGenerator,
   multiFactor,
   type ActionCodeSettings,
   type ApplicationVerifier,
@@ -33,6 +34,7 @@ import {
   type TotpSecret,
   type MultiFactorAssertion,
   type MultiFactorSession,
+  MultiFactorUser,
 } from "firebase/auth";
 import QRCode from "qrcode-generator";
 import { type FirebaseUI } from "./config";
@@ -126,11 +128,12 @@ export async function verifyPhoneNumber(
   ui: FirebaseUI,
   phoneNumber: string,
   appVerifier: ApplicationVerifier,
-  session?: MultiFactorSession
+  mfaUser?: MultiFactorUser
 ): Promise<string> {
   try {
     ui.setState("pending");
     const provider = new PhoneAuthProvider(ui.auth);
+    const session = await mfaUser?.getSession();
     return await provider.verifyPhoneNumber(
       session
         ? {
@@ -317,6 +320,19 @@ export async function enrollWithMultiFactorAssertion(
   try {
     ui.setState("pending");
     await multiFactor(ui.auth.currentUser!).enroll(assertion, displayName);
+  } catch (error) {
+    handleFirebaseError(ui, error);
+  } finally {
+    ui.setState("idle");
+  }
+}
+
+export async function generateTotpSecret(ui: FirebaseUI): Promise<TotpSecret> {
+  try {
+    ui.setState("pending");
+    const mfaUser = multiFactor(ui.auth.currentUser!);
+    const session = await mfaUser.getSession();
+    return await TotpMultiFactorGenerator.generateSecret(session);
   } catch (error) {
     handleFirebaseError(ui, error);
   } finally {

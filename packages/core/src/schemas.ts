@@ -85,6 +85,20 @@ export function createMultiFactorPhoneAuthVerifyFormSchema(ui: FirebaseUI) {
   return createPhoneAuthVerifyFormSchema(ui);
 }
 
+export function createMultiFactorTotpAuthNumberFormSchema(ui: FirebaseUI) {
+  return z.object({
+    displayName: z.string().min(1, getTranslation(ui, "errors", "displayNameRequired")),
+  });
+}
+
+export function createMultiFactorTotpAuthVerifyFormSchema(ui: FirebaseUI) {
+  return z.object({
+    verificationCode: z.string().refine((val) => val.length === 6, {
+      error: getTranslation(ui, "errors", "invalidVerificationCode"),
+    }),
+  });
+}
+
 export type SignInAuthFormSchema = z.infer<ReturnType<typeof createSignInAuthFormSchema>>;
 export type SignUpAuthFormSchema = z.infer<ReturnType<typeof createSignUpAuthFormSchema>>;
 export type ForgotPasswordAuthFormSchema = z.infer<ReturnType<typeof createForgotPasswordAuthFormSchema>>;
@@ -93,4 +107,10 @@ export type PhoneAuthNumberFormSchema = z.infer<ReturnType<typeof createPhoneAut
 export type PhoneAuthVerifyFormSchema = z.infer<ReturnType<typeof createPhoneAuthVerifyFormSchema>>;
 export type MultiFactorPhoneAuthNumberFormSchema = z.infer<
   ReturnType<typeof createMultiFactorPhoneAuthNumberFormSchema>
+>;
+export type MultiFactorTotpAuthNumberFormSchema = z.infer<
+  ReturnType<typeof createMultiFactorTotpAuthNumberFormSchema>
+>;
+export type MultiFactorTotpAuthVerifyFormSchema = z.infer<
+  ReturnType<typeof createMultiFactorTotpAuthVerifyFormSchema>
 >;

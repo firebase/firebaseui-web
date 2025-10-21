@@ -2,6 +2,7 @@ import { FactorId } from "firebase/auth";
 import { useState } from "react";
 
 import { SmsMultiFactorEnrollmentForm } from "./mfa/sms-multi-factor-enrollment-form";
+import { TotpMultiFactorEnrollmentForm } from "./mfa/totp-multi-factor-enrollment-form";
 
 type Hint = (typeof FactorId)[keyof typeof FactorId];
 
@@ -23,11 +24,11 @@ export function MultiFactorAuthEnrollmentForm(props: MultiFactorAuthEnrollmentFo
 
   if (selectedHint) {
     if (selectedHint === FactorId.TOTP) {
-      return <div>TotpMultiFactorEnrollmentForm</div>;
+      return <TotpMultiFactorEnrollmentForm onSuccess={props.onEnrollment} />;
     }
 
     if (selectedHint === FactorId.PHONE) {
-      return <SmsMultiFactorEnrollmentForm />;
+      return <SmsMultiFactorEnrollmentForm onSuccess={props.onEnrollment} />;
     }
 
     throw new Error(`Unknown multi-factor enrollment type: ${selectedHint}`);

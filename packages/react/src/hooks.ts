@@ -20,6 +20,8 @@ import {
   createForgotPasswordAuthFormSchema,
   createMultiFactorPhoneAuthNumberFormSchema,
   createMultiFactorPhoneAuthVerifyFormSchema,
+  createMultiFactorTotpAuthNumberFormSchema,
+  createMultiFactorTotpAuthVerifyFormSchema,
   createPhoneAuthNumberFormSchema,
   createPhoneAuthVerifyFormSchema,
   createSignInAuthFormSchema,
@@ -82,6 +84,16 @@ export function useMultiFactorPhoneAuthNumberFormSchema() {
 export function useMultiFactorPhoneAuthVerifyFormSchema() {
   const ui = useUI();
   return useMemo(() => createMultiFactorPhoneAuthVerifyFormSchema(ui), [ui]);
+}
+
+export function useMultiFactorTotpAuthNumberFormSchema() {
+  const ui = useUI();
+  return useMemo(() => createMultiFactorTotpAuthNumberFormSchema(ui), [ui]);
+}
+
+export function useMultiFactorTotpAuthVerifyFormSchema() {
+  const ui = useUI();
+  return useMemo(() => createMultiFactorTotpAuthVerifyFormSchema(ui), [ui]);
 }
 
 export function useRecaptchaVerifier(ref: React.RefObject<HTMLDivElement | null>) {
