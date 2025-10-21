@@ -33,8 +33,7 @@ import {
   type AuthCredential,
   type TotpSecret,
   type MultiFactorAssertion,
-  type MultiFactorSession,
-  MultiFactorUser,
+  type MultiFactorUser,
 } from "firebase/auth";
 import QRCode from "qrcode-generator";
 import { type FirebaseUI } from "./config";

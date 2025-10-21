@@ -108,9 +108,5 @@ export type PhoneAuthVerifyFormSchema = z.infer<ReturnType<typeof createPhoneAut
 export type MultiFactorPhoneAuthNumberFormSchema = z.infer<
   ReturnType<typeof createMultiFactorPhoneAuthNumberFormSchema>
 >;
-export type MultiFactorTotpAuthNumberFormSchema = z.infer<
-  ReturnType<typeof createMultiFactorTotpAuthNumberFormSchema>
->;
-export type MultiFactorTotpAuthVerifyFormSchema = z.infer<
-  ReturnType<typeof createMultiFactorTotpAuthVerifyFormSchema>
->;
+export type MultiFactorTotpAuthNumberFormSchema = z.infer<ReturnType<typeof createMultiFactorTotpAuthNumberFormSchema>>;
+export type MultiFactorTotpAuthVerifyFormSchema = z.infer<ReturnType<typeof createMultiFactorTotpAuthVerifyFormSchema>>;
