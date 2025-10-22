@@ -45,6 +45,7 @@ export const enUS = {
     accountExistsWithDifferentCredential:
       "An account already exists with this email. Please sign in with the original provider.",
     displayNameRequired: "Please provide a display name",
+    secondFactorAlreadyInUse: "This phone number is already enrolled with this account.",
   },
   messages: {
     passwordResetEmailSent: "Password reset email sent successfully",
@@ -81,6 +82,10 @@ export const enUS = {
     privacyPolicy: "Privacy Policy",
     resendCode: "Resend Code",
     sending: "Sending...",
+    multiFactorEnrollment: "Multi-factor Enrollment",
+    mfaTotpEnrollment: "TOTP Verification",
+    mfaSmsEnrollment: "SMS Verification",
+    generateQrCode: "Generate QR Code",
   },
   prompts: {
     noAccount: "Don't have an account?",
@@ -91,5 +96,6 @@ export const enUS = {
     enterPhoneNumber: "Enter your phone number",
     enterVerificationCode: "Enter the verification code",
     enterEmailForLink: "Enter your email to receive a sign-in link",
+    mfaEnrollmentPrompt: "Select a new multi-factor enrollment method",
   },
 } satisfies Translations;

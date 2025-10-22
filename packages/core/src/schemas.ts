@@ -76,8 +76,7 @@ export function createPhoneAuthVerifyFormSchema(ui: FirebaseUI) {
 export function createMultiFactorPhoneAuthNumberFormSchema(ui: FirebaseUI) {
   const base = createPhoneAuthNumberFormSchema(ui);
   return base.extend({
-    // TODO(ehesp): Translation...
-    displayName: z.string().min(1, "TODO!"),
+    displayName: z.string().min(1, getTranslation(ui, "errors", "displayNameRequired")),
   });
 }
 

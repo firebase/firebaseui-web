@@ -8,11 +8,11 @@ import {
 
 export type MultiFactorAuthEnrollmentScreenProps = MultiFactorAuthEnrollmentFormProps;
 
-export function MultiFactorAuthEnrollmentScreen({}: MultiFactorAuthEnrollmentScreenProps) {
+export function MultiFactorAuthEnrollmentScreen(props: MultiFactorAuthEnrollmentScreenProps) {
   const ui = useUI();
 
-  const titleText = getTranslation(ui, "labels", "register");
-  const subtitleText = getTranslation(ui, "prompts", "enterDetailsToCreate");
+  const titleText = getTranslation(ui, "labels", "multiFactorEnrollment");
+  const subtitleText = getTranslation(ui, "prompts", "mfaEnrollmentPrompt");
 
   return (
     <div className="fui-screen">
@@ -22,7 +22,7 @@ export function MultiFactorAuthEnrollmentScreen({}: MultiFactorAuthEnrollmentScr
           <CardSubtitle>{subtitleText}</CardSubtitle>
         </CardHeader>
         <CardContent>
-          <MultiFactorAuthEnrollmentForm />
+          <MultiFactorAuthEnrollmentForm {...props} />
         </CardContent>
       </Card>
     </div>

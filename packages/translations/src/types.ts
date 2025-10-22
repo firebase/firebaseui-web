@@ -50,6 +50,7 @@ export type Translations = {
     unknownError?: string;
     popupClosed?: string;
     accountExistsWithDifferentCredential?: string;
+    secondFactorAlreadyInUse?: string;
   };
   messages?: {
     passwordResetEmailSent?: string;
@@ -86,6 +87,10 @@ export type Translations = {
     privacyPolicy?: string;
     resendCode?: string;
     sending?: string;
+    multiFactorEnrollment?: string;
+    mfaTotpEnrollment?: string;
+    mfaSmsEnrollment?: string;
+    generateQrCode?: string;
   };
   prompts?: {
     noAccount?: string;
@@ -96,5 +101,6 @@ export type Translations = {
     enterPhoneNumber?: string;
     enterVerificationCode?: string;
     enterEmailForLink?: string;
+    mfaEnrollmentPrompt?: string;
   };
 };

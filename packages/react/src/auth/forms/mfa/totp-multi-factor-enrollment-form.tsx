@@ -71,7 +71,7 @@ function TotpMultiFactorSecretGenerationForm(props: TotpMultiFactorSecretGenerat
           </form.AppField>
         </fieldset>
         <fieldset>
-          <form.SubmitButton>Generate QR Code</form.SubmitButton>
+          <form.SubmitButton>{getTranslation(ui, "labels", "generateQrCode")}</form.SubmitButton>
           <form.ErrorMessage />
         </fieldset>
       </form.AppForm>

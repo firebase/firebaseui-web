@@ -1,8 +1,11 @@
 import { FactorId } from "firebase/auth";
-import { useState } from "react";
+import { getTranslation } from "@firebase-ui/core";
+import { type ComponentProps, useState } from "react";
 
 import { SmsMultiFactorEnrollmentForm } from "./mfa/sms-multi-factor-enrollment-form";
 import { TotpMultiFactorEnrollmentForm } from "./mfa/totp-multi-factor-enrollment-form";
+import { Button } from "~/components/button";
+import { useUI } from "~/hooks";
 
 type Hint = (typeof FactorId)[keyof typeof FactorId];
 
@@ -36,12 +39,30 @@ export function MultiFactorAuthEnrollmentForm(props: MultiFactorAuthEnrollmentFo
   }
 
   return (
-    <>
-      {hints.map((hint) => (
-        <div key={hint} onClick={() => setHint(hint)}>
-          {hint}
-        </div>
-      ))}
-    </>
+    <div className="fui-content">
+      {hints.map((hint) => {
+        if (hint === FactorId.TOTP) {
+          return <TotpButton key={hint} onClick={() => setHint(hint)} />;
+        }
+
+        if (hint === FactorId.PHONE) {
+          return <SmsButton key={hint} onClick={() => setHint(hint)} />;
+        }
+
+        return null;
+      })}
+    </div>
   );
+}
+
+function TotpButton(props: ComponentProps<typeof Button>) {
+  const ui = useUI();
+  const labelText = getTranslation(ui, "labels", "mfaTotpEnrollment");
+  return <Button {...props}>{labelText}</Button>;
+}
+
+function SmsButton(props: ComponentProps<typeof Button>) {
+  const ui = useUI();
+  const labelText = getTranslation(ui, "labels", "mfaSmsEnrollment");
+  return <Button {...props}>{labelText}</Button>;
 }
