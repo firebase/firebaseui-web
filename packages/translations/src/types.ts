@@ -88,8 +88,8 @@ export type Translations = {
     resendCode?: string;
     sending?: string;
     multiFactorEnrollment?: string;
-    mfaTotpEnrollment?: string;
-    mfaSmsEnrollment?: string;
+    mfaTotpVerification?: string;
+    mfaSmsVerification?: string;
     generateQrCode?: string;
   };
   prompts?: {

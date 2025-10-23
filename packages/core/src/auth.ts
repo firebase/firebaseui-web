@@ -57,13 +57,18 @@ async function handlePendingCredential(_ui: FirebaseUI, user: UserCredential): P
   }
 }
 
+function setPendingState(ui: FirebaseUI) {
+  ui.setRedirectError(undefined);
+  ui.setState("pending");
+}
+
 export async function signInWithEmailAndPassword(
   ui: FirebaseUI,
   email: string,
   password: string
 ): Promise<UserCredential> {
   try {
-    ui.setState("pending");
+    setPendingState(ui);
     const credential = EmailAuthProvider.credential(email, password);
 
     if (hasBehavior(ui, "autoUpgradeAnonymousCredential")) {
@@ -90,7 +95,7 @@ export async function createUserWithEmailAndPassword(
   displayName?: string
 ): Promise<UserCredential> {
   try {
-    ui.setState("pending");
+    setPendingState(ui);
     const credential = EmailAuthProvider.credential(email, password);
 
     if (hasBehavior(ui, "requireDisplayName") && !displayName) {
@@ -130,7 +135,7 @@ export async function verifyPhoneNumber(
   mfaUser?: MultiFactorUser
 ): Promise<string> {
   try {
-    ui.setState("pending");
+    setPendingState(ui);
     const provider = new PhoneAuthProvider(ui.auth);
     const session = await mfaUser?.getSession();
     return await provider.verifyPhoneNumber(
@@ -155,7 +160,7 @@ export async function confirmPhoneNumber(
   verificationCode: string
 ): Promise<UserCredential> {
   try {
-    ui.setState("pending");
+    setPendingState(ui);
     const currentUser = ui.auth.currentUser;
     const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
 
@@ -178,7 +183,7 @@ export async function confirmPhoneNumber(
 
 export async function sendPasswordResetEmail(ui: FirebaseUI, email: string): Promise<void> {
   try {
-    ui.setState("pending");
+    setPendingState(ui);
     await _sendPasswordResetEmail(ui.auth, email);
   } catch (error) {
     handleFirebaseError(ui, error);
@@ -189,7 +194,7 @@ export async function sendPasswordResetEmail(ui: FirebaseUI, email: string): Pro
 
 export async function sendSignInLinkToEmail(ui: FirebaseUI, email: string): Promise<void> {
   try {
-    ui.setState("pending");
+    setPendingState(ui);
     const actionCodeSettings = {
       url: window.location.href,
       // TODO(ehesp): Check this...
@@ -213,7 +218,7 @@ export async function signInWithEmailLink(ui: FirebaseUI, email: string, link: s
 
 export async function signInWithCredential(ui: FirebaseUI, credential: AuthCredential): Promise<UserCredential> {
   try {
-    ui.setState("pending");
+    setPendingState(ui);
     if (hasBehavior(ui, "autoUpgradeAnonymousCredential")) {
       const userCredential = await getBehavior(ui, "autoUpgradeAnonymousCredential")(ui, credential);
 
@@ -235,7 +240,7 @@ export async function signInWithCredential(ui: FirebaseUI, credential: AuthCrede
 
 export async function signInAnonymously(ui: FirebaseUI): Promise<UserCredential> {
   try {
-    ui.setState("pending");
+    setPendingState(ui);
     const result = await _signInAnonymously(ui.auth);
     return handlePendingCredential(ui, result);
   } catch (error) {
@@ -247,7 +252,7 @@ export async function signInAnonymously(ui: FirebaseUI): Promise<UserCredential>
 
 export async function signInWithProvider(ui: FirebaseUI, provider: AuthProvider): Promise<UserCredential | never> {
   try {
-    ui.setState("pending");
+    setPendingState(ui);
     if (hasBehavior(ui, "autoUpgradeAnonymousProvider")) {
       const credential = await getBehavior(ui, "autoUpgradeAnonymousProvider")(ui, provider);
 
@@ -280,7 +285,7 @@ export async function completeEmailLinkSignIn(ui: FirebaseUI, currentUrl: string
     const email = window.localStorage.getItem("emailForSignIn");
     if (!email) return null;
 
-    ui.setState("pending");
+    setPendingState(ui);
     const result = await signInWithEmailLink(ui, email, currentUrl);
     return handlePendingCredential(ui, result);
   } catch (error) {
@@ -317,7 +322,7 @@ export async function enrollWithMultiFactorAssertion(
   displayName?: string
 ): Promise<void> {
   try {
-    ui.setState("pending");
+    setPendingState(ui);
     await multiFactor(ui.auth.currentUser!).enroll(assertion, displayName);
   } catch (error) {
     handleFirebaseError(ui, error);
@@ -328,7 +333,7 @@ export async function enrollWithMultiFactorAssertion(
 
 export async function generateTotpSecret(ui: FirebaseUI): Promise<TotpSecret> {
   try {
-    ui.setState("pending");
+    setPendingState(ui);
     const mfaUser = multiFactor(ui.auth.currentUser!);
     const session = await mfaUser.getSession();
     return await TotpMultiFactorGenerator.generateSecret(session);

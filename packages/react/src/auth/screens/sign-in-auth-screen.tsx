@@ -20,6 +20,8 @@ import { Divider } from "~/components/divider";
 import { useUI } from "~/hooks";
 import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "../../components/card";
 import { SignInAuthForm, type SignInAuthFormProps } from "../forms/sign-in-auth-form";
+import { MultiFactorAuthAssertionForm } from "../forms/multi-factor-auth-assertion-form";
+import { RedirectError } from "~/components/redirect-error";
 
 export type SignInAuthScreenProps = PropsWithChildren<SignInAuthFormProps>;
 
@@ -29,6 +31,8 @@ export function SignInAuthScreen({ children, ...props }: SignInAuthScreenProps) 
   const titleText = getTranslation(ui, "labels", "signIn");
   const subtitleText = getTranslation(ui, "prompts", "signInToAccount");
 
+  const mfaResolver = ui.multiFactorResolver;
+
   return (
     <div className="fui-screen">
       <Card>
@@ -37,13 +41,22 @@ export function SignInAuthScreen({ children, ...props }: SignInAuthScreenProps) 
           <CardSubtitle>{subtitleText}</CardSubtitle>
         </CardHeader>
         <CardContent>
-          <SignInAuthForm {...props} />
-          {children ? (
+          {mfaResolver ? (
+            <MultiFactorAuthAssertionForm />
+          ) : (
             <>
-              <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>
-              <div className="fui-screen__children">{children}</div>
+              <SignInAuthForm {...props} />
+              {children ? (
+                <>
+                  <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>
+                  <div className="fui-screen__children">
+                    {children}
+                    <RedirectError />
+                  </div>
+                </>
+              ) : null}
             </>
-          ) : null}
+          )}
         </CardContent>
       </Card>
     </div>

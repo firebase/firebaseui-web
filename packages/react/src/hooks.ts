@@ -46,6 +46,17 @@ export function useUI() {
   return ui;
 }
 
+export function useRedirectError() {
+  const ui = useUI();
+  return useMemo(() => {
+    if (!ui.redirectError) {
+      return;
+    }
+
+    return ui.redirectError instanceof Error ? ui.redirectError.message : String(ui.redirectError);
+  }, [ui.redirectError]);
+}
+
 export function useSignInAuthFormSchema() {
   const ui = useUI();
   return useMemo(() => createSignInAuthFormSchema(ui), [ui]);

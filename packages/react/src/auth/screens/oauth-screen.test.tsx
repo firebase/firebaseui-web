@@ -18,6 +18,7 @@ import { render, screen, cleanup } from "@testing-library/react";
 import { OAuthScreen } from "~/auth/screens/oauth-screen";
 import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
 import { registerLocale } from "@firebase-ui/translations";
+import { MultiFactorResolver } from "firebase/auth";
 
 vi.mock("~/components/policies", async (originalModule) => {
   const module = await originalModule();
@@ -26,6 +27,14 @@ vi.mock("~/components/policies", async (originalModule) => {
     Policies: () => <div data-testid="policies">Policies</div>,
   };
 });
+
+vi.mock("~/components/redirect-error", () => ({
+  RedirectError: () => <div data-testid="redirect-error">Redirect Error</div>,
+}));
+
+vi.mock("~/auth/forms/multi-factor-auth-assertion-form", () => ({
+  MultiFactorAuthAssertionForm: () => <div data-testid="mfa-assertion-form">MFA Assertion Form</div>,
+}));
 
 afterEach(() => {
   cleanup();
@@ -121,12 +130,91 @@ describe("<OAuthScreen />", () => {
     expect(oauthProvider).toBeDefined();
     expect(policies).toBeDefined();
 
-    // OAuth provider should come before policies in the DOM
+    // OAuth provider should come before policies
     const cardContent = oauthProvider.parentElement;
     const children = Array.from(cardContent?.children || []);
     const oauthIndex = children.indexOf(oauthProvider);
     const policiesIndex = children.indexOf(policies);
 
     expect(oauthIndex).toBeLessThan(policiesIndex);
+  });
+
+  it("renders MultiFactorAuthAssertionForm when multiFactorResolver is present", () => {
+    const mockResolver = {
+      auth: {} as any,
+      session: null,
+      hints: [],
+    };
+    const ui = createMockUI();
+    ui.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <OAuthScreen>OAuth Provider</OAuthScreen>
+      </CreateFirebaseUIProvider>
+    );
+
+    expect(screen.getByTestId("mfa-assertion-form")).toBeDefined();
+    expect(screen.queryByText("OAuth Provider")).toBeNull();
+    expect(screen.queryByTestId("policies")).toBeNull();
+  });
+
+  it("does not render children or Policies when MFA resolver exists", () => {
+    const mockResolver = {
+      auth: {} as any,
+      session: null,
+      hints: [],
+    };
+    const ui = createMockUI();
+    ui.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <OAuthScreen>
+          <div data-testid="oauth-provider">OAuth Provider</div>
+        </OAuthScreen>
+      </CreateFirebaseUIProvider>
+    );
+
+    expect(screen.queryByTestId("oauth-provider")).toBeNull();
+    expect(screen.queryByTestId("policies")).toBeNull();
+    expect(screen.getByTestId("mfa-assertion-form")).toBeDefined();
+  });
+
+  it("renders RedirectError component with children when no MFA resolver", () => {
+    const ui = createMockUI();
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <OAuthScreen>
+          <div data-testid="oauth-provider">OAuth Provider</div>
+        </OAuthScreen>
+      </CreateFirebaseUIProvider>
+    );
+
+    expect(screen.getByTestId("redirect-error")).toBeDefined();
+    expect(screen.getByTestId("oauth-provider")).toBeDefined();
+    expect(screen.getByTestId("policies")).toBeDefined();
+  });
+
+  it("does not render RedirectError when MFA resolver is present", () => {
+    const mockResolver = {
+      auth: {} as any,
+      session: null,
+      hints: [],
+    };
+    const ui = createMockUI();
+    ui.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <OAuthScreen>
+          <div data-testid="oauth-provider">OAuth Provider</div>
+        </OAuthScreen>
+      </CreateFirebaseUIProvider>
+    );
+
+    expect(screen.queryByTestId("redirect-error")).toBeNull();
+    expect(screen.getByTestId("mfa-assertion-form")).toBeDefined();
   });
 });

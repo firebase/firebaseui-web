@@ -19,14 +19,18 @@ import { GoogleLogo, GoogleSignInButton } from "./google-sign-in-button";
 import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
 import { registerLocale } from "@firebase-ui/translations";
 
-vi.mock("firebase/auth", () => ({
-  GoogleAuthProvider: class GoogleAuthProvider {
-    constructor() {
-      this.providerId = "google.com";
-    }
-    providerId: string;
-  },
-}));
+vi.mock("firebase/auth", async () => {
+  const actual = await vi.importActual("firebase/auth");
+  return {
+    ...actual,
+    GoogleAuthProvider: class GoogleAuthProvider {
+      constructor() {
+        this.providerId = "google.com";
+      }
+      providerId: string;
+    },
+  };
+});
 
 afterEach(() => {
   cleanup();

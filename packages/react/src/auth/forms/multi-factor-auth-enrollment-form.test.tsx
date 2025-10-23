@@ -22,9 +22,9 @@ import { registerLocale } from "@firebase-ui/translations";
 import { FactorId } from "firebase/auth";
 
 vi.mock("./mfa/sms-multi-factor-enrollment-form", () => ({
-  SmsMultiFactorEnrollmentForm: ({ onEnrollment }: { onEnrollment?: () => void }) => (
+  SmsMultiFactorEnrollmentForm: ({ onSuccess }: { onSuccess?: () => void }) => (
     <div data-testid="sms-multi-factor-enrollment-form">
-      <div data-testid="sms-form-props">{onEnrollment && <div data-testid="sms-on-enrollment">onEnrollment</div>}</div>
+      <div data-testid="sms-form-props">{onSuccess && <div data-testid="sms-on-enrollment">onSuccess</div>}</div>
     </div>
   ),
 }));
@@ -50,8 +50,8 @@ describe("<MultiFactorAuthEnrollmentForm />", () => {
     const ui = createMockUI({
       locale: registerLocale("test", {
         labels: {
-          mfaTotpEnrollment: "Set up TOTP",
-          mfaSmsEnrollment: "Set up SMS",
+          mfaTotpVerification: "Set up TOTP",
+          mfaSmsVerification: "Set up SMS",
         },
       }),
     });
@@ -107,8 +107,8 @@ describe("<MultiFactorAuthEnrollmentForm />", () => {
     const ui = createMockUI({
       locale: registerLocale("test", {
         labels: {
-          mfaTotpEnrollment: "Set up TOTP",
-          mfaSmsEnrollment: "Set up SMS",
+          mfaTotpVerification: "Set up TOTP",
+          mfaSmsVerification: "Set up SMS",
         },
       }),
     });
@@ -131,8 +131,8 @@ describe("<MultiFactorAuthEnrollmentForm />", () => {
     const ui = createMockUI({
       locale: registerLocale("test", {
         labels: {
-          mfaTotpEnrollment: "Set up TOTP",
-          mfaSmsEnrollment: "Set up SMS",
+          mfaTotpVerification: "Set up TOTP",
+          mfaSmsVerification: "Set up SMS",
         },
       }),
     });
@@ -182,8 +182,8 @@ describe("<MultiFactorAuthEnrollmentForm />", () => {
     const ui = createMockUI({
       locale: registerLocale("test", {
         labels: {
-          mfaTotpEnrollment: "Set up TOTP",
-          mfaSmsEnrollment: "Set up SMS",
+          mfaTotpVerification: "Set up TOTP",
+          mfaSmsVerification: "Set up SMS",
         },
       }),
     });
@@ -204,8 +204,8 @@ describe("<MultiFactorAuthEnrollmentForm />", () => {
     const ui = createMockUI({
       locale: registerLocale("test", {
         labels: {
-          mfaTotpEnrollment: "Set up TOTP",
-          mfaSmsEnrollment: "Set up SMS",
+          mfaTotpVerification: "Set up TOTP",
+          mfaSmsVerification: "Set up SMS",
         },
       }),
     });
@@ -251,8 +251,8 @@ describe("<MultiFactorAuthEnrollmentForm />", () => {
     const ui = createMockUI({
       locale: registerLocale("test", {
         labels: {
-          mfaTotpEnrollment: "Configure TOTP Authentication",
-          mfaSmsEnrollment: "Configure SMS Authentication",
+          mfaTotpVerification: "Configure TOTP Authentication",
+          mfaSmsVerification: "Configure SMS Authentication",
         },
       }),
     });
@@ -284,8 +284,8 @@ describe("<MultiFactorAuthEnrollmentForm />", () => {
     const ui = createMockUI({
       locale: registerLocale("test", {
         labels: {
-          mfaTotpEnrollment: "Set up TOTP",
-          mfaSmsEnrollment: "Set up SMS",
+          mfaTotpVerification: "Set up TOTP",
+          mfaSmsVerification: "Set up SMS",
         },
       }),
     });
@@ -309,8 +309,8 @@ describe("<MultiFactorAuthEnrollmentForm />", () => {
     const ui = createMockUI({
       locale: registerLocale("test", {
         labels: {
-          mfaTotpEnrollment: "Set up TOTP",
-          mfaSmsEnrollment: "Set up SMS",
+          mfaTotpVerification: "Set up TOTP",
+          mfaSmsVerification: "Set up SMS",
         },
       }),
     });

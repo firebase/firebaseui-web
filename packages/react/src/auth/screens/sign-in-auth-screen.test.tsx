@@ -18,6 +18,7 @@ import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import { SignInAuthScreen } from "~/auth/screens/sign-in-auth-screen";
 import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
 import { registerLocale } from "@firebase-ui/translations";
+import { MultiFactorResolver } from "firebase/auth";
 
 vi.mock("~/auth/forms/sign-in-auth-form", () => ({
   SignInAuthForm: ({
@@ -45,6 +46,14 @@ vi.mock("~/components/divider", async (originalModule) => {
     Divider: ({ children }: { children: React.ReactNode }) => <div data-testid="divider">{children}</div>,
   };
 });
+
+vi.mock("~/components/redirect-error", () => ({
+  RedirectError: () => <div data-testid="redirect-error">Redirect Error</div>,
+}));
+
+vi.mock("~/auth/forms/multi-factor-auth-assertion-form", () => ({
+  MultiFactorAuthAssertionForm: () => <div data-testid="mfa-assertion-form">MFA Assertion Form</div>,
+}));
 
 describe("<SignInAuthScreen />", () => {
   beforeEach(() => {
@@ -182,5 +191,85 @@ describe("<SignInAuthScreen />", () => {
     expect(screen.getByTestId("divider")).toBeDefined();
     expect(screen.getByTestId("child-1")).toBeDefined();
     expect(screen.getByTestId("child-2")).toBeDefined();
+  });
+
+  it("renders MultiFactorAuthAssertionForm when multiFactorResolver is present", () => {
+    const mockResolver = {
+      auth: {} as any,
+      session: null,
+      hints: [],
+    };
+    const ui = createMockUI();
+    ui.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <SignInAuthScreen />
+      </CreateFirebaseUIProvider>
+    );
+
+    expect(screen.getByTestId("mfa-assertion-form")).toBeDefined();
+    expect(screen.queryByTestId("sign-in-auth-form")).toBeNull();
+  });
+
+  it("does not render SignInAuthForm when MFA resolver exists", () => {
+    const mockResolver = {
+      auth: {} as any,
+      session: null,
+      hints: [],
+    };
+    const ui = createMockUI();
+    ui.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <SignInAuthScreen />
+      </CreateFirebaseUIProvider>
+    );
+
+    expect(screen.queryByTestId("sign-in-auth-form")).toBeNull();
+    expect(screen.getByTestId("mfa-assertion-form")).toBeDefined();
+  });
+
+  it("renders RedirectError component in children section when no MFA resolver", () => {
+    const ui = createMockUI({
+      locale: registerLocale("test", {
+        messages: {
+          dividerOr: "dividerOr",
+        },
+      }),
+    });
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <SignInAuthScreen>
+          <div data-testid="test-child">Test Child</div>
+        </SignInAuthScreen>
+      </CreateFirebaseUIProvider>
+    );
+
+    expect(screen.getByTestId("redirect-error")).toBeDefined();
+    expect(screen.getByTestId("test-child")).toBeDefined();
+  });
+
+  it("does not render RedirectError when MFA resolver is present", () => {
+    const mockResolver = {
+      auth: {} as any,
+      session: null,
+      hints: [],
+    };
+    const ui = createMockUI();
+    ui.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <SignInAuthScreen>
+          <div data-testid="test-child">Test Child</div>
+        </SignInAuthScreen>
+      </CreateFirebaseUIProvider>
+    );
+
+    expect(screen.queryByTestId("redirect-error")).toBeNull();
+    expect(screen.getByTestId("mfa-assertion-form")).toBeDefined();
   });
 });

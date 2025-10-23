@@ -83,8 +83,8 @@ export const enUS = {
     resendCode: "Resend Code",
     sending: "Sending...",
     multiFactorEnrollment: "Multi-factor Enrollment",
-    mfaTotpEnrollment: "TOTP Verification",
-    mfaSmsEnrollment: "SMS Verification",
+    mfaTotpVerification: "TOTP Verification",
+    mfaSmsVerification: "SMS Verification",
     generateQrCode: "Generate QR Code",
   },
   prompts: {

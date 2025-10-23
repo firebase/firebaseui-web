@@ -19,14 +19,18 @@ import { GitHubLogo, GitHubSignInButton } from "./github-sign-in-button";
 import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
 import { registerLocale } from "@firebase-ui/translations";
 
-vi.mock("firebase/auth", () => ({
-  GithubAuthProvider: class GithubAuthProvider {
-    constructor() {
-      this.providerId = "github.com";
-    }
-    providerId: string;
-  },
-}));
+vi.mock("firebase/auth", async () => {
+  const actual = await vi.importActual("firebase/auth");
+  return {
+    ...actual,
+    GithubAuthProvider: class GithubAuthProvider {
+      constructor() {
+        this.providerId = "github.com";
+      }
+      providerId: string;
+    },
+  };
+});
 
 afterEach(() => {
   cleanup();

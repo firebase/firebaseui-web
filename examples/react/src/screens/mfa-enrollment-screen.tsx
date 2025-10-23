@@ -20,10 +20,12 @@ import { MultiFactorAuthEnrollmentScreen } from "@firebase-ui/react";
 import { FactorId } from "firebase/auth";
 
 export default function MultiFactorAuthEnrollmentScreenPage() {
-  return <MultiFactorAuthEnrollmentScreen 
-    hints={[FactorId.TOTP, FactorId.PHONE]}
-    onEnrollment={() => {
-      console.log("Enrollment successful");
-    }}
-  />;
+  return (
+    <MultiFactorAuthEnrollmentScreen
+      hints={[FactorId.TOTP, FactorId.PHONE]}
+      onEnrollment={() => {
+        console.log("Enrollment successful");
+      }}
+    />
+  );
 }

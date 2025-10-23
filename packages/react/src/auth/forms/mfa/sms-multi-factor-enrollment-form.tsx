@@ -198,6 +198,10 @@ export function MultiFactorEnrollmentVerifyPhoneNumberForm(props: MultiFactorEnr
             {(field) => <field.Input label={getTranslation(ui, "labels", "verificationCode")} type="text" />}
           </form.AppField>
         </fieldset>
+        <fieldset>
+          <form.SubmitButton>{getTranslation(ui, "labels", "verifyCode")}</form.SubmitButton>
+          <form.ErrorMessage />
+        </fieldset>
       </form.AppForm>
     </form>
   );
