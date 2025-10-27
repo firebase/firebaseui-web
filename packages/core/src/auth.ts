@@ -34,6 +34,7 @@ import {
   type TotpSecret,
   type MultiFactorAssertion,
   type MultiFactorUser,
+  type MultiFactorInfo,
 } from "firebase/auth";
 import QRCode from "qrcode-generator";
 import { type FirebaseUI } from "./config";
@@ -132,21 +133,36 @@ export async function verifyPhoneNumber(
   ui: FirebaseUI,
   phoneNumber: string,
   appVerifier: ApplicationVerifier,
-  mfaUser?: MultiFactorUser
+  mfaUser?: MultiFactorUser,
+  mfaHint?: MultiFactorInfo
 ): Promise<string> {
   try {
     setPendingState(ui);
     const provider = new PhoneAuthProvider(ui.auth);
-    const session = await mfaUser?.getSession();
-    return await provider.verifyPhoneNumber(
-      session
-        ? {
-            phoneNumber,
-            session,
-          }
-        : phoneNumber,
-      appVerifier
-    );
+
+    if (mfaHint && ui.multiFactorResolver) {
+      // MFA assertion flow
+      return await provider.verifyPhoneNumber(
+        {
+          multiFactorHint: mfaHint,
+          session: ui.multiFactorResolver.session,
+        },
+        appVerifier
+      );
+    } else if (mfaUser) {
+      // MFA enrollment flow
+      const session = await mfaUser.getSession();
+      return await provider.verifyPhoneNumber(
+        {
+          phoneNumber,
+          session,
+        },
+        appVerifier
+      );
+    } else {
+      // Regular phone auth flow
+      return await provider.verifyPhoneNumber(phoneNumber, appVerifier);
+    }
   } catch (error) {
     handleFirebaseError(ui, error);
   } finally {
@@ -312,8 +328,16 @@ export function generateTotpQrCode(ui: FirebaseUI, secret: TotpSecret, accountNa
 }
 
 export async function signInWithMultiFactorAssertion(ui: FirebaseUI, assertion: MultiFactorAssertion) {
-  await ui.multiFactorResolver?.resolveSignIn(assertion);
-  throw new Error("Not implemented");
+  try {
+    setPendingState(ui);
+    const result = await ui.multiFactorResolver?.resolveSignIn(assertion);
+    ui.setMultiFactorResolver(undefined);
+    return result;
+  } catch (error) {
+    handleFirebaseError(ui, error);
+  } finally {
+    ui.setState("idle");
+  }
 }
 
 export async function enrollWithMultiFactorAssertion(

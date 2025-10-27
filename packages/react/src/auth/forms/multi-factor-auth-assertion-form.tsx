@@ -21,7 +21,7 @@ export function MultiFactorAuthAssertionForm() {
 
   if (factor) {
     if (factor.factorId === PhoneMultiFactorGenerator.FACTOR_ID) {
-      return <SmsMultiFactorAssertionForm />;
+      return <SmsMultiFactorAssertionForm hint={factor} />;
     }
 
     if (factor.factorId === TotpMultiFactorGenerator.FACTOR_ID) {
