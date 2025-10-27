@@ -383,4 +383,113 @@ describe("initializeUI", () => {
     ui.get().setMultiFactorResolver(undefined);
     expect(ui.get().multiFactorResolver).toBeUndefined();
   });
+
+  it("should have redirectError undefined by default", () => {
+    const config = {
+      app: {} as FirebaseApp,
+      auth: {} as Auth,
+    };
+
+    const ui = initializeUI(config);
+    expect(ui.get().redirectError).toBeUndefined();
+  });
+
+  it("should set and get redirectError correctly", () => {
+    const config = {
+      app: {} as FirebaseApp,
+      auth: {} as Auth,
+    };
+
+    const ui = initializeUI(config);
+    const mockError = new Error("Test redirect error");
+
+    expect(ui.get().redirectError).toBeUndefined();
+    ui.get().setRedirectError(mockError);
+    expect(ui.get().redirectError).toBe(mockError);
+    ui.get().setRedirectError(undefined);
+    expect(ui.get().redirectError).toBeUndefined();
+  });
+
+  it("should update redirectError multiple times", () => {
+    const config = {
+      app: {} as FirebaseApp,
+      auth: {} as Auth,
+    };
+
+    const ui = initializeUI(config);
+    const mockError1 = new Error("First error");
+    const mockError2 = new Error("Second error");
+
+    ui.get().setRedirectError(mockError1);
+    expect(ui.get().redirectError).toBe(mockError1);
+    ui.get().setRedirectError(mockError2);
+    expect(ui.get().redirectError).toBe(mockError2);
+    ui.get().setRedirectError(undefined);
+    expect(ui.get().redirectError).toBeUndefined();
+  });
+
+  it("should handle redirect error when getRedirectResult throws", async () => {
+    Object.defineProperty(global, "window", {
+      value: {},
+      writable: true,
+      configurable: true,
+    });
+
+    const mockAuth = {
+      currentUser: null,
+    } as any;
+
+    const mockError = new Error("Redirect failed");
+    const { getRedirectResult } = await import("firebase/auth");
+    vi.mocked(getRedirectResult).mockClear();
+    vi.mocked(getRedirectResult).mockRejectedValue(mockError);
+
+    const config = {
+      app: {} as FirebaseApp,
+      auth: mockAuth,
+    };
+
+    const ui = initializeUI(config);
+
+    // Process next tick to make sure the promise is resolved
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    expect(getRedirectResult).toHaveBeenCalledTimes(1);
+    expect(getRedirectResult).toHaveBeenCalledWith(mockAuth);
+    expect(ui.get().redirectError).toBe(mockError);
+
+    delete (global as any).window;
+  });
+
+  it("should convert non-Error objects to Error instances in redirect catch", async () => {
+    Object.defineProperty(global, "window", {
+      value: {},
+      writable: true,
+      configurable: true,
+    });
+
+    const mockAuth = {
+      currentUser: null,
+    } as any;
+
+    const { getRedirectResult } = await import("firebase/auth");
+    vi.mocked(getRedirectResult).mockClear();
+    vi.mocked(getRedirectResult).mockRejectedValue("String error");
+
+    const config = {
+      app: {} as FirebaseApp,
+      auth: mockAuth,
+    };
+
+    const ui = initializeUI(config);
+
+    // Process next tick to make sure the promise is resolved
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    expect(getRedirectResult).toHaveBeenCalledTimes(1);
+    expect(ui.get().redirectError).toBeInstanceOf(Error);
+    expect(ui.get().redirectError?.message).toBe("String error");
+
+    delete (global as any).window;
+  });
 });

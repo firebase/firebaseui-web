@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+import { isDevMode } from "@angular/core";
+import { registerFramework } from "@firebase-ui/core";
+
 export { EmailLinkAuthFormComponent } from "./lib/auth/forms/email-link-auth-form/email-link-auth-form.component";
 export { ForgotPasswordAuthFormComponent } from "./lib/auth/forms/forgot-password-auth-form/forgot-password-auth-form.component";
 export { PhoneAuthFormComponent } from "./lib/auth/forms/phone-auth-form/phone-auth-form.component";
@@ -44,3 +47,8 @@ export { ContentComponent } from "./lib/components/content/content.component";
 
 // Provider
 export * from "./lib/provider";
+
+if (!isDevMode()) {
+  const pkgJson = require("../package.json");
+  registerFramework("angular", pkgJson.version);
+}

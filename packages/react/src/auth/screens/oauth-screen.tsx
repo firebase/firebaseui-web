@@ -15,10 +15,12 @@
  */
 
 import { getTranslation } from "@firebase-ui/core";
-import { useUI } from "~/hooks";
-import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "../../components/card";
 import { type PropsWithChildren } from "react";
+import { useUI } from "~/hooks";
+import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "~/components/card";
 import { Policies } from "~/components/policies";
+import { MultiFactorAuthAssertionForm } from "../forms/multi-factor-auth-assertion-form";
+import { RedirectError } from "~/components/redirect-error";
 
 export type OAuthScreenProps = PropsWithChildren;
 
@@ -27,6 +29,7 @@ export function OAuthScreen({ children }: OAuthScreenProps) {
 
   const titleText = getTranslation(ui, "labels", "signIn");
   const subtitleText = getTranslation(ui, "prompts", "signInToAccount");
+  const mfaResolver = ui.multiFactorResolver;
 
   return (
     <div className="fui-screen">
@@ -36,8 +39,15 @@ export function OAuthScreen({ children }: OAuthScreenProps) {
           <CardSubtitle>{subtitleText}</CardSubtitle>
         </CardHeader>
         <CardContent className="fui-screen__children">
-          {children}
-          <Policies />
+          {mfaResolver ? (
+            <MultiFactorAuthAssertionForm />
+          ) : (
+            <>
+              {children}
+              <RedirectError />
+              <Policies />
+            </>
+          )}
         </CardContent>
       </Card>
     </div>

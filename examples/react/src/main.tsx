@@ -47,6 +47,9 @@ import OAuthScreenPage from "./screens/oauth-screen";
 /** Password Reset */
 import ForgotPasswordPage from "./screens/forgot-password-screen";
 
+/** MFA Enrollment */
+import MultiFactorAuthEnrollmentScreenPage from "./screens/mfa-enrollment-screen";
+
 const root = document.getElementById("root")!;
 
 ReactDOM.createRoot(root).render(
@@ -72,6 +75,7 @@ ReactDOM.createRoot(root).render(
         <Route path="/screens/sign-up-auth-screen-w-oauth" element={<SignUpAuthScreenWithOAuthPage />} />
         <Route path="/screens/oauth-screen" element={<OAuthScreenPage />} />
         <Route path="/screens/forgot-password-screen" element={<ForgotPasswordPage />} />
+        <Route path="/screens/mfa-enrollment-screen" element={<MultiFactorAuthEnrollmentScreenPage />} />
       </Routes>
     </FirebaseUIProvider>
   </BrowserRouter>
