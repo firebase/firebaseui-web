@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
 import fs from "fs";
+import { fail } from "assert";
 
 const regisryFiles = import.meta.glob([
   "./src/registry/**/*.tsx",
@@ -14,14 +15,26 @@ describe("registry-spec", () => {
     expect(() => JSON.parse(registrySpec)).not.toThrow();
   });
 
-  for (const path of Object.keys(regisryFiles)) {
-    it(`${path} should exist in the registry`, () => {
+  const sortedFilePaths = Object.keys(regisryFiles).sort();
+
+  for (let i = 0; i < sortedFilePaths.length; i++) {
+    const path = sortedFilePaths[i];
+    if (!path) continue;
+
+    it(`"${path}" should exist in the registry at the correct index`, () => {
       const registrySpec = fs.readFileSync("./registry-spec.json", "utf8");
       const json = JSON.parse(registrySpec);
 
       const name = path.split("/").at(-1)?.split(".")[0];
-      const item = json.items.find((item: any) => item.name === name);
-      expect(item).toBeDefined();
+      const index = json.items.findIndex((item: any) => item.name === name);
+
+      if (index === -1) {
+        fail(`"${path}" should exist in the registry`);
+      }
+
+      if (index !== i) {
+        fail(`"${path}" should be ordered alphabetically based on the name`);
+      }
     });
   }
 });
