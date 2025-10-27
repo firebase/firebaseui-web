@@ -348,6 +348,62 @@
           "type": "registry:component"
         }
       ]
+    },
+    {
+      "name": "multi-factor-auth-enrollment-screen",
+      "type": "registry:block",
+      "title": "Multi-Factor Auth Enrollment Screen",
+      "description": "A screen allowing users to set up multi-factor authentication with TOTP or SMS options.",
+      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "registryDependencies": ["card", "{{ DOMAIN }}/multi-factor-auth-enrollment-form.json"],
+      "files": [
+        {
+          "path": "src/registry/multi-factor-auth-enrollment-screen.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "multi-factor-auth-enrollment-form",
+      "type": "registry:block",
+      "title": "Multi-Factor Auth Enrollment Form",
+      "description": "A form allowing users to select and configure multi-factor authentication methods.",
+      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "registryDependencies": ["button", "{{ DOMAIN }}/sms-multi-factor-enrollment-form.json", "{{ DOMAIN }}/totp-multi-factor-enrollment-form.json"],
+      "files": [
+        {
+          "path": "src/registry/multi-factor-auth-enrollment-form.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "sms-multi-factor-enrollment-form",
+      "type": "registry:block",
+      "title": "SMS Multi-Factor Enrollment Form",
+      "description": "A form allowing users to enroll SMS-based multi-factor authentication.",
+      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "registryDependencies": ["form", "input", "button", "input-otp", "{{ DOMAIN }}/country-selector.json"],
+      "files": [
+        {
+          "path": "src/registry/sms-multi-factor-enrollment-form.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "totp-multi-factor-enrollment-form",
+      "type": "registry:block",
+      "title": "TOTP Multi-Factor Enrollment Form",
+      "description": "A form allowing users to enroll TOTP-based multi-factor authentication with QR code generation.",
+      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "registryDependencies": ["form", "input", "button", "input-otp"],
+      "files": [
+        {
+          "path": "src/registry/totp-multi-factor-enrollment-form.tsx",
+          "type": "registry:component"
+        }
+      ]
     }
   ]
 }
