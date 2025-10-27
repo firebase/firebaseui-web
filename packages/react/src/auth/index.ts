@@ -19,6 +19,7 @@ export {
   type EmailLinkAuthFormProps,
   useEmailLinkAuthFormAction,
   useEmailLinkAuthForm,
+  useEmailLinkAuthFormCompleteSignIn,
 } from "./forms/email-link-auth-form";
 export {
   ForgotPasswordAuthForm,
@@ -45,6 +46,7 @@ export {
   type SignUpAuthFormProps,
   useSignUpAuthForm,
   useSignUpAuthFormAction,
+  useRequireDisplayName,
 } from "./forms/sign-up-auth-form";
 
 export { EmailLinkAuthScreen, type EmailLinkAuthScreenProps } from "./screens/email-link-auth-screen";

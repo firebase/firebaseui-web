@@ -1,19 +1,19 @@
 "use client";
 
 import { getTranslation } from "@firebase-ui/core";
-import { useUI, type SignInAuthScreenProps } from "@firebase-ui/react";
+import { useUI, type SignUpAuthScreenProps } from "@firebase-ui/react";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { SignInAuthForm } from "@/registry/sign-in-auth-form";
+import { SignUpAuthForm } from "@/registry/sign-up-auth-form";
 
-export type { SignInAuthScreenProps };
+export type { SignUpAuthScreenProps };
 
-export function SignInAuthScreen({ children, ...props }: SignInAuthScreenProps) {
+export function SignUpAuthScreen({ children, ...props }: SignUpAuthScreenProps) {
   const ui = useUI();
 
-  const titleText = getTranslation(ui, "labels", "signIn");
-  const subtitleText = getTranslation(ui, "prompts", "signInToAccount");
+  const titleText = getTranslation(ui, "labels", "register");
+  const subtitleText = getTranslation(ui, "prompts", "enterDetailsToCreate");
 
   return (
     <div className="max-w-md mx-auto">
@@ -23,7 +23,7 @@ export function SignInAuthScreen({ children, ...props }: SignInAuthScreenProps) 
           <CardDescription>{subtitleText}</CardDescription>
         </CardHeader>
         <CardContent>
-          <SignInAuthForm {...props} />
+          <SignUpAuthForm {...props} />
           {children ? (
             <>
               <Separator>{getTranslation(ui, "messages", "dividerOr")}</Separator>

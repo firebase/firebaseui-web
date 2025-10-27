@@ -30,7 +30,12 @@ if (fs.existsSync(publicRDir)) {
 }
 
 try {
-  execSync(`shadcn build -o ${publicDir}`, { stdio: "inherit" });
+  try {
+    execSync(`./node_modules/.bin/shadcn build -o ${publicDir}`, { stdio: "inherit" });
+  } catch (error) {
+    console.error("shadcn build failed:", error);
+    process.exit(1);
+  }
 } finally {
   execSync("rm registry.json");
 }

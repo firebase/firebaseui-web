@@ -21,20 +21,16 @@ import { createMockUI, createFirebaseUIProvider } from "../../tests/utils";
 import { registerLocale } from "@firebase-ui/translations";
 import { FirebaseUIProvider } from "@firebase-ui/react";
 
-vi.mock("./sign-in-auth-form", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("./sign-in-auth-form")>();
-  return {
-    ...mod,
-    SignInAuthForm: (props: any) => {
-      const OriginalForm = mod.SignInAuthForm;
-      return (
-        <div data-testid="sign-in-auth-form">
-          <OriginalForm {...props} />
-        </div>
-      );
-    },
-  };
-});
+vi.mock("./sign-in-auth-form", () => ({
+  SignInAuthForm: ({ onSignIn, onForgotPasswordClick, onRegisterClick }: any) => (
+    <div data-testid="sign-in-auth-form">
+      <div>SignInAuthForm</div>
+      {onSignIn && <div data-testid="onSignIn-prop">onSignIn provided</div>}
+      {onForgotPasswordClick && <div data-testid="onForgotPasswordClick-prop">onForgotPasswordClick provided</div>}
+      {onRegisterClick && <div data-testid="onRegisterClick-prop">onRegisterClick provided</div>}
+    </div>
+  ),
+}));
 
 vi.mock("@/components/ui/card", () => ({
   Card: ({ children }: { children: React.ReactNode }) => <div data-testid="card">{children}</div>,

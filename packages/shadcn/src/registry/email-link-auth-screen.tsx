@@ -1,15 +1,15 @@
 "use client";
 
 import { getTranslation } from "@firebase-ui/core";
-import { useUI, type SignInAuthScreenProps } from "@firebase-ui/react";
+import { useUI, type EmailLinkAuthScreenProps } from "@firebase-ui/react";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { SignInAuthForm } from "@/registry/sign-in-auth-form";
+import { EmailLinkAuthForm } from "@/registry/email-link-auth-form";
 
-export type { SignInAuthScreenProps };
+export type { EmailLinkAuthScreenProps };
 
-export function SignInAuthScreen({ children, ...props }: SignInAuthScreenProps) {
+export function EmailLinkAuthScreen({ children, ...props }: EmailLinkAuthScreenProps) {
   const ui = useUI();
 
   const titleText = getTranslation(ui, "labels", "signIn");
@@ -23,7 +23,7 @@ export function SignInAuthScreen({ children, ...props }: SignInAuthScreenProps) 
           <CardDescription>{subtitleText}</CardDescription>
         </CardHeader>
         <CardContent>
-          <SignInAuthForm {...props} />
+          <EmailLinkAuthForm {...props} />
           {children ? (
             <>
               <Separator>{getTranslation(ui, "messages", "dividerOr")}</Separator>

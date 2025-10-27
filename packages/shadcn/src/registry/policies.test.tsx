@@ -29,14 +29,6 @@ vi.mock("@firebase-ui/core", async (importOriginal) => {
   };
 });
 
-vi.mock("@firebase-ui/react", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@firebase-ui/react")>();
-  return {
-    ...mod,
-    useSignInAuthFormAction: vi.fn(),
-  };
-});
-
 describe("<Policies />", () => {
   beforeEach(() => {
     vi.clearAllMocks();
