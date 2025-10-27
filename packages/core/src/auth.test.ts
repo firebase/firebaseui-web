@@ -10,6 +10,7 @@ import {
   signInWithCredential,
   signInAnonymously,
   signInWithProvider,
+  signInWithCustomToken,
   generateTotpQrCode,
 } from "./auth";
 
@@ -19,6 +20,7 @@ vi.mock("firebase/auth", () => ({
   sendPasswordResetEmail: vi.fn(),
   sendSignInLinkToEmail: vi.fn(),
   signInAnonymously: vi.fn(),
+  signInWithCustomToken: vi.fn(),
   signInWithRedirect: vi.fn(),
   isSignInWithEmailLink: vi.fn(),
   EmailAuthProvider: {
@@ -49,6 +51,7 @@ import {
   sendPasswordResetEmail as _sendPasswordResetEmail,
   sendSignInLinkToEmail as _sendSignInLinkToEmail,
   signInAnonymously as _signInAnonymously,
+  signInWithCustomToken as _signInWithCustomToken,
   isSignInWithEmailLink as _isSignInWithEmailLink,
   UserCredential,
   Auth,
@@ -958,14 +961,11 @@ describe("signInAnonymously", () => {
 
     const result = await signInAnonymously(mockUI);
 
-    // Verify state management
     expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
 
-    // Verify the Firebase function was called with correct parameters
     expect(_signInAnonymously).toHaveBeenCalledWith(mockUI.auth);
     expect(_signInAnonymously).toHaveBeenCalledTimes(1);
 
-    // Verify the result
     expect(result).toEqual(mockUserCredential);
   });
 
@@ -977,10 +977,77 @@ describe("signInAnonymously", () => {
 
     await signInAnonymously(mockUI);
 
-    // Verify error handling
     expect(handleFirebaseError).toHaveBeenCalledWith(mockUI, error);
 
-    // Verify state management still happens
+    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
+  });
+});
+
+describe("signInWithCustomToken", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("should update state and call signInWithCustomToken successfully", async () => {
+    const mockUI = createMockUI();
+    const customToken = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...";
+    const mockUserCredential = {
+      user: { uid: "custom-user-uid", email: "user@example.com" },
+      providerId: "custom",
+      operationType: "signIn",
+    } as UserCredential;
+
+    vi.mocked(_signInWithCustomToken).mockResolvedValue(mockUserCredential);
+
+    const result = await signInWithCustomToken(mockUI, customToken);
+
+    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
+
+    expect(_signInWithCustomToken).toHaveBeenCalledWith(mockUI.auth, customToken);
+    expect(_signInWithCustomToken).toHaveBeenCalledTimes(1);
+
+    expect(result).toEqual(mockUserCredential);
+  });
+
+  it("should call handleFirebaseError if an error is thrown", async () => {
+    const mockUI = createMockUI();
+    const customToken = "invalid-token";
+    const error = new FirebaseError("auth/invalid-custom-token", "Invalid custom token");
+
+    vi.mocked(_signInWithCustomToken).mockRejectedValue(error);
+
+    await signInWithCustomToken(mockUI, customToken);
+
+    expect(handleFirebaseError).toHaveBeenCalledWith(mockUI, error);
+
+    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
+  });
+
+  it("should handle network errors", async () => {
+    const mockUI = createMockUI();
+    const customToken = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...";
+    const error = new Error("Network error");
+
+    vi.mocked(_signInWithCustomToken).mockRejectedValue(error);
+
+    await signInWithCustomToken(mockUI, customToken);
+
+    expect(handleFirebaseError).toHaveBeenCalledWith(mockUI, error);
+
+    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
+  });
+
+  it("should handle expired custom token", async () => {
+    const mockUI = createMockUI();
+    const customToken = "expired-token";
+    const error = new FirebaseError("auth/custom-token-mismatch", "Custom token expired");
+
+    vi.mocked(_signInWithCustomToken).mockRejectedValue(error);
+
+    await signInWithCustomToken(mockUI, customToken);
+
+    expect(handleFirebaseError).toHaveBeenCalledWith(mockUI, error);
+
     expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
   });
 });
