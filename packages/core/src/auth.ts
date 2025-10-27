@@ -21,6 +21,7 @@ import {
   sendSignInLinkToEmail as _sendSignInLinkToEmail,
   signInAnonymously as _signInAnonymously,
   signInWithCredential as _signInWithCredential,
+  signInWithCustomToken as _signInWithCustomToken,
   EmailAuthProvider,
   linkWithCredential,
   PhoneAuthProvider,
@@ -246,6 +247,18 @@ export async function signInWithCredential(ui: FirebaseUI, credential: AuthCrede
     }
 
     const result = await _signInWithCredential(ui.auth, credential);
+    return handlePendingCredential(ui, result);
+  } catch (error) {
+    handleFirebaseError(ui, error);
+  } finally {
+    ui.setState("idle");
+  }
+}
+
+export async function signInWithCustomToken(ui: FirebaseUI, customToken: string): Promise<UserCredential> {
+  try {
+    setPendingState(ui);
+    const result = await _signInWithCustomToken(ui.auth, customToken);
     return handlePendingCredential(ui, result);
   } catch (error) {
     handleFirebaseError(ui, error);
