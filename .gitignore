@@ -21,6 +21,9 @@ dist-ssr
 # Coverage
 coverage
 
+# Firebase
+.firebase
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

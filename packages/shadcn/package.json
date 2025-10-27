@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsx build.ts https://ui.firebase.com",
+    "build": "tsx build.ts --domain https://fir-ui-shadcn.web.app",
     "preview": "vite preview",
     "test": "vitest run"
   },

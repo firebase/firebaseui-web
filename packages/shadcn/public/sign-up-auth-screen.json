@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sign-up-auth-screen",
+  "type": "registry:block",
+  "title": "Sign Up Auth Screen",
+  "description": "A screen allowing users to sign up with email and password.",
+  "dependencies": [
+    "@firebase-ui/react"
+  ],
+  "registryDependencies": [
+    "separator",
+    "card",
+    "https://fir-ui-shadcn.web.app/sign-up-auth-form.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/sign-up-auth-screen.tsx",
+      "content": "\"use client\";\n\nimport { getTranslation } from \"@firebase-ui/core\";\nimport { useUI, type SignUpAuthScreenProps } from \"@firebase-ui/react\";\n\nimport { Card, CardContent, CardDescription, CardHeader, CardTitle } from \"@/components/ui/card\";\nimport { Separator } from \"@/components/ui/separator\";\nimport { SignUpAuthForm } from \"@/registry/sign-up-auth-form\";\n\nexport type { SignUpAuthScreenProps };\n\nexport function SignUpAuthScreen({ children, ...props }: SignUpAuthScreenProps) {\n  const ui = useUI();\n\n  const titleText = getTranslation(ui, \"labels\", \"register\");\n  const subtitleText = getTranslation(ui, \"prompts\", \"enterDetailsToCreate\");\n\n  return (\n    <div className=\"max-w-md mx-auto\">\n      <Card>\n        <CardHeader>\n          <CardTitle>{titleText}</CardTitle>\n          <CardDescription>{subtitleText}</CardDescription>\n        </CardHeader>\n        <CardContent>\n          <SignUpAuthForm {...props} />\n          {children ? (\n            <>\n              <Separator>{getTranslation(ui, \"messages\", \"dividerOr\")}</Separator>\n              <div className=\"space-y-2\">{children}</div>\n            </>\n          ) : null}\n        </CardContent>\n      </Card>\n    </div>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ]
+}

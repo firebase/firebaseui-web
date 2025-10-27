@@ -10,6 +10,7 @@
     "build:react": "pnpm --filter=@firebase-ui/react run build",
     "build:angular": "pnpm --filter=@firebase-ui/angular run build",
     "build:shadcn": "pnpm --filter=@firebase-ui/shadcn run build",
+    "shadcn:deploy": "pnpm run build:shadcn && firebase deploy --only hosting:fir-ui-shadcn",
     "lint:check": "eslint",
     "lint:fix": "eslint --fix",
     "format:check": "prettier --check **/{src,tests}/**/*.{ts,tsx}",

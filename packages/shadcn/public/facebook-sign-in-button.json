@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "facebook-sign-in-button",
+  "type": "registry:block",
+  "title": "Facebook Sign In Button",
+  "description": "A button component for Facebook OAuth authentication.",
+  "dependencies": [
+    "@firebase-ui/react"
+  ],
+  "registryDependencies": [
+    "https://fir-ui-shadcn.web.app/oauth-button.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/facebook-sign-in-button.tsx",
+      "content": "\"use client\";\n\nimport { FacebookAuthProvider } from \"firebase/auth\";\nimport { getTranslation } from \"@firebase-ui/core\";\nimport { useUI, type FacebookSignInButtonProps, FacebookLogo } from \"@firebase-ui/react\";\n\nimport { OAuthButton } from \"@/registry/oauth-button\";\n\nexport type { FacebookSignInButtonProps };\n\nexport function FacebookSignInButton({ provider, themed }: FacebookSignInButtonProps) {\n  const ui = useUI();\n\n  return (\n    <OAuthButton provider={provider || new FacebookAuthProvider()} themed={themed}>\n      <FacebookLogo />\n      <span>{getTranslation(ui, \"labels\", \"signInWithFacebook\")}</span>\n    </OAuthButton>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "css": {
+    "@layer components": {
+      "button[data-provider='facebook.com'][data-themed='true']": {
+        "--facebook-primary": "#1877F2",
+        "--color-primary": "var(--facebook-primary)",
+        "--color-primary-hover": "--alpha(var(--facebook-primary) / 85%)",
+        "--color-primary-surface": "var(--color-white)",
+        "--color-border": "var(--facebook-primary)"
+      }
+    }
+  }
+}
