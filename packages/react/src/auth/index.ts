@@ -76,3 +76,14 @@ export {
   MultiFactorAuthEnrollmentForm,
   type MultiFactorAuthEnrollmentFormProps,
 } from "./forms/multi-factor-auth-enrollment-form";
+
+export {
+  useSmsMultiFactorAssertionPhoneFormAction,
+  useSmsMultiFactorAssertionVerifyFormAction,
+  SmsMultiFactorAssertionForm,
+  type SmsMultiFactorAssertionFormProps,
+} from "./forms/mfa/sms-multi-factor-assertion-form";
+export {
+  useTotpMultiFactorAssertionFormAction,
+  TotpMultiFactorAssertionForm,
+} from "./forms/mfa/totp-multi-factor-assertion-form";

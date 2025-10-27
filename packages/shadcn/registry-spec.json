@@ -404,6 +404,48 @@
           "type": "registry:component"
         }
       ]
+    },
+    {
+      "name": "multi-factor-auth-assertion-form",
+      "type": "registry:block",
+      "title": "Multi-Factor Auth Assertion Form",
+      "description": "A form allowing users to complete multi-factor authentication during sign-in with TOTP or SMS options.",
+      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "registryDependencies": ["button", "{{ DOMAIN }}/sms-multi-factor-assertion-form.json", "{{ DOMAIN }}/totp-multi-factor-assertion-form.json"],
+      "files": [
+        {
+          "path": "src/registry/multi-factor-auth-assertion-form.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "sms-multi-factor-assertion-form",
+      "type": "registry:block",
+      "title": "SMS Multi-Factor Assertion Form",
+      "description": "A form allowing users to complete SMS-based multi-factor authentication during sign-in.",
+      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "registryDependencies": ["form", "input", "button", "input-otp"],
+      "files": [
+        {
+          "path": "src/registry/sms-multi-factor-assertion-form.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "totp-multi-factor-assertion-form",
+      "type": "registry:block",
+      "title": "TOTP Multi-Factor Assertion Form",
+      "description": "A form allowing users to complete TOTP-based multi-factor authentication during sign-in.",
+      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "registryDependencies": ["form", "button", "input-otp"],
+      "files": [
+        {
+          "path": "src/registry/totp-multi-factor-assertion-form.tsx",
+          "type": "registry:component"
+        }
+      ]
     }
   ]
 }
