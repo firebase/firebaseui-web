@@ -16,9 +16,29 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import { SmsMultiFactorEnrollmentForm } from "./sms-multi-factor-enrollment-form";
-import { createFirebaseUIProvider, createMockUI } from "../../tests/utils";
+import { createFirebaseUIProvider, createMockUIWithUser } from "../../tests/utils";
 import { registerLocale } from "@firebase-ui/translations";
 import { verifyPhoneNumber, enrollWithMultiFactorAssertion } from "@firebase-ui/core";
+import React from "react";
+
+// Mock input-otp components to prevent window access issues
+vi.mock("@/components/ui/input-otp", () => ({
+  InputOTP: ({ children, ...props }: any) =>
+    React.createElement("div", { "data-testid": "input-otp", ...props }, children),
+  InputOTPGroup: ({ children, ...props }: any) =>
+    React.createElement("div", { "data-testid": "input-otp-group", ...props }, children),
+  InputOTPSlot: ({ index, ...props }: any) =>
+    React.createElement("input", { "data-testid": `input-otp-slot-${index}`, ...props }),
+}));
+
+// Mock the schema hooks
+vi.mock("@firebase-ui/react", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@firebase-ui/react")>();
+  return {
+    ...mod,
+    useRecaptchaVerifier: vi.fn().mockReturnValue({}),
+  };
+});
 
 vi.mock("@firebase-ui/core", async (importOriginal) => {
   const mod = await importOriginal<typeof import("@firebase-ui/core")>();
@@ -29,16 +49,42 @@ vi.mock("@firebase-ui/core", async (importOriginal) => {
   };
 });
 
-vi.mock("@firebase-ui/react", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@firebase-ui/react")>();
+// Mock Firebase Auth multiFactor function
+vi.mock("firebase/auth", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("firebase/auth")>();
   return {
     ...mod,
-    useRecaptchaVerifier: () => ({
-      render: vi.fn(),
-      verify: vi.fn(),
+    multiFactor: vi.fn().mockReturnValue({
+      enrolledFactors: [],
+      enroll: vi.fn(),
+      unenroll: vi.fn(),
+      getSession: vi.fn(),
     }),
+    PhoneAuthProvider: {
+      credential: vi.fn().mockReturnValue({}),
+    },
+    PhoneMultiFactorGenerator: {
+      assertion: vi.fn().mockReturnValue({}),
+    },
   };
 });
+
+// Mock CountrySelector
+vi.mock("./country-selector", () => ({
+  CountrySelector: vi.fn().mockImplementation(({ ref }) => {
+    if (ref && typeof ref === "object" && "current" in ref) {
+      ref.current = {
+        getCountry: () => ({
+          code: "US",
+          name: "United States",
+          dialCode: "+1",
+          emoji: "🇺🇸",
+        }),
+      };
+    }
+    return null;
+  }),
+}));
 
 describe("<SmsMultiFactorEnrollmentForm />", () => {
   beforeEach(() => {
@@ -50,7 +96,7 @@ describe("<SmsMultiFactorEnrollmentForm />", () => {
   });
 
   it("should render the phone number form initially", () => {
-    const mockUI = createMockUI({
+    const mockUI = createMockUIWithUser({
       locale: registerLocale("test", {
         labels: {
           phoneNumber: "Phone Number",
@@ -59,21 +105,21 @@ describe("<SmsMultiFactorEnrollmentForm />", () => {
       }),
     });
 
-    render(
+    const { container } = render(
       createFirebaseUIProvider({
         children: <SmsMultiFactorEnrollmentForm />,
         ui: mockUI,
       })
     );
 
-    expect(screen.getByLabelText("Phone Number")).toBeInTheDocument();
+    expect(container.querySelector("input[name='phoneNumber']")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Send Code" })).toBeInTheDocument();
   });
 
   it("should transition to verification form on successful phone number submission", async () => {
     vi.mocked(verifyPhoneNumber).mockResolvedValue("verification-id-123");
 
-    const mockUI = createMockUI({
+    const mockUI = createMockUIWithUser({
       locale: registerLocale("test", {
         labels: {
           phoneNumber: "Phone Number",
@@ -84,18 +130,23 @@ describe("<SmsMultiFactorEnrollmentForm />", () => {
       }),
     });
 
-    render(
+    const { container } = render(
       createFirebaseUIProvider({
         children: <SmsMultiFactorEnrollmentForm />,
         ui: mockUI,
       })
     );
 
-    fireEvent.change(screen.getByLabelText("Phone Number"), { target: { value: "+1234567890" } });
+    // Fill in display name first
+    const displayNameInput = container.querySelector("input[name='displayName']")!;
+    fireEvent.change(displayNameInput, { target: { value: "Test User" } });
+
+    const phoneInput = container.querySelector("input[name='phoneNumber']")!;
+    fireEvent.change(phoneInput, { target: { value: "1234567890" } });
     fireEvent.click(screen.getByRole("button", { name: "Send Code" }));
 
     await waitFor(() => {
-      expect(screen.getByLabelText("Verification Code")).toBeInTheDocument();
+      expect(screen.getByTestId("input-otp")).toBeInTheDocument();
     });
 
     expect(screen.getByRole("button", { name: "Verify Code" })).toBeInTheDocument();
@@ -104,7 +155,7 @@ describe("<SmsMultiFactorEnrollmentForm />", () => {
   it("should handle phone number form submission error", async () => {
     vi.mocked(verifyPhoneNumber).mockRejectedValue(new Error("Phone verification failed"));
 
-    const mockUI = createMockUI({
+    const mockUI = createMockUIWithUser({
       locale: registerLocale("test", {
         labels: {
           phoneNumber: "Phone Number",
@@ -113,18 +164,23 @@ describe("<SmsMultiFactorEnrollmentForm />", () => {
       }),
     });
 
-    render(
+    const { container } = render(
       createFirebaseUIProvider({
         children: <SmsMultiFactorEnrollmentForm />,
         ui: mockUI,
       })
     );
 
-    fireEvent.change(screen.getByLabelText("Phone Number"), { target: { value: "+1234567890" } });
+    // Fill in display name first
+    const displayNameInput = container.querySelector("input[name='displayName']")!;
+    fireEvent.change(displayNameInput, { target: { value: "Test User" } });
+
+    const phoneInput = container.querySelector("input[name='phoneNumber']")!;
+    fireEvent.change(phoneInput, { target: { value: "1234567890" } });
     fireEvent.click(screen.getByRole("button", { name: "Send Code" }));
 
     await waitFor(() => {
-      expect(screen.getByText("Phone verification failed")).toBeInTheDocument();
+      expect(screen.getByText("Error: Phone verification failed")).toBeInTheDocument();
     });
   });
 
@@ -132,7 +188,7 @@ describe("<SmsMultiFactorEnrollmentForm />", () => {
     vi.mocked(verifyPhoneNumber).mockResolvedValue("verification-id-123");
     vi.mocked(enrollWithMultiFactorAssertion).mockRejectedValue(new Error("Verification failed"));
 
-    const mockUI = createMockUI({
+    const mockUI = createMockUIWithUser({
       locale: registerLocale("test", {
         labels: {
           phoneNumber: "Phone Number",
@@ -143,26 +199,31 @@ describe("<SmsMultiFactorEnrollmentForm />", () => {
       }),
     });
 
-    render(
+    const { container } = render(
       createFirebaseUIProvider({
         children: <SmsMultiFactorEnrollmentForm />,
         ui: mockUI,
       })
     );
 
-    fireEvent.change(screen.getByLabelText("Phone Number"), { target: { value: "+1234567890" } });
+    // Fill in display name first
+    const displayNameInput = container.querySelector("input[name='displayName']")!;
+    fireEvent.change(displayNameInput, { target: { value: "Test User" } });
+
+    const phoneInput = container.querySelector("input[name='phoneNumber']")!;
+    fireEvent.change(phoneInput, { target: { value: "1234567890" } });
     fireEvent.click(screen.getByRole("button", { name: "Send Code" }));
 
     await waitFor(() => {
-      expect(screen.getByLabelText("Verification Code")).toBeInTheDocument();
+      expect(screen.getByTestId("input-otp")).toBeInTheDocument();
     });
 
-    const verificationInput = screen.getByLabelText("Verification Code");
+    const verificationInput = screen.getByTestId("input-otp-slot-0");
     fireEvent.change(verificationInput, { target: { value: "123456" } });
     fireEvent.click(screen.getByRole("button", { name: "Verify Code" }));
 
     await waitFor(() => {
-      expect(screen.getByText("Verification failed")).toBeInTheDocument();
+      expect(screen.getByText("Error: Verification failed")).toBeInTheDocument();
     });
   });
 
@@ -170,7 +231,7 @@ describe("<SmsMultiFactorEnrollmentForm />", () => {
     vi.mocked(verifyPhoneNumber).mockResolvedValue("verification-id-123");
     vi.mocked(enrollWithMultiFactorAssertion).mockResolvedValue({} as any);
 
-    const mockUI = createMockUI({
+    const mockUI = createMockUIWithUser({
       locale: registerLocale("test", {
         labels: {
           phoneNumber: "Phone Number",
@@ -181,21 +242,26 @@ describe("<SmsMultiFactorEnrollmentForm />", () => {
       }),
     });
 
-    render(
+    const { container } = render(
       createFirebaseUIProvider({
         children: <SmsMultiFactorEnrollmentForm />,
         ui: mockUI,
       })
     );
 
-    fireEvent.change(screen.getByLabelText("Phone Number"), { target: { value: "+1234567890" } });
+    // Fill in display name first
+    const displayNameInput = container.querySelector("input[name='displayName']")!;
+    fireEvent.change(displayNameInput, { target: { value: "Test User" } });
+
+    const phoneInput = container.querySelector("input[name='phoneNumber']")!;
+    fireEvent.change(phoneInput, { target: { value: "1234567890" } });
     fireEvent.click(screen.getByRole("button", { name: "Send Code" }));
 
     await waitFor(() => {
-      expect(screen.getByLabelText("Verification Code")).toBeInTheDocument();
+      expect(screen.getByTestId("input-otp")).toBeInTheDocument();
     });
 
-    const verificationInput = screen.getByLabelText("Verification Code");
+    const verificationInput = screen.getByTestId("input-otp-slot-0");
     fireEvent.change(verificationInput, { target: { value: "123456" } });
     fireEvent.click(screen.getByRole("button", { name: "Verify Code" }));
 

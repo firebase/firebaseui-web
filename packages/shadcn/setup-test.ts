@@ -15,3 +15,9 @@
  */
 
 import "@testing-library/jest-dom/vitest";
+import { vi, afterEach } from "vitest";
+
+afterEach(() => {
+  vi.clearAllTimers();
+  vi.clearAllMocks();
+});

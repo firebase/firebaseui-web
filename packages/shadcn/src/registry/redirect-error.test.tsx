@@ -16,7 +16,7 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
 import { RedirectError } from "@/registry/redirect-error";
-import { CreateFirebaseUIProvider, createMockUI } from "@/tests/utils";
+import { CreateFirebaseUIProvider, createMockUI } from "../../tests/utils";
 
 afterEach(() => {
   cleanup();

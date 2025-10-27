@@ -1,12 +1,13 @@
 "use client";
 
+import React, { type PropsWithChildren } from "react";
 import { getTranslation } from "@firebase-ui/core";
-import { useUI, type MultiFactorAuthEnrollmentScreenProps } from "@firebase-ui/react";
+import { useUI, type MultiFactorAuthEnrollmentFormProps } from "@firebase-ui/react";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { MultiFactorAuthEnrollmentForm } from "@/registry/multi-factor-auth-enrollment-form";
 
-export type { MultiFactorAuthEnrollmentScreenProps };
+export type MultiFactorAuthEnrollmentScreenProps = PropsWithChildren<MultiFactorAuthEnrollmentFormProps>;
 
 export function MultiFactorAuthEnrollmentScreen({ children, ...props }: MultiFactorAuthEnrollmentScreenProps) {
   const ui = useUI();
@@ -23,9 +24,7 @@ export function MultiFactorAuthEnrollmentScreen({ children, ...props }: MultiFac
         </CardHeader>
         <CardContent>
           <MultiFactorAuthEnrollmentForm {...props} />
-          {children ? (
-            <div className="space-y-2 mt-4">{children}</div>
-          ) : null}
+          {children ? <div className="space-y-2 mt-4">{children}</div> : null}
         </CardContent>
       </Card>
     </div>

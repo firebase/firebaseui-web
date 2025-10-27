@@ -125,7 +125,8 @@ describe("<MultiFactorAuthEnrollmentScreen />", () => {
     const mainContainer = container.querySelector(".max-w-md.mx-auto");
     expect(mainContainer).toBeInTheDocument();
 
-    const card = container.querySelector("[data-radix-collection-item]");
+    // Check for any card-like element instead of specific radix attribute
+    const card = container.querySelector(".max-w-md.mx-auto > div");
     expect(card).toBeInTheDocument();
   });
 });

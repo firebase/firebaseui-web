@@ -16,7 +16,7 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
 import { PhoneAuthScreen } from "@/registry/phone-auth-screen";
-import { CreateFirebaseUIProvider, createMockUI } from "@/tests/utils";
+import { CreateFirebaseUIProvider, createMockUI } from "../../tests/utils";
 import { registerLocale } from "@firebase-ui/translations";
 import { MultiFactorResolver } from "firebase/auth";
 

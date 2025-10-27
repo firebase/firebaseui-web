@@ -16,9 +16,24 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import { TotpMultiFactorEnrollmentForm } from "./totp-multi-factor-enrollment-form";
-import { createFirebaseUIProvider, createMockUI } from "../../tests/utils";
+import { createFirebaseUIProvider, createMockUIWithUser } from "../../tests/utils";
 import { registerLocale } from "@firebase-ui/translations";
 import { generateTotpSecret, generateTotpQrCode, enrollWithMultiFactorAssertion } from "@firebase-ui/core";
+import React from "react";
+
+// Mock input-otp components to prevent window access issues
+vi.mock("@/components/ui/input-otp", () => ({
+  InputOTP: ({ children, ...props }: any) =>
+    React.createElement("div", { "data-testid": "input-otp", ...props }, children),
+  InputOTPGroup: ({ children, ...props }: any) =>
+    React.createElement("div", { "data-testid": "input-otp-group", ...props }, children),
+  InputOTPSlot: ({ index, ...props }: any) =>
+    React.createElement("input", {
+      "data-testid": `input-otp-slot-${index}`,
+      "aria-label": "Verification Code",
+      ...props,
+    }),
+}));
 
 vi.mock("@firebase-ui/core", async (importOriginal) => {
   const mod = await importOriginal<typeof import("@firebase-ui/core")>();
@@ -40,7 +55,7 @@ describe("<TotpMultiFactorEnrollmentForm />", () => {
   });
 
   it("should render the secret generation form initially", () => {
-    const mockUI = createMockUI({
+    const mockUI = createMockUIWithUser({
       locale: registerLocale("test", {
         labels: {
           displayName: "Display Name",
@@ -64,7 +79,7 @@ describe("<TotpMultiFactorEnrollmentForm />", () => {
     const mockSecret = { secretKey: "test-secret" } as any;
     vi.mocked(generateTotpSecret).mockResolvedValue(mockSecret);
 
-    const mockUI = createMockUI({
+    const mockUI = createMockUIWithUser({
       locale: registerLocale("test", {
         labels: {
           displayName: "Display Name",
@@ -86,7 +101,7 @@ describe("<TotpMultiFactorEnrollmentForm />", () => {
     fireEvent.click(screen.getByRole("button", { name: "Generate Secret" }));
 
     await waitFor(() => {
-      expect(screen.getByLabelText("Verification Code")).toBeInTheDocument();
+      expect(screen.getByTestId("input-otp-slot-0")).toBeInTheDocument();
     });
 
     expect(screen.getByRole("button", { name: "Verify Code" })).toBeInTheDocument();
@@ -95,7 +110,7 @@ describe("<TotpMultiFactorEnrollmentForm />", () => {
   it("should handle secret generation error", async () => {
     vi.mocked(generateTotpSecret).mockRejectedValue(new Error("Secret generation failed"));
 
-    const mockUI = createMockUI({
+    const mockUI = createMockUIWithUser({
       locale: registerLocale("test", {
         labels: {
           displayName: "Display Name",
@@ -115,7 +130,7 @@ describe("<TotpMultiFactorEnrollmentForm />", () => {
     fireEvent.click(screen.getByRole("button", { name: "Generate Secret" }));
 
     await waitFor(() => {
-      expect(screen.getByText("Secret generation failed")).toBeInTheDocument();
+      expect(screen.getByText("Error: Secret generation failed")).toBeInTheDocument();
     });
   });
 
@@ -124,7 +139,7 @@ describe("<TotpMultiFactorEnrollmentForm />", () => {
     vi.mocked(generateTotpSecret).mockResolvedValue(mockSecret);
     vi.mocked(enrollWithMultiFactorAssertion).mockRejectedValue(new Error("Verification failed"));
 
-    const mockUI = createMockUI({
+    const mockUI = createMockUIWithUser({
       locale: registerLocale("test", {
         labels: {
           displayName: "Display Name",
@@ -146,15 +161,15 @@ describe("<TotpMultiFactorEnrollmentForm />", () => {
     fireEvent.click(screen.getByRole("button", { name: "Generate Secret" }));
 
     await waitFor(() => {
-      expect(screen.getByLabelText("Verification Code")).toBeInTheDocument();
+      expect(screen.getByTestId("input-otp-slot-0")).toBeInTheDocument();
     });
 
-    const verificationInput = screen.getByLabelText("Verification Code");
+    const verificationInput = screen.getByTestId("input-otp-slot-0");
     fireEvent.change(verificationInput, { target: { value: "123456" } });
     fireEvent.click(screen.getByRole("button", { name: "Verify Code" }));
 
     await waitFor(() => {
-      expect(screen.getByText("Verification failed")).toBeInTheDocument();
+      expect(screen.getByText("Error: Verification failed")).toBeInTheDocument();
     });
   });
 });

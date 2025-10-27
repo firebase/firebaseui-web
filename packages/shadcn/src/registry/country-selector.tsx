@@ -13,7 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 export type { CountrySelectorRef };
 
-export const CountrySelector = forwardRef<CountrySelectorRef, CountrySelectorProps>((props, ref) => {
+export const CountrySelector = forwardRef<CountrySelectorRef, CountrySelectorProps>((_props, ref) => {
   const countries = useCountries();
   const defaultCountry = useDefaultCountry();
   const [selected, setSelected] = useState<CountryData>(defaultCountry);

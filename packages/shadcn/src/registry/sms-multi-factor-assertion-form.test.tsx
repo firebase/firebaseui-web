@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import { SmsMultiFactorAssertionForm } from "./sms-multi-factor-assertion-form";
-import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
+import { createFirebaseUIProvider, createMockUI } from "../../tests/utils";
 import { registerLocale } from "@firebase-ui/translations";
 import { PhoneMultiFactorGenerator } from "firebase/auth";
 import { verifyPhoneNumber, signInWithMultiFactorAssertion } from "@firebase-ui/core";
@@ -9,6 +9,21 @@ import {
   useSmsMultiFactorAssertionPhoneFormAction,
   useSmsMultiFactorAssertionVerifyFormAction,
 } from "@firebase-ui/react";
+import React from "react";
+
+// Mock input-otp components to prevent window access issues
+vi.mock("@/components/ui/input-otp", () => ({
+  InputOTP: ({ children, ...props }: any) =>
+    React.createElement("div", { "data-testid": "input-otp", ...props }, children),
+  InputOTPGroup: ({ children, ...props }: any) =>
+    React.createElement("div", { "data-testid": "input-otp-group", ...props }, children),
+  InputOTPSlot: ({ index, ...props }: any) =>
+    React.createElement("input", {
+      "data-testid": `input-otp-slot-${index}`,
+      "aria-label": "Verification Code",
+      ...props,
+    }),
+}));
 
 vi.mock("@firebase-ui/core", async (importOriginal) => {
   const mod = await importOriginal<typeof import("@firebase-ui/core")>();
@@ -44,9 +59,10 @@ describe("<SmsMultiFactorAssertionForm />", () => {
   it("should render the phone number form initially", () => {
     const mockHint = {
       uid: "test-uid",
-      factorId: PhoneMultiFactorGenerator.FACTOR_ID,
+      factorId: "phone" as const,
       displayName: "Test Phone",
       phoneNumber: "+1234567890",
+      enrollmentTime: "2023-01-01T00:00:00.000Z",
     };
 
     const mockUI = createMockUI({
@@ -65,17 +81,18 @@ describe("<SmsMultiFactorAssertionForm />", () => {
       })
     );
 
-    expect(screen.getByLabelText("Phone Number")).toBeInTheDocument();
-    expect(screen.getByDisplayValue("+1234567890")).toBeInTheDocument();
+    expect(screen.getByText("Phone Number")).toBeInTheDocument();
+    expect(screen.getByText("+1234567890")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Send Code" })).toBeInTheDocument();
   });
 
   it("should transition to verification form on successful phone number submission", async () => {
     const mockHint = {
       uid: "test-uid",
-      factorId: PhoneMultiFactorGenerator.FACTOR_ID,
+      factorId: "phone" as const,
       displayName: "Test Phone",
       phoneNumber: "+1234567890",
+      enrollmentTime: "2023-01-01T00:00:00.000Z",
     };
 
     const mockPhoneAction = vi.fn().mockResolvedValue("verification-id-123");
@@ -102,7 +119,7 @@ describe("<SmsMultiFactorAssertionForm />", () => {
     fireEvent.click(screen.getByRole("button", { name: "Send Code" }));
 
     await waitFor(() => {
-      expect(screen.getByLabelText("Verification Code")).toBeInTheDocument();
+      expect(screen.getByTestId("input-otp-slot-0")).toBeInTheDocument();
       expect(screen.getByRole("button", { name: "Verify Code" })).toBeInTheDocument();
     });
   });
@@ -110,9 +127,10 @@ describe("<SmsMultiFactorAssertionForm />", () => {
   it("should call onSuccess when verification is successful", async () => {
     const mockHint = {
       uid: "test-uid",
-      factorId: PhoneMultiFactorGenerator.FACTOR_ID,
+      factorId: "phone" as const,
       displayName: "Test Phone",
       phoneNumber: "+1234567890",
+      enrollmentTime: "2023-01-01T00:00:00.000Z",
     };
 
     const mockPhoneAction = vi.fn().mockResolvedValue("verification-id-123");
@@ -144,11 +162,11 @@ describe("<SmsMultiFactorAssertionForm />", () => {
     fireEvent.click(screen.getByRole("button", { name: "Send Code" }));
 
     await waitFor(() => {
-      expect(screen.getByLabelText("Verification Code")).toBeInTheDocument();
+      expect(screen.getByTestId("input-otp-slot-0")).toBeInTheDocument();
     });
 
     // Simulate entering verification code
-    const verificationInput = screen.getByLabelText("Verification Code");
+    const verificationInput = screen.getByTestId("input-otp-slot-0");
     fireEvent.change(verificationInput, { target: { value: "123456" } });
     fireEvent.click(screen.getByRole("button", { name: "Verify Code" }));
 
@@ -160,9 +178,10 @@ describe("<SmsMultiFactorAssertionForm />", () => {
   it("should handle phone number form submission error", async () => {
     const mockHint = {
       uid: "test-uid",
-      factorId: PhoneMultiFactorGenerator.FACTOR_ID,
+      factorId: "phone" as const,
       displayName: "Test Phone",
       phoneNumber: "+1234567890",
+      enrollmentTime: "2023-01-01T00:00:00.000Z",
     };
 
     const mockPhoneAction = vi.fn().mockRejectedValue(new Error("Phone verification failed"));
@@ -187,16 +206,17 @@ describe("<SmsMultiFactorAssertionForm />", () => {
     fireEvent.click(screen.getByRole("button", { name: "Send Code" }));
 
     await waitFor(() => {
-      expect(screen.getByText("Phone verification failed")).toBeInTheDocument();
+      expect(screen.getByText("Error: Phone verification failed")).toBeInTheDocument();
     });
   });
 
   it("should handle verification form submission error", async () => {
     const mockHint = {
       uid: "test-uid",
-      factorId: PhoneMultiFactorGenerator.FACTOR_ID,
+      factorId: "phone" as const,
       displayName: "Test Phone",
       phoneNumber: "+1234567890",
+      enrollmentTime: "2023-01-01T00:00:00.000Z",
     };
 
     const mockPhoneAction = vi.fn().mockResolvedValue("verification-id-123");
@@ -226,16 +246,16 @@ describe("<SmsMultiFactorAssertionForm />", () => {
     fireEvent.click(screen.getByRole("button", { name: "Send Code" }));
 
     await waitFor(() => {
-      expect(screen.getByLabelText("Verification Code")).toBeInTheDocument();
+      expect(screen.getByTestId("input-otp-slot-0")).toBeInTheDocument();
     });
 
     // Simulate entering verification code
-    const verificationInput = screen.getByLabelText("Verification Code");
+    const verificationInput = screen.getByTestId("input-otp-slot-0");
     fireEvent.change(verificationInput, { target: { value: "123456" } });
     fireEvent.click(screen.getByRole("button", { name: "Verify Code" }));
 
     await waitFor(() => {
-      expect(screen.getByText("Verification failed")).toBeInTheDocument();
+      expect(screen.getByText("Error: Verification failed")).toBeInTheDocument();
     });
   });
 });

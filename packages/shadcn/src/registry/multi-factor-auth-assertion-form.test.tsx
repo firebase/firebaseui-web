@@ -1,14 +1,14 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import { MultiFactorAuthAssertionForm } from "./multi-factor-auth-assertion-form";
-import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
+import { createFirebaseUIProvider, createMockUI } from "../../tests/utils";
 import { registerLocale } from "@firebase-ui/translations";
 import { FactorId, MultiFactorResolver, PhoneMultiFactorGenerator, TotpMultiFactorGenerator } from "firebase/auth";
 
 vi.mock("@/registry/sms-multi-factor-assertion-form", () => ({
   SmsMultiFactorAssertionForm: ({ hint }: { hint: any }) => (
     <div data-testid="sms-assertion-form">
-      <div data-testid="sms-hint-factor-id">{hint.factorId}</div>
+      <div data-testid="sms-hint-factor-id">{hint?.factorId || "undefined"}</div>
     </div>
   ),
 }));
@@ -16,7 +16,7 @@ vi.mock("@/registry/sms-multi-factor-assertion-form", () => ({
 vi.mock("@/registry/totp-multi-factor-assertion-form", () => ({
   TotpMultiFactorAssertionForm: ({ hint }: { hint: any }) => (
     <div data-testid="totp-assertion-form">
-      <div data-testid="totp-hint-factor-id">{hint.factorId}</div>
+      <div data-testid="totp-hint-factor-id">{hint?.factorId || "undefined"}</div>
     </div>
   ),
 }));
@@ -54,9 +54,8 @@ describe("<MultiFactorAuthAssertionForm />", () => {
       ],
     } as MultiFactorResolver;
 
-    const ui = createMockUI({
-      multiFactorResolver: mockResolver,
-    });
+    const ui = createMockUI();
+    ui.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
 
     render(
       createFirebaseUIProvider({
@@ -86,7 +85,6 @@ describe("<MultiFactorAuthAssertionForm />", () => {
     } as MultiFactorResolver;
 
     const ui = createMockUI({
-      multiFactorResolver: mockResolver,
       locale: registerLocale("test", {
         labels: {
           mfaTotpVerification: "Set up TOTP",
@@ -94,6 +92,7 @@ describe("<MultiFactorAuthAssertionForm />", () => {
         },
       }),
     });
+    ui.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
 
     render(
       createFirebaseUIProvider({
@@ -129,7 +128,6 @@ describe("<MultiFactorAuthAssertionForm />", () => {
     } as MultiFactorResolver;
 
     const ui = createMockUI({
-      multiFactorResolver: mockResolver,
       locale: registerLocale("test", {
         labels: {
           mfaTotpVerification: "Set up TOTP",
@@ -137,6 +135,7 @@ describe("<MultiFactorAuthAssertionForm />", () => {
         },
       }),
     });
+    ui.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
 
     render(
       createFirebaseUIProvider({
@@ -168,9 +167,8 @@ describe("<MultiFactorAuthAssertionForm />", () => {
       ],
     } as MultiFactorResolver;
 
-    const ui = createMockUI({
-      multiFactorResolver: mockResolver,
-    });
+    const ui = createMockUI();
+    ui.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
 
     render(
       createFirebaseUIProvider({

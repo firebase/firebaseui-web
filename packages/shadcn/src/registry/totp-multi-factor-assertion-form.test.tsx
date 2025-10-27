@@ -5,6 +5,21 @@ import { createFirebaseUIProvider, createMockUI } from "../../tests/utils";
 import { registerLocale } from "@firebase-ui/translations";
 import { TotpMultiFactorGenerator } from "firebase/auth";
 import { useTotpMultiFactorAssertionFormAction } from "@firebase-ui/react";
+import React from "react";
+
+// Mock input-otp components to prevent window access issues
+vi.mock("@/components/ui/input-otp", () => ({
+  InputOTP: ({ children, ...props }: any) =>
+    React.createElement("div", { "data-testid": "input-otp", ...props }, children),
+  InputOTPGroup: ({ children, ...props }: any) =>
+    React.createElement("div", { "data-testid": "input-otp-group", ...props }, children),
+  InputOTPSlot: ({ index, ...props }: any) =>
+    React.createElement("input", {
+      "data-testid": `input-otp-slot-${index}`,
+      "aria-label": "Verification Code",
+      ...props,
+    }),
+}));
 
 vi.mock("@firebase-ui/react", async (importOriginal) => {
   const mod = await importOriginal<typeof import("@firebase-ui/react")>();
@@ -47,7 +62,7 @@ describe("<TotpMultiFactorAssertionForm />", () => {
       })
     );
 
-    expect(screen.getByLabelText("Verification Code")).toBeInTheDocument();
+    expect(screen.getByTestId("input-otp-slot-0")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Verify Code" })).toBeInTheDocument();
   });
 
@@ -81,7 +96,7 @@ describe("<TotpMultiFactorAssertionForm />", () => {
     );
 
     // Simulate entering verification code
-    const verificationInput = screen.getByLabelText("Verification Code");
+    const verificationInput = screen.getByTestId("input-otp-slot-0");
     fireEvent.change(verificationInput, { target: { value: "123456" } });
     fireEvent.click(screen.getByRole("button", { name: "Verify Code" }));
 
@@ -118,12 +133,12 @@ describe("<TotpMultiFactorAssertionForm />", () => {
     );
 
     // Simulate entering verification code
-    const verificationInput = screen.getByLabelText("Verification Code");
+    const verificationInput = screen.getByTestId("input-otp-slot-0");
     fireEvent.change(verificationInput, { target: { value: "123456" } });
     fireEvent.click(screen.getByRole("button", { name: "Verify Code" }));
 
     await waitFor(() => {
-      expect(screen.getByText("TOTP verification failed")).toBeInTheDocument();
+      expect(screen.getByText("Error: TOTP verification failed")).toBeInTheDocument();
     });
   });
 
@@ -157,12 +172,12 @@ describe("<TotpMultiFactorAssertionForm />", () => {
     );
 
     // Simulate entering verification code
-    const verificationInput = screen.getByLabelText("Verification Code");
+    const verificationInput = screen.getByTestId("input-otp-slot-0");
     fireEvent.change(verificationInput, { target: { value: "123456" } });
     fireEvent.click(screen.getByRole("button", { name: "Verify Code" }));
 
     await waitFor(() => {
-      expect(screen.getByText("Invalid code")).toBeInTheDocument();
+      expect(screen.getByText("Error: Invalid code")).toBeInTheDocument();
     });
 
     expect(mockOnSuccess).not.toHaveBeenCalled();
@@ -195,7 +210,7 @@ describe("<TotpMultiFactorAssertionForm />", () => {
       })
     );
 
-    const verificationInput = screen.getByLabelText("Verification Code");
+    const verificationInput = screen.getByTestId("input-otp-slot-0");
     fireEvent.change(verificationInput, { target: { value: "123456" } });
     fireEvent.click(screen.getByRole("button", { name: "Verify Code" }));
 

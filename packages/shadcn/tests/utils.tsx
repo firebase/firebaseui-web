@@ -4,11 +4,36 @@ import { enUs } from "@firebase-ui/translations";
 import { FirebaseUIProvider } from "@firebase-ui/react";
 import { Behavior, FirebaseUIOptions, initializeUI } from "@firebase-ui/core";
 import { FirebaseUIStore } from "@firebase-ui/core";
+import { vi } from "vitest";
 
 export function createMockUI(overrides?: Partial<FirebaseUIOptions>) {
   return initializeUI({
     app: {} as FirebaseApp,
-    auth: {} as Auth,
+    auth: {
+      currentUser: null,
+    } as unknown as Auth,
+    locale: enUs,
+    behaviors: [] as Behavior[],
+    ...overrides,
+  });
+}
+
+export function createMockUIWithUser(overrides?: Partial<FirebaseUIOptions>) {
+  return initializeUI({
+    app: {} as FirebaseApp,
+    auth: {
+      currentUser: {
+        uid: "test-user-id",
+        email: "test@example.com",
+        _onReload: vi.fn(),
+        _multiFactor: {
+          enrolledFactors: [],
+          enroll: vi.fn(),
+          unenroll: vi.fn(),
+          getSession: vi.fn(),
+        },
+      },
+    } as unknown as Auth,
     locale: enUs,
     behaviors: [] as Behavior[],
     ...overrides,
