@@ -92,6 +92,7 @@ describe("mapping.ts", () => {
         "invalidVerificationCode",
         "accountExistsWithDifferentCredential",
         "displayNameRequired",
+        "secondFactorAlreadyInUse",
       ];
 
       errorKeys.forEach((key) => {

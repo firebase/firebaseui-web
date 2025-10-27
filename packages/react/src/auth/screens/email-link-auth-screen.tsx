@@ -18,8 +18,9 @@ import type { PropsWithChildren } from "react";
 import { getTranslation } from "@firebase-ui/core";
 import { Divider } from "~/components/divider";
 import { useUI } from "~/hooks";
-import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "../../components/card";
+import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "~/components/card";
 import { EmailLinkAuthForm, type EmailLinkAuthFormProps } from "../forms/email-link-auth-form";
+import { RedirectError } from "~/components/redirect-error";
 
 export type EmailLinkAuthScreenProps = PropsWithChildren<EmailLinkAuthFormProps>;
 
@@ -41,7 +42,10 @@ export function EmailLinkAuthScreen({ children, onEmailSent }: EmailLinkAuthScre
           {children ? (
             <>
               <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>
-              <div className="fui-screen__children">{children}</div>
+              <div className="fui-screen__children">
+                {children}
+                <RedirectError />
+              </div>
             </>
           ) : null}
         </CardContent>

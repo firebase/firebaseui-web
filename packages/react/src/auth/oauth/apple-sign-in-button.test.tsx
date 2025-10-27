@@ -20,14 +20,18 @@ import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
 import { registerLocale } from "@firebase-ui/translations";
 import { OAuthProvider } from "firebase/auth";
 
-vi.mock("firebase/auth", () => ({
-  OAuthProvider: class OAuthProvider {
-    constructor(providerId: string) {
-      this.providerId = providerId;
-    }
-    providerId: string;
-  },
-}));
+vi.mock("firebase/auth", async () => {
+  const actual = await vi.importActual("firebase/auth");
+  return {
+    ...actual,
+    OAuthProvider: class OAuthProvider {
+      constructor(providerId: string) {
+        this.providerId = providerId;
+      }
+      providerId: string;
+    },
+  };
+});
 
 afterEach(() => {
   cleanup();

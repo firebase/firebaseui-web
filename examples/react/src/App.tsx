@@ -82,6 +82,11 @@ function App() {
               Password Reset Screen
             </NavLink>
           </li>
+          <li>
+            <NavLink to="/screens/mfa-enrollment-screen" className="text-blue-500 hover:underline">
+              MFA Enrollment Screen
+            </NavLink>
+          </li>
         </ul>
       </div>
     </div>

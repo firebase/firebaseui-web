@@ -21,6 +21,7 @@ import { deepMap, type DeepMapStore, map } from "nanostores";
 import { type Behavior, type Behaviors, defaultBehaviors } from "./behaviors";
 import type { InitBehavior, RedirectBehavior } from "./behaviors/utils";
 import { type FirebaseUIState } from "./state";
+import { handleFirebaseError } from "./errors";
 
 export type FirebaseUIOptions = {
   app: FirebaseApp;
@@ -40,6 +41,8 @@ export type FirebaseUI = {
   behaviors: Behaviors;
   multiFactorResolver?: MultiFactorResolver;
   setMultiFactorResolver: (multiFactorResolver?: MultiFactorResolver) => void;
+  redirectError?: Error;
+  setRedirectError: (error?: Error) => void;
 };
 
 export const $config = map<Record<string, DeepMapStore<FirebaseUI>>>({});
@@ -78,6 +81,11 @@ export function initializeUI(config: FirebaseUIOptions, name: string = "[DEFAULT
         const current = $config.get()[name]!;
         current.setKey(`multiFactorResolver`, resolver);
       },
+      redirectError: undefined,
+      setRedirectError: (error?: Error) => {
+        const current = $config.get()[name]!;
+        current.setKey(`redirectError`, error);
+      },
     })
   );
 
@@ -106,11 +114,17 @@ export function initializeUI(config: FirebaseUIOptions, name: string = "[DEFAULT
       });
     }
 
-    if (redirectBehaviors.length > 0) {
-      getRedirectResult(ui.auth).then((result) => {
-        Promise.all(redirectBehaviors.map((behavior) => behavior.handler(ui, result)));
+    getRedirectResult(ui.auth)
+      .then((result) => {
+        return Promise.all(redirectBehaviors.map((behavior) => behavior.handler(ui, result)));
+      })
+      .catch((error) => {
+        try {
+          handleFirebaseError(ui, error);
+        } catch (error) {
+          ui.setRedirectError(error instanceof Error ? error : new Error(String(error)));
+        }
       });
-    }
   }
 
   return store;

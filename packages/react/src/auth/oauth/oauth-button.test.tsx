@@ -24,6 +24,14 @@ import { ComponentProps } from "react";
 import { signInWithProvider } from "@firebase-ui/core";
 import { FirebaseError } from "firebase/app";
 
+vi.mock("firebase/auth", async () => {
+  const actual = await vi.importActual("firebase/auth");
+  return {
+    ...actual,
+    getRedirectResult: vi.fn().mockResolvedValue(null),
+  };
+});
+
 vi.mock("@firebase-ui/core", async (importOriginal) => {
   const mod = await importOriginal();
   return {
