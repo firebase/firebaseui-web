@@ -18,8 +18,10 @@ import type { PropsWithChildren } from "react";
 import { getTranslation } from "@firebase-ui/core";
 import { Divider } from "~/components/divider";
 import { useUI } from "~/hooks";
-import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "../../components/card";
+import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "~/components/card";
 import { PhoneAuthForm, type PhoneAuthFormProps } from "../forms/phone-auth-form";
+import { MultiFactorAuthAssertionForm } from "../forms/multi-factor-auth-assertion-form";
+import { RedirectError } from "~/components/redirect-error";
 
 export type PhoneAuthScreenProps = PropsWithChildren<PhoneAuthFormProps>;
 
@@ -28,6 +30,7 @@ export function PhoneAuthScreen({ children, ...props }: PhoneAuthScreenProps) {
 
   const titleText = getTranslation(ui, "labels", "signIn");
   const subtitleText = getTranslation(ui, "prompts", "signInToAccount");
+  const mfaResolver = ui.multiFactorResolver;
 
   return (
     <div className="fui-screen">
@@ -37,13 +40,22 @@ export function PhoneAuthScreen({ children, ...props }: PhoneAuthScreenProps) {
           <CardSubtitle>{subtitleText}</CardSubtitle>
         </CardHeader>
         <CardContent>
-          <PhoneAuthForm {...props} />
-          {children ? (
+          {mfaResolver ? (
+            <MultiFactorAuthAssertionForm />
+          ) : (
             <>
-              <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>
-              <div className="fui-screen__children">{children}</div>
+              <PhoneAuthForm {...props} />
+              {children ? (
+                <>
+                  <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>
+                  <div className="fui-screen__children">
+                    {children}
+                    <RedirectError />
+                  </div>
+                </>
+              ) : null}
             </>
-          ) : null}
+          )}
         </CardContent>
       </Card>
     </div>

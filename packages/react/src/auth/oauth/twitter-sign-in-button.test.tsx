@@ -19,14 +19,18 @@ import { TwitterLogo, TwitterSignInButton } from "./twitter-sign-in-button";
 import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
 import { registerLocale } from "@firebase-ui/translations";
 
-vi.mock("firebase/auth", () => ({
-  TwitterAuthProvider: class TwitterAuthProvider {
-    constructor() {
-      this.providerId = "twitter.com";
-    }
-    providerId: string;
-  },
-}));
+vi.mock("firebase/auth", async () => {
+  const actual = await vi.importActual("firebase/auth");
+  return {
+    ...actual,
+    TwitterAuthProvider: class TwitterAuthProvider {
+      constructor() {
+        this.providerId = "twitter.com";
+      }
+      providerId: string;
+    },
+  };
+});
 
 afterEach(() => {
   cleanup();

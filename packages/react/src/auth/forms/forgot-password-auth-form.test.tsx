@@ -27,6 +27,14 @@ import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
 import { registerLocale } from "@firebase-ui/translations";
 import { FirebaseUIProvider } from "~/context";
 
+vi.mock("firebase/auth", async () => {
+  const actual = await vi.importActual("firebase/auth");
+  return {
+    ...actual,
+    getRedirectResult: vi.fn().mockResolvedValue(null),
+  };
+});
+
 vi.mock("@firebase-ui/core", async (importOriginal) => {
   const mod = await importOriginal<typeof import("@firebase-ui/core")>();
   return {

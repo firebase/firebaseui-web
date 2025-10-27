@@ -18,6 +18,10 @@ import { useContext, useMemo, useEffect } from "react";
 import {
   createEmailLinkAuthFormSchema,
   createForgotPasswordAuthFormSchema,
+  createMultiFactorPhoneAuthNumberFormSchema,
+  createMultiFactorPhoneAuthVerifyFormSchema,
+  createMultiFactorTotpAuthNumberFormSchema,
+  createMultiFactorTotpAuthVerifyFormSchema,
   createPhoneAuthNumberFormSchema,
   createPhoneAuthVerifyFormSchema,
   createSignInAuthFormSchema,
@@ -40,6 +44,17 @@ export function useUI() {
   }
 
   return ui;
+}
+
+export function useRedirectError() {
+  const ui = useUI();
+  return useMemo(() => {
+    if (!ui.redirectError) {
+      return;
+    }
+
+    return ui.redirectError instanceof Error ? ui.redirectError.message : String(ui.redirectError);
+  }, [ui.redirectError]);
 }
 
 export function useSignInAuthFormSchema() {
@@ -70,6 +85,26 @@ export function usePhoneAuthNumberFormSchema() {
 export function usePhoneAuthVerifyFormSchema() {
   const ui = useUI();
   return useMemo(() => createPhoneAuthVerifyFormSchema(ui), [ui]);
+}
+
+export function useMultiFactorPhoneAuthNumberFormSchema() {
+  const ui = useUI();
+  return useMemo(() => createMultiFactorPhoneAuthNumberFormSchema(ui), [ui]);
+}
+
+export function useMultiFactorPhoneAuthVerifyFormSchema() {
+  const ui = useUI();
+  return useMemo(() => createMultiFactorPhoneAuthVerifyFormSchema(ui), [ui]);
+}
+
+export function useMultiFactorTotpAuthNumberFormSchema() {
+  const ui = useUI();
+  return useMemo(() => createMultiFactorTotpAuthNumberFormSchema(ui), [ui]);
+}
+
+export function useMultiFactorTotpAuthVerifyFormSchema() {
+  const ui = useUI();
+  return useMemo(() => createMultiFactorTotpAuthVerifyFormSchema(ui), [ui]);
 }
 
 export function useRecaptchaVerifier(ref: React.RefObject<HTMLDivElement | null>) {
