@@ -257,7 +257,7 @@ export async function signInWithCredential(ui: FirebaseUI, credential: AuthCrede
 
 export async function signInWithCustomToken(ui: FirebaseUI, customToken: string): Promise<UserCredential> {
   try {
-    ui.setState("pending");
+    setPendingState(ui);
     const result = await _signInWithCustomToken(ui.auth, customToken);
     return handlePendingCredential(ui, result);
   } catch (error) {

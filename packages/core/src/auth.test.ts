@@ -1001,6 +1001,7 @@ describe("signInWithCustomToken", () => {
 
     const result = await signInWithCustomToken(mockUI, customToken);
 
+    expect(mockUI.setRedirectError).toHaveBeenCalledWith(undefined);
     expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
 
     expect(_signInWithCustomToken).toHaveBeenCalledWith(mockUI.auth, customToken);
@@ -1018,6 +1019,7 @@ describe("signInWithCustomToken", () => {
 
     await signInWithCustomToken(mockUI, customToken);
 
+    expect(mockUI.setRedirectError).toHaveBeenCalledWith(undefined);
     expect(handleFirebaseError).toHaveBeenCalledWith(mockUI, error);
 
     expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
@@ -1032,6 +1034,8 @@ describe("signInWithCustomToken", () => {
 
     await signInWithCustomToken(mockUI, customToken);
 
+    // Verify redirect error is cleared even when network error occurs
+    expect(mockUI.setRedirectError).toHaveBeenCalledWith(undefined);
     expect(handleFirebaseError).toHaveBeenCalledWith(mockUI, error);
 
     expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
@@ -1046,6 +1050,8 @@ describe("signInWithCustomToken", () => {
 
     await signInWithCustomToken(mockUI, customToken);
 
+    // Verify redirect error is cleared even when token is expired
+    expect(mockUI.setRedirectError).toHaveBeenCalledWith(undefined);
     expect(handleFirebaseError).toHaveBeenCalledWith(mockUI, error);
 
     expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
