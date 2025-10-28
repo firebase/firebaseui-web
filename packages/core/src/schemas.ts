@@ -16,21 +16,21 @@
 
 import * as z from "zod";
 import { getTranslation } from "./translations";
-import { type FirebaseUIConfiguration } from "./config";
+import { type FirebaseUI } from "./config";
 import { hasBehavior } from "./behaviors";
 
 export const LoginTypes = ["email", "phone", "anonymous", "emailLink", "google"] as const;
 export type LoginType = (typeof LoginTypes)[number];
 export type AuthMode = "signIn" | "signUp";
 
-export function createSignInAuthFormSchema(ui: FirebaseUIConfiguration) {
+export function createSignInAuthFormSchema(ui: FirebaseUI) {
   return z.object({
     email: z.email(getTranslation(ui, "errors", "invalidEmail")),
     password: z.string().min(6, getTranslation(ui, "errors", "weakPassword")),
   });
 }
 
-export function createSignUpAuthFormSchema(ui: FirebaseUIConfiguration) {
+export function createSignUpAuthFormSchema(ui: FirebaseUI) {
   const requireDisplayName = hasBehavior(ui, "requireDisplayName");
   const displayNameRequiredMessage = getTranslation(ui, "errors", "displayNameRequired");
 
@@ -43,19 +43,19 @@ export function createSignUpAuthFormSchema(ui: FirebaseUIConfiguration) {
   });
 }
 
-export function createForgotPasswordAuthFormSchema(ui: FirebaseUIConfiguration) {
+export function createForgotPasswordAuthFormSchema(ui: FirebaseUI) {
   return z.object({
     email: z.email(getTranslation(ui, "errors", "invalidEmail")),
   });
 }
 
-export function createEmailLinkAuthFormSchema(ui: FirebaseUIConfiguration) {
+export function createEmailLinkAuthFormSchema(ui: FirebaseUI) {
   return z.object({
     email: z.email(getTranslation(ui, "errors", "invalidEmail")),
   });
 }
 
-export function createPhoneAuthNumberFormSchema(ui: FirebaseUIConfiguration) {
+export function createPhoneAuthNumberFormSchema(ui: FirebaseUI) {
   return z.object({
     phoneNumber: z
       .string()
@@ -64,10 +64,35 @@ export function createPhoneAuthNumberFormSchema(ui: FirebaseUIConfiguration) {
   });
 }
 
-export function createPhoneAuthVerifyFormSchema(ui: FirebaseUIConfiguration) {
+export function createPhoneAuthVerifyFormSchema(ui: FirebaseUI) {
   return z.object({
     verificationId: z.string().min(1, getTranslation(ui, "errors", "missingVerificationId")),
     verificationCode: z.string().refine((val) => !val || val.length >= 6, {
+      error: getTranslation(ui, "errors", "invalidVerificationCode"),
+    }),
+  });
+}
+
+export function createMultiFactorPhoneAuthNumberFormSchema(ui: FirebaseUI) {
+  const base = createPhoneAuthNumberFormSchema(ui);
+  return base.extend({
+    displayName: z.string().min(1, getTranslation(ui, "errors", "displayNameRequired")),
+  });
+}
+
+export function createMultiFactorPhoneAuthVerifyFormSchema(ui: FirebaseUI) {
+  return createPhoneAuthVerifyFormSchema(ui);
+}
+
+export function createMultiFactorTotpAuthNumberFormSchema(ui: FirebaseUI) {
+  return z.object({
+    displayName: z.string().min(1, getTranslation(ui, "errors", "displayNameRequired")),
+  });
+}
+
+export function createMultiFactorTotpAuthVerifyFormSchema(ui: FirebaseUI) {
+  return z.object({
+    verificationCode: z.string().refine((val) => val.length === 6, {
       error: getTranslation(ui, "errors", "invalidVerificationCode"),
     }),
   });
@@ -79,3 +104,8 @@ export type ForgotPasswordAuthFormSchema = z.infer<ReturnType<typeof createForgo
 export type EmailLinkAuthFormSchema = z.infer<ReturnType<typeof createEmailLinkAuthFormSchema>>;
 export type PhoneAuthNumberFormSchema = z.infer<ReturnType<typeof createPhoneAuthNumberFormSchema>>;
 export type PhoneAuthVerifyFormSchema = z.infer<ReturnType<typeof createPhoneAuthVerifyFormSchema>>;
+export type MultiFactorPhoneAuthNumberFormSchema = z.infer<
+  ReturnType<typeof createMultiFactorPhoneAuthNumberFormSchema>
+>;
+export type MultiFactorTotpAuthNumberFormSchema = z.infer<ReturnType<typeof createMultiFactorTotpAuthNumberFormSchema>>;
+export type MultiFactorTotpAuthVerifyFormSchema = z.infer<ReturnType<typeof createMultiFactorTotpAuthVerifyFormSchema>>;

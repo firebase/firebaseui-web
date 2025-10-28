@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "policies",
+  "type": "registry:block",
+  "title": "Policies",
+  "description": "A component allowing users to navigate to the terms of service and privacy policy.",
+  "dependencies": [
+    "@firebase-ui/react"
+  ],
+  "files": [
+    {
+      "path": "src/registry/policies.tsx",
+      "content": "import { cn } from \"@/lib/utils\";\nimport { getTranslation } from \"@firebase-ui/core\";\nimport { useUI, PolicyContext } from \"@firebase-ui/react\";\nimport { cloneElement, useContext } from \"react\";\n\nexport function Policies() {\n  const ui = useUI();\n  const policies = useContext(PolicyContext);\n\n  if (!policies) {\n    return null;\n  }\n\n  const { termsOfServiceUrl, privacyPolicyUrl, onNavigate } = policies;\n  const termsAndPrivacyText = getTranslation(ui, \"messages\", \"termsAndPrivacy\");\n  const parts = termsAndPrivacyText.split(/(\\{tos\\}|\\{privacy\\})/);\n\n  const className = cn(\"hover:underline font-semibold\");\n  const Handler = onNavigate ? (\n    <button className={className} />\n  ) : (\n    <a target=\"_blank\" rel=\"noopener noreferrer\" className={className} />\n  );\n\n  return (\n    <div className=\"text-text-muted text-center text-xs\">\n      {parts.map((part: string, index: number) => {\n        if (part === \"{tos}\") {\n          return cloneElement(Handler, {\n            key: index,\n            onClick: onNavigate ? () => onNavigate(termsOfServiceUrl) : undefined,\n            href: onNavigate ? undefined : termsOfServiceUrl,\n            children: getTranslation(ui, \"labels\", \"termsOfService\"),\n          });\n        }\n\n        if (part === \"{privacy}\") {\n          return cloneElement(Handler, {\n            key: index,\n            onClick: onNavigate ? () => onNavigate(privacyPolicyUrl) : undefined,\n            href: onNavigate ? undefined : privacyPolicyUrl,\n            children: getTranslation(ui, \"labels\", \"privacyPolicy\"),\n          });\n        }\n\n        return <span key={index}>{part}</span>;\n      })}\n    </div>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ]
+}

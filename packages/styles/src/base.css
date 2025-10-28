@@ -83,6 +83,11 @@
     @apply space-y-2;
   }
 
+  :where(.fui-content) {
+    @apply space-y-2;
+    
+  }
+
   :where(.fui-card) {
     @apply bg-background p-10 border border-border rounded-card space-y-6;
   }
@@ -211,7 +216,6 @@
   :where(.fui-policies a, .fui-policies button) {
     @apply hover:underline font-semibold;
   }
-
 
   .fui-provider__button[data-provider="google.com"][data-themed="true"] {
     --google-primary: #131314;

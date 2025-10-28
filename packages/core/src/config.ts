@@ -21,8 +21,9 @@ import { deepMap, type DeepMapStore, map } from "nanostores";
 import { type Behavior, type Behaviors, defaultBehaviors } from "./behaviors";
 import type { InitBehavior, RedirectBehavior } from "./behaviors/utils";
 import { type FirebaseUIState } from "./state";
+import { handleFirebaseError } from "./errors";
 
-export type FirebaseUIConfigurationOptions = {
+export type FirebaseUIOptions = {
   app: FirebaseApp;
   auth?: Auth;
   locale?: RegisteredLocale;
@@ -30,7 +31,7 @@ export type FirebaseUIConfigurationOptions = {
   behaviors?: Behavior<any>[];
 };
 
-export type FirebaseUIConfiguration = {
+export type FirebaseUI = {
   app: FirebaseApp;
   auth: Auth;
   setLocale: (locale: RegisteredLocale) => void;
@@ -40,13 +41,15 @@ export type FirebaseUIConfiguration = {
   behaviors: Behaviors;
   multiFactorResolver?: MultiFactorResolver;
   setMultiFactorResolver: (multiFactorResolver?: MultiFactorResolver) => void;
+  redirectError?: Error;
+  setRedirectError: (error?: Error) => void;
 };
 
-export const $config = map<Record<string, DeepMapStore<FirebaseUIConfiguration>>>({});
+export const $config = map<Record<string, DeepMapStore<FirebaseUI>>>({});
 
-export type FirebaseUI = DeepMapStore<FirebaseUIConfiguration>;
+export type FirebaseUIStore = DeepMapStore<FirebaseUI>;
 
-export function initializeUI(config: FirebaseUIConfigurationOptions, name: string = "[DEFAULT]"): FirebaseUI {
+export function initializeUI(config: FirebaseUIOptions, name: string = "[DEFAULT]"): FirebaseUIStore {
   // Reduce the behaviors to a single object.
   const behaviors = config.behaviors?.reduce<Behavior>((acc, behavior) => {
     return {
@@ -57,7 +60,7 @@ export function initializeUI(config: FirebaseUIConfigurationOptions, name: strin
 
   $config.setKey(
     name,
-    deepMap<FirebaseUIConfiguration>({
+    deepMap<FirebaseUI>({
       app: config.app,
       auth: config.auth || getAuth(config.app),
       locale: config.locale ?? enUs,
@@ -77,6 +80,11 @@ export function initializeUI(config: FirebaseUIConfigurationOptions, name: strin
       setMultiFactorResolver: (resolver?: MultiFactorResolver) => {
         const current = $config.get()[name]!;
         current.setKey(`multiFactorResolver`, resolver);
+      },
+      redirectError: undefined,
+      setRedirectError: (error?: Error) => {
+        const current = $config.get()[name]!;
+        current.setKey(`redirectError`, error);
       },
     })
   );
@@ -106,11 +114,17 @@ export function initializeUI(config: FirebaseUIConfigurationOptions, name: strin
       });
     }
 
-    if (redirectBehaviors.length > 0) {
-      getRedirectResult(ui.auth).then((result) => {
-        Promise.all(redirectBehaviors.map((behavior) => behavior.handler(ui, result)));
+    getRedirectResult(ui.auth)
+      .then((result) => {
+        return Promise.all(redirectBehaviors.map((behavior) => behavior.handler(ui, result)));
+      })
+      .catch((error) => {
+        try {
+          handleFirebaseError(ui, error);
+        } catch (error) {
+          ui.setRedirectError(error instanceof Error ? error : new Error(String(error)));
+        }
       });
-    }
   }
 
   return store;

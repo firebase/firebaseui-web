@@ -18,6 +18,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderHook, act, cleanup } from "@testing-library/react";
 import {
   useUI,
+  useRedirectError,
   useSignInAuthFormSchema,
   useSignUpAuthFormSchema,
   useForgotPasswordAuthFormSchema,
@@ -191,7 +192,7 @@ describe("useSignInAuthFormSchema", () => {
     const customLocale = registerLocale("fr-FR", customTranslations);
 
     act(() => {
-      mockUI.setKey("locale", customLocale);
+      mockUI.get().setLocale(customLocale);
     });
 
     rerender();
@@ -305,7 +306,7 @@ describe("useSignUpAuthFormSchema", () => {
     const customLocale = registerLocale("fr-FR", customTranslations);
 
     act(() => {
-      mockUI.setKey("locale", customLocale);
+      mockUI.get().setLocale(customLocale);
     });
 
     rerender();
@@ -401,7 +402,7 @@ describe("useForgotPasswordAuthFormSchema", () => {
     const customLocale = registerLocale("fr-FR", customTranslations);
 
     act(() => {
-      mockUI.setKey("locale", customLocale);
+      mockUI.get().setLocale(customLocale);
     });
 
     rerender();
@@ -493,7 +494,7 @@ describe("useEmailLinkAuthFormSchema", () => {
     const customLocale = registerLocale("fr-FR", customTranslations);
 
     act(() => {
-      mockUI.setKey("locale", customLocale);
+      mockUI.get().setLocale(customLocale);
     });
 
     rerender();
@@ -585,7 +586,7 @@ describe("usePhoneAuthNumberFormSchema", () => {
     const customLocale = registerLocale("fr-FR", customTranslations);
 
     act(() => {
-      mockUI.setKey("locale", customLocale);
+      mockUI.get().setLocale(customLocale);
     });
 
     rerender();
@@ -677,7 +678,7 @@ describe("usePhoneAuthVerifyFormSchema", () => {
     const customLocale = registerLocale("fr-FR", customTranslations);
 
     act(() => {
-      mockUI.setKey("locale", customLocale);
+      mockUI.get().setLocale(customLocale);
     });
 
     rerender();
@@ -690,5 +691,137 @@ describe("usePhoneAuthVerifyFormSchema", () => {
     if (!verifyResult.success) {
       expect(verifyResult.error.issues[0]!.message).toBe("Custom verification error");
     }
+  });
+});
+
+describe("useRedirectError", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    cleanup();
+  });
+
+  it("returns undefined when no redirect error exists", () => {
+    const mockUI = createMockUI();
+
+    const { result } = renderHook(() => useRedirectError(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    expect(result.current).toBeUndefined();
+  });
+
+  it("returns error message string when Error object is present", () => {
+    const errorMessage = "Authentication failed";
+    const mockUI = createMockUI();
+    mockUI.get().setRedirectError(new Error(errorMessage));
+
+    const { result } = renderHook(() => useRedirectError(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    expect(result.current).toBe(errorMessage);
+  });
+
+  it("returns string value when error is not an Error object", () => {
+    const errorMessage = "Custom error string";
+    const mockUI = createMockUI();
+    mockUI.get().setRedirectError(errorMessage as any);
+
+    const { result } = renderHook(() => useRedirectError(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    expect(result.current).toBe(errorMessage);
+  });
+
+  it("returns stable reference when error hasn't changed", () => {
+    const mockUI = createMockUI();
+    const error = new Error("Test error");
+    mockUI.get().setRedirectError(error);
+
+    let hookCallCount = 0;
+    const results: any[] = [];
+
+    const TestHook = () => {
+      hookCallCount++;
+      const result = useRedirectError();
+      results.push(result);
+      return result;
+    };
+
+    const { rerender } = renderHook(() => TestHook(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    expect(hookCallCount).toBe(1);
+    expect(results).toHaveLength(1);
+
+    rerender();
+
+    expect(hookCallCount).toBe(2);
+    expect(results).toHaveLength(2);
+
+    expect(results[0]).toBe(results[1]);
+    expect(results[0]).toBe("Test error");
+  });
+
+  it("updates when redirectError changes in UI state", () => {
+    const mockUI = createMockUI();
+
+    const { result, rerender } = renderHook(() => useRedirectError(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    expect(result.current).toBeUndefined();
+
+    act(() => {
+      mockUI.get().setRedirectError(new Error("First error"));
+    });
+
+    rerender();
+
+    expect(result.current).toBe("First error");
+
+    act(() => {
+      mockUI.get().setRedirectError(new Error("Second error"));
+    });
+
+    rerender();
+
+    expect(result.current).toBe("Second error");
+
+    act(() => {
+      mockUI.get().setRedirectError(undefined);
+    });
+
+    rerender();
+
+    expect(result.current).toBeUndefined();
+  });
+
+  it("handles null and undefined errors", () => {
+    const mockUI = createMockUI();
+
+    const { result, rerender } = renderHook(() => useRedirectError(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    expect(result.current).toBeUndefined();
+
+    act(() => {
+      mockUI.get().setRedirectError(null as any);
+    });
+
+    rerender();
+
+    expect(result.current).toBeUndefined();
+
+    act(() => {
+      mockUI.get().setRedirectError(undefined);
+    });
+
+    rerender();
+
+    expect(result.current).toBeUndefined();
   });
 });

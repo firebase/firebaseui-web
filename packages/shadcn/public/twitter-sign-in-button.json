@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "twitter-sign-in-button",
+  "type": "registry:block",
+  "title": "Twitter Sign In Button",
+  "description": "A button component for Twitter OAuth authentication.",
+  "dependencies": [
+    "@firebase-ui/react"
+  ],
+  "registryDependencies": [
+    "https://fir-ui-shadcn.web.app/oauth-button.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/twitter-sign-in-button.tsx",
+      "content": "\"use client\";\n\nimport { TwitterAuthProvider } from \"firebase/auth\";\nimport { getTranslation } from \"@firebase-ui/core\";\nimport { useUI, type TwitterSignInButtonProps, TwitterLogo } from \"@firebase-ui/react\";\n\nimport { OAuthButton } from \"@/registry/oauth-button\";\n\nexport type { TwitterSignInButtonProps };\n\nexport function TwitterSignInButton({ provider, themed }: TwitterSignInButtonProps) {\n  const ui = useUI();\n\n  return (\n    <OAuthButton provider={provider || new TwitterAuthProvider()} themed={themed}>\n      <TwitterLogo />\n      <span>{getTranslation(ui, \"labels\", \"signInWithTwitter\")}</span>\n    </OAuthButton>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "css": {
+    "@layer components": {
+      "button[data-provider='twitter.com'][data-themed='true']": {
+        "--twitter-primary": "#1DA1F2",
+        "--color-primary": "var(--twitter-primary)",
+        "--color-primary-hover": "--alpha(var(--twitter-primary) / 85%)",
+        "--color-primary-surface": "#FFFFFF",
+        "--color-border": "var(--twitter-primary)"
+      }
+    }
+  }
+}

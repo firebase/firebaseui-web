@@ -7,5 +7,11 @@
       "enabled": true
     },
     "singleProjectMode": true
-  }
+  },
+  "hosting": [
+    {
+      "site": "fir-ui-shadcn",
+      "public": "packages/shadcn/public"
+    }
+  ]
 }

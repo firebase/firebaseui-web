@@ -3,9 +3,9 @@ import { vi } from "vitest";
 import type { FirebaseApp } from "firebase/app";
 import type { Auth } from "firebase/auth";
 import { enUs } from "@firebase-ui/translations";
-import { FirebaseUIConfiguration } from "../src/config";
+import { FirebaseUI } from "../src/config";
 
-export function createMockUI(overrides?: Partial<FirebaseUIConfiguration>): FirebaseUIConfiguration {
+export function createMockUI(overrides?: Partial<FirebaseUI>): FirebaseUI {
   return {
     app: {} as FirebaseApp,
     auth: {} as Auth,
@@ -16,6 +16,8 @@ export function createMockUI(overrides?: Partial<FirebaseUIConfiguration>): Fire
     behaviors: {},
     multiFactorResolver: undefined,
     setMultiFactorResolver: vi.fn(),
+    redirectError: undefined,
+    setRedirectError: vi.fn(),
     ...overrides,
   };
 }

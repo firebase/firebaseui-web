@@ -19,6 +19,7 @@ export {
   type EmailLinkAuthFormProps,
   useEmailLinkAuthFormAction,
   useEmailLinkAuthForm,
+  useEmailLinkAuthFormCompleteSignIn,
 } from "./forms/email-link-auth-form";
 export {
   ForgotPasswordAuthForm,
@@ -45,6 +46,7 @@ export {
   type SignUpAuthFormProps,
   useSignUpAuthForm,
   useSignUpAuthFormAction,
+  useRequireDisplayName,
 } from "./forms/sign-up-auth-form";
 
 export { EmailLinkAuthScreen, type EmailLinkAuthScreenProps } from "./screens/email-link-auth-screen";
@@ -65,3 +67,23 @@ export {
 } from "./oauth/microsoft-sign-in-button";
 export { TwitterSignInButton, TwitterLogo, type TwitterSignInButtonProps } from "./oauth/twitter-sign-in-button";
 export { OAuthButton, useSignInWithProvider, type OAuthButtonProps } from "./oauth/oauth-button";
+
+export {
+  MultiFactorAuthEnrollmentScreen,
+  type MultiFactorAuthEnrollmentScreenProps,
+} from "./screens/multi-factor-auth-enrollment-screen";
+export {
+  MultiFactorAuthEnrollmentForm,
+  type MultiFactorAuthEnrollmentFormProps,
+} from "./forms/multi-factor-auth-enrollment-form";
+
+export {
+  useSmsMultiFactorAssertionPhoneFormAction,
+  useSmsMultiFactorAssertionVerifyFormAction,
+  SmsMultiFactorAssertionForm,
+  type SmsMultiFactorAssertionFormProps,
+} from "./forms/mfa/sms-multi-factor-assertion-form";
+export {
+  useTotpMultiFactorAssertionFormAction,
+  TotpMultiFactorAssertionForm,
+} from "./forms/mfa/totp-multi-factor-assertion-form";

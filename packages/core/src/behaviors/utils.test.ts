@@ -11,7 +11,7 @@ import {
   type InitHandler,
 } from "./utils";
 import type { UserCredential } from "firebase/auth";
-import type { FirebaseUIConfiguration } from "~/config";
+import type { FirebaseUI } from "~/config";
 
 describe("Behaviors Utils", () => {
   describe("callableBehavior", () => {
@@ -75,7 +75,7 @@ describe("Behaviors Utils", () => {
       expect(behavior.type).toBe("redirect");
       expect(behavior.handler).toBe(handler);
 
-      const mockUI = {} as FirebaseUIConfiguration;
+      const mockUI = {} as FirebaseUI;
       const mockResult = {} as UserCredential;
 
       await behavior.handler(mockUI, mockResult);
@@ -110,7 +110,7 @@ describe("Behaviors Utils", () => {
       expect(behavior.type).toBe("init");
       expect(behavior.handler).toBe(handler);
 
-      const mockUI = {} as FirebaseUIConfiguration;
+      const mockUI = {} as FirebaseUI;
 
       await behavior.handler(mockUI);
       expect(handler).toHaveBeenCalledWith(mockUI);
@@ -123,7 +123,7 @@ describe("Behaviors Utils", () => {
       expect(behavior.type).toBe("init");
       expect(behavior.handler).toBe(handler);
 
-      const mockUI = {} as FirebaseUIConfiguration;
+      const mockUI = {} as FirebaseUI;
 
       behavior.handler(mockUI);
       expect(handler).toHaveBeenCalledWith(mockUI);

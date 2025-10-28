@@ -1,10 +1,10 @@
 import type { UserCredential } from "firebase/auth";
-import type { FirebaseUIConfiguration } from "~/config";
+import type { FirebaseUI } from "~/config";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type CallableHandler<T extends (...args: any[]) => any = (...args: any[]) => any> = T;
-export type InitHandler = (ui: FirebaseUIConfiguration) => Promise<void> | void;
-export type RedirectHandler = (ui: FirebaseUIConfiguration, result: UserCredential | null) => Promise<void> | void;
+export type InitHandler = (ui: FirebaseUI) => Promise<void> | void;
+export type RedirectHandler = (ui: FirebaseUI, result: UserCredential | null) => Promise<void> | void;
 
 export type CallableBehavior<T extends CallableHandler = CallableHandler> = {
   type: "callable";

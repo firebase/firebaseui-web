@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+import { isDevMode } from "@angular/core";
+import { registerFramework } from "@firebase-ui/core";
+
 export { EmailLinkAuthFormComponent } from "./lib/auth/forms/email-link-auth-form/email-link-auth-form.component";
 export { ForgotPasswordAuthFormComponent } from "./lib/auth/forms/forgot-password-auth-form/forgot-password-auth-form.component";
 export { PhoneAuthFormComponent } from "./lib/auth/forms/phone-auth-form/phone-auth-form.component";
@@ -41,6 +44,12 @@ export { CountrySelectorComponent } from "./lib/components/country-selector/coun
 export { DividerComponent } from "./lib/components/divider/divider.component";
 export { PoliciesComponent } from "./lib/components/policies/policies.component";
 export { ContentComponent } from "./lib/components/content/content.component";
+export { RedirectErrorComponent } from "./lib/components/redirect-error/redirect-error.component";
 
 // Provider
 export * from "./lib/provider";
+
+if (!isDevMode()) {
+  const pkgJson = require("../package.json");
+  registerFramework("angular", pkgJson.version);
+}
