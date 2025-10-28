@@ -21,6 +21,7 @@ export const formatPhoneNumber = jest.fn();
 export const generateTotpSecret = jest.fn();
 export const enrollWithMultiFactorAssertion = jest.fn();
 export const generateTotpQrCode = jest.fn();
+export const signInWithMultiFactorAssertion = jest.fn();
 
 export const countryData = [
   { name: "United States", dialCode: "+1", code: "US", emoji: "🇺🇸" },

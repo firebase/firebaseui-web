@@ -13,21 +13,100 @@
  * limitations under the License.
  */
 
-import { Component, input } from "@angular/core";
+import { Component, effect, input, output } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { MultiFactorInfo } from "firebase/auth";
+import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanstack/angular-form";
+import {
+  injectMultiFactorTotpAuthVerifyFormSchema,
+  injectTranslation,
+  injectUI,
+} from "../../../provider";
+import { FormInputComponent, FormSubmitComponent, FormErrorMessageComponent } from "../../../components/form";
+import {
+  FirebaseUIError,
+  signInWithMultiFactorAssertion,
+} from "@firebase-ui/core";
+import { TotpMultiFactorGenerator, type MultiFactorInfo } from "firebase/auth";
 
 @Component({
   selector: "fui-totp-multi-factor-assertion-form",
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    TanStackField,
+    TanStackAppField,
+    FormInputComponent,
+    FormSubmitComponent,
+    FormErrorMessageComponent,
+  ],
   template: `
-    <div class="fui-content">
-      <div>TOTP Multi-Factor Assertion Form (Stubbed)</div>
-      <div>Hint: {{ hint()?.displayName || 'No hint' }}</div>
-    </div>
+    <form (submit)="handleSubmit($event)" class="fui-form">
+      <fieldset>
+        <fui-form-input
+          name="verificationCode"
+          tanstack-app-field
+          [tanstackField]="form"
+          label="{{ verificationCodeLabel() }}"
+          type="text"
+          placeholder="123456"
+          maxlength="6"
+        ></fui-form-input>
+      </fieldset>
+      <fieldset>
+        <fui-form-submit [state]="state()">
+          {{ verifyCodeLabel() }}
+        </fui-form-submit>
+        <fui-form-error-message [state]="state()" />
+      </fieldset>
+    </form>
   `,
 })
 export class TotpMultiFactorAssertionFormComponent {
+  private ui = injectUI();
+  private formSchema = injectMultiFactorTotpAuthVerifyFormSchema();
+
   hint = input.required<MultiFactorInfo>();
+  onSuccess = output<void>();
+
+  verificationCodeLabel = injectTranslation("labels", "verificationCode");
+  verifyCodeLabel = injectTranslation("labels", "verifyCode");
+  unknownErrorLabel = injectTranslation("errors", "unknownError");
+
+  form = injectForm({
+    defaultValues: {
+      verificationCode: "",
+    },
+  });
+
+  state = injectStore(this.form, (state) => state);
+
+  constructor() {
+    effect(() => {
+      this.form.update({
+        validators: {
+          onBlur: this.formSchema(),
+          onSubmit: this.formSchema(),
+          onSubmitAsync: async ({ value }) => {
+            try {
+              const assertion = TotpMultiFactorGenerator.assertionForSignIn(this.hint().uid, value.verificationCode);
+              await signInWithMultiFactorAssertion(this.ui(), assertion);
+              this.onSuccess.emit();
+              return;
+            } catch (error) {
+              if (error instanceof FirebaseUIError) {
+                return error.message;
+              }
+              return this.unknownErrorLabel();
+            }
+          },
+        },
+      });
+    });
+  }
+
+  async handleSubmit(event: SubmitEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.form.handleSubmit();
+  }
 }
