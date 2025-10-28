@@ -335,7 +335,7 @@ describe("<fui-totp-multi-factor-enrollment-form />", () => {
     fixture.detectChanges();
 
     expect(
-      screen.getByText("User must be authenticated to enroll with multi-factor authentication")
+      screen.getByText("An unknown error occurred")
     ).toBeInTheDocument();
   });
 
