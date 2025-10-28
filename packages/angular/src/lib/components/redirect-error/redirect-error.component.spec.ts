@@ -34,7 +34,7 @@ describe("<fui-redirect-error>", () => {
 
     // Debug: log the container HTML
     console.log("Container HTML:", container.innerHTML);
-    
+
     const errorElement = screen.getByText(errorMessage);
     expect(errorElement).toBeDefined();
     expect(errorElement).toHaveClass("fui-form__error");
