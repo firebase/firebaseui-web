@@ -1,5 +1,5 @@
 {
-  "name": "@firebase-ui/angular",
+  "name": "@invertase/firebaseui-angular",
   "version": "0.0.1",
   "files": [
     "dist"
