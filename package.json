@@ -1,6 +1,7 @@
 {
   "name": "@firebaseui/root",
   "private": true,
+  "type": "module",
   "scripts": {
     "emulators": "firebase emulators:start --only auth",
     "build": "pnpm run build:translations && pnpm run build:core && pnpm run build:react",
@@ -8,6 +9,20 @@
     "build:translations": "pnpm --filter=@invertase/firebaseui-translations run build",
     "build:react": "pnpm --filter=@invertase/firebaseui-react run build",
     "build:angular": "pnpm --filter=@invertase/firebaseui-angular run build",
+    "lint:check": "eslint",
+    "lint:fix": "eslint --fix",
+    "format:check": "prettier --check **/{src,tests}/**/*.{ts,tsx}",
+    "format:write": "prettier --write **/{src,tests}/**/*.{ts,tsx}",
+    "test": "pnpm run test:core && pnpm run test:translations && pnpm run test:styles && pnpm run test:react && pnpm run test:angular",
+    "test:core": "pnpm --filter=@invertase/firebaseui-core run test",
+    "test:react": "pnpm --filter=@invertase/firebaseui-react run test",
+    "test:angular": "pnpm --filter=@invertase/firebaseui-angular run test",
+    "test:translations": "pnpm --filter=@invertase/firebaseui-translations run test",
+    "test:styles": "pnpm --filter=@invertase/firebaseui-styles run test",
+    "test:watch": "pnpm run test:core:watch & pnpm run test:react:watch & pnpm run test:angular:watch",
+    "test:core:watch": "pnpm --filter=@invertase/firebaseui-core run test:unit:watch",
+    "test:react:watch": "pnpm --filter=@invertase/firebaseui-react run test:unit:watch",
+    "test:angular:watch": "pnpm --filter=@invertase/firebaseui-angular run test:watch",
     "publish:tags:core": "pnpm --filter=@invertase/firebaseui-core run publish:tags",
     "publish:tags:translations": "pnpm --filter=@invertase/firebaseui-translations run publish:tags",
     "publish:tags:react": "pnpm --filter=@invertase/firebaseui-react run publish:tags",
@@ -26,6 +41,16 @@
     "typescript": "^5.7.3",
     "vite": "^6.0.11",
     "vite-plugin-dts": "^4.2.3",
-    "vite-tsconfig-paths": "^5.0.1"
+    "vite-tsconfig-paths": "^5.0.1",
+    "@eslint/css": "^0.11.1",
+    "@eslint/js": "^9.35.0",
+    "angular-eslint": "^20.3.0",
+    "eslint": "catalog:",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "globals": "^16.4.0",
+    "prettier": "^3.1.1",
+    "typescript-eslint": "^8.45.0"
   }
 }
