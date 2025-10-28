@@ -23,7 +23,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      "@firebase-ui/core": path.resolve(__dirname, "../firebaseui-core/src"),
+      "@invertase/firebaseui-core": path.resolve(__dirname, "../firebaseui-core/src"),
       "~": path.resolve(__dirname, "./src"),
     },
   },

@@ -19,8 +19,8 @@ import { render, screen, fireEvent, act } from "@testing-library/react";
 import { EmailLinkForm } from "../../../../src/auth/forms/email-link-form";
 
 // Mock Firebase UI Core
-vi.mock("@firebase-ui/core", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@firebase-ui/core")>();
+vi.mock("@invertase/firebaseui-core", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@invertase/firebaseui-core")>();
   const FirebaseUIError = vi.fn();
   FirebaseUIError.prototype.message = "Test error message";
 
@@ -52,7 +52,7 @@ import {
   FirebaseUIError,
   sendSignInLinkToEmail,
   completeEmailLinkSignIn,
-} from "@firebase-ui/core";
+} from "@invertase/firebaseui-core";
 
 // Mock React's useState to control state for testing
 const useStateMock = vi.fn();

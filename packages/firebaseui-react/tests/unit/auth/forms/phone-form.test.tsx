@@ -30,8 +30,8 @@ vi.mock("firebase/auth", () => ({
 }));
 
 // Mock the core dependencies
-vi.mock("@firebase-ui/core", async (originalImport) => {
-  const mod = await originalImport<typeof import("@firebase-ui/core")>();
+vi.mock("@invertase/firebaseui-core", async (originalImport) => {
+  const mod = await originalImport<typeof import("@invertase/firebaseui-core")>();
   return {
     ...mod,
     signInWithPhoneNumber: vi.fn().mockResolvedValue({
@@ -158,7 +158,7 @@ vi.mock("../../../../src/components/country-selector", () => ({
 }));
 
 // Import the actual functions after mocking
-import { signInWithPhoneNumber } from "@firebase-ui/core";
+import { signInWithPhoneNumber } from "@invertase/firebaseui-core";
 
 describe("PhoneForm", () => {
   beforeEach(() => {

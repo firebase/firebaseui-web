@@ -22,7 +22,7 @@ import {
   getTranslation,
   signInWithEmailAndPassword,
   type EmailFormSchema,
-} from "@firebase-ui/core";
+} from "@invertase/firebaseui-core";
 import { useForm } from "@tanstack/react-form";
 import { useMemo, useState } from "react";
 import { useUI } from "~/hooks";

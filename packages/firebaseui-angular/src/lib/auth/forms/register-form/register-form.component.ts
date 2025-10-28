@@ -24,7 +24,7 @@ import {
   EmailFormSchema,
   FirebaseUIError,
   createUserWithEmailAndPassword,
-} from '@firebase-ui/core';
+} from '@invertase/firebaseui-core';
 import { Auth } from '@angular/fire/auth';
 import { TermsAndPrivacyComponent } from '../../../components/terms-and-privacy/terms-and-privacy.component';
 import { firstValueFrom } from 'rxjs';

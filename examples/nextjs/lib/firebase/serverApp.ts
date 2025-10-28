@@ -18,27 +18,38 @@
 // https://nextjs.org/docs/app/building-your-application/rendering/composition-patterns#keeping-server-only-code-out-of-the-client-environment
 import "server-only";
 
-import { headers } from "next/headers";
 import { initializeServerApp } from "firebase/app";
 
-import { firebaseConfig } from "./config";
 import { getAuth } from "firebase/auth";
+import { firebaseConfig } from "./config";
 
 // TODO: This won't work until we support Cookie auth (or service worker auth)
 export async function getCurrentUser() {
-  const idToken = (await headers()).get("Authorization")?.split("Bearer ")[1];
+  // For static export, return null user
+  if (process.env.NODE_ENV === "production") {
+    return { currentUser: null };
+  }
 
-  const firebaseServerApp = initializeServerApp(
-    firebaseConfig,
-    idToken
-      ? {
-          authIdToken: idToken,
-        }
-      : {}
-  );
+  // For development, try to get the user from headers
+  try {
+    const { headers } = await import("next/headers");
+    const idToken = (await headers()).get("Authorization")?.split("Bearer ")[1];
 
-  const auth = getAuth(firebaseServerApp);
-  await auth.authStateReady();
+    const firebaseServerApp = initializeServerApp(
+      firebaseConfig,
+      idToken
+        ? {
+            authIdToken: idToken,
+          }
+        : {}
+    );
 
-  return { currentUser: auth.currentUser };
+    const auth = getAuth(firebaseServerApp);
+    await auth.authStateReady();
+
+    return { currentUser: auth.currentUser };
+  } catch (error) {
+    // If headers() fails (e.g., during static generation), return null
+    return { currentUser: null };
+  }
 }

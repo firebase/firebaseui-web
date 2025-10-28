@@ -23,7 +23,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { Auth, AuthProvider } from '@angular/fire/auth';
-import { FirebaseUIError } from '@firebase-ui/core';
+import { FirebaseUIError } from '@invertase/firebaseui-core';
 import { firstValueFrom, of } from 'rxjs';
 import { FirebaseUI } from '../../provider';
 import { OAuthButtonComponent } from './oauth-button.component';
@@ -34,7 +34,7 @@ const mockFuiSignInWithOAuth = jasmine
   .and.returnValue(Promise.resolve());
 
 // Mock the firebase-ui/core module
-jasmine.createSpyObj('@firebase-ui/core', ['signInWithOAuth']);
+jasmine.createSpyObj('@invertase/firebaseui-core', ['signInWithOAuth']);
 
 // Mock Button component
 @Component({

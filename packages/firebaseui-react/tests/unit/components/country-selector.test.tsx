@@ -18,7 +18,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { CountrySelector } from "../../../src/components/country-selector";
-import { countryData } from "@firebase-ui/core";
+import { countryData } from "@invertase/firebaseui-core";
 
 describe("CountrySelector Component", () => {
   const mockOnChange = vi.fn();

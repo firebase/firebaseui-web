@@ -17,7 +17,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { countryData } from '@firebase-ui/core';
+import { countryData } from '@invertase/firebaseui-core';
 
 import { CountrySelectorComponent } from './country-selector.component';
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { english, Locale, RegisteredTranslations, TranslationsConfig } from '@firebase-ui/translations';
+import { english, Locale, RegisteredTranslations, TranslationsConfig } from '@invertase/firebaseui-translations';
 import type { FirebaseApp } from 'firebase/app';
 import { Auth, getAuth } from 'firebase/auth';
 import { deepMap, DeepMapStore, map } from 'nanostores';

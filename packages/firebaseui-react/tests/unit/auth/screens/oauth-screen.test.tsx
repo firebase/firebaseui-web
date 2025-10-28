@@ -34,7 +34,7 @@ vi.mock("~/hooks", () => ({
 }));
 
 // Mock getTranslation
-// vi.mock("@firebase-ui/core", () => ({
+// vi.mock("@invertase/firebaseui-core", () => ({
 //   getTranslation: vi.fn((category, key) => {
 //     if (category === "labels" && key === "signIn") return "Sign In";
 //     if (category === "prompts" && key === "signInToAccount")

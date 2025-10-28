@@ -17,7 +17,7 @@
 "use client";
 
 import { ui } from "@/lib/firebase/clientApp";
-import { ConfigProvider } from "@firebase-ui/react";
+import { ConfigProvider } from "@invertase/firebaseui-react";
 
 export function FirebaseUIProvider({
   children,

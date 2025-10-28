@@ -17,7 +17,7 @@
 import { useContext, useMemo } from "react";
 import { getAuth } from "firebase/auth";
 import { FirebaseUIContext } from "./context";
-import { FirebaseUIConfiguration } from "@firebase-ui/core";
+import { FirebaseUIConfiguration } from "@invertase/firebaseui-core";
 
 /**
  * Get the UI configuration from the context.

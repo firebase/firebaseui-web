@@ -16,7 +16,7 @@
 
 "use client";
 
-import { EmailPasswordForm, RegisterForm } from "@firebase-ui/react";
+import { EmailPasswordForm, RegisterForm } from "@invertase/firebaseui-react";
 import { useState } from "react";
 
 export default function Example1() {

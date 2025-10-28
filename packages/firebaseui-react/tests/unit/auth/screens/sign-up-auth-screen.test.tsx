@@ -37,7 +37,7 @@ vi.mock("~/hooks", () => ({
 }));
 
 // Mock translations
-// vi.mock("@firebase-ui/core", () => ({
+// vi.mock("@invertase/firebaseui-core", () => ({
 //   getTranslation: vi.fn((category, key) => {
 //     if (category === "labels" && key === "register") return "Create Account";
 //     if (category === "prompts" && key === "enterDetailsToCreate")

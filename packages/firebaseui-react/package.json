@@ -1,5 +1,5 @@
 {
-  "name": "@firebase-ui/react",
+  "name": "@invertase/firebaseui-react",
   "version": "0.0.1",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -31,8 +31,8 @@
     "release": "pnpm run build && pnpm pack --pack-destination --pack-destination ../../releases/"
   },
   "peerDependencies": {
-    "@firebase-ui/core": "workspace:*",
-    "@firebase-ui/styles": "workspace:*"
+    "@invertase/firebaseui-core": "workspace:*",
+    "@invertase/firebaseui-styles": "workspace:*"
   },
   "dependencies": {
     "@nanostores/react": "^0.8.4",

@@ -16,7 +16,7 @@
 
 import { describe, it, expect, vi } from 'vitest';
 import { getTranslation } from '../../src/translations';
-import { english } from '@firebase-ui/translations';
+import { english } from '@invertase/firebaseui-translations';
 
 describe('getTranslation', () => {
   it('should return default English translation when no custom translations provided', () => {

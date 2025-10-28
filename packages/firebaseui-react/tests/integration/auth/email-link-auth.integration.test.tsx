@@ -19,7 +19,7 @@ import { fireEvent, waitFor, act, render } from "@testing-library/react";
 import { EmailLinkForm } from "../../../src/auth/forms/email-link-form";
 import { initializeApp } from "firebase/app";
 import { getAuth, connectAuthEmulator, deleteUser } from "firebase/auth";
-import { initializeUI } from "@firebase-ui/core";
+import { initializeUI } from "@invertase/firebaseui-core";
 import { FirebaseUIProvider } from "~/context";
 
 // Prepare the test environment

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { getTranslation } from "@firebase-ui/core";
+import { getTranslation } from "@invertase/firebaseui-core";
 import { useUI } from "~/hooks";
 import {
   Card,

@@ -15,7 +15,7 @@
  */
 
 import type { PropsWithChildren } from "react";
-import { getTranslation } from "@firebase-ui/core";
+import { getTranslation } from "@invertase/firebaseui-core";
 import { Divider } from "~/components/divider";
 import { useUI } from "~/hooks";
 import {

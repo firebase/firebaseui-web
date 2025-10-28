@@ -14,6 +14,4 @@
  * limitations under the License.
  */
 
-export const firebaseConfig = {
-  // your Firebase config here
-};
+export const firebaseConfig = {};

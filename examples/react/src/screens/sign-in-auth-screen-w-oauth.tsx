@@ -16,7 +16,7 @@
 
 "use client";
 
-import { GoogleSignInButton, SignInAuthScreen } from "@firebase-ui/react";
+import { GoogleSignInButton, SignInAuthScreen } from "@invertase/firebaseui-react";
 import { useNavigate } from "react-router";
 
 export default function SignInAuthScreenWithOAuthPage() {

@@ -9,10 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@firebase-ui/react": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-react-0.0.1.tgz",  
-    "@firebase-ui/core": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-core-0.0.1.tgz",
-    "@firebase-ui/styles": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-styles-0.0.1.tgz",
-    "@firebase-ui/translations": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-translations-0.0.1.tgz",
+    "@invertase/firebaseui-react": "^0.0.1",
+    "@invertase/firebaseui-core": "^0.0.1",
+    "@invertase/firebaseui-styles": "^0.0.1",
+    "@invertase/firebaseui-translations": "^0.0.1",
     "firebase": "^11.3.1",
     "next": "15.1.7",
     "react": "^19.0.0",

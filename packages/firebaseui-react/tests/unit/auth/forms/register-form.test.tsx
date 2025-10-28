@@ -20,8 +20,8 @@ import { RegisterForm } from "../../../../src/auth/forms/register-form";
 import { act } from "react";
 
 // Mock the dependencies
-vi.mock("@firebase-ui/core", async (originalImport) => {
-  const mod = await originalImport<typeof import("@firebase-ui/core")>();
+vi.mock("@invertase/firebaseui-core", async (originalImport) => {
+  const mod = await originalImport<typeof import("@invertase/firebaseui-core")>();
   return {
     ...mod,
     createUserWithEmailAndPassword: vi.fn().mockResolvedValue(undefined),
@@ -107,7 +107,7 @@ vi.mock("../../../../src/components/button", () => ({
 }));
 
 // Import the actual functions after mocking
-import { createUserWithEmailAndPassword } from "@firebase-ui/core";
+import { createUserWithEmailAndPassword } from "@invertase/firebaseui-core";
 
 describe("RegisterForm", () => {
   beforeEach(() => {

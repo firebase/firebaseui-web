@@ -18,7 +18,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { Auth, User, authState } from '@angular/fire/auth';
-import { SignUpAuthScreenComponent } from '@firebase-ui/angular';
+import { SignUpAuthScreenComponent } from '@invertase/firebaseui-angular';
 
 @Component({
   selector: 'app-sign-up',

@@ -20,7 +20,7 @@ import {
   FirebaseUIError,
   getTranslation,
   signInWithOAuth,
-} from "@firebase-ui/core";
+} from "@invertase/firebaseui-core";
 import type { AuthProvider } from "firebase/auth";
 import type { PropsWithChildren } from "react";
 import { useState } from "react";

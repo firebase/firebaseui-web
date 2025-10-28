@@ -16,28 +16,26 @@
 
 import {
   ApplicationConfig,
-  provideZoneChangeDetection,
   isDevMode,
+  provideZoneChangeDetection,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
-import { routes } from './app.routes';
 import {
   provideClientHydration,
   withEventReplay,
 } from '@angular/platform-browser';
+import { routes } from './app.routes';
 
-import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
-import { provideAuth, getAuth, connectAuthEmulator } from '@angular/fire/auth';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
 import {
   provideFirebaseUI,
   provideFirebaseUIPolicies,
-} from '@firebase-ui/angular';
-import { initializeUI } from '@firebase-ui/core';
+} from '@invertase/firebaseui-angular';
+import { initializeUI } from '@invertase/firebaseui-core';
 
-const firebaseConfig = {
-  // your Firebase config here
-};
+const firebaseConfig = {};
 
 export const appConfig: ApplicationConfig = {
   providers: [

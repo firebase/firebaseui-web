@@ -19,7 +19,7 @@ import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../../components/button/button.component';
 import { FirebaseUI } from '../../provider';
 import { Auth, AuthProvider } from '@angular/fire/auth';
-import { FirebaseUIError, signInWithOAuth } from '@firebase-ui/core';
+import { FirebaseUIError, signInWithOAuth } from '@invertase/firebaseui-core';
 import { firstValueFrom } from 'rxjs';
 
 @Component({

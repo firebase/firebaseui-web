@@ -21,7 +21,7 @@ import {
   getTranslation,
   Locale,
   TranslationsConfig,
-} from '@firebase-ui/translations';
+} from '@invertase/firebaseui-translations';
 import { FirebaseUIConfiguration } from './config';
 export class FirebaseUIError extends Error {
   code: string;

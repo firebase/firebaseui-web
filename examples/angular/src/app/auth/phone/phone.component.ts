@@ -18,7 +18,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { Auth, User, authState } from '@angular/fire/auth';
-import { PhoneAuthScreenComponent } from '@firebase-ui/angular';
+import { PhoneAuthScreenComponent } from '@invertase/firebaseui-angular';
 
 @Component({
   selector: 'app-phone',

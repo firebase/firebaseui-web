@@ -16,7 +16,7 @@
 
 "use client";
 
-import { GoogleSignInButton, OAuthScreen } from "@firebase-ui/react";
+import { GoogleSignInButton, OAuthScreen } from "@invertase/firebaseui-react";
 
 export default function OAuthScreenPage() {
   return (

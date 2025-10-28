@@ -1,5 +1,5 @@
 {
-  "name": "@firebase-ui/core",
+  "name": "@invertase/firebaseui-core",
   "version": "0.0.1",
   "description": "Core authentication service for Firebase UI",
   "type": "module",
@@ -45,7 +45,7 @@
     "firebase": "^11"
   },
   "dependencies": {
-    "@firebase-ui/translations": "workspace:*",
+    "@invertase/firebaseui-translations": "workspace:*",
     "nanostores": "^0.11.3",
     "zod": "^3.24.1"
   },

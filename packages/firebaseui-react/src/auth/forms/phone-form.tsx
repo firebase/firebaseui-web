@@ -25,7 +25,7 @@ import {
   formatPhoneNumberWithCountry,
   getTranslation,
   signInWithPhoneNumber,
-} from "@firebase-ui/core";
+} from "@invertase/firebaseui-core";
 import { useForm } from "@tanstack/react-form";
 import { ConfirmationResult, RecaptchaVerifier } from "firebase/auth";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";

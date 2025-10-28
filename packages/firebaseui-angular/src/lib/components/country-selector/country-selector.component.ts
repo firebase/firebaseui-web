@@ -16,7 +16,7 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CountryData, countryData } from '@firebase-ui/core';
+import { CountryData, countryData } from '@invertase/firebaseui-core';
 import { FormsModule } from '@angular/forms';
 
 @Component({

@@ -17,7 +17,7 @@
 "use client";
 
 import { useState } from "react";
-import { EmailPasswordForm, RegisterForm } from "@firebase-ui/react";
+import { EmailPasswordForm, RegisterForm } from "@invertase/firebaseui-react";
 
 export default function Example3() {
   const [showModal, setShowModal] = useState(false);

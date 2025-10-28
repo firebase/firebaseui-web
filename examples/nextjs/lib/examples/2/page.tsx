@@ -24,7 +24,7 @@ import {
   CardHeader,
   CardTitle,
   CardSubtitle,
-} from "@firebase-ui/react";
+} from "@invertase/firebaseui-react";
 
 export default function Example2() {
   const [showRegister, setShowRegister] = useState(false);

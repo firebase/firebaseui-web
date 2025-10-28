@@ -32,7 +32,7 @@ import {
   deleteUser,
 } from "firebase/auth";
 import { FirebaseUIProvider } from "~/context";
-import { initializeUI } from "@firebase-ui/core";
+import { initializeUI } from "@invertase/firebaseui-core";
 
 // Prepare the test environment
 const firebaseConfig = {

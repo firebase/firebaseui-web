@@ -20,8 +20,8 @@ import { ForgotPasswordForm } from "../../../../src/auth/forms/forgot-password-f
 import { act } from "react";
 
 // Mock the dependencies
-vi.mock("@firebase-ui/core", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@firebase-ui/core")>();
+vi.mock("@invertase/firebaseui-core", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@invertase/firebaseui-core")>();
   return {
     ...mod,
     sendPasswordResetEmail: vi.fn().mockImplementation(() => {
@@ -116,7 +116,7 @@ vi.mock("../../../../src/components/button", () => ({
 }));
 
 // Import the actual functions after mocking
-import { sendPasswordResetEmail } from "@firebase-ui/core";
+import { sendPasswordResetEmail } from "@invertase/firebaseui-core";
 
 describe("ForgotPasswordForm", () => {
   beforeEach(() => {

@@ -19,7 +19,7 @@ import { render, act } from "@testing-library/react";
 import { FirebaseUIProvider, FirebaseUIContext } from "../../../src/context";
 import { map } from "nanostores";
 import { useContext } from "react";
-import { FirebaseUI, FirebaseUIConfiguration } from "@firebase-ui/core";
+import { FirebaseUI, FirebaseUIConfiguration } from "@invertase/firebaseui-core";
 
 // Mock component to test context value
 function TestConsumer() {

@@ -16,7 +16,7 @@
 
 "use client";
 
-import { CountryData, countryData } from "@firebase-ui/core";
+import { CountryData, countryData } from "@invertase/firebaseui-core";
 import { cn } from "~/utils/cn";
 
 interface CountrySelectorProps {

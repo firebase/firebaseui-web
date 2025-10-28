@@ -45,7 +45,7 @@ import {
   completeEmailLinkSignIn,
 } from '../../src/auth';
 import { FirebaseUIConfiguration } from '../../src/config';
-import { english } from '@firebase-ui/translations';
+import { english } from '@invertase/firebaseui-translations';
 
 // Mock all Firebase Auth functions
 vi.mock('firebase/auth', async () => {

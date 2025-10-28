@@ -25,7 +25,7 @@ import {
   FirebaseUIError,
   completeEmailLinkSignIn,
   sendSignInLinkToEmail,
-} from '@firebase-ui/core';
+} from '@invertase/firebaseui-core';
 import { firstValueFrom } from 'rxjs';
 
 @Component({

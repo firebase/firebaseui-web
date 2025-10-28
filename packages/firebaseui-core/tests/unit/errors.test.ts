@@ -16,7 +16,7 @@
 
 import { describe, it, expect, vi } from 'vitest';
 import { FirebaseUIError, handleFirebaseError } from '../../src/errors';
-import { english } from '@firebase-ui/translations';
+import { english } from '@invertase/firebaseui-translations';
 
 describe('FirebaseUIError', () => {
   describe('constructor', () => {

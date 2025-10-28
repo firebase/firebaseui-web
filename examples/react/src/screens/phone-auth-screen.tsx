@@ -16,7 +16,7 @@
 
 "use client";
 
-import { PhoneAuthScreen } from "@firebase-ui/react";
+import { PhoneAuthScreen } from "@invertase/firebaseui-react";
 
 export default function PhoneAuthScreenPage() {
   return <PhoneAuthScreen resendDelay={2} />;

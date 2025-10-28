@@ -22,7 +22,7 @@ import {
   createEmailLinkFormSchema,
   getTranslation,
   sendSignInLinkToEmail,
-} from "@firebase-ui/core";
+} from "@invertase/firebaseui-core";
 import { useForm } from "@tanstack/react-form";
 import { useEffect, useMemo, useState } from "react";
 import { useAuth, useUI } from "~/hooks";

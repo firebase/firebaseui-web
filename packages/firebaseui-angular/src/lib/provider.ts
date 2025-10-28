@@ -26,11 +26,11 @@ import { FirebaseApps } from '@angular/fire/app';
 import {
   type FirebaseUI as FirebaseUIType,
   getTranslation,
-} from '@firebase-ui/core';
+} from '@invertase/firebaseui-core';
 import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
 import { Observable, ReplaySubject } from 'rxjs';
 import { Store } from 'nanostores';
-import { TranslationCategory, TranslationKey } from '@firebase-ui/translations';
+import { TranslationCategory, TranslationKey } from '@invertase/firebaseui-translations';
 
 const FIREBASE_UI_STORE = new InjectionToken<FirebaseUIType>(
   'firebaseui.store',

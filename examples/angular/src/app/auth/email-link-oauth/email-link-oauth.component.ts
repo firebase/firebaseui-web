@@ -21,7 +21,7 @@ import { Auth, User, authState } from '@angular/fire/auth';
 import {
   EmailLinkAuthScreenComponent,
   GoogleSignInButtonComponent,
-} from '@firebase-ui/angular';
+} from '@invertase/firebaseui-angular';
 
 @Component({
   selector: 'app-email-link-oauth',

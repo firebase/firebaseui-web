@@ -20,8 +20,8 @@ import { EmailPasswordForm } from "../../../../src/auth/forms/email-password-for
 import { act } from "react";
 
 // Mock the dependencies
-vi.mock("@firebase-ui/core", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@firebase-ui/core")>();
+vi.mock("@invertase/firebaseui-core", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@invertase/firebaseui-core")>();
   return {
     ...mod,
     signInWithEmailAndPassword: vi.fn().mockResolvedValue(undefined),
@@ -110,7 +110,7 @@ vi.mock("../../../../src/components/button", () => ({
 }));
 
 // Import the actual functions after mocking
-import { signInWithEmailAndPassword } from "@firebase-ui/core";
+import { signInWithEmailAndPassword } from "@invertase/firebaseui-core";
 
 describe("EmailPasswordForm", () => {
   beforeEach(() => {

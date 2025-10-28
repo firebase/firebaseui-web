@@ -16,11 +16,11 @@
 
 "use client";
 
-import { initializeApp, getApps } from "firebase/app";
-import { firebaseConfig } from "./config";
+import { initializeUI } from "@invertase/firebaseui-core";
+import { customLanguage, english } from "@invertase/firebaseui-translations";
+import { getApps, initializeApp } from "firebase/app";
 import { connectAuthEmulator, getAuth } from "firebase/auth";
-import { autoAnonymousLogin, initializeUI } from "@firebase-ui/core";
-import { customLanguage, english } from "@firebase-ui/translations";
+import { firebaseConfig } from "./config";
 
 export const firebaseApp =
   getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
@@ -29,7 +29,7 @@ export const auth = getAuth(firebaseApp);
 
 export const ui = initializeUI({
   app: firebaseApp,
-  behaviors: [autoAnonymousLogin()],
+  // behaviors: [autoAnonymousLogin()],
   translations: [
     customLanguage(english.locale, {
       labels: {

@@ -24,7 +24,7 @@ import {
   CardTitle,
 } from "../../components/card";
 import { RegisterForm } from "../forms/register-form";
-import { getTranslation } from "@firebase-ui/core";
+import { getTranslation } from "@invertase/firebaseui-core";
 
 export type SignUpAuthScreenProps = PropsWithChildren<{
   onBackToSignInClick?: () => void;
