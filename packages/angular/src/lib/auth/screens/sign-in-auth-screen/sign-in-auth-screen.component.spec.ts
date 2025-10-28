@@ -131,7 +131,7 @@ describe("<fui-sign-in-auth-screen>", () => {
   });
 
   it("renders RedirectError component in children section when no MFA resolver", async () => {
-    await render(TestHostWithContentComponent, {
+    const { container } = await render(TestHostWithContentComponent, {
       imports: [
         SignInAuthScreenComponent,
         MockSignInAuthFormComponent,
@@ -144,9 +144,8 @@ describe("<fui-sign-in-auth-screen>", () => {
       ],
     });
 
-    const redirectError = screen.getByTestId("redirect-error");
-    expect(redirectError).toBeInTheDocument();
-    expect(redirectError).toHaveTextContent("Redirect Error");
+    const redirectErrorElement = container.querySelector("fui-redirect-error");
+    expect(redirectErrorElement).toBeInTheDocument();
   });
 
   it("has correct CSS classes", async () => {

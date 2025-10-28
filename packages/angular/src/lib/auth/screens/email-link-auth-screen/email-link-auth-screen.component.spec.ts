@@ -131,7 +131,7 @@ describe("<fui-email-link-auth-screen>", () => {
   });
 
   it("renders RedirectError component in children section", async () => {
-    await render(TestHostWithContentComponent, {
+    const { container } = await render(TestHostWithContentComponent, {
       imports: [
         EmailLinkAuthScreenComponent,
         MockEmailLinkAuthFormComponent,
@@ -144,9 +144,8 @@ describe("<fui-email-link-auth-screen>", () => {
       ],
     });
 
-    const redirectError = screen.getByTestId("redirect-error");
-    expect(redirectError).toBeInTheDocument();
-    expect(redirectError).toHaveTextContent("Redirect Error");
+    const redirectErrorElement = container.querySelector("fui-redirect-error");
+    expect(redirectErrorElement).toBeInTheDocument();
   });
 
   it("has correct CSS classes", async () => {

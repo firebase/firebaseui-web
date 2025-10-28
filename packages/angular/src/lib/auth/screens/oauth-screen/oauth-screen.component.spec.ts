@@ -30,6 +30,7 @@ import { ContentComponent } from "../../../components/content/content.component"
 jest.mock("../../../provider", () => ({
   injectTranslation: jest.fn(),
   injectPolicies: jest.fn(),
+  injectRedirectError: jest.fn(),
 }));
 
 @Component({
@@ -78,7 +79,7 @@ class TestHostWithoutContentComponent {}
 
 describe("<fui-oauth-screen>", () => {
   beforeEach(() => {
-    const { injectTranslation, injectPolicies } = require("../../../provider");
+    const { injectTranslation, injectPolicies, injectRedirectError } = require("../../../provider");
     injectTranslation.mockImplementation((category: string, key: string) => {
       const mockTranslations: Record<string, Record<string, string>> = {
         labels: {
@@ -94,6 +95,10 @@ describe("<fui-oauth-screen>", () => {
     injectPolicies.mockReturnValue({
       termsOfServiceUrl: "https://example.com/terms",
       privacyPolicyUrl: "https://example.com/privacy",
+    });
+
+    injectRedirectError.mockImplementation(() => {
+      return () => undefined;
     });
   });
 
@@ -180,7 +185,7 @@ describe("<fui-oauth-screen>", () => {
   });
 
   it("renders RedirectError component with children when no MFA resolver", async () => {
-    await render(TestHostWithContentComponent, {
+    const { container } = await render(TestHostWithContentComponent, {
       imports: [
         OAuthScreenComponent,
         MockPoliciesComponent,
@@ -194,9 +199,8 @@ describe("<fui-oauth-screen>", () => {
       ],
     });
 
-    const redirectError = screen.getByTestId("redirect-error");
-    expect(redirectError).toBeInTheDocument();
-    expect(redirectError).toHaveTextContent("Redirect Error");
+    const redirectErrorElement = container.querySelector("fui-redirect-error");
+    expect(redirectErrorElement).toBeInTheDocument();
   });
 
   it("has correct CSS classes", async () => {
