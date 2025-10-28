@@ -18,7 +18,7 @@ import { Component, output, input } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FactorId } from "firebase/auth";
 import { injectTranslation } from "../../../provider";
-import { MultiFactorAuthEnrollmentFormComponent } from "./multi-factor-auth-enrollment-form.component";
+import { MultiFactorAuthEnrollmentFormComponent } from "../../forms/multi-factor-auth-enrollment-form.component";
 import { RedirectErrorComponent } from "../../../components/redirect-error/redirect-error.component";
 import {
   CardComponent,

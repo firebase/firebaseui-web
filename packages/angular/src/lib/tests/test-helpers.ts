@@ -191,6 +191,37 @@ export const injectPhoneAuthVerifyFormSchema = jest.fn().mockReturnValue(() => {
   });
 });
 
+export const injectMultiFactorPhoneAuthNumberFormSchema = jest.fn().mockReturnValue(() => {
+  const { z } = require("zod");
+  return z.object({
+    displayName: z.string().min(1, "Display name is required"),
+    phoneNumber: z.string().min(1, "Phone number is required"),
+  });
+});
+
+export const injectMultiFactorPhoneAuthVerifyFormSchema = jest.fn().mockReturnValue(() => {
+  const { z } = require("zod");
+  return z.object({
+    verificationCode: z.string().min(1, "Verification code is required"),
+  });
+});
+
+export const injectMultiFactorTotpAuthNumberFormSchema = jest.fn().mockReturnValue(() => {
+  const { z } = require("zod");
+  return z.object({
+    displayName: z.string().min(1, "Display name is required"),
+  });
+});
+
+export const injectMultiFactorTotpAuthVerifyFormSchema = jest.fn().mockReturnValue(() => {
+  const { z } = require("zod");
+  return z.object({
+    verificationCode: z.string().refine((val: string) => val.length === 6, {
+      message: "Verification code must be 6 digits",
+    }),
+  });
+});
+
 export const injectCountries = jest.fn().mockReturnValue(() => countryData);
 export const injectDefaultCountry = jest.fn().mockReturnValue(() => "US");
 

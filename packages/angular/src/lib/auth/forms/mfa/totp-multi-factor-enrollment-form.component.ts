@@ -18,7 +18,6 @@ import { Component, signal, effect, output, computed } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { TanStackField, TanStackAppField, injectForm, injectStore } from "@tanstack/angular-form";
 import { TotpMultiFactorGenerator, type TotpSecret } from "firebase/auth";
-import { z } from "zod";
 import {
   enrollWithMultiFactorAssertion,
   generateTotpSecret,
@@ -34,6 +33,8 @@ import { PoliciesComponent } from "../../../components/policies/policies.compone
 import {
   injectUI,
   injectTranslation,
+  injectMultiFactorTotpAuthNumberFormSchema,
+  injectMultiFactorTotpAuthVerifyFormSchema,
 } from "../../../provider";
 
 @Component({
@@ -51,7 +52,6 @@ import {
   template: `
     <div class="fui-form-container">
       @if (!enrollment()) {
-        <!-- Display Name Entry Step -->
         <form (submit)="handleDisplayNameSubmit($event)" class="fui-form">
           <fieldset>
             <fui-form-input
@@ -70,7 +70,6 @@ import {
           </fieldset>
         </form>
       } @else {
-        <!-- QR Code and Verification Step -->
         <div class="fui-qr-code-container">
           <img [src]="qrCodeDataUrl()" alt="TOTP QR Code" />
           <p>TODO: Scan this QR code with your authenticator app</p>
@@ -98,6 +97,8 @@ import {
 })
 export class TotpMultiFactorEnrollmentFormComponent {
   private ui = injectUI();
+  private displayNameFormSchema = injectMultiFactorTotpAuthNumberFormSchema();
+  private verificationFormSchema = injectMultiFactorTotpAuthVerifyFormSchema();
 
   enrollment = signal<{ secret: TotpSecret; displayName: string } | null>(null);
 
@@ -134,12 +135,8 @@ export class TotpMultiFactorEnrollmentFormComponent {
     effect(() => {
       this.displayNameForm.update({
         validators: {
-          onBlur: z.object({
-            displayName: z.string().min(1, "Display name is required"),
-          }),
-          onSubmit: z.object({
-            displayName: z.string().min(1, "Display name is required"),
-          }),
+          onBlur: this.displayNameFormSchema(),
+          onSubmit: this.displayNameFormSchema(),
           onSubmitAsync: async ({ value }) => {
             try {
               if (!this.ui().auth.currentUser) {
@@ -163,16 +160,8 @@ export class TotpMultiFactorEnrollmentFormComponent {
     effect(() => {
       this.verificationForm.update({
         validators: {
-          onBlur: z.object({
-            verificationCode: z.string().refine((val) => val.length === 6, {
-              message: "Verification code must be 6 digits",
-            }),
-          }),
-          onSubmit: z.object({
-            verificationCode: z.string().refine((val) => val.length === 6, {
-              message: "Verification code must be 6 digits",
-            }),
-          }),
+          onBlur: this.verificationFormSchema(),
+          onSubmit: this.verificationFormSchema(),
           onSubmitAsync: async ({ value }) => {
             try {
               const enrollmentData = this.enrollment();

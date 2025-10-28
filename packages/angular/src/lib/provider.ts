@@ -33,6 +33,10 @@ import {
   createPhoneAuthVerifyFormSchema,
   createSignInAuthFormSchema,
   createSignUpAuthFormSchema,
+  createMultiFactorPhoneAuthNumberFormSchema,
+  createMultiFactorPhoneAuthVerifyFormSchema,
+  createMultiFactorTotpAuthNumberFormSchema,
+  createMultiFactorTotpAuthVerifyFormSchema,
   FirebaseUIStore,
   type FirebaseUI as FirebaseUIType,
   getTranslation,
@@ -118,6 +122,26 @@ export function injectPhoneAuthFormSchema(): Signal<ReturnType<typeof createPhon
 export function injectPhoneAuthVerifyFormSchema(): Signal<ReturnType<typeof createPhoneAuthVerifyFormSchema>> {
   const ui = injectUI();
   return computed(() => createPhoneAuthVerifyFormSchema(ui()));
+}
+
+export function injectMultiFactorPhoneAuthNumberFormSchema(): Signal<ReturnType<typeof createMultiFactorPhoneAuthNumberFormSchema>> {
+  const ui = injectUI();
+  return computed(() => createMultiFactorPhoneAuthNumberFormSchema(ui()));
+}
+
+export function injectMultiFactorPhoneAuthVerifyFormSchema(): Signal<ReturnType<typeof createMultiFactorPhoneAuthVerifyFormSchema>> {
+  const ui = injectUI();
+  return computed(() => createMultiFactorPhoneAuthVerifyFormSchema(ui()));
+}
+
+export function injectMultiFactorTotpAuthNumberFormSchema(): Signal<ReturnType<typeof createMultiFactorTotpAuthNumberFormSchema>> {
+  const ui = injectUI();
+  return computed(() => createMultiFactorTotpAuthNumberFormSchema(ui()));
+}
+
+export function injectMultiFactorTotpAuthVerifyFormSchema(): Signal<ReturnType<typeof createMultiFactorTotpAuthVerifyFormSchema>> {
+  const ui = injectUI();
+  return computed(() => createMultiFactorTotpAuthVerifyFormSchema(ui()));
 }
 
 export function injectPolicies(): PolicyConfig | null {

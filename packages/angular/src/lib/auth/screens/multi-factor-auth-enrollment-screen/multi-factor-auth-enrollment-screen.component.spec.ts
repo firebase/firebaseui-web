@@ -17,7 +17,6 @@
 import { render, screen } from "@testing-library/angular";
 import { Component } from "@angular/core";
 import { MultiFactorAuthEnrollmentScreenComponent } from "./multi-factor-auth-enrollment-screen.component";
-import { MultiFactorAuthEnrollmentFormComponent } from "../../forms/multi-factor-auth-enrollment-form.component";
 import {
   CardComponent,
   CardHeaderComponent,
@@ -25,7 +24,6 @@ import {
   CardSubtitleComponent,
   CardContentComponent,
 } from "../../../components/card/card.component";
-import { RedirectErrorComponent } from "../../../components/redirect-error/redirect-error.component";
 import { FactorId } from "firebase/auth";
 
 @Component({

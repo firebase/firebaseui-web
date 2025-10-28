@@ -17,10 +17,10 @@
 import { Component, signal, input, output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FactorId } from "firebase/auth";
-import { injectTranslation } from "../../../provider";
+import { injectTranslation } from "../../provider";
 import { SmsMultiFactorEnrollmentFormComponent } from "./mfa/sms-multi-factor-enrollment-form.component";
 import { TotpMultiFactorEnrollmentFormComponent } from "./mfa/totp-multi-factor-enrollment-form.component";
-import { ButtonComponent } from "../../../components/button/button.component";
+import { ButtonComponent } from "../../components/button/button.component";
 
 type Hint = (typeof FactorId)[keyof typeof FactorId];
 
@@ -36,18 +36,18 @@ type Hint = (typeof FactorId)[keyof typeof FactorId];
   template: `
     <div class="fui-content">
       @if (selectedHint()) {
-        @if (selectedHint() === 'phone') {
+        @if (selectedHint() === "phone") {
           <fui-sms-multi-factor-enrollment-form (onEnrollment)="onEnrollment.emit()" />
-        } @else if (selectedHint() === 'totp') {
+        } @else if (selectedHint() === "totp") {
           <fui-totp-multi-factor-enrollment-form (onEnrollment)="onEnrollment.emit()" />
         }
       } @else {
         @for (hint of hints(); track hint) {
-          @if (hint === 'phone') {
+          @if (hint === "phone") {
             <button fui-button (click)="selectHint('phone')">
               {{ smsVerificationLabel() }}
             </button>
-          } @else if (hint === 'totp') {
+          } @else if (hint === "totp") {
             <button fui-button (click)="selectHint('totp')">
               {{ totpVerificationLabel() }}
             </button>

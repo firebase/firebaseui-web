@@ -37,8 +37,8 @@ import { PoliciesComponent } from "../../../components/policies/policies.compone
 import {
   injectUI,
   injectTranslation,
-  injectPhoneAuthFormSchema,
-  injectPhoneAuthVerifyFormSchema,
+  injectMultiFactorPhoneAuthNumberFormSchema,
+  injectMultiFactorPhoneAuthVerifyFormSchema,
   injectDefaultCountry,
 } from "../../../provider";
 
@@ -58,7 +58,6 @@ import {
   template: `
     <div class="fui-form-container">
       @if (!verificationId()) {
-        <!-- Phone Number Entry Step -->
         <form (submit)="handlePhoneSubmit($event)" class="fui-form">
           <fieldset>
             <fui-form-input
@@ -89,7 +88,6 @@ import {
           </fieldset>
         </form>
       } @else {
-        <!-- Verification Code Step -->
         <form (submit)="handleVerificationSubmit($event)" class="fui-form">
           <fieldset>
             <fui-form-input
@@ -113,8 +111,8 @@ import {
 })
 export class SmsMultiFactorEnrollmentFormComponent {
   private ui = injectUI();
-  private phoneFormSchema = injectPhoneAuthFormSchema();
-  private verificationFormSchema = injectPhoneAuthVerifyFormSchema();
+  private phoneFormSchema = injectMultiFactorPhoneAuthNumberFormSchema();
+  private verificationFormSchema = injectMultiFactorPhoneAuthVerifyFormSchema();
   private defaultCountry = injectDefaultCountry();
 
   verificationId = signal<string | null>(null);
@@ -162,11 +160,12 @@ export class SmsMultiFactorEnrollmentFormComponent {
           onSubmit: this.phoneFormSchema(),
           onSubmitAsync: async ({ value }) => {
             try {
-              if (!this.ui().auth.currentUser) {
+              const currentUser = this.ui().auth.currentUser;
+              if (!currentUser) {
                 throw new Error("User must be authenticated to enroll with multi-factor authentication");
               }
 
-              const mfaUser = multiFactor(this.ui().auth.currentUser);
+              const mfaUser = multiFactor(currentUser);
               const formattedPhoneNumber = formatPhoneNumber(value.phoneNumber, this.defaultCountry());
               const verificationId = await verifyPhoneNumber(
                 this.ui(),
