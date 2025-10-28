@@ -14,28 +14,70 @@
  * limitations under the License.
  */
 
-import { Component, computed } from "@angular/core";
+import { Component, computed, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { injectUI } from "../../provider";
+import { injectUI, injectTranslation } from "../../provider";
+import { PhoneMultiFactorGenerator, TotpMultiFactorGenerator, type MultiFactorInfo } from "firebase/auth";
+import { SmsMultiFactorAssertionFormComponent } from "./mfa/sms-multi-factor-assertion-form";
+import { TotpMultiFactorAssertionFormComponent } from "./mfa/totp-multi-factor-assertion-form";
+import { ButtonComponent } from "../../components/button";
 
 @Component({
   selector: "fui-multi-factor-auth-assertion-form",
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    SmsMultiFactorAssertionFormComponent,
+    TotpMultiFactorAssertionFormComponent,
+    ButtonComponent,
+  ],
   template: `
     <div class="fui-content">
-      <div>Hello World - MFA Assertion Form</div>
+      @if (selectedHint()) {
+        @if (selectedHint()!.factorId === phoneFactorId) {
+          <fui-sms-multi-factor-assertion-form [hint]="selectedHint()!" />
+        } @else if (selectedHint()!.factorId === totpFactorId) {
+          <fui-totp-multi-factor-assertion-form [hint]="selectedHint()!" />
+        }
+      } @else {
+        <p>TODO: Select a multi-factor authentication method</p>
+        @for (hint of resolver().hints; track hint.factorId) {
+          @if (hint.factorId === totpFactorId) {
+            <button fui-button (click)="selectHint(hint)">
+              {{ totpVerificationLabel() }}
+            </button>
+          } @else if (hint.factorId === phoneFactorId) {
+            <button fui-button (click)="selectHint(hint)">
+              {{ smsVerificationLabel() }}
+            </button>
+          }
+        }
+      }
     </div>
   `,
 })
 export class MultiFactorAuthAssertionFormComponent {
   private ui = injectUI();
   
-  mfaResolver = computed(() => {
+  resolver = computed(() => {
     const resolver = this.ui().multiFactorResolver;
     if (!resolver) {
       throw new Error("MultiFactorAuthAssertionForm requires a multi-factor resolver");
     }
     return resolver;
   });
+
+  selectedHint = signal<MultiFactorInfo | undefined>(
+    this.resolver().hints.length === 1 ? this.resolver().hints[0] : undefined
+  );
+
+  phoneFactorId = PhoneMultiFactorGenerator.FACTOR_ID;
+  totpFactorId = TotpMultiFactorGenerator.FACTOR_ID;
+
+  smsVerificationLabel = injectTranslation("labels", "mfaSmsVerification");
+  totpVerificationLabel = injectTranslation("labels", "mfaTotpVerification");
+
+  selectHint(hint: MultiFactorInfo) {
+    this.selectedHint.set(hint);
+  }
 }

@@ -19,9 +19,13 @@ import { registerFramework } from "@firebase-ui/core";
 
 export { EmailLinkAuthFormComponent } from "./lib/auth/forms/email-link-auth-form";
 export { ForgotPasswordAuthFormComponent } from "./lib/auth/forms/forgot-password-auth-form";
+export { MultiFactorAuthAssertionFormComponent } from "./lib/auth/forms/multi-factor-auth-assertion-form";
 export { PhoneAuthFormComponent } from "./lib/auth/forms/phone-auth-form";
 export { SignInAuthFormComponent } from "./lib/auth/forms/sign-in-auth-form";
 export { SignUpAuthFormComponent } from "./lib/auth/forms/sign-up-auth-form";
+
+export { SmsMultiFactorAssertionFormComponent } from "./lib/auth/forms/mfa/sms-multi-factor-assertion-form";
+export { TotpMultiFactorAssertionFormComponent } from "./lib/auth/forms/mfa/totp-multi-factor-assertion-form";
 
 export { GoogleSignInButtonComponent } from "./lib/auth/oauth/google-sign-in-button";
 export { FacebookSignInButtonComponent } from "./lib/auth/oauth/facebook-sign-in-button";
