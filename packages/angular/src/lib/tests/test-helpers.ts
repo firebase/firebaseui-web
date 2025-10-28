@@ -108,6 +108,10 @@ export const injectPolicies = jest.fn().mockReturnValue({
   privacyPolicyUrl: "https://example.com/privacy",
 });
 
+export const injectRedirectError = jest.fn().mockImplementation(() => {
+  return () => undefined;
+});
+
 // TODO(ehesp): Unfortunately, we cannot use the real schemas here because of the ESM-only dependency on nanostores in @firebase-ui/core - this is a little
 // risky as schema updates and tests need aligning, but this is a workaround for now.
 

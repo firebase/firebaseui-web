@@ -40,6 +40,13 @@ jest.mock("../../../provider", () => ({
 class MockPoliciesComponent {}
 
 @Component({
+  selector: "fui-redirect-error",
+  template: '<div data-testid="redirect-error">Redirect Error</div>',
+  standalone: true,
+})
+class MockRedirectErrorComponent {}
+
+@Component({
   template: `
     <fui-oauth-screen>
       <div data-testid="oauth-provider">OAuth Provider</div>
@@ -95,6 +102,7 @@ describe("<fui-oauth-screen>", () => {
       imports: [
         OAuthScreenComponent,
         MockPoliciesComponent,
+        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -113,6 +121,7 @@ describe("<fui-oauth-screen>", () => {
       imports: [
         OAuthScreenComponent,
         MockPoliciesComponent,
+        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -131,6 +140,7 @@ describe("<fui-oauth-screen>", () => {
       imports: [
         OAuthScreenComponent,
         MockPoliciesComponent,
+        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -150,6 +160,7 @@ describe("<fui-oauth-screen>", () => {
       imports: [
         OAuthScreenComponent,
         MockPoliciesComponent,
+        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -168,11 +179,32 @@ describe("<fui-oauth-screen>", () => {
     expect(provider2).toHaveTextContent("Provider 2");
   });
 
+  it("renders RedirectError component with children when no MFA resolver", async () => {
+    await render(TestHostWithContentComponent, {
+      imports: [
+        OAuthScreenComponent,
+        MockPoliciesComponent,
+        MockRedirectErrorComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+        ContentComponent,
+      ],
+    });
+
+    const redirectError = screen.getByTestId("redirect-error");
+    expect(redirectError).toBeInTheDocument();
+    expect(redirectError).toHaveTextContent("Redirect Error");
+  });
+
   it("has correct CSS classes", async () => {
     const { container } = await render(TestHostWithoutContentComponent, {
       imports: [
         OAuthScreenComponent,
         MockPoliciesComponent,
+        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -196,6 +228,7 @@ describe("<fui-oauth-screen>", () => {
       imports: [
         OAuthScreenComponent,
         MockPoliciesComponent,
+        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,

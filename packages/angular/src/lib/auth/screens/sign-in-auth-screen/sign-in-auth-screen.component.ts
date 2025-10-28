@@ -19,6 +19,7 @@ import { CommonModule } from "@angular/common";
 
 import { injectTranslation } from "../../../provider";
 import { SignInAuthFormComponent } from "../../forms/sign-in-auth-form/sign-in-auth-form.component";
+import { RedirectErrorComponent } from "../../../components/redirect-error/redirect-error.component";
 import {
   CardComponent,
   CardHeaderComponent,
@@ -38,6 +39,7 @@ import { UserCredential } from "@angular/fire/auth";
     CardSubtitleComponent,
     CardContentComponent,
     SignInAuthFormComponent,
+    RedirectErrorComponent,
   ],
   template: `
     <div class="fui-screen">
@@ -52,6 +54,7 @@ import { UserCredential } from "@angular/fire/auth";
             (signUp)="signUp.emit()"
             (signIn)="signIn.emit($event)"
           />
+          <fui-redirect-error />
           <ng-content />
         </fui-card-content>
       </fui-card>

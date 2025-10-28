@@ -25,6 +25,7 @@ import {
 } from "../../../components/card/card.component";
 import { injectTranslation } from "../../../provider";
 import { EmailLinkAuthFormComponent } from "../../forms/email-link-auth-form/email-link-auth-form.component";
+import { RedirectErrorComponent } from "../../../components/redirect-error/redirect-error.component";
 import { UserCredential } from "@angular/fire/auth";
 
 @Component({
@@ -38,6 +39,7 @@ import { UserCredential } from "@angular/fire/auth";
     CardSubtitleComponent,
     CardContentComponent,
     EmailLinkAuthFormComponent,
+    RedirectErrorComponent,
   ],
   template: `
     <div class="fui-screen">
@@ -48,6 +50,7 @@ import { UserCredential } from "@angular/fire/auth";
         </fui-card-header>
         <fui-card-content>
           <fui-email-link-auth-form (emailSent)="emailSent.emit()" (signIn)="signIn.emit($event)" />
+          <fui-redirect-error />
           <ng-content></ng-content>
         </fui-card-content>
       </fui-card>

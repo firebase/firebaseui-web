@@ -25,6 +25,7 @@ import {
 } from "../../../components/card/card.component";
 import { injectTranslation } from "../../../provider";
 import { PhoneAuthFormComponent } from "../../forms/phone-auth-form/phone-auth-form.component";
+import { RedirectErrorComponent } from "../../../components/redirect-error/redirect-error.component";
 import { UserCredential } from "@angular/fire/auth";
 
 @Component({
@@ -38,6 +39,7 @@ import { UserCredential } from "@angular/fire/auth";
     CardSubtitleComponent,
     CardContentComponent,
     PhoneAuthFormComponent,
+    RedirectErrorComponent,
   ],
   template: `
     <div class="fui-screen">
@@ -48,6 +50,7 @@ import { UserCredential } from "@angular/fire/auth";
         </fui-card-header>
         <fui-card-content>
           <fui-phone-auth-form (signIn)="signIn.emit($event)" />
+          <fui-redirect-error />
           <ng-content />
         </fui-card-content>
       </fui-card>

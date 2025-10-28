@@ -27,6 +27,20 @@ import {
 } from "../../../components/card/card.component";
 
 @Component({
+  selector: "fui-email-link-auth-form",
+  template: '<button class="fui-form__action fui-button">labels.sendSignInLink</button>',
+  standalone: true,
+})
+class MockEmailLinkAuthFormComponent {}
+
+@Component({
+  selector: "fui-redirect-error",
+  template: '<div data-testid="redirect-error">Redirect Error</div>',
+  standalone: true,
+})
+class MockRedirectErrorComponent {}
+
+@Component({
   template: `
     <fui-email-link-auth-screen>
       <div data-testid="projected-content">Test Content</div>
@@ -64,6 +78,8 @@ describe("<fui-email-link-auth-screen>", () => {
     await render(TestHostWithoutContentComponent, {
       imports: [
         EmailLinkAuthScreenComponent,
+        MockEmailLinkAuthFormComponent,
+        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -80,6 +96,8 @@ describe("<fui-email-link-auth-screen>", () => {
     await render(TestHostWithoutContentComponent, {
       imports: [
         EmailLinkAuthScreenComponent,
+        MockEmailLinkAuthFormComponent,
+        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -97,6 +115,8 @@ describe("<fui-email-link-auth-screen>", () => {
     await render(TestHostWithContentComponent, {
       imports: [
         EmailLinkAuthScreenComponent,
+        MockEmailLinkAuthFormComponent,
+        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -110,10 +130,31 @@ describe("<fui-email-link-auth-screen>", () => {
     expect(projectedContent).toHaveTextContent("Test Content");
   });
 
+  it("renders RedirectError component in children section", async () => {
+    await render(TestHostWithContentComponent, {
+      imports: [
+        EmailLinkAuthScreenComponent,
+        MockEmailLinkAuthFormComponent,
+        MockRedirectErrorComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
+
+    const redirectError = screen.getByTestId("redirect-error");
+    expect(redirectError).toBeInTheDocument();
+    expect(redirectError).toHaveTextContent("Redirect Error");
+  });
+
   it("has correct CSS classes", async () => {
     const { container } = await render(TestHostWithoutContentComponent, {
       imports: [
         EmailLinkAuthScreenComponent,
+        MockEmailLinkAuthFormComponent,
+        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -135,6 +176,8 @@ describe("<fui-email-link-auth-screen>", () => {
     await render(TestHostWithoutContentComponent, {
       imports: [
         EmailLinkAuthScreenComponent,
+        MockEmailLinkAuthFormComponent,
+        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,

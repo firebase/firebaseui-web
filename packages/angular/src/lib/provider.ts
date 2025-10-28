@@ -133,3 +133,14 @@ export function injectDefaultCountry(): Signal<CountryData> {
   const ui = injectUI();
   return computed(() => getBehavior(ui(), "countryCodes")().defaultCountry);
 }
+
+export function injectRedirectError(): Signal<string | undefined> {
+  const ui = injectUI();
+  return computed(() => {
+    const redirectError = ui().redirectError;
+    if (!redirectError) {
+      return undefined;
+    }
+    return redirectError instanceof Error ? redirectError.message : String(redirectError);
+  });
+}

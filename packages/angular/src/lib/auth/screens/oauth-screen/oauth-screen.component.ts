@@ -26,6 +26,7 @@ import {
 import { injectTranslation } from "../../../provider";
 import { PoliciesComponent } from "../../../components/policies/policies.component";
 import { ContentComponent } from "../../../components/content/content.component";
+import { RedirectErrorComponent } from "../../../components/redirect-error/redirect-error.component";
 
 @Component({
   selector: "fui-oauth-screen",
@@ -39,6 +40,7 @@ import { ContentComponent } from "../../../components/content/content.component"
     CardContentComponent,
     PoliciesComponent,
     ContentComponent,
+    RedirectErrorComponent,
   ],
   template: `
     <div class="fui-screen">
@@ -51,6 +53,7 @@ import { ContentComponent } from "../../../components/content/content.component"
           <fui-content>
             <ng-content></ng-content>
           </fui-content>
+          <fui-redirect-error />
           <fui-policies />
         </fui-card-content>
       </fui-card>
