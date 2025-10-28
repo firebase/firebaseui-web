@@ -14,6 +14,7 @@ dist-ssr
 
 # Angular
 .angular
+.firebase
 
 # Next.js
 .next
