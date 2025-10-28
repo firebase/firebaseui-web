@@ -53,7 +53,7 @@
     "libphonenumber-js": "^1.12.23",
     "nanostores": "catalog:",
     "qrcode-generator": "^2.0.4",
-    "zod": "^3.24.1"
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@types/google-one-tap": "^1.2.6",
