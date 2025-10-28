@@ -44,6 +44,7 @@ export { CountrySelectorComponent } from "./lib/components/country-selector/coun
 export { DividerComponent } from "./lib/components/divider/divider.component";
 export { PoliciesComponent } from "./lib/components/policies/policies.component";
 export { ContentComponent } from "./lib/components/content/content.component";
+export { RedirectErrorComponent } from "./lib/components/redirect-error/redirect-error.component";
 
 // Provider
 export * from "./lib/provider";

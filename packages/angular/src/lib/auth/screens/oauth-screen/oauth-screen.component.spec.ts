@@ -30,6 +30,7 @@ import { ContentComponent } from "../../../components/content/content.component"
 jest.mock("../../../provider", () => ({
   injectTranslation: jest.fn(),
   injectPolicies: jest.fn(),
+  injectRedirectError: jest.fn(),
 }));
 
 @Component({
@@ -38,6 +39,13 @@ jest.mock("../../../provider", () => ({
   standalone: true,
 })
 class MockPoliciesComponent {}
+
+@Component({
+  selector: "fui-redirect-error",
+  template: '<div data-testid="redirect-error">Redirect Error</div>',
+  standalone: true,
+})
+class MockRedirectErrorComponent {}
 
 @Component({
   template: `
@@ -71,7 +79,7 @@ class TestHostWithoutContentComponent {}
 
 describe("<fui-oauth-screen>", () => {
   beforeEach(() => {
-    const { injectTranslation, injectPolicies } = require("../../../provider");
+    const { injectTranslation, injectPolicies, injectRedirectError } = require("../../../provider");
     injectTranslation.mockImplementation((category: string, key: string) => {
       const mockTranslations: Record<string, Record<string, string>> = {
         labels: {
@@ -88,6 +96,10 @@ describe("<fui-oauth-screen>", () => {
       termsOfServiceUrl: "https://example.com/terms",
       privacyPolicyUrl: "https://example.com/privacy",
     });
+
+    injectRedirectError.mockImplementation(() => {
+      return () => undefined;
+    });
   });
 
   it("renders with correct title and subtitle", async () => {
@@ -95,6 +107,7 @@ describe("<fui-oauth-screen>", () => {
       imports: [
         OAuthScreenComponent,
         MockPoliciesComponent,
+        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -113,6 +126,7 @@ describe("<fui-oauth-screen>", () => {
       imports: [
         OAuthScreenComponent,
         MockPoliciesComponent,
+        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -131,6 +145,7 @@ describe("<fui-oauth-screen>", () => {
       imports: [
         OAuthScreenComponent,
         MockPoliciesComponent,
+        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -150,6 +165,7 @@ describe("<fui-oauth-screen>", () => {
       imports: [
         OAuthScreenComponent,
         MockPoliciesComponent,
+        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -168,11 +184,31 @@ describe("<fui-oauth-screen>", () => {
     expect(provider2).toHaveTextContent("Provider 2");
   });
 
+  it("renders RedirectError component with children when no MFA resolver", async () => {
+    const { container } = await render(TestHostWithContentComponent, {
+      imports: [
+        OAuthScreenComponent,
+        MockPoliciesComponent,
+        MockRedirectErrorComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+        ContentComponent,
+      ],
+    });
+
+    const redirectErrorElement = container.querySelector("fui-redirect-error");
+    expect(redirectErrorElement).toBeInTheDocument();
+  });
+
   it("has correct CSS classes", async () => {
     const { container } = await render(TestHostWithoutContentComponent, {
       imports: [
         OAuthScreenComponent,
         MockPoliciesComponent,
+        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -196,6 +232,7 @@ describe("<fui-oauth-screen>", () => {
       imports: [
         OAuthScreenComponent,
         MockPoliciesComponent,
+        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,

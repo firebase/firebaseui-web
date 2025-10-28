@@ -27,6 +27,20 @@ import {
 } from "../../../components/card/card.component";
 
 @Component({
+  selector: "fui-sign-in-auth-form",
+  template: '<button class="fui-form__action fui-button">Sign in</button>',
+  standalone: true,
+})
+class MockSignInAuthFormComponent {}
+
+@Component({
+  selector: "fui-redirect-error",
+  template: '<div data-testid="redirect-error">Redirect Error</div>',
+  standalone: true,
+})
+class MockRedirectErrorComponent {}
+
+@Component({
   template: `
     <fui-sign-in-auth-screen>
       <div data-testid="projected-content">Test Content</div>
@@ -64,6 +78,8 @@ describe("<fui-sign-in-auth-screen>", () => {
     await render(TestHostWithoutContentComponent, {
       imports: [
         SignInAuthScreenComponent,
+        MockSignInAuthFormComponent,
+        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -80,6 +96,8 @@ describe("<fui-sign-in-auth-screen>", () => {
     await render(TestHostWithoutContentComponent, {
       imports: [
         SignInAuthScreenComponent,
+        MockSignInAuthFormComponent,
+        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -97,6 +115,8 @@ describe("<fui-sign-in-auth-screen>", () => {
     await render(TestHostWithContentComponent, {
       imports: [
         SignInAuthScreenComponent,
+        MockSignInAuthFormComponent,
+        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -110,10 +130,30 @@ describe("<fui-sign-in-auth-screen>", () => {
     expect(projectedContent).toHaveTextContent("Test Content");
   });
 
+  it("renders RedirectError component in children section when no MFA resolver", async () => {
+    const { container } = await render(TestHostWithContentComponent, {
+      imports: [
+        SignInAuthScreenComponent,
+        MockSignInAuthFormComponent,
+        MockRedirectErrorComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
+
+    const redirectErrorElement = container.querySelector("fui-redirect-error");
+    expect(redirectErrorElement).toBeInTheDocument();
+  });
+
   it("has correct CSS classes", async () => {
     const { container } = await render(TestHostWithoutContentComponent, {
       imports: [
         SignInAuthScreenComponent,
+        MockSignInAuthFormComponent,
+        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -135,6 +175,8 @@ describe("<fui-sign-in-auth-screen>", () => {
     await render(TestHostWithoutContentComponent, {
       imports: [
         SignInAuthScreenComponent,
+        MockSignInAuthFormComponent,
+        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
