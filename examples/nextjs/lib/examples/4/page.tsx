@@ -19,7 +19,5 @@
 import { SignInAuthScreen } from "@invertase/firebaseui-react";
 
 export default function Example4() {
-  return (
-    <SignInAuthScreen onForgotPasswordClick={() => {}} onRegisterClick={() => {}} />
-  );
+  return <SignInAuthScreen onForgotPasswordClick={() => {}} onRegisterClick={() => {}} />;
 }

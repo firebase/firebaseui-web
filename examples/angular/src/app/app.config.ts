@@ -14,28 +14,25 @@
  * limitations under the License.
  */
 
-import {
-  ApplicationConfig,
-  isDevMode,
-  provideZoneChangeDetection,
-} from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { type ApplicationConfig, provideZoneChangeDetection, isDevMode } from "@angular/core";
+import { provideRouter } from "@angular/router";
 
-import {
-  provideClientHydration,
-  withEventReplay,
-} from '@angular/platform-browser';
-import { routes } from './app.routes';
+import { routes } from "./app.routes";
+import { provideClientHydration, withEventReplay } from "@angular/platform-browser";
 
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
-import {
-  provideFirebaseUI,
-  provideFirebaseUIPolicies,
-} from '@invertase/firebaseui-angular';
-import { initializeUI } from '@invertase/firebaseui-core';
+import { provideFirebaseApp, initializeApp } from "@angular/fire/app";
+import { provideAuth, getAuth, connectAuthEmulator } from "@angular/fire/auth";
+import { provideFirebaseUI, provideFirebaseUIPolicies } from "@firebase-ui/angular";
+import { initializeUI } from "@firebase-ui/core";
 
-const firebaseConfig = {};
+const firebaseConfig = {
+  apiKey: "AIzaSyCvMftIUCD9lUQ3BzIrimfSfBbCUQYZf-I",
+  authDomain: "fir-ui-rework.firebaseapp.com",
+  projectId: "fir-ui-rework",
+  storageBucket: "fir-ui-rework.firebasestorage.app",
+  messagingSenderId: "200312857118",
+  appId: "1:200312857118:web:94e3f69b0e0a4a863f040f",
+};
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -45,18 +42,16 @@ export const appConfig: ApplicationConfig = {
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideAuth(() => {
       const auth = getAuth();
-
       if (isDevMode()) {
         /** Enable emulators in development */
-        connectAuthEmulator(auth, 'http://localhost:9099');
+        connectAuthEmulator(auth, "http://localhost:9099");
       }
-
       return auth;
     }),
     provideFirebaseUI((apps) => initializeUI({ app: apps[0] })),
     provideFirebaseUIPolicies(() => ({
-      termsOfServiceUrl: 'https://www.google.com',
-      privacyPolicyUrl: 'https://www.google.com',
+      termsOfServiceUrl: "https://www.google.com",
+      privacyPolicyUrl: "https://www.google.com",
     })),
   ],
 };

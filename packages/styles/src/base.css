@@ -1,0 +1,311 @@
+/**
+ * Copyright 2025 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@layer theme {
+  :root {
+    /* The primary color is used for the button and link colors */
+    --fui-primary: var(--color-black);
+    /* The primary hover color is used for the button and link colors when hovered */
+    --fui-primary-hover: --alpha(var(--fui-primary) / 85%);
+    /* The primary surface color is used for the button text color */
+    --fui-primary-surface: var(--color-white);
+    /* The text color used for body text */
+    --fui-text: var(--color-black);
+    /* The muted text color used for body text, such as subtitles */
+    --fui-text-muted: var(--color-gray-800);
+    /* The background color of the cards */
+    --fui-background: var(--color-white);
+    /* The border color used for none input fields */
+    --fui-border: var(--color-gray-200);
+    /* The input color used for input fields */
+    --fui-input: var(--color-gray-300);
+    /* The error color used for error messages */
+    --fui-error: var(--color-red-500);
+    /* The radius used for the input fields */
+    --fui-radius: var(--radius-sm);
+    /* The radius used for the cards */
+    --fui-radius-card: var(--radius-xl);
+  }
+
+  /* Apply dark mode styles when the dark variant is applied */
+  /* See https://tailwindcss.com/docs/dark-mode */
+  @variant dark {
+    :root {
+      --fui-primary: var(--color-white);
+      --fui-primary-hover: --alpha(var(--fui-primary) / 85%);
+      --fui-primary-surface: var(--color-black);
+      --fui-text: var(--color-white);
+      --fui-text-muted: var(--color-gray-200);
+      --fui-background: var(--color-black);
+      --fui-border: var(--color-gray-200);
+      --fui-input: var(--color-gray-300);
+      --fui-error: var(--color-red-500);
+      --fui-radius: var(--radius-sm);
+      --fui-radius-card: var(--radius-xl);
+    }
+  }
+}
+
+@theme {
+  --color-primary: var(--fui-primary);
+  --color-primary-hover: var(--fui-primary-hover);
+  --color-primary-surface: var(--fui-primary-surface);
+  --color-text: var(--fui-text);
+  --color-text-muted: var(--fui-text-muted);
+  --color-background: var(--fui-background);
+  --color-border: var(--fui-border);
+  --color-input: var(--fui-input);
+  --color-error: var(--fui-error);
+  --radius: var(--fui-radius);
+  --radius-card: var(--fui-radius-card);
+}
+
+@layer components {
+  /* Using :where() to reduce CSS specificity - allows users to easily override with their own Tailwind classes */
+  :where(.fui-screen) {
+    @apply pt-24 max-w-md mx-auto;
+  }
+
+  :where(.fui-screen .fui-screen__children) {
+    @apply space-y-2;
+  }
+
+  :where(.fui-card) {
+    @apply bg-background p-10 border border-border rounded-card space-y-6;
+  }
+
+  :where(.fui-card__header) {
+    @apply text-center space-y-1;
+  }
+
+  :where(.fui-card__title) {
+    @apply text-xl font-bold text-text;
+  }
+
+  :where(.fui-card__subtitle) {
+    @apply text-sm text-text-muted;
+  }
+
+  :where(.fui-form) {
+    @apply space-y-6;
+  }
+
+  :where(.fui-form fieldset),
+  :where(.fui-form fieldset label) {
+    @apply flex flex-col gap-2 text-text;
+  }
+
+  :where(.fui-form fieldset label span) {
+    @apply inline-flex gap-3 text-sm font-medium;
+  }
+
+  :where(.fui-form .fui-form__action) {
+    @apply px-1 hover:underline text-xs text-text-muted;
+  }
+
+  :where(.fui-form fieldset label input) {
+    @apply w-full border-1 border-input rounded px-2 py-2 text-sm focus:outline-2 focus:outline-primary shadow-xs bg-transparent;
+  }
+
+  :where(.fui-form fieldset label input[aria-invalid="true"]) {
+    @apply border-error outline-error outline-2;
+  }
+
+  :where(.fui-form fieldset label div[data-input-group]) {
+    @apply flex items-center gap-2;
+  }
+
+  :where(.fui-form .fui-form__error) {
+    @apply text-error text-left text-xs;
+  }
+
+  :where(.fui-success) {
+    @apply text-center text-xs;
+  }
+
+  :where(.fui-button) {
+    @apply w-full flex items-center justify-center gap-3 px-4 py-2 rounded text-sm font-medium shadow-xs bg-primary text-primary-surface transition hover:bg-primary-hover hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  :where(.fui-button--secondary) {
+    @apply bg-transparent text-text border border-input hover:bg-background hover:border-primary;
+  }
+
+  :where(.fui-button.fui-provider__button) {
+    @apply border border-border;
+  }
+
+  :where(.fui-provider__button > svg, .fui-provider__button > img) {
+    @apply w-5 h-5;
+  }
+
+  :where(.fui-divider) {
+    @apply flex items-center gap-3 my-4;
+  }
+
+  :where(.fui-divider__line) {
+    @apply flex-1 h-px bg-border;
+  }
+
+  :where(.fui-divider__text) {
+    @apply text-text-muted text-xs;
+  }
+
+  :where(.fui-phone-input) {
+    @apply flex gap-2 items-center;
+  }
+
+  :where(.fui-phone-input__number-input) {
+    @apply border-1 border-input rounded px-2 py-2 text-sm focus:outline-2 focus:outline-primary shadow-xs bg-transparent flex-1;
+  }
+
+  :where(.fui-phone-input__number-input[aria-invalid="true"]) {
+    @apply outline-error outline-2;
+  }
+
+  :where(.fui-country-selector) {
+    @apply relative inline-block w-[120px];
+  }
+
+  :where(.fui-country-selector__wrapper) {
+    @apply relative flex items-center outline-1 outline-input rounded bg-transparent overflow-hidden;
+  }
+
+  :where(.fui-country-selector__flag) {
+    @apply absolute left-2 text-lg pointer-events-none;
+  }
+
+  :where(.fui-country-selector select) {
+    @apply w-full pl-8 pr-2 py-2 text-sm focus:outline-2 focus:outline-primary shadow-xs bg-transparent appearance-none cursor-pointer text-transparent;
+  }
+
+  :where(.fui-country-selector__dial-code) {
+    @apply absolute left-8 top-1/2 -translate-y-1/2 text-sm pointer-events-none text-text;
+  }
+
+  :where(.fui-form fieldset label div[data-input-group]:has(input[aria-invalid="true"]) .fui-country-selector) {
+    @apply outline-error outline-2 rounded;
+  }
+
+  :where(.fui-form fieldset label div[data-input-group]:has(input[aria-invalid="true"]) .fui-country-selector .fui-country-selector__wrapper) {
+    @apply outline-error outline-2 rounded;
+  }
+  
+  :where(.fui-policies) {
+    @apply text-text-muted text-center text-xs;
+  }
+
+  :where(.fui-policies a, .fui-policies button) {
+    @apply hover:underline font-semibold;
+  }
+
+
+  .fui-provider__button[data-provider="google.com"][data-themed="true"] {
+    --google-primary: #131314;
+    --color-primary: var(--google-primary);
+    --color-primary-hover: --alpha(var(--google-primary) / 85%);
+    --color-primary-surface: #FFFFFF;
+    --color-border: var(--google-primary);
+  }
+
+  .fui-provider__button[data-provider="google.com"][data-themed="neutral"] {
+    --google-primary: #F2F2F2;
+    --color-primary: var(--google-primary);
+    --color-primary-hover: --alpha(var(--google-primary) / 85%);
+    --color-primary-surface: #1F1F1F;
+    --color-border: transparent;
+  }
+
+  @variant dark {
+    .fui-provider__button[data-provider="google.com"][data-themed="true"] {
+      --google-primary: #FFFFFF;
+      --color-primary: var(--google-primary);
+      --color-primary-hover: --alpha(var(--google-primary) / 85%);
+      --color-primary-surface: #1F1F1F;
+      --color-border: #747775;
+    }
+  }
+
+  .fui-provider__button[data-provider="facebook.com"][data-themed="true"] {
+    --facebook-primary: #1877F2;
+    --color-primary: var(--facebook-primary);
+    --color-primary-hover: --alpha(var(--facebook-primary) / 85%);
+    --color-primary-surface: var(--color-white);
+    --color-border: var(--facebook-primary);
+  }
+
+  .fui-provider__button[data-provider="apple.com"][data-themed="true"] {
+    --apple-primary: #000000;
+    --color-primary: var(--apple-primary);
+    --color-primary-hover: --alpha(var(--apple-primary) / 85%);
+    --color-primary-surface: #FFFFFF;
+    --color-border: var(--apple-primary);
+  }
+
+  @variant dark {
+    .fui-provider__button[data-provider="apple.com"][data-themed="true"] {
+      --apple-primary: var(--color-white);
+      --color-primary: var(--apple-primary);
+      --color-primary-hover: --alpha(var(--apple-primary) / 85%);
+      --color-primary-surface: var(--color-black);
+      --color-border: var(--color-white);
+    }
+  }
+
+  .fui-provider__button[data-provider="github.com"][data-themed="true"] {
+    --github-primary: #000000;
+    --color-primary: var(--github-primary);
+    --color-primary-hover: --alpha(var(--github-primary) / 85%);
+    --color-primary-surface: #FFFFFF;
+    --color-border: var(--github-primary);
+  }
+
+  @variant dark {
+    .fui-provider__button[data-provider="github.com"][data-themed="true"] {
+      --github-primary: var(--color-white);
+      --color-primary: var(--github-primary);
+      --color-primary-hover: --alpha(var(--github-primary) / 85%);
+      --color-primary-surface: var(--color-black);
+      --color-border: var(--color-white);
+    }
+  }
+
+  .fui-provider__button[data-provider="microsoft.com"][data-themed="true"] {
+    --microsoft-primary: #2F2F2F;
+    --color-primary: var(--microsoft-primary);
+    --color-primary-hover: --alpha(var(--microsoft-primary) / 85%);
+    --color-primary-surface: #FFFFFF;
+    --color-border: var(--microsoft-primary);
+  }
+
+  @variant dark {
+    .fui-provider__button[data-provider="microsoft.com"][data-themed="true"] {
+      --microsoft-primary: var(--color-white);
+      --color-primary: var(--microsoft-primary);
+      --color-primary-hover: --alpha(var(--microsoft-primary) / 85%);
+      --color-primary-surface: #5E5E5E;
+      --color-border: var(--color-white);
+    }
+  }
+  
+  .fui-provider__button[data-provider="twitter.com"][data-themed="true"] {
+    --twitter-primary: #1DA1F2;
+    --color-primary: var(--twitter-primary);
+    --color-primary-hover: --alpha(var(--twitter-primary) / 85%);
+    --color-primary-surface: #FFFFFF;
+    --color-border: var(--twitter-primary);
+  }
+}

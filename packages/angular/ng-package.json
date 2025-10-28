@@ -1,0 +1,16 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "./dist/",
+  "lib": {
+    "entryFile": "src/public-api.ts"
+  },
+  "allowedNonPeerDependencies": [
+    "@firebase-ui/core",
+    "@firebase-ui/styles",
+    "@tanstack/angular-form",
+    "firebase",
+    "nanostores",
+    "tslib",
+    "zod"
+  ]
+}

@@ -131,13 +131,13 @@ If you are using [TailwindCSS](https://tailwindcss.com/), import the base CSS fr
 
 ```css
 @import "tailwindcss";
-@import "@firebase-ui/styles/src/base.css";
+@import "@firebase-ui/styles/tailwind";
 ```
 
 If you are not using Tailwind, import the distributable CSS in your project:
 
 ```css
-@import "@firebase-ui/styles/dist.css";
+@import "@firebase-ui/styles";
 ```
 
 To learn more about theming, view the [theming](#theming) section.
@@ -202,12 +202,11 @@ The initializeUI function accepts an options object that allows you to customize
 ### Type Definition
 
 ```js
-type FirebaseUIConfigurationOptions = {
+type FirebaseUIOptions = {
   app: FirebaseApp;
-  locale?: Locale | undefined;
-  translations?: RegisteredTranslations[] | undefined;
-  behaviors?: Partial<Behavior<keyof BehaviorHandlers>>[] | undefined;
-  recaptchaMode?: 'normal' | 'invisible' | undefined;
+  auth?: Auth;
+  locale?: Locale;
+  behaviors?: Behavior<any>[];
 };
 ```
 
@@ -290,7 +289,7 @@ const ui = initializeUI({
 Configuration Type:
 
 ```js
-type FirebaseUIConfigurationOptions = {
+type FirebaseUIOptions = {
   app: FirebaseApp;
   locale?: Locale | undefined;
   translations?: RegisteredTranslations[] | undefined;
@@ -303,61 +302,61 @@ type FirebaseUIConfigurationOptions = {
 
 **signInWithEmailAndPassword**: Signs in the user based on an email/password credential.
 
-- _ui_: FirebaseUIConfiguration
+- _ui_: FirebaseUI
 - _email_: string
 - _password_: string
 
 **createUserWithEmailAndPassword**: Creates a user account based on an email/password credential.
 
-- _ui_: FirebaseUIConfiguration
+- _ui_: FirebaseUI
 - _email_: string
 - _password_: string
 
 **signInWithPhoneNumber**: Signs in the user based on a provided phone number, using ReCaptcha to verify the sign-in.
 
-- _ui_: FirebaseUIConfiguration
+- _ui_: FirebaseUI
 - _phoneNumber_: string
 - _recaptchaVerifier_: string
 
 **confirmPhoneNumber**: Verifies the phonenumber credential and signs in the user.
 
-- _ui_: FirebaseUIConfiguration
+- _ui_: FirebaseUI
 - _confirmationResult_: [ConfirmationResult](https://firebase.google.com/docs/reference/node/firebase.auth.ConfirmationResult)
 - _verificationCode_: string
 
 **sendPasswordResetEmail**: Sends password reset instructions to an email account.
 
-- _ui_: FirebaseUIConfiguration
+- _ui_: FirebaseUI
 - _email_: string
 
 **sendSignInLinkToEmail**: Send an sign-in links to an email account.
 
-- _ui_: FirebaseUIConfiguration
+- _ui_: FirebaseUI
 - _email_: string
 
 **signInWithEmailLink**: Signs in with the user with the email link. If `autoUpgradeAnonymousCredential` then a pending credential will be handled.
 
-- _ui_: FirebaseUIConfiguration
+- _ui_: FirebaseUI
 - _email_: string
 - _link_: string
 
 **signInAnonymously**: Signs in as an anonymous user.
 
-- _ui_: FirebaseUIConfiguration
+- _ui_: FirebaseUI
 
 **signInWithOAuth**: Signs in with a provider such as Google via a redirect link. If `autoUpgradeAnonymousCredential` then the account will upgraded.
 
-- _ui_: FirebaseUIConfiguration
+- _ui_: FirebaseUI
 - _provider_: [AuthProvider](https://firebase.google.com/docs/reference/node/firebase.auth.AuthProvider)
 
 **completeEmailLinkSignIn**: Completes the signing process based on a user signing in with an email link.
 
-- _ui_: FirebaseUIConfiguration
+- _ui_: FirebaseUI
 - _currentUrl_: string
 
 #### Provide a Store via Context
 
-Using the returned `FirebaseUIConfiguration`, it is reccomended to use local context/providers/dependency-injection to expose the FirebaseUIConfiguration to the application. Here is an example context wrapper which accepts the configuration as a `ui` parameter:
+Using the returned `FirebaseUI`, it is reccomended to use local context/providers/dependency-injection to expose the FirebaseUI to the application. Here is an example context wrapper which accepts the configuration as a `ui` parameter:
 
 ```js
 /** Creates a framework-agnostic context for Firebase UI configuration **/
@@ -391,7 +390,7 @@ export function createFirebaseUIContext(initialConfig) {
 FirebaseUI Configuration Type:
 
 ```js
-export type FirebaseUIConfiguration = {
+export type FirebaseUI = {
   app: FirebaseApp,
   getAuth: () => Auth,
   setLocale: (locale: Locale) => void,
@@ -556,7 +555,7 @@ The core library provides a function for handling errors.
 
 ```js
 export function handleFirebaseError(
-  ui: FirebaseUIConfiguration,
+  ui: FirebaseUI,
   error: any,
   opts?: {
     enableHandleExistingCredential?: boolean;

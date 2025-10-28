@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "moduleResolution": "Bundler",
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./src/*"],
+      "~/tests/*": ["./tests/*"],
+      "@firebase-ui/translations": ["../translations/src/index.ts"]
+    }
+  },
+  "include": ["src", "vitest.config.ts", "tsup.config.ts"]
+}

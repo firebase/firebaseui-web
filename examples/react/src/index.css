@@ -15,7 +15,7 @@
  */
 
 @import "tailwindcss";
-@import "@invertase/firebaseui-styles/src/base.css";
+@import "@firebase-ui/styles/tailwind";
 
-/* @import "@invertase/firebaseui-styles/src/themes/dark.css"; */
-/* @import "@invertase/firebaseui-styles/src/themes/brutalist.css"; */
+/* @import "@firebase-ui/styles/src/themes/dark.css"; */
+/* @import "@firebase-ui/styles/src/themes/brutalist.css"; */

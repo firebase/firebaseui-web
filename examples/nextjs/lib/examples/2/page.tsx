@@ -17,14 +17,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  EmailPasswordForm,
-  RegisterForm,
-  Card,
-  CardHeader,
-  CardTitle,
-  CardSubtitle,
-} from "@invertase/firebaseui-react";
+import { EmailPasswordForm, RegisterForm, Card, CardHeader, CardTitle, CardSubtitle } from "@firebase-ui/react";
 
 export default function Example2() {
   const [showRegister, setShowRegister] = useState(false);
@@ -70,13 +63,9 @@ export default function Example2() {
             <div className="!min-h-0 !bg-transparent !p-0">
               <Card className="relative rounded-xl border border-white/10 bg-black/40 shadow-2xl backdrop-blur-xl">
                 <CardHeader>
-                  <CardTitle>
-                    {showRegister ? "Join DemoStyle" : "Welcome Back"}
-                  </CardTitle>
+                  <CardTitle>{showRegister ? "Join DemoStyle" : "Welcome Back"}</CardTitle>
                   <CardSubtitle>
-                    {showRegister
-                      ? "Experience this demo styling"
-                      : "Sign in to continue your journey"}
+                    {showRegister ? "Experience this demo styling" : "Sign in to continue your journey"}
                   </CardSubtitle>
                 </CardHeader>
                 {showRegister ? (
@@ -91,9 +80,7 @@ export default function Example2() {
                     <EmailPasswordForm onForgotPasswordClick={() => {}} />
                     <div className="flex items-center gap-4 pt-4">
                       <div className="h-px flex-1 bg-white/10"></div>
-                      <span className="text-xs text-gray-500">
-                        Example Style Demo
-                      </span>
+                      <span className="text-xs text-gray-500">Example Style Demo</span>
                       <div className="h-px flex-1 bg-white/10"></div>
                     </div>
                   </>
@@ -105,9 +92,7 @@ export default function Example2() {
 
         <footer className="py-8">
           <div className="flex items-center justify-between">
-            <div className="text-sm text-gray-500">
-              © 2024 DemoStyle. All rights reserved.
-            </div>
+            <div className="text-sm text-gray-500">© 2024 DemoStyle. All rights reserved.</div>
             <div className="flex gap-6">
               <a href="#" className="text-sm text-gray-500 hover:text-white">
                 Privacy

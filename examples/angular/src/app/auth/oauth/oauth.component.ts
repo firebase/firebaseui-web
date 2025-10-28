@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
-import { Auth, User, authState } from '@angular/fire/auth';
-import { OAuthScreenComponent, GoogleSignInButtonComponent } from '@invertase/firebaseui-angular';
+import { Component, type OnInit, inject } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { Router, RouterModule } from "@angular/router";
+import { Auth, type User, authState } from "@angular/fire/auth";
+import { OAuthScreenComponent, GoogleSignInButtonComponent } from "@firebase-ui/angular";
 
 @Component({
-  selector: 'app-oauth',
+  selector: "app-oauth",
   standalone: true,
   imports: [CommonModule, RouterModule, OAuthScreenComponent, GoogleSignInButtonComponent],
   template: `
@@ -29,17 +29,17 @@ import { OAuthScreenComponent, GoogleSignInButtonComponent } from '@invertase/fi
       <fui-google-sign-in-button></fui-google-sign-in-button>
     </fui-oauth-screen>
   `,
-  styles: []
+  styles: [],
 })
 export class OAuthComponent implements OnInit {
   private auth = inject(Auth);
   private router = inject(Router);
-  
+
   ngOnInit() {
     // Check if user is already authenticated and redirect to home page
     authState(this.auth).subscribe((user: User | null) => {
       if (user) {
-        this.router.navigate(['/']);
+        this.router.navigate(["/"]);
       }
     });
   }

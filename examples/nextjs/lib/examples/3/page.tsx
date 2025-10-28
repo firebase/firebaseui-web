@@ -82,8 +82,7 @@ export default function Example3() {
         <div className="text-center">
           <h1 className="text-4xl font-bold">Modal Example</h1>
           <p className="mx-auto mt-4 text-gray-600">
-            Click the Sign In or Get Started button in the header to see the
-            modal.
+            Click the Sign In or Get Started button in the header to see the modal.
           </p>
         </div>
       </main>
@@ -104,18 +103,8 @@ export default function Example3() {
                   onClick={() => setShowModal(false)}
                   className="absolute right-4 top-4 rounded-lg p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
                 >
-                  <svg
-                    className="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
 
@@ -123,26 +112,17 @@ export default function Example3() {
                   <div className="space-y-6">
                     <div>
                       <h2 className="text-2xl font-bold">Create Account</h2>
-                      <p className="mt-2 text-sm text-gray-600">
-                        Join us to get started with your journey
-                      </p>
+                      <p className="mt-2 text-sm text-gray-600">Join us to get started with your journey</p>
                     </div>
-                    <RegisterForm
-                      onBackToSignInClick={() => setIsRegister(false)}
-                    />
+                    <RegisterForm onBackToSignInClick={() => setIsRegister(false)} />
                   </div>
                 ) : (
                   <div className="space-y-6">
                     <div>
                       <h2 className="text-2xl font-bold">Welcome Back</h2>
-                      <p className="mt-2 text-sm text-gray-600">
-                        Sign in to your account to continue
-                      </p>
+                      <p className="mt-2 text-sm text-gray-600">Sign in to your account to continue</p>
                     </div>
-                    <EmailPasswordForm
-                      onForgotPasswordClick={() => {}}
-                      onRegisterClick={() => setIsRegister(true)}
-                    />
+                    <EmailPasswordForm onForgotPasswordClick={() => {}} onRegisterClick={() => setIsRegister(true)} />
                   </div>
                 )}
               </div>

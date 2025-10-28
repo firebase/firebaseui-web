@@ -16,36 +16,18 @@
 
 "use client";
 
-import { initializeUI } from "@invertase/firebaseui-core";
-import { customLanguage, english } from "@invertase/firebaseui-translations";
-import { getApps, initializeApp } from "firebase/app";
-import { connectAuthEmulator, getAuth } from "firebase/auth";
+import { initializeApp, getApps } from "firebase/app";
 import { firebaseConfig } from "./config";
+import { connectAuthEmulator, getAuth } from "firebase/auth";
+import { autoAnonymousLogin, initializeUI } from "@firebase-ui/core";
 
-export const firebaseApp =
-  getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+export const firebaseApp = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
 export const auth = getAuth(firebaseApp);
 
 export const ui = initializeUI({
   app: firebaseApp,
-  behaviors: [],
-  translations: [
-    customLanguage(english.locale, {
-      labels: {
-        signIn: "Sign In",
-      },
-      prompts: {
-        signInToAccount: "Sign in to your account",
-      },
-      errors: {
-        invalidEmail: "Please enter a valid email address",
-      },
-    }),
-  ],
+  behaviors: [autoAnonymousLogin()],
 });
 
-// Only connect to emulator in development mode
-if (process.env.NODE_ENV === "development") {
-  connectAuthEmulator(auth, "http://localhost:9099");
-}
+connectAuthEmulator(auth, "http://localhost:9099");
