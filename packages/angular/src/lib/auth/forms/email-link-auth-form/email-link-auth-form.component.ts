@@ -18,7 +18,7 @@ import { Component, effect, output, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanstack/angular-form";
 import { UserCredential } from "@angular/fire/auth";
-import { FirebaseUIError, completeEmailLinkSignIn, sendSignInLinkToEmail } from "@firebase-ui/core";
+import { FirebaseUIError, completeEmailLinkSignIn, sendSignInLinkToEmail } from "@invertase/firebaseui-core";
 
 import {
   FormInputComponent,

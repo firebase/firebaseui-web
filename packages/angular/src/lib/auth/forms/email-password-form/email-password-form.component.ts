@@ -26,7 +26,7 @@ import {
   FirebaseUI,
   FirebaseUIError,
   signInWithEmailAndPassword,
-} from "@firebase-ui/core";
+} from "@invertase/firebaseui-core";
 import { firstValueFrom } from "rxjs";
 import { Router } from "@angular/router";
 

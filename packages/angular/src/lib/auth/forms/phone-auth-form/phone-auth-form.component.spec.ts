@@ -37,7 +37,7 @@ describe("<fui-phone-auth-form />", () => {
   let mockFirebaseUIError: any;
 
   beforeEach(() => {
-    const { verifyPhoneNumber, confirmPhoneNumber, formatPhoneNumber, FirebaseUIError } = require("@firebase-ui/core");
+    const { verifyPhoneNumber, confirmPhoneNumber, formatPhoneNumber, FirebaseUIError } = require("@invertase/firebaseui-core");
     mockVerifyPhoneNumber = verifyPhoneNumber;
     mockConfirmPhoneNumber = confirmPhoneNumber;
     mockFormatPhoneNumber = formatPhoneNumber;

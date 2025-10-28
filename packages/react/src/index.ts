@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { registerFramework } from "@firebase-ui/core";
+import { registerFramework } from "@invertase/firebaseui-core";
 import pkgJson from "../package.json";
 
 export * from "./auth";

@@ -38,7 +38,7 @@ import {
   confirmPhoneNumber,
   verifyPhoneNumber,
   CountryCode,
-} from "@firebase-ui/core";
+} from "@invertase/firebaseui-core";
 
 @Component({
   selector: "fui-phone-number-form",

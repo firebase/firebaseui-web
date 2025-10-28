@@ -18,14 +18,14 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, renderHook, cleanup } from "@testing-library/react";
 import { SignInAuthForm, useSignInAuthForm, useSignInAuthFormAction } from "./sign-in-auth-form";
 import { act } from "react";
-import { signInWithEmailAndPassword } from "@firebase-ui/core";
+import { signInWithEmailAndPassword } from "@invertase/firebaseui-core";
 import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
-import { registerLocale } from "@firebase-ui/translations";
+import { registerLocale } from "@invertase/firebaseui-translations";
 import type { UserCredential } from "firebase/auth";
 import { FirebaseUIProvider } from "~/context";
 
-vi.mock("@firebase-ui/core", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@firebase-ui/core")>();
+vi.mock("@invertase/firebaseui-core", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@invertase/firebaseui-core")>();
   return {
     ...mod,
     signInWithEmailAndPassword: vi.fn(),

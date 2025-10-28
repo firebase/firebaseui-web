@@ -8,7 +8,7 @@ import {
   createSignInAuthFormSchema,
   createSignUpAuthFormSchema,
 } from "./schemas";
-import { registerLocale } from "@firebase-ui/translations";
+import { registerLocale } from "@invertase/firebaseui-translations";
 import { RecaptchaVerifier } from "firebase/auth";
 
 describe("createSignInAuthFormSchema", () => {

@@ -32,7 +32,7 @@ describe("<fui-email-link-auth-form />", () => {
   let mockFirebaseUIError: any;
 
   beforeEach(() => {
-    const { sendSignInLinkToEmail, completeEmailLinkSignIn, FirebaseUIError } = require("@firebase-ui/core");
+    const { sendSignInLinkToEmail, completeEmailLinkSignIn, FirebaseUIError } = require("@invertase/firebaseui-core");
     mockSendSignInLinkToEmail = sendSignInLinkToEmail;
     mockCompleteEmailLinkSignIn = completeEmailLinkSignIn;
     mockFirebaseUIError = FirebaseUIError;

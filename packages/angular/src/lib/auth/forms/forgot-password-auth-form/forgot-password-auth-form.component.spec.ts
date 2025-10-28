@@ -31,7 +31,7 @@ describe("<fui-forgot-password-auth-form />", () => {
   let mockFirebaseUIError: any;
 
   beforeEach(() => {
-    const { sendPasswordResetEmail, FirebaseUIError } = require("@firebase-ui/core");
+    const { sendPasswordResetEmail, FirebaseUIError } = require("@invertase/firebaseui-core");
     mockSendPasswordResetEmail = sendPasswordResetEmail;
     mockFirebaseUIError = FirebaseUIError;
   });

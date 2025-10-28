@@ -16,7 +16,7 @@
 
 "use client";
 
-import { FirebaseUIError, completeEmailLinkSignIn, getTranslation, sendSignInLinkToEmail } from "@firebase-ui/core";
+import { FirebaseUIError, completeEmailLinkSignIn, getTranslation, sendSignInLinkToEmail } from "@invertase/firebaseui-core";
 import type { UserCredential } from "firebase/auth";
 import { useEmailLinkAuthFormSchema, useUI } from "~/hooks";
 import { form } from "~/components/form";

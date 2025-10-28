@@ -16,7 +16,7 @@
 
 import { type ComponentProps } from "react";
 import { Slot } from "@radix-ui/react-slot";
-import { buttonVariant, type ButtonVariant } from "@firebase-ui/styles";
+import { buttonVariant, type ButtonVariant } from "@invertase/firebaseui-styles";
 import { cn } from "~/utils/cn";
 
 export type ButtonProps = ComponentProps<"button"> & {

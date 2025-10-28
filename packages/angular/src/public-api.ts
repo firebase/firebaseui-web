@@ -15,7 +15,7 @@
  */
 
 import { isDevMode } from "@angular/core";
-import { registerFramework } from "@firebase-ui/core";
+import { registerFramework } from "@invertase/firebaseui-core";
 
 export { EmailLinkAuthFormComponent } from "./lib/auth/forms/email-link-auth-form/email-link-auth-form.component";
 export { ForgotPasswordAuthFormComponent } from "./lib/auth/forms/forgot-password-auth-form/forgot-password-auth-form.component";

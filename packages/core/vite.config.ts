@@ -6,8 +6,8 @@ import { fileURLToPath } from "node:url";
 export default defineConfig({
   resolve: {
     alias: {
-      "@firebase-ui/styles": path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../styles/src"),
-      "@firebase-ui/translations": path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../translations/src"),
+      "@invertase/firebaseui-styles": path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../styles/src"),
+      "@invertase/firebaseui-translations": path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../translations/src"),
       "~/tests": path.resolve(path.dirname(fileURLToPath(import.meta.url)), "./tests"),
       "~": path.resolve(path.dirname(fileURLToPath(import.meta.url)), "./src"),
     },

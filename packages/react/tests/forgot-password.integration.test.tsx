@@ -26,7 +26,7 @@ import { describe } from "vitest";
 //   createUserWithEmailAndPassword,
 //   signInWithEmailAndPassword,
 // } from "firebase/auth";
-// import { initializeUI } from "@firebase-ui/core";
+// import { initializeUI } from "@invertase/firebaseui-core";
 // import { FirebaseUIProvider } from "~/context";
 
 // // Prepare the test environment

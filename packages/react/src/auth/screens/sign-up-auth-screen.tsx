@@ -19,7 +19,7 @@ import { Divider } from "~/components/divider";
 import { useUI } from "~/hooks";
 import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "../../components/card";
 import { SignUpAuthForm, type SignUpAuthFormProps } from "../forms/sign-up-auth-form";
-import { getTranslation } from "@firebase-ui/core";
+import { getTranslation } from "@invertase/firebaseui-core";
 
 export type SignUpAuthScreenProps = PropsWithChildren<SignUpAuthFormProps>;
 

@@ -26,7 +26,7 @@ import {
   usePhoneAuthVerifyFormSchema,
 } from "./hooks";
 import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
-import { registerLocale, enUs } from "@firebase-ui/translations";
+import { registerLocale, enUs } from "@invertase/firebaseui-translations";
 
 beforeEach(() => {
   vi.clearAllMocks();
