@@ -24,7 +24,7 @@ import {
   GitHubSignInButton,
   MicrosoftSignInButton,
   TwitterSignInButton,
-} from "@firebase-ui/react";
+} from "@invertase/firebaseui-react";
 import { useNavigate } from "react-router";
 
 export default function SignInAuthScreenWithOAuthPage() {
