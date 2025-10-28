@@ -362,9 +362,7 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
     await fixture.whenStable();
     fixture.detectChanges();
 
-    expect(
-      screen.getByText("An unknown error occurred")
-    ).toBeInTheDocument();
+    expect(screen.getByText("An unknown error occurred")).toBeInTheDocument();
   });
 
   it("should have correct CSS classes", async () => {

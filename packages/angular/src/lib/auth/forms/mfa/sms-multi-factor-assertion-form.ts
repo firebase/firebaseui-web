@@ -25,11 +25,7 @@ import {
 } from "../../../provider";
 import { RecaptchaVerifier } from "@angular/fire/auth";
 import { FormInputComponent, FormSubmitComponent, FormErrorMessageComponent } from "../../../components/form";
-import {
-  FirebaseUIError,
-  verifyPhoneNumber,
-  signInWithMultiFactorAssertion,
-} from "@firebase-ui/core";
+import { FirebaseUIError, verifyPhoneNumber, signInWithMultiFactorAssertion } from "@firebase-ui/core";
 import { PhoneAuthProvider, PhoneMultiFactorGenerator, type MultiFactorInfo } from "firebase/auth";
 
 type PhoneMultiFactorInfo = MultiFactorInfo & {
@@ -111,7 +107,13 @@ export class SmsMultiFactorAssertionPhoneFormComponent {
           onSubmit: this.formSchema(),
           onSubmitAsync: async () => {
             try {
-              const verificationId = await verifyPhoneNumber(this.ui(), "", this.recaptchaVerifier(), undefined, this.hint());
+              const verificationId = await verifyPhoneNumber(
+                this.ui(),
+                "",
+                this.recaptchaVerifier(),
+                undefined,
+                this.hint()
+              );
               this.onSubmit.emit(verificationId);
               return;
             } catch (error) {
@@ -230,11 +232,7 @@ export class SmsMultiFactorAssertionVerifyFormComponent {
 @Component({
   selector: "fui-sms-multi-factor-assertion-form",
   standalone: true,
-  imports: [
-    CommonModule,
-    SmsMultiFactorAssertionPhoneFormComponent,
-    SmsMultiFactorAssertionVerifyFormComponent,
-  ],
+  imports: [CommonModule, SmsMultiFactorAssertionPhoneFormComponent, SmsMultiFactorAssertionVerifyFormComponent],
   template: `
     <div class="fui-content">
       @if (verification()) {
@@ -243,10 +241,7 @@ export class SmsMultiFactorAssertionVerifyFormComponent {
           (onSuccess)="onSuccess.emit()"
         />
       } @else {
-        <fui-sms-multi-factor-assertion-phone-form
-          [hint]="hint()"
-          (onSubmit)="handlePhoneSubmit($event)"
-        />
+        <fui-sms-multi-factor-assertion-phone-form [hint]="hint()" (onSubmit)="handlePhoneSubmit($event)" />
       }
     </div>
   `,

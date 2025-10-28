@@ -68,9 +68,9 @@ import { RedirectErrorComponent } from "../../components/redirect-error";
 })
 export class OAuthScreenComponent {
   private ui = injectUI();
-  
+
   mfaResolver = computed(() => this.ui().multiFactorResolver);
-  
+
   titleText = injectTranslation("labels", "signIn");
   subtitleText = injectTranslation("prompts", "signInToAccount");
 }

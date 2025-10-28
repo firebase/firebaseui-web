@@ -100,7 +100,6 @@ export function injectRecaptchaVerifier(element: ElementRef<HTMLDivElement>) {
   });
 
   return verifier;
-
 }
 
 export function injectTranslation(category: string, key: string) {

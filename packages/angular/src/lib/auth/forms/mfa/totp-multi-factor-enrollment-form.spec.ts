@@ -334,9 +334,7 @@ describe("<fui-totp-multi-factor-enrollment-form />", () => {
     await fixture.whenStable();
     fixture.detectChanges();
 
-    expect(
-      screen.getByText("An unknown error occurred")
-    ).toBeInTheDocument();
+    expect(screen.getByText("An unknown error occurred")).toBeInTheDocument();
   });
 
   it("should generate QR code with correct parameters", async () => {

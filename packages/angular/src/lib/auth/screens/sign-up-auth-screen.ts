@@ -66,9 +66,9 @@ import {
 })
 export class SignUpAuthScreenComponent {
   private ui = injectUI();
-  
+
   mfaResolver = computed(() => this.ui().multiFactorResolver);
-  
+
   titleText = injectTranslation("labels", "register");
   subtitleText = injectTranslation("prompts", "enterDetailsToCreate");
 

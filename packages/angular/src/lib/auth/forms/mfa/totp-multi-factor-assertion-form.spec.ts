@@ -18,17 +18,18 @@ import { TotpMultiFactorGenerator } from "firebase/auth";
 
 import { TotpMultiFactorAssertionFormComponent } from "./totp-multi-factor-assertion-form";
 
-import {
-  signInWithMultiFactorAssertion,
-  FirebaseUIError,
-} from "../../../tests/test-helpers";
+import { signInWithMultiFactorAssertion, FirebaseUIError } from "../../../tests/test-helpers";
 
 describe("<fui-totp-multi-factor-assertion-form>", () => {
   let TotpMultiFactorGenerator: any;
 
   beforeEach(() => {
-    const { injectTranslation, injectUI, injectMultiFactorTotpAuthVerifyFormSchema } = require("../../../tests/test-helpers");
-    
+    const {
+      injectTranslation,
+      injectUI,
+      injectMultiFactorTotpAuthVerifyFormSchema,
+    } = require("../../../tests/test-helpers");
+
     injectTranslation.mockImplementation((category: string, key: string) => {
       const mockTranslations: Record<string, Record<string, string>> = {
         labels: {
@@ -63,7 +64,7 @@ describe("<fui-totp-multi-factor-assertion-form>", () => {
     // Mock Firebase Auth classes
     TotpMultiFactorGenerator = require("firebase/auth").TotpMultiFactorGenerator;
     TotpMultiFactorGenerator.assertionForSignIn = jest.fn().mockReturnValue({});
-    
+
     // Clear all mocks before each test
     jest.clearAllMocks();
   });

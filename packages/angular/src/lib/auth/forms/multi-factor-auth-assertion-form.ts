@@ -25,12 +25,7 @@ import { ButtonComponent } from "../../components/button";
 @Component({
   selector: "fui-multi-factor-auth-assertion-form",
   standalone: true,
-  imports: [
-    CommonModule,
-    SmsMultiFactorAssertionFormComponent,
-    TotpMultiFactorAssertionFormComponent,
-    ButtonComponent,
-  ],
+  imports: [CommonModule, SmsMultiFactorAssertionFormComponent, TotpMultiFactorAssertionFormComponent, ButtonComponent],
   template: `
     <div class="fui-content">
       @if (selectedHint()) {
@@ -58,7 +53,7 @@ import { ButtonComponent } from "../../components/button";
 })
 export class MultiFactorAuthAssertionFormComponent {
   private ui = injectUI();
-  
+
   resolver = computed(() => {
     const resolver = this.ui().multiFactorResolver;
     if (!resolver) {

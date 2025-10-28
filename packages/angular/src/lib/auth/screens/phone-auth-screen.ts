@@ -65,9 +65,9 @@ import { UserCredential } from "@angular/fire/auth";
 })
 export class PhoneAuthScreenComponent {
   private ui = injectUI();
-  
+
   mfaResolver = computed(() => this.ui().multiFactorResolver);
-  
+
   titleText = injectTranslation("labels", "signIn");
   subtitleText = injectTranslation("prompts", "signInToAccount");
 

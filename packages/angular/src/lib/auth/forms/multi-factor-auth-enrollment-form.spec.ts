@@ -178,7 +178,6 @@ describe("<fui-multi-factor-auth-enrollment-form />", () => {
     expect(enrollmentSpy).toHaveBeenCalled();
   });
 
-
   it("should have correct CSS classes", async () => {
     const { container } = await render(MultiFactorAuthEnrollmentFormComponent, {
       imports: [
