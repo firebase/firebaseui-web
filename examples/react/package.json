@@ -10,10 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@invertase/firebaseui-react": "^0.0.1",
-    "@invertase/firebaseui-core": "^0.0.1",
-    "@invertase/firebaseui-styles": "^0.0.1",
-    "@invertase/firebaseui-translations": "^0.0.1",
+    "@invertase/firebaseui-react": "0.0.3",
+    "@invertase/firebaseui-core": "0.0.3",
+    "@invertase/firebaseui-styles": "0.0.3",
+    "@invertase/firebaseui-translations": "0.0.4",
     "firebase": "^11.6.0",
     "react": "catalog:",
     "react-dom": "catalog:",

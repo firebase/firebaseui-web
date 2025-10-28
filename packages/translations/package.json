@@ -1,6 +1,6 @@
 {
   "name": "@invertase/firebaseui-translations",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "Translations for Firebase UI",
   "type": "module",
   "main": "./dist/index.cjs",

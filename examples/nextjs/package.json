@@ -12,10 +12,10 @@
     "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,md}\""
   },
   "dependencies": {
-    "@invertase/firebaseui-react": "^0.0.1",
-    "@invertase/firebaseui-core": "^0.0.1",
-    "@invertase/firebaseui-styles": "^0.0.1",
-    "@invertase/firebaseui-translations": "^0.0.1",
+    "@invertase/firebaseui-react": "0.0.3",
+    "@invertase/firebaseui-core": "0.0.3",
+    "@invertase/firebaseui-styles": "0.0.3",
+    "@invertase/firebaseui-translations": "0.0.4",
     "firebase": "^11.3.1",
     "next": "15.1.7",
     "react": "^19.0.0",
