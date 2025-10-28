@@ -42,7 +42,7 @@
   "author": "TODO",
   "license": "MIT",
   "peerDependencies": {
-    "firebase": "^11"
+    "firebase": "catalog:peerDependencies"
   },
   "dependencies": {
     "@invertase/firebaseui-translations": "workspace:*",
@@ -50,14 +50,14 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
-    "@types/jsdom": "^21.1.7",
-    "firebase": "^11.0.0",
-    "jsdom": "^26.0.0",
-    "prettier": "^3.1.1",
-    "rimraf": "^6.0.1",
-    "tsup": "^8.0.1",
-    "typescript": "^5.7.3",
-    "vite": "^6.2.0",
-    "vitest": "^3.0.7"
+    "@types/google-one-tap": "^1.2.6",
+    "@types/jsdom": "catalog:",
+    "firebase": "catalog:",
+    "jsdom": "catalog:",
+    "rimraf": "catalog:",
+    "tsup": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vitest": "catalog:"
   }
 }
