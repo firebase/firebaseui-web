@@ -11,10 +11,12 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
-    }
+    },
+    "./brands/*": "./brands/*"
   },
   "files": [
-    "dist"
+    "dist",
+    "brands"
   ],
   "scripts": {
     "prepare": "pnpm run build",
@@ -22,13 +24,15 @@
     "build": "tsup",
     "build:local": "pnpm run build && pnpm pack",
     "dev": "tsup --watch",
-    "lint": "tsc --noEmit",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
     "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\" \"tests/**/*.ts\"",
     "clean": "rimraf dist",
-    "test:unit": "vitest run tests/unit",
-    "test:unit:watch": "vitest tests/unit",
-    "test:integration": "vitest run tests/integration",
-    "test:integration:watch": "vitest tests/integration",
+    "test:unit": "vitest run src",
+    "test:unit:watch": "vitest tests",
+    "test:integration": "vitest run tests",
+    "test:integration:watch": "vitest integration",
     "test": "vitest run",
     "publish:tags": "sh -c 'TAG=\"${npm_package_name}@${npm_package_version}\"; git tag --list \"$TAG\" | grep . || git tag \"$TAG\"; git push origin \"$TAG\"'",
     "release": "pnpm run build && pnpm pack --pack-destination --pack-destination ../../releases/"
@@ -46,7 +50,9 @@
   },
   "dependencies": {
     "@invertase/firebaseui-translations": "workspace:*",
-    "nanostores": "^0.11.3",
+    "libphonenumber-js": "^1.12.23",
+    "nanostores": "catalog:",
+    "qrcode-generator": "^2.0.4",
     "zod": "^3.24.1"
   },
   "devDependencies": {
