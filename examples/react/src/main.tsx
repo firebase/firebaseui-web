@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import { BrowserRouter, Routes, Route } from "react-router";
+import { BrowserRouter, Route, Routes } from "react-router";
 
+import { FirebaseUIProvider } from "@invertase/firebaseui-react";
 import ReactDOM from "react-dom/client";
-import { FirebaseUIProvider } from "@firebase-ui/react";
 
 import { ui } from "./firebase/firebase";
 
@@ -38,8 +38,10 @@ import PhoneAuthScreenPage from "./screens/phone-auth-screen";
 import PhoneAuthScreenWithOAuthPage from "./screens/phone-auth-screen-w-oauth";
 
 /** Sign up */
-import SignUpAuthScreenPage from "./screens/sign-up-auth-screen";
-import SignUpAuthScreenWithOAuthPage from "./screens/sign-up-auth-screen";
+import {
+  default as SignUpAuthScreenPage,
+  default as SignUpAuthScreenWithOAuthPage,
+} from "./screens/sign-up-auth-screen";
 
 /** oAuth */
 import OAuthScreenPage from "./screens/oauth-screen";
