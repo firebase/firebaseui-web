@@ -16,6 +16,7 @@
 
 import { render, screen } from "@testing-library/angular";
 import { Component } from "@angular/core";
+import { TestBed } from "@angular/core/testing";
 
 import { OAuthScreenComponent } from "./oauth-screen";
 import {
@@ -25,12 +26,14 @@ import {
   CardSubtitleComponent,
   CardContentComponent,
 } from "../../components/card";
+import { MultiFactorAuthAssertionFormComponent } from "../forms/multi-factor-auth-assertion-form";
 import { ContentComponent } from "../../components/content";
 
 jest.mock("../../../provider", () => ({
   injectTranslation: jest.fn(),
   injectPolicies: jest.fn(),
   injectRedirectError: jest.fn(),
+  injectUI: jest.fn(),
 }));
 
 @Component({
@@ -46,6 +49,13 @@ class MockPoliciesComponent {}
   standalone: true,
 })
 class MockRedirectErrorComponent {}
+
+@Component({
+  selector: "fui-multi-factor-auth-assertion-form",
+  template: '<div data-testid="mfa-assertion-form">MFA Assertion Form</div>',
+  standalone: true,
+})
+class MockMultiFactorAuthAssertionFormComponent {}
 
 @Component({
   template: `
@@ -79,7 +89,7 @@ class TestHostWithoutContentComponent {}
 
 describe("<fui-oauth-screen>", () => {
   beforeEach(() => {
-    const { injectTranslation, injectPolicies, injectRedirectError } = require("../../../provider");
+    const { injectTranslation, injectPolicies, injectRedirectError, injectUI } = require("../../../provider");
     injectTranslation.mockImplementation((category: string, key: string) => {
       const mockTranslations: Record<string, Record<string, string>> = {
         labels: {
@@ -100,6 +110,12 @@ describe("<fui-oauth-screen>", () => {
     injectRedirectError.mockImplementation(() => {
       return () => undefined;
     });
+
+    injectUI.mockImplementation(() => {
+      return () => ({
+        multiFactorResolver: null,
+      });
+    });
   });
 
   it("renders with correct title and subtitle", async () => {
@@ -108,6 +124,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
+        MockMultiFactorAuthAssertionFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -127,6 +144,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
+        MockMultiFactorAuthAssertionFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -146,6 +164,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
+        MockMultiFactorAuthAssertionFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -166,6 +185,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
+        MockMultiFactorAuthAssertionFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -190,6 +210,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
+        MockMultiFactorAuthAssertionFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -209,6 +230,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
+        MockMultiFactorAuthAssertionFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -233,6 +255,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
+        MockMultiFactorAuthAssertionFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -244,5 +267,73 @@ describe("<fui-oauth-screen>", () => {
 
     expect(injectTranslation).toHaveBeenCalledWith("labels", "signIn");
     expect(injectTranslation).toHaveBeenCalledWith("prompts", "signInToAccount");
+  });
+
+  it("renders MFA assertion form when multiFactorResolver is present", async () => {
+    const { injectUI } = require("../../../provider");
+    injectUI.mockImplementation(() => {
+      return () => ({
+        multiFactorResolver: { hints: [] },
+      });
+    });
+
+    // Override the real component with our mock
+    TestBed.overrideComponent(MultiFactorAuthAssertionFormComponent, {
+      set: {
+        template: '<div data-testid="mfa-assertion-form">MFA Assertion Form</div>',
+      },
+    });
+
+    await render(TestHostWithoutContentComponent, {
+      imports: [
+        OAuthScreenComponent,
+        MockPoliciesComponent,
+        MockRedirectErrorComponent,
+        MockMultiFactorAuthAssertionFormComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+        ContentComponent,
+      ],
+    });
+
+    expect(screen.getByTestId("mfa-assertion-form")).toBeInTheDocument();
+    expect(screen.queryByTestId("policies")).not.toBeInTheDocument();
+  });
+
+  it("does not render Policies component when MFA resolver exists", async () => {
+    const { injectUI } = require("../../../provider");
+    injectUI.mockImplementation(() => {
+      return () => ({
+        multiFactorResolver: { hints: [] },
+      });
+    });
+
+    // Override the real component with our mock
+    TestBed.overrideComponent(MultiFactorAuthAssertionFormComponent, {
+      set: {
+        template: '<div data-testid="mfa-assertion-form">MFA Assertion Form</div>',
+      },
+    });
+
+    await render(TestHostWithContentComponent, {
+      imports: [
+        OAuthScreenComponent,
+        MockPoliciesComponent,
+        MockRedirectErrorComponent,
+        MockMultiFactorAuthAssertionFormComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+        ContentComponent,
+      ],
+    });
+
+    expect(screen.queryByTestId("policies")).not.toBeInTheDocument();
+    expect(screen.getByTestId("mfa-assertion-form")).toBeInTheDocument();
   });
 });

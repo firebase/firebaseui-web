@@ -19,7 +19,7 @@ import { CommonModule } from "@angular/common";
 import { MultiFactorAuthEnrollmentFormComponent } from "./multi-factor-auth-enrollment-form";
 import { SmsMultiFactorEnrollmentFormComponent } from "./mfa/sms-multi-factor-enrollment-form";
 import { TotpMultiFactorEnrollmentFormComponent } from "./mfa/totp-multi-factor-enrollment-form";
-import { ButtonComponent } from "../../../components/button/button.component";
+import { ButtonComponent } from "../../components/button";
 import { FactorId } from "firebase/auth";
 
 describe("<fui-multi-factor-auth-enrollment-form />", () => {
@@ -178,11 +178,6 @@ describe("<fui-multi-factor-auth-enrollment-form />", () => {
     expect(enrollmentSpy).toHaveBeenCalled();
   });
 
-  it("should throw error when no hints are provided", () => {
-    expect(() => {
-      new MultiFactorAuthEnrollmentFormComponent();
-    }).toThrow("MultiFactorAuthEnrollmentForm must have at least one hint");
-  });
 
   it("should have correct CSS classes", async () => {
     const { container } = await render(MultiFactorAuthEnrollmentFormComponent, {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component } from "@angular/core";
+import { Component, computed } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   CardComponent,
@@ -23,9 +23,10 @@ import {
   CardSubtitleComponent,
   CardContentComponent,
 } from "../../components/card";
-import { injectTranslation } from "../../provider";
+import { injectTranslation, injectUI } from "../../provider";
 import { PoliciesComponent } from "../../components/policies";
 import { ContentComponent } from "../../components/content";
+import { MultiFactorAuthAssertionFormComponent } from "../forms/multi-factor-auth-assertion-form";
 import { RedirectErrorComponent } from "../../components/redirect-error";
 
 @Component({
@@ -40,6 +41,7 @@ import { RedirectErrorComponent } from "../../components/redirect-error";
     CardContentComponent,
     PoliciesComponent,
     ContentComponent,
+    MultiFactorAuthAssertionFormComponent,
     RedirectErrorComponent,
   ],
   template: `
@@ -50,17 +52,25 @@ import { RedirectErrorComponent } from "../../components/redirect-error";
           <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
         </fui-card-header>
         <fui-card-content>
-          <fui-content>
-            <ng-content></ng-content>
-          </fui-content>
-          <fui-redirect-error />
-          <fui-policies />
+          @if (mfaResolver()) {
+            <fui-multi-factor-auth-assertion-form />
+          } @else {
+            <fui-content>
+              <ng-content></ng-content>
+            </fui-content>
+            <fui-redirect-error />
+            <fui-policies />
+          }
         </fui-card-content>
       </fui-card>
     </div>
   `,
 })
 export class OAuthScreenComponent {
+  private ui = injectUI();
+  
+  mfaResolver = computed(() => this.ui().multiFactorResolver);
+  
   titleText = injectTranslation("labels", "signIn");
   subtitleText = injectTranslation("prompts", "signInToAccount");
 }

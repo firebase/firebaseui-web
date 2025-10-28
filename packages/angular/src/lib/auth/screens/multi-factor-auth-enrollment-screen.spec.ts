@@ -28,7 +28,7 @@ import { FactorId } from "firebase/auth";
 
 @Component({
   selector: "fui-multi-factor-auth-enrollment-form",
-  template: '<div data-testid="mfa-enrollment-form">MFA Enrollment Form</div>',
+  template: '<div class="fui-content">MFA Enrollment Form</div>',
   standalone: true,
 })
 class MockMultiFactorAuthEnrollmentFormComponent {}
@@ -106,9 +106,9 @@ describe("<fui-multi-factor-auth-enrollment-screen>", () => {
       ],
     });
 
-    const form = screen.getByTestId("mfa-enrollment-form");
+    const form = screen.getByRole("button", { name: "labels.mfaTotpVerification" });
     expect(form).toBeInTheDocument();
-    expect(form).toHaveTextContent("MFA Enrollment Form");
+    expect(form.parentElement).toHaveTextContent("labels.mfaTotpVerification labels.mfaSmsVerification");
   });
 
   it("renders projected content when provided", async () => {

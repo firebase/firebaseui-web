@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-import { Component, output } from "@angular/core";
+import { Component, output, computed } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { UserCredential } from "@angular/fire/auth";
 
-import { injectTranslation } from "../../provider";
+import { injectTranslation, injectUI } from "../../provider";
 import { SignUpAuthFormComponent } from "../forms/sign-up-auth-form";
+import { MultiFactorAuthAssertionFormComponent } from "../forms/multi-factor-auth-assertion-form";
 import { RedirectErrorComponent } from "../../components/redirect-error";
 import {
   CardComponent,
@@ -40,6 +41,7 @@ import {
     CardSubtitleComponent,
     CardContentComponent,
     SignUpAuthFormComponent,
+    MultiFactorAuthAssertionFormComponent,
     RedirectErrorComponent,
   ],
   template: `
@@ -50,15 +52,23 @@ import {
           <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
         </fui-card-header>
         <fui-card-content>
-          <fui-sign-up-auth-form (signIn)="signIn.emit()" (signUp)="signUp.emit($event)" />
-          <fui-redirect-error />
-          <ng-content />
+          @if (mfaResolver()) {
+            <fui-multi-factor-auth-assertion-form />
+          } @else {
+            <fui-sign-up-auth-form (signIn)="signIn.emit()" (signUp)="signUp.emit($event)" />
+            <fui-redirect-error />
+            <ng-content />
+          }
         </fui-card-content>
       </fui-card>
     </div>
   `,
 })
 export class SignUpAuthScreenComponent {
+  private ui = injectUI();
+  
+  mfaResolver = computed(() => this.ui().multiFactorResolver);
+  
   titleText = injectTranslation("labels", "register");
   subtitleText = injectTranslation("prompts", "enterDetailsToCreate");
 

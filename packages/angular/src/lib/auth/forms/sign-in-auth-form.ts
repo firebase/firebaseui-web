@@ -20,14 +20,14 @@ import { UserCredential } from "@angular/fire/auth";
 import { injectForm, TanStackField, TanStackAppField, injectStore } from "@tanstack/angular-form";
 import { FirebaseUIError, signInWithEmailAndPassword } from "@firebase-ui/core";
 
-import { injectSignInAuthFormSchema, injectTranslation, injectUI } from "../../../provider";
-import { PoliciesComponent } from "../../../components/policies/policies.component";
+import { injectSignInAuthFormSchema, injectTranslation, injectUI } from "../../provider";
+import { PoliciesComponent } from "../../components/policies";
 import {
   FormInputComponent,
   FormSubmitComponent,
   FormErrorMessageComponent,
   FormActionComponent,
-} from "../../../components/form/form.component";
+} from "../../components/form";
 
 @Component({
   selector: "fui-sign-in-auth-form",

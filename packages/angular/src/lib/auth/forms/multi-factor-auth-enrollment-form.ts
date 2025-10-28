@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, signal, input, output } from "@angular/core";
+import { Component, signal, input, output, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FactorId } from "firebase/auth";
 import { injectTranslation } from "../../provider";
@@ -57,7 +57,7 @@ type Hint = (typeof FactorId)[keyof typeof FactorId];
     </div>
   `,
 })
-export class MultiFactorAuthEnrollmentFormComponent {
+export class MultiFactorAuthEnrollmentFormComponent implements OnInit {
   hints = input<Hint[]>([FactorId.TOTP, FactorId.PHONE]);
   onEnrollment = output<void>();
 
@@ -66,8 +66,8 @@ export class MultiFactorAuthEnrollmentFormComponent {
   smsVerificationLabel = injectTranslation("labels", "mfaSmsVerification");
   totpVerificationLabel = injectTranslation("labels", "mfaTotpVerification");
 
-  constructor() {
-    // If only a single hint is provided, select it by default to improve UX
+  ngOnInit() {
+    // Auto-select single hint after component initialization
     const hints = this.hints();
     if (hints.length === 1) {
       this.selectedHint.set(hints[0]);

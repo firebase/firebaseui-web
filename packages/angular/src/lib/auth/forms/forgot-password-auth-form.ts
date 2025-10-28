@@ -24,9 +24,9 @@ import {
   FormSubmitComponent,
   FormErrorMessageComponent,
   FormActionComponent,
-} from "../../../components/form/form.component";
-import { PoliciesComponent } from "../../../components/policies/policies.component";
-import { injectForgotPasswordAuthFormSchema, injectTranslation, injectUI } from "../../../provider";
+} from "../../components/form";
+import { PoliciesComponent } from "../../components/policies";
+import { injectForgotPasswordAuthFormSchema, injectTranslation, injectUI } from "../../provider";
 
 @Component({
   selector: "fui-forgot-password-auth-form",

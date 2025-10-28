@@ -16,6 +16,7 @@
 
 import { render, screen } from "@testing-library/angular";
 import { Component } from "@angular/core";
+import { TestBed } from "@angular/core/testing";
 
 import { SignInAuthScreenComponent } from "./sign-in-auth-screen";
 import {
@@ -25,6 +26,7 @@ import {
   CardSubtitleComponent,
   CardContentComponent,
 } from "../../components/card";
+import { MultiFactorAuthAssertionFormComponent } from "../forms/multi-factor-auth-assertion-form";
 
 @Component({
   selector: "fui-sign-in-auth-form",
@@ -39,6 +41,13 @@ class MockSignInAuthFormComponent {}
   standalone: true,
 })
 class MockRedirectErrorComponent {}
+
+@Component({
+  selector: "fui-multi-factor-auth-assertion-form",
+  template: '<div data-testid="mfa-assertion-form">MFA Assertion Form</div>',
+  standalone: true,
+})
+class MockMultiFactorAuthAssertionFormComponent {}
 
 @Component({
   template: `
@@ -60,7 +69,7 @@ class TestHostWithoutContentComponent {}
 
 describe("<fui-sign-in-auth-screen>", () => {
   beforeEach(() => {
-    const { injectTranslation } = require("../../../provider");
+    const { injectTranslation, injectUI } = require("../../../provider");
     injectTranslation.mockImplementation((category: string, key: string) => {
       const mockTranslations: Record<string, Record<string, string>> = {
         labels: {
@@ -72,6 +81,12 @@ describe("<fui-sign-in-auth-screen>", () => {
       };
       return () => mockTranslations[category]?.[key] || `${category}.${key}`;
     });
+
+    injectUI.mockImplementation(() => {
+      return () => ({
+        multiFactorResolver: null,
+      });
+    });
   });
 
   it("renders with correct title and subtitle", async () => {
@@ -80,6 +95,7 @@ describe("<fui-sign-in-auth-screen>", () => {
         SignInAuthScreenComponent,
         MockSignInAuthFormComponent,
         MockRedirectErrorComponent,
+        MockMultiFactorAuthAssertionFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -98,6 +114,7 @@ describe("<fui-sign-in-auth-screen>", () => {
         SignInAuthScreenComponent,
         MockSignInAuthFormComponent,
         MockRedirectErrorComponent,
+        MockMultiFactorAuthAssertionFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -117,6 +134,7 @@ describe("<fui-sign-in-auth-screen>", () => {
         SignInAuthScreenComponent,
         MockSignInAuthFormComponent,
         MockRedirectErrorComponent,
+        MockMultiFactorAuthAssertionFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -136,6 +154,7 @@ describe("<fui-sign-in-auth-screen>", () => {
         SignInAuthScreenComponent,
         MockSignInAuthFormComponent,
         MockRedirectErrorComponent,
+        MockMultiFactorAuthAssertionFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -154,6 +173,7 @@ describe("<fui-sign-in-auth-screen>", () => {
         SignInAuthScreenComponent,
         MockSignInAuthFormComponent,
         MockRedirectErrorComponent,
+        MockMultiFactorAuthAssertionFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -177,6 +197,7 @@ describe("<fui-sign-in-auth-screen>", () => {
         SignInAuthScreenComponent,
         MockSignInAuthFormComponent,
         MockRedirectErrorComponent,
+        MockMultiFactorAuthAssertionFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -187,5 +208,71 @@ describe("<fui-sign-in-auth-screen>", () => {
 
     expect(injectTranslation).toHaveBeenCalledWith("labels", "signIn");
     expect(injectTranslation).toHaveBeenCalledWith("prompts", "signInToAccount");
+  });
+
+  it("renders MFA assertion form when multiFactorResolver is present", async () => {
+    const { injectUI } = require("../../../provider");
+    injectUI.mockImplementation(() => {
+      return () => ({
+        multiFactorResolver: { hints: [] },
+      });
+    });
+
+    // Override the real component with our mock
+    TestBed.overrideComponent(MultiFactorAuthAssertionFormComponent, {
+      set: {
+        template: '<div data-testid="mfa-assertion-form">MFA Assertion Form</div>',
+      },
+    });
+
+    await render(TestHostWithoutContentComponent, {
+      imports: [
+        SignInAuthScreenComponent,
+        MockSignInAuthFormComponent,
+        MockRedirectErrorComponent,
+        MockMultiFactorAuthAssertionFormComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
+
+    expect(screen.getByTestId("mfa-assertion-form")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Sign in" })).not.toBeInTheDocument();
+  });
+
+  it("does not render SignInAuthForm when MFA resolver exists", async () => {
+    const { injectUI } = require("../../../provider");
+    injectUI.mockImplementation(() => {
+      return () => ({
+        multiFactorResolver: { hints: [] },
+      });
+    });
+
+    // Override the real component with our mock
+    TestBed.overrideComponent(MultiFactorAuthAssertionFormComponent, {
+      set: {
+        template: '<div data-testid="mfa-assertion-form">MFA Assertion Form</div>',
+      },
+    });
+
+    await render(TestHostWithContentComponent, {
+      imports: [
+        SignInAuthScreenComponent,
+        MockSignInAuthFormComponent,
+        MockRedirectErrorComponent,
+        MockMultiFactorAuthAssertionFormComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
+
+    expect(screen.queryByRole("button", { name: "Sign in" })).not.toBeInTheDocument();
+    expect(screen.getByTestId("mfa-assertion-form")).toBeInTheDocument();
   });
 });
