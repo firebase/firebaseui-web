@@ -38,7 +38,15 @@
     "release:react": "pnpm --filter=@invertase/firebaseui-react run release",
     "release:angular": "pnpm --filter=@invertase/firebaseui-angular run release",
     "release:styles": "pnpm --filter=@invertase/firebaseui-styles run release",
-    "release:all": "pnpm i && pnpm run release:core && pnpm run release:translations && pnpm run release:react && pnpm run release:styles && pnpm run release:angular"
+    "release:all": "pnpm i && pnpm run release:core && pnpm run release:translations && pnpm run release:react && pnpm run release:styles && pnpm run release:angular",
+    "build:all": "pnpm run build:translations && pnpm run build:core && pnpm run build:styles && pnpm run build:react && pnpm run build:angular",
+    "build:styles": "pnpm --filter=@invertase/firebaseui-styles run build",
+    "publish:npm:translations": "cd packages/translations && npm publish --access public",
+    "publish:npm:core": "cd packages/core && npm publish --access public",
+    "publish:npm:styles": "cd packages/styles && npm publish --access public",
+    "publish:npm:react": "cd packages/react && npm publish --access public",
+    "publish:npm:angular": "cd packages/angular && npm publish --access public",
+    "publish:all:npm": "pnpm run build:all && pnpm run publish:npm:translations && pnpm run publish:npm:core && pnpm run publish:npm:styles && pnpm run publish:npm:react && pnpm run publish:npm:angular"
   },
   "devDependencies": {
     "rimraf": "^6.0.1",
