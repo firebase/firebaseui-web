@@ -18,6 +18,7 @@
 import { registerFramework } from "@firebase-ui/core";
 import pkgJson from "../package.json";
 
+export { PolicyContext } from "./components/policies";
 export * from "./auth";
 export * from "./hooks";
 export * from "./components";

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "multi-factor-auth-enrollment-form",
+  "type": "registry:block",
+  "title": "Multi-Factor Auth Enrollment Form",
+  "description": "A form allowing users to select and configure multi-factor authentication methods.",
+  "dependencies": [
+    "@firebase-ui/react"
+  ],
+  "registryDependencies": [
+    "button",
+    "https://fir-ui-shadcn.web.app/sms-multi-factor-enrollment-form.json",
+    "https://fir-ui-shadcn.web.app/totp-multi-factor-enrollment-form.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/multi-factor-auth-enrollment-form.tsx",
+      "content": "\"use client\";\n\nimport { type ComponentProps, useState } from \"react\";\nimport { FactorId } from \"firebase/auth\";\nimport { getTranslation } from \"@firebase-ui/core\";\nimport { useUI } from \"@firebase-ui/react\";\n\nimport { SmsMultiFactorEnrollmentForm } from \"@/registry/sms-multi-factor-enrollment-form\";\nimport { TotpMultiFactorEnrollmentForm } from \"@/registry/totp-multi-factor-enrollment-form\";\nimport { Button } from \"@/components/ui/button\";\n\ntype Hint = (typeof FactorId)[keyof typeof FactorId];\n\nexport type MultiFactorAuthEnrollmentFormProps = {\n  onEnrollment?: () => void;\n  hints?: Hint[];\n};\n\nconst DEFAULT_HINTS = [FactorId.TOTP, FactorId.PHONE] as const;\n\nexport function MultiFactorAuthEnrollmentForm(props: MultiFactorAuthEnrollmentFormProps) {\n  const hints = props.hints ?? DEFAULT_HINTS;\n\n  if (hints.length === 0) {\n    throw new Error(\"MultiFactorAuthEnrollmentForm must have at least one hint\");\n  }\n\n  // If only a single hint is provided, select it by default to improve UX.\n  const [hint, setHint] = useState<Hint | undefined>(hints.length === 1 ? hints[0] : undefined);\n\n  if (hint) {\n    if (hint === FactorId.TOTP) {\n      return <TotpMultiFactorEnrollmentForm onSuccess={props.onEnrollment} />;\n    }\n\n    if (hint === FactorId.PHONE) {\n      return <SmsMultiFactorEnrollmentForm onSuccess={props.onEnrollment} />;\n    }\n\n    throw new Error(`Unknown multi-factor enrollment type: ${hint}`);\n  }\n\n  return (\n    <div className=\"space-y-2\">\n      {hints.map((hint) => {\n        if (hint === FactorId.TOTP) {\n          return <TotpButton key={hint} onClick={() => setHint(hint)} />;\n        }\n\n        if (hint === FactorId.PHONE) {\n          return <SmsButton key={hint} onClick={() => setHint(hint)} />;\n        }\n\n        return null;\n      })}\n    </div>\n  );\n}\n\nfunction TotpButton(props: ComponentProps<typeof Button>) {\n  const ui = useUI();\n  const labelText = getTranslation(ui, \"labels\", \"mfaTotpVerification\");\n  return <Button {...props}>{labelText}</Button>;\n}\n\nfunction SmsButton(props: ComponentProps<typeof Button>) {\n  const ui = useUI();\n  const labelText = getTranslation(ui, \"labels\", \"mfaSmsVerification\");\n  return <Button {...props}>{labelText}</Button>;\n}\n",
+      "type": "registry:component"
+    }
+  ]
+}

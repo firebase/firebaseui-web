@@ -1,0 +1,40 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "microsoft-sign-in-button",
+  "type": "registry:block",
+  "title": "Microsoft Sign In Button",
+  "description": "A button component for Microsoft OAuth authentication.",
+  "dependencies": [
+    "@firebase-ui/react"
+  ],
+  "registryDependencies": [
+    "https://fir-ui-shadcn.web.app/oauth-button.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/microsoft-sign-in-button.tsx",
+      "content": "\"use client\";\n\nimport { OAuthProvider } from \"firebase/auth\";\nimport { getTranslation } from \"@firebase-ui/core\";\nimport { useUI, type MicrosoftSignInButtonProps, MicrosoftLogo } from \"@firebase-ui/react\";\n\nimport { OAuthButton } from \"@/registry/oauth-button\";\n\nexport type { MicrosoftSignInButtonProps };\n\nexport function MicrosoftSignInButton({ provider, themed }: MicrosoftSignInButtonProps) {\n  const ui = useUI();\n\n  return (\n    <OAuthButton provider={provider || new OAuthProvider(\"microsoft.com\")} themed={themed}>\n      <MicrosoftLogo />\n      <span>{getTranslation(ui, \"labels\", \"signInWithMicrosoft\")}</span>\n    </OAuthButton>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "css": {
+    "@layer components": {
+      "button[data-provider='microsoft.com'][data-themed='true']": {
+        "--microsoft-primary": "#2F2F2F",
+        "--color-primary": "var(--microsoft-primary)",
+        "--color-primary-hover": "--alpha(var(--microsoft-primary) / 85%)",
+        "--color-primary-surface": "#FFFFFF",
+        "--color-border": "var(--microsoft-primary)"
+      }
+    },
+    "@variant dark": {
+      "button[data-provider='microsoft.com'][data-themed='true']": {
+        "--microsoft-primary": "var(--color-white)",
+        "--color-primary": "var(--microsoft-primary)",
+        "--color-primary-hover": "--alpha(var(--microsoft-primary) / 85%)",
+        "--color-primary-surface": "#5E5E5E",
+        "--color-border": "var(--color-white)"
+      }
+    }
+  }
+}

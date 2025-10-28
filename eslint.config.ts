@@ -20,6 +20,7 @@ const config: any[] = [
     "**/shadcn/public-dev/**",
     "packages/styles/dist.css",
     "packages/angular/**",
+    "packages/shadcn/public",
   ]),
   ...tseslint.configs.recommended,
   {
@@ -48,7 +49,7 @@ const config: any[] = [
   },
   {
     // React package specific rules
-    files: ["packages/react/src/**/*.{ts,tsx}"],
+    files: ["packages/react/src/**/*.{ts,tsx}", "packages/shadcn/src/**/*.{ts,tsx}"],
     plugins: { react: pluginReact, "react-hooks": pluginReactHooks },
     languageOptions: {
       parserOptions: {

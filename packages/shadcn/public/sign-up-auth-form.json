@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sign-up-auth-form",
+  "type": "registry:block",
+  "title": "Sign Up Auth Form",
+  "description": "A form allowing users to sign up with email and password.",
+  "dependencies": [
+    "@firebase-ui/react"
+  ],
+  "registryDependencies": [
+    "input",
+    "button",
+    "form",
+    "https://fir-ui-shadcn.web.app/policies.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/sign-up-auth-form.tsx",
+      "content": "\"use client\";\n\nimport type { SignUpAuthFormSchema } from \"@firebase-ui/core\";\nimport {\n  useSignUpAuthFormAction,\n  useSignUpAuthFormSchema,\n  useUI,\n  type SignUpAuthFormProps,\n  useRequireDisplayName,\n} from \"@firebase-ui/react\";\nimport { useForm } from \"react-hook-form\";\nimport { standardSchemaResolver } from \"@hookform/resolvers/standard-schema\";\nimport { FirebaseUIError, getTranslation } from \"@firebase-ui/core\";\n\nimport { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from \"@/components/ui/form\";\nimport { Input } from \"@/components/ui/input\";\nimport { Button } from \"@/components/ui/button\";\nimport { Policies } from \"./policies\";\n\nexport type { SignUpAuthFormProps };\n\nexport function SignUpAuthForm(props: SignUpAuthFormProps) {\n  const ui = useUI();\n  const schema = useSignUpAuthFormSchema();\n  const action = useSignUpAuthFormAction();\n  const requireDisplayName = useRequireDisplayName();\n\n  const form = useForm<SignUpAuthFormSchema>({\n    resolver: standardSchemaResolver(schema),\n    defaultValues: {\n      email: \"\",\n      password: \"\",\n      displayName: requireDisplayName ? \"\" : undefined,\n    },\n  });\n\n  async function onSubmit(values: SignUpAuthFormSchema) {\n    try {\n      const credential = await action(values);\n      props.onSignUp?.(credential);\n    } catch (error) {\n      const message = error instanceof FirebaseUIError ? error.message : String(error);\n      form.setError(\"root\", { message });\n    }\n  }\n\n  return (\n    <Form {...form}>\n      <form onSubmit={form.handleSubmit(onSubmit)} className=\"space-y-2\">\n        <FormField\n          control={form.control}\n          name=\"email\"\n          render={({ field }) => (\n            <FormItem>\n              <FormLabel>{getTranslation(ui, \"labels\", \"emailAddress\")}</FormLabel>\n              <FormControl>\n                <Input {...field} type=\"email\" />\n              </FormControl>\n              <FormMessage />\n            </FormItem>\n          )}\n        />\n        <FormField\n          control={form.control}\n          name=\"password\"\n          render={({ field }) => (\n            <FormItem>\n              <FormLabel>{getTranslation(ui, \"labels\", \"password\")}</FormLabel>\n              <FormControl>\n                <Input {...field} type=\"password\" />\n              </FormControl>\n              <FormMessage />\n            </FormItem>\n          )}\n        />\n        {requireDisplayName ? (\n          <FormField\n            control={form.control}\n            name=\"displayName\"\n            render={({ field }) => (\n              <FormItem>\n                <FormLabel>{getTranslation(ui, \"labels\", \"displayName\")}</FormLabel>\n                <FormControl>\n                  <Input {...field} />\n                </FormControl>\n                <FormMessage />\n              </FormItem>\n            )}\n          />\n        ) : null}\n        <Policies />\n        <Button type=\"submit\" disabled={ui.state !== \"idle\"}>\n          {getTranslation(ui, \"labels\", \"createAccount\")}\n        </Button>\n        {form.formState.errors.root && <FormMessage>{form.formState.errors.root.message}</FormMessage>}\n        {props.onBackToSignInClick ? (\n          <Button type=\"button\" variant=\"secondary\" onClick={props.onBackToSignInClick}>\n            {getTranslation(ui, \"prompts\", \"haveAccount\")} {getTranslation(ui, \"labels\", \"signIn\")}\n          </Button>\n        ) : null}\n      </form>\n    </Form>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ]
+}
