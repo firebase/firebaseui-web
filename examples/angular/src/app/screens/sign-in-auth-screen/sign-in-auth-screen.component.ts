@@ -16,7 +16,7 @@
 
 import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { SignInAuthScreenComponent } from "@firebase-ui/angular";
+import { SignInAuthScreenComponent } from "@invertase/firebaseui-angular";
 
 @Component({
   selector: "app-sign-in-auth-screen",

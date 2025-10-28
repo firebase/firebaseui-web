@@ -17,7 +17,7 @@
 "use client";
 
 import { useState } from "react";
-import { EmailPasswordForm, RegisterForm, Card, CardHeader, CardTitle, CardSubtitle } from "@firebase-ui/react";
+import { EmailPasswordForm, RegisterForm, Card, CardHeader, CardTitle, CardSubtitle } from "@invertase/firebaseui-react";
 
 export default function Example2() {
   const [showRegister, setShowRegister] = useState(false);
