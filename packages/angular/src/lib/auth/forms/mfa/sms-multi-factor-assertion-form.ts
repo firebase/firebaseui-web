@@ -19,6 +19,7 @@ import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanst
 import {
   injectMultiFactorPhoneAuthNumberFormSchema,
   injectMultiFactorPhoneAuthVerifyFormSchema,
+  injectRecaptchaVerifier,
   injectTranslation,
   injectUI,
 } from "../../../provider";
@@ -87,11 +88,7 @@ export class SmsMultiFactorAssertionPhoneFormComponent {
     return hint.phoneNumber || "";
   });
 
-  recaptchaVerifier = computed(() => {
-    return new RecaptchaVerifier(this.ui().auth, this.recaptchaContainer().nativeElement, {
-      size: "normal",
-    });
-  });
+  recaptchaVerifier = injectRecaptchaVerifier(this.recaptchaContainer());
 
   form = injectForm({
     defaultValues: {

@@ -36,6 +36,7 @@ import {
   injectMultiFactorPhoneAuthNumberFormSchema,
   injectMultiFactorPhoneAuthVerifyFormSchema,
   injectDefaultCountry,
+  injectRecaptchaVerifier,
 } from "../../../provider";
 
 @Component({
@@ -126,11 +127,7 @@ export class SmsMultiFactorEnrollmentFormComponent {
 
   recaptchaContainer = viewChild.required<ElementRef<HTMLDivElement>>("recaptchaContainer");
 
-  recaptchaVerifier = computed(() => {
-    return new RecaptchaVerifier(this.ui().auth, this.recaptchaContainer().nativeElement, {
-      size: "normal",
-    });
-  });
+  recaptchaVerifier = injectRecaptchaVerifier(this.recaptchaContainer());
 
   phoneForm = injectForm({
     defaultValues: {

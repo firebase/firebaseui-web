@@ -20,6 +20,7 @@ import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanst
 import {
   injectPhoneAuthFormSchema,
   injectPhoneAuthVerifyFormSchema,
+  injectRecaptchaVerifier,
   injectTranslation,
   injectUI,
 } from "../../provider";
@@ -85,12 +86,7 @@ export class PhoneNumberFormComponent {
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
   recaptchaContainer = viewChild.required<ElementRef<HTMLDivElement>>("recaptchaContainer");
-
-  recaptchaVerifier = computed(() => {
-    return new RecaptchaVerifier(this.ui().auth, this.recaptchaContainer().nativeElement, {
-      size: "normal", // TODO(ehesp): Get this from the ui behavior
-    });
-  });
+  recaptchaVerifier = injectRecaptchaVerifier(this.recaptchaContainer());
 
   form = injectForm({
     defaultValues: {

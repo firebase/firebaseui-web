@@ -24,6 +24,7 @@ import {
   computed,
   effect,
   Signal,
+  ElementRef,
 } from "@angular/core";
 import { FirebaseApps } from "@angular/fire/app";
 import {
@@ -77,7 +78,6 @@ export function provideFirebaseUIPolicies(factory: () => PolicyConfig) {
   return makeEnvironmentProviders(providers);
 }
 
-// Provides a signal with a subscription to the FirebaseUIStore
 export function injectUI() {
   const store = inject(FIREBASE_UI_STORE);
   const ui = signal<FirebaseUIType>(store.get());
@@ -87,6 +87,20 @@ export function injectUI() {
   });
 
   return ui.asReadonly();
+}
+
+export function injectRecaptchaVerifier(element: ElementRef<HTMLDivElement>) {
+  const ui = injectUI();
+  const verifier = computed(() => getBehavior(ui(), "recaptchaVerification")(ui(), element.nativeElement));
+
+  effect(() => {
+    if (verifier()) {
+      verifier().render();
+    }
+  });
+
+  return verifier;
+
 }
 
 export function injectTranslation(category: string, key: string) {
