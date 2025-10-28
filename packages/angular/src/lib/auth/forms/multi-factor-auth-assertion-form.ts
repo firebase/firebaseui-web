@@ -34,19 +34,19 @@ import { ButtonComponent } from "../../components/button";
   template: `
     <div class="fui-content">
       @if (selectedHint()) {
-        @if (selectedHint()!.factorId === phoneFactorId) {
+        @if (selectedHint()!.factorId === phoneFactorId()) {
           <fui-sms-multi-factor-assertion-form [hint]="selectedHint()!" />
-        } @else if (selectedHint()!.factorId === totpFactorId) {
+        } @else if (selectedHint()!.factorId === totpFactorId()) {
           <fui-totp-multi-factor-assertion-form [hint]="selectedHint()!" />
         }
       } @else {
         <p>TODO: Select a multi-factor authentication method</p>
         @for (hint of resolver().hints; track hint.factorId) {
-          @if (hint.factorId === totpFactorId) {
+          @if (hint.factorId === totpFactorId()) {
             <button fui-button (click)="selectHint(hint)">
               {{ totpVerificationLabel() }}
             </button>
-          } @else if (hint.factorId === phoneFactorId) {
+          } @else if (hint.factorId === phoneFactorId()) {
             <button fui-button (click)="selectHint(hint)">
               {{ smsVerificationLabel() }}
             </button>
@@ -71,8 +71,8 @@ export class MultiFactorAuthAssertionFormComponent {
     this.resolver().hints.length === 1 ? this.resolver().hints[0] : undefined
   );
 
-  phoneFactorId = PhoneMultiFactorGenerator.FACTOR_ID;
-  totpFactorId = TotpMultiFactorGenerator.FACTOR_ID;
+  phoneFactorId = computed(() => PhoneMultiFactorGenerator.FACTOR_ID);
+  totpFactorId = computed(() => TotpMultiFactorGenerator.FACTOR_ID);
 
   smsVerificationLabel = injectTranslation("labels", "mfaSmsVerification");
   totpVerificationLabel = injectTranslation("labels", "mfaTotpVerification");

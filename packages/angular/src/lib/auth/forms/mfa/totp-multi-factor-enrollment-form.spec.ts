@@ -34,14 +34,50 @@ describe("<fui-totp-multi-factor-enrollment-form />", () => {
       enrollWithMultiFactorAssertion,
       generateTotpQrCode,
       FirebaseUIError,
-    } = require("@firebase-ui/core");
-    const { TotpMultiFactorGenerator } = require("firebase/auth");
+      TotpMultiFactorGenerator,
+      injectTranslation,
+      injectUI,
+      injectMultiFactorTotpAuthEnrollmentFormSchema,
+      injectMultiFactorTotpAuthVerifyFormSchema,
+    } = require("../../../tests/test-helpers");
 
     mockGenerateTotpSecret = generateTotpSecret;
     mockEnrollWithMultiFactorAssertion = enrollWithMultiFactorAssertion;
     mockGenerateTotpQrCode = generateTotpQrCode;
     mockFirebaseUIError = FirebaseUIError;
     mockTotpMultiFactorGenerator = TotpMultiFactorGenerator;
+
+    // Mock provider functions
+    injectTranslation.mockImplementation((category: string, key: string) => {
+      const mockTranslations: Record<string, Record<string, string>> = {
+        labels: {
+          displayName: "Display Name",
+          generateQrCode: "Generate QR Code",
+          verificationCode: "Verification Code",
+          verifyCode: "Verify Code",
+        },
+        errors: {
+          unknownError: "An unknown error occurred",
+        },
+      };
+      return () => mockTranslations[category]?.[key] || `${category}.${key}`;
+    });
+
+    injectUI.mockImplementation(() => {
+      return () => ({
+        auth: {
+          currentUser: { uid: "test-user" },
+        },
+      });
+    });
+
+    injectMultiFactorTotpAuthEnrollmentFormSchema.mockImplementation(() => {
+      return () => jest.fn();
+    });
+
+    injectMultiFactorTotpAuthVerifyFormSchema.mockImplementation(() => {
+      return () => jest.fn();
+    });
   });
 
   afterEach(() => {
@@ -266,6 +302,16 @@ describe("<fui-totp-multi-factor-enrollment-form />", () => {
   });
 
   it("should throw error if user is not authenticated", async () => {
+    // Override the injectUI mock for this test
+    const { injectUI } = require("../../../tests/test-helpers");
+    injectUI.mockImplementation(() => {
+      return () => ({
+        auth: {
+          currentUser: null,
+        },
+      });
+    });
+
     const { fixture } = await render(TotpMultiFactorEnrollmentFormComponent, {
       imports: [
         CommonModule,
@@ -280,12 +326,6 @@ describe("<fui-totp-multi-factor-enrollment-form />", () => {
     });
 
     const component = fixture.componentInstance;
-
-    // Mock UI to return null currentUser
-    const mockUI = {
-      auth: { currentUser: null },
-    };
-    jest.spyOn(component as any, "ui").mockReturnValue(() => mockUI);
 
     component.displayNameForm.setFieldValue("displayName", "Test User");
     fixture.detectChanges();

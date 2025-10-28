@@ -37,8 +37,13 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
       enrollWithMultiFactorAssertion,
       formatPhoneNumber,
       FirebaseUIError,
-    } = require("@firebase-ui/core");
-    const { PhoneAuthProvider, PhoneMultiFactorGenerator, multiFactor } = require("firebase/auth");
+      injectTranslation,
+      injectUI,
+      injectMultiFactorPhoneAuthNumberFormSchema,
+      injectMultiFactorPhoneAuthVerifyFormSchema,
+      injectDefaultCountry,
+    } = require("../../../tests/test-helpers");
+    const { PhoneAuthProvider, PhoneMultiFactorGenerator, multiFactor } = require("../../../tests/test-helpers");
 
     mockVerifyPhoneNumber = verifyPhoneNumber;
     mockEnrollWithMultiFactorAssertion = enrollWithMultiFactorAssertion;
@@ -47,6 +52,43 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
     mockMultiFactor = multiFactor;
     mockPhoneAuthProvider = PhoneAuthProvider;
     mockPhoneMultiFactorGenerator = PhoneMultiFactorGenerator;
+
+    // Mock provider functions
+    injectTranslation.mockImplementation((category: string, key: string) => {
+      const mockTranslations: Record<string, Record<string, string>> = {
+        labels: {
+          displayName: "Display Name",
+          phoneNumber: "Phone Number",
+          sendCode: "Send Verification Code",
+          verificationCode: "Verification Code",
+          verifyCode: "Verify Code",
+        },
+        errors: {
+          unknownError: "An unknown error occurred",
+        },
+      };
+      return () => mockTranslations[category]?.[key] || `${category}.${key}`;
+    });
+
+    injectUI.mockImplementation(() => {
+      return () => ({
+        auth: {
+          currentUser: { uid: "test-user" },
+        },
+      });
+    });
+
+    injectMultiFactorPhoneAuthNumberFormSchema.mockImplementation(() => {
+      return () => jest.fn();
+    });
+
+    injectMultiFactorPhoneAuthVerifyFormSchema.mockImplementation(() => {
+      return () => jest.fn();
+    });
+
+    injectDefaultCountry.mockImplementation(() => {
+      return () => ({ code: "US" });
+    });
   });
 
   afterEach(() => {
@@ -286,6 +328,16 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
   });
 
   it("should throw error if user is not authenticated", async () => {
+    // Override the injectUI mock for this test
+    const { injectUI } = require("../../../tests/test-helpers");
+    injectUI.mockImplementation(() => {
+      return () => ({
+        auth: {
+          currentUser: null,
+        },
+      });
+    });
+
     const { fixture } = await render(SmsMultiFactorEnrollmentFormComponent, {
       imports: [
         CommonModule,
@@ -301,12 +353,6 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
     });
 
     const component = fixture.componentInstance;
-
-    // Mock UI to return null currentUser
-    const mockUI = {
-      auth: { currentUser: null },
-    };
-    jest.spyOn(component as any, "ui").mockReturnValue(() => mockUI);
 
     component.phoneForm.setFieldValue("displayName", "Test User");
     component.phoneForm.setFieldValue("phoneNumber", "1234567890");

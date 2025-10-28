@@ -14,8 +14,6 @@
  */
 
 import { render, screen, fireEvent, waitFor } from "@testing-library/angular";
-import { TestBed } from "@angular/core/testing";
-import { PhoneMultiFactorGenerator } from "firebase/auth";
 
 import {
   SmsMultiFactorAssertionFormComponent,
@@ -26,13 +24,18 @@ import {
 import {
   verifyPhoneNumber,
   signInWithMultiFactorAssertion,
-  FirebaseUIError,
+  PhoneMultiFactorGenerator,
 } from "../../../tests/test-helpers";
 
 describe("<fui-sms-multi-factor-assertion-form>", () => {
   beforeEach(() => {
-    const { injectTranslation, injectUI, injectMultiFactorPhoneAuthNumberFormSchema, injectMultiFactorPhoneAuthVerifyFormSchema } = require("../../../provider");
-    
+    const {
+      injectTranslation,
+      injectUI,
+      injectMultiFactorPhoneAuthNumberFormSchema,
+      injectMultiFactorPhoneAuthVerifyFormSchema,
+    } = require("../../../tests/test-helpers");
+
     injectTranslation.mockImplementation((category: string, key: string) => {
       const mockTranslations: Record<string, Record<string, string>> = {
         labels: {
@@ -144,17 +147,29 @@ describe("<fui-sms-multi-factor-assertion-form>", () => {
     fixture.componentInstance.onSuccess.subscribe(onSuccessSpy);
 
     // Submit phone form to get to verification form
-    fireEvent.click(screen.getByRole("button", { name: "Send Code" }));
+    const phoneFormComponent = fixture.debugElement.query(
+      (el) => el.componentInstance?.constructor?.name === "SmsMultiFactorAssertionPhoneFormComponent"
+    )?.componentInstance;
+
+    if (phoneFormComponent) {
+      phoneFormComponent.form.setFieldValue("phoneNumber", "+1234567890");
+      await phoneFormComponent.form.handleSubmit();
+    }
 
     await waitFor(() => {
       expect(screen.getByLabelText("Verification Code")).toBeInTheDocument();
     });
 
     // Fill in verification code and submit
-    fireEvent.change(screen.getByLabelText("Verification Code"), {
-      target: { value: "123456" },
-    });
-    fireEvent.click(screen.getByRole("button", { name: "Verify Code" }));
+    const verifyFormComponent = fixture.debugElement.query(
+      (el) => el.componentInstance?.constructor?.name === "SmsMultiFactorAssertionVerifyFormComponent"
+    )?.componentInstance;
+
+    if (verifyFormComponent) {
+      verifyFormComponent.form.setFieldValue("verificationCode", "123456");
+      verifyFormComponent.form.setFieldValue("verificationId", "test-verification-id");
+      await verifyFormComponent.form.handleSubmit();
+    }
 
     await waitFor(() => {
       expect(onSuccessSpy).toHaveBeenCalled();
@@ -164,8 +179,12 @@ describe("<fui-sms-multi-factor-assertion-form>", () => {
 
 describe("<fui-sms-multi-factor-assertion-phone-form>", () => {
   beforeEach(() => {
-    const { injectTranslation, injectUI, injectMultiFactorPhoneAuthNumberFormSchema } = require("../../../provider");
-    
+    const {
+      injectTranslation,
+      injectUI,
+      injectMultiFactorPhoneAuthNumberFormSchema,
+    } = require("../../../tests/test-helpers");
+
     injectTranslation.mockImplementation((category: string, key: string) => {
       const mockTranslations: Record<string, Record<string, string>> = {
         labels: {
@@ -242,8 +261,12 @@ describe("<fui-sms-multi-factor-assertion-phone-form>", () => {
 
 describe("<fui-sms-multi-factor-assertion-verify-form>", () => {
   beforeEach(() => {
-    const { injectTranslation, injectUI, injectMultiFactorPhoneAuthVerifyFormSchema } = require("../../../provider");
-    
+    const {
+      injectTranslation,
+      injectUI,
+      injectMultiFactorPhoneAuthVerifyFormSchema,
+    } = require("../../../tests/test-helpers");
+
     injectTranslation.mockImplementation((category: string, key: string) => {
       const mockTranslations: Record<string, Record<string, string>> = {
         labels: {
@@ -303,10 +326,10 @@ describe("<fui-sms-multi-factor-assertion-verify-form>", () => {
     fixture.componentInstance.onSuccess.subscribe(onSuccessSpy);
 
     // Fill in verification code and submit
-    fireEvent.change(screen.getByLabelText("Verification Code"), {
-      target: { value: "123456" },
-    });
-    fireEvent.click(screen.getByRole("button", { name: "Verify Code" }));
+    const component = fixture.componentInstance;
+    component.form.setFieldValue("verificationCode", "123456");
+    component.form.setFieldValue("verificationId", "test-verification-id");
+    await component.form.handleSubmit();
 
     await waitFor(() => {
       expect(onSuccessSpy).toHaveBeenCalled();

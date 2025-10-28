@@ -39,7 +39,7 @@ class TestMicrosoftSignInButtonWithCustomProviderHostComponent {
 
 describe("<fui-microsoft-sign-in-button>", () => {
   beforeEach(() => {
-    const { injectUI, injectTranslation } = require("../../provider");
+    const { injectUI, injectTranslation } = require("../../tests/test-helpers");
 
     injectUI.mockReturnValue(() => ({}));
     injectTranslation.mockImplementation((category: string, key: string) => {

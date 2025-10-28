@@ -95,6 +95,10 @@ export class FormErrorMessageComponent {
   state = input.required<AnyFormState>();
 
   errorMessage = computed(() => {
-    return this.state().errorMap?.onSubmit ? String(this.state().errorMap.onSubmit) : undefined;
+    const error = this.state().errorMap?.onSubmit;
+    if (!error) return undefined;
+
+    // Handle string errors
+    return String(error);
   });
 }

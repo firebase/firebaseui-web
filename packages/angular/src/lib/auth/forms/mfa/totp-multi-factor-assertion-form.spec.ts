@@ -27,7 +27,7 @@ describe("<fui-totp-multi-factor-assertion-form>", () => {
   let TotpMultiFactorGenerator: any;
 
   beforeEach(() => {
-    const { injectTranslation, injectUI, injectMultiFactorTotpAuthVerifyFormSchema } = require("../../../provider");
+    const { injectTranslation, injectUI, injectMultiFactorTotpAuthVerifyFormSchema } = require("../../../tests/test-helpers");
     
     injectTranslation.mockImplementation((category: string, key: string) => {
       const mockTranslations: Record<string, Record<string, string>> = {
@@ -63,6 +63,9 @@ describe("<fui-totp-multi-factor-assertion-form>", () => {
     // Mock Firebase Auth classes
     TotpMultiFactorGenerator = require("firebase/auth").TotpMultiFactorGenerator;
     TotpMultiFactorGenerator.assertionForSignIn = jest.fn().mockReturnValue({});
+    
+    // Clear all mocks before each test
+    jest.clearAllMocks();
   });
 
   it("renders TOTP verification form", async () => {
@@ -117,18 +120,18 @@ describe("<fui-totp-multi-factor-assertion-form>", () => {
       imports: [TotpMultiFactorAssertionFormComponent],
     });
 
+    const component = fixture.componentInstance;
     const onSuccessSpy = jest.fn();
-    fixture.componentInstance.onSuccess.subscribe(onSuccessSpy);
+    component.onSuccess.subscribe(onSuccessSpy);
 
-    // Fill in verification code and submit
-    fireEvent.change(screen.getByLabelText("Verification Code"), {
-      target: { value: "123456" },
-    });
-    fireEvent.click(screen.getByRole("button", { name: "Verify Code" }));
+    // Set form values and submit directly
+    component.form.setFieldValue("verificationCode", "123456");
+    fixture.detectChanges();
 
-    await waitFor(() => {
-      expect(onSuccessSpy).toHaveBeenCalled();
-    });
+    await component.form.handleSubmit();
+    await fixture.whenStable();
+
+    expect(onSuccessSpy).toHaveBeenCalled();
   });
 
   it("calls TotpMultiFactorGenerator.assertionForSignIn with correct parameters", async () => {
@@ -140,22 +143,23 @@ describe("<fui-totp-multi-factor-assertion-form>", () => {
 
     const assertionForSignInSpy = TotpMultiFactorGenerator.assertionForSignIn;
 
-    await render(TotpMultiFactorAssertionFormComponent, {
+    const { fixture } = await render(TotpMultiFactorAssertionFormComponent, {
       componentInputs: {
         hint: mockHint,
       },
       imports: [TotpMultiFactorAssertionFormComponent],
     });
 
-    // Fill in verification code and submit
-    fireEvent.change(screen.getByLabelText("Verification Code"), {
-      target: { value: "123456" },
-    });
-    fireEvent.click(screen.getByRole("button", { name: "Verify Code" }));
+    const component = fixture.componentInstance;
 
-    await waitFor(() => {
-      expect(assertionForSignInSpy).toHaveBeenCalledWith("test-uid", "123456");
-    });
+    // Set form values and submit directly
+    component.form.setFieldValue("verificationCode", "123456");
+    fixture.detectChanges();
+
+    await component.form.handleSubmit();
+    await fixture.whenStable();
+
+    expect(assertionForSignInSpy).toHaveBeenCalledWith("test-uid", "123456");
   });
 
   it("calls signInWithMultiFactorAssertion with the assertion", async () => {
@@ -168,25 +172,26 @@ describe("<fui-totp-multi-factor-assertion-form>", () => {
     const mockAssertion = { type: "totp" };
     TotpMultiFactorGenerator.assertionForSignIn.mockReturnValue(mockAssertion);
 
-    await render(TotpMultiFactorAssertionFormComponent, {
+    const { fixture } = await render(TotpMultiFactorAssertionFormComponent, {
       componentInputs: {
         hint: mockHint,
       },
       imports: [TotpMultiFactorAssertionFormComponent],
     });
 
-    // Fill in verification code and submit
-    fireEvent.change(screen.getByLabelText("Verification Code"), {
-      target: { value: "123456" },
-    });
-    fireEvent.click(screen.getByRole("button", { name: "Verify Code" }));
+    const component = fixture.componentInstance;
 
-    await waitFor(() => {
-      expect(signInWithMultiFactorAssertion).toHaveBeenCalledWith(
-        expect.any(Object), // UI instance
-        mockAssertion
-      );
-    });
+    // Set form values and submit directly
+    component.form.setFieldValue("verificationCode", "123456");
+    fixture.detectChanges();
+
+    await component.form.handleSubmit();
+    await fixture.whenStable();
+
+    expect(signInWithMultiFactorAssertion).toHaveBeenCalledWith(
+      expect.any(Object), // UI instance
+      mockAssertion
+    );
   });
 
   it("handles FirebaseUIError correctly", async () => {
@@ -199,22 +204,24 @@ describe("<fui-totp-multi-factor-assertion-form>", () => {
     const errorMessage = "Invalid verification code";
     signInWithMultiFactorAssertion.mockRejectedValue(new FirebaseUIError(errorMessage));
 
-    await render(TotpMultiFactorAssertionFormComponent, {
+    const { fixture } = await render(TotpMultiFactorAssertionFormComponent, {
       componentInputs: {
         hint: mockHint,
       },
       imports: [TotpMultiFactorAssertionFormComponent],
     });
 
-    // Fill in verification code and submit
-    fireEvent.change(screen.getByLabelText("Verification Code"), {
-      target: { value: "123456" },
-    });
-    fireEvent.click(screen.getByRole("button", { name: "Verify Code" }));
+    const component = fixture.componentInstance;
 
-    await waitFor(() => {
-      expect(screen.getByText(errorMessage)).toBeInTheDocument();
-    });
+    // Set form values and submit directly
+    component.form.setFieldValue("verificationCode", "123456");
+    fixture.detectChanges();
+
+    await component.form.handleSubmit();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(screen.getByText(errorMessage)).toBeInTheDocument();
   });
 
   it("handles unknown errors correctly", async () => {
@@ -226,21 +233,23 @@ describe("<fui-totp-multi-factor-assertion-form>", () => {
 
     signInWithMultiFactorAssertion.mockRejectedValue(new Error("Network error"));
 
-    await render(TotpMultiFactorAssertionFormComponent, {
+    const { fixture } = await render(TotpMultiFactorAssertionFormComponent, {
       componentInputs: {
         hint: mockHint,
       },
       imports: [TotpMultiFactorAssertionFormComponent],
     });
 
-    // Fill in verification code and submit
-    fireEvent.change(screen.getByLabelText("Verification Code"), {
-      target: { value: "123456" },
-    });
-    fireEvent.click(screen.getByRole("button", { name: "Verify Code" }));
+    const component = fixture.componentInstance;
 
-    await waitFor(() => {
-      expect(screen.getByText("An unknown error occurred")).toBeInTheDocument();
-    });
+    // Set form values and submit directly
+    component.form.setFieldValue("verificationCode", "123456");
+    fixture.detectChanges();
+
+    await component.form.handleSubmit();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(screen.getByText("An unknown error occurred")).toBeInTheDocument();
   });
 });

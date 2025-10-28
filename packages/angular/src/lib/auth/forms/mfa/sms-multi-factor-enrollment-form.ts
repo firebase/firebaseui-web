@@ -177,6 +177,8 @@ export class SmsMultiFactorEnrollmentFormComponent {
               if (error instanceof FirebaseUIError) {
                 return error.message;
               }
+
+              console.error(error);
               return this.unknownErrorLabel();
             }
           },
@@ -198,6 +200,9 @@ export class SmsMultiFactorEnrollmentFormComponent {
               return;
             } catch (error) {
               if (error instanceof FirebaseUIError) {
+                return error.message;
+              }
+              if (error instanceof Error) {
                 return error.message;
               }
               return this.unknownErrorLabel();
