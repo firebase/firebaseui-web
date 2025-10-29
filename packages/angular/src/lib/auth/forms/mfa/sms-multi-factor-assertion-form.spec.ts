@@ -34,6 +34,7 @@ describe("<fui-sms-multi-factor-assertion-form>", () => {
       injectUI,
       injectMultiFactorPhoneAuthNumberFormSchema,
       injectMultiFactorPhoneAuthVerifyFormSchema,
+      injectRecaptchaVerifier,
     } = require("../../../tests/test-helpers");
 
     injectTranslation.mockImplementation((category: string, key: string) => {
@@ -73,6 +74,14 @@ describe("<fui-sms-multi-factor-assertion-form>", () => {
 
     verifyPhoneNumber.mockResolvedValue("test-verification-id");
     signInWithMultiFactorAssertion.mockResolvedValue({});
+
+    injectRecaptchaVerifier.mockImplementation(() => {
+      return () => ({
+        clear: jest.fn(),
+        render: jest.fn(),
+        verify: jest.fn(),
+      });
+    });
 
     const { PhoneAuthProvider, PhoneMultiFactorGenerator } = require("firebase/auth");
     PhoneAuthProvider.credential = jest.fn().mockReturnValue({});

@@ -86,7 +86,7 @@ export class PhoneNumberFormComponent {
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
   recaptchaContainer = viewChild.required<ElementRef<HTMLDivElement>>("recaptchaContainer");
-  recaptchaVerifier = injectRecaptchaVerifier(this.recaptchaContainer());
+  recaptchaVerifier = injectRecaptchaVerifier(() => this.recaptchaContainer());
 
   form = injectForm({
     defaultValues: {
@@ -107,7 +107,11 @@ export class PhoneNumberFormComponent {
             const formattedNumber = formatPhoneNumber(value.phoneNumber, selectedCountry!);
 
             try {
-              const verificationId = await verifyPhoneNumber(this.ui(), formattedNumber, this.recaptchaVerifier());
+              const verifier = this.recaptchaVerifier();
+              if (!verifier) {
+                return this.unknownErrorLabel();
+              }
+              const verificationId = await verifyPhoneNumber(this.ui(), formattedNumber, verifier);
               this.onSubmit.emit({ verificationId, phoneNumber: formattedNumber });
               return;
             } catch (error) {
@@ -126,7 +130,9 @@ export class PhoneNumberFormComponent {
       const verifier = this.recaptchaVerifier();
 
       onCleanup(() => {
-        verifier.clear();
+        if (verifier) {
+          verifier.clear();
+        }
       });
     });
   }

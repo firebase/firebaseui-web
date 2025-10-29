@@ -84,7 +84,7 @@ export class SmsMultiFactorAssertionPhoneFormComponent {
     return hint.phoneNumber || "";
   });
 
-  recaptchaVerifier = injectRecaptchaVerifier(this.recaptchaContainer());
+  recaptchaVerifier = injectRecaptchaVerifier(() => this.recaptchaContainer());
 
   form = injectForm({
     defaultValues: {
@@ -107,13 +107,12 @@ export class SmsMultiFactorAssertionPhoneFormComponent {
           onSubmit: this.formSchema(),
           onSubmitAsync: async () => {
             try {
-              const verificationId = await verifyPhoneNumber(
-                this.ui(),
-                "",
-                this.recaptchaVerifier(),
-                undefined,
-                this.hint()
-              );
+              const verifier = this.recaptchaVerifier();
+              if (!verifier) {
+                return this.unknownErrorLabel();
+              }
+
+              const verificationId = await verifyPhoneNumber(this.ui(), "", verifier, undefined, this.hint());
               this.onSubmit.emit(verificationId);
               return;
             } catch (error) {
@@ -130,7 +129,9 @@ export class SmsMultiFactorAssertionPhoneFormComponent {
     effect((onCleanup) => {
       const verifier = this.recaptchaVerifier();
       onCleanup(() => {
-        verifier.clear();
+        if (verifier) {
+          verifier.clear();
+        }
       });
     });
   }

@@ -127,7 +127,7 @@ export class SmsMultiFactorEnrollmentFormComponent {
 
   recaptchaContainer = viewChild.required<ElementRef<HTMLDivElement>>("recaptchaContainer");
 
-  recaptchaVerifier = injectRecaptchaVerifier(this.recaptchaContainer());
+  recaptchaVerifier = injectRecaptchaVerifier(() => this.recaptchaContainer());
 
   phoneForm = injectForm({
     defaultValues: {
@@ -158,14 +158,14 @@ export class SmsMultiFactorEnrollmentFormComponent {
                 throw new Error("User must be authenticated to enroll with multi-factor authentication");
               }
 
+              const verifier = this.recaptchaVerifier();
+              if (!verifier) {
+                return this.unknownErrorLabel();
+              }
+
               const mfaUser = multiFactor(currentUser);
               const formattedPhoneNumber = formatPhoneNumber(value.phoneNumber, this.defaultCountry());
-              const verificationId = await verifyPhoneNumber(
-                this.ui(),
-                formattedPhoneNumber,
-                this.recaptchaVerifier(),
-                mfaUser
-              );
+              const verificationId = await verifyPhoneNumber(this.ui(), formattedPhoneNumber, verifier, mfaUser);
 
               this.displayName.set(value.displayName);
               this.verificationId.set(verificationId);

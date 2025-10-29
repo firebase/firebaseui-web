@@ -42,6 +42,7 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
       injectMultiFactorPhoneAuthNumberFormSchema,
       injectMultiFactorPhoneAuthVerifyFormSchema,
       injectDefaultCountry,
+      injectRecaptchaVerifier,
     } = require("../../../tests/test-helpers");
     const { PhoneAuthProvider, PhoneMultiFactorGenerator, multiFactor } = require("../../../tests/test-helpers");
 
@@ -87,6 +88,14 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
 
     injectDefaultCountry.mockImplementation(() => {
       return () => ({ code: "US" });
+    });
+
+    injectRecaptchaVerifier.mockImplementation(() => {
+      return () => ({
+        clear: jest.fn(),
+        render: jest.fn(),
+        verify: jest.fn(),
+      });
     });
   });
 

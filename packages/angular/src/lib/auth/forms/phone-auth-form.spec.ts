@@ -34,10 +34,19 @@ describe("<fui-phone-auth-form />", () => {
 
   beforeEach(() => {
     const { verifyPhoneNumber, confirmPhoneNumber, formatPhoneNumber, FirebaseUIError } = require("@firebase-ui/core");
+    const { injectRecaptchaVerifier } = require("../../tests/test-helpers");
     mockVerifyPhoneNumber = verifyPhoneNumber;
     mockConfirmPhoneNumber = confirmPhoneNumber;
     mockFormatPhoneNumber = formatPhoneNumber;
     mockFirebaseUIError = FirebaseUIError;
+
+    injectRecaptchaVerifier.mockImplementation(() => {
+      return () => ({
+        clear: jest.fn(),
+        render: jest.fn(),
+        verify: jest.fn(),
+      });
+    });
   });
 
   afterEach(() => {

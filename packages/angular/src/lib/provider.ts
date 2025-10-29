@@ -89,13 +89,20 @@ export function injectUI() {
   return ui.asReadonly();
 }
 
-export function injectRecaptchaVerifier(element: ElementRef<HTMLDivElement>) {
+export function injectRecaptchaVerifier(element: () => ElementRef<HTMLDivElement>) {
   const ui = injectUI();
-  const verifier = computed(() => getBehavior(ui(), "recaptchaVerification")(ui(), element.nativeElement));
+  const verifier = computed(() => {
+    const elementRef = element();
+    if (!elementRef) {
+      return null;
+    }
+    return getBehavior(ui(), "recaptchaVerification")(ui(), elementRef.nativeElement);
+  });
 
   effect(() => {
-    if (verifier()) {
-      verifier().render();
+    const verifierInstance = verifier();
+    if (verifierInstance) {
+      verifierInstance.render();
     }
   });
 
