@@ -95,13 +95,17 @@ export function SignInAuthForm({ onSignIn, onForgotPasswordClick, onRegisterClic
         <fieldset>
           <form.AppField name="password">
             {(field) => (
-              <field.Input label={getTranslation(ui, "labels", "password")} type="password">
-                {onForgotPasswordClick ? (
-                  <form.Action onClick={onForgotPasswordClick}>
-                    {getTranslation(ui, "labels", "forgotPassword")}
-                  </form.Action>
-                ) : null}
-              </field.Input>
+              <field.Input
+                label={getTranslation(ui, "labels", "password")}
+                type="password"
+                action={
+                  onForgotPasswordClick ? (
+                    <form.Action onClick={onForgotPasswordClick}>
+                      {getTranslation(ui, "labels", "forgotPassword")}
+                    </form.Action>
+                  ) : null
+                }
+              />
             )}
           </form.AppField>
         </fieldset>

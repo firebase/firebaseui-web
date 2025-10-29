@@ -55,7 +55,7 @@ import {
       <fieldset>
         <fui-form-input name="password" tanstack-app-field [tanstackField]="form" label="{{ passwordLabel() }}">
           @if (forgotPassword) {
-            <button fui-form-action (click)="forgotPassword.emit()">
+            <button ngProjectAs="input-action" fui-form-action (click)="forgotPassword.emit()">
               {{ forgotPasswordLabel() }}
             </button>
           }

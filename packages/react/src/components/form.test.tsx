@@ -90,6 +90,36 @@ describe("form export", () => {
       expect(screen.getByTestId("test-child")).toBeInTheDocument();
     });
 
+    it("should render the Input action prop when provided", () => {
+      const { result } = renderHook(() => {
+        return form.useAppForm({
+          defaultValues: { foo: "bar" },
+        });
+      });
+
+      const hook = result.current;
+
+      render(
+        <hook.AppForm>
+          <hook.AppField name="foo">
+            {(field) => (
+              <field.Input
+                label="Foo"
+                action={
+                  <button type="button" data-testid="test-action">
+                    Action
+                  </button>
+                }
+              />
+            )}
+          </hook.AppField>
+        </hook.AppForm>
+      );
+
+      expect(screen.getByTestId("test-action")).toBeInTheDocument();
+      expect(screen.getByTestId("test-action")).toHaveTextContent("Action");
+    });
+
     it("should render the Input metadata when available", async () => {
       const { result } = renderHook(() => {
         return form.useAppForm({

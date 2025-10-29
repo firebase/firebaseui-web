@@ -16,8 +16,15 @@
 
 import { render, screen } from "@testing-library/angular";
 import { Component, signal } from "@angular/core";
+import { injectForm, TanStackAppField } from "@tanstack/angular-form";
 
-import { FormMetadataComponent, FormActionComponent, FormSubmitComponent, FormErrorMessageComponent } from "./form";
+import {
+  FormMetadataComponent,
+  FormActionComponent,
+  FormSubmitComponent,
+  FormErrorMessageComponent,
+  FormInputComponent,
+} from "./form";
 import { ButtonComponent } from "./button";
 
 @Component({
@@ -161,6 +168,35 @@ describe("Form Components", () => {
       const button = screen.getByRole("button", { name: "Submit" });
 
       expect(button).toHaveClass("custom-submit-class");
+    });
+  });
+
+  describe("<fui-form-input>", () => {
+    @Component({
+      template: `
+        <fui-form-input name="test" tanstack-app-field [tanstackField]="form" label="Test Label">
+          <button ngProjectAs="input-action" fui-form-action data-testid="test-action">Action</button>
+        </fui-form-input>
+      `,
+      standalone: true,
+      imports: [FormInputComponent, TanStackAppField, FormActionComponent],
+    })
+    class TestFormInputHostComponent {
+      form = injectForm({
+        defaultValues: {
+          test: "",
+        },
+      });
+    }
+
+    it("renders action content when provided", async () => {
+      await render(TestFormInputHostComponent, {
+        imports: [TestFormInputHostComponent],
+      });
+
+      const actionButton = screen.getByTestId("test-action");
+      expect(actionButton).toBeTruthy();
+      expect(actionButton).toHaveTextContent("Action");
     });
   });
 

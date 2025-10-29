@@ -30,15 +30,21 @@ export class FormMetadataComponent {
   imports: [FormMetadataComponent],
   template: `
     <label [for]="field.api.name">
-      <span>{{ label() }}</span>
-      <input
-        [attr.aria-invalid]="field.api.state.meta.isTouched && field.api.state.meta.errors.length > 0"
-        [id]="field.api.name"
-        [name]="field.api.name"
-        [value]="field.api.state.value"
-        (blur)="field.api.handleBlur()"
-        (input)="field.api.handleChange($any($event).target.value)"
-      />
+      <div data-input-label>
+        <div>{{ label() }}</div>
+        <div><ng-content select="input-action" /></div>
+      </div>
+      <div data-input-group>
+        <ng-content select="input-before" />
+        <input
+          [attr.aria-invalid]="field.api.state.meta.isTouched && field.api.state.meta.errors.length > 0"
+          [id]="field.api.name"
+          [name]="field.api.name"
+          [value]="field.api.state.value"
+          (blur)="field.api.handleBlur()"
+          (input)="field.api.handleChange($any($event).target.value)"
+        />
+      </div>
       <ng-content></ng-content>
       <fui-form-metadata [field]="field.api"></fui-form-metadata>
     </label>

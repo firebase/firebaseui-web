@@ -19,12 +19,17 @@ function FieldMetadata({ className, ...props }: ComponentProps<"div"> & { field:
   );
 }
 
-function Input(props: PropsWithChildren<ComponentProps<"input"> & { label: string; before?: ReactNode }>) {
+function Input(
+  props: PropsWithChildren<ComponentProps<"input"> & { label: string; before?: ReactNode; action?: ReactNode }>
+) {
   const field = useFieldContext<string>();
 
   return (
     <label htmlFor={field.name}>
-      <span>{props.label}</span>
+      <div data-input-label>
+        <div>{props.label}</div>
+        {props.action ? <div>{props.action}</div> : null}
+      </div>
       <div data-input-group>
         {props.before}
         <input
