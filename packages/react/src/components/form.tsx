@@ -55,7 +55,7 @@ function SubmitButton(props: ComponentProps<"button">) {
 
   return (
     <form.Subscribe selector={(state) => state.isSubmitting}>
-      {(isSubmitting: boolean) => <Button {...props} type="submit" disabled={isSubmitting} />}
+      {(isSubmitting) => <Button {...props} type="submit" disabled={isSubmitting} />}
     </form.Subscribe>
   );
 }
@@ -65,7 +65,7 @@ function ErrorMessage() {
 
   return (
     <form.Subscribe selector={(state) => [state.errorMap]}>
-      {([errorMap]: [{ onSubmit: string | undefined } | undefined]) => {
+      {([errorMap]) => {
         if (errorMap?.onSubmit) {
           return <div className="fui-form__error">{String(errorMap.onSubmit)}</div>;
         }
