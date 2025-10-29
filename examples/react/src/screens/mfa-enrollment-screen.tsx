@@ -18,13 +18,16 @@
 
 import { MultiFactorAuthEnrollmentScreen } from "@firebase-ui/react";
 import { FactorId } from "firebase/auth";
+import { useNavigate } from "react-router";
 
 export default function MultiFactorAuthEnrollmentScreenPage() {
+  const navigate = useNavigate();
+
   return (
     <MultiFactorAuthEnrollmentScreen
       hints={[FactorId.TOTP, FactorId.PHONE]}
       onEnrollment={() => {
-        console.log("Enrollment successful");
+        navigate("/");
       }}
     />
   );

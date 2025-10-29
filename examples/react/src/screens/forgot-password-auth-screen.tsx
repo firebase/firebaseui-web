@@ -17,7 +17,16 @@
 "use client";
 
 import { ForgotPasswordAuthScreen } from "@firebase-ui/react";
+import { useNavigate } from "react-router";
 
-export default function ForgotPasswordPage() {
-  return <ForgotPasswordAuthScreen onBackToSignInClick={() => {}} />;
+export default function ForgotPasswordAuthScreenPage() {
+  const navigate = useNavigate();
+
+  return (
+    <ForgotPasswordAuthScreen
+      onBackToSignInClick={() => {
+        navigate("/screens/sign-in-auth-screen");
+      }}
+    />
+  );
 }

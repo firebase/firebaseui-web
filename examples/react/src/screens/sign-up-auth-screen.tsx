@@ -17,7 +17,17 @@
 "use client";
 
 import { SignUpAuthScreen } from "@firebase-ui/react";
+import { useNavigate } from "react-router";
 
 export default function SignUpAuthScreenPage() {
-  return <SignUpAuthScreen />;
+  const navigate = useNavigate();
+
+  return (
+    <SignUpAuthScreen
+      onSignUp={(credential) => {
+        console.log(credential);
+        navigate("/");
+      }}
+    />
+  );
 }

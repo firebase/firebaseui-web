@@ -16,36 +16,21 @@
 
 "use client";
 
-import {
-  AppleSignInButton,
-  EmailLinkAuthScreen,
-  FacebookSignInButton,
-  GitHubSignInButton,
-  GoogleSignInButton,
-  MicrosoftSignInButton,
-  TwitterSignInButton,
-} from "@firebase-ui/react";
+import { SignUpAuthScreen } from "@firebase-ui/react";
 import { useNavigate } from "react-router";
 
-export default function EmailLinkAuthScreenWithOAuthPage() {
+export default function SignUpAuthScreenWithHandlersPage() {
   const navigate = useNavigate();
 
   return (
-    <EmailLinkAuthScreen
-      onEmailSent={() => {
-        alert("Email has been sent");
+    <SignUpAuthScreen
+      onBackToSignInClick={() => {
+        navigate("/screens/sign-in-auth-screen");
       }}
-      onSignIn={(credential) => {
+      onSignUp={(credential) => {
         console.log(credential);
         navigate("/");
       }}
-    >
-      <GoogleSignInButton />
-      <FacebookSignInButton />
-      <AppleSignInButton />
-      <GitHubSignInButton />
-      <MicrosoftSignInButton />
-      <TwitterSignInButton />
-    </EmailLinkAuthScreen>
+    />
   );
 }
