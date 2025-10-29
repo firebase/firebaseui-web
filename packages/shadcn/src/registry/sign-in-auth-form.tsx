@@ -77,9 +77,9 @@ export function SignInAuthForm(props: SignInAuthFormProps) {
           {getTranslation(ui, "labels", "signIn")}
         </Button>
         {form.formState.errors.root && <FormMessage>{form.formState.errors.root.message}</FormMessage>}
-        {props.onRegisterClick ? (
+        {props.onSignUpClick ? (
           <>
-            <Button type="button" variant="secondary" onClick={props.onRegisterClick}>
+            <Button type="button" variant="secondary" onClick={props.onSignUpClick}>
               {getTranslation(ui, "prompts", "noAccount")} {getTranslation(ui, "labels", "register")}
             </Button>
           </>
