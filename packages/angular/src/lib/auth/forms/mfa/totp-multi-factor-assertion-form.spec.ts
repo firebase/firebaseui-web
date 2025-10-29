@@ -13,11 +13,9 @@
  * limitations under the License.
  */
 
-import { render, screen, fireEvent, waitFor } from "@testing-library/angular";
-import { TotpMultiFactorGenerator } from "firebase/auth";
+import { render, screen } from "@testing-library/angular";
 
 import { TotpMultiFactorAssertionFormComponent } from "./totp-multi-factor-assertion-form";
-
 import { signInWithMultiFactorAssertion, FirebaseUIError } from "../../../tests/test-helpers";
 
 describe("<fui-totp-multi-factor-assertion-form>", () => {
@@ -58,14 +56,11 @@ describe("<fui-totp-multi-factor-assertion-form>", () => {
       });
     });
 
-    // Mock FirebaseUI Core functions
     signInWithMultiFactorAssertion.mockResolvedValue({});
 
-    // Mock Firebase Auth classes
     TotpMultiFactorGenerator = require("firebase/auth").TotpMultiFactorGenerator;
     TotpMultiFactorGenerator.assertionForSignIn = jest.fn().mockReturnValue({});
 
-    // Clear all mocks before each test
     jest.clearAllMocks();
   });
 
@@ -102,7 +97,7 @@ describe("<fui-totp-multi-factor-assertion-form>", () => {
       imports: [TotpMultiFactorAssertionFormComponent],
     });
 
-    // Check that the form input component has the placeholder attribute
+    // Verify the verification code input field starts empty (no pre-filled value)
     const formInput = screen.getByDisplayValue("");
     expect(formInput).toBeInTheDocument();
   });
@@ -125,7 +120,6 @@ describe("<fui-totp-multi-factor-assertion-form>", () => {
     const onSuccessSpy = jest.fn();
     component.onSuccess.subscribe(onSuccessSpy);
 
-    // Set form values and submit directly
     component.form.setFieldValue("verificationCode", "123456");
     fixture.detectChanges();
 
@@ -153,7 +147,6 @@ describe("<fui-totp-multi-factor-assertion-form>", () => {
 
     const component = fixture.componentInstance;
 
-    // Set form values and submit directly
     component.form.setFieldValue("verificationCode", "123456");
     fixture.detectChanges();
 
@@ -182,7 +175,6 @@ describe("<fui-totp-multi-factor-assertion-form>", () => {
 
     const component = fixture.componentInstance;
 
-    // Set form values and submit directly
     component.form.setFieldValue("verificationCode", "123456");
     fixture.detectChanges();
 
@@ -214,7 +206,6 @@ describe("<fui-totp-multi-factor-assertion-form>", () => {
 
     const component = fixture.componentInstance;
 
-    // Set form values and submit directly
     component.form.setFieldValue("verificationCode", "123456");
     fixture.detectChanges();
 
@@ -243,7 +234,6 @@ describe("<fui-totp-multi-factor-assertion-form>", () => {
 
     const component = fixture.componentInstance;
 
-    // Set form values and submit directly
     component.form.setFieldValue("verificationCode", "123456");
     fixture.detectChanges();
 

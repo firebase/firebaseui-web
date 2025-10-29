@@ -309,7 +309,6 @@ describe("<fui-email-link-auth-form />", () => {
       ],
     });
 
-    // Wait for the async completeSignIn to be called
     await waitFor(() => {
       expect(mockCompleteEmailLinkSignIn).toHaveBeenCalledWith(
         expect.objectContaining({

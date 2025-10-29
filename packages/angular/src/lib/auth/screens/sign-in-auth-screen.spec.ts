@@ -218,7 +218,6 @@ describe("<fui-sign-in-auth-screen>", () => {
       });
     });
 
-    // Override the real component with our mock
     TestBed.overrideComponent(MultiFactorAuthAssertionFormComponent, {
       set: {
         template: '<div data-testid="mfa-assertion-form">MFA Assertion Form</div>',
@@ -251,7 +250,6 @@ describe("<fui-sign-in-auth-screen>", () => {
       });
     });
 
-    // Override the real component with our mock
     TestBed.overrideComponent(MultiFactorAuthAssertionFormComponent, {
       set: {
         template: '<div data-testid="mfa-assertion-form">MFA Assertion Form</div>',

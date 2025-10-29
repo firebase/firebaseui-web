@@ -71,11 +71,9 @@ describe("<fui-sms-multi-factor-assertion-form>", () => {
       });
     });
 
-    // Mock FirebaseUI Core functions
     verifyPhoneNumber.mockResolvedValue("test-verification-id");
     signInWithMultiFactorAssertion.mockResolvedValue({});
 
-    // Mock Firebase Auth classes
     const { PhoneAuthProvider, PhoneMultiFactorGenerator } = require("firebase/auth");
     PhoneAuthProvider.credential = jest.fn().mockReturnValue({});
     PhoneMultiFactorGenerator.assertion = jest.fn().mockReturnValue({});
@@ -107,20 +105,17 @@ describe("<fui-sms-multi-factor-assertion-form>", () => {
       phoneNumber: "+1234567890",
     };
 
-    const { fixture } = await render(SmsMultiFactorAssertionFormComponent, {
+    await render(SmsMultiFactorAssertionFormComponent, {
       componentInputs: {
         hint: mockHint,
       },
       imports: [SmsMultiFactorAssertionFormComponent],
     });
 
-    // Initially shows phone form
     expect(screen.getByLabelText("Phone Number")).toBeInTheDocument();
 
-    // Submit the phone form
     fireEvent.click(screen.getByRole("button", { name: "Send Code" }));
 
-    // Wait for the form to switch
     await waitFor(() => {
       expect(screen.getByLabelText("Verification Code")).toBeInTheDocument();
     });
@@ -146,7 +141,6 @@ describe("<fui-sms-multi-factor-assertion-form>", () => {
     const onSuccessSpy = jest.fn();
     fixture.componentInstance.onSuccess.subscribe(onSuccessSpy);
 
-    // Submit phone form to get to verification form
     const phoneFormComponent = fixture.debugElement.query(
       (el) => el.componentInstance?.constructor?.name === "SmsMultiFactorAssertionPhoneFormComponent"
     )?.componentInstance;
@@ -160,7 +154,6 @@ describe("<fui-sms-multi-factor-assertion-form>", () => {
       expect(screen.getByLabelText("Verification Code")).toBeInTheDocument();
     });
 
-    // Fill in verification code and submit
     const verifyFormComponent = fixture.debugElement.query(
       (el) => el.componentInstance?.constructor?.name === "SmsMultiFactorAssertionVerifyFormComponent"
     )?.componentInstance;
@@ -169,6 +162,8 @@ describe("<fui-sms-multi-factor-assertion-form>", () => {
       verifyFormComponent.form.setFieldValue("verificationCode", "123456");
       verifyFormComponent.form.setFieldValue("verificationId", "test-verification-id");
       await verifyFormComponent.form.handleSubmit();
+    } else {
+      fail("Verify form component not found");
     }
 
     await waitFor(() => {
@@ -211,7 +206,6 @@ describe("<fui-sms-multi-factor-assertion-phone-form>", () => {
       });
     });
 
-    // Mock FirebaseUI Core functions
     verifyPhoneNumber.mockResolvedValue("test-verification-id");
   });
 
@@ -293,10 +287,8 @@ describe("<fui-sms-multi-factor-assertion-verify-form>", () => {
       });
     });
 
-    // Mock FirebaseUI Core functions
     signInWithMultiFactorAssertion.mockResolvedValue({});
 
-    // Mock Firebase Auth classes
     const { PhoneAuthProvider, PhoneMultiFactorGenerator } = require("firebase/auth");
     PhoneAuthProvider.credential = jest.fn().mockReturnValue({});
     PhoneMultiFactorGenerator.assertion = jest.fn().mockReturnValue({});
@@ -325,7 +317,6 @@ describe("<fui-sms-multi-factor-assertion-verify-form>", () => {
     const onSuccessSpy = jest.fn();
     fixture.componentInstance.onSuccess.subscribe(onSuccessSpy);
 
-    // Fill in verification code and submit
     const component = fixture.componentInstance;
     component.form.setFieldValue("verificationCode", "123456");
     component.form.setFieldValue("verificationId", "test-verification-id");

@@ -19,8 +19,6 @@ import { Component } from "@angular/core";
 
 import { FacebookSignInButtonComponent } from "./facebook-sign-in-button";
 
-// Mocks are handled by jest.config.ts moduleNameMapper and test-helpers.ts
-
 @Component({
   template: `<fui-facebook-sign-in-button></fui-facebook-sign-in-button>`,
   standalone: true,

@@ -123,7 +123,6 @@ describe("<fui-phone-auth-screen>", () => {
       ],
     });
 
-    // Look for form elements by class instead of role
     const form = document.querySelector(".fui-form");
     expect(form).toBeInTheDocument();
     expect(form).toHaveClass("fui-form");
@@ -219,7 +218,6 @@ describe("<fui-phone-auth-screen>", () => {
       });
     });
 
-    // Override the real component with our mock
     TestBed.overrideComponent(MultiFactorAuthAssertionFormComponent, {
       set: {
         template: '<div data-testid="mfa-assertion-form">MFA Assertion Form</div>',
@@ -252,7 +250,6 @@ describe("<fui-phone-auth-screen>", () => {
       });
     });
 
-    // Override the real component with our mock
     TestBed.overrideComponent(MultiFactorAuthAssertionFormComponent, {
       set: {
         template: '<div data-testid="mfa-assertion-form">MFA Assertion Form</div>',

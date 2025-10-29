@@ -47,7 +47,6 @@ describe("<fui-totp-multi-factor-enrollment-form />", () => {
     mockFirebaseUIError = FirebaseUIError;
     mockTotpMultiFactorGenerator = TotpMultiFactorGenerator;
 
-    // Mock provider functions
     injectTranslation.mockImplementation((category: string, key: string) => {
       const mockTranslations: Record<string, Record<string, string>> = {
         labels: {
@@ -302,7 +301,6 @@ describe("<fui-totp-multi-factor-enrollment-form />", () => {
   });
 
   it("should throw error if user is not authenticated", async () => {
-    // Override the injectUI mock for this test
     const { injectUI } = require("../../../tests/test-helpers");
     injectUI.mockImplementation(() => {
       return () => ({

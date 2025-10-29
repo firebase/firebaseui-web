@@ -17,10 +17,7 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/angular";
 import { Component } from "@angular/core";
 import { OAuthButtonComponent } from "./oauth-button";
-// ButtonComponent is imported by OAuthButtonComponent
 import { AuthProvider } from "@angular/fire/auth";
-
-// Mocks are handled by jest.config.ts moduleNameMapper and test-helpers.ts
 
 @Component({
   template: ` <fui-oauth-button [provider]="provider"> Sign in with Google </fui-oauth-button> `,
@@ -49,7 +46,6 @@ describe("<fui-oauth-button>", () => {
     mockSignInWithProvider = signInWithProvider;
     mockFirebaseUIError = FirebaseUIError;
 
-    // Reset mocks
     mockSignInWithProvider.mockClear();
   });
 
@@ -154,22 +150,21 @@ describe("<fui-oauth-button>", () => {
   });
 
   it("should clear error when sign-in is attempted again", async () => {
-    // First, trigger an error
+    // Throw an error to start
     mockSignInWithProvider.mockRejectedValueOnce(new mockFirebaseUIError("First error"));
 
-    const { fixture } = await render(TestOAuthButtonHostComponent, {
+    await render(TestOAuthButtonHostComponent, {
       imports: [OAuthButtonComponent],
     });
 
     const button = screen.getByRole("button");
 
-    // First click - should show error
     fireEvent.click(button);
     await waitFor(() => {
       expect(screen.getByText("First error")).toBeInTheDocument();
     });
 
-    // Second click - should clear error and attempt again
+    // Remove the error
     mockSignInWithProvider.mockResolvedValueOnce(undefined);
     fireEvent.click(button);
 

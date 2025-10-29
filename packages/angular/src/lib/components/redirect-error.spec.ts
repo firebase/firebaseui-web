@@ -30,10 +30,7 @@ describe("<fui-redirect-error>", () => {
     const errorMessage = "Authentication failed";
     injectRedirectError.mockReturnValue(() => errorMessage);
 
-    const { container } = await render(TestHostComponent);
-
-    // Debug: log the container HTML
-    console.log("Container HTML:", container.innerHTML);
+    await render(TestHostComponent);
 
     const errorElement = screen.getByText(errorMessage);
     expect(errorElement).toBeDefined();
@@ -66,7 +63,7 @@ describe("<fui-redirect-error>", () => {
     const errorMessage = "Custom error string";
     injectRedirectError.mockReturnValue(() => errorMessage);
 
-    const { container } = await render(TestHostComponent);
+    await render(TestHostComponent);
 
     const errorElement = screen.getByText(errorMessage);
     expect(errorElement).toBeDefined();
@@ -78,7 +75,7 @@ describe("<fui-redirect-error>", () => {
     const errorMessage = "Test error";
     injectRedirectError.mockReturnValue(() => errorMessage);
 
-    const { container } = await render(TestHostComponent);
+    await render(TestHostComponent);
 
     const errorElement = screen.getByText(errorMessage);
     expect(errorElement).toHaveClass("fui-form__error");

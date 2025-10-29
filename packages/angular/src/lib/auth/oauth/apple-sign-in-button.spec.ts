@@ -19,8 +19,6 @@ import { Component } from "@angular/core";
 
 import { AppleSignInButtonComponent } from "./apple-sign-in-button";
 
-// Mocks are handled by jest.config.ts moduleNameMapper and test-helpers.ts
-
 @Component({
   template: `<fui-apple-sign-in-button></fui-apple-sign-in-button>`,
   standalone: true,

@@ -19,8 +19,6 @@ import { Component, signal } from "@angular/core";
 
 import { GoogleSignInButtonComponent } from "./google-sign-in-button";
 
-// Mocks are handled by jest.config.ts moduleNameMapper and test-helpers.ts
-
 @Component({
   template: `<fui-google-sign-in-button></fui-google-sign-in-button>`,
   standalone: true,

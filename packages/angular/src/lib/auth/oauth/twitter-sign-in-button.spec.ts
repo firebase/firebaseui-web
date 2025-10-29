@@ -19,8 +19,6 @@ import { Component } from "@angular/core";
 
 import { TwitterSignInButtonComponent } from "./twitter-sign-in-button";
 
-// Mocks are handled by jest.config.ts moduleNameMapper and test-helpers.ts
-
 @Component({
   template: `<fui-twitter-sign-in-button></fui-twitter-sign-in-button>`,
   standalone: true,

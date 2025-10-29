@@ -19,8 +19,6 @@ import { Component } from "@angular/core";
 
 import { GithubSignInButtonComponent } from "./github-sign-in-button";
 
-// Mocks are handled by jest.config.ts moduleNameMapper and test-helpers.ts
-
 @Component({
   template: `<fui-github-sign-in-button></fui-github-sign-in-button>`,
   standalone: true,

@@ -151,7 +151,6 @@ describe("<fui-sign-up-auth-form />", () => {
     const component = fixture.componentInstance;
     expect(component.form.getFieldValue("email")).toBe("");
     expect(component.form.getFieldValue("password")).toBe("");
-    // displayName is undefined when hasBehavior returns false
     expect(component.form.getFieldValue("displayName")).toBeUndefined();
   });
 

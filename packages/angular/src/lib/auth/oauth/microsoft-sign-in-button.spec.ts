@@ -19,8 +19,6 @@ import { Component } from "@angular/core";
 
 import { MicrosoftSignInButtonComponent } from "./microsoft-sign-in-button";
 
-// Mocks are handled by jest.config.ts moduleNameMapper and test-helpers.ts
-
 @Component({
   template: `<fui-microsoft-sign-in-button></fui-microsoft-sign-in-button>`,
   standalone: true,

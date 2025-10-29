@@ -180,7 +180,6 @@ describe("<fui-policies>", () => {
     expect(privacyLink).toHaveAttribute("rel", "noopener noreferrer");
     expect(privacyLink).toHaveTextContent("Privacy Policy");
 
-    // Check that the template text is rendered
     const textContent = policiesContainer?.textContent;
     expect(textContent).toContain("By continuing, you agree to our");
   });

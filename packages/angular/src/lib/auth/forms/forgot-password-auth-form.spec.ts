@@ -277,13 +277,11 @@ describe("<fui-forgot-password-auth-form />", () => {
     component.form.setFieldValue("email", "nonexistent@example.com");
     fixture.detectChanges();
 
-    // Trigger form submission
     await component.form.handleSubmit();
     await fixture.whenStable();
     fixture.detectChanges();
 
     expect(component.emailSent()).toBe(false);
-    // The error should be in the form state
     expect(component.form.state.errors.length).toBeGreaterThan(0);
   });
 
@@ -309,13 +307,11 @@ describe("<fui-forgot-password-auth-form />", () => {
     component.form.setFieldValue("email", "test@example.com");
     fixture.detectChanges();
 
-    // Trigger form submission
     await component.form.handleSubmit();
     await fixture.whenStable();
     fixture.detectChanges();
 
     expect(component.emailSent()).toBe(false);
-    // The error should be in the form state
     expect(component.form.state.errors.length).toBeGreaterThan(0);
   });
 
@@ -344,7 +340,6 @@ describe("<fui-forgot-password-auth-form />", () => {
     component.form.setFieldValue("email", "test@example.com");
     fixture.detectChanges();
 
-    // Should have no errors now
     expect(component.form.state.errors).toHaveLength(0);
   });
 });

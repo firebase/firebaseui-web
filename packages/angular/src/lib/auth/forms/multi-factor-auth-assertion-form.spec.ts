@@ -112,7 +112,6 @@ describe("<fui-multi-factor-auth-assertion-form>", () => {
   });
 
   it("switches to assertion form when selection button is clicked", async () => {
-    // Override the inner components with mocks
     TestBed.overrideComponent(SmsMultiFactorAssertionFormComponent, {
       set: {
         template: '<div data-testid="sms-assertion-form">SMS Assertion Form</div>',

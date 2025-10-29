@@ -20,7 +20,6 @@ import { Component, signal } from "@angular/core";
 import { FormMetadataComponent, FormActionComponent, FormSubmitComponent, FormErrorMessageComponent } from "./form";
 import { ButtonComponent } from "./button";
 
-// Test host component for FormMetadataComponent
 @Component({
   template: `<fui-form-metadata [field]="field()"></fui-form-metadata>`,
   standalone: true,
@@ -37,7 +36,6 @@ class TestFormMetadataHostComponent {
   } as any);
 }
 
-// Test host component for FormActionComponent
 @Component({
   template: `<button fui-form-action data-testid="test-action">Action Button</button>`,
   standalone: true,
@@ -45,7 +43,6 @@ class TestFormMetadataHostComponent {
 })
 class TestFormActionHostComponent {}
 
-// FormSubmitComponent test host component
 @Component({
   template: `<fui-form-submit [state]="state()" [class]="customClass()">Submit</fui-form-submit>`,
   standalone: true,
@@ -58,7 +55,6 @@ class TestFormSubmitHostComponent {
   customClass = signal("custom-submit-class");
 }
 
-// FormErrorMessageComponent test host component
 @Component({
   template: `<fui-form-error-message [state]="state()"></fui-form-error-message>`,
   standalone: true,
@@ -87,7 +83,6 @@ describe("Form Components", () => {
     it("does not render error message when field has no errors", async () => {
       const component = await render(TestFormMetadataHostComponent);
 
-      // Update the field to have no errors
       component.fixture.componentInstance.field.set({
         state: {
           meta: {
@@ -105,7 +100,6 @@ describe("Form Components", () => {
     it("does not render error message when field is not touched", async () => {
       const component = await render(TestFormMetadataHostComponent);
 
-      // Update the field to not be touched
       component.fixture.componentInstance.field.set({
         state: {
           meta: {

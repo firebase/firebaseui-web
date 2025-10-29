@@ -68,11 +68,9 @@ describe("<fui-multi-factor-auth-enrollment-form />", () => {
       },
     });
 
-    // Should not show selection buttons
     expect(screen.queryByRole("button", { name: "SMS Verification" })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "TOTP Verification" })).not.toBeInTheDocument();
 
-    // Should show SMS form directly
     expect(screen.getByLabelText("Display Name")).toBeInTheDocument();
     expect(screen.getByLabelText("Phone Number")).toBeInTheDocument();
   });
@@ -139,7 +137,6 @@ describe("<fui-multi-factor-auth-enrollment-form />", () => {
     const component = fixture.componentInstance;
     const enrollmentSpy = jest.spyOn(component.onEnrollment, "emit");
 
-    // Get the SMS form component and emit enrollment
     const smsFormComponent = fixture.debugElement.query(
       (el) => el.componentInstance instanceof SmsMultiFactorEnrollmentFormComponent
     )?.componentInstance as SmsMultiFactorEnrollmentFormComponent;
@@ -167,7 +164,6 @@ describe("<fui-multi-factor-auth-enrollment-form />", () => {
     const component = fixture.componentInstance;
     const enrollmentSpy = jest.spyOn(component.onEnrollment, "emit");
 
-    // Get the TOTP form component and emit enrollment
     const totpFormComponent = fixture.debugElement.query(
       (el) => el.componentInstance instanceof TotpMultiFactorEnrollmentFormComponent
     )?.componentInstance as TotpMultiFactorEnrollmentFormComponent;

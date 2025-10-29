@@ -53,7 +53,6 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
     mockPhoneAuthProvider = PhoneAuthProvider;
     mockPhoneMultiFactorGenerator = PhoneMultiFactorGenerator;
 
-    // Mock provider functions
     injectTranslation.mockImplementation((category: string, key: string) => {
       const mockTranslations: Record<string, Record<string, string>> = {
         labels: {
@@ -328,7 +327,6 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
   });
 
   it("should throw error if user is not authenticated", async () => {
-    // Override the injectUI mock for this test
     const { injectUI } = require("../../../tests/test-helpers");
     injectUI.mockImplementation(() => {
       return () => ({
