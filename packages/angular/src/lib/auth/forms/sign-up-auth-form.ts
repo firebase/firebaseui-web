@@ -57,6 +57,7 @@ import {
           tanstack-app-field
           [tanstackField]="form"
           label="{{ passwordLabel() }}"
+          type="password"
         ></fui-form-input>
       </fieldset>
       @if (requireDisplayNameField()) {

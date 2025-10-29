@@ -53,7 +53,13 @@ import {
         ></fui-form-input>
       </fieldset>
       <fieldset>
-        <fui-form-input name="password" tanstack-app-field [tanstackField]="form" label="{{ passwordLabel() }}">
+        <fui-form-input
+          name="password"
+          tanstack-app-field
+          [tanstackField]="form"
+          label="{{ passwordLabel() }}"
+          type="password"
+        >
           @if (forgotPassword) {
             <button fui-form-action (click)="forgotPassword.emit()">
               {{ forgotPasswordLabel() }}

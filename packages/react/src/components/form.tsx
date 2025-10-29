@@ -28,6 +28,7 @@ function Input(props: PropsWithChildren<ComponentProps<"input"> & { label: strin
       <div data-input-group>
         {props.before}
         <input
+          {...props}
           aria-invalid={field.state.meta.isTouched && field.state.meta.errors.length > 0}
           id={field.name}
           name={field.name}
