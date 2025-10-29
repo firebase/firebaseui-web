@@ -66,8 +66,9 @@ function ErrorMessage() {
   return (
     <form.Subscribe selector={(state) => [state.errorMap]}>
       {([errorMap]) => {
-        if (errorMap?.onSubmit) {
-          return <div className="fui-form__error">{String(errorMap.onSubmit)}</div>;
+        // We only care about errors thrown from the form submission, rather than validation errors
+        if (errorMap?.onSubmit && typeof errorMap.onSubmit === "string") {
+          return <div className="fui-form__error">{errorMap.onSubmit}</div>;
         }
 
         return null;
