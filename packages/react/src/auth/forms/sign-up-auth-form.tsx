@@ -95,6 +95,13 @@ export function SignUpAuthForm({ onBackToSignInClick, onSignUp }: SignUpAuthForm
       }}
     >
       <form.AppForm>
+        {requireDisplayName ? (
+          <fieldset>
+            <form.AppField name="displayName">
+              {(field) => <field.Input label={getTranslation(ui, "labels", "displayName")} />}
+            </form.AppField>
+          </fieldset>
+        ) : null}
         <fieldset>
           <form.AppField name="email">
             {(field) => <field.Input label={getTranslation(ui, "labels", "emailAddress")} type="email" />}
@@ -105,13 +112,6 @@ export function SignUpAuthForm({ onBackToSignInClick, onSignUp }: SignUpAuthForm
             {(field) => <field.Input label={getTranslation(ui, "labels", "password")} type="password" />}
           </form.AppField>
         </fieldset>
-        {requireDisplayName ? (
-          <fieldset>
-            <form.AppField name="displayName">
-              {(field) => <field.Input label={getTranslation(ui, "labels", "displayName")} />}
-            </form.AppField>
-          </fieldset>
-        ) : null}
         <Policies />
         <fieldset>
           <form.SubmitButton>{getTranslation(ui, "labels", "createAccount")}</form.SubmitButton>
