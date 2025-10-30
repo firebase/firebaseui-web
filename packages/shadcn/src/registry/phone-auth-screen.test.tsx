@@ -14,7 +14,7 @@
  */
 
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { render, screen, cleanup } from "@testing-library/react";
+import { render, screen, cleanup, fireEvent } from "@testing-library/react";
 import { PhoneAuthScreen } from "@/registry/phone-auth-screen";
 import { CreateFirebaseUIProvider, createMockUI } from "../../tests/utils";
 import { registerLocale } from "@firebase-ui/translations";
@@ -41,7 +41,13 @@ vi.mock("@/registry/redirect-error", () => ({
 }));
 
 vi.mock("@/registry/multi-factor-auth-assertion-form", () => ({
-  MultiFactorAuthAssertionForm: () => <div data-testid="mfa-assertion-form">MFA Assertion Form</div>,
+  MultiFactorAuthAssertionForm: ({ onSuccess }: { onSuccess?: (credential: any) => void }) => (
+    <div data-testid="mfa-assertion-form">
+      <button data-testid="mfa-on-success" onClick={() => onSuccess?.({ user: { uid: "phone-mfa-user" } })}>
+        MFA Success
+      </button>
+    </div>
+  ),
 }));
 
 afterEach(() => {
@@ -226,5 +232,30 @@ describe("<PhoneAuthScreen />", () => {
 
     expect(screen.queryByTestId("redirect-error")).toBeNull();
     expect(screen.getByTestId("mfa-assertion-form")).toBeDefined();
+  });
+
+  it("calls onSignIn with credential when MFA flow succeeds", () => {
+    const mockResolver = {
+      auth: {} as any,
+      session: null,
+      hints: [],
+    };
+    const ui = createMockUI();
+    ui.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
+
+    const onSignIn = vi.fn();
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <PhoneAuthScreen onSignIn={onSignIn} />
+      </CreateFirebaseUIProvider>
+    );
+
+    fireEvent.click(screen.getByTestId("mfa-on-success"));
+
+    expect(onSignIn).toHaveBeenCalledTimes(1);
+    expect(onSignIn).toHaveBeenCalledWith(
+      expect.objectContaining({ user: expect.objectContaining({ uid: "phone-mfa-user" }) })
+    );
   });
 });

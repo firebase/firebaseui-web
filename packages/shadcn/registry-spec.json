@@ -410,7 +410,12 @@
       "title": "Sign In Auth Screen",
       "description": "A screen allowing users to sign in with email and password.",
       "dependencies": ["{{ DEP | @firebase-ui/react }}"],
-      "registryDependencies": ["separator", "card", "{{ DOMAIN }}/sign-in-auth-form.json"],
+      "registryDependencies": [
+        "separator",
+        "card",
+        "{{ DOMAIN }}/sign-in-auth-form.json",
+        "{{ DOMAIN }}/multi-factor-auth-assertion-form.json"
+      ],
       "files": [
         {
           "path": "src/registry/sign-in-auth-screen.tsx",
@@ -438,7 +443,12 @@
       "title": "Sign Up Auth Screen",
       "description": "A screen allowing users to sign up with email and password.",
       "dependencies": ["{{ DEP | @firebase-ui/react }}"],
-      "registryDependencies": ["separator", "card", "{{ DOMAIN }}/sign-up-auth-form.json"],
+      "registryDependencies": [
+        "separator",
+        "card",
+        "{{ DOMAIN }}/sign-up-auth-form.json",
+        "{{ DOMAIN }}/multi-factor-auth-assertion-form.json"
+      ],
       "files": [
         {
           "path": "src/registry/sign-up-auth-screen.tsx",

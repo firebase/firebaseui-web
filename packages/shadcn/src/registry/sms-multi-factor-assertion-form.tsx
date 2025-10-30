@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { type MultiFactorInfo } from "firebase/auth";
+import { type MultiFactorInfo, type UserCredential } from "firebase/auth";
 
 import { FirebaseUIError, getTranslation } from "@firebase-ui/core";
 import {
@@ -64,7 +64,7 @@ function SmsMultiFactorAssertionPhoneForm(props: SmsMultiFactorAssertionPhoneFor
 
 type SmsMultiFactorAssertionVerifyFormProps = {
   verificationId: string;
-  onSuccess: () => void;
+  onSuccess: (credential: UserCredential) => void;
 };
 
 function SmsMultiFactorAssertionVerifyForm(props: SmsMultiFactorAssertionVerifyFormProps) {
@@ -82,8 +82,11 @@ function SmsMultiFactorAssertionVerifyForm(props: SmsMultiFactorAssertionVerifyF
 
   const onSubmit = async (values: { verificationId: string; verificationCode: string }) => {
     try {
-      await action({ verificationId: values.verificationId, verificationCode: values.verificationCode });
-      props.onSuccess();
+      const credential = await action({
+        verificationId: values.verificationId,
+        verificationCode: values.verificationCode,
+      });
+      props.onSuccess(credential);
     } catch (error) {
       const message = error instanceof FirebaseUIError ? error.message : String(error);
       form.setError("root", { message });
@@ -126,7 +129,7 @@ function SmsMultiFactorAssertionVerifyForm(props: SmsMultiFactorAssertionVerifyF
 
 export type SmsMultiFactorAssertionFormProps = {
   hint: MultiFactorInfo;
-  onSuccess?: () => void;
+  onSuccess?: (credential: UserCredential) => void;
 };
 
 export function SmsMultiFactorAssertionForm(props: SmsMultiFactorAssertionFormProps) {
@@ -146,8 +149,8 @@ export function SmsMultiFactorAssertionForm(props: SmsMultiFactorAssertionFormPr
   return (
     <SmsMultiFactorAssertionVerifyForm
       verificationId={verification.verificationId}
-      onSuccess={() => {
-        props.onSuccess?.();
+      onSuccess={(credential) => {
+        props.onSuccess?.(credential);
       }}
     />
   );

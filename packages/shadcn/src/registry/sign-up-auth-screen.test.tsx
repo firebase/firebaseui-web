@@ -15,11 +15,12 @@
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, cleanup } from "@testing-library/react";
+import { render, screen, cleanup, fireEvent } from "@testing-library/react";
 import { SignUpAuthScreen } from "./sign-up-auth-screen";
 import { createMockUI } from "../../tests/utils";
 import { registerLocale } from "@firebase-ui/translations";
 import { FirebaseUIProvider } from "@firebase-ui/react";
+import { MultiFactorResolver } from "firebase/auth";
 
 vi.mock("./sign-up-auth-form", () => ({
   SignUpAuthForm: ({ onSignUp, onBackToSignInClick }: any) => (
@@ -27,6 +28,16 @@ vi.mock("./sign-up-auth-form", () => ({
       <div>SignUpAuthForm</div>
       {onSignUp && <div data-testid="onSignUp-prop">onSignUp provided</div>}
       {onBackToSignInClick && <div data-testid="onBackToSignInClick-prop">onBackToSignInClick provided</div>}
+    </div>
+  ),
+}));
+
+vi.mock("./multi-factor-auth-assertion-form", () => ({
+  MultiFactorAuthAssertionForm: ({ onSuccess }: { onSuccess?: (credential: any) => void }) => (
+    <div data-testid="mfa-assertion-form">
+      <button data-testid="mfa-on-success" onClick={() => onSuccess?.({ user: { uid: "signup-mfa-user" } })}>
+        MFA Success
+      </button>
     </div>
   ),
 }));
@@ -143,5 +154,68 @@ describe("<SignUpAuthScreen />", () => {
     expect(screen.getByText("Enter your details to create an account")).toBeInTheDocument();
     expect(screen.getByTestId("sign-up-auth-form")).toBeInTheDocument();
     expect(screen.queryByText("or")).not.toBeInTheDocument();
+  });
+
+  it("renders MultiFactorAuthAssertionForm when multiFactorResolver is present", () => {
+    const mockResolver = {
+      auth: {} as any,
+      session: null,
+      hints: [],
+    };
+    const mockUI = createMockUI();
+    mockUI.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
+
+    render(
+      <FirebaseUIProvider ui={mockUI}>
+        <SignUpAuthScreen />
+      </FirebaseUIProvider>
+    );
+
+    expect(screen.getByTestId("mfa-assertion-form")).toBeDefined();
+    expect(screen.queryByTestId("sign-up-auth-form")).toBeNull();
+  });
+
+  it("does not render SignUpAuthForm when MFA resolver exists", () => {
+    const mockResolver = {
+      auth: {} as any,
+      session: null,
+      hints: [],
+    };
+    const mockUI = createMockUI();
+    mockUI.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
+
+    render(
+      <FirebaseUIProvider ui={mockUI}>
+        <SignUpAuthScreen />
+      </FirebaseUIProvider>
+    );
+
+    expect(screen.queryByTestId("sign-up-auth-form")).toBeNull();
+    expect(screen.getByTestId("mfa-assertion-form")).toBeDefined();
+  });
+
+  it("calls onSignUp with credential when MFA flow succeeds", () => {
+    const mockResolver = {
+      auth: {} as any,
+      session: null,
+      hints: [],
+    };
+    const mockUI = createMockUI();
+    mockUI.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
+
+    const onSignUp = vi.fn();
+
+    render(
+      <FirebaseUIProvider ui={mockUI}>
+        <SignUpAuthScreen onSignUp={onSignUp} />
+      </FirebaseUIProvider>
+    );
+
+    fireEvent.click(screen.getByTestId("mfa-on-success"));
+
+    expect(onSignUp).toHaveBeenCalledTimes(1);
+    expect(onSignUp).toHaveBeenCalledWith(
+      expect.objectContaining({ user: expect.objectContaining({ uid: "signup-mfa-user" }) })
+    );
   });
 });
