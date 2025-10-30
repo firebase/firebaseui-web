@@ -27,6 +27,8 @@ import {
   CardContentComponent,
 } from "../../components/card";
 import { MultiFactorAuthAssertionFormComponent } from "../forms/multi-factor-auth-assertion-form";
+import { TotpMultiFactorAssertionFormComponent } from "../forms/mfa/totp-multi-factor-assertion-form";
+import { TotpMultiFactorGenerator } from "firebase/auth";
 
 @Component({
   selector: "fui-sign-in-auth-form",
@@ -42,12 +44,6 @@ class MockSignInAuthFormComponent {}
 })
 class MockRedirectErrorComponent {}
 
-@Component({
-  selector: "fui-multi-factor-auth-assertion-form",
-  template: '<div data-testid="mfa-assertion-form">MFA Assertion Form</div>',
-  standalone: true,
-})
-class MockMultiFactorAuthAssertionFormComponent {}
 
 @Component({
   template: `
@@ -95,7 +91,7 @@ describe("<fui-sign-in-auth-screen>", () => {
         SignInAuthScreenComponent,
         MockSignInAuthFormComponent,
         MockRedirectErrorComponent,
-        MockMultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -114,7 +110,7 @@ describe("<fui-sign-in-auth-screen>", () => {
         SignInAuthScreenComponent,
         MockSignInAuthFormComponent,
         MockRedirectErrorComponent,
-        MockMultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -134,7 +130,7 @@ describe("<fui-sign-in-auth-screen>", () => {
         SignInAuthScreenComponent,
         MockSignInAuthFormComponent,
         MockRedirectErrorComponent,
-        MockMultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -154,7 +150,7 @@ describe("<fui-sign-in-auth-screen>", () => {
         SignInAuthScreenComponent,
         MockSignInAuthFormComponent,
         MockRedirectErrorComponent,
-        MockMultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -173,7 +169,7 @@ describe("<fui-sign-in-auth-screen>", () => {
         SignInAuthScreenComponent,
         MockSignInAuthFormComponent,
         MockRedirectErrorComponent,
-        MockMultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -197,7 +193,7 @@ describe("<fui-sign-in-auth-screen>", () => {
         SignInAuthScreenComponent,
         MockSignInAuthFormComponent,
         MockRedirectErrorComponent,
-        MockMultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -229,7 +225,7 @@ describe("<fui-sign-in-auth-screen>", () => {
         SignInAuthScreenComponent,
         MockSignInAuthFormComponent,
         MockRedirectErrorComponent,
-        MockMultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -261,7 +257,7 @@ describe("<fui-sign-in-auth-screen>", () => {
         SignInAuthScreenComponent,
         MockSignInAuthFormComponent,
         MockRedirectErrorComponent,
-        MockMultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -272,5 +268,52 @@ describe("<fui-sign-in-auth-screen>", () => {
 
     expect(screen.queryByRole("button", { name: "Sign in" })).not.toBeInTheDocument();
     expect(screen.getByTestId("mfa-assertion-form")).toBeInTheDocument();
+  });
+
+  it("emits signIn with credential when MFA flow succeeds", async () => {
+    const { injectUI } = require("../../../provider");
+    injectUI.mockImplementation(() => {
+      return () => ({
+        multiFactorResolver: { hints: [{ factorId: TotpMultiFactorGenerator.FACTOR_ID, uid: "test" }] },
+      });
+    });
+
+    TestBed.overrideComponent(TotpMultiFactorAssertionFormComponent, {
+      set: {
+        template:
+          '<div data-testid="totp-assertion-form">TOTP</div><button data-testid="mfa-on-success" (click)="onSuccess.emit({ user: { uid: \'angular-mfa-user\' } })">Trigger</button>',
+      },
+    });
+
+    const signInHandler = jest.fn();
+
+    @Component({
+      template: `<fui-sign-in-auth-screen (signIn)="onSignIn($event)"></fui-sign-in-auth-screen>`,
+      standalone: true,
+      imports: [SignInAuthScreenComponent],
+    })
+    class HostCaptureComponent {
+      onSignIn = signInHandler;
+    }
+
+    await render(HostCaptureComponent, {
+      imports: [
+        SignInAuthScreenComponent,
+        MockSignInAuthFormComponent,
+        MockRedirectErrorComponent,
+        MultiFactorAuthAssertionFormComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
+
+    const trigger = screen.getByTestId("mfa-on-success");
+    trigger.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+
+    expect(signInHandler).toHaveBeenCalled();
+    expect(signInHandler).toHaveBeenCalledWith(expect.objectContaining({ user: expect.objectContaining({ uid: "angular-mfa-user" }) }));
   });
 });

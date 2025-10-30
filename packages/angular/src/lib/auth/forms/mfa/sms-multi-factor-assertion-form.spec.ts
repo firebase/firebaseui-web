@@ -335,4 +335,28 @@ describe("<fui-sms-multi-factor-assertion-verify-form>", () => {
       expect(onSuccessSpy).toHaveBeenCalled();
     });
   });
+
+  it("emits onSuccess with credential after successful verification", async () => {
+    const mockCredential = { user: { uid: "sms-verify-user" } };
+    signInWithMultiFactorAssertion.mockResolvedValue(mockCredential);
+
+    const { fixture } = await render(SmsMultiFactorAssertionVerifyFormComponent, {
+      componentInputs: {
+        verificationId: "test-verification-id",
+      },
+      imports: [SmsMultiFactorAssertionVerifyFormComponent],
+    });
+
+    const onSuccessSpy = jest.fn();
+    fixture.componentInstance.onSuccess.subscribe(onSuccessSpy);
+
+    const component = fixture.componentInstance;
+    component.form.setFieldValue("verificationCode", "123456");
+    component.form.setFieldValue("verificationId", "test-verification-id");
+    await component.form.handleSubmit();
+
+    await waitFor(() => {
+      expect(onSuccessSpy).toHaveBeenCalledWith(mockCredential);
+    });
+  });
 });
