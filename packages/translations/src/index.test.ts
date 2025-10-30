@@ -180,7 +180,7 @@ describe("index.ts", () => {
       expect(labels?.emailAddress).toBe("Email Address");
       expect(labels?.password).toBe("Password");
       expect(labels?.signIn).toBe("Sign In");
-      expect(labels?.register).toBe("Register");
+      expect(labels?.signUp).toBe("Sign Up");
     });
 
     it("should have valid prompt translations", () => {

@@ -73,7 +73,7 @@ describe("<fui-sign-up-auth-screen>", () => {
     injectTranslation.mockImplementation((category: string, key: string) => {
       const mockTranslations: Record<string, Record<string, string>> = {
         labels: {
-          register: "Create Account",
+          signUp: "Create Account",
         },
         prompts: {
           enterDetailsToCreate: "Enter your details to create an account",
@@ -205,7 +205,7 @@ describe("<fui-sign-up-auth-screen>", () => {
       ],
     });
 
-    expect(injectTranslation).toHaveBeenCalledWith("labels", "register");
+    expect(injectTranslation).toHaveBeenCalledWith("labels", "signUp");
     expect(injectTranslation).toHaveBeenCalledWith("prompts", "enterDetailsToCreate");
   });
 
