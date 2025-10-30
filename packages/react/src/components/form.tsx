@@ -23,13 +23,17 @@ function Input({
   children,
   before,
   label,
+  action,
   ...props
-}: PropsWithChildren<ComponentProps<"input"> & { label: string; before?: ReactNode }>) {
+}: PropsWithChildren<ComponentProps<"input"> & { label: string; before?: ReactNode; action?: ReactNode }>) {
   const field = useFieldContext<string>();
 
   return (
     <label htmlFor={field.name}>
-      <span>{label}</span>
+      <div data-input-label>
+        <div>{label}</div>
+        {action ? <div>{action}</div> : null}
+      </div>
       <div data-input-group>
         {before}
         <input

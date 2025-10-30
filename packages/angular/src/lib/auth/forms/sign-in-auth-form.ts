@@ -61,7 +61,7 @@ import {
           type="password"
         >
           @if (forgotPassword) {
-            <button fui-form-action (click)="forgotPassword.emit()">
+            <button ngProjectAs="input-action" fui-form-action (click)="forgotPassword.emit()">
               {{ forgotPasswordLabel() }}
             </button>
           }
