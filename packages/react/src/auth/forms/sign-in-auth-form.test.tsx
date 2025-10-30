@@ -229,7 +229,7 @@ describe("<SignInAuthForm />", () => {
     expect(onForgotPasswordClickMock).toHaveBeenCalled();
   });
 
-  it("should render the register button callback when onRegisterClick is provided", () => {
+  it("should render the register button callback when onSignUpClick is provided", () => {
     const mockUI = createMockUI({
       locale: registerLocale("test", {
         prompts: {
@@ -241,11 +241,11 @@ describe("<SignInAuthForm />", () => {
       }),
     });
 
-    const onRegisterClickMock = vi.fn();
+    const onSignUpClick = vi.fn();
 
     render(
       <FirebaseUIProvider ui={mockUI}>
-        <SignInAuthForm onRegisterClick={onRegisterClickMock} />
+        <SignInAuthForm onSignUpClick={onSignUpClick} />
       </FirebaseUIProvider>
     );
 
@@ -259,7 +259,7 @@ describe("<SignInAuthForm />", () => {
     expect(registerButton).toHaveAttribute("type", "button");
 
     fireEvent.click(registerButton);
-    expect(onRegisterClickMock).toHaveBeenCalled();
+    expect(onSignUpClick).toHaveBeenCalled();
   });
 
   it("should trigger validation errors when the form is blurred", () => {
