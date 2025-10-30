@@ -15,11 +15,12 @@
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, cleanup } from "@testing-library/react";
+import { render, screen, cleanup, fireEvent } from "@testing-library/react";
 import { EmailLinkAuthScreen } from "./email-link-auth-screen";
 import { createMockUI } from "../../tests/utils";
 import { registerLocale } from "@firebase-ui/translations";
 import { FirebaseUIProvider } from "@firebase-ui/react";
+import type { MultiFactorResolver } from "firebase/auth";
 
 vi.mock("./email-link-auth-form", () => ({
   EmailLinkAuthForm: ({ onEmailSent, onSignIn }: any) => (
@@ -27,6 +28,17 @@ vi.mock("./email-link-auth-form", () => ({
       <div>EmailLinkAuthForm</div>
       {onEmailSent && <div data-testid="onEmailSent-prop">onEmailSent provided</div>}
       {onSignIn && <div data-testid="onSignIn-prop">onSignIn provided</div>}
+    </div>
+  ),
+}));
+
+vi.mock("./multi-factor-auth-assertion-form", () => ({
+  MultiFactorAuthAssertionForm: ({ onSuccess }: { onSuccess?: (credential: any) => void }) => (
+    <div>
+      <div data-testid="mfa-assertion-form">MFA Assertion Form</div>
+      <button data-testid="mfa-on-success" onClick={() => onSuccess?.({ user: { uid: "mfa-user" } })}>
+        Trigger MFA Success
+      </button>
     </div>
   ),
 }));
@@ -143,5 +155,83 @@ describe("<EmailLinkAuthScreen />", () => {
     expect(screen.getByText("Sign in to your account")).toBeInTheDocument();
     expect(screen.getByTestId("email-link-auth-form")).toBeInTheDocument();
     expect(screen.queryByText("or")).not.toBeInTheDocument();
+  });
+
+  it("should render MFA assertion form when MFA resolver is present", () => {
+    const mockResolver = {
+      auth: {} as any,
+      session: null,
+      hints: [],
+    };
+    const mockUI = createMockUI();
+    mockUI.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
+
+    render(
+      <FirebaseUIProvider ui={mockUI}>
+        <EmailLinkAuthScreen />
+      </FirebaseUIProvider>
+    );
+
+    expect(screen.getByTestId("mfa-assertion-form")).toBeInTheDocument();
+  });
+
+  it("should not render children when MFA resolver is present", () => {
+    const mockResolver = {
+      auth: {} as any,
+      session: null,
+      hints: [],
+    };
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          signIn: "Sign In",
+        },
+        prompts: {
+          signInToAccount: "Sign in to your account",
+        },
+        messages: {
+          dividerOr: "or",
+        },
+      }),
+    });
+    mockUI.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
+
+    render(
+      <FirebaseUIProvider ui={mockUI}>
+        <EmailLinkAuthScreen>
+          <div data-testid="child-component">Child Component</div>
+        </EmailLinkAuthScreen>
+      </FirebaseUIProvider>
+    );
+
+    expect(screen.getByTestId("mfa-assertion-form")).toBeInTheDocument();
+    expect(screen.queryByTestId("child-component")).not.toBeInTheDocument();
+    expect(screen.queryByText("or")).not.toBeInTheDocument();
+  });
+
+  it("should call onSignIn with credential when MFA flow succeeds", () => {
+    const mockResolver = {
+      auth: {} as any,
+      session: null,
+      hints: [],
+    };
+    const mockUI = createMockUI();
+    mockUI.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
+
+    const onSignInMock = vi.fn();
+
+    render(
+      <FirebaseUIProvider ui={mockUI}>
+        <EmailLinkAuthScreen onSignIn={onSignInMock} />
+      </FirebaseUIProvider>
+    );
+
+    // Simulate the MFA child reporting success with a credential
+    fireEvent.click(screen.getByTestId("mfa-on-success"));
+
+    expect(onSignInMock).toHaveBeenCalledTimes(1);
+    expect(onSignInMock).toHaveBeenCalledWith(
+      expect.objectContaining({ user: expect.objectContaining({ uid: "mfa-user" }) })
+    );
   });
 });
