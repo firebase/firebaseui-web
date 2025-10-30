@@ -123,7 +123,7 @@ describe("useMultiFactorEnrollmentVerifyTotpFormAction", () => {
     });
 
     expect(TotpMultiFactorGeneratorAssertionMock).toHaveBeenCalledWith(mockSecret, "123456");
-    expect(enrollWithMultiFactorAssertionMock).toHaveBeenCalledWith(expect.any(Object), mockAssertion, "123456");
+    expect(enrollWithMultiFactorAssertionMock).toHaveBeenCalledWith(expect.any(Object), mockAssertion, "Test User");
   });
 
   it("should throw an unknown error when its not a FirebaseUIError", async () => {
