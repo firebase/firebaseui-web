@@ -12,7 +12,7 @@ export type { SignUpAuthScreenProps };
 export function SignUpAuthScreen({ children, ...props }: SignUpAuthScreenProps) {
   const ui = useUI();
 
-  const titleText = getTranslation(ui, "labels", "register");
+  const titleText = getTranslation(ui, "labels", "signUp");
   const subtitleText = getTranslation(ui, "prompts", "enterDetailsToCreate");
 
   return (

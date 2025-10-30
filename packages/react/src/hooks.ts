@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-import { useContext, useMemo, useEffect } from "react";
+import { useContext, useMemo, useEffect, useRef } from "react";
+import type { RecaptchaVerifier } from "firebase/auth";
 import {
   createEmailLinkAuthFormSchema,
   createForgotPasswordAuthFormSchema,
@@ -27,7 +28,6 @@ import {
   createSignInAuthFormSchema,
   createSignUpAuthFormSchema,
   getBehavior,
-  hasBehavior,
 } from "@firebase-ui/core";
 import { FirebaseUIContext } from "./context";
 
@@ -109,18 +109,26 @@ export function useMultiFactorTotpAuthVerifyFormSchema() {
 
 export function useRecaptchaVerifier(ref: React.RefObject<HTMLDivElement | null>) {
   const ui = useUI();
+  const verifierRef = useRef<RecaptchaVerifier | null>(null);
+  const uiRef = useRef(ui);
+  const prevElementRef = useRef<HTMLDivElement | null>(null);
 
-  const verifier = useMemo(() => {
-    return ref.current && hasBehavior(ui, "recaptchaVerification")
-      ? getBehavior(ui, "recaptchaVerification")(ui, ref.current)
-      : null;
-  }, [ref, ui]);
+  uiRef.current = ui;
 
   useEffect(() => {
-    if (verifier) {
-      verifier.render();
-    }
-  }, [verifier]);
+    const currentElement = ref.current;
+    const currentUI = uiRef.current;
 
-  return verifier;
+    if (currentElement !== prevElementRef.current) {
+      prevElementRef.current = currentElement;
+      if (currentElement) {
+        verifierRef.current = getBehavior(currentUI, "recaptchaVerification")(currentUI, currentElement);
+        verifierRef.current.render();
+      } else {
+        verifierRef.current = null;
+      }
+    }
+  }, [ref]);
+
+  return verifierRef.current;
 }

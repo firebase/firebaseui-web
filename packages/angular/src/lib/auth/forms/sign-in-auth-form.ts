@@ -53,7 +53,13 @@ import {
         ></fui-form-input>
       </fieldset>
       <fieldset>
-        <fui-form-input name="password" tanstack-app-field [tanstackField]="form" label="{{ passwordLabel() }}">
+        <fui-form-input
+          name="password"
+          tanstack-app-field
+          [tanstackField]="form"
+          label="{{ passwordLabel() }}"
+          type="password"
+        >
           @if (forgotPassword) {
             <button ngProjectAs="input-action" fui-form-action (click)="forgotPassword.emit()">
               {{ forgotPasswordLabel() }}
@@ -72,7 +78,7 @@ import {
       </fieldset>
 
       @if (signUp) {
-        <button fui-form-action (click)="signUp.emit()">{{ noAccountLabel() }} {{ registerLabel() }}</button>
+        <button fui-form-action (click)="signUp.emit()">{{ noAccountLabel() }} {{ signUpLabel() }}</button>
       }
     </form>
   `,
@@ -86,7 +92,7 @@ export class SignInAuthFormComponent {
   forgotPasswordLabel = injectTranslation("labels", "forgotPassword");
   signInLabel = injectTranslation("labels", "signIn");
   noAccountLabel = injectTranslation("prompts", "noAccount");
-  registerLabel = injectTranslation("labels", "register");
+  signUpLabel = injectTranslation("labels", "signUp");
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
   forgotPassword = output<void>();

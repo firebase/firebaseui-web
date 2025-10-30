@@ -43,6 +43,7 @@ export class FormMetadataComponent {
           [value]="field.api.state.value"
           (blur)="field.api.handleBlur()"
           (input)="field.api.handleChange($any($event).target.value)"
+          [type]="type()"
         />
       </div>
       <ng-content></ng-content>
@@ -53,6 +54,7 @@ export class FormMetadataComponent {
 export class FormInputComponent {
   field = injectField<string>();
   label = input.required<string>();
+  type = input<string>("text");
 }
 
 @Component({
@@ -102,9 +104,12 @@ export class FormErrorMessageComponent {
 
   errorMessage = computed(() => {
     const error = this.state().errorMap?.onSubmit;
-    if (!error) return undefined;
 
-    // Handle string errors
-    return String(error);
+    // We only care about errors thrown from the form submission, rather than validation errors
+    if (error && typeof error === "string") {
+      return error;
+    }
+
+    return undefined;
   });
 }

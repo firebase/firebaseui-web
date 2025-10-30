@@ -96,22 +96,22 @@ describe("<SignInAuthForm />", () => {
     expect(onForgotPasswordClickMock).toHaveBeenCalled();
   });
 
-  it("should render with register callback", () => {
-    const onRegisterClickMock = vi.fn();
+  it("should render with onSignUp callback", () => {
+    const onSignUpClickMock = vi.fn();
     const mockUI = createMockUI({
       locale: registerLocale("test", {
         prompts: {
           noAccount: "noAccount",
         },
         labels: {
-          register: "register",
+          signUp: "register",
         },
       }),
     });
 
     const { container } = render(
       <FirebaseUIProvider ui={mockUI}>
-        <SignInAuthForm onRegisterClick={onRegisterClickMock} />
+        <SignInAuthForm onSignUpClick={onSignUpClickMock} />
       </FirebaseUIProvider>
     );
 
@@ -123,7 +123,7 @@ describe("<SignInAuthForm />", () => {
       fireEvent.click(button!);
     });
 
-    expect(onRegisterClickMock).toHaveBeenCalled();
+    expect(onSignUpClickMock).toHaveBeenCalled();
   });
 
   it("should call the onSignIn callback when the form is submitted", async () => {

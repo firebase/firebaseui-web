@@ -193,7 +193,7 @@ describe("<SignInAuthForm />", () => {
 
     // Make sure we have an email and password input
     expect(screen.getByRole("textbox", { name: /email/i })).toBeInTheDocument();
-    expect(screen.getByRole("textbox", { name: /password/i })).toBeInTheDocument();
+    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
 
     // Ensure the "Sign In" button is present and is a submit button
     const signInButton = screen.getByRole("button", { name: "signIn" });
@@ -229,23 +229,23 @@ describe("<SignInAuthForm />", () => {
     expect(onForgotPasswordClickMock).toHaveBeenCalled();
   });
 
-  it("should render the register button callback when onRegisterClick is provided", () => {
+  it("should render the register button callback when onSignUpClick is provided", () => {
     const mockUI = createMockUI({
       locale: registerLocale("test", {
         prompts: {
           noAccount: "foo",
         },
         labels: {
-          register: "bar",
+          signUp: "bar",
         },
       }),
     });
 
-    const onRegisterClickMock = vi.fn();
+    const onSignUpClick = vi.fn();
 
     render(
       <FirebaseUIProvider ui={mockUI}>
-        <SignInAuthForm onRegisterClick={onRegisterClickMock} />
+        <SignInAuthForm onSignUpClick={onSignUpClick} />
       </FirebaseUIProvider>
     );
 
@@ -259,7 +259,7 @@ describe("<SignInAuthForm />", () => {
     expect(registerButton).toHaveAttribute("type", "button");
 
     fireEvent.click(registerButton);
-    expect(onRegisterClickMock).toHaveBeenCalled();
+    expect(onSignUpClick).toHaveBeenCalled();
   });
 
   it("should trigger validation errors when the form is blurred", () => {

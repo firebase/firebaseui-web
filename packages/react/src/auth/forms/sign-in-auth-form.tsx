@@ -26,7 +26,7 @@ import { useCallback } from "react";
 export type SignInAuthFormProps = {
   onSignIn?: (credential: UserCredential) => void;
   onForgotPasswordClick?: () => void;
-  onRegisterClick?: () => void;
+  onSignUpClick?: () => void;
 };
 
 export function useSignInAuthFormAction() {
@@ -73,7 +73,7 @@ export function useSignInAuthForm(onSuccess?: SignInAuthFormProps["onSignIn"]) {
   });
 }
 
-export function SignInAuthForm({ onSignIn, onForgotPasswordClick, onRegisterClick }: SignInAuthFormProps) {
+export function SignInAuthForm({ onSignIn, onForgotPasswordClick, onSignUpClick }: SignInAuthFormProps) {
   const ui = useUI();
   const form = useSignInAuthForm(onSignIn);
 
@@ -114,9 +114,9 @@ export function SignInAuthForm({ onSignIn, onForgotPasswordClick, onRegisterClic
           <form.SubmitButton>{getTranslation(ui, "labels", "signIn")}</form.SubmitButton>
           <form.ErrorMessage />
         </fieldset>
-        {onRegisterClick ? (
-          <form.Action onClick={onRegisterClick}>
-            {getTranslation(ui, "prompts", "noAccount")} {getTranslation(ui, "labels", "register")}
+        {onSignUpClick ? (
+          <form.Action onClick={onSignUpClick}>
+            {getTranslation(ui, "prompts", "noAccount")} {getTranslation(ui, "labels", "signUp")}
           </form.Action>
         ) : null}
       </form.AppForm>
