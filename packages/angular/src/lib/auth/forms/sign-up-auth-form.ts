@@ -57,7 +57,13 @@ import {
         <fui-form-input name="email" tanstack-app-field [tanstackField]="form" label="{{ emailLabel() }}" />
       </fieldset>
       <fieldset>
-        <fui-form-input name="password" tanstack-app-field [tanstackField]="form" label="{{ passwordLabel() }}" />
+        <fui-form-input
+          name="password"
+          tanstack-app-field
+          [tanstackField]="form"
+          label="{{ passwordLabel() }}"
+          type="password"
+        />
       </fieldset>
       <fui-policies />
       <fieldset>

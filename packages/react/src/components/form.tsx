@@ -19,14 +19,19 @@ function FieldMetadata({ className, ...props }: ComponentProps<"div"> & { field:
   );
 }
 
-function Input(props: PropsWithChildren<ComponentProps<"input"> & { label: string; before?: ReactNode }>) {
+function Input({
+  children,
+  before,
+  label,
+  ...props
+}: PropsWithChildren<ComponentProps<"input"> & { label: string; before?: ReactNode }>) {
   const field = useFieldContext<string>();
 
   return (
     <label htmlFor={field.name}>
-      <span>{props.label}</span>
+      <span>{label}</span>
       <div data-input-group>
-        {props.before}
+        {before}
         <input
           {...props}
           aria-invalid={field.state.meta.isTouched && field.state.meta.errors.length > 0}
@@ -41,7 +46,7 @@ function Input(props: PropsWithChildren<ComponentProps<"input"> & { label: strin
           }}
         />
       </div>
-      {props.children ? <>{props.children}</> : null}
+      {children ? <>{children}</> : null}
       <FieldMetadata field={field} />
     </label>
   );
