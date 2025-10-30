@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { render, screen } from "@testing-library/angular";
+import { render, screen, waitFor } from "@testing-library/angular";
 import { CommonModule } from "@angular/common";
 import { TanStackField, TanStackAppField } from "@tanstack/angular-form";
 import { PhoneAuthFormComponent, PhoneNumberFormComponent, VerificationFormComponent } from "./phone-auth-form";
@@ -25,6 +25,22 @@ import {
   FormActionComponent,
 } from "../../components/form";
 import { UserCredential } from "@angular/fire/auth";
+
+// Mock the @firebase-ui/core module but preserve Angular providers
+jest.mock("@firebase-ui/core", () => {
+  const originalModule = jest.requireActual("@firebase-ui/core");
+  return {
+    ...originalModule,
+    verifyPhoneNumber: jest.fn(),
+    confirmPhoneNumber: jest.fn(),
+    FirebaseUIError: class FirebaseUIError extends Error {
+      constructor(message: string) {
+        super(message);
+        this.name = "FirebaseUIError";
+      }
+    },
+  };
+});
 
 describe("<fui-phone-auth-form />", () => {
   let mockVerifyPhoneNumber: any;
@@ -194,11 +210,10 @@ describe("<fui-phone-auth-form />", () => {
     fixture.detectChanges();
 
     await phoneFormComponent.form.handleSubmit();
-    await fixture.whenStable();
-    fixture.detectChanges();
-
-    expect(screen.getByText(errorMessage)).toBeInTheDocument();
-    expect(component.verificationId()).toBeNull();
+    await waitFor(() => {
+      expect(screen.getByText(errorMessage)).toBeInTheDocument();
+      expect(component.verificationId()).toBeNull();
+    });
   });
 
   it("should handle FirebaseUIError in code verification", async () => {
@@ -233,11 +248,10 @@ describe("<fui-phone-auth-form />", () => {
     fixture.detectChanges();
 
     await verificationFormComponent.form.handleSubmit();
-    await fixture.whenStable();
-    fixture.detectChanges();
-
-    expect(screen.getByText(errorMessage)).toBeInTheDocument();
-    expect(component.verificationId()).toBe("test-verification-id");
+    await waitFor(() => {
+      expect(screen.getByText(errorMessage)).toBeInTheDocument();
+      expect(component.verificationId()).toBe("test-verification-id");
+    });
   });
 
   it("should format phone number correctly", async () => {
@@ -272,12 +286,11 @@ describe("<fui-phone-auth-form />", () => {
     fixture.detectChanges();
 
     await phoneFormComponent.form.handleSubmit();
-    await fixture.whenStable();
-    fixture.detectChanges();
-
-    expect(mockFormatPhoneNumber).toHaveBeenCalledWith("1234567890", expect.objectContaining({ code: "US" }));
-    expect(mockVerifyPhoneNumber).toHaveBeenCalledWith(expect.any(Object), formattedNumber, expect.any(Object));
-    expect(component.verificationId()).toBe("test-verification-id");
+    await waitFor(() => {
+      expect(mockFormatPhoneNumber).toHaveBeenCalledWith("1234567890", expect.objectContaining({ code: "US" }));
+      expect(mockVerifyPhoneNumber).toHaveBeenCalledWith(expect.any(Object), formattedNumber, expect.any(Object));
+      expect(component.verificationId()).toBe("test-verification-id");
+    });
   });
 
   it("should reset form when going back to phone number step", async () => {

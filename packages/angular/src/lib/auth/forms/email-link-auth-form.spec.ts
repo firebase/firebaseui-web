@@ -22,6 +22,22 @@ import { FormInputComponent, FormSubmitComponent, FormErrorMessageComponent } fr
 import { PoliciesComponent } from "../../components/policies";
 import { UserCredential } from "@angular/fire/auth";
 
+// Mock the @firebase-ui/core module but preserve Angular providers
+jest.mock("@firebase-ui/core", () => {
+  const originalModule = jest.requireActual("@firebase-ui/core");
+  return {
+    ...originalModule,
+    sendSignInLinkToEmail: jest.fn(),
+    completeEmailLinkSignIn: jest.fn(),
+    FirebaseUIError: class FirebaseUIError extends Error {
+      constructor(message: string) {
+        super(message);
+        this.name = "FirebaseUIError";
+      }
+    },
+  };
+});
+
 describe("<fui-email-link-auth-form />", () => {
   let mockSendSignInLinkToEmail: any;
   let mockCompleteEmailLinkSignIn: any;
@@ -34,6 +50,7 @@ describe("<fui-email-link-auth-form />", () => {
     mockFirebaseUIError = FirebaseUIError;
 
     mockCompleteEmailLinkSignIn.mockResolvedValue(null);
+    mockSendSignInLinkToEmail.mockResolvedValue(undefined);
   });
 
   afterEach(() => {
@@ -115,6 +132,9 @@ describe("<fui-email-link-auth-form />", () => {
   });
 
   it("should prevent default and stop propagation on form submit", async () => {
+    // Mock the function to resolve immediately for this test
+    mockSendSignInLinkToEmail.mockResolvedValue(undefined);
+
     const { fixture } = await render(EmailLinkAuthFormComponent, {
       imports: [
         CommonModule,
@@ -140,11 +160,12 @@ describe("<fui-email-link-auth-form />", () => {
       stopPropagation: { value: stopPropagationSpy },
     });
 
+    // Wait for the async form submission to complete
     await component.handleSubmit(submitEvent);
-    await fixture.whenStable();
-
-    expect(preventDefaultSpy).toHaveBeenCalled();
-    expect(stopPropagationSpy).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(preventDefaultSpy).toHaveBeenCalled();
+      expect(stopPropagationSpy).toHaveBeenCalled();
+    });
   });
 
   it("should handle form submission with valid email", async () => {
@@ -229,11 +250,10 @@ describe("<fui-email-link-auth-form />", () => {
     fixture.detectChanges();
 
     await component.form.handleSubmit();
-    await fixture.whenStable();
-    fixture.detectChanges();
-
-    expect(component.emailSentState()).toBe(false);
-    expect(screen.getByText(errorMessage)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(component.emailSentState()).toBe(false);
+      expect(screen.getByText(errorMessage)).toBeInTheDocument();
+    });
   });
 
   it("should handle unknown errors and display generic error message", async () => {
@@ -258,11 +278,10 @@ describe("<fui-email-link-auth-form />", () => {
     fixture.detectChanges();
 
     await component.form.handleSubmit();
-    await fixture.whenStable();
-    fixture.detectChanges();
-
-    expect(component.emailSentState()).toBe(false);
-    expect(screen.getByText("An unknown error occurred")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(component.emailSentState()).toBe(false);
+      expect(screen.getByText("An unknown error occurred")).toBeInTheDocument();
+    });
   });
 
   it("should use the same validation logic as the real createEmailLinkAuthFormSchema", async () => {
