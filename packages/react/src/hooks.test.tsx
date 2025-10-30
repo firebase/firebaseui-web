@@ -15,7 +15,8 @@
  */
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { renderHook, act, cleanup } from "@testing-library/react";
+import { renderHook, act, cleanup, waitFor } from "@testing-library/react";
+import React from "react";
 import {
   useUI,
   useRedirectError,
@@ -25,12 +26,29 @@ import {
   useEmailLinkAuthFormSchema,
   usePhoneAuthNumberFormSchema,
   usePhoneAuthVerifyFormSchema,
+  useRecaptchaVerifier,
 } from "./hooks";
 import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
 import { registerLocale, enUs } from "@firebase-ui/translations";
+import type { RecaptchaVerifier } from "firebase/auth";
+
+// Mock RecaptchaVerifier from firebase/auth
+const mockRender = vi.fn();
+const mockVerifier = {
+  render: mockRender,
+} as unknown as RecaptchaVerifier;
+
+vi.mock("firebase/auth", async () => {
+  const actual = await vi.importActual<typeof import("firebase/auth")>("firebase/auth");
+  return {
+    ...actual,
+    RecaptchaVerifier: vi.fn().mockImplementation(() => mockVerifier),
+  };
+});
 
 beforeEach(() => {
   vi.clearAllMocks();
+  mockRender.mockClear();
 });
 
 describe("useUI", () => {
@@ -823,5 +841,93 @@ describe("useRedirectError", () => {
     rerender();
 
     expect(result.current).toBeUndefined();
+  });
+});
+
+describe("useRecaptchaVerifier", () => {
+  beforeEach(() => {
+    cleanup();
+  });
+
+  it("creates verifier when element is available", async () => {
+    const mockUI = createMockUI();
+    const element = document.createElement("div");
+    const ref = { current: element };
+
+    const { result } = renderHook(() => useRecaptchaVerifier(ref), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    await waitFor(() => {
+      expect(result.current).toBe(mockVerifier);
+    });
+
+    expect(mockRender).toHaveBeenCalledTimes(1);
+  });
+
+  it("returns null when element is not available", () => {
+    const mockUI = createMockUI();
+    const ref = { current: null };
+
+    const { result } = renderHook(() => useRecaptchaVerifier(ref), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    expect(result.current).toBeNull();
+    expect(mockRender).not.toHaveBeenCalled();
+  });
+
+  it("does not recreate verifier when ui changes", async () => {
+    const mockUI = createMockUI();
+    const element = document.createElement("div");
+    const ref = { current: element };
+
+    const { result, rerender } = renderHook(() => useRecaptchaVerifier(ref), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    await waitFor(() => {
+      expect(result.current).toBe(mockVerifier);
+    });
+
+    const firstVerifier = result.current;
+    expect(mockRender).toHaveBeenCalledTimes(1);
+
+    act(() => {
+      mockUI.get().setState("pending");
+    });
+
+    rerender();
+
+    expect(result.current).toBe(firstVerifier);
+    expect(mockRender).toHaveBeenCalledTimes(1);
+  });
+
+  it("recreates verifier when element changes", async () => {
+    const mockUI = createMockUI();
+    const element1 = document.createElement("div");
+    const element2 = document.createElement("div");
+
+    const { result, rerender } = renderHook((props) => useRecaptchaVerifier(props.ref), {
+      initialProps: { ref: { current: element1 } },
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    await waitFor(() => {
+      expect(result.current).toBe(mockVerifier);
+    });
+
+    expect(mockRender).toHaveBeenCalledTimes(1);
+
+    act(() => {
+      rerender({ ref: { current: element2 } });
+    });
+
+    // Verifier should be recreated - wait for effect to run
+    await waitFor(() => {
+      expect(mockRender).toHaveBeenCalledTimes(2);
+    });
+
+    expect(result.current).toBe(mockVerifier);
   });
 });

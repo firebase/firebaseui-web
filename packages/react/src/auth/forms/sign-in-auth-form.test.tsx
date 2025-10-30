@@ -193,7 +193,7 @@ describe("<SignInAuthForm />", () => {
 
     // Make sure we have an email and password input
     expect(screen.getByRole("textbox", { name: /email/i })).toBeInTheDocument();
-    expect(screen.getByRole("textbox", { name: /password/i })).toBeInTheDocument();
+    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
 
     // Ensure the "Sign In" button is present and is a submit button
     const signInButton = screen.getByRole("button", { name: "signIn" });
@@ -236,7 +236,7 @@ describe("<SignInAuthForm />", () => {
           noAccount: "foo",
         },
         labels: {
-          register: "bar",
+          signUp: "bar",
         },
       }),
     });

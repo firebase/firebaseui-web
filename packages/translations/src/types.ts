@@ -65,7 +65,7 @@ export type Translations = {
     password?: string;
     displayName?: string;
     forgotPassword?: string;
-    register?: string;
+    signUp?: string;
     signIn?: string;
     resetPassword?: string;
     createAccount?: string;

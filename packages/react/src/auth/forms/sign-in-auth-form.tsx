@@ -112,7 +112,7 @@ export function SignInAuthForm({ onSignIn, onForgotPasswordClick, onSignUpClick 
         </fieldset>
         {onSignUpClick ? (
           <form.Action onClick={onSignUpClick}>
-            {getTranslation(ui, "prompts", "noAccount")} {getTranslation(ui, "labels", "register")}
+            {getTranslation(ui, "prompts", "noAccount")} {getTranslation(ui, "labels", "signUp")}
           </form.Action>
         ) : null}
       </form.AppForm>

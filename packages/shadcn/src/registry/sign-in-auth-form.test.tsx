@@ -104,7 +104,7 @@ describe("<SignInAuthForm />", () => {
           noAccount: "noAccount",
         },
         labels: {
-          register: "register",
+          signUp: "register",
         },
       }),
     });

@@ -33,6 +33,7 @@ export class FormMetadataComponent {
       <span>{{ label() }}</span>
       <input
         [attr.aria-invalid]="field.api.state.meta.isTouched && field.api.state.meta.errors.length > 0"
+        [type]="type()"
         [id]="field.api.name"
         [name]="field.api.name"
         [value]="field.api.state.value"
@@ -47,6 +48,7 @@ export class FormMetadataComponent {
 export class FormInputComponent {
   field = injectField<string>();
   label = input.required<string>();
+  type = input<string>("text");
 }
 
 @Component({
@@ -96,9 +98,12 @@ export class FormErrorMessageComponent {
 
   errorMessage = computed(() => {
     const error = this.state().errorMap?.onSubmit;
-    if (!error) return undefined;
 
-    // Handle string errors
-    return String(error);
+    // We only care about errors thrown from the form submission, rather than validation errors
+    if (error && typeof error === "string") {
+      return error;
+    }
+
+    return undefined;
   });
 }

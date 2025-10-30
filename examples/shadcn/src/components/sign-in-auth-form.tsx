@@ -80,7 +80,7 @@ export function SignInAuthForm(props: SignInAuthFormProps) {
         {props.onRegisterClick ? (
           <>
             <Button type="button" variant="secondary" onClick={props.onRegisterClick}>
-              {getTranslation(ui, "prompts", "noAccount")} {getTranslation(ui, "labels", "register")}
+              {getTranslation(ui, "prompts", "noAccount")} {getTranslation(ui, "labels", "signUp")}
             </Button>
           </>
         ) : null}
