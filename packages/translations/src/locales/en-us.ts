@@ -60,7 +60,7 @@ export const enUS = {
     password: "Password",
     displayName: "Display Name",
     forgotPassword: "Forgot Password?",
-    register: "Register",
+    signUp: "Sign Up",
     signIn: "Sign In",
     resetPassword: "Reset Password",
     createAccount: "Create Account",

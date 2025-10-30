@@ -44,7 +44,7 @@ describe("<SignUpAuthScreen />", () => {
     const mockUI = createMockUI({
       locale: registerLocale("test", {
         labels: {
-          register: "Register",
+          signUp: "Register",
         },
         prompts: {
           enterDetailsToCreate: "Enter your details to create an account",
@@ -67,7 +67,7 @@ describe("<SignUpAuthScreen />", () => {
     const mockUI = createMockUI({
       locale: registerLocale("test", {
         labels: {
-          register: "Register",
+          signUp: "Register",
         },
         prompts: {
           enterDetailsToCreate: "Enter your details to create an account",
@@ -97,7 +97,7 @@ describe("<SignUpAuthScreen />", () => {
     const mockUI = createMockUI({
       locale: registerLocale("test", {
         labels: {
-          register: "Register",
+          signUp: "Register",
         },
         prompts: {
           enterDetailsToCreate: "Enter your details to create an account",
@@ -122,7 +122,7 @@ describe("<SignUpAuthScreen />", () => {
     const mockUI = createMockUI({
       locale: registerLocale("test", {
         labels: {
-          register: "Register",
+          signUp: "Register",
         },
         prompts: {
           enterDetailsToCreate: "Enter your details to create an account",

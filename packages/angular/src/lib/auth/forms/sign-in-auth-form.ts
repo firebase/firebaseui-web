@@ -72,7 +72,7 @@ import {
       </fieldset>
 
       @if (signUp) {
-        <button fui-form-action (click)="signUp.emit()">{{ noAccountLabel() }} {{ registerLabel() }}</button>
+        <button fui-form-action (click)="signUp.emit()">{{ noAccountLabel() }} {{ signUpLabel() }}</button>
       }
     </form>
   `,
@@ -86,7 +86,7 @@ export class SignInAuthFormComponent {
   forgotPasswordLabel = injectTranslation("labels", "forgotPassword");
   signInLabel = injectTranslation("labels", "signIn");
   noAccountLabel = injectTranslation("prompts", "noAccount");
-  registerLabel = injectTranslation("labels", "register");
+  signUpLabel = injectTranslation("labels", "signUp");
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
   forgotPassword = output<void>();

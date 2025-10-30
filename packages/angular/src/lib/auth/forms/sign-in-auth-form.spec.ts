@@ -78,7 +78,7 @@ describe("<fui-sign-in-auth-form />", () => {
     expect(screen.getByRole("button", { name: "Sign In" })).toBeInTheDocument();
     expect(screen.getByText("By continuing, you agree to our")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Forgot Password" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Don't have an account? Register" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Don't have an account? Sign Up" })).toBeInTheDocument();
   });
 
   it("should have correct translation labels", async () => {
@@ -102,7 +102,7 @@ describe("<fui-sign-in-auth-form />", () => {
     expect(component.forgotPasswordLabel()).toBe("Forgot Password");
     expect(component.signInLabel()).toBe("Sign In");
     expect(component.noAccountLabel()).toBe("Don't have an account?");
-    expect(component.registerLabel()).toBe("Register");
+    expect(component.signUpLabel()).toBe("Sign Up");
     expect(component.unknownErrorLabel()).toBe("An unknown error occurred");
   });
 
@@ -164,7 +164,7 @@ describe("<fui-sign-in-auth-form />", () => {
     const component = fixture.componentInstance;
     const signUpSpy = jest.spyOn(component.signUp, "emit");
 
-    const signUpButton = screen.getByRole("button", { name: "Don't have an account? Register" });
+    const signUpButton = screen.getByRole("button", { name: "Don't have an account? Sign Up" });
     fireEvent.click(signUpButton);
     expect(signUpSpy).toHaveBeenCalled();
   });

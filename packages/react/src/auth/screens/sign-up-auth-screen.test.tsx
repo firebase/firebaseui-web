@@ -59,7 +59,7 @@ describe("<SignUpAuthScreen />", () => {
     const ui = createMockUI({
       locale: registerLocale("test", {
         labels: {
-          register: "register",
+          signUp: "register",
         },
         prompts: {
           enterDetailsToCreate: "enterDetailsToCreate",
