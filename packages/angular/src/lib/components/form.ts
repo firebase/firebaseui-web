@@ -96,9 +96,12 @@ export class FormErrorMessageComponent {
 
   errorMessage = computed(() => {
     const error = this.state().errorMap?.onSubmit;
-    if (!error) return undefined;
 
-    // Handle string errors
-    return String(error);
+    // We only care about errors thrown from the form submission, rather than validation errors
+    if (error && typeof error === "string") {
+      return error;
+    }
+
+    return undefined;
   });
 }
