@@ -44,7 +44,6 @@ class MockPhoneAuthFormComponent {}
 })
 class MockRedirectErrorComponent {}
 
-
 @Component({
   template: `
     <fui-phone-auth-screen>

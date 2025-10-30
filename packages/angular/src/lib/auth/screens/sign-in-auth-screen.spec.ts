@@ -44,7 +44,6 @@ class MockSignInAuthFormComponent {}
 })
 class MockRedirectErrorComponent {}
 
-
 @Component({
   template: `
     <fui-sign-in-auth-screen>
@@ -314,6 +313,8 @@ describe("<fui-sign-in-auth-screen>", () => {
     trigger.dispatchEvent(new MouseEvent("click", { bubbles: true }));
 
     expect(signInHandler).toHaveBeenCalled();
-    expect(signInHandler).toHaveBeenCalledWith(expect.objectContaining({ user: expect.objectContaining({ uid: "angular-mfa-user" }) }));
+    expect(signInHandler).toHaveBeenCalledWith(
+      expect.objectContaining({ user: expect.objectContaining({ uid: "angular-mfa-user" }) })
+    );
   });
 });
