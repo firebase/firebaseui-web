@@ -74,7 +74,7 @@ describe("<fui-sign-in-auth-form />", () => {
     });
 
     expect(screen.getByLabelText("Email Address")).toBeInTheDocument();
-    expect(screen.getByLabelText("Password")).toBeInTheDocument();
+    expect(screen.getByLabelText("Password", { selector: "input" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Sign In" })).toBeInTheDocument();
     expect(screen.getByText("By continuing, you agree to our")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Forgot Password" })).toBeInTheDocument();
