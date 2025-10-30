@@ -26,6 +26,21 @@ import {
 } from "../../components/form";
 import { PoliciesComponent } from "../../components/policies";
 
+// Mock the @firebase-ui/core module but preserve Angular providers
+jest.mock("@firebase-ui/core", () => {
+  const originalModule = jest.requireActual("@firebase-ui/core");
+  return {
+    ...originalModule,
+    sendPasswordResetEmail: jest.fn(),
+    FirebaseUIError: class FirebaseUIError extends Error {
+      constructor(message: string) {
+        super(message);
+        this.name = "FirebaseUIError";
+      }
+    },
+  };
+});
+
 describe("<fui-forgot-password-auth-form />", () => {
   let mockSendPasswordResetEmail: any;
   let mockFirebaseUIError: any;
@@ -187,10 +202,10 @@ describe("<fui-forgot-password-auth-form />", () => {
     });
 
     await component.handleSubmit(submitEvent);
-    await fixture.whenStable();
-
-    expect(preventDefaultSpy).toHaveBeenCalled();
-    expect(stopPropagationSpy).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(preventDefaultSpy).toHaveBeenCalled();
+      expect(stopPropagationSpy).toHaveBeenCalled();
+    });
   });
 
   it("should handle form submission with valid email", async () => {
@@ -278,11 +293,10 @@ describe("<fui-forgot-password-auth-form />", () => {
     fixture.detectChanges();
 
     await component.form.handleSubmit();
-    await fixture.whenStable();
-    fixture.detectChanges();
-
-    expect(component.emailSent()).toBe(false);
-    expect(component.form.state.errors.length).toBeGreaterThan(0);
+    await waitFor(() => {
+      expect(component.emailSent()).toBe(false);
+      expect(component.form.state.errors.length).toBeGreaterThan(0);
+    });
   });
 
   it("should handle unknown errors and display generic error message", async () => {
@@ -308,11 +322,10 @@ describe("<fui-forgot-password-auth-form />", () => {
     fixture.detectChanges();
 
     await component.form.handleSubmit();
-    await fixture.whenStable();
-    fixture.detectChanges();
-
-    expect(component.emailSent()).toBe(false);
-    expect(component.form.state.errors.length).toBeGreaterThan(0);
+    await waitFor(() => {
+      expect(component.emailSent()).toBe(false);
+      expect(component.form.state.errors.length).toBeGreaterThan(0);
+    });
   });
 
   it("should use the same validation logic as the real createForgotPasswordAuthFormSchema", async () => {

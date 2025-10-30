@@ -14,13 +14,41 @@
  * limitations under the License.
  */
 
-import { render, screen } from "@testing-library/angular";
+import { render, screen, waitFor } from "@testing-library/angular";
 import { CommonModule } from "@angular/common";
 import { TanStackField, TanStackAppField } from "@tanstack/angular-form";
 import { SmsMultiFactorEnrollmentFormComponent } from "./sms-multi-factor-enrollment-form";
 import { FormInputComponent, FormSubmitComponent, FormErrorMessageComponent } from "../../../components/form";
 import { CountrySelectorComponent } from "../../../components/country-selector";
 import { PoliciesComponent } from "../../../components/policies";
+
+jest.mock("@firebase-ui/core", () => {
+  const originalModule = jest.requireActual("@firebase-ui/core");
+  return {
+    ...originalModule,
+    verifyPhoneNumber: jest.fn(),
+    enrollWithMultiFactorAssertion: jest.fn(),
+    formatPhoneNumber: jest.fn(),
+    FirebaseUIError: class FirebaseUIError extends Error {
+      constructor(message: string) {
+        super(message);
+        this.name = "FirebaseUIError";
+      }
+    },
+  };
+});
+
+jest.mock("firebase/auth", () => {
+  const originalModule = jest.requireActual("firebase/auth");
+  return {
+    ...originalModule,
+    multiFactor: jest.fn(() => ({
+      enroll: jest.fn(),
+      unenroll: jest.fn(),
+      getEnrolledFactors: jest.fn(),
+    })),
+  };
+});
 
 describe("<fui-sms-multi-factor-enrollment-form />", () => {
   let mockVerifyPhoneNumber: any;
@@ -33,10 +61,6 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
 
   beforeEach(() => {
     const {
-      verifyPhoneNumber,
-      enrollWithMultiFactorAssertion,
-      formatPhoneNumber,
-      FirebaseUIError,
       injectTranslation,
       injectUI,
       injectMultiFactorPhoneAuthNumberFormSchema,
@@ -44,7 +68,14 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
       injectDefaultCountry,
       injectRecaptchaVerifier,
     } = require("../../../tests/test-helpers");
-    const { PhoneAuthProvider, PhoneMultiFactorGenerator, multiFactor } = require("../../../tests/test-helpers");
+    const { PhoneAuthProvider, PhoneMultiFactorGenerator } = require("../../../tests/test-helpers");
+    const {
+      verifyPhoneNumber,
+      enrollWithMultiFactorAssertion,
+      formatPhoneNumber,
+      FirebaseUIError,
+    } = require("@firebase-ui/core");
+    const { multiFactor } = require("firebase/auth");
 
     mockVerifyPhoneNumber = verifyPhoneNumber;
     mockEnrollWithMultiFactorAssertion = enrollWithMultiFactorAssertion;
@@ -227,9 +258,9 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
     fixture.detectChanges();
 
     await component.verificationForm.handleSubmit();
-    await fixture.whenStable();
-
-    expect(enrollmentSpy).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(enrollmentSpy).toHaveBeenCalled();
+    });
   });
 
   it("should handle FirebaseUIError in phone verification", async () => {
@@ -291,10 +322,9 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
     fixture.detectChanges();
 
     await component.verificationForm.handleSubmit();
-    await fixture.whenStable();
-    fixture.detectChanges();
-
-    expect(screen.getByText(errorMessage)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(errorMessage)).toBeInTheDocument();
+    });
   });
 
   it("should format phone number correctly", async () => {

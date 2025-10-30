@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, signal, effect, output, computed } from "@angular/core";
+import { Component, signal, effect, output, computed, input } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { TanStackField, TanStackAppField, injectForm, injectStore } from "@tanstack/angular-form";
 import { TotpMultiFactorGenerator, type TotpSecret } from "firebase/auth";
@@ -34,7 +34,7 @@ import {
 } from "../../../provider";
 
 @Component({
-  selector: "fui-totp-multi-factor-enrollment-form",
+  selector: "fui-totp-multi-factor-secret-generation-form",
   standalone: true,
   imports: [
     CommonModule,
@@ -46,93 +46,49 @@ import {
     PoliciesComponent,
   ],
   template: `
-    <div class="fui-form-container">
-      @if (!enrollment()) {
-        <form (submit)="handleDisplayNameSubmit($event)" class="fui-form">
-          <fieldset>
-            <fui-form-input
-              name="displayName"
-              tanstack-app-field
-              [tanstackField]="displayNameForm"
-              label="{{ displayNameLabel() }}"
-            ></fui-form-input>
-          </fieldset>
-          <fui-policies />
-          <fieldset>
-            <fui-form-submit [state]="displayNameState()">
-              {{ generateQrCodeLabel() }}
-            </fui-form-submit>
-            <fui-form-error-message [state]="displayNameState()" />
-          </fieldset>
-        </form>
-      } @else {
-        <div class="fui-qr-code-container">
-          <img [src]="qrCodeDataUrl()" alt="TOTP QR Code" />
-          <p>TODO: Scan this QR code with your authenticator app</p>
-        </div>
-        <form (submit)="handleVerificationSubmit($event)" class="fui-form">
-          <fieldset>
-            <fui-form-input
-              name="verificationCode"
-              tanstack-app-field
-              [tanstackField]="verificationForm"
-              label="{{ verificationCodeLabel() }}"
-            ></fui-form-input>
-          </fieldset>
-          <fui-policies />
-          <fieldset>
-            <fui-form-submit [state]="verificationState()">
-              {{ verifyCodeLabel() }}
-            </fui-form-submit>
-            <fui-form-error-message [state]="verificationState()" />
-          </fieldset>
-        </form>
-      }
-    </div>
+    <form (submit)="handleSubmit($event)" class="fui-form">
+      <fieldset>
+        <fui-form-input
+          name="displayName"
+          tanstack-app-field
+          [tanstackField]="form"
+          label="{{ displayNameLabel() }}"
+        ></fui-form-input>
+      </fieldset>
+      <fui-policies />
+      <fieldset>
+        <fui-form-submit [state]="state()">
+          {{ generateQrCodeLabel() }}
+        </fui-form-submit>
+        <fui-form-error-message [state]="state()" />
+      </fieldset>
+    </form>
   `,
 })
-export class TotpMultiFactorEnrollmentFormComponent {
+export class TotpMultiFactorSecretGenerationFormComponent {
   private ui = injectUI();
-  private displayNameFormSchema = injectMultiFactorTotpAuthNumberFormSchema();
-  private verificationFormSchema = injectMultiFactorTotpAuthVerifyFormSchema();
+  private formSchema = injectMultiFactorTotpAuthNumberFormSchema();
 
-  enrollment = signal<{ secret: TotpSecret; displayName: string } | null>(null);
+  onSubmit = output<{ secret: TotpSecret; displayName: string }>();
 
   displayNameLabel = injectTranslation("labels", "displayName");
   generateQrCodeLabel = injectTranslation("labels", "generateQrCode");
-  verificationCodeLabel = injectTranslation("labels", "verificationCode");
-  verifyCodeLabel = injectTranslation("labels", "verifyCode");
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
-  onEnrollment = output<void>();
-
-  displayNameForm = injectForm({
+  form = injectForm({
     defaultValues: {
       displayName: "",
     },
   });
 
-  verificationForm = injectForm({
-    defaultValues: {
-      verificationCode: "",
-    },
-  });
-
-  displayNameState = injectStore(this.displayNameForm, (state) => state);
-  verificationState = injectStore(this.verificationForm, (state) => state);
-
-  qrCodeDataUrl = computed(() => {
-    const enrollmentData = this.enrollment();
-    if (!enrollmentData) return "";
-    return generateTotpQrCode(this.ui(), enrollmentData.secret, enrollmentData.displayName);
-  });
+  state = injectStore(this.form, (state) => state);
 
   constructor() {
     effect(() => {
-      this.displayNameForm.update({
+      this.form.update({
         validators: {
-          onBlur: this.displayNameFormSchema(),
-          onSubmit: this.displayNameFormSchema(),
+          onBlur: this.formSchema(),
+          onSubmit: this.formSchema(),
           onSubmitAsync: async ({ value }) => {
             try {
               if (!this.ui().auth.currentUser) {
@@ -140,7 +96,7 @@ export class TotpMultiFactorEnrollmentFormComponent {
               }
 
               const secret = await generateTotpSecret(this.ui());
-              this.enrollment.set({ secret, displayName: value.displayName });
+              this.onSubmit.emit({ secret, displayName: value.displayName });
               return;
             } catch (error) {
               if (error instanceof FirebaseUIError) {
@@ -154,24 +110,85 @@ export class TotpMultiFactorEnrollmentFormComponent {
         },
       });
     });
+  }
 
+  async handleSubmit(event: SubmitEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.form.handleSubmit();
+  }
+}
+
+@Component({
+  selector: "fui-totp-multi-factor-verification-form",
+  standalone: true,
+  imports: [
+    CommonModule,
+    TanStackField,
+    TanStackAppField,
+    FormInputComponent,
+    FormSubmitComponent,
+    FormErrorMessageComponent,
+    PoliciesComponent,
+  ],
+  template: `
+    <div class="fui-qr-code-container">
+      <img [src]="qrCodeDataUrl()" alt="TOTP QR Code" />
+      <p>TODO: Scan this QR code with your authenticator app</p>
+    </div>
+    <form (submit)="handleSubmit($event)" class="fui-form">
+      <fieldset>
+        <fui-form-input
+          name="verificationCode"
+          tanstack-app-field
+          [tanstackField]="form"
+          label="{{ verificationCodeLabel() }}"
+        ></fui-form-input>
+      </fieldset>
+      <fui-policies />
+      <fieldset>
+        <fui-form-submit [state]="state()">
+          {{ verifyCodeLabel() }}
+        </fui-form-submit>
+        <fui-form-error-message [state]="state()" />
+      </fieldset>
+    </form>
+  `,
+})
+export class TotpMultiFactorVerificationFormComponent {
+  private ui = injectUI();
+  private formSchema = injectMultiFactorTotpAuthVerifyFormSchema();
+
+  secret = input.required<TotpSecret>();
+  displayName = input.required<string>();
+  onEnrollment = output<void>();
+
+  verificationCodeLabel = injectTranslation("labels", "verificationCode");
+  verifyCodeLabel = injectTranslation("labels", "verifyCode");
+  unknownErrorLabel = injectTranslation("errors", "unknownError");
+
+  form = injectForm({
+    defaultValues: {
+      verificationCode: "",
+    },
+  });
+
+  state = injectStore(this.form, (state) => state);
+
+  qrCodeDataUrl = computed(() => {
+    return generateTotpQrCode(this.ui(), this.secret(), this.displayName());
+  });
+
+  constructor() {
     effect(() => {
-      this.verificationForm.update({
+      this.form.update({
         validators: {
-          onBlur: this.verificationFormSchema(),
-          onSubmit: this.verificationFormSchema(),
+          onBlur: this.formSchema(),
+          onSubmit: this.formSchema(),
           onSubmitAsync: async ({ value }) => {
             try {
-              const enrollmentData = this.enrollment();
-              if (!enrollmentData) {
-                throw new Error("No enrollment data available");
-              }
-
-              const assertion = TotpMultiFactorGenerator.assertionForEnrollment(
-                enrollmentData.secret,
-                value.verificationCode
-              );
-              await enrollWithMultiFactorAssertion(this.ui(), assertion, enrollmentData.displayName);
+              const assertion = TotpMultiFactorGenerator.assertionForEnrollment(this.secret(), value.verificationCode);
+              await enrollWithMultiFactorAssertion(this.ui(), assertion, this.displayName());
               this.onEnrollment.emit();
               return;
             } catch (error) {
@@ -189,15 +206,36 @@ export class TotpMultiFactorEnrollmentFormComponent {
     });
   }
 
-  async handleDisplayNameSubmit(event: SubmitEvent) {
+  async handleSubmit(event: SubmitEvent) {
     event.preventDefault();
     event.stopPropagation();
-    this.displayNameForm.handleSubmit();
+    this.form.handleSubmit();
   }
+}
 
-  async handleVerificationSubmit(event: SubmitEvent) {
-    event.preventDefault();
-    event.stopPropagation();
-    this.verificationForm.handleSubmit();
+@Component({
+  selector: "fui-totp-multi-factor-enrollment-form",
+  standalone: true,
+  imports: [CommonModule, TotpMultiFactorSecretGenerationFormComponent, TotpMultiFactorVerificationFormComponent],
+  template: `
+    <div class="fui-form-container">
+      @if (!enrollment()) {
+        <fui-totp-multi-factor-secret-generation-form (onSubmit)="handleSecretGeneration($event)" />
+      } @else {
+        <fui-totp-multi-factor-verification-form
+          [secret]="enrollment()!.secret"
+          [displayName]="enrollment()!.displayName"
+          (onEnrollment)="onEnrollment.emit()"
+        />
+      }
+    </div>
+  `,
+})
+export class TotpMultiFactorEnrollmentFormComponent {
+  enrollment = signal<{ secret: TotpSecret; displayName: string } | null>(null);
+  onEnrollment = output<void>();
+
+  handleSecretGeneration(data: { secret: TotpSecret; displayName: string }) {
+    this.enrollment.set(data);
   }
 }
