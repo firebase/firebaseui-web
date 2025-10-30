@@ -284,4 +284,65 @@ describe("<SmsMultiFactorAssertionForm />", () => {
       );
     }).not.toThrow();
   });
+
+  it("invokes onSuccess with credential after full SMS verification flow", async () => {
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          sendCode: "sendCode",
+          phoneNumber: "phoneNumber",
+          verificationCode: "verificationCode",
+          verifyCode: "verifyCode",
+        },
+      }),
+    });
+
+    const mockHint = {
+      factorId: "phone" as const,
+      phoneNumber: "+1234567890",
+      uid: "test-uid",
+      enrollmentTime: "2023-01-01T00:00:00Z",
+    };
+
+    // First step returns a verificationId
+    vi.mocked(verifyPhoneNumber).mockResolvedValue("vid-123");
+    // Second step returns a credential from MFA assertion
+    const mockCredential = { user: { uid: "sms-cred-user" } } as any;
+    vi.mocked(signInWithMultiFactorAssertion).mockResolvedValue(mockCredential);
+
+    const onSuccessMock = vi.fn();
+
+    const { container } = render(
+      createFirebaseUIProvider({
+        children: <SmsMultiFactorAssertionForm hint={mockHint} onSuccess={onSuccessMock} />,
+        ui: mockUI,
+      })
+    );
+
+    // Step 1: Send code
+    const sendCodeButton = screen.getByRole("button", { name: "sendCode" });
+    await act(async () => {
+      sendCodeButton.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    });
+
+    // Now verify form should be rendered; enter code and submit
+    const codeInput = await screen.findByRole("textbox", { name: /verificationCode/i });
+    const verifyButton = screen.getByRole("button", { name: "verifyCode" });
+
+    await act(async () => {
+      (codeInput as HTMLInputElement).value = "123456";
+      codeInput.dispatchEvent(new Event("input", { bubbles: true }));
+    });
+
+    await act(async () => {
+      verifyButton.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    });
+
+    expect(verifyPhoneNumber).toHaveBeenCalled();
+    expect(signInWithMultiFactorAssertion).toHaveBeenCalled();
+    expect(onSuccessMock).toHaveBeenCalledTimes(1);
+    expect(onSuccessMock).toHaveBeenCalledWith(
+      expect.objectContaining({ user: expect.objectContaining({ uid: "sms-cred-user" }) })
+    );
+  });
 });

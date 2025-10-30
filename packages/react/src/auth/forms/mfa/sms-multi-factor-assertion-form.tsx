@@ -2,6 +2,7 @@ import { useCallback, useRef, useState } from "react";
 import {
   PhoneAuthProvider,
   PhoneMultiFactorGenerator,
+  type UserCredential,
   type MultiFactorInfo,
   type RecaptchaVerifier,
 } from "firebase/auth";
@@ -127,7 +128,7 @@ export function useSmsMultiFactorAssertionVerifyFormAction() {
 
 type UseSmsMultiFactorAssertionVerifyForm = {
   verificationId: string;
-  onSuccess: () => void;
+  onSuccess: (credential: UserCredential) => void;
 };
 
 export function useSmsMultiFactorAssertionVerifyForm({
@@ -147,8 +148,8 @@ export function useSmsMultiFactorAssertionVerifyForm({
       onBlur: schema,
       onSubmitAsync: async ({ value }) => {
         try {
-          await action(value);
-          return onSuccess();
+          const credential = await action(value);
+          return onSuccess(credential);
         } catch (error) {
           return error instanceof FirebaseUIError ? error.message : String(error);
         }
@@ -159,7 +160,7 @@ export function useSmsMultiFactorAssertionVerifyForm({
 
 type SmsMultiFactorAssertionVerifyFormProps = {
   verificationId: string;
-  onSuccess: () => void;
+  onSuccess: (credential: UserCredential) => void;
 };
 
 function SmsMultiFactorAssertionVerifyForm(props: SmsMultiFactorAssertionVerifyFormProps) {
@@ -195,7 +196,7 @@ function SmsMultiFactorAssertionVerifyForm(props: SmsMultiFactorAssertionVerifyF
 
 export type SmsMultiFactorAssertionFormProps = {
   hint: MultiFactorInfo;
-  onSuccess?: () => void;
+  onSuccess?: (credential: UserCredential) => void;
 };
 
 export function SmsMultiFactorAssertionForm(props: SmsMultiFactorAssertionFormProps) {
@@ -215,8 +216,8 @@ export function SmsMultiFactorAssertionForm(props: SmsMultiFactorAssertionFormPr
   return (
     <SmsMultiFactorAssertionVerifyForm
       verificationId={verification.verificationId}
-      onSuccess={() => {
-        props.onSuccess?.();
+      onSuccess={(credential) => {
+        props.onSuccess?.(credential);
       }}
     />
   );

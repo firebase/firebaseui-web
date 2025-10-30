@@ -343,7 +343,7 @@ export function generateTotpQrCode(ui: FirebaseUI, secret: TotpSecret, accountNa
 export async function signInWithMultiFactorAssertion(ui: FirebaseUI, assertion: MultiFactorAssertion) {
   try {
     setPendingState(ui);
-    const result = await ui.multiFactorResolver?.resolveSignIn(assertion);
+    const result = await ui.multiFactorResolver!.resolveSignIn(assertion);
     ui.setMultiFactorResolver(undefined);
     return result;
   } catch (error) {
