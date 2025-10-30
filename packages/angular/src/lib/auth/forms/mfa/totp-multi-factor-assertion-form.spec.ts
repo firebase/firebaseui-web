@@ -13,10 +13,24 @@
  * limitations under the License.
  */
 
-import { render, screen } from "@testing-library/angular";
+import { render, screen, waitFor } from "@testing-library/angular";
 
 import { TotpMultiFactorAssertionFormComponent } from "./totp-multi-factor-assertion-form";
 import { signInWithMultiFactorAssertion, FirebaseUIError } from "../../../tests/test-helpers";
+
+jest.mock("@firebase-ui/core", () => {
+  const originalModule = jest.requireActual("@firebase-ui/core");
+  return {
+    ...originalModule,
+    signInWithMultiFactorAssertion: jest.fn(),
+    FirebaseUIError: class FirebaseUIError extends Error {
+      constructor(message: string) {
+        super(message);
+        this.name = "FirebaseUIError";
+      }
+    },
+  };
+});
 
 describe("<fui-totp-multi-factor-assertion-form>", () => {
   let TotpMultiFactorGenerator: any;
@@ -27,6 +41,8 @@ describe("<fui-totp-multi-factor-assertion-form>", () => {
       injectUI,
       injectMultiFactorTotpAuthVerifyFormSchema,
     } = require("../../../tests/test-helpers");
+
+    const { signInWithMultiFactorAssertion } = require("@firebase-ui/core");
 
     injectTranslation.mockImplementation((category: string, key: string) => {
       const mockTranslations: Record<string, Record<string, string>> = {
@@ -124,9 +140,9 @@ describe("<fui-totp-multi-factor-assertion-form>", () => {
     fixture.detectChanges();
 
     await component.form.handleSubmit();
-    await fixture.whenStable();
-
-    expect(onSuccessSpy).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(onSuccessSpy).toHaveBeenCalled();
+    });
   });
 
   it("calls TotpMultiFactorGenerator.assertionForSignIn with correct parameters", async () => {
@@ -151,9 +167,9 @@ describe("<fui-totp-multi-factor-assertion-form>", () => {
     fixture.detectChanges();
 
     await component.form.handleSubmit();
-    await fixture.whenStable();
-
-    expect(assertionForSignInSpy).toHaveBeenCalledWith("test-uid", "123456");
+    await waitFor(() => {
+      expect(assertionForSignInSpy).toHaveBeenCalledWith("test-uid", "123456");
+    });
   });
 
   it("calls signInWithMultiFactorAssertion with the assertion", async () => {
@@ -179,12 +195,12 @@ describe("<fui-totp-multi-factor-assertion-form>", () => {
     fixture.detectChanges();
 
     await component.form.handleSubmit();
-    await fixture.whenStable();
-
-    expect(signInWithMultiFactorAssertion).toHaveBeenCalledWith(
-      expect.any(Object), // UI instance
-      mockAssertion
-    );
+    await waitFor(() => {
+      expect(signInWithMultiFactorAssertion).toHaveBeenCalledWith(
+        expect.any(Object), // UI instance
+        mockAssertion
+      );
+    });
   });
 
   it("handles FirebaseUIError correctly", async () => {
@@ -210,10 +226,9 @@ describe("<fui-totp-multi-factor-assertion-form>", () => {
     fixture.detectChanges();
 
     await component.form.handleSubmit();
-    await fixture.whenStable();
-    fixture.detectChanges();
-
-    expect(screen.getByText(errorMessage)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(errorMessage)).toBeInTheDocument();
+    });
   });
 
   it("handles unknown errors correctly", async () => {
@@ -238,9 +253,8 @@ describe("<fui-totp-multi-factor-assertion-form>", () => {
     fixture.detectChanges();
 
     await component.form.handleSubmit();
-    await fixture.whenStable();
-    fixture.detectChanges();
-
-    expect(screen.getByText("An unknown error occurred")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText("An unknown error occurred")).toBeInTheDocument();
+    });
   });
 });
