@@ -43,22 +43,6 @@ import {
   ],
   template: `
     <form (submit)="handleSubmit($event)" class="fui-form">
-      <fieldset>
-        <fui-form-input
-          name="email"
-          tanstack-app-field
-          [tanstackField]="form"
-          label="{{ emailLabel() }}"
-        ></fui-form-input>
-      </fieldset>
-      <fieldset>
-        <fui-form-input
-          name="password"
-          tanstack-app-field
-          [tanstackField]="form"
-          label="{{ passwordLabel() }}"
-        ></fui-form-input>
-      </fieldset>
       @if (requireDisplayNameField()) {
         <fieldset>
           <fui-form-input
@@ -66,12 +50,16 @@ import {
             tanstack-app-field
             [tanstackField]="form"
             label="{{ displayNameLabel() }}"
-          ></fui-form-input>
+          />
         </fieldset>
       }
-
+      <fieldset>
+        <fui-form-input name="email" tanstack-app-field [tanstackField]="form" label="{{ emailLabel() }}" />
+      </fieldset>
+      <fieldset>
+        <fui-form-input name="password" tanstack-app-field [tanstackField]="form" label="{{ passwordLabel() }}" />
+      </fieldset>
       <fui-policies />
-
       <fieldset>
         <fui-form-submit [state]="state()">
           {{ createAccountLabel() }}
