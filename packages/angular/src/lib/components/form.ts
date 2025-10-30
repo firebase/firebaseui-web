@@ -33,6 +33,7 @@ export class FormMetadataComponent {
       <span>{{ label() }}</span>
       <input
         [attr.aria-invalid]="field.api.state.meta.isTouched && field.api.state.meta.errors.length > 0"
+        [type]="type()"
         [id]="field.api.name"
         [name]="field.api.name"
         [value]="field.api.state.value"
@@ -47,6 +48,7 @@ export class FormMetadataComponent {
 export class FormInputComponent {
   field = injectField<string>();
   label = input.required<string>();
+  type = input<string>("text");
 }
 
 @Component({
