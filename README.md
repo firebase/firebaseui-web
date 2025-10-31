@@ -10,24 +10,15 @@ FirebaseUI requires the `firebase` package to be installed:
 npm install firebase
 ```
 
-**Note**: Since the packages are not yet published to npm, you must manually install them from GitHub releases. Once published, these steps will be simplified.
+### Framework-specific Installation
 
-###  Framework-specific Installation
-
-Packages have been created for both `React` and `Angular`. For now, they're only available as direct downloads from this repository. Add the following to your `package.json` file:
+Packages have been created for both `React` and `Angular`.
 
 <details>
   <summary>React</summary>
 
-```json
-{
-  "dependencies": {
-    "@firebase-oss/ui-react": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-react-0.0.1.tgz",
-    "@firebase-oss/ui-core": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-core-0.0.1.tgz",
-    "@firebase-oss/ui-styles": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-styles-0.0.1.tgz",
-    "@firebase-oss/ui-translations": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-translations-0.0.1.tgz"
-  }
-}
+```bash
+npm install @firebase-oss/ui-react @firebase-oss/ui-core @firebase-oss/ui-styles @firebase-oss/ui-translations
 ```
 
 </details>
@@ -37,16 +28,8 @@ Packages have been created for both `React` and `Angular`. For now, they're only
 
 FirebaseUI for Angular depends on the [AngularFire](https://github.com/angular/angularfire) package:
 
-```json
-{
-  "dependencies": {
-    "@angular/fire": "^19.1.0",
-    "@firebase-oss/ui-angular": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-angular-0.0.1.tgz",
-    "@firebase-oss/ui-core": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-core-0.0.1.tgz",
-    "@firebase-oss/ui-styles": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-styles-0.0.1.tgz",
-    "@firebase-oss/ui-translations": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-translations-0.0.1.tgz"
-  }
-}
+```bash
+npm install @angular/fire @firebase-oss/ui-angular @firebase-oss/ui-core @firebase-oss/ui-styles @firebase-oss/ui-translations
 ```
 
 </details>

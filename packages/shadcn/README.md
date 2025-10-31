@@ -27,11 +27,11 @@ npx shadcn@latest add @firebase/sign-up-auth-screen
 Before consuming a component, ensure you have initalized your Firebase UI application:
 
 ```tsx
-import { initalizeUI } from '@firebase-oss/ui-core';
+import { initializeUI } from '@firebase-oss/ui-core';
 import { FirebaseUIProvider } from '@firebase-oss/ui-react';
 import { SignInAuthScreen } from '@/components/sign-in-auth-screen';
 
-const ui = initalizeUI(...);
+const ui = initializeUI(...);
 
 function App() {
   return (

@@ -20,7 +20,7 @@ If using Tailwind CSS, you can import the styles directly into your project.
 
 ```css
 @import "tailwindcss";
-@import "@firebase-oss/ui-styles/src/base.css";
+@import "@firebase-oss/ui-styles/tailwind";
 ```
 
 Alternatively, you can import the fully compiled CSS file into your project.
