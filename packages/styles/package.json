@@ -1,21 +1,14 @@
 {
   "name": "@invertase/firebaseui-styles",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "type": "module",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "style": "./dist/dist.min.css",
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
-      "default": "./dist/index.js"
-    },
-    "./dist.min.css": "./dist/dist.min.css",
-    "./tailwind": "./src/base.css",
-    "./themes/*": "./src/themes/*.css"
+  "zshy": {
+    "exports": {
+      ".": "./src/index.ts",
+      "./dist.min.css": "./dist/dist.min.css",
+      "./tailwind": "./src/base.css",
+      "./themes/brutalist.css": "./src/themes/brualist.css"
+    }
   },
   "sideEffects": [
     "**/*.css"
@@ -26,7 +19,7 @@
   ],
   "scripts": {
     "prepare": "pnpm run build",
-    "build": "tsup && pnpm run build:css",
+    "build": "pnpm dlx zshy && pnpm run build:css",
     "build:css": "pnpm dlx @tailwindcss/cli -i ./src.css -o ./dist/dist.min.css --minify",
     "build:local": "pnpm run build && pnpm pack",
     "lint": "tsc --noEmit",
@@ -46,5 +39,18 @@
   },
   "dependencies": {
     "cva": "1.0.0-beta.4"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.cts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.cts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./dist.min.css": "./dist/dist.min.css",
+    "./tailwind": "./dist/base.css",
+    "./themes/brutalist.css": "./dist/themes/brualist.css"
   }
 }
