@@ -10,7 +10,7 @@
   "dependencies": {
     "@invertase/firebaseui-core": "0.0.3",
     "@invertase/firebaseui-react": "0.0.3",
-    "@invertase/firebaseui-styles": "0.0.6",
+    "@invertase/firebaseui-styles": "0.0.7",
     "@invertase/firebaseui-translations": "0.0.4",
     "@hookform/resolvers": "^5.2.2",
     "@radix-ui/react-accordion": "^1.2.12",
