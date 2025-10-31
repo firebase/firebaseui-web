@@ -49,7 +49,12 @@ describe("<fui-phone-auth-form />", () => {
   let mockFirebaseUIError: any;
 
   beforeEach(() => {
-    const { verifyPhoneNumber, confirmPhoneNumber, formatPhoneNumber, FirebaseUIError } = require("@firebase-oss/ui-core");
+    const {
+      verifyPhoneNumber,
+      confirmPhoneNumber,
+      formatPhoneNumber,
+      FirebaseUIError,
+    } = require("@firebase-oss/ui-core");
     const { injectRecaptchaVerifier } = require("../../tests/test-helpers");
     mockVerifyPhoneNumber = verifyPhoneNumber;
     mockConfirmPhoneNumber = confirmPhoneNumber;

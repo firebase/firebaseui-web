@@ -1,7 +1,12 @@
 "use client";
 
 import type { SignInAuthFormSchema } from "@firebase-oss/ui-core";
-import { useSignInAuthFormAction, useSignInAuthFormSchema, useUI, type SignInAuthFormProps } from "@firebase-oss/ui-react";
+import {
+  useSignInAuthFormAction,
+  useSignInAuthFormSchema,
+  useUI,
+  type SignInAuthFormProps,
+} from "@firebase-oss/ui-react";
 import { useForm } from "react-hook-form";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 import { FirebaseUIError, getTranslation } from "@firebase-oss/ui-core";
