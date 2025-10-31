@@ -8,9 +8,9 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
+      "style": "./dist.css",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs",
-      "style": "./dist.css",
       "default": "./dist/index.js"
     },
     "./dist.css": "./dist.css",
