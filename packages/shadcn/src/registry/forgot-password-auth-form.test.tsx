@@ -18,21 +18,21 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import { ForgotPasswordAuthForm } from "./forgot-password-auth-form";
 import { act } from "react";
-import { useForgotPasswordAuthFormAction } from "@firebase-ui/react";
+import { useForgotPasswordAuthFormAction } from "@invertase/firebaseui-react";
 import { createMockUI } from "../../tests/utils";
-import { registerLocale } from "@firebase-ui/translations";
-import { FirebaseUIProvider } from "@firebase-ui/react";
+import { registerLocale } from "@invertase/firebaseui-translations";
+import { FirebaseUIProvider } from "@invertase/firebaseui-react";
 
-vi.mock("@firebase-ui/core", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@firebase-ui/core")>();
+vi.mock("@invertase/firebaseui-core", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@invertase/firebaseui-core")>();
   return {
     ...mod,
     sendPasswordResetEmail: vi.fn(),
   };
 });
 
-vi.mock("@firebase-ui/react", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@firebase-ui/react")>();
+vi.mock("@invertase/firebaseui-react", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@invertase/firebaseui-react")>();
   return {
     ...mod,
     useForgotPasswordAuthFormAction: vi.fn(),

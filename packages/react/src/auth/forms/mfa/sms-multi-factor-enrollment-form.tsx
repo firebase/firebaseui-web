@@ -6,7 +6,7 @@ import {
   formatPhoneNumber,
   getTranslation,
   verifyPhoneNumber,
-} from "@firebase-ui/core";
+} from "@invertase/firebaseui-core";
 import { CountrySelector, type CountrySelectorRef } from "~/components/country-selector";
 import { form } from "~/components/form";
 import {

@@ -29,7 +29,7 @@ import {
   useRecaptchaVerifier,
 } from "./hooks";
 import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
-import { registerLocale, enUs } from "@firebase-ui/translations";
+import { registerLocale, enUs } from "@invertase/firebaseui-translations";
 import type { RecaptchaVerifier } from "firebase/auth";
 
 // Mock RecaptchaVerifier from firebase/auth

@@ -5,12 +5,12 @@
   "title": "Redirect Error",
   "description": "A component that displays redirect errors from Firebase UI authentication flow.",
   "dependencies": [
-    "@firebase-ui/react"
+    "@invertase/firebaseui-react"
   ],
   "files": [
     {
       "path": "src/registry/redirect-error.tsx",
-      "content": "\"use client\";\n\nimport { useRedirectError } from \"@firebase-ui/react\";\n\nexport function RedirectError() {\n  const error = useRedirectError();\n\n  if (!error) {\n    return null;\n  }\n\n  return <div className=\"text-sm text-red-600 dark:text-red-400\">{error}</div>;\n}\n",
+      "content": "\"use client\";\n\nimport { useRedirectError } from \"@invertase/firebaseui-react\";\n\nexport function RedirectError() {\n  const error = useRedirectError();\n\n  if (!error) {\n    return null;\n  }\n\n  return <div className=\"text-sm text-red-600 dark:text-red-400\">{error}</div>;\n}\n",
       "type": "registry:component"
     }
   ]

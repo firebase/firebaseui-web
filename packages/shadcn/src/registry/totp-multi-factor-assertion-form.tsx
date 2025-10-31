@@ -1,12 +1,12 @@
 "use client";
 
 import { type MultiFactorInfo } from "firebase/auth";
-import { FirebaseUIError, getTranslation } from "@firebase-ui/core";
+import { FirebaseUIError, getTranslation } from "@invertase/firebaseui-core";
 import {
   useMultiFactorTotpAuthVerifyFormSchema,
   useUI,
   useTotpMultiFactorAssertionFormAction,
-} from "@firebase-ui/react";
+} from "@invertase/firebaseui-react";
 import { useForm } from "react-hook-form";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 

@@ -12,10 +12,10 @@
     "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,md}\""
   },
   "dependencies": {
-    "@firebase-ui/react": "workspace:*",
-    "@firebase-ui/core": "workspace:*",
-    "@firebase-ui/styles": "workspace:*",
-    "@firebase-ui/translations": "workspace:*",
+    "@invertase/firebaseui-react": "0.0.3",
+    "@invertase/firebaseui-core": "0.0.3",
+    "@invertase/firebaseui-styles": "0.0.6",
+    "@invertase/firebaseui-translations": "0.0.4",
     "firebase": "catalog:",
     "next": "15.1.7",
     "react": "catalog:",

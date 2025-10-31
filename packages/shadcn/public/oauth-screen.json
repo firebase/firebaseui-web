@@ -5,7 +5,7 @@
   "title": "OAuth Screen",
   "description": "A screen allowing users to sign in with OAuth providers.",
   "dependencies": [
-    "@firebase-ui/react"
+    "@invertase/firebaseui-react"
   ],
   "registryDependencies": [
     "card",
@@ -16,7 +16,7 @@
   "files": [
     {
       "path": "src/registry/oauth-screen.tsx",
-      "content": "\"use client\";\n\nimport { getTranslation } from \"@firebase-ui/core\";\nimport { type PropsWithChildren } from \"react\";\nimport { useUI } from \"@firebase-ui/react\";\nimport { Card, CardContent, CardHeader, CardDescription, CardTitle } from \"@/components/ui/card\";\nimport { Policies } from \"@/registry/policies\";\nimport { MultiFactorAuthAssertionForm } from \"@/registry/multi-factor-auth-assertion-form\";\nimport { RedirectError } from \"@/registry/redirect-error\";\n\nexport type OAuthScreenProps = PropsWithChildren;\n\nexport function OAuthScreen({ children }: OAuthScreenProps) {\n  const ui = useUI();\n\n  const titleText = getTranslation(ui, \"labels\", \"signIn\");\n  const subtitleText = getTranslation(ui, \"prompts\", \"signInToAccount\");\n  const mfaResolver = ui.multiFactorResolver;\n\n  return (\n    <div className=\"max-w-md mx-auto\">\n      <Card>\n        <CardHeader>\n          <CardTitle>{titleText}</CardTitle>\n          <CardDescription>{subtitleText}</CardDescription>\n        </CardHeader>\n        <CardContent>\n          {mfaResolver ? (\n            <MultiFactorAuthAssertionForm />\n          ) : (\n            <>\n              <div className=\"space-y-2\">\n                {children}\n                <RedirectError />\n                <Policies />\n              </div>\n            </>\n          )}\n        </CardContent>\n      </Card>\n    </div>\n  );\n}\n",
+      "content": "\"use client\";\n\nimport { getTranslation } from \"@invertase/firebaseui-core\";\nimport { type PropsWithChildren } from \"react\";\nimport { useUI } from \"@invertase/firebaseui-react\";\nimport { Card, CardContent, CardHeader, CardDescription, CardTitle } from \"@/components/ui/card\";\nimport { Policies } from \"@/registry/policies\";\nimport { MultiFactorAuthAssertionForm } from \"@/registry/multi-factor-auth-assertion-form\";\nimport { RedirectError } from \"@/registry/redirect-error\";\n\nexport type OAuthScreenProps = PropsWithChildren;\n\nexport function OAuthScreen({ children }: OAuthScreenProps) {\n  const ui = useUI();\n\n  const titleText = getTranslation(ui, \"labels\", \"signIn\");\n  const subtitleText = getTranslation(ui, \"prompts\", \"signInToAccount\");\n  const mfaResolver = ui.multiFactorResolver;\n\n  return (\n    <div className=\"max-w-md mx-auto\">\n      <Card>\n        <CardHeader>\n          <CardTitle>{titleText}</CardTitle>\n          <CardDescription>{subtitleText}</CardDescription>\n        </CardHeader>\n        <CardContent>\n          {mfaResolver ? (\n            <MultiFactorAuthAssertionForm />\n          ) : (\n            <>\n              <div className=\"space-y-2\">\n                {children}\n                <RedirectError />\n                <Policies />\n              </div>\n            </>\n          )}\n        </CardContent>\n      </Card>\n    </div>\n  );\n}\n",
       "type": "registry:component"
     }
   ]

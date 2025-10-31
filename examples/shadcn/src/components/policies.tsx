@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
-import { getTranslation } from "@firebase-ui/core";
-import { useUI, PolicyContext } from "@firebase-ui/react";
+import { getTranslation } from "@invertase/firebaseui-core";
+import { useUI, PolicyContext } from "@invertase/firebaseui-react";
 import { cloneElement, useContext } from "react";
 
 export function Policies() {

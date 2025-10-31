@@ -16,7 +16,7 @@
 
 "use client";
 
-import { MultiFactorAuthEnrollmentScreen } from "@firebase-ui/react";
+import { MultiFactorAuthEnrollmentScreen } from "@invertase/firebaseui-react";
 import { FactorId } from "firebase/auth";
 import { useNavigate } from "react-router";
 

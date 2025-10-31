@@ -1,15 +1,15 @@
 "use client";
 
-import type { EmailLinkAuthFormSchema } from "@firebase-ui/core";
+import type { EmailLinkAuthFormSchema } from "@invertase/firebaseui-core";
 import {
   useEmailLinkAuthFormAction,
   useEmailLinkAuthFormCompleteSignIn,
   useEmailLinkAuthFormSchema,
   useUI,
   type EmailLinkAuthFormProps,
-} from "@firebase-ui/react";
+} from "@invertase/firebaseui-react";
 
-import { FirebaseUIError, getTranslation } from "@firebase-ui/core";
+import { FirebaseUIError, getTranslation } from "@invertase/firebaseui-core";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 import { useState } from "react";
 import { useForm } from "react-hook-form";

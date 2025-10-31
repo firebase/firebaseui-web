@@ -5,7 +5,7 @@
   "title": "Microsoft Sign In Button",
   "description": "A button component for Microsoft OAuth authentication.",
   "dependencies": [
-    "@firebase-ui/react"
+    "@invertase/firebaseui-react"
   ],
   "registryDependencies": [
     "https://fir-ui-shadcn.web.app/oauth-button.json"
@@ -13,7 +13,7 @@
   "files": [
     {
       "path": "src/registry/microsoft-sign-in-button.tsx",
-      "content": "\"use client\";\n\nimport { OAuthProvider } from \"firebase/auth\";\nimport { getTranslation } from \"@firebase-ui/core\";\nimport { useUI, type MicrosoftSignInButtonProps, MicrosoftLogo } from \"@firebase-ui/react\";\n\nimport { OAuthButton } from \"@/registry/oauth-button\";\n\nexport type { MicrosoftSignInButtonProps };\n\nexport function MicrosoftSignInButton({ provider, themed }: MicrosoftSignInButtonProps) {\n  const ui = useUI();\n\n  return (\n    <OAuthButton provider={provider || new OAuthProvider(\"microsoft.com\")} themed={themed}>\n      <MicrosoftLogo />\n      <span>{getTranslation(ui, \"labels\", \"signInWithMicrosoft\")}</span>\n    </OAuthButton>\n  );\n}\n",
+      "content": "\"use client\";\n\nimport { OAuthProvider } from \"firebase/auth\";\nimport { getTranslation } from \"@invertase/firebaseui-core\";\nimport { useUI, type MicrosoftSignInButtonProps, MicrosoftLogo } from \"@invertase/firebaseui-react\";\n\nimport { OAuthButton } from \"@/registry/oauth-button\";\n\nexport type { MicrosoftSignInButtonProps };\n\nexport function MicrosoftSignInButton({ provider, themed }: MicrosoftSignInButtonProps) {\n  const ui = useUI();\n\n  return (\n    <OAuthButton provider={provider || new OAuthProvider(\"microsoft.com\")} themed={themed}>\n      <MicrosoftLogo />\n      <span>{getTranslation(ui, \"labels\", \"signInWithMicrosoft\")}</span>\n    </OAuthButton>\n  );\n}\n",
       "type": "registry:component"
     }
   ],

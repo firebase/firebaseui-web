@@ -1,15 +1,15 @@
 "use client";
 
-import type { ForgotPasswordAuthFormSchema } from "@firebase-ui/core";
+import type { ForgotPasswordAuthFormSchema } from "@invertase/firebaseui-core";
 import {
   useForgotPasswordAuthFormAction,
   useForgotPasswordAuthFormSchema,
   useUI,
   type ForgotPasswordAuthFormProps,
-} from "@firebase-ui/react";
+} from "@invertase/firebaseui-react";
 import { useForm } from "react-hook-form";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
-import { FirebaseUIError, getTranslation } from "@firebase-ui/core";
+import { FirebaseUIError, getTranslation } from "@invertase/firebaseui-core";
 import { useState } from "react";
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";

@@ -26,9 +26,9 @@ import {
 } from "../../components/form";
 import { PoliciesComponent } from "../../components/policies";
 
-// Mock the @firebase-ui/core module but preserve Angular providers
-jest.mock("@firebase-ui/core", () => {
-  const originalModule = jest.requireActual("@firebase-ui/core");
+// Mock the @invertase/firebaseui-core module but preserve Angular providers
+jest.mock("@invertase/firebaseui-core", () => {
+  const originalModule = jest.requireActual("@invertase/firebaseui-core");
   return {
     ...originalModule,
     sendPasswordResetEmail: jest.fn(),

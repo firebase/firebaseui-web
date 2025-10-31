@@ -16,7 +16,7 @@
 
 "use client";
 
-import { PhoneAuthScreen } from "@firebase-ui/react";
+import { PhoneAuthScreen } from "@invertase/firebaseui-react";
 import { useNavigate } from "react-router";
 
 export default function PhoneAuthScreenPage() {

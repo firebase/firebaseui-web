@@ -5,7 +5,7 @@
   "title": "Sign In Auth Screen",
   "description": "A screen allowing users to sign in with email and password.",
   "dependencies": [
-    "@firebase-ui/react"
+    "@invertase/firebaseui-react"
   ],
   "registryDependencies": [
     "separator",
@@ -15,7 +15,7 @@
   "files": [
     {
       "path": "src/registry/sign-in-auth-screen.tsx",
-      "content": "\"use client\";\n\nimport { getTranslation } from \"@firebase-ui/core\";\nimport { useUI, type SignInAuthScreenProps } from \"@firebase-ui/react\";\n\nimport { Card, CardContent, CardDescription, CardHeader, CardTitle } from \"@/components/ui/card\";\nimport { Separator } from \"@/components/ui/separator\";\nimport { SignInAuthForm } from \"@/registry/sign-in-auth-form\";\nimport { MultiFactorAuthAssertionForm } from \"@/registry/multi-factor-auth-assertion-form\";\n\nexport type { SignInAuthScreenProps };\n\nexport function SignInAuthScreen({ children, ...props }: SignInAuthScreenProps) {\n  const ui = useUI();\n\n  const titleText = getTranslation(ui, \"labels\", \"signIn\");\n  const subtitleText = getTranslation(ui, \"prompts\", \"signInToAccount\");\n\n  const mfaResolver = ui.multiFactorResolver;\n\n  return (\n    <div className=\"max-w-md mx-auto\">\n      <Card>\n        <CardHeader>\n          <CardTitle>{titleText}</CardTitle>\n          <CardDescription>{subtitleText}</CardDescription>\n        </CardHeader>\n        <CardContent>\n          {mfaResolver ? (\n            <MultiFactorAuthAssertionForm />\n          ) : (\n            <>\n              <SignInAuthForm {...props} />\n              {children ? (\n                <>\n                  <Separator>{getTranslation(ui, \"messages\", \"dividerOr\")}</Separator>\n                  <div className=\"space-y-2\">{children}</div>\n                </>\n              ) : null}\n            </>\n          )}\n        </CardContent>\n      </Card>\n    </div>\n  );\n}\n",
+      "content": "\"use client\";\n\nimport { getTranslation } from \"@invertase/firebaseui-core\";\nimport { useUI, type SignInAuthScreenProps } from \"@invertase/firebaseui-react\";\n\nimport { Card, CardContent, CardDescription, CardHeader, CardTitle } from \"@/components/ui/card\";\nimport { Separator } from \"@/components/ui/separator\";\nimport { SignInAuthForm } from \"@/registry/sign-in-auth-form\";\nimport { MultiFactorAuthAssertionForm } from \"@/registry/multi-factor-auth-assertion-form\";\n\nexport type { SignInAuthScreenProps };\n\nexport function SignInAuthScreen({ children, ...props }: SignInAuthScreenProps) {\n  const ui = useUI();\n\n  const titleText = getTranslation(ui, \"labels\", \"signIn\");\n  const subtitleText = getTranslation(ui, \"prompts\", \"signInToAccount\");\n\n  const mfaResolver = ui.multiFactorResolver;\n\n  return (\n    <div className=\"max-w-md mx-auto\">\n      <Card>\n        <CardHeader>\n          <CardTitle>{titleText}</CardTitle>\n          <CardDescription>{subtitleText}</CardDescription>\n        </CardHeader>\n        <CardContent>\n          {mfaResolver ? (\n            <MultiFactorAuthAssertionForm />\n          ) : (\n            <>\n              <SignInAuthForm {...props} />\n              {children ? (\n                <>\n                  <Separator>{getTranslation(ui, \"messages\", \"dividerOr\")}</Separator>\n                  <div className=\"space-y-2\">{children}</div>\n                </>\n              ) : null}\n            </>\n          )}\n        </CardContent>\n      </Card>\n    </div>\n  );\n}\n",
       "type": "registry:component"
     }
   ]

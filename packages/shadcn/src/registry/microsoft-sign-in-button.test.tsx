@@ -18,9 +18,9 @@ import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
 import { MicrosoftSignInButton } from "./microsoft-sign-in-button";
 import { createMockUI } from "../../tests/utils";
-import { registerLocale } from "@firebase-ui/translations";
+import { registerLocale } from "@invertase/firebaseui-translations";
 import { OAuthProvider } from "firebase/auth";
-import { FirebaseUIProvider } from "@firebase-ui/react";
+import { FirebaseUIProvider } from "@invertase/firebaseui-react";
 
 vi.mock("./oauth-button", () => ({
   OAuthButton: ({ provider, children, themed }: any) => (
@@ -32,8 +32,8 @@ vi.mock("./oauth-button", () => ({
   ),
 }));
 
-vi.mock("@firebase-ui/react", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@firebase-ui/react")>();
+vi.mock("@invertase/firebaseui-react", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@invertase/firebaseui-react")>();
   return {
     ...mod,
     MicrosoftLogo: ({ className, ...props }: any) => (

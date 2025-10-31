@@ -17,11 +17,11 @@ import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
 import { render, screen, fireEvent, cleanup, renderHook, act } from "@testing-library/react";
 import { OAuthButton, useSignInWithProvider } from "./oauth-button";
 import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
-import { enUs, registerLocale } from "@firebase-ui/translations";
+import { enUs, registerLocale } from "@invertase/firebaseui-translations";
 import type { AuthProvider, UserCredential } from "firebase/auth";
 import { ComponentProps } from "react";
 
-import { signInWithProvider } from "@firebase-ui/core";
+import { signInWithProvider } from "@invertase/firebaseui-core";
 import { FirebaseError } from "firebase/app";
 
 vi.mock("firebase/auth", async () => {
@@ -32,7 +32,7 @@ vi.mock("firebase/auth", async () => {
   };
 });
 
-vi.mock("@firebase-ui/core", async (importOriginal) => {
+vi.mock("@invertase/firebaseui-core", async (importOriginal) => {
   const mod = await importOriginal();
   return {
     ...(mod as object),
@@ -133,7 +133,7 @@ describe("<OAuthButton />", () => {
   });
 
   it("displays FirebaseUIError message when FirebaseUIError occurs", async () => {
-    const { FirebaseUIError } = await import("@firebase-ui/core");
+    const { FirebaseUIError } = await import("@invertase/firebaseui-core");
     const mockSignInWithProvider = vi.mocked(signInWithProvider);
     const ui = createMockUI();
     const mockError = new FirebaseUIError(
@@ -198,7 +198,7 @@ describe("<OAuthButton />", () => {
   });
 
   it("clears error when button is clicked again", async () => {
-    const { FirebaseUIError } = await import("@firebase-ui/core");
+    const { FirebaseUIError } = await import("@invertase/firebaseui-core");
     const mockSignInWithProvider = vi.mocked(signInWithProvider);
     const ui = createMockUI();
 
@@ -271,7 +271,7 @@ describe("useSignInWithProvider", () => {
   });
 
   it("sets error state when FirebaseUIError occurs", async () => {
-    const { FirebaseUIError } = await import("@firebase-ui/core");
+    const { FirebaseUIError } = await import("@invertase/firebaseui-core");
     const mockSignInWithProvider = vi.mocked(signInWithProvider);
     const ui = createMockUI();
     const mockError = new FirebaseUIError(
@@ -327,7 +327,7 @@ describe("useSignInWithProvider", () => {
   });
 
   it("clears error when callback is called again", async () => {
-    const { FirebaseUIError } = await import("@firebase-ui/core");
+    const { FirebaseUIError } = await import("@invertase/firebaseui-core");
     const mockSignInWithProvider = vi.mocked(signInWithProvider);
     const ui = createMockUI();
 

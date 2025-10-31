@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import { MultiFactorAuthAssertionForm } from "./multi-factor-auth-assertion-form";
 import { createFirebaseUIProvider, createMockUI } from "../../tests/utils";
-import { registerLocale } from "@firebase-ui/translations";
+import { registerLocale } from "@invertase/firebaseui-translations";
 import { FactorId, MultiFactorResolver, PhoneMultiFactorGenerator, TotpMultiFactorGenerator } from "firebase/auth";
 
 vi.mock("@/registry/sms-multi-factor-assertion-form", () => ({
