@@ -186,8 +186,8 @@ importers:
         specifier: 0.0.3
         version: 0.0.3(firebase@11.10.0)
       '@invertase/firebaseui-styles':
-        specifier: 0.0.3
-        version: 0.0.3(typescript@5.9.3)
+        specifier: 0.0.4
+        version: 0.0.4(typescript@5.9.3)
       '@invertase/firebaseui-translations':
         specifier: 0.0.4
         version: 0.0.4
@@ -286,8 +286,8 @@ importers:
         specifier: 0.0.3
         version: 0.0.3(@types/react@19.1.16)(firebase@11.10.0)(nanostores@1.0.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.3)
       '@invertase/firebaseui-styles':
-        specifier: 0.0.6
-        version: 0.0.6(typescript@5.9.3)
+        specifier: 0.0.4
+        version: 0.0.4(typescript@5.9.3)
       '@invertase/firebaseui-translations':
         specifier: 0.0.4
         version: 0.0.4
@@ -341,8 +341,8 @@ importers:
         specifier: 0.0.3
         version: 0.0.3(@types/react@19.1.16)(firebase@11.10.0)(nanostores@1.0.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.3)
       '@invertase/firebaseui-styles':
-        specifier: 0.0.3
-        version: 0.0.3(typescript@5.9.3)
+        specifier: 0.0.4
+        version: 0.0.4(typescript@5.9.3)
       '@invertase/firebaseui-translations':
         specifier: 0.0.4
         version: 0.0.4
@@ -2893,6 +2893,9 @@ packages:
 
   '@invertase/firebaseui-styles@0.0.3':
     resolution: {integrity: sha512-0obT/2OZfoayTE2GTw3botbOKYCHVmeozjvb4xNs1NCd5MZyc9nmN8y1PkgZ7vTsTIi6LBmqteFXk5yCIxp4MA==}
+
+  '@invertase/firebaseui-styles@0.0.4':
+    resolution: {integrity: sha512-bAdH64Zqo4SORD+RyMpco08XTdTyKgmsIS07DRHrQqncLKAZtL9W/+djhU9Z2KERr2YwRUC4myHBTZrl8k4HFQ==}
 
   '@invertase/firebaseui-styles@0.0.6':
     resolution: {integrity: sha512-8Ip6m/rFktry5oQxJiHiftiy+K6CtJT8r+5KHTNVKwCWMU3CTN2Q2nfwBp8S/0MT0k2KN8hA1nuaBtHXbKTajg==}
@@ -12385,6 +12388,12 @@ snapshots:
       - typescript
 
   '@invertase/firebaseui-styles@0.0.3(typescript@5.9.3)':
+    dependencies:
+      cva: 1.0.0-beta.4(typescript@5.9.3)
+    transitivePeerDependencies:
+      - typescript
+
+  '@invertase/firebaseui-styles@0.0.4(typescript@5.9.3)':
     dependencies:
       cva: 1.0.0-beta.4(typescript@5.9.3)
     transitivePeerDependencies:

@@ -1,16 +1,17 @@
 {
   "name": "@invertase/firebaseui-styles",
-  "version": "0.0.3",
+  "version": "0.0.7",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "style": "./dist.css",
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "require": "./dist/index.cjs",
+      "style": "./dist.css",
+      "default": "./dist/index.js"
     },
     "./dist.css": "./dist.css",
     "./tailwind": "./src/base.css",
@@ -20,7 +21,7 @@
     "**/*.css"
   ],
   "files": [
-    "dist.css",
+    "dist",
     "src"
   ],
   "scripts": {
