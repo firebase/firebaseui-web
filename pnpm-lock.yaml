@@ -340,12 +340,6 @@ importers:
       '@invertase/firebaseui-react':
         specifier: 0.0.3
         version: 0.0.3(@types/react@19.1.16)(firebase@11.10.0)(nanostores@1.0.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.3)
-      '@invertase/firebaseui-styles':
-        specifier: 0.0.8
-        version: 0.0.8(typescript@5.9.3)
-      '@invertase/firebaseui-translations':
-        specifier: 0.0.4
-        version: 0.0.4
       firebase:
         specifier: ^11.6.0
         version: 11.10.0
@@ -744,11 +738,11 @@ importers:
   packages/react:
     dependencies:
       '@invertase/firebaseui-core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: '*'
+        version: 0.0.3(firebase@11.10.0)
       '@invertase/firebaseui-styles':
-        specifier: workspace:*
-        version: link:../styles
+        specifier: '*'
+        version: 0.0.7(typescript@5.9.3)
       '@nanostores/react':
         specifier: ^1.0.0
         version: 1.0.0(nanostores@1.0.1)(react@19.1.1)
@@ -765,62 +759,62 @@ importers:
         specifier: ^3.0.1
         version: 3.3.1
       zod:
-        specifier: 'catalog:'
+        specifier: ^4.1.9
         version: 4.1.12
     devDependencies:
       '@invertase/firebaseui-translations':
-        specifier: workspace:*
-        version: link:../translations
+        specifier: '*'
+        version: 0.0.4
       '@testing-library/jest-dom':
-        specifier: 'catalog:'
+        specifier: ^6.8.0
         version: 6.9.1
       '@testing-library/react':
-        specifier: 'catalog:'
+        specifier: ^16.3.0
         version: 16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.1.9(@types/react@19.1.16))(@types/react@19.1.16)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@types/jsdom':
-        specifier: 'catalog:'
+        specifier: ^21.1.7
         version: 21.1.7
       '@types/node':
-        specifier: 'catalog:'
+        specifier: ^24.3.1
         version: 24.9.2
       '@types/react':
-        specifier: 'catalog:'
+        specifier: 19.1.16
         version: 19.1.16
       '@types/react-dom':
-        specifier: 'catalog:'
+        specifier: 19.1.9
         version: 19.1.9(@types/react@19.1.16)
       '@vitejs/plugin-react':
-        specifier: 'catalog:'
+        specifier: ^5.0.2
         version: 5.1.0(vite@7.1.12(@types/node@24.9.2)(jiti@2.6.1)(less@4.4.2)(lightningcss@1.30.2)(sass@1.93.2)(terser@5.43.1)(tsx@4.20.6))
       firebase:
-        specifier: 'catalog:'
+        specifier: ^11.10.0
         version: 11.10.0
       jsdom:
-        specifier: 'catalog:'
+        specifier: ^26.1.0
         version: 26.1.0
       nanostores:
-        specifier: 'catalog:'
+        specifier: ^1.0.1
         version: 1.0.1
       react:
-        specifier: 'catalog:'
+        specifier: 19.1.1
         version: 19.1.1
       react-dom:
-        specifier: 'catalog:'
+        specifier: 19.1.1
         version: 19.1.1(react@19.1.1)
       tsup:
-        specifier: 'catalog:'
+        specifier: ^8.5.0
         version: 8.5.0(jiti@2.6.1)(postcss@8.5.6)(tsx@4.20.6)(typescript@5.9.3)
       typescript:
-        specifier: 'catalog:'
+        specifier: ^5.9.2
         version: 5.9.3
       vite:
-        specifier: 'catalog:'
+        specifier: ^7.1.5
         version: 7.1.12(@types/node@24.9.2)(jiti@2.6.1)(less@4.4.2)(lightningcss@1.30.2)(sass@1.93.2)(terser@5.43.1)(tsx@4.20.6)
       vite-plugin-svgr:
         specifier: ^4.5.0
         version: 4.5.0(rollup@4.52.5)(typescript@5.9.3)(vite@7.1.12(@types/node@24.9.2)(jiti@2.6.1)(less@4.4.2)(lightningcss@1.30.2)(sass@1.93.2)(terser@5.43.1)(tsx@4.20.6))
       vitest:
-        specifier: 'catalog:'
+        specifier: ^3.2.4
         version: 3.2.4(@types/node@24.9.2)(@vitest/ui@3.2.4)(jiti@2.6.1)(jsdom@26.1.0)(less@4.4.2)(lightningcss@1.30.2)(msw@2.11.6(@types/node@24.9.2)(typescript@5.9.3))(sass@1.93.2)(terser@5.43.1)(tsx@4.20.6)
 
   packages/shadcn:
@@ -2896,9 +2890,6 @@ packages:
 
   '@invertase/firebaseui-styles@0.0.7':
     resolution: {integrity: sha512-NbtwZAnIjjqQZt4KxXyhfW28/ABNZ7KoldgPgQ0mOIE35JXbCmTBIrIoyIMkwYtH2KTeHMMLnsPLY0b8MVCmRQ==}
-
-  '@invertase/firebaseui-styles@0.0.8':
-    resolution: {integrity: sha512-pz6M28bWdBWpK3/aZWhba2O59tQQqFvyA6xWQNF5YA/lo4zFzhYhhmtSGu9hEP2ouYqxSWldiMoguMea+IUsRw==}
 
   '@invertase/firebaseui-translations@0.0.4':
     resolution: {integrity: sha512-sG8DToRfe7phgF5PXL02hZ9fwQcnwLdJvkfVaz4HuCBne94EH0dBgHhrF0oElRxLae93S2endufa94Yy7IoKsA==}
@@ -12394,12 +12385,6 @@ snapshots:
       - typescript
 
   '@invertase/firebaseui-styles@0.0.7(typescript@5.9.3)':
-    dependencies:
-      cva: 1.0.0-beta.4(typescript@5.9.3)
-    transitivePeerDependencies:
-      - typescript
-
-  '@invertase/firebaseui-styles@0.0.8(typescript@5.9.3)':
     dependencies:
       cva: 1.0.0-beta.4(typescript@5.9.3)
     transitivePeerDependencies:
