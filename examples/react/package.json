@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "pnpm run build && firebase deploy --only hosting:fir-ui-2025-react"
   },
   "dependencies": {
     "@invertase/firebaseui-react": "0.0.3",
