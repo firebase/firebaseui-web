@@ -19,14 +19,18 @@ import { FacebookLogo, FacebookSignInButton } from "./facebook-sign-in-button";
 import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
 import { registerLocale } from "@invertase/firebaseui-translations";
 
-vi.mock("firebase/auth", () => ({
-  FacebookAuthProvider: class FacebookAuthProvider {
-    constructor() {
-      this.providerId = "facebook.com";
-    }
-    providerId: string;
-  },
-}));
+vi.mock("firebase/auth", async () => {
+  const actual = await vi.importActual("firebase/auth");
+  return {
+    ...actual,
+    FacebookAuthProvider: class FacebookAuthProvider {
+      constructor() {
+        this.providerId = "facebook.com";
+      }
+      providerId: string;
+    },
+  };
+});
 
 afterEach(() => {
   cleanup();

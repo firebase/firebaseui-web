@@ -19,15 +19,19 @@ import { Divider } from "~/components/divider";
 import { useUI } from "~/hooks";
 import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "../../components/card";
 import { SignUpAuthForm, type SignUpAuthFormProps } from "../forms/sign-up-auth-form";
-import { getTranslation } from "@invertase/firebaseui-core";
+import { getTranslation } from "@firebase-ui/core";
+import { RedirectError } from "~/components/redirect-error";
+import { MultiFactorAuthAssertionForm } from "../forms/multi-factor-auth-assertion-form";
 
 export type SignUpAuthScreenProps = PropsWithChildren<SignUpAuthFormProps>;
 
 export function SignUpAuthScreen({ children, ...props }: SignUpAuthScreenProps) {
   const ui = useUI();
 
-  const titleText = getTranslation(ui, "labels", "register");
+  const titleText = getTranslation(ui, "labels", "signUp");
   const subtitleText = getTranslation(ui, "prompts", "enterDetailsToCreate");
+
+  const mfaResolver = ui.multiFactorResolver;
 
   return (
     <div className="fui-screen">
@@ -37,13 +41,22 @@ export function SignUpAuthScreen({ children, ...props }: SignUpAuthScreenProps) 
           <CardSubtitle>{subtitleText}</CardSubtitle>
         </CardHeader>
         <CardContent>
-          <SignUpAuthForm {...props} />
-          {children ? (
+          {mfaResolver ? (
+            <MultiFactorAuthAssertionForm />
+          ) : (
             <>
-              <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>
-              <div className="fui-screen__children">{children}</div>
+              <SignUpAuthForm {...props} />
+              {children ? (
+                <>
+                  <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>
+                  <div className="fui-screen__children">
+                    {children}
+                    <RedirectError />
+                  </div>
+                </>
+              ) : null}
             </>
-          ) : null}
+          )}
         </CardContent>
       </Card>
     </div>

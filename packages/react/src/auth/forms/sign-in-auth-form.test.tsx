@@ -18,14 +18,22 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, renderHook, cleanup } from "@testing-library/react";
 import { SignInAuthForm, useSignInAuthForm, useSignInAuthFormAction } from "./sign-in-auth-form";
 import { act } from "react";
-import { signInWithEmailAndPassword } from "@invertase/firebaseui-core";
+import { signInWithEmailAndPassword } from "@firebase-ui/core";
 import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
-import { registerLocale } from "@invertase/firebaseui-translations";
+import { registerLocale } from "@firebase-ui/translations";
 import type { UserCredential } from "firebase/auth";
 import { FirebaseUIProvider } from "~/context";
 
-vi.mock("@invertase/firebaseui-core", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@invertase/firebaseui-core")>();
+vi.mock("firebase/auth", async () => {
+  const actual = await vi.importActual("firebase/auth");
+  return {
+    ...actual,
+    getRedirectResult: vi.fn().mockResolvedValue(null),
+  };
+});
+
+vi.mock("@firebase-ui/core", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@firebase-ui/core")>();
   return {
     ...mod,
     signInWithEmailAndPassword: vi.fn(),
@@ -185,7 +193,7 @@ describe("<SignInAuthForm />", () => {
 
     // Make sure we have an email and password input
     expect(screen.getByRole("textbox", { name: /email/i })).toBeInTheDocument();
-    expect(screen.getByRole("textbox", { name: /password/i })).toBeInTheDocument();
+    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
 
     // Ensure the "Sign In" button is present and is a submit button
     const signInButton = screen.getByRole("button", { name: "signIn" });
@@ -221,23 +229,23 @@ describe("<SignInAuthForm />", () => {
     expect(onForgotPasswordClickMock).toHaveBeenCalled();
   });
 
-  it("should render the register button callback when onRegisterClick is provided", () => {
+  it("should render the register button callback when onSignUpClick is provided", () => {
     const mockUI = createMockUI({
       locale: registerLocale("test", {
         prompts: {
           noAccount: "foo",
         },
         labels: {
-          register: "bar",
+          signUp: "bar",
         },
       }),
     });
 
-    const onRegisterClickMock = vi.fn();
+    const onSignUpClick = vi.fn();
 
     render(
       <FirebaseUIProvider ui={mockUI}>
-        <SignInAuthForm onRegisterClick={onRegisterClickMock} />
+        <SignInAuthForm onSignUpClick={onSignUpClick} />
       </FirebaseUIProvider>
     );
 
@@ -251,7 +259,7 @@ describe("<SignInAuthForm />", () => {
     expect(registerButton).toHaveAttribute("type", "button");
 
     fireEvent.click(registerButton);
-    expect(onRegisterClickMock).toHaveBeenCalled();
+    expect(onSignUpClick).toHaveBeenCalled();
   });
 
   it("should trigger validation errors when the form is blurred", () => {

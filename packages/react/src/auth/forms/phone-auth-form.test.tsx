@@ -27,14 +27,19 @@ import {
 import { act } from "react";
 import type { UserCredential } from "firebase/auth";
 
-vi.mock("firebase/auth", () => ({
-  RecaptchaVerifier: vi.fn().mockImplementation(() => ({
-    render: vi.fn().mockResolvedValue(123),
-    clear: vi.fn(),
-    verify: vi.fn().mockResolvedValue("verification-token"),
-  })),
-  ConfirmationResult: vi.fn(),
-}));
+vi.mock("firebase/auth", async () => {
+  const actual = await vi.importActual("firebase/auth");
+  return {
+    ...actual,
+    RecaptchaVerifier: vi.fn().mockImplementation(() => ({
+      render: vi.fn().mockResolvedValue(123),
+      clear: vi.fn(),
+      verify: vi.fn().mockResolvedValue("verification-token"),
+    })),
+    ConfirmationResult: vi.fn(),
+    getRedirectResult: vi.fn().mockResolvedValue(null),
+  };
+});
 
 vi.mock("@invertase/firebaseui-core", async (importOriginal) => {
   const mod = await importOriginal<typeof import("@invertase/firebaseui-core")>();

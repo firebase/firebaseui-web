@@ -15,21 +15,40 @@
  */
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { renderHook, act, cleanup } from "@testing-library/react";
+import { renderHook, act, cleanup, waitFor } from "@testing-library/react";
+import React from "react";
 import {
   useUI,
+  useRedirectError,
   useSignInAuthFormSchema,
   useSignUpAuthFormSchema,
   useForgotPasswordAuthFormSchema,
   useEmailLinkAuthFormSchema,
   usePhoneAuthNumberFormSchema,
   usePhoneAuthVerifyFormSchema,
+  useRecaptchaVerifier,
 } from "./hooks";
 import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
-import { registerLocale, enUs } from "@invertase/firebaseui-translations";
+import { registerLocale, enUs } from "@firebase-ui/translations";
+import type { RecaptchaVerifier } from "firebase/auth";
+
+// Mock RecaptchaVerifier from firebase/auth
+const mockRender = vi.fn();
+const mockVerifier = {
+  render: mockRender,
+} as unknown as RecaptchaVerifier;
+
+vi.mock("firebase/auth", async () => {
+  const actual = await vi.importActual<typeof import("firebase/auth")>("firebase/auth");
+  return {
+    ...actual,
+    RecaptchaVerifier: vi.fn().mockImplementation(() => mockVerifier),
+  };
+});
 
 beforeEach(() => {
   vi.clearAllMocks();
+  mockRender.mockClear();
 });
 
 describe("useUI", () => {
@@ -191,7 +210,7 @@ describe("useSignInAuthFormSchema", () => {
     const customLocale = registerLocale("fr-FR", customTranslations);
 
     act(() => {
-      mockUI.setKey("locale", customLocale);
+      mockUI.get().setLocale(customLocale);
     });
 
     rerender();
@@ -305,7 +324,7 @@ describe("useSignUpAuthFormSchema", () => {
     const customLocale = registerLocale("fr-FR", customTranslations);
 
     act(() => {
-      mockUI.setKey("locale", customLocale);
+      mockUI.get().setLocale(customLocale);
     });
 
     rerender();
@@ -401,7 +420,7 @@ describe("useForgotPasswordAuthFormSchema", () => {
     const customLocale = registerLocale("fr-FR", customTranslations);
 
     act(() => {
-      mockUI.setKey("locale", customLocale);
+      mockUI.get().setLocale(customLocale);
     });
 
     rerender();
@@ -493,7 +512,7 @@ describe("useEmailLinkAuthFormSchema", () => {
     const customLocale = registerLocale("fr-FR", customTranslations);
 
     act(() => {
-      mockUI.setKey("locale", customLocale);
+      mockUI.get().setLocale(customLocale);
     });
 
     rerender();
@@ -585,7 +604,7 @@ describe("usePhoneAuthNumberFormSchema", () => {
     const customLocale = registerLocale("fr-FR", customTranslations);
 
     act(() => {
-      mockUI.setKey("locale", customLocale);
+      mockUI.get().setLocale(customLocale);
     });
 
     rerender();
@@ -677,7 +696,7 @@ describe("usePhoneAuthVerifyFormSchema", () => {
     const customLocale = registerLocale("fr-FR", customTranslations);
 
     act(() => {
-      mockUI.setKey("locale", customLocale);
+      mockUI.get().setLocale(customLocale);
     });
 
     rerender();
@@ -690,5 +709,225 @@ describe("usePhoneAuthVerifyFormSchema", () => {
     if (!verifyResult.success) {
       expect(verifyResult.error.issues[0]!.message).toBe("Custom verification error");
     }
+  });
+});
+
+describe("useRedirectError", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    cleanup();
+  });
+
+  it("returns undefined when no redirect error exists", () => {
+    const mockUI = createMockUI();
+
+    const { result } = renderHook(() => useRedirectError(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    expect(result.current).toBeUndefined();
+  });
+
+  it("returns error message string when Error object is present", () => {
+    const errorMessage = "Authentication failed";
+    const mockUI = createMockUI();
+    mockUI.get().setRedirectError(new Error(errorMessage));
+
+    const { result } = renderHook(() => useRedirectError(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    expect(result.current).toBe(errorMessage);
+  });
+
+  it("returns string value when error is not an Error object", () => {
+    const errorMessage = "Custom error string";
+    const mockUI = createMockUI();
+    mockUI.get().setRedirectError(errorMessage as any);
+
+    const { result } = renderHook(() => useRedirectError(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    expect(result.current).toBe(errorMessage);
+  });
+
+  it("returns stable reference when error hasn't changed", () => {
+    const mockUI = createMockUI();
+    const error = new Error("Test error");
+    mockUI.get().setRedirectError(error);
+
+    let hookCallCount = 0;
+    const results: any[] = [];
+
+    const TestHook = () => {
+      hookCallCount++;
+      const result = useRedirectError();
+      results.push(result);
+      return result;
+    };
+
+    const { rerender } = renderHook(() => TestHook(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    expect(hookCallCount).toBe(1);
+    expect(results).toHaveLength(1);
+
+    rerender();
+
+    expect(hookCallCount).toBe(2);
+    expect(results).toHaveLength(2);
+
+    expect(results[0]).toBe(results[1]);
+    expect(results[0]).toBe("Test error");
+  });
+
+  it("updates when redirectError changes in UI state", () => {
+    const mockUI = createMockUI();
+
+    const { result, rerender } = renderHook(() => useRedirectError(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    expect(result.current).toBeUndefined();
+
+    act(() => {
+      mockUI.get().setRedirectError(new Error("First error"));
+    });
+
+    rerender();
+
+    expect(result.current).toBe("First error");
+
+    act(() => {
+      mockUI.get().setRedirectError(new Error("Second error"));
+    });
+
+    rerender();
+
+    expect(result.current).toBe("Second error");
+
+    act(() => {
+      mockUI.get().setRedirectError(undefined);
+    });
+
+    rerender();
+
+    expect(result.current).toBeUndefined();
+  });
+
+  it("handles null and undefined errors", () => {
+    const mockUI = createMockUI();
+
+    const { result, rerender } = renderHook(() => useRedirectError(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    expect(result.current).toBeUndefined();
+
+    act(() => {
+      mockUI.get().setRedirectError(null as any);
+    });
+
+    rerender();
+
+    expect(result.current).toBeUndefined();
+
+    act(() => {
+      mockUI.get().setRedirectError(undefined);
+    });
+
+    rerender();
+
+    expect(result.current).toBeUndefined();
+  });
+});
+
+describe("useRecaptchaVerifier", () => {
+  beforeEach(() => {
+    cleanup();
+  });
+
+  it("creates verifier when element is available", async () => {
+    const mockUI = createMockUI();
+    const element = document.createElement("div");
+    const ref = { current: element };
+
+    const { result } = renderHook(() => useRecaptchaVerifier(ref), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    await waitFor(() => {
+      expect(result.current).toBe(mockVerifier);
+    });
+
+    expect(mockRender).toHaveBeenCalledTimes(1);
+  });
+
+  it("returns null when element is not available", () => {
+    const mockUI = createMockUI();
+    const ref = { current: null };
+
+    const { result } = renderHook(() => useRecaptchaVerifier(ref), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    expect(result.current).toBeNull();
+    expect(mockRender).not.toHaveBeenCalled();
+  });
+
+  it("does not recreate verifier when ui changes", async () => {
+    const mockUI = createMockUI();
+    const element = document.createElement("div");
+    const ref = { current: element };
+
+    const { result, rerender } = renderHook(() => useRecaptchaVerifier(ref), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    await waitFor(() => {
+      expect(result.current).toBe(mockVerifier);
+    });
+
+    const firstVerifier = result.current;
+    expect(mockRender).toHaveBeenCalledTimes(1);
+
+    act(() => {
+      mockUI.get().setState("pending");
+    });
+
+    rerender();
+
+    expect(result.current).toBe(firstVerifier);
+    expect(mockRender).toHaveBeenCalledTimes(1);
+  });
+
+  it("recreates verifier when element changes", async () => {
+    const mockUI = createMockUI();
+    const element1 = document.createElement("div");
+    const element2 = document.createElement("div");
+
+    const { result, rerender } = renderHook((props) => useRecaptchaVerifier(props.ref), {
+      initialProps: { ref: { current: element1 } },
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    await waitFor(() => {
+      expect(result.current).toBe(mockVerifier);
+    });
+
+    expect(mockRender).toHaveBeenCalledTimes(1);
+
+    act(() => {
+      rerender({ ref: { current: element2 } });
+    });
+
+    // Verifier should be recreated - wait for effect to run
+    await waitFor(() => {
+      expect(mockRender).toHaveBeenCalledTimes(2);
+    });
+
+    expect(result.current).toBe(mockVerifier);
   });
 });

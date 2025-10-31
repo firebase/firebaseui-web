@@ -28,6 +28,10 @@ vi.mock("~/components/divider", () => ({
   Divider: () => <div data-testid="divider">Divider</div>,
 }));
 
+vi.mock("~/components/redirect-error", () => ({
+  RedirectError: () => <div data-testid="redirect-error">Redirect Error</div>,
+}));
+
 describe("<EmailLinkAuthScreen />", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -90,5 +94,32 @@ describe("<EmailLinkAuthScreen />", () => {
 
     expect(screen.getByTestId("divider")).toBeInTheDocument();
     expect(screen.getByTestId("test-child")).toBeInTheDocument();
+  });
+
+  it("renders RedirectError component in children section", () => {
+    const ui = createMockUI();
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <EmailLinkAuthScreen>
+          <div data-testid="test-child">Test Child</div>
+        </EmailLinkAuthScreen>
+      </CreateFirebaseUIProvider>
+    );
+
+    expect(screen.getByTestId("redirect-error")).toBeInTheDocument();
+    expect(screen.getByTestId("test-child")).toBeInTheDocument();
+  });
+
+  it("does not render RedirectError when no children are provided", () => {
+    const ui = createMockUI();
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <EmailLinkAuthScreen />
+      </CreateFirebaseUIProvider>
+    );
+
+    expect(screen.queryByTestId("redirect-error")).toBeNull();
   });
 });

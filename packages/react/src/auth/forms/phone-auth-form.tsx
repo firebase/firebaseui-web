@@ -102,7 +102,7 @@ export function PhoneNumberForm(props: PhoneNumberFormProps) {
               <field.Input
                 label={getTranslation(ui, "labels", "phoneNumber")}
                 type="tel"
-                before={<CountrySelector ref={countrySelector} className="fui-phone-input__country-selector" />}
+                before={<CountrySelector ref={countrySelector} />}
               />
             )}
           </form.AppField>

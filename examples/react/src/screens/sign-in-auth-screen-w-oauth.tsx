@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-"use client";
-
 import {
   AppleSignInButton,
   GoogleSignInButton,
@@ -32,8 +30,10 @@ export default function SignInAuthScreenWithOAuthPage() {
 
   return (
     <SignInAuthScreen
-      onForgotPasswordClick={() => navigate("/password-reset-screen")}
-      onRegisterClick={() => navigate("/sign-up-auth-screen")}
+      onSignIn={(credential) => {
+        console.log(credential);
+        navigate("/");
+      }}
     >
       <div className="space-y-2">
         <GoogleSignInButton />

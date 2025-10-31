@@ -14,17 +14,21 @@
  * limitations under the License.
  */
 
-import { useContext, useMemo, useEffect } from "react";
+import { useContext, useMemo, useEffect, useRef } from "react";
+import type { RecaptchaVerifier } from "firebase/auth";
 import {
   createEmailLinkAuthFormSchema,
   createForgotPasswordAuthFormSchema,
+  createMultiFactorPhoneAuthNumberFormSchema,
+  createMultiFactorPhoneAuthVerifyFormSchema,
+  createMultiFactorTotpAuthNumberFormSchema,
+  createMultiFactorTotpAuthVerifyFormSchema,
   createPhoneAuthNumberFormSchema,
   createPhoneAuthVerifyFormSchema,
   createSignInAuthFormSchema,
   createSignUpAuthFormSchema,
   getBehavior,
-  hasBehavior,
-} from "@invertase/firebaseui-core";
+} from "@firebase-ui/core";
 import { FirebaseUIContext } from "./context";
 
 /**
@@ -40,6 +44,17 @@ export function useUI() {
   }
 
   return ui;
+}
+
+export function useRedirectError() {
+  const ui = useUI();
+  return useMemo(() => {
+    if (!ui.redirectError) {
+      return;
+    }
+
+    return ui.redirectError instanceof Error ? ui.redirectError.message : String(ui.redirectError);
+  }, [ui.redirectError]);
 }
 
 export function useSignInAuthFormSchema() {
@@ -72,20 +87,48 @@ export function usePhoneAuthVerifyFormSchema() {
   return useMemo(() => createPhoneAuthVerifyFormSchema(ui), [ui]);
 }
 
+export function useMultiFactorPhoneAuthNumberFormSchema() {
+  const ui = useUI();
+  return useMemo(() => createMultiFactorPhoneAuthNumberFormSchema(ui), [ui]);
+}
+
+export function useMultiFactorPhoneAuthVerifyFormSchema() {
+  const ui = useUI();
+  return useMemo(() => createMultiFactorPhoneAuthVerifyFormSchema(ui), [ui]);
+}
+
+export function useMultiFactorTotpAuthNumberFormSchema() {
+  const ui = useUI();
+  return useMemo(() => createMultiFactorTotpAuthNumberFormSchema(ui), [ui]);
+}
+
+export function useMultiFactorTotpAuthVerifyFormSchema() {
+  const ui = useUI();
+  return useMemo(() => createMultiFactorTotpAuthVerifyFormSchema(ui), [ui]);
+}
+
 export function useRecaptchaVerifier(ref: React.RefObject<HTMLDivElement | null>) {
   const ui = useUI();
+  const verifierRef = useRef<RecaptchaVerifier | null>(null);
+  const uiRef = useRef(ui);
+  const prevElementRef = useRef<HTMLDivElement | null>(null);
 
-  const verifier = useMemo(() => {
-    return ref.current && hasBehavior(ui, "recaptchaVerification")
-      ? getBehavior(ui, "recaptchaVerification")(ui, ref.current)
-      : null;
-  }, [ref, ui]);
+  uiRef.current = ui;
 
   useEffect(() => {
-    if (verifier) {
-      verifier.render();
-    }
-  }, [verifier]);
+    const currentElement = ref.current;
+    const currentUI = uiRef.current;
 
-  return verifier;
+    if (currentElement !== prevElementRef.current) {
+      prevElementRef.current = currentElement;
+      if (currentElement) {
+        verifierRef.current = getBehavior(currentUI, "recaptchaVerification")(currentUI, currentElement);
+        verifierRef.current.render();
+      } else {
+        verifierRef.current = null;
+      }
+    }
+  }, [ref]);
+
+  return verifierRef.current;
 }

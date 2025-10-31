@@ -16,6 +16,8 @@ export function createMockUI(overrides?: Partial<FirebaseUI>): FirebaseUI {
     behaviors: {},
     multiFactorResolver: undefined,
     setMultiFactorResolver: vi.fn(),
+    redirectError: undefined,
+    setRedirectError: vi.fn(),
     ...overrides,
   };
 }

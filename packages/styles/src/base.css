@@ -83,6 +83,11 @@
     @apply space-y-2;
   }
 
+  :where(.fui-content) {
+    @apply space-y-2;
+    
+  }
+
   :where(.fui-card) {
     @apply bg-background p-10 border border-border rounded-card space-y-6;
   }
@@ -108,8 +113,12 @@
     @apply flex flex-col gap-2 text-text;
   }
 
-  :where(.fui-form fieldset label span) {
-    @apply inline-flex gap-3 text-sm font-medium;
+  :where(.fui-form fieldset label div[data-input-label]) {
+    @apply flex gap-3 text-sm font-medium;
+  }
+
+  :where(.fui-form fieldset label div[data-input-label] > div:first-child) {
+    @apply grow;
   }
 
   :where(.fui-form .fui-form__action) {
@@ -117,7 +126,7 @@
   }
 
   :where(.fui-form fieldset label input) {
-    @apply w-full border-1 border-input rounded px-2 py-2 text-sm focus:outline-2 focus:outline-primary shadow-xs bg-transparent;
+    @apply w-full border border-input rounded px-2 py-2 text-sm focus:outline-2 focus:outline-primary shadow-xs bg-transparent;
   }
 
   :where(.fui-form fieldset label input[aria-invalid="true"]) {
@@ -211,7 +220,6 @@
   :where(.fui-policies a, .fui-policies button) {
     @apply hover:underline font-semibold;
   }
-
 
   .fui-provider__button[data-provider="google.com"][data-themed="true"] {
     --google-primary: #131314;

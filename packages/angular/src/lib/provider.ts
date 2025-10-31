@@ -24,6 +24,7 @@ import {
   computed,
   effect,
   Signal,
+  ElementRef,
 } from "@angular/core";
 import { FirebaseApps } from "@angular/fire/app";
 import {
@@ -33,6 +34,10 @@ import {
   createPhoneAuthVerifyFormSchema,
   createSignInAuthFormSchema,
   createSignUpAuthFormSchema,
+  createMultiFactorPhoneAuthNumberFormSchema,
+  createMultiFactorPhoneAuthVerifyFormSchema,
+  createMultiFactorTotpAuthNumberFormSchema,
+  createMultiFactorTotpAuthVerifyFormSchema,
   FirebaseUIStore,
   type FirebaseUI as FirebaseUIType,
   getTranslation,
@@ -73,7 +78,6 @@ export function provideFirebaseUIPolicies(factory: () => PolicyConfig) {
   return makeEnvironmentProviders(providers);
 }
 
-// Provides a signal with a subscription to the FirebaseUIStore
 export function injectUI() {
   const store = inject(FIREBASE_UI_STORE);
   const ui = signal<FirebaseUIType>(store.get());
@@ -83,6 +87,26 @@ export function injectUI() {
   });
 
   return ui.asReadonly();
+}
+
+export function injectRecaptchaVerifier(element: () => ElementRef<HTMLDivElement>) {
+  const ui = injectUI();
+  const verifier = computed(() => {
+    const elementRef = element();
+    if (!elementRef) {
+      return null;
+    }
+    return getBehavior(ui(), "recaptchaVerification")(ui(), elementRef.nativeElement);
+  });
+
+  effect(() => {
+    const verifierInstance = verifier();
+    if (verifierInstance) {
+      verifierInstance.render();
+    }
+  });
+
+  return verifier;
 }
 
 export function injectTranslation(category: string, key: string) {
@@ -120,6 +144,34 @@ export function injectPhoneAuthVerifyFormSchema(): Signal<ReturnType<typeof crea
   return computed(() => createPhoneAuthVerifyFormSchema(ui()));
 }
 
+export function injectMultiFactorPhoneAuthNumberFormSchema(): Signal<
+  ReturnType<typeof createMultiFactorPhoneAuthNumberFormSchema>
+> {
+  const ui = injectUI();
+  return computed(() => createMultiFactorPhoneAuthNumberFormSchema(ui()));
+}
+
+export function injectMultiFactorPhoneAuthVerifyFormSchema(): Signal<
+  ReturnType<typeof createMultiFactorPhoneAuthVerifyFormSchema>
+> {
+  const ui = injectUI();
+  return computed(() => createMultiFactorPhoneAuthVerifyFormSchema(ui()));
+}
+
+export function injectMultiFactorTotpAuthNumberFormSchema(): Signal<
+  ReturnType<typeof createMultiFactorTotpAuthNumberFormSchema>
+> {
+  const ui = injectUI();
+  return computed(() => createMultiFactorTotpAuthNumberFormSchema(ui()));
+}
+
+export function injectMultiFactorTotpAuthVerifyFormSchema(): Signal<
+  ReturnType<typeof createMultiFactorTotpAuthVerifyFormSchema>
+> {
+  const ui = injectUI();
+  return computed(() => createMultiFactorTotpAuthVerifyFormSchema(ui()));
+}
+
 export function injectPolicies(): PolicyConfig | null {
   return inject<PolicyConfig | null>(FIREBASE_UI_POLICIES, { optional: true });
 }
@@ -132,4 +184,15 @@ export function injectCountries(): Signal<CountryData[]> {
 export function injectDefaultCountry(): Signal<CountryData> {
   const ui = injectUI();
   return computed(() => getBehavior(ui(), "countryCodes")().defaultCountry);
+}
+
+export function injectRedirectError(): Signal<string | undefined> {
+  const ui = injectUI();
+  return computed(() => {
+    const redirectError = ui().redirectError;
+    if (!redirectError) {
+      return undefined;
+    }
+    return redirectError instanceof Error ? redirectError.message : String(redirectError);
+  });
 }

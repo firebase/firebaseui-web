@@ -14,19 +14,16 @@
  * limitations under the License.
  */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import { onAuthStateChanged } from "firebase/auth";
 import { type User } from "firebase/auth";
-import { useEffect } from "react";
 import { auth } from "./firebase";
 
-export function useUser(initalUser?: User | null) {
-  const [user, setUser] = useState<User | null>(initalUser ?? null);
+export function useUser() {
+  const [user, setUser] = useState<User | null>(auth.currentUser);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, setUser);
-    return () => unsubscribe();
+    return auth.onAuthStateChanged(setUser);
   }, []);
 
   return user;

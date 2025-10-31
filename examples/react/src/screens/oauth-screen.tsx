@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-"use client";
-
+import { useState } from "react";
 import {
   FacebookSignInButton,
   AppleSignInButton,
@@ -27,14 +26,22 @@ import {
 } from "@invertase/firebaseui-react";
 
 export default function OAuthScreenPage() {
+  const [themed, setThemed] = useState(false);
+
   return (
-    <OAuthScreen>
-      <GoogleSignInButton themed="neutral" />
-      <FacebookSignInButton themed />
-      <AppleSignInButton themed />
-      <GitHubSignInButton themed />
-      <MicrosoftSignInButton themed />
-      <TwitterSignInButton themed />
-    </OAuthScreen>
+    <>
+      <OAuthScreen>
+        <GoogleSignInButton themed={themed ? "neutral" : undefined} />
+        <FacebookSignInButton themed={themed} />
+        <AppleSignInButton themed={themed} />
+        <GitHubSignInButton themed={themed} />
+        <MicrosoftSignInButton themed={themed} />
+        <TwitterSignInButton themed={themed} />
+      </OAuthScreen>
+      <div className="flex items-center gap-2 max-w-sm mx-auto mt-12">
+        <input type="checkbox" checked={themed} onChange={() => setThemed(!themed)} />
+        <label htmlFor="remember-me">Themed buttons</label>
+      </div>
+    </>
   );
 }

@@ -1,4 +1,4 @@
-// Mock implementations for @invertase/firebaseui-core to avoid ESM issues in tests
+// Mock implementations for @firebase-ui/core to avoid ESM issues in tests
 export const sendPasswordResetEmail = jest.fn();
 export const sendSignInLinkToEmail = jest.fn();
 export const completeEmailLinkSignIn = jest.fn();
@@ -18,6 +18,41 @@ export const signInWithProvider = jest.fn();
 export const verifyPhoneNumber = jest.fn();
 export const confirmPhoneNumber = jest.fn();
 export const formatPhoneNumber = jest.fn();
+export const generateTotpSecret = jest.fn();
+export const enrollWithMultiFactorAssertion = jest.fn();
+export const generateTotpQrCode = jest.fn();
+
+// Mock Firebase Auth classes
+export const TotpMultiFactorGenerator = {
+  FACTOR_ID: "totp",
+  assertionForSignIn: jest.fn(),
+  assertionForEnrollment: jest.fn(),
+};
+
+export const PhoneMultiFactorGenerator = {
+  FACTOR_ID: "phone",
+  assertionForSignIn: jest.fn(),
+  assertionForEnrollment: jest.fn(),
+  assertion: jest.fn(),
+};
+
+export const PhoneAuthProvider = {
+  credential: jest.fn(),
+};
+
+export const multiFactor = jest.fn(() => ({
+  enroll: jest.fn(),
+  unenroll: jest.fn(),
+  getEnrolledFactors: jest.fn(),
+}));
+
+export const signInWithMultiFactorAssertion = jest.fn();
+
+// Mock FactorId enum
+export const FactorId = {
+  TOTP: "totp",
+  PHONE: "phone",
+};
 
 export const countryData = [
   { name: "United States", dialCode: "+1", code: "US", emoji: "🇺🇸" },
@@ -40,7 +75,6 @@ export const injectUI = jest.fn().mockReturnValue(() => ({
         sendSignInLink: "Send Sign In Link",
         resetPassword: "Reset Password",
         backToSignIn: "Back to Sign In",
-        register: "Register",
         termsOfService: "Terms of Service",
         privacyPolicy: "Privacy Policy",
       },
@@ -74,7 +108,6 @@ export const injectTranslation = jest.fn().mockImplementation((category: string,
       sendSignInLink: "Send Sign In Link",
       resetPassword: "Reset Password",
       backToSignIn: "Back to Sign In",
-      register: "Register",
       termsOfService: "Terms of Service",
       privacyPolicy: "Privacy Policy",
       phoneNumber: "Phone Number",
@@ -83,6 +116,9 @@ export const injectTranslation = jest.fn().mockImplementation((category: string,
       verifyCode: "Verify Code",
       displayName: "Display Name",
       createAccount: "Create Account",
+      generateQrCode: "Generate QR Code",
+      mfaSmsVerification: "SMS Verification",
+      mfaTotpVerification: "TOTP Verification",
     },
     messages: {
       signInLinkSent: "Check your email for a sign in link",
@@ -98,6 +134,9 @@ export const injectTranslation = jest.fn().mockImplementation((category: string,
       unknownError: "An unknown error occurred",
       invalidEmail: "Please enter a valid email address",
       invalidPassword: "Please enter a valid password",
+      userNotAuthenticated: "User must be authenticated to enroll with multi-factor authentication",
+      invalidPhoneNumber: "Invalid phone number",
+      invalidVerificationCode: "Invalid verification code",
     },
   };
   return () => mockTranslations[category]?.[key] || `${category}.${key}`;
@@ -108,7 +147,11 @@ export const injectPolicies = jest.fn().mockReturnValue({
   privacyPolicyUrl: "https://example.com/privacy",
 });
 
-// TODO(ehesp): Unfortunately, we cannot use the real schemas here because of the ESM-only dependency on nanostores in @invertase/firebaseui-core - this is a little
+export const injectRedirectError = jest.fn().mockImplementation(() => {
+  return () => undefined;
+});
+
+// TODO(ehesp): Unfortunately, we cannot use the real schemas here because of the ESM-only dependency on nanostores in @firebase-ui/core - this is a little
 // risky as schema updates and tests need aligning, but this is a workaround for now.
 
 export const createForgotPasswordAuthFormSchema = jest.fn(() => {
@@ -187,8 +230,54 @@ export const injectPhoneAuthVerifyFormSchema = jest.fn().mockReturnValue(() => {
   });
 });
 
+export const injectMultiFactorPhoneAuthNumberFormSchema = jest.fn().mockReturnValue(() => {
+  const { z } = require("zod");
+  return z.object({
+    displayName: z.string().min(1, "Display name is required"),
+    phoneNumber: z.string().min(1, "Phone number is required"),
+  });
+});
+
+export const injectMultiFactorPhoneAuthVerifyFormSchema = jest.fn().mockReturnValue(() => {
+  const { z } = require("zod");
+  return z.object({
+    verificationCode: z.string().min(1, "Verification code is required"),
+  });
+});
+
+export const injectMultiFactorTotpAuthNumberFormSchema = jest.fn().mockReturnValue(() => {
+  const { z } = require("zod");
+  return z.object({
+    displayName: z.string().min(1, "Display name is required"),
+  });
+});
+
+export const injectMultiFactorTotpAuthVerifyFormSchema = jest.fn().mockReturnValue(() => {
+  const { z } = require("zod");
+  return z.object({
+    verificationCode: z.string().refine((val: string) => val.length === 6, {
+      message: "Verification code must be 6 digits",
+    }),
+  });
+});
+
+export const injectMultiFactorTotpAuthEnrollmentFormSchema = jest.fn().mockReturnValue(() => {
+  const { z } = require("zod");
+  return z.object({
+    displayName: z.string().min(1, "Display name is required"),
+  });
+});
+
 export const injectCountries = jest.fn().mockReturnValue(() => countryData);
 export const injectDefaultCountry = jest.fn().mockReturnValue(() => "US");
+
+export const injectRecaptchaVerifier = jest.fn().mockImplementation(() => {
+  return () => ({
+    clear: jest.fn(),
+    render: jest.fn(),
+    verify: jest.fn(),
+  });
+});
 
 export const RecaptchaVerifier = jest.fn().mockImplementation(() => ({
   clear: jest.fn(),

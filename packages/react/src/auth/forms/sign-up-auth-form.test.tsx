@@ -18,14 +18,22 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, renderHook, cleanup } from "@testing-library/react";
 import { SignUpAuthForm, useSignUpAuthForm, useSignUpAuthFormAction, useRequireDisplayName } from "./sign-up-auth-form";
 import { act } from "react";
-import { createUserWithEmailAndPassword } from "@invertase/firebaseui-core";
+import { createUserWithEmailAndPassword } from "@firebase-ui/core";
 import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
-import { registerLocale } from "@invertase/firebaseui-translations";
+import { registerLocale } from "@firebase-ui/translations";
 import type { UserCredential } from "firebase/auth";
 import { FirebaseUIProvider } from "~/context";
 
-vi.mock("@invertase/firebaseui-core", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@invertase/firebaseui-core")>();
+vi.mock("firebase/auth", async () => {
+  const actual = await vi.importActual("firebase/auth");
+  return {
+    ...actual,
+    getRedirectResult: vi.fn().mockResolvedValue(null),
+  };
+});
+
+vi.mock("@firebase-ui/core", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@firebase-ui/core")>();
   return {
     ...mod,
     createUserWithEmailAndPassword: vi.fn(),
@@ -266,7 +274,7 @@ describe("<SignUpAuthForm />", () => {
 
     // Make sure we have an email and password input with translated labels
     expect(screen.getByRole("textbox", { name: /emailAddress/ })).toBeInTheDocument();
-    expect(screen.getByRole("textbox", { name: /password/ })).toBeInTheDocument();
+    expect(screen.getByLabelText(/password/)).toBeInTheDocument();
 
     // Ensure the "Create Account" button is present and is a submit button
     const createAccountButton = screen.getByRole("button", { name: "createAccount" });
@@ -357,7 +365,7 @@ describe("<SignUpAuthForm />", () => {
 
     // Make sure we have all three inputs with translated labels
     expect(screen.getByRole("textbox", { name: /emailAddress/ })).toBeInTheDocument();
-    expect(screen.getByRole("textbox", { name: /password/ })).toBeInTheDocument();
+    expect(screen.getByLabelText(/password/)).toBeInTheDocument();
     expect(screen.getByRole("textbox", { name: /displayName/ })).toBeInTheDocument();
 
     // Ensure the "Create Account" button is present and is a submit button
@@ -389,7 +397,7 @@ describe("<SignUpAuthForm />", () => {
     expect(form.length).toBe(1);
 
     expect(screen.getByRole("textbox", { name: /email/ })).toBeInTheDocument();
-    expect(screen.getByRole("textbox", { name: /password/ })).toBeInTheDocument();
+    expect(screen.getByLabelText(/password/)).toBeInTheDocument();
     expect(screen.queryByRole("textbox", { name: /displayName/ })).not.toBeInTheDocument();
   });
 

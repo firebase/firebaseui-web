@@ -12,29 +12,24 @@
     "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,md}\""
   },
   "dependencies": {
-    "@invertase/firebaseui-react": "0.0.3",
-    "@invertase/firebaseui-core": "0.0.3",
-    "@invertase/firebaseui-styles": "0.0.3",
-    "@invertase/firebaseui-translations": "0.0.4",
-    "firebase": "^11.3.1",
+    "@firebase-ui/react": "workspace:*",
+    "@firebase-ui/core": "workspace:*",
+    "@firebase-ui/styles": "workspace:*",
+    "@firebase-ui/translations": "workspace:*",
+    "firebase": "catalog:",
     "next": "15.1.7",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "catalog:",
+    "react-dom": "catalog:",
     "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.0.6",
     "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9.22.0",
-    "eslint-config-next": "^15.1.7",
-    "@typescript-eslint/eslint-plugin": "^8.43.0",
-    "@typescript-eslint/parser": "^8.43.0",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
     "postcss": "^8.5.2",
     "postcss-load-config": "^6.0.1",
-    "prettier": "^3.1.1",
     "tailwindcss": "^4.0.6",
-    "typescript": "^5"
+    "typescript": "catalog:"
   }
 }

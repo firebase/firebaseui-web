@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "email-link-auth-screen",
+  "type": "registry:block",
+  "title": "Email Link Auth Screen",
+  "description": "A screen allowing users to sign in via email link.",
+  "dependencies": [
+    "@firebase-ui/react"
+  ],
+  "registryDependencies": [
+    "separator",
+    "card",
+    "https://fir-ui-shadcn.web.app/email-link-auth-form.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/email-link-auth-screen.tsx",
+      "content": "\"use client\";\n\nimport { getTranslation } from \"@firebase-ui/core\";\nimport { useUI, type EmailLinkAuthScreenProps } from \"@firebase-ui/react\";\n\nimport { Card, CardContent, CardDescription, CardHeader, CardTitle } from \"@/components/ui/card\";\nimport { Separator } from \"@/components/ui/separator\";\nimport { EmailLinkAuthForm } from \"@/registry/email-link-auth-form\";\n\nexport type { EmailLinkAuthScreenProps };\n\nexport function EmailLinkAuthScreen({ children, ...props }: EmailLinkAuthScreenProps) {\n  const ui = useUI();\n\n  const titleText = getTranslation(ui, \"labels\", \"signIn\");\n  const subtitleText = getTranslation(ui, \"prompts\", \"signInToAccount\");\n\n  return (\n    <div className=\"max-w-md mx-auto\">\n      <Card>\n        <CardHeader>\n          <CardTitle>{titleText}</CardTitle>\n          <CardDescription>{subtitleText}</CardDescription>\n        </CardHeader>\n        <CardContent>\n          <EmailLinkAuthForm {...props} />\n          {children ? (\n            <>\n              <Separator>{getTranslation(ui, \"messages\", \"dividerOr\")}</Separator>\n              <div className=\"space-y-2\">{children}</div>\n            </>\n          ) : null}\n        </CardContent>\n      </Card>\n    </div>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ]
+}

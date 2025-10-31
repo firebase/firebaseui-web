@@ -16,8 +16,18 @@
 
 "use client";
 
-import { PhoneAuthScreen } from "@invertase/firebaseui-react";
+import { PhoneAuthScreen } from "@firebase-ui/react";
+import { useNavigate } from "react-router";
 
 export default function PhoneAuthScreenPage() {
-  return <PhoneAuthScreen resendDelay={2} />;
+  const navigate = useNavigate();
+
+  return (
+    <PhoneAuthScreen
+      onSignIn={(credential) => {
+        console.log(credential);
+        navigate("/");
+      }}
+    />
+  );
 }
