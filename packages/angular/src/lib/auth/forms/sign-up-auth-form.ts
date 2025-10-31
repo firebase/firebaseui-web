@@ -17,7 +17,7 @@
 import { Component, output, effect, computed } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanstack/angular-form";
-import { FirebaseUIError, createUserWithEmailAndPassword, hasBehavior } from "@firebase-ui/core";
+import { FirebaseUIError, createUserWithEmailAndPassword, hasBehavior } from "@firebase-oss/ui-core";
 import { UserCredential } from "@angular/fire/auth";
 
 import { PoliciesComponent } from "../../components/policies";

@@ -5,7 +5,7 @@
   "title": "GitHub Sign In Button",
   "description": "A button component for GitHub OAuth authentication.",
   "dependencies": [
-    "@firebase-ui/react"
+    "@firebase-oss/ui-react"
   ],
   "registryDependencies": [
     "https://fir-ui-shadcn.web.app/oauth-button.json"
@@ -13,7 +13,7 @@
   "files": [
     {
       "path": "src/registry/github-sign-in-button.tsx",
-      "content": "\"use client\";\n\nimport { GithubAuthProvider } from \"firebase/auth\";\nimport { getTranslation } from \"@firebase-ui/core\";\nimport { useUI, type GitHubSignInButtonProps, GitHubLogo } from \"@firebase-ui/react\";\n\nimport { OAuthButton } from \"@/registry/oauth-button\";\n\nexport type { GitHubSignInButtonProps };\n\nexport function GitHubSignInButton({ provider, themed }: GitHubSignInButtonProps) {\n  const ui = useUI();\n\n  return (\n    <OAuthButton provider={provider || new GithubAuthProvider()} themed={themed}>\n      <GitHubLogo />\n      <span>{getTranslation(ui, \"labels\", \"signInWithGitHub\")}</span>\n    </OAuthButton>\n  );\n}\n",
+      "content": "\"use client\";\n\nimport { GithubAuthProvider } from \"firebase/auth\";\nimport { getTranslation } from \"@firebase-oss/ui-core\";\nimport { useUI, type GitHubSignInButtonProps, GitHubLogo } from \"@firebase-oss/ui-react\";\n\nimport { OAuthButton } from \"@/registry/oauth-button\";\n\nexport type { GitHubSignInButtonProps };\n\nexport function GitHubSignInButton({ provider, themed }: GitHubSignInButtonProps) {\n  const ui = useUI();\n\n  return (\n    <OAuthButton provider={provider || new GithubAuthProvider()} themed={themed}>\n      <GitHubLogo />\n      <span>{getTranslation(ui, \"labels\", \"signInWithGitHub\")}</span>\n    </OAuthButton>\n  );\n}\n",
       "type": "registry:component"
     }
   ],

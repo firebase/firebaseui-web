@@ -18,15 +18,15 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import { EmailLinkAuthForm } from "./email-link-auth-form";
 import { act } from "react";
-import { useEmailLinkAuthFormAction } from "@firebase-ui/react";
+import { useEmailLinkAuthFormAction } from "@firebase-oss/ui-react";
 import { createMockUI } from "../../tests/utils";
-import { registerLocale } from "@firebase-ui/translations";
-import { FirebaseUIProvider } from "@firebase-ui/react";
+import { registerLocale } from "@firebase-oss/ui-translations";
+import { FirebaseUIProvider } from "@firebase-oss/ui-react";
 import { UserCredential } from "firebase/auth";
-import { completeEmailLinkSignIn } from "@firebase-ui/core";
+import { completeEmailLinkSignIn } from "@firebase-oss/ui-core";
 
-vi.mock("@firebase-ui/core", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@firebase-ui/core")>();
+vi.mock("@firebase-oss/ui-core", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@firebase-oss/ui-core")>();
   return {
     ...mod,
     sendSignInLinkToEmail: vi.fn(),
@@ -34,8 +34,8 @@ vi.mock("@firebase-ui/core", async (importOriginal) => {
   };
 });
 
-vi.mock("@firebase-ui/react", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@firebase-ui/react")>();
+vi.mock("@firebase-oss/ui-react", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@firebase-oss/ui-react")>();
   return {
     ...mod,
     useEmailLinkAuthFormAction: vi.fn(),

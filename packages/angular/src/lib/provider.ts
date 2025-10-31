@@ -43,7 +43,7 @@ import {
   getTranslation,
   getBehavior,
   type CountryData,
-} from "@firebase-ui/core";
+} from "@firebase-oss/ui-core";
 
 const FIREBASE_UI_STORE = new InjectionToken<FirebaseUIStore>("firebaseui.store");
 const FIREBASE_UI_POLICIES = new InjectionToken<PolicyConfig>("firebaseui.policies");

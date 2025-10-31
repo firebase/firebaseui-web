@@ -17,7 +17,7 @@
 import { Component, effect, output, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanstack/angular-form";
-import { FirebaseUIError, sendPasswordResetEmail } from "@firebase-ui/core";
+import { FirebaseUIError, sendPasswordResetEmail } from "@firebase-oss/ui-core";
 
 import {
   FormInputComponent,

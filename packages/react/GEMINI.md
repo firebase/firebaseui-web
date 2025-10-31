@@ -1,10 +1,10 @@
 # Firebase UI React
 
-This document provides context for the `@firebase-ui/react` package.
+This document provides context for the `@firebase-oss/ui-react` package.
 
 ## Overview
 
-The `@firebase-ui/react` package provides a set of React components and hooks to integrate Firebase UI for Web into a React application. It builds on top of `@firebase-ui/core` and `@firebase-ui/styles` to provide a seamless integration with the React ecosystem.
+The `@firebase-oss/ui-react` package provides a set of React components and hooks to integrate Firebase UI for Web into a React application. It builds on top of `@firebase-oss/ui-core` and `@firebase-oss/ui-styles` to provide a seamless integration with the React ecosystem.
 
 The package offers two main ways to build your UI:
 
@@ -18,9 +18,9 @@ To use the React package, you must first initialize Firebase UI using `initializ
 ```tsx
 // In your main App.tsx or a similar entry point
 
-import { initializeUI } from "@firebase-ui/core";
-import { enUs } from "@firebase-ui/translations";
-import { FirebaseUIProvider } from "@firebase-ui/react";
+import { initializeUI } from "@firebase-oss/ui-core";
+import { enUs } from "@firebase-oss/ui-translations";
+import { FirebaseUIProvider } from "@firebase-oss/ui-react";
 import { firebaseApp } from "./firebase"; // Your firebase config
 
 // 1. Initialize the UI
@@ -48,7 +48,7 @@ The package includes several pre-built "screen" components for a quick setup. Th
 **Example: Sign-In Screen**
 
 ```tsx
-import { SignInScreen } from "@firebase-ui/react";
+import { SignInScreen } from "@firebase-oss/ui-react";
 
 function MySignInPage() {
   return <SignInScreen />;
@@ -68,14 +68,14 @@ The main hook is `useUI()`. It returns the entire UI state object from the under
 **Example: Custom Button**
 
 ```tsx
-import { useUI } from "@firebase-ui/react";
-import { signInWithEmailAndPassword } from "@firebase-ui/core";
+import { useUI } from "@firebase-oss/ui-react";
+import { signInWithEmailAndPassword } from "@firebase-oss/ui-core";
 
 function CustomSignInButton() {
   const ui = useUI();
 
   const handleClick = () => {
-    // Functions from @firebase-ui/core require the `ui` instance
+    // Functions from @firebase-oss/ui-core require the `ui` instance
     signInWithEmailAndPassword(ui, "user@example.com", "password");
   };
 

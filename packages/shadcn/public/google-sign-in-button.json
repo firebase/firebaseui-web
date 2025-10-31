@@ -5,7 +5,7 @@
   "title": "Google Sign In Button",
   "description": "A button component for Google OAuth authentication.",
   "dependencies": [
-    "@firebase-ui/react"
+    "@firebase-oss/ui-react"
   ],
   "registryDependencies": [
     "https://fir-ui-shadcn.web.app/oauth-button.json"
@@ -13,7 +13,7 @@
   "files": [
     {
       "path": "src/registry/google-sign-in-button.tsx",
-      "content": "\"use client\";\n\nimport { GoogleAuthProvider } from \"firebase/auth\";\nimport { getTranslation } from \"@firebase-ui/core\";\nimport { useUI, type GoogleSignInButtonProps, GoogleLogo } from \"@firebase-ui/react\";\n\nimport { OAuthButton } from \"@/registry/oauth-button\";\n\nexport type { GoogleSignInButtonProps };\n\nexport function GoogleSignInButton({ provider, themed }: GoogleSignInButtonProps) {\n  const ui = useUI();\n\n  return (\n    <OAuthButton provider={provider || new GoogleAuthProvider()} themed={themed}>\n      <GoogleLogo />\n      <span>{getTranslation(ui, \"labels\", \"signInWithGoogle\")}</span>\n    </OAuthButton>\n  );\n}\n",
+      "content": "\"use client\";\n\nimport { GoogleAuthProvider } from \"firebase/auth\";\nimport { getTranslation } from \"@firebase-oss/ui-core\";\nimport { useUI, type GoogleSignInButtonProps, GoogleLogo } from \"@firebase-oss/ui-react\";\n\nimport { OAuthButton } from \"@/registry/oauth-button\";\n\nexport type { GoogleSignInButtonProps };\n\nexport function GoogleSignInButton({ provider, themed }: GoogleSignInButtonProps) {\n  const ui = useUI();\n\n  return (\n    <OAuthButton provider={provider || new GoogleAuthProvider()} themed={themed}>\n      <GoogleLogo />\n      <span>{getTranslation(ui, \"labels\", \"signInWithGoogle\")}</span>\n    </OAuthButton>\n  );\n}\n",
       "type": "registry:component"
     }
   ],

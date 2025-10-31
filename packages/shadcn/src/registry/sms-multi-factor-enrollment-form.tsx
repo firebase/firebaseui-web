@@ -8,14 +8,14 @@ import {
   formatPhoneNumber,
   getTranslation,
   verifyPhoneNumber,
-} from "@firebase-ui/core";
+} from "@firebase-oss/ui-core";
 import { CountrySelector, type CountrySelectorRef } from "@/registry/country-selector";
 import {
   useMultiFactorPhoneAuthNumberFormSchema,
   useMultiFactorPhoneAuthVerifyFormSchema,
   useRecaptchaVerifier,
   useUI,
-} from "@firebase-ui/react";
+} from "@firebase-oss/ui-react";
 import { useForm } from "react-hook-form";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 

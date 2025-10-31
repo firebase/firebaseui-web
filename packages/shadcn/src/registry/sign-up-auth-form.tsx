@@ -1,16 +1,16 @@
 "use client";
 
-import type { SignUpAuthFormSchema } from "@firebase-ui/core";
+import type { SignUpAuthFormSchema } from "@firebase-oss/ui-core";
 import {
   useSignUpAuthFormAction,
   useSignUpAuthFormSchema,
   useUI,
   type SignUpAuthFormProps,
   useRequireDisplayName,
-} from "@firebase-ui/react";
+} from "@firebase-oss/ui-react";
 import { useForm } from "react-hook-form";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
-import { FirebaseUIError, getTranslation } from "@firebase-ui/core";
+import { FirebaseUIError, getTranslation } from "@firebase-oss/ui-core";
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";

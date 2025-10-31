@@ -6,7 +6,7 @@ import {
   generateTotpQrCode,
   generateTotpSecret,
   getTranslation,
-} from "@firebase-ui/core";
+} from "@firebase-oss/ui-core";
 import { form } from "~/components/form";
 import { useMultiFactorTotpAuthNumberFormSchema, useMultiFactorTotpAuthVerifyFormSchema, useUI } from "~/hooks";
 

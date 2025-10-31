@@ -8,9 +8,9 @@
     "shadcn:add-all": "tsx add-all.ts"
   },
   "dependencies": {
-    "@firebase-ui/core": "workspace:*",
-    "@firebase-ui/react": "workspace:*",
-    "@firebase-ui/styles": "workspace:*",
+    "@firebase-oss/ui-core": "workspace:*",
+    "@firebase-oss/ui-react": "workspace:*",
+    "@firebase-oss/ui-styles": "workspace:*",
     "@hookform/resolvers": "^5.2.2",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-alert-dialog": "^1.1.15",

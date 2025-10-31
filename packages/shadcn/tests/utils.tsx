@@ -1,9 +1,9 @@
 import type { FirebaseApp } from "firebase/app";
 import type { Auth } from "firebase/auth";
-import { enUs } from "@firebase-ui/translations";
-import { FirebaseUIProvider } from "@firebase-ui/react";
-import { Behavior, FirebaseUIOptions, initializeUI } from "@firebase-ui/core";
-import { FirebaseUIStore } from "@firebase-ui/core";
+import { enUs } from "@firebase-oss/ui-translations";
+import { FirebaseUIProvider } from "@firebase-oss/ui-react";
+import { Behavior, FirebaseUIOptions, initializeUI } from "@firebase-oss/ui-core";
+import { FirebaseUIStore } from "@firebase-oss/ui-core";
 import { vi } from "vitest";
 
 export function createMockUI(overrides?: Partial<FirebaseUIOptions>) {

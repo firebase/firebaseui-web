@@ -17,7 +17,7 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 
 import ReactDOM from "react-dom/client";
-import { FirebaseUIProvider } from "@firebase-ui/react";
+import { FirebaseUIProvider } from "@firebase-oss/ui-react";
 import { ui, auth } from "./firebase/firebase";
 import App from "./App";
 import { hiddenRoutes, routes } from "./routes";

@@ -8,7 +8,7 @@
       "type": "registry:block",
       "title": "Apple Sign In Button",
       "description": "A button component for Apple OAuth authentication.",
-      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "registryDependencies": ["{{ DOMAIN }}/oauth-button.json"],
       "files": [
         {
@@ -42,7 +42,7 @@
       "type": "registry:block",
       "title": "Country Selector",
       "description": "A country selector component for phone number input with country codes and flags.",
-      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "registryDependencies": ["select"],
       "files": [
         {
@@ -56,7 +56,7 @@
       "type": "registry:block",
       "title": "Email Link Auth Form",
       "description": "A form allowing users to sign in via email link.",
-      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "registryDependencies": ["input", "button", "form", "{{ DOMAIN }}/policies.json"],
       "files": [
         {
@@ -70,7 +70,7 @@
       "type": "registry:block",
       "title": "Email Link Auth Screen",
       "description": "A screen allowing users to sign in via email link.",
-      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "registryDependencies": ["separator", "card", "{{ DOMAIN }}/email-link-auth-form.json"],
       "files": [
         {
@@ -84,7 +84,7 @@
       "type": "registry:block",
       "title": "Facebook Sign In Button",
       "description": "A button component for Facebook OAuth authentication.",
-      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "registryDependencies": ["{{ DOMAIN }}/oauth-button.json"],
       "files": [
         {
@@ -109,7 +109,7 @@
       "type": "registry:block",
       "title": "Forgot Password Auth Form",
       "description": "A form allowing users to reset their password via email.",
-      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "registryDependencies": ["input", "button", "form", "{{ DOMAIN }}/policies.json"],
       "files": [
         {
@@ -123,7 +123,7 @@
       "type": "registry:block",
       "title": "Forgot Password Auth Screen",
       "description": "A screen allowing users to reset their password via email.",
-      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "registryDependencies": ["card", "{{ DOMAIN }}/forgot-password-auth-form.json"],
       "files": [
         {
@@ -137,7 +137,7 @@
       "type": "registry:block",
       "title": "GitHub Sign In Button",
       "description": "A button component for GitHub OAuth authentication.",
-      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "registryDependencies": ["{{ DOMAIN }}/oauth-button.json"],
       "files": [
         {
@@ -171,7 +171,7 @@
       "type": "registry:block",
       "title": "Google Sign In Button",
       "description": "A button component for Google OAuth authentication.",
-      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "registryDependencies": ["{{ DOMAIN }}/oauth-button.json"],
       "files": [
         {
@@ -212,7 +212,7 @@
       "type": "registry:block",
       "title": "Microsoft Sign In Button",
       "description": "A button component for Microsoft OAuth authentication.",
-      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "registryDependencies": ["{{ DOMAIN }}/oauth-button.json"],
       "files": [
         {
@@ -246,7 +246,7 @@
       "type": "registry:block",
       "title": "Multi-Factor Auth Assertion Form",
       "description": "A form allowing users to complete multi-factor authentication during sign-in with TOTP or SMS options.",
-      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "registryDependencies": [
         "button",
         "{{ DOMAIN }}/sms-multi-factor-assertion-form.json",
@@ -264,7 +264,7 @@
       "type": "registry:block",
       "title": "Multi-Factor Auth Enrollment Form",
       "description": "A form allowing users to select and configure multi-factor authentication methods.",
-      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "registryDependencies": [
         "button",
         "{{ DOMAIN }}/sms-multi-factor-enrollment-form.json",
@@ -282,7 +282,7 @@
       "type": "registry:block",
       "title": "Multi-Factor Auth Enrollment Screen",
       "description": "A screen allowing users to set up multi-factor authentication with TOTP or SMS options.",
-      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "registryDependencies": ["card", "{{ DOMAIN }}/multi-factor-auth-enrollment-form.json"],
       "files": [
         {
@@ -296,7 +296,7 @@
       "type": "registry:block",
       "title": "OAuth Button",
       "description": "A button component for OAuth authentication providers.",
-      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "registryDependencies": ["button"],
       "files": [
         {
@@ -310,7 +310,7 @@
       "type": "registry:block",
       "title": "OAuth Screen",
       "description": "A screen allowing users to sign in with OAuth providers.",
-      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "registryDependencies": [
         "card",
         "{{ DOMAIN }}/policies.json",
@@ -329,7 +329,7 @@
       "type": "registry:block",
       "title": "Phone Auth Form",
       "description": "A form allowing users to authenticate using their phone number with SMS verification.",
-      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "registryDependencies": [
         "form",
         "input",
@@ -349,7 +349,7 @@
       "type": "registry:block",
       "title": "Phone Auth Screen",
       "description": "A screen allowing users to authenticate using their phone number with SMS verification.",
-      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "registryDependencies": [
         "card",
         "separator",
@@ -369,7 +369,7 @@
       "type": "registry:block",
       "title": "Policies",
       "description": "A component allowing users to navigate to the terms of service and privacy policy.",
-      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "files": [
         {
           "path": "src/registry/policies.tsx",
@@ -382,7 +382,7 @@
       "type": "registry:block",
       "title": "Redirect Error",
       "description": "A component that displays redirect errors from Firebase UI authentication flow.",
-      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "files": [
         {
           "path": "src/registry/redirect-error.tsx",
@@ -395,7 +395,7 @@
       "type": "registry:block",
       "title": "Sign In Auth Form",
       "description": "A form allowing users to sign in with email and password.",
-      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "registryDependencies": ["input", "button", "form", "{{ DOMAIN }}/policies.json"],
       "files": [
         {
@@ -409,7 +409,7 @@
       "type": "registry:block",
       "title": "Sign In Auth Screen",
       "description": "A screen allowing users to sign in with email and password.",
-      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "registryDependencies": ["separator", "card", "{{ DOMAIN }}/sign-in-auth-form.json"],
       "files": [
         {
@@ -423,7 +423,7 @@
       "type": "registry:block",
       "title": "Sign Up Auth Form",
       "description": "A form allowing users to sign up with email and password.",
-      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "registryDependencies": ["input", "button", "form", "{{ DOMAIN }}/policies.json"],
       "files": [
         {
@@ -437,7 +437,7 @@
       "type": "registry:block",
       "title": "Sign Up Auth Screen",
       "description": "A screen allowing users to sign up with email and password.",
-      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "registryDependencies": ["separator", "card", "{{ DOMAIN }}/sign-up-auth-form.json"],
       "files": [
         {
@@ -451,7 +451,7 @@
       "type": "registry:block",
       "title": "SMS Multi-Factor Assertion Form",
       "description": "A form allowing users to complete SMS-based multi-factor authentication during sign-in.",
-      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "registryDependencies": ["form", "input", "button", "input-otp"],
       "files": [
         {
@@ -465,7 +465,7 @@
       "type": "registry:block",
       "title": "SMS Multi-Factor Enrollment Form",
       "description": "A form allowing users to enroll SMS-based multi-factor authentication.",
-      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "registryDependencies": ["form", "input", "button", "input-otp", "{{ DOMAIN }}/country-selector.json"],
       "files": [
         {
@@ -479,7 +479,7 @@
       "type": "registry:block",
       "title": "TOTP Multi-Factor Assertion Form",
       "description": "A form allowing users to complete TOTP-based multi-factor authentication during sign-in.",
-      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "registryDependencies": ["form", "button", "input-otp"],
       "files": [
         {
@@ -493,7 +493,7 @@
       "type": "registry:block",
       "title": "TOTP Multi-Factor Enrollment Form",
       "description": "A form allowing users to enroll TOTP-based multi-factor authentication with QR code generation.",
-      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "registryDependencies": ["form", "input", "button", "input-otp"],
       "files": [
         {
@@ -507,7 +507,7 @@
       "type": "registry:block",
       "title": "Twitter Sign In Button",
       "description": "A button component for Twitter OAuth authentication.",
-      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "registryDependencies": ["{{ DOMAIN }}/oauth-button.json"],
       "files": [
         {

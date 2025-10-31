@@ -16,7 +16,7 @@
 
 "use client";
 
-import { EmailLinkAuthScreen, GoogleSignInButton } from "@firebase-ui/react";
+import { EmailLinkAuthScreen, GoogleSignInButton } from "@firebase-oss/ui-react";
 
 export default function EmailLinkAuthScreenWithOAuthPage() {
   return (

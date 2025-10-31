@@ -18,9 +18,9 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, renderHook, cleanup } from "@testing-library/react";
 import { SignInAuthForm, useSignInAuthForm, useSignInAuthFormAction } from "./sign-in-auth-form";
 import { act } from "react";
-import { signInWithEmailAndPassword } from "@firebase-ui/core";
+import { signInWithEmailAndPassword } from "@firebase-oss/ui-core";
 import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
-import { registerLocale } from "@firebase-ui/translations";
+import { registerLocale } from "@firebase-oss/ui-translations";
 import type { UserCredential } from "firebase/auth";
 import { FirebaseUIProvider } from "~/context";
 
@@ -32,8 +32,8 @@ vi.mock("firebase/auth", async () => {
   };
 });
 
-vi.mock("@firebase-ui/core", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@firebase-ui/core")>();
+vi.mock("@firebase-oss/ui-core", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@firebase-oss/ui-core")>();
   return {
     ...mod,
     signInWithEmailAndPassword: vi.fn(),

@@ -1,18 +1,18 @@
 # Firebase UI Core
 
-This document provides context for the `@firebase-ui/core` package.
+This document provides context for the `@firebase-oss/ui-core` package.
 
 ## Overview
 
-The `@firebase-ui/core` package is the framework-agnostic core of the Firebase UI for Web library. It provides a set of functions and utilities for building UIs with Firebase Authentication. The core package is designed to be used by framework-specific packages like `@firebase-ui/react` and `@firebase-ui/angular`, but it can also be used directly to build custom UIs.
+The `@firebase-oss/ui-core` package is the framework-agnostic core of the Firebase UI for Web library. It provides a set of functions and utilities for building UIs with Firebase Authentication. The core package is designed to be used by framework-specific packages like `@firebase-oss/ui-react` and `@firebase-oss/ui-angular`, but it can also be used directly to build custom UIs.
 
 ## Usage
 
 The main entry point to the core package is the `initializeUI` function. This function takes a configuration object and returns a `FirebaseUI` instance, which is a `nanostores` store that holds the configuration and state of the UI.
 
 ```typescript
-import { initializeUI } from "@firebase-ui/core";
-import { enUs } from "@firebase-ui/translations";
+import { initializeUI } from "@firebase-oss/ui-core";
+import { enUs } from "@firebase-oss/ui-translations";
 import { firebaseApp } from "./firebase";
 
 const ui = initializeUI({
@@ -27,7 +27,7 @@ const ui = initializeUI({
 The `FirebaseUI` instance can then be used to call the various authentication functions, such as `signInWithEmailAndPassword`, `createUserWithEmailAndPassword`, etc.
 
 ```typescript
-import { initializeUI, signInWithEmailAndPassword } from "@firebase-ui/core";
+import { initializeUI, signInWithEmailAndPassword } from "@firebase-oss/ui-core";
 
 const ui = initializeUI({
   // ... your config
@@ -45,7 +45,7 @@ Behaviors are a way to customize the functionality of the Firebase UI. They are 
 Behaviors are passed to the `initializeUI` function in the `behaviors` array.
 
 ```typescript
-import { initializeUI, requireDisplayName } from "@firebase-ui/core";
+import { initializeUI, requireDisplayName } from "@firebase-oss/ui-core";
 
 const ui = initializeUI({
   // ...

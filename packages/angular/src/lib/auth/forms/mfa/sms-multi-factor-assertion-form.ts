@@ -25,7 +25,7 @@ import {
 } from "../../../provider";
 import { RecaptchaVerifier } from "@angular/fire/auth";
 import { FormInputComponent, FormSubmitComponent, FormErrorMessageComponent } from "../../../components/form";
-import { FirebaseUIError, verifyPhoneNumber, signInWithMultiFactorAssertion } from "@firebase-ui/core";
+import { FirebaseUIError, verifyPhoneNumber, signInWithMultiFactorAssertion } from "@firebase-oss/ui-core";
 import { PhoneAuthProvider, PhoneMultiFactorGenerator, type MultiFactorInfo } from "firebase/auth";
 
 type PhoneMultiFactorInfo = MultiFactorInfo & {

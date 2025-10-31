@@ -25,7 +25,7 @@ import {
   enrollWithMultiFactorAssertion,
   formatPhoneNumber,
   FirebaseUIError,
-} from "@firebase-ui/core";
+} from "@firebase-oss/ui-core";
 import { multiFactor } from "firebase/auth";
 import { FormInputComponent, FormSubmitComponent, FormErrorMessageComponent } from "../../../components/form";
 import { CountrySelectorComponent } from "../../../components/country-selector";

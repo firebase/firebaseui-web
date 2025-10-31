@@ -7,7 +7,7 @@ const config: Config = {
   coveragePathIgnorePatterns: ["/node_modules/", "/dist/"],
   testEnvironment: "jsdom",
   moduleNameMapper: {
-    "^@firebase-ui/core$": "<rootDir>/src/lib/tests/test-helpers.ts",
+    "^@firebase-oss/ui-core$": "<rootDir>/src/lib/tests/test-helpers.ts",
     "^@angular/fire/auth$": "<rootDir>/src/lib/tests/test-helpers.ts",
     "^firebase/auth$": "<rootDir>/src/lib/tests/test-helpers.ts",
     "^../provider$": "<rootDir>/src/lib/tests/test-helpers.ts",

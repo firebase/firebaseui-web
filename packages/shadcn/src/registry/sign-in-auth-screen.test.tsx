@@ -18,8 +18,8 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
 import { SignInAuthScreen } from "./sign-in-auth-screen";
 import { createMockUI, createFirebaseUIProvider } from "../../tests/utils";
-import { registerLocale } from "@firebase-ui/translations";
-import { FirebaseUIProvider } from "@firebase-ui/react";
+import { registerLocale } from "@firebase-oss/ui-translations";
+import { FirebaseUIProvider } from "@firebase-oss/ui-react";
 
 vi.mock("./sign-in-auth-form", () => ({
   SignInAuthForm: ({ onSignIn, onForgotPasswordClick, onRegisterClick }: any) => (

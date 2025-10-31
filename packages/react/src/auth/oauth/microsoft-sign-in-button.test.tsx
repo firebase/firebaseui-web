@@ -17,7 +17,7 @@ import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
 import { MicrosoftLogo, MicrosoftSignInButton } from "./microsoft-sign-in-button";
 import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
-import { registerLocale } from "@firebase-ui/translations";
+import { registerLocale } from "@firebase-oss/ui-translations";
 import { OAuthProvider } from "firebase/auth";
 
 vi.mock("firebase/auth", async () => {

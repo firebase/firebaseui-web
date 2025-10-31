@@ -1,13 +1,13 @@
 "use client";
 
-import type { PhoneAuthNumberFormSchema } from "@firebase-ui/core";
-import { FirebaseUIError, getTranslation } from "@firebase-ui/core";
+import type { PhoneAuthNumberFormSchema } from "@firebase-oss/ui-core";
+import { FirebaseUIError, getTranslation } from "@firebase-oss/ui-core";
 import {
   type PhoneAuthFormProps,
   usePhoneAuthNumberFormSchema,
   usePhoneNumberFormAction,
   useUI,
-} from "@firebase-ui/react";
+} from "@firebase-oss/ui-react";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 import { useForm } from "react-hook-form";
 

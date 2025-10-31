@@ -179,16 +179,16 @@ importers:
       '@angular/ssr':
         specifier: ^20.2.2
         version: 20.3.7(64ca8375dbaf48ae24b53908d91cad2b)
-      '@firebase-ui/angular':
+      '@firebase-oss/ui-angular':
         specifier: workspace:*
         version: link:../../packages/angular
-      '@firebase-ui/core':
+      '@firebase-oss/ui-core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@firebase-ui/styles':
+      '@firebase-oss/ui-styles':
         specifier: workspace:*
         version: link:../../packages/styles
-      '@firebase-ui/translations':
+      '@firebase-oss/ui-translations':
         specifier: workspace:*
         version: link:../../packages/translations
       '@tailwindcss/postcss':
@@ -279,16 +279,16 @@ importers:
 
   examples/nextjs:
     dependencies:
-      '@firebase-ui/core':
+      '@firebase-oss/ui-core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@firebase-ui/react':
+      '@firebase-oss/ui-react':
         specifier: workspace:*
         version: link:../../packages/react
-      '@firebase-ui/styles':
+      '@firebase-oss/ui-styles':
         specifier: workspace:*
         version: link:../../packages/styles
-      '@firebase-ui/translations':
+      '@firebase-oss/ui-translations':
         specifier: workspace:*
         version: link:../../packages/translations
       firebase:
@@ -334,16 +334,16 @@ importers:
 
   examples/react:
     dependencies:
-      '@firebase-ui/core':
+      '@firebase-oss/ui-core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@firebase-ui/react':
+      '@firebase-oss/ui-react':
         specifier: workspace:*
         version: link:../../packages/react
-      '@firebase-ui/styles':
+      '@firebase-oss/ui-styles':
         specifier: workspace:*
         version: link:../../packages/styles
-      '@firebase-ui/translations':
+      '@firebase-oss/ui-translations':
         specifier: workspace:*
         version: link:../../packages/translations
       firebase:
@@ -398,13 +398,13 @@ importers:
 
   examples/shadcn:
     dependencies:
-      '@firebase-ui/core':
+      '@firebase-oss/ui-core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@firebase-ui/react':
+      '@firebase-oss/ui-react':
         specifier: workspace:*
         version: link:../../packages/react
-      '@firebase-ui/styles':
+      '@firebase-oss/ui-styles':
         specifier: workspace:*
         version: link:../../packages/styles
       '@hookform/resolvers':
@@ -591,10 +591,10 @@ importers:
 
   packages/angular:
     dependencies:
-      '@firebase-ui/core':
+      '@firebase-oss/ui-core':
         specifier: workspace:*
         version: link:../core
-      '@firebase-ui/styles':
+      '@firebase-oss/ui-styles':
         specifier: workspace:*
         version: link:../styles
       '@tanstack/angular-form':
@@ -694,7 +694,7 @@ importers:
 
   packages/core:
     dependencies:
-      '@firebase-ui/translations':
+      '@firebase-oss/ui-translations':
         specifier: workspace:*
         version: link:../translations
       libphonenumber-js:
@@ -740,10 +740,10 @@ importers:
 
   packages/react:
     dependencies:
-      '@firebase-ui/core':
+      '@firebase-oss/ui-core':
         specifier: workspace:*
         version: link:../core
-      '@firebase-ui/styles':
+      '@firebase-oss/ui-styles':
         specifier: workspace:*
         version: link:../styles
       '@nanostores/react':
@@ -765,7 +765,7 @@ importers:
         specifier: 'catalog:'
         version: 4.1.12
     devDependencies:
-      '@firebase-ui/translations':
+      '@firebase-oss/ui-translations':
         specifier: workspace:*
         version: link:../translations
       '@testing-library/jest-dom':
@@ -822,10 +822,10 @@ importers:
 
   packages/shadcn:
     dependencies:
-      '@firebase-ui/core':
+      '@firebase-oss/ui-core':
         specifier: workspace:*
         version: link:../core
-      '@firebase-ui/react':
+      '@firebase-oss/ui-react':
         specifier: workspace:*
         version: link:../react
       '@hookform/resolvers':
@@ -865,7 +865,7 @@ importers:
         specifier: 'catalog:'
         version: 4.1.12
     devDependencies:
-      '@firebase-ui/translations':
+      '@firebase-oss/ui-translations':
         specifier: workspace:*
         version: link:../translations
       '@tailwindcss/vite':

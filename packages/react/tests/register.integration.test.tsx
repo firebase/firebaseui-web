@@ -19,7 +19,7 @@ import { describe } from "vitest";
 // import { SignUpAuthForm } from "../src";
 // import { initializeApp } from "firebase/app";
 // import { getAuth, connectAuthEmulator, deleteUser, signOut, signInWithEmailAndPassword } from "firebase/auth";
-// import { initializeUI } from "@firebase-ui/core";
+// import { initializeUI } from "@firebase-oss/ui-core";
 // import { FirebaseUIProvider } from "~/context";
 
 // // Prepare the test environment

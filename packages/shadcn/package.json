@@ -1,5 +1,5 @@
 {
-  "name": "@firebase-ui/shadcn",
+  "name": "@firebase-oss/ui-shadcn",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,7 +10,7 @@
     "test": "vitest run"
   },
   "devDependencies": {
-    "@firebase-ui/translations": "workspace:*",
+    "@firebase-oss/ui-translations": "workspace:*",
     "@tailwindcss/vite": "catalog:",
     "@testing-library/jest-dom": "catalog:",
     "@testing-library/react": "catalog:",
@@ -33,8 +33,8 @@
     "yargs-parser": "^22.0.0"
   },
   "dependencies": {
-    "@firebase-ui/core": "workspace:*",
-    "@firebase-ui/react": "workspace:*",
+    "@firebase-oss/ui-core": "workspace:*",
+    "@firebase-oss/ui-react": "workspace:*",
     "@hookform/resolvers": "^5.2.2",
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-select": "^2.2.6",

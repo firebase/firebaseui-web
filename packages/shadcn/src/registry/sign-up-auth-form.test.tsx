@@ -18,22 +18,22 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import { SignUpAuthForm } from "./sign-up-auth-form";
 import { act } from "react";
-import { useSignUpAuthFormAction, useRequireDisplayName } from "@firebase-ui/react";
+import { useSignUpAuthFormAction, useRequireDisplayName } from "@firebase-oss/ui-react";
 import { createMockUI } from "../../tests/utils";
-import { registerLocale } from "@firebase-ui/translations";
-import { FirebaseUIProvider } from "@firebase-ui/react";
+import { registerLocale } from "@firebase-oss/ui-translations";
+import { FirebaseUIProvider } from "@firebase-oss/ui-react";
 import { UserCredential } from "firebase/auth";
 
-vi.mock("@firebase-ui/core", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@firebase-ui/core")>();
+vi.mock("@firebase-oss/ui-core", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@firebase-oss/ui-core")>();
   return {
     ...mod,
     createUserWithEmailAndPassword: vi.fn(),
   };
 });
 
-vi.mock("@firebase-ui/react", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@firebase-ui/react")>();
+vi.mock("@firebase-oss/ui-react", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@firebase-oss/ui-react")>();
   return {
     ...mod,
     useSignUpAuthFormAction: vi.fn(),

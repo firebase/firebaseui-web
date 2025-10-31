@@ -33,7 +33,7 @@ describe("<fui-sign-up-auth-form />", () => {
   let mockFirebaseUIError: any;
 
   beforeEach(() => {
-    const { createUserWithEmailAndPassword, hasBehavior, FirebaseUIError } = require("@firebase-ui/core");
+    const { createUserWithEmailAndPassword, hasBehavior, FirebaseUIError } = require("@firebase-oss/ui-core");
     mockCreateUserWithEmailAndPassword = createUserWithEmailAndPassword;
     mockHasBehavior = hasBehavior;
     mockFirebaseUIError = FirebaseUIError;

@@ -2,9 +2,9 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import { TotpMultiFactorAssertionForm } from "./totp-multi-factor-assertion-form";
 import { createFirebaseUIProvider, createMockUI } from "../../tests/utils";
-import { registerLocale } from "@firebase-ui/translations";
+import { registerLocale } from "@firebase-oss/ui-translations";
 import { TotpMultiFactorGenerator } from "firebase/auth";
-import { useTotpMultiFactorAssertionFormAction } from "@firebase-ui/react";
+import { useTotpMultiFactorAssertionFormAction } from "@firebase-oss/ui-react";
 import React from "react";
 
 // Mock input-otp components to prevent window access issues
@@ -21,8 +21,8 @@ vi.mock("@/components/ui/input-otp", () => ({
     }),
 }));
 
-vi.mock("@firebase-ui/react", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@firebase-ui/react")>();
+vi.mock("@firebase-oss/ui-react", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@firebase-oss/ui-react")>();
   return {
     ...mod,
     useTotpMultiFactorAssertionFormAction: vi.fn(),

@@ -22,10 +22,10 @@ Packages have been created for both `React` and `Angular`. For now, they're only
 ```json
 {
   "dependencies": {
-    "@firebase-ui/react": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-react-0.0.1.tgz",
-    "@firebase-ui/core": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-core-0.0.1.tgz",
-    "@firebase-ui/styles": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-styles-0.0.1.tgz",
-    "@firebase-ui/translations": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-translations-0.0.1.tgz"
+    "@firebase-oss/ui-react": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-react-0.0.1.tgz",
+    "@firebase-oss/ui-core": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-core-0.0.1.tgz",
+    "@firebase-oss/ui-styles": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-styles-0.0.1.tgz",
+    "@firebase-oss/ui-translations": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-translations-0.0.1.tgz"
   }
 }
 ```
@@ -41,10 +41,10 @@ FirebaseUI for Angular depends on the [AngularFire](https://github.com/angular/a
 {
   "dependencies": {
     "@angular/fire": "^19.1.0",
-    "@firebase-ui/angular": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-angular-0.0.1.tgz",
-    "@firebase-ui/core": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-core-0.0.1.tgz",
-    "@firebase-ui/styles": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-styles-0.0.1.tgz",
-    "@firebase-ui/translations": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-translations-0.0.1.tgz"
+    "@firebase-oss/ui-angular": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-angular-0.0.1.tgz",
+    "@firebase-oss/ui-core": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-core-0.0.1.tgz",
+    "@firebase-oss/ui-styles": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-styles-0.0.1.tgz",
+    "@firebase-oss/ui-translations": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-translations-0.0.1.tgz"
   }
 }
 ```
@@ -63,10 +63,10 @@ import { initializeApp } from 'firebase/app';
 const app = initializeApp({ ... });
 ```
 
-Next, setup and configure FirebaseUI, import the `initializeUI` function from `@firebase-ui/core`:
+Next, setup and configure FirebaseUI, import the `initializeUI` function from `@firebase-oss/ui-core`:
 
 ```ts
-import { initializeUI } from "@firebase-ui/core";
+import { initializeUI } from "@firebase-oss/ui-core";
 
 const ui = initializeUI();
 ```
@@ -82,8 +82,8 @@ FirebaseUI for React requires that your application be wrapped in the `ConfigPro
 
 ```tsx
 import { initializeApp } from 'firebase/app';
-import { initializeUI } from "@firebase-ui/core";
-import { ConfigProvider } from '@firebase-ui/react';
+import { initializeUI } from "@firebase-oss/ui-core";
+import { ConfigProvider } from '@firebase-oss/ui-react';
 
 const app = initializeApp({ .. });
 const ui = initializeUI({ app });
@@ -107,8 +107,8 @@ FirebaseUI depends on [AngularFire](https://github.com/angular/angularfire) bein
 ```tsx
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
-import { provideFirebaseUI } from '@firebase-ui/angular';
-import { initializeUI } from '@firebase-ui/core';
+import { provideFirebaseUI } from '@firebase-oss/ui-angular';
+import { initializeUI } from '@firebase-oss/ui-core';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -127,17 +127,17 @@ export const appConfig: ApplicationConfig = {
 
 Next, import the CSS styles for the FirebaseUI project.
 
-If you are using [TailwindCSS](https://tailwindcss.com/), import the base CSS from the `@firebase-ui/styles` package after your Tailwind import:
+If you are using [TailwindCSS](https://tailwindcss.com/), import the base CSS from the `@firebase-oss/ui-styles` package after your Tailwind import:
 
 ```css
 @import "tailwindcss";
-@import "@firebase-ui/styles/tailwind";
+@import "@firebase-oss/ui-styles/tailwind";
 ```
 
 If you are not using Tailwind, import the distributable CSS in your project:
 
 ```css
-@import "@firebase-ui/styles";
+@import "@firebase-oss/ui-styles";
 ```
 
 To learn more about theming, view the [theming](#theming) section.
@@ -154,7 +154,7 @@ Allows users to sign in with an email and password:
   <summary>React</summary>
 
 ```tsx
-import { SignInAuthScreen } from "@firebase-ui/react";
+import { SignInAuthScreen } from "@firebase-oss/ui-react";
 
 function App() {
   return <SignInAuthScreen />;
@@ -166,7 +166,7 @@ Props: `onForgotPasswordClick` / `onRegisterClick`
 Additionally, allow the user to sign in with an OAuth provider by providing children:
 
 ```tsx
-import { SignInAuthScreen, GoogleSignInButton } from "@firebase-ui/react";
+import { SignInAuthScreen, GoogleSignInButton } from "@firebase-oss/ui-react";
 
 function App() {
   return (
@@ -183,7 +183,7 @@ function App() {
   <summary>Angular</summary>
 
 ```tsx
-import { SignUpAuthScreenComponent } from "@firebase-ui/angular";
+import { SignUpAuthScreenComponent } from "@firebase-oss/ui-angular";
 
 @Component({
   selector: "app-root",
@@ -257,7 +257,7 @@ The default values are based on the [TailwindCSS](https://tailwindcss.com/docs/t
 
 ## FirebaseUI Core Integration
 
-`@firebase-ui/core` is a framework-agnostic layer that manages the complete lifecycle of Firebase Authentication flows. It exposes a reactive store via nanostores that can be wrapped and adapted into any JavaScript framework such as React, Angular, Vue, Svelte, or SolidJS to name a few.
+`@firebase-oss/ui-core` is a framework-agnostic layer that manages the complete lifecycle of Firebase Authentication flows. It exposes a reactive store via nanostores that can be wrapped and adapted into any JavaScript framework such as React, Angular, Vue, Svelte, or SolidJS to name a few.
 
 ### What FirebaseUI Core Provides
 
@@ -278,7 +278,7 @@ The default values are based on the [TailwindCSS](https://tailwindcss.com/docs/t
 Call initializeUI() with your Firebase app and configuration options:
 
 ```js
-import { initializeUI } from '@firebase-ui/core';
+import { initializeUI } from '@firebase-oss/ui-core';
 
 const ui = initializeUI({
   app: firebaseApp,
@@ -459,7 +459,7 @@ uiStore.subscribe((ui) => {
 You can pass one or more translations to support localized strings.
 
 ```js
-import { english } from "@firebase-ui/translations";
+import { english } from "@firebase-oss/ui-translations";
 
 initializeUI({
   app,
@@ -484,7 +484,7 @@ const customFr = {
 To use a string at runtime (e.g., in an error message):
 
 ```js
-import { getTranslation } from "@firebase-ui/core";
+import { getTranslation } from "@firebase-oss/ui-core";
 
 const message = getTranslation(config, "errors", "unknownError");
 ```
@@ -507,7 +507,7 @@ Validates a sign-in or sign-up form using email and password.
 - _password_: Must be at least 8 characters.
 
 ```js
-import { createEmailFormSchema } from "@firebase-ui/core";
+import { createEmailFormSchema } from "@firebase-oss/ui-core";
 
 const schema = createEmailFormSchema(translations);
 ```

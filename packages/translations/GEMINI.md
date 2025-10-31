@@ -1,20 +1,20 @@
 # Firebase UI Translations
 
-This document provides context for the `@firebase-ui/translations` package.
+This document provides context for the `@firebase-oss/ui-translations` package.
 
 ## Overview
 
-The `@firebase-ui/translations` package provides the localization and internationalization (i18n) capabilities for the Firebase UI for Web library. It contains the translation strings for various languages and exports utilities to register and use different locales.
+The `@firebase-oss/ui-translations` package provides the localization and internationalization (i18n) capabilities for the Firebase UI for Web library. It contains the translation strings for various languages and exports utilities to register and use different locales.
 
-This package is a core dependency of `@firebase-ui/core`, which uses it to display all user-facing text, such as labels, messages, and errors.
+This package is a core dependency of `@firebase-oss/ui-core`, which uses it to display all user-facing text, such as labels, messages, and errors.
 
 ## Usage
 
-The primary way to use this package is to import a pre-registered locale and pass it to the `initializeUI` function from the `@firebase-ui/core` package.
+The primary way to use this package is to import a pre-registered locale and pass it to the `initializeUI` function from the `@firebase-oss/ui-core` package.
 
 ```typescript
-import { initializeUI } from "@firebase-ui/core";
-import { enUs } from "@firebase-ui/translations";
+import { initializeUI } from "@firebase-oss/ui-core";
+import { enUs } from "@firebase-oss/ui-translations";
 import { firebaseApp } from "./firebase";
 
 const ui = initializeUI({
@@ -49,7 +49,7 @@ To contribute a new language, you can create a new locale file and register it u
 1.  **Create the translation file (`fr.ts`):**
 
     ```typescript
-    import { type Translations } from "@firebase-ui/translations";
+    import { type Translations } from "@firebase-oss/ui-translations";
 
     export const fr: Translations = {
       errors: {
@@ -63,8 +63,8 @@ To contribute a new language, you can create a new locale file and register it u
 2.  **Register and use the locale:**
 
     ```typescript
-    import { initializeUI } from "@firebase-ui/core";
-    import { registerLocale } from "@firebase-ui/translations";
+    import { initializeUI } from "@firebase-oss/ui-core";
+    import { registerLocale } from "@firebase-oss/ui-translations";
     import { fr } from "./fr"; // Your custom locale file
 
     const frFr = registerLocale("fr-FR", fr);
@@ -85,7 +85,7 @@ The `registerLocale` function accepts an optional third argument: a `fallback` l
 
     ```typescript
     // en-gb.ts
-    import { type Translations } from "@firebase-ui/translations";
+    import { type Translations } from "@firebase-oss/ui-translations";
 
     // Only define the strings you want to override.
     export const enGB: Partial<Translations> = {
@@ -98,8 +98,8 @@ The `registerLocale` function accepts an optional third argument: a `fallback` l
 2.  **Register the locale with a fallback:**
 
     ```typescript
-    import { initializeUI } from "@firebase-ui/core";
-    import { registerLocale, enUs } from "@firebase-ui/translations";
+    import { initializeUI } from "@firebase-oss/ui-core";
+    import { registerLocale, enUs } from "@firebase-oss/ui-translations";
     import { enGB } from "./en-gb";
 
     // Register en-GB, with en-US as the fallback.

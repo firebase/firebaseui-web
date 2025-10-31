@@ -17,7 +17,7 @@
 "use client";
 
 import { useUser } from "@/lib/firebase/hooks";
-import { EmailLinkAuthScreen } from "@firebase-ui/react";
+import { EmailLinkAuthScreen } from "@firebase-oss/ui-react";
 
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";

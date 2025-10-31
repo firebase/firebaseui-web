@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { registerFramework } from "@firebase-ui/core";
+import { registerFramework } from "@firebase-oss/ui-core";
 import pkgJson from "../package.json";
 
 export { PolicyContext } from "./components/policies";

@@ -8,8 +8,8 @@
     "paths": {
       "@/*": ["./src/*"],
       "@/tests/*": ["./tests/*"],
-      "@firebase-ui/core": ["../core/src/index.ts"],
-      "@firebase-ui/react": ["../react/src/index.ts"]
+      "@firebase-oss/ui-core": ["../core/src/index.ts"],
+      "@firebase-oss/ui-react": ["../react/src/index.ts"]
     }
   },
   "include": ["src", "tests", "vite.config.ts", "setup-test.ts"]

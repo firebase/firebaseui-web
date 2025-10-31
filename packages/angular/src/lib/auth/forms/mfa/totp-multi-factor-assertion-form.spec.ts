@@ -18,8 +18,8 @@ import { render, screen, waitFor } from "@testing-library/angular";
 import { TotpMultiFactorAssertionFormComponent } from "./totp-multi-factor-assertion-form";
 import { signInWithMultiFactorAssertion, FirebaseUIError } from "../../../tests/test-helpers";
 
-jest.mock("@firebase-ui/core", () => {
-  const originalModule = jest.requireActual("@firebase-ui/core");
+jest.mock("@firebase-oss/ui-core", () => {
+  const originalModule = jest.requireActual("@firebase-oss/ui-core");
   return {
     ...originalModule,
     signInWithMultiFactorAssertion: jest.fn(),
@@ -42,7 +42,7 @@ describe("<fui-totp-multi-factor-assertion-form>", () => {
       injectMultiFactorTotpAuthVerifyFormSchema,
     } = require("../../../tests/test-helpers");
 
-    const { signInWithMultiFactorAssertion } = require("@firebase-ui/core");
+    const { signInWithMultiFactorAssertion } = require("@firebase-oss/ui-core");
 
     injectTranslation.mockImplementation((category: string, key: string) => {
       const mockTranslations: Record<string, Record<string, string>> = {

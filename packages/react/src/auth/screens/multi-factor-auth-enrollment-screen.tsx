@@ -1,4 +1,4 @@
-import { getTranslation } from "@firebase-ui/core";
+import { getTranslation } from "@firebase-oss/ui-core";
 import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "~/components/card";
 import { useUI } from "~/hooks";
 import {

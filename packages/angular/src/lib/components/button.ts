@@ -15,7 +15,7 @@
  */
 
 import { Component, HostBinding, input } from "@angular/core";
-import { buttonVariant, type ButtonVariant } from "@firebase-ui/styles";
+import { buttonVariant, type ButtonVariant } from "@firebase-oss/ui-styles";
 
 @Component({
   selector: "button[fui-button]",

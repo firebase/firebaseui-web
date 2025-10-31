@@ -22,9 +22,9 @@ import { FormInputComponent, FormSubmitComponent, FormErrorMessageComponent } fr
 import { PoliciesComponent } from "../../components/policies";
 import { UserCredential } from "@angular/fire/auth";
 
-// Mock the @firebase-ui/core module but preserve Angular providers
-jest.mock("@firebase-ui/core", () => {
-  const originalModule = jest.requireActual("@firebase-ui/core");
+// Mock the @firebase-oss/ui-core module but preserve Angular providers
+jest.mock("@firebase-oss/ui-core", () => {
+  const originalModule = jest.requireActual("@firebase-oss/ui-core");
   return {
     ...originalModule,
     sendSignInLinkToEmail: jest.fn(),
@@ -44,7 +44,7 @@ describe("<fui-email-link-auth-form />", () => {
   let mockFirebaseUIError: any;
 
   beforeEach(() => {
-    const { sendSignInLinkToEmail, completeEmailLinkSignIn, FirebaseUIError } = require("@firebase-ui/core");
+    const { sendSignInLinkToEmail, completeEmailLinkSignIn, FirebaseUIError } = require("@firebase-oss/ui-core");
     mockSendSignInLinkToEmail = sendSignInLinkToEmail;
     mockCompleteEmailLinkSignIn = completeEmailLinkSignIn;
     mockFirebaseUIError = FirebaseUIError;

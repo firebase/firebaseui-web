@@ -18,15 +18,15 @@ import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import { OAuthButton } from "./oauth-button";
 import { createMockUI } from "../../tests/utils";
-import { registerLocale } from "@firebase-ui/translations";
+import { registerLocale } from "@firebase-oss/ui-translations";
 import type { AuthProvider, UserCredential } from "firebase/auth";
 import { ComponentProps } from "react";
 
-import { signInWithProvider } from "@firebase-ui/core";
+import { signInWithProvider } from "@firebase-oss/ui-core";
 import { FirebaseError } from "firebase/app";
-import { FirebaseUIProvider } from "@firebase-ui/react";
+import { FirebaseUIProvider } from "@firebase-oss/ui-react";
 
-vi.mock("@firebase-ui/core", async (importOriginal) => {
+vi.mock("@firebase-oss/ui-core", async (importOriginal) => {
   const mod = await importOriginal();
   return {
     ...(mod as object),
@@ -142,7 +142,7 @@ describe("<OAuthButton />", () => {
   });
 
   it("displays FirebaseUIError message when FirebaseUIError occurs", async () => {
-    const { FirebaseUIError } = await import("@firebase-ui/core");
+    const { FirebaseUIError } = await import("@firebase-oss/ui-core");
     const mockSignInWithProvider = vi.mocked(signInWithProvider);
     const ui = createMockUI();
     const mockError = new FirebaseUIError(
@@ -211,7 +211,7 @@ describe("<OAuthButton />", () => {
   });
 
   it("clears error when button is clicked again", async () => {
-    const { FirebaseUIError } = await import("@firebase-ui/core");
+    const { FirebaseUIError } = await import("@firebase-oss/ui-core");
     const mockSignInWithProvider = vi.mocked(signInWithProvider);
     const ui = createMockUI();
 

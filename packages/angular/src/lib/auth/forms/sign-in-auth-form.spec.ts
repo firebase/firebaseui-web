@@ -32,7 +32,7 @@ describe("<fui-sign-in-auth-form />", () => {
   let mockFirebaseUIError: any;
 
   beforeEach(() => {
-    const { signInWithEmailAndPassword, FirebaseUIError } = require("@firebase-ui/core");
+    const { signInWithEmailAndPassword, FirebaseUIError } = require("@firebase-oss/ui-core");
     mockSignInWithEmailAndPassword = signInWithEmailAndPassword;
     mockFirebaseUIError = FirebaseUIError;
   });

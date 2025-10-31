@@ -16,7 +16,7 @@
 
 "use client";
 
-import { PasswordResetScreen } from "@firebase-ui/react";
+import { PasswordResetScreen } from "@firebase-oss/ui-react";
 
 export default function PasswordResetScreenPage() {
   return <PasswordResetScreen onBackToSignInClick={() => {}} />;

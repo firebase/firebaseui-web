@@ -1,4 +1,4 @@
-# @firebase-ui/react
+# @firebase-oss/ui-react
 
 This package contains the React components for the FirebaseUI.
 
@@ -7,26 +7,26 @@ This package contains the React components for the FirebaseUI.
 Install the package from NPM:
 
 ```bash
-npm install @firebase-ui/react
+npm install @firebase-oss/ui-react
 ```
 
 ## Usage
 
 ### Importing styles
 
-To use the components, you need to import the styles from the `@firebase-ui/styles` package.
+To use the components, you need to import the styles from the `@firebase-oss/ui-styles` package.
 
 If using Tailwind CSS, you can import the styles directly into your project.
 
 ```css
 @import "tailwindcss";
-@import "@firebase-ui/styles/src/base.css";
+@import "@firebase-oss/ui-styles/src/base.css";
 ```
 
 Alternatively, you can import the fully compiled CSS file into your project.
 
 ```tsx
-import "@firebase-ui/styles/dist.css";
+import "@firebase-oss/ui-styles/dist.css";
 ```
 
 ### Initializing the UI
@@ -42,7 +42,7 @@ const app = initializeApp({ ... });
 Then, initialize the FirebaseUI with the configuration:
 
 ```tsx
-import { initializeUI } from "@firebase-ui/react";
+import { initializeUI } from "@firebase-oss/ui-react";
 
 const ui = initializeUI({
   app,
@@ -52,7 +52,7 @@ const ui = initializeUI({
 Finally, wrap your app in the `ConfigProvider` component:
 
 ```tsx
-import { ConfigProvider } from "@firebase-ui/react";
+import { ConfigProvider } from "@firebase-oss/ui-react";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -65,10 +65,10 @@ createRoot(document.getElementById("root")!).render(
 
 ### Importing components
 
-To use the components, you need to import the components from the `@firebase-ui/react` package.
+To use the components, you need to import the components from the `@firebase-oss/ui-react` package.
 
 ```tsx
-import { SignInAuthScreen, GoogleSignInButton } from "@firebase-ui/react";
+import { SignInAuthScreen, GoogleSignInButton } from "@firebase-oss/ui-react";
 
 function App() {
   return (

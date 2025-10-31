@@ -15,7 +15,7 @@
  */
 
 import type { PropsWithChildren } from "react";
-import { getTranslation } from "@firebase-ui/core";
+import { getTranslation } from "@firebase-oss/ui-core";
 import { Divider } from "~/components/divider";
 import { useUI } from "~/hooks";
 import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "../../components/card";

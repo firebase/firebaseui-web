@@ -16,7 +16,7 @@
 
 "use client";
 
-import { FirebaseUIError, getTranslation, sendPasswordResetEmail } from "@firebase-ui/core";
+import { FirebaseUIError, getTranslation, sendPasswordResetEmail } from "@firebase-oss/ui-core";
 import { useForgotPasswordAuthFormSchema, useUI } from "~/hooks";
 import { form } from "~/components/form";
 import { Policies } from "~/components/policies";

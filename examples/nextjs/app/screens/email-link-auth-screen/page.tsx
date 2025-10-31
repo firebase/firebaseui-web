@@ -16,7 +16,7 @@
 
 "use client";
 
-import { EmailLinkAuthScreen } from "@firebase-ui/react";
+import { EmailLinkAuthScreen } from "@firebase-oss/ui-react";
 
 export default function EmailLinkAuthScreenPage() {
   return <EmailLinkAuthScreen />;

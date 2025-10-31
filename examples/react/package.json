@@ -13,10 +13,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@firebase-ui/react": "workspace:*",
-    "@firebase-ui/core": "workspace:*",
-    "@firebase-ui/styles": "workspace:*",
-    "@firebase-ui/translations": "workspace:*",
+    "@firebase-oss/ui-react": "workspace:*",
+    "@firebase-oss/ui-core": "workspace:*",
+    "@firebase-oss/ui-styles": "workspace:*",
+    "@firebase-oss/ui-translations": "workspace:*",
     "firebase": "^11.6.0",
     "react": "catalog:",
     "react-dom": "catalog:",

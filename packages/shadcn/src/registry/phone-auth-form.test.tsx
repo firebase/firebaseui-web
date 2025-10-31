@@ -18,17 +18,17 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import { PhoneAuthForm } from "./phone-auth-form";
 import { act } from "react";
-import { usePhoneNumberFormAction, useVerifyPhoneNumberFormAction, useUI } from "@firebase-ui/react";
+import { usePhoneNumberFormAction, useVerifyPhoneNumberFormAction, useUI } from "@firebase-oss/ui-react";
 import { createMockUI } from "../../tests/utils";
-import { registerLocale } from "@firebase-ui/translations";
-import { FirebaseUIProvider } from "@firebase-ui/react";
+import { registerLocale } from "@firebase-oss/ui-translations";
+import { FirebaseUIProvider } from "@firebase-oss/ui-react";
 import { User, UserCredential } from "firebase/auth";
-import { FirebaseUI, FirebaseUIError } from "@firebase-ui/core";
+import { FirebaseUI, FirebaseUIError } from "@firebase-oss/ui-core";
 import { FirebaseError } from "firebase/app";
-import { ERROR_CODE_MAP } from "@firebase-ui/translations";
+import { ERROR_CODE_MAP } from "@firebase-oss/ui-translations";
 
-vi.mock("@firebase-ui/core", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@firebase-ui/core")>();
+vi.mock("@firebase-oss/ui-core", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@firebase-oss/ui-core")>();
   return {
     ...mod,
     verifyPhoneNumber: vi.fn(),
@@ -49,8 +49,8 @@ vi.mock("@firebase-ui/core", async (importOriginal) => {
   };
 });
 
-vi.mock("@firebase-ui/react", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@firebase-ui/react")>();
+vi.mock("@firebase-oss/ui-react", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@firebase-oss/ui-react")>();
   return {
     ...mod,
     usePhoneNumberFormAction: vi.fn().mockReturnValue(vi.fn().mockResolvedValue("verification-id-123")),

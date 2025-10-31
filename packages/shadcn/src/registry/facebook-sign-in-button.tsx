@@ -1,8 +1,8 @@
 "use client";
 
 import { FacebookAuthProvider } from "firebase/auth";
-import { getTranslation } from "@firebase-ui/core";
-import { useUI, type FacebookSignInButtonProps, FacebookLogo } from "@firebase-ui/react";
+import { getTranslation } from "@firebase-oss/ui-core";
+import { useUI, type FacebookSignInButtonProps, FacebookLogo } from "@firebase-oss/ui-react";
 
 import { OAuthButton } from "@/registry/oauth-button";
 

@@ -6,7 +6,7 @@ import {
   type RecaptchaVerifier,
 } from "firebase/auth";
 
-import { signInWithMultiFactorAssertion, FirebaseUIError, getTranslation, verifyPhoneNumber } from "@firebase-ui/core";
+import { signInWithMultiFactorAssertion, FirebaseUIError, getTranslation, verifyPhoneNumber } from "@firebase-oss/ui-core";
 import { form } from "~/components/form";
 import {
   useMultiFactorPhoneAuthNumberFormSchema,

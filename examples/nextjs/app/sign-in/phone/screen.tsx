@@ -17,7 +17,7 @@
 "use client";
 
 import { useUser } from "@/lib/firebase/hooks";
-import { PhoneAuthScreen } from "@firebase-ui/react";
+import { PhoneAuthScreen } from "@firebase-oss/ui-react";
 
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";

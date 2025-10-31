@@ -16,7 +16,7 @@
 
 "use client";
 
-import { getTranslation } from "@firebase-ui/core";
+import { getTranslation } from "@firebase-oss/ui-core";
 import { FacebookAuthProvider } from "firebase/auth";
 import { useUI } from "~/hooks";
 import { OAuthButton } from "./oauth-button";

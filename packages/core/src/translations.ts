@@ -18,7 +18,7 @@ import {
   getTranslation as _getTranslation,
   type TranslationCategory,
   type TranslationKey,
-} from "@firebase-ui/translations";
+} from "@firebase-oss/ui-translations";
 import { type FirebaseUI } from "./config";
 
 export function getTranslation<T extends TranslationCategory>(ui: FirebaseUI, category: T, key: TranslationKey<T>) {

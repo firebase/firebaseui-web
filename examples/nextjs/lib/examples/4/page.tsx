@@ -16,7 +16,7 @@
 
 "use client";
 
-import { SignInAuthScreen } from "@firebase-ui/react";
+import { SignInAuthScreen } from "@firebase-oss/ui-react";
 
 export default function Example4() {
   return <SignInAuthScreen onForgotPasswordClick={() => {}} onRegisterClick={() => {}} />;

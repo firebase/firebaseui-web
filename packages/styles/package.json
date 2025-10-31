@@ -1,5 +1,5 @@
 {
-  "name": "@firebase-ui/styles",
+  "name": "@firebase-oss/ui-styles",
   "version": "0.0.1",
   "type": "module",
   "main": "./dist/index.cjs",

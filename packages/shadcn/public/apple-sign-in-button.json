@@ -5,7 +5,7 @@
   "title": "Apple Sign In Button",
   "description": "A button component for Apple OAuth authentication.",
   "dependencies": [
-    "@firebase-ui/react"
+    "@firebase-oss/ui-react"
   ],
   "registryDependencies": [
     "https://fir-ui-shadcn.web.app/oauth-button.json"
@@ -13,7 +13,7 @@
   "files": [
     {
       "path": "src/registry/apple-sign-in-button.tsx",
-      "content": "\"use client\";\n\nimport { OAuthProvider } from \"firebase/auth\";\nimport { getTranslation } from \"@firebase-ui/core\";\nimport { useUI, type AppleSignInButtonProps, AppleLogo } from \"@firebase-ui/react\";\n\nimport { OAuthButton } from \"@/registry/oauth-button\";\n\nexport type { AppleSignInButtonProps };\n\nexport function AppleSignInButton({ provider, themed }: AppleSignInButtonProps) {\n  const ui = useUI();\n\n  return (\n    <OAuthButton provider={provider || new OAuthProvider(\"apple.com\")} themed={themed}>\n      <AppleLogo />\n      <span>{getTranslation(ui, \"labels\", \"signInWithApple\")}</span>\n    </OAuthButton>\n  );\n}\n",
+      "content": "\"use client\";\n\nimport { OAuthProvider } from \"firebase/auth\";\nimport { getTranslation } from \"@firebase-oss/ui-core\";\nimport { useUI, type AppleSignInButtonProps, AppleLogo } from \"@firebase-oss/ui-react\";\n\nimport { OAuthButton } from \"@/registry/oauth-button\";\n\nexport type { AppleSignInButtonProps };\n\nexport function AppleSignInButton({ provider, themed }: AppleSignInButtonProps) {\n  const ui = useUI();\n\n  return (\n    <OAuthButton provider={provider || new OAuthProvider(\"apple.com\")} themed={themed}>\n      <AppleLogo />\n      <span>{getTranslation(ui, \"labels\", \"signInWithApple\")}</span>\n    </OAuthButton>\n  );\n}\n",
       "type": "registry:component"
     }
   ],

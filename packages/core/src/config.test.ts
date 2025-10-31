@@ -2,7 +2,7 @@ import { FirebaseApp } from "firebase/app";
 import { Auth, MultiFactorResolver } from "firebase/auth";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { initializeUI } from "./config";
-import { enUs, registerLocale } from "@firebase-ui/translations";
+import { enUs, registerLocale } from "@firebase-oss/ui-translations";
 import { autoUpgradeAnonymousUsers, autoAnonymousLogin } from "./behaviors";
 
 // Mock Firebase Auth

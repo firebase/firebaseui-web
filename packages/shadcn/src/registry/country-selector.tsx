@@ -1,13 +1,13 @@
 "use client";
 
 import { forwardRef, useCallback, useImperativeHandle, useState } from "react";
-import type { CountryCode, CountryData } from "@firebase-ui/core";
+import type { CountryCode, CountryData } from "@firebase-oss/ui-core";
 import {
   type CountrySelectorRef,
   type CountrySelectorProps,
   useCountries,
   useDefaultCountry,
-} from "@firebase-ui/react";
+} from "@firebase-oss/ui-react";
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 

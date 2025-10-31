@@ -1,7 +1,7 @@
 "use client";
 
-import { getTranslation } from "@firebase-ui/core";
-import { useUI, type SignInAuthScreenProps } from "@firebase-ui/react";
+import { getTranslation } from "@firebase-oss/ui-core";
+import { useUI, type SignInAuthScreenProps } from "@firebase-oss/ui-react";
 
 import { SignInAuthForm } from "@/components/sign-in-auth-form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";

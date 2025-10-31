@@ -16,7 +16,7 @@
 
 "use client";
 
-import { SignUpAuthScreen } from "@firebase-ui/react";
+import { SignUpAuthScreen } from "@firebase-oss/ui-react";
 import { useNavigate } from "react-router";
 
 export default function SignUpAuthScreenPage() {

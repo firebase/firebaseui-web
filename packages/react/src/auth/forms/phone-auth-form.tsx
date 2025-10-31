@@ -22,7 +22,7 @@ import {
   getTranslation,
   verifyPhoneNumber,
   confirmPhoneNumber,
-} from "@firebase-ui/core";
+} from "@firebase-oss/ui-core";
 import { type RecaptchaVerifier, type UserCredential } from "firebase/auth";
 import { useCallback, useRef, useState } from "react";
 import { usePhoneAuthNumberFormSchema, usePhoneAuthVerifyFormSchema, useRecaptchaVerifier, useUI } from "~/hooks";

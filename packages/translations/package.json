@@ -1,5 +1,5 @@
 {
-  "name": "@firebase-ui/translations",
+  "name": "@firebase-oss/ui-translations",
   "version": "0.0.1",
   "description": "Translations for Firebase UI",
   "type": "module",

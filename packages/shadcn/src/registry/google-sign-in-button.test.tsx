@@ -18,9 +18,9 @@ import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
 import { GoogleSignInButton } from "./google-sign-in-button";
 import { createMockUI } from "../../tests/utils";
-import { registerLocale } from "@firebase-ui/translations";
+import { registerLocale } from "@firebase-oss/ui-translations";
 import { GoogleAuthProvider } from "firebase/auth";
-import { FirebaseUIProvider } from "@firebase-ui/react";
+import { FirebaseUIProvider } from "@firebase-oss/ui-react";
 
 vi.mock("./oauth-button", () => ({
   OAuthButton: ({ provider, children, themed }: any) => (
@@ -32,8 +32,8 @@ vi.mock("./oauth-button", () => ({
   ),
 }));
 
-vi.mock("@firebase-ui/react", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@firebase-ui/react")>();
+vi.mock("@firebase-oss/ui-react", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@firebase-oss/ui-react")>();
   return {
     ...mod,
     GoogleLogo: ({ className, ...props }: any) => (

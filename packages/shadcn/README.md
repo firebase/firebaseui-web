@@ -3,7 +3,7 @@
 
 > This package is private and not published to npm.
 
-The `@firebase-ui/shadcn` package exposes React components via the [Shadcn Registy](https://ui.shadcn.com/docs/registry), allowing users
+The `@firebase-oss/ui-shadcn` package exposes React components via the [Shadcn Registy](https://ui.shadcn.com/docs/registry), allowing users
 to take advantage of Firebase UI for Web logic but bringing their own UI via Shadcn.
 
 To get started, add the `@firebase` registry [namespace](https://ui.shadcn.com/docs/registry/namespace) to your `components.json`:
@@ -17,7 +17,7 @@ To get started, add the `@firebase` registry [namespace](https://ui.shadcn.com/d
 }
 ```
 
-Next install one of the registry components - this will automatically install the `@firebase-ui/react` for you,
+Next install one of the registry components - this will automatically install the `@firebase-oss/ui-react` for you,
 alongwith adding any additionally required components.
 
 ```bash
@@ -27,8 +27,8 @@ npx shadcn@latest add @firebase/sign-up-auth-screen
 Before consuming a component, ensure you have initalized your Firebase UI application:
 
 ```tsx
-import { initalizeUI } from '@firebase-ui/core';
-import { FirebaseUIProvider } from '@firebase-ui/react';
+import { initalizeUI } from '@firebase-oss/ui-core';
+import { FirebaseUIProvider } from '@firebase-oss/ui-react';
 import { SignInAuthScreen } from '@/components/sign-in-auth-screen';
 
 const ui = initalizeUI(...);

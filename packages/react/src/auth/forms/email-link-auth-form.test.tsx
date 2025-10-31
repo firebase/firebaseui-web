@@ -23,9 +23,9 @@ import {
   useEmailLinkAuthFormCompleteSignIn,
 } from "./email-link-auth-form";
 import { act } from "react";
-import { sendSignInLinkToEmail, completeEmailLinkSignIn } from "@firebase-ui/core";
+import { sendSignInLinkToEmail, completeEmailLinkSignIn } from "@firebase-oss/ui-core";
 import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
-import { registerLocale } from "@firebase-ui/translations";
+import { registerLocale } from "@firebase-oss/ui-translations";
 import { FirebaseUIProvider } from "~/context";
 import type { UserCredential } from "firebase/auth";
 
@@ -37,8 +37,8 @@ vi.mock("firebase/auth", async () => {
   };
 });
 
-vi.mock("@firebase-ui/core", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@firebase-ui/core")>();
+vi.mock("@firebase-oss/ui-core", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@firebase-oss/ui-core")>();
   return {
     ...mod,
     sendSignInLinkToEmail: vi.fn(),

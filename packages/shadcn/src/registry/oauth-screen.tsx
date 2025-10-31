@@ -1,8 +1,8 @@
 "use client";
 
-import { getTranslation } from "@firebase-ui/core";
+import { getTranslation } from "@firebase-oss/ui-core";
 import { type PropsWithChildren } from "react";
-import { useUI } from "@firebase-ui/react";
+import { useUI } from "@firebase-oss/ui-react";
 import { Card, CardContent, CardHeader, CardDescription, CardTitle } from "@/components/ui/card";
 import { Policies } from "@/registry/policies";
 import { MultiFactorAuthAssertionForm } from "@/registry/multi-factor-auth-assertion-form";
