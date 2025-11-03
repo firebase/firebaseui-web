@@ -16,10 +16,10 @@
 
 "use client";
 
-import { initializeApp, getApps } from "firebase/app";
-import { firebaseConfig } from "./config";
+import { countryCodes, initializeUI, oneTapSignIn } from "@invertase/firebaseui-core";
+import { getApps, initializeApp } from "firebase/app";
 import { connectAuthEmulator, getAuth } from "firebase/auth";
-import { autoAnonymousLogin, initializeUI, oneTapSignIn, countryCodes } from "@invertase/firebaseui-core";
+import { firebaseConfig } from "./config";
 
 export const firebaseApp = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
@@ -28,9 +28,9 @@ export const auth = getAuth(firebaseApp);
 export const ui = initializeUI({
   app: firebaseApp,
   behaviors: [
-    autoAnonymousLogin(),
+    // autoAnonymousLogin(),
     oneTapSignIn({
-      clientId: "200312857118-lscdui98fkaq7ffr81446blafjn5o6r0.apps.googleusercontent.com",
+      clientId: "616577669988-led6l3rqek9ckn9t1unj4l8l67070fhp.apps.googleusercontent.com",
     }),
     countryCodes({
       allowedCountries: ["US", "CA", "GB"],

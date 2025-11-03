@@ -335,11 +335,17 @@ importers:
   examples/react:
     dependencies:
       '@invertase/firebaseui-core':
-        specifier: 0.0.3
-        version: 0.0.3(firebase@11.10.0)
+        specifier: 0.0.4
+        version: 0.0.4(firebase@11.10.0)
       '@invertase/firebaseui-react':
-        specifier: 0.0.3
-        version: 0.0.3(@types/react@19.1.16)(firebase@11.10.0)(nanostores@1.0.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.3)
+        specifier: 0.0.4
+        version: 0.0.4(@types/react@19.1.16)(firebase@11.10.0)(nanostores@1.0.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.3)
+      '@invertase/firebaseui-styles':
+        specifier: 0.0.9
+        version: 0.0.9(typescript@5.9.3)
+      '@invertase/firebaseui-translations':
+        specifier: 0.0.4
+        version: 0.0.4
       firebase:
         specifier: ^11.6.0
         version: 11.10.0
@@ -396,14 +402,14 @@ importers:
         specifier: ^5.2.2
         version: 5.2.2(react-hook-form@7.65.0(react@19.1.1))
       '@invertase/firebaseui-core':
-        specifier: 0.0.3
-        version: 0.0.3(firebase@11.10.0)
+        specifier: 0.0.4
+        version: 0.0.4(firebase@11.10.0)
       '@invertase/firebaseui-react':
-        specifier: 0.0.3
-        version: 0.0.3(@types/react@19.1.16)(firebase@11.10.0)(nanostores@1.0.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.3)
+        specifier: 0.0.4
+        version: 0.0.4(@types/react@19.1.16)(firebase@11.10.0)(nanostores@1.0.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.3)
       '@invertase/firebaseui-styles':
-        specifier: 0.0.7
-        version: 0.0.7(typescript@5.9.3)
+        specifier: 0.0.9
+        version: 0.0.9(typescript@5.9.3)
       '@invertase/firebaseui-translations':
         specifier: 0.0.4
         version: 0.0.4
@@ -2878,8 +2884,20 @@ packages:
     peerDependencies:
       firebase: ^11 || ^12
 
+  '@invertase/firebaseui-core@0.0.4':
+    resolution: {integrity: sha512-s8o0AcbjoLciaHFCz0mBCgf7fxlWj40GTw4SZYnlNJzJoMZwNh1XGtFW++zq1Gied/y0QNszIBh3KVaVrYuviQ==}
+    peerDependencies:
+      firebase: ^11 || ^12
+
   '@invertase/firebaseui-react@0.0.3':
     resolution: {integrity: sha512-8+nolJQtF+T/n4a3VD8Jo0G/E3Q7xA+23BznCaqLFzV/itSm9u3FunER+kfO1mxwCx6Vwi+uEmnqrCD9Oxb4AQ==}
+    peerDependencies:
+      firebase: ^11 || ^12
+      react: ^19
+      react-dom: ^19
+
+  '@invertase/firebaseui-react@0.0.4':
+    resolution: {integrity: sha512-wMUmgqtnBpsv/9sXJ2fQyql0vLFmIs2L25U8UV4yZoivT8vOa5Fa/7Fst3mJN9x2N1Xc5h5MWYyO3n8vqrIyIQ==}
     peerDependencies:
       firebase: ^11 || ^12
       react: ^19
@@ -2890,6 +2908,9 @@ packages:
 
   '@invertase/firebaseui-styles@0.0.7':
     resolution: {integrity: sha512-NbtwZAnIjjqQZt4KxXyhfW28/ABNZ7KoldgPgQ0mOIE35JXbCmTBIrIoyIMkwYtH2KTeHMMLnsPLY0b8MVCmRQ==}
+
+  '@invertase/firebaseui-styles@0.0.9':
+    resolution: {integrity: sha512-uqBNOhPOC6WKwNVZMZsXoOSYTsK20UkG2na1M/Dc/w2B9qwBqtQaJZdn46759tx4wit+Cj9sQnlkdU2okeot5Q==}
 
   '@invertase/firebaseui-translations@0.0.4':
     resolution: {integrity: sha512-sG8DToRfe7phgF5PXL02hZ9fwQcnwLdJvkfVaz4HuCBne94EH0dBgHhrF0oElRxLae93S2endufa94Yy7IoKsA==}
@@ -12359,10 +12380,38 @@ snapshots:
       qrcode-generator: 2.0.4
       zod: 4.1.12
 
+  '@invertase/firebaseui-core@0.0.4(firebase@11.10.0)':
+    dependencies:
+      '@invertase/firebaseui-translations': 0.0.4
+      firebase: 11.10.0
+      libphonenumber-js: 1.12.25
+      nanostores: 1.0.1
+      qrcode-generator: 2.0.4
+      zod: 4.1.12
+
   '@invertase/firebaseui-react@0.0.3(@types/react@19.1.16)(firebase@11.10.0)(nanostores@1.0.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.3)':
     dependencies:
       '@invertase/firebaseui-core': 0.0.3(firebase@11.10.0)
       '@invertase/firebaseui-styles': 0.0.3(typescript@5.9.3)
+      '@nanostores/react': 1.0.0(nanostores@1.0.1)(react@19.1.1)
+      '@radix-ui/react-slot': 1.2.3(@types/react@19.1.16)(react@19.1.1)
+      '@tanstack/react-form': 1.20.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      clsx: 2.1.1
+      firebase: 11.10.0
+      react: 19.1.1
+      react-dom: 19.1.1(react@19.1.1)
+      tailwind-merge: 3.3.1
+      zod: 4.1.12
+    transitivePeerDependencies:
+      - '@tanstack/react-start'
+      - '@types/react'
+      - nanostores
+      - typescript
+
+  '@invertase/firebaseui-react@0.0.4(@types/react@19.1.16)(firebase@11.10.0)(nanostores@1.0.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.3)':
+    dependencies:
+      '@invertase/firebaseui-core': 0.0.4(firebase@11.10.0)
+      '@invertase/firebaseui-styles': 0.0.9(typescript@5.9.3)
       '@nanostores/react': 1.0.0(nanostores@1.0.1)(react@19.1.1)
       '@radix-ui/react-slot': 1.2.3(@types/react@19.1.16)(react@19.1.1)
       '@tanstack/react-form': 1.20.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -12385,6 +12434,12 @@ snapshots:
       - typescript
 
   '@invertase/firebaseui-styles@0.0.7(typescript@5.9.3)':
+    dependencies:
+      cva: 1.0.0-beta.4(typescript@5.9.3)
+    transitivePeerDependencies:
+      - typescript
+
+  '@invertase/firebaseui-styles@0.0.9(typescript@5.9.3)':
     dependencies:
       cva: 1.0.0-beta.4(typescript@5.9.3)
     transitivePeerDependencies:
