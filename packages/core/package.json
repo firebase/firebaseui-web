@@ -1,6 +1,6 @@
 {
   "name": "@invertase/firebaseui-core",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Core authentication service for Firebase UI",
   "type": "module",
   "main": "./dist/index.cjs",
