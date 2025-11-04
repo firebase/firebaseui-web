@@ -137,7 +137,7 @@
     @apply flex items-center gap-2;
   }
 
-  :where(.fui-form .fui-form__error) {
+  :where(.fui-error) {
     @apply text-error text-left text-xs;
   }
 

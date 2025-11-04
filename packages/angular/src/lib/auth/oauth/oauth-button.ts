@@ -39,7 +39,7 @@ import { FirebaseUIError, signInWithProvider } from "@firebase-ui/core";
       </button>
 
       @if (error()) {
-        <div class="fui-form__error">{{ error() }}</div>
+        <div class="fui-error">{{ error() }}</div>
       }
     </div>
   `,

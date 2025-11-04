@@ -66,7 +66,7 @@ export function OAuthButton({ provider, children, themed }: OAuthButtonProps) {
       >
         {children}
       </Button>
-      {error && <div className="fui-form__error">{error}</div>}
+      {error && <div className="fui-error">{error}</div>}
     </div>
   );
 }

@@ -12,7 +12,7 @@ function FieldMetadata({ className, ...props }: ComponentProps<"div"> & { field:
 
   return (
     <div>
-      <div role="alert" aria-live="polite" className={cn("fui-form__error", className)} {...props}>
+      <div role="alert" aria-live="polite" className={cn("fui-error", className)} {...props}>
         {props.field.state.meta.errors.map((error) => error.message).join(", ")}
       </div>
     </div>
@@ -78,7 +78,7 @@ function ErrorMessage() {
       {([errorMap]) => {
         // We only care about errors thrown from the form submission, rather than validation errors
         if (errorMap?.onSubmit && typeof errorMap.onSubmit === "string") {
-          return <div className="fui-form__error">{errorMap.onSubmit}</div>;
+          return <div className="fui-error">{errorMap.onSubmit}</div>;
         }
 
         return null;

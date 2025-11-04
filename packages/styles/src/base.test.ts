@@ -259,7 +259,7 @@ describe("Tailwind :where() pseudo-class", () => {
       styleElement.textContent = `
         /* Base component styles with :where() for zero specificity */
         :where(.fui-form fieldset > label > input) { border: 1px solid rgb(209, 213, 219); padding: 0.5rem; }
-        :where(.fui-form .fui-form__error) { color: rgb(239, 68, 68); }
+        :where(.fui-error) { color: rgb(239, 68, 68); }
         
         /* User Tailwind override classes */
         .border-gray-300 { border-color: rgb(209, 213, 219) !important; }
@@ -268,7 +268,7 @@ describe("Tailwind :where() pseudo-class", () => {
       `;
 
       const inputElement = createTestElement("border-gray-300 px-3");
-      const errorElement = createTestElement("fui-form__error text-red-600");
+      const errorElement = createTestElement("fui-error text-red-600");
 
       expect(getComputedStyleValue(inputElement, "border-color")).toBe("rgb(209, 213, 219)");
       expect(getComputedStyleValue(errorElement, "color")).toBe("rgb(220, 38, 38)");
