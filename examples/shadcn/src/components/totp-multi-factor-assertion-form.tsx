@@ -1,6 +1,6 @@
 "use client";
 
-import { type MultiFactorInfo } from "firebase/auth";
+import { type MultiFactorInfo, type UserCredential } from "firebase/auth";
 import { FirebaseUIError, getTranslation } from "@firebase-ui/core";
 import {
   useMultiFactorTotpAuthVerifyFormSchema,
@@ -16,7 +16,7 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp
 
 type TotpMultiFactorAssertionFormProps = {
   hint: MultiFactorInfo;
-  onSuccess?: () => void;
+  onSuccess?: (credential: UserCredential) => void;
 };
 
 export function TotpMultiFactorAssertionForm(props: TotpMultiFactorAssertionFormProps) {
@@ -33,8 +33,8 @@ export function TotpMultiFactorAssertionForm(props: TotpMultiFactorAssertionForm
 
   const onSubmit = async (values: { verificationCode: string }) => {
     try {
-      await action({ verificationCode: values.verificationCode, hint: props.hint });
-      props.onSuccess?.();
+      const credential = await action({ verificationCode: values.verificationCode, hint: props.hint });
+      props.onSuccess?.(credential);
     } catch (error) {
       const message = error instanceof FirebaseUIError ? error.message : String(error);
       form.setError("root", { message });

@@ -27,7 +27,7 @@ export function SignUpAuthScreen({ children, ...props }: SignUpAuthScreenProps) 
         </CardHeader>
         <CardContent>
           {mfaResolver ? (
-            <MultiFactorAuthAssertionForm />
+            <MultiFactorAuthAssertionForm onSuccess={(credential) => props.onSignUp?.(credential)} />
           ) : (
             <>
               <SignUpAuthForm {...props} />
