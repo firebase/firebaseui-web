@@ -1,7 +1,13 @@
 "use client";
 
-import type { SignInAuthFormSchema } from "@firebase-ui/core";
-import { useSignInAuthFormAction, useSignInAuthFormSchema, useUI, type SignInAuthFormProps } from "@firebase-ui/react";
+import type { SignUpAuthFormSchema } from "@firebase-ui/core";
+import {
+  useSignUpAuthFormAction,
+  useSignUpAuthFormSchema,
+  useUI,
+  type SignUpAuthFormProps,
+  useRequireDisplayName,
+} from "@firebase-ui/react";
 import { useForm } from "react-hook-form";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 import { FirebaseUIError, getTranslation } from "@firebase-ui/core";
@@ -9,27 +15,29 @@ import { FirebaseUIError, getTranslation } from "@firebase-ui/core";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Policies } from "./policies";
+import { Policies } from "@/components/policies";
 
-export type { SignInAuthFormProps };
+export type { SignUpAuthFormProps };
 
-export function SignInAuthForm(props: SignInAuthFormProps) {
+export function SignUpAuthForm(props: SignUpAuthFormProps) {
   const ui = useUI();
-  const schema = useSignInAuthFormSchema();
-  const action = useSignInAuthFormAction();
+  const schema = useSignUpAuthFormSchema();
+  const action = useSignUpAuthFormAction();
+  const requireDisplayName = useRequireDisplayName();
 
-  const form = useForm<SignInAuthFormSchema>({
+  const form = useForm<SignUpAuthFormSchema>({
     resolver: standardSchemaResolver(schema),
     defaultValues: {
       email: "",
       password: "",
+      displayName: requireDisplayName ? "" : undefined,
     },
   });
 
-  async function onSubmit(values: SignInAuthFormSchema) {
+  async function onSubmit(values: SignUpAuthFormSchema) {
     try {
       const credential = await action(values);
-      props.onSignIn?.(credential);
+      props.onSignUp?.(credential);
     } catch (error) {
       const message = error instanceof FirebaseUIError ? error.message : String(error);
       form.setError("root", { message });
@@ -39,6 +47,21 @@ export function SignInAuthForm(props: SignInAuthFormProps) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+        {requireDisplayName ? (
+          <FormField
+            control={form.control}
+            name="displayName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{getTranslation(ui, "labels", "displayName")}</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        ) : null}
         <FormField
           control={form.control}
           name="email"
@@ -59,14 +82,7 @@ export function SignInAuthForm(props: SignInAuthFormProps) {
             <FormItem>
               <FormLabel>{getTranslation(ui, "labels", "password")}</FormLabel>
               <FormControl>
-                <div className="flex items-center gap-2">
-                  <Input {...field} type="password" className="flex-grow" />
-                  {props.onForgotPasswordClick ? (
-                    <Button type="button" variant="secondary" onClick={props.onForgotPasswordClick}>
-                      {getTranslation(ui, "labels", "forgotPassword")}
-                    </Button>
-                  ) : null}
-                </div>
+                <Input {...field} type="password" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -74,15 +90,13 @@ export function SignInAuthForm(props: SignInAuthFormProps) {
         />
         <Policies />
         <Button type="submit" disabled={ui.state !== "idle"}>
-          {getTranslation(ui, "labels", "signIn")}
+          {getTranslation(ui, "labels", "createAccount")}
         </Button>
         {form.formState.errors.root && <FormMessage>{form.formState.errors.root.message}</FormMessage>}
-        {props.onSignUpClick ? (
-          <>
-            <Button type="button" variant="secondary" onClick={props.onSignUpClick}>
-              {getTranslation(ui, "prompts", "noAccount")} {getTranslation(ui, "labels", "signUp")}
-            </Button>
-          </>
+        {props.onBackToSignInClick ? (
+          <Button type="button" variant="secondary" onClick={props.onBackToSignInClick}>
+            {getTranslation(ui, "prompts", "haveAccount")} {getTranslation(ui, "labels", "signIn")}
+          </Button>
         ) : null}
       </form>
     </Form>

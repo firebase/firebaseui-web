@@ -19,7 +19,7 @@
     "hooks": "@/hooks"
   },
   "registries": {
-    "@dev": "http://localhost:5178/{name}.json",
-    "@firebase-ui": "https://ui.firebase.com/{name}.json"
+    "@dev": "http://localhost:5177/r/{name}.json",
+    "@firebase-ui": "https://ui.firebase.com/r/{name}.json"
   }
 }

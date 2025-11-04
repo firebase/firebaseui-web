@@ -13,12 +13,11 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
-    // @ts-expect-error - vite-plugin-run is not well typed
     run([
       {
         name: "build registry",
-        pattern: ["src/registry/**/*.tsx", "registry-spec.json"],
-        run: ["tsx", "build.ts", "--domain", "http://localhost:5177", "--publicDir", "public-dev", "--dev"],
+        pattern: ["src/components/**/*.tsx", "registry-spec.json"],
+        run: ["tsx", "build.ts", "--domain", "http://localhost:5177", "--publicDir", "public-dev/r", "--dev"],
       },
     ]),
   ],
