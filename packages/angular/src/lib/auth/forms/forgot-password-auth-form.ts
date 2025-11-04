@@ -104,7 +104,6 @@ export class ForgotPasswordAuthFormComponent {
       this.form.update({
         validators: {
           onBlur: this.formSchema(),
-          onSubmit: this.formSchema(),
           onSubmitAsync: async ({ value }) => {
             try {
               await sendPasswordResetEmail(this.ui(), value.email);

@@ -58,7 +58,6 @@ export function useEmailLinkAuthForm(onSuccess?: EmailLinkAuthFormProps["onEmail
     },
     validators: {
       onBlur: schema,
-      onSubmit: schema,
       onSubmitAsync: async ({ value }) => {
         try {
           await action(value);

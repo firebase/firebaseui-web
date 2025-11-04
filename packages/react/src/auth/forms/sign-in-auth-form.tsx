@@ -60,7 +60,6 @@ export function useSignInAuthForm(onSuccess?: SignInAuthFormProps["onSignIn"]) {
     },
     validators: {
       onBlur: schema,
-      onSubmit: schema,
       onSubmitAsync: async ({ value }) => {
         try {
           const credential = await action(value);
