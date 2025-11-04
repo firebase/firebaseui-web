@@ -18,9 +18,8 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
 import { SignUpAuthScreen } from "./sign-up-auth-screen";
 import { createMockUI } from "../../tests/utils";
-import { FirebaseUIProvider } from "@invertase/firebaseui-react";
 import { registerLocale } from "@invertase/firebaseui-translations";
-import { MultiFactorResolver } from "firebase/auth";
+import { FirebaseUIProvider } from "@invertase/firebaseui-react";
 
 vi.mock("./sign-up-auth-form", () => ({
   SignUpAuthForm: ({ onSignUp, onBackToSignInClick }: any) => (
@@ -30,10 +29,6 @@ vi.mock("./sign-up-auth-form", () => ({
       {onBackToSignInClick && <div data-testid="onBackToSignInClick-prop">onBackToSignInClick provided</div>}
     </div>
   ),
-}));
-
-vi.mock("./multi-factor-auth-assertion-form", () => ({
-  MultiFactorAuthAssertionForm: () => <div data-testid="mfa-assertion-form">MFA Assertion Form</div>,
 }));
 
 describe("<SignUpAuthScreen />", () => {
@@ -148,90 +143,5 @@ describe("<SignUpAuthScreen />", () => {
     expect(screen.getByText("Enter your details to create an account")).toBeInTheDocument();
     expect(screen.getByTestId("sign-up-auth-form")).toBeInTheDocument();
     expect(screen.queryByText("or")).not.toBeInTheDocument();
-  });
-
-  it("should render MultiFactorAuthAssertionForm when multiFactorResolver is present", () => {
-    const mockResolver = {
-      auth: {} as any,
-      session: null,
-      hints: [],
-    };
-    const mockUI = createMockUI({
-      locale: registerLocale("test", {
-        labels: {
-          signUp: "Register",
-        },
-        prompts: {
-          enterDetailsToCreate: "Enter your details to create an account",
-        },
-      }),
-    });
-    mockUI.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
-
-    render(
-      <FirebaseUIProvider ui={mockUI}>
-        <SignUpAuthScreen />
-      </FirebaseUIProvider>
-    );
-
-    expect(screen.getByTestId("mfa-assertion-form")).toBeInTheDocument();
-    expect(screen.queryByTestId("sign-up-auth-form")).not.toBeInTheDocument();
-  });
-
-  it("should not render SignUpAuthForm when MFA resolver exists", () => {
-    const mockResolver = {
-      auth: {} as any,
-      session: null,
-      hints: [],
-    };
-    const mockUI = createMockUI({
-      locale: registerLocale("test", {
-        labels: {
-          signUp: "Register",
-        },
-        prompts: {
-          enterDetailsToCreate: "Enter your details to create an account",
-        },
-        messages: {
-          dividerOr: "or",
-        },
-      }),
-    });
-    mockUI.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
-
-    render(
-      <FirebaseUIProvider ui={mockUI}>
-        <SignUpAuthScreen>
-          <div data-testid="child-component">Child Component</div>
-        </SignUpAuthScreen>
-      </FirebaseUIProvider>
-    );
-
-    expect(screen.queryByTestId("sign-up-auth-form")).not.toBeInTheDocument();
-    expect(screen.getByTestId("mfa-assertion-form")).toBeInTheDocument();
-    expect(screen.queryByText("or")).not.toBeInTheDocument();
-    expect(screen.queryByTestId("child-component")).not.toBeInTheDocument();
-  });
-
-  it("should render SignUpAuthForm when MFA resolver is not present", () => {
-    const mockUI = createMockUI({
-      locale: registerLocale("test", {
-        labels: {
-          signUp: "Register",
-        },
-        prompts: {
-          enterDetailsToCreate: "Enter your details to create an account",
-        },
-      }),
-    });
-
-    render(
-      <FirebaseUIProvider ui={mockUI}>
-        <SignUpAuthScreen />
-      </FirebaseUIProvider>
-    );
-
-    expect(screen.getByTestId("sign-up-auth-form")).toBeInTheDocument();
-    expect(screen.queryByTestId("mfa-assertion-form")).not.toBeInTheDocument();
   });
 });

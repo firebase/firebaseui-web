@@ -9,7 +9,7 @@ import { FirebaseUIError, getTranslation } from "@invertase/firebaseui-core";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Policies } from "@/components/policies";
+import { Policies } from "./policies";
 
 export type { SignInAuthFormProps };
 

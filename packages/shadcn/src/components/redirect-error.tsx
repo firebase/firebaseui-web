@@ -1,6 +1,6 @@
 "use client";
 
-import { useRedirectError } from "@firebase-ui/react";
+import { useRedirectError } from "@invertase/firebaseui-react";
 
 export function RedirectError() {
   const error = useRedirectError();

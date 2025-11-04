@@ -2,11 +2,11 @@
 
 import { PhoneMultiFactorGenerator, TotpMultiFactorGenerator, type MultiFactorInfo } from "firebase/auth";
 import { type ComponentProps, useState } from "react";
-import { getTranslation } from "@firebase-ui/core";
-import { useUI } from "@firebase-ui/react";
+import { getTranslation } from "@invertase/firebaseui-core";
+import { useUI } from "@invertase/firebaseui-react";
 
-import { SmsMultiFactorAssertionForm } from "@/components/sms-multi-factor-assertion-form";
-import { TotpMultiFactorAssertionForm } from "@/components/totp-multi-factor-assertion-form";
+import { SmsMultiFactorAssertionForm } from "./sms-multi-factor-assertion-form";
+import { TotpMultiFactorAssertionForm } from "./totp-multi-factor-assertion-form";
 import { Button } from "@/components/ui/button";
 
 export function MultiFactorAuthAssertionForm() {

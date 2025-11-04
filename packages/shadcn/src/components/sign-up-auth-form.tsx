@@ -15,7 +15,7 @@ import { FirebaseUIError, getTranslation } from "@invertase/firebaseui-core";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Policies } from "@/components/policies";
+import { Policies } from "./policies";
 
 export type { SignUpAuthFormProps };
 
@@ -47,21 +47,6 @@ export function SignUpAuthForm(props: SignUpAuthFormProps) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
-        {requireDisplayName ? (
-          <FormField
-            control={form.control}
-            name="displayName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{getTranslation(ui, "labels", "displayName")}</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        ) : null}
         <FormField
           control={form.control}
           name="email"
@@ -88,6 +73,21 @@ export function SignUpAuthForm(props: SignUpAuthFormProps) {
             </FormItem>
           )}
         />
+        {requireDisplayName ? (
+          <FormField
+            control={form.control}
+            name="displayName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{getTranslation(ui, "labels", "displayName")}</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        ) : null}
         <Policies />
         <Button type="submit" disabled={ui.state !== "idle"}>
           {getTranslation(ui, "labels", "createAccount")}
