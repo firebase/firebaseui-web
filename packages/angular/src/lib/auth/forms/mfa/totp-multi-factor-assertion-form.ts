@@ -19,8 +19,7 @@ import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanst
 import { injectMultiFactorTotpAuthVerifyFormSchema, injectTranslation, injectUI } from "../../../provider";
 import { FormInputComponent, FormSubmitComponent, FormErrorMessageComponent } from "../../../components/form";
 import { FirebaseUIError, signInWithMultiFactorAssertion } from "@invertase/firebaseui-core";
-import { TotpMultiFactorGenerator, type MultiFactorInfo } from "firebase/auth";
-import { TotpMultiFactorGenerator, type UserCredential, type MultiFactorInfo } from "firebase/auth";
+import { TotpMultiFactorGenerator, type MultiFactorInfo, type UserCredential } from "firebase/auth";
 
 @Component({
   selector: "fui-totp-multi-factor-assertion-form",

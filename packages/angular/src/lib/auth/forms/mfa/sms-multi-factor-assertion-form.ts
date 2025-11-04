@@ -25,9 +25,7 @@ import {
 } from "../../../provider";
 import { FormInputComponent, FormSubmitComponent, FormErrorMessageComponent } from "../../../components/form";
 import { FirebaseUIError, verifyPhoneNumber, signInWithMultiFactorAssertion } from "@invertase/firebaseui-core";
-import { PhoneAuthProvider, PhoneMultiFactorGenerator, type MultiFactorInfo } from "firebase/auth";
-import { FirebaseUIError, verifyPhoneNumber, signInWithMultiFactorAssertion } from "@invertase/firebaseui-core";
-import { PhoneAuthProvider, PhoneMultiFactorGenerator, type UserCredential, type MultiFactorInfo } from "firebase/auth";
+import { PhoneAuthProvider, PhoneMultiFactorGenerator, type MultiFactorInfo, type UserCredential } from "firebase/auth";
 
 type PhoneMultiFactorInfo = MultiFactorInfo & {
   phoneNumber?: string;
