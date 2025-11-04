@@ -20,15 +20,18 @@ import { Divider } from "~/components/divider";
 import { useUI } from "~/hooks";
 import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "~/components/card";
 import { EmailLinkAuthForm, type EmailLinkAuthFormProps } from "../forms/email-link-auth-form";
+import { MultiFactorAuthAssertionForm } from "../forms/multi-factor-auth-assertion-form";
 import { RedirectError } from "~/components/redirect-error";
 
 export type EmailLinkAuthScreenProps = PropsWithChildren<EmailLinkAuthFormProps>;
 
-export function EmailLinkAuthScreen({ children, onEmailSent }: EmailLinkAuthScreenProps) {
+export function EmailLinkAuthScreen({ children, onEmailSent, onSignIn }: EmailLinkAuthScreenProps) {
   const ui = useUI();
 
   const titleText = getTranslation(ui, "labels", "signIn");
   const subtitleText = getTranslation(ui, "prompts", "signInToAccount");
+
+  const mfaResolver = ui.multiFactorResolver;
 
   return (
     <div className="fui-screen">
@@ -38,16 +41,26 @@ export function EmailLinkAuthScreen({ children, onEmailSent }: EmailLinkAuthScre
           <CardSubtitle>{subtitleText}</CardSubtitle>
         </CardHeader>
         <CardContent>
-          <EmailLinkAuthForm onEmailSent={onEmailSent} />
-          {children ? (
+          {mfaResolver ? (
+            <MultiFactorAuthAssertionForm
+              onSuccess={(credential) => {
+                onSignIn?.(credential);
+              }}
+            />
+          ) : (
             <>
-              <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>
-              <div className="fui-screen__children">
-                {children}
-                <RedirectError />
-              </div>
+              <EmailLinkAuthForm onEmailSent={onEmailSent} onSignIn={onSignIn} />
+              {children ? (
+                <>
+                  <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>
+                  <div className="fui-screen__children">
+                    {children}
+                    <RedirectError />
+                  </div>
+                </>
+              ) : null}
             </>
-          ) : null}
+          )}
         </CardContent>
       </Card>
     </div>
