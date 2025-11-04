@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
-    "@invertase/firebaseui-core": "0.0.4",
+    "@invertase/firebaseui-core": "0.0.5",
     "@invertase/firebaseui-react": "workspace:*",
     "@invertase/firebaseui-styles": "0.0.9",
     "@invertase/firebaseui-translations": "0.0.4",
