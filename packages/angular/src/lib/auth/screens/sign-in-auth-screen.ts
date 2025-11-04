@@ -52,7 +52,7 @@ import { UserCredential } from "@angular/fire/auth";
         </fui-card-header>
         <fui-card-content>
           @if (mfaResolver()) {
-            <fui-multi-factor-auth-assertion-form />
+            <fui-multi-factor-auth-assertion-form (onSuccess)="signIn.emit($event)" />
           } @else {
             <fui-sign-in-auth-form
               (forgotPassword)="forgotPassword.emit()"

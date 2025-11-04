@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, computed } from "@angular/core";
+import { Component, computed, output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   CardComponent,
@@ -28,6 +28,7 @@ import { PoliciesComponent } from "../../components/policies";
 import { ContentComponent } from "../../components/content";
 import { MultiFactorAuthAssertionFormComponent } from "../forms/multi-factor-auth-assertion-form";
 import { RedirectErrorComponent } from "../../components/redirect-error";
+import { type UserCredential } from "firebase/auth";
 
 @Component({
   selector: "fui-oauth-screen",
@@ -53,7 +54,7 @@ import { RedirectErrorComponent } from "../../components/redirect-error";
         </fui-card-header>
         <fui-card-content>
           @if (mfaResolver()) {
-            <fui-multi-factor-auth-assertion-form />
+            <fui-multi-factor-auth-assertion-form (onSuccess)="onSignIn.emit($event)" />
           } @else {
             <fui-content>
               <ng-content></ng-content>
@@ -73,4 +74,6 @@ export class OAuthScreenComponent {
 
   titleText = injectTranslation("labels", "signIn");
   subtitleText = injectTranslation("prompts", "signInToAccount");
+
+  onSignIn = output<UserCredential>();
 }

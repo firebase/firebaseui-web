@@ -5,7 +5,7 @@ import { execSync } from "child_process";
 
 const args = parser(process.argv.slice(2));
 const domain = String(args.domain);
-const publicDir = args.publicDir ? String(args.publicDir) : "public";
+const publicDir = args.publicDir ? String(args.publicDir) : "public/r";
 const isDev = !!args.dev;
 
 if (!domain) {

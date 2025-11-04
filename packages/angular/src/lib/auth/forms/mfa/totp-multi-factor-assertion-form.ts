@@ -19,7 +19,7 @@ import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanst
 import { injectMultiFactorTotpAuthVerifyFormSchema, injectTranslation, injectUI } from "../../../provider";
 import { FormInputComponent, FormSubmitComponent, FormErrorMessageComponent } from "../../../components/form";
 import { FirebaseUIError, signInWithMultiFactorAssertion } from "@firebase-ui/core";
-import { TotpMultiFactorGenerator, type MultiFactorInfo } from "firebase/auth";
+import { TotpMultiFactorGenerator, type UserCredential, type MultiFactorInfo } from "firebase/auth";
 
 @Component({
   selector: "fui-totp-multi-factor-assertion-form",
@@ -59,7 +59,7 @@ export class TotpMultiFactorAssertionFormComponent {
   private formSchema = injectMultiFactorTotpAuthVerifyFormSchema();
 
   hint = input.required<MultiFactorInfo>();
-  onSuccess = output<void>();
+  onSuccess = output<UserCredential>();
 
   verificationCodeLabel = injectTranslation("labels", "verificationCode");
   verifyCodeLabel = injectTranslation("labels", "verifyCode");
@@ -82,8 +82,8 @@ export class TotpMultiFactorAssertionFormComponent {
           onSubmitAsync: async ({ value }) => {
             try {
               const assertion = TotpMultiFactorGenerator.assertionForSignIn(this.hint().uid, value.verificationCode);
-              await signInWithMultiFactorAssertion(this.ui(), assertion);
-              this.onSuccess.emit();
+              const result = await signInWithMultiFactorAssertion(this.ui(), assertion);
+              this.onSuccess.emit(result);
               return;
             } catch (error) {
               if (error instanceof FirebaseUIError) {

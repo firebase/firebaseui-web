@@ -15,6 +15,7 @@
  */
 
 import { getTranslation } from "@firebase-ui/core";
+import { type UserCredential } from "firebase/auth";
 import { type PropsWithChildren } from "react";
 import { useUI } from "~/hooks";
 import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "~/components/card";
@@ -22,9 +23,11 @@ import { Policies } from "~/components/policies";
 import { MultiFactorAuthAssertionForm } from "../forms/multi-factor-auth-assertion-form";
 import { RedirectError } from "~/components/redirect-error";
 
-export type OAuthScreenProps = PropsWithChildren;
+export type OAuthScreenProps = PropsWithChildren<{
+  onSignIn?: (credential: UserCredential) => void;
+}>;
 
-export function OAuthScreen({ children }: OAuthScreenProps) {
+export function OAuthScreen({ children, onSignIn }: OAuthScreenProps) {
   const ui = useUI();
 
   const titleText = getTranslation(ui, "labels", "signIn");
@@ -40,7 +43,11 @@ export function OAuthScreen({ children }: OAuthScreenProps) {
         </CardHeader>
         <CardContent className="fui-screen__children">
           {mfaResolver ? (
-            <MultiFactorAuthAssertionForm />
+            <MultiFactorAuthAssertionForm
+              onSuccess={(credential) => {
+                onSignIn?.(credential);
+              }}
+            />
           ) : (
             <>
               {children}

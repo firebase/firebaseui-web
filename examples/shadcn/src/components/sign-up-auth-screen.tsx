@@ -3,9 +3,9 @@
 import { getTranslation } from "@firebase-ui/core";
 import { useUI, type SignUpAuthScreenProps } from "@firebase-ui/react";
 
-import { SignUpAuthForm } from "@/components/sign-up-auth-form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { SignUpAuthForm } from "@/components/sign-up-auth-form";
 
 export type { SignUpAuthScreenProps };
 

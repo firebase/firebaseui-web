@@ -3,9 +3,9 @@ import fs from "fs";
 import { fail } from "assert";
 
 const regisryFiles = import.meta.glob([
-  "./src/registry/**/*.tsx",
-  "!./src/registry/**/*.test.tsx",
-  "!./src/registry/**/*.spec.tsx",
+  "./src/components/*.tsx",
+  "!./src/components/**/*.test.tsx",
+  "!./src/components/**/*.spec.tsx",
 ]);
 
 describe("registry-spec", () => {
