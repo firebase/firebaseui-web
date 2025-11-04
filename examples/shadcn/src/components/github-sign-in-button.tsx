@@ -1,8 +1,8 @@
 "use client";
 
 import { GithubAuthProvider } from "firebase/auth";
-import { getTranslation } from "@firebase-ui/core";
-import { useUI, type GitHubSignInButtonProps, GitHubLogo } from "@firebase-ui/react";
+import { getTranslation } from "@invertase/firebaseui-core";
+import { useUI, type GitHubSignInButtonProps, GitHubLogo } from "@invertase/firebaseui-react";
 
 import { OAuthButton } from "@/components/oauth-button";
 

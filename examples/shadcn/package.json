@@ -12,11 +12,11 @@
     "shadcn:add-all": "tsx add-all.ts"
   },
   "dependencies": {
-    "@invertase/firebaseui-react": "0.0.4",
+    "@hookform/resolvers": "^5.2.2",
     "@invertase/firebaseui-core": "0.0.4",
+    "@invertase/firebaseui-react": "workspace:*",
     "@invertase/firebaseui-styles": "0.0.9",
     "@invertase/firebaseui-translations": "0.0.4",
-    "@hookform/resolvers": "^5.2.2",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-alert-dialog": "^1.1.15",
     "@radix-ui/react-aspect-ratio": "^1.1.7",
