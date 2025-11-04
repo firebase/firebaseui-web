@@ -21,11 +21,25 @@ import { registerLocale } from "@invertase/firebaseui-translations";
 import { FactorId, MultiFactorResolver, PhoneMultiFactorGenerator, TotpMultiFactorGenerator } from "firebase/auth";
 
 vi.mock("~/auth/forms/mfa/sms-multi-factor-assertion-form", () => ({
-  SmsMultiFactorAssertionForm: () => <div data-testid="sms-assertion-form">SMS Assertion Form</div>,
+  SmsMultiFactorAssertionForm: ({ onSuccess }: { onSuccess?: (credential: any) => void }) => (
+    <div>
+      <div data-testid="sms-assertion-form">SMS Assertion Form</div>
+      <button data-testid="sms-on-success" onClick={() => onSuccess?.({ user: { uid: "sms-user" } })}>
+        Trigger SMS Success
+      </button>
+    </div>
+  ),
 }));
 
 vi.mock("~/auth/forms/mfa/totp-multi-factor-assertion-form", () => ({
-  TotpMultiFactorAssertionForm: () => <div data-testid="totp-assertion-form">TOTP Assertion Form</div>,
+  TotpMultiFactorAssertionForm: ({ onSuccess }: { onSuccess?: (credential: any) => void }) => (
+    <div>
+      <div data-testid="totp-assertion-form">TOTP Assertion Form</div>
+      <button data-testid="totp-on-success" onClick={() => onSuccess?.({ user: { uid: "totp-user" } })}>
+        Trigger TOTP Success
+      </button>
+    </div>
+  ),
 }));
 
 vi.mock("~/components/button", () => ({
@@ -77,6 +91,66 @@ describe("<MultiFactorAuthAssertionForm />", () => {
 
     expect(screen.getByTestId("sms-assertion-form")).toBeDefined();
     expect(screen.queryByTestId("mfa-button")).toBeNull();
+  });
+
+  it("invokes onSuccess with credential from SMS assertion child", () => {
+    const mockResolver = {
+      auth: {} as any,
+      session: null,
+      hints: [
+        {
+          factorId: PhoneMultiFactorGenerator.FACTOR_ID,
+          uid: "test-uid",
+          displayName: "Test Phone",
+        },
+      ],
+    };
+    const ui = createMockUI();
+    ui.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
+
+    const onSuccess = vi.fn();
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <MultiFactorAuthAssertionForm onSuccess={onSuccess} />
+      </CreateFirebaseUIProvider>
+    );
+
+    fireEvent.click(screen.getByTestId("sms-on-success"));
+    expect(onSuccess).toHaveBeenCalledTimes(1);
+    expect(onSuccess).toHaveBeenCalledWith(
+      expect.objectContaining({ user: expect.objectContaining({ uid: "sms-user" }) })
+    );
+  });
+
+  it("invokes onSuccess with credential from TOTP assertion child", () => {
+    const mockResolver = {
+      auth: {} as any,
+      session: null,
+      hints: [
+        {
+          factorId: TotpMultiFactorGenerator.FACTOR_ID,
+          uid: "test-uid",
+          displayName: "Test TOTP",
+        },
+      ],
+    };
+    const ui = createMockUI();
+    ui.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
+
+    const onSuccess = vi.fn();
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <MultiFactorAuthAssertionForm onSuccess={onSuccess} />
+      </CreateFirebaseUIProvider>
+    );
+
+    fireEvent.click(screen.getByTestId("totp-on-success"));
+    expect(onSuccess).toHaveBeenCalledTimes(1);
+    expect(onSuccess).toHaveBeenCalledWith(
+      expect.objectContaining({ user: expect.objectContaining({ uid: "totp-user" }) })
+    );
   });
 
   it("auto-selects TOTP factor when only one TOTP hint exists", () => {

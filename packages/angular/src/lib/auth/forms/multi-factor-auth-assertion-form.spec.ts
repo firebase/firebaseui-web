@@ -136,7 +136,7 @@ describe("<fui-multi-factor-auth-assertion-form>", () => {
     expect(screen.queryByRole("button", { name: "SMS Verification" })).not.toBeInTheDocument();
   });
 
-  it("throws error when no resolver is provided", () => {
+  it("throws error when no resolver is provided", async () => {
     const { injectUI } = require("../../../provider");
     injectUI.mockImplementation(() => {
       return () => ({
@@ -144,8 +144,10 @@ describe("<fui-multi-factor-auth-assertion-form>", () => {
       });
     });
 
-    expect(() => {
-      new MultiFactorAuthAssertionFormComponent();
-    }).toThrow("MultiFactorAuthAssertionForm requires a multi-factor resolver");
+    await expect(
+      render(MultiFactorAuthAssertionFormComponent, {
+        imports: [MultiFactorAuthAssertionFormComponent],
+      })
+    ).rejects.toThrow("MultiFactorAuthAssertionForm requires a multi-factor resolver");
   });
 });

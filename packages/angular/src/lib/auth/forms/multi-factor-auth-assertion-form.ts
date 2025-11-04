@@ -14,10 +14,15 @@
  * limitations under the License.
  */
 
-import { Component, computed, signal } from "@angular/core";
+import { Component, computed, output, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { injectUI, injectTranslation } from "../../provider";
-import { PhoneMultiFactorGenerator, TotpMultiFactorGenerator, type MultiFactorInfo } from "firebase/auth";
+import {
+  PhoneMultiFactorGenerator,
+  TotpMultiFactorGenerator,
+  type UserCredential,
+  type MultiFactorInfo,
+} from "firebase/auth";
 import { SmsMultiFactorAssertionFormComponent } from "./mfa/sms-multi-factor-assertion-form";
 import { TotpMultiFactorAssertionFormComponent } from "./mfa/totp-multi-factor-assertion-form";
 import { ButtonComponent } from "../../components/button";
@@ -30,9 +35,9 @@ import { ButtonComponent } from "../../components/button";
     <div class="fui-content">
       @if (selectedHint()) {
         @if (selectedHint()!.factorId === phoneFactorId()) {
-          <fui-sms-multi-factor-assertion-form [hint]="selectedHint()!" />
+          <fui-sms-multi-factor-assertion-form [hint]="selectedHint()!" (onSuccess)="onSuccess.emit($event)" />
         } @else if (selectedHint()!.factorId === totpFactorId()) {
-          <fui-totp-multi-factor-assertion-form [hint]="selectedHint()!" />
+          <fui-totp-multi-factor-assertion-form [hint]="selectedHint()!" (onSuccess)="onSuccess.emit($event)" />
         }
       } @else {
         <p>TODO: Select a multi-factor authentication method</p>
@@ -53,6 +58,8 @@ import { ButtonComponent } from "../../components/button";
 })
 export class MultiFactorAuthAssertionFormComponent {
   private ui = injectUI();
+
+  onSuccess = output<UserCredential>();
 
   resolver = computed(() => {
     const resolver = this.ui().multiFactorResolver;

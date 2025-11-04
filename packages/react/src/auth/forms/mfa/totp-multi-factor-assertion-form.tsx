@@ -1,6 +1,8 @@
 import { useCallback } from "react";
 import { TotpMultiFactorGenerator, type MultiFactorInfo } from "firebase/auth";
 import { signInWithMultiFactorAssertion, FirebaseUIError, getTranslation } from "@invertase/firebaseui-core";
+import { TotpMultiFactorGenerator, type UserCredential, type MultiFactorInfo } from "firebase/auth";
+import { signInWithMultiFactorAssertion, FirebaseUIError, getTranslation } from "@invertase/firebaseui-core";
 import { form } from "~/components/form";
 import { useMultiFactorTotpAuthVerifyFormSchema, useUI } from "~/hooks";
 
@@ -18,7 +20,7 @@ export function useTotpMultiFactorAssertionFormAction() {
 
 type UseTotpMultiFactorAssertionForm = {
   hint: MultiFactorInfo;
-  onSuccess: () => void;
+  onSuccess: (credential: UserCredential) => void;
 };
 
 export function useTotpMultiFactorAssertionForm({ hint, onSuccess }: UseTotpMultiFactorAssertionForm) {
@@ -34,8 +36,8 @@ export function useTotpMultiFactorAssertionForm({ hint, onSuccess }: UseTotpMult
       onBlur: schema,
       onSubmitAsync: async ({ value }) => {
         try {
-          await action({ verificationCode: value.verificationCode, hint });
-          return onSuccess();
+          const credential = await action({ verificationCode: value.verificationCode, hint });
+          return onSuccess(credential);
         } catch (error) {
           return error instanceof FirebaseUIError ? error.message : String(error);
         }
@@ -46,15 +48,15 @@ export function useTotpMultiFactorAssertionForm({ hint, onSuccess }: UseTotpMult
 
 type TotpMultiFactorAssertionFormProps = {
   hint: MultiFactorInfo;
-  onSuccess?: () => void;
+  onSuccess?: (credential: UserCredential) => void;
 };
 
 export function TotpMultiFactorAssertionForm(props: TotpMultiFactorAssertionFormProps) {
   const ui = useUI();
   const form = useTotpMultiFactorAssertionForm({
     hint: props.hint,
-    onSuccess: () => {
-      props.onSuccess?.();
+    onSuccess: (credential) => {
+      props.onSuccess?.(credential);
     },
   });
 

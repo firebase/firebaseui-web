@@ -43,7 +43,14 @@ vi.mock("~/components/redirect-error", () => ({
 }));
 
 vi.mock("~/auth/forms/multi-factor-auth-assertion-form", () => ({
-  MultiFactorAuthAssertionForm: () => <div data-testid="mfa-assertion-form">MFA Assertion Form</div>,
+  MultiFactorAuthAssertionForm: ({ onSuccess }: { onSuccess?: (credential: any) => void }) => (
+    <div>
+      <div data-testid="mfa-assertion-form">MFA Assertion Form</div>
+      <button data-testid="mfa-on-success" onClick={() => onSuccess?.({ user: { uid: "signup-mfa-user" } })}>
+        Trigger MFA Success
+      </button>
+    </div>
+  ),
 }));
 
 describe("<SignUpAuthScreen />", () => {
@@ -245,5 +252,32 @@ describe("<SignUpAuthScreen />", () => {
 
     expect(screen.queryByTestId("redirect-error")).toBeNull();
     expect(screen.getByTestId("mfa-assertion-form")).toBeDefined();
+  });
+
+  it("calls onSignUp with credential when MFA flow succeeds", () => {
+    const mockResolver = {
+      auth: {} as any,
+      session: null,
+      hints: [],
+    };
+    const ui = createMockUI();
+    ui.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
+
+    const onSignUp = vi.fn();
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <SignUpAuthScreen onSignUp={onSignUp} />
+      </CreateFirebaseUIProvider>
+    );
+
+    // Simulate nested MFA form success
+    const trigger = screen.getByTestId("mfa-on-success");
+    trigger.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+
+    expect(onSignUp).toHaveBeenCalledTimes(1);
+    expect(onSignUp).toHaveBeenCalledWith(
+      expect.objectContaining({ user: expect.objectContaining({ uid: "signup-mfa-user" }) })
+    );
   });
 });

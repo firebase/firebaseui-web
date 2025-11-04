@@ -71,7 +71,13 @@ const config: any[] = [
   },
   {
     // Test files - more lenient rules
-    files: ["**/*.test.{ts,tsx}", "**/*.spec.{ts,tsx}", "**/tests/**/*.{ts,tsx}"],
+    files: [
+      "**/*.test.{ts,tsx}",
+      "**/*.spec.{ts,tsx}",
+      "**/tests/**/*.{ts,tsx}",
+      // These are generated from shadcn, so we don't need to lint them
+      "examples/shadcn/src/components/**/*.tsx",
+    ],
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-unused-vars": "off",

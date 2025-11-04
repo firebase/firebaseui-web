@@ -41,7 +41,11 @@ export function PhoneAuthScreen({ children, ...props }: PhoneAuthScreenProps) {
         </CardHeader>
         <CardContent>
           {mfaResolver ? (
-            <MultiFactorAuthAssertionForm />
+            <MultiFactorAuthAssertionForm
+              onSuccess={(credential) => {
+                props.onSignIn?.(credential);
+              }}
+            />
           ) : (
             <>
               <PhoneAuthForm {...props} />

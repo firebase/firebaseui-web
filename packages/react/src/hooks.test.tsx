@@ -24,6 +24,7 @@ import {
   useSignUpAuthFormSchema,
   useForgotPasswordAuthFormSchema,
   useEmailLinkAuthFormSchema,
+  useMultiFactorPhoneAuthAssertionNumberFormSchema,
   usePhoneAuthNumberFormSchema,
   usePhoneAuthVerifyFormSchema,
   useRecaptchaVerifier,
@@ -708,6 +709,116 @@ describe("usePhoneAuthVerifyFormSchema", () => {
 
     if (!verifyResult.success) {
       expect(verifyResult.error.issues[0]!.message).toBe("Custom verification error");
+    }
+  });
+});
+
+describe("useMultiFactorPhoneAuthAssertionNumberFormSchema", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    cleanup();
+  });
+
+  it("returns schema with default English error messages", () => {
+    const mockUI = createMockUI();
+
+    const { result } = renderHook(() => useMultiFactorPhoneAuthAssertionNumberFormSchema(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    const schema = result.current;
+
+    const phoneResult = schema.safeParse({ phoneNumber: "invalid-phone" });
+    expect(phoneResult.success).toBe(false);
+    if (!phoneResult.success) {
+      expect(phoneResult.error.issues[0]!.message).toBe(enUs.translations.errors!.invalidPhoneNumber);
+    }
+  });
+
+  it("returns schema with custom error messages when locale changes", () => {
+    const customTranslations = {
+      errors: {
+        invalidPhoneNumber: "Por favor ingresa un número de teléfono válido",
+      },
+    };
+
+    const customLocale = registerLocale("es-ES", customTranslations);
+    const mockUI = createMockUI({ locale: customLocale });
+
+    const { result } = renderHook(() => useMultiFactorPhoneAuthAssertionNumberFormSchema(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    const schema = result.current;
+
+    const phoneResult = schema.safeParse({ phoneNumber: "invalid-phone" });
+    expect(phoneResult.success).toBe(false);
+    if (!phoneResult.success) {
+      expect(phoneResult.error.issues[0]!.message).toBe("Por favor ingresa un número de teléfono válido");
+    }
+  });
+
+  it("returns stable reference when UI hasn't changed", () => {
+    const mockUI = createMockUI();
+
+    const { result, rerender } = renderHook(() => useMultiFactorPhoneAuthAssertionNumberFormSchema(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    const initialSchema = result.current;
+
+    rerender();
+
+    expect(result.current).toBe(initialSchema);
+  });
+
+  it("returns new schema when locale changes", () => {
+    const mockUI = createMockUI();
+
+    const { result, rerender } = renderHook(() => useMultiFactorPhoneAuthAssertionNumberFormSchema(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    const initialSchema = result.current;
+
+    const customTranslations = {
+      errors: {
+        invalidPhoneNumber: "Custom phone error",
+      },
+    };
+    const customLocale = registerLocale("fr-FR", customTranslations);
+
+    act(() => {
+      mockUI.get().setLocale(customLocale);
+    });
+
+    rerender();
+
+    expect(result.current).not.toBe(initialSchema);
+
+    const phoneResult = result.current.safeParse({ phoneNumber: "invalid-phone" });
+    expect(phoneResult.success).toBe(false);
+
+    if (!phoneResult.success) {
+      expect(phoneResult.error.issues[0]!.message).toBe("Custom phone error");
+    }
+  });
+
+  it("accepts valid phone number without requiring displayName", () => {
+    const mockUI = createMockUI();
+
+    const { result } = renderHook(() => useMultiFactorPhoneAuthAssertionNumberFormSchema(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    const schema = result.current;
+
+    const phoneResult = schema.safeParse({ phoneNumber: "1234567890" });
+    expect(phoneResult.success).toBe(true);
+    if (phoneResult.success) {
+      expect(phoneResult.data).toEqual({ phoneNumber: "1234567890" });
+      // Should not have displayName field
+      expect(phoneResult.data).not.toHaveProperty("displayName");
     }
   });
 });

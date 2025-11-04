@@ -16,7 +16,7 @@
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, renderHook, cleanup } from "@testing-library/react";
+import { render, screen, renderHook, cleanup, fireEvent, waitFor } from "@testing-library/react";
 import {
   TotpMultiFactorAssertionForm,
   useTotpMultiFactorAssertionFormAction,
@@ -203,5 +203,54 @@ describe("<TotpMultiFactorAssertionForm />", () => {
 
     const input = screen.getByRole("textbox", { name: /verificationCode/i });
     expect(input).toBeInTheDocument();
+  });
+
+  it("invokes onSuccess with credential after successful verification", async () => {
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          verificationCode: "verificationCode",
+          verifyCode: "verifyCode",
+        },
+      }),
+    });
+
+    const mockHint = {
+      factorId: "totp" as const,
+      uid: "test-uid",
+      enrollmentTime: "2023-01-01T00:00:00Z",
+    };
+
+    const mockCredential = { user: { uid: "totp-cred-user" } } as any;
+    vi.mocked(signInWithMultiFactorAssertion).mockResolvedValue(mockCredential);
+
+    const onSuccessMock = vi.fn();
+
+    const { container } = render(
+      createFirebaseUIProvider({
+        children: <TotpMultiFactorAssertionForm hint={mockHint} onSuccess={onSuccessMock} />,
+        ui: mockUI,
+      })
+    );
+
+    const input = screen.getByRole("textbox", { name: /verificationCode/i });
+    const form = input.closest("form");
+
+    await act(async () => {
+      fireEvent.change(input, { target: { value: "123456" } });
+    });
+
+    await act(async () => {
+      fireEvent.submit(form!);
+    });
+
+    await waitFor(() => {
+      expect(signInWithMultiFactorAssertion).toHaveBeenCalled();
+    });
+
+    expect(onSuccessMock).toHaveBeenCalledTimes(1);
+    expect(onSuccessMock).toHaveBeenCalledWith(
+      expect.objectContaining({ user: expect.objectContaining({ uid: "totp-cred-user" }) })
+    );
   });
 });
