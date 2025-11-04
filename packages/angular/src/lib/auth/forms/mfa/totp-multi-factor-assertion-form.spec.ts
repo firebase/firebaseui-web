@@ -145,6 +145,36 @@ describe("<fui-totp-multi-factor-assertion-form>", () => {
     });
   });
 
+  it("emits onSuccess with credential after successful verification", async () => {
+    const mockHint = {
+      factorId: TotpMultiFactorGenerator.FACTOR_ID,
+      displayName: "TOTP",
+      uid: "test-uid",
+    };
+
+    const mockCredential = { user: { uid: "totp-verify-user" } };
+    signInWithMultiFactorAssertion.mockResolvedValue(mockCredential);
+
+    const { fixture } = await render(TotpMultiFactorAssertionFormComponent, {
+      componentInputs: {
+        hint: mockHint,
+      },
+      imports: [TotpMultiFactorAssertionFormComponent],
+    });
+
+    const component = fixture.componentInstance;
+    const onSuccessSpy = jest.fn();
+    component.onSuccess.subscribe(onSuccessSpy);
+
+    component.form.setFieldValue("verificationCode", "123456");
+    fixture.detectChanges();
+
+    await component.form.handleSubmit();
+    await waitFor(() => {
+      expect(onSuccessSpy).toHaveBeenCalledWith(mockCredential);
+    });
+  });
+
   it("calls TotpMultiFactorGenerator.assertionForSignIn with correct parameters", async () => {
     const mockHint = {
       factorId: TotpMultiFactorGenerator.FACTOR_ID,

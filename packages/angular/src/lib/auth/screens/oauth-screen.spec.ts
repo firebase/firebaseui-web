@@ -15,7 +15,7 @@
  */
 
 import { render, screen } from "@testing-library/angular";
-import { Component } from "@angular/core";
+import { Component, EventEmitter } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
 
 import { OAuthScreenComponent } from "./oauth-screen";
@@ -51,13 +51,6 @@ class MockPoliciesComponent {}
 class MockRedirectErrorComponent {}
 
 @Component({
-  selector: "fui-multi-factor-auth-assertion-form",
-  template: '<div data-testid="mfa-assertion-form">MFA Assertion Form</div>',
-  standalone: true,
-})
-class MockMultiFactorAuthAssertionFormComponent {}
-
-@Component({
   template: `
     <fui-oauth-screen>
       <div data-testid="oauth-provider">OAuth Provider</div>
@@ -86,6 +79,15 @@ class TestHostWithMultipleProvidersComponent {}
   imports: [OAuthScreenComponent],
 })
 class TestHostWithoutContentComponent {}
+
+@Component({
+  selector: "fui-multi-factor-auth-assertion-form",
+  template: '<div data-testid="mfa-assertion-form">MFA Assertion Form</div>',
+  standalone: true,
+})
+class MockMultiFactorAuthAssertionFormComponent {
+  onSuccess = new EventEmitter();
+}
 
 describe("<fui-oauth-screen>", () => {
   beforeEach(() => {
@@ -124,7 +126,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
-        MockMultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -144,7 +146,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
-        MockMultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -164,7 +166,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
-        MockMultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -185,7 +187,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
-        MockMultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -210,7 +212,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
-        MockMultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -230,7 +232,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
-        MockMultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -255,7 +257,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
-        MockMultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -288,7 +290,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
-        MockMultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -321,7 +323,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
-        MockMultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionFormComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -333,5 +335,55 @@ describe("<fui-oauth-screen>", () => {
 
     expect(screen.queryByTestId("policies")).not.toBeInTheDocument();
     expect(screen.getByTestId("mfa-assertion-form")).toBeInTheDocument();
+  });
+
+  it("emits onSignIn with credential when MFA flow succeeds", async () => {
+    const { injectUI } = require("../../../provider");
+    injectUI.mockImplementation(() => {
+      return () => ({
+        multiFactorResolver: { hints: [{ factorId: "totp", uid: "test" }] },
+      });
+    });
+
+    TestBed.overrideComponent(MultiFactorAuthAssertionFormComponent, {
+      set: {
+        template:
+          '<div data-testid="mfa-assertion-form">MFA Assertion Form</div><button data-testid="mfa-on-success" (click)="onSuccess.emit({ user: { uid: \'angular-oauth-mfa-user\' } })">Trigger</button>',
+      },
+    });
+
+    const onSignInHandler = jest.fn();
+
+    @Component({
+      template: `<fui-oauth-screen (onSignIn)="onSignIn($event)"></fui-oauth-screen>`,
+      standalone: true,
+      imports: [OAuthScreenComponent],
+    })
+    class HostCaptureComponent {
+      onSignIn = onSignInHandler;
+    }
+
+    await render(HostCaptureComponent, {
+      imports: [
+        OAuthScreenComponent,
+        MockPoliciesComponent,
+        MockRedirectErrorComponent,
+        MultiFactorAuthAssertionFormComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+        ContentComponent,
+      ],
+    });
+
+    const trigger = screen.getByTestId("mfa-on-success");
+    trigger.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+
+    expect(onSignInHandler).toHaveBeenCalled();
+    expect(onSignInHandler).toHaveBeenCalledWith(
+      expect.objectContaining({ user: expect.objectContaining({ uid: "angular-oauth-mfa-user" }) })
+    );
   });
 });

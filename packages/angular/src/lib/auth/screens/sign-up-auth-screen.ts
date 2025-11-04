@@ -53,7 +53,7 @@ import {
         </fui-card-header>
         <fui-card-content>
           @if (mfaResolver()) {
-            <fui-multi-factor-auth-assertion-form />
+            <fui-multi-factor-auth-assertion-form (onSuccess)="signUp.emit($event)" />
           } @else {
             <fui-sign-up-auth-form (signIn)="signIn.emit()" (signUp)="signUp.emit($event)" />
             <fui-redirect-error />

@@ -80,6 +80,10 @@ export function createMultiFactorPhoneAuthNumberFormSchema(ui: FirebaseUI) {
   });
 }
 
+export function createMultiFactorPhoneAuthAssertionNumberFormSchema(ui: FirebaseUI) {
+  return createPhoneAuthNumberFormSchema(ui);
+}
+
 export function createMultiFactorPhoneAuthVerifyFormSchema(ui: FirebaseUI) {
   return createPhoneAuthVerifyFormSchema(ui);
 }

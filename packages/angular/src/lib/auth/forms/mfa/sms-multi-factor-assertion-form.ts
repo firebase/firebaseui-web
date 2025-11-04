@@ -23,10 +23,9 @@ import {
   injectTranslation,
   injectUI,
 } from "../../../provider";
-import { RecaptchaVerifier } from "@angular/fire/auth";
 import { FormInputComponent, FormSubmitComponent, FormErrorMessageComponent } from "../../../components/form";
 import { FirebaseUIError, verifyPhoneNumber, signInWithMultiFactorAssertion } from "@firebase-ui/core";
-import { PhoneAuthProvider, PhoneMultiFactorGenerator, type MultiFactorInfo } from "firebase/auth";
+import { PhoneAuthProvider, PhoneMultiFactorGenerator, type UserCredential, type MultiFactorInfo } from "firebase/auth";
 
 type PhoneMultiFactorInfo = MultiFactorInfo & {
   phoneNumber?: string;
@@ -179,7 +178,7 @@ export class SmsMultiFactorAssertionVerifyFormComponent {
   private formSchema = injectMultiFactorPhoneAuthVerifyFormSchema();
 
   verificationId = input.required<string>();
-  onSuccess = output<void>();
+  onSuccess = output<UserCredential>();
 
   verificationCodeLabel = injectTranslation("labels", "verificationCode");
   verifyCodeLabel = injectTranslation("labels", "verifyCode");
@@ -208,8 +207,8 @@ export class SmsMultiFactorAssertionVerifyFormComponent {
             try {
               const credential = PhoneAuthProvider.credential(value.verificationId, value.verificationCode);
               const assertion = PhoneMultiFactorGenerator.assertion(credential);
-              await signInWithMultiFactorAssertion(this.ui(), assertion);
-              this.onSuccess.emit();
+              const result = await signInWithMultiFactorAssertion(this.ui(), assertion);
+              this.onSuccess.emit(result);
               return;
             } catch (error) {
               if (error instanceof FirebaseUIError) {
@@ -239,7 +238,7 @@ export class SmsMultiFactorAssertionVerifyFormComponent {
       @if (verification()) {
         <fui-sms-multi-factor-assertion-verify-form
           [verificationId]="verification()!.verificationId"
-          (onSuccess)="onSuccess.emit()"
+          (onSuccess)="onSuccess.emit($event)"
         />
       } @else {
         <fui-sms-multi-factor-assertion-phone-form [hint]="hint()" (onSubmit)="handlePhoneSubmit($event)" />
@@ -249,7 +248,7 @@ export class SmsMultiFactorAssertionVerifyFormComponent {
 })
 export class SmsMultiFactorAssertionFormComponent {
   hint = input.required<MultiFactorInfo>();
-  onSuccess = output<void>();
+  onSuccess = output<UserCredential>();
 
   verification = signal<{ verificationId: string } | null>(null);
 
