@@ -10,7 +10,7 @@ import {
 import { signInWithMultiFactorAssertion, FirebaseUIError, getTranslation, verifyPhoneNumber } from "@firebase-ui/core";
 import { form } from "~/components/form";
 import {
-  useMultiFactorPhoneAuthNumberFormSchema,
+  useMultiFactorPhoneAuthAssertionNumberFormSchema,
   useMultiFactorPhoneAuthVerifyFormSchema,
   useRecaptchaVerifier,
   useUI,
@@ -43,7 +43,7 @@ export function useSmsMultiFactorAssertionPhoneForm({
   onSuccess,
 }: UseSmsMultiFactorAssertionPhoneForm) {
   const action = useSmsMultiFactorAssertionPhoneFormAction();
-  const schema = useMultiFactorPhoneAuthNumberFormSchema();
+  const schema = useMultiFactorPhoneAuthAssertionNumberFormSchema();
 
   return form.useAppForm({
     defaultValues: {

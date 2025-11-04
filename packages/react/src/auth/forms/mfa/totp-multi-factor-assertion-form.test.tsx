@@ -16,7 +16,7 @@
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, renderHook, cleanup } from "@testing-library/react";
+import { render, screen, renderHook, cleanup, fireEvent, waitFor } from "@testing-library/react";
 import {
   TotpMultiFactorAssertionForm,
   useTotpMultiFactorAssertionFormAction,
@@ -234,20 +234,20 @@ describe("<TotpMultiFactorAssertionForm />", () => {
     );
 
     const input = screen.getByRole("textbox", { name: /verificationCode/i });
-    const submit = screen.getByRole("button", { name: "verifyCode" });
+    const form = input.closest("form");
 
     await act(async () => {
-      // Fill input and submit form
-      (input as HTMLInputElement).value = "123456";
-      // Dispatch input event if needed by validators
-      input.dispatchEvent(new Event("input", { bubbles: true }));
+      fireEvent.change(input, { target: { value: "123456" } });
     });
 
     await act(async () => {
-      submit.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      fireEvent.submit(form!);
     });
 
-    expect(signInWithMultiFactorAssertion).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(signInWithMultiFactorAssertion).toHaveBeenCalled();
+    });
+
     expect(onSuccessMock).toHaveBeenCalledTimes(1);
     expect(onSuccessMock).toHaveBeenCalledWith(
       expect.objectContaining({ user: expect.objectContaining({ uid: "totp-cred-user" }) })
