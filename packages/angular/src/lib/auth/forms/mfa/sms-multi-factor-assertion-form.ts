@@ -17,7 +17,7 @@ import { Component, ElementRef, effect, input, signal, output, computed, viewChi
 import { CommonModule } from "@angular/common";
 import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanstack/angular-form";
 import {
-  injectMultiFactorPhoneAuthNumberFormSchema,
+  injectMultiFactorPhoneAuthAssertionFormSchema,
   injectMultiFactorPhoneAuthVerifyFormSchema,
   injectRecaptchaVerifier,
   injectTranslation,
@@ -67,7 +67,7 @@ type PhoneMultiFactorInfo = MultiFactorInfo & {
 })
 export class SmsMultiFactorAssertionPhoneFormComponent {
   private ui = injectUI();
-  private formSchema = injectMultiFactorPhoneAuthNumberFormSchema();
+  private formSchema = injectMultiFactorPhoneAuthAssertionFormSchema();
 
   hint = input.required<MultiFactorInfo>();
   onSubmit = output<string>();
