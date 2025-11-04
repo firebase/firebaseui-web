@@ -1,46 +1,42 @@
 "use client";
 
-import type { EmailLinkAuthFormSchema } from "@invertase/firebaseui-core";
+import type { ForgotPasswordAuthFormSchema } from "@invertase/firebaseui-core";
 import {
+  useForgotPasswordAuthFormAction,
+  useForgotPasswordAuthFormSchema,
   useUI,
-  useEmailLinkAuthFormAction,
-  useEmailLinkAuthFormSchema,
-  useEmailLinkAuthFormCompleteSignIn,
-  type EmailLinkAuthFormProps,
-} from "@firebase-ui/react";
+  type ForgotPasswordAuthFormProps,
+} from "@invertase/firebaseui-react";
 import { useForm } from "react-hook-form";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
-import { FirebaseUIError, getTranslation } from "@firebase-ui/core";
+import { FirebaseUIError, getTranslation } from "@invertase/firebaseui-core";
 import { useState } from "react";
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Policies } from "./policies";
+import { Policies } from "@/components/policies";
 
-export type { EmailLinkAuthFormProps };
+export type { ForgotPasswordAuthFormProps };
 
-export function EmailLinkAuthForm(props: EmailLinkAuthFormProps) {
-  const { onEmailSent, onSignIn } = props;
+export function ForgotPasswordAuthForm(props: ForgotPasswordAuthFormProps) {
   const ui = useUI();
-  const schema = useEmailLinkAuthFormSchema();
-  const action = useEmailLinkAuthFormAction();
+  const schema = useForgotPasswordAuthFormSchema();
+  const action = useForgotPasswordAuthFormAction();
   const [emailSent, setEmailSent] = useState(false);
 
-  const form = useForm<EmailLinkAuthFormSchema>({
+  const form = useForm<ForgotPasswordAuthFormSchema>({
     resolver: standardSchemaResolver(schema),
     defaultValues: {
       email: "",
     },
   });
 
-  useEmailLinkAuthFormCompleteSignIn(onSignIn);
-
-  async function onSubmit(values: EmailLinkAuthFormSchema) {
+  async function onSubmit(values: ForgotPasswordAuthFormSchema) {
     try {
       await action(values);
       setEmailSent(true);
-      onEmailSent?.();
+      props.onPasswordSent?.();
     } catch (error) {
       const message = error instanceof FirebaseUIError ? error.message : String(error);
       form.setError("root", { message });
@@ -50,7 +46,7 @@ export function EmailLinkAuthForm(props: EmailLinkAuthFormProps) {
   if (emailSent) {
     return (
       <div className="text-center space-y-4">
-        <div className="text-green-600 dark:text-green-400">{getTranslation(ui, "messages", "signInLinkSent")}</div>
+        <div className="text-green-600 dark:text-green-400">{getTranslation(ui, "messages", "checkEmailForReset")}</div>
       </div>
     );
   }
@@ -73,9 +69,14 @@ export function EmailLinkAuthForm(props: EmailLinkAuthFormProps) {
         />
         <Policies />
         <Button type="submit" disabled={ui.state !== "idle"}>
-          {getTranslation(ui, "labels", "sendSignInLink")}
+          {getTranslation(ui, "labels", "resetPassword")}
         </Button>
         {form.formState.errors.root && <FormMessage>{form.formState.errors.root.message}</FormMessage>}
+        {props.onBackToSignInClick ? (
+          <Button type="button" variant="secondary" onClick={props.onBackToSignInClick}>
+            {getTranslation(ui, "labels", "backToSignIn")}
+          </Button>
+        ) : null}
       </form>
     </Form>
   );

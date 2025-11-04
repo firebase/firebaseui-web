@@ -1,21 +1,20 @@
 "use client";
 
 import { getTranslation } from "@invertase/firebaseui-core";
-import { useUI, type SignInAuthScreenProps } from "@invertase/firebaseui-react";
-
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { SignInAuthForm } from "@/components/sign-in-auth-form";
+import { type PropsWithChildren } from "react";
+import { useUI } from "@invertase/firebaseui-react";
+import { Card, CardContent, CardHeader, CardDescription, CardTitle } from "@/components/ui/card";
+import { Policies } from "@/components/policies";
 import { MultiFactorAuthAssertionForm } from "@/components/multi-factor-auth-assertion-form";
+import { RedirectError } from "@/components/redirect-error";
 
-export type { SignInAuthScreenProps };
+export type OAuthScreenProps = PropsWithChildren;
 
-export function SignInAuthScreen({ children, ...props }: SignInAuthScreenProps) {
+export function OAuthScreen({ children }: OAuthScreenProps) {
   const ui = useUI();
 
   const titleText = getTranslation(ui, "labels", "signIn");
   const subtitleText = getTranslation(ui, "prompts", "signInToAccount");
-
   const mfaResolver = ui.multiFactorResolver;
 
   return (
@@ -30,13 +29,11 @@ export function SignInAuthScreen({ children, ...props }: SignInAuthScreenProps) 
             <MultiFactorAuthAssertionForm />
           ) : (
             <>
-              <SignInAuthForm {...props} />
-              {children ? (
-                <>
-                  <Separator>{getTranslation(ui, "messages", "dividerOr")}</Separator>
-                  <div className="space-y-2">{children}</div>
-                </>
-              ) : null}
+              <div className="space-y-2">
+                {children}
+                <RedirectError />
+                <Policies />
+              </div>
             </>
           )}
         </CardContent>
