@@ -50,7 +50,7 @@
     "react": "catalog:",
     "react-day-picker": "^9.11.1",
     "react-dom": "catalog:",
-    "react-hook-form": "^7.64.0",
+    "react-hook-form": "^7.65.0",
     "react-resizable-panels": "^3.0.6",
     "react-router": "^7.9.3",
     "react-router-dom": "^6.28.0",
