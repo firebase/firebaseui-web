@@ -3,9 +3,9 @@
 import { getTranslation } from "@firebase-ui/core";
 import { useUI, type EmailLinkAuthScreenProps } from "@firebase-ui/react";
 
-import { EmailLinkAuthForm } from "@/components/email-link-auth-form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { EmailLinkAuthForm } from "@/components/email-link-auth-form";
 
 export type { EmailLinkAuthScreenProps };
 

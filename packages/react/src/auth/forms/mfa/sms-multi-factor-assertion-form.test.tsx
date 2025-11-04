@@ -15,7 +15,7 @@
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, renderHook, cleanup } from "@testing-library/react";
+import { render, screen, renderHook, cleanup, fireEvent, waitFor } from "@testing-library/react";
 import {
   SmsMultiFactorAssertionForm,
   useSmsMultiFactorAssertionPhoneFormAction,
@@ -299,7 +299,7 @@ describe("<SmsMultiFactorAssertionForm />", () => {
 
     const mockHint = {
       factorId: "phone" as const,
-      phoneNumber: "+1234567890",
+      phoneNumber: "+123456789", // Max 10 chars for schema validation
       uid: "test-uid",
       enrollmentTime: "2023-01-01T00:00:00Z",
     };
@@ -319,27 +319,27 @@ describe("<SmsMultiFactorAssertionForm />", () => {
       })
     );
 
-    // Step 1: Send code
-    const sendCodeButton = screen.getByRole("button", { name: "sendCode" });
+    const sendCodeForm = screen.getByRole("button", { name: "sendCode" }).closest("form");
     await act(async () => {
-      sendCodeButton.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      fireEvent.submit(sendCodeForm!);
     });
 
-    // Now verify form should be rendered; enter code and submit
-    const codeInput = await screen.findByRole("textbox", { name: /verificationCode/i });
-    const verifyButton = screen.getByRole("button", { name: "verifyCode" });
+    const codeInput = await waitFor(() => screen.findByRole("textbox", { name: /verificationCode/i }));
+    const form = codeInput.closest("form");
 
     await act(async () => {
-      (codeInput as HTMLInputElement).value = "123456";
-      codeInput.dispatchEvent(new Event("input", { bubbles: true }));
+      fireEvent.change(codeInput, { target: { value: "123456" } });
     });
 
     await act(async () => {
-      verifyButton.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      fireEvent.submit(form!);
     });
 
-    expect(verifyPhoneNumber).toHaveBeenCalled();
-    expect(signInWithMultiFactorAssertion).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(verifyPhoneNumber).toHaveBeenCalled();
+      expect(signInWithMultiFactorAssertion).toHaveBeenCalled();
+    });
+
     expect(onSuccessMock).toHaveBeenCalledTimes(1);
     expect(onSuccessMock).toHaveBeenCalledWith(
       expect.objectContaining({ user: expect.objectContaining({ uid: "sms-cred-user" }) })

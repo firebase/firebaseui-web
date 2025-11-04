@@ -2,21 +2,20 @@
 
 import type { EmailLinkAuthFormSchema } from "@firebase-ui/core";
 import {
-  useEmailLinkAuthFormAction,
-  useEmailLinkAuthFormCompleteSignIn,
-  useEmailLinkAuthFormSchema,
   useUI,
+  useEmailLinkAuthFormAction,
+  useEmailLinkAuthFormSchema,
+  useEmailLinkAuthFormCompleteSignIn,
   type EmailLinkAuthFormProps,
 } from "@firebase-ui/react";
-
-import { FirebaseUIError, getTranslation } from "@firebase-ui/core";
-import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
+import { FirebaseUIError, getTranslation } from "@firebase-ui/core";
+import { useState } from "react";
 
-import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { Policies } from "./policies";
 
 export type { EmailLinkAuthFormProps };

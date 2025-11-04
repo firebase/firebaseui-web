@@ -20,6 +20,7 @@ import {
   createEmailLinkAuthFormSchema,
   createForgotPasswordAuthFormSchema,
   createMultiFactorPhoneAuthNumberFormSchema,
+  createMultiFactorPhoneAuthAssertionNumberFormSchema,
   createMultiFactorPhoneAuthVerifyFormSchema,
   createMultiFactorTotpAuthNumberFormSchema,
   createMultiFactorTotpAuthVerifyFormSchema,
@@ -90,6 +91,11 @@ export function usePhoneAuthVerifyFormSchema() {
 export function useMultiFactorPhoneAuthNumberFormSchema() {
   const ui = useUI();
   return useMemo(() => createMultiFactorPhoneAuthNumberFormSchema(ui), [ui]);
+}
+
+export function useMultiFactorPhoneAuthAssertionNumberFormSchema() {
+  const ui = useUI();
+  return useMemo(() => createMultiFactorPhoneAuthAssertionNumberFormSchema(ui), [ui]);
 }
 
 export function useMultiFactorPhoneAuthVerifyFormSchema() {
