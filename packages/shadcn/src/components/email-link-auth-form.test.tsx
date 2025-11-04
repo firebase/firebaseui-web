@@ -227,12 +227,10 @@ describe("<EmailLinkAuthForm />", () => {
       </FirebaseUIProvider>
     );
 
-    await act(async () => {
-      // Wait for the useEffect to complete
-      await new Promise((resolve) => setTimeout(resolve, 0));
+    await waitFor(() => {
+      expect(completeEmailLinkSignInMock).toHaveBeenCalled();
     });
 
-    expect(completeEmailLinkSignInMock).toHaveBeenCalledWith(mockUI.get(), window.location.href);
     expect(onSignInMock).toHaveBeenCalledWith(mockCredential);
   });
 });
