@@ -83,7 +83,7 @@ describe("Form Components", () => {
       const errorElement = screen.getByRole("alert");
 
       expect(errorElement).toBeTruthy();
-      expect(errorElement).toHaveClass("fui-form__error");
+      expect(errorElement).toHaveClass("fui-error");
       expect(errorElement).toHaveTextContent("Test error");
     });
 
@@ -207,7 +207,7 @@ describe("Form Components", () => {
       const errorElement = screen.getByText("Test error message");
 
       expect(errorElement).toBeTruthy();
-      expect(errorElement).toHaveClass("fui-form__error");
+      expect(errorElement).toHaveClass("fui-error");
     });
 
     it("does not render error message when no onSubmit error", async () => {
