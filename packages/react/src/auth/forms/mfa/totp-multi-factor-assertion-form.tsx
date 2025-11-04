@@ -30,7 +30,6 @@ export function useTotpMultiFactorAssertionForm({ hint, onSuccess }: UseTotpMult
       verificationCode: "",
     },
     validators: {
-      onSubmit: schema,
       onBlur: schema,
       onSubmitAsync: async ({ value }) => {
         try {

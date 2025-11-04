@@ -51,7 +51,6 @@ export function useSmsMultiFactorAssertionPhoneForm({
     },
     validators: {
       onBlur: schema,
-      onSubmit: schema,
       onSubmitAsync: async () => {
         try {
           const verificationId = await action({ hint, recaptchaVerifier });
@@ -144,7 +143,6 @@ export function useSmsMultiFactorAssertionVerifyForm({
       verificationCode: "",
     },
     validators: {
-      onSubmit: schema,
       onBlur: schema,
       onSubmitAsync: async ({ value }) => {
         try {

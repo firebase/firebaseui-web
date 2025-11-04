@@ -24,7 +24,7 @@ export default function SignInAuthScreenWithHandlersPage() {
   return (
     <SignInAuthScreen
       onForgotPasswordClick={() => {
-        navigate("/screen/forgot-password-auth-screen");
+        navigate("/screens/forgot-password-auth-screen");
       }}
       onSignUpClick={() => {
         navigate("/screens/sign-up-auth-screen");
