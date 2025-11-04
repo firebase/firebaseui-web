@@ -37,7 +37,7 @@ describe("<RedirectError />", () => {
 
     const errorElement = screen.getByText(errorMessage);
     expect(errorElement).toBeDefined();
-    expect(errorElement.className).toContain("fui-form__error");
+    expect(errorElement.className).toContain("fui-error");
   });
 
   it("returns null when no redirectError exists", () => {
@@ -65,7 +65,7 @@ describe("<RedirectError />", () => {
 
     const errorElement = screen.getByText(errorMessage);
     expect(errorElement).toBeDefined();
-    expect(errorElement.className).toContain("fui-form__error");
+    expect(errorElement.className).toContain("fui-error");
   });
 
   it("properly formats error messages for string values", () => {
@@ -81,7 +81,7 @@ describe("<RedirectError />", () => {
 
     const errorElement = screen.getByText(errorMessage);
     expect(errorElement).toBeDefined();
-    expect(errorElement.className).toContain("fui-form__error");
+    expect(errorElement.className).toContain("fui-error");
   });
 
   it("displays error with correct CSS class", () => {
@@ -96,7 +96,7 @@ describe("<RedirectError />", () => {
     );
 
     const errorElement = screen.getByText(errorMessage);
-    expect(errorElement.className).toBe("fui-form__error");
+    expect(errorElement.className).toBe("fui-error");
   });
 
   it("handles undefined redirectError", () => {

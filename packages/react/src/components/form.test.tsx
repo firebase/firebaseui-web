@@ -150,7 +150,7 @@ describe("form export", () => {
 
       const error = screen.getByRole("alert");
       expect(error).toBeInTheDocument();
-      expect(error).toHaveClass("fui-form__error");
+      expect(error).toHaveClass("fui-error");
     });
   });
 
@@ -256,7 +256,7 @@ describe("form export", () => {
       });
 
       await waitFor(() => {
-        const error = container.querySelector(".fui-form__error");
+        const error = container.querySelector(".fui-error");
         expect(error).toBeInTheDocument();
         expect(error).toHaveTextContent("error!");
       });

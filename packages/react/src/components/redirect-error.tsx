@@ -7,5 +7,5 @@ export function RedirectError() {
     return null;
   }
 
-  return <div className="fui-form__error">{error}</div>;
+  return <div className="fui-error">{error}</div>;
 }

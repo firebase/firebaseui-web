@@ -8,7 +8,7 @@ import { ButtonComponent } from "./button";
   template: `
     @if (field().state.meta.isTouched && errors().length > 0) {
       <div>
-        <div role="alert" aria-live="polite" class="fui-form__error">
+        <div role="alert" aria-live="polite" class="fui-error">
           {{ errors() }}
         </div>
       </div>
@@ -93,7 +93,7 @@ export class FormSubmitComponent {
   standalone: true,
   template: `
     @if (errorMessage()) {
-      <div class="fui-form__error">
+      <div class="fui-error">
         {{ errorMessage() }}
       </div>
     }
