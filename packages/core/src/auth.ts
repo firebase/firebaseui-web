@@ -315,6 +315,16 @@ export async function completeEmailLinkSignIn(ui: FirebaseUI, currentUrl: string
     if (!email) return null;
 
     setPendingState(ui);
+
+    if (hasBehavior(ui, "autoUpgradeAnonymousCredential")) {
+      const emailLinkCredential = EmailAuthProvider.credentialWithLink(email, currentUrl);
+      const credential = await getBehavior(ui, "autoUpgradeAnonymousCredential")(ui, emailLinkCredential);
+
+      if (credential) {
+        return handlePendingCredential(ui, credential);
+      }
+    }
+
     const result = await signInWithEmailLink(ui, email, currentUrl);
     return handlePendingCredential(ui, result);
   } catch (error) {

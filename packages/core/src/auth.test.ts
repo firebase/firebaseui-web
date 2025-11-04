@@ -12,6 +12,7 @@ import {
   signInWithProvider,
   signInWithCustomToken,
   generateTotpQrCode,
+  completeEmailLinkSignIn,
   signInWithMultiFactorAssertion,
 } from "./auth";
 
@@ -1230,5 +1231,209 @@ describe("generateTotpQrCode", () => {
       "User must be authenticated to generate a TOTP QR code"
     );
     expect(mockSecret.generateQrCodeUrl).not.toHaveBeenCalled();
+  });
+});
+
+describe("completeEmailLinkSignIn", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    Object.defineProperty(window, "location", {
+      value: { href: "https://example.com/auth?oobCode=abc123" },
+      writable: true,
+    });
+  });
+
+  afterEach(() => {
+    window.localStorage.clear();
+  });
+
+  it("should return null when URL is not an email link", async () => {
+    const mockUI = createMockUI();
+    const currentUrl = "https://example.com/not-email-link";
+
+    vi.mocked(_isSignInWithEmailLink).mockReturnValue(false);
+
+    const result = await completeEmailLinkSignIn(mockUI, currentUrl);
+
+    expect(_isSignInWithEmailLink).toHaveBeenCalledWith(mockUI.auth, currentUrl);
+    expect(result).toBeNull();
+
+    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["idle"]]);
+  });
+
+  it("should return null when no email is stored in localStorage", async () => {
+    const mockUI = createMockUI();
+    const currentUrl = "https://example.com/auth?oobCode=abc123";
+
+    vi.mocked(_isSignInWithEmailLink).mockReturnValue(true);
+
+    const result = await completeEmailLinkSignIn(mockUI, currentUrl);
+
+    expect(_isSignInWithEmailLink).toHaveBeenCalledWith(mockUI.auth, currentUrl);
+    expect(result).toBeNull();
+    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["idle"]]);
+  });
+
+  it("should complete email link sign-in with no behavior", async () => {
+    const mockUI = createMockUI();
+    const currentUrl = "https://example.com/auth?oobCode=abc123";
+    const email = "test@example.com";
+    const mockCredential = { providerId: "emailLink" } as UserCredential;
+    const emailLinkCredential = { providerId: "emailLink" } as any;
+
+    vi.mocked(_isSignInWithEmailLink).mockReturnValue(true);
+    window.localStorage.setItem("emailForSignIn", email);
+    vi.mocked(hasBehavior).mockReturnValue(false);
+    vi.mocked(EmailAuthProvider.credentialWithLink).mockReturnValue(emailLinkCredential);
+    vi.mocked(_signInWithCredential).mockResolvedValue(mockCredential);
+
+    const result = await completeEmailLinkSignIn(mockUI, currentUrl);
+
+    expect(_isSignInWithEmailLink).toHaveBeenCalledWith(mockUI.auth, currentUrl);
+    expect(hasBehavior).toHaveBeenCalledWith(mockUI, "autoUpgradeAnonymousCredential");
+    expect(EmailAuthProvider.credentialWithLink).toHaveBeenCalledWith(email, currentUrl);
+    expect(_signInWithCredential).toHaveBeenCalledWith(mockUI.auth, emailLinkCredential);
+    expect(result).toBe(mockCredential);
+    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["pending"], ["idle"], ["idle"]]);
+    expect(window.localStorage.getItem("emailForSignIn")).toBeNull();
+  });
+
+  it("should call autoUpgradeAnonymousCredential behavior when enabled and return result", async () => {
+    const mockUI = createMockUI();
+    const currentUrl = "https://example.com/auth?oobCode=abc123";
+    const email = "test@example.com";
+    const emailLinkCredential = { providerId: "emailLink" } as any;
+    const mockResult = { providerId: "upgraded" } as UserCredential;
+
+    vi.mocked(_isSignInWithEmailLink).mockReturnValue(true);
+    window.localStorage.setItem("emailForSignIn", email);
+    vi.mocked(hasBehavior).mockReturnValue(true);
+    vi.mocked(EmailAuthProvider.credentialWithLink).mockReturnValue(emailLinkCredential);
+    const mockBehavior = vi.fn().mockResolvedValue(mockResult);
+    vi.mocked(getBehavior).mockReturnValue(mockBehavior);
+
+    const result = await completeEmailLinkSignIn(mockUI, currentUrl);
+
+    expect(_isSignInWithEmailLink).toHaveBeenCalledWith(mockUI.auth, currentUrl);
+    expect(hasBehavior).toHaveBeenCalledWith(mockUI, "autoUpgradeAnonymousCredential");
+    expect(EmailAuthProvider.credentialWithLink).toHaveBeenCalledWith(email, currentUrl);
+    expect(getBehavior).toHaveBeenCalledWith(mockUI, "autoUpgradeAnonymousCredential");
+    expect(mockBehavior).toHaveBeenCalledWith(mockUI, emailLinkCredential);
+    expect(result).toBe(mockResult);
+    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
+    expect(window.localStorage.getItem("emailForSignIn")).toBeNull();
+  });
+
+  it("should fall back to signInWithEmailLink when autoUpgradeAnonymousCredential behavior returns undefined", async () => {
+    const mockUI = createMockUI();
+    const currentUrl = "https://example.com/auth?oobCode=abc123";
+    const email = "test@example.com";
+    const emailLinkCredential = { providerId: "emailLink" } as any;
+    const mockResult = { providerId: "emailLink" } as UserCredential;
+
+    vi.mocked(_isSignInWithEmailLink).mockReturnValue(true);
+    window.localStorage.setItem("emailForSignIn", email);
+    vi.mocked(hasBehavior).mockReturnValue(true);
+    vi.mocked(EmailAuthProvider.credentialWithLink).mockReturnValue(emailLinkCredential);
+    const mockBehavior = vi.fn().mockResolvedValue(undefined);
+    vi.mocked(getBehavior).mockReturnValue(mockBehavior);
+    vi.mocked(_signInWithCredential).mockResolvedValue(mockResult);
+
+    const result = await completeEmailLinkSignIn(mockUI, currentUrl);
+
+    expect(_isSignInWithEmailLink).toHaveBeenCalledWith(mockUI.auth, currentUrl);
+    expect(hasBehavior).toHaveBeenCalledWith(mockUI, "autoUpgradeAnonymousCredential");
+    expect(EmailAuthProvider.credentialWithLink).toHaveBeenCalledWith(email, currentUrl);
+    expect(getBehavior).toHaveBeenCalledWith(mockUI, "autoUpgradeAnonymousCredential");
+    expect(mockBehavior).toHaveBeenCalledWith(mockUI, emailLinkCredential);
+    expect(_signInWithCredential).toHaveBeenCalledWith(mockUI.auth, emailLinkCredential);
+    expect(result).toBe(mockResult);
+    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["pending"], ["idle"], ["idle"]]);
+    expect(window.localStorage.getItem("emailForSignIn")).toBeNull();
+  });
+
+  it("should call handleFirebaseError if an error is thrown", async () => {
+    const mockUI = createMockUI();
+    const currentUrl = "https://example.com/auth?oobCode=abc123";
+    const email = "test@example.com";
+    const error = new FirebaseError("auth/invalid-action-code", "Invalid action code");
+    const emailLinkCredential = { providerId: "emailLink" } as any;
+
+    vi.mocked(_isSignInWithEmailLink).mockReturnValue(true);
+    window.localStorage.setItem("emailForSignIn", email);
+    vi.mocked(hasBehavior).mockReturnValue(false);
+    vi.mocked(EmailAuthProvider.credentialWithLink).mockReturnValue(emailLinkCredential);
+    vi.mocked(_signInWithCredential).mockRejectedValue(error);
+
+    const result = await completeEmailLinkSignIn(mockUI, currentUrl);
+
+    expect(handleFirebaseError).toHaveBeenCalledWith(mockUI, error);
+    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["pending"], ["idle"], ["idle"]]);
+    expect(window.localStorage.getItem("emailForSignIn")).toBeNull();
+    expect(result).toBeUndefined();
+  });
+
+  it("should call handleFirebaseError if autoUpgradeAnonymousCredential behavior throws error", async () => {
+    const mockUI = createMockUI();
+    const currentUrl = "https://example.com/auth?oobCode=abc123";
+    const email = "test@example.com";
+    const emailLinkCredential = { providerId: "emailLink" } as any;
+    const error = new Error("Behavior error");
+
+    vi.mocked(_isSignInWithEmailLink).mockReturnValue(true);
+    window.localStorage.setItem("emailForSignIn", email);
+    vi.mocked(hasBehavior).mockReturnValue(true);
+    vi.mocked(EmailAuthProvider.credentialWithLink).mockReturnValue(emailLinkCredential);
+    const mockBehavior = vi.fn().mockRejectedValue(error);
+    vi.mocked(getBehavior).mockReturnValue(mockBehavior);
+
+    const result = await completeEmailLinkSignIn(mockUI, currentUrl);
+
+    expect(handleFirebaseError).toHaveBeenCalledWith(mockUI, error);
+    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
+    expect(window.localStorage.getItem("emailForSignIn")).toBeNull();
+    expect(result).toBeUndefined();
+  });
+
+  it("should clear email from localStorage even when error occurs", async () => {
+    const mockUI = createMockUI();
+    const currentUrl = "https://example.com/auth?oobCode=abc123";
+    const email = "test@example.com";
+    const error = new FirebaseError("auth/invalid-action-code", "Invalid action code");
+    const emailLinkCredential = { providerId: "emailLink" } as any;
+
+    vi.mocked(_isSignInWithEmailLink).mockReturnValue(true);
+    window.localStorage.setItem("emailForSignIn", email);
+    vi.mocked(hasBehavior).mockReturnValue(false);
+    vi.mocked(EmailAuthProvider.credentialWithLink).mockReturnValue(emailLinkCredential);
+    vi.mocked(_signInWithCredential).mockRejectedValue(error);
+
+    await completeEmailLinkSignIn(mockUI, currentUrl);
+
+    expect(window.localStorage.getItem("emailForSignIn")).toBeNull();
+  });
+
+  it("should clear email from localStorage even when URL is not an email link", async () => {
+    const mockUI = createMockUI();
+    const currentUrl = "https://example.com/not-email-link";
+    const email = "test@example.com";
+
+    vi.mocked(_isSignInWithEmailLink).mockReturnValue(false);
+    window.localStorage.setItem("emailForSignIn", email);
+
+    await completeEmailLinkSignIn(mockUI, currentUrl);
+
+    expect(window.localStorage.getItem("emailForSignIn")).toBeNull();
+  });
+
+  it("should not clear email from localStorage when no email is stored", async () => {
+    const mockUI = createMockUI();
+    const currentUrl = "https://example.com/auth?oobCode=abc123";
+
+    vi.mocked(_isSignInWithEmailLink).mockReturnValue(true);
+
+    await completeEmailLinkSignIn(mockUI, currentUrl);
+
+    expect(window.localStorage.getItem("emailForSignIn")).toBeNull();
   });
 });
