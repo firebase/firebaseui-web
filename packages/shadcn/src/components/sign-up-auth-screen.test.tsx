@@ -237,8 +237,8 @@ describe("<SignUpAuthScreen />", () => {
       </FirebaseUIProvider>
     );
 
-    expect(screen.queryByTestId("sign-up-auth-form")).toBeNull();
-    expect(screen.getByTestId("mfa-assertion-form")).toBeDefined();
+    expect(screen.getByTestId("sign-up-auth-form")).toBeInTheDocument();
+    expect(screen.queryByTestId("mfa-assertion-form")).not.toBeInTheDocument();
   });
 
   it("calls onSignUp with credential when MFA flow succeeds", () => {

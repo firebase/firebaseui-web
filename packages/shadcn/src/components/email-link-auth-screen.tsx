@@ -5,7 +5,7 @@ import { useUI, type EmailLinkAuthScreenProps } from "@firebase-ui/react";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { SignUpAuthForm } from "@/components/sign-up-auth-form";
+import { EmailLinkAuthForm } from "@/components/email-link-auth-form";
 import { MultiFactorAuthAssertionForm } from "@/components/multi-factor-auth-assertion-form";
 
 export type { EmailLinkAuthScreenProps };
@@ -13,8 +13,8 @@ export type { EmailLinkAuthScreenProps };
 export function EmailLinkAuthScreen({ children, ...props }: EmailLinkAuthScreenProps) {
   const ui = useUI();
 
-  const titleText = getTranslation(ui, "labels", "signUp");
-  const subtitleText = getTranslation(ui, "prompts", "enterDetailsToCreate");
+  const titleText = getTranslation(ui, "labels", "signIn");
+  const subtitleText = getTranslation(ui, "prompts", "signInToAccount");
   const mfaResolver = ui.multiFactorResolver;
 
   return (
@@ -26,14 +26,10 @@ export function EmailLinkAuthScreen({ children, ...props }: EmailLinkAuthScreenP
         </CardHeader>
         <CardContent>
           {mfaResolver ? (
-            <MultiFactorAuthAssertionForm
-              onSuccess={(credential) => {
-                props.onSignUp?.(credential);
-              }}
-            />
+            <MultiFactorAuthAssertionForm onSuccess={(credential) => props.onSignIn?.(credential)} />
           ) : (
             <>
-              <SignUpAuthForm {...props} />
+              <EmailLinkAuthForm {...props} />
               {children ? (
                 <>
                   <Separator>{getTranslation(ui, "messages", "dividerOr")}</Separator>
