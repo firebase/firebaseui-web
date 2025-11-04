@@ -17,7 +17,7 @@ export default defineConfig({
       {
         name: "build registry",
         pattern: ["src/components/**/*.tsx", "registry-spec.json"],
-        run: ["tsx", "build.ts", "--domain", "http://localhost:5177", "--publicDir", "public-dev", "--dev"],
+        run: ["tsx", "build.ts", "--domain", "http://localhost:5177", "--publicDir", "public-dev/r", "--dev"],
       },
     ]),
   ],
