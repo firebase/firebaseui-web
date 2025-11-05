@@ -41,7 +41,7 @@ auth.authStateReady().then(() => {
         <ThemeToggle />
         <Routes>
           <Route path="/" element={<App />} />
-          <Route element={<ScreeRoute />}>
+          <Route element={<ScreenRoute />}>
             {allRoutes.map((route) => (
               <Route key={route.path} path={route.path} element={<route.component />} />
             ))}
@@ -52,7 +52,7 @@ auth.authStateReady().then(() => {
   );
 });
 
-function ScreeRoute() {
+function ScreenRoute() {
   return (
     <div className="p-8">
       <Link to="/">
