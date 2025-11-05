@@ -402,16 +402,16 @@ importers:
         specifier: ^5.2.2
         version: 5.2.2(react-hook-form@7.65.0(react@19.1.1))
       '@invertase/firebaseui-core':
-        specifier: 0.0.5
+        specifier: '*'
         version: 0.0.5(firebase@11.10.0)
       '@invertase/firebaseui-react':
         specifier: workspace:*
         version: link:../../packages/react
       '@invertase/firebaseui-styles':
-        specifier: 0.0.9
+        specifier: '*'
         version: 0.0.9(typescript@5.9.3)
       '@invertase/firebaseui-translations':
-        specifier: 0.0.4
+        specifier: '*'
         version: 0.0.4
       '@radix-ui/react-accordion':
         specifier: ^1.2.12

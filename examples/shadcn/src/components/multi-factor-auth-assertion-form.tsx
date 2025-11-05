@@ -1,26 +1,24 @@
 "use client";
 
-import {
-  PhoneMultiFactorGenerator,
-  TotpMultiFactorGenerator,
-  type UserCredential,
-  type MultiFactorInfo,
-} from "firebase/auth";
+import { PhoneMultiFactorGenerator, TotpMultiFactorGenerator, type MultiFactorInfo } from "firebase/auth";
 import { type ComponentProps, useState } from "react";
 import { getTranslation } from "@invertase/firebaseui-core";
 import { useUI } from "@invertase/firebaseui-react";
+import { useEffect } from "react";
 
-import { SmsMultiFactorAssertionForm } from "./sms-multi-factor-assertion-form";
-import { TotpMultiFactorAssertionForm } from "./totp-multi-factor-assertion-form";
+import { SmsMultiFactorAssertionForm } from "@/components/sms-multi-factor-assertion-form";
+import { TotpMultiFactorAssertionForm } from "@/components/totp-multi-factor-assertion-form";
 import { Button } from "@/components/ui/button";
 
-export type MultiFactorAuthAssertionFormProps = {
-  onSuccess?: (credential: UserCredential) => void;
-};
-
-export function MultiFactorAuthAssertionForm({ onSuccess }: MultiFactorAuthAssertionFormProps) {
+export function MultiFactorAuthAssertionForm() {
   const ui = useUI();
   const resolver = ui.multiFactorResolver;
+
+  useEffect(() => {
+    return () => {
+      ui.setMultiFactorResolver();
+    };
+  }, []);
 
   if (!resolver) {
     throw new Error("MultiFactorAuthAssertionForm requires a multi-factor resolver");
@@ -33,17 +31,17 @@ export function MultiFactorAuthAssertionForm({ onSuccess }: MultiFactorAuthAsser
 
   if (hint) {
     if (hint.factorId === PhoneMultiFactorGenerator.FACTOR_ID) {
-      return <SmsMultiFactorAssertionForm hint={hint} onSuccess={(credential) => onSuccess?.(credential)} />;
+      return <SmsMultiFactorAssertionForm hint={hint} />;
     }
 
     if (hint.factorId === TotpMultiFactorGenerator.FACTOR_ID) {
-      return <TotpMultiFactorAssertionForm hint={hint} onSuccess={(credential) => onSuccess?.(credential)} />;
+      return <TotpMultiFactorAssertionForm hint={hint} />;
     }
   }
 
   return (
-    <div className="flex flex-col gap-2">
-      <p className="text-sm text-muted-foreground">TODO:Select a multi-factor authentication method</p>
+    <div className="space-y-2">
+      <p className="text-sm text-muted-foreground">Select a multi-factor authentication method</p>
       {resolver.hints.map((hint) => {
         if (hint.factorId === TotpMultiFactorGenerator.FACTOR_ID) {
           return <TotpButton key={hint.factorId} onClick={() => setHint(hint)} />;
@@ -62,19 +60,11 @@ export function MultiFactorAuthAssertionForm({ onSuccess }: MultiFactorAuthAsser
 function TotpButton(props: ComponentProps<typeof Button>) {
   const ui = useUI();
   const labelText = getTranslation(ui, "labels", "mfaTotpVerification");
-  return (
-    <Button {...props} variant="outline">
-      {labelText}
-    </Button>
-  );
+  return <Button {...props}>{labelText}</Button>;
 }
 
 function SmsButton(props: ComponentProps<typeof Button>) {
   const ui = useUI();
   const labelText = getTranslation(ui, "labels", "mfaSmsVerification");
-  return (
-    <Button {...props} variant="outline">
-      {labelText}
-    </Button>
-  );
+  return <Button {...props}>{labelText}</Button>;
 }

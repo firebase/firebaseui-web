@@ -249,7 +249,7 @@
       "type": "registry:block",
       "title": "Multi-Factor Auth Assertion Screen",
       "description": "A screen allowing users to complete multi-factor authentication during sign-in with TOTP or SMS options.",
-      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "dependencies": ["{{ DEP | @invertase/firebaseui-react }}"],
       "registryDependencies": ["card", "{{ DOMAIN }}/r/multi-factor-auth-assertion-form.json"],
       "files": [
         {
