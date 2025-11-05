@@ -187,9 +187,9 @@ describe("<ForgotPasswordAuthForm />", () => {
       </FirebaseUIProvider>
     );
 
-    const backToSignInButton = screen.getByRole("button", { name: "backToSignIn" });
+    const backToSignInButton = screen.getByRole("button", { name: "← backToSignIn" });
     expect(backToSignInButton).toBeInTheDocument();
-    expect(backToSignInButton).toHaveTextContent("backToSignIn");
+    expect(backToSignInButton).toHaveTextContent("← backToSignIn");
 
     // Make sure it's a button so it doesn't submit the form
     expect(backToSignInButton).toHaveAttribute("type", "button");

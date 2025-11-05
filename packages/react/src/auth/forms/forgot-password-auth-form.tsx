@@ -102,7 +102,7 @@ export function ForgotPasswordAuthForm({ onBackToSignInClick, onPasswordSent }: 
           <form.ErrorMessage />
         </fieldset>
         {onBackToSignInClick ? (
-          <form.Action onClick={onBackToSignInClick}>{getTranslation(ui, "labels", "backToSignIn")}</form.Action>
+          <form.Action onClick={onBackToSignInClick}>&larr; {getTranslation(ui, "labels", "backToSignIn")}</form.Action>
         ) : null}
       </form.AppForm>
     </form>
