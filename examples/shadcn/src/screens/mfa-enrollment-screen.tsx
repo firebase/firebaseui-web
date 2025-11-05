@@ -16,7 +16,16 @@
 "use client";
 
 import { MultiFactorAuthEnrollmentScreen } from "@/components/multi-factor-auth-enrollment-screen";
+import { useNavigate } from "react-router";
 
 export default function MultiFactorAuthEnrollmentScreenPage() {
-  return <MultiFactorAuthEnrollmentScreen />;
+  const navigate = useNavigate();
+
+  return (
+    <MultiFactorAuthEnrollmentScreen
+      onEnrollment={() => {
+        navigate("/");
+      }}
+    />
+  );
 }

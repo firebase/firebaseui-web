@@ -22,8 +22,8 @@ export default function SignUpAuthScreenWithHandlersPage() {
   const navigate = useNavigate();
   return (
     <SignUpAuthScreen
-      onSignInClick={() => {
-        navigate("/screens/sign-in-auth-screen");
+      onSignUp={(credential) => {
+        navigate("/");
       }}
     />
   );

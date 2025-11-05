@@ -16,7 +16,16 @@
 "use client";
 
 import { SignInAuthScreen } from "@/components/sign-in-auth-screen";
+import { useNavigate } from "react-router";
 
 export default function SignInAuthScreenPage() {
-  return <SignInAuthScreen />;
+  const navigate = useNavigate();
+
+  return (
+    <SignInAuthScreen
+      onSignIn={(credential) => {
+        navigate("/");
+      }}
+    />
+  );
 }
