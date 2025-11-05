@@ -1,6 +1,6 @@
 {
   "name": "@invertase/firebaseui-styles",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "type": "module",
   "zshy": {
     "exports": {
