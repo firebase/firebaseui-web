@@ -69,7 +69,7 @@ describe("<SignUpAuthForm />", () => {
   });
 
   it("should render with back to sign in callback", () => {
-    const onBackToSignInClickMock = vi.fn();
+    const onSignInClickMock = vi.fn();
     const mockUI = createMockUI({
       locale: registerLocale("test", {
         prompts: {
@@ -83,7 +83,7 @@ describe("<SignUpAuthForm />", () => {
 
     const { container } = render(
       <FirebaseUIProvider ui={mockUI}>
-        <SignUpAuthForm onBackToSignInClick={onBackToSignInClickMock} />
+        <SignUpAuthForm onSignInClick={onSignInClickMock} />
       </FirebaseUIProvider>
     );
 
@@ -95,7 +95,7 @@ describe("<SignUpAuthForm />", () => {
       fireEvent.click(button!);
     });
 
-    expect(onBackToSignInClickMock).toHaveBeenCalled();
+    expect(onSignInClickMock).toHaveBeenCalled();
   });
 
   it("should call the onSignUp callback when the form is submitted", async () => {

@@ -18,7 +18,7 @@ export function useTotpMultiFactorSecretGenerationFormAction() {
   }, [ui]);
 }
 
-type UseTotpMultiFactorEnrollmentForm = {
+export type UseTotpMultiFactorEnrollmentForm = {
   onSuccess: (secret: TotpSecret, displayName: string) => void;
 };
 

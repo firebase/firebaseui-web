@@ -245,6 +245,20 @@
       ]
     },
     {
+      "name": "multi-factor-auth-assertion-screen",
+      "type": "registry:block",
+      "title": "Multi-Factor Auth Assertion Screen",
+      "description": "A screen allowing users to complete multi-factor authentication during sign-in with TOTP or SMS options.",
+      "dependencies": ["{{ DEP | @firebase-ui/react }}"],
+      "registryDependencies": ["card", "{{ DOMAIN }}/r/multi-factor-auth-assertion-form.json"],
+      "files": [
+        {
+          "path": "src/components/multi-factor-auth-assertion-screen.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "multi-factor-auth-enrollment-form",
       "type": "registry:block",
       "title": "Multi-Factor Auth Enrollment Form",
@@ -299,7 +313,7 @@
       "registryDependencies": [
         "card",
         "{{ DOMAIN }}/r/policies.json",
-        "{{ DOMAIN }}/r/multi-factor-auth-assertion-form.json",
+        "{{ DOMAIN }}/r/multi-factor-auth-assertion-screen.json",
         "{{ DOMAIN }}/r/redirect-error.json"
       ],
       "files": [
@@ -399,7 +413,7 @@
         "separator",
         "card",
         "{{ DOMAIN }}/r/sign-in-auth-form.json",
-        "{{ DOMAIN }}/r/multi-factor-auth-assertion-form.json"
+        "{{ DOMAIN }}/r/multi-factor-auth-assertion-screen.json"
       ],
       "files": [
         {
@@ -432,7 +446,7 @@
         "separator",
         "card",
         "{{ DOMAIN }}/r/sign-up-auth-form.json",
-        "{{ DOMAIN }}/r/multi-factor-auth-assertion-form.json"
+        "{{ DOMAIN }}/r/multi-factor-auth-assertion-screen.json"
       ],
       "files": [
         {

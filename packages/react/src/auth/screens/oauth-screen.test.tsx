@@ -32,10 +32,9 @@ vi.mock("~/components/redirect-error", () => ({
   RedirectError: () => <div data-testid="redirect-error">Redirect Error</div>,
 }));
 
-vi.mock("~/auth/forms/multi-factor-auth-assertion-form", () => ({
-  MultiFactorAuthAssertionForm: ({ onSuccess }: { onSuccess?: (credential: any) => void }) => (
-    <div>
-      <div data-testid="mfa-assertion-form">MFA Assertion Form</div>
+vi.mock("~/auth/screens/multi-factor-auth-assertion-screen", () => ({
+  MultiFactorAuthAssertionScreen: ({ onSuccess }: { onSuccess?: (credential: any) => void }) => (
+    <div data-testid="multi-factor-auth-assertion-screen">
       <button data-testid="mfa-on-success" onClick={() => onSuccess?.({ user: { uid: "oauth-mfa-user" } })}>
         Trigger MFA Success
       </button>
@@ -146,7 +145,7 @@ describe("<OAuthScreen />", () => {
     expect(oauthIndex).toBeLessThan(policiesIndex);
   });
 
-  it("renders MultiFactorAuthAssertionForm when multiFactorResolver is present", () => {
+  it("renders MultiFactorAuthAssertionScreen when multiFactorResolver is present", () => {
     const mockResolver = {
       auth: {} as any,
       session: null,
@@ -161,7 +160,7 @@ describe("<OAuthScreen />", () => {
       </CreateFirebaseUIProvider>
     );
 
-    expect(screen.getByTestId("mfa-assertion-form")).toBeDefined();
+    expect(screen.getByTestId("multi-factor-auth-assertion-screen")).toBeDefined();
     expect(screen.queryByText("OAuth Provider")).toBeNull();
     expect(screen.queryByTestId("policies")).toBeNull();
   });
@@ -185,7 +184,7 @@ describe("<OAuthScreen />", () => {
 
     expect(screen.queryByTestId("oauth-provider")).toBeNull();
     expect(screen.queryByTestId("policies")).toBeNull();
-    expect(screen.getByTestId("mfa-assertion-form")).toBeDefined();
+    expect(screen.getByTestId("multi-factor-auth-assertion-screen")).toBeDefined();
   });
 
   it("renders RedirectError component with children when no MFA resolver", () => {
@@ -222,7 +221,7 @@ describe("<OAuthScreen />", () => {
     );
 
     expect(screen.queryByTestId("redirect-error")).toBeNull();
-    expect(screen.getByTestId("mfa-assertion-form")).toBeDefined();
+    expect(screen.getByTestId("multi-factor-auth-assertion-screen")).toBeDefined();
   });
 
   it("calls onSignIn with credential when MFA flow succeeds", () => {

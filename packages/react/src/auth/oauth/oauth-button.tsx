@@ -58,6 +58,7 @@ export function OAuthButton({ provider, children, themed }: OAuthButtonProps) {
     <div>
       <Button
         type="button"
+        variant={themed ? "primary" : "secondary"}
         data-themed={themed}
         data-provider={provider.providerId}
         disabled={ui.state !== "idle"}

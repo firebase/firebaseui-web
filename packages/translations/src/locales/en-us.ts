@@ -16,7 +16,6 @@
 
 import { type Translations } from "../types";
 
-// TODO: Should this be required or optional?
 export const enUS = {
   errors: {
     userNotFound: "No account found with this email address",
@@ -75,7 +74,7 @@ export const enUS = {
     signInWithApple: "Sign in with Apple",
     signInWithMicrosoft: "Sign in with Microsoft",
     signInWithGitHub: "Sign in with GitHub",
-    signInWithTwitter: "Sign in with Twitter",
+    signInWithTwitter: "Sign in with X",
     signInWithEmailLink: "Sign in with Email Link",
     sendSignInLink: "Send Sign-in Link",
     termsOfService: "Terms of Service",
@@ -83,6 +82,7 @@ export const enUS = {
     resendCode: "Resend Code",
     sending: "Sending...",
     multiFactorEnrollment: "Multi-factor Enrollment",
+    multiFactorAssertion: "Multi-factor Authentication",
     mfaTotpVerification: "TOTP Verification",
     mfaSmsVerification: "SMS Verification",
     generateQrCode: "Generate QR Code",
@@ -97,5 +97,6 @@ export const enUS = {
     enterVerificationCode: "Enter the verification code",
     enterEmailForLink: "Enter your email to receive a sign-in link",
     mfaEnrollmentPrompt: "Select a new multi-factor enrollment method",
+    mfaAssertionPrompt: "Please complete the multi-factor authentication process",
   },
 } satisfies Translations;

@@ -20,7 +20,7 @@ import { type PropsWithChildren } from "react";
 import { useUI } from "~/hooks";
 import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "~/components/card";
 import { Policies } from "~/components/policies";
-import { MultiFactorAuthAssertionForm } from "../forms/multi-factor-auth-assertion-form";
+import { MultiFactorAuthAssertionScreen } from "./multi-factor-auth-assertion-screen";
 import { RedirectError } from "~/components/redirect-error";
 
 export type OAuthScreenProps = PropsWithChildren<{
@@ -34,6 +34,10 @@ export function OAuthScreen({ children, onSignIn }: OAuthScreenProps) {
   const subtitleText = getTranslation(ui, "prompts", "signInToAccount");
   const mfaResolver = ui.multiFactorResolver;
 
+  if (mfaResolver) {
+    return <MultiFactorAuthAssertionScreen onSuccess={onSignIn} />;
+  }
+
   return (
     <div className="fui-screen">
       <Card>
@@ -42,19 +46,9 @@ export function OAuthScreen({ children, onSignIn }: OAuthScreenProps) {
           <CardSubtitle>{subtitleText}</CardSubtitle>
         </CardHeader>
         <CardContent className="fui-screen__children">
-          {mfaResolver ? (
-            <MultiFactorAuthAssertionForm
-              onSuccess={(credential) => {
-                onSignIn?.(credential);
-              }}
-            />
-          ) : (
-            <>
-              {children}
-              <RedirectError />
-              <Policies />
-            </>
-          )}
+          {children}
+          <RedirectError />
+          <Policies />
         </CardContent>
       </Card>
     </div>

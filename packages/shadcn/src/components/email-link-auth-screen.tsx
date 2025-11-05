@@ -6,7 +6,7 @@ import { useUI, type EmailLinkAuthScreenProps } from "@invertase/firebaseui-reac
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { EmailLinkAuthForm } from "@/components/email-link-auth-form";
-import { MultiFactorAuthAssertionForm } from "@/components/multi-factor-auth-assertion-form";
+import { MultiFactorAuthAssertionScreen } from "@/components/multi-factor-auth-assertion-screen";
 import { RedirectError } from "@/components/redirect-error";
 
 export type { EmailLinkAuthScreenProps };
@@ -18,6 +18,10 @@ export function EmailLinkAuthScreen({ children, ...props }: EmailLinkAuthScreenP
   const subtitleText = getTranslation(ui, "prompts", "signInToAccount");
   const mfaResolver = ui.multiFactorResolver;
 
+  if (mfaResolver) {
+    return <MultiFactorAuthAssertionScreen onSuccess={props.onSignIn} />;
+  }
+
   return (
     <div className="max-w-sm mx-auto">
       <Card>
@@ -26,22 +30,16 @@ export function EmailLinkAuthScreen({ children, ...props }: EmailLinkAuthScreenP
           <CardDescription>{subtitleText}</CardDescription>
         </CardHeader>
         <CardContent>
-          {mfaResolver ? (
-            <MultiFactorAuthAssertionForm onSuccess={(credential) => props.onSignIn?.(credential)} />
-          ) : (
+          <EmailLinkAuthForm {...props} />
+          {children ? (
             <>
-              <EmailLinkAuthForm {...props} />
-              {children ? (
-                <>
-                  <Separator className="my-4" />
-                  <div className="space-y-2">
-                    {children}
-                    <RedirectError />
-                  </div>
-                </>
-              ) : null}
+              <Separator className="my-4" />
+              <div className="space-y-2">
+                {children}
+                <RedirectError />
+              </div>
             </>
-          )}
+          ) : null}
         </CardContent>
       </Card>
     </div>

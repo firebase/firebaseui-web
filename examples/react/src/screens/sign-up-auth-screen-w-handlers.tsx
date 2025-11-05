@@ -24,7 +24,7 @@ export default function SignUpAuthScreenWithHandlersPage() {
 
   return (
     <SignUpAuthScreen
-      onBackToSignInClick={() => {
+      onSignInClick={() => {
         navigate("/screens/sign-in-auth-screen");
       }}
       onSignUp={(credential) => {

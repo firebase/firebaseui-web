@@ -20,7 +20,7 @@ import { Divider } from "~/components/divider";
 import { useUI } from "~/hooks";
 import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "~/components/card";
 import { PhoneAuthForm, type PhoneAuthFormProps } from "../forms/phone-auth-form";
-import { MultiFactorAuthAssertionForm } from "../forms/multi-factor-auth-assertion-form";
+import { MultiFactorAuthAssertionScreen } from "./multi-factor-auth-assertion-screen";
 import { RedirectError } from "~/components/redirect-error";
 
 export type PhoneAuthScreenProps = PropsWithChildren<PhoneAuthFormProps>;
@@ -32,6 +32,10 @@ export function PhoneAuthScreen({ children, ...props }: PhoneAuthScreenProps) {
   const subtitleText = getTranslation(ui, "prompts", "signInToAccount");
   const mfaResolver = ui.multiFactorResolver;
 
+  if (mfaResolver) {
+    return <MultiFactorAuthAssertionScreen onSuccess={props.onSignIn} />;
+  }
+
   return (
     <div className="fui-screen">
       <Card>
@@ -40,26 +44,16 @@ export function PhoneAuthScreen({ children, ...props }: PhoneAuthScreenProps) {
           <CardSubtitle>{subtitleText}</CardSubtitle>
         </CardHeader>
         <CardContent>
-          {mfaResolver ? (
-            <MultiFactorAuthAssertionForm
-              onSuccess={(credential) => {
-                props.onSignIn?.(credential);
-              }}
-            />
-          ) : (
+          <PhoneAuthForm {...props} />
+          {children ? (
             <>
-              <PhoneAuthForm {...props} />
-              {children ? (
-                <>
-                  <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>
-                  <div className="fui-screen__children">
-                    {children}
-                    <RedirectError />
-                  </div>
-                </>
-              ) : null}
+              <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>
+              <div className="fui-screen__children">
+                {children}
+                <RedirectError />
+              </div>
             </>
-          )}
+          ) : null}
         </CardContent>
       </Card>
     </div>
