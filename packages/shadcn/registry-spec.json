@@ -443,7 +443,12 @@
       "title": "Sign Up Auth Screen",
       "description": "A screen allowing users to sign up with email and password.",
       "dependencies": ["{{ DEP | @invertase/firebaseui-react }}"],
-      "registryDependencies": ["separator", "card", "{{ DOMAIN }}/r/sign-up-auth-form.json"],
+      "registryDependencies": [
+        "separator",
+        "card",
+        "{{ DOMAIN }}/r/sign-up-auth-form.json",
+        "{{ DOMAIN }}/multi-factor-auth-assertion-form.json"
+      ],
       "files": [
         {
           "path": "src/components/sign-up-auth-screen.tsx",

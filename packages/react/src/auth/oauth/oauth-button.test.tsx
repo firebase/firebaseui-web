@@ -156,7 +156,7 @@ describe("<OAuthButton />", () => {
 
     const errorMessage = screen.getByText("No account found with this email address");
     expect(errorMessage).toBeDefined();
-    expect(errorMessage.className).toContain("fui-form__error");
+    expect(errorMessage.className).toContain("fui-error");
   });
 
   it("displays unknown error message when non-Firebase error occurs", async () => {
@@ -191,7 +191,7 @@ describe("<OAuthButton />", () => {
 
     const errorMessage = screen.getByText("unknownError");
     expect(errorMessage).toBeDefined();
-    expect(errorMessage.className).toContain("fui-form__error");
+    expect(errorMessage.className).toContain("fui-error");
 
     // Restore console.error
     consoleErrorSpy.mockRestore();

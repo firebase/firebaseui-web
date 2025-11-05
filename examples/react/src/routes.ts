@@ -64,7 +64,7 @@ export const routes = [
   {
     name: "Forgot Password Screen",
     description: "A screen allowing a user to reset their password",
-    path: "/screens/forgot-password-screen",
+    path: "/screens/forgot-password-auth-screen",
     component: ForgotPasswordAuthScreenPage,
   },
   {

@@ -1,6 +1,11 @@
 "use client";
 
-import { PhoneMultiFactorGenerator, TotpMultiFactorGenerator, type MultiFactorInfo } from "firebase/auth";
+import {
+  PhoneMultiFactorGenerator,
+  TotpMultiFactorGenerator,
+  type MultiFactorInfo,
+  type UserCredential,
+} from "firebase/auth";
 import { type ComponentProps, useState } from "react";
 import { getTranslation } from "@invertase/firebaseui-core";
 import { useUI } from "@invertase/firebaseui-react";
@@ -9,7 +14,11 @@ import { SmsMultiFactorAssertionForm } from "./sms-multi-factor-assertion-form";
 import { TotpMultiFactorAssertionForm } from "./totp-multi-factor-assertion-form";
 import { Button } from "@/components/ui/button";
 
-export function MultiFactorAuthAssertionForm() {
+export type MultiFactorAuthAssertionFormProps = {
+  onSuccess?: (credential: UserCredential) => void;
+};
+
+export function MultiFactorAuthAssertionForm(props: MultiFactorAuthAssertionFormProps) {
   const ui = useUI();
   const resolver = ui.multiFactorResolver;
 
@@ -24,11 +33,25 @@ export function MultiFactorAuthAssertionForm() {
 
   if (hint) {
     if (hint.factorId === PhoneMultiFactorGenerator.FACTOR_ID) {
-      return <SmsMultiFactorAssertionForm hint={hint} />;
+      return (
+        <SmsMultiFactorAssertionForm
+          hint={hint}
+          onSuccess={(credential) => {
+            props.onSuccess?.(credential);
+          }}
+        />
+      );
     }
 
     if (hint.factorId === TotpMultiFactorGenerator.FACTOR_ID) {
-      return <TotpMultiFactorAssertionForm hint={hint} />;
+      return (
+        <TotpMultiFactorAssertionForm
+          hint={hint}
+          onSuccess={(credential) => {
+            props.onSuccess?.(credential);
+          }}
+        />
+      );
     }
   }
 

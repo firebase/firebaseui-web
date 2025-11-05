@@ -104,7 +104,7 @@ describe.skip("TODO");
 //         }
 
 //         // Check for error messages
-//         const errorElements = container.querySelectorAll(".fui-form__error");
+//         const errorElements = container.querySelectorAll(".fui-error");
 
 //         // If there are error elements, check if they're just validation errors
 //         if (errorElements.length > 0) {
@@ -162,7 +162,7 @@ describe.skip("TODO");
 //     });
 
 //     await waitFor(() => {
-//       expect(container.querySelector(".fui-form__error")).not.toBeNull();
+//       expect(container.querySelector(".fui-error")).not.toBeNull();
 //     });
 //   });
 // });

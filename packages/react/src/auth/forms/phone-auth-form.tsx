@@ -57,7 +57,6 @@ export function usePhoneNumberForm({ recaptchaVerifier, onSuccess, formatPhoneNu
     },
     validators: {
       onBlur: schema,
-      onSubmit: schema,
       onSubmitAsync: async ({ value }) => {
         try {
           const formatted = formatPhoneNumber ? formatPhoneNumber(value.phoneNumber) : value.phoneNumber;
@@ -146,7 +145,6 @@ export function useVerifyPhoneNumberForm({ verificationId, onSuccess }: UseVerif
       verificationCode: "",
     },
     validators: {
-      onSubmit: schema,
       onBlur: schema,
       onSubmitAsync: async ({ value }) => {
         try {

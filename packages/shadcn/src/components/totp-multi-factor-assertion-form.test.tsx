@@ -74,7 +74,7 @@ describe("<TotpMultiFactorAssertionForm />", () => {
       enrollmentTime: "2023-01-01T00:00:00Z",
     };
 
-    const mockAction = vi.fn().mockResolvedValue(undefined);
+    const mockAction = vi.fn().mockResolvedValue({ user: { uid: "totp-mfa-user" } });
     vi.mocked(useTotpMultiFactorAssertionFormAction).mockReturnValue(mockAction);
 
     const mockOnSuccess = vi.fn();
@@ -101,7 +101,7 @@ describe("<TotpMultiFactorAssertionForm />", () => {
     fireEvent.click(screen.getByRole("button", { name: "Verify Code" }));
 
     await waitFor(() => {
-      expect(mockOnSuccess).toHaveBeenCalled();
+      expect(mockOnSuccess).toHaveBeenCalledWith({ user: { uid: "totp-mfa-user" } });
     });
   });
 
@@ -191,7 +191,7 @@ describe("<TotpMultiFactorAssertionForm />", () => {
       enrollmentTime: "2023-01-01T00:00:00Z",
     };
 
-    const mockAction = vi.fn().mockResolvedValue(undefined);
+    const mockAction = vi.fn().mockResolvedValue({ user: { uid: "totp-mfa-user" } });
     vi.mocked(useTotpMultiFactorAssertionFormAction).mockReturnValue(mockAction);
 
     const mockUI = createMockUI({

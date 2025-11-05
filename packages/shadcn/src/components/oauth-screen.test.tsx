@@ -14,7 +14,7 @@
  */
 
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { render, screen, cleanup } from "@testing-library/react";
+import { render, screen, cleanup, fireEvent } from "@testing-library/react";
 import { OAuthScreen } from "@/components/oauth-screen";
 import { CreateFirebaseUIProvider, createMockUI } from "../../tests/utils";
 import { registerLocale } from "@invertase/firebaseui-translations";
@@ -29,7 +29,13 @@ vi.mock("@/components/redirect-error", () => ({
 }));
 
 vi.mock("@/components/multi-factor-auth-assertion-form", () => ({
-  MultiFactorAuthAssertionForm: () => <div data-testid="mfa-assertion-form">MFA Assertion Form</div>,
+  MultiFactorAuthAssertionForm: ({ onSuccess }: { onSuccess?: (credential: any) => void }) => (
+    <div data-testid="mfa-assertion-form">
+      <button data-testid="mfa-on-success" onClick={() => onSuccess?.({ user: { uid: "oauth-mfa-user" } })}>
+        MFA Success
+      </button>
+    </div>
+  ),
 }));
 
 afterEach(() => {
@@ -120,11 +126,9 @@ describe("<OAuthScreen />", () => {
     const oauthProvider = screen.getByTestId("oauth-provider");
     const policies = screen.getByTestId("policies");
 
-    // Both should be present
     expect(oauthProvider).toBeDefined();
     expect(policies).toBeDefined();
 
-    // OAuth provider should come before policies
     const cardContent = oauthProvider.parentElement;
     const children = Array.from(cardContent?.children || []);
     const oauthIndex = children.indexOf(oauthProvider);
@@ -210,5 +214,30 @@ describe("<OAuthScreen />", () => {
 
     expect(screen.queryByTestId("redirect-error")).toBeNull();
     expect(screen.getByTestId("mfa-assertion-form")).toBeDefined();
+  });
+
+  it("calls onSignIn with credential when MFA flow succeeds", () => {
+    const mockResolver = {
+      auth: {} as any,
+      session: null,
+      hints: [],
+    };
+    const ui = createMockUI();
+    ui.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
+
+    const onSignIn = vi.fn();
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <OAuthScreen onSignIn={onSignIn}>OAuth Provider</OAuthScreen>
+      </CreateFirebaseUIProvider>
+    );
+
+    fireEvent.click(screen.getByTestId("mfa-on-success"));
+
+    expect(onSignIn).toHaveBeenCalledTimes(1);
+    expect(onSignIn).toHaveBeenCalledWith(
+      expect.objectContaining({ user: expect.objectContaining({ uid: "oauth-mfa-user" }) })
+    );
   });
 });

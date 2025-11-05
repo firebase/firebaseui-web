@@ -10,7 +10,7 @@ import {
 import { signInWithMultiFactorAssertion, FirebaseUIError, getTranslation, verifyPhoneNumber } from "@invertase/firebaseui-core";
 import { form } from "~/components/form";
 import {
-  useMultiFactorPhoneAuthAssertionNumberFormSchema,
+  useMultiFactorPhoneAuthAssertionFormSchema,
   useMultiFactorPhoneAuthVerifyFormSchema,
   useRecaptchaVerifier,
   useUI,
@@ -43,7 +43,7 @@ export function useSmsMultiFactorAssertionPhoneForm({
   onSuccess,
 }: UseSmsMultiFactorAssertionPhoneForm) {
   const action = useSmsMultiFactorAssertionPhoneFormAction();
-  const schema = useMultiFactorPhoneAuthAssertionNumberFormSchema();
+  const schema = useMultiFactorPhoneAuthAssertionFormSchema();
 
   return form.useAppForm({
     defaultValues: {
@@ -51,7 +51,6 @@ export function useSmsMultiFactorAssertionPhoneForm({
     },
     validators: {
       onBlur: schema,
-      onSubmit: schema,
       onSubmitAsync: async () => {
         try {
           const verificationId = await action({ hint, recaptchaVerifier });
@@ -144,7 +143,6 @@ export function useSmsMultiFactorAssertionVerifyForm({
       verificationCode: "",
     },
     validators: {
-      onSubmit: schema,
       onBlur: schema,
       onSubmitAsync: async ({ value }) => {
         try {

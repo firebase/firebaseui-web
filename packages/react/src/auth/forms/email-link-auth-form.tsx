@@ -58,7 +58,6 @@ export function useEmailLinkAuthForm(onSuccess?: EmailLinkAuthFormProps["onEmail
     },
     validators: {
       onBlur: schema,
-      onSubmit: schema,
       onSubmitAsync: async ({ value }) => {
         try {
           await action(value);
@@ -77,14 +76,14 @@ export function useEmailLinkAuthFormCompleteSignIn(onSignIn?: EmailLinkAuthFormP
   useEffect(() => {
     const completeSignIn = async () => {
       const credential = await completeEmailLinkSignIn(ui, window.location.href);
-
       if (credential) {
         onSignIn?.(credential);
       }
     };
 
     void completeSignIn();
-  }, [ui, onSignIn]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- TODO(ehesp): ui triggers re-render
+  }, [onSignIn]);
 }
 
 export function EmailLinkAuthForm({ onEmailSent, onSignIn }: EmailLinkAuthFormProps) {

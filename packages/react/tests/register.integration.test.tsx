@@ -156,7 +156,7 @@ describe.skip("TODO");
 //     await waitFor(
 //       async () => {
 //         // Check for critical error messages first
-//         const errorElements = container.querySelectorAll(".fui-form__error");
+//         const errorElements = container.querySelectorAll(".fui-error");
 //         let hasCriticalError = false;
 
 //         errorElements.forEach((element) => {
@@ -329,7 +329,7 @@ describe.skip("TODO");
 //     // We'll be more flexible here - we'll handle any errors that might occur
 //     await waitFor(
 //       () => {
-//         const errorElement = container.querySelector(".fui-form__error");
+//         const errorElement = container.querySelector(".fui-error");
 //         if (errorElement) {
 //           // If there's an error, check if it's just a validation error or a real failure
 //           const errorText = errorElement.textContent?.toLowerCase() || "";
@@ -365,7 +365,7 @@ describe.skip("TODO");
 //         );
 
 //         // Check for error messages that would indicate failure
-//         const errorElements = container.querySelectorAll(".fui-form__error");
+//         const errorElements = container.querySelectorAll(".fui-error");
 //         let hasCriticalError = false;
 
 //         errorElements.forEach((element) => {
@@ -424,7 +424,7 @@ describe.skip("TODO");
 //             const firebaseError = _error as { code?: string; message: string };
 
 //             // Check if there's an error message in the UI that explains the issue
-//             const errorElements = container.querySelectorAll(".fui-form__error");
+//             const errorElements = container.querySelectorAll(".fui-error");
 
 //             const hasValidationError = Array.from(errorElements).some((el) => {
 //               const text = el.textContent?.toLowerCase() || "";
@@ -440,7 +440,7 @@ describe.skip("TODO");
 //             } else if (firebaseError.code === "auth/user-not-found") {
 //               // This suggests the user wasn't created successfully
 //               // Let's check if there are any error messages in the UI that might explain why
-//               const anyErrorElement = container.querySelector(".fui-form__error");
+//               const anyErrorElement = container.querySelector(".fui-error");
 
 //               if (anyErrorElement) {
 //                 // There's an error message that might explain why registration failed
@@ -493,7 +493,7 @@ describe.skip("TODO");
 //     await waitFor(
 //       () => {
 //         // Check for error message
-//         const errorElement = newContainer.container.querySelector(".fui-form__error");
+//         const errorElement = newContainer.container.querySelector(".fui-error");
 //         expect(errorElement).not.toBeNull();
 
 //         if (errorElement) {

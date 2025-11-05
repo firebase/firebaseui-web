@@ -101,7 +101,6 @@ export class PhoneNumberFormComponent {
       this.form.update({
         validators: {
           onBlur: this.formSchema(),
-          onSubmit: this.formSchema(),
           onSubmitAsync: async ({ value }) => {
             const selectedCountry = countryData.find((c) => c.code === this.country());
             const formattedNumber = formatPhoneNumber(value.phoneNumber, selectedCountry!);
@@ -207,7 +206,6 @@ export class VerificationFormComponent {
       this.form.update({
         validators: {
           onBlur: this.formSchema(),
-          onSubmit: this.formSchema(),
           onSubmitAsync: async ({ value }) => {
             try {
               const credential = await confirmPhoneNumber(this.ui(), this.verificationId(), value.verificationCode);

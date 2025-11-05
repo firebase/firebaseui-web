@@ -35,6 +35,7 @@ import {
   createSignInAuthFormSchema,
   createSignUpAuthFormSchema,
   createMultiFactorPhoneAuthNumberFormSchema,
+  createMultiFactorPhoneAuthAssertionFormSchema,
   createMultiFactorPhoneAuthVerifyFormSchema,
   createMultiFactorTotpAuthNumberFormSchema,
   createMultiFactorTotpAuthVerifyFormSchema,
@@ -149,6 +150,13 @@ export function injectMultiFactorPhoneAuthNumberFormSchema(): Signal<
 > {
   const ui = injectUI();
   return computed(() => createMultiFactorPhoneAuthNumberFormSchema(ui()));
+}
+
+export function injectMultiFactorPhoneAuthAssertionFormSchema(): Signal<
+  ReturnType<typeof createMultiFactorPhoneAuthAssertionFormSchema>
+> {
+  const ui = injectUI();
+  return computed(() => createMultiFactorPhoneAuthAssertionFormSchema(ui()));
 }
 
 export function injectMultiFactorPhoneAuthVerifyFormSchema(): Signal<

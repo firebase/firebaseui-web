@@ -136,7 +136,7 @@ describe("<SmsMultiFactorAssertionForm />", () => {
     const mockPhoneAction = vi.fn().mockResolvedValue("verification-id-123");
     vi.mocked(useSmsMultiFactorAssertionPhoneFormAction).mockReturnValue(mockPhoneAction);
 
-    const mockVerifyAction = vi.fn().mockResolvedValue(undefined);
+    const mockVerifyAction = vi.fn().mockResolvedValue({ user: { uid: "sms-mfa-user" } });
     vi.mocked(useSmsMultiFactorAssertionVerifyFormAction).mockReturnValue(mockVerifyAction);
 
     const mockOnSuccess = vi.fn();
@@ -171,7 +171,7 @@ describe("<SmsMultiFactorAssertionForm />", () => {
     fireEvent.click(screen.getByRole("button", { name: "Verify Code" }));
 
     await waitFor(() => {
-      expect(mockOnSuccess).toHaveBeenCalled();
+      expect(mockOnSuccess).toHaveBeenCalledWith({ user: { uid: "sms-mfa-user" } });
     });
   });
 

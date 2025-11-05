@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, output } from "@angular/core";
+import { Component, output, computed } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   CardComponent,
@@ -23,8 +23,9 @@ import {
   CardSubtitleComponent,
   CardContentComponent,
 } from "../../components/card";
-import { injectTranslation } from "../../provider";
+import { injectTranslation, injectUI } from "../../provider";
 import { EmailLinkAuthFormComponent } from "../forms/email-link-auth-form";
+import { MultiFactorAuthAssertionFormComponent } from "../forms/multi-factor-auth-assertion-form";
 import { RedirectErrorComponent } from "../../components/redirect-error";
 import { UserCredential } from "@angular/fire/auth";
 
@@ -39,6 +40,7 @@ import { UserCredential } from "@angular/fire/auth";
     CardSubtitleComponent,
     CardContentComponent,
     EmailLinkAuthFormComponent,
+    MultiFactorAuthAssertionFormComponent,
     RedirectErrorComponent,
   ],
   template: `
@@ -49,15 +51,23 @@ import { UserCredential } from "@angular/fire/auth";
           <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
         </fui-card-header>
         <fui-card-content>
-          <fui-email-link-auth-form (emailSent)="emailSent.emit()" (signIn)="signIn.emit($event)" />
-          <fui-redirect-error />
-          <ng-content></ng-content>
+          @if (mfaResolver()) {
+            <fui-multi-factor-auth-assertion-form (onSuccess)="signIn.emit($event)" />
+          } @else {
+            <fui-email-link-auth-form (emailSent)="emailSent.emit()" (signIn)="signIn.emit($event)" />
+            <fui-redirect-error />
+            <ng-content></ng-content>
+          }
         </fui-card-content>
       </fui-card>
     </div>
   `,
 })
 export class EmailLinkAuthScreenComponent {
+  private ui = injectUI();
+
+  mfaResolver = computed(() => this.ui().multiFactorResolver);
+
   titleText = injectTranslation("labels", "signIn");
   subtitleText = injectTranslation("prompts", "signInToAccount");
 

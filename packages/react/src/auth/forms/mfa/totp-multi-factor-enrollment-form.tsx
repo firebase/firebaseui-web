@@ -32,7 +32,6 @@ export function useTotpMultiFactorSecretGenerationForm({ onSuccess }: UseTotpMul
     },
     validators: {
       onBlur: schema,
-      onSubmit: schema,
       onSubmitAsync: async ({ value }) => {
         try {
           const secret = await action();
@@ -82,9 +81,17 @@ function TotpMultiFactorSecretGenerationForm(props: TotpMultiFactorSecretGenerat
 export function useMultiFactorEnrollmentVerifyTotpFormAction() {
   const ui = useUI();
   return useCallback(
-    async ({ secret, verificationCode }: { secret: TotpSecret; verificationCode: string; displayName: string }) => {
+    async ({
+      secret,
+      verificationCode,
+      displayName,
+    }: {
+      secret: TotpSecret;
+      verificationCode: string;
+      displayName: string;
+    }) => {
       const assertion = TotpMultiFactorGenerator.assertionForEnrollment(secret, verificationCode);
-      return await enrollWithMultiFactorAssertion(ui, assertion, verificationCode);
+      return await enrollWithMultiFactorAssertion(ui, assertion, displayName);
     },
     [ui]
   );
@@ -109,7 +116,6 @@ export function useMultiFactorEnrollmentVerifyTotpForm({
       verificationCode: "",
     },
     validators: {
-      onSubmit: schema,
       onBlur: schema,
       onSubmitAsync: async ({ value }) => {
         try {

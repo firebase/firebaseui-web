@@ -23,7 +23,7 @@ import { injectRedirectError } from "../provider";
   imports: [CommonModule],
   template: `
     @if (error()) {
-      <div class="fui-form__error">{{ error() }}</div>
+      <div class="fui-error">{{ error() }}</div>
     }
   `,
 })

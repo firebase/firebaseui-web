@@ -80,7 +80,7 @@ export function createMultiFactorPhoneAuthNumberFormSchema(ui: FirebaseUI) {
   });
 }
 
-export function createMultiFactorPhoneAuthAssertionNumberFormSchema(ui: FirebaseUI) {
+export function createMultiFactorPhoneAuthAssertionFormSchema(ui: FirebaseUI) {
   return createPhoneAuthNumberFormSchema(ui);
 }
 

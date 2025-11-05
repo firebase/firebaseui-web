@@ -120,7 +120,6 @@ export class SignUpAuthFormComponent {
       this.form.update({
         validators: {
           onBlur: this.formSchema(),
-          onSubmit: this.formSchema(),
           onSubmitAsync: async ({ value }) => {
             try {
               const credential = await createUserWithEmailAndPassword(
