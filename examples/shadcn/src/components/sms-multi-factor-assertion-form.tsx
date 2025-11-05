@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { type MultiFactorInfo, type UserCredential } from "firebase/auth";
+import { type UserCredential, type MultiFactorInfo } from "firebase/auth";
 
 import { FirebaseUIError, getTranslation } from "@invertase/firebaseui-core";
 import {
@@ -95,7 +95,7 @@ function SmsMultiFactorAssertionVerifyForm(props: SmsMultiFactorAssertionVerifyF
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-y-4">
         <FormField
           control={form.control}
           name="verificationCode"

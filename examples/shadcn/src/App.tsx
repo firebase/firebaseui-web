@@ -20,6 +20,21 @@ import { useUser } from "./firebase/hooks";
 import { auth } from "./firebase/firebase";
 import { multiFactor, sendEmailVerification, signOut } from "firebase/auth";
 
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemFooter,
+  ItemGroup,
+  ItemMedia,
+  ItemSeparator,
+  ItemTitle,
+} from "@/components/ui/item";
+import { Button } from "./components/ui/button";
+import { ArrowRightIcon, LockIcon, UserIcon } from "lucide-react";
+import React from "react";
+
 function App() {
   const user = useUser();
 
@@ -36,83 +51,117 @@ function UnauthenticatedApp() {
       <div className="text-center space-y-4">
         <img src="/firebase-logo-inverted.png" alt="Firebase UI" className="hidden dark:block h-36 mx-auto" />
         <img src="/firebase-logo.png" alt="Firebase UI" className="block dark:hidden h-36 mx-auto" />
-        <p className="text-sm text-gray-700 dark:text-gray-300">
+        <p className="text-sm text-muted-foreground">
           Welcome to Firebase UI, choose an example screen below to get started!
         </p>
       </div>
-      <div className="border border-neutral-800 rounded divide-y divide-neutral-800 overflow-hidden">
+      <ItemGroup className="border rounded-md">
         {routes.map((route) => (
-          <Link
-            key={route.path}
-            to={route.path}
-            className="flex items-center justify-between hover:bg-neutral-100 dark:bg-neutral-900 dark:hover:bg-neutral-800 p-4"
-          >
-            <div className="space-y-1">
-              <h2 className="font-medium text-sm">{route.name}</h2>
-              <p className="text-xs text-gray-400 dark:text-gray-300">{route.description}</p>
-            </div>
-            <div>
-              <span className="text-xl">&rarr;</span>
-            </div>
-          </Link>
+          <React.Fragment key={route.path}>
+            <Item>
+              <ItemContent>
+                <ItemTitle>{route.name}</ItemTitle>
+                <ItemDescription className="text-xs">{route.description}</ItemDescription>
+              </ItemContent>
+              <ItemActions>
+                <Link to={route.path}>
+                  <Button size="icon" variant="outline">
+                    <ArrowRightIcon />
+                  </Button>
+                </Link>
+              </ItemActions>
+            </Item>
+            <ItemSeparator />
+          </React.Fragment>
         ))}
-      </div>
+      </ItemGroup>
     </div>
   );
 }
 
 function AuthenticatedApp() {
   const user = useUser()!;
+  console.log(user);
   const mfa = multiFactor(user);
   const navigate = useNavigate();
 
   return (
-    <div className="max-w-sm mx-auto pt-36 space-y-6 pb-36">
-      <div className="border border-neutral-800 rounded p-4 space-y-4">
-        <h1 className="text-md font-medium">Welcome, {user.displayName || user.email || user.phoneNumber}</h1>
-        {user.emailVerified ? (
-          <div className="text-green-500">Email verified</div>
-        ) : (
-          <button
-            className="bg-red-500 text-white px-3 py-1.5 rounded text-sm"
-            onClick={async () => {
-              try {
-                await sendEmailVerification(user);
-                alert("Email verification sent, please check your email");
-              } catch (error) {
-                console.error(error);
-                alert("Error sending email verification, check console");
-              }
-            }}
-          >
-            Verify Email &rarr;
-          </button>
-        )}
-        <hr className="opacity-20" />
-        <h2 className="text-sm font-medium">Multi-factor Authentication</h2>
-        {mfa.enrolledFactors.map((factor) => {
-          return (
-            <div key={factor.factorId}>
-              {factor.factorId} - {factor.displayName}
-            </div>
-          );
-        })}
-        <button
-          className="bg-blue-500 text-white px-3 py-1.5 rounded text-sm"
-          onClick={() => {
-            navigate("/screens/mfa-enrollment-screen");
-          }}
-        >
-          Add MFA Factor &rarr;
-        </button>
-        <hr className="opacity-20" />
-        <button
-          className="bg-blue-500 text-white px-3 py-1.5 rounded text-sm"
-          onClick={async () => await signOut(auth)}
-        >
-          Sign Out &rarr;
-        </button>
-      </div>
+    <div className="max-w-lg mx-auto pt-36 space-y-6 pb-36">
+      <ItemGroup className="border rounded-md">
+        <Item>
+          <ItemMedia variant="icon">
+            <UserIcon />
+          </ItemMedia>
+          <ItemContent>
+            <ItemTitle>Welcome, {user.displayName || user.email || user.phoneNumber}</ItemTitle>
+            <ItemDescription>New login detected from unknown device.</ItemDescription>
+          </ItemContent>
+          <ItemActions>
+            <Button size="sm" variant="outline" onClick={async () => await signOut(auth)}>
+              Sign Out
+            </Button>
+          </ItemActions>
+          {user.email ? (
+            <ItemFooter className="pl-12">
+              {user.emailVerified ? (
+                <Item>
+                  <ItemDescription>Your email is verified.</ItemDescription>
+                </Item>
+              ) : (
+                <>
+                  <ItemDescription>Your email is not verified.</ItemDescription>
+                  <ItemActions>
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={async () => {
+                        await sendEmailVerification(user);
+                        alert("Email verification sent, please check your email");
+                      }}
+                    >
+                      Verify Email &rarr;
+                    </Button>
+                  </ItemActions>
+                </>
+              )}
+            </ItemFooter>
+          ) : null}
+        </Item>
+        <ItemSeparator />
+        <Item>
+          <ItemMedia variant="icon">
+            <LockIcon />
+          </ItemMedia>
+          <ItemContent>
+            <ItemTitle>Multi-factor Authentication</ItemTitle>
+            <ItemDescription>
+              Any multi-factor authentication factors you have enrolled will be listed here.
+            </ItemDescription>
+          </ItemContent>
+          <ItemActions>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => {
+                navigate("/screens/mfa-enrollment-screen");
+              }}
+            >
+              Add Factor
+            </Button>
+          </ItemActions>
+          {mfa.enrolledFactors.length > 0 && (
+            <ItemFooter className="pl-12">
+              {mfa.enrolledFactors.map((factor) => {
+                return (
+                  <div key={factor.factorId} className="text-sm text-muted-foreground">
+                    {factor.factorId} - {factor.displayName}
+                  </div>
+                );
+              })}
+            </ItemFooter>
+          )}
+        </Item>
+      </ItemGroup>
     </div>
   );
 }
