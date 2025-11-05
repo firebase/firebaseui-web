@@ -21,9 +21,9 @@ import { registerLocale } from "@firebase-ui/translations";
 import { MultiFactorResolver } from "firebase/auth";
 
 vi.mock("~/auth/forms/sign-up-auth-form", () => ({
-  SignUpAuthForm: ({ onBackToSignInClick }: { onBackToSignInClick?: () => void }) => (
+  SignUpAuthForm: ({ onSignInClick }: { onSignInClick?: () => void }) => (
     <div data-testid="sign-up-auth-form">
-      <button data-testid="back-to-sign-in-button" onClick={onBackToSignInClick}>
+      <button data-testid="back-to-sign-in-button" onClick={onSignInClick}>
         Back to Sign In
       </button>
     </div>
@@ -100,20 +100,20 @@ describe("<SignUpAuthScreen />", () => {
     expect(screen.getByTestId("sign-up-auth-form")).toBeDefined();
   });
 
-  it("passes onBackToSignInClick to SignUpAuthForm", () => {
-    const mockOnBackToSignInClick = vi.fn();
+  it("passes onSignInClick to SignUpAuthForm", () => {
+    const mockOnSignInClick = vi.fn();
     const ui = createMockUI();
 
     render(
       <CreateFirebaseUIProvider ui={ui}>
-        <SignUpAuthScreen onBackToSignInClick={mockOnBackToSignInClick} />
+        <SignUpAuthScreen onSignInClick={mockOnSignInClick} />
       </CreateFirebaseUIProvider>
     );
 
     const backButton = screen.getByTestId("back-to-sign-in-button");
     fireEvent.click(backButton);
 
-    expect(mockOnBackToSignInClick).toHaveBeenCalledTimes(1);
+    expect(mockOnSignInClick).toHaveBeenCalledTimes(1);
   });
 
   it("renders a divider with children when present", () => {

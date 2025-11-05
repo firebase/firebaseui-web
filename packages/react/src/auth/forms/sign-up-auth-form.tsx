@@ -31,7 +31,7 @@ export function useRequireDisplayName() {
 
 export type SignUpAuthFormProps = {
   onSignUp?: (credential: UserCredential) => void;
-  onBackToSignInClick?: () => void;
+  onSignInClick?: () => void;
 };
 
 export function useSignUpAuthFormAction() {
@@ -79,7 +79,7 @@ export function useSignUpAuthForm(onSuccess?: SignUpAuthFormProps["onSignUp"]) {
   });
 }
 
-export function SignUpAuthForm({ onBackToSignInClick, onSignUp }: SignUpAuthFormProps) {
+export function SignUpAuthForm({ onSignInClick, onSignUp }: SignUpAuthFormProps) {
   const ui = useUI();
   const form = useSignUpAuthForm(onSignUp);
   const requireDisplayName = useRequireDisplayName();
@@ -116,8 +116,8 @@ export function SignUpAuthForm({ onBackToSignInClick, onSignUp }: SignUpAuthForm
           <form.SubmitButton>{getTranslation(ui, "labels", "createAccount")}</form.SubmitButton>
           <form.ErrorMessage />
         </fieldset>
-        {onBackToSignInClick ? (
-          <form.Action onClick={onBackToSignInClick}>
+        {onSignInClick ? (
+          <form.Action onClick={onSignInClick}>
             {getTranslation(ui, "prompts", "haveAccount")} {getTranslation(ui, "labels", "signIn")}
           </form.Action>
         ) : null}

@@ -93,8 +93,8 @@ export function SignUpAuthForm(props: SignUpAuthFormProps) {
           {getTranslation(ui, "labels", "createAccount")}
         </Button>
         {form.formState.errors.root && <FormMessage>{form.formState.errors.root.message}</FormMessage>}
-        {props.onBackToSignInClick ? (
-          <Button type="button" variant="link" size="sm" onClick={props.onBackToSignInClick}>
+        {props.onSignInClick ? (
+          <Button type="button" variant="link" size="sm" onClick={props.onSignInClick}>
             <span className="text-xs">
               {getTranslation(ui, "prompts", "haveAccount")} {getTranslation(ui, "labels", "signIn")}
             </span>

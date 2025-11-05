@@ -23,11 +23,11 @@ import { FirebaseUIProvider } from "@firebase-ui/react";
 import { MultiFactorResolver } from "firebase/auth";
 
 vi.mock("./sign-up-auth-form", () => ({
-  SignUpAuthForm: ({ onSignUp, onBackToSignInClick }: any) => (
+  SignUpAuthForm: ({ onSignUp, onSignInClick }: any) => (
     <div data-testid="sign-up-auth-form">
       <div>SignUpAuthForm</div>
       {onSignUp && <div data-testid="onSignUp-prop">onSignUp provided</div>}
-      {onBackToSignInClick && <div data-testid="onBackToSignInClick-prop">onBackToSignInClick provided</div>}
+      {onSignInClick && <div data-testid="onSignInClick-prop">onSignInClick provided</div>}
     </div>
   ),
 }));
@@ -116,16 +116,16 @@ describe("<SignUpAuthScreen />", () => {
     });
 
     const onSignUpMock = vi.fn();
-    const onBackToSignInClickMock = vi.fn();
+    const onSignInClickMock = vi.fn();
 
     render(
       <FirebaseUIProvider ui={mockUI}>
-        <SignUpAuthScreen onSignUp={onSignUpMock} onBackToSignInClick={onBackToSignInClickMock} />
+        <SignUpAuthScreen onSignUp={onSignUpMock} onSignInClick={onSignInClickMock} />
       </FirebaseUIProvider>
     );
 
     expect(screen.getByTestId("onSignUp-prop")).toBeInTheDocument();
-    expect(screen.getByTestId("onBackToSignInClick-prop")).toBeInTheDocument();
+    expect(screen.getByTestId("onSignInClick-prop")).toBeInTheDocument();
   });
 
   it("should not render separator when no children", () => {

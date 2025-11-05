@@ -116,4 +116,3 @@ describe("<MultiFactorAuthAssertionScreen />", () => {
     expect(card).toBeInTheDocument();
   });
 });
-
