@@ -15,22 +15,11 @@
 
 "use client";
 
-import { SignInAuthScreen } from "@/components/sign-in-auth-screen";
+import { ForgotPasswordAuthScreen } from "@/components/forgot-password-auth-screen";
 import { useNavigate } from "react-router";
 
-export default function SignInAuthScreenWithHandlersPage() {
+export default function ForgotPasswordAuthScreenWithHandlersPage() {
   const navigate = useNavigate();
-  return (
-    <SignInAuthScreen
-      onSignIn={(credential) => {
-        navigate("/");
-      }}
-      onForgotPasswordClick={() => {
-        navigate("/screens/forgot-password-screen");
-      }}
-      onSignUpClick={() => {
-        navigate("/screens/sign-up-auth-screen");
-      }}
-    />
-  );
+
+  return <ForgotPasswordAuthScreen onBackToSignInClick={() => navigate("/screens/sign-in-auth-screen")} />;
 }

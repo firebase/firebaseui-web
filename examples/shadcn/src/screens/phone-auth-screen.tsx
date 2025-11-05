@@ -17,6 +17,7 @@
 
 import { PhoneAuthScreen } from "@/components/phone-auth-screen";
 import { useNavigate } from "react-router";
+
 export default function PhoneAuthScreenPage() {
   const navigate = useNavigate();
 

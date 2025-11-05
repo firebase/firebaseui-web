@@ -11,6 +11,7 @@ import OAuthScreenPage from "./screens/oauth-screen";
 import PhoneAuthScreenPage from "./screens/phone-auth-screen";
 import PhoneAuthScreenWithOAuthPage from "./screens/phone-auth-screen-w-oauth";
 import MultiFactorAuthEnrollmentScreenPage from "./screens/mfa-enrollment-screen";
+import ForgotPasswordAuthScreenWithHandlersPage from "./screens/forgot-password-auth-screen-w-handlers";
 
 export const routes = [
   {
@@ -66,6 +67,12 @@ export const routes = [
     description: "A screen allowing a user to reset their password",
     path: "/screens/forgot-password-screen",
     component: ForgotPasswordAuthScreenPage,
+  },
+  {
+    name: "Forgot Password Screen (with handlers)",
+    description: "A screen allowing a user to reset their password, with handlers",
+    path: "/screens/forgot-password-auth-screen-w-handlers",
+    component: ForgotPasswordAuthScreenWithHandlersPage,
   },
   {
     name: "OAuth Screen",

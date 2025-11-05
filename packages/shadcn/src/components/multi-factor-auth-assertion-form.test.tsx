@@ -183,7 +183,7 @@ describe("<MultiFactorAuthAssertionForm />", () => {
       })
     );
 
-    expect(screen.getByText("Select a multi-factor authentication method")).toBeInTheDocument();
+    expect(screen.getByText("TODO:Select a multi-factor authentication method")).toBeInTheDocument();
   });
 
   it("calls onSuccess with credential when SMS form succeeds", () => {

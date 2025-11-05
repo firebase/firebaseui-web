@@ -37,7 +37,7 @@ describe("<RedirectError />", () => {
 
     const errorElement = screen.getByText(errorMessage);
     expect(errorElement).toBeDefined();
-    expect(errorElement.className).toContain("text-red-600");
+    expect(errorElement.className).toContain("text-destructive");
   });
 
   it("returns null when no redirectError exists", () => {
@@ -65,7 +65,7 @@ describe("<RedirectError />", () => {
 
     const errorElement = screen.getByText(errorMessage);
     expect(errorElement).toBeDefined();
-    expect(errorElement.className).toContain("text-red-600");
+    expect(errorElement.className).toContain("text-destructive");
   });
 
   it("properly formats error messages for string values", () => {
@@ -81,7 +81,7 @@ describe("<RedirectError />", () => {
 
     const errorElement = screen.getByText(errorMessage);
     expect(errorElement).toBeDefined();
-    expect(errorElement.className).toContain("text-red-600");
+    expect(errorElement.className).toContain("text-destructive");
   });
 
   it("displays error with correct CSS class", () => {
@@ -96,7 +96,7 @@ describe("<RedirectError />", () => {
     );
 
     const errorElement = screen.getByText(errorMessage);
-    expect(errorElement.className).toBe("text-sm text-red-600 dark:text-red-400");
+    expect(errorElement.className).toBe("text-sm text-destructive");
   });
 
   it("handles undefined redirectError", () => {

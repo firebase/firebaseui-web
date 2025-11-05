@@ -178,7 +178,7 @@
   }
 
   :where(.fui-phone-input__number-input) {
-    @apply border-1 border-input rounded px-2 py-2 text-sm focus:outline-2 focus:outline-primary shadow-xs bg-transparent flex-1;
+    @apply border border-input rounded px-2 py-2 text-sm focus:outline-2 focus:outline-primary shadow-xs bg-transparent flex-1;
   }
 
   :where(.fui-phone-input__number-input[aria-invalid="true"]) {

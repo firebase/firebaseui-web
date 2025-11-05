@@ -20,19 +20,15 @@
         "@layer components": {
           "button[data-provider='apple.com'][data-themed='true']": {
             "--apple-primary": "#000000",
-            "--color-primary": "var(--apple-primary)",
-            "--color-primary-hover": "--alpha(var(--apple-primary) / 85%)",
-            "--color-primary-surface": "#FFFFFF",
-            "--color-border": "var(--apple-primary)"
+            "--primary": "var(--apple-primary)",
+            "--primary-foreground": "var(--color-white)"
           }
         },
         "@variant dark": {
           "button[data-provider='apple.com'][data-themed='true']": {
             "--apple-primary": "var(--color-white)",
-            "--color-primary": "var(--apple-primary)",
-            "--color-primary-hover": "--alpha(var(--apple-primary) / 85%)",
-            "--color-primary-surface": "var(--color-black)",
-            "--color-border": "var(--color-white)"
+            "--primary": "var(--apple-primary)",
+            "--primary-foreground": "var(--color-black)"
           }
         }
       }
@@ -57,7 +53,7 @@
       "title": "Email Link Auth Form",
       "description": "A form allowing users to sign in via email link.",
       "dependencies": ["{{ DEP | @invertase/firebaseui-react }}"],
-      "registryDependencies": ["input", "button", "form", "{{ DOMAIN }}/r/policies.json"],
+      "registryDependencies": ["input", "button", "form", "alert", "{{ DOMAIN }}/r/policies.json"],
       "files": [
         {
           "path": "src/components/email-link-auth-form.tsx",
@@ -71,7 +67,12 @@
       "title": "Email Link Auth Screen",
       "description": "A screen allowing users to sign in via email link.",
       "dependencies": ["{{ DEP | @invertase/firebaseui-react }}"],
-      "registryDependencies": ["separator", "card", "{{ DOMAIN }}/r/email-link-auth-form.json"],
+      "registryDependencies": [
+        "separator",
+        "card",
+        "{{ DOMAIN }}/r/email-link-auth-form.json",
+        "{{ DOMAIN }}/r/redirect-error.json"
+      ],
       "files": [
         {
           "path": "src/components/email-link-auth-screen.tsx",
@@ -96,10 +97,8 @@
         "@layer components": {
           "button[data-provider='facebook.com'][data-themed='true']": {
             "--facebook-primary": "#1877F2",
-            "--color-primary": "var(--facebook-primary)",
-            "--color-primary-hover": "--alpha(var(--facebook-primary) / 85%)",
-            "--color-primary-surface": "var(--color-white)",
-            "--color-border": "var(--facebook-primary)"
+            "--primary": "var(--facebook-primary)",
+            "--primary-foreground": "var(--color-white)"
           }
         }
       }
@@ -149,19 +148,15 @@
         "@layer components": {
           "button[data-provider='github.com'][data-themed='true']": {
             "--github-primary": "#000000",
-            "--color-primary": "var(--github-primary)",
-            "--color-primary-hover": "--alpha(var(--github-primary) / 85%)",
-            "--color-primary-surface": "#FFFFFF",
-            "--color-border": "var(--github-primary)"
+            "--primary": "var(--github-primary)",
+            "--primary-foreground": "var(--color-white)"
           }
         },
         "@variant dark": {
           "button[data-provider='github.com'][data-themed='true']": {
             "--github-primary": "var(--color-white)",
-            "--color-primary": "var(--github-primary)",
-            "--color-primary-hover": "--alpha(var(--github-primary) / 85%)",
-            "--color-primary-surface": "var(--color-black)",
-            "--color-border": "var(--color-white)"
+            "--primary": "var(--github-primary)",
+            "--primary-foreground": "var(--color-black)"
           }
         }
       }
@@ -183,26 +178,20 @@
         "@layer components": {
           "button[data-provider='google.com'][data-themed='true']": {
             "--google-primary": "#131314",
-            "--color-primary": "var(--google-primary)",
-            "--color-primary-hover": "--alpha(var(--google-primary) / 85%)",
-            "--color-primary-surface": "#FFFFFF",
-            "--color-border": "var(--google-primary)"
+            "--primary": "var(--google-primary)",
+            "--primary-foreground": "var(--color-white)"
           },
           "button[data-provider='google.com'][data-themed='neutral']": {
             "--google-primary": "#F2F2F2",
-            "--color-primary": "var(--google-primary)",
-            "--color-primary-hover": "--alpha(var(--google-primary) / 85%)",
-            "--color-primary-surface": "#1F1F1F",
-            "--color-border": "transparent"
+            "--primary": "var(--google-primary)",
+            "--primary-foreground": "var(--color-black)"
           }
         },
         "@variant dark": {
           "button[data-provider='google.com'][data-themed='true']": {
             "--google-primary": "#FFFFFF",
-            "--color-primary": "var(--google-primary)",
-            "--color-primary-hover": "--alpha(var(--google-primary) / 85%)",
-            "--color-primary-surface": "#1F1F1F",
-            "--color-border": "#747775"
+            "--primary": "var(--google-primary)",
+            "--primary-foreground": "var(--color-black)"
           }
         }
       }
@@ -224,19 +213,15 @@
         "@layer components": {
           "button[data-provider='microsoft.com'][data-themed='true']": {
             "--microsoft-primary": "#2F2F2F",
-            "--color-primary": "var(--microsoft-primary)",
-            "--color-primary-hover": "--alpha(var(--microsoft-primary) / 85%)",
-            "--color-primary-surface": "#FFFFFF",
-            "--color-border": "var(--microsoft-primary)"
+            "--primary": "var(--microsoft-primary)",
+            "--primary-foreground": "var(--color-white)"
           }
         },
         "@variant dark": {
           "button[data-provider='microsoft.com'][data-themed='true']": {
             "--microsoft-primary": "var(--color-white)",
-            "--color-primary": "var(--microsoft-primary)",
-            "--color-primary-hover": "--alpha(var(--microsoft-primary) / 85%)",
-            "--color-primary-surface": "#5E5E5E",
-            "--color-border": "var(--color-white)"
+            "--primary": "var(--microsoft-primary)",
+            "--primary-foreground": "var(--color-black)"
           }
         }
       }
@@ -447,7 +432,7 @@
         "separator",
         "card",
         "{{ DOMAIN }}/r/sign-up-auth-form.json",
-        "{{ DOMAIN }}/multi-factor-auth-assertion-form.json"
+        "{{ DOMAIN }}/r/multi-factor-auth-assertion-form.json"
       ],
       "files": [
         {
@@ -529,10 +514,8 @@
         "@layer components": {
           "button[data-provider='twitter.com'][data-themed='true']": {
             "--twitter-primary": "#1DA1F2",
-            "--color-primary": "var(--twitter-primary)",
-            "--color-primary-hover": "--alpha(var(--twitter-primary) / 85%)",
-            "--color-primary-surface": "#FFFFFF",
-            "--color-border": "var(--twitter-primary)"
+            "--primary": "var(--twitter-primary)",
+            "--primary-foreground": "var(--color-white)"
           }
         }
       }

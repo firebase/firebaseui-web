@@ -3,8 +3,8 @@
 import {
   PhoneMultiFactorGenerator,
   TotpMultiFactorGenerator,
-  type MultiFactorInfo,
   type UserCredential,
+  type MultiFactorInfo,
 } from "firebase/auth";
 import { type ComponentProps, useState } from "react";
 import { getTranslation } from "@invertase/firebaseui-core";
@@ -18,7 +18,7 @@ export type MultiFactorAuthAssertionFormProps = {
   onSuccess?: (credential: UserCredential) => void;
 };
 
-export function MultiFactorAuthAssertionForm(props: MultiFactorAuthAssertionFormProps) {
+export function MultiFactorAuthAssertionForm({ onSuccess }: MultiFactorAuthAssertionFormProps) {
   const ui = useUI();
   const resolver = ui.multiFactorResolver;
 
@@ -33,31 +33,17 @@ export function MultiFactorAuthAssertionForm(props: MultiFactorAuthAssertionForm
 
   if (hint) {
     if (hint.factorId === PhoneMultiFactorGenerator.FACTOR_ID) {
-      return (
-        <SmsMultiFactorAssertionForm
-          hint={hint}
-          onSuccess={(credential) => {
-            props.onSuccess?.(credential);
-          }}
-        />
-      );
+      return <SmsMultiFactorAssertionForm hint={hint} onSuccess={(credential) => onSuccess?.(credential)} />;
     }
 
     if (hint.factorId === TotpMultiFactorGenerator.FACTOR_ID) {
-      return (
-        <TotpMultiFactorAssertionForm
-          hint={hint}
-          onSuccess={(credential) => {
-            props.onSuccess?.(credential);
-          }}
-        />
-      );
+      return <TotpMultiFactorAssertionForm hint={hint} onSuccess={(credential) => onSuccess?.(credential)} />;
     }
   }
 
   return (
-    <div className="space-y-2">
-      <p className="text-sm text-muted-foreground">Select a multi-factor authentication method</p>
+    <div className="flex flex-col gap-2">
+      <p className="text-sm text-muted-foreground">TODO:Select a multi-factor authentication method</p>
       {resolver.hints.map((hint) => {
         if (hint.factorId === TotpMultiFactorGenerator.FACTOR_ID) {
           return <TotpButton key={hint.factorId} onClick={() => setHint(hint)} />;
@@ -76,11 +62,19 @@ export function MultiFactorAuthAssertionForm(props: MultiFactorAuthAssertionForm
 function TotpButton(props: ComponentProps<typeof Button>) {
   const ui = useUI();
   const labelText = getTranslation(ui, "labels", "mfaTotpVerification");
-  return <Button {...props}>{labelText}</Button>;
+  return (
+    <Button {...props} variant="outline">
+      {labelText}
+    </Button>
+  );
 }
 
 function SmsButton(props: ComponentProps<typeof Button>) {
   const ui = useUI();
   const labelText = getTranslation(ui, "labels", "mfaSmsVerification");
-  return <Button {...props}>{labelText}</Button>;
+  return (
+    <Button {...props} variant="outline">
+      {labelText}
+    </Button>
+  );
 }

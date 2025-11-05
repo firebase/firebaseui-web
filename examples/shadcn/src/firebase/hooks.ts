@@ -21,9 +21,8 @@ import { type User } from "firebase/auth";
 import { useEffect } from "react";
 import { auth } from "./firebase";
 
-export function useUser(initalUser?: User | null) {
-  // Initialize with current user if available, or the provided initial user
-  const [user, setUser] = useState<User | null>(initalUser ?? auth.currentUser);
+export function useUser() {
+  const [user, setUser] = useState<User | null>(auth.currentUser);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, setUser);

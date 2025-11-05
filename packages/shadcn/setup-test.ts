@@ -17,6 +17,13 @@
 import "@testing-library/jest-dom/vitest";
 import { vi, afterEach } from "vitest";
 
+// Mock ResizeObserver for input-otp component
+global.ResizeObserver = class ResizeObserver {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+} as any;
+
 afterEach(() => {
   vi.clearAllTimers();
   vi.clearAllMocks();
