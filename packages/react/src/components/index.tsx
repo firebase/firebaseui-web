@@ -23,6 +23,7 @@ export {
   useCountries,
   useDefaultCountry,
 } from "./country-selector";
-export { Policies, type PolicyProps, type PolicyURL } from "./policies";
 export { Divider, type DividerProps } from "./divider";
 export { form } from "./form";
+export { Policies, type PolicyProps, type PolicyURL } from "./policies";
+export { RedirectError } from "./redirect-error";

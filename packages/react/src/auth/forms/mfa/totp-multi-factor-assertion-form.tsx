@@ -16,7 +16,7 @@ export function useTotpMultiFactorAssertionFormAction() {
   );
 }
 
-type UseTotpMultiFactorAssertionForm = {
+export type UseTotpMultiFactorAssertionForm = {
   hint: MultiFactorInfo;
   onSuccess: (credential: UserCredential) => void;
 };
@@ -43,7 +43,7 @@ export function useTotpMultiFactorAssertionForm({ hint, onSuccess }: UseTotpMult
   });
 }
 
-type TotpMultiFactorAssertionFormProps = {
+export type TotpMultiFactorAssertionFormProps = {
   hint: MultiFactorInfo;
   onSuccess?: (credential: UserCredential) => void;
 };

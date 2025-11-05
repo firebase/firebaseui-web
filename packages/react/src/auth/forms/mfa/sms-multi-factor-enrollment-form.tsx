@@ -28,7 +28,7 @@ export function useSmsMultiFactorEnrollmentPhoneAuthFormAction() {
   );
 }
 
-type UseSmsMultiFactorEnrollmentPhoneNumberForm = {
+export type UseSmsMultiFactorEnrollmentPhoneNumberForm = {
   recaptchaVerifier: RecaptchaVerifier;
   onSuccess: (verificationId: string, displayName?: string) => void;
   formatPhoneNumber?: (phoneNumber: string) => string;
