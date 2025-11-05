@@ -6,7 +6,7 @@ import { useUI, type SignUpAuthScreenProps } from "@invertase/firebaseui-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { SignUpAuthForm } from "@/components/sign-up-auth-form";
-import { MultiFactorAuthAssertionForm } from "@/components/multi-factor-auth-assertion-form";
+import { MultiFactorAuthAssertionScreen } from "@/components/multi-factor-auth-assertion-screen";
 
 export type { SignUpAuthScreenProps };
 
@@ -17,6 +17,10 @@ export function SignUpAuthScreen({ children, ...props }: SignUpAuthScreenProps) 
   const subtitleText = getTranslation(ui, "prompts", "enterDetailsToCreate");
   const mfaResolver = ui.multiFactorResolver;
 
+  if (mfaResolver) {
+    return <MultiFactorAuthAssertionScreen onSuccess={props.onSignUp} />;
+  }
+
   return (
     <div className="max-w-sm mx-auto">
       <Card>
@@ -25,19 +29,13 @@ export function SignUpAuthScreen({ children, ...props }: SignUpAuthScreenProps) 
           <CardDescription>{subtitleText}</CardDescription>
         </CardHeader>
         <CardContent>
-          {mfaResolver ? (
-            <MultiFactorAuthAssertionForm onSuccess={(credential) => props.onSignUp?.(credential)} />
-          ) : (
+          <SignUpAuthForm {...props} />
+          {children ? (
             <>
-              <SignUpAuthForm {...props} />
-              {children ? (
-                <>
-                  <Separator className="my-4" />
-                  <div className="space-y-2">{children}</div>
-                </>
-              ) : null}
+              <Separator className="my-4" />
+              <div className="space-y-2">{children}</div>
             </>
-          )}
+          ) : null}
         </CardContent>
       </Card>
     </div>

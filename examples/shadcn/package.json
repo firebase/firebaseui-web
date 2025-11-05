@@ -14,7 +14,7 @@
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
     "@invertase/firebaseui-core": "*",
-    "@invertase/firebaseui-react": "*",
+    "@invertase/firebaseui-react": "workspace:*",
     "@invertase/firebaseui-styles": "*",
     "@invertase/firebaseui-translations": "*",
     "@radix-ui/react-accordion": "^1.2.12",
