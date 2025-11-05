@@ -6,7 +6,7 @@ import { type PropsWithChildren } from "react";
 import { useUI } from "@firebase-ui/react";
 import { Card, CardContent, CardHeader, CardDescription, CardTitle } from "@/components/ui/card";
 import { Policies } from "@/components/policies";
-import { MultiFactorAuthAssertionForm } from "@/components/multi-factor-auth-assertion-form";
+import { MultiFactorAuthAssertionScreen } from "@/components/multi-factor-auth-assertion-screen";
 import { RedirectError } from "@/components/redirect-error";
 
 export type OAuthScreenProps = PropsWithChildren<{
@@ -20,6 +20,10 @@ export function OAuthScreen({ children, onSignIn }: OAuthScreenProps) {
   const subtitleText = getTranslation(ui, "prompts", "signInToAccount");
   const mfaResolver = ui.multiFactorResolver;
 
+  if (mfaResolver) {
+    return <MultiFactorAuthAssertionScreen onSuccess={onSignIn} />;
+  }
+
   return (
     <div className="max-w-sm mx-auto">
       <Card>
@@ -28,21 +32,11 @@ export function OAuthScreen({ children, onSignIn }: OAuthScreenProps) {
           <CardDescription>{subtitleText}</CardDescription>
         </CardHeader>
         <CardContent>
-          {mfaResolver ? (
-            <MultiFactorAuthAssertionForm
-              onSuccess={(credential) => {
-                onSignIn?.(credential);
-              }}
-            />
-          ) : (
-            <>
-              <div className="space-y-2">{children}</div>
-              <div className="mt-4 space-y-4">
-                <RedirectError />
-                <Policies />
-              </div>
-            </>
-          )}
+          <div className="space-y-2">{children}</div>
+          <div className="mt-4 space-y-4">
+            <RedirectError />
+            <Policies />
+          </div>
         </CardContent>
       </Card>
     </div>

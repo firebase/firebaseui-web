@@ -32,9 +32,9 @@ vi.mock("./email-link-auth-form", () => ({
   ),
 }));
 
-vi.mock("@/components/multi-factor-auth-assertion-form", () => ({
-  MultiFactorAuthAssertionForm: ({ onSuccess }: { onSuccess?: (credential: any) => void }) => (
-    <div data-testid="mfa-assertion-form">
+vi.mock("@/components/multi-factor-auth-assertion-screen", () => ({
+  MultiFactorAuthAssertionScreen: ({ onSuccess }: { onSuccess?: (credential: any) => void }) => (
+    <div data-testid="multi-factor-auth-assertion-screen">
       <button data-testid="mfa-on-success" onClick={() => onSuccess?.({ user: { uid: "email-link-mfa-user" } })}>
         MFA Success
       </button>
@@ -155,7 +155,7 @@ describe("<EmailLinkAuthScreen />", () => {
     expect(screen.queryByText("or")).not.toBeInTheDocument();
   });
 
-  it("should render MultiFactorAuthAssertionForm when multiFactorResolver is present", () => {
+  it("should render MultiFactorAuthAssertionScreen when multiFactorResolver is present", () => {
     const mockResolver = {
       auth: {} as any,
       session: null,
@@ -179,7 +179,7 @@ describe("<EmailLinkAuthScreen />", () => {
       </FirebaseUIProvider>
     );
 
-    expect(screen.getByTestId("mfa-assertion-form")).toBeInTheDocument();
+    expect(screen.getByTestId("multi-factor-auth-assertion-screen")).toBeInTheDocument();
     expect(screen.queryByTestId("email-link-auth-form")).not.toBeInTheDocument();
   });
 
@@ -213,7 +213,7 @@ describe("<EmailLinkAuthScreen />", () => {
     );
 
     expect(screen.queryByTestId("email-link-auth-form")).not.toBeInTheDocument();
-    expect(screen.getByTestId("mfa-assertion-form")).toBeInTheDocument();
+    expect(screen.getByTestId("multi-factor-auth-assertion-screen")).toBeInTheDocument();
     expect(screen.queryByText("or")).not.toBeInTheDocument();
     expect(screen.queryByTestId("child-component")).not.toBeInTheDocument();
   });
@@ -237,7 +237,7 @@ describe("<EmailLinkAuthScreen />", () => {
     );
 
     expect(screen.getByTestId("email-link-auth-form")).toBeInTheDocument();
-    expect(screen.queryByTestId("mfa-assertion-form")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("multi-factor-auth-assertion-screen")).not.toBeInTheDocument();
   });
 
   it("calls onSignIn with credential when MFA flow succeeds", () => {

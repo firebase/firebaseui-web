@@ -45,9 +45,9 @@ vi.mock("@/components/ui/separator", () => ({
   Separator: ({ children }: { children: React.ReactNode }) => <div data-testid="separator">{children}</div>,
 }));
 
-vi.mock("./multi-factor-auth-assertion-form", () => ({
-  MultiFactorAuthAssertionForm: ({ onSuccess }: { onSuccess?: (credential: any) => void }) => (
-    <div data-testid="mfa-assertion-form">
+vi.mock("./multi-factor-auth-assertion-screen", () => ({
+  MultiFactorAuthAssertionScreen: ({ onSuccess }: { onSuccess?: (credential: any) => void }) => (
+    <div data-testid="multi-factor-auth-assertion-screen">
       <button data-testid="mfa-on-success" onClick={() => onSuccess?.({ user: { uid: "mfa-user" } })}>
         MFA Success
       </button>
@@ -223,7 +223,7 @@ describe("<SignInAuthScreen />", () => {
     expect(screen.getByTestId("sign-in-auth-form")).toBeInTheDocument();
   });
 
-  it("renders MultiFactorAuthAssertionForm when multiFactorResolver is present", () => {
+  it("renders MultiFactorAuthAssertionScreen when multiFactorResolver is present", () => {
     const mockResolver = {
       auth: {} as any,
       session: null,
@@ -238,7 +238,7 @@ describe("<SignInAuthScreen />", () => {
       </FirebaseUIProvider>
     );
 
-    expect(screen.getByTestId("mfa-assertion-form")).toBeDefined();
+    expect(screen.getByTestId("multi-factor-auth-assertion-screen")).toBeDefined();
     expect(screen.queryByTestId("sign-in-auth-form")).toBeNull();
   });
 
