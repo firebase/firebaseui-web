@@ -3,7 +3,7 @@ import { createMockUI } from "~/tests/utils";
 import {
   createEmailLinkAuthFormSchema,
   createForgotPasswordAuthFormSchema,
-  createMultiFactorPhoneAuthAssertionNumberFormSchema,
+  createMultiFactorPhoneAuthAssertionFormSchema,
   createPhoneAuthNumberFormSchema,
   createPhoneAuthVerifyFormSchema,
   createSignInAuthFormSchema,
@@ -311,11 +311,11 @@ describe("createPhoneAuthVerifyFormSchema", () => {
   });
 });
 
-describe("createMultiFactorPhoneAuthAssertionNumberFormSchema", () => {
-  it("should create a multi-factor phone auth assertion number form schema and show missing phone number error", () => {
+describe("createMultiFactorPhoneAuthAssertionFormSchema", () => {
+  it("should create a multi-factor phone auth assertion form schema and show missing phone number error", () => {
     const testLocale = registerLocale("test", {
       errors: {
-        missingPhoneNumber: "createMultiFactorPhoneAuthAssertionNumberFormSchema + missingPhoneNumber",
+        missingPhoneNumber: "createMultiFactorPhoneAuthAssertionFormSchema + missingPhoneNumber",
       },
     });
 
@@ -323,7 +323,7 @@ describe("createMultiFactorPhoneAuthAssertionNumberFormSchema", () => {
       locale: testLocale,
     });
 
-    const schema = createMultiFactorPhoneAuthAssertionNumberFormSchema(mockUI);
+    const schema = createMultiFactorPhoneAuthAssertionFormSchema(mockUI);
 
     const result = schema.safeParse({
       phoneNumber: "",
@@ -331,15 +331,13 @@ describe("createMultiFactorPhoneAuthAssertionNumberFormSchema", () => {
 
     expect(result.success).toBe(false);
     expect(result.error).toBeDefined();
-    expect(result.error?.issues[0]?.message).toBe(
-      "createMultiFactorPhoneAuthAssertionNumberFormSchema + missingPhoneNumber"
-    );
+    expect(result.error?.issues[0]?.message).toBe("createMultiFactorPhoneAuthAssertionFormSchema + missingPhoneNumber");
   });
 
-  it("should create a multi-factor phone auth assertion number form schema and show an error if the phone number is too long", () => {
+  it("should create a multi-factor phone auth assertion form schema and show an error if the phone number is too long", () => {
     const testLocale = registerLocale("test", {
       errors: {
-        invalidPhoneNumber: "createMultiFactorPhoneAuthAssertionNumberFormSchema + invalidPhoneNumber",
+        invalidPhoneNumber: "createMultiFactorPhoneAuthAssertionFormSchema + invalidPhoneNumber",
       },
     });
 
@@ -347,7 +345,7 @@ describe("createMultiFactorPhoneAuthAssertionNumberFormSchema", () => {
       locale: testLocale,
     });
 
-    const schema = createMultiFactorPhoneAuthAssertionNumberFormSchema(mockUI);
+    const schema = createMultiFactorPhoneAuthAssertionFormSchema(mockUI);
 
     const result = schema.safeParse({
       phoneNumber: "12345678901",
@@ -355,9 +353,7 @@ describe("createMultiFactorPhoneAuthAssertionNumberFormSchema", () => {
 
     expect(result.success).toBe(false);
     expect(result.error).toBeDefined();
-    expect(result.error?.issues[0]?.message).toBe(
-      "createMultiFactorPhoneAuthAssertionNumberFormSchema + invalidPhoneNumber"
-    );
+    expect(result.error?.issues[0]?.message).toBe("createMultiFactorPhoneAuthAssertionFormSchema + invalidPhoneNumber");
   });
 
   it("should accept valid phone number without requiring displayName", () => {
@@ -372,7 +368,7 @@ describe("createMultiFactorPhoneAuthAssertionNumberFormSchema", () => {
       locale: testLocale,
     });
 
-    const schema = createMultiFactorPhoneAuthAssertionNumberFormSchema(mockUI);
+    const schema = createMultiFactorPhoneAuthAssertionFormSchema(mockUI);
 
     const result = schema.safeParse({
       phoneNumber: "1234567890",

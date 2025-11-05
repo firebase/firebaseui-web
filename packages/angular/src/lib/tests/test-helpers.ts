@@ -238,6 +238,13 @@ export const injectMultiFactorPhoneAuthNumberFormSchema = jest.fn().mockReturnVa
   });
 });
 
+export const injectMultiFactorPhoneAuthAssertionFormSchema = jest.fn().mockReturnValue(() => {
+  const { z } = require("zod");
+  return z.object({
+    phoneNumber: z.string().min(1, "Phone number is required"),
+  });
+});
+
 export const injectMultiFactorPhoneAuthVerifyFormSchema = jest.fn().mockReturnValue(() => {
   const { z } = require("zod");
   return z.object({

@@ -24,7 +24,7 @@ import {
   useSignUpAuthFormSchema,
   useForgotPasswordAuthFormSchema,
   useEmailLinkAuthFormSchema,
-  useMultiFactorPhoneAuthAssertionNumberFormSchema,
+  useMultiFactorPhoneAuthAssertionFormSchema,
   usePhoneAuthNumberFormSchema,
   usePhoneAuthVerifyFormSchema,
   useRecaptchaVerifier,
@@ -713,7 +713,7 @@ describe("usePhoneAuthVerifyFormSchema", () => {
   });
 });
 
-describe("useMultiFactorPhoneAuthAssertionNumberFormSchema", () => {
+describe("useMultiFactorPhoneAuthAssertionFormSchema", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     cleanup();
@@ -722,7 +722,7 @@ describe("useMultiFactorPhoneAuthAssertionNumberFormSchema", () => {
   it("returns schema with default English error messages", () => {
     const mockUI = createMockUI();
 
-    const { result } = renderHook(() => useMultiFactorPhoneAuthAssertionNumberFormSchema(), {
+    const { result } = renderHook(() => useMultiFactorPhoneAuthAssertionFormSchema(), {
       wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
@@ -745,7 +745,7 @@ describe("useMultiFactorPhoneAuthAssertionNumberFormSchema", () => {
     const customLocale = registerLocale("es-ES", customTranslations);
     const mockUI = createMockUI({ locale: customLocale });
 
-    const { result } = renderHook(() => useMultiFactorPhoneAuthAssertionNumberFormSchema(), {
+    const { result } = renderHook(() => useMultiFactorPhoneAuthAssertionFormSchema(), {
       wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
@@ -761,7 +761,7 @@ describe("useMultiFactorPhoneAuthAssertionNumberFormSchema", () => {
   it("returns stable reference when UI hasn't changed", () => {
     const mockUI = createMockUI();
 
-    const { result, rerender } = renderHook(() => useMultiFactorPhoneAuthAssertionNumberFormSchema(), {
+    const { result, rerender } = renderHook(() => useMultiFactorPhoneAuthAssertionFormSchema(), {
       wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
@@ -775,7 +775,7 @@ describe("useMultiFactorPhoneAuthAssertionNumberFormSchema", () => {
   it("returns new schema when locale changes", () => {
     const mockUI = createMockUI();
 
-    const { result, rerender } = renderHook(() => useMultiFactorPhoneAuthAssertionNumberFormSchema(), {
+    const { result, rerender } = renderHook(() => useMultiFactorPhoneAuthAssertionFormSchema(), {
       wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
@@ -807,7 +807,7 @@ describe("useMultiFactorPhoneAuthAssertionNumberFormSchema", () => {
   it("accepts valid phone number without requiring displayName", () => {
     const mockUI = createMockUI();
 
-    const { result } = renderHook(() => useMultiFactorPhoneAuthAssertionNumberFormSchema(), {
+    const { result } = renderHook(() => useMultiFactorPhoneAuthAssertionFormSchema(), {
       wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 

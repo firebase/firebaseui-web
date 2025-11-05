@@ -32,7 +32,7 @@ describe("<fui-sms-multi-factor-assertion-form>", () => {
     const {
       injectTranslation,
       injectUI,
-      injectMultiFactorPhoneAuthNumberFormSchema,
+      injectMultiFactorPhoneAuthAssertionFormSchema,
       injectMultiFactorPhoneAuthVerifyFormSchema,
       injectRecaptchaVerifier,
     } = require("../../../tests/test-helpers");
@@ -58,7 +58,7 @@ describe("<fui-sms-multi-factor-assertion-form>", () => {
       });
     });
 
-    injectMultiFactorPhoneAuthNumberFormSchema.mockReturnValue(() => {
+    injectMultiFactorPhoneAuthAssertionFormSchema.mockReturnValue(() => {
       const { z } = require("zod");
       return z.object({
         phoneNumber: z.string().min(1, "Phone number is required"),
@@ -186,7 +186,7 @@ describe("<fui-sms-multi-factor-assertion-phone-form>", () => {
     const {
       injectTranslation,
       injectUI,
-      injectMultiFactorPhoneAuthNumberFormSchema,
+      injectMultiFactorPhoneAuthAssertionFormSchema,
     } = require("../../../tests/test-helpers");
 
     injectTranslation.mockImplementation((category: string, key: string) => {
@@ -208,7 +208,7 @@ describe("<fui-sms-multi-factor-assertion-phone-form>", () => {
       });
     });
 
-    injectMultiFactorPhoneAuthNumberFormSchema.mockReturnValue(() => {
+    injectMultiFactorPhoneAuthAssertionFormSchema.mockReturnValue(() => {
       const { z } = require("zod");
       return z.object({
         phoneNumber: z.string().min(1, "Phone number is required"),
