@@ -40,7 +40,7 @@ import { ButtonComponent } from "../../components/button";
           <fui-totp-multi-factor-assertion-form [hint]="selectedHint()!" (onSuccess)="onSuccess.emit($event)" />
         }
       } @else {
-        <p>TODO: Select a multi-factor authentication method</p>
+        <p>{{ mfaAssertionFactorPrompt() }}</p>
         @for (hint of resolver().hints; track hint.factorId) {
           @if (hint.factorId === totpFactorId()) {
             <button fui-button (click)="selectHint(hint)">
@@ -78,6 +78,7 @@ export class MultiFactorAuthAssertionFormComponent {
 
   smsVerificationLabel = injectTranslation("labels", "mfaSmsVerification");
   totpVerificationLabel = injectTranslation("labels", "mfaTotpVerification");
+  mfaAssertionFactorPrompt = injectTranslation("prompts", "mfaAssertionFactorPrompt");
 
   selectHint(hint: MultiFactorInfo) {
     this.selectedHint.set(hint);

@@ -30,6 +30,9 @@ describe("<fui-multi-factor-auth-assertion-form>", () => {
           mfaSmsVerification: "SMS Verification",
           mfaTotpVerification: "TOTP Verification",
         },
+        prompts: {
+          mfaAssertionFactorPrompt: "Please choose a multi-factor authentication method",
+        },
       };
       return () => mockTranslations[category]?.[key] || `${category}.${key}`;
     });
@@ -68,6 +71,7 @@ describe("<fui-multi-factor-auth-assertion-form>", () => {
       imports: [MultiFactorAuthAssertionFormComponent],
     });
 
+    expect(screen.getByText("Please choose a multi-factor authentication method")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "SMS Verification" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "TOTP Verification" })).toBeInTheDocument();
 
