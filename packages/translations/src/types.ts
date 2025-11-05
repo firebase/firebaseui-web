@@ -105,5 +105,6 @@ export type Translations = {
     mfaEnrollmentPrompt?: string;
     mfaAssertionPrompt?: string;
     mfaAssertionFactorPrompt?: string;
+    mfaTotpQrCodePrompt?: string;
   };
 };

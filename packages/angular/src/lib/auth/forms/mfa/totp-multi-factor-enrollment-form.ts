@@ -134,7 +134,7 @@ export class TotpMultiFactorSecretGenerationFormComponent {
   template: `
     <div class="fui-qr-code-container">
       <img [src]="qrCodeDataUrl()" alt="TOTP QR Code" />
-      <p>TODO: Scan this QR code with your authenticator app</p>
+      <p>{{ mfaTotpQrCodePrompt() }}</p>
     </div>
     <form (submit)="handleSubmit($event)" class="fui-form">
       <fieldset>
@@ -165,6 +165,7 @@ export class TotpMultiFactorVerificationFormComponent {
 
   verificationCodeLabel = injectTranslation("labels", "verificationCode");
   verifyCodeLabel = injectTranslation("labels", "verifyCode");
+  mfaTotpQrCodePrompt = injectTranslation("prompts", "mfaTotpQrCodePrompt");
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
   form = injectForm({

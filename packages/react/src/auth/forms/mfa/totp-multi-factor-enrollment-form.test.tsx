@@ -169,6 +169,9 @@ describe("<MultiFactorEnrollmentVerifyTotpForm />", () => {
           verificationCode: "verificationCode",
           verifyCode: "verifyCode",
         },
+        prompts: {
+          mfaTotpQrCodePrompt: "Scan this QR code with your authenticator app",
+        },
       }),
     });
 
@@ -192,6 +195,7 @@ describe("<MultiFactorEnrollmentVerifyTotpForm />", () => {
 
     expect(container.querySelector(".fui-qr-code-container")).toBeInTheDocument();
     expect(container.querySelector("img[alt='TOTP QR Code']")).toBeInTheDocument();
+    expect(screen.getByText("Scan this QR code with your authenticator app")).toBeInTheDocument();
   });
 });
 

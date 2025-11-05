@@ -108,7 +108,7 @@ export function MultiFactorEnrollmentVerifyTotpForm(props: MultiFactorEnrollment
         <div className="border rounded-lg p-4">
           <img src={qrCodeDataUrl} alt="TOTP QR Code" className="mx-auto" />
           <p className="text-sm text-muted-foreground text-center mt-2">
-            Scan this QR code with your authenticator app
+            {getTranslation(ui, "prompts", "mfaTotpQrCodePrompt")}
           </p>
         </div>
       </div>
