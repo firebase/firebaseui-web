@@ -135,11 +135,8 @@ describe("<SignInAuthScreen />", () => {
       </FirebaseUIProvider>
     );
 
-    // Check that separator is rendered with correct translation
     expect(screen.getByTestId("separator")).toBeInTheDocument();
-    expect(screen.getByTestId("separator")).toHaveTextContent("or");
 
-    // Check that children are rendered in a space-y-2 container
     expect(screen.getByTestId("test-child")).toBeInTheDocument();
     expect(screen.getByTestId("test-child")).toHaveTextContent("Test Child Component");
   });

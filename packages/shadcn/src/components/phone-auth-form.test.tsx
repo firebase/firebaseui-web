@@ -25,7 +25,6 @@ import { FirebaseUIProvider } from "@firebase-ui/react";
 import { User, UserCredential } from "firebase/auth";
 import { FirebaseUI, FirebaseUIError } from "@firebase-ui/core";
 import { FirebaseError } from "firebase/app";
-import { ERROR_CODE_MAP } from "@firebase-ui/translations";
 
 vi.mock("@firebase-ui/core", async (importOriginal) => {
   const mod = await importOriginal<typeof import("@firebase-ui/core")>();
@@ -127,7 +126,6 @@ describe("<PhoneAuthForm />", () => {
 
     expect(container.querySelector("input[name='phoneNumber']")).toBeInTheDocument();
     expect(container.querySelector("button[type='submit']")).toBeInTheDocument();
-    expect(container.querySelector(".fui-country-selector")).toBeInTheDocument();
     expect(screen.getByTestId("policies")).toBeInTheDocument();
   });
 

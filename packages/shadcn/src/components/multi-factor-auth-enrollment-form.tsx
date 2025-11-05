@@ -41,7 +41,7 @@ export function MultiFactorAuthEnrollmentForm(props: MultiFactorAuthEnrollmentFo
   }
 
   return (
-    <div className="space-y-2">
+    <div className="flex flex-col gap-2">
       {hints.map((hint) => {
         if (hint === FactorId.TOTP) {
           return <TotpButton key={hint} onClick={() => setHint(hint)} />;
@@ -60,11 +60,19 @@ export function MultiFactorAuthEnrollmentForm(props: MultiFactorAuthEnrollmentFo
 function TotpButton(props: ComponentProps<typeof Button>) {
   const ui = useUI();
   const labelText = getTranslation(ui, "labels", "mfaTotpVerification");
-  return <Button {...props}>{labelText}</Button>;
+  return (
+    <Button {...props} variant="outline">
+      {labelText}
+    </Button>
+  );
 }
 
 function SmsButton(props: ComponentProps<typeof Button>) {
   const ui = useUI();
   const labelText = getTranslation(ui, "labels", "mfaSmsVerification");
-  return <Button {...props}>{labelText}</Button>;
+  return (
+    <Button {...props} variant="outline">
+      {labelText}
+    </Button>
+  );
 }

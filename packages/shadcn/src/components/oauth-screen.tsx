@@ -21,7 +21,7 @@ export function OAuthScreen({ children, onSignIn }: OAuthScreenProps) {
   const mfaResolver = ui.multiFactorResolver;
 
   return (
-    <div className="max-w-md mx-auto">
+    <div className="max-w-sm mx-auto">
       <Card>
         <CardHeader>
           <CardTitle>{titleText}</CardTitle>
@@ -36,8 +36,8 @@ export function OAuthScreen({ children, onSignIn }: OAuthScreenProps) {
             />
           ) : (
             <>
-              <div className="space-y-2">
-                {children}
+              <div className="space-y-2">{children}</div>
+              <div className="mt-4 space-y-4">
                 <RedirectError />
                 <Policies />
               </div>

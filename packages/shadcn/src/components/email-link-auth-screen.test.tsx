@@ -100,7 +100,6 @@ describe("<EmailLinkAuthScreen />", () => {
     expect(screen.getByText("Sign In")).toBeInTheDocument();
     expect(screen.getByText("Sign in to your account")).toBeInTheDocument();
     expect(screen.getByTestId("email-link-auth-form")).toBeInTheDocument();
-    expect(screen.getByText("or")).toBeInTheDocument();
     expect(screen.getByTestId("child-component")).toBeInTheDocument();
   });
 

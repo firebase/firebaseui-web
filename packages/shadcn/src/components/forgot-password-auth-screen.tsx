@@ -15,7 +15,7 @@ export function ForgotPasswordAuthScreen(props: ForgotPasswordAuthScreenProps) {
   const subtitleText = getTranslation(ui, "prompts", "enterEmailToReset");
 
   return (
-    <div className="max-w-md mx-auto">
+    <div className="max-w-sm mx-auto">
       <Card>
         <CardHeader>
           <CardTitle>{titleText}</CardTitle>

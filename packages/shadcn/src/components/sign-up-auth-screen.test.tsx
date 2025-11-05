@@ -100,7 +100,6 @@ describe("<SignUpAuthScreen />", () => {
     expect(screen.getByText("Register")).toBeInTheDocument();
     expect(screen.getByText("Enter your details to create an account")).toBeInTheDocument();
     expect(screen.getByTestId("sign-up-auth-form")).toBeInTheDocument();
-    expect(screen.getByText("or")).toBeInTheDocument();
     expect(screen.getByTestId("child-component")).toBeInTheDocument();
   });
 

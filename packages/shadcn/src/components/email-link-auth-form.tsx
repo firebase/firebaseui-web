@@ -16,7 +16,8 @@ import { useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Policies } from "./policies";
+import { Policies } from "@/components/policies";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export type { EmailLinkAuthFormProps };
 
@@ -49,15 +50,15 @@ export function EmailLinkAuthForm(props: EmailLinkAuthFormProps) {
 
   if (emailSent) {
     return (
-      <div className="text-center space-y-4">
-        <div className="text-green-600 dark:text-green-400">{getTranslation(ui, "messages", "signInLinkSent")}</div>
-      </div>
+      <Alert>
+        <AlertDescription>{getTranslation(ui, "messages", "signInLinkSent")}</AlertDescription>
+      </Alert>
     );
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-y-4">
         <FormField
           control={form.control}
           name="email"

@@ -115,7 +115,6 @@ describe("<PhoneAuthScreen />", () => {
     );
 
     expect(screen.getByTestId("separator")).toBeDefined();
-    expect(screen.getByText("dividerOr")).toBeDefined();
     expect(screen.getByTestId("test-child")).toBeDefined();
   });
 

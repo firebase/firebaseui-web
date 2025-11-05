@@ -53,7 +53,7 @@ export function ForgotPasswordAuthForm(props: ForgotPasswordAuthFormProps) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-y-4">
         <FormField
           control={form.control}
           name="email"
@@ -73,8 +73,8 @@ export function ForgotPasswordAuthForm(props: ForgotPasswordAuthFormProps) {
         </Button>
         {form.formState.errors.root && <FormMessage>{form.formState.errors.root.message}</FormMessage>}
         {props.onBackToSignInClick ? (
-          <Button type="button" variant="secondary" onClick={props.onBackToSignInClick}>
-            {getTranslation(ui, "labels", "backToSignIn")}
+          <Button type="button" variant="link" size="sm" onClick={props.onBackToSignInClick}>
+            <span className="text-xs">&larr; {getTranslation(ui, "labels", "backToSignIn")}</span>
           </Button>
         ) : null}
       </form>
