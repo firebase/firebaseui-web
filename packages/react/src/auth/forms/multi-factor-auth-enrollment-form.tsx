@@ -58,11 +58,19 @@ export function MultiFactorAuthEnrollmentForm(props: MultiFactorAuthEnrollmentFo
 function TotpButton(props: ComponentProps<typeof Button>) {
   const ui = useUI();
   const labelText = getTranslation(ui, "labels", "mfaTotpVerification");
-  return <Button {...props}>{labelText}</Button>;
+  return (
+    <Button variant="secondary" {...props}>
+      {labelText}
+    </Button>
+  );
 }
 
 function SmsButton(props: ComponentProps<typeof Button>) {
   const ui = useUI();
   const labelText = getTranslation(ui, "labels", "mfaSmsVerification");
-  return <Button {...props}>{labelText}</Button>;
+  return (
+    <Button variant="secondary" {...props}>
+      {labelText}
+    </Button>
+  );
 }

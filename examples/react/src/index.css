@@ -15,6 +15,7 @@
  */
 
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 @import "@firebase-ui/styles/tailwind";
 
 /* @import "@firebase-ui/styles/src/themes/dark.css"; */
