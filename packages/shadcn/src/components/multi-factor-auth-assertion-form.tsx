@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 export function MultiFactorAuthAssertionForm() {
   const ui = useUI();
   const resolver = ui.multiFactorResolver;
+  const mfaAssertionFactorPrompt = getTranslation(ui, "prompts", "mfaAssertionFactorPrompt");
 
   useEffect(() => {
     return () => {
@@ -40,8 +41,8 @@ export function MultiFactorAuthAssertionForm() {
   }
 
   return (
-    <div className="space-y-2">
-      <p className="text-sm text-muted-foreground">Select a multi-factor authentication method</p>
+    <div className="flex flex-col gap-2">
+      <p className="text-sm text-muted-foreground">{mfaAssertionFactorPrompt}</p>
       {resolver.hints.map((hint) => {
         if (hint.factorId === TotpMultiFactorGenerator.FACTOR_ID) {
           return <TotpButton key={hint.factorId} onClick={() => setHint(hint)} />;

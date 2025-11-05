@@ -173,7 +173,13 @@ describe("<MultiFactorAuthAssertionForm />", () => {
       ],
     } as MultiFactorResolver;
 
-    const ui = createMockUI();
+    const ui = createMockUI({
+      locale: registerLocale("test", {
+        prompts: {
+          mfaAssertionFactorPrompt: "Please choose a multi-factor authentication method",
+        },
+      }),
+    });
     ui.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
 
     render(
@@ -183,7 +189,7 @@ describe("<MultiFactorAuthAssertionForm />", () => {
       })
     );
 
-    expect(screen.getByText("TODO:Select a multi-factor authentication method")).toBeInTheDocument();
+    expect(screen.getByText("Please choose a multi-factor authentication method")).toBeInTheDocument();
   });
 
   it("calls onSuccess with credential when SMS form succeeds", () => {

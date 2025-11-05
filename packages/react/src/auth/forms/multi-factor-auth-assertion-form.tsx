@@ -18,6 +18,7 @@ export type MultiFactorAuthAssertionFormProps = {
 export function MultiFactorAuthAssertionForm(props: MultiFactorAuthAssertionFormProps) {
   const ui = useUI();
   const resolver = ui.multiFactorResolver;
+  const mfaAssertionFactorPrompt = getTranslation(ui, "prompts", "mfaAssertionFactorPrompt");
 
   if (!resolver) {
     throw new Error("MultiFactorAuthAssertionForm requires a multi-factor resolver");
@@ -54,7 +55,7 @@ export function MultiFactorAuthAssertionForm(props: MultiFactorAuthAssertionForm
 
   return (
     <div className="fui-content">
-      <p>TODO: Select a multi-factor authentication method</p>
+      <p>{mfaAssertionFactorPrompt}</p>
       {resolver.hints.map((hint) => {
         if (hint.factorId === TotpMultiFactorGenerator.FACTOR_ID) {
           return <TotpButton key={hint.factorId} onClick={() => setHint(hint)} />;

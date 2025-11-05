@@ -98,5 +98,7 @@ export const enUS = {
     enterEmailForLink: "Enter your email to receive a sign-in link",
     mfaEnrollmentPrompt: "Select a new multi-factor enrollment method",
     mfaAssertionPrompt: "Please complete the multi-factor authentication process",
+    mfaAssertionFactorPrompt: "Please choose a multi-factor authentication method",
+    mfaTotpQrCodePrompt: "Scan this QR code with your authenticator app",
   },
 } satisfies Translations;

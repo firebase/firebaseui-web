@@ -87,6 +87,9 @@ describe("<TotpMultiFactorEnrollmentForm />", () => {
           verificationCode: "Verification Code",
           verifyCode: "Verify Code",
         },
+        prompts: {
+          mfaTotpQrCodePrompt: "Scan this QR code with your authenticator app",
+        },
       }),
     });
 
@@ -104,6 +107,7 @@ describe("<TotpMultiFactorEnrollmentForm />", () => {
       expect(screen.getByTestId("input-otp-slot-0")).toBeInTheDocument();
     });
 
+    expect(screen.getByText("Scan this QR code with your authenticator app")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Verify Code" })).toBeInTheDocument();
   });
 

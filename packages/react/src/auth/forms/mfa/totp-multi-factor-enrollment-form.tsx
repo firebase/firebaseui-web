@@ -155,7 +155,7 @@ export function MultiFactorEnrollmentVerifyTotpForm(props: MultiFactorEnrollment
     >
       <div className="fui-qr-code-container">
         <img src={qrCodeDataUrl} alt="TOTP QR Code" />
-        <p>TODO: Scan this QR code with your authenticator app</p>
+        <p>{getTranslation(ui, "prompts", "mfaTotpQrCodePrompt")}</p>
       </div>
       <form.AppForm>
         <fieldset>

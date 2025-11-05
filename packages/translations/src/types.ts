@@ -104,5 +104,7 @@ export type Translations = {
     enterEmailForLink?: string;
     mfaEnrollmentPrompt?: string;
     mfaAssertionPrompt?: string;
+    mfaAssertionFactorPrompt?: string;
+    mfaTotpQrCodePrompt?: string;
   };
 };

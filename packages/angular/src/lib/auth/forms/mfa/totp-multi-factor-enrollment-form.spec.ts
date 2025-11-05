@@ -55,6 +55,9 @@ describe("<fui-totp-multi-factor-enrollment-form />", () => {
           verificationCode: "Verification Code",
           verifyCode: "Verify Code",
         },
+        prompts: {
+          mfaTotpQrCodePrompt: "Scan this QR code with your authenticator app",
+        },
         errors: {
           unknownError: "An unknown error occurred",
         },
@@ -148,7 +151,7 @@ describe("<fui-totp-multi-factor-enrollment-form />", () => {
     fixture.detectChanges();
 
     expect(screen.getByAltText("TOTP QR Code")).toBeInTheDocument();
-    expect(screen.getByText("TODO: Scan this QR code with your authenticator app")).toBeInTheDocument();
+    expect(screen.getByText("Scan this QR code with your authenticator app")).toBeInTheDocument();
     expect(screen.getByLabelText("Verification Code")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Verify Code" })).toBeInTheDocument();
   });

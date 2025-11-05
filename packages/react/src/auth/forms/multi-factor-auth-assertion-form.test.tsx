@@ -201,6 +201,9 @@ describe("<MultiFactorAuthAssertionForm />", () => {
           mfaTotpVerification: "TOTP Verification",
           mfaSmsVerification: "SMS Verification",
         },
+        prompts: {
+          mfaAssertionFactorPrompt: "Please choose a multi-factor authentication method",
+        },
       }),
     });
     ui.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
@@ -211,7 +214,7 @@ describe("<MultiFactorAuthAssertionForm />", () => {
       </CreateFirebaseUIProvider>
     );
 
-    expect(screen.getByText("TODO: Select a multi-factor authentication method")).toBeDefined();
+    expect(screen.getByText("Please choose a multi-factor authentication method")).toBeDefined();
     expect(screen.getAllByTestId("mfa-button")).toHaveLength(2);
     expect(screen.getByText("TOTP Verification")).toBeDefined();
     expect(screen.getByText("SMS Verification")).toBeDefined();
@@ -357,6 +360,9 @@ describe("<MultiFactorAuthAssertionForm />", () => {
           mfaTotpVerification: "TOTP Verification",
           mfaSmsVerification: "SMS Verification",
         },
+        prompts: {
+          mfaAssertionFactorPrompt: "Please choose a multi-factor authentication method",
+        },
       }),
     });
     ui.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
@@ -367,12 +373,10 @@ describe("<MultiFactorAuthAssertionForm />", () => {
       </CreateFirebaseUIProvider>
     );
 
-    // Initially shows selection UI
-    expect(screen.getByText("TODO: Select a multi-factor authentication method")).toBeDefined();
+    expect(screen.getByText("Please choose a multi-factor authentication method")).toBeDefined();
     expect(screen.queryByTestId("sms-assertion-form")).toBeNull();
     expect(screen.queryByTestId("totp-assertion-form")).toBeNull();
 
-    // Click SMS button
     const smsButton = screen.getByText("SMS Verification");
     fireEvent.click(smsButton);
 
@@ -385,7 +389,7 @@ describe("<MultiFactorAuthAssertionForm />", () => {
     // Should now show SMS form
     expect(screen.getByTestId("sms-assertion-form")).toBeDefined();
     expect(screen.queryByTestId("totp-assertion-form")).toBeNull();
-    expect(screen.queryByText("TODO: Select a multi-factor authentication method")).toBeNull();
+    expect(screen.queryByText("Please choose a multi-factor authentication method")).toBeNull();
   });
 
   it("handles unknown factor types gracefully", () => {
@@ -400,7 +404,13 @@ describe("<MultiFactorAuthAssertionForm />", () => {
         },
       ],
     };
-    const ui = createMockUI();
+    const ui = createMockUI({
+      locale: registerLocale("test", {
+        prompts: {
+          mfaAssertionFactorPrompt: "Please choose a multi-factor authentication method",
+        },
+      }),
+    });
     ui.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
 
     render(
@@ -410,7 +420,7 @@ describe("<MultiFactorAuthAssertionForm />", () => {
     );
 
     // Should show selection UI for unknown factor
-    expect(screen.getByText("TODO: Select a multi-factor authentication method")).toBeDefined();
+    expect(screen.getByText("Please choose a multi-factor authentication method")).toBeDefined();
     expect(screen.queryByTestId("sms-assertion-form")).toBeNull();
     expect(screen.queryByTestId("totp-assertion-form")).toBeNull();
   });
