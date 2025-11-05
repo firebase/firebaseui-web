@@ -19,6 +19,7 @@ import { routes } from "./routes";
 import { useUser } from "./firebase/hooks";
 import { auth } from "./firebase/firebase";
 import { multiFactor, sendEmailVerification, signOut } from "firebase/auth";
+import { MultiFactorAuthAssertionScreen, useUI } from "@firebase-ui/react";
 
 function App() {
   const user = useUser();
@@ -31,6 +32,13 @@ function App() {
 }
 
 function UnauthenticatedApp() {
+  const ui = useUI();
+
+  // This can trigger if the user is not on a screen already, and gets an MFA challenge - e.g. on One-Tap sign in.
+  if (ui.multiFactorResolver) {
+    return <MultiFactorAuthAssertionScreen />;
+  }
+
   return (
     <div className="max-w-sm mx-auto pt-36 space-y-6 pb-36">
       <div className="text-center space-y-4">

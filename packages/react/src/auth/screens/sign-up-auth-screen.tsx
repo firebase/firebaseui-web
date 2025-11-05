@@ -21,7 +21,7 @@ import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "../../co
 import { SignUpAuthForm, type SignUpAuthFormProps } from "../forms/sign-up-auth-form";
 import { getTranslation } from "@firebase-ui/core";
 import { RedirectError } from "~/components/redirect-error";
-import { MultiFactorAuthAssertionForm } from "../forms/multi-factor-auth-assertion-form";
+import { MultiFactorAuthAssertionScreen } from "./multi-factor-auth-assertion-screen";
 
 export type SignUpAuthScreenProps = PropsWithChildren<SignUpAuthFormProps>;
 
@@ -33,6 +33,10 @@ export function SignUpAuthScreen({ children, ...props }: SignUpAuthScreenProps) 
 
   const mfaResolver = ui.multiFactorResolver;
 
+  if (mfaResolver) {
+    return <MultiFactorAuthAssertionScreen onSuccess={props.onSignUp} />;
+  }
+
   return (
     <div className="fui-screen">
       <Card>
@@ -41,26 +45,16 @@ export function SignUpAuthScreen({ children, ...props }: SignUpAuthScreenProps) 
           <CardSubtitle>{subtitleText}</CardSubtitle>
         </CardHeader>
         <CardContent>
-          {mfaResolver ? (
-            <MultiFactorAuthAssertionForm
-              onSuccess={(credential) => {
-                props.onSignUp?.(credential);
-              }}
-            />
-          ) : (
+          <SignUpAuthForm {...props} />
+          {children ? (
             <>
-              <SignUpAuthForm {...props} />
-              {children ? (
-                <>
-                  <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>
-                  <div className="fui-screen__children">
-                    {children}
-                    <RedirectError />
-                  </div>
-                </>
-              ) : null}
+              <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>
+              <div className="fui-screen__children">
+                {children}
+                <RedirectError />
+              </div>
             </>
-          )}
+          ) : null}
         </CardContent>
       </Card>
     </div>

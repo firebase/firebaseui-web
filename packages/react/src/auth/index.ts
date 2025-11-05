@@ -51,6 +51,10 @@ export {
 
 export { EmailLinkAuthScreen, type EmailLinkAuthScreenProps } from "./screens/email-link-auth-screen";
 export { ForgotPasswordAuthScreen, type ForgotPasswordAuthScreenProps } from "./screens/forgot-password-auth-screen";
+export {
+  MultiFactorAuthAssertionScreen,
+  type MultiFactorAuthAssertionScreenProps,
+} from "./screens/multi-factor-auth-assertion-screen";
 export { OAuthScreen, type OAuthScreenProps } from "./screens/oauth-screen";
 export { PhoneAuthScreen, type PhoneAuthScreenProps } from "./screens/phone-auth-screen";
 export { SignInAuthScreen, type SignInAuthScreenProps } from "./screens/sign-in-auth-screen";

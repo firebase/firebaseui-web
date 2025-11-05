@@ -88,6 +88,7 @@ export type Translations = {
     resendCode?: string;
     sending?: string;
     multiFactorEnrollment?: string;
+    multiFactorAssertion?: string;
     mfaTotpVerification?: string;
     mfaSmsVerification?: string;
     generateQrCode?: string;
@@ -102,5 +103,6 @@ export type Translations = {
     enterVerificationCode?: string;
     enterEmailForLink?: string;
     mfaEnrollmentPrompt?: string;
+    mfaAssertionPrompt?: string;
   };
 };

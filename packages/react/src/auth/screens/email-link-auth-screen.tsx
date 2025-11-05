@@ -20,8 +20,8 @@ import { Divider } from "~/components/divider";
 import { useUI } from "~/hooks";
 import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "~/components/card";
 import { EmailLinkAuthForm, type EmailLinkAuthFormProps } from "../forms/email-link-auth-form";
-import { MultiFactorAuthAssertionForm } from "../forms/multi-factor-auth-assertion-form";
 import { RedirectError } from "~/components/redirect-error";
+import { MultiFactorAuthAssertionScreen } from "./multi-factor-auth-assertion-screen";
 
 export type EmailLinkAuthScreenProps = PropsWithChildren<EmailLinkAuthFormProps>;
 
@@ -30,8 +30,11 @@ export function EmailLinkAuthScreen({ children, onEmailSent, onSignIn }: EmailLi
 
   const titleText = getTranslation(ui, "labels", "signIn");
   const subtitleText = getTranslation(ui, "prompts", "signInToAccount");
-
   const mfaResolver = ui.multiFactorResolver;
+
+  if (mfaResolver) {
+    return <MultiFactorAuthAssertionScreen onSuccess={onSignIn} />;
+  }
 
   return (
     <div className="fui-screen">
@@ -41,26 +44,16 @@ export function EmailLinkAuthScreen({ children, onEmailSent, onSignIn }: EmailLi
           <CardSubtitle>{subtitleText}</CardSubtitle>
         </CardHeader>
         <CardContent>
-          {mfaResolver ? (
-            <MultiFactorAuthAssertionForm
-              onSuccess={(credential) => {
-                onSignIn?.(credential);
-              }}
-            />
-          ) : (
+          <EmailLinkAuthForm onEmailSent={onEmailSent} onSignIn={onSignIn} />
+          {children ? (
             <>
-              <EmailLinkAuthForm onEmailSent={onEmailSent} onSignIn={onSignIn} />
-              {children ? (
-                <>
-                  <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>
-                  <div className="fui-screen__children">
-                    {children}
-                    <RedirectError />
-                  </div>
-                </>
-              ) : null}
+              <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>
+              <div className="fui-screen__children">
+                {children}
+                <RedirectError />
+              </div>
             </>
-          )}
+          ) : null}
         </CardContent>
       </Card>
     </div>
