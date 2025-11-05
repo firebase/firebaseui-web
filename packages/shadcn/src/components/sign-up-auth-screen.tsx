@@ -18,7 +18,7 @@ export function SignUpAuthScreen({ children, ...props }: SignUpAuthScreenProps) 
   const mfaResolver = ui.multiFactorResolver;
 
   return (
-    <div className="max-w-md mx-auto">
+    <div className="max-w-sm mx-auto">
       <Card>
         <CardHeader>
           <CardTitle>{titleText}</CardTitle>
@@ -32,7 +32,7 @@ export function SignUpAuthScreen({ children, ...props }: SignUpAuthScreenProps) 
               <SignUpAuthForm {...props} />
               {children ? (
                 <>
-                  <Separator>{getTranslation(ui, "messages", "dividerOr")}</Separator>
+                  <Separator className="my-4" />
                   <div className="space-y-2">{children}</div>
                 </>
               ) : null}

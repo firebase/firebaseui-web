@@ -277,7 +277,7 @@ describe("<MultiFactorAuthEnrollmentForm />", () => {
       </FirebaseUIProvider>
     );
 
-    const contentDiv = container.querySelector(".space-y-2");
+    const contentDiv = container.querySelector(".flex.flex-col.gap-2");
     expect(contentDiv).toBeInTheDocument();
   });
 

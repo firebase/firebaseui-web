@@ -46,7 +46,22 @@ export function SignUpAuthForm(props: SignUpAuthFormProps) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-y-4">
+        {requireDisplayName ? (
+          <FormField
+            control={form.control}
+            name="displayName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{getTranslation(ui, "labels", "displayName")}</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        ) : null}
         <FormField
           control={form.control}
           name="email"
@@ -94,8 +109,10 @@ export function SignUpAuthForm(props: SignUpAuthFormProps) {
         </Button>
         {form.formState.errors.root && <FormMessage>{form.formState.errors.root.message}</FormMessage>}
         {props.onBackToSignInClick ? (
-          <Button type="button" variant="secondary" onClick={props.onBackToSignInClick}>
-            {getTranslation(ui, "prompts", "haveAccount")} {getTranslation(ui, "labels", "signIn")}
+          <Button type="button" variant="link" size="sm" onClick={props.onBackToSignInClick}>
+            <span className="text-xs">
+              {getTranslation(ui, "prompts", "haveAccount")} {getTranslation(ui, "labels", "signIn")}
+            </span>
           </Button>
         ) : null}
       </form>

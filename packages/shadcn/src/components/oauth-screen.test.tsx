@@ -129,12 +129,18 @@ describe("<OAuthScreen />", () => {
     expect(oauthProvider).toBeDefined();
     expect(policies).toBeDefined();
 
-    const cardContent = oauthProvider.parentElement;
-    const children = Array.from(cardContent?.children || []);
-    const oauthIndex = children.indexOf(oauthProvider);
-    const policiesIndex = children.indexOf(policies);
+    const oauthContainer = oauthProvider.closest(".space-y-2");
+    const policiesContainer = policies.closest(".mt-4.space-y-4");
 
-    expect(oauthIndex).toBeLessThan(policiesIndex);
+    expect(oauthContainer).toBeDefined();
+    expect(policiesContainer).toBeDefined();
+
+    const cardContent = oauthContainer?.parentElement;
+    const children = Array.from(cardContent?.children || []);
+    const oauthContainerIndex = children.indexOf(oauthContainer as Element);
+    const policiesContainerIndex = children.indexOf(policiesContainer as Element);
+
+    expect(oauthContainerIndex).toBeLessThan(policiesContainerIndex);
   });
 
   it("renders MultiFactorAuthAssertionForm when multiFactorResolver is present", () => {

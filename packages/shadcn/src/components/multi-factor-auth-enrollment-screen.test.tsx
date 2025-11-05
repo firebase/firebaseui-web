@@ -60,7 +60,7 @@ describe("<MultiFactorAuthEnrollmentScreen />", () => {
     expect(screen.getByText("Set up an additional security method for your account")).toBeInTheDocument();
     expect(screen.getByTestId("multi-factor-auth-enrollment-form")).toBeInTheDocument();
 
-    const card = container.querySelector(".max-w-md.mx-auto");
+    const card = container.querySelector(".max-w-sm.mx-auto");
     expect(card).toBeInTheDocument();
   });
 
@@ -75,20 +75,6 @@ describe("<MultiFactorAuthEnrollmentScreen />", () => {
     );
 
     expect(screen.getByTestId("on-enrollment")).toBeInTheDocument();
-  });
-
-  it("should render children when provided", () => {
-    const mockUI = createMockUI();
-
-    render(
-      <FirebaseUIProvider ui={mockUI}>
-        <MultiFactorAuthEnrollmentScreen>
-          <div data-testid="child-content">Child Content</div>
-        </MultiFactorAuthEnrollmentScreen>
-      </FirebaseUIProvider>
-    );
-
-    expect(screen.getByTestId("child-content")).toBeInTheDocument();
   });
 
   it("should use correct translation keys", () => {
@@ -122,11 +108,11 @@ describe("<MultiFactorAuthEnrollmentScreen />", () => {
       </FirebaseUIProvider>
     );
 
-    const mainContainer = container.querySelector(".max-w-md.mx-auto");
+    const mainContainer = container.querySelector(".max-w-sm.mx-auto");
     expect(mainContainer).toBeInTheDocument();
 
     // Check for any card-like element instead of specific radix attribute
-    const card = container.querySelector(".max-w-md.mx-auto > div");
+    const card = container.querySelector(".max-w-sm.mx-auto > div");
     expect(card).toBeInTheDocument();
   });
 });

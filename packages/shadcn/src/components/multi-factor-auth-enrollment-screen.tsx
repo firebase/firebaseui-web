@@ -1,22 +1,21 @@
 "use client";
 
-import React, { type PropsWithChildren } from "react";
 import { getTranslation } from "@invertase/firebaseui-core";
 import { useUI, type MultiFactorAuthEnrollmentFormProps } from "@invertase/firebaseui-react";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { MultiFactorAuthEnrollmentForm } from "@/components/multi-factor-auth-enrollment-form";
 
-export type MultiFactorAuthEnrollmentScreenProps = PropsWithChildren<MultiFactorAuthEnrollmentFormProps>;
+export type MultiFactorAuthEnrollmentScreenProps = MultiFactorAuthEnrollmentFormProps;
 
-export function MultiFactorAuthEnrollmentScreen({ children, ...props }: MultiFactorAuthEnrollmentScreenProps) {
+export function MultiFactorAuthEnrollmentScreen(props: MultiFactorAuthEnrollmentScreenProps) {
   const ui = useUI();
 
   const titleText = getTranslation(ui, "labels", "multiFactorEnrollment");
   const subtitleText = getTranslation(ui, "prompts", "mfaEnrollmentPrompt");
 
   return (
-    <div className="max-w-md mx-auto">
+    <div className="max-w-sm mx-auto">
       <Card>
         <CardHeader>
           <CardTitle>{titleText}</CardTitle>
@@ -24,7 +23,6 @@ export function MultiFactorAuthEnrollmentScreen({ children, ...props }: MultiFac
         </CardHeader>
         <CardContent>
           <MultiFactorAuthEnrollmentForm {...props} />
-          {children ? <div className="space-y-2 mt-4">{children}</div> : null}
         </CardContent>
       </Card>
     </div>
