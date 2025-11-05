@@ -16,7 +16,15 @@
 "use client";
 
 import { SignUpAuthScreen } from "@/components/sign-up-auth-screen";
+import { useNavigate } from "react-router";
 
 export default function SignUpAuthScreenPage() {
-  return <SignUpAuthScreen />;
+  const navigate = useNavigate();
+  return (
+    <SignUpAuthScreen
+      onSignUp={(credential) => {
+        navigate("/");
+      }}
+    />
+  );
 }
