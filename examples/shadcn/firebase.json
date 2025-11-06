@@ -1,0 +1,13 @@
+{
+  "hosting": {
+    "site": "fir-ui-2025-shadcn",
+    "public": "dist",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

@@ -1,7 +1,7 @@
 "use client";
 
-import { getTranslation } from "@firebase-ui/core";
-import { useUI, type SignUpAuthScreenProps } from "@firebase-ui/react";
+import { getTranslation } from "@invertase/firebaseui-core";
+import { useUI, type SignUpAuthScreenProps } from "@invertase/firebaseui-react";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -15,7 +15,6 @@ export function SignUpAuthScreen({ children, ...props }: SignUpAuthScreenProps) 
 
   const titleText = getTranslation(ui, "labels", "signUp");
   const subtitleText = getTranslation(ui, "prompts", "enterDetailsToCreate");
-
   const mfaResolver = ui.multiFactorResolver;
 
   if (mfaResolver) {

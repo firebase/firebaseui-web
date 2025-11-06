@@ -3,7 +3,7 @@ import { FirebaseError } from "firebase/app";
 import { Auth, AuthCredential, MultiFactorResolver } from "firebase/auth";
 import { FirebaseUIError, handleFirebaseError } from "./errors";
 import { createMockUI } from "~/tests/utils";
-import { ERROR_CODE_MAP } from "@firebase-ui/translations";
+import { ERROR_CODE_MAP } from "@invertase/firebaseui-translations";
 
 vi.mock("./translations", () => ({
   getTranslation: vi.fn(),

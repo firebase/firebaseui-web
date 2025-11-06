@@ -8,14 +8,14 @@ import {
   formatPhoneNumber,
   getTranslation,
   verifyPhoneNumber,
-} from "@firebase-ui/core";
+} from "@invertase/firebaseui-core";
 import { CountrySelector, type CountrySelectorRef } from "@/components/country-selector";
 import {
   useMultiFactorPhoneAuthNumberFormSchema,
   useMultiFactorPhoneAuthVerifyFormSchema,
   useRecaptchaVerifier,
   useUI,
-} from "@firebase-ui/react";
+} from "@invertase/firebaseui-react";
 import { useForm } from "react-hook-form";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 
@@ -57,7 +57,7 @@ function MultiFactorEnrollmentPhoneNumberForm(props: MultiFactorEnrollmentPhoneN
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-y-4">
         <FormField
           control={form.control}
           name="displayName"

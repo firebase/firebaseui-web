@@ -1,16 +1,16 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { type MultiFactorInfo, type UserCredential } from "firebase/auth";
+import { type UserCredential, type MultiFactorInfo } from "firebase/auth";
 
-import { FirebaseUIError, getTranslation } from "@firebase-ui/core";
+import { FirebaseUIError, getTranslation } from "@invertase/firebaseui-core";
 import {
   useMultiFactorPhoneAuthVerifyFormSchema,
   useRecaptchaVerifier,
   useUI,
   useSmsMultiFactorAssertionPhoneFormAction,
   useSmsMultiFactorAssertionVerifyFormAction,
-} from "@firebase-ui/react";
+} from "@invertase/firebaseui-react";
 import { useForm } from "react-hook-form";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 
@@ -95,7 +95,7 @@ function SmsMultiFactorAssertionVerifyForm(props: SmsMultiFactorAssertionVerifyF
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-y-4">
         <FormField
           control={form.control}
           name="verificationCode"

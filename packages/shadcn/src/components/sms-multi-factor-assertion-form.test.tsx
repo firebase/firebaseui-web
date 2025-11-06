@@ -2,13 +2,13 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import { SmsMultiFactorAssertionForm } from "./sms-multi-factor-assertion-form";
 import { createFirebaseUIProvider, createMockUI } from "../../tests/utils";
-import { registerLocale } from "@firebase-ui/translations";
+import { registerLocale } from "@invertase/firebaseui-translations";
 import { PhoneMultiFactorGenerator } from "firebase/auth";
-import { verifyPhoneNumber, signInWithMultiFactorAssertion } from "@firebase-ui/core";
+import { verifyPhoneNumber, signInWithMultiFactorAssertion } from "@invertase/firebaseui-core";
 import {
   useSmsMultiFactorAssertionPhoneFormAction,
   useSmsMultiFactorAssertionVerifyFormAction,
-} from "@firebase-ui/react";
+} from "@invertase/firebaseui-react";
 import React from "react";
 
 // Mock input-otp components to prevent window access issues
@@ -25,8 +25,8 @@ vi.mock("@/components/ui/input-otp", () => ({
     }),
 }));
 
-vi.mock("@firebase-ui/core", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@firebase-ui/core")>();
+vi.mock("@invertase/firebaseui-core", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@invertase/firebaseui-core")>();
   return {
     ...mod,
     verifyPhoneNumber: vi.fn(),
@@ -34,8 +34,8 @@ vi.mock("@firebase-ui/core", async (importOriginal) => {
   };
 });
 
-vi.mock("@firebase-ui/react", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@firebase-ui/react")>();
+vi.mock("@invertase/firebaseui-react", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@invertase/firebaseui-react")>();
   return {
     ...mod,
     useRecaptchaVerifier: () => ({

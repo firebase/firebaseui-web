@@ -1,9 +1,9 @@
 "use client";
 
-import { getTranslation } from "@firebase-ui/core";
+import { getTranslation } from "@invertase/firebaseui-core";
 import { type UserCredential } from "firebase/auth";
 import { type PropsWithChildren } from "react";
-import { useUI } from "@firebase-ui/react";
+import { useUI } from "@invertase/firebaseui-react";
 import { Card, CardContent, CardHeader, CardDescription, CardTitle } from "@/components/ui/card";
 import { Policies } from "@/components/policies";
 import { MultiFactorAuthAssertionScreen } from "@/components/multi-factor-auth-assertion-screen";

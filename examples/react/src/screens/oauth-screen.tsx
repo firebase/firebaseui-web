@@ -23,7 +23,7 @@ import {
   MicrosoftSignInButton,
   OAuthScreen,
   TwitterSignInButton,
-} from "@firebase-ui/react";
+} from "@invertase/firebaseui-react";
 
 export default function OAuthScreenPage() {
   const [themed, setThemed] = useState(false);

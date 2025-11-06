@@ -6,8 +6,8 @@
     "types": ["vitest/globals", "node"],
     "paths": {
       "~/tests/*": ["./tests/*"],
-      "@firebase-ui/core": ["../core/src/index.ts"],
-      "@firebase-ui/styles": ["../styles/src/index.ts"]
+      "@invertase/firebaseui-core": ["../core/src/index.ts"],
+      "@invertase/firebaseui-styles": ["../styles/src/index.ts"]
     }
   },
   "files": ["setup-test.ts"],

@@ -26,9 +26,9 @@ import {
 } from "../../components/form";
 import { PoliciesComponent } from "../../components/policies";
 
-// Mock the @firebase-ui/core module but preserve Angular providers
-jest.mock("@firebase-ui/core", () => {
-  const originalModule = jest.requireActual("@firebase-ui/core");
+// Mock the @invertase/firebaseui-core module but preserve Angular providers
+jest.mock("@invertase/firebaseui-core", () => {
+  const originalModule = jest.requireActual("@invertase/firebaseui-core");
   return {
     ...originalModule,
     sendPasswordResetEmail: jest.fn(),
@@ -46,7 +46,7 @@ describe("<fui-forgot-password-auth-form />", () => {
   let mockFirebaseUIError: any;
 
   beforeEach(() => {
-    const { sendPasswordResetEmail, FirebaseUIError } = require("@firebase-ui/core");
+    const { sendPasswordResetEmail, FirebaseUIError } = require("@invertase/firebaseui-core");
     mockSendPasswordResetEmail = sendPasswordResetEmail;
     mockFirebaseUIError = FirebaseUIError;
   });

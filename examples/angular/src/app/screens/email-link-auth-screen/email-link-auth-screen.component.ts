@@ -16,7 +16,7 @@
 
 import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { EmailLinkAuthScreenComponent } from "@firebase-ui/angular";
+import { EmailLinkAuthScreenComponent } from "@invertase/firebaseui-angular";
 
 @Component({
   selector: "app-email-link-auth-screen",

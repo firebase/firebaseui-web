@@ -1,22 +1,23 @@
 "use client";
 
-import type { EmailLinkAuthFormSchema } from "@firebase-ui/core";
+import type { EmailLinkAuthFormSchema } from "@invertase/firebaseui-core";
 import {
   useUI,
   useEmailLinkAuthFormAction,
   useEmailLinkAuthFormSchema,
   useEmailLinkAuthFormCompleteSignIn,
   type EmailLinkAuthFormProps,
-} from "@firebase-ui/react";
+} from "@invertase/firebaseui-react";
 import { useForm } from "react-hook-form";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
-import { FirebaseUIError, getTranslation } from "@firebase-ui/core";
+import { FirebaseUIError, getTranslation } from "@invertase/firebaseui-core";
 import { useState } from "react";
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Policies } from "./policies";
+import { Policies } from "@/components/policies";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export type { EmailLinkAuthFormProps };
 
@@ -49,15 +50,15 @@ export function EmailLinkAuthForm(props: EmailLinkAuthFormProps) {
 
   if (emailSent) {
     return (
-      <div className="text-center space-y-4">
-        <div className="text-green-600 dark:text-green-400">{getTranslation(ui, "messages", "signInLinkSent")}</div>
-      </div>
+      <Alert>
+        <AlertDescription>{getTranslation(ui, "messages", "signInLinkSent")}</AlertDescription>
+      </Alert>
     );
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-y-4">
         <FormField
           control={form.control}
           name="email"

@@ -1,0 +1,7 @@
+{
+  "hosting": {
+    "site": "fir-ui-2025-angular",
+    "public": "dist/angular-ssr/browser",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
+  }
+}

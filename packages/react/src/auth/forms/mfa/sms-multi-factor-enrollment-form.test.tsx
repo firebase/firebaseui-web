@@ -23,13 +23,13 @@ import {
   MultiFactorEnrollmentVerifyPhoneNumberForm,
 } from "./sms-multi-factor-enrollment-form";
 import { act } from "react";
-import { verifyPhoneNumber, enrollWithMultiFactorAssertion } from "@firebase-ui/core";
+import { verifyPhoneNumber, enrollWithMultiFactorAssertion } from "@invertase/firebaseui-core";
 import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
-import { registerLocale } from "@firebase-ui/translations";
+import { registerLocale } from "@invertase/firebaseui-translations";
 import { PhoneAuthProvider, PhoneMultiFactorGenerator } from "firebase/auth";
 
-vi.mock("@firebase-ui/core", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@firebase-ui/core")>();
+vi.mock("@invertase/firebaseui-core", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@invertase/firebaseui-core")>();
   return {
     ...mod,
     verifyPhoneNumber: vi.fn(),

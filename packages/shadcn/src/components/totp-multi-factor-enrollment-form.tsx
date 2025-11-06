@@ -8,12 +8,12 @@ import {
   generateTotpQrCode,
   generateTotpSecret,
   getTranslation,
-} from "@firebase-ui/core";
+} from "@invertase/firebaseui-core";
 import {
   useMultiFactorTotpAuthNumberFormSchema,
   useMultiFactorTotpAuthVerifyFormSchema,
   useUI,
-} from "@firebase-ui/react";
+} from "@invertase/firebaseui-react";
 import { useForm } from "react-hook-form";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 

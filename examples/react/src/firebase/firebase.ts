@@ -30,7 +30,7 @@ export const ui = initializeUI({
   behaviors: [
     // autoAnonymousLogin(),
     oneTapSignIn({
-      clientId: "200312857118-lscdui98fkaq7ffr81446blafjn5o6r0.apps.googleusercontent.com",
+      clientId: "616577669988-led6l3rqek9ckn9t1unj4l8l67070fhp.apps.googleusercontent.com",
     }),
     countryCodes({
       allowedCountries: ["US", "CA", "GB"],

@@ -42,7 +42,7 @@ describe("<fui-oauth-button>", () => {
   let mockFirebaseUIError: any;
 
   beforeEach(() => {
-    const { signInWithProvider, FirebaseUIError } = require("@firebase-ui/core");
+    const { signInWithProvider, FirebaseUIError } = require("@invertase/firebaseui-core");
     mockSignInWithProvider = signInWithProvider;
     mockFirebaseUIError = FirebaseUIError;
 

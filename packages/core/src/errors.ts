@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { ERROR_CODE_MAP, type ErrorCode } from "@firebase-ui/translations";
+import { ERROR_CODE_MAP, type ErrorCode } from "@invertase/firebaseui-translations";
 import { FirebaseError } from "firebase/app";
 import { type AuthCredential, getMultiFactorResolver, type MultiFactorError } from "firebase/auth";
 import { type FirebaseUI } from "./config";

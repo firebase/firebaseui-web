@@ -16,7 +16,7 @@
 
 "use client";
 
-import { SignInAuthScreen } from "@firebase-ui/react";
+import { SignInAuthScreen } from "@invertase/firebaseui-react";
 import { useNavigate } from "react-router";
 
 export default function SignInAuthScreenWithHandlersPage() {

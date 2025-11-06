@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  CountrySelector,
   type PhoneAuthFormProps,
   usePhoneAuthNumberFormSchema,
   usePhoneAuthVerifyFormSchema,
@@ -9,7 +8,7 @@ import {
   useRecaptchaVerifier,
   useUI,
   useVerifyPhoneNumberFormAction,
-} from "@firebase-ui/react";
+} from "@invertase/firebaseui-react";
 import { useState } from "react";
 import type { UserCredential } from "firebase/auth";
 import { useRef } from "react";
@@ -21,13 +20,14 @@ import {
   getTranslation,
   type PhoneAuthNumberFormSchema,
   type PhoneAuthVerifyFormSchema,
-} from "@firebase-ui/core";
+} from "@invertase/firebaseui-core";
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Policies } from "@/components/policies";
-import { type CountrySelectorRef } from "@/components/country-selector";
+import { CountrySelector, type CountrySelectorRef } from "@/components/country-selector";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 
 type VerifyPhoneNumberFormProps = {
   verificationId: string;
@@ -59,7 +59,7 @@ function VerifyPhoneNumberForm(props: VerifyPhoneNumberFormProps) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <FormField
           control={form.control}
           name="verificationCode"
@@ -67,7 +67,16 @@ function VerifyPhoneNumberForm(props: VerifyPhoneNumberFormProps) {
             <FormItem>
               <FormLabel>{getTranslation(ui, "labels", "verificationCode")}</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <InputOTP maxLength={6} {...field}>
+                  <InputOTPGroup>
+                    <InputOTPSlot index={0} />
+                    <InputOTPSlot index={1} />
+                    <InputOTPSlot index={2} />
+                    <InputOTPSlot index={3} />
+                    <InputOTPSlot index={4} />
+                    <InputOTPSlot index={5} />
+                  </InputOTPGroup>
+                </InputOTP>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -114,7 +123,7 @@ function PhoneNumberForm(props: PhoneNumberFormProps) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <FormField
           control={form.control}
           name="phoneNumber"

@@ -1,6 +1,6 @@
 {
-  "name": "@firebase-ui/react",
-  "version": "0.0.1",
+  "name": "@invertase/firebaseui-react",
+  "version": "0.0.6",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -40,8 +40,8 @@
     "react-dom": "catalog:peerDependencies"
   },
   "dependencies": {
-    "@firebase-ui/core": "workspace:*",
-    "@firebase-ui/styles": "workspace:*",
+    "@invertase/firebaseui-core": "workspace:*",
+    "@invertase/firebaseui-styles": "workspace:*",
     "@nanostores/react": "^1.0.0",
     "@radix-ui/react-slot": "^1.2.3",
     "@tanstack/react-form": "1.20.0",
@@ -50,7 +50,7 @@
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@firebase-ui/translations": "workspace:*",
+    "@invertase/firebaseui-translations": "workspace:*",
     "@testing-library/jest-dom": "catalog:",
     "@testing-library/react": "catalog:",
     "@types/jsdom": "catalog:",

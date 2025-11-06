@@ -1,5 +1,5 @@
 import { FactorId } from "firebase/auth";
-import { getTranslation } from "@firebase-ui/core";
+import { getTranslation } from "@invertase/firebaseui-core";
 import { type ComponentProps, useState } from "react";
 
 import { SmsMultiFactorEnrollmentForm } from "./mfa/sms-multi-factor-enrollment-form";

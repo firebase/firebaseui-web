@@ -1,14 +1,14 @@
 "use client";
 
+import { getTranslation } from "@invertase/firebaseui-core";
+import { useUI } from "@invertase/firebaseui-react";
 import {
   PhoneMultiFactorGenerator,
   TotpMultiFactorGenerator,
-  type UserCredential,
   type MultiFactorInfo,
+  type UserCredential,
 } from "firebase/auth";
-import { type ComponentProps, useState } from "react";
-import { getTranslation } from "@firebase-ui/core";
-import { useUI } from "@firebase-ui/react";
+import { useEffect, useState, type ComponentProps } from "react";
 
 import { SmsMultiFactorAssertionForm } from "@/components/sms-multi-factor-assertion-form";
 import { TotpMultiFactorAssertionForm } from "@/components/totp-multi-factor-assertion-form";
@@ -23,6 +23,12 @@ export function MultiFactorAuthAssertionForm({ onSuccess }: MultiFactorAuthAsser
   const resolver = ui.multiFactorResolver;
   const mfaAssertionFactorPrompt = getTranslation(ui, "prompts", "mfaAssertionFactorPrompt");
 
+  useEffect(() => {
+    return () => {
+      ui.setMultiFactorResolver();
+    };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   if (!resolver) {
     throw new Error("MultiFactorAuthAssertionForm requires a multi-factor resolver");
   }
@@ -34,11 +40,11 @@ export function MultiFactorAuthAssertionForm({ onSuccess }: MultiFactorAuthAsser
 
   if (hint) {
     if (hint.factorId === PhoneMultiFactorGenerator.FACTOR_ID) {
-      return <SmsMultiFactorAssertionForm hint={hint} onSuccess={(credential) => onSuccess?.(credential)} />;
+      return <SmsMultiFactorAssertionForm hint={hint} onSuccess={onSuccess} />;
     }
 
     if (hint.factorId === TotpMultiFactorGenerator.FACTOR_ID) {
-      return <TotpMultiFactorAssertionForm hint={hint} onSuccess={(credential) => onSuccess?.(credential)} />;
+      return <TotpMultiFactorAssertionForm hint={hint} onSuccess={onSuccess} />;
     }
   }
 
@@ -63,19 +69,11 @@ export function MultiFactorAuthAssertionForm({ onSuccess }: MultiFactorAuthAsser
 function TotpButton(props: ComponentProps<typeof Button>) {
   const ui = useUI();
   const labelText = getTranslation(ui, "labels", "mfaTotpVerification");
-  return (
-    <Button {...props} variant="outline">
-      {labelText}
-    </Button>
-  );
+  return <Button {...props}>{labelText}</Button>;
 }
 
 function SmsButton(props: ComponentProps<typeof Button>) {
   const ui = useUI();
   const labelText = getTranslation(ui, "labels", "mfaSmsVerification");
-  return (
-    <Button {...props} variant="outline">
-      {labelText}
-    </Button>
-  );
+  return <Button {...props}>{labelText}</Button>;
 }

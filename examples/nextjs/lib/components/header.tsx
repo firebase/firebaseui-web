@@ -16,15 +16,15 @@
 
 "use client";
 
-import Link from "next/link";
-import { useUser } from "../firebase/hooks";
 import { signOut, type User } from "firebase/auth";
-import { auth } from "../firebase/clientApp";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { auth } from "../firebase/clientApp";
+import { useUser } from "../firebase/hooks";
 
-export function Header(props: { currentUser: User | null }) {
+export function Header(props: { currentUser?: User | null }) {
   const router = useRouter();
-  const user = useUser(props.currentUser);
+  const user = useUser(props.currentUser || null);
 
   async function onSignOut() {
     await signOut(auth);

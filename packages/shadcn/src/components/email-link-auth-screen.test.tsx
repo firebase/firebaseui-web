@@ -18,8 +18,8 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, cleanup, fireEvent } from "@testing-library/react";
 import { EmailLinkAuthScreen } from "./email-link-auth-screen";
 import { createMockUI } from "../../tests/utils";
-import { registerLocale } from "@firebase-ui/translations";
-import { FirebaseUIProvider } from "@firebase-ui/react";
+import { registerLocale } from "@invertase/firebaseui-translations";
+import { FirebaseUIProvider } from "@invertase/firebaseui-react";
 import { MultiFactorResolver } from "firebase/auth";
 
 vi.mock("./email-link-auth-form", () => ({

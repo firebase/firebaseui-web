@@ -1,6 +1,6 @@
 {
-  "name": "@firebase-ui/angular",
-  "version": "0.0.1",
+  "name": "@invertase/firebaseui-angular",
+  "version": "0.0.3",
   "files": [
     "dist"
   ],
@@ -26,8 +26,8 @@
     "@angular/fire": "catalog:peerDependencies"
   },
   "dependencies": {
-    "@firebase-ui/core": "workspace:*",
-    "@firebase-ui/styles": "workspace:*",
+    "@invertase/firebaseui-core": "workspace:*",
+    "@invertase/firebaseui-styles": "workspace:*",
     "@tanstack/angular-form": "^1.23.1",
     "nanostores": "catalog:",
     "tslib": "^2.8.1"

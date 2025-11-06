@@ -9,7 +9,7 @@ import { useUI } from "~/hooks";
 import { TotpMultiFactorAssertionForm } from "../forms/mfa/totp-multi-factor-assertion-form";
 import { SmsMultiFactorAssertionForm } from "../forms/mfa/sms-multi-factor-assertion-form";
 import { Button } from "~/components/button";
-import { getTranslation } from "@firebase-ui/core";
+import { getTranslation } from "@invertase/firebaseui-core";
 
 export type MultiFactorAuthAssertionFormProps = {
   onSuccess?: (credential: UserCredential) => void;

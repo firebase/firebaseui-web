@@ -8,12 +8,12 @@ import {
   generateTotpQrCode,
   generateTotpSecret,
   getTranslation,
-} from "@firebase-ui/core";
+} from "@invertase/firebaseui-core";
 import {
   useMultiFactorTotpAuthNumberFormSchema,
   useMultiFactorTotpAuthVerifyFormSchema,
   useUI,
-} from "@firebase-ui/react";
+} from "@invertase/firebaseui-react";
 import { useForm } from "react-hook-form";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 
@@ -49,7 +49,7 @@ function TotpMultiFactorSecretGenerationForm(props: TotpMultiFactorSecretGenerat
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-y-4">
         <FormField
           control={form.control}
           name="displayName"
@@ -108,12 +108,12 @@ export function MultiFactorEnrollmentVerifyTotpForm(props: MultiFactorEnrollment
         <div className="border rounded-lg p-4">
           <img src={qrCodeDataUrl} alt="TOTP QR Code" className="mx-auto" />
           <p className="text-sm text-muted-foreground text-center mt-2">
-            Scan this QR code with your authenticator app
+            {getTranslation(ui, "prompts", "mfaTotpQrCodePrompt")}
           </p>
         </div>
       </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-y-4">
           <FormField
             control={form.control}
             name="verificationCode"

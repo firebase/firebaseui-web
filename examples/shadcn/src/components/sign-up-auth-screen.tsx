@@ -1,11 +1,12 @@
 "use client";
 
-import { getTranslation } from "@firebase-ui/core";
-import { useUI, type SignUpAuthScreenProps } from "@firebase-ui/react";
+import { getTranslation } from "@invertase/firebaseui-core";
+import { useUI, type SignUpAuthScreenProps } from "@invertase/firebaseui-react";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { SignUpAuthForm } from "@/components/sign-up-auth-form";
+import { MultiFactorAuthAssertionScreen } from "@/components/multi-factor-auth-assertion-screen";
 
 export type { SignUpAuthScreenProps };
 
@@ -14,9 +15,14 @@ export function SignUpAuthScreen({ children, ...props }: SignUpAuthScreenProps) 
 
   const titleText = getTranslation(ui, "labels", "signUp");
   const subtitleText = getTranslation(ui, "prompts", "enterDetailsToCreate");
+  const mfaResolver = ui.multiFactorResolver;
+
+  if (mfaResolver) {
+    return <MultiFactorAuthAssertionScreen onSuccess={props.onSignUp} />;
+  }
 
   return (
-    <div className="max-w-md mx-auto">
+    <div className="max-w-sm mx-auto">
       <Card>
         <CardHeader>
           <CardTitle>{titleText}</CardTitle>
@@ -26,7 +32,7 @@ export function SignUpAuthScreen({ children, ...props }: SignUpAuthScreenProps) 
           <SignUpAuthForm {...props} />
           {children ? (
             <>
-              <Separator>{getTranslation(ui, "messages", "dividerOr")}</Separator>
+              <Separator className="my-4" />
               <div className="space-y-2">{children}</div>
             </>
           ) : null}

@@ -4,6 +4,7 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -13,48 +14,91 @@
  * limitations under the License.
  */
 
-import { BrowserRouter, Route, Routes } from "react-router";
+import { BrowserRouter, Routes, Route, Outlet, Link } from "react-router";
 
-import { FirebaseUIProvider } from "@firebase-ui/react";
 import ReactDOM from "react-dom/client";
-
-import { ui } from "./firebase/firebase";
-
+import { FirebaseUIProvider } from "@invertase/firebaseui-react";
+import { ui, auth } from "./firebase/firebase";
 import App from "./App";
-import { Header } from "./components/header";
-
-/** Sign In */
-import { EmailLinkAuthScreen } from "@/components/email-link-auth-screen";
-import { ForgotPasswordAuthScreen } from "@/components/forgot-password-auth-screen";
-import { SignInAuthScreen } from "@/components/sign-in-auth-screen";
-import { SignUpAuthScreen } from "@/components/sign-up-auth-screen";
+import { Button } from "@/components/ui/button";
+import { hiddenRoutes, routes } from "./routes";
 
 const root = document.getElementById("root")!;
 
-ReactDOM.createRoot(root).render(
-  <BrowserRouter>
-    <Header />
-    <FirebaseUIProvider
-      ui={ui}
-      policies={{
-        termsOfServiceUrl: "https://www.google.com",
-        privacyPolicyUrl: "https://www.google.com",
+const allRoutes = [...routes, ...hiddenRoutes];
+
+// Hacky way to ensure we have an auth state before showing the app...
+auth.authStateReady().then(() => {
+  ReactDOM.createRoot(root).render(
+    <BrowserRouter>
+      <FirebaseUIProvider
+        ui={ui}
+        policies={{
+          termsOfServiceUrl: "https://www.google.com",
+          privacyPolicyUrl: "https://www.google.com",
+        }}
+      >
+        <ThemeToggle />
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route element={<ScreenRoute />}>
+            {allRoutes.map((route) => (
+              <Route key={route.path} path={route.path} element={<route.component />} />
+            ))}
+          </Route>
+        </Routes>
+      </FirebaseUIProvider>
+    </BrowserRouter>
+  );
+});
+
+function ScreenRoute() {
+  return (
+    <div className="p-8">
+      <Link to="/">
+        <Button variant="outline" size="sm">
+          &larr; Back to overview
+        </Button>
+      </Link>
+      <div className="pt-12">
+        <Outlet />
+      </div>
+    </div>
+  );
+}
+
+function ThemeToggle() {
+  return (
+    <Button
+      variant="outline"
+      size="icon"
+      className="fixed z-10 top-8 right-8 group/toggle extend-touch-target size-8"
+      onClick={() => {
+        document.documentElement.classList.toggle("dark", !document.documentElement.classList.contains("dark"));
+        localStorage.theme = document.documentElement.classList.contains("dark") ? "dark" : "light";
       }}
+      title="Toggle theme"
     >
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/screens/sign-in-auth-screen" element={<SignInAuthScreen />} />
-        {/* <Route path="/screens/sign-in-auth-screen-w-handlers" element={<SignInAuthScreenWithHandlers />} /> */}
-        {/* <Route path="/screens/sign-in-auth-screen-w-oauth" element={<SignInAuthScreenWithOAuth />} /> */}
-        <Route path="/screens/email-link-auth-screen" element={<EmailLinkAuthScreen />} />
-        {/* <Route path="/screens/email-link-auth-screen-w-oauth" element={<EmailLinkAuthScreenWithOAuth />} /> */}
-        {/* <Route path="/screens/phone-auth-screen" element={<PhoneAuthScreen />} /> */}
-        {/* <Route path="/screens/phone-auth-screen-w-oauth" element={<PhoneAuthScreenWithOAuth />} /> */}
-        <Route path="/screens/sign-up-auth-screen" element={<SignUpAuthScreen />} />
-        {/* <Route path="/screens/sign-up-auth-screen-w-oauth" element={<SignUpAuthScreenWithOAuth />} /> */}
-        {/* <Route path="/screens/oauth-screen" element={<OAuthScreen />} /> */}
-        <Route path="/screens/forgot-password-screen" element={<ForgotPasswordAuthScreen />} />
-      </Routes>
-    </FirebaseUIProvider>
-  </BrowserRouter>
-);
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="size-4.5"
+      >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+        <path d="M12 3l0 18" />
+        <path d="M12 9l4.65 -4.65" />
+        <path d="M12 14.3l7.37 -7.37" />
+        <path d="M12 19.6l8.85 -8.85" />
+      </svg>
+      <span className="sr-only">Toggle theme</span>
+    </Button>
+  );
+}

@@ -18,22 +18,22 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import { SignInAuthForm } from "./sign-in-auth-form";
 import { act } from "react";
-import { useSignInAuthFormAction } from "@firebase-ui/react";
+import { useSignInAuthFormAction } from "@invertase/firebaseui-react";
 import { createMockUI } from "../../tests/utils";
-import { registerLocale } from "@firebase-ui/translations";
-import { FirebaseUIProvider } from "@firebase-ui/react";
+import { registerLocale } from "@invertase/firebaseui-translations";
+import { FirebaseUIProvider } from "@invertase/firebaseui-react";
 import { UserCredential } from "firebase/auth";
 
-vi.mock("@firebase-ui/core", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@firebase-ui/core")>();
+vi.mock("@invertase/firebaseui-core", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@invertase/firebaseui-core")>();
   return {
     ...mod,
     signInWithEmailAndPassword: vi.fn(),
   };
 });
 
-vi.mock("@firebase-ui/react", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@firebase-ui/react")>();
+vi.mock("@invertase/firebaseui-react", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@invertase/firebaseui-react")>();
   return {
     ...mod,
     useSignInAuthFormAction: vi.fn(),

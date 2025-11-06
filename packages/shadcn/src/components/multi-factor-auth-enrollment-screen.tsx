@@ -1,7 +1,7 @@
 "use client";
 
-import { getTranslation } from "@firebase-ui/core";
-import { useUI, type MultiFactorAuthEnrollmentFormProps } from "@firebase-ui/react";
+import { getTranslation } from "@invertase/firebaseui-core";
+import { useUI, type MultiFactorAuthEnrollmentFormProps } from "@invertase/firebaseui-react";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { MultiFactorAuthEnrollmentForm } from "@/components/multi-factor-auth-enrollment-form";

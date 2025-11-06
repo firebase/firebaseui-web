@@ -18,7 +18,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, cleanup, fireEvent } from "@testing-library/react";
 import { EmailLinkAuthScreen } from "~/auth/screens/email-link-auth-screen";
 import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
-import { registerLocale } from "@firebase-ui/translations";
+import { registerLocale } from "@invertase/firebaseui-translations";
 import type { MultiFactorResolver } from "firebase/auth";
 
 vi.mock("~/auth/forms/email-link-auth-form", () => ({
