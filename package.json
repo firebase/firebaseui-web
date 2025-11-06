@@ -4,9 +4,10 @@
   "type": "module",
   "scripts": {
     "emulators": "firebase emulators:start --only auth --project demo-test",
-    "build": "pnpm run build:translations && pnpm run build:core && pnpm run build:react",
+    "build": "pnpm run build:translations && pnpm run build:styles && pnpm run build:core && pnpm run build:react",
     "build:core": "pnpm --filter=@invertase/firebaseui-core run build",
     "build:translations": "pnpm --filter=@invertase/firebaseui-translations run build",
+    "build:styles": "pnpm --filter=@invertase/firebaseui-styles run build",
     "build:react": "pnpm --filter=@invertase/firebaseui-react run build",
     "build:angular": "pnpm --filter=@invertase/firebaseui-angular run build",
     "build:shadcn": "pnpm --filter=@firebase-ui/shadcn run build",
