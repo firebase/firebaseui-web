@@ -1,7 +1,12 @@
 "use client";
 
 import type { SignInAuthFormSchema } from "@invertase/firebaseui-core";
-import { useSignInAuthFormAction, useSignInAuthFormSchema, useUI, type SignInAuthFormProps } from "@invertase/firebaseui-react";
+import {
+  useSignInAuthFormAction,
+  useSignInAuthFormSchema,
+  useUI,
+  type SignInAuthFormProps,
+} from "@invertase/firebaseui-react";
 import { useForm } from "react-hook-form";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 import { FirebaseUIError, getTranslation } from "@invertase/firebaseui-core";
