@@ -22,7 +22,7 @@ export default function SignUpAuthScreenPage() {
   const navigate = useNavigate();
   return (
     <SignUpAuthScreen
-      onSignUp={(credential) => {
+      onSignUp={() => {
         navigate("/");
       }}
     />

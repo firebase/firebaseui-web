@@ -23,7 +23,7 @@ export default function SignInAuthScreenPage() {
 
   return (
     <SignInAuthScreen
-      onSignIn={(credential) => {
+      onSignIn={() => {
         navigate("/");
       }}
     />

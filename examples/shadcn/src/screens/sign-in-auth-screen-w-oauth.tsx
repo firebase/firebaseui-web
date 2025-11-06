@@ -15,13 +15,13 @@
 
 "use client";
 
-import { GoogleSignInButton } from "@/components/google-sign-in-button";
-import { FacebookSignInButton } from "@/components/facebook-sign-in-button";
 import { AppleSignInButton } from "@/components/apple-sign-in-button";
+import { FacebookSignInButton } from "@/components/facebook-sign-in-button";
 import { GitHubSignInButton } from "@/components/github-sign-in-button";
+import { GoogleSignInButton } from "@/components/google-sign-in-button";
 import { MicrosoftSignInButton } from "@/components/microsoft-sign-in-button";
-import { TwitterSignInButton } from "@/components/twitter-sign-in-button";
 import { SignInAuthScreen } from "@/components/sign-in-auth-screen";
+import { TwitterSignInButton } from "@/components/twitter-sign-in-button";
 import { useNavigate } from "react-router";
 
 export default function SignInAuthScreenWithOAuthPage() {
@@ -29,7 +29,7 @@ export default function SignInAuthScreenWithOAuthPage() {
 
   return (
     <SignInAuthScreen
-      onSignIn={(credential) => {
+      onSignIn={() => {
         navigate("/");
       }}
     >

@@ -1,10 +1,9 @@
 "use client";
 
-import { PhoneMultiFactorGenerator, TotpMultiFactorGenerator, type MultiFactorInfo } from "firebase/auth";
-import { type ComponentProps, useState } from "react";
 import { getTranslation } from "@invertase/firebaseui-core";
 import { useUI } from "@invertase/firebaseui-react";
-import { useEffect } from "react";
+import { PhoneMultiFactorGenerator, TotpMultiFactorGenerator, type MultiFactorInfo } from "firebase/auth";
+import { useEffect, useState, type ComponentProps } from "react";
 
 import { SmsMultiFactorAssertionForm } from "@/components/sms-multi-factor-assertion-form";
 import { TotpMultiFactorAssertionForm } from "@/components/totp-multi-factor-assertion-form";
@@ -19,7 +18,7 @@ export function MultiFactorAuthAssertionForm() {
     return () => {
       ui.setMultiFactorResolver();
     };
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!resolver) {
     throw new Error("MultiFactorAuthAssertionForm requires a multi-factor resolver");
