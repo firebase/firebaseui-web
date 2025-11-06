@@ -1,6 +1,6 @@
 {
   "name": "@invertase/firebaseui-angular",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "files": [
     "dist"
   ],
@@ -19,6 +19,7 @@
     "build": "pnpm run build:logos && ng-packagr -p ng-package.json",
     "build:logos": "tsx generate-logos.ts",
     "test": "jest --silent",
+    "version:bump": "pnpm version patch",
     "publish:tags": "sh -c 'TAG=\"${npm_package_name}@${npm_package_version}\"; git tag --list \"$TAG\" | grep . || git tag \"$TAG\"; git push origin \"$TAG\"'",
     "release": "pnpm pack --pack-destination ../../releases/"
   },

@@ -1,6 +1,6 @@
 {
   "name": "@invertase/firebaseui-react",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -31,6 +31,7 @@
     "test:unit:watch": "vitest tests/unit",
     "test:integration": "vitest run tests/integration",
     "test:integration:watch": "vitest tests/integration",
+    "version:bump": "pnpm version patch",
     "publish:tags": "sh -c 'TAG=\"${npm_package_name}@${npm_package_version}\"; git tag --list \"$TAG\" | grep . || git tag \"$TAG\"; git push origin \"$TAG\"'",
     "release": "pnpm run build && pnpm pack --pack-destination --pack-destination ../../releases/"
   },

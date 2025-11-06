@@ -1,6 +1,6 @@
 {
   "name": "@invertase/firebaseui-styles",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "type": "module",
   "zshy": {
     "exports": {
@@ -27,6 +27,7 @@
     "clean": "rimraf dist",
     "test": "vitest run",
     "test:watch": "vitest",
+    "version:bump": "pnpm version patch",
     "publish:tags": "sh -c 'TAG=\"${npm_package_name}@${npm_package_version}\"; git tag --list \"$TAG\" | grep . || git tag \"$TAG\"; git push origin \"$TAG\"'",
     "release": "pnpm run build && pnpm pack --pack-destination ../../releases/"
   },
