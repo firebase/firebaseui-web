@@ -18,8 +18,8 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
 import { MultiFactorAuthAssertionScreen } from "./multi-factor-auth-assertion-screen";
 import { createMockUI } from "../../tests/utils";
-import { registerLocale } from "@firebase-ui/translations";
-import { FirebaseUIProvider } from "@firebase-ui/react";
+import { registerLocale } from "@invertase/firebaseui-translations";
+import { FirebaseUIProvider } from "@invertase/firebaseui-react";
 
 vi.mock("./multi-factor-auth-assertion-form", () => ({
   MultiFactorAuthAssertionForm: ({ onSuccess }: { onSuccess?: (credential: any) => void }) => (
