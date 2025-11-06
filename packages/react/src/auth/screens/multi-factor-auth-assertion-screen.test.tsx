@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, cleanup } from "@testing-library/react";
+import { registerLocale } from "@invertase/firebaseui-translations";
+import { cleanup, render, screen } from "@testing-library/react";
+import { type UserCredential } from "firebase/auth";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { MultiFactorAuthAssertionScreen } from "~/auth/screens/multi-factor-auth-assertion-screen";
 import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
-import { registerLocale } from "@firebase-ui/translations";
-import { type UserCredential } from "firebase/auth";
 
 vi.mock("~/auth/forms/multi-factor-auth-assertion-form", () => ({
   MultiFactorAuthAssertionForm: ({ onSuccess }: { onSuccess?: (credential: UserCredential) => void }) => (
