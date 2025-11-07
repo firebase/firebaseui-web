@@ -16,8 +16,8 @@
 
 "use client";
 
-import { SignInAuthScreen } from "@invertase/firebaseui-react";
+import { SignUpAuthScreen } from "@invertase/firebaseui-react";
 
-export default function Example4() {
-  return <SignInAuthScreen onForgotPasswordClick={() => {}} onRegisterClick={() => {}} />;
+export default function SignUpAuthScreenPage() {
+  return <SignUpAuthScreen />;
 }

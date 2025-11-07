@@ -29,9 +29,12 @@ export type Translations = {
     wrongPassword?: string;
     invalidEmail?: string;
     userDisabled?: string;
+    unverifiedEmail?: string;
     networkRequestFailed?: string;
     tooManyRequests?: string;
     emailAlreadyInUse?: string;
+    missingVerificationCode?: string;
+    invalidCredential?: string;
     weakPassword?: string;
     operationNotAllowed?: string;
     invalidPhoneNumber?: string;
@@ -59,6 +62,7 @@ export type Translations = {
     checkEmailForReset?: string;
     dividerOr?: string;
     termsAndPrivacy?: string;
+    mfaSmsAssertionPrompt?: string;
   };
   labels?: {
     emailAddress?: string;
@@ -99,6 +103,7 @@ export type Translations = {
     enterEmailToReset?: string;
     signInToAccount?: string;
     enterDetailsToCreate?: string;
+    smsVerificationPrompt?: string;
     enterPhoneNumber?: string;
     enterVerificationCode?: string;
     enterEmailForLink?: string;
@@ -106,5 +111,6 @@ export type Translations = {
     mfaAssertionPrompt?: string;
     mfaAssertionFactorPrompt?: string;
     mfaTotpQrCodePrompt?: string;
+    mfaTotpEnrollmentVerificationPrompt?: string;
   };
 };

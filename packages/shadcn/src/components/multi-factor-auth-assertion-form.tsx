@@ -8,7 +8,8 @@ import {
   type MultiFactorInfo,
   type UserCredential,
 } from "firebase/auth";
-import { useEffect, useState, type ComponentProps } from "react";
+import { useState, type ComponentProps } from "react";
+import { useMultiFactorAssertionCleanup } from "@invertase/firebaseui-react";
 
 import { SmsMultiFactorAssertionForm } from "@/components/sms-multi-factor-assertion-form";
 import { TotpMultiFactorAssertionForm } from "@/components/totp-multi-factor-assertion-form";
@@ -23,11 +24,7 @@ export function MultiFactorAuthAssertionForm({ onSuccess }: MultiFactorAuthAsser
   const resolver = ui.multiFactorResolver;
   const mfaAssertionFactorPrompt = getTranslation(ui, "prompts", "mfaAssertionFactorPrompt");
 
-  useEffect(() => {
-    return () => {
-      ui.setMultiFactorResolver();
-    };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useMultiFactorAssertionCleanup();
 
   if (!resolver) {
     throw new Error("MultiFactorAuthAssertionForm requires a multi-factor resolver");

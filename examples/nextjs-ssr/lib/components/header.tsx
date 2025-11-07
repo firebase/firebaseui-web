@@ -16,25 +16,26 @@
 
 "use client";
 
-import { NavLink } from "react-router";
+import { signOut, type User } from "firebase/auth";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { auth } from "../firebase/clientApp";
 import { useUser } from "../firebase/hooks";
-import { signOut } from "firebase/auth";
-import { auth } from "../firebase/firebase";
 
-export function Header() {
-  const user = useUser();
+export function Header(props: { currentUser?: User | null }) {
+  const router = useRouter();
+  const user = useUser(props.currentUser || null);
 
   async function onSignOut() {
     await signOut(auth);
-    // TODO: Use the router instead of window.location.href
-    window.location.href = "/";
+    router.push("/sign-in");
   }
 
   return (
     <header className="border-b border-gray-200">
       <div className="max-w-6xl mx-auto h-12 flex items-center">
         <div className="font-bold">
-          <NavLink to="/">FirebaseUI</NavLink>
+          <Link href="/">FirebaseUI</Link>
         </div>
         <div className="flex-grow flex items-center justify-end">
           <ul className="text-sm flex items-center gap-6 *:hover:opacity-75">
@@ -44,7 +45,7 @@ export function Header() {
               </li>
             ) : (
               <li>
-                <NavLink to="/sign-in">Sign In</NavLink>
+                <Link href="/sign-in">Sign In</Link>
               </li>
             )}
           </ul>

@@ -22,7 +22,7 @@ import {
   type PhoneAuthVerifyFormSchema,
 } from "@invertase/firebaseui-core";
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Policies } from "@/components/policies";
@@ -66,6 +66,7 @@ function VerifyPhoneNumberForm(props: VerifyPhoneNumberFormProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>{getTranslation(ui, "labels", "verificationCode")}</FormLabel>
+              <FormDescription>{getTranslation(ui, "prompts", "smsVerificationPrompt")}</FormDescription>
               <FormControl>
                 <InputOTP maxLength={6} {...field}>
                   <InputOTPGroup>

@@ -19,7 +19,7 @@ import { useStore } from "@nanostores/react";
 import { type PolicyProps, PolicyProvider } from "~/components/policies";
 import { createContext } from "react";
 
-export const FirebaseUIContext = createContext<FirebaseUI>({} as FirebaseUI);
+export const FirebaseUIContext = createContext<FirebaseUI>(null as unknown as FirebaseUI);
 
 export type FirebaseUIProviderProps = {
   children: React.ReactNode;

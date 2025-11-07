@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-import { getCurrentUser } from "@/lib/firebase/serverApp";
-import { FirebaseUIProvider } from "@/lib/firebase/ui";
+// import { getCurrentUser } from "@/lib/firebase/serverApp";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { FirebaseUIProviderHoc } from "../lib/firebase/ui";
+// import { Header } from "@/lib/components/header";
 
-import { Header } from "@/lib/components/header";
 import "./globals.css";
+// import { useUser } from "@/lib/firebase/hooks";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,13 +43,13 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { currentUser } = await getCurrentUser();
+  // const user = await useUser();
 
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Header currentUser={currentUser} />
-        <FirebaseUIProvider>{children}</FirebaseUIProvider>
+        {/* <Header currentUser={{null}} /> */}
+        <FirebaseUIProviderHoc>{children}</FirebaseUIProviderHoc>
       </body>
     </html>
   );

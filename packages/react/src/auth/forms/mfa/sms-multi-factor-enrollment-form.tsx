@@ -193,7 +193,13 @@ export function MultiFactorEnrollmentVerifyPhoneNumberForm(props: MultiFactorEnr
       <form.AppForm>
         <fieldset>
           <form.AppField name="verificationCode">
-            {(field) => <field.Input label={getTranslation(ui, "labels", "verificationCode")} type="text" />}
+            {(field) => (
+              <field.Input
+                description={getTranslation(ui, "prompts", "smsVerificationPrompt")}
+                label={getTranslation(ui, "labels", "verificationCode")}
+                type="text"
+              />
+            )}
           </form.AppField>
         </fieldset>
         <fieldset>

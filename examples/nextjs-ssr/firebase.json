@@ -1,0 +1,7 @@
+{
+  "hosting": {
+    "site": "fir-ui-rework-nextjs-ssr",
+    "source": ".",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
+  }
+}

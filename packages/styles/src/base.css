@@ -84,7 +84,6 @@
 
   :where(.fui-content) {
     @apply space-y-2;
-    
   }
 
   :where(.fui-card) {
@@ -120,6 +119,10 @@
     @apply grow;
   }
 
+  :where(.fui-form fieldset label div[data-input-description]) {
+    @apply text-xs text-text-muted;
+  }
+
   :where(.fui-form .fui-form__action) {
     @apply px-1 hover:underline text-xs text-text-muted;
   }
@@ -134,6 +137,10 @@
 
   :where(.fui-form fieldset label div[data-input-group]) {
     @apply flex items-center gap-2;
+  }
+
+  :where(.fui-form .fui-qr-code-container) {
+    @apply flex flex-col items-center gap-4 text-text-muted text-xs;
   }
 
   :where(.fui-error) {

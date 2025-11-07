@@ -20,7 +20,6 @@ import {
   createEmailLinkAuthFormSchema,
   createForgotPasswordAuthFormSchema,
   createMultiFactorPhoneAuthNumberFormSchema,
-  createMultiFactorPhoneAuthAssertionFormSchema,
   createMultiFactorPhoneAuthVerifyFormSchema,
   createMultiFactorTotpAuthNumberFormSchema,
   createMultiFactorTotpAuthVerifyFormSchema,
@@ -40,7 +39,14 @@ export function useUI() {
 
   if (!ui) {
     throw new Error(
-      "No FirebaseUI context found. Your application must be wrapped in a <FirebaseUIProvider> component."
+      `No FirebaseUI context found. Your application must be wrapped in a FirebaseUIProvider:
+
+const ui = initializeUI(...);
+
+<FirebaseUIProvider ui={ui}>
+  <App />
+</FirebaseUIProvider>
+`
     );
   }
 
@@ -91,11 +97,6 @@ export function usePhoneAuthVerifyFormSchema() {
 export function useMultiFactorPhoneAuthNumberFormSchema() {
   const ui = useUI();
   return useMemo(() => createMultiFactorPhoneAuthNumberFormSchema(ui), [ui]);
-}
-
-export function useMultiFactorPhoneAuthAssertionFormSchema() {
-  const ui = useUI();
-  return useMemo(() => createMultiFactorPhoneAuthAssertionFormSchema(ui), [ui]);
 }
 
 export function useMultiFactorPhoneAuthVerifyFormSchema() {

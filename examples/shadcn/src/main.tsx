@@ -17,11 +17,13 @@
 import { BrowserRouter, Routes, Route, Outlet, Link } from "react-router";
 
 import ReactDOM from "react-dom/client";
-import { FirebaseUIProvider } from "@invertase/firebaseui-react";
+import { FirebaseUIProvider, useUI } from "@invertase/firebaseui-react";
 import { ui, auth } from "./firebase/firebase";
 import App from "./App";
 import { Button } from "@/components/ui/button";
 import { hiddenRoutes, routes } from "./routes";
+import { enUs } from "@invertase/firebaseui-translations";
+import { pirate } from "./pirate";
 
 const root = document.getElementById("root")!;
 
@@ -39,6 +41,7 @@ auth.authStateReady().then(() => {
         }}
       >
         <ThemeToggle />
+        <PirateToggle />
         <Routes>
           <Route path="/" element={<App />} />
           <Route element={<ScreenRoute />}>
@@ -99,6 +102,29 @@ function ThemeToggle() {
         <path d="M12 19.6l8.85 -8.85" />
       </svg>
       <span className="sr-only">Toggle theme</span>
+    </Button>
+  );
+}
+
+function PirateToggle() {
+  const ui = useUI();
+  const isPirate = ui.locale.locale === "pirate";
+
+  return (
+    <Button
+      variant="outline"
+      size="icon"
+      className="fixed z-10 top-8 right-20 group/toggle extend-touch-target size-8"
+      onClick={() => {
+        if (isPirate) {
+          ui.setLocale(enUs);
+        } else {
+          ui.setLocale(pirate);
+        }
+      }}
+      title="Toggle pirate mode"
+    >
+      {isPirate ? "🇺🇸" : "🏴‍☠️"}
     </Button>
   );
 }

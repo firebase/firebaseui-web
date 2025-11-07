@@ -72,7 +72,10 @@ describe("mapping.ts", () => {
         "userNotFound",
         "wrongPassword",
         "invalidEmail",
+        "unverifiedEmail",
         "userDisabled",
+        "missingVerificationCode",
+        "invalidCredential",
         "networkRequestFailed",
         "tooManyRequests",
         "emailAlreadyInUse",
@@ -291,6 +294,96 @@ describe("mapping.ts", () => {
       expect(typeof labelTranslation).toBe("string");
       expect(typeof messageTranslation).toBe("string");
       expect(typeof promptTranslation).toBe("string");
+    });
+
+    it("should replace placeholders with replacement values", () => {
+      const locale = registerLocale("en-US", {});
+
+      const result1 = getTranslation(locale, "messages", "mfaSmsAssertionPrompt", {
+        phoneNumber: "+1234567890",
+      });
+      expect(result1).toBe("A verification code will be sent to +1234567890 to complete the authentication process.");
+
+      const result2 = getTranslation(locale, "messages", "termsAndPrivacy", {
+        tos: "Terms of Service",
+        privacy: "Privacy Policy",
+      });
+      expect(result2).toBe("By continuing, you agree to our Terms of Service and Privacy Policy.");
+    });
+
+    it("should leave placeholders unchanged when replacement is missing", () => {
+      const locale = registerLocale("en-US", {});
+
+      const result1 = getTranslation(locale, "messages", "mfaSmsAssertionPrompt", {
+        // phoneNumber is missing
+      });
+      expect(result1).toBe("A verification code will be sent to {phoneNumber} to complete the authentication process.");
+
+      const result2 = getTranslation(locale, "messages", "termsAndPrivacy", {
+        tos: "Terms of Service",
+        // privacy is missing
+      });
+      expect(result2).toBe("By continuing, you agree to our Terms of Service and {privacy}.");
+    });
+
+    it("should work with replacements in custom locales", () => {
+      const customTranslations: Translations = {
+        messages: {
+          termsAndPrivacy: "En continuant, vous acceptez nos {tos} et {privacy}.",
+        },
+      };
+
+      const locale = registerLocale("fr-FR", customTranslations);
+
+      const result = getTranslation(locale, "messages", "termsAndPrivacy", {
+        tos: "Conditions d'utilisation",
+        privacy: "Politique de confidentialité",
+      });
+      expect(result).toBe("En continuant, vous acceptez nos Conditions d'utilisation et Politique de confidentialité.");
+    });
+
+    it("should work with replacements in fallback locales", () => {
+      const fallbackTranslations: Translations = {
+        messages: {
+          termsAndPrivacy: "Fallback: {tos} and {privacy}",
+        },
+      };
+
+      const primaryTranslations: Translations = {
+        messages: {
+          mfaSmsAssertionPrompt: "Primary: {phoneNumber}",
+        },
+      };
+
+      const fallbackLocale = registerLocale("en-US", fallbackTranslations);
+      const primaryLocale = registerLocale("fr-FR", primaryTranslations, fallbackLocale);
+
+      const result1 = getTranslation(primaryLocale, "messages", "mfaSmsAssertionPrompt", {
+        phoneNumber: "+1234567890",
+      });
+      expect(result1).toBe("Primary: +1234567890");
+
+      const result2 = getTranslation(primaryLocale, "messages", "termsAndPrivacy", {
+        tos: "Terms",
+        privacy: "Privacy",
+      });
+      expect(result2).toBe("Fallback: Terms and Privacy");
+    });
+
+    it("should handle empty replacements object", () => {
+      const locale = registerLocale("en-US", {});
+
+      const result = getTranslation(locale, "messages", "mfaSmsAssertionPrompt", {});
+      expect(result).toBe("A verification code will be sent to {phoneNumber} to complete the authentication process.");
+    });
+
+    it("should handle strings without placeholders", () => {
+      const locale = registerLocale("en-US", {});
+
+      const result = getTranslation(locale, "errors", "userNotFound", {
+        someKey: "someValue",
+      });
+      expect(result).toBe("No account found with this email address");
     });
   });
 

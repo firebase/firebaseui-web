@@ -104,13 +104,12 @@ export function MultiFactorEnrollmentVerifyTotpForm(props: MultiFactorEnrollment
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-center">
-        <div className="border rounded-lg p-4">
-          <img src={qrCodeDataUrl} alt="TOTP QR Code" className="mx-auto" />
-          <p className="text-sm text-muted-foreground text-center mt-2">
-            {getTranslation(ui, "prompts", "mfaTotpQrCodePrompt")}
-          </p>
-        </div>
+      <div className="flex flex-col gap-y-4 items-center justify-center">
+        <img src={qrCodeDataUrl} alt="TOTP QR Code" className="mx-auto" />
+        <code className="text-xs text-muted-foreground text-center">{props.secret.secretKey.toString()}</code>
+        <p className="text-xs text-muted-foreground text-center">
+          {getTranslation(ui, "prompts", "mfaTotpQrCodePrompt")}
+        </p>
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-y-4">
