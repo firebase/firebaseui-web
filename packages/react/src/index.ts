@@ -18,11 +18,11 @@
 import { registerFramework } from "@invertase/firebaseui-core";
 import pkgJson from "../package.json";
 
-export { PolicyContext } from "./components/policies";
 export * from "./auth";
-export * from "./hooks";
 export * from "./components";
+export { PolicyContext } from "./components/policies";
 export { FirebaseUIProvider, type FirebaseUIProviderProps } from "./context";
+export * from "./hooks";
 
 if (import.meta.env.PROD) {
   registerFramework("react", pkgJson.version);

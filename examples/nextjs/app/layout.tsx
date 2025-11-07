@@ -18,7 +18,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
-import { Header } from "@/lib/components/header";
+// import { Header } from "@/lib/components/header";
 import { FirebaseUIProviderHoc } from "@/lib/firebase/ui";
 import "./globals.css";
 // import { useUser } from "@/lib/firebase/hooks";
