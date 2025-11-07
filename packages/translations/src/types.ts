@@ -33,6 +33,7 @@ export type Translations = {
     networkRequestFailed?: string;
     tooManyRequests?: string;
     emailAlreadyInUse?: string;
+    invalidCredential?: string;
     weakPassword?: string;
     operationNotAllowed?: string;
     invalidPhoneNumber?: string;

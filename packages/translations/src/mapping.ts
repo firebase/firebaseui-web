@@ -24,6 +24,7 @@ export const ERROR_CODE_MAP = {
   "auth/invalid-email": "invalidEmail",
   "auth/unverified-email": "unverifiedEmail",
   "auth/user-disabled": "userDisabled",
+  "auth/invalid-credential": "invalidCredential",
   "auth/network-request-failed": "networkRequestFailed",
   "auth/too-many-requests": "tooManyRequests",
   "auth/email-already-in-use": "emailAlreadyInUse",

@@ -25,6 +25,7 @@ export const enUS = {
     networkRequestFailed: "Unable to connect to the server. Please check your internet connection",
     tooManyRequests: "Too many failed attempts. Please try again later",
     emailAlreadyInUse: "An account already exists with this email",
+    invalidCredential: "The provided credentials are invalid.",
     weakPassword: "Password should be at least 8 characters",
     unverifiedEmail: "Please verify your email address to continue.",
     operationNotAllowed: "This operation is not allowed. Please contact support.",
