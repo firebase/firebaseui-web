@@ -30,13 +30,13 @@ const allRoutes = [...routes, ...hiddenRoutes];
 auth.authStateReady().then(() => {
   ReactDOM.createRoot(root).render(
     <BrowserRouter>
-      <FirebaseUIProvider
+      {/* <FirebaseUIProvider
         ui={ui}
         policies={{
           termsOfServiceUrl: "https://www.google.com",
           privacyPolicyUrl: "https://www.google.com",
         }}
-      >
+      > */}
         <ThemeToggle />
         <Routes>
           <Route path="/" element={<App />} />
@@ -46,7 +46,7 @@ auth.authStateReady().then(() => {
             ))}
           </Route>
         </Routes>
-      </FirebaseUIProvider>
+      {/* </FirebaseUIProvider> */}
     </BrowserRouter>
   );
 });
