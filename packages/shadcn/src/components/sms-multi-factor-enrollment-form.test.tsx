@@ -128,7 +128,7 @@ describe("<SmsMultiFactorEnrollmentForm />", () => {
           verifyCode: "Verify Code",
         },
         prompts: {
-          mfaSmsEnrollmentVerificationPrompt: "mfaSmsEnrollmentVerificationPrompt",
+          smsVerificationPrompt: "smsVerificationPrompt",
         },
       }),
     });
@@ -154,7 +154,7 @@ describe("<SmsMultiFactorEnrollmentForm />", () => {
 
     const description = container.querySelector('[data-slot="form-description"]');
     expect(description).toBeInTheDocument();
-    expect(description).toHaveTextContent("mfaSmsEnrollmentVerificationPrompt");
+    expect(description).toHaveTextContent("smsVerificationPrompt");
 
     expect(screen.getByRole("button", { name: "Verify Code" })).toBeInTheDocument();
   });
@@ -204,7 +204,7 @@ describe("<SmsMultiFactorEnrollmentForm />", () => {
           verifyCode: "Verify Code",
         },
         prompts: {
-          mfaSmsEnrollmentVerificationPrompt: "mfaSmsEnrollmentVerificationPrompt",
+          smsVerificationPrompt: "smsVerificationPrompt",
         },
       }),
     });
@@ -229,7 +229,7 @@ describe("<SmsMultiFactorEnrollmentForm />", () => {
 
     const description = container.querySelector('[data-slot="form-description"]');
     expect(description).toBeInTheDocument();
-    expect(description).toHaveTextContent("mfaSmsEnrollmentVerificationPrompt");
+    expect(description).toHaveTextContent("smsVerificationPrompt");
 
     const verificationInput = screen.getByTestId("input-otp-slot-0");
     fireEvent.change(verificationInput, { target: { value: "123456" } });
@@ -253,7 +253,7 @@ describe("<SmsMultiFactorEnrollmentForm />", () => {
           verifyCode: "Verify Code",
         },
         prompts: {
-          mfaSmsEnrollmentVerificationPrompt: "mfaSmsEnrollmentVerificationPrompt",
+          smsVerificationPrompt: "smsVerificationPrompt",
         },
       }),
     });
@@ -278,7 +278,7 @@ describe("<SmsMultiFactorEnrollmentForm />", () => {
 
     const description = container.querySelector('[data-slot="form-description"]');
     expect(description).toBeInTheDocument();
-    expect(description).toHaveTextContent("mfaSmsEnrollmentVerificationPrompt");
+    expect(description).toHaveTextContent("smsVerificationPrompt");
 
     const verificationInput = screen.getByTestId("input-otp-slot-0");
     fireEvent.change(verificationInput, { target: { value: "123456" } });

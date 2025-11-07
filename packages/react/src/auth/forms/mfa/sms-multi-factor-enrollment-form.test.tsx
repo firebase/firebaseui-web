@@ -218,7 +218,7 @@ describe("<MultiFactorEnrollmentVerifyPhoneNumberForm />", () => {
           verifyCode: "verifyCode",
         },
         prompts: {
-          mfaSmsEnrollmentVerificationPrompt: "mfaSmsEnrollmentVerificationPrompt",
+          smsVerificationPrompt: "smsVerificationPrompt",
         },
       }),
     });
@@ -243,7 +243,7 @@ describe("<MultiFactorEnrollmentVerifyPhoneNumberForm />", () => {
 
     const description = container.querySelector("[data-input-description]");
     expect(description).toBeInTheDocument();
-    expect(description).toHaveTextContent("mfaSmsEnrollmentVerificationPrompt");
+    expect(description).toHaveTextContent("smsVerificationPrompt");
 
     const verifyCodeButton = screen.getByRole("button", { name: "verifyCode" });
     expect(verifyCodeButton).toBeInTheDocument();
