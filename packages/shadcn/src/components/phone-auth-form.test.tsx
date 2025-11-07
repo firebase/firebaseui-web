@@ -41,7 +41,8 @@ vi.mock("@invertase/firebaseui-core", async (importOriginal) => {
       if (category === "labels" && key === "phoneNumber") return "Phone Number";
       if (category === "labels" && key === "verificationCode") return "Verification Code";
       if (category === "labels" && key === "verifyCode") return "Verify Code";
-      if (category === "prompts" && key === "smsVerificationPrompt") return "Enter the verification code sent to your phone number";
+      if (category === "prompts" && key === "smsVerificationPrompt")
+        return "Enter the verification code sent to your phone number";
       if (category === "errors" && key === "invalidPhoneNumber") return "Error: Invalid phone number format";
       if (category === "errors" && key === "missingPhoneNumber") return "Phone number is required";
       return key;
