@@ -74,6 +74,7 @@ describe("mapping.ts", () => {
         "invalidEmail",
         "unverifiedEmail",
         "userDisabled",
+        "missingVerificationCode",
         "invalidCredential",
         "networkRequestFailed",
         "tooManyRequests",

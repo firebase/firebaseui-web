@@ -15,6 +15,8 @@ const config: any[] = [
     "**/node_modules/**",
     "**/build/**",
     "**/.next/**",
+    "**/out/**",
+    "**/.firebase/**",
     "**/.angular/**",
     "**/releases/**",
     "**/shadcn/public-dev/**",

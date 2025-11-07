@@ -30,4 +30,6 @@ export const ui = initializeUI({
   behaviors: [autoAnonymousLogin()],
 });
 
-connectAuthEmulator(auth, "http://localhost:9099");
+if (process.env.NODE_ENV === "development") {
+  connectAuthEmulator(auth, "http://localhost:9099");
+}
