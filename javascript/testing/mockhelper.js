@@ -13,7 +13,7 @@
  */
 
 /**
- * @fileoverview Mock helper used to faciliate creating Firebase component mocks
+ * @fileoverview Mock helper used to facilitate creating Firebase component mocks
  * for testing.
  */
 

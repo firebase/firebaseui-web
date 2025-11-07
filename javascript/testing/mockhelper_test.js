@@ -133,7 +133,7 @@ function testMockHelper_unexpectedApiError() {
   myMock.install();
   myMock['ref1'].method1(true, {'a': 1}).then(function(result) {
     assertEquals('success', result);
-    // This unexpect API call will throw an error.
+    // This unexpected API call will throw an error.
     return myMock['ref2'].method3();
   }, function(result) {
     assertFalse(result);
