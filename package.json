@@ -18,7 +18,7 @@
     "deploy:react": "pnpm --filter react run deploy",
     "deploy:nextjs": "pnpm --filter nextjs run deploy",
     "deploy:angular": "pnpm --filter angular-example run deploy",
-    "shadcn:deploy": "pnpm run build:shadcn && firebase deploy --only hosting:fir-ui-shadcn",
+    "deploy:shadcn": "pnpm run build:shadcn && firebase deploy --only hosting:fir-ui-shadcn",
     "lint:check": "eslint",
     "lint:fix": "eslint --fix",
     "format:check": "prettier --check **/{src,tests}/**/*.{ts,tsx}",
