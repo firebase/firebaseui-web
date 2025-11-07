@@ -24,8 +24,11 @@ function Input({
   before,
   label,
   action,
+  description,
   ...props
-}: PropsWithChildren<ComponentProps<"input"> & { label: string; before?: ReactNode; action?: ReactNode }>) {
+}: PropsWithChildren<
+  ComponentProps<"input"> & { label: string; before?: ReactNode; action?: ReactNode; description?: ReactNode }
+>) {
   const field = useFieldContext<string>();
 
   return (
@@ -34,6 +37,7 @@ function Input({
         <div>{label}</div>
         {action ? <div>{action}</div> : null}
       </div>
+      {description ? <div data-input-description>{description}</div> : null}
       <div data-input-group>
         {before}
         <input

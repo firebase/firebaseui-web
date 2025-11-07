@@ -120,6 +120,10 @@
     @apply grow;
   }
 
+  :where(.fui-form fieldset label div[data-input-description]) {
+    @apply text-xs text-text-muted;
+  }
+
   :where(.fui-form .fui-form__action) {
     @apply px-1 hover:underline text-xs text-text-muted;
   }
