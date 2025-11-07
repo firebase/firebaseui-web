@@ -281,10 +281,10 @@ importers:
     dependencies:
       '@invertase/firebaseui-core':
         specifier: latest
-        version: 0.0.8(firebase@11.10.0)
+        version: 0.0.10(firebase@11.10.0)
       '@invertase/firebaseui-react':
         specifier: latest
-        version: 0.0.7(@types/react@19.1.16)(firebase@11.10.0)(nanostores@1.0.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.3)
+        version: 0.0.9(@types/react@19.1.16)(firebase@11.10.0)(nanostores@1.0.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.3)
       '@invertase/firebaseui-styles':
         specifier: latest
         version: 0.0.12(typescript@5.9.3)
@@ -2879,18 +2879,18 @@ packages:
     peerDependencies:
       '@angular/fire': ^20
 
+  '@invertase/firebaseui-core@0.0.10':
+    resolution: {integrity: sha512-Qu6BFSikBJhWkBUy5uYEX61mdxiPH/1pI6i/g5iYnAIDCg8llo9h0QfnFozuFwtjjTyIWThEvk3e/Y7L/oYA2A==}
+    peerDependencies:
+      firebase: ^11 || ^12
+
   '@invertase/firebaseui-core@0.0.3':
     resolution: {integrity: sha512-3omygaTrAKV8KaN/TWNzzdwvQHAGHZGZzzm7nFo2FVVSZp6Ri6poUXUmseGC5ionRW1Cnx7h8dXLbtsH+XG40g==}
     peerDependencies:
       firebase: ^11 || ^12
 
-  '@invertase/firebaseui-core@0.0.8':
-    resolution: {integrity: sha512-hvu/ALiLjwgau8vy0BOeWGEhXmJGd3Q7At2FuMp7nabS3jLlEdzk64s38caMy1wkgrzB76Cb7wAG4ChZD3vYsQ==}
-    peerDependencies:
-      firebase: ^11 || ^12
-
-  '@invertase/firebaseui-react@0.0.7':
-    resolution: {integrity: sha512-XkXhoTxtcQwKhwoQVFEuTMXxUMBmkqPl1iSaFN1zB4uqJ1WeqMi3RIUP4VAIcEX12lfKCMAhaZ0aKl8s1Y4hbw==}
+  '@invertase/firebaseui-react@0.0.9':
+    resolution: {integrity: sha512-ydB4itzvbMK3jYIMzlN+UJN9fY1OniErEz+I21701wqQDd9BKCEteajaj7oRn/IsLGmflrVdNGW2W/sY2MJUDQ==}
     peerDependencies:
       firebase: ^11 || ^12
       react: ^19
@@ -12367,6 +12367,15 @@ snapshots:
       - firebase
       - typescript
 
+  '@invertase/firebaseui-core@0.0.10(firebase@11.10.0)':
+    dependencies:
+      '@invertase/firebaseui-translations': 0.0.7
+      firebase: 11.10.0
+      libphonenumber-js: 1.12.25
+      nanostores: 1.0.1
+      qrcode-generator: 2.0.4
+      zod: 4.1.12
+
   '@invertase/firebaseui-core@0.0.3(firebase@11.10.0)':
     dependencies:
       '@invertase/firebaseui-translations': 0.0.4
@@ -12376,18 +12385,9 @@ snapshots:
       qrcode-generator: 2.0.4
       zod: 4.1.12
 
-  '@invertase/firebaseui-core@0.0.8(firebase@11.10.0)':
+  '@invertase/firebaseui-react@0.0.9(@types/react@19.1.16)(firebase@11.10.0)(nanostores@1.0.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.3)':
     dependencies:
-      '@invertase/firebaseui-translations': 0.0.7
-      firebase: 11.10.0
-      libphonenumber-js: 1.12.25
-      nanostores: 1.0.1
-      qrcode-generator: 2.0.4
-      zod: 4.1.12
-
-  '@invertase/firebaseui-react@0.0.7(@types/react@19.1.16)(firebase@11.10.0)(nanostores@1.0.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.3)':
-    dependencies:
-      '@invertase/firebaseui-core': 0.0.8(firebase@11.10.0)
+      '@invertase/firebaseui-core': 0.0.10(firebase@11.10.0)
       '@invertase/firebaseui-styles': 0.0.12(typescript@5.9.3)
       '@nanostores/react': 1.0.0(nanostores@1.0.1)(react@19.1.1)
       '@radix-ui/react-slot': 1.2.3(@types/react@19.1.16)(react@19.1.1)
