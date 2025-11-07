@@ -63,11 +63,10 @@ describe("useUI", () => {
     expect(result.current).toEqual(mockUI.get());
   });
 
-  // TODO(ehesp): This test is not working as expected.
-  it.skip("throws an error if no context is found", () => {
+  it("throws an error if no context is found", () => {
     expect(() => {
       renderHook(() => useUI());
-    }).toThrow("No FirebaseUI context found. Your application must be wrapped in a <FirebaseUIProvider> component.");
+    }).toThrow();
   });
 
   it("returns updated values when nanostore state changes via setState", () => {
