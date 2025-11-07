@@ -15,18 +15,29 @@
  * limitations under the License.
  */
 
-import { registerFramework } from "./register-framework";
 import pkgJson from "../package.json";
+import { registerFramework } from "./register-framework";
 
 export * from "./auth";
 export * from "./behaviors";
 export * from "./config";
-export * from "./errors";
-export * from "./schemas";
 export * from "./country-data";
-export * from "./translations";
+export * from "./errors";
 export * from "./register-framework";
+export * from "./schemas";
+export * from "./translations";
 
-if (import.meta.env.PROD) {
-  registerFramework("core", pkgJson.version);
+// Detect production mode across different build systems (Vite, webpack/Next.js, etc.)
+const isDevelopment = typeof process !== "undefined" && process.env.NODE_ENV === "production";
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const isViteProduction = (import.meta as any)?.env?.PROD === true;
+
+// Check if in production mode
+const isProduction = isDevelopment || isViteProduction;
+
+if (isProduction) {
+  // Extract framework name from package name (e.g., "@invertase/firebaseui-react" -> "react")
+  const frameworkName = pkgJson.name.replace("@invertase/firebaseui-", "");
+  registerFramework(frameworkName, pkgJson.version);
 }
