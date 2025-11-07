@@ -17,9 +17,9 @@
 // import { getCurrentUser } from "@/lib/firebase/serverApp";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-
+import { FirebaseUIProviderHoc } from "../lib/firebase/ui";
 // import { Header } from "@/lib/components/header";
-import { FirebaseUIProviderWrapper } from "@/lib/firebase/FirebaseUIProviderWrapper";
+
 import "./globals.css";
 // import { useUser } from "@/lib/firebase/hooks";
 
@@ -49,7 +49,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {/* <Header currentUser={{null}} /> */}
-        <FirebaseUIProviderWrapper>{children}</FirebaseUIProviderWrapper>
+        <FirebaseUIProviderHoc>{children}</FirebaseUIProviderHoc>
       </body>
     </html>
   );

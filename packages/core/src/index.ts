@@ -31,7 +31,8 @@ export * from "./translations";
 const isDevelopment = typeof process !== "undefined" && process.env.NODE_ENV === "production";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const isViteProduction = (import.meta as any)?.env?.PROD === true;
+const isViteProduction =
+  typeof import.meta !== "undefined" && (import.meta as any)?.env && (import.meta as any).env.PROD === true;
 
 // Check if in production mode
 const isProduction = isDevelopment || isViteProduction;
