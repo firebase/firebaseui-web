@@ -20,6 +20,6 @@
   },
   "registries": {
     "@dev": "http://localhost:5177/r/{name}.json",
-    "@firebase-ui": "https://ui.firebase.com/r/{name}.json"
+    "@firebase": "https://fir-ui-shadcn-registry.web.app/r/{name}.json"
   }
 }
