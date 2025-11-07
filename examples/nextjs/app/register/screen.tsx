@@ -33,7 +33,7 @@ export default function Screen() {
   }, [user, router]);
 
   return (
-    <SignUpAuthScreen onBackToSignInClick={() => router.push("/sign-in")}>
+    <SignUpAuthScreen onSignInClick={() => router.push("/sign-in")}>
       <GoogleSignInButton />
     </SignUpAuthScreen>
   );

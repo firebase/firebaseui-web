@@ -14,16 +14,10 @@
  * limitations under the License.
  */
 
-import { getCurrentUser } from "@/lib/firebase/serverApp";
-import { redirect } from "next/navigation";
+"use client";
+
 import ForgotPasswordScreen from "./screen";
 
-export default async function ForgotPasswordPage() {
-  const { currentUser } = await getCurrentUser();
-
-  if (currentUser) {
-    return redirect("/");
-  }
-
+export default function ForgotPasswordPage() {
   return <ForgotPasswordScreen />;
 }

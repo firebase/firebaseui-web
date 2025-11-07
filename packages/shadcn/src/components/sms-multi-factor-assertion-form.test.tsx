@@ -25,6 +25,16 @@ vi.mock("@/components/ui/input-otp", () => ({
     }),
 }));
 
+vi.mock("@/components/ui/form", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@/components/ui/form")>();
+  return {
+    ...mod,
+    FormItem: ({ children, ...props }: any) => React.createElement("div", { ...props }, children),
+    FormLabel: ({ children, ...props }: any) => React.createElement("label", { ...props }, children),
+    FormDescription: ({ children, ...props }: any) => React.createElement("p", { ...props }, children),
+  };
+});
+
 vi.mock("@invertase/firebaseui-core", async (importOriginal) => {
   const mod = await importOriginal<typeof import("@invertase/firebaseui-core")>();
   return {
@@ -71,6 +81,10 @@ describe("<SmsMultiFactorAssertionForm />", () => {
           phoneNumber: "Phone Number",
           sendCode: "Send Code",
         },
+        messages: {
+          mfaSmsAssertionPrompt:
+            "A verification code will be sent to {phoneNumber} to complete the authentication process.",
+        },
       }),
     });
 
@@ -82,7 +96,9 @@ describe("<SmsMultiFactorAssertionForm />", () => {
     );
 
     expect(screen.getByText("Phone Number")).toBeInTheDocument();
-    expect(screen.getByText("+1234567890")).toBeInTheDocument();
+    expect(
+      screen.getByText("A verification code will be sent to +1234567890 to complete the authentication process.")
+    ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Send Code" })).toBeInTheDocument();
   });
 
@@ -105,6 +121,10 @@ describe("<SmsMultiFactorAssertionForm />", () => {
           sendCode: "Send Code",
           verificationCode: "Verification Code",
           verifyCode: "Verify Code",
+        },
+        messages: {
+          mfaSmsAssertionPrompt:
+            "A verification code will be sent to {phoneNumber} to complete the authentication process.",
         },
       }),
     });
@@ -148,6 +168,10 @@ describe("<SmsMultiFactorAssertionForm />", () => {
           sendCode: "Send Code",
           verificationCode: "Verification Code",
           verifyCode: "Verify Code",
+        },
+        messages: {
+          mfaSmsAssertionPrompt:
+            "A verification code will be sent to {phoneNumber} to complete the authentication process.",
         },
       }),
     });
@@ -193,6 +217,10 @@ describe("<SmsMultiFactorAssertionForm />", () => {
           phoneNumber: "Phone Number",
           sendCode: "Send Code",
         },
+        messages: {
+          mfaSmsAssertionPrompt:
+            "A verification code will be sent to {phoneNumber} to complete the authentication process.",
+        },
       }),
     });
 
@@ -233,6 +261,10 @@ describe("<SmsMultiFactorAssertionForm />", () => {
           verificationCode: "Verification Code",
           verifyCode: "Verify Code",
         },
+        messages: {
+          mfaSmsAssertionPrompt:
+            "A verification code will be sent to {phoneNumber} to complete the authentication process.",
+        },
       }),
     });
 
@@ -257,5 +289,39 @@ describe("<SmsMultiFactorAssertionForm />", () => {
     await waitFor(() => {
       expect(screen.getByText("Error: Verification failed")).toBeInTheDocument();
     });
+  });
+
+  it("should handle missing phone number in hint", () => {
+    const mockHint = {
+      uid: "test-uid",
+      factorId: "phone" as const,
+      displayName: "Test Phone",
+      enrollmentTime: "2023-01-01T00:00:00.000Z",
+    };
+
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          phoneNumber: "Phone Number",
+          sendCode: "Send Code",
+        },
+        messages: {
+          mfaSmsAssertionPrompt:
+            "A verification code will be sent to {phoneNumber} to complete the authentication process.",
+        },
+      }),
+    });
+
+    render(
+      createFirebaseUIProvider({
+        children: <SmsMultiFactorAssertionForm hint={mockHint} />,
+        ui: mockUI,
+      })
+    );
+
+    // When phone number is missing, the placeholder remains because empty string is falsy in the replacement logic
+    expect(
+      screen.getByText("A verification code will be sent to {phoneNumber} to complete the authentication process.")
+    ).toBeInTheDocument();
   });
 });

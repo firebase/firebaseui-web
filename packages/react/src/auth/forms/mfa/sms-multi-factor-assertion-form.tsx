@@ -14,12 +14,7 @@ import {
   verifyPhoneNumber,
 } from "@invertase/firebaseui-core";
 import { form } from "~/components/form";
-import {
-  useMultiFactorPhoneAuthAssertionFormSchema,
-  useMultiFactorPhoneAuthVerifyFormSchema,
-  useRecaptchaVerifier,
-  useUI,
-} from "~/hooks";
+import { useMultiFactorPhoneAuthVerifyFormSchema, useRecaptchaVerifier, useUI } from "~/hooks";
 
 type PhoneMultiFactorInfo = MultiFactorInfo & {
   phoneNumber?: string;
@@ -48,14 +43,9 @@ export function useSmsMultiFactorAssertionPhoneForm({
   onSuccess,
 }: UseSmsMultiFactorAssertionPhoneForm) {
   const action = useSmsMultiFactorAssertionPhoneFormAction();
-  const schema = useMultiFactorPhoneAuthAssertionFormSchema();
 
   return form.useAppForm({
-    defaultValues: {
-      phoneNumber: (hint as PhoneMultiFactorInfo).phoneNumber || "",
-    },
     validators: {
-      onBlur: schema,
       onSubmitAsync: async () => {
         try {
           const verificationId = await action({ hint, recaptchaVerifier });
@@ -94,16 +84,13 @@ function SmsMultiFactorAssertionPhoneForm(props: SmsMultiFactorAssertionPhoneFor
     >
       <form.AppForm>
         <fieldset>
-          <form.AppField name="phoneNumber">
-            {(field) => (
-              <field.Input
-                label={getTranslation(ui, "labels", "phoneNumber")}
-                type="tel"
-                disabled
-                value={(props.hint as PhoneMultiFactorInfo).phoneNumber || ""}
-              />
-            )}
-          </form.AppField>
+          <label>
+            <div data-input-description>
+              {getTranslation(ui, "messages", "mfaSmsAssertionPrompt", {
+                phoneNumber: (props.hint as PhoneMultiFactorInfo).phoneNumber || "",
+              })}
+            </div>
+          </label>
         </fieldset>
         <fieldset>
           <div className="fui-recaptcha-container" ref={recaptchaContainerRef} />
@@ -185,7 +172,13 @@ function SmsMultiFactorAssertionVerifyForm(props: SmsMultiFactorAssertionVerifyF
       <form.AppForm>
         <fieldset>
           <form.AppField name="verificationCode">
-            {(field) => <field.Input label={getTranslation(ui, "labels", "verificationCode")} type="text" />}
+            {(field) => (
+              <field.Input
+                label={getTranslation(ui, "labels", "verificationCode")}
+                type="text"
+                description={getTranslation(ui, "prompts", "smsVerificationPrompt")}
+              />
+            )}
           </form.AppField>
         </fieldset>
         <fieldset>

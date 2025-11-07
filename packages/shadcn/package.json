@@ -1,11 +1,11 @@
 {
-  "name": "@firebase-ui/shadcn",
+  "name": "@invertase/firebaseui-shadcn",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsx build.ts --domain https://fir-ui-shadcn.web.app",
+    "build": "tsx build.ts --domain https://fir-ui-shadcn-registry.web.app",
     "preview": "vite preview",
     "test": "vitest run"
   },

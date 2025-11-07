@@ -3,7 +3,16 @@ import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import { MultiFactorAuthAssertionForm } from "./multi-factor-auth-assertion-form";
 import { createFirebaseUIProvider, createMockUI } from "../../tests/utils";
 import { registerLocale } from "@invertase/firebaseui-translations";
-import { FactorId, MultiFactorResolver, PhoneMultiFactorGenerator, TotpMultiFactorGenerator } from "firebase/auth";
+import { MultiFactorResolver, PhoneMultiFactorGenerator, TotpMultiFactorGenerator } from "firebase/auth";
+
+const mockUseMultiFactorAssertionCleanup = vi.fn();
+vi.mock("@invertase/firebaseui-react", async () => {
+  const actual = await vi.importActual<typeof import("@invertase/firebaseui-react")>("@invertase/firebaseui-react");
+  return {
+    ...actual,
+    useMultiFactorAssertionCleanup: () => mockUseMultiFactorAssertionCleanup(),
+  };
+});
 
 vi.mock("@/components/sms-multi-factor-assertion-form", () => ({
   SmsMultiFactorAssertionForm: ({ hint, onSuccess }: { hint: any; onSuccess?: (credential: any) => void }) => (
@@ -30,10 +39,35 @@ vi.mock("@/components/totp-multi-factor-assertion-form", () => ({
 describe("<MultiFactorAuthAssertionForm />", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mockUseMultiFactorAssertionCleanup.mockClear();
   });
 
   afterEach(() => {
     cleanup();
+  });
+
+  it("calls useMultiFactorAssertionCleanup when component renders", () => {
+    const mockResolver: MultiFactorResolver = {
+      hints: [
+        {
+          uid: "test-uid",
+          factorId: PhoneMultiFactorGenerator.FACTOR_ID,
+          displayName: "Test Phone",
+        },
+      ],
+    } as MultiFactorResolver;
+
+    const ui = createMockUI();
+    ui.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
+
+    render(
+      createFirebaseUIProvider({
+        children: <MultiFactorAuthAssertionForm />,
+        ui: ui,
+      })
+    );
+
+    expect(mockUseMultiFactorAssertionCleanup).toHaveBeenCalledTimes(1);
   });
 
   it("throws error when no multiFactorResolver is present", () => {

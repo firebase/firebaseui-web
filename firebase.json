@@ -10,8 +10,19 @@
   },
   "hosting": [
     {
-      "site": "fir-ui-shadcn",
+      "site": "fir-ui-shadcn-registry",
       "public": "packages/shadcn/public"
+    },
+    {
+      "site": "fir-ui-shadcn",
+      "public": "examples/shadcn/dist",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
     }
   ]
 }

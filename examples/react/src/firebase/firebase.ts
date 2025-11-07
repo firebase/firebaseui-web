@@ -19,6 +19,7 @@
 import { countryCodes, initializeUI, oneTapSignIn } from "@invertase/firebaseui-core";
 import { getApps, initializeApp } from "firebase/app";
 import { connectAuthEmulator, getAuth } from "firebase/auth";
+
 import { firebaseConfig } from "./config";
 
 export const firebaseApp = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];

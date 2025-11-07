@@ -22,7 +22,10 @@ export const ERROR_CODE_MAP = {
   "auth/user-not-found": "userNotFound",
   "auth/wrong-password": "wrongPassword",
   "auth/invalid-email": "invalidEmail",
+  "auth/unverified-email": "unverifiedEmail",
   "auth/user-disabled": "userDisabled",
+  "auth/missing-code": "missingVerificationCode",
+  "auth/invalid-credential": "invalidCredential",
   "auth/network-request-failed": "networkRequestFailed",
   "auth/too-many-requests": "tooManyRequests",
   "auth/email-already-in-use": "emailAlreadyInUse",
@@ -50,25 +53,30 @@ export type ErrorCode = keyof typeof ERROR_CODE_MAP;
 export function getTranslation<T extends TranslationCategory>(
   locale: RegisteredLocale,
   category: T,
-  key: TranslationKey<T>
+  key: TranslationKey<T>,
+  replacements?: Record<string, string>
 ): string {
   const userTranslationSet = locale.translations[category] as TranslationSet<T> | undefined;
   const translatedString = userTranslationSet?.[key];
 
-  if (translatedString) {
-    return translatedString;
-  }
+  let str: string | undefined;
 
-  // Check fallback locale if it exists
-  if (locale.fallback) {
+  if (translatedString) {
+    str = translatedString;
+  } else if (locale.fallback) {
     const fallbackTranslation = getTranslation(locale.fallback, category, key);
 
     if (fallbackTranslation) {
-      return fallbackTranslation;
+      str = fallbackTranslation;
     }
+  } else {
+    const fallbackTranslationSet = enUS[category] as TranslationSet<T>;
+    str = fallbackTranslationSet[key];
   }
 
-  // Fall back to English translations
-  const fallbackTranslationSet = enUS[category] as TranslationSet<T>;
-  return fallbackTranslationSet[key];
+  if (replacements) {
+    str = str?.replace(/{(\w+)}/g, (match, p1) => replacements[p1] || match);
+  }
+
+  return str || "";
 }

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+"use client";
 import { useState } from "react";
 
 import { onAuthStateChanged } from "firebase/auth";

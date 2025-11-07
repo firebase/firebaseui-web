@@ -120,6 +120,47 @@ describe("form export", () => {
       expect(screen.getByTestId("test-action")).toHaveTextContent("Action");
     });
 
+    it("should render the Input description prop when provided", () => {
+      const { result } = renderHook(() => {
+        return form.useAppForm({
+          defaultValues: { foo: "bar" },
+        });
+      });
+
+      const hook = result.current;
+
+      const { container } = render(
+        <hook.AppForm>
+          <hook.AppField name="foo">
+            {(field) => <field.Input label="Foo" description="This is a description" />}
+          </hook.AppField>
+        </hook.AppForm>
+      );
+
+      const description = container.querySelector("[data-input-description]");
+      expect(description).toBeInTheDocument();
+      expect(description).toHaveTextContent("This is a description");
+    });
+
+    it("should not render the Input description when not provided", () => {
+      const { result } = renderHook(() => {
+        return form.useAppForm({
+          defaultValues: { foo: "bar" },
+        });
+      });
+
+      const hook = result.current;
+
+      const { container } = render(
+        <hook.AppForm>
+          <hook.AppField name="foo">{(field) => <field.Input label="Foo" />}</hook.AppField>
+        </hook.AppForm>
+      );
+
+      const description = container.querySelector("[data-input-description]");
+      expect(description).not.toBeInTheDocument();
+    });
+
     it("should render the Input metadata when available", async () => {
       const { result } = renderHook(() => {
         return form.useAppForm({

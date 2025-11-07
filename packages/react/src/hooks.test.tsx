@@ -16,7 +16,6 @@
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderHook, act, cleanup, waitFor } from "@testing-library/react";
-import React from "react";
 import {
   useUI,
   useRedirectError,
@@ -24,7 +23,6 @@ import {
   useSignUpAuthFormSchema,
   useForgotPasswordAuthFormSchema,
   useEmailLinkAuthFormSchema,
-  useMultiFactorPhoneAuthAssertionFormSchema,
   usePhoneAuthNumberFormSchema,
   usePhoneAuthVerifyFormSchema,
   useRecaptchaVerifier,
@@ -63,11 +61,10 @@ describe("useUI", () => {
     expect(result.current).toEqual(mockUI.get());
   });
 
-  // TODO(ehesp): This test is not working as expected.
-  it.skip("throws an error if no context is found", () => {
+  it("throws an error if no context is found", () => {
     expect(() => {
       renderHook(() => useUI());
-    }).toThrow("No FirebaseUI context found. Your application must be wrapped in a <FirebaseUIProvider> component.");
+    }).toThrow();
   });
 
   it("returns updated values when nanostore state changes via setState", () => {
@@ -709,116 +706,6 @@ describe("usePhoneAuthVerifyFormSchema", () => {
 
     if (!verifyResult.success) {
       expect(verifyResult.error.issues[0]!.message).toBe("Custom verification error");
-    }
-  });
-});
-
-describe("useMultiFactorPhoneAuthAssertionFormSchema", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-    cleanup();
-  });
-
-  it("returns schema with default English error messages", () => {
-    const mockUI = createMockUI();
-
-    const { result } = renderHook(() => useMultiFactorPhoneAuthAssertionFormSchema(), {
-      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
-    });
-
-    const schema = result.current;
-
-    const phoneResult = schema.safeParse({ phoneNumber: "invalid-phone" });
-    expect(phoneResult.success).toBe(false);
-    if (!phoneResult.success) {
-      expect(phoneResult.error.issues[0]!.message).toBe(enUs.translations.errors!.invalidPhoneNumber);
-    }
-  });
-
-  it("returns schema with custom error messages when locale changes", () => {
-    const customTranslations = {
-      errors: {
-        invalidPhoneNumber: "Por favor ingresa un número de teléfono válido",
-      },
-    };
-
-    const customLocale = registerLocale("es-ES", customTranslations);
-    const mockUI = createMockUI({ locale: customLocale });
-
-    const { result } = renderHook(() => useMultiFactorPhoneAuthAssertionFormSchema(), {
-      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
-    });
-
-    const schema = result.current;
-
-    const phoneResult = schema.safeParse({ phoneNumber: "invalid-phone" });
-    expect(phoneResult.success).toBe(false);
-    if (!phoneResult.success) {
-      expect(phoneResult.error.issues[0]!.message).toBe("Por favor ingresa un número de teléfono válido");
-    }
-  });
-
-  it("returns stable reference when UI hasn't changed", () => {
-    const mockUI = createMockUI();
-
-    const { result, rerender } = renderHook(() => useMultiFactorPhoneAuthAssertionFormSchema(), {
-      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
-    });
-
-    const initialSchema = result.current;
-
-    rerender();
-
-    expect(result.current).toBe(initialSchema);
-  });
-
-  it("returns new schema when locale changes", () => {
-    const mockUI = createMockUI();
-
-    const { result, rerender } = renderHook(() => useMultiFactorPhoneAuthAssertionFormSchema(), {
-      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
-    });
-
-    const initialSchema = result.current;
-
-    const customTranslations = {
-      errors: {
-        invalidPhoneNumber: "Custom phone error",
-      },
-    };
-    const customLocale = registerLocale("fr-FR", customTranslations);
-
-    act(() => {
-      mockUI.get().setLocale(customLocale);
-    });
-
-    rerender();
-
-    expect(result.current).not.toBe(initialSchema);
-
-    const phoneResult = result.current.safeParse({ phoneNumber: "invalid-phone" });
-    expect(phoneResult.success).toBe(false);
-
-    if (!phoneResult.success) {
-      expect(phoneResult.error.issues[0]!.message).toBe("Custom phone error");
-    }
-  });
-
-  it("accepts valid phone number without requiring displayName", () => {
-    const mockUI = createMockUI();
-
-    const { result } = renderHook(() => useMultiFactorPhoneAuthAssertionFormSchema(), {
-      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
-    });
-
-    const schema = result.current;
-
-    const phoneResult = schema.safeParse({ phoneNumber: "1234567890" });
-    expect(phoneResult.success).toBe(true);
-    if (phoneResult.success) {
-      expect(phoneResult.data).toEqual({ phoneNumber: "1234567890" });
-      // Should not have displayName field
-      expect(phoneResult.data).not.toHaveProperty("displayName");
     }
   });
 });

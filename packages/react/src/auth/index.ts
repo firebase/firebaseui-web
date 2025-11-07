@@ -33,6 +33,7 @@ export {
 } from "./forms/forgot-password-auth-form";
 export {
   MultiFactorAuthAssertionForm,
+  useMultiFactorAssertionCleanup,
   type MultiFactorAuthAssertionFormProps,
 } from "./forms/multi-factor-auth-assertion-form";
 export {

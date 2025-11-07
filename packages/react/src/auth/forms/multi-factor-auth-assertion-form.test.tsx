@@ -14,9 +14,12 @@
  */
 
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { render, screen, fireEvent, cleanup } from "@testing-library/react";
-import { MultiFactorAuthAssertionForm } from "~/auth/forms/multi-factor-auth-assertion-form";
-import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
+import { render, screen, fireEvent, cleanup, renderHook } from "@testing-library/react";
+import {
+  MultiFactorAuthAssertionForm,
+  useMultiFactorAssertionCleanup,
+} from "~/auth/forms/multi-factor-auth-assertion-form";
+import { CreateFirebaseUIProvider, createMockUI, createFirebaseUIProvider } from "~/tests/utils";
 import { registerLocale } from "@invertase/firebaseui-translations";
 import { FactorId, MultiFactorResolver, PhoneMultiFactorGenerator, TotpMultiFactorGenerator } from "firebase/auth";
 
@@ -53,6 +56,46 @@ vi.mock("~/components/button", () => ({
 afterEach(() => {
   cleanup();
   vi.clearAllMocks();
+});
+
+describe("useMultiFactorAssertionCleanup", () => {
+  it("calls setMultiFactorResolver on unmount", () => {
+    const ui = createMockUI();
+    const setMultiFactorResolverSpy = vi.spyOn(ui.get(), "setMultiFactorResolver");
+
+    const { unmount } = renderHook(() => useMultiFactorAssertionCleanup(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui }),
+    });
+
+    expect(setMultiFactorResolverSpy).not.toHaveBeenCalled();
+
+    unmount();
+
+    expect(setMultiFactorResolverSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it("clears multiFactorResolver when component unmounts", () => {
+    const ui = createMockUI();
+    const mockResolver = {
+      auth: {} as any,
+      session: null,
+      hints: [],
+    } as unknown as MultiFactorResolver;
+    ui.get().setMultiFactorResolver(mockResolver);
+
+    const setMultiFactorResolverSpy = vi.spyOn(ui.get(), "setMultiFactorResolver");
+
+    const { unmount } = renderHook(() => useMultiFactorAssertionCleanup(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui }),
+    });
+
+    expect(ui.get().multiFactorResolver).toBe(mockResolver);
+
+    unmount();
+
+    expect(setMultiFactorResolverSpy).toHaveBeenCalledTimes(1);
+    expect(ui.get().multiFactorResolver).toBeUndefined();
+  });
 });
 
 describe("<MultiFactorAuthAssertionForm />", () => {

@@ -173,7 +173,10 @@ describe("<SmsMultiFactorAssertionForm />", () => {
       locale: registerLocale("test", {
         labels: {
           sendCode: "sendCode",
-          phoneNumber: "phoneNumber",
+        },
+        messages: {
+          mfaSmsAssertionPrompt:
+            "A verification code will be sent to {phoneNumber} to complete the authentication process.",
         },
       }),
     });
@@ -195,8 +198,9 @@ describe("<SmsMultiFactorAssertionForm />", () => {
     const form = container.querySelectorAll("form.fui-form");
     expect(form.length).toBe(1);
 
-    expect(screen.getByRole("textbox", { name: /phoneNumber/i })).toBeInTheDocument();
-    expect(screen.getByRole("textbox", { name: /phoneNumber/i })).toHaveValue("+1234567890");
+    expect(
+      screen.getByText("A verification code will be sent to +1234567890 to complete the authentication process.")
+    ).toBeInTheDocument();
 
     const sendCodeButton = screen.getByRole("button", { name: "sendCode" });
     expect(sendCodeButton).toBeInTheDocument();
@@ -208,8 +212,9 @@ describe("<SmsMultiFactorAssertionForm />", () => {
   it("should display phone number from hint", () => {
     const mockUI = createMockUI({
       locale: registerLocale("test", {
-        labels: {
-          phoneNumber: "phoneNumber",
+        messages: {
+          mfaSmsAssertionPrompt:
+            "A verification code will be sent to {phoneNumber} to complete the authentication process.",
         },
       }),
     });
@@ -228,15 +233,17 @@ describe("<SmsMultiFactorAssertionForm />", () => {
       })
     );
 
-    const phoneInput = screen.getByRole("textbox", { name: /phoneNumber/i });
-    expect(phoneInput).toHaveValue("+1234567890");
+    expect(
+      screen.getByText("A verification code will be sent to +1234567890 to complete the authentication process.")
+    ).toBeInTheDocument();
   });
 
   it("should handle missing phone number in hint", () => {
     const mockUI = createMockUI({
       locale: registerLocale("test", {
-        labels: {
-          phoneNumber: "phoneNumber",
+        messages: {
+          mfaSmsAssertionPrompt:
+            "A verification code will be sent to {phoneNumber} to complete the authentication process.",
         },
       }),
     });
@@ -254,15 +261,18 @@ describe("<SmsMultiFactorAssertionForm />", () => {
       })
     );
 
-    const phoneInput = screen.getByRole("textbox", { name: /phoneNumber/i });
-    expect(phoneInput).toHaveValue("");
+    // When phone number is missing, the placeholder remains because empty string is falsy in the replacement logic
+    expect(
+      screen.getByText("A verification code will be sent to {phoneNumber} to complete the authentication process.")
+    ).toBeInTheDocument();
   });
 
   it("should accept onSuccess callback prop", () => {
     const mockUI = createMockUI({
       locale: registerLocale("test", {
-        labels: {
-          phoneNumber: "phoneNumber",
+        messages: {
+          mfaSmsAssertionPrompt:
+            "A verification code will be sent to {phoneNumber} to complete the authentication process.",
         },
       }),
     });
@@ -290,9 +300,12 @@ describe("<SmsMultiFactorAssertionForm />", () => {
       locale: registerLocale("test", {
         labels: {
           sendCode: "sendCode",
-          phoneNumber: "phoneNumber",
           verificationCode: "verificationCode",
           verifyCode: "verifyCode",
+        },
+        messages: {
+          mfaSmsAssertionPrompt:
+            "A verification code will be sent to {phoneNumber} to complete the authentication process.",
         },
       }),
     });
@@ -304,9 +317,7 @@ describe("<SmsMultiFactorAssertionForm />", () => {
       enrollmentTime: "2023-01-01T00:00:00Z",
     };
 
-    // First step returns a verificationId
     vi.mocked(verifyPhoneNumber).mockResolvedValue("vid-123");
-    // Second step returns a credential from MFA assertion
     const mockCredential = { user: { uid: "sms-cred-user" } } as any;
     vi.mocked(signInWithMultiFactorAssertion).mockResolvedValue(mockCredential);
 

@@ -21,6 +21,11 @@ import {
 } from "@invertase/firebaseui-translations";
 import { type FirebaseUI } from "./config";
 
-export function getTranslation<T extends TranslationCategory>(ui: FirebaseUI, category: T, key: TranslationKey<T>) {
-  return _getTranslation(ui.locale, category, key);
+export function getTranslation<T extends TranslationCategory>(
+  ui: FirebaseUI,
+  category: T,
+  key: TranslationKey<T>,
+  replacements?: Record<string, string>
+) {
+  return _getTranslation(ui.locale, category, key, replacements);
 }
