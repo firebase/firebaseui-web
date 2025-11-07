@@ -1,25 +1,30 @@
 "use client";
 
-import { PhoneMultiFactorGenerator, TotpMultiFactorGenerator, type MultiFactorInfo } from "firebase/auth";
-import { type ComponentProps, useState } from "react";
 import { getTranslation } from "@invertase/firebaseui-core";
 import { useUI } from "@invertase/firebaseui-react";
-import { useEffect } from "react";
+import {
+  PhoneMultiFactorGenerator,
+  TotpMultiFactorGenerator,
+  type MultiFactorInfo,
+  type UserCredential,
+} from "firebase/auth";
+import { useState, type ComponentProps } from "react";
+import { useMultiFactorAssertionCleanup } from "@invertase/firebaseui-react";
 
 import { SmsMultiFactorAssertionForm } from "@/components/sms-multi-factor-assertion-form";
 import { TotpMultiFactorAssertionForm } from "@/components/totp-multi-factor-assertion-form";
 import { Button } from "@/components/ui/button";
 
-export function MultiFactorAuthAssertionForm() {
+export type MultiFactorAuthAssertionFormProps = {
+  onSuccess?: (credential: UserCredential) => void;
+};
+
+export function MultiFactorAuthAssertionForm({ onSuccess }: MultiFactorAuthAssertionFormProps) {
   const ui = useUI();
   const resolver = ui.multiFactorResolver;
   const mfaAssertionFactorPrompt = getTranslation(ui, "prompts", "mfaAssertionFactorPrompt");
 
-  useEffect(() => {
-    return () => {
-      ui.setMultiFactorResolver();
-    };
-  }, []);
+  useMultiFactorAssertionCleanup();
 
   if (!resolver) {
     throw new Error("MultiFactorAuthAssertionForm requires a multi-factor resolver");
@@ -32,11 +37,11 @@ export function MultiFactorAuthAssertionForm() {
 
   if (hint) {
     if (hint.factorId === PhoneMultiFactorGenerator.FACTOR_ID) {
-      return <SmsMultiFactorAssertionForm hint={hint} />;
+      return <SmsMultiFactorAssertionForm hint={hint} onSuccess={onSuccess} />;
     }
 
     if (hint.factorId === TotpMultiFactorGenerator.FACTOR_ID) {
-      return <TotpMultiFactorAssertionForm hint={hint} />;
+      return <TotpMultiFactorAssertionForm hint={hint} onSuccess={onSuccess} />;
     }
   }
 

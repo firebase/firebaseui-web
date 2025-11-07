@@ -16,6 +16,8 @@
 "use client";
 
 import { useState } from "react";
+import { OAuthProvider } from "firebase/auth";
+import { OAuthButton } from "@/components/oauth-button";
 import { GoogleSignInButton } from "@/components/google-sign-in-button";
 import { FacebookSignInButton } from "@/components/facebook-sign-in-button";
 import { AppleSignInButton } from "@/components/apple-sign-in-button";
@@ -23,7 +25,6 @@ import { GitHubSignInButton } from "@/components/github-sign-in-button";
 import { MicrosoftSignInButton } from "@/components/microsoft-sign-in-button";
 import { TwitterSignInButton } from "@/components/twitter-sign-in-button";
 import { OAuthScreen } from "@/components/oauth-screen";
-import { useState } from "react";
 
 export default function OAuthScreenPage() {
   const [themed, setThemed] = useState(false);
@@ -37,11 +38,28 @@ export default function OAuthScreenPage() {
         <GitHubSignInButton themed={themed} />
         <MicrosoftSignInButton themed={themed} />
         <TwitterSignInButton themed={themed} />
+        <LineSignInButton themed={themed} />
       </OAuthScreen>
       <div className="flex items-center gap-2 max-w-sm mx-auto mt-12">
         <input type="checkbox" checked={themed} onChange={() => setThemed(!themed)} />
         <label htmlFor="remember-me">Themed buttons</label>
       </div>
     </>
+  );
+}
+
+function LineSignInButton({ themed }: { themed?: boolean }) {
+  const provider = new OAuthProvider("oidc.line");
+
+  return (
+    <OAuthButton provider={provider} themed={themed}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 48 48">
+        <path
+          fill="#00c300"
+          d="M12.5 42h23a6.5 6.5 0 0 0 6.5-6.5v-23A6.5 6.5 0 0 0 35.5 6h-23A6.5 6.5 0 0 0 6 12.5v23a6.5 6.5 0 0 0 6.5 6.5"
+        />
+      </svg>
+      <span>Sign in with Line</span>
+    </OAuthButton>
   );
 }

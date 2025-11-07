@@ -179,7 +179,13 @@ function VerifyPhoneNumberForm(props: VerifyPhoneNumberFormProps) {
       <form.AppForm>
         <fieldset>
           <form.AppField name="verificationCode">
-            {(field) => <field.Input label={getTranslation(ui, "labels", "verificationCode")} type="text" />}
+            {(field) => (
+              <field.Input
+                label={getTranslation(ui, "labels", "verificationCode")}
+                description={getTranslation(ui, "prompts", "smsVerificationPrompt")}
+                type="text"
+              />
+            )}
           </form.AppField>
         </fieldset>
         <fieldset>

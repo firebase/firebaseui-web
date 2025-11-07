@@ -155,6 +155,12 @@
     --primary: var(--twitter-primary);
     --primary-foreground: var(--color-white);
   }
+  button[data-provider="oidc.line"][data-themed="true"] {
+    --line-primary: #07B53B;
+    --primary: var(--line-primary);
+    --primary-foreground: var(--color-white);
+  }
+  
 }
 
 @variant dark {
