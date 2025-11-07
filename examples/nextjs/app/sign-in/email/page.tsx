@@ -16,24 +16,8 @@
 
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import EmailLinkAuthScreen from "./screen";
-import { useUser } from "@/lib/firebase/hooks";
 
 export default function SignInWithEmailLinkPage() {
-  const user = useUser();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (user) {
-      router.push("/");
-    }
-  }, [user, router]);
-
-  if (user) {
-    return null;
-  }
-
   return <EmailLinkAuthScreen />;
 }

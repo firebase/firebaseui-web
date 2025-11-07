@@ -15,16 +15,9 @@
  */
 
 "use client";
-import { useUser } from "@/lib/firebase/hooks";
-import { redirect } from "next/navigation";
+
 import ForgotPasswordScreen from "./screen";
 
-export default async function ForgotPasswordPage() {
-  const user = await useUser();
-
-  if (user) {
-    return redirect("/");
-  }
-
+export default function ForgotPasswordPage() {
   return <ForgotPasswordScreen />;
 }

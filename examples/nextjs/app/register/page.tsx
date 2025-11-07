@@ -16,16 +16,8 @@
 
 "use client";
 
-import { useUser } from "@/lib/firebase/hooks";
-import { redirect } from "next/navigation";
 import RegisterScreen from "./screen";
 
-export default async function RegisterPage() {
-  const user = await useUser();
-
-  if (user) {
-    return redirect("/");
-  }
-
+export default function RegisterPage() {
   return <RegisterScreen />;
 }

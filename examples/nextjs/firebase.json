@@ -1,7 +1,7 @@
 {
   "hosting": {
-    "site": "fir-ui-2025-nextjs",
-    "source": ".",
+    "site": "fir-ui-rework-nextjs-ssg",
+    "public": "out",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
   }
 }

@@ -16,24 +16,8 @@
 
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import SignInWithPhoneNumberScreen from "./screen";
-import { useUser } from "@/lib/firebase/hooks";
 
 export default function SignInWithPhoneNumberPage() {
-  const user = useUser();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (user) {
-      router.push("/");
-    }
-  }, [user, router]);
-
-  if (user) {
-    return null;
-  }
-
   return <SignInWithPhoneNumberScreen />;
 }
