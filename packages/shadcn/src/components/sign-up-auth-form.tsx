@@ -88,21 +88,6 @@ export function SignUpAuthForm(props: SignUpAuthFormProps) {
             </FormItem>
           )}
         />
-        {requireDisplayName ? (
-          <FormField
-            control={form.control}
-            name="displayName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{getTranslation(ui, "labels", "displayName")}</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        ) : null}
         <Policies />
         <Button type="submit" disabled={ui.state !== "idle"}>
           {getTranslation(ui, "labels", "createAccount")}
