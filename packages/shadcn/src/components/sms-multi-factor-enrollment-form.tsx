@@ -136,7 +136,7 @@ export function MultiFactorEnrollmentVerifyPhoneNumberForm(props: MultiFactorEnr
           render={({ field }) => (
             <FormItem>
               <FormLabel>{getTranslation(ui, "labels", "verificationCode")}</FormLabel>
-              <FormDescription>{getTranslation(ui, "prompts", "mfaSmsEnrollmentVerificationPrompt")}</FormDescription>
+              <FormDescription>{getTranslation(ui, "prompts", "smsVerificationPrompt")}</FormDescription>
               <FormControl>
                 <InputOTP maxLength={6} {...field}>
                   <InputOTPGroup>

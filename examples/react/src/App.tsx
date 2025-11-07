@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { useUI } from "@invertase/firebaseui-react";
+import { MultiFactorAuthAssertionScreen, useUI } from "@invertase/firebaseui-react";
 import { multiFactor, sendEmailVerification, signOut } from "firebase/auth";
 import { Link, useNavigate } from "react-router";
 import { auth } from "./firebase/firebase";
