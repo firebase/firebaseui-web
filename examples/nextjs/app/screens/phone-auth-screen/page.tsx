@@ -19,5 +19,5 @@
 import { PhoneAuthScreen } from "@invertase/firebaseui-react";
 
 export default function PhoneAuthScreenPage() {
-  return <PhoneAuthScreen resendDelay={2} />;
+  return <PhoneAuthScreen />;
 }

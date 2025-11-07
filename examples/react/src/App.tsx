@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-import { Link, useNavigate } from "react-router";
-import { routes } from "./routes";
-import { useUser } from "./firebase/hooks";
-import { auth } from "./firebase/firebase";
-import { multiFactor, sendEmailVerification, signOut } from "firebase/auth";
 import { MultiFactorAuthAssertionScreen, useUI } from "@invertase/firebaseui-react";
+import { multiFactor, sendEmailVerification, signOut } from "firebase/auth";
+import { Link, useNavigate } from "react-router";
+import { auth } from "./firebase/firebase";
+import { useUser } from "./firebase/hooks";
+import { routes } from "./routes";
 
 function App() {
   const user = useUser();

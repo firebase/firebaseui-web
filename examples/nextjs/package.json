@@ -10,13 +10,13 @@
     "lint:fix": "next lint --fix",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
     "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
-    "deploy": "pnpm run build && firebase deploy --only hosting:fir-ui-2025-nextjs"
+    "deploy": "pnpm run build && firebase deploy --only hosting:fir-ui-rework-nextjs-ssg"
   },
   "dependencies": {
-    "@invertase/firebaseui-react": "0.0.3",
-    "@invertase/firebaseui-core": "0.0.3",
-    "@invertase/firebaseui-styles": "0.0.7",
-    "@invertase/firebaseui-translations": "0.0.4",
+    "@invertase/firebaseui-react": "latest",
+    "@invertase/firebaseui-core": "latest",
+    "@invertase/firebaseui-styles": "latest",
+    "@invertase/firebaseui-translations": "latest",
     "firebase": "catalog:",
     "next": "15.1.7",
     "react": "catalog:",

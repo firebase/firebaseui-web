@@ -37,7 +37,7 @@ export default function Screen() {
   return (
     <SignInAuthScreen
       onForgotPasswordClick={() => router.push("/forgot-password")}
-      onRegisterClick={() => router.push("/register")}
+      onSignIn={() => router.push("/register")}
     >
       <GoogleSignInButton />
       <div>
