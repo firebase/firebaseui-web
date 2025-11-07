@@ -1,5 +1,5 @@
 {
-  "name": "@firebase-ui/shadcn",
+  "name": "@invertase/firebaseui-shadcn",
   "private": true,
   "version": "0.0.0",
   "type": "module",

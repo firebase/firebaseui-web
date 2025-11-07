@@ -40,7 +40,14 @@ export function useUI() {
 
   if (!ui) {
     throw new Error(
-      "No FirebaseUI context found. Your application must be wrapped in a <FirebaseUIProvider> component."
+      `No FirebaseUI context found. Your application must be wrapped in a FirebaseUIProvider:
+
+const ui = initializeUI(...);
+
+<FirebaseUIProvider ui={ui}>
+  <App />
+</FirebaseUIProvider>
+`
     );
   }
 

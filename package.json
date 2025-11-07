@@ -10,7 +10,7 @@
     "build:styles": "pnpm --filter=@invertase/firebaseui-styles run build",
     "build:react": "pnpm --filter=@invertase/firebaseui-react run build",
     "build:angular": "pnpm --filter=@invertase/firebaseui-angular run build",
-    "build:shadcn": "pnpm --filter=@firebase-ui/shadcn run build",
+    "build:shadcn": "pnpm --filter=@invertase/firebaseui-shadcn run build",
     "build:examples": "pnpm run build && pnpm --filter react run build && pnpm --filter nextjs run build && pnpm --filter angular-example run build",
     "build:all": "pnpm run build && pnpm run build:angular && pnpm run build:examples",
     "build:packages": "pnpm run build && pnpm run build:angular",

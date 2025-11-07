@@ -11,10 +11,10 @@
     "deploy": "pnpm run build && firebase deploy --only hosting:fir-ui-2025-react"
   },
   "dependencies": {
-    "@invertase/firebaseui-react": "0.0.4",
-    "@invertase/firebaseui-core": "0.0.4",
-    "@invertase/firebaseui-styles": "0.0.9",
-    "@invertase/firebaseui-translations": "0.0.4",
+    "@invertase/firebaseui-react": "workspace:*",
+    "@invertase/firebaseui-core": "workspace:*",
+    "@invertase/firebaseui-styles": "workspace:*",
+    "@invertase/firebaseui-translations": "workspace:*",
     "firebase": "^11.6.0",
     "react": "catalog:",
     "react-dom": "catalog:",

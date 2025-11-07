@@ -18,5 +18,5 @@
 @custom-variant dark (&:where(.dark, .dark *));
 @import "@invertase/firebaseui-styles/tailwind";
 
-/* @import "@firebase-ui/styles/src/themes/dark.css"; */
-/* @import "@firebase-ui/styles/src/themes/brutalist.css"; */
+/* @import "@invertase/firebaseui-styles/src/themes/dark.css"; */
+/* @import "@invertase/firebaseui-styles/src/themes/brutalist.css"; */

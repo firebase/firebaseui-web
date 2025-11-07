@@ -19,7 +19,7 @@ import viteConfig from "./vite.config";
 
 export default mergeConfig(viteConfig, {
   test: {
-    name: "@firebase-ui/shadcn",
+    name: "@invertase/firebaseui-shadcn",
     // Use the same environment as the package
     environment: "jsdom",
     // Include TypeScript files
