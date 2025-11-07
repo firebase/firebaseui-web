@@ -30,9 +30,12 @@ export * from "./translations";
 // Detect production mode across different build systems (Vite, webpack/Next.js, etc.)
 const isDevelopment = typeof process !== "undefined" && process.env.NODE_ENV === "production";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isViteProduction =
-  typeof import.meta !== "undefined" && (import.meta as any)?.env && (import.meta as any).env.PROD === true;
+  typeof import.meta !== "undefined" &&
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (import.meta as any)?.env &&
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (import.meta as any).env.PROD === true;
 
 // Check if in production mode
 const isProduction = isDevelopment || isViteProduction;
