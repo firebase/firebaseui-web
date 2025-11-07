@@ -17,11 +17,11 @@
 "use client";
 
 import { ui } from "@/lib/firebase/clientApp";
-import { ConfigProvider } from "@invertase/firebaseui-react";
+import { FirebaseUIProvider } from "@invertase/firebaseui-react";
 
-export function FirebaseUIProvider({ children }: { children: React.ReactNode }) {
+export function FirebaseUIProviderHoc({ children }: { children: React.ReactNode }) {
   return (
-    <ConfigProvider
+    <FirebaseUIProvider
       ui={ui}
       policies={{
         termsOfServiceUrl: "https://www.google.com",
@@ -29,6 +29,6 @@ export function FirebaseUIProvider({ children }: { children: React.ReactNode }) 
       }}
     >
       {children}
-    </ConfigProvider>
+    </FirebaseUIProvider>
   );
 }

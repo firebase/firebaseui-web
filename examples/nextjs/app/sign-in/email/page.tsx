@@ -14,15 +14,25 @@
  * limitations under the License.
  */
 
-import { getCurrentUser } from "@/lib/firebase/serverApp";
-import { redirect } from "next/navigation";
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import EmailLinkAuthScreen from "./screen";
+import { useUser } from "@/lib/firebase/hooks";
 
-export default async function SignInWithEmailLinkPage() {
-  const { currentUser } = await getCurrentUser();
+export default function SignInWithEmailLinkPage() {
+  const user = useUser();
+  const router = useRouter();
 
-  if (currentUser) {
-    return redirect("/");
+  useEffect(() => {
+    if (user) {
+      router.push("/");
+    }
+  }, [user, router]);
+
+  if (user) {
+    return null;
   }
 
   return <EmailLinkAuthScreen />;

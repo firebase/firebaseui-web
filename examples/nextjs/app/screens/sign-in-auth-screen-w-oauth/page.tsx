@@ -25,7 +25,9 @@ export default function SignInAuthScreenWithOAuthPage() {
   return (
     <SignInAuthScreen
       onForgotPasswordClick={() => router.push("/password-reset-screen")}
-      onRegisterClick={() => router.push("/sign-up-auth-screen")}
+      onSignIn={(credential) => {
+        router.push("/");
+      }}
     >
       <GoogleSignInButton />
     </SignInAuthScreen>

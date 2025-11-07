@@ -15,5 +15,10 @@
  */
 
 export const firebaseConfig = {
-  // your Firebase config here
+  apiKey: "AIzaSyA7xdkFMs7iUC6XWFYjjSxf_XbVV4F1mX4",
+  authDomain: "fir-ui-2025.firebaseapp.com",
+  projectId: "fir-ui-2025",
+  storageBucket: "fir-ui-2025.firebasestorage.app",
+  messagingSenderId: "616577669988",
+  appId: "1:616577669988:web:7e67401f952fa9288df871",
 };

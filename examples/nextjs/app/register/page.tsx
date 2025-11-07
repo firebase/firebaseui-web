@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
-import { getCurrentUser } from "@/lib/firebase/serverApp";
+"use client";
+
+import { useUser } from "@/lib/firebase/hooks";
 import { redirect } from "next/navigation";
 import RegisterScreen from "./screen";
 
 export default async function RegisterPage() {
-  const { currentUser } = await getCurrentUser();
+  const user = await useUser();
 
-  if (currentUser) {
+  if (user) {
     return redirect("/");
   }
 
