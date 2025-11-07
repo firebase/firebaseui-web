@@ -16,10 +16,10 @@
 
 "use client";
 
-import { initializeApp, getApps } from "firebase/app";
-import { firebaseConfig } from "./config";
+import { countryCodes, initializeUI, oneTapSignIn } from "@invertase/firebaseui-core";
+import { getApps, initializeApp } from "firebase/app";
 import { connectAuthEmulator, getAuth } from "firebase/auth";
-import { initializeUI, oneTapSignIn, countryCodes } from "@firebase-ui/core";
+import { firebaseConfig } from "./config";
 
 export const firebaseApp = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
