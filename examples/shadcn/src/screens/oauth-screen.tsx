@@ -23,7 +23,6 @@ import { GitHubSignInButton } from "@/components/github-sign-in-button";
 import { MicrosoftSignInButton } from "@/components/microsoft-sign-in-button";
 import { TwitterSignInButton } from "@/components/twitter-sign-in-button";
 import { OAuthScreen } from "@/components/oauth-screen";
-import { useState } from "react";
 
 export default function OAuthScreenPage() {
   const [themed, setThemed] = useState(false);

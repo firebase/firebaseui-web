@@ -14,7 +14,7 @@ import {
 import { useForm } from "react-hook-form";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 
@@ -47,12 +47,14 @@ function SmsMultiFactorAssertionPhoneForm(props: SmsMultiFactorAssertionPhoneFor
 
   return (
     <div className="space-y-4">
-      <div>
-        <label className="text-sm font-medium text-gray-700">{getTranslation(ui, "labels", "phoneNumber")}</label>
-        <div className="mt-1 p-3 bg-gray-50 border rounded-md text-gray-600">
-          {(props.hint as PhoneMultiFactorInfo).phoneNumber || "No phone number available"}
-        </div>
-      </div>
+      <FormItem>
+        <FormLabel>{getTranslation(ui, "labels", "phoneNumber")}</FormLabel>
+        <FormDescription>
+          {getTranslation(ui, "messages", "mfaSmsAssertionPrompt", {
+            phoneNumber: (props.hint as PhoneMultiFactorInfo).phoneNumber || "",
+          })}
+        </FormDescription>
+      </FormItem>
       <div className="fui-recaptcha-container" ref={recaptchaContainerRef} />
       <Button onClick={onSubmit} disabled={ui.state !== "idle"}>
         {getTranslation(ui, "labels", "sendCode")}
@@ -102,6 +104,7 @@ function SmsMultiFactorAssertionVerifyForm(props: SmsMultiFactorAssertionVerifyF
           render={({ field }) => (
             <FormItem>
               <FormLabel>{getTranslation(ui, "labels", "verificationCode")}</FormLabel>
+              <FormDescription>{getTranslation(ui, "prompts", "smsVerificationPrompt")}</FormDescription>
               <FormControl>
                 <InputOTP maxLength={6} {...field}>
                   <InputOTPGroup>
