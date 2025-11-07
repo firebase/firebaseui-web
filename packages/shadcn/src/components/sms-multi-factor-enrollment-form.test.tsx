@@ -127,6 +127,9 @@ describe("<SmsMultiFactorEnrollmentForm />", () => {
           verificationCode: "Verification Code",
           verifyCode: "Verify Code",
         },
+        prompts: {
+          mfaSmsEnrollmentVerificationPrompt: "mfaSmsEnrollmentVerificationPrompt",
+        },
       }),
     });
 
@@ -148,6 +151,10 @@ describe("<SmsMultiFactorEnrollmentForm />", () => {
     await waitFor(() => {
       expect(screen.getByTestId("input-otp")).toBeInTheDocument();
     });
+
+    const description = container.querySelector('[data-slot="form-description"]');
+    expect(description).toBeInTheDocument();
+    expect(description).toHaveTextContent("mfaSmsEnrollmentVerificationPrompt");
 
     expect(screen.getByRole("button", { name: "Verify Code" })).toBeInTheDocument();
   });
@@ -196,6 +203,9 @@ describe("<SmsMultiFactorEnrollmentForm />", () => {
           verificationCode: "Verification Code",
           verifyCode: "Verify Code",
         },
+        prompts: {
+          mfaSmsEnrollmentVerificationPrompt: "mfaSmsEnrollmentVerificationPrompt",
+        },
       }),
     });
 
@@ -206,7 +216,6 @@ describe("<SmsMultiFactorEnrollmentForm />", () => {
       })
     );
 
-    // Fill in display name first
     const displayNameInput = container.querySelector("input[name='displayName']")!;
     fireEvent.change(displayNameInput, { target: { value: "Test User" } });
 
@@ -217,6 +226,10 @@ describe("<SmsMultiFactorEnrollmentForm />", () => {
     await waitFor(() => {
       expect(screen.getByTestId("input-otp")).toBeInTheDocument();
     });
+
+    const description = container.querySelector('[data-slot="form-description"]');
+    expect(description).toBeInTheDocument();
+    expect(description).toHaveTextContent("mfaSmsEnrollmentVerificationPrompt");
 
     const verificationInput = screen.getByTestId("input-otp-slot-0");
     fireEvent.change(verificationInput, { target: { value: "123456" } });
@@ -239,6 +252,9 @@ describe("<SmsMultiFactorEnrollmentForm />", () => {
           verificationCode: "Verification Code",
           verifyCode: "Verify Code",
         },
+        prompts: {
+          mfaSmsEnrollmentVerificationPrompt: "mfaSmsEnrollmentVerificationPrompt",
+        },
       }),
     });
 
@@ -249,7 +265,6 @@ describe("<SmsMultiFactorEnrollmentForm />", () => {
       })
     );
 
-    // Fill in display name first
     const displayNameInput = container.querySelector("input[name='displayName']")!;
     fireEvent.change(displayNameInput, { target: { value: "Test User" } });
 
@@ -260,6 +275,10 @@ describe("<SmsMultiFactorEnrollmentForm />", () => {
     await waitFor(() => {
       expect(screen.getByTestId("input-otp")).toBeInTheDocument();
     });
+
+    const description = container.querySelector('[data-slot="form-description"]');
+    expect(description).toBeInTheDocument();
+    expect(description).toHaveTextContent("mfaSmsEnrollmentVerificationPrompt");
 
     const verificationInput = screen.getByTestId("input-otp-slot-0");
     fireEvent.change(verificationInput, { target: { value: "123456" } });

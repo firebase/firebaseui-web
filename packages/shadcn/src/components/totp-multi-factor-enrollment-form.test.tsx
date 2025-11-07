@@ -107,6 +107,8 @@ describe("<TotpMultiFactorEnrollmentForm />", () => {
       expect(screen.getByTestId("input-otp-slot-0")).toBeInTheDocument();
     });
 
+    expect(screen.getByRole("img", { name: "TOTP QR Code" })).toBeInTheDocument();
+    expect(screen.getByText("test-secret")).toBeInTheDocument();
     expect(screen.getByText("Scan this QR code with your authenticator app")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Verify Code" })).toBeInTheDocument();
   });
