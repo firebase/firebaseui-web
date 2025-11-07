@@ -41,6 +41,7 @@ vi.mock("@invertase/firebaseui-core", async (importOriginal) => {
       if (category === "labels" && key === "phoneNumber") return "Phone Number";
       if (category === "labels" && key === "verificationCode") return "Verification Code";
       if (category === "labels" && key === "verifyCode") return "Verify Code";
+      if (category === "prompts" && key === "smsVerificationPrompt") return "Enter the verification code sent to your phone number";
       if (category === "errors" && key === "invalidPhoneNumber") return "Error: Invalid phone number format";
       if (category === "errors" && key === "missingPhoneNumber") return "Phone number is required";
       return key;
@@ -172,6 +173,60 @@ describe("<PhoneAuthForm />", () => {
 
     expect(container.querySelector("input[name='verificationCode']")).toBeInTheDocument();
     expect(container.querySelector("input[name='phoneNumber']")).not.toBeInTheDocument();
+  });
+
+  it("should render the verification code form with description after phone number submission", async () => {
+    const mockVerificationId = "test-verification-id";
+    const mockAction = vi.fn().mockResolvedValue(mockVerificationId);
+    vi.mocked(usePhoneNumberFormAction).mockReturnValue(mockAction);
+
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          sendCode: "Send Code",
+          phoneNumber: "Phone Number",
+          verificationCode: "Verification Code",
+          verifyCode: "Verify Code",
+        },
+        prompts: {
+          smsVerificationPrompt: "Enter the verification code sent to your phone number",
+        },
+      }),
+    });
+
+    const { container } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <PhoneAuthForm />
+      </FirebaseUIProvider>
+    );
+
+    // Initially should show phone number form
+    expect(container.querySelector("input[name='phoneNumber']")).toBeInTheDocument();
+
+    const phoneInput = container.querySelector("input[name='phoneNumber']")!;
+    const submitButton = container.querySelector("button[type='submit']")!;
+
+    act(() => {
+      fireEvent.change(phoneInput, { target: { value: "1234567890" } });
+    });
+
+    await act(async () => {
+      fireEvent.click(submitButton);
+    });
+
+    await waitFor(() => {
+      expect(mockAction).toHaveBeenCalled();
+    });
+
+    // Wait for verification form to appear
+    await waitFor(() => {
+      expect(container.querySelector("input[name='verificationCode']")).toBeInTheDocument();
+    });
+
+    // Check for description
+    const description = container.querySelector('[data-slot="form-description"]');
+    expect(description).toBeInTheDocument();
+    expect(description).toHaveTextContent("Enter the verification code sent to your phone number");
   });
 
   it("should call onSignIn callback when verification is successful", async () => {
