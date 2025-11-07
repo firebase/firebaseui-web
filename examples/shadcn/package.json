@@ -8,7 +8,6 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "deploy": "pnpm run build && firebase deploy --only hosting:fir-ui-2025-shadcn",
     "shadcn:add-all": "tsx add-all.ts"
   },
   "dependencies": {
