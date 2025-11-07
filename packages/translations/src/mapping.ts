@@ -22,6 +22,7 @@ export const ERROR_CODE_MAP = {
   "auth/user-not-found": "userNotFound",
   "auth/wrong-password": "wrongPassword",
   "auth/invalid-email": "invalidEmail",
+  "auth/unverified-email": "unverifiedEmail",
   "auth/user-disabled": "userDisabled",
   "auth/network-request-failed": "networkRequestFailed",
   "auth/too-many-requests": "tooManyRequests",

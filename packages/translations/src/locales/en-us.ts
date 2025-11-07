@@ -26,7 +26,8 @@ export const enUS = {
     tooManyRequests: "Too many failed attempts. Please try again later",
     emailAlreadyInUse: "An account already exists with this email",
     weakPassword: "Password should be at least 8 characters",
-    operationNotAllowed: "Email/password accounts are not enabled. Please contact support.",
+    unverifiedEmail: "Please verify your email address to continue.",
+    operationNotAllowed: "This operation is not allowed. Please contact support.",
     invalidPhoneNumber: "The phone number is invalid",
     missingPhoneNumber: "Please provide a phone number",
     quotaExceeded: "SMS quota exceeded. Please try again later",
@@ -100,5 +101,6 @@ export const enUS = {
     mfaAssertionPrompt: "Please complete the multi-factor authentication process",
     mfaAssertionFactorPrompt: "Please choose a multi-factor authentication method",
     mfaTotpQrCodePrompt: "Scan this QR code with your authenticator app",
+    mfaSmsEnrollmentVerificationPrompt: "Enter the verification code sent to your phone number",
   },
 } satisfies Translations;

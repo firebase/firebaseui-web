@@ -29,6 +29,7 @@ export type Translations = {
     wrongPassword?: string;
     invalidEmail?: string;
     userDisabled?: string;
+    unverifiedEmail?: string;
     networkRequestFailed?: string;
     tooManyRequests?: string;
     emailAlreadyInUse?: string;
@@ -106,5 +107,6 @@ export type Translations = {
     mfaAssertionPrompt?: string;
     mfaAssertionFactorPrompt?: string;
     mfaTotpQrCodePrompt?: string;
+    mfaSmsEnrollmentVerificationPrompt?: string;
   };
 };
