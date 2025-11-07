@@ -4,7 +4,7 @@ import {
   type UserCredential,
   type MultiFactorInfo,
 } from "firebase/auth";
-import { type ComponentProps, useState } from "react";
+import { type ComponentProps, useEffect, useState } from "react";
 import { useUI } from "~/hooks";
 import { TotpMultiFactorAssertionForm } from "../forms/mfa/totp-multi-factor-assertion-form";
 import { SmsMultiFactorAssertionForm } from "../forms/mfa/sms-multi-factor-assertion-form";
@@ -15,10 +15,23 @@ export type MultiFactorAuthAssertionFormProps = {
   onSuccess?: (credential: UserCredential) => void;
 };
 
+export function useMultiFactorAssertionCleanup() {
+  const ui = useUI();
+
+  useEffect(() => {
+    return () => {
+      ui.setMultiFactorResolver();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- UI isn't stable enough to be a dependency here. Could we use useEffectEvent here instead once we depend on 19.2?
+  }, []);
+}
+
 export function MultiFactorAuthAssertionForm(props: MultiFactorAuthAssertionFormProps) {
   const ui = useUI();
   const resolver = ui.multiFactorResolver;
   const mfaAssertionFactorPrompt = getTranslation(ui, "prompts", "mfaAssertionFactorPrompt");
+
+  useMultiFactorAssertionCleanup();
 
   if (!resolver) {
     throw new Error("MultiFactorAuthAssertionForm requires a multi-factor resolver");
