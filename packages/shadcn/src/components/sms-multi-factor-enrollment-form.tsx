@@ -19,7 +19,7 @@ import {
 import { useForm } from "react-hook-form";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
@@ -136,6 +136,7 @@ export function MultiFactorEnrollmentVerifyPhoneNumberForm(props: MultiFactorEnr
           render={({ field }) => (
             <FormItem>
               <FormLabel>{getTranslation(ui, "labels", "verificationCode")}</FormLabel>
+              <FormDescription>{getTranslation(ui, "prompts", "mfaSmsEnrollmentVerificationPrompt")}</FormDescription>
               <FormControl>
                 <InputOTP maxLength={6} {...field}>
                   <InputOTPGroup>
