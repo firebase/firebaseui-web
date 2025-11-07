@@ -180,17 +180,17 @@ importers:
         specifier: ^20.2.2
         version: 20.3.7(64ca8375dbaf48ae24b53908d91cad2b)
       '@invertase/firebaseui-angular':
-        specifier: 0.0.3
-        version: 0.0.3(@angular/common@20.3.7(@angular/core@20.3.7(@angular/compiler@20.3.7)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.7(@angular/compiler@20.3.7)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/fire@20.0.1(567573b864ff578578a14734fda777a6))(firebase@11.10.0)(typescript@5.9.3)
+        specifier: latest
+        version: 0.0.4(@angular/common@20.3.7(@angular/core@20.3.7(@angular/compiler@20.3.7)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.7(@angular/compiler@20.3.7)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/fire@20.0.1(567573b864ff578578a14734fda777a6))(firebase@11.10.0)(typescript@5.9.3)
       '@invertase/firebaseui-core':
-        specifier: 0.0.3
-        version: 0.0.3(firebase@11.10.0)
+        specifier: latest
+        version: 0.0.8(firebase@11.10.0)
       '@invertase/firebaseui-styles':
-        specifier: 0.0.7
-        version: 0.0.7(typescript@5.9.3)
+        specifier: latest
+        version: 0.0.12(typescript@5.9.3)
       '@invertase/firebaseui-translations':
-        specifier: 0.0.4
-        version: 0.0.4
+        specifier: latest
+        version: 0.0.7
       '@tailwindcss/postcss':
         specifier: ^4.0.6
         version: 4.1.16
@@ -275,22 +275,22 @@ importers:
         version: 5.9.3
       vitest:
         specifier: ^3.2.0
-        version: 3.2.4(@types/node@20.19.24)(@vitest/ui@3.2.4)(jiti@2.6.1)(jsdom@25.0.1)(less@4.4.2)(lightningcss@1.30.2)(msw@2.11.6(@types/node@20.19.24)(typescript@5.9.3))(sass@1.93.2)(terser@5.43.1)(tsx@4.20.6)
+        version: 3.2.4(@types/node@20.19.24)(@vitest/ui@3.2.4)(jiti@2.6.1)(jsdom@25.0.1)(less@4.4.0)(lightningcss@1.30.2)(msw@2.11.6(@types/node@20.19.24)(typescript@5.9.3))(sass@1.90.0)(terser@5.43.1)(tsx@4.20.6)
 
   examples/nextjs:
     dependencies:
       '@invertase/firebaseui-core':
-        specifier: 0.0.3
-        version: 0.0.3(firebase@11.10.0)
+        specifier: workspace:*
+        version: link:../../packages/core
       '@invertase/firebaseui-react':
-        specifier: 0.0.3
-        version: 0.0.3(@types/react@19.1.16)(firebase@11.10.0)(nanostores@1.0.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.3)
+        specifier: workspace:*
+        version: link:../../packages/react
       '@invertase/firebaseui-styles':
-        specifier: 0.0.7
-        version: 0.0.7(typescript@5.9.3)
+        specifier: workspace:*
+        version: link:../../packages/styles
       '@invertase/firebaseui-translations':
-        specifier: 0.0.4
-        version: 0.0.4
+        specifier: workspace:*
+        version: link:../../packages/translations
       firebase:
         specifier: 'catalog:'
         version: 11.10.0
@@ -332,20 +332,75 @@ importers:
         specifier: 'catalog:'
         version: 5.9.3
 
+  examples/nextjs-ssr:
+    dependencies:
+      '@invertase/firebaseui-core':
+        specifier: latest
+        version: 0.0.8(firebase@11.10.0)
+      '@invertase/firebaseui-react':
+        specifier: latest
+        version: 0.0.7(@types/react@19.1.16)(firebase@11.10.0)(nanostores@1.0.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.3)
+      '@invertase/firebaseui-styles':
+        specifier: latest
+        version: 0.0.12(typescript@5.9.3)
+      '@invertase/firebaseui-translations':
+        specifier: latest
+        version: 0.0.7
+      firebase:
+        specifier: ^11.10.0
+        version: 11.10.0
+      next:
+        specifier: 15.1.7
+        version: 15.1.7(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(sass@1.93.2)
+      react:
+        specifier: 19.1.1
+        version: 19.1.1
+      react-dom:
+        specifier: 19.1.1
+        version: 19.1.1(react@19.1.1)
+      server-only:
+        specifier: ^0.0.1
+        version: 0.0.1
+    devDependencies:
+      '@tailwindcss/postcss':
+        specifier: ^4.0.6
+        version: 4.1.16
+      '@types/node':
+        specifier: ^20
+        version: 20.19.24
+      '@types/react':
+        specifier: 19.1.16
+        version: 19.1.16
+      '@types/react-dom':
+        specifier: 19.1.9
+        version: 19.1.9(@types/react@19.1.16)
+      postcss:
+        specifier: ^8.5.2
+        version: 8.5.6
+      postcss-load-config:
+        specifier: ^6.0.1
+        version: 6.0.1(jiti@2.6.1)(postcss@8.5.6)(tsx@4.20.6)
+      tailwindcss:
+        specifier: ^4.0.6
+        version: 4.1.16
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+
   examples/react:
     dependencies:
       '@invertase/firebaseui-core':
-        specifier: 0.0.4
-        version: 0.0.4(firebase@11.10.0)
+        specifier: latest
+        version: 0.0.8(firebase@11.10.0)
       '@invertase/firebaseui-react':
-        specifier: 0.0.4
-        version: 0.0.4(@types/react@19.1.16)(firebase@11.10.0)(nanostores@1.0.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.3)
+        specifier: 0.0.7
+        version: 0.0.7(@types/react@19.1.16)(firebase@11.10.0)(nanostores@1.0.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.3)
       '@invertase/firebaseui-styles':
-        specifier: 0.0.9
-        version: 0.0.9(typescript@5.9.3)
+        specifier: latest
+        version: 0.0.12(typescript@5.9.3)
       '@invertase/firebaseui-translations':
-        specifier: 0.0.4
-        version: 0.0.4
+        specifier: latest
+        version: 0.0.7
       firebase:
         specifier: ^11.6.0
         version: 11.10.0
@@ -402,17 +457,17 @@ importers:
         specifier: ^5.2.2
         version: 5.2.2(react-hook-form@7.65.0(react@19.1.1))
       '@invertase/firebaseui-core':
-        specifier: '*'
-        version: 0.0.5(firebase@11.10.0)
+        specifier: latest
+        version: 0.0.8(firebase@11.10.0)
       '@invertase/firebaseui-react':
-        specifier: workspace:*
-        version: link:../../packages/react
+        specifier: latest
+        version: 0.0.7(@types/react@19.1.16)(firebase@11.10.0)(nanostores@1.0.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.3)
       '@invertase/firebaseui-styles':
-        specifier: '*'
-        version: 0.0.9(typescript@5.9.3)
+        specifier: latest
+        version: 0.0.12(typescript@5.9.3)
       '@invertase/firebaseui-translations':
-        specifier: '*'
-        version: 0.0.4
+        specifier: latest
+        version: 0.0.7
       '@radix-ui/react-accordion':
         specifier: ^1.2.12
         version: 1.2.12(@types/react-dom@19.1.9(@types/react@19.1.16))(@types/react@19.1.16)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -2874,51 +2929,28 @@ packages:
       '@types/node':
         optional: true
 
-  '@invertase/firebaseui-angular@0.0.3':
-    resolution: {integrity: sha512-ppFfGQl4hw3oh4Nb8irmR5bitNp5VKvmwdoxYFVpRA6WKvmFhgpDnownBA+wrrF0w1fLud2NrzLperEbGf9pJw==}
+  '@invertase/firebaseui-angular@0.0.4':
+    resolution: {integrity: sha512-f/1yzgAimq5otCSyH27RjUhb4Fh7j2R0qQIYO9Sq5OLU/y3EL3LfpG7C7g2zbIvrCMQcOZkZUpTmmEislcMOGw==}
     peerDependencies:
       '@angular/fire': ^20
 
-  '@invertase/firebaseui-core@0.0.3':
-    resolution: {integrity: sha512-3omygaTrAKV8KaN/TWNzzdwvQHAGHZGZzzm7nFo2FVVSZp6Ri6poUXUmseGC5ionRW1Cnx7h8dXLbtsH+XG40g==}
+  '@invertase/firebaseui-core@0.0.8':
+    resolution: {integrity: sha512-hvu/ALiLjwgau8vy0BOeWGEhXmJGd3Q7At2FuMp7nabS3jLlEdzk64s38caMy1wkgrzB76Cb7wAG4ChZD3vYsQ==}
     peerDependencies:
       firebase: ^11 || ^12
 
-  '@invertase/firebaseui-core@0.0.4':
-    resolution: {integrity: sha512-s8o0AcbjoLciaHFCz0mBCgf7fxlWj40GTw4SZYnlNJzJoMZwNh1XGtFW++zq1Gied/y0QNszIBh3KVaVrYuviQ==}
-    peerDependencies:
-      firebase: ^11 || ^12
-
-  '@invertase/firebaseui-core@0.0.5':
-    resolution: {integrity: sha512-MZuzqFSWys/u5WFwMqf3p3RO2HxYG1qvyw0brDmnQTwA6GgLgIFo+PaCSYiBHs61EMtqidCsOKKx1h/VySvlvw==}
-    peerDependencies:
-      firebase: ^11 || ^12
-
-  '@invertase/firebaseui-react@0.0.3':
-    resolution: {integrity: sha512-8+nolJQtF+T/n4a3VD8Jo0G/E3Q7xA+23BznCaqLFzV/itSm9u3FunER+kfO1mxwCx6Vwi+uEmnqrCD9Oxb4AQ==}
+  '@invertase/firebaseui-react@0.0.7':
+    resolution: {integrity: sha512-XkXhoTxtcQwKhwoQVFEuTMXxUMBmkqPl1iSaFN1zB4uqJ1WeqMi3RIUP4VAIcEX12lfKCMAhaZ0aKl8s1Y4hbw==}
     peerDependencies:
       firebase: ^11 || ^12
       react: ^19
       react-dom: ^19
 
-  '@invertase/firebaseui-react@0.0.4':
-    resolution: {integrity: sha512-wMUmgqtnBpsv/9sXJ2fQyql0vLFmIs2L25U8UV4yZoivT8vOa5Fa/7Fst3mJN9x2N1Xc5h5MWYyO3n8vqrIyIQ==}
-    peerDependencies:
-      firebase: ^11 || ^12
-      react: ^19
-      react-dom: ^19
+  '@invertase/firebaseui-styles@0.0.12':
+    resolution: {integrity: sha512-uRzI+GNiOBw5bqoI9frRqDTy6iyC+M7pBe6uzrOAXnNJFXWJnZ9oCIjzGW5pQEoyG2bBjQ616KRdEYfZpxVEwQ==}
 
-  '@invertase/firebaseui-styles@0.0.3':
-    resolution: {integrity: sha512-0obT/2OZfoayTE2GTw3botbOKYCHVmeozjvb4xNs1NCd5MZyc9nmN8y1PkgZ7vTsTIi6LBmqteFXk5yCIxp4MA==}
-
-  '@invertase/firebaseui-styles@0.0.7':
-    resolution: {integrity: sha512-NbtwZAnIjjqQZt4KxXyhfW28/ABNZ7KoldgPgQ0mOIE35JXbCmTBIrIoyIMkwYtH2KTeHMMLnsPLY0b8MVCmRQ==}
-
-  '@invertase/firebaseui-styles@0.0.9':
-    resolution: {integrity: sha512-uqBNOhPOC6WKwNVZMZsXoOSYTsK20UkG2na1M/Dc/w2B9qwBqtQaJZdn46759tx4wit+Cj9sQnlkdU2okeot5Q==}
-
-  '@invertase/firebaseui-translations@0.0.4':
-    resolution: {integrity: sha512-sG8DToRfe7phgF5PXL02hZ9fwQcnwLdJvkfVaz4HuCBne94EH0dBgHhrF0oElRxLae93S2endufa94Yy7IoKsA==}
+  '@invertase/firebaseui-translations@0.0.7':
+    resolution: {integrity: sha512-r1miz4ur82U1aw+l264OO9oLXjXb9lF208uZ+eABsFxaChgUg3TbnDeXPMVHf/eM34vx5yT8lrMDNS0qQJjg+g==}
 
   '@isaacs/balanced-match@4.0.1':
     resolution: {integrity: sha512-yzMTt9lEb8Gv7zRioUilSglI0c0smZ9k5D65677DLWLtWJaXIS3CqcGyUFByYKlnUj6TkjLVs54fBl6+TiGQDQ==}
@@ -10006,7 +10038,7 @@ snapshots:
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@angular-devkit/architect': 0.2003.7(chokidar@4.0.3)
-      '@angular-devkit/build-webpack': 0.2003.7(chokidar@4.0.3)(webpack-dev-server@5.2.2(webpack@5.101.2))(webpack@5.101.2(esbuild@0.25.9))
+      '@angular-devkit/build-webpack': 0.2003.7(chokidar@4.0.3)(webpack-dev-server@5.2.2(webpack@5.101.2(esbuild@0.25.9)))(webpack@5.101.2(esbuild@0.25.9))
       '@angular-devkit/core': 20.3.7(chokidar@4.0.3)
       '@angular/build': 20.3.7(1849c53c536bd3612d435156c655d6b9)
       '@angular/compiler-cli': 20.3.7(@angular/compiler@20.3.7)(typescript@5.9.3)
@@ -10056,8 +10088,8 @@ snapshots:
       tslib: 2.8.1
       typescript: 5.9.3
       webpack: 5.101.2(esbuild@0.25.9)
-      webpack-dev-middleware: 7.4.2(webpack@5.101.2)
-      webpack-dev-server: 5.2.2(webpack@5.101.2)
+      webpack-dev-middleware: 7.4.2(webpack@5.101.2(esbuild@0.25.9))
+      webpack-dev-server: 5.2.2(webpack@5.101.2(esbuild@0.25.9))
       webpack-merge: 6.0.1
       webpack-subresource-integrity: 5.1.0(webpack@5.101.2(esbuild@0.25.9))
     optionalDependencies:
@@ -10097,7 +10129,7 @@ snapshots:
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@angular-devkit/architect': 0.2003.7(chokidar@4.0.3)
-      '@angular-devkit/build-webpack': 0.2003.7(chokidar@4.0.3)(webpack-dev-server@5.2.2(webpack@5.101.2))(webpack@5.101.2(esbuild@0.25.9))
+      '@angular-devkit/build-webpack': 0.2003.7(chokidar@4.0.3)(webpack-dev-server@5.2.2(webpack@5.101.2(esbuild@0.25.9)))(webpack@5.101.2(esbuild@0.25.9))
       '@angular-devkit/core': 20.3.7(chokidar@4.0.3)
       '@angular/build': 20.3.7(1be407f5110624cbb4aee41c10128f32)
       '@angular/compiler-cli': 20.3.7(@angular/compiler@20.3.7)(typescript@5.9.3)
@@ -10147,8 +10179,8 @@ snapshots:
       tslib: 2.8.1
       typescript: 5.9.3
       webpack: 5.101.2(esbuild@0.25.9)
-      webpack-dev-middleware: 7.4.2(webpack@5.101.2)
-      webpack-dev-server: 5.2.2(webpack@5.101.2)
+      webpack-dev-middleware: 7.4.2(webpack@5.101.2(esbuild@0.25.9))
+      webpack-dev-server: 5.2.2(webpack@5.101.2(esbuild@0.25.9))
       webpack-merge: 6.0.1
       webpack-subresource-integrity: 5.1.0(webpack@5.101.2(esbuild@0.25.9))
     optionalDependencies:
@@ -10182,12 +10214,12 @@ snapshots:
       - webpack-cli
       - yaml
 
-  '@angular-devkit/build-webpack@0.2003.7(chokidar@4.0.3)(webpack-dev-server@5.2.2(webpack@5.101.2))(webpack@5.101.2(esbuild@0.25.9))':
+  '@angular-devkit/build-webpack@0.2003.7(chokidar@4.0.3)(webpack-dev-server@5.2.2(webpack@5.101.2(esbuild@0.25.9)))(webpack@5.101.2(esbuild@0.25.9))':
     dependencies:
       '@angular-devkit/architect': 0.2003.7(chokidar@4.0.3)
       rxjs: 7.8.2
       webpack: 5.101.2(esbuild@0.25.9)
-      webpack-dev-server: 5.2.2(webpack@5.101.2)
+      webpack-dev-server: 5.2.2(webpack@5.101.2(esbuild@0.25.9))
     transitivePeerDependencies:
       - chokidar
 
@@ -10322,7 +10354,7 @@ snapshots:
       ng-packagr: 20.3.0(@angular/compiler-cli@20.3.7(@angular/compiler@20.3.7)(typescript@5.9.3))(tailwindcss@4.1.16)(tslib@2.8.1)(typescript@5.9.3)
       postcss: 8.5.6
       tailwindcss: 4.1.16
-      vitest: 3.2.4(@types/node@24.9.2)(@vitest/ui@3.2.4)(jiti@2.6.1)(jsdom@25.0.1)(less@4.4.0)(lightningcss@1.30.2)(msw@2.11.6(@types/node@24.9.2)(typescript@5.9.3))(sass@1.90.0)(terser@5.43.1)(tsx@4.20.6)
+      vitest: 3.2.4(@types/node@24.9.2)(@vitest/ui@3.2.4)(jiti@2.6.1)(jsdom@25.0.1)(less@4.4.2)(lightningcss@1.30.2)(msw@2.11.6(@types/node@24.9.2)(typescript@5.9.3))(sass@1.93.2)(terser@5.43.1)(tsx@4.20.6)
     transitivePeerDependencies:
       - '@types/node'
       - chokidar
@@ -10378,7 +10410,7 @@ snapshots:
       ng-packagr: 20.3.0(@angular/compiler-cli@20.3.7(@angular/compiler@20.3.7)(typescript@5.9.3))(tailwindcss@4.1.16)(tslib@2.8.1)(typescript@5.9.3)
       postcss: 8.5.6
       tailwindcss: 4.1.16
-      vitest: 3.2.4(@types/node@20.19.24)(@vitest/ui@3.2.4)(jiti@2.6.1)(jsdom@25.0.1)(less@4.4.2)(lightningcss@1.30.2)(msw@2.11.6(@types/node@20.19.24)(typescript@5.9.3))(sass@1.93.2)(terser@5.43.1)(tsx@4.20.6)
+      vitest: 3.2.4(@types/node@20.19.24)(@vitest/ui@3.2.4)(jiti@2.6.1)(jsdom@25.0.1)(less@4.4.0)(lightningcss@1.30.2)(msw@2.11.6(@types/node@20.19.24)(typescript@5.9.3))(sass@1.90.0)(terser@5.43.1)(tsx@4.20.6)
     transitivePeerDependencies:
       - '@types/node'
       - chokidar
@@ -12362,11 +12394,11 @@ snapshots:
     optionalDependencies:
       '@types/node': 24.9.2
 
-  '@invertase/firebaseui-angular@0.0.3(@angular/common@20.3.7(@angular/core@20.3.7(@angular/compiler@20.3.7)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.7(@angular/compiler@20.3.7)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/fire@20.0.1(567573b864ff578578a14734fda777a6))(firebase@11.10.0)(typescript@5.9.3)':
+  '@invertase/firebaseui-angular@0.0.4(@angular/common@20.3.7(@angular/core@20.3.7(@angular/compiler@20.3.7)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.7(@angular/compiler@20.3.7)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/fire@20.0.1(567573b864ff578578a14734fda777a6))(firebase@11.10.0)(typescript@5.9.3)':
     dependencies:
       '@angular/fire': 20.0.1(567573b864ff578578a14734fda777a6)
-      '@invertase/firebaseui-core': 0.0.3(firebase@11.10.0)
-      '@invertase/firebaseui-styles': 0.0.3(typescript@5.9.3)
+      '@invertase/firebaseui-core': 0.0.8(firebase@11.10.0)
+      '@invertase/firebaseui-styles': 0.0.12(typescript@5.9.3)
       '@tanstack/angular-form': 1.23.8(@angular/common@20.3.7(@angular/core@20.3.7(@angular/compiler@20.3.7)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.7(@angular/compiler@20.3.7)(rxjs@7.8.2)(zone.js@0.15.1))
       nanostores: 1.0.1
       tslib: 2.8.1
@@ -12376,37 +12408,19 @@ snapshots:
       - firebase
       - typescript
 
-  '@invertase/firebaseui-core@0.0.3(firebase@11.10.0)':
+  '@invertase/firebaseui-core@0.0.8(firebase@11.10.0)':
     dependencies:
-      '@invertase/firebaseui-translations': 0.0.4
+      '@invertase/firebaseui-translations': 0.0.7
       firebase: 11.10.0
       libphonenumber-js: 1.12.25
       nanostores: 1.0.1
       qrcode-generator: 2.0.4
       zod: 4.1.12
 
-  '@invertase/firebaseui-core@0.0.4(firebase@11.10.0)':
+  '@invertase/firebaseui-react@0.0.7(@types/react@19.1.16)(firebase@11.10.0)(nanostores@1.0.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.3)':
     dependencies:
-      '@invertase/firebaseui-translations': 0.0.4
-      firebase: 11.10.0
-      libphonenumber-js: 1.12.25
-      nanostores: 1.0.1
-      qrcode-generator: 2.0.4
-      zod: 4.1.12
-
-  '@invertase/firebaseui-core@0.0.5(firebase@11.10.0)':
-    dependencies:
-      '@invertase/firebaseui-translations': 0.0.4
-      firebase: 11.10.0
-      libphonenumber-js: 1.12.25
-      nanostores: 1.0.1
-      qrcode-generator: 2.0.4
-      zod: 4.1.12
-
-  '@invertase/firebaseui-react@0.0.3(@types/react@19.1.16)(firebase@11.10.0)(nanostores@1.0.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.3)':
-    dependencies:
-      '@invertase/firebaseui-core': 0.0.3(firebase@11.10.0)
-      '@invertase/firebaseui-styles': 0.0.3(typescript@5.9.3)
+      '@invertase/firebaseui-core': 0.0.8(firebase@11.10.0)
+      '@invertase/firebaseui-styles': 0.0.12(typescript@5.9.3)
       '@nanostores/react': 1.0.0(nanostores@1.0.1)(react@19.1.1)
       '@radix-ui/react-slot': 1.2.3(@types/react@19.1.16)(react@19.1.1)
       '@tanstack/react-form': 1.20.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -12422,44 +12436,13 @@ snapshots:
       - nanostores
       - typescript
 
-  '@invertase/firebaseui-react@0.0.4(@types/react@19.1.16)(firebase@11.10.0)(nanostores@1.0.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.3)':
-    dependencies:
-      '@invertase/firebaseui-core': 0.0.4(firebase@11.10.0)
-      '@invertase/firebaseui-styles': 0.0.9(typescript@5.9.3)
-      '@nanostores/react': 1.0.0(nanostores@1.0.1)(react@19.1.1)
-      '@radix-ui/react-slot': 1.2.3(@types/react@19.1.16)(react@19.1.1)
-      '@tanstack/react-form': 1.20.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
-      clsx: 2.1.1
-      firebase: 11.10.0
-      react: 19.1.1
-      react-dom: 19.1.1(react@19.1.1)
-      tailwind-merge: 3.3.1
-      zod: 4.1.12
-    transitivePeerDependencies:
-      - '@tanstack/react-start'
-      - '@types/react'
-      - nanostores
-      - typescript
-
-  '@invertase/firebaseui-styles@0.0.3(typescript@5.9.3)':
+  '@invertase/firebaseui-styles@0.0.12(typescript@5.9.3)':
     dependencies:
       cva: 1.0.0-beta.4(typescript@5.9.3)
     transitivePeerDependencies:
       - typescript
 
-  '@invertase/firebaseui-styles@0.0.7(typescript@5.9.3)':
-    dependencies:
-      cva: 1.0.0-beta.4(typescript@5.9.3)
-    transitivePeerDependencies:
-      - typescript
-
-  '@invertase/firebaseui-styles@0.0.9(typescript@5.9.3)':
-    dependencies:
-      cva: 1.0.0-beta.4(typescript@5.9.3)
-    transitivePeerDependencies:
-      - typescript
-
-  '@invertase/firebaseui-translations@0.0.4': {}
+  '@invertase/firebaseui-translations@0.0.7': {}
 
   '@isaacs/balanced-match@4.0.1': {}
 
@@ -12996,7 +12979,7 @@ snapshots:
 
   '@npmcli/fs@4.0.0':
     dependencies:
-      semver: 7.7.2
+      semver: 7.7.3
 
   '@npmcli/git@6.0.3':
     dependencies:
@@ -14672,7 +14655,7 @@ snapshots:
       std-env: 3.10.0
       test-exclude: 7.0.1
       tinyrainbow: 2.0.0
-      vitest: 3.2.4(@types/node@20.19.24)(@vitest/ui@3.2.4)(jiti@2.6.1)(jsdom@25.0.1)(less@4.4.2)(lightningcss@1.30.2)(msw@2.11.6(@types/node@20.19.24)(typescript@5.9.3))(sass@1.93.2)(terser@5.43.1)(tsx@4.20.6)
+      vitest: 3.2.4(@types/node@20.19.24)(@vitest/ui@3.2.4)(jiti@2.6.1)(jsdom@25.0.1)(less@4.4.0)(lightningcss@1.30.2)(msw@2.11.6(@types/node@20.19.24)(typescript@5.9.3))(sass@1.90.0)(terser@5.43.1)(tsx@4.20.6)
     transitivePeerDependencies:
       - supports-color
 
@@ -14684,23 +14667,14 @@ snapshots:
       chai: 5.3.3
       tinyrainbow: 2.0.0
 
-  '@vitest/mocker@3.2.4(msw@2.11.6(@types/node@20.19.24)(typescript@5.9.3))(vite@7.1.12(@types/node@20.19.24)(jiti@2.6.1)(less@4.4.2)(lightningcss@1.30.2)(sass@1.93.2)(terser@5.43.1)(tsx@4.20.6))':
+  '@vitest/mocker@3.2.4(msw@2.11.6(@types/node@20.19.24)(typescript@5.9.3))(vite@7.1.12(@types/node@20.19.24)(jiti@2.6.1)(less@4.4.0)(lightningcss@1.30.2)(sass@1.90.0)(terser@5.43.1)(tsx@4.20.6))':
     dependencies:
       '@vitest/spy': 3.2.4
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
       msw: 2.11.6(@types/node@20.19.24)(typescript@5.9.3)
-      vite: 7.1.12(@types/node@20.19.24)(jiti@2.6.1)(less@4.4.2)(lightningcss@1.30.2)(sass@1.93.2)(terser@5.43.1)(tsx@4.20.6)
-
-  '@vitest/mocker@3.2.4(msw@2.11.6(@types/node@24.9.2)(typescript@5.9.3))(vite@7.1.12(@types/node@24.9.2)(jiti@2.6.1)(less@4.4.0)(lightningcss@1.30.2)(sass@1.90.0)(terser@5.43.1)(tsx@4.20.6))':
-    dependencies:
-      '@vitest/spy': 3.2.4
-      estree-walker: 3.0.3
-      magic-string: 0.30.21
-    optionalDependencies:
-      msw: 2.11.6(@types/node@24.9.2)(typescript@5.9.3)
-      vite: 7.1.12(@types/node@24.9.2)(jiti@2.6.1)(less@4.4.0)(lightningcss@1.30.2)(sass@1.90.0)(terser@5.43.1)(tsx@4.20.6)
+      vite: 7.1.12(@types/node@20.19.24)(jiti@2.6.1)(less@4.4.0)(lightningcss@1.30.2)(sass@1.90.0)(terser@5.43.1)(tsx@4.20.6)
 
   '@vitest/mocker@3.2.4(msw@2.11.6(@types/node@24.9.2)(typescript@5.9.3))(vite@7.1.12(@types/node@24.9.2)(jiti@2.6.1)(less@4.4.2)(lightningcss@1.30.2)(sass@1.93.2)(terser@5.43.1)(tsx@4.20.6))':
     dependencies:
@@ -14740,7 +14714,7 @@ snapshots:
       sirv: 3.0.2
       tinyglobby: 0.2.15
       tinyrainbow: 2.0.0
-      vitest: 3.2.4(@types/node@24.9.2)(@vitest/ui@3.2.4)(jiti@2.6.1)(jsdom@25.0.1)(less@4.4.0)(lightningcss@1.30.2)(msw@2.11.6(@types/node@24.9.2)(typescript@5.9.3))(sass@1.90.0)(terser@5.43.1)(tsx@4.20.6)
+      vitest: 3.2.4(@types/node@20.19.24)(@vitest/ui@3.2.4)(jiti@2.6.1)(jsdom@25.0.1)(less@4.4.0)(lightningcss@1.30.2)(msw@2.11.6(@types/node@20.19.24)(typescript@5.9.3))(sass@1.90.0)(terser@5.43.1)(tsx@4.20.6)
 
   '@vitest/utils@3.2.4':
     dependencies:
@@ -18123,7 +18097,7 @@ snapshots:
       make-fetch-happen: 14.0.3
       nopt: 8.1.0
       proc-log: 5.0.0
-      semver: 7.7.2
+      semver: 7.7.3
       tar: 7.5.1
       tinyglobby: 0.2.15
       which: 5.0.0
@@ -18148,7 +18122,7 @@ snapshots:
 
   npm-install-checks@7.1.2:
     dependencies:
-      semver: 7.7.2
+      semver: 7.7.3
 
   npm-normalize-package-bin@4.0.0: {}
 
@@ -20014,34 +19988,13 @@ snapshots:
       d3-time: 3.1.0
       d3-timer: 3.0.1
 
-  vite-node@3.2.4(@types/node@20.19.24)(jiti@2.6.1)(less@4.4.2)(lightningcss@1.30.2)(sass@1.93.2)(terser@5.43.1)(tsx@4.20.6):
+  vite-node@3.2.4(@types/node@20.19.24)(jiti@2.6.1)(less@4.4.0)(lightningcss@1.30.2)(sass@1.90.0)(terser@5.43.1)(tsx@4.20.6):
     dependencies:
       cac: 6.7.14
       debug: 4.4.3
       es-module-lexer: 1.7.0
       pathe: 2.0.3
-      vite: 7.1.12(@types/node@20.19.24)(jiti@2.6.1)(less@4.4.2)(lightningcss@1.30.2)(sass@1.93.2)(terser@5.43.1)(tsx@4.20.6)
-    transitivePeerDependencies:
-      - '@types/node'
-      - jiti
-      - less
-      - lightningcss
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-      - tsx
-      - yaml
-
-  vite-node@3.2.4(@types/node@24.9.2)(jiti@2.6.1)(less@4.4.0)(lightningcss@1.30.2)(sass@1.90.0)(terser@5.43.1)(tsx@4.20.6):
-    dependencies:
-      cac: 6.7.14
-      debug: 4.4.3
-      es-module-lexer: 1.7.0
-      pathe: 2.0.3
-      vite: 7.1.12(@types/node@24.9.2)(jiti@2.6.1)(less@4.4.0)(lightningcss@1.30.2)(sass@1.90.0)(terser@5.43.1)(tsx@4.20.6)
+      vite: 7.1.12(@types/node@20.19.24)(jiti@2.6.1)(less@4.4.0)(lightningcss@1.30.2)(sass@1.90.0)(terser@5.43.1)(tsx@4.20.6)
     transitivePeerDependencies:
       - '@types/node'
       - jiti
@@ -20134,7 +20087,7 @@ snapshots:
       terser: 5.43.1
       tsx: 4.20.6
 
-  vite@7.1.12(@types/node@20.19.24)(jiti@2.6.1)(less@4.4.2)(lightningcss@1.30.2)(sass@1.93.2)(terser@5.43.1)(tsx@4.20.6):
+  vite@7.1.12(@types/node@20.19.24)(jiti@2.6.1)(less@4.4.0)(lightningcss@1.30.2)(sass@1.90.0)(terser@5.43.1)(tsx@4.20.6):
     dependencies:
       esbuild: 0.25.11
       fdir: 6.5.0(picomatch@4.0.3)
@@ -20144,24 +20097,6 @@ snapshots:
       tinyglobby: 0.2.15
     optionalDependencies:
       '@types/node': 20.19.24
-      fsevents: 2.3.3
-      jiti: 2.6.1
-      less: 4.4.2
-      lightningcss: 1.30.2
-      sass: 1.93.2
-      terser: 5.43.1
-      tsx: 4.20.6
-
-  vite@7.1.12(@types/node@24.9.2)(jiti@2.6.1)(less@4.4.0)(lightningcss@1.30.2)(sass@1.90.0)(terser@5.43.1)(tsx@4.20.6):
-    dependencies:
-      esbuild: 0.25.11
-      fdir: 6.5.0(picomatch@4.0.3)
-      picomatch: 4.0.3
-      postcss: 8.5.6
-      rollup: 4.52.5
-      tinyglobby: 0.2.15
-    optionalDependencies:
-      '@types/node': 24.9.2
       fsevents: 2.3.3
       jiti: 2.6.1
       less: 4.4.0
@@ -20188,11 +20123,11 @@ snapshots:
       terser: 5.43.1
       tsx: 4.20.6
 
-  vitest@3.2.4(@types/node@20.19.24)(@vitest/ui@3.2.4)(jiti@2.6.1)(jsdom@25.0.1)(less@4.4.2)(lightningcss@1.30.2)(msw@2.11.6(@types/node@20.19.24)(typescript@5.9.3))(sass@1.93.2)(terser@5.43.1)(tsx@4.20.6):
+  vitest@3.2.4(@types/node@20.19.24)(@vitest/ui@3.2.4)(jiti@2.6.1)(jsdom@25.0.1)(less@4.4.0)(lightningcss@1.30.2)(msw@2.11.6(@types/node@20.19.24)(typescript@5.9.3))(sass@1.90.0)(terser@5.43.1)(tsx@4.20.6):
     dependencies:
       '@types/chai': 5.2.3
       '@vitest/expect': 3.2.4
-      '@vitest/mocker': 3.2.4(msw@2.11.6(@types/node@20.19.24)(typescript@5.9.3))(vite@7.1.12(@types/node@20.19.24)(jiti@2.6.1)(less@4.4.2)(lightningcss@1.30.2)(sass@1.93.2)(terser@5.43.1)(tsx@4.20.6))
+      '@vitest/mocker': 3.2.4(msw@2.11.6(@types/node@20.19.24)(typescript@5.9.3))(vite@7.1.12(@types/node@20.19.24)(jiti@2.6.1)(less@4.4.0)(lightningcss@1.30.2)(sass@1.90.0)(terser@5.43.1)(tsx@4.20.6))
       '@vitest/pretty-format': 3.2.4
       '@vitest/runner': 3.2.4
       '@vitest/snapshot': 3.2.4
@@ -20210,8 +20145,8 @@ snapshots:
       tinyglobby: 0.2.15
       tinypool: 1.1.1
       tinyrainbow: 2.0.0
-      vite: 7.1.12(@types/node@20.19.24)(jiti@2.6.1)(less@4.4.2)(lightningcss@1.30.2)(sass@1.93.2)(terser@5.43.1)(tsx@4.20.6)
-      vite-node: 3.2.4(@types/node@20.19.24)(jiti@2.6.1)(less@4.4.2)(lightningcss@1.30.2)(sass@1.93.2)(terser@5.43.1)(tsx@4.20.6)
+      vite: 7.1.12(@types/node@20.19.24)(jiti@2.6.1)(less@4.4.0)(lightningcss@1.30.2)(sass@1.90.0)(terser@5.43.1)(tsx@4.20.6)
+      vite-node: 3.2.4(@types/node@20.19.24)(jiti@2.6.1)(less@4.4.0)(lightningcss@1.30.2)(sass@1.90.0)(terser@5.43.1)(tsx@4.20.6)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 20.19.24
@@ -20231,11 +20166,11 @@ snapshots:
       - tsx
       - yaml
 
-  vitest@3.2.4(@types/node@24.9.2)(@vitest/ui@3.2.4)(jiti@2.6.1)(jsdom@25.0.1)(less@4.4.0)(lightningcss@1.30.2)(msw@2.11.6(@types/node@24.9.2)(typescript@5.9.3))(sass@1.90.0)(terser@5.43.1)(tsx@4.20.6):
+  vitest@3.2.4(@types/node@24.9.2)(@vitest/ui@3.2.4)(jiti@2.6.1)(jsdom@25.0.1)(less@4.4.2)(lightningcss@1.30.2)(msw@2.11.6(@types/node@24.9.2)(typescript@5.9.3))(sass@1.93.2)(terser@5.43.1)(tsx@4.20.6):
     dependencies:
       '@types/chai': 5.2.3
       '@vitest/expect': 3.2.4
-      '@vitest/mocker': 3.2.4(msw@2.11.6(@types/node@24.9.2)(typescript@5.9.3))(vite@7.1.12(@types/node@24.9.2)(jiti@2.6.1)(less@4.4.0)(lightningcss@1.30.2)(sass@1.90.0)(terser@5.43.1)(tsx@4.20.6))
+      '@vitest/mocker': 3.2.4(msw@2.11.6(@types/node@24.9.2)(typescript@5.9.3))(vite@7.1.12(@types/node@24.9.2)(jiti@2.6.1)(less@4.4.2)(lightningcss@1.30.2)(sass@1.93.2)(terser@5.43.1)(tsx@4.20.6))
       '@vitest/pretty-format': 3.2.4
       '@vitest/runner': 3.2.4
       '@vitest/snapshot': 3.2.4
@@ -20253,8 +20188,8 @@ snapshots:
       tinyglobby: 0.2.15
       tinypool: 1.1.1
       tinyrainbow: 2.0.0
-      vite: 7.1.12(@types/node@24.9.2)(jiti@2.6.1)(less@4.4.0)(lightningcss@1.30.2)(sass@1.90.0)(terser@5.43.1)(tsx@4.20.6)
-      vite-node: 3.2.4(@types/node@24.9.2)(jiti@2.6.1)(less@4.4.0)(lightningcss@1.30.2)(sass@1.90.0)(terser@5.43.1)(tsx@4.20.6)
+      vite: 7.1.12(@types/node@24.9.2)(jiti@2.6.1)(less@4.4.2)(lightningcss@1.30.2)(sass@1.93.2)(terser@5.43.1)(tsx@4.20.6)
+      vite-node: 3.2.4(@types/node@24.9.2)(jiti@2.6.1)(less@4.4.2)(lightningcss@1.30.2)(sass@1.93.2)(terser@5.43.1)(tsx@4.20.6)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 24.9.2
@@ -20273,6 +20208,7 @@ snapshots:
       - terser
       - tsx
       - yaml
+    optional: true
 
   vitest@3.2.4(@types/node@24.9.2)(@vitest/ui@3.2.4)(jiti@2.6.1)(jsdom@26.1.0)(less@4.4.2)(lightningcss@1.30.2)(msw@2.11.6(@types/node@24.9.2)(typescript@5.9.3))(sass@1.93.2)(terser@5.43.1)(tsx@4.20.6):
     dependencies:
@@ -20349,7 +20285,7 @@ snapshots:
 
   webidl-conversions@7.0.0: {}
 
-  webpack-dev-middleware@7.4.2(webpack@5.101.2):
+  webpack-dev-middleware@7.4.2(webpack@5.101.2(esbuild@0.25.9)):
     dependencies:
       colorette: 2.0.20
       memfs: 4.50.0
@@ -20360,7 +20296,7 @@ snapshots:
     optionalDependencies:
       webpack: 5.101.2(esbuild@0.25.9)
 
-  webpack-dev-server@5.2.2(webpack@5.101.2):
+  webpack-dev-server@5.2.2(webpack@5.101.2(esbuild@0.25.9)):
     dependencies:
       '@types/bonjour': 3.5.13
       '@types/connect-history-api-fallback': 1.5.4
@@ -20388,7 +20324,7 @@ snapshots:
       serve-index: 1.9.1
       sockjs: 0.3.24
       spdy: 4.0.2
-      webpack-dev-middleware: 7.4.2(webpack@5.101.2)
+      webpack-dev-middleware: 7.4.2(webpack@5.101.2(esbuild@0.25.9))
       ws: 8.18.3
     optionalDependencies:
       webpack: 5.101.2(esbuild@0.25.9)
