@@ -25,7 +25,7 @@ export default function SignInAuthScreenWithOAuthPage() {
   return (
     <SignInAuthScreen
       onForgotPasswordClick={() => router.push("/password-reset-screen")}
-      onSignIn={(credential) => {
+      onSignIn={() => {
         router.push("/");
       }}
     >
