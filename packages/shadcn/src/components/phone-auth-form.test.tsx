@@ -104,10 +104,13 @@ vi.mock("./country-selector", () => ({
 describe("<PhoneAuthForm />", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.useFakeTimers({ shouldAdvanceTime: true });
   });
 
   afterEach(() => {
+    vi.runOnlyPendingTimers();
     cleanup();
+    vi.useRealTimers();
   });
 
   it("should render the phone number form initially", () => {
@@ -201,7 +204,6 @@ describe("<PhoneAuthForm />", () => {
       </FirebaseUIProvider>
     );
 
-    // Initially should show phone number form
     expect(container.querySelector("input[name='phoneNumber']")).toBeInTheDocument();
 
     const phoneInput = container.querySelector("input[name='phoneNumber']")!;
@@ -219,12 +221,10 @@ describe("<PhoneAuthForm />", () => {
       expect(mockAction).toHaveBeenCalled();
     });
 
-    // Wait for verification form to appear
     await waitFor(() => {
       expect(container.querySelector("input[name='verificationCode']")).toBeInTheDocument();
     });
 
-    // Check for description
     const description = container.querySelector('[data-slot="form-description"]');
     expect(description).toBeInTheDocument();
     expect(description).toHaveTextContent("Enter the verification code sent to your phone number");
@@ -390,7 +390,7 @@ describe("<PhoneAuthForm />", () => {
           phoneNumber: "Phone Number",
         },
         errors: {
-          "auth/invalid-phone-number": "Error: Invalid phone number format",
+          invalidPhoneNumber: "Error: Invalid phone number format",
         },
       }),
     });
