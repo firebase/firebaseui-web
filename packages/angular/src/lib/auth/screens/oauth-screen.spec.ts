@@ -26,6 +26,7 @@ import {
   CardSubtitleComponent,
   CardContentComponent,
 } from "../../components/card";
+import { MultiFactorAuthAssertionScreenComponent } from "../screens/multi-factor-auth-assertion-screen";
 import { MultiFactorAuthAssertionFormComponent } from "../forms/multi-factor-auth-assertion-form";
 import { ContentComponent } from "../../components/content";
 
@@ -81,11 +82,12 @@ class TestHostWithMultipleProvidersComponent {}
 class TestHostWithoutContentComponent {}
 
 @Component({
-  selector: "fui-multi-factor-auth-assertion-form",
-  template: '<div data-testid="mfa-assertion-form">MFA Assertion Form</div>',
+  selector: "fui-multi-factor-auth-assertion-screen",
+  template: '<div data-testid="mfa-assertion-screen">MFA Assertion Screen</div>',
   standalone: true,
+  outputs: ["onSuccess"],
 })
-class MockMultiFactorAuthAssertionFormComponent {
+class MockMultiFactorAuthAssertionScreenComponent {
   onSuccess = new EventEmitter();
 }
 
@@ -126,7 +128,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
-        MultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -146,7 +148,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
-        MultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -166,7 +168,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
-        MultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -187,7 +189,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
-        MultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -212,7 +214,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
-        MultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -232,7 +234,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
-        MultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -257,7 +259,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
-        MultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -271,17 +273,17 @@ describe("<fui-oauth-screen>", () => {
     expect(injectTranslation).toHaveBeenCalledWith("prompts", "signInToAccount");
   });
 
-  it("renders MFA assertion form when multiFactorResolver is present", async () => {
+  it("renders MFA assertion screen when multiFactorResolver is present", async () => {
     const { injectUI } = require("../../../provider");
     injectUI.mockImplementation(() => {
       return () => ({
-        multiFactorResolver: { hints: [] },
+        multiFactorResolver: { auth: {}, session: null, hints: [] },
       });
     });
 
-    TestBed.overrideComponent(MultiFactorAuthAssertionFormComponent, {
+    TestBed.overrideComponent(MultiFactorAuthAssertionScreenComponent, {
       set: {
-        template: '<div data-testid="mfa-assertion-form">MFA Assertion Form</div>',
+        template: '<div data-testid="mfa-assertion-screen">MFA Assertion Screen</div>',
       },
     });
 
@@ -290,7 +292,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
-        MultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -300,7 +302,7 @@ describe("<fui-oauth-screen>", () => {
       ],
     });
 
-    expect(screen.getByTestId("mfa-assertion-form")).toBeInTheDocument();
+    expect(screen.getByTestId("mfa-assertion-screen")).toBeInTheDocument();
     expect(screen.queryByTestId("policies")).not.toBeInTheDocument();
   });
 
@@ -308,13 +310,13 @@ describe("<fui-oauth-screen>", () => {
     const { injectUI } = require("../../../provider");
     injectUI.mockImplementation(() => {
       return () => ({
-        multiFactorResolver: { hints: [] },
+        multiFactorResolver: { auth: {}, session: null, hints: [] },
       });
     });
 
-    TestBed.overrideComponent(MultiFactorAuthAssertionFormComponent, {
+    TestBed.overrideComponent(MultiFactorAuthAssertionScreenComponent, {
       set: {
-        template: '<div data-testid="mfa-assertion-form">MFA Assertion Form</div>',
+        template: '<div data-testid="mfa-assertion-screen">MFA Assertion Screen</div>',
       },
     });
 
@@ -323,7 +325,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
-        MultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -334,41 +336,29 @@ describe("<fui-oauth-screen>", () => {
     });
 
     expect(screen.queryByTestId("policies")).not.toBeInTheDocument();
-    expect(screen.getByTestId("mfa-assertion-form")).toBeInTheDocument();
+    expect(screen.getByTestId("mfa-assertion-screen")).toBeInTheDocument();
   });
 
   it("emits onSignIn with credential when MFA flow succeeds", async () => {
     const { injectUI } = require("../../../provider");
     injectUI.mockImplementation(() => {
       return () => ({
-        multiFactorResolver: { hints: [{ factorId: "totp", uid: "test" }] },
+        multiFactorResolver: { auth: {}, session: null, hints: [{ factorId: "totp", uid: "test" }] },
       });
     });
 
-    TestBed.overrideComponent(MultiFactorAuthAssertionFormComponent, {
+    TestBed.overrideComponent(MultiFactorAuthAssertionScreenComponent, {
       set: {
-        template:
-          '<div data-testid="mfa-assertion-form">MFA Assertion Form</div><button data-testid="mfa-on-success" (click)="onSuccess.emit({ user: { uid: \'angular-oauth-mfa-user\' } })">Trigger</button>',
+        template: '<div data-testid="mfa-assertion-screen">MFA Assertion Screen</div>',
       },
     });
 
-    const onSignInHandler = jest.fn();
-
-    @Component({
-      template: `<fui-oauth-screen (onSignIn)="onSignIn($event)"></fui-oauth-screen>`,
-      standalone: true,
-      imports: [OAuthScreenComponent],
-    })
-    class HostCaptureComponent {
-      onSignIn = onSignInHandler;
-    }
-
-    await render(HostCaptureComponent, {
+    const { fixture } = await render(TestHostWithoutContentComponent, {
       imports: [
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
-        MultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -378,11 +368,16 @@ describe("<fui-oauth-screen>", () => {
       ],
     });
 
-    const trigger = screen.getByTestId("mfa-on-success");
-    trigger.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    const component = fixture.debugElement.query((el) => el.name === "fui-oauth-screen").componentInstance;
+    const onSignInSpy = jest.spyOn(component.onSignIn, "emit");
 
-    expect(onSignInHandler).toHaveBeenCalled();
-    expect(onSignInHandler).toHaveBeenCalledWith(
+    const mfaScreenComponent = fixture.debugElement.query(
+      (el) => el.name === "fui-multi-factor-auth-assertion-screen"
+    ).componentInstance;
+    mfaScreenComponent.onSuccess.emit({ user: { uid: "angular-oauth-mfa-user" } });
+
+    expect(onSignInSpy).toHaveBeenCalledTimes(1);
+    expect(onSignInSpy).toHaveBeenCalledWith(
       expect.objectContaining({ user: expect.objectContaining({ uid: "angular-oauth-mfa-user" }) })
     );
   });

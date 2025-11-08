@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-import { render, screen, fireEvent } from "@testing-library/angular";
-import { Component, EventEmitter } from "@angular/core";
-
-import { EmailLinkAuthScreenComponent } from "./email-link-auth-screen";
+import { render, screen } from "@testing-library/angular";
+import { Component } from "@angular/core";
+import { TestBed } from "@angular/core/testing";
+import { MultiFactorAuthAssertionScreenComponent } from "./multi-factor-auth-assertion-screen";
+import { MultiFactorAuthAssertionFormComponent } from "../forms/multi-factor-auth-assertion-form";
 import {
   CardComponent,
   CardHeaderComponent,
@@ -27,13 +28,6 @@ import {
 } from "../../components/card";
 
 @Component({
-  selector: "fui-email-link-auth-form",
-  template: '<button class="fui-form__action fui-button">labels.sendSignInLink</button>',
-  standalone: true,
-})
-class MockEmailLinkAuthFormComponent {}
-
-@Component({
   selector: "fui-redirect-error",
   template: '<div data-testid="redirect-error">Redirect Error</div>',
   standalone: true,
@@ -41,63 +35,51 @@ class MockEmailLinkAuthFormComponent {}
 class MockRedirectErrorComponent {}
 
 @Component({
-  selector: "fui-multi-factor-auth-assertion-screen",
   template: `
-    <div data-testid="mfa-assertion-screen">MFA Assertion Screen</div>
-    <button data-testid="mfa-on-success" (click)="onSuccess.emit({ user: { uid: 'mfa-user' } })">
-      Trigger MFA Success
-    </button>
-  `,
-  standalone: true,
-  outputs: ["onSuccess"],
-})
-class MockMultiFactorAuthAssertionScreenComponent {
-  onSuccess = new EventEmitter<any>();
-}
-
-@Component({
-  template: `
-    <fui-email-link-auth-screen>
+    <fui-multi-factor-auth-assertion-screen>
       <div data-testid="projected-content">Test Content</div>
-    </fui-email-link-auth-screen>
+    </fui-multi-factor-auth-assertion-screen>
   `,
   standalone: true,
-  imports: [EmailLinkAuthScreenComponent],
+  imports: [MultiFactorAuthAssertionScreenComponent],
 })
 class TestHostWithContentComponent {}
 
 @Component({
-  template: `<fui-email-link-auth-screen></fui-email-link-auth-screen>`,
+  template: `<fui-multi-factor-auth-assertion-screen></fui-multi-factor-auth-assertion-screen>`,
   standalone: true,
-  imports: [EmailLinkAuthScreenComponent],
+  imports: [MultiFactorAuthAssertionScreenComponent],
 })
 class TestHostWithoutContentComponent {}
 
-describe("<fui-email-link-auth-screen>", () => {
+describe("<fui-multi-factor-auth-assertion-screen>", () => {
   beforeEach(() => {
     const { injectTranslation, injectUI } = require("../../../provider");
     injectTranslation.mockImplementation((category: string, key: string) => {
       const mockTranslations: Record<string, Record<string, string>> = {
         labels: {
-          signIn: "Sign In",
+          multiFactorAssertion: "Multi-Factor Assertion",
         },
         prompts: {
-          signInToAccount: "Sign in to your account",
+          mfaAssertionPrompt: "Verify your multi-factor authentication",
         },
       };
       return () => mockTranslations[category]?.[key] || `${category}.${key}`;
     });
 
     injectUI.mockImplementation(() => () => ({
-      multiFactorResolver: null,
+      multiFactorResolver: {
+        auth: {},
+        session: null,
+        hints: [],
+      },
     }));
   });
 
   it("renders with correct title and subtitle", async () => {
     await render(TestHostWithoutContentComponent, {
       imports: [
-        EmailLinkAuthScreenComponent,
-        MockEmailLinkAuthFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
@@ -107,15 +89,20 @@ describe("<fui-email-link-auth-screen>", () => {
       ],
     });
 
-    expect(screen.getByText("Sign In")).toBeInTheDocument();
-    expect(screen.getByText("Sign in to your account")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Multi-Factor Assertion" })).toBeInTheDocument();
+    expect(screen.getByText("Verify your multi-factor authentication")).toBeInTheDocument();
   });
 
-  it("includes the EmailLinkAuthForm component", async () => {
+  it("includes the MultiFactorAuthAssertionForm component", async () => {
+    TestBed.overrideComponent(MultiFactorAuthAssertionFormComponent, {
+      set: {
+        template: '<div data-testid="mfa-assertion-form">MFA Assertion Form</div>',
+      },
+    });
+
     await render(TestHostWithoutContentComponent, {
       imports: [
-        EmailLinkAuthScreenComponent,
-        MockEmailLinkAuthFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
@@ -125,16 +112,15 @@ describe("<fui-email-link-auth-screen>", () => {
       ],
     });
 
-    const form = screen.getByRole("button", { name: "labels.sendSignInLink" });
+    const form = screen.getByTestId("mfa-assertion-form");
     expect(form).toBeInTheDocument();
-    expect(form).toHaveClass("fui-form__action", "fui-button");
+    expect(form).toHaveTextContent("MFA Assertion Form");
   });
 
   it("renders projected content when provided", async () => {
     await render(TestHostWithContentComponent, {
       imports: [
-        EmailLinkAuthScreenComponent,
-        MockEmailLinkAuthFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
@@ -149,11 +135,10 @@ describe("<fui-email-link-auth-screen>", () => {
     expect(projectedContent).toHaveTextContent("Test Content");
   });
 
-  it("renders RedirectError component in children section", async () => {
+  it("renders RedirectError component", async () => {
     const { container } = await render(TestHostWithContentComponent, {
       imports: [
-        EmailLinkAuthScreenComponent,
-        MockEmailLinkAuthFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
@@ -170,8 +155,7 @@ describe("<fui-email-link-auth-screen>", () => {
   it("has correct CSS classes", async () => {
     const { container } = await render(TestHostWithoutContentComponent, {
       imports: [
-        EmailLinkAuthScreenComponent,
-        MockEmailLinkAuthFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
@@ -193,8 +177,7 @@ describe("<fui-email-link-auth-screen>", () => {
     const { injectTranslation } = require("../../../provider");
     await render(TestHostWithoutContentComponent, {
       imports: [
-        EmailLinkAuthScreenComponent,
-        MockEmailLinkAuthFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
@@ -204,45 +187,20 @@ describe("<fui-email-link-auth-screen>", () => {
       ],
     });
 
-    expect(injectTranslation).toHaveBeenCalledWith("labels", "signIn");
-    expect(injectTranslation).toHaveBeenCalledWith("prompts", "signInToAccount");
+    expect(injectTranslation).toHaveBeenCalledWith("labels", "multiFactorAssertion");
+    expect(injectTranslation).toHaveBeenCalledWith("prompts", "mfaAssertionPrompt");
   });
 
-  it("renders MFA assertion form when MFA resolver is present", async () => {
-    const { injectUI } = require("../../../provider");
-    injectUI.mockImplementation(() => () => ({
-      multiFactorResolver: { auth: {}, session: null, hints: [] },
-    }));
-
-    const { container } = await render(TestHostWithoutContentComponent, {
-      imports: [
-        EmailLinkAuthScreenComponent,
-        MockEmailLinkAuthFormComponent,
-        MockMultiFactorAuthAssertionScreenComponent,
-        MockRedirectErrorComponent,
-        CardComponent,
-        CardHeaderComponent,
-        CardTitleComponent,
-        CardSubtitleComponent,
-        CardContentComponent,
-      ],
+  it("emits onSuccess event when form emits onSuccess", async () => {
+    TestBed.overrideComponent(MultiFactorAuthAssertionFormComponent, {
+      set: {
+        template: '<div data-testid="mfa-assertion-form">MFA Assertion Form</div>',
+      },
     });
-
-    // Check for the MFA screen element by its selector
-    expect(container.querySelector("fui-multi-factor-auth-assertion-screen")).toBeInTheDocument();
-  });
-
-  it("calls signIn output when MFA flow succeeds", async () => {
-    const { injectUI } = require("../../../provider");
-    injectUI.mockImplementation(() => () => ({
-      multiFactorResolver: { auth: {}, session: null, hints: [] },
-    }));
 
     const { fixture } = await render(TestHostWithoutContentComponent, {
       imports: [
-        EmailLinkAuthScreenComponent,
-        MockEmailLinkAuthFormComponent,
-        MockMultiFactorAuthAssertionScreenComponent,
+        MultiFactorAuthAssertionScreenComponent,
         MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
@@ -252,18 +210,20 @@ describe("<fui-email-link-auth-screen>", () => {
       ],
     });
 
-    const component = fixture.debugElement.query((el) => el.name === "fui-email-link-auth-screen").componentInstance;
-    const signInSpy = jest.spyOn(component.signIn, "emit");
-
-    // Simulate MFA success by directly calling the onSuccess handler
-    const mfaComponent = fixture.debugElement.query(
+    const component = fixture.debugElement.query(
       (el) => el.name === "fui-multi-factor-auth-assertion-screen"
     ).componentInstance;
-    mfaComponent.onSuccess.emit({ user: { uid: "mfa-user" } });
+    const onSuccessSpy = jest.spyOn(component.onSuccess, "emit");
 
-    expect(signInSpy).toHaveBeenCalledTimes(1);
-    expect(signInSpy).toHaveBeenCalledWith(
+    const formComponent = fixture.debugElement.query(
+      (el) => el.name === "fui-multi-factor-auth-assertion-form"
+    ).componentInstance;
+    formComponent.onSuccess.emit({ user: { uid: "mfa-user" } });
+
+    expect(onSuccessSpy).toHaveBeenCalledTimes(1);
+    expect(onSuccessSpy).toHaveBeenCalledWith(
       expect.objectContaining({ user: expect.objectContaining({ uid: "mfa-user" }) })
     );
   });
 });
+

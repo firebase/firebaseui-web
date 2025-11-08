@@ -26,7 +26,7 @@ import {
 import { injectTranslation, injectUI } from "../../provider";
 import { PoliciesComponent } from "../../components/policies";
 import { ContentComponent } from "../../components/content";
-import { MultiFactorAuthAssertionFormComponent } from "../forms/multi-factor-auth-assertion-form";
+import { MultiFactorAuthAssertionScreenComponent } from "../screens/multi-factor-auth-assertion-screen";
 import { RedirectErrorComponent } from "../../components/redirect-error";
 import { type UserCredential } from "firebase/auth";
 
@@ -42,29 +42,29 @@ import { type UserCredential } from "firebase/auth";
     CardContentComponent,
     PoliciesComponent,
     ContentComponent,
-    MultiFactorAuthAssertionFormComponent,
+    MultiFactorAuthAssertionScreenComponent,
     RedirectErrorComponent,
   ],
   template: `
-    <div class="fui-screen">
-      <fui-card>
-        <fui-card-header>
-          <fui-card-title>{{ titleText() }}</fui-card-title>
-          <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
-        </fui-card-header>
-        <fui-card-content>
-          @if (mfaResolver()) {
-            <fui-multi-factor-auth-assertion-form (onSuccess)="onSignIn.emit($event)" />
-          } @else {
+    @if (mfaResolver()) {
+      <fui-multi-factor-auth-assertion-screen (onSuccess)="onSignIn.emit($event)" />
+    } @else {
+      <div class="fui-screen">
+        <fui-card>
+          <fui-card-header>
+            <fui-card-title>{{ titleText() }}</fui-card-title>
+            <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
+          </fui-card-header>
+          <fui-card-content>
             <fui-content>
               <ng-content></ng-content>
             </fui-content>
             <fui-redirect-error />
             <fui-policies />
-          }
-        </fui-card-content>
-      </fui-card>
-    </div>
+          </fui-card-content>
+        </fui-card>
+      </div>
+    }
   `,
 })
 export class OAuthScreenComponent {

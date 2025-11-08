@@ -25,7 +25,7 @@ import {
 } from "../../components/card";
 import { injectTranslation, injectUI } from "../../provider";
 import { PhoneAuthFormComponent } from "../forms/phone-auth-form";
-import { MultiFactorAuthAssertionFormComponent } from "../forms/multi-factor-auth-assertion-form";
+import { MultiFactorAuthAssertionScreenComponent } from "../screens/multi-factor-auth-assertion-screen";
 import { RedirectErrorComponent } from "../../components/redirect-error";
 import { UserCredential } from "@angular/fire/auth";
 
@@ -40,27 +40,27 @@ import { UserCredential } from "@angular/fire/auth";
     CardSubtitleComponent,
     CardContentComponent,
     PhoneAuthFormComponent,
-    MultiFactorAuthAssertionFormComponent,
+    MultiFactorAuthAssertionScreenComponent,
     RedirectErrorComponent,
   ],
   template: `
-    <div class="fui-screen">
-      <fui-card>
-        <fui-card-header>
-          <fui-card-title>{{ titleText() }}</fui-card-title>
-          <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
-        </fui-card-header>
-        <fui-card-content>
-          @if (mfaResolver()) {
-            <fui-multi-factor-auth-assertion-form (onSuccess)="signIn.emit($event)" />
-          } @else {
+    @if (mfaResolver()) {
+      <fui-multi-factor-auth-assertion-screen (onSuccess)="signIn.emit($event)" />
+    } @else {
+      <div class="fui-screen">
+        <fui-card>
+          <fui-card-header>
+            <fui-card-title>{{ titleText() }}</fui-card-title>
+            <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
+          </fui-card-header>
+          <fui-card-content>
             <fui-phone-auth-form (signIn)="signIn.emit($event)" />
             <fui-redirect-error />
             <ng-content />
-          }
-        </fui-card-content>
-      </fui-card>
-    </div>
+          </fui-card-content>
+        </fui-card>
+      </div>
+    }
   `,
 })
 export class PhoneAuthScreenComponent {

@@ -26,6 +26,7 @@ import {
   CardSubtitleComponent,
   CardContentComponent,
 } from "../../components/card";
+import { MultiFactorAuthAssertionScreenComponent } from "../screens/multi-factor-auth-assertion-screen";
 import { MultiFactorAuthAssertionFormComponent } from "../forms/multi-factor-auth-assertion-form";
 import { TotpMultiFactorAssertionFormComponent } from "../forms/mfa/totp-multi-factor-assertion-form";
 import { TotpMultiFactorGenerator } from "firebase/auth";
@@ -90,7 +91,7 @@ describe("<fui-phone-auth-screen>", () => {
         PhoneAuthScreenComponent,
         MockPhoneAuthFormComponent,
         MockRedirectErrorComponent,
-        MultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -109,7 +110,7 @@ describe("<fui-phone-auth-screen>", () => {
         PhoneAuthScreenComponent,
         MockPhoneAuthFormComponent,
         MockRedirectErrorComponent,
-        MultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -129,7 +130,7 @@ describe("<fui-phone-auth-screen>", () => {
         PhoneAuthScreenComponent,
         MockPhoneAuthFormComponent,
         MockRedirectErrorComponent,
-        MultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -149,7 +150,7 @@ describe("<fui-phone-auth-screen>", () => {
         PhoneAuthScreenComponent,
         MockPhoneAuthFormComponent,
         MockRedirectErrorComponent,
-        MultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -168,7 +169,7 @@ describe("<fui-phone-auth-screen>", () => {
         PhoneAuthScreenComponent,
         MockPhoneAuthFormComponent,
         MockRedirectErrorComponent,
-        MultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -192,7 +193,7 @@ describe("<fui-phone-auth-screen>", () => {
         PhoneAuthScreenComponent,
         MockPhoneAuthFormComponent,
         MockRedirectErrorComponent,
-        MultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -205,17 +206,17 @@ describe("<fui-phone-auth-screen>", () => {
     expect(injectTranslation).toHaveBeenCalledWith("prompts", "signInToAccount");
   });
 
-  it("renders MFA assertion form when multiFactorResolver is present", async () => {
+  it("renders MFA assertion screen when multiFactorResolver is present", async () => {
     const { injectUI } = require("../../../provider");
     injectUI.mockImplementation(() => {
       return () => ({
-        multiFactorResolver: { hints: [] },
+        multiFactorResolver: { auth: {}, session: null, hints: [] },
       });
     });
 
-    TestBed.overrideComponent(MultiFactorAuthAssertionFormComponent, {
+    TestBed.overrideComponent(MultiFactorAuthAssertionScreenComponent, {
       set: {
-        template: '<div data-testid="mfa-assertion-form">MFA Assertion Form</div>',
+        template: '<div data-testid="mfa-assertion-screen">MFA Assertion Screen</div>',
       },
     });
 
@@ -224,7 +225,7 @@ describe("<fui-phone-auth-screen>", () => {
         PhoneAuthScreenComponent,
         MockPhoneAuthFormComponent,
         MockRedirectErrorComponent,
-        MultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -233,7 +234,7 @@ describe("<fui-phone-auth-screen>", () => {
       ],
     });
 
-    expect(screen.getByTestId("mfa-assertion-form")).toBeInTheDocument();
+    expect(screen.getByTestId("mfa-assertion-screen")).toBeInTheDocument();
     expect(screen.queryByText("Phone Auth Form")).not.toBeInTheDocument();
   });
 
@@ -241,13 +242,13 @@ describe("<fui-phone-auth-screen>", () => {
     const { injectUI } = require("../../../provider");
     injectUI.mockImplementation(() => {
       return () => ({
-        multiFactorResolver: { hints: [] },
+        multiFactorResolver: { auth: {}, session: null, hints: [] },
       });
     });
 
-    TestBed.overrideComponent(MultiFactorAuthAssertionFormComponent, {
+    TestBed.overrideComponent(MultiFactorAuthAssertionScreenComponent, {
       set: {
-        template: '<div data-testid="mfa-assertion-form">MFA Assertion Form</div>',
+        template: '<div data-testid="mfa-assertion-screen">MFA Assertion Screen</div>',
       },
     });
 
@@ -256,7 +257,7 @@ describe("<fui-phone-auth-screen>", () => {
         PhoneAuthScreenComponent,
         MockPhoneAuthFormComponent,
         MockRedirectErrorComponent,
-        MultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -266,41 +267,29 @@ describe("<fui-phone-auth-screen>", () => {
     });
 
     expect(screen.queryByText("Phone Auth Form")).not.toBeInTheDocument();
-    expect(screen.getByTestId("mfa-assertion-form")).toBeInTheDocument();
+    expect(screen.getByTestId("mfa-assertion-screen")).toBeInTheDocument();
   });
 
   it("emits signIn with credential when MFA flow succeeds", async () => {
     const { injectUI } = require("../../../provider");
     injectUI.mockImplementation(() => {
       return () => ({
-        multiFactorResolver: { hints: [{ factorId: TotpMultiFactorGenerator.FACTOR_ID, uid: "test" }] },
+        multiFactorResolver: { auth: {}, session: null, hints: [{ factorId: TotpMultiFactorGenerator.FACTOR_ID, uid: "test" }] },
       });
     });
 
-    TestBed.overrideComponent(TotpMultiFactorAssertionFormComponent, {
+    TestBed.overrideComponent(MultiFactorAuthAssertionScreenComponent, {
       set: {
-        template:
-          '<div data-testid="totp-assertion-form">TOTP</div><button data-testid="mfa-on-success" (click)="onSuccess.emit({ user: { uid: \'angular-phone-mfa-user\' } })">Trigger</button>',
+        template: '<div data-testid="mfa-assertion-screen">MFA Assertion Screen</div>',
       },
     });
 
-    const signInHandler = jest.fn();
-
-    @Component({
-      template: `<fui-phone-auth-screen (signIn)="onSignIn($event)"></fui-phone-auth-screen>`,
-      standalone: true,
-      imports: [PhoneAuthScreenComponent],
-    })
-    class HostCaptureComponent {
-      onSignIn = signInHandler;
-    }
-
-    await render(HostCaptureComponent, {
+    const { fixture } = await render(TestHostWithoutContentComponent, {
       imports: [
         PhoneAuthScreenComponent,
         MockPhoneAuthFormComponent,
         MockRedirectErrorComponent,
-        MultiFactorAuthAssertionFormComponent, // Using real component
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -309,11 +298,16 @@ describe("<fui-phone-auth-screen>", () => {
       ],
     });
 
-    const trigger = screen.getByTestId("mfa-on-success");
-    trigger.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    const component = fixture.debugElement.query((el) => el.name === "fui-phone-auth-screen").componentInstance;
+    const signInSpy = jest.spyOn(component.signIn, "emit");
 
-    expect(signInHandler).toHaveBeenCalled();
-    expect(signInHandler).toHaveBeenCalledWith(
+    const mfaScreenComponent = fixture.debugElement.query(
+      (el) => el.name === "fui-multi-factor-auth-assertion-screen"
+    ).componentInstance;
+    mfaScreenComponent.onSuccess.emit({ user: { uid: "angular-phone-mfa-user" } });
+
+    expect(signInSpy).toHaveBeenCalledTimes(1);
+    expect(signInSpy).toHaveBeenCalledWith(
       expect.objectContaining({ user: expect.objectContaining({ uid: "angular-phone-mfa-user" }) })
     );
   });

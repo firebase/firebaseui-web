@@ -19,7 +19,7 @@ import { CommonModule } from "@angular/common";
 
 import { injectTranslation, injectUI } from "../../provider";
 import { SignInAuthFormComponent } from "../forms/sign-in-auth-form";
-import { MultiFactorAuthAssertionFormComponent } from "../forms/multi-factor-auth-assertion-form";
+import { MultiFactorAuthAssertionScreenComponent } from "../screens/multi-factor-auth-assertion-screen";
 import { RedirectErrorComponent } from "../../components/redirect-error";
 import {
   CardComponent,
@@ -40,20 +40,20 @@ import { UserCredential } from "@angular/fire/auth";
     CardSubtitleComponent,
     CardContentComponent,
     SignInAuthFormComponent,
-    MultiFactorAuthAssertionFormComponent,
+    MultiFactorAuthAssertionScreenComponent,
     RedirectErrorComponent,
   ],
   template: `
-    <div class="fui-screen">
-      <fui-card>
-        <fui-card-header>
-          <fui-card-title>{{ titleText() }}</fui-card-title>
-          <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
-        </fui-card-header>
-        <fui-card-content>
-          @if (mfaResolver()) {
-            <fui-multi-factor-auth-assertion-form (onSuccess)="signIn.emit($event)" />
-          } @else {
+    @if (mfaResolver()) {
+      <fui-multi-factor-auth-assertion-screen (onSuccess)="signIn.emit($event)" />
+    } @else {
+      <div class="fui-screen">
+        <fui-card>
+          <fui-card-header>
+            <fui-card-title>{{ titleText() }}</fui-card-title>
+            <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
+          </fui-card-header>
+          <fui-card-content>
             <fui-sign-in-auth-form
               (forgotPassword)="forgotPassword.emit()"
               (signUp)="signUp.emit()"
@@ -61,10 +61,10 @@ import { UserCredential } from "@angular/fire/auth";
             />
             <fui-redirect-error />
             <ng-content />
-          }
-        </fui-card-content>
-      </fui-card>
-    </div>
+          </fui-card-content>
+        </fui-card>
+      </div>
+    }
   `,
 })
 export class SignInAuthScreenComponent {

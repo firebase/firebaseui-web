@@ -41,6 +41,7 @@ export { OAuthButtonComponent } from "./lib/auth/oauth/oauth-button";
 
 export { EmailLinkAuthScreenComponent } from "./lib/auth/screens/email-link-auth-screen";
 export { ForgotPasswordAuthScreenComponent } from "./lib/auth/screens/forgot-password-auth-screen";
+export { MultiFactorAuthAssertionScreenComponent } from "./lib/auth/screens/multi-factor-auth-assertion-screen";
 export { OAuthScreenComponent } from "./lib/auth/screens/oauth-screen";
 export { PhoneAuthScreenComponent } from "./lib/auth/screens/phone-auth-screen";
 export { SignInAuthScreenComponent } from "./lib/auth/screens/sign-in-auth-screen";
