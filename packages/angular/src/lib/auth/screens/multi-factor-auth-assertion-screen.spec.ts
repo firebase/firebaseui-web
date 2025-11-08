@@ -28,24 +28,6 @@ import {
 } from "../../components/card";
 
 @Component({
-  selector: "fui-redirect-error",
-  template: '<div data-testid="redirect-error">Redirect Error</div>',
-  standalone: true,
-})
-class MockRedirectErrorComponent {}
-
-@Component({
-  template: `
-    <fui-multi-factor-auth-assertion-screen>
-      <div data-testid="projected-content">Test Content</div>
-    </fui-multi-factor-auth-assertion-screen>
-  `,
-  standalone: true,
-  imports: [MultiFactorAuthAssertionScreenComponent],
-})
-class TestHostWithContentComponent {}
-
-@Component({
   template: `<fui-multi-factor-auth-assertion-screen></fui-multi-factor-auth-assertion-screen>`,
   standalone: true,
   imports: [MultiFactorAuthAssertionScreenComponent],
@@ -80,7 +62,6 @@ describe("<fui-multi-factor-auth-assertion-screen>", () => {
     await render(TestHostWithoutContentComponent, {
       imports: [
         MultiFactorAuthAssertionScreenComponent,
-        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -103,7 +84,6 @@ describe("<fui-multi-factor-auth-assertion-screen>", () => {
     await render(TestHostWithoutContentComponent, {
       imports: [
         MultiFactorAuthAssertionScreenComponent,
-        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -117,46 +97,10 @@ describe("<fui-multi-factor-auth-assertion-screen>", () => {
     expect(form).toHaveTextContent("MFA Assertion Form");
   });
 
-  it("renders projected content when provided", async () => {
-    await render(TestHostWithContentComponent, {
-      imports: [
-        MultiFactorAuthAssertionScreenComponent,
-        MockRedirectErrorComponent,
-        CardComponent,
-        CardHeaderComponent,
-        CardTitleComponent,
-        CardSubtitleComponent,
-        CardContentComponent,
-      ],
-    });
-
-    const projectedContent = screen.getByTestId("projected-content");
-    expect(projectedContent).toBeInTheDocument();
-    expect(projectedContent).toHaveTextContent("Test Content");
-  });
-
-  it("renders RedirectError component", async () => {
-    const { container } = await render(TestHostWithContentComponent, {
-      imports: [
-        MultiFactorAuthAssertionScreenComponent,
-        MockRedirectErrorComponent,
-        CardComponent,
-        CardHeaderComponent,
-        CardTitleComponent,
-        CardSubtitleComponent,
-        CardContentComponent,
-      ],
-    });
-
-    const redirectErrorElement = container.querySelector("fui-redirect-error");
-    expect(redirectErrorElement).toBeInTheDocument();
-  });
-
   it("has correct CSS classes", async () => {
     const { container } = await render(TestHostWithoutContentComponent, {
       imports: [
         MultiFactorAuthAssertionScreenComponent,
-        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -178,7 +122,6 @@ describe("<fui-multi-factor-auth-assertion-screen>", () => {
     await render(TestHostWithoutContentComponent, {
       imports: [
         MultiFactorAuthAssertionScreenComponent,
-        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -201,7 +144,6 @@ describe("<fui-multi-factor-auth-assertion-screen>", () => {
     const { fixture } = await render(TestHostWithoutContentComponent, {
       imports: [
         MultiFactorAuthAssertionScreenComponent,
-        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,

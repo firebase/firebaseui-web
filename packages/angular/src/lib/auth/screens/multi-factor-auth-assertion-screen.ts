@@ -19,7 +19,6 @@ import { CommonModule } from "@angular/common";
 import { UserCredential } from "@angular/fire/auth";
 import { injectTranslation } from "../../provider";
 import { MultiFactorAuthAssertionFormComponent } from "../forms/multi-factor-auth-assertion-form";
-import { RedirectErrorComponent } from "../../components/redirect-error";
 import {
   CardComponent,
   CardHeaderComponent,
@@ -39,7 +38,6 @@ import {
     CardSubtitleComponent,
     CardContentComponent,
     MultiFactorAuthAssertionFormComponent,
-    RedirectErrorComponent,
   ],
   template: `
     <div class="fui-screen">
@@ -50,8 +48,6 @@ import {
         </fui-card-header>
         <fui-card-content>
           <fui-multi-factor-auth-assertion-form (onSuccess)="onSuccess.emit($event)" />
-          <fui-redirect-error />
-          <ng-content />
         </fui-card-content>
       </fui-card>
     </div>
@@ -63,4 +59,3 @@ export class MultiFactorAuthAssertionScreenComponent {
   titleText = injectTranslation("labels", "multiFactorAssertion");
   subtitleText = injectTranslation("prompts", "mfaAssertionPrompt");
 }
-
