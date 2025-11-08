@@ -55,8 +55,8 @@ import { UserCredential } from "@angular/fire/auth";
           </fui-card-header>
           <fui-card-content>
             <fui-phone-auth-form (signIn)="signIn.emit($event)" />
-            <fui-redirect-error />
             <ng-content />
+            <fui-redirect-error />
           </fui-card-content>
         </fui-card>
       </div>
@@ -71,6 +71,5 @@ export class PhoneAuthScreenComponent {
   titleText = injectTranslation("labels", "signIn");
   subtitleText = injectTranslation("prompts", "signInToAccount");
 
-  resendDelay = input<number>(30);
   signIn = output<UserCredential>();
 }
