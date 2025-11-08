@@ -49,7 +49,8 @@ import {
           name="email"
           tanstack-app-field
           [tanstackField]="form"
-          label="{{ emailLabel() }}"
+          [label]="emailLabel()"
+          type="email"
         ></fui-form-input>
       </fieldset>
       <fieldset>
@@ -57,7 +58,7 @@ import {
           name="password"
           tanstack-app-field
           [tanstackField]="form"
-          label="{{ passwordLabel() }}"
+          [label]="passwordLabel()"
           type="password"
         >
           @if (forgotPassword) {
@@ -122,13 +123,14 @@ export class SignInAuthFormComponent {
           onSubmitAsync: async ({ value }) => {
             try {
               const credential = await signInWithEmailAndPassword(this.ui(), value.email, value.password);
-              this.signIn?.emit(credential);
+              this.signIn.emit(credential);
               return;
             } catch (error) {
               if (error instanceof FirebaseUIError) {
                 return error.message;
               }
 
+              console.error(error);
               return this.unknownErrorLabel();
             }
           },
