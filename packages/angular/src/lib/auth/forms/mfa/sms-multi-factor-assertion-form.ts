@@ -17,14 +17,13 @@ import { Component, ElementRef, effect, input, signal, output, computed, viewChi
 import { CommonModule } from "@angular/common";
 import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanstack/angular-form";
 import {
-  injectMultiFactorPhoneAuthAssertionFormSchema,
   injectMultiFactorPhoneAuthVerifyFormSchema,
   injectRecaptchaVerifier,
   injectTranslation,
   injectUI,
 } from "../../../provider";
 import { FormInputComponent, FormSubmitComponent, FormErrorMessageComponent } from "../../../components/form";
-import { FirebaseUIError, verifyPhoneNumber, signInWithMultiFactorAssertion } from "@invertase/firebaseui-core";
+import { FirebaseUIError, verifyPhoneNumber, signInWithMultiFactorAssertion, getTranslation } from "@invertase/firebaseui-core";
 import { PhoneAuthProvider, PhoneMultiFactorGenerator, type MultiFactorInfo, type UserCredential } from "firebase/auth";
 
 type PhoneMultiFactorInfo = MultiFactorInfo & {
@@ -36,22 +35,17 @@ type PhoneMultiFactorInfo = MultiFactorInfo & {
   standalone: true,
   imports: [
     CommonModule,
-    TanStackField,
-    TanStackAppField,
-    FormInputComponent,
     FormSubmitComponent,
     FormErrorMessageComponent,
   ],
   template: `
     <form (submit)="handleSubmit($event)" class="fui-form">
       <fieldset>
-        <fui-form-input
-          name="phoneNumber"
-          tanstack-app-field
-          [tanstackField]="form"
-          label="{{ phoneNumberLabel() }}"
-          type="tel"
-        ></fui-form-input>
+        <label>
+          <div data-input-description>
+            {{ mfaSmsAssertionPrompt() }}
+          </div>
+        </label>
       </fieldset>
       <fieldset>
         <div class="fui-recaptcha-container" #recaptchaContainer></div>
@@ -67,14 +61,11 @@ type PhoneMultiFactorInfo = MultiFactorInfo & {
 })
 export class SmsMultiFactorAssertionPhoneFormComponent {
   private ui = injectUI();
-  private formSchema = injectMultiFactorPhoneAuthAssertionFormSchema();
 
   hint = input.required<MultiFactorInfo>();
   onSubmit = output<string>();
 
-  phoneNumberLabel = injectTranslation("labels", "phoneNumber");
   sendCodeLabel = injectTranslation("labels", "sendCode");
-  unknownErrorLabel = injectTranslation("errors", "unknownError");
 
   recaptchaContainer = viewChild.required<ElementRef<HTMLDivElement>>("recaptchaContainer");
 
@@ -83,42 +74,39 @@ export class SmsMultiFactorAssertionPhoneFormComponent {
     return hint.phoneNumber || "";
   });
 
+  mfaSmsAssertionPrompt = computed(() => {
+    return getTranslation(
+      this.ui(),
+      "messages",
+      "mfaSmsAssertionPrompt",
+      { phoneNumber: this.phoneNumber() }
+    );
+  });
+
   recaptchaVerifier = injectRecaptchaVerifier(() => this.recaptchaContainer());
 
   form = injectForm({
-    defaultValues: {
-      phoneNumber: "",
-    },
+    defaultValues: {},
   });
 
   state = injectStore(this.form, (state) => state);
 
   constructor() {
     effect(() => {
-      // Set the phone number value from the hint
-      this.form.setFieldValue("phoneNumber", this.phoneNumber());
-    });
-
-    effect(() => {
       this.form.update({
         validators: {
-          onBlur: this.formSchema(),
-          onSubmit: this.formSchema(),
           onSubmitAsync: async () => {
             try {
               const verifier = this.recaptchaVerifier();
               if (!verifier) {
-                return this.unknownErrorLabel();
+                return "Recaptcha verifier not available";
               }
 
               const verificationId = await verifyPhoneNumber(this.ui(), "", verifier, undefined, this.hint());
               this.onSubmit.emit(verificationId);
               return;
             } catch (error) {
-              if (error instanceof FirebaseUIError) {
-                return error.message;
-              }
-              return this.unknownErrorLabel();
+              return error instanceof FirebaseUIError ? error.message : String(error);
             }
           },
         },
@@ -160,7 +148,8 @@ export class SmsMultiFactorAssertionPhoneFormComponent {
           name="verificationCode"
           tanstack-app-field
           [tanstackField]="form"
-          label="{{ verificationCodeLabel() }}"
+          [label]="verificationCodeLabel()"
+          [description]="smsVerificationPrompt()"
           type="text"
         ></fui-form-input>
       </fieldset>
@@ -182,6 +171,7 @@ export class SmsMultiFactorAssertionVerifyFormComponent {
 
   verificationCodeLabel = injectTranslation("labels", "verificationCode");
   verifyCodeLabel = injectTranslation("labels", "verifyCode");
+  smsVerificationPrompt = injectTranslation("prompts", "smsVerificationPrompt");
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
   form = injectForm({
@@ -211,10 +201,7 @@ export class SmsMultiFactorAssertionVerifyFormComponent {
               this.onSuccess.emit(result);
               return;
             } catch (error) {
-              if (error instanceof FirebaseUIError) {
-                return error.message;
-              }
-              return this.unknownErrorLabel();
+              return error instanceof FirebaseUIError ? error.message : String(error);
             }
           },
         },
