@@ -26,4 +26,3 @@ import { ForgotPasswordAuthScreenComponent } from "@invertase/firebaseui-angular
   styles: [],
 })
 export class ForgotPasswordAuthScreenWrapperComponent {}
-

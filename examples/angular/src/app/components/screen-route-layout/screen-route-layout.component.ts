@@ -38,4 +38,3 @@ import { RouterModule } from "@angular/router";
   styles: [],
 })
 export class ScreenRouteLayoutComponent {}
-

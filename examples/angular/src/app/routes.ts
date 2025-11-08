@@ -68,8 +68,7 @@ export const routes: RouteConfig[] = [
     name: "Email Link Auth Screen",
     description: "A screen allowing a user to send an email link for sign in.",
     path: "/screens/email-link-auth-screen",
-    loadComponent: () =>
-      import("./screens/email-link-auth-screen").then((m) => m.EmailLinkAuthScreenWrapperComponent),
+    loadComponent: () => import("./screens/email-link-auth-screen").then((m) => m.EmailLinkAuthScreenWrapperComponent),
   },
   {
     name: "Email Link Auth Screen (with OAuth)",
@@ -110,8 +109,7 @@ export const routes: RouteConfig[] = [
     name: "Phone Auth Screen (with OAuth)",
     description: "A screen allowing a user to sign in with a phone number, with oAuth buttons.",
     path: "/screens/phone-auth-screen-w-oauth",
-    loadComponent: () =>
-      import("./screens/phone-auth-screen-w-oauth").then((m) => m.PhoneAuthScreenWithOAuthComponent),
+    loadComponent: () => import("./screens/phone-auth-screen-w-oauth").then((m) => m.PhoneAuthScreenWithOAuthComponent),
   },
 ] as const;
 
@@ -123,4 +121,3 @@ export const hiddenRoutes: RouteConfig[] = [
     loadComponent: () => import("./screens/mfa-enrollment-screen").then((m) => m.MfaEnrollmentScreenComponent),
   },
 ] as const;
-

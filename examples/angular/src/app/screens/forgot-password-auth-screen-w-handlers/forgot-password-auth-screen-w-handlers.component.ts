@@ -47,4 +47,3 @@ export class ForgotPasswordAuthScreenWithHandlersComponent {
     this.router.navigate(["/screens/sign-up-auth-screen"]);
   }
 }
-

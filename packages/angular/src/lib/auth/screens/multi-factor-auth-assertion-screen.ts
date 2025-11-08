@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, output } from "@angular/core";
+import { Component, Output, EventEmitter } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { UserCredential } from "@angular/fire/auth";
 import { injectTranslation } from "../../provider";
@@ -54,7 +54,7 @@ import {
   `,
 })
 export class MultiFactorAuthAssertionScreenComponent {
-  onSuccess = output<UserCredential>();
+  @Output() onSuccess = new EventEmitter<UserCredential>();
 
   titleText = injectTranslation("labels", "multiFactorAssertion");
   subtitleText = injectTranslation("prompts", "mfaAssertionPrompt");

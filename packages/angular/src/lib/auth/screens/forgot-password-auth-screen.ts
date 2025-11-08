@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, output } from "@angular/core";
+import { Component, Output, EventEmitter } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   CardComponent,
@@ -46,7 +46,7 @@ import { ForgotPasswordAuthFormComponent } from "../forms/forgot-password-auth-f
           <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
         </fui-card-header>
         <fui-card-content>
-          <fui-forgot-password-auth-form (passwordSent)="passwordSent.emit()" (backToSignIn)="backToSignIn.emit()" />
+          <fui-forgot-password-auth-form [backToSignIn]="backToSignIn" (passwordSent)="passwordSent.emit()" />
         </fui-card-content>
       </fui-card>
     </div>
@@ -56,6 +56,6 @@ export class ForgotPasswordAuthScreenComponent {
   titleText = injectTranslation("labels", "resetPassword");
   subtitleText = injectTranslation("prompts", "enterEmailToReset");
 
-  passwordSent = output<void>();
-  backToSignIn = output<void>();
+  @Output() passwordSent = new EventEmitter<void>();
+  @Output() backToSignIn = new EventEmitter<void>();
 }

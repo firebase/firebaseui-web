@@ -34,11 +34,7 @@ import { injectUI } from "@invertase/firebaseui-angular";
     } @else {
       <div class="max-w-sm mx-auto pt-36 space-y-6 pb-36">
         <div class="text-center space-y-4">
-          <img
-            src="/firebase-logo-inverted.png"
-            alt="Firebase UI"
-            class="hidden dark:block h-36 mx-auto"
-          />
+          <img src="/firebase-logo-inverted.png" alt="Firebase UI" class="hidden dark:block h-36 mx-auto" />
           <img src="/firebase-logo.png" alt="Firebase UI" class="block dark:hidden h-36 mx-auto" />
           <p class="text-sm text-gray-700 dark:text-gray-300">
             Welcome to Firebase UI, choose an example screen below to get started!
@@ -80,17 +76,12 @@ export class UnauthenticatedAppComponent {
   template: `
     <div class="max-w-sm mx-auto pt-36 space-y-6 pb-36">
       <div class="border border-neutral-200 dark:border-neutral-800 rounded-md p-4 space-y-4">
-        <h1 class="text-md font-medium">
-          Welcome, {{ user().displayName || user().email || user().phoneNumber }}
-        </h1>
+        <h1 class="text-md font-medium">Welcome, {{ user().displayName || user().email || user().phoneNumber }}</h1>
         @if (user().email) {
           @if (user().emailVerified) {
             <div class="text-green-500">Email verified</div>
           } @else {
-            <button
-              class="bg-red-500 text-white px-3 py-1.5 rounded text-sm"
-              (click)="verifyEmail()"
-            >
+            <button class="bg-red-500 text-white px-3 py-1.5 rounded text-sm" (click)="verifyEmail()">
               Verify Email &rarr;
             </button>
           }
@@ -98,20 +89,13 @@ export class UnauthenticatedAppComponent {
         <hr class="opacity-30" />
         <h2 class="text-sm font-medium">Multi-factor Authentication</h2>
         @for (factor of mfaFactors(); track factor.factorId) {
-          <div>
-            {{ factor.factorId }} - {{ factor.displayName }}
-          </div>
+          <div>{{ factor.factorId }} - {{ factor.displayName }}</div>
         }
-        <button
-          class="bg-blue-500 text-white px-3 py-1.5 rounded text-sm"
-          (click)="navigateToMfa()"
-        >
+        <button class="bg-blue-500 text-white px-3 py-1.5 rounded text-sm" (click)="navigateToMfa()">
           Add MFA Factor &rarr;
         </button>
         <hr class="opacity-30" />
-        <button class="bg-blue-500 text-white px-3 py-1.5 rounded text-sm" (click)="signOut()">
-          Sign Out &rarr;
-        </button>
+        <button class="bg-blue-500 text-white px-3 py-1.5 rounded text-sm" (click)="signOut()">Sign Out &rarr;</button>
       </div>
     </div>
   `,
@@ -148,12 +132,7 @@ export class AuthenticatedAppComponent {
 @Component({
   selector: "app-root",
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    ThemeToggleComponent,
-    PirateToggleComponent,
-  ],
+  imports: [CommonModule, RouterModule, ThemeToggleComponent, PirateToggleComponent],
   templateUrl: "./app.component.html",
 })
 export class AppComponent {}

@@ -30,4 +30,3 @@ import { SignUpAuthScreenComponent, GoogleSignInButtonComponent } from "@inverta
   styles: [],
 })
 export class SignUpAuthScreenWithOAuthComponent {}
-

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, computed, effect, output, signal } from "@angular/core";
+import { Component, computed, effect, Output, EventEmitter, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { injectUI, injectTranslation } from "../../provider";
 import {
@@ -68,7 +68,7 @@ export class MultiFactorAuthAssertionFormComponent {
     });
   }
 
-  onSuccess = output<UserCredential>();
+  @Output() onSuccess = new EventEmitter<UserCredential>();
 
   resolver = computed(() => {
     const resolver = this.ui().multiFactorResolver;

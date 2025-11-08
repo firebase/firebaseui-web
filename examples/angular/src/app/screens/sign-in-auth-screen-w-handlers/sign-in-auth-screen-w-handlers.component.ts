@@ -48,4 +48,3 @@ export class SignInAuthScreenWithHandlersComponent {
     this.router.navigate(["/"]);
   }
 }
-

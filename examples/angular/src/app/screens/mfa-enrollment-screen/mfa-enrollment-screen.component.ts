@@ -40,4 +40,3 @@ export class MfaEnrollmentScreenComponent {
     this.router.navigate(["/"]);
   }
 }
-

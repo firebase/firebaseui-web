@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, signal, effect, viewChild, computed, output } from "@angular/core";
+import { Component, signal, effect, viewChild, computed, Output, EventEmitter } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { TanStackField, TanStackAppField, injectForm, injectStore } from "@tanstack/angular-form";
 import { ElementRef } from "@angular/core";
@@ -124,7 +124,7 @@ export class SmsMultiFactorEnrollmentFormComponent {
   verifyCodeLabel = injectTranslation("labels", "verifyCode");
   smsVerificationPrompt = injectTranslation("prompts", "smsVerificationPrompt");
 
-  onEnrollment = output<void>();
+  @Output() onEnrollment = new EventEmitter<void>();
 
   recaptchaContainer = viewChild.required<ElementRef<HTMLDivElement>>("recaptchaContainer");
 

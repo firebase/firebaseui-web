@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-import { Component, ElementRef, effect, input, signal, output, computed, viewChild } from "@angular/core";
+import { Component, ElementRef, effect, input, signal, Output, EventEmitter, computed, viewChild } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanstack/angular-form";
 import {
@@ -64,7 +64,7 @@ export class SmsMultiFactorAssertionPhoneFormComponent {
   private ui = injectUI();
 
   hint = input.required<MultiFactorInfo>();
-  onSubmit = output<string>();
+  @Output() onSubmit = new EventEmitter<string>();
 
   sendCodeLabel = injectTranslation("labels", "sendCode");
 
@@ -163,7 +163,7 @@ export class SmsMultiFactorAssertionVerifyFormComponent {
   private formSchema = injectMultiFactorPhoneAuthVerifyFormSchema();
 
   verificationId = input.required<string>();
-  onSuccess = output<UserCredential>();
+  @Output() onSuccess = new EventEmitter<UserCredential>();
 
   verificationCodeLabel = injectTranslation("labels", "verificationCode");
   verifyCodeLabel = injectTranslation("labels", "verifyCode");
@@ -231,7 +231,7 @@ export class SmsMultiFactorAssertionVerifyFormComponent {
 })
 export class SmsMultiFactorAssertionFormComponent {
   hint = input.required<MultiFactorInfo>();
-  onSuccess = output<UserCredential>();
+  @Output() onSuccess = new EventEmitter<UserCredential>();
 
   verification = signal<{ verificationId: string } | null>(null);
 

@@ -87,8 +87,6 @@ export class CardSubtitleComponent {}
     class: "fui-card__content",
     style: "display: block;",
   },
-  template: `
-    <ng-content></ng-content>
-  `,
+  template: ` <ng-content></ng-content> `,
 })
 export class CardContentComponent {}

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, ElementRef, effect, input, signal, output, computed, viewChild } from "@angular/core";
+import { Component, ElementRef, effect, input, signal, Output, EventEmitter, computed, viewChild } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanstack/angular-form";
 import {
@@ -79,7 +79,7 @@ export class PhoneNumberFormComponent {
   private ui = injectUI();
   private formSchema = injectPhoneAuthFormSchema();
 
-  onSubmit = output<{ verificationId: string; phoneNumber: string }>();
+  @Output() onSubmit = new EventEmitter<{ verificationId: string; phoneNumber: string }>();
   country = signal<CountryCode>(countryData[0].code);
 
   phoneNumberLabel = injectTranslation("labels", "phoneNumber");
@@ -185,7 +185,7 @@ export class VerificationFormComponent {
   private formSchema = injectPhoneAuthVerifyFormSchema();
 
   verificationId = input.required<string>();
-  signIn = output<UserCredential>();
+  @Output() signIn = new EventEmitter<UserCredential>();
 
   verificationCodeLabel = injectTranslation("labels", "verificationCode");
   verifyCodeLabel = injectTranslation("labels", "verifyCode");
@@ -251,7 +251,7 @@ export class VerificationFormComponent {
 })
 export class PhoneAuthFormComponent {
   verificationId = signal<string | null>(null);
-  signIn = output<UserCredential>();
+  @Output() signIn = new EventEmitter<UserCredential>();
 
   handlePhoneSubmit(data: { verificationId: string; phoneNumber: string }) {
     this.verificationId.set(data.verificationId);

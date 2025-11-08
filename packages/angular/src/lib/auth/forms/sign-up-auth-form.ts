@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, output, effect, computed } from "@angular/core";
+import { Component, Output, EventEmitter, input, effect, computed } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanstack/angular-form";
 import { FirebaseUIError, createUserWithEmailAndPassword, hasBehavior } from "@invertase/firebaseui-core";
@@ -69,8 +69,8 @@ import {
         <fui-form-error-message [state]="state()" />
       </fieldset>
 
-      @if (signIn) {
-        <button fui-form-action (click)="signIn.emit()">{{ haveAccountLabel() }} {{ signInLabel() }}</button>
+      @if (signIn()?.observed) {
+        <button fui-form-action (click)="signIn()?.emit()">{{ haveAccountLabel() }} {{ signInLabel() }}</button>
       }
     </form>
   `,
@@ -91,8 +91,9 @@ export class SignUpAuthFormComponent {
   signInLabel = injectTranslation("labels", "signIn");
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
-  signUp = output<UserCredential>();
-  signIn = output<void>();
+  signIn = input<EventEmitter<void>>();
+
+  @Output() signUp = new EventEmitter<UserCredential>();
 
   form = injectForm({
     defaultValues: {

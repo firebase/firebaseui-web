@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, output, computed } from "@angular/core";
+import { Component, Output, EventEmitter, computed } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   CardComponent,
@@ -71,6 +71,6 @@ export class EmailLinkAuthScreenComponent {
   titleText = injectTranslation("labels", "signIn");
   subtitleText = injectTranslation("prompts", "signInToAccount");
 
-  emailSent = output<void>();
-  signIn = output<UserCredential>();
+  @Output() emailSent = new EventEmitter<void>();
+  @Output() signIn = new EventEmitter<UserCredential>();
 }

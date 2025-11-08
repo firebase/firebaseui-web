@@ -121,7 +121,9 @@ describe("<fui-card>", () => {
 
   describe("<fui-card-title>", () => {
     it("renders a card title with children", async () => {
-      await render(`<fui-card-title data-testid="title-host">Title content</fui-card-title>`, { imports: [CardTitleComponent] });
+      await render(`<fui-card-title data-testid="title-host">Title content</fui-card-title>`, {
+        imports: [CardTitleComponent],
+      });
       const titleHost = screen.getByTestId("title-host");
       const title = screen.getByRole("heading", { name: "Title content" });
 
@@ -142,7 +144,9 @@ describe("<fui-card>", () => {
 
   describe("<fui-card-subtitle>", () => {
     it("renders a card subtitle with children", async () => {
-      await render(`<fui-card-subtitle data-testid="subtitle-host">Subtitle content</fui-card-subtitle>`, { imports: [CardSubtitleComponent] });
+      await render(`<fui-card-subtitle data-testid="subtitle-host">Subtitle content</fui-card-subtitle>`, {
+        imports: [CardSubtitleComponent],
+      });
       const subtitleHost = screen.getByTestId("subtitle-host");
       const subtitle = screen.getByText("Subtitle content");
 
@@ -164,7 +168,9 @@ describe("<fui-card>", () => {
 
   describe("<fui-card-content>", () => {
     it("renders a card content with children", async () => {
-      await render(`<fui-card-content data-testid="test-content">Content content</fui-card-content>`, { imports: [CardContentComponent] });
+      await render(`<fui-card-content data-testid="test-content">Content content</fui-card-content>`, {
+        imports: [CardContentComponent],
+      });
       const content = screen.getByTestId("test-content");
 
       expect(content).toHaveClass("fui-card__content");

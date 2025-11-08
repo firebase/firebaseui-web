@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, output, input } from "@angular/core";
+import { Component, Output, EventEmitter, input } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FactorId } from "firebase/auth";
 import { injectTranslation } from "../../provider";
@@ -57,7 +57,7 @@ type Hint = (typeof FactorId)[keyof typeof FactorId];
 })
 export class MultiFactorAuthEnrollmentScreenComponent {
   hints = input<Hint[]>([FactorId.TOTP, FactorId.PHONE]);
-  onEnrollment = output<void>();
+  @Output() onEnrollment = new EventEmitter<void>();
 
   titleText = injectTranslation("labels", "multiFactorEnrollment");
   subtitleText = injectTranslation("prompts", "mfaEnrollmentPrompt");

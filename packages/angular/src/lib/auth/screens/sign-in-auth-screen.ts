@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, output, computed } from "@angular/core";
+import { Component, Output, EventEmitter, computed } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
 import { injectTranslation, injectUI } from "../../provider";
@@ -54,11 +54,7 @@ import { UserCredential } from "@angular/fire/auth";
             <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
           </fui-card-header>
           <fui-card-content>
-            <fui-sign-in-auth-form
-              (forgotPassword)="forgotPassword.emit()"
-              (signUp)="signUp.emit()"
-              (signIn)="signIn.emit($event)"
-            />
+            <fui-sign-in-auth-form [forgotPassword]="forgotPassword" [signUp]="signUp" (signIn)="signIn.emit($event)" />
             <ng-content />
             <fui-redirect-error />
           </fui-card-content>
@@ -75,7 +71,7 @@ export class SignInAuthScreenComponent {
   titleText = injectTranslation("labels", "signIn");
   subtitleText = injectTranslation("prompts", "signInToAccount");
 
-  forgotPassword = output<void>();
-  signUp = output<void>();
-  signIn = output<UserCredential>();
+  @Output() forgotPassword = new EventEmitter<void>();
+  @Output() signUp = new EventEmitter<void>();
+  @Output() signIn = new EventEmitter<UserCredential>();
 }

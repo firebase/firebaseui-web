@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, computed, output } from "@angular/core";
+import { Component, computed, Output, EventEmitter } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   CardComponent,
@@ -75,5 +75,5 @@ export class OAuthScreenComponent {
   titleText = injectTranslation("labels", "signIn");
   subtitleText = injectTranslation("prompts", "signInToAccount");
 
-  onSignIn = output<UserCredential>();
+  @Output() onSignIn = new EventEmitter<UserCredential>();
 }

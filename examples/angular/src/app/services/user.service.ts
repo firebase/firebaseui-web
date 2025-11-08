@@ -28,4 +28,3 @@ export class UserService {
     return authState(this.auth);
   }
 }
-

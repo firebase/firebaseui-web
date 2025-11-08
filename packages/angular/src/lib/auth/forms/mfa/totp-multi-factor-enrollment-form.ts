@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, signal, effect, output, computed, input } from "@angular/core";
+import { Component, signal, effect, Output, EventEmitter, computed, input } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { TanStackField, TanStackAppField, injectForm, injectStore } from "@tanstack/angular-form";
 import { TotpMultiFactorGenerator, type TotpSecret } from "firebase/auth";
@@ -67,7 +67,7 @@ export class TotpMultiFactorSecretGenerationFormComponent {
   private ui = injectUI();
   private formSchema = injectMultiFactorTotpAuthNumberFormSchema();
 
-  onSubmit = output<{ secret: TotpSecret; displayName: string }>();
+  @Output() onSubmit = new EventEmitter<{ secret: TotpSecret; displayName: string }>();
 
   displayNameLabel = injectTranslation("labels", "displayName");
   generateQrCodeLabel = injectTranslation("labels", "generateQrCode");
@@ -150,7 +150,7 @@ export class TotpMultiFactorVerificationFormComponent {
 
   secret = input.required<TotpSecret>();
   displayName = input.required<string>();
-  onEnrollment = output<void>();
+  @Output() onEnrollment = new EventEmitter<void>();
 
   verificationCodeLabel = injectTranslation("labels", "verificationCode");
   verifyCodeLabel = injectTranslation("labels", "verifyCode");
@@ -219,7 +219,7 @@ export class TotpMultiFactorEnrollmentFormComponent {
   private ui = injectUI();
 
   enrollment = signal<{ secret: TotpSecret; displayName: string } | null>(null);
-  onEnrollment = output<void>();
+  @Output() onEnrollment = new EventEmitter<void>();
 
   constructor() {
     if (!this.ui().auth.currentUser) {

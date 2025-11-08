@@ -30,4 +30,3 @@ import { EmailLinkAuthScreenComponent, GoogleSignInButtonComponent } from "@inve
   styles: [],
 })
 export class EmailLinkAuthScreenWithOAuthComponent {}
-

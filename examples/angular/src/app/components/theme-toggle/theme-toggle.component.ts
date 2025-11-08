@@ -57,7 +57,6 @@ export class ThemeToggleComponent {
     const htmlElement = document.documentElement;
     const isDark = htmlElement.classList.contains("dark");
     htmlElement.classList.toggle("dark", !isDark);
-    localStorage['theme'] = htmlElement.classList.contains("dark") ? "dark" : "light";
+    localStorage["theme"] = htmlElement.classList.contains("dark") ? "dark" : "light";
   }
 }
-

@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-import { Component, effect, input, output } from "@angular/core";
+import { Component, effect, input, Output, EventEmitter } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanstack/angular-form";
 import { injectMultiFactorTotpAuthVerifyFormSchema, injectTranslation, injectUI } from "../../../provider";
@@ -60,7 +60,7 @@ export class TotpMultiFactorAssertionFormComponent {
   private formSchema = injectMultiFactorTotpAuthVerifyFormSchema();
 
   hint = input.required<MultiFactorInfo>();
-  onSuccess = output<UserCredential>();
+  @Output() onSuccess = new EventEmitter<UserCredential>();
 
   verificationCodeLabel = injectTranslation("labels", "verificationCode");
   verifyCodeLabel = injectTranslation("labels", "verifyCode");

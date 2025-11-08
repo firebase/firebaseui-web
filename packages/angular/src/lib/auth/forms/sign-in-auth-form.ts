@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, output, effect } from "@angular/core";
+import { Component, Output, EventEmitter, input, effect } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { UserCredential } from "@angular/fire/auth";
 import { injectForm, TanStackField, TanStackAppField, injectStore } from "@tanstack/angular-form";
@@ -61,8 +61,8 @@ import {
           [label]="passwordLabel()"
           type="password"
         >
-          @if (forgotPassword) {
-            <button ngProjectAs="input-action" fui-form-action (click)="forgotPassword.emit()">
+          @if (forgotPassword()?.observed) {
+            <button ngProjectAs="input-action" fui-form-action (click)="forgotPassword()?.emit()">
               {{ forgotPasswordLabel() }}
             </button>
           }
@@ -78,8 +78,8 @@ import {
         <fui-form-error-message [state]="state()" />
       </fieldset>
 
-      @if (signUp) {
-        <button fui-form-action (click)="signUp.emit()">{{ noAccountLabel() }} {{ signUpLabel() }}</button>
+      @if (signUp()?.observed) {
+        <button fui-form-action (click)="signUp()?.emit()">{{ noAccountLabel() }} {{ signUpLabel() }}</button>
       }
     </form>
   `,
@@ -96,9 +96,10 @@ export class SignInAuthFormComponent {
   signUpLabel = injectTranslation("labels", "signUp");
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
-  forgotPassword = output<void>();
-  signUp = output<void>();
-  signIn = output<UserCredential>();
+  forgotPassword = input<EventEmitter<void>>();
+  signUp = input<EventEmitter<void>>();
+
+  @Output() signIn = new EventEmitter<UserCredential>();
 
   form = injectForm({
     defaultValues: {

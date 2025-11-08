@@ -30,4 +30,3 @@ import { PhoneAuthScreenComponent, GoogleSignInButtonComponent } from "@invertas
   styles: [],
 })
 export class PhoneAuthScreenWithOAuthComponent {}
-

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, input, output, computed } from "@angular/core";
+import { Component, input, Output, EventEmitter, computed } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   CardComponent,
@@ -71,5 +71,5 @@ export class PhoneAuthScreenComponent {
   titleText = injectTranslation("labels", "signIn");
   subtitleText = injectTranslation("prompts", "signInToAccount");
 
-  signIn = output<UserCredential>();
+  @Output() signIn = new EventEmitter<UserCredential>();
 }

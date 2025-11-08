@@ -23,9 +23,7 @@ import { SignUpAuthScreenComponent } from "@invertase/firebaseui-angular";
   selector: "app-sign-up-auth-screen-w-handlers",
   standalone: true,
   imports: [CommonModule, SignUpAuthScreenComponent],
-  template: `
-    <fui-sign-up-auth-screen (signIn)="goToSignIn()" (signUp)="onSignUp($event)"></fui-sign-up-auth-screen>
-  `,
+  template: ` <fui-sign-up-auth-screen (signIn)="goToSignIn()" (signUp)="onSignUp($event)"></fui-sign-up-auth-screen> `,
   styles: [],
 })
 export class SignUpAuthScreenWithHandlersComponent {
@@ -40,4 +38,3 @@ export class SignUpAuthScreenWithHandlersComponent {
     this.router.navigate(["/"]);
   }
 }
-

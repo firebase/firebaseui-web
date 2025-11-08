@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, signal, input, output, OnInit, computed } from "@angular/core";
+import { Component, signal, input, Output, EventEmitter, OnInit, computed } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FactorId } from "firebase/auth";
 import { injectTranslation } from "../../provider";
@@ -59,7 +59,7 @@ type Hint = (typeof FactorId)[keyof typeof FactorId];
 })
 export class MultiFactorAuthEnrollmentFormComponent implements OnInit {
   hints = input<Hint[]>([FactorId.TOTP, FactorId.PHONE]);
-  onEnrollment = output<void>();
+  @Output() onEnrollment = new EventEmitter<void>();
 
   selectedHint = signal<Hint | undefined>(undefined);
 
