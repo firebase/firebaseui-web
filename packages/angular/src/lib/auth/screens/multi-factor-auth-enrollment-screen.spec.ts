@@ -34,24 +34,6 @@ import { FactorId } from "firebase/auth";
 class MockMultiFactorAuthEnrollmentFormComponent {}
 
 @Component({
-  selector: "fui-redirect-error",
-  template: '<div data-testid="redirect-error">Redirect Error</div>',
-  standalone: true,
-})
-class MockRedirectErrorComponent {}
-
-@Component({
-  template: `
-    <fui-multi-factor-auth-enrollment-screen>
-      <div data-testid="projected-content">Test Content</div>
-    </fui-multi-factor-auth-enrollment-screen>
-  `,
-  standalone: true,
-  imports: [MultiFactorAuthEnrollmentScreenComponent],
-})
-class TestHostWithContentComponent {}
-
-@Component({
   template: `<fui-multi-factor-auth-enrollment-screen></fui-multi-factor-auth-enrollment-screen>`,
   standalone: true,
   imports: [MultiFactorAuthEnrollmentScreenComponent],
@@ -79,7 +61,6 @@ describe("<fui-multi-factor-auth-enrollment-screen>", () => {
       imports: [
         MultiFactorAuthEnrollmentScreenComponent,
         MockMultiFactorAuthEnrollmentFormComponent,
-        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -97,7 +78,6 @@ describe("<fui-multi-factor-auth-enrollment-screen>", () => {
       imports: [
         MultiFactorAuthEnrollmentScreenComponent,
         MockMultiFactorAuthEnrollmentFormComponent,
-        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -111,49 +91,11 @@ describe("<fui-multi-factor-auth-enrollment-screen>", () => {
     expect(form.parentElement).toHaveTextContent("labels.mfaTotpVerification labels.mfaSmsVerification");
   });
 
-  it("renders projected content when provided", async () => {
-    await render(TestHostWithContentComponent, {
-      imports: [
-        MultiFactorAuthEnrollmentScreenComponent,
-        MockMultiFactorAuthEnrollmentFormComponent,
-        MockRedirectErrorComponent,
-        CardComponent,
-        CardHeaderComponent,
-        CardTitleComponent,
-        CardSubtitleComponent,
-        CardContentComponent,
-      ],
-    });
-
-    const projectedContent = screen.getByTestId("projected-content");
-    expect(projectedContent).toBeInTheDocument();
-    expect(projectedContent).toHaveTextContent("Test Content");
-  });
-
-  it("renders RedirectError component", async () => {
-    const { container } = await render(TestHostWithContentComponent, {
-      imports: [
-        MultiFactorAuthEnrollmentScreenComponent,
-        MockMultiFactorAuthEnrollmentFormComponent,
-        MockRedirectErrorComponent,
-        CardComponent,
-        CardHeaderComponent,
-        CardTitleComponent,
-        CardSubtitleComponent,
-        CardContentComponent,
-      ],
-    });
-
-    const redirectErrorElement = container.querySelector("fui-redirect-error");
-    expect(redirectErrorElement).toBeInTheDocument();
-  });
-
   it("has correct CSS classes", async () => {
     const { container } = await render(TestHostWithoutContentComponent, {
       imports: [
         MultiFactorAuthEnrollmentScreenComponent,
         MockMultiFactorAuthEnrollmentFormComponent,
-        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -176,7 +118,6 @@ describe("<fui-multi-factor-auth-enrollment-screen>", () => {
       imports: [
         MultiFactorAuthEnrollmentScreenComponent,
         MockMultiFactorAuthEnrollmentFormComponent,
-        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -194,7 +135,6 @@ describe("<fui-multi-factor-auth-enrollment-screen>", () => {
       imports: [
         MultiFactorAuthEnrollmentScreenComponent,
         MockMultiFactorAuthEnrollmentFormComponent,
-        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -215,7 +155,6 @@ describe("<fui-multi-factor-auth-enrollment-screen>", () => {
       imports: [
         MultiFactorAuthEnrollmentScreenComponent,
         MockMultiFactorAuthEnrollmentFormComponent,
-        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,

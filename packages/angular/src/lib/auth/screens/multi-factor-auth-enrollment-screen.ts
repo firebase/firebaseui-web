@@ -19,7 +19,6 @@ import { CommonModule } from "@angular/common";
 import { FactorId } from "firebase/auth";
 import { injectTranslation } from "../../provider";
 import { MultiFactorAuthEnrollmentFormComponent } from "../forms/multi-factor-auth-enrollment-form";
-import { RedirectErrorComponent } from "../../components/redirect-error";
 import {
   CardComponent,
   CardHeaderComponent,
@@ -41,7 +40,6 @@ type Hint = (typeof FactorId)[keyof typeof FactorId];
     CardSubtitleComponent,
     CardContentComponent,
     MultiFactorAuthEnrollmentFormComponent,
-    RedirectErrorComponent,
   ],
   template: `
     <div class="fui-screen">
@@ -52,8 +50,6 @@ type Hint = (typeof FactorId)[keyof typeof FactorId];
         </fui-card-header>
         <fui-card-content>
           <fui-multi-factor-auth-enrollment-form [hints]="hints()" (onEnrollment)="onEnrollment.emit()" />
-          <fui-redirect-error />
-          <ng-content />
         </fui-card-content>
       </fui-card>
     </div>
