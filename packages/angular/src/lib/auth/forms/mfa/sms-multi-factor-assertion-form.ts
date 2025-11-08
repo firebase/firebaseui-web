@@ -23,7 +23,12 @@ import {
   injectUI,
 } from "../../../provider";
 import { FormInputComponent, FormSubmitComponent, FormErrorMessageComponent } from "../../../components/form";
-import { FirebaseUIError, verifyPhoneNumber, signInWithMultiFactorAssertion, getTranslation } from "@invertase/firebaseui-core";
+import {
+  FirebaseUIError,
+  verifyPhoneNumber,
+  signInWithMultiFactorAssertion,
+  getTranslation,
+} from "@invertase/firebaseui-core";
 import { PhoneAuthProvider, PhoneMultiFactorGenerator, type MultiFactorInfo, type UserCredential } from "firebase/auth";
 
 type PhoneMultiFactorInfo = MultiFactorInfo & {
@@ -33,11 +38,7 @@ type PhoneMultiFactorInfo = MultiFactorInfo & {
 @Component({
   selector: "fui-sms-multi-factor-assertion-phone-form",
   standalone: true,
-  imports: [
-    CommonModule,
-    FormSubmitComponent,
-    FormErrorMessageComponent,
-  ],
+  imports: [CommonModule, FormSubmitComponent, FormErrorMessageComponent],
   template: `
     <form (submit)="handleSubmit($event)" class="fui-form">
       <fieldset>
@@ -75,12 +76,7 @@ export class SmsMultiFactorAssertionPhoneFormComponent {
   });
 
   mfaSmsAssertionPrompt = computed(() => {
-    return getTranslation(
-      this.ui(),
-      "messages",
-      "mfaSmsAssertionPrompt",
-      { phoneNumber: this.phoneNumber() }
-    );
+    return getTranslation(this.ui(), "messages", "mfaSmsAssertionPrompt", { phoneNumber: this.phoneNumber() });
   });
 
   recaptchaVerifier = injectRecaptchaVerifier(() => this.recaptchaContainer());

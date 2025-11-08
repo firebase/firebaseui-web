@@ -273,7 +273,11 @@ describe("<fui-sign-up-auth-screen>", () => {
     const { injectUI } = require("../../../provider");
     injectUI.mockImplementation(() => {
       return () => ({
-        multiFactorResolver: { auth: {}, session: null, hints: [{ factorId: TotpMultiFactorGenerator.FACTOR_ID, uid: "test" }] },
+        multiFactorResolver: {
+          auth: {},
+          session: null,
+          hints: [{ factorId: TotpMultiFactorGenerator.FACTOR_ID, uid: "test" }],
+        },
       });
     });
 

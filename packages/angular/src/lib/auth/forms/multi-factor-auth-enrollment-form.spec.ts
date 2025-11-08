@@ -23,6 +23,17 @@ import { ButtonComponent } from "../../components/button";
 import { FactorId } from "firebase/auth";
 
 describe("<fui-multi-factor-auth-enrollment-form />", () => {
+  beforeEach(() => {
+    const { injectUI } = require("../../../provider");
+    injectUI.mockImplementation(() => {
+      return () => ({
+        auth: {
+          currentUser: { uid: "test-user" },
+        },
+      });
+    });
+  });
+
   it("should create", async () => {
     const { fixture } = await render(MultiFactorAuthEnrollmentFormComponent, {
       imports: [

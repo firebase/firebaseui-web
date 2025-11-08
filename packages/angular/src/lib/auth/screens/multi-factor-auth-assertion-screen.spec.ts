@@ -55,6 +55,7 @@ describe("<fui-multi-factor-auth-assertion-screen>", () => {
         session: null,
         hints: [],
       },
+      setMultiFactorResolver: jest.fn(),
     }));
   });
 
@@ -168,4 +169,3 @@ describe("<fui-multi-factor-auth-assertion-screen>", () => {
     );
   });
 });
-

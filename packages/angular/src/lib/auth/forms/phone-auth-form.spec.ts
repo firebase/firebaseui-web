@@ -127,7 +127,7 @@ describe("<fui-phone-auth-form />", () => {
     fixture.detectChanges();
 
     await waitFor(() => {
-      expect(screen.getByLabelText("Verification Code")).toBeInTheDocument();
+      expect(screen.getByRole("textbox", { name: /Verification Code/i })).toBeInTheDocument();
     });
     expect(screen.getByRole("button", { name: "Verify Code" })).toBeInTheDocument();
   });

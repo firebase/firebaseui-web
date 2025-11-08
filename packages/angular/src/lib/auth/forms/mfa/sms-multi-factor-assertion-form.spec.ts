@@ -50,7 +50,8 @@ describe("<fui-sms-multi-factor-assertion-form>", () => {
           verifyCode: "Verify Code",
         },
         messages: {
-          mfaSmsAssertionPrompt: "A verification code will be sent to {phoneNumber} to complete the authentication process.",
+          mfaSmsAssertionPrompt:
+            "A verification code will be sent to {phoneNumber} to complete the authentication process.",
         },
         prompts: {
           smsVerificationPrompt: "Enter the verification code sent to your phone number",
@@ -71,7 +72,8 @@ describe("<fui-sms-multi-factor-assertion-form>", () => {
           verifyCode: "Verify Code",
         },
         messages: {
-          mfaSmsAssertionPrompt: "A verification code will be sent to {phoneNumber} to complete the authentication process.",
+          mfaSmsAssertionPrompt:
+            "A verification code will be sent to {phoneNumber} to complete the authentication process.",
         },
         prompts: {
           smsVerificationPrompt: "Enter the verification code sent to your phone number",
@@ -229,7 +231,8 @@ describe("<fui-sms-multi-factor-assertion-phone-form>", () => {
           sendCode: "Send Code",
         },
         messages: {
-          mfaSmsAssertionPrompt: "A verification code will be sent to {phoneNumber} to complete the authentication process.",
+          mfaSmsAssertionPrompt:
+            "A verification code will be sent to {phoneNumber} to complete the authentication process.",
         },
         errors: {
           unknownError: "An unknown error occurred",
@@ -245,7 +248,8 @@ describe("<fui-sms-multi-factor-assertion-phone-form>", () => {
           sendCode: "Send Code",
         },
         messages: {
-          mfaSmsAssertionPrompt: "A verification code will be sent to {phoneNumber} to complete the authentication process.",
+          mfaSmsAssertionPrompt:
+            "A verification code will be sent to {phoneNumber} to complete the authentication process.",
         },
         errors: {
           unknownError: "An unknown error occurred",

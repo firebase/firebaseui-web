@@ -90,6 +90,7 @@ describe("<fui-email-link-auth-screen>", () => {
 
     injectUI.mockImplementation(() => () => ({
       multiFactorResolver: null,
+      setMultiFactorResolver: jest.fn(),
     }));
   });
 
@@ -212,6 +213,7 @@ describe("<fui-email-link-auth-screen>", () => {
     const { injectUI } = require("../../../provider");
     injectUI.mockImplementation(() => () => ({
       multiFactorResolver: { auth: {}, session: null, hints: [] },
+      setMultiFactorResolver: jest.fn(),
     }));
 
     const { container } = await render(TestHostWithoutContentComponent, {
@@ -236,6 +238,7 @@ describe("<fui-email-link-auth-screen>", () => {
     const { injectUI } = require("../../../provider");
     injectUI.mockImplementation(() => () => ({
       multiFactorResolver: { auth: {}, session: null, hints: [] },
+      setMultiFactorResolver: jest.fn(),
     }));
 
     const { fixture } = await render(TestHostWithoutContentComponent, {

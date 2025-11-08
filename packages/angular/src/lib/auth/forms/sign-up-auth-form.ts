@@ -46,12 +46,7 @@ import {
     <form (submit)="handleSubmit($event)" class="fui-form">
       @if (requireDisplayNameField()) {
         <fieldset>
-          <fui-form-input
-            name="displayName"
-            tanstack-app-field
-            [tanstackField]="form"
-            [label]="displayNameLabel()"
-          />
+          <fui-form-input name="displayName" tanstack-app-field [tanstackField]="form" [label]="displayNameLabel()" />
         </fieldset>
       }
       <fieldset>
