@@ -34,6 +34,9 @@ export class FormMetadataComponent {
         <div>{{ label() }}</div>
         <div><ng-content select="input-action" /></div>
       </div>
+      @if (description()) {
+        <div data-input-description>{{ description() }}</div>
+      }
       <div data-input-group>
         <ng-content select="input-before" />
         <input
@@ -55,6 +58,7 @@ export class FormInputComponent {
   field = injectField<string>();
   label = input.required<string>();
   type = input<string>("text");
+  description = input<string>();
 }
 
 @Component({
