@@ -71,6 +71,7 @@ export function TotpMultiFactorAssertionForm(props: TotpMultiFactorAssertionForm
           <form.AppField name="verificationCode">
             {(field) => (
               <field.Input
+                description={getTranslation(ui, "prompts", "enterVerificationCode")}
                 label={getTranslation(ui, "labels", "verificationCode")}
                 type="text"
                 placeholder="123456"

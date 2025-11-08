@@ -39,7 +39,8 @@ import { TotpMultiFactorGenerator, type MultiFactorInfo, type UserCredential } f
           name="verificationCode"
           tanstack-app-field
           [tanstackField]="form"
-          label="{{ verificationCodeLabel() }}"
+          [label]="verificationCodeLabel()"
+          [description]="enterVerificationCodePrompt()"
           type="text"
           placeholder="123456"
           maxlength="6"
@@ -63,7 +64,7 @@ export class TotpMultiFactorAssertionFormComponent {
 
   verificationCodeLabel = injectTranslation("labels", "verificationCode");
   verifyCodeLabel = injectTranslation("labels", "verifyCode");
-  unknownErrorLabel = injectTranslation("errors", "unknownError");
+  enterVerificationCodePrompt = injectTranslation("prompts", "enterVerificationCode");
 
   form = injectForm({
     defaultValues: {
@@ -85,10 +86,7 @@ export class TotpMultiFactorAssertionFormComponent {
               this.onSuccess.emit(result);
               return;
             } catch (error) {
-              if (error instanceof FirebaseUIError) {
-                return error.message;
-              }
-              return this.unknownErrorLabel();
+              return error instanceof FirebaseUIError ? error.message : String(error);
             }
           },
         },
