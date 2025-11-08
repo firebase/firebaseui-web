@@ -42,6 +42,9 @@ import {
 @Component({
   selector: "fui-sms-multi-factor-enrollment-form",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     TanStackField,

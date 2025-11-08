@@ -25,8 +25,11 @@ import { FacebookLogoComponent } from "../../components/logos/facebook";
   selector: "fui-facebook-sign-in-button",
   standalone: true,
   imports: [CommonModule, OAuthButtonComponent, FacebookLogoComponent],
+  host: {
+    style: "display: block;",
+  },
   template: `
-    <fui-oauth-button [provider]="facebookProvider">
+    <fui-oauth-button [provider]="facebookProvider" [themed]="themed()">
       <fui-facebook-logo />
       <span>{{ signInWithFacebookLabel() }}</span>
     </fui-oauth-button>
@@ -35,7 +38,8 @@ import { FacebookLogoComponent } from "../../components/logos/facebook";
 export class FacebookSignInButtonComponent {
   ui = injectUI();
   signInWithFacebookLabel = injectTranslation("labels", "signInWithFacebook");
-
+  themed = input<boolean>(false);
+  
   private defaultProvider = new FacebookAuthProvider();
 
   provider = input<FacebookAuthProvider>();

@@ -25,15 +25,19 @@ import { GithubLogoComponent } from "../../components/logos/github";
   selector: "fui-github-sign-in-button",
   standalone: true,
   imports: [CommonModule, OAuthButtonComponent, GithubLogoComponent],
+  host: {
+    style: "display: block;",
+  },
   template: `
-    <fui-oauth-button [provider]="githubProvider">
+    <fui-oauth-button [provider]="githubProvider" [themed]="themed()">
       <fui-github-logo />
-      <span>{{ signInWithGithubLabel() }}</span>
+      <span>{{ signInWithGitHubLabel() }}</span>
     </fui-oauth-button>
   `,
 })
-export class GithubSignInButtonComponent {
-  signInWithGithubLabel = injectTranslation("labels", "signInWithGithub");
+export class GitHubSignInButtonComponent {
+  signInWithGitHubLabel = injectTranslation("labels", "signInWithGitHub");
+  themed = input<boolean>(false);
 
   private defaultProvider = new GithubAuthProvider();
 

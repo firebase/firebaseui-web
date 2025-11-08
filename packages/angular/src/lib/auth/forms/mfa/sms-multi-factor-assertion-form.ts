@@ -39,6 +39,9 @@ type PhoneMultiFactorInfo = MultiFactorInfo & {
   selector: "fui-sms-multi-factor-assertion-phone-form",
   standalone: true,
   imports: [CommonModule, FormSubmitComponent, FormErrorMessageComponent],
+  host: {
+    style: "display: block;",
+  },
   template: `
     <form (submit)="handleSubmit($event)" class="fui-form">
       <fieldset>
@@ -129,6 +132,9 @@ export class SmsMultiFactorAssertionPhoneFormComponent {
 @Component({
   selector: "fui-sms-multi-factor-assertion-verify-form",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     TanStackField,
@@ -216,6 +222,9 @@ export class SmsMultiFactorAssertionVerifyFormComponent {
   selector: "fui-sms-multi-factor-assertion-form",
   standalone: true,
   imports: [CommonModule, SmsMultiFactorAssertionPhoneFormComponent, SmsMultiFactorAssertionVerifyFormComponent],
+  host: {
+    style: "display: block;",
+  },
   template: `
     <div class="fui-content">
       @if (verification()) {

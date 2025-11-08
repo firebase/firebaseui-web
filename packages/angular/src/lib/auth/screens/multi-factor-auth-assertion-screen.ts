@@ -30,6 +30,9 @@ import {
 @Component({
   selector: "fui-multi-factor-auth-assertion-screen",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     CardComponent,

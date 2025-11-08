@@ -24,6 +24,9 @@ import { injectCountries, injectDefaultCountry } from "../provider";
   selector: "fui-country-selector",
   standalone: true,
   imports: [CommonModule, FormsModule],
+  host: {
+    style: "display: block;",
+  },
   template: `
     <div class="fui-country-selector">
       <div class="fui-country-selector__wrapper">

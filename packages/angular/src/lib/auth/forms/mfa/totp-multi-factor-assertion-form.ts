@@ -24,6 +24,9 @@ import { TotpMultiFactorGenerator, type MultiFactorInfo, type UserCredential } f
 @Component({
   selector: "fui-totp-multi-factor-assertion-form",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     TanStackField,

@@ -31,6 +31,9 @@ import { injectForgotPasswordAuthFormSchema, injectTranslation, injectUI } from 
 @Component({
   selector: "fui-forgot-password-auth-form",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     TanStackField,

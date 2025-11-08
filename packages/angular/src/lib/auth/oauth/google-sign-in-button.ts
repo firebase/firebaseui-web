@@ -25,8 +25,11 @@ import { GoogleLogoComponent } from "../../components/logos/google";
   selector: "fui-google-sign-in-button",
   standalone: true,
   imports: [CommonModule, OAuthButtonComponent, GoogleLogoComponent],
+  host: {
+    style: "display: block;",
+  },
   template: `
-    <fui-oauth-button [provider]="googleProvider">
+    <fui-oauth-button [provider]="googleProvider" [themed]="themed()">
       <fui-google-logo />
       <span>{{ signInWithGoogleLabel() }}</span>
     </fui-oauth-button>
@@ -35,7 +38,8 @@ import { GoogleLogoComponent } from "../../components/logos/google";
 export class GoogleSignInButtonComponent {
   ui = injectUI();
   signInWithGoogleLabel = injectTranslation("labels", "signInWithGoogle");
-
+  themed = input<boolean | 'neutral'>(false);
+  
   private defaultProvider = new GoogleAuthProvider();
 
   provider = input<GoogleAuthProvider>();

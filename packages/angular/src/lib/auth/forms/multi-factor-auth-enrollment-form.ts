@@ -27,6 +27,9 @@ type Hint = (typeof FactorId)[keyof typeof FactorId];
 @Component({
   selector: "fui-multi-factor-auth-enrollment-form",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     SmsMultiFactorEnrollmentFormComponent,

@@ -16,15 +16,41 @@
 
 import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { SignUpAuthScreenComponent, GoogleSignInButtonComponent } from "@invertase/firebaseui-angular";
+import {
+  SignUpAuthScreenComponent,
+  ContentComponent,
+  GoogleSignInButtonComponent,
+  FacebookSignInButtonComponent,
+  AppleSignInButtonComponent,
+  GitHubSignInButtonComponent,
+  MicrosoftSignInButtonComponent,
+  TwitterSignInButtonComponent,
+} from "@invertase/firebaseui-angular";
 
 @Component({
   selector: "app-sign-up-auth-screen-w-oauth",
   standalone: true,
-  imports: [CommonModule, SignUpAuthScreenComponent, GoogleSignInButtonComponent],
+  imports: [
+    CommonModule,
+    SignUpAuthScreenComponent,
+    ContentComponent,
+    GoogleSignInButtonComponent,
+    FacebookSignInButtonComponent,
+    AppleSignInButtonComponent,
+    GitHubSignInButtonComponent,
+    MicrosoftSignInButtonComponent,
+    TwitterSignInButtonComponent,
+  ],
   template: `
     <fui-sign-up-auth-screen>
-      <fui-google-sign-in-button></fui-google-sign-in-button>
+      <fui-content>
+        <fui-google-sign-in-button />
+        <fui-facebook-sign-in-button />
+        <fui-apple-sign-in-button />
+        <fui-github-sign-in-button />
+        <fui-microsoft-sign-in-button />
+        <fui-twitter-sign-in-button />
+      </fui-content>
     </fui-sign-up-auth-screen>
   `,
   styles: [],

@@ -35,6 +35,9 @@ import {
 @Component({
   selector: "fui-totp-multi-factor-secret-generation-form",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     TanStackField,
@@ -110,6 +113,9 @@ export class TotpMultiFactorSecretGenerationFormComponent {
 @Component({
   selector: "fui-totp-multi-factor-verification-form",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     TanStackField,
@@ -201,6 +207,9 @@ export class TotpMultiFactorVerificationFormComponent {
   selector: "fui-totp-multi-factor-enrollment-form",
   standalone: true,
   imports: [CommonModule, TotpMultiFactorSecretGenerationFormComponent, TotpMultiFactorVerificationFormComponent],
+  host: {
+    style: "display: block;",
+  },
   template: `
     <div class="fui-form-container">
       @if (!enrollment()) {

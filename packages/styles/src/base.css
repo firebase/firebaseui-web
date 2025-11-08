@@ -163,7 +163,7 @@
     @apply border border-border;
   }
 
-  :where(.fui-provider__button > svg, .fui-provider__button > img) {
+  :where(.fui-provider__button svg, .fui-provider__button img) {
     @apply w-5 h-5;
   }
 

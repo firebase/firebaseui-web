@@ -39,7 +39,7 @@ export { FacebookSignInButtonComponent } from "./lib/auth/oauth/facebook-sign-in
 export { AppleSignInButtonComponent } from "./lib/auth/oauth/apple-sign-in-button";
 export { MicrosoftSignInButtonComponent } from "./lib/auth/oauth/microsoft-sign-in-button";
 export { TwitterSignInButtonComponent } from "./lib/auth/oauth/twitter-sign-in-button";
-export { GithubSignInButtonComponent } from "./lib/auth/oauth/github-sign-in-button";
+export { GitHubSignInButtonComponent } from "./lib/auth/oauth/github-sign-in-button";
 export { OAuthButtonComponent } from "./lib/auth/oauth/oauth-button";
 
 export { EmailLinkAuthScreenComponent } from "./lib/auth/screens/email-link-auth-screen";

@@ -25,7 +25,6 @@ import {
 } from "../../components/card";
 import { injectTranslation, injectUI } from "../../provider";
 import { PoliciesComponent } from "../../components/policies";
-import { ContentComponent } from "../../components/content";
 import { MultiFactorAuthAssertionScreenComponent } from "../screens/multi-factor-auth-assertion-screen";
 import { RedirectErrorComponent } from "../../components/redirect-error";
 import { type UserCredential } from "firebase/auth";
@@ -33,6 +32,9 @@ import { type UserCredential } from "firebase/auth";
 @Component({
   selector: "fui-oauth-screen",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     CardComponent,
@@ -41,7 +43,6 @@ import { type UserCredential } from "firebase/auth";
     CardSubtitleComponent,
     CardContentComponent,
     PoliciesComponent,
-    ContentComponent,
     MultiFactorAuthAssertionScreenComponent,
     RedirectErrorComponent,
   ],
@@ -56,11 +57,11 @@ import { type UserCredential } from "firebase/auth";
             <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
           </fui-card-header>
           <fui-card-content>
-            <fui-content>
+            <div class="fui-screen__children">
               <ng-content></ng-content>
-            </fui-content>
-            <fui-redirect-error />
-            <fui-policies />
+              <fui-redirect-error />
+              <fui-policies />
+            </div>
           </fui-card-content>
         </fui-card>
       </div>

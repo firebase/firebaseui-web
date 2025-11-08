@@ -31,6 +31,9 @@ import { ButtonComponent } from "../../components/button";
   selector: "fui-multi-factor-auth-assertion-form",
   standalone: true,
   imports: [CommonModule, SmsMultiFactorAssertionFormComponent, TotpMultiFactorAssertionFormComponent, ButtonComponent],
+  host: {
+    style: "display: block;",
+  },
   template: `
     <div class="fui-content">
       @if (selectedHint()) {

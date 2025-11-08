@@ -33,6 +33,9 @@ import {
 @Component({
   selector: "fui-sign-up-auth-screen",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     CardComponent,

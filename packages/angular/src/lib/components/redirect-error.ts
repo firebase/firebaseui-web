@@ -21,6 +21,9 @@ import { injectRedirectError } from "../provider";
   selector: "fui-redirect-error",
   standalone: true,
   imports: [CommonModule],
+  host: {
+    style: "display: block;",
+  },
   template: `
     @if (error()) {
       <div class="fui-error">{{ error() }}</div>

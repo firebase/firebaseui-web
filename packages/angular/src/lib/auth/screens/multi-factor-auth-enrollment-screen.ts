@@ -32,6 +32,9 @@ type Hint = (typeof FactorId)[keyof typeof FactorId];
 @Component({
   selector: "fui-multi-factor-auth-enrollment-screen",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     CardComponent,

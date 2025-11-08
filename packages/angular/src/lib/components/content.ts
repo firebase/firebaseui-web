@@ -22,6 +22,9 @@ import { injectTranslation } from "../provider";
   selector: "fui-content",
   standalone: true,
   imports: [DividerComponent],
+  host: {
+    style: "display: block;",
+  },
   template: `
     <fui-divider [label]="dividerOrLabel()" />
     <div class="fui-screen__children">

@@ -27,6 +27,9 @@ import { injectEmailLinkAuthFormSchema, injectTranslation, injectUI } from "../.
 @Component({
   selector: "fui-email-link-auth-form",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     TanStackField,

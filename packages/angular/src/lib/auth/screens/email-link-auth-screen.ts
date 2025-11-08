@@ -32,6 +32,9 @@ import { UserCredential } from "@angular/fire/auth";
 @Component({
   selector: "fui-email-link-auth-screen",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     CardComponent,

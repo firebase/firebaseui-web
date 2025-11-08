@@ -25,6 +25,9 @@ import { FirebaseUIError, signInWithProvider, getTranslation } from "@invertase/
   selector: "fui-oauth-button",
   standalone: true,
   imports: [CommonModule, ButtonComponent],
+  host: {
+    style: "display: block;",
+  },
   template: `
     <div>
       <button

@@ -17,19 +17,19 @@
 import { render, screen } from "@testing-library/angular";
 import { Component } from "@angular/core";
 
-import { GithubSignInButtonComponent } from "./github-sign-in-button";
+import { GitHubSignInButtonComponent } from "./github-sign-in-button";
 
 @Component({
   template: `<fui-github-sign-in-button></fui-github-sign-in-button>`,
   standalone: true,
-  imports: [GithubSignInButtonComponent],
+  imports: [GitHubSignInButtonComponent],
 })
 class TestGithubSignInButtonHostComponent {}
 
 @Component({
   template: `<fui-github-sign-in-button [provider]="customProvider"></fui-github-sign-in-button>`,
   standalone: true,
-  imports: [GithubSignInButtonComponent],
+  imports: [GitHubSignInButtonComponent],
 })
 class TestGithubSignInButtonWithCustomProviderHostComponent {
   customProvider = { providerId: "custom.github.com" };

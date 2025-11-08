@@ -40,6 +40,9 @@ import {
 @Component({
   selector: "fui-phone-number-form",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     TanStackField,
@@ -147,6 +150,9 @@ export class PhoneNumberFormComponent {
 @Component({
   selector: "fui-verification-form",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     TanStackField,
@@ -239,6 +245,9 @@ export class VerificationFormComponent {
   selector: "fui-phone-auth-form",
   standalone: true,
   imports: [CommonModule, PhoneNumberFormComponent, VerificationFormComponent],
+  host: {
+    style: "display: block;",
+  },
   template: `
     <div class="fui-form-container">
       @if (verificationId()) {

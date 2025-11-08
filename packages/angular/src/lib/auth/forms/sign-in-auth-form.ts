@@ -32,6 +32,9 @@ import {
 @Component({
   selector: "fui-sign-in-auth-form",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     TanStackField,

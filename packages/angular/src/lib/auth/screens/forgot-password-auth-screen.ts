@@ -29,6 +29,9 @@ import { ForgotPasswordAuthFormComponent } from "../forms/forgot-password-auth-f
 @Component({
   selector: "fui-forgot-password-auth-screen",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     CardComponent,
