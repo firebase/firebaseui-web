@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-import { Component, input, signal } from "@angular/core";
+import { Component, input, signal, computed } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ButtonComponent } from "../../components/button";
-import { injectTranslation, injectUI } from "../../provider";
+import { injectUI } from "../../provider";
 import { AuthProvider } from "@angular/fire/auth";
-import { FirebaseUIError, signInWithProvider } from "@invertase/firebaseui-core";
+import { FirebaseUIError, signInWithProvider, getTranslation } from "@invertase/firebaseui-core";
 
 @Component({
   selector: "fui-oauth-button",
@@ -31,6 +31,8 @@ import { FirebaseUIError, signInWithProvider } from "@invertase/firebaseui-core"
         fui-button
         type="button"
         (click)="handleOAuthSignIn()"
+        [variant]="buttonVariant()"
+        [attr.data-themed]="themed()"
         [disabled]="ui().state !== 'idle'"
         [attr.data-provider]="provider().providerId"
         class="fui-provider__button"
@@ -46,12 +48,16 @@ import { FirebaseUIError, signInWithProvider } from "@invertase/firebaseui-core"
 })
 export class OAuthButtonComponent {
   ui = injectUI();
-  unknownErrorLabel = injectTranslation("errors", "unknownError");
   provider = input.required<AuthProvider>();
-  error = signal<string | undefined>(undefined);
+  themed = input<boolean | string>();
+  error = signal<string | null>(null);
+
+  buttonVariant = computed(() => {
+    return this.themed() ? "primary" : "secondary";
+  });
 
   async handleOAuthSignIn() {
-    this.error.set(undefined);
+    this.error.set(null);
     try {
       await signInWithProvider(this.ui(), this.provider());
     } catch (error) {
@@ -59,9 +65,8 @@ export class OAuthButtonComponent {
         this.error.set(error.message);
         return;
       }
-
       console.error(error);
-      this.error.set(this.unknownErrorLabel());
+      this.error.set(getTranslation(this.ui(), "errors", "unknownError"));
     }
   }
 }
