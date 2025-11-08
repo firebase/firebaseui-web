@@ -190,4 +190,40 @@ describe("<fui-multi-factor-auth-enrollment-form />", () => {
 
     expect(container.querySelector(".fui-content")).toBeInTheDocument();
   });
+
+  it("should throw error when hints array is empty", async () => {
+    await expect(
+      render(MultiFactorAuthEnrollmentFormComponent, {
+        imports: [
+          CommonModule,
+          MultiFactorAuthEnrollmentFormComponent,
+          SmsMultiFactorEnrollmentFormComponent,
+          TotpMultiFactorEnrollmentFormComponent,
+          ButtonComponent,
+        ],
+        componentInputs: {
+          hints: [],
+        },
+      })
+    ).rejects.toThrow("MultiFactorAuthEnrollmentForm must have at least one hint");
+  });
+
+  it("should throw error for unknown hint type", async () => {
+    const unknownHint = "unknown" as any;
+
+    await expect(
+      render(MultiFactorAuthEnrollmentFormComponent, {
+        imports: [
+          CommonModule,
+          MultiFactorAuthEnrollmentFormComponent,
+          SmsMultiFactorEnrollmentFormComponent,
+          TotpMultiFactorEnrollmentFormComponent,
+          ButtonComponent,
+        ],
+        componentInputs: {
+          hints: [unknownHint],
+        },
+      })
+    ).rejects.toThrow("Unknown multi-factor enrollment type: unknown");
+  });
 });
