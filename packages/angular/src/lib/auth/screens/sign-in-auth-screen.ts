@@ -59,8 +59,8 @@ import { UserCredential } from "@angular/fire/auth";
               (signUp)="signUp.emit()"
               (signIn)="signIn.emit($event)"
             />
-            <fui-redirect-error />
             <ng-content />
+            <fui-redirect-error />
           </fui-card-content>
         </fui-card>
       </div>
