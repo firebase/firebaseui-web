@@ -58,7 +58,8 @@ import {
           name="phoneNumber"
           tanstack-app-field
           [tanstackField]="form"
-          label="{{ phoneNumberLabel() }}"
+          [label]="phoneNumberLabel()"
+          type="tel"
         ></fui-form-input>
       </fieldset>
       <fieldset>
@@ -162,7 +163,9 @@ export class PhoneNumberFormComponent {
           name="verificationCode"
           tanstack-app-field
           [tanstackField]="form"
-          label="{{ verificationCodeLabel() }}"
+          [label]="verificationCodeLabel()"
+          [description]="smsVerificationPrompt()"
+          type="text"
         ></fui-form-input>
       </fieldset>
 
@@ -186,6 +189,7 @@ export class VerificationFormComponent {
 
   verificationCodeLabel = injectTranslation("labels", "verificationCode");
   verifyCodeLabel = injectTranslation("labels", "verifyCode");
+  smsVerificationPrompt = injectTranslation("prompts", "smsVerificationPrompt");
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
   form = injectForm({
