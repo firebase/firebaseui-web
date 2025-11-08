@@ -38,7 +38,7 @@ import { injectEmailLinkAuthFormSchema, injectTranslation, injectUI } from "../.
   ],
   template: `
     @if (emailSentState()) {
-      <div class="fui-form__success">
+      <div class="fui-success">
         {{ emailSentMessage() }}
       </div>
     }
@@ -107,6 +107,7 @@ export class EmailLinkAuthFormComponent {
                 return error.message;
               }
 
+              console.error(error);
               return this.unknownErrorLabel();
             }
           },
