@@ -83,7 +83,7 @@ describe("<fui-sign-up-auth-form />", () => {
     expect(screen.queryByLabelText("Display Name")).toBeNull();
     expect(screen.getByRole("button", { name: "Create Account" })).toBeInTheDocument();
     expect(screen.getByText("By continuing, you agree to our")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Already have an account? Sign In →" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Already have an account? Sign In" })).toBeInTheDocument();
   });
 
   it("should render display name field when hasBehavior returns true", async () => {
@@ -171,7 +171,7 @@ describe("<fui-sign-up-auth-form />", () => {
     const component = fixture.componentInstance;
     const signInSpy = jest.spyOn(component.signIn, "emit");
 
-    const signInButton = screen.getByRole("button", { name: "Already have an account? Sign In →" });
+    const signInButton = screen.getByRole("button", { name: "Already have an account? Sign In" });
     fireEvent.click(signInButton);
     expect(signInSpy).toHaveBeenCalled();
   });

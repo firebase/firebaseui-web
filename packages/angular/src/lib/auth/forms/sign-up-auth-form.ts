@@ -31,6 +31,7 @@ import {
 
 @Component({
   selector: "fui-sign-up-auth-form",
+  standalone: true,
   imports: [
     CommonModule,
     TanStackField,
@@ -49,19 +50,19 @@ import {
             name="displayName"
             tanstack-app-field
             [tanstackField]="form"
-            label="{{ displayNameLabel() }}"
+            [label]="displayNameLabel()"
           />
         </fieldset>
       }
       <fieldset>
-        <fui-form-input name="email" tanstack-app-field [tanstackField]="form" label="{{ emailLabel() }}" />
+        <fui-form-input name="email" tanstack-app-field [tanstackField]="form" [label]="emailLabel()" type="email" />
       </fieldset>
       <fieldset>
         <fui-form-input
           name="password"
           tanstack-app-field
           [tanstackField]="form"
-          label="{{ passwordLabel() }}"
+          [label]="passwordLabel()"
           type="password"
         />
       </fieldset>
@@ -74,11 +75,10 @@ import {
       </fieldset>
 
       @if (signIn) {
-        <button fui-form-action (click)="signIn.emit()">{{ haveAccountLabel() }} {{ signInLabel() }} &rarr;</button>
+        <button fui-form-action (click)="signIn.emit()">{{ haveAccountLabel() }} {{ signInLabel() }}</button>
       }
     </form>
   `,
-  standalone: true,
 })
 export class SignUpAuthFormComponent {
   private ui = injectUI();
@@ -128,13 +128,14 @@ export class SignUpAuthFormComponent {
                 value.password,
                 value.displayName
               );
-              this.signUp?.emit(credential);
+              this.signUp.emit(credential);
               return;
             } catch (error) {
               if (error instanceof FirebaseUIError) {
                 return error.message;
               }
 
+              console.error(error);
               return this.unknownErrorLabel();
             }
           },
