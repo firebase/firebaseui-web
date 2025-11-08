@@ -56,8 +56,8 @@ import {
           </fui-card-header>
           <fui-card-content>
             <fui-sign-up-auth-form (signIn)="signIn.emit()" (signUp)="signUp.emit($event)" />
-            <fui-redirect-error />
             <ng-content />
+            <fui-redirect-error />
           </fui-card-content>
         </fui-card>
       </div>
