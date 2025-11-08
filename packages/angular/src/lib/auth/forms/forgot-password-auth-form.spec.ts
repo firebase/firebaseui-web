@@ -266,7 +266,9 @@ describe("<fui-forgot-password-auth-form />", () => {
     component.emailSent.set(true);
     fixture.detectChanges();
 
-    expect(screen.getByText("Check your email for a password reset link")).toBeInTheDocument();
+    const successMessage = screen.getByText("Check your email for a password reset link");
+    expect(successMessage).toBeInTheDocument();
+    expect(successMessage).toHaveClass("fui-success");
   });
 
   it("should handle FirebaseUIError and display error message", async () => {

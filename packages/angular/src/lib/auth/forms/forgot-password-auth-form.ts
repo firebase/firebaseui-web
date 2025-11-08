@@ -43,7 +43,7 @@ import { injectForgotPasswordAuthFormSchema, injectTranslation, injectUI } from 
   ],
   template: `
     @if (emailSent()) {
-      <div class="fui-form__success">
+      <div class="fui-success">
         {{ checkEmailForResetMessage() }}
       </div>
     }
@@ -115,6 +115,7 @@ export class ForgotPasswordAuthFormComponent {
                 return error.message;
               }
 
+              console.error(error);
               return this.unknownErrorLabel();
             }
           },
