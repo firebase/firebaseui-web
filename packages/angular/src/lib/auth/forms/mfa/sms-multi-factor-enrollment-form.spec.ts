@@ -20,7 +20,6 @@ import { TanStackField, TanStackAppField } from "@tanstack/angular-form";
 import { SmsMultiFactorEnrollmentFormComponent } from "./sms-multi-factor-enrollment-form";
 import { FormInputComponent, FormSubmitComponent, FormErrorMessageComponent } from "../../../components/form";
 import { CountrySelectorComponent } from "../../../components/country-selector";
-import { PoliciesComponent } from "../../../components/policies";
 
 jest.mock("@invertase/firebaseui-core", () => {
   const originalModule = jest.requireActual("@invertase/firebaseui-core");
@@ -94,6 +93,9 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
           verificationCode: "Verification Code",
           verifyCode: "Verify Code",
         },
+        prompts: {
+          smsVerificationPrompt: "Enter the verification code sent to your phone number",
+        },
         errors: {
           unknownError: "An unknown error occurred",
         },
@@ -145,7 +147,6 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
         FormSubmitComponent,
         FormErrorMessageComponent,
         CountrySelectorComponent,
-        PoliciesComponent,
       ],
     });
     expect(fixture.componentInstance).toBeTruthy();
@@ -162,7 +163,6 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
         FormSubmitComponent,
         FormErrorMessageComponent,
         CountrySelectorComponent,
-        PoliciesComponent,
       ],
     });
 
@@ -185,7 +185,6 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
         FormSubmitComponent,
         FormErrorMessageComponent,
         CountrySelectorComponent,
-        PoliciesComponent,
       ],
     });
 
@@ -193,7 +192,9 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
     component.verificationId.set(mockVerificationId);
     fixture.detectChanges();
 
-    expect(screen.getByLabelText("Verification Code")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByRole("textbox", { name: /Verification Code/i })).toBeInTheDocument();
+    });
     expect(screen.getByRole("button", { name: "Verify Code" })).toBeInTheDocument();
   });
 
@@ -211,7 +212,6 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
         FormSubmitComponent,
         FormErrorMessageComponent,
         CountrySelectorComponent,
-        PoliciesComponent,
       ],
     });
 
@@ -243,7 +243,6 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
         FormSubmitComponent,
         FormErrorMessageComponent,
         CountrySelectorComponent,
-        PoliciesComponent,
       ],
     });
 
@@ -277,7 +276,6 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
         FormSubmitComponent,
         FormErrorMessageComponent,
         CountrySelectorComponent,
-        PoliciesComponent,
       ],
     });
 
@@ -309,7 +307,6 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
         FormSubmitComponent,
         FormErrorMessageComponent,
         CountrySelectorComponent,
-        PoliciesComponent,
       ],
     });
 
@@ -342,7 +339,6 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
         FormSubmitComponent,
         FormErrorMessageComponent,
         CountrySelectorComponent,
-        PoliciesComponent,
       ],
     });
 
@@ -375,31 +371,20 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
       });
     });
 
-    const { fixture } = await render(SmsMultiFactorEnrollmentFormComponent, {
-      imports: [
-        CommonModule,
-        SmsMultiFactorEnrollmentFormComponent,
-        TanStackField,
-        TanStackAppField,
-        FormInputComponent,
-        FormSubmitComponent,
-        FormErrorMessageComponent,
-        CountrySelectorComponent,
-        PoliciesComponent,
-      ],
-    });
-
-    const component = fixture.componentInstance;
-
-    component.phoneForm.setFieldValue("displayName", "Test User");
-    component.phoneForm.setFieldValue("phoneNumber", "1234567890");
-    fixture.detectChanges();
-
-    await component.phoneForm.handleSubmit();
-    await fixture.whenStable();
-    fixture.detectChanges();
-
-    expect(screen.getByText("An unknown error occurred")).toBeInTheDocument();
+    await expect(
+      render(SmsMultiFactorEnrollmentFormComponent, {
+        imports: [
+          CommonModule,
+          SmsMultiFactorEnrollmentFormComponent,
+          TanStackField,
+          TanStackAppField,
+          FormInputComponent,
+          FormSubmitComponent,
+          FormErrorMessageComponent,
+          CountrySelectorComponent,
+        ],
+      })
+    ).rejects.toThrow("User must be authenticated to enroll with multi-factor authentication");
   });
 
   it("should have correct CSS classes", async () => {
@@ -413,7 +398,6 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
         FormSubmitComponent,
         FormErrorMessageComponent,
         CountrySelectorComponent,
-        PoliciesComponent,
       ],
     });
 

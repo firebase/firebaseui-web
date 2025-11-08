@@ -50,7 +50,6 @@ import {
     FormSubmitComponent,
     FormErrorMessageComponent,
     CountrySelectorComponent,
-    PoliciesComponent,
   ],
   template: `
     <div class="fui-form-container">
@@ -61,7 +60,8 @@ import {
               name="displayName"
               tanstack-app-field
               [tanstackField]="phoneForm"
-              label="{{ displayNameLabel() }}"
+              [label]="displayNameLabel()"
+              type="text"
             ></fui-form-input>
           </fieldset>
           <fieldset>
@@ -70,13 +70,13 @@ import {
               name="phoneNumber"
               tanstack-app-field
               [tanstackField]="phoneForm"
-              label="{{ phoneNumberLabel() }}"
+              [label]="phoneNumberLabel()"
+              type="tel"
             ></fui-form-input>
           </fieldset>
           <fieldset>
             <div class="fui-recaptcha-container" #recaptchaContainer></div>
           </fieldset>
-          <fui-policies />
           <fieldset>
             <fui-form-submit [state]="phoneState()">
               {{ sendCodeLabel() }}
@@ -91,10 +91,11 @@ import {
               name="verificationCode"
               tanstack-app-field
               [tanstackField]="verificationForm"
-              label="{{ verificationCodeLabel() }}"
+              [label]="verificationCodeLabel()"
+              [description]="smsVerificationPrompt()"
+              type="text"
             ></fui-form-input>
           </fieldset>
-          <fui-policies />
           <fieldset>
             <fui-form-submit [state]="verificationState()">
               {{ verifyCodeLabel() }}
@@ -121,7 +122,7 @@ export class SmsMultiFactorEnrollmentFormComponent {
   sendCodeLabel = injectTranslation("labels", "sendCode");
   verificationCodeLabel = injectTranslation("labels", "verificationCode");
   verifyCodeLabel = injectTranslation("labels", "verifyCode");
-  unknownErrorLabel = injectTranslation("errors", "unknownError");
+  smsVerificationPrompt = injectTranslation("prompts", "smsVerificationPrompt");
 
   onEnrollment = output<void>();
 
@@ -146,6 +147,10 @@ export class SmsMultiFactorEnrollmentFormComponent {
   verificationState = injectStore(this.verificationForm, (state) => state);
 
   constructor() {
+    if (!this.ui().auth.currentUser) {
+      throw new Error("User must be authenticated to enroll with multi-factor authentication");
+    }
+
     effect(() => {
       this.phoneForm.update({
         validators: {
@@ -153,16 +158,12 @@ export class SmsMultiFactorEnrollmentFormComponent {
           onSubmit: this.phoneFormSchema(),
           onSubmitAsync: async ({ value }) => {
             try {
-              const currentUser = this.ui().auth.currentUser;
-              if (!currentUser) {
-                throw new Error("User must be authenticated to enroll with multi-factor authentication");
-              }
-
               const verifier = this.recaptchaVerifier();
               if (!verifier) {
-                return this.unknownErrorLabel();
+                return "Recaptcha verifier not available";
               }
 
+              const currentUser = this.ui().auth.currentUser!;
               const mfaUser = multiFactor(currentUser);
               const formattedPhoneNumber = formatPhoneNumber(value.phoneNumber, this.defaultCountry());
               const verificationId = await verifyPhoneNumber(this.ui(), formattedPhoneNumber, verifier, mfaUser);
@@ -171,12 +172,7 @@ export class SmsMultiFactorEnrollmentFormComponent {
               this.verificationId.set(verificationId);
               return;
             } catch (error) {
-              if (error instanceof FirebaseUIError) {
-                return error.message;
-              }
-
-              console.error(error);
-              return this.unknownErrorLabel();
+              return error instanceof FirebaseUIError ? error.message : String(error);
             }
           },
         },
@@ -196,13 +192,7 @@ export class SmsMultiFactorEnrollmentFormComponent {
               this.onEnrollment.emit();
               return;
             } catch (error) {
-              if (error instanceof FirebaseUIError) {
-                return error.message;
-              }
-              if (error instanceof Error) {
-                return error.message;
-              }
-              return this.unknownErrorLabel();
+              return error instanceof FirebaseUIError ? error.message : String(error);
             }
           },
         },
