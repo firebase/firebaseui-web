@@ -51,6 +51,7 @@ describe("<fui-multi-factor-auth-assertion-form>", () => {
             },
           ],
         },
+        setMultiFactorResolver: jest.fn(),
       });
     });
   });
@@ -91,6 +92,7 @@ describe("<fui-multi-factor-auth-assertion-form>", () => {
             },
           ],
         },
+        setMultiFactorResolver: jest.fn(),
       });
     });
 
@@ -145,6 +147,7 @@ describe("<fui-multi-factor-auth-assertion-form>", () => {
     injectUI.mockImplementation(() => {
       return () => ({
         multiFactorResolver: null,
+        setMultiFactorResolver: jest.fn(),
       });
     });
 
@@ -153,5 +156,80 @@ describe("<fui-multi-factor-auth-assertion-form>", () => {
         imports: [MultiFactorAuthAssertionFormComponent],
       })
     ).rejects.toThrow("MultiFactorAuthAssertionForm requires a multi-factor resolver");
+  });
+
+  it("calls setMultiFactorResolver on component destruction", async () => {
+    const { injectUI } = require("../../../provider");
+    const setMultiFactorResolverSpy = jest.fn();
+    injectUI.mockImplementation(() => {
+      return () => ({
+        multiFactorResolver: {
+          hints: [
+            {
+              factorId: PhoneMultiFactorGenerator.FACTOR_ID,
+              displayName: "Phone",
+            },
+          ],
+        },
+        setMultiFactorResolver: setMultiFactorResolverSpy,
+      });
+    });
+
+    TestBed.overrideComponent(SmsMultiFactorAssertionFormComponent, {
+      set: {
+        template: '<div data-testid="sms-assertion-form">SMS Assertion Form</div>',
+      },
+    });
+
+    const { fixture } = await render(MultiFactorAuthAssertionFormComponent, {
+      imports: [MultiFactorAuthAssertionFormComponent],
+    });
+
+    expect(setMultiFactorResolverSpy).not.toHaveBeenCalled();
+
+    fixture.destroy();
+
+    expect(setMultiFactorResolverSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it("clears multiFactorResolver when component is destroyed", async () => {
+    const { injectUI } = require("../../../provider");
+    const mockResolver = {
+      hints: [
+        {
+          factorId: PhoneMultiFactorGenerator.FACTOR_ID,
+          displayName: "Phone",
+        },
+      ],
+    };
+    let currentResolver: any = mockResolver;
+    const setMultiFactorResolverSpy = jest.fn((value?: any) => {
+      currentResolver = value;
+    });
+    const uiMock = () => ({
+      get multiFactorResolver() {
+        return currentResolver;
+      },
+      setMultiFactorResolver: setMultiFactorResolverSpy,
+    });
+
+    injectUI.mockImplementation(() => uiMock);
+
+    TestBed.overrideComponent(SmsMultiFactorAssertionFormComponent, {
+      set: {
+        template: '<div data-testid="sms-assertion-form">SMS Assertion Form</div>',
+      },
+    });
+
+    const { fixture } = await render(MultiFactorAuthAssertionFormComponent, {
+      imports: [MultiFactorAuthAssertionFormComponent],
+    });
+
+    expect(uiMock().multiFactorResolver).toBe(mockResolver);
+
+    fixture.destroy();
+
+    expect(setMultiFactorResolverSpy).toHaveBeenCalledTimes(1);
+    expect(uiMock().multiFactorResolver).toBeUndefined();
   });
 });
