@@ -15,6 +15,10 @@
  */
 
 import { type Routes } from "@angular/router";
+import { routes as routeConfigs, hiddenRoutes } from "./routes";
+import { ScreenRouteLayoutComponent } from "./components/screen-route-layout/screen-route-layout.component";
+
+const allRoutes = [...routeConfigs, ...hiddenRoutes];
 
 export const routes: Routes = [
   {
@@ -22,44 +26,12 @@ export const routes: Routes = [
     loadComponent: () => import("./home").then((m) => m.HomeComponent),
   },
   {
-    path: "email-link",
-    loadComponent: () => import("./auth/email-link").then((m) => m.EmailLinkComponent),
-  },
-  {
-    path: "email-link-oauth",
-    loadComponent: () => import("./auth/email-link-oauth").then((m) => m.EmailLinkOAuthComponent),
-  },
-  {
-    path: "forgot-password",
-    loadComponent: () => import("./auth/forgot-password").then((m) => m.ForgotPasswordComponent),
-  },
-  {
-    path: "oauth",
-    loadComponent: () => import("./auth/oauth").then((m) => m.OAuthComponent),
-  },
-  {
-    path: "phone",
-    loadComponent: () => import("./auth/phone").then((m) => m.PhoneComponent),
-  },
-  {
-    path: "phone-oauth",
-    loadComponent: () => import("./auth/phone-oauth").then((m) => m.PhoneOAuthComponent),
-  },
-  {
-    path: "sign-in",
-    loadComponent: () => import("./auth/sign-in").then((m) => m.SignInComponent),
-  },
-  {
-    path: "sign-in-oauth",
-    loadComponent: () => import("./auth/sign-in-oauth").then((m) => m.SignInOAuthComponent),
-  },
-  {
-    path: "sign-up",
-    loadComponent: () => import("./auth/sign-up").then((m) => m.SignUpComponent),
-  },
-  {
-    path: "sign-up-oauth",
-    loadComponent: () => import("./auth/sign-up-oauth").then((m) => m.SignUpOAuthComponent),
+    path: "screens",
+    component: ScreenRouteLayoutComponent,
+    children: allRoutes.map((route) => ({
+      path: route.path.replace(/^\/screens\//, ""),
+      loadComponent: route.loadComponent,
+    })),
   },
   {
     path: "**",

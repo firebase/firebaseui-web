@@ -14,26 +14,28 @@
  * limitations under the License.
  */
 
-import { Component, inject } from "@angular/core";
+import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { AsyncPipe } from "@angular/common";
-import { UserService } from "../services/user.service";
-import { UnauthenticatedAppComponent } from "../app.component";
-import { AuthenticatedAppComponent } from "../app.component";
+import { RouterModule } from "@angular/router";
 
 @Component({
-  selector: "app-home",
+  selector: "app-screen-route-layout",
   standalone: true,
-  imports: [CommonModule, AsyncPipe, UnauthenticatedAppComponent, AuthenticatedAppComponent],
+  imports: [CommonModule, RouterModule],
   template: `
-    @if (user$ | async; as user) {
-      <app-authenticated [user]="user" />
-    } @else {
-      <app-unauthenticated />
-    }
+    <div class="p-8">
+      <a
+        routerLink="/"
+        class="border border-gray-300 dark:border-gray-700 border-rounded px-4 py-2 rounded-md text-sm inline-block"
+      >
+        &larr; Back to overview
+      </a>
+      <div class="pt-12">
+        <router-outlet />
+      </div>
+    </div>
   `,
+  styles: [],
 })
-export class HomeComponent {
-  private userService = inject(UserService);
-  user$ = this.userService.getUser();
-}
+export class ScreenRouteLayoutComponent {}
+

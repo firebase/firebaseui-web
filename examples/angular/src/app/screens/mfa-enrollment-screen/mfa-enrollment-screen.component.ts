@@ -16,24 +16,28 @@
 
 import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { AsyncPipe } from "@angular/common";
-import { UserService } from "../services/user.service";
-import { UnauthenticatedAppComponent } from "../app.component";
-import { AuthenticatedAppComponent } from "../app.component";
+import { Router } from "@angular/router";
+import { MultiFactorAuthEnrollmentScreenComponent } from "@invertase/firebaseui-angular";
+import { FactorId } from "firebase/auth";
 
 @Component({
-  selector: "app-home",
+  selector: "app-mfa-enrollment-screen",
   standalone: true,
-  imports: [CommonModule, AsyncPipe, UnauthenticatedAppComponent, AuthenticatedAppComponent],
+  imports: [CommonModule, MultiFactorAuthEnrollmentScreenComponent],
   template: `
-    @if (user$ | async; as user) {
-      <app-authenticated [user]="user" />
-    } @else {
-      <app-unauthenticated />
-    }
+    <fui-multi-factor-auth-enrollment-screen
+      [hints]="[FactorId.TOTP, FactorId.PHONE]"
+      (onEnrollment)="onEnrollment()"
+    ></fui-multi-factor-auth-enrollment-screen>
   `,
+  styles: [],
 })
-export class HomeComponent {
-  private userService = inject(UserService);
-  user$ = this.userService.getUser();
+export class MfaEnrollmentScreenComponent {
+  FactorId = FactorId;
+  private router = inject(Router);
+
+  onEnrollment() {
+    this.router.navigate(["/"]);
+  }
 }
+

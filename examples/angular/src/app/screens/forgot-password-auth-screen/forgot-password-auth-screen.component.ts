@@ -14,26 +14,16 @@
  * limitations under the License.
  */
 
-import { Component, inject } from "@angular/core";
+import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { AsyncPipe } from "@angular/common";
-import { UserService } from "../services/user.service";
-import { UnauthenticatedAppComponent } from "../app.component";
-import { AuthenticatedAppComponent } from "../app.component";
+import { ForgotPasswordAuthScreenComponent } from "@invertase/firebaseui-angular";
 
 @Component({
-  selector: "app-home",
+  selector: "app-forgot-password-auth-screen",
   standalone: true,
-  imports: [CommonModule, AsyncPipe, UnauthenticatedAppComponent, AuthenticatedAppComponent],
-  template: `
-    @if (user$ | async; as user) {
-      <app-authenticated [user]="user" />
-    } @else {
-      <app-unauthenticated />
-    }
-  `,
+  imports: [CommonModule, ForgotPasswordAuthScreenComponent],
+  template: ` <fui-forgot-password-auth-screen></fui-forgot-password-auth-screen> `,
+  styles: [],
 })
-export class HomeComponent {
-  private userService = inject(UserService);
-  user$ = this.userService.getUser();
-}
+export class ForgotPasswordAuthScreenWrapperComponent {}
+

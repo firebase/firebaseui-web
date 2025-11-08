@@ -14,7 +14,18 @@
  * limitations under the License.
  */
 
-/* You can add global styles to this file, and also import other style files */
-@import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *));
-@import "@invertase/firebaseui-styles/tailwind";
+import { Injectable, inject } from "@angular/core";
+import { Auth, type User, authState } from "@angular/fire/auth";
+import { Observable } from "rxjs";
+
+@Injectable({
+  providedIn: "root",
+})
+export class UserService {
+  private auth = inject(Auth);
+
+  getUser(): Observable<User | null> {
+    return authState(this.auth);
+  }
+}
+

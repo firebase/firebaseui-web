@@ -16,24 +16,28 @@
 
 import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { AsyncPipe } from "@angular/common";
-import { UserService } from "../services/user.service";
-import { UnauthenticatedAppComponent } from "../app.component";
-import { AuthenticatedAppComponent } from "../app.component";
+import { Router } from "@angular/router";
+import { SignUpAuthScreenComponent } from "@invertase/firebaseui-angular";
 
 @Component({
-  selector: "app-home",
+  selector: "app-sign-up-auth-screen-w-handlers",
   standalone: true,
-  imports: [CommonModule, AsyncPipe, UnauthenticatedAppComponent, AuthenticatedAppComponent],
+  imports: [CommonModule, SignUpAuthScreenComponent],
   template: `
-    @if (user$ | async; as user) {
-      <app-authenticated [user]="user" />
-    } @else {
-      <app-unauthenticated />
-    }
+    <fui-sign-up-auth-screen (signIn)="goToSignIn()" (signUp)="onSignUp($event)"></fui-sign-up-auth-screen>
   `,
+  styles: [],
 })
-export class HomeComponent {
-  private userService = inject(UserService);
-  user$ = this.userService.getUser();
+export class SignUpAuthScreenWithHandlersComponent {
+  private router = inject(Router);
+
+  goToSignIn() {
+    this.router.navigate(["/screens/sign-in-auth-screen"]);
+  }
+
+  onSignUp(credential: unknown) {
+    console.log(credential);
+    this.router.navigate(["/"]);
+  }
 }
+

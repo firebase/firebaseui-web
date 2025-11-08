@@ -13,3 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { SignInAuthScreenComponent, GoogleSignInButtonComponent } from "@invertase/firebaseui-angular";
+
+@Component({
+  selector: "app-sign-in-auth-screen-w-oauth",
+  standalone: true,
+  imports: [CommonModule, SignInAuthScreenComponent, GoogleSignInButtonComponent],
+  template: `
+    <fui-sign-in-auth-screen>
+      <fui-google-sign-in-button></fui-google-sign-in-button>
+    </fui-sign-in-auth-screen>
+  `,
+  styles: [],
+})
+export class SignInAuthScreenWithOAuthComponent {}
+

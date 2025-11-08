@@ -14,4 +14,20 @@
  * limitations under the License.
  */
 
-export * from "./header.component";
+import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { SignUpAuthScreenComponent, GoogleSignInButtonComponent } from "@invertase/firebaseui-angular";
+
+@Component({
+  selector: "app-sign-up-auth-screen-w-oauth",
+  standalone: true,
+  imports: [CommonModule, SignUpAuthScreenComponent, GoogleSignInButtonComponent],
+  template: `
+    <fui-sign-up-auth-screen>
+      <fui-google-sign-in-button></fui-google-sign-in-button>
+    </fui-sign-up-auth-screen>
+  `,
+  styles: [],
+})
+export class SignUpAuthScreenWithOAuthComponent {}
+
