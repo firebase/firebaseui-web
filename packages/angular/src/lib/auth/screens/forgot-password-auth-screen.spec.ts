@@ -33,13 +33,6 @@ import {
 })
 class MockForgotPasswordAuthFormComponent {}
 
-@Component({
-  selector: "fui-redirect-error",
-  template: '<div data-testid="redirect-error">Redirect Error</div>',
-  standalone: true,
-})
-class MockRedirectErrorComponent {}
-
 describe("<fui-forgot-password-auth-screen>", () => {
   beforeEach(() => {
     const { injectTranslation } = require("../../../provider");
@@ -61,7 +54,6 @@ describe("<fui-forgot-password-auth-screen>", () => {
       imports: [
         ForgotPasswordAuthScreenComponent,
         MockForgotPasswordAuthFormComponent,
-        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -79,7 +71,6 @@ describe("<fui-forgot-password-auth-screen>", () => {
       imports: [
         ForgotPasswordAuthScreenComponent,
         MockForgotPasswordAuthFormComponent,
-        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -92,30 +83,11 @@ describe("<fui-forgot-password-auth-screen>", () => {
     expect(form).toBeInTheDocument();
   });
 
-  it("renders RedirectError component in children section when no MFA resolver", async () => {
-    const { container } = await render(ForgotPasswordAuthScreenComponent, {
-      imports: [
-        ForgotPasswordAuthScreenComponent,
-        MockForgotPasswordAuthFormComponent,
-        MockRedirectErrorComponent,
-        CardComponent,
-        CardHeaderComponent,
-        CardTitleComponent,
-        CardSubtitleComponent,
-        CardContentComponent,
-      ],
-    });
-
-    const redirectErrorElement = container.querySelector("fui-redirect-error");
-    expect(redirectErrorElement).toBeInTheDocument();
-  });
-
   it("has correct CSS classes", async () => {
     const { container } = await render(ForgotPasswordAuthScreenComponent, {
       imports: [
         ForgotPasswordAuthScreenComponent,
         MockForgotPasswordAuthFormComponent,
-        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -138,7 +110,6 @@ describe("<fui-forgot-password-auth-screen>", () => {
       imports: [
         ForgotPasswordAuthScreenComponent,
         MockForgotPasswordAuthFormComponent,
-        MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,

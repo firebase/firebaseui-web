@@ -25,7 +25,6 @@ import {
 } from "../../components/card";
 import { injectTranslation } from "../../provider";
 import { ForgotPasswordAuthFormComponent } from "../forms/forgot-password-auth-form";
-import { RedirectErrorComponent } from "../../components/redirect-error";
 
 @Component({
   selector: "fui-forgot-password-auth-screen",
@@ -38,7 +37,6 @@ import { RedirectErrorComponent } from "../../components/redirect-error";
     CardSubtitleComponent,
     CardContentComponent,
     ForgotPasswordAuthFormComponent,
-    RedirectErrorComponent,
   ],
   template: `
     <div class="fui-screen">
@@ -49,7 +47,6 @@ import { RedirectErrorComponent } from "../../components/redirect-error";
         </fui-card-header>
         <fui-card-content>
           <fui-forgot-password-auth-form (passwordSent)="passwordSent.emit()" (backToSignIn)="backToSignIn.emit()" />
-          <fui-redirect-error />
         </fui-card-content>
       </fui-card>
     </div>
