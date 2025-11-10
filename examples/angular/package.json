@@ -18,7 +18,7 @@
     "lint:fix": "eslint . --ext .ts --fix",
     "format": "prettier --write \"src/**/*.{ts,html,css,scss}\"",
     "format:check": "prettier --check \"src/**/*.{ts,html,css,scss}\"",
-    "deploy": "pnpm run build && firebase deploy --only hosting:fir-ui-2025-angular"
+    "deploy": "pnpm run build && cp dist/angular-ssr/browser/index.csr.html dist/angular-ssr/browser/index.html && firebase deploy --only hosting:fir-ui-rework-angular"
   },
   "dependencies": {
     "@angular/animations": "^20.2.2",

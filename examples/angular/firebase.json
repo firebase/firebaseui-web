@@ -1,7 +1,13 @@
 {
   "hosting": {
-    "site": "fir-ui-2025-angular",
+    "site": "fir-ui-rework-angular",
     "public": "dist/angular-ssr/browser",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
   }
 }
