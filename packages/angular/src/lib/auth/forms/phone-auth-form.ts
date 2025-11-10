@@ -56,14 +56,15 @@ import {
   template: `
     <form (submit)="handleSubmit($event)" class="fui-form">
       <fieldset>
-        <fui-country-selector [(value)]="country"></fui-country-selector>
         <fui-form-input
           name="phoneNumber"
           tanstack-app-field
           [tanstackField]="form"
           [label]="phoneNumberLabel()"
           type="tel"
-        ></fui-form-input>
+        >
+          <fui-country-selector [(value)]="country" ngProjectAs="input-before" />
+        </fui-form-input>
       </fieldset>
       <fieldset>
         <div class="fui-recaptcha-container" #recaptchaContainer></div>

@@ -16,15 +16,17 @@
 
 import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { PhoneAuthScreenComponent, GoogleSignInButtonComponent } from "@invertase/firebaseui-angular";
+import { PhoneAuthScreenComponent, GoogleSignInButtonComponent, ContentComponent } from "@invertase/firebaseui-angular";
 
 @Component({
   selector: "app-phone-auth-screen-w-oauth",
   standalone: true,
-  imports: [CommonModule, PhoneAuthScreenComponent, GoogleSignInButtonComponent],
+  imports: [CommonModule, PhoneAuthScreenComponent, GoogleSignInButtonComponent, ContentComponent],
   template: `
     <fui-phone-auth-screen>
-      <fui-google-sign-in-button></fui-google-sign-in-button>
+      <fui-content>
+        <fui-google-sign-in-button></fui-google-sign-in-button>
+      </fui-content>
     </fui-phone-auth-screen>
   `,
   styles: [],

@@ -65,17 +65,18 @@ import {
               [tanstackField]="phoneForm"
               [label]="displayNameLabel()"
               type="text"
-            ></fui-form-input>
+            />
           </fieldset>
           <fieldset>
-            <fui-country-selector [(value)]="country"></fui-country-selector>
             <fui-form-input
               name="phoneNumber"
               tanstack-app-field
               [tanstackField]="phoneForm"
               [label]="phoneNumberLabel()"
               type="tel"
-            ></fui-form-input>
+            >
+              <fui-country-selector [(value)]="country" ngProjectAs="input-before" />
+            </fui-form-input>
           </fieldset>
           <fieldset>
             <div class="fui-recaptcha-container" #recaptchaContainer></div>
