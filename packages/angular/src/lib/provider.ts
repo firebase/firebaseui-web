@@ -25,8 +25,12 @@ import {
   effect,
   Signal,
   ElementRef,
+  Optional,
+  PLATFORM_ID,
 } from "@angular/core";
+import { isPlatformBrowser } from "@angular/common";
 import { FirebaseApps } from "@angular/fire/app";
+import { Auth } from "@angular/fire/auth";
 import {
   createEmailLinkAuthFormSchema,
   createForgotPasswordAuthFormSchema,
@@ -60,6 +64,7 @@ export function provideFirebaseUI(uiFactory: (apps: FirebaseApps) => FirebaseUIS
     // see https://github.com/angular/angularfire/blob/35e0a9859299010488852b1826e4083abe56528f/src/firestore/firestore.module.ts#L76
     {
       provide: FIREBASE_UI_STORE,
+      deps: [FirebaseApps, [new Optional(), Auth]],
       useFactory: () => {
         const apps = inject(FirebaseApps);
         if (!apps || apps.length === 0) {
@@ -92,7 +97,12 @@ export function injectUI() {
 
 export function injectRecaptchaVerifier(element: () => ElementRef<HTMLDivElement>) {
   const ui = injectUI();
+  const platformId = inject(PLATFORM_ID);
+
   const verifier = computed(() => {
+    if (!isPlatformBrowser(platformId)) {
+      return null;
+    }
     const elementRef = element();
     if (!elementRef) {
       return null;
