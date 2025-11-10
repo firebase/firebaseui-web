@@ -25,7 +25,7 @@ import {
   MicrosoftSignInButtonComponent,
   TwitterSignInButtonComponent,
 } from "@invertase/firebaseui-angular";
-import { UserCredential } from "firebase/auth";
+import type { UserCredential } from "firebase/auth";
 import { Router } from "@angular/router";
 
 @Component({

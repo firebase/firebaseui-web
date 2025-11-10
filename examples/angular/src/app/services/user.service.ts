@@ -16,7 +16,7 @@
 
 import { Injectable, inject } from "@angular/core";
 import { Auth, type User, authState } from "@angular/fire/auth";
-import { Observable } from "rxjs";
+import type { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",

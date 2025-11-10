@@ -17,7 +17,7 @@
 import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { SignInAuthScreenComponent } from "@invertase/firebaseui-angular";
-import { UserCredential } from "firebase/auth";
+import type { UserCredential } from "firebase/auth";
 import { Router } from "@angular/router";
 
 @Component({
