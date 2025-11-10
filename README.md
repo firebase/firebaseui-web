@@ -261,7 +261,7 @@ If none of these options apply, include the CSS file via a CDN:
 </head>
 ```
 
-## Theming
+### Theming
 
 Out of the box, Firebase UI provides a neutral light and dark theme with some opinionated styling (colors, border radii etc). These are all controlled via CSS variables, allowing you to update these at will to match any existing UI design guidelines. To modify the variables, override the following CSS variables:
 
@@ -485,6 +485,544 @@ By default, any missing translations will fallback to English if not specified. 
 
 <details>
   <summary>@invertase/firebaseui-core</summary>
+
+  <h3>initializeUI</h3>
+
+  Initalizes a new `FirebaseUIStore` instance.
+
+  | Argument |        Type       | Description                        |
+  |----------|:-----------------:|------------------------------------|
+  | config   | FirebaseUIOptions | The configuration for Firebase UI  |
+  | name     | string?           | An optional name for the instance. |
+
+  Returns `FirebaseUIStore`.
+
+  <h3>signInWithEmailAndPassword</h3>
+
+  Signs the user in with an email and password.
+
+  | Argument |        Type       | Description                        |
+  |----------|:-----------------:|------------------------------------|
+  | ui       | FirebaseUI        | The Firebase UI instance.  |
+  | email    | string            | The users email address.  |
+  | password | string            | The users password. |
+
+  Returns `Promise<UserCredential>`.
+
+  <h3>createUserWithEmailAndPassword</h3>
+
+  Creates a new user account with an email and password.
+
+  | Argument   |        Type       | Description                        |
+  |------------|:-----------------:|------------------------------------|
+  | ui         | FirebaseUI        | The Firebase UI instance.  |
+  | email      | string            | The users email address.  |
+  | password   | string            | The users password. |
+  | displayName| string?           | Optional display name for the user. |
+
+  Returns `Promise<UserCredential>`.
+
+  <h3>verifyPhoneNumber</h3>
+
+  Verifies a phone number and sends a verification code.
+
+  | Argument      |        Type       | Description                        |
+  |---------------|:-----------------:|------------------------------------|
+  | ui            | FirebaseUI        | The Firebase UI instance.  |
+  | phoneNumber   | string            | The phone number to verify.  |
+  | appVerifier   | ApplicationVerifier | The reCAPTCHA verifier. |
+  | mfaUser       | MultiFactorUser?  | Optional MFA user for enrollment flow. |
+  | mfaHint       | MultiFactorInfo?  | Optional MFA hint for assertion flow. |
+
+  Returns `Promise<string>` (verification ID).
+
+  <h3>confirmPhoneNumber</h3>
+
+  Confirms a phone number verification with the verification code.
+
+  | Argument       |        Type       | Description                        |
+  |----------------|:-----------------:|------------------------------------|
+  | ui             | FirebaseUI        | The Firebase UI instance.  |
+  | verificationId | string            | The verification ID from verifyPhoneNumber. |
+  | verificationCode | string         | The verification code sent to the phone. |
+
+  Returns `Promise<UserCredential>`.
+
+  <h3>sendPasswordResetEmail</h3>
+
+  Sends a password reset email to the user.
+
+  | Argument |        Type       | Description                        |
+  |----------|:-----------------:|------------------------------------|
+  | ui       | FirebaseUI        | The Firebase UI instance.  |
+  | email    | string            | The users email address.  |
+
+  Returns `Promise<void>`.
+
+  <h3>sendSignInLinkToEmail</h3>
+
+  Sends a sign-in link to the user's email address.
+
+  | Argument |        Type       | Description                        |
+  |----------|:-----------------:|------------------------------------|
+  | ui       | FirebaseUI        | The Firebase UI instance.  |
+  | email    | string            | The users email address.  |
+
+  Returns `Promise<void>`.
+
+  <h3>signInWithEmailLink</h3>
+
+  Signs in a user with an email link.
+
+  | Argument |        Type       | Description                        |
+  |----------|:-----------------:|------------------------------------|
+  | ui       | FirebaseUI        | The Firebase UI instance.  |
+  | email    | string            | The users email address.  |
+  | link     | string            | The email link from the sign-in email. |
+
+  Returns `Promise<UserCredential>`.
+
+  <h3>signInWithCredential</h3>
+
+  Signs in a user with an authentication credential.
+
+  | Argument  |        Type       | Description                        |
+  |-----------|:-----------------:|------------------------------------|
+  | ui        | FirebaseUI        | The Firebase UI instance.  |
+  | credential| AuthCredential    | The authentication credential. |
+
+  Returns `Promise<UserCredential>`.
+
+  <h3>signInWithCustomToken</h3>
+
+  Signs in a user with a custom token.
+
+  | Argument   |        Type       | Description                        |
+  |------------|:-----------------:|------------------------------------|
+  | ui         | FirebaseUI        | The Firebase UI instance.  |
+  | customToken| string            | The custom token. |
+
+  Returns `Promise<UserCredential>`.
+
+  <h3>signInAnonymously</h3>
+
+  Signs in a user anonymously.
+
+  | Argument |        Type       | Description                        |
+  |----------|:-----------------:|------------------------------------|
+  | ui       | FirebaseUI        | The Firebase UI instance.  |
+
+  Returns `Promise<UserCredential>`.
+
+  <h3>signInWithProvider</h3>
+
+  Signs in a user with an OAuth provider (e.g., Google, Facebook, etc.).
+
+  | Argument |        Type       | Description                        |
+  |----------|:-----------------:|------------------------------------|
+  | ui       | FirebaseUI        | The Firebase UI instance.  |
+  | provider | AuthProvider      | The OAuth provider. |
+
+  Returns `Promise<UserCredential | never>`.
+
+  <h3>completeEmailLinkSignIn</h3>
+
+  Completes the email link sign-in flow by checking if the current URL is a valid email link.
+
+  | Argument  |        Type       | Description                        |
+  |-----------|:-----------------:|------------------------------------|
+  | ui        | FirebaseUI        | The Firebase UI instance.  |
+  | currentUrl| string            | The current URL to check. |
+
+  Returns `Promise<UserCredential | null>`.
+
+  <h3>generateTotpQrCode</h3>
+
+  Generates a QR code data URL for TOTP (Time-based One-Time Password) enrollment.
+
+  | Argument   |        Type       | Description                        |
+  |------------|:-----------------:|------------------------------------|
+  | ui         | FirebaseUI        | The Firebase UI instance.  |
+  | secret     | TotpSecret        | The TOTP secret. |
+  | accountName| string?           | Optional account name for the QR code. |
+  | issuer     | string?           | Optional issuer name for the QR code. |
+
+  Returns `string` (data URL of the QR code).
+
+  <h3>signInWithMultiFactorAssertion</h3>
+
+  Signs in a user with a multi-factor authentication assertion.
+
+  | Argument |        Type       | Description                        |
+  |----------|:-----------------:|------------------------------------|
+  | ui       | FirebaseUI        | The Firebase UI instance.  |
+  | assertion| MultiFactorAssertion | The MFA assertion. |
+
+  Returns `Promise<UserCredential>`.
+
+  <h3>enrollWithMultiFactorAssertion</h3>
+
+  Enrolls a multi-factor authentication method for the current user.
+
+  | Argument   |        Type       | Description                        |
+  |------------|:-----------------:|------------------------------------|
+  | ui         | FirebaseUI        | The Firebase UI instance.  |
+  | assertion  | MultiFactorAssertion | The MFA assertion. |
+  | displayName| string?           | Optional display name for the MFA method. Throws if not provided and the `requireDisplayName` behavior is enabled. |
+
+  Returns `Promise<void>`.
+
+  <h3>generateTotpSecret</h3>
+
+  Generates a TOTP secret for multi-factor authentication enrollment.
+
+  | Argument |        Type       | Description                        |
+  |----------|:-----------------:|------------------------------------|
+  | ui       | FirebaseUI        | The Firebase UI instance.  |
+
+  Returns `Promise<TotpSecret>`.
+
+  <h3>Types</h3>
+
+  <h4>FirebaseUI</h4>
+
+  The main Firebase UI instance type that provides access to authentication state, behaviors, and configuration.
+
+  <h4>FirebaseUIOptions</h4>
+
+  Configuration options for initializing a Firebase UI instance.
+
+  | Property |        Type       | Description                        |
+  |----------|:-----------------:|------------------------------------|
+  | app      | FirebaseApp       | The Firebase app instance.  |
+  | auth     | Auth?             | Optional Firebase Auth instance. If not provided, will use `getAuth(app)`. |
+  | locale   | RegisteredLocale? | Optional locale for translations. Defaults to English. |
+  | behaviors| Behavior[]?       | Optional array of behaviors to configure. |
+
+  <h4>FirebaseUIStore</h4>
+
+  A reactive store (nanostores DeepMapStore) that contains the Firebase UI instance state.
+
+  <h4>$config</h4>
+
+  A global reactive store (nanostores map) that contains all Firebase UI instances keyed by their names.
+
+  Type: `MapStore<Record<string, DeepMapStore<FirebaseUI>>>`.
+
+  <h4>FirebaseUIState</h4>
+
+  The current state of the Firebase UI instance. Can be `"idle"`, `"pending"`, or `"loading"`.
+
+  <h3>Behaviors</h3>
+
+  Behaviors are modular pieces of functionality that can be added to a Firebase UI instance.
+
+  <h4>Behavior</h4>
+
+  Type representing a behavior configuration object. Can be used to specify which behaviors are included.
+
+  <h4>Behaviors</h4>
+
+  Type representing a partial collection of behaviors (all behaviors are optional).
+
+  <h4>autoAnonymousLogin</h4>
+
+  Automatically signs in users anonymously when the UI initializes.
+
+  Returns `Behavior<"autoAnonymousLogin">`.
+
+  <h4>autoUpgradeAnonymousUsers</h4>
+
+  Automatically upgrades anonymous users to permanent accounts when they sign in with a credential or provider.
+
+  | Argument |        Type       | Description                        |
+  |----------|:-----------------:|------------------------------------|
+  | options  | AutoUpgradeAnonymousUsersOptions? | Optional configuration. |
+  | options.onUpgrade | function? | Optional callback when upgrade occurs. |
+
+  Returns `Behavior<"autoUpgradeAnonymousCredential" | "autoUpgradeAnonymousProvider" | "autoUpgradeAnonymousUserRedirectHandler">`.
+
+  <h4>recaptchaVerification</h4>
+
+  Configures reCAPTCHA verification for phone authentication.
+
+  | Argument |        Type       | Description                        |
+  |----------|:-----------------:|------------------------------------|
+  | options  | RecaptchaVerificationOptions? | Optional reCAPTCHA configuration. |
+
+  Returns `Behavior<"recaptchaVerification">`.
+
+  <h4>providerRedirectStrategy</h4>
+
+  Configures OAuth providers to use redirect flow (full page redirect).
+
+  Returns `Behavior<"providerSignInStrategy" | "providerLinkStrategy">`.
+
+  <h4>providerPopupStrategy</h4>
+
+  Configures OAuth providers to use popup flow (popup window).
+
+  Returns `Behavior<"providerSignInStrategy" | "providerLinkStrategy">`.
+
+  <h4>oneTapSignIn</h4>
+
+  Enables Google One Tap sign-in.
+
+  | Argument |        Type       | Description                        |
+  |----------|:-----------------:|------------------------------------|
+  | options  | OneTapSignInOptions | Configuration for One Tap sign-in. |
+
+  Returns `Behavior<"oneTapSignIn">`.
+
+  <h4>requireDisplayName</h4>
+
+  Requires users to provide a display name during registration.
+
+  Returns `Behavior<"requireDisplayName">`.
+
+  <h4>countryCodes</h4>
+
+  Configures country code handling for phone number input.
+
+  | Argument |        Type       | Description                        |
+  |----------|:-----------------:|------------------------------------|
+  | options  | CountryCodesOptions? | Optional country codes configuration. |
+
+  Returns `Behavior<"countryCodes">`.
+
+  <h4>hasBehavior</h4>
+
+  Checks if a behavior is enabled on a Firebase UI instance.
+
+  | Argument |        Type       | Description                        |
+  |----------|:-----------------:|------------------------------------|
+  | ui       | FirebaseUI        | The Firebase UI instance.  |
+  | key      | string            | The behavior key to check. |
+
+  Returns `boolean`.
+
+  <h4>getBehavior</h4>
+
+  Gets a behavior handler from a Firebase UI instance.
+
+  | Argument |        Type       | Description                        |
+  |----------|:-----------------:|------------------------------------|
+  | ui       | FirebaseUI        | The Firebase UI instance.  |
+  | key      | string            | The behavior key to retrieve. |
+
+  Returns the behavior handler function.
+
+  <h4>defaultBehaviors</h4>
+
+  The default behaviors that are automatically included in a Firebase UI instance. Includes `recaptchaVerification`, `providerRedirectStrategy`, and `countryCodes`.
+
+  Type: `Behavior<"recaptchaVerification">`.
+
+  <h3>Country Data</h3>
+
+  <h4>countryData</h4>
+
+  An array of country data objects containing name, dial code, country code, and emoji for all supported countries.
+
+  Type: `readonly CountryData[]`.
+
+  <h4>formatPhoneNumber</h4>
+
+  Formats a phone number according to the specified country data.
+
+  | Argument   |        Type       | Description                        |
+  |------------|:-----------------:|------------------------------------|
+  | phoneNumber| string            | The phone number to format.  |
+  | countryData| CountryData       | The country data to use for formatting. |
+
+  Returns `string` (formatted phone number in E164 format).
+
+  <h4>CountryData</h4>
+
+  Type representing country information.
+
+  | Property |        Type       | Description                        |
+  |----------|:-----------------:|------------------------------------|
+  | name     | string            | The country name.  |
+  | dialCode | string            | The international dial code (e.g., "+1"). |
+  | code     | CountryCode       | The ISO country code. |
+  | emoji    | string            | The country flag emoji. |
+
+  <h4>CountryCode</h4>
+
+  Type representing an ISO country code (from libphonenumber-js).
+
+  <h3>Errors</h3>
+
+  <h4>FirebaseUIError</h4>
+
+  A custom error class that extends FirebaseError with localized error messages.
+
+  <h4>handleFirebaseError</h4>
+
+  Handles Firebase errors and converts them to FirebaseUIError with localized messages. Also handles special cases like account linking and multi-factor authentication.
+
+  | Argument |        Type       | Description                        |
+  |----------|:-----------------:|------------------------------------|
+  | ui       | FirebaseUI        | The Firebase UI instance.  |
+  | error    | unknown           | The error to handle. |
+
+  Throws `FirebaseUIError`.
+
+  <h3>Translations</h3>
+
+  <h4>getTranslation</h4>
+
+  Gets a translated string for a given category and key.
+
+  | Argument     |        Type       | Description                        |
+  |--------------|:-----------------:|------------------------------------|
+  | ui           | FirebaseUI        | The Firebase UI instance.  |
+  | category     | TranslationCategory | The translation category. |
+  | key          | TranslationKey    | The translation key. |
+  | replacements | Record<string, string>? | Optional replacements for placeholders. |
+
+  Returns `string`.
+
+  <h3>Schemas</h3>
+
+  Zod schema creation functions for form validation.
+
+  <h4>createSignInAuthFormSchema</h4>
+
+  Creates a Zod schema for email/password sign-in form validation.
+
+  | Argument |        Type       | Description                        |
+  |----------|:-----------------:|------------------------------------|
+  | ui       | FirebaseUI        | The Firebase UI instance.  |
+
+  Returns `ZodObject` with `email` and `password` fields.
+
+  <h4>createSignUpAuthFormSchema</h4>
+
+  Creates a Zod schema for email/password sign-up form validation.
+
+  | Argument |        Type       | Description                        |
+  |----------|:-----------------:|------------------------------------|
+  | ui       | FirebaseUI        | The Firebase UI instance.  |
+
+  Returns `ZodObject` with `email`, `password`, and optionally `displayName` fields.
+
+  <h4>createForgotPasswordAuthFormSchema</h4>
+
+  Creates a Zod schema for forgot password form validation.
+
+  | Argument |        Type       | Description                        |
+  |----------|:-----------------:|------------------------------------|
+  | ui       | FirebaseUI        | The Firebase UI instance.  |
+
+  Returns `ZodObject` with `email` field.
+
+  <h4>createEmailLinkAuthFormSchema</h4>
+
+  Creates a Zod schema for email link authentication form validation.
+
+  | Argument |        Type       | Description                        |
+  |----------|:-----------------:|------------------------------------|
+  | ui       | FirebaseUI        | The Firebase UI instance.  |
+
+  Returns `ZodObject` with `email` field.
+
+  <h4>createPhoneAuthNumberFormSchema</h4>
+
+  Creates a Zod schema for phone number input form validation.
+
+  | Argument |        Type       | Description                        |
+  |----------|:-----------------:|------------------------------------|
+  | ui       | FirebaseUI        | The Firebase UI instance.  |
+
+  Returns `ZodObject` with `phoneNumber` field.
+
+  <h4>createPhoneAuthVerifyFormSchema</h4>
+
+  Creates a Zod schema for phone verification code form validation.
+
+  | Argument |        Type       | Description                        |
+  |----------|:-----------------:|------------------------------------|
+  | ui       | FirebaseUI        | The Firebase UI instance.  |
+
+  Returns `ZodObject` with `verificationId` and `verificationCode` fields.
+
+  <h4>createMultiFactorPhoneAuthNumberFormSchema</h4>
+
+  Creates a Zod schema for multi-factor phone authentication number form validation.
+
+  | Argument |        Type       | Description                        |
+  |----------|:-----------------:|------------------------------------|
+  | ui       | FirebaseUI        | The Firebase UI instance.  |
+
+  Returns `ZodObject` with `phoneNumber` and `displayName` fields.
+
+  <h4>createMultiFactorPhoneAuthAssertionFormSchema</h4>
+
+  Creates a Zod schema for multi-factor phone authentication assertion form validation.
+
+  | Argument |        Type       | Description                        |
+  |----------|:-----------------:|------------------------------------|
+  | ui       | FirebaseUI        | The Firebase UI instance.  |
+
+  Returns `ZodObject` with `phoneNumber` field.
+
+  <h4>createMultiFactorPhoneAuthVerifyFormSchema</h4>
+
+  Creates a Zod schema for multi-factor phone authentication verification form validation.
+
+  | Argument |        Type       | Description                        |
+  |----------|:-----------------:|------------------------------------|
+  | ui       | FirebaseUI        | The Firebase UI instance.  |
+
+  Returns `ZodObject` with `verificationId` and `verificationCode` fields.
+
+  <h4>createMultiFactorTotpAuthNumberFormSchema</h4>
+
+  Creates a Zod schema for multi-factor TOTP authentication form validation.
+
+  | Argument |        Type       | Description                        |
+  |----------|:-----------------:|------------------------------------|
+  | ui       | FirebaseUI        | The Firebase UI instance.  |
+
+  Returns `ZodObject` with `displayName` field.
+
+  <h4>createMultiFactorTotpAuthVerifyFormSchema</h4>
+
+  Creates a Zod schema for multi-factor TOTP verification code form validation.
+
+  | Argument |        Type       | Description                        |
+  |----------|:-----------------:|------------------------------------|
+  | ui       | FirebaseUI        | The Firebase UI instance.  |
+
+  Returns `ZodObject` with `verificationCode` field.
+
+  <h4>Schema Types</h4>
+
+  Type exports for inferred schema types:
+
+  - `SignInAuthFormSchema`
+  - `SignUpAuthFormSchema`
+  - `ForgotPasswordAuthFormSchema`
+  - `EmailLinkAuthFormSchema`
+  - `PhoneAuthNumberFormSchema`
+  - `PhoneAuthVerifyFormSchema`
+  - `MultiFactorPhoneAuthNumberFormSchema`
+  - `MultiFactorTotpAuthNumberFormSchema`
+  - `MultiFactorTotpAuthVerifyFormSchema`
+
+  <h4>LoginTypes</h4>
+
+  A constant array of supported login types: `["email", "phone", "anonymous", "emailLink", "google"]`.
+
+  <h4>LoginType</h4>
+
+  Type representing supported login types: `"email" | "phone" | "anonymous" | "emailLink" | "google"`.
+
+  <h4>AuthMode</h4>
+
+  Type representing authentication mode: `"signIn" | "signUp"`.
 
 </details>
 
