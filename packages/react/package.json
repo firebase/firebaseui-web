@@ -1,6 +1,6 @@
 {
   "name": "@invertase/firebaseui-react",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -17,7 +17,7 @@
   ],
   "scripts": {
     "prepare": "pnpm run build",
-    "build": "tsup && pnpm run build:logos",
+    "build": "tsup --env.PROD=true && pnpm run build:logos",
     "build:local": "pnpm run build && pnpm pack",
     "build:logos": "pnpm dlx @svgr/cli --icon --typescript --no-index --jsx-runtime automatic --out-dir src/components/logos ../core/brands",
     "dev": "tsup --watch",

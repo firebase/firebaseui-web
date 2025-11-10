@@ -27,21 +27,6 @@ export * from "./register-framework";
 export * from "./schemas";
 export * from "./translations";
 
-// Detect production mode across different build systems (Vite, webpack/Next.js, etc.)
-const isDevelopment = typeof process !== "undefined" && process.env.NODE_ENV === "production";
-
-const isViteProduction =
-  typeof import.meta !== "undefined" &&
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (import.meta as any)?.env &&
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (import.meta as any).env.PROD === true;
-
-// Check if in production mode
-const isProduction = isDevelopment || isViteProduction;
-
-if (isProduction) {
-  // Extract framework name from package name (e.g., "@invertase/firebaseui-react" -> "react")
-  const frameworkName = pkgJson.name.replace("@invertase/firebaseui-", "");
-  registerFramework(frameworkName, pkgJson.version);
+if (import.meta.env.PROD) {
+  registerFramework("core", pkgJson.version);
 }

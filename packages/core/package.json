@@ -1,6 +1,6 @@
 {
   "name": "@invertase/firebaseui-core",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Core authentication service for Firebase UI",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -21,7 +21,7 @@
   "scripts": {
     "prepare": "pnpm run build",
     "emulators:start": "firebase emulators:start -P demo-firebaseui",
-    "build": "tsup",
+    "build": "tsup --env.PROD=true",
     "build:local": "pnpm run build && pnpm pack",
     "dev": "tsup --watch",
     "lint": "eslint . --ext .ts",
