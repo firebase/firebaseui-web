@@ -24,46 +24,62 @@ export const serverRoutes: ServerRoute[] = [
   },
   /** Static auth demos - good for SSG as they showcase Firebase UI components */
   {
-    path: "sign-in",
+    path: "screens/sign-in-auth-screen",
     renderMode: RenderMode.Prerender,
   },
   {
-    path: "oauth",
+    path: "screens/oauth-screen",
     renderMode: RenderMode.Prerender,
   },
   /** Interactive auth routes - better as CSR for user interaction */
   {
-    path: "sign-up",
+    path: "screens/sign-up-auth-screen",
     renderMode: RenderMode.Client,
   },
   {
-    path: "forgot-password",
+    path: "screens/forgot-password-auth-screen",
     renderMode: RenderMode.Client,
   },
   /** Dynamic auth routes - good for SSR as they may need server-side data */
   {
-    path: "email-link",
+    path: "screens/email-link-auth-screen",
     renderMode: RenderMode.Server,
   },
   {
-    path: "email-link-oauth",
+    path: "screens/email-link-auth-screen-w-oauth",
     renderMode: RenderMode.Server,
   },
   {
-    path: "phone",
+    path: "screens/phone-auth-screen",
     renderMode: RenderMode.Server,
   },
   {
-    path: "phone-oauth",
+    path: "screens/phone-auth-screen-w-oauth",
     renderMode: RenderMode.Server,
   },
   {
-    path: "sign-in-oauth",
+    path: "screens/sign-in-auth-screen-w-oauth",
     renderMode: RenderMode.Server,
   },
   {
-    path: "sign-up-oauth",
+    path: "screens/sign-up-auth-screen-w-oauth",
     renderMode: RenderMode.Server,
+  },
+  {
+    path: "screens/sign-in-auth-screen-w-handlers",
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: "screens/sign-up-auth-screen-w-handlers",
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: "screens/forgot-password-auth-screen-w-handlers",
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: "screens/mfa-enrollment-screen",
+    renderMode: RenderMode.Client,
   },
   /** All other routes will be rendered on the server (SSR) */
   {

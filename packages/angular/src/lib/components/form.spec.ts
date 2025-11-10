@@ -189,6 +189,28 @@ describe("Form Components", () => {
       });
     }
 
+    @Component({
+      template: `
+        <fui-form-input
+          name="test"
+          tanstack-app-field
+          [tanstackField]="form"
+          label="Test Label"
+          [description]="description()"
+        ></fui-form-input>
+      `,
+      standalone: true,
+      imports: [FormInputComponent, TanStackAppField],
+    })
+    class TestFormInputWithDescriptionHostComponent {
+      form = injectForm({
+        defaultValues: {
+          test: "",
+        },
+      });
+      description = signal<string | undefined>(undefined);
+    }
+
     it("renders action content when provided", async () => {
       await render(TestFormInputHostComponent, {
         imports: [TestFormInputHostComponent],
@@ -197,6 +219,45 @@ describe("Form Components", () => {
       const actionButton = screen.getByTestId("test-action");
       expect(actionButton).toBeTruthy();
       expect(actionButton).toHaveTextContent("Action");
+    });
+
+    it("renders description when provided", async () => {
+      const component = await render(TestFormInputWithDescriptionHostComponent, {
+        imports: [TestFormInputWithDescriptionHostComponent],
+      });
+
+      component.fixture.componentInstance.description.set("Test description text");
+      component.fixture.detectChanges();
+
+      const descriptionElement = screen.getByText("Test description text");
+      expect(descriptionElement).toBeTruthy();
+      expect(descriptionElement).toHaveAttribute("data-input-description");
+    });
+
+    it("does not render description when not provided", async () => {
+      const { container } = await render(TestFormInputWithDescriptionHostComponent, {
+        imports: [TestFormInputWithDescriptionHostComponent],
+      });
+
+      const descriptionElement = container.querySelector("[data-input-description]");
+      expect(descriptionElement).toBeFalsy();
+    });
+
+    it("updates description when input changes", async () => {
+      const component = await render(TestFormInputWithDescriptionHostComponent, {
+        imports: [TestFormInputWithDescriptionHostComponent],
+      });
+
+      component.fixture.componentInstance.description.set("Initial description");
+      component.fixture.detectChanges();
+
+      expect(screen.getByText("Initial description")).toBeTruthy();
+
+      component.fixture.componentInstance.description.set("Updated description");
+      component.fixture.detectChanges();
+
+      expect(screen.queryByText("Initial description")).toBeFalsy();
+      expect(screen.getByText("Updated description")).toBeTruthy();
     });
   });
 

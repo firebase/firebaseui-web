@@ -25,8 +25,11 @@ import { TwitterLogoComponent } from "../../components/logos/twitter";
   selector: "fui-twitter-sign-in-button",
   standalone: true,
   imports: [CommonModule, OAuthButtonComponent, TwitterLogoComponent],
+  host: {
+    style: "display: block;",
+  },
   template: `
-    <fui-oauth-button [provider]="twitterProvider">
+    <fui-oauth-button [provider]="twitterProvider" [themed]="themed()">
       <fui-twitter-logo />
       <span>{{ signInWithTwitterLabel() }}</span>
     </fui-oauth-button>
@@ -34,6 +37,7 @@ import { TwitterLogoComponent } from "../../components/logos/twitter";
 })
 export class TwitterSignInButtonComponent {
   signInWithTwitterLabel = injectTranslation("labels", "signInWithTwitter");
+  themed = input<boolean>(false);
 
   private defaultProvider = new TwitterAuthProvider();
 

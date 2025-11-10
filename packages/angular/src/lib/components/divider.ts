@@ -21,6 +21,9 @@ import { CommonModule } from "@angular/common";
   selector: "fui-divider",
   standalone: true,
   imports: [CommonModule],
+  host: {
+    style: "display: block;",
+  },
   template: `
     <div class="fui-divider my-6">
       <div class="fui-divider__line"></div>

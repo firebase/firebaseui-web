@@ -23,6 +23,17 @@ import { ButtonComponent } from "../../components/button";
 import { FactorId } from "firebase/auth";
 
 describe("<fui-multi-factor-auth-enrollment-form />", () => {
+  beforeEach(() => {
+    const { injectUI } = require("../../../provider");
+    injectUI.mockImplementation(() => {
+      return () => ({
+        auth: {
+          currentUser: { uid: "test-user" },
+        },
+      });
+    });
+  });
+
   it("should create", async () => {
     const { fixture } = await render(MultiFactorAuthEnrollmentFormComponent, {
       imports: [
@@ -55,7 +66,7 @@ describe("<fui-multi-factor-auth-enrollment-form />", () => {
   });
 
   it("should auto-select single hint when only one is provided", async () => {
-    await render(MultiFactorAuthEnrollmentFormComponent, {
+    const { container } = await render(MultiFactorAuthEnrollmentFormComponent, {
       imports: [
         CommonModule,
         MultiFactorAuthEnrollmentFormComponent,
@@ -72,11 +83,11 @@ describe("<fui-multi-factor-auth-enrollment-form />", () => {
     expect(screen.queryByRole("button", { name: "TOTP Verification" })).not.toBeInTheDocument();
 
     expect(screen.getByLabelText("Display Name")).toBeInTheDocument();
-    expect(screen.getByLabelText("Phone Number")).toBeInTheDocument();
+    expect(container.querySelector('input[name="phoneNumber"]')).toBeInTheDocument();
   });
 
   it("should show SMS form when SMS hint is selected", async () => {
-    const { fixture } = await render(MultiFactorAuthEnrollmentFormComponent, {
+    const { fixture, container } = await render(MultiFactorAuthEnrollmentFormComponent, {
       imports: [
         CommonModule,
         MultiFactorAuthEnrollmentFormComponent,
@@ -94,7 +105,7 @@ describe("<fui-multi-factor-auth-enrollment-form />", () => {
     fixture.detectChanges();
 
     expect(screen.getByLabelText("Display Name")).toBeInTheDocument();
-    expect(screen.getByLabelText("Phone Number")).toBeInTheDocument();
+    expect(container.querySelector('input[name="phoneNumber"]')).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Send Verification Code" })).toBeInTheDocument();
   });
 
@@ -189,5 +200,41 @@ describe("<fui-multi-factor-auth-enrollment-form />", () => {
     });
 
     expect(container.querySelector(".fui-content")).toBeInTheDocument();
+  });
+
+  it("should throw error when hints array is empty", async () => {
+    await expect(
+      render(MultiFactorAuthEnrollmentFormComponent, {
+        imports: [
+          CommonModule,
+          MultiFactorAuthEnrollmentFormComponent,
+          SmsMultiFactorEnrollmentFormComponent,
+          TotpMultiFactorEnrollmentFormComponent,
+          ButtonComponent,
+        ],
+        componentInputs: {
+          hints: [],
+        },
+      })
+    ).rejects.toThrow("MultiFactorAuthEnrollmentForm must have at least one hint");
+  });
+
+  it("should throw error for unknown hint type", async () => {
+    const unknownHint = "unknown" as any;
+
+    await expect(
+      render(MultiFactorAuthEnrollmentFormComponent, {
+        imports: [
+          CommonModule,
+          MultiFactorAuthEnrollmentFormComponent,
+          SmsMultiFactorEnrollmentFormComponent,
+          TotpMultiFactorEnrollmentFormComponent,
+          ButtonComponent,
+        ],
+        componentInputs: {
+          hints: [unknownHint],
+        },
+      })
+    ).rejects.toThrow("Unknown multi-factor enrollment type: unknown");
   });
 });

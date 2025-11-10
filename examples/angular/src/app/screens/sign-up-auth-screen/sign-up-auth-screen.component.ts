@@ -14,15 +14,24 @@
  * limitations under the License.
  */
 
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { SignUpAuthScreenComponent } from "@invertase/firebaseui-angular";
+import { Router } from "@angular/router";
+import type { UserCredential } from "firebase/auth";
 
 @Component({
   selector: "app-sign-up-auth-screen",
   standalone: true,
   imports: [CommonModule, SignUpAuthScreenComponent],
-  template: ` <fui-sign-up-auth-screen></fui-sign-up-auth-screen> `,
+  template: ` <fui-sign-up-auth-screen (signUp)="onSignUp($event)" />`,
   styles: [],
 })
-export class SignUpAuthScreenWrapperComponent {}
+export class SignUpAuthScreenWrapperComponent {
+  private router = inject(Router);
+
+  onSignUp(credential: UserCredential) {
+    console.log("sign up", credential);
+    this.router.navigate(["/"]);
+  }
+}

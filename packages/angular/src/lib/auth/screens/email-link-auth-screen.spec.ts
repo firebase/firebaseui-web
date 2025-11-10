@@ -41,9 +41,9 @@ class MockEmailLinkAuthFormComponent {}
 class MockRedirectErrorComponent {}
 
 @Component({
-  selector: "fui-multi-factor-auth-assertion-form",
+  selector: "fui-multi-factor-auth-assertion-screen",
   template: `
-    <div data-testid="mfa-assertion-form">MFA Assertion Form</div>
+    <div data-testid="mfa-assertion-screen">MFA Assertion Screen</div>
     <button data-testid="mfa-on-success" (click)="onSuccess.emit({ user: { uid: 'mfa-user' } })">
       Trigger MFA Success
     </button>
@@ -51,7 +51,7 @@ class MockRedirectErrorComponent {}
   standalone: true,
   outputs: ["onSuccess"],
 })
-class MockMultiFactorAuthAssertionFormComponent {
+class MockMultiFactorAuthAssertionScreenComponent {
   onSuccess = new EventEmitter<any>();
 }
 
@@ -90,6 +90,7 @@ describe("<fui-email-link-auth-screen>", () => {
 
     injectUI.mockImplementation(() => () => ({
       multiFactorResolver: null,
+      setMultiFactorResolver: jest.fn(),
     }));
   });
 
@@ -212,13 +213,14 @@ describe("<fui-email-link-auth-screen>", () => {
     const { injectUI } = require("../../../provider");
     injectUI.mockImplementation(() => () => ({
       multiFactorResolver: { auth: {}, session: null, hints: [] },
+      setMultiFactorResolver: jest.fn(),
     }));
 
     const { container } = await render(TestHostWithoutContentComponent, {
       imports: [
         EmailLinkAuthScreenComponent,
         MockEmailLinkAuthFormComponent,
-        MockMultiFactorAuthAssertionFormComponent,
+        MockMultiFactorAuthAssertionScreenComponent,
         MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
@@ -228,45 +230,22 @@ describe("<fui-email-link-auth-screen>", () => {
       ],
     });
 
-    // Check for the MFA form element by its selector
-    expect(container.querySelector("fui-multi-factor-auth-assertion-form")).toBeInTheDocument();
-  });
-
-  it("does not render RedirectError when MFA resolver is present", async () => {
-    const { injectUI } = require("../../../provider");
-    injectUI.mockImplementation(() => () => ({
-      multiFactorResolver: { auth: {}, session: null, hints: [] },
-    }));
-
-    const { container } = await render(TestHostWithContentComponent, {
-      imports: [
-        EmailLinkAuthScreenComponent,
-        MockEmailLinkAuthFormComponent,
-        MockMultiFactorAuthAssertionFormComponent,
-        MockRedirectErrorComponent,
-        CardComponent,
-        CardHeaderComponent,
-        CardTitleComponent,
-        CardSubtitleComponent,
-        CardContentComponent,
-      ],
-    });
-
-    expect(container.querySelector("fui-redirect-error")).toBeNull();
-    expect(container.querySelector("fui-multi-factor-auth-assertion-form")).toBeInTheDocument();
+    // Check for the MFA screen element by its selector
+    expect(container.querySelector("fui-multi-factor-auth-assertion-screen")).toBeInTheDocument();
   });
 
   it("calls signIn output when MFA flow succeeds", async () => {
     const { injectUI } = require("../../../provider");
     injectUI.mockImplementation(() => () => ({
       multiFactorResolver: { auth: {}, session: null, hints: [] },
+      setMultiFactorResolver: jest.fn(),
     }));
 
     const { fixture } = await render(TestHostWithoutContentComponent, {
       imports: [
         EmailLinkAuthScreenComponent,
         MockEmailLinkAuthFormComponent,
-        MockMultiFactorAuthAssertionFormComponent,
+        MockMultiFactorAuthAssertionScreenComponent,
         MockRedirectErrorComponent,
         CardComponent,
         CardHeaderComponent,
@@ -281,7 +260,7 @@ describe("<fui-email-link-auth-screen>", () => {
 
     // Simulate MFA success by directly calling the onSuccess handler
     const mfaComponent = fixture.debugElement.query(
-      (el) => el.name === "fui-multi-factor-auth-assertion-form"
+      (el) => el.name === "fui-multi-factor-auth-assertion-screen"
     ).componentInstance;
     mfaComponent.onSuccess.emit({ user: { uid: "mfa-user" } });
 

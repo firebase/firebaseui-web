@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, output, computed } from "@angular/core";
+import { Component, Output, EventEmitter, computed } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   CardComponent,
@@ -25,13 +25,16 @@ import {
 } from "../../components/card";
 import { injectTranslation, injectUI } from "../../provider";
 import { EmailLinkAuthFormComponent } from "../forms/email-link-auth-form";
-import { MultiFactorAuthAssertionFormComponent } from "../forms/multi-factor-auth-assertion-form";
+import { MultiFactorAuthAssertionScreenComponent } from "../screens/multi-factor-auth-assertion-screen";
 import { RedirectErrorComponent } from "../../components/redirect-error";
 import { UserCredential } from "@angular/fire/auth";
 
 @Component({
   selector: "fui-email-link-auth-screen",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     CardComponent,
@@ -40,27 +43,27 @@ import { UserCredential } from "@angular/fire/auth";
     CardSubtitleComponent,
     CardContentComponent,
     EmailLinkAuthFormComponent,
-    MultiFactorAuthAssertionFormComponent,
+    MultiFactorAuthAssertionScreenComponent,
     RedirectErrorComponent,
   ],
   template: `
-    <div class="fui-screen">
-      <fui-card>
-        <fui-card-header>
-          <fui-card-title>{{ titleText() }}</fui-card-title>
-          <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
-        </fui-card-header>
-        <fui-card-content>
-          @if (mfaResolver()) {
-            <fui-multi-factor-auth-assertion-form (onSuccess)="signIn.emit($event)" />
-          } @else {
+    @if (mfaResolver()) {
+      <fui-multi-factor-auth-assertion-screen (onSuccess)="signIn.emit($event)" />
+    } @else {
+      <div class="fui-screen">
+        <fui-card>
+          <fui-card-header>
+            <fui-card-title>{{ titleText() }}</fui-card-title>
+            <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
+          </fui-card-header>
+          <fui-card-content>
             <fui-email-link-auth-form (emailSent)="emailSent.emit()" (signIn)="signIn.emit($event)" />
-            <fui-redirect-error />
             <ng-content></ng-content>
-          }
-        </fui-card-content>
-      </fui-card>
-    </div>
+            <fui-redirect-error />
+          </fui-card-content>
+        </fui-card>
+      </div>
+    }
   `,
 })
 export class EmailLinkAuthScreenComponent {
@@ -71,6 +74,6 @@ export class EmailLinkAuthScreenComponent {
   titleText = injectTranslation("labels", "signIn");
   subtitleText = injectTranslation("prompts", "signInToAccount");
 
-  emailSent = output<void>();
-  signIn = output<UserCredential>();
+  @Output() emailSent = new EventEmitter<void>();
+  @Output() signIn = new EventEmitter<UserCredential>();
 }

@@ -13,3 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import { Injectable, inject } from "@angular/core";
+import { Auth, type User, authState } from "@angular/fire/auth";
+import type { Observable } from "rxjs";
+
+@Injectable({
+  providedIn: "root",
+})
+export class UserService {
+  private auth = inject(Auth);
+
+  getUser(): Observable<User | null> {
+    return authState(this.auth);
+  }
+}

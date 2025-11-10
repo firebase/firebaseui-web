@@ -165,6 +165,7 @@ describe("<fui-policies>", () => {
 
     const policiesContainer = container.querySelector(".fui-policies");
     expect(policiesContainer).toBeTruthy();
+    expect(policiesContainer).toHaveClass("fui-policies");
 
     const tosLink = container.querySelector('a[href="https://example.com/terms"]');
     expect(tosLink).toBeTruthy();
@@ -191,7 +192,12 @@ describe("<fui-policies>", () => {
     const { container } = await render(TestPoliciesWithNoUrlsHostComponent);
 
     const policiesContainer = container.querySelector(".fui-policies");
-    expect(policiesContainer).toBeFalsy();
+    // Host element is always rendered, but should be hidden and have no content
+    expect(policiesContainer).toBeTruthy();
+    expect(policiesContainer).toHaveClass("fui-policies");
+    expect(policiesContainer).toHaveStyle({ display: "none" });
+    expect(policiesContainer?.textContent?.trim()).toBe("");
+    expect(policiesContainer?.querySelectorAll("a").length).toBe(0);
   });
 
   it("renders with tosUrl when privacyPolicyUrl is not provided", async () => {
@@ -205,6 +211,7 @@ describe("<fui-policies>", () => {
 
     const policiesContainer = container.querySelector(".fui-policies");
     expect(policiesContainer).toBeTruthy();
+    expect(policiesContainer).toHaveClass("fui-policies");
 
     const tosLink = container.querySelector('a[href="https://example.com/terms"]');
     expect(tosLink).toBeTruthy();
@@ -225,6 +232,7 @@ describe("<fui-policies>", () => {
 
     const policiesContainer = container.querySelector(".fui-policies");
     expect(policiesContainer).toBeTruthy();
+    expect(policiesContainer).toHaveClass("fui-policies");
 
     const tosLink = container.querySelector('a[href="https://example.com/terms"]');
     expect(tosLink).toBeFalsy();
@@ -253,6 +261,7 @@ describe("<fui-policies>", () => {
 
     const policiesContainer = container.querySelector(".fui-policies");
     expect(policiesContainer).toBeTruthy();
+    expect(policiesContainer).toHaveClass("fui-policies");
 
     const textContent = policiesContainer?.textContent;
     expect(textContent).toContain("Custom template with");

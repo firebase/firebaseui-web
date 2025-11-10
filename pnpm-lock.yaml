@@ -180,17 +180,17 @@ importers:
         specifier: ^20.2.2
         version: 20.3.7(64ca8375dbaf48ae24b53908d91cad2b)
       '@invertase/firebaseui-angular':
-        specifier: 0.0.3
-        version: 0.0.3(@angular/common@20.3.7(@angular/core@20.3.7(@angular/compiler@20.3.7)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.7(@angular/compiler@20.3.7)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/fire@20.0.1(567573b864ff578578a14734fda777a6))(firebase@11.10.0)(typescript@5.9.3)
+        specifier: workspace:*
+        version: link:../../packages/angular
       '@invertase/firebaseui-core':
-        specifier: 0.0.3
-        version: 0.0.3(firebase@11.10.0)
+        specifier: workspace:*
+        version: link:../../packages/core
       '@invertase/firebaseui-styles':
-        specifier: 0.0.7
-        version: 0.0.7(typescript@5.9.3)
+        specifier: workspace:*
+        version: link:../../packages/styles
       '@invertase/firebaseui-translations':
-        specifier: 0.0.4
-        version: 0.0.4
+        specifier: workspace:*
+        version: link:../../packages/translations
       '@tailwindcss/postcss':
         specifier: ^4.0.6
         version: 4.1.16
@@ -2929,18 +2929,8 @@ packages:
       '@types/node':
         optional: true
 
-  '@invertase/firebaseui-angular@0.0.3':
-    resolution: {integrity: sha512-ppFfGQl4hw3oh4Nb8irmR5bitNp5VKvmwdoxYFVpRA6WKvmFhgpDnownBA+wrrF0w1fLud2NrzLperEbGf9pJw==}
-    peerDependencies:
-      '@angular/fire': ^20
-
   '@invertase/firebaseui-core@0.0.10':
     resolution: {integrity: sha512-Qu6BFSikBJhWkBUy5uYEX61mdxiPH/1pI6i/g5iYnAIDCg8llo9h0QfnFozuFwtjjTyIWThEvk3e/Y7L/oYA2A==}
-    peerDependencies:
-      firebase: ^11 || ^12
-
-  '@invertase/firebaseui-core@0.0.3':
-    resolution: {integrity: sha512-3omygaTrAKV8KaN/TWNzzdwvQHAGHZGZzzm7nFo2FVVSZp6Ri6poUXUmseGC5ionRW1Cnx7h8dXLbtsH+XG40g==}
     peerDependencies:
       firebase: ^11 || ^12
 
@@ -2953,15 +2943,6 @@ packages:
 
   '@invertase/firebaseui-styles@0.0.12':
     resolution: {integrity: sha512-uRzI+GNiOBw5bqoI9frRqDTy6iyC+M7pBe6uzrOAXnNJFXWJnZ9oCIjzGW5pQEoyG2bBjQ616KRdEYfZpxVEwQ==}
-
-  '@invertase/firebaseui-styles@0.0.3':
-    resolution: {integrity: sha512-0obT/2OZfoayTE2GTw3botbOKYCHVmeozjvb4xNs1NCd5MZyc9nmN8y1PkgZ7vTsTIi6LBmqteFXk5yCIxp4MA==}
-
-  '@invertase/firebaseui-styles@0.0.7':
-    resolution: {integrity: sha512-NbtwZAnIjjqQZt4KxXyhfW28/ABNZ7KoldgPgQ0mOIE35JXbCmTBIrIoyIMkwYtH2KTeHMMLnsPLY0b8MVCmRQ==}
-
-  '@invertase/firebaseui-translations@0.0.4':
-    resolution: {integrity: sha512-sG8DToRfe7phgF5PXL02hZ9fwQcnwLdJvkfVaz4HuCBne94EH0dBgHhrF0oElRxLae93S2endufa94Yy7IoKsA==}
 
   '@invertase/firebaseui-translations@0.0.7':
     resolution: {integrity: sha512-r1miz4ur82U1aw+l264OO9oLXjXb9lF208uZ+eABsFxaChgUg3TbnDeXPMVHf/eM34vx5yT8lrMDNS0qQJjg+g==}
@@ -12408,32 +12389,9 @@ snapshots:
     optionalDependencies:
       '@types/node': 24.9.2
 
-  '@invertase/firebaseui-angular@0.0.3(@angular/common@20.3.7(@angular/core@20.3.7(@angular/compiler@20.3.7)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.7(@angular/compiler@20.3.7)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/fire@20.0.1(567573b864ff578578a14734fda777a6))(firebase@11.10.0)(typescript@5.9.3)':
-    dependencies:
-      '@angular/fire': 20.0.1(567573b864ff578578a14734fda777a6)
-      '@invertase/firebaseui-core': 0.0.3(firebase@11.10.0)
-      '@invertase/firebaseui-styles': 0.0.3(typescript@5.9.3)
-      '@tanstack/angular-form': 1.23.8(@angular/common@20.3.7(@angular/core@20.3.7(@angular/compiler@20.3.7)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.7(@angular/compiler@20.3.7)(rxjs@7.8.2)(zone.js@0.15.1))
-      nanostores: 1.0.1
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - '@angular/common'
-      - '@angular/core'
-      - firebase
-      - typescript
-
   '@invertase/firebaseui-core@0.0.10(firebase@11.10.0)':
     dependencies:
       '@invertase/firebaseui-translations': 0.0.7
-      firebase: 11.10.0
-      libphonenumber-js: 1.12.25
-      nanostores: 1.0.1
-      qrcode-generator: 2.0.4
-      zod: 4.1.12
-
-  '@invertase/firebaseui-core@0.0.3(firebase@11.10.0)':
-    dependencies:
-      '@invertase/firebaseui-translations': 0.0.4
       firebase: 11.10.0
       libphonenumber-js: 1.12.25
       nanostores: 1.0.1
@@ -12464,20 +12422,6 @@ snapshots:
       cva: 1.0.0-beta.4(typescript@5.9.3)
     transitivePeerDependencies:
       - typescript
-
-  '@invertase/firebaseui-styles@0.0.3(typescript@5.9.3)':
-    dependencies:
-      cva: 1.0.0-beta.4(typescript@5.9.3)
-    transitivePeerDependencies:
-      - typescript
-
-  '@invertase/firebaseui-styles@0.0.7(typescript@5.9.3)':
-    dependencies:
-      cva: 1.0.0-beta.4(typescript@5.9.3)
-    transitivePeerDependencies:
-      - typescript
-
-  '@invertase/firebaseui-translations@0.0.4': {}
 
   '@invertase/firebaseui-translations@0.0.7': {}
 

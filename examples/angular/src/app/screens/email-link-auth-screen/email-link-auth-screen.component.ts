@@ -14,15 +14,28 @@
  * limitations under the License.
  */
 
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { EmailLinkAuthScreenComponent } from "@invertase/firebaseui-angular";
+import type { UserCredential } from "firebase/auth";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-email-link-auth-screen",
   standalone: true,
   imports: [CommonModule, EmailLinkAuthScreenComponent],
-  template: ` <fui-email-link-auth-screen></fui-email-link-auth-screen> `,
+  template: ` <fui-email-link-auth-screen (emailSent)="onEmailSent()" (signIn)="onSignIn($event)" />`,
   styles: [],
 })
-export class EmailLinkAuthScreenWrapperComponent {}
+export class EmailLinkAuthScreenWrapperComponent {
+  private router = inject(Router);
+
+  onEmailSent() {
+    alert("email sent - please check your email");
+  }
+
+  onSignIn(credential: UserCredential) {
+    console.log("sign in", credential);
+    this.router.navigate(["/"]);
+  }
+}

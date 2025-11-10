@@ -40,13 +40,21 @@ class TestOAuthButtonWithCustomProviderHostComponent {
 describe("<fui-oauth-button>", () => {
   let mockSignInWithProvider: any;
   let mockFirebaseUIError: any;
+  let mockGetTranslation: any;
 
   beforeEach(() => {
-    const { signInWithProvider, FirebaseUIError } = require("@invertase/firebaseui-core");
+    const { signInWithProvider, FirebaseUIError, getTranslation } = require("@invertase/firebaseui-core");
     mockSignInWithProvider = signInWithProvider;
     mockFirebaseUIError = FirebaseUIError;
+    mockGetTranslation = getTranslation;
 
     mockSignInWithProvider.mockClear();
+    mockGetTranslation.mockImplementation((ui: any, category: string, key: string) => {
+      if (category === "errors" && key === "unknownError") {
+        return "An unknown error occurred";
+      }
+      return `${category}.${key}`;
+    });
   });
 
   it("should create", async () => {

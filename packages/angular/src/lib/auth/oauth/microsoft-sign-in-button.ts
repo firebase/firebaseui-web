@@ -25,8 +25,11 @@ import { MicrosoftLogoComponent } from "../../components/logos/microsoft";
   selector: "fui-microsoft-sign-in-button",
   standalone: true,
   imports: [CommonModule, OAuthButtonComponent, MicrosoftLogoComponent],
+  host: {
+    style: "display: block;",
+  },
   template: `
-    <fui-oauth-button [provider]="microsoftProvider">
+    <fui-oauth-button [provider]="microsoftProvider" [themed]="themed()">
       <fui-microsoft-logo />
       <span>{{ signInWithMicrosoftLabel() }}</span>
     </fui-oauth-button>
@@ -34,6 +37,7 @@ import { MicrosoftLogoComponent } from "../../components/logos/microsoft";
 })
 export class MicrosoftSignInButtonComponent {
   signInWithMicrosoftLabel = injectTranslation("labels", "signInWithMicrosoft");
+  themed = input<boolean>(false);
 
   private defaultProvider = new OAuthProvider("microsoft.com");
 

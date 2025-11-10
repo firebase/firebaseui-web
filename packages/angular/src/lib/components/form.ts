@@ -5,6 +5,9 @@ import { ButtonComponent } from "./button";
 @Component({
   selector: "fui-form-metadata",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   template: `
     @if (field().state.meta.isTouched && errors().length > 0) {
       <div>
@@ -28,12 +31,18 @@ export class FormMetadataComponent {
   selector: "fui-form-input",
   standalone: true,
   imports: [FormMetadataComponent],
+  host: {
+    style: "display: block;",
+  },
   template: `
     <label [for]="field.api.name">
       <div data-input-label>
         <div>{{ label() }}</div>
         <div><ng-content select="input-action" /></div>
       </div>
+      @if (description()) {
+        <div data-input-description>{{ description() }}</div>
+      }
       <div data-input-group>
         <ng-content select="input-before" />
         <input
@@ -55,6 +64,7 @@ export class FormInputComponent {
   field = injectField<string>();
   label = input.required<string>();
   type = input<string>("text");
+  description = input<string>();
 }
 
 @Component({
@@ -74,6 +84,7 @@ export class FormActionComponent {}
   imports: [ButtonComponent],
   host: {
     type: "submit",
+    style: "display: block;",
   },
   template: `
     <button fui-button class="fui-form__action" [class]="class()" [disabled]="isSubmitting()">
@@ -91,6 +102,9 @@ export class FormSubmitComponent {
 @Component({
   selector: "fui-form-error-message",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   template: `
     @if (errorMessage()) {
       <div class="fui-error">

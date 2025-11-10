@@ -25,8 +25,11 @@ import { AppleLogoComponent } from "../../components/logos/apple";
   selector: "fui-apple-sign-in-button",
   standalone: true,
   imports: [CommonModule, OAuthButtonComponent, AppleLogoComponent],
+  host: {
+    style: "display: block;",
+  },
   template: `
-    <fui-oauth-button [provider]="appleProvider">
+    <fui-oauth-button [provider]="appleProvider" [themed]="themed()">
       <fui-apple-logo />
       <span>{{ signInWithAppleLabel() }}</span>
     </fui-oauth-button>
@@ -35,6 +38,7 @@ import { AppleLogoComponent } from "../../components/logos/apple";
 export class AppleSignInButtonComponent {
   ui = injectUI();
   signInWithAppleLabel = injectTranslation("labels", "signInWithApple");
+  themed = input<boolean>(false);
 
   private defaultProvider = new OAuthProvider("apple.com");
 

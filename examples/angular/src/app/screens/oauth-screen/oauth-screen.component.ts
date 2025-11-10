@@ -14,15 +14,57 @@
  * limitations under the License.
  */
 
-import { Component } from "@angular/core";
+import { Component, inject, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { OAuthScreenComponent } from "@invertase/firebaseui-angular";
+import {
+  OAuthScreenComponent,
+  GoogleSignInButtonComponent,
+  FacebookSignInButtonComponent,
+  AppleSignInButtonComponent,
+  GitHubSignInButtonComponent,
+  MicrosoftSignInButtonComponent,
+  TwitterSignInButtonComponent,
+} from "@invertase/firebaseui-angular";
+import type { UserCredential } from "firebase/auth";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-oauth-screen",
   standalone: true,
-  imports: [CommonModule, OAuthScreenComponent],
-  template: ` <fui-oauth-screen></fui-oauth-screen> `,
+  imports: [
+    CommonModule,
+    OAuthScreenComponent,
+    GoogleSignInButtonComponent,
+    FacebookSignInButtonComponent,
+    AppleSignInButtonComponent,
+    GitHubSignInButtonComponent,
+    MicrosoftSignInButtonComponent,
+    TwitterSignInButtonComponent,
+  ],
+  template: `
+    <fui-oauth-screen (onSignIn)="onSignIn($event)">
+      <fui-google-sign-in-button [themed]="themed() ? 'neutral' : false" />
+      <fui-facebook-sign-in-button [themed]="themed()" />
+      <fui-apple-sign-in-button [themed]="themed()" />
+      <fui-github-sign-in-button [themed]="themed()" />
+      <fui-microsoft-sign-in-button [themed]="themed()" />
+      <fui-twitter-sign-in-button [themed]="themed()" />
+    </fui-oauth-screen>
+    <div class="max-w-sm mx-auto mt-12">
+      <label for="themed">
+        <input type="checkbox" id="themed" [checked]="themed()" (change)="themed.set(!themed())" />
+        Themed</label
+      >
+    </div>
+  `,
   styles: [],
 })
-export class OAuthScreenWrapperComponent {}
+export class OAuthScreenWrapperComponent {
+  themed = signal(false);
+  private router = inject(Router);
+
+  onSignIn(credential: UserCredential) {
+    console.log("sign in", credential);
+    this.router.navigate(["/"]);
+  }
+}

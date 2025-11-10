@@ -14,4 +14,19 @@
  * limitations under the License.
  */
 
-export * from "./header.component";
+import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { ForgotPasswordAuthScreenComponent } from "@invertase/firebaseui-angular";
+
+@Component({
+  selector: "app-forgot-password-auth-screen",
+  standalone: true,
+  imports: [CommonModule, ForgotPasswordAuthScreenComponent],
+  template: ` <fui-forgot-password-auth-screen (passwordSent)="onPasswordSent()" />`,
+  styles: [],
+})
+export class ForgotPasswordAuthScreenWrapperComponent {
+  onPasswordSent() {
+    alert("password reset email sent - please check your email");
+  }
+}

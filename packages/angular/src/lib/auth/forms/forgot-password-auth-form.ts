@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, effect, output, signal } from "@angular/core";
+import { Component, effect, Output, EventEmitter, input, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanstack/angular-form";
 import { FirebaseUIError, sendPasswordResetEmail } from "@invertase/firebaseui-core";
@@ -31,6 +31,9 @@ import { injectForgotPasswordAuthFormSchema, injectTranslation, injectUI } from 
 @Component({
   selector: "fui-forgot-password-auth-form",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     TanStackField,
@@ -43,7 +46,7 @@ import { injectForgotPasswordAuthFormSchema, injectTranslation, injectUI } from 
   ],
   template: `
     @if (emailSent()) {
-      <div class="fui-form__success">
+      <div class="fui-success">
         {{ checkEmailForResetMessage() }}
       </div>
     }
@@ -63,8 +66,8 @@ import { injectForgotPasswordAuthFormSchema, injectTranslation, injectUI } from 
           <fui-form-error-message [state]="state()" />
         </fieldset>
 
-        @if (backToSignIn) {
-          <button fui-form-action (click)="backToSignIn.emit()">{{ backToSignInLabel() }} &rarr;</button>
+        @if (backToSignIn()?.observed) {
+          <button fui-form-action (click)="backToSignIn()?.emit()">{{ backToSignInLabel() }} &rarr;</button>
         }
       </form>
     }
@@ -82,8 +85,9 @@ export class ForgotPasswordAuthFormComponent {
   checkEmailForResetMessage = injectTranslation("messages", "checkEmailForReset");
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
-  passwordSent = output<void>();
-  backToSignIn = output<void>();
+  backToSignIn = input<EventEmitter<void>>();
+
+  @Output() passwordSent = new EventEmitter<void>();
 
   form = injectForm({
     defaultValues: {
@@ -108,13 +112,14 @@ export class ForgotPasswordAuthFormComponent {
             try {
               await sendPasswordResetEmail(this.ui(), value.email);
               this.emailSent.set(true);
-              this.passwordSent?.emit();
+              this.passwordSent.emit();
               return;
             } catch (error) {
               if (error instanceof FirebaseUIError) {
                 return error.message;
               }
 
+              console.error(error);
               return this.unknownErrorLabel();
             }
           },

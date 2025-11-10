@@ -26,6 +26,7 @@ import {
   CardSubtitleComponent,
   CardContentComponent,
 } from "../../components/card";
+import { MultiFactorAuthAssertionScreenComponent } from "../screens/multi-factor-auth-assertion-screen";
 import { MultiFactorAuthAssertionFormComponent } from "../forms/multi-factor-auth-assertion-form";
 import { TotpMultiFactorAssertionFormComponent } from "../forms/mfa/totp-multi-factor-assertion-form";
 import { TotpMultiFactorGenerator } from "firebase/auth";
@@ -90,7 +91,7 @@ describe("<fui-sign-up-auth-screen>", () => {
         SignUpAuthScreenComponent,
         MockSignUpAuthFormComponent,
         MockRedirectErrorComponent,
-        MultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -109,7 +110,7 @@ describe("<fui-sign-up-auth-screen>", () => {
         SignUpAuthScreenComponent,
         MockSignUpAuthFormComponent,
         MockRedirectErrorComponent,
-        MultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -128,7 +129,7 @@ describe("<fui-sign-up-auth-screen>", () => {
         SignUpAuthScreenComponent,
         MockSignUpAuthFormComponent,
         MockRedirectErrorComponent,
-        MultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -148,7 +149,7 @@ describe("<fui-sign-up-auth-screen>", () => {
         SignUpAuthScreenComponent,
         MockSignUpAuthFormComponent,
         MockRedirectErrorComponent,
-        MultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -167,7 +168,7 @@ describe("<fui-sign-up-auth-screen>", () => {
         SignUpAuthScreenComponent,
         MockSignUpAuthFormComponent,
         MockRedirectErrorComponent,
-        MultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -191,7 +192,7 @@ describe("<fui-sign-up-auth-screen>", () => {
         SignUpAuthScreenComponent,
         MockSignUpAuthFormComponent,
         MockRedirectErrorComponent,
-        MultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -204,17 +205,17 @@ describe("<fui-sign-up-auth-screen>", () => {
     expect(injectTranslation).toHaveBeenCalledWith("prompts", "enterDetailsToCreate");
   });
 
-  it("renders MFA assertion form when multiFactorResolver is present", async () => {
+  it("renders MFA assertion screen when multiFactorResolver is present", async () => {
     const { injectUI } = require("../../../provider");
     injectUI.mockImplementation(() => {
       return () => ({
-        multiFactorResolver: { hints: [] },
+        multiFactorResolver: { auth: {}, session: null, hints: [] },
       });
     });
 
-    TestBed.overrideComponent(MultiFactorAuthAssertionFormComponent, {
+    TestBed.overrideComponent(MultiFactorAuthAssertionScreenComponent, {
       set: {
-        template: '<div data-testid="mfa-assertion-form">MFA Assertion Form</div>',
+        template: '<div data-testid="mfa-assertion-screen">MFA Assertion Screen</div>',
       },
     });
 
@@ -223,7 +224,7 @@ describe("<fui-sign-up-auth-screen>", () => {
         SignUpAuthScreenComponent,
         MockSignUpAuthFormComponent,
         MockRedirectErrorComponent,
-        MultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -232,7 +233,7 @@ describe("<fui-sign-up-auth-screen>", () => {
       ],
     });
 
-    expect(screen.getByTestId("mfa-assertion-form")).toBeInTheDocument();
+    expect(screen.getByTestId("mfa-assertion-screen")).toBeInTheDocument();
     expect(screen.queryByText("Sign Up Form")).not.toBeInTheDocument();
   });
 
@@ -240,13 +241,13 @@ describe("<fui-sign-up-auth-screen>", () => {
     const { injectUI } = require("../../../provider");
     injectUI.mockImplementation(() => {
       return () => ({
-        multiFactorResolver: { hints: [] },
+        multiFactorResolver: { auth: {}, session: null, hints: [] },
       });
     });
 
-    TestBed.overrideComponent(MultiFactorAuthAssertionFormComponent, {
+    TestBed.overrideComponent(MultiFactorAuthAssertionScreenComponent, {
       set: {
-        template: '<div data-testid="mfa-assertion-form">MFA Assertion Form</div>',
+        template: '<div data-testid="mfa-assertion-screen">MFA Assertion Screen</div>',
       },
     });
 
@@ -255,7 +256,7 @@ describe("<fui-sign-up-auth-screen>", () => {
         SignUpAuthScreenComponent,
         MockSignUpAuthFormComponent,
         MockRedirectErrorComponent,
-        MultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -265,41 +266,33 @@ describe("<fui-sign-up-auth-screen>", () => {
     });
 
     expect(screen.queryByText("Sign Up Form")).not.toBeInTheDocument();
-    expect(screen.getByTestId("mfa-assertion-form")).toBeInTheDocument();
+    expect(screen.getByTestId("mfa-assertion-screen")).toBeInTheDocument();
   });
 
   it("emits signUp with credential when MFA flow succeeds", async () => {
     const { injectUI } = require("../../../provider");
     injectUI.mockImplementation(() => {
       return () => ({
-        multiFactorResolver: { hints: [{ factorId: TotpMultiFactorGenerator.FACTOR_ID, uid: "test" }] },
+        multiFactorResolver: {
+          auth: {},
+          session: null,
+          hints: [{ factorId: TotpMultiFactorGenerator.FACTOR_ID, uid: "test" }],
+        },
       });
     });
 
-    TestBed.overrideComponent(TotpMultiFactorAssertionFormComponent, {
+    TestBed.overrideComponent(MultiFactorAuthAssertionScreenComponent, {
       set: {
-        template:
-          '<div data-testid="totp-assertion-form">TOTP</div><button data-testid="mfa-on-success" (click)="onSuccess.emit({ user: { uid: \'angular-signup-mfa-user\' } })">Trigger</button>',
+        template: '<div data-testid="mfa-assertion-screen">MFA Assertion Screen</div>',
       },
     });
 
-    const signUpHandler = jest.fn();
-
-    @Component({
-      template: `<fui-sign-up-auth-screen (signUp)="onSignUp($event)"></fui-sign-up-auth-screen>`,
-      standalone: true,
-      imports: [SignUpAuthScreenComponent],
-    })
-    class HostCaptureComponent {
-      onSignUp = signUpHandler;
-    }
-
-    await render(HostCaptureComponent, {
+    const { fixture } = await render(TestHostWithoutContentComponent, {
       imports: [
         SignUpAuthScreenComponent,
         MockSignUpAuthFormComponent,
         MockRedirectErrorComponent,
-        MultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -308,11 +301,16 @@ describe("<fui-sign-up-auth-screen>", () => {
       ],
     });
 
-    const trigger = screen.getByTestId("mfa-on-success");
-    trigger.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    const component = fixture.debugElement.query((el) => el.name === "fui-sign-up-auth-screen").componentInstance;
+    const signUpSpy = jest.spyOn(component.signUp, "emit");
 
-    expect(signUpHandler).toHaveBeenCalled();
-    expect(signUpHandler).toHaveBeenCalledWith(
+    const mfaScreenComponent = fixture.debugElement.query(
+      (el) => el.name === "fui-multi-factor-auth-assertion-screen"
+    ).componentInstance;
+    mfaScreenComponent.onSuccess.emit({ user: { uid: "angular-signup-mfa-user" } });
+
+    expect(signUpSpy).toHaveBeenCalledTimes(1);
+    expect(signUpSpy).toHaveBeenCalledWith(
       expect.objectContaining({ user: expect.objectContaining({ uid: "angular-signup-mfa-user" }) })
     );
   });

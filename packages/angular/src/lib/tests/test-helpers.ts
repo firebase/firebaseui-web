@@ -129,6 +129,7 @@ export const injectTranslation = jest.fn().mockImplementation((category: string,
       noAccount: "Don't have an account?",
       signInToAccount: "Sign in to your account",
       haveAccount: "Already have an account?",
+      smsVerificationPrompt: "Enter the verification code sent to your phone number",
     },
     errors: {
       unknownError: "An unknown error occurred",

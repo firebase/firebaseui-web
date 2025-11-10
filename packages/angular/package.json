@@ -5,13 +5,13 @@
     "dist"
   ],
   "type": "module",
-  "main": "./dist/fesm2022/firebase-ui-angular.mjs",
-  "module": "./dist/fesm2022/firebase-ui-angular.mjs",
+  "main": "./dist/fesm2022/invertase-firebaseui-angular.mjs",
+  "module": "./dist/fesm2022/invertase-firebaseui-angular.mjs",
   "typings": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "default": "./dist/fesm2022/firebase-ui-angular.mjs"
+      "default": "./dist/fesm2022/invertase-firebaseui-angular.mjs"
     }
   },
   "scripts": {

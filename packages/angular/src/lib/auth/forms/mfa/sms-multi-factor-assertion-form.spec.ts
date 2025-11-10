@@ -37,6 +37,32 @@ describe("<fui-sms-multi-factor-assertion-form>", () => {
       injectRecaptchaVerifier,
     } = require("../../../tests/test-helpers");
 
+    const { getTranslation } = require("@invertase/firebaseui-core");
+    getTranslation.mockImplementation((ui: any, category: string, key: string, params?: any) => {
+      if (category === "messages" && key === "mfaSmsAssertionPrompt" && params) {
+        return `A verification code will be sent to ${params.phoneNumber} to complete the authentication process.`;
+      }
+      const mockTranslations: Record<string, Record<string, string>> = {
+        labels: {
+          phoneNumber: "Phone Number",
+          sendCode: "Send Code",
+          verificationCode: "Verification Code",
+          verifyCode: "Verify Code",
+        },
+        messages: {
+          mfaSmsAssertionPrompt:
+            "A verification code will be sent to {phoneNumber} to complete the authentication process.",
+        },
+        prompts: {
+          smsVerificationPrompt: "Enter the verification code sent to your phone number",
+        },
+        errors: {
+          unknownError: "An unknown error occurred",
+        },
+      };
+      return mockTranslations[category]?.[key] || `${category}.${key}`;
+    });
+
     injectTranslation.mockImplementation((category: string, key: string) => {
       const mockTranslations: Record<string, Record<string, string>> = {
         labels: {
@@ -44,6 +70,13 @@ describe("<fui-sms-multi-factor-assertion-form>", () => {
           sendCode: "Send Code",
           verificationCode: "Verification Code",
           verifyCode: "Verify Code",
+        },
+        messages: {
+          mfaSmsAssertionPrompt:
+            "A verification code will be sent to {phoneNumber} to complete the authentication process.",
+        },
+        prompts: {
+          smsVerificationPrompt: "Enter the verification code sent to your phone number",
         },
         errors: {
           unknownError: "An unknown error occurred",
@@ -102,8 +135,7 @@ describe("<fui-sms-multi-factor-assertion-form>", () => {
       imports: [SmsMultiFactorAssertionFormComponent],
     });
 
-    expect(screen.getByLabelText("Phone Number")).toBeInTheDocument();
-    expect(screen.getByDisplayValue("+1234567890")).toBeInTheDocument();
+    expect(screen.getByText(/A verification code will be sent to \+1234567890/)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Send Code" })).toBeInTheDocument();
   });
 
@@ -121,16 +153,16 @@ describe("<fui-sms-multi-factor-assertion-form>", () => {
       imports: [SmsMultiFactorAssertionFormComponent],
     });
 
-    expect(screen.getByLabelText("Phone Number")).toBeInTheDocument();
+    expect(screen.getByText(/A verification code will be sent to \+1234567890/)).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: "Send Code" }));
 
     await waitFor(() => {
-      expect(screen.getByLabelText("Verification Code")).toBeInTheDocument();
+      expect(screen.getByRole("textbox", { name: /Verification Code/i })).toBeInTheDocument();
     });
 
     expect(screen.getByRole("button", { name: "Verify Code" })).toBeInTheDocument();
-    expect(screen.queryByLabelText("Phone Number")).not.toBeInTheDocument();
+    expect(screen.queryByText(/A verification code will be sent to/)).not.toBeInTheDocument();
   });
 
   it("emits onSuccess when verification is successful", async () => {
@@ -155,12 +187,11 @@ describe("<fui-sms-multi-factor-assertion-form>", () => {
     )?.componentInstance;
 
     if (phoneFormComponent) {
-      phoneFormComponent.form.setFieldValue("phoneNumber", "+1234567890");
       await phoneFormComponent.form.handleSubmit();
     }
 
     await waitFor(() => {
-      expect(screen.getByLabelText("Verification Code")).toBeInTheDocument();
+      expect(screen.getByRole("textbox", { name: /Verification Code/i })).toBeInTheDocument();
     });
 
     const verifyFormComponent = fixture.debugElement.query(
@@ -189,11 +220,36 @@ describe("<fui-sms-multi-factor-assertion-phone-form>", () => {
       injectMultiFactorPhoneAuthAssertionFormSchema,
     } = require("../../../tests/test-helpers");
 
+    const { getTranslation } = require("@invertase/firebaseui-core");
+    getTranslation.mockImplementation((ui: any, category: string, key: string, params?: any) => {
+      if (category === "messages" && key === "mfaSmsAssertionPrompt" && params) {
+        return `A verification code will be sent to ${params.phoneNumber} to complete the authentication process.`;
+      }
+      const mockTranslations: Record<string, Record<string, string>> = {
+        labels: {
+          phoneNumber: "Phone Number",
+          sendCode: "Send Code",
+        },
+        messages: {
+          mfaSmsAssertionPrompt:
+            "A verification code will be sent to {phoneNumber} to complete the authentication process.",
+        },
+        errors: {
+          unknownError: "An unknown error occurred",
+        },
+      };
+      return mockTranslations[category]?.[key] || `${category}.${key}`;
+    });
+
     injectTranslation.mockImplementation((category: string, key: string) => {
       const mockTranslations: Record<string, Record<string, string>> = {
         labels: {
           phoneNumber: "Phone Number",
           sendCode: "Send Code",
+        },
+        messages: {
+          mfaSmsAssertionPrompt:
+            "A verification code will be sent to {phoneNumber} to complete the authentication process.",
         },
         errors: {
           unknownError: "An unknown error occurred",
@@ -218,7 +274,7 @@ describe("<fui-sms-multi-factor-assertion-phone-form>", () => {
     verifyPhoneNumber.mockResolvedValue("test-verification-id");
   });
 
-  it("renders phone form with phone number from hint", async () => {
+  it("renders phone form with message showing phone number from hint", async () => {
     const mockHint = {
       factorId: PhoneMultiFactorGenerator.FACTOR_ID,
       displayName: "Phone",
@@ -232,9 +288,8 @@ describe("<fui-sms-multi-factor-assertion-phone-form>", () => {
       imports: [SmsMultiFactorAssertionPhoneFormComponent],
     });
 
-    const phoneInput = screen.getByLabelText("Phone Number");
-    expect(phoneInput).toBeInTheDocument();
-    expect(phoneInput).toHaveValue("+1234567890");
+    expect(screen.getByText(/A verification code will be sent to \+1234567890/)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Send Code" })).toBeInTheDocument();
   });
 
   it("emits onSubmit when form is submitted", async () => {
@@ -276,6 +331,9 @@ describe("<fui-sms-multi-factor-assertion-verify-form>", () => {
           verificationCode: "Verification Code",
           verifyCode: "Verify Code",
         },
+        prompts: {
+          smsVerificationPrompt: "Enter the verification code sent to your phone number",
+        },
         errors: {
           unknownError: "An unknown error occurred",
         },
@@ -311,7 +369,9 @@ describe("<fui-sms-multi-factor-assertion-verify-form>", () => {
       imports: [SmsMultiFactorAssertionVerifyFormComponent],
     });
 
-    expect(screen.getByLabelText("Verification Code")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByRole("textbox", { name: /Verification Code/i })).toBeInTheDocument();
+    });
     expect(screen.getByRole("button", { name: "Verify Code" })).toBeInTheDocument();
   });
 
