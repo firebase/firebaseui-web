@@ -267,28 +267,28 @@ Out of the box, Firebase UI provides a neutral light and dark theme with some op
 
 ```css
 :root {
-      /* The primary color is used for the button and link colors */
-    --fui-primary: ...;
-    /* The primary hover color is used for the button and link colors when hovered */
-    --fui-primary-hover: ...;
-    /* The primary surface color is used for the button text color */
-    --fui-primary-surface: ...;
-    /* The text color used for body text */
-    --fui-text: ...;
-    /* The muted text color used for body text, such as subtitles */
-    --fui-text-muted: ...;
-    /* The background color of the cards */
-    --fui-background: ...;
-    /* The border color used for none input fields */
-    --fui-border: ...;
-    /* The input color used for input fields */
-    --fui-input: ...;
-    /* The error color used for error messages */
-    --fui-error: ...;
-    /* The radius used for the input fields */
-    --fui-radius: ...;
-    /* The radius used for the cards */
-    --fui-radius-card: ...;
+  /* The primary color is used for the button and link colors */
+  --fui-primary: ...;
+  /* The primary hover color is used for the button and link colors when hovered */
+  --fui-primary-hover: ...;
+  /* The primary surface color is used for the button text color */
+  --fui-primary-surface: ...;
+  /* The text color used for body text */
+  --fui-text: ...;
+  /* The muted text color used for body text, such as subtitles */
+  --fui-text-muted: ...;
+  /* The background color of the cards */
+  --fui-background: ...;
+  /* The border color used for none input fields */
+  --fui-border: ...;
+  /* The input color used for input fields */
+  --fui-input: ...;
+  /* The error color used for error messages */
+  --fui-error: ...;
+  /* The radius used for the input fields */
+  --fui-radius: ...;
+  /* The radius used for the cards */
+  --fui-radius-card: ...;
 }
 ```
 
