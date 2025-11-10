@@ -39,7 +39,7 @@ export class AppleSignInButtonComponent {
   ui = injectUI();
   signInWithAppleLabel = injectTranslation("labels", "signInWithApple");
   themed = input<boolean>(false);
-  
+
   private defaultProvider = new OAuthProvider("apple.com");
 
   provider = input<OAuthProvider>();

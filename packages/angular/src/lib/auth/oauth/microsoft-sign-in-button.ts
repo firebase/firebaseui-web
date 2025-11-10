@@ -38,7 +38,7 @@ import { MicrosoftLogoComponent } from "../../components/logos/microsoft";
 export class MicrosoftSignInButtonComponent {
   signInWithMicrosoftLabel = injectTranslation("labels", "signInWithMicrosoft");
   themed = input<boolean>(false);
-  
+
   private defaultProvider = new OAuthProvider("microsoft.com");
 
   provider = input<OAuthProvider>();

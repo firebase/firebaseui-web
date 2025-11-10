@@ -38,7 +38,7 @@ import { TwitterLogoComponent } from "../../components/logos/twitter";
 export class TwitterSignInButtonComponent {
   signInWithTwitterLabel = injectTranslation("labels", "signInWithTwitter");
   themed = input<boolean>(false);
-  
+
   private defaultProvider = new TwitterAuthProvider();
 
   provider = input<TwitterAuthProvider>();

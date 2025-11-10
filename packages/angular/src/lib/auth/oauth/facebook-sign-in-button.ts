@@ -39,7 +39,7 @@ export class FacebookSignInButtonComponent {
   ui = injectUI();
   signInWithFacebookLabel = injectTranslation("labels", "signInWithFacebook");
   themed = input<boolean>(false);
-  
+
   private defaultProvider = new FacebookAuthProvider();
 
   provider = input<FacebookAuthProvider>();

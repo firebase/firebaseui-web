@@ -14,15 +14,24 @@
  * limitations under the License.
  */
 
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { SignInAuthScreenComponent } from "@invertase/firebaseui-angular";
+import { UserCredential } from "firebase/auth";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-sign-in-auth-screen",
   standalone: true,
   imports: [CommonModule, SignInAuthScreenComponent],
-  template: ` <fui-sign-in-auth-screen></fui-sign-in-auth-screen> `,
+  template: ` <fui-sign-in-auth-screen (signIn)="onSignIn($event)" />`,
   styles: [],
 })
-export class SignInAuthScreenWrapperComponent {}
+export class SignInAuthScreenWrapperComponent {
+  private router = inject(Router);
+
+  onSignIn(credential: UserCredential) {
+    console.log("sign in", credential);
+    this.router.navigate(["/"]);
+  }
+}

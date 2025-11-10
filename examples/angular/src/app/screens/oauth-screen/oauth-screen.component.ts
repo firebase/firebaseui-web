@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, signal } from "@angular/core";
+import { Component, inject, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   OAuthScreenComponent,
@@ -25,6 +25,8 @@ import {
   MicrosoftSignInButtonComponent,
   TwitterSignInButtonComponent,
 } from "@invertase/firebaseui-angular";
+import { UserCredential } from "firebase/auth";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-oauth-screen",
@@ -40,7 +42,7 @@ import {
     TwitterSignInButtonComponent,
   ],
   template: `
-    <fui-oauth-screen>
+    <fui-oauth-screen (onSignIn)="onSignIn($event)">
       <fui-google-sign-in-button [themed]="themed() ? 'neutral' : false" />
       <fui-facebook-sign-in-button [themed]="themed()" />
       <fui-apple-sign-in-button [themed]="themed()" />
@@ -59,4 +61,10 @@ import {
 })
 export class OAuthScreenWrapperComponent {
   themed = signal(false);
+  private router = inject(Router);
+
+  onSignIn(credential: UserCredential) {
+    console.log("sign in", credential);
+    this.router.navigate(["/"]);
+  }
 }

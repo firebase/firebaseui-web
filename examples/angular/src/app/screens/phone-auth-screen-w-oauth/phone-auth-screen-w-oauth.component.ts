@@ -14,16 +14,18 @@
  * limitations under the License.
  */
 
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { PhoneAuthScreenComponent, GoogleSignInButtonComponent, ContentComponent } from "@invertase/firebaseui-angular";
+import { UserCredential } from "firebase/auth";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-phone-auth-screen-w-oauth",
   standalone: true,
   imports: [CommonModule, PhoneAuthScreenComponent, GoogleSignInButtonComponent, ContentComponent],
   template: `
-    <fui-phone-auth-screen>
+    <fui-phone-auth-screen (signIn)="onSignIn($event)">
       <fui-content>
         <fui-google-sign-in-button></fui-google-sign-in-button>
       </fui-content>
@@ -31,4 +33,11 @@ import { PhoneAuthScreenComponent, GoogleSignInButtonComponent, ContentComponent
   `,
   styles: [],
 })
-export class PhoneAuthScreenWithOAuthComponent {}
+export class PhoneAuthScreenWithOAuthComponent {
+  private router = inject(Router);
+
+  onSignIn(credential: UserCredential) {
+    console.log("sign in", credential);
+    this.router.navigate(["/"]);
+  }
+}

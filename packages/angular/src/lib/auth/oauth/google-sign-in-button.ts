@@ -38,8 +38,8 @@ import { GoogleLogoComponent } from "../../components/logos/google";
 export class GoogleSignInButtonComponent {
   ui = injectUI();
   signInWithGoogleLabel = injectTranslation("labels", "signInWithGoogle");
-  themed = input<boolean | 'neutral'>(false);
-  
+  themed = input<boolean | "neutral">(false);
+
   private defaultProvider = new GoogleAuthProvider();
 
   provider = input<GoogleAuthProvider>();

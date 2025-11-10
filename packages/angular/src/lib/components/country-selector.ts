@@ -38,7 +38,7 @@ import { injectCountries, injectDefaultCountry } from "../provider";
             [ngModel]="selected().code"
             (ngModelChange)="handleCountryChange($event)"
           >
-            @for (country of countries(); track $index;) {
+            @for (country of countries(); track $index) {
               <option [value]="country.code">{{ country.dialCode }} ({{ country.name }})</option>
             }
           </select>

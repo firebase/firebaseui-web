@@ -14,19 +14,32 @@
  * limitations under the License.
  */
 
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { EmailLinkAuthScreenComponent, GoogleSignInButtonComponent } from "@invertase/firebaseui-angular";
+import { UserCredential } from "firebase/auth";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-email-link-auth-screen-w-oauth",
   standalone: true,
   imports: [CommonModule, EmailLinkAuthScreenComponent, GoogleSignInButtonComponent],
   template: `
-    <fui-email-link-auth-screen>
+    <fui-email-link-auth-screen (emailSent)="onEmailSent()" (signIn)="onSignIn($event)">
       <fui-google-sign-in-button></fui-google-sign-in-button>
     </fui-email-link-auth-screen>
   `,
   styles: [],
 })
-export class EmailLinkAuthScreenWithOAuthComponent {}
+export class EmailLinkAuthScreenWithOAuthComponent {
+  private router = inject(Router);
+
+  onEmailSent() {
+    alert("email sent - please check your email");
+  }
+
+  onSignIn(credential: UserCredential) {
+    console.log("sign in", credential);
+    this.router.navigate(["/"]);
+  }
+}
