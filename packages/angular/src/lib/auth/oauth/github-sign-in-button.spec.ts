@@ -43,7 +43,7 @@ describe("<fui-github-sign-in-button>", () => {
     injectTranslation.mockImplementation((category: string, key: string) => {
       const mockTranslations: Record<string, Record<string, string>> = {
         labels: {
-          signInWithGithub: "Sign in with GitHub",
+          signInWithGitHub: "Sign in with GitHub",
         },
       };
       return () => mockTranslations[category]?.[key] || `${category}.${key}`;

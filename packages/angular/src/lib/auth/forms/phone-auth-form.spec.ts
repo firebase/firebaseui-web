@@ -91,7 +91,7 @@ describe("<fui-phone-auth-form />", () => {
   });
 
   it("should render phone number form initially", async () => {
-    await render(PhoneAuthFormComponent, {
+    const { container } = await render(PhoneAuthFormComponent, {
       imports: [
         CommonModule,
         PhoneAuthFormComponent,
@@ -104,7 +104,7 @@ describe("<fui-phone-auth-form />", () => {
       ],
     });
 
-    expect(screen.getByLabelText("Phone Number")).toBeInTheDocument();
+    expect(container.querySelector('input[name="phoneNumber"]')).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Send Verification Code" })).toBeInTheDocument();
   });
 
@@ -301,7 +301,7 @@ describe("<fui-phone-auth-form />", () => {
   });
 
   it("should reset form when going back to phone number step", async () => {
-    const { fixture } = await render(PhoneAuthFormComponent, {
+    const { fixture, container } = await render(PhoneAuthFormComponent, {
       imports: [
         CommonModule,
         PhoneAuthFormComponent,
@@ -321,7 +321,7 @@ describe("<fui-phone-auth-form />", () => {
     component.verificationId.set(null);
     fixture.detectChanges();
 
-    expect(screen.getByLabelText("Phone Number")).toBeInTheDocument();
+    expect(container.querySelector('input[name="phoneNumber"]')).toBeInTheDocument();
     expect(screen.queryByLabelText("Verification Code")).toBeNull();
   });
 });

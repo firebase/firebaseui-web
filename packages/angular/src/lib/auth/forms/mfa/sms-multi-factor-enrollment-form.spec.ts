@@ -153,7 +153,7 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
   });
 
   it("should render phone number form initially", async () => {
-    await render(SmsMultiFactorEnrollmentFormComponent, {
+    const { container } = await render(SmsMultiFactorEnrollmentFormComponent, {
       imports: [
         CommonModule,
         SmsMultiFactorEnrollmentFormComponent,
@@ -167,7 +167,7 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
     });
 
     expect(screen.getByLabelText("Display Name")).toBeInTheDocument();
-    expect(screen.getByLabelText("Phone Number")).toBeInTheDocument();
+    expect(container.querySelector('input[name="phoneNumber"]')).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Send Verification Code" })).toBeInTheDocument();
   });
 

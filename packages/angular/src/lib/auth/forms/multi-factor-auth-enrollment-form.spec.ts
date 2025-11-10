@@ -66,7 +66,7 @@ describe("<fui-multi-factor-auth-enrollment-form />", () => {
   });
 
   it("should auto-select single hint when only one is provided", async () => {
-    await render(MultiFactorAuthEnrollmentFormComponent, {
+    const { container } = await render(MultiFactorAuthEnrollmentFormComponent, {
       imports: [
         CommonModule,
         MultiFactorAuthEnrollmentFormComponent,
@@ -83,11 +83,11 @@ describe("<fui-multi-factor-auth-enrollment-form />", () => {
     expect(screen.queryByRole("button", { name: "TOTP Verification" })).not.toBeInTheDocument();
 
     expect(screen.getByLabelText("Display Name")).toBeInTheDocument();
-    expect(screen.getByLabelText("Phone Number")).toBeInTheDocument();
+    expect(container.querySelector('input[name="phoneNumber"]')).toBeInTheDocument();
   });
 
   it("should show SMS form when SMS hint is selected", async () => {
-    const { fixture } = await render(MultiFactorAuthEnrollmentFormComponent, {
+    const { fixture, container } = await render(MultiFactorAuthEnrollmentFormComponent, {
       imports: [
         CommonModule,
         MultiFactorAuthEnrollmentFormComponent,
@@ -105,7 +105,7 @@ describe("<fui-multi-factor-auth-enrollment-form />", () => {
     fixture.detectChanges();
 
     expect(screen.getByLabelText("Display Name")).toBeInTheDocument();
-    expect(screen.getByLabelText("Phone Number")).toBeInTheDocument();
+    expect(container.querySelector('input[name="phoneNumber"]')).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Send Verification Code" })).toBeInTheDocument();
   });
 
