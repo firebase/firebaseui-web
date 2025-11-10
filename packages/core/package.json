@@ -21,7 +21,7 @@
   "scripts": {
     "prepare": "pnpm run build",
     "emulators:start": "firebase emulators:start -P demo-firebaseui",
-    "build": "tsup",
+    "build": "tsup --env.PROD=true",
     "build:local": "pnpm run build && pnpm pack",
     "dev": "tsup --watch",
     "lint": "eslint . --ext .ts",
