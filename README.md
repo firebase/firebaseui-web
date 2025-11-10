@@ -486,7 +486,7 @@ By default, any missing translations will fallback to English if not specified. 
 <details>
   <summary>@invertase/firebaseui-core</summary>
 
-  <h3>initializeUI</h3>
+  **`initializeUI`**
 
   Initalizes a new `FirebaseUIStore` instance.
 
@@ -497,7 +497,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `FirebaseUIStore`.
 
-  <h3>signInWithEmailAndPassword</h3>
+  **`signInWithEmailAndPassword`**
 
   Signs the user in with an email and password.
 
@@ -509,7 +509,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `Promise<UserCredential>`.
 
-  <h3>createUserWithEmailAndPassword</h3>
+  **`createUserWithEmailAndPassword`**
 
   Creates a new user account with an email and password.
 
@@ -522,7 +522,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `Promise<UserCredential>`.
 
-  <h3>verifyPhoneNumber</h3>
+  **`verifyPhoneNumber`**
 
   Verifies a phone number and sends a verification code.
 
@@ -536,7 +536,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `Promise<string>` (verification ID).
 
-  <h3>confirmPhoneNumber</h3>
+  **`confirmPhoneNumber`**
 
   Confirms a phone number verification with the verification code.
 
@@ -548,7 +548,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `Promise<UserCredential>`.
 
-  <h3>sendPasswordResetEmail</h3>
+  **`sendPasswordResetEmail`**
 
   Sends a password reset email to the user.
 
@@ -559,7 +559,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `Promise<void>`.
 
-  <h3>sendSignInLinkToEmail</h3>
+  **`sendSignInLinkToEmail`**
 
   Sends a sign-in link to the user's email address.
 
@@ -570,7 +570,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `Promise<void>`.
 
-  <h3>signInWithEmailLink</h3>
+  **`signInWithEmailLink`**
 
   Signs in a user with an email link.
 
@@ -582,7 +582,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `Promise<UserCredential>`.
 
-  <h3>signInWithCredential</h3>
+  **`signInWithCredential`**
 
   Signs in a user with an authentication credential.
 
@@ -593,7 +593,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `Promise<UserCredential>`.
 
-  <h3>signInWithCustomToken</h3>
+  **`signInWithCustomToken`**
 
   Signs in a user with a custom token.
 
@@ -604,7 +604,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `Promise<UserCredential>`.
 
-  <h3>signInAnonymously</h3>
+  **`signInAnonymously`**
 
   Signs in a user anonymously.
 
@@ -614,7 +614,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `Promise<UserCredential>`.
 
-  <h3>signInWithProvider</h3>
+  **`signInWithProvider`**
 
   Signs in a user with an OAuth provider (e.g., Google, Facebook, etc.).
 
@@ -625,7 +625,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `Promise<UserCredential | never>`.
 
-  <h3>completeEmailLinkSignIn</h3>
+  **`completeEmailLinkSignIn`**
 
   Completes the email link sign-in flow by checking if the current URL is a valid email link.
 
@@ -636,7 +636,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `Promise<UserCredential | null>`.
 
-  <h3>generateTotpQrCode</h3>
+  **`generateTotpQrCode`**
 
   Generates a QR code data URL for TOTP (Time-based One-Time Password) enrollment.
 
@@ -649,7 +649,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `string` (data URL of the QR code).
 
-  <h3>signInWithMultiFactorAssertion</h3>
+  **`signInWithMultiFactorAssertion`**
 
   Signs in a user with a multi-factor authentication assertion.
 
@@ -660,7 +660,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `Promise<UserCredential>`.
 
-  <h3>enrollWithMultiFactorAssertion</h3>
+  **`enrollWithMultiFactorAssertion`**
 
   Enrolls a multi-factor authentication method for the current user.
 
@@ -672,7 +672,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `Promise<void>`.
 
-  <h3>generateTotpSecret</h3>
+  **`generateTotpSecret`**
 
   Generates a TOTP secret for multi-factor authentication enrollment.
 
@@ -682,13 +682,13 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `Promise<TotpSecret>`.
 
-  <h3>autoAnonymousLogin</h3>
+  **`autoAnonymousLogin`**
 
   Automatically signs in users anonymously when the UI initializes.
 
   Returns `Behavior<"autoAnonymousLogin">`.
 
-  <h3>autoUpgradeAnonymousUsers</h3>
+  **`autoUpgradeAnonymousUsers`**
 
   Automatically upgrades anonymous users to permanent accounts when they sign in with a credential or provider.
 
@@ -699,7 +699,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `Behavior<"autoUpgradeAnonymousCredential" | "autoUpgradeAnonymousProvider" | "autoUpgradeAnonymousUserRedirectHandler">`.
 
-  <h3>recaptchaVerification</h3>
+  **`recaptchaVerification`**
 
   Configures reCAPTCHA verification for phone authentication.
 
@@ -709,19 +709,19 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `Behavior<"recaptchaVerification">`.
 
-  <h3>providerRedirectStrategy</h3>
+  **`providerRedirectStrategy`**
 
   Configures OAuth providers to use redirect flow (full page redirect).
 
   Returns `Behavior<"providerSignInStrategy" | "providerLinkStrategy">`.
 
-  <h3>providerPopupStrategy</h3>
+  **`providerPopupStrategy`**
 
   Configures OAuth providers to use popup flow (popup window).
 
   Returns `Behavior<"providerSignInStrategy" | "providerLinkStrategy">`.
 
-  <h3>oneTapSignIn</h3>
+  **`oneTapSignIn`**
 
   Enables Google One Tap sign-in.
 
@@ -731,13 +731,13 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `Behavior<"oneTapSignIn">`.
 
-  <h3>requireDisplayName</h3>
+  **`requireDisplayName`**
 
   Requires users to provide a display name during registration.
 
   Returns `Behavior<"requireDisplayName">`.
 
-  <h3>countryCodes</h3>
+  **`countryCodes`**
 
   Configures country code handling for phone number input.
 
@@ -747,7 +747,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `Behavior<"countryCodes">`.
 
-  <h3>hasBehavior</h3>
+  **`hasBehavior`**
 
   Checks if a behavior is enabled on a Firebase UI instance.
 
@@ -758,7 +758,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `boolean`.
 
-  <h3>getBehavior</h3>
+  **`getBehavior`**
 
   Gets a behavior handler from a Firebase UI instance.
 
@@ -769,19 +769,19 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns the behavior handler function.
 
-  <h3>defaultBehaviors</h3>
+  **`defaultBehaviors`**
 
   The default behaviors that are automatically included in a Firebase UI instance. Includes `recaptchaVerification`, `providerRedirectStrategy`, and `countryCodes`.
 
   Type: `Behavior<"recaptchaVerification">`.
 
-  <h3>countryData</h3>
+  **`countryData`**
 
   An array of country data objects containing name, dial code, country code, and emoji for all supported countries.
 
   Type: `readonly CountryData[]`.
 
-  <h3>formatPhoneNumber</h3>
+  **`formatPhoneNumber`**
 
   Formats a phone number according to the specified country data.
 
@@ -792,11 +792,11 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `string` (formatted phone number in E164 format).
 
-  <h3>FirebaseUIError</h3>
+  **`FirebaseUIError`**
 
   A custom error class that extends FirebaseError with localized error messages.
 
-  <h3>handleFirebaseError</h3>
+  **`handleFirebaseError`**
 
   Handles Firebase errors and converts them to FirebaseUIError with localized messages. Also handles special cases like account linking and multi-factor authentication.
 
@@ -807,7 +807,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Throws `FirebaseUIError`.
 
-  <h3>getTranslation</h3>
+  **`getTranslation`**
 
   Gets a translated string for a given category and key.
 
@@ -820,7 +820,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `string`.
 
-  <h3>createSignInAuthFormSchema</h3>
+  **`createSignInAuthFormSchema`**
 
   Creates a Zod schema for email/password sign-in form validation.
 
@@ -830,7 +830,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `ZodObject` with `email` and `password` fields.
 
-  <h3>createSignUpAuthFormSchema</h3>
+  **`createSignUpAuthFormSchema`**
 
   Creates a Zod schema for email/password sign-up form validation.
 
@@ -840,7 +840,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `ZodObject` with `email`, `password`, and optionally `displayName` fields.
 
-  <h3>createForgotPasswordAuthFormSchema</h3>
+  **`createForgotPasswordAuthFormSchema`**
 
   Creates a Zod schema for forgot password form validation.
 
@@ -850,7 +850,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `ZodObject` with `email` field.
 
-  <h3>createEmailLinkAuthFormSchema</h3>
+  **`createEmailLinkAuthFormSchema`**
 
   Creates a Zod schema for email link authentication form validation.
 
@@ -860,7 +860,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `ZodObject` with `email` field.
 
-  <h3>createPhoneAuthNumberFormSchema</h3>
+  **`createPhoneAuthNumberFormSchema`**
 
   Creates a Zod schema for phone number input form validation.
 
@@ -870,7 +870,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `ZodObject` with `phoneNumber` field.
 
-  <h3>createPhoneAuthVerifyFormSchema</h3>
+  **`createPhoneAuthVerifyFormSchema`**
 
   Creates a Zod schema for phone verification code form validation.
 
@@ -880,7 +880,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `ZodObject` with `verificationId` and `verificationCode` fields.
 
-  <h3>createMultiFactorPhoneAuthNumberFormSchema</h3>
+  **`createMultiFactorPhoneAuthNumberFormSchema`**
 
   Creates a Zod schema for multi-factor phone authentication number form validation.
 
@@ -890,7 +890,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `ZodObject` with `phoneNumber` and `displayName` fields.
 
-  <h3>createMultiFactorPhoneAuthAssertionFormSchema</h3>
+  **`createMultiFactorPhoneAuthAssertionFormSchema`**
 
   Creates a Zod schema for multi-factor phone authentication assertion form validation.
 
@@ -900,7 +900,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `ZodObject` with `phoneNumber` field.
 
-  <h3>createMultiFactorPhoneAuthVerifyFormSchema</h3>
+  **`createMultiFactorPhoneAuthVerifyFormSchema`**
 
   Creates a Zod schema for multi-factor phone authentication verification form validation.
 
@@ -910,7 +910,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `ZodObject` with `verificationId` and `verificationCode` fields.
 
-  <h3>createMultiFactorTotpAuthNumberFormSchema</h3>
+  **`createMultiFactorTotpAuthNumberFormSchema`**
 
   Creates a Zod schema for multi-factor TOTP authentication form validation.
 
@@ -920,7 +920,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `ZodObject` with `displayName` field.
 
-  <h3>createMultiFactorTotpAuthVerifyFormSchema</h3>
+  **`createMultiFactorTotpAuthVerifyFormSchema`**
 
   Creates a Zod schema for multi-factor TOTP verification code form validation.
 
@@ -935,7 +935,7 @@ By default, any missing translations will fallback to English if not specified. 
 <details>
   <summary>@invertase/firebaseui-react</summary>
 
-  **FirebaseUIProvider**
+  **`FirebaseUIProvider`**
 
   Provider component that wraps your application and provides Firebase UI context.
 
@@ -945,7 +945,7 @@ By default, any missing translations will fallback to English if not specified. 
   | policies | `{ termsOfServiceUrl: PolicyURL; privacyPolicyUrl: PolicyURL; onNavigate?: (url: PolicyURL) => void; }?` | Optional policies configuration. If provided, UI components will automatically render the policies. |
   | children | `React.ReactNode` | Child components |
 
-  **SignInAuthForm**
+  **`SignInAuthForm`**
 
   Form component for email/password sign-in.
 
@@ -955,7 +955,7 @@ By default, any missing translations will fallback to English if not specified. 
   | onForgotPasswordClick | `() => void?` | Callback when forgot password link is clicked |
   | onSignUpClick | `() => void?` | Callback when sign-up link is clicked |
 
-  **SignUpAuthForm**
+  **`SignUpAuthForm`**
 
   Form component for email/password sign-up.
 
@@ -964,7 +964,7 @@ By default, any missing translations will fallback to English if not specified. 
   | onSignUp | `(credential: UserCredential) => void?` | Callback when sign-up succeeds |
   | onSignInClick | `() => void?` | Callback when sign-in link is clicked |
 
-  **ForgotPasswordAuthForm**
+  **`ForgotPasswordAuthForm`**
 
   Form component for password reset.
 
@@ -973,7 +973,7 @@ By default, any missing translations will fallback to English if not specified. 
   | onSendPasswordResetEmail | `() => void?` | Callback when password reset email is sent |
   | onBackClick | `() => void?` | Callback when back button is clicked |
 
-  **EmailLinkAuthForm**
+  **`EmailLinkAuthForm`**
 
   Form component for email link authentication.
 
@@ -981,7 +981,7 @@ By default, any missing translations will fallback to English if not specified. 
   |------|:----:|-------------|
   | onSendSignInLinkToEmail | `() => void?` | Callback when sign-in link email is sent |
 
-  **PhoneAuthForm**
+  **`PhoneAuthForm`**
 
   Form component for phone number authentication.
 
@@ -990,7 +990,7 @@ By default, any missing translations will fallback to English if not specified. 
   | onVerifyPhoneNumber | `() => void?` | Callback when phone number verification is initiated |
   | onVerifyCode | `(credential: UserCredential) => void?` | Callback when verification code is verified |
 
-  **MultiFactorAuthAssertionForm**
+  **`MultiFactorAuthAssertionForm`**
 
   Form component for multi-factor authentication assertion during sign-in.
 
@@ -998,7 +998,7 @@ By default, any missing translations will fallback to English if not specified. 
   |------|:----:|-------------|
   | onAssert | `(credential: UserCredential) => void?` | Callback when MFA assertion succeeds |
 
-  **MultiFactorAuthEnrollmentForm**
+  **`MultiFactorAuthEnrollmentForm`**
 
   Form component for multi-factor authentication enrollment.
 
@@ -1006,7 +1006,7 @@ By default, any missing translations will fallback to English if not specified. 
   |------|:----:|-------------|
   | onEnroll | `() => void?` | Callback when MFA enrollment succeeds |
 
-  **SmsMultiFactorAssertionForm**
+  **`SmsMultiFactorAssertionForm`**
 
   Form component for SMS-based multi-factor authentication assertion.
 
@@ -1014,7 +1014,7 @@ By default, any missing translations will fallback to English if not specified. 
   |------|:----:|-------------|
   | onAssert | `(credential: UserCredential) => void?` | Callback when SMS MFA assertion succeeds |
 
-  **SmsMultiFactorEnrollmentForm**
+  **`SmsMultiFactorEnrollmentForm`**
 
   Form component for SMS-based multi-factor authentication enrollment.
 
@@ -1022,7 +1022,7 @@ By default, any missing translations will fallback to English if not specified. 
   |------|:----:|-------------|
   | onEnroll | `() => void?` | Callback when SMS MFA enrollment succeeds |
 
-  **TotpMultiFactorAssertionForm**
+  **`TotpMultiFactorAssertionForm`**
 
   Form component for TOTP-based multi-factor authentication assertion.
 
@@ -1030,7 +1030,7 @@ By default, any missing translations will fallback to English if not specified. 
   |------|:----:|-------------|
   | onAssert | `(credential: UserCredential) => void?` | Callback when TOTP MFA assertion succeeds |
 
-  **TotpMultiFactorEnrollmentForm**
+  **`TotpMultiFactorEnrollmentForm`**
 
   Form component for TOTP-based multi-factor authentication enrollment.
 
@@ -1038,35 +1038,35 @@ By default, any missing translations will fallback to English if not specified. 
   |------|:----:|-------------|
   | onEnroll | `() => void?` | Callback when TOTP MFA enrollment succeeds |
 
-  **SignInAuthScreen**
+  **`SignInAuthScreen`**
 
   Screen component for email/password sign-in. Extends `SignInAuthFormProps` and accepts `children`.
 
-  **SignUpAuthScreen**
+  **`SignUpAuthScreen`**
 
   Screen component for email/password sign-up. Extends `SignUpAuthFormProps` and accepts `children`.
 
-  **ForgotPasswordAuthScreen**
+  **`ForgotPasswordAuthScreen`**
 
   Screen component for password reset. Extends `ForgotPasswordAuthFormProps`.
 
-  **EmailLinkAuthScreen**
+  **`EmailLinkAuthScreen`**
 
   Screen component for email link authentication. Extends `EmailLinkAuthFormProps` and accepts `children`.
 
-  **PhoneAuthScreen**
+  **`PhoneAuthScreen`**
 
   Screen component for phone number authentication. Extends `PhoneAuthFormProps` and accepts `children`.
 
-  **MultiFactorAuthAssertionScreen**
+  **`MultiFactorAuthAssertionScreen`**
 
   Screen component for multi-factor authentication assertion. Extends `MultiFactorAuthAssertionFormProps`.
 
-  **MultiFactorAuthEnrollmentScreen**
+  **`MultiFactorAuthEnrollmentScreen`**
 
   Screen component for multi-factor authentication enrollment. Extends `MultiFactorAuthEnrollmentFormProps`.
 
-  **OAuthScreen**
+  **`OAuthScreen`**
 
   Screen component for OAuth provider sign-in.
 
@@ -1074,7 +1074,7 @@ By default, any missing translations will fallback to English if not specified. 
   |------|:----:|-------------|
   | children | `React.ReactNode?` | Child components |
 
-  **OAuthButton**
+  **`OAuthButton`**
 
   Generic OAuth button component.
 
@@ -1084,7 +1084,7 @@ By default, any missing translations will fallback to English if not specified. 
   | themed | `boolean \| string?` | Whether to apply themed styling |
   | children | `React.ReactNode?` | Button content |
 
-  **GoogleSignInButton**
+  **`GoogleSignInButton`**
 
   Google OAuth sign-in button component.
 
@@ -1092,7 +1092,7 @@ By default, any missing translations will fallback to English if not specified. 
   |------|:----:|-------------|
   | themed | `boolean \| string?` | Whether to apply themed styling |
 
-  **AppleSignInButton**
+  **`AppleSignInButton`**
 
   Apple OAuth sign-in button component.
 
@@ -1100,7 +1100,7 @@ By default, any missing translations will fallback to English if not specified. 
   |------|:----:|-------------|
   | themed | `boolean \| string?` | Whether to apply themed styling |
 
-  **FacebookSignInButton**
+  **`FacebookSignInButton`**
 
   Facebook OAuth sign-in button component.
 
@@ -1108,7 +1108,7 @@ By default, any missing translations will fallback to English if not specified. 
   |------|:----:|-------------|
   | themed | `boolean \| string?` | Whether to apply themed styling |
 
-  **GitHubSignInButton**
+  **`GitHubSignInButton`**
 
   GitHub OAuth sign-in button component.
 
@@ -1116,7 +1116,7 @@ By default, any missing translations will fallback to English if not specified. 
   |------|:----:|-------------|
   | themed | `boolean \| string?` | Whether to apply themed styling |
 
-  **MicrosoftSignInButton**
+  **`MicrosoftSignInButton`**
 
   Microsoft OAuth sign-in button component.
 
@@ -1124,7 +1124,7 @@ By default, any missing translations will fallback to English if not specified. 
   |------|:----:|-------------|
   | themed | `boolean \| string?` | Whether to apply themed styling |
 
-  **TwitterSignInButton**
+  **`TwitterSignInButton`**
 
   Twitter OAuth sign-in button component.
 
@@ -1132,7 +1132,7 @@ By default, any missing translations will fallback to English if not specified. 
   |------|:----:|-------------|
   | themed | `boolean \| string?` | Whether to apply themed styling |
 
-  **Button**
+  **`Button`**
 
   Button component with variant support.
 
@@ -1142,7 +1142,7 @@ By default, any missing translations will fallback to English if not specified. 
   | asChild | `boolean?` | Render as child component using Slot |
   | ...props | `ComponentProps<"button">` | Standard button HTML attributes |
 
-  **Card**
+  **`Card`**
 
   Card container component.
 
@@ -1151,23 +1151,23 @@ By default, any missing translations will fallback to English if not specified. 
   | children | `React.ReactNode?` | Card content |
   | ...props | `ComponentProps<"div">` | Standard div HTML attributes |
 
-  **CardHeader**
+  **`CardHeader`**
 
   Card header component. Accepts `children` and standard div props.
 
-  **CardTitle**
+  **`CardTitle`**
 
   Card title component. Accepts `children` and standard h2 props.
 
-  **CardSubtitle**
+  **`CardSubtitle`**
 
   Card subtitle component. Accepts `children` and standard p props.
 
-  **CardContent**
+  **`CardContent`**
 
   Card content component. Accepts `children` and standard div props.
 
-  **CountrySelector**
+  **`CountrySelector`**
 
   Country selector component for phone number input.
 
@@ -1175,7 +1175,7 @@ By default, any missing translations will fallback to English if not specified. 
   |------|:----:|-------------|
   | ...props | `ComponentProps<"div">` | Standard div HTML attributes |
 
-  **Divider**
+  **`Divider`**
 
   Divider component.
 
@@ -1184,87 +1184,87 @@ By default, any missing translations will fallback to English if not specified. 
   | children | `React.ReactNode?` | Divider content |
   | ...props | `ComponentProps<"div">` | Standard div HTML attributes |
 
-  **Policies**
+  **`Policies`**
 
   Component that renders terms of service and privacy policy links. Automatically rendered when policies are provided to `FirebaseUIProvider`.
 
-  **RedirectError**
+  **`RedirectError`**
 
   Component that displays redirect errors from Firebase UI authentication flow.
 
-  **useUI**
+  **`useUI`**
 
   Gets the Firebase UI configuration from context.
 
   Returns `FirebaseUI`.
 
-  **useRedirectError**
+  **`useRedirectError`**
 
   Gets the redirect error from the UI store.
 
   Returns `string | undefined`.
 
-  **useSignInAuthFormSchema**
+  **`useSignInAuthFormSchema`**
 
   Creates a Zod schema for sign-in form validation.
 
   Returns `ZodObject` with `email` and `password` fields.
 
-  **useSignUpAuthFormSchema**
+  **`useSignUpAuthFormSchema`**
 
   Creates a Zod schema for sign-up form validation.
 
   Returns `ZodObject` with `email`, `password`, and optionally `displayName` fields.
 
-  **useForgotPasswordAuthFormSchema**
+  **`useForgotPasswordAuthFormSchema`**
 
   Creates a Zod schema for forgot password form validation.
 
   Returns `ZodObject` with `email` field.
 
-  **useEmailLinkAuthFormSchema**
+  **`useEmailLinkAuthFormSchema`**
 
   Creates a Zod schema for email link authentication form validation.
 
   Returns `ZodObject` with `email` field.
 
-  **usePhoneAuthNumberFormSchema**
+  **`usePhoneAuthNumberFormSchema`**
 
   Creates a Zod schema for phone number input form validation.
 
   Returns `ZodObject` with `phoneNumber` field.
 
-  **usePhoneAuthVerifyFormSchema**
+  **`usePhoneAuthVerifyFormSchema`**
 
   Creates a Zod schema for phone verification code form validation.
 
   Returns `ZodObject` with `verificationId` and `verificationCode` fields.
 
-  **useMultiFactorPhoneAuthNumberFormSchema**
+  **`useMultiFactorPhoneAuthNumberFormSchema`**
 
   Creates a Zod schema for multi-factor phone authentication number form validation.
 
   Returns `ZodObject` with `phoneNumber` and `displayName` fields.
 
-  **useMultiFactorPhoneAuthVerifyFormSchema**
+  **`useMultiFactorPhoneAuthVerifyFormSchema`**
 
   Creates a Zod schema for multi-factor phone authentication verification form validation.
 
   Returns `ZodObject` with `verificationId` and `verificationCode` fields.
 
-  **useMultiFactorTotpAuthNumberFormSchema**
+  **`useMultiFactorTotpAuthNumberFormSchema`**
 
   Creates a Zod schema for multi-factor TOTP authentication form validation.
 
   Returns `ZodObject` with `displayName` field.
 
-  **useMultiFactorTotpAuthVerifyFormSchema**
+  **`useMultiFactorTotpAuthVerifyFormSchema`**
 
   Creates a Zod schema for multi-factor TOTP verification code form validation.
 
   Returns `ZodObject` with `verificationCode` field.
 
-  **useRecaptchaVerifier**
+  **`useRecaptchaVerifier`**
 
   Creates and manages a reCAPTCHA verifier instance.
 
@@ -1274,167 +1274,167 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `RecaptchaVerifier \| null`.
 
-  **useSignInAuthForm**
+  **`useSignInAuthForm`**
 
   Hook for managing sign-in form state and validation.
 
   Returns form state and handlers.
 
-  **useSignInAuthFormAction**
+  **`useSignInAuthFormAction`**
 
   Hook for sign-in form submission action.
 
   Returns async action handler.
 
-  **useSignUpAuthForm**
+  **`useSignUpAuthForm`**
 
   Hook for managing sign-up form state and validation.
 
   Returns form state and handlers.
 
-  **useSignUpAuthFormAction**
+  **`useSignUpAuthFormAction`**
 
   Hook for sign-up form submission action.
 
   Returns async action handler.
 
-  **useRequireDisplayName**
+  **`useRequireDisplayName`**
 
   Hook to check if display name is required for sign-up.
 
   Returns `boolean`.
 
-  **useForgotPasswordAuthForm**
+  **`useForgotPasswordAuthForm`**
 
   Hook for managing forgot password form state and validation.
 
   Returns form state and handlers.
 
-  **useForgotPasswordAuthFormAction**
+  **`useForgotPasswordAuthFormAction`**
 
   Hook for forgot password form submission action.
 
   Returns async action handler.
 
-  **useEmailLinkAuthForm**
+  **`useEmailLinkAuthForm`**
 
   Hook for managing email link auth form state and validation.
 
   Returns form state and handlers.
 
-  **useEmailLinkAuthFormAction**
+  **`useEmailLinkAuthFormAction`**
 
   Hook for email link auth form submission action.
 
   Returns async action handler.
 
-  **useEmailLinkAuthFormCompleteSignIn**
+  **`useEmailLinkAuthFormCompleteSignIn`**
 
   Hook to complete email link authentication.
 
   Returns async action handler.
 
-  **usePhoneNumberForm**
+  **`usePhoneNumberForm`**
 
   Hook for managing phone number form state and validation.
 
   Returns form state and handlers.
 
-  **usePhoneNumberFormAction**
+  **`usePhoneNumberFormAction`**
 
   Hook for phone number form submission action.
 
   Returns async action handler.
 
-  **useVerifyPhoneNumberForm**
+  **`useVerifyPhoneNumberForm`**
 
   Hook for managing phone verification form state and validation.
 
   Returns form state and handlers.
 
-  **useVerifyPhoneNumberFormAction**
+  **`useVerifyPhoneNumberFormAction`**
 
   Hook for phone verification form submission action.
 
   Returns async action handler.
 
-  **useMultiFactorAssertionCleanup**
+  **`useMultiFactorAssertionCleanup`**
 
   Hook for cleaning up multi-factor assertion state.
 
-  **useSmsMultiFactorAssertionPhoneFormAction**
+  **`useSmsMultiFactorAssertionPhoneFormAction`**
 
   Hook for SMS MFA assertion phone form submission action.
 
   Returns async action handler.
 
-  **useSmsMultiFactorAssertionVerifyFormAction**
+  **`useSmsMultiFactorAssertionVerifyFormAction`**
 
   Hook for SMS MFA assertion verification form submission action.
 
   Returns async action handler.
 
-  **useSmsMultiFactorEnrollmentPhoneNumberForm**
+  **`useSmsMultiFactorEnrollmentPhoneNumberForm`**
 
   Hook for managing SMS MFA enrollment phone number form state.
 
   Returns form state and handlers.
 
-  **useSmsMultiFactorEnrollmentPhoneAuthFormAction**
+  **`useSmsMultiFactorEnrollmentPhoneAuthFormAction`**
 
   Hook for SMS MFA enrollment phone auth form submission action.
 
   Returns async action handler.
 
-  **useMultiFactorEnrollmentVerifyPhoneNumberForm**
+  **`useMultiFactorEnrollmentVerifyPhoneNumberForm`**
 
   Hook for managing MFA enrollment phone verification form state.
 
   Returns form state and handlers.
 
-  **useMultiFactorEnrollmentVerifyPhoneNumberFormAction**
+  **`useMultiFactorEnrollmentVerifyPhoneNumberFormAction`**
 
   Hook for MFA enrollment phone verification form submission action.
 
   Returns async action handler.
 
-  **useTotpMultiFactorAssertionForm**
+  **`useTotpMultiFactorAssertionForm`**
 
   Hook for managing TOTP MFA assertion form state.
 
   Returns form state and handlers.
 
-  **useTotpMultiFactorAssertionFormAction**
+  **`useTotpMultiFactorAssertionFormAction`**
 
   Hook for TOTP MFA assertion form submission action.
 
   Returns async action handler.
 
-  **useTotpMultiFactorSecretGenerationForm**
+  **`useTotpMultiFactorSecretGenerationForm`**
 
   Hook for managing TOTP secret generation form state.
 
   Returns form state and handlers.
 
-  **useTotpMultiFactorSecretGenerationFormAction**
+  **`useTotpMultiFactorSecretGenerationFormAction`**
 
   Hook for TOTP secret generation form submission action.
 
   Returns async action handler.
 
-  **useMultiFactorEnrollmentVerifyTotpForm**
+  **`useMultiFactorEnrollmentVerifyTotpForm`**
 
   Hook for managing MFA enrollment TOTP verification form state.
 
   Returns form state and handlers.
 
-  **useMultiFactorEnrollmentVerifyTotpFormAction**
+  **`useMultiFactorEnrollmentVerifyTotpFormAction`**
 
   Hook for MFA enrollment TOTP verification form submission action.
 
   Returns async action handler.
 
-  **useSignInWithProvider**
+  **`useSignInWithProvider`**
 
   Hook for OAuth provider sign-in.
 
@@ -1444,23 +1444,23 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns async action handler.
 
-  **useCountries**
+  **`useCountries`**
 
   Hook to get list of countries for country selector.
 
   Returns array of country data.
 
-  **useDefaultCountry**
+  **`useDefaultCountry`**
 
   Hook to get default country for country selector.
 
   Returns country data or `undefined`.
 
-  **PolicyContext**
+  **`PolicyContext`**
 
   React context for policy configuration.
 
-  **PolicyProps**
+  **`PolicyProps`**
 
   Type for policy configuration.
 
@@ -1470,11 +1470,11 @@ By default, any missing translations will fallback to English if not specified. 
   | privacyPolicyUrl | `PolicyURL` | URL to privacy policy |
   | onNavigate | `(url: PolicyURL) => void?` | Optional navigation handler |
 
-  **PolicyURL**
+  **`PolicyURL`**
 
   Type alias: `string \| URL`
 
-  **FirebaseUIProviderProps**
+  **`FirebaseUIProviderProps`**
 
   Type for `FirebaseUIProvider` component props.
 
@@ -1522,7 +1522,7 @@ By default, any missing translations will fallback to English if not specified. 
 <details>
   <summary>@invertase/firebaseui-angular</summary>
 
-  **provideFirebaseUI**
+  **`provideFirebaseUI`**
 
   Provider function that configures Firebase UI for your Angular application.
 
@@ -1532,7 +1532,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `EnvironmentProviders`.
 
-  **provideFirebaseUIPolicies**
+  **`provideFirebaseUIPolicies`**
 
   Provider function that configures policies (terms of service and privacy policy) for Firebase UI.
 
@@ -1542,7 +1542,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `EnvironmentProviders`.
 
-  **SignInAuthFormComponent**
+  **`SignInAuthFormComponent`**
 
   Selector: `fui-sign-in-auth-form`
 
@@ -1554,7 +1554,7 @@ By default, any missing translations will fallback to English if not specified. 
   | forgotPassword | `EventEmitter<void>` | Emitted when forgot password link is clicked |
   | signUp | `EventEmitter<void>` | Emitted when sign-up link is clicked |
 
-  **SignUpAuthFormComponent**
+  **`SignUpAuthFormComponent`**
 
   Selector: `fui-sign-up-auth-form`
 
@@ -1565,7 +1565,7 @@ By default, any missing translations will fallback to English if not specified. 
   | signUp | `EventEmitter<UserCredential>` | Emitted when sign-up succeeds |
   | signIn | `EventEmitter<void>` | Emitted when sign-in link is clicked |
 
-  **ForgotPasswordAuthFormComponent**
+  **`ForgotPasswordAuthFormComponent`**
 
   Selector: `fui-forgot-password-auth-form`
 
@@ -1576,7 +1576,7 @@ By default, any missing translations will fallback to English if not specified. 
   | passwordSent | `EventEmitter<void>` | Emitted when password reset email is sent |
   | backToSignIn | `EventEmitter<void>` | Emitted when back button is clicked |
 
-  **EmailLinkAuthFormComponent**
+  **`EmailLinkAuthFormComponent`**
 
   Selector: `fui-email-link-auth-form`
 
@@ -1587,7 +1587,7 @@ By default, any missing translations will fallback to English if not specified. 
   | emailSent | `EventEmitter<void>` | Emitted when sign-in link email is sent |
   | signIn | `EventEmitter<UserCredential>` | Emitted when sign-in succeeds (via link or MFA) |
 
-  **PhoneAuthFormComponent**
+  **`PhoneAuthFormComponent`**
 
   Selector: `fui-phone-auth-form`
 
@@ -1597,7 +1597,7 @@ By default, any missing translations will fallback to English if not specified. 
   |--------|:----:|-------------|
   | signIn | `EventEmitter<UserCredential>` | Emitted when phone verification succeeds |
 
-  **MultiFactorAuthAssertionFormComponent**
+  **`MultiFactorAuthAssertionFormComponent`**
 
   Selector: `fui-multi-factor-auth-assertion-form`
 
@@ -1607,7 +1607,7 @@ By default, any missing translations will fallback to English if not specified. 
   |--------|:----:|-------------|
   | onSuccess | `EventEmitter<UserCredential>` | Emitted when MFA assertion succeeds |
 
-  **SmsMultiFactorAssertionFormComponent**
+  **`SmsMultiFactorAssertionFormComponent`**
 
   Selector: `fui-sms-multi-factor-assertion-form`
 
@@ -1621,19 +1621,19 @@ By default, any missing translations will fallback to English if not specified. 
   |--------|:----:|-------------|
   | onSuccess | `EventEmitter<UserCredential>` | Emitted when SMS MFA assertion succeeds |
 
-  **SmsMultiFactorAssertionPhoneFormComponent**
+  **`SmsMultiFactorAssertionPhoneFormComponent`**
 
   Selector: `fui-sms-multi-factor-assertion-phone-form`
 
   Phone number form component for SMS MFA assertion.
 
-  **SmsMultiFactorAssertionVerifyFormComponent**
+  **`SmsMultiFactorAssertionVerifyFormComponent`**
 
   Selector: `fui-sms-multi-factor-assertion-verify-form`
 
   Verification code form component for SMS MFA assertion.
 
-  **TotpMultiFactorAssertionFormComponent**
+  **`TotpMultiFactorAssertionFormComponent`**
 
   Selector: `fui-totp-multi-factor-assertion-form`
 
@@ -1647,7 +1647,7 @@ By default, any missing translations will fallback to English if not specified. 
   |--------|:----:|-------------|
   | onSuccess | `EventEmitter<UserCredential>` | Emitted when TOTP MFA assertion succeeds |
 
-  **SignInAuthScreenComponent**
+  **`SignInAuthScreenComponent`**
 
   Selector: `fui-sign-in-auth-screen`
 
@@ -1658,7 +1658,7 @@ By default, any missing translations will fallback to English if not specified. 
   | signIn | `EventEmitter<UserCredential>` | Emitted when sign-in succeeds |
   | signUp | `EventEmitter<void>` | Emitted when sign-up link is clicked |
 
-  **SignUpAuthScreenComponent**
+  **`SignUpAuthScreenComponent`**
 
   Selector: `fui-sign-up-auth-screen`
 
@@ -1669,7 +1669,7 @@ By default, any missing translations will fallback to English if not specified. 
   | signUp | `EventEmitter<UserCredential>` | Emitted when sign-up succeeds |
   | signIn | `EventEmitter<void>` | Emitted when sign-in link is clicked |
 
-  **ForgotPasswordAuthScreenComponent**
+  **`ForgotPasswordAuthScreenComponent`**
 
   Selector: `fui-forgot-password-auth-screen`
 
@@ -1680,7 +1680,7 @@ By default, any missing translations will fallback to English if not specified. 
   | passwordSent | `EventEmitter<void>` | Emitted when password reset email is sent |
   | backToSignIn | `EventEmitter<void>` | Emitted when back button is clicked |
 
-  **EmailLinkAuthScreenComponent**
+  **`EmailLinkAuthScreenComponent`**
 
   Selector: `fui-email-link-auth-screen`
 
@@ -1691,7 +1691,7 @@ By default, any missing translations will fallback to English if not specified. 
   | emailSent | `EventEmitter<void>` | Emitted when sign-in link email is sent |
   | signIn | `EventEmitter<UserCredential>` | Emitted when sign-in succeeds |
 
-  **PhoneAuthScreenComponent**
+  **`PhoneAuthScreenComponent`**
 
   Selector: `fui-phone-auth-screen`
 
@@ -1701,7 +1701,7 @@ By default, any missing translations will fallback to English if not specified. 
   |--------|:----:|-------------|
   | signIn | `EventEmitter<UserCredential>` | Emitted when phone verification succeeds |
 
-  **OAuthScreenComponent**
+  **`OAuthScreenComponent`**
 
   Selector: `fui-oauth-screen`
 
@@ -1711,7 +1711,7 @@ By default, any missing translations will fallback to English if not specified. 
   |--------|:----:|-------------|
   | onSignIn | `EventEmitter<UserCredential>` | Emitted when OAuth sign-in succeeds |
 
-  **OAuthButtonComponent**
+  **`OAuthButtonComponent`**
 
   Selector: `fui-oauth-button`
 
@@ -1721,43 +1721,43 @@ By default, any missing translations will fallback to English if not specified. 
   |-------|:----:|-------------|
   | provider | `AuthProvider` | Firebase Auth provider instance |
 
-  **GoogleSignInButtonComponent**
+  **`GoogleSignInButtonComponent`**
 
   Selector: `fui-google-sign-in-button`
 
   Google OAuth sign-in button component.
 
-  **AppleSignInButtonComponent**
+  **`AppleSignInButtonComponent`**
 
   Selector: `fui-apple-sign-in-button`
 
   Apple OAuth sign-in button component.
 
-  **FacebookSignInButtonComponent**
+  **`FacebookSignInButtonComponent`**
 
   Selector: `fui-facebook-sign-in-button`
 
   Facebook OAuth sign-in button component.
 
-  **GithubSignInButtonComponent**
+  **`GithubSignInButtonComponent`**
 
   Selector: `fui-github-sign-in-button`
 
   GitHub OAuth sign-in button component.
 
-  **MicrosoftSignInButtonComponent**
+  **`MicrosoftSignInButtonComponent`**
 
   Selector: `fui-microsoft-sign-in-button`
 
   Microsoft OAuth sign-in button component.
 
-  **TwitterSignInButtonComponent**
+  **`TwitterSignInButtonComponent`**
 
   Selector: `fui-twitter-sign-in-button`
 
   Twitter OAuth sign-in button component.
 
-  **ButtonComponent**
+  **`ButtonComponent`**
 
   Selector: `button[fui-button]`
 
@@ -1767,37 +1767,37 @@ By default, any missing translations will fallback to English if not specified. 
   |-------|:----:|-------------|
   | variant | `"primary" \| "secondary" \| "outline"?` | Button style variant |
 
-  **CardComponent**
+  **`CardComponent`**
 
   Selector: `fui-card`
 
   Card container component.
 
-  **CardHeaderComponent**
+  **`CardHeaderComponent`**
 
   Selector: `fui-card-header`
 
   Card header component.
 
-  **CardTitleComponent**
+  **`CardTitleComponent`**
 
   Selector: `fui-card-title`
 
   Card title component.
 
-  **CardSubtitleComponent**
+  **`CardSubtitleComponent`**
 
   Selector: `fui-card-subtitle`
 
   Card subtitle component.
 
-  **CardContentComponent**
+  **`CardContentComponent`**
 
   Selector: `fui-card-content`
 
   Card content component.
 
-  **CountrySelectorComponent**
+  **`CountrySelectorComponent`**
 
   Selector: `fui-country-selector`
 
@@ -1811,43 +1811,43 @@ By default, any missing translations will fallback to English if not specified. 
   |--------|:----:|-------------|
   | valueChange | `EventEmitter<CountryCode>` | Emitted when country selection changes |
 
-  **DividerComponent**
+  **`DividerComponent`**
 
   Selector: `fui-divider`
 
   Divider component.
 
-  **PoliciesComponent**
+  **`PoliciesComponent`**
 
   Selector: `fui-policies`
 
   Component that renders terms of service and privacy policy links. Automatically rendered when policies are provided via `provideFirebaseUIPolicies`.
 
-  **RedirectErrorComponent**
+  **`RedirectErrorComponent`**
 
   Selector: `fui-redirect-error`
 
   Component that displays redirect errors from Firebase UI authentication flow.
 
-  **ContentComponent**
+  **`ContentComponent`**
 
   Selector: `fui-content`
 
   Content wrapper component.
 
-  **injectUI**
+  **`injectUI`**
 
   Injects the Firebase UI configuration as a read-only signal.
 
   Returns `ReadonlySignal<FirebaseUI>`.
 
-  **injectRedirectError**
+  **`injectRedirectError`**
 
   Injects the redirect error from the UI store as a signal.
 
   Returns `Signal<string \| undefined>`.
 
-  **injectTranslation**
+  **`injectTranslation`**
 
   Injects a translated string for a given category and key.
 
@@ -1858,73 +1858,73 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `Signal<string>`.
 
-  **injectSignInAuthFormSchema**
+  **`injectSignInAuthFormSchema`**
 
   Injects a Zod schema for sign-in form validation.
 
   Returns `Signal<ZodObject>` with `email` and `password` fields.
 
-  **injectSignUpAuthFormSchema**
+  **`injectSignUpAuthFormSchema`**
 
   Injects a Zod schema for sign-up form validation.
 
   Returns `Signal<ZodObject>` with `email`, `password`, and optionally `displayName` fields.
 
-  **injectForgotPasswordAuthFormSchema**
+  **`injectForgotPasswordAuthFormSchema`**
 
   Injects a Zod schema for forgot password form validation.
 
   Returns `Signal<ZodObject>` with `email` field.
 
-  **injectEmailLinkAuthFormSchema**
+  **`injectEmailLinkAuthFormSchema`**
 
   Injects a Zod schema for email link authentication form validation.
 
   Returns `Signal<ZodObject>` with `email` field.
 
-  **injectPhoneAuthFormSchema**
+  **`injectPhoneAuthFormSchema`**
 
   Injects a Zod schema for phone number input form validation.
 
   Returns `Signal<ZodObject>` with `phoneNumber` field.
 
-  **injectPhoneAuthVerifyFormSchema**
+  **`injectPhoneAuthVerifyFormSchema`**
 
   Injects a Zod schema for phone verification code form validation.
 
   Returns `Signal<ZodObject>` with `verificationId` and `verificationCode` fields.
 
-  **injectMultiFactorPhoneAuthNumberFormSchema**
+  **`injectMultiFactorPhoneAuthNumberFormSchema`**
 
   Injects a Zod schema for multi-factor phone authentication number form validation.
 
   Returns `Signal<ZodObject>` with `phoneNumber` and `displayName` fields.
 
-  **injectMultiFactorPhoneAuthAssertionFormSchema**
+  **`injectMultiFactorPhoneAuthAssertionFormSchema`**
 
   Injects a Zod schema for multi-factor phone authentication assertion form validation.
 
   Returns `Signal<ZodObject>` with `phoneNumber` field.
 
-  **injectMultiFactorPhoneAuthVerifyFormSchema**
+  **`injectMultiFactorPhoneAuthVerifyFormSchema`**
 
   Injects a Zod schema for multi-factor phone authentication verification form validation.
 
   Returns `Signal<ZodObject>` with `verificationId` and `verificationCode` fields.
 
-  **injectMultiFactorTotpAuthNumberFormSchema**
+  **`injectMultiFactorTotpAuthNumberFormSchema`**
 
   Injects a Zod schema for multi-factor TOTP authentication form validation.
 
   Returns `Signal<ZodObject>` with `displayName` field.
 
-  **injectMultiFactorTotpAuthVerifyFormSchema**
+  **`injectMultiFactorTotpAuthVerifyFormSchema`**
 
   Injects a Zod schema for multi-factor TOTP verification code form validation.
 
   Returns `Signal<ZodObject>` with `verificationCode` field.
 
-  **injectRecaptchaVerifier**
+  **`injectRecaptchaVerifier`**
 
   Injects a reCAPTCHA verifier instance.
 
@@ -1934,19 +1934,19 @@ By default, any missing translations will fallback to English if not specified. 
 
   Returns `Signal<RecaptchaVerifier \| null>`.
 
-  **injectPolicies**
+  **`injectPolicies`**
 
   Injects the policy configuration.
 
   Returns `PolicyConfig \| null`.
 
-  **injectCountries**
+  **`injectCountries`**
 
   Injects the list of countries for country selector.
 
   Returns `Signal<CountryData[]>`.
 
-  **injectDefaultCountry**
+  **`injectDefaultCountry`**
 
   Injects the default country for country selector.
 
