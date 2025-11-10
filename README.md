@@ -483,7 +483,59 @@ By default, any missing translations will fallback to English if not specified. 
 
 ## Reference
 
+<details>
+  <summary>@invertase/firebaseui-core</summary>
 
+</details>
+
+<details>
+  <summary>@invertase/firebaseui-react</summary>
+
+</details>
+
+<details>
+  <summary>Shadcn</summary>
+
+  The shadcn registry is available at: https://fir-ui-shadcn-registry.web.app/r/{name}.json
+
+  | Name     |       Path       | Description |
+  |----------|:----------------:|-------------|
+  | apple-sign-in-button | /r/apple-sign-in-button.json | A button component for Apple OAuth authentication. |
+  | country-selector | /r/country-selector.json | A country selector component for phone number input with country codes and flags. |
+  | email-link-auth-form | /r/email-link-auth-form.json | A form allowing users to sign in via email link. |
+  | email-link-auth-screen | /r/email-link-auth-screen.json | A screen allowing users to sign in via email link. |
+  | facebook-sign-in-button | /r/facebook-sign-in-button.json | A button component for Facebook OAuth authentication. |
+  | forgot-password-auth-form | /r/forgot-password-auth-form.json | A form allowing users to reset their password via email. |
+  | forgot-password-auth-screen | /r/forgot-password-auth-screen.json | A screen allowing users to reset their password via email. |
+  | github-sign-in-button | /r/github-sign-in-button.json | A button component for GitHub OAuth authentication. |
+  | google-sign-in-button | /r/google-sign-in-button.json | A button component for Google OAuth authentication. |
+  | microsoft-sign-in-button | /r/microsoft-sign-in-button.json | A button component for Microsoft OAuth authentication. |
+  | multi-factor-auth-assertion-form | /r/multi-factor-auth-assertion-form.json | A form allowing users to complete multi-factor authentication during sign-in with TOTP or SMS options. |
+  | multi-factor-auth-assertion-screen | /r/multi-factor-auth-assertion-screen.json | A screen allowing users to complete multi-factor authentication during sign-in with TOTP or SMS options. |
+  | multi-factor-auth-enrollment-form | /r/multi-factor-auth-enrollment-form.json | A form allowing users to select and configure multi-factor authentication methods. |
+  | multi-factor-auth-enrollment-screen | /r/multi-factor-auth-enrollment-screen.json | A screen allowing users to set up multi-factor authentication with TOTP or SMS options. |
+  | oauth-button | /r/oauth-button.json | A button component for OAuth authentication providers. |
+  | oauth-screen | /r/oauth-screen.json | A screen allowing users to sign in with OAuth providers. |
+  | phone-auth-form | /r/phone-auth-form.json | A form allowing users to authenticate using their phone number with SMS verification. |
+  | phone-auth-screen | /r/phone-auth-screen.json | A screen allowing users to authenticate using their phone number with SMS verification. |
+  | policies | /r/policies.json | A component allowing users to navigate to the terms of service and privacy policy. |
+  | redirect-error | /r/redirect-error.json | A component that displays redirect errors from Firebase UI authentication flow. |
+  | sign-in-auth-form | /r/sign-in-auth-form.json | A form allowing users to sign in with email and password. |
+  | sign-in-auth-screen | /r/sign-in-auth-screen.json | A screen allowing users to sign in with email and password. |
+  | sign-up-auth-form | /r/sign-up-auth-form.json | A form allowing users to sign up with email and password. |
+  | sign-up-auth-screen | /r/sign-up-auth-screen.json | A screen allowing users to sign up with email and password. |
+  | sms-multi-factor-assertion-form | /r/sms-multi-factor-assertion-form.json | A form allowing users to complete SMS-based multi-factor authentication during sign-in. |
+  | sms-multi-factor-enrollment-form | /r/sms-multi-factor-enrollment-form.json | A form allowing users to enroll SMS-based multi-factor authentication. |
+  | totp-multi-factor-assertion-form | /r/totp-multi-factor-assertion-form.json | A form allowing users to complete TOTP-based multi-factor authentication during sign-in. |
+  | totp-multi-factor-enrollment-form | /r/totp-multi-factor-enrollment-form.json | A form allowing users to enroll TOTP-based multi-factor authentication with QR code generation. |
+  | twitter-sign-in-button | /r/twitter-sign-in-button.json | A button component for Twitter OAuth authentication. |
+
+</details>
+
+<details>
+  <summary>@invertase/firebaseui-angular</summary>
+
+</details>
 
 ## Bring your own UI
 
