@@ -15,7 +15,7 @@
     },
     {
       "site": "fir-ui-shadcn",
-      "source": "examples/shadcn",
+      "public": "examples/shadcn/dist",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [
         {
