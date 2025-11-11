@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "fir-ui-2025-react",
+    "site": "fir-ui-rework",
     "public": "dist",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [

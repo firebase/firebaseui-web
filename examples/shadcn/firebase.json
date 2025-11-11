@@ -1,0 +1,7 @@
+{
+  "hosting": {
+    "site": "fir-ui-shadcn",
+    "source": ".",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
+  }
+}

@@ -13,10 +13,10 @@
     "deploy": "pnpm run build && firebase deploy --only hosting:fir-ui-rework-nextjs-ssr"
   },
   "dependencies": {
-    "@invertase/firebaseui-react": "workspace:*",
-    "@invertase/firebaseui-core": "workspace:*",
-    "@invertase/firebaseui-styles": "workspace:*",
-    "@invertase/firebaseui-translations": "workspace:*",
+    "@invertase/firebaseui-react": "latest",
+    "@invertase/firebaseui-core": "latest",
+    "@invertase/firebaseui-styles": "latest",
+    "@invertase/firebaseui-translations": "latest",
     "firebase": "^11.10.0",
     "next": "15.1.7",
     "react": "19.1.1",
