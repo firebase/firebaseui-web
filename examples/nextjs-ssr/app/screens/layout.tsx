@@ -14,16 +14,25 @@
  * limitations under the License.
  */
 
-import { getCurrentUser } from "@/lib/firebase/serverApp";
-import { UnauthenticatedApp } from "./unauthenticated-app";
-import { AuthenticatedApp } from "./authenticated-app";
+import Link from "next/link";
 
-export default async function Home() {
-  const { currentUser } = await getCurrentUser();
-
-  if (currentUser) {
-    return <AuthenticatedApp initialUser={currentUser} />;
-  }
-
-  return <UnauthenticatedApp />;
+export default function ScreensLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="p-8">
+      <Link
+        href="/"
+        className="border border-gray-300 dark:border-gray-700 border-rounded px-4 py-2 rounded-md text-sm inline-block"
+      >
+        &larr; Back to overview
+      </Link>
+      <div className="pt-12">
+        {children}
+      </div>
+    </div>
+  );
 }
+

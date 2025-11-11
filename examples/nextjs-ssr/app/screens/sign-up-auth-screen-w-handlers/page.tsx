@@ -14,16 +14,24 @@
  * limitations under the License.
  */
 
-import { getCurrentUser } from "@/lib/firebase/serverApp";
-import { UnauthenticatedApp } from "./unauthenticated-app";
-import { AuthenticatedApp } from "./authenticated-app";
+"use client";
 
-export default async function Home() {
-  const { currentUser } = await getCurrentUser();
+import { SignUpAuthScreen } from "@invertase/firebaseui-react";
+import { useRouter } from "next/navigation";
 
-  if (currentUser) {
-    return <AuthenticatedApp initialUser={currentUser} />;
-  }
+export default function SignUpAuthScreenWithHandlersPage() {
+  const router = useRouter();
 
-  return <UnauthenticatedApp />;
+  return (
+    <SignUpAuthScreen
+      onSignInClick={() => {
+        router.push("/screens/sign-in-auth-screen");
+      }}
+      onSignUp={(credential) => {
+        console.log(credential);
+        router.push("/");
+      }}
+    />
+  );
 }
+

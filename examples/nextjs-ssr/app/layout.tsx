@@ -14,23 +14,12 @@
  * limitations under the License.
  */
 
-import { getCurrentUser } from "@/lib/firebase/serverApp";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-
-import { Header } from "@/lib/components/header";
+import Script from "next/script";
 import { FirebaseUIProviderHoc } from "@/lib/firebase/ui";
+import { ThemeToggle } from "@/lib/components/theme-toggle";
+import { PirateToggle } from "@/lib/components/pirate-toggle";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "Create Next App (SSR)",
@@ -42,13 +31,36 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { currentUser } = await getCurrentUser();
-
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Header currentUser={currentUser} />
-        <FirebaseUIProviderHoc>{children}</FirebaseUIProviderHoc>
+    <html lang="en" suppressHydrationWarning>
+      <body className="dark:bg-neutral-900 dark:text-white" suppressHydrationWarning>
+        <Script
+          id="dark-mode-init"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              !(function() {
+                try {
+                  var theme = localStorage.getItem('theme');
+                  var isDark = theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                  if (isDark) {
+                    document.documentElement.classList.add('dark');
+                  }
+                  // Mark theme as loaded - this removes the visibility:hidden
+                  document.documentElement.classList.add('theme-loaded');
+                } catch (e) {
+                  // If anything fails, still show content
+                  document.documentElement.classList.add('theme-loaded');
+                }
+              })();
+            `,
+          }}
+        />
+        <FirebaseUIProviderHoc>
+          <ThemeToggle />
+          <PirateToggle />
+          {children}
+        </FirebaseUIProviderHoc>
       </body>
     </html>
   );
