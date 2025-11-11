@@ -1,7 +1,0 @@
-{
-  "hosting": {
-    "site": "fir-ui-rework-angular",
-    "source": ".",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
-  }
-}

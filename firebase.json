@@ -15,7 +15,7 @@
     },
     {
       "site": "fir-ui-shadcn",
-      "public": "examples/shadcn/dist",
+      "source": "examples/shadcn",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [
         {
@@ -23,6 +23,35 @@
           "destination": "/index.html"
         }
       ]
+    },
+    {
+      "site": "fir-ui-rework",
+      "public": "examples/react/dist",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    },
+    {
+      "site": "fir-ui-rework-angular",
+      "source": "examples/angular",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
+    },
+    {
+      "site": "fir-ui-rework-nextjs-ssg",
+      "public": "examples/nextjs/out",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
+    },
+    {
+      "site": "fir-ui-rework-nextjs-ssr",
+      "source": "examples/nextjs-ssr",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "frameworksBackend": {
+        "region": "us-central1"
+      }
     }
   ]
 }
