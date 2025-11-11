@@ -24,6 +24,6 @@ export { PolicyContext } from "./components/policies";
 export { FirebaseUIProvider, type FirebaseUIProviderProps } from "./context";
 export * from "./hooks";
 
-if (import.meta.env.PROD) {
+if (import.meta.env?.PROD) {
   registerFramework("react", pkgJson.version);
 }
