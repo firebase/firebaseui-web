@@ -22,6 +22,10 @@ vi.mock("./require-display-name", () => ({
 
 vi.mock("firebase/auth", () => ({
   RecaptchaVerifier: vi.fn(),
+  signInWithPopup: vi.fn(),
+  linkWithPopup: vi.fn(),
+  signInWithRedirect: vi.fn(),
+  linkWithRedirect: vi.fn(),
 }));
 
 beforeEach(() => {

@@ -126,6 +126,6 @@ export function getBehavior<T extends keyof Registry>(ui: FirebaseUI, key: T): R
 
 export const defaultBehaviors: Behavior<"recaptchaVerification"> = {
   ...recaptchaVerification(),
-  ...providerRedirectStrategy(),
+  ...providerPopupStrategy(),
   ...countryCodes(),
 };
