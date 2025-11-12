@@ -14,11 +14,13 @@
  */
 
 import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
-import { render, screen, cleanup } from "@testing-library/react";
+import { render, screen, cleanup, fireEvent, waitFor } from "@testing-library/react";
 import { AppleLogo, AppleSignInButton } from "./apple-sign-in-button";
 import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
 import { registerLocale } from "@invertase/firebaseui-translations";
 import { OAuthProvider } from "firebase/auth";
+import { signInWithProvider } from "@invertase/firebaseui-core";
+import type { UserCredential } from "firebase/auth";
 
 vi.mock("firebase/auth", async () => {
   const actual = await vi.importActual("firebase/auth");
@@ -30,6 +32,14 @@ vi.mock("firebase/auth", async () => {
       }
       providerId: string;
     },
+  };
+});
+
+vi.mock("@invertase/firebaseui-core", async (importOriginal) => {
+  const mod = await importOriginal();
+  return {
+    ...(mod as object),
+    signInWithProvider: vi.fn(),
   };
 });
 
@@ -159,6 +169,35 @@ describe("<AppleSignInButton />", () => {
     const button = screen.getByRole("button");
     expect(button).toHaveClass("fui-provider__button");
     expect(button.getAttribute("type")).toBe("button");
+  });
+
+  it("calls onSignIn callback when sign-in is successful", async () => {
+    const mockSignInWithProvider = vi.mocked(signInWithProvider);
+    const mockCredential = { user: { uid: "test-uid" } } as UserCredential;
+    const onSignIn = vi.fn();
+    mockSignInWithProvider.mockResolvedValue(mockCredential);
+
+    const ui = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          signInWithApple: "Sign in with Apple",
+        },
+      }),
+    });
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <AppleSignInButton onSignIn={onSignIn} />
+      </CreateFirebaseUIProvider>
+    );
+
+    const button = screen.getByRole("button");
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(onSignIn).toHaveBeenCalledTimes(1);
+      expect(onSignIn).toHaveBeenCalledWith(mockCredential);
+    });
   });
 });
 

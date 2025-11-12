@@ -17,7 +17,7 @@
 "use client";
 
 import { getTranslation } from "@invertase/firebaseui-core";
-import { GithubAuthProvider } from "firebase/auth";
+import { GithubAuthProvider, type UserCredential } from "firebase/auth";
 import { useUI } from "~/hooks";
 import { OAuthButton } from "./oauth-button";
 import GitHubSvgLogo from "~/components/logos/github/Logo";
@@ -26,13 +26,14 @@ import { cn } from "~/utils/cn";
 export type GitHubSignInButtonProps = {
   provider?: GithubAuthProvider;
   themed?: boolean;
+  onSignIn?: (credential: UserCredential) => void;
 };
 
-export function GitHubSignInButton({ provider, themed }: GitHubSignInButtonProps) {
+export function GitHubSignInButton({ provider, ...props }: GitHubSignInButtonProps) {
   const ui = useUI();
 
   return (
-    <OAuthButton provider={provider || new GithubAuthProvider()} themed={themed}>
+    <OAuthButton {...props} provider={provider || new GithubAuthProvider()}>
       <GitHubLogo />
       <span>{getTranslation(ui, "labels", "signInWithGitHub")}</span>
     </OAuthButton>

@@ -17,7 +17,7 @@
 "use client";
 
 import { getTranslation } from "@invertase/firebaseui-core";
-import { OAuthProvider } from "firebase/auth";
+import { OAuthProvider, type UserCredential } from "firebase/auth";
 import { useUI } from "~/hooks";
 import { OAuthButton } from "./oauth-button";
 import AppleSvgLogo from "~/components/logos/apple/Logo";
@@ -26,13 +26,14 @@ import { cn } from "~/utils/cn";
 export type AppleSignInButtonProps = {
   provider?: OAuthProvider;
   themed?: boolean;
+  onSignIn?: (credential: UserCredential) => void;
 };
 
-export function AppleSignInButton({ provider, themed }: AppleSignInButtonProps) {
+export function AppleSignInButton({ provider, ...props }: AppleSignInButtonProps) {
   const ui = useUI();
 
   return (
-    <OAuthButton provider={provider || new OAuthProvider("apple.com")} themed={themed}>
+    <OAuthButton {...props} provider={provider || new OAuthProvider("apple.com")}>
       <AppleLogo />
       <span>{getTranslation(ui, "labels", "signInWithApple")}</span>
     </OAuthButton>

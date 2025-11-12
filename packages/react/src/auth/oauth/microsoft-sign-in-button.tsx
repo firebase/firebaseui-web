@@ -17,7 +17,7 @@
 "use client";
 
 import { getTranslation } from "@invertase/firebaseui-core";
-import { OAuthProvider } from "firebase/auth";
+import { OAuthProvider, type UserCredential } from "firebase/auth";
 import { useUI } from "~/hooks";
 import { OAuthButton } from "./oauth-button";
 import MicrosoftSvgLogo from "~/components/logos/microsoft/Logo";
@@ -26,13 +26,14 @@ import { cn } from "~/utils/cn";
 export type MicrosoftSignInButtonProps = {
   provider?: OAuthProvider;
   themed?: boolean;
+  onSignIn?: (credential: UserCredential) => void;
 };
 
-export function MicrosoftSignInButton({ provider, themed }: MicrosoftSignInButtonProps) {
+export function MicrosoftSignInButton({ provider, ...props }: MicrosoftSignInButtonProps) {
   const ui = useUI();
 
   return (
-    <OAuthButton provider={provider || new OAuthProvider("microsoft.com")} themed={themed}>
+    <OAuthButton {...props} provider={provider || new OAuthProvider("microsoft.com")}>
       <MicrosoftLogo />
       <span>{getTranslation(ui, "labels", "signInWithMicrosoft")}</span>
     </OAuthButton>
