@@ -357,7 +357,7 @@ const ui = initializeUI({
 
 #### `providerRedirectStrategy`
 
-The `providerRedirectStrategy` behavior redirects any external provider authentication (e.g. OAuth) via a redirect flow. This is the default strategy.
+The `providerRedirectStrategy` behavior redirects any external provider authentication (e.g. OAuth) via a redirect flow.
 
 ```ts
 import { providerRedirectStrategy } from '@invertase/firebaseui-core';
@@ -370,7 +370,7 @@ const ui = initializeUI({
 
 #### `providerPopupStrategy`
 
-The `providerPopupStrategy` behavior causes any external provider authentication (e.g. OAuth) to be handled via a popup window.
+The `providerPopupStrategy` behavior causes any external provider authentication (e.g. OAuth) to be handled via a popup window.  This is the default strategy.
 
 ```ts
 import { providerPopupStrategy } from '@invertase/firebaseui-core';
