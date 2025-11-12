@@ -16,69 +16,20 @@
 
 "use client";
 
-import { MultiFactorAuthAssertionScreen, useUI } from "@invertase/firebaseui-react";
 import { multiFactor, sendEmailVerification, signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/lib/firebase/hooks";
 import { auth } from "@/lib/firebase/clientApp";
-import { routes } from "@/lib/routes";
-import Link from "next/link";
+import { type User } from "firebase/auth";
 
-export default function Home() {
-  const user = useUser();
-  const ui = useUI();
+export function AuthenticatedApp({ initialUser }: { initialUser: User | null }) {
+  const user = useUser(initialUser);
   const router = useRouter();
 
-  if (user) {
-    return <AuthenticatedApp user={user} router={router} />;
+  if (!user) {
+    return null;
   }
 
-  return <UnauthenticatedApp ui={ui} />;
-}
-
-function UnauthenticatedApp({ ui }: { ui: ReturnType<typeof useUI> }) {
-  // This can trigger if the user is not on a screen already, and gets an MFA challenge - e.g. on One-Tap sign in.
-  if (ui.multiFactorResolver) {
-    return <MultiFactorAuthAssertionScreen />;
-  }
-
-  return (
-    <div className="max-w-sm mx-auto pt-36 space-y-6 pb-36">
-      <div className="text-center space-y-4">
-        <img src="/firebase-logo-inverted.png" alt="Firebase UI" className="hidden dark:block h-36 mx-auto" />
-        <img src="/firebase-logo.png" alt="Firebase UI" className="block dark:hidden h-36 mx-auto" />
-        <p className="text-sm text-gray-700 dark:text-gray-300">
-          Welcome to Firebase UI, choose an example screen below to get started!
-        </p>
-      </div>
-      <div className="border border-neutral-200 dark:border-neutral-800 rounded divide-y divide-neutral-200 dark:divide-neutral-800 overflow-hidden">
-        {routes.map((route) => (
-          <Link
-            key={route.path}
-            href={route.path}
-            className="flex items-center justify-between hover:bg-neutral-100 dark:bg-neutral-900 dark:hover:bg-neutral-800 p-4"
-          >
-            <div className="space-y-1">
-              <h2 className="font-medium text-sm">{route.name}</h2>
-              <p className="text-xs text-gray-400 dark:text-gray-300">{route.description}</p>
-            </div>
-            <div className="text-neutral-600 dark:text-neutral-400">
-              <span className="text-xl">&rarr;</span>
-            </div>
-          </Link>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function AuthenticatedApp({
-  user,
-  router,
-}: {
-  user: NonNullable<ReturnType<typeof useUser>>;
-  router: ReturnType<typeof useRouter>;
-}) {
   const mfa = multiFactor(user);
 
   return (

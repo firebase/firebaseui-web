@@ -27,6 +27,6 @@ export * from "./register-framework";
 export * from "./schemas";
 export * from "./translations";
 
-if (import.meta.env.PROD) {
+if (import.meta.env?.PROD) {
   registerFramework("core", pkgJson.version);
 }

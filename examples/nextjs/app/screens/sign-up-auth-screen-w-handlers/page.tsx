@@ -1,4 +1,3 @@
-/// <reference types="vite/client" />
 /**
  * Copyright 2025 Google LLC
  *
@@ -15,15 +14,23 @@
  * limitations under the License.
  */
 
-import { registerFramework } from "@invertase/firebaseui-core";
-import pkgJson from "../package.json";
+"use client";
 
-export * from "./auth";
-export * from "./components";
-export { PolicyContext } from "./components/policies";
-export { FirebaseUIProvider, type FirebaseUIProviderProps } from "./context";
-export * from "./hooks";
+import { SignUpAuthScreen } from "@invertase/firebaseui-react";
+import { useRouter } from "next/navigation";
 
-if (import.meta.env?.PROD) {
-  registerFramework("react", pkgJson.version);
+export default function SignUpAuthScreenWithHandlersPage() {
+  const router = useRouter();
+
+  return (
+    <SignUpAuthScreen
+      onSignInClick={() => {
+        router.push("/screens/sign-in-auth-screen");
+      }}
+      onSignUp={(credential) => {
+        console.log(credential);
+        router.push("/");
+      }}
+    />
+  );
 }
