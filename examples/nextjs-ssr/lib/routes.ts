@@ -84,4 +84,3 @@ export const hiddenRoutes = [
     path: "/screens/mfa-enrollment-screen",
   },
 ] as const;
-

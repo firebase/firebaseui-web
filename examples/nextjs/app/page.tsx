@@ -72,7 +72,13 @@ function UnauthenticatedApp({ ui }: { ui: ReturnType<typeof useUI> }) {
   );
 }
 
-function AuthenticatedApp({ user, router }: { user: NonNullable<ReturnType<typeof useUser>>; router: ReturnType<typeof useRouter> }) {
+function AuthenticatedApp({
+  user,
+  router,
+}: {
+  user: NonNullable<ReturnType<typeof useUser>>;
+  router: ReturnType<typeof useRouter>;
+}) {
   const mfa = multiFactor(user);
 
   return (

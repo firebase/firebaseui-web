@@ -87,4 +87,3 @@ export function AuthenticatedApp({ initialUser }: { initialUser: User | null }) 
     </div>
   );
 }
-

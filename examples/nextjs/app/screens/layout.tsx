@@ -16,11 +16,7 @@
 
 import Link from "next/link";
 
-export default function ScreensLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function ScreensLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="p-8">
       <Link
@@ -29,10 +25,7 @@ export default function ScreensLayout({
       >
         &larr; Back to overview
       </Link>
-      <div className="pt-12">
-        {children}
-      </div>
+      <div className="pt-12">{children}</div>
     </div>
   );
 }
-
