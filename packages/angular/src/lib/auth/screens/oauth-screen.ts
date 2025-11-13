@@ -23,11 +23,11 @@ import {
   CardSubtitleComponent,
   CardContentComponent,
 } from "../../components/card";
-import { injectTranslation, injectUI } from "../../provider";
+import { injectTranslation, injectUI, injectUserAuthenticated } from "../../provider";
 import { PoliciesComponent } from "../../components/policies";
 import { MultiFactorAuthAssertionScreenComponent } from "../screens/multi-factor-auth-assertion-screen";
 import { RedirectErrorComponent } from "../../components/redirect-error";
-import { type UserCredential } from "firebase/auth";
+import { type User } from "@angular/fire/auth";
 
 @Component({
   selector: "fui-oauth-screen",
@@ -48,7 +48,7 @@ import { type UserCredential } from "firebase/auth";
   ],
   template: `
     @if (mfaResolver()) {
-      <fui-multi-factor-auth-assertion-screen (onSuccess)="onSignIn.emit($event)" />
+      <fui-multi-factor-auth-assertion-screen />
     } @else {
       <div class="fui-screen">
         <fui-card>
@@ -76,5 +76,11 @@ export class OAuthScreenComponent {
   titleText = injectTranslation("labels", "signIn");
   subtitleText = injectTranslation("prompts", "signInToAccount");
 
-  @Output() onSignIn = new EventEmitter<UserCredential>();
+  constructor() {
+    injectUserAuthenticated((user) => {
+      this.onSignIn.emit(user);
+    });
+  }
+
+  @Output() onSignIn = new EventEmitter<User>();
 }

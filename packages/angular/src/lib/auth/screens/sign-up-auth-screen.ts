@@ -16,9 +16,9 @@
 
 import { Component, Output, EventEmitter, computed } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { UserCredential } from "@angular/fire/auth";
+import { User } from "@angular/fire/auth";
 
-import { injectTranslation, injectUI } from "../../provider";
+import { injectTranslation, injectUI, injectUserAuthenticated } from "../../provider";
 import { SignUpAuthFormComponent } from "../forms/sign-up-auth-form";
 import { MultiFactorAuthAssertionScreenComponent } from "../screens/multi-factor-auth-assertion-screen";
 import { RedirectErrorComponent } from "../../components/redirect-error";
@@ -49,7 +49,7 @@ import {
   ],
   template: `
     @if (mfaResolver()) {
-      <fui-multi-factor-auth-assertion-screen (onSuccess)="signUp.emit($event)" />
+      <fui-multi-factor-auth-assertion-screen />
     } @else {
       <div class="fui-screen">
         <fui-card>
@@ -58,7 +58,7 @@ import {
             <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
           </fui-card-header>
           <fui-card-content>
-            <fui-sign-up-auth-form [signIn]="signIn" (signUp)="signUp.emit($event)" />
+            <fui-sign-up-auth-form [signIn]="signIn" (signUp)="signUp.emit($event.user)" />
             <ng-content />
             <fui-redirect-error />
           </fui-card-content>
@@ -75,6 +75,12 @@ export class SignUpAuthScreenComponent {
   titleText = injectTranslation("labels", "signUp");
   subtitleText = injectTranslation("prompts", "enterDetailsToCreate");
 
-  @Output() signUp = new EventEmitter<UserCredential>();
+  constructor() {
+    injectUserAuthenticated((user) => {
+      this.signUp.emit(user);
+    });
+  }
+
+  @Output() signUp = new EventEmitter<User>();
   @Output() signIn = new EventEmitter<void>();
 }
