@@ -18,6 +18,7 @@ import parser from "yargs-parser";
 import fs from "fs";
 import path from "path";
 import { execSync } from "child_process";
+import pkgJson from "./package.json";
 
 const args = parser(process.argv.slice(2));
 const domain = String(args.domain);
@@ -33,6 +34,9 @@ const registryPath = path.resolve("registry-spec.json");
 const registryRaw = fs.readFileSync(registryPath, "utf8");
 
 let replaced = registryRaw.replace(/{{\s*DOMAIN\s*}}/g, domain);
+
+// Replace version placeholder
+replaced = replaced.replace(/{{\s*VERSION\s*}}/g, pkgJson.version);
 
 // Replace dependency placeholder based on dev flag
 replaced = replaced.replace(/{{\s*DEP\s*\|\s*([^}]+)\s*}}/g, (_, packageName) => {

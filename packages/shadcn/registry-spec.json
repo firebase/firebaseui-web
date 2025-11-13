@@ -5,6 +5,9 @@
   "items": [
     {
       "name": "apple-sign-in-button",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Apple Sign In Button",
       "description": "A button component for Apple OAuth authentication.",
@@ -35,6 +38,9 @@
     },
     {
       "name": "country-selector",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Country Selector",
       "description": "A country selector component for phone number input with country codes and flags.",
@@ -49,6 +55,9 @@
     },
     {
       "name": "email-link-auth-form",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Email Link Auth Form",
       "description": "A form allowing users to sign in via email link.",
@@ -63,6 +72,9 @@
     },
     {
       "name": "email-link-auth-screen",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Email Link Auth Screen",
       "description": "A screen allowing users to sign in via email link.",
@@ -82,6 +94,9 @@
     },
     {
       "name": "facebook-sign-in-button",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Facebook Sign In Button",
       "description": "A button component for Facebook OAuth authentication.",
@@ -105,6 +120,9 @@
     },
     {
       "name": "forgot-password-auth-form",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Forgot Password Auth Form",
       "description": "A form allowing users to reset their password via email.",
@@ -119,6 +137,9 @@
     },
     {
       "name": "forgot-password-auth-screen",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Forgot Password Auth Screen",
       "description": "A screen allowing users to reset their password via email.",
@@ -133,6 +154,9 @@
     },
     {
       "name": "github-sign-in-button",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "GitHub Sign In Button",
       "description": "A button component for GitHub OAuth authentication.",
@@ -163,6 +187,9 @@
     },
     {
       "name": "google-sign-in-button",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Google Sign In Button",
       "description": "A button component for Google OAuth authentication.",
@@ -198,6 +225,9 @@
     },
     {
       "name": "microsoft-sign-in-button",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Microsoft Sign In Button",
       "description": "A button component for Microsoft OAuth authentication.",
@@ -228,6 +258,9 @@
     },
     {
       "name": "multi-factor-auth-assertion-form",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Multi-Factor Auth Assertion Form",
       "description": "A form allowing users to complete multi-factor authentication during sign-in with TOTP or SMS options.",
@@ -246,6 +279,9 @@
     },
     {
       "name": "multi-factor-auth-assertion-screen",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Multi-Factor Auth Assertion Screen",
       "description": "A screen allowing users to complete multi-factor authentication during sign-in with TOTP or SMS options.",
@@ -260,6 +296,9 @@
     },
     {
       "name": "multi-factor-auth-enrollment-form",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Multi-Factor Auth Enrollment Form",
       "description": "A form allowing users to select and configure multi-factor authentication methods.",
@@ -278,6 +317,9 @@
     },
     {
       "name": "multi-factor-auth-enrollment-screen",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Multi-Factor Auth Enrollment Screen",
       "description": "A screen allowing users to set up multi-factor authentication with TOTP or SMS options.",
@@ -292,6 +334,9 @@
     },
     {
       "name": "oauth-button",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "OAuth Button",
       "description": "A button component for OAuth authentication providers.",
@@ -306,6 +351,9 @@
     },
     {
       "name": "oauth-screen",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "OAuth Screen",
       "description": "A screen allowing users to sign in with OAuth providers.",
@@ -325,6 +373,9 @@
     },
     {
       "name": "phone-auth-form",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Phone Auth Form",
       "description": "A form allowing users to authenticate using their phone number with SMS verification.",
@@ -345,6 +396,9 @@
     },
     {
       "name": "phone-auth-screen",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Phone Auth Screen",
       "description": "A screen allowing users to authenticate using their phone number with SMS verification.",
@@ -365,6 +419,9 @@
     },
     {
       "name": "policies",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Policies",
       "description": "A component allowing users to navigate to the terms of service and privacy policy.",
@@ -378,6 +435,9 @@
     },
     {
       "name": "redirect-error",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Redirect Error",
       "description": "A component that displays redirect errors from Firebase UI authentication flow.",
@@ -391,6 +451,9 @@
     },
     {
       "name": "sign-in-auth-form",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Sign In Auth Form",
       "description": "A form allowing users to sign in with email and password.",
@@ -405,6 +468,9 @@
     },
     {
       "name": "sign-in-auth-screen",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Sign In Auth Screen",
       "description": "A screen allowing users to sign in with email and password.",
@@ -424,6 +490,9 @@
     },
     {
       "name": "sign-up-auth-form",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Sign Up Auth Form",
       "description": "A form allowing users to sign up with email and password.",
@@ -438,6 +507,9 @@
     },
     {
       "name": "sign-up-auth-screen",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Sign Up Auth Screen",
       "description": "A screen allowing users to sign up with email and password.",
@@ -457,6 +529,9 @@
     },
     {
       "name": "sms-multi-factor-assertion-form",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "SMS Multi-Factor Assertion Form",
       "description": "A form allowing users to complete SMS-based multi-factor authentication during sign-in.",
@@ -471,6 +546,9 @@
     },
     {
       "name": "sms-multi-factor-enrollment-form",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "SMS Multi-Factor Enrollment Form",
       "description": "A form allowing users to enroll SMS-based multi-factor authentication.",
@@ -485,6 +563,9 @@
     },
     {
       "name": "totp-multi-factor-assertion-form",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "TOTP Multi-Factor Assertion Form",
       "description": "A form allowing users to complete TOTP-based multi-factor authentication during sign-in.",
@@ -499,6 +580,9 @@
     },
     {
       "name": "totp-multi-factor-enrollment-form",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "TOTP Multi-Factor Enrollment Form",
       "description": "A form allowing users to enroll TOTP-based multi-factor authentication with QR code generation.",
@@ -513,6 +597,9 @@
     },
     {
       "name": "twitter-sign-in-button",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Twitter Sign In Button",
       "description": "A button component for Twitter OAuth authentication.",
