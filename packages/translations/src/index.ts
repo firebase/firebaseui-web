@@ -20,8 +20,17 @@ import { type Translations } from "./types";
 export type * from "./types";
 export * from "./mapping";
 
+/** Locale identifier string. Supports BCP 47 format (e.g., "en-US") or any string. */
 export type Locale = "en-US" | `${string}-${string}` | string;
 
+/**
+ * Registers a locale with its translations and optional fallback locale.
+ *
+ * @param locale - The locale identifier (e.g., "en-US", "fr-FR").
+ * @param translations - The translation object for this locale.
+ * @param fallback - Optional fallback locale to use when a translation is missing.
+ * @returns A registered locale object.
+ */
 export function registerLocale(
   locale: Locale,
   translations: Translations,
@@ -34,10 +43,15 @@ export function registerLocale(
   };
 }
 
+/** Pre-registered English US locale with default translations. */
 export const enUs = registerLocale("en-US", enUS);
 
+/** A registered locale with its translations and optional fallback. */
 export type RegisteredLocale = {
+  /** The locale identifier. */
   locale: Locale;
+  /** The translation object for this locale. */
   translations: Translations;
+  /** Optional fallback locale to use when a translation is missing. */
   fallback?: RegisteredLocale;
 };

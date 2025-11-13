@@ -16,6 +16,7 @@
 
 import { type Translations } from "../types";
 
+/** English US (en-US) translation set with all default translations. */
 export const enUS = {
   errors: {
     userNotFound: "No account found with this email address",
