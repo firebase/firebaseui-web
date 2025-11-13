@@ -71,9 +71,9 @@ describe("<fui-sign-up-auth-screen>", () => {
 
   beforeEach(() => {
     authStateSubject = new Subject<User | null>();
-    
+
     const { injectTranslation, injectUI, injectUserAuthenticated } = require("../../../provider");
-    
+
     // Mock injectUserAuthenticated to store the callback and set up subscription
     injectUserAuthenticated.mockImplementation((callback: (user: User) => void) => {
       userAuthenticatedCallback = callback;

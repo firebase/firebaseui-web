@@ -99,7 +99,6 @@ describe("<PhoneAuthScreen />", () => {
     expect(screen.getByTestId("phone-auth-form")).toBeDefined();
   });
 
-
   it("renders a divider with children when present", () => {
     const ui = createMockUI({
       locale: registerLocale("test", {

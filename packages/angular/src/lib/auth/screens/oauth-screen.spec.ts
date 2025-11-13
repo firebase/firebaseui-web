@@ -100,9 +100,15 @@ describe("<fui-oauth-screen>", () => {
 
   beforeEach(() => {
     authStateSubject = new Subject<User | null>();
-    
-    const { injectTranslation, injectPolicies, injectRedirectError, injectUI, injectUserAuthenticated } = require("../../../provider");
-    
+
+    const {
+      injectTranslation,
+      injectPolicies,
+      injectRedirectError,
+      injectUI,
+      injectUserAuthenticated,
+    } = require("../../../provider");
+
     // Mock injectUserAuthenticated to store the callback and set up subscription
     injectUserAuthenticated.mockImplementation((callback: (user: User) => void) => {
       userAuthenticatedCallback = callback;
