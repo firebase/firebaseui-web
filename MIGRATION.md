@@ -119,7 +119,7 @@ ui.start('#firebaseui-auth-container', uiConfig);
 **New Way (v7):**
 
 <details>
-  <summary>React</summary>
+  <summary>React (+Shadcn)</summary>
 
   ```tsx
   import { initializeApp } from 'firebase/app';
@@ -162,46 +162,21 @@ ui.start('#firebaseui-auth-container', uiConfig);
   ```
 </details>
 
-<details>
-  <summary>Shadcn</summary>
-
-  ```tsx
-  import { initializeApp } from 'firebase/app';
-  import { initializeUI } from '@invertase/firebaseui-core';
-  import { FirebaseUIProvider } from '@invertase/firebaseui-react';
-
-  const app = initializeApp({ ... });
-
-  const ui = initializeUI({
-    app,
-    // behaviors and other configuration go here
-  });
-
-  function App() {
-    return (
-      <FirebaseUIProvider ui={ui}>
-        {/* Your app components */}
-      </FirebaseUIProvider>
-    );
-  }
-  ```
-</details>
-
 ### 3. Configuration Options Migration
 
 The following table maps v6 configuration options to their v7 equivalents:
 
-| v6 Option | Required | Migration Guide |
-|----------|:--------:|------------------|
-| `autoUpgradeAnonymousUsers` | No | **Use the `autoUpgradeAnonymousUsers` behavior.**<br/><br/>```ts<br/>import { autoUpgradeAnonymousUsers } from '@invertase/firebaseui-core';<br/><br/>const ui = initializeUI({<br/>  app,<br/>  behaviors: [autoUpgradeAnonymousUsers({<br/>    async onUpgrade(ui, oldUserId, credential) {<br/>      // Handle account merge logic<br/>    }<br/>  })],<br/>});<br/>```<br/><br/>The `onUpgrade` callback replaces the `signInFailure` callback for handling merge conflicts. |
-| `callbacks` | No | **Use component props instead.**<br/><br/>v6 callbacks like `signInSuccessWithAuthResult`, `signInFailure`, etc. are replaced by component event handlers:<br/><br/>- `onSignIn={(user) => { ... }}` on screen components<br/>- `onSignUp={(user) => { ... }}` on screen components<br/>- `onForgotPasswordClick={() => { ... }}` on form components<br/><br/>These are passed directly to the components you use, giving you more control over the flow. |
-| `credentialHelper` | No | **Not directly supported.**<br/><br/>The credential helper (Account Chooser) feature from v6 is not available in v7. If you need similar functionality, you'll need to implement it yourself using Firebase Auth's account linking features. |
-| `queryParameterForSignInSuccessUrl` | No | **Handle in your routing logic.**<br/><br/>v7 doesn't have built-in URL parameter handling. Instead, handle redirects in your `onSignIn` callback:<br/><br/>```tsx<br/><SignInAuthScreen onSignIn={(user) => {<br/>  const urlParams = new URLSearchParams(window.location.search);<br/>  const redirectUrl = urlParams.get('signInSuccessUrl') || '/dashboard';<br/>  window.location.href = redirectUrl;<br/>}} /><br/>``` |
-| `queryParameterForWidgetMode` | No | **Not applicable.**<br/><br/>v7 doesn't use widget modes. Instead, you explicitly render the components you need (e.g., `<SignInAuthScreen />`, `<SignUpAuthScreen />`, etc.) in your application. |
-| `signInFlow` | No | **Use provider strategy behaviors.**<br/><br/>Replace `signInFlow: 'redirect'` with:<br/>```ts<br/>import { providerRedirectStrategy } from '@invertase/firebaseui-core';<br/><br/>behaviors: [providerRedirectStrategy()]<br/>```<br/><br/>Replace `signInFlow: 'popup'` with:<br/>```ts<br/>import { providerPopupStrategy } from '@invertase/firebaseui-core';<br/><br/>behaviors: [providerPopupStrategy()]<br/>```<br/><br/>**Note:** `popup` is the default strategy in v7. |
-| `immediateFederatedRedirect` | No | **Control via component rendering.**<br/><br/>v7 doesn't have this option. Instead, you control whether to show OAuth buttons or redirect immediately by conditionally rendering components or using your routing logic. For example:<br/><br/>```tsx<br/>{singleProvider ? (<br/>  <Navigate to="/oauth-redirect" /><br/>) : (<br/>  <OAuthScreen onSignIn={handleSignIn} /><br/>)}<br/>``` |
-| `signInOptions` | Yes | **Use OAuth button components directly.**<br/><br/>v6's `signInOptions` array is replaced by explicitly rendering the OAuth provider buttons you want:<br/><br/>```tsx<br/>import { <br/>  GoogleSignInButton,<br/>  FacebookSignInButton,<br/>  AppleSignInButton<br/>} from '@invertase/firebaseui-react';<br/><br/><OAuthScreen onSignIn={handleSignIn}><br/>  <GoogleSignInButton onSignIn={handleSignIn} /><br/>  <FacebookSignInButton onSignIn={handleSignIn} /><br/>  <AppleSignInButton onSignIn={handleSignIn} /><br/></OAuthScreen><br/>```<br/><br/>The order you place the buttons determines their display order. |
-| `signInSuccessUrl` | No* | **Handle in `onSignIn` callback.**<br/><br/>Instead of a configuration option, handle redirects in your component's `onSignIn` callback:<br/><br/>```tsx<br/><SignInAuthScreen onSignIn={(user) => {<br/>  window.location.href = '/dashboard';<br/>}} /><br/>```<br/><br/>*Required in v6 when `signInSuccessWithAuthResult` callback is not used or returns `true`. |
-| `tosUrl` | Yes | **Pass via `policies` prop.**<br/><br/>**React:**<br/>```tsx<br/><FirebaseUIProvider <br/>  ui={ui} <br/>  policies={{<br/>    termsOfServiceUrl: 'https://example.com/tos',<br/>    privacyPolicyUrl: 'https://example.com/privacy'<br/>  }}<br/>><br/>```<br/><br/>**Angular:**<br/>```ts<br/>provideFirebaseUIPolicies(() => ({<br/>  termsOfServiceUrl: 'https://example.com/tos',<br/>  privacyPolicyUrl: 'https://example.com/privacy'<br/>}))<br/>```<br/><br/>The policies are automatically rendered in auth forms and screens. |
-| `privacyPolicyUrl` | Yes | **Pass via `policies` prop.**<br/><br/>See `tosUrl` above - both URLs are passed together in the `policies` object. |
-| `adminRestrictedOperation` | No | **Handle in your UI logic.**<br/><br/>v7 doesn't have built-in support for this GCIP-specific feature. You'll need to:<br/><br/>1. Check if sign-up is disabled in your Firebase project settings<br/>2. Handle the `auth/admin-restricted-operation` error in your error handling<br/>3. Display appropriate messaging to users when sign-up attempts are blocked<br/><br/>You can check for this error in your `onSignUp` or form error handlers and display custom UI accordingly. |
+| v6 Option | Migration Guide |
+|----------|------------------|
+| `autoUpgradeAnonymousUsers` | **Use the `autoUpgradeAnonymousUsers` behavior.** Import `autoUpgradeAnonymousUsers` from `@invertase/firebaseui-core` and add it to your behaviors array: `behaviors: [autoUpgradeAnonymousUsers({ async onUpgrade(ui, oldUserId, credential) { /* handle merge */ } })]`. The `onUpgrade` callback replaces the `signInFailure` callback for handling merge conflicts. |
+| `callbacks` | **Use component props instead.** v6 callbacks like `signInSuccessWithAuthResult`, `signInFailure`, etc. are replaced by component event handlers: `onSignIn={(user) => { ... }}` on screen components, `onSignUp={(user) => { ... }}` on screen components, `onForgotPasswordClick={() => { ... }}` on form components. These are passed directly to the components you use, giving you more control over the flow. |
+| `credentialHelper` | **Not directly supported.** The credential helper (Account Chooser) feature from v6 is not available in v7. If you need similar functionality, you'll need to implement it yourself using Firebase Auth's account linking features. |
+| `queryParameterForSignInSuccessUrl` | **Handle in your routing logic.** v7 doesn't have built-in URL parameter handling. Instead, handle redirects in your `onSignIn` callback by reading URL params: `const urlParams = new URLSearchParams(window.location.search); const redirectUrl = urlParams.get('signInSuccessUrl') || '/dashboard'; window.location.href = redirectUrl;` |
+| `queryParameterForWidgetMode` | **Not applicable.** v7 doesn't use widget modes. Instead, you explicitly render the components you need (e.g., `<SignInAuthScreen />`, `<SignUpAuthScreen />`, etc.) in your application. |
+| `signInFlow` | **Use provider strategy behaviors.** Replace `signInFlow: 'redirect'` with: `import { providerRedirectStrategy } from '@invertase/firebaseui-core'` and `behaviors: [providerRedirectStrategy()]`. Replace `signInFlow: 'popup'` with: `import { providerPopupStrategy } from '@invertase/firebaseui-core'` and `behaviors: [providerPopupStrategy()]`. **Note:** `popup` is the default strategy in v7. |
+| `immediateFederatedRedirect` | **Control via component rendering.** v7 doesn't have this option. Instead, you control whether to show OAuth buttons or redirect immediately by conditionally rendering components: `{singleProvider ? <Navigate to="/oauth-redirect" /> : <OAuthScreen onSignIn={handleSignIn} />}` |
+| `signInOptions` | **Use OAuth button components directly.** v6's `signInOptions` array is replaced by explicitly rendering the OAuth provider buttons you want. Import buttons like `GoogleSignInButton`, `FacebookSignInButton`, `AppleSignInButton` from `@invertase/firebaseui-react` and render them inside `<OAuthScreen>`. The order you place the buttons determines their display order. |
+| `signInSuccessUrl` | **Handle in `onSignIn` callback.** Instead of a configuration option, handle redirects in your component's `onSignIn` callback: `<SignInAuthScreen onSignIn={(user) => { window.location.href = '/dashboard'; }} />`. *Required in v6 when `signInSuccessWithAuthResult` callback is not used or returns `true`. |
+| `tosUrl` | **Pass via `policies` prop.** **React:** Pass `policies={{ termsOfServiceUrl: 'https://example.com/tos', privacyPolicyUrl: 'https://example.com/privacy' }}` to `<FirebaseUIProvider>`. **Angular:** Use `provideFirebaseUIPolicies(() => ({ termsOfServiceUrl: '...', privacyPolicyUrl: '...' }))`. The policies are automatically rendered in auth forms and screens. |
+| `privacyPolicyUrl` | **Pass via `policies` prop.** See `tosUrl` above - both URLs are passed together in the `policies` object. |
+| `adminRestrictedOperation` | **Handle in your UI logic.** v7 doesn't have built-in support for this GCIP-specific feature. You'll need to: (1) Check if sign-up is disabled in your Firebase project settings, (2) Handle the `auth/admin-restricted-operation` error in your error handling, (3) Display appropriate messaging to users when sign-up attempts are blocked. You can check for this error in your `onSignUp` or form error handlers and display custom UI accordingly. |
