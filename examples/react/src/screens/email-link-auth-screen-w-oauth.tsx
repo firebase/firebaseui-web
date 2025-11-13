@@ -35,8 +35,7 @@ export default function EmailLinkAuthScreenWithOAuthPage() {
       onEmailSent={() => {
         alert("Email has been sent - please check your email");
       }}
-      onSignIn={(credential) => {
-        console.log(credential);
+      onSignIn={() => {
         navigate("/");
       }}
     >

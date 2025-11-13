@@ -3,14 +3,21 @@ import type { Auth } from "firebase/auth";
 import { enUs } from "@invertase/firebaseui-translations";
 import { Behavior, FirebaseUI, FirebaseUIOptions, FirebaseUIStore, initializeUI } from "@invertase/firebaseui-core";
 import { FirebaseUIProvider } from "../src/context";
+import { vi } from "vitest";
 
 export function createMockUI(overrides?: Partial<FirebaseUIOptions>): FirebaseUIStore {
+  const defaultAuth = {
+    onAuthStateChanged: vi.fn(() => vi.fn()),
+  } as unknown as Auth;
+
+  const { auth, ...restOverrides } = overrides || {};
+
   return initializeUI({
     app: {} as FirebaseApp,
-    auth: {} as Auth,
+    auth: auth ?? defaultAuth,
     locale: enUs,
     behaviors: [] as Behavior[],
-    ...overrides,
+    ...restOverrides,
   });
 }
 

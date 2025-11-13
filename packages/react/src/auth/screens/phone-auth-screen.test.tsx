@@ -14,11 +14,11 @@
  */
 
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { render, screen, cleanup } from "@testing-library/react";
+import { render, screen, cleanup, act } from "@testing-library/react";
 import { PhoneAuthScreen } from "~/auth/screens/phone-auth-screen";
 import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
 import { registerLocale } from "@invertase/firebaseui-translations";
-import { MultiFactorResolver } from "firebase/auth";
+import { MultiFactorResolver, type User } from "firebase/auth";
 
 vi.mock("~/auth/forms/phone-auth-form", () => ({
   PhoneAuthForm: ({ resendDelay }: { resendDelay?: number }) => (
@@ -99,19 +99,6 @@ describe("<PhoneAuthScreen />", () => {
     expect(screen.getByTestId("phone-auth-form")).toBeDefined();
   });
 
-  // it("passes resendDelay prop to PhoneAuthForm", () => {
-  //   const ui = createMockUI();
-
-  //   render(
-  //     <CreateFirebaseUIProvider ui={ui}>
-  //       <PhoneAuthScreen resendDelay={60} />
-  //     </CreateFirebaseUIProvider>
-  //   );
-
-  //   const phoneForm = screen.getByTestId("phone-auth-form");
-  //   expect(phoneForm).toBeDefined();
-  //   expect(phoneForm.getAttribute("data-resend-delay")).toBe("60");
-  // });
 
   it("renders a divider with children when present", () => {
     const ui = createMockUI({
@@ -256,7 +243,18 @@ describe("<PhoneAuthScreen />", () => {
       session: null,
       hints: [],
     };
-    const ui = createMockUI();
+    let authStateChangeCallback: ((user: User | null) => void) | null = null;
+
+    const mockAuth = {
+      onAuthStateChanged: vi.fn((callback: (user: User | null) => void) => {
+        authStateChangeCallback = callback;
+        return vi.fn();
+      }),
+    };
+
+    const ui = createMockUI({
+      auth: mockAuth as any,
+    });
     ui.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
 
     const onSignIn = vi.fn();
@@ -267,13 +265,86 @@ describe("<PhoneAuthScreen />", () => {
       </CreateFirebaseUIProvider>
     );
 
-    // Simulate nested MFA form success
-    const trigger = screen.getByTestId("mfa-on-success");
-    trigger.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    // Simulate the MFA flow success - this would trigger auth state change
+    const mockUser = {
+      uid: "phone-mfa-user",
+      isAnonymous: false,
+    } as User;
+
+    act(() => {
+      authStateChangeCallback!(mockUser);
+    });
 
     expect(onSignIn).toHaveBeenCalledTimes(1);
-    expect(onSignIn).toHaveBeenCalledWith(
-      expect.objectContaining({ user: expect.objectContaining({ uid: "phone-mfa-user" }) })
+    expect(onSignIn).toHaveBeenCalledWith(mockUser);
+  });
+
+  it("calls onSignIn when user authenticates via useOnUserAuthenticated hook", () => {
+    const onSignIn = vi.fn();
+    let authStateChangeCallback: ((user: User | null) => void) | null = null;
+
+    const mockAuth = {
+      onAuthStateChanged: vi.fn((callback: (user: User | null) => void) => {
+        authStateChangeCallback = callback;
+        return vi.fn();
+      }),
+    };
+
+    const ui = createMockUI({
+      auth: mockAuth as any,
+    });
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <PhoneAuthScreen onSignIn={onSignIn} />
+      </CreateFirebaseUIProvider>
     );
+
+    expect(mockAuth.onAuthStateChanged).toHaveBeenCalledTimes(1);
+
+    const mockUser = {
+      uid: "test-user-id",
+      isAnonymous: false,
+    } as User;
+
+    act(() => {
+      authStateChangeCallback!(mockUser);
+    });
+
+    expect(onSignIn).toHaveBeenCalledTimes(1);
+    expect(onSignIn).toHaveBeenCalledWith(mockUser);
+  });
+
+  it("does not call onSignIn for anonymous users", () => {
+    const onSignIn = vi.fn();
+    let authStateChangeCallback: ((user: User | null) => void) | null = null;
+
+    const mockAuth = {
+      onAuthStateChanged: vi.fn((callback: (user: User | null) => void) => {
+        authStateChangeCallback = callback;
+        return vi.fn();
+      }),
+    };
+
+    const ui = createMockUI({
+      auth: mockAuth as any,
+    });
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <PhoneAuthScreen onSignIn={onSignIn} />
+      </CreateFirebaseUIProvider>
+    );
+
+    const mockAnonymousUser = {
+      uid: "anonymous-user-id",
+      isAnonymous: true,
+    } as User;
+
+    act(() => {
+      authStateChangeCallback!(mockAnonymousUser);
+    });
+
+    expect(onSignIn).not.toHaveBeenCalled();
   });
 });

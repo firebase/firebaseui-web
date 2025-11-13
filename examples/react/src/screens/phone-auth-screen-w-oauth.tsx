@@ -32,8 +32,7 @@ export default function PhoneAuthScreenWithOAuthPage() {
 
   return (
     <PhoneAuthScreen
-      onSignIn={(credential) => {
-        console.log(credential);
+      onSignIn={() => {
         navigate("/");
       }}
     >

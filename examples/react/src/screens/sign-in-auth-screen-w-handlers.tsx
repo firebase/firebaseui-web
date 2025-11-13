@@ -21,6 +21,7 @@ import { useNavigate } from "react-router";
 
 export default function SignInAuthScreenWithHandlersPage() {
   const navigate = useNavigate();
+
   return (
     <SignInAuthScreen
       onForgotPasswordClick={() => {
@@ -28,6 +29,9 @@ export default function SignInAuthScreenWithHandlersPage() {
       }}
       onSignUpClick={() => {
         navigate("/screens/sign-up-auth-screen");
+      }}
+      onSignIn={() => {
+        navigate("/");
       }}
     />
   );

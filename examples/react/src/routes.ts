@@ -68,12 +68,6 @@ export const routes = [
     component: ForgotPasswordAuthScreenPage,
   },
   {
-    name: "Forgot Password Screen (with handlers)",
-    description: "A screen allowing a user to reset their password, with forgot password and register handlers.",
-    path: "/screens/forgot-password-auth-screen-w-handlers",
-    component: ForgotPasswordAuthScreenPage,
-  },
-  {
     name: "OAuth Screen",
     description: "A screen which allows a user to sign in with OAuth only.",
     path: "/screens/oauth-screen",

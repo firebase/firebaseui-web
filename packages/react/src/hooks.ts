@@ -15,7 +15,7 @@
  */
 
 import { useContext, useMemo, useEffect, useRef } from "react";
-import type { RecaptchaVerifier } from "firebase/auth";
+import type { RecaptchaVerifier, User } from "firebase/auth";
 import {
   createEmailLinkAuthFormSchema,
   createForgotPasswordAuthFormSchema,
@@ -51,6 +51,19 @@ const ui = initializeUI(...);
   }
 
   return ui;
+}
+
+export function useOnUserAuthenticated(callback?: (user: User) => void) {
+  const ui = useUI();
+  const auth = ui.auth;
+
+  useEffect(() => {
+    return auth.onAuthStateChanged((user) => {
+      if (user && !user.isAnonymous) {
+        callback?.(user);
+      }
+    });
+  }, [auth, callback]);
 }
 
 export function useRedirectError() {
