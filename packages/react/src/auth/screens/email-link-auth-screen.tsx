@@ -24,12 +24,21 @@ import { EmailLinkAuthForm, type EmailLinkAuthFormProps } from "../forms/email-l
 import { RedirectError } from "~/components/redirect-error";
 import { MultiFactorAuthAssertionScreen } from "./multi-factor-auth-assertion-screen";
 
+/** Props for the EmailLinkAuthScreen component. */
 export type EmailLinkAuthScreenProps = PropsWithChildren<
   Pick<EmailLinkAuthFormProps, "onEmailSent"> & {
+    /** Callback function called when sign-in is successful. */
     onSignIn?: (user: User) => void;
   }
 >;
 
+/**
+ * A screen component for email link authentication.
+ *
+ * Displays a card with the email link auth form and handles multi-factor authentication if required.
+ *
+ * @returns The email link auth screen component.
+ */
 export function EmailLinkAuthScreen({ children, onEmailSent, onSignIn }: EmailLinkAuthScreenProps) {
   const ui = useUI();
 

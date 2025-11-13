@@ -17,6 +17,14 @@
 import { twMerge } from "tailwind-merge";
 import { clsx } from "clsx";
 
+/**
+ * Utility function for merging and deduplicating CSS class names.
+ *
+ * Combines clsx for conditional class names with tailwind-merge to handle Tailwind CSS class conflicts.
+ *
+ * @param inputs - Variable number of class name arguments (strings, objects, arrays, etc.).
+ * @returns A merged and deduplicated string of class names.
+ */
 export function cn(...inputs: Parameters<typeof clsx>) {
   return twMerge(clsx(...inputs));
 }

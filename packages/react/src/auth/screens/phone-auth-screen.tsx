@@ -24,10 +24,19 @@ import { MultiFactorAuthAssertionScreen } from "./multi-factor-auth-assertion-sc
 import { RedirectError } from "~/components/redirect-error";
 import type { User } from "firebase/auth";
 
+/** Props for the PhoneAuthScreen component. */
 export type PhoneAuthScreenProps = PropsWithChildren<{
+  /** Callback function called when sign-in is successful. */
   onSignIn?: (user: User) => void;
 }>;
 
+/**
+ * A screen component for phone authentication.
+ *
+ * Displays a card with the phone auth form and handles multi-factor authentication if required.
+ *
+ * @returns The phone auth screen component.
+ */
 export function PhoneAuthScreen({ children, ...props }: PhoneAuthScreenProps) {
   const ui = useUI();
 

@@ -24,10 +24,19 @@ import { SignInAuthForm, type SignInAuthFormProps } from "../forms/sign-in-auth-
 import { MultiFactorAuthAssertionScreen } from "./multi-factor-auth-assertion-screen";
 import { RedirectError } from "~/components/redirect-error";
 
+/** Props for the SignInAuthScreen component. */
 export type SignInAuthScreenProps = PropsWithChildren<Omit<SignInAuthFormProps, "onSignIn">> & {
+  /** Callback function called when sign-in is successful. */
   onSignIn?: (user: User) => void;
 };
 
+/**
+ * A screen component for signing in with email and password.
+ *
+ * Displays a card with the sign-in form and handles multi-factor authentication if required.
+ *
+ * @returns The sign-in screen component.
+ */
 export function SignInAuthScreen({ children, onSignIn, ...props }: SignInAuthScreenProps) {
   const ui = useUI();
 

@@ -23,12 +23,21 @@ import { OAuthButton } from "./oauth-button";
 import FacebookSvgLogo from "~/components/logos/facebook/Logo";
 import { cn } from "~/utils/cn";
 
+/** Props for the FacebookSignInButton component. */
 export type FacebookSignInButtonProps = {
+  /** Optional OAuth provider instance. Defaults to Facebook provider. */
   provider?: FacebookAuthProvider;
+  /** Whether to apply themed styling. */
   themed?: boolean;
+  /** Callback function called when sign-in is successful. */
   onSignIn?: (credential: UserCredential) => void;
 };
 
+/**
+ * A button component for signing in with Facebook.
+ *
+ * @returns The Facebook sign-in button component.
+ */
 export function FacebookSignInButton({ provider, ...props }: FacebookSignInButtonProps) {
   const ui = useUI();
 
@@ -40,6 +49,11 @@ export function FacebookSignInButton({ provider, ...props }: FacebookSignInButto
   );
 }
 
+/**
+ * The Facebook logo SVG component.
+ *
+ * @returns The Facebook logo component.
+ */
 export function FacebookLogo({ className, ...props }: React.SVGProps<SVGSVGElement>) {
   return <FacebookSvgLogo className={cn("fui-provider__icon", className)} {...props} />;
 }

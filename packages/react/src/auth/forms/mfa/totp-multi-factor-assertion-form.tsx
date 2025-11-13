@@ -20,6 +20,11 @@ import { signInWithMultiFactorAssertion, FirebaseUIError, getTranslation } from 
 import { form } from "~/components/form";
 import { useMultiFactorTotpAuthVerifyFormSchema, useUI } from "~/hooks";
 
+/**
+ * Creates a memoized action function for verifying a TOTP code during multi-factor assertion.
+ *
+ * @returns A callback function that verifies the TOTP code and signs in with the multi-factor assertion.
+ */
 export function useTotpMultiFactorAssertionFormAction() {
   const ui = useUI();
 
@@ -32,11 +37,20 @@ export function useTotpMultiFactorAssertionFormAction() {
   );
 }
 
+/** Options for the TOTP multi-factor assertion form hook. */
 export type UseTotpMultiFactorAssertionForm = {
+  /** The multi-factor info hint containing TOTP information. */
   hint: MultiFactorInfo;
+  /** Callback function called when verification is successful. */
   onSuccess: (credential: UserCredential) => void;
 };
 
+/**
+ * Creates a form hook for TOTP multi-factor assertion verification code input.
+ *
+ * @param options - The TOTP assertion form options.
+ * @returns A form instance configured for TOTP verification code input.
+ */
 export function useTotpMultiFactorAssertionForm({ hint, onSuccess }: UseTotpMultiFactorAssertionForm) {
   const action = useTotpMultiFactorAssertionFormAction();
   const schema = useMultiFactorTotpAuthVerifyFormSchema();
@@ -59,11 +73,21 @@ export function useTotpMultiFactorAssertionForm({ hint, onSuccess }: UseTotpMult
   });
 }
 
+/** Props for the TotpMultiFactorAssertionForm component. */
 export type TotpMultiFactorAssertionFormProps = {
+  /** The multi-factor info hint containing TOTP information. */
   hint: MultiFactorInfo;
+  /** Optional callback function called when multi-factor assertion is successful. */
   onSuccess?: (credential: UserCredential) => void;
 };
 
+/**
+ * A form component for TOTP multi-factor authentication assertion.
+ *
+ * Allows users to enter a 6-digit TOTP code from their authenticator app.
+ *
+ * @returns The TOTP multi-factor assertion form component.
+ */
 export function TotpMultiFactorAssertionForm(props: TotpMultiFactorAssertionFormProps) {
   const ui = useUI();
   const form = useTotpMultiFactorAssertionForm({

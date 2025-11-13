@@ -22,8 +22,16 @@ import {
   type MultiFactorAuthEnrollmentFormProps,
 } from "../forms/multi-factor-auth-enrollment-form";
 
+/** Props for the MultiFactorAuthEnrollmentScreen component. */
 export type MultiFactorAuthEnrollmentScreenProps = MultiFactorAuthEnrollmentFormProps;
 
+/**
+ * A screen component for multi-factor authentication enrollment.
+ *
+ * Displays a card with the multi-factor enrollment form.
+ *
+ * @returns The multi-factor auth enrollment screen component.
+ */
 export function MultiFactorAuthEnrollmentScreen(props: MultiFactorAuthEnrollmentScreenProps) {
   const ui = useUI();
 

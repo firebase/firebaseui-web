@@ -22,8 +22,16 @@ import {
   type MultiFactorAuthAssertionFormProps,
 } from "../forms/multi-factor-auth-assertion-form";
 
+/** Props for the MultiFactorAuthAssertionScreen component. */
 export type MultiFactorAuthAssertionScreenProps = MultiFactorAuthAssertionFormProps;
 
+/**
+ * A screen component for multi-factor authentication assertion.
+ *
+ * Displays a card with the multi-factor assertion form.
+ *
+ * @returns The multi-factor auth assertion screen component.
+ */
 export function MultiFactorAuthAssertionScreen(props: MultiFactorAuthAssertionScreenProps) {
   const ui = useUI();
 

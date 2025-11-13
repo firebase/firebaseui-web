@@ -21,12 +21,23 @@ import { createContext } from "react";
 
 export const FirebaseUIContext = createContext<FirebaseUI>(null as unknown as FirebaseUI);
 
+/** Props for the FirebaseUIProvider component. */
 export type FirebaseUIProviderProps = {
+  /** The child components to render. */
   children: React.ReactNode;
+  /** The FirebaseUI store instance. */
   ui: FirebaseUIStore;
+  /** Optional policy configuration for terms of service and privacy policy links. */
   policies?: PolicyProps;
 };
 
+/**
+ * Provides FirebaseUI context to all child components.
+ *
+ * This provider must wrap your application or the components that use FirebaseUI hooks.
+ *
+ * @returns The provider component.
+ */
 export function FirebaseUIProvider({ children, ui, policies }: FirebaseUIProviderProps) {
   const value = useStore(ui);
   return (

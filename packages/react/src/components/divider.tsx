@@ -17,8 +17,14 @@
 import { type ComponentProps, type PropsWithChildren } from "react";
 import { cn } from "~/utils/cn";
 
+/** Props for the Divider component. */
 export type DividerProps = PropsWithChildren<ComponentProps<"div">>;
 
+/**
+ * A divider component that can display a line or a line with text in the middle.
+ *
+ * @returns The divider component.
+ */
 export function Divider({ className, children, ...props }: DividerProps) {
   if (!children) {
     return (

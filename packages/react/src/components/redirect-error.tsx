@@ -16,6 +16,13 @@
 
 import { useRedirectError } from "~/hooks";
 
+/**
+ * Displays any error that occurred during a redirect-based authentication flow.
+ *
+ * Returns null if there is no redirect error.
+ *
+ * @returns The redirect error component, or null if there is no error.
+ */
 export function RedirectError() {
   const error = useRedirectError();
 

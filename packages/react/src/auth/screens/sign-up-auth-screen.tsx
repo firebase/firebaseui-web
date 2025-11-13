@@ -24,10 +24,19 @@ import { getTranslation } from "@invertase/firebaseui-core";
 import { RedirectError } from "~/components/redirect-error";
 import { MultiFactorAuthAssertionScreen } from "./multi-factor-auth-assertion-screen";
 
+/** Props for the SignUpAuthScreen component. */
 export type SignUpAuthScreenProps = PropsWithChildren<Omit<SignUpAuthFormProps, "onSignUp">> & {
+  /** Callback function called when sign-up is successful. */
   onSignUp?: (user: User) => void;
 };
 
+/**
+ * A screen component for signing up with email and password.
+ *
+ * Displays a card with the sign-up form and handles multi-factor authentication if required.
+ *
+ * @returns The sign-up screen component.
+ */
 export function SignUpAuthScreen({ children, onSignUp, ...props }: SignUpAuthScreenProps) {
   const ui = useUI();
 

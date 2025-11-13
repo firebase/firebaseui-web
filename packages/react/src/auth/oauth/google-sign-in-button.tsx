@@ -23,12 +23,21 @@ import { OAuthButton } from "./oauth-button";
 import GoogleSvgLogo from "~/components/logos/google/Logo";
 import { cn } from "~/utils/cn";
 
+/** Props for the GoogleSignInButton component. */
 export type GoogleSignInButtonProps = {
+  /** Optional OAuth provider instance. Defaults to Google provider. */
   provider?: GoogleAuthProvider;
+  /** Whether to apply themed styling. Can be true, false, or "neutral". */
   themed?: boolean | "neutral";
+  /** Callback function called when sign-in is successful. */
   onSignIn?: (credential: UserCredential) => void;
 };
 
+/**
+ * A button component for signing in with Google.
+ *
+ * @returns The Google sign-in button component.
+ */
 export function GoogleSignInButton({ provider, ...props }: GoogleSignInButtonProps) {
   const ui = useUI();
 
@@ -40,6 +49,11 @@ export function GoogleSignInButton({ provider, ...props }: GoogleSignInButtonPro
   );
 }
 
+/**
+ * The Google logo SVG component.
+ *
+ * @returns The Google logo component.
+ */
 export function GoogleLogo({ className, ...props }: React.SVGProps<SVGSVGElement>) {
   return <GoogleSvgLogo className={cn("fui-provider__icon", className)} {...props} />;
 }

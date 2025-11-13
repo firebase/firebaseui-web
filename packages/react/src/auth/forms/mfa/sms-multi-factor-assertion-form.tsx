@@ -36,6 +36,11 @@ type PhoneMultiFactorInfo = MultiFactorInfo & {
   phoneNumber?: string;
 };
 
+/**
+ * Creates a memoized action function for verifying a phone number during SMS multi-factor assertion.
+ *
+ * @returns A callback function that verifies a phone number using the provided hint and reCAPTCHA verifier.
+ */
 export function useSmsMultiFactorAssertionPhoneFormAction() {
   const ui = useUI();
 
@@ -47,12 +52,22 @@ export function useSmsMultiFactorAssertionPhoneFormAction() {
   );
 }
 
+/** Options for the SMS multi-factor assertion phone form hook. */
 type UseSmsMultiFactorAssertionPhoneForm = {
+  /** The multi-factor info hint containing phone number information. */
   hint: MultiFactorInfo;
+  /** The reCAPTCHA verifier instance. */
   recaptchaVerifier: RecaptchaVerifier;
+  /** Callback function called when phone verification is successful. */
   onSuccess: (verificationId: string) => void;
 };
 
+/**
+ * Creates a form hook for SMS multi-factor assertion phone number verification.
+ *
+ * @param options - The phone form options.
+ * @returns A form instance configured for phone number verification.
+ */
 export function useSmsMultiFactorAssertionPhoneForm({
   hint,
   recaptchaVerifier,
@@ -120,6 +135,11 @@ function SmsMultiFactorAssertionPhoneForm(props: SmsMultiFactorAssertionPhoneFor
   );
 }
 
+/**
+ * Creates a memoized action function for verifying the SMS verification code during multi-factor assertion.
+ *
+ * @returns A callback function that verifies the code and signs in with the multi-factor assertion.
+ */
 export function useSmsMultiFactorAssertionVerifyFormAction() {
   const ui = useUI();
 
@@ -133,11 +153,20 @@ export function useSmsMultiFactorAssertionVerifyFormAction() {
   );
 }
 
+/** Options for the SMS multi-factor assertion verify form hook. */
 type UseSmsMultiFactorAssertionVerifyForm = {
+  /** The verification ID from the phone verification step. */
   verificationId: string;
+  /** Callback function called when verification is successful. */
   onSuccess: (credential: UserCredential) => void;
 };
 
+/**
+ * Creates a form hook for SMS multi-factor assertion verification code input.
+ *
+ * @param options - The verify form options.
+ * @returns A form instance configured for verification code input.
+ */
 export function useSmsMultiFactorAssertionVerifyForm({
   verificationId,
   onSuccess,
@@ -206,11 +235,21 @@ function SmsMultiFactorAssertionVerifyForm(props: SmsMultiFactorAssertionVerifyF
   );
 }
 
+/** Props for the SmsMultiFactorAssertionForm component. */
 export type SmsMultiFactorAssertionFormProps = {
+  /** The multi-factor info hint containing phone number information. */
   hint: MultiFactorInfo;
+  /** Optional callback function called when multi-factor assertion is successful. */
   onSuccess?: (credential: UserCredential) => void;
 };
 
+/**
+ * A form component for SMS multi-factor authentication assertion.
+ *
+ * Handles the two-step process: first verifying the phone number, then verifying the SMS code.
+ *
+ * @returns The SMS multi-factor assertion form component.
+ */
 export function SmsMultiFactorAssertionForm(props: SmsMultiFactorAssertionFormProps) {
   const [verification, setVerification] = useState<{
     verificationId: string;

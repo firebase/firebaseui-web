@@ -23,12 +23,21 @@ import { form } from "~/components/form";
 import { Policies } from "~/components/policies";
 import { useCallback } from "react";
 
+/** Props for the SignInAuthForm component. */
 export type SignInAuthFormProps = {
+  /** Callback function called when sign-in is successful. */
   onSignIn?: (credential: UserCredential) => void;
+  /** Callback function called when the forgot password link is clicked. */
   onForgotPasswordClick?: () => void;
+  /** Callback function called when the sign up link is clicked. */
   onSignUpClick?: () => void;
 };
 
+/**
+ * Creates a memoized action function for signing in with email and password.
+ *
+ * @returns A callback function that signs in a user with email and password.
+ */
 export function useSignInAuthFormAction() {
   const ui = useUI();
 
@@ -49,6 +58,12 @@ export function useSignInAuthFormAction() {
   );
 }
 
+/**
+ * Creates a form hook for sign-in authentication.
+ *
+ * @param onSuccess - Optional callback function called when sign-in is successful.
+ * @returns A form instance configured for sign-in.
+ */
 export function useSignInAuthForm(onSuccess?: SignInAuthFormProps["onSignIn"]) {
   const schema = useSignInAuthFormSchema();
   const action = useSignInAuthFormAction();
@@ -72,6 +87,11 @@ export function useSignInAuthForm(onSuccess?: SignInAuthFormProps["onSignIn"]) {
   });
 }
 
+/**
+ * A form component for signing in with email and password.
+ *
+ * @returns The sign-in form component.
+ */
 export function SignInAuthForm({ onSignIn, onForgotPasswordClick, onSignUpClick }: SignInAuthFormProps) {
   const ui = useUI();
   const form = useSignInAuthForm(onSignIn);

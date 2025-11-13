@@ -27,10 +27,17 @@ import { SmsMultiFactorAssertionForm } from "../forms/mfa/sms-multi-factor-asser
 import { Button } from "~/components/button";
 import { getTranslation } from "@invertase/firebaseui-core";
 
+/** Props for the MultiFactorAuthAssertionForm component. */
 export type MultiFactorAuthAssertionFormProps = {
+  /** Optional callback function called when multi-factor assertion is successful. */
   onSuccess?: (credential: UserCredential) => void;
 };
 
+/**
+ * Hook that cleans up the multi-factor resolver when the component unmounts.
+ *
+ * Ensures the resolver is cleared from the UI state to prevent stale state.
+ */
 export function useMultiFactorAssertionCleanup() {
   const ui = useUI();
 
@@ -42,6 +49,15 @@ export function useMultiFactorAssertionCleanup() {
   }, []);
 }
 
+/**
+ * A form component for multi-factor authentication assertion.
+ *
+ * Displays the appropriate MFA form (SMS or TOTP) based on the available hints.
+ * If only one hint is available, it is automatically selected.
+ *
+ * @returns The multi-factor auth assertion form component.
+ * @throws {Error} Throws an error if no multi-factor resolver is available.
+ */
 export function MultiFactorAuthAssertionForm(props: MultiFactorAuthAssertionFormProps) {
   const ui = useUI();
   const resolver = ui.multiFactorResolver;
