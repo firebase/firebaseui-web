@@ -10,6 +10,12 @@ Firebase UI for Web brings out-of-the-box components for Firebase for your favou
 - Framework agnostic core package; bring your own UI.
 - Built-in localization via translations.
 
+## Migration
+
+Firebase UI is a complete rewrite to support modern languages and frameworks. You can view the previous [v6 version](https://github.com/firebase/firebaseui-web/tree/v6) on GitHub. 
+
+If you are looking to migrate, please check the [MIGRATION.md](MIGRATION.md) guide.
+
 ## Table of contents
 
 - [Getting Started](#getting-started)
@@ -2173,3 +2179,11 @@ If the `themed` prop is provided, you can trigger the styling via providing some
 button[data-provider="oidc.my-provider"][data-themed="true"] {
   ...
 ```
+
+## Contributing
+
+Please see the [CONTRIBUTING](CONTRIBUTING.md) guide.
+
+## License
+
+See [LICENSE](LICENSE).
