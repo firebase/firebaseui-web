@@ -144,11 +144,11 @@ describe("<SignInAuthScreen />", () => {
   it("should forward props to SignInAuthForm", () => {
     const mockUI = createMockUI();
     const onForgotPasswordClickMock = vi.fn();
-    const onRegisterClickMock = vi.fn();
+    const onSignUpClickMock = vi.fn();
 
     render(
       <FirebaseUIProvider ui={mockUI}>
-        <SignInAuthScreen onForgotPasswordClick={onForgotPasswordClickMock} onRegisterClick={onRegisterClickMock} />
+        <SignInAuthScreen onForgotPasswordClick={onForgotPasswordClickMock} onSignUpClick={onSignUpClickMock} />
       </FirebaseUIProvider>
     );
 
