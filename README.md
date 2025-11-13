@@ -2154,10 +2154,6 @@ supporting SAML or OIDC, you can achive this by extending the OAuth component:
   export class MyProviderButtonComponent {
     // Get the provider ID from the Firebase Console
     provider = new OAuthProvider('oidc.my-provider');
-
-    onSignIn(credential: UserCredential) {
-      // Handle sign-in success
-    }
   }
   ```
 </details>
