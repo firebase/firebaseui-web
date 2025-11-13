@@ -8,11 +8,11 @@ import { OAuthButton } from "@/components/oauth-button";
 
 export type { TwitterSignInButtonProps };
 
-export function TwitterSignInButton({ provider, themed }: TwitterSignInButtonProps) {
+export function TwitterSignInButton({ provider, ...props }: TwitterSignInButtonProps) {
   const ui = useUI();
 
   return (
-    <OAuthButton provider={provider || new TwitterAuthProvider()} themed={themed}>
+    <OAuthButton {...props} provider={provider || new TwitterAuthProvider()}>
       <TwitterLogo />
       <span>{getTranslation(ui, "labels", "signInWithTwitter")}</span>
     </OAuthButton>

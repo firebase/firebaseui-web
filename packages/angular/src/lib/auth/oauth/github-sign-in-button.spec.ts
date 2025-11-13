@@ -93,4 +93,16 @@ describe("<fui-github-sign-in-button>", () => {
     const button = screen.getByRole("button");
     expect(button).toHaveAttribute("data-provider", "github.com");
   });
+
+  it("has signIn output", async () => {
+    const { fixture } = await render(TestGithubSignInButtonHostComponent);
+
+    const component = fixture.componentInstance;
+    expect(component).toBeTruthy();
+    // Verify the component has the signIn output
+    const buttonComponent = fixture.debugElement.query(
+      (el) => el.name === "fui-github-sign-in-button"
+    )?.componentInstance;
+    expect(buttonComponent?.signIn).toBeDefined();
+  });
 });

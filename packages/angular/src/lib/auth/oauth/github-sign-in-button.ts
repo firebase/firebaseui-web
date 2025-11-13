@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { Component, input } from "@angular/core";
+import { Component, input, output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { OAuthButtonComponent } from "./oauth-button";
 import { injectTranslation } from "../../provider";
-import { GithubAuthProvider } from "@angular/fire/auth";
+import { GithubAuthProvider, UserCredential } from "@angular/fire/auth";
 import { GithubLogoComponent } from "../../components/logos/github";
 
 @Component({
@@ -29,7 +29,7 @@ import { GithubLogoComponent } from "../../components/logos/github";
     style: "display: block;",
   },
   template: `
-    <fui-oauth-button [provider]="githubProvider" [themed]="themed()">
+    <fui-oauth-button [provider]="githubProvider" [themed]="themed()" (signIn)="signIn.emit($event)">
       <fui-github-logo />
       <span>{{ signInWithGitHubLabel() }}</span>
     </fui-oauth-button>
@@ -38,6 +38,7 @@ import { GithubLogoComponent } from "../../components/logos/github";
 export class GitHubSignInButtonComponent {
   signInWithGitHubLabel = injectTranslation("labels", "signInWithGitHub");
   themed = input<boolean>(false);
+  signIn = output<UserCredential>();
 
   private defaultProvider = new GithubAuthProvider();
 

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import { Component, input } from "@angular/core";
+import { Component, input, output } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { GoogleAuthProvider } from "@angular/fire/auth";
+import { GoogleAuthProvider, UserCredential } from "@angular/fire/auth";
 import { injectTranslation, injectUI } from "../../provider";
 import { OAuthButtonComponent } from "./oauth-button";
 import { GoogleLogoComponent } from "../../components/logos/google";
@@ -29,7 +29,7 @@ import { GoogleLogoComponent } from "../../components/logos/google";
     style: "display: block;",
   },
   template: `
-    <fui-oauth-button [provider]="googleProvider" [themed]="themed()">
+    <fui-oauth-button [provider]="googleProvider" [themed]="themed()" (signIn)="signIn.emit($event)">
       <fui-google-logo />
       <span>{{ signInWithGoogleLabel() }}</span>
     </fui-oauth-button>
@@ -39,6 +39,7 @@ export class GoogleSignInButtonComponent {
   ui = injectUI();
   signInWithGoogleLabel = injectTranslation("labels", "signInWithGoogle");
   themed = input<boolean | "neutral">(false);
+  signIn = output<UserCredential>();
 
   private defaultProvider = new GoogleAuthProvider();
 

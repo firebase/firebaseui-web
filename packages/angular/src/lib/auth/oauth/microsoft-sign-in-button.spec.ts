@@ -93,4 +93,16 @@ describe("<fui-microsoft-sign-in-button>", () => {
     const button = screen.getByRole("button");
     expect(button).toHaveAttribute("data-provider", "microsoft.com");
   });
+
+  it("has signIn output", async () => {
+    const { fixture } = await render(TestMicrosoftSignInButtonHostComponent);
+
+    const component = fixture.componentInstance;
+    expect(component).toBeTruthy();
+    // Verify the component has the signIn output
+    const buttonComponent = fixture.debugElement.query(
+      (el) => el.name === "fui-microsoft-sign-in-button"
+    )?.componentInstance;
+    expect(buttonComponent?.signIn).toBeDefined();
+  });
 });

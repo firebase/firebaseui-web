@@ -8,11 +8,11 @@ import { OAuthButton } from "@/components/oauth-button";
 
 export type { AppleSignInButtonProps };
 
-export function AppleSignInButton({ provider, themed }: AppleSignInButtonProps) {
+export function AppleSignInButton({ provider, ...props }: AppleSignInButtonProps) {
   const ui = useUI();
 
   return (
-    <OAuthButton provider={provider || new OAuthProvider("apple.com")} themed={themed}>
+    <OAuthButton {...props} provider={provider || new OAuthProvider("apple.com")}>
       <AppleLogo />
       <span>{getTranslation(ui, "labels", "signInWithApple")}</span>
     </OAuthButton>

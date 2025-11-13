@@ -23,10 +23,11 @@ import { FacebookAuthProvider } from "firebase/auth";
 import { FirebaseUIProvider } from "@invertase/firebaseui-react";
 
 vi.mock("./oauth-button", () => ({
-  OAuthButton: ({ provider, children, themed }: any) => (
+  OAuthButton: ({ provider, children, themed, onSignIn }: any) => (
     <div data-testid="oauth-button">
       <div data-testid="provider-id">{provider.providerId}</div>
       <div data-testid="themed">{String(themed)}</div>
+      <div data-testid="onSignIn">{onSignIn ? "present" : "absent"}</div>
       <div data-testid="children">{children}</div>
     </div>
   ),
@@ -191,5 +192,24 @@ describe("<FacebookSignInButton />", () => {
     );
 
     expect(screen.getByTestId("themed")).not.toHaveTextContent("true");
+  });
+
+  it("passes onSignIn prop to OAuthButton", () => {
+    const onSignIn = vi.fn();
+    const ui = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          signInWithFacebook: "Sign in with Facebook",
+        },
+      }),
+    });
+
+    render(
+      <FirebaseUIProvider ui={ui}>
+        <FacebookSignInButton onSignIn={onSignIn} />
+      </FirebaseUIProvider>
+    );
+
+    expect(screen.getByTestId("onSignIn")).toHaveTextContent("present");
   });
 });

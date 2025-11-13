@@ -8,11 +8,11 @@ import { OAuthButton } from "@/components/oauth-button";
 
 export type { MicrosoftSignInButtonProps };
 
-export function MicrosoftSignInButton({ provider, themed }: MicrosoftSignInButtonProps) {
+export function MicrosoftSignInButton({ provider, ...props }: MicrosoftSignInButtonProps) {
   const ui = useUI();
 
   return (
-    <OAuthButton provider={provider || new OAuthProvider("microsoft.com")} themed={themed}>
+    <OAuthButton {...props} provider={provider || new OAuthProvider("microsoft.com")}>
       <MicrosoftLogo />
       <span>{getTranslation(ui, "labels", "signInWithMicrosoft")}</span>
     </OAuthButton>

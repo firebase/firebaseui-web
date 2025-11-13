@@ -17,7 +17,7 @@
 "use client";
 
 import { getTranslation } from "@invertase/firebaseui-core";
-import { TwitterAuthProvider } from "firebase/auth";
+import { TwitterAuthProvider, type UserCredential } from "firebase/auth";
 import { useUI } from "~/hooks";
 import { OAuthButton } from "./oauth-button";
 import TwitterSvgLogo from "~/components/logos/twitter/Logo";
@@ -26,13 +26,14 @@ import { cn } from "~/utils/cn";
 export type TwitterSignInButtonProps = {
   provider?: TwitterAuthProvider;
   themed?: boolean;
+  onSignIn?: (credential: UserCredential) => void;
 };
 
-export function TwitterSignInButton({ provider, themed }: TwitterSignInButtonProps) {
+export function TwitterSignInButton({ provider, ...props }: TwitterSignInButtonProps) {
   const ui = useUI();
 
   return (
-    <OAuthButton provider={provider || new TwitterAuthProvider()} themed={themed}>
+    <OAuthButton {...props} provider={provider || new TwitterAuthProvider()}>
       <TwitterLogo />
       <span>{getTranslation(ui, "labels", "signInWithTwitter")}</span>
     </OAuthButton>

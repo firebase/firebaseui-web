@@ -15,7 +15,7 @@
  */
 
 import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
-import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import { OAuthButton } from "./oauth-button";
 import { createMockUI } from "../../tests/utils";
 import { registerLocale } from "@invertase/firebaseui-translations";
@@ -141,6 +141,58 @@ describe("<OAuthButton />", () => {
     expect(mockSignInWithProvider).toHaveBeenCalledWith(expect.anything(), mockGoogleProvider);
   });
 
+  it("calls onSignIn callback when sign-in is successful", async () => {
+    const mockSignInWithProvider = vi.mocked(signInWithProvider);
+    const mockCredential = { user: { uid: "test-uid" } } as UserCredential;
+    const onSignIn = vi.fn();
+    mockSignInWithProvider.mockResolvedValue(mockCredential);
+
+    const ui = createMockUI();
+
+    render(
+      <FirebaseUIProvider ui={ui}>
+        <OAuthButton provider={mockGoogleProvider} onSignIn={onSignIn}>
+          Sign in with Google
+        </OAuthButton>
+      </FirebaseUIProvider>
+    );
+
+    const button = screen.getByTestId("oauth-button");
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(onSignIn).toHaveBeenCalledTimes(1);
+      expect(onSignIn).toHaveBeenCalledWith(mockCredential);
+    });
+  });
+
+  it("does not call onSignIn callback when sign-in fails", async () => {
+    const { FirebaseUIError } = await import("@invertase/firebaseui-core");
+    const mockSignInWithProvider = vi.mocked(signInWithProvider);
+    const onSignIn = vi.fn();
+    const ui = createMockUI();
+    const mockError = new FirebaseUIError(
+      ui.get(),
+      new FirebaseError("auth/user-not-found", "No account found with this email address")
+    );
+    mockSignInWithProvider.mockRejectedValue(mockError);
+
+    render(
+      <FirebaseUIProvider ui={ui}>
+        <OAuthButton provider={mockGoogleProvider} onSignIn={onSignIn}>
+          Sign in with Google
+        </OAuthButton>
+      </FirebaseUIProvider>
+    );
+
+    const button = screen.getByTestId("oauth-button");
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(onSignIn).not.toHaveBeenCalled();
+    });
+  });
+
   it("displays FirebaseUIError message when FirebaseUIError occurs", async () => {
     const { FirebaseUIError } = await import("@invertase/firebaseui-core");
     const mockSignInWithProvider = vi.mocked(signInWithProvider);
@@ -160,14 +212,13 @@ describe("<OAuthButton />", () => {
     const button = screen.getByTestId("oauth-button");
     fireEvent.click(button);
 
-    // Next tick - wait for the mock to resolve
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    await waitFor(() => {
+      const errorMessage = screen.getByText("No account found with this email address");
+      expect(errorMessage).toBeDefined();
 
-    const errorMessage = screen.getByText("No account found with this email address");
-    expect(errorMessage).toBeDefined();
-
-    // Make sure we use the shadcn theme name, rather than a "text-red-500"
-    expect(errorMessage.className).toContain("text-destructive");
+      // Make sure we use the shadcn theme name, rather than a "text-red-500"
+      expect(errorMessage.className).toContain("text-destructive");
+    });
   });
 
   it("displays unknown error message when non-Firebase error occurs", async () => {
@@ -195,16 +246,15 @@ describe("<OAuthButton />", () => {
     const button = screen.getByTestId("oauth-button");
     fireEvent.click(button);
 
-    // Wait for error to appear
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    await waitFor(() => {
+      expect(consoleErrorSpy).toHaveBeenCalledWith(regularError);
 
-    expect(consoleErrorSpy).toHaveBeenCalledWith(regularError);
+      const errorMessage = screen.getByText("unknownError");
+      expect(errorMessage).toBeDefined();
 
-    const errorMessage = screen.getByText("unknownError");
-    expect(errorMessage).toBeDefined();
-
-    // Make sure we use the shadcn theme name, rather than a "text-red-500"
-    expect(errorMessage.className).toContain("text-destructive");
+      // Make sure we use the shadcn theme name, rather than a "text-red-500"
+      expect(errorMessage.className).toContain("text-destructive");
+    });
 
     // Restore console.error
     consoleErrorSpy.mockRestore();
@@ -232,16 +282,17 @@ describe("<OAuthButton />", () => {
 
     // First click - should show error
     fireEvent.click(button);
-    await new Promise((resolve) => setTimeout(resolve, 0));
 
-    const errorMessage = screen.getByText("Incorrect password");
-    expect(errorMessage).toBeDefined();
+    await waitFor(() => {
+      const errorMessage = screen.getByText("Incorrect password");
+      expect(errorMessage).toBeDefined();
+    });
 
     // Second click - should clear error
     fireEvent.click(button);
-    await new Promise((resolve) => setTimeout(resolve, 0));
-
-    expect(screen.queryByText("Incorrect password")).toBeNull();
+    await waitFor(() => {
+      expect(screen.queryByText("Incorrect password")).toBeNull();
+    });
   });
 
   it("does not display error message initially", () => {

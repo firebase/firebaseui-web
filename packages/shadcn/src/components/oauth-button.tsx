@@ -5,10 +5,10 @@ import { Button } from "@/components/ui/button";
 
 export type { OAuthButtonProps };
 
-export function OAuthButton({ provider, children, themed }: OAuthButtonProps) {
+export function OAuthButton({ provider, children, themed, onSignIn }: OAuthButtonProps) {
   const ui = useUI();
 
-  const { error, callback } = useSignInWithProvider(provider);
+  const { error, callback } = useSignInWithProvider(provider, onSignIn);
 
   return (
     <div>

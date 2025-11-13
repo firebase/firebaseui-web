@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { Component, input } from "@angular/core";
+import { Component, input, output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { OAuthButtonComponent } from "./oauth-button";
 import { injectTranslation, injectUI } from "../../provider";
-import { OAuthProvider } from "@angular/fire/auth";
+import { OAuthProvider, UserCredential } from "@angular/fire/auth";
 import { AppleLogoComponent } from "../../components/logos/apple";
 
 @Component({
@@ -29,7 +29,7 @@ import { AppleLogoComponent } from "../../components/logos/apple";
     style: "display: block;",
   },
   template: `
-    <fui-oauth-button [provider]="appleProvider" [themed]="themed()">
+    <fui-oauth-button [provider]="appleProvider" [themed]="themed()" (signIn)="signIn.emit($event)">
       <fui-apple-logo />
       <span>{{ signInWithAppleLabel() }}</span>
     </fui-oauth-button>
@@ -39,6 +39,7 @@ export class AppleSignInButtonComponent {
   ui = injectUI();
   signInWithAppleLabel = injectTranslation("labels", "signInWithApple");
   themed = input<boolean>(false);
+  signIn = output<UserCredential>();
 
   private defaultProvider = new OAuthProvider("apple.com");
 

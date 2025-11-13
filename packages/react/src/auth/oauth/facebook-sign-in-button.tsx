@@ -17,7 +17,7 @@
 "use client";
 
 import { getTranslation } from "@invertase/firebaseui-core";
-import { FacebookAuthProvider } from "firebase/auth";
+import { FacebookAuthProvider, type UserCredential } from "firebase/auth";
 import { useUI } from "~/hooks";
 import { OAuthButton } from "./oauth-button";
 import FacebookSvgLogo from "~/components/logos/facebook/Logo";
@@ -26,13 +26,14 @@ import { cn } from "~/utils/cn";
 export type FacebookSignInButtonProps = {
   provider?: FacebookAuthProvider;
   themed?: boolean;
+  onSignIn?: (credential: UserCredential) => void;
 };
 
-export function FacebookSignInButton({ provider, themed }: FacebookSignInButtonProps) {
+export function FacebookSignInButton({ provider, ...props }: FacebookSignInButtonProps) {
   const ui = useUI();
 
   return (
-    <OAuthButton provider={provider || new FacebookAuthProvider()} themed={themed}>
+    <OAuthButton {...props} provider={provider || new FacebookAuthProvider()}>
       <FacebookLogo />
       <span>{getTranslation(ui, "labels", "signInWithFacebook")}</span>
     </OAuthButton>

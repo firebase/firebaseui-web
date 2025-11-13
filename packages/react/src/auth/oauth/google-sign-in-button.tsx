@@ -17,7 +17,7 @@
 "use client";
 
 import { getTranslation } from "@invertase/firebaseui-core";
-import { GoogleAuthProvider } from "firebase/auth";
+import { GoogleAuthProvider, type UserCredential } from "firebase/auth";
 import { useUI } from "~/hooks";
 import { OAuthButton } from "./oauth-button";
 import GoogleSvgLogo from "~/components/logos/google/Logo";
@@ -26,13 +26,14 @@ import { cn } from "~/utils/cn";
 export type GoogleSignInButtonProps = {
   provider?: GoogleAuthProvider;
   themed?: boolean | "neutral";
+  onSignIn?: (credential: UserCredential) => void;
 };
 
-export function GoogleSignInButton({ provider, themed }: GoogleSignInButtonProps) {
+export function GoogleSignInButton({ provider, ...props }: GoogleSignInButtonProps) {
   const ui = useUI();
 
   return (
-    <OAuthButton provider={provider || new GoogleAuthProvider()} themed={themed}>
+    <OAuthButton {...props} provider={provider || new GoogleAuthProvider()}>
       <GoogleLogo />
       <span>{getTranslation(ui, "labels", "signInWithGoogle")}</span>
     </OAuthButton>

@@ -23,10 +23,11 @@ import { GoogleAuthProvider } from "firebase/auth";
 import { FirebaseUIProvider } from "@invertase/firebaseui-react";
 
 vi.mock("./oauth-button", () => ({
-  OAuthButton: ({ provider, children, themed }: any) => (
+  OAuthButton: ({ provider, children, themed, onSignIn }: any) => (
     <div data-testid="oauth-button">
       <div data-testid="provider-id">{provider.providerId}</div>
       <div data-testid="themed">{themed}</div>
+      <div data-testid="onSignIn">{onSignIn ? "present" : "absent"}</div>
       <div data-testid="children">{children}</div>
     </div>
   ),
@@ -191,5 +192,24 @@ describe("<GoogleSignInButton />", () => {
     );
 
     expect(screen.getByTestId("themed")).toHaveTextContent("");
+  });
+
+  it("passes onSignIn prop to OAuthButton", () => {
+    const onSignIn = vi.fn();
+    const ui = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          signInWithGoogle: "Sign in with Google",
+        },
+      }),
+    });
+
+    render(
+      <FirebaseUIProvider ui={ui}>
+        <GoogleSignInButton onSignIn={onSignIn} />
+      </FirebaseUIProvider>
+    );
+
+    expect(screen.getByTestId("onSignIn")).toHaveTextContent("present");
   });
 });
