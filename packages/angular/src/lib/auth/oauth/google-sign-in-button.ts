@@ -40,7 +40,7 @@ export class GoogleSignInButtonComponent {
   signInWithGoogleLabel = injectTranslation("labels", "signInWithGoogle");
   themed = input<boolean | "neutral">(false);
   signIn = output<UserCredential>();
-  
+
   private defaultProvider = new GoogleAuthProvider();
 
   provider = input<GoogleAuthProvider>();

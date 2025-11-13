@@ -39,7 +39,7 @@ export class TwitterSignInButtonComponent {
   signInWithTwitterLabel = injectTranslation("labels", "signInWithTwitter");
   themed = input<boolean>(false);
   signIn = output<UserCredential>();
-  
+
   private defaultProvider = new TwitterAuthProvider();
 
   provider = input<TwitterAuthProvider>();

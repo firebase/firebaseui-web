@@ -38,7 +38,9 @@ class TestOAuthButtonWithCustomProviderHostComponent {
 }
 
 @Component({
-  template: ` <fui-oauth-button [provider]="provider" (signIn)="handleSignIn($event)"> Sign in with Google </fui-oauth-button> `,
+  template: `
+    <fui-oauth-button [provider]="provider" (signIn)="handleSignIn($event)"> Sign in with Google </fui-oauth-button>
+  `,
   standalone: true,
   imports: [OAuthButtonComponent],
 })

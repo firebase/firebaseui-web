@@ -40,7 +40,7 @@ export class FacebookSignInButtonComponent {
   signInWithFacebookLabel = injectTranslation("labels", "signInWithFacebook");
   themed = input<boolean>(false);
   signIn = output<UserCredential>();
-  
+
   private defaultProvider = new FacebookAuthProvider();
 
   provider = input<FacebookAuthProvider>();

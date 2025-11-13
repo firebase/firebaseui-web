@@ -39,7 +39,7 @@ export class MicrosoftSignInButtonComponent {
   signInWithMicrosoftLabel = injectTranslation("labels", "signInWithMicrosoft");
   themed = input<boolean>(false);
   signIn = output<UserCredential>();
-  
+
   private defaultProvider = new OAuthProvider("microsoft.com");
 
   provider = input<OAuthProvider>();
