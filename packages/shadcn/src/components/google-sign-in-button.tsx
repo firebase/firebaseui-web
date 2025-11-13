@@ -8,11 +8,11 @@ import { OAuthButton } from "@/components/oauth-button";
 
 export type { GoogleSignInButtonProps };
 
-export function GoogleSignInButton({ provider, themed }: GoogleSignInButtonProps) {
+export function GoogleSignInButton({ provider, ...props }: GoogleSignInButtonProps) {
   const ui = useUI();
 
   return (
-    <OAuthButton provider={provider || new GoogleAuthProvider()} themed={themed}>
+    <OAuthButton {...props} provider={provider || new GoogleAuthProvider()}>
       <GoogleLogo />
       <span>{getTranslation(ui, "labels", "signInWithGoogle")}</span>
     </OAuthButton>

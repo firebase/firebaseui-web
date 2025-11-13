@@ -8,11 +8,11 @@ import { OAuthButton } from "@/components/oauth-button";
 
 export type { FacebookSignInButtonProps };
 
-export function FacebookSignInButton({ provider, themed }: FacebookSignInButtonProps) {
+export function FacebookSignInButton({ provider, ...props }: FacebookSignInButtonProps) {
   const ui = useUI();
 
   return (
-    <OAuthButton provider={provider || new FacebookAuthProvider()} themed={themed}>
+    <OAuthButton {...props} provider={provider || new FacebookAuthProvider()}>
       <FacebookLogo />
       <span>{getTranslation(ui, "labels", "signInWithFacebook")}</span>
     </OAuthButton>
