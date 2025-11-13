@@ -47,9 +47,15 @@ import { injectCountries, injectDefaultCountry } from "../provider";
     </div>
   `,
 })
+/**
+ * A country selector component for phone number input.
+ *
+ * Displays a dropdown with country flags, dial codes, and names for selecting a country.
+ */
 export class CountrySelectorComponent {
   countries = injectCountries();
   defaultCountry = injectDefaultCountry();
+  /** The selected country code (two-way binding). */
   value = model<CountryCode>();
 
   selected = computed(() => {

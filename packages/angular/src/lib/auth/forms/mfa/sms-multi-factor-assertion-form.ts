@@ -63,10 +63,15 @@ type PhoneMultiFactorInfo = MultiFactorInfo & {
     </form>
   `,
 })
+/**
+ * A form component for requesting SMS verification code during MFA assertion.
+ */
 export class SmsMultiFactorAssertionPhoneFormComponent {
   private ui = injectUI();
 
+  /** The multi-factor info hint containing phone number details. */
   hint = input.required<MultiFactorInfo>();
+  /** Event emitter fired when verification ID is received. */
   @Output() onSubmit = new EventEmitter<string>();
 
   sendCodeLabel = injectTranslation("labels", "sendCode");
@@ -164,11 +169,16 @@ export class SmsMultiFactorAssertionPhoneFormComponent {
     </form>
   `,
 })
+/**
+ * A form component for verifying SMS code during MFA assertion.
+ */
 export class SmsMultiFactorAssertionVerifyFormComponent {
   private ui = injectUI();
   private formSchema = injectMultiFactorPhoneAuthVerifyFormSchema();
 
+  /** The verification ID received from the phone form. */
   verificationId = input.required<string>();
+  /** Event emitter for successful MFA assertion. */
   @Output() onSuccess = new EventEmitter<UserCredential>();
 
   verificationCodeLabel = injectTranslation("labels", "verificationCode");
@@ -238,8 +248,15 @@ export class SmsMultiFactorAssertionVerifyFormComponent {
     </div>
   `,
 })
+/**
+ * A form component for SMS multi-factor authentication assertion.
+ *
+ * Manages the flow between requesting and verifying SMS codes for MFA.
+ */
 export class SmsMultiFactorAssertionFormComponent {
+  /** The multi-factor info hint containing phone number details. */
   hint = input.required<MultiFactorInfo>();
+  /** Event emitter for successful MFA assertion. */
   @Output() onSuccess = new EventEmitter<UserCredential>();
 
   verification = signal<{ verificationId: string } | null>(null);

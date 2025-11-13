@@ -64,6 +64,12 @@ import { injectEmailLinkAuthFormSchema, injectTranslation, injectUI } from "../.
     }
   `,
 })
+/**
+ * A form component for email link authentication.
+ *
+ * Sends a sign-in link to the user's email address and automatically completes sign-in
+ * if the user arrives via an email link.
+ */
 export class EmailLinkAuthFormComponent {
   private ui = injectUI();
   private formSchema = injectEmailLinkAuthFormSchema();
@@ -75,7 +81,9 @@ export class EmailLinkAuthFormComponent {
   emailSentMessage = injectTranslation("messages", "signInLinkSent");
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
+  /** Event emitter fired when sign-in link email is sent. */
   @Output() emailSent = new EventEmitter<void>();
+  /** Event emitter for successful sign-in. */
   @Output() signIn = new EventEmitter<UserCredential>();
 
   form = injectForm({

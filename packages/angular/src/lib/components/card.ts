@@ -30,6 +30,9 @@ import { CommonModule } from "@angular/common";
     <ng-content select="fui-card-content"></ng-content>
   `,
 })
+/**
+ * A card container component for grouping related content.
+ */
 export class CardComponent {}
 
 @Component({
@@ -45,6 +48,9 @@ export class CardComponent {}
     <ng-content select="fui-card-subtitle"></ng-content>
   `,
 })
+/**
+ * The header section of a card.
+ */
 export class CardHeaderComponent {}
 
 @Component({
@@ -61,6 +67,9 @@ export class CardHeaderComponent {}
     </h2>
   `,
 })
+/**
+ * The title of a card.
+ */
 export class CardTitleComponent {}
 
 @Component({
@@ -77,6 +86,9 @@ export class CardTitleComponent {}
     </p>
   `,
 })
+/**
+ * The subtitle of a card.
+ */
 export class CardSubtitleComponent {}
 
 @Component({
@@ -89,4 +101,7 @@ export class CardSubtitleComponent {}
   },
   template: ` <ng-content></ng-content> `,
 })
+/**
+ * The content section of a card.
+ */
 export class CardContentComponent {}

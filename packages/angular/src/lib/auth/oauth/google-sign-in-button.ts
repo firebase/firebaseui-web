@@ -35,14 +35,20 @@ import { GoogleLogoComponent } from "../../components/logos/google";
     </fui-oauth-button>
   `,
 })
+/**
+ * A button component for signing in with Google.
+ */
 export class GoogleSignInButtonComponent {
   ui = injectUI();
   signInWithGoogleLabel = injectTranslation("labels", "signInWithGoogle");
+  /** Whether to use themed styling. */
   themed = input<boolean | "neutral">(false);
+  /** Event emitter for successful sign-in. */
   signIn = output<UserCredential>();
 
   private defaultProvider = new GoogleAuthProvider();
 
+  /** Optional custom OAuth provider configuration. */
   provider = input<GoogleAuthProvider>();
 
   get googleProvider() {

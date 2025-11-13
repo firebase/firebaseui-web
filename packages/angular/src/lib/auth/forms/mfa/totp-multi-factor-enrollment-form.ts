@@ -66,10 +66,14 @@ import {
     </form>
   `,
 })
+/**
+ * A form component for generating a TOTP secret and display name during MFA enrollment.
+ */
 export class TotpMultiFactorSecretGenerationFormComponent {
   private ui = injectUI();
   private formSchema = injectMultiFactorTotpAuthNumberFormSchema();
 
+  /** Event emitter fired when TOTP secret is generated. */
   @Output() onSubmit = new EventEmitter<{ secret: TotpSecret; displayName: string }>();
 
   displayNameLabel = injectTranslation("labels", "displayName");
@@ -150,12 +154,20 @@ export class TotpMultiFactorSecretGenerationFormComponent {
     </form>
   `,
 })
+/**
+ * A form component for verifying TOTP code during MFA enrollment.
+ *
+ * Displays a QR code and allows users to verify their authenticator app setup.
+ */
 export class TotpMultiFactorVerificationFormComponent {
   private ui = injectUI();
   private formSchema = injectMultiFactorTotpAuthVerifyFormSchema();
 
+  /** The TOTP secret generated in the previous step. */
   secret = input.required<TotpSecret>();
+  /** The display name for the TOTP factor. */
   displayName = input.required<string>();
+  /** Event emitter fired when MFA enrollment is completed. */
   @Output() onEnrollment = new EventEmitter<void>();
 
   verificationCodeLabel = injectTranslation("labels", "verificationCode");
@@ -224,10 +236,16 @@ export class TotpMultiFactorVerificationFormComponent {
     </div>
   `,
 })
+/**
+ * A form component for TOTP multi-factor authentication enrollment.
+ *
+ * Manages the flow between secret generation and verification for TOTP MFA enrollment.
+ */
 export class TotpMultiFactorEnrollmentFormComponent {
   private ui = injectUI();
 
   enrollment = signal<{ secret: TotpSecret; displayName: string } | null>(null);
+  /** Event emitter fired when MFA enrollment is completed. */
   @Output() onEnrollment = new EventEmitter<void>();
 
   constructor() {

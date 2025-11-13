@@ -42,8 +42,14 @@ import { Component, input } from "@angular/core";
     </svg>
   `,
 })
+/**
+ * The Google logo SVG component.
+ */
 export class GoogleLogoComponent {
+  /** The width of the logo. */
   width = input<string | number>("1em");
+  /** The height of the logo. */
   height = input<string | number>("1em");
+  /** Optional additional CSS class names. */
   className = input<string>("");
 }

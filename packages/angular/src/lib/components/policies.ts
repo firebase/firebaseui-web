@@ -48,6 +48,11 @@ type PolicyPart =
     }
   `,
 })
+/**
+ * A component that displays terms of service and privacy policy links.
+ *
+ * Parses the terms and privacy policy template and renders clickable links.
+ */
 export class PoliciesComponent {
   private readonly policies = injectPolicies();
 

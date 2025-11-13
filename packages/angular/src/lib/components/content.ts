@@ -32,6 +32,9 @@ import { injectTranslation } from "../provider";
     </div>
   `,
 })
+/**
+ * A content wrapper component that displays a divider and children content.
+ */
 export class ContentComponent {
   dividerOrLabel = injectTranslation("messages", "dividerOr");
 }

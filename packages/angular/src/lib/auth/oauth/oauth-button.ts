@@ -49,11 +49,17 @@ import { FirebaseUIError, signInWithProvider, getTranslation } from "@invertase/
     </div>
   `,
 })
+/**
+ * A generic OAuth button component for signing in with any OAuth provider.
+ */
 export class OAuthButtonComponent {
   ui = injectUI();
+  /** The OAuth provider to use for sign-in. */
   provider = input.required<AuthProvider>();
+  /** Whether to use themed styling. */
   themed = input<boolean | string>();
   error = signal<string | null>(null);
+  /** Event emitter for successful sign-in. */
   signIn = output<UserCredential>();
 
   buttonVariant = computed(() => {

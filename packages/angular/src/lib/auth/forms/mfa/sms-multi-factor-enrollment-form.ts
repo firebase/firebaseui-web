@@ -111,6 +111,11 @@ import {
     </div>
   `,
 })
+/**
+ * A form component for SMS multi-factor authentication enrollment.
+ *
+ * Manages the flow between phone number entry and verification code entry for MFA enrollment.
+ */
 export class SmsMultiFactorEnrollmentFormComponent {
   private ui = injectUI();
   private phoneFormSchema = injectMultiFactorPhoneAuthNumberFormSchema();
@@ -128,6 +133,7 @@ export class SmsMultiFactorEnrollmentFormComponent {
   verifyCodeLabel = injectTranslation("labels", "verifyCode");
   smsVerificationPrompt = injectTranslation("prompts", "smsVerificationPrompt");
 
+  /** Event emitter fired when MFA enrollment is completed. */
   @Output() onEnrollment = new EventEmitter<void>();
 
   recaptchaContainer = viewChild.required<ElementRef<HTMLDivElement>>("recaptchaContainer");

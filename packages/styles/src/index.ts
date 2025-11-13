@@ -16,6 +16,11 @@
 
 import { cva, type VariantProps } from "cva";
 
+/**
+ * Class variance authority configuration for button variants.
+ *
+ * Defines the CSS class variants for buttons with primary and secondary styles.
+ */
 export const buttonVariant = cva({
   base: "fui-button",
   variants: {
@@ -29,4 +34,5 @@ export const buttonVariant = cva({
   },
 });
 
+/** Button variant type derived from the buttonVariant configuration. */
 export type ButtonVariant = VariantProps<typeof buttonVariant>["variant"];

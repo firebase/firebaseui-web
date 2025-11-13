@@ -66,6 +66,11 @@ import { User } from "@angular/fire/auth";
     }
   `,
 })
+/**
+ * A screen component for email link authentication.
+ *
+ * Automatically displays the MFA assertion screen if a multi-factor resolver is present.
+ */
 export class EmailLinkAuthScreenComponent {
   private ui = injectUI();
 
@@ -80,6 +85,8 @@ export class EmailLinkAuthScreenComponent {
     });
   }
 
+  /** Event emitter fired when sign-in link email is sent. */
   @Output() emailSent = new EventEmitter<void>();
+  /** Event emitter for successful sign-in. */
   @Output() signIn = new EventEmitter<User>();
 }

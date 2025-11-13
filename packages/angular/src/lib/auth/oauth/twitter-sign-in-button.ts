@@ -35,13 +35,19 @@ import { TwitterLogoComponent } from "../../components/logos/twitter";
     </fui-oauth-button>
   `,
 })
+/**
+ * A button component for signing in with Twitter/X.
+ */
 export class TwitterSignInButtonComponent {
   signInWithTwitterLabel = injectTranslation("labels", "signInWithTwitter");
+  /** Whether to use themed styling. */
   themed = input<boolean>(false);
+  /** Event emitter for successful sign-in. */
   signIn = output<UserCredential>();
 
   private defaultProvider = new TwitterAuthProvider();
 
+  /** Optional custom OAuth provider configuration. */
   provider = input<TwitterAuthProvider>();
 
   get twitterProvider() {

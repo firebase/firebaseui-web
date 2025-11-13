@@ -59,6 +59,11 @@ import { ButtonComponent } from "../../components/button";
     </div>
   `,
 })
+/**
+ * A form component for multi-factor authentication assertion.
+ *
+ * Allows users to select and complete MFA verification using SMS or TOTP.
+ */
 export class MultiFactorAuthAssertionFormComponent {
   private ui = injectUI();
 
@@ -71,6 +76,7 @@ export class MultiFactorAuthAssertionFormComponent {
     });
   }
 
+  /** Event emitter for successful MFA assertion. */
   @Output() onSuccess = new EventEmitter<UserCredential>();
 
   resolver = computed(() => {

@@ -68,6 +68,12 @@ import { type User } from "@angular/fire/auth";
     }
   `,
 })
+/**
+ * A screen component for OAuth authentication.
+ *
+ * Automatically displays the MFA assertion screen if a multi-factor resolver is present.
+ * Use this screen to display OAuth sign-in buttons.
+ */
 export class OAuthScreenComponent {
   private ui = injectUI();
 
@@ -82,5 +88,6 @@ export class OAuthScreenComponent {
     });
   }
 
+  /** Event emitter for successful sign-in. */
   @Output() onSignIn = new EventEmitter<User>();
 }

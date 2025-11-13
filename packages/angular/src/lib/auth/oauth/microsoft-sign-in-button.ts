@@ -35,13 +35,19 @@ import { MicrosoftLogoComponent } from "../../components/logos/microsoft";
     </fui-oauth-button>
   `,
 })
+/**
+ * A button component for signing in with Microsoft.
+ */
 export class MicrosoftSignInButtonComponent {
   signInWithMicrosoftLabel = injectTranslation("labels", "signInWithMicrosoft");
+  /** Whether to use themed styling. */
   themed = input<boolean>(false);
+  /** Event emitter for successful sign-in. */
   signIn = output<UserCredential>();
 
   private defaultProvider = new OAuthProvider("microsoft.com");
 
+  /** Optional custom OAuth provider configuration. */
   provider = input<OAuthProvider>();
 
   get microsoftProvider() {

@@ -79,11 +79,16 @@ import {
     </form>
   `,
 })
+/**
+ * A form component for entering a phone number and requesting a verification code.
+ */
 export class PhoneNumberFormComponent {
   private ui = injectUI();
   private formSchema = injectPhoneAuthFormSchema();
 
+  /** Event emitter fired when phone number is verified and verification ID is received. */
   @Output() onSubmit = new EventEmitter<{ verificationId: string; phoneNumber: string }>();
+  /** The selected country code for phone number formatting. */
   country = signal<CountryCode>(countryData[0].code);
 
   phoneNumberLabel = injectTranslation("labels", "phoneNumber");
@@ -187,11 +192,16 @@ export class PhoneNumberFormComponent {
     </form>
   `,
 })
+/**
+ * A form component for entering and verifying the SMS verification code.
+ */
 export class VerificationFormComponent {
   private ui = injectUI();
   private formSchema = injectPhoneAuthVerifyFormSchema();
 
+  /** The verification ID received from the phone number form. */
   verificationId = input.required<string>();
+  /** Event emitter for successful sign-in. */
   @Output() signIn = new EventEmitter<UserCredential>();
 
   verificationCodeLabel = injectTranslation("labels", "verificationCode");
@@ -259,8 +269,14 @@ export class VerificationFormComponent {
     </div>
   `,
 })
+/**
+ * A form component for phone number authentication.
+ *
+ * Manages the flow between phone number entry and verification code entry.
+ */
 export class PhoneAuthFormComponent {
   verificationId = signal<string | null>(null);
+  /** Event emitter for successful sign-in. */
   @Output() signIn = new EventEmitter<UserCredential>();
 
   handlePhoneSubmit(data: { verificationId: string; phoneNumber: string }) {
