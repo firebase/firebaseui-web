@@ -1,16 +1,16 @@
 "use client";
 
 import { getTranslation } from "@invertase/firebaseui-core";
-import { type UserCredential } from "firebase/auth";
+import { type User } from "firebase/auth";
 import { type PropsWithChildren } from "react";
-import { useUI } from "@invertase/firebaseui-react";
+import { useUI, useOnUserAuthenticated } from "@invertase/firebaseui-react";
 import { Card, CardContent, CardHeader, CardDescription, CardTitle } from "@/components/ui/card";
 import { Policies } from "@/components/policies";
 import { MultiFactorAuthAssertionScreen } from "@/components/multi-factor-auth-assertion-screen";
 import { RedirectError } from "@/components/redirect-error";
 
 export type OAuthScreenProps = PropsWithChildren<{
-  onSignIn?: (credential: UserCredential) => void;
+  onSignIn?: (user: User) => void;
 }>;
 
 export function OAuthScreen({ children, onSignIn }: OAuthScreenProps) {
@@ -18,10 +18,11 @@ export function OAuthScreen({ children, onSignIn }: OAuthScreenProps) {
 
   const titleText = getTranslation(ui, "labels", "signIn");
   const subtitleText = getTranslation(ui, "prompts", "signInToAccount");
-  const mfaResolver = ui.multiFactorResolver;
 
-  if (mfaResolver) {
-    return <MultiFactorAuthAssertionScreen onSuccess={onSignIn} />;
+  useOnUserAuthenticated(onSignIn);
+
+  if (ui.multiFactorResolver) {
+    return <MultiFactorAuthAssertionScreen />;
   }
 
   return (

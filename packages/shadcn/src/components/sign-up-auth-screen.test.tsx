@@ -15,12 +15,12 @@
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, cleanup, fireEvent } from "@testing-library/react";
+import { render, screen, cleanup, act } from "@testing-library/react";
 import { SignUpAuthScreen } from "./sign-up-auth-screen";
 import { createMockUI } from "../../tests/utils";
 import { registerLocale } from "@invertase/firebaseui-translations";
 import { FirebaseUIProvider } from "@invertase/firebaseui-react";
-import { MultiFactorResolver } from "firebase/auth";
+import { MultiFactorResolver, type User } from "firebase/auth";
 
 vi.mock("./sign-up-auth-form", () => ({
   SignUpAuthForm: ({ onSignUp, onSignInClick }: any) => (
@@ -115,16 +115,14 @@ describe("<SignUpAuthScreen />", () => {
       }),
     });
 
-    const onSignUpMock = vi.fn();
     const onSignInClickMock = vi.fn();
 
     render(
       <FirebaseUIProvider ui={mockUI}>
-        <SignUpAuthScreen onSignUp={onSignUpMock} onSignInClick={onSignInClickMock} />
+        <SignUpAuthScreen onSignInClick={onSignInClickMock} />
       </FirebaseUIProvider>
     );
 
-    expect(screen.getByTestId("onSignUp-prop")).toBeInTheDocument();
     expect(screen.getByTestId("onSignInClick-prop")).toBeInTheDocument();
   });
 
@@ -246,7 +244,18 @@ describe("<SignUpAuthScreen />", () => {
       session: null,
       hints: [],
     };
-    const mockUI = createMockUI();
+    let authStateChangeCallback: ((user: User | null) => void) | null = null;
+
+    const mockAuth = {
+      onAuthStateChanged: vi.fn((callback: (user: User | null) => void) => {
+        authStateChangeCallback = callback;
+        return vi.fn();
+      }),
+    };
+
+    const mockUI = createMockUI({
+      auth: mockAuth as any,
+    });
     mockUI.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
 
     const onSignUp = vi.fn();
@@ -257,11 +266,85 @@ describe("<SignUpAuthScreen />", () => {
       </FirebaseUIProvider>
     );
 
-    fireEvent.click(screen.getByTestId("mfa-on-success"));
+    const mockUser = {
+      uid: "signup-mfa-user",
+      isAnonymous: false,
+    } as User;
+
+    act(() => {
+      authStateChangeCallback!(mockUser);
+    });
 
     expect(onSignUp).toHaveBeenCalledTimes(1);
-    expect(onSignUp).toHaveBeenCalledWith(
-      expect.objectContaining({ user: expect.objectContaining({ uid: "signup-mfa-user" }) })
+    expect(onSignUp).toHaveBeenCalledWith(mockUser);
+  });
+
+  it("calls onSignUp when user authenticates via useOnUserAuthenticated hook", () => {
+    const onSignUp = vi.fn();
+    let authStateChangeCallback: ((user: User | null) => void) | null = null;
+
+    const mockAuth = {
+      onAuthStateChanged: vi.fn((callback: (user: User | null) => void) => {
+        authStateChangeCallback = callback;
+        return vi.fn();
+      }),
+    };
+
+    const mockUI = createMockUI({
+      auth: mockAuth as any,
+    });
+
+    render(
+      <FirebaseUIProvider ui={mockUI}>
+        <SignUpAuthScreen onSignUp={onSignUp} />
+      </FirebaseUIProvider>
     );
+
+    expect(mockAuth.onAuthStateChanged).toHaveBeenCalledTimes(1);
+
+    const mockUser = {
+      uid: "test-user-id",
+      isAnonymous: false,
+    } as User;
+
+    act(() => {
+      authStateChangeCallback!(mockUser);
+    });
+
+    expect(onSignUp).toHaveBeenCalledTimes(1);
+    expect(onSignUp).toHaveBeenCalledWith(mockUser);
+  });
+
+  it("does not call onSignUp for anonymous users", () => {
+    const onSignUp = vi.fn();
+    let authStateChangeCallback: ((user: User | null) => void) | null = null;
+
+    const mockAuth = {
+      onAuthStateChanged: vi.fn((callback: (user: User | null) => void) => {
+        authStateChangeCallback = callback;
+        return vi.fn();
+      }),
+    };
+
+    const mockUI = createMockUI({
+      auth: mockAuth as any,
+    });
+
+    render(
+      <FirebaseUIProvider ui={mockUI}>
+        <SignUpAuthScreen onSignUp={onSignUp} />
+      </FirebaseUIProvider>
+    );
+
+    const mockAnonymousUser = {
+      uid: "anonymous-user-id",
+      isAnonymous: true,
+    } as User;
+
+    act(() => {
+      authStateChangeCallback!(mockAnonymousUser);
+    });
+
+    expect(onSignUp).not.toHaveBeenCalled();
   });
 });
