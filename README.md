@@ -217,7 +217,7 @@ Next, follow the framework specific installation steps, for either React, Shadcn
     `,
   })
   export class SignInRoute {
-    onSignIn(credential: UserCredential) {
+    onSignIn(user: User) {
       // ...
     }
   }
@@ -237,6 +237,14 @@ Ensure your application imports the Firebase UI CSS file. This can be handled a 
 ### CSS Bundling 
 
 If your bundler supports importing CSS files from node_modules:
+
+Via JS:
+
+```ts
+import '@invertase/firebaseui-styles/dist.min.css';
+```
+
+Via CSS: 
 
 ```css
 @import "@invertase/firebaseui-styles/dist.min.css";
@@ -1042,9 +1050,20 @@ By default, any missing translations will fallback to English if not specified. 
 
   Screen component for email/password sign-in. Extends `SignInAuthFormProps` and accepts `children`.
 
+  | Prop | Type | Description |
+  |------|:----:|-------------|
+  | onSignIn | `(user: User) => void?` | Callback when sign-in succeeds |
+  | onForgotPasswordClick | `() => void?` | Callback when forgot password link is clicked |
+  | onSignUpClick | `() => void?` | Callback when sign-up link is clicked |
+
   **`SignUpAuthScreen`**
 
   Screen component for email/password sign-up. Extends `SignUpAuthFormProps` and accepts `children`.
+
+  | Prop | Type | Description |
+  |------|:----:|-------------|
+  | onSignUp | `(user: User) => void?` | Callback when sign-up succeeds |
+  | onSignInClick | `() => void?` | Callback when sign-in link is clicked |
 
   **`ForgotPasswordAuthScreen`**
 
@@ -1054,13 +1073,27 @@ By default, any missing translations will fallback to English if not specified. 
 
   Screen component for email link authentication. Extends `EmailLinkAuthFormProps` and accepts `children`.
 
+  | Prop | Type | Description |
+  |------|:----:|-------------|
+  | onSendSignInLinkToEmail | `() => void?` | Callback when sign-in link email is sent |
+  | onSignIn | `(user: User) => void?` | Callback when sign-in succeeds |
+
   **`PhoneAuthScreen`**
 
   Screen component for phone number authentication. Extends `PhoneAuthFormProps` and accepts `children`.
 
+  | Prop | Type | Description |
+  |------|:----:|-------------|
+  | onVerifyPhoneNumber | `() => void?` | Callback when phone number verification is initiated |
+  | onVerifyCode | `(user: User) => void?` | Callback when verification code is verified |
+
   **`MultiFactorAuthAssertionScreen`**
 
   Screen component for multi-factor authentication assertion. Extends `MultiFactorAuthAssertionFormProps`.
+
+  | Prop | Type | Description |
+  |------|:----:|-------------|
+  | onAssert | `(user: User) => void?` | Callback when MFA assertion succeeds |
 
   **`MultiFactorAuthEnrollmentScreen`**
 
@@ -1072,6 +1105,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   | Prop | Type | Description |
   |------|:----:|-------------|
+  | onSignIn | `(user: User) => void?` | Callback when sign-in succeeds |
   | children | `React.ReactNode?` | Child components |
 
   **`OAuthButton`**
@@ -1082,6 +1116,7 @@ By default, any missing translations will fallback to English if not specified. 
   |------|:----:|-------------|
   | provider | `AuthProvider` | Firebase Auth provider instance |
   | themed | `boolean \| string?` | Whether to apply themed styling |
+  | onSignIn | `(credential: UserCredential) => void?` | Callback when sign-in succeeds |
   | children | `React.ReactNode?` | Button content |
 
   **`GoogleSignInButton`**
@@ -1091,6 +1126,7 @@ By default, any missing translations will fallback to English if not specified. 
   | Prop | Type | Description |
   |------|:----:|-------------|
   | themed | `boolean \| string?` | Whether to apply themed styling |
+  | onSignIn | `(credential: UserCredential) => void?` | Callback when sign-in succeeds |
 
   **`AppleSignInButton`**
 
@@ -1099,6 +1135,7 @@ By default, any missing translations will fallback to English if not specified. 
   | Prop | Type | Description |
   |------|:----:|-------------|
   | themed | `boolean \| string?` | Whether to apply themed styling |
+  | onSignIn | `(credential: UserCredential) => void?` | Callback when sign-in succeeds |
 
   **`FacebookSignInButton`**
 
@@ -1107,6 +1144,7 @@ By default, any missing translations will fallback to English if not specified. 
   | Prop | Type | Description |
   |------|:----:|-------------|
   | themed | `boolean \| string?` | Whether to apply themed styling |
+  | onSignIn | `(credential: UserCredential) => void?` | Callback when sign-in succeeds |
 
   **`GitHubSignInButton`**
 
@@ -1115,6 +1153,7 @@ By default, any missing translations will fallback to English if not specified. 
   | Prop | Type | Description |
   |------|:----:|-------------|
   | themed | `boolean \| string?` | Whether to apply themed styling |
+  | onSignIn | `(credential: UserCredential) => void?` | Callback when sign-in succeeds |
 
   **`MicrosoftSignInButton`**
 
@@ -1123,6 +1162,7 @@ By default, any missing translations will fallback to English if not specified. 
   | Prop | Type | Description |
   |------|:----:|-------------|
   | themed | `boolean \| string?` | Whether to apply themed styling |
+  | onSignIn | `(credential: UserCredential) => void?` | Callback when sign-in succeeds |
 
   **`TwitterSignInButton`**
 
@@ -1131,6 +1171,7 @@ By default, any missing translations will fallback to English if not specified. 
   | Prop | Type | Description |
   |------|:----:|-------------|
   | themed | `boolean \| string?` | Whether to apply themed styling |
+  | onSignIn | `(credential: UserCredential) => void?` | Callback when sign-in succeeds |
 
   **`Button`**
 
@@ -1655,7 +1696,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   | Output | Type | Description |
   |--------|:----:|-------------|
-  | signIn | `EventEmitter<UserCredential>` | Emitted when sign-in succeeds |
+  | signIn | `EventEmitter<User>` | Emitted when sign-in succeeds |
   | signUp | `EventEmitter<void>` | Emitted when sign-up link is clicked |
 
   **`SignUpAuthScreenComponent`**
@@ -1666,7 +1707,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   | Output | Type | Description |
   |--------|:----:|-------------|
-  | signUp | `EventEmitter<UserCredential>` | Emitted when sign-up succeeds |
+  | signUp | `EventEmitter<User>` | Emitted when sign-up succeeds |
   | signIn | `EventEmitter<void>` | Emitted when sign-in link is clicked |
 
   **`ForgotPasswordAuthScreenComponent`**
@@ -1689,7 +1730,7 @@ By default, any missing translations will fallback to English if not specified. 
   | Output | Type | Description |
   |--------|:----:|-------------|
   | emailSent | `EventEmitter<void>` | Emitted when sign-in link email is sent |
-  | signIn | `EventEmitter<UserCredential>` | Emitted when sign-in succeeds |
+  | signIn | `EventEmitter<User>` | Emitted when sign-in succeeds |
 
   **`PhoneAuthScreenComponent`**
 
@@ -1699,7 +1740,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   | Output | Type | Description |
   |--------|:----:|-------------|
-  | signIn | `EventEmitter<UserCredential>` | Emitted when phone verification succeeds |
+  | signIn | `EventEmitter<User>` | Emitted when phone verification succeeds |
 
   **`OAuthScreenComponent`**
 
@@ -1709,7 +1750,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   | Output | Type | Description |
   |--------|:----:|-------------|
-  | onSignIn | `EventEmitter<UserCredential>` | Emitted when OAuth sign-in succeeds |
+  | onSignIn | `EventEmitter<User>` | Emitted when OAuth sign-in succeeds |
 
   **`OAuthButtonComponent`**
 
@@ -1721,11 +1762,19 @@ By default, any missing translations will fallback to English if not specified. 
   |-------|:----:|-------------|
   | provider | `AuthProvider` | Firebase Auth provider instance |
 
+  | Output | Type | Description |
+  |--------|:----:|-------------|
+  | signIn | `EventEmitter<UserCredential>` | Emitted when sign-in succeeds |
+
   **`GoogleSignInButtonComponent`**
 
   Selector: `fui-google-sign-in-button`
 
   Google OAuth sign-in button component.
+
+  | Output | Type | Description |
+  |--------|:----:|-------------|
+  | signIn | `EventEmitter<UserCredential>` | Emitted when sign-in succeeds |
 
   **`AppleSignInButtonComponent`**
 
@@ -1733,11 +1782,19 @@ By default, any missing translations will fallback to English if not specified. 
 
   Apple OAuth sign-in button component.
 
+  | Output | Type | Description |
+  |--------|:----:|-------------|
+  | signIn | `EventEmitter<UserCredential>` | Emitted when sign-in succeeds |
+
   **`FacebookSignInButtonComponent`**
 
   Selector: `fui-facebook-sign-in-button`
 
   Facebook OAuth sign-in button component.
+
+  | Output | Type | Description |
+  |--------|:----:|-------------|
+  | signIn | `EventEmitter<UserCredential>` | Emitted when sign-in succeeds |
 
   **`GithubSignInButtonComponent`**
 
@@ -1745,17 +1802,29 @@ By default, any missing translations will fallback to English if not specified. 
 
   GitHub OAuth sign-in button component.
 
+  | Output | Type | Description |
+  |--------|:----:|-------------|
+  | signIn | `EventEmitter<UserCredential>` | Emitted when sign-in succeeds |
+
   **`MicrosoftSignInButtonComponent`**
 
   Selector: `fui-microsoft-sign-in-button`
 
   Microsoft OAuth sign-in button component.
 
+  | Output | Type | Description |
+  |--------|:----:|-------------|
+  | signIn | `EventEmitter<UserCredential>` | Emitted when sign-in succeeds |
+
   **`TwitterSignInButtonComponent`**
 
   Selector: `fui-twitter-sign-in-button`
 
   Twitter OAuth sign-in button component.
+
+  | Output | Type | Description |
+  |--------|:----:|-------------|
+  | signIn | `EventEmitter<UserCredential>` | Emitted when sign-in succeeds |
 
   **`ButtonComponent`**
 
@@ -2038,5 +2107,73 @@ ui.listen((ui) => {
 
 The core package additionally exposes a `signInWithMultiFactorAssertion` function for signing the user in with one of their enrolled factors.
 
+### Custom providers
 
+Out of the box, Firebase UI provides styled, themeable buttons for all of the Firebase supported providers. If you wish to add a custom provider, either
+supporting SAML or OIDC, you can achive this by extending the OAuth component:
 
+<details>
+  <summary>React</summary>
+
+  ```tsx
+  import { OAuthProvider } from 'firebase/auth';
+  import { OAuthButton } from '@invertase/firebaseui-react';
+
+  function MyProviderButton() {
+    // Get the provider ID from the Firebase Console
+    const provider = new OAuthProvider('oidc.my-provider');
+
+    return (
+      <OAuthButton provider={provider} themed>
+        Sign in with my provider
+      </OAuthButton>
+    )
+  }
+  ```
+</details>
+
+<details>
+  <summary>Angular</summary>
+
+  ```ts
+  import { Component } from '@angular/core';
+  import { CommonModule } from '@angular/common';
+  import { OAuthProvider, UserCredential } from '@angular/fire/auth';
+  import { OAuthButtonComponent } from '@invertase/firebaseui-angular';
+
+  @Component({
+    selector: 'app-my-provider-button',
+    standalone: true,
+    imports: [CommonModule, OAuthButtonComponent],
+    template: `
+      <fui-oauth-button [provider]="provider" [themed]="true">
+        Sign in with my provider
+      </fui-oauth-button>
+    `,
+  })
+  export class MyProviderButtonComponent {
+    // Get the provider ID from the Firebase Console
+    provider = new OAuthProvider('oidc.my-provider');
+
+    onSignIn(credential: UserCredential) {
+      // Handle sign-in success
+    }
+  }
+  ```
+</details>
+
+If the `themed` prop is provided, you can trigger the styling via providing some custom CSS which targets the button:
+
+```css
+.fui-provider__button[data-provider="oidc.my-provider"][data-themed="true"] {
+  --my-provider: blue;
+  --color-primary: var(--my-provider);
+  --color-primary-hover: --alpha(var(--my-provider) / 85%);
+  --color-primary-surface: #FFFFFF;
+  --color-border: var(--my-provider);
+}
+
+/* If using Shadcn */
+button[data-provider="oidc.my-provider"][data-themed="true"] {
+  ...
+```
