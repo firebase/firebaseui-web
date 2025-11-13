@@ -15,11 +15,11 @@
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, cleanup, fireEvent } from "@testing-library/react";
+import { render, screen, cleanup, fireEvent, act } from "@testing-library/react";
 import { EmailLinkAuthScreen } from "~/auth/screens/email-link-auth-screen";
 import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
 import { registerLocale } from "@invertase/firebaseui-translations";
-import type { MultiFactorResolver } from "firebase/auth";
+import type { MultiFactorResolver, User } from "firebase/auth";
 
 vi.mock("~/auth/forms/email-link-auth-form", () => ({
   EmailLinkAuthForm: () => <div data-testid="email-link-auth-form">Email Link Form</div>,
@@ -201,7 +201,18 @@ describe("<EmailLinkAuthScreen />", () => {
       session: null,
       hints: [],
     };
-    const ui = createMockUI();
+    let authStateChangeCallback: ((user: User | null) => void) | null = null;
+
+    const mockAuth = {
+      onAuthStateChanged: vi.fn((callback: (user: User | null) => void) => {
+        authStateChangeCallback = callback;
+        return vi.fn();
+      }),
+    };
+
+    const ui = createMockUI({
+      auth: mockAuth as any,
+    });
     ui.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
 
     const onSignIn = vi.fn();
@@ -212,11 +223,85 @@ describe("<EmailLinkAuthScreen />", () => {
       </CreateFirebaseUIProvider>
     );
 
-    fireEvent.click(screen.getByTestId("mfa-on-success"));
+    const mockUser = {
+      uid: "mfa-user",
+      isAnonymous: false,
+    } as User;
+
+    act(() => {
+      authStateChangeCallback!(mockUser);
+    });
 
     expect(onSignIn).toHaveBeenCalledTimes(1);
-    expect(onSignIn).toHaveBeenCalledWith(
-      expect.objectContaining({ user: expect.objectContaining({ uid: "mfa-user" }) })
+    expect(onSignIn).toHaveBeenCalledWith(mockUser);
+  });
+
+  it("calls onSignIn when user authenticates via useOnUserAuthenticated hook", () => {
+    const onSignIn = vi.fn();
+    let authStateChangeCallback: ((user: User | null) => void) | null = null;
+
+    const mockAuth = {
+      onAuthStateChanged: vi.fn((callback: (user: User | null) => void) => {
+        authStateChangeCallback = callback;
+        return vi.fn();
+      }),
+    };
+
+    const ui = createMockUI({
+      auth: mockAuth as any,
+    });
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <EmailLinkAuthScreen onSignIn={onSignIn} />
+      </CreateFirebaseUIProvider>
     );
+
+    expect(mockAuth.onAuthStateChanged).toHaveBeenCalledTimes(1);
+
+    const mockUser = {
+      uid: "test-user-id",
+      isAnonymous: false,
+    } as User;
+
+    act(() => {
+      authStateChangeCallback!(mockUser);
+    });
+
+    expect(onSignIn).toHaveBeenCalledTimes(1);
+    expect(onSignIn).toHaveBeenCalledWith(mockUser);
+  });
+
+  it("does not call onSignIn for anonymous users", () => {
+    const onSignIn = vi.fn();
+    let authStateChangeCallback: ((user: User | null) => void) | null = null;
+
+    const mockAuth = {
+      onAuthStateChanged: vi.fn((callback: (user: User | null) => void) => {
+        authStateChangeCallback = callback;
+        return vi.fn();
+      }),
+    };
+
+    const ui = createMockUI({
+      auth: mockAuth as any,
+    });
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <EmailLinkAuthScreen onSignIn={onSignIn} />
+      </CreateFirebaseUIProvider>
+    );
+
+    const mockAnonymousUser = {
+      uid: "anonymous-user-id",
+      isAnonymous: true,
+    } as User;
+
+    act(() => {
+      authStateChangeCallback!(mockAnonymousUser);
+    });
+
+    expect(onSignIn).not.toHaveBeenCalled();
   });
 });

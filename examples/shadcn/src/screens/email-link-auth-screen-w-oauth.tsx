@@ -22,10 +22,17 @@ import { GitHubSignInButton } from "@/components/github-sign-in-button";
 import { MicrosoftSignInButton } from "@/components/microsoft-sign-in-button";
 import { TwitterSignInButton } from "@/components/twitter-sign-in-button";
 import { EmailLinkAuthScreen } from "@/components/email-link-auth-screen";
+import { useNavigate } from "react-router";
 
 export default function EmailLinkAuthScreenWithOAuthPage() {
+  const navigate = useNavigate();
+
   return (
-    <EmailLinkAuthScreen>
+    <EmailLinkAuthScreen
+      onSignIn={() => {
+        navigate("/");
+      }}
+    >
       <GoogleSignInButton />
       <FacebookSignInButton />
       <AppleSignInButton />

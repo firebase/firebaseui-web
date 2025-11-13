@@ -1,7 +1,7 @@
 "use client";
 
 import { getTranslation } from "@invertase/firebaseui-core";
-import { useUI, type EmailLinkAuthScreenProps } from "@invertase/firebaseui-react";
+import { useUI, type EmailLinkAuthScreenProps, useOnUserAuthenticated } from "@invertase/firebaseui-react";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -11,15 +11,16 @@ import { RedirectError } from "@/components/redirect-error";
 
 export type { EmailLinkAuthScreenProps };
 
-export function EmailLinkAuthScreen({ children, ...props }: EmailLinkAuthScreenProps) {
+export function EmailLinkAuthScreen({ children, onSignIn, ...props }: EmailLinkAuthScreenProps) {
   const ui = useUI();
 
   const titleText = getTranslation(ui, "labels", "signIn");
   const subtitleText = getTranslation(ui, "prompts", "signInToAccount");
-  const mfaResolver = ui.multiFactorResolver;
 
-  if (mfaResolver) {
-    return <MultiFactorAuthAssertionScreen onSuccess={props.onSignIn} />;
+  useOnUserAuthenticated(onSignIn);
+
+  if (ui.multiFactorResolver) {
+    return <MultiFactorAuthAssertionScreen />;
   }
 
   return (

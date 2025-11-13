@@ -287,6 +287,8 @@ export const injectRecaptchaVerifier = jest.fn().mockImplementation(() => {
   });
 });
 
+export const injectUserAuthenticated = jest.fn();
+
 export const RecaptchaVerifier = jest.fn().mockImplementation(() => ({
   clear: jest.fn(),
   render: jest.fn(),

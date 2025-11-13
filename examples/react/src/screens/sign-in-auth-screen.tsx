@@ -22,8 +22,7 @@ export default function SignInAuthScreenPage() {
 
   return (
     <SignInAuthScreen
-      onSignIn={(credential) => {
-        console.log(credential);
+      onSignIn={() => {
         navigate("/");
       }}
     />

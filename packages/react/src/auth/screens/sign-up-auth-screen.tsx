@@ -14,27 +14,30 @@
  * limitations under the License.
  */
 
-import { type PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
+import type { User } from "firebase/auth";
 import { Divider } from "~/components/divider";
-import { useUI } from "~/hooks";
+import { useOnUserAuthenticated, useUI } from "~/hooks";
 import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "../../components/card";
 import { SignUpAuthForm, type SignUpAuthFormProps } from "../forms/sign-up-auth-form";
 import { getTranslation } from "@invertase/firebaseui-core";
 import { RedirectError } from "~/components/redirect-error";
 import { MultiFactorAuthAssertionScreen } from "./multi-factor-auth-assertion-screen";
 
-export type SignUpAuthScreenProps = PropsWithChildren<SignUpAuthFormProps>;
+export type SignUpAuthScreenProps = PropsWithChildren<Omit<SignUpAuthFormProps, "onSignUp">> & {
+  onSignUp?: (user: User) => void;
+};
 
-export function SignUpAuthScreen({ children, ...props }: SignUpAuthScreenProps) {
+export function SignUpAuthScreen({ children, onSignUp, ...props }: SignUpAuthScreenProps) {
   const ui = useUI();
 
   const titleText = getTranslation(ui, "labels", "signUp");
   const subtitleText = getTranslation(ui, "prompts", "enterDetailsToCreate");
 
-  const mfaResolver = ui.multiFactorResolver;
+  useOnUserAuthenticated(onSignUp);
 
-  if (mfaResolver) {
-    return <MultiFactorAuthAssertionScreen onSuccess={props.onSignUp} />;
+  if (ui.multiFactorResolver) {
+    return <MultiFactorAuthAssertionScreen />;
   }
 
   return (

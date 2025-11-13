@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import { Component, Output, EventEmitter, computed } from "@angular/core";
+import { Component, Output, EventEmitter, computed, inject, effect } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
-import { injectTranslation, injectUI } from "../../provider";
+import { injectTranslation, injectUI, injectUserAuthenticated } from "../../provider";
 import { SignInAuthFormComponent } from "../forms/sign-in-auth-form";
 import { MultiFactorAuthAssertionScreenComponent } from "../screens/multi-factor-auth-assertion-screen";
 import { RedirectErrorComponent } from "../../components/redirect-error";
@@ -28,7 +28,7 @@ import {
   CardSubtitleComponent,
   CardContentComponent,
 } from "../../components/card";
-import { UserCredential } from "@angular/fire/auth";
+import { Auth, authState, User, UserCredential } from "@angular/fire/auth";
 @Component({
   selector: "fui-sign-in-auth-screen",
   standalone: true,
@@ -48,7 +48,7 @@ import { UserCredential } from "@angular/fire/auth";
   ],
   template: `
     @if (mfaResolver()) {
-      <fui-multi-factor-auth-assertion-screen (onSuccess)="signIn.emit($event)" />
+      <fui-multi-factor-auth-assertion-screen />
     } @else {
       <div class="fui-screen">
         <fui-card>
@@ -57,7 +57,7 @@ import { UserCredential } from "@angular/fire/auth";
             <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
           </fui-card-header>
           <fui-card-content>
-            <fui-sign-in-auth-form [forgotPassword]="forgotPassword" [signUp]="signUp" (signIn)="signIn.emit($event)" />
+            <fui-sign-in-auth-form [forgotPassword]="forgotPassword" [signUp]="signUp" />
             <ng-content />
             <fui-redirect-error />
           </fui-card-content>
@@ -70,11 +70,16 @@ export class SignInAuthScreenComponent {
   private ui = injectUI();
 
   mfaResolver = computed(() => this.ui().multiFactorResolver);
-
   titleText = injectTranslation("labels", "signIn");
   subtitleText = injectTranslation("prompts", "signInToAccount");
 
+  constructor() {
+    injectUserAuthenticated((user) => {
+      this.signIn.emit(user);
+    });
+  }
+
   @Output() forgotPassword = new EventEmitter<void>();
   @Output() signUp = new EventEmitter<void>();
-  @Output() signIn = new EventEmitter<UserCredential>();
+  @Output() signIn = new EventEmitter<User>();
 }

@@ -160,7 +160,7 @@
     --primary: var(--line-primary);
     --primary-foreground: var(--color-white);
   }
-  
+
 }
 
 @variant dark {

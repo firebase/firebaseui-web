@@ -15,16 +15,16 @@
  */
 
 import { getTranslation } from "@invertase/firebaseui-core";
-import { type UserCredential } from "firebase/auth";
+import { type User } from "firebase/auth";
 import { type PropsWithChildren } from "react";
-import { useUI } from "~/hooks";
+import { useOnUserAuthenticated, useUI } from "~/hooks";
 import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "~/components/card";
 import { Policies } from "~/components/policies";
 import { MultiFactorAuthAssertionScreen } from "./multi-factor-auth-assertion-screen";
 import { RedirectError } from "~/components/redirect-error";
 
 export type OAuthScreenProps = PropsWithChildren<{
-  onSignIn?: (credential: UserCredential) => void;
+  onSignIn?: (user: User) => void;
 }>;
 
 export function OAuthScreen({ children, onSignIn }: OAuthScreenProps) {
@@ -34,8 +34,10 @@ export function OAuthScreen({ children, onSignIn }: OAuthScreenProps) {
   const subtitleText = getTranslation(ui, "prompts", "signInToAccount");
   const mfaResolver = ui.multiFactorResolver;
 
+  useOnUserAuthenticated(onSignIn);
+
   if (mfaResolver) {
-    return <MultiFactorAuthAssertionScreen onSuccess={onSignIn} />;
+    return <MultiFactorAuthAssertionScreen />;
   }
 
   return (

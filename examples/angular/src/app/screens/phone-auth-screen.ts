@@ -16,28 +16,20 @@
 
 import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { PhoneAuthScreenComponent, GoogleSignInButtonComponent, ContentComponent } from "@invertase/firebaseui-angular";
-import type { UserCredential } from "firebase/auth";
+import { PhoneAuthScreenComponent } from "@invertase/firebaseui-angular";
 import { Router } from "@angular/router";
 
 @Component({
-  selector: "app-phone-auth-screen-w-oauth",
+  selector: "app-phone-auth-screen",
   standalone: true,
-  imports: [CommonModule, PhoneAuthScreenComponent, GoogleSignInButtonComponent, ContentComponent],
-  template: `
-    <fui-phone-auth-screen (signIn)="onSignIn($event)">
-      <fui-content>
-        <fui-google-sign-in-button></fui-google-sign-in-button>
-      </fui-content>
-    </fui-phone-auth-screen>
-  `,
+  imports: [CommonModule, PhoneAuthScreenComponent],
+  template: ` <fui-phone-auth-screen (signIn)="onSignIn()" />`,
   styles: [],
 })
-export class PhoneAuthScreenWithOAuthComponent {
+export class PhoneAuthScreenWrapperComponent {
   private router = inject(Router);
 
-  onSignIn(credential: UserCredential) {
-    console.log("sign in", credential);
+  onSignIn() {
     this.router.navigate(["/"]);
   }
 }

@@ -16,26 +16,28 @@
 
 import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { EmailLinkAuthScreenComponent } from "@invertase/firebaseui-angular";
-import type { UserCredential } from "firebase/auth";
+import { EmailLinkAuthScreenComponent, GoogleSignInButtonComponent } from "@invertase/firebaseui-angular";
 import { Router } from "@angular/router";
 
 @Component({
-  selector: "app-email-link-auth-screen",
+  selector: "app-email-link-auth-screen-w-oauth",
   standalone: true,
-  imports: [CommonModule, EmailLinkAuthScreenComponent],
-  template: ` <fui-email-link-auth-screen (emailSent)="onEmailSent()" (signIn)="onSignIn($event)" />`,
+  imports: [CommonModule, EmailLinkAuthScreenComponent, GoogleSignInButtonComponent],
+  template: `
+    <fui-email-link-auth-screen (emailSent)="onEmailSent()" (signIn)="onSignIn()">
+      <fui-google-sign-in-button></fui-google-sign-in-button>
+    </fui-email-link-auth-screen>
+  `,
   styles: [],
 })
-export class EmailLinkAuthScreenWrapperComponent {
+export class EmailLinkAuthScreenWithOAuthComponent {
   private router = inject(Router);
 
   onEmailSent() {
     alert("email sent - please check your email");
   }
 
-  onSignIn(credential: UserCredential) {
-    console.log("sign in", credential);
+  onSignIn() {
     this.router.navigate(["/"]);
   }
 }

@@ -17,6 +17,8 @@
 import { render, screen } from "@testing-library/angular";
 import { Component } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
+import { Subject } from "rxjs";
+import { User } from "@angular/fire/auth";
 
 import { PhoneAuthScreenComponent } from "./phone-auth-screen";
 import {
@@ -64,8 +66,25 @@ class TestHostWithContentComponent {}
 class TestHostWithoutContentComponent {}
 
 describe("<fui-phone-auth-screen>", () => {
+  let authStateSubject: Subject<User | null>;
+  let userAuthenticatedCallback: ((user: User) => void) | null = null;
+
   beforeEach(() => {
-    const { injectTranslation, injectUI } = require("../../../provider");
+    authStateSubject = new Subject<User | null>();
+
+    const { injectTranslation, injectUI, injectUserAuthenticated } = require("../../../provider");
+
+    // Mock injectUserAuthenticated to store the callback and set up subscription
+    injectUserAuthenticated.mockImplementation((callback: (user: User) => void) => {
+      userAuthenticatedCallback = callback;
+      const subscription = authStateSubject.subscribe((user) => {
+        if (user && !user.isAnonymous && userAuthenticatedCallback) {
+          userAuthenticatedCallback(user);
+        }
+      });
+      return subscription;
+    });
+
     injectTranslation.mockImplementation((category: string, key: string) => {
       const mockTranslations: Record<string, Record<string, string>> = {
         labels: {
@@ -83,6 +102,13 @@ describe("<fui-phone-auth-screen>", () => {
         multiFactorResolver: null,
       });
     });
+  });
+
+  afterEach(() => {
+    userAuthenticatedCallback = null;
+    authStateSubject.complete();
+    authStateSubject = new Subject<User | null>();
+    jest.clearAllMocks();
   });
 
   it("renders with correct title and subtitle", async () => {
@@ -270,7 +296,7 @@ describe("<fui-phone-auth-screen>", () => {
     expect(screen.getByTestId("mfa-assertion-screen")).toBeInTheDocument();
   });
 
-  it("emits signIn with credential when MFA flow succeeds", async () => {
+  it("emits signIn when MFA flow succeeds and user authenticates", async () => {
     const { injectUI } = require("../../../provider");
     injectUI.mockImplementation(() => {
       return () => ({
@@ -305,14 +331,119 @@ describe("<fui-phone-auth-screen>", () => {
     const component = fixture.debugElement.query((el) => el.name === "fui-phone-auth-screen").componentInstance;
     const signInSpy = jest.spyOn(component.signIn, "emit");
 
-    const mfaScreenComponent = fixture.debugElement.query(
-      (el) => el.name === "fui-multi-factor-auth-assertion-screen"
-    ).componentInstance;
-    mfaScreenComponent.onSuccess.emit({ user: { uid: "angular-phone-mfa-user" } });
+    // Simulate user authenticating after MFA flow succeeds
+    const mockUser = {
+      uid: "angular-phone-mfa-user",
+      email: "phone@example.com",
+      isAnonymous: false,
+    } as User;
+
+    // Emit the user through the authState observable (simulating auth state change after MFA)
+    authStateSubject.next(mockUser);
+
+    // Wait for Angular's change detection and effect to run
+    fixture.detectChanges();
+    await fixture.whenStable();
 
     expect(signInSpy).toHaveBeenCalledTimes(1);
-    expect(signInSpy).toHaveBeenCalledWith(
-      expect.objectContaining({ user: expect.objectContaining({ uid: "angular-phone-mfa-user" }) })
-    );
+    expect(signInSpy).toHaveBeenCalledWith(mockUser);
+  });
+
+  it("emits signIn when a non-anonymous user authenticates", async () => {
+    const { fixture } = await render(TestHostWithoutContentComponent, {
+      imports: [
+        PhoneAuthScreenComponent,
+        MockPhoneAuthFormComponent,
+        MockRedirectErrorComponent,
+        MultiFactorAuthAssertionScreenComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
+
+    const component = fixture.debugElement.query((el) => el.name === "fui-phone-auth-screen").componentInstance;
+    const signInSpy = jest.spyOn(component.signIn, "emit");
+
+    // Simulate a user authenticating
+    const mockUser = {
+      uid: "test-user-123",
+      email: "test@example.com",
+      isAnonymous: false,
+    } as User;
+
+    // Emit the user through the authState observable
+    authStateSubject.next(mockUser);
+
+    // Wait for Angular's change detection and effect to run
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(signInSpy).toHaveBeenCalledTimes(1);
+    expect(signInSpy).toHaveBeenCalledWith(mockUser);
+  });
+
+  it("does not emit signIn for anonymous users", async () => {
+    const { fixture } = await render(TestHostWithoutContentComponent, {
+      imports: [
+        PhoneAuthScreenComponent,
+        MockPhoneAuthFormComponent,
+        MockRedirectErrorComponent,
+        MultiFactorAuthAssertionScreenComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
+
+    const component = fixture.debugElement.query((el) => el.name === "fui-phone-auth-screen").componentInstance;
+    const signInSpy = jest.spyOn(component.signIn, "emit");
+
+    // Simulate an anonymous user authenticating
+    const mockAnonymousUser = {
+      uid: "anonymous-user-123",
+      isAnonymous: true,
+    } as User;
+
+    // Emit the anonymous user through the authState observable
+    authStateSubject.next(mockAnonymousUser);
+
+    // Wait for Angular's change detection and effect to run
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(signInSpy).not.toHaveBeenCalled();
+  });
+
+  it("does not emit signIn when user is null", async () => {
+    const { fixture } = await render(TestHostWithoutContentComponent, {
+      imports: [
+        PhoneAuthScreenComponent,
+        MockPhoneAuthFormComponent,
+        MockRedirectErrorComponent,
+        MultiFactorAuthAssertionScreenComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
+
+    const component = fixture.debugElement.query((el) => el.name === "fui-phone-auth-screen").componentInstance;
+    const signInSpy = jest.spyOn(component.signIn, "emit");
+
+    // Emit null (no user) through the authState observable
+    authStateSubject.next(null);
+
+    // Wait for Angular's change detection and effect to run
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(signInSpy).not.toHaveBeenCalled();
   });
 });

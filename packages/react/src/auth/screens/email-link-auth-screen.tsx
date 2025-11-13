@@ -15,15 +15,20 @@
  */
 
 import type { PropsWithChildren } from "react";
+import type { User } from "firebase/auth";
 import { getTranslation } from "@invertase/firebaseui-core";
 import { Divider } from "~/components/divider";
-import { useUI } from "~/hooks";
+import { useOnUserAuthenticated, useUI } from "~/hooks";
 import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "~/components/card";
 import { EmailLinkAuthForm, type EmailLinkAuthFormProps } from "../forms/email-link-auth-form";
 import { RedirectError } from "~/components/redirect-error";
 import { MultiFactorAuthAssertionScreen } from "./multi-factor-auth-assertion-screen";
 
-export type EmailLinkAuthScreenProps = PropsWithChildren<EmailLinkAuthFormProps>;
+export type EmailLinkAuthScreenProps = PropsWithChildren<
+  Pick<EmailLinkAuthFormProps, "onEmailSent"> & {
+    onSignIn?: (user: User) => void;
+  }
+>;
 
 export function EmailLinkAuthScreen({ children, onEmailSent, onSignIn }: EmailLinkAuthScreenProps) {
   const ui = useUI();
@@ -32,8 +37,10 @@ export function EmailLinkAuthScreen({ children, onEmailSent, onSignIn }: EmailLi
   const subtitleText = getTranslation(ui, "prompts", "signInToAccount");
   const mfaResolver = ui.multiFactorResolver;
 
+  useOnUserAuthenticated(onSignIn);
+
   if (mfaResolver) {
-    return <MultiFactorAuthAssertionScreen onSuccess={onSignIn} />;
+    return <MultiFactorAuthAssertionScreen />;
   }
 
   return (
@@ -44,7 +51,7 @@ export function EmailLinkAuthScreen({ children, onEmailSent, onSignIn }: EmailLi
           <CardSubtitle>{subtitleText}</CardSubtitle>
         </CardHeader>
         <CardContent>
-          <EmailLinkAuthForm onEmailSent={onEmailSent} onSignIn={onSignIn} />
+          <EmailLinkAuthForm onEmailSent={onEmailSent} />
           {children ? (
             <>
               <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>

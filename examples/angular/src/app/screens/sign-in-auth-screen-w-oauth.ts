@@ -26,7 +26,6 @@ import {
   MicrosoftSignInButtonComponent,
   TwitterSignInButtonComponent,
 } from "@invertase/firebaseui-angular";
-import type { UserCredential } from "firebase/auth";
 import { Router } from "@angular/router";
 
 @Component({
@@ -44,7 +43,7 @@ import { Router } from "@angular/router";
     TwitterSignInButtonComponent,
   ],
   template: `
-    <fui-sign-in-auth-screen (signIn)="onSignIn($event)">
+    <fui-sign-in-auth-screen (signIn)="onSignIn()">
       <fui-content>
         <fui-google-sign-in-button />
         <fui-facebook-sign-in-button />
@@ -60,8 +59,7 @@ import { Router } from "@angular/router";
 export class SignInAuthScreenWithOAuthComponent {
   private router = inject(Router);
 
-  onSignIn(credential: UserCredential) {
-    console.log("sign in", credential);
+  onSignIn() {
     this.router.navigate(["/"]);
   }
 }

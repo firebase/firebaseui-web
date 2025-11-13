@@ -16,22 +16,20 @@
 
 import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { SignUpAuthScreenComponent } from "@invertase/firebaseui-angular";
+import { SignInAuthScreenComponent } from "@invertase/firebaseui-angular";
 import { Router } from "@angular/router";
-import type { UserCredential } from "firebase/auth";
 
 @Component({
-  selector: "app-sign-up-auth-screen",
+  selector: "app-sign-in-auth-screen",
   standalone: true,
-  imports: [CommonModule, SignUpAuthScreenComponent],
-  template: ` <fui-sign-up-auth-screen (signUp)="onSignUp($event)" />`,
+  imports: [CommonModule, SignInAuthScreenComponent],
+  template: ` <fui-sign-in-auth-screen (signIn)="onSignIn()" />`,
   styles: [],
 })
-export class SignUpAuthScreenWrapperComponent {
+export class SignInAuthScreenWrapperComponent {
   private router = inject(Router);
 
-  onSignUp(credential: UserCredential) {
-    console.log("sign up", credential);
+  onSignIn() {
     this.router.navigate(["/"]);
   }
 }

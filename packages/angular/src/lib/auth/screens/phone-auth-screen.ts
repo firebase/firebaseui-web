@@ -23,11 +23,11 @@ import {
   CardSubtitleComponent,
   CardContentComponent,
 } from "../../components/card";
-import { injectTranslation, injectUI } from "../../provider";
+import { injectTranslation, injectUI, injectUserAuthenticated } from "../../provider";
 import { PhoneAuthFormComponent } from "../forms/phone-auth-form";
 import { MultiFactorAuthAssertionScreenComponent } from "../screens/multi-factor-auth-assertion-screen";
 import { RedirectErrorComponent } from "../../components/redirect-error";
-import { UserCredential } from "@angular/fire/auth";
+import { User } from "@angular/fire/auth";
 
 @Component({
   selector: "fui-phone-auth-screen",
@@ -48,7 +48,7 @@ import { UserCredential } from "@angular/fire/auth";
   ],
   template: `
     @if (mfaResolver()) {
-      <fui-multi-factor-auth-assertion-screen (onSuccess)="signIn.emit($event)" />
+      <fui-multi-factor-auth-assertion-screen />
     } @else {
       <div class="fui-screen">
         <fui-card>
@@ -57,7 +57,7 @@ import { UserCredential } from "@angular/fire/auth";
             <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
           </fui-card-header>
           <fui-card-content>
-            <fui-phone-auth-form (signIn)="signIn.emit($event)" />
+            <fui-phone-auth-form (signIn)="signIn.emit($event.user)" />
             <ng-content />
             <fui-redirect-error />
           </fui-card-content>
@@ -74,5 +74,11 @@ export class PhoneAuthScreenComponent {
   titleText = injectTranslation("labels", "signIn");
   subtitleText = injectTranslation("prompts", "signInToAccount");
 
-  @Output() signIn = new EventEmitter<UserCredential>();
+  constructor() {
+    injectUserAuthenticated((user) => {
+      this.signIn.emit(user);
+    });
+  }
+
+  @Output() signIn = new EventEmitter<User>();
 }

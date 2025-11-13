@@ -1,7 +1,7 @@
 "use client";
 
 import { getTranslation } from "@invertase/firebaseui-core";
-import { useUI, type SignUpAuthScreenProps } from "@invertase/firebaseui-react";
+import { useUI, type SignUpAuthScreenProps, useOnUserAuthenticated } from "@invertase/firebaseui-react";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -10,15 +10,16 @@ import { MultiFactorAuthAssertionScreen } from "@/components/multi-factor-auth-a
 
 export type { SignUpAuthScreenProps };
 
-export function SignUpAuthScreen({ children, ...props }: SignUpAuthScreenProps) {
+export function SignUpAuthScreen({ children, onSignUp, ...props }: SignUpAuthScreenProps) {
   const ui = useUI();
 
   const titleText = getTranslation(ui, "labels", "signUp");
   const subtitleText = getTranslation(ui, "prompts", "enterDetailsToCreate");
-  const mfaResolver = ui.multiFactorResolver;
 
-  if (mfaResolver) {
-    return <MultiFactorAuthAssertionScreen onSuccess={props.onSignUp} />;
+  useOnUserAuthenticated(onSignUp);
+
+  if (ui.multiFactorResolver) {
+    return <MultiFactorAuthAssertionScreen />;
   }
 
   return (

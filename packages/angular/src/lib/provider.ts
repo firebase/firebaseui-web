@@ -30,7 +30,7 @@ import {
 } from "@angular/core";
 import { isPlatformBrowser } from "@angular/common";
 import { FirebaseApps } from "@angular/fire/app";
-import { Auth } from "@angular/fire/auth";
+import { Auth, authState, User } from "@angular/fire/auth";
 import {
   createEmailLinkAuthFormSchema,
   createForgotPasswordAuthFormSchema,
@@ -93,6 +93,23 @@ export function injectUI() {
   });
 
   return ui.asReadonly();
+}
+
+export function injectUserAuthenticated(onAuthenticated: (user: User) => void) {
+  const auth = inject(Auth);
+  const state = authState(auth);
+
+  effect((onCleanup) => {
+    const subscription = state.subscribe((user) => {
+      if (user && !user.isAnonymous) {
+        onAuthenticated(user);
+      }
+    });
+
+    onCleanup(() => {
+      subscription.unsubscribe();
+    });
+  });
 }
 
 export function injectRecaptchaVerifier(element: () => ElementRef<HTMLDivElement>) {

@@ -17,13 +17,16 @@
 import type { PropsWithChildren } from "react";
 import { getTranslation } from "@invertase/firebaseui-core";
 import { Divider } from "~/components/divider";
-import { useUI } from "~/hooks";
+import { useOnUserAuthenticated, useUI } from "~/hooks";
 import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "~/components/card";
-import { PhoneAuthForm, type PhoneAuthFormProps } from "../forms/phone-auth-form";
+import { PhoneAuthForm } from "../forms/phone-auth-form";
 import { MultiFactorAuthAssertionScreen } from "./multi-factor-auth-assertion-screen";
 import { RedirectError } from "~/components/redirect-error";
+import type { User } from "firebase/auth";
 
-export type PhoneAuthScreenProps = PropsWithChildren<PhoneAuthFormProps>;
+export type PhoneAuthScreenProps = PropsWithChildren<{
+  onSignIn?: (user: User) => void;
+}>;
 
 export function PhoneAuthScreen({ children, ...props }: PhoneAuthScreenProps) {
   const ui = useUI();
@@ -32,8 +35,10 @@ export function PhoneAuthScreen({ children, ...props }: PhoneAuthScreenProps) {
   const subtitleText = getTranslation(ui, "prompts", "signInToAccount");
   const mfaResolver = ui.multiFactorResolver;
 
+  useOnUserAuthenticated(props.onSignIn);
+
   if (mfaResolver) {
-    return <MultiFactorAuthAssertionScreen onSuccess={props.onSignIn} />;
+    return <MultiFactorAuthAssertionScreen />;
   }
 
   return (
@@ -44,7 +49,7 @@ export function PhoneAuthScreen({ children, ...props }: PhoneAuthScreenProps) {
           <CardSubtitle>{subtitleText}</CardSubtitle>
         </CardHeader>
         <CardContent>
-          <PhoneAuthForm {...props} />
+          <PhoneAuthForm />
           {children ? (
             <>
               <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>

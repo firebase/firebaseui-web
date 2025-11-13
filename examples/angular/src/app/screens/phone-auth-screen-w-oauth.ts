@@ -16,35 +16,26 @@
 
 import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { PhoneAuthScreenComponent, GoogleSignInButtonComponent, ContentComponent } from "@invertase/firebaseui-angular";
 import { Router } from "@angular/router";
-import { SignInAuthScreenComponent } from "@invertase/firebaseui-angular";
 
 @Component({
-  selector: "app-sign-in-auth-screen-w-handlers",
+  selector: "app-phone-auth-screen-w-oauth",
   standalone: true,
-  imports: [CommonModule, SignInAuthScreenComponent],
+  imports: [CommonModule, PhoneAuthScreenComponent, GoogleSignInButtonComponent, ContentComponent],
   template: `
-    <fui-sign-in-auth-screen
-      (forgotPassword)="goToForgotPassword()"
-      (signUp)="goToSignUp()"
-      (signIn)="onSignIn($event)"
-    ></fui-sign-in-auth-screen>
+    <fui-phone-auth-screen (signIn)="onSignIn()">
+      <fui-content>
+        <fui-google-sign-in-button />
+      </fui-content>
+    </fui-phone-auth-screen>
   `,
   styles: [],
 })
-export class SignInAuthScreenWithHandlersComponent {
+export class PhoneAuthScreenWithOAuthComponent {
   private router = inject(Router);
 
-  goToForgotPassword() {
-    this.router.navigate(["/screens/forgot-password-auth-screen"]);
-  }
-
-  goToSignUp() {
-    this.router.navigate(["/screens/sign-up-auth-screen"]);
-  }
-
-  onSignIn(credential: unknown) {
-    console.log(credential);
+  onSignIn() {
     this.router.navigate(["/"]);
   }
 }

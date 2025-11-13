@@ -26,13 +26,19 @@ import {
   OAuthScreen,
   TwitterSignInButton,
 } from "@invertase/firebaseui-react";
+import { useNavigate } from "react-router";
 
 export default function OAuthScreenPage() {
   const [themed, setThemed] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <>
-      <OAuthScreen>
+      <OAuthScreen
+        onSignIn={() => {
+          navigate("/");
+        }}
+      >
         <GoogleSignInButton themed={themed ? "neutral" : undefined} />
         <FacebookSignInButton themed={themed} />
         <AppleSignInButton themed={themed} />
