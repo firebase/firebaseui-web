@@ -21,6 +21,20 @@ import {
 } from "@invertase/firebaseui-translations";
 import { type FirebaseUI } from "./config";
 
+/**
+ * Gets a translated string for a given category and key.
+ *
+ * Example:
+ * ```typescript
+ * const translation = getTranslation(ui, "errors", "userNotFound");
+ * ```
+ *
+ * @param ui - The FirebaseUI instance.
+ * @param category - The translation category.
+ * @param key - The translation key.
+ * @param replacements - Optional replacements for placeholders.
+ * @returns The translated string.
+ */
 export function getTranslation<T extends TranslationCategory>(
   ui: FirebaseUI,
   category: T,
