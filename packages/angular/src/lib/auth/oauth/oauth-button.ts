@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { Component, input, signal, computed } from "@angular/core";
+import { Component, input, signal, computed, output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ButtonComponent } from "../../components/button";
 import { injectUI } from "../../provider";
-import { AuthProvider } from "@angular/fire/auth";
+import { AuthProvider, UserCredential } from "@angular/fire/auth";
 import { FirebaseUIError, signInWithProvider, getTranslation } from "@invertase/firebaseui-core";
 
 @Component({
@@ -54,6 +54,7 @@ export class OAuthButtonComponent {
   provider = input.required<AuthProvider>();
   themed = input<boolean | string>();
   error = signal<string | null>(null);
+  signIn = output<UserCredential>();
 
   buttonVariant = computed(() => {
     return this.themed() ? "primary" : "secondary";
@@ -62,7 +63,8 @@ export class OAuthButtonComponent {
   async handleOAuthSignIn() {
     this.error.set(null);
     try {
-      await signInWithProvider(this.ui(), this.provider());
+      const credential = await signInWithProvider(this.ui(), this.provider());
+      this.signIn.emit(credential);
     } catch (error) {
       if (error instanceof FirebaseUIError) {
         this.error.set(error.message);

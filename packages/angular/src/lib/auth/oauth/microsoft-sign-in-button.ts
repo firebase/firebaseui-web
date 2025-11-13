@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { Component, input } from "@angular/core";
+import { Component, input, output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { OAuthButtonComponent } from "./oauth-button";
 import { injectTranslation } from "../../provider";
-import { OAuthProvider } from "@angular/fire/auth";
+import { OAuthProvider, UserCredential } from "@angular/fire/auth";
 import { MicrosoftLogoComponent } from "../../components/logos/microsoft";
 
 @Component({
@@ -29,7 +29,7 @@ import { MicrosoftLogoComponent } from "../../components/logos/microsoft";
     style: "display: block;",
   },
   template: `
-    <fui-oauth-button [provider]="microsoftProvider" [themed]="themed()">
+    <fui-oauth-button [provider]="microsoftProvider" [themed]="themed()" (signIn)="signIn.emit($event)">
       <fui-microsoft-logo />
       <span>{{ signInWithMicrosoftLabel() }}</span>
     </fui-oauth-button>
@@ -38,7 +38,8 @@ import { MicrosoftLogoComponent } from "../../components/logos/microsoft";
 export class MicrosoftSignInButtonComponent {
   signInWithMicrosoftLabel = injectTranslation("labels", "signInWithMicrosoft");
   themed = input<boolean>(false);
-
+  signIn = output<UserCredential>();
+  
   private defaultProvider = new OAuthProvider("microsoft.com");
 
   provider = input<OAuthProvider>();
