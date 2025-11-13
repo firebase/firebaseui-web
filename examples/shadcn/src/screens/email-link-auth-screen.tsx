@@ -16,7 +16,19 @@
 "use client";
 
 import { EmailLinkAuthScreen } from "@/components/email-link-auth-screen";
+import { useNavigate } from "react-router";
 
 export default function EmailLinkAuthScreenPage() {
-  return <EmailLinkAuthScreen />;
+  const navigate = useNavigate();
+
+  return (
+    <EmailLinkAuthScreen
+      onEmailSent={() => {
+        alert("Email has been sent");
+      }}
+      onSignIn={() => {
+        navigate("/");
+      }}
+    />
+  );
 }
