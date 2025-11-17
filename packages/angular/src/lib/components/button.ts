@@ -22,7 +22,11 @@ import { buttonVariant, type ButtonVariant } from "@invertase/firebaseui-styles"
   template: `<ng-content></ng-content>`,
   standalone: true,
 })
+/**
+ * A customizable button component with multiple variants.
+ */
 export class ButtonComponent {
+  /** The visual variant of the button. */
   variant = input<ButtonVariant>();
 
   @HostBinding("class")

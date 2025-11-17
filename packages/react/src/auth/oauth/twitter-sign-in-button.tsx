@@ -23,12 +23,21 @@ import { OAuthButton } from "./oauth-button";
 import TwitterSvgLogo from "~/components/logos/twitter/Logo";
 import { cn } from "~/utils/cn";
 
+/** Props for the TwitterSignInButton component. */
 export type TwitterSignInButtonProps = {
+  /** Optional OAuth provider instance. Defaults to Twitter provider. */
   provider?: TwitterAuthProvider;
+  /** Whether to apply themed styling. */
   themed?: boolean;
+  /** Callback function called when sign-in is successful. */
   onSignIn?: (credential: UserCredential) => void;
 };
 
+/**
+ * A button component for signing in with Twitter.
+ *
+ * @returns The Twitter sign-in button component.
+ */
 export function TwitterSignInButton({ provider, ...props }: TwitterSignInButtonProps) {
   const ui = useUI();
 
@@ -40,6 +49,11 @@ export function TwitterSignInButton({ provider, ...props }: TwitterSignInButtonP
   );
 }
 
+/**
+ * The Twitter logo SVG component.
+ *
+ * @returns The Twitter logo component.
+ */
 export function TwitterLogo({ className, ...props }: React.SVGProps<SVGSVGElement>) {
   return <TwitterSvgLogo className={cn("fui-provider__icon", className)} {...props} />;
 }

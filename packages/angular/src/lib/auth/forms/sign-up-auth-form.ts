@@ -78,6 +78,11 @@ import {
     </form>
   `,
 })
+/**
+ * A form component for signing up with email and password.
+ *
+ * Optionally includes a display name field if the requireDisplayName behavior is enabled.
+ */
 export class SignUpAuthFormComponent {
   private ui = injectUI();
   private formSchema = injectSignUpAuthFormSchema();
@@ -94,8 +99,10 @@ export class SignUpAuthFormComponent {
   signInLabel = injectTranslation("labels", "signIn");
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
+  /** Event emitter for sign in action. */
   signIn = input<EventEmitter<void>>();
 
+  /** Event emitter for successful sign-up. */
   @Output() signUp = new EventEmitter<UserCredential>();
 
   form = injectForm({

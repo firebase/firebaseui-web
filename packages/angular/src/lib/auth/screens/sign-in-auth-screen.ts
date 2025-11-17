@@ -66,6 +66,11 @@ import { Auth, authState, User, UserCredential } from "@angular/fire/auth";
     }
   `,
 })
+/**
+ * A screen component for email/password sign-in.
+ *
+ * Automatically displays the MFA assertion screen if a multi-factor resolver is present.
+ */
 export class SignInAuthScreenComponent {
   private ui = injectUI();
 
@@ -79,7 +84,10 @@ export class SignInAuthScreenComponent {
     });
   }
 
+  /** Event emitter for forgot password action. */
   @Output() forgotPassword = new EventEmitter<void>();
+  /** Event emitter for sign up action. */
   @Output() signUp = new EventEmitter<void>();
+  /** Event emitter for successful sign-in. */
   @Output() signIn = new EventEmitter<User>();
 }

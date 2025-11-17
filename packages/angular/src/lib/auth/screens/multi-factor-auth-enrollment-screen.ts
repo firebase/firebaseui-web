@@ -58,8 +58,15 @@ type Hint = (typeof FactorId)[keyof typeof FactorId];
     </div>
   `,
 })
+/**
+ * A screen component for multi-factor authentication enrollment.
+ *
+ * Displays the MFA enrollment form for setting up multi-factor authentication.
+ */
 export class MultiFactorAuthEnrollmentScreenComponent {
+  /** The available MFA factor types for enrollment. */
   hints = input<Hint[]>([FactorId.TOTP, FactorId.PHONE]);
+  /** Event emitter fired when MFA enrollment is completed. */
   @Output() onEnrollment = new EventEmitter<void>();
 
   titleText = injectTranslation("labels", "multiFactorEnrollment");

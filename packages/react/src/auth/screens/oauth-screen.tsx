@@ -23,10 +23,20 @@ import { Policies } from "~/components/policies";
 import { MultiFactorAuthAssertionScreen } from "./multi-factor-auth-assertion-screen";
 import { RedirectError } from "~/components/redirect-error";
 
+/** Props for the OAuthScreen component. */
 export type OAuthScreenProps = PropsWithChildren<{
+  /** Callback function called when sign-in is successful. */
   onSignIn?: (user: User) => void;
 }>;
 
+/**
+ * A screen component for OAuth provider authentication.
+ *
+ * Displays a card that should contain OAuth sign-in buttons as children.
+ * Handles multi-factor authentication if required.
+ *
+ * @returns The OAuth screen component.
+ */
 export function OAuthScreen({ children, onSignIn }: OAuthScreenProps) {
   const ui = useUI();
 

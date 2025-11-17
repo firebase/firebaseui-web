@@ -60,8 +60,15 @@ type Hint = (typeof FactorId)[keyof typeof FactorId];
     </div>
   `,
 })
+/**
+ * A form component for multi-factor authentication enrollment.
+ *
+ * Allows users to enroll in MFA using SMS or TOTP methods.
+ */
 export class MultiFactorAuthEnrollmentFormComponent implements OnInit {
+  /** The available MFA factor types for enrollment. */
   hints = input<Hint[]>([FactorId.TOTP, FactorId.PHONE]);
+  /** Event emitter fired when MFA enrollment is completed. */
   @Output() onEnrollment = new EventEmitter<void>();
 
   selectedHint = signal<Hint | undefined>(undefined);

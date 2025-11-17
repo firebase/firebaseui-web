@@ -30,6 +30,11 @@ import { injectRedirectError } from "../provider";
     }
   `,
 })
+/**
+ * A component that displays redirect error messages.
+ *
+ * Shows errors that occurred during OAuth redirect flows.
+ */
 export class RedirectErrorComponent {
   error = injectRedirectError();
 }

@@ -19,8 +19,16 @@ import { useUI } from "~/hooks";
 import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "../../components/card";
 import { ForgotPasswordAuthForm, type ForgotPasswordAuthFormProps } from "../forms/forgot-password-auth-form";
 
+/** Props for the ForgotPasswordAuthScreen component. */
 export type ForgotPasswordAuthScreenProps = ForgotPasswordAuthFormProps;
 
+/**
+ * A screen component for requesting a password reset.
+ *
+ * Displays a card with the forgot password form.
+ *
+ * @returns The forgot password screen component.
+ */
 export function ForgotPasswordAuthScreen(props: ForgotPasswordAuthScreenProps) {
   const ui = useUI();
 

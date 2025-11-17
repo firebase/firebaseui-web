@@ -87,6 +87,9 @@ import {
     </form>
   `,
 })
+/**
+ * A form component for signing in with email and password.
+ */
 export class SignInAuthFormComponent {
   private ui = injectUI();
   private formSchema = injectSignInAuthFormSchema();
@@ -99,9 +102,12 @@ export class SignInAuthFormComponent {
   signUpLabel = injectTranslation("labels", "signUp");
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
+  /** Event emitter for forgot password action. */
   forgotPassword = input<EventEmitter<void>>();
+  /** Event emitter for sign up action. */
   signUp = input<EventEmitter<void>>();
 
+  /** Event emitter for successful sign-in. */
   @Output() signIn = new EventEmitter<UserCredential>();
 
   form = injectForm({

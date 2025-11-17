@@ -56,7 +56,13 @@ import {
     </div>
   `,
 })
+/**
+ * A screen component for multi-factor authentication assertion.
+ *
+ * Displays the MFA assertion form for completing multi-factor verification.
+ */
 export class MultiFactorAuthAssertionScreenComponent {
+  /** Event emitter for successful MFA assertion. */
   @Output() onSuccess = new EventEmitter<UserCredential>();
 
   titleText = injectTranslation("labels", "multiFactorAssertion");

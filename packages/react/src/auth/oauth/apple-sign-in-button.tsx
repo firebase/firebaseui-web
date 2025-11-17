@@ -23,12 +23,21 @@ import { OAuthButton } from "./oauth-button";
 import AppleSvgLogo from "~/components/logos/apple/Logo";
 import { cn } from "~/utils/cn";
 
+/** Props for the AppleSignInButton component. */
 export type AppleSignInButtonProps = {
+  /** Optional OAuth provider instance. Defaults to Apple provider. */
   provider?: OAuthProvider;
+  /** Whether to apply themed styling. */
   themed?: boolean;
+  /** Callback function called when sign-in is successful. */
   onSignIn?: (credential: UserCredential) => void;
 };
 
+/**
+ * A button component for signing in with Apple.
+ *
+ * @returns The Apple sign-in button component.
+ */
 export function AppleSignInButton({ provider, ...props }: AppleSignInButtonProps) {
   const ui = useUI();
 
@@ -40,6 +49,11 @@ export function AppleSignInButton({ provider, ...props }: AppleSignInButtonProps
   );
 }
 
+/**
+ * The Apple logo SVG component.
+ *
+ * @returns The Apple logo component.
+ */
 export function AppleLogo({ className, ...props }: React.SVGProps<SVGSVGElement>) {
   return <AppleSvgLogo className={cn("fui-provider__icon", className)} {...props} />;
 }

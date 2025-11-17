@@ -58,11 +58,18 @@ import { TotpMultiFactorGenerator, type MultiFactorInfo, type UserCredential } f
     </form>
   `,
 })
+/**
+ * A form component for TOTP multi-factor authentication assertion.
+ *
+ * Allows users to enter a TOTP code from their authenticator app.
+ */
 export class TotpMultiFactorAssertionFormComponent {
   private ui = injectUI();
   private formSchema = injectMultiFactorTotpAuthVerifyFormSchema();
 
+  /** The multi-factor info hint containing TOTP details. */
   hint = input.required<MultiFactorInfo>();
+  /** Event emitter for successful MFA assertion. */
   @Output() onSuccess = new EventEmitter<UserCredential>();
 
   verificationCodeLabel = injectTranslation("labels", "verificationCode");

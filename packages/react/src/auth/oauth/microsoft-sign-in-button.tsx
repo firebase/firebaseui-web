@@ -23,12 +23,21 @@ import { OAuthButton } from "./oauth-button";
 import MicrosoftSvgLogo from "~/components/logos/microsoft/Logo";
 import { cn } from "~/utils/cn";
 
+/** Props for the MicrosoftSignInButton component. */
 export type MicrosoftSignInButtonProps = {
+  /** Optional OAuth provider instance. Defaults to Microsoft provider. */
   provider?: OAuthProvider;
+  /** Whether to apply themed styling. */
   themed?: boolean;
+  /** Callback function called when sign-in is successful. */
   onSignIn?: (credential: UserCredential) => void;
 };
 
+/**
+ * A button component for signing in with Microsoft.
+ *
+ * @returns The Microsoft sign-in button component.
+ */
 export function MicrosoftSignInButton({ provider, ...props }: MicrosoftSignInButtonProps) {
   const ui = useUI();
 
@@ -40,6 +49,11 @@ export function MicrosoftSignInButton({ provider, ...props }: MicrosoftSignInBut
   );
 }
 
+/**
+ * The Microsoft logo SVG component.
+ *
+ * @returns The Microsoft logo component.
+ */
 export function MicrosoftLogo({ className, ...props }: React.SVGProps<SVGSVGElement>) {
   return <MicrosoftSvgLogo className={cn("fui-provider__icon", className)} {...props} />;
 }

@@ -66,6 +66,11 @@ import { User } from "@angular/fire/auth";
     }
   `,
 })
+/**
+ * A screen component for phone number authentication.
+ *
+ * Automatically displays the MFA assertion screen if a multi-factor resolver is present.
+ */
 export class PhoneAuthScreenComponent {
   private ui = injectUI();
 
@@ -80,5 +85,6 @@ export class PhoneAuthScreenComponent {
     });
   }
 
+  /** Event emitter for successful sign-in. */
   @Output() signIn = new EventEmitter<User>();
 }

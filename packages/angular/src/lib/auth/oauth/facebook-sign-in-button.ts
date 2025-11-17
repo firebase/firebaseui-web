@@ -35,14 +35,20 @@ import { FacebookLogoComponent } from "../../components/logos/facebook";
     </fui-oauth-button>
   `,
 })
+/**
+ * A button component for signing in with Facebook.
+ */
 export class FacebookSignInButtonComponent {
   ui = injectUI();
   signInWithFacebookLabel = injectTranslation("labels", "signInWithFacebook");
+  /** Whether to use themed styling. */
   themed = input<boolean>(false);
+  /** Event emitter for successful sign-in. */
   signIn = output<UserCredential>();
 
   private defaultProvider = new FacebookAuthProvider();
 
+  /** Optional custom OAuth provider configuration. */
   provider = input<FacebookAuthProvider>();
 
   get facebookProvider() {

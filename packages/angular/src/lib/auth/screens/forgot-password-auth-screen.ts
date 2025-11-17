@@ -55,10 +55,15 @@ import { ForgotPasswordAuthFormComponent } from "../forms/forgot-password-auth-f
     </div>
   `,
 })
+/**
+ * A screen component for requesting a password reset.
+ */
 export class ForgotPasswordAuthScreenComponent {
   titleText = injectTranslation("labels", "resetPassword");
   subtitleText = injectTranslation("prompts", "enterEmailToReset");
 
+  /** Event emitter fired when password reset email is sent. */
   @Output() passwordSent = new EventEmitter<void>();
+  /** Event emitter for back to sign in action. */
   @Output() backToSignIn = new EventEmitter<void>();
 }

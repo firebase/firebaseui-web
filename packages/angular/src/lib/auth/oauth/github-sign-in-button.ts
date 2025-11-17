@@ -35,13 +35,19 @@ import { GithubLogoComponent } from "../../components/logos/github";
     </fui-oauth-button>
   `,
 })
+/**
+ * A button component for signing in with GitHub.
+ */
 export class GitHubSignInButtonComponent {
   signInWithGitHubLabel = injectTranslation("labels", "signInWithGitHub");
+  /** Whether to use themed styling. */
   themed = input<boolean>(false);
+  /** Event emitter for successful sign-in. */
   signIn = output<UserCredential>();
 
   private defaultProvider = new GithubAuthProvider();
 
+  /** Optional custom OAuth provider configuration. */
   provider = input<GithubAuthProvider>();
 
   get githubProvider() {

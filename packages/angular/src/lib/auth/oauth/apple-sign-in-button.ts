@@ -35,14 +35,20 @@ import { AppleLogoComponent } from "../../components/logos/apple";
     </fui-oauth-button>
   `,
 })
+/**
+ * A button component for signing in with Apple.
+ */
 export class AppleSignInButtonComponent {
   ui = injectUI();
   signInWithAppleLabel = injectTranslation("labels", "signInWithApple");
+  /** Whether to use themed styling. */
   themed = input<boolean>(false);
+  /** Event emitter for successful sign-in. */
   signIn = output<UserCredential>();
 
   private defaultProvider = new OAuthProvider("apple.com");
 
+  /** Optional custom OAuth provider configuration. */
   provider = input<OAuthProvider>();
 
   get appleProvider() {

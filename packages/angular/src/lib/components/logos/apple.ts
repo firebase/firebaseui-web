@@ -30,8 +30,14 @@ import { Component, input } from "@angular/core";
     </svg>
   `,
 })
+/**
+ * The Apple logo SVG component.
+ */
 export class AppleLogoComponent {
+  /** The width of the logo. */
   width = input<string | number>("1em");
+  /** The height of the logo. */
   height = input<string | number>("1em");
+  /** Optional additional CSS class names. */
   className = input<string>("");
 }

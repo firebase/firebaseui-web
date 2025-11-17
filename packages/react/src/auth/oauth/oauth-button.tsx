@@ -23,12 +23,23 @@ import { useCallback, useState } from "react";
 import { Button } from "~/components/button";
 import { useUI } from "~/hooks";
 
+/** Props for the OAuthButton component. */
 export type OAuthButtonProps = PropsWithChildren<{
+  /** The authentication provider to sign in with. */
   provider: AuthProvider;
+  /** Whether to use themed styling for the button. */
   themed?: boolean | string;
+  /** Callback function called when sign-in is successful. */
   onSignIn?: (credential: UserCredential) => void;
 }>;
 
+/**
+ * Hook for signing in with an OAuth provider.
+ *
+ * @param provider - The authentication provider to sign in with.
+ * @param onSignIn - Optional callback function called when sign-in is successful.
+ * @returns An object containing the error state and a callback function to trigger sign-in.
+ */
 export function useSignInWithProvider(provider: AuthProvider, onSignIn?: (credential: UserCredential) => void) {
   const ui = useUI();
   const [error, setError] = useState<string | null>(null);
@@ -51,6 +62,11 @@ export function useSignInWithProvider(provider: AuthProvider, onSignIn?: (creden
   return { error, callback };
 }
 
+/**
+ * A button component for signing in with an OAuth provider.
+ *
+ * @returns The OAuth button component.
+ */
 export function OAuthButton({ provider, children, themed, onSignIn }: OAuthButtonProps) {
   const ui = useUI();
 

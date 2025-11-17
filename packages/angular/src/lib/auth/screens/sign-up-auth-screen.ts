@@ -67,6 +67,11 @@ import {
     }
   `,
 })
+/**
+ * A screen component for email/password sign-up.
+ *
+ * Automatically displays the MFA assertion screen if a multi-factor resolver is present.
+ */
 export class SignUpAuthScreenComponent {
   private ui = injectUI();
 
@@ -81,6 +86,8 @@ export class SignUpAuthScreenComponent {
     });
   }
 
+  /** Event emitter for successful sign-up. */
   @Output() signUp = new EventEmitter<User>();
+  /** Event emitter for sign in action. */
   @Output() signIn = new EventEmitter<void>();
 }

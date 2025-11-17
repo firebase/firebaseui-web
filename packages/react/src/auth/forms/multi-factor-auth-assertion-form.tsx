@@ -1,3 +1,19 @@
+/**
+ * Copyright 2025 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import {
   PhoneMultiFactorGenerator,
   TotpMultiFactorGenerator,
@@ -11,10 +27,17 @@ import { SmsMultiFactorAssertionForm } from "../forms/mfa/sms-multi-factor-asser
 import { Button } from "~/components/button";
 import { getTranslation } from "@invertase/firebaseui-core";
 
+/** Props for the MultiFactorAuthAssertionForm component. */
 export type MultiFactorAuthAssertionFormProps = {
+  /** Optional callback function called when multi-factor assertion is successful. */
   onSuccess?: (credential: UserCredential) => void;
 };
 
+/**
+ * Hook that cleans up the multi-factor resolver when the component unmounts.
+ *
+ * Ensures the resolver is cleared from the UI state to prevent stale state.
+ */
 export function useMultiFactorAssertionCleanup() {
   const ui = useUI();
 
@@ -26,6 +49,15 @@ export function useMultiFactorAssertionCleanup() {
   }, []);
 }
 
+/**
+ * A form component for multi-factor authentication assertion.
+ *
+ * Displays the appropriate MFA form (SMS or TOTP) based on the available hints.
+ * If only one hint is available, it is automatically selected.
+ *
+ * @returns The multi-factor auth assertion form component.
+ * @throws {Error} Throws an error if no multi-factor resolver is available.
+ */
 export function MultiFactorAuthAssertionForm(props: MultiFactorAuthAssertionFormProps) {
   const ui = useUI();
   const resolver = ui.multiFactorResolver;

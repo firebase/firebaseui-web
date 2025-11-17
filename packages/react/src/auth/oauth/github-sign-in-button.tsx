@@ -23,12 +23,21 @@ import { OAuthButton } from "./oauth-button";
 import GitHubSvgLogo from "~/components/logos/github/Logo";
 import { cn } from "~/utils/cn";
 
+/** Props for the GitHubSignInButton component. */
 export type GitHubSignInButtonProps = {
+  /** Optional OAuth provider instance. Defaults to GitHub provider. */
   provider?: GithubAuthProvider;
+  /** Whether to apply themed styling. */
   themed?: boolean;
+  /** Callback function called when sign-in is successful. */
   onSignIn?: (credential: UserCredential) => void;
 };
 
+/**
+ * A button component for signing in with GitHub.
+ *
+ * @returns The GitHub sign-in button component.
+ */
 export function GitHubSignInButton({ provider, ...props }: GitHubSignInButtonProps) {
   const ui = useUI();
 
@@ -40,6 +49,11 @@ export function GitHubSignInButton({ provider, ...props }: GitHubSignInButtonPro
   );
 }
 
+/**
+ * The GitHub logo SVG component.
+ *
+ * @returns The GitHub logo component.
+ */
 export function GitHubLogo({ className, ...props }: React.SVGProps<SVGSVGElement>) {
   return <GitHubSvgLogo className={cn("fui-provider__icon", className)} {...props} />;
 }

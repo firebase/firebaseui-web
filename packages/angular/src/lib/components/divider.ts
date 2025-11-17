@@ -34,6 +34,10 @@ import { CommonModule } from "@angular/common";
     </div>
   `,
 })
+/**
+ * A divider component that can display a line or a line with text in the middle.
+ */
 export class DividerComponent {
+  /** Optional label text to display in the center of the divider. */
   label = input<string>();
 }

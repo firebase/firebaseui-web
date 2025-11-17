@@ -73,6 +73,11 @@ import { injectForgotPasswordAuthFormSchema, injectTranslation, injectUI } from 
     }
   `,
 })
+/**
+ * A form component for requesting a password reset email.
+ *
+ * Displays a success message after the email is sent.
+ */
 export class ForgotPasswordAuthFormComponent {
   private ui = injectUI();
   private formSchema = injectForgotPasswordAuthFormSchema();
@@ -85,8 +90,10 @@ export class ForgotPasswordAuthFormComponent {
   checkEmailForResetMessage = injectTranslation("messages", "checkEmailForReset");
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
+  /** Event emitter for back to sign in action. */
   backToSignIn = input<EventEmitter<void>>();
 
+  /** Event emitter fired when password reset email is sent. */
   @Output() passwordSent = new EventEmitter<void>();
 
   form = injectForm({
