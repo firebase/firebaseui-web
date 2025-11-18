@@ -1,7 +1,7 @@
 # Supported Languages
 
 | Code | Language |
-| ---- | -------- |
+| es_419 |Spanish (Latin America) |
 | ar | Arabic |
 | bg | Bulgarian |
 | ca | Catalan |
