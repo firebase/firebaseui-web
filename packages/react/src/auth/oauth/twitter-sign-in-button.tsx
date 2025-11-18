@@ -17,28 +17,43 @@
 "use client";
 
 import { getTranslation } from "@firebase-oss/ui-core";
-import { TwitterAuthProvider } from "firebase/auth";
-import { useUI } from "~/hooks";
-import { OAuthButton } from "./oauth-button";
+import { TwitterAuthProvider, type UserCredential } from "firebase/auth";
 import TwitterSvgLogo from "~/components/logos/twitter/Logo";
+import { useUI } from "~/hooks";
 import { cn } from "~/utils/cn";
+import { OAuthButton } from "./oauth-button";
 
+/** Props for the TwitterSignInButton component. */
 export type TwitterSignInButtonProps = {
+  /** Optional OAuth provider instance. Defaults to Twitter provider. */
   provider?: TwitterAuthProvider;
+  /** Whether to apply themed styling. */
   themed?: boolean;
+  /** Callback function called when sign-in is successful. */
+  onSignIn?: (credential: UserCredential) => void;
 };
 
-export function TwitterSignInButton({ provider, themed }: TwitterSignInButtonProps) {
+/**
+ * A button component for signing in with Twitter.
+ *
+ * @returns The Twitter sign-in button component.
+ */
+export function TwitterSignInButton({ provider, ...props }: TwitterSignInButtonProps) {
   const ui = useUI();
 
   return (
-    <OAuthButton provider={provider || new TwitterAuthProvider()} themed={themed}>
+    <OAuthButton {...props} provider={provider || new TwitterAuthProvider()}>
       <TwitterLogo />
       <span>{getTranslation(ui, "labels", "signInWithTwitter")}</span>
     </OAuthButton>
   );
 }
 
+/**
+ * The Twitter logo SVG component.
+ *
+ * @returns The Twitter logo component.
+ */
 export function TwitterLogo({ className, ...props }: React.SVGProps<SVGSVGElement>) {
   return <TwitterSvgLogo className={cn("fui-provider__icon", className)} {...props} />;
 }

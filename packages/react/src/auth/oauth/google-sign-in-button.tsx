@@ -17,28 +17,43 @@
 "use client";
 
 import { getTranslation } from "@firebase-oss/ui-core";
-import { GoogleAuthProvider } from "firebase/auth";
-import { useUI } from "~/hooks";
-import { OAuthButton } from "./oauth-button";
+import { GoogleAuthProvider, type UserCredential } from "firebase/auth";
 import GoogleSvgLogo from "~/components/logos/google/Logo";
+import { useUI } from "~/hooks";
 import { cn } from "~/utils/cn";
+import { OAuthButton } from "./oauth-button";
 
+/** Props for the GoogleSignInButton component. */
 export type GoogleSignInButtonProps = {
+  /** Optional OAuth provider instance. Defaults to Google provider. */
   provider?: GoogleAuthProvider;
+  /** Whether to apply themed styling. Can be true, false, or "neutral". */
   themed?: boolean | "neutral";
+  /** Callback function called when sign-in is successful. */
+  onSignIn?: (credential: UserCredential) => void;
 };
 
-export function GoogleSignInButton({ provider, themed }: GoogleSignInButtonProps) {
+/**
+ * A button component for signing in with Google.
+ *
+ * @returns The Google sign-in button component.
+ */
+export function GoogleSignInButton({ provider, ...props }: GoogleSignInButtonProps) {
   const ui = useUI();
 
   return (
-    <OAuthButton provider={provider || new GoogleAuthProvider()} themed={themed}>
+    <OAuthButton {...props} provider={provider || new GoogleAuthProvider()}>
       <GoogleLogo />
       <span>{getTranslation(ui, "labels", "signInWithGoogle")}</span>
     </OAuthButton>
   );
 }
 
+/**
+ * The Google logo SVG component.
+ *
+ * @returns The Google logo component.
+ */
 export function GoogleLogo({ className, ...props }: React.SVGProps<SVGSVGElement>) {
   return <GoogleSvgLogo className={cn("fui-provider__icon", className)} {...props} />;
 }

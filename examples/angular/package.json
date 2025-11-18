@@ -1,13 +1,12 @@
 {
   "name": "angular-example",
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build:lib": "ng build angular",
-    "build:local": "pnpm run build:lib && cd projects/angular && pnpm pack",
+    "build:lib": "ng build firebaseui-angular",
+    "build:local": "pnpm run build:lib && cd projects/firebaseui-angular && pnpm pack",
     "watch": "ng build --watch --configuration development",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -18,7 +17,8 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "format": "prettier --write \"src/**/*.{ts,html,css,scss}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,html,css,scss}\""
+    "format:check": "prettier --check \"src/**/*.{ts,html,css,scss}\"",
+    "deploy": "pnpm run build && firebase deploy --only hosting:fir-ui-rework-angular"
   },
   "dependencies": {
     "@angular/animations": "^20.2.2",
@@ -45,18 +45,22 @@
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^20.2.2",
+    "@angular-devkit/build-angular": "latest",
+    "@angular-devkit/core": "latest",
+    "@angular-devkit/architect": "latest",
     "@angular/cli": "^20.2.2",
     "@angular/compiler-cli": "^20.2.2",
     "@eslint/js": "^9.22.0",
     "@tanstack/angular-form": "^0.42.0",
     "@types/express": "^4.17.17",
     "@types/node": "^20.19.0",
-    "eslint": "^9.22.0",
     "@typescript-eslint/eslint-plugin": "^8.43.0",
     "@typescript-eslint/parser": "^8.43.0",
+    "eslint": "^9.22.0",
     "eslint-config-prettier": "^9.1.0",
     "firebase": "^11",
+    "jsonc-parser": "^3.2.0",
+    "vite": "^6.2.2",
     "vitest": "^3.2.0",
     "@vitest/ui": "^3.2.0",
     "@vitest/coverage-v8": "^3.2.0",
@@ -65,6 +69,6 @@
     "nanostores": "^0.11.3",
     "ng-packagr": "^20.2.0",
     "prettier": "^3.1.1",
-    "typescript": "~5.9.2"
+    "typescript": "^5.9.2"
   }
 }

@@ -32,8 +32,7 @@ export default function SignUpAuthScreenWithOAuthPage() {
 
   return (
     <SignUpAuthScreen
-      onSignUp={(credential) => {
-        console.log(credential);
+      onSignUp={() => {
         navigate("/");
       }}
     >

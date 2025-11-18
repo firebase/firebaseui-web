@@ -16,6 +16,9 @@
 
 import { formatIncompletePhoneNumber, parsePhoneNumberWithError, type CountryCode } from "libphonenumber-js";
 
+/**
+ * An array of country data objects containing name, dial code, country code, and emoji for all supported countries.
+ */
 export const countryData = [
   { name: "Afghanistan", dialCode: "+93", code: "AF", emoji: "🇦🇫" },
   { name: "Albania", dialCode: "+355", code: "AL", emoji: "🇦🇱" },
@@ -265,15 +268,29 @@ export const countryData = [
   { name: "Åland Islands", dialCode: "+358", code: "AX", emoji: "🇦🇽" },
 ] as const satisfies CountryData[];
 
+/**
+ * A country data object containing name, dial code, country code, and emoji for a supported country.
+ */
 export type CountryData = {
+  /** The name of the country. */
   name: string;
+  /** The dial code of the country. */
   dialCode: string;
+  /** The country code of the country. */
   code: CountryCode;
+  /** The emoji of the country. */
   emoji: string;
 };
 
 export type { CountryCode };
 
+/**
+ * Formats a phone number according to the specified country data.
+ *
+ * @param phoneNumber - The phone number to format.
+ * @param countryData - The country data to use for formatting.
+ * @returns {string} The formatted phone number in E164 format.
+ */
 export function formatPhoneNumber(phoneNumber: string, countryData: CountryData): string {
   try {
     const parsedNumber = parsePhoneNumberWithError(phoneNumber, countryData.code);

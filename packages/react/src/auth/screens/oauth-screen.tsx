@@ -15,21 +15,40 @@
  */
 
 import { getTranslation } from "@firebase-oss/ui-core";
+import type { User } from "firebase/auth";
 import { type PropsWithChildren } from "react";
-import { useUI } from "~/hooks";
 import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "~/components/card";
 import { Policies } from "~/components/policies";
-import { MultiFactorAuthAssertionForm } from "../forms/multi-factor-auth-assertion-form";
 import { RedirectError } from "~/components/redirect-error";
+import { useOnUserAuthenticated, useUI } from "~/hooks";
+import { MultiFactorAuthAssertionScreen } from "./multi-factor-auth-assertion-screen";
 
-export type OAuthScreenProps = PropsWithChildren;
+/** Props for the OAuthScreen component. */
+export type OAuthScreenProps = PropsWithChildren<{
+  /** Callback function called when sign-in is successful. */
+  onSignIn?: (user: User) => void;
+}>;
 
-export function OAuthScreen({ children }: OAuthScreenProps) {
+/**
+ * A screen component for OAuth provider authentication.
+ *
+ * Displays a card that should contain OAuth sign-in buttons as children.
+ * Handles multi-factor authentication if required.
+ *
+ * @returns The OAuth screen component.
+ */
+export function OAuthScreen({ children, onSignIn }: OAuthScreenProps) {
   const ui = useUI();
 
   const titleText = getTranslation(ui, "labels", "signIn");
   const subtitleText = getTranslation(ui, "prompts", "signInToAccount");
   const mfaResolver = ui.multiFactorResolver;
+
+  useOnUserAuthenticated(onSignIn);
+
+  if (mfaResolver) {
+    return <MultiFactorAuthAssertionScreen />;
+  }
 
   return (
     <div className="fui-screen">
@@ -39,15 +58,9 @@ export function OAuthScreen({ children }: OAuthScreenProps) {
           <CardSubtitle>{subtitleText}</CardSubtitle>
         </CardHeader>
         <CardContent className="fui-screen__children">
-          {mfaResolver ? (
-            <MultiFactorAuthAssertionForm />
-          ) : (
-            <>
-              {children}
-              <RedirectError />
-              <Policies />
-            </>
-          )}
+          {children}
+          <RedirectError />
+          <Policies />
         </CardContent>
       </Card>
     </div>

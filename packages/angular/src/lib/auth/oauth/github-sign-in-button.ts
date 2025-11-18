@@ -14,29 +14,40 @@
  * limitations under the License.
  */
 
-import { Component, input } from "@angular/core";
+import { Component, input, output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { OAuthButtonComponent } from "./oauth-button";
 import { injectTranslation } from "../../provider";
-import { GithubAuthProvider } from "@angular/fire/auth";
+import { GithubAuthProvider, UserCredential } from "@angular/fire/auth";
 import { GithubLogoComponent } from "../../components/logos/github";
 
 @Component({
   selector: "fui-github-sign-in-button",
   standalone: true,
   imports: [CommonModule, OAuthButtonComponent, GithubLogoComponent],
+  host: {
+    style: "display: block;",
+  },
   template: `
-    <fui-oauth-button [provider]="githubProvider">
+    <fui-oauth-button [provider]="githubProvider" [themed]="themed()" (signIn)="signIn.emit($event)">
       <fui-github-logo />
-      <span>{{ signInWithGithubLabel() }}</span>
+      <span>{{ signInWithGitHubLabel() }}</span>
     </fui-oauth-button>
   `,
 })
-export class GithubSignInButtonComponent {
-  signInWithGithubLabel = injectTranslation("labels", "signInWithGithub");
+/**
+ * A button component for signing in with GitHub.
+ */
+export class GitHubSignInButtonComponent {
+  signInWithGitHubLabel = injectTranslation("labels", "signInWithGitHub");
+  /** Whether to use themed styling. */
+  themed = input<boolean>(false);
+  /** Event emitter for successful sign-in. */
+  signIn = output<UserCredential>();
 
   private defaultProvider = new GithubAuthProvider();
 
+  /** Optional custom OAuth provider configuration. */
   provider = input<GithubAuthProvider>();
 
   get githubProvider() {

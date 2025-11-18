@@ -17,28 +17,43 @@
 "use client";
 
 import { getTranslation } from "@firebase-oss/ui-core";
-import { FacebookAuthProvider } from "firebase/auth";
-import { useUI } from "~/hooks";
-import { OAuthButton } from "./oauth-button";
+import { FacebookAuthProvider, type UserCredential } from "firebase/auth";
 import FacebookSvgLogo from "~/components/logos/facebook/Logo";
+import { useUI } from "~/hooks";
 import { cn } from "~/utils/cn";
+import { OAuthButton } from "./oauth-button";
 
+/** Props for the FacebookSignInButton component. */
 export type FacebookSignInButtonProps = {
+  /** Optional OAuth provider instance. Defaults to Facebook provider. */
   provider?: FacebookAuthProvider;
+  /** Whether to apply themed styling. */
   themed?: boolean;
+  /** Callback function called when sign-in is successful. */
+  onSignIn?: (credential: UserCredential) => void;
 };
 
-export function FacebookSignInButton({ provider, themed }: FacebookSignInButtonProps) {
+/**
+ * A button component for signing in with Facebook.
+ *
+ * @returns The Facebook sign-in button component.
+ */
+export function FacebookSignInButton({ provider, ...props }: FacebookSignInButtonProps) {
   const ui = useUI();
 
   return (
-    <OAuthButton provider={provider || new FacebookAuthProvider()} themed={themed}>
+    <OAuthButton {...props} provider={provider || new FacebookAuthProvider()}>
       <FacebookLogo />
       <span>{getTranslation(ui, "labels", "signInWithFacebook")}</span>
     </OAuthButton>
   );
 }
 
+/**
+ * The Facebook logo SVG component.
+ *
+ * @returns The Facebook logo component.
+ */
 export function FacebookLogo({ className, ...props }: React.SVGProps<SVGSVGElement>) {
   return <FacebookSvgLogo className={cn("fui-provider__icon", className)} {...props} />;
 }

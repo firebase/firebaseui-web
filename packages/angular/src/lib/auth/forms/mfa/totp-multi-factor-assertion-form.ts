@@ -13,17 +13,20 @@
  * limitations under the License.
  */
 
-import { Component, effect, input, output } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanstack/angular-form";
-import { injectMultiFactorTotpAuthVerifyFormSchema, injectTranslation, injectUI } from "../../../provider";
-import { FormInputComponent, FormSubmitComponent, FormErrorMessageComponent } from "../../../components/form";
+import { Component, effect, EventEmitter, input, Output } from "@angular/core";
 import { FirebaseUIError, signInWithMultiFactorAssertion } from "@firebase-oss/ui-core";
-import { TotpMultiFactorGenerator, type MultiFactorInfo } from "firebase/auth";
+import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanstack/angular-form";
+import { TotpMultiFactorGenerator, type MultiFactorInfo, type UserCredential } from "firebase/auth";
+import { FormErrorMessageComponent, FormInputComponent, FormSubmitComponent } from "../../../components/form";
+import { injectMultiFactorTotpAuthVerifyFormSchema, injectTranslation, injectUI } from "../../../provider";
 
 @Component({
   selector: "fui-totp-multi-factor-assertion-form",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     TanStackField,
@@ -39,7 +42,8 @@ import { TotpMultiFactorGenerator, type MultiFactorInfo } from "firebase/auth";
           name="verificationCode"
           tanstack-app-field
           [tanstackField]="form"
-          label="{{ verificationCodeLabel() }}"
+          [label]="verificationCodeLabel()"
+          [description]="enterVerificationCodePrompt()"
           type="text"
           placeholder="123456"
           maxlength="6"
@@ -54,16 +58,23 @@ import { TotpMultiFactorGenerator, type MultiFactorInfo } from "firebase/auth";
     </form>
   `,
 })
+/**
+ * A form component for TOTP multi-factor authentication assertion.
+ *
+ * Allows users to enter a TOTP code from their authenticator app.
+ */
 export class TotpMultiFactorAssertionFormComponent {
   private ui = injectUI();
   private formSchema = injectMultiFactorTotpAuthVerifyFormSchema();
 
+  /** The multi-factor info hint containing TOTP details. */
   hint = input.required<MultiFactorInfo>();
-  onSuccess = output<void>();
+  /** Event emitter for successful MFA assertion. */
+  @Output() onSuccess = new EventEmitter<UserCredential>();
 
   verificationCodeLabel = injectTranslation("labels", "verificationCode");
   verifyCodeLabel = injectTranslation("labels", "verifyCode");
-  unknownErrorLabel = injectTranslation("errors", "unknownError");
+  enterVerificationCodePrompt = injectTranslation("prompts", "enterVerificationCode");
 
   form = injectForm({
     defaultValues: {
@@ -78,18 +89,14 @@ export class TotpMultiFactorAssertionFormComponent {
       this.form.update({
         validators: {
           onBlur: this.formSchema(),
-          onSubmit: this.formSchema(),
           onSubmitAsync: async ({ value }) => {
             try {
               const assertion = TotpMultiFactorGenerator.assertionForSignIn(this.hint().uid, value.verificationCode);
-              await signInWithMultiFactorAssertion(this.ui(), assertion);
-              this.onSuccess.emit();
+              const result = await signInWithMultiFactorAssertion(this.ui(), assertion);
+              this.onSuccess.emit(result);
               return;
             } catch (error) {
-              if (error instanceof FirebaseUIError) {
-                return error.message;
-              }
-              return this.unknownErrorLabel();
+              return error instanceof FirebaseUIError ? error.message : String(error);
             }
           },
         },

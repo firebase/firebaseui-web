@@ -15,7 +15,15 @@
  */
 
 import "@testing-library/jest-dom/vitest";
-import { vi, afterEach } from "vitest";
+import { afterEach, vi } from "vitest";
+
+// Mock ResizeObserver for input-otp component
+global.ResizeObserver = class ResizeObserver {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+} as any;
 
 afterEach(() => {
   vi.clearAllTimers();

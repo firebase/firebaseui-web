@@ -17,8 +17,14 @@
 import type { ComponentProps, PropsWithChildren } from "react";
 import { cn } from "~/utils/cn";
 
+/** Props for the Card component. */
 export type CardProps = PropsWithChildren<ComponentProps<"div">>;
 
+/**
+ * A card container component for grouping related content.
+ *
+ * @returns The card component.
+ */
 export function Card({ children, className, ...props }: CardProps) {
   return (
     <div className={cn("fui-card", className)} {...props}>
@@ -27,6 +33,11 @@ export function Card({ children, className, ...props }: CardProps) {
   );
 }
 
+/**
+ * The header section of a card.
+ *
+ * @returns The card header component.
+ */
 export function CardHeader({ children, className, ...props }: CardProps) {
   return (
     <div className={cn("fui-card__header", className)} {...props}>
@@ -35,6 +46,11 @@ export function CardHeader({ children, className, ...props }: CardProps) {
   );
 }
 
+/**
+ * The title of a card.
+ *
+ * @returns The card title component.
+ */
 export function CardTitle({ children, className, ...props }: ComponentProps<"h2">) {
   return (
     <h2 className={cn("fui-card__title", className)} {...props}>
@@ -43,6 +59,11 @@ export function CardTitle({ children, className, ...props }: ComponentProps<"h2"
   );
 }
 
+/**
+ * The subtitle of a card.
+ *
+ * @returns The card subtitle component.
+ */
 export function CardSubtitle({ children, className, ...props }: ComponentProps<"p">) {
   return (
     <p className={cn("fui-card__subtitle", className)} {...props}>
@@ -51,6 +72,11 @@ export function CardSubtitle({ children, className, ...props }: ComponentProps<"
   );
 }
 
+/**
+ * The content section of a card.
+ *
+ * @returns The card content component.
+ */
 export function CardContent({ children, className, ...props }: ComponentProps<"div">) {
   return (
     <div className={cn("fui-card__content", className)} {...props}>

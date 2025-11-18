@@ -43,7 +43,7 @@ export function SignInAuthForm(props: SignInAuthFormProps) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-y-4">
         <FormField
           control={form.control}
           name="email"
@@ -62,16 +62,16 @@ export function SignInAuthForm(props: SignInAuthFormProps) {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{getTranslation(ui, "labels", "password")}</FormLabel>
+              <FormLabel className="flex items-center gap-2">
+                <span className="grow">{getTranslation(ui, "labels", "password")}</span>
+                {props.onForgotPasswordClick ? (
+                  <Button type="button" variant="link" onClick={props.onForgotPasswordClick} size="sm">
+                    <span className="text-xs">{getTranslation(ui, "labels", "forgotPassword")}</span>
+                  </Button>
+                ) : null}
+              </FormLabel>
               <FormControl>
-                <div className="flex items-center gap-2">
-                  <Input {...field} type="password" className="flex-grow" />
-                  {props.onForgotPasswordClick ? (
-                    <Button type="button" variant="secondary" onClick={props.onForgotPasswordClick}>
-                      {getTranslation(ui, "labels", "forgotPassword")}
-                    </Button>
-                  ) : null}
-                </div>
+                <Input {...field} type="password" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -82,10 +82,12 @@ export function SignInAuthForm(props: SignInAuthFormProps) {
           {getTranslation(ui, "labels", "signIn")}
         </Button>
         {form.formState.errors.root && <FormMessage>{form.formState.errors.root.message}</FormMessage>}
-        {props.onRegisterClick ? (
+        {props.onSignUpClick ? (
           <>
-            <Button type="button" variant="secondary" onClick={props.onRegisterClick}>
-              {getTranslation(ui, "prompts", "noAccount")} {getTranslation(ui, "labels", "signUp")}
+            <Button type="button" variant="link" size="sm" onClick={props.onSignUpClick}>
+              <span className="text-xs">
+                {getTranslation(ui, "prompts", "noAccount")} {getTranslation(ui, "labels", "signUp")}
+              </span>
             </Button>
           </>
         ) : null}

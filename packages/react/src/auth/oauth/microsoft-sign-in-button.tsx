@@ -17,28 +17,43 @@
 "use client";
 
 import { getTranslation } from "@firebase-oss/ui-core";
-import { OAuthProvider } from "firebase/auth";
-import { useUI } from "~/hooks";
-import { OAuthButton } from "./oauth-button";
+import { OAuthProvider, type UserCredential } from "firebase/auth";
 import MicrosoftSvgLogo from "~/components/logos/microsoft/Logo";
+import { useUI } from "~/hooks";
 import { cn } from "~/utils/cn";
+import { OAuthButton } from "./oauth-button";
 
+/** Props for the MicrosoftSignInButton component. */
 export type MicrosoftSignInButtonProps = {
+  /** Optional OAuth provider instance. Defaults to Microsoft provider. */
   provider?: OAuthProvider;
+  /** Whether to apply themed styling. */
   themed?: boolean;
+  /** Callback function called when sign-in is successful. */
+  onSignIn?: (credential: UserCredential) => void;
 };
 
-export function MicrosoftSignInButton({ provider, themed }: MicrosoftSignInButtonProps) {
+/**
+ * A button component for signing in with Microsoft.
+ *
+ * @returns The Microsoft sign-in button component.
+ */
+export function MicrosoftSignInButton({ provider, ...props }: MicrosoftSignInButtonProps) {
   const ui = useUI();
 
   return (
-    <OAuthButton provider={provider || new OAuthProvider("microsoft.com")} themed={themed}>
+    <OAuthButton {...props} provider={provider || new OAuthProvider("microsoft.com")}>
       <MicrosoftLogo />
       <span>{getTranslation(ui, "labels", "signInWithMicrosoft")}</span>
     </OAuthButton>
   );
 }
 
+/**
+ * The Microsoft logo SVG component.
+ *
+ * @returns The Microsoft logo component.
+ */
 export function MicrosoftLogo({ className, ...props }: React.SVGProps<SVGSVGElement>) {
   return <MicrosoftSvgLogo className={cn("fui-provider__icon", className)} {...props} />;
 }

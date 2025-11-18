@@ -23,32 +23,82 @@ import type { InitBehavior, RedirectBehavior } from "./behaviors/utils";
 import { type FirebaseUIState } from "./state";
 import { handleFirebaseError } from "./errors";
 
+/**
+ * Configuration options for initializing FirebaseUI.
+ */
 export type FirebaseUIOptions = {
+  /** A required Firebase App instance, e.g. from `initializeApp`. */
   app: FirebaseApp;
+  /** An optional Firebase Auth instance, e.g. from `getAuth`. If not provided, it will be created using the app instance. */
   auth?: Auth;
+  /** A default locale to use. Defaults to `enUs`. */
   locale?: RegisteredLocale;
+  /** An optional array of behaviors, e.g. from `requireDisplayName`. */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   behaviors?: Behavior<any>[];
 };
 
+/**
+ * The main FirebaseUI instance that provides access to Firebase Auth and UI state management.
+ *
+ * This type encapsulates all the necessary components for managing authentication UI state,
+ * including Firebase app and auth instances, locale settings, behaviors, and multi-factor
+ * authentication state.
+ */
 export type FirebaseUI = {
+  /** The Firebase App instance. */
   app: FirebaseApp;
+  /** The Firebase Auth instance. */
   auth: Auth;
+  /** Sets the locale for translations. */
   setLocale: (locale: RegisteredLocale) => void;
+  /** The current UI state (e.g., "idle", "pending", "loading"). */
   state: FirebaseUIState;
+  /** Sets the UI state. */
   setState: (state: FirebaseUIState) => void;
+  /** The current locale for translations. */
   locale: RegisteredLocale;
+  /** The configured behaviors that customize authentication flows. */
   behaviors: Behaviors;
+  /** The multi-factor resolver, if a multi-factor challenge is in progress. */
   multiFactorResolver?: MultiFactorResolver;
+  /** Sets the multi-factor resolver. */
   setMultiFactorResolver: (multiFactorResolver?: MultiFactorResolver) => void;
+  /** Any error that occurred during a redirect-based authentication flow. */
   redirectError?: Error;
+  /** Sets the redirect error. */
   setRedirectError: (error?: Error) => void;
 };
 
 export const $config = map<Record<string, DeepMapStore<FirebaseUI>>>({});
 
+/**
+ * A reactive store containing a FirebaseUI instance.
+ *
+ * This store allows for reactive updates to the FirebaseUI state, enabling UI components
+ * to automatically update when the authentication state or configuration changes.
+ */
 export type FirebaseUIStore = DeepMapStore<FirebaseUI>;
 
+/**
+ * Initializes a FirebaseUI instance with the provided configuration.
+ *
+ * Creates a reactive store containing the FirebaseUI instance, sets up behaviors,
+ * and handles initialization and redirect flows if running client-side.
+ *
+ * Example:
+ * ```typescript
+ * const ui = initializeUI({
+ *   app: firebaseApp,
+ *   locale: enUs,
+ *   behaviors: [requireDisplayName()],
+ * });
+ * ```
+ *
+ * @param config - The configuration options for FirebaseUI.
+ * @param name - Optional name for the FirebaseUI instance. Defaults to "[DEFAULT]".
+ * @returns {FirebaseUIStore} A reactive store containing the initialized FirebaseUI instance.
+ */
 export function initializeUI(config: FirebaseUIOptions, name: string = "[DEFAULT]"): FirebaseUIStore {
   // Reduce the behaviors to a single object.
   const behaviors = config.behaviors?.reduce<Behavior>((acc, behavior) => {

@@ -30,10 +30,9 @@ describe("<fui-card>", () => {
       imports: [CardComponent, CardContentComponent],
     });
     const card = screen.getByTestId("test-card");
-    const cardDiv = card.querySelector(".fui-card");
 
-    expect(cardDiv).toHaveClass("fui-card");
-    expect(cardDiv).toHaveTextContent("Card content");
+    expect(card).toHaveClass("fui-card");
+    expect(card).toHaveTextContent("Card content");
   });
 
   it("applies custom class", async () => {
@@ -42,9 +41,8 @@ describe("<fui-card>", () => {
       { imports: [CardComponent, CardContentComponent] }
     );
     const card = screen.getByTestId("test-card");
-    const cardDiv = card.querySelector(".fui-card");
 
-    expect(cardDiv).toHaveClass("fui-card");
+    expect(card).toHaveClass("fui-card");
     expect(card).toHaveClass("custom-class");
   });
 
@@ -54,9 +52,8 @@ describe("<fui-card>", () => {
       { imports: [CardComponent, CardContentComponent] }
     );
     const card = screen.getByTestId("test-card");
-    const cardDiv = card.querySelector(".fui-card");
 
-    expect(cardDiv).toHaveClass("fui-card");
+    expect(card).toHaveClass("fui-card");
     expect(card).toHaveAttribute("aria-label", "card");
   });
 
@@ -65,8 +62,8 @@ describe("<fui-card>", () => {
       `
       <fui-card data-testid="complete-card">
         <fui-card-header data-testid="complete-header">
-          <fui-card-title>Card Title</fui-card-title>
-          <fui-card-subtitle>Card Subtitle</fui-card-subtitle>
+          <fui-card-title data-testid="complete-title">Card Title</fui-card-title>
+          <fui-card-subtitle data-testid="complete-subtitle">Card Subtitle</fui-card-subtitle>
         </fui-card-header>
         <fui-card-content>
           <div>Card Body Content</div>
@@ -80,14 +77,16 @@ describe("<fui-card>", () => {
 
     const card = screen.getByTestId("complete-card");
     const header = screen.getByTestId("complete-header");
+    const titleHost = screen.getByTestId("complete-title");
+    const subtitleHost = screen.getByTestId("complete-subtitle");
     const title = screen.getByRole("heading", { name: "Card Title" });
     const subtitle = screen.getByText("Card Subtitle");
     const content = screen.getByText("Card Body Content");
 
-    expect(card.querySelector(".fui-card")).toHaveClass("fui-card");
-    expect(title).toHaveClass("fui-card__title");
-    expect(subtitle).toHaveClass("fui-card__subtitle");
-    expect(header.querySelector(".fui-card__header")).toHaveClass("fui-card__header");
+    expect(card).toHaveClass("fui-card");
+    expect(titleHost).toHaveClass("fui-card__title");
+    expect(subtitleHost).toHaveClass("fui-card__subtitle");
+    expect(header).toHaveClass("fui-card__header");
     expect(content).toBeTruthy();
 
     expect(header).toContainElement(title);
@@ -103,10 +102,9 @@ describe("<fui-card>", () => {
         { imports: [CardHeaderComponent, CardTitleComponent] }
       );
       const header = screen.getByTestId("test-header");
-      const headerDiv = header.querySelector(".fui-card__header");
 
-      expect(headerDiv).toHaveClass("fui-card__header");
-      expect(headerDiv).toHaveTextContent("Header content");
+      expect(header).toHaveClass("fui-card__header");
+      expect(header).toHaveTextContent("Header content");
     });
 
     it("applies custom className", async () => {
@@ -115,19 +113,21 @@ describe("<fui-card>", () => {
         { imports: [CardHeaderComponent, CardTitleComponent] }
       );
       const header = screen.getByTestId("test-header");
-      const headerDiv = header.querySelector(".fui-card__header");
 
-      expect(headerDiv).toHaveClass("fui-card__header");
+      expect(header).toHaveClass("fui-card__header");
       expect(header).toHaveClass("custom-header");
     });
   });
 
   describe("<fui-card-title>", () => {
     it("renders a card title with children", async () => {
-      await render(`<fui-card-title>Title content</fui-card-title>`, { imports: [CardTitleComponent] });
+      await render(`<fui-card-title data-testid="title-host">Title content</fui-card-title>`, {
+        imports: [CardTitleComponent],
+      });
+      const titleHost = screen.getByTestId("title-host");
       const title = screen.getByRole("heading", { name: "Title content" });
 
-      expect(title).toHaveClass("fui-card__title");
+      expect(titleHost).toHaveClass("fui-card__title");
       expect(title.tagName).toBe("H2");
     });
 
@@ -135,20 +135,22 @@ describe("<fui-card>", () => {
       await render(`<fui-card-title data-testid="title-host" class="custom-title">Title content</fui-card-title>`, {
         imports: [CardTitleComponent],
       });
-      const title = screen.getByRole("heading", { name: "Title content" });
       const titleHost = screen.getByTestId("title-host");
 
-      expect(title).toHaveClass("fui-card__title");
+      expect(titleHost).toHaveClass("fui-card__title");
       expect(titleHost).toHaveClass("custom-title");
     });
   });
 
   describe("<fui-card-subtitle>", () => {
     it("renders a card subtitle with children", async () => {
-      await render(`<fui-card-subtitle>Subtitle content</fui-card-subtitle>`, { imports: [CardSubtitleComponent] });
+      await render(`<fui-card-subtitle data-testid="subtitle-host">Subtitle content</fui-card-subtitle>`, {
+        imports: [CardSubtitleComponent],
+      });
+      const subtitleHost = screen.getByTestId("subtitle-host");
       const subtitle = screen.getByText("Subtitle content");
 
-      expect(subtitle).toHaveClass("fui-card__subtitle");
+      expect(subtitleHost).toHaveClass("fui-card__subtitle");
       expect(subtitle.tagName).toBe("P");
     });
 
@@ -157,31 +159,30 @@ describe("<fui-card>", () => {
         `<fui-card-subtitle data-testid="subtitle-host" class="custom-subtitle">Subtitle content</fui-card-subtitle>`,
         { imports: [CardSubtitleComponent] }
       );
-      const subtitle = screen.getByText("Subtitle content");
       const subtitleHost = screen.getByTestId("subtitle-host");
 
-      expect(subtitle).toHaveClass("fui-card__subtitle");
+      expect(subtitleHost).toHaveClass("fui-card__subtitle");
       expect(subtitleHost).toHaveClass("custom-subtitle");
     });
   });
 
   describe("<fui-card-content>", () => {
     it("renders a card content with children", async () => {
-      await render(`<fui-card-content>Content content</fui-card-content>`, { imports: [CardContentComponent] });
-      const content = screen.getByText("Content content");
+      await render(`<fui-card-content data-testid="test-content">Content content</fui-card-content>`, {
+        imports: [CardContentComponent],
+      });
+      const content = screen.getByTestId("test-content");
 
       expect(content).toHaveClass("fui-card__content");
-      expect(content.tagName).toBe("DIV");
     });
 
     it("applies custom className", async () => {
       await render(`<fui-card-content data-testid="content-host" class="custom-content">Content</fui-card-content>`, {
         imports: [CardContentComponent],
       });
-      const content = screen.getByText("Content");
       const contentHost = screen.getByTestId("content-host");
 
-      expect(content).toHaveClass("fui-card__content");
+      expect(contentHost).toHaveClass("fui-card__content");
       expect(contentHost).toHaveClass("custom-content");
     });
   });

@@ -18,11 +18,15 @@ import { enUS } from "./locales/en-us";
 import { type RegisteredLocale } from ".";
 import type { ErrorKey, TranslationCategory, TranslationKey, TranslationSet } from "./types";
 
+/** Maps Firebase authentication error codes to translation keys. */
 export const ERROR_CODE_MAP = {
   "auth/user-not-found": "userNotFound",
   "auth/wrong-password": "wrongPassword",
   "auth/invalid-email": "invalidEmail",
+  "auth/unverified-email": "unverifiedEmail",
   "auth/user-disabled": "userDisabled",
+  "auth/missing-code": "missingVerificationCode",
+  "auth/invalid-credential": "invalidCredential",
   "auth/network-request-failed": "networkRequestFailed",
   "auth/too-many-requests": "tooManyRequests",
   "auth/email-already-in-use": "emailAlreadyInUse",
@@ -45,30 +49,48 @@ export const ERROR_CODE_MAP = {
   "auth/second-factor-already-in-use": "secondFactorAlreadyInUse",
 } satisfies Record<string, ErrorKey>;
 
+/** Firebase authentication error code type. */
 export type ErrorCode = keyof typeof ERROR_CODE_MAP;
 
+/**
+ * Retrieves a translation string for a given locale, category, and key.
+ *
+ * Falls back to the locale's fallback locale or English US if the translation is not found.
+ * Supports string replacements using {placeholder} syntax.
+ *
+ * @param locale - The registered locale to get the translation from.
+ * @param category - The translation category (e.g., "errors", "labels").
+ * @param key - The translation key within the category.
+ * @param replacements - Optional object with replacement values for placeholders in the translation string.
+ * @returns The translated string, or an empty string if not found.
+ */
 export function getTranslation<T extends TranslationCategory>(
   locale: RegisteredLocale,
   category: T,
-  key: TranslationKey<T>
+  key: TranslationKey<T>,
+  replacements?: Record<string, string>
 ): string {
   const userTranslationSet = locale.translations[category] as TranslationSet<T> | undefined;
   const translatedString = userTranslationSet?.[key];
 
-  if (translatedString) {
-    return translatedString;
-  }
+  let str: string | undefined;
 
-  // Check fallback locale if it exists
-  if (locale.fallback) {
+  if (translatedString) {
+    str = translatedString;
+  } else if (locale.fallback) {
     const fallbackTranslation = getTranslation(locale.fallback, category, key);
 
     if (fallbackTranslation) {
-      return fallbackTranslation;
+      str = fallbackTranslation;
     }
+  } else {
+    const fallbackTranslationSet = enUS[category] as TranslationSet<T>;
+    str = fallbackTranslationSet[key];
   }
 
-  // Fall back to English translations
-  const fallbackTranslationSet = enUS[category] as TranslationSet<T>;
-  return fallbackTranslationSet[key];
+  if (replacements) {
+    str = str?.replace(/{(\w+)}/g, (match, p1) => replacements[p1] || match);
+  }
+
+  return str || "";
 }

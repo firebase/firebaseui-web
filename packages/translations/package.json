@@ -26,7 +26,9 @@
     "clean": "rimraf dist",
     "test": "vitest run",
     "test:watch": "vitest",
+    "version:bump": "pnpm version patch",
     "publish:tags": "sh -c 'TAG=\"${npm_package_name}@${npm_package_version}\"; git tag --list \"$TAG\" | grep . || git tag \"$TAG\"; git push origin \"$TAG\"'",
+    "publish:npm": "pnpm publish --access public",
     "release": "npm run build && pnpm pack --pack-destination ../../releases/"
   },
   "devDependencies": {

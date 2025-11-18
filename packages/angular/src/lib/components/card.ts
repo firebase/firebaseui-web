@@ -21,60 +21,87 @@ import { CommonModule } from "@angular/common";
   selector: "fui-card",
   standalone: true,
   imports: [],
+  host: {
+    class: "fui-card",
+    style: "display: block;",
+  },
   template: `
-    <div class="fui-card">
-      <ng-content select="fui-card-header"></ng-content>
-      <ng-content select="fui-card-content"></ng-content>
-    </div>
+    <ng-content select="fui-card-header"></ng-content>
+    <ng-content select="fui-card-content"></ng-content>
   `,
 })
+/**
+ * A card container component for grouping related content.
+ */
 export class CardComponent {}
 
 @Component({
   selector: "fui-card-header",
   standalone: true,
   imports: [CommonModule],
+  host: {
+    class: "fui-card__header",
+    style: "display: block;",
+  },
   template: `
-    <div class="fui-card__header">
-      <ng-content select="fui-card-title"></ng-content>
-      <ng-content select="fui-card-subtitle"></ng-content>
-    </div>
+    <ng-content select="fui-card-title"></ng-content>
+    <ng-content select="fui-card-subtitle"></ng-content>
   `,
 })
+/**
+ * The header section of a card.
+ */
 export class CardHeaderComponent {}
 
 @Component({
   selector: "fui-card-title",
   standalone: true,
   imports: [CommonModule],
+  host: {
+    class: "fui-card__title",
+    style: "display: block;",
+  },
   template: `
-    <h2 class="fui-card__title">
+    <h2>
       <ng-content></ng-content>
     </h2>
   `,
 })
+/**
+ * The title of a card.
+ */
 export class CardTitleComponent {}
 
 @Component({
   selector: "fui-card-subtitle",
   standalone: true,
   imports: [CommonModule],
+  host: {
+    class: "fui-card__subtitle",
+    style: "display: block;",
+  },
   template: `
-    <p class="fui-card__subtitle">
+    <p>
       <ng-content></ng-content>
     </p>
   `,
 })
+/**
+ * The subtitle of a card.
+ */
 export class CardSubtitleComponent {}
 
 @Component({
   selector: "fui-card-content",
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <div class="fui-card__content">
-      <ng-content></ng-content>
-    </div>
-  `,
+  host: {
+    class: "fui-card__content",
+    style: "display: block;",
+  },
+  template: ` <ng-content></ng-content> `,
 })
+/**
+ * The content section of a card.
+ */
 export class CardContentComponent {}

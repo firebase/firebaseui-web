@@ -14,7 +14,7 @@
  */
 
 import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
-import { render, screen, cleanup } from "@testing-library/react";
+import { render, screen, cleanup, fireEvent, waitFor } from "@testing-library/react";
 import { TwitterLogo, TwitterSignInButton } from "./twitter-sign-in-button";
 import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
 import { registerLocale } from "@firebase-oss/ui-translations";
@@ -29,6 +29,14 @@ vi.mock("firebase/auth", async () => {
       }
       providerId: string;
     },
+  };
+});
+
+vi.mock("@firebase-oss/ui-core", async (importOriginal) => {
+  const mod = await importOriginal();
+  return {
+    ...(mod as object),
+    signInWithProvider: vi.fn(),
   };
 });
 
@@ -160,6 +168,35 @@ describe("<TwitterSignInButton />", () => {
     const button = screen.getByRole("button");
     expect(button).toHaveClass("fui-provider__button");
     expect(button.getAttribute("type")).toBe("button");
+  });
+
+  it("calls onSignIn callback when sign-in is successful", async () => {
+    const mockSignInWithProvider = vi.mocked(signInWithProvider);
+    const mockCredential = { user: { uid: "test-uid" } } as UserCredential;
+    const onSignIn = vi.fn();
+    mockSignInWithProvider.mockResolvedValue(mockCredential);
+
+    const ui = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          signInWithTwitter: "Sign in with Twitter",
+        },
+      }),
+    });
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <TwitterSignInButton onSignIn={onSignIn} />
+      </CreateFirebaseUIProvider>
+    );
+
+    const button = screen.getByRole("button");
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(onSignIn).toHaveBeenCalledTimes(1);
+      expect(onSignIn).toHaveBeenCalledWith(mockCredential);
+    });
   });
 });
 

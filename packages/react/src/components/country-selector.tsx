@@ -21,23 +21,45 @@ import { type ComponentProps, forwardRef, useImperativeHandle, useState, useCall
 import { useUI } from "~/hooks";
 import { cn } from "~/utils/cn";
 
+/** Ref methods for the CountrySelector component. */
 export interface CountrySelectorRef {
+  /** Gets the currently selected country. */
   getCountry: () => CountryData;
+  /** Sets the selected country by country code. */
   setCountry: (code: CountryCode) => void;
 }
 
+/** Props for the CountrySelector component. */
 export type CountrySelectorProps = ComponentProps<"div">;
 
+/**
+ * Gets the list of allowed countries from the country codes behavior.
+ *
+ * @returns The list of allowed countries.
+ */
 export function useCountries() {
   const ui = useUI();
   return getBehavior(ui, "countryCodes")().allowedCountries;
 }
 
+/**
+ * Gets the default country from the country codes behavior.
+ *
+ * @returns The default country data.
+ */
 export function useDefaultCountry() {
   const ui = useUI();
   return getBehavior(ui, "countryCodes")().defaultCountry;
 }
 
+/**
+ * A country selector component for phone number input.
+ *
+ * Displays a dropdown with country flags, dial codes, and names for selecting a country.
+ *
+ * @param ref - A ref to access the country selector methods.
+ * @returns The country selector component.
+ */
 export const CountrySelector = forwardRef<CountrySelectorRef, CountrySelectorProps>(({ className, ...props }, ref) => {
   const countries = useCountries();
   const defaultCountry = useDefaultCountry();

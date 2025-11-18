@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, effect, output, signal } from "@angular/core";
+import { Component, effect, Output, EventEmitter, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanstack/angular-form";
 import { UserCredential } from "@angular/fire/auth";
@@ -27,6 +27,9 @@ import { injectEmailLinkAuthFormSchema, injectTranslation, injectUI } from "../.
 @Component({
   selector: "fui-email-link-auth-form",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     TanStackField,
@@ -38,7 +41,7 @@ import { injectEmailLinkAuthFormSchema, injectTranslation, injectUI } from "../.
   ],
   template: `
     @if (emailSentState()) {
-      <div class="fui-form__success">
+      <div class="fui-success">
         {{ emailSentMessage() }}
       </div>
     }
@@ -61,6 +64,12 @@ import { injectEmailLinkAuthFormSchema, injectTranslation, injectUI } from "../.
     }
   `,
 })
+/**
+ * A form component for email link authentication.
+ *
+ * Sends a sign-in link to the user's email address and automatically completes sign-in
+ * if the user arrives via an email link.
+ */
 export class EmailLinkAuthFormComponent {
   private ui = injectUI();
   private formSchema = injectEmailLinkAuthFormSchema();
@@ -72,8 +81,10 @@ export class EmailLinkAuthFormComponent {
   emailSentMessage = injectTranslation("messages", "signInLinkSent");
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
-  emailSent = output<void>();
-  signIn = output<UserCredential>();
+  /** Event emitter fired when sign-in link email is sent. */
+  @Output() emailSent = new EventEmitter<void>();
+  /** Event emitter for successful sign-in. */
+  @Output() signIn = new EventEmitter<UserCredential>();
 
   form = injectForm({
     defaultValues: {
@@ -96,18 +107,18 @@ export class EmailLinkAuthFormComponent {
       this.form.update({
         validators: {
           onBlur: this.formSchema(),
-          onSubmit: this.formSchema(),
           onSubmitAsync: async ({ value }) => {
             try {
               await sendSignInLinkToEmail(this.ui(), value.email);
               this.emailSentState.set(true);
-              this.emailSent?.emit();
+              this.emailSent.emit();
               return;
             } catch (error) {
               if (error instanceof FirebaseUIError) {
                 return error.message;
               }
 
+              console.error(error);
               return this.unknownErrorLabel();
             }
           },
@@ -120,7 +131,7 @@ export class EmailLinkAuthFormComponent {
     const credential = await completeEmailLinkSignIn(this.ui(), window.location.href);
 
     if (credential) {
-      this.signIn?.emit(credential);
+      this.signIn.emit(credential);
     }
   }
 }

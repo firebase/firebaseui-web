@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-import { Component, output, input } from "@angular/core";
+import { Component, Output, EventEmitter, input } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FactorId } from "firebase/auth";
 import { injectTranslation } from "../../provider";
 import { MultiFactorAuthEnrollmentFormComponent } from "../forms/multi-factor-auth-enrollment-form";
-import { RedirectErrorComponent } from "../../components/redirect-error";
 import {
   CardComponent,
   CardHeaderComponent,
@@ -33,6 +32,9 @@ type Hint = (typeof FactorId)[keyof typeof FactorId];
 @Component({
   selector: "fui-multi-factor-auth-enrollment-screen",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     CardComponent,
@@ -41,7 +43,6 @@ type Hint = (typeof FactorId)[keyof typeof FactorId];
     CardSubtitleComponent,
     CardContentComponent,
     MultiFactorAuthEnrollmentFormComponent,
-    RedirectErrorComponent,
   ],
   template: `
     <div class="fui-screen">
@@ -52,16 +53,21 @@ type Hint = (typeof FactorId)[keyof typeof FactorId];
         </fui-card-header>
         <fui-card-content>
           <fui-multi-factor-auth-enrollment-form [hints]="hints()" (onEnrollment)="onEnrollment.emit()" />
-          <fui-redirect-error />
-          <ng-content />
         </fui-card-content>
       </fui-card>
     </div>
   `,
 })
+/**
+ * A screen component for multi-factor authentication enrollment.
+ *
+ * Displays the MFA enrollment form for setting up multi-factor authentication.
+ */
 export class MultiFactorAuthEnrollmentScreenComponent {
+  /** The available MFA factor types for enrollment. */
   hints = input<Hint[]>([FactorId.TOTP, FactorId.PHONE]);
-  onEnrollment = output<void>();
+  /** Event emitter fired when MFA enrollment is completed. */
+  @Output() onEnrollment = new EventEmitter<void>();
 
   titleText = injectTranslation("labels", "multiFactorEnrollment");
   subtitleText = injectTranslation("prompts", "mfaEnrollmentPrompt");

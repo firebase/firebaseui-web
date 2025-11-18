@@ -15,7 +15,7 @@
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, fireEvent, renderHook, cleanup } from "@testing-library/react";
+import { render, screen, fireEvent, renderHook, cleanup, waitFor } from "@testing-library/react";
 import {
   PhoneAuthForm,
   usePhoneNumberFormAction,
@@ -80,25 +80,39 @@ import { registerLocale } from "@firebase-oss/ui-translations";
 import { FirebaseUIProvider } from "~/context";
 
 vi.mock("~/components/country-selector", () => ({
-  CountrySelector: vi.fn().mockImplementation(({ value, onChange }) => (
-    <div data-testid="country-selector">
-      <select
-        onChange={(e) =>
-          onChange &&
-          onChange({
-            code: e.target.value,
-            name: e.target.value === "US" ? "United States" : "United Kingdom",
-            dialCode: e.target.value === "US" ? "+1" : "+44",
-            emoji: e.target.value === "US" ? "🇺🇸" : "🇬🇧",
-          })
-        }
-        value={value?.code}
-      >
-        <option value="US">United States</option>
-        <option value="GB">United Kingdom</option>
-      </select>
-    </div>
-  )),
+  CountrySelector: vi.fn().mockImplementation(({ value, onChange, ref }: any) => {
+    if (ref && typeof ref === "object" && "current" in ref) {
+      ref.current = {
+        getCountry: () => ({
+          code: "US",
+          name: "United States",
+          dialCode: "+1",
+          emoji: "🇺🇸",
+        }),
+        setCountry: () => {},
+      };
+    }
+
+    return (
+      <div data-testid="country-selector">
+        <select
+          onChange={(e) =>
+            onChange &&
+            onChange({
+              code: e.target.value,
+              name: e.target.value === "US" ? "United States" : "United Kingdom",
+              dialCode: e.target.value === "US" ? "+1" : "+44",
+              emoji: e.target.value === "US" ? "🇺🇸" : "🇬🇧",
+            })
+          }
+          value={value?.code}
+        >
+          <option value="US">United States</option>
+          <option value="GB">United Kingdom</option>
+        </select>
+      </div>
+    );
+  }),
 }));
 
 describe("usePhoneNumberFormAction", () => {
@@ -544,5 +558,49 @@ describe("<PhoneAuthForm />", () => {
     expect(screen.getByRole("textbox", { name: /phoneNumber/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "sendCode" })).toBeInTheDocument();
     expect(screen.getByTestId("country-selector")).toBeInTheDocument();
+  });
+
+  it("should render the verification code form with description after phone number submission", async () => {
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          phoneNumber: "Phone Number",
+          sendCode: "Send Code",
+          verificationCode: "verificationCode",
+          verifyCode: "verifyCode",
+        },
+        prompts: {
+          smsVerificationPrompt: "Enter the verification code sent to your phone number",
+        },
+      }),
+    });
+
+    const mockVerificationId = "test-verification-id";
+    vi.mocked(verifyPhoneNumber).mockResolvedValue(mockVerificationId);
+
+    const { container } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <PhoneAuthForm />
+      </FirebaseUIProvider>
+    );
+
+    const phoneInput = screen.getByRole("textbox", { name: /phone number/i });
+    expect(phoneInput).toBeInTheDocument();
+
+    const sendCodeButton = screen.getByRole("button", { name: /send code/i });
+
+    await act(async () => {
+      fireEvent.change(phoneInput, { target: { value: "1234567890" } });
+      fireEvent.click(sendCodeButton);
+    });
+
+    const verificationInput = await waitFor(() => {
+      return screen.getByRole("textbox", { name: /verificationCode/i });
+    });
+    expect(verificationInput).toBeInTheDocument();
+
+    const description = container.querySelector("[data-input-description]");
+    expect(description).toBeInTheDocument();
+    expect(description).toHaveTextContent("Enter the verification code sent to your phone number");
   });
 });

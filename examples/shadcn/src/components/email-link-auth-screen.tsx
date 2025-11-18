@@ -3,20 +3,28 @@
 import { getTranslation } from "@firebase-oss/ui-core";
 import { useUI, type EmailLinkAuthScreenProps } from "@firebase-oss/ui-react";
 
-import { EmailLinkAuthForm } from "@/components/email-link-auth-form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { EmailLinkAuthForm } from "@/components/email-link-auth-form";
+import { MultiFactorAuthAssertionScreen } from "@/components/multi-factor-auth-assertion-screen";
+import { RedirectError } from "@/components/redirect-error";
 
 export type { EmailLinkAuthScreenProps };
 
-export function EmailLinkAuthScreen({ children, ...props }: EmailLinkAuthScreenProps) {
+export function EmailLinkAuthScreen({ children, onSignIn, ...props }: EmailLinkAuthScreenProps) {
   const ui = useUI();
 
   const titleText = getTranslation(ui, "labels", "signIn");
   const subtitleText = getTranslation(ui, "prompts", "signInToAccount");
 
+  useOnUserAuthenticated(onSignIn);
+
+  if (ui.multiFactorResolver) {
+    return <MultiFactorAuthAssertionScreen />;
+  }
+
   return (
-    <div className="max-w-md mx-auto">
+    <div className="max-w-sm mx-auto">
       <Card>
         <CardHeader>
           <CardTitle>{titleText}</CardTitle>
@@ -26,8 +34,11 @@ export function EmailLinkAuthScreen({ children, ...props }: EmailLinkAuthScreenP
           <EmailLinkAuthForm {...props} />
           {children ? (
             <>
-              <Separator>{getTranslation(ui, "messages", "dividerOr")}</Separator>
-              <div className="space-y-2">{children}</div>
+              <Separator className="my-4" />
+              <div className="space-y-2">
+                {children}
+                <RedirectError />
+              </div>
             </>
           ) : null}
         </CardContent>

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, signal, effect, viewChild, computed, output } from "@angular/core";
+import { Component, signal, effect, viewChild, computed, Output, EventEmitter } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { TanStackField, TanStackAppField, injectForm, injectStore } from "@tanstack/angular-form";
 import { ElementRef } from "@angular/core";
@@ -42,6 +42,9 @@ import {
 @Component({
   selector: "fui-sms-multi-factor-enrollment-form",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     TanStackField,
@@ -50,7 +53,6 @@ import {
     FormSubmitComponent,
     FormErrorMessageComponent,
     CountrySelectorComponent,
-    PoliciesComponent,
   ],
   template: `
     <div class="fui-form-container">
@@ -61,22 +63,24 @@ import {
               name="displayName"
               tanstack-app-field
               [tanstackField]="phoneForm"
-              label="{{ displayNameLabel() }}"
-            ></fui-form-input>
+              [label]="displayNameLabel()"
+              type="text"
+            />
           </fieldset>
           <fieldset>
-            <fui-country-selector [(value)]="country"></fui-country-selector>
             <fui-form-input
               name="phoneNumber"
               tanstack-app-field
               [tanstackField]="phoneForm"
-              label="{{ phoneNumberLabel() }}"
-            ></fui-form-input>
+              [label]="phoneNumberLabel()"
+              type="tel"
+            >
+              <fui-country-selector [(value)]="country" ngProjectAs="input-before" />
+            </fui-form-input>
           </fieldset>
           <fieldset>
             <div class="fui-recaptcha-container" #recaptchaContainer></div>
           </fieldset>
-          <fui-policies />
           <fieldset>
             <fui-form-submit [state]="phoneState()">
               {{ sendCodeLabel() }}
@@ -91,10 +95,11 @@ import {
               name="verificationCode"
               tanstack-app-field
               [tanstackField]="verificationForm"
-              label="{{ verificationCodeLabel() }}"
+              [label]="verificationCodeLabel()"
+              [description]="smsVerificationPrompt()"
+              type="text"
             ></fui-form-input>
           </fieldset>
-          <fui-policies />
           <fieldset>
             <fui-form-submit [state]="verificationState()">
               {{ verifyCodeLabel() }}
@@ -106,6 +111,11 @@ import {
     </div>
   `,
 })
+/**
+ * A form component for SMS multi-factor authentication enrollment.
+ *
+ * Manages the flow between phone number entry and verification code entry for MFA enrollment.
+ */
 export class SmsMultiFactorEnrollmentFormComponent {
   private ui = injectUI();
   private phoneFormSchema = injectMultiFactorPhoneAuthNumberFormSchema();
@@ -121,9 +131,10 @@ export class SmsMultiFactorEnrollmentFormComponent {
   sendCodeLabel = injectTranslation("labels", "sendCode");
   verificationCodeLabel = injectTranslation("labels", "verificationCode");
   verifyCodeLabel = injectTranslation("labels", "verifyCode");
-  unknownErrorLabel = injectTranslation("errors", "unknownError");
+  smsVerificationPrompt = injectTranslation("prompts", "smsVerificationPrompt");
 
-  onEnrollment = output<void>();
+  /** Event emitter fired when MFA enrollment is completed. */
+  @Output() onEnrollment = new EventEmitter<void>();
 
   recaptchaContainer = viewChild.required<ElementRef<HTMLDivElement>>("recaptchaContainer");
 
@@ -146,6 +157,10 @@ export class SmsMultiFactorEnrollmentFormComponent {
   verificationState = injectStore(this.verificationForm, (state) => state);
 
   constructor() {
+    if (!this.ui().auth.currentUser) {
+      throw new Error("User must be authenticated to enroll with multi-factor authentication");
+    }
+
     effect(() => {
       this.phoneForm.update({
         validators: {
@@ -153,16 +168,12 @@ export class SmsMultiFactorEnrollmentFormComponent {
           onSubmit: this.phoneFormSchema(),
           onSubmitAsync: async ({ value }) => {
             try {
-              const currentUser = this.ui().auth.currentUser;
-              if (!currentUser) {
-                throw new Error("User must be authenticated to enroll with multi-factor authentication");
-              }
-
               const verifier = this.recaptchaVerifier();
               if (!verifier) {
-                return this.unknownErrorLabel();
+                return "Recaptcha verifier not available";
               }
 
+              const currentUser = this.ui().auth.currentUser!;
               const mfaUser = multiFactor(currentUser);
               const formattedPhoneNumber = formatPhoneNumber(value.phoneNumber, this.defaultCountry());
               const verificationId = await verifyPhoneNumber(this.ui(), formattedPhoneNumber, verifier, mfaUser);
@@ -171,12 +182,7 @@ export class SmsMultiFactorEnrollmentFormComponent {
               this.verificationId.set(verificationId);
               return;
             } catch (error) {
-              if (error instanceof FirebaseUIError) {
-                return error.message;
-              }
-
-              console.error(error);
-              return this.unknownErrorLabel();
+              return error instanceof FirebaseUIError ? error.message : String(error);
             }
           },
         },
@@ -196,13 +202,7 @@ export class SmsMultiFactorEnrollmentFormComponent {
               this.onEnrollment.emit();
               return;
             } catch (error) {
-              if (error instanceof FirebaseUIError) {
-                return error.message;
-              }
-              if (error instanceof Error) {
-                return error.message;
-              }
-              return this.unknownErrorLabel();
+              return error instanceof FirebaseUIError ? error.message : String(error);
             }
           },
         },

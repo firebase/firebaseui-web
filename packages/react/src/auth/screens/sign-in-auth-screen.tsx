@@ -14,24 +14,40 @@
  * limitations under the License.
  */
 
-import type { PropsWithChildren } from "react";
 import { getTranslation } from "@firebase-oss/ui-core";
+import type { User } from "firebase/auth";
+import type { PropsWithChildren } from "react";
 import { Divider } from "~/components/divider";
-import { useUI } from "~/hooks";
+import { RedirectError } from "~/components/redirect-error";
+import { useOnUserAuthenticated, useUI } from "~/hooks";
 import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "../../components/card";
 import { SignInAuthForm, type SignInAuthFormProps } from "../forms/sign-in-auth-form";
-import { MultiFactorAuthAssertionForm } from "../forms/multi-factor-auth-assertion-form";
-import { RedirectError } from "~/components/redirect-error";
+import { MultiFactorAuthAssertionScreen } from "./multi-factor-auth-assertion-screen";
 
-export type SignInAuthScreenProps = PropsWithChildren<SignInAuthFormProps>;
+/** Props for the SignInAuthScreen component. */
+export type SignInAuthScreenProps = PropsWithChildren<Omit<SignInAuthFormProps, "onSignIn">> & {
+  /** Callback function called when sign-in is successful. */
+  onSignIn?: (user: User) => void;
+};
 
-export function SignInAuthScreen({ children, ...props }: SignInAuthScreenProps) {
+/**
+ * A screen component for signing in with email and password.
+ *
+ * Displays a card with the sign-in form and handles multi-factor authentication if required.
+ *
+ * @returns The sign-in screen component.
+ */
+export function SignInAuthScreen({ children, onSignIn, ...props }: SignInAuthScreenProps) {
   const ui = useUI();
 
   const titleText = getTranslation(ui, "labels", "signIn");
   const subtitleText = getTranslation(ui, "prompts", "signInToAccount");
 
-  const mfaResolver = ui.multiFactorResolver;
+  useOnUserAuthenticated(onSignIn);
+
+  if (ui.multiFactorResolver) {
+    return <MultiFactorAuthAssertionScreen />;
+  }
 
   return (
     <div className="fui-screen">
@@ -41,22 +57,16 @@ export function SignInAuthScreen({ children, ...props }: SignInAuthScreenProps) 
           <CardSubtitle>{subtitleText}</CardSubtitle>
         </CardHeader>
         <CardContent>
-          {mfaResolver ? (
-            <MultiFactorAuthAssertionForm />
-          ) : (
+          <SignInAuthForm {...props} />
+          {children ? (
             <>
-              <SignInAuthForm {...props} />
-              {children ? (
-                <>
-                  <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>
-                  <div className="fui-screen__children">
-                    {children}
-                    <RedirectError />
-                  </div>
-                </>
-              ) : null}
+              <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>
+              <div className="fui-screen__children">
+                {children}
+                <RedirectError />
+              </div>
             </>
-          )}
+          ) : null}
         </CardContent>
       </Card>
     </div>

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, output } from "@angular/core";
+import { Component, Output, EventEmitter } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   CardComponent,
@@ -25,11 +25,13 @@ import {
 } from "../../components/card";
 import { injectTranslation } from "../../provider";
 import { ForgotPasswordAuthFormComponent } from "../forms/forgot-password-auth-form";
-import { RedirectErrorComponent } from "../../components/redirect-error";
 
 @Component({
   selector: "fui-forgot-password-auth-screen",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     CardComponent,
@@ -38,7 +40,6 @@ import { RedirectErrorComponent } from "../../components/redirect-error";
     CardSubtitleComponent,
     CardContentComponent,
     ForgotPasswordAuthFormComponent,
-    RedirectErrorComponent,
   ],
   template: `
     <div class="fui-screen">
@@ -48,17 +49,21 @@ import { RedirectErrorComponent } from "../../components/redirect-error";
           <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
         </fui-card-header>
         <fui-card-content>
-          <fui-forgot-password-auth-form (passwordSent)="passwordSent.emit()" (backToSignIn)="backToSignIn.emit()" />
-          <fui-redirect-error />
+          <fui-forgot-password-auth-form [backToSignIn]="backToSignIn" (passwordSent)="passwordSent.emit()" />
         </fui-card-content>
       </fui-card>
     </div>
   `,
 })
+/**
+ * A screen component for requesting a password reset.
+ */
 export class ForgotPasswordAuthScreenComponent {
   titleText = injectTranslation("labels", "resetPassword");
   subtitleText = injectTranslation("prompts", "enterEmailToReset");
 
-  passwordSent = output<void>();
-  backToSignIn = output<void>();
+  /** Event emitter fired when password reset email is sent. */
+  @Output() passwordSent = new EventEmitter<void>();
+  /** Event emitter for back to sign in action. */
+  @Output() backToSignIn = new EventEmitter<void>();
 }

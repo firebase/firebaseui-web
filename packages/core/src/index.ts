@@ -15,18 +15,18 @@
  * limitations under the License.
  */
 
-import { registerFramework } from "./register-framework";
 import pkgJson from "../package.json";
+import { registerFramework } from "./register-framework";
 
 export * from "./auth";
 export * from "./behaviors";
 export * from "./config";
-export * from "./errors";
-export * from "./schemas";
 export * from "./country-data";
-export * from "./translations";
+export * from "./errors";
 export * from "./register-framework";
+export * from "./schemas";
+export * from "./translations";
 
-if (import.meta.env.PROD) {
+if (import.meta.env?.PROD) {
   registerFramework("core", pkgJson.version);
 }

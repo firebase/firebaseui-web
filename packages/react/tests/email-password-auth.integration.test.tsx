@@ -148,7 +148,7 @@ describe.skip("TODO");
 
 //     await waitFor(
 //       () => {
-//         expect(container.querySelector(".fui-form__error")).not.toBeNull();
+//         expect(container.querySelector(".fui-error")).not.toBeNull();
 //       },
 //       { timeout: 5000 }
 //     );
@@ -186,7 +186,7 @@ describe.skip("TODO");
 
 //     await waitFor(
 //       () => {
-//         expect(container.querySelector(".fui-form__error")).not.toBeNull();
+//         expect(container.querySelector(".fui-error")).not.toBeNull();
 //       },
 //       { timeout: 5000 }
 //     );

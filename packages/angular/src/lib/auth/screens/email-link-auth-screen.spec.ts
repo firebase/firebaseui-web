@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-import { render, screen } from "@testing-library/angular";
-import { Component } from "@angular/core";
+import { render, screen, fireEvent } from "@testing-library/angular";
+import { Component, EventEmitter } from "@angular/core";
+import { Subject } from "rxjs";
+import { User } from "@angular/fire/auth";
 
 import { EmailLinkAuthScreenComponent } from "./email-link-auth-screen";
 import {
@@ -41,6 +43,21 @@ class MockEmailLinkAuthFormComponent {}
 class MockRedirectErrorComponent {}
 
 @Component({
+  selector: "fui-multi-factor-auth-assertion-screen",
+  template: `
+    <div data-testid="mfa-assertion-screen">MFA Assertion Screen</div>
+    <button data-testid="mfa-on-success" (click)="onSuccess.emit({ user: { uid: 'mfa-user' } })">
+      Trigger MFA Success
+    </button>
+  `,
+  standalone: true,
+  outputs: ["onSuccess"],
+})
+class MockMultiFactorAuthAssertionScreenComponent {
+  onSuccess = new EventEmitter<any>();
+}
+
+@Component({
   template: `
     <fui-email-link-auth-screen>
       <div data-testid="projected-content">Test Content</div>
@@ -59,8 +76,25 @@ class TestHostWithContentComponent {}
 class TestHostWithoutContentComponent {}
 
 describe("<fui-email-link-auth-screen>", () => {
+  let authStateSubject: Subject<User | null>;
+  let userAuthenticatedCallback: ((user: User) => void) | null = null;
+
   beforeEach(() => {
-    const { injectTranslation } = require("../../../provider");
+    authStateSubject = new Subject<User | null>();
+
+    const { injectTranslation, injectUI, injectUserAuthenticated } = require("../../../provider");
+
+    // Mock injectUserAuthenticated to store the callback and set up subscription
+    injectUserAuthenticated.mockImplementation((callback: (user: User) => void) => {
+      userAuthenticatedCallback = callback;
+      const subscription = authStateSubject.subscribe((user) => {
+        if (user && !user.isAnonymous && userAuthenticatedCallback) {
+          userAuthenticatedCallback(user);
+        }
+      });
+      return subscription;
+    });
+
     injectTranslation.mockImplementation((category: string, key: string) => {
       const mockTranslations: Record<string, Record<string, string>> = {
         labels: {
@@ -72,6 +106,18 @@ describe("<fui-email-link-auth-screen>", () => {
       };
       return () => mockTranslations[category]?.[key] || `${category}.${key}`;
     });
+
+    injectUI.mockImplementation(() => () => ({
+      multiFactorResolver: null,
+      setMultiFactorResolver: jest.fn(),
+    }));
+  });
+
+  afterEach(() => {
+    userAuthenticatedCallback = null;
+    authStateSubject.complete();
+    authStateSubject = new Subject<User | null>();
+    jest.clearAllMocks();
   });
 
   it("renders with correct title and subtitle", async () => {
@@ -187,5 +233,167 @@ describe("<fui-email-link-auth-screen>", () => {
 
     expect(injectTranslation).toHaveBeenCalledWith("labels", "signIn");
     expect(injectTranslation).toHaveBeenCalledWith("prompts", "signInToAccount");
+  });
+
+  it("renders MFA assertion form when MFA resolver is present", async () => {
+    const { injectUI } = require("../../../provider");
+    injectUI.mockImplementation(() => () => ({
+      multiFactorResolver: { auth: {}, session: null, hints: [] },
+      setMultiFactorResolver: jest.fn(),
+    }));
+
+    const { container } = await render(TestHostWithoutContentComponent, {
+      imports: [
+        EmailLinkAuthScreenComponent,
+        MockEmailLinkAuthFormComponent,
+        MockMultiFactorAuthAssertionScreenComponent,
+        MockRedirectErrorComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
+
+    // Check for the MFA screen element by its selector
+    expect(container.querySelector("fui-multi-factor-auth-assertion-screen")).toBeInTheDocument();
+  });
+
+  it("emits signIn when MFA flow succeeds and user authenticates", async () => {
+    const { injectUI } = require("../../../provider");
+    injectUI.mockImplementation(() => () => ({
+      multiFactorResolver: { auth: {}, session: null, hints: [] },
+      setMultiFactorResolver: jest.fn(),
+    }));
+
+    const { fixture } = await render(TestHostWithoutContentComponent, {
+      imports: [
+        EmailLinkAuthScreenComponent,
+        MockEmailLinkAuthFormComponent,
+        MockMultiFactorAuthAssertionScreenComponent,
+        MockRedirectErrorComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
+
+    const component = fixture.debugElement.query((el) => el.name === "fui-email-link-auth-screen").componentInstance;
+    const signInSpy = jest.spyOn(component.signIn, "emit");
+
+    // Simulate user authenticating after MFA flow succeeds
+    const mockUser = {
+      uid: "mfa-user",
+      email: "email-link@example.com",
+      isAnonymous: false,
+    } as User;
+
+    // Emit the user through the authState observable (simulating auth state change after MFA)
+    authStateSubject.next(mockUser);
+
+    // Wait for Angular's change detection and effect to run
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(signInSpy).toHaveBeenCalledTimes(1);
+    expect(signInSpy).toHaveBeenCalledWith(mockUser);
+  });
+
+  it("emits signIn when a non-anonymous user authenticates", async () => {
+    const { fixture } = await render(TestHostWithoutContentComponent, {
+      imports: [
+        EmailLinkAuthScreenComponent,
+        MockEmailLinkAuthFormComponent,
+        MockRedirectErrorComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
+
+    const component = fixture.debugElement.query((el) => el.name === "fui-email-link-auth-screen").componentInstance;
+    const signInSpy = jest.spyOn(component.signIn, "emit");
+
+    // Simulate a user authenticating
+    const mockUser = {
+      uid: "test-user-123",
+      email: "test@example.com",
+      isAnonymous: false,
+    } as User;
+
+    // Emit the user through the authState observable
+    authStateSubject.next(mockUser);
+
+    // Wait for Angular's change detection and effect to run
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(signInSpy).toHaveBeenCalledTimes(1);
+    expect(signInSpy).toHaveBeenCalledWith(mockUser);
+  });
+
+  it("does not emit signIn for anonymous users", async () => {
+    const { fixture } = await render(TestHostWithoutContentComponent, {
+      imports: [
+        EmailLinkAuthScreenComponent,
+        MockEmailLinkAuthFormComponent,
+        MockRedirectErrorComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
+
+    const component = fixture.debugElement.query((el) => el.name === "fui-email-link-auth-screen").componentInstance;
+    const signInSpy = jest.spyOn(component.signIn, "emit");
+
+    // Simulate an anonymous user authenticating
+    const mockAnonymousUser = {
+      uid: "anonymous-user-123",
+      isAnonymous: true,
+    } as User;
+
+    // Emit the anonymous user through the authState observable
+    authStateSubject.next(mockAnonymousUser);
+
+    // Wait for Angular's change detection and effect to run
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(signInSpy).not.toHaveBeenCalled();
+  });
+
+  it("does not emit signIn when user is null", async () => {
+    const { fixture } = await render(TestHostWithoutContentComponent, {
+      imports: [
+        EmailLinkAuthScreenComponent,
+        MockEmailLinkAuthFormComponent,
+        MockRedirectErrorComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
+
+    const component = fixture.debugElement.query((el) => el.name === "fui-email-link-auth-screen").componentInstance;
+    const signInSpy = jest.spyOn(component.signIn, "emit");
+
+    // Emit null (no user) through the authState observable
+    authStateSubject.next(null);
+
+    // Wait for Angular's change detection and effect to run
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(signInSpy).not.toHaveBeenCalled();
   });
 });

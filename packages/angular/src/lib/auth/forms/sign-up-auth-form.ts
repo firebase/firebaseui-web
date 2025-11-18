@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, output, effect, computed } from "@angular/core";
+import { Component, Output, EventEmitter, input, effect, computed } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanstack/angular-form";
 import { FirebaseUIError, createUserWithEmailAndPassword, hasBehavior } from "@firebase-oss/ui-core";
@@ -31,6 +31,10 @@ import {
 
 @Component({
   selector: "fui-sign-up-auth-form",
+  standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     TanStackField,
@@ -45,23 +49,18 @@ import {
     <form (submit)="handleSubmit($event)" class="fui-form">
       @if (requireDisplayNameField()) {
         <fieldset>
-          <fui-form-input
-            name="displayName"
-            tanstack-app-field
-            [tanstackField]="form"
-            label="{{ displayNameLabel() }}"
-          />
+          <fui-form-input name="displayName" tanstack-app-field [tanstackField]="form" [label]="displayNameLabel()" />
         </fieldset>
       }
       <fieldset>
-        <fui-form-input name="email" tanstack-app-field [tanstackField]="form" label="{{ emailLabel() }}" />
+        <fui-form-input name="email" tanstack-app-field [tanstackField]="form" [label]="emailLabel()" type="email" />
       </fieldset>
       <fieldset>
         <fui-form-input
           name="password"
           tanstack-app-field
           [tanstackField]="form"
-          label="{{ passwordLabel() }}"
+          [label]="passwordLabel()"
           type="password"
         />
       </fieldset>
@@ -73,13 +72,17 @@ import {
         <fui-form-error-message [state]="state()" />
       </fieldset>
 
-      @if (signIn) {
-        <button fui-form-action (click)="signIn.emit()">{{ haveAccountLabel() }} {{ signInLabel() }} &rarr;</button>
+      @if (signIn()?.observed) {
+        <button fui-form-action (click)="signIn()?.emit()">{{ haveAccountLabel() }} {{ signInLabel() }}</button>
       }
     </form>
   `,
-  standalone: true,
 })
+/**
+ * A form component for signing up with email and password.
+ *
+ * Optionally includes a display name field if the requireDisplayName behavior is enabled.
+ */
 export class SignUpAuthFormComponent {
   private ui = injectUI();
   private formSchema = injectSignUpAuthFormSchema();
@@ -96,8 +99,11 @@ export class SignUpAuthFormComponent {
   signInLabel = injectTranslation("labels", "signIn");
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
-  signUp = output<UserCredential>();
-  signIn = output<void>();
+  /** Event emitter for sign in action. */
+  signIn = input<EventEmitter<void>>();
+
+  /** Event emitter for successful sign-up. */
+  @Output() signUp = new EventEmitter<UserCredential>();
 
   form = injectForm({
     defaultValues: {
@@ -120,7 +126,6 @@ export class SignUpAuthFormComponent {
       this.form.update({
         validators: {
           onBlur: this.formSchema(),
-          onSubmit: this.formSchema(),
           onSubmitAsync: async ({ value }) => {
             try {
               const credential = await createUserWithEmailAndPassword(
@@ -129,13 +134,14 @@ export class SignUpAuthFormComponent {
                 value.password,
                 value.displayName
               );
-              this.signUp?.emit(credential);
+              this.signUp.emit(credential);
               return;
             } catch (error) {
               if (error instanceof FirebaseUIError) {
                 return error.message;
               }
 
+              console.error(error);
               return this.unknownErrorLabel();
             }
           },

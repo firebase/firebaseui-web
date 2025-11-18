@@ -1,8 +1,25 @@
+/**
+ * Copyright 2025 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import { describe, it, expect, vi } from "vitest";
 import { createMockUI } from "~/tests/utils";
 import {
   createEmailLinkAuthFormSchema,
   createForgotPasswordAuthFormSchema,
+  createMultiFactorPhoneAuthAssertionFormSchema,
   createPhoneAuthNumberFormSchema,
   createPhoneAuthVerifyFormSchema,
   createSignInAuthFormSchema,
@@ -307,5 +324,75 @@ describe("createPhoneAuthVerifyFormSchema", () => {
         (issue) => issue.message === "createPhoneAuthVerifyFormSchema + invalidVerificationCode"
       )
     ).toBe(true);
+  });
+});
+
+describe("createMultiFactorPhoneAuthAssertionFormSchema", () => {
+  it("should create a multi-factor phone auth assertion form schema and show missing phone number error", () => {
+    const testLocale = registerLocale("test", {
+      errors: {
+        missingPhoneNumber: "createMultiFactorPhoneAuthAssertionFormSchema + missingPhoneNumber",
+      },
+    });
+
+    const mockUI = createMockUI({
+      locale: testLocale,
+    });
+
+    const schema = createMultiFactorPhoneAuthAssertionFormSchema(mockUI);
+
+    const result = schema.safeParse({
+      phoneNumber: "",
+    });
+
+    expect(result.success).toBe(false);
+    expect(result.error).toBeDefined();
+    expect(result.error?.issues[0]?.message).toBe("createMultiFactorPhoneAuthAssertionFormSchema + missingPhoneNumber");
+  });
+
+  it("should create a multi-factor phone auth assertion form schema and show an error if the phone number is too long", () => {
+    const testLocale = registerLocale("test", {
+      errors: {
+        invalidPhoneNumber: "createMultiFactorPhoneAuthAssertionFormSchema + invalidPhoneNumber",
+      },
+    });
+
+    const mockUI = createMockUI({
+      locale: testLocale,
+    });
+
+    const schema = createMultiFactorPhoneAuthAssertionFormSchema(mockUI);
+
+    const result = schema.safeParse({
+      phoneNumber: "12345678901",
+    });
+
+    expect(result.success).toBe(false);
+    expect(result.error).toBeDefined();
+    expect(result.error?.issues[0]?.message).toBe("createMultiFactorPhoneAuthAssertionFormSchema + invalidPhoneNumber");
+  });
+
+  it("should accept valid phone number without requiring displayName", () => {
+    const testLocale = registerLocale("test", {
+      errors: {
+        missingPhoneNumber: "missing",
+        invalidPhoneNumber: "invalid",
+      },
+    });
+
+    const mockUI = createMockUI({
+      locale: testLocale,
+    });
+
+    const schema = createMultiFactorPhoneAuthAssertionFormSchema(mockUI);
+
+    const result = schema.safeParse({
+      phoneNumber: "1234567890",
+    });
+
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data).toEqual({ phoneNumber: "1234567890" });
+    }
   });
 });

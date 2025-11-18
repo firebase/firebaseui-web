@@ -23,6 +23,9 @@
     <title>Vite + React</title>
   </head>
   <body class="dark:bg-neutral-900 dark:text-white">
+    <script>
+      document.documentElement.classList.toggle("dark", localStorage.theme === "dark" || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches));
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
    <link rel="stylesheet" href="src/index.css">

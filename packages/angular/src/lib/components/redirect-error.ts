@@ -21,12 +21,20 @@ import { injectRedirectError } from "../provider";
   selector: "fui-redirect-error",
   standalone: true,
   imports: [CommonModule],
+  host: {
+    style: "display: block;",
+  },
   template: `
     @if (error()) {
-      <div class="fui-form__error">{{ error() }}</div>
+      <div class="fui-error">{{ error() }}</div>
     }
   `,
 })
+/**
+ * A component that displays redirect error messages.
+ *
+ * Shows errors that occurred during OAuth redirect flows.
+ */
 export class RedirectErrorComponent {
   error = injectRedirectError();
 }

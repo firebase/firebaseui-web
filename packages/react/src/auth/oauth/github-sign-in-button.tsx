@@ -17,28 +17,43 @@
 "use client";
 
 import { getTranslation } from "@firebase-oss/ui-core";
-import { GithubAuthProvider } from "firebase/auth";
-import { useUI } from "~/hooks";
-import { OAuthButton } from "./oauth-button";
+import { GithubAuthProvider, type UserCredential } from "firebase/auth";
 import GitHubSvgLogo from "~/components/logos/github/Logo";
+import { useUI } from "~/hooks";
 import { cn } from "~/utils/cn";
+import { OAuthButton } from "./oauth-button";
 
+/** Props for the GitHubSignInButton component. */
 export type GitHubSignInButtonProps = {
+  /** Optional OAuth provider instance. Defaults to GitHub provider. */
   provider?: GithubAuthProvider;
+  /** Whether to apply themed styling. */
   themed?: boolean;
+  /** Callback function called when sign-in is successful. */
+  onSignIn?: (credential: UserCredential) => void;
 };
 
-export function GitHubSignInButton({ provider, themed }: GitHubSignInButtonProps) {
+/**
+ * A button component for signing in with GitHub.
+ *
+ * @returns The GitHub sign-in button component.
+ */
+export function GitHubSignInButton({ provider, ...props }: GitHubSignInButtonProps) {
   const ui = useUI();
 
   return (
-    <OAuthButton provider={provider || new GithubAuthProvider()} themed={themed}>
+    <OAuthButton {...props} provider={provider || new GithubAuthProvider()}>
       <GitHubLogo />
       <span>{getTranslation(ui, "labels", "signInWithGitHub")}</span>
     </OAuthButton>
   );
 }
 
+/**
+ * The GitHub logo SVG component.
+ *
+ * @returns The GitHub logo component.
+ */
 export function GitHubLogo({ className, ...props }: React.SVGProps<SVGSVGElement>) {
   return <GitHubSvgLogo className={cn("fui-provider__icon", className)} {...props} />;
 }

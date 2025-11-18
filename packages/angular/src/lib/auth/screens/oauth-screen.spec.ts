@@ -15,8 +15,10 @@
  */
 
 import { render, screen } from "@testing-library/angular";
-import { Component } from "@angular/core";
+import { Component, EventEmitter } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
+import { Subject } from "rxjs";
+import { User } from "@angular/fire/auth";
 
 import { OAuthScreenComponent } from "./oauth-screen";
 import {
@@ -26,6 +28,7 @@ import {
   CardSubtitleComponent,
   CardContentComponent,
 } from "../../components/card";
+import { MultiFactorAuthAssertionScreenComponent } from "../screens/multi-factor-auth-assertion-screen";
 import { MultiFactorAuthAssertionFormComponent } from "../forms/multi-factor-auth-assertion-form";
 import { ContentComponent } from "../../components/content";
 
@@ -34,6 +37,7 @@ jest.mock("../../../provider", () => ({
   injectPolicies: jest.fn(),
   injectRedirectError: jest.fn(),
   injectUI: jest.fn(),
+  injectUserAuthenticated: jest.fn(),
 }));
 
 @Component({
@@ -49,13 +53,6 @@ class MockPoliciesComponent {}
   standalone: true,
 })
 class MockRedirectErrorComponent {}
-
-@Component({
-  selector: "fui-multi-factor-auth-assertion-form",
-  template: '<div data-testid="mfa-assertion-form">MFA Assertion Form</div>',
-  standalone: true,
-})
-class MockMultiFactorAuthAssertionFormComponent {}
 
 @Component({
   template: `
@@ -87,9 +84,42 @@ class TestHostWithMultipleProvidersComponent {}
 })
 class TestHostWithoutContentComponent {}
 
+@Component({
+  selector: "fui-multi-factor-auth-assertion-screen",
+  template: '<div data-testid="mfa-assertion-screen">MFA Assertion Screen</div>',
+  standalone: true,
+  outputs: ["onSuccess"],
+})
+class MockMultiFactorAuthAssertionScreenComponent {
+  onSuccess = new EventEmitter();
+}
+
 describe("<fui-oauth-screen>", () => {
+  let authStateSubject: Subject<User | null>;
+  let userAuthenticatedCallback: ((user: User) => void) | null = null;
+
   beforeEach(() => {
-    const { injectTranslation, injectPolicies, injectRedirectError, injectUI } = require("../../../provider");
+    authStateSubject = new Subject<User | null>();
+
+    const {
+      injectTranslation,
+      injectPolicies,
+      injectRedirectError,
+      injectUI,
+      injectUserAuthenticated,
+    } = require("../../../provider");
+
+    // Mock injectUserAuthenticated to store the callback and set up subscription
+    injectUserAuthenticated.mockImplementation((callback: (user: User) => void) => {
+      userAuthenticatedCallback = callback;
+      const subscription = authStateSubject.subscribe((user) => {
+        if (user && !user.isAnonymous && userAuthenticatedCallback) {
+          userAuthenticatedCallback(user);
+        }
+      });
+      return subscription;
+    });
+
     injectTranslation.mockImplementation((category: string, key: string) => {
       const mockTranslations: Record<string, Record<string, string>> = {
         labels: {
@@ -118,13 +148,20 @@ describe("<fui-oauth-screen>", () => {
     });
   });
 
+  afterEach(() => {
+    userAuthenticatedCallback = null;
+    authStateSubject.complete();
+    authStateSubject = new Subject<User | null>();
+    jest.clearAllMocks();
+  });
+
   it("renders with correct title and subtitle", async () => {
     await render(TestHostWithoutContentComponent, {
       imports: [
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
-        MockMultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -144,7 +181,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
-        MockMultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -164,7 +201,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
-        MockMultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -185,7 +222,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
-        MockMultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -210,7 +247,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
-        MockMultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -230,7 +267,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
-        MockMultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -255,7 +292,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
-        MockMultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -269,17 +306,17 @@ describe("<fui-oauth-screen>", () => {
     expect(injectTranslation).toHaveBeenCalledWith("prompts", "signInToAccount");
   });
 
-  it("renders MFA assertion form when multiFactorResolver is present", async () => {
+  it("renders MFA assertion screen when multiFactorResolver is present", async () => {
     const { injectUI } = require("../../../provider");
     injectUI.mockImplementation(() => {
       return () => ({
-        multiFactorResolver: { hints: [] },
+        multiFactorResolver: { auth: {}, session: null, hints: [] },
       });
     });
 
-    TestBed.overrideComponent(MultiFactorAuthAssertionFormComponent, {
+    TestBed.overrideComponent(MultiFactorAuthAssertionScreenComponent, {
       set: {
-        template: '<div data-testid="mfa-assertion-form">MFA Assertion Form</div>',
+        template: '<div data-testid="mfa-assertion-screen">MFA Assertion Screen</div>',
       },
     });
 
@@ -288,7 +325,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
-        MockMultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -298,7 +335,7 @@ describe("<fui-oauth-screen>", () => {
       ],
     });
 
-    expect(screen.getByTestId("mfa-assertion-form")).toBeInTheDocument();
+    expect(screen.getByTestId("mfa-assertion-screen")).toBeInTheDocument();
     expect(screen.queryByTestId("policies")).not.toBeInTheDocument();
   });
 
@@ -306,13 +343,13 @@ describe("<fui-oauth-screen>", () => {
     const { injectUI } = require("../../../provider");
     injectUI.mockImplementation(() => {
       return () => ({
-        multiFactorResolver: { hints: [] },
+        multiFactorResolver: { auth: {}, session: null, hints: [] },
       });
     });
 
-    TestBed.overrideComponent(MultiFactorAuthAssertionFormComponent, {
+    TestBed.overrideComponent(MultiFactorAuthAssertionScreenComponent, {
       set: {
-        template: '<div data-testid="mfa-assertion-form">MFA Assertion Form</div>',
+        template: '<div data-testid="mfa-assertion-screen">MFA Assertion Screen</div>',
       },
     });
 
@@ -321,7 +358,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
-        MockMultiFactorAuthAssertionFormComponent,
+        MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
         CardTitleComponent,
@@ -332,6 +369,157 @@ describe("<fui-oauth-screen>", () => {
     });
 
     expect(screen.queryByTestId("policies")).not.toBeInTheDocument();
-    expect(screen.getByTestId("mfa-assertion-form")).toBeInTheDocument();
+    expect(screen.getByTestId("mfa-assertion-screen")).toBeInTheDocument();
+  });
+
+  it("emits onSignIn when MFA flow succeeds and user authenticates", async () => {
+    const { injectUI } = require("../../../provider");
+    injectUI.mockImplementation(() => {
+      return () => ({
+        multiFactorResolver: { auth: {}, session: null, hints: [{ factorId: "totp", uid: "test" }] },
+      });
+    });
+
+    TestBed.overrideComponent(MultiFactorAuthAssertionScreenComponent, {
+      set: {
+        template: '<div data-testid="mfa-assertion-screen">MFA Assertion Screen</div>',
+      },
+    });
+
+    const { fixture } = await render(TestHostWithoutContentComponent, {
+      imports: [
+        OAuthScreenComponent,
+        MockPoliciesComponent,
+        MockRedirectErrorComponent,
+        MultiFactorAuthAssertionScreenComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+        ContentComponent,
+      ],
+    });
+
+    const component = fixture.debugElement.query((el) => el.name === "fui-oauth-screen").componentInstance;
+    const onSignInSpy = jest.spyOn(component.onSignIn, "emit");
+
+    // Simulate user authenticating after MFA flow succeeds
+    const mockUser = {
+      uid: "angular-oauth-mfa-user",
+      email: "oauth@example.com",
+      isAnonymous: false,
+    } as User;
+
+    // Emit the user through the authState observable (simulating auth state change after MFA)
+    authStateSubject.next(mockUser);
+
+    // Wait for Angular's change detection and effect to run
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(onSignInSpy).toHaveBeenCalledTimes(1);
+    expect(onSignInSpy).toHaveBeenCalledWith(mockUser);
+  });
+
+  it("emits onSignIn when a non-anonymous user authenticates", async () => {
+    const { fixture } = await render(TestHostWithoutContentComponent, {
+      imports: [
+        OAuthScreenComponent,
+        MockPoliciesComponent,
+        MockRedirectErrorComponent,
+        MultiFactorAuthAssertionScreenComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+        ContentComponent,
+      ],
+    });
+
+    const component = fixture.debugElement.query((el) => el.name === "fui-oauth-screen").componentInstance;
+    const onSignInSpy = jest.spyOn(component.onSignIn, "emit");
+
+    // Simulate a user authenticating
+    const mockUser = {
+      uid: "test-user-123",
+      email: "test@example.com",
+      isAnonymous: false,
+    } as User;
+
+    // Emit the user through the authState observable
+    authStateSubject.next(mockUser);
+
+    // Wait for Angular's change detection and effect to run
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(onSignInSpy).toHaveBeenCalledTimes(1);
+    expect(onSignInSpy).toHaveBeenCalledWith(mockUser);
+  });
+
+  it("does not emit onSignIn for anonymous users", async () => {
+    const { fixture } = await render(TestHostWithoutContentComponent, {
+      imports: [
+        OAuthScreenComponent,
+        MockPoliciesComponent,
+        MockRedirectErrorComponent,
+        MultiFactorAuthAssertionScreenComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+        ContentComponent,
+      ],
+    });
+
+    const component = fixture.debugElement.query((el) => el.name === "fui-oauth-screen").componentInstance;
+    const onSignInSpy = jest.spyOn(component.onSignIn, "emit");
+
+    // Simulate an anonymous user authenticating
+    const mockAnonymousUser = {
+      uid: "anonymous-user-123",
+      isAnonymous: true,
+    } as User;
+
+    // Emit the anonymous user through the authState observable
+    authStateSubject.next(mockAnonymousUser);
+
+    // Wait for Angular's change detection and effect to run
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(onSignInSpy).not.toHaveBeenCalled();
+  });
+
+  it("does not emit onSignIn when user is null", async () => {
+    const { fixture } = await render(TestHostWithoutContentComponent, {
+      imports: [
+        OAuthScreenComponent,
+        MockPoliciesComponent,
+        MockRedirectErrorComponent,
+        MultiFactorAuthAssertionScreenComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+        ContentComponent,
+      ],
+    });
+
+    const component = fixture.debugElement.query((el) => el.name === "fui-oauth-screen").componentInstance;
+    const onSignInSpy = jest.spyOn(component.onSignIn, "emit");
+
+    // Emit null (no user) through the authState observable
+    authStateSubject.next(null);
+
+    // Wait for Angular's change detection and effect to run
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(onSignInSpy).not.toHaveBeenCalled();
   });
 });

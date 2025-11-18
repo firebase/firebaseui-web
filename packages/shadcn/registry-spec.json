@@ -1,10 +1,13 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
-  "name": "acme",
+  "name": "firebase-ui",
   "homepage": "{{ DOMAIN }}",
   "items": [
     {
       "name": "apple-sign-in-button",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Apple Sign In Button",
       "description": "A button component for Apple OAuth authentication.",
@@ -12,7 +15,7 @@
       "registryDependencies": ["{{ DOMAIN }}/oauth-button.json"],
       "files": [
         {
-          "path": "src/registry/apple-sign-in-button.tsx",
+          "path": "src/components/apple-sign-in-button.tsx",
           "type": "registry:component"
         }
       ],
@@ -20,25 +23,24 @@
         "@layer components": {
           "button[data-provider='apple.com'][data-themed='true']": {
             "--apple-primary": "#000000",
-            "--color-primary": "var(--apple-primary)",
-            "--color-primary-hover": "--alpha(var(--apple-primary) / 85%)",
-            "--color-primary-surface": "#FFFFFF",
-            "--color-border": "var(--apple-primary)"
+            "--primary": "var(--apple-primary)",
+            "--primary-foreground": "var(--color-white)"
           }
         },
         "@variant dark": {
           "button[data-provider='apple.com'][data-themed='true']": {
             "--apple-primary": "var(--color-white)",
-            "--color-primary": "var(--apple-primary)",
-            "--color-primary-hover": "--alpha(var(--apple-primary) / 85%)",
-            "--color-primary-surface": "var(--color-black)",
-            "--color-border": "var(--color-white)"
+            "--primary": "var(--apple-primary)",
+            "--primary-foreground": "var(--color-black)"
           }
         }
       }
     },
     {
       "name": "country-selector",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Country Selector",
       "description": "A country selector component for phone number input with country codes and flags.",
@@ -46,13 +48,16 @@
       "registryDependencies": ["select"],
       "files": [
         {
-          "path": "src/registry/country-selector.tsx",
+          "path": "src/components/country-selector.tsx",
           "type": "registry:component"
         }
       ]
     },
     {
       "name": "email-link-auth-form",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Email Link Auth Form",
       "description": "A form allowing users to sign in via email link.",
@@ -60,13 +65,16 @@
       "registryDependencies": ["input", "button", "form", "{{ DOMAIN }}/policies.json"],
       "files": [
         {
-          "path": "src/registry/email-link-auth-form.tsx",
+          "path": "src/components/email-link-auth-form.tsx",
           "type": "registry:component"
         }
       ]
     },
     {
       "name": "email-link-auth-screen",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Email Link Auth Screen",
       "description": "A screen allowing users to sign in via email link.",
@@ -74,13 +82,16 @@
       "registryDependencies": ["separator", "card", "{{ DOMAIN }}/email-link-auth-form.json"],
       "files": [
         {
-          "path": "src/registry/email-link-auth-screen.tsx",
+          "path": "src/components/email-link-auth-screen.tsx",
           "type": "registry:component"
         }
       ]
     },
     {
       "name": "facebook-sign-in-button",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Facebook Sign In Button",
       "description": "A button component for Facebook OAuth authentication.",
@@ -88,7 +99,7 @@
       "registryDependencies": ["{{ DOMAIN }}/oauth-button.json"],
       "files": [
         {
-          "path": "src/registry/facebook-sign-in-button.tsx",
+          "path": "src/components/facebook-sign-in-button.tsx",
           "type": "registry:component"
         }
       ],
@@ -96,16 +107,17 @@
         "@layer components": {
           "button[data-provider='facebook.com'][data-themed='true']": {
             "--facebook-primary": "#1877F2",
-            "--color-primary": "var(--facebook-primary)",
-            "--color-primary-hover": "--alpha(var(--facebook-primary) / 85%)",
-            "--color-primary-surface": "var(--color-white)",
-            "--color-border": "var(--facebook-primary)"
+            "--primary": "var(--facebook-primary)",
+            "--primary-foreground": "var(--color-white)"
           }
         }
       }
     },
     {
       "name": "forgot-password-auth-form",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Forgot Password Auth Form",
       "description": "A form allowing users to reset their password via email.",
@@ -113,13 +125,16 @@
       "registryDependencies": ["input", "button", "form", "{{ DOMAIN }}/policies.json"],
       "files": [
         {
-          "path": "src/registry/forgot-password-auth-form.tsx",
+          "path": "src/components/forgot-password-auth-form.tsx",
           "type": "registry:component"
         }
       ]
     },
     {
       "name": "forgot-password-auth-screen",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Forgot Password Auth Screen",
       "description": "A screen allowing users to reset their password via email.",
@@ -127,13 +142,16 @@
       "registryDependencies": ["card", "{{ DOMAIN }}/forgot-password-auth-form.json"],
       "files": [
         {
-          "path": "src/registry/forgot-password-auth-screen.tsx",
+          "path": "src/components/forgot-password-auth-screen.tsx",
           "type": "registry:component"
         }
       ]
     },
     {
       "name": "github-sign-in-button",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "GitHub Sign In Button",
       "description": "A button component for GitHub OAuth authentication.",
@@ -141,7 +159,7 @@
       "registryDependencies": ["{{ DOMAIN }}/oauth-button.json"],
       "files": [
         {
-          "path": "src/registry/github-sign-in-button.tsx",
+          "path": "src/components/github-sign-in-button.tsx",
           "type": "registry:component"
         }
       ],
@@ -149,25 +167,24 @@
         "@layer components": {
           "button[data-provider='github.com'][data-themed='true']": {
             "--github-primary": "#000000",
-            "--color-primary": "var(--github-primary)",
-            "--color-primary-hover": "--alpha(var(--github-primary) / 85%)",
-            "--color-primary-surface": "#FFFFFF",
-            "--color-border": "var(--github-primary)"
+            "--primary": "var(--github-primary)",
+            "--primary-foreground": "var(--color-white)"
           }
         },
         "@variant dark": {
           "button[data-provider='github.com'][data-themed='true']": {
             "--github-primary": "var(--color-white)",
-            "--color-primary": "var(--github-primary)",
-            "--color-primary-hover": "--alpha(var(--github-primary) / 85%)",
-            "--color-primary-surface": "var(--color-black)",
-            "--color-border": "var(--color-white)"
+            "--primary": "var(--github-primary)",
+            "--primary-foreground": "var(--color-black)"
           }
         }
       }
     },
     {
       "name": "google-sign-in-button",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Google Sign In Button",
       "description": "A button component for Google OAuth authentication.",
@@ -175,7 +192,7 @@
       "registryDependencies": ["{{ DOMAIN }}/oauth-button.json"],
       "files": [
         {
-          "path": "src/registry/google-sign-in-button.tsx",
+          "path": "src/components/google-sign-in-button.tsx",
           "type": "registry:component"
         }
       ],
@@ -183,32 +200,29 @@
         "@layer components": {
           "button[data-provider='google.com'][data-themed='true']": {
             "--google-primary": "#131314",
-            "--color-primary": "var(--google-primary)",
-            "--color-primary-hover": "--alpha(var(--google-primary) / 85%)",
-            "--color-primary-surface": "#FFFFFF",
-            "--color-border": "var(--google-primary)"
+            "--primary": "var(--google-primary)",
+            "--primary-foreground": "var(--color-white)"
           },
           "button[data-provider='google.com'][data-themed='neutral']": {
             "--google-primary": "#F2F2F2",
-            "--color-primary": "var(--google-primary)",
-            "--color-primary-hover": "--alpha(var(--google-primary) / 85%)",
-            "--color-primary-surface": "#1F1F1F",
-            "--color-border": "transparent"
+            "--primary": "var(--google-primary)",
+            "--primary-foreground": "var(--color-black)"
           }
         },
         "@variant dark": {
           "button[data-provider='google.com'][data-themed='true']": {
             "--google-primary": "#FFFFFF",
-            "--color-primary": "var(--google-primary)",
-            "--color-primary-hover": "--alpha(var(--google-primary) / 85%)",
-            "--color-primary-surface": "#1F1F1F",
-            "--color-border": "#747775"
+            "--primary": "var(--google-primary)",
+            "--primary-foreground": "var(--color-black)"
           }
         }
       }
     },
     {
       "name": "microsoft-sign-in-button",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Microsoft Sign In Button",
       "description": "A button component for Microsoft OAuth authentication.",
@@ -216,7 +230,7 @@
       "registryDependencies": ["{{ DOMAIN }}/oauth-button.json"],
       "files": [
         {
-          "path": "src/registry/microsoft-sign-in-button.tsx",
+          "path": "src/components/microsoft-sign-in-button.tsx",
           "type": "registry:component"
         }
       ],
@@ -224,61 +238,83 @@
         "@layer components": {
           "button[data-provider='microsoft.com'][data-themed='true']": {
             "--microsoft-primary": "#2F2F2F",
-            "--color-primary": "var(--microsoft-primary)",
-            "--color-primary-hover": "--alpha(var(--microsoft-primary) / 85%)",
-            "--color-primary-surface": "#FFFFFF",
-            "--color-border": "var(--microsoft-primary)"
+            "--primary": "var(--microsoft-primary)",
+            "--primary-foreground": "var(--color-white)"
           }
         },
         "@variant dark": {
           "button[data-provider='microsoft.com'][data-themed='true']": {
             "--microsoft-primary": "var(--color-white)",
-            "--color-primary": "var(--microsoft-primary)",
-            "--color-primary-hover": "--alpha(var(--microsoft-primary) / 85%)",
-            "--color-primary-surface": "#5E5E5E",
-            "--color-border": "var(--color-white)"
+            "--primary": "var(--microsoft-primary)",
+            "--primary-foreground": "var(--color-black)"
           }
         }
       }
     },
     {
       "name": "multi-factor-auth-assertion-form",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Multi-Factor Auth Assertion Form",
       "description": "A form allowing users to complete multi-factor authentication during sign-in with TOTP or SMS options.",
       "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "registryDependencies": [
         "button",
-        "{{ DOMAIN }}/sms-multi-factor-assertion-form.json",
-        "{{ DOMAIN }}/totp-multi-factor-assertion-form.json"
+        "{{ DOMAIN }}/r/sms-multi-factor-assertion-form.json",
+        "{{ DOMAIN }}/r/totp-multi-factor-assertion-form.json"
       ],
       "files": [
         {
-          "path": "src/registry/multi-factor-auth-assertion-form.tsx",
+          "path": "src/components/multi-factor-auth-assertion-form.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "multi-factor-auth-assertion-screen",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
+      "type": "registry:block",
+      "title": "Multi-Factor Auth Assertion Screen",
+      "description": "A screen allowing users to complete multi-factor authentication during sign-in with TOTP or SMS options.",
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
+      "registryDependencies": ["card", "{{ DOMAIN }}/r/multi-factor-auth-assertion-form.json"],
+      "files": [
+        {
+          "path": "src/components/multi-factor-auth-assertion-screen.tsx",
           "type": "registry:component"
         }
       ]
     },
     {
       "name": "multi-factor-auth-enrollment-form",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Multi-Factor Auth Enrollment Form",
       "description": "A form allowing users to select and configure multi-factor authentication methods.",
       "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "registryDependencies": [
         "button",
-        "{{ DOMAIN }}/sms-multi-factor-enrollment-form.json",
-        "{{ DOMAIN }}/totp-multi-factor-enrollment-form.json"
+        "{{ DOMAIN }}/r/sms-multi-factor-enrollment-form.json",
+        "{{ DOMAIN }}/r/totp-multi-factor-enrollment-form.json"
       ],
       "files": [
         {
-          "path": "src/registry/multi-factor-auth-enrollment-form.tsx",
+          "path": "src/components/multi-factor-auth-enrollment-form.tsx",
           "type": "registry:component"
         }
       ]
     },
     {
       "name": "multi-factor-auth-enrollment-screen",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Multi-Factor Auth Enrollment Screen",
       "description": "A screen allowing users to set up multi-factor authentication with TOTP or SMS options.",
@@ -286,13 +322,16 @@
       "registryDependencies": ["card", "{{ DOMAIN }}/multi-factor-auth-enrollment-form.json"],
       "files": [
         {
-          "path": "src/registry/multi-factor-auth-enrollment-screen.tsx",
+          "path": "src/components/multi-factor-auth-enrollment-screen.tsx",
           "type": "registry:component"
         }
       ]
     },
     {
       "name": "oauth-button",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "OAuth Button",
       "description": "A button component for OAuth authentication providers.",
@@ -300,32 +339,38 @@
       "registryDependencies": ["button"],
       "files": [
         {
-          "path": "src/registry/oauth-button.tsx",
+          "path": "src/components/oauth-button.tsx",
           "type": "registry:component"
         }
       ]
     },
     {
       "name": "oauth-screen",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "OAuth Screen",
       "description": "A screen allowing users to sign in with OAuth providers.",
       "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "registryDependencies": [
         "card",
-        "{{ DOMAIN }}/policies.json",
-        "{{ DOMAIN }}/multi-factor-auth-assertion-form.json",
-        "{{ DOMAIN }}/redirect-error.json"
+        "{{ DOMAIN }}/r/policies.json",
+        "{{ DOMAIN }}/r/multi-factor-auth-assertion-screen.json",
+        "{{ DOMAIN }}/r/redirect-error.json"
       ],
       "files": [
         {
-          "path": "src/registry/oauth-screen.tsx",
+          "path": "src/components/oauth-screen.tsx",
           "type": "registry:component"
         }
       ]
     },
     {
       "name": "phone-auth-form",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Phone Auth Form",
       "description": "A form allowing users to authenticate using their phone number with SMS verification.",
@@ -334,18 +379,21 @@
         "form",
         "input",
         "button",
-        "{{ DOMAIN }}/country-selector.json",
-        "{{ DOMAIN }}/policies.json"
+        "{{ DOMAIN }}/r/country-selector.json",
+        "{{ DOMAIN }}/r/policies.json"
       ],
       "files": [
         {
-          "path": "src/registry/phone-auth-form.tsx",
+          "path": "src/components/phone-auth-form.tsx",
           "type": "registry:component"
         }
       ]
     },
     {
       "name": "phone-auth-screen",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Phone Auth Screen",
       "description": "A screen allowing users to authenticate using their phone number with SMS verification.",
@@ -353,45 +401,54 @@
       "registryDependencies": [
         "card",
         "separator",
-        "{{ DOMAIN }}/phone-auth-form.json",
-        "{{ DOMAIN }}/multi-factor-auth-assertion-form.json",
-        "{{ DOMAIN }}/redirect-error.json"
+        "{{ DOMAIN }}/r/phone-auth-form.json",
+        "{{ DOMAIN }}/r/multi-factor-auth-assertion-form.json",
+        "{{ DOMAIN }}/r/redirect-error.json"
       ],
       "files": [
         {
-          "path": "src/registry/phone-auth-screen.tsx",
+          "path": "src/components/phone-auth-screen.tsx",
           "type": "registry:component"
         }
       ]
     },
     {
       "name": "policies",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Policies",
       "description": "A component allowing users to navigate to the terms of service and privacy policy.",
       "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "files": [
         {
-          "path": "src/registry/policies.tsx",
+          "path": "src/components/policies.tsx",
           "type": "registry:component"
         }
       ]
     },
     {
       "name": "redirect-error",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Redirect Error",
       "description": "A component that displays redirect errors from Firebase UI authentication flow.",
       "dependencies": ["{{ DEP | @firebase-oss/ui-react }}"],
       "files": [
         {
-          "path": "src/registry/redirect-error.tsx",
+          "path": "src/components/redirect-error.tsx",
           "type": "registry:component"
         }
       ]
     },
     {
       "name": "sign-in-auth-form",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Sign In Auth Form",
       "description": "A form allowing users to sign in with email and password.",
@@ -399,13 +456,16 @@
       "registryDependencies": ["input", "button", "form", "{{ DOMAIN }}/policies.json"],
       "files": [
         {
-          "path": "src/registry/sign-in-auth-form.tsx",
+          "path": "src/components/sign-in-auth-form.tsx",
           "type": "registry:component"
         }
       ]
     },
     {
       "name": "sign-in-auth-screen",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Sign In Auth Screen",
       "description": "A screen allowing users to sign in with email and password.",
@@ -413,13 +473,16 @@
       "registryDependencies": ["separator", "card", "{{ DOMAIN }}/sign-in-auth-form.json"],
       "files": [
         {
-          "path": "src/registry/sign-in-auth-screen.tsx",
+          "path": "src/components/sign-in-auth-screen.tsx",
           "type": "registry:component"
         }
       ]
     },
     {
       "name": "sign-up-auth-form",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Sign Up Auth Form",
       "description": "A form allowing users to sign up with email and password.",
@@ -427,13 +490,16 @@
       "registryDependencies": ["input", "button", "form", "{{ DOMAIN }}/policies.json"],
       "files": [
         {
-          "path": "src/registry/sign-up-auth-form.tsx",
+          "path": "src/components/sign-up-auth-form.tsx",
           "type": "registry:component"
         }
       ]
     },
     {
       "name": "sign-up-auth-screen",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Sign Up Auth Screen",
       "description": "A screen allowing users to sign up with email and password.",
@@ -441,13 +507,16 @@
       "registryDependencies": ["separator", "card", "{{ DOMAIN }}/sign-up-auth-form.json"],
       "files": [
         {
-          "path": "src/registry/sign-up-auth-screen.tsx",
+          "path": "src/components/sign-up-auth-screen.tsx",
           "type": "registry:component"
         }
       ]
     },
     {
       "name": "sms-multi-factor-assertion-form",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "SMS Multi-Factor Assertion Form",
       "description": "A form allowing users to complete SMS-based multi-factor authentication during sign-in.",
@@ -455,13 +524,16 @@
       "registryDependencies": ["form", "input", "button", "input-otp"],
       "files": [
         {
-          "path": "src/registry/sms-multi-factor-assertion-form.tsx",
+          "path": "src/components/sms-multi-factor-assertion-form.tsx",
           "type": "registry:component"
         }
       ]
     },
     {
       "name": "sms-multi-factor-enrollment-form",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "SMS Multi-Factor Enrollment Form",
       "description": "A form allowing users to enroll SMS-based multi-factor authentication.",
@@ -469,13 +541,16 @@
       "registryDependencies": ["form", "input", "button", "input-otp", "{{ DOMAIN }}/country-selector.json"],
       "files": [
         {
-          "path": "src/registry/sms-multi-factor-enrollment-form.tsx",
+          "path": "src/components/sms-multi-factor-enrollment-form.tsx",
           "type": "registry:component"
         }
       ]
     },
     {
       "name": "totp-multi-factor-assertion-form",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "TOTP Multi-Factor Assertion Form",
       "description": "A form allowing users to complete TOTP-based multi-factor authentication during sign-in.",
@@ -483,13 +558,16 @@
       "registryDependencies": ["form", "button", "input-otp"],
       "files": [
         {
-          "path": "src/registry/totp-multi-factor-assertion-form.tsx",
+          "path": "src/components/totp-multi-factor-assertion-form.tsx",
           "type": "registry:component"
         }
       ]
     },
     {
       "name": "totp-multi-factor-enrollment-form",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "TOTP Multi-Factor Enrollment Form",
       "description": "A form allowing users to enroll TOTP-based multi-factor authentication with QR code generation.",
@@ -497,13 +575,16 @@
       "registryDependencies": ["form", "input", "button", "input-otp"],
       "files": [
         {
-          "path": "src/registry/totp-multi-factor-enrollment-form.tsx",
+          "path": "src/components/totp-multi-factor-enrollment-form.tsx",
           "type": "registry:component"
         }
       ]
     },
     {
       "name": "twitter-sign-in-button",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
       "type": "registry:block",
       "title": "Twitter Sign In Button",
       "description": "A button component for Twitter OAuth authentication.",
@@ -511,7 +592,7 @@
       "registryDependencies": ["{{ DOMAIN }}/oauth-button.json"],
       "files": [
         {
-          "path": "src/registry/twitter-sign-in-button.tsx",
+          "path": "src/components/twitter-sign-in-button.tsx",
           "type": "registry:component"
         }
       ],
@@ -519,10 +600,8 @@
         "@layer components": {
           "button[data-provider='twitter.com'][data-themed='true']": {
             "--twitter-primary": "#1DA1F2",
-            "--color-primary": "var(--twitter-primary)",
-            "--color-primary-hover": "--alpha(var(--twitter-primary) / 85%)",
-            "--color-primary-surface": "#FFFFFF",
-            "--color-border": "var(--twitter-primary)"
+            "--primary": "var(--twitter-primary)",
+            "--primary-foreground": "var(--color-white)"
           }
         }
       }

@@ -19,9 +19,9 @@
 import { ui } from "@/lib/firebase/clientApp";
 import { ConfigProvider } from "@firebase-oss/ui-react";
 
-export function FirebaseUIProvider({ children }: { children: React.ReactNode }) {
+export function FirebaseUIProviderHoc({ children }: { children: React.ReactNode }) {
   return (
-    <ConfigProvider
+    <FirebaseUIProvider
       ui={ui}
       policies={{
         termsOfServiceUrl: "https://www.google.com",
@@ -29,6 +29,6 @@ export function FirebaseUIProvider({ children }: { children: React.ReactNode }) 
       }}
     >
       {children}
-    </ConfigProvider>
+    </FirebaseUIProvider>
   );
 }

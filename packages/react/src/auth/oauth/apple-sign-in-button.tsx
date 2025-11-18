@@ -17,28 +17,43 @@
 "use client";
 
 import { getTranslation } from "@firebase-oss/ui-core";
-import { OAuthProvider } from "firebase/auth";
-import { useUI } from "~/hooks";
-import { OAuthButton } from "./oauth-button";
+import { OAuthProvider, type UserCredential } from "firebase/auth";
 import AppleSvgLogo from "~/components/logos/apple/Logo";
+import { useUI } from "~/hooks";
 import { cn } from "~/utils/cn";
+import { OAuthButton } from "./oauth-button";
 
+/** Props for the AppleSignInButton component. */
 export type AppleSignInButtonProps = {
+  /** Optional OAuth provider instance. Defaults to Apple provider. */
   provider?: OAuthProvider;
+  /** Whether to apply themed styling. */
   themed?: boolean;
+  /** Callback function called when sign-in is successful. */
+  onSignIn?: (credential: UserCredential) => void;
 };
 
-export function AppleSignInButton({ provider, themed }: AppleSignInButtonProps) {
+/**
+ * A button component for signing in with Apple.
+ *
+ * @returns The Apple sign-in button component.
+ */
+export function AppleSignInButton({ provider, ...props }: AppleSignInButtonProps) {
   const ui = useUI();
 
   return (
-    <OAuthButton provider={provider || new OAuthProvider("apple.com")} themed={themed}>
+    <OAuthButton {...props} provider={provider || new OAuthProvider("apple.com")}>
       <AppleLogo />
       <span>{getTranslation(ui, "labels", "signInWithApple")}</span>
     </OAuthButton>
   );
 }
 
+/**
+ * The Apple logo SVG component.
+ *
+ * @returns The Apple logo component.
+ */
 export function AppleLogo({ className, ...props }: React.SVGProps<SVGSVGElement>) {
   return <AppleSvgLogo className={cn("fui-provider__icon", className)} {...props} />;
 }

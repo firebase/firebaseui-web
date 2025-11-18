@@ -34,7 +34,7 @@ describe("<fui-redirect-error>", () => {
 
     const errorElement = screen.getByText(errorMessage);
     expect(errorElement).toBeDefined();
-    expect(errorElement).toHaveClass("fui-form__error");
+    expect(errorElement).toHaveClass("fui-error");
   });
 
   it("returns null when no redirectError exists", async () => {
@@ -43,7 +43,7 @@ describe("<fui-redirect-error>", () => {
 
     const { container } = await render(TestHostComponent);
 
-    expect(container.querySelector(".fui-form__error")).toBeNull();
+    expect(container.querySelector(".fui-error")).toBeNull();
   });
 
   it("properly formats error messages for Error objects", async () => {
@@ -55,7 +55,7 @@ describe("<fui-redirect-error>", () => {
 
     const errorElement = screen.getByText(errorMessage);
     expect(errorElement).toBeDefined();
-    expect(errorElement).toHaveClass("fui-form__error");
+    expect(errorElement).toHaveClass("fui-error");
   });
 
   it("properly formats error messages for string values", async () => {
@@ -67,7 +67,7 @@ describe("<fui-redirect-error>", () => {
 
     const errorElement = screen.getByText(errorMessage);
     expect(errorElement).toBeDefined();
-    expect(errorElement).toHaveClass("fui-form__error");
+    expect(errorElement).toHaveClass("fui-error");
   });
 
   it("displays error with correct CSS class", async () => {
@@ -78,7 +78,7 @@ describe("<fui-redirect-error>", () => {
     await render(TestHostComponent);
 
     const errorElement = screen.getByText(errorMessage);
-    expect(errorElement).toHaveClass("fui-form__error");
+    expect(errorElement).toHaveClass("fui-error");
   });
 
   it("handles undefined redirectError", async () => {
@@ -87,6 +87,6 @@ describe("<fui-redirect-error>", () => {
 
     const { container } = await render(TestHostComponent);
 
-    expect(container.querySelector(".fui-form__error")).toBeNull();
+    expect(container.querySelector(".fui-error")).toBeNull();
   });
 });

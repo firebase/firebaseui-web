@@ -16,6 +16,7 @@
 
 import { render, screen, fireEvent } from "@testing-library/angular";
 import { CommonModule } from "@angular/common";
+import { EventEmitter } from "@angular/core";
 import { TanStackField, TanStackAppField } from "@tanstack/angular-form";
 import { SignInAuthFormComponent } from "./sign-in-auth-form";
 import {
@@ -59,7 +60,40 @@ describe("<fui-sign-in-auth-form />", () => {
   });
 
   it("should render the form initially", async () => {
-    await render(SignInAuthFormComponent, {
+    const forgotPasswordEmitter = new EventEmitter<void>();
+    const signUpEmitter = new EventEmitter<void>();
+    forgotPasswordEmitter.subscribe(() => {});
+    signUpEmitter.subscribe(() => {});
+
+    const { fixture } = await render(SignInAuthFormComponent, {
+      imports: [
+        CommonModule,
+        SignInAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
+      ],
+      componentInputs: {
+        forgotPassword: forgotPasswordEmitter,
+        signUp: signUpEmitter,
+      },
+    });
+    fixture.detectChanges();
+
+    expect(screen.getByLabelText("Email Address")).toBeInTheDocument();
+    expect(screen.getByLabelText("Password", { selector: "input" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Sign In" })).toBeInTheDocument();
+    expect(screen.getByText("By continuing, you agree to our")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Forgot Password" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Don't have an account? Sign Up" })).toBeInTheDocument();
+  });
+
+  it("should not render forgot password button when output is not bound", async () => {
+    const { fixture } = await render(SignInAuthFormComponent, {
       imports: [
         CommonModule,
         SignInAuthFormComponent,
@@ -72,13 +106,60 @@ describe("<fui-sign-in-auth-form />", () => {
         PoliciesComponent,
       ],
     });
+    fixture.detectChanges();
 
     expect(screen.getByLabelText("Email Address")).toBeInTheDocument();
     expect(screen.getByLabelText("Password", { selector: "input" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Sign In" })).toBeInTheDocument();
-    expect(screen.getByText("By continuing, you agree to our")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Forgot Password" })).not.toBeInTheDocument();
+  });
+
+  it("should not render sign up button when output is not bound", async () => {
+    const { fixture } = await render(SignInAuthFormComponent, {
+      imports: [
+        CommonModule,
+        SignInAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
+      ],
+    });
+    fixture.detectChanges();
+
+    expect(screen.getByLabelText("Email Address")).toBeInTheDocument();
+    expect(screen.getByLabelText("Password", { selector: "input" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Sign In" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Don't have an account? Sign Up" })).not.toBeInTheDocument();
+  });
+
+  it("should conditionally render buttons based on which outputs are bound", async () => {
+    const forgotPasswordEmitter = new EventEmitter<void>();
+    forgotPasswordEmitter.subscribe(() => {});
+
+    const { fixture } = await render(SignInAuthFormComponent, {
+      imports: [
+        CommonModule,
+        SignInAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
+      ],
+      componentInputs: {
+        forgotPassword: forgotPasswordEmitter,
+      },
+    });
+    fixture.detectChanges();
+
     expect(screen.getByRole("button", { name: "Forgot Password" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Don't have an account? Sign Up" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Don't have an account? Sign Up" })).not.toBeInTheDocument();
   });
 
   it("should have correct translation labels", async () => {
@@ -126,6 +207,9 @@ describe("<fui-sign-in-auth-form />", () => {
   });
 
   it("should emit forgotPassword when forgot password button is clicked", async () => {
+    const forgotPasswordEmitter = new EventEmitter<void>();
+    forgotPasswordEmitter.subscribe(() => {});
+
     const { fixture } = await render(SignInAuthFormComponent, {
       imports: [
         CommonModule,
@@ -138,9 +222,12 @@ describe("<fui-sign-in-auth-form />", () => {
         FormActionComponent,
         PoliciesComponent,
       ],
+      componentInputs: {
+        forgotPassword: forgotPasswordEmitter,
+      },
     });
-    const component = fixture.componentInstance;
-    const forgotPasswordSpy = jest.spyOn(component.forgotPassword, "emit");
+    fixture.detectChanges();
+    const forgotPasswordSpy = jest.spyOn(forgotPasswordEmitter, "emit");
 
     const forgotPasswordButton = screen.getByRole("button", { name: "Forgot Password" });
     fireEvent.click(forgotPasswordButton);
@@ -148,6 +235,9 @@ describe("<fui-sign-in-auth-form />", () => {
   });
 
   it("should emit signUp when sign up button is clicked", async () => {
+    const signUpEmitter = new EventEmitter<void>();
+    signUpEmitter.subscribe(() => {});
+
     const { fixture } = await render(SignInAuthFormComponent, {
       imports: [
         CommonModule,
@@ -160,9 +250,12 @@ describe("<fui-sign-in-auth-form />", () => {
         FormActionComponent,
         PoliciesComponent,
       ],
+      componentInputs: {
+        signUp: signUpEmitter,
+      },
     });
-    const component = fixture.componentInstance;
-    const signUpSpy = jest.spyOn(component.signUp, "emit");
+    fixture.detectChanges();
+    const signUpSpy = jest.spyOn(signUpEmitter, "emit");
 
     const signUpButton = screen.getByRole("button", { name: "Don't have an account? Sign Up" });
     fireEvent.click(signUpButton);

@@ -5,7 +5,7 @@ import { execSync } from "node:child_process";
 
 const components = registryJson.items.map((item) => item.name);
 const args = parser(process.argv.slice(2));
-const prefix = String(args.prefix) || "@dev";
+const prefix = args.prefix ? String(args.prefix) : "@dev";
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -17,6 +17,8 @@ const items = components
     return `${prefix}/${component}`;
   })
   .join(" ");
+
+console.log(items);
 
 rl.question(
   `Add ${components.length} components. This will overrwrite all existing files. Continue? (y/N) `,

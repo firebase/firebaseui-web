@@ -24,6 +24,9 @@ import { injectCountries, injectDefaultCountry } from "../provider";
   selector: "fui-country-selector",
   standalone: true,
   imports: [CommonModule, FormsModule],
+  host: {
+    style: "display: block;",
+  },
   template: `
     <div class="fui-country-selector">
       <div class="fui-country-selector__wrapper">
@@ -35,7 +38,7 @@ import { injectCountries, injectDefaultCountry } from "../provider";
             [ngModel]="selected().code"
             (ngModelChange)="handleCountryChange($event)"
           >
-            @for (country of countries(); track country.code) {
+            @for (country of countries(); track $index) {
               <option [value]="country.code">{{ country.dialCode }} ({{ country.name }})</option>
             }
           </select>
@@ -44,9 +47,15 @@ import { injectCountries, injectDefaultCountry } from "../provider";
     </div>
   `,
 })
+/**
+ * A country selector component for phone number input.
+ *
+ * Displays a dropdown with country flags, dial codes, and names for selecting a country.
+ */
 export class CountrySelectorComponent {
   countries = injectCountries();
   defaultCountry = injectDefaultCountry();
+  /** The selected country code (two-way binding). */
   value = model<CountryCode>();
 
   selected = computed(() => {

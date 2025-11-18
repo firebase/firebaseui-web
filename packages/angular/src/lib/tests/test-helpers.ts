@@ -129,6 +129,7 @@ export const injectTranslation = jest.fn().mockImplementation((category: string,
       noAccount: "Don't have an account?",
       signInToAccount: "Sign in to your account",
       haveAccount: "Already have an account?",
+      smsVerificationPrompt: "Enter the verification code sent to your phone number",
     },
     errors: {
       unknownError: "An unknown error occurred",
@@ -238,6 +239,13 @@ export const injectMultiFactorPhoneAuthNumberFormSchema = jest.fn().mockReturnVa
   });
 });
 
+export const injectMultiFactorPhoneAuthAssertionFormSchema = jest.fn().mockReturnValue(() => {
+  const { z } = require("zod");
+  return z.object({
+    phoneNumber: z.string().min(1, "Phone number is required"),
+  });
+});
+
 export const injectMultiFactorPhoneAuthVerifyFormSchema = jest.fn().mockReturnValue(() => {
   const { z } = require("zod");
   return z.object({
@@ -278,6 +286,8 @@ export const injectRecaptchaVerifier = jest.fn().mockImplementation(() => {
     verify: jest.fn(),
   });
 });
+
+export const injectUserAuthenticated = jest.fn();
 
 export const RecaptchaVerifier = jest.fn().mockImplementation(() => ({
   clear: jest.fn(),

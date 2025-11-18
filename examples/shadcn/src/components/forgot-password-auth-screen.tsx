@@ -3,8 +3,8 @@
 import { getTranslation } from "@firebase-oss/ui-core";
 import { useUI, type ForgotPasswordAuthScreenProps } from "@firebase-oss/ui-react";
 
-import { ForgotPasswordAuthForm } from "@/components/forgot-password-auth-form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { ForgotPasswordAuthForm } from "@/components/forgot-password-auth-form";
 
 export type { ForgotPasswordAuthScreenProps };
 
@@ -15,7 +15,7 @@ export function ForgotPasswordAuthScreen(props: ForgotPasswordAuthScreenProps) {
   const subtitleText = getTranslation(ui, "prompts", "enterEmailToReset");
 
   return (
-    <div className="max-w-md mx-auto">
+    <div className="max-w-sm mx-auto">
       <Card>
         <CardHeader>
           <CardTitle>{titleText}</CardTitle>

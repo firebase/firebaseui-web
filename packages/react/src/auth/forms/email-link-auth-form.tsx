@@ -23,11 +23,19 @@ import { form } from "~/components/form";
 import { Policies } from "~/components/policies";
 import { useCallback, useEffect, useState } from "react";
 
+/** Props for the EmailLinkAuthForm component. */
 export type EmailLinkAuthFormProps = {
+  /** Callback function called when the sign-in link email is sent. */
   onEmailSent?: () => void;
+  /** Callback function called when sign-in is completed via the email link. */
   onSignIn?: (credential: UserCredential) => void;
 };
 
+/**
+ * Creates a memoized action function for sending a sign-in link to an email address.
+ *
+ * @returns A callback function that sends a sign-in link to the specified email address.
+ */
 export function useEmailLinkAuthFormAction() {
   const ui = useUI();
 
@@ -48,6 +56,12 @@ export function useEmailLinkAuthFormAction() {
   );
 }
 
+/**
+ * Creates a form hook for email link authentication.
+ *
+ * @param onSuccess - Optional callback function called when the sign-in link email is sent.
+ * @returns A form instance configured for email link authentication.
+ */
 export function useEmailLinkAuthForm(onSuccess?: EmailLinkAuthFormProps["onEmailSent"]) {
   const schema = useEmailLinkAuthFormSchema();
   const action = useEmailLinkAuthFormAction();
@@ -58,7 +72,6 @@ export function useEmailLinkAuthForm(onSuccess?: EmailLinkAuthFormProps["onEmail
     },
     validators: {
       onBlur: schema,
-      onSubmit: schema,
       onSubmitAsync: async ({ value }) => {
         try {
           await action(value);
@@ -71,22 +84,37 @@ export function useEmailLinkAuthForm(onSuccess?: EmailLinkAuthFormProps["onEmail
   });
 }
 
+/**
+ * Hook that automatically completes the email link sign-in process when the component mounts.
+ *
+ * Checks if the current URL contains a valid email link sign-in link and completes the authentication.
+ *
+ * @param onSignIn - Optional callback function called when sign-in is completed.
+ */
 export function useEmailLinkAuthFormCompleteSignIn(onSignIn?: EmailLinkAuthFormProps["onSignIn"]) {
   const ui = useUI();
 
   useEffect(() => {
     const completeSignIn = async () => {
       const credential = await completeEmailLinkSignIn(ui, window.location.href);
-
       if (credential) {
         onSignIn?.(credential);
       }
     };
 
     void completeSignIn();
-  }, [ui, onSignIn]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- TODO(ehesp): ui triggers re-render
+  }, [onSignIn]);
 }
 
+/**
+ * A form component for email link authentication.
+ *
+ * Sends a sign-in link to the user's email address and automatically completes sign-in
+ * if the user arrives via an email link.
+ *
+ * @returns The email link auth form component.
+ */
 export function EmailLinkAuthForm({ onEmailSent, onSignIn }: EmailLinkAuthFormProps) {
   const ui = useUI();
   const [emailSent, setEmailSent] = useState(false);

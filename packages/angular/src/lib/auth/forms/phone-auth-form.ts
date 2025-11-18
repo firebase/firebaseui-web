@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, ElementRef, effect, input, signal, output, computed, viewChild } from "@angular/core";
+import { Component, ElementRef, effect, input, signal, Output, EventEmitter, computed, viewChild } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanstack/angular-form";
 import {
@@ -40,6 +40,9 @@ import {
 @Component({
   selector: "fui-phone-number-form",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     TanStackField,
@@ -53,13 +56,15 @@ import {
   template: `
     <form (submit)="handleSubmit($event)" class="fui-form">
       <fieldset>
-        <fui-country-selector [(value)]="country"></fui-country-selector>
         <fui-form-input
           name="phoneNumber"
           tanstack-app-field
           [tanstackField]="form"
-          label="{{ phoneNumberLabel() }}"
-        ></fui-form-input>
+          [label]="phoneNumberLabel()"
+          type="tel"
+        >
+          <fui-country-selector [(value)]="country" ngProjectAs="input-before" />
+        </fui-form-input>
       </fieldset>
       <fieldset>
         <div class="fui-recaptcha-container" #recaptchaContainer></div>
@@ -74,11 +79,16 @@ import {
     </form>
   `,
 })
+/**
+ * A form component for entering a phone number and requesting a verification code.
+ */
 export class PhoneNumberFormComponent {
   private ui = injectUI();
   private formSchema = injectPhoneAuthFormSchema();
 
-  onSubmit = output<{ verificationId: string; phoneNumber: string }>();
+  /** Event emitter fired when phone number is verified and verification ID is received. */
+  @Output() onSubmit = new EventEmitter<{ verificationId: string; phoneNumber: string }>();
+  /** The selected country code for phone number formatting. */
   country = signal<CountryCode>(countryData[0].code);
 
   phoneNumberLabel = injectTranslation("labels", "phoneNumber");
@@ -101,7 +111,6 @@ export class PhoneNumberFormComponent {
       this.form.update({
         validators: {
           onBlur: this.formSchema(),
-          onSubmit: this.formSchema(),
           onSubmitAsync: async ({ value }) => {
             const selectedCountry = countryData.find((c) => c.code === this.country());
             const formattedNumber = formatPhoneNumber(value.phoneNumber, selectedCountry!);
@@ -147,6 +156,9 @@ export class PhoneNumberFormComponent {
 @Component({
   selector: "fui-verification-form",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     TanStackField,
@@ -163,7 +175,9 @@ export class PhoneNumberFormComponent {
           name="verificationCode"
           tanstack-app-field
           [tanstackField]="form"
-          label="{{ verificationCodeLabel() }}"
+          [label]="verificationCodeLabel()"
+          [description]="smsVerificationPrompt()"
+          type="text"
         ></fui-form-input>
       </fieldset>
 
@@ -178,15 +192,21 @@ export class PhoneNumberFormComponent {
     </form>
   `,
 })
+/**
+ * A form component for entering and verifying the SMS verification code.
+ */
 export class VerificationFormComponent {
   private ui = injectUI();
   private formSchema = injectPhoneAuthVerifyFormSchema();
 
+  /** The verification ID received from the phone number form. */
   verificationId = input.required<string>();
-  signIn = output<UserCredential>();
+  /** Event emitter for successful sign-in. */
+  @Output() signIn = new EventEmitter<UserCredential>();
 
   verificationCodeLabel = injectTranslation("labels", "verificationCode");
   verifyCodeLabel = injectTranslation("labels", "verifyCode");
+  smsVerificationPrompt = injectTranslation("prompts", "smsVerificationPrompt");
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
   form = injectForm({
@@ -207,7 +227,6 @@ export class VerificationFormComponent {
       this.form.update({
         validators: {
           onBlur: this.formSchema(),
-          onSubmit: this.formSchema(),
           onSubmitAsync: async ({ value }) => {
             try {
               const credential = await confirmPhoneNumber(this.ui(), this.verificationId(), value.verificationCode);
@@ -237,6 +256,9 @@ export class VerificationFormComponent {
   selector: "fui-phone-auth-form",
   standalone: true,
   imports: [CommonModule, PhoneNumberFormComponent, VerificationFormComponent],
+  host: {
+    style: "display: block;",
+  },
   template: `
     <div class="fui-form-container">
       @if (verificationId()) {
@@ -247,9 +269,15 @@ export class VerificationFormComponent {
     </div>
   `,
 })
+/**
+ * A form component for phone number authentication.
+ *
+ * Manages the flow between phone number entry and verification code entry.
+ */
 export class PhoneAuthFormComponent {
   verificationId = signal<string | null>(null);
-  signIn = output<UserCredential>();
+  /** Event emitter for successful sign-in. */
+  @Output() signIn = new EventEmitter<UserCredential>();
 
   handlePhoneSubmit(data: { verificationId: string; phoneNumber: string }) {
     this.verificationId.set(data.verificationId);

@@ -1,3 +1,19 @@
+/**
+ * Copyright 2025 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import { useCallback, useRef, useState } from "react";
 import { multiFactor, PhoneAuthProvider, PhoneMultiFactorGenerator, type RecaptchaVerifier } from "firebase/auth";
 import {
@@ -16,6 +32,11 @@ import {
   useUI,
 } from "~/hooks";
 
+/**
+ * Creates a memoized action function for verifying a phone number during SMS multi-factor enrollment.
+ *
+ * @returns A callback function that verifies a phone number for MFA enrollment using the provided reCAPTCHA verifier.
+ */
 export function useSmsMultiFactorEnrollmentPhoneAuthFormAction() {
   const ui = useUI();
 
@@ -28,12 +49,22 @@ export function useSmsMultiFactorEnrollmentPhoneAuthFormAction() {
   );
 }
 
-type UseSmsMultiFactorEnrollmentPhoneNumberForm = {
+/** Options for the SMS multi-factor enrollment phone number form hook. */
+export type UseSmsMultiFactorEnrollmentPhoneNumberForm = {
+  /** The reCAPTCHA verifier instance. */
   recaptchaVerifier: RecaptchaVerifier;
+  /** Callback function called when phone verification is successful. */
   onSuccess: (verificationId: string, displayName?: string) => void;
+  /** Optional function to format the phone number before verification. */
   formatPhoneNumber?: (phoneNumber: string) => string;
 };
 
+/**
+ * Creates a form hook for SMS multi-factor enrollment phone number verification.
+ *
+ * @param options - The phone number form options.
+ * @returns A form instance configured for phone number input and verification for MFA enrollment.
+ */
 export function useSmsMultiFactorEnrollmentPhoneNumberForm({
   recaptchaVerifier,
   onSuccess,
@@ -49,7 +80,6 @@ export function useSmsMultiFactorEnrollmentPhoneNumberForm({
     },
     validators: {
       onBlur: schema,
-      onSubmit: schema,
       onSubmitAsync: async ({ value }) => {
         try {
           const formatted = formatPhoneNumber ? formatPhoneNumber(value.phoneNumber) : value.phoneNumber;
@@ -116,6 +146,11 @@ function MultiFactorEnrollmentPhoneNumberForm(props: MultiFactorEnrollmentPhoneN
   );
 }
 
+/**
+ * Creates a memoized action function for verifying the SMS verification code during multi-factor enrollment.
+ *
+ * @returns A callback function that verifies the code and enrolls the phone number as a multi-factor authentication method.
+ */
 export function useMultiFactorEnrollmentVerifyPhoneNumberFormAction() {
   const ui = useUI();
   return useCallback(
@@ -136,12 +171,22 @@ export function useMultiFactorEnrollmentVerifyPhoneNumberFormAction() {
   );
 }
 
+/** Options for the multi-factor enrollment verify phone number form hook. */
 type UseMultiFactorEnrollmentVerifyPhoneNumberForm = {
+  /** The verification ID from the phone verification step. */
   verificationId: string;
+  /** Optional display name for the enrolled MFA method. */
   displayName?: string;
+  /** Callback function called when enrollment is successful. */
   onSuccess: () => void;
 };
 
+/**
+ * Creates a form hook for SMS multi-factor enrollment verification code input.
+ *
+ * @param options - The verify phone number form options.
+ * @returns A form instance configured for verification code input during MFA enrollment.
+ */
 export function useMultiFactorEnrollmentVerifyPhoneNumberForm({
   verificationId,
   displayName,
@@ -156,7 +201,6 @@ export function useMultiFactorEnrollmentVerifyPhoneNumberForm({
       verificationCode: "",
     },
     validators: {
-      onSubmit: schema,
       onBlur: schema,
       onSubmitAsync: async ({ value }) => {
         try {
@@ -170,12 +214,21 @@ export function useMultiFactorEnrollmentVerifyPhoneNumberForm({
   });
 }
 
+/** Props for the MultiFactorEnrollmentVerifyPhoneNumberForm component. */
 type MultiFactorEnrollmentVerifyPhoneNumberFormProps = {
+  /** The verification ID from the phone verification step. */
   verificationId: string;
+  /** Optional display name for the enrolled MFA method. */
   displayName?: string;
+  /** Callback function called when enrollment is successful. */
   onSuccess: () => void;
 };
 
+/**
+ * A form component for verifying the SMS code during multi-factor enrollment.
+ *
+ * @returns The verify phone number form component.
+ */
 export function MultiFactorEnrollmentVerifyPhoneNumberForm(props: MultiFactorEnrollmentVerifyPhoneNumberFormProps) {
   const ui = useUI();
   const form = useMultiFactorEnrollmentVerifyPhoneNumberForm({
@@ -195,7 +248,13 @@ export function MultiFactorEnrollmentVerifyPhoneNumberForm(props: MultiFactorEnr
       <form.AppForm>
         <fieldset>
           <form.AppField name="verificationCode">
-            {(field) => <field.Input label={getTranslation(ui, "labels", "verificationCode")} type="text" />}
+            {(field) => (
+              <field.Input
+                description={getTranslation(ui, "prompts", "smsVerificationPrompt")}
+                label={getTranslation(ui, "labels", "verificationCode")}
+                type="text"
+              />
+            )}
           </form.AppField>
         </fieldset>
         <fieldset>
@@ -207,10 +266,20 @@ export function MultiFactorEnrollmentVerifyPhoneNumberForm(props: MultiFactorEnr
   );
 }
 
+/** Props for the SmsMultiFactorEnrollmentForm component. */
 export type SmsMultiFactorEnrollmentFormProps = {
+  /** Optional callback function called when enrollment is successful. */
   onSuccess?: () => void;
 };
 
+/**
+ * A form component for SMS multi-factor authentication enrollment.
+ *
+ * Handles the two-step process: first entering the phone number and display name, then verifying the SMS code.
+ *
+ * @returns The SMS multi-factor enrollment form component.
+ * @throws {Error} Throws an error if the user is not authenticated.
+ */
 export function SmsMultiFactorEnrollmentForm(props: SmsMultiFactorEnrollmentFormProps) {
   const ui = useUI();
 

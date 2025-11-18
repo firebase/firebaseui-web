@@ -17,7 +17,7 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/angular";
 import { Component } from "@angular/core";
 import { OAuthButtonComponent } from "./oauth-button";
-import { AuthProvider } from "@angular/fire/auth";
+import { AuthProvider, UserCredential } from "@angular/fire/auth";
 
 @Component({
   template: ` <fui-oauth-button [provider]="provider"> Sign in with Google </fui-oauth-button> `,
@@ -37,16 +37,39 @@ class TestOAuthButtonWithCustomProviderHostComponent {
   provider: AuthProvider = { providerId: "facebook.com" } as AuthProvider;
 }
 
+@Component({
+  template: `
+    <fui-oauth-button [provider]="provider" (signIn)="handleSignIn($event)"> Sign in with Google </fui-oauth-button>
+  `,
+  standalone: true,
+  imports: [OAuthButtonComponent],
+})
+class TestOAuthButtonWithSignInHostComponent {
+  provider: AuthProvider = { providerId: "google.com" } as AuthProvider;
+  signInCallback = jest.fn();
+  handleSignIn(credential: UserCredential) {
+    this.signInCallback(credential);
+  }
+}
+
 describe("<fui-oauth-button>", () => {
   let mockSignInWithProvider: any;
   let mockFirebaseUIError: any;
+  let mockGetTranslation: any;
 
   beforeEach(() => {
     const { signInWithProvider, FirebaseUIError } = require("@firebase-oss/ui-core");
     mockSignInWithProvider = signInWithProvider;
     mockFirebaseUIError = FirebaseUIError;
+    mockGetTranslation = getTranslation;
 
     mockSignInWithProvider.mockClear();
+    mockGetTranslation.mockImplementation((ui: any, category: string, key: string) => {
+      if (category === "errors" && key === "unknownError") {
+        return "An unknown error occurred";
+      }
+      return `${category}.${key}`;
+    });
   });
 
   it("should create", async () => {
@@ -171,5 +194,39 @@ describe("<fui-oauth-button>", () => {
     await waitFor(() => {
       expect(screen.queryByText("First error")).not.toBeInTheDocument();
     });
+  });
+
+  it("should emit signIn when sign-in is successful", async () => {
+    const mockCredential = { user: { uid: "test-uid" } } as UserCredential;
+    mockSignInWithProvider.mockResolvedValue(mockCredential);
+
+    const { fixture } = await render(TestOAuthButtonWithSignInHostComponent, {
+      imports: [OAuthButtonComponent],
+    });
+
+    const button = screen.getByRole("button");
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(fixture.componentInstance.signInCallback).toHaveBeenCalledTimes(1);
+      expect(fixture.componentInstance.signInCallback).toHaveBeenCalledWith(mockCredential);
+    });
+  });
+
+  it("should not emit signIn when sign-in fails", async () => {
+    mockSignInWithProvider.mockRejectedValue(new mockFirebaseUIError("Sign-in failed"));
+
+    const { fixture } = await render(TestOAuthButtonWithSignInHostComponent, {
+      imports: [OAuthButtonComponent],
+    });
+
+    const button = screen.getByRole("button");
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(screen.getByText("Sign-in failed")).toBeInTheDocument();
+    });
+
+    expect(fixture.componentInstance.signInCallback).not.toHaveBeenCalled();
   });
 });

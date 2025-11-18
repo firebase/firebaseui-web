@@ -2,6 +2,7 @@
 registry.json
 # Vite builds the shadcn components during development to here
 public-dev/
+public/r/
 
 # Logs
 logs

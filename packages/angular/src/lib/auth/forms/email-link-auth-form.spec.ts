@@ -224,7 +224,9 @@ describe("<fui-email-link-auth-form />", () => {
     component.emailSentState.set(true);
     fixture.detectChanges();
 
-    expect(screen.getByText("Check your email for a sign in link")).toBeInTheDocument();
+    const successMessage = screen.getByText("Check your email for a sign in link");
+    expect(successMessage).toBeInTheDocument();
+    expect(successMessage).toHaveClass("fui-success");
   });
 
   it("should handle FirebaseUIError and display error message", async () => {

@@ -14,29 +14,40 @@
  * limitations under the License.
  */
 
-import { Component, input } from "@angular/core";
+import { Component, input, output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { OAuthButtonComponent } from "./oauth-button";
 import { injectTranslation } from "../../provider";
-import { TwitterAuthProvider } from "@angular/fire/auth";
+import { TwitterAuthProvider, UserCredential } from "@angular/fire/auth";
 import { TwitterLogoComponent } from "../../components/logos/twitter";
 
 @Component({
   selector: "fui-twitter-sign-in-button",
   standalone: true,
   imports: [CommonModule, OAuthButtonComponent, TwitterLogoComponent],
+  host: {
+    style: "display: block;",
+  },
   template: `
-    <fui-oauth-button [provider]="twitterProvider">
+    <fui-oauth-button [provider]="twitterProvider" [themed]="themed()" (signIn)="signIn.emit($event)">
       <fui-twitter-logo />
       <span>{{ signInWithTwitterLabel() }}</span>
     </fui-oauth-button>
   `,
 })
+/**
+ * A button component for signing in with Twitter/X.
+ */
 export class TwitterSignInButtonComponent {
   signInWithTwitterLabel = injectTranslation("labels", "signInWithTwitter");
+  /** Whether to use themed styling. */
+  themed = input<boolean>(false);
+  /** Event emitter for successful sign-in. */
+  signIn = output<UserCredential>();
 
   private defaultProvider = new TwitterAuthProvider();
 
+  /** Optional custom OAuth provider configuration. */
   provider = input<TwitterAuthProvider>();
 
   get twitterProvider() {

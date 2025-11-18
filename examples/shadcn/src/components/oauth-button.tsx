@@ -18,6 +18,8 @@ export function OAuthButton({ provider, children, themed }: OAuthButtonProps) {
         onClick={callback}
         data-provider={provider.providerId}
         data-themed={themed}
+        className="w-full"
+        variant={themed ? "default" : "outline"}
       >
         {children}
       </Button>

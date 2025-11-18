@@ -24,16 +24,29 @@ import { Policies } from "~/components/policies";
 import { useCallback } from "react";
 import { type z } from "zod";
 
+/**
+ * Checks if the requireDisplayName behavior is enabled.
+ *
+ * @returns True if display name is required, false otherwise.
+ */
 export function useRequireDisplayName() {
   const ui = useUI();
   return hasBehavior(ui, "requireDisplayName");
 }
 
+/** Props for the SignUpAuthForm component. */
 export type SignUpAuthFormProps = {
+  /** Callback function called when sign-up is successful. */
   onSignUp?: (credential: UserCredential) => void;
-  onBackToSignInClick?: () => void;
+  /** Callback function called when the sign in link is clicked. */
+  onSignInClick?: () => void;
 };
 
+/**
+ * Creates a memoized action function for signing up with email and password.
+ *
+ * @returns A callback function that creates a new user account with email and password.
+ */
 export function useSignUpAuthFormAction() {
   const ui = useUI();
 
@@ -54,6 +67,12 @@ export function useSignUpAuthFormAction() {
   );
 }
 
+/**
+ * Creates a form hook for sign-up authentication.
+ *
+ * @param onSuccess - Optional callback function called when sign-up is successful.
+ * @returns A form instance configured for sign-up.
+ */
 export function useSignUpAuthForm(onSuccess?: SignUpAuthFormProps["onSignUp"]) {
   const schema = useSignUpAuthFormSchema();
   const action = useSignUpAuthFormAction();
@@ -67,7 +86,6 @@ export function useSignUpAuthForm(onSuccess?: SignUpAuthFormProps["onSignUp"]) {
     } as z.infer<typeof schema>,
     validators: {
       onBlur: schema,
-      onSubmit: schema,
       onSubmitAsync: async ({ value }) => {
         try {
           const credential = await action(value);
@@ -80,7 +98,14 @@ export function useSignUpAuthForm(onSuccess?: SignUpAuthFormProps["onSignUp"]) {
   });
 }
 
-export function SignUpAuthForm({ onBackToSignInClick, onSignUp }: SignUpAuthFormProps) {
+/**
+ * A form component for signing up with email and password.
+ *
+ * Optionally includes a display name field if the requireDisplayName behavior is enabled.
+ *
+ * @returns The sign-up form component.
+ */
+export function SignUpAuthForm({ onSignInClick, onSignUp }: SignUpAuthFormProps) {
   const ui = useUI();
   const form = useSignUpAuthForm(onSignUp);
   const requireDisplayName = useRequireDisplayName();
@@ -117,8 +142,8 @@ export function SignUpAuthForm({ onBackToSignInClick, onSignUp }: SignUpAuthForm
           <form.SubmitButton>{getTranslation(ui, "labels", "createAccount")}</form.SubmitButton>
           <form.ErrorMessage />
         </fieldset>
-        {onBackToSignInClick ? (
-          <form.Action onClick={onBackToSignInClick}>
+        {onSignInClick ? (
+          <form.Action onClick={onSignInClick}>
             {getTranslation(ui, "prompts", "haveAccount")} {getTranslation(ui, "labels", "signIn")}
           </form.Action>
         ) : null}

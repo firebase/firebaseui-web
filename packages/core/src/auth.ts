@@ -64,6 +64,16 @@ function setPendingState(ui: FirebaseUI) {
   ui.setState("pending");
 }
 
+/**
+ * Signs in with an email and password.
+ *
+ * If the `autoUpgradeAnonymousUsers` behavior is enabled, it will attempt to upgrade an anonymous user to a regular user.
+ *
+ * @param ui - The FirebaseUI instance.
+ * @param email - The email to sign in with.
+ * @param password - The password to sign in with.
+ * @returns {Promise<UserCredential>} A promise containing the user credential.
+ */
 export async function signInWithEmailAndPassword(
   ui: FirebaseUI,
   email: string,
@@ -90,6 +100,18 @@ export async function signInWithEmailAndPassword(
   }
 }
 
+/**
+ * Creates a new user account with an email and password.
+ *
+ * If the `requireDisplayName` behavior is enabled, a display name must be provided.
+ * If the `autoUpgradeAnonymousUsers` behavior is enabled, it will attempt to upgrade an anonymous user to a regular user.
+ *
+ * @param ui - The FirebaseUI instance.
+ * @param email - The email address for the new account.
+ * @param password - The password for the new account.
+ * @param displayName - Optional display name for the user.
+ * @returns {Promise<UserCredential>} A promise containing the user credential.
+ */
 export async function createUserWithEmailAndPassword(
   ui: FirebaseUI,
   email: string,
@@ -130,6 +152,18 @@ export async function createUserWithEmailAndPassword(
   }
 }
 
+/**
+ * Verifies a phone number for authentication.
+ *
+ * Supports regular phone authentication, MFA enrollment, and MFA assertion flows.
+ *
+ * @param ui - The FirebaseUI instance.
+ * @param phoneNumber - The phone number to verify.
+ * @param appVerifier - The application verifier (reCAPTCHA).
+ * @param mfaUser - Optional multi-factor user for MFA enrollment flow.
+ * @param mfaHint - Optional multi-factor info hint for MFA assertion flow.
+ * @returns {Promise<string>} A promise containing the verification ID.
+ */
 export async function verifyPhoneNumber(
   ui: FirebaseUI,
   phoneNumber: string,
@@ -171,6 +205,16 @@ export async function verifyPhoneNumber(
   }
 }
 
+/**
+ * Confirms a phone number verification code and signs in the user.
+ *
+ * If the `autoUpgradeAnonymousUsers` behavior is enabled and the current user is anonymous, it will attempt to upgrade the anonymous user to a regular user.
+ *
+ * @param ui - The FirebaseUI instance.
+ * @param verificationId - The verification ID from the phone verification process.
+ * @param verificationCode - The verification code sent to the phone.
+ * @returns {Promise<UserCredential>} A promise containing the user credential.
+ */
 export async function confirmPhoneNumber(
   ui: FirebaseUI,
   verificationId: string,
@@ -198,6 +242,13 @@ export async function confirmPhoneNumber(
   }
 }
 
+/**
+ * Sends a password reset email to the specified email address.
+ *
+ * @param ui - The FirebaseUI instance.
+ * @param email - The email address to send the password reset email to.
+ * @returns {Promise<void>} A promise that resolves when the email is sent.
+ */
 export async function sendPasswordResetEmail(ui: FirebaseUI, email: string): Promise<void> {
   try {
     setPendingState(ui);
@@ -209,6 +260,15 @@ export async function sendPasswordResetEmail(ui: FirebaseUI, email: string): Pro
   }
 }
 
+/**
+ * Sends a sign-in link to the specified email address.
+ *
+ * The email address is stored in localStorage for later use during the sign-in process.
+ *
+ * @param ui - The FirebaseUI instance.
+ * @param email - The email address to send the sign-in link to.
+ * @returns {Promise<void>} A promise that resolves when the email is sent.
+ */
 export async function sendSignInLinkToEmail(ui: FirebaseUI, email: string): Promise<void> {
   try {
     setPendingState(ui);
@@ -228,11 +288,28 @@ export async function sendSignInLinkToEmail(ui: FirebaseUI, email: string): Prom
   }
 }
 
+/**
+ * Signs in a user using an email link.
+ *
+ * @param ui - The FirebaseUI instance.
+ * @param email - The email address associated with the sign-in link.
+ * @param link - The sign-in link from the email.
+ * @returns {Promise<UserCredential>} A promise containing the user credential.
+ */
 export async function signInWithEmailLink(ui: FirebaseUI, email: string, link: string): Promise<UserCredential> {
   const credential = EmailAuthProvider.credentialWithLink(email, link);
   return signInWithCredential(ui, credential);
 }
 
+/**
+ * Signs in a user with an authentication credential.
+ *
+ * If the `autoUpgradeAnonymousUsers` behavior is enabled, it will attempt to upgrade an anonymous user to a regular user.
+ *
+ * @param ui - The FirebaseUI instance.
+ * @param credential - The authentication credential to sign in with.
+ * @returns {Promise<UserCredential>} A promise containing the user credential.
+ */
 export async function signInWithCredential(ui: FirebaseUI, credential: AuthCredential): Promise<UserCredential> {
   try {
     setPendingState(ui);
@@ -255,6 +332,13 @@ export async function signInWithCredential(ui: FirebaseUI, credential: AuthCrede
   }
 }
 
+/**
+ * Signs in a user with a custom token.
+ *
+ * @param ui - The FirebaseUI instance.
+ * @param customToken - The custom token to sign in with.
+ * @returns {Promise<UserCredential>} A promise containing the user credential.
+ */
 export async function signInWithCustomToken(ui: FirebaseUI, customToken: string): Promise<UserCredential> {
   try {
     setPendingState(ui);
@@ -267,6 +351,12 @@ export async function signInWithCustomToken(ui: FirebaseUI, customToken: string)
   }
 }
 
+/**
+ * Signs in a user anonymously.
+ *
+ * @param ui - The FirebaseUI instance.
+ * @returns {Promise<UserCredential>} A promise containing the user credential.
+ */
 export async function signInAnonymously(ui: FirebaseUI): Promise<UserCredential> {
   try {
     setPendingState(ui);
@@ -279,6 +369,16 @@ export async function signInAnonymously(ui: FirebaseUI): Promise<UserCredential>
   }
 }
 
+/**
+ * Signs in a user with an authentication provider (e.g., Google, Facebook, etc.).
+ *
+ * If the `autoUpgradeAnonymousProvider` behavior is enabled, it will attempt to upgrade an anonymous user to a regular user.
+ * The sign-in strategy (popup or redirect) is determined by the `providerSignInStrategy` behavior.
+ *
+ * @param ui - The FirebaseUI instance.
+ * @param provider - The authentication provider to sign in with.
+ * @returns {Promise<UserCredential | never>} A promise containing the user credential, or never if using redirect strategy.
+ */
 export async function signInWithProvider(ui: FirebaseUI, provider: AuthProvider): Promise<UserCredential | never> {
   try {
     setPendingState(ui);
@@ -305,6 +405,16 @@ export async function signInWithProvider(ui: FirebaseUI, provider: AuthProvider)
   }
 }
 
+/**
+ * Completes the email link sign-in process using the current URL.
+ *
+ * Checks if the current URL is a valid email link sign-in URL and retrieves the email from localStorage.
+ * Returns null if the URL is not a valid email link or if no email is found in localStorage.
+ *
+ * @param ui - The FirebaseUI instance.
+ * @param currentUrl - The current URL to check for email link sign-in.
+ * @returns {Promise<UserCredential | null>} A promise containing the user credential, or null if the sign-in cannot be completed.
+ */
 export async function completeEmailLinkSignIn(ui: FirebaseUI, currentUrl: string): Promise<UserCredential | null> {
   try {
     if (!_isSignInWithEmailLink(ui.auth, currentUrl)) {
@@ -314,17 +424,26 @@ export async function completeEmailLinkSignIn(ui: FirebaseUI, currentUrl: string
     const email = window.localStorage.getItem("emailForSignIn");
     if (!email) return null;
 
-    setPendingState(ui);
+    // signInWithEmailLink handles behavior checks, credential creation, and error handling
     const result = await signInWithEmailLink(ui, email, currentUrl);
     return handlePendingCredential(ui, result);
-  } catch (error) {
-    handleFirebaseError(ui, error);
   } finally {
-    ui.setState("idle");
     window.localStorage.removeItem("emailForSignIn");
   }
 }
 
+/**
+ * Generates a QR code data URL for TOTP (Time-based One-Time Password) multi-factor authentication.
+ *
+ * The QR code can be scanned by an authenticator app to set up TOTP MFA for the user.
+ *
+ * @param ui - The FirebaseUI instance.
+ * @param secret - The TOTP secret to generate the QR code for.
+ * @param accountName - Optional account name for the QR code. Defaults to the user's email if not provided.
+ * @param issuer - Optional issuer name for the QR code.
+ * @returns {string} A data URL containing the QR code image.
+ * @throws {Error} Throws an error if the user is not authenticated.
+ */
 export function generateTotpQrCode(ui: FirebaseUI, secret: TotpSecret, accountName?: string, issuer?: string): string {
   const currentUser = ui.auth.currentUser;
 
@@ -340,10 +459,19 @@ export function generateTotpQrCode(ui: FirebaseUI, secret: TotpSecret, accountNa
   return qr.createDataURL();
 }
 
+/**
+ * Signs in a user using a multi-factor assertion.
+ *
+ * Resolves the multi-factor challenge using the provided assertion and clears the multi-factor resolver from the UI state.
+ *
+ * @param ui - The FirebaseUI instance.
+ * @param assertion - The multi-factor assertion to use for sign-in.
+ * @returns {Promise<UserCredential>} A promise containing the user credential.
+ */
 export async function signInWithMultiFactorAssertion(ui: FirebaseUI, assertion: MultiFactorAssertion) {
   try {
     setPendingState(ui);
-    const result = await ui.multiFactorResolver?.resolveSignIn(assertion);
+    const result = await ui.multiFactorResolver!.resolveSignIn(assertion);
     ui.setMultiFactorResolver(undefined);
     return result;
   } catch (error) {
@@ -353,6 +481,14 @@ export async function signInWithMultiFactorAssertion(ui: FirebaseUI, assertion: 
   }
 }
 
+/**
+ * Enrolls a multi-factor authentication method for the current user.
+ *
+ * @param ui - The FirebaseUI instance.
+ * @param assertion - The multi-factor assertion to enroll.
+ * @param displayName - Optional display name for the enrolled MFA method.
+ * @returns {Promise<void>} A promise that resolves when the enrollment is complete.
+ */
 export async function enrollWithMultiFactorAssertion(
   ui: FirebaseUI,
   assertion: MultiFactorAssertion,
@@ -368,6 +504,12 @@ export async function enrollWithMultiFactorAssertion(
   }
 }
 
+/**
+ * Generates a TOTP (Time-based One-Time Password) secret for multi-factor authentication enrollment.
+ *
+ * @param ui - The FirebaseUI instance.
+ * @returns {Promise<TotpSecret>} A promise containing the TOTP secret.
+ */
 export async function generateTotpSecret(ui: FirebaseUI): Promise<TotpSecret> {
   try {
     setPendingState(ui);
