@@ -15,8 +15,18 @@
  */
 
 "use client";
-
-import { EmailLinkAuthScreen, GoogleSignInButton } from "@firebase-oss/ui-react";
+import {
+  AppleSignInButton,
+  EmailLinkAuthScreen,
+  FacebookSignInButton,
+  GitHubSignInButton,
+  GoogleSignInButton,
+  MicrosoftSignInButton,
+  OAuthButton,
+  TwitterSignInButton,
+} from "@firebase-oss/ui-react";
+import { OAuthProvider } from "firebase/auth";
+import { useRouter } from "next/navigation";
 
 export default function EmailLinkAuthScreenWithOAuthPage() {
   const router = useRouter();

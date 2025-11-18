@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
-import { useState } from "react";
-import { OAuthProvider } from "firebase/auth";
 import {
-  OAuthButton,
-  FacebookSignInButton,
   AppleSignInButton,
+  FacebookSignInButton,
   GitHubSignInButton,
   GoogleSignInButton,
   MicrosoftSignInButton,
+  OAuthButton,
   OAuthScreen,
   TwitterSignInButton,
 } from "@firebase-oss/ui-react";
+import { OAuthProvider } from "firebase/auth";
+import { useState } from "react";
+import { useNavigate } from "react-router";
 
 export default function OAuthScreenPage() {
   const [themed, setThemed] = useState(false);

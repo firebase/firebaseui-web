@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { Component, inject } from "@angular/core";
+import { Router } from "@angular/router";
 import { PhoneAuthScreenComponent } from "@firebase-oss/ui-angular";
 
 @Component({

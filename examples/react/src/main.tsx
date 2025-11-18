@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-import { BrowserRouter, Routes, Route, Outlet, NavLink } from "react-router";
+import { BrowserRouter, NavLink, Outlet, Route, Routes } from "react-router";
 
-import ReactDOM from "react-dom/client";
-import { FirebaseUIProvider } from "@firebase-oss/ui-react";
-import { ui, auth } from "./firebase/firebase";
-import App from "./App";
-import { hiddenRoutes, routes } from "./routes";
+import { FirebaseUIProvider, useUI } from "@firebase-oss/ui-react";
 import { enUs } from "@firebase-oss/ui-translations";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import { auth, ui } from "./firebase/firebase";
 import { pirate } from "./pirate";
+import { hiddenRoutes, routes } from "./routes";
 
 const root = document.getElementById("root")!;
 

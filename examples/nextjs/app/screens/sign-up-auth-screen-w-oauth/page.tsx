@@ -16,7 +16,17 @@
 
 "use client";
 
-import { GoogleSignInButton, SignUpAuthScreen } from "@firebase-oss/ui-react";
+import {
+  AppleSignInButton,
+  FacebookSignInButton,
+  GitHubSignInButton,
+  GoogleSignInButton,
+  MicrosoftSignInButton,
+  OAuthButton,
+  TwitterSignInButton,
+} from "@firebase-oss/ui-react";
+import { OAuthProvider } from "firebase/auth";
+import { useRouter } from "next/navigation";
 
 export default function SignUpAuthScreenWithOAuthPage() {
   const router = useRouter();

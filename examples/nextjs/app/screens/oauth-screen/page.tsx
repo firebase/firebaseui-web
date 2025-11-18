@@ -16,7 +16,18 @@
 
 "use client";
 
-import { GoogleSignInButton, OAuthScreen } from "@firebase-oss/ui-react";
+import {
+  AppleSignInButton,
+  FacebookSignInButton,
+  GitHubSignInButton,
+  GoogleSignInButton,
+  MicrosoftSignInButton,
+  OAuthButton,
+  OAuthScreen,
+  TwitterSignInButton,
+} from "@firebase-oss/ui-react";
+import { OAuthProvider } from "firebase/auth";
+import { useState } from "react";
 
 export default function OAuthScreenPage() {
   const [themed, setThemed] = useState(false);

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { OAuthScreenComponent } from "@firebase-oss/ui-angular";
+import { Component } from "@angular/core";
+import { ForgotPasswordAuthScreenComponent } from "@firebase-oss/ui-angular";
 
 @Component({
   selector: "app-forgot-password-auth-screen",

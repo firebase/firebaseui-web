@@ -12,9 +12,6 @@
     "shadcn:add-all": "tsx add-all.ts"
   },
   "dependencies": {
-    "@firebase-oss/ui-core": "workspace:*",
-    "@firebase-oss/ui-react": "workspace:*",
-    "@firebase-oss/ui-styles": "workspace:*",
     "@hookform/resolvers": "^5.2.2",
     "@firebase-oss/ui-core": "workspace:*",
     "@firebase-oss/ui-react": "workspace:*",

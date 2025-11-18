@@ -1,18 +1,5 @@
 "use client";
 
-import type { PhoneAuthNumberFormSchema } from "@firebase-oss/ui-core";
-import { FirebaseUIError, getTranslation } from "@firebase-oss/ui-core";
-import {
-  type PhoneAuthFormProps,
-  usePhoneAuthNumberFormSchema,
-  usePhoneAuthVerifyFormSchema,
-  usePhoneNumberFormAction,
-  useRecaptchaVerifier,
-  useUI,
-} from "@firebase-oss/ui-react";
-import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
-import { useForm } from "react-hook-form";
-import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 import {
   FirebaseUIError,
   formatPhoneNumber,
@@ -20,12 +7,25 @@ import {
   type PhoneAuthNumberFormSchema,
   type PhoneAuthVerifyFormSchema,
 } from "@firebase-oss/ui-core";
+import {
+  type PhoneAuthFormProps,
+  usePhoneAuthNumberFormSchema,
+  usePhoneAuthVerifyFormSchema,
+  usePhoneNumberFormAction,
+  useRecaptchaVerifier,
+  useUI,
+  useVerifyPhoneNumberFormAction,
+} from "@firebase-oss/ui-react";
+import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
+import type { UserCredential } from "firebase/auth";
+import { useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 
+import { CountrySelector, type CountrySelectorRef } from "@/components/country-selector";
+import { Policies } from "@/components/policies";
+import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Policies } from "@/components/policies";
-import { CountrySelector, type CountrySelectorRef } from "@/components/country-selector";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 
 type VerifyPhoneNumberFormProps = {

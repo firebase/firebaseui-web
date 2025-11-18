@@ -1,13 +1,19 @@
 "use client";
 
-import { PhoneMultiFactorGenerator, TotpMultiFactorGenerator, type MultiFactorInfo } from "firebase/auth";
-import { type ComponentProps, useState } from "react";
 import { getTranslation } from "@firebase-oss/ui-core";
 import { useUI } from "@firebase-oss/ui-react";
+import {
+  PhoneMultiFactorGenerator,
+  TotpMultiFactorGenerator,
+  type MultiFactorInfo,
+  type UserCredential,
+} from "firebase/auth";
+import { useState, type ComponentProps } from "react";
 
 import { SmsMultiFactorAssertionForm } from "@/components/sms-multi-factor-assertion-form";
 import { TotpMultiFactorAssertionForm } from "@/components/totp-multi-factor-assertion-form";
 import { Button } from "@/components/ui/button";
+import { useMultiFactorAssertionCleanup } from "@firebase-oss/ui-react";
 
 export type MultiFactorAuthAssertionFormProps = {
   onSuccess?: (credential: UserCredential) => void;

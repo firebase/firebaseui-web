@@ -16,7 +16,18 @@
 
 "use client";
 
-import { GoogleSignInButton, PhoneAuthScreen } from "@firebase-oss/ui-react";
+import {
+  FacebookSignInButton,
+  GitHubSignInButton,
+  AppleSignInButton,
+  GoogleSignInButton,
+  PhoneAuthScreen,
+  TwitterSignInButton,
+  MicrosoftSignInButton,
+  OAuthButton,
+} from "@firebase-oss/ui-react";
+import { OAuthProvider } from "firebase/auth";
+import { useRouter } from "next/navigation";
 
 export default function PhoneAuthScreenWithOAuthPage() {
   const router = useRouter();
@@ -56,5 +67,17 @@ function LineSignInButton() {
       </svg>
       <span>Sign in with Line</span>
     </OAuthButton>
-  );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

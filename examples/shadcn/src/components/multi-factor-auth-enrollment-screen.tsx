@@ -1,11 +1,10 @@
 "use client";
 
-import React, { type PropsWithChildren } from "react";
 import { getTranslation } from "@firebase-oss/ui-core";
 import { useUI, type MultiFactorAuthEnrollmentFormProps } from "@firebase-oss/ui-react";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { MultiFactorAuthEnrollmentForm } from "@/components/multi-factor-auth-enrollment-form";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export type MultiFactorAuthEnrollmentScreenProps = MultiFactorAuthEnrollmentFormProps;
 
