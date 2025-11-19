@@ -14,30 +14,41 @@
  * limitations under the License.
  */
 
-import { Component, input } from "@angular/core";
+import { Component, input, output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { OAuthButtonComponent } from "./oauth-button";
 import { injectTranslation, injectUI } from "../../provider";
-import { OAuthProvider } from "@angular/fire/auth";
+import { OAuthProvider, UserCredential } from "@angular/fire/auth";
 import { AppleLogoComponent } from "../../components/logos/apple";
 
 @Component({
   selector: "fui-apple-sign-in-button",
   standalone: true,
   imports: [CommonModule, OAuthButtonComponent, AppleLogoComponent],
+  host: {
+    style: "display: block;",
+  },
   template: `
-    <fui-oauth-button [provider]="appleProvider">
+    <fui-oauth-button [provider]="appleProvider" [themed]="themed()" (signIn)="signIn.emit($event)">
       <fui-apple-logo />
       <span>{{ signInWithAppleLabel() }}</span>
     </fui-oauth-button>
   `,
 })
+/**
+ * A button component for signing in with Apple.
+ */
 export class AppleSignInButtonComponent {
   ui = injectUI();
   signInWithAppleLabel = injectTranslation("labels", "signInWithApple");
+  /** Whether to use themed styling. */
+  themed = input<boolean>(false);
+  /** Event emitter for successful sign-in. */
+  signIn = output<UserCredential>();
 
   private defaultProvider = new OAuthProvider("apple.com");
 
+  /** Optional custom OAuth provider configuration. */
   provider = input<OAuthProvider>();
 
   get appleProvider() {

@@ -22,9 +22,9 @@ import {
   useForgotPasswordAuthFormAction,
 } from "./forgot-password-auth-form";
 import { act } from "react";
-import { sendPasswordResetEmail } from "@firebase-oss/ui-core";
+import { sendPasswordResetEmail } from "@invertase/firebaseui-core";
 import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
-import { registerLocale } from "@firebase-oss/ui-translations";
+import { registerLocale } from "@invertase/firebaseui-translations";
 import { FirebaseUIProvider } from "~/context";
 
 vi.mock("firebase/auth", async () => {
@@ -35,8 +35,8 @@ vi.mock("firebase/auth", async () => {
   };
 });
 
-vi.mock("@firebase-oss/ui-core", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@firebase-oss/ui-core")>();
+vi.mock("@invertase/firebaseui-core", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@invertase/firebaseui-core")>();
   return {
     ...mod,
     sendPasswordResetEmail: vi.fn(),
@@ -187,9 +187,9 @@ describe("<ForgotPasswordAuthForm />", () => {
       </FirebaseUIProvider>
     );
 
-    const backToSignInButton = screen.getByRole("button", { name: "backToSignIn" });
+    const backToSignInButton = screen.getByRole("button", { name: "← backToSignIn" });
     expect(backToSignInButton).toBeInTheDocument();
-    expect(backToSignInButton).toHaveTextContent("backToSignIn");
+    expect(backToSignInButton).toHaveTextContent("← backToSignIn");
 
     // Make sure it's a button so it doesn't submit the form
     expect(backToSignInButton).toHaveAttribute("type", "button");

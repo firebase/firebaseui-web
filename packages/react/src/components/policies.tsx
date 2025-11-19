@@ -14,24 +14,44 @@
  * limitations under the License.
  */
 
-import { getTranslation } from "@firebase-oss/ui-core";
+import { getTranslation } from "@invertase/firebaseui-core";
 import { cloneElement, createContext, useContext } from "react";
 import { useUI } from "~/hooks";
 
+/** A URL for a policy document (terms of service or privacy policy). */
 export type PolicyURL = string | URL;
 
+/** Configuration for terms of service and privacy policy links. */
 export interface PolicyProps {
+  /** The URL to the terms of service page. */
   termsOfServiceUrl: PolicyURL;
+  /** The URL to the privacy policy page. */
   privacyPolicyUrl: PolicyURL;
+  /** Optional callback function for handling navigation to policy pages. */
   onNavigate?: (url: PolicyURL) => void;
 }
 
 export const PolicyContext = createContext<PolicyProps | undefined>(undefined);
 
+/**
+ * Provides policy configuration to child components.
+ *
+ * @returns The policy provider component.
+ */
 export function PolicyProvider({ children, policies }: { children: React.ReactNode; policies?: PolicyProps }) {
   return <PolicyContext.Provider value={policies}>{children}</PolicyContext.Provider>;
 }
 
+/**
+ * Displays terms of service and privacy policy links.
+ *
+ * The links are formatted according to the translated message template which may contain
+ * placeholders like {tos} and {privacy}.
+ *
+ * Returns null if no policy configuration is provided.
+ *
+ * @returns The policies component, or null if no policies are configured.
+ */
 export function Policies() {
   const ui = useUI();
   const policies = useContext(PolicyContext);

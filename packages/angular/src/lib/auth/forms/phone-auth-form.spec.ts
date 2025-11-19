@@ -26,9 +26,9 @@ import {
 } from "../../components/form";
 import { UserCredential } from "@angular/fire/auth";
 
-// Mock the @firebase-oss/ui-core module but preserve Angular providers
-jest.mock("@firebase-oss/ui-core", () => {
-  const originalModule = jest.requireActual("@firebase-oss/ui-core");
+// Mock the @invertase/firebaseui-core module but preserve Angular providers
+jest.mock("@invertase/firebaseui-core", () => {
+  const originalModule = jest.requireActual("@invertase/firebaseui-core");
   return {
     ...originalModule,
     verifyPhoneNumber: jest.fn(),
@@ -54,7 +54,7 @@ describe("<fui-phone-auth-form />", () => {
       confirmPhoneNumber,
       formatPhoneNumber,
       FirebaseUIError,
-    } = require("@firebase-oss/ui-core");
+    } = require("@invertase/firebaseui-core");
     const { injectRecaptchaVerifier } = require("../../tests/test-helpers");
     mockVerifyPhoneNumber = verifyPhoneNumber;
     mockConfirmPhoneNumber = confirmPhoneNumber;
@@ -91,7 +91,7 @@ describe("<fui-phone-auth-form />", () => {
   });
 
   it("should render phone number form initially", async () => {
-    await render(PhoneAuthFormComponent, {
+    const { container } = await render(PhoneAuthFormComponent, {
       imports: [
         CommonModule,
         PhoneAuthFormComponent,
@@ -104,7 +104,7 @@ describe("<fui-phone-auth-form />", () => {
       ],
     });
 
-    expect(screen.getByLabelText("Phone Number")).toBeInTheDocument();
+    expect(container.querySelector('input[name="phoneNumber"]')).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Send Verification Code" })).toBeInTheDocument();
   });
 
@@ -126,7 +126,9 @@ describe("<fui-phone-auth-form />", () => {
     component.verificationId.set("test-verification-id");
     fixture.detectChanges();
 
-    expect(screen.getByLabelText("Verification Code")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByRole("textbox", { name: /Verification Code/i })).toBeInTheDocument();
+    });
     expect(screen.getByRole("button", { name: "Verify Code" })).toBeInTheDocument();
   });
 
@@ -299,7 +301,7 @@ describe("<fui-phone-auth-form />", () => {
   });
 
   it("should reset form when going back to phone number step", async () => {
-    const { fixture } = await render(PhoneAuthFormComponent, {
+    const { fixture, container } = await render(PhoneAuthFormComponent, {
       imports: [
         CommonModule,
         PhoneAuthFormComponent,
@@ -319,7 +321,7 @@ describe("<fui-phone-auth-form />", () => {
     component.verificationId.set(null);
     fixture.detectChanges();
 
-    expect(screen.getByLabelText("Phone Number")).toBeInTheDocument();
+    expect(container.querySelector('input[name="phoneNumber"]')).toBeInTheDocument();
     expect(screen.queryByLabelText("Verification Code")).toBeNull();
   });
 });

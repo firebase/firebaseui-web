@@ -26,7 +26,7 @@ import { describe } from "vitest";
 //   deleteUser,
 // } from "firebase/auth";
 // import { FirebaseUIProvider } from "~/context";
-// import { initializeUI } from "@firebase-oss/ui-core";
+// import { initializeUI } from "@invertase/firebaseui-core";
 
 // // Prepare the test environment
 // const firebaseConfig = {
@@ -148,7 +148,7 @@ describe.skip("TODO");
 
 //     await waitFor(
 //       () => {
-//         expect(container.querySelector(".fui-form__error")).not.toBeNull();
+//         expect(container.querySelector(".fui-error")).not.toBeNull();
 //       },
 //       { timeout: 5000 }
 //     );
@@ -186,7 +186,7 @@ describe.skip("TODO");
 
 //     await waitFor(
 //       () => {
-//         expect(container.querySelector(".fui-form__error")).not.toBeNull();
+//         expect(container.querySelector(".fui-error")).not.toBeNull();
 //       },
 //       { timeout: 5000 }
 //     );

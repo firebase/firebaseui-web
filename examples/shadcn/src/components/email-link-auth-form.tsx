@@ -1,23 +1,23 @@
 "use client";
 
-import type { EmailLinkAuthFormSchema } from "@firebase-oss/ui-core";
+import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
+import type { EmailLinkAuthFormSchema } from "@invertase/firebaseui-core";
+import { FirebaseUIError, getTranslation } from "@invertase/firebaseui-core";
 import {
   useEmailLinkAuthFormAction,
   useEmailLinkAuthFormCompleteSignIn,
   useEmailLinkAuthFormSchema,
   useUI,
   type EmailLinkAuthFormProps,
-} from "@firebase-oss/ui-react";
-
-import { FirebaseUIError, getTranslation } from "@firebase-oss/ui-core";
-import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
+} from "@invertase/firebaseui-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
+import { Policies } from "@/components/policies";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Policies } from "./policies";
 
 export type { EmailLinkAuthFormProps };
 
@@ -50,15 +50,15 @@ export function EmailLinkAuthForm(props: EmailLinkAuthFormProps) {
 
   if (emailSent) {
     return (
-      <div className="text-center space-y-4">
-        <div className="text-green-600 dark:text-green-400">{getTranslation(ui, "messages", "signInLinkSent")}</div>
-      </div>
+      <Alert>
+        <AlertDescription>{getTranslation(ui, "messages", "signInLinkSent")}</AlertDescription>
+      </Alert>
     );
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-y-4">
         <FormField
           control={form.control}
           name="email"

@@ -24,7 +24,7 @@ import {
   SignUpAuthScreen,
   TwitterSignInButton,
   MicrosoftSignInButton,
-} from "@firebase-oss/ui-react";
+} from "@invertase/firebaseui-react";
 import { useNavigate } from "react-router";
 
 export default function SignUpAuthScreenWithOAuthPage() {
@@ -32,8 +32,7 @@ export default function SignUpAuthScreenWithOAuthPage() {
 
   return (
     <SignUpAuthScreen
-      onSignUp={(credential) => {
-        console.log(credential);
+      onSignUp={() => {
         navigate("/");
       }}
     >

@@ -1,3 +1,19 @@
+/**
+ * Copyright 2025 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import { useCallback, useState } from "react";
 import { TotpMultiFactorGenerator, type TotpSecret } from "firebase/auth";
 import {
@@ -6,10 +22,15 @@ import {
   generateTotpQrCode,
   generateTotpSecret,
   getTranslation,
-} from "@firebase-oss/ui-core";
+} from "@invertase/firebaseui-core";
 import { form } from "~/components/form";
 import { useMultiFactorTotpAuthNumberFormSchema, useMultiFactorTotpAuthVerifyFormSchema, useUI } from "~/hooks";
 
+/**
+ * Creates a memoized action function for generating a TOTP secret for multi-factor enrollment.
+ *
+ * @returns A callback function that generates a TOTP secret.
+ */
 export function useTotpMultiFactorSecretGenerationFormAction() {
   const ui = useUI();
 
@@ -18,10 +39,18 @@ export function useTotpMultiFactorSecretGenerationFormAction() {
   }, [ui]);
 }
 
-type UseTotpMultiFactorEnrollmentForm = {
+/** Options for the TOTP multi-factor enrollment form hook. */
+export type UseTotpMultiFactorEnrollmentForm = {
+  /** Callback function called when the TOTP secret is generated. */
   onSuccess: (secret: TotpSecret, displayName: string) => void;
 };
 
+/**
+ * Creates a form hook for TOTP multi-factor enrollment secret generation.
+ *
+ * @param options - The TOTP enrollment form options.
+ * @returns A form instance configured for display name input and secret generation.
+ */
 export function useTotpMultiFactorSecretGenerationForm({ onSuccess }: UseTotpMultiFactorEnrollmentForm) {
   const action = useTotpMultiFactorSecretGenerationFormAction();
   const schema = useMultiFactorTotpAuthNumberFormSchema();
@@ -32,7 +61,6 @@ export function useTotpMultiFactorSecretGenerationForm({ onSuccess }: UseTotpMul
     },
     validators: {
       onBlur: schema,
-      onSubmit: schema,
       onSubmitAsync: async ({ value }) => {
         try {
           const secret = await action();
@@ -79,23 +107,46 @@ function TotpMultiFactorSecretGenerationForm(props: TotpMultiFactorSecretGenerat
   );
 }
 
+/**
+ * Creates a memoized action function for verifying the TOTP code during multi-factor enrollment.
+ *
+ * @returns A callback function that verifies the TOTP code and enrolls it as a multi-factor authentication method.
+ */
 export function useMultiFactorEnrollmentVerifyTotpFormAction() {
   const ui = useUI();
   return useCallback(
-    async ({ secret, verificationCode }: { secret: TotpSecret; verificationCode: string; displayName: string }) => {
+    async ({
+      secret,
+      verificationCode,
+      displayName,
+    }: {
+      secret: TotpSecret;
+      verificationCode: string;
+      displayName: string;
+    }) => {
       const assertion = TotpMultiFactorGenerator.assertionForEnrollment(secret, verificationCode);
-      return await enrollWithMultiFactorAssertion(ui, assertion, verificationCode);
+      return await enrollWithMultiFactorAssertion(ui, assertion, displayName);
     },
     [ui]
   );
 }
 
+/** Options for the multi-factor enrollment verify TOTP form hook. */
 type UseMultiFactorEnrollmentVerifyTotpForm = {
+  /** The TOTP secret generated in the previous step. */
   secret: TotpSecret;
+  /** The display name for the enrolled MFA method. */
   displayName: string;
+  /** Callback function called when enrollment is successful. */
   onSuccess: () => void;
 };
 
+/**
+ * Creates a form hook for TOTP multi-factor enrollment verification code input.
+ *
+ * @param options - The verify TOTP form options.
+ * @returns A form instance configured for TOTP verification code input during MFA enrollment.
+ */
 export function useMultiFactorEnrollmentVerifyTotpForm({
   secret,
   displayName,
@@ -109,7 +160,6 @@ export function useMultiFactorEnrollmentVerifyTotpForm({
       verificationCode: "",
     },
     validators: {
-      onSubmit: schema,
       onBlur: schema,
       onSubmitAsync: async ({ value }) => {
         try {
@@ -123,12 +173,24 @@ export function useMultiFactorEnrollmentVerifyTotpForm({
   });
 }
 
+/** Props for the MultiFactorEnrollmentVerifyTotpForm component. */
 type MultiFactorEnrollmentVerifyTotpFormProps = {
+  /** The TOTP secret generated in the previous step. */
   secret: TotpSecret;
+  /** The display name for the enrolled MFA method. */
   displayName: string;
+  /** Callback function called when enrollment is successful. */
   onSuccess: () => void;
 };
 
+/**
+ * A form component for verifying the TOTP code during multi-factor enrollment.
+ *
+ * Displays a QR code and secret key for the user to scan with their authenticator app,
+ * then allows them to verify the enrollment with a TOTP code.
+ *
+ * @returns The verify TOTP form component.
+ */
 export function MultiFactorEnrollmentVerifyTotpForm(props: MultiFactorEnrollmentVerifyTotpFormProps) {
   const ui = useUI();
   const form = useMultiFactorEnrollmentVerifyTotpForm({
@@ -149,12 +211,19 @@ export function MultiFactorEnrollmentVerifyTotpForm(props: MultiFactorEnrollment
     >
       <div className="fui-qr-code-container">
         <img src={qrCodeDataUrl} alt="TOTP QR Code" />
-        <p>TODO: Scan this QR code with your authenticator app</p>
+        <code>{props.secret.secretKey.toString()}</code>
+        <p>{getTranslation(ui, "prompts", "mfaTotpQrCodePrompt")}</p>
       </div>
       <form.AppForm>
         <fieldset>
           <form.AppField name="verificationCode">
-            {(field) => <field.Input label={getTranslation(ui, "labels", "verificationCode")} type="text" />}
+            {(field) => (
+              <field.Input
+                label={getTranslation(ui, "labels", "verificationCode")}
+                type="text"
+                description={getTranslation(ui, "prompts", "mfaTotpEnrollmentVerificationPrompt")}
+              />
+            )}
           </form.AppField>
         </fieldset>
         <fieldset>
@@ -166,10 +235,20 @@ export function MultiFactorEnrollmentVerifyTotpForm(props: MultiFactorEnrollment
   );
 }
 
+/** Props for the TotpMultiFactorEnrollmentForm component. */
 export type TotpMultiFactorEnrollmentFormProps = {
+  /** Optional callback function called when enrollment is successful. */
   onSuccess?: () => void;
 };
 
+/**
+ * A form component for TOTP multi-factor authentication enrollment.
+ *
+ * Handles the two-step process: first generating a TOTP secret and QR code, then verifying the TOTP code.
+ *
+ * @returns The TOTP multi-factor enrollment form component.
+ * @throws {Error} Throws an error if the user is not authenticated.
+ */
 export function TotpMultiFactorEnrollmentForm(props: TotpMultiFactorEnrollmentFormProps) {
   const ui = useUI();
 

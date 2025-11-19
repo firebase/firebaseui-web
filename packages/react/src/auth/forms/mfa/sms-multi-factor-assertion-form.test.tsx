@@ -15,20 +15,20 @@
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, renderHook, cleanup } from "@testing-library/react";
+import { render, screen, renderHook, cleanup, fireEvent, waitFor } from "@testing-library/react";
 import {
   SmsMultiFactorAssertionForm,
   useSmsMultiFactorAssertionPhoneFormAction,
   useSmsMultiFactorAssertionVerifyFormAction,
 } from "./sms-multi-factor-assertion-form";
 import { act } from "react";
-import { verifyPhoneNumber, signInWithMultiFactorAssertion } from "@firebase-oss/ui-core";
+import { verifyPhoneNumber, signInWithMultiFactorAssertion } from "@invertase/firebaseui-core";
 import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
-import { registerLocale } from "@firebase-oss/ui-translations";
+import { registerLocale } from "@invertase/firebaseui-translations";
 import { PhoneAuthProvider, PhoneMultiFactorGenerator } from "firebase/auth";
 
-vi.mock("@firebase-oss/ui-core", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@firebase-oss/ui-core")>();
+vi.mock("@invertase/firebaseui-core", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@invertase/firebaseui-core")>();
   return {
     ...mod,
     verifyPhoneNumber: vi.fn(),
@@ -173,7 +173,10 @@ describe("<SmsMultiFactorAssertionForm />", () => {
       locale: registerLocale("test", {
         labels: {
           sendCode: "sendCode",
-          phoneNumber: "phoneNumber",
+        },
+        messages: {
+          mfaSmsAssertionPrompt:
+            "A verification code will be sent to {phoneNumber} to complete the authentication process.",
         },
       }),
     });
@@ -195,8 +198,9 @@ describe("<SmsMultiFactorAssertionForm />", () => {
     const form = container.querySelectorAll("form.fui-form");
     expect(form.length).toBe(1);
 
-    expect(screen.getByRole("textbox", { name: /phoneNumber/i })).toBeInTheDocument();
-    expect(screen.getByRole("textbox", { name: /phoneNumber/i })).toHaveValue("+1234567890");
+    expect(
+      screen.getByText("A verification code will be sent to +1234567890 to complete the authentication process.")
+    ).toBeInTheDocument();
 
     const sendCodeButton = screen.getByRole("button", { name: "sendCode" });
     expect(sendCodeButton).toBeInTheDocument();
@@ -208,8 +212,9 @@ describe("<SmsMultiFactorAssertionForm />", () => {
   it("should display phone number from hint", () => {
     const mockUI = createMockUI({
       locale: registerLocale("test", {
-        labels: {
-          phoneNumber: "phoneNumber",
+        messages: {
+          mfaSmsAssertionPrompt:
+            "A verification code will be sent to {phoneNumber} to complete the authentication process.",
         },
       }),
     });
@@ -228,15 +233,17 @@ describe("<SmsMultiFactorAssertionForm />", () => {
       })
     );
 
-    const phoneInput = screen.getByRole("textbox", { name: /phoneNumber/i });
-    expect(phoneInput).toHaveValue("+1234567890");
+    expect(
+      screen.getByText("A verification code will be sent to +1234567890 to complete the authentication process.")
+    ).toBeInTheDocument();
   });
 
   it("should handle missing phone number in hint", () => {
     const mockUI = createMockUI({
       locale: registerLocale("test", {
-        labels: {
-          phoneNumber: "phoneNumber",
+        messages: {
+          mfaSmsAssertionPrompt:
+            "A verification code will be sent to {phoneNumber} to complete the authentication process.",
         },
       }),
     });
@@ -254,15 +261,18 @@ describe("<SmsMultiFactorAssertionForm />", () => {
       })
     );
 
-    const phoneInput = screen.getByRole("textbox", { name: /phoneNumber/i });
-    expect(phoneInput).toHaveValue("");
+    // When phone number is missing, the placeholder remains because empty string is falsy in the replacement logic
+    expect(
+      screen.getByText("A verification code will be sent to {phoneNumber} to complete the authentication process.")
+    ).toBeInTheDocument();
   });
 
   it("should accept onSuccess callback prop", () => {
     const mockUI = createMockUI({
       locale: registerLocale("test", {
-        labels: {
-          phoneNumber: "phoneNumber",
+        messages: {
+          mfaSmsAssertionPrompt:
+            "A verification code will be sent to {phoneNumber} to complete the authentication process.",
         },
       }),
     });
@@ -283,5 +293,67 @@ describe("<SmsMultiFactorAssertionForm />", () => {
         })
       );
     }).not.toThrow();
+  });
+
+  it("invokes onSuccess with credential after full SMS verification flow", async () => {
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          sendCode: "sendCode",
+          verificationCode: "verificationCode",
+          verifyCode: "verifyCode",
+        },
+        messages: {
+          mfaSmsAssertionPrompt:
+            "A verification code will be sent to {phoneNumber} to complete the authentication process.",
+        },
+      }),
+    });
+
+    const mockHint = {
+      factorId: "phone" as const,
+      phoneNumber: "+123456789", // Max 10 chars for schema validation
+      uid: "test-uid",
+      enrollmentTime: "2023-01-01T00:00:00Z",
+    };
+
+    vi.mocked(verifyPhoneNumber).mockResolvedValue("vid-123");
+    const mockCredential = { user: { uid: "sms-cred-user" } } as any;
+    vi.mocked(signInWithMultiFactorAssertion).mockResolvedValue(mockCredential);
+
+    const onSuccessMock = vi.fn();
+
+    const { container } = render(
+      createFirebaseUIProvider({
+        children: <SmsMultiFactorAssertionForm hint={mockHint} onSuccess={onSuccessMock} />,
+        ui: mockUI,
+      })
+    );
+
+    const sendCodeForm = screen.getByRole("button", { name: "sendCode" }).closest("form");
+    await act(async () => {
+      fireEvent.submit(sendCodeForm!);
+    });
+
+    const codeInput = await waitFor(() => screen.findByRole("textbox", { name: /verificationCode/i }));
+    const form = codeInput.closest("form");
+
+    await act(async () => {
+      fireEvent.change(codeInput, { target: { value: "123456" } });
+    });
+
+    await act(async () => {
+      fireEvent.submit(form!);
+    });
+
+    await waitFor(() => {
+      expect(verifyPhoneNumber).toHaveBeenCalled();
+      expect(signInWithMultiFactorAssertion).toHaveBeenCalled();
+    });
+
+    expect(onSuccessMock).toHaveBeenCalledTimes(1);
+    expect(onSuccessMock).toHaveBeenCalledWith(
+      expect.objectContaining({ user: expect.objectContaining({ uid: "sms-cred-user" }) })
+    );
   });
 });

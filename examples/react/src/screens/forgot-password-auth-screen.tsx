@@ -16,7 +16,7 @@
 
 "use client";
 
-import { ForgotPasswordAuthScreen } from "@firebase-oss/ui-react";
+import { ForgotPasswordAuthScreen } from "@invertase/firebaseui-react";
 import { useNavigate } from "react-router";
 
 export default function ForgotPasswordAuthScreenPage() {

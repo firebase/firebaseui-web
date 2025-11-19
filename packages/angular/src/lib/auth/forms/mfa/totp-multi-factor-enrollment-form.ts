@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, signal, effect, output, computed, input } from "@angular/core";
+import { Component, signal, effect, Output, EventEmitter, computed, input } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { TanStackField, TanStackAppField, injectForm, injectStore } from "@tanstack/angular-form";
 import { TotpMultiFactorGenerator, type TotpSecret } from "firebase/auth";
@@ -23,9 +23,8 @@ import {
   generateTotpSecret,
   generateTotpQrCode,
   FirebaseUIError,
-} from "@firebase-oss/ui-core";
+} from "@invertase/firebaseui-core";
 import { FormInputComponent, FormSubmitComponent, FormErrorMessageComponent } from "../../../components/form";
-import { PoliciesComponent } from "../../../components/policies";
 import {
   injectUI,
   injectTranslation,
@@ -36,6 +35,9 @@ import {
 @Component({
   selector: "fui-totp-multi-factor-secret-generation-form",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     TanStackField,
@@ -43,7 +45,6 @@ import {
     FormInputComponent,
     FormSubmitComponent,
     FormErrorMessageComponent,
-    PoliciesComponent,
   ],
   template: `
     <form (submit)="handleSubmit($event)" class="fui-form">
@@ -52,10 +53,10 @@ import {
           name="displayName"
           tanstack-app-field
           [tanstackField]="form"
-          label="{{ displayNameLabel() }}"
+          [label]="displayNameLabel()"
+          type="text"
         ></fui-form-input>
       </fieldset>
-      <fui-policies />
       <fieldset>
         <fui-form-submit [state]="state()">
           {{ generateQrCodeLabel() }}
@@ -65,15 +66,18 @@ import {
     </form>
   `,
 })
+/**
+ * A form component for generating a TOTP secret and display name during MFA enrollment.
+ */
 export class TotpMultiFactorSecretGenerationFormComponent {
   private ui = injectUI();
   private formSchema = injectMultiFactorTotpAuthNumberFormSchema();
 
-  onSubmit = output<{ secret: TotpSecret; displayName: string }>();
+  /** Event emitter fired when TOTP secret is generated. */
+  @Output() onSubmit = new EventEmitter<{ secret: TotpSecret; displayName: string }>();
 
   displayNameLabel = injectTranslation("labels", "displayName");
   generateQrCodeLabel = injectTranslation("labels", "generateQrCode");
-  unknownErrorLabel = injectTranslation("errors", "unknownError");
 
   form = injectForm({
     defaultValues: {
@@ -91,20 +95,11 @@ export class TotpMultiFactorSecretGenerationFormComponent {
           onSubmit: this.formSchema(),
           onSubmitAsync: async ({ value }) => {
             try {
-              if (!this.ui().auth.currentUser) {
-                throw new Error("User must be authenticated to enroll with multi-factor authentication");
-              }
-
               const secret = await generateTotpSecret(this.ui());
               this.onSubmit.emit({ secret, displayName: value.displayName });
               return;
             } catch (error) {
-              if (error instanceof FirebaseUIError) {
-                return error.message;
-              }
-
-              console.error(error);
-              return this.unknownErrorLabel();
+              return error instanceof FirebaseUIError ? error.message : String(error);
             }
           },
         },
@@ -122,6 +117,9 @@ export class TotpMultiFactorSecretGenerationFormComponent {
 @Component({
   selector: "fui-totp-multi-factor-verification-form",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     TanStackField,
@@ -129,12 +127,12 @@ export class TotpMultiFactorSecretGenerationFormComponent {
     FormInputComponent,
     FormSubmitComponent,
     FormErrorMessageComponent,
-    PoliciesComponent,
   ],
   template: `
     <div class="fui-qr-code-container">
       <img [src]="qrCodeDataUrl()" alt="TOTP QR Code" />
-      <p>TODO: Scan this QR code with your authenticator app</p>
+      <code>{{ secret().secretKey.toString() }}</code>
+      <p>{{ mfaTotpQrCodePrompt() }}</p>
     </div>
     <form (submit)="handleSubmit($event)" class="fui-form">
       <fieldset>
@@ -142,10 +140,11 @@ export class TotpMultiFactorSecretGenerationFormComponent {
           name="verificationCode"
           tanstack-app-field
           [tanstackField]="form"
-          label="{{ verificationCodeLabel() }}"
+          [label]="verificationCodeLabel()"
+          [description]="mfaTotpEnrollmentVerificationPrompt()"
+          type="text"
         ></fui-form-input>
       </fieldset>
-      <fui-policies />
       <fieldset>
         <fui-form-submit [state]="state()">
           {{ verifyCodeLabel() }}
@@ -155,17 +154,26 @@ export class TotpMultiFactorSecretGenerationFormComponent {
     </form>
   `,
 })
+/**
+ * A form component for verifying TOTP code during MFA enrollment.
+ *
+ * Displays a QR code and allows users to verify their authenticator app setup.
+ */
 export class TotpMultiFactorVerificationFormComponent {
   private ui = injectUI();
   private formSchema = injectMultiFactorTotpAuthVerifyFormSchema();
 
+  /** The TOTP secret generated in the previous step. */
   secret = input.required<TotpSecret>();
+  /** The display name for the TOTP factor. */
   displayName = input.required<string>();
-  onEnrollment = output<void>();
+  /** Event emitter fired when MFA enrollment is completed. */
+  @Output() onEnrollment = new EventEmitter<void>();
 
   verificationCodeLabel = injectTranslation("labels", "verificationCode");
   verifyCodeLabel = injectTranslation("labels", "verifyCode");
-  unknownErrorLabel = injectTranslation("errors", "unknownError");
+  mfaTotpQrCodePrompt = injectTranslation("prompts", "mfaTotpQrCodePrompt");
+  mfaTotpEnrollmentVerificationPrompt = injectTranslation("prompts", "mfaTotpEnrollmentVerificationPrompt");
 
   form = injectForm({
     defaultValues: {
@@ -192,13 +200,7 @@ export class TotpMultiFactorVerificationFormComponent {
               this.onEnrollment.emit();
               return;
             } catch (error) {
-              if (error instanceof FirebaseUIError) {
-                return error.message;
-              }
-              if (error instanceof Error) {
-                return error.message;
-              }
-              return this.unknownErrorLabel();
+              return error instanceof FirebaseUIError ? error.message : String(error);
             }
           },
         },
@@ -217,6 +219,9 @@ export class TotpMultiFactorVerificationFormComponent {
   selector: "fui-totp-multi-factor-enrollment-form",
   standalone: true,
   imports: [CommonModule, TotpMultiFactorSecretGenerationFormComponent, TotpMultiFactorVerificationFormComponent],
+  host: {
+    style: "display: block;",
+  },
   template: `
     <div class="fui-form-container">
       @if (!enrollment()) {
@@ -231,9 +236,23 @@ export class TotpMultiFactorVerificationFormComponent {
     </div>
   `,
 })
+/**
+ * A form component for TOTP multi-factor authentication enrollment.
+ *
+ * Manages the flow between secret generation and verification for TOTP MFA enrollment.
+ */
 export class TotpMultiFactorEnrollmentFormComponent {
+  private ui = injectUI();
+
   enrollment = signal<{ secret: TotpSecret; displayName: string } | null>(null);
-  onEnrollment = output<void>();
+  /** Event emitter fired when MFA enrollment is completed. */
+  @Output() onEnrollment = new EventEmitter<void>();
+
+  constructor() {
+    if (!this.ui().auth.currentUser) {
+      throw new Error("User must be authenticated to enroll with multi-factor authentication");
+    }
+  }
 
   handleSecretGeneration(data: { secret: TotpSecret; displayName: string }) {
     this.enrollment.set(data);

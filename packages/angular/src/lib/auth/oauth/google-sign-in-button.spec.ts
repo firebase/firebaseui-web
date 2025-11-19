@@ -93,4 +93,16 @@ describe("<fui-google-sign-in-button>", () => {
     const button = screen.getByRole("button");
     expect(button).toHaveAttribute("data-provider", "google.com");
   });
+
+  it("has signIn output", async () => {
+    const { fixture } = await render(TestGoogleSignInButtonHostComponent);
+
+    const component = fixture.componentInstance;
+    expect(component).toBeTruthy();
+    // Verify the component has the signIn output
+    const buttonComponent = fixture.debugElement.query(
+      (el) => el.name === "fui-google-sign-in-button"
+    )?.componentInstance;
+    expect(buttonComponent?.signIn).toBeDefined();
+  });
 });

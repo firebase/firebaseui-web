@@ -24,7 +24,7 @@ import {
   PhoneAuthScreen,
   TwitterSignInButton,
   MicrosoftSignInButton,
-} from "@firebase-oss/ui-react";
+} from "@invertase/firebaseui-react";
 import { useNavigate } from "react-router";
 
 export default function PhoneAuthScreenWithOAuthPage() {
@@ -32,8 +32,7 @@ export default function PhoneAuthScreenWithOAuthPage() {
 
   return (
     <PhoneAuthScreen
-      onSignIn={(credential) => {
-        console.log(credential);
+      onSignIn={() => {
         navigate("/");
       }}
     >

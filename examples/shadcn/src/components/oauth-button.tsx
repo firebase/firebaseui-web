@@ -1,6 +1,6 @@
 "use client";
 
-import { useUI, type OAuthButtonProps, useSignInWithProvider } from "@firebase-oss/ui-react";
+import { useUI, type OAuthButtonProps, useSignInWithProvider } from "@invertase/firebaseui-react";
 import { Button } from "@/components/ui/button";
 
 export type { OAuthButtonProps };
@@ -18,6 +18,8 @@ export function OAuthButton({ provider, children, themed }: OAuthButtonProps) {
         onClick={callback}
         data-provider={provider.providerId}
         data-themed={themed}
+        className="w-full"
+        variant={themed ? "default" : "outline"}
       >
         {children}
       </Button>

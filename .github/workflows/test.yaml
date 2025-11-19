@@ -7,7 +7,6 @@ on:
   pull_request:
 
 jobs:
-
   test:
     runs-on: ubuntu-latest
     steps:
@@ -17,7 +16,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
           check-latest: true
 
       - name: Setup pnpm
@@ -33,6 +32,9 @@ jobs:
 
       - name: Install Firebase CLI
         run: npm i -g firebase-tools@14.15.2
+
+      - name: Enable webframeworks experiment
+        run: firebase experiments:enable webframeworks
 
       - name: Start Firebase emulator
         run: |

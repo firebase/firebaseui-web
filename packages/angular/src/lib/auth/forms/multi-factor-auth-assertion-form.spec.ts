@@ -30,6 +30,9 @@ describe("<fui-multi-factor-auth-assertion-form>", () => {
           mfaSmsVerification: "SMS Verification",
           mfaTotpVerification: "TOTP Verification",
         },
+        prompts: {
+          mfaAssertionFactorPrompt: "Please choose a multi-factor authentication method",
+        },
       };
       return () => mockTranslations[category]?.[key] || `${category}.${key}`;
     });
@@ -48,6 +51,7 @@ describe("<fui-multi-factor-auth-assertion-form>", () => {
             },
           ],
         },
+        setMultiFactorResolver: jest.fn(),
       });
     });
   });
@@ -68,6 +72,7 @@ describe("<fui-multi-factor-auth-assertion-form>", () => {
       imports: [MultiFactorAuthAssertionFormComponent],
     });
 
+    expect(screen.getByText("Please choose a multi-factor authentication method")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "SMS Verification" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "TOTP Verification" })).toBeInTheDocument();
 
@@ -87,6 +92,7 @@ describe("<fui-multi-factor-auth-assertion-form>", () => {
             },
           ],
         },
+        setMultiFactorResolver: jest.fn(),
       });
     });
 
@@ -136,16 +142,94 @@ describe("<fui-multi-factor-auth-assertion-form>", () => {
     expect(screen.queryByRole("button", { name: "SMS Verification" })).not.toBeInTheDocument();
   });
 
-  it("throws error when no resolver is provided", () => {
+  it("throws error when no resolver is provided", async () => {
     const { injectUI } = require("../../../provider");
     injectUI.mockImplementation(() => {
       return () => ({
         multiFactorResolver: null,
+        setMultiFactorResolver: jest.fn(),
       });
     });
 
-    expect(() => {
-      new MultiFactorAuthAssertionFormComponent();
-    }).toThrow("MultiFactorAuthAssertionForm requires a multi-factor resolver");
+    await expect(
+      render(MultiFactorAuthAssertionFormComponent, {
+        imports: [MultiFactorAuthAssertionFormComponent],
+      })
+    ).rejects.toThrow("MultiFactorAuthAssertionForm requires a multi-factor resolver");
+  });
+
+  it("calls setMultiFactorResolver on component destruction", async () => {
+    const { injectUI } = require("../../../provider");
+    const setMultiFactorResolverSpy = jest.fn();
+    injectUI.mockImplementation(() => {
+      return () => ({
+        multiFactorResolver: {
+          hints: [
+            {
+              factorId: PhoneMultiFactorGenerator.FACTOR_ID,
+              displayName: "Phone",
+            },
+          ],
+        },
+        setMultiFactorResolver: setMultiFactorResolverSpy,
+      });
+    });
+
+    TestBed.overrideComponent(SmsMultiFactorAssertionFormComponent, {
+      set: {
+        template: '<div data-testid="sms-assertion-form">SMS Assertion Form</div>',
+      },
+    });
+
+    const { fixture } = await render(MultiFactorAuthAssertionFormComponent, {
+      imports: [MultiFactorAuthAssertionFormComponent],
+    });
+
+    expect(setMultiFactorResolverSpy).not.toHaveBeenCalled();
+
+    fixture.destroy();
+
+    expect(setMultiFactorResolverSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it("clears multiFactorResolver when component is destroyed", async () => {
+    const { injectUI } = require("../../../provider");
+    const mockResolver = {
+      hints: [
+        {
+          factorId: PhoneMultiFactorGenerator.FACTOR_ID,
+          displayName: "Phone",
+        },
+      ],
+    };
+    let currentResolver: any = mockResolver;
+    const setMultiFactorResolverSpy = jest.fn((value?: any) => {
+      currentResolver = value;
+    });
+    const uiMock = () => ({
+      get multiFactorResolver() {
+        return currentResolver;
+      },
+      setMultiFactorResolver: setMultiFactorResolverSpy,
+    });
+
+    injectUI.mockImplementation(() => uiMock);
+
+    TestBed.overrideComponent(SmsMultiFactorAssertionFormComponent, {
+      set: {
+        template: '<div data-testid="sms-assertion-form">SMS Assertion Form</div>',
+      },
+    });
+
+    const { fixture } = await render(MultiFactorAuthAssertionFormComponent, {
+      imports: [MultiFactorAuthAssertionFormComponent],
+    });
+
+    expect(uiMock().multiFactorResolver).toBe(mockResolver);
+
+    fixture.destroy();
+
+    expect(setMultiFactorResolverSpy).toHaveBeenCalledTimes(1);
+    expect(uiMock().multiFactorResolver).toBeUndefined();
   });
 });

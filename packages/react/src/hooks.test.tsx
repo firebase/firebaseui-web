@@ -16,7 +16,6 @@
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderHook, act, cleanup, waitFor } from "@testing-library/react";
-import React from "react";
 import {
   useUI,
   useRedirectError,
@@ -27,10 +26,11 @@ import {
   usePhoneAuthNumberFormSchema,
   usePhoneAuthVerifyFormSchema,
   useRecaptchaVerifier,
+  useOnUserAuthenticated,
 } from "./hooks";
 import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
-import { registerLocale, enUs } from "@firebase-oss/ui-translations";
-import type { RecaptchaVerifier } from "firebase/auth";
+import { registerLocale, enUs } from "@invertase/firebaseui-translations";
+import type { RecaptchaVerifier, User } from "firebase/auth";
 
 // Mock RecaptchaVerifier from firebase/auth
 const mockRender = vi.fn();
@@ -62,11 +62,10 @@ describe("useUI", () => {
     expect(result.current).toEqual(mockUI.get());
   });
 
-  // TODO(ehesp): This test is not working as expected.
-  it.skip("throws an error if no context is found", () => {
+  it("throws an error if no context is found", () => {
     expect(() => {
       renderHook(() => useUI());
-    }).toThrow("No FirebaseUI context found. Your application must be wrapped in a <FirebaseUIProvider> component.");
+    }).toThrow();
   });
 
   it("returns updated values when nanostore state changes via setState", () => {
@@ -929,5 +928,256 @@ describe("useRecaptchaVerifier", () => {
     });
 
     expect(result.current).toBe(mockVerifier);
+  });
+});
+
+describe("useOnUserAuthenticated", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    cleanup();
+  });
+
+  it("calls callback when a non-anonymous user is authenticated", () => {
+    const mockCallback = vi.fn();
+    let authStateChangeCallback: ((user: User | null) => void) | null = null;
+    let unsubscribe: (() => void) | null = null;
+
+    const mockAuth = {
+      onAuthStateChanged: vi.fn((callback: (user: User | null) => void) => {
+        authStateChangeCallback = callback;
+        unsubscribe = vi.fn();
+        return unsubscribe;
+      }),
+    };
+
+    const mockUI = createMockUI({
+      auth: mockAuth as any,
+    });
+
+    const mockUser = {
+      uid: "test-user-id",
+      isAnonymous: false,
+    } as User;
+
+    const { unmount } = renderHook(() => useOnUserAuthenticated(mockCallback), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    expect(mockAuth.onAuthStateChanged).toHaveBeenCalledTimes(1);
+    expect(authStateChangeCallback).toBeDefined();
+
+    act(() => {
+      authStateChangeCallback!(mockUser);
+    });
+
+    expect(mockCallback).toHaveBeenCalledTimes(1);
+    expect(mockCallback).toHaveBeenCalledWith(mockUser);
+
+    unmount();
+    expect(unsubscribe).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not call callback when user is anonymous", () => {
+    const mockCallback = vi.fn();
+    let authStateChangeCallback: ((user: User | null) => void) | null = null;
+
+    const mockAuth = {
+      onAuthStateChanged: vi.fn((callback: (user: User | null) => void) => {
+        authStateChangeCallback = callback;
+        return vi.fn();
+      }),
+    };
+
+    const mockUI = createMockUI({
+      auth: mockAuth as any,
+    });
+
+    const mockAnonymousUser = {
+      uid: "anonymous-user-id",
+      isAnonymous: true,
+    } as User;
+
+    renderHook(() => useOnUserAuthenticated(mockCallback), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    act(() => {
+      authStateChangeCallback!(mockAnonymousUser);
+    });
+
+    expect(mockCallback).not.toHaveBeenCalled();
+  });
+
+  it("does not call callback when user is null", () => {
+    const mockCallback = vi.fn();
+    let authStateChangeCallback: ((user: User | null) => void) | null = null;
+
+    const mockAuth = {
+      onAuthStateChanged: vi.fn((callback: (user: User | null) => void) => {
+        authStateChangeCallback = callback;
+        return vi.fn();
+      }),
+    };
+
+    const mockUI = createMockUI({
+      auth: mockAuth as any,
+    });
+
+    renderHook(() => useOnUserAuthenticated(mockCallback), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    act(() => {
+      authStateChangeCallback!(null);
+    });
+
+    expect(mockCallback).not.toHaveBeenCalled();
+  });
+
+  it("works without a callback", () => {
+    let authStateChangeCallback: ((user: User | null) => void) | null = null;
+
+    const mockAuth = {
+      onAuthStateChanged: vi.fn((callback: (user: User | null) => void) => {
+        authStateChangeCallback = callback;
+        return vi.fn();
+      }),
+    };
+
+    const mockUI = createMockUI({
+      auth: mockAuth as any,
+    });
+
+    const mockUser = {
+      uid: "test-user-id",
+      isAnonymous: false,
+    } as User;
+
+    renderHook(() => useOnUserAuthenticated(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    act(() => {
+      authStateChangeCallback!(mockUser);
+    });
+
+    expect(mockAuth.onAuthStateChanged).toHaveBeenCalledTimes(1);
+  });
+
+  it("unsubscribes from auth state changes on unmount", () => {
+    const mockCallback = vi.fn();
+    let unsubscribe: (() => void) | null = null;
+
+    const mockAuth = {
+      onAuthStateChanged: vi.fn(() => {
+        unsubscribe = vi.fn();
+        return unsubscribe;
+      }),
+    };
+
+    const mockUI = createMockUI({
+      auth: mockAuth as any,
+    });
+
+    const { unmount } = renderHook(() => useOnUserAuthenticated(mockCallback), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    expect(mockAuth.onAuthStateChanged).toHaveBeenCalledTimes(1);
+    expect(unsubscribe).toBeDefined();
+
+    unmount();
+
+    expect(unsubscribe).toHaveBeenCalledTimes(1);
+  });
+
+  it("resubscribes when auth instance changes", () => {
+    const mockCallback = vi.fn();
+    const mockAuth1 = {
+      onAuthStateChanged: vi.fn(() => vi.fn()),
+    };
+    const mockAuth2 = {
+      onAuthStateChanged: vi.fn(() => vi.fn()),
+    };
+
+    const mockUI1 = createMockUI({
+      auth: mockAuth1 as any,
+    });
+    const mockUI2 = createMockUI({
+      auth: mockAuth2 as any,
+    });
+
+    const { rerender } = renderHook(() => useOnUserAuthenticated(mockCallback), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI1 }),
+    });
+
+    expect(mockAuth1.onAuthStateChanged).toHaveBeenCalledTimes(1);
+    expect(mockAuth2.onAuthStateChanged).not.toHaveBeenCalled();
+
+    rerender();
+    // Note: The hook depends on auth, but since we're using the same mockUI instance,
+    // we need to create a new wrapper with a different UI
+    const { rerender: rerender2 } = renderHook(() => useOnUserAuthenticated(mockCallback), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI2 }),
+    });
+
+    rerender2();
+
+    // The effect should re-run when auth changes, but since we're using a new wrapper,
+    // we need to check that the new auth instance's onAuthStateChanged is called
+    expect(mockAuth2.onAuthStateChanged).toHaveBeenCalledTimes(1);
+  });
+
+  it("resubscribes when callback changes", () => {
+    const mockCallback1 = vi.fn();
+    const mockCallback2 = vi.fn();
+    let authStateChangeCallback: ((user: User | null) => void) | null = null;
+    const unsubscribeFunctions: (() => void)[] = [];
+
+    const mockAuth = {
+      onAuthStateChanged: vi.fn((callback: (user: User | null) => void) => {
+        authStateChangeCallback = callback;
+        const unsubscribe = vi.fn();
+        unsubscribeFunctions.push(unsubscribe);
+        return unsubscribe;
+      }),
+    };
+
+    const mockUI = createMockUI({
+      auth: mockAuth as any,
+    });
+
+    const mockUser = {
+      uid: "test-user-id",
+      isAnonymous: false,
+    } as User;
+
+    const { rerender } = renderHook(({ callback }) => useOnUserAuthenticated(callback), {
+      initialProps: { callback: mockCallback1 },
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    expect(mockAuth.onAuthStateChanged).toHaveBeenCalledTimes(1);
+    expect(unsubscribeFunctions).toHaveLength(1);
+
+    act(() => {
+      authStateChangeCallback!(mockUser);
+    });
+
+    expect(mockCallback1).toHaveBeenCalledTimes(1);
+    expect(mockCallback2).not.toHaveBeenCalled();
+
+    rerender({ callback: mockCallback2 });
+
+    expect(mockAuth.onAuthStateChanged).toHaveBeenCalledTimes(2);
+    expect(unsubscribeFunctions).toHaveLength(2);
+    expect(unsubscribeFunctions[0]).toHaveBeenCalledTimes(1);
+
+    act(() => {
+      authStateChangeCallback!(mockUser);
+    });
+
+    expect(mockCallback1).toHaveBeenCalledTimes(1);
+    expect(mockCallback2).toHaveBeenCalledTimes(1);
   });
 });

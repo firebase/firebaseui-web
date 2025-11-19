@@ -16,6 +16,7 @@
 
 import { render, screen, fireEvent, waitFor } from "@testing-library/angular";
 import { CommonModule } from "@angular/common";
+import { EventEmitter } from "@angular/core";
 import { TanStackField, TanStackAppField } from "@tanstack/angular-form";
 import { ForgotPasswordAuthFormComponent } from "./forgot-password-auth-form";
 import {
@@ -26,9 +27,9 @@ import {
 } from "../../components/form";
 import { PoliciesComponent } from "../../components/policies";
 
-// Mock the @firebase-oss/ui-core module but preserve Angular providers
-jest.mock("@firebase-oss/ui-core", () => {
-  const originalModule = jest.requireActual("@firebase-oss/ui-core");
+// Mock the @invertase/firebaseui-core module but preserve Angular providers
+jest.mock("@invertase/firebaseui-core", () => {
+  const originalModule = jest.requireActual("@invertase/firebaseui-core");
   return {
     ...originalModule,
     sendPasswordResetEmail: jest.fn(),
@@ -46,7 +47,7 @@ describe("<fui-forgot-password-auth-form />", () => {
   let mockFirebaseUIError: any;
 
   beforeEach(() => {
-    const { sendPasswordResetEmail, FirebaseUIError } = require("@firebase-oss/ui-core");
+    const { sendPasswordResetEmail, FirebaseUIError } = require("@invertase/firebaseui-core");
     mockSendPasswordResetEmail = sendPasswordResetEmail;
     mockFirebaseUIError = FirebaseUIError;
   });
@@ -73,7 +74,10 @@ describe("<fui-forgot-password-auth-form />", () => {
   });
 
   it("should render the form initially", async () => {
-    await render(ForgotPasswordAuthFormComponent, {
+    const backToSignInEmitter = new EventEmitter<void>();
+    backToSignInEmitter.subscribe(() => {});
+
+    const { fixture } = await render(ForgotPasswordAuthFormComponent, {
       imports: [
         CommonModule,
         ForgotPasswordAuthFormComponent,
@@ -85,7 +89,11 @@ describe("<fui-forgot-password-auth-form />", () => {
         FormActionComponent,
         PoliciesComponent,
       ],
+      componentInputs: {
+        backToSignIn: backToSignInEmitter,
+      },
     });
+    fixture.detectChanges();
 
     expect(screen.getByLabelText("Email Address")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Reset Password" })).toBeInTheDocument();
@@ -153,6 +161,9 @@ describe("<fui-forgot-password-auth-form />", () => {
   });
 
   it("should emit backToSignIn when back button is clicked", async () => {
+    const backToSignInEmitter = new EventEmitter<void>();
+    backToSignInEmitter.subscribe(() => {});
+
     const { fixture } = await render(ForgotPasswordAuthFormComponent, {
       imports: [
         CommonModule,
@@ -165,9 +176,12 @@ describe("<fui-forgot-password-auth-form />", () => {
         FormActionComponent,
         PoliciesComponent,
       ],
+      componentInputs: {
+        backToSignIn: backToSignInEmitter,
+      },
     });
-    const component = fixture.componentInstance;
-    const backToSignInSpy = jest.spyOn(component.backToSignIn, "emit");
+    fixture.detectChanges();
+    const backToSignInSpy = jest.spyOn(backToSignInEmitter, "emit");
 
     const backButton = screen.getByRole("button", { name: "Back to Sign In →" });
     fireEvent.click(backButton);
@@ -226,6 +240,9 @@ describe("<fui-forgot-password-auth-form />", () => {
     });
 
     const component = fixture.componentInstance;
+    // Access the getter to initialize EventEmitter (simulating template binding)
+    component.passwordSent.subscribe(() => {});
+    fixture.detectChanges();
     const passwordSentSpy = jest.spyOn(component.passwordSent, "emit");
 
     const mockUI = { app: {}, auth: {} };
@@ -266,7 +283,9 @@ describe("<fui-forgot-password-auth-form />", () => {
     component.emailSent.set(true);
     fixture.detectChanges();
 
-    expect(screen.getByText("Check your email for a password reset link")).toBeInTheDocument();
+    const successMessage = screen.getByText("Check your email for a password reset link");
+    expect(successMessage).toBeInTheDocument();
+    expect(successMessage).toHaveClass("fui-success");
   });
 
   it("should handle FirebaseUIError and display error message", async () => {

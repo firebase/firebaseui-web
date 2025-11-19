@@ -1,4 +1,4 @@
-# @firebase-oss/ui-styles
+# @invertase/firebaseui-styles
 
 This package contains the styles for the FirebaseUI components.
 
@@ -10,7 +10,7 @@ If you are using Tailwind CSS in your project, you can import the source files d
 
 ```css
 @import "tailwindcss";
-@import "@firebase-oss/ui-styles/tailwind";
+@import "@invertase/firebaseui-styles/tailwind";
 ```
 
 ### With CSS
@@ -18,7 +18,7 @@ If you are using Tailwind CSS in your project, you can import the source files d
 Alternatively, you can import fully compiled CSS files into your project. This output contains both the tailwind styles and the FirebaseUI styles.
 
 ```jsx
-import "@firebase-oss/ui-styles";
+import "@invertase/firebaseui-styles";
 ```
 
 ## Themes
@@ -27,8 +27,8 @@ The packages also exports themes which overrides the CSS variables with preset c
 
 ```css
 @import "tailwindcss";
-@import "@firebase-oss/ui-styles/tailwind";
-@import "@firebase-oss/ui-styles/themes/brualist";
+@import "@invertase/firebaseui-styles/tailwind";
+@import "@invertase/firebaseui-styles/themes/brualist";
 ```
 
 ## Building

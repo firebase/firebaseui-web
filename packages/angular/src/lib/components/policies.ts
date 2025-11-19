@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, computed, Signal } from "@angular/core";
+import { Component, computed, HostBinding, Signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { injectPolicies, injectTranslation } from "../provider";
 
@@ -25,28 +25,34 @@ type PolicyPart =
 
 @Component({
   selector: "fui-policies",
+  host: {
+    class: "fui-policies",
+  },
   standalone: true,
   imports: [CommonModule],
   template: `
     @if (shouldShow()) {
-      <div class="fui-policies">
-        @for (part of policyParts(); track $index) {
-          @if (part.type === "tos") {
-            <a [attr.href]="part.url" target="_blank" rel="noopener noreferrer">
-              {{ part.text }}
-            </a>
-          } @else if (part.type === "privacy") {
-            <a [attr.href]="part.url" target="_blank" rel="noopener noreferrer">
-              {{ part.text }}
-            </a>
-          } @else {
-            <span>{{ part.content }}</span>
-          }
+      @for (part of policyParts(); track $index) {
+        @if (part.type === "tos") {
+          <a [attr.href]="part.url" target="_blank" rel="noopener noreferrer">
+            {{ part.text }}
+          </a>
+        } @else if (part.type === "privacy") {
+          <a [attr.href]="part.url" target="_blank" rel="noopener noreferrer">
+            {{ part.text }}
+          </a>
+        } @else {
+          <span>{{ part.content }}</span>
         }
-      </div>
+      }
     }
   `,
 })
+/**
+ * A component that displays terms of service and privacy policy links.
+ *
+ * Parses the terms and privacy policy template and renders clickable links.
+ */
 export class PoliciesComponent {
   private readonly policies = injectPolicies();
 
@@ -58,6 +64,11 @@ export class PoliciesComponent {
   private readonly privacyPolicyUrl = this.policies?.privacyPolicyUrl;
 
   readonly shouldShow = computed(() => this.policies !== null);
+
+  @HostBinding("style.display")
+  get displayStyle(): string {
+    return this.shouldShow() ? "block" : "none";
+  }
 
   readonly policyParts: Signal<PolicyPart[]> = computed(() => {
     if (!this.shouldShow()) {

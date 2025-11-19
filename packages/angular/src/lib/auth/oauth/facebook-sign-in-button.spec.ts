@@ -93,4 +93,16 @@ describe("<fui-facebook-sign-in-button>", () => {
     const button = screen.getByRole("button");
     expect(button).toHaveAttribute("data-provider", "facebook.com");
   });
+
+  it("has signIn output", async () => {
+    const { fixture } = await render(TestFacebookSignInButtonHostComponent);
+
+    const component = fixture.componentInstance;
+    expect(component).toBeTruthy();
+    // Verify the component has the signIn output
+    const buttonComponent = fixture.debugElement.query(
+      (el) => el.name === "fui-facebook-sign-in-button"
+    )?.componentInstance;
+    expect(buttonComponent?.signIn).toBeDefined();
+  });
 });

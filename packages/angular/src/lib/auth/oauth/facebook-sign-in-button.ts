@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import { Component, input } from "@angular/core";
+import { Component, input, output } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FacebookAuthProvider } from "@angular/fire/auth";
+import { FacebookAuthProvider, UserCredential } from "@angular/fire/auth";
 import { OAuthButtonComponent } from "./oauth-button";
 import { injectTranslation, injectUI } from "../../provider";
 import { FacebookLogoComponent } from "../../components/logos/facebook";
@@ -25,19 +25,30 @@ import { FacebookLogoComponent } from "../../components/logos/facebook";
   selector: "fui-facebook-sign-in-button",
   standalone: true,
   imports: [CommonModule, OAuthButtonComponent, FacebookLogoComponent],
+  host: {
+    style: "display: block;",
+  },
   template: `
-    <fui-oauth-button [provider]="facebookProvider">
+    <fui-oauth-button [provider]="facebookProvider" [themed]="themed()" (signIn)="signIn.emit($event)">
       <fui-facebook-logo />
       <span>{{ signInWithFacebookLabel() }}</span>
     </fui-oauth-button>
   `,
 })
+/**
+ * A button component for signing in with Facebook.
+ */
 export class FacebookSignInButtonComponent {
   ui = injectUI();
   signInWithFacebookLabel = injectTranslation("labels", "signInWithFacebook");
+  /** Whether to use themed styling. */
+  themed = input<boolean>(false);
+  /** Event emitter for successful sign-in. */
+  signIn = output<UserCredential>();
 
   private defaultProvider = new FacebookAuthProvider();
 
+  /** Optional custom OAuth provider configuration. */
   provider = input<FacebookAuthProvider>();
 
   get facebookProvider() {

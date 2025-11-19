@@ -22,7 +22,7 @@ import {
   GitHubSignInButton,
   MicrosoftSignInButton,
   TwitterSignInButton,
-} from "@firebase-oss/ui-react";
+} from "@invertase/firebaseui-react";
 import { useNavigate } from "react-router";
 
 export default function SignInAuthScreenWithOAuthPage() {
@@ -30,8 +30,7 @@ export default function SignInAuthScreenWithOAuthPage() {
 
   return (
     <SignInAuthScreen
-      onSignIn={(credential) => {
-        console.log(credential);
+      onSignIn={() => {
         navigate("/");
       }}
     >

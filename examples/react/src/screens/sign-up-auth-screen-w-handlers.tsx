@@ -16,7 +16,7 @@
 
 "use client";
 
-import { SignUpAuthScreen } from "@firebase-oss/ui-react";
+import { SignUpAuthScreen } from "@invertase/firebaseui-react";
 import { useNavigate } from "react-router";
 
 export default function SignUpAuthScreenWithHandlersPage() {
@@ -24,11 +24,10 @@ export default function SignUpAuthScreenWithHandlersPage() {
 
   return (
     <SignUpAuthScreen
-      onBackToSignInClick={() => {
+      onSignInClick={() => {
         navigate("/screens/sign-in-auth-screen");
       }}
-      onSignUp={(credential) => {
-        console.log(credential);
+      onSignUp={() => {
         navigate("/");
       }}
     />

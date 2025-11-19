@@ -1,4 +1,20 @@
-// Mock implementations for @firebase-oss/ui-core to avoid ESM issues in tests
+/**
+ * Copyright 2025 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// Mock implementations for @invertase/firebaseui-core to avoid ESM issues in tests
 export const sendPasswordResetEmail = jest.fn();
 export const sendSignInLinkToEmail = jest.fn();
 export const completeEmailLinkSignIn = jest.fn();
@@ -129,6 +145,7 @@ export const injectTranslation = jest.fn().mockImplementation((category: string,
       noAccount: "Don't have an account?",
       signInToAccount: "Sign in to your account",
       haveAccount: "Already have an account?",
+      smsVerificationPrompt: "Enter the verification code sent to your phone number",
     },
     errors: {
       unknownError: "An unknown error occurred",
@@ -151,7 +168,7 @@ export const injectRedirectError = jest.fn().mockImplementation(() => {
   return () => undefined;
 });
 
-// TODO(ehesp): Unfortunately, we cannot use the real schemas here because of the ESM-only dependency on nanostores in @firebase-oss/ui-core - this is a little
+// TODO(ehesp): Unfortunately, we cannot use the real schemas here because of the ESM-only dependency on nanostores in @invertase/firebaseui-core - this is a little
 // risky as schema updates and tests need aligning, but this is a workaround for now.
 
 export const createForgotPasswordAuthFormSchema = jest.fn(() => {
@@ -238,6 +255,13 @@ export const injectMultiFactorPhoneAuthNumberFormSchema = jest.fn().mockReturnVa
   });
 });
 
+export const injectMultiFactorPhoneAuthAssertionFormSchema = jest.fn().mockReturnValue(() => {
+  const { z } = require("zod");
+  return z.object({
+    phoneNumber: z.string().min(1, "Phone number is required"),
+  });
+});
+
 export const injectMultiFactorPhoneAuthVerifyFormSchema = jest.fn().mockReturnValue(() => {
   const { z } = require("zod");
   return z.object({
@@ -278,6 +302,8 @@ export const injectRecaptchaVerifier = jest.fn().mockImplementation(() => {
     verify: jest.fn(),
   });
 });
+
+export const injectUserAuthenticated = jest.fn();
 
 export const RecaptchaVerifier = jest.fn().mockImplementation(() => ({
   clear: jest.fn(),

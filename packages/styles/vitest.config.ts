@@ -18,7 +18,7 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
-    name: "@firebase-oss/ui-styles",
+    name: "@invertase/firebaseui-styles",
     environment: "jsdom",
     include: ["src/**/*.{test,spec}.{js,ts}"],
     exclude: ["node_modules/**/*", "dist/**/*"],

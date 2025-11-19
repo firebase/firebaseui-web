@@ -18,7 +18,7 @@ import { Component, type OnInit, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Router, RouterModule } from "@angular/router";
 import { Auth, type User, authState } from "@angular/fire/auth";
-import { ForgotPasswordAuthScreenComponent } from "@firebase-oss/ui-angular";
+import { ForgotPasswordAuthScreenComponent } from "@invertase/firebaseui-angular";
 
 @Component({
   selector: "app-forgot-password",

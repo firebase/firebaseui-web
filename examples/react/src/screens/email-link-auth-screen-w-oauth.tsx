@@ -24,7 +24,7 @@ import {
   GoogleSignInButton,
   MicrosoftSignInButton,
   TwitterSignInButton,
-} from "@firebase-oss/ui-react";
+} from "@invertase/firebaseui-react";
 import { useNavigate } from "react-router";
 
 export default function EmailLinkAuthScreenWithOAuthPage() {
@@ -33,10 +33,9 @@ export default function EmailLinkAuthScreenWithOAuthPage() {
   return (
     <EmailLinkAuthScreen
       onEmailSent={() => {
-        alert("Email has been sent");
+        alert("Email has been sent - please check your email");
       }}
-      onSignIn={(credential) => {
-        console.log(credential);
+      onSignIn={() => {
         navigate("/");
       }}
     >

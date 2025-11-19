@@ -7,16 +7,14 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
-    "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "pnpm run build && firebase deploy --only hosting:fir-ui-rework"
   },
   "dependencies": {
-    "@firebase-oss/ui-react": "workspace:*",
-    "@firebase-oss/ui-core": "workspace:*",
-    "@firebase-oss/ui-styles": "workspace:*",
-    "@firebase-oss/ui-translations": "workspace:*",
+    "@invertase/firebaseui-react": "workspace:*",
+    "@invertase/firebaseui-core": "workspace:*",
+    "@invertase/firebaseui-styles": "workspace:*",
+    "@invertase/firebaseui-translations": "workspace:*",
     "firebase": "^11.6.0",
     "react": "catalog:",
     "react-dom": "catalog:",

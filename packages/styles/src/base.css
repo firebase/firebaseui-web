@@ -38,26 +38,25 @@
     --fui-radius: var(--radius-sm);
     /* The radius used for the cards */
     --fui-radius-card: var(--radius-xl);
-  }
 
-  /* Apply dark mode styles when the dark variant is applied */
-  /* See https://tailwindcss.com/docs/dark-mode */
-  @variant dark {
-    :root {
+    /* Apply dark mode styles when the dark variant is applied */
+    /* See https://tailwindcss.com/docs/dark-mode */
+    @variant dark {
       --fui-primary: var(--color-white);
       --fui-primary-hover: --alpha(var(--fui-primary) / 85%);
       --fui-primary-surface: var(--color-black);
       --fui-text: var(--color-white);
-      --fui-text-muted: var(--color-gray-200);
-      --fui-background: var(--color-black);
-      --fui-border: var(--color-gray-200);
-      --fui-input: var(--color-gray-300);
-      --fui-error: var(--color-red-500);
+      --fui-text-muted: var(--color-neutral-300);
+      --fui-background: var(--color-neutral-950);
+      --fui-border: var(--color-neutral-800);
+      --fui-input: var(--color-neutral-700);
+      --fui-error: var(--color-red-700);
       --fui-radius: var(--radius-sm);
       --fui-radius-card: var(--radius-xl);
     }
   }
 }
+
 
 @theme {
   --color-primary: var(--fui-primary);
@@ -76,7 +75,7 @@
 @layer components {
   /* Using :where() to reduce CSS specificity - allows users to easily override with their own Tailwind classes */
   :where(.fui-screen) {
-    @apply pt-24 max-w-md mx-auto;
+    @apply max-w-sm mx-auto;
   }
 
   :where(.fui-screen .fui-screen__children) {
@@ -85,7 +84,6 @@
 
   :where(.fui-content) {
     @apply space-y-2;
-    
   }
 
   :where(.fui-card) {
@@ -121,6 +119,10 @@
     @apply grow;
   }
 
+  :where(.fui-form fieldset label div[data-input-description]) {
+    @apply text-xs text-text-muted;
+  }
+
   :where(.fui-form .fui-form__action) {
     @apply px-1 hover:underline text-xs text-text-muted;
   }
@@ -137,7 +139,11 @@
     @apply flex items-center gap-2;
   }
 
-  :where(.fui-form .fui-form__error) {
+  :where(.fui-form .fui-qr-code-container) {
+    @apply flex flex-col items-center gap-4 text-text-muted text-xs;
+  }
+
+  :where(.fui-error) {
     @apply text-error text-left text-xs;
   }
 
@@ -157,7 +163,7 @@
     @apply border border-border;
   }
 
-  :where(.fui-provider__button > svg, .fui-provider__button > img) {
+  :where(.fui-provider__button svg, .fui-provider__button img) {
     @apply w-5 h-5;
   }
 
@@ -178,7 +184,7 @@
   }
 
   :where(.fui-phone-input__number-input) {
-    @apply border-1 border-input rounded px-2 py-2 text-sm focus:outline-2 focus:outline-primary shadow-xs bg-transparent flex-1;
+    @apply border border-input rounded px-2 py-2 text-sm focus:outline-2 focus:outline-primary shadow-xs bg-transparent flex-1;
   }
 
   :where(.fui-phone-input__number-input[aria-invalid="true"]) {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { SignInAuthScreen } from "@firebase-oss/ui-react";
+import { SignInAuthScreen } from "@invertase/firebaseui-react";
 import { useNavigate } from "react-router";
 
 export default function SignInAuthScreenPage() {
@@ -22,8 +22,7 @@ export default function SignInAuthScreenPage() {
 
   return (
     <SignInAuthScreen
-      onSignIn={(credential) => {
-        console.log(credential);
+      onSignIn={() => {
         navigate("/");
       }}
     />

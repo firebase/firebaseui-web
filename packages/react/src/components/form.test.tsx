@@ -1,3 +1,19 @@
+/**
+ * Copyright 2025 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import { render, screen, cleanup, renderHook, act, waitFor } from "@testing-library/react";
 import { form } from "./form";
@@ -120,6 +136,47 @@ describe("form export", () => {
       expect(screen.getByTestId("test-action")).toHaveTextContent("Action");
     });
 
+    it("should render the Input description prop when provided", () => {
+      const { result } = renderHook(() => {
+        return form.useAppForm({
+          defaultValues: { foo: "bar" },
+        });
+      });
+
+      const hook = result.current;
+
+      const { container } = render(
+        <hook.AppForm>
+          <hook.AppField name="foo">
+            {(field) => <field.Input label="Foo" description="This is a description" />}
+          </hook.AppField>
+        </hook.AppForm>
+      );
+
+      const description = container.querySelector("[data-input-description]");
+      expect(description).toBeInTheDocument();
+      expect(description).toHaveTextContent("This is a description");
+    });
+
+    it("should not render the Input description when not provided", () => {
+      const { result } = renderHook(() => {
+        return form.useAppForm({
+          defaultValues: { foo: "bar" },
+        });
+      });
+
+      const hook = result.current;
+
+      const { container } = render(
+        <hook.AppForm>
+          <hook.AppField name="foo">{(field) => <field.Input label="Foo" />}</hook.AppField>
+        </hook.AppForm>
+      );
+
+      const description = container.querySelector("[data-input-description]");
+      expect(description).not.toBeInTheDocument();
+    });
+
     it("should render the Input metadata when available", async () => {
       const { result } = renderHook(() => {
         return form.useAppForm({
@@ -150,7 +207,7 @@ describe("form export", () => {
 
       const error = screen.getByRole("alert");
       expect(error).toBeInTheDocument();
-      expect(error).toHaveClass("fui-form__error");
+      expect(error).toHaveClass("fui-error");
     });
   });
 
@@ -256,7 +313,7 @@ describe("form export", () => {
       });
 
       await waitFor(() => {
-        const error = container.querySelector(".fui-form__error");
+        const error = container.querySelector(".fui-error");
         expect(error).toBeInTheDocument();
         expect(error).toHaveTextContent("error!");
       });

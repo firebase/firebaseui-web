@@ -15,20 +15,42 @@
  */
 
 import type { PropsWithChildren } from "react";
-import { getTranslation } from "@firebase-oss/ui-core";
+import type { User } from "firebase/auth";
+import { getTranslation } from "@invertase/firebaseui-core";
 import { Divider } from "~/components/divider";
-import { useUI } from "~/hooks";
+import { useOnUserAuthenticated, useUI } from "~/hooks";
 import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "~/components/card";
 import { EmailLinkAuthForm, type EmailLinkAuthFormProps } from "../forms/email-link-auth-form";
 import { RedirectError } from "~/components/redirect-error";
+import { MultiFactorAuthAssertionScreen } from "./multi-factor-auth-assertion-screen";
 
-export type EmailLinkAuthScreenProps = PropsWithChildren<EmailLinkAuthFormProps>;
+/** Props for the EmailLinkAuthScreen component. */
+export type EmailLinkAuthScreenProps = PropsWithChildren<
+  Pick<EmailLinkAuthFormProps, "onEmailSent"> & {
+    /** Callback function called when sign-in is successful. */
+    onSignIn?: (user: User) => void;
+  }
+>;
 
-export function EmailLinkAuthScreen({ children, onEmailSent }: EmailLinkAuthScreenProps) {
+/**
+ * A screen component for email link authentication.
+ *
+ * Displays a card with the email link auth form and handles multi-factor authentication if required.
+ *
+ * @returns The email link auth screen component.
+ */
+export function EmailLinkAuthScreen({ children, onEmailSent, onSignIn }: EmailLinkAuthScreenProps) {
   const ui = useUI();
 
   const titleText = getTranslation(ui, "labels", "signIn");
   const subtitleText = getTranslation(ui, "prompts", "signInToAccount");
+  const mfaResolver = ui.multiFactorResolver;
+
+  useOnUserAuthenticated(onSignIn);
+
+  if (mfaResolver) {
+    return <MultiFactorAuthAssertionScreen />;
+  }
 
   return (
     <div className="fui-screen">

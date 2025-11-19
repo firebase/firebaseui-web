@@ -14,18 +14,35 @@
  */
 
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { render, screen, fireEvent, cleanup } from "@testing-library/react";
-import { MultiFactorAuthAssertionForm } from "~/auth/forms/multi-factor-auth-assertion-form";
-import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
-import { registerLocale } from "@firebase-oss/ui-translations";
+import { render, screen, fireEvent, cleanup, renderHook } from "@testing-library/react";
+import {
+  MultiFactorAuthAssertionForm,
+  useMultiFactorAssertionCleanup,
+} from "~/auth/forms/multi-factor-auth-assertion-form";
+import { CreateFirebaseUIProvider, createMockUI, createFirebaseUIProvider } from "~/tests/utils";
+import { registerLocale } from "@invertase/firebaseui-translations";
 import { FactorId, MultiFactorResolver, PhoneMultiFactorGenerator, TotpMultiFactorGenerator } from "firebase/auth";
 
 vi.mock("~/auth/forms/mfa/sms-multi-factor-assertion-form", () => ({
-  SmsMultiFactorAssertionForm: () => <div data-testid="sms-assertion-form">SMS Assertion Form</div>,
+  SmsMultiFactorAssertionForm: ({ onSuccess }: { onSuccess?: (credential: any) => void }) => (
+    <div>
+      <div data-testid="sms-assertion-form">SMS Assertion Form</div>
+      <button data-testid="sms-on-success" onClick={() => onSuccess?.({ user: { uid: "sms-user" } })}>
+        Trigger SMS Success
+      </button>
+    </div>
+  ),
 }));
 
 vi.mock("~/auth/forms/mfa/totp-multi-factor-assertion-form", () => ({
-  TotpMultiFactorAssertionForm: () => <div data-testid="totp-assertion-form">TOTP Assertion Form</div>,
+  TotpMultiFactorAssertionForm: ({ onSuccess }: { onSuccess?: (credential: any) => void }) => (
+    <div>
+      <div data-testid="totp-assertion-form">TOTP Assertion Form</div>
+      <button data-testid="totp-on-success" onClick={() => onSuccess?.({ user: { uid: "totp-user" } })}>
+        Trigger TOTP Success
+      </button>
+    </div>
+  ),
 }));
 
 vi.mock("~/components/button", () => ({
@@ -39,6 +56,46 @@ vi.mock("~/components/button", () => ({
 afterEach(() => {
   cleanup();
   vi.clearAllMocks();
+});
+
+describe("useMultiFactorAssertionCleanup", () => {
+  it("calls setMultiFactorResolver on unmount", () => {
+    const ui = createMockUI();
+    const setMultiFactorResolverSpy = vi.spyOn(ui.get(), "setMultiFactorResolver");
+
+    const { unmount } = renderHook(() => useMultiFactorAssertionCleanup(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui }),
+    });
+
+    expect(setMultiFactorResolverSpy).not.toHaveBeenCalled();
+
+    unmount();
+
+    expect(setMultiFactorResolverSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it("clears multiFactorResolver when component unmounts", () => {
+    const ui = createMockUI();
+    const mockResolver = {
+      auth: {} as any,
+      session: null,
+      hints: [],
+    } as unknown as MultiFactorResolver;
+    ui.get().setMultiFactorResolver(mockResolver);
+
+    const setMultiFactorResolverSpy = vi.spyOn(ui.get(), "setMultiFactorResolver");
+
+    const { unmount } = renderHook(() => useMultiFactorAssertionCleanup(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui }),
+    });
+
+    expect(ui.get().multiFactorResolver).toBe(mockResolver);
+
+    unmount();
+
+    expect(setMultiFactorResolverSpy).toHaveBeenCalledTimes(1);
+    expect(ui.get().multiFactorResolver).toBeUndefined();
+  });
 });
 
 describe("<MultiFactorAuthAssertionForm />", () => {
@@ -77,6 +134,66 @@ describe("<MultiFactorAuthAssertionForm />", () => {
 
     expect(screen.getByTestId("sms-assertion-form")).toBeDefined();
     expect(screen.queryByTestId("mfa-button")).toBeNull();
+  });
+
+  it("invokes onSuccess with credential from SMS assertion child", () => {
+    const mockResolver = {
+      auth: {} as any,
+      session: null,
+      hints: [
+        {
+          factorId: PhoneMultiFactorGenerator.FACTOR_ID,
+          uid: "test-uid",
+          displayName: "Test Phone",
+        },
+      ],
+    };
+    const ui = createMockUI();
+    ui.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
+
+    const onSuccess = vi.fn();
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <MultiFactorAuthAssertionForm onSuccess={onSuccess} />
+      </CreateFirebaseUIProvider>
+    );
+
+    fireEvent.click(screen.getByTestId("sms-on-success"));
+    expect(onSuccess).toHaveBeenCalledTimes(1);
+    expect(onSuccess).toHaveBeenCalledWith(
+      expect.objectContaining({ user: expect.objectContaining({ uid: "sms-user" }) })
+    );
+  });
+
+  it("invokes onSuccess with credential from TOTP assertion child", () => {
+    const mockResolver = {
+      auth: {} as any,
+      session: null,
+      hints: [
+        {
+          factorId: TotpMultiFactorGenerator.FACTOR_ID,
+          uid: "test-uid",
+          displayName: "Test TOTP",
+        },
+      ],
+    };
+    const ui = createMockUI();
+    ui.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
+
+    const onSuccess = vi.fn();
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <MultiFactorAuthAssertionForm onSuccess={onSuccess} />
+      </CreateFirebaseUIProvider>
+    );
+
+    fireEvent.click(screen.getByTestId("totp-on-success"));
+    expect(onSuccess).toHaveBeenCalledTimes(1);
+    expect(onSuccess).toHaveBeenCalledWith(
+      expect.objectContaining({ user: expect.objectContaining({ uid: "totp-user" }) })
+    );
   });
 
   it("auto-selects TOTP factor when only one TOTP hint exists", () => {
@@ -127,6 +244,9 @@ describe("<MultiFactorAuthAssertionForm />", () => {
           mfaTotpVerification: "TOTP Verification",
           mfaSmsVerification: "SMS Verification",
         },
+        prompts: {
+          mfaAssertionFactorPrompt: "Please choose a multi-factor authentication method",
+        },
       }),
     });
     ui.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
@@ -137,7 +257,7 @@ describe("<MultiFactorAuthAssertionForm />", () => {
       </CreateFirebaseUIProvider>
     );
 
-    expect(screen.getByText("TODO: Select a multi-factor authentication method")).toBeDefined();
+    expect(screen.getByText("Please choose a multi-factor authentication method")).toBeDefined();
     expect(screen.getAllByTestId("mfa-button")).toHaveLength(2);
     expect(screen.getByText("TOTP Verification")).toBeDefined();
     expect(screen.getByText("SMS Verification")).toBeDefined();
@@ -283,6 +403,9 @@ describe("<MultiFactorAuthAssertionForm />", () => {
           mfaTotpVerification: "TOTP Verification",
           mfaSmsVerification: "SMS Verification",
         },
+        prompts: {
+          mfaAssertionFactorPrompt: "Please choose a multi-factor authentication method",
+        },
       }),
     });
     ui.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
@@ -293,12 +416,10 @@ describe("<MultiFactorAuthAssertionForm />", () => {
       </CreateFirebaseUIProvider>
     );
 
-    // Initially shows selection UI
-    expect(screen.getByText("TODO: Select a multi-factor authentication method")).toBeDefined();
+    expect(screen.getByText("Please choose a multi-factor authentication method")).toBeDefined();
     expect(screen.queryByTestId("sms-assertion-form")).toBeNull();
     expect(screen.queryByTestId("totp-assertion-form")).toBeNull();
 
-    // Click SMS button
     const smsButton = screen.getByText("SMS Verification");
     fireEvent.click(smsButton);
 
@@ -311,7 +432,7 @@ describe("<MultiFactorAuthAssertionForm />", () => {
     // Should now show SMS form
     expect(screen.getByTestId("sms-assertion-form")).toBeDefined();
     expect(screen.queryByTestId("totp-assertion-form")).toBeNull();
-    expect(screen.queryByText("TODO: Select a multi-factor authentication method")).toBeNull();
+    expect(screen.queryByText("Please choose a multi-factor authentication method")).toBeNull();
   });
 
   it("handles unknown factor types gracefully", () => {
@@ -326,7 +447,13 @@ describe("<MultiFactorAuthAssertionForm />", () => {
         },
       ],
     };
-    const ui = createMockUI();
+    const ui = createMockUI({
+      locale: registerLocale("test", {
+        prompts: {
+          mfaAssertionFactorPrompt: "Please choose a multi-factor authentication method",
+        },
+      }),
+    });
     ui.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
 
     render(
@@ -336,7 +463,7 @@ describe("<MultiFactorAuthAssertionForm />", () => {
     );
 
     // Should show selection UI for unknown factor
-    expect(screen.getByText("TODO: Select a multi-factor authentication method")).toBeDefined();
+    expect(screen.getByText("Please choose a multi-factor authentication method")).toBeDefined();
     expect(screen.queryByTestId("sms-assertion-form")).toBeNull();
     expect(screen.queryByTestId("totp-assertion-form")).toBeNull();
   });

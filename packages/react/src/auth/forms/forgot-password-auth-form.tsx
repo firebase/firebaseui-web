@@ -16,17 +16,25 @@
 
 "use client";
 
-import { FirebaseUIError, getTranslation, sendPasswordResetEmail } from "@firebase-oss/ui-core";
+import { FirebaseUIError, getTranslation, sendPasswordResetEmail } from "@invertase/firebaseui-core";
 import { useForgotPasswordAuthFormSchema, useUI } from "~/hooks";
 import { form } from "~/components/form";
 import { Policies } from "~/components/policies";
 import { useCallback, useState } from "react";
 
+/** Props for the ForgotPasswordAuthForm component. */
 export type ForgotPasswordAuthFormProps = {
+  /** Callback function called when the password reset email is sent. */
   onPasswordSent?: () => void;
+  /** Callback function called when the back to sign in link is clicked. */
   onBackToSignInClick?: () => void;
 };
 
+/**
+ * Creates a memoized action function for sending a password reset email.
+ *
+ * @returns A callback function that sends a password reset email to the specified address.
+ */
 export function useForgotPasswordAuthFormAction() {
   const ui = useUI();
 
@@ -47,6 +55,12 @@ export function useForgotPasswordAuthFormAction() {
   );
 }
 
+/**
+ * Creates a form hook for forgot password authentication.
+ *
+ * @param onSuccess - Optional callback function called when the password reset email is sent.
+ * @returns A form instance configured for forgot password.
+ */
 export function useForgotPasswordAuthForm(onSuccess?: ForgotPasswordAuthFormProps["onPasswordSent"]) {
   const schema = useForgotPasswordAuthFormSchema();
   const action = useForgotPasswordAuthFormAction();
@@ -57,7 +71,6 @@ export function useForgotPasswordAuthForm(onSuccess?: ForgotPasswordAuthFormProp
     },
     validators: {
       onBlur: schema,
-      onSubmit: schema,
       onSubmitAsync: async ({ value }) => {
         try {
           await action(value);
@@ -70,6 +83,13 @@ export function useForgotPasswordAuthForm(onSuccess?: ForgotPasswordAuthFormProp
   });
 }
 
+/**
+ * A form component for requesting a password reset email.
+ *
+ * Displays a success message after the email is sent.
+ *
+ * @returns The forgot password form component.
+ */
 export function ForgotPasswordAuthForm({ onBackToSignInClick, onPasswordSent }: ForgotPasswordAuthFormProps) {
   const ui = useUI();
   const [emailSent, setEmailSent] = useState(false);
@@ -103,7 +123,7 @@ export function ForgotPasswordAuthForm({ onBackToSignInClick, onPasswordSent }: 
           <form.ErrorMessage />
         </fieldset>
         {onBackToSignInClick ? (
-          <form.Action onClick={onBackToSignInClick}>{getTranslation(ui, "labels", "backToSignIn")}</form.Action>
+          <form.Action onClick={onBackToSignInClick}>&larr; {getTranslation(ui, "labels", "backToSignIn")}</form.Action>
         ) : null}
       </form.AppForm>
     </form>

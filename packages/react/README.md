@@ -1,4 +1,4 @@
-# @firebase-oss/ui-react
+# @invertase/firebaseui-react
 
 This package contains the React components for the FirebaseUI.
 
@@ -7,26 +7,26 @@ This package contains the React components for the FirebaseUI.
 Install the package from NPM:
 
 ```bash
-npm install @firebase-oss/ui-react
+npm install @invertase/firebaseui-react
 ```
 
 ## Usage
 
 ### Importing styles
 
-To use the components, you need to import the styles from the `@firebase-oss/ui-styles` package.
+To use the components, you need to import the styles from the `@invertase/firebaseui-styles` package.
 
 If using Tailwind CSS, you can import the styles directly into your project.
 
 ```css
 @import "tailwindcss";
-@import "@firebase-oss/ui-styles/tailwind";
+@import "@invertase/firebaseui-styles/src/base.css";
 ```
 
 Alternatively, you can import the fully compiled CSS file into your project.
 
 ```tsx
-import "@firebase-oss/ui-styles/dist.css";
+import "@invertase/firebaseui-styles/dist.css";
 ```
 
 ### Initializing the UI
@@ -42,7 +42,7 @@ const app = initializeApp({ ... });
 Then, initialize the FirebaseUI with the configuration:
 
 ```tsx
-import { initializeUI } from "@firebase-oss/ui-react";
+import { initializeUI } from "@invertase/firebaseui-react";
 
 const ui = initializeUI({
   app,
@@ -52,7 +52,7 @@ const ui = initializeUI({
 Finally, wrap your app in the `ConfigProvider` component:
 
 ```tsx
-import { ConfigProvider } from "@firebase-oss/ui-react";
+import { ConfigProvider } from "@invertase/firebaseui-react";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -65,10 +65,10 @@ createRoot(document.getElementById("root")!).render(
 
 ### Importing components
 
-To use the components, you need to import the components from the `@firebase-oss/ui-react` package.
+To use the components, you need to import the components from the `@invertase/firebaseui-react` package.
 
 ```tsx
-import { SignInAuthScreen, GoogleSignInButton } from "@firebase-oss/ui-react";
+import { SignInAuthScreen, GoogleSignInButton } from "@invertase/firebaseui-react";
 
 function App() {
   return (

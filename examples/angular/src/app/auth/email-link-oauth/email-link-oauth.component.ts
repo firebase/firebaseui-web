@@ -18,7 +18,7 @@ import { Component, type OnInit, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Router, RouterModule } from "@angular/router";
 import { Auth, type User, authState } from "@angular/fire/auth";
-import { EmailLinkAuthScreenComponent, GoogleSignInButtonComponent } from "@firebase-oss/ui-angular";
+import { EmailLinkAuthScreenComponent, GoogleSignInButtonComponent } from "@invertase/firebaseui-angular";
 
 @Component({
   selector: "app-email-link-oauth",

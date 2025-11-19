@@ -14,11 +14,11 @@
  */
 
 import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
-import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import { render, screen, fireEvent, cleanup, act } from "@testing-library/react";
 import { SignInAuthScreen } from "~/auth/screens/sign-in-auth-screen";
 import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
-import { registerLocale } from "@firebase-oss/ui-translations";
-import { MultiFactorResolver } from "firebase/auth";
+import { registerLocale } from "@invertase/firebaseui-translations";
+import { MultiFactorResolver, type User } from "firebase/auth";
 
 vi.mock("~/auth/forms/sign-in-auth-form", () => ({
   SignInAuthForm: ({
@@ -51,8 +51,14 @@ vi.mock("~/components/redirect-error", () => ({
   RedirectError: () => <div data-testid="redirect-error">Redirect Error</div>,
 }));
 
-vi.mock("~/auth/forms/multi-factor-auth-assertion-form", () => ({
-  MultiFactorAuthAssertionForm: () => <div data-testid="mfa-assertion-form">MFA Assertion Form</div>,
+vi.mock("~/auth/screens/multi-factor-auth-assertion-screen", () => ({
+  MultiFactorAuthAssertionScreen: ({ onSuccess }: { onSuccess?: (credential: any) => void }) => (
+    <div data-testid="multi-factor-auth-assertion-screen">
+      <button data-testid="mfa-on-success" onClick={() => onSuccess?.({ user: { uid: "mfa-user" } })}>
+        Trigger MFA Success
+      </button>
+    </div>
+  ),
 }));
 
 describe("<SignInAuthScreen />", () => {
@@ -193,7 +199,7 @@ describe("<SignInAuthScreen />", () => {
     expect(screen.getByTestId("child-2")).toBeDefined();
   });
 
-  it("renders MultiFactorAuthAssertionForm when multiFactorResolver is present", () => {
+  it("renders MultiFactorAuthAssertionScreen when multiFactorResolver is present", () => {
     const mockResolver = {
       auth: {} as any,
       session: null,
@@ -208,7 +214,7 @@ describe("<SignInAuthScreen />", () => {
       </CreateFirebaseUIProvider>
     );
 
-    expect(screen.getByTestId("mfa-assertion-form")).toBeDefined();
+    expect(screen.getByTestId("multi-factor-auth-assertion-screen")).toBeDefined();
     expect(screen.queryByTestId("sign-in-auth-form")).toBeNull();
   });
 
@@ -228,7 +234,7 @@ describe("<SignInAuthScreen />", () => {
     );
 
     expect(screen.queryByTestId("sign-in-auth-form")).toBeNull();
-    expect(screen.getByTestId("mfa-assertion-form")).toBeDefined();
+    expect(screen.getByTestId("multi-factor-auth-assertion-screen")).toBeDefined();
   });
 
   it("renders RedirectError component in children section when no MFA resolver", () => {
@@ -270,6 +276,117 @@ describe("<SignInAuthScreen />", () => {
     );
 
     expect(screen.queryByTestId("redirect-error")).toBeNull();
-    expect(screen.getByTestId("mfa-assertion-form")).toBeDefined();
+    expect(screen.getByTestId("multi-factor-auth-assertion-screen")).toBeDefined();
+  });
+
+  it("calls onSignIn with credential when MFA flow succeeds", () => {
+    const mockResolver = {
+      auth: {} as any,
+      session: null,
+      hints: [],
+    };
+    let authStateChangeCallback: ((user: User | null) => void) | null = null;
+
+    const mockAuth = {
+      onAuthStateChanged: vi.fn((callback: (user: User | null) => void) => {
+        authStateChangeCallback = callback;
+        return vi.fn();
+      }),
+    };
+
+    const ui = createMockUI({
+      auth: mockAuth as any,
+    });
+    ui.get().setMultiFactorResolver(mockResolver as unknown as MultiFactorResolver);
+
+    const onSignIn = vi.fn();
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <SignInAuthScreen onSignIn={onSignIn} />
+      </CreateFirebaseUIProvider>
+    );
+
+    // Simulate the MFA child reporting success - this would trigger auth state change
+    const mockUser = {
+      uid: "mfa-user",
+      isAnonymous: false,
+    } as User;
+
+    act(() => {
+      authStateChangeCallback!(mockUser);
+    });
+
+    expect(onSignIn).toHaveBeenCalledTimes(1);
+    expect(onSignIn).toHaveBeenCalledWith(mockUser);
+  });
+
+  it("calls onSignIn when user authenticates via useOnUserAuthenticated hook", () => {
+    const onSignIn = vi.fn();
+    let authStateChangeCallback: ((user: User | null) => void) | null = null;
+
+    const mockAuth = {
+      onAuthStateChanged: vi.fn((callback: (user: User | null) => void) => {
+        authStateChangeCallback = callback;
+        return vi.fn();
+      }),
+    };
+
+    const ui = createMockUI({
+      auth: mockAuth as any,
+    });
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <SignInAuthScreen onSignIn={onSignIn} />
+      </CreateFirebaseUIProvider>
+    );
+
+    expect(mockAuth.onAuthStateChanged).toHaveBeenCalledTimes(1);
+
+    const mockUser = {
+      uid: "test-user-id",
+      isAnonymous: false,
+    } as User;
+
+    act(() => {
+      authStateChangeCallback!(mockUser);
+    });
+
+    expect(onSignIn).toHaveBeenCalledTimes(1);
+    expect(onSignIn).toHaveBeenCalledWith(mockUser);
+  });
+
+  it("does not call onSignIn for anonymous users", () => {
+    const onSignIn = vi.fn();
+    let authStateChangeCallback: ((user: User | null) => void) | null = null;
+
+    const mockAuth = {
+      onAuthStateChanged: vi.fn((callback: (user: User | null) => void) => {
+        authStateChangeCallback = callback;
+        return vi.fn();
+      }),
+    };
+
+    const ui = createMockUI({
+      auth: mockAuth as any,
+    });
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <SignInAuthScreen onSignIn={onSignIn} />
+      </CreateFirebaseUIProvider>
+    );
+
+    const mockAnonymousUser = {
+      uid: "anonymous-user-id",
+      isAnonymous: true,
+    } as User;
+
+    act(() => {
+      authStateChangeCallback!(mockAnonymousUser);
+    });
+
+    expect(onSignIn).not.toHaveBeenCalled();
   });
 });

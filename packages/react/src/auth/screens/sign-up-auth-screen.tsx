@@ -14,24 +14,40 @@
  * limitations under the License.
  */
 
-import { type PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
+import type { User } from "firebase/auth";
 import { Divider } from "~/components/divider";
-import { useUI } from "~/hooks";
+import { useOnUserAuthenticated, useUI } from "~/hooks";
 import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "../../components/card";
 import { SignUpAuthForm, type SignUpAuthFormProps } from "../forms/sign-up-auth-form";
-import { getTranslation } from "@firebase-oss/ui-core";
+import { getTranslation } from "@invertase/firebaseui-core";
 import { RedirectError } from "~/components/redirect-error";
-import { MultiFactorAuthAssertionForm } from "../forms/multi-factor-auth-assertion-form";
+import { MultiFactorAuthAssertionScreen } from "./multi-factor-auth-assertion-screen";
 
-export type SignUpAuthScreenProps = PropsWithChildren<SignUpAuthFormProps>;
+/** Props for the SignUpAuthScreen component. */
+export type SignUpAuthScreenProps = PropsWithChildren<Omit<SignUpAuthFormProps, "onSignUp">> & {
+  /** Callback function called when sign-up is successful. */
+  onSignUp?: (user: User) => void;
+};
 
-export function SignUpAuthScreen({ children, ...props }: SignUpAuthScreenProps) {
+/**
+ * A screen component for signing up with email and password.
+ *
+ * Displays a card with the sign-up form and handles multi-factor authentication if required.
+ *
+ * @returns The sign-up screen component.
+ */
+export function SignUpAuthScreen({ children, onSignUp, ...props }: SignUpAuthScreenProps) {
   const ui = useUI();
 
   const titleText = getTranslation(ui, "labels", "signUp");
   const subtitleText = getTranslation(ui, "prompts", "enterDetailsToCreate");
 
-  const mfaResolver = ui.multiFactorResolver;
+  useOnUserAuthenticated(onSignUp);
+
+  if (ui.multiFactorResolver) {
+    return <MultiFactorAuthAssertionScreen />;
+  }
 
   return (
     <div className="fui-screen">
@@ -41,22 +57,16 @@ export function SignUpAuthScreen({ children, ...props }: SignUpAuthScreenProps) 
           <CardSubtitle>{subtitleText}</CardSubtitle>
         </CardHeader>
         <CardContent>
-          {mfaResolver ? (
-            <MultiFactorAuthAssertionForm />
-          ) : (
+          <SignUpAuthForm {...props} />
+          {children ? (
             <>
-              <SignUpAuthForm {...props} />
-              {children ? (
-                <>
-                  <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>
-                  <div className="fui-screen__children">
-                    {children}
-                    <RedirectError />
-                  </div>
-                </>
-              ) : null}
+              <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>
+              <div className="fui-screen__children">
+                {children}
+                <RedirectError />
+              </div>
             </>
-          )}
+          ) : null}
         </CardContent>
       </Card>
     </div>

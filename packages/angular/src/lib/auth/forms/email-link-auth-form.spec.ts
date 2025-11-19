@@ -22,9 +22,9 @@ import { FormInputComponent, FormSubmitComponent, FormErrorMessageComponent } fr
 import { PoliciesComponent } from "../../components/policies";
 import { UserCredential } from "@angular/fire/auth";
 
-// Mock the @firebase-oss/ui-core module but preserve Angular providers
-jest.mock("@firebase-oss/ui-core", () => {
-  const originalModule = jest.requireActual("@firebase-oss/ui-core");
+// Mock the @invertase/firebaseui-core module but preserve Angular providers
+jest.mock("@invertase/firebaseui-core", () => {
+  const originalModule = jest.requireActual("@invertase/firebaseui-core");
   return {
     ...originalModule,
     sendSignInLinkToEmail: jest.fn(),
@@ -44,7 +44,7 @@ describe("<fui-email-link-auth-form />", () => {
   let mockFirebaseUIError: any;
 
   beforeEach(() => {
-    const { sendSignInLinkToEmail, completeEmailLinkSignIn, FirebaseUIError } = require("@firebase-oss/ui-core");
+    const { sendSignInLinkToEmail, completeEmailLinkSignIn, FirebaseUIError } = require("@invertase/firebaseui-core");
     mockSendSignInLinkToEmail = sendSignInLinkToEmail;
     mockCompleteEmailLinkSignIn = completeEmailLinkSignIn;
     mockFirebaseUIError = FirebaseUIError;
@@ -224,7 +224,9 @@ describe("<fui-email-link-auth-form />", () => {
     component.emailSentState.set(true);
     fixture.detectChanges();
 
-    expect(screen.getByText("Check your email for a sign in link")).toBeInTheDocument();
+    const successMessage = screen.getByText("Check your email for a sign in link");
+    expect(successMessage).toBeInTheDocument();
+    expect(successMessage).toHaveClass("fui-success");
   });
 
   it("should handle FirebaseUIError and display error message", async () => {

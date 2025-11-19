@@ -18,8 +18,8 @@ import { render, screen, waitFor } from "@testing-library/angular";
 import { TotpMultiFactorAssertionFormComponent } from "./totp-multi-factor-assertion-form";
 import { signInWithMultiFactorAssertion, FirebaseUIError } from "../../../tests/test-helpers";
 
-jest.mock("@firebase-oss/ui-core", () => {
-  const originalModule = jest.requireActual("@firebase-oss/ui-core");
+jest.mock("@invertase/firebaseui-core", () => {
+  const originalModule = jest.requireActual("@invertase/firebaseui-core");
   return {
     ...originalModule,
     signInWithMultiFactorAssertion: jest.fn(),
@@ -42,13 +42,16 @@ describe("<fui-totp-multi-factor-assertion-form>", () => {
       injectMultiFactorTotpAuthVerifyFormSchema,
     } = require("../../../tests/test-helpers");
 
-    const { signInWithMultiFactorAssertion } = require("@firebase-oss/ui-core");
+    const { signInWithMultiFactorAssertion } = require("@invertase/firebaseui-core");
 
     injectTranslation.mockImplementation((category: string, key: string) => {
       const mockTranslations: Record<string, Record<string, string>> = {
         labels: {
           verificationCode: "Verification Code",
           verifyCode: "Verify Code",
+        },
+        prompts: {
+          enterVerificationCode: "Enter the verification code",
         },
         errors: {
           unknownError: "An unknown error occurred",
@@ -94,7 +97,9 @@ describe("<fui-totp-multi-factor-assertion-form>", () => {
       imports: [TotpMultiFactorAssertionFormComponent],
     });
 
-    expect(screen.getByLabelText("Verification Code")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByRole("textbox", { name: /Verification Code/i })).toBeInTheDocument();
+    });
     expect(screen.getByPlaceholderText("123456")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Verify Code" })).toBeInTheDocument();
   });
@@ -142,6 +147,36 @@ describe("<fui-totp-multi-factor-assertion-form>", () => {
     await component.form.handleSubmit();
     await waitFor(() => {
       expect(onSuccessSpy).toHaveBeenCalled();
+    });
+  });
+
+  it("emits onSuccess with credential after successful verification", async () => {
+    const mockHint = {
+      factorId: TotpMultiFactorGenerator.FACTOR_ID,
+      displayName: "TOTP",
+      uid: "test-uid",
+    };
+
+    const mockCredential = { user: { uid: "totp-verify-user" } };
+    signInWithMultiFactorAssertion.mockResolvedValue(mockCredential);
+
+    const { fixture } = await render(TotpMultiFactorAssertionFormComponent, {
+      componentInputs: {
+        hint: mockHint,
+      },
+      imports: [TotpMultiFactorAssertionFormComponent],
+    });
+
+    const component = fixture.componentInstance;
+    const onSuccessSpy = jest.fn();
+    component.onSuccess.subscribe(onSuccessSpy);
+
+    component.form.setFieldValue("verificationCode", "123456");
+    fixture.detectChanges();
+
+    await component.form.handleSubmit();
+    await waitFor(() => {
+      expect(onSuccessSpy).toHaveBeenCalledWith(mockCredential);
     });
   });
 
@@ -238,7 +273,8 @@ describe("<fui-totp-multi-factor-assertion-form>", () => {
       uid: "test-uid",
     };
 
-    signInWithMultiFactorAssertion.mockRejectedValue(new Error("Network error"));
+    const errorMessage = "Network error";
+    signInWithMultiFactorAssertion.mockRejectedValue(new Error(errorMessage));
 
     const { fixture } = await render(TotpMultiFactorAssertionFormComponent, {
       componentInputs: {
@@ -254,7 +290,7 @@ describe("<fui-totp-multi-factor-assertion-form>", () => {
 
     await component.form.handleSubmit();
     await waitFor(() => {
-      expect(screen.getByText("An unknown error occurred")).toBeInTheDocument();
+      expect(screen.getByText(new RegExp(errorMessage))).toBeInTheDocument();
     });
   });
 });

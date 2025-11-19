@@ -14,23 +14,28 @@
  * limitations under the License.
  */
 
-import { Component, input, signal } from "@angular/core";
+import { Component, input, signal, computed, output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ButtonComponent } from "../../components/button";
-import { injectTranslation, injectUI } from "../../provider";
-import { AuthProvider } from "@angular/fire/auth";
-import { FirebaseUIError, signInWithProvider } from "@firebase-oss/ui-core";
+import { injectUI } from "../../provider";
+import { AuthProvider, UserCredential } from "@angular/fire/auth";
+import { FirebaseUIError, signInWithProvider, getTranslation } from "@invertase/firebaseui-core";
 
 @Component({
   selector: "fui-oauth-button",
   standalone: true,
   imports: [CommonModule, ButtonComponent],
+  host: {
+    style: "display: block;",
+  },
   template: `
     <div>
       <button
         fui-button
         type="button"
         (click)="handleOAuthSignIn()"
+        [variant]="buttonVariant()"
+        [attr.data-themed]="themed()"
         [disabled]="ui().state !== 'idle'"
         [attr.data-provider]="provider().providerId"
         class="fui-provider__button"
@@ -39,29 +44,40 @@ import { FirebaseUIError, signInWithProvider } from "@firebase-oss/ui-core";
       </button>
 
       @if (error()) {
-        <div class="fui-form__error">{{ error() }}</div>
+        <div class="fui-error">{{ error() }}</div>
       }
     </div>
   `,
 })
+/**
+ * A generic OAuth button component for signing in with any OAuth provider.
+ */
 export class OAuthButtonComponent {
   ui = injectUI();
-  unknownErrorLabel = injectTranslation("errors", "unknownError");
+  /** The OAuth provider to use for sign-in. */
   provider = input.required<AuthProvider>();
-  error = signal<string | undefined>(undefined);
+  /** Whether to use themed styling. */
+  themed = input<boolean | string>();
+  error = signal<string | null>(null);
+  /** Event emitter for successful sign-in. */
+  signIn = output<UserCredential>();
+
+  buttonVariant = computed(() => {
+    return this.themed() ? "primary" : "secondary";
+  });
 
   async handleOAuthSignIn() {
-    this.error.set(undefined);
+    this.error.set(null);
     try {
-      await signInWithProvider(this.ui(), this.provider());
+      const credential = await signInWithProvider(this.ui(), this.provider());
+      this.signIn.emit(credential);
     } catch (error) {
       if (error instanceof FirebaseUIError) {
         this.error.set(error.message);
         return;
       }
-
       console.error(error);
-      this.error.set(this.unknownErrorLabel());
+      this.error.set(getTranslation(this.ui(), "errors", "unknownError"));
     }
   }
 }

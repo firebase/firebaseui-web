@@ -16,75 +16,122 @@
 
 "use client";
 
+import { MultiFactorAuthAssertionScreen, useUI } from "@invertase/firebaseui-react";
+import { multiFactor, sendEmailVerification, signOut } from "firebase/auth";
+import { useRouter } from "next/navigation";
 import { useUser } from "@/lib/firebase/hooks";
+import { auth } from "@/lib/firebase/clientApp";
+import { routes } from "@/lib/routes";
 import Link from "next/link";
 
 export default function Home() {
   const user = useUser();
+  const ui = useUI();
+  const router = useRouter();
+
+  if (user) {
+    return <AuthenticatedApp user={user} router={router} />;
+  }
+
+  return <UnauthenticatedApp ui={ui} />;
+}
+
+function UnauthenticatedApp({ ui }: { ui: ReturnType<typeof useUI> }) {
+  // This can trigger if the user is not on a screen already, and gets an MFA challenge - e.g. on One-Tap sign in.
+  if (ui.multiFactorResolver) {
+    return <MultiFactorAuthAssertionScreen />;
+  }
 
   return (
-    <div className="p-8 ">
-      <h1 className="text-3xl font-bold mb-6">Firebase UI Demo</h1>
-      <div className="mb-6">{user && <div>Welcome: {user.email || user.phoneNumber}</div>}</div>
-      <div>
-        <h2 className="text-2xl font-bold mb-4">Auth Screens</h2>
-        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          <li>
-            <Link href="/screens/sign-in-auth-screen" className="text-blue-500 hover:underline">
-              Sign In Auth Screen
-            </Link>
-          </li>
-          <li>
-            <Link href="/screens/sign-in-auth-screen-w-handlers" className="text-blue-500 hover:underline">
-              Sign In Auth Screen with Handlers
-            </Link>
-          </li>
-          <li>
-            <Link href="/screens/sign-in-auth-screen-w-oauth" className="text-blue-500 hover:underline">
-              Sign In Auth Screen with OAuth
-            </Link>
-          </li>
-          <li>
-            <Link href="/screens/email-link-auth-screen" className="text-blue-500 hover:underline">
-              Email Link Auth Screen
-            </Link>
-          </li>
-          <li>
-            <Link href="/screens/email-link-auth-screen-w-oauth" className="text-blue-500 hover:underline">
-              Email Link Auth Screen with OAuth
-            </Link>
-          </li>
-          <li>
-            <Link href="/screens/phone-auth-screen" className="text-blue-500 hover:underline">
-              Phone Auth Screen
-            </Link>
-          </li>
-          <li>
-            <Link href="/screens/phone-auth-screen-w-oauth" className="text-blue-500 hover:underline">
-              Phone Auth Screen with OAuth
-            </Link>
-          </li>
-          <li>
-            <Link href="/screens/sign-up-auth-screen" className="text-blue-500 hover:underline">
-              Sign Up Auth Screen
-            </Link>
-          </li>
-          <li>
-            <Link href="/screens/sign-up-auth-screen-w-oauth" className="text-blue-500 hover:underline">
-              Sign Up Auth Screen with OAuth
-            </Link>
-          </li>
-          <li>
-            <Link href="/screens/oauth-screen" className="text-blue-500 hover:underline">
-              OAuth Screen
-            </Link>
-          </li>
-          <li>
-            <Link href="/screens/password-reset-screen" className="text-blue-500 hover:underline">
-              Password Reset Screen
-            </Link>
-          </li>
-        </ul>
+    <div className="max-w-sm mx-auto pt-36 space-y-6 pb-36">
+      <div className="text-center space-y-4">
+        <img src="/firebase-logo-inverted.png" alt="Firebase UI" className="hidden dark:block h-36 mx-auto" />
+        <img src="/firebase-logo.png" alt="Firebase UI" className="block dark:hidden h-36 mx-auto" />
+        <p className="text-sm text-gray-700 dark:text-gray-300">
+          Welcome to Firebase UI, choose an example screen below to get started!
+        </p>
+      </div>
+      <div className="border border-neutral-200 dark:border-neutral-800 rounded divide-y divide-neutral-200 dark:divide-neutral-800 overflow-hidden">
+        {routes.map((route) => (
+          <Link
+            key={route.path}
+            href={route.path}
+            className="flex items-center justify-between hover:bg-neutral-100 dark:bg-neutral-900 dark:hover:bg-neutral-800 p-4"
+          >
+            <div className="space-y-1">
+              <h2 className="font-medium text-sm">{route.name}</h2>
+              <p className="text-xs text-gray-400 dark:text-gray-300">{route.description}</p>
+            </div>
+            <div className="text-neutral-600 dark:text-neutral-400">
+              <span className="text-xl">&rarr;</span>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function AuthenticatedApp({
+  user,
+  router,
+}: {
+  user: NonNullable<ReturnType<typeof useUser>>;
+  router: ReturnType<typeof useRouter>;
+}) {
+  const mfa = multiFactor(user);
+
+  return (
+    <div className="max-w-sm mx-auto pt-36 space-y-6 pb-36">
+      <div className="border border-neutral-200 dark:border-neutral-800 rounded-md p-4 space-y-4">
+        <h1 className="text-md font-medium">Welcome, {user.displayName || user.email || user.phoneNumber}</h1>
+        {user.email ? (
+          <>
+            {user.emailVerified ? (
+              <div className="text-green-500">Email verified</div>
+            ) : (
+              <button
+                className="bg-red-500 text-white px-3 py-1.5 rounded text-sm"
+                onClick={async () => {
+                  try {
+                    await sendEmailVerification(user);
+                    alert("Email verification sent, please check your email");
+                  } catch (error) {
+                    console.error(error);
+                    alert("Error sending email verification, check console");
+                  }
+                }}
+              >
+                Verify Email &rarr;
+              </button>
+            )}
+          </>
+        ) : null}
+
+        <hr className="opacity-30" />
+        <h2 className="text-sm font-medium">Multi-factor Authentication</h2>
+        {mfa.enrolledFactors.map((factor) => {
+          return (
+            <div key={factor.factorId}>
+              {factor.factorId} - {factor.displayName}
+            </div>
+          );
+        })}
+        <button
+          className="bg-blue-500 text-white px-3 py-1.5 rounded text-sm"
+          onClick={() => {
+            router.push("/screens/mfa-enrollment-screen");
+          }}
+        >
+          Add MFA Factor &rarr;
+        </button>
+        <hr className="opacity-30" />
+        <button
+          className="bg-blue-500 text-white px-3 py-1.5 rounded text-sm"
+          onClick={async () => await signOut(auth)}
+        >
+          Sign Out &rarr;
+        </button>
       </div>
     </div>
   );

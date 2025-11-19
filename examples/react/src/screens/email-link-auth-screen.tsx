@@ -16,7 +16,7 @@
 
 "use client";
 
-import { EmailLinkAuthScreen } from "@firebase-oss/ui-react";
+import { EmailLinkAuthScreen } from "@invertase/firebaseui-react";
 import { useNavigate } from "react-router";
 
 export default function EmailLinkAuthScreenPage() {
@@ -27,8 +27,7 @@ export default function EmailLinkAuthScreenPage() {
       onEmailSent={() => {
         alert("Email has been sent");
       }}
-      onSignIn={(credential) => {
-        console.log(credential);
+      onSignIn={() => {
         navigate("/");
       }}
     />

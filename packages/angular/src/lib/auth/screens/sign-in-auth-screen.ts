@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-import { Component, output, computed } from "@angular/core";
+import { Component, Output, EventEmitter, computed, inject, effect } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
-import { injectTranslation, injectUI } from "../../provider";
+import { injectTranslation, injectUI, injectUserAuthenticated } from "../../provider";
 import { SignInAuthFormComponent } from "../forms/sign-in-auth-form";
-import { MultiFactorAuthAssertionFormComponent } from "../forms/multi-factor-auth-assertion-form";
+import { MultiFactorAuthAssertionScreenComponent } from "../screens/multi-factor-auth-assertion-screen";
 import { RedirectErrorComponent } from "../../components/redirect-error";
 import {
   CardComponent,
@@ -28,10 +28,13 @@ import {
   CardSubtitleComponent,
   CardContentComponent,
 } from "../../components/card";
-import { UserCredential } from "@angular/fire/auth";
+import { Auth, authState, User, UserCredential } from "@angular/fire/auth";
 @Component({
   selector: "fui-sign-in-auth-screen",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     CardComponent,
@@ -40,42 +43,51 @@ import { UserCredential } from "@angular/fire/auth";
     CardSubtitleComponent,
     CardContentComponent,
     SignInAuthFormComponent,
-    MultiFactorAuthAssertionFormComponent,
+    MultiFactorAuthAssertionScreenComponent,
     RedirectErrorComponent,
   ],
   template: `
-    <div class="fui-screen">
-      <fui-card>
-        <fui-card-header>
-          <fui-card-title>{{ titleText() }}</fui-card-title>
-          <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
-        </fui-card-header>
-        <fui-card-content>
-          @if (mfaResolver()) {
-            <fui-multi-factor-auth-assertion-form />
-          } @else {
-            <fui-sign-in-auth-form
-              (forgotPassword)="forgotPassword.emit()"
-              (signUp)="signUp.emit()"
-              (signIn)="signIn.emit($event)"
-            />
-            <fui-redirect-error />
+    @if (mfaResolver()) {
+      <fui-multi-factor-auth-assertion-screen />
+    } @else {
+      <div class="fui-screen">
+        <fui-card>
+          <fui-card-header>
+            <fui-card-title>{{ titleText() }}</fui-card-title>
+            <fui-card-subtitle>{{ subtitleText() }}</fui-card-subtitle>
+          </fui-card-header>
+          <fui-card-content>
+            <fui-sign-in-auth-form [forgotPassword]="forgotPassword" [signUp]="signUp" />
             <ng-content />
-          }
-        </fui-card-content>
-      </fui-card>
-    </div>
+            <fui-redirect-error />
+          </fui-card-content>
+        </fui-card>
+      </div>
+    }
   `,
 })
+/**
+ * A screen component for email/password sign-in.
+ *
+ * Automatically displays the MFA assertion screen if a multi-factor resolver is present.
+ */
 export class SignInAuthScreenComponent {
   private ui = injectUI();
 
   mfaResolver = computed(() => this.ui().multiFactorResolver);
-
   titleText = injectTranslation("labels", "signIn");
   subtitleText = injectTranslation("prompts", "signInToAccount");
 
-  forgotPassword = output<void>();
-  signUp = output<void>();
-  signIn = output<UserCredential>();
+  constructor() {
+    injectUserAuthenticated((user) => {
+      this.signIn.emit(user);
+    });
+  }
+
+  /** Event emitter for forgot password action. */
+  @Output() forgotPassword = new EventEmitter<void>();
+  /** Event emitter for sign up action. */
+  @Output() signUp = new EventEmitter<void>();
+  /** Event emitter for successful sign-in. */
+  @Output() signIn = new EventEmitter<User>();
 }

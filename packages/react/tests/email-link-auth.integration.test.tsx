@@ -19,7 +19,7 @@ import { describe, it, expect, afterAll } from "vitest";
 // import { EmailLinkAuthForm } from "../src";
 // import { initializeApp } from "firebase/app";
 // import { getAuth, connectAuthEmulator, deleteUser } from "firebase/auth";
-// import { initializeUI } from "@firebase-oss/ui-core";
+// import { initializeUI } from "@invertase/firebaseui-core";
 // import { FirebaseUIProvider } from "~/context";
 
 // // Prepare the test environment
@@ -104,7 +104,7 @@ describe.skip("TODO");
 //         }
 
 //         // Check for error messages
-//         const errorElements = container.querySelectorAll(".fui-form__error");
+//         const errorElements = container.querySelectorAll(".fui-error");
 
 //         // If there are error elements, check if they're just validation errors
 //         if (errorElements.length > 0) {
@@ -162,7 +162,7 @@ describe.skip("TODO");
 //     });
 
 //     await waitFor(() => {
-//       expect(container.querySelector(".fui-form__error")).not.toBeNull();
+//       expect(container.querySelector(".fui-error")).not.toBeNull();
 //     });
 //   });
 // });

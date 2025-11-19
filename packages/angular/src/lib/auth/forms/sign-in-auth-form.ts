@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { Component, output, effect } from "@angular/core";
+import { Component, Output, EventEmitter, input, effect } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { UserCredential } from "@angular/fire/auth";
 import { injectForm, TanStackField, TanStackAppField, injectStore } from "@tanstack/angular-form";
-import { FirebaseUIError, signInWithEmailAndPassword } from "@firebase-oss/ui-core";
+import { FirebaseUIError, signInWithEmailAndPassword } from "@invertase/firebaseui-core";
 
 import { injectSignInAuthFormSchema, injectTranslation, injectUI } from "../../provider";
 import { PoliciesComponent } from "../../components/policies";
@@ -32,6 +32,9 @@ import {
 @Component({
   selector: "fui-sign-in-auth-form",
   standalone: true,
+  host: {
+    style: "display: block;",
+  },
   imports: [
     CommonModule,
     TanStackField,
@@ -49,7 +52,8 @@ import {
           name="email"
           tanstack-app-field
           [tanstackField]="form"
-          label="{{ emailLabel() }}"
+          [label]="emailLabel()"
+          type="email"
         ></fui-form-input>
       </fieldset>
       <fieldset>
@@ -57,11 +61,11 @@ import {
           name="password"
           tanstack-app-field
           [tanstackField]="form"
-          label="{{ passwordLabel() }}"
+          [label]="passwordLabel()"
           type="password"
         >
-          @if (forgotPassword) {
-            <button ngProjectAs="input-action" fui-form-action (click)="forgotPassword.emit()">
+          @if (forgotPassword()?.observed) {
+            <button ngProjectAs="input-action" fui-form-action (click)="forgotPassword()?.emit()">
               {{ forgotPasswordLabel() }}
             </button>
           }
@@ -77,12 +81,15 @@ import {
         <fui-form-error-message [state]="state()" />
       </fieldset>
 
-      @if (signUp) {
-        <button fui-form-action (click)="signUp.emit()">{{ noAccountLabel() }} {{ signUpLabel() }}</button>
+      @if (signUp()?.observed) {
+        <button fui-form-action (click)="signUp()?.emit()">{{ noAccountLabel() }} {{ signUpLabel() }}</button>
       }
     </form>
   `,
 })
+/**
+ * A form component for signing in with email and password.
+ */
 export class SignInAuthFormComponent {
   private ui = injectUI();
   private formSchema = injectSignInAuthFormSchema();
@@ -95,9 +102,13 @@ export class SignInAuthFormComponent {
   signUpLabel = injectTranslation("labels", "signUp");
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
-  forgotPassword = output<void>();
-  signUp = output<void>();
-  signIn = output<UserCredential>();
+  /** Event emitter for forgot password action. */
+  forgotPassword = input<EventEmitter<void>>();
+  /** Event emitter for sign up action. */
+  signUp = input<EventEmitter<void>>();
+
+  /** Event emitter for successful sign-in. */
+  @Output() signIn = new EventEmitter<UserCredential>();
 
   form = injectForm({
     defaultValues: {
@@ -118,19 +129,18 @@ export class SignInAuthFormComponent {
     effect(() => {
       this.form.update({
         validators: {
-          onChange: this.formSchema(),
           onBlur: this.formSchema(),
-          onSubmit: this.formSchema(),
           onSubmitAsync: async ({ value }) => {
             try {
               const credential = await signInWithEmailAndPassword(this.ui(), value.email, value.password);
-              this.signIn?.emit(credential);
+              this.signIn.emit(credential);
               return;
             } catch (error) {
               if (error instanceof FirebaseUIError) {
                 return error.message;
               }
 
+              console.error(error);
               return this.unknownErrorLabel();
             }
           },

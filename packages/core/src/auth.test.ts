@@ -1,3 +1,19 @@
+/**
+ * Copyright 2025 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import {
   signInWithEmailAndPassword,
@@ -12,6 +28,8 @@ import {
   signInWithProvider,
   signInWithCustomToken,
   generateTotpQrCode,
+  completeEmailLinkSignIn,
+  signInWithMultiFactorAssertion,
 } from "./auth";
 
 vi.mock("firebase/auth", () => ({
@@ -42,7 +60,6 @@ vi.mock("./errors", () => ({
   handleFirebaseError: vi.fn(),
 }));
 
-// Import the mocked functions
 import {
   signInWithCredential as _signInWithCredential,
   EmailAuthProvider,
@@ -85,13 +102,11 @@ describe("signInWithEmailAndPassword", () => {
 
     expect(hasBehavior).toHaveBeenCalledWith(mockUI, "autoUpgradeAnonymousCredential");
 
-    // Calls pending pre-_signInWithCredential call, then idle after.
     expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
 
     expect(_signInWithCredential).toHaveBeenCalledWith(mockUI.auth, credential);
     expect(_signInWithCredential).toHaveBeenCalledTimes(1);
 
-    // Assert that the result is a valid UserCredential.
     expect(result.providerId).toBe("password");
   });
 
@@ -113,7 +128,6 @@ describe("signInWithEmailAndPassword", () => {
     expect(mockBehavior).toHaveBeenCalledWith(mockUI, credential);
     expect(result.providerId).toBe("password");
 
-    // Auth method sets pending at start, then idle in finally block.
     expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
   });
 
@@ -137,7 +151,6 @@ describe("signInWithEmailAndPassword", () => {
     expect(_signInWithCredential).toHaveBeenCalledWith(mockUI.auth, credential);
     expect(_signInWithCredential).toHaveBeenCalledTimes(1);
 
-    // Calls pending pre-_signInWithCredential call, then idle after.
     expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
   });
 
@@ -178,13 +191,11 @@ describe("createUserWithEmailAndPassword", () => {
 
     expect(hasBehavior).toHaveBeenCalledWith(mockUI, "autoUpgradeAnonymousCredential");
 
-    // Calls pending pre-createUserWithEmailAndPassword call, then idle after.
     expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
 
     expect(_createUserWithEmailAndPassword).toHaveBeenCalledWith(mockUI.auth, email, password);
     expect(_createUserWithEmailAndPassword).toHaveBeenCalledTimes(1);
 
-    // Assert that the result is a valid UserCredential.
     expect(result.providerId).toBe("password");
   });
 
@@ -210,7 +221,6 @@ describe("createUserWithEmailAndPassword", () => {
     expect(mockBehavior).toHaveBeenCalledWith(mockUI, credential);
     expect(result.providerId).toBe("password");
 
-    // Auth method sets pending at start, then idle in finally block.
     expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
   });
 
@@ -238,7 +248,6 @@ describe("createUserWithEmailAndPassword", () => {
     expect(_createUserWithEmailAndPassword).toHaveBeenCalledWith(mockUI.auth, email, password);
     expect(_createUserWithEmailAndPassword).toHaveBeenCalledTimes(1);
 
-    // Calls pending pre-createUserWithEmailAndPassword call, then idle after.
     expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
   });
 
@@ -400,15 +409,12 @@ describe("verifyPhoneNumber", () => {
 
     const result = await verifyPhoneNumber(mockUI, phoneNumber, mockAppVerifier);
 
-    // Verify state management
     expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
 
-    // Verify the PhoneAuthProvider was created and verifyPhoneNumber was called
     expect(PhoneAuthProvider).toHaveBeenCalledWith(mockUI.auth);
     expect(mockVerifyPhoneNumber).toHaveBeenCalledWith(phoneNumber, mockAppVerifier);
     expect(mockVerifyPhoneNumber).toHaveBeenCalledTimes(1);
 
-    // Verify the result
     expect(result).toEqual(mockVerificationId);
   });
 
@@ -605,6 +611,52 @@ describe("confirmPhoneNumber", () => {
   });
 });
 
+describe("signInWithMultiFactorAssertion", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("resolves sign-in via resolver, clears resolver, and returns credential", async () => {
+    const mockUI = createMockUI();
+
+    const mockCredential = { providerId: "mfa", user: { uid: "mfa-user" } } as UserCredential;
+    const resolveSignIn = vi.fn().mockResolvedValue(mockCredential);
+
+    const mockResolver = { resolveSignIn } as any;
+    (mockUI as any).multiFactorResolver = mockResolver;
+
+    const mockAssertion = { assertion: true } as any; // type MultiFactorAssertion
+
+    const result = await signInWithMultiFactorAssertion(mockUI, mockAssertion);
+
+    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
+
+    expect(resolveSignIn).toHaveBeenCalledWith(mockAssertion);
+    expect(resolveSignIn).toHaveBeenCalledTimes(1);
+
+    expect(mockUI.setMultiFactorResolver).toHaveBeenCalledWith(undefined);
+
+    expect(result).toBe(mockCredential);
+  });
+
+  it("handles errors via handleFirebaseError and maintains state transitions", async () => {
+    const mockUI = createMockUI();
+
+    const error = new FirebaseError("auth/mfa-error", "MFA resolution failed");
+    const resolveSignIn = vi.fn().mockRejectedValue(error);
+    const mockResolver = { resolveSignIn } as any;
+    (mockUI as any).multiFactorResolver = mockResolver;
+
+    const mockAssertion = { assertion: true } as any; // type MultiFactorAssertion
+
+    await signInWithMultiFactorAssertion(mockUI, mockAssertion);
+
+    expect(handleFirebaseError).toHaveBeenCalledWith(mockUI, error);
+
+    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
+  });
+});
+
 describe("sendPasswordResetEmail", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -618,10 +670,8 @@ describe("sendPasswordResetEmail", () => {
 
     await sendPasswordResetEmail(mockUI, email);
 
-    // Verify state management
     expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
 
-    // Verify the Firebase function was called with correct parameters
     expect(_sendPasswordResetEmail).toHaveBeenCalledWith(mockUI.auth, email);
     expect(_sendPasswordResetEmail).toHaveBeenCalledTimes(1);
   });
@@ -635,10 +685,8 @@ describe("sendPasswordResetEmail", () => {
 
     await sendPasswordResetEmail(mockUI, email);
 
-    // Verify error handling
     expect(handleFirebaseError).toHaveBeenCalledWith(mockUI, error);
 
-    // Verify state management still happens
     expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
   });
 });
@@ -646,7 +694,6 @@ describe("sendPasswordResetEmail", () => {
 describe("sendSignInLinkToEmail", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    // Mock window.location.href
     Object.defineProperty(window, "location", {
       value: { href: "https://example.com" },
       writable: true,
@@ -654,7 +701,6 @@ describe("sendSignInLinkToEmail", () => {
   });
 
   afterEach(() => {
-    // Clean up localStorage after each test
     window.localStorage.clear();
   });
 
@@ -675,7 +721,6 @@ describe("sendSignInLinkToEmail", () => {
     expect(_sendSignInLinkToEmail).toHaveBeenCalledWith(mockUI.auth, email, expectedActionCodeSettings);
     expect(_sendSignInLinkToEmail).toHaveBeenCalledTimes(1);
 
-    // Verify email is stored in localStorage
     expect(window.localStorage.getItem("emailForSignIn")).toBe(email);
   });
 
@@ -688,13 +733,10 @@ describe("sendSignInLinkToEmail", () => {
 
     await sendSignInLinkToEmail(mockUI, email);
 
-    // Verify error handling
     expect(handleFirebaseError).toHaveBeenCalledWith(mockUI, error);
 
-    // Verify state management still happens
     expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
 
-    // Verify email is NOT stored in localStorage on error
     expect(window.localStorage.getItem("emailForSignIn")).toBeNull();
   });
 
@@ -750,15 +792,12 @@ describe("signInWithEmailLink", () => {
 
     const result = await signInWithEmailLink(mockUI, email, link);
 
-    // Verify credential was created correctly
     expect(EmailAuthProvider.credentialWithLink).toHaveBeenCalledWith(email, link);
 
-    // Verify our signInWithCredential function was called (which internally calls Firebase)
     expect(hasBehavior).toHaveBeenCalledWith(mockUI, "autoUpgradeAnonymousCredential");
     expect(_signInWithCredential).toHaveBeenCalledWith(mockUI.auth, credential);
     expect(_signInWithCredential).toHaveBeenCalledTimes(1);
 
-    // Assert that the result is a valid UserCredential.
     expect(result.providerId).toBe("emailLink");
   });
 
@@ -775,17 +814,14 @@ describe("signInWithEmailLink", () => {
 
     const result = await signInWithEmailLink(mockUI, email, link);
 
-    // Verify credential was created correctly
     expect(EmailAuthProvider.credentialWithLink).toHaveBeenCalledWith(email, link);
 
-    // Verify our signInWithCredential function was called with behavior
     expect(hasBehavior).toHaveBeenCalledWith(mockUI, "autoUpgradeAnonymousCredential");
     expect(getBehavior).toHaveBeenCalledWith(mockUI, "autoUpgradeAnonymousCredential");
 
     expect(mockBehavior).toHaveBeenCalledWith(mockUI, credential);
     expect(result.providerId).toBe("emailLink");
 
-    // Auth method sets pending at start, then idle in finally block.
     expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
   });
 
@@ -802,10 +838,8 @@ describe("signInWithEmailLink", () => {
 
     await signInWithEmailLink(mockUI, email, link);
 
-    // Verify credential was created correctly
     expect(EmailAuthProvider.credentialWithLink).toHaveBeenCalledWith(email, link);
 
-    // Verify our signInWithCredential function was called with behavior
     expect(hasBehavior).toHaveBeenCalledWith(mockUI, "autoUpgradeAnonymousCredential");
     expect(getBehavior).toHaveBeenCalledWith(mockUI, "autoUpgradeAnonymousCredential");
 
@@ -814,7 +848,6 @@ describe("signInWithEmailLink", () => {
     expect(_signInWithCredential).toHaveBeenCalledWith(mockUI.auth, credential);
     expect(_signInWithCredential).toHaveBeenCalledTimes(1);
 
-    // Calls pending pre-_signInWithCredential call, then idle after.
     expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
   });
 
@@ -831,10 +864,8 @@ describe("signInWithEmailLink", () => {
 
     await signInWithEmailLink(mockUI, email, link);
 
-    // Verify credential was created correctly
     expect(EmailAuthProvider.credentialWithLink).toHaveBeenCalledWith(email, link);
 
-    // Verify our signInWithCredential function was called and error was handled
     expect(hasBehavior).toHaveBeenCalledWith(mockUI, "autoUpgradeAnonymousCredential");
     expect(handleFirebaseError).toHaveBeenCalledWith(mockUI, error);
     expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
@@ -857,13 +888,11 @@ describe("signInWithCredential", () => {
 
     expect(hasBehavior).toHaveBeenCalledWith(mockUI, "autoUpgradeAnonymousCredential");
 
-    // Calls pending pre-_signInWithCredential call, then idle after.
     expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
 
     expect(_signInWithCredential).toHaveBeenCalledWith(mockUI.auth, credential);
     expect(_signInWithCredential).toHaveBeenCalledTimes(1);
 
-    // Assert that the result is a valid UserCredential.
     expect(result.providerId).toBe("password");
   });
 
@@ -883,7 +912,6 @@ describe("signInWithCredential", () => {
     expect(mockBehavior).toHaveBeenCalledWith(mockUI, credential);
     expect(result.providerId).toBe("password");
 
-    // Auth method sets pending at start, then idle in finally block.
     expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
   });
 
@@ -905,7 +933,6 @@ describe("signInWithCredential", () => {
     expect(_signInWithCredential).toHaveBeenCalledWith(mockUI.auth, credential);
     expect(_signInWithCredential).toHaveBeenCalledTimes(1);
 
-    // Calls pending pre-_signInWithCredential call, then idle after.
     expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
   });
 
@@ -1034,7 +1061,6 @@ describe("signInWithCustomToken", () => {
 
     await signInWithCustomToken(mockUI, customToken);
 
-    // Verify redirect error is cleared even when network error occurs
     expect(mockUI.setRedirectError).toHaveBeenCalledWith(undefined);
     expect(handleFirebaseError).toHaveBeenCalledWith(mockUI, error);
 
@@ -1050,7 +1076,6 @@ describe("signInWithCustomToken", () => {
 
     await signInWithCustomToken(mockUI, customToken);
 
-    // Verify redirect error is cleared even when token is expired
     expect(mockUI.setRedirectError).toHaveBeenCalledWith(undefined);
     expect(handleFirebaseError).toHaveBeenCalledWith(mockUI, error);
 
@@ -1068,7 +1093,6 @@ describe("signInWithProvider", () => {
     const provider = { providerId: "google.com" } as AuthProvider;
     const mockResult = { user: { uid: "test-user" } } as UserCredential;
 
-    // Mock behaviors - no autoUpgradeAnonymousProvider
     vi.mocked(hasBehavior).mockReturnValue(false);
 
     const mockProviderStrategy = vi.fn().mockResolvedValue(mockResult);
@@ -1104,7 +1128,6 @@ describe("signInWithProvider", () => {
     const provider = { providerId: "google.com" } as AuthProvider;
     const mockResult = { user: { uid: "test-user" } } as UserCredential;
 
-    // Mock behaviors - autoUpgradeAnonymousProvider enabled but returns undefined
     vi.mocked(hasBehavior).mockReturnValue(true);
 
     const mockUpgradeBehavior = vi.fn().mockResolvedValue(undefined);
@@ -1224,5 +1247,226 @@ describe("generateTotpQrCode", () => {
       "User must be authenticated to generate a TOTP QR code"
     );
     expect(mockSecret.generateQrCodeUrl).not.toHaveBeenCalled();
+  });
+});
+
+describe("completeEmailLinkSignIn", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    Object.defineProperty(window, "location", {
+      value: { href: "https://example.com/auth?oobCode=abc123" },
+      writable: true,
+    });
+  });
+
+  afterEach(() => {
+    window.localStorage.clear();
+  });
+
+  it("should return null when URL is not an email link", async () => {
+    const mockUI = createMockUI();
+    const currentUrl = "https://example.com/not-email-link";
+
+    vi.mocked(_isSignInWithEmailLink).mockReturnValue(false);
+
+    const result = await completeEmailLinkSignIn(mockUI, currentUrl);
+
+    expect(_isSignInWithEmailLink).toHaveBeenCalledWith(mockUI.auth, currentUrl);
+    expect(result).toBeNull();
+  });
+
+  it("should return null when no email is stored in localStorage", async () => {
+    const mockUI = createMockUI();
+    const currentUrl = "https://example.com/auth?oobCode=abc123";
+
+    vi.mocked(_isSignInWithEmailLink).mockReturnValue(true);
+
+    const result = await completeEmailLinkSignIn(mockUI, currentUrl);
+
+    expect(_isSignInWithEmailLink).toHaveBeenCalledWith(mockUI.auth, currentUrl);
+    expect(result).toBeNull();
+  });
+
+  it("should complete email link sign-in with no behavior", async () => {
+    const mockUI = createMockUI();
+    const currentUrl = "https://example.com/auth?oobCode=abc123";
+    const email = "test@example.com";
+    const mockCredential = { providerId: "emailLink" } as UserCredential;
+    const emailLinkCredential = { providerId: "emailLink" } as any;
+
+    vi.mocked(_isSignInWithEmailLink).mockReturnValue(true);
+    window.localStorage.setItem("emailForSignIn", email);
+    vi.mocked(hasBehavior).mockReturnValue(false);
+    vi.mocked(EmailAuthProvider.credentialWithLink).mockReturnValue(emailLinkCredential);
+    vi.mocked(_signInWithCredential).mockResolvedValue(mockCredential);
+
+    const result = await completeEmailLinkSignIn(mockUI, currentUrl);
+
+    expect(_isSignInWithEmailLink).toHaveBeenCalledWith(mockUI.auth, currentUrl);
+    expect(hasBehavior).toHaveBeenCalledWith(mockUI, "autoUpgradeAnonymousCredential");
+    expect(EmailAuthProvider.credentialWithLink).toHaveBeenCalledWith(email, currentUrl);
+    expect(_signInWithCredential).toHaveBeenCalledWith(mockUI.auth, emailLinkCredential);
+    expect(result).toBe(mockCredential);
+
+    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
+    expect(window.localStorage.getItem("emailForSignIn")).toBeNull();
+  });
+
+  it("should call autoUpgradeAnonymousCredential behavior when enabled and return result", async () => {
+    const mockUI = createMockUI();
+    const currentUrl = "https://example.com/auth?oobCode=abc123";
+    const email = "test@example.com";
+    const emailLinkCredential = { providerId: "emailLink" } as any;
+    const mockResult = { providerId: "upgraded" } as UserCredential;
+
+    vi.mocked(_isSignInWithEmailLink).mockReturnValue(true);
+    window.localStorage.setItem("emailForSignIn", email);
+    vi.mocked(hasBehavior).mockReturnValue(true);
+    vi.mocked(EmailAuthProvider.credentialWithLink).mockReturnValue(emailLinkCredential);
+    const mockBehavior = vi.fn().mockResolvedValue(mockResult);
+    vi.mocked(getBehavior).mockReturnValue(mockBehavior);
+
+    const result = await completeEmailLinkSignIn(mockUI, currentUrl);
+
+    expect(_isSignInWithEmailLink).toHaveBeenCalledWith(mockUI.auth, currentUrl);
+    // Behavior is checked by signInWithCredential (called via signInWithEmailLink)
+    expect(hasBehavior).toHaveBeenCalledWith(mockUI, "autoUpgradeAnonymousCredential");
+    expect(EmailAuthProvider.credentialWithLink).toHaveBeenCalledWith(email, currentUrl);
+    expect(getBehavior).toHaveBeenCalledWith(mockUI, "autoUpgradeAnonymousCredential");
+    expect(mockBehavior).toHaveBeenCalledWith(mockUI, emailLinkCredential);
+    expect(result).toBe(mockResult);
+    // State is managed by signInWithCredential
+    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
+    expect(window.localStorage.getItem("emailForSignIn")).toBeNull();
+  });
+
+  it("should fall back to _signInWithCredential when autoUpgradeAnonymousCredential behavior returns undefined", async () => {
+    const mockUI = createMockUI();
+    const currentUrl = "https://example.com/auth?oobCode=abc123";
+    const email = "test@example.com";
+    const emailLinkCredential = { providerId: "emailLink" } as any;
+    const mockResult = { providerId: "emailLink" } as UserCredential;
+
+    vi.mocked(_isSignInWithEmailLink).mockReturnValue(true);
+    window.localStorage.setItem("emailForSignIn", email);
+    vi.mocked(hasBehavior).mockReturnValue(true);
+    vi.mocked(EmailAuthProvider.credentialWithLink).mockReturnValue(emailLinkCredential);
+    const mockBehavior = vi.fn().mockResolvedValue(undefined);
+    vi.mocked(getBehavior).mockReturnValue(mockBehavior);
+    vi.mocked(_signInWithCredential).mockResolvedValue(mockResult);
+
+    const result = await completeEmailLinkSignIn(mockUI, currentUrl);
+
+    expect(_isSignInWithEmailLink).toHaveBeenCalledWith(mockUI.auth, currentUrl);
+    // Behavior is checked by signInWithCredential (called via signInWithEmailLink)
+    expect(hasBehavior).toHaveBeenCalledWith(mockUI, "autoUpgradeAnonymousCredential");
+    expect(EmailAuthProvider.credentialWithLink).toHaveBeenCalledWith(email, currentUrl);
+    expect(getBehavior).toHaveBeenCalledWith(mockUI, "autoUpgradeAnonymousCredential");
+    expect(mockBehavior).toHaveBeenCalledWith(mockUI, emailLinkCredential);
+    expect(_signInWithCredential).toHaveBeenCalledWith(mockUI.auth, emailLinkCredential);
+    expect(result).toBe(mockResult);
+    // State is managed by signInWithCredential
+    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
+    expect(window.localStorage.getItem("emailForSignIn")).toBeNull();
+  });
+
+  it("should propagate error from signInWithEmailLink", async () => {
+    const mockUI = createMockUI();
+    const currentUrl = "https://example.com/auth?oobCode=abc123";
+    const email = "test@example.com";
+    const error = new FirebaseError("auth/invalid-action-code", "Invalid action code");
+    const emailLinkCredential = { providerId: "emailLink" } as any;
+
+    vi.mocked(_isSignInWithEmailLink).mockReturnValue(true);
+    window.localStorage.setItem("emailForSignIn", email);
+    vi.mocked(hasBehavior).mockReturnValue(false);
+    vi.mocked(EmailAuthProvider.credentialWithLink).mockReturnValue(emailLinkCredential);
+    vi.mocked(_signInWithCredential).mockRejectedValue(error);
+    // handleFirebaseError throws, so we need to catch it
+    vi.mocked(handleFirebaseError).mockImplementation(() => {
+      throw new Error("Handled error");
+    });
+
+    await expect(completeEmailLinkSignIn(mockUI, currentUrl)).rejects.toThrow("Handled error");
+
+    // Error is handled by signInWithCredential (called via signInWithEmailLink)
+    expect(handleFirebaseError).toHaveBeenCalledWith(mockUI, error);
+    // State is managed by signInWithCredential
+    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
+    expect(window.localStorage.getItem("emailForSignIn")).toBeNull();
+  });
+
+  it("should propagate error when autoUpgradeAnonymousCredential behavior throws", async () => {
+    const mockUI = createMockUI();
+    const currentUrl = "https://example.com/auth?oobCode=abc123";
+    const email = "test@example.com";
+    const emailLinkCredential = { providerId: "emailLink" } as any;
+    const error = new Error("Behavior error");
+
+    vi.mocked(_isSignInWithEmailLink).mockReturnValue(true);
+    window.localStorage.setItem("emailForSignIn", email);
+    vi.mocked(hasBehavior).mockReturnValue(true);
+    vi.mocked(EmailAuthProvider.credentialWithLink).mockReturnValue(emailLinkCredential);
+    const mockBehavior = vi.fn().mockRejectedValue(error);
+    vi.mocked(getBehavior).mockReturnValue(mockBehavior);
+    // handleFirebaseError throws, so we need to catch it
+    vi.mocked(handleFirebaseError).mockImplementation(() => {
+      throw new Error("Handled error");
+    });
+
+    await expect(completeEmailLinkSignIn(mockUI, currentUrl)).rejects.toThrow("Handled error");
+
+    // Error is handled by signInWithCredential (called via signInWithEmailLink)
+    expect(handleFirebaseError).toHaveBeenCalledWith(mockUI, error);
+    // State is managed by signInWithCredential
+    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
+    expect(window.localStorage.getItem("emailForSignIn")).toBeNull();
+  });
+
+  it("should clear email from localStorage even when error occurs", async () => {
+    const mockUI = createMockUI();
+    const currentUrl = "https://example.com/auth?oobCode=abc123";
+    const email = "test@example.com";
+    const error = new FirebaseError("auth/invalid-action-code", "Invalid action code");
+    const emailLinkCredential = { providerId: "emailLink" } as any;
+
+    vi.mocked(_isSignInWithEmailLink).mockReturnValue(true);
+    window.localStorage.setItem("emailForSignIn", email);
+    vi.mocked(hasBehavior).mockReturnValue(false);
+    vi.mocked(EmailAuthProvider.credentialWithLink).mockReturnValue(emailLinkCredential);
+    vi.mocked(_signInWithCredential).mockRejectedValue(error);
+    // handleFirebaseError throws, but finally block should still run
+    vi.mocked(handleFirebaseError).mockImplementation(() => {
+      throw new Error("Handled error");
+    });
+
+    await expect(completeEmailLinkSignIn(mockUI, currentUrl)).rejects.toThrow("Handled error");
+
+    // finally block should still clean up localStorage
+    expect(window.localStorage.getItem("emailForSignIn")).toBeNull();
+  });
+
+  it("should clear email from localStorage even when URL is not an email link", async () => {
+    const mockUI = createMockUI();
+    const currentUrl = "https://example.com/not-email-link";
+    const email = "test@example.com";
+
+    vi.mocked(_isSignInWithEmailLink).mockReturnValue(false);
+    window.localStorage.setItem("emailForSignIn", email);
+
+    await completeEmailLinkSignIn(mockUI, currentUrl);
+
+    expect(window.localStorage.getItem("emailForSignIn")).toBeNull();
+  });
+
+  it("should not clear email from localStorage when no email is stored", async () => {
+    const mockUI = createMockUI();
+    const currentUrl = "https://example.com/auth?oobCode=abc123";
+
+    vi.mocked(_isSignInWithEmailLink).mockReturnValue(true);
+
+    await completeEmailLinkSignIn(mockUI, currentUrl);
+
+    expect(window.localStorage.getItem("emailForSignIn")).toBeNull();
   });
 });

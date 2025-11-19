@@ -1,17 +1,17 @@
 {
-  "name": "@firebase-oss/ui-angular",
-  "version": "0.0.1",
+  "name": "@invertase/firebaseui-angular",
+  "version": "0.0.5",
   "files": [
     "dist"
   ],
   "type": "module",
-  "main": "./dist/fesm2022/firebase-ui-angular.mjs",
-  "module": "./dist/fesm2022/firebase-ui-angular.mjs",
+  "main": "./dist/fesm2022/invertase-firebaseui-angular.mjs",
+  "module": "./dist/fesm2022/invertase-firebaseui-angular.mjs",
   "typings": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "default": "./dist/fesm2022/firebase-ui-angular.mjs"
+      "default": "./dist/fesm2022/invertase-firebaseui-angular.mjs"
     }
   },
   "scripts": {
@@ -19,15 +19,17 @@
     "build": "pnpm run build:logos && ng-packagr -p ng-package.json",
     "build:logos": "tsx generate-logos.ts",
     "test": "jest --silent",
+    "version:bump": "pnpm version patch",
     "publish:tags": "sh -c 'TAG=\"${npm_package_name}@${npm_package_version}\"; git tag --list \"$TAG\" | grep . || git tag \"$TAG\"; git push origin \"$TAG\"'",
+    "publish:npm": "pnpm publish --access public",
     "release": "pnpm pack --pack-destination ../../releases/"
   },
   "peerDependencies": {
     "@angular/fire": "catalog:peerDependencies"
   },
   "dependencies": {
-    "@firebase-oss/ui-core": "workspace:*",
-    "@firebase-oss/ui-styles": "workspace:*",
+    "@invertase/firebaseui-core": "workspace:*",
+    "@invertase/firebaseui-styles": "workspace:*",
     "@tanstack/angular-form": "^1.23.1",
     "nanostores": "catalog:",
     "tslib": "^2.8.1"

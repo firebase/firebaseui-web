@@ -5,8 +5,8 @@
     "entryFile": "src/public-api.ts"
   },
   "allowedNonPeerDependencies": [
-    "@firebase-oss/ui-core",
-    "@firebase-oss/ui-styles",
+    "@invertase/firebaseui-core",
+    "@invertase/firebaseui-styles",
     "@tanstack/angular-form",
     "firebase",
     "nanostores",

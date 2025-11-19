@@ -17,19 +17,19 @@
 import { render, screen } from "@testing-library/angular";
 import { Component } from "@angular/core";
 
-import { GithubSignInButtonComponent } from "./github-sign-in-button";
+import { GitHubSignInButtonComponent } from "./github-sign-in-button";
 
 @Component({
   template: `<fui-github-sign-in-button></fui-github-sign-in-button>`,
   standalone: true,
-  imports: [GithubSignInButtonComponent],
+  imports: [GitHubSignInButtonComponent],
 })
 class TestGithubSignInButtonHostComponent {}
 
 @Component({
   template: `<fui-github-sign-in-button [provider]="customProvider"></fui-github-sign-in-button>`,
   standalone: true,
-  imports: [GithubSignInButtonComponent],
+  imports: [GitHubSignInButtonComponent],
 })
 class TestGithubSignInButtonWithCustomProviderHostComponent {
   customProvider = { providerId: "custom.github.com" };
@@ -43,7 +43,7 @@ describe("<fui-github-sign-in-button>", () => {
     injectTranslation.mockImplementation((category: string, key: string) => {
       const mockTranslations: Record<string, Record<string, string>> = {
         labels: {
-          signInWithGithub: "Sign in with GitHub",
+          signInWithGitHub: "Sign in with GitHub",
         },
       };
       return () => mockTranslations[category]?.[key] || `${category}.${key}`;
@@ -92,5 +92,17 @@ describe("<fui-github-sign-in-button>", () => {
 
     const button = screen.getByRole("button");
     expect(button).toHaveAttribute("data-provider", "github.com");
+  });
+
+  it("has signIn output", async () => {
+    const { fixture } = await render(TestGithubSignInButtonHostComponent);
+
+    const component = fixture.componentInstance;
+    expect(component).toBeTruthy();
+    // Verify the component has the signIn output
+    const buttonComponent = fixture.debugElement.query(
+      (el) => el.name === "fui-github-sign-in-button"
+    )?.componentInstance;
+    expect(buttonComponent?.signIn).toBeDefined();
   });
 });

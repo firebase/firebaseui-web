@@ -15,14 +15,18 @@
  */
 
 import { Component, HostBinding, input } from "@angular/core";
-import { buttonVariant, type ButtonVariant } from "@firebase-oss/ui-styles";
+import { buttonVariant, type ButtonVariant } from "@invertase/firebaseui-styles";
 
 @Component({
   selector: "button[fui-button]",
   template: `<ng-content></ng-content>`,
   standalone: true,
 })
+/**
+ * A customizable button component with multiple variants.
+ */
 export class ButtonComponent {
+  /** The visual variant of the button. */
   variant = input<ButtonVariant>();
 
   @HostBinding("class")

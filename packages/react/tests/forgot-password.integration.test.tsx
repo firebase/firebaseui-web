@@ -26,7 +26,7 @@ import { describe } from "vitest";
 //   createUserWithEmailAndPassword,
 //   signInWithEmailAndPassword,
 // } from "firebase/auth";
-// import { initializeUI } from "@firebase-oss/ui-core";
+// import { initializeUI } from "@invertase/firebaseui-core";
 // import { FirebaseUIProvider } from "~/context";
 
 // // Prepare the test environment
@@ -140,7 +140,7 @@ describe.skip("TODO");
 //         }
 
 //         // Check for error messages
-//         const errorElements = container.querySelectorAll(".fui-form__error");
+//         const errorElements = container.querySelectorAll(".fui-error");
 
 //         // If there are error elements, check if they're just validation errors
 //         if (errorElements.length > 0) {
@@ -199,7 +199,7 @@ describe.skip("TODO");
 
 //     await waitFor(
 //       () => {
-//         const errorElement = container.querySelector(".fui-form__error");
+//         const errorElement = container.querySelector(".fui-error");
 //         expect(errorElement).not.toBeNull();
 //         if (errorElement) {
 //           expect(errorElement.textContent).toBe("Please enter a valid email address");

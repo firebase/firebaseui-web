@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-import { BrowserRouter, Routes, Route } from "react-router";
+import { BrowserRouter, Routes, Route, Outlet, NavLink } from "react-router";
 
 import ReactDOM from "react-dom/client";
-import { FirebaseUIProvider } from "@firebase-oss/ui-react";
+import { FirebaseUIProvider, useUI } from "@invertase/firebaseui-react";
 import { ui, auth } from "./firebase/firebase";
 import App from "./App";
 import { hiddenRoutes, routes } from "./routes";
+import { enUs } from "@invertase/firebaseui-translations";
+import { pirate } from "./pirate";
 
 const root = document.getElementById("root")!;
 
@@ -37,13 +39,87 @@ auth.authStateReady().then(() => {
           privacyPolicyUrl: "https://www.google.com",
         }}
       >
+        <ThemeToggle />
+        <PirateToggle />
         <Routes>
           <Route path="/" element={<App />} />
-          {allRoutes.map((route) => (
-            <Route key={route.path} path={route.path} element={<route.component />} />
-          ))}
+          <Route element={<ScreenRoute />}>
+            {allRoutes.map((route) => (
+              <Route key={route.path} path={route.path} element={<route.component />} />
+            ))}
+          </Route>
         </Routes>
       </FirebaseUIProvider>
     </BrowserRouter>
   );
 });
+
+function ScreenRoute() {
+  return (
+    <div className="p-8">
+      <NavLink
+        to="/"
+        className="border border-gray-300 dark:border-gray-700 border-rounded px-4 py-2 rounded-md text-sm"
+      >
+        &larr; Back to overview
+      </NavLink>
+      <div className="pt-12">
+        <Outlet />
+      </div>
+    </div>
+  );
+}
+
+function ThemeToggle() {
+  return (
+    <button
+      className="fixed z-10 size-10 top-8 right-8 border border-gray-300 dark:border-gray-700 rounded-md p-2 group/toggle extend-touch-target"
+      onClick={() => {
+        document.documentElement.classList.toggle("dark", !document.documentElement.classList.contains("dark"));
+        localStorage.theme = document.documentElement.classList.contains("dark") ? "dark" : "light";
+      }}
+      title="Toggle theme"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="size-4.5"
+      >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+        <path d="M12 3l0 18" />
+        <path d="M12 9l4.65 -4.65" />
+        <path d="M12 14.3l7.37 -7.37" />
+        <path d="M12 19.6l8.85 -8.85" />
+      </svg>
+      <span className="sr-only">Toggle theme</span>
+    </button>
+  );
+}
+
+function PirateToggle() {
+  const ui = useUI();
+  const isPirate = ui.locale.locale === "pirate";
+
+  return (
+    <button
+      className="fixed z-10 size-10 top-8 right-20 border border-gray-300 dark:border-gray-700 rounded-md p-2 group/toggle extend-touch-target"
+      onClick={() => {
+        if (isPirate) {
+          ui.setLocale(enUs);
+        } else {
+          ui.setLocale(pirate);
+        }
+      }}
+    >
+      {isPirate ? "🇺🇸" : "🏴‍☠️"}
+    </button>
+  );
+}

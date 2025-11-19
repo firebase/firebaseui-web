@@ -16,26 +16,39 @@
 
 "use client";
 
-import { FirebaseUIError, getTranslation, signInWithProvider } from "@firebase-oss/ui-core";
-import type { AuthProvider } from "firebase/auth";
+import { FirebaseUIError, getTranslation, signInWithProvider } from "@invertase/firebaseui-core";
+import type { AuthProvider, UserCredential } from "firebase/auth";
 import type { PropsWithChildren } from "react";
 import { useCallback, useState } from "react";
 import { Button } from "~/components/button";
 import { useUI } from "~/hooks";
 
+/** Props for the OAuthButton component. */
 export type OAuthButtonProps = PropsWithChildren<{
+  /** The authentication provider to sign in with. */
   provider: AuthProvider;
+  /** Whether to use themed styling for the button. */
   themed?: boolean | string;
+  /** Callback function called when sign-in is successful. */
+  onSignIn?: (credential: UserCredential) => void;
 }>;
 
-export function useSignInWithProvider(provider: AuthProvider) {
+/**
+ * Hook for signing in with an OAuth provider.
+ *
+ * @param provider - The authentication provider to sign in with.
+ * @param onSignIn - Optional callback function called when sign-in is successful.
+ * @returns An object containing the error state and a callback function to trigger sign-in.
+ */
+export function useSignInWithProvider(provider: AuthProvider, onSignIn?: (credential: UserCredential) => void) {
   const ui = useUI();
   const [error, setError] = useState<string | null>(null);
 
   const callback = useCallback(async () => {
     setError(null);
     try {
-      await signInWithProvider(ui, provider);
+      const credential = await signInWithProvider(ui, provider);
+      onSignIn?.(credential);
     } catch (error) {
       if (error instanceof FirebaseUIError) {
         setError(error.message);
@@ -44,20 +57,26 @@ export function useSignInWithProvider(provider: AuthProvider) {
       console.error(error);
       setError(getTranslation(ui, "errors", "unknownError"));
     }
-  }, [ui, provider, setError]);
+  }, [ui, provider, setError, onSignIn]);
 
   return { error, callback };
 }
 
-export function OAuthButton({ provider, children, themed }: OAuthButtonProps) {
+/**
+ * A button component for signing in with an OAuth provider.
+ *
+ * @returns The OAuth button component.
+ */
+export function OAuthButton({ provider, children, themed, onSignIn }: OAuthButtonProps) {
   const ui = useUI();
 
-  const { error, callback } = useSignInWithProvider(provider);
+  const { error, callback } = useSignInWithProvider(provider, onSignIn);
 
   return (
     <div>
       <Button
         type="button"
+        variant={themed ? "primary" : "secondary"}
         data-themed={themed}
         data-provider={provider.providerId}
         disabled={ui.state !== "idle"}
@@ -66,7 +85,7 @@ export function OAuthButton({ provider, children, themed }: OAuthButtonProps) {
       >
         {children}
       </Button>
-      {error && <div className="fui-form__error">{error}</div>}
+      {error && <div className="fui-error">{error}</div>}
     </div>
   );
 }

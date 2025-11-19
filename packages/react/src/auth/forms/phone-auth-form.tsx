@@ -22,7 +22,7 @@ import {
   getTranslation,
   verifyPhoneNumber,
   confirmPhoneNumber,
-} from "@firebase-oss/ui-core";
+} from "@invertase/firebaseui-core";
 import { type RecaptchaVerifier, type UserCredential } from "firebase/auth";
 import { useCallback, useRef, useState } from "react";
 import { usePhoneAuthNumberFormSchema, usePhoneAuthVerifyFormSchema, useRecaptchaVerifier, useUI } from "~/hooks";
@@ -30,6 +30,11 @@ import { form } from "~/components/form";
 import { Policies } from "~/components/policies";
 import { CountrySelector, type CountrySelectorRef } from "~/components/country-selector";
 
+/**
+ * Creates a memoized action function for verifying a phone number.
+ *
+ * @returns A callback function that verifies a phone number using the provided reCAPTCHA verifier.
+ */
 export function usePhoneNumberFormAction() {
   const ui = useUI();
 
@@ -41,12 +46,22 @@ export function usePhoneNumberFormAction() {
   );
 }
 
+/** Options for the phone number form hook. */
 type UsePhoneNumberForm = {
+  /** The reCAPTCHA verifier instance. */
   recaptchaVerifier: RecaptchaVerifier;
+  /** Callback function called when phone verification is successful. */
   onSuccess: (verificationId: string) => void;
+  /** Optional function to format the phone number before verification. */
   formatPhoneNumber?: (phoneNumber: string) => string;
 };
 
+/**
+ * Creates a form hook for phone number verification.
+ *
+ * @param options - The phone number form options.
+ * @returns A form instance configured for phone number input and verification.
+ */
 export function usePhoneNumberForm({ recaptchaVerifier, onSuccess, formatPhoneNumber }: UsePhoneNumberForm) {
   const action = usePhoneNumberFormAction();
   const schema = usePhoneAuthNumberFormSchema();
@@ -57,7 +72,6 @@ export function usePhoneNumberForm({ recaptchaVerifier, onSuccess, formatPhoneNu
     },
     validators: {
       onBlur: schema,
-      onSubmit: schema,
       onSubmitAsync: async ({ value }) => {
         try {
           const formatted = formatPhoneNumber ? formatPhoneNumber(value.phoneNumber) : value.phoneNumber;
@@ -71,10 +85,19 @@ export function usePhoneNumberForm({ recaptchaVerifier, onSuccess, formatPhoneNu
   });
 }
 
+/** Props for the PhoneNumberForm component. */
 type PhoneNumberFormProps = {
+  /** Callback function called when phone verification is successful. */
   onSubmit: (verificationId: string) => void;
 };
 
+/**
+ * A form component for entering and verifying a phone number.
+ *
+ * Includes a country selector and reCAPTCHA verification.
+ *
+ * @returns The phone number form component.
+ */
 export function PhoneNumberForm(props: PhoneNumberFormProps) {
   const ui = useUI();
   const recaptchaContainerRef = useRef<HTMLDivElement>(null);
@@ -120,6 +143,11 @@ export function PhoneNumberForm(props: PhoneNumberFormProps) {
   );
 }
 
+/**
+ * Creates a memoized action function for verifying a phone verification code.
+ *
+ * @returns A callback function that confirms the phone number using the verification ID and code.
+ */
 export function useVerifyPhoneNumberFormAction() {
   const ui = useUI();
 
@@ -131,11 +159,20 @@ export function useVerifyPhoneNumberFormAction() {
   );
 }
 
+/** Options for the verify phone number form hook. */
 type UseVerifyPhoneNumberForm = {
+  /** The verification ID from the phone verification step. */
   verificationId: string;
+  /** Callback function called when verification is successful. */
   onSuccess: (credential: UserCredential) => void;
 };
 
+/**
+ * Creates a form hook for phone verification code input.
+ *
+ * @param options - The verify phone number form options.
+ * @returns A form instance configured for verification code input.
+ */
 export function useVerifyPhoneNumberForm({ verificationId, onSuccess }: UseVerifyPhoneNumberForm) {
   const schema = usePhoneAuthVerifyFormSchema();
   const action = useVerifyPhoneNumberFormAction();
@@ -146,7 +183,6 @@ export function useVerifyPhoneNumberForm({ verificationId, onSuccess }: UseVerif
       verificationCode: "",
     },
     validators: {
-      onSubmit: schema,
       onBlur: schema,
       onSubmitAsync: async ({ value }) => {
         try {
@@ -181,7 +217,13 @@ function VerifyPhoneNumberForm(props: VerifyPhoneNumberFormProps) {
       <form.AppForm>
         <fieldset>
           <form.AppField name="verificationCode">
-            {(field) => <field.Input label={getTranslation(ui, "labels", "verificationCode")} type="text" />}
+            {(field) => (
+              <field.Input
+                label={getTranslation(ui, "labels", "verificationCode")}
+                description={getTranslation(ui, "prompts", "smsVerificationPrompt")}
+                type="text"
+              />
+            )}
           </form.AppField>
         </fieldset>
         <fieldset>
@@ -193,10 +235,19 @@ function VerifyPhoneNumberForm(props: VerifyPhoneNumberFormProps) {
   );
 }
 
+/** Props for the PhoneAuthForm component. */
 export type PhoneAuthFormProps = {
+  /** Optional callback function called when sign-in is successful. */
   onSignIn?: (credential: UserCredential) => void;
 };
 
+/**
+ * A form component for phone authentication.
+ *
+ * Handles the two-step process: first entering the phone number, then verifying the SMS code.
+ *
+ * @returns The phone auth form component.
+ */
 export function PhoneAuthForm(props: PhoneAuthFormProps) {
   const [verificationId, setVerificationId] = useState<string | null>(null);
 

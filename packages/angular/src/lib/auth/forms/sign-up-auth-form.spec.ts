@@ -16,6 +16,7 @@
 
 import { render, screen, fireEvent } from "@testing-library/angular";
 import { CommonModule } from "@angular/common";
+import { EventEmitter } from "@angular/core";
 import { TanStackField, TanStackAppField } from "@tanstack/angular-form";
 import { SignUpAuthFormComponent } from "./sign-up-auth-form";
 import {
@@ -33,7 +34,7 @@ describe("<fui-sign-up-auth-form />", () => {
   let mockFirebaseUIError: any;
 
   beforeEach(() => {
-    const { createUserWithEmailAndPassword, hasBehavior, FirebaseUIError } = require("@firebase-oss/ui-core");
+    const { createUserWithEmailAndPassword, hasBehavior, FirebaseUIError } = require("@invertase/firebaseui-core");
     mockCreateUserWithEmailAndPassword = createUserWithEmailAndPassword;
     mockHasBehavior = hasBehavior;
     mockFirebaseUIError = FirebaseUIError;
@@ -64,7 +65,10 @@ describe("<fui-sign-up-auth-form />", () => {
   });
 
   it("should render the form initially without display name field", async () => {
-    await render(SignUpAuthFormComponent, {
+    const signInEmitter = new EventEmitter<void>();
+    signInEmitter.subscribe(() => {});
+
+    const { fixture } = await render(SignUpAuthFormComponent, {
       imports: [
         CommonModule,
         SignUpAuthFormComponent,
@@ -76,14 +80,18 @@ describe("<fui-sign-up-auth-form />", () => {
         FormActionComponent,
         PoliciesComponent,
       ],
+      componentInputs: {
+        signIn: signInEmitter,
+      },
     });
+    fixture.detectChanges();
 
     expect(screen.getByLabelText("Email Address")).toBeInTheDocument();
     expect(screen.getByLabelText("Password")).toBeInTheDocument();
     expect(screen.queryByLabelText("Display Name")).toBeNull();
     expect(screen.getByRole("button", { name: "Create Account" })).toBeInTheDocument();
     expect(screen.getByText("By continuing, you agree to our")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Already have an account? Sign In →" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Already have an account? Sign In" })).toBeInTheDocument();
   });
 
   it("should render display name field when hasBehavior returns true", async () => {
@@ -155,6 +163,9 @@ describe("<fui-sign-up-auth-form />", () => {
   });
 
   it("should emit signIn when sign in button is clicked", async () => {
+    const signInEmitter = new EventEmitter<void>();
+    signInEmitter.subscribe(() => {});
+
     const { fixture } = await render(SignUpAuthFormComponent, {
       imports: [
         CommonModule,
@@ -167,11 +178,14 @@ describe("<fui-sign-up-auth-form />", () => {
         FormActionComponent,
         PoliciesComponent,
       ],
+      componentInputs: {
+        signIn: signInEmitter,
+      },
     });
-    const component = fixture.componentInstance;
-    const signInSpy = jest.spyOn(component.signIn, "emit");
+    fixture.detectChanges();
+    const signInSpy = jest.spyOn(signInEmitter, "emit");
 
-    const signInButton = screen.getByRole("button", { name: "Already have an account? Sign In →" });
+    const signInButton = screen.getByRole("button", { name: "Already have an account? Sign In" });
     fireEvent.click(signInButton);
     expect(signInSpy).toHaveBeenCalled();
   });

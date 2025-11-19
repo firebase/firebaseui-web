@@ -16,14 +16,22 @@
 
 import { type ComponentProps } from "react";
 import { Slot } from "@radix-ui/react-slot";
-import { buttonVariant, type ButtonVariant } from "@firebase-oss/ui-styles";
+import { buttonVariant, type ButtonVariant } from "@invertase/firebaseui-styles";
 import { cn } from "~/utils/cn";
 
+/** Props for the Button component. */
 export type ButtonProps = ComponentProps<"button"> & {
+  /** The visual variant of the button. */
   variant?: ButtonVariant;
+  /** If true, the button will render as a child component using Radix UI's Slot. */
   asChild?: boolean;
 };
 
+/**
+ * A customizable button component with multiple variants.
+ *
+ * @returns The button component.
+ */
 export function Button({ className, variant = "primary", asChild, ...props }: ButtonProps) {
   const Comp = asChild ? Slot : "button";
   return <Comp className={cn(buttonVariant({ variant }), className)} {...props} />;

@@ -14,11 +14,15 @@
  * limitations under the License.
  */
 
-import { ERROR_CODE_MAP, type ErrorCode } from "@firebase-oss/ui-translations";
+import { ERROR_CODE_MAP, type ErrorCode } from "@invertase/firebaseui-translations";
 import { FirebaseError } from "firebase/app";
 import { type AuthCredential, getMultiFactorResolver, type MultiFactorError } from "firebase/auth";
 import { type FirebaseUI } from "./config";
 import { getTranslation } from "./translations";
+
+/**
+ * A custom error class that extends FirebaseError and provides a translated error message based on the configured locale.
+ */
 export class FirebaseUIError extends FirebaseError {
   constructor(ui: FirebaseUI, error: FirebaseError) {
     const message = getTranslation(ui, "errors", ERROR_CODE_MAP[error.code as ErrorCode]);
@@ -29,6 +33,17 @@ export class FirebaseUIError extends FirebaseError {
   }
 }
 
+/**
+ * Handles a Firebase error and throws a FirebaseUIError if it is a Firebase error.
+ *
+ * Addtionally, handles the following error codes:
+ * - auth/account-exists-with-different-credential - stores the credential in sessionStorage.
+ * - auth/multi-factor-auth-required - updates the UI instance with the multi-factor resolver.
+ *
+ * @param ui - The FirebaseUI instance.
+ * @param error - The error to handle.
+ * @returns {never} A never type.
+ */
 export function handleFirebaseError(ui: FirebaseUI, error: unknown): never {
   // If it's not a Firebase error, then we just throw it and preserve the original error.
   if (!isFirebaseError(error)) {
