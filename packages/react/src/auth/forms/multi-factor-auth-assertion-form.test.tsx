@@ -13,12 +13,15 @@
  * limitations under the License.
  */
 
-import { describe, it, expect, vi, afterEach } from "vitest";
-import { render, screen, fireEvent, cleanup } from "@testing-library/react";
-import { MultiFactorAuthAssertionForm } from "~/auth/forms/multi-factor-auth-assertion-form";
-import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
 import { registerLocale } from "@firebase-oss/ui-translations";
-import { FactorId, MultiFactorResolver, PhoneMultiFactorGenerator, TotpMultiFactorGenerator } from "firebase/auth";
+import { cleanup, fireEvent, render, renderHook, screen } from "@testing-library/react";
+import { MultiFactorResolver, PhoneMultiFactorGenerator, TotpMultiFactorGenerator } from "firebase/auth";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import {
+  MultiFactorAuthAssertionForm,
+  useMultiFactorAssertionCleanup,
+} from "~/auth/forms/multi-factor-auth-assertion-form";
+import { CreateFirebaseUIProvider, createFirebaseUIProvider, createMockUI } from "~/tests/utils";
 
 vi.mock("~/auth/forms/mfa/sms-multi-factor-assertion-form", () => ({
   SmsMultiFactorAssertionForm: ({ onSuccess }: { onSuccess?: (credential: any) => void }) => (
