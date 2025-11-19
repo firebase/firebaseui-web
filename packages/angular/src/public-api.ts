@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import { isDevMode } from "@angular/core";
 import { registerFramework } from "@firebase-oss/ui-core";
 
 export { EmailLinkAuthFormComponent } from "./lib/auth/forms/email-link-auth-form";
@@ -34,13 +33,13 @@ export { SmsMultiFactorEnrollmentFormComponent } from "./lib/auth/forms/mfa/sms-
 export { TotpMultiFactorAssertionFormComponent } from "./lib/auth/forms/mfa/totp-multi-factor-assertion-form";
 export { TotpMultiFactorEnrollmentFormComponent } from "./lib/auth/forms/mfa/totp-multi-factor-enrollment-form";
 
-export { GoogleSignInButtonComponent } from "./lib/auth/oauth/google-sign-in-button";
-export { FacebookSignInButtonComponent } from "./lib/auth/oauth/facebook-sign-in-button";
 export { AppleSignInButtonComponent } from "./lib/auth/oauth/apple-sign-in-button";
-export { MicrosoftSignInButtonComponent } from "./lib/auth/oauth/microsoft-sign-in-button";
-export { TwitterSignInButtonComponent } from "./lib/auth/oauth/twitter-sign-in-button";
+export { FacebookSignInButtonComponent } from "./lib/auth/oauth/facebook-sign-in-button";
 export { GitHubSignInButtonComponent } from "./lib/auth/oauth/github-sign-in-button";
+export { GoogleSignInButtonComponent } from "./lib/auth/oauth/google-sign-in-button";
+export { MicrosoftSignInButtonComponent } from "./lib/auth/oauth/microsoft-sign-in-button";
 export { OAuthButtonComponent } from "./lib/auth/oauth/oauth-button";
+export { TwitterSignInButtonComponent } from "./lib/auth/oauth/twitter-sign-in-button";
 
 export { EmailLinkAuthScreenComponent } from "./lib/auth/screens/email-link-auth-screen";
 export { ForgotPasswordAuthScreenComponent } from "./lib/auth/screens/forgot-password-auth-screen";
@@ -54,21 +53,21 @@ export { SignUpAuthScreenComponent } from "./lib/auth/screens/sign-up-auth-scree
 export { ButtonComponent } from "./lib/components/button";
 export {
   CardComponent,
-  CardHeaderComponent,
-  CardTitleComponent,
-  CardSubtitleComponent,
   CardContentComponent,
+  CardHeaderComponent,
+  CardSubtitleComponent,
+  CardTitleComponent,
 } from "./lib/components/card";
+export { ContentComponent } from "./lib/components/content";
 export { CountrySelectorComponent } from "./lib/components/country-selector";
 export { DividerComponent } from "./lib/components/divider";
 export { PoliciesComponent } from "./lib/components/policies";
-export { ContentComponent } from "./lib/components/content";
 export { RedirectErrorComponent } from "./lib/components/redirect-error";
 
 // Provider
 export * from "./lib/provider";
 
-if (!isDevMode()) {
-  const pkgJson = require("../package.json");
-  registerFramework("angular", pkgJson.version);
-}
+// if (!isDevMode()) {
+const pkgJson = require("../package.json");
+registerFramework("angular", pkgJson.version);
+// }
