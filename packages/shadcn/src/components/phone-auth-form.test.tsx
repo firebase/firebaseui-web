@@ -22,7 +22,7 @@ import { usePhoneNumberFormAction, useVerifyPhoneNumberFormAction, useUI } from 
 import { createMockUI } from "../../tests/utils";
 import { registerLocale } from "@firebase-oss/ui-translations";
 import { FirebaseUIProvider } from "@firebase-oss/ui-react";
-import { User, UserCredential } from "firebase/auth";
+import type { User, UserCredential } from "firebase/auth";
 import { FirebaseUI, FirebaseUIError } from "@firebase-oss/ui-core";
 import { FirebaseError } from "firebase/app";
 import { ERROR_CODE_MAP } from "@firebase-oss/ui-translations";

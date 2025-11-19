@@ -22,7 +22,7 @@ import { useEmailLinkAuthFormAction } from "@firebase-oss/ui-react";
 import { createMockUI } from "../../tests/utils";
 import { registerLocale } from "@firebase-oss/ui-translations";
 import { FirebaseUIProvider } from "@firebase-oss/ui-react";
-import { UserCredential } from "firebase/auth";
+import type { UserCredential } from "firebase/auth";
 import { completeEmailLinkSignIn } from "@firebase-oss/ui-core";
 
 vi.mock("@firebase-oss/ui-core", async (importOriginal) => {

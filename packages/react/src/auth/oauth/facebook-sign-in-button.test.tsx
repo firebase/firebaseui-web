@@ -13,11 +13,13 @@
  * limitations under the License.
  */
 
-import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
-import { render, screen, cleanup, fireEvent, waitFor } from "@testing-library/react";
-import { FacebookLogo, FacebookSignInButton } from "./facebook-sign-in-button";
-import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
+import { signInWithProvider } from "@firebase-oss/ui-core";
 import { registerLocale } from "@firebase-oss/ui-translations";
+import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import type { UserCredential } from "firebase/auth";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
+import { FacebookLogo, FacebookSignInButton } from "./facebook-sign-in-button";
 
 vi.mock("firebase/auth", async () => {
   const actual = await vi.importActual("firebase/auth");
