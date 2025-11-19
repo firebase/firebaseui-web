@@ -17,7 +17,7 @@
 "use client";
 
 import { ui } from "@/lib/firebase/clientApp";
-import { ConfigProvider } from "@firebase-oss/ui-react";
+import { FirebaseUIProvider } from "@firebase-oss/ui-react";
 
 export function FirebaseUIProviderHoc({ children }: { children: React.ReactNode }) {
   return (

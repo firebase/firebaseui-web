@@ -17,14 +17,14 @@
 "use client";
 
 import {
+  AppleSignInButton,
   FacebookSignInButton,
   GitHubSignInButton,
-  AppleSignInButton,
   GoogleSignInButton,
-  PhoneAuthScreen,
-  TwitterSignInButton,
   MicrosoftSignInButton,
   OAuthButton,
+  PhoneAuthScreen,
+  TwitterSignInButton,
 } from "@firebase-oss/ui-react";
 import { OAuthProvider } from "firebase/auth";
 import { useRouter } from "next/navigation";
@@ -67,17 +67,5 @@ function LineSignInButton() {
       </svg>
       <span>Sign in with Line</span>
     </OAuthButton>
+  );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
