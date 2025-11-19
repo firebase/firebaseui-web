@@ -16,15 +16,15 @@
 
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
-@import "@invertase/firebaseui-styles/tailwind";
+@import "@firebase-oss/ui-styles/tailwind";
 
 .fui-provider__button[data-provider="oidc.line"][data-themed="true"] {
-  --line-primary: #07B53B;
+  --line-primary: #07b53b;
   --color-primary: var(--line-primary);
   --color-primary-hover: --alpha(var(--line-primary) / 85%);
-  --color-primary-surface: #FFFFFF;
+  --color-primary-surface: #ffffff;
   --color-border: var(--line-primary);
 }
 
-/* @import "@invertase/firebaseui-styles/src/themes/dark.css"; */
-/* @import "@invertase/firebaseui-styles/src/themes/brutalist.css"; */
+/* @import "@firebase-oss/ui-styles/src/themes/dark.css"; */
+/* @import "@firebase-oss/ui-styles/src/themes/brutalist.css"; */
