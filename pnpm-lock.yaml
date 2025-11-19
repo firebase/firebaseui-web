@@ -179,16 +179,16 @@ importers:
       '@angular/ssr':
         specifier: ^20.2.2
         version: 20.3.7(64ca8375dbaf48ae24b53908d91cad2b)
-      '@invertase/firebaseui-angular':
+      '@firebase-oss/ui-angular':
         specifier: workspace:*
         version: link:../../packages/angular
-      '@invertase/firebaseui-core':
+      '@firebase-oss/ui-core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@invertase/firebaseui-styles':
+      '@firebase-oss/ui-styles':
         specifier: workspace:*
         version: link:../../packages/styles
-      '@invertase/firebaseui-translations':
+      '@firebase-oss/ui-translations':
         specifier: workspace:*
         version: link:../../packages/translations
       '@tailwindcss/postcss':
@@ -291,16 +291,16 @@ importers:
 
   examples/nextjs:
     dependencies:
-      '@invertase/firebaseui-core':
+      '@firebase-oss/ui-core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@invertase/firebaseui-react':
+      '@firebase-oss/ui-react':
         specifier: workspace:*
         version: link:../../packages/react
-      '@invertase/firebaseui-styles':
+      '@firebase-oss/ui-styles':
         specifier: workspace:*
         version: link:../../packages/styles
-      '@invertase/firebaseui-translations':
+      '@firebase-oss/ui-translations':
         specifier: workspace:*
         version: link:../../packages/translations
       firebase:
@@ -346,18 +346,18 @@ importers:
 
   examples/nextjs-ssr:
     dependencies:
-      '@invertase/firebaseui-core':
-        specifier: latest
-        version: 0.0.12(firebase@11.10.0)
-      '@invertase/firebaseui-react':
-        specifier: latest
-        version: 0.0.11(@types/react@19.1.16)(firebase@11.10.0)(nanostores@1.0.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.3)
-      '@invertase/firebaseui-styles':
-        specifier: latest
-        version: 0.0.14(typescript@5.9.3)
-      '@invertase/firebaseui-translations':
-        specifier: latest
-        version: 0.0.9
+      '@firebase-oss/ui-core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@firebase-oss/ui-react':
+        specifier: workspace:*
+        version: link:../../packages/react
+      '@firebase-oss/ui-styles':
+        specifier: workspace:*
+        version: link:../../packages/styles
+      '@firebase-oss/ui-translations':
+        specifier: workspace:*
+        version: link:../../packages/translations
       firebase:
         specifier: ^11.10.0
         version: 11.10.0
@@ -404,16 +404,16 @@ importers:
 
   examples/react:
     dependencies:
-      '@invertase/firebaseui-core':
+      '@firebase-oss/ui-core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@invertase/firebaseui-react':
+      '@firebase-oss/ui-react':
         specifier: workspace:*
         version: link:../../packages/react
-      '@invertase/firebaseui-styles':
+      '@firebase-oss/ui-styles':
         specifier: workspace:*
         version: link:../../packages/styles
-      '@invertase/firebaseui-translations':
+      '@firebase-oss/ui-translations':
         specifier: workspace:*
         version: link:../../packages/translations
       firebase:
@@ -468,21 +468,21 @@ importers:
 
   examples/shadcn:
     dependencies:
+      '@firebase-oss/ui-core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@firebase-oss/ui-react':
+        specifier: workspace:*
+        version: link:../../packages/react
+      '@firebase-oss/ui-styles':
+        specifier: workspace:*
+        version: link:../../packages/styles
+      '@firebase-oss/ui-translations':
+        specifier: workspace:*
+        version: link:../../packages/translations
       '@hookform/resolvers':
         specifier: ^5.2.2
         version: 5.2.2(react-hook-form@7.65.0(react@19.1.1))
-      '@invertase/firebaseui-core':
-        specifier: workspace:*
-        version: link:../../packages/core
-      '@invertase/firebaseui-react':
-        specifier: workspace:*
-        version: link:../../packages/react
-      '@invertase/firebaseui-styles':
-        specifier: workspace:*
-        version: link:../../packages/styles
-      '@invertase/firebaseui-translations':
-        specifier: workspace:*
-        version: link:../../packages/translations
       '@radix-ui/react-accordion':
         specifier: ^1.2.12
         version: 1.2.12(@types/react-dom@19.1.9(@types/react@19.1.16))(@types/react@19.1.16)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -664,10 +664,10 @@ importers:
 
   packages/angular:
     dependencies:
-      '@invertase/firebaseui-core':
+      '@firebase-oss/ui-core':
         specifier: workspace:*
         version: link:../core
-      '@invertase/firebaseui-styles':
+      '@firebase-oss/ui-styles':
         specifier: workspace:*
         version: link:../styles
       '@tanstack/angular-form':
@@ -767,7 +767,7 @@ importers:
 
   packages/core:
     dependencies:
-      '@invertase/firebaseui-translations':
+      '@firebase-oss/ui-translations':
         specifier: workspace:*
         version: link:../translations
       libphonenumber-js:
@@ -813,10 +813,10 @@ importers:
 
   packages/react:
     dependencies:
-      '@invertase/firebaseui-core':
+      '@firebase-oss/ui-core':
         specifier: workspace:*
         version: link:../core
-      '@invertase/firebaseui-styles':
+      '@firebase-oss/ui-styles':
         specifier: workspace:*
         version: link:../styles
       '@nanostores/react':
@@ -838,7 +838,7 @@ importers:
         specifier: 'catalog:'
         version: 4.1.12
     devDependencies:
-      '@invertase/firebaseui-translations':
+      '@firebase-oss/ui-translations':
         specifier: workspace:*
         version: link:../translations
       '@testing-library/jest-dom':
@@ -895,15 +895,15 @@ importers:
 
   packages/shadcn:
     dependencies:
+      '@firebase-oss/ui-core':
+        specifier: workspace:*
+        version: link:../core
+      '@firebase-oss/ui-react':
+        specifier: workspace:*
+        version: link:../react
       '@hookform/resolvers':
         specifier: ^5.2.2
         version: 5.2.2(react-hook-form@7.65.0(react@19.1.1))
-      '@invertase/firebaseui-core':
-        specifier: workspace:*
-        version: link:../core
-      '@invertase/firebaseui-react':
-        specifier: workspace:*
-        version: link:../react
       '@radix-ui/react-label':
         specifier: ^2.1.7
         version: 2.1.7(@types/react-dom@19.1.9(@types/react@19.1.16))(@types/react@19.1.16)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -938,7 +938,7 @@ importers:
         specifier: 'catalog:'
         version: 4.1.12
     devDependencies:
-      '@invertase/firebaseui-translations':
+      '@firebase-oss/ui-translations':
         specifier: workspace:*
         version: link:../translations
       '@tailwindcss/vite':
@@ -3062,24 +3062,6 @@ packages:
     peerDependenciesMeta:
       '@types/node':
         optional: true
-
-  '@invertase/firebaseui-core@0.0.12':
-    resolution: {integrity: sha512-tmP/OveY+gtqsSedqukmBtn/QWG6cj290EdWn50/ce0fCbgn1OMBSwO6ytCVkoYmIvoexiCV7dRTYHG/9Ub9/w==}
-    peerDependencies:
-      firebase: ^11 || ^12
-
-  '@invertase/firebaseui-react@0.0.11':
-    resolution: {integrity: sha512-qkP7G9T/6CEa14e6J3Ch5lTdtAffpR2KvcsIEzt1vX+WqKeTxL+jmMC9+RRvHLMiEbbSJvnp4XsvJ5Ta42ak2Q==}
-    peerDependencies:
-      firebase: ^11 || ^12
-      react: ^19
-      react-dom: ^19
-
-  '@invertase/firebaseui-styles@0.0.14':
-    resolution: {integrity: sha512-l6UfGhByfjS+aTMmOklK5Xpyk/Ktrh/1QkILwLAZhq+frDLmTo3hBGt7F7g5AyI84MQl+ge+L/NbQYjnQ3I6XQ==}
-
-  '@invertase/firebaseui-translations@0.0.9':
-    resolution: {integrity: sha512-INTu2PQz7DB2PhmhT8bDUaVgV2/8MZ2yqy2Oesln4r6Lkcw6zVtU65VDnHutztaOVT+UiW91v41YXn5cZN7SRQ==}
 
   '@isaacs/balanced-match@4.0.1':
     resolution: {integrity: sha512-yzMTt9lEb8Gv7zRioUilSglI0c0smZ9k5D65677DLWLtWJaXIS3CqcGyUFByYKlnUj6TkjLVs54fBl6+TiGQDQ==}
@@ -10222,7 +10204,7 @@ snapshots:
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@angular-devkit/architect': 0.2003.10(chokidar@4.0.3)
-      '@angular-devkit/build-webpack': 0.2003.10(chokidar@4.0.3)(webpack-dev-server@5.2.2(webpack@5.101.2))(webpack@5.101.2)
+      '@angular-devkit/build-webpack': 0.2003.10(chokidar@4.0.3)(webpack-dev-server@5.2.2(webpack@5.101.2))(webpack@5.101.2(esbuild@0.25.9))
       '@angular-devkit/core': 20.3.10(chokidar@4.0.3)
       '@angular/build': 20.3.10(1be407f5110624cbb4aee41c10128f32)
       '@angular/compiler-cli': 20.3.7(@angular/compiler@20.3.7)(typescript@5.9.3)
@@ -10236,7 +10218,7 @@ snapshots:
       '@babel/preset-env': 7.28.3(@babel/core@7.28.3)
       '@babel/runtime': 7.28.3
       '@discoveryjs/json-ext': 0.6.3
-      '@ngtools/webpack': 20.3.10(@angular/compiler-cli@20.3.7(@angular/compiler@20.3.7)(typescript@5.9.3))(typescript@5.9.3)(webpack@5.101.2)
+      '@ngtools/webpack': 20.3.10(@angular/compiler-cli@20.3.7(@angular/compiler@20.3.7)(typescript@5.9.3))(typescript@5.9.3)(webpack@5.101.2(esbuild@0.25.9))
       ansi-colors: 4.1.3
       autoprefixer: 10.4.21(postcss@8.5.6)
       babel-loader: 10.0.0(@babel/core@7.28.3)(webpack@5.101.2)
@@ -10313,7 +10295,7 @@ snapshots:
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@angular-devkit/architect': 0.2003.7(chokidar@4.0.3)
-      '@angular-devkit/build-webpack': 0.2003.7(chokidar@4.0.3)(webpack-dev-server@5.2.2(webpack@5.101.2))(webpack@5.101.2(esbuild@0.25.9))
+      '@angular-devkit/build-webpack': 0.2003.7(chokidar@4.0.3)(webpack-dev-server@5.2.2(webpack@5.101.2))(webpack@5.101.2)
       '@angular-devkit/core': 20.3.7(chokidar@4.0.3)
       '@angular/build': 20.3.7(1849c53c536bd3612d435156c655d6b9)
       '@angular/compiler-cli': 20.3.7(@angular/compiler@20.3.7)(typescript@5.9.3)
@@ -10327,7 +10309,7 @@ snapshots:
       '@babel/preset-env': 7.28.3(@babel/core@7.28.3)
       '@babel/runtime': 7.28.3
       '@discoveryjs/json-ext': 0.6.3
-      '@ngtools/webpack': 20.3.7(@angular/compiler-cli@20.3.7(@angular/compiler@20.3.7)(typescript@5.9.3))(typescript@5.9.3)(webpack@5.101.2(esbuild@0.25.9))
+      '@ngtools/webpack': 20.3.7(@angular/compiler-cli@20.3.7(@angular/compiler@20.3.7)(typescript@5.9.3))(typescript@5.9.3)(webpack@5.101.2)
       ansi-colors: 4.1.3
       autoprefixer: 10.4.21(postcss@8.5.6)
       babel-loader: 10.0.0(@babel/core@7.28.3)(webpack@5.101.2)
@@ -10400,7 +10382,7 @@ snapshots:
       - webpack-cli
       - yaml
 
-  '@angular-devkit/build-webpack@0.2003.10(chokidar@4.0.3)(webpack-dev-server@5.2.2(webpack@5.101.2))(webpack@5.101.2)':
+  '@angular-devkit/build-webpack@0.2003.10(chokidar@4.0.3)(webpack-dev-server@5.2.2(webpack@5.101.2))(webpack@5.101.2(esbuild@0.25.9))':
     dependencies:
       '@angular-devkit/architect': 0.2003.10(chokidar@4.0.3)
       rxjs: 7.8.2
@@ -10409,7 +10391,7 @@ snapshots:
     transitivePeerDependencies:
       - chokidar
 
-  '@angular-devkit/build-webpack@0.2003.7(chokidar@4.0.3)(webpack-dev-server@5.2.2(webpack@5.101.2))(webpack@5.101.2(esbuild@0.25.9))':
+  '@angular-devkit/build-webpack@0.2003.7(chokidar@4.0.3)(webpack-dev-server@5.2.2(webpack@5.101.2))(webpack@5.101.2)':
     dependencies:
       '@angular-devkit/architect': 0.2003.7(chokidar@4.0.3)
       rxjs: 7.8.2
@@ -12600,42 +12582,6 @@ snapshots:
     optionalDependencies:
       '@types/node': 24.9.2
 
-  '@invertase/firebaseui-core@0.0.12(firebase@11.10.0)':
-    dependencies:
-      '@invertase/firebaseui-translations': 0.0.9
-      firebase: 11.10.0
-      libphonenumber-js: 1.12.25
-      nanostores: 1.0.1
-      qrcode-generator: 2.0.4
-      zod: 4.1.12
-
-  '@invertase/firebaseui-react@0.0.11(@types/react@19.1.16)(firebase@11.10.0)(nanostores@1.0.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.3)':
-    dependencies:
-      '@invertase/firebaseui-core': 0.0.12(firebase@11.10.0)
-      '@invertase/firebaseui-styles': 0.0.14(typescript@5.9.3)
-      '@nanostores/react': 1.0.0(nanostores@1.0.1)(react@19.1.1)
-      '@radix-ui/react-slot': 1.2.3(@types/react@19.1.16)(react@19.1.1)
-      '@tanstack/react-form': 1.20.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
-      clsx: 2.1.1
-      firebase: 11.10.0
-      react: 19.1.1
-      react-dom: 19.1.1(react@19.1.1)
-      tailwind-merge: 3.3.1
-      zod: 4.1.12
-    transitivePeerDependencies:
-      - '@tanstack/react-start'
-      - '@types/react'
-      - nanostores
-      - typescript
-
-  '@invertase/firebaseui-styles@0.0.14(typescript@5.9.3)':
-    dependencies:
-      cva: 1.0.0-beta.4(typescript@5.9.3)
-    transitivePeerDependencies:
-      - typescript
-
-  '@invertase/firebaseui-translations@0.0.9': {}
-
   '@isaacs/balanced-match@4.0.1': {}
 
   '@isaacs/brace-expansion@5.0.0':
@@ -13141,13 +13087,13 @@ snapshots:
   '@next/swc-win32-x64-msvc@15.1.7':
     optional: true
 
-  '@ngtools/webpack@20.3.10(@angular/compiler-cli@20.3.7(@angular/compiler@20.3.7)(typescript@5.9.3))(typescript@5.9.3)(webpack@5.101.2)':
+  '@ngtools/webpack@20.3.10(@angular/compiler-cli@20.3.7(@angular/compiler@20.3.7)(typescript@5.9.3))(typescript@5.9.3)(webpack@5.101.2(esbuild@0.25.9))':
     dependencies:
       '@angular/compiler-cli': 20.3.7(@angular/compiler@20.3.7)(typescript@5.9.3)
       typescript: 5.9.3
       webpack: 5.101.2(esbuild@0.25.9)
 
-  '@ngtools/webpack@20.3.7(@angular/compiler-cli@20.3.7(@angular/compiler@20.3.7)(typescript@5.9.3))(typescript@5.9.3)(webpack@5.101.2(esbuild@0.25.9))':
+  '@ngtools/webpack@20.3.7(@angular/compiler-cli@20.3.7(@angular/compiler@20.3.7)(typescript@5.9.3))(typescript@5.9.3)(webpack@5.101.2)':
     dependencies:
       '@angular/compiler-cli': 20.3.7(@angular/compiler@20.3.7)(typescript@5.9.3)
       typescript: 5.9.3
@@ -14922,7 +14868,7 @@ snapshots:
       sirv: 3.0.2
       tinyglobby: 0.2.15
       tinyrainbow: 2.0.0
-      vitest: 3.2.4(@types/node@24.9.2)(@vitest/ui@3.2.4)(jiti@2.6.1)(jsdom@26.1.0)(less@4.4.2)(lightningcss@1.30.2)(msw@2.11.6(@types/node@24.9.2)(typescript@5.9.3))(sass@1.93.2)(terser@5.43.1)(tsx@4.20.6)
+      vitest: 3.2.4(@types/node@20.19.24)(@vitest/ui@3.2.4)(jiti@2.6.1)(jsdom@25.0.1)(less@4.4.0)(lightningcss@1.30.2)(msw@2.11.6(@types/node@20.19.24)(typescript@5.9.3))(sass@1.90.0)(terser@5.43.1)(tsx@4.20.6)
 
   '@vitest/utils@3.2.4':
     dependencies:

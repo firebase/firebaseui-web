@@ -30,7 +30,7 @@ import { Component, input } from "@angular/core";
   `,
 })
 /**
- * The Twitter/X logo SVG component.
+ * The Twitter logo SVG component.
  */
 export class TwitterLogoComponent {
   /** The width of the logo. */
