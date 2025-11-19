@@ -1,0 +1,43 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Read the commit message
+COMMIT_MSG_FILE=$1
+COMMIT_MSG=$(cat "$COMMIT_MSG_FILE")
+
+echo "🔍 Validating commit message..."
+
+# Check minimum length
+if [ ${#COMMIT_MSG} -lt 10 ]; then
+  echo "❌ Commit message too short (minimum 10 characters)"
+  echo "   Please provide a meaningful commit message."
+  exit 1
+fi
+
+# Check for common typos (case insensitive)
+if echo "$COMMIT_MSG" | grep -qi "WIP\|work in progress\|temp\|temporary\|asdf\|test commit"; then
+  echo "⚠️  Warning: Commit message suggests work in progress."
+  echo "   Message: $COMMIT_MSG"
+  echo ""
+  read -p "Continue anyway? (y/N): " -n 1 -r
+  echo
+  if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    exit 1
+  fi
+fi
+
+# Check for conventional commit format (informational only)
+if ! echo "$COMMIT_MSG" | grep -qE "^(feat|fix|docs|style|refactor|perf|test|chore|build|ci|revert)(\(.+\))?: .+"; then
+  echo "ℹ️  Consider using conventional commits format:"
+  echo "   feat: add new feature"
+  echo "   fix: fix bug"
+  echo "   docs: update documentation"
+  echo "   test: add or update tests"
+  echo "   refactor: refactor code"
+  echo "   perf: performance improvement"
+  echo "   style: code style changes"
+  echo "   chore: maintenance tasks"
+  echo ""
+fi
+
+echo "✅ Commit message validated!"

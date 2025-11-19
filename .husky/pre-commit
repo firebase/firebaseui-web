@@ -1,0 +1,101 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🔍 Running pre-commit checks..."
+
+# Get list of staged JavaScript files
+STAGED_JS_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '\.js$' || true)
+
+if [ -n "$STAGED_JS_FILES" ]; then
+  echo "📝 Found staged JavaScript files:"
+  echo "$STAGED_JS_FILES"
+
+  # Check for console.log statements
+  echo ""
+  echo "🔍 Checking for console.log statements..."
+  if echo "$STAGED_JS_FILES" | xargs grep -n "console\.log" 2>/dev/null; then
+    echo "❌ Found console.log statements. Please remove them before committing."
+    echo "   Use firebaseui.auth.log.debug() instead for logging."
+    exit 1
+  fi
+
+  # Check for debugger statements
+  echo "🔍 Checking for debugger statements..."
+  if echo "$STAGED_JS_FILES" | xargs grep -n "debugger" 2>/dev/null; then
+    echo "❌ Found debugger statements. Please remove them before committing."
+    exit 1
+  fi
+
+  # Check for TODOs in committed code (warning only)
+  echo "🔍 Checking for TODO comments..."
+  TODO_COUNT=$(echo "$STAGED_JS_FILES" | xargs grep -c "TODO" 2>/dev/null | awk -F: '{sum+=$2} END {print sum}' || echo "0")
+  if [ "$TODO_COUNT" -gt 0 ]; then
+    echo "⚠️  Warning: Found $TODO_COUNT TODO comments in staged files."
+    echo "   Consider addressing these before committing."
+  fi
+
+  # Check for proper copyright headers in new files
+  echo "🔍 Checking copyright headers..."
+  NEW_FILES=$(git diff --cached --name-only --diff-filter=A | grep '\.js$' || true)
+  if [ -n "$NEW_FILES" ]; then
+    for file in $NEW_FILES; do
+      if ! head -n 5 "$file" | grep -q "Copyright.*Google Inc"; then
+        echo "⚠️  Warning: $file may be missing a copyright header."
+      fi
+    done
+  fi
+
+  # Check for files over 1000 lines (warning only)
+  echo "🔍 Checking file sizes..."
+  for file in $STAGED_JS_FILES; do
+    LINE_COUNT=$(wc -l < "$file")
+    if [ "$LINE_COUNT" -gt 1000 ]; then
+      echo "⚠️  Warning: $file has $LINE_COUNT lines (>1000). Consider refactoring."
+    fi
+  done
+fi
+
+# Check for test files when modifying source files
+STAGED_SOURCE_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '\.js$' | grep -v '_test\.js$' || true)
+if [ -n "$STAGED_SOURCE_FILES" ]; then
+  echo ""
+  echo "🧪 Checking for corresponding test files..."
+  MISSING_TESTS=0
+
+  for file in $STAGED_SOURCE_FILES; do
+    # Skip test helpers and certain directories
+    if echo "$file" | grep -qE '(testing/|externs/|testhelper\.js)'; then
+      continue
+    fi
+
+    # Check if corresponding test file exists
+    test_file="${file%.js}_test.js"
+    if [ ! -f "$test_file" ]; then
+      echo "⚠️  Warning: No test file found for $file"
+      echo "   Expected: $test_file"
+      MISSING_TESTS=$((MISSING_TESTS + 1))
+    fi
+  done
+
+  if [ "$MISSING_TESTS" -gt 0 ]; then
+    echo ""
+    echo "⚠️  $MISSING_TESTS file(s) modified without corresponding tests."
+    echo "   Consider adding tests before committing."
+  fi
+fi
+
+# Run quick syntax check on staged files
+if [ -n "$STAGED_JS_FILES" ]; then
+  echo ""
+  echo "🔍 Running syntax check..."
+  for file in $STAGED_JS_FILES; do
+    node -c "$file" 2>/dev/null || {
+      echo "❌ Syntax error in $file"
+      exit 1
+    }
+  done
+fi
+
+echo ""
+echo "✅ Pre-commit checks passed!"
+echo ""
