@@ -116,7 +116,7 @@ Next, follow the framework specific installation steps, for either React, Shadcn
   {
     ...
     "registries": {
-      "@firebase": "https://fir-ui-shadcn-registry.web.app/r/{name}.json"
+      "@firebase": "https://firebaseopensource.com/r/{name}.json"
     }
   }
   ```

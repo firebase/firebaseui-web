@@ -1,8 +1,6 @@
 
 # Firebase UI for Web - Shadcn
 
-> This package is private and not published to npm.
-
 The shadcn package exposes React components via the [Shadcn Registy](https://ui.shadcn.com/docs/registry), allowing users
 to take advantage of Firebase UI for Web logic but bringing their own UI via Shadcn.
 
@@ -12,7 +10,7 @@ To get started, add the `@firebase` registry [namespace](https://ui.shadcn.com/d
 {
   // ...
   "registries": {
-    "@firebase": "https://ui.firebase.com/{name}.json"
+    "@firebase": "https://firebaseopensource.com/r/{name}.json"
   }
 }
 ```
