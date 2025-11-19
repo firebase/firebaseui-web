@@ -17,7 +17,7 @@
 import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Router } from "@angular/router";
-import { ForgotPasswordAuthScreenComponent } from "@invertase/firebaseui-angular";
+import { ForgotPasswordAuthScreenComponent } from "@firebase-oss/ui-angular";
 
 @Component({
   selector: "app-forgot-password-auth-screen-w-handlers",

@@ -16,7 +16,7 @@
 
 import type { PropsWithChildren } from "react";
 import type { User } from "firebase/auth";
-import { getTranslation } from "@invertase/firebaseui-core";
+import { getTranslation } from "@firebase-oss/ui-core";
 import { Divider } from "~/components/divider";
 import { useOnUserAuthenticated, useUI } from "~/hooks";
 import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "../../components/card";

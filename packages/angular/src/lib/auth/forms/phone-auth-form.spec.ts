@@ -26,9 +26,9 @@ import {
 } from "../../components/form";
 import { UserCredential } from "@angular/fire/auth";
 
-// Mock the @invertase/firebaseui-core module but preserve Angular providers
-jest.mock("@invertase/firebaseui-core", () => {
-  const originalModule = jest.requireActual("@invertase/firebaseui-core");
+// Mock the @firebase-oss/ui-core module but preserve Angular providers
+jest.mock("@firebase-oss/ui-core", () => {
+  const originalModule = jest.requireActual("@firebase-oss/ui-core");
   return {
     ...originalModule,
     verifyPhoneNumber: jest.fn(),
@@ -54,7 +54,7 @@ describe("<fui-phone-auth-form />", () => {
       confirmPhoneNumber,
       formatPhoneNumber,
       FirebaseUIError,
-    } = require("@invertase/firebaseui-core");
+    } = require("@firebase-oss/ui-core");
     const { injectRecaptchaVerifier } = require("../../tests/test-helpers");
     mockVerifyPhoneNumber = verifyPhoneNumber;
     mockConfirmPhoneNumber = confirmPhoneNumber;

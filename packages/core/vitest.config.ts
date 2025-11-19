@@ -19,7 +19,7 @@ import viteConfig from "./vite.config";
 
 export default mergeConfig(viteConfig, {
   test: {
-    name: "@invertase/firebaseui-core",
+    name: "@firebase-oss/ui-core",
     environment: "jsdom",
     exclude: ["node_modules/**/*", "dist/**/*"],
   },

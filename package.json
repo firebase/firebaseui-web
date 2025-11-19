@@ -1,20 +1,20 @@
 {
-  "name": "@firebaseui/root",
+  "name": "@firebase-oss/ui-root",
   "private": true,
   "type": "module",
   "scripts": {
     "emulators": "firebase emulators:start --only auth --project demo-test",
-    "build": "pnpm --filter=@invertase/firebaseui-translations run build && pnpm --filter=@invertase/firebaseui-styles run build && pnpm --filter=@invertase/firebaseui-core run build && pnpm --filter=@invertase/firebaseui-react run build && pnpm --filter=@invertase/firebaseui-angular run build && pnpm --filter=@invertase/firebaseui-shadcn run build && pnpm --filter react run build && pnpm --filter nextjs run build && pnpm --filter nextjs-ssr run build && pnpm --filter angular-example run build && pnpm --filter shadcn run build",
-    "build:packages": "pnpm --filter=@invertase/firebaseui-translations run build && pnpm --filter=@invertase/firebaseui-styles run build && pnpm --filter=@invertase/firebaseui-core run build && pnpm --filter=@invertase/firebaseui-react run build && pnpm --filter=@invertase/firebaseui-angular run build",
+    "build": "pnpm --filter=@firebase-oss/ui-translations run build && pnpm --filter=@firebase-oss/ui-styles run build && pnpm --filter=@firebase-oss/ui-core run build && pnpm --filter=@firebase-oss/ui-react run build && pnpm --filter=@firebase-oss/ui-angular run build && pnpm --filter=@firebase-oss/ui-shadcn run build && pnpm --filter react run build && pnpm --filter nextjs run build && pnpm --filter nextjs-ssr run build && pnpm --filter angular-example run build && pnpm --filter shadcn run build",
+    "build:packages": "pnpm --filter=@firebase-oss/ui-translations run build && pnpm --filter=@firebase-oss/ui-styles run build && pnpm --filter=@firebase-oss/ui-core run build && pnpm --filter=@firebase-oss/ui-react run build && pnpm --filter=@firebase-oss/ui-angular run build",
     "deploy:hosting:all": "pnpm run build && pnpm --filter react run deploy && pnpm --filter nextjs run deploy && pnpm --filter nextjs-ssr run deploy && pnpm --filter angular-example run deploy && pnpm --filter shadcn run deploy",
     "lint:check": "eslint",
     "lint:fix": "eslint --fix",
     "format:check": "prettier --check **/{src,tests}/**/*.{ts,tsx}",
     "format:write": "prettier --write **/{src,tests}/**/*.{ts,tsx}",
-    "test": "pnpm --filter=@invertase/firebaseui-core run test && pnpm --filter=@invertase/firebaseui-translations run test && pnpm --filter=@invertase/firebaseui-styles run test && pnpm --filter=@invertase/firebaseui-react run test && pnpm --filter=@invertase/firebaseui-shadcn run test && pnpm --filter=@invertase/firebaseui-angular run test",
-    "test:watch": "pnpm --filter=@invertase/firebaseui-core run test:unit:watch & pnpm --filter=@invertase/firebaseui-react run test:unit:watch & pnpm --filter=@invertase/firebaseui-angular run test:watch",
-    "version:bump:all": "pnpm --filter=@invertase/firebaseui-core run version:bump && pnpm --filter=@invertase/firebaseui-translations run version:bump && pnpm --filter=@invertase/firebaseui-react run version:bump && pnpm --filter=@invertase/firebaseui-styles run version:bump && pnpm --filter=@invertase/firebaseui-angular run version:bump",
-    "publish:tags:all": "pnpm i && pnpm --filter=@invertase/firebaseui-core run publish:tags && pnpm --filter=@invertase/firebaseui-translations run publish:tags && pnpm --filter=@invertase/firebaseui-react run publish:tags && pnpm --filter=@invertase/firebaseui-styles run publish:tags && pnpm --filter=@invertase/firebaseui-angular run publish:tags",
+    "test": "pnpm --filter=@firebase-oss/ui-core run test && pnpm --filter=@firebase-oss/ui-translations run test && pnpm --filter=@firebase-oss/ui-styles run test && pnpm --filter=@firebase-oss/ui-react run test && pnpm --filter=@firebase-oss/ui-shadcn run test && pnpm --filter=@firebase-oss/ui-angular run test",
+    "test:watch": "pnpm --filter=@firebase-oss/ui-core run test:unit:watch & pnpm --filter=@firebase-oss/ui-react run test:unit:watch & pnpm --filter=@firebase-oss/ui-angular run test:watch",
+    "version:bump:all": "pnpm --filter=@firebase-oss/ui-core run version:bump && pnpm --filter=@firebase-oss/ui-translations run version:bump && pnpm --filter=@firebase-oss/ui-react run version:bump && pnpm --filter=@firebase-oss/ui-styles run version:bump && pnpm --filter=@firebase-oss/ui-angular run version:bump",
+    "publish:tags:all": "pnpm i && pnpm --filter=@firebase-oss/ui-core run publish:tags && pnpm --filter=@firebase-oss/ui-translations run publish:tags && pnpm --filter=@firebase-oss/ui-react run publish:tags && pnpm --filter=@firebase-oss/ui-styles run publish:tags && pnpm --filter=@firebase-oss/ui-angular run publish:tags",
     "publish:npm:all": "pnpm run build:packages && pnpm run publish:npm:core && pnpm run publish:npm:translations && pnpm run publish:npm:react && pnpm run publish:npm:styles && pnpm run publish:npm:angular"
   },
   "devDependencies": {

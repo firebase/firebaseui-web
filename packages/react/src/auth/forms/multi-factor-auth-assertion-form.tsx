@@ -25,7 +25,7 @@ import { useUI } from "~/hooks";
 import { TotpMultiFactorAssertionForm } from "../forms/mfa/totp-multi-factor-assertion-form";
 import { SmsMultiFactorAssertionForm } from "../forms/mfa/sms-multi-factor-assertion-form";
 import { Button } from "~/components/button";
-import { getTranslation } from "@invertase/firebaseui-core";
+import { getTranslation } from "@firebase-oss/ui-core";
 
 /** Props for the MultiFactorAuthAssertionForm component. */
 export type MultiFactorAuthAssertionFormProps = {

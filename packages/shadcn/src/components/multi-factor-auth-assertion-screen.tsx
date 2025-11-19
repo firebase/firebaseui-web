@@ -16,8 +16,8 @@
 
 "use client";
 
-import { getTranslation } from "@invertase/firebaseui-core";
-import { useUI, type MultiFactorAuthAssertionScreenProps } from "@invertase/firebaseui-react";
+import { getTranslation } from "@firebase-oss/ui-core";
+import { useUI, type MultiFactorAuthAssertionScreenProps } from "@firebase-oss/ui-react";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { MultiFactorAuthAssertionForm } from "@/components/multi-factor-auth-assertion-form";

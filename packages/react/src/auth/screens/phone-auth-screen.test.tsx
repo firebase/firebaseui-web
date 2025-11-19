@@ -17,7 +17,7 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import { render, screen, cleanup, act } from "@testing-library/react";
 import { PhoneAuthScreen } from "~/auth/screens/phone-auth-screen";
 import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
-import { registerLocale } from "@invertase/firebaseui-translations";
+import { registerLocale } from "@firebase-oss/ui-translations";
 import { MultiFactorResolver, type User } from "firebase/auth";
 
 vi.mock("~/auth/forms/phone-auth-form", () => ({

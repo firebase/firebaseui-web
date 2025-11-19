@@ -22,7 +22,7 @@ import {
   formatPhoneNumber,
   getTranslation,
   verifyPhoneNumber,
-} from "@invertase/firebaseui-core";
+} from "@firebase-oss/ui-core";
 import { CountrySelector, type CountrySelectorRef } from "~/components/country-selector";
 import { form } from "~/components/form";
 import {

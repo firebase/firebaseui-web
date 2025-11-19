@@ -17,8 +17,8 @@
 "use client";
 
 import { TwitterAuthProvider } from "firebase/auth";
-import { getTranslation } from "@invertase/firebaseui-core";
-import { useUI, type TwitterSignInButtonProps, TwitterLogo } from "@invertase/firebaseui-react";
+import { getTranslation } from "@firebase-oss/ui-core";
+import { useUI, type TwitterSignInButtonProps, TwitterLogo } from "@firebase-oss/ui-react";
 
 import { OAuthButton } from "@/components/oauth-button";
 

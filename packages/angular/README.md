@@ -1,4 +1,16 @@
-# FirebaseuiAngular
+# @firebase-oss/ui-angular
+
+This package contains the Angular components for FirebaseUI.
+
+## Installation
+
+Install the package from NPM:
+
+```bash
+npm install @angular/fire @firebase-oss/ui-angular @firebase-oss/ui-core @firebase-oss/ui-styles @firebase-oss/ui-translations
+```
+
+## Development
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.0.
 

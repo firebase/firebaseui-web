@@ -26,7 +26,7 @@ import { describe } from "vitest";
 //   deleteUser,
 // } from "firebase/auth";
 // import { FirebaseUIProvider } from "~/context";
-// import { initializeUI } from "@invertase/firebaseui-core";
+// import { initializeUI } from "@firebase-oss/ui-core";
 
 // // Prepare the test environment
 // const firebaseConfig = {

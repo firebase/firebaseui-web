@@ -13,9 +13,9 @@ FirebaseUI for Web has been completely rewritten from the ground up. The previou
 - Framework-agnostic but with a rigid structure
 
 **New Version (v7):**
-- **Framework-agnostic core package** (`@invertase/firebaseui-core`): Contains all authentication logic, state management, behaviors, and utilities without any UI dependencies
-- **Framework-specific packages**: Separate packages for React (`@invertase/firebaseui-react`), Angular (`@invertase/firebaseui-angular`), and Shadcn components
-- **Supporting packages**: Separate packages for styles (`@invertase/firebaseui-styles`) and translations (`@invertase/firebaseui-translations`)
+- **Framework-agnostic core package** (`@firebase-oss/ui-core`): Contains all authentication logic, state management, behaviors, and utilities without any UI dependencies
+- **Framework-specific packages**: Separate packages for React (`@firebase-oss/ui-react`), Angular (`@firebase-oss/ui-angular`), and Shadcn components
+- **Supporting packages**: Separate packages for styles (`@firebase-oss/ui-styles`) and translations (`@firebase-oss/ui-translations`)
 - **Composable architecture**: Components are designed to be composed together, allowing for greater flexibility
 - **Modern patterns**: Uses reactive stores (nanostores), TypeScript throughout, and modern framework patterns
 
@@ -53,10 +53,10 @@ First, remove the old `firebaseui` package and install the appropriate new packa
 
   Install the new React package:
   ```bash
-  npm install @invertase/firebaseui-react
+  npm install @firebase-oss/ui-react
   ```
 
-  The package automatically includes the core package as a dependency, so you don't need to install `@invertase/firebaseui-core` separately.
+  The package automatically includes the core package as a dependency, so you don't need to install `@firebase-oss/ui-core` separately.
 </details>
 
 <details>
@@ -69,7 +69,7 @@ First, remove the old `firebaseui` package and install the appropriate new packa
 
   Install the new Angular package:
   ```bash
-  npm install @invertase/firebaseui-angular
+  npm install @firebase-oss/ui-angular
   ```
 
   **Note:** The Angular package requires [AngularFire](https://github.com/angular/angularfire) to be installed and configured first.
@@ -123,8 +123,8 @@ ui.start('#firebaseui-auth-container', uiConfig);
 
   ```tsx
   import { initializeApp } from 'firebase/app';
-  import { initializeUI } from '@invertase/firebaseui-core';
-  import { FirebaseUIProvider } from '@invertase/firebaseui-react';
+  import { initializeUI } from '@firebase-oss/ui-core';
+  import { FirebaseUIProvider } from '@firebase-oss/ui-react';
 
   const app = initializeApp({ ... });
 
@@ -148,7 +148,7 @@ ui.start('#firebaseui-auth-container', uiConfig);
 
   ```ts
   import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
-  import { initializeUI } from '@invertase/firebaseui-core';
+  import { initializeUI } from '@firebase-oss/ui-core';
 
   export const appConfig: ApplicationConfig = {
     providers: [
@@ -168,14 +168,14 @@ The following table maps v6 configuration options to their v7 equivalents:
 
 | v6 Option | Migration Guide |
 |----------|------------------|
-| `autoUpgradeAnonymousUsers` | **Use the `autoUpgradeAnonymousUsers` behavior.**<br/><br/>Import `autoUpgradeAnonymousUsers` from `@invertase/firebaseui-core` and add it to your behaviors array:<br/>`behaviors: [autoUpgradeAnonymousUsers({ async onUpgrade(ui, oldUserId, credential) { /* handle merge */ } })]`<br/><br/>The `onUpgrade` callback replaces the `signInFailure` callback for handling merge conflicts. |
+| `autoUpgradeAnonymousUsers` | **Use the `autoUpgradeAnonymousUsers` behavior.**<br/><br/>Import `autoUpgradeAnonymousUsers` from `@firebase-oss/ui-core` and add it to your behaviors array:<br/>`behaviors: [autoUpgradeAnonymousUsers({ async onUpgrade(ui, oldUserId, credential) { /* handle merge */ } })]`<br/><br/>The `onUpgrade` callback replaces the `signInFailure` callback for handling merge conflicts. |
 | `callbacks` | **Use component props/events instead.**<br/><br/>v6 callbacks like `signInSuccessWithAuthResult`, `signInFailure`, etc. are replaced by component event handlers:<br/><br/>**React:** `onSignIn={(user) => { ... }}`, `onSignUp={(user) => { ... }}`, `onForgotPasswordClick={() => { ... }}`<br/><br/>**Angular:** `(signIn)="onSignIn($event)"`, `(signUp)="onSignUp($event)"`, `(forgotPassword)="onForgotPassword()"`<br/><br/>These are passed directly to the components you use, giving you more control over the flow. |
-| `credentialHelper` | **Use the `oneTapSignIn` behavior.**<br/><br/>The credential helper (Account Chooser) from v6 is replaced by Google One Tap in v7. Import `oneTapSignIn` from `@invertase/firebaseui-core` and add it to your behaviors array:<br/>`behaviors: [oneTapSignIn({ clientId: '...', autoSelect: false, cancelOnTapOutside: false })]`<br/><br/>**Note:** This requires Google Sign In to be enabled in Firebase Console. Get the `clientId` from "Web SDK configuration" settings. See [Google One Tap documentation](https://developers.google.com/identity/gsi/web/reference/js-reference) for all configuration options. |
+| `credentialHelper` | **Use the `oneTapSignIn` behavior.**<br/><br/>The credential helper (Account Chooser) from v6 is replaced by Google One Tap in v7. Import `oneTapSignIn` from `@firebase-oss/ui-core` and add it to your behaviors array:<br/>`behaviors: [oneTapSignIn({ clientId: '...', autoSelect: false, cancelOnTapOutside: false })]`<br/><br/>**Note:** This requires Google Sign In to be enabled in Firebase Console. Get the `clientId` from "Web SDK configuration" settings. See [Google One Tap documentation](https://developers.google.com/identity/gsi/web/reference/js-reference) for all configuration options. |
 | `queryParameterForSignInSuccessUrl` | **Handle in your routing logic.**<br/><br/>v7 doesn't have built-in URL parameter handling. Instead, handle redirects in your `onSignIn` callback by reading URL params:<br/><br/>**React/Angular:** `const urlParams = new URLSearchParams(window.location.search);`<br/>`const redirectUrl = urlParams.get('signInSuccessUrl') || '/dashboard';`<br/>`window.location.href = redirectUrl;`<br/><br/>**Angular (with Router):** Use `ActivatedRoute` to read query params and `Router` to navigate. |
 | `queryParameterForWidgetMode` | **Not applicable.**<br/><br/>v7 doesn't use widget modes. Instead, you explicitly render the components you need:<br/><br/>**React:** `<SignInAuthScreen />`, `<SignUpAuthScreen />`<br/><br/>**Angular:** `<fui-sign-in-auth-screen>`, `<fui-sign-up-auth-screen>` |
-| `signInFlow` | **Use provider strategy behaviors.**<br/><br/>Replace `signInFlow: 'redirect'` with:<br/>`import { providerRedirectStrategy } from '@invertase/firebaseui-core'`<br/>`behaviors: [providerRedirectStrategy()]`<br/><br/>Replace `signInFlow: 'popup'` with:<br/>`import { providerPopupStrategy } from '@invertase/firebaseui-core'`<br/>`behaviors: [providerPopupStrategy()]`<br/><br/>**Note:** `popup` is the default strategy in v7. |
+| `signInFlow` | **Use provider strategy behaviors.**<br/><br/>Replace `signInFlow: 'redirect'` with:<br/>`import { providerRedirectStrategy } from '@firebase-oss/ui-core'`<br/>`behaviors: [providerRedirectStrategy()]`<br/><br/>Replace `signInFlow: 'popup'` with:<br/>`import { providerPopupStrategy } from '@firebase-oss/ui-core'`<br/>`behaviors: [providerPopupStrategy()]`<br/><br/>**Note:** `popup` is the default strategy in v7. |
 | `immediateFederatedRedirect` | **Control via component rendering.**<br/><br/>v7 doesn't have this option. Instead, you control whether to show OAuth buttons or redirect immediately by conditionally rendering components:<br/><br/>**React:** `{singleProvider ? <Navigate to="/oauth-redirect" /> : <OAuthScreen onSignIn={handleSignIn} />}`<br/><br/>**Angular:** Use `*ngIf` or `@if` to conditionally render `<fui-oauth-screen>` or use `Router` to navigate directly. |
-| `signInOptions` | **Use OAuth button components directly.**<br/><br/>v6's `signInOptions` array is replaced by explicitly rendering the OAuth provider buttons you want:<br/><br/>**React:** Import `GoogleSignInButton`, `FacebookSignInButton`, `AppleSignInButton` from `@invertase/firebaseui-react` and render them inside `<OAuthScreen>`.<br/><br/>**Angular:** Import `GoogleSignInButtonComponent`, `FacebookSignInButtonComponent`, `AppleSignInButtonComponent` from `@invertase/firebaseui-angular` and use selectors `<fui-google-sign-in-button>`, `<fui-facebook-sign-in-button>`, `<fui-apple-sign-in-button>` inside `<fui-oauth-screen>`.<br/><br/>The order you place the buttons determines their display order. |
+| `signInOptions` | **Use OAuth button components directly.**<br/><br/>v6's `signInOptions` array is replaced by explicitly rendering the OAuth provider buttons you want:<br/><br/>**React:** Import `GoogleSignInButton`, `FacebookSignInButton`, `AppleSignInButton` from `@firebase-oss/ui-react` and render them inside `<OAuthScreen>`.<br/><br/>**Angular:** Import `GoogleSignInButtonComponent`, `FacebookSignInButtonComponent`, `AppleSignInButtonComponent` from `@firebase-oss/ui-angular` and use selectors `<fui-google-sign-in-button>`, `<fui-facebook-sign-in-button>`, `<fui-apple-sign-in-button>` inside `<fui-oauth-screen>`.<br/><br/>The order you place the buttons determines their display order. |
 | `signInSuccessUrl` | **Handle in `onSignIn` callback.**<br/><br/>Instead of a configuration option, handle redirects in your component's `onSignIn` callback:<br/><br/>**React:** `<SignInAuthScreen onSignIn={(user) => { window.location.href = '/dashboard'; }} />`<br/><br/>**Angular:** `<fui-sign-in-auth-screen (signIn)="onSignIn($event)" />` with `onSignIn(user: User) { this.router.navigate(['/dashboard']); }`<br/><br/>*Required in v6 when `signInSuccessWithAuthResult` callback is not used or returns `true`. |
 | `tosUrl` | **Pass via `policies` prop.**<br/><br/>**React:** Pass `policies={{ termsOfServiceUrl: 'https://example.com/tos', privacyPolicyUrl: 'https://example.com/privacy' }}` to `<FirebaseUIProvider>`.<br/><br/>**Angular:** Use `provideFirebaseUIPolicies(() => ({ termsOfServiceUrl: '...', privacyPolicyUrl: '...' }))`.<br/><br/>The policies are automatically rendered in auth forms and screens. |
 | `privacyPolicyUrl` | **Pass via `policies` prop.**<br/><br/>See `tosUrl` above - both URLs are passed together in the `policies` object. |
@@ -202,7 +202,7 @@ signInOptions: [
 Use the `countryCodes` behavior to configure allowed countries and default country:
 
 ```ts
-import { countryCodes } from '@invertase/firebaseui-core';
+import { countryCodes } from '@firebase-oss/ui-core';
 
 const ui = initializeUI({
   app,
@@ -233,7 +233,7 @@ var uiConfig = {
 Use the `providerPopupStrategy` (default) or `providerRedirectStrategy` behaviors:
 
 ```ts
-import { providerPopupStrategy, providerRedirectStrategy } from '@invertase/firebaseui-core';
+import { providerPopupStrategy, providerRedirectStrategy } from '@firebase-oss/ui-core';
 
 // For popup flow (default)
 const ui = initializeUI({
@@ -265,7 +265,7 @@ var ui = new firebaseui.auth.AuthUI(tenantAuth);
 **React:**
 ```tsx
 import { getAuth } from 'firebase/auth';
-import { initializeUI } from '@invertase/firebaseui-core';
+import { initializeUI } from '@firebase-oss/ui-core';
 
 const auth = getAuth(app);
 auth.tenantId = 'tenant-id';
@@ -279,7 +279,7 @@ const ui = initializeUI({
 **Angular:**
 ```ts
 import { getAuth } from 'firebase/auth';
-import { initializeUI } from '@invertase/firebaseui-core';
+import { initializeUI } from '@firebase-oss/ui-core';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -321,7 +321,7 @@ var uiConfig = {
 Use the `autoUpgradeAnonymousUsers` behavior:
 
 ```ts
-import { autoUpgradeAnonymousUsers } from '@invertase/firebaseui-core';
+import { autoUpgradeAnonymousUsers } from '@firebase-oss/ui-core';
 
 const ui = initializeUI({
   app,

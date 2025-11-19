@@ -1,4 +1,4 @@
-import { registerLocale } from "@invertase/firebaseui-translations";
+import { registerLocale } from "@firebase-oss/ui-translations";
 
 export const pirate = registerLocale("pirate", {
   errors: {

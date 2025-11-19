@@ -25,7 +25,7 @@ import {
   TwitterSignInButton,
   MicrosoftSignInButton,
   OAuthButton,
-} from "@invertase/firebaseui-react";
+} from "@firebase-oss/ui-react";
 import { OAuthProvider } from "firebase/auth";
 import { useRouter } from "next/navigation";
 

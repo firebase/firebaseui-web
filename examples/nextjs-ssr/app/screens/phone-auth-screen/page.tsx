@@ -16,7 +16,7 @@
 
 "use client";
 
-import { PhoneAuthScreen } from "@invertase/firebaseui-react";
+import { PhoneAuthScreen } from "@firebase-oss/ui-react";
 
 export default function PhoneAuthScreenPage() {
   return <PhoneAuthScreen />;

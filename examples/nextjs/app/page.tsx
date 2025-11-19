@@ -16,7 +16,7 @@
 
 "use client";
 
-import { MultiFactorAuthAssertionScreen, useUI } from "@invertase/firebaseui-react";
+import { MultiFactorAuthAssertionScreen, useUI } from "@firebase-oss/ui-react";
 import { multiFactor, sendEmailVerification, signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/lib/firebase/hooks";

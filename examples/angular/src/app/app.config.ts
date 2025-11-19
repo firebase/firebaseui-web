@@ -22,8 +22,8 @@ import { provideClientHydration, withEventReplay } from "@angular/platform-brows
 
 import { provideFirebaseApp, initializeApp } from "@angular/fire/app";
 import { provideAuth, getAuth, connectAuthEmulator } from "@angular/fire/auth";
-import { provideFirebaseUI, provideFirebaseUIPolicies } from "@invertase/firebaseui-angular";
-import { initializeUI } from "@invertase/firebaseui-core";
+import { provideFirebaseUI, provideFirebaseUIPolicies } from "@firebase-oss/ui-angular";
+import { initializeUI } from "@firebase-oss/ui-core";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCvMftIUCD9lUQ3BzIrimfSfBbCUQYZf-I",

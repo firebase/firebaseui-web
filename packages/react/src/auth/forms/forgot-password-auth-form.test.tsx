@@ -22,9 +22,9 @@ import {
   useForgotPasswordAuthFormAction,
 } from "./forgot-password-auth-form";
 import { act } from "react";
-import { sendPasswordResetEmail } from "@invertase/firebaseui-core";
+import { sendPasswordResetEmail } from "@firebase-oss/ui-core";
 import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
-import { registerLocale } from "@invertase/firebaseui-translations";
+import { registerLocale } from "@firebase-oss/ui-translations";
 import { FirebaseUIProvider } from "~/context";
 
 vi.mock("firebase/auth", async () => {
@@ -35,8 +35,8 @@ vi.mock("firebase/auth", async () => {
   };
 });
 
-vi.mock("@invertase/firebaseui-core", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@invertase/firebaseui-core")>();
+vi.mock("@firebase-oss/ui-core", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@firebase-oss/ui-core")>();
   return {
     ...mod,
     sendPasswordResetEmail: vi.fn(),

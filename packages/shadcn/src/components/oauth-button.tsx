@@ -16,7 +16,7 @@
 
 "use client";
 
-import { useUI, type OAuthButtonProps, useSignInWithProvider } from "@invertase/firebaseui-react";
+import { useUI, type OAuthButtonProps, useSignInWithProvider } from "@firebase-oss/ui-react";
 import { Button } from "@/components/ui/button";
 
 export type { OAuthButtonProps };

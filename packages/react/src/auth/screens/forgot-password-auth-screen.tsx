@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { getTranslation } from "@invertase/firebaseui-core";
+import { getTranslation } from "@firebase-oss/ui-core";
 import { useUI } from "~/hooks";
 import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "../../components/card";
 import { ForgotPasswordAuthForm, type ForgotPasswordAuthFormProps } from "../forms/forgot-password-auth-form";

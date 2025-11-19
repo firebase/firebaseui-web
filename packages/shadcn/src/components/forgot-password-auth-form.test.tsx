@@ -18,21 +18,21 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import { ForgotPasswordAuthForm } from "./forgot-password-auth-form";
 import { act } from "react";
-import { useForgotPasswordAuthFormAction } from "@invertase/firebaseui-react";
+import { useForgotPasswordAuthFormAction } from "@firebase-oss/ui-react";
 import { createMockUI } from "../../tests/utils";
-import { registerLocale } from "@invertase/firebaseui-translations";
-import { FirebaseUIProvider } from "@invertase/firebaseui-react";
+import { registerLocale } from "@firebase-oss/ui-translations";
+import { FirebaseUIProvider } from "@firebase-oss/ui-react";
 
-vi.mock("@invertase/firebaseui-core", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@invertase/firebaseui-core")>();
+vi.mock("@firebase-oss/ui-core", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@firebase-oss/ui-core")>();
   return {
     ...mod,
     sendPasswordResetEmail: vi.fn(),
   };
 });
 
-vi.mock("@invertase/firebaseui-react", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@invertase/firebaseui-react")>();
+vi.mock("@firebase-oss/ui-react", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@firebase-oss/ui-react")>();
   return {
     ...mod,
     useForgotPasswordAuthFormAction: vi.fn(),

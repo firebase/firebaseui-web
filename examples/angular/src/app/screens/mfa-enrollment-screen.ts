@@ -17,7 +17,7 @@
 import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Router } from "@angular/router";
-import { MultiFactorAuthEnrollmentScreenComponent } from "@invertase/firebaseui-angular";
+import { MultiFactorAuthEnrollmentScreenComponent } from "@firebase-oss/ui-angular";
 import { FactorId } from "firebase/auth";
 
 @Component({

@@ -16,7 +16,7 @@
 
 "use client";
 
-import { type CountryCode, type CountryData, getBehavior } from "@invertase/firebaseui-core";
+import { type CountryCode, type CountryData, getBehavior } from "@firebase-oss/ui-core";
 import { type ComponentProps, forwardRef, useImperativeHandle, useState, useCallback } from "react";
 import { useUI } from "~/hooks";
 import { cn } from "~/utils/cn";

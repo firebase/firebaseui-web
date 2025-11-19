@@ -28,7 +28,7 @@ import {
   createSignInAuthFormSchema,
   createSignUpAuthFormSchema,
   getBehavior,
-} from "@invertase/firebaseui-core";
+} from "@firebase-oss/ui-core";
 import { FirebaseUIContext } from "./context";
 
 /**

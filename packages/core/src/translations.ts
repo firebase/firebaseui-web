@@ -18,7 +18,7 @@ import {
   getTranslation as _getTranslation,
   type TranslationCategory,
   type TranslationKey,
-} from "@invertase/firebaseui-translations";
+} from "@firebase-oss/ui-translations";
 import { type FirebaseUI } from "./config";
 
 /**

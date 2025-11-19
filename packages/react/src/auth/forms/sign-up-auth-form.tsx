@@ -16,12 +16,7 @@
 
 "use client";
 
-import {
-  FirebaseUIError,
-  getTranslation,
-  createUserWithEmailAndPassword,
-  hasBehavior,
-} from "@invertase/firebaseui-core";
+import { FirebaseUIError, getTranslation, createUserWithEmailAndPassword, hasBehavior } from "@firebase-oss/ui-core";
 import type { UserCredential } from "firebase/auth";
 import { useSignUpAuthFormSchema, useUI } from "~/hooks";
 import { form } from "~/components/form";

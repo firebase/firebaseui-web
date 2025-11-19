@@ -20,7 +20,7 @@ import { Divider } from "~/components/divider";
 import { useOnUserAuthenticated, useUI } from "~/hooks";
 import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "../../components/card";
 import { SignUpAuthForm, type SignUpAuthFormProps } from "../forms/sign-up-auth-form";
-import { getTranslation } from "@invertase/firebaseui-core";
+import { getTranslation } from "@firebase-oss/ui-core";
 import { RedirectError } from "~/components/redirect-error";
 import { MultiFactorAuthAssertionScreen } from "./multi-factor-auth-assertion-screen";
 

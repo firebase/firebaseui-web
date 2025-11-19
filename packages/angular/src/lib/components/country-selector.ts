@@ -16,7 +16,7 @@
 
 import { Component, computed, model } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { type CountryCode } from "@invertase/firebaseui-core";
+import { type CountryCode } from "@firebase-oss/ui-core";
 import { FormsModule } from "@angular/forms";
 import { injectCountries, injectDefaultCountry } from "../provider";
 

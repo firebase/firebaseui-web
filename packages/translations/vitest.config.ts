@@ -18,7 +18,7 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
-    name: "@invertase/firebaseui-translations",
+    name: "@firebase-oss/ui-translations",
     include: ["src/**/*.{test,spec}.{js,ts}"],
     exclude: ["node_modules/**/*", "dist/**/*"],
   },

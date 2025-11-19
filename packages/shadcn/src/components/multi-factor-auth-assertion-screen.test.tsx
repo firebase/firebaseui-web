@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { FirebaseUIProvider } from "@invertase/firebaseui-react";
-import { registerLocale } from "@invertase/firebaseui-translations";
+import { FirebaseUIProvider } from "@firebase-oss/ui-react";
+import { registerLocale } from "@firebase-oss/ui-translations";
 import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { createMockUI } from "../../tests/utils";

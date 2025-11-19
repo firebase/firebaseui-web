@@ -1,17 +1,17 @@
 {
-  "name": "@invertase/firebaseui-angular",
-  "version": "0.0.5",
+  "name": "@firebase-oss/ui-angular",
+  "version": "0.0.1",
   "files": [
     "dist"
   ],
   "type": "module",
-  "main": "./dist/fesm2022/invertase-firebaseui-angular.mjs",
-  "module": "./dist/fesm2022/invertase-firebaseui-angular.mjs",
+  "main": "./dist/fesm2022/firebase-oss-ui-angular.mjs",
+  "module": "./dist/fesm2022/firebase-oss-ui-angular.mjs",
   "typings": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "default": "./dist/fesm2022/invertase-firebaseui-angular.mjs"
+      "default": "./dist/fesm2022/firebase-oss-ui-angular.mjs"
     }
   },
   "scripts": {
@@ -28,8 +28,8 @@
     "@angular/fire": "catalog:peerDependencies"
   },
   "dependencies": {
-    "@invertase/firebaseui-core": "workspace:*",
-    "@invertase/firebaseui-styles": "workspace:*",
+    "@firebase-oss/ui-core": "workspace:*",
+    "@firebase-oss/ui-styles": "workspace:*",
     "@tanstack/angular-form": "^1.23.1",
     "nanostores": "catalog:",
     "tslib": "^2.8.1"

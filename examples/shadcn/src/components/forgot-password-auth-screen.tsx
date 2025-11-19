@@ -1,7 +1,7 @@
 "use client";
 
-import { getTranslation } from "@invertase/firebaseui-core";
-import { useUI, type ForgotPasswordAuthScreenProps } from "@invertase/firebaseui-react";
+import { getTranslation } from "@firebase-oss/ui-core";
+import { useUI, type ForgotPasswordAuthScreenProps } from "@firebase-oss/ui-react";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ForgotPasswordAuthForm } from "@/components/forgot-password-auth-form";

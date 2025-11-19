@@ -17,7 +17,7 @@
 "use client";
 
 import { useUser } from "@/lib/firebase/hooks";
-import { GoogleSignInButton, SignInAuthScreen } from "@invertase/firebaseui-react";
+import { GoogleSignInButton, SignInAuthScreen } from "@firebase-oss/ui-react";
 import Link from "next/link";
 
 import { useRouter } from "next/navigation";

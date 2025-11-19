@@ -16,7 +16,7 @@
 
 import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { PhoneAuthScreenComponent } from "@invertase/firebaseui-angular";
+import { PhoneAuthScreenComponent } from "@firebase-oss/ui-angular";
 import { Router } from "@angular/router";
 
 @Component({

@@ -46,17 +46,17 @@ Next, follow the framework specific installation steps, for either React, Shadcn
 <details>
   <summary>React</summary>
 
-  Install the `@invertase/firebaseui-react` package:
+  Install the `@firebase-oss/ui-react` package:
 
   ```bash
-  npm install @invertase/firebaseui-react
+  npm install @firebase-oss/ui-react
   ```
 
   Alongside your Firebase configuration, import the `initializeUI` function and pass your configured Firebase App instance:
 
   ```ts
   import { initializeApp } from 'firebase/app';
-  import { initializeUI } from '@invertase/firebaseui-core';
+  import { initializeUI } from '@firebase-oss/ui-core';
 
   const app = initializeApp({ ... });
 
@@ -68,7 +68,7 @@ Next, follow the framework specific installation steps, for either React, Shadcn
   Once configured, provide the `ui` instance to your application by wrapping it within the `FirebaseUIProvider` component:
 
   ```tsx
-  import { FirebaseUIProvider } from '@invertase/firebaseui-react';
+  import { FirebaseUIProvider } from '@firebase-oss/ui-react';
 
   function App() {
     return (
@@ -82,15 +82,15 @@ Next, follow the framework specific installation steps, for either React, Shadcn
   Ensure your application includes the bundled styles for Firebase UI (see [styling](#styling) for additional info).
 
   ```css
-  @import "@invertase/firebaseui-styles/dist.min.css";
+  @import "@firebase-oss/ui-styles/dist.min.css";
   /* Or for tailwind users */
-  @import "@invertase/firebaseui-styles/tailwind";
+  @import "@firebase-oss/ui-styles/tailwind";
   ```
 
   That's it 🎉 You can now import components and start building:
 
   ```tsx
-  import { SignInAuthScreen } from '@invertase/firebaseui-react';
+  import { SignInAuthScreen } from '@firebase-oss/ui-react';
 
   export function MySignInPage() {
     return (
@@ -133,7 +133,7 @@ Next, follow the framework specific installation steps, for either React, Shadcn
 
   ```ts
   import { initializeApp } from 'firebase/app';
-  import { initializeUI } from '@invertase/firebaseui-core';
+  import { initializeUI } from '@firebase-oss/ui-core';
 
   const app = initializeApp({ ... });
 
@@ -145,7 +145,7 @@ Next, follow the framework specific installation steps, for either React, Shadcn
   Once configured, provide the `ui` instance to your application by wrapping it within the `FirebaseUIProvider` component:
 
   ```tsx
-  import { FirebaseUIProvider } from '@invertase/firebaseui-react';
+  import { FirebaseUIProvider } from '@firebase-oss/ui-react';
 
   function App() {
     return (
@@ -182,14 +182,14 @@ Next, follow the framework specific installation steps, for either React, Shadcn
   Once you have provided the Firebase App instance to your application using `provideFirebaseApp`, install the Firebase UI for Angular package:
 
   ```bash
-  npm install @invertase/firebaseui-angular
+  npm install @firebase-oss/ui-angular
   ```
 
   Alongside your existing providers, add the `provideFirebaseUI` provider, returning a new Firebase UI instance via `initializeUI`:
 
   ```ts
   import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
-  import { initializeUI } from '@invertase/firebaseui-core';
+  import { initializeUI } from '@firebase-oss/ui-core';
 
   export const appConfig: ApplicationConfig = {
     providers: [
@@ -202,16 +202,16 @@ Next, follow the framework specific installation steps, for either React, Shadcn
   Ensure your application includes the bundled styles for Firebase UI (see [styling](#styling) for additional info).
 
   ```css
-  @import "@invertase/firebaseui-styles/dist.min.css";
+  @import "@firebase-oss/ui-styles/dist.min.css";
   /* Or for tailwind users */
-  @import "@invertase/firebaseui-styles/tailwind";
+  @import "@firebase-oss/ui-styles/tailwind";
   ```
 
   That's it 🎉 You can now import components and start building:
 
   ```tsx
   import { Component } from "@angular/core";
-  import { SignInAuthScreenComponent } from "@invertase/firebaseui-angular";
+  import { SignInAuthScreenComponent } from "@firebase-oss/ui-angular";
 
   @Component({
     selector: "sign-in-route",
@@ -247,13 +247,13 @@ If your bundler supports importing CSS files from node_modules:
 Via JS:
 
 ```ts
-import '@invertase/firebaseui-styles/dist.min.css';
+import '@firebase-oss/ui-styles/dist.min.css';
 ```
 
 Via CSS: 
 
 ```css
-@import "@invertase/firebaseui-styles/dist.min.css";
+@import "@firebase-oss/ui-styles/dist.min.css";
 ```
 
 ### Tailwind
@@ -262,7 +262,7 @@ If you are using [Tailwind CSS](https://tailwindcss.com/), add the Tailwind spec
 
 ```css
 @import "tailwindcss";
-@import "@invertase/firebaseui-styles/tailwind";
+@import "@firebase-oss/ui-styles/tailwind";
 ```
 
 ### Via CDN
@@ -271,7 +271,7 @@ If none of these options apply, include the CSS file via a CDN:
 
 ```html
 <head>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@invertase/firebaseui-styles/dist/dist.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@firebase-oss/ui-styles/dist/dist.min.css">
 </head>
 ```
 
@@ -311,7 +311,7 @@ Out of the box, Firebase UI provides a neutral light and dark theme with some op
 Out of the box, Firebase UI applies sensible default behaviors for how the UI should handle specific scenarios which may occur during user flows. You can however customize this behavior by modifying your `initializeUI` to provide an array of "behaviors", for example:
 
 ```ts
-import { requireDisplayName } from '@invertase/firebaseui-core';
+import { requireDisplayName } from '@firebase-oss/ui-core';
 
 const ui = initializeUI({
   app,
@@ -326,7 +326,7 @@ const ui = initializeUI({
 The `autoAnonymousLogin` behavior will automatically sign users in via [anonymous authentication](https://firebase.google.com/docs/auth/web/anonymous-auth) when initialized. Whilst authenticating, the Firebase UI state will be set to "loading", allowing you to block the loading of the application if you wish.
 
 ```ts
-import { autoAnonymousLogin } from '@invertase/firebaseui-core';
+import { autoAnonymousLogin } from '@firebase-oss/ui-core';
 
 const ui = initializeUI({
   app,
@@ -339,7 +339,7 @@ const ui = initializeUI({
 The `autoUpgradeAnonymousUsers` behavior will automatically upgrade a user who is anonymously authenticated with your application upon a successful sign in (including OAuth). You can optionally provide a callback to handle an upgrade (such as merging account data). During the async callback, the UI will stay in a pending state.
 
 ```ts
-import { autoUpgradeAnonymousUsers } from '@invertase/firebaseui-core';
+import { autoUpgradeAnonymousUsers } from '@firebase-oss/ui-core';
 
 const ui = initializeUI({
   app,
@@ -358,7 +358,7 @@ The `recaptchaVerification` behavior allows you to customize how the [reCAPTCHA 
 By default, the reCAPTCHA UI will be rendered in "invisible" mode. To override this:
 
 ```ts
-import { recaptchaVerification } from '@invertase/firebaseui-core';
+import { recaptchaVerification } from '@firebase-oss/ui-core';
 
 const ui = initializeUI({
   app,
@@ -374,7 +374,7 @@ const ui = initializeUI({
 The `providerRedirectStrategy` behavior redirects any external provider authentication (e.g. OAuth) via a redirect flow.
 
 ```ts
-import { providerRedirectStrategy } from '@invertase/firebaseui-core';
+import { providerRedirectStrategy } from '@firebase-oss/ui-core';
 
 const ui = initializeUI({
   app,
@@ -387,7 +387,7 @@ const ui = initializeUI({
 The `providerPopupStrategy` behavior causes any external provider authentication (e.g. OAuth) to be handled via a popup window.  This is the default strategy.
 
 ```ts
-import { providerPopupStrategy } from '@invertase/firebaseui-core';
+import { providerPopupStrategy } from '@firebase-oss/ui-core';
 
 const ui = initializeUI({
   app,
@@ -404,7 +404,7 @@ Note: This behavior requires that Google Sign In is enabled as an authentication
 The One Tap popup can be additionally configured via this behavior:
 
 ```ts
-import { oneTapSignIn } from '@invertase/firebaseui-core';
+import { oneTapSignIn } from '@firebase-oss/ui-core';
 
 const ui = initializeUI({
   app,
@@ -425,7 +425,7 @@ The `requireDisplayName` behavior configures Firebase UI to display a required "
 If you are not using pre-built components, the `createUserWithEmailAndPassword` function from Firebase UI will throw if a display name is not provided.
 
 ```ts
-import { requireDisplayName } from '@invertase/firebaseui-core';
+import { requireDisplayName } from '@firebase-oss/ui-core';
 
 const ui = initializeUI({
   app,
@@ -438,7 +438,7 @@ const ui = initializeUI({
 The `countryCodes` behavior controls how country codes are consumed throughout your application, for example during Phone Authentication flows when selecting a phone numbers country code.
 
 ```ts
-import { countryCodes } from '@invertase/firebaseui-core';
+import { countryCodes } from '@firebase-oss/ui-core';
 
 const ui = initializeUI({
   app,
@@ -453,10 +453,10 @@ const ui = initializeUI({
 
 > Note: Firebase UI currently only provides English (en-US) translations out of the box.
 
-Firebase UI provides a mechanism for overriding any localized strings in the UI components. To define your own custom locale, use the `registerLocale` function from the `@invertase/firebaseui-translations` package:
+Firebase UI provides a mechanism for overriding any localized strings in the UI components. To define your own custom locale, use the `registerLocale` function from the `@firebase-oss/ui-translations` package:
 
 ```ts
-import { registerLocale } from '@invertase/firebaseui-translations';
+import { registerLocale } from '@firebase-oss/ui-translations';
 
 const frFr = registerLocale('fr-FR', {
   labels: {
@@ -498,7 +498,7 @@ By default, any missing translations will fallback to English if not specified. 
 ## Reference
 
 <details>
-  <summary>@invertase/firebaseui-core</summary>
+  <summary>@firebase-oss/ui-core</summary>
 
   **`initializeUI`**
 
@@ -947,7 +947,7 @@ By default, any missing translations will fallback to English if not specified. 
 </details>
 
 <details>
-  <summary>@invertase/firebaseui-react</summary>
+  <summary>@firebase-oss/ui-react</summary>
 
   **`FirebaseUIProvider`**
 
@@ -1567,7 +1567,7 @@ By default, any missing translations will fallback to English if not specified. 
 </details>
 
 <details>
-  <summary>@invertase/firebaseui-angular</summary>
+  <summary>@firebase-oss/ui-angular</summary>
 
   **`provideFirebaseUI`**
 
@@ -2044,8 +2044,8 @@ Forms are less opinionated, and only contain the relevant logic required to func
 Every supported platform follows this principle, thus you can easily swap out a Screen for a Form if required. For example with React:
 
 ```diff
--  import { SignInAuthScreen } from '@invertase/firebaseui-react';
-+  import { SignInAuthForm } from '@invertase/firebaseui-react';
+-  import { SignInAuthScreen } from '@firebase-oss/ui-react';
++  import { SignInAuthForm } from '@firebase-oss/ui-react';
 ```
 
 ## Building your own UI
@@ -2076,12 +2076,12 @@ The reactive store allows you to easily add states to your application, such as 
 
 ### Core package
 
-The `@invertase/firebaseui-core` exports functionality which is directly tied to Firebase UI. Some of these functions mimic the Firebase JS SDK (with added benefits), whereas others are specifically for Firebase UI.
+The `@firebase-oss/ui-core` exports functionality which is directly tied to Firebase UI. Some of these functions mimic the Firebase JS SDK (with added benefits), whereas others are specifically for Firebase UI.
 
 For example, let's use the `signInWithEmailAndPassword` function:
 
 ```ts
-import { signInWithEmailAndPassword } from '@invertase/firebaseui-core';
+import { signInWithEmailAndPassword } from '@firebase-oss/ui-core';
 
 await signInWithEmailAndPassword(ui.get(), 'test@test.com', '123456');
 ```
@@ -2123,7 +2123,7 @@ supporting SAML or OIDC, you can achive this by extending the OAuth component:
 
   ```tsx
   import { OAuthProvider } from 'firebase/auth';
-  import { OAuthButton } from '@invertase/firebaseui-react';
+  import { OAuthButton } from '@firebase-oss/ui-react';
 
   function MyProviderButton() {
     // Get the provider ID from the Firebase Console
@@ -2145,7 +2145,7 @@ supporting SAML or OIDC, you can achive this by extending the OAuth component:
   import { Component } from '@angular/core';
   import { CommonModule } from '@angular/common';
   import { OAuthProvider, UserCredential } from '@angular/fire/auth';
-  import { OAuthButtonComponent } from '@invertase/firebaseui-angular';
+  import { OAuthButtonComponent } from '@firebase-oss/ui-angular';
 
   @Component({
     selector: 'app-my-provider-button',

@@ -18,7 +18,7 @@ import { Component, Output, EventEmitter, input, effect } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { UserCredential } from "@angular/fire/auth";
 import { injectForm, TanStackField, TanStackAppField, injectStore } from "@tanstack/angular-form";
-import { FirebaseUIError, signInWithEmailAndPassword } from "@invertase/firebaseui-core";
+import { FirebaseUIError, signInWithEmailAndPassword } from "@firebase-oss/ui-core";
 
 import { injectSignInAuthFormSchema, injectTranslation, injectUI } from "../../provider";
 import { PoliciesComponent } from "../../components/policies";

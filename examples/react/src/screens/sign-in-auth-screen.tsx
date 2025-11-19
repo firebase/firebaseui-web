@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { SignInAuthScreen } from "@invertase/firebaseui-react";
+import { SignInAuthScreen } from "@firebase-oss/ui-react";
 import { useNavigate } from "react-router";
 
 export default function SignInAuthScreenPage() {

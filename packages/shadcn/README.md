@@ -17,7 +17,7 @@ To get started, add the `@firebase` registry [namespace](https://ui.shadcn.com/d
 }
 ```
 
-Next install one of the registry components - this will automatically install the `@invertase/firebaseui-react` for you,
+Next install one of the registry components - this will automatically install the `@firebase-oss/ui-react` for you,
 alongwith adding any additionally required components.
 
 ```bash
@@ -27,11 +27,11 @@ npx shadcn@latest add @firebase/sign-up-auth-screen
 Before consuming a component, ensure you have initalized your Firebase UI application:
 
 ```tsx
-import { initalizeUI } from '@invertase/firebaseui-core';
-import { FirebaseUIProvider } from '@invertase/firebaseui-react';
+import { initalizeUI } from '@firebase-oss/ui-core';
+import { FirebaseUIProvider } from '@firebase-oss/ui-react';
 import { SignInAuthScreen } from '@/components/sign-in-auth-screen';
 
-const ui = initalizeUI(...);
+const ui = initializeUI(...);
 
 function App() {
   return (

@@ -17,11 +17,11 @@
 import { BrowserRouter, Routes, Route, Outlet, NavLink } from "react-router";
 
 import ReactDOM from "react-dom/client";
-import { FirebaseUIProvider, useUI } from "@invertase/firebaseui-react";
+import { FirebaseUIProvider, useUI } from "@firebase-oss/ui-react";
 import { ui, auth } from "./firebase/firebase";
 import App from "./App";
 import { hiddenRoutes, routes } from "./routes";
-import { enUs } from "@invertase/firebaseui-translations";
+import { enUs } from "@firebase-oss/ui-translations";
 import { pirate } from "./pirate";
 
 const root = document.getElementById("root")!;

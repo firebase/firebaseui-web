@@ -18,8 +18,8 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
 import { MultiFactorAuthEnrollmentScreen } from "./multi-factor-auth-enrollment-screen";
 import { createMockUI } from "../../tests/utils";
-import { registerLocale } from "@invertase/firebaseui-translations";
-import { FirebaseUIProvider } from "@invertase/firebaseui-react";
+import { registerLocale } from "@firebase-oss/ui-translations";
+import { FirebaseUIProvider } from "@firebase-oss/ui-react";
 
 vi.mock("./multi-factor-auth-enrollment-form", () => ({
   MultiFactorAuthEnrollmentForm: ({ onEnrollment }: { onEnrollment?: () => void }) => (

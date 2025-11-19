@@ -21,8 +21,8 @@ import { Auth, multiFactor, sendEmailVerification, signOut, type User } from "@a
 import { routes } from "./routes";
 import { ThemeToggleComponent } from "./components/theme-toggle/theme-toggle.component";
 import { PirateToggleComponent } from "./components/pirate-toggle/pirate-toggle.component";
-import { MultiFactorAuthAssertionScreenComponent } from "@invertase/firebaseui-angular";
-import { injectUI } from "@invertase/firebaseui-angular";
+import { MultiFactorAuthAssertionScreenComponent } from "@firebase-oss/ui-angular";
+import { injectUI } from "@firebase-oss/ui-angular";
 
 @Component({
   selector: "app-unauthenticated",

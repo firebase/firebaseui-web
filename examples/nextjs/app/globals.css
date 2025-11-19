@@ -16,7 +16,7 @@
 
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
-@import "@invertase/firebaseui-styles/tailwind";
+@import "@firebase-oss/ui-styles/tailwind";
 
 /* Prevent flash by hiding content until theme is loaded */
 html:not(.theme-loaded) body {
@@ -35,5 +35,5 @@ html.theme-loaded body {
   --color-border: var(--line-primary);
 }
 
-/* @import "@invertase/firebaseui-styles/themes/dark.css"; */
-/* @import "@invertase/firebaseui-styles/themes/brutalist.css"; */
+/* @import "@firebase-oss/ui-styles/themes/dark.css"; */
+/* @import "@firebase-oss/ui-styles/themes/brutalist.css"; */

@@ -16,7 +16,7 @@
 
 "use client";
 
-import { SignUpAuthScreen } from "@invertase/firebaseui-react";
+import { SignUpAuthScreen } from "@firebase-oss/ui-react";
 import { useRouter } from "next/navigation";
 
 export default function SignUpAuthScreenWithHandlersPage() {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { getTranslation } from "@invertase/firebaseui-core";
+import { getTranslation } from "@firebase-oss/ui-core";
 import { cloneElement, createContext, useContext } from "react";
 import { useUI } from "~/hooks";
 

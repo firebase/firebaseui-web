@@ -24,7 +24,7 @@ import {
   useRecaptchaVerifier,
   useUI,
   useVerifyPhoneNumberFormAction,
-} from "@invertase/firebaseui-react";
+} from "@firebase-oss/ui-react";
 import { useState } from "react";
 import type { UserCredential } from "firebase/auth";
 import { useRef } from "react";
@@ -36,7 +36,7 @@ import {
   getTranslation,
   type PhoneAuthNumberFormSchema,
   type PhoneAuthVerifyFormSchema,
-} from "@invertase/firebaseui-core";
+} from "@firebase-oss/ui-core";
 
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
