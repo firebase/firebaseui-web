@@ -18,7 +18,7 @@ import { CommonModule } from "@angular/common";
 import { injectForm, injectStore, TanStackAppField, TanStackField } from "@tanstack/angular-form";
 import { injectMultiFactorTotpAuthVerifyFormSchema, injectTranslation, injectUI } from "../../../provider";
 import { FormInputComponent, FormSubmitComponent, FormErrorMessageComponent } from "../../../components/form";
-import { FirebaseUIError, signInWithMultiFactorAssertion } from "@invertase/firebaseui-core";
+import { FirebaseUIError, signInWithMultiFactorAssertion } from "@firebase-oss/ui-core";
 import { TotpMultiFactorGenerator, type MultiFactorInfo, type UserCredential } from "firebase/auth";
 
 @Component({

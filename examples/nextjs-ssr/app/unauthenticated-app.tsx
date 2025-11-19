@@ -16,7 +16,7 @@
 
 "use client";
 
-import { MultiFactorAuthAssertionScreen, useUI } from "@invertase/firebaseui-react";
+import { MultiFactorAuthAssertionScreen, useUI } from "@firebase-oss/ui-react";
 import { routes } from "@/lib/routes";
 import Link from "next/link";
 

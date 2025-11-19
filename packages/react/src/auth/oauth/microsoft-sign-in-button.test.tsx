@@ -17,9 +17,9 @@ import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
 import { render, screen, cleanup, fireEvent, waitFor } from "@testing-library/react";
 import { MicrosoftLogo, MicrosoftSignInButton } from "./microsoft-sign-in-button";
 import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
-import { registerLocale } from "@invertase/firebaseui-translations";
+import { registerLocale } from "@firebase-oss/ui-translations";
 import { OAuthProvider } from "firebase/auth";
-import { signInWithProvider } from "@invertase/firebaseui-core";
+import { signInWithProvider } from "@firebase-oss/ui-core";
 import type { UserCredential } from "firebase/auth";
 
 vi.mock("firebase/auth", async () => {
@@ -35,7 +35,7 @@ vi.mock("firebase/auth", async () => {
   };
 });
 
-vi.mock("@invertase/firebaseui-core", async (importOriginal) => {
+vi.mock("@firebase-oss/ui-core", async (importOriginal) => {
   const mod = await importOriginal();
   return {
     ...(mod as object),

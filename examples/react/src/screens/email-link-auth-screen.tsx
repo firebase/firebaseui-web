@@ -16,7 +16,7 @@
 
 "use client";
 
-import { EmailLinkAuthScreen } from "@invertase/firebaseui-react";
+import { EmailLinkAuthScreen } from "@firebase-oss/ui-react";
 import { useNavigate } from "react-router";
 
 export default function EmailLinkAuthScreenPage() {

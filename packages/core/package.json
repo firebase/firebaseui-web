@@ -1,6 +1,6 @@
 {
-  "name": "@invertase/firebaseui-core",
-  "version": "0.0.11",
+  "name": "@firebase-oss/ui-core",
+  "version": "0.0.1",
   "description": "Core authentication service for Firebase UI",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -51,7 +51,7 @@
     "firebase": "catalog:peerDependencies"
   },
   "dependencies": {
-    "@invertase/firebaseui-translations": "workspace:*",
+    "@firebase-oss/ui-translations": "workspace:*",
     "libphonenumber-js": "^1.12.23",
     "nanostores": "catalog:",
     "qrcode-generator": "^2.0.4",

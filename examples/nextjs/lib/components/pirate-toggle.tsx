@@ -16,8 +16,8 @@
 
 "use client";
 
-import { useUI } from "@invertase/firebaseui-react";
-import { enUs } from "@invertase/firebaseui-translations";
+import { useUI } from "@firebase-oss/ui-react";
+import { enUs } from "@firebase-oss/ui-translations";
 import { pirate } from "../pirate";
 
 export function PirateToggle() {

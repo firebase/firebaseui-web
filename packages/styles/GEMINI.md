@@ -1,10 +1,10 @@
 # Firebase UI Styles
 
-This document provides context for the `@invertase/firebaseui-styles` package.
+This document provides context for the `@firebase-oss/ui-styles` package.
 
 ## Overview
 
-The `@invertase/firebaseui-styles` package provides the core styling for all Firebase UI for Web components. It is framework-agnostic and offers multiple ways to be consumed.
+The `@firebase-oss/ui-styles` package provides the core styling for all Firebase UI for Web components. It is framework-agnostic and offers multiple ways to be consumed.
 
 1.  **CSS Files**: For direct use in projects. It provides different files depending on whether you use Tailwind CSS.
 2.  **Component Variants**: It exports utilities using `cva` (Class Variance Authority) to programmatically apply styles, which is useful when building custom components.
@@ -21,7 +21,7 @@ If your project uses Tailwind CSS, you should import the `tailwind` entry point 
 
 ```css
 /* In your global styles.css */
-@import "@invertase/firebaseui-styles/tailwind";
+@import "@firebase-oss/ui-styles/tailwind";
 ```
 
 ### Without Tailwind CSS
@@ -30,7 +30,7 @@ If you are not using Tailwind CSS, you can import the pre-compiled distributed f
 
 ```javascript
 // In your main application file
-import "@invertase/firebaseui-styles";
+import "@firebase-oss/ui-styles";
 ```
 
 ## Component Variants (CVA)
@@ -44,7 +44,7 @@ Currently, it exports a `buttonVariant` helper.
 Here is how you might use it in a React component:
 
 ```tsx
-import { buttonVariant, ButtonVariant } from "@invertase/firebaseui-styles";
+import { buttonVariant, ButtonVariant } from "@firebase-oss/ui-styles";
 import { type ComponentProps } from "react";
 
 interface ButtonProps extends ComponentProps<"button"> {

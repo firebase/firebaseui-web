@@ -28,7 +28,7 @@ import {
   FirebaseUIError,
   getTranslation,
   verifyPhoneNumber,
-} from "@invertase/firebaseui-core";
+} from "@firebase-oss/ui-core";
 import { form } from "~/components/form";
 import { useMultiFactorPhoneAuthVerifyFormSchema, useRecaptchaVerifier, useUI } from "~/hooks";
 

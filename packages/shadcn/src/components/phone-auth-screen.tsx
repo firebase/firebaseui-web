@@ -17,8 +17,8 @@
 "use client";
 
 import type { PropsWithChildren } from "react";
-import { getTranslation } from "@invertase/firebaseui-core";
-import { useUI, useOnUserAuthenticated } from "@invertase/firebaseui-react";
+import { getTranslation } from "@firebase-oss/ui-core";
+import { useUI, useOnUserAuthenticated } from "@firebase-oss/ui-react";
 import { Card, CardContent, CardHeader, CardDescription, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { PhoneAuthForm } from "@/components/phone-auth-form";

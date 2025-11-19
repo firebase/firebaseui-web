@@ -16,7 +16,7 @@
 
 "use client";
 
-import { getTranslation } from "@invertase/firebaseui-core";
+import { getTranslation } from "@firebase-oss/ui-core";
 import { GithubAuthProvider, type UserCredential } from "firebase/auth";
 import { useUI } from "~/hooks";
 import { OAuthButton } from "./oauth-button";

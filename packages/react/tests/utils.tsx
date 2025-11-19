@@ -16,8 +16,8 @@
 
 import type { FirebaseApp } from "firebase/app";
 import type { Auth } from "firebase/auth";
-import { enUs } from "@invertase/firebaseui-translations";
-import { Behavior, FirebaseUI, FirebaseUIOptions, FirebaseUIStore, initializeUI } from "@invertase/firebaseui-core";
+import { enUs } from "@firebase-oss/ui-translations";
+import { Behavior, FirebaseUI, FirebaseUIOptions, FirebaseUIStore, initializeUI } from "@firebase-oss/ui-core";
 import { FirebaseUIProvider } from "../src/context";
 import { vi } from "vitest";
 

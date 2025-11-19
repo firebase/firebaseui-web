@@ -16,7 +16,7 @@
 
 import { useCallback } from "react";
 import { TotpMultiFactorGenerator, type MultiFactorInfo, type UserCredential } from "firebase/auth";
-import { signInWithMultiFactorAssertion, FirebaseUIError, getTranslation } from "@invertase/firebaseui-core";
+import { signInWithMultiFactorAssertion, FirebaseUIError, getTranslation } from "@firebase-oss/ui-core";
 import { form } from "~/components/form";
 import { useMultiFactorTotpAuthVerifyFormSchema, useUI } from "~/hooks";
 

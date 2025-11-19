@@ -25,7 +25,7 @@ import {
   GitHubSignInButtonComponent,
   MicrosoftSignInButtonComponent,
   TwitterSignInButtonComponent,
-} from "@invertase/firebaseui-angular";
+} from "@firebase-oss/ui-angular";
 import { Router } from "@angular/router";
 
 @Component({

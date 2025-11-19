@@ -2,8 +2,8 @@
 
 import { type ComponentProps, useState } from "react";
 import { FactorId } from "firebase/auth";
-import { getTranslation } from "@invertase/firebaseui-core";
-import { useUI } from "@invertase/firebaseui-react";
+import { getTranslation } from "@firebase-oss/ui-core";
+import { useUI } from "@firebase-oss/ui-react";
 
 import { SmsMultiFactorEnrollmentForm } from "@/components/sms-multi-factor-enrollment-form";
 import { TotpMultiFactorEnrollmentForm } from "@/components/totp-multi-factor-enrollment-form";

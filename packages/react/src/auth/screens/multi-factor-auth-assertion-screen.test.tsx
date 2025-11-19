@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { registerLocale } from "@invertase/firebaseui-translations";
+import { registerLocale } from "@firebase-oss/ui-translations";
 import { cleanup, render, screen } from "@testing-library/react";
 import { type UserCredential } from "firebase/auth";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";

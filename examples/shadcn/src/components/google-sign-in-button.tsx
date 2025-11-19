@@ -1,8 +1,8 @@
 "use client";
 
 import { GoogleAuthProvider } from "firebase/auth";
-import { getTranslation } from "@invertase/firebaseui-core";
-import { useUI, type GoogleSignInButtonProps, GoogleLogo } from "@invertase/firebaseui-react";
+import { getTranslation } from "@firebase-oss/ui-core";
+import { useUI, type GoogleSignInButtonProps, GoogleLogo } from "@firebase-oss/ui-react";
 
 import { OAuthButton } from "@/components/oauth-button";
 

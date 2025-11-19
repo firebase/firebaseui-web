@@ -16,8 +16,8 @@
 
 import { Component, computed } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { injectUI } from "@invertase/firebaseui-angular";
-import { enUs } from "@invertase/firebaseui-translations";
+import { injectUI } from "@firebase-oss/ui-angular";
+import { enUs } from "@firebase-oss/ui-translations";
 import { pirate } from "../../pirate";
 
 @Component({

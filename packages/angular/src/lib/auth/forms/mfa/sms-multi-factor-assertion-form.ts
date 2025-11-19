@@ -28,7 +28,7 @@ import {
   verifyPhoneNumber,
   signInWithMultiFactorAssertion,
   getTranslation,
-} from "@invertase/firebaseui-core";
+} from "@firebase-oss/ui-core";
 import { PhoneAuthProvider, PhoneMultiFactorGenerator, type MultiFactorInfo, type UserCredential } from "firebase/auth";
 
 type PhoneMultiFactorInfo = MultiFactorInfo & {

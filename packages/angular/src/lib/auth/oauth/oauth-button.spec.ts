@@ -58,7 +58,7 @@ describe("<fui-oauth-button>", () => {
   let mockGetTranslation: any;
 
   beforeEach(() => {
-    const { signInWithProvider, FirebaseUIError, getTranslation } = require("@invertase/firebaseui-core");
+    const { signInWithProvider, FirebaseUIError, getTranslation } = require("@firebase-oss/ui-core");
     mockSignInWithProvider = signInWithProvider;
     mockFirebaseUIError = FirebaseUIError;
     mockGetTranslation = getTranslation;

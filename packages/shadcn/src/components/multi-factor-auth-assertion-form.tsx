@@ -16,8 +16,8 @@
 
 "use client";
 
-import { getTranslation } from "@invertase/firebaseui-core";
-import { useUI } from "@invertase/firebaseui-react";
+import { getTranslation } from "@firebase-oss/ui-core";
+import { useUI } from "@firebase-oss/ui-react";
 import {
   PhoneMultiFactorGenerator,
   TotpMultiFactorGenerator,
@@ -25,7 +25,7 @@ import {
   type UserCredential,
 } from "firebase/auth";
 import { useState, type ComponentProps } from "react";
-import { useMultiFactorAssertionCleanup } from "@invertase/firebaseui-react";
+import { useMultiFactorAssertionCleanup } from "@firebase-oss/ui-react";
 
 import { SmsMultiFactorAssertionForm } from "@/components/sms-multi-factor-assertion-form";
 import { TotpMultiFactorAssertionForm } from "@/components/totp-multi-factor-assertion-form";

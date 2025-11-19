@@ -16,7 +16,7 @@
 
 import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { EmailLinkAuthScreenComponent } from "@invertase/firebaseui-angular";
+import { EmailLinkAuthScreenComponent } from "@firebase-oss/ui-angular";
 import { Router } from "@angular/router";
 
 @Component({

@@ -19,7 +19,7 @@ import viteConfig from "./vite.config";
 
 export default mergeConfig(viteConfig, {
   test: {
-    name: "@invertase/firebaseui-react",
+    name: "@firebase-oss/ui-react",
     // Use the same environment as the package
     environment: "jsdom",
     // Include TypeScript files

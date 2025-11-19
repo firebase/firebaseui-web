@@ -1,6 +1,6 @@
 {
-  "name": "@invertase/firebaseui-shadcn",
-  "version": "0.0.2",
+  "name": "@firebase-oss/ui-shadcn",
+  "version": "0.0.1",
   "type": "module",
   "bin": "./dist/bin/cli.js",
   "files": [
@@ -14,7 +14,7 @@
     "test": "vitest run"
   },
   "devDependencies": {
-    "@invertase/firebaseui-translations": "workspace:*",
+    "@firebase-oss/ui-translations": "workspace:*",
     "@tailwindcss/vite": "catalog:",
     "@testing-library/jest-dom": "catalog:",
     "@testing-library/react": "catalog:",
@@ -39,8 +39,8 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
-    "@invertase/firebaseui-core": "workspace:*",
-    "@invertase/firebaseui-react": "workspace:*",
+    "@firebase-oss/ui-core": "workspace:*",
+    "@firebase-oss/ui-react": "workspace:*",
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-select": "^2.2.6",
     "@radix-ui/react-separator": "^1.1.7",

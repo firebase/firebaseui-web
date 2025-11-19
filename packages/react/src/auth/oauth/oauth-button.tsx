@@ -16,7 +16,7 @@
 
 "use client";
 
-import { FirebaseUIError, getTranslation, signInWithProvider } from "@invertase/firebaseui-core";
+import { FirebaseUIError, getTranslation, signInWithProvider } from "@firebase-oss/ui-core";
 import type { AuthProvider, UserCredential } from "firebase/auth";
 import type { PropsWithChildren } from "react";
 import { useCallback, useState } from "react";

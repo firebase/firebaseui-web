@@ -19,7 +19,7 @@ import { describe, it, expect, afterAll } from "vitest";
 // import { EmailLinkAuthForm } from "../src";
 // import { initializeApp } from "firebase/app";
 // import { getAuth, connectAuthEmulator, deleteUser } from "firebase/auth";
-// import { initializeUI } from "@invertase/firebaseui-core";
+// import { initializeUI } from "@firebase-oss/ui-core";
 // import { FirebaseUIProvider } from "~/context";
 
 // // Prepare the test environment

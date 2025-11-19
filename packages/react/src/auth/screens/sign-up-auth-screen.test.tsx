@@ -17,7 +17,7 @@ import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
 import { render, screen, fireEvent, cleanup, act } from "@testing-library/react";
 import { SignUpAuthScreen } from "~/auth/screens/sign-up-auth-screen";
 import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
-import { registerLocale } from "@invertase/firebaseui-translations";
+import { registerLocale } from "@firebase-oss/ui-translations";
 import { MultiFactorResolver, type User } from "firebase/auth";
 
 vi.mock("~/auth/forms/sign-up-auth-form", () => ({

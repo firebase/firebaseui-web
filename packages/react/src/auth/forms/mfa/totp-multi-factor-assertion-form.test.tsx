@@ -38,13 +38,13 @@ import {
   useTotpMultiFactorAssertionFormAction,
 } from "./totp-multi-factor-assertion-form";
 import { act } from "react";
-import { signInWithMultiFactorAssertion } from "@invertase/firebaseui-core";
+import { signInWithMultiFactorAssertion } from "@firebase-oss/ui-core";
 import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
-import { registerLocale } from "@invertase/firebaseui-translations";
+import { registerLocale } from "@firebase-oss/ui-translations";
 import { TotpMultiFactorGenerator } from "firebase/auth";
 
-vi.mock("@invertase/firebaseui-core", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@invertase/firebaseui-core")>();
+vi.mock("@firebase-oss/ui-core", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@firebase-oss/ui-core")>();
   return {
     ...mod,
     signInWithMultiFactorAssertion: vi.fn(),

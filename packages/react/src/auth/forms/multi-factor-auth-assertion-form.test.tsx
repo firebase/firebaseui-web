@@ -20,7 +20,7 @@ import {
   useMultiFactorAssertionCleanup,
 } from "~/auth/forms/multi-factor-auth-assertion-form";
 import { CreateFirebaseUIProvider, createMockUI, createFirebaseUIProvider } from "~/tests/utils";
-import { registerLocale } from "@invertase/firebaseui-translations";
+import { registerLocale } from "@firebase-oss/ui-translations";
 import { FactorId, MultiFactorResolver, PhoneMultiFactorGenerator, TotpMultiFactorGenerator } from "firebase/auth";
 
 vi.mock("~/auth/forms/mfa/sms-multi-factor-assertion-form", () => ({

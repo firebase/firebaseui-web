@@ -6,9 +6,9 @@
     "paths": {
       "~/*": ["./src/*"],
       "~/tests/*": ["./tests/*"],
-      "@invertase/firebaseui-core": ["../core/src/index.ts"],
-      "@invertase/firebaseui-translations": ["../translations/src/index.ts"],
-      "@invertase/firebaseui-styles": ["../styles/src/index.ts"]
+      "@firebase-oss/ui-core": ["../core/src/index.ts"],
+      "@firebase-oss/ui-translations": ["../translations/src/index.ts"],
+      "@firebase-oss/ui-styles": ["../styles/src/index.ts"]
     }
   },
   "include": ["src", "vite.config.ts", "setup-test.ts"]

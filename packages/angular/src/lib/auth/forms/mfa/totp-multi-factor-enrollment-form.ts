@@ -23,7 +23,7 @@ import {
   generateTotpSecret,
   generateTotpQrCode,
   FirebaseUIError,
-} from "@invertase/firebaseui-core";
+} from "@firebase-oss/ui-core";
 import { FormInputComponent, FormSubmitComponent, FormErrorMessageComponent } from "../../../components/form";
 import {
   injectUI,

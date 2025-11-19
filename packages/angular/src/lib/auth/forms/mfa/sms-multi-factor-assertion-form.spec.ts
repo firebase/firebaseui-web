@@ -37,7 +37,7 @@ describe("<fui-sms-multi-factor-assertion-form>", () => {
       injectRecaptchaVerifier,
     } = require("../../../tests/test-helpers");
 
-    const { getTranslation } = require("@invertase/firebaseui-core");
+    const { getTranslation } = require("@firebase-oss/ui-core");
     getTranslation.mockImplementation((ui: any, category: string, key: string, params?: any) => {
       if (category === "messages" && key === "mfaSmsAssertionPrompt" && params) {
         return `A verification code will be sent to ${params.phoneNumber} to complete the authentication process.`;
@@ -220,7 +220,7 @@ describe("<fui-sms-multi-factor-assertion-phone-form>", () => {
       injectMultiFactorPhoneAuthAssertionFormSchema,
     } = require("../../../tests/test-helpers");
 
-    const { getTranslation } = require("@invertase/firebaseui-core");
+    const { getTranslation } = require("@firebase-oss/ui-core");
     getTranslation.mockImplementation((ui: any, category: string, key: string, params?: any) => {
       if (category === "messages" && key === "mfaSmsAssertionPrompt" && params) {
         return `A verification code will be sent to ${params.phoneNumber} to complete the authentication process.`;

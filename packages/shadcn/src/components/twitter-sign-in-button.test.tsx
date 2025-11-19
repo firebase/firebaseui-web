@@ -18,9 +18,9 @@ import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
 import { TwitterSignInButton } from "./twitter-sign-in-button";
 import { createMockUI } from "../../tests/utils";
-import { registerLocale } from "@invertase/firebaseui-translations";
+import { registerLocale } from "@firebase-oss/ui-translations";
 import { TwitterAuthProvider } from "firebase/auth";
-import { FirebaseUIProvider } from "@invertase/firebaseui-react";
+import { FirebaseUIProvider } from "@firebase-oss/ui-react";
 
 vi.mock("./oauth-button", () => ({
   OAuthButton: ({ provider, children, themed, onSignIn }: any) => (
@@ -33,8 +33,8 @@ vi.mock("./oauth-button", () => ({
   ),
 }));
 
-vi.mock("@invertase/firebaseui-react", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@invertase/firebaseui-react")>();
+vi.mock("@firebase-oss/ui-react", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@firebase-oss/ui-react")>();
   return {
     ...mod,
     TwitterLogo: ({ className, ...props }: any) => (

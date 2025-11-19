@@ -19,7 +19,7 @@ import { CommonModule } from "@angular/common";
 import { ButtonComponent } from "../../components/button";
 import { injectUI } from "../../provider";
 import { AuthProvider, UserCredential } from "@angular/fire/auth";
-import { FirebaseUIError, signInWithProvider, getTranslation } from "@invertase/firebaseui-core";
+import { FirebaseUIError, signInWithProvider, getTranslation } from "@firebase-oss/ui-core";
 
 @Component({
   selector: "fui-oauth-button",

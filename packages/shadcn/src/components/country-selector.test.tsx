@@ -16,13 +16,13 @@
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, cleanup, renderHook, waitFor } from "@testing-library/react";
-import { countryCodes } from "@invertase/firebaseui-core";
+import { countryCodes } from "@firebase-oss/ui-core";
 import { CountrySelector } from "./country-selector";
 import { createMockUI, createFirebaseUIProvider } from "../../tests/utils";
-import { FirebaseUIProvider } from "@invertase/firebaseui-react";
-import { useCountries, useDefaultCountry } from "@invertase/firebaseui-react";
+import { FirebaseUIProvider } from "@firebase-oss/ui-react";
+import { useCountries, useDefaultCountry } from "@firebase-oss/ui-react";
 import type { RefObject } from "react";
-import type { CountrySelectorRef } from "@invertase/firebaseui-react";
+import type { CountrySelectorRef } from "@firebase-oss/ui-react";
 
 // Mock the shadcn Select components
 vi.mock("@/components/ui/select", () => ({

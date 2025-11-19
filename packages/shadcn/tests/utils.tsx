@@ -16,10 +16,10 @@
 
 import type { FirebaseApp } from "firebase/app";
 import type { Auth } from "firebase/auth";
-import { enUs } from "@invertase/firebaseui-translations";
-import { FirebaseUIProvider } from "@invertase/firebaseui-react";
-import { Behavior, FirebaseUIOptions, initializeUI } from "@invertase/firebaseui-core";
-import { FirebaseUIStore } from "@invertase/firebaseui-core";
+import { enUs } from "@firebase-oss/ui-translations";
+import { FirebaseUIProvider } from "@firebase-oss/ui-react";
+import { Behavior, FirebaseUIOptions, initializeUI } from "@firebase-oss/ui-core";
+import { FirebaseUIStore } from "@firebase-oss/ui-core";
 import { vi } from "vitest";
 
 export function createMockUI(overrides?: Partial<FirebaseUIOptions>) {

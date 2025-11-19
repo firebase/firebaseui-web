@@ -16,7 +16,7 @@
 
 "use client";
 
-import { SignInAuthScreen } from "@invertase/firebaseui-react";
+import { SignInAuthScreen } from "@firebase-oss/ui-react";
 
 export default function SignInAuthScreenWithHandlersPage() {
   return (

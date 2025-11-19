@@ -17,7 +17,7 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import { ForgotPasswordAuthScreen } from "~/auth/screens/forgot-password-auth-screen";
 import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
-import { registerLocale } from "@invertase/firebaseui-translations";
+import { registerLocale } from "@firebase-oss/ui-translations";
 
 vi.mock("~/auth/forms/forgot-password-auth-form", () => ({
   ForgotPasswordAuthForm: ({ onBackToSignInClick }: { onBackToSignInClick?: () => void }) => (

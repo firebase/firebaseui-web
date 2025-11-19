@@ -19,14 +19,14 @@
 import { useRef, useState } from "react";
 import { type UserCredential, type MultiFactorInfo } from "firebase/auth";
 
-import { FirebaseUIError, getTranslation } from "@invertase/firebaseui-core";
+import { FirebaseUIError, getTranslation } from "@firebase-oss/ui-core";
 import {
   useMultiFactorPhoneAuthVerifyFormSchema,
   useRecaptchaVerifier,
   useUI,
   useSmsMultiFactorAssertionPhoneFormAction,
   useSmsMultiFactorAssertionVerifyFormAction,
-} from "@invertase/firebaseui-react";
+} from "@firebase-oss/ui-react";
 import { useForm } from "react-hook-form";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 

@@ -16,7 +16,7 @@
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, cleanup, renderHook, waitFor } from "@testing-library/react";
-import { countryData, countryCodes } from "@invertase/firebaseui-core";
+import { countryData, countryCodes } from "@firebase-oss/ui-core";
 import { CountrySelector, CountrySelectorRef, useCountries, useDefaultCountry } from "./country-selector";
 import { createMockUI, createFirebaseUIProvider } from "~/tests/utils";
 import { RefObject } from "react";

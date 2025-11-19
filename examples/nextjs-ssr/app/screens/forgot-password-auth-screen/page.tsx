@@ -17,7 +17,7 @@
 
 "use client";
 
-import { ForgotPasswordAuthScreen } from "@invertase/firebaseui-react";
+import { ForgotPasswordAuthScreen } from "@firebase-oss/ui-react";
 
 export default function ForgotPasswordAuthScreenPage() {
   return <ForgotPasswordAuthScreen onBackToSignInClick={() => {}} />;

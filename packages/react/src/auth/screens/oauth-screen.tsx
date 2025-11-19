@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { getTranslation } from "@invertase/firebaseui-core";
+import { getTranslation } from "@firebase-oss/ui-core";
 import { type User } from "firebase/auth";
 import { type PropsWithChildren } from "react";
 import { useOnUserAuthenticated, useUI } from "~/hooks";

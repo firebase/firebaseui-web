@@ -18,12 +18,12 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import { MultiFactorAuthAssertionForm } from "./multi-factor-auth-assertion-form";
 import { createFirebaseUIProvider, createMockUI } from "../../tests/utils";
-import { registerLocale } from "@invertase/firebaseui-translations";
+import { registerLocale } from "@firebase-oss/ui-translations";
 import { MultiFactorResolver, PhoneMultiFactorGenerator, TotpMultiFactorGenerator } from "firebase/auth";
 
 const mockUseMultiFactorAssertionCleanup = vi.fn();
-vi.mock("@invertase/firebaseui-react", async () => {
-  const actual = await vi.importActual<typeof import("@invertase/firebaseui-react")>("@invertase/firebaseui-react");
+vi.mock("@firebase-oss/ui-react", async () => {
+  const actual = await vi.importActual<typeof import("@firebase-oss/ui-react")>("@firebase-oss/ui-react");
   return {
     ...actual,
     useMultiFactorAssertionCleanup: () => mockUseMultiFactorAssertionCleanup(),

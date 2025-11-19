@@ -18,7 +18,7 @@ import { vi } from "vitest";
 
 import type { FirebaseApp } from "firebase/app";
 import type { Auth } from "firebase/auth";
-import { enUs } from "@invertase/firebaseui-translations";
+import { enUs } from "@firebase-oss/ui-translations";
 import { FirebaseUI } from "../src/config";
 
 export function createMockUI(overrides?: Partial<FirebaseUI>): FirebaseUI {

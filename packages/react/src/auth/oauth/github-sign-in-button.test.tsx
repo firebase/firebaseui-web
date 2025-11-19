@@ -17,8 +17,8 @@ import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
 import { render, screen, cleanup, fireEvent, waitFor } from "@testing-library/react";
 import { GitHubLogo, GitHubSignInButton } from "./github-sign-in-button";
 import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
-import { registerLocale } from "@invertase/firebaseui-translations";
-import { signInWithProvider } from "@invertase/firebaseui-core";
+import { registerLocale } from "@firebase-oss/ui-translations";
+import { signInWithProvider } from "@firebase-oss/ui-core";
 import type { UserCredential } from "firebase/auth";
 
 vi.mock("firebase/auth", async () => {
@@ -34,7 +34,7 @@ vi.mock("firebase/auth", async () => {
   };
 });
 
-vi.mock("@invertase/firebaseui-core", async (importOriginal) => {
+vi.mock("@firebase-oss/ui-core", async (importOriginal) => {
   const mod = await importOriginal();
   return {
     ...(mod as object),

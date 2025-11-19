@@ -16,7 +16,7 @@
 
 "use client";
 
-import { countryCodes, initializeUI, oneTapSignIn } from "@invertase/firebaseui-core";
+import { countryCodes, initializeUI, oneTapSignIn } from "@firebase-oss/ui-core";
 import { getApps, initializeApp } from "firebase/app";
 import { connectAuthEmulator, getAuth } from "firebase/auth";
 

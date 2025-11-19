@@ -16,10 +16,10 @@
 
 "use client";
 
-import { getTranslation } from "@invertase/firebaseui-core";
+import { getTranslation } from "@firebase-oss/ui-core";
 import { type User } from "firebase/auth";
 import { type PropsWithChildren } from "react";
-import { useUI, useOnUserAuthenticated } from "@invertase/firebaseui-react";
+import { useUI, useOnUserAuthenticated } from "@firebase-oss/ui-react";
 import { Card, CardContent, CardHeader, CardDescription, CardTitle } from "@/components/ui/card";
 import { Policies } from "@/components/policies";
 import { MultiFactorAuthAssertionScreen } from "@/components/multi-factor-auth-assertion-screen";

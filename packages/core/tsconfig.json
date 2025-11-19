@@ -6,7 +6,7 @@
     "paths": {
       "~/*": ["./src/*"],
       "~/tests/*": ["./tests/*"],
-      "@invertase/firebaseui-translations": ["../translations/src/index.ts"]
+      "@firebase-oss/ui-translations": ["../translations/src/index.ts"]
     }
   },
   "include": ["src", "vitest.config.ts", "tsup.config.ts"]

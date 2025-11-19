@@ -21,8 +21,8 @@ import { SmsMultiFactorEnrollmentFormComponent } from "./sms-multi-factor-enroll
 import { FormInputComponent, FormSubmitComponent, FormErrorMessageComponent } from "../../../components/form";
 import { CountrySelectorComponent } from "../../../components/country-selector";
 
-jest.mock("@invertase/firebaseui-core", () => {
-  const originalModule = jest.requireActual("@invertase/firebaseui-core");
+jest.mock("@firebase-oss/ui-core", () => {
+  const originalModule = jest.requireActual("@firebase-oss/ui-core");
   return {
     ...originalModule,
     verifyPhoneNumber: jest.fn(),
@@ -73,7 +73,7 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
       enrollWithMultiFactorAssertion,
       formatPhoneNumber,
       FirebaseUIError,
-    } = require("@invertase/firebaseui-core");
+    } = require("@firebase-oss/ui-core");
     const { multiFactor } = require("firebase/auth");
 
     mockVerifyPhoneNumber = verifyPhoneNumber;

@@ -18,7 +18,7 @@ import { Component, type OnInit, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Router, RouterModule } from "@angular/router";
 import { Auth, type User, authState } from "@angular/fire/auth";
-import { SignInAuthScreenComponent, GoogleSignInButtonComponent } from "@invertase/firebaseui-angular";
+import { SignInAuthScreenComponent, GoogleSignInButtonComponent } from "@firebase-oss/ui-angular";
 
 @Component({
   selector: "app-sign-in",
