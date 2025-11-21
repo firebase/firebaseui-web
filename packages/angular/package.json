@@ -21,7 +21,7 @@
     "test": "jest --silent",
     "version:bump": "pnpm version patch",
     "publish:tags": "sh -c 'TAG=\"${npm_package_name}@${npm_package_version}\"; git tag --list \"$TAG\" | grep . || git tag \"$TAG\"; git push origin \"$TAG\"'",
-    "publish:npm": "pnpm publish --access public",
+    "publish:npm": "pnpm publish --access public --tag beta",
     "release": "pnpm pack --pack-destination ../../releases/"
   },
   "peerDependencies": {
