@@ -1,6 +1,6 @@
 {
   "name": "@firebase-oss/ui-styles",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "zshy": {
     "exports": {
