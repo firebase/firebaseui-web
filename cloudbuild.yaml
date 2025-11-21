@@ -1,0 +1,31 @@
+availableSecrets:
+  secretManager:
+    - versionName: projects/895878195922/secrets/FirebaseUI_NPM_Publish_Token/versions/latest
+      env: "NPM_TOKEN"
+
+steps:
+  - name: "node:22"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        corepack enable
+        pnpm install --frozen-lockfile
+    id: "install"
+
+  # 3. Publish to NPM
+  # This step authenticates using the secret token and handles both
+  # single-package and monorepo (workspaces) structures.
+  - name: "node:22"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        corepack enable
+
+        # Configure npm authentication
+        echo "//registry.npmjs.org/:_authToken=$$NPM_TOKEN" > .npmrc
+
+        pnpm run publish:npm:all
+    secretEnv: ["NPM_TOKEN"]
+    id: "build and publish"
