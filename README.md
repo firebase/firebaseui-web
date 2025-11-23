@@ -90,7 +90,7 @@ const ui = initializeUI({ app });
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ConfigProvider config={ui}>
+    <ConfigProvider ui={ui}>
       <App />
     </ConfigProvider>
   </StrictMode>

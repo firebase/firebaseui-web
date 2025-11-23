@@ -56,7 +56,7 @@ import { ConfigProvider } from "@firebase-ui/react";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ConfigProvider config={ui}>
+    <ConfigProvider ui={ui}>
       <App />
     </ConfigProvider>
   </StrictMode>
