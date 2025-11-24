@@ -11,7 +11,8 @@
     "dev": "vite",
     "build": "tsup && tsx build.ts --domain https://fir-ui-shadcn-registry.web.app",
     "preview": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "publish:npm": "../../publish.sh"
   },
   "devDependencies": {
     "@firebase-oss/ui-translations": "workspace:*",

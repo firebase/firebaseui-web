@@ -36,7 +36,7 @@
     "test": "vitest run",
     "version:bump": "pnpm version patch",
     "publish:tags": "sh -c 'TAG=\"${npm_package_name}@${npm_package_version}\"; git tag --list \"$TAG\" | grep . || git tag \"$TAG\"; git push origin \"$TAG\"'",
-    "publish:npm": "pnpm publish --access public --tag beta",
+    "publish:npm": "../../publish.sh",
     "release": "pnpm run build && pnpm pack --pack-destination --pack-destination ../../releases/"
   },
   "keywords": [
