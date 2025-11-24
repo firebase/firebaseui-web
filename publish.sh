@@ -8,7 +8,6 @@ set -e
 echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >.npmrc
 
 # Decide the correct version and npm tag.
-# Uses default substitutions from https://docs.cloud.google.com/build/docs/configuring-builds/substitute-variable-values#using_default_substitutions
 if [ -n "$TAG_NAME" ]; then
 	echo "Git Tag detected: $TAG_NAME"
 	NPM_TAG=beta

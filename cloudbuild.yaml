@@ -30,5 +30,10 @@ steps:
         echo "//registry.npmjs.org/:_authToken=$$NPM_TOKEN" > .npmrc
 
         pnpm run publish:npm:all
+    # Pass through default substitutions from https://docs.cloud.google.com/build/docs/configuring-builds/substitute-variable-values#using_default_substitutions
+    env:
+      - "TAG_NAME=$TAG_NAME"
+      - "SHORT_SHA=$SHORT_SHA"
+      - "COMMIT_SHA=$COMMIT_SHA"
     secretEnv: ["NPM_TOKEN"]
     id: "build and publish"
