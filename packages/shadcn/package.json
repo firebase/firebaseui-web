@@ -2,7 +2,9 @@
   "name": "@firebase-oss/ui-shadcn",
   "version": "0.0.1",
   "type": "module",
-  "bin": "./dist/bin/cli.js",
+  "bin": {
+    "ui-shadcn": "dist/bin/cli.js"
+  },
   "files": [
     "dist"
   ],
