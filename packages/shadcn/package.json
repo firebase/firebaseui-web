@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "type": "module",
   "bin": {
-    "ui-shadcn": "dist/bin/cli.mjs"
+    "ui-shadcn": "dist/bin/cli.js"
   },
   "files": [
     "dist"
