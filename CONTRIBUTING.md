@@ -11,6 +11,7 @@ the end).
 ### Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/firebase/firebaseui-web.git
    cd firebaseui-web
@@ -28,11 +29,13 @@ This is a monorepo managed with pnpm, containing both `packages` and `examples` 
 #### Building
 
 Build all packages:
+
 ```bash
 pnpm build
 ```
 
 Build only the packages (excluding examples):
+
 ```bash
 pnpm build:packages
 ```
@@ -40,16 +43,19 @@ pnpm build:packages
 #### Testing
 
 Run all tests:
+
 ```bash
 pnpm test
 ```
 
 Run tests in watch mode:
+
 ```bash
 pnpm test:watch
 ```
 
 Run tests for a specific package:
+
 ```bash
 pnpm --filter=<package-name> run test
 ```
@@ -57,21 +63,25 @@ pnpm --filter=<package-name> run test
 #### Linting and Formatting
 
 Check for linting errors:
+
 ```bash
 pnpm lint:check
 ```
 
 Fix linting errors automatically:
+
 ```bash
 pnpm lint:fix
 ```
 
 Check for formatting issues:
+
 ```bash
 pnpm format:check
 ```
 
 Format code automatically:
+
 ```bash
 pnpm format:write
 ```
@@ -96,6 +106,7 @@ The project is organized as follows:
   - `shadcn`: Shadcn example
 
 The dependency graph:
+
 ```
 core → translations
 react → core
@@ -147,6 +158,18 @@ feature development in FirebaseUI.
 All submissions, including submissions by project members, require review. We
 use Github pull requests for this purpose. Please refer to the
 [Style Guide](STYLEGUIDE.md) and ensure you respect it before submitting a PR.
+
+### Releasing
+
+See [`cloudbuild.yaml`](./cloudbuild.yaml) and [`publish.sh`](./publish.sh) for the full release process.
+
+#### Experimental versions
+
+All new commits to the main branch are published to npm under the `exp` tag.
+
+#### Release versions
+
+When a tag of the form `v1.0.0` is created, that version is published to npm under the `beta` tag.
 
 ### The small print
 
