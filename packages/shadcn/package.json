@@ -9,7 +9,7 @@
   "scripts": {
     "prepare": "pnpm run build",
     "dev": "vite",
-    "build": "tsup && tsx build.ts --domain https://fir-ui-shadcn-registry.web.app",
+    "build": "tsup && tsx build.ts --domain https://firebaseopensource.com",
     "preview": "vite preview",
     "test": "vitest run",
     "publish:npm": "../../publish.sh"
