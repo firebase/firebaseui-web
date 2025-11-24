@@ -21,4 +21,4 @@ fi
 
 echo "Publishing version $OVERRIDE_VERSION with npm tag '$NPM_TAG' for commit $COMMIT_SHA."
 npm --no-git-tag-version --allow-same-version version $OVERRIDE_VERSION
-npm publish --tag $NPM_TAG
+npm publish --tag $NPM_TAG --access=public
