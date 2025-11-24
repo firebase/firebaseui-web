@@ -83,7 +83,7 @@ Next, follow the framework specific installation steps, for either React, Shadcn
 
   ```css
   @import "@firebase-oss/ui-styles/dist.min.css";
-  /* Or for tailwind users */
+  /* Or, if you use tailwind */
   @import "@firebase-oss/ui-styles/tailwind";
   ```
 
