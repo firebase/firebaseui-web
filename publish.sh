@@ -20,7 +20,7 @@ else
 fi
 
 echo "Publishing version $OVERRIDE_VERSION with npm tag '$NPM_TAG' for commit $COMMIT_SHA."
-pnpm --no-git-tag-version --allow-same-version version $OVERRIDE_VERSION
+npm --no-git-tag-version --allow-same-version version $OVERRIDE_VERSION
 
 # pnpm publish is required here to prevent workspace stuff from being published with the package
 pnpm publish --tag $NPM_TAG --access=public
