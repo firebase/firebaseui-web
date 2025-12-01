@@ -16,7 +16,8 @@
   },
   "scripts": {
     "prepare": "pnpm run build",
-    "build": "pnpm run build:logos && ng-packagr -p ng-package.json",
+    "build": "pnpm run update:version && pnpm run build:logos && ng-packagr -p ng-package.json",
+    "update:version": "tsx update-version.ts",
     "build:logos": "tsx generate-logos.ts",
     "test": "jest --silent",
     "version:bump": "pnpm version patch",
