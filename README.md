@@ -12,7 +12,7 @@ Firebase UI for Web brings out-of-the-box components for Firebase for your favou
 
 ## Migration
 
-Firebase UI is a complete rewrite to support modern languages and frameworks. You can view the previous [v6 version](https://github.com/firebase/firebaseui-web/tree/v6) on GitHub. 
+Firebase UI v7 is a complete rewrite to support modern languages and frameworks. You can find information about the previous version, v6, in the [`v6-archive` branch](https://github.com/firebase/firebaseui-web/tree/v6-archive). 
 
 If you are looking to migrate, please check the [MIGRATION.md](MIGRATION.md) guide.
 
