@@ -49,7 +49,7 @@ Next, follow the framework specific installation steps, for either React, Shadcn
   Install the `@firebase-oss/ui-react` package:
 
   ```bash
-  npm install @firebase-oss/ui-react
+  npm install @firebase-oss/ui-react@beta
   ```
 
   Alongside your Firebase configuration, import the `initializeUI` function and pass your configured Firebase App instance:
@@ -182,7 +182,7 @@ Next, follow the framework specific installation steps, for either React, Shadcn
   Once you have provided the Firebase App instance to your application using `provideFirebaseApp`, install the Firebase UI for Angular package:
 
   ```bash
-  npm install @firebase-oss/ui-angular
+  npm install @firebase-oss/ui-angular@beta
   ```
 
   Alongside your existing providers, add the `provideFirebaseUI` provider, returning a new Firebase UI instance via `initializeUI`:

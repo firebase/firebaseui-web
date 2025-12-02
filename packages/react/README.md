@@ -7,7 +7,7 @@ This package contains the React components for the FirebaseUI.
 Install the package from NPM:
 
 ```bash
-npm install @firebase-oss/ui-react
+npm install @firebase-oss/ui-react@beta
 ```
 
 ## Usage

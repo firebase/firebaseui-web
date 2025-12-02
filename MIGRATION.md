@@ -53,7 +53,7 @@ First, remove the old `firebaseui` package and install the appropriate new packa
 
   Install the new React package:
   ```bash
-  npm install @firebase-oss/ui-react
+  npm install @firebase-oss/ui-react@beta
   ```
 
   The package automatically includes the core package as a dependency, so you don't need to install `@firebase-oss/ui-core` separately.
@@ -69,7 +69,7 @@ First, remove the old `firebaseui` package and install the appropriate new packa
 
   Install the new Angular package:
   ```bash
-  npm install @firebase-oss/ui-angular
+  npm install @firebase-oss/ui-angular@beta
   ```
 
   **Note:** The Angular package requires [AngularFire](https://github.com/angular/angularfire) to be installed and configured first.
