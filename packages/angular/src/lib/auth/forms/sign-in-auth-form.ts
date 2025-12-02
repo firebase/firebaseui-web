@@ -1,0 +1,151 @@
+/**
+ * Copyright 2025 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import { Component, Output, EventEmitter, input, effect } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { UserCredential } from "@angular/fire/auth";
+import { injectForm, TanStackField, TanStackAppField, injectStore } from "@tanstack/angular-form";
+import { FirebaseUIError, signInWithEmailAndPassword } from "@firebase-oss/ui-core";
+
+import { injectSignInAuthFormSchema, injectTranslation, injectUI } from "../../provider";
+import { PoliciesComponent } from "../../components/policies";
+import {
+  FormInputComponent,
+  FormSubmitComponent,
+  FormErrorMessageComponent,
+  FormActionComponent,
+} from "../../components/form";
+
+@Component({
+  selector: "fui-sign-in-auth-form",
+  standalone: true,
+  host: {
+    style: "display: block;",
+  },
+  imports: [
+    CommonModule,
+    TanStackField,
+    TanStackAppField,
+    PoliciesComponent,
+    FormInputComponent,
+    FormSubmitComponent,
+    FormErrorMessageComponent,
+    FormActionComponent,
+  ],
+  template: `
+    <form (submit)="handleSubmit($event)" class="fui-form">
+      <fieldset>
+        <fui-form-input
+          name="email"
+          tanstack-app-field
+          [tanstackField]="form"
+          [label]="emailLabel()"
+          type="email"
+        ></fui-form-input>
+      </fieldset>
+      <fieldset>
+        <fui-form-input
+          name="password"
+          tanstack-app-field
+          [tanstackField]="form"
+          [label]="passwordLabel()"
+          type="password"
+        >
+          @if (forgotPassword()?.observed) {
+            <button ngProjectAs="input-action" fui-form-action (click)="forgotPassword()?.emit()">
+              {{ forgotPasswordLabel() }}
+            </button>
+          }
+        </fui-form-input>
+      </fieldset>
+
+      <fui-policies />
+
+      <fieldset>
+        <fui-form-submit [state]="state()">
+          {{ signInLabel() }}
+        </fui-form-submit>
+        <fui-form-error-message [state]="state()" />
+      </fieldset>
+
+      @if (signUp()?.observed) {
+        <button fui-form-action (click)="signUp()?.emit()">{{ noAccountLabel() }} {{ signUpLabel() }}</button>
+      }
+    </form>
+  `,
+})
+/**
+ * A form component for signing in with email and password.
+ */
+export class SignInAuthFormComponent {
+  private ui = injectUI();
+  private formSchema = injectSignInAuthFormSchema();
+
+  emailLabel = injectTranslation("labels", "emailAddress");
+  passwordLabel = injectTranslation("labels", "password");
+  forgotPasswordLabel = injectTranslation("labels", "forgotPassword");
+  signInLabel = injectTranslation("labels", "signIn");
+  noAccountLabel = injectTranslation("prompts", "noAccount");
+  signUpLabel = injectTranslation("labels", "signUp");
+  unknownErrorLabel = injectTranslation("errors", "unknownError");
+
+  /** Event emitter for forgot password action. */
+  forgotPassword = input<EventEmitter<void>>();
+  /** Event emitter for sign up action. */
+  signUp = input<EventEmitter<void>>();
+
+  /** Event emitter for successful sign-in. */
+  @Output() signIn = new EventEmitter<UserCredential>();
+
+  form = injectForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  state = injectStore(this.form, (state) => state);
+
+  handleSubmit(event: SubmitEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.form.handleSubmit();
+  }
+
+  constructor() {
+    effect(() => {
+      this.form.update({
+        validators: {
+          onBlur: this.formSchema(),
+          onSubmitAsync: async ({ value }) => {
+            try {
+              const credential = await signInWithEmailAndPassword(this.ui(), value.email, value.password);
+              this.signIn.emit(credential);
+              return;
+            } catch (error) {
+              if (error instanceof FirebaseUIError) {
+                return error.message;
+              }
+
+              console.error(error);
+              return this.unknownErrorLabel();
+            }
+          },
+        },
+      });
+    });
+  }
+}

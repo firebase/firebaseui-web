@@ -16,13 +16,23 @@
 
 "use client";
 
-import { SignInAuthScreen } from "@firebase-ui/react";
+import { SignInAuthScreen } from "@firebase-oss/ui-react";
+import { useNavigate } from "react-router";
 
 export default function SignInAuthScreenWithHandlersPage() {
+  const navigate = useNavigate();
+
   return (
     <SignInAuthScreen
-      onForgotPasswordClick={() => {}}
-      onRegisterClick={() => {}}
+      onForgotPasswordClick={() => {
+        navigate("/screens/forgot-password-auth-screen");
+      }}
+      onSignUpClick={() => {
+        navigate("/screens/sign-up-auth-screen");
+      }}
+      onSignIn={() => {
+        navigate("/");
+      }}
     />
   );
 }

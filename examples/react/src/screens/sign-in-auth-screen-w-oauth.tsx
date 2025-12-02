@@ -14,20 +14,34 @@
  * limitations under the License.
  */
 
-"use client";
-
-import { GoogleSignInButton, SignInAuthScreen } from "@firebase-ui/react";
+import {
+  AppleSignInButton,
+  GoogleSignInButton,
+  SignInAuthScreen,
+  FacebookSignInButton,
+  GitHubSignInButton,
+  MicrosoftSignInButton,
+  TwitterSignInButton,
+} from "@firebase-oss/ui-react";
 import { useNavigate } from "react-router";
 
 export default function SignInAuthScreenWithOAuthPage() {
- let navigate = useNavigate();
+  const navigate = useNavigate();
 
   return (
     <SignInAuthScreen
-      onForgotPasswordClick={() => navigate("/password-reset-screen")}
-      onRegisterClick={() => navigate("/sign-up-auth-screen")}
+      onSignIn={() => {
+        navigate("/");
+      }}
     >
-      <GoogleSignInButton />
+      <div className="space-y-2">
+        <GoogleSignInButton />
+        <FacebookSignInButton />
+        <AppleSignInButton />
+        <GitHubSignInButton />
+        <MicrosoftSignInButton />
+        <TwitterSignInButton />
+      </div>
     </SignInAuthScreen>
   );
 }

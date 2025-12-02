@@ -16,4 +16,5 @@
 
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
-@import "@firebase-ui/styles/src/base.css";
+@custom-variant dark (&:where(.dark, .dark *));
+@import "@firebase-oss/ui-styles/tailwind";

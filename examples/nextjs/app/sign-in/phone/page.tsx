@@ -14,16 +14,10 @@
  * limitations under the License.
  */
 
-import { getCurrentUser } from "@/lib/firebase/serverApp";
-import { redirect } from "next/navigation";
+"use client";
+
 import SignInWithPhoneNumberScreen from "./screen";
 
-export default async function SignInWithPhoneNumberPage() {
-  const { currentUser } = await getCurrentUser();
-
-  if (currentUser) {
-    return redirect("/");
-  }
-
+export default function SignInWithPhoneNumberPage() {
   return <SignInWithPhoneNumberScreen />;
 }

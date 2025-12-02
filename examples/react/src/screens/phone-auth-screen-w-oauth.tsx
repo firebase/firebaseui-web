@@ -16,12 +16,32 @@
 
 "use client";
 
-import { GoogleSignInButton, PhoneAuthScreen } from "@firebase-ui/react";
+import {
+  FacebookSignInButton,
+  GitHubSignInButton,
+  AppleSignInButton,
+  GoogleSignInButton,
+  PhoneAuthScreen,
+  TwitterSignInButton,
+  MicrosoftSignInButton,
+} from "@firebase-oss/ui-react";
+import { useNavigate } from "react-router";
 
 export default function PhoneAuthScreenWithOAuthPage() {
+  const navigate = useNavigate();
+
   return (
-    <PhoneAuthScreen>
+    <PhoneAuthScreen
+      onSignIn={() => {
+        navigate("/");
+      }}
+    >
       <GoogleSignInButton />
+      <FacebookSignInButton />
+      <AppleSignInButton />
+      <GitHubSignInButton />
+      <MicrosoftSignInButton />
+      <TwitterSignInButton />
     </PhoneAuthScreen>
   );
 }

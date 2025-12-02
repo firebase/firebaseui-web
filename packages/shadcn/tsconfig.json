@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "moduleResolution": "Bundler",
+    "types": ["vite/client"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/tests/*": ["./tests/*"],
+      "@firebase-oss/ui-core": ["../core/src/index.ts"],
+      "@firebase-oss/ui-react": ["../react/src/index.ts"]
+    }
+  },
+  "include": ["src", "tests", "vite.config.ts", "setup-test.ts"]
+}

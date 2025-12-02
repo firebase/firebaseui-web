@@ -12,6 +12,19 @@ dist
 dist-ssr
 *.local
 
+# Angular
+.angular
+.firebase
+
+# Next.js
+.next
+
+# Coverage
+coverage
+
+# Firebase
+.firebase
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

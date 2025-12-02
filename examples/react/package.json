@@ -7,29 +7,31 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "pnpm run build && firebase deploy --only hosting:fir-ui-rework"
   },
   "dependencies": {
-    "@firebase-ui/react": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-react-0.0.1.tgz",  
-    "@firebase-ui/core": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-core-0.0.1.tgz",
-    "@firebase-ui/styles": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-styles-0.0.1.tgz",
-    "@firebase-ui/translations": "https://github.com/firebase/firebaseui-web/raw/refs/heads/v7-alpha/releases/firebase-ui-translations-0.0.1.tgz",
+    "@firebase-oss/ui-react": "workspace:*",
+    "@firebase-oss/ui-core": "workspace:*",
+    "@firebase-oss/ui-styles": "workspace:*",
+    "@firebase-oss/ui-translations": "workspace:*",
     "firebase": "^11.6.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "catalog:",
+    "react-dom": "catalog:",
     "react-router": "^7.5.1"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.4",
     "@eslint/js": "^9.22.0",
-    "@types/react": "^19.0.10",
-    "@types/react-dom": "^19.0.4",
-    "@vitejs/plugin-react": "^4.3.4",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
     "eslint": "^9.22.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
-    "vite": "^6.3.1",
-    "tailwindcss": "^4.1.4"
+    "prettier": "^3.1.1",
+    "vite": "catalog:",
+    "tailwindcss": "catalog:"
   }
 }

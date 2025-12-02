@@ -1,0 +1,40 @@
+{
+  "name": "@firebase-oss/ui-translations",
+  "version": "0.0.2",
+  "description": "Translations for Firebase UI",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "prepare": "tsup",
+    "build": "tsup",
+    "build:local": "pnpm run build && pnpm pack",
+    "dev": "tsup --watch",
+    "lint": "tsc --noEmit",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "clean": "rimraf dist",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "version:bump": "pnpm version patch",
+    "publish:tags": "sh -c 'TAG=\"${npm_package_name}@${npm_package_version}\"; git tag --list \"$TAG\" | grep . || git tag \"$TAG\"; git push origin \"$TAG\"'",
+    "publish:npm": "../../publish.sh",
+    "release": "npm run build && pnpm pack --pack-destination ../../releases/"
+  },
+  "devDependencies": {
+    "rimraf": "catalog:",
+    "vitest": "catalog:",
+    "tsup": "catalog:",
+    "typescript": "catalog:"
+  }
+}

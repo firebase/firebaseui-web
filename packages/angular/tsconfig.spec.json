@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.build.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/spec",
+    "target": "es2016",
+    "types": ["vitest/globals", "node"],
+    "paths": {
+      "~/tests/*": ["./tests/*"],
+      "@firebase-oss/ui-core": ["../core/src/index.ts"],
+      "@firebase-oss/ui-styles": ["../styles/src/index.ts"]
+    }
+  },
+  "files": ["setup-test.ts"],
+  "include": ["tests/**/*.spec.ts", "tests/**/*.d.ts", "setup-test.ts"]
+}

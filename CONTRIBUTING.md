@@ -1,6 +1,129 @@
 Want to contribute? Great! First, read this page (including the small print at
 the end).
 
+## Setup
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (version 18 or higher recommended)
+- [pnpm](https://pnpm.io/) - This workspace uses pnpm for package management
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/firebase/firebaseui-web.git
+   cd firebaseui-web
+   ```
+
+2. Install dependencies:
+   ```bash
+   pnpm install
+   ```
+
+### Development Workflow
+
+This is a monorepo managed with pnpm, containing both `packages` and `examples` sub-directories.
+
+#### Building
+
+Build all packages:
+
+```bash
+pnpm build
+```
+
+Build only the packages (excluding examples):
+
+```bash
+pnpm build:packages
+```
+
+#### Testing
+
+Run all tests:
+
+```bash
+pnpm test
+```
+
+Run tests in watch mode:
+
+```bash
+pnpm test:watch
+```
+
+Run tests for a specific package:
+
+```bash
+pnpm --filter=<package-name> run test
+```
+
+#### Linting and Formatting
+
+Check for linting errors:
+
+```bash
+pnpm lint:check
+```
+
+Fix linting errors automatically:
+
+```bash
+pnpm lint:fix
+```
+
+Check for formatting issues:
+
+```bash
+pnpm format:check
+```
+
+Format code automatically:
+
+```bash
+pnpm format:write
+```
+
+### Project Structure
+
+The project is organized as follows:
+
+- **`packages/`**: Framework-agnostic and framework-specific packages
+  - `core`: Framework-agnostic core package providing `initializeUI` and authentication functions
+  - `translations`: Translation utilities and locale mappings
+  - `styles`: CSS utility classes and compiled styles
+  - `react`: React components and hooks
+  - `angular`: Angular components and DI functionality
+  - `shadcn`: Shadcn UI components
+
+- **`examples/`**: Example applications demonstrating usage
+  - `react`: React example
+  - `nextjs`: Next.js example
+  - `nextjs-ssr`: Next.js SSR example
+  - `angular`: Angular example
+  - `shadcn`: Shadcn example
+
+The dependency graph:
+
+```
+core → translations
+react → core
+angular → core
+react → styles
+angular → styles
+shadcn → react
+```
+
+### Additional Notes
+
+- All packages extend the same base `tsconfig.json` file
+- Vitest is the preferred testing framework
+- The workspace uses pnpm catalogs to ensure dependency version alignment
+- Linting is controlled by ESLint via a root flatconfig `eslint.config.ts` file
+- Formatting is controlled by Prettier integrated with ESLint via the `.prettierrc` file
+
 ### Before you contribute
 
 Before we can use your code, you must sign the [Google Individual Contributor
@@ -35,6 +158,18 @@ feature development in FirebaseUI.
 All submissions, including submissions by project members, require review. We
 use Github pull requests for this purpose. Please refer to the
 [Style Guide](STYLEGUIDE.md) and ensure you respect it before submitting a PR.
+
+### Releasing
+
+See [`cloudbuild.yaml`](./cloudbuild.yaml) and [`publish.sh`](./publish.sh) for the full release process.
+
+#### Experimental versions
+
+All new commits to the main branch are published to npm under the `exp` tag.
+
+#### Release versions
+
+When a tag of the form `v1.0.0` is created, that version is published to npm under the `beta` tag.
 
 ### The small print
 
