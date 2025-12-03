@@ -15,6 +15,7 @@ dist-ssr
 # Angular
 .angular
 .firebase
+packages/angular/src/version.ts
 
 # Next.js
 .next
