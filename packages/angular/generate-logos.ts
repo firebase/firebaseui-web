@@ -93,9 +93,15 @@ import { Component, input } from "@angular/core";
 ${cleanedSvg}
   \`,
 })
+/**
+ * The ${componentName} logo SVG component.
+ */
 export class ${componentName}LogoComponent {
+  /** The width of the logo. */
   width = input<string | number>("1em");
+  /** The height of the logo. */
   height = input<string | number>("1em");
+  /** Optional additional CSS class names. */
   className = input<string>("");
 }
 `;
@@ -143,14 +149,31 @@ async function generateLogoComponents(): Promise<void> {
     }
 
     // Generate an index file to export all components
-    const indexContent = brandDirectories
+    const indexContent = `/**
+ * Copyright 2025 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+${brandDirectories
       .map((brandDir) => {
         const brandName = brandDir.name;
         const componentName = toPascalCase(brandName);
         const fileName = toKebabCase(brandName);
         return `export { ${componentName}LogoComponent } from './${fileName}';`;
       })
-      .join("\n");
+      .join("\n")}
+`;
 
     const indexPath = join(ANGULAR_LOGOS_DIR, "index.ts");
     await writeFile(indexPath, indexContent, "utf-8");
