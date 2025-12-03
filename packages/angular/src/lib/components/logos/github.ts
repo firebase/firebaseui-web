@@ -30,7 +30,7 @@ import { Component, input } from "@angular/core";
   `,
 })
 /**
- * The GitHub logo SVG component.
+ * The Github logo SVG component.
  */
 export class GithubLogoComponent {
   /** The width of the logo. */
