@@ -18,7 +18,7 @@
     "@firebase-oss/ui-styles": "workspace:*",
     "@firebase-oss/ui-translations": "workspace:*",
     "firebase": "catalog:",
-    "next": "15.1.7",
+    "next": "15.4.8",
     "react": "catalog:",
     "react-dom": "catalog:",
     "server-only": "^0.0.1"
