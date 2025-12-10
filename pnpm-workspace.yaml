@@ -5,7 +5,7 @@ packages:
 catalog:
   "@angular-devkit/build-angular": ^20.2.2
   "@angular/cli": ^20.2.2
-  "@angular/common": ^20.2.2
+  "@angular/common": ^20.3.14
   "@angular/compiler": ^20.2.2
   "@angular/compiler-cli": ^20.2.2
   "@angular/core": ^20.2.2
