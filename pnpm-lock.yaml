@@ -39,6 +39,9 @@ catalogs:
     '@angular/router':
       specifier: ^20.2.2
       version: 20.3.7
+    '@nanostores/deepmap':
+      specifier: ^0.0.1
+      version: 0.0.1
     '@tailwindcss/vite':
       specifier: ^4.1.14
       version: 4.1.16
@@ -73,8 +76,8 @@ catalogs:
       specifier: ^26.1.0
       version: 26.1.0
     nanostores:
-      specifier: ^1.0.1
-      version: 1.0.1
+      specifier: ^1.1.0
+      version: 1.1.0
     react:
       specifier: 19.2.1
       version: 19.2.1
@@ -675,7 +678,7 @@ importers:
         version: 1.23.8(@angular/common@20.3.7(@angular/core@20.3.7(@angular/compiler@20.3.7)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.7(@angular/compiler@20.3.7)(rxjs@7.8.2)(zone.js@0.15.1))
       nanostores:
         specifier: 'catalog:'
-        version: 1.0.1
+        version: 1.1.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -770,12 +773,15 @@ importers:
       '@firebase-oss/ui-translations':
         specifier: workspace:*
         version: link:../translations
+      '@nanostores/deepmap':
+        specifier: 'catalog:'
+        version: 0.0.1(nanostores@1.1.0)
       libphonenumber-js:
         specifier: ^1.12.23
         version: 1.12.25
       nanostores:
         specifier: 'catalog:'
-        version: 1.0.1
+        version: 1.1.0
       qrcode-generator:
         specifier: ^2.0.4
         version: 2.0.4
@@ -821,7 +827,7 @@ importers:
         version: link:../styles
       '@nanostores/react':
         specifier: ^1.0.0
-        version: 1.0.0(nanostores@1.0.1)(react@19.2.1)
+        version: 1.0.0(nanostores@1.1.0)(react@19.2.1)
       '@radix-ui/react-slot':
         specifier: ^1.2.3
         version: 1.2.3(@types/react@19.2.7)(react@19.2.1)
@@ -870,7 +876,7 @@ importers:
         version: 26.1.0
       nanostores:
         specifier: 'catalog:'
-        version: 1.0.1
+        version: 1.1.0
       react:
         specifier: 'catalog:'
         version: 19.2.1
@@ -3323,6 +3329,12 @@ packages:
   '@mswjs/interceptors@0.40.0':
     resolution: {integrity: sha512-EFd6cVbHsgLa6wa4RljGj6Wk75qoHxUSyc5asLyyPSyuhIcdS2Q3Phw6ImS1q+CkALthJRShiYfKANcQMuMqsQ==}
     engines: {node: '>=18'}
+
+  '@nanostores/deepmap@0.0.1':
+    resolution: {integrity: sha512-Wp7elfx/naWM61XOzC+qZOYQ565VVtUAU7NQSgjORRVSKn57U31GYHpn3TKImW7Vdfa9TAykIjzB7JVjH2L4fw==}
+    engines: {node: ^20.0.0 || >=22.0.0}
+    peerDependencies:
+      nanostores: ^1.0.0
 
   '@nanostores/react@1.0.0':
     resolution: {integrity: sha512-eDduyNy+lbQJMg6XxZ/YssQqF6b4OXMFEZMYKPJCCmBevp1lg0g+4ZRi94qGHirMtsNfAWKNwsjOhC+q1gvC+A==}
@@ -7947,8 +7959,8 @@ packages:
     resolution: {integrity: sha512-k1oiVNN4hDK8NcNERSZLQiMfRzEGtfnvZvdBvey3SQbgn8Dcrk0h1I6vpxApjb10PFUflZrgJ2WEZyJQ+5v7YQ==}
     engines: {node: ^18.0.0 || >=20.0.0}
 
-  nanostores@1.0.1:
-    resolution: {integrity: sha512-kNZ9xnoJYKg/AfxjrVL4SS0fKX++4awQReGqWnwTRHxeHGZ1FJFVgTqr/eMrNQdp0Tz7M7tG/TDaX8QfHDwVCw==}
+  nanostores@1.1.0:
+    resolution: {integrity: sha512-yJBmDJr18xy47dbNVlHcgdPrulSn1nhSE6Ns9vTG+Nx9VPT6iV1MD6aQFp/t52zpf82FhLLTXAXr30NuCnxvwA==}
     engines: {node: ^20.0.0 || >=22.0.0}
 
   napi-postinstall@0.3.4:
@@ -12980,9 +12992,13 @@ snapshots:
       outvariant: 1.4.3
       strict-event-emitter: 0.5.1
 
-  '@nanostores/react@1.0.0(nanostores@1.0.1)(react@19.2.1)':
+  '@nanostores/deepmap@0.0.1(nanostores@1.1.0)':
     dependencies:
-      nanostores: 1.0.1
+      nanostores: 1.1.0
+
+  '@nanostores/react@1.0.0(nanostores@1.1.0)(react@19.2.1)':
+    dependencies:
+      nanostores: 1.1.0
       react: 19.2.1
 
   '@napi-rs/nice-android-arm-eabi@1.1.1':
@@ -18175,7 +18191,7 @@ snapshots:
 
   nanostores@0.11.4: {}
 
-  nanostores@1.0.1: {}
+  nanostores@1.1.0: {}
 
   napi-postinstall@0.3.4: {}
 
