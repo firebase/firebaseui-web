@@ -29,8 +29,8 @@ catalog:
   nanostores: ^1.1.0
 
   prettier: ^3.6.2
-  react: 19.2.1
-  react-dom: 19.2.1
+  react: 19.2.3
+  react-dom: 19.2.3
   rimraf: ^6.0.1
   rxjs: ^7.8.2
   tailwindcss: ^4.1.13
