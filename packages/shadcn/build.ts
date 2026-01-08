@@ -52,6 +52,10 @@ if (fs.existsSync(publicRDir)) {
 try {
   try {
     execSync(`./node_modules/.bin/shadcn build -o ${outDir}`, { stdio: "inherit" });
+
+    // Copy the generated registry.json file to the output directory
+    const outRegistryJson = path.join(outDir, "registry.json");
+    fs.copyFileSync("registry.json", outRegistryJson);
   } catch (error) {
     console.error("shadcn build failed:", error);
     process.exit(1);
