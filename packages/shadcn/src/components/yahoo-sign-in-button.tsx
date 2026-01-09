@@ -16,7 +16,7 @@
 
 "use client";
 
-import { OAuthProvider} from "firebase/auth";
+import { OAuthProvider } from "firebase/auth";
 import { getTranslation } from "@firebase-oss/ui-core";
 import { useUI, type YahooSignInButtonProps, YahooLogo } from "@firebase-oss/ui-react";
 
