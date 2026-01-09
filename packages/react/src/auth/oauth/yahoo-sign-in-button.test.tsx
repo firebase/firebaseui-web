@@ -46,7 +46,7 @@ afterEach(() => {
   cleanup();
 });
 
-describe("<TwitterSignInButton />", () => {
+describe("<YahooSignInButton />", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -55,7 +55,7 @@ describe("<TwitterSignInButton />", () => {
     const ui = createMockUI({
       locale: registerLocale("test", {
         labels: {
-          signInWithTwitter: "Sign in with Twitter",
+          signInWithYahoo: "Sign in with Yahoo",
         },
       }),
     });
@@ -80,7 +80,7 @@ describe("<TwitterSignInButton />", () => {
       }),
     });
 
-    const customProvider = new (class CustomTwitterProvider {
+    const customProvider = new (class CustomYahooProvider {
       providerId = "custom.yahoo.com";
     })() as any;
 
@@ -95,7 +95,7 @@ describe("<TwitterSignInButton />", () => {
     expect(button.getAttribute("data-provider")).toBe("custom.yahoo.com");
   });
 
-  it("renders with the Twitter icon", () => {
+  it("renders with the Yahoo icon", () => {
     const ui = createMockUI({
       locale: registerLocale("test", {
         labels: {
@@ -202,7 +202,7 @@ describe("<TwitterSignInButton />", () => {
   });
 });
 
-describe("<TwitterLogo />", () => {
+describe("<YahooLogo />", () => {
   it("renders as an SVG element", () => {
     const { container } = render(<YahooLogo />);
     const svg = container.querySelector("svg");
