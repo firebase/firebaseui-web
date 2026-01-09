@@ -66,12 +66,12 @@ describe("<fui-yahoo-sign-in-button>", () => {
     expect(button).toHaveAttribute("data-provider", "custom.yahoo.com");
   });
 
-  it("renders with the Twitter icon", async () => {
+  it("renders with the Yahoo icon", async () => {
     await render(TestYahooSignInButtonHostComponent);
 
     const svg = document.querySelector(".fui-provider__icon");
     expect(svg).toBeInTheDocument();
-    expect(svg).toHaveAttribute("viewBox", "0 0 30 30");
+    expect(svg).toHaveAttribute("viewBox", "-271 324 256 153");
   });
 
   it("renders with the correct translated text", async () => {
