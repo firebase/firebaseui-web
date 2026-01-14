@@ -330,6 +330,7 @@
     --color-border: var(--twitter-primary);
   }
 
+<<<<<<< HEAD
   .fui-provider__button[data-provider="yahoo.com"] {
     /* Yahoo is the only monochrome logo that must be brand-colored by default.
      * Others can follow text color (black/white), so we override via the variable. */
