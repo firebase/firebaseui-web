@@ -23,7 +23,7 @@ import { Component, input } from "@angular/core";
   standalone: true,
   template: `
     <svg
-      fill="#5F01D1"
+      fill="currentColor"
       version="1.1"
       id="Layer_1"
       xmlns="http://www.w3.org/2000/svg"
