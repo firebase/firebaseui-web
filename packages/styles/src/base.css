@@ -322,4 +322,30 @@
     --color-primary-surface: #FFFFFF;
     --color-border: var(--twitter-primary);
   }
+
+  .fui-provider__button[data-provider="yahoo.com"] {
+    /* Yahoo is the only monochrome logo that must be brand-colored by default.
+     * Others can follow text color (black/white), so we override via the variable. */
+    --fui-provider-icon-color: #5F01D1;
+  }
+
+  .fui-provider__button[data-provider="yahoo.com"][data-themed="true"] {
+    --yahoo-primary: #5F01D1;
+    --color-primary: var(--yahoo-primary);
+    --color-primary-hover: --alpha(var(--yahoo-primary) / 85%);
+    --color-primary-surface: #FFFFFF;
+    --color-border: var(--yahoo-primary);
+    /* Keep icon white in themed mode for contrast. */
+    --fui-provider-icon-color: var(--color-primary-surface);
+  }
+
+  @variant dark {
+    .fui-provider__button[data-provider="yahoo.com"][data-themed="true"] {
+      --yahoo-primary: var(--color-white);
+      --color-primary: var(--yahoo-primary);
+      --color-primary-hover: --alpha(var(--yahoo-primary) / 85%);
+      --color-primary-surface: var(--color-black);
+      --color-border: var(--color-white);
+    }
+  }
 }
