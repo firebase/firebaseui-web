@@ -323,10 +323,6 @@
     --color-border: var(--twitter-primary);
   }
 
-  .fui-provider__button[data-provider="yahoo.com"] svg {
-    color: #5F01D1;
-  }
-
   .fui-provider__button[data-provider="yahoo.com"][data-themed="true"] {
     --yahoo-primary: #5F01D1;
     --color-primary: var(--yahoo-primary);
