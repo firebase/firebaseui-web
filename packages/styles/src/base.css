@@ -328,7 +328,6 @@
      * Others can follow text color (black/white), so we override via the variable. */
     --fui-provider-icon-color: #5F01D1;
   }
-
   .fui-provider__button[data-provider="yahoo.com"][data-themed="true"] {
     --yahoo-primary: #5F01D1;
     --color-primary: var(--yahoo-primary);
