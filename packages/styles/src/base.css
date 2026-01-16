@@ -331,7 +331,13 @@
     --color-border: var(--yahoo-primary);
   }
 
-  .fui-provider__button[data-provider="yahoo.com"][data-themed="true"] svg {
-    color: var(--color-primary-surface);
+  @variant dark {
+    .fui-provider__button[data-provider="yahoo.com"][data-themed="true"] {
+      --yahoo-primary: var(--color-white);
+      --color-primary: var(--yahoo-primary);
+      --color-primary-hover: --alpha(var(--yahoo-primary) / 85%);
+      --color-primary-surface: var(--color-black);
+      --color-border: var(--color-white);
+    }
   }
 }

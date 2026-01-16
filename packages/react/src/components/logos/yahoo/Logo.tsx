@@ -21,7 +21,7 @@ const SvgLogo = (props: SVGProps<SVGSVGElement>) => (
     xmlSpace="preserve"
     width="1em"
     height="1em"
-    fill="currentColor"
+    fill="#5F01D1"
     viewBox="-271 324 256 153"
     {...props}
   >
