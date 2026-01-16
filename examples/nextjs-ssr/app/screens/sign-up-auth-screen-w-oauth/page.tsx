@@ -24,6 +24,7 @@ import {
   SignUpAuthScreen,
   TwitterSignInButton,
   MicrosoftSignInButton,
+  YahooSignInButton,
   OAuthButton,
 } from "@firebase-oss/ui-react";
 import { OAuthProvider } from "firebase/auth";
@@ -45,6 +46,7 @@ export default function SignUpAuthScreenWithOAuthPage() {
       <GitHubSignInButton />
       <MicrosoftSignInButton />
       <TwitterSignInButton />
+      <YahooSignInButton />
       <LineSignInButton />
     </SignUpAuthScreen>
   );

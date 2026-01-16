@@ -24,6 +24,7 @@ import {
   PhoneAuthScreen,
   TwitterSignInButton,
   MicrosoftSignInButton,
+  YahooSignInButton,
 } from "@firebase-oss/ui-react";
 import { useNavigate } from "react-router";
 
@@ -42,6 +43,7 @@ export default function PhoneAuthScreenWithOAuthPage() {
       <GitHubSignInButton />
       <MicrosoftSignInButton />
       <TwitterSignInButton />
+      <YahooSignInButton />
     </PhoneAuthScreen>
   );
 }
