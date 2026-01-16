@@ -636,7 +636,16 @@
           "path": "src/components/yahoo-sign-in-button.tsx",
           "type": "registry:component"
         }
-      ]
+      ],
+      "css": {
+        "@layer components": {
+          "button[data-provider='yahoo.com'][data-themed='true']": {
+            "--yahoo-primary": "#5F01D1",
+            "--primary": "var(--yahoo-primary)",
+            "--primary-foreground": "var(--color-white)"
+          }
+        }
+      }
     }
   ]
 }
