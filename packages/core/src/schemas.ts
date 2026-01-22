@@ -22,7 +22,7 @@ import { hasBehavior } from "./behaviors";
 /**
  * Creates a Zod schema for sign-in form validation.
  *
- * Validates email format and password minimum length (8 characters).
+ * Validates email format and password minimum length (6 characters).
  *
  * @param ui - The FirebaseUI instance.
  * @returns A Zod schema for sign-in form validation.
@@ -30,14 +30,14 @@ import { hasBehavior } from "./behaviors";
 export function createSignInAuthFormSchema(ui: FirebaseUI) {
   return z.object({
     email: z.string().email(getTranslation(ui, "errors", "invalidEmail")),
-    password: z.string().min(8, getTranslation(ui, "errors", "weakPassword")),
+    password: z.string().min(6, getTranslation(ui, "errors", "weakPassword")),
   });
 }
 
 /**
  * Creates a Zod schema for sign-up form validation.
  *
- * Validates email format, password minimum length (8 characters), and optionally requires a display name
+ * Validates email format, password minimum length (6 characters), and optionally requires a display name
  * if the `requireDisplayName` behavior is enabled.
  *
  * @param ui - The FirebaseUI instance.
@@ -49,7 +49,7 @@ export function createSignUpAuthFormSchema(ui: FirebaseUI) {
 
   return z.object({
     email: z.string().email(getTranslation(ui, "errors", "invalidEmail")),
-    password: z.string().min(8, getTranslation(ui, "errors", "weakPassword")),
+    password: z.string().min(6, getTranslation(ui, "errors", "weakPassword")),
     displayName: requireDisplayName
       ? z.string().min(1, displayNameRequiredMessage)
       : z.string().min(1, displayNameRequiredMessage).optional(),
