@@ -22,22 +22,22 @@ import { hasBehavior } from "./behaviors";
 /**
  * Creates a Zod schema for sign-in form validation.
  *
- * Validates email format and password minimum length (6 characters).
+ * Validates email format and password minimum length (8 characters).
  *
  * @param ui - The FirebaseUI instance.
  * @returns A Zod schema for sign-in form validation.
  */
 export function createSignInAuthFormSchema(ui: FirebaseUI) {
   return z.object({
-    email: z.email(getTranslation(ui, "errors", "invalidEmail")),
-    password: z.string().min(6, getTranslation(ui, "errors", "weakPassword")),
+    email: z.string().email(getTranslation(ui, "errors", "invalidEmail")),
+    password: z.string().min(8, getTranslation(ui, "errors", "weakPassword")),
   });
 }
 
 /**
  * Creates a Zod schema for sign-up form validation.
  *
- * Validates email format, password minimum length (6 characters), and optionally requires a display name
+ * Validates email format, password minimum length (8 characters), and optionally requires a display name
  * if the `requireDisplayName` behavior is enabled.
  *
  * @param ui - The FirebaseUI instance.
@@ -48,8 +48,8 @@ export function createSignUpAuthFormSchema(ui: FirebaseUI) {
   const displayNameRequiredMessage = getTranslation(ui, "errors", "displayNameRequired");
 
   return z.object({
-    email: z.email(getTranslation(ui, "errors", "invalidEmail")),
-    password: z.string().min(6, getTranslation(ui, "errors", "weakPassword")),
+    email: z.string().email(getTranslation(ui, "errors", "invalidEmail")),
+    password: z.string().min(8, getTranslation(ui, "errors", "weakPassword")),
     displayName: requireDisplayName
       ? z.string().min(1, displayNameRequiredMessage)
       : z.string().min(1, displayNameRequiredMessage).optional(),
@@ -66,7 +66,7 @@ export function createSignUpAuthFormSchema(ui: FirebaseUI) {
  */
 export function createForgotPasswordAuthFormSchema(ui: FirebaseUI) {
   return z.object({
-    email: z.email(getTranslation(ui, "errors", "invalidEmail")),
+    email: z.string().email(getTranslation(ui, "errors", "invalidEmail")),
   });
 }
 
@@ -80,7 +80,7 @@ export function createForgotPasswordAuthFormSchema(ui: FirebaseUI) {
  */
 export function createEmailLinkAuthFormSchema(ui: FirebaseUI) {
   return z.object({
-    email: z.email(getTranslation(ui, "errors", "invalidEmail")),
+    email: z.string().email(getTranslation(ui, "errors", "invalidEmail")),
   });
 }
 
