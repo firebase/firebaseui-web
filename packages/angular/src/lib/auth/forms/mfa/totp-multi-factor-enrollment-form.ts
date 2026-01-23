@@ -91,7 +91,7 @@ export class TotpMultiFactorSecretGenerationFormComponent {
     effect(() => {
       this.form.update({
         validators: {
-          onBlur: this.formSchema(),
+          onChange: this.formSchema(),
           onSubmit: this.formSchema(),
           onSubmitAsync: async ({ value }) => {
             try {
@@ -191,7 +191,7 @@ export class TotpMultiFactorVerificationFormComponent {
     effect(() => {
       this.form.update({
         validators: {
-          onBlur: this.formSchema(),
+          onChange: this.formSchema(),
           onSubmit: this.formSchema(),
           onSubmitAsync: async ({ value }) => {
             try {

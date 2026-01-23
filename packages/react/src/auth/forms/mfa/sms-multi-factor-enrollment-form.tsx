@@ -80,6 +80,7 @@ export function useSmsMultiFactorEnrollmentPhoneNumberForm({
     },
     validators: {
       onBlur: schema,
+      onChange: schema,
       onSubmitAsync: async ({ value }) => {
         try {
           const formatted = formatPhoneNumber ? formatPhoneNumber(value.phoneNumber) : value.phoneNumber;
@@ -202,6 +203,7 @@ export function useMultiFactorEnrollmentVerifyPhoneNumberForm({
     },
     validators: {
       onBlur: schema,
+      onChange: schema,
       onSubmitAsync: async ({ value }) => {
         try {
           await action({ ...value, displayName });

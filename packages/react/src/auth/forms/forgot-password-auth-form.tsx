@@ -71,6 +71,7 @@ export function useForgotPasswordAuthForm(onSuccess?: ForgotPasswordAuthFormProp
     },
     validators: {
       onBlur: schema,
+      onChange: schema,
       onSubmitAsync: async ({ value }) => {
         try {
           await action(value);

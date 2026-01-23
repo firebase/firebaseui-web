@@ -61,6 +61,7 @@ export function useTotpMultiFactorSecretGenerationForm({ onSuccess }: UseTotpMul
     },
     validators: {
       onBlur: schema,
+      onChange: schema,
       onSubmitAsync: async ({ value }) => {
         try {
           const secret = await action();
@@ -161,6 +162,7 @@ export function useMultiFactorEnrollmentVerifyTotpForm({
     },
     validators: {
       onBlur: schema,
+      onChange: schema,
       onSubmitAsync: async ({ value }) => {
         try {
           await action({ secret, verificationCode: value.verificationCode, displayName });

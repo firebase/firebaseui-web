@@ -27,10 +27,8 @@ function FieldMetadata({ className, ...props }: ComponentProps<"div"> & { field:
   }
 
   return (
-    <div>
-      <div role="alert" aria-live="polite" className={cn("fui-error", className)} {...props}>
-        {props.field.state.meta.errors.map((error) => error.message).join(", ")}
-      </div>
+    <div role="alert" aria-live="polite" className={cn("fui-error", className)} {...props}>
+      {props.field.state.meta.errors.map((error) => error.message).join(", ")}
     </div>
   );
 }
@@ -46,6 +44,7 @@ function Input({
   ComponentProps<"input"> & { label: string; before?: ReactNode; action?: ReactNode; description?: ReactNode }
 >) {
   const field = useFieldContext<string>();
+  const form = useFormContext();
 
   return (
     <label htmlFor={field.name}>
@@ -67,6 +66,11 @@ function Input({
           }}
           onChange={(e) => {
             field.handleChange(e.target.value);
+            // Clear form-level submission errors when user starts typing
+            const errorMap = form.state.errorMap;
+            if (errorMap?.onSubmit) {
+              form.setErrorMap({});
+            }
           }}
         />
       </div>

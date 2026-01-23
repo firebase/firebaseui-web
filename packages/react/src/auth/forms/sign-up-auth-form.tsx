@@ -86,6 +86,7 @@ export function useSignUpAuthForm(onSuccess?: SignUpAuthFormProps["onSignUp"]) {
     } as z.infer<typeof schema>,
     validators: {
       onBlur: schema,
+      onChange: schema,
       onSubmitAsync: async ({ value }) => {
         try {
           const credential = await action(value);

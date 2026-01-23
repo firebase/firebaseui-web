@@ -41,6 +41,7 @@ export function SignInAuthForm(props: SignInAuthFormProps) {
 
   const form = useForm<SignInAuthFormSchema>({
     resolver: standardSchemaResolver(schema),
+    reValidateMode: "onChange",
     defaultValues: {
       email: "",
       password: "",

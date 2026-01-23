@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, computed, input } from "@angular/core";
+import { ChangeDetectorRef, Component, computed, inject, input, OnChanges, SimpleChanges } from "@angular/core";
 import { AnyFieldApi, AnyFormState, injectField } from "@tanstack/angular-form";
 import { ButtonComponent } from "./button";
 
@@ -37,7 +37,8 @@ import { ButtonComponent } from "./button";
 /**
  * A component that displays form field metadata, such as validation errors.
  */
-export class FormMetadataComponent {
+export class FormMetadataComponent implements OnChanges {
+  private cdr = inject(ChangeDetectorRef);
   /** The form field API instance. */
   field = input.required<AnyFieldApi>();
   errors = computed(() =>
@@ -45,6 +46,12 @@ export class FormMetadataComponent {
       .state.meta.errors.map((error) => error.message)
       .join(", ")
   );
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['field']) {
+      this.cdr.markForCheck();
+    }
+  }
 }
 
 @Component({
@@ -70,7 +77,7 @@ export class FormMetadataComponent {
           [id]="field.api.name"
           [name]="field.api.name"
           [value]="field.api.state.value"
-          (blur)="field.api.handleBlur()"
+          (blur)="handleBlur()"
           (input)="field.api.handleChange($any($event).target.value)"
           [type]="type()"
         />
@@ -83,14 +90,25 @@ export class FormMetadataComponent {
 /**
  * A form input component with label, description, and validation support.
  */
-export class FormInputComponent {
+export class FormInputComponent implements OnChanges {
   field = injectField<string>();
+  private cdr = inject(ChangeDetectorRef);
   /** The label text for the input field. */
   label = input.required<string>();
   /** The input type (e.g., "text", "email", "password"). */
   type = input<string>("text");
   /** Optional description text displayed below the label. */
   description = input<string>();
+
+  ngOnChanges(_changes: SimpleChanges): void {
+    // Trigger change detection when any input changes
+    this.cdr.markForCheck();
+  }
+
+  handleBlur() {
+    this.field.api.handleBlur();
+    this.cdr.markForCheck();
+  }
 }
 
 @Component({

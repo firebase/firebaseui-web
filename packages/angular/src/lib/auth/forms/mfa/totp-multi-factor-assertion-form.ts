@@ -88,7 +88,7 @@ export class TotpMultiFactorAssertionFormComponent {
     effect(() => {
       this.form.update({
         validators: {
-          onBlur: this.formSchema(),
+          onChange: this.formSchema(),
           onSubmitAsync: async ({ value }) => {
             try {
               const assertion = TotpMultiFactorGenerator.assertionForSignIn(this.hint().uid, value.verificationCode);
