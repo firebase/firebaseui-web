@@ -161,6 +161,8 @@ export type Translations = {
     /** Translation for sign in with GitHub button. */
     signInWithGitHub?: string;
     /** Translation for sign in with email link button. */
+    signInWithEmail?: string;
+    /** Translation for sign in with email. */
     signInWithEmailLink?: string;
     /** Translation for send sign-in link button. */
     sendSignInLink?: string;
