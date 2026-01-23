@@ -88,7 +88,6 @@ export class TotpMultiFactorAssertionFormComponent {
     effect(() => {
       this.form.update({
         validators: {
-          onBlur: this.formSchema(),
           onChange: this.formSchema(),
           onSubmitAsync: async ({ value }) => {
             try {

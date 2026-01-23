@@ -110,7 +110,6 @@ export class PhoneNumberFormComponent {
     effect(() => {
       this.form.update({
         validators: {
-          onBlur: this.formSchema(),
           onChange: this.formSchema(),
           onSubmitAsync: async ({ value }) => {
             const selectedCountry = countryData.find((c) => c.code === this.country());
@@ -227,7 +226,6 @@ export class VerificationFormComponent {
     effect(() => {
       this.form.update({
         validators: {
-          onBlur: this.formSchema(),
           onChange: this.formSchema(),
           onSubmitAsync: async ({ value }) => {
             try {
