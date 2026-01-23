@@ -28,7 +28,7 @@ export const enUS = {
     missingVerificationCode: "Please enter the verification code",
     emailAlreadyInUse: "An account already exists with this email",
     invalidCredential: "The provided credentials are invalid.",
-    weakPassword: "Password should be at least 8 characters",
+    weakPassword: "Password should be at least 6 characters",
     unverifiedEmail: "Please verify your email address to continue.",
     operationNotAllowed: "This operation is not allowed. Please contact support.",
     invalidPhoneNumber: "The phone number is invalid",

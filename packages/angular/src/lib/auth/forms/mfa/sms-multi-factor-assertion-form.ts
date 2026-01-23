@@ -204,6 +204,7 @@ export class SmsMultiFactorAssertionVerifyFormComponent {
       this.form.update({
         validators: {
           onBlur: this.formSchema(),
+          onChange: this.formSchema(),
           onSubmit: this.formSchema(),
           onSubmitAsync: async ({ value }) => {
             try {

@@ -60,6 +60,7 @@ export function useTotpMultiFactorSecretGenerationForm({ onSuccess }: UseTotpMul
       displayName: "",
     },
     validators: {
+      onBlur: schema,
       onChange: schema,
       onSubmitAsync: async ({ value }) => {
         try {
@@ -160,6 +161,7 @@ export function useMultiFactorEnrollmentVerifyTotpForm({
       verificationCode: "",
     },
     validators: {
+      onBlur: schema,
       onChange: schema,
       onSubmitAsync: async ({ value }) => {
         try {

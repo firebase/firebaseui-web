@@ -164,7 +164,7 @@ export class SmsMultiFactorEnrollmentFormComponent {
     effect(() => {
       this.phoneForm.update({
         validators: {
-          onBlur: this.phoneFormSchema(),
+          onChange: this.phoneFormSchema(),
           onSubmit: this.phoneFormSchema(),
           onSubmitAsync: async ({ value }) => {
             try {
@@ -192,7 +192,7 @@ export class SmsMultiFactorEnrollmentFormComponent {
     effect(() => {
       this.verificationForm.update({
         validators: {
-          onBlur: this.verificationFormSchema(),
+          onChange: this.verificationFormSchema(),
           onSubmit: this.verificationFormSchema(),
           onSubmitAsync: async ({ value }) => {
             try {
