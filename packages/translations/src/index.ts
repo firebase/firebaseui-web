@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { csCZ } from "./locales/cs-cz";
 import { enUS } from "./locales/en-us";
 import { type Translations } from "./types";
 
@@ -45,6 +46,9 @@ export function registerLocale(
 
 /** Pre-registered English US locale with default translations. */
 export const enUs = registerLocale("en-US", enUS);
+
+/** Other pre-registerd locales */
+export const csCz = registerLocale("cs-CZ", csCZ);
 
 /** A registered locale with its translations and optional fallback. */
 export type RegisteredLocale = {
