@@ -161,6 +161,7 @@
 
   :where(.fui-button.fui-provider__button) {
     @apply border border-border;
+    /* Monochrome logos use currentColor unless overridden. */
     --fui-provider-icon-color: currentColor;
   }
 
@@ -329,6 +330,7 @@
   }
 
   .fui-provider__button[data-provider="yahoo.com"] {
+    /* Yahoo needs branded purple when unthemed. */
     --fui-provider-icon-color: #5F01D1;
   }
 
@@ -338,6 +340,7 @@
     --color-primary-hover: --alpha(var(--yahoo-primary) / 85%);
     --color-primary-surface: #FFFFFF;
     --color-border: var(--yahoo-primary);
+    /* Themed state swaps icon to white. */
     --fui-provider-icon-color: var(--color-primary-surface);
   }
 
