@@ -22,3 +22,4 @@ export { LineLogoComponent } from "./line";
 export { MicrosoftLogoComponent } from "./microsoft";
 export { SnapchatLogoComponent } from "./snapchat";
 export { TwitterLogoComponent } from "./twitter";
+export { YahooLogoComponent } from "./yahoo";

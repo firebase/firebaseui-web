@@ -24,6 +24,7 @@ import {
   GitHubSignInButtonComponent,
   MicrosoftSignInButtonComponent,
   TwitterSignInButtonComponent,
+  YahooSignInButtonComponent,
 } from "@firebase-oss/ui-angular";
 import { Router } from "@angular/router";
 
@@ -39,6 +40,7 @@ import { Router } from "@angular/router";
     GitHubSignInButtonComponent,
     MicrosoftSignInButtonComponent,
     TwitterSignInButtonComponent,
+    YahooSignInButtonComponent,
   ],
   template: `
     <fui-oauth-screen (onSignIn)="onSignIn()">
@@ -48,6 +50,7 @@ import { Router } from "@angular/router";
       <fui-github-sign-in-button [themed]="themed()" />
       <fui-microsoft-sign-in-button [themed]="themed()" />
       <fui-twitter-sign-in-button [themed]="themed()" />
+      <fui-yahoo-sign-in-button [themed]="themed()" />
     </fui-oauth-screen>
     <div class="max-w-sm mx-auto mt-12">
       <label for="themed">

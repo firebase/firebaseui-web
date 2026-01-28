@@ -24,6 +24,7 @@ import { AppleSignInButton } from "@/components/apple-sign-in-button";
 import { GitHubSignInButton } from "@/components/github-sign-in-button";
 import { MicrosoftSignInButton } from "@/components/microsoft-sign-in-button";
 import { TwitterSignInButton } from "@/components/twitter-sign-in-button";
+import { YahooSignInButton } from "@/components/yahoo-sign-in-button";
 import { OAuthScreen } from "@/components/oauth-screen";
 import { useNavigate } from "react-router";
 
@@ -44,6 +45,7 @@ export default function OAuthScreenPage() {
         <GitHubSignInButton themed={themed} />
         <MicrosoftSignInButton themed={themed} />
         <TwitterSignInButton themed={themed} />
+        <YahooSignInButton themed={themed} />
         <LineSignInButton themed={themed} />
       </OAuthScreen>
       <div className="flex items-center gap-2 max-w-sm mx-auto mt-12">

@@ -80,6 +80,7 @@ export const enUS = {
     signInWithMicrosoft: "Sign in with Microsoft",
     signInWithGitHub: "Sign in with GitHub",
     signInWithTwitter: "Sign in with X",
+    signInWithYahoo: "Sign in with Yahoo",
     signInWithEmailLink: "Sign in with Email Link",
     sendSignInLink: "Send Sign-in Link",
     termsOfService: "Terms of Service",

@@ -160,7 +160,11 @@
     --primary: var(--line-primary);
     --primary-foreground: var(--color-white);
   }
-
+  button[data-provider='yahoo.com'][data-themed='true'] {
+    --yahoo-primary: #5F01D1;
+    --primary: var(--yahoo-primary);
+    --primary-foreground: var(--color-white);
+  }
 }
 
 @variant dark {
