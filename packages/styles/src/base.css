@@ -161,7 +161,8 @@
 
   :where(.fui-button.fui-provider__button) {
     @apply border border-border;
-    /* Monochrome logos use currentColor unless overridden. */
+    /* Cross-framework icon hook: Angular/logo templates don't inherit color
+     * reliably via :where(...) selectors, so we set a variable the SVG reads. */
     --fui-provider-icon-color: currentColor;
   }
 
@@ -330,7 +331,8 @@
   }
 
   .fui-provider__button[data-provider="yahoo.com"] {
-    /* Yahoo needs branded purple when unthemed. */
+    /* Yahoo is the only monochrome logo that must be brand-colored by default.
+     * Others can follow text color (black/white), so we override via the variable. */
     --fui-provider-icon-color: #5F01D1;
   }
 
@@ -340,7 +342,7 @@
     --color-primary-hover: --alpha(var(--yahoo-primary) / 85%);
     --color-primary-surface: #FFFFFF;
     --color-border: var(--yahoo-primary);
-    /* Themed state swaps icon to white. */
+    /* Keep icon white in themed mode for contrast. */
     --fui-provider-icon-color: var(--color-primary-surface);
   }
 
