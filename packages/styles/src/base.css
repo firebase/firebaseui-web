@@ -161,7 +161,8 @@
 
   :where(.fui-button.fui-provider__button) {
     @apply border border-border;
-    /* Monochrome logos use currentColor unless overridden. */
+    /* Cross-framework icon hook: Angular/logo templates don't inherit color
+     * reliably via :where(...) selectors, so we set a variable the SVG reads. */
     --fui-provider-icon-color: currentColor;
   }
 
