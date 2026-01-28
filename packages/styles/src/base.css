@@ -161,18 +161,15 @@
 
   :where(.fui-button.fui-provider__button) {
     @apply border border-border;
+    --fui-provider-icon-color: currentColor;
   }
 
   :where(.fui-provider__button svg, .fui-provider__button img) {
     @apply w-5 h-5;
   }
 
-  :where(.fui-provider__button[data-provider="yahoo.com"] .fui-provider__icon) {
-    color: #5F01D1;
-  }
-
-  :where(.fui-provider__button[data-provider="yahoo.com"][data-themed="true"] .fui-provider__icon) {
-    color: var(--color-primary-surface);
+  :where(.fui-provider__icon) {
+    color: var(--fui-provider-icon-color, currentColor);
   }
 
   :where(.fui-divider) {
@@ -331,12 +328,17 @@
     --color-border: var(--twitter-primary);
   }
 
+  .fui-provider__button[data-provider="yahoo.com"] {
+    --fui-provider-icon-color: #5F01D1;
+  }
+
   .fui-provider__button[data-provider="yahoo.com"][data-themed="true"] {
     --yahoo-primary: #5F01D1;
     --color-primary: var(--yahoo-primary);
     --color-primary-hover: --alpha(var(--yahoo-primary) / 85%);
     --color-primary-surface: #FFFFFF;
     --color-border: var(--yahoo-primary);
+    --fui-provider-icon-color: var(--color-primary-surface);
   }
 
   @variant dark {
