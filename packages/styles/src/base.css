@@ -161,6 +161,7 @@
 
   :where(.fui-button.fui-provider__button) {
     @apply border border-border;
+    /* Monochrome logos use currentColor unless overridden. */
     --fui-provider-icon-color: currentColor;
   }
 
