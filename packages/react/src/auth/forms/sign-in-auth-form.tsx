@@ -47,6 +47,15 @@ export function useSignInAuthFormAction() {
         return await signInWithEmailAndPassword(ui, email, password);
       } catch (error) {
         if (error instanceof FirebaseUIError) {
+          // Improve UX for users who previously signed up via OAuth and
+          // attempt Email/Password sign-in.
+          if (error.code === "auth/invalid-password") {
+            throw new Error(
+              "This account may have been created using a different sign-in method. " +
+                "Try signing in with another method or reset your password."
+            );
+          }
+
           throw new Error(error.message);
         }
 
