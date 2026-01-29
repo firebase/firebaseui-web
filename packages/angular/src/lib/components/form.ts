@@ -42,7 +42,9 @@ export class FormMetadataComponent {
   errors = input.required<Array<{ message: string }>>();
 
   errorMessage(): string {
-    return this.errors().map((error) => error.message).join(", ");
+    return this.errors()
+      .map((error) => error.message)
+      .join(", ");
   }
 }
 
