@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "pnpm clean && ng serve",
-    "build": "ng build && pnpm clean",
+    "build": "ng build",
     "clean": "rimraf .angular/cache",
     "build:lib": "ng build firebaseui-angular",
     "build:local": "pnpm run build:lib && cd projects/firebaseui-angular && pnpm pack",
