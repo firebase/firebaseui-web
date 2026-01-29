@@ -15,7 +15,7 @@
  */
 
 import { ChangeDetectorRef, Component, computed, inject, input, OnChanges, SimpleChanges } from "@angular/core";
-import { AnyFieldApi, AnyFormState, injectField } from "@tanstack/angular-form";
+import { AnyFormState, injectField } from "@tanstack/angular-form";
 import { ButtonComponent } from "./button";
 
 @Component({
@@ -25,10 +25,10 @@ import { ButtonComponent } from "./button";
     style: "display: block;",
   },
   template: `
-    @if (field().state.meta.isTouched && errors().length > 0) {
+    @if (isTouched() && errors().length > 0) {
       <div>
         <div role="alert" aria-live="polite" class="fui-error">
-          {{ errors() }}
+          {{ errorMessage() }}
         </div>
       </div>
     }
@@ -37,20 +37,12 @@ import { ButtonComponent } from "./button";
 /**
  * A component that displays form field metadata, such as validation errors.
  */
-export class FormMetadataComponent implements OnChanges {
-  private cdr = inject(ChangeDetectorRef);
-  /** The form field API instance. */
-  field = input.required<AnyFieldApi>();
-  errors = computed(() =>
-    this.field()
-      .state.meta.errors.map((error) => error.message)
-      .join(", ")
-  );
+export class FormMetadataComponent {
+  isTouched = input.required<boolean>();
+  errors = input.required<Array<{ message: string }>>();
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['field']) {
-      this.cdr.markForCheck();
-    }
+  errorMessage(): string {
+    return this.errors().map((error) => error.message).join(", ");
   }
 }
 
@@ -83,7 +75,10 @@ export class FormMetadataComponent implements OnChanges {
         />
       </div>
       <ng-content></ng-content>
-      <fui-form-metadata [field]="field.api"></fui-form-metadata>
+      <fui-form-metadata
+        [isTouched]="field.api.state.meta.isTouched"
+        [errors]="field.api.state.meta.errors"
+      ></fui-form-metadata>
     </label>
   `,
 })
