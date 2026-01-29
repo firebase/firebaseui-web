@@ -100,7 +100,6 @@ export class FormInputComponent implements OnChanges {
     // Trigger change detection when any input changes
     this.cdr.markForCheck();
   }
-
 }
 
 @Component({
