@@ -160,8 +160,6 @@ export type Translations = {
     signInWithMicrosoft?: string;
     /** Translation for sign in with GitHub button. */
     signInWithGitHub?: string;
-    /** Translation for sign in with Yahoo button. */
-    signInWithYahoo?: string;
     /** Translation for sign in with email link button. */
     signInWithEmailLink?: string;
     /** Translation for send sign-in link button. */
