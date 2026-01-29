@@ -71,7 +71,6 @@ export class FormMetadataComponent {
           [id]="field.api.name"
           [name]="field.api.name"
           [value]="field.api.state.value"
-          (blur)="handleBlur()"
           (input)="field.api.handleChange($any($event).target.value)"
           [type]="type()"
         />
@@ -102,10 +101,6 @@ export class FormInputComponent implements OnChanges {
     this.cdr.markForCheck();
   }
 
-  handleBlur() {
-    this.field.api.handleBlur();
-    this.cdr.markForCheck();
-  }
 }
 
 @Component({
