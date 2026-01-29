@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "clean": "rimraf .angular/cache",
     "build:lib": "ng build firebaseui-angular",
     "build:local": "pnpm run build:lib && cd projects/firebaseui-angular && pnpm pack",
     "watch": "ng build --watch --configuration development",
