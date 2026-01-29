@@ -85,7 +85,6 @@ export function useSignUpAuthForm(onSuccess?: SignUpAuthFormProps["onSignUp"]) {
       displayName: requireDisplayName ? "" : undefined,
     } as z.infer<typeof schema>,
     validators: {
-      onBlur: schema,
       onChange: schema,
       onSubmitAsync: async ({ value }) => {
         try {

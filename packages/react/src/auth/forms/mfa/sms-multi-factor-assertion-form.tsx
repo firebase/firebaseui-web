@@ -180,7 +180,6 @@ export function useSmsMultiFactorAssertionVerifyForm({
       verificationCode: "",
     },
     validators: {
-      onBlur: schema,
       onChange: schema,
       onSubmitAsync: async ({ value }) => {
         try {

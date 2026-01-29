@@ -79,7 +79,6 @@ export function useSmsMultiFactorEnrollmentPhoneNumberForm({
       phoneNumber: "",
     },
     validators: {
-      onBlur: schema,
       onChange: schema,
       onSubmitAsync: async ({ value }) => {
         try {
@@ -202,7 +201,6 @@ export function useMultiFactorEnrollmentVerifyPhoneNumberForm({
       verificationCode: "",
     },
     validators: {
-      onBlur: schema,
       onChange: schema,
       onSubmitAsync: async ({ value }) => {
         try {

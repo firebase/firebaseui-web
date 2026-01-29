@@ -61,9 +61,6 @@ function Input({
           id={field.name}
           name={field.name}
           value={field.state.value}
-          onBlur={() => {
-            field.handleBlur();
-          }}
           onChange={(e) => {
             field.handleChange(e.target.value);
             // Clear form-level submission errors when user starts typing

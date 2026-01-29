@@ -74,7 +74,6 @@ export function useSignInAuthForm(onSuccess?: SignInAuthFormProps["onSignIn"]) {
       password: "",
     },
     validators: {
-      onBlur: schema,
       onChange: schema,
       onSubmitAsync: async ({ value }) => {
         try {
