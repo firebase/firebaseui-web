@@ -20,40 +20,4 @@ import { getTranslation } from "@firebase-oss/ui-core";
 import { OAuthProvider, type UserCredential } from "firebase/auth";
 import { useUI } from "~/hooks";
 import { OAuthButton } from "./oauth-button";
-import YahooSvgLogo from "~/components/logos/yahoo/Logo";
 import { cn } from "~/utils/cn";
-
-/** Props for the YahooSignInButton component. */
-export type YahooSignInButtonProps = {
-  /** Optional OAuth provider instance. Defaults to Yahoo provider. */
-  provider?: OAuthProvider;
-  /** Whether to apply themed styling. */
-  themed?: boolean;
-  /** Callback function called when sign-in is successful. */
-  onSignIn?: (credential: UserCredential) => void;
-};
-
-/**
- * A button component for signing in with Yahoo.
- *
- * @returns The Yahoo sign-in button component.
- */
-export function YahooSignInButton({ provider, ...props }: YahooSignInButtonProps) {
-  const ui = useUI();
-
-  return (
-    <OAuthButton {...props} provider={provider || new OAuthProvider("yahoo.com")}>
-      <YahooLogo />
-      <span>{getTranslation(ui, "labels", "signInWithYahoo")}</span>
-    </OAuthButton>
-  );
-}
-
-/**
- * The Yahoo logo SVG component.
- *
- * @returns The Yahoo logo component.
- */
-export function YahooLogo({ className, ...props }: React.SVGProps<SVGSVGElement>) {
-  return <YahooSvgLogo className={cn("fui-provider__icon", className)} {...props} />;
-}

@@ -22,7 +22,6 @@ import {
   GitHubSignInButton,
   MicrosoftSignInButton,
   TwitterSignInButton,
-  YahooSignInButton,
 } from "@firebase-oss/ui-react";
 import { useNavigate } from "react-router";
 
@@ -42,7 +41,6 @@ export default function SignInAuthScreenWithOAuthPage() {
         <GitHubSignInButton />
         <MicrosoftSignInButton />
         <TwitterSignInButton />
-        <YahooSignInButton />
       </div>
     </SignInAuthScreen>
   );
