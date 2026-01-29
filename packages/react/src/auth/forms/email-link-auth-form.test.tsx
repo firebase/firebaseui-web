@@ -292,7 +292,7 @@ describe("<EmailLinkAuthForm />", () => {
     expect(onSignInMock).not.toHaveBeenCalled();
   });
 
-  it("should trigger validation errors when the form is blurred", () => {
+  it("should trigger validation errors when the form changes", async () => {
     const mockUI = createMockUI();
 
     const { container } = render(
@@ -307,9 +307,9 @@ describe("<EmailLinkAuthForm />", () => {
     const input = screen.getByRole("textbox", { name: /email/i });
 
     act(() => {
-      fireEvent.blur(input);
+      fireEvent.change(input, { target: { value: "invalid" } });
     });
 
-    expect(screen.getByText("Please enter a valid email address")).toBeInTheDocument();
+    expect(await screen.findByText("Please enter a valid email address")).toBeInTheDocument();
   });
 });

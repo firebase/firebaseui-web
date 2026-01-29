@@ -22,7 +22,7 @@ import { cn } from "~/utils/cn";
 const { fieldContext, useFieldContext, formContext, useFormContext } = createFormHookContexts();
 
 function FieldMetadata({ className, ...props }: ComponentProps<"div"> & { field: AnyFieldApi }) {
-  if (!props.field.state.meta.isTouched || !props.field.state.meta.errors.length) {
+  if (!props.field.state.meta.errors.length) {
     return null;
   }
 
@@ -57,7 +57,7 @@ function Input({
         {before}
         <input
           {...props}
-          aria-invalid={field.state.meta.isTouched && field.state.meta.errors.length > 0}
+          aria-invalid={field.state.meta.errors.length > 0}
           id={field.name}
           name={field.name}
           value={field.state.value}
