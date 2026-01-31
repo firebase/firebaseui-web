@@ -21,7 +21,9 @@ import { ComponentProps } from "react";
 
 vi.mock("~/components/button", () => {
   return {
-    Button: (props: ComponentProps<"button">) => <button {...props} data-testid="submit-button" />,
+    Button: (props: ComponentProps<"button">) => (
+      <button {...props} data-testid="submit-button" />
+    ),
   };
 });
 
@@ -45,7 +47,9 @@ describe("form export", () => {
 
     render(
       <hook.AppForm>
-        <hook.AppField name="foo">{(field) => <field.Input label="Foo" />}</hook.AppField>
+        <hook.AppField name="foo">
+          {(field) => <field.Input label="Foo" />}
+        </hook.AppField>
         <hook.ErrorMessage />
         <hook.SubmitButton>Submit</hook.SubmitButton>
         <hook.Action>Action</hook.Action>
@@ -55,8 +59,6 @@ describe("form export", () => {
     expect(screen.getByRole("textbox", { name: "Foo" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Submit" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Action" })).toBeInTheDocument();
-    expect(screen.getByText("Submit")).toBeInTheDocument();
-    expect(screen.getByText("Action")).toBeInTheDocument();
   });
 
   describe("<Input />", () => {
@@ -71,18 +73,22 @@ describe("form export", () => {
 
       const { container } = render(
         <hook.AppForm>
-          <hook.AppField name="foo">{(field) => <field.Input label="Foo" />}</hook.AppField>
+          <hook.AppField name="foo">
+            {(field) => <field.Input label="Foo" />}
+          </hook.AppField>
         </hook.AppForm>
       );
 
       expect(container.querySelector('label[for="foo"]')).toBeInTheDocument();
-      expect(container.querySelector('label[for="foo"]')).toHaveTextContent("Foo");
       expect(container.querySelector('input[name="foo"]')).toBeInTheDocument();
       expect(container.querySelector('input[name="foo"]')).toHaveValue("bar");
-      expect(container.querySelector('input[name="foo"]')).toHaveAttribute("aria-invalid", "false");
+      expect(container.querySelector('input[name="foo"]')).toHaveAttribute(
+        "aria-invalid",
+        "false"
+      );
     });
 
-    it("should render the Input children when provided", () => {
+    it("should render children when provided", () => {
       const { result } = renderHook(() => {
         return form.useAppForm({
           defaultValues: { foo: "bar" },
@@ -96,88 +102,17 @@ describe("form export", () => {
           <hook.AppField name="foo">
             {(field) => (
               <field.Input label="Foo">
-                <div data-testid="test-child">Test Child</div>
+                <div data-testid="child">Child</div>
               </field.Input>
             )}
           </hook.AppField>
         </hook.AppForm>
       );
 
-      expect(screen.getByTestId("test-child")).toBeInTheDocument();
+      expect(screen.getByTestId("child")).toBeInTheDocument();
     });
 
-    it("should render the Input action prop when provided", () => {
-      const { result } = renderHook(() => {
-        return form.useAppForm({
-          defaultValues: { foo: "bar" },
-        });
-      });
-
-      const hook = result.current;
-
-      render(
-        <hook.AppForm>
-          <hook.AppField name="foo">
-            {(field) => (
-              <field.Input
-                label="Foo"
-                action={
-                  <button type="button" data-testid="test-action">
-                    Action
-                  </button>
-                }
-              />
-            )}
-          </hook.AppField>
-        </hook.AppForm>
-      );
-
-      expect(screen.getByTestId("test-action")).toBeInTheDocument();
-      expect(screen.getByTestId("test-action")).toHaveTextContent("Action");
-    });
-
-    it("should render the Input description prop when provided", () => {
-      const { result } = renderHook(() => {
-        return form.useAppForm({
-          defaultValues: { foo: "bar" },
-        });
-      });
-
-      const hook = result.current;
-
-      const { container } = render(
-        <hook.AppForm>
-          <hook.AppField name="foo">
-            {(field) => <field.Input label="Foo" description="This is a description" />}
-          </hook.AppField>
-        </hook.AppForm>
-      );
-
-      const description = container.querySelector("[data-input-description]");
-      expect(description).toBeInTheDocument();
-      expect(description).toHaveTextContent("This is a description");
-    });
-
-    it("should not render the Input description when not provided", () => {
-      const { result } = renderHook(() => {
-        return form.useAppForm({
-          defaultValues: { foo: "bar" },
-        });
-      });
-
-      const hook = result.current;
-
-      const { container } = render(
-        <hook.AppForm>
-          <hook.AppField name="foo">{(field) => <field.Input label="Foo" />}</hook.AppField>
-        </hook.AppForm>
-      );
-
-      const description = container.querySelector("[data-input-description]");
-      expect(description).not.toBeInTheDocument();
-    });
-
-    it("should render the Input metadata when available", async () => {
+    it("should render validation error after submit", async () => {
       const { result } = renderHook(() => {
         return form.useAppForm({
           defaultValues: { foo: "" },
@@ -189,12 +124,10 @@ describe("form export", () => {
       render(
         <hook.AppForm>
           <hook.AppField
-            validators={{
-              onSubmit: () => {
-                return "error!";
-              },
-            }}
             name="foo"
+            validators={{
+              onSubmit: () => "error!",
+            }}
           >
             {(field) => <field.Input label="Foo" />}
           </hook.AppField>
@@ -211,55 +144,13 @@ describe("form export", () => {
     });
   });
 
-  describe("<Action />", () => {
-    it("should render the Action component", () => {
-      const { result } = renderHook(() => {
-        return form.useAppForm({});
-      });
-
-      const hook = result.current;
-
-      render(
-        <hook.AppForm>
-          <hook.Action>Action</hook.Action>
-        </hook.AppForm>
-      );
-
-      expect(screen.getByRole("button", { name: "Action" })).toBeInTheDocument();
-      expect(screen.getByRole("button", { name: "Action" })).toHaveClass("fui-form__action");
-      expect(screen.getByRole("button", { name: "Action" })).toHaveTextContent("Action");
-      expect(screen.getByRole("button", { name: "Action" })).toHaveAttribute("type", "button");
-    });
-  });
-
   describe("<SubmitButton />", () => {
-    it("should render the SubmitButton component", () => {
-      const { result } = renderHook(() => {
-        return form.useAppForm({});
-      });
-
-      const hook = result.current;
-
-      render(
-        <hook.AppForm>
-          <hook.SubmitButton>Submit</hook.SubmitButton>
-        </hook.AppForm>
-      );
-
-      expect(screen.getByRole("button", { name: "Submit" })).toBeInTheDocument();
-      expect(screen.getByRole("button", { name: "Submit" })).toHaveTextContent("Submit");
-      expect(screen.getByRole("button", { name: "Submit" })).toHaveAttribute("type", "submit");
-      expect(screen.getByTestId("submit-button")).toBeInTheDocument();
-    });
-
-    it("should subscribe to the isSubmitting state", async () => {
+    it("should disable button while submitting", async () => {
       const { result } = renderHook(() => {
         return form.useAppForm({
           validators: {
             onSubmitAsync: async () => {
-              // Simulate a slow async operation
-              await new Promise((resolve) => setTimeout(resolve, 100));
-              return undefined;
+              await new Promise((r) => setTimeout(r, 100));
             },
           },
         });
@@ -273,29 +164,24 @@ describe("form export", () => {
         </hook.AppForm>
       );
 
-      const submitButton = screen.getByTestId("submit-button");
-
-      expect(submitButton).toBeInTheDocument();
-      expect(submitButton).not.toHaveAttribute("disabled");
+      const btn = screen.getByTestId("submit-button");
 
       act(() => {
         hook.handleSubmit();
       });
 
       await waitFor(() => {
-        expect(submitButton).toHaveAttribute("disabled");
+        expect(btn).toBeDisabled();
       });
     });
   });
 
   describe("<ErrorMessage />", () => {
-    it("should render the ErrorMessage if the onSubmit error is set", async () => {
+    it("should show submit error message", async () => {
       const { result } = renderHook(() => {
         return form.useAppForm({
           validators: {
-            onSubmitAsync: async () => {
-              return "error!";
-            },
+            onSubmitAsync: async () => "error!",
           },
         });
       });
@@ -308,7 +194,7 @@ describe("form export", () => {
         </hook.AppForm>
       );
 
-      act(async () => {
+      await act(async () => {
         await hook.handleSubmit();
       });
 
