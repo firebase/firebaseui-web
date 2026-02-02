@@ -45,10 +45,10 @@ export default function SignInAuthScreenWithOAuthPage() {
         <FacebookSignInButton />
         <AppleSignInButton />
         <GitHubSignInButton />
-          <MicrosoftSignInButton />
-          <TwitterSignInButton />
-          <YahooSignInButton />
-          <LineSignInButton />
+        <MicrosoftSignInButton />
+        <TwitterSignInButton />
+        <YahooSignInButton />
+        <LineSignInButton />
       </div>
     </SignInAuthScreen>
   );
