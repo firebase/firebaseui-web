@@ -40,6 +40,7 @@ export { GoogleSignInButtonComponent } from "./lib/auth/oauth/google-sign-in-but
 export { MicrosoftSignInButtonComponent } from "./lib/auth/oauth/microsoft-sign-in-button";
 export { OAuthButtonComponent } from "./lib/auth/oauth/oauth-button";
 export { TwitterSignInButtonComponent } from "./lib/auth/oauth/twitter-sign-in-button";
+export { YahooSignInButtonComponent } from "./lib/auth/oauth/yahoo-sign-in-button";
 
 export { EmailLinkAuthScreenComponent } from "./lib/auth/screens/email-link-auth-screen";
 export { ForgotPasswordAuthScreenComponent } from "./lib/auth/screens/forgot-password-auth-screen";
