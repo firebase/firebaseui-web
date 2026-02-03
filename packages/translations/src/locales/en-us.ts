@@ -81,6 +81,7 @@ export const enUS = {
     signInWithGitHub: "Sign in with GitHub",
     signInWithTwitter: "Sign in with X",
     signInWithEmailLink: "Sign in with Email Link",
+    signInWithEmail: "Sign in with Email",
     sendSignInLink: "Send Sign-in Link",
     termsOfService: "Terms of Service",
     privacyPolicy: "Privacy Policy",
