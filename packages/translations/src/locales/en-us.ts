@@ -79,6 +79,7 @@ export const enUS = {
     signInWithApple: "Sign in with Apple",
     signInWithMicrosoft: "Sign in with Microsoft",
     signInWithGitHub: "Sign in with GitHub",
+    signInWithYahoo: "Sign in with Yahoo",
     signInWithTwitter: "Sign in with X",
     signInWithEmailLink: "Sign in with Email Link",
     signInWithEmail: "Sign in with Email",
