@@ -82,6 +82,7 @@ export const enUS = {
     signInWithYahoo: "Sign in with Yahoo",
     signInWithTwitter: "Sign in with X",
     signInWithEmailLink: "Sign in with Email Link",
+    signInWithEmail: "Sign in with Email",
     sendSignInLink: "Send Sign-in Link",
     termsOfService: "Terms of Service",
     privacyPolicy: "Privacy Policy",
