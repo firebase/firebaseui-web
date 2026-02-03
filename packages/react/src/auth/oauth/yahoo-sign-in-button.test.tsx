@@ -19,7 +19,7 @@ import { YahooLogo, YahooSignInButton } from "./yahoo-sign-in-button";
 import { CreateFirebaseUIProvider, createMockUI } from "~/tests/utils";
 import { registerLocale } from "@firebase-oss/ui-translations";
 import { signInWithProvider } from "@firebase-oss/ui-core";
-import type { UserCredential } from "firebase/auth";
+import type { OAuthProvider, UserCredential } from "firebase/auth";
 
 vi.mock("firebase/auth", async () => {
   const actual = await vi.importActual("firebase/auth");
@@ -82,7 +82,7 @@ describe("<YahooSignInButton />", () => {
 
     const customProvider = new (class CustomYahooProvider {
       providerId = "custom.yahoo.com";
-    })() as any;
+    })() as OAuthProvider;
 
     render(
       <CreateFirebaseUIProvider ui={ui}>
