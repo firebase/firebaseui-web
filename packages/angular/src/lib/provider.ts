@@ -48,8 +48,9 @@ import {
   getTranslation,
   getBehavior,
   type CountryData,
+  type TranslationCategory,
+  type TranslationKey,
 } from "@firebase-oss/ui-core";
-import type { TranslationCategory, TranslationKey } from "@firebase-oss/ui-translations";
 
 const FIREBASE_UI_STORE = new InjectionToken<FirebaseUIStore>("firebaseui.store");
 const FIREBASE_UI_POLICIES = new InjectionToken<PolicyConfig>("firebaseui.policies");
