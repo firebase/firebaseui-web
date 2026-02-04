@@ -187,10 +187,7 @@ export function injectRecaptchaVerifier(element: () => ElementRef<HTMLDivElement
  * @param key - The translation key within the category.
  * @returns A computed signal containing the translated string.
  */
-export function injectTranslation<T extends TranslationCategory>(
-  category: T,
-  key: TranslationKey<T>
-) {
+export function injectTranslation<T extends TranslationCategory>(category: T, key: TranslationKey<T>) {
   const ui = injectUI();
   return computed(() => getTranslation(ui(), category, key));
 }
