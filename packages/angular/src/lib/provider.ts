@@ -49,6 +49,7 @@ import {
   getBehavior,
   type CountryData,
 } from "@firebase-oss/ui-core";
+import type { TranslationCategory, TranslationKey } from "@firebase-oss/ui-translations";
 
 const FIREBASE_UI_STORE = new InjectionToken<FirebaseUIStore>("firebaseui.store");
 const FIREBASE_UI_POLICIES = new InjectionToken<PolicyConfig>("firebaseui.policies");
@@ -185,9 +186,12 @@ export function injectRecaptchaVerifier(element: () => ElementRef<HTMLDivElement
  * @param key - The translation key within the category.
  * @returns A computed signal containing the translated string.
  */
-export function injectTranslation(category: string, key: string) {
+export function injectTranslation<T extends TranslationCategory>(
+  category: T,
+  key: TranslationKey<T>
+) {
   const ui = injectUI();
-  return computed(() => getTranslation(ui(), category as any, key as any));
+  return computed(() => getTranslation(ui(), category, key));
 }
 
 /**
