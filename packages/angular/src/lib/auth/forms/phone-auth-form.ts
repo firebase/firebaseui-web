@@ -71,7 +71,7 @@ import {
       </fieldset>
       <fui-policies />
       <fieldset>
-        <fui-form-submit [state]="state()">
+        <fui-form-submit [state]="state()" [disabled]="!recaptchaVerifier()">
           {{ sendCodeLabel() }}
         </fui-form-submit>
         <fui-form-error-message [state]="state()" />
@@ -96,7 +96,8 @@ export class PhoneNumberFormComponent {
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
   recaptchaContainer = viewChild.required<ElementRef<HTMLDivElement>>("recaptchaContainer");
-  recaptchaVerifier = injectRecaptchaVerifier(() => this.recaptchaContainer());
+  private recaptchaVerifierWithRender = injectRecaptchaVerifier(() => this.recaptchaContainer());
+  recaptchaVerifier = computed(() => this.recaptchaVerifierWithRender());
 
   form = injectForm({
     defaultValues: {
@@ -107,6 +108,7 @@ export class PhoneNumberFormComponent {
   state = injectStore(this.form, (state) => state);
 
   constructor() {
+
     effect(() => {
       this.form.update({
         validators: {
@@ -120,6 +122,15 @@ export class PhoneNumberFormComponent {
               if (!verifier) {
                 return this.unknownErrorLabel();
               }
+              
+              // Wait for render() to complete - get the promise from the provider's effect
+              // This ensures render() has completed before we use the verifier
+              const renderPromise = (this.recaptchaVerifierWithRender as any).renderPromise?.();
+              
+              if (renderPromise) {
+                await renderPromise;
+              }
+              
               const verificationId = await verifyPhoneNumber(this.ui(), formattedNumber, verifier);
               this.onSubmit.emit({ verificationId, phoneNumber: formattedNumber });
               return;
@@ -135,6 +146,7 @@ export class PhoneNumberFormComponent {
       });
     });
 
+
     effect((onCleanup) => {
       const verifier = this.recaptchaVerifier();
 
@@ -149,7 +161,12 @@ export class PhoneNumberFormComponent {
   async handleSubmit(event: SubmitEvent) {
     event.preventDefault();
     event.stopPropagation();
-    this.form.handleSubmit();
+    const verifier = this.recaptchaVerifier();
+    // Check if verifier exists before submitting (like React does)
+    if (!verifier) {
+      return;
+    }
+    await this.form.handleSubmit();
   }
 }
 
