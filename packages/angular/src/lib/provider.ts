@@ -192,11 +192,11 @@ export function injectRecaptchaVerifier(element: () => ElementRef<HTMLDivElement
     if (!isPlatformBrowser(platformId)) {
       return;
     }
-    
+
     const verifierInstance = verifier();
     const elementRef = element();
     const domElement = elementRef?.nativeElement;
-    
+
     if (verifierInstance && domElement) {
       // Check if we've already rendered to this element
       if (renderedElement === domElement && renderedVerifierInstance) {

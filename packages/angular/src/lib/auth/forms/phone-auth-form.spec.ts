@@ -110,7 +110,7 @@ describe("<fui-phone-auth-form />", () => {
 
   it("should render verification form after phone number is submitted", async () => {
     const mockVerificationId = "test-verification-id";
-    
+
     // Mock verifier with render() that completes asynchronously
     // The form should wait for render() to complete before allowing submission
     // This test will FAIL if the bug exists (form submits before render() completes, causing auth/internal-error)
@@ -131,11 +131,11 @@ describe("<fui-phone-auth-form />", () => {
       }),
       verify: jest.fn(),
     };
-    
+
     // Create mock signals that return the current values
     const renderCompletedSignal = jest.fn(() => renderCompleted);
     const renderPromiseSignal = jest.fn(() => renderPromise);
-    
+
     // Set up the mock to return a function that returns the verifier, with signal properties
     injectRecaptchaVerifier.mockImplementation(() => {
       const verifierFn = () => mockVerifier;
@@ -144,7 +144,7 @@ describe("<fui-phone-auth-form />", () => {
       (verifierFn as any).renderPromise = renderPromiseSignal;
       return verifierFn;
     });
-    
+
     // Simulate the effect in injectRecaptchaVerifier that calls render()
     // This needs to happen before the component tries to use it
     setTimeout(() => {
@@ -210,7 +210,7 @@ describe("<fui-phone-auth-form />", () => {
     // This will FAIL if the bug exists (form submitted before render() completed)
     expect(mockVerifyPhoneNumber).toHaveBeenCalled();
     expect(component.verificationId()).toBe(mockVerificationId);
-    
+
     // Verify no error message is displayed (this will FAIL if bug exists)
     expect(screen.queryByText(/auth\/internal-error/i)).not.toBeInTheDocument();
     expect(screen.queryByText("An unknown error occurred")).not.toBeInTheDocument();

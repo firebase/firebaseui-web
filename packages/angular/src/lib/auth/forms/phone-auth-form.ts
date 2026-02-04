@@ -108,7 +108,6 @@ export class PhoneNumberFormComponent {
   state = injectStore(this.form, (state) => state);
 
   constructor() {
-
     effect(() => {
       this.form.update({
         validators: {
@@ -122,15 +121,15 @@ export class PhoneNumberFormComponent {
               if (!verifier) {
                 return this.unknownErrorLabel();
               }
-              
+
               // Wait for render() to complete - get the promise from the provider's effect
               // This ensures render() has completed before we use the verifier
               const renderPromise = (this.recaptchaVerifierWithRender as any).renderPromise?.();
-              
+
               if (renderPromise) {
                 await renderPromise;
               }
-              
+
               const verificationId = await verifyPhoneNumber(this.ui(), formattedNumber, verifier);
               this.onSubmit.emit({ verificationId, phoneNumber: formattedNumber });
               return;
@@ -145,7 +144,6 @@ export class PhoneNumberFormComponent {
         },
       });
     });
-
 
     effect((onCleanup) => {
       const verifier = this.recaptchaVerifier();
