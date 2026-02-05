@@ -107,8 +107,6 @@ app.post("/auth/snapchat/token", async (req: express.Request, res: express.Respo
     if (userRes.ok) {
       const user = await userRes.json();
       externalId = user?.data?.me?.externalId ?? null;
-      console.log("user", user);
-      console.log("externalId", externalId);
     } else {
       console.error("Snapchat /v1/me failed:", userRes.status, await userRes.text());
     }
