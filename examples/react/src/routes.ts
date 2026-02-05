@@ -75,12 +75,6 @@ export const routes = [
     component: OAuthScreenPage,
   },
   {
-    name: "Custom auth",
-    description: "LINE (OIDC) and Snapchat (OAuth 2.0 + custom token) sign-in buttons.",
-    path: "/screens/custom-auth",
-    component: CustomAuthScreenPage,
-  },
-  {
     name: "Phone Auth Screen",
     description: "A screen allowing a user to sign in with a phone number.",
     path: "/screens/phone-auth-screen",
@@ -91,6 +85,12 @@ export const routes = [
     description: "A screen allowing a user to sign in with a phone number, with oAuth buttons.",
     path: "/screens/phone-auth-screen-w-oauth",
     component: PhoneAuthScreenWithOAuthPage,
+  },
+  {
+    name: "Custom auth",
+    description: "LINE (OIDC) and Snapchat (OAuth 2.0 + custom token) sign-in buttons.",
+    path: "/screens/custom-auth",
+    component: CustomAuthScreenPage,
   },
 ] as const;
 
