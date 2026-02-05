@@ -8,7 +8,7 @@ This server exchanges a Snapchat OAuth authorization code for a Firebase custom 
 2. In the [Snapchat Developer Portal](https://kit.snapchat.com/manage), create an app. For this server-side flow use the **Confidential OAuth 2.0 Client ID** and its **Client Secret**. Under Login Kit, add a redirect URI:
    - Dev: `http://localhost:5173/auth/snapchat/callback`
    - Production: `https://your-domain.com/auth/snapchat/callback`
-3. In `.env`, set `SNAPCHAT_CLIENT_ID` to the Confidential OAuth 2.0 Client ID (or set `SNAPCHAT_CONFIDENTIAL_CLIENT_ID`), and set `SNAPCHAT_CLIENT_SECRET`.
+3. In `.env`, set `SNAPCHAT_CLIENT_ID` (use the Confidential OAuth 2.0 Client ID from the portal) and `SNAPCHAT_CLIENT_SECRET`.
 4. For Firebase Admin, either:
    - Set `FIREBASE_SERVICE_ACCOUNT_PATH` to the path to your service account JSON (e.g. `./serviceAccountKey.json`), or
    - Set `GOOGLE_APPLICATION_CREDENTIALS` to that path and leave `FIREBASE_SERVICE_ACCOUNT_PATH` unset.

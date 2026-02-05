@@ -25,16 +25,13 @@ const SNAPCHAT_AUTH_URL = "https://accounts.snapchat.com/accounts/oauth2/auth";
 const SNAPCHAT_TOKEN_URL = "https://accounts.snapchat.com/accounts/oauth2/token";
 const SNAPCHAT_USER_URL = "https://kit.snapchat.com/v1/me";
 
-// For server-side flow use the Confidential OAuth 2.0 Client ID (and its secret) from the Snapchat portal.
-const clientId = process.env.SNAPCHAT_CONFIDENTIAL_CLIENT_ID || process.env.SNAPCHAT_CLIENT_ID;
+const clientId = process.env.SNAPCHAT_CLIENT_ID;
 const clientSecret = process.env.SNAPCHAT_CLIENT_SECRET;
 const serviceAccountPath = process.env.FIREBASE_SERVICE_ACCOUNT_PATH;
 const port = Number(process.env.PORT) || 4000;
 
 if (!clientId || !clientSecret) {
-  console.warn(
-    "Missing Snapchat credentials. Set SNAPCHAT_CONFIDENTIAL_CLIENT_ID (or SNAPCHAT_CLIENT_ID) and SNAPCHAT_CLIENT_SECRET from https://kit.snapchat.com/manage"
-  );
+  console.warn("Missing SNAPCHAT_CLIENT_ID or SNAPCHAT_CLIENT_SECRET. See https://kit.snapchat.com/manage");
 }
 
 if (!serviceAccountPath) {
