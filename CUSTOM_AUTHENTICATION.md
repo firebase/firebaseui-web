@@ -45,7 +45,9 @@ export function LineSignInButton() {
   );
 }
 ```
-> NOTE: The provider ID passed into `OAuthProvider` is the name used to create the Provider in your Firebase console. If you created the provider in your Firebase console as "line", use "oidc.line" as the provider ID.
+> NOTE: The provider ID passed into `OAuthProvider` is the name used to create the Provider in your Firebase console. If you created the provider in your Firebase console as "line", use "oidc.line" as the provider ID. 
+ 
+A LINE button example can be found in `examples/react/src/custom-auth-buttons/line-sign-in-button.tsx` and is used on the Custom auth screen (`examples/react/src/screens/custom-auth-screen.tsx`).
 
 
 ## OAuth 2.0 login using Firebase Admin
@@ -85,6 +87,8 @@ Using the [Firebase Admin SDK](https://firebase.google.com/docs/auth/admin/creat
 - Optionally set [custom claims](https://firebase.google.com/docs/auth/admin/custom-claims) (e.g. `provider: "snapchat"`).
 
 Custom tokens expire after about one hour. Return this token to your client (over a secure channel).
+
+An example backend lives in `examples/custom-auth-server`.The React example app's **Custom auth** screen (`examples/react` → Custom auth) uses it for the Snapchat sign-in button.
 
 ### 5. Client: Sign in to Firebase with the custom token
 
