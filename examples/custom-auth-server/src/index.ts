@@ -17,6 +17,7 @@
 import cors from "cors";
 import "dotenv/config";
 import express from "express";
+import rateLimit from "express-rate-limit";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import admin from "firebase-admin";
@@ -29,6 +30,8 @@ const clientId = process.env.SNAPCHAT_CLIENT_ID;
 const clientSecret = process.env.SNAPCHAT_CLIENT_SECRET;
 const serviceAccountPath = process.env.FIREBASE_SERVICE_ACCOUNT_PATH;
 const port = Number(process.env.PORT) || 4000;
+
+const allowedOrigins: string[] = ["http://localhost:5173"];
 
 if (!clientId || !clientSecret) {
   console.warn("Missing SNAPCHAT_CLIENT_ID or SNAPCHAT_CLIENT_SECRET. See https://kit.snapchat.com/manage");
@@ -49,77 +52,89 @@ if (serviceAccountPath) {
 }
 
 const app = express();
-app.use(cors({ origin: true }));
+app.use(cors({ origin: allowedOrigins }));
 app.use(express.json());
 
-app.post("/auth/snapchat/token", async (req: express.Request, res: express.Response) => {
-  const { code, redirect_uri } = req.body as { code?: string; redirect_uri?: string };
+const tokenRateLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message: { error: "Too many token requests, try again later." },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
-  if (!code || !redirect_uri) {
-    res.status(400).json({ error: "Missing code or redirect_uri" });
-    return;
-  }
+app.post(
+  "/auth/snapchat/token",
+  tokenRateLimiter as unknown as express.RequestHandler,
+  async (req: express.Request, res: express.Response) => {
+    const { code, redirect_uri } = req.body as { code?: string; redirect_uri?: string };
 
-  if (!clientId || !clientSecret) {
-    res.status(500).json({ error: "Server missing Snapchat credentials" });
-    return;
-  }
-
-  try {
-    const tokenRes = await fetch(SNAPCHAT_TOKEN_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: `Basic ${Buffer.from(`${clientId}:${clientSecret}`).toString("base64")}`,
-      },
-      body: new URLSearchParams({
-        grant_type: "authorization_code",
-        code,
-        redirect_uri,
-      }),
-    });
-
-    if (!tokenRes.ok) {
-      const err = await tokenRes.text();
-      console.error("Snapchat token exchange failed:", tokenRes.status, err);
-      res.status(400).json({ error: "Snapchat token exchange failed" });
+    if (!code || !redirect_uri) {
+      res.status(400).json({ error: "Missing code or redirect_uri" });
       return;
     }
 
-    const tokens = (await tokenRes.json()) as {
-      access_token: string;
-      refresh_token?: string;
-      expires_in?: number;
-    };
-
-    let externalId: string | null = null;
-    const userRes = await fetch(SNAPCHAT_USER_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${tokens.access_token}`,
-      },
-      body: JSON.stringify({
-        query: "{me{externalId displayName}}",
-      }),
-    });
-
-    if (userRes.ok) {
-      const user = await userRes.json();
-      externalId = user?.data?.me?.externalId ?? null;
-    } else {
-      console.error("Snapchat /v1/me failed:", userRes.status, await userRes.text());
+    if (!clientId || !clientSecret) {
+      res.status(500).json({ error: "Server missing Snapchat credentials" });
+      return;
     }
 
-    const uid = externalId ? `snapchat:${externalId}` : `snapchat:${tokens.access_token.slice(0, 32)}`;
-    const customToken = await admin.auth().createCustomToken(uid, { provider: "snapchat" });
+    try {
+      const tokenRes = await fetch(SNAPCHAT_TOKEN_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Basic ${Buffer.from(`${clientId}:${clientSecret}`).toString("base64")}`,
+        },
+        body: new URLSearchParams({
+          grant_type: "authorization_code",
+          code,
+          redirect_uri,
+        }),
+      });
 
-    res.json({ customToken });
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: "Failed to create custom token" });
+      if (!tokenRes.ok) {
+        const err = await tokenRes.text();
+        console.error("Snapchat token exchange failed:", tokenRes.status, err);
+        res.status(400).json({ error: "Snapchat token exchange failed" });
+        return;
+      }
+
+      const tokens = (await tokenRes.json()) as {
+        access_token: string;
+        refresh_token?: string;
+        expires_in?: number;
+      };
+
+      let externalId: string | null = null;
+      const userRes = await fetch(SNAPCHAT_USER_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${tokens.access_token}`,
+        },
+        body: JSON.stringify({
+          query: "{me{externalId displayName}}",
+        }),
+      });
+
+      if (userRes.ok) {
+        const user = await userRes.json();
+        externalId = user?.data?.me?.externalId ?? null;
+      } else {
+        console.error("Snapchat /v1/me failed:", userRes.status, await userRes.text());
+      }
+
+      const uid = externalId ? `snapchat:${externalId}` : `snapchat:${tokens.access_token.slice(0, 32)}`;
+      const customToken = await admin.auth().createCustomToken(uid, { provider: "snapchat" });
+
+      res.json({ customToken });
+    } catch (e) {
+      console.error(e);
+      res.status(500).json({ error: "Failed to create custom token" });
+    }
   }
-});
+);
 
 app.get("/auth/snapchat/config", (_req: express.Request, res: express.Response) => {
   if (!clientId) {
