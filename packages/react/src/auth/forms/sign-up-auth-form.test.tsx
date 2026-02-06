@@ -431,6 +431,7 @@ describe("<SignUpAuthForm />", () => {
     expect(displayNameInput).toBeInTheDocument();
 
     act(() => {
+      fireEvent.change(displayNameInput, { target: { value: "a" } });
       fireEvent.change(displayNameInput, { target: { value: "" } });
     });
 

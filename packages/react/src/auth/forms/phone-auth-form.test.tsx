@@ -494,7 +494,8 @@ describe("<PhoneNumberForm />", () => {
     const input = screen.getByRole("textbox", { name: /phone number/i });
 
     act(() => {
-      fireEvent.change(input, { target: { value: "invalid" } });
+      fireEvent.change(input, { target: { value: "1" } });
+      fireEvent.change(input, { target: { value: "" } });
     });
 
     expect(screen.getByText("Please provide a phone number")).toBeInTheDocument();
