@@ -70,7 +70,7 @@ export function useForgotPasswordAuthForm(onSuccess?: ForgotPasswordAuthFormProp
       email: "",
     },
     validators: {
-      onBlur: schema,
+      onChange: schema,
       onSubmitAsync: async ({ value }) => {
         try {
           await action(value);

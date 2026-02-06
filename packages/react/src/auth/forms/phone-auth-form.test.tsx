@@ -479,7 +479,7 @@ describe("<PhoneNumberForm />", () => {
     expect(sendCodeButton).toHaveAttribute("type", "submit");
   });
 
-  it("should trigger validation errors when the form is blurred", () => {
+  it("should trigger validation errors when the form changes", () => {
     const mockUI = createMockUI();
 
     const { container } = render(
@@ -494,7 +494,7 @@ describe("<PhoneNumberForm />", () => {
     const input = screen.getByRole("textbox", { name: /phone number/i });
 
     act(() => {
-      fireEvent.blur(input);
+      fireEvent.change(input, { target: { value: "invalid" } });
     });
 
     expect(screen.getByText("Please provide a phone number")).toBeInTheDocument();
