@@ -35,7 +35,10 @@ describe("injectTranslation", () => {
     jest.clearAllMocks();
 
     TestBed.configureTestingModule({
-      providers: [{ provide: FirebaseApps, useValue: [{ name: "test-app" }] }, provideFirebaseUI(() => mockStore as any)],
+      providers: [
+        { provide: FirebaseApps, useValue: [{ name: "test-app" }] },
+        provideFirebaseUI(() => mockStore as any),
+      ],
     });
   });
 
@@ -51,7 +54,9 @@ describe("injectTranslation", () => {
   });
 
   it("returns different translations for different categories", () => {
-    (getTranslation as jest.Mock).mockReturnValueOnce("An unknown error occurred").mockReturnValueOnce("Don't have an account?");
+    (getTranslation as jest.Mock)
+      .mockReturnValueOnce("An unknown error occurred")
+      .mockReturnValueOnce("Don't have an account?");
 
     TestBed.runInInjectionContext(() => {
       const errorTranslation = injectTranslation("errors", "unknownError");
