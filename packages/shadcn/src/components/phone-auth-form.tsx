@@ -57,7 +57,6 @@ function VerifyPhoneNumberForm(props: VerifyPhoneNumberFormProps) {
 
   const form = useForm<PhoneAuthVerifyFormSchema>({
     resolver: standardSchemaResolver(schema),
-    mode: "onChange",
     reValidateMode: "onChange",
     defaultValues: {
       verificationId: props.verificationId,

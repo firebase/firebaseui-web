@@ -43,7 +43,6 @@ export function ForgotPasswordAuthForm(props: ForgotPasswordAuthFormProps) {
 
   const form = useForm<ForgotPasswordAuthFormSchema>({
     resolver: standardSchemaResolver(schema),
-    mode: "onChange",
     reValidateMode: "onChange",
     defaultValues: {
       email: "",
