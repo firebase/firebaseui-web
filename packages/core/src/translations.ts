@@ -21,6 +21,9 @@ import {
 } from "@firebase-oss/ui-translations";
 import { type FirebaseUI } from "./config";
 
+// Re-export types for use in other packages
+export type { TranslationCategory, TranslationKey };
+
 /**
  * Gets a translated string for a given category and key.
  *
