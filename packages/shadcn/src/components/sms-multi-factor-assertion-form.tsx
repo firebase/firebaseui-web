@@ -92,6 +92,7 @@ function SmsMultiFactorAssertionVerifyForm(props: SmsMultiFactorAssertionVerifyF
 
   const form = useForm<{ verificationId: string; verificationCode: string }>({
     resolver: standardSchemaResolver(schema),
+    reValidateMode: "onChange",
     defaultValues: {
       verificationId: props.verificationId,
       verificationCode: "",

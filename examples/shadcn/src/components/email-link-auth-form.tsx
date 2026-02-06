@@ -30,6 +30,7 @@ export function EmailLinkAuthForm(props: EmailLinkAuthFormProps) {
 
   const form = useForm<EmailLinkAuthFormSchema>({
     resolver: standardSchemaResolver(schema),
+    reValidateMode: "onChange",
     defaultValues: {
       email: "",
     },
