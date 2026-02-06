@@ -16,21 +16,19 @@
 import { TestBed } from "@angular/core/testing";
 import { FirebaseApps } from "@angular/fire/app";
 import { injectTranslation, provideFirebaseUI } from "./provider";
-import { getTranslation,  } from "@firebase-oss/ui-core";
-// Import types from translations package otherwise it triggers injectUI to run and throws error
-import type { TranslationCategory, TranslationKey } from "../../../translations/src/types";
+import { getTranslation, type TranslationCategory, type TranslationKey } from "@firebase-oss/ui-core";
+
+const mockUI = {
+  locale: {
+    locale: "en-US",
+    translations: {},
+  },
+};
 
 describe("injectTranslation", () => {
-  const mockUI = {
-    locale: {
-      locale: "en-US",
-      translations: {},
-    },
-  };
-
   const mockStore = {
     get: () => mockUI,
-    subscribe: jest.fn(() => () => { }),
+    subscribe: jest.fn(() => () => {}),
   };
 
   beforeEach(() => {
@@ -98,9 +96,6 @@ describe("injectTranslation", () => {
  *
  * These verify that the generic constraints used by injectTranslation correctly
  * restrict the category and key parameters to valid translation entries.
- *
- * The types are imported directly from the translations source (bypassing
- * jest moduleNameMapper) so the TypeScript compiler can enforce them.
  *
  * If the types ever regress, the @ts-expect-error directives become "unused"
  * and cause compilation errors.
