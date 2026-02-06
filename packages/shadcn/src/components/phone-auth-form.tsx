@@ -123,7 +123,6 @@ function PhoneNumberForm(props: PhoneNumberFormProps) {
 
   const form = useForm<PhoneAuthNumberFormSchema>({
     resolver: standardSchemaResolver(schema),
-    mode: "onChange",
     reValidateMode: "onChange",
     defaultValues: {
       phoneNumber: "",
