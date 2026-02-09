@@ -21,6 +21,17 @@ import { cn } from "~/utils/cn";
 
 const { fieldContext, useFieldContext, formContext, useFormContext } = createFormHookContexts();
 
+function asNumber(value: unknown): number | undefined {
+  return typeof value === "number" ? value : undefined;
+}
+
+function shouldShowValidationErrors(state: unknown): boolean {
+  const s = state as Record<string, unknown> | null | undefined;
+  const attempts =
+    asNumber(s?.["submissionAttempts"]) ?? asNumber(s?.["submitAttempts"]) ?? asNumber(s?.["submitCount"]) ?? 0;
+  return attempts > 0;
+}
+
 function FieldMetadata({ className, ...props }: ComponentProps<"div"> & { field: AnyFieldApi }) {
   if (!props.field.state.meta.errors.length) {
     return null;
@@ -47,33 +58,37 @@ function Input({
   const form = useFormContext();
 
   return (
-    <label htmlFor={field.name}>
-      <div data-input-label>
-        <div>{label}</div>
-        {action ? <div>{action}</div> : null}
-      </div>
-      {description ? <div data-input-description>{description}</div> : null}
-      <div data-input-group>
-        {before}
-        <input
-          {...props}
-          aria-invalid={field.state.meta.errors.length > 0}
-          id={field.name}
-          name={field.name}
-          value={field.state.value}
-          onChange={(e) => {
-            field.handleChange(e.target.value);
-            // Clear form-level submission errors when user starts typing
-            const errorMap = form.state.errorMap;
-            if (errorMap?.onSubmit) {
-              form.setErrorMap({});
-            }
-          }}
-        />
-      </div>
-      {children ? <>{children}</> : null}
-      <FieldMetadata field={field} />
-    </label>
+    <form.Subscribe selector={(state) => shouldShowValidationErrors(state)}>
+      {(showValidation) => (
+        <label htmlFor={field.name}>
+          <div data-input-label>
+            <div>{label}</div>
+            {action ? <div>{action}</div> : null}
+          </div>
+          {description ? <div data-input-description>{description}</div> : null}
+          <div data-input-group>
+            {before}
+            <input
+              {...props}
+              aria-invalid={(showValidation || field.state.meta.isTouched) && field.state.meta.errors.length > 0}
+              id={field.name}
+              name={field.name}
+              value={field.state.value}
+              onChange={(e) => {
+                field.handleChange(e.target.value);
+                // Clear form-level submission errors when user starts typing
+                const errorMap = form.state.errorMap;
+                if (errorMap?.onSubmit) {
+                  form.setErrorMap({});
+                }
+              }}
+            />
+          </div>
+          {children ? <>{children}</> : null}
+          {showValidation || field.state.meta.isTouched ? <FieldMetadata field={field} /> : null}
+        </label>
+      )}
+    </form.Subscribe>
   );
 }
 
