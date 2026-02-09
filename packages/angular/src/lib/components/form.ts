@@ -71,7 +71,7 @@ export class FormMetadataComponent {
           [id]="field.api.name"
           [name]="field.api.name"
           [value]="field.api.state.value"
-          (input)="field.api.handleChange($any($event).target.value)"
+          (input)="handleInput($event)"
           [type]="type()"
         />
       </div>
@@ -95,6 +95,18 @@ export class FormInputComponent implements OnChanges {
   type = input<string>("text");
   /** Optional description text displayed below the label. */
   description = input<string>();
+
+  handleInput(event: Event) {
+    const value = (event.target as HTMLInputElement | null)?.value ?? "";
+    this.field.api.handleChange(value);
+
+    // Clear form-level submission errors when user starts typing
+    const form = (this.field.api as any)?.form;
+    const errorMap = form?.state?.errorMap;
+    if (errorMap?.onSubmit) {
+      form?.setErrorMap?.({});
+    }
+  }
 
   ngOnChanges(_changes: SimpleChanges): void {
     // Trigger change detection when any input changes
