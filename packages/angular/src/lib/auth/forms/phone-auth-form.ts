@@ -124,7 +124,7 @@ export class PhoneNumberFormComponent {
 
               // Wait for render() to complete - get the promise from the provider's effect
               // This ensures render() has completed before we use the verifier
-              const renderPromise = (this.recaptchaVerifierWithRender as any).renderPromise?.();
+              const renderPromise = this.recaptchaVerifierWithRender.renderPromise?.();
 
               if (renderPromise) {
                 await renderPromise;

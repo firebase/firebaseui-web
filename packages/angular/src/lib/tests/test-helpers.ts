@@ -295,6 +295,19 @@ export const injectMultiFactorTotpAuthEnrollmentFormSchema = jest.fn().mockRetur
 export const injectCountries = jest.fn().mockReturnValue(() => countryData);
 export const injectDefaultCountry = jest.fn().mockReturnValue(() => "US");
 
+export type RecaptchaVerifierMock = {
+  clear: jest.Mock<void, []>;
+  render: jest.Mock<unknown, []>;
+  verify: jest.Mock<unknown, []>;
+};
+
+export type RecaptchaVerifierSignal<T> = (() => T | null) & {
+  renderCompleted?: () => boolean;
+  renderPromise?: () => Promise<unknown> | null;
+};
+
+export type InjectRecaptchaVerifierMock<T> = jest.Mock<RecaptchaVerifierSignal<T>, unknown[]>;
+
 export const injectRecaptchaVerifier = jest.fn().mockImplementation(() => {
   return () => ({
     clear: jest.fn(),
