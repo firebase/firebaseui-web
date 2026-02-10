@@ -419,12 +419,6 @@ describe("<fui-sign-up-auth-form />", () => {
     const passwordInput = container.querySelector("input[name='password']") as HTMLInputElement;
     const form = container.querySelector("form") as HTMLFormElement;
 
-    // Start with invalid values first.
-    fireEvent.input(emailInput, { target: { value: "invalid-email" } });
-    fireEvent.input(passwordInput, { target: { value: "123" } });
-    await fixture.whenStable();
-    fixture.detectChanges();
-
     expect(screen.queryByText("Please enter a valid email address")).not.toBeInTheDocument();
     expect(screen.queryByText("Password should be at least 6 characters")).not.toBeInTheDocument();
 
@@ -433,7 +427,16 @@ describe("<fui-sign-up-auth-form />", () => {
     fixture.detectChanges();
 
     expect(await screen.findByText("Please enter a valid email address")).toBeInTheDocument();
-    expect(await screen.findByText("Password should be at least 6 characters")).toBeInTheDocument();
+    expect(await screen.findByText("Password is required")).toBeInTheDocument();
+
+    // Then react to explicitly invalid values.
+    fireEvent.input(emailInput, { target: { value: "invalid-email" } });
+    fireEvent.input(passwordInput, { target: { value: "123" } });
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(screen.getByText("Please enter a valid email address")).toBeInTheDocument();
+    expect(screen.getByText("Password should be at least 6 characters")).toBeInTheDocument();
 
     fireEvent.input(emailInput, { target: { value: "test@example.com" } });
     fireEvent.input(passwordInput, { target: { value: "123456" } });
