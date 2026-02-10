@@ -189,7 +189,7 @@ export const createSignInAuthFormSchema = jest.fn(() => {
   const { z } = require("zod");
   return z.object({
     email: z.string().email("Please enter a valid email address"),
-    password: z.string().min(1, "Password is required"),
+    password: z.string().min(1, "Password is required").min(6, "Password should be at least 6 characters"),
   });
 });
 
@@ -220,7 +220,7 @@ export const injectSignInAuthFormSchema = jest.fn().mockReturnValue(() => {
   const { z } = require("zod");
   return z.object({
     email: z.string().email("Please enter a valid email address"),
-    password: z.string().min(1, "Password is required"),
+    password: z.string().min(1, "Password is required").min(6, "Password should be at least 6 characters"),
   });
 });
 

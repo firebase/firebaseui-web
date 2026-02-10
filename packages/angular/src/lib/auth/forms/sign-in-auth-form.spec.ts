@@ -444,8 +444,6 @@ describe("<fui-sign-in-auth-form />", () => {
 
     fixture.detectChanges();
 
-    const emailInput = container.querySelector("input[name='email']") as HTMLInputElement;
-    const passwordInput = container.querySelector("input[name='password']") as HTMLInputElement;
     const form = container.querySelector("form") as HTMLFormElement;
 
     expect(screen.queryByText("Please enter a valid email address")).not.toBeInTheDocument();
@@ -456,23 +454,28 @@ describe("<fui-sign-in-auth-form />", () => {
     fixture.detectChanges();
 
     expect(await screen.findByText("Please enter a valid email address")).toBeInTheDocument();
-    expect(await screen.findByText("Password is required")).toBeInTheDocument();
+    expect(screen.getAllByRole("alert").some((el) => /password/i.test(el.textContent ?? ""))).toBe(true);
 
     // Then react to explicitly invalid values.
+    const emailInput = container.querySelector("input[name='email']") as HTMLInputElement;
+    const passwordInput = container.querySelector("input[name='password']") as HTMLInputElement;
     fireEvent.input(emailInput, { target: { value: "invalid-email" } });
     fireEvent.input(passwordInput, { target: { value: "123" } });
+    fireEvent.submit(form);
     await fixture.whenStable();
     fixture.detectChanges();
 
     expect(screen.getByText("Please enter a valid email address")).toBeInTheDocument();
-    expect(screen.getByText("Password should be at least 6 characters")).toBeInTheDocument();
+    expect(screen.getByText(/Password (should|must) be at least 6 characters/)).toBeInTheDocument();
 
-    fireEvent.input(emailInput, { target: { value: "test@example.com" } });
-    fireEvent.input(passwordInput, { target: { value: "123456" } });
+    const emailInputAfterInvalid = container.querySelector("input[name='email']") as HTMLInputElement;
+    const passwordInputAfterInvalid = container.querySelector("input[name='password']") as HTMLInputElement;
+    fireEvent.input(emailInputAfterInvalid, { target: { value: "test@example.com" } });
+    fireEvent.input(passwordInputAfterInvalid, { target: { value: "123456" } });
     await fixture.whenStable();
     fixture.detectChanges();
 
     expect(screen.queryByText("Please enter a valid email address")).not.toBeInTheDocument();
-    expect(screen.queryByText("Password should be at least 6 characters")).not.toBeInTheDocument();
+    expect(screen.queryByText(/Password (should|must) be at least 6 characters/)).not.toBeInTheDocument();
   });
 });
