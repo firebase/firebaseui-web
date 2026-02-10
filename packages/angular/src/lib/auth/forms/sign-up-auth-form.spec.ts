@@ -397,4 +397,50 @@ describe("<fui-sign-up-auth-form />", () => {
 
     expect(component.form.state.errors).toHaveLength(0);
   });
+
+  it("should show validation messages after submit and clear after typing valid values", async () => {
+    const { fixture, container } = await render(SignUpAuthFormComponent, {
+      imports: [
+        CommonModule,
+        SignUpAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
+      ],
+    });
+
+    fixture.detectChanges();
+
+    const emailInput = container.querySelector("input[name='email']") as HTMLInputElement;
+    const passwordInput = container.querySelector("input[name='password']") as HTMLInputElement;
+    const form = container.querySelector("form") as HTMLFormElement;
+
+    // Start with invalid values first.
+    fireEvent.input(emailInput, { target: { value: "invalid-email" } });
+    fireEvent.input(passwordInput, { target: { value: "123" } });
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(screen.queryByText("Please enter a valid email address")).not.toBeInTheDocument();
+    expect(screen.queryByText("Password should be at least 6 characters")).not.toBeInTheDocument();
+
+    fireEvent.submit(form);
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(await screen.findByText("Please enter a valid email address")).toBeInTheDocument();
+    expect(await screen.findByText("Password should be at least 6 characters")).toBeInTheDocument();
+
+    fireEvent.input(emailInput, { target: { value: "test@example.com" } });
+    fireEvent.input(passwordInput, { target: { value: "123456" } });
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(screen.queryByText("Please enter a valid email address")).not.toBeInTheDocument();
+    expect(screen.queryByText("Password should be at least 6 characters")).not.toBeInTheDocument();
+  });
 });

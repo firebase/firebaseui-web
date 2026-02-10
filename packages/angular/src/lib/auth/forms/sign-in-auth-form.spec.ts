@@ -448,6 +448,12 @@ describe("<fui-sign-in-auth-form />", () => {
     const passwordInput = container.querySelector("input[name='password']") as HTMLInputElement;
     const form = container.querySelector("form") as HTMLFormElement;
 
+    // Set invalid values first: bad email + short password (< 6)
+    fireEvent.input(emailInput, { target: { value: "invalid-email" } });
+    fireEvent.input(passwordInput, { target: { value: "123" } });
+    await fixture.whenStable();
+    fixture.detectChanges();
+
     expect(screen.queryByText("Please enter a valid email address")).not.toBeInTheDocument();
     expect(screen.queryByText("Password should be at least 6 characters")).not.toBeInTheDocument();
 
