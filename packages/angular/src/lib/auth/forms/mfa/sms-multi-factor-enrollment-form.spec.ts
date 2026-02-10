@@ -21,7 +21,11 @@ import { SmsMultiFactorEnrollmentFormComponent } from "./sms-multi-factor-enroll
 import { FormInputComponent, FormSubmitComponent, FormErrorMessageComponent } from "../../../components/form";
 import { CountrySelectorComponent } from "../../../components/country-selector";
 import type { CountryCode } from "@firebase-oss/ui-core";
-import type { InjectRecaptchaVerifierMock, RecaptchaVerifierMock, RecaptchaVerifierSignal } from "../../../tests/test-helpers";
+import type {
+  InjectRecaptchaVerifierMock,
+  RecaptchaVerifierMock,
+  RecaptchaVerifierSignal,
+} from "../../../tests/test-helpers";
 
 jest.mock("@firebase-oss/ui-core", () => {
   const originalModule = jest.requireActual("@firebase-oss/ui-core");

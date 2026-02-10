@@ -28,7 +28,11 @@ import {
 } from "../../../tests/test-helpers";
 import { CommonModule } from "@angular/common";
 import { FormErrorMessageComponent, FormSubmitComponent } from "../../../components/form";
-import type { InjectRecaptchaVerifierMock, RecaptchaVerifierMock, RecaptchaVerifierSignal } from "../../../tests/test-helpers";
+import type {
+  InjectRecaptchaVerifierMock,
+  RecaptchaVerifierMock,
+  RecaptchaVerifierSignal,
+} from "../../../tests/test-helpers";
 
 function getPhoneNumberParam(params: unknown): string | undefined {
   if (!params || typeof params !== "object") return undefined;
@@ -207,7 +211,12 @@ describe("<fui-sms-multi-factor-assertion-form>", () => {
       componentInputs: {
         hint: mockHint,
       },
-      imports: [CommonModule, SmsMultiFactorAssertionPhoneFormComponent, FormSubmitComponent, FormErrorMessageComponent],
+      imports: [
+        CommonModule,
+        SmsMultiFactorAssertionPhoneFormComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+      ],
     });
 
     const onSubmitSpy = jest.fn();

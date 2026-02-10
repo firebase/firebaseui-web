@@ -299,7 +299,7 @@ export function injectRecaptchaVerifier(element: () => ElementRef<HTMLDivElement
             }
           });
         },
-        { injector, manualCleanup: true },
+        { injector, manualCleanup: true }
       );
 
       onCleanup(() => {
@@ -318,10 +318,13 @@ export function injectRecaptchaVerifier(element: () => ElementRef<HTMLDivElement
   });
 
   // Return an object that acts like the computed signal but also exposes renderCompleted and renderPromise
-  return Object.assign(computed(() => verifier()), {
-    renderCompleted: () => renderCompleted(),
-    renderPromise: () => renderPromise(),
-  }) as RecaptchaVerifierSignal;
+  return Object.assign(
+    computed(() => verifier()),
+    {
+      renderCompleted: () => renderCompleted(),
+      renderPromise: () => renderPromise(),
+    }
+  ) as RecaptchaVerifierSignal;
 }
 
 /**
