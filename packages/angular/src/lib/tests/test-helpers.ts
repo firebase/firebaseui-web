@@ -14,6 +14,11 @@
  * limitations under the License.
  */
 
+// Mock @angular/fire/auth exports (Auth is used as a DI token in provider.ts deps)
+export class Auth {}
+export const authState = jest.fn(() => ({ subscribe: jest.fn() }));
+export class User {}
+
 // Mock implementations for @firebase-oss/ui-core to avoid ESM issues in tests
 export const sendPasswordResetEmail = jest.fn();
 export const sendSignInLinkToEmail = jest.fn();
