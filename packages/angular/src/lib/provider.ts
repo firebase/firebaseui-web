@@ -23,15 +23,17 @@ import {
   signal,
   computed,
   effect,
+  afterNextRender,
   Signal,
   ElementRef,
+  Injector,
   Optional,
   PLATFORM_ID,
   NgZone,
 } from "@angular/core";
 import { isPlatformBrowser } from "@angular/common";
 import { FirebaseApps } from "@angular/fire/app";
-import { Auth, authState, User } from "@angular/fire/auth";
+import { Auth, authState, RecaptchaVerifier, User } from "@angular/fire/auth";
 import {
   createEmailLinkAuthFormSchema,
   createForgotPasswordAuthFormSchema,
@@ -158,7 +160,7 @@ export function injectUserAuthenticated(onAuthenticated: (user: User) => void) {
  * Type for the return value of injectRecaptchaVerifier that doesn't expose SIGNAL types
  */
 type RecaptchaVerifierSignal = {
-  (): any; // RecaptchaVerifier | null, but using any to avoid SIGNAL type exposure
+  (): RecaptchaVerifier | null;
   renderCompleted: () => boolean;
   renderPromise: () => Promise<unknown> | null;
 };
@@ -167,12 +169,15 @@ export function injectRecaptchaVerifier(element: () => ElementRef<HTMLDivElement
   const ui = injectUI();
   const platformId = inject(PLATFORM_ID);
   const ngZone = inject(NgZone);
+  const injector = inject(Injector);
   const renderPromise = signal<Promise<unknown> | null>(null);
   const renderCompleted = signal<boolean>(false);
   // Track which element we've rendered to prevent duplicate renders
   let renderedElement: HTMLElement | null = null;
   // Cache the rendered verifier instance to ensure we always return the same one
   let renderedVerifierInstance: any = null;
+  // Track in-flight render target to prevent duplicate render() calls
+  let renderingElement: HTMLElement | null = null;
 
   const verifier = computed(() => {
     if (!isPlatformBrowser(platformId)) {
@@ -189,7 +194,7 @@ export function injectRecaptchaVerifier(element: () => ElementRef<HTMLDivElement
     return getBehavior(ui(), "recaptchaVerification")(ui(), elementRef.nativeElement);
   });
 
-  effect(() => {
+  effect((onCleanup) => {
     // Early return for SSR - don't run any reCAPTCHA logic on the server
     if (!isPlatformBrowser(platformId)) {
       return;
@@ -198,107 +203,114 @@ export function injectRecaptchaVerifier(element: () => ElementRef<HTMLDivElement
     const verifierInstance = verifier();
     const elementRef = element();
     const domElement = elementRef?.nativeElement;
+    const cleanupVerifier = verifierInstance as { clear?: () => void } | null;
+
+    onCleanup(() => {
+      if (cleanupVerifier?.clear) {
+        cleanupVerifier.clear();
+      }
+
+      if (renderedVerifierInstance === cleanupVerifier) {
+        renderedVerifierInstance = null;
+      }
+
+      if (renderedElement === domElement) {
+        renderedElement = null;
+      }
+
+      if (renderingElement === domElement) {
+        renderingElement = null;
+      }
+
+      renderPromise.set(null);
+      renderCompleted.set(false);
+    });
 
     if (verifierInstance && domElement) {
       // Check if we've already rendered to this element
       if (renderedElement === domElement && renderedVerifierInstance) {
-        // Already rendered to this element, return the cached instance
-        const widgetId = (renderedVerifierInstance as any).widgetId;
-        if (widgetId != null) {
-          if (!renderCompleted()) {
-            ngZone.run(() => {
-              renderCompleted.set(true);
-            });
-          }
-          if (!renderPromise()) {
-            renderPromise.set(Promise.resolve(widgetId));
-          }
-          return;
-        }
-      }
-
-      // Check if verifier is already rendered (widgetId is set)
-      // This prevents calling render() multiple times on the same verifier instance
-      const widgetId = (verifierInstance as any).widgetId;
-      if (widgetId != null) {
-        // Already rendered, cache the instance and update the state
-        renderedElement = domElement;
-        renderedVerifierInstance = verifierInstance; // Cache the rendered instance
+        // Already rendered to this element, keep the state in sync.
         if (!renderCompleted()) {
           ngZone.run(() => {
             renderCompleted.set(true);
           });
         }
-        // If we don't have a renderPromise yet, create a resolved one
         if (!renderPromise()) {
-          renderPromise.set(Promise.resolve(widgetId));
+          renderPromise.set(Promise.resolve(undefined));
         }
         return;
       }
 
-      // Not rendered yet, proceed with render()
+      if (renderingElement === domElement) {
+        return;
+      }
+
+      // Not rendered yet, proceed with render after the next Angular render pass.
       renderCompleted.set(false);
-      // Run render() outside Angular zone to avoid blocking application stability
-      // Use setTimeout to ensure the element is fully rendered in the DOM
-      ngZone.runOutsideAngular(() => {
-        // Small delay to ensure element is ready (similar to React's useEffect timing)
-        setTimeout(() => {
-          try {
-            // Double-check widgetId hasn't been set by another render call
-            const currentWidgetId = (verifierInstance as any).widgetId;
-            if (currentWidgetId != null) {
-              renderedElement = domElement;
-              renderedVerifierInstance = verifierInstance; // Cache the rendered instance
+      const afterRenderRef = afterNextRender(
+        () => {
+          ngZone.runOutsideAngular(() => {
+            try {
+              // Check if element has already been rendered to (by checking for reCAPTCHA widget)
+              if (renderedElement === domElement || renderingElement === domElement) {
+                return;
+              }
+
+              renderedElement = domElement; // Mark as rendered before calling render()
+              renderedVerifierInstance = verifierInstance; // Cache the instance before rendering
+              renderingElement = domElement;
+              const promise = verifierInstance.render();
+              renderPromise.set(promise);
+              promise
+                .then(() => {
+                  // Update signal inside zone so change detection works
+                  ngZone.run(() => {
+                    renderCompleted.set(true);
+                  });
+                  if (renderingElement === domElement) {
+                    renderingElement = null;
+                  }
+                })
+                .catch(() => {
+                  // If render failed, reset renderedElement and cached instance so we can try again
+                  if (renderedElement === domElement) {
+                    renderedElement = null;
+                    renderedVerifierInstance = null;
+                  }
+                  if (renderingElement === domElement) {
+                    renderingElement = null;
+                  }
+                  ngZone.run(() => {
+                    renderCompleted.set(false);
+                  });
+                });
+            } catch {
+              // If render failed, reset renderedElement and cached instance so we can try again
+              if (renderedElement === domElement) {
+                renderedElement = null;
+                renderedVerifierInstance = null;
+              }
+              if (renderingElement === domElement) {
+                renderingElement = null;
+              }
               ngZone.run(() => {
-                renderCompleted.set(true);
-                renderPromise.set(Promise.resolve(currentWidgetId));
+                renderCompleted.set(false);
               });
-              return;
             }
+          });
+        },
+        { injector, manualCleanup: true },
+      );
 
-            // Check if element has already been rendered to (by checking for reCAPTCHA widget)
-            if (renderedElement === domElement) {
-              return;
-            }
-
-            renderedElement = domElement; // Mark as rendered before calling render()
-            renderedVerifierInstance = verifierInstance; // Cache the instance before rendering
-            const promise = verifierInstance.render();
-            renderPromise.set(promise);
-            promise
-              .then(() => {
-                // Update signal inside zone so change detection works
-                ngZone.run(() => {
-                  renderCompleted.set(true);
-                });
-              })
-              .catch(() => {
-                // If render failed, reset renderedElement and cached instance so we can try again
-                if (renderedElement === domElement) {
-                  renderedElement = null;
-                  renderedVerifierInstance = null;
-                }
-                ngZone.run(() => {
-                  renderCompleted.set(false);
-                });
-              });
-          } catch {
-            // If render failed, reset renderedElement and cached instance so we can try again
-            if (renderedElement === domElement) {
-              renderedElement = null;
-              renderedVerifierInstance = null;
-            }
-            ngZone.run(() => {
-              renderCompleted.set(false);
-            });
-          }
-        }, 0);
+      onCleanup(() => {
+        afterRenderRef.destroy();
       });
     } else {
       // Element or verifier is null, reset tracking and cache
       if (!domElement) {
         renderedElement = null;
         renderedVerifierInstance = null;
+        renderingElement = null;
       }
       renderPromise.set(null);
       renderCompleted.set(false);
@@ -306,10 +318,10 @@ export function injectRecaptchaVerifier(element: () => ElementRef<HTMLDivElement
   });
 
   // Return an object that acts like the computed signal but also exposes renderCompleted and renderPromise
-  const result = computed(() => verifier()) as any;
-  result.renderCompleted = () => renderCompleted();
-  result.renderPromise = () => renderPromise();
-  return result as RecaptchaVerifierSignal;
+  return Object.assign(computed(() => verifier()), {
+    renderCompleted: () => renderCompleted(),
+    renderPromise: () => renderPromise(),
+  }) as RecaptchaVerifierSignal;
 }
 
 /**
