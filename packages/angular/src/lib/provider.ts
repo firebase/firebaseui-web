@@ -175,7 +175,7 @@ export function injectRecaptchaVerifier(element: () => ElementRef<HTMLDivElement
   // Track which element we've rendered to prevent duplicate renders
   let renderedElement: HTMLElement | null = null;
   // Cache the rendered verifier instance to ensure we always return the same one
-  let renderedVerifierInstance: any = null;
+  let renderedVerifierInstance: RecaptchaVerifier | null = null;
   // Track in-flight render target to prevent duplicate render() calls
   let renderingElement: HTMLElement | null = null;
 
@@ -227,21 +227,14 @@ export function injectRecaptchaVerifier(element: () => ElementRef<HTMLDivElement
     });
 
     if (verifierInstance && domElement) {
-      // Check if we've already rendered to this element
-      if (renderedElement === domElement && renderedVerifierInstance) {
-        // Already rendered to this element, keep the state in sync.
-        if (!renderCompleted()) {
-          ngZone.run(() => {
-            renderCompleted.set(true);
-          });
-        }
-        if (!renderPromise()) {
-          renderPromise.set(Promise.resolve(undefined));
-        }
+      if (renderingElement === domElement) {
         return;
       }
 
-      if (renderingElement === domElement) {
+      // If we've already started or completed rendering for this element, do nothing.
+      // don't mark renderCompleted true here. That has to happen when render() resolves.
+      // Shouldn't replace renderPromise as it should always reflect the real render() promise.
+      if (renderedElement === domElement && renderedVerifierInstance) {
         return;
       }
 
@@ -251,7 +244,7 @@ export function injectRecaptchaVerifier(element: () => ElementRef<HTMLDivElement
         () => {
           ngZone.runOutsideAngular(() => {
             try {
-              // Check if element has already been rendered to (by checking for reCAPTCHA widget)
+              // Check if element has already been rendered to, or is currently rendering.
               if (renderedElement === domElement || renderingElement === domElement) {
                 return;
               }
@@ -267,9 +260,6 @@ export function injectRecaptchaVerifier(element: () => ElementRef<HTMLDivElement
                   ngZone.run(() => {
                     renderCompleted.set(true);
                   });
-                  if (renderingElement === domElement) {
-                    renderingElement = null;
-                  }
                 })
                 .catch(() => {
                   // If render failed, reset renderedElement and cached instance so we can try again
@@ -277,12 +267,15 @@ export function injectRecaptchaVerifier(element: () => ElementRef<HTMLDivElement
                     renderedElement = null;
                     renderedVerifierInstance = null;
                   }
-                  if (renderingElement === domElement) {
-                    renderingElement = null;
-                  }
                   ngZone.run(() => {
                     renderCompleted.set(false);
                   });
+                  renderPromise.set(null);
+                })
+                .finally(() => {
+                  if (renderingElement === domElement) {
+                    renderingElement = null;
+                  }
                 });
             } catch {
               // If render failed, reset renderedElement and cached instance so we can try again
@@ -296,6 +289,7 @@ export function injectRecaptchaVerifier(element: () => ElementRef<HTMLDivElement
               ngZone.run(() => {
                 renderCompleted.set(false);
               });
+              renderPromise.set(null);
             }
           });
         },
