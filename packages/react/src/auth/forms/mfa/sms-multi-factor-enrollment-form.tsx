@@ -52,7 +52,7 @@ export function useSmsMultiFactorEnrollmentPhoneAuthFormAction() {
 /** Options for the SMS multi-factor enrollment phone number form hook. */
 export type UseSmsMultiFactorEnrollmentPhoneNumberForm = {
   /** The reCAPTCHA verifier instance. */
-  recaptchaVerifier: RecaptchaVerifier;
+  recaptchaVerifier: RecaptchaVerifier | null;
   /** Callback function called when phone verification is successful. */
   onSuccess: (verificationId: string, displayName?: string) => void;
   /** Optional function to format the phone number before verification. */
@@ -72,6 +72,9 @@ export function useSmsMultiFactorEnrollmentPhoneNumberForm({
 }: UseSmsMultiFactorEnrollmentPhoneNumberForm) {
   const action = useSmsMultiFactorEnrollmentPhoneAuthFormAction();
   const schema = useMultiFactorPhoneAuthNumberFormSchema();
+  const recaptchaVerifierRef = useRef<RecaptchaVerifier | null>(recaptchaVerifier);
+
+  recaptchaVerifierRef.current = recaptchaVerifier;
 
   return form.useAppForm({
     defaultValues: {
@@ -82,8 +85,12 @@ export function useSmsMultiFactorEnrollmentPhoneNumberForm({
       onBlur: schema,
       onSubmitAsync: async ({ value }) => {
         try {
+          const verifier = recaptchaVerifierRef.current;
+          if (!verifier) {
+            return "reCAPTCHA is not ready yet. Please try again.";
+          }
           const formatted = formatPhoneNumber ? formatPhoneNumber(value.phoneNumber) : value.phoneNumber;
-          const confirmationResult = await action({ phoneNumber: formatted, recaptchaVerifier });
+          const confirmationResult = await action({ phoneNumber: formatted, recaptchaVerifier: verifier });
           return onSuccess(confirmationResult, value.displayName);
         } catch (error) {
           return error instanceof FirebaseUIError ? error.message : String(error);
@@ -103,7 +110,7 @@ function MultiFactorEnrollmentPhoneNumberForm(props: MultiFactorEnrollmentPhoneN
   const recaptchaVerifier = useRecaptchaVerifier(recaptchaContainerRef);
   const countrySelector = useRef<CountrySelectorRef>(null);
   const form = useSmsMultiFactorEnrollmentPhoneNumberForm({
-    recaptchaVerifier: recaptchaVerifier!,
+    recaptchaVerifier,
     onSuccess: props.onSubmit,
     formatPhoneNumber: (phoneNumber) => formatPhoneNumber(phoneNumber, countrySelector.current!.getCountry()),
   });
@@ -114,7 +121,9 @@ function MultiFactorEnrollmentPhoneNumberForm(props: MultiFactorEnrollmentPhoneN
       onSubmit={async (e) => {
         e.preventDefault();
         e.stopPropagation();
-        await form.handleSubmit();
+        if (recaptchaVerifier) {
+          await form.handleSubmit();
+        }
       }}
     >
       <form.AppForm>
@@ -138,7 +147,9 @@ function MultiFactorEnrollmentPhoneNumberForm(props: MultiFactorEnrollmentPhoneN
           <div className="fui-recaptcha-container" ref={recaptchaContainerRef} />
         </fieldset>
         <fieldset>
-          <form.SubmitButton>{getTranslation(ui, "labels", "sendCode")}</form.SubmitButton>
+          <form.SubmitButton disabled={!recaptchaVerifier}>
+            {getTranslation(ui, "labels", "sendCode")}
+          </form.SubmitButton>
           <form.ErrorMessage />
         </fieldset>
       </form.AppForm>

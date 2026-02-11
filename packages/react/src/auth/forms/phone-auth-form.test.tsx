@@ -78,6 +78,7 @@ import { verifyPhoneNumber, confirmPhoneNumber } from "@firebase-oss/ui-core";
 import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
 import { registerLocale } from "@firebase-oss/ui-translations";
 import { FirebaseUIProvider } from "~/context";
+import { useRecaptchaVerifier } from "~/hooks";
 
 vi.mock("~/components/country-selector", () => ({
   CountrySelector: vi.fn().mockImplementation(({ value, onChange, ref }: any) => {
@@ -578,7 +579,11 @@ describe("<PhoneAuthForm />", () => {
     const mockVerificationId = "test-verification-id";
     vi.mocked(verifyPhoneNumber).mockResolvedValue(mockVerificationId);
 
-    const { container } = render(
+    const mockVerifier = {} as unknown as import("firebase/auth").RecaptchaVerifier;
+    // Simulate the verifier being unavailable initially, then becoming available.
+    vi.mocked(useRecaptchaVerifier).mockReturnValueOnce(null).mockReturnValue(mockVerifier);
+
+    const { container, rerender } = render(
       <FirebaseUIProvider ui={mockUI}>
         <PhoneAuthForm />
       </FirebaseUIProvider>
@@ -587,12 +592,40 @@ describe("<PhoneAuthForm />", () => {
     const phoneInput = screen.getByRole("textbox", { name: /phone number/i });
     expect(phoneInput).toBeInTheDocument();
 
-    const sendCodeButton = screen.getByRole("button", { name: /send code/i });
+    // With no verifier, the submit button should be disabled and submission should not proceed.
+    expect(screen.getByRole("button", { name: /send code/i })).toBeDisabled();
 
     await act(async () => {
       fireEvent.change(phoneInput, { target: { value: "1234567890" } });
-      fireEvent.click(sendCodeButton);
     });
+
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: /send code/i }));
+    });
+
+    expect(verifyPhoneNumber).not.toHaveBeenCalled();
+
+    // Rerender so the mocked hook returns the now-available verifier.
+    rerender(
+      <FirebaseUIProvider ui={mockUI}>
+        <PhoneAuthForm />
+      </FirebaseUIProvider>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByRole("button", { name: /send code/i })).toBeEnabled();
+    });
+
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: /send code/i }));
+    });
+
+    await waitFor(() => {
+      expect(verifyPhoneNumber).toHaveBeenCalled();
+    });
+
+    // Verify that verifyPhoneNumber was called with the verifier
+    expect(verifyPhoneNumber).toHaveBeenCalledWith(expect.anything(), expect.any(String), mockVerifier);
 
     const verificationInput = await waitFor(() => {
       return screen.getByRole("textbox", { name: /verificationCode/i });
