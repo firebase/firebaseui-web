@@ -42,6 +42,7 @@ export function TotpMultiFactorAssertionForm(props: TotpMultiFactorAssertionForm
 
   const form = useForm<{ verificationCode: string }>({
     resolver: standardSchemaResolver(schema),
+    mode: "onChange",
     defaultValues: {
       verificationCode: "",
     },

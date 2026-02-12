@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { Component, computed, input } from "@angular/core";
-import { AnyFieldApi, AnyFormState, injectField } from "@tanstack/angular-form";
+import { ChangeDetectorRef, Component, computed, inject, input, OnChanges, SimpleChanges } from "@angular/core";
+import { AnyFormState, injectField } from "@tanstack/angular-form";
 import { ButtonComponent } from "./button";
 
 @Component({
@@ -25,10 +25,10 @@ import { ButtonComponent } from "./button";
     style: "display: block;",
   },
   template: `
-    @if (field().state.meta.isTouched && errors().length > 0) {
+    @if (isTouched() && errors().length > 0) {
       <div>
         <div role="alert" aria-live="polite" class="fui-error">
-          {{ errors() }}
+          {{ errorMessage() }}
         </div>
       </div>
     }
@@ -38,13 +38,14 @@ import { ButtonComponent } from "./button";
  * A component that displays form field metadata, such as validation errors.
  */
 export class FormMetadataComponent {
-  /** The form field API instance. */
-  field = input.required<AnyFieldApi>();
-  errors = computed(() =>
-    this.field()
-      .state.meta.errors.map((error) => error.message)
-      .join(", ")
-  );
+  isTouched = input.required<boolean>();
+  errors = input.required<Array<{ message: string }>>();
+
+  errorMessage(): string {
+    return this.errors()
+      .map((error) => error.message)
+      .join(", ");
+  }
 }
 
 @Component({
@@ -70,27 +71,47 @@ export class FormMetadataComponent {
           [id]="field.api.name"
           [name]="field.api.name"
           [value]="field.api.state.value"
-          (blur)="field.api.handleBlur()"
-          (input)="field.api.handleChange($any($event).target.value)"
+          (input)="handleInput($event)"
           [type]="type()"
         />
       </div>
       <ng-content></ng-content>
-      <fui-form-metadata [field]="field.api"></fui-form-metadata>
+      <fui-form-metadata
+        [isTouched]="field.api.state.meta.isTouched"
+        [errors]="field.api.state.meta.errors"
+      ></fui-form-metadata>
     </label>
   `,
 })
 /**
  * A form input component with label, description, and validation support.
  */
-export class FormInputComponent {
+export class FormInputComponent implements OnChanges {
   field = injectField<string>();
+  private cdr = inject(ChangeDetectorRef);
   /** The label text for the input field. */
   label = input.required<string>();
   /** The input type (e.g., "text", "email", "password"). */
   type = input<string>("text");
   /** Optional description text displayed below the label. */
   description = input<string>();
+
+  handleInput(event: Event) {
+    const value = (event.target as HTMLInputElement | null)?.value ?? "";
+    this.field.api.handleChange(value);
+
+    // Clear form-level submission errors when user starts typing
+    const form = (this.field.api as any)?.form;
+    const errorMap = form?.state?.errorMap;
+    if (errorMap?.onSubmit) {
+      form?.setErrorMap?.({});
+    }
+  }
+
+  ngOnChanges(_changes: SimpleChanges): void {
+    // Trigger change detection when any input changes
+    this.cdr.markForCheck();
+  }
 }
 
 @Component({

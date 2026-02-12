@@ -315,7 +315,7 @@ describe("<SignUpAuthForm />", () => {
     expect(onSignInClickMock).toHaveBeenCalled();
   });
 
-  it("should trigger validation errors when the form is blurred", () => {
+  it("should trigger validation errors when the form changes", () => {
     const mockUI = createMockUI();
 
     const { container } = render(
@@ -330,7 +330,7 @@ describe("<SignUpAuthForm />", () => {
     const input = screen.getByRole("textbox", { name: /email/i });
 
     act(() => {
-      fireEvent.blur(input);
+      fireEvent.change(input, { target: { value: "invalid" } });
     });
 
     expect(screen.getByText("Please enter a valid email address")).toBeInTheDocument();
@@ -401,7 +401,7 @@ describe("<SignUpAuthForm />", () => {
     expect(screen.queryByRole("textbox", { name: /displayName/ })).not.toBeInTheDocument();
   });
 
-  it("should trigger displayName validation errors when the form is blurred and requireDisplayName is enabled", () => {
+  it("should trigger displayName validation errors when the form changes and requireDisplayName is enabled", () => {
     const mockUI = createMockUI({
       locale: registerLocale("test", {
         errors: {
@@ -431,7 +431,8 @@ describe("<SignUpAuthForm />", () => {
     expect(displayNameInput).toBeInTheDocument();
 
     act(() => {
-      fireEvent.blur(displayNameInput);
+      fireEvent.change(displayNameInput, { target: { value: "a" } });
+      fireEvent.change(displayNameInput, { target: { value: "" } });
     });
 
     expect(screen.getByText("Please provide a display name")).toBeInTheDocument();

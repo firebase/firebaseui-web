@@ -82,7 +82,7 @@ export function useSmsMultiFactorEnrollmentPhoneNumberForm({
       phoneNumber: "",
     },
     validators: {
-      onBlur: schema,
+      onChange: schema,
       onSubmitAsync: async ({ value }) => {
         try {
           const verifier = recaptchaVerifierRef.current;
@@ -212,7 +212,7 @@ export function useMultiFactorEnrollmentVerifyPhoneNumberForm({
       verificationCode: "",
     },
     validators: {
-      onBlur: schema,
+      onChange: schema,
       onSubmitAsync: async ({ value }) => {
         try {
           await action({ ...value, displayName });

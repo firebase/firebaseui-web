@@ -207,4 +207,50 @@ describe("<SignInAuthForm />", () => {
 
     expect(await screen.findByText("Error: foo")).toBeInTheDocument();
   });
+
+  it("should show validation errors only after submit and clear after typing valid values", async () => {
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          emailAddress: "Email Address",
+          password: "Password",
+          signIn: "Sign In",
+        },
+        errors: {
+          invalidEmail: "Please enter a valid email address",
+          weakPassword: "Password should be at least 6 characters",
+        },
+      }),
+    });
+
+    const { container } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <SignInAuthForm />
+      </FirebaseUIProvider>
+    );
+
+    const emailInput = container.querySelector("input[name='email']") as HTMLInputElement;
+    const passwordInput = container.querySelector("input[name='password']") as HTMLInputElement;
+    const form = container.querySelector("form") as HTMLFormElement;
+
+    expect(screen.queryByText("Please enter a valid email address")).not.toBeInTheDocument();
+    expect(screen.queryByText("Password should be at least 6 characters")).not.toBeInTheDocument();
+
+    await act(async () => {
+      fireEvent.submit(form);
+    });
+
+    expect(await screen.findByText("Please enter a valid email address")).toBeInTheDocument();
+    expect(await screen.findByText("Password should be at least 6 characters")).toBeInTheDocument();
+
+    await act(async () => {
+      fireEvent.change(emailInput, { target: { value: "test@example.com" } });
+      fireEvent.change(passwordInput, { target: { value: "123456" } });
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByText("Please enter a valid email address")).not.toBeInTheDocument();
+      expect(screen.queryByText("Password should be at least 6 characters")).not.toBeInTheDocument();
+    });
+  });
 });
