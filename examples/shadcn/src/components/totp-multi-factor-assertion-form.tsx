@@ -26,7 +26,7 @@ export function TotpMultiFactorAssertionForm(props: TotpMultiFactorAssertionForm
 
   const form = useForm<{ verificationCode: string }>({
     resolver: standardSchemaResolver(schema),
-    reValidateMode: "onChange",
+    mode: "onChange",
     defaultValues: {
       verificationCode: "",
     },

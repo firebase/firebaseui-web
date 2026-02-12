@@ -32,7 +32,7 @@ function TotpMultiFactorSecretGenerationForm(props: TotpMultiFactorSecretGenerat
 
   const form = useForm<{ displayName: string }>({
     resolver: standardSchemaResolver(schema),
-    reValidateMode: "onChange",
+    mode: "onChange",
     defaultValues: {
       displayName: "",
     },
@@ -85,7 +85,7 @@ export function MultiFactorEnrollmentVerifyTotpForm(props: MultiFactorEnrollment
 
   const form = useForm<{ verificationCode: string }>({
     resolver: standardSchemaResolver(schema),
-    reValidateMode: "onChange",
+    mode: "onChange",
     defaultValues: {
       verificationCode: "",
     },

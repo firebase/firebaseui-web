@@ -37,7 +37,7 @@ function MultiFactorEnrollmentPhoneNumberForm(props: MultiFactorEnrollmentPhoneN
 
   const form = useForm<{ displayName: string; phoneNumber: string }>({
     resolver: standardSchemaResolver(schema),
-    reValidateMode: "onChange",
+    mode: "onChange",
     defaultValues: {
       displayName: "",
       phoneNumber: "",
@@ -110,7 +110,7 @@ export function MultiFactorEnrollmentVerifyPhoneNumberForm(props: MultiFactorEnr
 
   const form = useForm<{ verificationId: string; verificationCode: string }>({
     resolver: standardSchemaResolver(schema),
-    reValidateMode: "onChange",
+    mode: "onChange",
     defaultValues: {
       verificationId: props.verificationId,
       verificationCode: "",
