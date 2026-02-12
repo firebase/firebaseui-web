@@ -28,7 +28,7 @@ export type LineSignInButtonProps = {
  */
 export function LineSignInButton({ provider, ...props }: LineSignInButtonProps) {
   return (
-    <OAuthButton {...props} provider={provider ?? new OAuthProvider("oidc.line")}>
+    <OAuthButton {...props} themed={true} provider={provider ?? new OAuthProvider("oidc.line")}>
       <span
         className="fui-provider__icon"
         style={{
