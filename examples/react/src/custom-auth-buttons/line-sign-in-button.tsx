@@ -26,21 +26,24 @@ export type LineSignInButtonProps = {
 /**
  * Button for signing in with LINE (OIDC).
  */
-export function LineSignInButton({ provider, ...props }: LineSignInButtonProps) {
+export function LineSignInButton({ provider, themed = false, ...props }: LineSignInButtonProps) {
   return (
-    <OAuthButton {...props} themed={true} provider={provider ?? new OAuthProvider("oidc.line")}>
+    <OAuthButton {...props} themed={themed} provider={provider ?? new OAuthProvider("oidc.line")}>
       <span
         className="fui-provider__icon"
         style={{
           display: "inline-flex",
           alignItems: "center",
           justifyContent: "center",
-          width: "1em",
+          width: "auto",
+          minWidth: "1.95em",
           height: "1em",
+          paddingInline: "0.2em",
           borderRadius: 2,
           backgroundColor: "#00c300",
           color: "#fff",
-          fontSize: "0.65em",
+          fontSize: "0.58em",
+          lineHeight: 1,
           fontWeight: 700,
         }}
         aria-hidden
