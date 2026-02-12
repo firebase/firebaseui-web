@@ -30,6 +30,7 @@ import {
   Optional,
   PLATFORM_ID,
   NgZone,
+  untracked,
 } from "@angular/core";
 import { isPlatformBrowser } from "@angular/common";
 import { FirebaseApps } from "@angular/fire/app";
@@ -191,7 +192,10 @@ export function injectRecaptchaVerifier(element: () => ElementRef<HTMLDivElement
     if (renderedVerifierInstance && renderedElement === elementRef.nativeElement) {
       return renderedVerifierInstance;
     }
-    return getBehavior(ui(), "recaptchaVerification")(ui(), elementRef.nativeElement);
+    // Avoid subscribing this computed to transient ui state updates (e.g. pending/idle)
+    // which would otherwise retrigger cleanup while a phone verification is in-flight.
+    const uiValue = untracked(ui);
+    return getBehavior(uiValue, "recaptchaVerification")(uiValue, elementRef.nativeElement);
   });
 
   effect((onCleanup) => {
@@ -203,29 +207,6 @@ export function injectRecaptchaVerifier(element: () => ElementRef<HTMLDivElement
     const verifierInstance = verifier();
     const elementRef = element();
     const domElement = elementRef?.nativeElement;
-    const cleanupVerifier = verifierInstance as { clear?: () => void } | null;
-
-    onCleanup(() => {
-      if (cleanupVerifier?.clear) {
-        cleanupVerifier.clear();
-      }
-
-      if (renderedVerifierInstance === cleanupVerifier) {
-        renderedVerifierInstance = null;
-      }
-
-      if (renderedElement === domElement) {
-        renderedElement = null;
-      }
-
-      if (renderingElement === domElement) {
-        renderingElement = null;
-      }
-
-      renderPromise.set(null);
-      renderCompleted.set(false);
-    });
-
     if (verifierInstance && domElement) {
       if (renderingElement === domElement) {
         return;
