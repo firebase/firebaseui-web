@@ -82,7 +82,7 @@ import {
             <div class="fui-recaptcha-container" #recaptchaContainer></div>
           </fieldset>
           <fieldset>
-            <fui-form-submit [state]="phoneState()">
+            <fui-form-submit [state]="phoneState()" [disabled]="!recaptchaVerifier()">
               {{ sendCodeLabel() }}
             </fui-form-submit>
             <fui-form-error-message [state]="phoneState()" />
@@ -173,6 +173,11 @@ export class SmsMultiFactorEnrollmentFormComponent {
                 return "Recaptcha verifier not available";
               }
 
+              const renderPromise = this.recaptchaVerifier.renderPromise?.();
+              if (renderPromise) {
+                await renderPromise;
+              }
+
               const currentUser = this.ui().auth.currentUser!;
               const mfaUser = multiFactor(currentUser);
               const formattedPhoneNumber = formatPhoneNumber(value.phoneNumber, this.defaultCountry());
@@ -213,7 +218,11 @@ export class SmsMultiFactorEnrollmentFormComponent {
   async handlePhoneSubmit(event: SubmitEvent) {
     event.preventDefault();
     event.stopPropagation();
-    this.phoneForm.handleSubmit();
+    const verifier = this.recaptchaVerifier();
+    if (!verifier) {
+      return;
+    }
+    await this.phoneForm.handleSubmit();
   }
 
   async handleVerificationSubmit(event: SubmitEvent) {

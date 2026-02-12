@@ -137,7 +137,7 @@ export class FormActionComponent {}
     style: "display: block;",
   },
   template: `
-    <button fui-button class="fui-form__action" [class]="class()" [disabled]="isSubmitting()">
+    <button fui-button class="fui-form__action" [class]="class()" [disabled]="isDisabled()">
       <ng-content></ng-content>
     </button>
   `,
@@ -152,8 +152,11 @@ export class FormSubmitComponent {
   class = input<string>();
   /** The form state for tracking submission status. */
   state = input.required<AnyFormState>();
+  /** Optional additional disabled condition. */
+  disabled = input<boolean>(false);
 
   isSubmitting = computed(() => this.state().isSubmitting);
+  isDisabled = computed(() => this.isSubmitting() || this.disabled());
 }
 
 @Component({
