@@ -1,0 +1,36 @@
+{
+  "name": "vue",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@firebase-oss/ui-core": "workspace:*",
+    "@firebase-oss/ui-react": "workspace:*",
+    "@firebase-oss/ui-styles": "workspace:*",
+    "@firebase-oss/ui-translations": "workspace:*",
+    "firebase": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "veaury": "^2.6.3",
+    "vue": "^3.5.25"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "catalog:",
+    "@types/node": "^24.10.1",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
+    "@vitejs/plugin-vue": "^6.0.2",
+    "@vitejs/plugin-vue-jsx": "^5.1.4",
+    "@vue/tsconfig": "^0.8.1",
+    "tailwindcss": "catalog:",
+    "typescript": "~5.9.3",
+    "vite": "^7.3.1",
+    "vue-tsc": "^3.1.5"
+  }
+}

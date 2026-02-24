@@ -3,37 +3,36 @@ packages:
   - examples/*
 
 catalog:
-  "@angular-devkit/build-angular": ^20.2.2
-  "@angular/cli": ^20.2.2
-  "@angular/common": ^20.2.2
-  "@angular/compiler": ^20.2.2
-  "@angular/compiler-cli": ^20.2.2
-  "@angular/core": ^20.2.2
-  "@angular/fire": ^20.0.1
-  "@angular/forms": ^20.2.2
-  "@angular/platform-browser": ^20.2.2
-  "@angular/platform-browser-dynamic": ^20.2.2
-  "@angular/router": ^20.2.2
-  "@tailwindcss/vite": ^4.1.14
-  "@testing-library/jest-dom": ^6.8.0
-  "@testing-library/react": ^16.3.0
-  "@types/jsdom": ^21.1.7
-  "@types/node": ^24.3.1
-  "@types/react": 19.2.7
-  "@types/react-dom": 19.2.3
-  "@nanostores/deepmap": ^0.0.1
-  "@vitejs/plugin-react": ^5.0.2
+  '@angular-devkit/build-angular': ^20.2.2
+  '@angular/cli': ^20.2.2
+  '@angular/common': ^20.2.2
+  '@angular/compiler': ^20.2.2
+  '@angular/compiler-cli': ^20.2.2
+  '@angular/core': ^20.2.2
+  '@angular/fire': ^20.0.1
+  '@angular/forms': ^20.2.2
+  '@angular/platform-browser': ^20.2.2
+  '@angular/platform-browser-dynamic': ^20.2.2
+  '@angular/router': ^20.2.2
+  '@nanostores/deepmap': ^0.0.1
+  '@tailwindcss/vite': 4.1.16
+  '@testing-library/jest-dom': ^6.8.0
+  '@testing-library/react': ^16.3.0
+  '@types/jsdom': ^21.1.7
+  '@types/node': ^24.3.1
+  '@types/react': 19.2.7
+  '@types/react-dom': 19.2.3
+  '@vitejs/plugin-react': ^5.0.2
   eslint: ^9.35.0
   firebase: ^11.10.0
   jsdom: ^26.1.0
   nanostores: ^1.1.0
-
   prettier: ^3.6.2
   react: 19.2.1
   react-dom: 19.2.1
   rimraf: ^6.0.1
   rxjs: ^7.8.2
-  tailwindcss: ^4.1.13
+  tailwindcss: 4.1.16
   tsup: 8.5.0
   typescript: ^5.9.2
   vite: ^7.1.5
@@ -44,17 +43,17 @@ catalog:
 
 catalogs:
   peerDependencies:
-    "@angular/fire": ^20
+    '@angular/fire': ^20
     firebase: ^11 || ^12
     react: ^19
     react-dom: ^19
 
+gitChecks: false
+
 onlyBuiltDependencies:
-  - "@parcel/watcher"
+  - '@parcel/watcher'
   - esbuild
   - lmdb
   - msgpackr-extract
   - protobufjs
   - sharp
-
-gitChecks: false
