@@ -20,6 +20,7 @@ import ReactDOM from "react-dom/client";
 import { FirebaseUIProvider, useUI } from "@firebase-oss/ui-react";
 import { ui, auth } from "./firebase/firebase";
 import App from "./App";
+import SnapchatCallbackScreen from "./screens/snapchat-callback-screen";
 import { hiddenRoutes, routes } from "./routes";
 import { enUs } from "@firebase-oss/ui-translations";
 import { pirate } from "./pirate";
@@ -43,6 +44,7 @@ auth.authStateReady().then(() => {
         <PirateToggle />
         <Routes>
           <Route path="/" element={<App />} />
+          <Route path="/auth/snapchat/callback" element={<SnapchatCallbackScreen />} />
           <Route element={<ScreenRoute />}>
             {allRoutes.map((route) => (
               <Route key={route.path} path={route.path} element={<route.component />} />
