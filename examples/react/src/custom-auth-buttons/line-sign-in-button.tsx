@@ -27,29 +27,11 @@ export type LineSignInButtonProps = {
  * Button for signing in with LINE (OIDC).
  */
 export function LineSignInButton({ provider, themed = false, ...props }: LineSignInButtonProps) {
+  const lineLogoUrl = new URL("./line-logo.svg", import.meta.url).href;
+
   return (
     <OAuthButton {...props} themed={themed} provider={provider ?? new OAuthProvider("oidc.line")}>
-      <span
-        className="fui-provider__icon"
-        style={{
-          display: "inline-flex",
-          alignItems: "center",
-          justifyContent: "center",
-          width: "auto",
-          minWidth: "1.95em",
-          height: "1em",
-          paddingInline: "0.2em",
-          borderRadius: 2,
-          backgroundColor: "#00c300",
-          color: "#fff",
-          fontSize: "0.58em",
-          lineHeight: 1,
-          fontWeight: 700,
-        }}
-        aria-hidden
-      >
-        LINE
-      </span>
+      <img src={lineLogoUrl} alt="LINE" className="fui-provider__icon h-6 w-6 object-contain" />
       <span>Sign in with LINE</span>
     </OAuthButton>
   );
