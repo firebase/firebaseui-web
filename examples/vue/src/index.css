@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 @import "@firebase-oss/ui-styles/tailwind";
 
 body {
@@ -14,6 +15,11 @@ body {
     sans-serif;
   color: #111827;
   background: #f9fafb;
+}
+
+.dark body {
+  color: #e5e7eb;
+  background: #111827;
 }
 
 #app {
@@ -37,6 +43,44 @@ h1 {
   color: #4b5563;
 }
 
+.dark .subtitle {
+  color: #9ca3af;
+}
+
+.theme-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.theme-button {
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  background: #fff;
+  color: #111827;
+  padding: 0.4rem 0.7rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.theme-button.active {
+  border-color: #2563eb;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.dark .theme-button {
+  border-color: #374151;
+  background: #1f2937;
+  color: #e5e7eb;
+}
+
+.dark .theme-button.active {
+  border-color: #60a5fa;
+  background: #1e3a8a;
+  color: #dbeafe;
+}
+
 .status-panel {
   border: 1px solid #d1d5db;
   border-radius: 0.5rem;
@@ -44,11 +88,20 @@ h1 {
   padding: 0.75rem 1rem;
 }
 
+.dark .status-panel {
+  border-color: #374151;
+  background: #1f2937;
+}
+
 .status-label {
   font-size: 0.75rem;
   color: #6b7280;
   text-transform: uppercase;
   letter-spacing: 0.04em;
+}
+
+.dark .status-label {
+  color: #9ca3af;
 }
 
 .status-value {
