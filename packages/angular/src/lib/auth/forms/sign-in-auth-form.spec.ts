@@ -367,6 +367,41 @@ describe("<fui-sign-in-auth-form />", () => {
     expect(screen.getByText(errorMessage)).toBeInTheDocument();
   });
 
+  it("should show provider guidance for auth/invalid-password", async () => {
+    const guidanceMessage =
+      "This account may have been created using a different sign-in method. " +
+      "Try signing in with another method or reset your password.";
+    const error = new mockFirebaseUIError("Invalid credentials");
+    error.code = "auth/invalid-password";
+    mockSignInWithEmailAndPassword.mockRejectedValue(error);
+
+    const { fixture } = await render(SignInAuthFormComponent, {
+      imports: [
+        CommonModule,
+        SignInAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
+      ],
+    });
+
+    const component = fixture.componentInstance;
+
+    component.form.setFieldValue("email", "test@example.com");
+    component.form.setFieldValue("password", "wrongpassword");
+    fixture.detectChanges();
+
+    await component.form.handleSubmit();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(screen.getByText(guidanceMessage)).toBeInTheDocument();
+  });
+
   it("should handle unknown errors and display generic error message", async () => {
     mockSignInWithEmailAndPassword.mockRejectedValue(new Error("Network error"));
 

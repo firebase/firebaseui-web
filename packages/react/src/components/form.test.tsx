@@ -179,11 +179,14 @@ describe("form export", () => {
 
       render(
         <hook.AppForm>
-          <hook.AppField validators={{
-            onSubmitAsync: async () => {
-              return "error!";
-            },
-          }} name="foo">
+          <hook.AppField
+            validators={{
+              onSubmitAsync: async () => {
+                return "error!";
+              },
+            }}
+            name="foo"
+          >
             {(field) => <field.Input label="Foo" />}
           </hook.AppField>
         </hook.AppForm>
