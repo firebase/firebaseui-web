@@ -21,9 +21,7 @@ import { ComponentProps } from "react";
 
 vi.mock("~/components/button", () => {
   return {
-    Button: (props: ComponentProps<"button">) => (
-      <button {...props} data-testid="submit-button" />
-    ),
+    Button: (props: ComponentProps<"button">) => <button {...props} data-testid="submit-button" />,
   };
 });
 
@@ -47,9 +45,7 @@ describe("form export", () => {
 
     render(
       <hook.AppForm>
-        <hook.AppField name="foo">
-          {(field) => <field.Input label="Foo" />}
-        </hook.AppField>
+        <hook.AppField name="foo">{(field) => <field.Input label="Foo" />}</hook.AppField>
         <hook.ErrorMessage />
         <hook.SubmitButton>Submit</hook.SubmitButton>
         <hook.Action>Action</hook.Action>
@@ -73,19 +69,14 @@ describe("form export", () => {
 
       const { container } = render(
         <hook.AppForm>
-          <hook.AppField name="foo">
-            {(field) => <field.Input label="Foo" />}
-          </hook.AppField>
+          <hook.AppField name="foo">{(field) => <field.Input label="Foo" />}</hook.AppField>
         </hook.AppForm>
       );
 
       expect(container.querySelector('label[for="foo"]')).toBeInTheDocument();
       expect(container.querySelector('input[name="foo"]')).toBeInTheDocument();
       expect(container.querySelector('input[name="foo"]')).toHaveValue("bar");
-      expect(container.querySelector('input[name="foo"]')).toHaveAttribute(
-        "aria-invalid",
-        "false"
-      );
+      expect(container.querySelector('input[name="foo"]')).toHaveAttribute("aria-invalid", "false");
     });
 
     it("should render children when provided", () => {
