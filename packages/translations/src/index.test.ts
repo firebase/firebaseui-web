@@ -15,8 +15,9 @@
  */
 
 import { describe, it, expect } from "vitest";
-import { registerLocale, enUs, type Locale, type RegisteredLocale } from "./index";
+import { registerLocale, enUs, type Locale, type RegisteredLocale, csCz } from "./index";
 import { enUS } from "./locales/en-us";
+import { csCZ } from "./locales/cs-cz";
 import type { Translations } from "./types";
 import { getTranslation, ERROR_CODE_MAP } from "./mapping";
 import * as types from "./types";
@@ -149,8 +150,18 @@ describe("index.ts", () => {
       expect(enUs.translations).toBeDefined();
     });
 
+    it("should export csCz with correct structure", () => {
+      expect(csCz).toBeDefined();
+      expect(csCz.locale).toBe("cs-CZ");
+      expect(csCz.translations).toBeDefined();
+    });
+
     it("should use the correct enUS translations", () => {
       expect(enUs.translations).toBe(enUS);
+    });
+
+    it("should use the correct csCZ translations", () => {
+      expect(csCz.translations).toBe(csCZ);
     });
 
     it("should have all required translation categories", () => {

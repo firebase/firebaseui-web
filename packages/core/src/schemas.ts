@@ -29,7 +29,7 @@ import { hasBehavior } from "./behaviors";
  */
 export function createSignInAuthFormSchema(ui: FirebaseUI) {
   return z.object({
-    email: z.email(getTranslation(ui, "errors", "invalidEmail")),
+    email: z.string().email(getTranslation(ui, "errors", "invalidEmail")),
     password: z.string().min(6, getTranslation(ui, "errors", "weakPassword")),
   });
 }
@@ -48,7 +48,7 @@ export function createSignUpAuthFormSchema(ui: FirebaseUI) {
   const displayNameRequiredMessage = getTranslation(ui, "errors", "displayNameRequired");
 
   return z.object({
-    email: z.email(getTranslation(ui, "errors", "invalidEmail")),
+    email: z.string().email(getTranslation(ui, "errors", "invalidEmail")),
     password: z.string().min(6, getTranslation(ui, "errors", "weakPassword")),
     displayName: requireDisplayName
       ? z.string().min(1, displayNameRequiredMessage)
@@ -66,7 +66,7 @@ export function createSignUpAuthFormSchema(ui: FirebaseUI) {
  */
 export function createForgotPasswordAuthFormSchema(ui: FirebaseUI) {
   return z.object({
-    email: z.email(getTranslation(ui, "errors", "invalidEmail")),
+    email: z.string().email(getTranslation(ui, "errors", "invalidEmail")),
   });
 }
 
@@ -80,7 +80,7 @@ export function createForgotPasswordAuthFormSchema(ui: FirebaseUI) {
  */
 export function createEmailLinkAuthFormSchema(ui: FirebaseUI) {
   return z.object({
-    email: z.email(getTranslation(ui, "errors", "invalidEmail")),
+    email: z.string().email(getTranslation(ui, "errors", "invalidEmail")),
   });
 }
 

@@ -101,6 +101,9 @@ export class SignInAuthFormComponent {
   noAccountLabel = injectTranslation("prompts", "noAccount");
   signUpLabel = injectTranslation("labels", "signUp");
   unknownErrorLabel = injectTranslation("errors", "unknownError");
+  providerMismatchGuidanceMessage =
+    "This account may have been created using a different sign-in method. " +
+    "Try signing in with another method or reset your password.";
 
   /** Event emitter for forgot password action. */
   forgotPassword = input<EventEmitter<void>>();
@@ -129,7 +132,7 @@ export class SignInAuthFormComponent {
     effect(() => {
       this.form.update({
         validators: {
-          onBlur: this.formSchema(),
+          onChange: this.formSchema(),
           onSubmitAsync: async ({ value }) => {
             try {
               const credential = await signInWithEmailAndPassword(this.ui(), value.email, value.password);
@@ -137,6 +140,10 @@ export class SignInAuthFormComponent {
               return;
             } catch (error) {
               if (error instanceof FirebaseUIError) {
+                if (error.code === "auth/invalid-password") {
+                  return this.providerMismatchGuidanceMessage;
+                }
+
                 return error.message;
               }
 

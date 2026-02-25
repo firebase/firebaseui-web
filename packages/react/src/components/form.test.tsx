@@ -15,7 +15,7 @@
  */
 
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
-import { render, screen, cleanup, renderHook, act, waitFor } from "@testing-library/react";
+import { render, screen, cleanup, renderHook, act, waitFor, fireEvent } from "@testing-library/react";
 import { form } from "./form";
 import { ComponentProps } from "react";
 
@@ -55,6 +55,8 @@ describe("form export", () => {
     expect(screen.getByRole("textbox", { name: "Foo" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Submit" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Action" })).toBeInTheDocument();
+    expect(screen.getByText("Submit")).toBeInTheDocument();
+    expect(screen.getByText("Action")).toBeInTheDocument();
   });
 
   describe("<Input />", () => {
@@ -74,12 +76,13 @@ describe("form export", () => {
       );
 
       expect(container.querySelector('label[for="foo"]')).toBeInTheDocument();
+      expect(container.querySelector('label[for="foo"]')).toHaveTextContent("Foo");
       expect(container.querySelector('input[name="foo"]')).toBeInTheDocument();
       expect(container.querySelector('input[name="foo"]')).toHaveValue("bar");
       expect(container.querySelector('input[name="foo"]')).toHaveAttribute("aria-invalid", "false");
     });
 
-    it("should render children when provided", () => {
+    it("should render the Input children when provided", () => {
       const { result } = renderHook(() => {
         return form.useAppForm({
           defaultValues: { foo: "bar" },
@@ -93,17 +96,79 @@ describe("form export", () => {
           <hook.AppField name="foo">
             {(field) => (
               <field.Input label="Foo">
-                <div data-testid="child">Child</div>
+                <div data-testid="test-child">Test Child</div>
               </field.Input>
             )}
           </hook.AppField>
         </hook.AppForm>
       );
 
-      expect(screen.getByTestId("child")).toBeInTheDocument();
+      expect(screen.getByTestId("test-child")).toBeInTheDocument();
     });
 
-    it("should render validation error after submit", async () => {
+    it("should render the Input action prop when provided", () => {
+      const { result } = renderHook(() => {
+        return form.useAppForm({
+          defaultValues: { foo: "bar" },
+        });
+      });
+
+      const hook = result.current;
+
+      render(
+        <hook.AppForm>
+          <hook.AppField name="foo">
+            {(field) => <field.Input label="Foo" action={<button data-testid="test-action">Action</button>} />}
+          </hook.AppField>
+        </hook.AppForm>
+      );
+
+      expect(screen.getByTestId("test-action")).toBeInTheDocument();
+      expect(screen.getByTestId("test-action")).toHaveTextContent("Action");
+    });
+
+    it("should render the Input description prop when provided", () => {
+      const { result } = renderHook(() => {
+        return form.useAppForm({
+          defaultValues: { foo: "bar" },
+        });
+      });
+
+      const hook = result.current;
+
+      const { container } = render(
+        <hook.AppForm>
+          <hook.AppField name="foo">
+            {(field) => <field.Input label="Foo" description="This is a description" />}
+          </hook.AppField>
+        </hook.AppForm>
+      );
+
+      const description = container.querySelector("[data-input-description]");
+      expect(description).toBeInTheDocument();
+      expect(description).toHaveTextContent("This is a description");
+    });
+
+    it("should not render the Input description when not provided", () => {
+      const { result } = renderHook(() => {
+        return form.useAppForm({
+          defaultValues: { foo: "bar" },
+        });
+      });
+
+      const hook = result.current;
+
+      const { container } = render(
+        <hook.AppForm>
+          <hook.AppField name="foo">{(field) => <field.Input label="Foo" />}</hook.AppField>
+        </hook.AppForm>
+      );
+
+      const description = container.querySelector("[data-input-description]");
+      expect(description).not.toBeInTheDocument();
+    });
+
+    it("should render the Input metadata when available", async () => {
       const { result } = renderHook(() => {
         return form.useAppForm({
           defaultValues: { foo: "" },
@@ -115,10 +180,12 @@ describe("form export", () => {
       render(
         <hook.AppForm>
           <hook.AppField
-            name="foo"
             validators={{
-              onSubmit: () => "error!",
+              onSubmitAsync: async () => {
+                return "error!";
+              },
             }}
+            name="foo"
           >
             {(field) => <field.Input label="Foo" />}
           </hook.AppField>
@@ -135,13 +202,55 @@ describe("form export", () => {
     });
   });
 
+  describe("<Action />", () => {
+    it("should render the Action component", () => {
+      const { result } = renderHook(() => {
+        return form.useAppForm({});
+      });
+
+      const hook = result.current;
+
+      render(
+        <hook.AppForm>
+          <hook.Action>Action</hook.Action>
+        </hook.AppForm>
+      );
+
+      expect(screen.getByRole("button", { name: "Action" })).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Action" })).toHaveClass("fui-form__action");
+      expect(screen.getByRole("button", { name: "Action" })).toHaveTextContent("Action");
+      expect(screen.getByRole("button", { name: "Action" })).toHaveAttribute("type", "button");
+    });
+  });
+
   describe("<SubmitButton />", () => {
-    it("should disable button while submitting", async () => {
+    it("should render the SubmitButton component", () => {
+      const { result } = renderHook(() => {
+        return form.useAppForm({});
+      });
+
+      const hook = result.current;
+
+      render(
+        <hook.AppForm>
+          <hook.SubmitButton>Submit</hook.SubmitButton>
+        </hook.AppForm>
+      );
+
+      expect(screen.getByRole("button", { name: "Submit" })).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Submit" })).toHaveTextContent("Submit");
+      expect(screen.getByRole("button", { name: "Submit" })).toHaveAttribute("type", "submit");
+      expect(screen.getByTestId("submit-button")).toBeInTheDocument();
+    });
+
+    it("should subscribe to the isSubmitting state", async () => {
       const { result } = renderHook(() => {
         return form.useAppForm({
           validators: {
             onSubmitAsync: async () => {
-              await new Promise((r) => setTimeout(r, 100));
+              // Simulate a slow async operation
+              await new Promise((resolve) => setTimeout(resolve, 100));
+              return undefined;
             },
           },
         });
@@ -155,24 +264,29 @@ describe("form export", () => {
         </hook.AppForm>
       );
 
-      const btn = screen.getByTestId("submit-button");
+      const submitButton = screen.getByTestId("submit-button");
+
+      expect(submitButton).toBeInTheDocument();
+      expect(submitButton).not.toHaveAttribute("disabled");
 
       act(() => {
         hook.handleSubmit();
       });
 
       await waitFor(() => {
-        expect(btn).toBeDisabled();
+        expect(submitButton).toHaveAttribute("disabled");
       });
     });
   });
 
   describe("<ErrorMessage />", () => {
-    it("should show submit error message", async () => {
+    it("should render the ErrorMessage if the onSubmit error is set", async () => {
       const { result } = renderHook(() => {
         return form.useAppForm({
           validators: {
-            onSubmitAsync: async () => "error!",
+            onSubmitAsync: async () => {
+              return "error!";
+            },
           },
         });
       });
@@ -193,6 +307,106 @@ describe("form export", () => {
         const error = container.querySelector(".fui-error");
         expect(error).toBeInTheDocument();
         expect(error).toHaveTextContent("error!");
+      });
+    });
+
+    it("should clear errorMap.onSubmit after typing", async () => {
+      const { result } = renderHook(() => {
+        return form.useAppForm({
+          defaultValues: {
+            email: "",
+          },
+          validators: {
+            onSubmitAsync: async () => {
+              return "submit error";
+            },
+          },
+        });
+      });
+
+      const hook = result.current;
+
+      render(
+        <hook.AppForm>
+          <hook.AppField name="email">{(field) => <field.Input label="Email" />}</hook.AppField>
+          <hook.ErrorMessage />
+        </hook.AppForm>
+      );
+
+      await act(async () => {
+        await hook.handleSubmit();
+      });
+
+      await waitFor(() => {
+        expect(screen.getByText("submit error")).toBeInTheDocument();
+        expect(result.current.state.errorMap?.onSubmit).toBe("submit error");
+      });
+
+      fireEvent.change(screen.getByRole("textbox", { name: "Email" }), { target: { value: "typed" } });
+
+      await waitFor(() => {
+        expect(result.current.state.errorMap?.onSubmit).toBeUndefined();
+        expect(screen.queryByText("submit error")).not.toBeInTheDocument();
+      });
+    });
+  });
+
+  describe("onChange validation flow", () => {
+    it("shows no field errors before submit, then shows and clears after typing valid values", async () => {
+      const { result } = renderHook(() => {
+        return form.useAppForm({
+          defaultValues: {
+            email: "",
+            password: "",
+          },
+        });
+      });
+
+      const hook = result.current;
+
+      render(
+        <hook.AppForm>
+          <hook.AppField
+            name="email"
+            validators={{
+              onChange: ({ value }) =>
+                typeof value === "string" && /.+@.+\..+/.test(value) ? undefined : "Please enter a valid email address",
+            }}
+          >
+            {(field) => <field.Input label="Email" />}
+          </hook.AppField>
+          <hook.AppField
+            name="password"
+            validators={{
+              onChange: ({ value }) =>
+                typeof value === "string" && value.length >= 6 ? undefined : "Password should be at least 6 characters",
+            }}
+          >
+            {(field) => <field.Input label="Password" type="password" />}
+          </hook.AppField>
+        </hook.AppForm>
+      );
+
+      expect(screen.queryByText("Please enter a valid email address")).not.toBeInTheDocument();
+      expect(screen.queryByText("Password should be at least 6 characters")).not.toBeInTheDocument();
+
+      await act(async () => {
+        await hook.handleSubmit();
+      });
+
+      await waitFor(() => {
+        expect(screen.getAllByRole("alert")).toHaveLength(2);
+        expect(screen.getByRole("textbox", { name: "Email" })).toHaveAttribute("aria-invalid", "true");
+        expect(screen.getByLabelText("Password")).toHaveAttribute("aria-invalid", "true");
+      });
+
+      fireEvent.change(screen.getByRole("textbox", { name: "Email" }), { target: { value: "test@example.com" } });
+      fireEvent.change(screen.getByLabelText("Password"), { target: { value: "123456" } });
+
+      await waitFor(() => {
+        expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+        expect(screen.getByRole("textbox", { name: "Email" })).toHaveAttribute("aria-invalid", "false");
+        expect(screen.getByLabelText("Password")).toHaveAttribute("aria-invalid", "false");
       });
     });
   });

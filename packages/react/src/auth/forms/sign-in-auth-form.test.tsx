@@ -22,6 +22,7 @@ import { signInWithEmailAndPassword } from "@firebase-oss/ui-core";
 import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
 import { registerLocale } from "@firebase-oss/ui-translations";
 import type { UserCredential } from "firebase/auth";
+import { FirebaseError } from "firebase/app";
 import { FirebaseUIProvider } from "~/context";
 
 vi.mock("firebase/auth", async () => {
@@ -114,6 +115,28 @@ describe("useSignInAuthFormAction", () => {
     }).rejects.toThrow("unknownError");
 
     expect(signInWithEmailAndPasswordMock).toHaveBeenCalledWith(mockUI.get(), "test@example.com", "password123");
+  });
+
+  it("should throw guidance message when FirebaseUIError code is auth/invalid-password", async () => {
+    const { FirebaseUIError } = await import("@firebase-oss/ui-core");
+    const signInWithEmailAndPasswordMock = vi.mocked(signInWithEmailAndPassword);
+    const mockUI = createMockUI();
+
+    signInWithEmailAndPasswordMock.mockRejectedValue(
+      new FirebaseUIError(mockUI.get(), new FirebaseError("auth/invalid-password", "Invalid password"))
+    );
+
+    const { result } = renderHook(() => useSignInAuthFormAction(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    await expect(async () => {
+      await act(async () => {
+        await result.current({ email: "test@example.com", password: "password123" });
+      });
+    }).rejects.toThrow(
+      "This account may have been created using a different sign-in method. Try signing in with another method or reset your password."
+    );
   });
 });
 
@@ -262,7 +285,7 @@ describe("<SignInAuthForm />", () => {
     expect(onSignUpClick).toHaveBeenCalled();
   });
 
-  it("should trigger validation errors when the form is blurred", () => {
+  it("should trigger validation errors when the form changes", () => {
     const mockUI = createMockUI();
 
     const { container } = render(
@@ -277,7 +300,7 @@ describe("<SignInAuthForm />", () => {
     const input = screen.getByRole("textbox", { name: /email/i });
 
     act(() => {
-      fireEvent.blur(input);
+      fireEvent.change(input, { target: { value: "invalid" } });
     });
 
     expect(screen.getByText("Please enter a valid email address")).toBeInTheDocument();

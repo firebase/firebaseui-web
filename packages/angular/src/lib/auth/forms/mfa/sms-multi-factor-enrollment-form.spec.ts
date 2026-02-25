@@ -20,6 +20,12 @@ import { TanStackField, TanStackAppField } from "@tanstack/angular-form";
 import { SmsMultiFactorEnrollmentFormComponent } from "./sms-multi-factor-enrollment-form";
 import { FormInputComponent, FormSubmitComponent, FormErrorMessageComponent } from "../../../components/form";
 import { CountrySelectorComponent } from "../../../components/country-selector";
+import type { CountryCode } from "@firebase-oss/ui-core";
+import type {
+  InjectRecaptchaVerifierMock,
+  RecaptchaVerifierMock,
+  RecaptchaVerifierSignal,
+} from "../../../tests/test-helpers";
 
 jest.mock("@firebase-oss/ui-core", () => {
   const originalModule = jest.requireActual("@firebase-oss/ui-core");
@@ -50,13 +56,14 @@ jest.mock("firebase/auth", () => {
 });
 
 describe("<fui-sms-multi-factor-enrollment-form />", () => {
-  let mockVerifyPhoneNumber: any;
-  let mockEnrollWithMultiFactorAssertion: any;
-  let mockFormatPhoneNumber: any;
-  let mockFirebaseUIError: any;
-  let mockMultiFactor: any;
-  let mockPhoneAuthProvider: any;
-  let mockPhoneMultiFactorGenerator: any;
+  let mockVerifyPhoneNumber: jest.Mock;
+  let mockEnrollWithMultiFactorAssertion: jest.Mock;
+  let mockFormatPhoneNumber: jest.Mock;
+  let mockFirebaseUIError: new (message: string) => Error;
+  let mockMultiFactor: jest.Mock;
+  let mockPhoneAuthProvider: unknown;
+  let mockPhoneMultiFactorGenerator: unknown;
+  let injectRecaptchaVerifier: InjectRecaptchaVerifierMock<RecaptchaVerifierMock>;
 
   beforeEach(() => {
     const {
@@ -65,7 +72,7 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
       injectMultiFactorPhoneAuthNumberFormSchema,
       injectMultiFactorPhoneAuthVerifyFormSchema,
       injectDefaultCountry,
-      injectRecaptchaVerifier,
+      injectRecaptchaVerifier: injectRecaptchaVerifierFromHelpers,
     } = require("../../../tests/test-helpers");
     const { PhoneAuthProvider, PhoneMultiFactorGenerator } = require("../../../tests/test-helpers");
     const {
@@ -83,6 +90,7 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
     mockMultiFactor = multiFactor;
     mockPhoneAuthProvider = PhoneAuthProvider;
     mockPhoneMultiFactorGenerator = PhoneMultiFactorGenerator;
+    injectRecaptchaVerifier = injectRecaptchaVerifierFromHelpers;
 
     injectTranslation.mockImplementation((category: string, key: string) => {
       const mockTranslations: Record<string, Record<string, string>> = {
@@ -124,11 +132,12 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
     });
 
     injectRecaptchaVerifier.mockImplementation(() => {
-      return () => ({
+      const verifierFn: RecaptchaVerifierSignal<RecaptchaVerifierMock> = () => ({
         clear: jest.fn(),
         render: jest.fn(),
         verify: jest.fn(),
       });
+      return verifierFn;
     });
   });
 
@@ -219,7 +228,7 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
 
     component.phoneForm.setFieldValue("displayName", "Test User");
     component.phoneForm.setFieldValue("phoneNumber", "1234567890");
-    component.country.set("US" as any);
+    component.country.set("US" as CountryCode);
     fixture.detectChanges();
 
     await component.phoneForm.handleSubmit();
@@ -346,7 +355,7 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
 
     component.phoneForm.setFieldValue("displayName", "Test User");
     component.phoneForm.setFieldValue("phoneNumber", "1234567890");
-    component.country.set("US" as any);
+    component.country.set("US" as CountryCode);
     fixture.detectChanges();
 
     await component.phoneForm.handleSubmit();
@@ -404,5 +413,78 @@ describe("<fui-sms-multi-factor-enrollment-form />", () => {
     expect(container.querySelector(".fui-form-container")).toBeInTheDocument();
     expect(container.querySelector(".fui-form")).toBeInTheDocument();
     expect(container.querySelector(".fui-recaptcha-container")).toBeInTheDocument();
+  });
+
+  it("waits for reCAPTCHA render to complete before verifying phone number", async () => {
+    const mockVerificationId = "test-verification-id";
+
+    let renderCompleted = false;
+    let renderPromise: Promise<unknown> | null = null;
+    const mockVerifier = {
+      clear: jest.fn(),
+      render: jest.fn().mockImplementation(() => {
+        renderPromise = new Promise((resolve) => {
+          setTimeout(() => {
+            renderCompleted = true;
+            resolve(123);
+          }, 10);
+        });
+        return renderPromise;
+      }),
+      verify: jest.fn(),
+    };
+
+    const renderPromiseSignal = jest.fn<Promise<unknown> | null, []>(() => renderPromise);
+    const renderCompletedSignal = jest.fn<boolean, []>(() => renderCompleted);
+
+    injectRecaptchaVerifier.mockImplementation(() => {
+      const verifierFn: RecaptchaVerifierSignal<RecaptchaVerifierMock> = Object.assign(() => mockVerifier, {
+        renderPromise: renderPromiseSignal,
+        renderCompleted: renderCompletedSignal,
+      });
+      return verifierFn;
+    });
+
+    // Simulate provider effect calling render()
+    setTimeout(() => {
+      if (!renderPromise) {
+        mockVerifier.render();
+      }
+    }, 0);
+
+    mockVerifyPhoneNumber.mockImplementation(async () => {
+      if (!renderCompleted) {
+        throw new mockFirebaseUIError("Firebase: Error (auth/internal-error)");
+      }
+      return mockVerificationId;
+    });
+
+    const { fixture } = await render(SmsMultiFactorEnrollmentFormComponent, {
+      imports: [
+        CommonModule,
+        SmsMultiFactorEnrollmentFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        CountrySelectorComponent,
+      ],
+    });
+
+    const component = fixture.componentInstance;
+    component.phoneForm.setFieldValue("displayName", "Test User");
+    component.phoneForm.setFieldValue("phoneNumber", "1234567890");
+    component.country.set("US" as CountryCode);
+    fixture.detectChanges();
+
+    await component.phoneForm.handleSubmit();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(component.verificationId()).toBe(mockVerificationId);
+    expect(mockVerifyPhoneNumber).toHaveBeenCalled();
+    expect(screen.queryByText(/auth\/internal-error/i)).not.toBeInTheDocument();
+    expect(screen.queryByText("An unknown error occurred")).not.toBeInTheDocument();
   });
 });
