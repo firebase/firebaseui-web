@@ -8,6 +8,7 @@ import EmailLinkAuthScreenPage from "./screens/email-link-auth-screen";
 import EmailLinkAuthScreenWithOAuthPage from "./screens/email-link-auth-screen-w-oauth";
 import ForgotPasswordAuthScreenPage from "./screens/forgot-password-auth-screen";
 import OAuthScreenPage from "./screens/oauth-screen";
+import CustomAuthScreenPage from "./screens/custom-auth-screen";
 import PhoneAuthScreenPage from "./screens/phone-auth-screen";
 import PhoneAuthScreenWithOAuthPage from "./screens/phone-auth-screen-w-oauth";
 import MultiFactorAuthEnrollmentScreenPage from "./screens/mfa-enrollment-screen";
@@ -84,6 +85,12 @@ export const routes = [
     description: "A screen allowing a user to sign in with a phone number, with oAuth buttons.",
     path: "/screens/phone-auth-screen-w-oauth",
     component: PhoneAuthScreenWithOAuthPage,
+  },
+  {
+    name: "Custom auth",
+    description: "LINE (OIDC) and Snapchat (OAuth 2.0 + custom token) sign-in buttons.",
+    path: "/screens/custom-auth",
+    component: CustomAuthScreenPage,
   },
 ] as const;
 

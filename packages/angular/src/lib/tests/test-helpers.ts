@@ -14,6 +14,11 @@
  * limitations under the License.
  */
 
+// Mock @angular/fire/auth exports (Auth is used as a DI token in provider.ts deps)
+export class Auth {}
+export const authState = jest.fn(() => ({ subscribe: jest.fn() }));
+export class User {}
+
 // Mock implementations for @firebase-oss/ui-core to avoid ESM issues in tests
 export const sendPasswordResetEmail = jest.fn();
 export const sendSignInLinkToEmail = jest.fn();
@@ -189,7 +194,7 @@ export const createSignInAuthFormSchema = jest.fn(() => {
   const { z } = require("zod");
   return z.object({
     email: z.string().email("Please enter a valid email address"),
-    password: z.string().min(1, "Password is required"),
+    password: z.string().min(1, "Password is required").min(6, "Password should be at least 6 characters"),
   });
 });
 
@@ -220,7 +225,7 @@ export const injectSignInAuthFormSchema = jest.fn().mockReturnValue(() => {
   const { z } = require("zod");
   return z.object({
     email: z.string().email("Please enter a valid email address"),
-    password: z.string().min(1, "Password is required"),
+    password: z.string().min(1, "Password is required").min(6, "Password should be at least 6 characters"),
   });
 });
 
@@ -294,6 +299,19 @@ export const injectMultiFactorTotpAuthEnrollmentFormSchema = jest.fn().mockRetur
 
 export const injectCountries = jest.fn().mockReturnValue(() => countryData);
 export const injectDefaultCountry = jest.fn().mockReturnValue(() => "US");
+
+export type RecaptchaVerifierMock = {
+  clear: jest.Mock<void, []>;
+  render: jest.Mock<unknown, []>;
+  verify: jest.Mock<unknown, []>;
+};
+
+export type RecaptchaVerifierSignal<T> = (() => T | null) & {
+  renderCompleted?: () => boolean;
+  renderPromise?: () => Promise<unknown> | null;
+};
+
+export type InjectRecaptchaVerifierMock<T> = jest.Mock<RecaptchaVerifierSignal<T>, unknown[]>;
 
 export const injectRecaptchaVerifier = jest.fn().mockImplementation(() => {
   return () => ({

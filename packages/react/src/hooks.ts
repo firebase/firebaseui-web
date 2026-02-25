@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { useContext, useMemo, useEffect, useRef } from "react";
+import { useContext, useMemo, useEffect, useRef, useState } from "react";
 import type { RecaptchaVerifier, User } from "firebase/auth";
 import {
   createEmailLinkAuthFormSchema,
@@ -200,26 +200,68 @@ export function useMultiFactorTotpAuthVerifyFormSchema() {
  */
 export function useRecaptchaVerifier(ref: React.RefObject<HTMLDivElement | null>) {
   const ui = useUI();
-  const verifierRef = useRef<RecaptchaVerifier | null>(null);
+  const [verifier, setVerifier] = useState<RecaptchaVerifier | null>(null);
   const uiRef = useRef(ui);
   const prevElementRef = useRef<HTMLDivElement | null>(null);
+  const activeVerifierRef = useRef<RecaptchaVerifier | null>(null);
 
   uiRef.current = ui;
 
   useEffect(() => {
+    let cancelled = false;
     const currentElement = ref.current;
     const currentUI = uiRef.current;
 
     if (currentElement !== prevElementRef.current) {
       prevElementRef.current = currentElement;
+
+      // Tear down any previous verifier before creating a new one.
+      if (activeVerifierRef.current) {
+        try {
+          activeVerifierRef.current.clear();
+        } catch {
+          // ignore
+        }
+        activeVerifierRef.current = null;
+      }
+
+      // Until render() completes, treat verifier as unavailable to callers.
+      setVerifier(null);
+
       if (currentElement) {
-        verifierRef.current = getBehavior(currentUI, "recaptchaVerification")(currentUI, currentElement);
-        verifierRef.current.render();
+        (async () => {
+          try {
+            const newVerifier = getBehavior(currentUI, "recaptchaVerification")(currentUI, currentElement);
+            activeVerifierRef.current = newVerifier;
+            await newVerifier.render();
+
+            if (cancelled || activeVerifierRef.current !== newVerifier) {
+              // Element changed/unmounted while rendering; clean up the stale verifier.
+              try {
+                newVerifier.clear();
+              } catch {
+                // ignore
+              }
+              return;
+            }
+
+            setVerifier(newVerifier);
+          } catch (error) {
+            console.error("[useRecaptchaVerifier] Failed to create/render verifier:", error);
+            if (!cancelled) {
+              setVerifier(null);
+            }
+          }
+        })();
       } else {
-        verifierRef.current = null;
+        setVerifier(null);
       }
     }
+
+    return () => {
+      cancelled = true;
+    };
   }, [ref]);
 
-  return verifierRef.current;
+  return verifier;
 }

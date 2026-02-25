@@ -43,6 +43,7 @@ export function SignUpAuthForm(props: SignUpAuthFormProps) {
 
   const form = useForm<SignUpAuthFormSchema>({
     resolver: standardSchemaResolver(schema),
+    mode: "onChange",
     defaultValues: {
       email: "",
       password: "",

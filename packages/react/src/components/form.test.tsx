@@ -15,7 +15,7 @@
  */
 
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
-import { render, screen, cleanup, renderHook, act, waitFor } from "@testing-library/react";
+import { render, screen, cleanup, renderHook, act, waitFor, fireEvent } from "@testing-library/react";
 import { form } from "./form";
 import { ComponentProps } from "react";
 
@@ -202,6 +202,106 @@ describe("form export", () => {
         const error = container.querySelector(".fui-error");
         expect(error).toBeInTheDocument();
         expect(error).toHaveTextContent("error!");
+      });
+    });
+
+    it("should clear errorMap.onSubmit after typing", async () => {
+      const { result } = renderHook(() => {
+        return form.useAppForm({
+          defaultValues: {
+            email: "",
+          },
+          validators: {
+            onSubmitAsync: async () => {
+              return "submit error";
+            },
+          },
+        });
+      });
+
+      const hook = result.current;
+
+      render(
+        <hook.AppForm>
+          <hook.AppField name="email">{(field) => <field.Input label="Email" />}</hook.AppField>
+          <hook.ErrorMessage />
+        </hook.AppForm>
+      );
+
+      await act(async () => {
+        await hook.handleSubmit();
+      });
+
+      await waitFor(() => {
+        expect(screen.getByText("submit error")).toBeInTheDocument();
+        expect(result.current.state.errorMap?.onSubmit).toBe("submit error");
+      });
+
+      fireEvent.change(screen.getByRole("textbox", { name: "Email" }), { target: { value: "typed" } });
+
+      await waitFor(() => {
+        expect(result.current.state.errorMap?.onSubmit).toBeUndefined();
+        expect(screen.queryByText("submit error")).not.toBeInTheDocument();
+      });
+    });
+  });
+
+  describe("onChange validation flow", () => {
+    it("shows no field errors before submit, then shows and clears after typing valid values", async () => {
+      const { result } = renderHook(() => {
+        return form.useAppForm({
+          defaultValues: {
+            email: "",
+            password: "",
+          },
+        });
+      });
+
+      const hook = result.current;
+
+      render(
+        <hook.AppForm>
+          <hook.AppField
+            name="email"
+            validators={{
+              onChange: ({ value }) =>
+                typeof value === "string" && /.+@.+\..+/.test(value) ? undefined : "Please enter a valid email address",
+            }}
+          >
+            {(field) => <field.Input label="Email" />}
+          </hook.AppField>
+          <hook.AppField
+            name="password"
+            validators={{
+              onChange: ({ value }) =>
+                typeof value === "string" && value.length >= 6 ? undefined : "Password should be at least 6 characters",
+            }}
+          >
+            {(field) => <field.Input label="Password" type="password" />}
+          </hook.AppField>
+        </hook.AppForm>
+      );
+
+      expect(screen.queryByText("Please enter a valid email address")).not.toBeInTheDocument();
+      expect(screen.queryByText("Password should be at least 6 characters")).not.toBeInTheDocument();
+
+      await act(async () => {
+        await hook.handleSubmit();
+      });
+
+      await waitFor(() => {
+        expect(screen.getAllByRole("alert")).toHaveLength(2);
+        expect(screen.getByRole("textbox", { name: "Email" })).toHaveAttribute("aria-invalid", "true");
+        expect(screen.getByLabelText("Password")).toHaveAttribute("aria-invalid", "true");
+      });
+
+      fireEvent.change(screen.getByRole("textbox", { name: "Email" }), { target: { value: "test@example.com" } });
+      fireEvent.change(screen.getByLabelText("Password"), { target: { value: "123456" } });
+
+      await waitFor(() => {
+        expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+        expect(screen.getByRole("textbox", { name: "Email" })).toHaveAttribute("aria-invalid", "false");
+        expect(screen.getByLabelText("Password")).toHaveAttribute("aria-invalid", "false");
       });
     });
   });

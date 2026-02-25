@@ -22,6 +22,7 @@ import { GoogleSignInButton } from "@/components/google-sign-in-button";
 import { MicrosoftSignInButton } from "@/components/microsoft-sign-in-button";
 import { SignInAuthScreen } from "@/components/sign-in-auth-screen";
 import { TwitterSignInButton } from "@/components/twitter-sign-in-button";
+import { YahooSignInButton } from "@/components/yahoo-sign-in-button";
 import { useNavigate } from "react-router";
 
 export default function SignInAuthScreenWithOAuthPage() {
@@ -40,6 +41,7 @@ export default function SignInAuthScreenWithOAuthPage() {
         <GitHubSignInButton />
         <MicrosoftSignInButton />
         <TwitterSignInButton />
+        <YahooSignInButton />
       </div>
     </SignInAuthScreen>
   );

@@ -43,7 +43,7 @@ import { describe } from "vitest";
 describe.skip("TODO");
 
 // describe("Register Integration", () => {
-//   // Ensure password is at least 8 characters to pass validation
+//   // Ensure password is at least 6 characters to pass validation
 //   const testPassword = "Test123456!";
 //   let testEmail: string;
 
