@@ -125,9 +125,9 @@ function ErrorMessage() {
 
 /**
  * A form hook factory for creating forms with validation and error handling.
- * 
- * Provides field components (Input) and form components  (SubmitButton, ErrorMessage, Action)
- * for building accessible forms with Tanstack Form.
+ *
+ * Provides field components (Input) and form components (SubmitButton, ErrorMessage, Action)
+ * for building accessible forms with TanStack Form.
  */
 export const form = createFormHook({
   fieldComponents: {

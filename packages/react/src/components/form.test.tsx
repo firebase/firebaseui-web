@@ -79,7 +79,6 @@ describe("form export", () => {
       expect(container.querySelector('label[for="foo"]')).toHaveTextContent("Foo");
       expect(container.querySelector('input[name="foo"]')).toBeInTheDocument();
       expect(container.querySelector('input[name="foo"]')).toHaveValue("bar");
-      expect(container.querySelector('input[name="foo"]')).not.toHaveAttribute("aria-invalid", "false");
       expect(container.querySelector('input[name="foo"]')).toHaveAttribute("aria-invalid", "false");
     });
 
@@ -107,7 +106,7 @@ describe("form export", () => {
       expect(screen.getByTestId("test-child")).toBeInTheDocument();
     });
 
-    it("should render the Input description when provided", () => {
+    it("should render the Input action prop when provided", () => {
       const { result } = renderHook(() => {
         return form.useAppForm({
           defaultValues: { foo: "bar" },
@@ -145,19 +144,18 @@ describe("form export", () => {
         </hook.AppForm>
       );
 
-      const description = container.querySelector('[data-input-description]');
+      const description = container.querySelector("[data-input-description]");
       expect(description).toBeInTheDocument();
       expect(description).toHaveTextContent("This is a description");
     });
 
-    it("should no render the input description when not provided", () => {
+    it("should not render the Input description when not provided", () => {
       const { result } = renderHook(() => {
         return form.useAppForm({
           defaultValues: { foo: "bar" },
         });
       });
-      
-      
+
       const hook = result.current;
 
       const { container } = render(
@@ -165,8 +163,8 @@ describe("form export", () => {
           <hook.AppField name="foo">{(field) => <field.Input label="Foo" />}</hook.AppField>
         </hook.AppForm>
       );
-      
-      const description = container.querySelector('[data-input-description]');
+
+      const description = container.querySelector("[data-input-description]");
       expect(description).not.toBeInTheDocument();
     });
 
@@ -181,11 +179,11 @@ describe("form export", () => {
 
       render(
         <hook.AppForm>
-          <hook.AppField
-            validators={{
-            }}
-            name="foo"
-          >
+          <hook.AppField validators={{
+            onSubmitAsync: async () => {
+              return "error!";
+            },
+          }} name="foo">
             {(field) => <field.Input label="Foo" />}
           </hook.AppField>
         </hook.AppForm>
@@ -247,6 +245,7 @@ describe("form export", () => {
         return form.useAppForm({
           validators: {
             onSubmitAsync: async () => {
+              // Simulate a slow async operation
               await new Promise((resolve) => setTimeout(resolve, 100));
               return undefined;
             },
@@ -272,7 +271,7 @@ describe("form export", () => {
       });
 
       await waitFor(() => {
-        expect(submitButton).toBeDisabled();
+        expect(submitButton).toHaveAttribute("disabled");
       });
     });
   });
@@ -283,7 +282,7 @@ describe("form export", () => {
         return form.useAppForm({
           validators: {
             onSubmitAsync: async () => {
-              return "error!"
+              return "error!";
             },
           },
         });
