@@ -32,22 +32,14 @@ import {
   useUI,
   RedirectError,
 } from "@firebase-oss/ui-react";
-import {
-  signInWithEmailAndPassword,
-  getTranslation,
-  FirebaseUIError,
-} from "@firebase-oss/ui-core";
-import {
-  EmailAuthProvider,
-  fetchSignInMethodsForEmail,
-} from "firebase/auth";
+import { signInWithEmailAndPassword, getTranslation, FirebaseUIError } from "@firebase-oss/ui-core";
+import { EmailAuthProvider, fetchSignInMethodsForEmail } from "firebase/auth";
 import { useNavigate } from "react-router";
 
 const PROVIDER_MISMATCH_MESSAGE =
   "This account may have been created using a different sign-in method. Try signing in with another method or reset your password.";
 
-const PROVIDER_GUIDANCE_DOCS_URL =
-  "https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection";
+const PROVIDER_GUIDANCE_DOCS_URL = "https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection";
 
 export default function SignInAuthScreenProviderGuidancePage() {
   const navigate = useNavigate();
@@ -74,8 +66,7 @@ export default function SignInAuthScreenProviderGuidancePage() {
           return;
         }
 
-        const isInvalidCredentials =
-          err.code === "auth/wrong-password";
+        const isInvalidCredentials = err.code === "auth/wrong-password";
 
         if (isInvalidCredentials) {
           let signInMethods: string[] | undefined;
@@ -117,14 +108,12 @@ export default function SignInAuthScreenProviderGuidancePage() {
         <h2 className="font-semibold mb-2">&quot;Different sign-in method&quot; message</h2>
         <p className="mb-3">
           This screen implements the flow manually: on email/password sign-in error we call{" "}
-          <code className="text-xs bg-amber-100 dark:bg-amber-900/50 px-1 rounded">
-            fetchSignInMethodsForEmail
-          </code>{" "}
+          <code className="text-xs bg-amber-100 dark:bg-amber-900/50 px-1 rounded">fetchSignInMethodsForEmail</code>{" "}
           and, if the account has no password method, show:
         </p>
         <blockquote className="border-l-2 border-amber-400 dark:border-amber-600 pl-3 my-2 italic">
-          &quot;This account may have been created using a different sign-in method. Try signing in
-          with another method or reset your password.&quot;
+          &quot;This account may have been created using a different sign-in method. Try signing in with another method
+          or reset your password.&quot;
         </blockquote>
         <p className="mb-2">
           This only works when <strong>email enumeration protection</strong> is disabled.
@@ -133,12 +122,7 @@ export default function SignInAuthScreenProviderGuidancePage() {
         <ol className="list-decimal list-inside space-y-1 mb-2">
           <li>
             Open{" "}
-            <a
-              href="https://console.cloud.google.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline"
-            >
+            <a href="https://console.cloud.google.com/" target="_blank" rel="noopener noreferrer" className="underline">
               Google Cloud Console
             </a>{" "}
             and select your project.
@@ -205,11 +189,7 @@ export default function SignInAuthScreenProviderGuidancePage() {
                 </div>
               ) : null}
               <fieldset>
-                <button
-                  type="submit"
-                  className="fui-button fui-button--primary"
-                  disabled={submitting}
-                >
+                <button type="submit" className="fui-button fui-button--primary" disabled={submitting}>
                   {submitting ? "..." : signInLabel}
                 </button>
               </fieldset>
