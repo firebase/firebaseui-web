@@ -1,6 +1,7 @@
 import SignInAuthScreenPage from "./screens/sign-in-auth-screen";
 import SignInAuthScreenWithHandlersPage from "./screens/sign-in-auth-screen-w-handlers";
 import SignInAuthScreenWithOAuthPage from "./screens/sign-in-auth-screen-w-oauth";
+import SignInAuthScreenProviderGuidancePage from "./screens/sign-in-auth-screen-provider-guidance";
 import SignUpAuthScreenPage from "./screens/sign-up-auth-screen";
 import SignUpAuthScreenWithHandlersPage from "./screens/sign-up-auth-screen-w-handlers";
 import SignUpAuthScreenWithOAuthPage from "./screens/sign-up-auth-screen-w-oauth";
@@ -31,6 +32,13 @@ export const routes = [
     description: "A sign in screen with email and password, with oAuth buttons.",
     path: "/screens/sign-in-auth-screen-w-oauth",
     component: SignInAuthScreenWithOAuthPage,
+  },
+  {
+    name: "Sign In Screen (provider guidance)",
+    description:
+      "Sign-in with OAuth; shows a custom message when email/password is used for an OAuth-only account. Requires email enumeration protection disabled.",
+    path: "/screens/sign-in-auth-screen-provider-guidance",
+    component: SignInAuthScreenProviderGuidancePage,
   },
   {
     name: "Sign Up Screen",
