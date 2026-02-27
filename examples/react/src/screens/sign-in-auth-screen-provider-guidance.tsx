@@ -50,7 +50,7 @@ export default function SignInAuthScreenProviderGuidancePage() {
       // Attempt login first
       await signInWithEmailAndPassword(ui, email, password);
       navigate("/"); // success
-    } catch (err: any) {
+    } catch (err) {
       if (err instanceof FirebaseUIError) {
         // Only show provider guidance if password is wrong
         // This is the error you will need to catch and handle in your app

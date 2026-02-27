@@ -43,8 +43,7 @@ export const routes = [
   },
   {
     name: "Sign Up Screen (provider guidance)",
-    description:
-      "Sign up with provider then log to database for provider guidance error messaging",
+    description: "Sign up with provider then log to database for provider guidance error messaging",
     path: "/screens/sign-up-auth-screen-provider-guidance",
     component: SignUpAuthScreenProviderGuidancePage,
   },
