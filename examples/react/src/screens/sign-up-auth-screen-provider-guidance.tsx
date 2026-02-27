@@ -15,7 +15,6 @@ import { getDatabase, ref, set } from "firebase/database";
 
 export default function SignUpAuthScreenProviderGuidancePage() {
   const navigate = useNavigate();
-  const ui = useUI();
   const db = getDatabase();
 
   return (

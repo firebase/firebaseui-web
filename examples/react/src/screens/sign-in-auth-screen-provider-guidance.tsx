@@ -23,11 +23,7 @@ import {
   RedirectError,
 } from "@firebase-oss/ui-react";
 
-import {
-  signInWithEmailAndPassword,
-  getTranslation,
-  FirebaseUIError,
-} from "@firebase-oss/ui-core";
+import { signInWithEmailAndPassword, getTranslation, FirebaseUIError } from "@firebase-oss/ui-core";
 
 import { getDatabase, ref, get } from "firebase/database";
 import { useNavigate } from "react-router";
@@ -49,15 +45,14 @@ export default function SignInAuthScreenProviderGuidancePage() {
     e.preventDefault();
     setError(null);
     setSubmitting(true);
-  
+
     try {
       // Attempt login first
       await signInWithEmailAndPassword(ui, email, password);
       navigate("/"); // success
-  
     } catch (err: any) {
       console.log("Sign-in error:", err);
-  
+
       if (err instanceof FirebaseUIError) {
         // Only show provider guidance if password is wrong
         if (err.code === "auth/wrong-password") {
@@ -65,7 +60,7 @@ export default function SignInAuthScreenProviderGuidancePage() {
             // Normalize email for DB lookup
             const safeEmail = email.trim().toLowerCase().replace(/\./g, ",");
             const snapshot = await get(ref(db, `usersByEmail/${safeEmail}`));
-  
+
             if (snapshot.exists()) {
               const provider = snapshot.val().provider;
               if (provider !== "password") {
@@ -77,16 +72,14 @@ export default function SignInAuthScreenProviderGuidancePage() {
             console.log("RTDB read error:", dbErr);
           }
         }
-  
+
         // If not wrong-password or no provider guidance, show original error
         setError(err.message);
-  
       } else if (err?.code || err?.message) {
         setError(err.message || err.code);
       } else {
         setError("Unexpected error occurred.");
       }
-  
     } finally {
       setSubmitting(false);
     }
@@ -110,10 +103,7 @@ export default function SignInAuthScreenProviderGuidancePage() {
           <CardContent>
             <form className="fui-form" onSubmit={handleSubmit}>
               <fieldset>
-                <label
-                  className="fui-field__label"
-                  htmlFor="provider-guidance-email"
-                >
+                <label className="fui-field__label" htmlFor="provider-guidance-email">
                   {emailLabel}
                 </label>
                 <input
@@ -128,10 +118,7 @@ export default function SignInAuthScreenProviderGuidancePage() {
               </fieldset>
 
               <fieldset>
-                <label
-                  className="fui-field__label"
-                  htmlFor="provider-guidance-password"
-                >
+                <label className="fui-field__label" htmlFor="provider-guidance-password">
                   {passwordLabel}
                 </label>
                 <input
@@ -152,11 +139,7 @@ export default function SignInAuthScreenProviderGuidancePage() {
               )}
 
               <fieldset>
-                <button
-                  type="submit"
-                  className="fui-button fui-button--primary"
-                  disabled={submitting}
-                >
+                <button type="submit" className="fui-button fui-button--primary" disabled={submitting}>
                   {submitting ? "..." : signInLabel}
                 </button>
               </fieldset>
