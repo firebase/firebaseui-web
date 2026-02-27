@@ -73,13 +73,12 @@ export default function SignInAuthScreenProviderGuidancePage() {
         }
 
         // If not wrong-password or no provider guidance, show original error
-        setError(err.message);
-      } else if (err?.code || err?.message) {
-        setError(err.message || err.code);
-      } else {
-        setError("Unexpected error occurred.");
+        setError(
+          err && typeof err === "object" && typeof (err as { message?: unknown }).message === "string"
+            ? (err as { message: string }).message
+            : "An unknown error occurred."
+        );
       }
-    } finally {
       setSubmitting(false);
     }
   };
