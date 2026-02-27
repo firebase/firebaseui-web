@@ -51,10 +51,9 @@ export default function SignInAuthScreenProviderGuidancePage() {
       await signInWithEmailAndPassword(ui, email, password);
       navigate("/"); // success
     } catch (err: any) {
-      console.log("Sign-in error:", err);
-
       if (err instanceof FirebaseUIError) {
         // Only show provider guidance if password is wrong
+        // This is the error you will need to catch and handle in your app
         if (err.code === "auth/wrong-password") {
           try {
             // Normalize email for DB lookup
@@ -69,7 +68,7 @@ export default function SignInAuthScreenProviderGuidancePage() {
               }
             }
           } catch (dbErr) {
-            console.log("RTDB read error:", dbErr);
+            setError("Error getting user by email: " + String(dbErr));
           }
         }
 

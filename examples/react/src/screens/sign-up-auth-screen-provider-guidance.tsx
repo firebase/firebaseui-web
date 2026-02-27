@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router";
-import { useUI } from "@firebase-oss/ui-react";
 import {
   SignUpAuthScreen,
   GoogleSignInButton,
@@ -27,6 +26,17 @@ export default function SignUpAuthScreenProviderGuidancePage() {
           email: user.email,
           uid: user.uid,
         });
+        // RTDB rules for usersByEmail
+        // {
+        //     "rules": {
+        //       "usersByEmail": {
+        //         "$email": {
+        //           ".read": true,          // anyone can check provider
+        //           ".write": "auth != null" // only logged-in users can write
+        //         }
+        //       }
+        //     }
+        //   }
         navigate("/");
       }}
     >
