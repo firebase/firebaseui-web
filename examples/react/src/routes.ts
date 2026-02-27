@@ -13,6 +13,7 @@ import CustomAuthScreenPage from "./screens/custom-auth-screen";
 import PhoneAuthScreenPage from "./screens/phone-auth-screen";
 import PhoneAuthScreenWithOAuthPage from "./screens/phone-auth-screen-w-oauth";
 import MultiFactorAuthEnrollmentScreenPage from "./screens/mfa-enrollment-screen";
+import SignUpAuthScreenProviderGuidancePage from "./screens/sign-up-auth-screen-provider-guidance";
 
 export const routes = [
   {
@@ -39,6 +40,13 @@ export const routes = [
       "Sign-in with OAuth; shows a custom message when email/password is used for an OAuth-only account. Requires email enumeration protection disabled.",
     path: "/screens/sign-in-auth-screen-provider-guidance",
     component: SignInAuthScreenProviderGuidancePage,
+  },
+  {
+    name: "Sign Up Screen (provider guidance)",
+    description:
+      "Sign up with provider then log to database for provider guidance error messaging",
+    path: "/screens/sign-up-auth-screen-provider-guidance",
+    component: SignUpAuthScreenProviderGuidancePage,
   },
   {
     name: "Sign Up Screen",
