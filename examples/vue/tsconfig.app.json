@@ -18,5 +18,8 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "src/**/*.d.ts"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "src/**/*.d.ts"],
+  // ReactRoot.tsx is a React file — it is type-checked by tsconfig.react.json
+  // (jsxImportSource:react) rather than here (jsxImportSource:vue).
+  "exclude": ["src/ReactRoot.tsx"]
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Outlet, NavLink } from "react-router";
 import { FirebaseUIProvider, useUI } from "@firebase-oss/ui-react";
 import { ui, auth } from "./react_app/firebase/firebase";

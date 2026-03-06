@@ -6,10 +6,14 @@ import veauryVitePlugins from "veaury/vite/index.js";
 export default defineConfig({
   plugins: [
     tailwindcss(),
-    // Handles both Vue and React JSX — jsx in files under react_app/ is
-    // compiled as React JSX; everything else is compiled as Vue JSX.
+    // type:"react" restricts the Vue JSX plugin to only JSX inside .vue script
+    // blocks. All standalone .tsx/.jsx files — both ReactRoot.tsx and every
+    // file resolved through the react_app symlink — are handled by the React
+    // plugin. This is necessary because Vite resolves the symlink before
+    // passing paths to plugins (preserveSymlinks:false), so path-based exclude
+    // patterns like /react_app/ would never match the real on-disk paths.
     veauryVitePlugins({
-      type: "vue",
+      type: "react",
     }) as Plugin,
   ],
   resolve: {

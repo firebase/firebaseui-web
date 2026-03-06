@@ -4,6 +4,10 @@ declare module "*.jsx" {
 }
 
 declare module "veaury/vite/index.js" {
-  const plugin: (options?: { type?: string }) => unknown;
+  const plugin: (options?: {
+    type?: "vue" | "react" | "custom";
+    vueJsxInclude?: RegExp[];
+    vueJsxExclude?: RegExp[];
+  }) => unknown;
   export default plugin;
 }
