@@ -56,5 +56,6 @@ onlyBuiltDependencies:
   - msgpackr-extract
   - protobufjs
   - sharp
+  - inotify
 
 gitChecks: false
