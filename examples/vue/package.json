@@ -9,10 +9,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vitejs/plugin-react": "^5.1.4",
+    "@vitejs/plugin-vue-jsx": "^5.1.4",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "veaury": "^2.6.3",
     "vue": "^3.5.25"
   },
   "devDependencies": {
     "@types/node": "^24.10.1",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-vue": "^6.0.2",
     "@vue/tsconfig": "^0.8.1",
     "typescript": "~5.9.3",
