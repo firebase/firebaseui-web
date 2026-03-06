@@ -6,7 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>vue</title>
   </head>
-  <body>
+  <body class="dark:bg-neutral-900 dark:text-white">
+    <script>
+      document.documentElement.classList.toggle("dark", localStorage.theme === "dark" || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches));
+    </script>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>
