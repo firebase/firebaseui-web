@@ -3,6 +3,12 @@
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "types": ["vite/client"],
+    // jsx: preserve lets veaury's vite plugin decide per-file whether to
+    // use Vue JSX or React JSX transforms, avoiding type conflicts.
+    "jsx": "preserve",
+    // Both @vue/runtime-dom and @types/react extend the global JSX namespace,
+    // which causes conflicts. skipLibCheck suppresses those IDE errors.
+    "skipLibCheck": true,
 
     /* Linting */
     "strict": true,
