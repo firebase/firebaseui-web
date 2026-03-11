@@ -117,14 +117,11 @@ export const routes: RouteConfig[] = [
       "Demonstrates how to redirect users to their original OAuth provider when they mistakenly try to sign in with email + password.",
     path: "/screens/sign-in-with-provider-tracking",
     loadComponent: () =>
-      import("./screens/sign-in-with-provider-tracking").then(
-        (m) => m.SignInWithProviderTrackingComponent,
-      ),
+      import("./screens/sign-in-with-provider-tracking").then((m) => m.SignInWithProviderTrackingComponent),
   },
   {
     name: "Provider hint",
-    description:
-      "Shown when a user attempts email + password sign-in but has a known OAuth provider stored locally.",
+    description: "Shown when a user attempts email + password sign-in but has a known OAuth provider stored locally.",
     path: "/screens/provider-hint",
     loadComponent: () => import("./screens/provider-hint").then((m) => m.ProviderHintComponent),
   },

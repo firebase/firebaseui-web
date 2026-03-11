@@ -32,12 +32,7 @@ import { Component, inject, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ReactiveFormsModule, FormBuilder, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import {
-  Auth,
-  signInWithEmailAndPassword,
-  type AuthError,
-  type UserCredential,
-} from "@angular/fire/auth";
+import { Auth, signInWithEmailAndPassword, type AuthError, type UserCredential } from "@angular/fire/auth";
 import {
   AppleSignInButtonComponent,
   FacebookSignInButtonComponent,
@@ -67,9 +62,7 @@ function storeProvider(email: string, providerId: string): void {
   try {
     const normalized = normalizeEmail(email);
     const raw = localStorage.getItem(PROVIDER_HINT_STORAGE_KEY);
-    const existing: StoredProviderHint = raw
-      ? (JSON.parse(raw) as StoredProviderHint)
-      : { email: "", providers: [] };
+    const existing: StoredProviderHint = raw ? (JSON.parse(raw) as StoredProviderHint) : { email: "", providers: [] };
 
     const providers = existing.email === normalized ? [...existing.providers] : [];
     if (!providers.includes(providerId)) {
@@ -120,15 +113,11 @@ function getErrorMessage(code: string): string {
   ],
   template: `
     <div class="max-w-sm mx-auto space-y-6">
-      <div
-        class="rounded-lg border border-blue-200 bg-blue-50 dark:bg-blue-950/40 dark:border-blue-800 p-4 space-y-1"
-      >
-        <p class="text-xs font-semibold text-blue-700 dark:text-blue-300 uppercase tracking-wide">
-          Demo
-        </p>
+      <div class="rounded-lg border border-blue-200 bg-blue-50 dark:bg-blue-950/40 dark:border-blue-800 p-4 space-y-1">
+        <p class="text-xs font-semibold text-blue-700 dark:text-blue-300 uppercase tracking-wide">Demo</p>
         <p class="text-sm text-blue-800 dark:text-blue-200">
-          Sign in with an OAuth provider first, then sign out. Return here and try signing in with
-          email + password to see the provider hint flow.
+          Sign in with an OAuth provider first, then sign out. Return here and try signing in with email + password to
+          see the provider hint flow.
         </p>
       </div>
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, inject, OnInit, signal } from "@angular/core";
+import { Component, inject, type OnInit, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Router } from "@angular/router";
 import {
@@ -102,21 +102,14 @@ function getStoredHint(): StoredProviderHint | null {
           }
         </div>
 
-        <button
-          class="text-sm underline w-full text-center text-gray-500 dark:text-gray-400"
-          (click)="goBack()"
-        >
+        <button class="text-sm underline w-full text-center text-gray-500 dark:text-gray-400" (click)="goBack()">
           Back to sign in
         </button>
       </div>
     } @else {
       <div class="max-w-sm mx-auto space-y-4 text-center pt-12">
-        <p class="text-sm text-gray-500 dark:text-gray-400">
-          No provider hint found. Please sign in normally.
-        </p>
-        <button class="text-sm underline text-gray-600 dark:text-gray-300" (click)="goBack()">
-          Back to sign in
-        </button>
+        <p class="text-sm text-gray-500 dark:text-gray-400">No provider hint found. Please sign in normally.</p>
+        <button class="text-sm underline text-gray-600 dark:text-gray-300" (click)="goBack()">Back to sign in</button>
       </div>
     }
   `,
@@ -132,9 +125,7 @@ export class ProviderHintComponent implements OnInit {
     const stored = getStoredHint();
     this.hint.set(stored);
     if (stored) {
-      this.providerNames.set(
-        stored.providers.map((id) => PROVIDER_DISPLAY_NAMES[id] ?? id).join(" or "),
-      );
+      this.providerNames.set(stored.providers.map((id) => PROVIDER_DISPLAY_NAMES[id] ?? id).join(" or "));
     }
   }
 
