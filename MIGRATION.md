@@ -375,3 +375,118 @@ const ui = initializeUI({
 
 **Note:** If a merge conflict occurs and the linking fails (e.g., due to account linking restrictions), Firebase Auth will throw an error that you can handle in your error handling logic. The `onUpgrade` callback will only be called if the upgrade is successful.
 
+---
+
+## Handling sign-in provider mismatch: `fetchSignInMethodsForEmail` deprecation
+
+### Background
+
+A common UX pain point occurs when a user:
+
+1. Signs in for the first time with an OAuth provider (e.g. Google)
+2. Signs out and later returns to the app
+3. Mistakenly tries to sign in with their email address and a password
+
+Firebase Auth returns a generic `auth/invalid-credential` error (or the legacy `auth/wrong-password`). Without additional context, the user has no idea they already have an account linked to a different provider.
+
+**In v6**, FirebaseUI worked around this by calling `fetchSignInMethodsForEmail()` behind the scenes. When a credential error occurred, it fetched the providers for that email and presented the user with the appropriate sign-in method.
+
+**In v7**, `fetchSignInMethodsForEmail()` has been deprecated by Firebase and is no longer called. Google deprecated this method because returning which providers are associated with an email address is a potential privacy and security risk — it allows an unauthenticated caller to enumerate which accounts (and therefore which email addresses) exist in your project.
+
+### The problem with the deprecated approach
+
+```ts
+// ❌ Deprecated — do not use
+import { fetchSignInMethodsForEmail } from "firebase/auth";
+
+const methods = await fetchSignInMethodsForEmail(auth, email);
+// e.g. ["google.com"] — tells an attacker that this email exists in your app
+```
+
+This API leaks the existence of accounts to anyone who can call your Firebase project, which is a security risk. Firebase has disabled it by default in new projects and it will eventually be removed entirely.
+
+### The recommended approach: track providers yourself
+
+Because `fetchSignInMethodsForEmail()` is gone, **you are responsible for tracking which sign-in provider a user has used** and surfacing that information when a credential error occurs.
+
+The example screens `sign-in-with-provider-tracking` and `provider-hint` (included in both the React and Angular examples in this repository) demonstrate one way to implement this pattern.
+
+#### How the demo works
+
+1. **Track on sign-in** — When a user successfully authenticates via an OAuth button, the app stores their email and provider ID in `localStorage`:
+
+```ts
+function storeProvider(email: string, providerId: string): void {
+  const existing = JSON.parse(localStorage.getItem("fui_provider_hint") ?? "{}");
+  const providers: string[] = existing.email === email ? existing.providers : [];
+  if (!providers.includes(providerId)) providers.push(providerId);
+  localStorage.setItem("fui_provider_hint", JSON.stringify({ email, providers }));
+}
+```
+
+2. **Intercept credential errors** — On email + password sign-in failure, check the stored hint before showing a generic error:
+
+```ts
+try {
+  await signInWithEmailAndPassword(auth, email, password);
+} catch (err) {
+  const code = (err as AuthError).code;
+  const isCredentialError =
+    code === "auth/invalid-credential" || code === "auth/wrong-password";
+
+  if (isCredentialError) {
+    const knownProviders = getKnownProviders(email); // reads localStorage
+    if (knownProviders.length > 0) {
+      // Navigate to a screen that shows only the correct OAuth button
+      navigate("/provider-hint");
+      return;
+    }
+  }
+  // show generic error
+}
+```
+
+3. **Show the correct provider** — The `provider-hint` screen reads the stored data and renders only the OAuth button(s) the user originally signed in with, along with a human-friendly explanation.
+
+#### Why localStorage for this demo?
+
+`localStorage` is used here purely for ease of demonstration. It requires no backend and makes the flow visible and debuggable.
+
+#### A more secure production approach
+
+`localStorage` is accessible to any JavaScript running on the page. If an XSS vulnerability exists, an attacker could read or overwrite the stored provider hint. For a production application, consider these alternatives:
+
+**Option 1 — HttpOnly encrypted cookie (recommended for server-rendered apps)**
+
+Store the provider hint in an `HttpOnly` cookie from your server after a successful sign-in. Because `HttpOnly` cookies are not accessible to JavaScript, they are immune to XSS attacks:
+
+```
+Set-Cookie: fui_provider_hint=<encrypted-payload>; HttpOnly; Secure; SameSite=Lax; Path=/
+```
+
+The encrypted payload should contain the email (or a hashed/obfuscated identifier) and the provider ID. Encrypt the value using a server-side key (e.g. AES-GCM) so that neither the email address nor the provider information is readable by the client even if the cookie value is somehow observed.
+
+When a credential error occurs on the client, make a server-side request to look up the provider hint. Return only enough information to drive the UI (e.g. which button to show) — never return the raw email or provider list to an unauthenticated caller.
+
+**Option 2 — Hashed identifier in localStorage**
+
+If a purely client-side solution is required, avoid storing the plain email address. Instead store a hash:
+
+```ts
+async function hashEmail(email: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(email.toLowerCase().trim());
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  return Array.from(new Uint8Array(hashBuffer))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+```
+
+Store `{ emailHash, providers }` instead of `{ email, providers }`. When looking up the hint on sign-in failure, hash the email the user typed and compare against the stored hash. This way the stored data does not directly reveal which email address is associated with the provider.
+
+**Option 3 — Derive from existing session data**
+
+If your application has its own session management (e.g. a JWT issued by your backend after Firebase sign-in), you can embed the provider ID in the token claims. On subsequent visits, read the provider from the token rather than from `localStorage`.
+
+
