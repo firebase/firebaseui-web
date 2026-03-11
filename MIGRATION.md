@@ -418,7 +418,7 @@ The example screens `sign-in-with-provider-tracking` and `provider-hint` (includ
 ```ts
 function storeProvider(email: string, providerId: string): void {
   const existing = JSON.parse(localStorage.getItem("fui_provider_hint") ?? "{}");
-  const providers: string[] = existing.email === email ? existing.providers : [];
+  const providers: string[] = existing.email === email ? [...existing.providers] : [];
   if (!providers.includes(providerId)) providers.push(providerId);
   localStorage.setItem("fui_provider_hint", JSON.stringify({ email, providers }));
 }
@@ -432,7 +432,7 @@ try {
 } catch (err) {
   const code = (err as AuthError).code;
   const isCredentialError =
-    code === "auth/invalid-credential" || code === "auth/wrong-password";
+    code === "auth/invalid-credential" || code === "auth/wrong-password" || code === "auth/invalid-password";
 
   if (isCredentialError) {
     const knownProviders = getKnownProviders(email); // reads localStorage
