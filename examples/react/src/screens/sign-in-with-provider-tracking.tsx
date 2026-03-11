@@ -55,18 +55,21 @@ export interface StoredProviderHint {
   providers: string[];
 }
 
+function normalizeEmail(email: string): string {
+  return email.trim().toLowerCase();
+}
+
 function storeProvider(email: string, providerId: string): void {
   try {
+    const normalized = normalizeEmail(email);
     const raw = localStorage.getItem(PROVIDER_HINT_STORAGE_KEY);
-    const existing: StoredProviderHint = raw
-      ? (JSON.parse(raw) as StoredProviderHint)
-      : { email: "", providers: [] };
+    const existing: StoredProviderHint = raw ? (JSON.parse(raw) as StoredProviderHint) : { email: "", providers: [] };
 
-    const providers = existing.email === email ? [...existing.providers] : [];
+    const providers = existing.email === normalized ? [...existing.providers] : [];
     if (!providers.includes(providerId)) {
       providers.push(providerId);
     }
-    localStorage.setItem(PROVIDER_HINT_STORAGE_KEY, JSON.stringify({ email, providers }));
+    localStorage.setItem(PROVIDER_HINT_STORAGE_KEY, JSON.stringify({ email: normalized, providers }));
   } catch {
     // Silently ignore storage errors.
   }
@@ -74,10 +77,11 @@ function storeProvider(email: string, providerId: string): void {
 
 function getKnownProviders(email: string): string[] {
   try {
+    const normalized = normalizeEmail(email);
     const raw = localStorage.getItem(PROVIDER_HINT_STORAGE_KEY);
     if (!raw) return [];
     const data = JSON.parse(raw) as StoredProviderHint;
-    return data.email === email ? data.providers : [];
+    return data.email === normalized ? data.providers : [];
   } catch {
     return [];
   }
@@ -112,12 +116,16 @@ export default function SignInWithProviderTrackingPage() {
     } catch (err) {
       const authError = err as AuthError;
 
-      // auth/wrong-password (Firebase Auth v9 legacy) and auth/invalid-credential (v10+)
-      // both indicate bad credentials. Check if the user has a known OAuth provider for
-      // this email and redirect them to the provider hint screen if so.
+      // Firebase Auth uses different error codes across SDK versions and project configurations:
+      //   auth/wrong-password        — Firebase Auth v9 legacy
+      //   auth/invalid-credential    — Firebase Auth v10+ (email+password bad credentials)
+      //   auth/invalid-login-credentials — some Identity Platform configurations
+      //   auth/invalid-password      — used in some emulator / admin SDK contexts
+      // All of these indicate bad credentials, so treat them the same.
       const isCredentialError =
         authError.code === "auth/wrong-password" ||
         authError.code === "auth/invalid-credential" ||
+        authError.code === "auth/invalid-login-credentials" ||
         authError.code === "auth/invalid-password";
 
       if (isCredentialError) {
@@ -146,12 +154,10 @@ export default function SignInWithProviderTrackingPage() {
   return (
     <div className="max-w-sm mx-auto space-y-6">
       <div className="rounded-lg border border-blue-200 bg-blue-50 dark:bg-blue-950/40 dark:border-blue-800 p-4 space-y-1">
-        <p className="text-xs font-semibold text-blue-700 dark:text-blue-300 uppercase tracking-wide">
-          Demo
-        </p>
+        <p className="text-xs font-semibold text-blue-700 dark:text-blue-300 uppercase tracking-wide">Demo</p>
         <p className="text-sm text-blue-800 dark:text-blue-200">
-          Sign in with an OAuth provider first, then sign out. Return here and try
-          signing in with email + password to see the provider hint flow.
+          Sign in with an OAuth provider first, then sign out. Return here and try signing in with email + password to
+          see the provider hint flow.
         </p>
       </div>
 
