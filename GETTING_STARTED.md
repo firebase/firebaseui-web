@@ -480,21 +480,21 @@ If you previously handled merge conflicts in v6 callbacks, see [MIGRATION.md](MI
 
 ## Translations
 
-FirebaseUI for Web supports localization through `@firebase-oss/ui-translations`. Register a locale, then pass it to `initializeUI(...)` or switch locales later with `ui.setLocale(...)`.
+FirebaseUI for Web supports localization through `@firebase-oss/ui-translations`. At the moment, a couple of locales are bundled out of the box, including English (`en-US`) and Czech (`cs-CZ`). You can also register and use your own locale overrides today, and PRs to add more built-in languages are welcomed.
 
 ```ts
 import { initializeUI } from '@firebase-oss/ui-core';
 import { registerLocale } from '@firebase-oss/ui-translations';
 
-const frFr = registerLocale('fr-FR', {
+const enUsCustom = registerLocale('en-US', {
   labels: {
-    signIn: 'Sign In',
+    signIn: 'Continue',
   },
 });
 
 const ui = initializeUI({
   app,
-  locale: frFr,
+  locale: enUsCustom,
 });
 ```
 
