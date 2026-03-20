@@ -1,32 +1,24 @@
-# Easily add sign-in to your Web app with Firebase UI for Web
+# Easily add sign-in to your web app with FirebaseUI for Web
 
-Firebase UI for Web is a set of libraries built on the [Firebase Authentication](https://firebase.google.com/docs/auth) JavaScript SDK. It provides composable screens and buttons for email/password, email link, phone, OAuth, multi-factor authentication, and more—so you can ship auth flows quickly and still customize behavior and styling.
+FirebaseUI for Web is a set of libraries built on the [Firebase Authentication](https://firebase.google.com/docs/auth) JavaScript SDK. Like the classic `firebaseui` package, it helps you ship authentication flows quickly, but the latest version is a complete rewrite with a modern modular architecture.
 
-**Compared to the previous `firebaseui` package (v6):** v7 is a full rewrite with a modular architecture: a framework-agnostic core (`@firebase-oss/ui-core`), framework packages (React, Angular, Shadcn registry), and separate style and translation packages. It is designed to work with the **modern modular Firebase JS SDK** (`import { initializeApp } from 'firebase/app'`, etc.), not the legacy namespaced compat-only pattern required by old FirebaseUI. If you are migrating from v6, see [MIGRATION.md](MIGRATION.md).
+FirebaseUI for Web now provides these benefits:
 
-This guide follows the same overall flow as the [classic FirebaseUI Web documentation](https://firebase.google.com/docs/auth/web/firebaseui), updated for v7.
+- Modern modular SDK support with `initializeApp(...)` and the current Firebase JS SDK.
+- Composable screens, forms, and buttons instead of a single monolithic widget.
+- Support for React, Shadcn, and Angular.
+- Configurable behaviors for redirect vs popup flows, Google One Tap, anonymous upgrade, phone settings, and more.
+- Localization support via `@firebase-oss/ui-translations`.
+- Built-in support for email/password, email link, phone auth, OAuth providers, and multi-factor flows.
 
-## Table of contents
+If you are migrating from the old `firebaseui` package, read [MIGRATION.md](MIGRATION.md) alongside this guide.
 
-- [Before you begin](#before-you-begin)
-- [CDN / no bundler](#cdn--no-bundler)
-- [Install packages](#install-packages)
-- [Initialize Firebase UI](#initialize-firebase-ui)
-- [Include styles](#include-styles)
-- [Set up sign-in methods](#set-up-sign-in-methods)
-- [Sign in](#sign-in)
-- [OAuth: popup vs redirect](#oauth-popup-vs-redirect)
-- [Phone number](#phone-number)
-- [Google One Tap](#google-one-tap)
-- [Terms of service and privacy policy](#terms-of-service-and-privacy-policy)
-- [Upgrading anonymous users](#upgrading-anonymous-users)
-- [Translations](#translations)
-- [Next steps](#next-steps)
+This document follows the same overall flow as the [classic FirebaseUI Web documentation](https://firebase.google.com/docs/auth/web/firebaseui), but updated for the current version of FirebaseUI for Web.
 
 ## Before you begin
 
 1. Add Firebase to your web app and enable **Authentication** in the [Firebase console](https://console.firebase.google.com/).
-2. Use the **modular** Firebase JS SDK (v9+), for example:
+2. Use the modular Firebase JS SDK:
 
    ```ts
    import { initializeApp } from 'firebase/app';
@@ -36,38 +28,32 @@ This guide follows the same overall flow as the [classic FirebaseUI Web document
    });
    ```
 
-3. Install the `firebase` package if you have not already:
+3. Install `firebase` if it is not already in your project:
 
    ```bash
    npm install firebase
    ```
 
-4. Choose your integration: **React**, **Next.js**, **Shadcn** (React components from the registry), or **Angular** (with AngularFire).
+4. Choose your platform:
+   - `@firebase-oss/ui-react` for React apps
+   - the FirebaseUI Shadcn registry for Shadcn-based apps
+   - `@firebase-oss/ui-angular` with AngularFire for Angular apps
 
-## CDN / no bundler
-
-The legacy `firebaseui` v6 workflow often used **CDN script tags** for `firebase-ui-auth.js` and CSS. **Firebase UI for Web v7 does not ship a single drop-in script** for the UI library: the packages (`@firebase-oss/ui-react`, `@firebase-oss/ui-core`, etc.) are published on npm and are intended for use with a **bundler** (Vite, webpack, Next.js, Angular CLI, etc.) or another modern JavaScript toolchain.
-
-- **Styles only via CDN:** You can still load the compiled stylesheet from a CDN for apps that bundle your own JS but want CSS without importing from `node_modules`. See [README.md#styling](README.md#styling) (and the “Via CDN” example there).
-- **No bundler at all:** If you cannot use a bundler, you would need to assemble compatible ESM builds and dependencies yourself (not officially supported as a first-class path). For most teams, **use npm + a bundler** and follow one of the framework sections below.
+> The new FirebaseUI for Web does not use the old `firebaseui.auth.AuthUI(firebase.auth())` widget model. Instead, you initialize a shared UI instance with `initializeUI(...)`, then render framework-specific components.
 
 ## Install packages
 
 ### React
 
 ```bash
-npm install @firebase-oss/ui-react@beta
+npm install @firebase-oss/ui-react@beta @firebase-oss/ui-styles
 ```
-
-The React package pulls in `@firebase-oss/ui-core` as a dependency. You will also use `@firebase-oss/ui-styles` for CSS (see [Include styles](#include-styles)).
-
-### Next.js
-
-Use the **same npm packages as React** (`@firebase-oss/ui-react@beta`). The [Next.js App Router](https://nextjs.org/docs/app) example in this repo keeps Firebase UI on the **client**: initialize Firebase and `initializeUI` in a **`"use client"`** module (for example `lib/firebase/clientApp.ts`), wrap the tree in **`FirebaseUIProvider`** from another client component (for example `lib/firebase/ui.tsx`), and import that wrapper from `app/layout.tsx`. See [examples/nextjs](examples/nextjs).
 
 ### Shadcn
 
-Shadcn uses the **same React runtime** (`@firebase-oss/ui-react`) as plain React. Install [Shadcn](https://ui.shadcn.com/docs/installation) first, then register the Firebase UI registry and add the components you need:
+Shadcn uses the same React runtime as the React package, but the UI components come from the Firebase registry instead of direct package imports.
+
+Add the Firebase registry to `components.json`:
 
 ```json
 {
@@ -77,69 +63,67 @@ Shadcn uses the **same React runtime** (`@firebase-oss/ui-react`) as plain React
 }
 ```
 
+Then add the components you want to use:
+
 ```bash
 npx shadcn@latest add @firebase/sign-in-auth-screen
 ```
 
-After that, **initialize Firebase UI and wrap your app exactly as in the React section**—the only difference is you import generated components from your project (for example `@/components/sign-in-auth-screen`) instead of from `@firebase-oss/ui-react`.
+This installs the underlying React FirebaseUI dependencies for you.
 
 ### Angular
 
-Install AngularFire and the Angular package (see also [packages/angular/README.md](packages/angular/README.md)):
-
 ```bash
-npm install @angular/fire @firebase-oss/ui-angular@beta
+npm install @angular/fire @firebase-oss/ui-angular@beta @firebase-oss/ui-core @firebase-oss/ui-styles @firebase-oss/ui-translations
 ```
 
-## Initialize Firebase UI
+## Initialize FirebaseUI
 
-Create a Firebase UI instance with `initializeUI` from `@firebase-oss/ui-core`, then expose it to your UI layer.
+The old library used a widget instance and `ui.start(...)`. The new library uses a shared UI store created with `initializeUI(...)`.
 
 ### React
 
-```ts
+```tsx
 import { initializeApp } from 'firebase/app';
 import { initializeUI } from '@firebase-oss/ui-core';
-
-const app = initializeApp({
-  /* your config */
-});
-
-export const ui = initializeUI({
-  app,
-  // behaviors: [...]  // optional; see sections below
-});
-```
-
-Wrap your application with `FirebaseUIProvider`:
-
-```tsx
 import { FirebaseUIProvider } from '@firebase-oss/ui-react';
 
-function Root() {
-  return (
-    <FirebaseUIProvider ui={ui}>
-      {/* your routes / screens */}
-    </FirebaseUIProvider>
-  );
+const app = initializeApp({
+  /* your Firebase config */
+});
+
+const ui = initializeUI({
+  app,
+});
+
+export function AppProviders({ children }: { children: React.ReactNode }) {
+  return <FirebaseUIProvider ui={ui}>{children}</FirebaseUIProvider>;
 }
 ```
 
 ### Shadcn
 
-Use the **same** `initializeUI` and `FirebaseUIProvider` snippets as **React**. Import screens from the paths Shadcn generated, for example:
+Shadcn uses the same setup as React, because it also uses `@firebase-oss/ui-react` under the hood:
 
 ```tsx
-import { SignInAuthScreen } from '@/components/sign-in-auth-screen';
+import { initializeApp } from 'firebase/app';
+import { initializeUI } from '@firebase-oss/ui-core';
+import { FirebaseUIProvider } from '@firebase-oss/ui-react';
 
-export function MySignInPage() {
-  return <SignInAuthScreen onSignIn={() => { /* ... */ }} />;
+const app = initializeApp({
+  /* your Firebase config */
+});
+
+const ui = initializeUI({
+  app,
+});
+
+export function AppProviders({ children }: { children: React.ReactNode }) {
+  return <FirebaseUIProvider ui={ui}>{children}</FirebaseUIProvider>;
 }
 ```
 
 ### Angular
-
-Provide the Firebase app and Firebase UI alongside AngularFire:
 
 ```ts
 import { type ApplicationConfig } from '@angular/core';
@@ -149,109 +133,56 @@ import { initializeUI } from '@firebase-oss/ui-core';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideFirebaseApp(() => initializeApp({ /* your config */ })),
-    provideFirebaseUI((apps) => initializeUI({ app: apps[0] })),
+    provideFirebaseApp(() =>
+      initializeApp({
+        /* your Firebase config */
+      }),
+    ),
+    provideFirebaseUI((apps) =>
+      initializeUI({
+        app: apps[0],
+      }),
+    ),
   ],
 };
 ```
 
-### Next.js (App Router)
-
-Create a **client** module that exports your `ui` instance (same `initializeUI` pattern as React). The App Router runs server components by default, so mark client-only files with `"use client"`:
-
-```ts
-// lib/firebase/clientApp.ts
-'use client';
-
-import { initializeApp, getApps } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { initializeUI } from '@firebase-oss/ui-core';
-
-const app = getApps().length === 0 ? initializeApp({ /* your config */ }) : getApps()[0];
-
-export const auth = getAuth(app);
-
-export const ui = initializeUI({ app });
-```
-
-Wrap your app with `FirebaseUIProvider` in a small client component and use it from `app/layout.tsx`:
-
-```tsx
-// lib/firebase/ui.tsx
-'use client';
-
-import { ui } from '@/lib/firebase/clientApp';
-import { FirebaseUIProvider } from '@firebase-oss/ui-react';
-
-export function FirebaseUIProviderHoc({ children }: { children: React.ReactNode }) {
-  return (
-    <FirebaseUIProvider
-      ui={ui}
-      policies={{
-        termsOfServiceUrl: 'https://example.com/terms',
-        privacyPolicyUrl: 'https://example.com/privacy',
-      }}
-    >
-      {children}
-    </FirebaseUIProvider>
-  );
-}
-```
-
-```tsx
-// app/layout.tsx (server layout imports the client wrapper)
-import { FirebaseUIProviderHoc } from '@/lib/firebase/ui';
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en">
-      <body>
-        <FirebaseUIProviderHoc>{children}</FirebaseUIProviderHoc>
-      </body>
-    </html>
-  );
-}
-```
-
-Import Firebase UI styles from `app/globals.css` the same way as in [Include styles](#include-styles). Full reference: [examples/nextjs](examples/nextjs).
-
 ## Include styles
 
-> **Shadcn:** You normally **do not** import Firebase UI’s bundled CSS; styling comes from your Shadcn theme and generated components.
-
-For React, Next.js, and Angular default UI, import styles from `@firebase-oss/ui-styles` (for example in `globals.css` for Next.js):
+If you are using the default React or Angular components, include the FirebaseUI styles:
 
 ```css
 @import '@firebase-oss/ui-styles/dist.min.css';
 ```
 
-Or with Tailwind:
+If you are using Tailwind:
 
 ```css
 @import 'tailwindcss';
 @import '@firebase-oss/ui-styles/tailwind';
 ```
 
-See [README.md#styling](README.md#styling) for CDN import, theming via CSS variables, and details.
+If you are using Shadcn, you typically do **not** import FirebaseUI's bundled CSS. The generated components inherit your Shadcn design system instead.
 
 ## Set up sign-in methods
 
-In the Firebase console, open **Authentication** → **Sign-in method** and enable each provider you need (Email/Password, Email link, Google, GitHub, Phone, etc.). Add your app’s domain to **Authorized domains** where required (OAuth and phone flows).
+Before users can sign in, enable each provider you want in **Authentication** -> **Sign-in method** in the Firebase console.
 
-In v7 you **do not** pass a single `signInOptions` array. Instead you:
+The biggest change from the old library is this:
 
-- Render the **screens and buttons** that match your product (for example `SignInAuthScreen`, `OAuthScreen`, or individual `GoogleSignInButton` components).
-- Optionally tune flows with **behaviors** on `initializeUI` (see the following sections).
+- Old FirebaseUI used a single `signInOptions` array passed to a widget config.
+- New FirebaseUI uses screens, forms, and buttons that you render directly.
+- Cross-cutting configuration now lives in `behaviors` passed to `initializeUI(...)`.
 
 ### Email address and password
 
-1. Enable **Email/Password** in the console.
-2. Use a screen such as `SignInAuthScreen` / `SignUpAuthScreen` (React) or `<fui-sign-in-auth-screen>` / `<fui-sign-up-auth-screen>` (Angular).
+1. Enable **Email/Password** in the Firebase console.
+2. Render `SignInAuthScreen` or `SignUpAuthScreen` in React/Shadcn, or `fui-sign-in-auth-screen` / `fui-sign-up-auth-screen` in Angular.
 
-Optional: require a display name on sign-up via the `requireDisplayName` behavior:
+Optional: require a display name during sign-up:
 
 ```ts
-import { requireDisplayName } from '@firebase-oss/ui-core';
+import { initializeUI, requireDisplayName } from '@firebase-oss/ui-core';
 
 const ui = initializeUI({
   app,
@@ -261,40 +192,57 @@ const ui = initializeUI({
 
 ### Email link authentication
 
-1. Enable **Email/Password** and **Email link (passwordless)** in the console.
-2. Use the email-link auth screen or forms from the library; complete the flow using the core helpers (for example `completeEmailLinkSignIn`) as documented in [README.md#reference](README.md#reference).
+1. Enable **Email/Password** and **Email link (passwordless sign-in)** in the Firebase console.
+2. Render the email link components from your platform package.
+3. Complete sign-in with the current URL using the core helpers when needed.
 
-### OAuth providers (Google, Facebook, GitHub, Apple, Microsoft, Yahoo, X/Twitter, …)
+```ts
+import { completeEmailLinkSignIn } from '@firebase-oss/ui-core';
 
-1. Enable each provider in the console and configure OAuth client IDs/secrets as required.
-2. Add OAuth buttons inside an OAuth screen or your own layout. Example (React):
+await completeEmailLinkSignIn(ui, window.location.href);
+```
 
-   ```tsx
-   import { OAuthScreen, GoogleSignInButton, GitHubSignInButton } from '@firebase-oss/ui-react';
+### OAuth providers
 
-   export function OAuthExample() {
-     return (
-       <OAuthScreen>
-         <GoogleSignInButton />
-         <GitHubSignInButton />
-       </OAuthScreen>
-     );
-   }
-   ```
+FirebaseUI for Web supports built-in buttons for providers such as Google, Apple, Facebook, GitHub, Microsoft, and X/Twitter.
 
-   Angular uses the `fui-*` components, for example `<fui-oauth-screen>` with `<fui-google-sign-in-button>` inside.
-
-3. **Custom scopes or provider options:** pass a configured provider to a button when needed—for example a `GoogleAuthProvider` with `addScope(...)`—via the optional `provider` prop on `GoogleSignInButton` (React) or the analogous input on the Angular component.
+1. Enable the provider in the Firebase console.
+2. Add your app domain to **Authorized domains** where required.
+3. Render the provider buttons you want.
 
 ### Phone number
 
-1. Enable **Phone** in the console and add your domain to authorized domains.
-2. Use the phone auth screen/form components.
-3. Optional: restrict countries and set a default with the `countryCodes` behavior; customize reCAPTCHA with `recaptchaVerification`. See [README.md#behaviors](README.md#behaviors).
+1. Enable **Phone** in the Firebase console.
+2. Add your app domain to **Authorized domains**.
+3. Render the phone auth screen or form for your platform.
+
+Optional: configure allowed countries, default country, or reCAPTCHA behavior:
+
+```ts
+import {
+  countryCodes,
+  initializeUI,
+  recaptchaVerification,
+} from '@firebase-oss/ui-core';
+
+const ui = initializeUI({
+  app,
+  behaviors: [
+    countryCodes({
+      allowedCountries: ['GB', 'US', 'FR'],
+      defaultCountry: 'GB',
+    }),
+    recaptchaVerification({
+      size: 'compact',
+      theme: 'light',
+    }),
+  ],
+});
+```
 
 ## Sign in
 
-Render the screen you want on a route or container. Handle success in component props (React) or outputs (Angular)—this replaces v6’s `callbacks.signInSuccessWithAuthResult` and related hooks.
+Instead of calling `ui.start('#container', config)`, render the auth screen you want and handle success in component callbacks or Angular outputs.
 
 ### React
 
@@ -317,29 +265,19 @@ export function SignInPage() {
 
 ### Shadcn
 
-Same as React, but import from your Shadcn path:
+Shadcn uses the same runtime and flow as React. The only difference is that you import the generated component from your app instead of from `@firebase-oss/ui-react`:
 
 ```tsx
 import { SignInAuthScreen } from '@/components/sign-in-auth-screen';
-```
+import { useNavigate } from 'react-router';
 
-### Next.js
-
-Use **client components** for screens that depend on Firebase UI (`"use client"`). Navigate with the App Router:
-
-```tsx
-'use client';
-
-import { SignInAuthScreen } from '@firebase-oss/ui-react';
-import { useRouter } from 'next/navigation';
-
-export default function SignInPage() {
-  const router = useRouter();
+export function SignInPage() {
+  const navigate = useNavigate();
 
   return (
     <SignInAuthScreen
       onSignIn={() => {
-        router.push('/dashboard');
+        navigate('/dashboard');
       }}
     />
   );
@@ -350,19 +288,19 @@ export default function SignInPage() {
 
 ```ts
 import { Component } from '@angular/core';
-import { SignInAuthScreenComponent } from '@firebase-oss/ui-angular';
 import { Router } from '@angular/router';
+import { SignInAuthScreenComponent } from '@firebase-oss/ui-angular';
 import type { User } from '@angular/fire/auth';
 
 @Component({
-  selector: 'app-sign-in',
+  selector: 'app-sign-in-page',
   standalone: true,
   imports: [SignInAuthScreenComponent],
   template: `
     <fui-sign-in-auth-screen (signIn)="onSignIn($event)" />
   `,
 })
-export class SignInPage {
+export class SignInPageComponent {
   constructor(private router: Router) {}
 
   onSignIn(user: User) {
@@ -371,17 +309,17 @@ export class SignInPage {
 }
 ```
 
-If you relied on v6’s `signInSuccessUrl` or query parameters, perform redirects yourself in these handlers (see [MIGRATION.md](MIGRATION.md)).
+## OAuth providers: popup vs redirect
 
-## OAuth: popup vs redirect
+The old FirebaseUI used `signInFlow: 'popup' | 'redirect'`. The new library uses behaviors:
 
-v6 used `signInFlow: 'popup' | 'redirect'`. In v7, use **behaviors**:
+- `providerPopupStrategy()` for popup flows
+- `providerRedirectStrategy()` for redirect flows
 
-- **Popup (default):** `providerPopupStrategy()` or omit an explicit strategy.
-- **Redirect:** `providerRedirectStrategy()`.
+Popup is the default, so you only need to configure redirect explicitly:
 
 ```ts
-import { providerRedirectStrategy } from '@firebase-oss/ui-core';
+import { initializeUI, providerRedirectStrategy } from '@firebase-oss/ui-core';
 
 const ui = initializeUI({
   app,
@@ -389,88 +327,180 @@ const ui = initializeUI({
 });
 ```
 
-## Phone number
+To render OAuth buttons, add them to your platform-specific screen.
 
-Configure default country and allowed regions with `countryCodes`; tune reCAPTCHA with `recaptchaVerification`. Example:
+### React
+
+```tsx
+import {
+  GitHubSignInButton,
+  GoogleSignInButton,
+  OAuthScreen,
+} from '@firebase-oss/ui-react';
+
+export function OAuthPage() {
+  return (
+    <OAuthScreen>
+      <GoogleSignInButton />
+      <GitHubSignInButton />
+    </OAuthScreen>
+  );
+}
+```
+
+### Shadcn
+
+```tsx
+import { GitHubSignInButton } from '@/components/github-sign-in-button';
+import { GoogleSignInButton } from '@/components/google-sign-in-button';
+import { OAuthScreen } from '@/components/oauth-screen';
+
+export function OAuthPage() {
+  return (
+    <OAuthScreen>
+      <GoogleSignInButton />
+      <GitHubSignInButton />
+    </OAuthScreen>
+  );
+}
+```
+
+### Angular
 
 ```ts
-import { countryCodes, recaptchaVerification } from '@firebase-oss/ui-core';
+import { Component } from '@angular/core';
+import {
+  GithubSignInButtonComponent,
+  GoogleSignInButtonComponent,
+  OAuthScreenComponent,
+} from '@firebase-oss/ui-angular';
+
+@Component({
+  selector: 'app-oauth-page',
+  standalone: true,
+  imports: [
+    OAuthScreenComponent,
+    GoogleSignInButtonComponent,
+    GithubSignInButtonComponent,
+  ],
+  template: `
+    <fui-oauth-screen>
+      <fui-google-sign-in-button />
+      <fui-github-sign-in-button />
+    </fui-oauth-screen>
+  `,
+})
+export class OAuthPageComponent {}
+```
+
+## Google One Tap
+
+The old library exposed credential helper and One Tap style integrations through widget configuration. In the new library, use the `oneTapSignIn(...)` behavior:
+
+```ts
+import { initializeUI, oneTapSignIn } from '@firebase-oss/ui-core';
 
 const ui = initializeUI({
   app,
   behaviors: [
-    countryCodes({
-      allowedCountries: ['GB', 'US', 'FR'],
-      defaultCountry: 'GB',
-    }),
-    recaptchaVerification({
-      size: 'compact',
-      theme: 'light',
+    oneTapSignIn({
+      clientId: 'YOUR_GOOGLE_WEB_CLIENT_ID',
+      autoSelect: false,
+      cancelOnTapOutside: false,
     }),
   ],
 });
 ```
 
-## Google One Tap
-
-The old **Account Chooser / credential helper** style integration maps conceptually to **Google One Tap** in v7 via the `oneTapSignIn` behavior (requires Google sign-in enabled and a web client ID from the console). See [README.md#behaviors](README.md#behaviors) and [MIGRATION.md](MIGRATION.md).
+Make sure Google sign-in is enabled in the Firebase console, then copy the web client ID from the Google provider settings.
 
 ## Terms of service and privacy policy
 
-v6 used `tosUrl` and `privacyPolicyUrl` on the widget config. In v7:
+The old library used `tosUrl` and `privacyPolicyUrl` in the widget config. The new library attaches policy links through the platform provider configuration.
 
-- **React / Next.js / Shadcn:** pass `policies` to `FirebaseUIProvider` (in Next.js, keep the provider in a client component as in [Next.js (App Router)](#nextjs-app-router)):
+### React
 
-  ```tsx
-  <FirebaseUIProvider
-    ui={ui}
-    policies={{
-      termsOfServiceUrl: 'https://example.com/terms',
-      privacyPolicyUrl: 'https://example.com/privacy',
-    }}
-  >
-    {children}
-  </FirebaseUIProvider>
-  ```
+```tsx
+import { FirebaseUIProvider } from '@firebase-oss/ui-react';
 
-- **Angular:** use `provideFirebaseUIPolicies`:
-
-  ```ts
-  import { provideFirebaseUIPolicies } from '@firebase-oss/ui-angular';
-
-  // In appConfig.providers:
-  provideFirebaseUIPolicies(() => ({
+<FirebaseUIProvider
+  ui={ui}
+  policies={{
     termsOfServiceUrl: 'https://example.com/terms',
     privacyPolicyUrl: 'https://example.com/privacy',
-  })),
-  ```
+  }}
+>
+  {children}
+</FirebaseUIProvider>;
+```
+
+### Shadcn
+
+Use the same `FirebaseUIProvider` configuration as React.
+
+### Angular
+
+```ts
+import { type ApplicationConfig } from '@angular/core';
+import { provideFirebaseUIPolicies } from '@firebase-oss/ui-angular';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideFirebaseUIPolicies(() => ({
+      termsOfServiceUrl: 'https://example.com/terms',
+      privacyPolicyUrl: 'https://example.com/privacy',
+    })),
+  ],
+};
+```
 
 ## Upgrading anonymous users
 
-Enable anonymous auth in the console if needed. Use the `autoUpgradeAnonymousUsers` behavior and optionally implement `onUpgrade` for data migration (replacing v6’s `autoUpgradeAnonymousUsers` flag and `signInFailure` merge handling). See [README.md#behaviors](README.md#behaviors) and the anonymous upgrade sections in [MIGRATION.md](MIGRATION.md).
+The old library supported anonymous account upgrade with `autoUpgradeAnonymousUsers` plus `signInFailure` merge handling. The new library keeps the capability, but it is now configured as a behavior.
 
 ```ts
-import { autoUpgradeAnonymousUsers } from '@firebase-oss/ui-core';
+import {
+  autoUpgradeAnonymousUsers,
+  initializeUI,
+} from '@firebase-oss/ui-core';
 
 const ui = initializeUI({
   app,
   behaviors: [
     autoUpgradeAnonymousUsers({
       async onUpgrade(ui, oldUserId, credential) {
-        // Migrate data from anonymous user to the signed-in user if needed
+        // Migrate or merge user data here if needed.
       },
     }),
   ],
 });
 ```
 
+If you previously handled merge conflicts in v6 callbacks, see [MIGRATION.md](MIGRATION.md) for the updated behavior-based model.
+
 ## Translations
 
-Register locales with `@firebase-oss/ui-translations` and pass `locale` into `initializeUI`, or call `ui.setLocale(...)` at runtime. See [README.md#translations](README.md#translations).
+FirebaseUI for Web supports localization through `@firebase-oss/ui-translations`. Register a locale, then pass it to `initializeUI(...)` or switch locales later with `ui.setLocale(...)`.
+
+```ts
+import { initializeUI } from '@firebase-oss/ui-core';
+import { registerLocale } from '@firebase-oss/ui-translations';
+
+const frFr = registerLocale('fr-FR', {
+  labels: {
+    signIn: 'Sign In',
+  },
+});
+
+const ui = initializeUI({
+  app,
+  locale: frFr,
+});
+```
 
 ## Next steps
 
-- Full feature list, behaviors reference, and API tables: [README.md](README.md).
-- Migrating from v6: [MIGRATION.md](MIGRATION.md).
-- Example apps: [examples/react](examples/react), [examples/nextjs](examples/nextjs), [examples/shadcn](examples/shadcn), [examples/angular](examples/angular).
-- Custom OIDC and advanced flows: [CUSTOM_AUTHENTICATION.md](CUSTOM_AUTHENTICATION.md).
+- Read [README.md](README.md) for the full API, behaviors, and component reference.
+- Read [MIGRATION.md](MIGRATION.md) if you are moving from the old `firebaseui` package.
+- See the package-specific docs in [packages/react/README.md](packages/react/README.md), [packages/shadcn/README.md](packages/shadcn/README.md), and [packages/angular/README.md](packages/angular/README.md).
+- Explore the examples in [examples/react](examples/react), [examples/shadcn](examples/shadcn), and [examples/angular](examples/angular).
