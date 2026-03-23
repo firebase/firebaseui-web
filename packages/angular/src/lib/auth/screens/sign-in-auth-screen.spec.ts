@@ -32,6 +32,32 @@ import { MultiFactorAuthAssertionScreenComponent } from "../screens/multi-factor
 import { MultiFactorAuthAssertionFormComponent } from "../forms/multi-factor-auth-assertion-form";
 import { TotpMultiFactorAssertionFormComponent } from "../forms/mfa/totp-multi-factor-assertion-form";
 import { TotpMultiFactorGenerator } from "firebase/auth";
+import { LegacySignInRecoveryComponent } from "../../components/legacy-sign-in-recovery";
+
+jest.mock("@angular/fire/auth", () => {
+  const actual = jest.requireActual("@angular/fire/auth");
+  return {
+    ...actual,
+    GoogleAuthProvider: class GoogleAuthProvider {
+      providerId = "google.com";
+    },
+    GithubAuthProvider: class GithubAuthProvider {
+      providerId = "github.com";
+    },
+    FacebookAuthProvider: class FacebookAuthProvider {
+      providerId = "facebook.com";
+    },
+    TwitterAuthProvider: class TwitterAuthProvider {
+      providerId = "twitter.com";
+    },
+    OAuthProvider: class OAuthProvider {
+      providerId: string;
+      constructor(providerId: string) {
+        this.providerId = providerId;
+      }
+    },
+  };
+});
 
 @Component({
   selector: "fui-sign-in-auth-form",
@@ -46,6 +72,13 @@ class MockSignInAuthFormComponent {}
   standalone: true,
 })
 class MockRedirectErrorComponent {}
+
+@Component({
+  selector: "fui-legacy-sign-in-recovery",
+  template: '<div data-testid="legacy-sign-in-recovery">Legacy Recovery</div>',
+  standalone: true,
+})
+class MockLegacySignInRecoveryComponent {}
 
 @Component({
   template: `
@@ -64,6 +97,13 @@ class TestHostWithContentComponent {}
   imports: [SignInAuthScreenComponent],
 })
 class TestHostWithoutContentComponent {}
+
+@Component({
+  template: `<fui-sign-in-auth-screen [showLegacySignInRecovery]="false"></fui-sign-in-auth-screen>`,
+  standalone: true,
+  imports: [SignInAuthScreenComponent],
+})
+class TestHostWithoutRecoveryComponent {}
 
 describe("<fui-sign-in-auth-screen>", () => {
   let authStateSubject: Subject<User | null>;
@@ -106,6 +146,15 @@ describe("<fui-sign-in-auth-screen>", () => {
         multiFactorResolver: null,
       });
     });
+
+    TestBed.overrideComponent(SignInAuthScreenComponent, {
+      remove: {
+        imports: [LegacySignInRecoveryComponent],
+      },
+      add: {
+        imports: [MockLegacySignInRecoveryComponent],
+      },
+    });
   });
 
   afterEach(() => {
@@ -121,6 +170,7 @@ describe("<fui-sign-in-auth-screen>", () => {
         SignInAuthScreenComponent,
         MockSignInAuthFormComponent,
         MockRedirectErrorComponent,
+        MockLegacySignInRecoveryComponent,
         MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
@@ -140,6 +190,7 @@ describe("<fui-sign-in-auth-screen>", () => {
         SignInAuthScreenComponent,
         MockSignInAuthFormComponent,
         MockRedirectErrorComponent,
+        MockLegacySignInRecoveryComponent,
         MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
@@ -160,6 +211,7 @@ describe("<fui-sign-in-auth-screen>", () => {
         SignInAuthScreenComponent,
         MockSignInAuthFormComponent,
         MockRedirectErrorComponent,
+        MockLegacySignInRecoveryComponent,
         MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
@@ -180,6 +232,7 @@ describe("<fui-sign-in-auth-screen>", () => {
         SignInAuthScreenComponent,
         MockSignInAuthFormComponent,
         MockRedirectErrorComponent,
+        MockLegacySignInRecoveryComponent,
         MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
@@ -193,12 +246,51 @@ describe("<fui-sign-in-auth-screen>", () => {
     expect(redirectErrorElement).toBeInTheDocument();
   });
 
+  it("renders legacy recovery by default", async () => {
+    const { container } = await render(TestHostWithoutContentComponent, {
+      imports: [
+        SignInAuthScreenComponent,
+        MockSignInAuthFormComponent,
+        MockRedirectErrorComponent,
+        MockLegacySignInRecoveryComponent,
+        MultiFactorAuthAssertionScreenComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
+
+    expect(container.querySelector("fui-legacy-sign-in-recovery")).toBeInTheDocument();
+  });
+
+  it("does not render legacy recovery when disabled", async () => {
+    const { container } = await render(TestHostWithoutRecoveryComponent, {
+      imports: [
+        SignInAuthScreenComponent,
+        MockSignInAuthFormComponent,
+        MockRedirectErrorComponent,
+        MockLegacySignInRecoveryComponent,
+        MultiFactorAuthAssertionScreenComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+      ],
+    });
+
+    expect(container.querySelector("fui-legacy-sign-in-recovery")).not.toBeInTheDocument();
+  });
+
   it("has correct CSS classes", async () => {
     const { container } = await render(TestHostWithoutContentComponent, {
       imports: [
         SignInAuthScreenComponent,
         MockSignInAuthFormComponent,
         MockRedirectErrorComponent,
+        MockLegacySignInRecoveryComponent,
         MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
@@ -223,6 +315,7 @@ describe("<fui-sign-in-auth-screen>", () => {
         SignInAuthScreenComponent,
         MockSignInAuthFormComponent,
         MockRedirectErrorComponent,
+        MockLegacySignInRecoveryComponent,
         MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
@@ -255,6 +348,7 @@ describe("<fui-sign-in-auth-screen>", () => {
         SignInAuthScreenComponent,
         MockSignInAuthFormComponent,
         MockRedirectErrorComponent,
+        MockLegacySignInRecoveryComponent,
         MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
@@ -287,6 +381,7 @@ describe("<fui-sign-in-auth-screen>", () => {
         SignInAuthScreenComponent,
         MockSignInAuthFormComponent,
         MockRedirectErrorComponent,
+        MockLegacySignInRecoveryComponent,
         MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
@@ -323,6 +418,7 @@ describe("<fui-sign-in-auth-screen>", () => {
         SignInAuthScreenComponent,
         MockSignInAuthFormComponent,
         MockRedirectErrorComponent,
+        MockLegacySignInRecoveryComponent,
         MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
@@ -359,6 +455,7 @@ describe("<fui-sign-in-auth-screen>", () => {
         SignInAuthScreenComponent,
         MockSignInAuthFormComponent,
         MockRedirectErrorComponent,
+        MockLegacySignInRecoveryComponent,
         MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
@@ -395,6 +492,7 @@ describe("<fui-sign-in-auth-screen>", () => {
         SignInAuthScreenComponent,
         MockSignInAuthFormComponent,
         MockRedirectErrorComponent,
+        MockLegacySignInRecoveryComponent,
         MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,

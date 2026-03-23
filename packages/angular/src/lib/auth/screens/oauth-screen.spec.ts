@@ -31,6 +31,32 @@ import {
 import { MultiFactorAuthAssertionScreenComponent } from "../screens/multi-factor-auth-assertion-screen";
 import { MultiFactorAuthAssertionFormComponent } from "../forms/multi-factor-auth-assertion-form";
 import { ContentComponent } from "../../components/content";
+import { LegacySignInRecoveryComponent } from "../../components/legacy-sign-in-recovery";
+
+jest.mock("@angular/fire/auth", () => {
+  const actual = jest.requireActual("@angular/fire/auth");
+  return {
+    ...actual,
+    GoogleAuthProvider: class GoogleAuthProvider {
+      providerId = "google.com";
+    },
+    GithubAuthProvider: class GithubAuthProvider {
+      providerId = "github.com";
+    },
+    FacebookAuthProvider: class FacebookAuthProvider {
+      providerId = "facebook.com";
+    },
+    TwitterAuthProvider: class TwitterAuthProvider {
+      providerId = "twitter.com";
+    },
+    OAuthProvider: class OAuthProvider {
+      providerId: string;
+      constructor(providerId: string) {
+        this.providerId = providerId;
+      }
+    },
+  };
+});
 
 jest.mock("../../../provider", () => ({
   injectTranslation: jest.fn(),
@@ -53,6 +79,13 @@ class MockPoliciesComponent {}
   standalone: true,
 })
 class MockRedirectErrorComponent {}
+
+@Component({
+  selector: "fui-legacy-sign-in-recovery",
+  template: '<div data-testid="legacy-sign-in-recovery">Legacy Recovery</div>',
+  standalone: true,
+})
+class MockLegacySignInRecoveryComponent {}
 
 @Component({
   template: `
@@ -83,6 +116,13 @@ class TestHostWithMultipleProvidersComponent {}
   imports: [OAuthScreenComponent],
 })
 class TestHostWithoutContentComponent {}
+
+@Component({
+  template: `<fui-oauth-screen [showLegacySignInRecovery]="false"></fui-oauth-screen>`,
+  standalone: true,
+  imports: [OAuthScreenComponent],
+})
+class TestHostWithoutRecoveryComponent {}
 
 @Component({
   selector: "fui-multi-factor-auth-assertion-screen",
@@ -146,6 +186,15 @@ describe("<fui-oauth-screen>", () => {
         multiFactorResolver: null,
       });
     });
+
+    TestBed.overrideComponent(OAuthScreenComponent, {
+      remove: {
+        imports: [LegacySignInRecoveryComponent],
+      },
+      add: {
+        imports: [MockLegacySignInRecoveryComponent],
+      },
+    });
   });
 
   afterEach(() => {
@@ -161,6 +210,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
+        MockLegacySignInRecoveryComponent,
         MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
@@ -181,6 +231,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
+        MockLegacySignInRecoveryComponent,
         MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
@@ -201,6 +252,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
+        MockLegacySignInRecoveryComponent,
         MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
@@ -222,6 +274,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
+        MockLegacySignInRecoveryComponent,
         MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
@@ -261,12 +314,53 @@ describe("<fui-oauth-screen>", () => {
     expect(redirectErrorElement).toBeInTheDocument();
   });
 
+  it("renders legacy recovery by default", async () => {
+    const { container } = await render(TestHostWithoutContentComponent, {
+      imports: [
+        OAuthScreenComponent,
+        MockPoliciesComponent,
+        MockRedirectErrorComponent,
+        MockLegacySignInRecoveryComponent,
+        MultiFactorAuthAssertionScreenComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+        ContentComponent,
+      ],
+    });
+
+    expect(container.querySelector("fui-legacy-sign-in-recovery")).toBeInTheDocument();
+  });
+
+  it("does not render legacy recovery when disabled", async () => {
+    const { container } = await render(TestHostWithoutRecoveryComponent, {
+      imports: [
+        OAuthScreenComponent,
+        MockPoliciesComponent,
+        MockRedirectErrorComponent,
+        MockLegacySignInRecoveryComponent,
+        MultiFactorAuthAssertionScreenComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+        ContentComponent,
+      ],
+    });
+
+    expect(container.querySelector("fui-legacy-sign-in-recovery")).not.toBeInTheDocument();
+  });
+
   it("has correct CSS classes", async () => {
     const { container } = await render(TestHostWithoutContentComponent, {
       imports: [
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
+        MockLegacySignInRecoveryComponent,
         MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
@@ -292,6 +386,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
+        MockLegacySignInRecoveryComponent,
         MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
@@ -325,6 +420,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
+        MockLegacySignInRecoveryComponent,
         MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
@@ -358,6 +454,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
+        MockLegacySignInRecoveryComponent,
         MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
@@ -391,6 +488,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
+        MockLegacySignInRecoveryComponent,
         MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
@@ -428,6 +526,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
+        MockLegacySignInRecoveryComponent,
         MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
@@ -465,6 +564,7 @@ describe("<fui-oauth-screen>", () => {
         OAuthScreenComponent,
         MockPoliciesComponent,
         MockRedirectErrorComponent,
+        MockLegacySignInRecoveryComponent,
         MultiFactorAuthAssertionScreenComponent,
         CardComponent,
         CardHeaderComponent,
