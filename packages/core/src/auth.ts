@@ -65,6 +65,30 @@ function setPendingState(ui: FirebaseUI) {
   ui.setState("pending");
 }
 
+function attachEmailToError(error: unknown, email: string): unknown {
+  if (!error || typeof error !== "object") {
+    return error;
+  }
+
+  const emailError = error as {
+    code?: string;
+    message?: string;
+    name?: string;
+    email?: string;
+    customData?: {
+      email?: string;
+    };
+  };
+
+  emailError.email = emailError.email ?? email;
+  emailError.customData = {
+    ...emailError.customData,
+    email: emailError.customData?.email ?? email,
+  };
+
+  return emailError;
+}
+
 /**
  * Signs in with an email and password.
  *
@@ -95,7 +119,7 @@ export async function signInWithEmailAndPassword(
     const result = await _signInWithCredential(ui.auth, credential);
     return handlePendingCredential(ui, result);
   } catch (error) {
-    return await handleFirebaseError(ui, error);
+    return await handleFirebaseError(ui, attachEmailToError(error, email));
   } finally {
     ui.setState("idle");
   }

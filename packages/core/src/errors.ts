@@ -51,10 +51,16 @@ export async function handleFirebaseError(ui: FirebaseUI, error: unknown): Promi
     throw error;
   }
 
-  if (error.code === "auth/account-exists-with-different-credential") {
+  const shouldHandleLegacyRecovery =
+    error.code === "auth/account-exists-with-different-credential" ||
+    error.code === "auth/wrong-password" ||
+    error.code === "auth/invalid-credential" ||
+    error.code === "auth/invalid-login-credentials";
+
+  if (shouldHandleLegacyRecovery) {
     if (hasBehavior(ui, "legacyFetchSignInWithEmail")) {
       await getBehavior(ui, "legacyFetchSignInWithEmail")(ui, error);
-    } else if (errorContainsCredential(error)) {
+    } else if (error.code === "auth/account-exists-with-different-credential" && errorContainsCredential(error)) {
       window.sessionStorage.setItem("pendingCred", JSON.stringify(error.credential.toJSON()));
     }
   }

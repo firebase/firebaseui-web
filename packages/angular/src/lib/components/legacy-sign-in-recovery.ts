@@ -15,7 +15,7 @@
  */
 
 import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, HostListener } from "@angular/core";
 import { ButtonComponent } from "./button";
 import { injectClearLegacySignInRecovery, injectLegacySignInRecovery, injectTranslation } from "../provider";
 import { AppleSignInButtonComponent } from "../auth/oauth/apple-sign-in-button";
@@ -45,41 +45,53 @@ import { YahooSignInButtonComponent } from "../auth/oauth/yahoo-sign-in-button";
   },
   template: `
     @if (recovery()) {
-      <div class="fui-legacy-sign-in-recovery">
-        <p>{{ recoveryPromptLabel() }}</p>
-        <p>{{ selectMethodLabel() }}</p>
-        <div class="fui-screen__children">
-          @if (hasMethod("google.com")) {
-            <fui-google-sign-in-button (signIn)="clearRecovery()" />
-          }
-          @if (hasMethod("github.com")) {
-            <fui-github-sign-in-button (signIn)="clearRecovery()" />
-          }
-          @if (hasMethod("facebook.com")) {
-            <fui-facebook-sign-in-button (signIn)="clearRecovery()" />
-          }
-          @if (hasMethod("apple.com")) {
-            <fui-apple-sign-in-button (signIn)="clearRecovery()" />
-          }
-          @if (hasMethod("microsoft.com")) {
-            <fui-microsoft-sign-in-button (signIn)="clearRecovery()" />
-          }
-          @if (hasMethod("twitter.com")) {
-            <fui-twitter-sign-in-button (signIn)="clearRecovery()" />
-          }
-          @if (hasMethod("yahoo.com")) {
-            <fui-yahoo-sign-in-button (signIn)="clearRecovery()" />
-          }
+      <div class="fui-legacy-sign-in-recovery-modal" (click)="handleBackdropClick($event)">
+        <div
+          [attr.aria-label]="selectMethodLabel()"
+          aria-modal="true"
+          class="fui-legacy-sign-in-recovery-modal__card fui-card"
+          role="dialog"
+        >
+          <div class="fui-legacy-sign-in-recovery-modal__eyebrow">Account Found</div>
+          <div class="fui-legacy-sign-in-recovery-modal__content">
+            <p class="fui-legacy-sign-in-recovery-modal__prompt">{{ recoveryPromptLabel() }}</p>
+            <p class="fui-card__subtitle">{{ selectMethodLabel() }}</p>
+          </div>
+          <div class="fui-screen__children">
+            @if (hasMethod("google.com")) {
+              <fui-google-sign-in-button (signIn)="clearRecovery()" />
+            }
+            @if (hasMethod("github.com")) {
+              <fui-github-sign-in-button (signIn)="clearRecovery()" />
+            }
+            @if (hasMethod("facebook.com")) {
+              <fui-facebook-sign-in-button (signIn)="clearRecovery()" />
+            }
+            @if (hasMethod("apple.com")) {
+              <fui-apple-sign-in-button (signIn)="clearRecovery()" />
+            }
+            @if (hasMethod("microsoft.com")) {
+              <fui-microsoft-sign-in-button (signIn)="clearRecovery()" />
+            }
+            @if (hasMethod("twitter.com")) {
+              <fui-twitter-sign-in-button (signIn)="clearRecovery()" />
+            }
+            @if (hasMethod("yahoo.com")) {
+              <fui-yahoo-sign-in-button (signIn)="clearRecovery()" />
+            }
+          </div>
+          <div class="fui-legacy-sign-in-recovery-modal__notes">
+            @if (hasMethod("password")) {
+              <p>{{ emailPasswordLabel() }}</p>
+            }
+            @if (hasMethod("emailLink")) {
+              <p>{{ emailLinkLabel() }}</p>
+            }
+          </div>
+          <button fui-button type="button" variant="secondary" (click)="clearRecovery()">
+            {{ dismissLabel() }}
+          </button>
         </div>
-        @if (hasMethod("password")) {
-          <p>{{ emailPasswordLabel() }}</p>
-        }
-        @if (hasMethod("emailLink")) {
-          <p>{{ emailLinkLabel() }}</p>
-        }
-        <button fui-button type="button" variant="secondary" (click)="clearRecovery()">
-          {{ dismissLabel() }}
-        </button>
       </div>
     }
   `,
@@ -127,5 +139,18 @@ export class LegacySignInRecoveryComponent {
 
   clearRecovery() {
     this.clearLegacyRecovery();
+  }
+
+  handleBackdropClick(event: MouseEvent) {
+    if (event.target === event.currentTarget) {
+      this.clearRecovery();
+    }
+  }
+
+  @HostListener("document:keydown.escape")
+  onEscapeKey() {
+    if (this.recovery()) {
+      this.clearRecovery();
+    }
   }
 }

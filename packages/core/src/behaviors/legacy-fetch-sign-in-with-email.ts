@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-import { FirebaseError } from "firebase/app";
-import { fetchSignInMethodsForEmail, type AuthCredential } from "firebase/auth";
+import type { FirebaseError } from "firebase/app";
+import { fetchSignInMethodsForEmail } from "firebase/auth";
+import type { AuthCredential } from "firebase/auth";
 import type { LegacySignInRecovery, FirebaseUI } from "~/config";
 
 type FirebaseErrorWithCredential = FirebaseError & { credential: AuthCredential };
@@ -37,11 +38,18 @@ function getEmailFromError(error: FirebaseError): string | undefined {
 
 function buildRecovery(error: FirebaseError, email: string, signInMethods: string[]): LegacySignInRecovery {
   const pendingProviderId = errorContainsCredential(error) ? error.credential.providerId : undefined;
+  const attemptedProviderId =
+    pendingProviderId ??
+    (error.code === "auth/wrong-password" ||
+    error.code === "auth/invalid-credential" ||
+    error.code === "auth/invalid-login-credentials"
+      ? "password"
+      : undefined);
 
   return {
     email,
     signInMethods,
-    attemptedProviderId: pendingProviderId,
+    attemptedProviderId,
     pendingProviderId,
   };
 }
