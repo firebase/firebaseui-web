@@ -204,6 +204,7 @@ describe("<fui-legacy-sign-in-recovery>", () => {
 
     await render(TestHostComponent);
 
+    expect(screen.getByRole("dialog")).toBeDefined();
     expect(screen.getByText("You have previously signed in with a different method for test@example.com.")).toBeDefined();
     expect(screen.getByText("Choose one of your previous sign-in methods to continue.")).toBeDefined();
     expect(screen.getByRole("button", { name: "Sign in with Google" })).toBeDefined();
@@ -225,6 +226,23 @@ describe("<fui-legacy-sign-in-recovery>", () => {
     await render(TestHostComponent);
 
     fireEvent.click(screen.getByRole("button", { name: "Dismiss" }));
+
+    expect(clearRecovery).toHaveBeenCalledTimes(1);
+  });
+
+  it("clears recovery state when the modal backdrop is clicked", async () => {
+    const { injectLegacySignInRecovery, injectClearLegacySignInRecovery } = require("../provider");
+    const clearRecovery = jest.fn();
+
+    injectLegacySignInRecovery.mockReturnValue(() => ({
+      email: "test@example.com",
+      signInMethods: ["google.com"],
+    }));
+    injectClearLegacySignInRecovery.mockReturnValue(clearRecovery);
+
+    await render(TestHostComponent);
+
+    fireEvent.click(screen.getByRole("dialog").parentElement as HTMLElement);
 
     expect(clearRecovery).toHaveBeenCalledTimes(1);
   });

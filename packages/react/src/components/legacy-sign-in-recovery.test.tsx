@@ -99,6 +99,7 @@ describe("<LegacySignInRecovery />", () => {
       </CreateFirebaseUIProvider>
     );
 
+    expect(screen.getByRole("dialog")).toBeDefined();
     expect(
       screen.getByText("You have previously signed in with a different method for test@example.com.")
     ).toBeDefined();
@@ -123,6 +124,24 @@ describe("<LegacySignInRecovery />", () => {
     );
 
     fireEvent.click(screen.getByRole("button", { name: "Dismiss" }));
+
+    expect(ui.get().legacySignInRecovery).toBeUndefined();
+  });
+
+  it("clears recovery when the modal backdrop is clicked", () => {
+    const ui = createMockUI({ locale: recoveryLocale });
+    ui.get().setLegacySignInRecovery({
+      email: "test@example.com",
+      signInMethods: ["google.com"],
+    });
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <LegacySignInRecovery />
+      </CreateFirebaseUIProvider>
+    );
+
+    fireEvent.click(screen.getByRole("dialog").parentElement as HTMLElement);
 
     expect(ui.get().legacySignInRecovery).toBeUndefined();
   });

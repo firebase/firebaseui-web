@@ -157,10 +157,76 @@ describe("handleFirebaseError", () => {
       customData: {
         email: "test@example.com",
       },
-    } as FirebaseError & { credential: AuthCredential };
+    } as unknown as FirebaseError & { credential: AuthCredential };
     const behavior = vi.fn().mockResolvedValue(undefined);
 
     vi.mocked(getTranslation).mockReturnValue("Account exists with different credential (translated)");
+    vi.mocked(hasBehavior).mockImplementation((_, key) => key === "legacyFetchSignInWithEmail");
+    vi.mocked(getBehavior).mockReturnValue(behavior);
+
+    await expect(handleFirebaseError(mockUI, mockFirebaseError)).rejects.toBeInstanceOf(FirebaseUIError);
+
+    expect(getBehavior).toHaveBeenCalledWith(mockUI, "legacyFetchSignInWithEmail");
+    expect(behavior).toHaveBeenCalledWith(mockUI, mockFirebaseError);
+    expect(window.sessionStorage.setItem).not.toHaveBeenCalled();
+  });
+
+  it("delegates wrong-password to the recovery behavior when enabled", async () => {
+    const mockUI = createMockUI();
+    const mockFirebaseError = {
+      code: "auth/wrong-password",
+      message: "Wrong password",
+      customData: {
+        email: "test@example.com",
+      },
+    } as unknown as FirebaseError;
+    const behavior = vi.fn().mockResolvedValue(undefined);
+
+    vi.mocked(getTranslation).mockReturnValue("Wrong password (translated)");
+    vi.mocked(hasBehavior).mockImplementation((_, key) => key === "legacyFetchSignInWithEmail");
+    vi.mocked(getBehavior).mockReturnValue(behavior);
+
+    await expect(handleFirebaseError(mockUI, mockFirebaseError)).rejects.toBeInstanceOf(FirebaseUIError);
+
+    expect(getBehavior).toHaveBeenCalledWith(mockUI, "legacyFetchSignInWithEmail");
+    expect(behavior).toHaveBeenCalledWith(mockUI, mockFirebaseError);
+    expect(window.sessionStorage.setItem).not.toHaveBeenCalled();
+  });
+
+  it("delegates invalid-credential to the recovery behavior when enabled", async () => {
+    const mockUI = createMockUI();
+    const mockFirebaseError = {
+      code: "auth/invalid-credential",
+      message: "Invalid credential",
+      customData: {
+        email: "test@example.com",
+      },
+    } as unknown as FirebaseError;
+    const behavior = vi.fn().mockResolvedValue(undefined);
+
+    vi.mocked(getTranslation).mockReturnValue("Invalid credential (translated)");
+    vi.mocked(hasBehavior).mockImplementation((_, key) => key === "legacyFetchSignInWithEmail");
+    vi.mocked(getBehavior).mockReturnValue(behavior);
+
+    await expect(handleFirebaseError(mockUI, mockFirebaseError)).rejects.toBeInstanceOf(FirebaseUIError);
+
+    expect(getBehavior).toHaveBeenCalledWith(mockUI, "legacyFetchSignInWithEmail");
+    expect(behavior).toHaveBeenCalledWith(mockUI, mockFirebaseError);
+    expect(window.sessionStorage.setItem).not.toHaveBeenCalled();
+  });
+
+  it("delegates invalid-login-credentials to the recovery behavior when enabled", async () => {
+    const mockUI = createMockUI();
+    const mockFirebaseError = {
+      code: "auth/invalid-login-credentials",
+      message: "Invalid login credentials",
+      customData: {
+        email: "test@example.com",
+      },
+    } as unknown as FirebaseError;
+    const behavior = vi.fn().mockResolvedValue(undefined);
+
+    vi.mocked(getTranslation).mockReturnValue("Invalid login credentials (translated)");
     vi.mocked(hasBehavior).mockImplementation((_, key) => key === "legacyFetchSignInWithEmail");
     vi.mocked(getBehavior).mockReturnValue(behavior);
 
@@ -262,7 +328,9 @@ describe("isFirebaseError utility", () => {
     const mockUI = createMockUI();
     vi.mocked(getTranslation).mockReturnValue("translated message");
 
-    await expect(handleFirebaseError(mockUI, { code: "test", message: "test" })).rejects.toBeInstanceOf(FirebaseUIError);
+    await expect(handleFirebaseError(mockUI, { code: "test", message: "test" })).rejects.toBeInstanceOf(
+      FirebaseUIError
+    );
   });
 
   it("rejects objects without code and message", async () => {

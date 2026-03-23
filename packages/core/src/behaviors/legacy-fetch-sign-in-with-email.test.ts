@@ -98,6 +98,74 @@ describe("legacyFetchSignInWithEmailHandler", () => {
     });
   });
 
+  it("marks password as the attempted provider for wrong-password recovery", async () => {
+    const ui = createMockUI();
+    const error = {
+      code: "auth/wrong-password",
+      message: "Wrong password",
+      customData: {
+        email: "password@example.com",
+      },
+    } as any;
+
+    vi.mocked(fetchSignInMethodsForEmail).mockResolvedValue(["google.com"]);
+
+    await legacyFetchSignInWithEmailHandler(ui, error);
+
+    expect(fetchSignInMethodsForEmail).toHaveBeenCalledWith(ui.auth, "password@example.com");
+    expect(ui.setLegacySignInRecovery).toHaveBeenCalledWith({
+      email: "password@example.com",
+      signInMethods: ["google.com"],
+      attemptedProviderId: "password",
+      pendingProviderId: undefined,
+    });
+    expect(window.sessionStorage.setItem).not.toHaveBeenCalled();
+  });
+
+  it("marks password as the attempted provider for invalid-credential recovery", async () => {
+    const ui = createMockUI();
+    const error = {
+      code: "auth/invalid-credential",
+      message: "Invalid credential",
+      customData: {
+        email: "invalid@example.com",
+      },
+    } as any;
+
+    vi.mocked(fetchSignInMethodsForEmail).mockResolvedValue(["github.com"]);
+
+    await legacyFetchSignInWithEmailHandler(ui, error);
+
+    expect(ui.setLegacySignInRecovery).toHaveBeenCalledWith({
+      email: "invalid@example.com",
+      signInMethods: ["github.com"],
+      attemptedProviderId: "password",
+      pendingProviderId: undefined,
+    });
+  });
+
+  it("marks password as the attempted provider for invalid-login-credentials recovery", async () => {
+    const ui = createMockUI();
+    const error = {
+      code: "auth/invalid-login-credentials",
+      message: "Invalid login credentials",
+      customData: {
+        email: "login@example.com",
+      },
+    } as any;
+
+    vi.mocked(fetchSignInMethodsForEmail).mockResolvedValue(["google.com"]);
+
+    await legacyFetchSignInWithEmailHandler(ui, error);
+
+    expect(ui.setLegacySignInRecovery).toHaveBeenCalledWith({
+      email: "login@example.com",
+      signInMethods: ["google.com"],
+      attemptedProviderId: "password",
+      pendingProviderId: undefined,
+    });
+  });
+
   it("clears recovery state when no email can be extracted", async () => {
     const ui = createMockUI();
     const error = {
