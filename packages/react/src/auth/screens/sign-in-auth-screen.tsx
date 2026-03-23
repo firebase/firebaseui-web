@@ -23,11 +23,14 @@ import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "../../co
 import { SignInAuthForm, type SignInAuthFormProps } from "../forms/sign-in-auth-form";
 import { MultiFactorAuthAssertionScreen } from "./multi-factor-auth-assertion-screen";
 import { RedirectError } from "~/components/redirect-error";
+import { LegacySignInRecovery } from "~/components/legacy-sign-in-recovery";
 
 /** Props for the SignInAuthScreen component. */
 export type SignInAuthScreenProps = PropsWithChildren<Omit<SignInAuthFormProps, "onSignIn">> & {
   /** Callback function called when sign-in is successful. */
   onSignIn?: (user: User) => void;
+  /** Whether to show the default legacy sign-in recovery UI. */
+  showLegacySignInRecovery?: boolean;
 };
 
 /**
@@ -37,7 +40,12 @@ export type SignInAuthScreenProps = PropsWithChildren<Omit<SignInAuthFormProps, 
  *
  * @returns The sign-in screen component.
  */
-export function SignInAuthScreen({ children, onSignIn, ...props }: SignInAuthScreenProps) {
+export function SignInAuthScreen({
+  children,
+  onSignIn,
+  showLegacySignInRecovery = true,
+  ...props
+}: SignInAuthScreenProps) {
   const ui = useUI();
 
   const titleText = getTranslation(ui, "labels", "signIn");
@@ -58,6 +66,7 @@ export function SignInAuthScreen({ children, onSignIn, ...props }: SignInAuthScr
         </CardHeader>
         <CardContent>
           <SignInAuthForm {...props} />
+          {showLegacySignInRecovery ? <LegacySignInRecovery /> : null}
           {children ? (
             <>
               <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { useContext, useMemo, useEffect, useRef, useState } from "react";
+import { useContext, useMemo, useEffect, useRef, useState, useCallback } from "react";
 import type { RecaptchaVerifier, User } from "firebase/auth";
 import {
   createEmailLinkAuthFormSchema,
@@ -88,6 +88,26 @@ export function useRedirectError() {
 
     return ui.redirectError instanceof Error ? ui.redirectError.message : String(ui.redirectError);
   }, [ui.redirectError]);
+}
+
+/**
+ * Gets legacy sign-in recovery data populated by the legacyFetchSignInWithEmail behavior.
+ *
+ * @returns The recovery data and a callback to clear it.
+ */
+export function useLegacySignInRecovery() {
+  const ui = useUI();
+  const clearRecovery = useCallback(() => {
+    ui.clearLegacySignInRecovery();
+  }, [ui]);
+
+  return useMemo(
+    () => ({
+      recovery: ui.legacySignInRecovery,
+      clearRecovery,
+    }),
+    [ui.legacySignInRecovery, clearRecovery]
+  );
 }
 
 /**
