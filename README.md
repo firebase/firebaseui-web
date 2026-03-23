@@ -397,7 +397,7 @@ const ui = initializeUI({
 
 #### `legacyFetchSignInWithEmail`
 
-The `legacyFetchSignInWithEmail` behavior augments OAuth `auth/account-exists-with-different-credential` flows by calling `fetchSignInMethodsForEmail(auth, email)` and storing the returned methods on the UI instance. In the packaged React and Angular screen components, this recovery state is rendered automatically via a default recovery UI on `SignInAuthScreen` and `OAuthScreen`.
+The `legacyFetchSignInWithEmail` behavior augments OAuth `auth/account-exists-with-different-credential` flows by calling `fetchSignInMethodsForEmail(auth, email)` and storing the returned methods on the UI instance. In the packaged React and Angular screen components, this recovery state is rendered automatically as a modal on `SignInAuthScreen` and `OAuthScreen`.
 
 The original pending credential is still preserved, so after the user signs in with the correct method, Firebase UI can continue the existing linking flow.
 
