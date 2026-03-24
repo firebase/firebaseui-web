@@ -7,7 +7,7 @@ This package contains the Angular components for FirebaseUI.
 Install the package from NPM:
 
 ```bash
-npm install @angular/fire @firebase-oss/ui-angular @firebase-oss/ui-core @firebase-oss/ui-styles @firebase-oss/ui-translations
+npm install @angular/fire @firebase-oss/ui-angular@beta @firebase-oss/ui-core@beta @firebase-oss/ui-styles@beta
 ```
 
 ## Development
