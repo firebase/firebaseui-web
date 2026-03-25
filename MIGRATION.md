@@ -90,7 +90,7 @@ First, remove the old `firebaseui` package and install the appropriate new packa
   {
     ...
     "registries": {
-      "@firebase": "https://fir-ui-shadcn-registry.web.app/r/{name}.json"
+      "@firebase": "https://firebaseopensource.com/r/{name}.json"
     }
   }
   ```

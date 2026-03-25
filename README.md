@@ -1530,7 +1530,7 @@ By default, any missing translations will fallback to English if not specified. 
 <details>
   <summary>Shadcn</summary>
 
-  The shadcn registry is available at: https://fir-ui-shadcn-registry.web.app/r/{name}.json
+  The shadcn registry is available at: https://firebaseopensource.com/r/{name}.json
 
   | Name     |       Path       | Description |
   |----------|:----------------:|-------------|
