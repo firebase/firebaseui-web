@@ -7,7 +7,7 @@
       ".": "./src/index.ts",
       "./dist.min.css": "./dist/dist.min.css",
       "./tailwind": "./src/base.css",
-      "./themes/brutalist.css": "./src/themes/brualist.css"
+      "./themes/brutalist.css": "./src/themes/brutalist.css"
     }
   },
   "sideEffects": [
