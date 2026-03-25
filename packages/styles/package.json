@@ -18,7 +18,7 @@
   ],
   "scripts": {
     "prepare": "pnpm run build",
-    "build": "pnpm dlx zshy && pnpm run build:css",
+    "build": "zshy && pnpm run build:css",
     "build:css": "pnpm dlx @tailwindcss/cli -i ./src.css -o ./dist/dist.min.css --minify",
     "build:local": "pnpm run build && pnpm pack",
     "lint": "tsc --noEmit",
@@ -36,7 +36,8 @@
     "tailwindcss": "catalog:",
     "tsup": "catalog:",
     "typescript": "catalog:",
-    "vitest": "catalog:"
+    "vitest": "catalog:",
+    "zshy": "0.7.0"
   },
   "dependencies": {
     "cva": "1.0.0-beta.4"
