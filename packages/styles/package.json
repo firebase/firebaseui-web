@@ -5,7 +5,6 @@
   "zshy": {
     "exports": {
       ".": "./src/index.ts",
-      "./dist.min.css": "./dist/dist.min.css",
       "./tailwind": "./src/base.css",
       "./themes/brutalist.css": "./src/themes/brutalist.css"
     }
@@ -51,8 +50,7 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./dist.min.css": "./dist/dist.min.css",
     "./tailwind": "./dist/base.css",
-    "./themes/brutalist.css": "./dist/themes/brualist.css"
+    "./themes/brutalist.css": "./dist/themes/brutalist.css"
   }
 }
