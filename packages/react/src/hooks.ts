@@ -66,9 +66,13 @@ export function useOnUserAuthenticated(callback?: (user: User) => void) {
   const auth = ui.auth;
 
   useEffect(() => {
+    if (!callback) {
+      return;
+    }
+
     return auth.onAuthStateChanged((user) => {
       if (user && !user.isAnonymous) {
-        callback?.(user);
+        callback(user);
       }
     });
   }, [auth, callback]);
