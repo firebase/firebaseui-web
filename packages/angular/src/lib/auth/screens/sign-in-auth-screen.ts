@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-import { Component, Output, EventEmitter, computed, inject, effect } from "@angular/core";
+import { Component, Output, EventEmitter, computed, input } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
 import { injectTranslation, injectUI, injectUserAuthenticated } from "../../provider";
 import { SignInAuthFormComponent } from "../forms/sign-in-auth-form";
 import { MultiFactorAuthAssertionScreenComponent } from "../screens/multi-factor-auth-assertion-screen";
 import { RedirectErrorComponent } from "../../components/redirect-error";
+import { LegacySignInRecoveryComponent } from "../../components/legacy-sign-in-recovery";
 import {
   CardComponent,
   CardHeaderComponent,
@@ -45,6 +46,7 @@ import { Auth, authState, User, UserCredential } from "@angular/fire/auth";
     SignInAuthFormComponent,
     MultiFactorAuthAssertionScreenComponent,
     RedirectErrorComponent,
+    LegacySignInRecoveryComponent,
   ],
   template: `
     @if (mfaResolver()) {
@@ -58,6 +60,9 @@ import { Auth, authState, User, UserCredential } from "@angular/fire/auth";
           </fui-card-header>
           <fui-card-content>
             <fui-sign-in-auth-form [forgotPassword]="forgotPassword" [signUp]="signUp" />
+            @if (showLegacySignInRecovery()) {
+              <fui-legacy-sign-in-recovery />
+            }
             <ng-content />
             <fui-redirect-error />
           </fui-card-content>
@@ -73,6 +78,8 @@ import { Auth, authState, User, UserCredential } from "@angular/fire/auth";
  */
 export class SignInAuthScreenComponent {
   private ui = injectUI();
+  /** Whether to show the default legacy sign-in recovery UI. */
+  showLegacySignInRecovery = input(true);
 
   mfaResolver = computed(() => this.ui().multiFactorResolver);
   titleText = injectTranslation("labels", "signIn");

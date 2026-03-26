@@ -22,6 +22,7 @@ import type { ErrorKey, TranslationCategory, TranslationKey, TranslationSet } fr
 export const ERROR_CODE_MAP = {
   "auth/user-not-found": "userNotFound",
   "auth/wrong-password": "wrongPassword",
+  "auth/invalid-login-credentials": "invalidCredential",
   "auth/invalid-email": "invalidEmail",
   "auth/unverified-email": "unverifiedEmail",
   "auth/user-disabled": "userDisabled",

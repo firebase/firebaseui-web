@@ -15,7 +15,7 @@
 
 import { TestBed } from "@angular/core/testing";
 import { FirebaseApps } from "@angular/fire/app";
-import { injectTranslation, provideFirebaseUI } from "./provider";
+import { injectClearLegacySignInRecovery, injectLegacySignInRecovery, injectTranslation, provideFirebaseUI } from "./provider";
 import { getTranslation, type TranslationCategory, type TranslationKey } from "@firebase-oss/ui-core";
 
 const mockUI = {
@@ -23,6 +23,11 @@ const mockUI = {
     locale: "en-US",
     translations: {},
   },
+  legacySignInRecovery: {
+    email: "test@example.com",
+    signInMethods: ["google.com"],
+  },
+  clearLegacySignInRecovery: jest.fn(),
 };
 
 describe("injectTranslation", () => {
@@ -92,6 +97,44 @@ describe("injectTranslation", () => {
         "labels",
         "emailAddress"
       );
+    });
+  });
+});
+
+describe("legacy sign-in recovery injectors", () => {
+  const mockStore = {
+    get: () => mockUI,
+    subscribe: jest.fn(() => () => {}),
+  };
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: FirebaseApps, useValue: [{ name: "test-app" }] },
+        provideFirebaseUI(() => mockStore as any),
+      ],
+    });
+  });
+
+  it("returns the current legacy sign-in recovery state", () => {
+    TestBed.runInInjectionContext(() => {
+      const recovery = injectLegacySignInRecovery();
+
+      expect(recovery()).toEqual({
+        email: "test@example.com",
+        signInMethods: ["google.com"],
+      });
+    });
+  });
+
+  it("returns a callback that clears the recovery state", () => {
+    TestBed.runInInjectionContext(() => {
+      const clearRecovery = injectClearLegacySignInRecovery();
+      clearRecovery();
+
+      expect(mockUI.clearLegacySignInRecovery).toHaveBeenCalledTimes(1);
     });
   });
 });

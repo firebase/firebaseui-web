@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Component, computed, Output, EventEmitter } from "@angular/core";
+import { Component, computed, Output, EventEmitter, input } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   CardComponent,
@@ -27,6 +27,7 @@ import { injectTranslation, injectUI, injectUserAuthenticated } from "../../prov
 import { PoliciesComponent } from "../../components/policies";
 import { MultiFactorAuthAssertionScreenComponent } from "../screens/multi-factor-auth-assertion-screen";
 import { RedirectErrorComponent } from "../../components/redirect-error";
+import { LegacySignInRecoveryComponent } from "../../components/legacy-sign-in-recovery";
 import { type User } from "@angular/fire/auth";
 
 @Component({
@@ -45,6 +46,7 @@ import { type User } from "@angular/fire/auth";
     PoliciesComponent,
     MultiFactorAuthAssertionScreenComponent,
     RedirectErrorComponent,
+    LegacySignInRecoveryComponent,
   ],
   template: `
     @if (mfaResolver()) {
@@ -59,6 +61,9 @@ import { type User } from "@angular/fire/auth";
           <fui-card-content>
             <div class="fui-screen__children">
               <ng-content></ng-content>
+              @if (showLegacySignInRecovery()) {
+                <fui-legacy-sign-in-recovery />
+              }
               <fui-redirect-error />
               <fui-policies />
             </div>
@@ -76,6 +81,8 @@ import { type User } from "@angular/fire/auth";
  */
 export class OAuthScreenComponent {
   private ui = injectUI();
+  /** Whether to show the default legacy sign-in recovery UI. */
+  showLegacySignInRecovery = input(true);
 
   mfaResolver = computed(() => this.ui().multiFactorResolver);
 
