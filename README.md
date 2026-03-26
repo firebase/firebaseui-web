@@ -182,7 +182,7 @@ Next, follow the framework specific installation steps, for either React, Shadcn
   Once you have provided the Firebase App instance to your application using `provideFirebaseApp`, install the Firebase UI for Angular package:
 
   ```bash
-  npm install @firebase-oss/ui-angular@beta
+  npm install @angular/fire @firebase-oss/ui-angular@beta @firebase-oss/ui-core@beta @firebase-oss/ui-styles@beta
   ```
 
   Alongside your existing providers, add the `provideFirebaseUI` provider, returning a new Firebase UI instance via `initializeUI`:
@@ -1530,7 +1530,7 @@ By default, any missing translations will fallback to English if not specified. 
 <details>
   <summary>Shadcn</summary>
 
-  The shadcn registry is available at: https://fir-ui-shadcn-registry.web.app/r/{name}.json
+  The shadcn registry is available at: https://firebaseopensource.com/r/{name}.json
 
   | Name     |       Path       | Description |
   |----------|:----------------:|-------------|
