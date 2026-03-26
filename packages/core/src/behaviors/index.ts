@@ -52,7 +52,9 @@ type Registry = {
   oneTapSignIn: InitBehavior<(ui: FirebaseUI) => ReturnType<typeof oneTapSignInHandlers.oneTapSignInHandler>>;
   requireDisplayName: CallableBehavior<typeof requireDisplayNameHandlers.requireDisplayNameHandler>;
   countryCodes: CallableBehavior<typeof countryCodesHandlers.countryCodesHandler>;
-  legacyFetchSignInWithEmail: CallableBehavior<typeof legacyFetchSignInWithEmailHandlers.legacyFetchSignInWithEmailHandler>;
+  legacyFetchSignInWithEmail: CallableBehavior<
+    typeof legacyFetchSignInWithEmailHandlers.legacyFetchSignInWithEmailHandler
+  >;
 };
 
 /** A behavior or set of behaviors from the registry. */
