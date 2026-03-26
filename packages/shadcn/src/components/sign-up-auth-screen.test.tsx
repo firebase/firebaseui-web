@@ -26,7 +26,17 @@ vi.mock("./sign-up-auth-form", () => ({
   SignUpAuthForm: ({ onSignUp, onSignInClick }: any) => (
     <div data-testid="sign-up-auth-form">
       <div>SignUpAuthForm</div>
-      {onSignUp && <div data-testid="onSignUp-prop">onSignUp provided</div>}
+      {onSignUp && (
+        <>
+          <div data-testid="onSignUp-prop">onSignUp provided</div>
+          <button
+            data-testid="sign-up-success-button"
+            onClick={() => onSignUp({ user: { uid: "signup-form-user", isAnonymous: false } })}
+          >
+            Sign Up Success
+          </button>
+        </>
+      )}
       {onSignInClick && <div data-testid="onSignInClick-prop">onSignInClick provided</div>}
     </div>
   ),
@@ -124,6 +134,39 @@ describe("<SignUpAuthScreen />", () => {
     );
 
     expect(screen.getByTestId("onSignInClick-prop")).toBeInTheDocument();
+  });
+
+  it("calls onSignUp from the resolved form credential", () => {
+    const onSignUp = vi.fn();
+
+    const mockAuth = {
+      onAuthStateChanged: vi.fn(() => vi.fn()),
+    };
+
+    const mockUI = createMockUI({
+      auth: mockAuth as any,
+      locale: registerLocale("test", {
+        labels: {
+          signUp: "Register",
+        },
+        prompts: {
+          enterDetailsToCreate: "Enter your details to create an account",
+        },
+      }),
+    });
+
+    render(
+      <FirebaseUIProvider ui={mockUI}>
+        <SignUpAuthScreen onSignUp={onSignUp} />
+      </FirebaseUIProvider>
+    );
+
+    act(() => {
+      screen.getByTestId("sign-up-success-button").click();
+    });
+
+    expect(onSignUp).toHaveBeenCalledTimes(1);
+    expect(onSignUp).toHaveBeenCalledWith({ uid: "signup-form-user", isAnonymous: false });
   });
 
   it("should not render separator when no children", () => {
@@ -279,7 +322,7 @@ describe("<SignUpAuthScreen />", () => {
     expect(onSignUp).toHaveBeenCalledWith(mockUser);
   });
 
-  it("calls onSignUp when user authenticates via useOnUserAuthenticated hook", () => {
+  it("calls onSignUp when child-based sign-up flows authenticate via auth state", () => {
     const onSignUp = vi.fn();
     let authStateChangeCallback: ((user: User | null) => void) | null = null;
 
@@ -296,7 +339,9 @@ describe("<SignUpAuthScreen />", () => {
 
     render(
       <FirebaseUIProvider ui={mockUI}>
-        <SignUpAuthScreen onSignUp={onSignUp} />
+        <SignUpAuthScreen onSignUp={onSignUp}>
+          <div data-testid="child-component">Child Component</div>
+        </SignUpAuthScreen>
       </FirebaseUIProvider>
     );
 
@@ -313,6 +358,44 @@ describe("<SignUpAuthScreen />", () => {
 
     expect(onSignUp).toHaveBeenCalledTimes(1);
     expect(onSignUp).toHaveBeenCalledWith(mockUser);
+  });
+
+  it("dedupes the same user across form and auth state paths", () => {
+    const onSignUp = vi.fn();
+    let authStateChangeCallback: ((user: User | null) => void) | null = null;
+
+    const mockAuth = {
+      onAuthStateChanged: vi.fn((callback: (user: User | null) => void) => {
+        authStateChangeCallback = callback;
+        return vi.fn();
+      }),
+    };
+
+    const mockUI = createMockUI({
+      auth: mockAuth as any,
+    });
+
+    render(
+      <FirebaseUIProvider ui={mockUI}>
+        <SignUpAuthScreen onSignUp={onSignUp}>
+          <div data-testid="child-component">Child Component</div>
+        </SignUpAuthScreen>
+      </FirebaseUIProvider>
+    );
+
+    act(() => {
+      screen.getByTestId("sign-up-success-button").click();
+    });
+
+    act(() => {
+      authStateChangeCallback!({
+        uid: "signup-form-user",
+        isAnonymous: false,
+      } as User);
+    });
+
+    expect(onSignUp).toHaveBeenCalledTimes(1);
+    expect(onSignUp).toHaveBeenCalledWith({ uid: "signup-form-user", isAnonymous: false });
   });
 
   it("does not call onSignUp for anonymous users", () => {
@@ -332,7 +415,9 @@ describe("<SignUpAuthScreen />", () => {
 
     render(
       <FirebaseUIProvider ui={mockUI}>
-        <SignUpAuthScreen onSignUp={onSignUp} />
+        <SignUpAuthScreen onSignUp={onSignUp}>
+          <div data-testid="child-component">Child Component</div>
+        </SignUpAuthScreen>
       </FirebaseUIProvider>
     );
 
