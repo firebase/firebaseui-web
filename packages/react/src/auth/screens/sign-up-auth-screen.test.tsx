@@ -21,8 +21,14 @@ import { registerLocale } from "@firebase-oss/ui-translations";
 import { MultiFactorResolver, type User } from "firebase/auth";
 
 vi.mock("~/auth/forms/sign-up-auth-form", () => ({
-  SignUpAuthForm: ({ onSignInClick }: { onSignInClick?: () => void }) => (
+  SignUpAuthForm: ({ onSignUp, onSignInClick }: { onSignUp?: (credential: any) => void; onSignInClick?: () => void }) => (
     <div data-testid="sign-up-auth-form">
+      <button
+        data-testid="sign-up-success-button"
+        onClick={() => onSignUp?.({ user: { uid: "signup-form-user", isAnonymous: false } })}
+      >
+        Sign Up Success
+      </button>
       <button data-testid="back-to-sign-in-button" onClick={onSignInClick}>
         Back to Sign In
       </button>
@@ -294,7 +300,31 @@ describe("<SignUpAuthScreen />", () => {
     expect(onSignUp).toHaveBeenCalledWith(mockUser);
   });
 
-  it("calls onSignUp when user authenticates via useOnUserAuthenticated hook", () => {
+  it("calls onSignUp from the resolved form credential", () => {
+    const onSignUp = vi.fn();
+
+    const mockAuth = {
+      onAuthStateChanged: vi.fn(() => vi.fn()),
+    };
+
+    const ui = createMockUI({
+      auth: mockAuth as any,
+    });
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <SignUpAuthScreen onSignUp={onSignUp} />
+      </CreateFirebaseUIProvider>
+    );
+
+    fireEvent.click(screen.getByTestId("sign-up-success-button"));
+
+    expect(onSignUp).toHaveBeenCalledTimes(1);
+    expect(onSignUp).toHaveBeenCalledWith({ uid: "signup-form-user", isAnonymous: false });
+    expect(mockAuth.onAuthStateChanged).not.toHaveBeenCalled();
+  });
+
+  it("calls onSignUp from auth state for child-based sign-up flows", () => {
     const onSignUp = vi.fn();
     let authStateChangeCallback: ((user: User | null) => void) | null = null;
 
@@ -311,14 +341,16 @@ describe("<SignUpAuthScreen />", () => {
 
     render(
       <CreateFirebaseUIProvider ui={ui}>
-        <SignUpAuthScreen onSignUp={onSignUp} />
+        <SignUpAuthScreen onSignUp={onSignUp}>
+          <div data-testid="child-sign-up-provider" />
+        </SignUpAuthScreen>
       </CreateFirebaseUIProvider>
     );
 
     expect(mockAuth.onAuthStateChanged).toHaveBeenCalledTimes(1);
 
     const mockUser = {
-      uid: "test-user-id",
+      uid: "child-provider-user",
       isAnonymous: false,
     } as User;
 
@@ -328,6 +360,42 @@ describe("<SignUpAuthScreen />", () => {
 
     expect(onSignUp).toHaveBeenCalledTimes(1);
     expect(onSignUp).toHaveBeenCalledWith(mockUser);
+  });
+
+  it("dedupes the same user across form and auth state paths", () => {
+    const onSignUp = vi.fn();
+    let authStateChangeCallback: ((user: User | null) => void) | null = null;
+
+    const mockAuth = {
+      onAuthStateChanged: vi.fn((callback: (user: User | null) => void) => {
+        authStateChangeCallback = callback;
+        return vi.fn();
+      }),
+    };
+
+    const ui = createMockUI({
+      auth: mockAuth as any,
+    });
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <SignUpAuthScreen onSignUp={onSignUp}>
+          <div data-testid="child-sign-up-provider" />
+        </SignUpAuthScreen>
+      </CreateFirebaseUIProvider>
+    );
+
+    fireEvent.click(screen.getByTestId("sign-up-success-button"));
+
+    act(() => {
+      authStateChangeCallback!({
+        uid: "signup-form-user",
+        isAnonymous: false,
+      } as User);
+    });
+
+    expect(onSignUp).toHaveBeenCalledTimes(1);
+    expect(onSignUp).toHaveBeenCalledWith({ uid: "signup-form-user", isAnonymous: false });
   });
 
   it("does not call onSignUp for anonymous users", () => {
@@ -347,7 +415,9 @@ describe("<SignUpAuthScreen />", () => {
 
     render(
       <CreateFirebaseUIProvider ui={ui}>
-        <SignUpAuthScreen onSignUp={onSignUp} />
+        <SignUpAuthScreen onSignUp={onSignUp}>
+          <div data-testid="child-sign-up-provider" />
+        </SignUpAuthScreen>
       </CreateFirebaseUIProvider>
     );
 
