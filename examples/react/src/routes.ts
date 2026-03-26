@@ -12,6 +12,8 @@ import CustomAuthScreenPage from "./screens/custom-auth-screen";
 import PhoneAuthScreenPage from "./screens/phone-auth-screen";
 import PhoneAuthScreenWithOAuthPage from "./screens/phone-auth-screen-w-oauth";
 import MultiFactorAuthEnrollmentScreenPage from "./screens/mfa-enrollment-screen";
+import SignInWithProviderTrackingPage from "./screens/sign-in-with-provider-tracking";
+import ProviderHintPage from "./screens/provider-hint";
 
 export const routes = [
   {
@@ -91,6 +93,19 @@ export const routes = [
     description: "LINE (OIDC) and Snapchat (OAuth 2.0 + custom token) sign-in buttons.",
     path: "/screens/custom-auth",
     component: CustomAuthScreenPage,
+  },
+  {
+    name: "Sign In with provider tracking",
+    description:
+      "Demonstrates how to redirect users to their original OAuth provider when they mistakenly try to sign in with email + password.",
+    path: "/screens/sign-in-with-provider-tracking",
+    component: SignInWithProviderTrackingPage,
+  },
+  {
+    name: "Provider hint",
+    description: "Shown when a user attempts email + password sign-in but has a known OAuth provider stored locally.",
+    path: "/screens/provider-hint",
+    component: ProviderHintPage,
   },
 ] as const;
 
