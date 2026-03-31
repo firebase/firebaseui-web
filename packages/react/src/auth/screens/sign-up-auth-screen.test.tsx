@@ -21,7 +21,13 @@ import { registerLocale } from "@firebase-oss/ui-translations";
 import { MultiFactorResolver, type User } from "firebase/auth";
 
 vi.mock("~/auth/forms/sign-up-auth-form", () => ({
-  SignUpAuthForm: ({ onSignUp, onSignInClick }: { onSignUp?: (credential: any) => void; onSignInClick?: () => void }) => (
+  SignUpAuthForm: ({
+    onSignUp,
+    onSignInClick,
+  }: {
+    onSignUp?: (credential: any) => void;
+    onSignInClick?: () => void;
+  }) => (
     <div data-testid="sign-up-auth-form">
       <button
         data-testid="sign-up-success-button"
