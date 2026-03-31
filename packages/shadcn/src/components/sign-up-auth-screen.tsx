@@ -24,6 +24,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Separator } from "@/components/ui/separator";
 import { SignUpAuthForm } from "@/components/sign-up-auth-form";
 import { MultiFactorAuthAssertionScreen } from "@/components/multi-factor-auth-assertion-screen";
+import { type User } from "firebase/auth";
 
 export type { SignUpAuthScreenProps };
 
@@ -35,7 +36,7 @@ export function SignUpAuthScreen({ children, onSignUp, ...props }: SignUpAuthScr
   const subtitleText = getTranslation(ui, "prompts", "enterDetailsToCreate");
 
   const handleSignUp = useCallback(
-    (user: Parameters<NonNullable<SignUpAuthScreenProps["onSignUp"]>>[0]) => {
+    (user: User) => {
       if (handledUserIdRef.current === user.uid) {
         return;
       }
