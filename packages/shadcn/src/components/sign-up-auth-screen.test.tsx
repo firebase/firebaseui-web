@@ -23,7 +23,13 @@ import { FirebaseUIProvider } from "@firebase-oss/ui-react";
 import { MultiFactorResolver, type User } from "firebase/auth";
 
 vi.mock("./sign-up-auth-form", () => ({
-  SignUpAuthForm: ({ onSignUp, onSignInClick }: any) => (
+  SignUpAuthForm: ({
+    onSignUp,
+    onSignInClick,
+  }: {
+    onSignUp?: (credential: any) => void;
+    onSignInClick?: () => void;
+  }) => (
     <div data-testid="sign-up-auth-form">
       <div>SignUpAuthForm</div>
       {onSignUp && (
