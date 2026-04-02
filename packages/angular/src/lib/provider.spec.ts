@@ -15,7 +15,12 @@
 
 import { TestBed } from "@angular/core/testing";
 import { FirebaseApps } from "@angular/fire/app";
-import { injectClearLegacySignInRecovery, injectLegacySignInRecovery, injectTranslation, provideFirebaseUI } from "./provider";
+import {
+  injectClearLegacySignInRecovery,
+  injectLegacySignInRecovery,
+  injectTranslation,
+  provideFirebaseUI,
+} from "./provider";
 import { getTranslation, type TranslationCategory, type TranslationKey } from "@firebase-oss/ui-core";
 
 const mockUI = {

@@ -205,7 +205,9 @@ describe("<fui-legacy-sign-in-recovery>", () => {
     await render(TestHostComponent);
 
     expect(screen.getByRole("dialog")).toBeDefined();
-    expect(screen.getByText("You have previously signed in with a different method for test@example.com.")).toBeDefined();
+    expect(
+      screen.getByText("You have previously signed in with a different method for test@example.com.")
+    ).toBeDefined();
     expect(screen.getByText("Choose one of your previous sign-in methods to continue.")).toBeDefined();
     expect(screen.getByRole("button", { name: "Sign in with Google" })).toBeDefined();
     expect(screen.getByRole("button", { name: "Sign in with GitHub" })).toBeDefined();
