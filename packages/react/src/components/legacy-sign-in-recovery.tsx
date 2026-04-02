@@ -100,14 +100,18 @@ export function LegacySignInRecovery() {
           {hasMethod(recovery.signInMethods, "facebook.com") ? (
             <FacebookSignInButton onSignIn={handleRecoverySignIn} />
           ) : null}
-          {hasMethod(recovery.signInMethods, "apple.com") ? <AppleSignInButton onSignIn={handleRecoverySignIn} /> : null}
+          {hasMethod(recovery.signInMethods, "apple.com") ? (
+            <AppleSignInButton onSignIn={handleRecoverySignIn} />
+          ) : null}
           {hasMethod(recovery.signInMethods, "microsoft.com") ? (
             <MicrosoftSignInButton onSignIn={handleRecoverySignIn} />
           ) : null}
           {hasMethod(recovery.signInMethods, "twitter.com") ? (
             <TwitterSignInButton onSignIn={handleRecoverySignIn} />
           ) : null}
-          {hasMethod(recovery.signInMethods, "yahoo.com") ? <YahooSignInButton onSignIn={handleRecoverySignIn} /> : null}
+          {hasMethod(recovery.signInMethods, "yahoo.com") ? (
+            <YahooSignInButton onSignIn={handleRecoverySignIn} />
+          ) : null}
         </div>
         <div className="fui-legacy-sign-in-recovery-modal__notes">
           {hasMethod(recovery.signInMethods, "password") ? (
