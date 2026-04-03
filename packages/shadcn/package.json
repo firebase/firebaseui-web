@@ -1,6 +1,7 @@
 {
   "name": "@firebase-oss/ui-shadcn",
   "version": "0.0.2",
+  "repository": "firebase/firebaseui-web",
   "type": "module",
   "bin": {
     "ui-shadcn": "dist/bin/cli.js"

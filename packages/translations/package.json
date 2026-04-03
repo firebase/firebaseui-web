@@ -1,6 +1,7 @@
 {
   "name": "@firebase-oss/ui-translations",
   "version": "0.0.2",
+  "repository": "firebase/firebaseui-web",
   "description": "Translations for Firebase UI",
   "type": "module",
   "main": "./dist/index.cjs",

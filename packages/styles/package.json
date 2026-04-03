@@ -1,6 +1,7 @@
 {
   "name": "@firebase-oss/ui-styles",
   "version": "0.0.2",
+  "repository": "firebase/firebaseui-web",
   "type": "module",
   "zshy": {
     "exports": {
