@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import type { PropsWithChildren } from "react";
+import { type PropsWithChildren, useCallback, useRef } from "react";
 import type { User } from "firebase/auth";
 import { Divider } from "~/components/divider";
 import { useOnUserAuthenticated, useUI } from "~/hooks";
@@ -39,11 +39,28 @@ export type SignUpAuthScreenProps = PropsWithChildren<Omit<SignUpAuthFormProps, 
  */
 export function SignUpAuthScreen({ children, onSignUp, ...props }: SignUpAuthScreenProps) {
   const ui = useUI();
+  const handledUserIdRef = useRef<string | null>(null);
 
   const titleText = getTranslation(ui, "labels", "signUp");
   const subtitleText = getTranslation(ui, "prompts", "enterDetailsToCreate");
 
-  useOnUserAuthenticated(onSignUp);
+  const handleSignUp = useCallback(
+    (user: User) => {
+      if (handledUserIdRef.current === user.uid) {
+        return;
+      }
+
+      handledUserIdRef.current = user.uid;
+      onSignUp?.(user);
+    },
+    [onSignUp]
+  );
+
+  // The built-in email/password form can report success from the resolved credential,
+  // which is the earliest point where requireDisplayName() has finished updating the profile.
+  // We keep the auth-state listener only for flows that complete outside that callback,
+  // such as child sign-up actions and MFA completion.
+  useOnUserAuthenticated(children || ui.multiFactorResolver ? handleSignUp : undefined);
 
   if (ui.multiFactorResolver) {
     return <MultiFactorAuthAssertionScreen />;
@@ -57,7 +74,12 @@ export function SignUpAuthScreen({ children, onSignUp, ...props }: SignUpAuthScr
           <CardSubtitle>{subtitleText}</CardSubtitle>
         </CardHeader>
         <CardContent>
-          <SignUpAuthForm {...props} />
+          <SignUpAuthForm
+            {...props}
+            onSignUp={(credential) => {
+              handleSignUp(credential.user);
+            }}
+          />
           {children ? (
             <>
               <Divider>{getTranslation(ui, "messages", "dividerOr")}</Divider>
