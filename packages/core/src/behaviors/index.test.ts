@@ -21,6 +21,7 @@ import {
   autoUpgradeAnonymousUsers,
   getBehavior,
   hasBehavior,
+  legacyFetchSignInWithEmail,
   recaptchaVerification,
   requireDisplayName,
   defaultBehaviors,
@@ -34,6 +35,10 @@ vi.mock("./anonymous-upgrade", () => ({
 
 vi.mock("./require-display-name", () => ({
   requireDisplayNameHandler: vi.fn(),
+}));
+
+vi.mock("./legacy-fetch-sign-in-with-email", () => ({
+  legacyFetchSignInWithEmailHandler: vi.fn(),
 }));
 
 vi.mock("firebase/auth", () => ({
@@ -74,6 +79,7 @@ describe("hasBehavior", () => {
         autoUpgradeAnonymousProvider: { type: "callable" as const, handler: vi.fn() },
         recaptchaVerification: { type: "callable" as const, handler: vi.fn() },
         requireDisplayName: { type: "callable" as const, handler: vi.fn() },
+        legacyFetchSignInWithEmail: { type: "callable" as const, handler: vi.fn() },
       } as any,
     });
 
@@ -82,6 +88,7 @@ describe("hasBehavior", () => {
     expect(hasBehavior(mockUI, "autoUpgradeAnonymousProvider")).toBe(true);
     expect(hasBehavior(mockUI, "recaptchaVerification")).toBe(true);
     expect(hasBehavior(mockUI, "requireDisplayName")).toBe(true);
+    expect(hasBehavior(mockUI, "legacyFetchSignInWithEmail")).toBe(true);
   });
 });
 
@@ -110,6 +117,7 @@ describe("getBehavior", () => {
       autoUpgradeAnonymousProvider: { type: "callable" as const, handler: vi.fn() },
       recaptchaVerification: { type: "callable" as const, handler: vi.fn() },
       requireDisplayName: { type: "callable" as const, handler: vi.fn() },
+      legacyFetchSignInWithEmail: { type: "callable" as const, handler: vi.fn() },
     };
 
     const ui = createMockUI({ behaviors: mockBehaviors as any });
@@ -121,6 +129,7 @@ describe("getBehavior", () => {
     expect(getBehavior(ui, "autoUpgradeAnonymousProvider")).toBe(mockBehaviors.autoUpgradeAnonymousProvider.handler);
     expect(getBehavior(ui, "recaptchaVerification")).toBe(mockBehaviors.recaptchaVerification.handler);
     expect(getBehavior(ui, "requireDisplayName")).toBe(mockBehaviors.requireDisplayName.handler);
+    expect(getBehavior(ui, "legacyFetchSignInWithEmail")).toBe(mockBehaviors.legacyFetchSignInWithEmail.handler);
   });
 });
 
@@ -263,6 +272,29 @@ describe("requireDisplayName", () => {
   });
 });
 
+describe("legacyFetchSignInWithEmail", () => {
+  it("should return behavior with correct structure", () => {
+    const behavior = legacyFetchSignInWithEmail();
+
+    expect(behavior).toHaveProperty("legacyFetchSignInWithEmail");
+    expect(behavior.legacyFetchSignInWithEmail).toHaveProperty("type", "callable");
+    expect(behavior.legacyFetchSignInWithEmail).toHaveProperty("handler");
+    expect(typeof behavior.legacyFetchSignInWithEmail.handler).toBe("function");
+  });
+
+  it("should call the legacyFetchSignInWithEmailHandler when executed", async () => {
+    const behavior = legacyFetchSignInWithEmail();
+    const mockUI = createMockUI();
+    const mockError = { code: "auth/account-exists-with-different-credential", message: "Mismatch" } as any;
+
+    const { legacyFetchSignInWithEmailHandler } = await import("./legacy-fetch-sign-in-with-email");
+
+    await behavior.legacyFetchSignInWithEmail.handler(mockUI, mockError);
+
+    expect(legacyFetchSignInWithEmailHandler).toHaveBeenCalledWith(mockUI, mockError);
+  });
+});
+
 describe("defaultBehaviors", () => {
   it("should include recaptchaVerification by default", () => {
     expect(defaultBehaviors).toHaveProperty("recaptchaVerification");
@@ -276,5 +308,6 @@ describe("defaultBehaviors", () => {
     expect(defaultBehaviors).not.toHaveProperty("autoUpgradeAnonymousCredential");
     expect(defaultBehaviors).not.toHaveProperty("autoUpgradeAnonymousProvider");
     expect(defaultBehaviors).not.toHaveProperty("requireDisplayName");
+    expect(defaultBehaviors).not.toHaveProperty("legacyFetchSignInWithEmail");
   });
 });

@@ -62,6 +62,7 @@ export {
 export { ContentComponent } from "./lib/components/content";
 export { CountrySelectorComponent } from "./lib/components/country-selector";
 export { DividerComponent } from "./lib/components/divider";
+export { LegacySignInRecoveryComponent } from "./lib/components/legacy-sign-in-recovery";
 export { PoliciesComponent } from "./lib/components/policies";
 export { RedirectErrorComponent } from "./lib/components/redirect-error";
 

@@ -32,6 +32,10 @@ vi.mock("~/components/redirect-error", () => ({
   RedirectError: () => <div data-testid="redirect-error">Redirect Error</div>,
 }));
 
+vi.mock("~/components/legacy-sign-in-recovery", () => ({
+  LegacySignInRecovery: () => <div data-testid="legacy-sign-in-recovery">Legacy Recovery</div>,
+}));
+
 vi.mock("~/auth/screens/multi-factor-auth-assertion-screen", () => ({
   MultiFactorAuthAssertionScreen: ({ onSuccess }: { onSuccess?: (credential: any) => void }) => (
     <div data-testid="multi-factor-auth-assertion-screen">
@@ -116,6 +120,30 @@ describe("<OAuthScreen />", () => {
     );
 
     expect(screen.getByTestId("policies")).toBeDefined();
+  });
+
+  it("renders LegacySignInRecovery by default", () => {
+    const ui = createMockUI();
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <OAuthScreen>OAuth Provider</OAuthScreen>
+      </CreateFirebaseUIProvider>
+    );
+
+    expect(screen.getByTestId("legacy-sign-in-recovery")).toBeDefined();
+  });
+
+  it("does not render LegacySignInRecovery when disabled", () => {
+    const ui = createMockUI();
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <OAuthScreen showLegacySignInRecovery={false}>OAuth Provider</OAuthScreen>
+      </CreateFirebaseUIProvider>
+    );
+
+    expect(screen.queryByTestId("legacy-sign-in-recovery")).toBeNull();
   });
 
   it("renders children before the Policies component", () => {

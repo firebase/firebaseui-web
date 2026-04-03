@@ -234,6 +234,34 @@
     @apply hover:underline font-semibold;
   }
 
+  :where(.fui-legacy-sign-in-recovery-modal) {
+    @apply fixed inset-0 z-50 flex items-center justify-center p-4;
+    background: color-mix(in srgb, var(--color-text) 18%, transparent);
+    backdrop-filter: blur(10px);
+  }
+
+  :where(.fui-legacy-sign-in-recovery-modal__card) {
+    @apply w-full max-w-md space-y-5 border-border shadow-2xl;
+    background:
+      linear-gradient(180deg, color-mix(in srgb, var(--color-background) 94%, var(--color-primary) 6%), var(--color-background));
+  }
+
+  :where(.fui-legacy-sign-in-recovery-modal__eyebrow) {
+    @apply inline-flex items-center rounded-full border border-border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-text-muted;
+  }
+
+  :where(.fui-legacy-sign-in-recovery-modal__content) {
+    @apply space-y-2;
+  }
+
+  :where(.fui-legacy-sign-in-recovery-modal__prompt) {
+    @apply text-lg font-semibold text-text text-balance;
+  }
+
+  :where(.fui-legacy-sign-in-recovery-modal__notes) {
+    @apply space-y-2 text-sm text-text-muted;
+  }
+
   .fui-provider__button[data-provider="google.com"][data-themed="true"] {
     --google-primary: #131314;
     --color-primary: var(--google-primary);
