@@ -209,8 +209,6 @@ export class SignInWithProviderTrackingComponent {
       const authError = err as AuthError;
 
       // Firebase Auth uses different error codes across SDK versions and project configurations:
-      //   auth/wrong-password        — Firebase Auth v9 legacy
-      //   auth/invalid-credential    — Firebase Auth v10+ (email+password bad credentials)
       //   auth/invalid-login-credentials — some Identity Platform configurations
       //   auth/invalid-password      — used in some emulator / admin SDK contexts
       // All of these indicate bad credentials, so treat them the same.
