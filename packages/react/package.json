@@ -1,6 +1,7 @@
 {
   "name": "@firebase-oss/ui-react",
-  "version": "0.0.2",
+  "version": "7.0.0",
+  "repository": "firebase/firebaseui-web",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
