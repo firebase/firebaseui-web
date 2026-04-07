@@ -391,7 +391,7 @@ Firebase Auth returns a generic `auth/invalid-credential` error (or the legacy `
 
 **In v6**, FirebaseUI worked around this by calling `fetchSignInMethodsForEmail()` behind the scenes. When a credential error occurred, it fetched the providers for that email and presented the user with the appropriate sign-in method.
 
-**In v7**, `fetchSignInMethodsForEmail()` has been deprecated by Firebase and is no longer called. Google deprecated this method because returning which providers are associated with an email address is a potential privacy and security risk — it allows an unauthenticated caller to enumerate which accounts (and therefore which email addresses) exist in your project.
+**In v7**, `fetchSignInMethodsForEmail()` is no longer called because Firebase projects now have [email enumeration protection](https://docs.cloud.google.com/identity-platform/docs/admin/email-enumeration-protection) enabled by default, and calls to `fetchSignInMethodsForEmail()` fail when email enumeration protection is enabled.
 
 ### The problem with the deprecated approach
 
