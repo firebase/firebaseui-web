@@ -391,12 +391,14 @@ Firebase Auth returns a generic `auth/invalid-credential` error (or the legacy `
 
 **In v6**, FirebaseUI worked around this by calling `fetchSignInMethodsForEmail()` behind the scenes. When a credential error occurred, it fetched the providers for that email and presented the user with the appropriate sign-in method.
 
-**In v7**, `fetchSignInMethodsForEmail()` is no longer called because Firebase projects now have [email enumeration protection](https://docs.cloud.google.com/identity-platform/docs/admin/email-enumeration-protection) enabled by default, and calls to `fetchSignInMethodsForEmail()` fail when email enumeration protection is enabled.
+**In v7**, `fetchSignInMethodsForEmail()` is no longer called when [email enumeration protection](https://docs.cloud.google.com/identity-platform/docs/admin/email-enumeration-protection) is enabled. Firebase projects now have email enumeration enabled by default, which causes calls to `fetchSignInMethodsForEmail()` to fail.
+
+It is still possible to switch email enumeration protection off, and we are working on a feature for allowing `fetchSignInMethodsForEmail()` via `legacyFetchSignInWithEmail()` behavior which you can [track here](https://github.com/firebase/firebaseui-web/pull/1343). 
 
 ### The problem with the deprecated approach
 
 ```ts
-// ❌ Deprecated — do not use
+// ❌ Does not work when email enumeration protection is enabled
 import { fetchSignInMethodsForEmail } from "firebase/auth";
 
 const methods = await fetchSignInMethodsForEmail(auth, email);
