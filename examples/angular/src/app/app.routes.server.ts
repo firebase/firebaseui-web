@@ -81,6 +81,15 @@ export const serverRoutes: ServerRoute[] = [
     path: "screens/mfa-enrollment-screen",
     renderMode: RenderMode.Client,
   },
+  /** Provider tracking screens require browser localStorage — must be client-only */
+  {
+    path: "screens/sign-in-with-provider-tracking",
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: "screens/provider-hint",
+    renderMode: RenderMode.Client,
+  },
   /** All other routes will be rendered on the server (SSR) */
   {
     path: "**",
