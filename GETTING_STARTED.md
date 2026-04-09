@@ -1,6 +1,6 @@
 # Easily add sign-in to your web app with FirebaseUI for Web
 
-FirebaseUI for Web is a set of libraries built on the [Firebase Authentication](https://firebase.google.com/docs/auth) JavaScript SDK. Like the classic `firebaseui` package, it helps you ship authentication flows quickly, but the latest version is a complete rewrite with a modern modular architecture.
+FirebaseUI for Web is a set of libraries built on the [Firebase Authentication](https://firebase.google.com/docs/auth) JavaScript SDK. It helps you ship authentication flows quickly with a modern modular architecture.
 
 FirebaseUI for Web now provides these benefits:
 
@@ -13,7 +13,7 @@ FirebaseUI for Web now provides these benefits:
 
 Note: If you are migrating from FirebaseUI v6 or earlier, read [the migration guide](https://github.com/firebase/firebaseui-web/blob/main/MIGRATION.md) in the FirebaseUI repository.
 
-This document follows the same overall flow as the [classic FirebaseUI Web documentation](https://firebase.google.com/docs/auth/web/firebaseui), but updated for the current version of FirebaseUI for Web.
+This guide walks through installation, initialization, sign-in methods, and common configuration for React, Shadcn, and Angular apps.
 
 ## Before you begin
 
@@ -39,7 +39,7 @@ This document follows the same overall flow as the [classic FirebaseUI Web docum
    - `@firebase-oss/ui-angular` with AngularFire for Angular apps
    - `@firebase-oss/ui-react` for React apps without shadcn/ui
 
-> The new FirebaseUI for Web does not use the old `firebaseui.auth.AuthUI(firebase.auth())` widget model. Instead, you initialize a shared UI instance with `initializeUI(...)`, then render framework-specific components.
+> Initialize a shared UI instance with `initializeUI(...)`, then render the framework-specific components for the screens and buttons you want to use.
 
 ## Install packages
 
@@ -79,7 +79,7 @@ npm install @angular/fire @firebase-oss/ui-angular@beta @firebase-oss/ui-core@be
 
 ## Initialize FirebaseUI
 
-The old library used a widget instance and `ui.start(...)`. The new library uses a shared UI store created with `initializeUI(...)`.
+Create a shared UI store with `initializeUI(...)`, then pass it to your framework integration.
 
 ### React
 
@@ -168,11 +168,7 @@ If you are using Shadcn, you typically do **not** import FirebaseUI's bundled CS
 
 Before users can sign in, enable each provider you want in **Authentication** -> **Sign-in method** in the Firebase console.
 
-The biggest change from the old library is this:
-
-- Old FirebaseUI used a single `signInOptions` array passed to a widget config.
-- New FirebaseUI uses screens, forms, and buttons that you render directly.
-- Cross-cutting configuration now lives in `behaviors` passed to `initializeUI(...)`.
+FirebaseUI for Web uses screens, forms, and buttons that you render directly. Shared configuration for those flows lives in `behaviors` passed to `initializeUI(...)`.
 
 ### Email address and password
 
@@ -311,7 +307,7 @@ export class SignInPageComponent {
 
 ## OAuth providers: popup vs redirect
 
-The old FirebaseUI used `signInFlow: 'popup' | 'redirect'`. The new library uses behaviors:
+Choose the provider sign-in flow with behaviors:
 
 - `providerPopupStrategy()` for popup flows
 - `providerRedirectStrategy()` for redirect flows
@@ -395,7 +391,7 @@ export class OAuthPageComponent {}
 
 ## Google One Tap
 
-The old library exposed credential helper and One Tap style integrations through widget configuration. In the new library, use the `oneTapSignIn(...)` behavior:
+Use the `oneTapSignIn(...)` behavior to enable Google One Tap:
 
 ```ts
 import { initializeUI, oneTapSignIn } from '@firebase-oss/ui-core';
@@ -416,7 +412,7 @@ Make sure Google sign-in is enabled in the Firebase console, then copy the web c
 
 ## Terms of service and privacy policy
 
-The old library used `tosUrl` and `privacyPolicyUrl` in the widget config. The new library attaches policy links through the platform provider configuration.
+Attach policy links through the platform provider configuration.
 
 ### React
 
@@ -456,7 +452,7 @@ export const appConfig: ApplicationConfig = {
 
 ## Upgrading anonymous users
 
-The old library supported anonymous account upgrade with `autoUpgradeAnonymousUsers` plus `signInFailure` merge handling. The new library keeps the capability, but it is now configured as a behavior.
+Configure anonymous account upgrade with the `autoUpgradeAnonymousUsers(...)` behavior.
 
 ```ts
 import {
@@ -476,7 +472,7 @@ const ui = initializeUI({
 });
 ```
 
-If you previously handled merge conflicts in v6 callbacks, see [MIGRATION.md](MIGRATION.md) for the updated behavior-based model.
+For migration details, see [MIGRATION.md](MIGRATION.md).
 
 ## Translations
 
@@ -501,6 +497,6 @@ const ui = initializeUI({
 ## Next steps
 
 - Read [README.md](README.md) for the full API, behaviors, and component reference.
-- Read [MIGRATION.md](MIGRATION.md) if you are moving from the old `firebaseui` package.
+- Read [MIGRATION.md](MIGRATION.md) if you are migrating an existing app to FirebaseUI for Web.
 - See the package-specific docs in [packages/react/README.md](packages/react/README.md), [packages/shadcn/README.md](packages/shadcn/README.md), and [packages/angular/README.md](packages/angular/README.md).
 - Explore the examples in [examples/react](examples/react), [examples/shadcn](examples/shadcn), and [examples/angular](examples/angular).
