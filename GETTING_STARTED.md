@@ -11,7 +11,7 @@ FirebaseUI for Web now provides these benefits:
 - Localization support via `@firebase-oss/ui-translations`.
 - Built-in support for email/password, email link, phone auth, OAuth providers, and multi-factor flows.
 
-If you are migrating from the old `firebaseui` package, read [MIGRATION.md](MIGRATION.md) alongside this guide.
+Note: If you are migrating from FirebaseUI v6 or earlier, read [the migration guide](https://github.com/firebase/firebaseui-web/blob/main/MIGRATION.md) in the FirebaseUI repository.
 
 This document follows the same overall flow as the [classic FirebaseUI Web documentation](https://firebase.google.com/docs/auth/web/firebaseui), but updated for the current version of FirebaseUI for Web.
 
@@ -35,9 +35,9 @@ This document follows the same overall flow as the [classic FirebaseUI Web docum
    ```
 
 4. Choose your platform:
-   - `@firebase-oss/ui-react` for React apps
-   - the FirebaseUI Shadcn registry for Shadcn-based apps
+   - the FirebaseUI Shadcn registry for [shadcn/ui](https://ui.shadcn.com/)-based React apps
    - `@firebase-oss/ui-angular` with AngularFire for Angular apps
+   - `@firebase-oss/ui-react` for React apps without shadcn/ui
 
 > The new FirebaseUI for Web does not use the old `firebaseui.auth.AuthUI(firebase.auth())` widget model. Instead, you initialize a shared UI instance with `initializeUI(...)`, then render framework-specific components.
 
@@ -51,9 +51,9 @@ npm install @firebase-oss/ui-react@beta @firebase-oss/ui-styles
 
 ### Shadcn
 
-Shadcn uses the same React runtime as the React package, but the UI components come from the Firebase registry instead of direct package imports.
+The Firebase shadcn/ui registry provides a convenient way to install FirebaseUI in your React app.
 
-Add the Firebase registry to `components.json`:
+Add the Firebase registry to [`components.json`](https://ui.shadcn.com/docs/components-json):
 
 ```json
 {
@@ -242,7 +242,7 @@ const ui = initializeUI({
 
 ## Sign in
 
-Instead of calling `ui.start('#container', config)`, render the auth screen you want and handle success in component callbacks or Angular outputs.
+Render the auth screen you want and handle success in component callbacks or Angular outputs.
 
 ### React
 
