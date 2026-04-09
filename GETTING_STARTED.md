@@ -219,7 +219,7 @@ const ui = initializeUI({
 });
 ```
 
-## Customize behavior
+## Customization
 
 Configure shared auth behavior in `behaviors` passed to `initializeUI(...)`.
 
@@ -325,6 +325,17 @@ export class SignInPageComponent {
     this.router.navigate(['/dashboard']);
   }
 }
+```
+
+## Sign out
+
+FirebaseUI for Web uses the standard Firebase Authentication sign-out API:
+
+```ts
+import { getAuth, signOut } from 'firebase/auth';
+
+const auth = getAuth(app);
+await signOut(auth);
 ```
 
 ## OAuth providers: popup vs redirect
