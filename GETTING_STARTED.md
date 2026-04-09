@@ -97,6 +97,8 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
 }
 ```
 
+Use your existing shadcn styles for these generated components. You typically do not import FirebaseUI's bundled CSS when using the shadcn registry.
+
 ### React
 
 ```tsx
@@ -156,8 +158,6 @@ If you are using Tailwind:
 @import '@firebase-oss/ui-styles/tailwind';
 ```
 
-If you are using Shadcn, you typically do **not** import FirebaseUI's bundled CSS. The generated components inherit your Shadcn design system instead.
-
 ## Set up sign-in methods
 
 Before users can sign in, enable each provider you want in **Authentication** -> **Sign-in method** in the Firebase console.
@@ -168,17 +168,6 @@ FirebaseUI for Web uses screens, forms, and buttons that you render directly. Sh
 
 1. Enable **Email/Password** in the Firebase console.
 2. Render `SignInAuthScreen` or `SignUpAuthScreen` in React, the generated `sign-in-auth-screen` or `sign-up-auth-screen` components in Shadcn, or `fui-sign-in-auth-screen` / `fui-sign-up-auth-screen` in Angular.
-
-Optional: require a display name during sign-up:
-
-```ts
-import { initializeUI, requireDisplayName } from '@firebase-oss/ui-core';
-
-const ui = initializeUI({
-  app,
-  behaviors: [requireDisplayName()],
-});
-```
 
 ### Email link authentication
 
@@ -229,6 +218,45 @@ const ui = initializeUI({
   ],
 });
 ```
+
+## Customize behavior
+
+Configure shared auth behavior in `behaviors` passed to `initializeUI(...)`.
+
+### Require a display name during sign-up
+
+```ts
+import { initializeUI, requireDisplayName } from '@firebase-oss/ui-core';
+
+const ui = initializeUI({
+  app,
+  behaviors: [requireDisplayName()],
+});
+```
+
+### Upgrade anonymous users
+
+Use the `autoUpgradeAnonymousUsers(...)` behavior to merge an anonymous session into a signed-in account.
+
+```ts
+import {
+  autoUpgradeAnonymousUsers,
+  initializeUI,
+} from '@firebase-oss/ui-core';
+
+const ui = initializeUI({
+  app,
+  behaviors: [
+    autoUpgradeAnonymousUsers({
+      async onUpgrade(ui, oldUserId, credential) {
+        // Migrate or merge user data here if needed.
+      },
+    }),
+  ],
+});
+```
+
+For migration details, see [MIGRATION.md](MIGRATION.md).
 
 ## Sign in
 
@@ -443,30 +471,6 @@ export const appConfig: ApplicationConfig = {
   ],
 };
 ```
-
-## Upgrading anonymous users
-
-Configure anonymous account upgrade with the `autoUpgradeAnonymousUsers(...)` behavior.
-
-```ts
-import {
-  autoUpgradeAnonymousUsers,
-  initializeUI,
-} from '@firebase-oss/ui-core';
-
-const ui = initializeUI({
-  app,
-  behaviors: [
-    autoUpgradeAnonymousUsers({
-      async onUpgrade(ui, oldUserId, credential) {
-        // Migrate or merge user data here if needed.
-      },
-    }),
-  ],
-});
-```
-
-For migration details, see [MIGRATION.md](MIGRATION.md).
 
 ## Translations
 
