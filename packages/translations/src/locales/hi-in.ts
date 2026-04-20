@@ -45,8 +45,7 @@ export const hiIN = {
     invalidVerificationCode: "अमान्य सत्यापन कोड। कृपया पुनः प्रयास करें",
     unknownError: "एक अप्रत्याशित त्रुटि हुई",
     popupClosed: "साइन-इन पॉपअप बंद हो गया। कृपया पुनः प्रयास करें।",
-    accountExistsWithDifferentCredential:
-      "इस ईमेल से पहले से एक खाता मौजूद है। कृपया मूल प्रदाता से साइन इन करें।",
+    accountExistsWithDifferentCredential: "इस ईमेल से पहले से एक खाता मौजूद है। कृपया मूल प्रदाता से साइन इन करें।",
     displayNameRequired: "कृपया एक प्रदर्शन नाम प्रदान करें",
     secondFactorAlreadyInUse: "यह फ़ोन नंबर पहले से इस खाते में नामांकित है।",
   },

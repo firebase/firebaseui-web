@@ -23,8 +23,7 @@ export const deDE = {
     wrongPassword: "Falsches Passwort",
     invalidEmail: "Bitte gib eine gültige E-Mail-Adresse ein",
     userDisabled: "Dieses Konto wurde deaktiviert",
-    networkRequestFailed:
-      "Verbindung zum Server nicht möglich. Bitte überprüfe deine Internetverbindung",
+    networkRequestFailed: "Verbindung zum Server nicht möglich. Bitte überprüfe deine Internetverbindung",
     tooManyRequests: "Zu viele fehlgeschlagene Versuche. Bitte versuche es später erneut",
     missingVerificationCode: "Bitte gib den Verifizierungscode ein",
     emailAlreadyInUse: "Es existiert bereits ein Konto mit dieser E-Mail-Adresse",
@@ -42,8 +41,7 @@ export const deDE = {
     invalidActionCode: "Der Link zum Zurücksetzen des Passworts ist ungültig oder abgelaufen",
     credentialAlreadyInUse:
       "Es existiert bereits ein Konto mit dieser E-Mail-Adresse. Bitte melde dich mit diesem Konto an.",
-    requiresRecentLogin:
-      "Diese Operation erfordert eine kürzliche Anmeldung. Bitte melde dich erneut an.",
+    requiresRecentLogin: "Diese Operation erfordert eine kürzliche Anmeldung. Bitte melde dich erneut an.",
     providerAlreadyLinked: "Diese Telefonnummer ist bereits mit einem anderen Konto verknüpft",
     invalidVerificationCode: "Ungültiger Verifizierungscode. Bitte versuche es erneut",
     unknownError: "Ein unerwarteter Fehler ist aufgetreten",

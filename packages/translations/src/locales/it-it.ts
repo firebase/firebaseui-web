@@ -39,8 +39,7 @@ export const itIT = {
     missingVerificationId: "Per favore completa prima la verifica reCAPTCHA.",
     missingEmail: "Per favore fornisci un indirizzo email",
     invalidActionCode: "Il link per reimpostare la password non è valido o è scaduto",
-    credentialAlreadyInUse:
-      "Esiste già un account con questa email. Per favore accedi con quell'account.",
+    credentialAlreadyInUse: "Esiste già un account con questa email. Per favore accedi con quell'account.",
     requiresRecentLogin: "Questa operazione richiede un accesso recente. Per favore accedi di nuovo.",
     providerAlreadyLinked: "Questo numero di telefono è già collegato a un altro account",
     invalidVerificationCode: "Codice di verifica non valido. Per favore riprova",

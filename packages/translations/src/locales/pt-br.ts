@@ -39,8 +39,7 @@ export const ptBR = {
     missingVerificationId: "Por favor, complete primeiro a verificação reCAPTCHA.",
     missingEmail: "Por favor, forneça um endereço de e-mail",
     invalidActionCode: "O link de redefinição de senha é inválido ou expirou",
-    credentialAlreadyInUse:
-      "Já existe uma conta com este e-mail. Por favor, faça login com essa conta.",
+    credentialAlreadyInUse: "Já existe uma conta com este e-mail. Por favor, faça login com essa conta.",
     requiresRecentLogin: "Esta operação requer um login recente. Por favor, faça login novamente.",
     providerAlreadyLinked: "Este número de telefone já está vinculado a outra conta",
     invalidVerificationCode: "Código de verificação inválido. Por favor, tente novamente",

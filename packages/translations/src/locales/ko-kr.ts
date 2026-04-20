@@ -45,8 +45,7 @@ export const koKR = {
     invalidVerificationCode: "인증 코드가 유효하지 않습니다. 다시 시도해 주세요",
     unknownError: "예기치 않은 오류가 발생했습니다",
     popupClosed: "로그인 팝업이 닫혔습니다. 다시 시도해 주세요.",
-    accountExistsWithDifferentCredential:
-      "이 이메일로 이미 계정이 존재합니다. 원래 제공업체로 로그인해 주세요.",
+    accountExistsWithDifferentCredential: "이 이메일로 이미 계정이 존재합니다. 원래 제공업체로 로그인해 주세요.",
     displayNameRequired: "표시 이름을 입력해 주세요",
     secondFactorAlreadyInUse: "이 전화번호는 이미 이 계정에 등록되어 있습니다.",
   },

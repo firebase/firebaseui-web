@@ -16,16 +16,16 @@
 
 import { type Translations } from "../types";
 
-/** Spanish ES (es-ES) translation set. */
-export const esES = {
+/** Spanish Latin America (es-419) translation set. */
+export const es419 = {
   errors: {
     userNotFound: "No se encontró ninguna cuenta con esta dirección de correo electrónico",
     wrongPassword: "Contraseña incorrecta",
-    invalidEmail: "Por favor, introduce una dirección de correo electrónico válida",
+    invalidEmail: "Por favor, ingresa una dirección de correo electrónico válida",
     userDisabled: "Esta cuenta ha sido desactivada",
-    networkRequestFailed: "No se puede conectar al servidor. Por favor, comprueba tu conexión a internet",
+    networkRequestFailed: "No se puede conectar al servidor. Por favor, verifica tu conexión a internet",
     tooManyRequests: "Demasiados intentos fallidos. Por favor, inténtalo de nuevo más tarde",
-    missingVerificationCode: "Por favor, introduce el código de verificación",
+    missingVerificationCode: "Por favor, ingresa el código de verificación",
     emailAlreadyInUse: "Ya existe una cuenta con este correo electrónico",
     invalidCredential: "Las credenciales proporcionadas no son válidas.",
     weakPassword: "La contraseña debe tener al menos 6 caracteres",
@@ -34,11 +34,11 @@ export const esES = {
     invalidPhoneNumber: "El número de teléfono no es válido",
     missingPhoneNumber: "Por favor, proporciona un número de teléfono",
     quotaExceeded: "Cuota de SMS superada. Por favor, inténtalo de nuevo más tarde",
-    codeExpired: "El código de verificación ha caducado",
-    captchaCheckFailed: "La verificación reCAPTCHA ha fallado. Por favor, inténtalo de nuevo.",
+    codeExpired: "El código de verificación ha vencido",
+    captchaCheckFailed: "La verificación reCAPTCHA falló. Por favor, inténtalo de nuevo.",
     missingVerificationId: "Por favor, completa primero la verificación reCAPTCHA.",
     missingEmail: "Por favor, proporciona una dirección de correo electrónico",
-    invalidActionCode: "El enlace para restablecer la contraseña no es válido o ha caducado",
+    invalidActionCode: "El enlace para restablecer la contraseña no es válido o ha vencido",
     credentialAlreadyInUse:
       "Ya existe una cuenta con este correo electrónico. Por favor, inicia sesión con esa cuenta.",
     requiresRecentLogin: "Esta operación requiere un inicio de sesión reciente. Por favor, inicia sesión de nuevo.",
@@ -55,7 +55,7 @@ export const esES = {
     passwordResetEmailSent: "Correo electrónico de restablecimiento de contraseña enviado correctamente",
     signInLinkSent: "Enlace de inicio de sesión enviado correctamente",
     verificationCodeFirst: "Por favor, solicita primero un código de verificación",
-    checkEmailForReset: "Comprueba tu correo electrónico para obtener instrucciones de restablecimiento de contraseña",
+    checkEmailForReset: "Revisa tu correo electrónico para obtener instrucciones de restablecimiento de contraseña",
     dividerOr: "o",
     termsAndPrivacy: "Al continuar, aceptas nuestros {tos} y {privacy}.",
     mfaSmsAssertionPrompt:
@@ -99,17 +99,17 @@ export const esES = {
   prompts: {
     noAccount: "¿No tienes una cuenta?",
     haveAccount: "¿Ya tienes una cuenta?",
-    enterEmailToReset: "Introduce tu dirección de correo electrónico para restablecer tu contraseña",
+    enterEmailToReset: "Ingresa tu dirección de correo electrónico para restablecer tu contraseña",
     signInToAccount: "Inicia sesión en tu cuenta",
-    smsVerificationPrompt: "Introduce el código de verificación enviado a tu número de teléfono",
-    enterDetailsToCreate: "Introduce tus datos para crear una nueva cuenta",
-    enterPhoneNumber: "Introduce tu número de teléfono",
-    enterVerificationCode: "Introduce el código de verificación",
-    enterEmailForLink: "Introduce tu correo electrónico para recibir un enlace de inicio de sesión",
+    smsVerificationPrompt: "Ingresa el código de verificación enviado a tu número de teléfono",
+    enterDetailsToCreate: "Ingresa tus datos para crear una nueva cuenta",
+    enterPhoneNumber: "Ingresa tu número de teléfono",
+    enterVerificationCode: "Ingresa el código de verificación",
+    enterEmailForLink: "Ingresa tu correo electrónico para recibir un enlace de inicio de sesión",
     mfaEnrollmentPrompt: "Selecciona un nuevo método de inscripción multifactor",
     mfaAssertionPrompt: "Por favor, completa el proceso de autenticación multifactor",
     mfaAssertionFactorPrompt: "Por favor, elige un método de autenticación multifactor",
     mfaTotpQrCodePrompt: "Escanea este código QR con tu aplicación de autenticación",
-    mfaTotpEnrollmentVerificationPrompt: "Añade el código generado por tu aplicación de autenticación",
+    mfaTotpEnrollmentVerificationPrompt: "Agrega el código generado por tu aplicación de autenticación",
   },
 } satisfies Translations;

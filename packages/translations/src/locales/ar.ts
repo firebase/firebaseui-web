@@ -45,8 +45,7 @@ export const ar = {
     invalidVerificationCode: "رمز التحقق غير صالح. يرجى المحاولة مرة أخرى",
     unknownError: "حدث خطأ غير متوقع",
     popupClosed: "تم إغلاق نافذة تسجيل الدخول. يرجى المحاولة مرة أخرى.",
-    accountExistsWithDifferentCredential:
-      "يوجد حساب بالفعل بهذا البريد الإلكتروني. يرجى تسجيل الدخول بالمزود الأصلي.",
+    accountExistsWithDifferentCredential: "يوجد حساب بالفعل بهذا البريد الإلكتروني. يرجى تسجيل الدخول بالمزود الأصلي.",
     displayNameRequired: "يرجى تقديم اسم عرض",
     secondFactorAlreadyInUse: "رقم الهاتف هذا مسجل بالفعل في هذا الحساب.",
   },

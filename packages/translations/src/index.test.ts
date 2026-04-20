@@ -15,19 +15,95 @@
  */
 
 import { describe, it, expect } from "vitest";
-import { registerLocale, enUs, type Locale, type RegisteredLocale, csCz, arAR, deDE, esES, frFR, hiIN, itIT, jaJP, koKR, ptBR, zhCN } from "./index";
+import {
+  registerLocale,
+  enUs,
+  type Locale,
+  type RegisteredLocale,
+  csCz,
+  ar,
+  deDe,
+  esEs,
+  frFr,
+  hiIn,
+  itIt,
+  jaJp,
+  koKr,
+  ptBr,
+  zhCn,
+  bgBg,
+  caEs,
+  daDk,
+  elGr,
+  enGb,
+  esLa,
+  faIr,
+  fiFi,
+  filPh,
+  heIl,
+  hrHr,
+  huHu,
+  idId,
+  ltLt,
+  lvLv,
+  nbNo,
+  nlNl,
+  plPl,
+  ptPt,
+  roRo,
+  ruRu,
+  skSk,
+  slSi,
+  srRs,
+  svSe,
+  thTh,
+  trTr,
+  ukUa,
+  viVn,
+  zhTw,
+} from "./index";
 import { enUS } from "./locales/en-us";
 import { csCZ } from "./locales/cs-cz";
-import { ar } from "./locales/ar";
-import { deDE as deDETranslations } from "./locales/de-de";
-import { esES as esESTranslations } from "./locales/es-es";
-import { frFR as frFRTranslations } from "./locales/fr-fr";
-import { hiIN as hiINTranslations } from "./locales/hi-in";
-import { itIT as itITTranslations } from "./locales/it-it";
-import { jaJP as jaJPTranslations } from "./locales/ja-jp";
-import { koKR as koKRTranslations } from "./locales/ko-kr";
-import { ptBR as ptBRTranslations } from "./locales/pt-br";
-import { zhCN as zhCNTranslations } from "./locales/zh-cn";
+import { ar as arTranslations } from "./locales/ar";
+import { bgBG } from "./locales/bg-bg";
+import { caES } from "./locales/ca-es";
+import { daDK } from "./locales/da-dk";
+import { deDE } from "./locales/de-de";
+import { elGR } from "./locales/el-gr";
+import { enGB } from "./locales/en-gb";
+import { esES } from "./locales/es-es";
+import { es419 } from "./locales/es-419";
+import { faIR } from "./locales/fa-ir";
+import { fiFI } from "./locales/fi-fi";
+import { filPH } from "./locales/fil-ph";
+import { frFR } from "./locales/fr-fr";
+import { heIL } from "./locales/he-il";
+import { hiIN } from "./locales/hi-in";
+import { hrHR } from "./locales/hr-hr";
+import { huHU } from "./locales/hu-hu";
+import { idID } from "./locales/id-id";
+import { itIT } from "./locales/it-it";
+import { jaJP } from "./locales/ja-jp";
+import { koKR } from "./locales/ko-kr";
+import { ltLT } from "./locales/lt-lt";
+import { lvLV } from "./locales/lv-lv";
+import { nbNO } from "./locales/nb-no";
+import { nlNL } from "./locales/nl-nl";
+import { plPL } from "./locales/pl-pl";
+import { ptBR } from "./locales/pt-br";
+import { ptPT } from "./locales/pt-pt";
+import { roRO } from "./locales/ro-ro";
+import { ruRU } from "./locales/ru-ru";
+import { skSK } from "./locales/sk-sk";
+import { slSI } from "./locales/sl-si";
+import { srRS } from "./locales/sr-rs";
+import { svSE } from "./locales/sv-se";
+import { thTH } from "./locales/th-th";
+import { trTR } from "./locales/tr-tr";
+import { ukUA } from "./locales/uk-ua";
+import { viVN } from "./locales/vi-vn";
+import { zhCN } from "./locales/zh-cn";
+import { zhTW } from "./locales/zh-tw";
 import type { Translations } from "./types";
 import { getTranslation, ERROR_CODE_MAP } from "./mapping";
 import * as types from "./types";
@@ -177,16 +253,366 @@ describe("index.ts", () => {
 
   describe("locale exports", () => {
     const localeFixtures = [
-      { exported: arAR,  locale: "ar",    translations: ar,              label: "arAR",  sampleError: "لم يتم العثور على حساب بهذا البريد الإلكتروني", sampleLabel: "تسجيل الدخول", samplePrompt: "ليس لديك حساب؟" },
-      { exported: deDE,  locale: "de-DE", translations: deDETranslations, label: "deDE",  sampleError: "Kein Konto mit dieser E-Mail-Adresse gefunden",    sampleLabel: "Anmelden",      samplePrompt: "Noch kein Konto?" },
-      { exported: esES,  locale: "es-ES", translations: esESTranslations, label: "esES",  sampleError: "No se encontró ninguna cuenta con esta dirección de correo electrónico", sampleLabel: "Iniciar sesión", samplePrompt: "¿No tienes una cuenta?" },
-      { exported: frFR,  locale: "fr-FR", translations: frFRTranslations, label: "frFR",  sampleError: "Aucun compte trouvé avec cette adresse e-mail",    sampleLabel: "Se connecter",  samplePrompt: "Vous n'avez pas de compte ?" },
-      { exported: hiIN,  locale: "hi-IN", translations: hiINTranslations, label: "hiIN",  sampleError: "इस ईमेल पते से कोई खाता नहीं मिला",               sampleLabel: "साइन इन करें", samplePrompt: "खाता नहीं है?" },
-      { exported: itIT,  locale: "it-IT", translations: itITTranslations, label: "itIT",  sampleError: "Nessun account trovato con questo indirizzo email", sampleLabel: "Accedi",        samplePrompt: "Non hai un account?" },
-      { exported: jaJP,  locale: "ja-JP", translations: jaJPTranslations, label: "jaJP",  sampleError: "このメールアドレスに関連するアカウントが見つかりません",         sampleLabel: "サインイン",   samplePrompt: "アカウントをお持ちでないですか？" },
-      { exported: koKR,  locale: "ko-KR", translations: koKRTranslations, label: "koKR",  sampleError: "이 이메일 주소로 등록된 계정을 찾을 수 없습니다",        sampleLabel: "로그인",       samplePrompt: "계정이 없으신가요?" },
-      { exported: ptBR,  locale: "pt-BR", translations: ptBRTranslations, label: "ptBR",  sampleError: "Nenhuma conta encontrada com este endereço de e-mail", sampleLabel: "Entrar",      samplePrompt: "Não tem uma conta?" },
-      { exported: zhCN,  locale: "zh-CN", translations: zhCNTranslations, label: "zhCN",  sampleError: "未找到使用此电子邮件地址的账户",                         sampleLabel: "登录",         samplePrompt: "没有账户？" },
+      {
+        exported: ar,
+        locale: "ar",
+        translations: arTranslations,
+        label: "ar",
+        sampleError: "لم يتم العثور على حساب بهذا البريد الإلكتروني",
+        sampleLabel: "تسجيل الدخول",
+        samplePrompt: "ليس لديك حساب؟",
+      },
+      {
+        exported: deDe,
+        locale: "de-DE",
+        translations: deDE,
+        label: "deDe",
+        sampleError: "Kein Konto mit dieser E-Mail-Adresse gefunden",
+        sampleLabel: "Anmelden",
+        samplePrompt: "Noch kein Konto?",
+      },
+      {
+        exported: esEs,
+        locale: "es-ES",
+        translations: esES,
+        label: "esEs",
+        sampleError: "No se encontró ninguna cuenta con esta dirección de correo electrónico",
+        sampleLabel: "Iniciar sesión",
+        samplePrompt: "¿No tienes una cuenta?",
+      },
+      {
+        exported: frFr,
+        locale: "fr-FR",
+        translations: frFR,
+        label: "frFr",
+        sampleError: "Aucun compte trouvé avec cette adresse e-mail",
+        sampleLabel: "Se connecter",
+        samplePrompt: "Vous n'avez pas de compte ?",
+      },
+      {
+        exported: hiIn,
+        locale: "hi-IN",
+        translations: hiIN,
+        label: "hiIn",
+        sampleError: "इस ईमेल पते से कोई खाता नहीं मिला",
+        sampleLabel: "साइन इन करें",
+        samplePrompt: "खाता नहीं है?",
+      },
+      {
+        exported: itIt,
+        locale: "it-IT",
+        translations: itIT,
+        label: "itIt",
+        sampleError: "Nessun account trovato con questo indirizzo email",
+        sampleLabel: "Accedi",
+        samplePrompt: "Non hai un account?",
+      },
+      {
+        exported: jaJp,
+        locale: "ja-JP",
+        translations: jaJP,
+        label: "jaJp",
+        sampleError: "このメールアドレスに関連するアカウントが見つかりません",
+        sampleLabel: "サインイン",
+        samplePrompt: "アカウントをお持ちでないですか？",
+      },
+      {
+        exported: koKr,
+        locale: "ko-KR",
+        translations: koKR,
+        label: "koKr",
+        sampleError: "이 이메일 주소로 등록된 계정을 찾을 수 없습니다",
+        sampleLabel: "로그인",
+        samplePrompt: "계정이 없으신가요?",
+      },
+      {
+        exported: ptBr,
+        locale: "pt-BR",
+        translations: ptBR,
+        label: "ptBr",
+        sampleError: "Nenhuma conta encontrada com este endereço de e-mail",
+        sampleLabel: "Entrar",
+        samplePrompt: "Não tem uma conta?",
+      },
+      {
+        exported: zhCn,
+        locale: "zh-CN",
+        translations: zhCN,
+        label: "zhCn",
+        sampleError: "未找到使用此电子邮件地址的账户",
+        sampleLabel: "登录",
+        samplePrompt: "没有账户？",
+      },
+      {
+        exported: bgBg,
+        locale: "bg-BG",
+        translations: bgBG,
+        label: "bgBg",
+        sampleError: "Не е намерен акаунт с този имейл адрес",
+        sampleLabel: "Вход",
+        samplePrompt: "Нямате акаунт?",
+      },
+      {
+        exported: caEs,
+        locale: "ca-ES",
+        translations: caES,
+        label: "caEs",
+        sampleError: "No s'ha trobat cap compte amb aquesta adreça electrònica",
+        sampleLabel: "Inicieu sessió",
+        samplePrompt: "No teniu cap compte?",
+      },
+      {
+        exported: daDk,
+        locale: "da-DK",
+        translations: daDK,
+        label: "daDk",
+        sampleError: "Ingen konto fundet med denne e-mailadresse",
+        sampleLabel: "Log ind",
+        samplePrompt: "Har du ikke en konto?",
+      },
+      {
+        exported: elGr,
+        locale: "el-GR",
+        translations: elGR,
+        label: "elGr",
+        sampleError: "Δεν βρέθηκε λογαριασμός με αυτή τη διεύθυνση email",
+        sampleLabel: "Σύνδεση",
+        samplePrompt: "Δεν έχετε λογαριασμό;",
+      },
+      {
+        exported: enGb,
+        locale: "en-GB",
+        translations: enGB,
+        label: "enGb",
+        sampleError: "No account found with this email address",
+        sampleLabel: "Sign In",
+        samplePrompt: "Don't have an account?",
+      },
+      {
+        exported: esLa,
+        locale: "es-419",
+        translations: es419,
+        label: "esLa",
+        sampleError: "No se encontró ninguna cuenta con esta dirección de correo electrónico",
+        sampleLabel: "Iniciar sesión",
+        samplePrompt: "¿No tienes una cuenta?",
+      },
+      {
+        exported: faIr,
+        locale: "fa-IR",
+        translations: faIR,
+        label: "faIr",
+        sampleError: "هیچ حسابی با این آدرس ایمیل یافت نشد",
+        sampleLabel: "ورود",
+        samplePrompt: "حساب ندارید؟",
+      },
+      {
+        exported: fiFi,
+        locale: "fi-FI",
+        translations: fiFI,
+        label: "fiFi",
+        sampleError: "Tällä sähköpostiosoitteella ei löydy tiliä",
+        sampleLabel: "Kirjaudu sisään",
+        samplePrompt: "Eikö sinulla ole tiliä?",
+      },
+      {
+        exported: filPh,
+        locale: "fil-PH",
+        translations: filPH,
+        label: "filPh",
+        sampleError: "Walang account na natagpuan sa email address na ito",
+        sampleLabel: "Mag-sign In",
+        samplePrompt: "Wala kang account?",
+      },
+      {
+        exported: heIl,
+        locale: "he-IL",
+        translations: heIL,
+        label: "heIl",
+        sampleError: "לא נמצא חשבון עם כתובת אימייל זו",
+        sampleLabel: "כניסה",
+        samplePrompt: "אין לך חשבון?",
+      },
+      {
+        exported: hrHr,
+        locale: "hr-HR",
+        translations: hrHR,
+        label: "hrHr",
+        sampleError: "Nije pronađen račun s ovom adresom e-pošte",
+        sampleLabel: "Prijava",
+        samplePrompt: "Nemate račun?",
+      },
+      {
+        exported: huHu,
+        locale: "hu-HU",
+        translations: huHU,
+        label: "huHu",
+        sampleError: "Nem található fiók ezzel az e-mail-címmel",
+        sampleLabel: "Bejelentkezés",
+        samplePrompt: "Nincs fiókja?",
+      },
+      {
+        exported: idId,
+        locale: "id-ID",
+        translations: idID,
+        label: "idId",
+        sampleError: "Tidak ada akun yang ditemukan dengan alamat email ini",
+        sampleLabel: "Masuk",
+        samplePrompt: "Belum punya akun?",
+      },
+      {
+        exported: ltLt,
+        locale: "lt-LT",
+        translations: ltLT,
+        label: "ltLt",
+        sampleError: "Nerastas naudotojas su šiuo el. pašto adresu",
+        sampleLabel: "Prisijungti",
+        samplePrompt: "Neturite paskyros?",
+      },
+      {
+        exported: lvLv,
+        locale: "lv-LV",
+        translations: lvLV,
+        label: "lvLv",
+        sampleError: "Konts ar šo e-pasta adresi netika atrasts",
+        sampleLabel: "Pieteikties",
+        samplePrompt: "Nav konta?",
+      },
+      {
+        exported: nbNo,
+        locale: "nb-NO",
+        translations: nbNO,
+        label: "nbNo",
+        sampleError: "Ingen konto funnet med denne e-postadressen",
+        sampleLabel: "Logg inn",
+        samplePrompt: "Har du ikke en konto?",
+      },
+      {
+        exported: nlNl,
+        locale: "nl-NL",
+        translations: nlNL,
+        label: "nlNl",
+        sampleError: "Geen account gevonden met dit e-mailadres",
+        sampleLabel: "Inloggen",
+        samplePrompt: "Geen account?",
+      },
+      {
+        exported: plPl,
+        locale: "pl-PL",
+        translations: plPL,
+        label: "plPl",
+        sampleError: "Nie znaleziono konta z tym adresem e-mail",
+        sampleLabel: "Zaloguj się",
+        samplePrompt: "Nie masz konta?",
+      },
+      {
+        exported: ptPt,
+        locale: "pt-PT",
+        translations: ptPT,
+        label: "ptPt",
+        sampleError: "Não foi encontrada nenhuma conta com este endereço de e-mail",
+        sampleLabel: "Iniciar sessão",
+        samplePrompt: "Não tem uma conta?",
+      },
+      {
+        exported: roRo,
+        locale: "ro-RO",
+        translations: roRO,
+        label: "roRo",
+        sampleError: "Nu a fost găsit niciun cont cu această adresă de e-mail",
+        sampleLabel: "Conectare",
+        samplePrompt: "Nu aveți un cont?",
+      },
+      {
+        exported: ruRu,
+        locale: "ru-RU",
+        translations: ruRU,
+        label: "ruRu",
+        sampleError: "Аккаунт с этим адресом электронной почты не найден",
+        sampleLabel: "Войти",
+        samplePrompt: "Нет аккаунта?",
+      },
+      {
+        exported: skSk,
+        locale: "sk-SK",
+        translations: skSK,
+        label: "skSk",
+        sampleError: "Nenašiel sa žiadny účet s touto e-mailovou adresou",
+        sampleLabel: "Prihlásiť sa",
+        samplePrompt: "Nemáte účet?",
+      },
+      {
+        exported: slSi,
+        locale: "sl-SI",
+        translations: slSI,
+        label: "slSi",
+        sampleError: "Račun s tem e-poštnim naslovom ni bil najden",
+        sampleLabel: "Prijava",
+        samplePrompt: "Nimate računa?",
+      },
+      {
+        exported: srRs,
+        locale: "sr-RS",
+        translations: srRS,
+        label: "srRs",
+        sampleError: "Није пронађен налог са овом адресом е-поште",
+        sampleLabel: "Пријава",
+        samplePrompt: "Немате налог?",
+      },
+      {
+        exported: svSe,
+        locale: "sv-SE",
+        translations: svSE,
+        label: "svSe",
+        sampleError: "Inget konto hittades med denna e-postadress",
+        sampleLabel: "Logga in",
+        samplePrompt: "Har du inget konto?",
+      },
+      {
+        exported: thTh,
+        locale: "th-TH",
+        translations: thTH,
+        label: "thTh",
+        sampleError: "ไม่พบบัญชีที่ใช้อีเมลนี้",
+        sampleLabel: "ลงชื่อเข้าใช้",
+        samplePrompt: "ไม่มีบัญชี?",
+      },
+      {
+        exported: trTr,
+        locale: "tr-TR",
+        translations: trTR,
+        label: "trTr",
+        sampleError: "Bu e-posta adresiyle ilişkili bir hesap bulunamadı",
+        sampleLabel: "Oturum Aç",
+        samplePrompt: "Hesabınız yok mu?",
+      },
+      {
+        exported: ukUa,
+        locale: "uk-UA",
+        translations: ukUA,
+        label: "ukUa",
+        sampleError: "Акаунт із цією електронною адресою не знайдено",
+        sampleLabel: "Увійти",
+        samplePrompt: "Немає акаунту?",
+      },
+      {
+        exported: viVn,
+        locale: "vi-VN",
+        translations: viVN,
+        label: "viVn",
+        sampleError: "Không tìm thấy tài khoản nào với địa chỉ email này",
+        sampleLabel: "Đăng nhập",
+        samplePrompt: "Chưa có tài khoản?",
+      },
+      {
+        exported: zhTw,
+        locale: "zh-TW",
+        translations: zhTW,
+        label: "zhTw",
+        sampleError: "找不到使用此電子郵件地址的帳戶",
+        sampleLabel: "登入",
+        samplePrompt: "沒有帳戶？",
+      },
     ];
 
     for (const { exported, locale, translations, label, sampleError, sampleLabel, samplePrompt } of localeFixtures) {
@@ -221,7 +647,9 @@ describe("index.ts", () => {
         it("should fall back to English for any missing translation", () => {
           // All locales are complete, but verify the fallback mechanism works
           // by creating a partial locale and checking it falls back
-          const partial = registerLocale(locale, { errors: { userNotFound: exported.translations.errors!.userNotFound } });
+          const partial = registerLocale(locale, {
+            errors: { userNotFound: exported.translations.errors!.userNotFound },
+          });
           expect(getTranslation(partial, "labels", "emailAddress")).toBe("Email Address");
         });
 

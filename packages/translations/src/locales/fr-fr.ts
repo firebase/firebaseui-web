@@ -39,10 +39,8 @@ export const frFR = {
     missingVerificationId: "Veuillez d'abord compléter la vérification reCAPTCHA.",
     missingEmail: "Veuillez fournir une adresse e-mail",
     invalidActionCode: "Le lien de réinitialisation du mot de passe est invalide ou a expiré",
-    credentialAlreadyInUse:
-      "Un compte existe déjà avec cette adresse e-mail. Veuillez vous connecter avec ce compte.",
-    requiresRecentLogin:
-      "Cette opération nécessite une connexion récente. Veuillez vous connecter à nouveau.",
+    credentialAlreadyInUse: "Un compte existe déjà avec cette adresse e-mail. Veuillez vous connecter avec ce compte.",
+    requiresRecentLogin: "Cette opération nécessite une connexion récente. Veuillez vous connecter à nouveau.",
     providerAlreadyLinked: "Ce numéro de téléphone est déjà associé à un autre compte",
     invalidVerificationCode: "Code de vérification invalide. Veuillez réessayer",
     unknownError: "Une erreur inattendue s'est produite",
