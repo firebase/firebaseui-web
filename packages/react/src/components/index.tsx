@@ -25,5 +25,6 @@ export {
 } from "./country-selector";
 export { Divider, type DividerProps } from "./divider";
 export { form } from "./form";
+export { LegacySignInRecovery } from "./legacy-sign-in-recovery";
 export { Policies, type PolicyProps, type PolicyURL } from "./policies";
 export { RedirectError } from "./redirect-error";
