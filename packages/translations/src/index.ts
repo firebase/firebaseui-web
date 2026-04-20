@@ -14,8 +14,18 @@
  * limitations under the License.
  */
 
+import { ar as arTranslations } from "./locales/ar";
 import { csCZ } from "./locales/cs-cz";
+import { deDE as deDETranslations } from "./locales/de-de";
 import { enUS } from "./locales/en-us";
+import { esES as esESTranslations } from "./locales/es-es";
+import { frFR as frFRTranslations } from "./locales/fr-fr";
+import { hiIN as hiINTranslations } from "./locales/hi-in";
+import { itIT as itITTranslations } from "./locales/it-it";
+import { jaJP as jaJPTranslations } from "./locales/ja-jp";
+import { koKR as koKRTranslations } from "./locales/ko-kr";
+import { ptBR as ptBRTranslations } from "./locales/pt-br";
+import { zhCN as zhCNTranslations } from "./locales/zh-cn";
 import { type Translations } from "./types";
 
 export type * from "./types";
@@ -47,8 +57,38 @@ export function registerLocale(
 /** Pre-registered English US locale with default translations. */
 export const enUs = registerLocale("en-US", enUS);
 
-/** Other pre-registerd locales */
+/** Pre-registered Arabic locale. */
+export const arAR = registerLocale("ar", arTranslations);
+
+/** Pre-registered Czech CZ locale. */
 export const csCz = registerLocale("cs-CZ", csCZ);
+
+/** Pre-registered German DE locale. */
+export const deDE = registerLocale("de-DE", deDETranslations);
+
+/** Pre-registered Spanish ES locale. */
+export const esES = registerLocale("es-ES", esESTranslations);
+
+/** Pre-registered French FR locale. */
+export const frFR = registerLocale("fr-FR", frFRTranslations);
+
+/** Pre-registered Hindi IN locale. */
+export const hiIN = registerLocale("hi-IN", hiINTranslations);
+
+/** Pre-registered Italian IT locale. */
+export const itIT = registerLocale("it-IT", itITTranslations);
+
+/** Pre-registered Japanese JP locale. */
+export const jaJP = registerLocale("ja-JP", jaJPTranslations);
+
+/** Pre-registered Korean KR locale. */
+export const koKR = registerLocale("ko-KR", koKRTranslations);
+
+/** Pre-registered Portuguese BR locale. */
+export const ptBR = registerLocale("pt-BR", ptBRTranslations);
+
+/** Pre-registered Chinese Simplified CN locale. */
+export const zhCN = registerLocale("zh-CN", zhCNTranslations);
 
 /** A registered locale with its translations and optional fallback. */
 export type RegisteredLocale = {

@@ -15,9 +15,19 @@
  */
 
 import { describe, it, expect } from "vitest";
-import { registerLocale, enUs, type Locale, type RegisteredLocale, csCz } from "./index";
+import { registerLocale, enUs, type Locale, type RegisteredLocale, csCz, arAR, deDE, esES, frFR, hiIN, itIT, jaJP, koKR, ptBR, zhCN } from "./index";
 import { enUS } from "./locales/en-us";
 import { csCZ } from "./locales/cs-cz";
+import { ar } from "./locales/ar";
+import { deDE as deDETranslations } from "./locales/de-de";
+import { esES as esESTranslations } from "./locales/es-es";
+import { frFR as frFRTranslations } from "./locales/fr-fr";
+import { hiIN as hiINTranslations } from "./locales/hi-in";
+import { itIT as itITTranslations } from "./locales/it-it";
+import { jaJP as jaJPTranslations } from "./locales/ja-jp";
+import { koKR as koKRTranslations } from "./locales/ko-kr";
+import { ptBR as ptBRTranslations } from "./locales/pt-br";
+import { zhCN as zhCNTranslations } from "./locales/zh-cn";
 import type { Translations } from "./types";
 import { getTranslation, ERROR_CODE_MAP } from "./mapping";
 import * as types from "./types";
@@ -163,7 +173,73 @@ describe("index.ts", () => {
     it("should use the correct csCZ translations", () => {
       expect(csCz.translations).toBe(csCZ);
     });
+  });
 
+  describe("locale exports", () => {
+    const localeFixtures = [
+      { exported: arAR,  locale: "ar",    translations: ar,              label: "arAR",  sampleError: "لم يتم العثور على حساب بهذا البريد الإلكتروني", sampleLabel: "تسجيل الدخول", samplePrompt: "ليس لديك حساب؟" },
+      { exported: deDE,  locale: "de-DE", translations: deDETranslations, label: "deDE",  sampleError: "Kein Konto mit dieser E-Mail-Adresse gefunden",    sampleLabel: "Anmelden",      samplePrompt: "Noch kein Konto?" },
+      { exported: esES,  locale: "es-ES", translations: esESTranslations, label: "esES",  sampleError: "No se encontró ninguna cuenta con esta dirección de correo electrónico", sampleLabel: "Iniciar sesión", samplePrompt: "¿No tienes una cuenta?" },
+      { exported: frFR,  locale: "fr-FR", translations: frFRTranslations, label: "frFR",  sampleError: "Aucun compte trouvé avec cette adresse e-mail",    sampleLabel: "Se connecter",  samplePrompt: "Vous n'avez pas de compte ?" },
+      { exported: hiIN,  locale: "hi-IN", translations: hiINTranslations, label: "hiIN",  sampleError: "इस ईमेल पते से कोई खाता नहीं मिला",               sampleLabel: "साइन इन करें", samplePrompt: "खाता नहीं है?" },
+      { exported: itIT,  locale: "it-IT", translations: itITTranslations, label: "itIT",  sampleError: "Nessun account trovato con questo indirizzo email", sampleLabel: "Accedi",        samplePrompt: "Non hai un account?" },
+      { exported: jaJP,  locale: "ja-JP", translations: jaJPTranslations, label: "jaJP",  sampleError: "このメールアドレスに関連するアカウントが見つかりません",         sampleLabel: "サインイン",   samplePrompt: "アカウントをお持ちでないですか？" },
+      { exported: koKR,  locale: "ko-KR", translations: koKRTranslations, label: "koKR",  sampleError: "이 이메일 주소로 등록된 계정을 찾을 수 없습니다",        sampleLabel: "로그인",       samplePrompt: "계정이 없으신가요?" },
+      { exported: ptBR,  locale: "pt-BR", translations: ptBRTranslations, label: "ptBR",  sampleError: "Nenhuma conta encontrada com este endereço de e-mail", sampleLabel: "Entrar",      samplePrompt: "Não tem uma conta?" },
+      { exported: zhCN,  locale: "zh-CN", translations: zhCNTranslations, label: "zhCN",  sampleError: "未找到使用此电子邮件地址的账户",                         sampleLabel: "登录",         samplePrompt: "没有账户？" },
+    ];
+
+    for (const { exported, locale, translations, label, sampleError, sampleLabel, samplePrompt } of localeFixtures) {
+      describe(label, () => {
+        it("should have correct locale identifier", () => {
+          expect(exported.locale).toBe(locale);
+        });
+
+        it("should reference the correct translations object", () => {
+          expect(exported.translations).toBe(translations);
+        });
+
+        it("should have all translation categories defined", () => {
+          expect(exported.translations.errors).toBeDefined();
+          expect(exported.translations.messages).toBeDefined();
+          expect(exported.translations.labels).toBeDefined();
+          expect(exported.translations.prompts).toBeDefined();
+        });
+
+        it("should return correct translation for userNotFound error", () => {
+          expect(getTranslation(exported, "errors", "userNotFound")).toBe(sampleError);
+        });
+
+        it("should return correct translation for signIn label", () => {
+          expect(getTranslation(exported, "labels", "signIn")).toBe(sampleLabel);
+        });
+
+        it("should return correct translation for noAccount prompt", () => {
+          expect(getTranslation(exported, "prompts", "noAccount")).toBe(samplePrompt);
+        });
+
+        it("should fall back to English for any missing translation", () => {
+          // All locales are complete, but verify the fallback mechanism works
+          // by creating a partial locale and checking it falls back
+          const partial = registerLocale(locale, { errors: { userNotFound: exported.translations.errors!.userNotFound } });
+          expect(getTranslation(partial, "labels", "emailAddress")).toBe("Email Address");
+        });
+
+        it("should handle placeholder replacements", () => {
+          const result = getTranslation(exported, "messages", "termsAndPrivacy", {
+            tos: "TOS",
+            privacy: "PP",
+          });
+          expect(result).not.toContain("{tos}");
+          expect(result).not.toContain("{privacy}");
+          expect(result).toContain("TOS");
+          expect(result).toContain("PP");
+        });
+      });
+    }
+  });
+
+  describe("enUs translations", () => {
     it("should have all required translation categories", () => {
       expect(enUs.translations.errors).toBeDefined();
       expect(enUs.translations.messages).toBeDefined();
