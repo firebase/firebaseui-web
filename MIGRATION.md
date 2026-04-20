@@ -69,7 +69,7 @@ First, remove the old `firebaseui` package and install the appropriate new packa
 
   Install the new Angular package:
   ```bash
-  npm install @firebase-oss/ui-angular@beta
+  npm install @angular/fire @firebase-oss/ui-angular@beta @firebase-oss/ui-core@beta @firebase-oss/ui-styles@beta
   ```
 
   **Note:** The Angular package requires [AngularFire](https://github.com/angular/angularfire) to be installed and configured first.
@@ -90,7 +90,7 @@ First, remove the old `firebaseui` package and install the appropriate new packa
   {
     ...
     "registries": {
-      "@firebase": "https://fir-ui-shadcn-registry.web.app/r/{name}.json"
+      "@firebase": "https://firebaseopensource.com/r/{name}.json"
     }
   }
   ```
