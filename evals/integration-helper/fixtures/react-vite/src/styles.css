@@ -1,0 +1,11 @@
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+}
+
+.app-shell {
+  max-width: 640px;
+  margin: 64px auto;
+  padding: 24px;
+}
+

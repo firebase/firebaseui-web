@@ -1,0 +1,11 @@
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+}
+
+.page {
+  max-width: 720px;
+  margin: 64px auto;
+  padding: 24px;
+}
+

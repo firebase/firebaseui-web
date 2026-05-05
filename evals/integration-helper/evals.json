@@ -1,0 +1,234 @@
+{
+  "skill_name": "integration-helper",
+  "description": "Evaluates whether the FirebaseUI Web integration-helper skill improves correctness while reducing token usage versus a docs-dump baseline.",
+  "variants": ["with_skill", "without_skill", "docs_dump"],
+  "evals": [
+    {
+      "id": "react-vite-email-password",
+      "name": "React Vite email-password integration",
+      "fixture": "react-vite",
+      "prompt": "Add FirebaseUI Web v7 to this Vite React app for email/password sign-in. Keep Firebase initialization in a reusable client-safe module, render a sign-in screen from the React package, include the FirebaseUI styles, and use placeholder Firebase config from environment variables. Update package.json dependencies as needed.",
+      "expected_output": "A Vite React app wired to FirebaseUI Web v7 with Firebase initialization, a FirebaseUI provider, an email/password sign-in screen, styles imported, and public package dependencies.",
+      "deterministic_assertions": [
+        {
+          "id": "react-dep-firebase",
+          "description": "Adds firebase dependency",
+          "type": "package_dependency",
+          "name": "firebase"
+        },
+        {
+          "id": "react-dep-ui-react",
+          "description": "Adds @firebase-oss/ui-react dependency",
+          "type": "package_dependency",
+          "name": "@firebase-oss/ui-react"
+        },
+        {
+          "id": "react-import-provider",
+          "description": "Uses FirebaseUIProvider from the React package",
+          "type": "any_file_contains",
+          "pattern": "FirebaseUIProvider"
+        },
+        {
+          "id": "react-initialize-ui",
+          "description": "Initializes FirebaseUI with initializeUI",
+          "type": "any_file_contains",
+          "pattern": "initializeUI\\s*\\("
+        },
+        {
+          "id": "react-email-screen",
+          "description": "Renders a FirebaseUI email/password capable sign-in screen",
+          "type": "any_file_contains",
+          "pattern": "SignInAuthScreen|EmailAuthProvider|email/password"
+        },
+        {
+          "id": "react-no-internal-alias",
+          "description": "Does not import internal repository aliases",
+          "type": "forbidden_any_file_contains",
+          "pattern": "from\\s+['\"]~[/]"
+        }
+      ],
+      "llm_assertions": [
+        "The implementation keeps Firebase app/UI initialization separate from the rendered React screen.",
+        "The answer tells the developer that Email/Password must be enabled in Firebase Console.",
+        "The implementation uses FirebaseUI Web v7 public package imports rather than legacy firebaseui-web v6 APIs."
+      ]
+    },
+    {
+      "id": "nextjs-google-app-router",
+      "name": "Next.js App Router Google OAuth integration",
+      "fixture": "nextjs-app",
+      "prompt": "Integrate FirebaseUI Web v7 into this Next.js App Router app for Google sign-in. Respect App Router client/server boundaries, keep FirebaseUI rendering in client components, use environment-backed Firebase config, add the required packages and styles, and leave server-side auth checks out of scope unless they are clearly separated.",
+      "expected_output": "A Next.js App Router app with client-only FirebaseUI initialization/rendering, Google sign-in UI, styles, public dependencies, and no server component FirebaseUI misuse.",
+      "deterministic_assertions": [
+        {
+          "id": "next-dep-firebase",
+          "description": "Adds firebase dependency",
+          "type": "package_dependency",
+          "name": "firebase"
+        },
+        {
+          "id": "next-use-client",
+          "description": "Marks FirebaseUI-rendering code as a client component",
+          "type": "any_file_contains",
+          "pattern": "['\"]use client['\"]"
+        },
+        {
+          "id": "next-provider",
+          "description": "Uses FirebaseUIProvider",
+          "type": "any_file_contains",
+          "pattern": "FirebaseUIProvider"
+        },
+        {
+          "id": "next-google-provider",
+          "description": "Configures Google sign-in",
+          "type": "any_file_contains",
+          "pattern": "GoogleAuthProvider|google\\.com|Google"
+        },
+        {
+          "id": "next-no-internal-alias",
+          "description": "Does not import internal repository aliases",
+          "type": "forbidden_any_file_contains",
+          "pattern": "from\\s+['\"]~[/]"
+        }
+      ],
+      "llm_assertions": [
+        "FirebaseUI components and initializeUI usage are isolated to client components or client-only modules.",
+        "The implementation does not imply that rendering FirebaseUI on the server solves SSR authentication.",
+        "The answer tells the developer to enable Google sign-in in Firebase Console."
+      ]
+    },
+    {
+      "id": "angular-provide-firebaseui",
+      "name": "Angular provideFirebaseUI setup",
+      "fixture": "angular-app",
+      "prompt": "Add FirebaseUI Web v7 to this Angular app for email/password sign-in. Use Angular's application config/provider style, add provideFirebaseUI, initialize FirebaseUI once, render a FirebaseUI auth component, include styles, and update dependencies.",
+      "expected_output": "An Angular app configured with Firebase and provideFirebaseUI, rendering FirebaseUI auth UI through the Angular package with styles and dependencies.",
+      "deterministic_assertions": [
+        {
+          "id": "angular-dep-firebase",
+          "description": "Adds firebase dependency",
+          "type": "package_dependency",
+          "name": "firebase"
+        },
+        {
+          "id": "angular-dep-ui-angular",
+          "description": "Adds @firebase-oss/ui-angular dependency",
+          "type": "package_dependency",
+          "name": "@firebase-oss/ui-angular"
+        },
+        {
+          "id": "angular-provider",
+          "description": "Uses provideFirebaseUI",
+          "type": "any_file_contains",
+          "pattern": "provideFirebaseUI"
+        },
+        {
+          "id": "angular-initialize-ui",
+          "description": "Initializes FirebaseUI",
+          "type": "any_file_contains",
+          "pattern": "initializeUI\\s*\\("
+        },
+        {
+          "id": "angular-component",
+          "description": "Renders a FirebaseUI Angular component or screen",
+          "type": "any_file_contains",
+          "pattern": "firebaseui|FirebaseUI|SignInAuthScreen|sign-in"
+        }
+      ],
+      "llm_assertions": [
+        "The Angular setup uses provideFirebaseUI rather than React provider patterns.",
+        "The FirebaseUI store is initialized once and supplied through Angular provider configuration.",
+        "The answer tells the developer to enable Email/Password in Firebase Console."
+      ]
+    },
+    {
+      "id": "shadcn-headless-react",
+      "name": "shadcn/headless React integration",
+      "fixture": "shadcn-headless",
+      "prompt": "Wire this shadcn-style Vite React app to FirebaseUI Web v7 using the headless/core APIs plus React provider. Keep the existing local Button component, add Firebase initialization, wrap with FirebaseUIProvider, and build a small sign-in panel that can use FirebaseUI auth state/actions without importing internal repo aliases.",
+      "expected_output": "A shadcn-style React app that keeps local UI components, uses FirebaseUI core/React public packages, initializes FirebaseUI, and avoids internal aliases.",
+      "deterministic_assertions": [
+        {
+          "id": "shadcn-dep-core",
+          "description": "Adds @firebase-oss/ui-core dependency",
+          "type": "package_dependency",
+          "name": "@firebase-oss/ui-core"
+        },
+        {
+          "id": "shadcn-dep-react",
+          "description": "Adds @firebase-oss/ui-react dependency",
+          "type": "package_dependency",
+          "name": "@firebase-oss/ui-react"
+        },
+        {
+          "id": "shadcn-keeps-button",
+          "description": "Keeps the local shadcn-style Button component",
+          "type": "path_exists",
+          "path": "src/components/ui/button.tsx"
+        },
+        {
+          "id": "shadcn-provider",
+          "description": "Uses FirebaseUIProvider",
+          "type": "any_file_contains",
+          "pattern": "FirebaseUIProvider"
+        },
+        {
+          "id": "shadcn-no-internal-alias",
+          "description": "Does not import internal repository aliases",
+          "type": "forbidden_any_file_contains",
+          "pattern": "from\\s+['\"]~[/]"
+        }
+      ],
+      "llm_assertions": [
+        "The implementation preserves the app's shadcn-style local components instead of replacing the app with a generic demo.",
+        "The integration uses public core/React FirebaseUI package imports.",
+        "The implementation explains which Firebase Console providers must be enabled for the chosen flow."
+      ]
+    },
+    {
+      "id": "custom-oauth-token-exchange",
+      "name": "Custom OAuth 2.0 token exchange",
+      "fixture": "custom-oauth",
+      "prompt": "This app needs to sign users in with a custom OAuth 2.0 provider that is not OIDC, like Snapchat Login Kit. Add a minimal client/server integration plan in code: the client starts the provider flow and signs in to Firebase with a custom token returned from the backend; the backend exchanges an authorization code, resolves a stable provider user id, mints a Firebase custom token, and never exposes the provider client secret to the browser.",
+      "expected_output": "A small client/server implementation sketch using Firebase custom-token sign-in for a non-OIDC OAuth provider, with server-side token exchange and clear secret handling.",
+      "deterministic_assertions": [
+        {
+          "id": "custom-dep-firebase",
+          "description": "Adds firebase dependency",
+          "type": "package_dependency",
+          "name": "firebase"
+        },
+        {
+          "id": "custom-client-token-signin",
+          "description": "Client signs in with a Firebase custom token",
+          "type": "any_file_contains",
+          "pattern": "signInWithCustomToken"
+        },
+        {
+          "id": "custom-server-mints-token",
+          "description": "Backend mints or clearly stubs Firebase custom token creation",
+          "type": "any_file_contains",
+          "pattern": "createCustomToken|custom token|mint"
+        },
+        {
+          "id": "custom-server-exchanges-code",
+          "description": "Backend exchanges an authorization code",
+          "type": "any_file_contains",
+          "pattern": "authorization code|code.*token|token endpoint|exchange"
+        },
+        {
+          "id": "custom-secret-not-client",
+          "description": "Does not place provider client secret in browser-facing Vite env",
+          "type": "forbidden_any_file_contains",
+          "pattern": "VITE_.*CLIENT_SECRET|NEXT_PUBLIC_.*CLIENT_SECRET"
+        }
+      ],
+      "llm_assertions": [
+        "The implementation clearly explains that non-OIDC OAuth providers cannot be configured directly as Firebase OIDC providers.",
+        "Provider client secrets and token exchange stay on the backend.",
+        "The Firebase UID is based on a stable provider user identifier."
+      ]
+    }
+  ]
+}
+

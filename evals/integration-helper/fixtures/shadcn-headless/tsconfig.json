@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "strict": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "target": "ES2022",
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "skipLibCheck": true,
+    "noEmit": true
+  },
+  "include": ["src"]
+}
+

@@ -1,0 +1,13 @@
+{
+  "name": "fixture-custom-oauth",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc --noEmit"
+  },
+  "dependencies": {
+    "typescript": "^5.9.2"
+  },
+  "devDependencies": {}
+}
+

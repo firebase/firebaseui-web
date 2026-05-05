@@ -1,0 +1,12 @@
+{
+  "name": "integration-helper-eval",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "list": "node scripts/run.mjs --list",
+    "smoke": "node scripts/run.mjs --case react-vite-email-password --skip-llm-judge",
+    "run": "node scripts/run.mjs",
+    "run:no-judge": "node scripts/run.mjs --skip-llm-judge"
+  }
+}
+

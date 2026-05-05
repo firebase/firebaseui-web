@@ -1,0 +1,18 @@
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+}
+
+.shell {
+  max-width: 640px;
+  margin: 64px auto;
+  padding: 24px;
+}
+
+.button {
+  border: 1px solid #111827;
+  background: #111827;
+  color: white;
+  padding: 10px 14px;
+}
+
