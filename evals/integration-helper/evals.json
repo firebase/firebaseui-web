@@ -1,7 +1,39 @@
 {
   "skill_name": "integration-helper",
+  "skill_path": ".agents/skills/integration-helper",
   "description": "Evaluates whether the FirebaseUI Web integration-helper skill improves correctness while reducing token usage versus a docs-dump baseline.",
   "variants": ["with_skill", "without_skill", "docs_dump"],
+  "docs_bundle": [
+    { "label": "README.md", "path": "README.md" },
+    { "label": "MIGRATION.md", "path": "MIGRATION.md" },
+    { "label": "CUSTOM_AUTHENTICATION.md", "path": "CUSTOM_AUTHENTICATION.md" },
+    { "label": "integration-helper/SKILL.md", "path": ".agents/skills/integration-helper/SKILL.md" },
+    {
+      "label": "integration-helper/references/framework-setup.md",
+      "path": ".agents/skills/integration-helper/references/framework-setup.md"
+    },
+    {
+      "label": "integration-helper/references/auth-flows.md",
+      "path": ".agents/skills/integration-helper/references/auth-flows.md"
+    },
+    {
+      "label": "integration-helper/references/customization-and-migration.md",
+      "path": ".agents/skills/integration-helper/references/customization-and-migration.md"
+    }
+  ],
+  "tracked_reference_sets": {
+    "integration_helper_mentions": [
+      "\\.agents/skills/integration-helper/SKILL\\.md",
+      "\\.agents/skills/integration-helper/references/framework-setup\\.md",
+      "\\.agents/skills/integration-helper/references/auth-flows\\.md",
+      "\\.agents/skills/integration-helper/references/customization-and-migration\\.md"
+    ],
+    "broad_doc_mentions": [
+      "(^|[^/])README\\.md",
+      "(^|[^/])MIGRATION\\.md",
+      "(^|[^/])CUSTOM_AUTHENTICATION\\.md"
+    ]
+  },
   "evals": [
     {
       "id": "react-vite-email-password",

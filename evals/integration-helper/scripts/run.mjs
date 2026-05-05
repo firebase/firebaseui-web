@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import { spawn } from "node:child_process";
 import { createHash } from "node:crypto";
 import { existsSync } from "node:fs";
@@ -10,8 +12,11 @@ import {
   rm,
   writeFile,
 } from "node:fs/promises";
+import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+
+import { compileReferenceTracker } from "../runners/shared.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const evalRoot = path.resolve(__dirname, "..");
@@ -19,10 +24,14 @@ const repoRoot = path.resolve(evalRoot, "..", "..");
 const evalsPath = path.join(evalRoot, "evals.json");
 const fixtureRoot = path.join(evalRoot, "fixtures");
 const workspaceRoot = path.join(evalRoot, "workspace");
-const skillSourcePath = path.join(repoRoot, ".agents", "skills", "integration-helper");
 const judgeSchemaPath = path.join(evalRoot, "judge.schema.json");
-const defaultScratchRoot = "/private/tmp/firebaseui-web-integration-helper-eval";
-const variants = ["with_skill", "without_skill", "docs_dump"];
+const packageJsonPath = path.join(evalRoot, "package.json");
+const defaultScratchRoot = path.join(os.tmpdir(), "firebaseui-web-integration-helper-eval");
+const runnerLoaders = {
+  codex: () => import("../runners/codex.mjs").then((module) => module.codexRunner),
+  cursor: () => import("../runners/cursor.mjs").then((module) => module.cursorRunner),
+};
+const runnerIds = Object.keys(runnerLoaders);
 
 const args = parseArgs(process.argv.slice(2));
 
@@ -32,24 +41,44 @@ if (args.help) {
 }
 
 const suite = JSON.parse(await readFile(evalsPath, "utf8"));
+const harnessPackage = JSON.parse(await readFile(packageJsonPath, "utf8"));
+const variants = suite.variants ?? ["with_skill", "without_skill", "docs_dump"];
+const selectedCases = selectCases(suite.evals, args.case);
+const selectedVariants = selectVariants(args.variant, variants);
+const iteration = args.iteration ?? (await nextIterationNumber());
+const iterationDir = path.join(workspaceRoot, `iteration-${iteration}`);
+const scratchRoot = path.resolve(args.tmpRoot ?? defaultScratchRoot);
+const startedAt = new Date().toISOString();
+const judgeRunnerId = args.skipLlmJudge || args.judgeRunner === "none"
+  ? null
+  : (args.judgeRunner ?? args.runner);
 
 if (args.list) {
   console.log(`Skill: ${suite.skill_name}`);
+  console.log(`Supported runners: ${runnerIds.join(", ")}`);
   for (const testCase of suite.evals) {
     console.log(`- ${testCase.id}: ${testCase.name}`);
   }
   process.exit(0);
 }
 
-const selectedCases = selectCases(suite.evals, args.case);
-const selectedVariants = selectVariants(args.variant);
-const iteration = args.iteration ?? (await nextIterationNumber());
-const iterationDir = path.join(workspaceRoot, `iteration-${iteration}`);
-const scratchRoot = path.resolve(args.tmpRoot ?? defaultScratchRoot);
-const startedAt = new Date().toISOString();
+const skillSourcePath = resolveSkillSourcePath({ suite, repoRoot, skillPathArg: args.skillPath });
+const docsContext = args.docsMode === "none"
+  ? ""
+  : await buildDocsContext({ suite, repoRoot, skillSourcePath });
+const referenceTracker = compileReferenceTracker(suite.tracked_reference_sets);
+const harnessGitSha = await resolveGitSha(repoRoot);
 
 if (args.dryRun) {
-  console.log(JSON.stringify({ iteration, selectedCases: selectedCases.map((c) => c.id), selectedVariants, scratchRoot }, null, 2));
+  console.log(JSON.stringify({
+    iteration,
+    runner: args.runner,
+    judgeRunner: judgeRunnerId,
+    selectedCases: selectedCases.map((testCase) => testCase.id),
+    selectedVariants,
+    scratchRoot,
+    skillSourcePath,
+  }, null, 2));
   process.exit(0);
 }
 
@@ -63,12 +92,15 @@ if (args.force) {
 
 await mkdir(iterationDir, { recursive: true });
 
-const docsContext = await buildDocsContext();
 const benchmark = {
   skill_name: suite.skill_name,
   started_at: startedAt,
   completed_at: null,
   iteration,
+  runner: args.runner,
+  judge_runner: judgeRunnerId,
+  harness_version: harnessPackage.version ?? null,
+  git_sha: harnessGitSha,
   variants: selectedVariants,
   cases: {},
   run_summary: {},
@@ -79,15 +111,22 @@ for (const testCase of selectedCases) {
   benchmark.cases[testCase.id] = {};
 
   for (const variant of selectedVariants) {
-    console.log(`Running ${testCase.id} / ${variant}`);
+    console.log(`Running ${testCase.id} / ${variant} with ${args.runner}`);
     const result = await runCaseVariant({
+      suite,
       testCase,
       variant,
       iteration,
       iterationDir,
       scratchRoot,
       docsContext,
-      skipLlmJudge: args.skipLlmJudge,
+      skillSourcePath,
+      runnerId: args.runner,
+      judgeRunnerId,
+      runnerOptions: buildRunnerOptions(args),
+      referenceTracker,
+      harnessVersion: harnessPackage.version ?? null,
+      harnessGitSha,
     });
 
     benchmark.cases[testCase.id][variant] = summarizeRun(result);
@@ -104,18 +143,26 @@ console.log(`Eval complete: ${iterationDir}`);
 console.log(JSON.stringify(benchmark.run_summary, null, 2));
 
 async function runCaseVariant({
+  suite,
   testCase,
   variant,
   iteration,
   iterationDir,
   scratchRoot,
   docsContext,
-  skipLlmJudge,
+  skillSourcePath,
+  runnerId,
+  judgeRunnerId,
+  runnerOptions,
+  referenceTracker,
+  harnessVersion,
+  harnessGitSha,
 }) {
   const caseDir = path.join(iterationDir, testCase.id);
   const runDir = path.join(caseDir, variant);
   const outputsDir = path.join(runDir, "outputs");
   const scratchDir = path.join(scratchRoot, `iteration-${iteration}`, testCase.id, variant);
+  const startedAtIso = new Date().toISOString();
 
   await mkdir(runDir, { recursive: true });
   await rm(scratchDir, { recursive: true, force: true });
@@ -123,74 +170,117 @@ async function runCaseVariant({
   await copyDirectory(path.join(fixtureRoot, testCase.fixture), scratchDir);
 
   if (variant === "with_skill") {
-    await copyDirectory(skillSourcePath, path.join(scratchDir, ".agents", "skills", "integration-helper"));
+    await copyDirectory(skillSourcePath, path.join(scratchDir, ".agents", "skills", suite.skill_name));
   }
 
-  const prompt = buildRunPrompt({ testCase, variant, docsContext });
+  const prompt = buildRunPrompt({ suite, testCase, variant, docsContext });
   await writeFile(path.join(runDir, "prompt.md"), prompt);
   await writeFile(
     path.join(runDir, "scratch.json"),
     JSON.stringify({ scratch_dir: scratchDir, fixture: testCase.fixture }, null, 2),
   );
 
-  const codexResult = await runCodex({
-    cwd: scratchDir,
-    prompt,
-    transcriptPath: path.join(runDir, "transcript.jsonl"),
-    stderrPath: path.join(runDir, "stderr.log"),
-    sandbox: "workspace-write",
-  });
-
-  await writeFile(path.join(runDir, "final-response.md"), codexResult.finalMessage || "");
-  await writeFile(path.join(runDir, "timing.json"), JSON.stringify(codexResult.timing, null, 2));
-
-  await rm(outputsDir, { recursive: true, force: true });
-  await copyDirectory(scratchDir, outputsDir, {
-    skipDirectoryNames: new Set([".agents", ".git", "node_modules", ".next", "dist", "build", ".angular"]),
-  });
-
-  const deterministic = await gradeDeterministic(testCase, outputsDir);
-  let llm = {
-    skipped: true,
-    assertion_results: [],
-    summary: { passed: 0, failed: 0, total: 0, pass_rate: null },
-    overall_quality_score: null,
-    utility_notes: "LLM judge skipped.",
-  };
-  let judgeTiming = null;
-
-  if (!skipLlmJudge) {
-    const judgeResult = await runLlmJudge({
-      testCase,
-      variant,
-      outputsDir,
-      finalMessage: codexResult.finalMessage,
-      runDir,
-      scratchRoot,
+  try {
+    const runResult = await runAgent({
+      runnerId,
+      cwd: scratchDir,
+      prompt,
+      sandbox: "workspace-write",
+      outputSchemaPath: null,
+      referenceTracker,
+      runnerOptions,
     });
-    llm = judgeResult.grading;
-    judgeTiming = judgeResult.timing;
+
+    await writeFile(path.join(runDir, "transcript.jsonl"), runResult.rawTranscript ?? "");
+    await writeFile(path.join(runDir, "stderr.log"), runResult.rawStderr ?? "");
+    await writeFile(path.join(runDir, "final-response.md"), runResult.finalAssistantText || "");
+    await writeFile(path.join(runDir, "timing.json"), JSON.stringify(runResult.timing, null, 2));
+
+    await rm(outputsDir, { recursive: true, force: true });
+    await copyDirectory(scratchDir, outputsDir, {
+      skipDirectoryNames: new Set([".agents", ".git", "node_modules", ".next", "dist", "build", ".angular"]),
+    });
+
+    const deterministic = await gradeDeterministic(testCase, outputsDir);
+    let llm = {
+      skipped: true,
+      assertion_results: [],
+      summary: { passed: 0, failed: 0, total: 0, pass_rate: null },
+      overall_quality_score: null,
+      utility_notes: "LLM judge skipped.",
+    };
+    let judgeTiming = null;
+    let judgeMetadata = null;
+
+    if (judgeRunnerId && runResult.timing.successful_turn) {
+      const judgeResult = await runLlmJudge({
+        testCase,
+        variant,
+        outputsDir,
+        finalMessage: runResult.finalAssistantText,
+        runDir,
+        scratchRoot,
+        runnerId: judgeRunnerId,
+        runnerOptions,
+      });
+      llm = judgeResult.grading;
+      judgeTiming = judgeResult.timing;
+      judgeMetadata = judgeResult.metadata;
+    } else if (judgeRunnerId) {
+      llm = {
+        skipped: true,
+        assertion_results: [],
+        summary: { passed: 0, failed: 0, total: 0, pass_rate: null },
+        overall_quality_score: null,
+        utility_notes: `Judge skipped because the main ${runnerId} run did not finish successfully.`,
+      };
+    }
+
+    const grading = combineGrades({ deterministic, llm, judgeTiming });
+    await writeFile(path.join(runDir, "grading.json"), JSON.stringify(grading, null, 2));
+    await writeFile(
+      path.join(runDir, "manifest.json"),
+      JSON.stringify({
+        skill_name: suite.skill_name,
+        case_id: testCase.id,
+        variant,
+        fixture: testCase.fixture,
+        runner: runnerId,
+        judge_runner: judgeRunnerId,
+        harness_version: harnessVersion,
+        git_sha: harnessGitSha,
+        scratch_dir: scratchDir,
+        started_at: startedAtIso,
+        completed_at: new Date().toISOString(),
+        runner_metadata: runResult.metadata ?? {},
+        judge_runner_metadata: judgeMetadata,
+      }, null, 2),
+    );
+
+    return {
+      timing: runResult.timing,
+      grading,
+    };
+  } catch (error) {
+    const message = formatError(error);
+    throw new Error(
+      `Eval failed for ${testCase.id}/${variant} with runner ${runnerId}: ${message}`,
+      { cause: error },
+    );
   }
-
-  const grading = combineGrades({ deterministic, llm, judgeTiming });
-  await writeFile(path.join(runDir, "grading.json"), JSON.stringify(grading, null, 2));
-
-  return {
-    timing: codexResult.timing,
-    grading,
-  };
 }
 
-function buildRunPrompt({ testCase, variant, docsContext }) {
+function buildRunPrompt({ suite, testCase, variant, docsContext }) {
+  const skillMountPath = `.agents/skills/${suite.skill_name}`;
   const variantInstruction =
     variant === "with_skill"
-      ? "A project skill is available at .agents/skills/integration-helper. Use that skill for FirebaseUI Web integration guidance."
+      ? `A project skill is available at ${skillMountPath}. Use that skill for FirebaseUI Web integration guidance.`
       : variant === "docs_dump"
         ? "Do not use agent skills for this run. Use only the task, the fixture files, and the documentation context included below."
         : "Do not use agent skills for this run. Use only the task and fixture files.";
 
   const docsBlock =
-    variant === "docs_dump"
+    variant === "docs_dump" && docsContext
       ? `\n\n## Documentation Context\n\n${docsContext}\n`
       : "";
 
@@ -211,168 +301,58 @@ ${docsBlock}
 When finished, reply with a concise summary of what changed and any commands you would run to verify it.`;
 }
 
-async function buildDocsContext() {
-  const docs = [
-    ["README.md", path.join(repoRoot, "README.md")],
-    ["MIGRATION.md", path.join(repoRoot, "MIGRATION.md")],
-    ["CUSTOM_AUTHENTICATION.md", path.join(repoRoot, "CUSTOM_AUTHENTICATION.md")],
-    ["integration-helper/SKILL.md", path.join(skillSourcePath, "SKILL.md")],
-    ["integration-helper/references/framework-setup.md", path.join(skillSourcePath, "references", "framework-setup.md")],
-    ["integration-helper/references/auth-flows.md", path.join(skillSourcePath, "references", "auth-flows.md")],
-    [
-      "integration-helper/references/customization-and-migration.md",
-      path.join(skillSourcePath, "references", "customization-and-migration.md"),
-    ],
-  ];
-
+async function buildDocsContext({ suite, repoRoot, skillSourcePath }) {
+  const docs = suite.docs_bundle ?? [];
   const parts = [];
-  for (const [label, filePath] of docs) {
+  const configuredSkillPath = suite.skill_path ? path.normalize(suite.skill_path) : null;
+
+  for (const doc of docs) {
+    const normalizedDocPath = path.normalize(doc.path);
+    const filePath =
+      configuredSkillPath && (normalizedDocPath === configuredSkillPath || normalizedDocPath.startsWith(`${configuredSkillPath}${path.sep}`))
+        ? path.join(skillSourcePath, path.relative(configuredSkillPath, normalizedDocPath))
+        : path.resolve(repoRoot, doc.path);
     const content = await readFile(filePath, "utf8");
-    parts.push(`### ${label}\n\n${content}`);
+    parts.push(`### ${doc.label ?? doc.path}\n\n${content}`);
   }
+
   return parts.join("\n\n---\n\n");
 }
 
-async function runCodex({ cwd, prompt, transcriptPath, stderrPath, sandbox, outputSchema }) {
-  const args = [
-    "--ask-for-approval",
-    "never",
-    "--sandbox",
+function resolveSkillSourcePath({ suite, repoRoot, skillPathArg }) {
+  const configuredPath = skillPathArg ?? suite.skill_path ?? path.join(".agents", "skills", suite.skill_name);
+  const resolvedPath = path.resolve(repoRoot, configuredPath);
+  if (!existsSync(resolvedPath)) {
+    throw new Error(`Skill source path does not exist: ${resolvedPath}`);
+  }
+  return resolvedPath;
+}
+
+function buildRunnerOptions(args) {
+  return {
+    cursorApiKey: args.cursorApiKey ?? null,
+    cursorModel: args.cursorModel ?? null,
+  };
+}
+
+async function runAgent({
+  runnerId,
+  cwd,
+  prompt,
+  sandbox,
+  outputSchemaPath,
+  referenceTracker,
+  runnerOptions,
+}) {
+  const runner = await getRunner(runnerId);
+  return await runner.run({
+    cwd,
+    prompt,
     sandbox,
-    "exec",
-    "--json",
-    "--ephemeral",
-    "--skip-git-repo-check",
-    "-C",
-    cwd,
-  ];
-
-  if (outputSchema) {
-    args.push("--output-schema", outputSchema);
-  }
-
-  args.push("-");
-
-  const started = Date.now();
-  const child = spawn("codex", args, {
-    cwd,
-    stdio: ["pipe", "pipe", "pipe"],
+    outputSchemaPath,
+    referenceTracker,
+    runnerOptions,
   });
-
-  let stdout = "";
-  let stderr = "";
-  child.stdout.setEncoding("utf8");
-  child.stderr.setEncoding("utf8");
-  child.stdout.on("data", (chunk) => {
-    stdout += chunk;
-  });
-  child.stderr.on("data", (chunk) => {
-    stderr += chunk;
-  });
-
-  child.stdin.on("error", () => {});
-  child.stdin.end(prompt);
-
-  const exitCode = await new Promise((resolve, reject) => {
-    child.on("error", reject);
-    child.on("close", resolve);
-  });
-
-  const durationMs = Date.now() - started;
-  await writeFile(transcriptPath, stdout);
-  await writeFile(stderrPath, stderr);
-
-  const events = parseJsonl(stdout);
-  const finalMessage = events
-    .filter((event) => event.type === "item.completed" && event.item?.type === "agent_message")
-    .map((event) => event.item.text)
-    .at(-1);
-  const usage = events.findLast?.((event) => event.type === "turn.completed" && event.usage)?.usage
-    ?? [...events].reverse().find((event) => event.type === "turn.completed" && event.usage)?.usage
-    ?? {};
-  const toolActionCount = countActionEvents(events);
-  const referenceDiscipline = collectReferenceDiscipline(stdout);
-  const turnError =
-    events.find((event) => event.type === "turn.failed")?.error?.message
-    ?? events.find((event) => event.type === "error")?.message
-    ?? null;
-
-  return {
-    exitCode,
-    finalMessage,
-    events,
-    timing: normalizeTiming({ usage, durationMs, exitCode, toolActionCount, referenceDiscipline, turnError }),
-  };
-}
-
-function normalizeTiming({ usage, durationMs, exitCode, toolActionCount, referenceDiscipline, turnError }) {
-  const inputTokens = usage.input_tokens ?? 0;
-  const cachedInputTokens = usage.cached_input_tokens ?? 0;
-  const outputTokens = usage.output_tokens ?? 0;
-  const reasoningOutputTokens = usage.reasoning_output_tokens ?? 0;
-
-  return {
-    input_tokens: inputTokens,
-    cached_input_tokens: cachedInputTokens,
-    uncached_input_tokens: Math.max(inputTokens - cachedInputTokens, 0),
-    output_tokens: outputTokens,
-    reasoning_output_tokens: reasoningOutputTokens,
-    total_tokens: inputTokens + outputTokens,
-    duration_ms: durationMs,
-    exit_code: exitCode,
-    successful_turn: exitCode === 0 && turnError === null,
-    turn_error: turnError,
-    tool_action_count: toolActionCount,
-    reference_discipline: referenceDiscipline,
-  };
-}
-
-function countActionEvents(events) {
-  const actionItemIds = new Set();
-  for (const event of events) {
-    if (!["item.started", "item.completed"].includes(event.type)) continue;
-    if (!["command_execution", "file_change"].includes(event.item?.type)) continue;
-    actionItemIds.add(event.item.id);
-  }
-  return actionItemIds.size;
-}
-
-function collectReferenceDiscipline(transcriptText) {
-  const referencePatterns = [
-    /\.agents\/skills\/integration-helper\/SKILL\.md/g,
-    /\.agents\/skills\/integration-helper\/references\/framework-setup\.md/g,
-    /\.agents\/skills\/integration-helper\/references\/auth-flows\.md/g,
-    /\.agents\/skills\/integration-helper\/references\/customization-and-migration\.md/g,
-  ];
-  const broadDocPatterns = [
-    /(^|[^/])README\.md/g,
-    /(^|[^/])MIGRATION\.md/g,
-    /(^|[^/])CUSTOM_AUTHENTICATION\.md/g,
-  ];
-
-  return {
-    integration_helper_mentions: countPatternMentions(transcriptText, referencePatterns),
-    broad_doc_mentions: countPatternMentions(transcriptText, broadDocPatterns),
-  };
-}
-
-function countPatternMentions(text, patterns) {
-  return patterns.reduce((count, pattern) => count + [...text.matchAll(pattern)].length, 0);
-}
-
-function parseJsonl(text) {
-  return text
-    .split(/\r?\n/)
-    .map((line) => line.trim())
-    .filter((line) => line.startsWith("{"))
-    .map((line) => {
-      try {
-        return JSON.parse(line);
-      } catch {
-        return null;
-      }
-    })
-    .filter(Boolean);
 }
 
 async function gradeDeterministic(testCase, outputsDir) {
@@ -401,7 +381,15 @@ async function runDeterministicAssertion(assertion, outputsDir, files, allText) 
     if (!existsSync(packageJsonPath)) {
       return { passed: false, evidence: "package.json was not found." };
     }
-    const packageJson = JSON.parse(await readFile(packageJsonPath, "utf8"));
+    let packageJson;
+    try {
+      packageJson = JSON.parse(await readFile(packageJsonPath, "utf8"));
+    } catch (error) {
+      return {
+        passed: false,
+        evidence: `package.json is not valid JSON: ${error instanceof Error ? error.message : String(error)}`,
+      };
+    }
     const dependencyGroups = ["dependencies", "devDependencies", "peerDependencies", "optionalDependencies"];
     const group = dependencyGroups.find((key) => packageJson[key]?.[assertion.name]);
     return group
@@ -442,9 +430,20 @@ async function runDeterministicAssertion(assertion, outputsDir, files, allText) 
   return { passed: false, evidence: `Unknown assertion type: ${assertion.type}.` };
 }
 
-async function runLlmJudge({ testCase, variant, outputsDir, finalMessage, runDir, scratchRoot }) {
+async function runLlmJudge({
+  testCase,
+  variant,
+  outputsDir,
+  finalMessage,
+  runDir,
+  scratchRoot,
+  runnerId,
+  runnerOptions,
+}) {
   const outputSummary = await buildOutputSummary(outputsDir);
-  const prompt = `You are grading a local Agent Skill eval run. Grade only the provided output evidence. Require concrete evidence for PASS. Do not assume missing files exist.
+  const runner = await getRunner(runnerId);
+  const schemaText = await readFile(judgeSchemaPath, "utf8");
+  let prompt = `You are grading a local Agent Skill eval run. Grade only the provided output evidence. Require concrete evidence for PASS. Do not assume missing files exist.
 
 Case: ${testCase.name}
 Variant: ${variant}
@@ -463,35 +462,52 @@ ${outputSummary}
 
 Return JSON matching the requested schema. Use assertion ids L1, L2, etc.`;
 
+  if (!runner.supportsStructuredOutputSchema) {
+    prompt += `\n\nReturn only valid JSON. Do not wrap it in markdown. The JSON must satisfy this schema:\n\n\`\`\`json\n${schemaText}\n\`\`\`\n`;
+  }
+
   const judgeDir = path.join(scratchRoot, "judge", stableId(`${testCase.id}-${variant}-${Date.now()}`));
   await mkdir(judgeDir, { recursive: true });
 
-  const codexResult = await runCodex({
+  const judgeRun = await runAgent({
+    runnerId,
     cwd: judgeDir,
     prompt,
-    transcriptPath: path.join(runDir, "judge-transcript.jsonl"),
-    stderrPath: path.join(runDir, "judge-stderr.log"),
     sandbox: "read-only",
-    outputSchema: judgeSchemaPath,
+    outputSchemaPath: runner.supportsStructuredOutputSchema ? judgeSchemaPath : null,
+    referenceTracker: null,
+    runnerOptions,
   });
+  await writeFile(path.join(runDir, "judge-transcript.jsonl"), judgeRun.rawTranscript ?? "");
+  await writeFile(path.join(runDir, "judge-stderr.log"), judgeRun.rawStderr ?? "");
 
   let grading;
   try {
-    grading = JSON.parse(codexResult.finalMessage);
+    grading = JSON.parse(judgeRun.finalAssistantText);
   } catch {
     grading = {
       assertion_results: [],
       summary: { passed: 0, failed: 0, total: 0, pass_rate: 0 },
-      overall_quality_score: 1,
+      overall_quality_score: null,
       utility_notes: "Judge did not return parseable JSON.",
     };
   }
 
   return {
     grading,
-    timing: codexResult.timing,
+    timing: judgeRun.timing,
+    metadata: judgeRun.metadata ?? {},
   };
 }
+
+async function getRunner(runnerId) {
+  const loader = runnerLoaders[runnerId];
+  if (!loader) {
+    throw new Error(`Unknown runner: ${runnerId}. Expected one of ${runnerIds.join(", ")}.`);
+  }
+  return loader();
+}
+
 
 function combineGrades({ deterministic, llm, judgeTiming }) {
   const deterministicSummary = deterministic.summary;
@@ -652,9 +668,9 @@ function computeDeltas(cases) {
 
     if (withSkill?.timing.successful_turn && docsDump?.timing.successful_turn) {
       deltas[caseId].with_skill_vs_docs_dump = {
-        token_delta: withSkill.timing.total_tokens - docsDump.timing.total_tokens,
+        token_delta: numericDelta(withSkill.timing.total_tokens, docsDump.timing.total_tokens),
         token_savings_ratio:
-          docsDump.timing.total_tokens === 0
+          typeof withSkill.timing.total_tokens !== "number" || typeof docsDump.timing.total_tokens !== "number" || docsDump.timing.total_tokens === 0
             ? null
             : 1 - withSkill.timing.total_tokens / docsDump.timing.total_tokens,
         pass_rate_delta: withSkill.pass_rate - docsDump.pass_rate,
@@ -667,7 +683,7 @@ function computeDeltas(cases) {
 
     if (withSkill?.timing.successful_turn && withoutSkill?.timing.successful_turn) {
       deltas[caseId].with_skill_vs_without_skill = {
-        token_delta: withSkill.timing.total_tokens - withoutSkill.timing.total_tokens,
+        token_delta: numericDelta(withSkill.timing.total_tokens, withoutSkill.timing.total_tokens),
         pass_rate_delta: withSkill.pass_rate - withoutSkill.pass_rate,
         quality_delta:
           typeof withSkill.overall_quality_score === "number" && typeof withoutSkill.overall_quality_score === "number"
@@ -677,6 +693,10 @@ function computeDeltas(cases) {
     }
   }
   return deltas;
+}
+
+function numericDelta(left, right) {
+  return typeof left === "number" && typeof right === "number" ? left - right : null;
 }
 
 function stats(values) {
@@ -720,7 +740,7 @@ function selectCases(allCases, requestedCases) {
   });
 }
 
-function selectVariants(requestedVariants) {
+function selectVariants(requestedVariants, variants) {
   if (requestedVariants.length === 0) return variants;
   for (const variant of requestedVariants) {
     if (!variants.includes(variant)) {
@@ -734,15 +754,30 @@ function stableId(input) {
   return createHash("sha256").update(input).digest("hex").slice(0, 12);
 }
 
+function formatError(error) {
+  if (error instanceof Error) {
+    return error.name && error.message
+      ? `${error.name}: ${error.message}`
+      : error.message || error.name;
+  }
+  return String(error);
+}
+
 function parseArgs(argv) {
   const parsed = {
     case: [],
+    cursorApiKey: null,
+    cursorModel: null,
+    docsMode: "inline",
     variant: [],
     dryRun: false,
     force: false,
     help: false,
     iteration: null,
+    judgeRunner: null,
     list: false,
+    runner: "codex",
+    skillPath: null,
     skipLlmJudge: false,
     tmpRoot: null,
   };
@@ -750,8 +785,14 @@ function parseArgs(argv) {
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
     if (arg === "--case") parsed.case.push(readValue(argv, ++index, arg));
+    else if (arg === "--cursor-api-key") parsed.cursorApiKey = readValue(argv, ++index, arg);
+    else if (arg === "--cursor-model") parsed.cursorModel = readValue(argv, ++index, arg);
+    else if (arg === "--docs-mode") parsed.docsMode = readValue(argv, ++index, arg);
     else if (arg === "--variant") parsed.variant.push(readValue(argv, ++index, arg));
     else if (arg === "--iteration") parsed.iteration = Number(readValue(argv, ++index, arg));
+    else if (arg === "--judge-runner") parsed.judgeRunner = readValue(argv, ++index, arg);
+    else if (arg === "--runner") parsed.runner = readValue(argv, ++index, arg);
+    else if (arg === "--skill-path") parsed.skillPath = readValue(argv, ++index, arg);
     else if (arg === "--tmp-root") parsed.tmpRoot = readValue(argv, ++index, arg);
     else if (arg === "--dry-run") parsed.dryRun = true;
     else if (arg === "--force") parsed.force = true;
@@ -763,6 +804,18 @@ function parseArgs(argv) {
 
   if (parsed.iteration !== null && (!Number.isInteger(parsed.iteration) || parsed.iteration < 1)) {
     throw new Error("--iteration must be a positive integer.");
+  }
+
+  if (!runnerIds.includes(parsed.runner)) {
+    throw new Error(`--runner must be one of ${runnerIds.join(", ")}.`);
+  }
+
+  if (parsed.judgeRunner !== null && parsed.judgeRunner !== "none" && !runnerIds.includes(parsed.judgeRunner)) {
+    throw new Error(`--judge-runner must be one of ${runnerIds.join(", ")} or none.`);
+  }
+
+  if (!["inline", "none"].includes(parsed.docsMode)) {
+    throw new Error("--docs-mode must be inline or none.");
   }
 
   return parsed;
@@ -781,13 +834,54 @@ function printHelp() {
 
 Options:
   --list                 List eval cases.
+  --runner <id>          Runner: ${runnerIds.join(", ")}. Defaults to codex.
+  --judge-runner <id>    Judge runner: ${runnerIds.join(", ")} or none. Defaults to the main runner.
   --case <id>            Run one case. Repeat to run multiple cases.
   --variant <name>       Run one variant: with_skill, without_skill, docs_dump.
   --iteration <n>        Write to a specific iteration number.
+  --skill-path <path>    Override the source skill directory.
   --tmp-root <path>      Scratch root outside the repo. Defaults to ${defaultScratchRoot}.
+  --docs-mode <mode>     inline or none. Defaults to inline.
+  --cursor-model <id>    Cursor model id for the cursor runner. Defaults to composer-2 or CURSOR_MODEL.
+  --cursor-api-key <key> Cursor API key override. Defaults to CURSOR_API_KEY.
   --skip-llm-judge       Skip model-based grading.
-  --dry-run              Print the selected matrix without invoking Codex.
+  --dry-run              Print the selected matrix without invoking a runner.
   --force                Overwrite an existing iteration directory.
   --help                 Show this help.
 `);
+}
+
+async function resolveGitSha(cwd) {
+  try {
+    const stdout = await execFileText("git", ["-C", cwd, "rev-parse", "HEAD"]);
+    return stdout.trim() || null;
+  } catch {
+    return null;
+  }
+}
+
+function execFileText(command, args) {
+  return new Promise((resolve, reject) => {
+    const child = spawn(command, args, {
+      stdio: ["ignore", "pipe", "pipe"],
+    });
+    let stdout = "";
+    let stderr = "";
+    child.stdout.setEncoding("utf8");
+    child.stderr.setEncoding("utf8");
+    child.stdout.on("data", (chunk) => {
+      stdout += chunk;
+    });
+    child.stderr.on("data", (chunk) => {
+      stderr += chunk;
+    });
+    child.on("error", reject);
+    child.on("close", (exitCode) => {
+      if (exitCode === 0) {
+        resolve(stdout);
+      } else {
+        reject(new Error(stderr || `${command} exited with code ${exitCode}`));
+      }
+    });
+  });
 }
