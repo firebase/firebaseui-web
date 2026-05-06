@@ -7,11 +7,12 @@
     "list": "node scripts/run.mjs --list",
     "smoke": "node scripts/run.mjs --case react-vite-email-password --skip-llm-judge",
     "smoke:cursor": "node scripts/run.mjs --runner cursor --case react-vite-email-password --skip-llm-judge",
-    "smoke:opencode": "node scripts/run.mjs --runner opencode --case react-vite-email-password --skip-llm-judge",
+    "smoke:opencode": "node scripts/run.mjs --runner opencode --opencode-model gemini-2.5-flash-lite --case react-vite-email-password --skip-llm-judge",
     "run": "node scripts/run.mjs",
     "run:no-judge": "node scripts/run.mjs --skip-llm-judge"
   },
   "dependencies": {
-    "@cursor/sdk": "^1.0.12"
+    "@cursor/sdk": "^1.0.12",
+    "opencode-ai": "^1.14.39"
   }
 }

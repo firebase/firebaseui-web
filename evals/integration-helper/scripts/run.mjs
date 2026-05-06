@@ -864,7 +864,7 @@ Options:
   --docs-mode <mode>     inline or none. Defaults to inline.
   --cursor-model <id>    Cursor model id for the cursor runner. Defaults to composer-2 or CURSOR_MODEL.
   --cursor-api-key <key> Cursor API key override. Defaults to CURSOR_API_KEY.
-  --opencode-command <c> OpenCode command. Defaults to opencode or OPENCODE_COMMAND.
+  --opencode-command <c> OpenCode command. Defaults to OPENCODE_COMMAND, local opencode-ai, or opencode.
   --opencode-model <id>  OpenCode model in provider/model form. Defaults to OPENCODE_MODEL.
   --opencode-agent <id>  OpenCode agent id. Defaults to OPENCODE_AGENT.
   --opencode-variant <v> OpenCode model variant. Defaults to OPENCODE_VARIANT.

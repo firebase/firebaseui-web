@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 import { spawn } from "node:child_process";
+import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 import { collectReferenceDiscipline, normalizeTiming } from "./shared.mjs";
 
-const DEFAULT_OPENCODE_COMMAND = "opencode";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DEFAULT_TIMEOUT_MS = 10 * 60 * 1000;
 
 export const opencodeRunner = {
@@ -23,7 +26,7 @@ export const opencodeRunner = {
     const commandParts = splitCommand(
       runnerOptions.opencodeCommand
         ?? process.env.OPENCODE_COMMAND
-        ?? DEFAULT_OPENCODE_COMMAND,
+        ?? defaultOpenCodeCommand(),
     );
     const command = commandParts[0];
     const args = [
@@ -34,7 +37,7 @@ export const opencodeRunner = {
       "--dir",
       cwd,
     ];
-    const model = runnerOptions.opencodeModel ?? process.env.OPENCODE_MODEL ?? null;
+    const model = normalizeOpenCodeModel(runnerOptions.opencodeModel ?? process.env.OPENCODE_MODEL ?? null);
     const agent = runnerOptions.opencodeAgent ?? process.env.OPENCODE_AGENT ?? null;
     const variant = runnerOptions.opencodeVariant ?? process.env.OPENCODE_VARIANT ?? null;
     const timeoutMs = normalizeTimeout(
@@ -57,10 +60,7 @@ export const opencodeRunner = {
     const child = spawn(command, args, {
       cwd,
       stdio: ["ignore", "pipe", "pipe"],
-      env: {
-        ...process.env,
-        OPENCODE_DISABLE_AUTOUPDATE: process.env.OPENCODE_DISABLE_AUTOUPDATE ?? "true",
-      },
+      env: openCodeEnv(),
     });
 
     let stdout = "";
@@ -222,10 +222,42 @@ function normalizeTimeout(value) {
   return Number.isFinite(numberValue) && numberValue > 0 ? numberValue : DEFAULT_TIMEOUT_MS;
 }
 
+function openCodeEnv() {
+  const env = {
+    ...process.env,
+    OPENCODE_DISABLE_AUTOUPDATE: process.env.OPENCODE_DISABLE_AUTOUPDATE ?? "true",
+  };
+
+  if (env.GEMINI_API_KEY && !env.GOOGLE_API_KEY) {
+    env.GOOGLE_API_KEY = env.GEMINI_API_KEY;
+  }
+  if (env.GEMINI_API_KEY && !env.GOOGLE_GENERATIVE_AI_API_KEY) {
+    env.GOOGLE_GENERATIVE_AI_API_KEY = env.GEMINI_API_KEY;
+  }
+
+  return env;
+}
+
+function normalizeOpenCodeModel(model) {
+  if (!model || model.includes("/")) return model;
+  if (!model.startsWith("gemini-")) {
+    console.warn(
+      `OpenCode model "${model}" has no provider prefix; treating it as "google/${model}". Use provider/model form for non-Gemini models.`,
+    );
+  }
+  return `google/${model}`;
+}
+
+function defaultOpenCodeCommand() {
+  const executable = process.platform === "win32" ? "opencode.cmd" : "opencode";
+  const localBin = path.resolve(__dirname, "..", "node_modules", ".bin", executable);
+  return existsSync(localBin) ? localBin : "opencode";
+}
+
 function splitCommand(command) {
   return command
     .match(/(?:[^\s"']+|"[^"]*"|'[^']*')+/g)
     ?.map((part) => part.replace(/^(['"])(.*)\1$/, "$2"))
     .filter(Boolean)
-    ?? [DEFAULT_OPENCODE_COMMAND];
+    ?? [defaultOpenCodeCommand()];
 }
