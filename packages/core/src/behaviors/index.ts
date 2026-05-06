@@ -73,6 +73,8 @@ export function autoAnonymousLogin(): Behavior<"autoAnonymousLogin"> {
 export type AutoUpgradeAnonymousUsersOptions = {
   /** Optional callback function that is called when an anonymous user is upgraded. */
   onUpgrade?: anonymousUpgradeHandlers.OnUpgradeCallback;
+  /** Optional callback function that is called when credential or provider linking fails locally. */
+  onUpgradeFailure?: anonymousUpgradeHandlers.OnUpgradeFailureCallback;
 };
 
 /**
@@ -91,10 +93,20 @@ export function autoUpgradeAnonymousUsers(
 > {
   return {
     autoUpgradeAnonymousCredential: callableBehavior((ui, credential) =>
-      anonymousUpgradeHandlers.autoUpgradeAnonymousCredentialHandler(ui, credential, options?.onUpgrade)
+      anonymousUpgradeHandlers.autoUpgradeAnonymousCredentialHandler(
+        ui,
+        credential,
+        options?.onUpgrade,
+        options?.onUpgradeFailure
+      )
     ),
     autoUpgradeAnonymousProvider: callableBehavior((ui, provider) =>
-      anonymousUpgradeHandlers.autoUpgradeAnonymousProviderHandler(ui, provider, options?.onUpgrade)
+      anonymousUpgradeHandlers.autoUpgradeAnonymousProviderHandler(
+        ui,
+        provider,
+        options?.onUpgrade,
+        options?.onUpgradeFailure
+      )
     ),
     autoUpgradeAnonymousUserRedirectHandler: redirectBehavior((ui, credential) =>
       anonymousUpgradeHandlers.autoUpgradeAnonymousUserRedirectHandler(ui, credential, options?.onUpgrade)
