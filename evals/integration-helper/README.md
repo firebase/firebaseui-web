@@ -2,11 +2,10 @@
 
 Local eval harness for `.agents/skills/integration-helper`.
 
-The harness runs every eval case in three variants:
+The harness runs every eval case in two variants:
 
 - `with_skill`: copies the integration-helper skill into an isolated scratch app.
 - `without_skill`: runs the same task with no project skill in the scratch app.
-- `docs_dump`: runs without the skill, but prepends the consumer docs to the prompt.
 
 Each run records runner transcripts, timing, deterministic grades, optional LLM judge grades, per-run manifests, and an aggregate benchmark. Token and tool telemetry are captured when the selected runner exposes them.
 
@@ -37,7 +36,6 @@ Useful flags:
 - `--variant <name>`: run one variant. Repeat for multiple variants.
 - `--iteration <n>`: write to a specific iteration.
 - `--skill-path <path>`: override the source skill directory.
-- `--docs-mode <inline|none>`: include or suppress docs-bundle injection for `docs_dump`.
 - `--cursor-model <id>`: override the Cursor model id. Defaults to `composer-2` or `CURSOR_MODEL`.
 - `--cursor-api-key <key>`: override `CURSOR_API_KEY`.
 - `--opencode-command <command>`: override the OpenCode command. Defaults to `OPENCODE_COMMAND`, then local `opencode-ai`, then `opencode`.

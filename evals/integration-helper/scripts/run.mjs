@@ -47,7 +47,7 @@ if (args.help) {
 
 const suite = JSON.parse(await readFile(evalsPath, "utf8"));
 const harnessPackage = JSON.parse(await readFile(packageJsonPath, "utf8"));
-const variants = suite.variants ?? ["with_skill", "without_skill", "docs_dump"];
+const variants = suite.variants ?? ["with_skill", "without_skill"];
 const selectedCases = selectCases(suite.evals, args.case);
 const selectedVariants = selectVariants(args.variant, variants);
 const iteration = args.iteration ?? (await nextIterationNumber());
@@ -68,9 +68,6 @@ if (args.list) {
 }
 
 const skillSourcePath = resolveSkillSourcePath({ suite, repoRoot, skillPathArg: args.skillPath });
-const docsContext = args.docsMode === "none"
-  ? ""
-  : await buildDocsContext({ suite, repoRoot, skillSourcePath });
 const referenceTracker = compileReferenceTracker(suite.tracked_reference_sets);
 const harnessGitSha = await resolveGitSha(repoRoot);
 
@@ -124,7 +121,6 @@ for (const testCase of selectedCases) {
       iteration,
       iterationDir,
       scratchRoot,
-      docsContext,
       skillSourcePath,
       runnerId: args.runner,
       judgeRunnerId,
@@ -154,7 +150,6 @@ async function runCaseVariant({
   iteration,
   iterationDir,
   scratchRoot,
-  docsContext,
   skillSourcePath,
   runnerId,
   judgeRunnerId,
@@ -180,7 +175,7 @@ async function runCaseVariant({
     });
   }
 
-  const prompt = buildRunPrompt({ suite, testCase, variant, docsContext });
+  const prompt = buildRunPrompt({ suite, testCase, variant });
   await writeFile(path.join(runDir, "prompt.md"), prompt);
   await writeFile(
     path.join(runDir, "scratch.json"),
@@ -277,19 +272,12 @@ async function runCaseVariant({
   }
 }
 
-function buildRunPrompt({ suite, testCase, variant, docsContext }) {
+function buildRunPrompt({ suite, testCase, variant }) {
   const skillMountPath = `.agents/skills/${suite.skill_name}`;
   const variantInstruction =
     variant === "with_skill"
       ? `A project skill is available at ${skillMountPath}. Use that skill for FirebaseUI Web integration guidance.`
-      : variant === "docs_dump"
-        ? "Do not use agent skills for this run. Use only the task, the fixture files, and the documentation context included below."
-        : "Do not use agent skills for this run. Use only the task and fixture files.";
-
-  const docsBlock =
-    variant === "docs_dump" && docsContext
-      ? `\n\n## Documentation Context\n\n${docsContext}\n`
-      : "";
+      : "Do not use agent skills for this run. Use only the task and fixture files.";
 
   return `# Eval task: ${testCase.name}
 
@@ -304,26 +292,7 @@ ${testCase.prompt}
 ## Expected output
 
 ${testCase.expected_output}
-${docsBlock}
 When finished, reply with a concise summary of what changed and any commands you would run to verify it.`;
-}
-
-async function buildDocsContext({ suite, repoRoot, skillSourcePath }) {
-  const docs = suite.docs_bundle ?? [];
-  const parts = [];
-  const configuredSkillPath = suite.skill_path ? path.normalize(suite.skill_path) : null;
-
-  for (const doc of docs) {
-    const normalizedDocPath = path.normalize(doc.path);
-    const filePath =
-      configuredSkillPath && (normalizedDocPath === configuredSkillPath || normalizedDocPath.startsWith(`${configuredSkillPath}${path.sep}`))
-        ? path.join(skillSourcePath, path.relative(configuredSkillPath, normalizedDocPath))
-        : path.resolve(repoRoot, doc.path);
-    const content = await readFile(filePath, "utf8");
-    parts.push(`### ${doc.label ?? doc.path}\n\n${content}`);
-  }
-
-  return parts.join("\n\n---\n\n");
 }
 
 function resolveSkillSourcePath({ suite, repoRoot, skillPathArg }) {
@@ -677,27 +646,12 @@ function computeDeltas(cases) {
   for (const [caseId, caseRuns] of Object.entries(cases)) {
     const withSkill = caseRuns.with_skill;
     const withoutSkill = caseRuns.without_skill;
-    const docsDump = caseRuns.docs_dump;
     deltas[caseId] = {};
-
-    if (withSkill?.timing.successful_turn && docsDump?.timing.successful_turn) {
-      deltas[caseId].with_skill_vs_docs_dump = {
-        token_delta: numericDelta(withSkill.timing.total_tokens, docsDump.timing.total_tokens),
-        token_savings_ratio:
-          typeof withSkill.timing.total_tokens !== "number" || typeof docsDump.timing.total_tokens !== "number" || docsDump.timing.total_tokens === 0
-            ? null
-            : 1 - withSkill.timing.total_tokens / docsDump.timing.total_tokens,
-        pass_rate_delta: withSkill.pass_rate - docsDump.pass_rate,
-        quality_delta:
-          typeof withSkill.overall_quality_score === "number" && typeof docsDump.overall_quality_score === "number"
-            ? withSkill.overall_quality_score - docsDump.overall_quality_score
-            : null,
-      };
-    }
 
     if (withSkill?.timing.successful_turn && withoutSkill?.timing.successful_turn) {
       deltas[caseId].with_skill_vs_without_skill = {
         token_delta: numericDelta(withSkill.timing.total_tokens, withoutSkill.timing.total_tokens),
+        token_savings_ratio: tokenSavingsRatio(withSkill.timing.total_tokens, withoutSkill.timing.total_tokens),
         pass_rate_delta: withSkill.pass_rate - withoutSkill.pass_rate,
         quality_delta:
           typeof withSkill.overall_quality_score === "number" && typeof withoutSkill.overall_quality_score === "number"
@@ -711,6 +665,12 @@ function computeDeltas(cases) {
 
 function numericDelta(left, right) {
   return typeof left === "number" && typeof right === "number" ? left - right : null;
+}
+
+function tokenSavingsRatio(left, right) {
+  return typeof left !== "number" || typeof right !== "number" || right === 0
+    ? null
+    : 1 - left / right;
 }
 
 function stats(values) {
@@ -758,6 +718,9 @@ function selectVariants(requestedVariants, variants) {
   if (requestedVariants.length === 0) return variants;
   for (const variant of requestedVariants) {
     if (!variants.includes(variant)) {
+      if (variant === "docs_dump") {
+        throw new Error("The docs_dump variant has been removed. Expected one of with_skill, without_skill.");
+      }
       throw new Error(`Unknown variant: ${variant}. Expected one of ${variants.join(", ")}.`);
     }
   }
@@ -782,7 +745,6 @@ function parseArgs(argv) {
     case: [],
     cursorApiKey: null,
     cursorModel: null,
-    docsMode: "inline",
     variant: [],
     dryRun: false,
     force: false,
@@ -806,7 +768,7 @@ function parseArgs(argv) {
     if (arg === "--case") parsed.case.push(readValue(argv, ++index, arg));
     else if (arg === "--cursor-api-key") parsed.cursorApiKey = readValue(argv, ++index, arg);
     else if (arg === "--cursor-model") parsed.cursorModel = readValue(argv, ++index, arg);
-    else if (arg === "--docs-mode") parsed.docsMode = readValue(argv, ++index, arg);
+    else if (arg === "--docs-mode") readValue(argv, ++index, arg);
     else if (arg === "--variant") parsed.variant.push(readValue(argv, ++index, arg));
     else if (arg === "--iteration") parsed.iteration = Number(readValue(argv, ++index, arg));
     else if (arg === "--judge-runner") parsed.judgeRunner = readValue(argv, ++index, arg);
@@ -838,10 +800,6 @@ function parseArgs(argv) {
     throw new Error(`--judge-runner must be one of ${runnerIds.join(", ")} or none.`);
   }
 
-  if (!["inline", "none"].includes(parsed.docsMode)) {
-    throw new Error("--docs-mode must be inline or none.");
-  }
-
   if (parsed.opencodeTimeoutMs !== null && (!Number.isFinite(parsed.opencodeTimeoutMs) || parsed.opencodeTimeoutMs < 1)) {
     throw new Error("--opencode-timeout-ms must be a positive number.");
   }
@@ -865,11 +823,10 @@ Options:
   --runner <id>          Runner: ${runnerIds.join(", ")}. Defaults to codex.
   --judge-runner <id>    Judge runner: ${runnerIds.join(", ")} or none. Defaults to the main runner.
   --case <id>            Run one case. Repeat to run multiple cases.
-  --variant <name>       Run one variant: with_skill, without_skill, docs_dump.
+  --variant <name>       Run one variant: with_skill, without_skill.
   --iteration <n>        Write to a specific iteration number.
   --skill-path <path>    Override the source skill directory.
   --tmp-root <path>      Scratch root outside the repo. Defaults to ${defaultScratchRoot}.
-  --docs-mode <mode>     inline or none. Defaults to inline.
   --cursor-model <id>    Cursor model id for the cursor runner. Defaults to composer-2 or CURSOR_MODEL.
   --cursor-api-key <key> Cursor API key override. Defaults to CURSOR_API_KEY.
   --opencode-command <c> OpenCode command. Defaults to OPENCODE_COMMAND, local opencode-ai, or opencode.
