@@ -95,20 +95,26 @@ export const autoUpgradeAnonymousProviderHandler = async (
 
   window.localStorage.setItem("fbui:upgrade:oldUserId", oldUserId);
 
-  let result: UserCredential;
+  let result: UserCredential | void;
 
   try {
     result = await getBehavior(ui, "providerLinkStrategy")(ui, currentUser, provider);
   } catch (error) {
+    window.localStorage.removeItem("fbui:upgrade:oldUserId");
+
     if (await handleUpgradeFailure({ ui, oldUserId, error, provider }, onUpgradeFailure)) {
       return;
     }
 
     throw error;
-  } finally {
-    // When the link attempt settles locally, the stored ID is no longer needed.
-    window.localStorage.removeItem("fbui:upgrade:oldUserId");
   }
+
+  // Redirect strategies complete later, so keep oldUserId for the redirect handler.
+  if (!result) {
+    return;
+  }
+
+  window.localStorage.removeItem("fbui:upgrade:oldUserId");
 
   if (onUpgrade) {
     await onUpgrade(ui, oldUserId, result);
