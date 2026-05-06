@@ -239,6 +239,23 @@ describe("autoUpgradeAnonymousProviderHandler", () => {
     await expect(autoUpgradeAnonymousProviderHandler(mockUI, mockProvider, onUpgrade)).rejects.toThrow(
       "Callback error"
     );
+    expect(window.localStorage.getItem("fbui:upgrade:oldUserId")).toBeNull();
+  });
+
+  it("should preserve oldUserId in localStorage when provider linking redirects", async () => {
+    const mockUser = { isAnonymous: true, uid: "anonymous-123" } as User;
+    const mockAuth = { currentUser: mockUser } as Auth;
+    const mockUI = createMockUI({ auth: mockAuth });
+    const mockProvider = { providerId: "google.com" } as AuthProvider;
+    const onUpgrade = vi.fn();
+    const mockProviderLinkStrategy = vi.fn().mockResolvedValue(undefined);
+    vi.mocked(getBehavior).mockReturnValue(mockProviderLinkStrategy);
+
+    const result = await autoUpgradeAnonymousProviderHandler(mockUI, mockProvider, onUpgrade);
+
+    expect(result).toBeUndefined();
+    expect(onUpgrade).not.toHaveBeenCalled();
+    expect(window.localStorage.getItem("fbui:upgrade:oldUserId")).toBe("anonymous-123");
   });
 
   it("should call onUpgradeFailure and rethrow when provider linking fails", async () => {
