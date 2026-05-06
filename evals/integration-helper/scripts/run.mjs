@@ -30,6 +30,7 @@ const defaultScratchRoot = path.join(os.tmpdir(), "firebaseui-web-integration-he
 const runnerLoaders = {
   codex: () => import("../runners/codex.mjs").then((module) => module.codexRunner),
   cursor: () => import("../runners/cursor.mjs").then((module) => module.cursorRunner),
+  opencode: () => import("../runners/opencode.mjs").then((module) => module.opencodeRunner),
 };
 const runnerIds = Object.keys(runnerLoaders);
 
@@ -332,6 +333,11 @@ function buildRunnerOptions(args) {
   return {
     cursorApiKey: args.cursorApiKey ?? null,
     cursorModel: args.cursorModel ?? null,
+    opencodeAgent: args.opencodeAgent ?? null,
+    opencodeCommand: args.opencodeCommand ?? null,
+    opencodeModel: args.opencodeModel ?? null,
+    opencodeTimeoutMs: args.opencodeTimeoutMs ?? null,
+    opencodeVariant: args.opencodeVariant ?? null,
   };
 }
 
@@ -776,6 +782,11 @@ function parseArgs(argv) {
     iteration: null,
     judgeRunner: null,
     list: false,
+    opencodeAgent: null,
+    opencodeCommand: null,
+    opencodeModel: null,
+    opencodeTimeoutMs: null,
+    opencodeVariant: null,
     runner: "codex",
     skillPath: null,
     skipLlmJudge: false,
@@ -791,6 +802,11 @@ function parseArgs(argv) {
     else if (arg === "--variant") parsed.variant.push(readValue(argv, ++index, arg));
     else if (arg === "--iteration") parsed.iteration = Number(readValue(argv, ++index, arg));
     else if (arg === "--judge-runner") parsed.judgeRunner = readValue(argv, ++index, arg);
+    else if (arg === "--opencode-agent") parsed.opencodeAgent = readValue(argv, ++index, arg);
+    else if (arg === "--opencode-command") parsed.opencodeCommand = readValue(argv, ++index, arg);
+    else if (arg === "--opencode-model") parsed.opencodeModel = readValue(argv, ++index, arg);
+    else if (arg === "--opencode-timeout-ms") parsed.opencodeTimeoutMs = Number(readValue(argv, ++index, arg));
+    else if (arg === "--opencode-variant") parsed.opencodeVariant = readValue(argv, ++index, arg);
     else if (arg === "--runner") parsed.runner = readValue(argv, ++index, arg);
     else if (arg === "--skill-path") parsed.skillPath = readValue(argv, ++index, arg);
     else if (arg === "--tmp-root") parsed.tmpRoot = readValue(argv, ++index, arg);
@@ -816,6 +832,10 @@ function parseArgs(argv) {
 
   if (!["inline", "none"].includes(parsed.docsMode)) {
     throw new Error("--docs-mode must be inline or none.");
+  }
+
+  if (parsed.opencodeTimeoutMs !== null && (!Number.isFinite(parsed.opencodeTimeoutMs) || parsed.opencodeTimeoutMs < 1)) {
+    throw new Error("--opencode-timeout-ms must be a positive number.");
   }
 
   return parsed;
@@ -844,6 +864,11 @@ Options:
   --docs-mode <mode>     inline or none. Defaults to inline.
   --cursor-model <id>    Cursor model id for the cursor runner. Defaults to composer-2 or CURSOR_MODEL.
   --cursor-api-key <key> Cursor API key override. Defaults to CURSOR_API_KEY.
+  --opencode-command <c> OpenCode command. Defaults to opencode or OPENCODE_COMMAND.
+  --opencode-model <id>  OpenCode model in provider/model form. Defaults to OPENCODE_MODEL.
+  --opencode-agent <id>  OpenCode agent id. Defaults to OPENCODE_AGENT.
+  --opencode-variant <v> OpenCode model variant. Defaults to OPENCODE_VARIANT.
+  --opencode-timeout-ms <n> OpenCode run timeout. Defaults to OPENCODE_TIMEOUT_MS or 600000.
   --skip-llm-judge       Skip model-based grading.
   --dry-run              Print the selected matrix without invoking a runner.
   --force                Overwrite an existing iteration directory.
