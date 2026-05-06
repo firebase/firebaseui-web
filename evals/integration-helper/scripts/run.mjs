@@ -21,7 +21,11 @@ import { compileReferenceTracker } from "../runners/shared.mjs";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const evalRoot = path.resolve(__dirname, "..");
 const repoRoot = path.resolve(evalRoot, "..", "..");
-const evalsPath = path.join(evalRoot, "evals.json");
+const canonicalEvalsPath = path.join(repoRoot, ".agents", "skills", "integration-helper", "evals.json");
+if (!existsSync(canonicalEvalsPath)) {
+  throw new Error(`Expected integration-helper eval suite at ${canonicalEvalsPath}.`);
+}
+const evalsPath = canonicalEvalsPath;
 const fixtureRoot = path.join(evalRoot, "fixtures");
 const workspaceRoot = path.join(evalRoot, "workspace");
 const judgeSchemaPath = path.join(evalRoot, "judge.schema.json");
@@ -171,7 +175,9 @@ async function runCaseVariant({
   await copyDirectory(path.join(fixtureRoot, testCase.fixture), scratchDir);
 
   if (variant === "with_skill") {
-    await copyDirectory(skillSourcePath, path.join(scratchDir, ".agents", "skills", suite.skill_name));
+    await copyDirectory(skillSourcePath, path.join(scratchDir, ".agents", "skills", suite.skill_name), {
+      skipFileNames: new Set(["evals.json"]),
+    });
   }
 
   const prompt = buildRunPrompt({ suite, testCase, variant, docsContext });
@@ -590,10 +596,12 @@ function isTextFile(filePath) {
 
 async function copyDirectory(source, destination, options = {}) {
   const skipDirectoryNames = options.skipDirectoryNames ?? new Set();
+  const skipFileNames = options.skipFileNames ?? new Set();
   await mkdir(destination, { recursive: true });
   const entries = await readdir(source, { withFileTypes: true });
   for (const entry of entries) {
     if (entry.isDirectory() && skipDirectoryNames.has(entry.name)) continue;
+    if (entry.isFile() && skipFileNames.has(entry.name)) continue;
     const sourcePath = path.join(source, entry.name);
     const destinationPath = path.join(destination, entry.name);
     if (entry.isDirectory()) {

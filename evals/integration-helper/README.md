@@ -16,7 +16,7 @@ Each run records runner transcripts, timing, deterministic grades, optional LLM 
 - `cursor`: uses the Cursor TypeScript SDK in local mode. It captures duration, final response text, run status, and tool-call counts, but token usage is not currently available from the SDK. It also depends on the SDK's local native dependencies being built successfully on the machine running the eval.
 - `opencode`: uses the OpenCode CLI in non-interactive JSON mode. It can run different providers/models through OpenCode and records token/tool telemetry when OpenCode emits it.
 
-Additional runners can be added under `runners/` without changing `evals.json`, fixtures, or grading logic.
+Additional runners can be added under `runners/` without changing `.agents/skills/integration-helper/evals.json`, fixtures, or grading logic.
 
 ## Usage
 
