@@ -51,7 +51,7 @@ export const autoUpgradeAnonymousCredentialHandler = async (
   credential: AuthCredential,
   onUpgrade?: OnUpgradeCallback,
   onUpgradeFailure?: OnUpgradeFailureCallback
-) => {
+): Promise<UserCredential | void> => {
   const currentUser = ui.auth.currentUser;
 
   if (!currentUser?.isAnonymous) {
@@ -84,7 +84,7 @@ export const autoUpgradeAnonymousProviderHandler = async (
   provider: AuthProvider,
   onUpgrade?: OnUpgradeCallback,
   onUpgradeFailure?: OnUpgradeFailureCallback
-) => {
+): Promise<UserCredential | void> => {
   const currentUser = ui.auth.currentUser;
 
   if (!currentUser?.isAnonymous) {

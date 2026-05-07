@@ -32,6 +32,13 @@ import {
   type RedirectBehavior,
 } from "./utils";
 
+export type {
+  OnUpgradeCallback,
+  OnUpgradeFailureCallback,
+  OnUpgradeFailureContext,
+  OnUpgradeFailureResult,
+} from "./anonymous-upgrade";
+
 type Registry = {
   autoAnonymousLogin: InitBehavior<typeof autoAnonymousLoginHandlers.autoAnonymousLoginHandler>;
   autoUpgradeAnonymousCredential: CallableBehavior<
