@@ -32,7 +32,7 @@
     "@angular/platform-browser-dynamic": "^20.2.2",
     "@angular/platform-server": "^20.2.2",
     "@angular/router": "^20.2.2",
-    "@angular/ssr": "^20.2.2",
+    "@angular/ssr": "^20.3.21",
     "@firebase-oss/ui-angular": "workspace:*",
     "@firebase-oss/ui-core": "workspace:*",
     "@firebase-oss/ui-styles": "workspace:*",
