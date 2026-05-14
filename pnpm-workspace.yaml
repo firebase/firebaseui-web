@@ -3,17 +3,22 @@ packages:
   - examples/*
 
 catalog:
-  "@angular-devkit/build-angular": ^20.2.2
-  "@angular/cli": ^20.2.2
-  "@angular/common": ^20.3.14
-  "@angular/compiler": ^20.3.18
-  "@angular/compiler-cli": ^20.2.2
-  "@angular/core": ^20.3.18
+  "@angular-devkit/architect": ^0.2003.21
+  "@angular-devkit/build-angular": ^20.3.21
+  "@angular-devkit/core": ^20.3.21
+  "@angular/animations": ^20.3.21
+  "@angular/cli": ^20.3.21
+  "@angular/common": ^20.3.21
+  "@angular/compiler": ^20.3.21
+  "@angular/compiler-cli": ^20.3.21
+  "@angular/core": ^20.3.21
   "@angular/fire": ^20.0.1
-  "@angular/forms": ^20.2.2
-  "@angular/platform-browser": ^20.2.2
-  "@angular/platform-browser-dynamic": ^20.2.2
-  "@angular/router": ^20.2.2
+  "@angular/forms": ^20.3.21
+  "@angular/platform-browser": ^20.3.21
+  "@angular/platform-browser-dynamic": ^20.3.21
+  "@angular/platform-server": ^20.3.21
+  "@angular/router": ^20.3.21
+  "@angular/ssr": ^20.3.21
   "@tailwindcss/vite": ^4.1.14
   "@testing-library/jest-dom": ^6.8.0
   "@testing-library/react": ^16.3.0
@@ -27,10 +32,13 @@ catalog:
   firebase: ^11.10.0
   jsdom: ^26.1.0
   nanostores: ^1.1.0
+  next: 15.5.18
+  postcss: ^8.5.10
 
   prettier: ^3.6.2
   react: 19.2.1
   react-dom: 19.2.1
+  react-router: ^7.12.0
   rimraf: ^6.0.1
   rxjs: ^7.8.2
   tailwindcss: ^4.1.13
