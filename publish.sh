@@ -23,4 +23,4 @@ echo "Publishing version $OVERRIDE_VERSION with npm tag '$NPM_TAG' for commit $C
 npm --no-git-tag-version --allow-same-version version $OVERRIDE_VERSION
 
 # pnpm publish is required here to prevent workspace stuff from being published with the package
-pnpm publish --tag $NPM_TAG --access=public
+pnpm publish --tag $NPM_TAG --access=public --registry https://wombat-dressing-room.appspot.com
