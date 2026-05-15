@@ -60,11 +60,14 @@ catalogs:
     react-dom: ^19
 
 onlyBuiltDependencies:
+  - "@firebase/util"
   - "@parcel/watcher"
   - esbuild
   - lmdb
   - msgpackr-extract
+  - msw
   - protobufjs
   - sharp
+  - unrs-resolver
 
 gitChecks: false
