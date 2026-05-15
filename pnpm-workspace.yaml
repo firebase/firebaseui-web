@@ -70,4 +70,15 @@ onlyBuiltDependencies:
   - sharp
   - unrs-resolver
 
+allowBuilds:
+  "@firebase/util": true
+  "@parcel/watcher": true
+  esbuild: true
+  lmdb: true
+  msgpackr-extract: true
+  msw: true
+  protobufjs: true
+  sharp: true
+  unrs-resolver: true
+
 gitChecks: false
