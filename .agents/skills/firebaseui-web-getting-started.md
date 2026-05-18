@@ -8,7 +8,6 @@ description: Set up FirebaseUI Web authentication screens in consumer React, sha
 Use this skill when the user wants FirebaseUI Web added to their own app. The supported targets are React, shadcn/ui React, and Angular only. If the repo is another stack, stop and explain that this skill does not cover it.
 
 Authoritative docs:
-- Current docs index: `https://agentskills.io/llms.txt`
 - FirebaseUI Web README: `https://github.com/firebase/firebaseui-web/blob/main/README.md`
 
 ## Setup Workflow
