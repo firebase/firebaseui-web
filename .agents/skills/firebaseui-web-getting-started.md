@@ -88,6 +88,13 @@ import { initializeUI } from "@firebase-oss/ui-core";
 import { getApps, initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
+// Use the consumer app's Firebase web app config.
+const firebaseConfig = {
+  apiKey: "...",
+  authDomain: "...",
+  projectId: "...",
+  appId: "...",
+};
 const firebaseApp = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 
 export const auth = getAuth(firebaseApp);
@@ -123,8 +130,11 @@ Add predefined screens by importing from `@firebase-oss/ui-react`:
 
 ```tsx
 import { SignInAuthScreen } from "@firebase-oss/ui-react";
+import { useNavigate } from "react-router-dom";
 
 export function SignInPage() {
+  const navigate = useNavigate();
+
   return <SignInAuthScreen onSignIn={() => navigate("/")} />;
 }
 ```
@@ -147,8 +157,11 @@ Then import generated components from the local shadcn alias:
 
 ```tsx
 import { SignInAuthScreen } from "@/components/sign-in-auth-screen";
+import { useNavigate } from "react-router-dom";
 
 export function SignInPage() {
+  const navigate = useNavigate();
+
   return <SignInAuthScreen onSignIn={() => navigate("/")} />;
 }
 ```
@@ -160,10 +173,19 @@ Before adding registry components, verify `components.json` aliases match the ap
 Angular projects should use AngularFire and providers in the app config:
 
 ```ts
+import { type ApplicationConfig } from "@angular/core";
 import { provideFirebaseApp, initializeApp } from "@angular/fire/app";
 import { provideAuth, getAuth } from "@angular/fire/auth";
 import { provideFirebaseUI, provideFirebaseUIPolicies } from "@firebase-oss/ui-angular";
 import { initializeUI } from "@firebase-oss/ui-core";
+
+// Use the consumer app's Firebase web app config.
+const firebaseConfig = {
+  apiKey: "...",
+  authDomain: "...",
+  projectId: "...",
+  appId: "...",
+};
 
 export const appConfig: ApplicationConfig = {
   providers: [
