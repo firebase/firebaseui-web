@@ -55,7 +55,7 @@ type PhoneMultiFactorInfo = MultiFactorInfo & {
         <div class="fui-recaptcha-container" #recaptchaContainer></div>
       </fieldset>
       <fieldset>
-        <fui-form-submit [state]="state()">
+        <fui-form-submit [state]="state()" [disabled]="!recaptchaVerifier()">
           {{ sendCodeLabel() }}
         </fui-form-submit>
         <fui-form-error-message [state]="state()" />
@@ -106,6 +106,11 @@ export class SmsMultiFactorAssertionPhoneFormComponent {
                 return "Recaptcha verifier not available";
               }
 
+              const renderPromise = this.recaptchaVerifier.renderPromise?.();
+              if (renderPromise) {
+                await renderPromise;
+              }
+
               const verificationId = await verifyPhoneNumber(this.ui(), "", verifier, undefined, this.hint());
               this.onSubmit.emit(verificationId);
               return;
@@ -130,7 +135,11 @@ export class SmsMultiFactorAssertionPhoneFormComponent {
   async handleSubmit(event: SubmitEvent) {
     event.preventDefault();
     event.stopPropagation();
-    this.form.handleSubmit();
+    const verifier = this.recaptchaVerifier();
+    if (!verifier) {
+      return;
+    }
+    await this.form.handleSubmit();
   }
 }
 
@@ -203,7 +212,7 @@ export class SmsMultiFactorAssertionVerifyFormComponent {
     effect(() => {
       this.form.update({
         validators: {
-          onBlur: this.formSchema(),
+          onChange: this.formSchema(),
           onSubmit: this.formSchema(),
           onSubmitAsync: async ({ value }) => {
             try {

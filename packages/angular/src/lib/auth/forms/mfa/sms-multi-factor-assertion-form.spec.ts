@@ -26,21 +26,38 @@ import {
   signInWithMultiFactorAssertion,
   PhoneMultiFactorGenerator,
 } from "../../../tests/test-helpers";
+import { CommonModule } from "@angular/common";
+import { FormErrorMessageComponent, FormSubmitComponent } from "../../../components/form";
+import type {
+  InjectRecaptchaVerifierMock,
+  RecaptchaVerifierMock,
+  RecaptchaVerifierSignal,
+} from "../../../tests/test-helpers";
+
+function getPhoneNumberParam(params: unknown): string | undefined {
+  if (!params || typeof params !== "object") return undefined;
+  if (!("phoneNumber" in params)) return undefined;
+  const phoneNumber = (params as { phoneNumber?: unknown }).phoneNumber;
+  return typeof phoneNumber === "string" ? phoneNumber : undefined;
+}
 
 describe("<fui-sms-multi-factor-assertion-form>", () => {
+  let injectRecaptchaVerifier: InjectRecaptchaVerifierMock<RecaptchaVerifierMock>;
+
   beforeEach(() => {
     const {
       injectTranslation,
       injectUI,
       injectMultiFactorPhoneAuthAssertionFormSchema,
       injectMultiFactorPhoneAuthVerifyFormSchema,
-      injectRecaptchaVerifier,
+      injectRecaptchaVerifier: injectRecaptchaVerifierFromHelpers,
     } = require("../../../tests/test-helpers");
 
     const { getTranslation } = require("@firebase-oss/ui-core");
-    getTranslation.mockImplementation((ui: any, category: string, key: string, params?: any) => {
+    getTranslation.mockImplementation((_ui: unknown, category: string, key: string, params?: unknown) => {
       if (category === "messages" && key === "mfaSmsAssertionPrompt" && params) {
-        return `A verification code will be sent to ${params.phoneNumber} to complete the authentication process.`;
+        const phoneNumber = getPhoneNumberParam(params) ?? "";
+        return `A verification code will be sent to ${phoneNumber} to complete the authentication process.`;
       }
       const mockTranslations: Record<string, Record<string, string>> = {
         labels: {
@@ -108,12 +125,15 @@ describe("<fui-sms-multi-factor-assertion-form>", () => {
     verifyPhoneNumber.mockResolvedValue("test-verification-id");
     signInWithMultiFactorAssertion.mockResolvedValue({});
 
+    injectRecaptchaVerifier = injectRecaptchaVerifierFromHelpers;
+
     injectRecaptchaVerifier.mockImplementation(() => {
-      return () => ({
+      const verifierFn: RecaptchaVerifierSignal<RecaptchaVerifierMock> = () => ({
         clear: jest.fn(),
         render: jest.fn(),
         verify: jest.fn(),
       });
+      return verifierFn;
     });
 
     const { PhoneAuthProvider, PhoneMultiFactorGenerator } = require("firebase/auth");
@@ -137,6 +157,77 @@ describe("<fui-sms-multi-factor-assertion-form>", () => {
 
     expect(screen.getByText(/A verification code will be sent to \+1234567890/)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Send Code" })).toBeInTheDocument();
+  });
+
+  it("waits for reCAPTCHA render to complete before requesting SMS code", async () => {
+    const mockHint = {
+      factorId: PhoneMultiFactorGenerator.FACTOR_ID,
+      displayName: "Phone",
+      phoneNumber: "+1234567890",
+    };
+
+    let renderCompleted = false;
+    let renderPromise: Promise<unknown> | null = null;
+    const mockVerifier = {
+      clear: jest.fn(),
+      render: jest.fn().mockImplementation(() => {
+        renderPromise = new Promise((resolve) => {
+          setTimeout(() => {
+            renderCompleted = true;
+            resolve(123);
+          }, 10);
+        });
+        return renderPromise;
+      }),
+      verify: jest.fn(),
+    };
+
+    const renderPromiseSignal = jest.fn<Promise<unknown> | null, []>(() => renderPromise);
+    const renderCompletedSignal = jest.fn<boolean, []>(() => renderCompleted);
+
+    injectRecaptchaVerifier.mockImplementation(() => {
+      const verifierFn: RecaptchaVerifierSignal<RecaptchaVerifierMock> = Object.assign(() => mockVerifier, {
+        renderPromise: renderPromiseSignal,
+        renderCompleted: renderCompletedSignal,
+      });
+      return verifierFn;
+    });
+
+    // Simulate provider effect calling render()
+    setTimeout(() => {
+      if (!renderPromise) {
+        mockVerifier.render();
+      }
+    }, 0);
+
+    verifyPhoneNumber.mockImplementation(async () => {
+      if (!renderCompleted) {
+        throw new Error("Firebase: Error (auth/internal-error)");
+      }
+      return "test-verification-id";
+    });
+
+    const { fixture } = await render(SmsMultiFactorAssertionPhoneFormComponent, {
+      componentInputs: {
+        hint: mockHint,
+      },
+      imports: [
+        CommonModule,
+        SmsMultiFactorAssertionPhoneFormComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+      ],
+    });
+
+    const onSubmitSpy = jest.fn();
+    fixture.componentInstance.onSubmit.subscribe(onSubmitSpy);
+
+    await fixture.componentInstance.form.handleSubmit();
+    await fixture.whenStable();
+
+    expect(verifyPhoneNumber).toHaveBeenCalled();
+    expect(onSubmitSpy).toHaveBeenCalledWith("test-verification-id");
+    expect(screen.queryByText(/auth\/internal-error/i)).not.toBeInTheDocument();
   });
 
   it("switches to verify form after phone submission", async () => {
@@ -221,9 +312,10 @@ describe("<fui-sms-multi-factor-assertion-phone-form>", () => {
     } = require("../../../tests/test-helpers");
 
     const { getTranslation } = require("@firebase-oss/ui-core");
-    getTranslation.mockImplementation((ui: any, category: string, key: string, params?: any) => {
+    getTranslation.mockImplementation((_ui: unknown, category: string, key: string, params?: unknown) => {
       if (category === "messages" && key === "mfaSmsAssertionPrompt" && params) {
-        return `A verification code will be sent to ${params.phoneNumber} to complete the authentication process.`;
+        const phoneNumber = getPhoneNumberParam(params) ?? "";
+        return `A verification code will be sent to ${phoneNumber} to complete the authentication process.`;
       }
       const mockTranslations: Record<string, Record<string, string>> = {
         labels: {

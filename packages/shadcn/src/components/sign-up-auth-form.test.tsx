@@ -295,4 +295,55 @@ describe("<SignUpAuthForm />", () => {
     });
     expect(onSignUpMock).toHaveBeenCalled();
   });
+
+  it("should show validation errors after submit and clear when invalid values become valid", async () => {
+    vi.mocked(useRequireDisplayName).mockReturnValue(false);
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          emailAddress: "Email Address",
+          password: "Password",
+          createAccount: "Create Account",
+        },
+        errors: {
+          invalidEmail: "Please enter a valid email address",
+          weakPassword: "Password should be at least 6 characters",
+        },
+      }),
+      behaviors: [],
+    });
+
+    const { container } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <SignUpAuthForm />
+      </FirebaseUIProvider>
+    );
+
+    const emailInput = container.querySelector("input[name='email']") as HTMLInputElement;
+    const passwordInput = container.querySelector("input[name='password']") as HTMLInputElement;
+    const form = container.querySelector("form") as HTMLFormElement;
+
+    fireEvent.change(emailInput, { target: { value: "invalid-email" } });
+    fireEvent.change(passwordInput, { target: { value: "123" } });
+
+    expect(screen.queryByText("Please enter a valid email address")).not.toBeInTheDocument();
+    expect(screen.queryByText("Password should be at least 6 characters")).not.toBeInTheDocument();
+
+    await act(async () => {
+      fireEvent.submit(form);
+    });
+
+    expect(await screen.findByText("Please enter a valid email address")).toBeInTheDocument();
+    expect(await screen.findByText("Password should be at least 6 characters")).toBeInTheDocument();
+
+    await act(async () => {
+      fireEvent.change(emailInput, { target: { value: "test@example.com" } });
+      fireEvent.change(passwordInput, { target: { value: "123456" } });
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByText("Please enter a valid email address")).not.toBeInTheDocument();
+      expect(screen.queryByText("Password should be at least 6 characters")).not.toBeInTheDocument();
+    });
+  });
 });

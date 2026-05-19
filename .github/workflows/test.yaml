@@ -16,13 +16,18 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: 22.13.0
           check-latest: true
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: latest
+          version: 10
+
+      - name: Install addlicense
+        run: |
+          curl -sL https://github.com/google/addlicense/releases/download/v1.2.0/addlicense_v1.2.0_Linux_x86_64.tar.gz | tar xz -C /usr/local/bin addlicense
+          chmod +x /usr/local/bin/addlicense
 
       - name: Install dependencies
         run: pnpm install

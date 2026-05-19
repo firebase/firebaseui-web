@@ -620,6 +620,32 @@
           }
         }
       }
+    },
+    {
+      "name": "yahoo-sign-in-button",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
+      "type": "registry:block",
+      "title": "Yahoo Sign In Button",
+      "description": "A button component for Yahoo OAuth authentication.",
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react@beta }}"],
+      "registryDependencies": ["{{ DOMAIN }}/r/oauth-button.json"],
+      "files": [
+        {
+          "path": "src/components/yahoo-sign-in-button.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "css": {
+        "@layer components": {
+          "button[data-provider='yahoo.com'][data-themed='true']": {
+            "--yahoo-primary": "#5F01D1",
+            "--primary": "var(--yahoo-primary)",
+            "--primary-foreground": "var(--color-white)"
+          }
+        }
+      }
     }
   ]
 }

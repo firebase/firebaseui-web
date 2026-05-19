@@ -64,6 +64,7 @@ export const pirate = registerLocale("pirate", {
     signInWithMicrosoft: "Sign in with ye Microsoft Account",
     signInWithGitHub: "Sign in with ye GitHub Account",
     signInWithTwitter: "Sign in with ye X Account",
+    signInWithYahoo: "Sign in with ye Yahoo Account",
     signInWithEmailLink: "Sign in with Email Link",
     sendSignInLink: "Send Sign-in Link",
     termsOfService: "Terms of Service",

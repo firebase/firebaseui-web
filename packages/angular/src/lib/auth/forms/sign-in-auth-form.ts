@@ -129,7 +129,7 @@ export class SignInAuthFormComponent {
     effect(() => {
       this.form.update({
         validators: {
-          onBlur: this.formSchema(),
+          onChange: this.formSchema(),
           onSubmitAsync: async ({ value }) => {
             try {
               const credential = await signInWithEmailAndPassword(this.ui(), value.email, value.password);

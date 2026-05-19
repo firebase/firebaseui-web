@@ -49,7 +49,7 @@ export function usePhoneNumberFormAction() {
 /** Options for the phone number form hook. */
 type UsePhoneNumberForm = {
   /** The reCAPTCHA verifier instance. */
-  recaptchaVerifier: RecaptchaVerifier;
+  recaptchaVerifier: RecaptchaVerifier | null;
   /** Callback function called when phone verification is successful. */
   onSuccess: (verificationId: string) => void;
   /** Optional function to format the phone number before verification. */
@@ -65,17 +65,24 @@ type UsePhoneNumberForm = {
 export function usePhoneNumberForm({ recaptchaVerifier, onSuccess, formatPhoneNumber }: UsePhoneNumberForm) {
   const action = usePhoneNumberFormAction();
   const schema = usePhoneAuthNumberFormSchema();
+  const recaptchaVerifierRef = useRef<RecaptchaVerifier | null>(recaptchaVerifier);
+
+  recaptchaVerifierRef.current = recaptchaVerifier;
 
   return form.useAppForm({
     defaultValues: {
       phoneNumber: "",
     },
     validators: {
-      onBlur: schema,
+      onChange: schema,
       onSubmitAsync: async ({ value }) => {
         try {
+          const verifier = recaptchaVerifierRef.current;
+          if (!verifier) {
+            return "reCAPTCHA is not ready yet. Please try again.";
+          }
           const formatted = formatPhoneNumber ? formatPhoneNumber(value.phoneNumber) : value.phoneNumber;
-          const confirmationResult = await action({ phoneNumber: formatted, recaptchaVerifier });
+          const confirmationResult = await action({ phoneNumber: formatted, recaptchaVerifier: verifier });
           return onSuccess(confirmationResult);
         } catch (error) {
           return error instanceof FirebaseUIError ? error.message : String(error);
@@ -103,8 +110,9 @@ export function PhoneNumberForm(props: PhoneNumberFormProps) {
   const recaptchaContainerRef = useRef<HTMLDivElement>(null);
   const recaptchaVerifier = useRecaptchaVerifier(recaptchaContainerRef);
   const countrySelector = useRef<CountrySelectorRef>(null);
+
   const form = usePhoneNumberForm({
-    recaptchaVerifier: recaptchaVerifier!,
+    recaptchaVerifier,
     onSuccess: props.onSubmit,
     formatPhoneNumber: (phoneNumber) => formatPhoneNumber(phoneNumber, countrySelector.current!.getCountry()),
   });
@@ -115,7 +123,9 @@ export function PhoneNumberForm(props: PhoneNumberFormProps) {
       onSubmit={async (e) => {
         e.preventDefault();
         e.stopPropagation();
-        await form.handleSubmit();
+        if (recaptchaVerifier) {
+          await form.handleSubmit();
+        }
       }}
     >
       <form.AppForm>
@@ -135,7 +145,9 @@ export function PhoneNumberForm(props: PhoneNumberFormProps) {
         </fieldset>
         <Policies />
         <fieldset>
-          <form.SubmitButton>{getTranslation(ui, "labels", "sendCode")}</form.SubmitButton>
+          <form.SubmitButton disabled={!recaptchaVerifier}>
+            {getTranslation(ui, "labels", "sendCode")}
+          </form.SubmitButton>
           <form.ErrorMessage />
         </fieldset>
       </form.AppForm>
@@ -183,7 +195,7 @@ export function useVerifyPhoneNumberForm({ verificationId, onSuccess }: UseVerif
       verificationCode: "",
     },
     validators: {
-      onBlur: schema,
+      onChange: schema,
       onSubmitAsync: async ({ value }) => {
         try {
           const credential = await action(value);

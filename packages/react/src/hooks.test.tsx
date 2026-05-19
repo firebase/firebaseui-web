@@ -848,6 +848,36 @@ describe("useRecaptchaVerifier", () => {
     cleanup();
   });
 
+  it("does not return verifier until render resolves", async () => {
+    const mockUI = createMockUI();
+    const element = document.createElement("div");
+    const ref = { current: element };
+
+    let resolveRender: ((value: unknown) => void) | null = null;
+    mockRender.mockImplementationOnce(
+      () =>
+        new Promise((resolve) => {
+          resolveRender = resolve;
+        }) as any
+    );
+
+    const { result } = renderHook(() => useRecaptchaVerifier(ref), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    // While render() is pending, the hook should treat verifier as unavailable.
+    expect(result.current).toBeNull();
+
+    // Resolve render and wait for the verifier to become available.
+    act(() => {
+      resolveRender?.(123);
+    });
+
+    await waitFor(() => {
+      expect(result.current).toBe(mockVerifier);
+    });
+  });
+
   it("creates verifier when element is available", async () => {
     const mockUI = createMockUI();
     const element = document.createElement("div");
@@ -927,7 +957,9 @@ describe("useRecaptchaVerifier", () => {
       expect(mockRender).toHaveBeenCalledTimes(2);
     });
 
-    expect(result.current).toBe(mockVerifier);
+    await waitFor(() => {
+      expect(result.current).toBe(mockVerifier);
+    });
   });
 });
 
@@ -1035,33 +1067,19 @@ describe("useOnUserAuthenticated", () => {
   });
 
   it("works without a callback", () => {
-    let authStateChangeCallback: ((user: User | null) => void) | null = null;
-
     const mockAuth = {
-      onAuthStateChanged: vi.fn((callback: (user: User | null) => void) => {
-        authStateChangeCallback = callback;
-        return vi.fn();
-      }),
+      onAuthStateChanged: vi.fn(() => vi.fn()),
     };
 
     const mockUI = createMockUI({
       auth: mockAuth as any,
     });
 
-    const mockUser = {
-      uid: "test-user-id",
-      isAnonymous: false,
-    } as User;
-
     renderHook(() => useOnUserAuthenticated(), {
       wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
-    act(() => {
-      authStateChangeCallback!(mockUser);
-    });
-
-    expect(mockAuth.onAuthStateChanged).toHaveBeenCalledTimes(1);
+    expect(mockAuth.onAuthStateChanged).not.toHaveBeenCalled();
   });
 
   it("unsubscribes from auth state changes on unmount", () => {

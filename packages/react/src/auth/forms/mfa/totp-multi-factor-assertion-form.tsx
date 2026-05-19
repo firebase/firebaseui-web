@@ -60,7 +60,7 @@ export function useTotpMultiFactorAssertionForm({ hint, onSuccess }: UseTotpMult
       verificationCode: "",
     },
     validators: {
-      onBlur: schema,
+      onChange: schema,
       onSubmitAsync: async ({ value }) => {
         try {
           const credential = await action({ verificationCode: value.verificationCode, hint });

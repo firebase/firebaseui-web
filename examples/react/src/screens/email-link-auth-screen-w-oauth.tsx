@@ -24,6 +24,7 @@ import {
   GoogleSignInButton,
   MicrosoftSignInButton,
   TwitterSignInButton,
+  YahooSignInButton,
 } from "@firebase-oss/ui-react";
 import { useNavigate } from "react-router";
 
@@ -45,6 +46,7 @@ export default function EmailLinkAuthScreenWithOAuthPage() {
       <GitHubSignInButton />
       <MicrosoftSignInButton />
       <TwitterSignInButton />
+      <YahooSignInButton />
     </EmailLinkAuthScreen>
   );
 }

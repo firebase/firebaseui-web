@@ -28,19 +28,13 @@ import {
 import { ButtonComponent } from "./button";
 
 @Component({
-  template: `<fui-form-metadata [field]="field()"></fui-form-metadata>`,
+  template: `<fui-form-metadata [isTouched]="isTouched()" [errors]="errors()"></fui-form-metadata>`,
   standalone: true,
   imports: [FormMetadataComponent],
 })
 class TestFormMetadataHostComponent {
-  field = signal({
-    state: {
-      meta: {
-        isTouched: true,
-        errors: [{ message: "Test error" }],
-      },
-    },
-  } as any);
+  isTouched = signal(true);
+  errors = signal([{ message: "Test error" }]);
 }
 
 @Component({
@@ -90,14 +84,7 @@ describe("Form Components", () => {
     it("does not render error message when field has no errors", async () => {
       const component = await render(TestFormMetadataHostComponent);
 
-      component.fixture.componentInstance.field.set({
-        state: {
-          meta: {
-            isTouched: true,
-            errors: [],
-          },
-        },
-      } as any);
+      component.fixture.componentInstance.errors.set([]);
       component.fixture.detectChanges();
 
       const errorElement = screen.queryByRole("alert");
@@ -107,14 +94,7 @@ describe("Form Components", () => {
     it("does not render error message when field is not touched", async () => {
       const component = await render(TestFormMetadataHostComponent);
 
-      component.fixture.componentInstance.field.set({
-        state: {
-          meta: {
-            isTouched: false,
-            errors: [{ message: "Test error" }],
-          },
-        },
-      } as any);
+      component.fixture.componentInstance.isTouched.set(false);
       component.fixture.detectChanges();
 
       const errorElement = screen.queryByRole("alert");
