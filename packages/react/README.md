@@ -42,23 +42,23 @@ const app = initializeApp({ ... });
 Then, initialize the FirebaseUI with the configuration:
 
 ```tsx
-import { initializeUI } from "@firebase-oss/ui-react";
+import { initializeUI } from "@firebase-oss/ui-core";
 
 const ui = initializeUI({
   app,
 });
 ```
 
-Finally, wrap your app in the `ConfigProvider` component:
+Finally, wrap your app in the `FirebaseUIProvider` component:
 
 ```tsx
-import { ConfigProvider } from "@firebase-oss/ui-react";
+import { FirebaseUIProvider } from "@firebase-oss/ui-react";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ConfigProvider config={ui}>
+    <FirebaseUIProvider ui={ui}>
       <App />
-    </ConfigProvider>
+    </FirebaseUIProvider>
   </StrictMode>
 );
 ```
