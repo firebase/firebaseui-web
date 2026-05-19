@@ -18,7 +18,7 @@
     "@firebase-oss/ui-styles": "workspace:*",
     "@firebase-oss/ui-translations": "workspace:*",
     "firebase": "catalog:",
-    "next": "15.1.7",
+    "next": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "server-only": "^0.0.1"
@@ -28,7 +28,7 @@
     "@types/node": "^20",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "postcss": "^8.5.2",
+    "postcss": "catalog:",
     "postcss-load-config": "^6.0.1",
     "tailwindcss": "^4.0.6",
     "typescript": "catalog:"
