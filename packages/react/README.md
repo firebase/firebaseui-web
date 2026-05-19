@@ -52,6 +52,8 @@ const ui = initializeUI({
 Finally, wrap your app in the `FirebaseUIProvider` component:
 
 ```tsx
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
 import { FirebaseUIProvider } from "@firebase-oss/ui-react";
 
 createRoot(document.getElementById("root")!).render(
