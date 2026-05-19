@@ -1,6 +1,6 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
-  "name": "firebase-ui",
+  "name": "firebase",
   "homepage": "{{ DOMAIN }}",
   "items": [
     {
