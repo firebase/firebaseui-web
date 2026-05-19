@@ -18,9 +18,9 @@
   ],
   "scripts": {
     "prepare": "pnpm run build",
-    "build": "tsup --env.PROD=true && pnpm run build:logos && pnpm run restore:logo-headers",
+    "build": "tsup --env.PROD=true && pnpm run build:logos",
     "build:local": "pnpm run build && pnpm pack",
-    "build:logos": "pnpm dlx @svgr/cli --icon --typescript --no-index --jsx-runtime automatic --out-dir src/components/logos ../core/brands",
+    "build:logos": "pnpm dlx @svgr/cli --icon --typescript --no-index --jsx-runtime automatic --out-dir src/components/logos ../core/brands && pnpm run restore:logo-headers",
     "restore:logo-headers": "node scripts/restore-logo-license-headers.mjs",
     "dev": "tsup --watch",
     "lint": "eslint . --ext .ts,.tsx",

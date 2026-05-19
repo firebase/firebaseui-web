@@ -24,12 +24,25 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 10
-            
+
+      - name: Install addlicense
+        run: |
+          curl -sL https://github.com/google/addlicense/releases/download/v1.2.0/addlicense_v1.2.0_Linux_x86_64.tar.gz | tar xz -C /usr/local/bin addlicense
+          chmod +x /usr/local/bin/addlicense
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-        
+
       - name: Run ESLint check
         run: pnpm run lint:check
-        
+
       - name: Run Prettier check
         run: pnpm run format:check
+
+      - name: Check license headers
+        run: |
+          addlicense -check -f scripts/header_template.txt \
+            --ignore "packages/shadcn/src/components/ui/**" \
+            --ignore "**/dist/**" \
+            --ignore "**/node_modules/**" \
+            ./packages/
