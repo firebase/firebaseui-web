@@ -1,0 +1,42 @@
+---
+name: Mark stale issues and pull requests
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '35 * * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  stale:
+    permissions:
+      issues: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v9
+        with:
+          operations-per-run: 1000
+          stale-issue-message: |
+            Hello, to help manage issues we automatically close stale issues.
+
+            This issue has been automatically marked as stale because it has not had activity for quite some time. Has this issue been fixed, or does it still require attention?
+
+            > This issue will be closed in 15 days if no further activity occurs.
+
+            Thank you for your contributions.
+          stale-pr-message: |
+            Hello, this PR has been open for more than 2 months with no activity.
+
+            If you think this is a mistake, please comment and ping a maintainer to get this merged ASAP. Thanks for contributing!
+
+            You have 15 days until this gets closed automatically.
+          exempt-issue-labels: 'keep open'
+          exempt-pr-labels: 'keep open'
+          close-issue-reason: not-planned
+          days-before-stale: 28
+          days-before-close: 15
+          stale-issue-label: 'not-planned'
+          stale-pr-label: 'Stale'
