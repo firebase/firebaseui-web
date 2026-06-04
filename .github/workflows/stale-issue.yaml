@@ -32,7 +32,7 @@ jobs:
 
             If you think this is a mistake, please comment and ping a maintainer to get this merged ASAP. Thanks for contributing!
 
-            You have 15 days until this gets closed automatically.
+            > This PR will be closed in 15 days if no further activity occurs.
           exempt-issue-labels: 'keep open'
           exempt-pr-labels: 'keep open'
           close-issue-reason: not-planned
