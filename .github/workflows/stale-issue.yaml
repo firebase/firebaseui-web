@@ -4,7 +4,7 @@ name: Mark stale issues and pull requests
 on:
   workflow_dispatch:
   schedule:
-    - cron: '35 * * * *'
+    - cron: '30 1 * * *'
 
 permissions:
   contents: read
@@ -28,7 +28,7 @@ jobs:
 
             Thank you for your contributions.
           stale-pr-message: |
-            Hello, this PR has been open for more than 2 months with no activity.
+            Hello, this PR has been open for more than 28 days with no activity.
 
             If you think this is a mistake, please comment to keep this open. Thanks for contributing!
 
