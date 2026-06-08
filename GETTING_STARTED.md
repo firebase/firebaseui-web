@@ -1,8 +1,8 @@
 # Easily add sign-in to your web app with FirebaseUI for Web
 
-FirebaseUI for Web is a set of libraries built on the [Firebase Authentication](https://firebase.google.com/docs/auth) JavaScript SDK. It helps you ship authentication flows quickly with a modern modular architecture.
+FirebaseUI for Web is a set of libraries built on the [Firebase Authentication](https://firebase.google.com/docs/auth) JavaScript SDK that help you ship authentication flows quickly.
 
-FirebaseUI for Web now provides these benefits:
+FirebaseUI for Web provides these benefits:
 
 - Modern modular SDK support with `initializeApp(...)` and the current Firebase JS SDK.
 - Composable screens, forms, and buttons instead of a single monolithic widget.
@@ -39,7 +39,7 @@ This guide walks through installation, initialization, sign-in methods, and comm
 
 2. Choose your platform and install FirebaseUI:
 
-   For [shadcn/ui](https://ui.shadcn.com/)-based React apps, add the Firebase registry to `components.json`:
+   For [shadcn/ui](https://ui.shadcn.com/) based React apps, add the Firebase registry to `components.json`:
 
    ```json
    {
@@ -75,6 +75,26 @@ This guide walks through installation, initialization, sign-in methods, and comm
 
 Create a shared UI store with `initializeUI(...)`, then pass it to your framework integration.
 
+### React
+
+```tsx
+import { initializeApp } from 'firebase/app';
+import { initializeUI } from '@firebase-oss/ui-core';
+import { FirebaseUIProvider } from '@firebase-oss/ui-react';
+
+const app = initializeApp({
+  /* your Firebase config */
+});
+
+const ui = initializeUI({
+  app,
+});
+
+export function AppProviders({ children }: { children: React.ReactNode }) {
+  return <FirebaseUIProvider ui={ui}>{children}</FirebaseUIProvider>;
+}
+```
+
 ### Shadcn
 
 Shadcn uses the same setup as React, because it also uses `@firebase-oss/ui-react` under the hood:
@@ -97,27 +117,7 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
 }
 ```
 
-Use your existing shadcn styles for these generated components. You typically do not import FirebaseUI's bundled CSS when using the shadcn registry.
-
-### React
-
-```tsx
-import { initializeApp } from 'firebase/app';
-import { initializeUI } from '@firebase-oss/ui-core';
-import { FirebaseUIProvider } from '@firebase-oss/ui-react';
-
-const app = initializeApp({
-  /* your Firebase config */
-});
-
-const ui = initializeUI({
-  app,
-});
-
-export function AppProviders({ children }: { children: React.ReactNode }) {
-  return <FirebaseUIProvider ui={ui}>{children}</FirebaseUIProvider>;
-}
-```
+These components use your existing shadcn styles; you typically do not import FirebaseUI's bundled CSS when using the shadcn registry.
 
 ### Angular
 
@@ -151,7 +151,7 @@ If you are using the default React or Angular components, include the FirebaseUI
 @import '@firebase-oss/ui-styles/dist.min.css';
 ```
 
-If you are using Tailwind:
+Otherwise, if you are using Tailwind:
 
 ```css
 @import 'tailwindcss';
@@ -262,12 +262,10 @@ For migration details, see [MIGRATION.md](MIGRATION.md).
 
 Render the auth screen you want and handle success in component callbacks or Angular outputs.
 
-### Shadcn
-
-Shadcn uses the same runtime and flow as React. The only difference is that you import the generated component from your app instead of from `@firebase-oss/ui-react`:
+### React
 
 ```tsx
-import { SignInAuthScreen } from '@/components/sign-in-auth-screen';
+import { SignInAuthScreen } from '@firebase-oss/ui-react';
 import { useNavigate } from 'react-router';
 
 export function SignInPage() {
@@ -283,10 +281,12 @@ export function SignInPage() {
 }
 ```
 
-### React
+### Shadcn
+
+Shadcn uses the same runtime and flow as React. The only difference is that you import the generated component from your app instead of from `@firebase-oss/ui-react`:
 
 ```tsx
-import { SignInAuthScreen } from '@firebase-oss/ui-react';
+import { SignInAuthScreen } from '@/components/sign-in-auth-screen';
 import { useNavigate } from 'react-router';
 
 export function SignInPage() {
@@ -329,7 +329,7 @@ export class SignInPageComponent {
 
 ## Sign out
 
-FirebaseUI for Web uses the standard Firebase Authentication sign-out API:
+To sign users out, use the standard Firebase Authentication sign-out API:
 
 ```ts
 import { getAuth, signOut } from 'firebase/auth';
@@ -485,7 +485,7 @@ export const appConfig: ApplicationConfig = {
 
 ## Translations
 
-FirebaseUI for Web supports localization through `@firebase-oss/ui-translations`. At the moment, a couple of locales are bundled out of the box, including English (`en-US`) and Czech (`cs-CZ`). You can also register and use your own locale overrides today, and PRs to add more built-in languages are welcomed.
+FirebaseUI for Web supports localization through `@firebase-oss/ui-translations`.
 
 ```ts
 import { initializeUI } from '@firebase-oss/ui-core';
