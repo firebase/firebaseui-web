@@ -65,9 +65,9 @@ export function SignInAuthForm(props: SignInAuthFormProps) {
           control={form.control}
           name="email"
           render={({ field, fieldState }) => (
-            <Field>
-              <FieldLabel>{getTranslation(ui, "labels", "emailAddress")}</FieldLabel>
-              <Input {...field} type="email" />
+            <Field data-invalid={!!fieldState.error}>
+              <FieldLabel htmlFor="email">{getTranslation(ui, "labels", "emailAddress")}</FieldLabel>
+              <Input {...field} id="email" type="email" aria-invalid={!!fieldState.error} />
               {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
             </Field>
           )}
@@ -76,8 +76,8 @@ export function SignInAuthForm(props: SignInAuthFormProps) {
           control={form.control}
           name="password"
           render={({ field, fieldState }) => (
-            <Field>
-              <FieldLabel className="flex items-center gap-2">
+            <Field data-invalid={!!fieldState.error}>
+              <FieldLabel htmlFor="password" className="flex items-center gap-2">
                 <span className="grow">{getTranslation(ui, "labels", "password")}</span>
                 {props.onForgotPasswordClick ? (
                   <Button type="button" variant="link" onClick={props.onForgotPasswordClick} size="sm">
@@ -85,7 +85,7 @@ export function SignInAuthForm(props: SignInAuthFormProps) {
                   </Button>
                 ) : null}
               </FieldLabel>
-              <Input {...field} type="password" />
+              <Input {...field} id="password" type="password" aria-invalid={!!fieldState.error} />
               {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
             </Field>
           )}

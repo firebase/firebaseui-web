@@ -79,9 +79,9 @@ function MultiFactorEnrollmentPhoneNumberForm(props: MultiFactorEnrollmentPhoneN
           control={form.control}
           name="displayName"
           render={({ field, fieldState }) => (
-            <Field>
-              <FieldLabel>{getTranslation(ui, "labels", "displayName")}</FieldLabel>
-              <Input {...field} type="text" />
+            <Field data-invalid={!!fieldState.error}>
+              <FieldLabel htmlFor="displayName">{getTranslation(ui, "labels", "displayName")}</FieldLabel>
+              <Input {...field} id="displayName" type="text" aria-invalid={!!fieldState.error} />
               {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
             </Field>
           )}
@@ -90,11 +90,11 @@ function MultiFactorEnrollmentPhoneNumberForm(props: MultiFactorEnrollmentPhoneN
           control={form.control}
           name="phoneNumber"
           render={({ field, fieldState }) => (
-            <Field>
-              <FieldLabel>{getTranslation(ui, "labels", "phoneNumber")}</FieldLabel>
+            <Field data-invalid={!!fieldState.error}>
+              <FieldLabel htmlFor="phoneNumber">{getTranslation(ui, "labels", "phoneNumber")}</FieldLabel>
               <div className="flex items-center gap-2">
                 <CountrySelector ref={countrySelector} />
-                <Input {...field} type="tel" className="flex-grow" />
+                <Input {...field} id="phoneNumber" type="tel" className="flex-grow" aria-invalid={!!fieldState.error} />
               </div>
               {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
             </Field>
@@ -148,10 +148,10 @@ export function MultiFactorEnrollmentVerifyPhoneNumberForm(props: MultiFactorEnr
           control={form.control}
           name="verificationCode"
           render={({ field, fieldState }) => (
-            <Field>
-              <FieldLabel>{getTranslation(ui, "labels", "verificationCode")}</FieldLabel>
+            <Field data-invalid={!!fieldState.error}>
+              <FieldLabel htmlFor="verificationCode">{getTranslation(ui, "labels", "verificationCode")}</FieldLabel>
               <FieldDescription>{getTranslation(ui, "prompts", "smsVerificationPrompt")}</FieldDescription>
-              <InputOTP maxLength={6} {...field}>
+              <InputOTP id="verificationCode" maxLength={6} {...field} aria-invalid={!!fieldState.error}>
                 <InputOTPGroup>
                   <InputOTPSlot index={0} />
                   <InputOTPSlot index={1} />

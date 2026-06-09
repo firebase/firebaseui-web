@@ -71,9 +71,9 @@ function TotpMultiFactorSecretGenerationForm(props: TotpMultiFactorSecretGenerat
           control={form.control}
           name="displayName"
           render={({ field, fieldState }) => (
-            <Field>
-              <FieldLabel>{getTranslation(ui, "labels", "displayName")}</FieldLabel>
-              <Input {...field} type="text" />
+            <Field data-invalid={!!fieldState.error}>
+              <FieldLabel htmlFor="displayName">{getTranslation(ui, "labels", "displayName")}</FieldLabel>
+              <Input {...field} id="displayName" type="text" aria-invalid={!!fieldState.error} />
               {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
             </Field>
           )}
@@ -133,9 +133,9 @@ export function MultiFactorEnrollmentVerifyTotpForm(props: MultiFactorEnrollment
             control={form.control}
             name="verificationCode"
             render={({ field, fieldState }) => (
-              <Field>
-                <FieldLabel>{getTranslation(ui, "labels", "verificationCode")}</FieldLabel>
-                <InputOTP maxLength={6} {...field}>
+              <Field data-invalid={!!fieldState.error}>
+                <FieldLabel htmlFor="verificationCode">{getTranslation(ui, "labels", "verificationCode")}</FieldLabel>
+                <InputOTP id="verificationCode" maxLength={6} {...field} aria-invalid={!!fieldState.error}>
                   <InputOTPGroup>
                     <InputOTPSlot index={0} />
                     <InputOTPSlot index={1} />

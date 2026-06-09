@@ -65,9 +65,9 @@ export function TotpMultiFactorAssertionForm(props: TotpMultiFactorAssertionForm
           control={form.control}
           name="verificationCode"
           render={({ field, fieldState }) => (
-            <Field>
-              <FieldLabel>{getTranslation(ui, "labels", "verificationCode")}</FieldLabel>
-              <InputOTP maxLength={6} {...field}>
+            <Field data-invalid={!!fieldState.error}>
+              <FieldLabel htmlFor="verificationCode">{getTranslation(ui, "labels", "verificationCode")}</FieldLabel>
+              <InputOTP id="verificationCode" maxLength={6} {...field} aria-invalid={!!fieldState.error}>
                 <InputOTPGroup>
                   <InputOTPSlot index={0} />
                   <InputOTPSlot index={1} />
