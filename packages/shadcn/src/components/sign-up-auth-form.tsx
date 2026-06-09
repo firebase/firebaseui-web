@@ -24,11 +24,11 @@ import {
   type SignUpAuthFormProps,
   useRequireDisplayName,
 } from "@firebase-oss/ui-react";
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider, Controller } from "react-hook-form";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 import { FirebaseUIError, getTranslation } from "@firebase-oss/ui-core";
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Field, FieldLabel, FieldError } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Policies } from "./policies";
@@ -62,54 +62,48 @@ export function SignUpAuthForm(props: SignUpAuthFormProps) {
   }
 
   return (
-    <Form {...form}>
+    <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-y-4">
         {requireDisplayName ? (
-          <FormField
+          <Controller
             control={form.control}
             name="displayName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{getTranslation(ui, "labels", "displayName")}</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
+            render={({ field, fieldState }) => (
+              <Field>
+                <FieldLabel>{getTranslation(ui, "labels", "displayName")}</FieldLabel>
+                <Input {...field} />
+                {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
+              </Field>
             )}
           />
         ) : null}
-        <FormField
+        <Controller
           control={form.control}
           name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{getTranslation(ui, "labels", "emailAddress")}</FormLabel>
-              <FormControl>
-                <Input {...field} type="email" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+          render={({ field, fieldState }) => (
+            <Field>
+              <FieldLabel>{getTranslation(ui, "labels", "emailAddress")}</FieldLabel>
+              <Input {...field} type="email" />
+              {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
+            </Field>
           )}
         />
-        <FormField
+        <Controller
           control={form.control}
           name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{getTranslation(ui, "labels", "password")}</FormLabel>
-              <FormControl>
-                <Input {...field} type="password" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+          render={({ field, fieldState }) => (
+            <Field>
+              <FieldLabel>{getTranslation(ui, "labels", "password")}</FieldLabel>
+              <Input {...field} type="password" />
+              {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
+            </Field>
           )}
         />
         <Policies />
         <Button type="submit" disabled={ui.state !== "idle"}>
           {getTranslation(ui, "labels", "createAccount")}
         </Button>
-        {form.formState.errors.root && <FormMessage>{form.formState.errors.root.message}</FormMessage>}
+        {form.formState.errors.root && <FieldError>{form.formState.errors.root.message}</FieldError>}
         {props.onSignInClick ? (
           <Button type="button" variant="link" size="sm" onClick={props.onSignInClick}>
             <span className="text-xs">
@@ -118,6 +112,6 @@ export function SignUpAuthForm(props: SignUpAuthFormProps) {
           </Button>
         ) : null}
       </form>
-    </Form>
+    </FormProvider>
   );
 }

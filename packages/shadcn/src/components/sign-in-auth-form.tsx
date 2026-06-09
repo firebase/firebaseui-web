@@ -23,11 +23,11 @@ import {
   useUI,
   type SignInAuthFormProps,
 } from "@firebase-oss/ui-react";
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider, Controller } from "react-hook-form";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 import { FirebaseUIError, getTranslation } from "@firebase-oss/ui-core";
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Field, FieldLabel, FieldError } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Policies } from "./policies";
@@ -59,46 +59,42 @@ export function SignInAuthForm(props: SignInAuthFormProps) {
   }
 
   return (
-    <Form {...form}>
+    <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-y-4">
-        <FormField
+        <Controller
           control={form.control}
           name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{getTranslation(ui, "labels", "emailAddress")}</FormLabel>
-              <FormControl>
-                <Input {...field} type="email" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+          render={({ field, fieldState }) => (
+            <Field>
+              <FieldLabel>{getTranslation(ui, "labels", "emailAddress")}</FieldLabel>
+              <Input {...field} type="email" />
+              {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
+            </Field>
           )}
         />
-        <FormField
+        <Controller
           control={form.control}
           name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="flex items-center gap-2">
+          render={({ field, fieldState }) => (
+            <Field>
+              <FieldLabel className="flex items-center gap-2">
                 <span className="grow">{getTranslation(ui, "labels", "password")}</span>
                 {props.onForgotPasswordClick ? (
                   <Button type="button" variant="link" onClick={props.onForgotPasswordClick} size="sm">
                     <span className="text-xs">{getTranslation(ui, "labels", "forgotPassword")}</span>
                   </Button>
                 ) : null}
-              </FormLabel>
-              <FormControl>
-                <Input {...field} type="password" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+              </FieldLabel>
+              <Input {...field} type="password" />
+              {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
+            </Field>
           )}
         />
         <Policies />
         <Button type="submit" disabled={ui.state !== "idle"}>
           {getTranslation(ui, "labels", "signIn")}
         </Button>
-        {form.formState.errors.root && <FormMessage>{form.formState.errors.root.message}</FormMessage>}
+        {form.formState.errors.root && <FieldError>{form.formState.errors.root.message}</FieldError>}
         {props.onSignUpClick ? (
           <>
             <Button type="button" variant="link" size="sm" onClick={props.onSignUpClick}>
@@ -109,6 +105,6 @@ export function SignInAuthForm(props: SignInAuthFormProps) {
           </>
         ) : null}
       </form>
-    </Form>
+    </FormProvider>
   );
 }

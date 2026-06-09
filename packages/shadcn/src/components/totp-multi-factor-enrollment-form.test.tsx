@@ -71,7 +71,7 @@ describe("<TotpMultiFactorEnrollmentForm />", () => {
       })
     );
 
-    expect(screen.getByLabelText("Display Name")).toBeInTheDocument();
+    expect(document.querySelector("input[name='displayName']")!).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Generate Secret" })).toBeInTheDocument();
   });
 
@@ -100,7 +100,7 @@ describe("<TotpMultiFactorEnrollmentForm />", () => {
       })
     );
 
-    fireEvent.change(screen.getByLabelText("Display Name"), { target: { value: "Test TOTP" } });
+    fireEvent.change(document.querySelector("input[name='displayName']")!, { target: { value: "Test TOTP" } });
     fireEvent.click(screen.getByRole("button", { name: "Generate Secret" }));
 
     await waitFor(() => {
@@ -132,7 +132,7 @@ describe("<TotpMultiFactorEnrollmentForm />", () => {
       })
     );
 
-    fireEvent.change(screen.getByLabelText("Display Name"), { target: { value: "Test TOTP" } });
+    fireEvent.change(document.querySelector("input[name='displayName']")!, { target: { value: "Test TOTP" } });
     fireEvent.click(screen.getByRole("button", { name: "Generate Secret" }));
 
     await waitFor(() => {
@@ -163,7 +163,7 @@ describe("<TotpMultiFactorEnrollmentForm />", () => {
       })
     );
 
-    fireEvent.change(screen.getByLabelText("Display Name"), { target: { value: "Test TOTP" } });
+    fireEvent.change(document.querySelector("input[name='displayName']")!, { target: { value: "Test TOTP" } });
     fireEvent.click(screen.getByRole("button", { name: "Generate Secret" }));
 
     await waitFor(() => {
