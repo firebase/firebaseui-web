@@ -39,4 +39,4 @@ jobs:
           days-before-stale: 28
           days-before-close: 15
           stale-issue-label: 'not-planned'
-          stale-pr-label: 'Stale'
+          stale-pr-label: 'stale'
