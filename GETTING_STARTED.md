@@ -145,18 +145,19 @@ export const appConfig: ApplicationConfig = {
 
 ## Include styles
 
-If you are using the default React or Angular components, include the FirebaseUI styles:
+FirebaseUI has pre-built UI components for React and Angular. To use the components, you need to include their CSS:
+
+If you are using Tailwind with React or Angular:
+
+
+
+Otherwise, include the FirebaseUI styles:
 
 ```css
 @import '@firebase-oss/ui-styles/dist.min.css';
 ```
 
-Otherwise, if you are using Tailwind:
-
-```css
-@import 'tailwindcss';
-@import '@firebase-oss/ui-styles/tailwind';
-```
+FirebaseUI for Web supports custom theming via CSS variable overrides. For more details, see the [theming documentation](https://github.com/firebase/firebaseui-web#theming).
 
 ## Set up sign-in methods
 
