@@ -35,7 +35,7 @@ jobs:
             > This PR will be closed in 15 days if no further activity occurs.
           exempt-issue-labels: 'keep open'
           exempt-pr-labels: 'keep open'
-          close-issue-reason: not-planned
+          close-issue-reason: 'not_planned'
           days-before-stale: 28
           days-before-close: 15
           stale-issue-label: 'not-planned'
