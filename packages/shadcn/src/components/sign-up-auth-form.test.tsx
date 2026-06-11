@@ -296,6 +296,79 @@ describe("<SignUpAuthForm />", () => {
     expect(onSignUpMock).toHaveBeenCalled();
   });
 
+  it("should associate labels with inputs via htmlFor/id", () => {
+    vi.mocked(useRequireDisplayName).mockReturnValue(true);
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          displayName: "Display Name",
+        },
+      }),
+      behaviors: [
+        {
+          requireDisplayName: { type: "callable" as const, handler: vi.fn() },
+        },
+      ],
+    });
+
+    const { container } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <SignUpAuthForm />
+      </FirebaseUIProvider>
+    );
+
+    expect(container.querySelector('[data-slot="field-label"][for="displayName"]')).toBeInTheDocument();
+    expect(container.querySelector("input#displayName")).toBeInTheDocument();
+    expect(container.querySelector('[data-slot="field-label"][for="email"]')).toBeInTheDocument();
+    expect(container.querySelector("input#email")).toBeInTheDocument();
+    expect(container.querySelector('[data-slot="field-label"][for="password"]')).toBeInTheDocument();
+    expect(container.querySelector("input#password")).toBeInTheDocument();
+  });
+
+  it("should set aria-invalid and data-invalid on validation error", async () => {
+    vi.mocked(useRequireDisplayName).mockReturnValue(false);
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          emailAddress: "Email Address",
+          password: "Password",
+          createAccount: "Create Account",
+        },
+        errors: {
+          invalidEmail: "Please enter a valid email address",
+          weakPassword: "Password should be at least 6 characters",
+        },
+      }),
+      behaviors: [],
+    });
+
+    const { container } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <SignUpAuthForm />
+      </FirebaseUIProvider>
+    );
+
+    const emailInput = container.querySelector("input[name='email']") as HTMLInputElement;
+    const form = container.querySelector("form") as HTMLFormElement;
+
+    expect(emailInput.getAttribute("aria-invalid")).toBe("false");
+    expect(container.querySelectorAll('[data-slot="field-error"]').length).toBe(0);
+
+    await act(async () => {
+      fireEvent.submit(form);
+    });
+
+    await waitFor(() => {
+      expect(emailInput.getAttribute("aria-invalid")).toBe("true");
+    });
+
+    const invalidFields = container.querySelectorAll('[data-slot="field"][data-invalid="true"]');
+    expect(invalidFields.length).toBeGreaterThanOrEqual(1);
+
+    const errors = container.querySelectorAll('[role="alert"]');
+    expect(errors.length).toBeGreaterThanOrEqual(1);
+  });
+
   it("should show validation errors after submit and clear when invalid values become valid", async () => {
     vi.mocked(useRequireDisplayName).mockReturnValue(false);
     const mockUI = createMockUI({

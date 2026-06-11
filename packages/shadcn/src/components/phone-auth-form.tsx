@@ -28,7 +28,7 @@ import {
 import { useState } from "react";
 import type { UserCredential } from "firebase/auth";
 import { useRef } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider, Controller } from "react-hook-form";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 import {
   FirebaseUIError,
@@ -38,7 +38,7 @@ import {
   type PhoneAuthVerifyFormSchema,
 } from "@firebase-oss/ui-core";
 
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Field, FieldLabel, FieldDescription, FieldError } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Policies } from "@/components/policies";
@@ -75,37 +75,35 @@ function VerifyPhoneNumberForm(props: VerifyPhoneNumberFormProps) {
   }
 
   return (
-    <Form {...form}>
+    <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
-        <FormField
+        <Controller
           control={form.control}
           name="verificationCode"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{getTranslation(ui, "labels", "verificationCode")}</FormLabel>
-              <FormDescription>{getTranslation(ui, "prompts", "smsVerificationPrompt")}</FormDescription>
-              <FormControl>
-                <InputOTP maxLength={6} {...field}>
-                  <InputOTPGroup>
-                    <InputOTPSlot index={0} />
-                    <InputOTPSlot index={1} />
-                    <InputOTPSlot index={2} />
-                    <InputOTPSlot index={3} />
-                    <InputOTPSlot index={4} />
-                    <InputOTPSlot index={5} />
-                  </InputOTPGroup>
-                </InputOTP>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+          render={({ field, fieldState }) => (
+            <Field data-invalid={!!fieldState.error}>
+              <FieldLabel htmlFor="verificationCode">{getTranslation(ui, "labels", "verificationCode")}</FieldLabel>
+              <FieldDescription>{getTranslation(ui, "prompts", "smsVerificationPrompt")}</FieldDescription>
+              <InputOTP id="verificationCode" maxLength={6} {...field} aria-invalid={!!fieldState.error}>
+                <InputOTPGroup>
+                  <InputOTPSlot index={0} />
+                  <InputOTPSlot index={1} />
+                  <InputOTPSlot index={2} />
+                  <InputOTPSlot index={3} />
+                  <InputOTPSlot index={4} />
+                  <InputOTPSlot index={5} />
+                </InputOTPGroup>
+              </InputOTP>
+              {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
+            </Field>
           )}
         />
         <Button type="submit" disabled={ui.state !== "idle"}>
           {getTranslation(ui, "labels", "verifyCode")}
         </Button>
-        {form.formState.errors.root && <FormMessage>{form.formState.errors.root.message}</FormMessage>}
+        {form.formState.errors.root && <FieldError>{form.formState.errors.root.message}</FieldError>}
       </form>
-    </Form>
+    </FormProvider>
   );
 }
 
@@ -141,22 +139,20 @@ function PhoneNumberForm(props: PhoneNumberFormProps) {
   }
 
   return (
-    <Form {...form}>
+    <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
-        <FormField
+        <Controller
           control={form.control}
           name="phoneNumber"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{getTranslation(ui, "labels", "phoneNumber")}</FormLabel>
-              <FormControl>
-                <div className="flex items-center gap-2">
-                  <CountrySelector ref={countrySelector} />
-                  <Input {...field} type="tel" />
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+          render={({ field, fieldState }) => (
+            <Field data-invalid={!!fieldState.error}>
+              <FieldLabel htmlFor="phoneNumber">{getTranslation(ui, "labels", "phoneNumber")}</FieldLabel>
+              <div className="flex items-center gap-2">
+                <CountrySelector ref={countrySelector} />
+                <Input {...field} id="phoneNumber" type="tel" aria-invalid={!!fieldState.error} />
+              </div>
+              {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
+            </Field>
           )}
         />
         <div ref={recaptchaContainerRef} />
@@ -164,9 +160,9 @@ function PhoneNumberForm(props: PhoneNumberFormProps) {
         <Button type="submit" disabled={ui.state !== "idle"}>
           {getTranslation(ui, "labels", "sendCode")}
         </Button>
-        {form.formState.errors.root && <FormMessage>{form.formState.errors.root.message}</FormMessage>}
+        {form.formState.errors.root && <FieldError>{form.formState.errors.root.message}</FieldError>}
       </form>
-    </Form>
+    </FormProvider>
   );
 }
 

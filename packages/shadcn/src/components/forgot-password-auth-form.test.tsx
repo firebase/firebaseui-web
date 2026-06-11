@@ -65,6 +65,21 @@ describe("<ForgotPasswordAuthForm />", () => {
     expect(container.querySelector("button[type='submit']")).toBeInTheDocument();
   });
 
+  it("should associate the email label with input via htmlFor/id", () => {
+    const mockUI = createMockUI();
+
+    const { container } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <ForgotPasswordAuthForm />
+      </FirebaseUIProvider>
+    );
+
+    expect(container.querySelector('[data-slot="field-label"][for="email"]')).toBeInTheDocument();
+    expect(container.querySelector("input#email")).toBeInTheDocument();
+    expect(container.querySelector("input#email")?.getAttribute("aria-invalid")).toBe("false");
+    expect(container.querySelectorAll('[data-slot="field-error"]').length).toBe(0);
+  });
+
   it("should render with back to sign in callback", () => {
     const onBackToSignInClickMock = vi.fn();
     const mockUI = createMockUI({

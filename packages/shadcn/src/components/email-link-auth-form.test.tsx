@@ -68,6 +68,21 @@ describe("<EmailLinkAuthForm />", () => {
     expect(container.querySelector("button[type='submit']")).toBeInTheDocument();
   });
 
+  it("should associate the email label with input via htmlFor/id", () => {
+    const mockUI = createMockUI();
+
+    const { container } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <EmailLinkAuthForm />
+      </FirebaseUIProvider>
+    );
+
+    expect(container.querySelector('[data-slot="field-label"][for="email"]')).toBeInTheDocument();
+    expect(container.querySelector("input#email")).toBeInTheDocument();
+    expect(container.querySelector("input#email")?.getAttribute("aria-invalid")).toBe("false");
+    expect(container.querySelectorAll('[data-slot="field-error"]').length).toBe(0);
+  });
+
   it("should call the onEmailSent callback when the form is submitted successfully", async () => {
     const mockAction = vi.fn().mockResolvedValue(undefined);
     vi.mocked(useEmailLinkAuthFormAction).mockReturnValue(mockAction);
