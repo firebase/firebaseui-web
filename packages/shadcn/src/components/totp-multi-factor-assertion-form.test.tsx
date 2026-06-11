@@ -82,6 +82,35 @@ describe("<TotpMultiFactorAssertionForm />", () => {
     expect(screen.getByRole("button", { name: "Verify Code" })).toBeInTheDocument();
   });
 
+  it("should associate the verification code label with input via htmlFor/id", () => {
+    const mockHint = {
+      uid: "test-uid",
+      factorId: TotpMultiFactorGenerator.FACTOR_ID,
+      displayName: "Test TOTP",
+      enrollmentTime: "2023-01-01T00:00:00Z",
+    };
+
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          verificationCode: "Verification Code",
+          verifyCode: "Verify Code",
+        },
+      }),
+    });
+
+    const { container } = render(
+      createFirebaseUIProvider({
+        children: <TotpMultiFactorAssertionForm hint={mockHint} />,
+        ui: mockUI,
+      })
+    );
+
+    expect(container.querySelector('[data-slot="field-label"][for="verificationCode"]')).toBeInTheDocument();
+    expect(container.querySelector("#verificationCode")).toBeInTheDocument();
+    expect(container.querySelectorAll('[data-slot="field-error"]').length).toBe(0);
+  });
+
   it("should call onSuccess when verification is successful", async () => {
     const mockHint = {
       uid: "test-uid",
