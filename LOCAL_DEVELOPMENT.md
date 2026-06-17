@@ -7,7 +7,7 @@ This guide walks you through running FirebaseUI Web locally so you can test feat
 Make sure you have these installed:
 
 - [Node.js](https://nodejs.org/) v18+ (CI uses v22 — matching this avoids surprises)
-- [pnpm](https://pnpm.io/)
+- [pnpm](https://pnpm.io/) — if you have Node.js 18+, [corepack](https://nodejs.org/api/corepack.html) can install pnpm on demand when you run it
 - [Firebase CLI](https://firebase.google.com/docs/cli):
   ```bash
   pnpm add -g firebase-tools
@@ -31,6 +31,14 @@ There is also `pnpm build` which builds the library packages **and** all the exa
 You need three things running at the same time, each in its own terminal:
 
 ### Terminal 1 — Start the Firebase Auth Emulator
+
+Before running the emulator for the first time, enable the webframeworks experiment:
+
+```bash
+firebase experiments:enable webframeworks
+```
+
+Then start the emulator:
 
 ```bash
 pnpm emulators
