@@ -10,7 +10,7 @@ Make sure you have these installed:
 - [pnpm](https://pnpm.io/)
 - [Firebase CLI](https://firebase.google.com/docs/cli):
   ```bash
-  npm install -g firebase-tools
+  pnpm add -g firebase-tools
   ```
 
 ## First-Time Setup
