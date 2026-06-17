@@ -64,7 +64,7 @@ pnpm --filter=@firebase-oss/ui-translations run dev
 This runs `tsup --watch`, which rebuilds the package every time you save a file. You can run multiple watchers in one terminal:
 
 ```bash
-pnpm --filter=@firebase-oss/ui-core run dev & pnpm --filter=@firebase-oss/ui-react run dev
+pnpm --filter=@firebase-oss/ui-core run dev & pnpm --filter=@firebase-oss/ui-react run dev # (Unix/macOS)
 ```
 
 `angular`, `styles`, and `shadcn` don't have a watch mode. Rebuild them manually after changes:
