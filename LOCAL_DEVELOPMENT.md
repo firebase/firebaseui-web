@@ -12,6 +12,7 @@ Make sure you have these installed:
   ```bash
   pnpm add -g firebase-tools
   ```
+  If you prefer not to install globally, you can use `npx firebase-tools` in place of `firebase` commands.
 
 ## First-Time Setup
 
