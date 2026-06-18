@@ -26,6 +26,8 @@ the end).
 
 This is a monorepo managed with pnpm, containing both `packages` and `examples` sub-directories.
 
+For a step-by-step guide on running the project locally (emulator setup, watch mode, example apps), see [LOCAL_DEVELOPMENT.md](LOCAL_DEVELOPMENT.md).
+
 #### Building
 
 Build all packages:
