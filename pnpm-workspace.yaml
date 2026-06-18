@@ -16,7 +16,7 @@ catalog:
   "@angular/forms": ^20.3.21
   "@angular/platform-browser": ^20.3.21
   "@angular/platform-browser-dynamic": ^20.3.21
-  "@angular/platform-server": ^20.3.21
+  "@angular/platform-server": ^20.3.24
   "@angular/router": ^20.3.21
   "@angular/ssr": ^20.3.21
   "@tailwindcss/vite": ^4.1.14
