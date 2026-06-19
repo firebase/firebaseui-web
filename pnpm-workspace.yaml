@@ -8,7 +8,7 @@ catalog:
   "@angular-devkit/core": ^20.3.21
   "@angular/animations": ^20.3.21
   "@angular/cli": ^20.3.21
-  "@angular/common": ^20.3.21
+  "@angular/common": ^20.3.25
   "@angular/compiler": ^20.3.25
   "@angular/compiler-cli": ^20.3.21
   "@angular/core": ^20.3.25
