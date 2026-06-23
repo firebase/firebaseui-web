@@ -155,7 +155,7 @@ describe("mapping.ts", () => {
 
       // Should fall back to English when not available
       expect(getTranslation(locale, "errors", "wrongPassword")).toBe(
-        "Incorrect email or password. If you previously signed in using another provider, try using that sign-in method instead."
+        enUs.translations.errors!.wrongPassword!
       );
       expect(getTranslation(locale, "labels", "emailAddress")).toBe("Email Address");
     });

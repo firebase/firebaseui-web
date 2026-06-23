@@ -433,7 +433,7 @@ describe("useSignInWithProvider", () => {
           ui.get(),
           new FirebaseError(
             "auth/wrong-password",
-            "Incorrect email or password. If you previously signed in using another provider, try using that sign-in method instead."
+            enUs.translations.errors!.wrongPassword!
           )
         )
       )
@@ -451,7 +451,7 @@ describe("useSignInWithProvider", () => {
     });
 
     expect(result.current.error).toBe(
-      "Incorrect email or password. If you previously signed in using another provider, try using that sign-in method instead."
+      enUs.translations.errors!.wrongPassword!
     );
 
     // Second call - should clear error

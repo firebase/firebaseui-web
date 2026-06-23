@@ -18,7 +18,7 @@ import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
 import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import { OAuthButton } from "./oauth-button";
 import { createMockUI } from "../../tests/utils";
-import { registerLocale } from "@firebase-oss/ui-translations";
+import { registerLocale, enUs } from "@firebase-oss/ui-translations";
 import type { AuthProvider, UserCredential } from "firebase/auth";
 import { ComponentProps } from "react";
 
@@ -272,7 +272,7 @@ describe("<OAuthButton />", () => {
           ui.get(),
           new FirebaseError(
             "auth/wrong-password",
-            "Incorrect email or password. If you previously signed in using another provider, try using that sign-in method instead."
+            enUs.translations.errors!.wrongPassword!
           )
         )
       )
@@ -291,7 +291,7 @@ describe("<OAuthButton />", () => {
 
     await waitFor(() => {
       const errorMessage = screen.getByText(
-        "Incorrect email or password. If you previously signed in using another provider, try using that sign-in method instead."
+        enUs.translations.errors!.wrongPassword!
       );
       expect(errorMessage).toBeDefined();
     });
@@ -301,7 +301,7 @@ describe("<OAuthButton />", () => {
     await waitFor(() => {
       expect(
         screen.queryByText(
-          "Incorrect email or password. If you previously signed in using another provider, try using that sign-in method instead."
+          enUs.translations.errors!.wrongPassword!
         )
       ).toBeNull();
     });
