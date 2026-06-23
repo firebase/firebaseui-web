@@ -678,7 +678,9 @@ describe("index.ts", () => {
     it("should have valid error translations", () => {
       const errors = enUs.translations.errors;
       expect(errors?.userNotFound).toBe("No account found with this email address");
-      expect(errors?.wrongPassword).toBe("Incorrect password");
+      expect(errors?.wrongPassword).toBe(
+        "Incorrect email or password. If you previously signed in using another provider, try using that sign-in method instead."
+      );
       expect(errors?.invalidEmail).toBe("Please enter a valid email address");
       expect(errors?.unknownError).toBe("An unexpected error occurred");
     });

@@ -268,7 +268,13 @@ describe("<OAuthButton />", () => {
     // First call fails, second call succeeds
     mockSignInWithProvider
       .mockRejectedValueOnce(
-        new FirebaseUIError(ui.get(), new FirebaseError("auth/wrong-password", "Incorrect password"))
+        new FirebaseUIError(
+          ui.get(),
+          new FirebaseError(
+            "auth/wrong-password",
+            "Incorrect email or password. If you previously signed in using another provider, try using that sign-in method instead."
+          )
+        )
       )
       .mockResolvedValueOnce({} as UserCredential);
 
@@ -284,14 +290,20 @@ describe("<OAuthButton />", () => {
     fireEvent.click(button);
 
     await waitFor(() => {
-      const errorMessage = screen.getByText("Incorrect password");
+      const errorMessage = screen.getByText(
+        "Incorrect email or password. If you previously signed in using another provider, try using that sign-in method instead."
+      );
       expect(errorMessage).toBeDefined();
     });
 
     // Second click - should clear error
     fireEvent.click(button);
     await waitFor(() => {
-      expect(screen.queryByText("Incorrect password")).toBeNull();
+      expect(
+        screen.queryByText(
+          "Incorrect email or password. If you previously signed in using another provider, try using that sign-in method instead."
+        )
+      ).toBeNull();
     });
   });
 
