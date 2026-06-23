@@ -20,7 +20,8 @@ import { type Translations } from "../types";
 export const enUS = {
   errors: {
     userNotFound: "No account found with this email address",
-    wrongPassword: "Incorrect password",
+    wrongPassword:
+      "Incorrect email or password. If you previously signed in using another provider, try using that sign-in method instead.",
     invalidEmail: "Please enter a valid email address",
     userDisabled: "This account has been disabled",
     networkRequestFailed: "Unable to connect to the server. Please check your internet connection",

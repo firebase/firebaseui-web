@@ -429,7 +429,13 @@ describe("useSignInWithProvider", () => {
     // First call fails, second call succeeds
     mockSignInWithProvider
       .mockRejectedValueOnce(
-        new FirebaseUIError(ui.get(), new FirebaseError("auth/wrong-password", "Incorrect password"))
+        new FirebaseUIError(
+          ui.get(),
+          new FirebaseError(
+            "auth/wrong-password",
+            enUs.translations.errors!.wrongPassword!
+          )
+        )
       )
       .mockResolvedValueOnce({} as UserCredential);
 
@@ -444,7 +450,9 @@ describe("useSignInWithProvider", () => {
       await result.current.callback();
     });
 
-    expect(result.current.error).toBe("Incorrect password");
+    expect(result.current.error).toBe(
+      enUs.translations.errors!.wrongPassword!
+    );
 
     // Second call - should clear error
     await act(async () => {

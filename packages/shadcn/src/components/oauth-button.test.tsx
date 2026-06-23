@@ -18,7 +18,7 @@ import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
 import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import { OAuthButton } from "./oauth-button";
 import { createMockUI } from "../../tests/utils";
-import { registerLocale } from "@firebase-oss/ui-translations";
+import { registerLocale, enUs } from "@firebase-oss/ui-translations";
 import type { AuthProvider, UserCredential } from "firebase/auth";
 import { ComponentProps } from "react";
 
@@ -268,7 +268,13 @@ describe("<OAuthButton />", () => {
     // First call fails, second call succeeds
     mockSignInWithProvider
       .mockRejectedValueOnce(
-        new FirebaseUIError(ui.get(), new FirebaseError("auth/wrong-password", "Incorrect password"))
+        new FirebaseUIError(
+          ui.get(),
+          new FirebaseError(
+            "auth/wrong-password",
+            enUs.translations.errors!.wrongPassword!
+          )
+        )
       )
       .mockResolvedValueOnce({} as UserCredential);
 
@@ -284,14 +290,20 @@ describe("<OAuthButton />", () => {
     fireEvent.click(button);
 
     await waitFor(() => {
-      const errorMessage = screen.getByText("Incorrect password");
+      const errorMessage = screen.getByText(
+        enUs.translations.errors!.wrongPassword!
+      );
       expect(errorMessage).toBeDefined();
     });
 
     // Second click - should clear error
     fireEvent.click(button);
     await waitFor(() => {
-      expect(screen.queryByText("Incorrect password")).toBeNull();
+      expect(
+        screen.queryByText(
+          enUs.translations.errors!.wrongPassword!
+        )
+      ).toBeNull();
     });
   });
 

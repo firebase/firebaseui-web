@@ -154,7 +154,9 @@ describe("mapping.ts", () => {
       expect(getTranslation(locale, "errors", "userNotFound")).toBe("Custom error message");
 
       // Should fall back to English when not available
-      expect(getTranslation(locale, "errors", "wrongPassword")).toBe("Incorrect password");
+      expect(getTranslation(locale, "errors", "wrongPassword")).toBe(
+        enUs.translations.errors!.wrongPassword!
+      );
       expect(getTranslation(locale, "labels", "emailAddress")).toBe("Email Address");
     });
 

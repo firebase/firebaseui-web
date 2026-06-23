@@ -44,7 +44,7 @@ export type Translations = {
   errors?: {
     /** Translation for when a user is not found. */
     userNotFound?: string;
-    /** Translation for incorrect password. */
+    /** Translation for incorrect password or OAuth accounts. */
     wrongPassword?: string;
     /** Translation for invalid email address. */
     invalidEmail?: string;
