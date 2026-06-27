@@ -44,6 +44,7 @@ vi.mock("~/behaviors", () => ({
 
 beforeEach(() => {
   vi.clearAllMocks();
+  window.localStorage.clear();
 });
 
 describe("autoUpgradeAnonymousCredentialHandler", () => {
@@ -93,6 +94,67 @@ describe("autoUpgradeAnonymousCredentialHandler", () => {
     await expect(autoUpgradeAnonymousCredentialHandler(mockUI, mockCredential, onUpgrade)).rejects.toThrow(
       "Callback error"
     );
+  });
+
+  it("should call onUpgradeFailure and rethrow when credential linking fails", async () => {
+    const mockUser = { isAnonymous: true, uid: "anonymous-123" } as User;
+    const mockAuth = { currentUser: mockUser } as Auth;
+    const mockUI = createMockUI({ auth: mockAuth });
+    const mockCredential = { providerId: "google.com" } as AuthCredential;
+    const mockError = new Error("Link failed");
+    const onUpgradeFailure = vi.fn().mockResolvedValue(undefined);
+
+    vi.mocked(linkWithCredential).mockRejectedValue(mockError);
+
+    await expect(
+      autoUpgradeAnonymousCredentialHandler(mockUI, mockCredential, undefined, onUpgradeFailure)
+    ).rejects.toThrow("Link failed");
+
+    expect(onUpgradeFailure).toHaveBeenCalledWith({
+      ui: mockUI,
+      oldUserId: "anonymous-123",
+      error: mockError,
+      credential: mockCredential,
+    });
+  });
+
+  it("should suppress credential linking errors when onUpgradeFailure returns handled", async () => {
+    const mockUser = { isAnonymous: true, uid: "anonymous-123" } as User;
+    const mockAuth = { currentUser: mockUser } as Auth;
+    const mockUI = createMockUI({ auth: mockAuth });
+    const mockCredential = { providerId: "google.com" } as AuthCredential;
+    const mockError = new Error("Link failed");
+    const onUpgradeFailure = vi.fn().mockResolvedValue("handled");
+
+    vi.mocked(linkWithCredential).mockRejectedValue(mockError);
+
+    const result = await autoUpgradeAnonymousCredentialHandler(mockUI, mockCredential, undefined, onUpgradeFailure);
+
+    expect(result).toBeUndefined();
+    expect(onUpgradeFailure).toHaveBeenCalledWith({
+      ui: mockUI,
+      oldUserId: "anonymous-123",
+      error: mockError,
+      credential: mockCredential,
+    });
+  });
+
+  it("should surface onUpgradeFailure callback errors for credential linking", async () => {
+    const mockUser = { isAnonymous: true, uid: "anonymous-123" } as User;
+    const mockAuth = { currentUser: mockUser } as Auth;
+    const mockUI = createMockUI({ auth: mockAuth });
+    const mockCredential = { providerId: "google.com" } as AuthCredential;
+    const mockError = new Error("Link failed");
+    const callbackError = new Error("Callback failed");
+    const onUpgradeFailure = vi.fn().mockRejectedValue(callbackError);
+
+    vi.mocked(linkWithCredential).mockRejectedValue(mockError);
+
+    await expect(
+      autoUpgradeAnonymousCredentialHandler(mockUI, mockCredential, undefined, onUpgradeFailure)
+    ).rejects.toThrow("Callback failed");
+
+    expect((callbackError as Error & { cause?: unknown }).cause).toBe(mockError);
   });
 
   it("should not upgrade when user is not anonymous", async () => {
@@ -177,6 +239,87 @@ describe("autoUpgradeAnonymousProviderHandler", () => {
     await expect(autoUpgradeAnonymousProviderHandler(mockUI, mockProvider, onUpgrade)).rejects.toThrow(
       "Callback error"
     );
+    expect(window.localStorage.getItem("fbui:upgrade:oldUserId")).toBeNull();
+  });
+
+  it("should preserve oldUserId in localStorage when provider linking redirects", async () => {
+    const mockUser = { isAnonymous: true, uid: "anonymous-123" } as User;
+    const mockAuth = { currentUser: mockUser } as Auth;
+    const mockUI = createMockUI({ auth: mockAuth });
+    const mockProvider = { providerId: "google.com" } as AuthProvider;
+    const onUpgrade = vi.fn();
+    const mockProviderLinkStrategy = vi.fn().mockResolvedValue(undefined);
+    vi.mocked(getBehavior).mockReturnValue(mockProviderLinkStrategy);
+
+    const result = await autoUpgradeAnonymousProviderHandler(mockUI, mockProvider, onUpgrade);
+
+    expect(result).toBeUndefined();
+    expect(onUpgrade).not.toHaveBeenCalled();
+    expect(window.localStorage.getItem("fbui:upgrade:oldUserId")).toBe("anonymous-123");
+  });
+
+  it("should call onUpgradeFailure and rethrow when provider linking fails", async () => {
+    const mockUser = { isAnonymous: true, uid: "anonymous-123" } as User;
+    const mockAuth = { currentUser: mockUser } as Auth;
+    const mockUI = createMockUI({ auth: mockAuth });
+    const mockProvider = { providerId: "google.com" } as AuthProvider;
+    const mockError = new Error("Provider link failed");
+    const onUpgradeFailure = vi.fn().mockResolvedValue(undefined);
+    const mockProviderLinkStrategy = vi.fn().mockRejectedValue(mockError);
+    vi.mocked(getBehavior).mockReturnValue(mockProviderLinkStrategy);
+
+    await expect(
+      autoUpgradeAnonymousProviderHandler(mockUI, mockProvider, undefined, onUpgradeFailure)
+    ).rejects.toThrow("Provider link failed");
+
+    expect(onUpgradeFailure).toHaveBeenCalledWith({
+      ui: mockUI,
+      oldUserId: "anonymous-123",
+      error: mockError,
+      provider: mockProvider,
+    });
+    expect(window.localStorage.getItem("fbui:upgrade:oldUserId")).toBeNull();
+  });
+
+  it("should suppress provider linking errors when onUpgradeFailure returns handled", async () => {
+    const mockUser = { isAnonymous: true, uid: "anonymous-123" } as User;
+    const mockAuth = { currentUser: mockUser } as Auth;
+    const mockUI = createMockUI({ auth: mockAuth });
+    const mockProvider = { providerId: "google.com" } as AuthProvider;
+    const mockError = new Error("Provider link failed");
+    const onUpgradeFailure = vi.fn().mockResolvedValue("handled");
+    const mockProviderLinkStrategy = vi.fn().mockRejectedValue(mockError);
+    vi.mocked(getBehavior).mockReturnValue(mockProviderLinkStrategy);
+
+    const result = await autoUpgradeAnonymousProviderHandler(mockUI, mockProvider, undefined, onUpgradeFailure);
+
+    expect(result).toBeUndefined();
+    expect(onUpgradeFailure).toHaveBeenCalledWith({
+      ui: mockUI,
+      oldUserId: "anonymous-123",
+      error: mockError,
+      provider: mockProvider,
+    });
+    expect(window.localStorage.getItem("fbui:upgrade:oldUserId")).toBeNull();
+  });
+
+  it("should surface onUpgradeFailure callback errors for provider linking", async () => {
+    const mockUser = { isAnonymous: true, uid: "anonymous-123" } as User;
+    const mockAuth = { currentUser: mockUser } as Auth;
+    const mockUI = createMockUI({ auth: mockAuth });
+    const mockProvider = { providerId: "google.com" } as AuthProvider;
+    const mockError = new Error("Provider link failed");
+    const callbackError = new Error("Callback failed");
+    const onUpgradeFailure = vi.fn().mockRejectedValue(callbackError);
+    const mockProviderLinkStrategy = vi.fn().mockRejectedValue(mockError);
+    vi.mocked(getBehavior).mockReturnValue(mockProviderLinkStrategy);
+
+    await expect(
+      autoUpgradeAnonymousProviderHandler(mockUI, mockProvider, undefined, onUpgradeFailure)
+    ).rejects.toThrow("Callback failed");
+
+    expect((callbackError as Error & { cause?: unknown }).cause).toBe(mockError);
+    expect(window.localStorage.getItem("fbui:upgrade:oldUserId")).toBeNull();
   });
 
   it("should not upgrade when user is not anonymous", async () => {
