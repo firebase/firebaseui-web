@@ -1,6 +1,7 @@
 import SignInAuthScreenPage from "./screens/sign-in-auth-screen";
 import SignInAuthScreenWithHandlersPage from "./screens/sign-in-auth-screen-w-handlers";
 import SignInAuthScreenWithOAuthPage from "./screens/sign-in-auth-screen-w-oauth";
+import LegacyRecoveryDemoPage from "./screens/legacy-recovery-demo";
 import SignUpAuthScreenPage from "./screens/sign-up-auth-screen";
 import SignUpAuthScreenWithHandlersPage from "./screens/sign-up-auth-screen-w-handlers";
 import SignUpAuthScreenWithOAuthPage from "./screens/sign-up-auth-screen-w-oauth";
@@ -31,6 +32,12 @@ export const routes = [
     description: "A sign in screen with email and password, with oAuth buttons.",
     path: "/screens/sign-in-auth-screen-w-oauth",
     component: SignInAuthScreenWithOAuthPage,
+  },
+  {
+    name: "Legacy Recovery Demo",
+    description: "Use this screen to test wrong-provider recovery for email/password and OAuth attempts.",
+    path: "/screens/legacy-recovery-demo",
+    component: LegacyRecoveryDemoPage,
   },
   {
     name: "Sign Up Screen",

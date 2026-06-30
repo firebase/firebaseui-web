@@ -40,6 +40,20 @@ export type FirebaseUIOptions = {
 };
 
 /**
+ * Recovery state populated when a sign-in attempt should be redirected to a previously-used method.
+ */
+export type LegacySignInRecovery = {
+  /** The email address associated with the conflicting account. */
+  email: string;
+  /** The sign-in methods returned by fetchSignInMethodsForEmail(). */
+  signInMethods: string[];
+  /** The provider used for the failed sign-in attempt, if known. */
+  attemptedProviderId?: string;
+  /** The provider from the pending credential that can be linked after recovery, if known. */
+  pendingProviderId?: string;
+};
+
+/**
  * The main FirebaseUI instance that provides access to Firebase Auth and UI state management.
  *
  * This type encapsulates all the necessary components for managing authentication UI state,
@@ -69,6 +83,12 @@ export type FirebaseUI = {
   redirectError?: Error;
   /** Sets the redirect error. */
   setRedirectError: (error?: Error) => void;
+  /** Recovery data for guiding a user back to their previous sign-in method. */
+  legacySignInRecovery?: LegacySignInRecovery;
+  /** Sets the legacy sign-in recovery data. */
+  setLegacySignInRecovery: (recovery?: LegacySignInRecovery) => void;
+  /** Clears the legacy sign-in recovery data. */
+  clearLegacySignInRecovery: () => void;
 };
 
 export const $config = map<Record<string, DeepMapStore<FirebaseUI>>>({});
@@ -137,6 +157,15 @@ export function initializeUI(config: FirebaseUIOptions, name: string = "[DEFAULT
         const current = $config.get()[name]!;
         current.setKey(`redirectError`, error);
       },
+      legacySignInRecovery: undefined,
+      setLegacySignInRecovery: (recovery?: LegacySignInRecovery) => {
+        const current = $config.get()[name]!;
+        current.setKey(`legacySignInRecovery`, recovery);
+      },
+      clearLegacySignInRecovery: () => {
+        const current = $config.get()[name]!;
+        current.setKey(`legacySignInRecovery`, undefined);
+      },
     })
   );
 
@@ -169,9 +198,9 @@ export function initializeUI(config: FirebaseUIOptions, name: string = "[DEFAULT
       .then((result) => {
         return Promise.all(redirectBehaviors.map((behavior) => behavior.handler(ui, result)));
       })
-      .catch((error) => {
+      .catch(async (error) => {
         try {
-          handleFirebaseError(ui, error);
+          await handleFirebaseError(ui, error);
         } catch (error) {
           ui.setRedirectError(error instanceof Error ? error : new Error(String(error)));
         }

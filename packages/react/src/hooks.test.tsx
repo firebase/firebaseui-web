@@ -19,6 +19,7 @@ import { renderHook, act, cleanup, waitFor } from "@testing-library/react";
 import {
   useUI,
   useRedirectError,
+  useLegacySignInRecovery,
   useSignInAuthFormSchema,
   useSignUpAuthFormSchema,
   useForgotPasswordAuthFormSchema,
@@ -840,6 +841,69 @@ describe("useRedirectError", () => {
     rerender();
 
     expect(result.current).toBeUndefined();
+  });
+});
+
+describe("useLegacySignInRecovery", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    cleanup();
+  });
+
+  it("returns undefined when no recovery state exists", () => {
+    const mockUI = createMockUI();
+
+    const { result } = renderHook(() => useLegacySignInRecovery(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    expect(result.current.recovery).toBeUndefined();
+  });
+
+  it("returns recovery data from UI state", () => {
+    const mockUI = createMockUI();
+    const recovery = {
+      email: "test@example.com",
+      signInMethods: ["google.com", "password"],
+      attemptedProviderId: "github.com",
+      pendingProviderId: "github.com",
+    };
+
+    act(() => {
+      mockUI.get().setLegacySignInRecovery(recovery);
+    });
+
+    const { result } = renderHook(() => useLegacySignInRecovery(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    expect(result.current.recovery).toEqual(recovery);
+  });
+
+  it("clears the recovery state", () => {
+    const mockUI = createMockUI();
+    const recovery = {
+      email: "test@example.com",
+      signInMethods: ["google.com"],
+    };
+
+    act(() => {
+      mockUI.get().setLegacySignInRecovery(recovery);
+    });
+
+    const { result, rerender } = renderHook(() => useLegacySignInRecovery(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    expect(result.current.recovery).toEqual(recovery);
+
+    act(() => {
+      result.current.clearRecovery();
+    });
+
+    rerender();
+
+    expect(result.current.recovery).toBeUndefined();
   });
 });
 

@@ -23,6 +23,7 @@ import * as providerStrategyHandlers from "./provider-strategy";
 import * as oneTapSignInHandlers from "./one-tap";
 import * as requireDisplayNameHandlers from "./require-display-name";
 import * as countryCodesHandlers from "./country-codes";
+import * as legacyFetchSignInWithEmailHandlers from "./legacy-fetch-sign-in-with-email";
 import {
   callableBehavior,
   initBehavior,
@@ -51,6 +52,9 @@ type Registry = {
   oneTapSignIn: InitBehavior<(ui: FirebaseUI) => ReturnType<typeof oneTapSignInHandlers.oneTapSignInHandler>>;
   requireDisplayName: CallableBehavior<typeof requireDisplayNameHandlers.requireDisplayNameHandler>;
   countryCodes: CallableBehavior<typeof countryCodesHandlers.countryCodesHandler>;
+  legacyFetchSignInWithEmail: CallableBehavior<
+    typeof legacyFetchSignInWithEmailHandlers.legacyFetchSignInWithEmailHandler
+  >;
 };
 
 /** A behavior or set of behaviors from the registry. */
@@ -180,6 +184,17 @@ export function requireDisplayName(): Behavior<"requireDisplayName"> {
 export function countryCodes(options?: countryCodesHandlers.CountryCodesOptions): Behavior<"countryCodes"> {
   return {
     countryCodes: callableBehavior(() => countryCodesHandlers.countryCodesHandler(options)),
+  };
+}
+
+/**
+ * Fetches previous sign-in methods for OAuth account mismatch flows.
+ *
+ * @returns A behavior that populates legacy sign-in recovery state.
+ */
+export function legacyFetchSignInWithEmail(): Behavior<"legacyFetchSignInWithEmail"> {
+  return {
+    legacyFetchSignInWithEmail: callableBehavior(legacyFetchSignInWithEmailHandlers.legacyFetchSignInWithEmailHandler),
   };
 }
 

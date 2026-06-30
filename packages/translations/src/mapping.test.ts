@@ -29,6 +29,7 @@ describe("mapping.ts", () => {
     it("should map Firebase auth error codes to translation keys", () => {
       expect(ERROR_CODE_MAP["auth/user-not-found"]).toBe("userNotFound");
       expect(ERROR_CODE_MAP["auth/wrong-password"]).toBe("wrongPassword");
+      expect(ERROR_CODE_MAP["auth/invalid-login-credentials"]).toBe("invalidCredential");
       expect(ERROR_CODE_MAP["auth/invalid-email"]).toBe("invalidEmail");
       expect(ERROR_CODE_MAP["auth/user-disabled"]).toBe("userDisabled");
       expect(ERROR_CODE_MAP["auth/network-request-failed"]).toBe("networkRequestFailed");
@@ -109,6 +110,7 @@ describe("mapping.ts", () => {
       const testErrorCodes: ErrorCode[] = [
         "auth/user-not-found",
         "auth/wrong-password",
+        "auth/invalid-login-credentials",
         "auth/invalid-email",
         "auth/network-request-failed",
       ];

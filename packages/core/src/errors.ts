@@ -18,6 +18,7 @@ import { ERROR_CODE_MAP, type ErrorCode } from "@firebase-oss/ui-translations";
 import { FirebaseError } from "firebase/app";
 import { type AuthCredential, getMultiFactorResolver, type MultiFactorError } from "firebase/auth";
 import { type FirebaseUI } from "./config";
+import { getBehavior, hasBehavior } from "./behaviors";
 import { getTranslation } from "./translations";
 
 /**
@@ -42,18 +43,26 @@ export class FirebaseUIError extends FirebaseError {
  *
  * @param ui - The FirebaseUI instance.
  * @param error - The error to handle.
- * @returns {never} A never type.
+ * @returns {Promise<never>} A never type wrapped in a promise.
  */
-export function handleFirebaseError(ui: FirebaseUI, error: unknown): never {
+export async function handleFirebaseError(ui: FirebaseUI, error: unknown): Promise<never> {
   // If it's not a Firebase error, then we just throw it and preserve the original error.
   if (!isFirebaseError(error)) {
     throw error;
   }
 
-  // TODO(ehesp): Type error as unknown, check instance of FirebaseError
-  // TODO(ehesp): Support via behavior
-  if (error.code === "auth/account-exists-with-different-credential" && errorContainsCredential(error)) {
-    window.sessionStorage.setItem("pendingCred", JSON.stringify(error.credential.toJSON()));
+  const shouldHandleLegacyRecovery =
+    error.code === "auth/account-exists-with-different-credential" ||
+    error.code === "auth/wrong-password" ||
+    error.code === "auth/invalid-credential" ||
+    error.code === "auth/invalid-login-credentials";
+
+  if (shouldHandleLegacyRecovery) {
+    if (hasBehavior(ui, "legacyFetchSignInWithEmail")) {
+      await getBehavior(ui, "legacyFetchSignInWithEmail")(ui, error);
+    } else if (error.code === "auth/account-exists-with-different-credential" && errorContainsCredential(error)) {
+      window.sessionStorage.setItem("pendingCred", JSON.stringify(error.credential.toJSON()));
+    }
   }
 
   // Update the UI with the multi-factor resolver if the error is thrown.

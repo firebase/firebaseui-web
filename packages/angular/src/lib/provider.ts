@@ -67,6 +67,18 @@ type PolicyConfig = {
   privacyPolicyUrl: string;
 };
 
+type LegacySignInRecovery = {
+  email: string;
+  signInMethods: string[];
+  attemptedProviderId?: string;
+  pendingProviderId?: string;
+};
+
+type FirebaseUIWithLegacyRecovery = FirebaseUIType & {
+  legacySignInRecovery?: LegacySignInRecovery;
+  clearLegacySignInRecovery?: () => void;
+};
+
 /**
  * Provides FirebaseUI configuration for the Angular application.
  *
@@ -481,4 +493,24 @@ export function injectRedirectError(): Signal<string | undefined> {
     }
     return redirectError instanceof Error ? redirectError.message : String(redirectError);
   });
+}
+
+/**
+ * Injects legacy sign-in recovery data populated by the legacyFetchSignInWithEmail behavior.
+ *
+ * @returns A computed signal containing the recovery data, or undefined when no recovery is active.
+ */
+export function injectLegacySignInRecovery(): Signal<LegacySignInRecovery | undefined> {
+  const ui = injectUI();
+  return computed(() => (ui() as FirebaseUIWithLegacyRecovery).legacySignInRecovery);
+}
+
+/**
+ * Injects a callback for clearing legacy sign-in recovery data.
+ *
+ * @returns A function that clears the current recovery state.
+ */
+export function injectClearLegacySignInRecovery(): () => void {
+  const ui = injectUI();
+  return () => (ui() as FirebaseUIWithLegacyRecovery).clearLegacySignInRecovery?.();
 }

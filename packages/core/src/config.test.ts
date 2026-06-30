@@ -444,6 +444,37 @@ describe("initializeUI", () => {
     expect(ui.get().redirectError).toBeUndefined();
   });
 
+  it("should have legacySignInRecovery undefined by default", () => {
+    const config = {
+      app: {} as FirebaseApp,
+      auth: {} as Auth,
+    };
+
+    const ui = initializeUI(config);
+    expect(ui.get().legacySignInRecovery).toBeUndefined();
+  });
+
+  it("should set and clear legacySignInRecovery correctly", () => {
+    const config = {
+      app: {} as FirebaseApp,
+      auth: {} as Auth,
+    };
+
+    const ui = initializeUI(config);
+    const recovery = {
+      email: "test@example.com",
+      signInMethods: ["google.com", "password"],
+      attemptedProviderId: "github.com",
+      pendingProviderId: "github.com",
+    };
+
+    expect(ui.get().legacySignInRecovery).toBeUndefined();
+    ui.get().setLegacySignInRecovery(recovery);
+    expect(ui.get().legacySignInRecovery).toEqual(recovery);
+    ui.get().clearLegacySignInRecovery();
+    expect(ui.get().legacySignInRecovery).toBeUndefined();
+  });
+
   it("should handle redirect error when getRedirectResult throws", async () => {
     Object.defineProperty(global, "window", {
       value: {},

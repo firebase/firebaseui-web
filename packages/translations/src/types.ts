@@ -117,6 +117,14 @@ export type Translations = {
     termsAndPrivacy?: string;
     /** Translation for MFA SMS assertion prompt message. */
     mfaSmsAssertionPrompt?: string;
+    /** Translation for legacy sign-in recovery prompt message. */
+    legacySignInRecoveryPrompt?: string;
+    /** Translation for selecting a previous sign-in method. */
+    legacySignInRecoverySelectMethod?: string;
+    /** Translation for continuing with email and password. */
+    legacySignInRecoveryEmailPassword?: string;
+    /** Translation for continuing with an email link. */
+    legacySignInRecoveryEmailLink?: string;
   };
   /** UI label translations. */
   labels?: {
@@ -174,6 +182,8 @@ export type Translations = {
     resendCode?: string;
     /** Translation for sending state text. */
     sending?: string;
+    /** Translation for dismiss action. */
+    dismiss?: string;
     /** Translation for multi-factor enrollment label. */
     multiFactorEnrollment?: string;
     /** Translation for multi-factor assertion label. */

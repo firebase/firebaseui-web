@@ -22,11 +22,14 @@ import { Card, CardContent, CardHeader, CardSubtitle, CardTitle } from "~/compon
 import { Policies } from "~/components/policies";
 import { MultiFactorAuthAssertionScreen } from "./multi-factor-auth-assertion-screen";
 import { RedirectError } from "~/components/redirect-error";
+import { LegacySignInRecovery } from "~/components/legacy-sign-in-recovery";
 
 /** Props for the OAuthScreen component. */
 export type OAuthScreenProps = PropsWithChildren<{
   /** Callback function called when sign-in is successful. */
   onSignIn?: (user: User) => void;
+  /** Whether to show the default legacy sign-in recovery UI. */
+  showLegacySignInRecovery?: boolean;
 }>;
 
 /**
@@ -37,7 +40,7 @@ export type OAuthScreenProps = PropsWithChildren<{
  *
  * @returns The OAuth screen component.
  */
-export function OAuthScreen({ children, onSignIn }: OAuthScreenProps) {
+export function OAuthScreen({ children, onSignIn, showLegacySignInRecovery = true }: OAuthScreenProps) {
   const ui = useUI();
 
   const titleText = getTranslation(ui, "labels", "signIn");
@@ -59,6 +62,7 @@ export function OAuthScreen({ children, onSignIn }: OAuthScreenProps) {
         </CardHeader>
         <CardContent className="fui-screen__children">
           {children}
+          {showLegacySignInRecovery ? <LegacySignInRecovery /> : null}
           <RedirectError />
           <Policies />
         </CardContent>

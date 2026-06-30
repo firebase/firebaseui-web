@@ -28,13 +28,32 @@ export function createMockUI(overrides?: Partial<FirebaseUIOptions>): FirebaseUI
 
   const { auth, ...restOverrides } = overrides || {};
 
-  return initializeUI({
+  const store = initializeUI({
     app: {} as FirebaseApp,
     auth: auth ?? defaultAuth,
     locale: enUs,
     behaviors: [] as Behavior[],
     ...restOverrides,
   });
+
+  const ui = store.get() as FirebaseUI & {
+    setLegacySignInRecovery?: (recovery?: FirebaseUI["legacySignInRecovery"]) => void;
+    clearLegacySignInRecovery?: () => void;
+  };
+
+  if (!ui.setLegacySignInRecovery) {
+    ui.setLegacySignInRecovery = (recovery) => {
+      store.setKey("legacySignInRecovery", recovery as FirebaseUI["legacySignInRecovery"]);
+    };
+  }
+
+  if (!ui.clearLegacySignInRecovery) {
+    ui.clearLegacySignInRecovery = () => {
+      store.setKey("legacySignInRecovery", undefined);
+    };
+  }
+
+  return store;
 }
 
 export const createFirebaseUIProvider = ({ children, ui }: { children: React.ReactNode; ui: FirebaseUIStore }) => (

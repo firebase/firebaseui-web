@@ -167,7 +167,16 @@ describe("signInWithEmailAndPassword", () => {
 
     await signInWithEmailAndPassword(mockUI, email, password);
 
-    expect(handleFirebaseError).toHaveBeenCalledWith(mockUI, error);
+    expect(handleFirebaseError).toHaveBeenCalledWith(
+      mockUI,
+      expect.objectContaining({
+        ...error,
+        email,
+        customData: {
+          email,
+        },
+      })
+    );
     expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
   });
 });

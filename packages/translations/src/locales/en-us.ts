@@ -58,6 +58,10 @@ export const enUS = {
     dividerOr: "or",
     termsAndPrivacy: "By continuing, you agree to our {tos} and {privacy}.",
     mfaSmsAssertionPrompt: "A verification code will be sent to {phoneNumber} to complete the authentication process.",
+    legacySignInRecoveryPrompt: "You have previously signed in with a different method for {email}.",
+    legacySignInRecoverySelectMethod: "Choose one of your previous sign-in methods to continue.",
+    legacySignInRecoveryEmailPassword: "Use the email and password form to continue.",
+    legacySignInRecoveryEmailLink: "Use your email link sign-in flow to continue.",
   },
   labels: {
     emailAddress: "Email Address",
@@ -88,6 +92,7 @@ export const enUS = {
     privacyPolicy: "Privacy Policy",
     resendCode: "Resend Code",
     sending: "Sending...",
+    dismiss: "Dismiss",
     multiFactorEnrollment: "Multi-factor Enrollment",
     multiFactorAssertion: "Multi-factor Authentication",
     mfaTotpVerification: "TOTP Verification",
