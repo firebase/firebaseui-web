@@ -37,7 +37,7 @@ catalog:
   next: 15.5.18
   postcss: ^8.5.10
 
-  prettier: ^3.6.2
+  prettier: ^3.8.4
   react: 19.2.3
   react-dom: 19.2.3
   react-router: ^7.12.0
