@@ -144,7 +144,11 @@ Start the emulator first, then:
 ```bash
 # All tests:
 pnpm test
+```
 
+Planned example browser smoke tests (`pnpm test:e2e`) are described in [developer-docs/work-queues/playwright-e2e-smoke.md](developer-docs/work-queues/playwright-e2e-smoke.md).
+
+```bash
 # Watch mode (core, react, angular):
 pnpm test:watch
 
