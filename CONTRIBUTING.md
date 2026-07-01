@@ -28,6 +28,8 @@ This is a monorepo managed with pnpm, containing both `packages` and `examples` 
 
 For a step-by-step guide on running the project locally (emulator setup, watch mode, example apps), see [LOCAL_DEVELOPMENT.md](LOCAL_DEVELOPMENT.md).
 
+Architecture decisions, testing strategy, and agent-oriented docs live in the [developer-docs/](developer-docs/index.md) OKF bundle. Read [developer-docs/documentation-policy.md](developer-docs/documentation-policy.md) before editing that tree.
+
 #### Building
 
 Build all packages:
