@@ -27,6 +27,9 @@ coverage
 # Firebase
 .firebase
 
+# Agent ephemeral output
+.agents/reports/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
