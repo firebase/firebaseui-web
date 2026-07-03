@@ -82,8 +82,7 @@ export function provideFirebaseUI(uiFactory: (apps: FirebaseApps) => FirebaseUIS
     {
       provide: FIREBASE_UI_STORE,
       deps: [FirebaseApps, [new Optional(), Auth]],
-      useFactory: () => {
-        const apps = inject(FirebaseApps);
+      useFactory: (apps: FirebaseApps) => {
         if (!apps || apps.length === 0) {
           throw new Error("No Firebase apps found");
         }
