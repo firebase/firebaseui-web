@@ -115,9 +115,7 @@ export function createPhoneAuthNumberFormSchema(ui: FirebaseUI) {
 export function createPhoneAuthVerifyFormSchema(ui: FirebaseUI) {
   return z.object({
     verificationId: z.string().min(1, getTranslation(ui, "errors", "missingVerificationId")),
-    verificationCode: z.string().refine((val) => val.length >= 6, {
-      error: getTranslation(ui, "errors", "invalidVerificationCode"),
-    }),
+    verificationCode: z.string().min(6, getTranslation(ui, "errors", "invalidVerificationCode")),
   });
 }
 
