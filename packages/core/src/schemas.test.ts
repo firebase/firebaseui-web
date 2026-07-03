@@ -261,16 +261,36 @@ describe("createPhoneAuthNumberFormSchema", () => {
 
     const schema = createPhoneAuthNumberFormSchema(mockUI);
 
-    // Cause the schema to fail...
-    // TODO(ehesp): If no value is provided, the schema error is just "Required" - should this also be translated?
+    // 16 digits exceeds the ITU-T E.164 maximum of 15.
     const result = schema.safeParse({
-      phoneNumber: "12345678901",
+      phoneNumber: "1234567890123456",
     });
 
     expect(result.success).toBe(false);
     expect(result.error).toBeDefined();
 
     expect(result.error?.issues[0]?.message).toBe("createPhoneAuthNumberFormSchema + invalidPhoneNumber");
+  });
+
+  it("should accept a valid 11-digit national number (e.g. China / Germany mobile)", () => {
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        errors: {
+          missingPhoneNumber: "missing",
+          invalidPhoneNumber: "invalid",
+        },
+      }),
+    });
+
+    const schema = createPhoneAuthNumberFormSchema(mockUI);
+
+    // Previously rejected by the .max(10) cap. The dial code is added later by
+    // formatPhoneNumber, so this national number must be accepted here.
+    const result = schema.safeParse({
+      phoneNumber: "13800138000",
+    });
+
+    expect(result.success).toBe(true);
   });
 });
 
@@ -325,6 +345,33 @@ describe("createPhoneAuthVerifyFormSchema", () => {
       )
     ).toBe(true);
   });
+
+  it("should reject an empty verification code", () => {
+    const testLocale = registerLocale("test", {
+      errors: {
+        invalidVerificationCode: "createPhoneAuthVerifyFormSchema + invalidVerificationCode",
+      },
+    });
+
+    const mockUI = createMockUI({
+      locale: testLocale,
+    });
+
+    const schema = createPhoneAuthVerifyFormSchema(mockUI);
+
+    const result = schema.safeParse({
+      verificationId: "test-verification-id",
+      verificationCode: "",
+    });
+
+    expect(result.success).toBe(false);
+    expect(result.error).toBeDefined();
+    expect(
+      result.error?.issues.some(
+        (issue) => issue.message === "createPhoneAuthVerifyFormSchema + invalidVerificationCode"
+      )
+    ).toBe(true);
+  });
 });
 
 describe("createMultiFactorPhoneAuthAssertionFormSchema", () => {
@@ -363,8 +410,9 @@ describe("createMultiFactorPhoneAuthAssertionFormSchema", () => {
 
     const schema = createMultiFactorPhoneAuthAssertionFormSchema(mockUI);
 
+    // 16 digits exceeds the ITU-T E.164 maximum of 15.
     const result = schema.safeParse({
-      phoneNumber: "12345678901",
+      phoneNumber: "1234567890123456",
     });
 
     expect(result.success).toBe(false);
