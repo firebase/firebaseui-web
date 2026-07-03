@@ -2,7 +2,7 @@
   "name": "@firebase-oss/ui-root",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@10.34.4",
+  "packageManager": "pnpm@11.9.0",
   "scripts": {
     "emulators": "firebase emulators:start --only auth --project demo-test",
     "build": "pnpm --filter=@firebase-oss/ui-translations run build && pnpm --filter=@firebase-oss/ui-styles run build && pnpm --filter=@firebase-oss/ui-core run build && pnpm --filter=@firebase-oss/ui-react run build && pnpm --filter=@firebase-oss/ui-angular run build && pnpm --filter=@firebase-oss/ui-shadcn run build && pnpm --filter react run build && pnpm --filter nextjs run build && pnpm --filter nextjs-ssr run build && pnpm --filter angular-example run build && pnpm --filter shadcn run build",
@@ -26,15 +26,15 @@
     "publish:npm:all": "pnpm --filter=@firebase-oss/ui-* run publish:npm"
   },
   "devDependencies": {
-    "@eslint/css": "^0.11.1",
-    "@eslint/js": "^9.35.0",
-    "angular-eslint": "^20.3.0",
+    "@eslint/css": "^1.4.0",
+    "@eslint/js": "^9.39.4",
+    "angular-eslint": "^20.7.0",
     "eslint": "catalog:",
-    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-prettier": "^5.5.6",
     "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "globals": "^16.4.0",
-    "prettier": "^3.1.1",
-    "typescript-eslint": "^8.45.0"
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.7.0",
+    "prettier": "^3.9.4",
+    "typescript-eslint": "^8.62.1"
   }
 }

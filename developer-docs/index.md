@@ -25,6 +25,7 @@ OKF knowledge bundle for firebaseui-web: architecture, decisions, playbooks, and
 
 # Playbooks
 
+- [playbooks/change-authoring-verification.md](playbooks/change-authoring-verification.md) — **required before commit/push** on deps, CI, or e2e changes ([AD-10](decisions.md#ad-10-change-authoring-requires-ci-parity-verification-before-commit))
 - [playbooks/dependency-update-verification.md](playbooks/dependency-update-verification.md) — verify monorepo after dependency bumps
 
 # Work queues

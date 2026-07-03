@@ -31,11 +31,13 @@ vi.mock("firebase/auth", async () => {
   const actual = await vi.importActual("firebase/auth");
   return {
     ...actual,
-    RecaptchaVerifier: vi.fn().mockImplementation(() => ({
-      render: vi.fn().mockResolvedValue(123),
-      clear: vi.fn(),
-      verify: vi.fn().mockResolvedValue("verification-token"),
-    })),
+    RecaptchaVerifier: vi.fn().mockImplementation(function () {
+      return {
+        render: vi.fn().mockResolvedValue(123),
+        clear: vi.fn(),
+        verify: vi.fn().mockResolvedValue("verification-token"),
+      };
+    }),
     ConfirmationResult: vi.fn(),
     getRedirectResult: vi.fn().mockResolvedValue(null),
   };
@@ -409,7 +411,7 @@ describe("useVerifyPhoneNumberForm", () => {
       await result.current.handleSubmit();
     });
 
-    expect(result.current.getFieldMeta("verificationCode")!.errors[0].length).toBeGreaterThan(0);
+    expect(result.current.getFieldMeta("verificationCode")!.errors.length).toBeGreaterThan(0);
     expect(confirmPhoneNumberMock).not.toHaveBeenCalled();
   });
 

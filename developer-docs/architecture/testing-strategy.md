@@ -29,6 +29,6 @@ timestamp: 2026-07-03T00:00:00Z
 * Production build artifacts not exercised by e2e — deferred, [AD-8](../decisions.md#ad-8-production-artifact-e2e-deferred-future-phase).
 * `pnpm audit` not gated in CI.
 
-# Post-dependency-update gate (target)
+# Post-dependency-update gate
 
-See [playbooks/dependency-update-verification.md](../playbooks/dependency-update-verification.md).
+Required before commit: [playbooks/change-authoring-verification.md](../playbooks/change-authoring-verification.md) ([AD-10](../decisions.md#ad-10-change-authoring-requires-ci-parity-verification-before-commit)). Dependency-specific steps: [playbooks/dependency-update-verification.md](../playbooks/dependency-update-verification.md).

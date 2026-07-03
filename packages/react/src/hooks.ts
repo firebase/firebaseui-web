@@ -209,7 +209,9 @@ export function useRecaptchaVerifier(ref: React.RefObject<HTMLDivElement | null>
   const prevElementRef = useRef<HTMLDivElement | null>(null);
   const activeVerifierRef = useRef<RecaptchaVerifier | null>(null);
 
-  uiRef.current = ui;
+  useEffect(() => {
+    uiRef.current = ui;
+  }, [ui]);
 
   useEffect(() => {
     let cancelled = false;

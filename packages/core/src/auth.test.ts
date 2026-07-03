@@ -400,12 +400,11 @@ describe("verifyPhoneNumber", () => {
     const mockVerificationId = "test-verification-id";
 
     const mockVerifyPhoneNumber = vi.fn().mockResolvedValue(mockVerificationId);
-    vi.mocked(PhoneAuthProvider).mockImplementation(
-      () =>
-        ({
-          verifyPhoneNumber: mockVerifyPhoneNumber,
-        }) as any
-    );
+    vi.mocked(PhoneAuthProvider).mockImplementation(function MockPhoneAuthProvider(this: {
+      verifyPhoneNumber: typeof mockVerifyPhoneNumber;
+    }) {
+      this.verifyPhoneNumber = mockVerifyPhoneNumber;
+    });
 
     const result = await verifyPhoneNumber(mockUI, phoneNumber, mockAppVerifier);
 
@@ -425,12 +424,11 @@ describe("verifyPhoneNumber", () => {
     const error = new FirebaseError("auth/invalid-phone-number", "Invalid phone number");
 
     const mockVerifyPhoneNumber = vi.fn().mockRejectedValue(error);
-    vi.mocked(PhoneAuthProvider).mockImplementation(
-      () =>
-        ({
-          verifyPhoneNumber: mockVerifyPhoneNumber,
-        }) as any
-    );
+    vi.mocked(PhoneAuthProvider).mockImplementation(function MockPhoneAuthProvider(this: {
+      verifyPhoneNumber: typeof mockVerifyPhoneNumber;
+    }) {
+      this.verifyPhoneNumber = mockVerifyPhoneNumber;
+    });
 
     await verifyPhoneNumber(mockUI, phoneNumber, mockAppVerifier);
 
@@ -448,12 +446,11 @@ describe("verifyPhoneNumber", () => {
     const error = new Error("reCAPTCHA verification failed");
 
     const mockVerifyPhoneNumber = vi.fn().mockRejectedValue(error);
-    vi.mocked(PhoneAuthProvider).mockImplementation(
-      () =>
-        ({
-          verifyPhoneNumber: mockVerifyPhoneNumber,
-        }) as any
-    );
+    vi.mocked(PhoneAuthProvider).mockImplementation(function MockPhoneAuthProvider(this: {
+      verifyPhoneNumber: typeof mockVerifyPhoneNumber;
+    }) {
+      this.verifyPhoneNumber = mockVerifyPhoneNumber;
+    });
 
     await verifyPhoneNumber(mockUI, phoneNumber, mockAppVerifier);
 
