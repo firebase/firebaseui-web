@@ -1,0 +1,56 @@
+name: E2E
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  react-e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Setup node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22.13.0
+          check-latest: true
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
+        with:
+          version: 10
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build packages
+        run: pnpm build:packages
+
+      - name: Install Firebase CLI
+        run: npm i -g firebase-tools@14.15.2
+
+      - name: Enable webframeworks experiment
+        run: firebase experiments:enable webframeworks
+
+      - name: Start Firebase emulator
+        run: |
+          firebase emulators:start --only auth --project demo-test &
+          sleep 15
+          until wget -q --spider http://localhost:9099 2>/dev/null; do
+            echo "Waiting for emulator to start..."
+            sleep 2
+          done
+          echo "Emulator is ready"
+
+      - name: Install Playwright browsers
+        run: pnpm --filter=e2e exec playwright install --with-deps chromium
+
+      - name: Run react e2e smoke
+        run: pnpm test:e2e:react

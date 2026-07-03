@@ -24,6 +24,11 @@ packages/angular/src/version.ts
 # Coverage
 coverage
 
+# Playwright
+e2e/test-results/
+e2e/.state/
+playwright-report/
+
 # Firebase
 .firebase
 
