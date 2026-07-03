@@ -17,6 +17,7 @@
 import { readFileSync, rmSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { finalizeCoverageReport } from "./fixtures/v8-coverage";
 
 const E2E_DIR = path.dirname(fileURLToPath(import.meta.url));
 const STATE_FILE = path.join(E2E_DIR, ".state", "emulator.json");
@@ -35,6 +36,13 @@ function readEmulatorState(): EmulatorState | null {
 }
 
 export default async function globalTeardown(): Promise<void> {
+  finalizeCoverageReport();
+
+  // Serial runner keeps the emulator alive between projects; it performs final stop.
+  if (process.env.E2E_KEEP_EMULATOR === "1") {
+    return;
+  }
+
   const state = readEmulatorState();
 
   if (state?.startedBySetup && state.pid !== undefined) {

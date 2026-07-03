@@ -15,14 +15,21 @@
  */
 
 import { test as base, expect } from "@playwright/test";
+import { startV8Coverage, stopV8Coverage } from "./v8-coverage";
 
 export const test = base.extend({
-  page: async ({ page }, use) => {
+  page: async ({ page }, use, testInfo) => {
     // Block Google One Tap (accounts.google.com): external script is flaky in e2e and
     // unnecessary for sign-in form smoke tests (AD-5). Prefer route blocking over app flags.
     await page.route("**/*accounts.google.com/**", (route) => route.abort());
 
+    const coverageSession = testInfo.project.name !== "custom-auth-server" ? await startV8Coverage(page) : null;
+
     await use(page);
+
+    if (coverageSession) {
+      await stopV8Coverage(coverageSession, testInfo.title, testInfo.project.name);
+    }
   },
 });
 
