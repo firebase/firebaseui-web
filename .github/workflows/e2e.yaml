@@ -4,7 +4,23 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'packages/**'
+      - 'examples/**'
+      - 'e2e/**'
+      - '.github/workflows/e2e.yaml'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
   pull_request:
+    paths:
+      - 'packages/**'
+      - 'examples/**'
+      - 'e2e/**'
+      - '.github/workflows/e2e.yaml'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
 
 permissions:
   contents: read
@@ -30,6 +46,20 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Resolve Playwright version
+        id: playwright-version
+        run: |
+          version="$(pnpm --filter=e2e exec node -p "require('@playwright/test/package.json').version")"
+          echo "playwright-version=${version}" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright-version.outputs.playwright-version }}
+          restore-keys: |
+            playwright-${{ runner.os }}-
+
       - name: Install Firebase CLI
         run: npm i -g firebase-tools@14.15.2
 
@@ -49,5 +79,5 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm --filter=e2e exec playwright install --with-deps chromium
 
-      - name: Run UI e2e smoke (react, shadcn, nextjs, nextjs-ssr)
+      - name: Run UI e2e smoke
         run: pnpm test:e2e

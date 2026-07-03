@@ -205,9 +205,9 @@ Update immediately after each step closes a gate. All items start `open` / `impl
 | 2b | 2b.2 fix NG0201 bootstrap | closed | closed | closed | test(angular): e2e test for angular example | — | — | fixed via peer-resolved injected workspace dependency + provider factory cleanup. |
 | 2b | 2b.3 wire angular into serial runner | closed | closed | closed | test(angular): e2e test for angular example | — | — | `pnpm test:e2e` = five UI examples, green locally. |
 | 2b | 2b.4 add angular to CI + verify | closed | closed | closed | test(angular): e2e test for angular example | — | — | workflow already runs `pnpm test:e2e`; next PR run verifies in GHA. |
-| 3 | 3.1 e2e workflow browser cache | open | open | open | — | implementation | area-focused | blocked on 2.5 CI baseline |
-| 3 | 3.2 broad path triggers | open | open | open | — | implementation | unit-focused | |
-| 4 | 4.1 custom-auth-server HTTP smoke (:4001) | open | open | open | — | implementation | area-focused | |
+| 3 | 3.1 e2e workflow browser cache | closed | closed | closed | ci(e2e): harden workflow triggers and browser cache | — | — | browser cache keyed by resolved `@playwright/test` version; static review green. |
+| 3 | 3.2 broad path triggers | closed | closed | closed | ci(e2e): harden workflow triggers and browser cache | — | — | AD-7 paths added for packages/examples/e2e/workflow/root manifests. |
+| 4 | 4.1 custom-auth-server HTTP smoke (:4001) | open | open | open | — | implementation | area-focused | **Next pickup.** |
 | 5 | 5.1 VITE_E2E skip oneTapSignIn | open | open | open | — | implementation | unit-focused | only if flaky |
 | 5 | 5.2 NEXT_PUBLIC_E2E skip autoAnonymousLogin | open | open | open | — | implementation | unit-focused | only if flaky |
 | 6 | 6.1 align example deps | open | open | open | — | implementation | area-focused | |
