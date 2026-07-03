@@ -50,13 +50,13 @@ scripts/e2e-run.mjs (pnpm test:e2e)
   → for each example in [react, shadcn, nextjs, nextjs-ssr, angular, custom-auth-server]:
        playwright test  (E2E_PROJECT=<example>)
          → globalSetup: assert packages built + emulator reachable
-         → project webServer: start <example> dev server on its port, wait for URL
+         → top-level webServer selected by E2E_PROJECT: start <example> dev server on its port, wait for URL
          → run smoke spec(s) for the project
          → webServer: stop dev server
   → stop emulator (globalTeardown / runner)
 ```
 
-* **Serial:** `workers: 1`; `E2E_PROJECT` selects the single project + `webServer` so one dev server is up at a time.
+* **Serial:** `workers: 1`; `E2E_PROJECT` selects both the single Playwright project and the top-level `webServer`, so one dev server is up at a time.
 * **Emulator:** started once by the runner (or first `globalSetup`, reuse-aware); shared `:9099`; stopped once.
 * **Per-example debug:** `pnpm test:e2e:react` runs one project; `globalSetup` starts the emulator with reuse if not already running.
 
@@ -73,17 +73,17 @@ scripts/e2e-run.mjs (pnpm test:e2e)
 
 Auth emulator `:9099`; Emulator UI `:4000` (why custom-auth-server uses `:4001`). Ports are unique, so parallel e2e is possible later — deferred ([AD-4](../decisions.md#ad-4-playwright-managed-dev-servers-serial-shared-emulator)).
 
-# Proposed root scripts (not implemented yet)
+# Root scripts
 
-| Script | Purpose |
-|--------|---------|
-| `test:e2e` | Serial runner (`scripts/e2e-run.mjs`) over all examples |
-| `test:e2e:react` | react only |
-| `test:e2e:shadcn` | shadcn only |
-| `test:e2e:nextjs` | nextjs only |
-| `test:e2e:nextjs-ssr` | nextjs-ssr only |
-| `test:e2e:angular` | angular-example only |
-| `test:e2e:custom-auth-server` | custom-auth-server HTTP smoke only |
+| Script | Status | Purpose |
+|--------|--------|---------|
+| `test:e2e:react` | **implemented** | react smoke only (`E2E_PROJECT=react`) |
+| `test:e2e` | planned (2.5) | Serial runner (`scripts/e2e-run.mjs`) over all examples |
+| `test:e2e:shadcn` | planned (2.5) | shadcn only |
+| `test:e2e:nextjs` | planned (2.5) | nextjs only |
+| `test:e2e:nextjs-ssr` | planned (2.5) | nextjs-ssr only |
+| `test:e2e:angular` | planned (2.5) | angular-example only |
+| `test:e2e:custom-auth-server` | planned (4.1) | custom-auth-server HTTP smoke only |
 
 # Per-item iteration protocol
 
@@ -157,13 +157,13 @@ Update immediately after each step closes a gate. All items start `open` / `impl
 
 | Phase | Item | `implementation_gate` | `review_gate` | `commit_gate` | `commit_subject` | `next_work_type` | `validation_tier` | Notes |
 |-------|------|----------------------|---------------|---------------|------------------|------------------|-------------------|-------|
-| 1 | 1.1 e2e package + config skeleton | open | open | open | — | implementation | unit-focused | |
-| 1 | 1.2 globalSetup/teardown (build + emulator) | open | open | open | — | implementation | unit-focused | |
-| 1 | 1.3 example-meta (react seed) | open | open | open | — | implementation | unit-focused | |
-| 1 | 1.4 react webServer + One Tap route-block | open | open | open | — | implementation | unit-focused | comment the `page.route` reason |
-| 1 | 1.5 sign-in-handlers spec S1–S3 (react) | open | open | open | — | implementation | unit-focused | assert rendered UI |
-| 1 | 1.6 minimal CI proof (react) | open | open | open | — | implementation | area-focused | |
-| 2 | 2.1 shadcn | open | open | open | — | implementation | unit-focused | fp → `/screens/forgot-password-screen` |
+| 1 | 1.1 e2e package + config skeleton | closed | closed | closed | test(e2e): install/configure playwright, implement react e2e smoke test | — | — | Shipped in Phase 1 commit. |
+| 1 | 1.2 globalSetup/teardown (build + emulator) | closed | closed | closed | test(e2e): install/configure playwright, implement react e2e smoke test | — | — | |
+| 1 | 1.3 example-meta (react seed) | closed | closed | closed | test(e2e): install/configure playwright, implement react e2e smoke test | — | — | |
+| 1 | 1.4 react webServer + One Tap route-block | closed | closed | closed | test(e2e): install/configure playwright, implement react e2e smoke test | — | — | top-level webServer + `E2E_PROJECT`. |
+| 1 | 1.5 sign-in-handlers spec S1–S3 (react) | closed | closed | closed | test(e2e): install/configure playwright, implement react e2e smoke test | — | — | 3/3 passed locally. |
+| 1 | 1.6 minimal CI proof (react) | closed | closed | closed | test(e2e): install/configure playwright, implement react e2e smoke test | — | — | `.github/workflows/e2e.yaml`; **CI green** on PR #1389 (`pnpm test:e2e:react` 3/3). Zizmor follow-up: pin actions + `permissions: contents: read`. |
+| 2 | 2.1 shadcn | open | open | open | — | implementation | unit-focused | **Next pickup.** fp → `/screens/forgot-password-screen` |
 | 2 | 2.2 nextjs | open | open | open | — | implementation | unit-focused | trailingSlash |
 | 2 | 2.3 nextjs-ssr | open | open | open | — | implementation | unit-focused | generous timeout |
 | 2 | 2.4 angular-example | open | open | open | — | implementation | unit-focused | reuse `start` (clean) |
@@ -182,7 +182,7 @@ Update immediately after each step closes a gate. All items start `open` / `impl
 ```
 e2e/
 ├── package.json
-├── playwright.config.ts        # projects + per-project webServer; globalSetup/teardown
+├── playwright.config.ts        # projects + top-level webServer selected by E2E_PROJECT; globalSetup/teardown
 ├── global-setup.ts             # build:packages assert + start/reuse emulator
 ├── global-teardown.ts          # stop emulator if started here
 ├── fixtures/
@@ -209,7 +209,7 @@ Feasibility review (verified against code) that shaped this queue:
 
 * Deep-link `/screens/sign-in-auth-screen-w-handlers` exists in all five UI examples; forgot-password target differs (shadcn `/screens/forgot-password-screen` vs react/angular `/screens/forgot-password-auth-screen`) → S3 asserts rendered UI.
 * `SignInAuthScreen` renders the form regardless of auth state → auth-behavior flags decoupled (Phase 5, optional).
-* Playwright `webServer` + `globalSetup` replace hand-rolled orchestration (biggest simplification).
+* Playwright top-level `webServer` selected by `E2E_PROJECT` + `globalSetup` replace hand-rolled orchestration (biggest simplification).
 * `custom-auth-server` default `:4000` collides with Emulator UI → `:4001`.
 * CI path-filtering must be broad (examples depend on `packages/**`, root manifests, lockfile, catalog).
 * #13: react-only vertical slice first, to validate the model cheaply.
