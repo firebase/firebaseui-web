@@ -149,7 +149,7 @@ NG0201: No provider found for `FirebaseApps`. Source: Environment Injector.
   Path: firebaseui.store → FirebaseApps
 ```
 
-`examples/angular/src/app/app.config.ts` registers `provideFirebaseApp(...)` and `provideFirebaseUI(...)`, but under `ng serve` the `FIREBASE_UI_STORE` factory still fails to resolve `FirebaseApps` in the client injector. A partial `useFactory(apps: FirebaseApps)` deps change in `packages/angular/src/lib/provider.ts` did not fix e2e.
+`examples/angular/src/app/app.config.ts` registers `provideFirebaseApp(...)` and `provideFirebaseUI(...)`, but under `ng serve` the `FIREBASE_UI_STORE` factory still failed to resolve `FirebaseApps` in the client injector until the local workspace package was installed as an injected dependency. The package already declares `@angular/fire` as a peer; `dependenciesMeta["@firebase-oss/ui-angular"].injected = true` makes the Angular example consume a peer-resolved workspace copy instead of the source package's devDependency peer context. With the provider factory cleanup and injected workspace dependency, `pnpm test:e2e:angular` passes `3/3`.
 
 **Next steps:** reproduce with `E2E_PROJECT=angular-example pnpm --filter=e2e exec playwright test --project=angular-example`; fix provider/DI wiring in the example app and/or `@firebase-oss/ui-angular` before re-adding angular to the serial runner.
 
@@ -201,10 +201,10 @@ Update immediately after each step closes a gate. All items start `open` / `impl
 | 2 | 2.2 nextjs | closed | closed | closed | test: working e2e tests for shadcn, nextjs, and nextjs-ssr | — | — | 3/3; forgot-password handler added to example page. |
 | 2 | 2.3 nextjs-ssr | closed | closed | closed | test: working e2e tests for shadcn, nextjs, and nextjs-ssr | — | — | 3/3 green. |
 | 2 | 2.5 serial runner + root scripts | closed | closed | closed | test: working e2e tests for shadcn, nextjs, and nextjs-ssr | — | — | `pnpm test:e2e` local + CI (4 examples); modern pinned actions. |
-| 2b | 2b.1 angular meta + script | open | open | open | — | implementation | unit-focused | **Next pickup.** |
-| 2b | 2b.2 fix NG0201 bootstrap | open | open | open | — | implementation | unit-focused | see [Phase 2b blocker](#angular-e2e-blocker-observed-2026-07-03) |
-| 2b | 2b.3 wire angular into serial runner | open | open | open | — | implementation | area-focused | five UI examples in `pnpm test:e2e` |
-| 2b | 2b.4 add angular to CI + verify | open | open | open | — | implementation | area-focused | blocked on 2b.3 |
+| 2b | 2b.1 angular meta + script | closed | closed | closed | test(angular): e2e test for angular example | — | — | `test:e2e:angular` wired. |
+| 2b | 2b.2 fix NG0201 bootstrap | closed | closed | closed | test(angular): e2e test for angular example | — | — | fixed via peer-resolved injected workspace dependency + provider factory cleanup. |
+| 2b | 2b.3 wire angular into serial runner | closed | closed | closed | test(angular): e2e test for angular example | — | — | `pnpm test:e2e` = five UI examples, green locally. |
+| 2b | 2b.4 add angular to CI + verify | closed | closed | closed | test(angular): e2e test for angular example | — | — | workflow already runs `pnpm test:e2e`; next PR run verifies in GHA. |
 | 3 | 3.1 e2e workflow browser cache | open | open | open | — | implementation | area-focused | blocked on 2.5 CI baseline |
 | 3 | 3.2 broad path triggers | open | open | open | — | implementation | unit-focused | |
 | 4 | 4.1 custom-auth-server HTTP smoke (:4001) | open | open | open | — | implementation | area-focused | |
