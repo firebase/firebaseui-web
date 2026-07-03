@@ -2,6 +2,7 @@
   "name": "@firebase-oss/ui-root",
   "private": true,
   "type": "module",
+  "packageManager": "pnpm@10.34.4",
   "scripts": {
     "emulators": "firebase emulators:start --only auth --project demo-test",
     "build": "pnpm --filter=@firebase-oss/ui-translations run build && pnpm --filter=@firebase-oss/ui-styles run build && pnpm --filter=@firebase-oss/ui-core run build && pnpm --filter=@firebase-oss/ui-react run build && pnpm --filter=@firebase-oss/ui-angular run build && pnpm --filter=@firebase-oss/ui-shadcn run build && pnpm --filter react run build && pnpm --filter nextjs run build && pnpm --filter nextjs-ssr run build && pnpm --filter angular-example run build && pnpm --filter shadcn run build",

@@ -84,3 +84,11 @@ allowBuilds:
   unrs-resolver: true
 
 gitChecks: false
+
+# Block @angular/fire optional peer firebase-tools from entering the lockfile (e2e uses npx; CI uses global install).
+peerDependencyRules:
+  ignoreMissing:
+    - firebase-tools
+
+overrides:
+  firebase-tools: "-"

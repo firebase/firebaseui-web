@@ -81,6 +81,7 @@ export const exampleMeta: Record<string, ExampleMeta> = {
     trailingSlash: true,
     forgotPasswordPath: "/screens/forgot-password-auth-screen",
     webServerCommand: "pnpm --filter=nextjs exec next dev --turbopack -p 3000",
+    webServerTimeoutMs: 180_000,
   },
   "nextjs-ssr": {
     kind: "ui",
@@ -100,6 +101,7 @@ export const exampleMeta: Record<string, ExampleMeta> = {
     trailingSlash: false,
     forgotPasswordPath: "/screens/forgot-password-auth-screen",
     webServerCommand: "pnpm --filter=angular-example run start --port 4200",
+    webServerTimeoutMs: 240_000,
   },
   // AD-6: non-browser HTTP smoke; lifecycle in custom-auth-server.spec.ts
   "custom-auth-server": {

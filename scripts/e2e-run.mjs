@@ -14,11 +14,14 @@
  * limitations under the License.
  */
 
+import { readFileSync, rmSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { resetCoverageArtifacts } from "../e2e/fixtures/coverage-artifacts.mjs";
 
 const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const EMULATOR_STATE_FILE = path.join(REPO_ROOT, "e2e", ".state", "emulator.json");
 
 /** UI examples exercised serially by `pnpm test:e2e` (browser smoke S1–S3). */
 const E2E_UI_EXAMPLES = ["react", "shadcn", "nextjs", "nextjs-ssr", "angular-example"];
@@ -39,22 +42,45 @@ function ensurePackagesBuilt() {
 function runExample(example) {
   console.log(`\n[e2e-run] Starting ${example}…\n`);
 
-  const result = spawnSync(
-    "pnpm",
-    ["--filter=e2e", "exec", "playwright", "test", `--project=${example}`],
-    {
-      cwd: REPO_ROOT,
-      stdio: "inherit",
-      env: { ...process.env, E2E_PROJECT: example, E2E_SKIP_BUILD_PACKAGES: "1" },
-    }
-  );
+  const result = spawnSync("pnpm", ["--filter=e2e", "exec", "playwright", "test", `--project=${example}`], {
+    cwd: REPO_ROOT,
+    stdio: "inherit",
+    env: {
+      ...process.env,
+      E2E_PROJECT: example,
+      E2E_SKIP_BUILD_PACKAGES: "1",
+      E2E_KEEP_EMULATOR: "1",
+    },
+  });
 
   if (result.status !== 0) {
     process.exitCode = result.status ?? 1;
   }
 }
 
+function stopOrchestratedEmulator() {
+  try {
+    const state = JSON.parse(readFileSync(EMULATOR_STATE_FILE, "utf8"));
+    if (state?.startedBySetup && state.pid !== undefined) {
+      try {
+        process.kill(-state.pid, "SIGTERM");
+      } catch {
+        // Emulator may already have stopped.
+      }
+    }
+  } catch {
+    // No state file — nothing to stop.
+  }
+
+  try {
+    rmSync(path.dirname(EMULATOR_STATE_FILE), { recursive: true, force: true });
+  } catch {
+    // Best-effort cleanup.
+  }
+}
+
 ensurePackagesBuilt();
+resetCoverageArtifacts();
 
 for (const example of E2E_EXAMPLES) {
   runExample(example);
@@ -62,6 +88,8 @@ for (const example of E2E_EXAMPLES) {
     break;
   }
 }
+
+stopOrchestratedEmulator();
 
 if (process.exitCode) {
   process.exit(process.exitCode);

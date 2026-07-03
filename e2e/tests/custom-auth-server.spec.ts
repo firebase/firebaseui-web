@@ -23,7 +23,10 @@ import { exampleMeta, type HttpExampleMeta } from "../fixtures/example-meta";
 /** HTTP boot smoke for custom-auth-server — AD-6. */
 const PROJECT = "custom-auth-server";
 const PORT = "4001";
-const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
+const CUSTOM_AUTH_SERVER_DIR = path.join(REPO_ROOT, "examples", "custom-auth-server");
+/** Canonical start command: examples/custom-auth-server/package.json `"start": "node build/index.js"`. */
+const SERVER_ENTRY = path.join(CUSTOM_AUTH_SERVER_DIR, "build", "index.js");
 
 const meta = exampleMeta[PROJECT];
 if (meta.kind !== "http") {
@@ -79,12 +82,13 @@ test.describe(`custom-auth-server HTTP smoke (${PROJECT})`, () => {
     });
     expect(build.status, "custom-auth-server build failed").toBe(0);
 
-    server = spawn("pnpm", ["--filter=custom-auth-server", "start"], {
-      cwd: REPO_ROOT,
+    server = spawn(process.execPath, [SERVER_ENTRY], {
+      cwd: CUSTOM_AUTH_SERVER_DIR,
       stdio: "inherit",
       detached: true,
       env: { ...process.env, PORT },
     });
+    server.unref();
 
     await waitForServer(`${httpMeta.baseURL}${httpMeta.smokePath}`);
   });

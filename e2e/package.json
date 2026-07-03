@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "playwright test"
+    "test": "node ../scripts/e2e-run.mjs"
   },
   "devDependencies": {
     "@firebase-oss/ui-translations": "workspace:*",

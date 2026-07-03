@@ -3,7 +3,7 @@ type: Playbook
 title: Dependency update verification
 description: Steps to validate firebaseui-web after updating dependencies to current stable.
 tags: [dependencies, security, e2e]
-timestamp: 2026-07-01T00:00:00Z
+timestamp: 2026-07-03T00:00:00Z
 ---
 
 # When to use
@@ -17,16 +17,16 @@ After bumping dependencies in the monorepo root, `packages/*`, `examples/*`, or 
 3. `pnpm test` — package unit tests (emulator optional for skipped integration tests)
 4. `pnpm lint:check` && `pnpm format:check`
 5. `pnpm audit` — triage high/critical; example-path advisories called out in PR
-6. `pnpm test:e2e` — serial example smoke across all examples incl. `custom-auth-server` HTTP boot (once Playwright queue is complete)
+6. `pnpm test:e2e` — serial example smoke across all examples incl. `custom-auth-server` HTTP boot
 
 # CI parity
 
-Match [`.github/workflows/test.yaml`](../../.github/workflows/test.yaml) plus future e2e job from [work-queues/playwright-e2e-smoke.md](../work-queues/playwright-e2e-smoke.md).
+Match [`.github/workflows/test.yaml`](../../.github/workflows/test.yaml) and [`.github/workflows/e2e.yaml`](../../.github/workflows/e2e.yaml).
 
 # Owners
 
-| Topic | Document |
-|-------|----------|
+| Topic                      | Document                                                                    |
+| -------------------------- | --------------------------------------------------------------------------- |
 | Example ports and commands | [architecture/examples-inventory.md](../architecture/examples-inventory.md) |
-| E2E scope | [decisions.md](../decisions.md) (AD-3, AD-4) |
-| Local emulator setup | [LOCAL_DEVELOPMENT.md](../../LOCAL_DEVELOPMENT.md) |
+| E2E scope                  | [decisions.md](../decisions.md) (AD-3, AD-4)                                |
+| Local emulator setup       | [LOCAL_DEVELOPMENT.md](../../LOCAL_DEVELOPMENT.md)                          |

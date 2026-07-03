@@ -33,8 +33,8 @@ Applies to all durable documentation in this repository: the [developer-docs](in
 | Hard-to-reverse decisions | `developer-docs/decisions.md` |
 | Step-by-step procedures | `developer-docs/playbooks/` or root guides (pick one owner) |
 | Implementation backlogs | `developer-docs/work-queues/` |
-| Contributor onboarding | [CONTRIBUTING.md](../../CONTRIBUTING.md) |
-| Local dev commands | [LOCAL_DEVELOPMENT.md](../../LOCAL_DEVELOPMENT.md) |
+| Contributor onboarding | [CONTRIBUTING.md](../CONTRIBUTING.md) |
+| Local dev commands | [LOCAL_DEVELOPMENT.md](../LOCAL_DEVELOPMENT.md) |
 | Agent ephemeral output | `.agents/reports/` (gitignored) |
 
 # Citations

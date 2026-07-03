@@ -20,7 +20,7 @@ timestamp: 2026-07-03T00:00:00Z
 
 [`.github/workflows/test.yaml`](../../.github/workflows/test.yaml): `pnpm build`, Auth emulator start, `pnpm test`.
 
-[`.github/workflows/e2e.yaml`](../../.github/workflows/e2e.yaml): `pnpm test:e2e` (six examples), Auth emulator, Playwright Chromium — [AD-7](../decisions.md#ad-7-e2e-runs-in-a-separate-ci-workflow-with-broad-triggers).
+[`.github/workflows/e2e.yaml`](../../.github/workflows/e2e.yaml): `pnpm test:e2e` (six examples), Playwright Chromium, HTML/coverage artifacts — [AD-7](../decisions.md#ad-7-e2e-runs-in-a-separate-ci-workflow-with-broad-triggers). Auth emulator is ensured by Playwright `globalSetup` (reuse-aware).
 
 # Gaps
 

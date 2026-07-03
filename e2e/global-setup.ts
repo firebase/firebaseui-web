@@ -15,7 +15,7 @@
  */
 
 import { execSync, spawn, type ChildProcess } from "node:child_process";
-import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import net from "node:net";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -24,7 +24,11 @@ const E2E_DIR = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(E2E_DIR, "..");
 const STATE_DIR = path.join(E2E_DIR, ".state");
 const STATE_FILE = path.join(STATE_DIR, "emulator.json");
+/** Auth-only config — avoids root firebase.json framework hosting and global webframeworks experiment. */
+const EMULATOR_CONFIG = path.join(E2E_DIR, "firebase.emulator.json");
+const TEST_WORKFLOW = path.join(REPO_ROOT, ".github/workflows/test.yaml");
 const AUTH_EMULATOR_URL = "http://127.0.0.1:9099";
+const EMULATOR_WAIT_MS = 240_000;
 
 /** Core library packages built by `build:packages`; examples import these artifacts. */
 const REQUIRED_DIST_ARTIFACTS = [
@@ -39,6 +43,25 @@ type EmulatorState = {
   startedBySetup: boolean;
   pid?: number;
 };
+
+/** DRY: firebase-tools version is owned by `.github/workflows/test.yaml` (Install Firebase CLI step). */
+function readFirebaseToolsVersion(): string {
+  const content = readFileSync(TEST_WORKFLOW, "utf8");
+  const match = content.match(/firebase-tools@(\d+\.\d+\.\d+)/);
+  const version = match?.[1];
+  if (!version) {
+    throw new Error(`Could not parse firebase-tools version from ${TEST_WORKFLOW}`);
+  }
+  return version;
+}
+
+function readEmulatorState(): EmulatorState | null {
+  try {
+    return JSON.parse(readFileSync(STATE_FILE, "utf8")) as EmulatorState;
+  } catch {
+    return null;
+  }
+}
 
 async function isAuthEmulatorReachable(): Promise<boolean> {
   return new Promise((resolve) => {
@@ -55,7 +78,7 @@ async function isAuthEmulatorReachable(): Promise<boolean> {
   });
 }
 
-async function waitForAuthEmulator(timeoutMs = 120_000): Promise<void> {
+async function waitForAuthEmulator(timeoutMs = EMULATOR_WAIT_MS): Promise<void> {
   const deadline = Date.now() + timeoutMs;
 
   while (Date.now() < deadline) {
@@ -97,37 +120,37 @@ function writeEmulatorState(state: EmulatorState): void {
   writeFileSync(STATE_FILE, JSON.stringify(state, null, 2));
 }
 
-function ensureFirebaseToolsCached(): void {
+function ensureFirebaseToolsCached(version: string): void {
   try {
-    execSync("npx --yes firebase-tools@14.15.2 --version", {
+    execSync(`npx --yes firebase-tools@${version} --version`, {
       cwd: REPO_ROOT,
       stdio: "pipe",
     });
   } catch {
-    throw new Error("Failed to cache firebase-tools@14.15.2 via npx — Auth emulator cannot start");
+    throw new Error(`Failed to cache firebase-tools@${version} via npx — Auth emulator cannot start`);
   }
 }
 
-function enableWebframeworksExperiment(): void {
-  try {
-    execSync("npx --yes firebase-tools@14.15.2 experiments:enable webframeworks", {
+function startAuthEmulator(version: string): ChildProcess {
+  const child = spawn(
+    "npx",
+    [
+      "--yes",
+      `firebase-tools@${version}`,
+      "emulators:start",
+      "--config",
+      EMULATOR_CONFIG,
+      "--only",
+      "auth",
+      "--project",
+      "demo-test",
+    ],
+    {
       cwd: REPO_ROOT,
-      stdio: "pipe",
-    });
-  } catch {
-    throw new Error(
-      "Failed to enable firebase webframeworks experiment — required because firebase.json includes framework hosting configs"
-    );
-  }
-}
-
-function startAuthEmulator(): ChildProcess {
-  const child = spawn("npx --yes firebase-tools@14.15.2 emulators:start --only auth --project demo-test", {
-    cwd: REPO_ROOT,
-    detached: true,
-    shell: true,
-    stdio: "ignore",
-  });
+      detached: true,
+      stdio: "ignore",
+    }
+  );
 
   if (child.pid === undefined) {
     throw new Error("Failed to start Auth emulator: spawn returned no PID");
@@ -145,13 +168,17 @@ export default async function globalSetup(): Promise<void> {
   }
 
   if (await isAuthEmulatorReachable()) {
-    writeEmulatorState({ startedBySetup: false });
+    const existing = readEmulatorState();
+    writeEmulatorState({
+      startedBySetup: existing?.startedBySetup ?? false,
+      pid: existing?.pid,
+    });
     return;
   }
 
-  ensureFirebaseToolsCached();
-  enableWebframeworksExperiment();
-  const emulatorProcess = startAuthEmulator();
+  const firebaseToolsVersion = readFirebaseToolsVersion();
+  ensureFirebaseToolsCached(firebaseToolsVersion);
+  const emulatorProcess = startAuthEmulator(firebaseToolsVersion);
 
   try {
     await waitForAuthEmulator();
