@@ -21,6 +21,8 @@ import { exampleMeta, type ExampleMeta } from "./fixtures/example-meta";
 
 const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
+const DEFAULT_WEB_SERVER_TIMEOUT_MS = 120_000;
+
 function webServerForMeta(meta: ExampleMeta) {
   if (!meta.webServerCommand) {
     return undefined;
@@ -28,10 +30,10 @@ function webServerForMeta(meta: ExampleMeta) {
 
   return {
     command: meta.webServerCommand,
-    url: meta.baseURL,
+    url: meta.webServerHealthURL ?? meta.baseURL,
     cwd: REPO_ROOT,
     reuseExistingServer: !process.env.CI,
-    timeout: 120_000,
+    timeout: meta.webServerTimeoutMs ?? DEFAULT_WEB_SERVER_TIMEOUT_MS,
   };
 }
 
@@ -56,8 +58,11 @@ export default defineConfig({
   ...(webServerMeta ? { webServer: webServerForMeta(webServerMeta) } : {}),
   projects: Object.values(exampleMeta).map((meta) => ({
     name: meta.name,
+    timeout: meta.name === "angular-example" ? 90_000 : undefined,
+    expect: meta.name === "angular-example" ? { timeout: 30_000 } : undefined,
     use: {
       baseURL: meta.baseURL,
+      actionTimeout: meta.name === "angular-example" ? 15_000 : undefined,
     },
   })),
 });

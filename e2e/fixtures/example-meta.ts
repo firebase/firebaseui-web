@@ -28,6 +28,10 @@ export type ExampleMeta = {
   forgotPasswordPath: string;
   /** Optional dev-server command for Playwright webServer. */
   webServerCommand?: string;
+  /** Optional Playwright webServer startup timeout (ms). */
+  webServerTimeoutMs?: number;
+  /** URL Playwright polls until the dev server is ready (defaults to baseURL). */
+  webServerHealthURL?: string;
 };
 
 export const exampleMeta: Record<string, ExampleMeta> = {
@@ -38,6 +42,31 @@ export const exampleMeta: Record<string, ExampleMeta> = {
     trailingSlash: false,
     forgotPasswordPath: "/screens/forgot-password-auth-screen",
     webServerCommand: "pnpm --filter=react exec vite --port 5173 --strictPort",
+  },
+  shadcn: {
+    name: "shadcn",
+    baseURL: "http://localhost:5174",
+    signInWithHandlersPath: "/screens/sign-in-auth-screen-w-handlers",
+    trailingSlash: false,
+    forgotPasswordPath: "/screens/forgot-password-screen",
+    webServerCommand: "pnpm --filter=shadcn exec vite --port 5174 --strictPort",
+  },
+  nextjs: {
+    name: "nextjs",
+    baseURL: "http://localhost:3000",
+    signInWithHandlersPath: "/screens/sign-in-auth-screen-w-handlers",
+    trailingSlash: true,
+    forgotPasswordPath: "/screens/forgot-password-auth-screen",
+    webServerCommand: "pnpm --filter=nextjs exec next dev --turbopack -p 3000",
+  },
+  "nextjs-ssr": {
+    name: "nextjs-ssr",
+    baseURL: "http://localhost:3001",
+    signInWithHandlersPath: "/screens/sign-in-auth-screen-w-handlers",
+    trailingSlash: true,
+    forgotPasswordPath: "/screens/forgot-password-auth-screen",
+    webServerCommand: "pnpm --filter=nextjs-ssr exec next dev -p 3001",
+    webServerTimeoutMs: 180_000,
   },
 };
 

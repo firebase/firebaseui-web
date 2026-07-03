@@ -47,7 +47,7 @@ Playwright manages each example's dev server; no hand-rolled preflight/postfligh
 scripts/e2e-run.mjs (pnpm test:e2e)
   → build:packages once (assert dist/)
   → start Auth emulator once (:9099, shared)
-  → for each example in [react, shadcn, nextjs, nextjs-ssr, angular, custom-auth-server]:
+  → for each example in [react, shadcn, nextjs, nextjs-ssr] (angular deferred — [Phase 2b](#phase-2b--angular-example-e2e-blocked)):
        playwright test  (E2E_PROJECT=<example>)
          → globalSetup: assert packages built + emulator reachable
          → top-level webServer selected by E2E_PROJECT: start <example> dev server on its port, wait for URL
@@ -77,13 +77,22 @@ Auth emulator `:9099`; Emulator UI `:4000` (why custom-auth-server uses `:4001`)
 
 | Script | Status | Purpose |
 |--------|--------|---------|
+| `test:e2e` | **implemented** | Serial runner over react, shadcn, nextjs, nextjs-ssr |
 | `test:e2e:react` | **implemented** | react smoke only (`E2E_PROJECT=react`) |
-| `test:e2e` | planned (2.5) | Serial runner (`scripts/e2e-run.mjs`) over all examples |
-| `test:e2e:shadcn` | planned (2.5) | shadcn only |
-| `test:e2e:nextjs` | planned (2.5) | nextjs only |
-| `test:e2e:nextjs-ssr` | planned (2.5) | nextjs-ssr only |
-| `test:e2e:angular` | planned (2.5) | angular-example only |
+| `test:e2e:shadcn` | **implemented** | shadcn only |
+| `test:e2e:nextjs` | **implemented** | nextjs only |
+| `test:e2e:nextjs-ssr` | **implemented** | nextjs-ssr only |
+| `test:e2e:angular` | planned (2b) | angular-example — blocked on bootstrap (see Phase 2b) |
 | `test:e2e:custom-auth-server` | planned (4.1) | custom-auth-server HTTP smoke only |
+
+# CI coverage
+
+| What | Status |
+|------|--------|
+| Local `pnpm test:e2e` | **4 UI examples** (react, shadcn, nextjs, nextjs-ssr) — green |
+| [`.github/workflows/e2e.yaml`](../../.github/workflows/e2e.yaml) | **`pnpm test:e2e`** — same four examples in CI; actions pinned (checkout v7, setup-node v6, pnpm v6) |
+
+When angular e2e closes ([Phase 2b](#phase-2b--angular-example-e2e-blocked)), add it to the serial runner and confirm **five** examples green in CI ([2b.4](#phase-2b--angular-example-e2e-blocked)).
 
 # Per-item iteration protocol
 
@@ -111,21 +120,46 @@ Prove the whole model end-to-end on one example before generalizing ([review fin
 | 1.5 | `e2e/tests/sign-in-handlers.spec.ts` S1–S3, asserting rendered UI, parameterized per project | 1.4 | react smoke green locally |
 | 1.6 | Minimal CI job proving react e2e runs green (browser install + emulator + `test:e2e:react`) | 1.5 | react smoke green in CI |
 
-## Phase 2 — Generalize to remaining UI examples
+## Phase 2 — Generalize Vite/Next examples + serial runner
 
 | ID | Task | Depends | Done when |
 |----|------|---------|-----------|
 | 2.1 | shadcn project + meta (`vite --port 5174`; forgot-password → `/screens/forgot-password-screen`) | 1.5 | shadcn smoke green |
 | 2.2 | nextjs project + meta (`next dev -p 3000`; `trailingSlash`) | 1.5 | nextjs smoke green |
 | 2.3 | nextjs-ssr project + meta (`next dev -p 3001`; generous `webServer.timeout`) | 1.5 | nextjs-ssr smoke green |
-| 2.4 | angular-example project + meta (reuse `run start -- --port 4200`, i.e. `clean && ng serve`) | 1.5 | angular smoke green |
-| 2.5 | `scripts/e2e-run.mjs` serial runner + root `test:e2e` / `test:e2e:<example>` scripts | 2.1–2.4 | `pnpm test:e2e` runs all UI examples serially |
+| 2.5 | `scripts/e2e-run.mjs` serial runner + root `test:e2e` / `test:e2e:<example>` scripts; **CI** runs `pnpm test:e2e` (four UI examples) with pinned modern actions | 2.1–2.3 | `pnpm test:e2e` green locally and in CI |
 
-## Phase 3 — CI hardening
+## Phase 2b — Angular-example e2e (blocked)
+
+Split from Phase 2 after e2e attempt failed; angular is **not** in `example-meta`, `e2e-run.mjs`, or CI until resolved.
 
 | ID | Task | Depends | Done when |
 |----|------|---------|-----------|
-| 3.1 | Separate `e2e` workflow: `playwright install --with-deps chromium` with **browser cache keyed on resolved Playwright version**; `pnpm build`; enable webframeworks; emulator; `pnpm test:e2e` | 2.5 | e2e green on PRs; browsers cached across runs |
+| 2b.1 | angular-example project + meta (reuse `run start -- --port 4200`, i.e. `clean && ng serve`) | 2.5 | meta + `test:e2e:angular` wired |
+| 2b.2 | Fix client bootstrap so sign-in form renders in Playwright | 2b.1 | S1–S3 green locally |
+| 2b.3 | Add angular-example to `e2e-run.mjs` + `pnpm test:e2e` | 2b.2 | full serial runner includes angular (five UI examples) |
+| 2b.4 | Add angular-example to CI: confirm `pnpm test:e2e` (five UI examples) green on a PR | 2b.3 | CI serial smoke includes angular |
+
+### Angular e2e blocker (observed 2026-07-03)
+
+Playwright loads `http://localhost:4200/screens/sign-in-auth-screen-w-handlers` but the sign-in form never appears (`input[name="email"]` times out after 30s). Browser console:
+
+```
+NG0201: No provider found for `FirebaseApps`. Source: Environment Injector.
+  Path: firebaseui.store → FirebaseApps
+```
+
+`examples/angular/src/app/app.config.ts` registers `provideFirebaseApp(...)` and `provideFirebaseUI(...)`, but under `ng serve` the `FIREBASE_UI_STORE` factory still fails to resolve `FirebaseApps` in the client injector. A partial `useFactory(apps: FirebaseApps)` deps change in `packages/angular/src/lib/provider.ts` did not fix e2e.
+
+**Next steps:** reproduce with `E2E_PROJECT=angular-example pnpm --filter=e2e exec playwright test --project=angular-example`; fix provider/DI wiring in the example app and/or `@firebase-oss/ui-angular` before re-adding angular to the serial runner.
+
+## Phase 3 — CI hardening
+
+Depends on Phase 2 CI baseline ([2.5](#phase-2--generalize-vitenext-examples--serial-runner)); browser-cache work applies once the runner is stable in GHA.
+
+| ID | Task | Depends | Done when |
+|----|------|---------|-----------|
+| 3.1 | E2e workflow hardening: `playwright install --with-deps chromium` with **browser cache keyed on resolved Playwright version**; confirm `pnpm test:e2e` green in CI | 2.5 | e2e green on PRs; browsers cached across runs |
 | 3.2 | Broad path triggers: `packages/**`, `examples/**`, root `package.json`, `pnpm-lock.yaml`, `pnpm-workspace.yaml`, `e2e/**`, workflow file ([AD-7](../decisions.md#ad-7-e2e-runs-in-a-separate-ci-workflow-with-broad-triggers)) | 3.1 | Relevant PRs trigger e2e; shared-dependency changes not missed |
 
 ## Phase 4 — custom-auth-server smoke
@@ -162,13 +196,16 @@ Update immediately after each step closes a gate. All items start `open` / `impl
 | 1 | 1.3 example-meta (react seed) | closed | closed | closed | test(e2e): install/configure playwright, implement react e2e smoke test | — | — | |
 | 1 | 1.4 react webServer + One Tap route-block | closed | closed | closed | test(e2e): install/configure playwright, implement react e2e smoke test | — | — | top-level webServer + `E2E_PROJECT`. |
 | 1 | 1.5 sign-in-handlers spec S1–S3 (react) | closed | closed | closed | test(e2e): install/configure playwright, implement react e2e smoke test | — | — | 3/3 passed locally. |
-| 1 | 1.6 minimal CI proof (react) | closed | closed | closed | test(e2e): install/configure playwright, implement react e2e smoke test | — | — | `.github/workflows/e2e.yaml`; **CI green** on PR #1389 (`pnpm test:e2e:react` 3/3). Zizmor follow-up: pin actions + `permissions: contents: read`. |
-| 2 | 2.1 shadcn | open | open | open | — | implementation | unit-focused | **Next pickup.** fp → `/screens/forgot-password-screen` |
-| 2 | 2.2 nextjs | open | open | open | — | implementation | unit-focused | trailingSlash |
-| 2 | 2.3 nextjs-ssr | open | open | open | — | implementation | unit-focused | generous timeout |
-| 2 | 2.4 angular-example | open | open | open | — | implementation | unit-focused | reuse `start` (clean) |
-| 2 | 2.5 serial runner + root scripts | open | open | open | — | implementation | area-focused | |
-| 3 | 3.1 separate e2e workflow + browser cache | open | open | open | — | implementation | area-focused | |
+| 1 | 1.6 minimal CI proof (react) | closed | closed | closed | test(e2e): install/configure playwright, implement react e2e smoke test | — | — | Phase 1 react-only proof; expanded to 4-example `pnpm test:e2e` in Phase 2 commit. |
+| 2 | 2.1 shadcn | closed | closed | closed | test: working e2e tests for shadcn, nextjs, and nextjs-ssr | — | — | 3/3 green. |
+| 2 | 2.2 nextjs | closed | closed | closed | test: working e2e tests for shadcn, nextjs, and nextjs-ssr | — | — | 3/3; forgot-password handler added to example page. |
+| 2 | 2.3 nextjs-ssr | closed | closed | closed | test: working e2e tests for shadcn, nextjs, and nextjs-ssr | — | — | 3/3 green. |
+| 2 | 2.5 serial runner + root scripts | closed | closed | closed | test: working e2e tests for shadcn, nextjs, and nextjs-ssr | — | — | `pnpm test:e2e` local + CI (4 examples); modern pinned actions. |
+| 2b | 2b.1 angular meta + script | open | open | open | — | implementation | unit-focused | **Next pickup.** |
+| 2b | 2b.2 fix NG0201 bootstrap | open | open | open | — | implementation | unit-focused | see [Phase 2b blocker](#angular-e2e-blocker-observed-2026-07-03) |
+| 2b | 2b.3 wire angular into serial runner | open | open | open | — | implementation | area-focused | five UI examples in `pnpm test:e2e` |
+| 2b | 2b.4 add angular to CI + verify | open | open | open | — | implementation | area-focused | blocked on 2b.3 |
+| 3 | 3.1 e2e workflow browser cache | open | open | open | — | implementation | area-focused | blocked on 2.5 CI baseline |
 | 3 | 3.2 broad path triggers | open | open | open | — | implementation | unit-focused | |
 | 4 | 4.1 custom-auth-server HTTP smoke (:4001) | open | open | open | — | implementation | area-focused | |
 | 5 | 5.1 VITE_E2E skip oneTapSignIn | open | open | open | — | implementation | unit-focused | only if flaky |
@@ -213,6 +250,7 @@ Feasibility review (verified against code) that shaped this queue:
 * `custom-auth-server` default `:4000` collides with Emulator UI → `:4001`.
 * CI path-filtering must be broad (examples depend on `packages/**`, root manifests, lockfile, catalog).
 * #13: react-only vertical slice first, to validate the model cheaply.
+* **CI lag (angular only):** four UI examples run in GHA; angular waits on Phase 2b.
 
 # Related
 
