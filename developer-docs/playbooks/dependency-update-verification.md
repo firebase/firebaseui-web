@@ -10,18 +10,17 @@ timestamp: 2026-07-03T00:00:00Z
 
 After bumping dependencies in the monorepo root, `packages/*`, `examples/*`, or `pnpm-workspace.yaml` catalog.
 
+**Gate:** complete [change-authoring-verification.md](change-authoring-verification.md) first (required before commit/push — [AD-10](../decisions.md#ad-10-change-authoring-requires-ci-parity-verification-before-commit)). For **Firebase JS SDK** major/minor policy (catalog 11 vs consumer 12, angular pins, upstream tracking), see [decisions.md](../decisions.md) **AD-9**.
+
 # Steps
 
-1. `pnpm install`
-2. `pnpm build` — compile all packages and five UI examples
-3. `pnpm test` — package unit tests (emulator optional for skipped integration tests)
-4. `pnpm lint:check` && `pnpm format:check`
-5. `pnpm audit` — triage high/critical; example-path advisories called out in PR
-6. `pnpm test:e2e` — serial example smoke across all examples incl. `custom-auth-server` HTTP boot
+Follow [change-authoring-verification.md](change-authoring-verification.md) **Required sequence**. Additionally:
+
+1. `pnpm audit` — triage high/critical; example-path advisories called out in PR
 
 # CI parity
 
-Match [`.github/workflows/test.yaml`](../../.github/workflows/test.yaml) and [`.github/workflows/e2e.yaml`](../../.github/workflows/e2e.yaml).
+Same as [change-authoring-verification.md](change-authoring-verification.md#ci-parity-matrix). Workflows: [`.github/workflows/test.yaml`](../../.github/workflows/test.yaml), [`.github/workflows/e2e.yaml`](../../.github/workflows/e2e.yaml), [`.github/workflows/lint.yaml`](../../.github/workflows/lint.yaml).
 
 # Owners
 

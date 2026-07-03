@@ -7,7 +7,7 @@ options:
   logging: CLOUD_LOGGING_ONLY
 
 steps:
-  - name: "node:22"
+  - name: "node:24"
     entrypoint: "bash"
     args:
       - "-c"
@@ -19,7 +19,7 @@ steps:
   # 3. Publish to NPM
   # This step authenticates using the secret token and handles both
   # single-package and monorepo (workspaces) structures.
-  - name: "node:22"
+  - name: "node:24"
     entrypoint: "bash"
     args:
       - "-c"

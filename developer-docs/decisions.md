@@ -3,7 +3,7 @@ type: Decision Log
 title: Architecture decisions
 description: Sequential decision log for firebaseui-web. Entries use AD-number identifiers.
 tags: [adr, architecture]
-timestamp: 2026-07-01T00:00:00Z
+timestamp: 2026-07-03T00:00:00Z
 ---
 
 Decisions follow the shape in [ADR format (mattpocock)](https://github.com/mattpocock/skills/blob/main/skills/engineering/domain-modeling/ADR-FORMAT.md) (read that spec only during documentation maintenance runs).
@@ -57,3 +57,42 @@ Browser smoke runs in its **own workflow**, not folded into the unit `test.yaml`
 ## AD-8: Production-artifact e2e deferred (future phase)
 
 MVP validates **dev-server runtime only**. Validating built/deployed artifacts — Next.js SSG `output: "export"`, Angular production build, `next start` SSR, and `firebase.json` hosting rewrites — is a recognized gap: dev mode auto-connects the emulator via `import.meta.env.MODE` / `process.env.NODE_ENV` / `isDevMode()`, so production builds would need explicit emulator wiring. This is tracked as a **future design phase and is intentionally NOT in the MVP work queue** ([work-queues/playwright-e2e-smoke.md](work-queues/playwright-e2e-smoke.md)).
+
+---
+
+## AD-9: Firebase JS SDK version policy (v11 resolved, v12 for consumers)
+
+The monorepo **resolves** `firebase` **11.x** in the pnpm catalog (`^11.10.0` today). That is **not a regression** from a stable v12 baseline: catalog `^12.2.1` existed only briefly during the Sep 2025 catalog migration and was reverted; main has used catalog **11.x since Sep 2025** ([commit a275905a](https://github.com/firebase/firebaseui-web/commit/a275905a7598cb9d9e1be2250befc840334e8ab2) — peer range widened to `^11 || ^12` while keeping catalog 11 for AngularFire).
+
+**Why catalog 11:** `@angular/fire@20.0.1` depends on `firebase ^11.8.0` and `rxfire ^6.1.0` (rxfire peers firebase through **^11**). `@firebase-oss/ui-angular` imports both `@angular/fire/auth` and `firebase/auth` directly; forcing catalog **12** duplicates SDK types at compile time (e.g. `RecaptchaVerifier`, `TotpSecret`) — same class of failure as [angular/angularfire#3666](https://github.com/angular/angularfire/issues/3666).
+
+**Consumer policy:** package **peer** catalog stays **`firebase: ^11 || ^12`** — apps embedding `@firebase-oss/ui-*` may install firebase 12; published packages must remain compatible with both majors where types overlap.
+
+**Angular paths (explicit pin):** `packages/angular` and `examples/angular` keep a **non-catalog** devDependency pin (e.g. `"firebase": "^11.10.0"`) aligned with `@angular/fire`, not the workspace catalog entry.
+
+**Optional internal split (prove v12 sooner):** bump catalog `firebase` to **12.x** for core/react/shadcn and non-angular examples (`"firebase": "catalog:"`); leave angular packages on explicit **11.x** pins so pnpm can install both majors. Validate with `pnpm build`, `pnpm test`, and `pnpm test:e2e` (especially `@firebase-oss/ui-angular` and the angular example). Do **not** use a workspace-wide `pnpm.overrides` forcing firebase 12 — that breaks AngularFire immediately.
+
+**Upstream to track (harmonize on v12 later):**
+
+| Track | Link |
+|-------|------|
+| Firebase 12 on AngularFire v20 | [angular/angularfire#3666](https://github.com/angular/angularfire/issues/3666) |
+| AngularFire v21 (Angular 21 + firebase 12) | [21.0.0-rc.0 release](https://github.com/angular/angularfire/releases/tag/21.0.0-rc.0), [angular/angularfire#3689](https://github.com/angular/angularfire/issues/3689) |
+| rxfire firebase 12 (blocks AngularFire 21) | [FirebaseExtended/rxfire#123](https://github.com/FirebaseExtended/rxfire/pull/123) |
+| Firebase JS SDK releases | [firebase-js-sdk releases](https://github.com/firebase/firebase-js-sdk/releases), [Firebase JS release notes](https://firebase.google.com/support/release-notes/js) |
+
+**Unlock:** when **AngularFire 21 stable** (and rxfire firebase 12) ships, bump `@angular/fire`, angular pins, and catalog together in one verified change.
+
+Owner for catalog/peer fields: [pnpm-workspace.yaml](../pnpm-workspace.yaml). Verification steps: [playbooks/change-authoring-verification.md](playbooks/change-authoring-verification.md), [playbooks/dependency-update-verification.md](playbooks/dependency-update-verification.md).
+
+---
+
+## AD-10: Change authoring requires CI-parity verification before commit
+
+Authors (human or agent) **must not commit or push** changes that touch dependencies, CI workflows, or example/test harnesses until [change-authoring-verification.md](playbooks/change-authoring-verification.md) **Required sequence** completes locally with exit code 0.
+
+**Why:** CI runs `pnpm test:e2e` and builds `custom-auth-server` on demand; root `pnpm build` does not. Skipping e2e or custom-auth-server build allowed firebase-admin 14 and jsdom/`localStorage` test drift to land while local `pnpm test` + `pnpm build` passed on a different Node version.
+
+**Includes:** run on the **same Node major as CI** ([LOCAL_DEVELOPMENT.md](../LOCAL_DEVELOPMENT.md)). Use the playbook one-shot script for dependency PRs.
+
+**Does not replace** code review or CI; it is the minimum pre-commit bar for change classes above.

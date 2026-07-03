@@ -76,7 +76,13 @@ function VerifyPhoneNumberForm(props: VerifyPhoneNumberFormProps) {
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          void form.handleSubmit(onSubmit)(event);
+        }}
+        className="flex flex-col gap-4"
+      >
         <Controller
           control={form.control}
           name="verificationCode"
@@ -140,7 +146,13 @@ function PhoneNumberForm(props: PhoneNumberFormProps) {
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          void form.handleSubmit(onSubmit)(event);
+        }}
+        className="flex flex-col gap-4"
+      >
         <Controller
           control={form.control}
           name="phoneNumber"

@@ -21,6 +21,7 @@ export default mergeConfig(viteConfig, {
   test: {
     name: "@firebase-oss/ui-core",
     environment: "jsdom",
+    setupFiles: ["./src/tests/setup.ts"],
     exclude: ["node_modules/**/*", "dist/**/*"],
   },
 });
