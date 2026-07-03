@@ -138,7 +138,11 @@ function startAuthEmulator(): ChildProcess {
 }
 
 export default async function globalSetup(): Promise<void> {
-  runBuildPackages();
+  if (process.env.E2E_SKIP_BUILD_PACKAGES === "1") {
+    assertPackagesBuilt();
+  } else {
+    runBuildPackages();
+  }
 
   if (await isAuthEmulatorReachable()) {
     writeEmulatorState({ startedBySetup: false });

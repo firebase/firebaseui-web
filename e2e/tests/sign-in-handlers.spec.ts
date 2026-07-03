@@ -20,6 +20,10 @@ import { expect, test } from "../fixtures/test-harness";
 
 const { labels, errors } = enUs.translations;
 
+async function waitForSignInForm(page: import("@playwright/test").Page): Promise<void> {
+  await page.waitForSelector('input[name="email"]', { state: "visible", timeout: 30_000 });
+}
+
 for (const [projectName, meta] of Object.entries(exampleMeta)) {
   test.describe(`sign-in with handlers smoke (${projectName})`, () => {
     test.beforeEach(({}, testInfo) => {
@@ -28,27 +32,33 @@ for (const [projectName, meta] of Object.entries(exampleMeta)) {
 
     test("S1: sign-in form shows email, password, and submit", async ({ page }) => {
       await page.goto(signInWithHandlersUrl(meta));
+      await waitForSignInForm(page);
 
-      await expect(page.getByRole("textbox", { name: labels.emailAddress })).toBeVisible();
+      await expect(page.getByLabel(labels.emailAddress)).toBeVisible();
       await expect(page.getByLabel(labels.password)).toBeVisible();
       await expect(page.getByRole("button", { name: labels.signIn, exact: true })).toBeVisible();
     });
 
     test("S2: empty submit shows email validation feedback", async ({ page }) => {
       await page.goto(signInWithHandlersUrl(meta));
+      await waitForSignInForm(page);
 
       await page.getByRole("button", { name: labels.signIn, exact: true }).click();
 
-      await expect(page.getByRole("alert").filter({ hasText: errors.invalidEmail })).toBeVisible();
+      // React uses role="alert"; shadcn FormMessage renders as <p> — assert visible copy, not role.
+      await expect(page.getByText(errors.invalidEmail)).toBeVisible();
     });
 
     test("S3: forgot-password navigates to reset screen", async ({ page }) => {
       await page.goto(signInWithHandlersUrl(meta));
+      await waitForSignInForm(page);
 
       await page.getByRole("button", { name: labels.forgotPassword }).click();
 
-      await expect(page.getByRole("heading", { name: labels.resetPassword })).toBeVisible();
-      await expect(page.getByRole("textbox", { name: labels.emailAddress })).toBeVisible();
+      // React CardTitle is <h2>; shadcn CardTitle is a styled <div> — assert screen chrome + email field.
+      await expect(page.getByText(labels.resetPassword).first()).toBeVisible();
+      await expect(page.getByLabel(labels.emailAddress)).toBeVisible();
+      await expect(page.getByRole("button", { name: labels.resetPassword })).toBeVisible();
     });
   });
 }
