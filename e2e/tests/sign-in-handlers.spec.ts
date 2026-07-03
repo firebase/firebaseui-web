@@ -15,7 +15,7 @@
  */
 
 import { enUs } from "@firebase-oss/ui-translations";
-import { exampleMeta, signInWithHandlersUrl } from "../fixtures/example-meta";
+import { signInWithHandlersUrl, uiExampleEntries } from "../fixtures/example-meta";
 import { expect, test } from "../fixtures/test-harness";
 
 const { labels, errors } = enUs.translations;
@@ -24,7 +24,7 @@ async function waitForSignInForm(page: import("@playwright/test").Page): Promise
   await page.waitForSelector('input[name="email"]', { state: "visible", timeout: 30_000 });
 }
 
-for (const [projectName, meta] of Object.entries(exampleMeta)) {
+for (const [projectName, meta] of uiExampleEntries) {
   test.describe(`sign-in with handlers smoke (${projectName})`, () => {
     test.beforeEach(({}, testInfo) => {
       test.skip(testInfo.project.name !== projectName, `runs only on the ${projectName} project`);

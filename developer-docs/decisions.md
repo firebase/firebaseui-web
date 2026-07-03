@@ -42,7 +42,9 @@ Each example has a **unique e2e port** (react 5173, shadcn 5174, nextjs 3000, ne
 
 ## AD-6: custom-auth-server binds :4001 for e2e
 
-The Express `custom-auth-server` defaults to `:4000`, which collides with the **Firebase Emulator UI** (`:4000`). For e2e it binds **`:4001`** (via its `PORT` env) so it never conflicts with emulator services. Its smoke is a **non-browser boot + HTTP (`fetch`/`curl`) assertion** — start the built server, assert it responds, tear down — not a Playwright browser flow. This brings every monorepo example (including `custom-auth-server`) under automated e2e coverage.
+The Express `custom-auth-server` defaults to `:4000`, which collides with the **Firebase Emulator UI** (`:4000`). For e2e it binds **`:4001`** (via its `PORT` env) so it never conflicts with emulator services. Its smoke is a **non-browser boot + HTTP assertion** — build the example, start the built server, assert it responds, tear down — not a Playwright browser flow. This brings every monorepo example (including `custom-auth-server`) under automated e2e coverage.
+
+**Lifecycle:** Playwright's `webServer` readiness poll accepts only HTTP status `< 400`. Without credentials, `GET /auth/snapchat/config` returns `500`, so the HTTP smoke spec manages build/boot/poll/teardown itself (detached process group, `:4001` via `PORT`). UI examples continue to use Playwright `webServer` as in [AD-4](#ad-4-playwright-managed-dev-servers-serial-shared-emulator).
 
 ---
 

@@ -20,8 +20,13 @@ import { fileURLToPath } from "node:url";
 
 const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
-/** UI examples exercised serially by `pnpm test:e2e`. */
+/** UI examples exercised serially by `pnpm test:e2e` (browser smoke S1–S3). */
 const E2E_UI_EXAMPLES = ["react", "shadcn", "nextjs", "nextjs-ssr", "angular-example"];
+
+/** Non-browser examples (HTTP boot smoke), run after the UI examples. AD-6. */
+const E2E_HTTP_EXAMPLES = ["custom-auth-server"];
+
+const E2E_EXAMPLES = [...E2E_UI_EXAMPLES, ...E2E_HTTP_EXAMPLES];
 
 function ensurePackagesBuilt() {
   console.log("\n[e2e-run] build:packages (once)…\n");
@@ -51,7 +56,7 @@ function runExample(example) {
 
 ensurePackagesBuilt();
 
-for (const example of E2E_UI_EXAMPLES) {
+for (const example of E2E_EXAMPLES) {
   runExample(example);
   if (process.exitCode) {
     break;
