@@ -39,23 +39,22 @@ function webServerForMeta(meta: ExampleMeta) {
 
 /** Playwright only reads top-level webServer (not per-project). Serial runner sets E2E_PROJECT. */
 function resolveWebServerMeta() {
-  const fromEnv = process.env.E2E_PROJECT ? exampleMeta[process.env.E2E_PROJECT] : undefined;
-
-  if (fromEnv?.webServerCommand) {
-    return fromEnv;
+  if (process.env.E2E_PROJECT) {
+    return exampleMeta[process.env.E2E_PROJECT];
   }
 
   return Object.values(exampleMeta).find((meta) => meta.webServerCommand);
 }
 
 const webServerMeta = resolveWebServerMeta();
+const webServer = webServerMeta ? webServerForMeta(webServerMeta) : undefined;
 
 export default defineConfig({
   testDir: "./tests",
   workers: 1,
   globalSetup: "./global-setup.ts",
   globalTeardown: "./global-teardown.ts",
-  ...(webServerMeta ? { webServer: webServerForMeta(webServerMeta) } : {}),
+  ...(webServer ? { webServer } : {}),
   projects: Object.values(exampleMeta).map((meta) => ({
     name: meta.name,
     timeout: meta.name === "angular-example" ? 90_000 : undefined,
