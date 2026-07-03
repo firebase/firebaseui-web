@@ -68,6 +68,14 @@ export const exampleMeta: Record<string, ExampleMeta> = {
     webServerCommand: "pnpm --filter=nextjs-ssr exec next dev -p 3001",
     webServerTimeoutMs: 180_000,
   },
+  "angular-example": {
+    name: "angular-example",
+    baseURL: "http://localhost:4200",
+    signInWithHandlersPath: "/screens/sign-in-auth-screen-w-handlers",
+    trailingSlash: false,
+    forgotPasswordPath: "/screens/forgot-password-auth-screen",
+    webServerCommand: "pnpm --filter=angular-example run start --port 4200",
+  },
 };
 
 /** Returns the sign-in-with-handlers path respecting per-example trailing-slash rules. */

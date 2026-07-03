@@ -20,8 +20,8 @@ import { fileURLToPath } from "node:url";
 
 const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
-/** UI examples exercised serially by `pnpm test:e2e` (angular deferred — see Phase 2b). */
-const E2E_UI_EXAMPLES = ["react", "shadcn", "nextjs", "nextjs-ssr"];
+/** UI examples exercised serially by `pnpm test:e2e`. */
+const E2E_UI_EXAMPLES = ["react", "shadcn", "nextjs", "nextjs-ssr", "angular-example"];
 
 function ensurePackagesBuilt() {
   console.log("\n[e2e-run] build:packages (once)…\n");

@@ -17,6 +17,7 @@
     "test:e2e:shadcn": "E2E_PROJECT=shadcn pnpm --filter=e2e exec playwright test --project=shadcn",
     "test:e2e:nextjs": "E2E_PROJECT=nextjs pnpm --filter=e2e exec playwright test --project=nextjs",
     "test:e2e:nextjs-ssr": "E2E_PROJECT=nextjs-ssr pnpm --filter=e2e exec playwright test --project=nextjs-ssr",
+    "test:e2e:angular": "E2E_PROJECT=angular-example pnpm --filter=e2e exec playwright test --project=angular-example",
     "test:watch": "pnpm --filter=@firebase-oss/ui-core run test:unit:watch & pnpm --filter=@firebase-oss/ui-react run test:unit:watch & pnpm --filter=@firebase-oss/ui-angular run test:watch",
     "version:bump:all": "pnpm --filter=@firebase-oss/ui-core run version:bump && pnpm --filter=@firebase-oss/ui-translations run version:bump && pnpm --filter=@firebase-oss/ui-react run version:bump && pnpm --filter=@firebase-oss/ui-styles run version:bump && pnpm --filter=@firebase-oss/ui-angular run version:bump",
     "publish:tags:all": "pnpm i && pnpm --filter=@firebase-oss/ui-core run publish:tags && pnpm --filter=@firebase-oss/ui-translations run publish:tags && pnpm --filter=@firebase-oss/ui-react run publish:tags && pnpm --filter=@firebase-oss/ui-styles run publish:tags && pnpm --filter=@firebase-oss/ui-angular run publish:tags",
