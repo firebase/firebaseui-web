@@ -15,7 +15,7 @@ catalog:
   "@angular/core": ^20.3.25
   "@angular/fire": ^20.0.1
   "@angular/forms": ^20.3.25
-  "@angular/platform-browser": ^20.3.25
+  "@angular/platform-browser": ^22.0.4
   "@angular/platform-browser-dynamic": ^20.3.25
   "@angular/platform-server": ^20.3.25
   "@angular/router": ^20.3.25
