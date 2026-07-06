@@ -11,7 +11,7 @@ catalog:
   "@angular/cli": ^20.3.31
   "@angular/common": ^20.3.25
   "@angular/compiler": ^20.3.25
-  "@angular/compiler-cli": ^20.3.25
+  "@angular/compiler-cli": ^22.0.4
   "@angular/core": ^20.3.25
   "@angular/fire": ^20.0.1
   "@angular/forms": ^20.3.25
