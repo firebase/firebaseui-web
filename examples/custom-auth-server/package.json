@@ -19,7 +19,7 @@
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
-    "@types/node": "^22.10.0",
+    "@types/node": "^26.0.1",
     "typescript": "^5.9.2"
   }
 }
