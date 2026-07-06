@@ -14,22 +14,15 @@
  * limitations under the License.
  */
 
-"use client";
+import { existsSync, rmSync } from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-import { SignInAuthScreen } from "@firebase-oss/ui-react";
-import { useRouter } from "next/navigation";
+const E2E_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+export const COVERAGE_DIR = path.join(E2E_DIR, "coverage-report");
 
-export default function SignInAuthScreenWithHandlersPage() {
-  const router = useRouter();
-
-  return (
-    <SignInAuthScreen
-      onForgotPasswordClick={() => {
-        router.push("/screens/forgot-password-auth-screen");
-      }}
-      onSignIn={(credential) => {
-        console.log(credential);
-      }}
-    />
-  );
+export function resetCoverageArtifacts() {
+  if (existsSync(COVERAGE_DIR)) {
+    rmSync(COVERAGE_DIR, { recursive: true, force: true });
+  }
 }

@@ -1,6 +1,7 @@
 packages:
   - packages/*
   - examples/*
+  - e2e
 
 catalog:
   "@angular-devkit/architect": ^0.2003.21
@@ -29,6 +30,7 @@ catalog:
   "@vitest/coverage-v8": ^3.2.4
   "@vitest/ui": ^3.2.4
   "@nanostores/deepmap": ^0.0.1
+  "@playwright/test": 1.61.1
   "@vitejs/plugin-react": ^5.0.2
   eslint: ^9.35.0
   firebase: ^11.10.0
@@ -82,3 +84,11 @@ allowBuilds:
   unrs-resolver: true
 
 gitChecks: false
+
+# Block @angular/fire optional peer firebase-tools from entering the lockfile (e2e uses npx; CI uses global install).
+peerDependencyRules:
+  ignoreMissing:
+    - firebase-tools
+
+overrides:
+  firebase-tools: "-"

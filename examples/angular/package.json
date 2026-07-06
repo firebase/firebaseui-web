@@ -45,6 +45,11 @@
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
   },
+  "dependenciesMeta": {
+    "@firebase-oss/ui-angular": {
+      "injected": true
+    }
+  },
   "devDependencies": {
     "@angular-devkit/build-angular": "catalog:",
     "@angular-devkit/core": "catalog:",
@@ -70,6 +75,7 @@
     "nanostores": "^0.11.3",
     "ng-packagr": "^20.2.0",
     "prettier": "^3.1.1",
+    "rimraf": "catalog:",
     "typescript": "^5.9.2"
   }
 }
