@@ -115,7 +115,7 @@ catalogs:
       specifier: 19.2.7
       version: 19.2.7
     react-router:
-      specifier: ^8.1.0
+      specifier: ^8.0.1
       version: 8.1.0
     rimraf:
       specifier: ^6.1.3
@@ -19677,7 +19677,7 @@ snapshots:
       fs.realpath: 1.0.0
       inflight: 1.0.6
       inherits: 2.0.4
-      minimatch: 3.1.2
+      minimatch: 3.1.5
       once: 1.4.0
       path-is-absolute: 1.0.1
 
@@ -23088,7 +23088,7 @@ snapshots:
     dependencies:
       '@istanbuljs/schema': 0.1.3
       glob: 7.2.3
-      minimatch: 3.1.2
+      minimatch: 3.1.5
 
   thenify-all@1.6.0:
     dependencies:
