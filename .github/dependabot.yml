@@ -13,6 +13,26 @@ updates:
       semver-patch-days: 7
     labels:
       - 'dependencies'
+    groups:
+      angular:
+        patterns:
+          - '@angular/*'
+          - '@angular-devkit/*'
+          - 'ng-packagr'
+          - 'angular-eslint'
+          - 'jest-preset-angular'
+          - 'zone.js'
+      typescript:
+        patterns:
+          - 'typescript'
+      playwright:
+        patterns:
+          - '@playwright/*'
+      firebase-js:
+        patterns:
+          - 'firebase'
+          - '@angular/fire'
+          - 'rxfire'
 
   - package-ecosystem: 'github-actions'
     directory: '/'
