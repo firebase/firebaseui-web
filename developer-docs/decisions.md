@@ -12,7 +12,7 @@ Decisions follow the shape in [ADR format (mattpocock)](https://github.com/mattp
 
 ## AD-1: Dependabot cooldown per ecosystem
 
-Dependabot version-update PRs use a **7-day cooldown** on all ecosystems. Semver cooldown fields (`semver-major-days`, `semver-minor-days`, `semver-patch-days`) are set to 7 only where [GitHub documents SemVer-bump support](https://docs.github.com/en/code-security/reference/supply-chain-security/dependabot-options-reference#cooldown) for that package manager. GitHub Actions blocks use `default-days: 7` only. Initial config PRs (#1378 Android/iOS) merged without full cooldown; follow-ups align configs (#1380 web, #2355 Android, #1367 iOS).
+Dependabot version-update PRs use a **7-day cooldown** on all ecosystems. Semver cooldown fields (`semver-major-days`, `semver-minor-days`, `semver-patch-days`) are set to 7 only where [GitHub documents SemVer-bump support](https://docs.github.com/en/code-security/reference/supply-chain-security/dependabot-options-reference#cooldown) for that package manager. GitHub Actions blocks use `default-days: 7` only. Initial config PRs (#1378 Android/iOS) merged without full cooldown; follow-ups align configs (#1380 web, #2355 Android, #1367 iOS). **npm groups** (angular, typescript, playwright, firebase-js) keep related catalog entries on one PR — see [.github/dependabot.yml](../.github/dependabot.yml).
 
 ---
 
@@ -93,6 +93,28 @@ Authors (human or agent) **must not commit or push** changes that touch dependen
 
 **Why:** CI runs `pnpm test:e2e` and builds `custom-auth-server` on demand; root `pnpm build` does not. Skipping e2e or custom-auth-server build allowed firebase-admin 14 and jsdom/`localStorage` test drift to land while local `pnpm test` + `pnpm build` passed on a different Node version.
 
-**Includes:** run on the **same Node major as CI** ([LOCAL_DEVELOPMENT.md](../LOCAL_DEVELOPMENT.md)). Use the playbook one-shot script for dependency PRs.
+**Includes:** run on the **same Node major as CI** ([LOCAL_DEVELOPMENT.md](../LOCAL_DEVELOPMENT.md)). Use the playbook one-shot script for dependency PRs. **Style guide:** [`.gemini/styleguide.md`](../.gemini/styleguide.md) compliance is part of the bar — not only `pnpm test` / `pnpm test:e2e` (e.g. Rule 11: duplicate workspace deps belong in the pnpm catalog; `pnpm lint:check` && `pnpm format:check` per [change-authoring-verification.md](playbooks/change-authoring-verification.md)).
 
 **Does not replace** code review or CI; it is the minimum pre-commit bar for change classes above.
+
+---
+
+## AD-11: Angular 22 and TypeScript 6 as a coordinated catalog bump
+
+**Context:** Dependabot PR [#1387](https://github.com/firebase/firebaseui-web/pull/1387) bumped only `@angular/platform-browser` to v22 while the rest of the Angular stack stayed on v20. CI failed: Angular 22 FESM metadata (`ɵɵFactoryTarget`, `minVersion: "22.0.0"`) is incompatible with Angular 20 build tooling. Partial Angular majors are invalid ([Dependabot groups](#ad-1-dependabot-cooldown-per-ecosystem) mitigate recurrence).
+
+**Decision:** When adopting a new Angular major, bump **the full Angular catalog atomically** — all `@angular/*`, `@angular-devkit/*`, `ng-packagr`, `angular-eslint`, and `jest-preset-angular` — in one verified change. Angular 22 requires **TypeScript 6** (`>=6.0.0 <6.1.0` per `@angular/compiler-cli`).
+
+**@angular/fire @20 on Angular 22:** Keep `@angular/fire@^20.0.1` (latest stable; peers `@angular/core@^20.0.0` only). No stable AngularFire release targets Angular 22 yet ([angular/angularfire#3678](https://github.com/angular/angularfire/issues/3678), [angular/angularfire#3689](https://github.com/angular/angularfire/issues/3689), [21.0.0-rc.0](https://github.com/angular/angularfire/releases/tag/21.0.0-rc.0)). Proceed with **pnpm `peerDependencyRules.allowedVersions`** for Angular 22 peers and validate with full CI parity ([AD-10](#ad-10-change-authoring-requires-ci-parity-verification-before-commit)). This is an **unsupported upstream combo** until AngularFire ships a matching major; re-evaluate when **AngularFire 21+ stable** lands (see [AD-9](#ad-9-firebase-js-sdk-version-policy-v11-resolved-v12-for-consumers) unlock). **Do not** bump `firebase` to 12 on angular paths while on AngularFire 20.
+
+**TypeScript 6 / `baseUrl`:**
+
+| Layer | Action |
+|-------|--------|
+| Hand-authored tsconfigs | Remove redundant `baseUrl: "."` where `paths` already use `./`-prefixed targets ([TS 6 migration](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-6-0.html#deprecated---baseurl)). |
+| tsup `dts` pipeline | **Temporary** `ignoreDeprecations: "6.0"` in each tsup package's `dts.compilerOptions` — not in root tsconfig. tsup 8.5.1 injects `baseUrl: '.'` when calling `rollup-plugin-dts`, triggering `TS5101` even when user configs omit `baseUrl` ([egoist/tsup#1388](https://github.com/egoist/tsup/issues/1388), [egoist/tsup#1389](https://github.com/egoist/tsup/issues/1389)). `rollup-plugin-dts` 6.4.x added TS6 compatibility ([rollup-plugin-dts CHANGELOG](https://github.com/Swatinem/rollup-plugin-dts/blob/master/CHANGELOG.md)); the blocker is tsup's injection, not our tsconfigs. Remove suppression when tsup stops injecting `baseUrl` or we replace the dts pipeline (e.g. `tsc --emitDeclarationOnly`). |
+
+**ng-packagr 22:** Update `@firebase-oss/ui-angular` package `exports`/`typings` to `./dist/types/firebase-oss-ui-angular.d.ts` (output path changed from v20).
+
+**Status:** Speculative — held locally until `pnpm build`, `pnpm test`, `pnpm test:e2e`, and [`.gemini/styleguide.md`](../.gemini/styleguide.md) compliance (`pnpm lint:check`, `pnpm format:check`, catalog rules) pass on CI Node. Owner: [pnpm-workspace.yaml](../pnpm-workspace.yaml) catalog + [playbooks/dependency-update-verification.md](playbooks/dependency-update-verification.md).
+
