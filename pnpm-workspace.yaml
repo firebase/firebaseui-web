@@ -49,7 +49,7 @@ catalog:
   tailwindcss: ^4.3.2
   tsup: 8.5.1
   typescript: ^6.0.3
-  vite: ^8.1.3
+  vite: ^8.1.2
   vitest: ^4.1.9
   vitest-tsconfig-paths: ^3.4.1
   zod: 4.4.3
