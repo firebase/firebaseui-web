@@ -53,7 +53,7 @@
     "@testing-library/jest-dom": "catalog:",
     "@types/jest": "^30.0.0",
     "@types/node": "catalog:",
-    "firebase": "^11.10.0",
+    "firebase": "^12.15.0",
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1",
     "jest-preset-angular": "^16.2.0",
