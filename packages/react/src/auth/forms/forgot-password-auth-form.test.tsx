@@ -132,7 +132,7 @@ describe("useForgotPasswordAuthForm", () => {
       await result.current.handleSubmit();
     });
 
-    expect(result.current.getFieldMeta("email")!.errors[0].length).toBeGreaterThan(0);
+    expect(result.current.getFieldMeta("email")!.errors.length).toBeGreaterThan(0);
     expect(sendPasswordResetEmailMock).not.toHaveBeenCalled();
   });
 });

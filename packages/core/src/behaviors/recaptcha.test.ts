@@ -21,7 +21,7 @@ import type { FirebaseUI } from "~/config";
 import { createMockUI } from "~/tests/utils";
 
 vi.mock("firebase/auth", () => ({
-  RecaptchaVerifier: vi.fn().mockImplementation(() => {}),
+  RecaptchaVerifier: vi.fn(class MockRecaptchaVerifier {}),
 }));
 
 describe("Recaptcha Verification Handler", () => {

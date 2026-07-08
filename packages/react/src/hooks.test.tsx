@@ -42,7 +42,9 @@ vi.mock("firebase/auth", async () => {
   const actual = await vi.importActual<typeof import("firebase/auth")>("firebase/auth");
   return {
     ...actual,
-    RecaptchaVerifier: vi.fn().mockImplementation(() => mockVerifier),
+    RecaptchaVerifier: vi.fn().mockImplementation(function () {
+      return mockVerifier;
+    }),
   };
 });
 

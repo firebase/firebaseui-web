@@ -74,7 +74,13 @@ function MultiFactorEnrollmentPhoneNumberForm(props: MultiFactorEnrollmentPhoneN
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-y-4">
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          void form.handleSubmit(onSubmit)(event);
+        }}
+        className="flex flex-col gap-y-4"
+      >
         <Controller
           control={form.control}
           name="displayName"

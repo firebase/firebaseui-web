@@ -6,7 +6,7 @@ This guide walks you through running FirebaseUI Web locally so you can test feat
 
 Make sure you have these installed:
 
-- [Node.js](https://nodejs.org/) v18+ (CI uses v22 — matching this avoids surprises)
+- [Node.js](https://nodejs.org/) v18+ locally; **CI uses v24** — use Node 24 for pre-push verification to match CI ([change-authoring-verification.md](developer-docs/playbooks/change-authoring-verification.md))
 - [pnpm](https://pnpm.io/) — if you have Node.js 18+, [corepack](https://nodejs.org/api/corepack.html) can install pnpm on demand when you run it
 - [Firebase CLI](https://firebase.google.com/docs/cli):
   ```bash
@@ -116,6 +116,7 @@ if (import.meta.env.MODE === "development") {
 ```
 
 Each framework detects dev mode differently:
+
 - **Vite examples** (react, shadcn): `import.meta.env.MODE === "development"`
 - **Next.js examples**: `process.env.NODE_ENV === "development"`
 - **Angular**: `isDevMode()` from `@angular/core`
@@ -124,27 +125,39 @@ All automatic when using the `dev` / `start` scripts.
 
 ## Which example app should I use?
 
-| I'm working on... | Use this example |
-|---|---|
-| Core auth logic, sign-in flows, state | `react` |
-| React components, hooks, UI | `react` |
-| Angular components or DI | `angular` |
-| Shadcn components or theming | `shadcn` |
-| Server-side rendering, server components | `nextjs-ssr` |
-| Static Next.js / client-only | `nextjs` |
-| Translations or CSS | `react` (easiest) |
-| Custom OAuth flows | `custom-auth-server` (see [CUSTOM_AUTHENTICATION.md](CUSTOM_AUTHENTICATION.md)) |
+| I'm working on...                        | Use this example                                                                |
+| ---------------------------------------- | ------------------------------------------------------------------------------- |
+| Core auth logic, sign-in flows, state    | `react`                                                                         |
+| React components, hooks, UI              | `react`                                                                         |
+| Angular components or DI                 | `angular`                                                                       |
+| Shadcn components or theming             | `shadcn`                                                                        |
+| Server-side rendering, server components | `nextjs-ssr`                                                                    |
+| Static Next.js / client-only             | `nextjs`                                                                        |
+| Translations or CSS                      | `react` (easiest)                                                               |
+| Custom OAuth flows                       | `custom-auth-server` (see [CUSTOM_AUTHENTICATION.md](CUSTOM_AUTHENTICATION.md)) |
 
 The `react` example is recommended as the default — it has the fastest reload cycle.
 
 ## Running tests
 
-Start the emulator first, then:
+Start the emulator first (or let `pnpm test:e2e` start it via Playwright `globalSetup` when it is not already running), then:
 
 ```bash
-# All tests:
+# Package unit tests:
 pnpm test
 
+# Example smoke (all six examples, serial):
+pnpm test:e2e
+
+# Single example smoke:
+pnpm test:e2e:react
+pnpm test:e2e:angular
+# … see root package.json for test:e2e:<example> scripts
+```
+
+E2E scope and CI layers: [developer-docs/architecture/testing-strategy.md](developer-docs/architecture/testing-strategy.md).
+
+```bash
 # Watch mode (core, react, angular):
 pnpm test:watch
 

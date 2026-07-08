@@ -24,13 +24,13 @@
     "server-only": "^0.0.1"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.0.6",
-    "@types/node": "^20",
+    "@tailwindcss/postcss": "^4.3.2",
+    "@types/node": "^26",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "postcss": "catalog:",
     "postcss-load-config": "^6.0.1",
-    "tailwindcss": "^4.0.6",
+    "tailwindcss": "^4.3.2",
     "typescript": "catalog:"
   }
 }

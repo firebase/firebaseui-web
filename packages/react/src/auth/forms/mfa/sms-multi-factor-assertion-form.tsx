@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   PhoneAuthProvider,
   PhoneMultiFactorGenerator,
@@ -76,7 +76,9 @@ export function useSmsMultiFactorAssertionPhoneForm({
   const action = useSmsMultiFactorAssertionPhoneFormAction();
   const recaptchaVerifierRef = useRef<RecaptchaVerifier | null>(recaptchaVerifier);
 
-  recaptchaVerifierRef.current = recaptchaVerifier;
+  useEffect(() => {
+    recaptchaVerifierRef.current = recaptchaVerifier;
+  }, [recaptchaVerifier]);
 
   return form.useAppForm({
     validators: {
