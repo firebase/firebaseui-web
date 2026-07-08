@@ -13,7 +13,7 @@ catalogs:
       specifier: ^22.0.5
       version: 22.0.5
     '@angular-devkit/core':
-      specifier: ^22.0.5
+      specifier: ^22.0.4
       version: 22.0.5
     '@angular/animations':
       specifier: ^22.0.5
