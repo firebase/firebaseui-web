@@ -39,7 +39,7 @@
     "tsup": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:",
-    "zshy": "0.7.0"
+    "zshy": "0.7.3"
   },
   "dependencies": {
     "cva": "1.0.0-beta.4"

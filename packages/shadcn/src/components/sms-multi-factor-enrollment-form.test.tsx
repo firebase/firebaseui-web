@@ -152,7 +152,7 @@ describe("<SmsMultiFactorEnrollmentForm />", () => {
       expect(screen.getByTestId("input-otp")).toBeInTheDocument();
     });
 
-    const description = container.querySelector('[data-slot="form-description"]');
+    const description = container.querySelector('[data-slot="field-description"]');
     expect(description).toBeInTheDocument();
     expect(description).toHaveTextContent("smsVerificationPrompt");
 
@@ -227,7 +227,7 @@ describe("<SmsMultiFactorEnrollmentForm />", () => {
       expect(screen.getByTestId("input-otp")).toBeInTheDocument();
     });
 
-    const description = container.querySelector('[data-slot="form-description"]');
+    const description = container.querySelector('[data-slot="field-description"]');
     expect(description).toBeInTheDocument();
     expect(description).toHaveTextContent("smsVerificationPrompt");
 
@@ -276,7 +276,7 @@ describe("<SmsMultiFactorEnrollmentForm />", () => {
       expect(screen.getByTestId("input-otp")).toBeInTheDocument();
     });
 
-    const description = container.querySelector('[data-slot="form-description"]');
+    const description = container.querySelector('[data-slot="field-description"]');
     expect(description).toBeInTheDocument();
     expect(description).toHaveTextContent("smsVerificationPrompt");
 

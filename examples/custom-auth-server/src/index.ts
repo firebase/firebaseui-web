@@ -20,7 +20,8 @@ import express from "express";
 import rateLimit from "express-rate-limit";
 import { readFileSync } from "node:fs";
 import path from "node:path";
-import admin from "firebase-admin";
+import { cert, initializeApp } from "firebase-admin/app";
+import { getAuth } from "firebase-admin/auth";
 
 const SNAPCHAT_AUTH_URL = "https://accounts.snapchat.com/accounts/oauth2/auth";
 const SNAPCHAT_TOKEN_URL = "https://accounts.snapchat.com/accounts/oauth2/token";
@@ -46,9 +47,9 @@ if (!serviceAccountPath) {
 if (serviceAccountPath) {
   const keyPath = path.resolve(process.cwd(), serviceAccountPath);
   const key = JSON.parse(readFileSync(keyPath, "utf8"));
-  admin.initializeApp({ credential: admin.credential.cert(key) });
+  initializeApp({ credential: cert(key) });
 } else {
-  admin.initializeApp();
+  initializeApp();
 }
 
 const app = express();
@@ -126,7 +127,7 @@ app.post(
       }
 
       const uid = externalId ? `snapchat:${externalId}` : `snapchat:${tokens.access_token.slice(0, 32)}`;
-      const customToken = await admin.auth().createCustomToken(uid, { provider: "snapchat" });
+      const customToken = await getAuth().createCustomToken(uid, { provider: "snapchat" });
 
       res.json({ customToken });
     } catch (e) {

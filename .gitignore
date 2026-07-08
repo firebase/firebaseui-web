@@ -24,8 +24,18 @@ packages/angular/src/version.ts
 # Coverage
 coverage
 
+# Playwright
+e2e/test-results/
+e2e/.state/
+e2e/playwright-report/
+e2e/coverage-report/
+playwright-report/
+
 # Firebase
 .firebase
+
+# Agent ephemeral output
+.agents/reports/
 
 # Editor directories and files
 .vscode/*

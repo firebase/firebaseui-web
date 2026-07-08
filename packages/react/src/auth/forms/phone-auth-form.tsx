@@ -24,7 +24,7 @@ import {
   confirmPhoneNumber,
 } from "@firebase-oss/ui-core";
 import { type RecaptchaVerifier, type UserCredential } from "firebase/auth";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { usePhoneAuthNumberFormSchema, usePhoneAuthVerifyFormSchema, useRecaptchaVerifier, useUI } from "~/hooks";
 import { form } from "~/components/form";
 import { Policies } from "~/components/policies";
@@ -67,7 +67,9 @@ export function usePhoneNumberForm({ recaptchaVerifier, onSuccess, formatPhoneNu
   const schema = usePhoneAuthNumberFormSchema();
   const recaptchaVerifierRef = useRef<RecaptchaVerifier | null>(recaptchaVerifier);
 
-  recaptchaVerifierRef.current = recaptchaVerifier;
+  useEffect(() => {
+    recaptchaVerifierRef.current = recaptchaVerifier;
+  }, [recaptchaVerifier]);
 
   return form.useAppForm({
     defaultValues: {

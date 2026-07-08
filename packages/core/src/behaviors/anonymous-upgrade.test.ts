@@ -194,8 +194,8 @@ describe("autoUpgradeAnonymousProviderHandler", () => {
     const mockProviderLinkStrategy = vi.fn().mockResolvedValue(mockResult);
     vi.mocked(getBehavior).mockReturnValue(mockProviderLinkStrategy);
 
-    const localStorageSpy = vi.spyOn(Storage.prototype, "setItem");
-    const localStorageRemoveSpy = vi.spyOn(Storage.prototype, "removeItem");
+    const localStorageSpy = window.localStorage.setItem;
+    const localStorageRemoveSpy = window.localStorage.removeItem;
 
     const result = await autoUpgradeAnonymousProviderHandler(mockUI, mockProvider);
 

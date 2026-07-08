@@ -39,13 +39,13 @@ vi.mock("@/components/ui/input-otp", () => ({
     }),
 }));
 
-vi.mock("@/components/ui/form", async (importOriginal) => {
-  const mod = await importOriginal<typeof import("@/components/ui/form")>();
+vi.mock("@/components/ui/field", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@/components/ui/field")>();
   return {
     ...mod,
-    FormItem: ({ children, ...props }: any) => React.createElement("div", { ...props }, children),
-    FormLabel: ({ children, ...props }: any) => React.createElement("label", { ...props }, children),
-    FormDescription: ({ children, ...props }: any) => React.createElement("p", { ...props }, children),
+    Field: ({ children, ...props }: any) => React.createElement("div", { ...props }, children),
+    FieldLabel: ({ children, ...props }: any) => React.createElement("label", { ...props }, children),
+    FieldDescription: ({ children, ...props }: any) => React.createElement("p", { ...props }, children),
   };
 });
 

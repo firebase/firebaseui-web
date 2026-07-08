@@ -17,10 +17,16 @@
 "use client";
 
 import { SignInAuthScreen } from "@firebase-oss/ui-react";
+import { useRouter } from "next/navigation";
 
 export default function SignInAuthScreenWithHandlersPage() {
+  const router = useRouter();
+
   return (
     <SignInAuthScreen
+      onForgotPasswordClick={() => {
+        router.push("/screens/forgot-password-auth-screen");
+      }}
       onSignIn={(credential) => {
         console.log(credential);
       }}
