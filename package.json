@@ -28,7 +28,7 @@
   "devDependencies": {
     "@eslint/css": "^1.4.0",
     "@eslint/js": "^9.39.4",
-    "angular-eslint": "^20.7.0",
+    "angular-eslint": "^22.0.0",
     "eslint": "catalog:",
     "eslint-plugin-prettier": "^5.5.6",
     "eslint-plugin-react": "^7.37.5",

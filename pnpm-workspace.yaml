@@ -4,22 +4,23 @@ packages:
   - e2e
 
 catalog:
-  "@angular-devkit/architect": ^0.2003.31
-  "@angular-devkit/build-angular": ^20.3.31
-  "@angular-devkit/core": ^20.3.31
-  "@angular/animations": ^20.3.25
-  "@angular/cli": ^20.3.31
-  "@angular/common": ^20.3.25
-  "@angular/compiler": ^20.3.25
-  "@angular/compiler-cli": ^20.3.25
-  "@angular/core": ^20.3.25
+  "@angular-devkit/architect": ^0.2200.5
+  "@angular-devkit/build-angular": ^22.0.5
+  "@angular-devkit/core": ^22.0.5
+  "@angular/animations": ^22.0.5
+  "@angular/cli": ^22.0.5
+  "@angular/common": ^22.0.5
+  "@angular/compiler": ^22.0.5
+  "@angular/compiler-cli": ^22.0.5
+  "@angular/core": ^22.0.5
   "@angular/fire": ^20.0.1
-  "@angular/forms": ^20.3.25
-  "@angular/platform-browser": ^20.3.25
-  "@angular/platform-browser-dynamic": ^20.3.25
-  "@angular/platform-server": ^20.3.25
-  "@angular/router": ^20.3.25
-  "@angular/ssr": ^20.3.25
+  "@angular/forms": ^22.0.5
+  "@angular/platform-browser": ^22.0.5
+  "@angular/platform-browser-dynamic": ^22.0.5
+  "@angular/platform-server": ^22.0.5
+  "@angular/router": ^22.0.5
+  "@angular/ssr": ^22.0.5
+  ng-packagr: ^22.0.1
   "@tailwindcss/vite": ^4.3.2
   "@testing-library/jest-dom": ^6.9.1
   "@testing-library/react": ^16.3.2
@@ -47,7 +48,7 @@ catalog:
   rxjs: ^7.8.2
   tailwindcss: ^4.3.2
   tsup: 8.5.1
-  typescript: ^5.9.3
+  typescript: ^6.0.3
   vite: ^8.1.3
   vitest: ^4.1.9
   vitest-tsconfig-paths: ^3.4.1
@@ -89,6 +90,13 @@ gitChecks: false
 peerDependencyRules:
   ignoreMissing:
     - firebase-tools
+  allowedVersions:
+    "@angular/core": "22"
+    "@angular/common": "22"
+    "@angular/platform-browser": "22"
+    "@angular/platform-browser-dynamic": "22"
+    "@angular/forms": "22"
+    "@angular/router": "22"
 
 overrides:
   firebase-tools: "-"

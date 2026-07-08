@@ -8,10 +8,10 @@
   "type": "module",
   "main": "./dist/fesm2022/firebase-oss-ui-angular.mjs",
   "module": "./dist/fesm2022/firebase-oss-ui-angular.mjs",
-  "typings": "./dist/index.d.ts",
+  "typings": "./dist/types/firebase-oss-ui-angular.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": "./dist/types/firebase-oss-ui-angular.d.ts",
       "default": "./dist/fesm2022/firebase-oss-ui-angular.mjs"
     }
   },
@@ -56,9 +56,9 @@
     "firebase": "^11.10.0",
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1",
-    "jest-preset-angular": "^15.0.3",
+    "jest-preset-angular": "^16.2.0",
     "jsdom": "^29.1.1",
-    "ng-packagr": "^20.3.2",
+    "ng-packagr": "catalog:",
     "rxjs": "catalog:",
     "ts-node": "^10.9.2",
     "tsx": "^4.23.0",

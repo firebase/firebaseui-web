@@ -73,9 +73,9 @@
     "jsdom": "^29.1.1",
     "@testing-library/jest-dom": "^6.9.1",
     "nanostores": "^1.4.0",
-    "ng-packagr": "^20.3.2",
+    "ng-packagr": "catalog:",
     "prettier": "^3.9.4",
     "rimraf": "catalog:",
-    "typescript": "^5.9.3"
+    "typescript": "catalog:"
   }
 }
