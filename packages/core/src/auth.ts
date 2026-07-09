@@ -57,7 +57,11 @@ import { getTranslation } from "./translations";
  * @param json - The parsed JSON representation of the credential.
  * @returns The rehydrated `AuthCredential`, or `null` if it could not be rehydrated.
  */
-function credentialFromJSON(json: object): AuthCredential | null {
+function credentialFromJSON(json: unknown): AuthCredential | null {
+  if (typeof json !== "object" || json === null) {
+    return null;
+  }
+
   try {
     return OAuthProvider.credentialFromJSON(json);
   } catch {

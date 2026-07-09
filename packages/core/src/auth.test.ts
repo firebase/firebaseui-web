@@ -1104,6 +1104,20 @@ describe("handlePendingCredential", () => {
     expect(window.sessionStorage.getItem("pendingCred")).toBeNull();
   });
 
+  it("should return the original user and clear storage when the stored credential is invalid JSON", async () => {
+    const mockUI = createMockUI();
+    window.sessionStorage.setItem("pendingCred", "{invalid-json");
+
+    vi.mocked(_signInAnonymously).mockResolvedValue(mockUserCredential);
+
+    const result = await signInAnonymously(mockUI);
+
+    expect(OAuthProvider.credentialFromJSON).not.toHaveBeenCalled();
+    expect(_linkWithCredential).not.toHaveBeenCalled();
+    expect(result).toBe(mockUserCredential);
+    expect(window.sessionStorage.getItem("pendingCred")).toBeNull();
+  });
+
   it("should return the original user and clear storage when linkWithCredential fails", async () => {
     const mockUI = createMockUI();
     const storedJSON = { providerId: "google.com", signInMethod: "google.com", idToken: "fake-id-token" };
