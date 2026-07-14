@@ -65,9 +65,7 @@ function setPendingState(ui: FirebaseUI) {
 }
 
 type AnonymousUpgradeAttempt =
-  | { status: "upgraded"; credential: UserCredential }
-  | { status: "stopped" }
-  | { status: "skipped" };
+  { status: "upgraded"; credential: UserCredential } | { status: "stopped" } | { status: "skipped" };
 
 async function attemptAnonymousCredentialUpgrade(
   ui: FirebaseUI,

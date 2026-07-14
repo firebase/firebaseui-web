@@ -70,7 +70,9 @@ export class OAuthButtonComponent {
     this.error.set(null);
     try {
       const credential = await signInWithProvider(this.ui(), this.provider());
-      this.signIn.emit(credential);
+      if (credential) {
+        this.signIn.emit(credential);
+      }
     } catch (error) {
       if (error instanceof FirebaseUIError) {
         this.error.set(error.message);

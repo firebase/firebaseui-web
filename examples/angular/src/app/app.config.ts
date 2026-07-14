@@ -23,7 +23,13 @@ import { provideClientHydration, withEventReplay } from "@angular/platform-brows
 import { provideFirebaseApp, initializeApp } from "@angular/fire/app";
 import { provideAuth, getAuth, connectAuthEmulator } from "@angular/fire/auth";
 import { provideFirebaseUI, provideFirebaseUIPolicies } from "@firebase-oss/ui-angular";
-import { initializeUI } from "@firebase-oss/ui-core";
+import {
+  autoAnonymousLogin,
+  autoUpgradeAnonymousUsers,
+  initializeUI,
+  providerRedirectStrategy,
+} from "@firebase-oss/ui-core";
+import type { FirebaseApp } from "firebase/app";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCvMftIUCD9lUQ3BzIrimfSfBbCUQYZf-I",
@@ -33,6 +39,49 @@ const firebaseConfig = {
   messagingSenderId: "200312857118",
   appId: "1:200312857118:web:94e3f69b0e0a4a863f040f",
 };
+
+function initializeExampleUI(app: FirebaseApp) {
+  const e2eAnonymousUpgradeScenario =
+    isDevMode() && typeof window !== "undefined"
+      ? new URLSearchParams(window.location.search).get("e2eAnonymousUpgrade")
+      : null;
+
+  const behaviors = e2eAnonymousUpgradeScenario
+    ? [
+        autoAnonymousLogin(),
+        autoUpgradeAnonymousUsers({
+          onUpgrade: (_ui, oldUserId, credential) => {
+            window.localStorage.setItem(
+              "firebaseui:e2e:upgrade-result",
+              JSON.stringify({ oldUserId, newUserId: credential.user.uid })
+            );
+          },
+          onUpgradeFailure: ({ oldUserId, error, credential }) => {
+            const code = error && typeof error === "object" && "code" in error ? String(error.code) : "unknown";
+            window.localStorage.setItem(
+              "firebaseui:e2e:upgrade-failure",
+              JSON.stringify({ oldUserId, code, kind: credential ? "credential" : "provider" })
+            );
+
+            return e2eAnonymousUpgradeScenario === "handled" ? "handled" : undefined;
+          },
+        }),
+        ...(e2eAnonymousUpgradeScenario === "redirect" ? [providerRedirectStrategy()] : []),
+      ]
+    : [];
+
+  const ui = initializeUI({ app, behaviors });
+
+  if (e2eAnonymousUpgradeScenario) {
+    ui.get().auth.onAuthStateChanged((user) => {
+      if (user?.isAnonymous) {
+        window.localStorage.setItem("firebaseui:e2e:anonymous-user-id", user.uid);
+      }
+    });
+  }
+
+  return ui;
+}
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -48,7 +97,7 @@ export const appConfig: ApplicationConfig = {
       }
       return auth;
     }),
-    provideFirebaseUI((apps) => initializeUI({ app: apps[0] })),
+    provideFirebaseUI((apps) => initializeExampleUI(apps[0])),
     provideFirebaseUIPolicies(() => ({
       termsOfServiceUrl: "https://www.google.com",
       privacyPolicyUrl: "https://www.google.com",

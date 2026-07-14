@@ -14,6 +14,7 @@ timestamp: 2026-07-03T00:00:00Z
 | Compile (packages + examples) | `pnpm build` | [CONTRIBUTING.md](../../CONTRIBUTING.md) | TS, bundler, framework build errors |
 | Lint / format | `pnpm lint:check`, `pnpm format:check` | [CONTRIBUTING.md](../../CONTRIBUTING.md) | Style regressions |
 | Example smoke (browser + HTTP) | `pnpm test:e2e` | [AD-3](../decisions.md#ad-3-playwright-example-smoke-tests-mvp-scope-dev-server), [AD-4](../decisions.md#ad-4-playwright-managed-dev-servers-serial-shared-emulator), [AD-6](../decisions.md#ad-6-custom-auth-server-binds-4001-for-e2e) | Dev-server UI interactivity (five UI examples) and `custom-auth-server` HTTP boot |
+| Anonymous upgrade integration | `pnpm test:e2e:react`, `pnpm test:e2e:angular` | [`anonymous-upgrade.spec.ts`](../../e2e/tests/anonymous-upgrade.spec.ts) | React/Angular credential upgrades, conflict callbacks, handled errors, and provider redirect state |
 | Security audit | `pnpm audit` | [playbooks/dependency-update-verification.md](../playbooks/dependency-update-verification.md) | Known CVEs in lockfile |
 
 # CI today

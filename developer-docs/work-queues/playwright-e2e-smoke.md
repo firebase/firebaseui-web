@@ -59,7 +59,7 @@ scripts/e2e-run.mjs (pnpm test:e2e)
 
 - **Serial:** `workers: 1`; `E2E_PROJECT` selects both the single Playwright project and the top-level `webServer`, so one dev server is up at a time.
 - **Emulator:** `globalSetup` ensures `:9099` is reachable (starts via `npx firebase-tools` when not already running); serial runner sets `E2E_KEEP_EMULATOR=1` so teardown does not stop it between examples; `pnpm emulators` remains the first-class manual target ([LOCAL_DEVELOPMENT.md](../../LOCAL_DEVELOPMENT.md)).
-- **Per-example debug:** `pnpm test:e2e:react` runs one project; `globalSetup` starts the emulator with reuse if not already running.
+- **Per-example debug:** `pnpm test:e2e:react` builds packages before Playwright starts Vite, then runs one project; `globalSetup` asserts `dist/` and starts the emulator with reuse if not already running.
 
 # Example ports, commands, and root scripts
 

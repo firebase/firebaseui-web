@@ -16,7 +16,14 @@
 
 "use client";
 
-import { countryCodes, initializeUI, oneTapSignIn } from "@firebase-oss/ui-core";
+import {
+  autoAnonymousLogin,
+  autoUpgradeAnonymousUsers,
+  countryCodes,
+  initializeUI,
+  oneTapSignIn,
+  providerRedirectStrategy,
+} from "@firebase-oss/ui-core";
 import { getApps, initializeApp } from "firebase/app";
 import { connectAuthEmulator, getAuth } from "firebase/auth";
 
@@ -26,21 +33,61 @@ export const firebaseApp = getApps().length === 0 ? initializeApp(firebaseConfig
 
 export const auth = getAuth(firebaseApp);
 
+const e2eAnonymousUpgradeScenario = import.meta.env.DEV
+  ? new URLSearchParams(window.location.search).get("e2eAnonymousUpgrade")
+  : null;
+
+function e2eAnonymousUpgradeBehaviors() {
+  if (!e2eAnonymousUpgradeScenario) {
+    return [];
+  }
+
+  return [
+    autoAnonymousLogin(),
+    autoUpgradeAnonymousUsers({
+      onUpgrade: (_ui, oldUserId, credential) => {
+        window.localStorage.setItem(
+          "firebaseui:e2e:upgrade-result",
+          JSON.stringify({ oldUserId, newUserId: credential.user.uid })
+        );
+      },
+      onUpgradeFailure: ({ oldUserId, error, credential }) => {
+        const code = error && typeof error === "object" && "code" in error ? String(error.code) : "unknown";
+        window.localStorage.setItem(
+          "firebaseui:e2e:upgrade-failure",
+          JSON.stringify({ oldUserId, code, kind: credential ? "credential" : "provider" })
+        );
+
+        return e2eAnonymousUpgradeScenario === "handled" ? "handled" : undefined;
+      },
+    }),
+    ...(e2eAnonymousUpgradeScenario === "redirect" ? [providerRedirectStrategy()] : []),
+  ];
+}
+
 export const ui = initializeUI({
   app: firebaseApp,
-  behaviors: [
-    // autoAnonymousLogin(),
-    oneTapSignIn({
-      clientId: "616577669988-led6l3rqek9ckn9t1unj4l8l67070fhp.apps.googleusercontent.com",
-    }),
-    countryCodes({
-      allowedCountries: ["US", "CA", "GB"],
-      defaultCountry: "GB",
-    }),
-    // providerPopupStrategy(),
-  ],
+  behaviors: e2eAnonymousUpgradeScenario
+    ? e2eAnonymousUpgradeBehaviors()
+    : [
+        oneTapSignIn({
+          clientId: "616577669988-led6l3rqek9ckn9t1unj4l8l67070fhp.apps.googleusercontent.com",
+        }),
+        countryCodes({
+          allowedCountries: ["US", "CA", "GB"],
+          defaultCountry: "GB",
+        }),
+      ],
 });
 
 if (import.meta.env.MODE === "development") {
   connectAuthEmulator(auth, "http://localhost:9099");
+}
+
+if (e2eAnonymousUpgradeScenario) {
+  auth.onAuthStateChanged((user) => {
+    if (user?.isAnonymous) {
+      window.localStorage.setItem("firebaseui:e2e:anonymous-user-id", user.uid);
+    }
+  });
 }

@@ -134,7 +134,9 @@ export class SignUpAuthFormComponent {
                 value.password,
                 value.displayName
               );
-              this.signUp.emit(credential);
+              if (credential) {
+                this.signUp.emit(credential);
+              }
               return;
             } catch (error) {
               if (error instanceof FirebaseUIError) {
