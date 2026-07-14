@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { spawn, type ChildProcess } from "node:child_process";
+import { execSync, spawn, type ChildProcess } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import net from "node:net";
 import path from "node:path";
