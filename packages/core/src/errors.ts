@@ -52,6 +52,7 @@ export function handleFirebaseError(ui: FirebaseUI, error: unknown): never {
 
   // TODO(ehesp): Type error as unknown, check instance of FirebaseError
   // TODO(ehesp): Support via behavior
+  // Note: the credential is stored via `toJSON()`; it must be rehydrated (see handlePendingCredential in auth.ts) before being passed to linkWithCredential.
   if (error.code === "auth/account-exists-with-different-credential" && errorContainsCredential(error)) {
     window.sessionStorage.setItem("pendingCred", JSON.stringify(error.credential.toJSON()));
   }
