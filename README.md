@@ -340,6 +340,8 @@ The `autoUpgradeAnonymousUsers` behavior will automatically upgrade a user who i
 
 When an upgrade succeeds, the anonymous user's UID is preserved and the new credential is linked to that user. When an upgrade fails (for example, because an OAuth credential is already linked to another account), `onUpgradeFailure` receives the original error and the anonymous user's `oldUserId` so your app can decide whether to migrate anonymous user data into the existing account. Return `"handled"` from `onUpgradeFailure` to suppress the default FirebaseUI error. Return `undefined`, omit the callback, or throw from the callback to preserve the default error behavior.
 
+`onUpgradeFailure` also fires for provider-linking failures that only surface after a redirect round trip (i.e. when combined with [`providerRedirectStrategy`](#providerredirectstrategy)), such as `auth/credential-already-in-use` or `auth/email-already-in-use` returned from `getRedirectResult()`. In that case `provider` and `credential` may be `undefined` if FirebaseUI can't recover them from the redirect error.
+
 ```ts
 import { autoUpgradeAnonymousUsers } from '@firebase-oss/ui-core';
 
@@ -717,6 +719,7 @@ By default, any missing translations will fallback to English if not specified. 
   |----------|:-----------------:|------------------------------------|
   | options  | AutoUpgradeAnonymousUsersOptions? | Optional configuration. |
   | options.onUpgrade | function? | Optional callback when upgrade occurs. |
+  | options.onUpgradeFailure | function? | Optional callback when upgrade linking fails, including redirect-completed failures. |
 
   Returns `Behavior<"autoUpgradeAnonymousCredential" | "autoUpgradeAnonymousProvider" | "autoUpgradeAnonymousUserRedirectHandler">`.
 

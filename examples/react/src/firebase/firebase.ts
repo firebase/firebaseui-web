@@ -37,6 +37,9 @@ const e2eAnonymousUpgradeScenario = import.meta.env.DEV
   ? new URLSearchParams(window.location.search).get("e2eAnonymousUpgrade")
   : null;
 
+const E2E_REDIRECT_SCENARIOS = ["redirect", "redirect-handled"];
+const E2E_HANDLED_SCENARIOS = ["handled", "redirect-handled"];
+
 function e2eAnonymousUpgradeBehaviors() {
   if (!e2eAnonymousUpgradeScenario) {
     return [];
@@ -58,10 +61,10 @@ function e2eAnonymousUpgradeBehaviors() {
           JSON.stringify({ oldUserId, code, kind: credential ? "credential" : "provider" })
         );
 
-        return e2eAnonymousUpgradeScenario === "handled" ? "handled" : undefined;
+        return E2E_HANDLED_SCENARIOS.includes(e2eAnonymousUpgradeScenario as string) ? "handled" : undefined;
       },
     }),
-    ...(e2eAnonymousUpgradeScenario === "redirect" ? [providerRedirectStrategy()] : []),
+    ...(E2E_REDIRECT_SCENARIOS.includes(e2eAnonymousUpgradeScenario as string) ? [providerRedirectStrategy()] : []),
   ];
 }
 

@@ -419,4 +419,74 @@ describe("autoUpgradeAnonymousUserRedirectHandler", () => {
     // Should clean up localStorage even when callback throws error
     expect(window.localStorage.getItem("fbui:upgrade:oldUserId")).toBeNull();
   });
+
+  it("should call onUpgradeFailure when getRedirectResult rejects and oldUserId exists", async () => {
+    const mockUI = createMockUI();
+    const oldUserId = "anonymous-123";
+    const mockError = {
+      code: "auth/credential-already-in-use",
+      message: "In use",
+      credential: { providerId: "google.com" },
+    };
+
+    window.localStorage.setItem("fbui:upgrade:oldUserId", oldUserId);
+
+    const onUpgradeFailure = vi.fn().mockResolvedValue(undefined);
+
+    const result = await autoUpgradeAnonymousUserRedirectHandler(mockUI, null, undefined, onUpgradeFailure, mockError);
+
+    expect(result).toBeUndefined();
+    expect(onUpgradeFailure).toHaveBeenCalledWith({
+      ui: mockUI,
+      oldUserId,
+      error: mockError,
+      credential: mockError.credential,
+    });
+    expect(window.localStorage.getItem("fbui:upgrade:oldUserId")).toBeNull();
+  });
+
+  it("should return handled when onUpgradeFailure suppresses a redirect failure", async () => {
+    const mockUI = createMockUI();
+    const oldUserId = "anonymous-123";
+    const mockError = new Error("Redirect linking failed");
+
+    window.localStorage.setItem("fbui:upgrade:oldUserId", oldUserId);
+
+    const onUpgradeFailure = vi.fn().mockResolvedValue("handled");
+
+    const result = await autoUpgradeAnonymousUserRedirectHandler(mockUI, null, undefined, onUpgradeFailure, mockError);
+
+    expect(result).toBe("handled");
+    expect(onUpgradeFailure).toHaveBeenCalledWith({
+      ui: mockUI,
+      oldUserId,
+      error: mockError,
+      credential: undefined,
+    });
+  });
+
+  it("should not call onUpgradeFailure when the redirect failure is unrelated to an anonymous upgrade", async () => {
+    const mockUI = createMockUI();
+    const mockError = new Error("Some other redirect failure");
+
+    const onUpgradeFailure = vi.fn();
+
+    const result = await autoUpgradeAnonymousUserRedirectHandler(mockUI, null, undefined, onUpgradeFailure, mockError);
+
+    expect(result).toBeUndefined();
+    expect(onUpgradeFailure).not.toHaveBeenCalled();
+  });
+
+  it("should return undefined for a redirect failure when no onUpgradeFailure is configured", async () => {
+    const mockUI = createMockUI();
+    const oldUserId = "anonymous-123";
+    const mockError = new Error("Redirect linking failed");
+
+    window.localStorage.setItem("fbui:upgrade:oldUserId", oldUserId);
+
+    const result = await autoUpgradeAnonymousUserRedirectHandler(mockUI, null, undefined, undefined, mockError);
+
+    expect(result).toBeUndefined();
+    expect(window.localStorage.getItem("fbui:upgrade:oldUserId")).toBeNull();
+  });
 });

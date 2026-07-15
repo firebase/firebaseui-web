@@ -40,6 +40,9 @@ const firebaseConfig = {
   appId: "1:200312857118:web:94e3f69b0e0a4a863f040f",
 };
 
+const E2E_REDIRECT_SCENARIOS = ["redirect", "redirect-handled"];
+const E2E_HANDLED_SCENARIOS = ["handled", "redirect-handled"];
+
 function initializeExampleUI(app: FirebaseApp) {
   const e2eAnonymousUpgradeScenario =
     isDevMode() && typeof window !== "undefined"
@@ -63,10 +66,10 @@ function initializeExampleUI(app: FirebaseApp) {
               JSON.stringify({ oldUserId, code, kind: credential ? "credential" : "provider" })
             );
 
-            return e2eAnonymousUpgradeScenario === "handled" ? "handled" : undefined;
+            return E2E_HANDLED_SCENARIOS.includes(e2eAnonymousUpgradeScenario as string) ? "handled" : undefined;
           },
         }),
-        ...(e2eAnonymousUpgradeScenario === "redirect" ? [providerRedirectStrategy()] : []),
+        ...(E2E_REDIRECT_SCENARIOS.includes(e2eAnonymousUpgradeScenario as string) ? [providerRedirectStrategy()] : []),
       ]
     : [];
 

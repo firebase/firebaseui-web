@@ -49,7 +49,7 @@ type Registry = {
     (
       ui: FirebaseUI,
       credential: UserCredential | null,
-      onUpgrade?: anonymousUpgradeHandlers.OnUpgradeCallback
+      error?: unknown
     ) => ReturnType<typeof anonymousUpgradeHandlers.autoUpgradeAnonymousUserRedirectHandler>
   >;
   recaptchaVerification: CallableBehavior<(ui: FirebaseUI, element: HTMLElement) => RecaptchaVerifier>;
@@ -80,7 +80,10 @@ export function autoAnonymousLogin(): Behavior<"autoAnonymousLogin"> {
 export type AutoUpgradeAnonymousUsersOptions = {
   /** Optional callback function that is called when an anonymous user is upgraded. */
   onUpgrade?: anonymousUpgradeHandlers.OnUpgradeCallback;
-  /** Optional callback function that is called when credential or provider linking fails locally. */
+  /**
+   * Optional callback function that is called when credential or provider linking fails,
+   * including provider-linking failures that only surface after a redirect round trip.
+   */
   onUpgradeFailure?: anonymousUpgradeHandlers.OnUpgradeFailureCallback;
 };
 
@@ -115,8 +118,14 @@ export function autoUpgradeAnonymousUsers(
         options?.onUpgradeFailure
       )
     ),
-    autoUpgradeAnonymousUserRedirectHandler: redirectBehavior((ui, credential) =>
-      anonymousUpgradeHandlers.autoUpgradeAnonymousUserRedirectHandler(ui, credential, options?.onUpgrade)
+    autoUpgradeAnonymousUserRedirectHandler: redirectBehavior((ui, credential, error) =>
+      anonymousUpgradeHandlers.autoUpgradeAnonymousUserRedirectHandler(
+        ui,
+        credential,
+        options?.onUpgrade,
+        options?.onUpgradeFailure,
+        error
+      )
     ),
   };
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import type { APIRequestContext, Page } from "@playwright/test";
+import type { APIRequestContext, Browser, Page } from "@playwright/test";
 import { enUs } from "@firebase-oss/ui-translations";
 import { exampleMeta, type UiExampleMeta } from "../fixtures/example-meta";
 import { expect, test } from "../fixtures/test-harness";
@@ -41,7 +41,7 @@ type UpgradeFailure = {
 
 const projectsUnderTest = ["react", "angular-example"] as const;
 
-function scenarioUrl(scenario: "default" | "handled" | "redirect"): string {
+function scenarioUrl(scenario: "default" | "handled" | "redirect" | "redirect-handled"): string {
   return `/screens/sign-in-auth-screen-w-oauth?${E2E_SCENARIO_PARAM}=${scenario}`;
 }
 
@@ -107,6 +107,23 @@ async function completeGoogleRedirect(page: Page, email: string): Promise<void> 
   await page.getByRole("button", { name: /sign in with google/i }).click();
 }
 
+// A fresh browser context gives us an independent, unauthenticated Firebase Auth persistence
+// store, so `autoAnonymousLogin` creates a brand new anonymous user instead of reusing whatever
+// session the default `page` fixture already has (e.g. one already upgraded by a prior step).
+async function openFreshAnonymousSession(
+  browser: Browser,
+  scenario: "default" | "handled" | "redirect" | "redirect-handled"
+): Promise<{ page: Page; anonymousUserId: string }> {
+  const context = await browser.newContext();
+  const page = await context.newPage();
+  await page.route("**/*accounts.google.com/**", (route) => route.abort());
+
+  await page.goto(scenarioUrl(scenario));
+  const anonymousUserId = await waitForAnonymousUser(page);
+
+  return { page, anonymousUserId };
+}
+
 for (const projectName of projectsUnderTest) {
   const meta = exampleMeta[projectName] as UiExampleMeta;
 
@@ -170,6 +187,72 @@ for (const projectName of projectsUnderTest) {
       await expect
         .poll(() => page.evaluate((key) => window.localStorage.getItem(key), REDIRECT_USER_ID_KEY))
         .toBeNull();
+    });
+
+    test("provider redirect conflict fires onUpgradeFailure and shows the default error", async ({
+      page,
+      request,
+      browser,
+    }) => {
+      // Keep the emulator IdP chooser deterministic even when a developer reuses an existing emulator.
+      await clearEmulatorUsers(request);
+      const conflictEmail = uniqueEmail(meta.name, "redirect-conflict");
+
+      // The first anonymous user links via redirect and becomes the permanent owner of this
+      // Google identity.
+      await page.goto(scenarioUrl("redirect"));
+      await waitForAnonymousUser(page);
+      await completeGoogleRedirect(page, conflictEmail);
+      await expect.poll(() => readStorage<UpgradeResult>(page, UPGRADE_RESULT_KEY)).not.toBeNull();
+
+      // A second, independent anonymous user attempts to link the same Google identity via
+      // redirect. `getRedirectResult()` rejects, so this only passes if `onUpgradeFailure` is
+      // wired into the redirect path in `config.ts` (not just the popup/credential paths).
+      const { page: conflictPage, anonymousUserId: secondAnonymousUserId } = await openFreshAnonymousSession(
+        browser,
+        "redirect"
+      );
+
+      await completeGoogleRedirect(conflictPage, conflictEmail);
+
+      // The emulator's fake Google identity doesn't reuse the same provider UID for a repeated
+      // email, so linking fails on the email conflict rather than an already-linked credential.
+      await expect(conflictPage.getByText(enUs.translations.errors.emailAlreadyInUse)).toBeVisible();
+      await expect.poll(() => readStorage<UpgradeFailure>(conflictPage, UPGRADE_FAILURE_KEY)).not.toBeNull();
+      expect(await readStorage<UpgradeFailure>(conflictPage, UPGRADE_FAILURE_KEY)).toEqual({
+        oldUserId: secondAnonymousUserId,
+        code: "auth/email-already-in-use",
+        kind: "provider",
+      });
+
+      await conflictPage.context().close();
+    });
+
+    test("handled provider redirect conflict suppresses the default error", async ({ page, request, browser }) => {
+      await clearEmulatorUsers(request);
+      const conflictEmail = uniqueEmail(meta.name, "redirect-handled-conflict");
+
+      await page.goto(scenarioUrl("redirect-handled"));
+      await waitForAnonymousUser(page);
+      await completeGoogleRedirect(page, conflictEmail);
+      await expect.poll(() => readStorage<UpgradeResult>(page, UPGRADE_RESULT_KEY)).not.toBeNull();
+
+      const { page: conflictPage, anonymousUserId: secondAnonymousUserId } = await openFreshAnonymousSession(
+        browser,
+        "redirect-handled"
+      );
+
+      await completeGoogleRedirect(conflictPage, conflictEmail);
+
+      await expect.poll(() => readStorage<UpgradeFailure>(conflictPage, UPGRADE_FAILURE_KEY)).not.toBeNull();
+      expect(await readStorage<UpgradeFailure>(conflictPage, UPGRADE_FAILURE_KEY)).toEqual({
+        oldUserId: secondAnonymousUserId,
+        code: "auth/email-already-in-use",
+        kind: "provider",
+      });
+      await expect(conflictPage.getByText(enUs.translations.errors.emailAlreadyInUse)).toHaveCount(0);
+
+      await conflictPage.context().close();
     });
   });
 }

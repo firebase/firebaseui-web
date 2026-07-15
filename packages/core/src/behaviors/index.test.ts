@@ -218,7 +218,13 @@ describe("autoUpgradeAnonymousUsers", () => {
       mockOnUpgrade,
       mockOnUpgradeFailure
     );
-    expect(autoUpgradeAnonymousUserRedirectHandler).toHaveBeenCalledWith(mockUI, mockUserCredential, mockOnUpgrade);
+    expect(autoUpgradeAnonymousUserRedirectHandler).toHaveBeenCalledWith(
+      mockUI,
+      mockUserCredential,
+      mockOnUpgrade,
+      mockOnUpgradeFailure,
+      undefined
+    );
   });
 
   it("should not include other behaviors", () => {

@@ -46,6 +46,16 @@ async function handleUpgradeFailure(
   }
 }
 
+// Best-effort extraction for errors like auth/credential-already-in-use, which carry the
+// conflicting credential so callers can offer to link/merge it themselves.
+function extractCredentialFromError(error: unknown): AuthCredential | undefined {
+  if (error && typeof error === "object" && "credential" in error) {
+    return (error as { credential?: AuthCredential }).credential;
+  }
+
+  return undefined;
+}
+
 export const autoUpgradeAnonymousCredentialHandler = async (
   ui: FirebaseUI,
   credential: AuthCredential,
@@ -126,13 +136,30 @@ export const autoUpgradeAnonymousProviderHandler = async (
 export const autoUpgradeAnonymousUserRedirectHandler = async (
   ui: FirebaseUI,
   credential: UserCredential | null,
-  onUpgrade?: OnUpgradeCallback
-) => {
+  onUpgrade?: OnUpgradeCallback,
+  onUpgradeFailure?: OnUpgradeFailureCallback,
+  error?: unknown
+): Promise<OnUpgradeFailureResult> => {
   const oldUserId = window.localStorage.getItem("fbui:upgrade:oldUserId");
 
   // Always clean up localStorage once we've retrieved the oldUserId
   if (oldUserId) {
     window.localStorage.removeItem("fbui:upgrade:oldUserId");
+  }
+
+  // getRedirectResult() rejected. Only relevant if this redirect was for an anonymous upgrade;
+  // otherwise defer to FirebaseUI's default redirect error handling.
+  if (error !== undefined) {
+    if (!oldUserId) {
+      return;
+    }
+
+    const handled = await handleUpgradeFailure(
+      { ui, oldUserId, error, credential: extractCredentialFromError(error) },
+      onUpgradeFailure
+    );
+
+    return handled ? "handled" : undefined;
   }
 
   if (!onUpgrade || !oldUserId || !credential) {
