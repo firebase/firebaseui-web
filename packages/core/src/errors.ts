@@ -19,6 +19,7 @@ import { FirebaseError } from "firebase/app";
 import { type AuthCredential, getMultiFactorResolver, type MultiFactorError } from "firebase/auth";
 import { type FirebaseUI } from "./config";
 import { getBehavior, hasBehavior } from "./behaviors";
+import { isLegacySignInRecoveryErrorCode } from "./behaviors/legacy-fetch-sign-in-with-email";
 import { getTranslation } from "./translations";
 
 /**
@@ -51,13 +52,7 @@ export async function handleFirebaseError(ui: FirebaseUI, error: unknown): Promi
     throw error;
   }
 
-  const shouldHandleLegacyRecovery =
-    error.code === "auth/account-exists-with-different-credential" ||
-    error.code === "auth/wrong-password" ||
-    error.code === "auth/invalid-credential" ||
-    error.code === "auth/invalid-login-credentials";
-
-  if (shouldHandleLegacyRecovery) {
+  if (isLegacySignInRecoveryErrorCode(error.code)) {
     if (hasBehavior(ui, "legacyFetchSignInWithEmail")) {
       await getBehavior(ui, "legacyFetchSignInWithEmail")(ui, error);
     } else if (error.code === "auth/account-exists-with-different-credential" && errorContainsCredential(error)) {

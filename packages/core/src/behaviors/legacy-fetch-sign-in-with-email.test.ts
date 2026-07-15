@@ -15,7 +15,7 @@
  */
 
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { legacyFetchSignInWithEmailHandler } from "./legacy-fetch-sign-in-with-email";
+import { isLegacySignInRecoveryErrorCode, legacyFetchSignInWithEmailHandler } from "./legacy-fetch-sign-in-with-email";
 import { createMockUI } from "~/tests/utils";
 
 vi.mock("firebase/auth", () => ({
@@ -222,5 +222,21 @@ describe("legacyFetchSignInWithEmailHandler", () => {
       attemptedProviderId: undefined,
       pendingProviderId: undefined,
     });
+  });
+});
+
+describe("isLegacySignInRecoveryErrorCode", () => {
+  it.each([
+    "auth/account-exists-with-different-credential",
+    "auth/wrong-password",
+    "auth/invalid-credential",
+    "auth/invalid-login-credentials",
+  ])("returns true for %s", (code) => {
+    expect(isLegacySignInRecoveryErrorCode(code)).toBe(true);
+  });
+
+  it("returns false for unrelated error codes", () => {
+    expect(isLegacySignInRecoveryErrorCode("auth/user-not-found")).toBe(false);
+    expect(isLegacySignInRecoveryErrorCode("auth/too-many-requests")).toBe(false);
   });
 });

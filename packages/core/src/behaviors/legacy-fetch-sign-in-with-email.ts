@@ -27,6 +27,34 @@ type FirebaseErrorWithEmail = FirebaseError & {
   };
 };
 
+/** Firebase Auth error codes that should trigger the `legacyFetchSignInWithEmail` recovery flow. */
+export const LEGACY_SIGN_IN_RECOVERY_ERROR_CODES: readonly string[] = [
+  "auth/account-exists-with-different-credential",
+  "auth/wrong-password",
+  "auth/invalid-credential",
+  "auth/invalid-login-credentials",
+];
+
+/**
+ * The subset of {@link LEGACY_SIGN_IN_RECOVERY_ERROR_CODES} that indicates a failed password
+ * sign-in attempt, rather than an OAuth credential conflict.
+ */
+const PASSWORD_ATTEMPT_ERROR_CODES: readonly string[] = [
+  "auth/wrong-password",
+  "auth/invalid-credential",
+  "auth/invalid-login-credentials",
+];
+
+/**
+ * Checks whether a Firebase Auth error code should trigger the `legacyFetchSignInWithEmail` recovery flow.
+ *
+ * @param code - The Firebase Auth error code to check.
+ * @returns True if the error code should trigger the recovery flow.
+ */
+export function isLegacySignInRecoveryErrorCode(code: string): boolean {
+  return LEGACY_SIGN_IN_RECOVERY_ERROR_CODES.includes(code);
+}
+
 function errorContainsCredential(error: FirebaseError): error is FirebaseErrorWithCredential {
   return "credential" in error;
 }
@@ -39,12 +67,7 @@ function getEmailFromError(error: FirebaseError): string | undefined {
 function buildRecovery(error: FirebaseError, email: string, signInMethods: string[]): LegacySignInRecovery {
   const pendingProviderId = errorContainsCredential(error) ? error.credential.providerId : undefined;
   const attemptedProviderId =
-    pendingProviderId ??
-    (error.code === "auth/wrong-password" ||
-    error.code === "auth/invalid-credential" ||
-    error.code === "auth/invalid-login-credentials"
-      ? "password"
-      : undefined);
+    pendingProviderId ?? (PASSWORD_ATTEMPT_ERROR_CODES.includes(error.code) ? "password" : undefined);
 
   return {
     email,
