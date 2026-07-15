@@ -24,7 +24,9 @@ import {
   signInWithCustomToken as _signInWithCustomToken,
   EmailAuthProvider,
   linkWithCredential,
+  OAuthProvider,
   PhoneAuthProvider,
+  SAMLAuthProvider,
   TotpMultiFactorGenerator,
   multiFactor,
   type ActionCodeSettings,
@@ -44,6 +46,35 @@ import { hasBehavior, getBehavior } from "./behaviors/index";
 import { FirebaseError } from "firebase/app";
 import { getTranslation } from "./translations";
 
+/**
+ * Rehydrates a plain object (produced by `AuthCredential.toJSON()` and round-tripped
+ * through `JSON.stringify`/`JSON.parse`) back into a real `AuthCredential` instance.
+ *
+ * `linkWithCredential` requires an actual `AuthCredential` - a plain object lacks the
+ * internal methods (e.g. `_linkToIdToken`) that Firebase Auth relies on, so it must be
+ * rehydrated via the relevant provider's `credentialFromJSON` before use.
+ *
+ * @param json - The parsed JSON representation of the credential.
+ * @returns The rehydrated `AuthCredential`, or `null` if it could not be rehydrated.
+ */
+function credentialFromJSON(json: unknown): AuthCredential | null {
+  if (typeof json !== "object" || json === null) {
+    return null;
+  }
+
+  try {
+    return OAuthProvider.credentialFromJSON(json);
+  } catch {
+    // Not an OAuth credential - fall through and try other providers below.
+  }
+
+  try {
+    return SAMLAuthProvider.credentialFromJSON(json);
+  } catch {
+    return null;
+  }
+}
+
 async function handlePendingCredential(ui: FirebaseUI, user: UserCredential): Promise<UserCredential> {
   // Sign-in succeeded, so any legacy recovery UI that was guiding the user here is no longer needed.
   ui.clearLegacySignInRecovery();
@@ -51,13 +82,14 @@ async function handlePendingCredential(ui: FirebaseUI, user: UserCredential): Pr
   const pendingCredString = window.sessionStorage.getItem("pendingCred");
   if (!pendingCredString) return user;
 
+  window.sessionStorage.removeItem("pendingCred");
+
   try {
-    const pendingCred = JSON.parse(pendingCredString);
-    const result = await linkWithCredential(user.user, pendingCred);
-    window.sessionStorage.removeItem("pendingCred");
-    return result;
+    const pendingCred = credentialFromJSON(JSON.parse(pendingCredString));
+    if (!pendingCred) return user;
+
+    return await linkWithCredential(user.user, pendingCred);
   } catch {
-    window.sessionStorage.removeItem("pendingCred");
     return user;
   }
 }

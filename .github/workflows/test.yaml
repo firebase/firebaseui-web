@@ -6,23 +6,31 @@ on:
       - main
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
-          node-version: "20"
+          node-version: 24.18.0
           check-latest: true
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
         with:
-          version: latest
+          version: 11.9.0
+
+      - name: Install addlicense
+        run: |
+          curl -sL https://github.com/google/addlicense/releases/download/v1.2.0/addlicense_v1.2.0_Linux_x86_64.tar.gz | tar xz -C /usr/local/bin addlicense
+          chmod +x /usr/local/bin/addlicense
 
       - name: Install dependencies
         run: pnpm install
@@ -31,7 +39,7 @@ jobs:
         run: pnpm run build
 
       - name: Install Firebase CLI
-        run: npm i -g firebase-tools@14.15.2
+        run: npm i -g firebase-tools@15.22.4
 
       - name: Enable webframeworks experiment
         run: firebase experiments:enable webframeworks

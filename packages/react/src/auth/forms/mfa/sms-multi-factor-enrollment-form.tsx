@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { multiFactor, PhoneAuthProvider, PhoneMultiFactorGenerator, type RecaptchaVerifier } from "firebase/auth";
 import {
   enrollWithMultiFactorAssertion,
@@ -74,7 +74,9 @@ export function useSmsMultiFactorEnrollmentPhoneNumberForm({
   const schema = useMultiFactorPhoneAuthNumberFormSchema();
   const recaptchaVerifierRef = useRef<RecaptchaVerifier | null>(recaptchaVerifier);
 
-  recaptchaVerifierRef.current = recaptchaVerifier;
+  useEffect(() => {
+    recaptchaVerifierRef.current = recaptchaVerifier;
+  }, [recaptchaVerifier]);
 
   return form.useAppForm({
     defaultValues: {

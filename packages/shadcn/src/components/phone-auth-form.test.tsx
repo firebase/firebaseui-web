@@ -225,7 +225,7 @@ describe("<PhoneAuthForm />", () => {
       expect(container.querySelector("input[name='verificationCode']")).toBeInTheDocument();
     });
 
-    const description = container.querySelector('[data-slot="form-description"]');
+    const description = container.querySelector('[data-slot="field-description"]');
     expect(description).toBeInTheDocument();
     expect(description).toHaveTextContent("Enter the verification code sent to your phone number");
   });

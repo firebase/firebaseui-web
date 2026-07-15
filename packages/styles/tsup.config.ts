@@ -19,7 +19,12 @@ import { defineConfig, type Options } from "tsup";
 const config: Options = {
   entry: ["src/index.ts"],
   format: ["cjs", "esm"],
-  dts: true,
+  dts: {
+    compilerOptions: {
+      // tsup injects baseUrl when bundling .d.ts (egoist/tsup#1388); see AD-11.
+      ignoreDeprecations: "6.0",
+    },
+  },
   splitting: false,
   sourcemap: true,
   clean: true,

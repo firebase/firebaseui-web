@@ -1,6 +1,6 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
-  "name": "firebase-ui",
+  "name": "firebase",
   "homepage": "{{ DOMAIN }}",
   "items": [
     {
@@ -61,8 +61,8 @@
       "type": "registry:block",
       "title": "Email Link Auth Form",
       "description": "A form allowing users to sign in via email link.",
-      "dependencies": ["{{ DEP | @firebase-oss/ui-react@beta }}"],
-      "registryDependencies": ["input", "button", "form", "alert", "{{ DOMAIN }}/r/policies.json"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react@beta }}", "react-hook-form", "@hookform/resolvers"],
+      "registryDependencies": ["input", "button", "field", "alert", "{{ DOMAIN }}/r/policies.json"],
       "files": [
         {
           "path": "src/components/email-link-auth-form.tsx",
@@ -126,8 +126,8 @@
       "type": "registry:block",
       "title": "Forgot Password Auth Form",
       "description": "A form allowing users to reset their password via email.",
-      "dependencies": ["{{ DEP | @firebase-oss/ui-react@beta }}"],
-      "registryDependencies": ["input", "button", "form", "{{ DOMAIN }}/r/policies.json"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react@beta }}", "react-hook-form", "@hookform/resolvers"],
+      "registryDependencies": ["input", "button", "field", "{{ DOMAIN }}/r/policies.json"],
       "files": [
         {
           "path": "src/components/forgot-password-auth-form.tsx",
@@ -379,9 +379,9 @@
       "type": "registry:block",
       "title": "Phone Auth Form",
       "description": "A form allowing users to authenticate using their phone number with SMS verification.",
-      "dependencies": ["{{ DEP | @firebase-oss/ui-react@beta }}"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react@beta }}", "react-hook-form", "@hookform/resolvers"],
       "registryDependencies": [
-        "form",
+        "field",
         "input",
         "button",
         "{{ DOMAIN }}/r/country-selector.json",
@@ -457,8 +457,8 @@
       "type": "registry:block",
       "title": "Sign In Auth Form",
       "description": "A form allowing users to sign in with email and password.",
-      "dependencies": ["{{ DEP | @firebase-oss/ui-react@beta }}"],
-      "registryDependencies": ["input", "button", "form", "{{ DOMAIN }}/r/policies.json"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react@beta }}", "react-hook-form", "@hookform/resolvers"],
+      "registryDependencies": ["input", "button", "field", "{{ DOMAIN }}/r/policies.json"],
       "files": [
         {
           "path": "src/components/sign-in-auth-form.tsx",
@@ -496,8 +496,8 @@
       "type": "registry:block",
       "title": "Sign Up Auth Form",
       "description": "A form allowing users to sign up with email and password.",
-      "dependencies": ["{{ DEP | @firebase-oss/ui-react@beta }}"],
-      "registryDependencies": ["input", "button", "form", "{{ DOMAIN }}/r/policies.json"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react@beta }}", "react-hook-form", "@hookform/resolvers"],
+      "registryDependencies": ["input", "button", "field", "{{ DOMAIN }}/r/policies.json"],
       "files": [
         {
           "path": "src/components/sign-up-auth-form.tsx",
@@ -535,8 +535,8 @@
       "type": "registry:block",
       "title": "SMS Multi-Factor Assertion Form",
       "description": "A form allowing users to complete SMS-based multi-factor authentication during sign-in.",
-      "dependencies": ["{{ DEP | @firebase-oss/ui-react@beta }}"],
-      "registryDependencies": ["form", "input", "button", "input-otp"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react@beta }}", "react-hook-form", "@hookform/resolvers"],
+      "registryDependencies": ["field", "input", "button", "input-otp"],
       "files": [
         {
           "path": "src/components/sms-multi-factor-assertion-form.tsx",
@@ -552,8 +552,8 @@
       "type": "registry:block",
       "title": "SMS Multi-Factor Enrollment Form",
       "description": "A form allowing users to enroll SMS-based multi-factor authentication.",
-      "dependencies": ["{{ DEP | @firebase-oss/ui-react@beta }}"],
-      "registryDependencies": ["form", "input", "button", "input-otp", "{{ DOMAIN }}/r/country-selector.json"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react@beta }}", "react-hook-form", "@hookform/resolvers"],
+      "registryDependencies": ["field", "input", "button", "input-otp", "{{ DOMAIN }}/r/country-selector.json"],
       "files": [
         {
           "path": "src/components/sms-multi-factor-enrollment-form.tsx",
@@ -569,8 +569,8 @@
       "type": "registry:block",
       "title": "TOTP Multi-Factor Assertion Form",
       "description": "A form allowing users to complete TOTP-based multi-factor authentication during sign-in.",
-      "dependencies": ["{{ DEP | @firebase-oss/ui-react@beta }}"],
-      "registryDependencies": ["form", "button", "input-otp"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react@beta }}", "react-hook-form", "@hookform/resolvers"],
+      "registryDependencies": ["field", "button", "input-otp"],
       "files": [
         {
           "path": "src/components/totp-multi-factor-assertion-form.tsx",
@@ -586,8 +586,8 @@
       "type": "registry:block",
       "title": "TOTP Multi-Factor Enrollment Form",
       "description": "A form allowing users to enroll TOTP-based multi-factor authentication with QR code generation.",
-      "dependencies": ["{{ DEP | @firebase-oss/ui-react@beta }}"],
-      "registryDependencies": ["form", "input", "button", "input-otp"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react@beta }}", "react-hook-form", "@hookform/resolvers"],
+      "registryDependencies": ["field", "input", "button", "input-otp"],
       "files": [
         {
           "path": "src/components/totp-multi-factor-enrollment-form.tsx",

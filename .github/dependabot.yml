@@ -1,0 +1,44 @@
+version: 2
+updates:
+  - package-ecosystem: 'npm'
+    directory: '/'
+    allow:
+      - dependency-type: 'production'
+    schedule:
+      interval: 'daily'
+    cooldown:
+      default-days: 7
+      semver-major-days: 7
+      semver-minor-days: 7
+      semver-patch-days: 7
+    labels:
+      - 'dependencies'
+    groups:
+      angular:
+        patterns:
+          - '@angular/*'
+          - '@angular-devkit/*'
+          - 'ng-packagr'
+          - 'angular-eslint'
+          - 'jest-preset-angular'
+          - 'zone.js'
+      typescript:
+        patterns:
+          - 'typescript'
+      playwright:
+        patterns:
+          - '@playwright/*'
+      firebase-js:
+        patterns:
+          - 'firebase'
+          - '@angular/fire'
+          - 'rxfire'
+
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'daily'
+    cooldown:
+      default-days: 7
+    labels:
+      - 'dependencies'

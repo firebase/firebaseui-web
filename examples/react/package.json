@@ -15,22 +15,22 @@
     "@firebase-oss/ui-core": "workspace:*",
     "@firebase-oss/ui-styles": "workspace:*",
     "@firebase-oss/ui-translations": "workspace:*",
-    "firebase": "^11.6.0",
+    "firebase": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "react-router": "^7.5.1"
+    "react-router": "catalog:"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.1.4",
-    "@eslint/js": "^9.22.0",
+    "@tailwindcss/vite": "^4.3.2",
+    "@eslint/js": "^10.0.1",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "catalog:",
-    "eslint": "^9.22.0",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.19",
-    "globals": "^16.0.0",
-    "prettier": "^3.1.1",
+    "eslint": "^10.6.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.3",
+    "globals": "^17.7.0",
+    "prettier": "^3.9.4",
     "vite": "catalog:",
     "tailwindcss": "catalog:"
   }

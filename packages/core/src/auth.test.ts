@@ -48,6 +48,12 @@ vi.mock("firebase/auth", () => ({
   PhoneAuthProvider: Object.assign(vi.fn(), {
     credential: vi.fn(),
   }),
+  OAuthProvider: {
+    credentialFromJSON: vi.fn(),
+  },
+  SAMLAuthProvider: {
+    credentialFromJSON: vi.fn(),
+  },
   linkWithCredential: vi.fn(),
 }));
 
@@ -64,6 +70,9 @@ import {
   signInWithCredential as _signInWithCredential,
   EmailAuthProvider,
   PhoneAuthProvider,
+  OAuthProvider,
+  SAMLAuthProvider,
+  linkWithCredential as _linkWithCredential,
   createUserWithEmailAndPassword as _createUserWithEmailAndPassword,
   sendPasswordResetEmail as _sendPasswordResetEmail,
   sendSignInLinkToEmail as _sendSignInLinkToEmail,
@@ -80,8 +89,6 @@ import { handleFirebaseError } from "./errors";
 import { FirebaseError } from "firebase/app";
 
 import { createMockUI } from "~/tests/utils";
-
-// TODO(ehesp): Add tests for handlePendingCredential.
 
 describe("signInWithEmailAndPassword", () => {
   beforeEach(() => {
@@ -417,12 +424,11 @@ describe("verifyPhoneNumber", () => {
     const mockVerificationId = "test-verification-id";
 
     const mockVerifyPhoneNumber = vi.fn().mockResolvedValue(mockVerificationId);
-    vi.mocked(PhoneAuthProvider).mockImplementation(
-      () =>
-        ({
-          verifyPhoneNumber: mockVerifyPhoneNumber,
-        }) as any
-    );
+    vi.mocked(PhoneAuthProvider).mockImplementation(function MockPhoneAuthProvider(this: {
+      verifyPhoneNumber: typeof mockVerifyPhoneNumber;
+    }) {
+      this.verifyPhoneNumber = mockVerifyPhoneNumber;
+    });
 
     const result = await verifyPhoneNumber(mockUI, phoneNumber, mockAppVerifier);
 
@@ -442,12 +448,11 @@ describe("verifyPhoneNumber", () => {
     const error = new FirebaseError("auth/invalid-phone-number", "Invalid phone number");
 
     const mockVerifyPhoneNumber = vi.fn().mockRejectedValue(error);
-    vi.mocked(PhoneAuthProvider).mockImplementation(
-      () =>
-        ({
-          verifyPhoneNumber: mockVerifyPhoneNumber,
-        }) as any
-    );
+    vi.mocked(PhoneAuthProvider).mockImplementation(function MockPhoneAuthProvider(this: {
+      verifyPhoneNumber: typeof mockVerifyPhoneNumber;
+    }) {
+      this.verifyPhoneNumber = mockVerifyPhoneNumber;
+    });
 
     await verifyPhoneNumber(mockUI, phoneNumber, mockAppVerifier);
 
@@ -465,12 +470,11 @@ describe("verifyPhoneNumber", () => {
     const error = new Error("reCAPTCHA verification failed");
 
     const mockVerifyPhoneNumber = vi.fn().mockRejectedValue(error);
-    vi.mocked(PhoneAuthProvider).mockImplementation(
-      () =>
-        ({
-          verifyPhoneNumber: mockVerifyPhoneNumber,
-        }) as any
-    );
+    vi.mocked(PhoneAuthProvider).mockImplementation(function MockPhoneAuthProvider(this: {
+      verifyPhoneNumber: typeof mockVerifyPhoneNumber;
+    }) {
+      this.verifyPhoneNumber = mockVerifyPhoneNumber;
+    });
 
     await verifyPhoneNumber(mockUI, phoneNumber, mockAppVerifier);
 
@@ -1024,6 +1028,131 @@ describe("signInAnonymously", () => {
     expect(handleFirebaseError).toHaveBeenCalledWith(mockUI, error);
 
     expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
+  });
+});
+
+describe("handlePendingCredential", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    window.sessionStorage.clear();
+  });
+
+  afterEach(() => {
+    window.sessionStorage.clear();
+  });
+
+  const mockUserCredential = {
+    user: { uid: "anonymous-uid" },
+    providerId: "anonymous",
+    operationType: "signIn",
+  } as UserCredential;
+
+  it("should return the user unchanged when there is no pending credential", async () => {
+    const mockUI = createMockUI();
+    vi.mocked(_signInAnonymously).mockResolvedValue(mockUserCredential);
+
+    const result = await signInAnonymously(mockUI);
+
+    expect(OAuthProvider.credentialFromJSON).not.toHaveBeenCalled();
+    expect(_linkWithCredential).not.toHaveBeenCalled();
+    expect(result).toBe(mockUserCredential);
+  });
+
+  it("should rehydrate an OAuth credential via OAuthProvider.credentialFromJSON and link it", async () => {
+    const mockUI = createMockUI();
+    const storedJSON = { providerId: "google.com", signInMethod: "google.com", idToken: "fake-id-token" };
+    window.sessionStorage.setItem("pendingCred", JSON.stringify(storedJSON));
+
+    const rehydratedCredential = { providerId: "google.com" } as any;
+    const linkedUserCredential = { ...mockUserCredential, providerId: "google.com" } as UserCredential;
+
+    vi.mocked(_signInAnonymously).mockResolvedValue(mockUserCredential);
+    vi.mocked(OAuthProvider.credentialFromJSON).mockReturnValue(rehydratedCredential);
+    vi.mocked(_linkWithCredential).mockResolvedValue(linkedUserCredential);
+
+    const result = await signInAnonymously(mockUI);
+
+    expect(OAuthProvider.credentialFromJSON).toHaveBeenCalledWith(storedJSON);
+    expect(_linkWithCredential).toHaveBeenCalledWith(mockUserCredential.user, rehydratedCredential);
+    expect(result).toBe(linkedUserCredential);
+    expect(window.sessionStorage.getItem("pendingCred")).toBeNull();
+  });
+
+  it("should fall back to SAMLAuthProvider when OAuthProvider cannot rehydrate the credential", async () => {
+    const mockUI = createMockUI();
+    const storedJSON = { providerId: "saml.my-provider", signInMethod: "saml.my-provider", pendingToken: "abc" };
+    window.sessionStorage.setItem("pendingCred", JSON.stringify(storedJSON));
+
+    const rehydratedCredential = { providerId: "saml.my-provider" } as any;
+    const linkedUserCredential = { ...mockUserCredential, providerId: "saml.my-provider" } as UserCredential;
+
+    vi.mocked(_signInAnonymously).mockResolvedValue(mockUserCredential);
+    vi.mocked(OAuthProvider.credentialFromJSON).mockImplementation(() => {
+      throw new Error("not an OAuth credential");
+    });
+    vi.mocked(SAMLAuthProvider.credentialFromJSON).mockReturnValue(rehydratedCredential);
+    vi.mocked(_linkWithCredential).mockResolvedValue(linkedUserCredential);
+
+    const result = await signInAnonymously(mockUI);
+
+    expect(SAMLAuthProvider.credentialFromJSON).toHaveBeenCalledWith(storedJSON);
+    expect(_linkWithCredential).toHaveBeenCalledWith(mockUserCredential.user, rehydratedCredential);
+    expect(result).toBe(linkedUserCredential);
+    expect(window.sessionStorage.getItem("pendingCred")).toBeNull();
+  });
+
+  it("should return the original user and clear storage when the credential cannot be rehydrated", async () => {
+    const mockUI = createMockUI();
+    const storedJSON = { providerId: "unknown", signInMethod: "unknown" };
+    window.sessionStorage.setItem("pendingCred", JSON.stringify(storedJSON));
+
+    vi.mocked(_signInAnonymously).mockResolvedValue(mockUserCredential);
+    vi.mocked(OAuthProvider.credentialFromJSON).mockImplementation(() => {
+      throw new Error("not an OAuth credential");
+    });
+    vi.mocked(SAMLAuthProvider.credentialFromJSON).mockImplementation(() => {
+      throw new Error("not a SAML credential");
+    });
+
+    const result = await signInAnonymously(mockUI);
+
+    expect(_linkWithCredential).not.toHaveBeenCalled();
+    expect(result).toBe(mockUserCredential);
+    expect(window.sessionStorage.getItem("pendingCred")).toBeNull();
+  });
+
+  it("should return the original user and clear storage when the stored credential is invalid JSON", async () => {
+    const mockUI = createMockUI();
+    window.sessionStorage.setItem("pendingCred", "{invalid-json");
+
+    vi.mocked(_signInAnonymously).mockResolvedValue(mockUserCredential);
+
+    const result = await signInAnonymously(mockUI);
+
+    expect(OAuthProvider.credentialFromJSON).not.toHaveBeenCalled();
+    expect(_linkWithCredential).not.toHaveBeenCalled();
+    expect(result).toBe(mockUserCredential);
+    expect(window.sessionStorage.getItem("pendingCred")).toBeNull();
+  });
+
+  it("should return the original user and clear storage when linkWithCredential fails", async () => {
+    const mockUI = createMockUI();
+    const storedJSON = { providerId: "google.com", signInMethod: "google.com", idToken: "fake-id-token" };
+    window.sessionStorage.setItem("pendingCred", JSON.stringify(storedJSON));
+
+    const rehydratedCredential = { providerId: "google.com" } as any;
+
+    vi.mocked(_signInAnonymously).mockResolvedValue(mockUserCredential);
+    vi.mocked(OAuthProvider.credentialFromJSON).mockReturnValue(rehydratedCredential);
+    vi.mocked(_linkWithCredential).mockRejectedValue(
+      new FirebaseError("auth/credential-already-in-use", "Credential already in use")
+    );
+
+    const result = await signInAnonymously(mockUI);
+
+    expect(_linkWithCredential).toHaveBeenCalledWith(mockUserCredential.user, rehydratedCredential);
+    expect(result).toBe(mockUserCredential);
+    expect(window.sessionStorage.getItem("pendingCred")).toBeNull();
   });
 });
 

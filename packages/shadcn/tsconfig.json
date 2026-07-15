@@ -4,7 +4,6 @@
     "jsx": "react-jsx",
     "moduleResolution": "Bundler",
     "types": ["vite/client"],
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
       "@/tests/*": ["./tests/*"],

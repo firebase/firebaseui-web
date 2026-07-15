@@ -1,6 +1,7 @@
 {
   "name": "@firebase-oss/ui-react",
-  "version": "0.0.2",
+  "version": "7.0.0",
+  "repository": "firebase/firebaseui-web",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -19,7 +20,8 @@
     "prepare": "pnpm run build",
     "build": "tsup --env.PROD=true && pnpm run build:logos",
     "build:local": "pnpm run build && pnpm pack",
-    "build:logos": "pnpm dlx @svgr/cli --icon --typescript --no-index --jsx-runtime automatic --out-dir src/components/logos ../core/brands",
+    "build:logos": "pnpm dlx @svgr/cli --icon --typescript --no-index --jsx-runtime automatic --out-dir src/components/logos ../core/brands && pnpm run restore:logo-headers",
+    "restore:logo-headers": "node scripts/restore-logo-license-headers.mjs",
     "dev": "tsup --watch",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
@@ -44,11 +46,11 @@
   "dependencies": {
     "@firebase-oss/ui-core": "workspace:*",
     "@firebase-oss/ui-styles": "workspace:*",
-    "@nanostores/react": "^1.0.0",
-    "@radix-ui/react-slot": "^1.2.3",
-    "@tanstack/react-form": "1.20.0",
+    "@nanostores/react": "^1.1.0",
+    "@radix-ui/react-slot": "^1.3.0",
+    "@tanstack/react-form": "1.33.0",
     "clsx": "^2.1.1",
-    "tailwind-merge": "^3.0.1",
+    "tailwind-merge": "^3.6.0",
     "zod": "catalog:"
   },
   "devDependencies": {
@@ -68,7 +70,7 @@
     "tsup": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
-    "vite-plugin-svgr": "^4.5.0",
+    "vite-plugin-svgr": "^5.2.0",
     "vitest": "catalog:"
   }
 }

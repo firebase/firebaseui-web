@@ -208,6 +208,84 @@ describe("<SignInAuthForm />", () => {
     expect(await screen.findByText("Error: foo")).toBeInTheDocument();
   });
 
+  it("should associate labels with inputs via htmlFor/id", () => {
+    const mockUI = createMockUI();
+
+    const { container } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <SignInAuthForm />
+      </FirebaseUIProvider>
+    );
+
+    const emailLabel = container.querySelector('[data-slot="field-label"][for="email"]');
+    const emailInput = container.querySelector("input#email");
+    expect(emailLabel).toBeInTheDocument();
+    expect(emailInput).toBeInTheDocument();
+
+    const passwordLabel = container.querySelector('[data-slot="field-label"][for="password"]');
+    const passwordInput = container.querySelector("input#password");
+    expect(passwordLabel).toBeInTheDocument();
+    expect(passwordInput).toBeInTheDocument();
+  });
+
+  it("should set aria-invalid and data-invalid on validation error", async () => {
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          emailAddress: "Email Address",
+          password: "Password",
+          signIn: "Sign In",
+        },
+        errors: {
+          invalidEmail: "Please enter a valid email address",
+          weakPassword: "Password should be at least 6 characters",
+        },
+      }),
+    });
+
+    const { container } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <SignInAuthForm />
+      </FirebaseUIProvider>
+    );
+
+    const emailInput = container.querySelector("input[name='email']") as HTMLInputElement;
+    const passwordInput = container.querySelector("input[name='password']") as HTMLInputElement;
+    const form = container.querySelector("form") as HTMLFormElement;
+
+    expect(emailInput.getAttribute("aria-invalid")).toBe("false");
+    expect(passwordInput.getAttribute("aria-invalid")).toBe("false");
+
+    await act(async () => {
+      fireEvent.submit(form);
+    });
+
+    await waitFor(() => {
+      expect(emailInput.getAttribute("aria-invalid")).toBe("true");
+      expect(passwordInput.getAttribute("aria-invalid")).toBe("true");
+    });
+
+    const fields = container.querySelectorAll('[data-slot="field"]');
+    const invalidFields = Array.from(fields).filter((f) => f.getAttribute("data-invalid") === "true");
+    expect(invalidFields.length).toBe(2);
+
+    const errors = container.querySelectorAll('[role="alert"]');
+    expect(errors.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it("should not render field errors when fields are valid", () => {
+    const mockUI = createMockUI();
+
+    const { container } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <SignInAuthForm />
+      </FirebaseUIProvider>
+    );
+
+    const fieldErrors = container.querySelectorAll('[data-slot="field-error"]');
+    expect(fieldErrors.length).toBe(0);
+  });
+
   it("should show validation errors only after submit and clear after typing valid values", async () => {
     const mockUI = createMockUI({
       locale: registerLocale("test", {

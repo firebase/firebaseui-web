@@ -43,7 +43,9 @@ vi.mock("firebase/auth", async () => {
   const actual = await vi.importActual<typeof import("firebase/auth")>("firebase/auth");
   return {
     ...actual,
-    RecaptchaVerifier: vi.fn().mockImplementation(() => mockVerifier),
+    RecaptchaVerifier: vi.fn().mockImplementation(function () {
+      return mockVerifier;
+    }),
   };
 });
 
@@ -1131,33 +1133,19 @@ describe("useOnUserAuthenticated", () => {
   });
 
   it("works without a callback", () => {
-    let authStateChangeCallback: ((user: User | null) => void) | null = null;
-
     const mockAuth = {
-      onAuthStateChanged: vi.fn((callback: (user: User | null) => void) => {
-        authStateChangeCallback = callback;
-        return vi.fn();
-      }),
+      onAuthStateChanged: vi.fn(() => vi.fn()),
     };
 
     const mockUI = createMockUI({
       auth: mockAuth as any,
     });
 
-    const mockUser = {
-      uid: "test-user-id",
-      isAnonymous: false,
-    } as User;
-
     renderHook(() => useOnUserAuthenticated(), {
       wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
     });
 
-    act(() => {
-      authStateChangeCallback!(mockUser);
-    });
-
-    expect(mockAuth.onAuthStateChanged).toHaveBeenCalledTimes(1);
+    expect(mockAuth.onAuthStateChanged).not.toHaveBeenCalled();
   });
 
   it("unsubscribes from auth state changes on unmount", () => {

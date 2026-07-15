@@ -27,12 +27,12 @@ import {
   type EmailLinkAuthFormProps,
 } from "@firebase-oss/ui-react";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider, Controller } from "react-hook-form";
 
 import { Policies } from "@/components/policies";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Field, FieldLabel, FieldError } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 
 export type { EmailLinkAuthFormProps };
@@ -74,27 +74,25 @@ export function EmailLinkAuthForm(props: EmailLinkAuthFormProps) {
   }
 
   return (
-    <Form {...form}>
+    <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-y-4">
-        <FormField
+        <Controller
           control={form.control}
           name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{getTranslation(ui, "labels", "emailAddress")}</FormLabel>
-              <FormControl>
-                <Input {...field} type="email" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+          render={({ field, fieldState }) => (
+            <Field data-invalid={!!fieldState.error}>
+              <FieldLabel htmlFor="email">{getTranslation(ui, "labels", "emailAddress")}</FieldLabel>
+              <Input {...field} id="email" type="email" aria-invalid={!!fieldState.error} />
+              {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
+            </Field>
           )}
         />
         <Policies />
         <Button type="submit" disabled={ui.state !== "idle"}>
           {getTranslation(ui, "labels", "sendSignInLink")}
         </Button>
-        {form.formState.errors.root && <FormMessage>{form.formState.errors.root.message}</FormMessage>}
+        {form.formState.errors.root && <FieldError>{form.formState.errors.root.message}</FieldError>}
       </form>
-    </Form>
+    </FormProvider>
   );
 }
