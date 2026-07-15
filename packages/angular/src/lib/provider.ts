@@ -49,6 +49,7 @@ import {
   createMultiFactorTotpAuthVerifyFormSchema,
   FirebaseUIStore,
   type FirebaseUI as FirebaseUIType,
+  type LegacySignInRecovery,
   getTranslation,
   getBehavior,
   type CountryData,
@@ -65,18 +66,6 @@ type PolicyConfig = {
   termsOfServiceUrl: string;
   /** The URL to the privacy policy page. */
   privacyPolicyUrl: string;
-};
-
-type LegacySignInRecovery = {
-  email: string;
-  signInMethods: string[];
-  attemptedProviderId?: string;
-  pendingProviderId?: string;
-};
-
-type FirebaseUIWithLegacyRecovery = FirebaseUIType & {
-  legacySignInRecovery?: LegacySignInRecovery;
-  clearLegacySignInRecovery?: () => void;
 };
 
 /**
@@ -501,7 +490,7 @@ export function injectRedirectError(): Signal<string | undefined> {
  */
 export function injectLegacySignInRecovery(): Signal<LegacySignInRecovery | undefined> {
   const ui = injectUI();
-  return computed(() => (ui() as FirebaseUIWithLegacyRecovery).legacySignInRecovery);
+  return computed(() => ui().legacySignInRecovery);
 }
 
 /**
@@ -511,5 +500,5 @@ export function injectLegacySignInRecovery(): Signal<LegacySignInRecovery | unde
  */
 export function injectClearLegacySignInRecovery(): () => void {
   const ui = injectUI();
-  return () => (ui() as FirebaseUIWithLegacyRecovery).clearLegacySignInRecovery?.();
+  return () => ui().clearLegacySignInRecovery();
 }
