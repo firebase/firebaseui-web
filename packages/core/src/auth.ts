@@ -44,7 +44,10 @@ import { hasBehavior, getBehavior } from "./behaviors/index";
 import { FirebaseError } from "firebase/app";
 import { getTranslation } from "./translations";
 
-async function handlePendingCredential(_ui: FirebaseUI, user: UserCredential): Promise<UserCredential> {
+async function handlePendingCredential(ui: FirebaseUI, user: UserCredential): Promise<UserCredential> {
+  // Sign-in succeeded, so any legacy recovery UI that was guiding the user here is no longer needed.
+  ui.clearLegacySignInRecovery();
+
   const pendingCredString = window.sessionStorage.getItem("pendingCred");
   if (!pendingCredString) return user;
 
@@ -61,7 +64,6 @@ async function handlePendingCredential(_ui: FirebaseUI, user: UserCredential): P
 
 function setPendingState(ui: FirebaseUI) {
   ui.setRedirectError(undefined);
-  ui.clearLegacySignInRecovery();
   ui.setState("pending");
 }
 

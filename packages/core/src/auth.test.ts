@@ -108,6 +108,9 @@ describe("signInWithEmailAndPassword", () => {
     expect(_signInWithCredential).toHaveBeenCalledTimes(1);
 
     expect(result.providerId).toBe("password");
+
+    // Legacy recovery state is only cleared once sign-in has actually succeeded.
+    expect(mockUI.clearLegacySignInRecovery).toHaveBeenCalledTimes(1);
   });
 
   it("should call the autoUpgradeAnonymousCredential behavior if enabled and return a value", async () => {
@@ -178,6 +181,11 @@ describe("signInWithEmailAndPassword", () => {
       })
     );
     expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
+
+    // A failed attempt must not clear any legacy recovery state that's currently
+    // guiding the user, otherwise the recovery UI would disappear before it can
+    // report the new failure.
+    expect(mockUI.clearLegacySignInRecovery).not.toHaveBeenCalled();
   });
 });
 
@@ -1113,6 +1121,10 @@ describe("signInWithProvider", () => {
     expect(getBehavior).toHaveBeenCalledWith(mockUI, "providerSignInStrategy");
     expect(mockProviderStrategy).toHaveBeenCalledWith(mockUI, provider);
     expect(result).toBe(mockResult);
+
+    // Legacy recovery state is only cleared once sign-in has actually succeeded, so
+    // that a recovery button click doesn't dismiss the recovery UI before it resolves.
+    expect(mockUI.clearLegacySignInRecovery).toHaveBeenCalledTimes(1);
   });
 
   it("should call autoUpgradeAnonymousProvider behavior if enabled and return result", async () => {
@@ -1168,6 +1180,10 @@ describe("signInWithProvider", () => {
 
     expect(handleFirebaseError).toHaveBeenCalledWith(mockUI, error);
     expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
+
+    // A failed recovery sign-in attempt must leave the legacy recovery state intact
+    // so the recovery modal stays open and can surface the error.
+    expect(mockUI.clearLegacySignInRecovery).not.toHaveBeenCalled();
   });
 });
 
