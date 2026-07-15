@@ -97,22 +97,9 @@ function assertPackagesBuilt(): void {
 
   if (missing.length > 0) {
     throw new Error(
-      `Expected built package artifacts are missing after build:packages:\n${missing.map((entry) => `  - ${entry}`).join("\n")}`
+      `Expected built package artifacts are missing. Run pnpm build:packages before Playwright:\n${missing.map((entry) => `  - ${entry}`).join("\n")}`
     );
   }
-}
-
-function runBuildPackages(): void {
-  try {
-    execSync("pnpm build:packages", {
-      cwd: REPO_ROOT,
-      stdio: "inherit",
-    });
-  } catch {
-    throw new Error("pnpm build:packages failed — examples require built @firebase-oss/ui-* packages");
-  }
-
-  assertPackagesBuilt();
 }
 
 function writeEmulatorState(state: EmulatorState): void {
@@ -161,11 +148,7 @@ function startAuthEmulator(version: string): ChildProcess {
 }
 
 export default async function globalSetup(): Promise<void> {
-  if (process.env.E2E_SKIP_BUILD_PACKAGES === "1") {
-    assertPackagesBuilt();
-  } else {
-    runBuildPackages();
-  }
+  assertPackagesBuilt();
 
   if (await isAuthEmulatorReachable()) {
     const existing = readEmulatorState();

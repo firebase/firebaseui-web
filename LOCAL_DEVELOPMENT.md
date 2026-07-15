@@ -6,7 +6,7 @@ This guide walks you through running FirebaseUI Web locally so you can test feat
 
 Make sure you have these installed:
 
-- [Node.js](https://nodejs.org/) v18+ locally; **CI uses v24** — use Node 24 for pre-push verification to match CI ([change-authoring-verification.md](developer-docs/playbooks/change-authoring-verification.md))
+- [Node.js](https://nodejs.org/) v24.15+ locally; **CI uses v24.18** — match CI for pre-push verification ([change-authoring-verification.md](developer-docs/playbooks/change-authoring-verification.md))
 - [pnpm](https://pnpm.io/) — if you have Node.js 18+, [corepack](https://nodejs.org/api/corepack.html) can install pnpm on demand when you run it
 - [Firebase CLI](https://firebase.google.com/docs/cli):
   ```bash
