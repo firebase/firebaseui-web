@@ -48,7 +48,6 @@ function runExample(example) {
     env: {
       ...process.env,
       E2E_PROJECT: example,
-      E2E_SKIP_BUILD_PACKAGES: "1",
       E2E_KEEP_EMULATOR: "1",
     },
   });
