@@ -23,11 +23,42 @@ import {
   SignInAuthScreen,
   TwitterSignInButton,
   YahooSignInButton,
+  useLegacySignInRecovery,
 } from "@firebase-oss/ui-react";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
+
+/**
+ * A minimal custom recovery UI, used by the `?legacyRecovery=handled` e2e scenario to prove that
+ * apps can suppress the default `<LegacySignInRecovery />` modal (via `showLegacySignInRecovery={false}`)
+ * and build their own UI on top of `useLegacySignInRecovery()`.
+ */
+function CustomLegacyRecovery() {
+  const { recovery, clearRecovery } = useLegacySignInRecovery();
+
+  if (!recovery) {
+    return null;
+  }
+
+  return (
+    <div data-testid="custom-legacy-recovery" className="max-w-sm mx-auto mt-4 text-sm border rounded-md p-4 space-y-2">
+      <p className="font-medium">Custom recovery UI</p>
+      <p>
+        Previous sign-in methods for <span data-testid="custom-legacy-recovery-email">{recovery.email}</span>:{" "}
+        <span data-testid="custom-legacy-recovery-methods">{recovery.signInMethods.join(", ")}</span>
+      </p>
+      <button type="button" onClick={clearRecovery} className="underline">
+        Custom dismiss
+      </button>
+    </div>
+  );
+}
 
 export default function LegacyRecoveryDemoPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  // e2e scenario switch: "handled" suppresses the default recovery modal in favor of the custom
+  // UI above, proving apps can opt out of the built-in flow.
+  const handled = searchParams.get("legacyRecovery") === "handled";
 
   return (
     <div className="space-y-6">
@@ -36,7 +67,7 @@ export default function LegacyRecoveryDemoPage() {
         <p>Use this screen to test wrong-provider recovery with both email/password and OAuth attempts.</p>
         <p>
           Suggested flow: create an account with Google first, sign out, then come back here and try the same email with
-          with email/password or another provider like GitHub.
+          email/password or another provider like GitHub.
         </p>
       </div>
 
@@ -44,6 +75,7 @@ export default function LegacyRecoveryDemoPage() {
         onSignIn={() => {
           navigate("/");
         }}
+        showLegacySignInRecovery={!handled}
       >
         <div className="space-y-2">
           <GoogleSignInButton />
@@ -55,6 +87,8 @@ export default function LegacyRecoveryDemoPage() {
           <YahooSignInButton />
         </div>
       </SignInAuthScreen>
+
+      {handled ? <CustomLegacyRecovery /> : null}
     </div>
   );
 }

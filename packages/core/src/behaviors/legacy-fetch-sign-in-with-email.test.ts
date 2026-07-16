@@ -20,14 +20,18 @@ import { createMockUI } from "~/tests/utils";
 
 vi.mock("firebase/auth", () => ({
   fetchSignInMethodsForEmail: vi.fn(),
+  OAuthProvider: {
+    credentialFromError: vi.fn().mockReturnValue(null),
+  },
 }));
 
-import { fetchSignInMethodsForEmail } from "firebase/auth";
+import { fetchSignInMethodsForEmail, OAuthProvider } from "firebase/auth";
 
 let mockSessionStorage: Record<string, string>;
 
 beforeEach(() => {
   vi.clearAllMocks();
+  vi.mocked(OAuthProvider.credentialFromError).mockReset().mockReturnValue(null);
 
   mockSessionStorage = {};
   Object.defineProperty(window, "sessionStorage", {
@@ -74,6 +78,61 @@ describe("legacyFetchSignInWithEmailHandler", () => {
       signInMethods: ["password", "emailLink"],
       attemptedProviderId: "google.com",
       pendingProviderId: "google.com",
+    });
+  });
+
+  it("extracts the pending credential from a Firebase OAuth error", async () => {
+    const ui = createMockUI();
+    const credential = {
+      providerId: "github.com",
+      toJSON: vi.fn().mockReturnValue({ providerId: "github.com", token: "token" }),
+    } as any;
+    const error = {
+      code: "auth/account-exists-with-different-credential",
+      message: "Mismatch",
+      customData: {
+        email: "oauth@example.com",
+      },
+    } as any;
+
+    vi.mocked(OAuthProvider.credentialFromError).mockReturnValue(credential);
+    vi.mocked(fetchSignInMethodsForEmail).mockResolvedValue(["google.com"]);
+
+    await legacyFetchSignInWithEmailHandler(ui, error);
+
+    expect(OAuthProvider.credentialFromError).toHaveBeenCalledWith(error);
+    expect(window.sessionStorage.setItem).toHaveBeenCalledWith("pendingCred", JSON.stringify(credential.toJSON()));
+    expect(ui.setLegacySignInRecovery).toHaveBeenCalledWith({
+      email: "oauth@example.com",
+      signInMethods: ["google.com"],
+      attemptedProviderId: "github.com",
+      pendingProviderId: "github.com",
+    });
+  });
+
+  it("continues recovery without a pending credential when OAuth extraction fails", async () => {
+    const ui = createMockUI();
+    const error = {
+      code: "auth/account-exists-with-different-credential",
+      message: "Mismatch",
+      customData: {
+        email: "oauth@example.com",
+      },
+    } as any;
+
+    vi.mocked(OAuthProvider.credentialFromError).mockImplementation(() => {
+      throw new Error("Malformed OAuth response");
+    });
+    vi.mocked(fetchSignInMethodsForEmail).mockResolvedValue(["google.com"]);
+
+    await legacyFetchSignInWithEmailHandler(ui, error);
+
+    expect(window.sessionStorage.setItem).not.toHaveBeenCalled();
+    expect(ui.setLegacySignInRecovery).toHaveBeenCalledWith({
+      email: "oauth@example.com",
+      signInMethods: ["google.com"],
+      attemptedProviderId: undefined,
+      pendingProviderId: undefined,
     });
   });
 

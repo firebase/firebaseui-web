@@ -45,6 +45,12 @@ export const routes: RouteConfig[] = [
       import("./screens/sign-in-auth-screen-w-oauth").then((m) => m.SignInAuthScreenWithOAuthComponent),
   },
   {
+    name: "Legacy Recovery Demo",
+    description: "Use this screen to test wrong-provider recovery for email/password and OAuth attempts.",
+    path: "/screens/legacy-recovery-demo",
+    loadComponent: () => import("./screens/legacy-recovery-demo").then((m) => m.LegacyRecoveryDemoComponent),
+  },
+  {
     name: "Sign Up Screen",
     description: "A sign up screen with email and password.",
     path: "/screens/sign-up-auth-screen",

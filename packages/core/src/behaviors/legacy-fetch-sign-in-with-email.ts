@@ -15,7 +15,7 @@
  */
 
 import type { FirebaseError } from "firebase/app";
-import { fetchSignInMethodsForEmail } from "firebase/auth";
+import { fetchSignInMethodsForEmail, OAuthProvider } from "firebase/auth";
 import type { AuthCredential } from "firebase/auth";
 import type { LegacySignInRecovery, FirebaseUI } from "~/config";
 
@@ -56,7 +56,7 @@ export function isLegacySignInRecoveryErrorCode(code: string): boolean {
 }
 
 function errorContainsCredential(error: FirebaseError): error is FirebaseErrorWithCredential {
-  return "credential" in error;
+  return "credential" in error && error.credential != null;
 }
 
 function getEmailFromError(error: FirebaseError): string | undefined {
@@ -64,8 +64,29 @@ function getEmailFromError(error: FirebaseError): string | undefined {
   return emailError.customData?.email ?? emailError.email;
 }
 
-function buildRecovery(error: FirebaseError, email: string, signInMethods: string[]): LegacySignInRecovery {
-  const pendingProviderId = errorContainsCredential(error) ? error.credential.providerId : undefined;
+function getPendingCredential(error: FirebaseError): AuthCredential | undefined {
+  if (error.code !== "auth/account-exists-with-different-credential") {
+    return undefined;
+  }
+
+  if (errorContainsCredential(error)) {
+    return error.credential;
+  }
+
+  try {
+    return OAuthProvider.credentialFromError(error) ?? undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+function buildRecovery(
+  error: FirebaseError,
+  email: string,
+  signInMethods: string[],
+  pendingCredential?: AuthCredential
+): LegacySignInRecovery {
+  const pendingProviderId = pendingCredential?.providerId;
   const attemptedProviderId =
     pendingProviderId ?? (PASSWORD_ATTEMPT_ERROR_CODES.includes(error.code) ? "password" : undefined);
 
@@ -77,16 +98,17 @@ function buildRecovery(error: FirebaseError, email: string, signInMethods: strin
   };
 }
 
-function persistPendingCredential(error: FirebaseError) {
-  if (!errorContainsCredential(error)) {
+function persistPendingCredential(credential?: AuthCredential) {
+  if (!credential) {
     return;
   }
 
-  window.sessionStorage.setItem("pendingCred", JSON.stringify(error.credential.toJSON()));
+  window.sessionStorage.setItem("pendingCred", JSON.stringify(credential.toJSON()));
 }
 
 export async function legacyFetchSignInWithEmailHandler(ui: FirebaseUI, error: FirebaseError): Promise<void> {
-  persistPendingCredential(error);
+  const pendingCredential = getPendingCredential(error);
+  persistPendingCredential(pendingCredential);
 
   const email = getEmailFromError(error);
   if (!email) {
@@ -96,7 +118,7 @@ export async function legacyFetchSignInWithEmailHandler(ui: FirebaseUI, error: F
 
   try {
     const signInMethods = await fetchSignInMethodsForEmail(ui.auth, email);
-    ui.setLegacySignInRecovery(buildRecovery(error, email, signInMethods));
+    ui.setLegacySignInRecovery(buildRecovery(error, email, signInMethods, pendingCredential));
   } catch {
     ui.clearLegacySignInRecovery();
   }
