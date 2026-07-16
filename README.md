@@ -401,6 +401,8 @@ The `legacyFetchSignInWithEmail` behavior augments OAuth `auth/account-exists-wi
 
 The original pending credential is still preserved, so after the user signs in with the correct method, Firebase UI can continue the existing linking flow.
 
+> **⚠️ Security note:** This behavior has important limitations and security trade-offs. The `fetchSignInMethodsForEmail()` API only works for Firebase projects that have [Email Enumeration Protection disabled](https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection). Projects created after September 15, 2023 have this protection enabled by default; on those projects, `fetchSignInMethodsForEmail()` returns an empty array and this behavior becomes a no-op. Additionally, when enabled, this behavior will call `fetchSignInMethodsForEmail()` not only for OAuth conflicts (`auth/account-exists-with-different-credential`), but also for plain password sign-in failures (`auth/wrong-password`, `auth/invalid-credential`, `auth/invalid-login-credentials`). This means enabling this behavior causes the app to actively call an enumeration-capable API and surface which sign-in methods exist for an email address on every failed password attempt—directly opposing the enumeration protection that Firebase's generic error codes are otherwise designed to provide. Enable this behavior only if you explicitly understand and accept this UX-vs-security trade-off.
+
 ```ts
 import { legacyFetchSignInWithEmail } from '@firebase-oss/ui-core';
 
