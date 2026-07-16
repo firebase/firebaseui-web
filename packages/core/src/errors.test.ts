@@ -19,6 +19,7 @@ import { FirebaseError } from "firebase/app";
 import { Auth, AuthCredential, MultiFactorResolver } from "firebase/auth";
 import { ERROR_CODE_MAP } from "@firebase-oss/ui-translations";
 import { FirebaseUIError, handleFirebaseError } from "./errors";
+import { PENDING_CREDENTIAL_STORAGE_KEY } from "./behaviors/legacy-fetch-sign-in-with-email";
 import { createMockUI } from "~/tests/utils";
 
 vi.mock("./translations", () => ({
@@ -140,7 +141,10 @@ describe("handleFirebaseError", () => {
 
     await expect(handleFirebaseError(mockUI, mockFirebaseError)).rejects.toBeInstanceOf(FirebaseUIError);
 
-    expect(window.sessionStorage.setItem).toHaveBeenCalledWith("pendingCred", JSON.stringify(mockCredential.toJSON()));
+    expect(window.sessionStorage.setItem).toHaveBeenCalledWith(
+      PENDING_CREDENTIAL_STORAGE_KEY,
+      JSON.stringify(mockCredential.toJSON())
+    );
     expect(mockCredential.toJSON).toHaveBeenCalled();
   });
 

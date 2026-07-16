@@ -43,6 +43,7 @@ import QRCode from "qrcode-generator";
 import { type FirebaseUI } from "./config";
 import { handleFirebaseError } from "./errors";
 import { hasBehavior, getBehavior } from "./behaviors/index";
+import { PENDING_CREDENTIAL_STORAGE_KEY } from "./behaviors/legacy-fetch-sign-in-with-email";
 import { FirebaseError } from "firebase/app";
 import { getTranslation } from "./translations";
 
@@ -79,10 +80,10 @@ async function handlePendingCredential(ui: FirebaseUI, user: UserCredential): Pr
   // Sign-in succeeded, so any legacy recovery UI that was guiding the user here is no longer needed.
   ui.clearLegacySignInRecovery();
 
-  const pendingCredString = window.sessionStorage.getItem("pendingCred");
+  const pendingCredString = window.sessionStorage.getItem(PENDING_CREDENTIAL_STORAGE_KEY);
   if (!pendingCredString) return user;
 
-  window.sessionStorage.removeItem("pendingCred");
+  window.sessionStorage.removeItem(PENDING_CREDENTIAL_STORAGE_KEY);
 
   try {
     const pendingCred = credentialFromJSON(JSON.parse(pendingCredString));

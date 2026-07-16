@@ -165,6 +165,8 @@ for (const projectName of projectsUnderTest) {
       await expect(dialog).toContainText(email);
       await expect(dialog.getByRole("button", { name: enUs.translations.labels.signInWithGoogle })).toBeVisible();
       await expect(page.getByText(enUs.translations.errors.accountExistsWithDifferentCredential)).toBeVisible();
+      // "pendingCred" mirrors PENDING_CREDENTIAL_STORAGE_KEY in packages/core/src/behaviors/legacy-fetch-sign-in-with-email.ts.
+      // Left as a literal here since page.evaluate runs in the browser context and can't import from the package.
       expect(await page.evaluate(() => window.sessionStorage.getItem("pendingCred"))).not.toBeNull();
 
       await completeExistingGoogleSignIn(page, dialog, email);

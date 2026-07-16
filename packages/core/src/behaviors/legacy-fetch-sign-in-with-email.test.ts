@@ -15,7 +15,11 @@
  */
 
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { isLegacySignInRecoveryErrorCode, legacyFetchSignInWithEmailHandler } from "./legacy-fetch-sign-in-with-email";
+import {
+  isLegacySignInRecoveryErrorCode,
+  legacyFetchSignInWithEmailHandler,
+  PENDING_CREDENTIAL_STORAGE_KEY,
+} from "./legacy-fetch-sign-in-with-email";
 import { createMockUI } from "~/tests/utils";
 
 vi.mock("firebase/auth", () => ({
@@ -71,7 +75,10 @@ describe("legacyFetchSignInWithEmailHandler", () => {
 
     await legacyFetchSignInWithEmailHandler(ui, error);
 
-    expect(window.sessionStorage.setItem).toHaveBeenCalledWith("pendingCred", JSON.stringify(credential.toJSON()));
+    expect(window.sessionStorage.setItem).toHaveBeenCalledWith(
+      PENDING_CREDENTIAL_STORAGE_KEY,
+      JSON.stringify(credential.toJSON())
+    );
     expect(fetchSignInMethodsForEmail).toHaveBeenCalledWith(ui.auth, "test@example.com");
     expect(ui.setLegacySignInRecovery).toHaveBeenCalledWith({
       email: "test@example.com",
@@ -101,7 +108,10 @@ describe("legacyFetchSignInWithEmailHandler", () => {
     await legacyFetchSignInWithEmailHandler(ui, error);
 
     expect(OAuthProvider.credentialFromError).toHaveBeenCalledWith(error);
-    expect(window.sessionStorage.setItem).toHaveBeenCalledWith("pendingCred", JSON.stringify(credential.toJSON()));
+    expect(window.sessionStorage.setItem).toHaveBeenCalledWith(
+      PENDING_CREDENTIAL_STORAGE_KEY,
+      JSON.stringify(credential.toJSON())
+    );
     expect(ui.setLegacySignInRecovery).toHaveBeenCalledWith({
       email: "oauth@example.com",
       signInMethods: ["google.com"],
@@ -257,7 +267,10 @@ describe("legacyFetchSignInWithEmailHandler", () => {
 
     await legacyFetchSignInWithEmailHandler(ui, error);
 
-    expect(window.sessionStorage.setItem).toHaveBeenCalledWith("pendingCred", JSON.stringify(credential.toJSON()));
+    expect(window.sessionStorage.setItem).toHaveBeenCalledWith(
+      PENDING_CREDENTIAL_STORAGE_KEY,
+      JSON.stringify(credential.toJSON())
+    );
     expect(ui.clearLegacySignInRecovery).toHaveBeenCalledTimes(1);
   });
 

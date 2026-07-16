@@ -19,7 +19,10 @@ import { FirebaseError } from "firebase/app";
 import { type AuthCredential, getMultiFactorResolver, type MultiFactorError } from "firebase/auth";
 import { type FirebaseUI } from "./config";
 import { getBehavior, hasBehavior } from "./behaviors";
-import { isLegacySignInRecoveryErrorCode } from "./behaviors/legacy-fetch-sign-in-with-email";
+import {
+  isLegacySignInRecoveryErrorCode,
+  PENDING_CREDENTIAL_STORAGE_KEY,
+} from "./behaviors/legacy-fetch-sign-in-with-email";
 import { getTranslation } from "./translations";
 
 /**
@@ -57,7 +60,7 @@ export async function handleFirebaseError(ui: FirebaseUI, error: unknown): Promi
       await getBehavior(ui, "legacyFetchSignInWithEmail")(ui, error);
     } else if (error.code === "auth/account-exists-with-different-credential" && errorContainsCredential(error)) {
       // Note: the credential is stored via `toJSON()`; it must be rehydrated (see handlePendingCredential in auth.ts) before being passed to linkWithCredential.
-      window.sessionStorage.setItem("pendingCred", JSON.stringify(error.credential.toJSON()));
+      window.sessionStorage.setItem(PENDING_CREDENTIAL_STORAGE_KEY, JSON.stringify(error.credential.toJSON()));
     }
   }
 

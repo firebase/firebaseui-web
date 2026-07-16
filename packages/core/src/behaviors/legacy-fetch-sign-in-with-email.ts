@@ -35,6 +35,9 @@ export const LEGACY_SIGN_IN_RECOVERY_ERROR_CODES: readonly string[] = [
   "auth/invalid-login-credentials",
 ];
 
+/** sessionStorage key used to persist a pending OAuth credential across a sign-in/relink flow. */
+export const PENDING_CREDENTIAL_STORAGE_KEY = "pendingCred";
+
 /**
  * The subset of {@link LEGACY_SIGN_IN_RECOVERY_ERROR_CODES} that indicates a failed password
  * sign-in attempt, rather than an OAuth credential conflict.
@@ -113,7 +116,7 @@ function persistPendingCredential(credential?: AuthCredential) {
     return;
   }
 
-  window.sessionStorage.setItem("pendingCred", JSON.stringify(credential.toJSON()));
+  window.sessionStorage.setItem(PENDING_CREDENTIAL_STORAGE_KEY, JSON.stringify(credential.toJSON()));
 }
 
 export async function legacyFetchSignInWithEmailHandler(ui: FirebaseUI, error: FirebaseError): Promise<void> {

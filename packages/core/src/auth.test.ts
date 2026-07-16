@@ -86,6 +86,7 @@ import {
 } from "firebase/auth";
 import { hasBehavior, getBehavior } from "./behaviors";
 import { handleFirebaseError } from "./errors";
+import { PENDING_CREDENTIAL_STORAGE_KEY } from "./behaviors/legacy-fetch-sign-in-with-email";
 import { FirebaseError } from "firebase/app";
 
 import { createMockUI } from "~/tests/utils";
@@ -1061,7 +1062,7 @@ describe("handlePendingCredential", () => {
   it("should rehydrate an OAuth credential via OAuthProvider.credentialFromJSON and link it", async () => {
     const mockUI = createMockUI();
     const storedJSON = { providerId: "google.com", signInMethod: "google.com", idToken: "fake-id-token" };
-    window.sessionStorage.setItem("pendingCred", JSON.stringify(storedJSON));
+    window.sessionStorage.setItem(PENDING_CREDENTIAL_STORAGE_KEY, JSON.stringify(storedJSON));
 
     const rehydratedCredential = { providerId: "google.com" } as any;
     const linkedUserCredential = { ...mockUserCredential, providerId: "google.com" } as UserCredential;
@@ -1075,13 +1076,13 @@ describe("handlePendingCredential", () => {
     expect(OAuthProvider.credentialFromJSON).toHaveBeenCalledWith(storedJSON);
     expect(_linkWithCredential).toHaveBeenCalledWith(mockUserCredential.user, rehydratedCredential);
     expect(result).toBe(linkedUserCredential);
-    expect(window.sessionStorage.getItem("pendingCred")).toBeNull();
+    expect(window.sessionStorage.getItem(PENDING_CREDENTIAL_STORAGE_KEY)).toBeNull();
   });
 
   it("should fall back to SAMLAuthProvider when OAuthProvider cannot rehydrate the credential", async () => {
     const mockUI = createMockUI();
     const storedJSON = { providerId: "saml.my-provider", signInMethod: "saml.my-provider", pendingToken: "abc" };
-    window.sessionStorage.setItem("pendingCred", JSON.stringify(storedJSON));
+    window.sessionStorage.setItem(PENDING_CREDENTIAL_STORAGE_KEY, JSON.stringify(storedJSON));
 
     const rehydratedCredential = { providerId: "saml.my-provider" } as any;
     const linkedUserCredential = { ...mockUserCredential, providerId: "saml.my-provider" } as UserCredential;
@@ -1098,13 +1099,13 @@ describe("handlePendingCredential", () => {
     expect(SAMLAuthProvider.credentialFromJSON).toHaveBeenCalledWith(storedJSON);
     expect(_linkWithCredential).toHaveBeenCalledWith(mockUserCredential.user, rehydratedCredential);
     expect(result).toBe(linkedUserCredential);
-    expect(window.sessionStorage.getItem("pendingCred")).toBeNull();
+    expect(window.sessionStorage.getItem(PENDING_CREDENTIAL_STORAGE_KEY)).toBeNull();
   });
 
   it("should return the original user and clear storage when the credential cannot be rehydrated", async () => {
     const mockUI = createMockUI();
     const storedJSON = { providerId: "unknown", signInMethod: "unknown" };
-    window.sessionStorage.setItem("pendingCred", JSON.stringify(storedJSON));
+    window.sessionStorage.setItem(PENDING_CREDENTIAL_STORAGE_KEY, JSON.stringify(storedJSON));
 
     vi.mocked(_signInAnonymously).mockResolvedValue(mockUserCredential);
     vi.mocked(OAuthProvider.credentialFromJSON).mockImplementation(() => {
@@ -1118,12 +1119,12 @@ describe("handlePendingCredential", () => {
 
     expect(_linkWithCredential).not.toHaveBeenCalled();
     expect(result).toBe(mockUserCredential);
-    expect(window.sessionStorage.getItem("pendingCred")).toBeNull();
+    expect(window.sessionStorage.getItem(PENDING_CREDENTIAL_STORAGE_KEY)).toBeNull();
   });
 
   it("should return the original user and clear storage when the stored credential is invalid JSON", async () => {
     const mockUI = createMockUI();
-    window.sessionStorage.setItem("pendingCred", "{invalid-json");
+    window.sessionStorage.setItem(PENDING_CREDENTIAL_STORAGE_KEY, "{invalid-json");
 
     vi.mocked(_signInAnonymously).mockResolvedValue(mockUserCredential);
 
@@ -1132,13 +1133,13 @@ describe("handlePendingCredential", () => {
     expect(OAuthProvider.credentialFromJSON).not.toHaveBeenCalled();
     expect(_linkWithCredential).not.toHaveBeenCalled();
     expect(result).toBe(mockUserCredential);
-    expect(window.sessionStorage.getItem("pendingCred")).toBeNull();
+    expect(window.sessionStorage.getItem(PENDING_CREDENTIAL_STORAGE_KEY)).toBeNull();
   });
 
   it("should return the original user and clear storage when linkWithCredential fails", async () => {
     const mockUI = createMockUI();
     const storedJSON = { providerId: "google.com", signInMethod: "google.com", idToken: "fake-id-token" };
-    window.sessionStorage.setItem("pendingCred", JSON.stringify(storedJSON));
+    window.sessionStorage.setItem(PENDING_CREDENTIAL_STORAGE_KEY, JSON.stringify(storedJSON));
 
     const rehydratedCredential = { providerId: "google.com" } as any;
 
@@ -1152,7 +1153,7 @@ describe("handlePendingCredential", () => {
 
     expect(_linkWithCredential).toHaveBeenCalledWith(mockUserCredential.user, rehydratedCredential);
     expect(result).toBe(mockUserCredential);
-    expect(window.sessionStorage.getItem("pendingCred")).toBeNull();
+    expect(window.sessionStorage.getItem(PENDING_CREDENTIAL_STORAGE_KEY)).toBeNull();
   });
 });
 
