@@ -110,6 +110,24 @@ describe("<LegacySignInRecovery />", () => {
     expect(screen.getByText("Use your email link sign-in flow to continue.")).toBeDefined();
   });
 
+  it("never renders a button for the attempted provider, even if it appears in signInMethods", () => {
+    const ui = createMockUI({ locale: recoveryLocale });
+    ui.get().setLegacySignInRecovery({
+      email: "test@example.com",
+      signInMethods: ["google.com", "github.com"],
+      attemptedProviderId: "github.com",
+    });
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <LegacySignInRecovery />
+      </CreateFirebaseUIProvider>
+    );
+
+    expect(screen.getByTestId("google-recovery-button")).toBeDefined();
+    expect(screen.queryByTestId("github-recovery-button")).toBeNull();
+  });
+
   it("clears recovery when dismissed", () => {
     const ui = createMockUI({ locale: recoveryLocale });
     ui.get().setLegacySignInRecovery({

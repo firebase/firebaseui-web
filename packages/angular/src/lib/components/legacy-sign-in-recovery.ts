@@ -58,25 +58,25 @@ import { YahooSignInButtonComponent } from "../auth/oauth/yahoo-sign-in-button";
             <p class="fui-card__subtitle">{{ selectMethodLabel() }}</p>
           </div>
           <div class="fui-screen__children">
-            @if (hasMethod("google.com")) {
+            @if (canOfferMethod("google.com")) {
               <fui-google-sign-in-button (signIn)="clearRecovery()" />
             }
-            @if (hasMethod("github.com")) {
+            @if (canOfferMethod("github.com")) {
               <fui-github-sign-in-button (signIn)="clearRecovery()" />
             }
-            @if (hasMethod("facebook.com")) {
+            @if (canOfferMethod("facebook.com")) {
               <fui-facebook-sign-in-button (signIn)="clearRecovery()" />
             }
-            @if (hasMethod("apple.com")) {
+            @if (canOfferMethod("apple.com")) {
               <fui-apple-sign-in-button (signIn)="clearRecovery()" />
             }
-            @if (hasMethod("microsoft.com")) {
+            @if (canOfferMethod("microsoft.com")) {
               <fui-microsoft-sign-in-button (signIn)="clearRecovery()" />
             }
-            @if (hasMethod("twitter.com")) {
+            @if (canOfferMethod("twitter.com")) {
               <fui-twitter-sign-in-button (signIn)="clearRecovery()" />
             }
-            @if (hasMethod("yahoo.com")) {
+            @if (canOfferMethod("yahoo.com")) {
               <fui-yahoo-sign-in-button (signIn)="clearRecovery()" />
             }
           </div>
@@ -135,6 +135,18 @@ export class LegacySignInRecoveryComponent {
 
   hasMethod(method: string) {
     return this.recovery()?.signInMethods.includes(method) ?? false;
+  }
+
+  /**
+   * Whether an OAuth sign-in button should be offered for `method`.
+   *
+   * Excludes `attemptedProviderId` defensively so the recovery UI never re-offers the exact
+   * provider the user just failed with, even if Firebase's API were to include it in
+   * `signInMethods` under some edge case.
+   */
+  canOfferMethod(method: string) {
+    const recovery = this.recovery();
+    return (recovery?.signInMethods.includes(method) ?? false) && method !== recovery?.attemptedProviderId;
   }
 
   clearRecovery() {

@@ -33,6 +33,17 @@ function hasMethod(signInMethods: string[], method: string) {
 }
 
 /**
+ * Whether an OAuth sign-in button should be offered for `method`.
+ *
+ * Excludes `attemptedProviderId` defensively so the recovery UI never re-offers the exact
+ * provider the user just failed with, even if Firebase's API were to include it in
+ * `signInMethods` under some edge case.
+ */
+function canOfferMethod(recovery: { signInMethods: string[]; attemptedProviderId?: string }, method: string) {
+  return hasMethod(recovery.signInMethods, method) && method !== recovery.attemptedProviderId;
+}
+
+/**
  * Displays default recovery UI for legacy sign-in method suggestions.
  *
  * Returns null if there is no recovery state.
@@ -91,27 +102,13 @@ export function LegacySignInRecovery() {
           </p>
         </div>
         <div className="fui-screen__children">
-          {hasMethod(recovery.signInMethods, "google.com") ? (
-            <GoogleSignInButton onSignIn={handleRecoverySignIn} />
-          ) : null}
-          {hasMethod(recovery.signInMethods, "github.com") ? (
-            <GitHubSignInButton onSignIn={handleRecoverySignIn} />
-          ) : null}
-          {hasMethod(recovery.signInMethods, "facebook.com") ? (
-            <FacebookSignInButton onSignIn={handleRecoverySignIn} />
-          ) : null}
-          {hasMethod(recovery.signInMethods, "apple.com") ? (
-            <AppleSignInButton onSignIn={handleRecoverySignIn} />
-          ) : null}
-          {hasMethod(recovery.signInMethods, "microsoft.com") ? (
-            <MicrosoftSignInButton onSignIn={handleRecoverySignIn} />
-          ) : null}
-          {hasMethod(recovery.signInMethods, "twitter.com") ? (
-            <TwitterSignInButton onSignIn={handleRecoverySignIn} />
-          ) : null}
-          {hasMethod(recovery.signInMethods, "yahoo.com") ? (
-            <YahooSignInButton onSignIn={handleRecoverySignIn} />
-          ) : null}
+          {canOfferMethod(recovery, "google.com") ? <GoogleSignInButton onSignIn={handleRecoverySignIn} /> : null}
+          {canOfferMethod(recovery, "github.com") ? <GitHubSignInButton onSignIn={handleRecoverySignIn} /> : null}
+          {canOfferMethod(recovery, "facebook.com") ? <FacebookSignInButton onSignIn={handleRecoverySignIn} /> : null}
+          {canOfferMethod(recovery, "apple.com") ? <AppleSignInButton onSignIn={handleRecoverySignIn} /> : null}
+          {canOfferMethod(recovery, "microsoft.com") ? <MicrosoftSignInButton onSignIn={handleRecoverySignIn} /> : null}
+          {canOfferMethod(recovery, "twitter.com") ? <TwitterSignInButton onSignIn={handleRecoverySignIn} /> : null}
+          {canOfferMethod(recovery, "yahoo.com") ? <YahooSignInButton onSignIn={handleRecoverySignIn} /> : null}
         </div>
         <div className="fui-legacy-sign-in-recovery-modal__notes">
           {hasMethod(recovery.signInMethods, "password") ? (

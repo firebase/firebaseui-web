@@ -215,6 +215,20 @@ describe("<fui-legacy-sign-in-recovery>", () => {
     expect(screen.getByText("Use your email link sign-in flow to continue.")).toBeDefined();
   });
 
+  it("never renders a button for the attempted provider, even if it appears in signInMethods", async () => {
+    const { injectLegacySignInRecovery } = require("../provider");
+    injectLegacySignInRecovery.mockReturnValue(() => ({
+      email: "test@example.com",
+      signInMethods: ["google.com", "github.com"],
+      attemptedProviderId: "github.com",
+    }));
+
+    await render(TestHostComponent);
+
+    expect(screen.getByRole("button", { name: "Sign in with Google" })).toBeDefined();
+    expect(screen.queryByRole("button", { name: "Sign in with GitHub" })).toBeNull();
+  });
+
   it("clears recovery state when dismissed", async () => {
     const { injectLegacySignInRecovery, injectClearLegacySignInRecovery } = require("../provider");
     const clearRecovery = jest.fn();
