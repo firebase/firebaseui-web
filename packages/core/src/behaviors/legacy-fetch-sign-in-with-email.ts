@@ -111,6 +111,17 @@ function hasActionableRecoveryMethod(recovery: LegacySignInRecovery): boolean {
   return recovery.signInMethods.some((method) => method !== recovery.attemptedProviderId);
 }
 
+/**
+ * Persists a pending OAuth credential to `sessionStorage` so it can survive the
+ * recovery flow (e.g. a password re-auth or a redirect) and be reapplied afterward.
+ *
+ * Security trade-off (accepted, pre-existing): the serialized credential (via
+ * `credential.toJSON()`) may include OAuth access/ID tokens, and is stored in
+ * **plaintext**. This is scoped to `sessionStorage`, so it is same-origin only and is
+ * cleared automatically when the tab/session ends. It is also consumed and removed
+ * immediately upon use in {@link handlePendingCredential} in `auth.ts`, minimizing the
+ * exposure window.
+ */
 function persistPendingCredential(credential?: AuthCredential) {
   if (!credential) {
     return;

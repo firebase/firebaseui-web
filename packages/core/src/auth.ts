@@ -80,6 +80,10 @@ async function handlePendingCredential(ui: FirebaseUI, user: UserCredential): Pr
   // Sign-in succeeded, so any legacy recovery UI that was guiding the user here is no longer needed.
   ui.clearLegacySignInRecovery();
 
+  // The pending credential was persisted in plaintext `sessionStorage` by
+  // `persistPendingCredential` (see the fuller trade-off explanation there, in
+  // `legacy-fetch-sign-in-with-email.ts`). It is read and immediately removed here,
+  // right after a successful sign-in, to minimize how long it lives in storage.
   const pendingCredString = window.sessionStorage.getItem(PENDING_CREDENTIAL_STORAGE_KEY);
   if (!pendingCredString) return user;
 
