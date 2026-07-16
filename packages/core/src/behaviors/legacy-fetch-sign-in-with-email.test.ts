@@ -261,7 +261,7 @@ describe("legacyFetchSignInWithEmailHandler", () => {
     expect(ui.clearLegacySignInRecovery).toHaveBeenCalledTimes(1);
   });
 
-  it("preserves an empty sign-in method list", async () => {
+  it("clears recovery state when no sign-in methods are returned", async () => {
     const ui = createMockUI();
     const error = {
       code: "auth/account-exists-with-different-credential",
@@ -275,12 +275,55 @@ describe("legacyFetchSignInWithEmailHandler", () => {
 
     await legacyFetchSignInWithEmailHandler(ui, error);
 
+    expect(ui.clearLegacySignInRecovery).toHaveBeenCalledTimes(1);
+    expect(ui.setLegacySignInRecovery).not.toHaveBeenCalled();
+  });
+
+  it("clears recovery state when the only sign-in method matches the attempted password", async () => {
+    const ui = createMockUI();
+    const error = {
+      code: "auth/wrong-password",
+      message: "Wrong password",
+      customData: {
+        email: "typo@example.com",
+      },
+    } as any;
+
+    vi.mocked(fetchSignInMethodsForEmail).mockResolvedValue(["password"]);
+
+    await legacyFetchSignInWithEmailHandler(ui, error);
+
+    expect(fetchSignInMethodsForEmail).toHaveBeenCalledWith(ui.auth, "typo@example.com");
+    expect(ui.clearLegacySignInRecovery).toHaveBeenCalledTimes(1);
+    expect(ui.setLegacySignInRecovery).not.toHaveBeenCalled();
+  });
+
+  it("sets recovery state when an OAuth conflict resolves to a genuinely different method", async () => {
+    const ui = createMockUI();
+    const credential = {
+      providerId: "github.com",
+      toJSON: vi.fn().mockReturnValue({ providerId: "github.com", token: "token" }),
+    } as any;
+    const error = {
+      code: "auth/account-exists-with-different-credential",
+      message: "Mismatch",
+      credential,
+      customData: {
+        email: "oauth@example.com",
+      },
+    } as any;
+
+    vi.mocked(fetchSignInMethodsForEmail).mockResolvedValue(["google.com"]);
+
+    await legacyFetchSignInWithEmailHandler(ui, error);
+
     expect(ui.setLegacySignInRecovery).toHaveBeenCalledWith({
-      email: "test@example.com",
-      signInMethods: [],
-      attemptedProviderId: undefined,
-      pendingProviderId: undefined,
+      email: "oauth@example.com",
+      signInMethods: ["google.com"],
+      attemptedProviderId: "github.com",
+      pendingProviderId: "github.com",
     });
+    expect(ui.clearLegacySignInRecovery).not.toHaveBeenCalled();
   });
 });
 

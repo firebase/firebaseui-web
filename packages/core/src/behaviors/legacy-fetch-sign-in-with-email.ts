@@ -98,6 +98,16 @@ function buildRecovery(
   };
 }
 
+/**
+ * Checks whether a recovery has at least one sign-in method that differs from the one the
+ * user just attempted. Without this, the recovery UI would open with nothing useful to offer —
+ * e.g. a password typo where `fetchSignInMethodsForEmail` returns `["password"]` (the SAME
+ * method just tried), or an empty method list (e.g. Email Enumeration Protection).
+ */
+function hasActionableRecoveryMethod(recovery: LegacySignInRecovery): boolean {
+  return recovery.signInMethods.some((method) => method !== recovery.attemptedProviderId);
+}
+
 function persistPendingCredential(credential?: AuthCredential) {
   if (!credential) {
     return;
@@ -118,7 +128,12 @@ export async function legacyFetchSignInWithEmailHandler(ui: FirebaseUI, error: F
 
   try {
     const signInMethods = await fetchSignInMethodsForEmail(ui.auth, email);
-    ui.setLegacySignInRecovery(buildRecovery(error, email, signInMethods, pendingCredential));
+    const recovery = buildRecovery(error, email, signInMethods, pendingCredential);
+    if (hasActionableRecoveryMethod(recovery)) {
+      ui.setLegacySignInRecovery(recovery);
+    } else {
+      ui.clearLegacySignInRecovery();
+    }
   } catch {
     ui.clearLegacySignInRecovery();
   }
