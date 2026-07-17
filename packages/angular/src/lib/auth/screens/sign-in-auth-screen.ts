@@ -78,8 +78,8 @@ import { Auth, authState, User, UserCredential } from "@angular/fire/auth";
  */
 export class SignInAuthScreenComponent {
   private ui = injectUI();
-  /** Whether to show the default legacy sign-in recovery UI. */
-  showLegacySignInRecovery = input(true);
+  /** Whether to show the built-in legacy sign-in recovery UI. Defaults to `false`; opt in explicitly. */
+  showLegacySignInRecovery = input(false);
 
   mfaResolver = computed(() => this.ui().multiFactorResolver);
   titleText = injectTranslation("labels", "signIn");

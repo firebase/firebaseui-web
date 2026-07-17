@@ -118,6 +118,13 @@ class TestHostWithMultipleProvidersComponent {}
 class TestHostWithoutContentComponent {}
 
 @Component({
+  template: `<fui-oauth-screen [showLegacySignInRecovery]="true"></fui-oauth-screen>`,
+  standalone: true,
+  imports: [OAuthScreenComponent],
+})
+class TestHostWithRecoveryComponent {}
+
+@Component({
   template: `<fui-oauth-screen [showLegacySignInRecovery]="false"></fui-oauth-screen>`,
   standalone: true,
   imports: [OAuthScreenComponent],
@@ -314,8 +321,28 @@ describe("<fui-oauth-screen>", () => {
     expect(redirectErrorElement).toBeInTheDocument();
   });
 
-  it("renders legacy recovery by default", async () => {
+  it("does not render legacy recovery by default", async () => {
     const { container } = await render(TestHostWithoutContentComponent, {
+      imports: [
+        OAuthScreenComponent,
+        MockPoliciesComponent,
+        MockRedirectErrorComponent,
+        MockLegacySignInRecoveryComponent,
+        MultiFactorAuthAssertionScreenComponent,
+        CardComponent,
+        CardHeaderComponent,
+        CardTitleComponent,
+        CardSubtitleComponent,
+        CardContentComponent,
+        ContentComponent,
+      ],
+    });
+
+    expect(container.querySelector("fui-legacy-sign-in-recovery")).not.toBeInTheDocument();
+  });
+
+  it("renders legacy recovery when explicitly enabled", async () => {
+    const { container } = await render(TestHostWithRecoveryComponent, {
       imports: [
         OAuthScreenComponent,
         MockPoliciesComponent,
@@ -334,7 +361,7 @@ describe("<fui-oauth-screen>", () => {
     expect(container.querySelector("fui-legacy-sign-in-recovery")).toBeInTheDocument();
   });
 
-  it("does not render legacy recovery when disabled", async () => {
+  it("does not render legacy recovery when explicitly disabled", async () => {
     const { container } = await render(TestHostWithoutRecoveryComponent, {
       imports: [
         OAuthScreenComponent,

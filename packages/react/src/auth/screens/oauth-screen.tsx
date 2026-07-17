@@ -28,7 +28,7 @@ import { LegacySignInRecovery } from "~/components/legacy-sign-in-recovery";
 export type OAuthScreenProps = PropsWithChildren<{
   /** Callback function called when sign-in is successful. */
   onSignIn?: (user: User) => void;
-  /** Whether to show the default legacy sign-in recovery UI. */
+  /** Whether to show the built-in legacy sign-in recovery UI. Defaults to `false`; opt in explicitly. */
   showLegacySignInRecovery?: boolean;
 }>;
 
@@ -40,7 +40,7 @@ export type OAuthScreenProps = PropsWithChildren<{
  *
  * @returns The OAuth screen component.
  */
-export function OAuthScreen({ children, onSignIn, showLegacySignInRecovery = true }: OAuthScreenProps) {
+export function OAuthScreen({ children, onSignIn, showLegacySignInRecovery = false }: OAuthScreenProps) {
   const ui = useUI();
 
   const titleText = getTranslation(ui, "labels", "signIn");

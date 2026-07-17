@@ -397,7 +397,7 @@ const ui = initializeUI({
 
 #### `legacyFetchSignInWithEmail`
 
-The `legacyFetchSignInWithEmail` behavior augments OAuth `auth/account-exists-with-different-credential` flows by calling `fetchSignInMethodsForEmail(auth, email)` and storing the returned methods on the UI instance. In the packaged React and Angular screen components, this recovery state is rendered automatically as a modal on `SignInAuthScreen` and `OAuthScreen`.
+The `legacyFetchSignInWithEmail` behavior augments OAuth `auth/account-exists-with-different-credential` flows by calling `fetchSignInMethodsForEmail(auth, email)` and storing the returned methods on the UI instance. In the packaged React and Angular screen components, this recovery state can be rendered as a modal on `SignInAuthScreen` and `OAuthScreen` via the `showLegacySignInRecovery` prop/input, which defaults to `false`. Registering the behavior alone does not show any UI; opt in explicitly (`showLegacySignInRecovery={true}` / `[showLegacySignInRecovery]="true"`) on the screens where you want the built-in recovery modal.
 
 The original pending credential is still preserved, so after the user signs in with the correct method, Firebase UI can continue the existing linking flow.
 
@@ -1116,7 +1116,7 @@ By default, any missing translations will fallback to English if not specified. 
   | onSignIn | `(user: User) => void?` | Callback when sign-in succeeds |
   | onForgotPasswordClick | `() => void?` | Callback when forgot password link is clicked |
   | onSignUpClick | `() => void?` | Callback when sign-up link is clicked |
-| showLegacySignInRecovery | `boolean?` | Whether to show the built-in legacy sign-in recovery UI |
+| showLegacySignInRecovery | `boolean?` | Whether to show the built-in legacy sign-in recovery UI (defaults to `false`) |
 
   **`SignUpAuthScreen`**
 
@@ -1169,7 +1169,7 @@ By default, any missing translations will fallback to English if not specified. 
   |------|:----:|-------------|
   | onSignIn | `(user: User) => void?` | Callback when sign-in succeeds |
   | children | `React.ReactNode?` | Child components |
-| showLegacySignInRecovery | `boolean?` | Whether to show the built-in legacy sign-in recovery UI |
+| showLegacySignInRecovery | `boolean?` | Whether to show the built-in legacy sign-in recovery UI (defaults to `false`) |
 
   **`OAuthButton`**
 
@@ -1769,7 +1769,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   | Input | Type | Description |
   |-------|:----:|-------------|
-  | showLegacySignInRecovery | `boolean` | Whether to show the built-in legacy sign-in recovery UI |
+  | showLegacySignInRecovery | `boolean` | Whether to show the built-in legacy sign-in recovery UI (defaults to `false`) |
 
   | Output | Type | Description |
   |--------|:----:|-------------|
@@ -1827,7 +1827,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   | Input | Type | Description |
   |-------|:----:|-------------|
-  | showLegacySignInRecovery | `boolean` | Whether to show the built-in legacy sign-in recovery UI |
+  | showLegacySignInRecovery | `boolean` | Whether to show the built-in legacy sign-in recovery UI (defaults to `false`) |
 
   | Output | Type | Description |
   |--------|:----:|-------------|

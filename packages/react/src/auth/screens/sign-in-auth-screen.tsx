@@ -29,7 +29,7 @@ import { LegacySignInRecovery } from "~/components/legacy-sign-in-recovery";
 export type SignInAuthScreenProps = PropsWithChildren<Omit<SignInAuthFormProps, "onSignIn">> & {
   /** Callback function called when sign-in is successful. */
   onSignIn?: (user: User) => void;
-  /** Whether to show the default legacy sign-in recovery UI. */
+  /** Whether to show the built-in legacy sign-in recovery UI. Defaults to `false`; opt in explicitly. */
   showLegacySignInRecovery?: boolean;
 };
 
@@ -43,7 +43,7 @@ export type SignInAuthScreenProps = PropsWithChildren<Omit<SignInAuthFormProps, 
 export function SignInAuthScreen({
   children,
   onSignIn,
-  showLegacySignInRecovery = true,
+  showLegacySignInRecovery = false,
   ...props
 }: SignInAuthScreenProps) {
   const ui = useUI();

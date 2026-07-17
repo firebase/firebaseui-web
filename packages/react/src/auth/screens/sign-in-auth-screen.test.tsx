@@ -114,7 +114,7 @@ describe("<SignInAuthScreen />", () => {
     expect(screen.getByTestId("sign-in-auth-form")).toBeDefined();
   });
 
-  it("renders LegacySignInRecovery by default", () => {
+  it("does not render LegacySignInRecovery by default", () => {
     const ui = createMockUI();
 
     render(
@@ -123,10 +123,22 @@ describe("<SignInAuthScreen />", () => {
       </CreateFirebaseUIProvider>
     );
 
+    expect(screen.queryByTestId("legacy-sign-in-recovery")).toBeNull();
+  });
+
+  it("renders LegacySignInRecovery when explicitly enabled", () => {
+    const ui = createMockUI();
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <SignInAuthScreen showLegacySignInRecovery={true} />
+      </CreateFirebaseUIProvider>
+    );
+
     expect(screen.getByTestId("legacy-sign-in-recovery")).toBeDefined();
   });
 
-  it("does not render LegacySignInRecovery when disabled", () => {
+  it("does not render LegacySignInRecovery when explicitly disabled", () => {
     const ui = createMockUI();
 
     render(
