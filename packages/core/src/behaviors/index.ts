@@ -188,7 +188,13 @@ export function countryCodes(options?: countryCodesHandlers.CountryCodesOptions)
 }
 
 /**
- * Fetches previous sign-in methods for OAuth account mismatch flows.
+ * Adds support for [deprecated methods and behavior](https://firebase.google.com/docs/auth/web/email-link-auth#differentiating_emailpassword_from_email_link)
+ * (like `fetchSignInMethodsForEmail()`) when [email enumeration protection](https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection)
+ * is disabled, by fetching previous sign-in methods for OAuth account mismatch flows.
+ *
+ * If your app relies on this legacy behavior, we recommend migrating away from it and enabling
+ * email enumeration protection as soon as you can. Projects created after September 15, 2023 have
+ * this protection enabled by default, in which case this behavior becomes a no-op.
  *
  * @returns A behavior that populates legacy sign-in recovery state.
  */
