@@ -64,7 +64,10 @@ export default function LegacyRecoveryDemoPage() {
     <div className="space-y-6">
       <div className="max-w-sm mx-auto pt-10 text-sm text-gray-700 dark:text-gray-300 space-y-3">
         <p className="font-medium text-base text-black dark:text-white">Legacy recovery demo</p>
-        <p>Use this screen to test wrong-provider recovery with both email/password and OAuth attempts.</p>
+        <p>
+          Use this screen to test wrong-provider recovery with both email/password and OAuth attempts, in a project that
+          has email enumeration protection disabled.
+        </p>
         <p>
           Suggested flow: create an account with Google first, sign out, then come back here and try the same email with
           email/password or another provider like GitHub.

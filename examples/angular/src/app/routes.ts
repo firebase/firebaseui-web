@@ -46,7 +46,8 @@ export const routes: RouteConfig[] = [
   },
   {
     name: "Legacy Recovery Demo",
-    description: "Use this screen to test wrong-provider recovery for email/password and OAuth attempts.",
+    description:
+      "Use this screen to test wrong-provider recovery for email/password and OAuth attempts in a project that has email enumeration protection disabled.",
     path: "/screens/legacy-recovery-demo",
     loadComponent: () => import("./screens/legacy-recovery-demo").then((m) => m.LegacyRecoveryDemoComponent),
   },
