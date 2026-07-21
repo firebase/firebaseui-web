@@ -1,6 +1,6 @@
 {
   "name": "@firebase-oss/ui-shadcn",
-  "version": "7.0.0",
+  "version": "7.0.3-beta",
   "repository": "firebase/firebaseui-web",
   "type": "module",
   "bin": {
@@ -42,9 +42,9 @@
     "yargs-parser": "^22.0.0"
   },
   "dependencies": {
-    "@hookform/resolvers": "^5.4.0",
     "@firebase-oss/ui-core": "workspace:*",
     "@firebase-oss/ui-react": "workspace:*",
+    "@hookform/resolvers": "^5.4.0",
     "@radix-ui/react-label": "^2.1.11",
     "@radix-ui/react-select": "^2.3.2",
     "@radix-ui/react-separator": "^1.1.11",

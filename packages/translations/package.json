@@ -1,6 +1,6 @@
 {
   "name": "@firebase-oss/ui-translations",
-  "version": "7.0.0",
+  "version": "7.0.3-beta",
   "repository": "firebase/firebaseui-web",
   "description": "Translations for Firebase UI",
   "type": "module",
@@ -34,8 +34,8 @@
   },
   "devDependencies": {
     "rimraf": "catalog:",
-    "vitest": "catalog:",
     "tsup": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   }
 }
