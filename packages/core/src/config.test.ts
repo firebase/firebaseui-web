@@ -20,6 +20,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { initializeUI } from "./config";
 import { enUs, registerLocale } from "@firebase-oss/ui-translations";
 import { autoUpgradeAnonymousUsers, autoAnonymousLogin } from "./behaviors";
+import { PENDING_CREDENTIAL_STORAGE_KEY } from "./behaviors/legacy-fetch-sign-in-with-email";
 
 // Mock Firebase Auth
 vi.mock("firebase/auth", () => ({
@@ -472,6 +473,56 @@ describe("initializeUI", () => {
     ui.get().setLegacySignInRecovery(recovery);
     expect(ui.get().legacySignInRecovery).toEqual(recovery);
     ui.get().clearLegacySignInRecovery();
+    expect(ui.get().legacySignInRecovery).toBeUndefined();
+  });
+
+  it("should remove the pending credential from sessionStorage when clearLegacySignInRecovery is called", () => {
+    const mockSessionStorage: Record<string, string> = {};
+    Object.defineProperty(global, "window", {
+      value: {
+        sessionStorage: {
+          setItem: vi.fn((key: string, value: string) => {
+            mockSessionStorage[key] = value;
+          }),
+          getItem: vi.fn((key: string) => mockSessionStorage[key] ?? null),
+          removeItem: vi.fn((key: string) => {
+            delete mockSessionStorage[key];
+          }),
+        },
+      },
+      writable: true,
+      configurable: true,
+    });
+
+    const config = {
+      app: {} as FirebaseApp,
+      auth: {} as Auth,
+    };
+
+    const ui = initializeUI(config);
+
+    window.sessionStorage.setItem(PENDING_CREDENTIAL_STORAGE_KEY, JSON.stringify({ providerId: "google.com" }));
+    expect(window.sessionStorage.getItem(PENDING_CREDENTIAL_STORAGE_KEY)).not.toBeNull();
+
+    ui.get().clearLegacySignInRecovery();
+
+    expect(window.sessionStorage.removeItem).toHaveBeenCalledWith(PENDING_CREDENTIAL_STORAGE_KEY);
+    expect(window.sessionStorage.getItem(PENDING_CREDENTIAL_STORAGE_KEY)).toBeNull();
+
+    delete (global as any).window;
+  });
+
+  it("should not throw when clearLegacySignInRecovery is called without a window (SSR)", () => {
+    delete (global as any).window;
+
+    const config = {
+      app: {} as FirebaseApp,
+      auth: {} as Auth,
+    };
+
+    const ui = initializeUI(config);
+
+    expect(() => ui.get().clearLegacySignInRecovery()).not.toThrow();
     expect(ui.get().legacySignInRecovery).toBeUndefined();
   });
 

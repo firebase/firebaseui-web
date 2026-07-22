@@ -20,6 +20,7 @@ import { type Auth, getAuth, getRedirectResult, type MultiFactorResolver } from 
 import { map } from "nanostores";
 import { deepMap, type DeepMapStore } from "@nanostores/deepmap";
 import { type Behavior, type Behaviors, defaultBehaviors } from "./behaviors";
+import { PENDING_CREDENTIAL_STORAGE_KEY } from "./behaviors/legacy-fetch-sign-in-with-email";
 import type { InitBehavior, RedirectBehavior } from "./behaviors/utils";
 import { type FirebaseUIState } from "./state";
 import { handleFirebaseError } from "./errors";
@@ -165,6 +166,14 @@ export function initializeUI(config: FirebaseUIOptions, name: string = "[DEFAULT
       clearLegacySignInRecovery: () => {
         const current = $config.get()[name]!;
         current.setKey(`legacySignInRecovery`, undefined);
+
+        // Abandoning recovery must also drop any pending credential persisted to
+        // `sessionStorage` by the legacyFetchSignInWithEmail behavior. Otherwise a stale
+        // OAuth credential from an abandoned recovery attempt would silently get linked
+        // to a later, unrelated sign-in via `handlePendingCredential` in auth.ts.
+        if (typeof window !== "undefined") {
+          window.sessionStorage.removeItem(PENDING_CREDENTIAL_STORAGE_KEY);
+        }
       },
     })
   );

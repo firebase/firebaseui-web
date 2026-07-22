@@ -21,12 +21,16 @@ import {
   PENDING_CREDENTIAL_STORAGE_KEY,
 } from "./legacy-fetch-sign-in-with-email";
 import { createMockUI } from "~/tests/utils";
+import { initializeUI } from "~/config";
+import type { FirebaseApp } from "firebase/app";
+import type { Auth } from "firebase/auth";
 
 vi.mock("firebase/auth", () => ({
   fetchSignInMethodsForEmail: vi.fn(),
   OAuthProvider: {
     credentialFromError: vi.fn().mockReturnValue(null),
   },
+  getRedirectResult: vi.fn().mockResolvedValue(null),
 }));
 
 import { fetchSignInMethodsForEmail, OAuthProvider } from "firebase/auth";
@@ -337,6 +341,84 @@ describe("legacyFetchSignInWithEmailHandler", () => {
       pendingProviderId: "github.com",
     });
     expect(ui.clearLegacySignInRecovery).not.toHaveBeenCalled();
+  });
+});
+
+/**
+ * Uses the real `clearLegacySignInRecovery` (via `initializeUI`), instead of the
+ * `createMockUI()` no-op mock, to prove the actual regression scenario is fixed end-to-end:
+ * a pending credential persisted by this handler must not survive an abandoned recovery
+ * attempt, since `handlePendingCredential` in `auth.ts` would otherwise silently link it to
+ * an unrelated, later sign-in.
+ */
+describe("legacyFetchSignInWithEmailHandler (real clearLegacySignInRecovery)", () => {
+  function createRealUI() {
+    const store = initializeUI({
+      app: {} as FirebaseApp,
+      auth: {} as Auth,
+    });
+    return store.get();
+  }
+
+  it("removes the pending credential from sessionStorage when no email can be extracted", async () => {
+    const ui = createRealUI();
+    const credential = {
+      providerId: "google.com",
+      toJSON: vi.fn().mockReturnValue({ providerId: "google.com", token: "token" }),
+    } as any;
+    const error = {
+      code: "auth/account-exists-with-different-credential",
+      message: "Mismatch",
+      credential,
+    } as any;
+
+    await legacyFetchSignInWithEmailHandler(ui, error);
+
+    expect(window.sessionStorage.getItem(PENDING_CREDENTIAL_STORAGE_KEY)).toBeNull();
+  });
+
+  it("removes the pending credential from sessionStorage when fetching sign-in methods fails", async () => {
+    const ui = createRealUI();
+    const credential = {
+      providerId: "google.com",
+      toJSON: vi.fn().mockReturnValue({ providerId: "google.com", token: "token" }),
+    } as any;
+    const error = {
+      code: "auth/account-exists-with-different-credential",
+      message: "Mismatch",
+      credential,
+      customData: {
+        email: "test@example.com",
+      },
+    } as any;
+
+    vi.mocked(fetchSignInMethodsForEmail).mockRejectedValue(new Error("Network failure"));
+
+    await legacyFetchSignInWithEmailHandler(ui, error);
+
+    expect(window.sessionStorage.getItem(PENDING_CREDENTIAL_STORAGE_KEY)).toBeNull();
+  });
+
+  it("removes the pending credential from sessionStorage when there is no actionable recovery method", async () => {
+    const ui = createRealUI();
+    const credential = {
+      providerId: "google.com",
+      toJSON: vi.fn().mockReturnValue({ providerId: "google.com", token: "token" }),
+    } as any;
+    const error = {
+      code: "auth/account-exists-with-different-credential",
+      message: "Mismatch",
+      credential,
+      customData: {
+        email: "test@example.com",
+      },
+    } as any;
+
+    vi.mocked(fetchSignInMethodsForEmail).mockResolvedValue([]);
+
+    await legacyFetchSignInWithEmailHandler(ui, error);
+
+    expect(window.sessionStorage.getItem(PENDING_CREDENTIAL_STORAGE_KEY)).toBeNull();
   });
 });
 
