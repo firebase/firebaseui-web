@@ -422,6 +422,108 @@ describe("legacyFetchSignInWithEmailHandler (real clearLegacySignInRecovery)", (
   });
 });
 
+/**
+ * Proves the generation guard closes the race described in the review finding: a slow or
+ * duplicate `legacyFetchSignInWithEmailHandler` call must not act on a stale
+ * `fetchSignInMethodsForEmail()` resolution once a newer state transition (another call
+ * completing, or the user dismissing recovery) has already superseded it. Uses the real
+ * `initializeUI` store (not `createMockUI()`) since the guard is driven by the real
+ * `setLegacySignInRecovery`/`clearLegacySignInRecovery` implementations bumping an internal
+ * generation counter.
+ */
+describe("legacyFetchSignInWithEmailHandler (generation guard against stale async resolutions)", () => {
+  function createRealUI() {
+    const store = initializeUI({
+      app: {} as FirebaseApp,
+      auth: {} as Auth,
+    });
+    return { store, ui: store.get() };
+  }
+
+  function createDeferred<T>() {
+    let resolve!: (value: T) => void;
+    const promise = new Promise<T>((res) => {
+      resolve = res;
+    });
+    return { promise, resolve };
+  }
+
+  it("does not reopen recovery after the user dismisses it, when a duplicate, superseded call resolves late (double-submit race)", async () => {
+    const { store, ui } = createRealUI();
+    const setSpy = vi.spyOn(ui, "setLegacySignInRecovery");
+
+    const error = {
+      code: "auth/wrong-password",
+      message: "Wrong password",
+      customData: { email: "race@example.com" },
+    } as any;
+
+    const deferredFirst = createDeferred<string[]>();
+    const deferredSecond = createDeferred<string[]>();
+    vi.mocked(fetchSignInMethodsForEmail)
+      .mockImplementationOnce(() => deferredFirst.promise)
+      .mockImplementationOnce(() => deferredSecond.promise);
+
+    // Simulate a double-submit: two handler invocations in flight for the same failed
+    // sign-in attempt, both capturing the same starting generation.
+    const firstCall = legacyFetchSignInWithEmailHandler(ui, error);
+    const secondCall = legacyFetchSignInWithEmailHandler(ui, error);
+
+    // The first call's fetch resolves first, opening the recovery UI.
+    deferredFirst.resolve(["google.com"]);
+    await firstCall;
+    expect(setSpy).toHaveBeenCalledTimes(1);
+    expect(store.get().legacySignInRecovery).toMatchObject({ email: "race@example.com" });
+
+    // The user dismisses the recovery UI before the second (duplicate) call resolves.
+    ui.clearLegacySignInRecovery();
+    expect(store.get().legacySignInRecovery).toBeUndefined();
+
+    // The superseded second call finally resolves. It must not reopen the modal the user
+    // just dismissed.
+    deferredSecond.resolve(["google.com"]);
+    await secondCall;
+
+    expect(setSpy).toHaveBeenCalledTimes(1);
+    expect(store.get().legacySignInRecovery).toBeUndefined();
+  });
+
+  it("does not clobber a newer recovery already set by a second call, when a stale call's fetch resolves with no actionable methods", async () => {
+    const { store, ui } = createRealUI();
+    const clearSpy = vi.spyOn(ui, "clearLegacySignInRecovery");
+
+    const staleError = {
+      code: "auth/wrong-password",
+      message: "Wrong password",
+      customData: { email: "stale@example.com" },
+    } as any;
+    const freshError = {
+      code: "auth/wrong-password",
+      message: "Wrong password",
+      customData: { email: "fresh@example.com" },
+    } as any;
+
+    const deferredStale = createDeferred<string[]>();
+    vi.mocked(fetchSignInMethodsForEmail)
+      .mockImplementationOnce(() => deferredStale.promise)
+      .mockResolvedValueOnce(["google.com"]);
+
+    // A slow, stale attempt starts first...
+    const staleCall = legacyFetchSignInWithEmailHandler(ui, staleError);
+    // ...but a second, unrelated attempt completes first and sets genuine recovery data.
+    await legacyFetchSignInWithEmailHandler(ui, freshError);
+    expect(store.get().legacySignInRecovery).toMatchObject({ email: "fresh@example.com" });
+
+    // The stale call's fetch finally resolves with no actionable recovery method, which
+    // would normally clear recovery state - but it must not wipe out the fresh data.
+    deferredStale.resolve(["password"]);
+    await staleCall;
+
+    expect(clearSpy).not.toHaveBeenCalled();
+    expect(store.get().legacySignInRecovery).toMatchObject({ email: "fresh@example.com" });
+  });
+});
+
 describe("isLegacySignInRecoveryErrorCode", () => {
   it.each([
     "auth/account-exists-with-different-credential",

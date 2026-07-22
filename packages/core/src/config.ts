@@ -20,7 +20,10 @@ import { type Auth, getAuth, getRedirectResult, type MultiFactorResolver } from 
 import { map } from "nanostores";
 import { deepMap, type DeepMapStore } from "@nanostores/deepmap";
 import { type Behavior, type Behaviors, defaultBehaviors } from "./behaviors";
-import { PENDING_CREDENTIAL_STORAGE_KEY } from "./behaviors/legacy-fetch-sign-in-with-email";
+import {
+  bumpLegacySignInRecoveryGeneration,
+  PENDING_CREDENTIAL_STORAGE_KEY,
+} from "./behaviors/legacy-fetch-sign-in-with-email";
 import type { InitBehavior, RedirectBehavior } from "./behaviors/utils";
 import { type FirebaseUIState } from "./state";
 import { handleFirebaseError } from "./errors";
@@ -162,10 +165,16 @@ export function initializeUI(config: FirebaseUIOptions, name: string = "[DEFAULT
       setLegacySignInRecovery: (recovery?: LegacySignInRecovery) => {
         const current = $config.get()[name]!;
         current.setKey(`legacySignInRecovery`, recovery);
+
+        // Any state transition supersedes prior in-flight legacyFetchSignInWithEmail work,
+        // so a stale async call can detect it's been superseded. See
+        // `bumpLegacySignInRecoveryGeneration` for details.
+        bumpLegacySignInRecoveryGeneration(current.get().auth);
       },
       clearLegacySignInRecovery: () => {
         const current = $config.get()[name]!;
         current.setKey(`legacySignInRecovery`, undefined);
+        bumpLegacySignInRecoveryGeneration(current.get().auth);
 
         // Abandoning recovery must also drop any pending credential persisted to
         // `sessionStorage` by the legacyFetchSignInWithEmail behavior. Otherwise a stale

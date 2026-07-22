@@ -16,7 +16,7 @@
 
 import type { FirebaseError } from "firebase/app";
 import { fetchSignInMethodsForEmail, OAuthProvider } from "firebase/auth";
-import type { AuthCredential } from "firebase/auth";
+import type { Auth, AuthCredential } from "firebase/auth";
 import type { LegacySignInRecovery, FirebaseUI } from "~/config";
 
 type FirebaseErrorWithCredential = FirebaseError & { credential: AuthCredential };
@@ -130,18 +130,61 @@ function persistPendingCredential(credential?: AuthCredential) {
   window.sessionStorage.setItem(PENDING_CREDENTIAL_STORAGE_KEY, JSON.stringify(credential.toJSON()));
 }
 
+/**
+ * Tracks a monotonically increasing "generation" of legacy-sign-in-recovery state per `Auth`
+ * instance. Bumped by `setLegacySignInRecovery`/`clearLegacySignInRecovery` (see `config.ts`)
+ * on every state transition, regardless of who triggers it (this handler, a duplicate
+ * in-flight call, or the user dismissing the recovery UI).
+ *
+ * This lets `legacyFetchSignInWithEmailHandler` detect that its own in-flight
+ * `fetchSignInMethodsForEmail()` call has been superseded by a newer transition and bail
+ * out without touching the store, closing a race where a slow/duplicate call could reopen a
+ * dismissed recovery modal or clobber a newer, unrelated recovery attempt.
+ *
+ * Kept module-internal (keyed by `Auth` instance, rather than a `name`/store lookup) and not
+ * exposed on the public `FirebaseUI` type: it's purely an implementation detail of this race
+ * guard, not something consumers should read or depend on. `Auth` is used as the key because,
+ * unlike `legacySignInRecovery` itself, it's a stable field on `FirebaseUI` that is never
+ * replaced via `setKey`, so it reliably identifies "this UI instance" across snapshots.
+ */
+const legacySignInRecoveryGenerations = new WeakMap<Auth, number>();
+
+function getLegacySignInRecoveryGeneration(auth: Auth): number {
+  return legacySignInRecoveryGenerations.get(auth) ?? 0;
+}
+
+/** Called by `config.ts` whenever legacy sign-in recovery state changes. Not part of the public API. */
+export function bumpLegacySignInRecoveryGeneration(auth: Auth): void {
+  legacySignInRecoveryGenerations.set(auth, getLegacySignInRecoveryGeneration(auth) + 1);
+}
+
 export async function legacyFetchSignInWithEmailHandler(ui: FirebaseUI, error: FirebaseError): Promise<void> {
   const pendingCredential = getPendingCredential(error);
   persistPendingCredential(pendingCredential);
 
   const email = getEmailFromError(error);
   if (!email) {
+    // No `await` has happened yet, so nothing could have superseded this call - the
+    // generation check below is unnecessary here.
     ui.clearLegacySignInRecovery();
     return;
   }
 
+  // Captured immediately before the only `await` in this function (rather than at the top
+  // of the handler) since that's the sole point where this call can be superseded by another
+  // state transition; capturing it earlier would be equivalent here (nothing async happens
+  // beforehand) but ties the snapshot more precisely to the risk it's guarding against.
+  const generation = getLegacySignInRecoveryGeneration(ui.auth);
+
   try {
     const signInMethods = await fetchSignInMethodsForEmail(ui.auth, email);
+    if (getLegacySignInRecoveryGeneration(ui.auth) !== generation) {
+      // Superseded while this fetch was in flight (e.g. a duplicate call resolved first, or
+      // the user dismissed recovery). A newer transition already reflects the current state
+      // more accurately than this call could, so bail out without touching the store.
+      return;
+    }
+
     const recovery = buildRecovery(error, email, signInMethods, pendingCredential);
     if (hasActionableRecoveryMethod(recovery)) {
       ui.setLegacySignInRecovery(recovery);
@@ -149,6 +192,9 @@ export async function legacyFetchSignInWithEmailHandler(ui: FirebaseUI, error: F
       ui.clearLegacySignInRecovery();
     }
   } catch {
+    if (getLegacySignInRecoveryGeneration(ui.auth) !== generation) {
+      return;
+    }
     ui.clearLegacySignInRecovery();
   }
 }
