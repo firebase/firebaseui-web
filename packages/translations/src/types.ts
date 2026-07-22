@@ -117,6 +117,8 @@ export type Translations = {
     termsAndPrivacy?: string;
     /** Translation for MFA SMS assertion prompt message. */
     mfaSmsAssertionPrompt?: string;
+    /** Translation for the legacy sign-in recovery modal's eyebrow label. */
+    legacySignInRecoveryAccountFound?: string;
     /** Translation for legacy sign-in recovery prompt message. */
     legacySignInRecoveryPrompt?: string;
     /** Translation for selecting a previous sign-in method. */

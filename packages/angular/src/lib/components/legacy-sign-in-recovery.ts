@@ -52,7 +52,7 @@ import { YahooSignInButtonComponent } from "../auth/oauth/yahoo-sign-in-button";
           class="fui-legacy-sign-in-recovery-modal__card fui-card"
           role="dialog"
         >
-          <div class="fui-legacy-sign-in-recovery-modal__eyebrow">Account Found</div>
+          <div class="fui-legacy-sign-in-recovery-modal__eyebrow">{{ accountFoundLabel() }}</div>
           <div class="fui-legacy-sign-in-recovery-modal__content">
             <p class="fui-legacy-sign-in-recovery-modal__prompt">{{ recoveryPromptLabel() }}</p>
             <p class="fui-card__subtitle">{{ selectMethodLabel() }}</p>
@@ -102,11 +102,16 @@ import { YahooSignInButtonComponent } from "../auth/oauth/yahoo-sign-in-button";
 export class LegacySignInRecoveryComponent {
   recovery = injectLegacySignInRecovery();
   private clearLegacyRecovery = injectClearLegacySignInRecovery();
+  accountFoundText = injectTranslation("messages", "legacySignInRecoveryAccountFound" as never);
   recoveryPromptTemplate = injectTranslation("messages", "legacySignInRecoveryPrompt" as never);
   selectMethodText = injectTranslation("messages", "legacySignInRecoverySelectMethod" as never);
   emailPasswordText = injectTranslation("messages", "legacySignInRecoveryEmailPassword" as never);
   emailLinkText = injectTranslation("messages", "legacySignInRecoveryEmailLink" as never);
   dismissText = injectTranslation("labels", "dismiss" as never);
+
+  accountFoundLabel() {
+    return this.accountFoundText();
+  }
 
   recoveryPromptLabel() {
     const recovery = this.recovery();

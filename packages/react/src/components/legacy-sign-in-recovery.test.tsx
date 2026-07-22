@@ -64,6 +64,7 @@ afterEach(() => {
 describe("<LegacySignInRecovery />", () => {
   const recoveryLocale = registerLocale("legacy-recovery", {
     messages: {
+      legacySignInRecoveryAccountFound: "Found Your Account",
       legacySignInRecoveryPrompt: "You have previously signed in with a different method for {email}.",
       legacySignInRecoverySelectMethod: "Choose one of your previous sign-in methods to continue.",
       legacySignInRecoveryEmailPassword: "Use the email and password form to continue.",
@@ -100,6 +101,7 @@ describe("<LegacySignInRecovery />", () => {
     );
 
     expect(screen.getByRole("dialog")).toBeDefined();
+    expect(screen.getByText("Found Your Account")).toBeDefined();
     expect(
       screen.getByText("You have previously signed in with a different method for test@example.com.")
     ).toBeDefined();
@@ -108,6 +110,22 @@ describe("<LegacySignInRecovery />", () => {
     expect(screen.getByTestId("github-recovery-button")).toBeDefined();
     expect(screen.getByText("Use the email and password form to continue.")).toBeDefined();
     expect(screen.getByText("Use your email link sign-in flow to continue.")).toBeDefined();
+  });
+
+  it("renders the default en-us eyebrow label via the translation system", () => {
+    const ui = createMockUI();
+    ui.get().setLegacySignInRecovery({
+      email: "test@example.com",
+      signInMethods: ["google.com"],
+    });
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <LegacySignInRecovery />
+      </CreateFirebaseUIProvider>
+    );
+
+    expect(screen.getByText("Account Found")).toBeDefined();
   });
 
   it("never renders a button for the attempted provider, even if it appears in signInMethods", () => {

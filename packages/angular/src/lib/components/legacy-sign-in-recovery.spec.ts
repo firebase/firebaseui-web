@@ -150,6 +150,7 @@ describe("<fui-legacy-sign-in-recovery>", () => {
           dismiss: "Dismiss",
         },
         messages: {
+          legacySignInRecoveryAccountFound: "Found Your Account",
           legacySignInRecoveryPrompt: "You have previously signed in with a different method for {email}.",
           legacySignInRecoverySelectMethod: "Choose one of your previous sign-in methods to continue.",
           legacySignInRecoveryEmailPassword: "Use the email and password form to continue.",
@@ -205,6 +206,7 @@ describe("<fui-legacy-sign-in-recovery>", () => {
     await render(TestHostComponent);
 
     expect(screen.getByRole("dialog")).toBeDefined();
+    expect(screen.getByText("Found Your Account")).toBeDefined();
     expect(
       screen.getByText("You have previously signed in with a different method for test@example.com.")
     ).toBeDefined();

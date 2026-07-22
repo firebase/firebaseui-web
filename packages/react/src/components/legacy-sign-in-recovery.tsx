@@ -92,7 +92,9 @@ export function LegacySignInRecovery() {
         className="fui-legacy-sign-in-recovery-modal__card fui-card"
         role="dialog"
       >
-        <div className="fui-legacy-sign-in-recovery-modal__eyebrow">Account Found</div>
+        <div className="fui-legacy-sign-in-recovery-modal__eyebrow">
+          {getTranslation(ui, "messages", "legacySignInRecoveryAccountFound")}
+        </div>
         <div className="fui-legacy-sign-in-recovery-modal__content">
           <p className="fui-legacy-sign-in-recovery-modal__prompt">
             {getTranslation(ui, "messages", "legacySignInRecoveryPrompt", { email: recovery.email })}

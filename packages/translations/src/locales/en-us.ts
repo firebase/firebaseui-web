@@ -58,6 +58,7 @@ export const enUS = {
     dividerOr: "or",
     termsAndPrivacy: "By continuing, you agree to our {tos} and {privacy}.",
     mfaSmsAssertionPrompt: "A verification code will be sent to {phoneNumber} to complete the authentication process.",
+    legacySignInRecoveryAccountFound: "Account Found",
     legacySignInRecoveryPrompt: "You have previously signed in with a different method for {email}.",
     legacySignInRecoverySelectMethod: "Choose one of your previous sign-in methods to continue.",
     legacySignInRecoveryEmailPassword: "Use the email and password form to continue.",
