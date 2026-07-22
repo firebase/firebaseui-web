@@ -97,7 +97,10 @@ export function createPhoneAuthNumberFormSchema(ui: FirebaseUI) {
     phoneNumber: z
       .string()
       .min(1, getTranslation(ui, "errors", "missingPhoneNumber"))
-      .max(10, getTranslation(ui, "errors", "invalidPhoneNumber")),
+      // National number only (dial code is added later by formatPhoneNumber). 15 is the
+      // ITU-T E.164 digit maximum; the previous cap of 10 rejected valid numbers such as
+      // 11-digit China and Germany mobiles.
+      .max(15, getTranslation(ui, "errors", "invalidPhoneNumber")),
   });
 }
 
@@ -112,9 +115,7 @@ export function createPhoneAuthNumberFormSchema(ui: FirebaseUI) {
 export function createPhoneAuthVerifyFormSchema(ui: FirebaseUI) {
   return z.object({
     verificationId: z.string().min(1, getTranslation(ui, "errors", "missingVerificationId")),
-    verificationCode: z.string().refine((val) => !val || val.length >= 6, {
-      error: getTranslation(ui, "errors", "invalidVerificationCode"),
-    }),
+    verificationCode: z.string().min(6, getTranslation(ui, "errors", "invalidVerificationCode")),
   });
 }
 
