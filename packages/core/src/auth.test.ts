@@ -33,6 +33,8 @@ import {
 } from "./auth";
 
 vi.mock("firebase/auth", () => ({
+  getAuth: vi.fn(),
+  getRedirectResult: vi.fn().mockResolvedValue(null),
   signInWithCredential: vi.fn(),
   createUserWithEmailAndPassword: vi.fn(),
   sendPasswordResetEmail: vi.fn(),
@@ -57,10 +59,18 @@ vi.mock("firebase/auth", () => ({
   linkWithCredential: vi.fn(),
 }));
 
-vi.mock("./behaviors", () => ({
-  hasBehavior: vi.fn(),
-  getBehavior: vi.fn(),
-}));
+vi.mock("./behaviors", async () => {
+  // `initializeUI` (used by the "real clearLegacySignInRecovery" regression test below) needs
+  // the real `defaultBehaviors` to build a working `FirebaseUI` instance - only `hasBehavior`/
+  // `getBehavior` are stubbed here, since the rest of this file drives behavior selection
+  // directly through them.
+  const actual = await vi.importActual<typeof import("./behaviors")>("./behaviors");
+  return {
+    ...actual,
+    hasBehavior: vi.fn(),
+    getBehavior: vi.fn(),
+  };
+});
 
 vi.mock("./errors", () => ({
   handleFirebaseError: vi.fn(),
@@ -87,7 +97,8 @@ import {
 import { hasBehavior, getBehavior } from "./behaviors";
 import { handleFirebaseError } from "./errors";
 import { PENDING_CREDENTIAL_STORAGE_KEY } from "./behaviors/legacy-fetch-sign-in-with-email";
-import { FirebaseError } from "firebase/app";
+import { FirebaseError, type FirebaseApp } from "firebase/app";
+import { initializeUI, type FirebaseUI } from "./config";
 
 import { createMockUI } from "~/tests/utils";
 
@@ -1153,6 +1164,62 @@ describe("handlePendingCredential", () => {
 
     expect(_linkWithCredential).toHaveBeenCalledWith(mockUserCredential.user, rehydratedCredential);
     expect(result).toBe(mockUserCredential);
+    expect(window.sessionStorage.getItem(PENDING_CREDENTIAL_STORAGE_KEY)).toBeNull();
+  });
+});
+
+describe("handlePendingCredential (regression: real clearLegacySignInRecovery)", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    window.sessionStorage.clear();
+  });
+
+  afterEach(() => {
+    window.sessionStorage.clear();
+  });
+
+  /**
+   * Uses the real `clearLegacySignInRecovery` (via `initializeUI`), instead of the
+   * `createMockUI()` no-op mock used by every other test in this file, so this test
+   * actually exercises the real sessionStorage interaction that regressed: since
+   * `clearLegacySignInRecovery()` also removes `PENDING_CREDENTIAL_STORAGE_KEY` (see
+   * `config.ts`), reading that key AFTER calling it - rather than before - would silently
+   * skip `linkWithCredential` on every successful sign-in that had a pending credential.
+   * A no-op mock can't catch this, since it never touches sessionStorage at all.
+   */
+  function createRealUI(): FirebaseUI {
+    const store = initializeUI({
+      app: {} as FirebaseApp,
+      auth: {} as Auth,
+    });
+    return store.get();
+  }
+
+  it("links the pending credential read from sessionStorage before clearLegacySignInRecovery runs", async () => {
+    const ui = createRealUI();
+    const email = "test@example.com";
+    const password = "password123";
+
+    const storedJSON = { providerId: "google.com", signInMethod: "google.com", idToken: "fake-id-token" };
+    window.sessionStorage.setItem(PENDING_CREDENTIAL_STORAGE_KEY, JSON.stringify(storedJSON));
+
+    const credential = EmailAuthProvider.credential(email, password);
+    const mockUserCredential = { user: { uid: "user123" }, providerId: "password" } as UserCredential;
+    const rehydratedCredential = { providerId: "google.com" } as any;
+    const linkedUserCredential = { ...mockUserCredential, providerId: "google.com" } as UserCredential;
+
+    vi.mocked(hasBehavior).mockReturnValue(false);
+    vi.mocked(EmailAuthProvider.credential).mockReturnValue(credential);
+    vi.mocked(_signInWithCredential).mockResolvedValue(mockUserCredential);
+    vi.mocked(OAuthProvider.credentialFromJSON).mockReturnValue(rehydratedCredential);
+    vi.mocked(_linkWithCredential).mockResolvedValue(linkedUserCredential);
+
+    const result = await signInWithEmailAndPassword(ui, email, password);
+
+    expect(OAuthProvider.credentialFromJSON).toHaveBeenCalledWith(storedJSON);
+    expect(_linkWithCredential).toHaveBeenCalledWith(mockUserCredential.user, rehydratedCredential);
+    expect(result).toBe(linkedUserCredential);
+    expect(ui.legacySignInRecovery).toBeUndefined();
     expect(window.sessionStorage.getItem(PENDING_CREDENTIAL_STORAGE_KEY)).toBeNull();
   });
 });

@@ -77,16 +77,24 @@ function credentialFromJSON(json: unknown): AuthCredential | null {
 }
 
 async function handlePendingCredential(ui: FirebaseUI, user: UserCredential): Promise<UserCredential> {
-  // Sign-in succeeded, so any legacy recovery UI that was guiding the user here is no longer needed.
-  ui.clearLegacySignInRecovery();
-
   // The pending credential was persisted in plaintext `sessionStorage` by
   // `persistPendingCredential` (see the fuller trade-off explanation there, in
-  // `legacy-fetch-sign-in-with-email.ts`). It is read and immediately removed here,
-  // right after a successful sign-in, to minimize how long it lives in storage.
+  // `legacy-fetch-sign-in-with-email.ts`). It must be read BEFORE
+  // `clearLegacySignInRecovery()` below, since that call also removes this same
+  // sessionStorage key (as of the sessionStorage-clearing fix in `config.ts`) - reading
+  // it after would always see it already gone, silently skipping `linkWithCredential`.
   const pendingCredString = window.sessionStorage.getItem(PENDING_CREDENTIAL_STORAGE_KEY);
+
+  // Sign-in succeeded, so any legacy recovery UI that was guiding the user here is no longer
+  // needed. This also removes `PENDING_CREDENTIAL_STORAGE_KEY` from sessionStorage, which is
+  // why it must run after the read above, not before.
+  ui.clearLegacySignInRecovery();
+
   if (!pendingCredString) return user;
 
+  // Redundant with the removal `clearLegacySignInRecovery()` performs above, but kept as an
+  // explicit safety net here in case a caller supplies a `clearLegacySignInRecovery` that
+  // doesn't clear sessionStorage (e.g. a test double, or a future alternate implementation).
   window.sessionStorage.removeItem(PENDING_CREDENTIAL_STORAGE_KEY);
 
   try {
