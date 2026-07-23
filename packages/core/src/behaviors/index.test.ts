@@ -173,9 +173,23 @@ describe("autoUpgradeAnonymousUsers", () => {
     expect(typeof behavior.autoUpgradeAnonymousUserRedirectHandler.handler).toBe("function");
   });
 
+  it("should work with onUpgradeFailure callback option", () => {
+    const mockOnUpgradeFailure = vi.fn();
+    const behavior = autoUpgradeAnonymousUsers({ onUpgradeFailure: mockOnUpgradeFailure });
+
+    expect(behavior).toHaveProperty("autoUpgradeAnonymousCredential");
+    expect(behavior).toHaveProperty("autoUpgradeAnonymousProvider");
+    expect(behavior).toHaveProperty("autoUpgradeAnonymousUserRedirectHandler");
+
+    expect(typeof behavior.autoUpgradeAnonymousCredential.handler).toBe("function");
+    expect(typeof behavior.autoUpgradeAnonymousProvider.handler).toBe("function");
+    expect(typeof behavior.autoUpgradeAnonymousUserRedirectHandler.handler).toBe("function");
+  });
+
   it("should pass onUpgrade callback to handlers when called", async () => {
     const mockOnUpgrade = vi.fn();
-    const behavior = autoUpgradeAnonymousUsers({ onUpgrade: mockOnUpgrade });
+    const mockOnUpgradeFailure = vi.fn();
+    const behavior = autoUpgradeAnonymousUsers({ onUpgrade: mockOnUpgrade, onUpgradeFailure: mockOnUpgradeFailure });
 
     const mockUI = createMockUI();
     const mockCredential = { providerId: "password" } as any;
@@ -192,9 +206,25 @@ describe("autoUpgradeAnonymousUsers", () => {
     await behavior.autoUpgradeAnonymousProvider.handler(mockUI, mockProvider);
     await behavior.autoUpgradeAnonymousUserRedirectHandler.handler(mockUI, mockUserCredential);
 
-    expect(autoUpgradeAnonymousCredentialHandler).toHaveBeenCalledWith(mockUI, mockCredential, mockOnUpgrade);
-    expect(autoUpgradeAnonymousProviderHandler).toHaveBeenCalledWith(mockUI, mockProvider, mockOnUpgrade);
-    expect(autoUpgradeAnonymousUserRedirectHandler).toHaveBeenCalledWith(mockUI, mockUserCredential, mockOnUpgrade);
+    expect(autoUpgradeAnonymousCredentialHandler).toHaveBeenCalledWith(
+      mockUI,
+      mockCredential,
+      mockOnUpgrade,
+      mockOnUpgradeFailure
+    );
+    expect(autoUpgradeAnonymousProviderHandler).toHaveBeenCalledWith(
+      mockUI,
+      mockProvider,
+      mockOnUpgrade,
+      mockOnUpgradeFailure
+    );
+    expect(autoUpgradeAnonymousUserRedirectHandler).toHaveBeenCalledWith(
+      mockUI,
+      mockUserCredential,
+      mockOnUpgrade,
+      mockOnUpgradeFailure,
+      undefined
+    );
   });
 
   it("should not include other behaviors", () => {

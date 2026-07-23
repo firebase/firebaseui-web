@@ -477,6 +477,92 @@ describe("initializeUI", () => {
     delete (global as any).window;
   });
 
+  it("should give redirect behaviors a chance to handle a redirect failure before the default error handler", async () => {
+    Object.defineProperty(global, "window", {
+      value: {},
+      writable: true,
+      configurable: true,
+    });
+
+    const mockAuth = {
+      currentUser: null,
+    } as any;
+
+    const mockError = new Error("Redirect linking failed");
+    const { getRedirectResult } = await import("firebase/auth");
+    vi.mocked(getRedirectResult).mockClear();
+    vi.mocked(getRedirectResult).mockRejectedValue(mockError);
+
+    const mockRedirectHandler = vi.fn().mockResolvedValue("handled");
+
+    const config = {
+      app: {} as FirebaseApp,
+      auth: mockAuth,
+      behaviors: [
+        {
+          customRedirect: {
+            type: "redirect" as const,
+            handler: mockRedirectHandler,
+          },
+        },
+      ],
+    };
+
+    const ui = initializeUI(config);
+
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    expect(mockRedirectHandler).toHaveBeenCalledTimes(1);
+    expect(mockRedirectHandler.mock.calls[0][1]).toBeNull();
+    expect(mockRedirectHandler.mock.calls[0][2]).toBe(mockError);
+    expect(ui.get().redirectError).toBeUndefined();
+
+    delete (global as any).window;
+  });
+
+  it("should fall back to the default error handler when no redirect behavior handles the failure", async () => {
+    Object.defineProperty(global, "window", {
+      value: {},
+      writable: true,
+      configurable: true,
+    });
+
+    const mockAuth = {
+      currentUser: null,
+    } as any;
+
+    const mockError = new Error("Redirect linking failed");
+    const { getRedirectResult } = await import("firebase/auth");
+    vi.mocked(getRedirectResult).mockClear();
+    vi.mocked(getRedirectResult).mockRejectedValue(mockError);
+
+    const mockRedirectHandler = vi.fn().mockResolvedValue(undefined);
+
+    const config = {
+      app: {} as FirebaseApp,
+      auth: mockAuth,
+      behaviors: [
+        {
+          customRedirect: {
+            type: "redirect" as const,
+            handler: mockRedirectHandler,
+          },
+        },
+      ],
+    };
+
+    const ui = initializeUI(config);
+
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    expect(mockRedirectHandler).toHaveBeenCalledTimes(1);
+    expect(mockRedirectHandler.mock.calls[0][1]).toBeNull();
+    expect(mockRedirectHandler.mock.calls[0][2]).toBe(mockError);
+    expect(ui.get().redirectError).toBe(mockError);
+
+    delete (global as any).window;
+  });
+
   it("should convert non-Error objects to Error instances in redirect catch", async () => {
     Object.defineProperty(global, "window", {
       value: {},

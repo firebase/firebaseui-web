@@ -245,7 +245,9 @@ export class VerificationFormComponent {
           onSubmitAsync: async ({ value }) => {
             try {
               const credential = await confirmPhoneNumber(this.ui(), this.verificationId(), value.verificationCode);
-              this.signIn.emit(credential);
+              if (credential) {
+                this.signIn.emit(credential);
+              }
               return;
             } catch (error) {
               if (error instanceof FirebaseUIError) {

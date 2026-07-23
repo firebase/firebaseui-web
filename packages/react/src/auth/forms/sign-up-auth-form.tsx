@@ -89,7 +89,9 @@ export function useSignUpAuthForm(onSuccess?: SignUpAuthFormProps["onSignUp"]) {
       onSubmitAsync: async ({ value }) => {
         try {
           const credential = await action(value);
-          return onSuccess?.(credential);
+          if (credential) {
+            return onSuccess?.(credential);
+          }
         } catch (error) {
           return error instanceof Error ? error.message : String(error);
         }
