@@ -31,7 +31,7 @@
     "@radix-ui/react-menubar": "^1.1.19",
     "@radix-ui/react-navigation-menu": "^1.2.17",
     "@radix-ui/react-popover": "^1.1.18",
-    "@radix-ui/react-progress": "^1.1.11",
+    "@radix-ui/react-progress": "^1.1.12",
     "@radix-ui/react-radio-group": "^1.4.2",
     "@radix-ui/react-scroll-area": "^1.2.13",
     "@radix-ui/react-select": "^2.3.2",
