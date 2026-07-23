@@ -395,6 +395,61 @@ const ui = initializeUI({
 });
 ```
 
+#### `legacyFetchSignInWithEmail`
+
+The `legacyFetchSignInWithEmail` behavior augments OAuth `auth/account-exists-with-different-credential` flows by calling `fetchSignInMethodsForEmail(auth, email)` and storing the returned methods on the UI instance. In the packaged React and Angular screen components, this recovery state can be rendered as a modal on `SignInAuthScreen` and `OAuthScreen` via the `showLegacySignInRecovery` prop/input, which defaults to `false`. Registering the behavior alone does not show any UI; opt in explicitly (`showLegacySignInRecovery={true}` / `[showLegacySignInRecovery]="true"`) on the screens where you want the built-in recovery modal.
+
+The original pending credential is still preserved, so after the user signs in with the correct method, Firebase UI can continue the existing linking flow.
+
+> **⚠️ Security note:** This behavior has important limitations and security trade-offs. The `fetchSignInMethodsForEmail()` API only works for Firebase projects that have [Email Enumeration Protection disabled](https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection). Projects created after September 15, 2023 have this protection enabled by default; on those projects, `fetchSignInMethodsForEmail()` returns an empty array and this behavior becomes a no-op. Additionally, when enabled, this behavior will call `fetchSignInMethodsForEmail()` not only for OAuth conflicts (`auth/account-exists-with-different-credential`), but also for plain password sign-in failures (`auth/wrong-password`, `auth/invalid-credential`, `auth/invalid-login-credentials`). This means enabling this behavior causes the app to actively call an enumeration-capable API and surface which sign-in methods exist for an email address on every failed password attempt—directly opposing the enumeration protection that Firebase's generic error codes are otherwise designed to provide. Enable this behavior only if you explicitly understand and accept this UX-vs-security trade-off.
+
+During this recovery flow, a pending OAuth credential is temporarily stored in **plaintext** in the browser's `sessionStorage` so it can be reapplied after the user signs in with the correct method. It is consumed and removed immediately once sign-in succeeds. This is a deliberate, same-origin-scoped, pre-existing trade-off, not an oversight.
+
+```ts
+import { legacyFetchSignInWithEmail } from '@firebase-oss/ui-core';
+
+const ui = initializeUI({
+  app,
+  behaviors: [legacyFetchSignInWithEmail()],
+});
+```
+
+If you want full control over the UI, hide the built-in recovery component on the screen and read the recovery state directly with `useLegacySignInRecovery()`:
+
+```tsx
+import { GitHubSignInButton, GoogleSignInButton, SignInAuthScreen, useLegacySignInRecovery } from '@firebase-oss/ui-react';
+
+function WrongProviderRecovery() {
+  const { recovery, clearRecovery } = useLegacySignInRecovery();
+
+  if (!recovery) {
+    return null;
+  }
+
+  return (
+    <div>
+      <p>You have previously signed in with a different method for {recovery.email}.</p>
+      {recovery.signInMethods.includes('google.com') && (
+        <GoogleSignInButton onSignIn={clearRecovery} />
+      )}
+      {recovery.signInMethods.includes('github.com') && (
+        <GitHubSignInButton onSignIn={clearRecovery} />
+      )}
+    </div>
+  );
+}
+
+export function CustomSignInScreen() {
+  return (
+    <SignInAuthScreen showLegacySignInRecovery={false}>
+      <WrongProviderRecovery />
+    </SignInAuthScreen>
+  );
+}
+```
+
+Angular apps can hide the built-in recovery UI with `showLegacySignInRecovery="false"` and read the same state with `injectLegacySignInRecovery()` / `injectClearLegacySignInRecovery()`.
+
 #### `oneTapSignIn`
 
 The `oneTapSignIn` behavior triggers the [Google One Tap](https://developers.google.com/identity/gsi/web/guides/features) experience to render.
@@ -1061,6 +1116,7 @@ By default, any missing translations will fallback to English if not specified. 
   | onSignIn | `(user: User) => void?` | Callback when sign-in succeeds |
   | onForgotPasswordClick | `() => void?` | Callback when forgot password link is clicked |
   | onSignUpClick | `() => void?` | Callback when sign-up link is clicked |
+| showLegacySignInRecovery | `boolean?` | Whether to show the built-in legacy sign-in recovery UI (defaults to `false`) |
 
   **`SignUpAuthScreen`**
 
@@ -1113,6 +1169,7 @@ By default, any missing translations will fallback to English if not specified. 
   |------|:----:|-------------|
   | onSignIn | `(user: User) => void?` | Callback when sign-in succeeds |
   | children | `React.ReactNode?` | Child components |
+| showLegacySignInRecovery | `boolean?` | Whether to show the built-in legacy sign-in recovery UI (defaults to `false`) |
 
   **`OAuthButton`**
 
@@ -1189,6 +1246,10 @@ By default, any missing translations will fallback to English if not specified. 
   | asChild | `boolean?` | Render as child component using Slot |
   | ...props | `ComponentProps<"button">` | Standard button HTML attributes |
 
+  **`LegacySignInRecovery`**
+
+  Default component for displaying suggested previous sign-in methods from `legacyFetchSignInWithEmail`.
+
   **`Card`**
 
   Card container component.
@@ -1250,6 +1311,12 @@ By default, any missing translations will fallback to English if not specified. 
   Gets the redirect error from the UI store.
 
   Returns `string | undefined`.
+
+  **`useLegacySignInRecovery`**
+
+  Gets the legacy sign-in recovery state populated by `legacyFetchSignInWithEmail`.
+
+  Returns `{ recovery: LegacySignInRecovery | undefined; clearRecovery: () => void }`.
 
   **`useSignInAuthFormSchema`**
 
@@ -1700,6 +1767,10 @@ By default, any missing translations will fallback to English if not specified. 
 
   Screen component for email/password sign-in.
 
+  | Input | Type | Description |
+  |-------|:----:|-------------|
+  | showLegacySignInRecovery | `boolean` | Whether to show the built-in legacy sign-in recovery UI (defaults to `false`) |
+
   | Output | Type | Description |
   |--------|:----:|-------------|
   | signIn | `EventEmitter<User>` | Emitted when sign-in succeeds |
@@ -1753,6 +1824,10 @@ By default, any missing translations will fallback to English if not specified. 
   Selector: `fui-oauth-screen`
 
   Screen component for OAuth provider sign-in.
+
+  | Input | Type | Description |
+  |-------|:----:|-------------|
+  | showLegacySignInRecovery | `boolean` | Whether to show the built-in legacy sign-in recovery UI (defaults to `false`) |
 
   | Output | Type | Description |
   |--------|:----:|-------------|
@@ -1904,6 +1979,12 @@ By default, any missing translations will fallback to English if not specified. 
 
   Component that displays redirect errors from Firebase UI authentication flow.
 
+  **`LegacySignInRecoveryComponent`**
+
+  Selector: `fui-legacy-sign-in-recovery`
+
+  Default component for displaying suggested previous sign-in methods from `legacyFetchSignInWithEmail`.
+
   **`ContentComponent`**
 
   Selector: `fui-content`
@@ -1921,6 +2002,18 @@ By default, any missing translations will fallback to English if not specified. 
   Injects the redirect error from the UI store as a signal.
 
   Returns `Signal<string \| undefined>`.
+
+  **`injectLegacySignInRecovery`**
+
+  Injects the legacy sign-in recovery state from the UI store as a signal.
+
+  Returns `Signal<LegacySignInRecovery \| undefined>`.
+
+  **`injectClearLegacySignInRecovery`**
+
+  Injects a callback that clears the current legacy sign-in recovery state.
+
+  Returns `() => void`.
 
   **`injectTranslation`**
 

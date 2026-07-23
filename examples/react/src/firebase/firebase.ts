@@ -16,7 +16,7 @@
 
 "use client";
 
-import { countryCodes, initializeUI, oneTapSignIn } from "@firebase-oss/ui-core";
+import { countryCodes, initializeUI, legacyFetchSignInWithEmail, oneTapSignIn } from "@firebase-oss/ui-core";
 import { getApps, initializeApp } from "firebase/app";
 import { connectAuthEmulator, getAuth } from "firebase/auth";
 
@@ -30,6 +30,7 @@ export const ui = initializeUI({
   app: firebaseApp,
   behaviors: [
     // autoAnonymousLogin(),
+    legacyFetchSignInWithEmail(),
     oneTapSignIn({
       clientId: "616577669988-led6l3rqek9ckn9t1unj4l8l67070fhp.apps.googleusercontent.com",
     }),

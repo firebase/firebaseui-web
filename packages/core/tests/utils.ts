@@ -34,6 +34,9 @@ export function createMockUI(overrides?: Partial<FirebaseUI>): FirebaseUI {
     setMultiFactorResolver: vi.fn(),
     redirectError: undefined,
     setRedirectError: vi.fn(),
+    legacySignInRecovery: undefined,
+    setLegacySignInRecovery: vi.fn(),
+    clearLegacySignInRecovery: vi.fn(),
     ...overrides,
   };
 }

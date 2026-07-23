@@ -23,6 +23,7 @@ import * as providerStrategyHandlers from "./provider-strategy";
 import * as oneTapSignInHandlers from "./one-tap";
 import * as requireDisplayNameHandlers from "./require-display-name";
 import * as countryCodesHandlers from "./country-codes";
+import * as legacyFetchSignInWithEmailHandlers from "./legacy-fetch-sign-in-with-email";
 import {
   callableBehavior,
   initBehavior,
@@ -51,6 +52,9 @@ type Registry = {
   oneTapSignIn: InitBehavior<(ui: FirebaseUI) => ReturnType<typeof oneTapSignInHandlers.oneTapSignInHandler>>;
   requireDisplayName: CallableBehavior<typeof requireDisplayNameHandlers.requireDisplayNameHandler>;
   countryCodes: CallableBehavior<typeof countryCodesHandlers.countryCodesHandler>;
+  legacyFetchSignInWithEmail: CallableBehavior<
+    typeof legacyFetchSignInWithEmailHandlers.legacyFetchSignInWithEmailHandler
+  >;
 };
 
 /** A behavior or set of behaviors from the registry. */
@@ -180,6 +184,23 @@ export function requireDisplayName(): Behavior<"requireDisplayName"> {
 export function countryCodes(options?: countryCodesHandlers.CountryCodesOptions): Behavior<"countryCodes"> {
   return {
     countryCodes: callableBehavior(() => countryCodesHandlers.countryCodesHandler(options)),
+  };
+}
+
+/**
+ * Adds support for [deprecated methods and behavior](https://firebase.google.com/docs/auth/web/email-link-auth#differentiating_emailpassword_from_email_link)
+ * (like `fetchSignInMethodsForEmail()`) when [email enumeration protection](https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection)
+ * is disabled, by fetching previous sign-in methods for OAuth account mismatch flows.
+ *
+ * If your app relies on this legacy behavior, we recommend migrating away from it and enabling
+ * email enumeration protection as soon as you can. Projects created after September 15, 2023 have
+ * this protection enabled by default, in which case this behavior becomes a no-op.
+ *
+ * @returns A behavior that populates legacy sign-in recovery state.
+ */
+export function legacyFetchSignInWithEmail(): Behavior<"legacyFetchSignInWithEmail"> {
+  return {
+    legacyFetchSignInWithEmail: callableBehavior(legacyFetchSignInWithEmailHandlers.legacyFetchSignInWithEmailHandler),
   };
 }
 

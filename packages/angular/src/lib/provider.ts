@@ -49,6 +49,7 @@ import {
   createMultiFactorTotpAuthVerifyFormSchema,
   FirebaseUIStore,
   type FirebaseUI as FirebaseUIType,
+  type LegacySignInRecovery,
   getTranslation,
   getBehavior,
   type CountryData,
@@ -480,4 +481,24 @@ export function injectRedirectError(): Signal<string | undefined> {
     }
     return redirectError instanceof Error ? redirectError.message : String(redirectError);
   });
+}
+
+/**
+ * Injects legacy sign-in recovery data populated by the legacyFetchSignInWithEmail behavior.
+ *
+ * @returns A computed signal containing the recovery data, or undefined when no recovery is active.
+ */
+export function injectLegacySignInRecovery(): Signal<LegacySignInRecovery | undefined> {
+  const ui = injectUI();
+  return computed(() => ui().legacySignInRecovery);
+}
+
+/**
+ * Injects a callback for clearing legacy sign-in recovery data.
+ *
+ * @returns A function that clears the current recovery state.
+ */
+export function injectClearLegacySignInRecovery(): () => void {
+  const ui = injectUI();
+  return () => ui().clearLegacySignInRecovery();
 }

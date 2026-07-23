@@ -23,7 +23,7 @@ import { provideClientHydration, withEventReplay } from "@angular/platform-brows
 import { provideFirebaseApp, initializeApp } from "@angular/fire/app";
 import { provideAuth, getAuth, connectAuthEmulator } from "@angular/fire/auth";
 import { provideFirebaseUI, provideFirebaseUIPolicies } from "@firebase-oss/ui-angular";
-import { initializeUI } from "@firebase-oss/ui-core";
+import { initializeUI, legacyFetchSignInWithEmail } from "@firebase-oss/ui-core";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCvMftIUCD9lUQ3BzIrimfSfBbCUQYZf-I",
@@ -48,7 +48,7 @@ export const appConfig: ApplicationConfig = {
       }
       return auth;
     }),
-    provideFirebaseUI((apps) => initializeUI({ app: apps[0] })),
+    provideFirebaseUI((apps) => initializeUI({ app: apps[0], behaviors: [legacyFetchSignInWithEmail()] })),
     provideFirebaseUIPolicies(() => ({
       termsOfServiceUrl: "https://www.google.com",
       privacyPolicyUrl: "https://www.google.com",
