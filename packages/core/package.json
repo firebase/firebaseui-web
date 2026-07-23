@@ -1,6 +1,6 @@
 {
   "name": "@firebase-oss/ui-core",
-  "version": "7.0.3-beta",
+  "version": "7.0.3",
   "repository": "firebase/firebaseui-web",
   "description": "Core authentication service for Firebase UI",
   "type": "module",

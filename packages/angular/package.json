@@ -1,6 +1,6 @@
 {
   "name": "@firebase-oss/ui-angular",
-  "version": "7.0.3-beta",
+  "version": "7.0.3",
   "repository": "firebase/firebaseui-web",
   "files": [
     "dist"

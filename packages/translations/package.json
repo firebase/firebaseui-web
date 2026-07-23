@@ -1,6 +1,6 @@
 {
   "name": "@firebase-oss/ui-translations",
-  "version": "7.0.3-beta",
+  "version": "7.0.3",
   "repository": "firebase/firebaseui-web",
   "description": "Translations for Firebase UI",
   "type": "module",
