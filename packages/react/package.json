@@ -2,6 +2,9 @@
   "name": "@firebase-oss/ui-react",
   "version": "7.0.3",
   "repository": "firebase/firebaseui-web",
+  "publishConfig": {
+    "registry": "https://wombat-dressing-room.appspot.com"
+  },
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",

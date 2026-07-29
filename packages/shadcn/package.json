@@ -2,6 +2,9 @@
   "name": "@firebase-oss/ui-shadcn",
   "version": "7.0.3",
   "repository": "firebase/firebaseui-web",
+  "publishConfig": {
+    "registry": "https://wombat-dressing-room.appspot.com"
+  },
   "type": "module",
   "bin": {
     "ui-shadcn": "dist/bin/cli.js"

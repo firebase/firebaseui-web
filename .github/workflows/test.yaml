@@ -33,7 +33,7 @@ jobs:
           chmod +x /usr/local/bin/addlicense
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Build packages
         run: pnpm run build
