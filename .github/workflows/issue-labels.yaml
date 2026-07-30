@@ -5,17 +5,15 @@ on:
     types: [created]
   issues:
     types: [opened]
-  pull_request_target:
-    types: [opened]
 
-permissions:
-  issues: write
-  pull-requests: write
+permissions: {}
 
 jobs:
-  label-new-item:
-    if: github.event_name == 'issues' || github.event_name == 'pull_request_target'
+  label-new-issue:
+    if: github.event_name == 'issues'
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     steps:
       - name: Add needs attention label on creation
         uses: actions/github-script@d746ffe35508b1917358783b479e04febd2b8f71 # v9.0.0
@@ -31,6 +29,8 @@ jobs:
   label-op-response:
     if: github.event_name == 'issue_comment'
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     steps:
       - name: Check if the comment is from the issue author
         id: check-op
