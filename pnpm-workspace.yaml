@@ -17,7 +17,7 @@ catalog:
   "@angular/forms": ^22.0.5
   "@angular/platform-browser": ^22.0.5
   "@angular/platform-browser-dynamic": ^22.0.5
-  "@angular/platform-server": ^22.0.5
+  "@angular/platform-server": ^22.0.7
   "@angular/router": ^22.0.5
   "@angular/ssr": ^22.0.5
   ng-packagr: ^22.0.1
