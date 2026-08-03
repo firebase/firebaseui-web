@@ -173,7 +173,7 @@ All new commits to the main branch are published to npm under the `exp` tag.
 
 #### Release versions
 
-When a tag of the form `v1.0.0` is created, that version is published to npm under the `beta` tag.
+When a tag of the form `v1.0.0` is created, that version is published to npm under the `latest` tag.
 
 ### The small print
 
