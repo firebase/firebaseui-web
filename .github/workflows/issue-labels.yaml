@@ -1,0 +1,84 @@
+name: Update labels on issues and pull requests
+
+on:
+  issue_comment:
+    types: [created]
+  issues:
+    types: [opened]
+
+permissions: {}
+
+jobs:
+  label-new-issue:
+    if: github.event_name == 'issues'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Add needs attention label on creation
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['needs attention'],
+            });
+
+  label-op-response:
+    if: github.event_name == 'issue_comment'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Check if the comment is from the issue author
+        id: check-op
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const isOpComment =
+              context.payload.comment.user.login ===
+              context.payload.issue.user.login;
+            core.setOutput('op_comment', isOpComment ? 'true' : 'false');
+
+      - name: Update labels when the issue author responded on an open item
+        if: steps.check-op.outputs.op_comment == 'true' && github.event.issue.state == 'open'
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const issueNumber = context.payload.issue.number;
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              labels: ['needs attention'],
+            });
+            try {
+              await github.rest.issues.removeLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                name: 'blocked: await customer response',
+              });
+            } catch (error) {
+              if (error.status !== 404) {
+                throw error;
+              }
+            }
+
+      - name: Comment when the issue author responded on a closed item
+        if: steps.check-op.outputs.op_comment == 'true' && github.event.issue.state == 'closed'
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              body: [
+                'This item is closed, so it may not receive regular attention.',
+                '',
+                'If it is still relevant, please open a new issue with an up-to-date reproduction, or open a new pull request.',
+              ].join('\n'),
+            });
