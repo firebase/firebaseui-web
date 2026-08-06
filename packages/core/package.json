@@ -1,7 +1,10 @@
 {
   "name": "@firebase-oss/ui-core",
-  "version": "7.0.0",
+  "version": "7.0.3",
   "repository": "firebase/firebaseui-web",
+  "publishConfig": {
+    "registry": "https://wombat-dressing-room.appspot.com"
+  },
   "description": "Core authentication service for Firebase UI",
   "type": "module",
   "main": "./dist/index.cjs",

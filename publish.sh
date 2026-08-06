@@ -10,7 +10,7 @@ echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >.npmrc
 # Decide the correct version and npm tag.
 if [ -n "$TAG_NAME" ]; then
 	echo "Git Tag detected: $TAG_NAME"
-	NPM_TAG=beta
+	NPM_TAG=latest
 	# Delete the 'v' from the tag to get the version to publish
 	OVERRIDE_VERSION=${TAG_NAME/v/}
 else
