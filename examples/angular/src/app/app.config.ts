@@ -27,6 +27,7 @@ import {
   autoAnonymousLogin,
   autoUpgradeAnonymousUsers,
   initializeUI,
+  legacyFetchSignInWithEmail,
   providerRedirectStrategy,
 } from "@firebase-oss/ui-core";
 import type { FirebaseApp } from "firebase/app";
@@ -71,7 +72,7 @@ function initializeExampleUI(app: FirebaseApp) {
         }),
         ...(E2E_REDIRECT_SCENARIOS.includes(e2eAnonymousUpgradeScenario as string) ? [providerRedirectStrategy()] : []),
       ]
-    : [];
+    : [legacyFetchSignInWithEmail()];
 
   const ui = initializeUI({ app, behaviors });
 

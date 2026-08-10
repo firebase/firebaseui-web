@@ -21,6 +21,7 @@ import {
   autoUpgradeAnonymousUsers,
   countryCodes,
   initializeUI,
+  legacyFetchSignInWithEmail,
   oneTapSignIn,
   providerRedirectStrategy,
 } from "@firebase-oss/ui-core";
@@ -73,6 +74,8 @@ export const ui = initializeUI({
   behaviors: e2eAnonymousUpgradeScenario
     ? e2eAnonymousUpgradeBehaviors()
     : [
+        // autoAnonymousLogin(),
+        legacyFetchSignInWithEmail(),
         oneTapSignIn({
           clientId: "616577669988-led6l3rqek9ckn9t1unj4l8l67070fhp.apps.googleusercontent.com",
         }),
@@ -80,6 +83,7 @@ export const ui = initializeUI({
           allowedCountries: ["US", "CA", "GB"],
           defaultCountry: "GB",
         }),
+        // providerPopupStrategy(),
       ],
 });
 

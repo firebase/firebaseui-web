@@ -51,6 +51,10 @@ vi.mock("~/components/redirect-error", () => ({
   RedirectError: () => <div data-testid="redirect-error">Redirect Error</div>,
 }));
 
+vi.mock("~/components/legacy-sign-in-recovery", () => ({
+  LegacySignInRecovery: () => <div data-testid="legacy-sign-in-recovery">Legacy Recovery</div>,
+}));
+
 vi.mock("~/auth/screens/multi-factor-auth-assertion-screen", () => ({
   MultiFactorAuthAssertionScreen: ({ onSuccess }: { onSuccess?: (credential: any) => void }) => (
     <div data-testid="multi-factor-auth-assertion-screen">
@@ -108,6 +112,42 @@ describe("<SignInAuthScreen />", () => {
 
     // Mocked so only has as test id
     expect(screen.getByTestId("sign-in-auth-form")).toBeDefined();
+  });
+
+  it("does not render LegacySignInRecovery by default", () => {
+    const ui = createMockUI();
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <SignInAuthScreen />
+      </CreateFirebaseUIProvider>
+    );
+
+    expect(screen.queryByTestId("legacy-sign-in-recovery")).toBeNull();
+  });
+
+  it("renders LegacySignInRecovery when explicitly enabled", () => {
+    const ui = createMockUI();
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <SignInAuthScreen showLegacySignInRecovery={true} />
+      </CreateFirebaseUIProvider>
+    );
+
+    expect(screen.getByTestId("legacy-sign-in-recovery")).toBeDefined();
+  });
+
+  it("does not render LegacySignInRecovery when explicitly disabled", () => {
+    const ui = createMockUI();
+
+    render(
+      <CreateFirebaseUIProvider ui={ui}>
+        <SignInAuthScreen showLegacySignInRecovery={false} />
+      </CreateFirebaseUIProvider>
+    );
+
+    expect(screen.queryByTestId("legacy-sign-in-recovery")).toBeNull();
   });
 
   it("passes onForgotPasswordClick to SignInAuthForm", () => {
