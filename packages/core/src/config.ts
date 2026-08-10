@@ -20,6 +20,10 @@ import { type Auth, getAuth, getRedirectResult, type MultiFactorResolver } from 
 import { map } from "nanostores";
 import { deepMap, type DeepMapStore } from "@nanostores/deepmap";
 import { type Behavior, type Behaviors, defaultBehaviors } from "./behaviors";
+import {
+  bumpLegacySignInRecoveryGeneration,
+  PENDING_CREDENTIAL_STORAGE_KEY,
+} from "./behaviors/legacy-fetch-sign-in-with-email";
 import type { InitBehavior, RedirectBehavior } from "./behaviors/utils";
 import { type FirebaseUIState } from "./state";
 import { handleFirebaseError } from "./errors";
@@ -37,6 +41,20 @@ export type FirebaseUIOptions = {
   /** An optional array of behaviors, e.g. from `requireDisplayName`. */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   behaviors?: Behavior<any>[];
+};
+
+/**
+ * Recovery state populated when a sign-in attempt should be redirected to a previously-used method.
+ */
+export type LegacySignInRecovery = {
+  /** The email address associated with the conflicting account. */
+  email: string;
+  /** The sign-in methods returned by fetchSignInMethodsForEmail(). */
+  signInMethods: string[];
+  /** The provider used for the failed sign-in attempt, if known. */
+  attemptedProviderId?: string;
+  /** The provider from the pending credential that can be linked after recovery, if known. */
+  pendingProviderId?: string;
 };
 
 /**
@@ -69,6 +87,12 @@ export type FirebaseUI = {
   redirectError?: Error;
   /** Sets the redirect error. */
   setRedirectError: (error?: Error) => void;
+  /** Recovery data for guiding a user back to their previous sign-in method. */
+  legacySignInRecovery?: LegacySignInRecovery;
+  /** Sets the legacy sign-in recovery data. */
+  setLegacySignInRecovery: (recovery?: LegacySignInRecovery) => void;
+  /** Clears the legacy sign-in recovery data. */
+  clearLegacySignInRecovery: () => void;
 };
 
 export const $config = map<Record<string, DeepMapStore<FirebaseUI>>>({});
@@ -137,6 +161,29 @@ export function initializeUI(config: FirebaseUIOptions, name: string = "[DEFAULT
         const current = $config.get()[name]!;
         current.setKey(`redirectError`, error);
       },
+      legacySignInRecovery: undefined,
+      setLegacySignInRecovery: (recovery?: LegacySignInRecovery) => {
+        const current = $config.get()[name]!;
+        current.setKey(`legacySignInRecovery`, recovery);
+
+        // Any state transition supersedes prior in-flight legacyFetchSignInWithEmail work,
+        // so a stale async call can detect it's been superseded. See
+        // `bumpLegacySignInRecoveryGeneration` for details.
+        bumpLegacySignInRecoveryGeneration(current.get().auth);
+      },
+      clearLegacySignInRecovery: () => {
+        const current = $config.get()[name]!;
+        current.setKey(`legacySignInRecovery`, undefined);
+        bumpLegacySignInRecoveryGeneration(current.get().auth);
+
+        // Abandoning recovery must also drop any pending credential persisted to
+        // `sessionStorage` by the legacyFetchSignInWithEmail behavior. Otherwise a stale
+        // OAuth credential from an abandoned recovery attempt would silently get linked
+        // to a later, unrelated sign-in via `handlePendingCredential` in auth.ts.
+        if (typeof window !== "undefined") {
+          window.sessionStorage.removeItem(PENDING_CREDENTIAL_STORAGE_KEY);
+        }
+      },
     })
   );
 
@@ -169,9 +216,9 @@ export function initializeUI(config: FirebaseUIOptions, name: string = "[DEFAULT
       .then((result) => {
         return Promise.all(redirectBehaviors.map((behavior) => behavior.handler(ui, result)));
       })
-      .catch((error) => {
+      .catch(async (error) => {
         try {
-          handleFirebaseError(ui, error);
+          await handleFirebaseError(ui, error);
         } catch (error) {
           ui.setRedirectError(error instanceof Error ? error : new Error(String(error)));
         }

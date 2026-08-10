@@ -43,6 +43,7 @@ import QRCode from "qrcode-generator";
 import { type FirebaseUI } from "./config";
 import { handleFirebaseError } from "./errors";
 import { hasBehavior, getBehavior } from "./behaviors/index";
+import { PENDING_CREDENTIAL_STORAGE_KEY } from "./behaviors/legacy-fetch-sign-in-with-email";
 import { FirebaseError } from "firebase/app";
 import { getTranslation } from "./translations";
 
@@ -75,11 +76,26 @@ function credentialFromJSON(json: unknown): AuthCredential | null {
   }
 }
 
-async function handlePendingCredential(_ui: FirebaseUI, user: UserCredential): Promise<UserCredential> {
-  const pendingCredString = window.sessionStorage.getItem("pendingCred");
+async function handlePendingCredential(ui: FirebaseUI, user: UserCredential): Promise<UserCredential> {
+  // The pending credential was persisted in plaintext `sessionStorage` by
+  // `persistPendingCredential` (see the fuller trade-off explanation there, in
+  // `legacy-fetch-sign-in-with-email.ts`). It must be read BEFORE
+  // `clearLegacySignInRecovery()` below, since that call also removes this same
+  // sessionStorage key (as of the sessionStorage-clearing fix in `config.ts`) - reading
+  // it after would always see it already gone, silently skipping `linkWithCredential`.
+  const pendingCredString = window.sessionStorage.getItem(PENDING_CREDENTIAL_STORAGE_KEY);
+
+  // Sign-in succeeded, so any legacy recovery UI that was guiding the user here is no longer
+  // needed. This also removes `PENDING_CREDENTIAL_STORAGE_KEY` from sessionStorage, which is
+  // why it must run after the read above, not before.
+  ui.clearLegacySignInRecovery();
+
   if (!pendingCredString) return user;
 
-  window.sessionStorage.removeItem("pendingCred");
+  // Redundant with the removal `clearLegacySignInRecovery()` performs above, but kept as an
+  // explicit safety net here in case a caller supplies a `clearLegacySignInRecovery` that
+  // doesn't clear sessionStorage (e.g. a test double, or a future alternate implementation).
+  window.sessionStorage.removeItem(PENDING_CREDENTIAL_STORAGE_KEY);
 
   try {
     const pendingCred = credentialFromJSON(JSON.parse(pendingCredString));
@@ -94,6 +110,30 @@ async function handlePendingCredential(_ui: FirebaseUI, user: UserCredential): P
 function setPendingState(ui: FirebaseUI) {
   ui.setRedirectError(undefined);
   ui.setState("pending");
+}
+
+function attachEmailToError(error: unknown, email: string): unknown {
+  if (!error || typeof error !== "object") {
+    return error;
+  }
+
+  const emailError = error as {
+    code?: string;
+    message?: string;
+    name?: string;
+    email?: string;
+    customData?: {
+      email?: string;
+    };
+  };
+
+  emailError.email = emailError.email ?? email;
+  emailError.customData = {
+    ...emailError.customData,
+    email: emailError.customData?.email ?? email,
+  };
+
+  return emailError;
 }
 
 /**
@@ -126,7 +166,7 @@ export async function signInWithEmailAndPassword(
     const result = await _signInWithCredential(ui.auth, credential);
     return handlePendingCredential(ui, result);
   } catch (error) {
-    handleFirebaseError(ui, error);
+    return await handleFirebaseError(ui, attachEmailToError(error, email));
   } finally {
     ui.setState("idle");
   }
@@ -178,7 +218,7 @@ export async function createUserWithEmailAndPassword(
 
     return handlePendingCredential(ui, result);
   } catch (error) {
-    handleFirebaseError(ui, error);
+    return await handleFirebaseError(ui, error);
   } finally {
     ui.setState("idle");
   }
@@ -231,7 +271,7 @@ export async function verifyPhoneNumber(
       return await provider.verifyPhoneNumber(phoneNumber, appVerifier);
     }
   } catch (error) {
-    handleFirebaseError(ui, error);
+    return await handleFirebaseError(ui, error);
   } finally {
     ui.setState("idle");
   }
@@ -268,7 +308,7 @@ export async function confirmPhoneNumber(
     const result = await _signInWithCredential(ui.auth, credential);
     return handlePendingCredential(ui, result);
   } catch (error) {
-    handleFirebaseError(ui, error);
+    return await handleFirebaseError(ui, error);
   } finally {
     ui.setState("idle");
   }
@@ -286,7 +326,7 @@ export async function sendPasswordResetEmail(ui: FirebaseUI, email: string): Pro
     setPendingState(ui);
     await _sendPasswordResetEmail(ui.auth, email);
   } catch (error) {
-    handleFirebaseError(ui, error);
+    return await handleFirebaseError(ui, error);
   } finally {
     ui.setState("idle");
   }
@@ -314,7 +354,7 @@ export async function sendSignInLinkToEmail(ui: FirebaseUI, email: string): Prom
     // TODO: Should this be a behavior ("storageStrategy")?
     window.localStorage.setItem("emailForSignIn", email);
   } catch (error) {
-    handleFirebaseError(ui, error);
+    return await handleFirebaseError(ui, error);
   } finally {
     ui.setState("idle");
   }
@@ -358,7 +398,7 @@ export async function signInWithCredential(ui: FirebaseUI, credential: AuthCrede
     const result = await _signInWithCredential(ui.auth, credential);
     return handlePendingCredential(ui, result);
   } catch (error) {
-    handleFirebaseError(ui, error);
+    return await handleFirebaseError(ui, error);
   } finally {
     ui.setState("idle");
   }
@@ -377,7 +417,7 @@ export async function signInWithCustomToken(ui: FirebaseUI, customToken: string)
     const result = await _signInWithCustomToken(ui.auth, customToken);
     return handlePendingCredential(ui, result);
   } catch (error) {
-    handleFirebaseError(ui, error);
+    return await handleFirebaseError(ui, error);
   } finally {
     ui.setState("idle");
   }
@@ -395,7 +435,7 @@ export async function signInAnonymously(ui: FirebaseUI): Promise<UserCredential>
     const result = await _signInAnonymously(ui.auth);
     return handlePendingCredential(ui, result);
   } catch (error) {
-    handleFirebaseError(ui, error);
+    return await handleFirebaseError(ui, error);
   } finally {
     ui.setState("idle");
   }
@@ -431,7 +471,7 @@ export async function signInWithProvider(ui: FirebaseUI, provider: AuthProvider)
     // Otherwise, they will have been redirected.
     return handlePendingCredential(ui, result);
   } catch (error) {
-    handleFirebaseError(ui, error);
+    return await handleFirebaseError(ui, error);
   } finally {
     ui.setState("idle");
   }
@@ -507,7 +547,7 @@ export async function signInWithMultiFactorAssertion(ui: FirebaseUI, assertion: 
     ui.setMultiFactorResolver(undefined);
     return result;
   } catch (error) {
-    handleFirebaseError(ui, error);
+    return await handleFirebaseError(ui, error);
   } finally {
     ui.setState("idle");
   }
@@ -530,7 +570,7 @@ export async function enrollWithMultiFactorAssertion(
     setPendingState(ui);
     await multiFactor(ui.auth.currentUser!).enroll(assertion, displayName);
   } catch (error) {
-    handleFirebaseError(ui, error);
+    return await handleFirebaseError(ui, error);
   } finally {
     ui.setState("idle");
   }
@@ -549,7 +589,7 @@ export async function generateTotpSecret(ui: FirebaseUI): Promise<TotpSecret> {
     const session = await mfaUser.getSession();
     return await TotpMultiFactorGenerator.generateSecret(session);
   } catch (error) {
-    handleFirebaseError(ui, error);
+    return await handleFirebaseError(ui, error);
   } finally {
     ui.setState("idle");
   }
