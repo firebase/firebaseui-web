@@ -43,6 +43,7 @@ import QRCode from "qrcode-generator";
 import { type FirebaseUI } from "./config";
 import { handleFirebaseError } from "./errors";
 import { hasBehavior, getBehavior } from "./behaviors/index";
+import { PENDING_CREDENTIAL_STORAGE_KEY } from "./behaviors/legacy-fetch-sign-in-with-email";
 import { FirebaseError } from "firebase/app";
 import { getTranslation } from "./translations";
 
@@ -75,11 +76,26 @@ function credentialFromJSON(json: unknown): AuthCredential | null {
   }
 }
 
-async function handlePendingCredential(_ui: FirebaseUI, user: UserCredential): Promise<UserCredential> {
-  const pendingCredString = window.sessionStorage.getItem("pendingCred");
+async function handlePendingCredential(ui: FirebaseUI, user: UserCredential): Promise<UserCredential> {
+  // The pending credential was persisted in plaintext `sessionStorage` by
+  // `persistPendingCredential` (see the fuller trade-off explanation there, in
+  // `legacy-fetch-sign-in-with-email.ts`). It must be read BEFORE
+  // `clearLegacySignInRecovery()` below, since that call also removes this same
+  // sessionStorage key (as of the sessionStorage-clearing fix in `config.ts`) - reading
+  // it after would always see it already gone, silently skipping `linkWithCredential`.
+  const pendingCredString = window.sessionStorage.getItem(PENDING_CREDENTIAL_STORAGE_KEY);
+
+  // Sign-in succeeded, so any legacy recovery UI that was guiding the user here is no longer
+  // needed. This also removes `PENDING_CREDENTIAL_STORAGE_KEY` from sessionStorage, which is
+  // why it must run after the read above, not before.
+  ui.clearLegacySignInRecovery();
+
   if (!pendingCredString) return user;
 
-  window.sessionStorage.removeItem("pendingCred");
+  // Redundant with the removal `clearLegacySignInRecovery()` performs above, but kept as an
+  // explicit safety net here in case a caller supplies a `clearLegacySignInRecovery` that
+  // doesn't clear sessionStorage (e.g. a test double, or a future alternate implementation).
+  window.sessionStorage.removeItem(PENDING_CREDENTIAL_STORAGE_KEY);
 
   try {
     const pendingCred = credentialFromJSON(JSON.parse(pendingCredString));
@@ -96,6 +112,69 @@ function setPendingState(ui: FirebaseUI) {
   ui.setState("pending");
 }
 
+type AnonymousUpgradeAttempt =
+  { status: "upgraded"; credential: UserCredential } | { status: "stopped" } | { status: "skipped" };
+
+async function attemptAnonymousCredentialUpgrade(
+  ui: FirebaseUI,
+  credential: AuthCredential
+): Promise<AnonymousUpgradeAttempt> {
+  if (!hasBehavior(ui, "autoUpgradeAnonymousCredential")) {
+    return { status: "skipped" };
+  }
+
+  const wasAnonymous = ui.auth.currentUser?.isAnonymous === true;
+  const result = await getBehavior(ui, "autoUpgradeAnonymousCredential")(ui, credential);
+
+  if (result) {
+    return { status: "upgraded", credential: result };
+  }
+
+  return wasAnonymous ? { status: "stopped" } : { status: "skipped" };
+}
+
+async function attemptAnonymousProviderUpgrade(
+  ui: FirebaseUI,
+  provider: AuthProvider
+): Promise<AnonymousUpgradeAttempt> {
+  if (!hasBehavior(ui, "autoUpgradeAnonymousProvider")) {
+    return { status: "skipped" };
+  }
+
+  const wasAnonymous = ui.auth.currentUser?.isAnonymous === true;
+  const result = await getBehavior(ui, "autoUpgradeAnonymousProvider")(ui, provider);
+
+  if (result) {
+    return { status: "upgraded", credential: result };
+  }
+
+  return wasAnonymous ? { status: "stopped" } : { status: "skipped" };
+}
+
+function attachEmailToError(error: unknown, email: string): unknown {
+  if (!error || typeof error !== "object") {
+    return error;
+  }
+
+  const emailError = error as {
+    code?: string;
+    message?: string;
+    name?: string;
+    email?: string;
+    customData?: {
+      email?: string;
+    };
+  };
+
+  emailError.email = emailError.email ?? email;
+  emailError.customData = {
+    ...emailError.customData,
+    email: emailError.customData?.email ?? email,
+  };
+
+  return emailError;
+}
+
 /**
  * Signs in with an email and password.
  *
@@ -104,29 +183,29 @@ function setPendingState(ui: FirebaseUI) {
  * @param ui - The FirebaseUI instance.
  * @param email - The email to sign in with.
  * @param password - The password to sign in with.
- * @returns {Promise<UserCredential>} A promise containing the user credential.
+ * @returns {Promise<UserCredential | void>} A promise containing the user credential, or void if handled.
  */
 export async function signInWithEmailAndPassword(
   ui: FirebaseUI,
   email: string,
   password: string
-): Promise<UserCredential> {
+): Promise<UserCredential | void> {
   try {
     setPendingState(ui);
     const credential = EmailAuthProvider.credential(email, password);
 
-    if (hasBehavior(ui, "autoUpgradeAnonymousCredential")) {
-      const result = await getBehavior(ui, "autoUpgradeAnonymousCredential")(ui, credential);
-
-      if (result) {
-        return handlePendingCredential(ui, result);
-      }
+    const upgrade = await attemptAnonymousCredentialUpgrade(ui, credential);
+    if (upgrade.status === "upgraded") {
+      return handlePendingCredential(ui, upgrade.credential);
+    }
+    if (upgrade.status === "stopped") {
+      return;
     }
 
     const result = await _signInWithCredential(ui.auth, credential);
     return handlePendingCredential(ui, result);
   } catch (error) {
-    handleFirebaseError(ui, error);
+    return await handleFirebaseError(ui, attachEmailToError(error, email));
   } finally {
     ui.setState("idle");
   }
@@ -142,14 +221,14 @@ export async function signInWithEmailAndPassword(
  * @param email - The email address for the new account.
  * @param password - The password for the new account.
  * @param displayName - Optional display name for the user.
- * @returns {Promise<UserCredential>} A promise containing the user credential.
+ * @returns {Promise<UserCredential | void>} A promise containing the user credential, or void if handled.
  */
 export async function createUserWithEmailAndPassword(
   ui: FirebaseUI,
   email: string,
   password: string,
   displayName?: string
-): Promise<UserCredential> {
+): Promise<UserCredential | void> {
   try {
     setPendingState(ui);
     const credential = EmailAuthProvider.credential(email, password);
@@ -158,16 +237,16 @@ export async function createUserWithEmailAndPassword(
       throw new FirebaseError("auth/display-name-required", getTranslation(ui, "errors", "displayNameRequired"));
     }
 
-    if (hasBehavior(ui, "autoUpgradeAnonymousCredential")) {
-      const result = await getBehavior(ui, "autoUpgradeAnonymousCredential")(ui, credential);
-
-      if (result) {
-        if (hasBehavior(ui, "requireDisplayName")) {
-          await getBehavior(ui, "requireDisplayName")(ui, result.user, displayName!);
-        }
-
-        return handlePendingCredential(ui, result);
+    const upgrade = await attemptAnonymousCredentialUpgrade(ui, credential);
+    if (upgrade.status === "upgraded") {
+      if (hasBehavior(ui, "requireDisplayName")) {
+        await getBehavior(ui, "requireDisplayName")(ui, upgrade.credential.user, displayName!);
       }
+
+      return handlePendingCredential(ui, upgrade.credential);
+    }
+    if (upgrade.status === "stopped") {
+      return;
     }
 
     const result = await _createUserWithEmailAndPassword(ui.auth, email, password);
@@ -178,7 +257,7 @@ export async function createUserWithEmailAndPassword(
 
     return handlePendingCredential(ui, result);
   } catch (error) {
-    handleFirebaseError(ui, error);
+    return await handleFirebaseError(ui, error);
   } finally {
     ui.setState("idle");
   }
@@ -231,7 +310,7 @@ export async function verifyPhoneNumber(
       return await provider.verifyPhoneNumber(phoneNumber, appVerifier);
     }
   } catch (error) {
-    handleFirebaseError(ui, error);
+    return await handleFirebaseError(ui, error);
   } finally {
     ui.setState("idle");
   }
@@ -245,30 +324,29 @@ export async function verifyPhoneNumber(
  * @param ui - The FirebaseUI instance.
  * @param verificationId - The verification ID from the phone verification process.
  * @param verificationCode - The verification code sent to the phone.
- * @returns {Promise<UserCredential>} A promise containing the user credential.
+ * @returns {Promise<UserCredential | void>} A promise containing the user credential, or void if handled.
  */
 export async function confirmPhoneNumber(
   ui: FirebaseUI,
   verificationId: string,
   verificationCode: string
-): Promise<UserCredential> {
+): Promise<UserCredential | void> {
   try {
     setPendingState(ui);
-    const currentUser = ui.auth.currentUser;
     const credential = PhoneAuthProvider.credential(verificationId, verificationCode);
 
-    if (currentUser?.isAnonymous && hasBehavior(ui, "autoUpgradeAnonymousCredential")) {
-      const result = await getBehavior(ui, "autoUpgradeAnonymousCredential")(ui, credential);
-
-      if (result) {
-        return handlePendingCredential(ui, result);
-      }
+    const upgrade = await attemptAnonymousCredentialUpgrade(ui, credential);
+    if (upgrade.status === "upgraded") {
+      return handlePendingCredential(ui, upgrade.credential);
+    }
+    if (upgrade.status === "stopped") {
+      return;
     }
 
     const result = await _signInWithCredential(ui.auth, credential);
     return handlePendingCredential(ui, result);
   } catch (error) {
-    handleFirebaseError(ui, error);
+    return await handleFirebaseError(ui, error);
   } finally {
     ui.setState("idle");
   }
@@ -286,7 +364,7 @@ export async function sendPasswordResetEmail(ui: FirebaseUI, email: string): Pro
     setPendingState(ui);
     await _sendPasswordResetEmail(ui.auth, email);
   } catch (error) {
-    handleFirebaseError(ui, error);
+    return await handleFirebaseError(ui, error);
   } finally {
     ui.setState("idle");
   }
@@ -314,7 +392,7 @@ export async function sendSignInLinkToEmail(ui: FirebaseUI, email: string): Prom
     // TODO: Should this be a behavior ("storageStrategy")?
     window.localStorage.setItem("emailForSignIn", email);
   } catch (error) {
-    handleFirebaseError(ui, error);
+    return await handleFirebaseError(ui, error);
   } finally {
     ui.setState("idle");
   }
@@ -326,9 +404,9 @@ export async function sendSignInLinkToEmail(ui: FirebaseUI, email: string): Prom
  * @param ui - The FirebaseUI instance.
  * @param email - The email address associated with the sign-in link.
  * @param link - The sign-in link from the email.
- * @returns {Promise<UserCredential>} A promise containing the user credential.
+ * @returns {Promise<UserCredential | void>} A promise containing the user credential, or void if handled.
  */
-export async function signInWithEmailLink(ui: FirebaseUI, email: string, link: string): Promise<UserCredential> {
+export async function signInWithEmailLink(ui: FirebaseUI, email: string, link: string): Promise<UserCredential | void> {
   const credential = EmailAuthProvider.credentialWithLink(email, link);
   return signInWithCredential(ui, credential);
 }
@@ -340,25 +418,23 @@ export async function signInWithEmailLink(ui: FirebaseUI, email: string, link: s
  *
  * @param ui - The FirebaseUI instance.
  * @param credential - The authentication credential to sign in with.
- * @returns {Promise<UserCredential>} A promise containing the user credential.
+ * @returns {Promise<UserCredential | void>} A promise containing the user credential, or void if handled.
  */
-export async function signInWithCredential(ui: FirebaseUI, credential: AuthCredential): Promise<UserCredential> {
+export async function signInWithCredential(ui: FirebaseUI, credential: AuthCredential): Promise<UserCredential | void> {
   try {
     setPendingState(ui);
-    if (hasBehavior(ui, "autoUpgradeAnonymousCredential")) {
-      const userCredential = await getBehavior(ui, "autoUpgradeAnonymousCredential")(ui, credential);
-
-      // If they got here, they're either not anonymous or they've been linked.
-      // If the credential has been linked, we don't need to sign them in, so return early.
-      if (userCredential) {
-        return handlePendingCredential(ui, userCredential);
-      }
+    const upgrade = await attemptAnonymousCredentialUpgrade(ui, credential);
+    if (upgrade.status === "upgraded") {
+      return handlePendingCredential(ui, upgrade.credential);
+    }
+    if (upgrade.status === "stopped") {
+      return;
     }
 
     const result = await _signInWithCredential(ui.auth, credential);
     return handlePendingCredential(ui, result);
   } catch (error) {
-    handleFirebaseError(ui, error);
+    return await handleFirebaseError(ui, error);
   } finally {
     ui.setState("idle");
   }
@@ -377,7 +453,7 @@ export async function signInWithCustomToken(ui: FirebaseUI, customToken: string)
     const result = await _signInWithCustomToken(ui.auth, customToken);
     return handlePendingCredential(ui, result);
   } catch (error) {
-    handleFirebaseError(ui, error);
+    return await handleFirebaseError(ui, error);
   } finally {
     ui.setState("idle");
   }
@@ -395,7 +471,7 @@ export async function signInAnonymously(ui: FirebaseUI): Promise<UserCredential>
     const result = await _signInAnonymously(ui.auth);
     return handlePendingCredential(ui, result);
   } catch (error) {
-    handleFirebaseError(ui, error);
+    return await handleFirebaseError(ui, error);
   } finally {
     ui.setState("idle");
   }
@@ -409,19 +485,17 @@ export async function signInAnonymously(ui: FirebaseUI): Promise<UserCredential>
  *
  * @param ui - The FirebaseUI instance.
  * @param provider - The authentication provider to sign in with.
- * @returns {Promise<UserCredential | never>} A promise containing the user credential, or never if using redirect strategy.
+ * @returns {Promise<UserCredential | void>} A promise containing the user credential, or void if handled.
  */
-export async function signInWithProvider(ui: FirebaseUI, provider: AuthProvider): Promise<UserCredential | never> {
+export async function signInWithProvider(ui: FirebaseUI, provider: AuthProvider): Promise<UserCredential | void> {
   try {
     setPendingState(ui);
-    if (hasBehavior(ui, "autoUpgradeAnonymousProvider")) {
-      const credential = await getBehavior(ui, "autoUpgradeAnonymousProvider")(ui, provider);
-
-      // If we got here, the user is either not anonymous, or they have been linked
-      // via a popup, and the credential has been created.
-      if (credential) {
-        return handlePendingCredential(ui, credential);
-      }
+    const upgrade = await attemptAnonymousProviderUpgrade(ui, provider);
+    if (upgrade.status === "upgraded") {
+      return handlePendingCredential(ui, upgrade.credential);
+    }
+    if (upgrade.status === "stopped") {
+      return;
     }
 
     const strategy = getBehavior(ui, "providerSignInStrategy");
@@ -431,7 +505,7 @@ export async function signInWithProvider(ui: FirebaseUI, provider: AuthProvider)
     // Otherwise, they will have been redirected.
     return handlePendingCredential(ui, result);
   } catch (error) {
-    handleFirebaseError(ui, error);
+    return await handleFirebaseError(ui, error);
   } finally {
     ui.setState("idle");
   }
@@ -456,9 +530,9 @@ export async function completeEmailLinkSignIn(ui: FirebaseUI, currentUrl: string
     const email = window.localStorage.getItem("emailForSignIn");
     if (!email) return null;
 
-    // signInWithEmailLink handles behavior checks, credential creation, and error handling
+    // signInWithEmailLink handles behavior checks, credential creation, and error handling.
     const result = await signInWithEmailLink(ui, email, currentUrl);
-    return handlePendingCredential(ui, result);
+    return result ?? null;
   } finally {
     window.localStorage.removeItem("emailForSignIn");
   }
@@ -507,7 +581,7 @@ export async function signInWithMultiFactorAssertion(ui: FirebaseUI, assertion: 
     ui.setMultiFactorResolver(undefined);
     return result;
   } catch (error) {
-    handleFirebaseError(ui, error);
+    return await handleFirebaseError(ui, error);
   } finally {
     ui.setState("idle");
   }
@@ -530,7 +604,7 @@ export async function enrollWithMultiFactorAssertion(
     setPendingState(ui);
     await multiFactor(ui.auth.currentUser!).enroll(assertion, displayName);
   } catch (error) {
-    handleFirebaseError(ui, error);
+    return await handleFirebaseError(ui, error);
   } finally {
     ui.setState("idle");
   }
@@ -549,7 +623,7 @@ export async function generateTotpSecret(ui: FirebaseUI): Promise<TotpSecret> {
     const session = await mfaUser.getSession();
     return await TotpMultiFactorGenerator.generateSecret(session);
   } catch (error) {
-    handleFirebaseError(ui, error);
+    return await handleFirebaseError(ui, error);
   } finally {
     ui.setState("idle");
   }

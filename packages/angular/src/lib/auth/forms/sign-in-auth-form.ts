@@ -133,7 +133,9 @@ export class SignInAuthFormComponent {
           onSubmitAsync: async ({ value }) => {
             try {
               const credential = await signInWithEmailAndPassword(this.ui(), value.email, value.password);
-              this.signIn.emit(credential);
+              if (credential) {
+                this.signIn.emit(credential);
+              }
               return;
             } catch (error) {
               if (error instanceof FirebaseUIError) {
