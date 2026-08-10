@@ -20,7 +20,18 @@ import type { FirebaseUI } from "~/config";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type CallableHandler<T extends (...args: any[]) => any = (...args: any[]) => any> = T;
 export type InitHandler = (ui: FirebaseUI) => Promise<void> | void;
-export type RedirectHandler = (ui: FirebaseUI, result: UserCredential | null) => Promise<void> | void;
+/**
+ * Called once after `getRedirectResult()` settles.
+ *
+ * On success, `result` is the redirect result (or `null`) and `error` is `undefined`.
+ * On failure, `result` is `null` and `error` is the rejection from `getRedirectResult()`.
+ * Return `"handled"` from the failure path to suppress FirebaseUI's default redirect error handling.
+ */
+export type RedirectHandler = (
+  ui: FirebaseUI,
+  result: UserCredential | null,
+  error?: unknown
+) => Promise<"handled" | void> | "handled" | void;
 
 export type CallableBehavior<T extends CallableHandler = CallableHandler> = {
   type: "callable";

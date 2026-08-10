@@ -48,7 +48,9 @@ export function useSignInWithProvider(provider: AuthProvider, onSignIn?: (creden
     setError(null);
     try {
       const credential = await signInWithProvider(ui, provider);
-      onSignIn?.(credential);
+      if (credential) {
+        onSignIn?.(credential);
+      }
     } catch (error) {
       if (error instanceof FirebaseUIError) {
         setError(error.message);

@@ -30,7 +30,7 @@ export type ProviderLinkStrategyHandler = (
   ui: FirebaseUI,
   user: User,
   provider: AuthProvider
-) => Promise<never | UserCredential>;
+) => Promise<UserCredential | void>;
 
 export const signInWithRediectHandler: ProviderSignInStrategyHandler = async (ui, provider) => {
   return signInWithRedirect(ui.auth, provider);

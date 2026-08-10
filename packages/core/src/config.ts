@@ -218,6 +218,14 @@ export function initializeUI(config: FirebaseUIOptions, name: string = "[DEFAULT
       })
       .catch(async (error) => {
         try {
+          // Give redirect behaviors (e.g. autoUpgradeAnonymousUsers' onUpgradeFailure) a chance to
+          // handle the failure before falling back to the default error handling.
+          const outcomes = await Promise.all(redirectBehaviors.map((behavior) => behavior.handler(ui, null, error)));
+
+          if (outcomes.some((outcome) => outcome === "handled")) {
+            return;
+          }
+
           await handleFirebaseError(ui, error);
         } catch (error) {
           ui.setRedirectError(error instanceof Error ? error : new Error(String(error)));

@@ -33,6 +33,13 @@ import {
   type RedirectBehavior,
 } from "./utils";
 
+export type {
+  OnUpgradeCallback,
+  OnUpgradeFailureCallback,
+  OnUpgradeFailureContext,
+  OnUpgradeFailureResult,
+} from "./anonymous-upgrade";
+
 type Registry = {
   autoAnonymousLogin: InitBehavior<typeof autoAnonymousLoginHandlers.autoAnonymousLoginHandler>;
   autoUpgradeAnonymousCredential: CallableBehavior<
@@ -43,7 +50,7 @@ type Registry = {
     (
       ui: FirebaseUI,
       credential: UserCredential | null,
-      onUpgrade?: anonymousUpgradeHandlers.OnUpgradeCallback
+      error?: unknown
     ) => ReturnType<typeof anonymousUpgradeHandlers.autoUpgradeAnonymousUserRedirectHandler>
   >;
   recaptchaVerification: CallableBehavior<(ui: FirebaseUI, element: HTMLElement) => RecaptchaVerifier>;
@@ -77,6 +84,11 @@ export function autoAnonymousLogin(): Behavior<"autoAnonymousLogin"> {
 export type AutoUpgradeAnonymousUsersOptions = {
   /** Optional callback function that is called when an anonymous user is upgraded. */
   onUpgrade?: anonymousUpgradeHandlers.OnUpgradeCallback;
+  /**
+   * Optional callback function that is called when credential or provider linking fails,
+   * including provider-linking failures that only surface after a redirect round trip.
+   */
+  onUpgradeFailure?: anonymousUpgradeHandlers.OnUpgradeFailureCallback;
 };
 
 /**
@@ -95,13 +107,29 @@ export function autoUpgradeAnonymousUsers(
 > {
   return {
     autoUpgradeAnonymousCredential: callableBehavior((ui, credential) =>
-      anonymousUpgradeHandlers.autoUpgradeAnonymousCredentialHandler(ui, credential, options?.onUpgrade)
+      anonymousUpgradeHandlers.autoUpgradeAnonymousCredentialHandler(
+        ui,
+        credential,
+        options?.onUpgrade,
+        options?.onUpgradeFailure
+      )
     ),
     autoUpgradeAnonymousProvider: callableBehavior((ui, provider) =>
-      anonymousUpgradeHandlers.autoUpgradeAnonymousProviderHandler(ui, provider, options?.onUpgrade)
+      anonymousUpgradeHandlers.autoUpgradeAnonymousProviderHandler(
+        ui,
+        provider,
+        options?.onUpgrade,
+        options?.onUpgradeFailure
+      )
     ),
-    autoUpgradeAnonymousUserRedirectHandler: redirectBehavior((ui, credential) =>
-      anonymousUpgradeHandlers.autoUpgradeAnonymousUserRedirectHandler(ui, credential, options?.onUpgrade)
+    autoUpgradeAnonymousUserRedirectHandler: redirectBehavior((ui, credential, error) =>
+      anonymousUpgradeHandlers.autoUpgradeAnonymousUserRedirectHandler(
+        ui,
+        credential,
+        options?.onUpgrade,
+        options?.onUpgradeFailure,
+        error
+      )
     ),
   };
 }
