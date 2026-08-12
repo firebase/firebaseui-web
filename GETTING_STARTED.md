@@ -62,13 +62,13 @@ This guide walks through installation, initialization, sign-in methods, and comm
    For React apps without shadcn/ui, install:
 
    ```bash
-   npm install @firebase-oss/ui-react@beta @firebase-oss/ui-styles
+   npm install @firebase-oss/ui-react @firebase-oss/ui-styles
    ```
 
    For Angular apps, install:
 
    ```bash
-   npm install @angular/fire @firebase-oss/ui-angular@beta @firebase-oss/ui-core@beta @firebase-oss/ui-styles@beta
+   npm install @angular/fire @firebase-oss/ui-angular @firebase-oss/ui-core @firebase-oss/ui-styles
    ```
 
 ## Initialize FirebaseUI
