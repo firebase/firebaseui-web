@@ -20,6 +20,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { initializeUI } from "./config";
 import { enUs, registerLocale } from "@firebase-oss/ui-translations";
 import { autoUpgradeAnonymousUsers, autoAnonymousLogin } from "./behaviors";
+import { PENDING_CREDENTIAL_STORAGE_KEY } from "./behaviors/legacy-fetch-sign-in-with-email";
 
 // Mock Firebase Auth
 vi.mock("firebase/auth", () => ({
@@ -444,6 +445,87 @@ describe("initializeUI", () => {
     expect(ui.get().redirectError).toBeUndefined();
   });
 
+  it("should have legacySignInRecovery undefined by default", () => {
+    const config = {
+      app: {} as FirebaseApp,
+      auth: {} as Auth,
+    };
+
+    const ui = initializeUI(config);
+    expect(ui.get().legacySignInRecovery).toBeUndefined();
+  });
+
+  it("should set and clear legacySignInRecovery correctly", () => {
+    const config = {
+      app: {} as FirebaseApp,
+      auth: {} as Auth,
+    };
+
+    const ui = initializeUI(config);
+    const recovery = {
+      email: "test@example.com",
+      signInMethods: ["google.com", "password"],
+      attemptedProviderId: "github.com",
+      pendingProviderId: "github.com",
+    };
+
+    expect(ui.get().legacySignInRecovery).toBeUndefined();
+    ui.get().setLegacySignInRecovery(recovery);
+    expect(ui.get().legacySignInRecovery).toEqual(recovery);
+    ui.get().clearLegacySignInRecovery();
+    expect(ui.get().legacySignInRecovery).toBeUndefined();
+  });
+
+  it("should remove the pending credential from sessionStorage when clearLegacySignInRecovery is called", () => {
+    const mockSessionStorage: Record<string, string> = {};
+    Object.defineProperty(global, "window", {
+      value: {
+        sessionStorage: {
+          setItem: vi.fn((key: string, value: string) => {
+            mockSessionStorage[key] = value;
+          }),
+          getItem: vi.fn((key: string) => mockSessionStorage[key] ?? null),
+          removeItem: vi.fn((key: string) => {
+            delete mockSessionStorage[key];
+          }),
+        },
+      },
+      writable: true,
+      configurable: true,
+    });
+
+    const config = {
+      app: {} as FirebaseApp,
+      auth: {} as Auth,
+    };
+
+    const ui = initializeUI(config);
+
+    window.sessionStorage.setItem(PENDING_CREDENTIAL_STORAGE_KEY, JSON.stringify({ providerId: "google.com" }));
+    expect(window.sessionStorage.getItem(PENDING_CREDENTIAL_STORAGE_KEY)).not.toBeNull();
+
+    ui.get().clearLegacySignInRecovery();
+
+    expect(window.sessionStorage.removeItem).toHaveBeenCalledWith(PENDING_CREDENTIAL_STORAGE_KEY);
+    expect(window.sessionStorage.getItem(PENDING_CREDENTIAL_STORAGE_KEY)).toBeNull();
+
+    delete (global as any).window;
+  });
+
+  it("should not throw when clearLegacySignInRecovery is called without a window (SSR)", () => {
+    delete (global as any).window;
+
+    const config = {
+      app: {} as FirebaseApp,
+      auth: {} as Auth,
+    };
+
+    const ui = initializeUI(config);
+
+    expect(() => ui.get().clearLegacySignInRecovery()).not.toThrow();
+    expect(ui.get().legacySignInRecovery).toBeUndefined();
+  });
+
   it("should handle redirect error when getRedirectResult throws", async () => {
     Object.defineProperty(global, "window", {
       value: {},
@@ -472,6 +554,92 @@ describe("initializeUI", () => {
 
     expect(getRedirectResult).toHaveBeenCalledTimes(1);
     expect(getRedirectResult).toHaveBeenCalledWith(mockAuth);
+    expect(ui.get().redirectError).toBe(mockError);
+
+    delete (global as any).window;
+  });
+
+  it("should give redirect behaviors a chance to handle a redirect failure before the default error handler", async () => {
+    Object.defineProperty(global, "window", {
+      value: {},
+      writable: true,
+      configurable: true,
+    });
+
+    const mockAuth = {
+      currentUser: null,
+    } as any;
+
+    const mockError = new Error("Redirect linking failed");
+    const { getRedirectResult } = await import("firebase/auth");
+    vi.mocked(getRedirectResult).mockClear();
+    vi.mocked(getRedirectResult).mockRejectedValue(mockError);
+
+    const mockRedirectHandler = vi.fn().mockResolvedValue("handled");
+
+    const config = {
+      app: {} as FirebaseApp,
+      auth: mockAuth,
+      behaviors: [
+        {
+          customRedirect: {
+            type: "redirect" as const,
+            handler: mockRedirectHandler,
+          },
+        },
+      ],
+    };
+
+    const ui = initializeUI(config);
+
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    expect(mockRedirectHandler).toHaveBeenCalledTimes(1);
+    expect(mockRedirectHandler.mock.calls[0][1]).toBeNull();
+    expect(mockRedirectHandler.mock.calls[0][2]).toBe(mockError);
+    expect(ui.get().redirectError).toBeUndefined();
+
+    delete (global as any).window;
+  });
+
+  it("should fall back to the default error handler when no redirect behavior handles the failure", async () => {
+    Object.defineProperty(global, "window", {
+      value: {},
+      writable: true,
+      configurable: true,
+    });
+
+    const mockAuth = {
+      currentUser: null,
+    } as any;
+
+    const mockError = new Error("Redirect linking failed");
+    const { getRedirectResult } = await import("firebase/auth");
+    vi.mocked(getRedirectResult).mockClear();
+    vi.mocked(getRedirectResult).mockRejectedValue(mockError);
+
+    const mockRedirectHandler = vi.fn().mockResolvedValue(undefined);
+
+    const config = {
+      app: {} as FirebaseApp,
+      auth: mockAuth,
+      behaviors: [
+        {
+          customRedirect: {
+            type: "redirect" as const,
+            handler: mockRedirectHandler,
+          },
+        },
+      ],
+    };
+
+    const ui = initializeUI(config);
+
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    expect(mockRedirectHandler).toHaveBeenCalledTimes(1);
+    expect(mockRedirectHandler.mock.calls[0][1]).toBeNull();
+    expect(mockRedirectHandler.mock.calls[0][2]).toBe(mockError);
     expect(ui.get().redirectError).toBe(mockError);
 
     delete (global as any).window;
