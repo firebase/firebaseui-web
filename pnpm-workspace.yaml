@@ -4,9 +4,9 @@ packages:
   - e2e
 
 catalog:
-  "@angular-devkit/architect": ^0.2201.2
-  "@angular-devkit/build-angular": ^22.0.5
-  "@angular-devkit/core": ^22.1.2
+  "@angular-devkit/architect": ^0.2201.3
+  "@angular-devkit/build-angular": ^22.1.3
+  "@angular-devkit/core": ^22.1.3
   "@angular/animations": ^22.0.5
   "@angular/cli": ^22.1.2
   "@angular/common": ^22.1.0
