@@ -55,7 +55,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "input-otp": "^1.4.2",
-    "lucide-react": "^1.23.0",
+    "lucide-react": "^1.31.0",
     "react-hook-form": "^7.80.0",
     "tailwind-merge": "^3.6.0",
     "zod": "catalog:"

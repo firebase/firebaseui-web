@@ -671,8 +671,8 @@ importers:
         specifier: ^1.4.2
         version: 1.4.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       lucide-react:
-        specifier: ^1.23.0
-        version: 1.23.0(react@19.2.7)
+        specifier: ^1.31.0
+        version: 1.31.0(react@19.2.7)
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -1017,8 +1017,8 @@ importers:
         specifier: ^1.4.2
         version: 1.4.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       lucide-react:
-        specifier: ^1.23.0
-        version: 1.23.0(react@19.2.7)
+        specifier: ^1.31.0
+        version: 1.31.0(react@19.2.7)
       react-hook-form:
         specifier: ^7.80.0
         version: 7.80.0(react@19.2.7)
@@ -7133,8 +7133,8 @@ packages:
   electron-to-chromium@1.5.325:
     resolution: {integrity: sha512-PwfIw7WQSt3xX7yOf5OE/unLzsK9CaN2f/FvV3WjPR1Knoc1T9vePRVV4W1EM301JzzysK51K7FNKcusCr0zYA==}
 
-  electron-to-chromium@1.5.403:
-    resolution: {integrity: sha512-MQsYmdaLzvaCX5j+ZZBr5Fm6uCCnPQcRtlvmvRlWqrXy+BH2O4ffXIAScF+JQznQWB9brWp4lSD9Z4yNmaf2BA==}
+  electron-to-chromium@1.5.404:
+    resolution: {integrity: sha512-3WJtd7/lVq2Jnuz6wed1l9+1ZD2u2Tet1/1NBc4Iedkmgbu+I7YuAqdAQ8T+VZtnwysMsAf3IqSq9D1gyZjA2g==}
 
   embla-carousel-react@8.6.0:
     resolution: {integrity: sha512-0/PjqU7geVmo6F734pmPqpyHqiM99olvyecY7zdweCw+6tKEXnrE90pBiBbMMU8s5tICemzpQ3hi5EpxzGW+JA==}
@@ -8983,8 +8983,8 @@ packages:
   lru-memoizer@3.0.0:
     resolution: {integrity: sha512-m83w/cYXLdUIboKSPxzPAGfYnk+vqeDYXuoSrQRw1q+yVEd8IXhvMufN8Q5TIPe7e2jyX4SRNrDJI2Skw1yznQ==}
 
-  lucide-react@1.23.0:
-    resolution: {integrity: sha512-38BpJcD0JhFosxHApP/BYsBetLpQFRoTRzEzstM/XCc3jsAG7wqaY1lgVwxiUe3xqYE+lNxo2PkCmYwXWrwwIw==}
+  lucide-react@1.31.0:
+    resolution: {integrity: sha512-G8u2eEtoHUnUa9f8lbvqDhCiORMnYLdUEo06EEG9MQvHQrInKcX3Pa2TH39MM5qyzRcWETxB0+aOwAPI1g1kEg==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
@@ -17881,7 +17881,7 @@ snapshots:
     dependencies:
       baseline-browser-mapping: 2.11.13
       caniuse-lite: 1.0.30001809
-      electron-to-chromium: 1.5.403
+      electron-to-chromium: 1.5.404
       node-releases: 2.0.53
       update-browserslist-db: 1.3.1(browserslist@4.28.8)
 
@@ -18437,7 +18437,7 @@ snapshots:
 
   electron-to-chromium@1.5.325: {}
 
-  electron-to-chromium@1.5.403: {}
+  electron-to-chromium@1.5.404: {}
 
   embla-carousel-react@8.6.0(react@19.2.7):
     dependencies:
@@ -20869,7 +20869,7 @@ snapshots:
       lodash.clonedeep: 4.5.0
       lru-cache: 11.2.2
 
-  lucide-react@1.23.0(react@19.2.7):
+  lucide-react@1.31.0(react@19.2.7):
     dependencies:
       react: 19.2.7
 
