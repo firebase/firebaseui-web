@@ -1,0 +1,1703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AITS TPT Self Attendance Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1c2b39;
+    --paper:#efead9;
+    --paper2:#e4ddc4;
+    --paper3:#d9d0b3;
+    --stamp:#a83224;
+    --stamp-dark:#7c2419;
+    --green:#2f4a3c;
+    --green-dark:#213329;
+    --brass:#b98a2e;
+    --pencil:#6b6558;
+    --line:#c7bd9c;
+    --absent:#8a3f36;
+    --ok:#2f4a3c;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      repeating-linear-gradient(var(--paper) 0px, var(--paper) 27px, var(--line) 28px);
+    background-color:var(--paper);
+    color:var(--ink);
+    font-family:'Libre Baskerville', Georgia, serif;
+    min-height:100vh;
+  }
+  .display{font-family:'Special Elite', 'Courier New', monospace;}
+  .mono{font-family:'IBM Plex Mono', monospace;}
+
+  button{font-family:inherit; cursor:pointer;}
+  button:focus-visible, select:focus-visible, input:focus-visible{
+    outline:3px solid var(--brass);
+    outline-offset:2px;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+
+  .app{
+    max-width:520px;
+    margin:0 auto;
+    min-height:100vh;
+    background:var(--paper);
+    box-shadow:0 0 0 1px var(--paper3);
+    position:relative;
+    overflow:hidden;
+  }
+
+  /* ---- Folder tab header ---- */
+  .tab-header{
+    background:var(--ink);
+    color:var(--paper);
+    padding:18px 22px 16px;
+    position:relative;
+  }
+  .tab-header::after{
+    content:"";
+    position:absolute; left:0; right:0; bottom:-10px;
+    height:10px;
+    background:var(--brass);
+    clip-path:polygon(0 0, 100% 0, 96% 100%, 4% 100%);
+  }
+  .tab-header .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--brass);
+    margin-bottom:4px;
+  }
+  .tab-header h1{
+    margin:0;
+    font-family:'Special Elite', monospace;
+    font-size:22px;
+    letter-spacing:.02em;
+  }
+
+  .screen{ display:none; padding:26px 22px 90px; animation:fadein .35s ease; }
+  .screen.active{ display:block; }
+  @keyframes fadein{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+
+  /* ---- Welcome ---- */
+  .welcome-wrap{
+    min-height:78vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center;
+    gap:18px;
+  }
+  .stamp-logo{
+    width:96px; height:96px; border-radius:50%;
+    border:3px solid var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Special Elite', monospace;
+    font-size:13px; line-height:1.3;
+    transform:rotate(-6deg);
+    color:var(--ink);
+  }
+  .welcome-wrap h2{
+    font-family:'Special Elite', monospace;
+    font-size:28px;
+    margin:0;
+    letter-spacing:.01em;
+  }
+  .welcome-wrap p.tagline{
+    color:var(--pencil);
+    font-style:italic;
+    margin:0;
+    max-width:320px;
+  }
+  .rule{
+    width:120px; height:1px; background:var(--brass); border:none;
+  }
+  .site-url{ color:var(--pencil); font-size:11px; letter-spacing:.03em; margin-top:2px; }
+  .btn{
+    border:2px solid var(--ink);
+    background:var(--ink);
+    color:var(--paper);
+    padding:13px 26px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    border-radius:3px;
+    transition:transform .15s ease, background .15s ease;
+  }
+  .btn:hover{ transform:translateY(-1px); background:#26384a; }
+  .btn:active{ transform:translateY(0); }
+  .btn.outline{
+    background:transparent; color:var(--ink);
+  }
+  .btn.outline:hover{ background:var(--ink); color:var(--paper); }
+  .btn.stamp-btn{
+    border-color:var(--stamp); background:var(--stamp);
+  }
+  .btn.stamp-btn:hover{ background:var(--stamp-dark); }
+  .btn.green-btn{ border-color:var(--green); background:var(--green); }
+  .btn.green-btn:hover{ background:var(--green-dark); }
+  .btn:disabled{ opacity:.45; cursor:not-allowed; transform:none; }
+  .btn.block{ width:100%; }
+
+  /* ---- generic ledger card ---- */
+  .card{
+    background:var(--paper2);
+    border:1px solid var(--paper3);
+    border-radius:2px;
+    padding:16px 16px;
+    margin-bottom:14px;
+    position:relative;
+  }
+  .card::before{
+    content:"";
+    position:absolute; top:0; left:0; width:14px; height:14px;
+    border-top:2px solid var(--brass); border-left:2px solid var(--brass);
+  }
+  .card::after{
+    content:"";
+    position:absolute; bottom:0; right:0; width:14px; height:14px;
+    border-bottom:2px solid var(--brass); border-right:2px solid var(--brass);
+  }
+  .section-title{
+    font-family:'Special Elite', monospace;
+    font-size:13px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--pencil);
+    margin:22px 0 10px;
+  }
+  .section-title:first-child{ margin-top:0; }
+
+  label{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--pencil);
+    margin-bottom:5px;
+  }
+  select, input{
+    width:100%;
+    padding:10px 10px;
+    margin-bottom:14px;
+    border:1px solid var(--line);
+    background:#faf7ee;
+    color:var(--ink);
+    font-family:'Libre Baskerville', serif;
+    font-size:14px;
+    border-radius:2px;
+  }
+  select:disabled{ opacity:.5; }
+
+  .field-error{
+    color:var(--stamp); font-family:'IBM Plex Mono',monospace; font-size:11px; margin:-10px 0 12px;
+  }
+
+  /* ---- college result card ---- */
+  .college-result{
+    display:flex; gap:12px; align-items:flex-start;
+  }
+  .college-logo{
+    flex:0 0 auto; width:48px; height:48px; border-radius:50%;
+    background:var(--ink); color:var(--paper);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Special Elite',monospace; font-size:10.5px;
+    text-align:center; line-height:1.1; padding:2px;
+  }
+  .college-meta h3{ margin:0 0 3px; font-size:16px; }
+  .college-meta p{ margin:0; color:var(--pencil); font-size:13px; }
+  .college-code{
+    display:inline-block; margin-top:8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px; letter-spacing:.03em;
+    background:var(--ink); color:var(--brass);
+    padding:3px 8px; border-radius:2px;
+    word-break:break-word; max-width:100%;
+  }
+
+  /* ---- role toggle ---- */
+  .role-toggle{ display:flex; gap:0; margin-bottom:18px; border:1px solid var(--ink); border-radius:3px; overflow:hidden; }
+  .role-toggle button{
+    flex:1; padding:11px; border:none; background:transparent;
+    font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--ink);
+  }
+  .role-toggle button.active{ background:var(--ink); color:var(--paper); }
+
+  .link-btn{
+    background:none; border:none; color:var(--stamp); text-decoration:underline;
+    font-family:'IBM Plex Mono',monospace; font-size:12px; padding:0;
+  }
+
+  /* ---- dashboard header ---- */
+  .dash-head{ display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px; }
+  .dash-head h2{ margin:0 0 2px; font-family:'Special Elite',monospace; font-size:18px; }
+  .dash-head p{ margin:0; color:var(--pencil); font-size:12px; }
+  .logout-x{ background:none; border:1px solid var(--line); border-radius:2px; padding:6px 10px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--pencil); }
+
+  .stat-row{ display:flex; gap:12px; margin-bottom:6px; }
+  .stat-card{ flex:1; text-align:center; }
+  .stat-card .big{ font-family:'Special Elite',monospace; font-size:26px; }
+  .stat-card .lbl{ font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.06em; text-transform:uppercase; color:var(--pencil); margin-top:4px; }
+  .badge{
+    display:inline-block; margin-top:6px; font-family:'IBM Plex Mono',monospace; font-size:10px;
+    padding:2px 7px; border-radius:8px; letter-spacing:.04em;
+  }
+  .badge.excellent{ background:#e4ecE6; color:var(--green); border:1px solid var(--green); }
+  .badge.good{ background:#f3e9cf; color:var(--brass); border:1px solid var(--brass); }
+  .badge.shortage{ background:#f1dcd8; color:var(--stamp); border:1px solid var(--stamp); }
+
+  /* subject bars */
+  .subject-row{ margin-bottom:12px; }
+  .subject-row .top{ display:flex; justify-content:space-between; font-size:13px; margin-bottom:4px; }
+  .subject-row .top .name{ font-weight:700; }
+  .subject-row .top .frac{ font-family:'IBM Plex Mono',monospace; color:var(--pencil); font-size:12px; }
+  .ruler{
+    height:10px; background:#dfd8bd; border:1px solid var(--line); border-radius:2px; position:relative; overflow:hidden;
+  }
+  .ruler .fill{ height:100%; background:var(--green); transition:width .5s ease; }
+  .ruler .fill.warn{ background:var(--stamp); }
+
+  /* session card */
+  .session-card{ }
+  .session-top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;}
+  .session-top .subj{ font-weight:700; font-size:15px; }
+  .status-pill{
+    font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.05em; text-transform:uppercase;
+    padding:3px 8px; border-radius:8px;
+  }
+  .status-pill.open{ background:#e4ecE6; color:var(--green); border:1px solid var(--green); }
+  .status-pill.closed{ background:#e6e0cb; color:var(--pencil); border:1px solid var(--pencil); }
+  .status-pill.present{ background:#e4ecE6; color:var(--green); border:1px solid var(--green); }
+  .status-pill.absent{ background:#f1dcd8; color:var(--stamp); border:1px solid var(--stamp); }
+  .session-meta{ color:var(--pencil); font-size:12.5px; margin:2px 0 12px; }
+
+  /* stamp overlay */
+  .stamp-zone{ position:relative; min-height:64px; display:flex; align-items:center; justify-content:center; }
+  .present-stamp{
+    position:absolute; pointer-events:none;
+    font-family:'Special Elite',monospace;
+    font-size:15px; letter-spacing:.1em;
+    color:var(--stamp);
+    border:3px solid var(--stamp);
+    border-radius:50%;
+    width:96px; height:96px;
+    display:flex; align-items:center; justify-content:center;
+    text-align:center;
+    transform:scale(2.6) rotate(-18deg);
+    opacity:0;
+  }
+  .present-stamp.slam{
+    animation:stampSlam .45s cubic-bezier(.2,1.4,.4,1) forwards;
+  }
+  @keyframes stampSlam{
+    0%{ transform:scale(2.6) rotate(-18deg); opacity:0; }
+    55%{ transform:scale(0.92) rotate(-13deg); opacity:1; }
+    70%{ transform:scale(1.05) rotate(-14deg); }
+    100%{ transform:scale(1) rotate(-13deg); opacity:1; }
+  }
+  .confirm-line{
+    text-align:center; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--green); margin-top:8px; min-height:16px;
+  }
+
+  /* faculty live counts */
+  .live-counts{ display:flex; gap:10px; margin:14px 0; }
+  .lc{ flex:1; text-align:center; padding:10px 4px; border:1px dashed var(--line); border-radius:2px; }
+  .lc .n{ font-family:'Special Elite',monospace; font-size:20px; }
+  .lc .l{ font-family:'IBM Plex Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:.05em; color:var(--pencil); }
+
+  .roster{ margin-top:4px; }
+  .roster-row{ display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px dashed var(--line); font-size:13px; }
+  .roster-row:last-child{ border-bottom:none; }
+
+  /* bottom nav */
+  .bottom-nav{
+    position:absolute; left:0; right:0; bottom:0;
+    background:var(--ink);
+    display:flex;
+    border-top:2px solid var(--brass);
+  }
+  .bottom-nav button{
+    flex:1; background:none; border:none; color:#9fb0bd; padding:11px 4px 9px;
+    font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.03em; text-transform:uppercase;
+  }
+  .bottom-nav button.active{ color:var(--brass); }
+  .bottom-nav button .ico{ display:block; font-size:15px; margin-bottom:2px; font-family:'Special Elite',monospace; }
+
+  .empty-note{ color:var(--pencil); font-size:13px; font-style:italic; text-align:center; padding:18px 0; }
+
+  .back-row{ margin-bottom:14px; }
+  .back-row button{ background:none; border:none; color:var(--pencil); font-family:'IBM Plex Mono',monospace; font-size:12px; padding:0; }
+
+  .helper{ color:var(--pencil); font-size:12px; margin:-8px 0 16px; }
+
+  /* -------- attendance percentage dial (student) -------- */
+  .pct-wrap{ text-align:center; padding:6px 0 4px; }
+  .pct-big{ font-family:'Special Elite',monospace; font-size:44px; line-height:1; }
+  .pct-sub{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--pencil); letter-spacing:.05em; text-transform:uppercase; margin-top:4px; }
+
+  /* -------- scoring rule reference -------- */
+  .rule-card{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--pencil); line-height:1.7; }
+  .rule-card .rule-row{ display:flex; justify-content:space-between; }
+  .rule-card .rule-row b{ color:var(--ink); }
+  .rule-card .plus{ color:var(--green); }
+  .rule-card .minus{ color:var(--stamp); }
+
+  /* -------- day type / status toggles -------- */
+  .toggle-group{ display:flex; gap:8px; margin-bottom:16px; }
+  .toggle-group button{
+    flex:1; padding:12px 6px; border:2px solid var(--line); background:#faf7ee; color:var(--ink);
+    font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.05em; text-transform:uppercase; border-radius:3px;
+    transition:all .15s ease;
+  }
+  .toggle-group button.active{ border-color:var(--ink); background:var(--ink); color:var(--paper); }
+  .toggle-group button.active.present{ border-color:var(--green); background:var(--green); }
+  .toggle-group button.active.absent{ border-color:var(--stamp); background:var(--stamp); }
+
+  .today-line{ text-align:center; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--pencil); margin-bottom:14px; }
+
+  /* -------- daily mark stamp -------- */
+  .day-stamp{
+    position:absolute; pointer-events:none; font-family:'Special Elite',monospace; font-size:14px; letter-spacing:.08em;
+    border:3px solid var(--stamp); color:var(--stamp); border-radius:50%; width:94px; height:94px;
+    display:flex; align-items:center; justify-content:center; text-align:center; transform:scale(2.4) rotate(-16deg); opacity:0;
+  }
+  .day-stamp.slam{ animation:slam .45s cubic-bezier(.2,1.4,.4,1) forwards; }
+  @keyframes slam{
+    0%{ transform:scale(2.4) rotate(-16deg); opacity:0; }
+    55%{ transform:scale(.92) rotate(-12deg); opacity:1; }
+    70%{ transform:scale(1.05) rotate(-13deg); }
+    100%{ transform:scale(1) rotate(-12deg); opacity:1; }
+  }
+  .delta-line{ text-align:center; font-family:'IBM Plex Mono',monospace; font-size:13px; margin-top:8px; min-height:18px; }
+  .delta-line.plus{ color:var(--green); }
+  .delta-line.minus{ color:var(--stamp); }
+
+  /* -------- personal attendance register -------- */
+  .register-row{ display:flex; align-items:center; gap:8px; padding:9px 0; border-bottom:1px dashed var(--line); font-size:13px; flex-wrap:wrap; }
+  .register-row:last-child{ border-bottom:none; }
+  .reg-date{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--pencil); flex:0 0 74px; }
+  .reg-tag{ font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.04em; text-transform:uppercase; padding:2px 6px; border-radius:7px; flex:0 0 auto; }
+  .reg-tag.lab{ background:#e6ddf0; color:#4b3468; border:1px solid #4b3468; }
+  .reg-tag.normal{ background:#e6e0cb; color:var(--pencil); border:1px solid var(--pencil); }
+  .reg-status{ flex:1; font-weight:700; }
+  .reg-status.present{ color:var(--green); }
+  .reg-status.absent{ color:var(--stamp); }
+  .reg-delta{ font-family:'IBM Plex Mono',monospace; font-size:12px; flex:0 0 auto; }
+  .reg-delta.plus{ color:var(--green); }
+  .reg-delta.minus{ color:var(--stamp); }
+
+  /* -------- class-wide daily overview (faculty) -------- */
+  .class-row{ display:flex; align-items:center; gap:8px; padding:8px 4px; border-bottom:1px dashed var(--line); font-size:12.5px; }
+  .class-row:last-child{ border-bottom:none; }
+  .class-row .c-roll{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; flex:1; }
+  .class-row .c-pct{ font-family:'Special Elite',monospace; font-size:13px; flex:0 0 52px; text-align:right; }
+  .class-row .c-badge{ flex:0 0 auto; width:9px; height:9px; border-radius:50%; }
+  .class-row .c-badge.excellent{ background:var(--green); }
+  .class-row .c-badge.good{ background:var(--brass); }
+  .class-row .c-badge.shortage{ background:var(--stamp); }
+  .class-row.current{ background:rgba(185,138,46,0.15); }
+
+  /* -------- monthly attendance calendar -------- */
+  .cal-nav{ display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+  .cal-nav-btn{
+    border:1px solid var(--ink); background:transparent; color:var(--ink);
+    font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.04em; text-transform:uppercase;
+    padding:6px 10px; border-radius:3px;
+  }
+  .cal-nav-btn:hover{ background:var(--ink); color:var(--paper); }
+  .cal-month-label{ font-family:'Special Elite',monospace; font-size:15px; letter-spacing:.03em; }
+  .cal-weekdays{ display:grid; grid-template-columns:repeat(7,1fr); text-align:center; margin-bottom:4px; }
+  .cal-weekdays span{ font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.03em; text-transform:uppercase; color:var(--pencil); }
+  .cal-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:3px; }
+  .cal-cell{
+    aspect-ratio:1; display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono',monospace; font-size:12px; border-radius:2px;
+    border:1px solid var(--line); background:transparent; color:var(--ink);
+  }
+  .cal-cell.blank{ border:none; background:transparent; }
+  .cal-cell.future{ color:var(--paper3); border-color:var(--paper3); }
+  .cal-cell.cal-open{
+    background:var(--paper2); border:2px solid var(--brass); font-weight:700; cursor:pointer;
+  }
+  .cal-cell.cal-open:hover{ background:#f3e9cf; }
+  .cal-cell.present{ background:var(--green); border-color:var(--green); color:var(--paper); font-weight:700; cursor:pointer; }
+  .cal-cell.absent{ background:var(--stamp); border-color:var(--stamp); color:var(--paper); font-weight:700; cursor:pointer; }
+  .cal-cell.present:hover, .cal-cell.absent:hover{ filter:brightness(1.12); }
+  .cal-cell.is-today{ box-shadow:0 0 0 2px var(--brass) inset; }
+  .cal-summary{ display:flex; flex-wrap:wrap; gap:14px; margin-top:14px; padding-top:12px; border-top:1px dashed var(--line); font-size:12.5px; }
+  .cal-sum-item{ display:flex; align-items:center; gap:5px; }
+  .cal-dot{ width:10px; height:10px; border-radius:2px; display:inline-block; }
+  .cal-dot.green{ background:var(--green); }
+  .cal-dot.red{ background:var(--stamp); }
+  .storage-note{ color:var(--pencil); font-size:11px; text-align:center; margin:-6px 0 16px; }
+
+  /* -------- period-wise timetable attendance -------- */
+  .period-daytabs{ display:flex; gap:6px; overflow-x:auto; padding-bottom:6px; margin-bottom:10px; }
+  .period-daytabs::-webkit-scrollbar{ height:4px; }
+  .period-daytab{
+    flex:0 0 auto; padding:7px 13px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.03em;
+    border:1px solid var(--line); border-radius:14px; background:#faf7ee; color:var(--pencil);
+  }
+  .period-daytab.active{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+  .period-row{ display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 0; border-bottom:1px dashed var(--line); }
+  .period-row:last-child{ border-bottom:none; }
+  .period-row.lunch{ justify-content:center; color:var(--brass); font-style:italic; font-size:12.5px; padding:8px 0; }
+  .period-num-badge{
+    width:26px; height:26px; border-radius:50%; background:var(--paper3); color:var(--ink);
+    display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-size:11px; flex-shrink:0;
+  }
+  .period-info{ display:flex; gap:10px; align-items:center; flex:1; min-width:0; }
+  .period-detail{ display:flex; flex-direction:column; gap:1px; min-width:0; }
+  .period-subject{ font-size:13.5px; font-weight:700; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .period-time{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--pencil); }
+  .period-code{ font-family:'IBM Plex Mono',monospace; font-size:9.5px; color:var(--pencil); opacity:.7; }
+  .period-faculty{ font-size:11px; color:var(--pencil); font-style:italic; margin-top:1px; }
+  .period-toggle{
+    position:relative; width:42px; height:22px; border-radius:11px; background:#dcd4b8;
+    border:1px solid var(--line); flex-shrink:0; cursor:pointer;
+  }
+  .period-toggle .knob{
+    position:absolute; top:1px; left:1px; width:18px; height:18px; border-radius:50%; background:#faf7ee;
+    transition:transform .15s ease; box-shadow:0 1px 2px rgba(0,0,0,.2);
+  }
+  .period-toggle.present{ background:var(--green); border-color:var(--green); }
+  .period-toggle.present .knob{ transform:translateX(20px); background:var(--paper); }
+  .period-toggle.absent{ background:var(--stamp); border-color:var(--stamp); }
+  .period-toggle.absent .knob{ background:var(--paper); }
+  .period-summary{ display:flex; gap:8px; margin-top:14px; padding-top:12px; border-top:1px dashed var(--line); }
+  .period-summary .psum-item{ flex:1; text-align:center; }
+  .period-summary .psum-value{ font-family:'Special Elite',monospace; font-size:18px; }
+  .period-summary .psum-label{ font-family:'IBM Plex Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:.03em; color:var(--pencil); margin-top:2px; }
+  .period-report-table{ width:100%; border-collapse:collapse; font-size:11.5px; margin-top:10px; }
+  .period-report-table th, .period-report-table td{ padding:6px 5px; text-align:left; border-bottom:1px dashed var(--line); }
+  .period-report-table th{ font-family:'IBM Plex Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:.03em; color:var(--pencil); }
+  .prt-dot{ display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:5px; }
+  .prt-dot.present{ background:var(--green); }
+  .prt-dot.absent{ background:var(--stamp); }
+  .prt-dot.na{ background:var(--paper3); }
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+  <!-- ============ WELCOME ============ -->
+  <section class="screen active" id="screen-welcome">
+    <div class="welcome-wrap">
+      <div class="stamp-logo">AITS<br>TPT</div>
+      <h2>AITS TPT Self Attendance</h2>
+      <p class="tagline">Smart attendance management for every student.</p>
+      <hr class="rule">
+      <button class="btn stamp-btn" onclick="go('location')">Open Portal</button>
+      <p class="site-url mono">aitstpt-selfattendance.com</p>
+    </div>
+  </section>
+
+  <!-- ============ LOCATION / COLLEGE SELECT ============ -->
+  <section class="screen" id="screen-location">
+    <div class="tab-header">
+      <div class="eyebrow">Step 1 of 3</div>
+      <h1>Select Your College</h1>
+    </div>
+    <div class="screen" style="display:block; padding-top:22px;">
+      <label for="sel-country">Country</label>
+      <select id="sel-country" onchange="onCountryChange()"></select>
+
+      <label for="sel-state">State / Province</label>
+      <select id="sel-state" onchange="onStateChange()" disabled></select>
+
+      <label for="sel-city">City</label>
+      <select id="sel-city" onchange="onCityChange()" disabled></select>
+
+      <label for="sel-college">College / University</label>
+      <select id="sel-college" onchange="onCollegeChange()" disabled></select>
+
+      <div id="college-preview"></div>
+
+      <button class="btn block" id="continue-login-btn" onclick="go('login')" disabled>Continue to Login</button>
+    </div>
+  </section>
+
+  <!-- ============ LOGIN ============ -->
+  <section class="screen" id="screen-login">
+    <div class="tab-header">
+      <div class="eyebrow" id="login-college-tag">Step 2 of 3</div>
+      <h1>Welcome to Self Attendance</h1>
+    </div>
+    <div style="padding-top:22px;">
+      <div class="role-toggle">
+        <button id="role-student-btn" class="active" onclick="setRole('student')">Student Login</button>
+        <button id="role-faculty-btn" onclick="setRole('faculty')">Faculty Login</button>
+      </div>
+
+      <label>College Code</label>
+      <input id="login-college-code" class="mono" readonly>
+
+      <div id="login-id-field">
+        <label id="login-id-label">Student ID / Roll Number</label>
+        <input id="login-id" placeholder="e.g. 24AK1A3377">
+        <div class="field-error" id="login-id-error" style="display:none;"></div>
+      </div>
+
+      <label>Email or Username</label>
+      <input id="login-email" placeholder="you@college.edu">
+
+      <label>Password</label>
+      <input id="login-password" type="password" placeholder="••••••••">
+      <p class="helper">Demo mode — any email &amp; password work. Student login checks your roll number against the 75 loaded from the attendance sheet (leave blank to use 24AK1A3377). Use an email containing "kumar" to sign in as faculty.</p>
+
+      <button class="btn block" onclick="attemptLogin()">Login</button>
+      <div style="display:flex; justify-content:space-between; margin-top:12px;">
+        <button class="link-btn">Forgot Password</button>
+        <button class="link-btn" id="create-account-link">Create Student Account</button>
+      </div>
+      <div class="back-row" style="margin-top:18px;">
+        <button onclick="go('location')">&larr; Change college</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STUDENT DASHBOARD ============ -->
+  <section class="screen" id="screen-student">
+    <div class="tab-header">
+      <div class="eyebrow">Student Dashboard</div>
+      <h1 id="student-welcome">Welcome, Student</h1>
+    </div>
+    <div style="padding-top:20px;">
+
+      <div class="section-title">Current Attendance</div>
+      <div class="card">
+        <div class="pct-wrap">
+          <div class="pct-big" id="pct-big">100%</div>
+          <div class="pct-sub" id="pct-sub">Running Attendance</div>
+          <span class="badge" id="pct-badge"></span>
+          <div class="ruler"><div class="fill" id="pct-fill" style="width:100%"></div></div>
+        </div>
+      </div>
+
+      <div class="section-title">Scoring Rule</div>
+      <div class="card rule-card">
+        <div class="rule-row"><span>Present — normal day</span><b class="plus">+1%</b></div>
+        <div class="rule-row"><span>Present — lab day</span><b class="plus">+1%</b></div>
+        <div class="rule-row"><span>Absent — normal day (no lab)</span><b class="minus">−3%</b></div>
+        <div class="rule-row"><span>Absent — lab day</span><b class="minus">−2%</b></div>
+      </div>
+
+      <div class="section-title">Attendance Calendar</div>
+      <div class="card">
+        <div class="cal-nav">
+          <button type="button" class="cal-nav-btn" onclick="calChangeMonth(-1)">‹ Prev</button>
+          <div class="cal-month-label" id="cal-month-label">—</div>
+          <button type="button" class="cal-nav-btn" onclick="calChangeMonth(1)">Next ›</button>
+        </div>
+        <div class="cal-weekdays">
+          <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+        </div>
+        <div class="cal-grid" id="cal-grid"></div>
+
+        <label style="margin-top:14px;">Day Type (applies to today's tap)</label>
+        <div class="toggle-group" id="day-type-group">
+          <button type="button" class="active" data-val="normal" onclick="setDayType('normal')">Normal Day</button>
+          <button type="button" data-val="lab" onclick="setDayType('lab')">Lab Day</button>
+        </div>
+        <p class="helper" style="margin-top:-6px;">Tap any date up to today to mark or correct it — first tap Present (green), tap again Absent (red). Use Prev/Next to reach earlier months.</p>
+
+        <div class="stamp-zone">
+          <div class="day-stamp" id="day-stamp"></div>
+        </div>
+        <div class="delta-line" id="delta-line"></div>
+
+        <div class="cal-summary">
+          <div class="cal-sum-item"><span class="cal-dot green"></span>Present: <b id="cal-present">0</b></div>
+          <div class="cal-sum-item"><span class="cal-dot red"></span>Absent: <b id="cal-absent">0</b></div>
+          <div class="cal-sum-item">This month: <b id="cal-pct">—</b></div>
+        </div>
+      </div>
+
+      <div class="section-title">Period-wise Attendance — AIML-2 Timetable</div>
+      <div class="card">
+        <div class="period-daytabs" id="period-daytabs"></div>
+        <div id="period-list"></div>
+        <div class="period-summary" id="period-summary"></div>
+        <button class="btn outline block" style="margin-top:12px;" onclick="togglePeriodReport()" id="period-report-btn">View Full Week Report</button>
+        <div id="period-report-wrap" style="display:none; margin-top:8px;">
+          <table class="period-report-table">
+            <thead><tr><th>Day</th><th>Period</th><th>Subject</th><th>Faculty</th><th>Status</th></tr></thead>
+            <tbody id="period-report-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="section-title">Attendance Register</div>
+      <div class="card" id="register-card">
+        <div class="empty-note" id="register-empty">No entries yet. Tap today's date on the calendar to begin your register.</div>
+        <div id="register-list"></div>
+      </div>
+
+      <button class="btn outline block" onclick="resetStudent()">Reset My Register</button>
+      <p class="storage-note">Your attendance is saved in this browser and will still be here next time you open this page on this device.</p>
+
+    </div>
+    <div class="bottom-nav">
+      <button class="active"><span class="ico">▤</span>Dashboard</button>
+      <button onclick="logout()"><span class="ico">⏻</span>Logout</button>
+    </div>
+  </section>
+
+  <!-- ============ FACULTY DASHBOARD ============ -->
+  <section class="screen" id="screen-faculty">
+    <div class="tab-header">
+      <div class="eyebrow">Faculty Dashboard</div>
+      <h1 id="faculty-welcome">Welcome, Faculty</h1>
+    </div>
+    <div style="padding-top:20px;">
+
+      <div class="section-title">Today's Attendance — Live</div>
+      <div class="card">
+        <div class="session-meta" id="fac-today-meta">—</div>
+
+        <div class="live-counts">
+          <div class="lc"><div class="n" id="lc-present">0</div><div class="l">Present</div></div>
+          <div class="lc"><div class="n" id="lc-absent">0</div><div class="l">Absent</div></div>
+          <div class="lc"><div class="n" id="lc-pending">0</div><div class="l">Not Marked</div></div>
+        </div>
+        <p class="helper" style="margin:6px 0 0;">Updates automatically as students mark their own attendance — no action needed here.</p>
+      </div>
+
+      <div class="section-title">Today's Roster (75)</div>
+      <div class="card">
+        <div class="roster" id="roster-list" style="max-height:260px; overflow-y:auto;"></div>
+      </div>
+
+      <div class="section-title">Overall % Overview — All 75 Students</div>
+      <div class="card">
+        <div class="today-line" id="class-today-line" style="margin-bottom:10px;"></div>
+        <div id="class-list" style="max-height:320px; overflow-y:auto;"></div>
+      </div>
+
+      <button class="btn outline block" style="margin-bottom:10px;" onclick="startNextDay()">Start Next Day (All Students)</button>
+      <button class="btn outline block" onclick="resetAllStudents()">Reset Entire Class</button>
+      <p class="storage-note">This view reads live from the same saved attendance data students mark on their own devices/browsers.</p>
+
+    </div>
+    <div class="bottom-nav">
+      <button class="active"><span class="ico">▤</span>Session</button>
+      <button onclick="logout()"><span class="ico">⏻</span>Logout</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* ---------------- College / location dataset ---------------- */
+const LOCATIONS = [
+  {country:"India", state:"Delhi", city:"New Delhi", college:"ABC Engineering College", code:"ABC123"},
+  {country:"India", state:"Maharashtra", city:"Pune", college:"Deccan Institute of Technology", code:"DIT456"},
+  {country:"India", state:"Karnataka", city:"Bengaluru", college:"Silicon Valley College of Engg.", code:"SVC202"},
+  {country:"India", state:"Andhra Pradesh", city:"Tirupati", college:"Sree Vidyanikethan Engineering College", code:"IND-AP-TPT-SVEC"},
+  {country:"India", state:"Andhra Pradesh", city:"Tirupati", college:"Sri Venkateswara College of Engineering", code:"IND-AP-TPT-SVCE"},
+  {country:"India", state:"Andhra Pradesh", city:"Tirupati", college:"Annamacharya Institute of Technology & Sciences (AITS)", code:"IND-AP-TPT-AITS"},
+  {country:"India", state:"Andhra Pradesh", city:"Tirupati", college:"Siddhartha Institute of Science & Technology, Puttur", code:"IND-AP-TPT-SIST"},
+  {country:"India", state:"Andhra Pradesh", city:"Tirupati", college:"KMM Institute of Technology & Science", code:"IND-AP-TPT-KMMS"},
+  {country:"India", state:"Andhra Pradesh", city:"Tirupati", college:"Sree Rama Engineering College", code:"IND-AP-TPT-SREC"},
+  {country:"India", state:"Andhra Pradesh", city:"Tirupati", college:"Vaishnavi Institute of Technology", code:"IND-AP-TPT-VIT"},
+  {country:"India", state:"Andhra Pradesh", city:"Tirupati", college:"Yogananda Institute of Technology & Science", code:"IND-AP-TPT-YITS"},
+  {country:"India", state:"Andhra Pradesh", city:"Tirupati", college:"Sree Venkateswara Engineering College", code:"IND-AP-TPT-SVEC2"},
+  {country:"India", state:"Andhra Pradesh", city:"Tirupati", college:"Mohan Babu University / MB College of Engineering & Technology", code:"IND-AP-TPT-MBU"},
+  {country:"India", state:"Andhra Pradesh", city:"Tirupati", college:"IIT Tirupati", code:"IND-AP-TPT-IITT"},
+  {country:"India", state:"Andhra Pradesh", city:"Tirupati", college:"SV University College of Engineering", code:"IND-AP-TPT-SVUCE"},
+  {country:"India", state:"Andhra Pradesh", city:"Tirupati", college:"School of Engineering & Technology, SPMVV", code:"IND-AP-TPT-SPMVV"},
+  {country:"India", state:"Andhra Pradesh", city:"Tirupati", college:"Sree Vidyanikethan Institute of Management", code:"IND-AP-TPT-SVIM"},
+  {country:"India", state:"Andhra Pradesh", city:"Tirupati", college:"Sri Venkateswara Institute of Medical Sciences (technical programs)", code:"IND-AP-TPT-SVIMS"},
+  {country:"India", state:"Andhra Pradesh", city:"Tirupati", college:"Sri Venkateswara Veterinary University", code:"IND-AP-TPT-SVVU"},
+  {country:"India", state:"Andhra Pradesh", city:"Tirupati", college:"College of Dairy Technology", code:"IND-AP-TPT-CDT"},
+  {country:"India", state:"Andhra Pradesh", city:"Tirupati", college:"Government Polytechnic, Tirupati", code:"IND-AP-TPT-GPTT"},
+  {country:"India", state:"Andhra Pradesh", city:"Tirupati", college:"Sri Padmavati Mahila Visvavidyalayam – Engineering & Technology", code:"IND-AP-TPT-SPMVV2"},
+  {country:"India", state:"Andhra Pradesh", city:"Tirupati", college:"Sri Venkateswara Institute of Science & Technology", code:"IND-AP-TPT-SVIST"},
+  {country:"India", state:"Andhra Pradesh", city:"Tirupati", college:"Siddhartha Educational Academy – School of Engineering & Technology", code:"IND-AP-TPT-SEAT"},
+  {country:"India", state:"Andhra Pradesh", city:"Tirupati", college:"Sri Venkateswara Engineering College for Women", code:"IND-AP-TPT-SVECW"},
+  {country:"India", state:"Andhra Pradesh", city:"Tirupati", college:"Annamacharya Institute – Tirupati Area Campus", code:"IND-AP-TPT-AITST2"},
+  {country:"India", state:"Andhra Pradesh", city:"Tirupati", college:"Other Approved Tirupati Engineering Institution", code:"IND-AP-TPT-TPTENG"},
+  {country:"United States", state:"California", city:"Berkeley", college:"Bay View College of Engineering", code:"BVC789"},
+  {country:"United States", state:"New York", city:"Rochester", college:"Genesee Institute of Technology", code:"GIT654"},
+  {country:"United Kingdom", state:"England", city:"Manchester", college:"Northgate University", code:"NGU321"},
+  {country:"Australia", state:"New South Wales", city:"Sydney", college:"Harborline University", code:"HLU159"},
+];
+
+/* Full worldwide country list (250 countries) from Self_Attendance_Worldwide_Dataset.xlsx / Countries sheet.
+   Only a subset (India, United States, United Kingdom, Australia) has state/city/college data
+   loaded in this demo — see the dataset's Sources sheet for the recommended worldwide directory. */
+const FULL_COUNTRIES = [
+  "Afghanistan",
+  "Albania",
+  "Algeria",
+  "American Samoa",
+  "Andorra",
+  "Angola",
+  "Anguilla",
+  "Antarctica",
+  "Antigua and Barbuda",
+  "Argentina",
+  "Armenia",
+  "Aruba",
+  "Australia",
+  "Austria",
+  "Azerbaijan",
+  "Bahamas",
+  "Bahrain",
+  "Bangladesh",
+  "Barbados",
+  "Belarus",
+  "Belgium",
+  "Belize",
+  "Benin",
+  "Bermuda",
+  "Bhutan",
+  "Bolivia, Plurinational State of",
+  "Bonaire, Sint Eustatius and Saba",
+  "Bosnia and Herzegovina",
+  "Botswana",
+  "Bouvet Island",
+  "Brazil",
+  "British Indian Ocean Territory",
+  "Brunei Darussalam",
+  "Bulgaria",
+  "Burkina Faso",
+  "Burundi",
+  "Cabo Verde",
+  "Cambodia",
+  "Cameroon",
+  "Canada",
+  "Cayman Islands",
+  "Central African Republic",
+  "Chad",
+  "Chile",
+  "China",
+  "Christmas Island",
+  "Cocos (Keeling) Islands",
+  "Colombia",
+  "Comoros",
+  "Congo",
+  "Congo, The Democratic Republic of the",
+  "Cook Islands",
+  "Costa Rica",
+  "Croatia",
+  "Cuba",
+  "Cura\u00e7ao",
+  "Cyprus",
+  "Czechia",
+  "C\u00f4te d'Ivoire",
+  "Denmark",
+  "Djibouti",
+  "Dominica",
+  "Dominican Republic",
+  "Ecuador",
+  "Egypt",
+  "El Salvador",
+  "Equatorial Guinea",
+  "Eritrea",
+  "Estonia",
+  "Eswatini",
+  "Ethiopia",
+  "Falkland Islands (Malvinas)",
+  "Faroe Islands",
+  "Fiji",
+  "Finland",
+  "France",
+  "French Guiana",
+  "French Polynesia",
+  "French Southern Territories",
+  "Gabon",
+  "Gambia",
+  "Georgia",
+  "Germany",
+  "Ghana",
+  "Gibraltar",
+  "Greece",
+  "Greenland",
+  "Grenada",
+  "Guadeloupe",
+  "Guam",
+  "Guatemala",
+  "Guernsey",
+  "Guinea",
+  "Guinea-Bissau",
+  "Guyana",
+  "Haiti",
+  "Heard Island and McDonald Islands",
+  "Holy See (Vatican City State)",
+  "Honduras",
+  "Hong Kong",
+  "Hungary",
+  "Iceland",
+  "India",
+  "Indonesia",
+  "Iran, Islamic Republic of",
+  "Iraq",
+  "Ireland",
+  "Isle of Man",
+  "Israel",
+  "Italy",
+  "Jamaica",
+  "Japan",
+  "Jersey",
+  "Jordan",
+  "Kazakhstan",
+  "Kenya",
+  "Kiribati",
+  "Korea, Democratic People's Republic of",
+  "Korea, Republic of",
+  "Kosovo",
+  "Kuwait",
+  "Kyrgyzstan",
+  "Lao People's Democratic Republic",
+  "Latvia",
+  "Lebanon",
+  "Lesotho",
+  "Liberia",
+  "Libya",
+  "Liechtenstein",
+  "Lithuania",
+  "Luxembourg",
+  "Macao",
+  "Madagascar",
+  "Malawi",
+  "Malaysia",
+  "Maldives",
+  "Mali",
+  "Malta",
+  "Marshall Islands",
+  "Martinique",
+  "Mauritania",
+  "Mauritius",
+  "Mayotte",
+  "Mexico",
+  "Micronesia, Federated States of",
+  "Moldova, Republic of",
+  "Monaco",
+  "Mongolia",
+  "Montenegro",
+  "Montserrat",
+  "Morocco",
+  "Mozambique",
+  "Myanmar",
+  "Namibia",
+  "Nauru",
+  "Nepal",
+  "Netherlands",
+  "New Caledonia",
+  "New Zealand",
+  "Nicaragua",
+  "Niger",
+  "Nigeria",
+  "Niue",
+  "Norfolk Island",
+  "North Macedonia",
+  "Northern Mariana Islands",
+  "Norway",
+  "Oman",
+  "Pakistan",
+  "Palau",
+  "Palestine, State of",
+  "Panama",
+  "Papua New Guinea",
+  "Paraguay",
+  "Peru",
+  "Philippines",
+  "Pitcairn",
+  "Poland",
+  "Portugal",
+  "Puerto Rico",
+  "Qatar",
+  "Romania",
+  "Russian Federation",
+  "Rwanda",
+  "R\u00e9union",
+  "Saint Barth\u00e9lemy",
+  "Saint Helena, Ascension and Tristan da Cunha",
+  "Saint Kitts and Nevis",
+  "Saint Lucia",
+  "Saint Martin (French part)",
+  "Saint Pierre and Miquelon",
+  "Saint Vincent and the Grenadines",
+  "Samoa",
+  "San Marino",
+  "Sao Tome and Principe",
+  "Saudi Arabia",
+  "Senegal",
+  "Serbia",
+  "Seychelles",
+  "Sierra Leone",
+  "Singapore",
+  "Sint Maarten (Dutch part)",
+  "Slovakia",
+  "Slovenia",
+  "Solomon Islands",
+  "Somalia",
+  "South Africa",
+  "South Georgia and the South Sandwich Islands",
+  "South Sudan",
+  "Spain",
+  "Sri Lanka",
+  "Sudan",
+  "Suriname",
+  "Svalbard and Jan Mayen",
+  "Sweden",
+  "Switzerland",
+  "Syrian Arab Republic",
+  "Taiwan, Province of China",
+  "Tajikistan",
+  "Tanzania, United Republic of",
+  "Thailand",
+  "Timor-Leste",
+  "Togo",
+  "Tokelau",
+  "Tonga",
+  "Trinidad and Tobago",
+  "Tunisia",
+  "Turkmenistan",
+  "Turks and Caicos Islands",
+  "Tuvalu",
+  "T\u00fcrkiye",
+  "Uganda",
+  "Ukraine",
+  "United Arab Emirates",
+  "United Kingdom",
+  "United States",
+  "United States Minor Outlying Islands",
+  "Uruguay",
+  "Uzbekistan",
+  "Vanuatu",
+  "Venezuela, Bolivarian Republic of",
+  "Viet Nam",
+  "Virgin Islands, British",
+  "Virgin Islands, U.S.",
+  "Wallis and Futuna",
+  "Western Sahara",
+  "Yemen",
+  "Zambia",
+  "Zimbabwe",
+  "\u00c5land Islands"
+];
+
+let selectedCollege = null;
+let currentRole = 'student';
+let currentUser = null;
+
+/* ---------------- Roll numbers loaded from Student_Attendance_Sheet-1.xlsx (75 rows) ---------------- */
+const ROLL_NUMBERS = [
+  "24AK1A3377", "24AK1A3378", "24AK1A3379", "24AK1A3380", "24AK1A3381", "24AK1A3382", "24AK1A3383", "24AK1A3384", "24AK1A3385", "24AK1A3386",
+  "24AK1A3387", "24AK1A3388", "24AK1A3389", "24AK1A3390", "24AK1A3391", "24AK1A3392", "24AK1A3393", "24AK1A3394", "24AK1A3395", "24AK1A3396",
+  "24AK1A3397", "24AK1A3399", "24AK1A33A0", "24AK1A33A1", "24AK1A33A2", "24AK1A33A3", "24AK1A33A4", "24AK1A33A5", "24AK1A33A6", "24AK1A33A7",
+  "24AK1A33A8", "24AK1A33A9", "24AK1A33B0", "24AK1A33B1", "24AK1A33B2", "24AK1A33B3", "24AK1A33B4", "24AK1A33B5", "24AK1A33B6", "24AK1A33B7",
+  "24AK1A33B8", "24AK1A33B9", "24AK1A33C0", "24AK1A33C1", "24AK1A33C2", "24AK1A33C3", "24AK1A33C4", "24AK1A33C5", "24AK1A33C6", "24AK1A33C7",
+  "24AK1A33C8", "24AK1A33C9", "24AK1A33D0", "24AK1A33D1", "24AK1A33D2", "24AK1A33D3", "24AK1A33D4", "24AK1A33D5", "24AK1A33D6", "24AK1A33D7",
+  "24AK1A33D8", "24AK1A33D9", "24AK1A33E0", "24AK1A33E1", "24AK1A33E2", "24AK1A33E3", "24AK1A33E4", "24AK1A33E5", "24AK1A33E6", "24AK1A33E7",
+  "24AK1A33E8", "24AK1A33E9", "24AK1A33F1", "24AK1A33F2", "24AK1A33F3"
+];
+
+/* ---------------- AIML-2 period-wise timetable (from Documents.docx) ---------------- */
+const PERIODS = [
+  { num: 1, start: "08:40 AM", end: "09:30 AM" },
+  { num: 2, start: "09:30 AM", end: "10:20 AM" },
+  { num: 3, start: "10:20 AM", end: "11:10 AM" },
+  { num: 4, start: "11:10 AM", end: "12:00 PM" },
+  { num: 5, start: "12:00 PM", end: "12:50 PM", lunch: true },
+  { num: 6, start: "12:50 PM", end: "01:50 PM" },
+  { num: 7, start: "01:50 PM", end: "02:40 PM" },
+  { num: 8, start: "02:40 PM", end: "03:30 PM" }
+];
+const TIMETABLE = {
+  "MON": [
+    { code: "NLP", name: "Natural Language Processing", sc: "23ATC3307" },
+    { code: "SS LAB", name: "Soft Skills Lab", sc: "23ASC9901" },
+    { code: "SS LAB", name: "Soft Skills Lab", sc: "23ASC9901" },
+    { code: "SS LAB", name: "Soft Skills Lab", sc: "23ASC9901" },
+    { lunch: true },
+    { code: "TK", name: "Tinkering Lab", sc: "23AES0404" },
+    { code: "TK", name: "Tinkering Lab", sc: "23AES0404" },
+    { code: "TK", name: "Tinkering Lab", sc: "23AES0404" }
+  ],
+  "TUE": [
+    { code: "DWP", name: "Data Wrangling & Pre Processing", sc: "23ATC3305" },
+    { code: "DL & NLP LAB", name: "DL and NLP Lab", sc: "23ATPC3304" },
+    { code: "DL & NLP LAB", name: "DL and NLP Lab", sc: "23ATPC3304" },
+    { code: "DL & NLP LAB", name: "DL and NLP Lab", sc: "23ATPC3304" },
+    { lunch: true },
+    { code: "QC", name: "Intro to Quantum Computing", sc: "23AES0564" },
+    { code: "QC", name: "Intro to Quantum Computing", sc: "23AES0564" },
+    { code: "QC", name: "Intro to Quantum Computing", sc: "23AES0564" }
+  ],
+  "WED": [
+    { code: "DL", name: "Deep Learning", sc: "23ATC3303" },
+    { code: "DV", name: "Data Visualization", sc: "23API3301" },
+    { code: "DWP", name: "Data Wrangling & Pre Processing", sc: "23ATC3305" },
+    { code: "NLP", name: "Natural Language Processing", sc: "23ATC3307" },
+    { lunch: true },
+    { code: "OE-I", name: "Business English Communication", sc: "23AOPC9915" },
+    { code: "OE-I", name: "Business English Communication", sc: "23AOPC9915" },
+    { code: "OE-I", name: "Business English Communication", sc: "23AOPC9915" }
+  ],
+  "THU": [
+    { code: "DV", name: "Data Visualization", sc: "23API3301" },
+    { code: "DL", name: "Deep Learning", sc: "23ATC3303" },
+    { code: "COUNS/DWP", name: "Counselling / DWP", sc: "---" },
+    { code: "NLP", name: "Natural Language Processing", sc: "23ATC3307" },
+    { lunch: true },
+    { code: "NLP(CLC)", name: "NLP (CLC)", sc: "23ATC3307" },
+    { code: "DV(CLC)", name: "Data Visualization (CLC)", sc: "23API3301" },
+    { code: "DL(CLC)", name: "Deep Learning (CLC)", sc: "23ATC3303" }
+  ],
+  "FRI": [
+    { code: "DL", name: "Deep Learning", sc: "23ATC3303" },
+    { code: "OE-I", name: "Business English Communication", sc: "23AOPC9915" },
+    { code: "NLP", name: "Natural Language Processing", sc: "23ATC3307" },
+    { code: "DV", name: "Data Visualization", sc: "23API3301" },
+    { lunch: true },
+    { code: "DWP", name: "Data Wrangling & Pre Processing", sc: "23ATC3305" },
+    { code: "NLP", name: "Natural Language Processing", sc: "23ATC3307" },
+    { code: "DV", name: "Data Visualization", sc: "23API3301" }
+  ],
+  "SAT": [
+    { code: "DWP(CLC)", name: "DWP (CLC)", sc: "23ATC3305" },
+    { code: "DL", name: "Deep Learning", sc: "23ATC3303" },
+    { code: "DL", name: "Deep Learning", sc: "23ATC3303" },
+    { code: "DL", name: "Deep Learning", sc: "23ATC3303" },
+    { lunch: true },
+    { code: "DWP & DL LAB", name: "DWP Lab & DL Lab", sc: "23ATPC3306" },
+    { code: "DWP & DL LAB", name: "DWP Lab & DL Lab", sc: "23ATPC3306" },
+    { code: "DWP & DL LAB", name: "DWP Lab & DL Lab", sc: "23ATPC3306" }
+  ]
+};
+const WEEK_DAYS = ["MON", "TUE", "WED", "THU", "FRI", "SAT"];
+
+/* Faculty per subject, from the AIML-2 Class Time Table subject key (Annamacharya Institute of Technology & Sciences, Tirupati) */
+const FACULTY_MAP = {
+  "DL": "Mr. E. D. Pavan Kumar, AIML",
+  "DWP": "Mrs. C. Rekha, AIML",
+  "NLP": "Mrs. S. Prathema, AIML",
+  "DV": "Dr. P. Harish, ECE",
+  "OE-I": "Mr. K. Porgitha Bhuktha Rthana, HBS/AIML",
+  "SS LAB": "Mr. D. Nagaraju, HBS",
+  "TK": "Mrs. S. Shameem Taj & Mr. D. Ashok, AIML",
+  "DL & NLP LAB": "Mr. E. D. Pavan Kumar & Mrs. S. Prathema, AIML",
+  "DWP & DL LAB": "Mrs. C. Rekha & Mrs. H. Teja, AIML",
+  "QC": "Dr. K. Ramya / Dr. Y. Vijaya Sambhavi",
+  "COUNS/DWP": "AIML Faculty"
+};
+function facultyForCode(code){
+  const base = code.replace(/\(CLC\)/i, '').trim();
+  return FACULTY_MAP[base] || FACULTY_MAP[code] || '';
+}
+const DAY_NAMES = { MON:"Monday", TUE:"Tuesday", WED:"Wednesday", THU:"Thursday", FRI:"Friday", SAT:"Saturday" };
+
+/* Per-student period-level marks: { roll: { day: { periodNum: true/false } } } — separate from the daily calendar. */
+const STORAGE_KEY_PERIODS = 'aitstpt_self_attendance_periods_v1';
+let periodAttendance = {};
+let selectedPeriodDay = "MON";
+let periodReportOpen = false;
+
+function weekdayAbbrev(date){
+  const map = [null, "MON", "TUE", "WED", "THU", "FRI", "SAT"]; // getDay(): 0=Sun..6=Sat
+  return map[date.getDay()] || "MON";
+}
+
+function persistPeriodState(){
+  if(!storageAvailable) return;
+  try{ localStorage.setItem(STORAGE_KEY_PERIODS, JSON.stringify(periodAttendance)); }
+  catch(e){ console.warn('Period attendance could not be saved:', e); }
+}
+
+function loadPeriodState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY_PERIODS);
+    if(raw) periodAttendance = JSON.parse(raw);
+  }catch(e){ console.warn('Could not load saved period attendance:', e); }
+}
+
+function getPeriodStatus(roll, day, num){
+  const v = periodAttendance[roll] && periodAttendance[roll][day] ? periodAttendance[roll][day][num] : undefined;
+  return v === undefined ? null : v;
+}
+
+function setPeriodStatus(roll, day, num, status){
+  if(!periodAttendance[roll]) periodAttendance[roll] = {};
+  if(!periodAttendance[roll][day]) periodAttendance[roll][day] = {};
+  if(status === null){ delete periodAttendance[roll][day][num]; }
+  else { periodAttendance[roll][day][num] = status; }
+  persistPeriodState();
+}
+
+function togglePeriodCell(day, num){
+  if(!currentRoll) return;
+  const cur = getPeriodStatus(currentRoll, day, num);
+  const next = cur === null ? true : (cur === true ? false : null);
+  setPeriodStatus(currentRoll, day, num, next);
+  renderPeriodDay();
+  renderPeriodSummary();
+  if(periodReportOpen) renderPeriodReport();
+}
+
+function renderPeriodDayTabs(){
+  const container = document.getElementById('period-daytabs');
+  container.innerHTML = WEEK_DAYS.map(d =>
+    `<button type="button" class="period-daytab${d === selectedPeriodDay ? ' active' : ''}" onclick="selectPeriodDay('${d}')">${d}</button>`
+  ).join('');
+}
+
+function selectPeriodDay(day){
+  selectedPeriodDay = day;
+  renderPeriodDayTabs();
+  renderPeriodDay();
+  renderPeriodSummary();
+}
+
+function renderPeriodDay(){
+  if(!currentRoll) return;
+  const container = document.getElementById('period-list');
+  const dayData = TIMETABLE[selectedPeriodDay];
+  if(!dayData){ container.innerHTML = ''; return; }
+  container.innerHTML = dayData.map((subj, idx) => {
+    const p = PERIODS[idx];
+    if(p.lunch){
+      return `<div class="period-row lunch">🍽 Lunch Break (${p.start} – ${p.end})</div>`;
+    }
+    const status = getPeriodStatus(currentRoll, selectedPeriodDay, p.num);
+    const togCls = status === true ? 'present' : (status === false ? 'absent' : '');
+    const faculty = facultyForCode(subj.code);
+    return `
+      <div class="period-row">
+        <div class="period-info">
+          <div class="period-num-badge">${p.num}</div>
+          <div class="period-detail">
+            <div class="period-subject">${subj.name}</div>
+            <div class="period-time">${p.start} – ${p.end}</div>
+            <div class="period-code">${subj.code} · ${subj.sc}</div>
+            ${faculty ? `<div class="period-faculty">${faculty}</div>` : ''}
+          </div>
+        </div>
+        <div class="period-toggle ${togCls}" onclick="togglePeriodCell('${selectedPeriodDay}', ${p.num})"><div class="knob"></div></div>
+      </div>`;
+  }).join('');
+}
+
+function renderPeriodSummary(){
+  if(!currentRoll) return;
+  const dayData = TIMETABLE[selectedPeriodDay];
+  let total = 0, present = 0, absent = 0;
+  dayData.forEach((subj, idx) => {
+    const p = PERIODS[idx];
+    if(p.lunch) return;
+    total++;
+    const s = getPeriodStatus(currentRoll, selectedPeriodDay, p.num);
+    if(s === true) present++; else if(s === false) absent++;
+  });
+  const pct = total > 0 ? Math.round((present/total)*100) : 0;
+  document.getElementById('period-summary').innerHTML = `
+    <div class="psum-item"><div class="psum-value">${total}</div><div class="psum-label">Periods</div></div>
+    <div class="psum-item"><div class="psum-value">${present}</div><div class="psum-label">Present</div></div>
+    <div class="psum-item"><div class="psum-value">${absent}</div><div class="psum-label">Absent</div></div>
+    <div class="psum-item"><div class="psum-value">${pct}%</div><div class="psum-label">Today</div></div>
+  `;
+}
+
+function togglePeriodReport(){
+  periodReportOpen = !periodReportOpen;
+  document.getElementById('period-report-wrap').style.display = periodReportOpen ? 'block' : 'none';
+  document.getElementById('period-report-btn').textContent = periodReportOpen ? 'Hide Full Week Report' : 'View Full Week Report';
+  if(periodReportOpen) renderPeriodReport();
+}
+
+function renderPeriodReport(){
+  if(!currentRoll) return;
+  const tbody = document.getElementById('period-report-body');
+  let rows = [];
+  WEEK_DAYS.forEach(day => {
+    const dayData = TIMETABLE[day];
+    if(!dayData) return;
+    dayData.forEach((subj, idx) => {
+      const p = PERIODS[idx];
+      if(p.lunch) return;
+      const s = getPeriodStatus(currentRoll, day, p.num);
+      let statusHtml;
+      if(s === true) statusHtml = `<span class="prt-dot present"></span>Present`;
+      else if(s === false) statusHtml = `<span class="prt-dot absent"></span>Absent`;
+      else statusHtml = `<span class="prt-dot na"></span>Not marked`;
+      rows.push({ day: DAY_NAMES[day], period: `${p.num} (${p.start})`, subject: subj.name, faculty: facultyForCode(subj.code), status: statusHtml });
+    });
+  });
+  if(rows.length === 0){
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--pencil);padding:16px;">No period attendance marked yet.</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = rows.map(r => `<tr><td>${r.day}</td><td>${r.period}</td><td>${r.subject}</td><td>${r.faculty}</td><td>${r.status}</td></tr>`).join('');
+}
+
+/* ---------------- Persistence (browser localStorage — survives reloads/return visits on this device) ---------------- */
+const STORAGE_KEY_STUDENTS = 'aitstpt_self_attendance_students_v1';
+const STORAGE_KEY_SIMDATE = 'aitstpt_self_attendance_simdate_v1';
+let storageAvailable = true;
+
+function persistState(){
+  if(!storageAvailable) return;
+  try{
+    localStorage.setItem(STORAGE_KEY_STUDENTS, JSON.stringify(students));
+    localStorage.setItem(STORAGE_KEY_SIMDATE, simDate.toISOString());
+  }catch(e){
+    storageAvailable = false;
+    console.warn('Attendance data could not be saved to this browser:', e);
+  }
+}
+
+function loadState(){
+  try{
+    const rawStudents = localStorage.getItem(STORAGE_KEY_STUDENTS);
+    if(rawStudents){
+      const parsed = JSON.parse(rawStudents);
+      ROLL_NUMBERS.forEach(roll => { if(parsed[roll]) students[roll] = parsed[roll]; });
+    }
+    const rawDate = localStorage.getItem(STORAGE_KEY_SIMDATE);
+    if(rawDate){
+      const d = new Date(rawDate);
+      if(!isNaN(d)) simDate = d;
+    }
+  }catch(e){
+    storageAvailable = false;
+    console.warn('Could not load saved attendance data:', e);
+  }
+}
+
+/* Shared "today" for the whole class (demo clock — faculty advances it via Start Next Day) */
+let simDate = new Date();
+
+/* Per-student daily attendance state, keyed by roll number.
+   Each register entry: { isoDate:"YYYY-MM-DD", dateStr, dayType, status, delta, resultingPct } */
+let students = {};
+ROLL_NUMBERS.forEach(roll => { students[roll] = { pct: 100, register: [], markedToday: false }; });
+loadState();
+loadPeriodState();
+
+let currentRoll = null;   // roll number of the logged-in student (null when a faculty is logged in)
+let dayType = 'normal';
+let calViewYear = simDate.getFullYear();
+let calViewMonth = simDate.getMonth(); // 0-11
+
+function fmtDate(d){
+  return d.toLocaleDateString(undefined, {month:'short', day:'2-digit', year:'numeric'});
+}
+function pad2(n){ return String(n).padStart(2,'0'); }
+function isoOf(d){ return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`; }
+function todayIso(){ return isoOf(simDate); }
+
+/* ---------------- Screen navigation ---------------- */
+function go(screenName){
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + screenName).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+/* ---------------- Location cascading selects ---------------- */
+function fillSelect(id, values, placeholder){
+  const sel = document.getElementById(id);
+  sel.innerHTML = '';
+  const opt0 = document.createElement('option');
+  opt0.value = ''; opt0.textContent = placeholder;
+  sel.appendChild(opt0);
+  values.forEach(v => {
+    const o = document.createElement('option');
+    o.value = v; o.textContent = v;
+    sel.appendChild(o);
+  });
+}
+
+function initLocationScreen(){
+  fillSelect('sel-country', FULL_COUNTRIES, 'Choose country…');
+  document.getElementById('sel-state').innerHTML = '<option value="">Choose country first…</option>';
+  document.getElementById('sel-city').innerHTML = '<option value="">Choose state first…</option>';
+  document.getElementById('sel-college').innerHTML = '<option value="">Choose city first…</option>';
+  document.getElementById('sel-state').disabled = true;
+  document.getElementById('sel-city').disabled = true;
+  document.getElementById('sel-college').disabled = true;
+  document.getElementById('college-preview').innerHTML = '';
+  document.getElementById('continue-login-btn').disabled = true;
+  selectedCollege = null;
+}
+
+function onCountryChange(){
+  const country = document.getElementById('sel-country').value;
+  document.getElementById('sel-city').innerHTML = '<option value="">Choose state first…</option>';
+  document.getElementById('sel-college').innerHTML = '<option value="">Choose city first…</option>';
+  document.getElementById('sel-city').disabled = true;
+  document.getElementById('sel-college').disabled = true;
+  document.getElementById('college-preview').innerHTML = '';
+  document.getElementById('continue-login-btn').disabled = true;
+  if(!country){ document.getElementById('sel-state').disabled = true; return; }
+  const states = [...new Set(LOCATIONS.filter(l=>l.country===country).map(l=>l.state))];
+  if(states.length === 0){
+    document.getElementById('sel-state').innerHTML = '<option value="">No colleges listed yet for this country</option>';
+    document.getElementById('sel-state').disabled = true;
+    document.getElementById('college-preview').innerHTML = `<div class="card"><p class="helper" style="margin:0;">This demo dataset only has full college coverage for a handful of countries so far (India, United States, United Kingdom, Australia). Worldwide college data needs a live directory — see the Sources note in the dataset for the recommended source.</p></div>`;
+    return;
+  }
+  fillSelect('sel-state', states, 'Choose state…');
+  document.getElementById('sel-state').disabled = false;
+}
+
+function onStateChange(){
+  const country = document.getElementById('sel-country').value;
+  const state = document.getElementById('sel-state').value;
+  document.getElementById('sel-college').innerHTML = '<option value="">Choose city first…</option>';
+  document.getElementById('sel-college').disabled = true;
+  document.getElementById('college-preview').innerHTML = '';
+  document.getElementById('continue-login-btn').disabled = true;
+  if(!state){ document.getElementById('sel-city').disabled = true; return; }
+  const cities = [...new Set(LOCATIONS.filter(l=>l.country===country && l.state===state).map(l=>l.city))];
+  fillSelect('sel-city', cities, 'Choose city…');
+  document.getElementById('sel-city').disabled = false;
+}
+
+function onCityChange(){
+  const country = document.getElementById('sel-country').value;
+  const state = document.getElementById('sel-state').value;
+  const city = document.getElementById('sel-city').value;
+  document.getElementById('college-preview').innerHTML = '';
+  document.getElementById('continue-login-btn').disabled = true;
+  if(!city){ document.getElementById('sel-college').disabled = true; return; }
+  const colleges = LOCATIONS.filter(l=>l.country===country && l.state===state && l.city===city).map(l=>l.college);
+  fillSelect('sel-college', colleges, 'Choose college…');
+  document.getElementById('sel-college').disabled = false;
+}
+
+function onCollegeChange(){
+  const collegeName = document.getElementById('sel-college').value;
+  const preview = document.getElementById('college-preview');
+  if(!collegeName){ preview.innerHTML = ''; document.getElementById('continue-login-btn').disabled = true; return; }
+  const rec = LOCATIONS.find(l => l.college === collegeName);
+  selectedCollege = rec;
+  const codeTail = rec.code.includes('-') ? rec.code.split('-').pop() : rec.code;
+  const logoInitials = (codeTail.replace(/[0-9]/g,'') || codeTail).slice(0,4);
+  preview.innerHTML = `
+    <div class="card college-result">
+      <div class="college-logo">${logoInitials}</div>
+      <div class="college-meta">
+        <h3>${rec.college}</h3>
+        <p>${rec.city}, ${rec.state}, ${rec.country}</p>
+        <span class="college-code">CODE: ${rec.code}</span>
+      </div>
+    </div>`;
+  document.getElementById('continue-login-btn').disabled = false;
+  document.getElementById('login-college-code').value = rec.code;
+}
+
+/* ---------------- Login ---------------- */
+function setRole(role){
+  currentRole = role;
+  document.getElementById('role-student-btn').classList.toggle('active', role==='student');
+  document.getElementById('role-faculty-btn').classList.toggle('active', role==='faculty');
+  document.getElementById('login-id-label').textContent = role==='student' ? 'Student ID / Roll Number' : 'Faculty ID';
+  document.getElementById('login-id').placeholder = role==='student' ? 'e.g. 24AK1A3377' : 'e.g. FAC-0042';
+  document.getElementById('create-account-link').style.display = role==='student' ? 'inline' : 'none';
+  document.getElementById('login-id-error').style.display = 'none';
+}
+
+function attemptLogin(){
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  if(!email || !password){
+    alert('Enter an email/username and password to continue (demo accepts any values).');
+    return;
+  }
+  const roleFromEmail = email.toLowerCase().includes('kumar') ? 'faculty' : currentRole;
+  const idVal = document.getElementById('login-id').value.trim();
+  const errEl = document.getElementById('login-id-error');
+  errEl.style.display = 'none';
+
+  if(roleFromEmail === 'faculty'){
+    currentRoll = null;
+    currentUser = { name: 'Dr. Kumar', id: idVal || 'FAC-0042' };
+    document.getElementById('faculty-welcome').textContent = 'Welcome, ' + currentUser.name;
+    renderFacultyDashboard();
+    go('faculty');
+  } else {
+    let roll = idVal ? idVal.toUpperCase() : ROLL_NUMBERS[0];
+    const match = ROLL_NUMBERS.find(r => r.toUpperCase() === roll);
+    if(!match){
+      errEl.textContent = "Roll number not found in this college's roster (75 loaded). Check and try again, or leave the field blank to use a demo roll number.";
+      errEl.style.display = 'block';
+      return;
+    }
+    currentRoll = match;
+    currentUser = { name: null, id: currentRoll };
+    document.getElementById('student-welcome').textContent = 'Welcome, Roll ' + currentRoll;
+    setDayType('normal');
+    const stamp = document.getElementById('day-stamp');
+    stamp.classList.remove('slam');
+    stamp.style.opacity = 0;
+    document.getElementById('delta-line').textContent = '';
+    document.getElementById('delta-line').className = 'delta-line';
+    calViewYear = simDate.getFullYear();
+    calViewMonth = simDate.getMonth();
+    selectedPeriodDay = weekdayAbbrev(simDate);
+    renderStudent();
+    go('student');
+  }
+}
+
+function logout(){
+  currentUser = null;
+  currentRoll = null;
+  document.getElementById('login-email').value = '';
+  document.getElementById('login-password').value = '';
+  document.getElementById('login-id').value = '';
+  document.getElementById('login-id-error').style.display = 'none';
+  go('login');
+}
+
+/* ---------------- Student dashboard: daily attendance scoring ---------------- */
+function setDayType(val){
+  dayType = val;
+  document.querySelectorAll('#day-type-group button').forEach(b=>{
+    b.classList.toggle('active', b.dataset.val === val);
+  });
+}
+
+function badgeForPct(pct){
+  if(pct >= 90) return {cls:'excellent', label:'Excellent'};
+  if(pct >= 75) return {cls:'good', label:'Good'};
+  return {cls:'shortage', label:'Attendance Shortage'};
+}
+
+function computeDelta(dType, st){
+  if(st === 'present') return 1;
+  return dType === 'lab' ? -2 : -3;
+}
+
+function renderStudent(){
+  if(!currentRoll) return;
+  const s = students[currentRoll];
+  document.getElementById('pct-big').textContent = s.pct.toFixed(1).replace(/\.0$/,'') + '%';
+  document.getElementById('pct-sub').textContent = 'Running Attendance — ' + currentRoll;
+  const b = badgeForPct(s.pct);
+  const badgeEl = document.getElementById('pct-badge');
+  badgeEl.textContent = b.label;
+  badgeEl.className = 'badge ' + b.cls;
+  const fill = document.getElementById('pct-fill');
+  fill.style.width = s.pct + '%';
+  fill.className = 'fill' + (s.pct < 75 ? ' warn' : '');
+
+  renderCalendar();
+  renderRegister();
+  renderPeriodDayTabs();
+  renderPeriodDay();
+  renderPeriodSummary();
+  if(periodReportOpen) renderPeriodReport();
+}
+
+/* ---------------- Attendance calendar ---------------- */
+function calChangeMonth(delta){
+  calViewMonth += delta;
+  if(calViewMonth < 0){ calViewMonth = 11; calViewYear -= 1; }
+  if(calViewMonth > 11){ calViewMonth = 0; calViewYear += 1; }
+  renderCalendar();
+}
+
+function calClickDate(iso){
+  if(!currentRoll) return;
+  const tIso = todayIso();
+  if(iso > tIso) return; // can't mark a date that hasn't happened yet
+  const s = students[currentRoll];
+  let entry = s.register.find(r => r.isoDate === iso);
+  const newStatus = !entry ? 'present' : (entry.status === 'present' ? 'absent' : 'present');
+
+  if(entry){ s.pct = s.pct - entry.delta; }
+  const delta = computeDelta(dayType, newStatus);
+  s.pct = Math.max(0, Math.min(100, Math.round((s.pct + delta) * 10) / 10));
+
+  const [y, m, d] = iso.split('-').map(Number);
+  const dateForLabel = new Date(y, m - 1, d);
+
+  if(entry){
+    entry.status = newStatus; entry.delta = delta; entry.dayType = dayType; entry.resultingPct = s.pct;
+  } else {
+    entry = { isoDate: iso, dateStr: fmtDate(dateForLabel), dayType, status: newStatus, delta, resultingPct: s.pct };
+    s.register.unshift(entry);
+  }
+  if(iso === tIso) s.markedToday = true;
+
+  const stamp = document.getElementById('day-stamp');
+  stamp.textContent = newStatus === 'present' ? 'PRESENT' : 'ABSENT';
+  stamp.style.fontSize = newStatus === 'present' ? '14px' : '15px';
+  stamp.classList.remove('slam'); void stamp.offsetWidth; stamp.classList.add('slam');
+
+  const deltaLine = document.getElementById('delta-line');
+  deltaLine.textContent = (delta > 0 ? '+' : '') + delta + '% applied — ' + (dateForLabel.toLocaleDateString()) + ' (' + (dayType === 'lab' ? 'lab day' : 'normal day') + ')';
+  deltaLine.className = 'delta-line ' + (delta > 0 ? 'plus' : 'minus');
+
+  persistState();
+  renderStudent();
+}
+
+function renderCalendar(){
+  if(!currentRoll) return;
+  const s = students[currentRoll];
+  const monthLabel = new Date(calViewYear, calViewMonth, 1).toLocaleDateString(undefined, {month:'long', year:'numeric'});
+  document.getElementById('cal-month-label').textContent = monthLabel.toUpperCase();
+
+  const firstWeekday = new Date(calViewYear, calViewMonth, 1).getDay();
+  const daysInMonth = new Date(calViewYear, calViewMonth + 1, 0).getDate();
+  const tIso = todayIso();
+
+  let cellsHtml = '';
+  for(let i = 0; i < firstWeekday; i++){ cellsHtml += `<div class="cal-cell blank"></div>`; }
+
+  let monthPresent = 0, monthAbsent = 0;
+  for(let day = 1; day <= daysInMonth; day++){
+    const iso = `${calViewYear}-${pad2(calViewMonth+1)}-${pad2(day)}`;
+    const entry = s.register.find(r => r.isoDate === iso);
+    let cls = 'cal-cell';
+    let onclick = '';
+    if(entry){
+      cls += entry.status === 'present' ? ' present' : ' absent';
+      if(entry.status === 'present') monthPresent++; else monthAbsent++;
+      if(iso <= tIso) onclick = ` onclick="calClickDate('${iso}')"`;
+    } else if(iso <= tIso){
+      cls += ' cal-open';
+      onclick = ` onclick="calClickDate('${iso}')"`;
+    } else {
+      cls += ' future';
+    }
+    if(iso === tIso) cls += ' is-today';
+    cellsHtml += `<div class="${cls}"${onclick}>${day}</div>`;
+  }
+  document.getElementById('cal-grid').innerHTML = cellsHtml;
+
+  document.getElementById('cal-present').textContent = monthPresent;
+  document.getElementById('cal-absent').textContent = monthAbsent;
+  const totalMarked = monthPresent + monthAbsent;
+  document.getElementById('cal-pct').textContent = totalMarked ? Math.round((monthPresent/totalMarked)*100) + '%' : '—';
+}
+
+function renderRegister(){
+  const s = students[currentRoll];
+  const list = document.getElementById('register-list');
+  const empty = document.getElementById('register-empty');
+  if(!s || s.register.length === 0){
+    empty.style.display = 'block';
+    list.innerHTML = '';
+    return;
+  }
+  empty.style.display = 'none';
+  list.innerHTML = s.register.map(r => `
+    <div class="register-row">
+      <span class="reg-date">${r.dateStr}</span>
+      <span class="reg-tag ${r.dayType}">${r.dayType === 'lab' ? 'Lab' : 'Normal'}</span>
+      <span class="reg-status ${r.status}">${r.status === 'present' ? 'Present' : 'Absent'}</span>
+      <span class="reg-delta ${r.delta > 0 ? 'plus' : 'minus'}">${r.delta > 0 ? '+' : ''}${r.delta}% → ${r.resultingPct}%</span>
+    </div>
+  `).join('');
+}
+
+function resetStudent(){
+  if(!currentRoll) return;
+  students[currentRoll] = { pct: 100, register: [], markedToday: false };
+  document.getElementById('delta-line').textContent = '';
+  document.getElementById('delta-line').className = 'delta-line';
+  const stamp = document.getElementById('day-stamp');
+  stamp.classList.remove('slam');
+  stamp.style.opacity = 0;
+  setDayType('normal');
+  persistState();
+  renderStudent();
+}
+
+/* ---------------- Faculty dashboard: real live view of today's self-marked attendance ---------------- */
+function renderTodayAttendance(){
+  const tIso = todayIso();
+  document.getElementById('fac-today-meta').textContent = 'Today: ' + fmtDate(simDate);
+
+  let present = 0, absent = 0, pending = 0;
+  const rows = ROLL_NUMBERS.map(roll => {
+    const entry = students[roll].register.find(r => r.isoDate === tIso);
+    const st = entry ? entry.status : 'pending';
+    if(st === 'present') present++; else if(st === 'absent') absent++; else pending++;
+    return { roll, status: st };
+  });
+
+  document.getElementById('lc-present').textContent = present;
+  document.getElementById('lc-absent').textContent = absent;
+  document.getElementById('lc-pending').textContent = pending;
+
+  document.getElementById('roster-list').innerHTML = rows.map(r => {
+    const pillCls = r.status === 'present' ? 'present' : r.status === 'absent' ? 'absent' : 'closed';
+    const label = r.status === 'present' ? 'Present' : r.status === 'absent' ? 'Absent' : 'Not Marked';
+    return `<div class="roster-row"><span class="mono">${r.roll}</span><span class="status-pill ${pillCls}">${label}</span></div>`;
+  }).join('');
+}
+
+function renderFacultyDashboard(){
+  renderTodayAttendance();
+  renderClassList();
+}
+
+/* ---------------- Faculty dashboard: overall % overview across all 75 students ---------------- */
+function renderClassList(){
+  document.getElementById('class-today-line').textContent = 'Today: ' + fmtDate(simDate) + '  ·  75 students';
+  const rows = ROLL_NUMBERS.map(roll => ({ roll, pct: students[roll].pct }))
+    .sort((a,b) => b.pct - a.pct);
+  document.getElementById('class-list').innerHTML = rows.map(r => {
+    const b = badgeForPct(r.pct);
+    const isCurrent = r.roll === currentRoll;
+    return `
+      <div class="class-row ${isCurrent ? 'current' : ''}">
+        <span class="c-badge ${b.cls}"></span>
+        <span class="c-roll">${r.roll}</span>
+        <span class="c-pct">${r.pct.toFixed(1).replace(/\.0$/,'')}%</span>
+      </div>`;
+  }).join('');
+}
+
+function startNextDay(){
+  simDate.setDate(simDate.getDate() + 1);
+  ROLL_NUMBERS.forEach(roll => { students[roll].markedToday = false; });
+  persistState();
+  renderFacultyDashboard();
+}
+
+function resetAllStudents(){
+  ROLL_NUMBERS.forEach(roll => { students[roll] = { pct: 100, register: [], markedToday: false }; });
+  simDate = new Date();
+  persistState();
+  renderFacultyDashboard();
+}
+
+/* ---------------- Cross-tab live sync ----------------
+   When a student marks attendance in one browser tab, other tabs on the same
+   device/browser (e.g. a faculty view open alongside) pick it up automatically
+   via the storage event, so the faculty dashboard updates without a manual refresh. */
+window.addEventListener('storage', function(e){
+  if(e.key !== STORAGE_KEY_STUDENTS && e.key !== STORAGE_KEY_SIMDATE && e.key !== STORAGE_KEY_PERIODS) return;
+  loadState();
+  loadPeriodState();
+  const facultyScreen = document.getElementById('screen-faculty');
+  const studentScreen = document.getElementById('screen-student');
+  if(facultyScreen && facultyScreen.classList.contains('active')){
+    renderFacultyDashboard();
+  } else if(studentScreen && studentScreen.classList.contains('active') && currentRoll){
+    renderStudent();
+  }
+});
+
+/* ---------------- Init ---------------- */
+initLocationScreen();
+setRole('student');
+renderFacultyDashboard();
+</script>
