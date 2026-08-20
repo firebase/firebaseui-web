@@ -29,13 +29,13 @@ Authoritative docs:
 React:
 
 ```bash
-npm install firebase @firebase-oss/ui-core @firebase-oss/ui-react@beta @firebase-oss/ui-styles
+npm install firebase @firebase-oss/ui-core @firebase-oss/ui-react @firebase-oss/ui-styles
 ```
 
 shadcn/ui:
 
 ```bash
-npm install firebase @firebase-oss/ui-core @firebase-oss/ui-react@beta
+npm install firebase @firebase-oss/ui-core @firebase-oss/ui-react
 ```
 
 Then add the Firebase registry to `components.json`:
@@ -57,7 +57,7 @@ npx shadcn@latest add @firebase/sign-in-auth-screen
 Angular:
 
 ```bash
-npm install firebase @angular/fire @firebase-oss/ui-core @firebase-oss/ui-angular@beta @firebase-oss/ui-styles
+npm install firebase @angular/fire @firebase-oss/ui-core @firebase-oss/ui-angular @firebase-oss/ui-styles
 ```
 
 Adapt commands for `pnpm`, `yarn`, or `bun` if that is the repo's package manager.
