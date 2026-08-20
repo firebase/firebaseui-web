@@ -46,7 +46,7 @@ catalog:
   react-router: ^8.1.0
   rimraf: ^6.1.3
   rxjs: ^7.8.2
-  tailwindcss: ^4.3.2
+  tailwindcss: ^4.3.3
   tsup: 8.5.1
   typescript: ^6.0.3
   vite: ^8.2.1

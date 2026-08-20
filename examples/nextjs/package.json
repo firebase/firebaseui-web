@@ -30,7 +30,7 @@
     "@types/react-dom": "catalog:",
     "postcss": "catalog:",
     "postcss-load-config": "^6.0.1",
-    "tailwindcss": "^4.3.2",
+    "tailwindcss": "^4.3.3",
     "typescript": "catalog:"
   }
 }
