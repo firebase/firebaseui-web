@@ -37,7 +37,7 @@
     "@firebase-oss/ui-core": "workspace:*",
     "@firebase-oss/ui-styles": "workspace:*",
     "@firebase-oss/ui-translations": "workspace:*",
-    "@tailwindcss/postcss": "^4.3.2",
+    "@tailwindcss/postcss": "^4.3.3",
     "express": "^5.2.1",
     "postcss": "catalog:",
     "rxjs": "~7.8.2",

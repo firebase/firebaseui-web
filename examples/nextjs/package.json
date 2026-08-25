@@ -24,7 +24,7 @@
     "server-only": "^0.0.1"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.3.2",
+    "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^26",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
