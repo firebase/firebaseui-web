@@ -30,6 +30,9 @@ Applies to all durable documentation in this repository: the [developer-docs](in
 | Content | Owner document |
 |---------|----------------|
 | Architecture shape, inventories | `developer-docs/architecture/` |
+| Work-queue term ids | `developer-docs/testing/iteration-vocabulary.md` |
+| Change loop, gates, frozen tree | `developer-docs/testing/change-authoring-workflow.md` |
+| CI-parity command sequence | `developer-docs/playbooks/change-authoring-verification.md` |
 | Hard-to-reverse decisions | `developer-docs/decisions.md` |
 | Step-by-step procedures | `developer-docs/playbooks/` or root guides (pick one owner) |
 | Implementation backlogs | `developer-docs/work-queues/` |

@@ -69,6 +69,8 @@ pnpm test:e2e
 
 | Topic | Document |
 |-------|----------|
+| Term ids | [testing/iteration-vocabulary.md](../testing/iteration-vocabulary.md) |
+| Change loop / gates | [testing/change-authoring-workflow.md](../testing/change-authoring-workflow.md) |
 | Test layers | [architecture/testing-strategy.md](../architecture/testing-strategy.md) |
 | Dependency bumps | [dependency-update-verification.md](dependency-update-verification.md) |
 | E2E scope | [decisions.md](../decisions.md) AD-3, AD-4, AD-6 |

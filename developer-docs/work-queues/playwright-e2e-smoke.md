@@ -13,19 +13,13 @@ A fully automated e2e framework that validates each monorepo example **loads and
 
 # Work-queue conventions
 
-Ephemeral tracker; policy: [documentation-policy.md](../documentation-policy.md). This queue records **state** (gates, next step) using neutral OKF work-queue field conventions — not agent roles, dispatch, or session choreography.
+Ephemeral tracker; policy: [documentation-policy.md](../documentation-policy.md). This queue records **state** (gates, next step). It does not define term ids, gate rules, or command tables.
 
-**Work types** (`next_work_type`): `gap-analysis` (read-only feasibility) · `implementation` (author code + tests) · `independent-review` (verify a frozen diff) · `documentation` (durable doc/OKF updates) · `commit` (one focused commit).
+- Term ids: [iteration vocabulary](../testing/iteration-vocabulary.md)
+- Loop, gates, frozen tree: [change authoring workflow](../testing/change-authoring-workflow.md)
+- Commands: [change-authoring-verification.md](../playbooks/change-authoring-verification.md)
 
-**Validation tiers** (`validation_tier`), mapped to this repo:
-
-| Tier           | Meaning here                                                                                                                                    |
-| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| `unit-focused` | Fast local check while authoring: `pnpm build:packages`, the targeted example's spec (`pnpm test:e2e:<example>`), `pnpm lint:check` on the diff |
-| `area-focused` | Full smoke for the changed example(s) on a frozen tree, plus `pnpm test` / lint / format as applicable                                          |
-| `full`         | `pnpm build` + `pnpm test` + whole `pnpm test:e2e` across all examples before merge                                                             |
-
-**Gates** (`open` | `closed` | `deferred`): `implementation_gate` (implementation complete + `unit-focused` green) · `review_gate` (independent review complete on frozen tree + `area-focused` green) · `commit_gate` (durable commit exists whose subject matches `commit_subject`). `deferred` = optional work parked until a trigger (e.g. flakiness) re-opens it. Code with `review_gate: open` is untrusted until review closes it. `commit_subject` is the planned Conventional Commit subject, set **before** `git commit` and staged in the same commit; never record SHAs.
+Parked optional work (Phase 5) uses Notes, not a new gate value. Existing `deferred` rows below are historical.
 
 # Smoke scenarios (MVP)
 

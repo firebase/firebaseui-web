@@ -23,6 +23,11 @@ OKF knowledge bundle for firebaseui-web: architecture, decisions, playbooks, and
 - [architecture/examples-inventory.md](architecture/examples-inventory.md) — example apps, ports, dev commands, emulator wiring
 - [architecture/testing-strategy.md](architecture/testing-strategy.md) — unit, build, and e2e verification layers
 
+# Testing
+
+- [testing/iteration-vocabulary.md](testing/iteration-vocabulary.md) — work type, tier, and queue field identifiers
+- [testing/change-authoring-workflow.md](testing/change-authoring-workflow.md) — verified change loop, gates, frozen tree
+
 # Playbooks
 
 - [playbooks/change-authoring-verification.md](playbooks/change-authoring-verification.md) — **required before commit/push** on deps, CI, or e2e changes ([AD-10](decisions.md#ad-10-change-authoring-requires-ci-parity-verification-before-commit))
