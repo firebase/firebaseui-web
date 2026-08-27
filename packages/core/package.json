@@ -57,7 +57,7 @@
   "dependencies": {
     "@firebase-oss/ui-translations": "workspace:*",
     "@nanostores/deepmap": "catalog:",
-    "libphonenumber-js": "^1.13.8",
+    "libphonenumber-js": "^1.13.11",
     "nanostores": "catalog:",
     "qrcode-generator": "^2.0.4",
     "zod": "catalog:"
