@@ -4,22 +4,22 @@ packages:
   - e2e
 
 catalog:
-  "@angular-devkit/architect": ^0.2201.2
-  "@angular-devkit/build-angular": ^22.0.5
-  "@angular-devkit/core": ^22.1.2
+  "@angular-devkit/architect": ^0.2201.6
+  "@angular-devkit/build-angular": ^22.1.6
+  "@angular-devkit/core": ^22.1.6
   "@angular/animations": ^22.0.5
-  "@angular/cli": ^22.1.2
-  "@angular/common": ^22.1.0
-  "@angular/compiler": ^22.1.0
-  "@angular/compiler-cli": ^22.1.0
-  "@angular/core": ^22.1.0
+  "@angular/cli": ^22.1.6
+  "@angular/common": ^22.1.3
+  "@angular/compiler": ^22.1.3
+  "@angular/compiler-cli": ^22.1.3
+  "@angular/core": ^22.1.3
   "@angular/fire": ^20.0.1
-  "@angular/forms": ^22.1.0
-  "@angular/platform-browser": ^22.1.0
+  "@angular/forms": ^22.1.3
+  "@angular/platform-browser": ^22.1.3
   "@angular/platform-browser-dynamic": ^22.0.5
-  "@angular/platform-server": ^22.1.0
-  "@angular/router": ^22.1.0
-  "@angular/ssr": ^22.1.2
+  "@angular/platform-server": ^22.1.3
+  "@angular/router": ^22.1.3
+  "@angular/ssr": ^22.1.6
   ng-packagr: ^22.1.0
   "@tailwindcss/vite": ^4.3.2
   "@testing-library/jest-dom": ^6.9.1
