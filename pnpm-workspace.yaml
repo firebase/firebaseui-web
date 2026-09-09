@@ -36,7 +36,7 @@ catalog:
   eslint: ^9.39.4
   firebase: ^11.10.0
   jsdom: ^29.1.1
-  nanostores: ^1.4.0
+  nanostores: ^1.5.2
   next: 16.3.3
   postcss: ^8.5.26
 

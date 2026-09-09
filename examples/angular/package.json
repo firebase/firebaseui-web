@@ -72,7 +72,7 @@
     "@vitest/coverage-v8": "catalog:",
     "jsdom": "^29.1.1",
     "@testing-library/jest-dom": "^6.9.1",
-    "nanostores": "^1.4.0",
+    "nanostores": "^1.5.2",
     "ng-packagr": "catalog:",
     "prettier": "^3.9.6",
     "rimraf": "catalog:",
