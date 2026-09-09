@@ -1,10 +1,5 @@
 ---
-type: Index
-title: developer-docs
-description: OKF knowledge bundle entry point for firebaseui-web.
-tags: [okf, documentation]
 okf_version: "0.1"
-timestamp: 2026-07-03T00:00:00Z
 ---
 
 # developer-docs
