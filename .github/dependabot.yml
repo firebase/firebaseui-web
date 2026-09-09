@@ -33,6 +33,15 @@ updates:
           - 'firebase'
           - '@angular/fire'
           - 'rxfire'
+    # TypeScript 7.0 is the native Go rewrite and does not ship a compiler API.
+    # Angular 22 compiler-cli requires typescript >=6.0 <6.1, and typescript-eslint 8
+    # requires >=4.8.4 <6.1.0. Remove this ignore when those peer ranges include 7.x
+    # and tsup/eslint can consume the TypeScript 7 API (expected with 7.1+). Until then
+    # Dependabot opens a 6 -> 7 bump that cannot land.
+    ignore:
+      - dependency-name: 'typescript'
+        update-types:
+          - 'version-update:semver-major'
 
   - package-ecosystem: 'github-actions'
     directory: '/'
