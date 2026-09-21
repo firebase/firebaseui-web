@@ -58,7 +58,7 @@ function TotpMultiFactorSecretGenerationForm(props: TotpMultiFactorSecretGenerat
             <FormItem>
               <FormLabel>{getTranslation(ui, "labels", "displayName")}</FormLabel>
               <FormControl>
-                <Input {...field} type="text" />
+                <Input {...field} type="text" autoComplete="off" />
               </FormControl>
               <FormMessage />
             </FormItem>

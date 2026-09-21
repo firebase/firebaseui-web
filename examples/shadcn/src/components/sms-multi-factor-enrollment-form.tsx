@@ -66,7 +66,7 @@ function MultiFactorEnrollmentPhoneNumberForm(props: MultiFactorEnrollmentPhoneN
             <FormItem>
               <FormLabel>{getTranslation(ui, "labels", "displayName")}</FormLabel>
               <FormControl>
-                <Input {...field} type="text" />
+                <Input {...field} type="text" autoComplete="off" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -81,7 +81,7 @@ function MultiFactorEnrollmentPhoneNumberForm(props: MultiFactorEnrollmentPhoneN
               <FormControl>
                 <div className="flex items-center gap-2">
                   <CountrySelector ref={countrySelector} />
-                  <Input {...field} type="tel" className="flex-grow" />
+                  <Input {...field} type="tel" autoComplete="tel" className="flex-grow" />
                 </div>
               </FormControl>
               <FormMessage />

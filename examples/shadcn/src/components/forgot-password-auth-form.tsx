@@ -62,7 +62,7 @@ export function ForgotPasswordAuthForm(props: ForgotPasswordAuthFormProps) {
             <FormItem>
               <FormLabel>{getTranslation(ui, "labels", "emailAddress")}</FormLabel>
               <FormControl>
-                <Input {...field} type="email" />
+                <Input {...field} type="email" autoComplete="email" />
               </FormControl>
               <FormMessage />
             </FormItem>

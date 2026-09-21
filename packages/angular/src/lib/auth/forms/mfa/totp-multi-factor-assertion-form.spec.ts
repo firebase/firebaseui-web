@@ -100,7 +100,10 @@ describe("<fui-totp-multi-factor-assertion-form>", () => {
     await waitFor(() => {
       expect(screen.getByRole("textbox", { name: /Verification Code/i })).toBeInTheDocument();
     });
-    expect(screen.getByPlaceholderText("123456")).toBeInTheDocument();
+    // Asserted on the input itself: fui-form-input keeps its static attributes on the host element too,
+    // so getByPlaceholderText matched the host and passed while the inner input had no placeholder at all
+    expect(screen.getByRole("textbox", { name: /Verification Code/i })).toHaveAttribute("placeholder", "123456");
+    expect(screen.getByRole("textbox", { name: /Verification Code/i })).toHaveAttribute("maxlength", "6");
     expect(screen.getByRole("button", { name: "Verify Code" })).toBeInTheDocument();
   });
 

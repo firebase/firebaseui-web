@@ -136,7 +136,7 @@ function PhoneNumberForm(props: PhoneNumberFormProps) {
               <FormControl>
                 <div className="flex items-center gap-2">
                   <CountrySelector ref={countrySelector} />
-                  <Input {...field} type="tel" />
+                  <Input {...field} type="tel" autoComplete="tel" />
                 </div>
               </FormControl>
               <FormMessage />
