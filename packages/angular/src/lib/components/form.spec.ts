@@ -191,6 +191,32 @@ describe("Form Components", () => {
       description = signal<string | undefined>(undefined);
     }
 
+    @Component({
+      template: `
+        <fui-form-input
+          name="test"
+          tanstack-app-field
+          [tanstackField]="form"
+          label="Test Label"
+          [autocomplete]="autocomplete()"
+          [placeholder]="placeholder()"
+          [maxlength]="maxlength()"
+        ></fui-form-input>
+      `,
+      standalone: true,
+      imports: [FormInputComponent, TanStackAppField],
+    })
+    class TestFormInputWithAttributesHostComponent {
+      form = injectForm({
+        defaultValues: {
+          test: "",
+        },
+      });
+      autocomplete = signal<string | undefined>(undefined);
+      placeholder = signal<string | undefined>(undefined);
+      maxlength = signal<string | number | undefined>(undefined);
+    }
+
     it("renders action content when provided", async () => {
       await render(TestFormInputHostComponent, {
         imports: [TestFormInputHostComponent],
@@ -238,6 +264,37 @@ describe("Form Components", () => {
 
       expect(screen.queryByText("Initial description")).toBeFalsy();
       expect(screen.getByText("Updated description")).toBeTruthy();
+    });
+
+    it("omits autocomplete, placeholder and maxlength when not provided", async () => {
+      const { container } = await render(TestFormInputWithAttributesHostComponent, {
+        imports: [TestFormInputWithAttributesHostComponent],
+      });
+
+      const input = container.querySelector("input")!;
+
+      // Bound with [attr.*], so an unset input must drop the attribute rather than
+      // render it with a literal "undefined" value
+      expect(input.hasAttribute("autocomplete")).toBe(false);
+      expect(input.hasAttribute("placeholder")).toBe(false);
+      expect(input.hasAttribute("maxlength")).toBe(false);
+    });
+
+    it("forwards autocomplete, placeholder and maxlength when provided", async () => {
+      const component = await render(TestFormInputWithAttributesHostComponent, {
+        imports: [TestFormInputWithAttributesHostComponent],
+      });
+
+      component.fixture.componentInstance.autocomplete.set("username");
+      component.fixture.componentInstance.placeholder.set("123456");
+      component.fixture.componentInstance.maxlength.set(6);
+      component.fixture.detectChanges();
+
+      const input = component.container.querySelector("input")!;
+
+      expect(input).toHaveAttribute("autocomplete", "username");
+      expect(input).toHaveAttribute("placeholder", "123456");
+      expect(input).toHaveAttribute("maxlength", "6");
     });
   });
 
