@@ -65,7 +65,7 @@ import {
           [tanstackField]="form"
           [label]="emailLabel()"
           type="email"
-          autocomplete="email"
+          autocomplete="username"
         />
       </fieldset>
       <fieldset>

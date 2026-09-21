@@ -67,8 +67,9 @@ describe("<SignUpAuthForm />", () => {
     expect(container.querySelector("input[name='password']")).toBeInTheDocument();
     expect(container.querySelector("button[type='submit']")).toBeInTheDocument();
 
-    // Autofill hints, so browsers offer to save a new credential rather than autofilling an existing one
-    expect(container.querySelector("input[name='email']")).toHaveAttribute("autocomplete", "email");
+    // Autofill hints. The identifier is `username`, matching the sign-in form, so a credential saved
+    // here is offered back on sign-in; `new-password` asks for a fresh suggestion rather than a fill.
+    expect(container.querySelector("input[name='email']")).toHaveAttribute("autocomplete", "username");
     expect(container.querySelector("input[name='password']")).toHaveAttribute("autocomplete", "new-password");
   });
 

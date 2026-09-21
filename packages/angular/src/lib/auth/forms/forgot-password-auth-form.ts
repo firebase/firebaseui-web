@@ -60,7 +60,7 @@ import { injectForgotPasswordAuthFormSchema, injectTranslation, injectUI } from 
             [tanstackField]="form"
             label="{{ emailLabel() }}"
             type="email"
-            autocomplete="email"
+            autocomplete="username"
           />
         </fieldset>
 

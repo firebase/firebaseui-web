@@ -97,7 +97,7 @@ describe("<fui-forgot-password-auth-form />", () => {
 
     expect(screen.getByLabelText("Email Address")).toBeInTheDocument();
     expect(screen.getByLabelText("Email Address")).toHaveAttribute("type", "email");
-    expect(screen.getByLabelText("Email Address")).toHaveAttribute("autocomplete", "email");
+    expect(screen.getByLabelText("Email Address")).toHaveAttribute("autocomplete", "username");
     expect(screen.getByRole("button", { name: "Reset Password" })).toBeInTheDocument();
     expect(screen.getByText("By continuing, you agree to our")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Back to Sign In →" })).toBeInTheDocument();

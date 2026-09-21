@@ -276,8 +276,9 @@ describe("<SignUpAuthForm />", () => {
     expect(screen.getByRole("textbox", { name: /emailAddress/ })).toBeInTheDocument();
     expect(screen.getByLabelText(/password/)).toBeInTheDocument();
 
-    // Autofill hints, so browsers offer to save a new credential rather than autofilling an existing one
-    expect(screen.getByRole("textbox", { name: /emailAddress/ })).toHaveAttribute("autocomplete", "email");
+    // Autofill hints. The identifier is `username`, matching the sign-in form, so a credential saved
+    // here is offered back on sign-in; `new-password` asks for a fresh suggestion rather than a fill.
+    expect(screen.getByRole("textbox", { name: /emailAddress/ })).toHaveAttribute("autocomplete", "username");
     expect(screen.getByLabelText(/password/)).toHaveAttribute("autocomplete", "new-password");
 
     // Ensure the "Create Account" button is present and is a submit button
