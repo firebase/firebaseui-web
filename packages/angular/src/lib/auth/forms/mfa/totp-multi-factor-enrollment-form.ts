@@ -55,6 +55,7 @@ import {
           [tanstackField]="form"
           [label]="displayNameLabel()"
           type="text"
+          autocomplete="off"
         ></fui-form-input>
       </fieldset>
       <fieldset>
@@ -143,6 +144,7 @@ export class TotpMultiFactorSecretGenerationFormComponent {
           [label]="verificationCodeLabel()"
           [description]="mfaTotpEnrollmentVerificationPrompt()"
           type="text"
+          autocomplete="one-time-code"
         ></fui-form-input>
       </fieldset>
       <fieldset>

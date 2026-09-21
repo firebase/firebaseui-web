@@ -87,7 +87,7 @@ function MultiFactorEnrollmentPhoneNumberForm(props: MultiFactorEnrollmentPhoneN
           render={({ field, fieldState }) => (
             <Field data-invalid={!!fieldState.error}>
               <FieldLabel htmlFor="displayName">{getTranslation(ui, "labels", "displayName")}</FieldLabel>
-              <Input {...field} id="displayName" type="text" aria-invalid={!!fieldState.error} />
+              <Input {...field} id="displayName" type="text" autoComplete="off" aria-invalid={!!fieldState.error} />
               {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
             </Field>
           )}
@@ -100,7 +100,14 @@ function MultiFactorEnrollmentPhoneNumberForm(props: MultiFactorEnrollmentPhoneN
               <FieldLabel htmlFor="phoneNumber">{getTranslation(ui, "labels", "phoneNumber")}</FieldLabel>
               <div className="flex items-center gap-2">
                 <CountrySelector ref={countrySelector} />
-                <Input {...field} id="phoneNumber" type="tel" className="flex-grow" aria-invalid={!!fieldState.error} />
+                <Input
+                  {...field}
+                  id="phoneNumber"
+                  type="tel"
+                  autoComplete="tel"
+                  className="flex-grow"
+                  aria-invalid={!!fieldState.error}
+                />
               </div>
               {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
             </Field>

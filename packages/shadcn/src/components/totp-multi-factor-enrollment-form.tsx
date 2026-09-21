@@ -73,7 +73,7 @@ function TotpMultiFactorSecretGenerationForm(props: TotpMultiFactorSecretGenerat
           render={({ field, fieldState }) => (
             <Field data-invalid={!!fieldState.error}>
               <FieldLabel htmlFor="displayName">{getTranslation(ui, "labels", "displayName")}</FieldLabel>
-              <Input {...field} id="displayName" type="text" aria-invalid={!!fieldState.error} />
+              <Input {...field} id="displayName" type="text" autoComplete="off" aria-invalid={!!fieldState.error} />
               {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
             </Field>
           )}

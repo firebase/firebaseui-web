@@ -82,7 +82,7 @@ export function EmailLinkAuthForm(props: EmailLinkAuthFormProps) {
           render={({ field, fieldState }) => (
             <Field data-invalid={!!fieldState.error}>
               <FieldLabel htmlFor="email">{getTranslation(ui, "labels", "emailAddress")}</FieldLabel>
-              <Input {...field} id="email" type="email" aria-invalid={!!fieldState.error} />
+              <Input {...field} id="email" type="email" autoComplete="email" aria-invalid={!!fieldState.error} />
               {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
             </Field>
           )}

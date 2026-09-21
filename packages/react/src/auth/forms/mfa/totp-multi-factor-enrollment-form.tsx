@@ -95,7 +95,9 @@ function TotpMultiFactorSecretGenerationForm(props: TotpMultiFactorSecretGenerat
       <form.AppForm>
         <fieldset>
           <form.AppField name="displayName">
-            {(field) => <field.Input label={getTranslation(ui, "labels", "displayName")} type="text" />}
+            {(field) => (
+              <field.Input label={getTranslation(ui, "labels", "displayName")} type="text" autoComplete="off" />
+            )}
           </form.AppField>
         </fieldset>
         <fieldset>
@@ -221,6 +223,7 @@ export function MultiFactorEnrollmentVerifyTotpForm(props: MultiFactorEnrollment
               <field.Input
                 label={getTranslation(ui, "labels", "verificationCode")}
                 type="text"
+                autoComplete="one-time-code"
                 description={getTranslation(ui, "prompts", "mfaTotpEnrollmentVerificationPrompt")}
               />
             )}

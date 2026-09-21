@@ -131,7 +131,9 @@ function MultiFactorEnrollmentPhoneNumberForm(props: MultiFactorEnrollmentPhoneN
       <form.AppForm>
         <fieldset>
           <form.AppField name="displayName">
-            {(field) => <field.Input label={getTranslation(ui, "labels", "displayName")} type="text" />}
+            {(field) => (
+              <field.Input label={getTranslation(ui, "labels", "displayName")} type="text" autoComplete="off" />
+            )}
           </form.AppField>
         </fieldset>
         <fieldset>
@@ -140,6 +142,7 @@ function MultiFactorEnrollmentPhoneNumberForm(props: MultiFactorEnrollmentPhoneN
               <field.Input
                 label={getTranslation(ui, "labels", "phoneNumber")}
                 type="tel"
+                autoComplete="tel"
                 before={<CountrySelector ref={countrySelector} />}
               />
             )}
@@ -266,6 +269,7 @@ export function MultiFactorEnrollmentVerifyPhoneNumberForm(props: MultiFactorEnr
                 description={getTranslation(ui, "prompts", "smsVerificationPrompt")}
                 label={getTranslation(ui, "labels", "verificationCode")}
                 type="text"
+                autoComplete="one-time-code"
               />
             )}
           </form.AppField>

@@ -167,6 +167,7 @@ export class SmsMultiFactorAssertionPhoneFormComponent {
           [label]="verificationCodeLabel()"
           [description]="smsVerificationPrompt()"
           type="text"
+          autocomplete="one-time-code"
         ></fui-form-input>
       </fieldset>
       <fieldset>

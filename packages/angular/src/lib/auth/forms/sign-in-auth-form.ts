@@ -54,6 +54,7 @@ import {
           [tanstackField]="form"
           [label]="emailLabel()"
           type="email"
+          autocomplete="username"
         ></fui-form-input>
       </fieldset>
       <fieldset>
@@ -63,6 +64,7 @@ import {
           [tanstackField]="form"
           [label]="passwordLabel()"
           type="password"
+          autocomplete="current-password"
         >
           @if (forgotPassword()?.observed) {
             <button ngProjectAs="input-action" fui-form-action (click)="forgotPassword()?.emit()">

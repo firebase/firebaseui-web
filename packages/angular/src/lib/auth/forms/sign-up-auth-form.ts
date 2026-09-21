@@ -49,11 +49,24 @@ import {
     <form (submit)="handleSubmit($event)" class="fui-form">
       @if (requireDisplayNameField()) {
         <fieldset>
-          <fui-form-input name="displayName" tanstack-app-field [tanstackField]="form" [label]="displayNameLabel()" />
+          <fui-form-input
+            name="displayName"
+            tanstack-app-field
+            [tanstackField]="form"
+            [label]="displayNameLabel()"
+            autocomplete="name"
+          />
         </fieldset>
       }
       <fieldset>
-        <fui-form-input name="email" tanstack-app-field [tanstackField]="form" [label]="emailLabel()" type="email" />
+        <fui-form-input
+          name="email"
+          tanstack-app-field
+          [tanstackField]="form"
+          [label]="emailLabel()"
+          type="email"
+          autocomplete="email"
+        />
       </fieldset>
       <fieldset>
         <fui-form-input
@@ -62,6 +75,7 @@ import {
           [tanstackField]="form"
           [label]="passwordLabel()"
           type="password"
+          autocomplete="new-password"
         />
       </fieldset>
       <fui-policies />

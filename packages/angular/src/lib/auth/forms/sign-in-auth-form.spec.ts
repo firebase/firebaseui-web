@@ -88,6 +88,13 @@ describe("<fui-sign-in-auth-form />", () => {
     expect(screen.getByLabelText("Password", { selector: "input" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Sign In" })).toBeInTheDocument();
     expect(screen.getByText("By continuing, you agree to our")).toBeInTheDocument();
+
+    // Autofill hints, so browsers and password managers recognise the credential pair
+    expect(screen.getByLabelText("Email Address")).toHaveAttribute("autocomplete", "username");
+    expect(screen.getByLabelText("Password", { selector: "input" })).toHaveAttribute(
+      "autocomplete",
+      "current-password"
+    );
     expect(screen.getByRole("button", { name: "Forgot Password" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Don't have an account? Sign Up" })).toBeInTheDocument();
   });

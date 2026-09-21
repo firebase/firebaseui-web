@@ -67,7 +67,7 @@ export function SignInAuthForm(props: SignInAuthFormProps) {
           render={({ field, fieldState }) => (
             <Field data-invalid={!!fieldState.error}>
               <FieldLabel htmlFor="email">{getTranslation(ui, "labels", "emailAddress")}</FieldLabel>
-              <Input {...field} id="email" type="email" aria-invalid={!!fieldState.error} />
+              <Input {...field} id="email" type="email" autoComplete="username" aria-invalid={!!fieldState.error} />
               {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
             </Field>
           )}
@@ -85,7 +85,13 @@ export function SignInAuthForm(props: SignInAuthFormProps) {
                   </Button>
                 ) : null}
               </FieldLabel>
-              <Input {...field} id="password" type="password" aria-invalid={!!fieldState.error} />
+              <Input
+                {...field}
+                id="password"
+                type="password"
+                autoComplete="current-password"
+                aria-invalid={!!fieldState.error}
+              />
               {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
             </Field>
           )}

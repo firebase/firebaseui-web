@@ -114,6 +114,7 @@ export function TotpMultiFactorAssertionForm(props: TotpMultiFactorAssertionForm
                 description={getTranslation(ui, "prompts", "enterVerificationCode")}
                 label={getTranslation(ui, "labels", "verificationCode")}
                 type="text"
+                autoComplete="one-time-code"
                 placeholder="123456"
                 maxLength={6}
               />

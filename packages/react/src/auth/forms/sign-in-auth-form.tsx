@@ -110,7 +110,9 @@ export function SignInAuthForm({ onSignIn, onForgotPasswordClick, onSignUpClick 
       <form.AppForm>
         <fieldset>
           <form.AppField name="email">
-            {(field) => <field.Input label={getTranslation(ui, "labels", "emailAddress")} type="email" />}
+            {(field) => (
+              <field.Input label={getTranslation(ui, "labels", "emailAddress")} type="email" autoComplete="username" />
+            )}
           </form.AppField>
         </fieldset>
         <fieldset>
@@ -119,6 +121,7 @@ export function SignInAuthForm({ onSignIn, onForgotPasswordClick, onSignUpClick 
               <field.Input
                 label={getTranslation(ui, "labels", "password")}
                 type="password"
+                autoComplete="current-password"
                 action={
                   onForgotPasswordClick ? (
                     <form.Action onClick={onForgotPasswordClick}>

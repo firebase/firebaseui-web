@@ -45,6 +45,7 @@ import { TotpMultiFactorGenerator, type MultiFactorInfo, type UserCredential } f
           [label]="verificationCodeLabel()"
           [description]="enterVerificationCodePrompt()"
           type="text"
+          autocomplete="one-time-code"
           placeholder="123456"
           maxlength="6"
         ></fui-form-input>

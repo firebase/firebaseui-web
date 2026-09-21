@@ -125,18 +125,26 @@ export function SignUpAuthForm({ onSignInClick, onSignUp }: SignUpAuthFormProps)
         {requireDisplayName ? (
           <fieldset>
             <form.AppField name="displayName">
-              {(field) => <field.Input label={getTranslation(ui, "labels", "displayName")} />}
+              {(field) => <field.Input label={getTranslation(ui, "labels", "displayName")} autoComplete="name" />}
             </form.AppField>
           </fieldset>
         ) : null}
         <fieldset>
           <form.AppField name="email">
-            {(field) => <field.Input label={getTranslation(ui, "labels", "emailAddress")} type="email" />}
+            {(field) => (
+              <field.Input label={getTranslation(ui, "labels", "emailAddress")} type="email" autoComplete="email" />
+            )}
           </form.AppField>
         </fieldset>
         <fieldset>
           <form.AppField name="password">
-            {(field) => <field.Input label={getTranslation(ui, "labels", "password")} type="password" />}
+            {(field) => (
+              <field.Input
+                label={getTranslation(ui, "labels", "password")}
+                type="password"
+                autoComplete="new-password"
+              />
+            )}
           </form.AppField>
         </fieldset>
         <Policies />
