@@ -143,7 +143,7 @@ export function EmailLinkAuthForm({ onEmailSent, onSignIn }: EmailLinkAuthFormPr
         <fieldset>
           <form.AppField name="email">
             {(field) => (
-              <field.Input label={getTranslation(ui, "labels", "emailAddress")} type="email" autoComplete="email" />
+              <field.Input label={getTranslation(ui, "labels", "emailAddress")} type="email" autoComplete="username" />
             )}
           </form.AppField>
         </fieldset>

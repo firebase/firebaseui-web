@@ -73,7 +73,7 @@ describe("<fui-email-link-auth-form />", () => {
 
     expect(screen.getByLabelText("Email Address")).toBeInTheDocument();
     expect(screen.getByLabelText("Email Address")).toHaveAttribute("type", "email");
-    expect(screen.getByLabelText("Email Address")).toHaveAttribute("autocomplete", "email");
+    expect(screen.getByLabelText("Email Address")).toHaveAttribute("autocomplete", "username");
     expect(screen.getByRole("button", { name: "Send Sign In Link" })).toBeInTheDocument();
     expect(screen.getByText("By continuing, you agree to our")).toBeInTheDocument();
   });
