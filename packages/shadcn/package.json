@@ -49,7 +49,7 @@
     "@firebase-oss/ui-react": "workspace:*",
     "@hookform/resolvers": "^5.9.1",
     "@radix-ui/react-label": "^2.1.11",
-    "@radix-ui/react-select": "^2.3.2",
+    "@radix-ui/react-select": "^2.3.7",
     "@radix-ui/react-separator": "^1.1.11",
     "@radix-ui/react-slot": "^1.3.0",
     "class-variance-authority": "^0.7.1",
