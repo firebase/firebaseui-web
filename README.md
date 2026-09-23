@@ -566,7 +566,7 @@ By default, any missing translations will fallback to English if not specified. 
 
   **`initializeUI`**
 
-  Initalizes a new `FirebaseUIStore` instance.
+  Initializes a new `FirebaseUIStore` instance.
 
   | Argument |        Type       | Description                        |
   |----------|:-----------------:|------------------------------------|
@@ -2219,7 +2219,7 @@ The core package additionally exposes a `signInWithMultiFactorAssertion` functio
 ### Custom providers
 
 Out of the box, Firebase UI provides styled, themeable buttons for all of the Firebase supported providers. If you wish to add a custom provider, either
-supporting SAML or OIDC, you can achive this by extending the OAuth component:
+supporting SAML or OIDC, you can achieve this by extending the OAuth component:
 
 <details>
   <summary>React</summary>
