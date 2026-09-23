@@ -234,6 +234,7 @@ function SmsMultiFactorAssertionVerifyForm(props: SmsMultiFactorAssertionVerifyF
               <field.Input
                 label={getTranslation(ui, "labels", "verificationCode")}
                 type="text"
+                autoComplete="one-time-code"
                 description={getTranslation(ui, "prompts", "smsVerificationPrompt")}
               />
             )}

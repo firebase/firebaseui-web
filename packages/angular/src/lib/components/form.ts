@@ -73,6 +73,9 @@ export class FormMetadataComponent {
           [value]="field.api.state.value"
           (input)="handleInput($event)"
           [type]="type()"
+          [attr.autocomplete]="autocomplete()"
+          [attr.placeholder]="placeholder()"
+          [attr.maxlength]="maxlength()"
         />
       </div>
       <ng-content></ng-content>
@@ -95,6 +98,12 @@ export class FormInputComponent implements OnChanges {
   type = input<string>("text");
   /** Optional description text displayed below the label. */
   description = input<string>();
+  /** The autocomplete hint forwarded to the underlying input (e.g. "username", "current-password"). */
+  autocomplete = input<string>();
+  /** Optional placeholder shown while the input is empty. */
+  placeholder = input<string>();
+  /** Optional maximum character count accepted by the input. */
+  maxlength = input<string | number>();
 
   handleInput(event: Event) {
     const value = (event.target as HTMLInputElement | null)?.value ?? "";

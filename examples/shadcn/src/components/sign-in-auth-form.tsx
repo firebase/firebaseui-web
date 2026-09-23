@@ -52,7 +52,7 @@ export function SignInAuthForm(props: SignInAuthFormProps) {
             <FormItem>
               <FormLabel>{getTranslation(ui, "labels", "emailAddress")}</FormLabel>
               <FormControl>
-                <Input {...field} type="email" />
+                <Input {...field} type="email" autoComplete="username" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -72,7 +72,7 @@ export function SignInAuthForm(props: SignInAuthFormProps) {
                 ) : null}
               </FormLabel>
               <FormControl>
-                <Input {...field} type="password" />
+                <Input {...field} type="password" autoComplete="current-password" />
               </FormControl>
               <FormMessage />
             </FormItem>

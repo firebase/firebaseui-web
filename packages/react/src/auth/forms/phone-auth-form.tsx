@@ -137,6 +137,7 @@ export function PhoneNumberForm(props: PhoneNumberFormProps) {
               <field.Input
                 label={getTranslation(ui, "labels", "phoneNumber")}
                 type="tel"
+                autoComplete="tel"
                 before={<CountrySelector ref={countrySelector} />}
               />
             )}
@@ -238,6 +239,7 @@ function VerifyPhoneNumberForm(props: VerifyPhoneNumberFormProps) {
                 label={getTranslation(ui, "labels", "verificationCode")}
                 description={getTranslation(ui, "prompts", "smsVerificationPrompt")}
                 type="text"
+                autoComplete="one-time-code"
               />
             )}
           </form.AppField>

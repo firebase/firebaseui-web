@@ -54,7 +54,14 @@ import { injectForgotPasswordAuthFormSchema, injectTranslation, injectUI } from 
     @if (!emailSent()) {
       <form (submit)="handleSubmit($event)" class="fui-form">
         <fieldset>
-          <fui-form-input name="email" tanstack-app-field [tanstackField]="form" label="{{ emailLabel() }}" />
+          <fui-form-input
+            name="email"
+            tanstack-app-field
+            [tanstackField]="form"
+            label="{{ emailLabel() }}"
+            type="email"
+            autocomplete="username"
+          />
         </fieldset>
 
         <fui-policies />

@@ -89,6 +89,11 @@ describe("<fui-sign-up-auth-form />", () => {
     expect(screen.getByLabelText("Email Address")).toBeInTheDocument();
     expect(screen.getByLabelText("Password")).toBeInTheDocument();
     expect(screen.queryByLabelText("Display Name")).toBeNull();
+
+    // Autofill hints. The identifier is `username`, matching the sign-in form, so a credential saved
+    // here is offered back on sign-in; `new-password` asks for a fresh suggestion rather than a fill.
+    expect(screen.getByLabelText("Email Address")).toHaveAttribute("autocomplete", "username");
+    expect(screen.getByLabelText("Password")).toHaveAttribute("autocomplete", "new-password");
     expect(screen.getByRole("button", { name: "Create Account" })).toBeInTheDocument();
     expect(screen.getByText("By continuing, you agree to our")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Already have an account? Sign In" })).toBeInTheDocument();

@@ -65,6 +65,10 @@ describe("<SignInAuthForm />", () => {
     expect(container.querySelector("input[name='email']")).toBeInTheDocument();
     expect(container.querySelector("input[name='password']")).toBeInTheDocument();
     expect(container.querySelector("button[type='submit']")).toBeInTheDocument();
+
+    // Autofill hints, so browsers and password managers recognise the credential pair
+    expect(container.querySelector("input[name='email']")).toHaveAttribute("autocomplete", "username");
+    expect(container.querySelector("input[name='password']")).toHaveAttribute("autocomplete", "current-password");
   });
 
   it("should render with forgot password callback", () => {

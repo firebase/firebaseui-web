@@ -71,7 +71,7 @@ export function SignUpAuthForm(props: SignUpAuthFormProps) {
             render={({ field, fieldState }) => (
               <Field data-invalid={!!fieldState.error}>
                 <FieldLabel htmlFor="displayName">{getTranslation(ui, "labels", "displayName")}</FieldLabel>
-                <Input {...field} id="displayName" aria-invalid={!!fieldState.error} />
+                <Input {...field} id="displayName" autoComplete="name" aria-invalid={!!fieldState.error} />
                 {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
               </Field>
             )}
@@ -83,7 +83,7 @@ export function SignUpAuthForm(props: SignUpAuthFormProps) {
           render={({ field, fieldState }) => (
             <Field data-invalid={!!fieldState.error}>
               <FieldLabel htmlFor="email">{getTranslation(ui, "labels", "emailAddress")}</FieldLabel>
-              <Input {...field} id="email" type="email" aria-invalid={!!fieldState.error} />
+              <Input {...field} id="email" type="email" autoComplete="username" aria-invalid={!!fieldState.error} />
               {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
             </Field>
           )}
@@ -94,7 +94,13 @@ export function SignUpAuthForm(props: SignUpAuthFormProps) {
           render={({ field, fieldState }) => (
             <Field data-invalid={!!fieldState.error}>
               <FieldLabel htmlFor="password">{getTranslation(ui, "labels", "password")}</FieldLabel>
-              <Input {...field} id="password" type="password" aria-invalid={!!fieldState.error} />
+              <Input
+                {...field}
+                id="password"
+                type="password"
+                autoComplete="new-password"
+                aria-invalid={!!fieldState.error}
+              />
               {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
             </Field>
           )}

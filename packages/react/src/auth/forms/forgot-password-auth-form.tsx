@@ -114,7 +114,9 @@ export function ForgotPasswordAuthForm({ onBackToSignInClick, onPasswordSent }: 
       <form.AppForm>
         <fieldset>
           <form.AppField name="email">
-            {(field) => <field.Input label={getTranslation(ui, "labels", "emailAddress")} type="email" />}
+            {(field) => (
+              <field.Input label={getTranslation(ui, "labels", "emailAddress")} type="email" autoComplete="username" />
+            )}
           </form.AppField>
         </fieldset>
         <Policies />

@@ -62,6 +62,7 @@ import {
           [tanstackField]="form"
           [label]="phoneNumberLabel()"
           type="tel"
+          autocomplete="tel"
         >
           <fui-country-selector [(value)]="country" ngProjectAs="input-before" />
         </fui-form-input>
@@ -193,6 +194,7 @@ export class PhoneNumberFormComponent {
           [label]="verificationCodeLabel()"
           [description]="smsVerificationPrompt()"
           type="text"
+          autocomplete="one-time-code"
         ></fui-form-input>
       </fieldset>
 

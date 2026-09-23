@@ -67,7 +67,7 @@ export function EmailLinkAuthForm(props: EmailLinkAuthFormProps) {
             <FormItem>
               <FormLabel>{getTranslation(ui, "labels", "emailAddress")}</FormLabel>
               <FormControl>
-                <Input {...field} type="email" />
+                <Input {...field} type="email" autoComplete="username" />
               </FormControl>
               <FormMessage />
             </FormItem>
