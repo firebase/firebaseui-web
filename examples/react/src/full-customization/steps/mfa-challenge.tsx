@@ -91,14 +91,18 @@ function SmsChallenge({ hint, cancel }: { hint: MultiFactorInfo; cancel: ReactNo
   const task = useAuthTask();
   const [verificationId, setVerificationId] = useState<string | null>(null);
 
-  const send = () =>
-    task.run(async () => {
+  const send = () => {
+    // The verifier is briefly null while a fresh one renders after each send.
+    const recaptchaVerifier = recaptcha.verifier;
+    if (!recaptchaVerifier) return;
+    return task.run(async () => {
       try {
-        setVerificationId(await sendCode({ hint, recaptchaVerifier: recaptcha.verifier! }));
+        setVerificationId(await sendCode({ hint, recaptchaVerifier }));
       } finally {
         recaptcha.reset();
       }
     });
+  };
 
   return (
     <>
@@ -109,7 +113,7 @@ function SmsChallenge({ hint, cancel }: { hint: MultiFactorInfo; cancel: ReactNo
             onSubmit={(verificationCode) => verify({ verificationId, verificationCode })}
             links={
               <>
-                <TextLink onClick={() => void send()} disabled={task.pending}>
+                <TextLink onClick={() => void send()} disabled={task.pending || !recaptcha.verifier}>
                   Resend code
                 </TextLink>
                 {cancel}

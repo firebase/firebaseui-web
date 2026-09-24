@@ -150,10 +150,12 @@ function SmsSetup({
           className="fc-form"
           onSubmit={(event) => {
             event.preventDefault();
+            const recaptchaVerifier = recaptcha.verifier;
+            if (!recaptchaVerifier) return;
             void task.run(async () => {
               try {
                 const verificationId = await withReauth(REAUTH_REASON, () =>
-                  sendCode({ phoneNumber, recaptchaVerifier: recaptcha.verifier! })
+                  sendCode({ phoneNumber, recaptchaVerifier })
                 );
                 onCodeSent(verificationId, phoneNumber);
               } finally {

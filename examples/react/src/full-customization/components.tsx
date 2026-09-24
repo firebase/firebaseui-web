@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { createRef, useCallback, useMemo, useState, type ComponentProps, type ReactNode } from "react";
+import { createRef, useCallback, useState, type ComponentProps, type ReactNode } from "react";
 import { FirebaseError } from "firebase/app";
 import { FirebaseUIError, type CountryData } from "@firebase-oss/ui-core";
 import { GoogleLogo, useCountries, useRecaptchaVerifier, useUI } from "@firebase-oss/ui-react";
@@ -257,14 +257,14 @@ export function ProviderButton({ provider, children, ...props }: ProviderButtonP
  * send (failed, or before a resend) the container is swapped for a new one with a fresh verifier.
  */
 export function useResettableRecaptcha() {
-  const [attempt, setAttempt] = useState(0);
-  const ref = useMemo(() => createRef<HTMLDivElement>(), [attempt]);
-  const verifier = useRecaptchaVerifier(ref);
+  // The ref and the element key change together, so each reset gets a new element and a new verifier.
+  const [slot, setSlot] = useState(() => ({ key: 0, ref: createRef<HTMLDivElement>() }));
+  const verifier = useRecaptchaVerifier(slot.ref);
 
   return {
     verifier,
-    container: <div key={attempt} ref={ref} />,
-    reset: () => setAttempt((n) => n + 1),
+    container: <div key={slot.key} ref={slot.ref} />,
+    reset: () => setSlot(({ key }) => ({ key: key + 1, ref: createRef<HTMLDivElement>() })),
   };
 }
 

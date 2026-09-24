@@ -46,14 +46,18 @@ export function PhoneStep() {
   const task = useAuthTask();
 
   const phoneNumber = formatPhoneNumber(phone, country);
-  const send = () =>
-    task.run(async () => {
+  const send = () => {
+    // The verifier is briefly null while a fresh one renders after each send.
+    const recaptchaVerifier = recaptcha.verifier;
+    if (!recaptchaVerifier) return;
+    return task.run(async () => {
       try {
-        setVerificationId(await sendCode({ phoneNumber, recaptchaVerifier: recaptcha.verifier! }));
+        setVerificationId(await sendCode({ phoneNumber, recaptchaVerifier }));
       } finally {
         recaptcha.reset();
       }
     });
+  };
 
   return (
     <>
@@ -64,7 +68,7 @@ export function PhoneStep() {
             onSubmit={(verificationCode) => verifyCode({ verificationId, verificationCode })}
             links={
               <>
-                <TextLink onClick={() => void send()} disabled={task.pending}>
+                <TextLink onClick={() => void send()} disabled={task.pending || !recaptcha.verifier}>
                   Resend code
                 </TextLink>
                 <TextLink onClick={() => setVerificationId(null)}>Use a different number</TextLink>
