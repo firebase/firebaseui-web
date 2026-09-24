@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-import { BrowserRouter, Routes, Route, Outlet, NavLink } from "react-router";
+import { BrowserRouter, Routes, Route, Outlet, NavLink, useLocation } from "react-router";
 
+import { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { FirebaseUIProvider, useUI } from "@firebase-oss/ui-react";
 import { ui, auth } from "./firebase/firebase";
@@ -26,6 +27,9 @@ import { enUs } from "@firebase-oss/ui-translations";
 import { pirate } from "./pirate";
 
 const root = document.getElementById("root")!;
+
+// Loaded on demand so its fonts, background art and styles stay out of the other examples.
+const FullCustomizationDemo = lazy(() => import("./full-customization"));
 
 const allRoutes = [...routes, ...hiddenRoutes];
 
@@ -40,10 +44,17 @@ auth.authStateReady().then(() => {
           privacyPolicyUrl: "https://www.google.com",
         }}
       >
-        <ThemeToggle />
-        <PirateToggle />
+        <GlobalToggles />
         <Routes>
           <Route path="/" element={<App />} />
+          <Route
+            path="/full-customization/*"
+            element={
+              <Suspense>
+                <FullCustomizationDemo />
+              </Suspense>
+            }
+          />
           <Route path="/auth/snapchat/callback" element={<SnapchatCallbackScreen />} />
           <Route element={<ScreenRoute />}>
             {allRoutes.map((route) => (
@@ -69,6 +80,19 @@ function ScreenRoute() {
         <Outlet />
       </div>
     </div>
+  );
+}
+
+// The full customization demo draws its own chrome, so the example-wide toggles stay out of its way.
+function GlobalToggles() {
+  const { pathname } = useLocation();
+  if (pathname.startsWith("/full-customization")) return null;
+
+  return (
+    <>
+      <ThemeToggle />
+      <PirateToggle />
+    </>
   );
 }
 
