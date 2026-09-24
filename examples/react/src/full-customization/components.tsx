@@ -199,8 +199,9 @@ export function Button({ variant = "primary", loading, disabled, children, type 
   );
 }
 
-export function Actions({ children }: { children: ReactNode }) {
-  return <div className="fc-actions">{children}</div>;
+/** A row of buttons. `stacked` gives each button the full width, for choices with longer labels. */
+export function Actions({ children, stacked }: { children: ReactNode; stacked?: boolean }) {
+  return <div className={stacked ? "fc-actions fc-actions--stacked" : "fc-actions"}>{children}</div>;
 }
 
 export function Links({ children }: { children: ReactNode }) {

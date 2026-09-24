@@ -465,6 +465,11 @@
   margin-top: calc(var(--fc-actions-gap) - 16px);
 }
 
+.fc-actions--stacked .fc-button {
+  flex-basis: 100%;
+  max-width: none;
+}
+
 .fc-button {
   display: inline-flex;
   flex: 1 1 0;

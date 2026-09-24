@@ -57,7 +57,7 @@ export function MfaChallengeStep() {
   if (!hint) {
     return (
       <Page title="One more step" prompt="Choose how to confirm it's you.">
-        <Actions>
+        <Actions stacked>
           {hints.map((h, index) => (
             <Button key={h.uid} variant={index === 0 ? "primary" : "secondary"} onClick={() => setHint(h)}>
               {h.factorId === FactorId.PHONE ? "Text message" : "Authenticator app"}

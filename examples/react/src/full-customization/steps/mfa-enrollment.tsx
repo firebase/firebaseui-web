@@ -101,7 +101,7 @@ export function MfaEnrollmentStep({ user }: { user: User }) {
         <Links>
           <TextLink onClick={done}>Not now</TextLink>
         </Links>
-        <Actions>
+        <Actions stacked>
           <Button onClick={() => setStep({ kind: "sms" })}>Use text message</Button>
           <Button
             variant="secondary"
