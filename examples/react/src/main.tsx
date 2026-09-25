@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-import { BrowserRouter, Routes, Route, Outlet, NavLink } from "react-router";
+import { BrowserRouter, Routes, Route, Outlet, NavLink, useLocation } from "react-router";
 
+import { Component, lazy, Suspense, type ReactNode } from "react";
 import ReactDOM from "react-dom/client";
 import { FirebaseUIProvider, useUI } from "@firebase-oss/ui-react";
 import { ui, auth } from "./firebase/firebase";
@@ -26,6 +27,9 @@ import { enUs } from "@firebase-oss/ui-translations";
 import { pirate } from "./pirate";
 
 const root = document.getElementById("root")!;
+
+// Loaded on demand so its fonts, background art and styles stay out of the other examples.
+const FullCustomizationDemo = lazy(() => import("./full-customization"));
 
 const allRoutes = [...routes, ...hiddenRoutes];
 
@@ -40,10 +44,19 @@ auth.authStateReady().then(() => {
           privacyPolicyUrl: "https://www.google.com",
         }}
       >
-        <ThemeToggle />
-        <PirateToggle />
+        <GlobalToggles />
         <Routes>
           <Route path="/" element={<App />} />
+          <Route
+            path="/full-customization/*"
+            element={
+              <ChunkErrorBoundary>
+                <Suspense fallback={<p className="p-8 text-sm">Loading the demo…</p>}>
+                  <FullCustomizationDemo />
+                </Suspense>
+              </ChunkErrorBoundary>
+            }
+          />
           <Route path="/auth/snapchat/callback" element={<SnapchatCallbackScreen />} />
           <Route element={<ScreenRoute />}>
             {allRoutes.map((route) => (
@@ -69,6 +82,40 @@ function ScreenRoute() {
         <Outlet />
       </div>
     </div>
+  );
+}
+
+// A lazy chunk can fail to load, e.g. after a redeploy, so offer a reload instead of a blank page.
+class ChunkErrorBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+  state = { failed: false };
+
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+
+  render() {
+    if (!this.state.failed) return this.props.children;
+    return (
+      <p className="p-8 text-sm">
+        The demo failed to load.{" "}
+        <button className="underline" onClick={() => window.location.reload()}>
+          Reload
+        </button>
+      </p>
+    );
+  }
+}
+
+// The full customization demo draws its own chrome, so the example-wide toggles stay out of its way.
+function GlobalToggles() {
+  const { pathname } = useLocation();
+  if (pathname.startsWith("/full-customization")) return null;
+
+  return (
+    <>
+      <ThemeToggle />
+      <PirateToggle />
+    </>
   );
 }
 
