@@ -16,6 +16,7 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { updateProfile } from "firebase/auth";
 import { useSignUpAuthFormAction } from "@firebase-oss/ui-react";
 
 import { Actions, Button, ErrorText, Links, Page, TextField, TextLink, useAuthTask } from "../components";
@@ -42,7 +43,14 @@ export function SignUpStep() {
         onSubmit={(event) => {
           event.preventDefault();
           const displayName = `${firstName.trim()} ${lastName.trim()}`;
-          void task.run(() => signUp({ email, password, displayName }));
+          void task.run(async () => {
+            const credential = await signUp({ email, password, displayName });
+            if (!credential) return;
+            // Core only saves the name when the requireDisplayName behavior is configured, which this example doesn't use.
+            await updateProfile(credential.user, { displayName });
+            // Refreshing the token fires onIdTokenChanged, so the account page re-renders with the name.
+            await credential.user.getIdToken(true);
+          });
         }}
       >
         <div className="fc-row">

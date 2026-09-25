@@ -16,7 +16,7 @@
 
 import { BrowserRouter, Routes, Route, Outlet, NavLink, useLocation } from "react-router";
 
-import { lazy, Suspense } from "react";
+import { Component, lazy, Suspense, type ReactNode } from "react";
 import ReactDOM from "react-dom/client";
 import { FirebaseUIProvider, useUI } from "@firebase-oss/ui-react";
 import { ui, auth } from "./firebase/firebase";
@@ -50,9 +50,11 @@ auth.authStateReady().then(() => {
           <Route
             path="/full-customization/*"
             element={
-              <Suspense>
-                <FullCustomizationDemo />
-              </Suspense>
+              <ChunkErrorBoundary>
+                <Suspense fallback={<p className="p-8 text-sm">Loading the demo…</p>}>
+                  <FullCustomizationDemo />
+                </Suspense>
+              </ChunkErrorBoundary>
             }
           />
           <Route path="/auth/snapchat/callback" element={<SnapchatCallbackScreen />} />
@@ -81,6 +83,27 @@ function ScreenRoute() {
       </div>
     </div>
   );
+}
+
+// A lazy chunk can fail to load, e.g. after a redeploy, so offer a reload instead of a blank page.
+class ChunkErrorBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+  state = { failed: false };
+
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+
+  render() {
+    if (!this.state.failed) return this.props.children;
+    return (
+      <p className="p-8 text-sm">
+        The demo failed to load.{" "}
+        <button className="underline" onClick={() => window.location.reload()}>
+          Reload
+        </button>
+      </p>
+    );
+  }
 }
 
 // The full customization demo draws its own chrome, so the example-wide toggles stay out of its way.

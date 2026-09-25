@@ -32,8 +32,8 @@ import { paths, useDemo } from "../state";
  */
 export function LoginStep() {
   const navigate = useNavigate();
-  const { email, setEmail } = useDemo();
-  // Arriving here without an address (a refresh, or an email link) makes the field editable.
+  const { email, setEmail, linkError } = useDemo();
+  // Arriving here without an address (a refresh or a direct visit) makes the field editable.
   const [emailLocked] = useState(email.length > 0);
   const [password, setPassword] = useState("");
   const [resetSent, setResetSent] = useState(false);
@@ -87,7 +87,7 @@ export function LoginStep() {
           </TextLink>
           <TextLink onClick={() => navigate(paths.email)}>Use a different email</TextLink>
         </Links>
-        <ErrorText>{task.error}</ErrorText>
+        <ErrorText>{task.error ?? linkError}</ErrorText>
         <Actions>
           <Button type="submit" disabled={!password || !email} loading={task.pending}>
             Login

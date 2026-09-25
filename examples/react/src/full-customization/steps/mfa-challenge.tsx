@@ -36,11 +36,15 @@ import {
   useResettableRecaptcha,
 } from "../components";
 
-function factorLabel(hint: MultiFactorInfo) {
-  if (hint.factorId === FactorId.PHONE) return `Text message to ${(hint as PhoneMultiFactorInfo).phoneNumber}`;
-  if (hint.factorId === FactorId.TOTP) return "Authenticator app";
-  return hint.displayName ?? hint.factorId;
-}
+/** Wraps the challenge in its surroundings: a full page for sign in, the dialog for reauthentication. */
+type Frame = (prompt: string, body: ReactNode) => ReactNode;
+
+type ChallengeProps = {
+  frame: Frame;
+  onCancel: () => void;
+  /** Called once the second factor is confirmed and the resolver is resolved. */
+  onResolved?: () => void;
+};
 
 /**
  * Shown by the demo root whenever a sign in call leaves a multi-factor resolver on the UI state.
@@ -48,15 +52,40 @@ function factorLabel(hint: MultiFactorInfo) {
  */
 export function MfaChallengeStep() {
   const ui = useUI();
+  return (
+    <MfaChallenge
+      frame={(prompt, body) => (
+        <Page title="One more step" prompt={prompt}>
+          {body}
+        </Page>
+      )}
+      onCancel={() => ui.setMultiFactorResolver()}
+    />
+  );
+}
+
+/**
+ * Completes `ui.multiFactorResolver`, whichever call raised it. The ui-react assertion hooks only
+ * call `resolver.resolveSignIn`, so the same screens finish a reauthentication as well as a sign in.
+ */
+export function MfaChallenge({ frame, onCancel, onResolved }: ChallengeProps) {
+  const ui = useUI();
   const hints = ui.multiFactorResolver?.hints ?? [];
   const [hint, setHint] = useState<MultiFactorInfo | null>(hints.length === 1 ? hints[0]! : null);
-  const cancel = <TextLink onClick={() => ui.setMultiFactorResolver()}>Cancel</TextLink>;
 
   useMultiFactorAssertionCleanup();
 
+  const links = (
+    <>
+      {hints.length > 1 && <TextLink onClick={() => setHint(null)}>Pick a different method</TextLink>}
+      <TextLink onClick={onCancel}>Cancel</TextLink>
+    </>
+  );
+
   if (!hint) {
-    return (
-      <Page title="One more step" prompt="Choose how to confirm it's you.">
+    return frame(
+      "Choose how to confirm it's you.",
+      <>
         <Actions stacked>
           {hints.map((h, index) => (
             <Button key={h.uid} variant={index === 0 ? "primary" : "secondary"} onClick={() => setHint(h)}>
@@ -64,27 +93,40 @@ export function MfaChallengeStep() {
             </Button>
           ))}
         </Actions>
-        <Links>{cancel}</Links>
-      </Page>
+        <Links>
+          <TextLink onClick={onCancel}>Cancel</TextLink>
+        </Links>
+      </>
     );
   }
 
   return hint.factorId === FactorId.PHONE ? (
-    <SmsChallenge hint={hint} cancel={cancel} />
+    <SmsChallenge hint={hint} frame={frame} links={links} onResolved={onResolved} />
   ) : (
-    <Page title="One more step" prompt="Open your authenticator app and enter the 6-digit code for this account.">
-      <TotpChallenge hint={hint} cancel={cancel} />
-    </Page>
+    <TotpChallenge hint={hint} frame={frame} links={links} onResolved={onResolved} />
   );
 }
 
-function TotpChallenge({ hint, cancel }: { hint: MultiFactorInfo; cancel: ReactNode }) {
+type FactorProps = { hint: MultiFactorInfo; frame: Frame; links: ReactNode; onResolved?: () => void };
+
+function TotpChallenge({ hint, frame, links, onResolved }: FactorProps) {
   const verify = useTotpMultiFactorAssertionFormAction();
   const task = useAuthTask();
-  return <CodeForm task={task} onSubmit={(verificationCode) => verify({ hint, verificationCode })} links={cancel} />;
+
+  return frame(
+    "Open your authenticator app and enter the 6-digit code for this account.",
+    <CodeForm
+      task={task}
+      links={links}
+      onSubmit={async (verificationCode) => {
+        await verify({ hint, verificationCode });
+        onResolved?.();
+      }}
+    />
+  );
 }
 
-function SmsChallenge({ hint, cancel }: { hint: MultiFactorInfo; cancel: ReactNode }) {
+function SmsChallenge({ hint, frame, links, onResolved }: FactorProps) {
   const recaptcha = useResettableRecaptcha();
   const sendCode = useSmsMultiFactorAssertionPhoneFormAction();
   const verify = useSmsMultiFactorAssertionVerifyFormAction();
@@ -104,35 +146,38 @@ function SmsChallenge({ hint, cancel }: { hint: MultiFactorInfo; cancel: ReactNo
     });
   };
 
+  const body = verificationId ? (
+    <CodeForm
+      task={task}
+      onSubmit={async (verificationCode) => {
+        await verify({ verificationId, verificationCode });
+        onResolved?.();
+      }}
+      links={
+        <>
+          <TextLink onClick={() => void send()} disabled={task.pending || !recaptcha.verifier}>
+            Resend code
+          </TextLink>
+          {links}
+        </>
+      }
+    />
+  ) : (
+    <>
+      <p className="fc-body">We'll send a code to confirm it's you.</p>
+      <ErrorText>{task.error}</ErrorText>
+      <Links>{links}</Links>
+      <Actions>
+        <Button onClick={() => void send()} disabled={!recaptcha.verifier} loading={task.pending}>
+          Send code
+        </Button>
+      </Actions>
+    </>
+  );
+
   return (
     <>
-      <Page title="One more step" prompt={`${factorLabel(hint)}.`}>
-        {verificationId ? (
-          <CodeForm
-            task={task}
-            onSubmit={(verificationCode) => verify({ verificationId, verificationCode })}
-            links={
-              <>
-                <TextLink onClick={() => void send()} disabled={task.pending || !recaptcha.verifier}>
-                  Resend code
-                </TextLink>
-                {cancel}
-              </>
-            }
-          />
-        ) : (
-          <>
-            <p className="fc-body">We'll send a code to confirm it's you.</p>
-            <ErrorText>{task.error}</ErrorText>
-            <Links>{cancel}</Links>
-            <Actions>
-              <Button onClick={() => void send()} disabled={!recaptcha.verifier} loading={task.pending}>
-                Send code
-              </Button>
-            </Actions>
-          </>
-        )}
-      </Page>
+      {frame(`Text message to ${(hint as PhoneMultiFactorInfo).phoneNumber}.`, body)}
       {recaptcha.container}
     </>
   );

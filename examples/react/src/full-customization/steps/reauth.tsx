@@ -18,9 +18,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { FirebaseError } from "firebase/app";
 import {
   EmailAuthProvider,
+  getMultiFactorResolver,
   GoogleAuthProvider,
   reauthenticateWithCredential,
   reauthenticateWithPopup,
+  type MultiFactorError,
 } from "firebase/auth";
 import { useUI } from "@firebase-oss/ui-react";
 
@@ -35,6 +37,7 @@ import {
   TextLink,
   useAuthTask,
 } from "../components";
+import { MfaChallenge } from "./mfa-challenge";
 
 type Pending = { reason: string; resolve: () => void; reject: (error: Error) => void };
 
@@ -87,6 +90,7 @@ function ReauthDialog({
   const user = ui.auth.currentUser!;
   const ref = useRef<HTMLDialogElement>(null);
   const [password, setPassword] = useState("");
+  const [secondFactor, setSecondFactor] = useState(false);
   const task = useAuthTask();
 
   const providers = user.providerData.map((p) => p.providerId);
@@ -99,7 +103,16 @@ function ReauthDialog({
 
   const confirm = (reauthenticate: () => Promise<unknown>) =>
     task.run(async () => {
-      await reauthenticate();
+      try {
+        await reauthenticate();
+      } catch (error) {
+        if (!(error instanceof FirebaseError) || error.code !== "auth/multi-factor-auth-required") throw error;
+        // With a second factor enrolled, reauthentication needs it too. Putting the resolver on the UI state
+        // lets the same challenge screens finish it; the demo root only takes over for signed-out users.
+        ui.setMultiFactorResolver(getMultiFactorResolver(ui.auth, error as MultiFactorError));
+        setSecondFactor(true);
+        return;
+      }
       onConfirmed();
     });
 
@@ -113,49 +126,67 @@ function ReauthDialog({
         onCancel();
       }}
     >
-      <form
-        className="fc-card"
-        onSubmit={(event) => {
-          event.preventDefault();
-          void confirm(() => reauthenticateWithCredential(user, EmailAuthProvider.credential(user.email!, password)));
-        }}
-      >
-        <p id="fc-reauth-title" className="fc-prompt">
-          Confirm it's you
-        </p>
-        <p className="fc-body">{reason}</p>
-        {hasPassword && (
-          <TextField
-            icon="lock"
-            type="password"
-            autoComplete="current-password"
-            placeholder="Password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            autoFocus
+      {secondFactor ? (
+        <div className="fc-card">
+          <MfaChallenge
+            frame={(prompt, body) => (
+              <>
+                <p id="fc-reauth-title" className="fc-prompt">
+                  One more step
+                </p>
+                <p className="fc-body">{prompt}</p>
+                {body}
+              </>
+            )}
+            onCancel={onCancel}
+            onResolved={onConfirmed}
           />
-        )}
-        {hasGoogle && (
-          <ProviderButton
-            provider="google"
-            onClick={() => confirm(() => reauthenticateWithPopup(user, new GoogleAuthProvider()))}
-          >
-            Continue with Google
-          </ProviderButton>
-        )}
-        {!hasPassword && !hasGoogle && <p className="fc-body">Sign out and sign back in to continue.</p>}
-        <ErrorText>{task.error}</ErrorText>
-        <Links>
-          <TextLink onClick={onCancel}>Cancel</TextLink>
-        </Links>
-        {hasPassword && (
-          <Actions>
-            <Button type="submit" disabled={!password} loading={task.pending}>
-              Confirm
-            </Button>
-          </Actions>
-        )}
-      </form>
+        </div>
+      ) : (
+        <form
+          className="fc-card"
+          onSubmit={(event) => {
+            event.preventDefault();
+            void confirm(() => reauthenticateWithCredential(user, EmailAuthProvider.credential(user.email!, password)));
+          }}
+        >
+          <p id="fc-reauth-title" className="fc-prompt">
+            Confirm it's you
+          </p>
+          <p className="fc-body">{reason}</p>
+          {hasPassword && (
+            <TextField
+              icon="lock"
+              type="password"
+              autoComplete="current-password"
+              placeholder="Password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              autoFocus
+            />
+          )}
+          {hasGoogle && (
+            <ProviderButton
+              provider="google"
+              onClick={() => confirm(() => reauthenticateWithPopup(user, new GoogleAuthProvider()))}
+            >
+              Continue with Google
+            </ProviderButton>
+          )}
+          {!hasPassword && !hasGoogle && <p className="fc-body">Sign out and sign back in to continue.</p>}
+          <ErrorText>{task.error}</ErrorText>
+          <Links>
+            <TextLink onClick={onCancel}>Cancel</TextLink>
+          </Links>
+          {hasPassword && (
+            <Actions>
+              <Button type="submit" disabled={!password} loading={task.pending}>
+                Confirm
+              </Button>
+            </Actions>
+          )}
+        </form>
+      )}
     </dialog>
   );
 }

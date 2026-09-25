@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-import { useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { useNavigate } from "react-router";
 import {
   EmailAuthProvider,
   multiFactor,
+  onIdTokenChanged,
   sendEmailVerification,
   signOut,
   updatePassword,
@@ -41,6 +42,10 @@ export function AccountStep({ user }: { user: User }) {
   const [newPassword, setNewPassword] = useState("");
   const [message, setMessage] = useState<string | null>(null);
   const task = useAuthTask();
+
+  // The user object is mutated in place by reload() and profile updates, so re-render on demand and on token refresh.
+  const [, refresh] = useReducer((n: number) => n + 1, 0);
+  useEffect(() => onIdTokenChanged(ui.auth, () => refresh()), [ui.auth]);
 
   const hasPassword = user.providerData.some((p) => p.providerId === EmailAuthProvider.PROVIDER_ID);
   const enrolledFactors = multiFactor(user).enrolledFactors.length;
@@ -113,6 +118,18 @@ export function AccountStep({ user }: { user: User }) {
             }
           >
             Send verification email
+          </TextLink>
+        ) : null}
+        {needsVerification ? (
+          <TextLink
+            onClick={() =>
+              task.run(async () => {
+                await user.reload();
+                refresh();
+              })
+            }
+          >
+            I've verified my email
           </TextLink>
         ) : (
           <TextLink onClick={() => navigate(paths.twoFactor)}>

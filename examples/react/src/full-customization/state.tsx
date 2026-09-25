@@ -31,13 +31,15 @@ type DemoState = {
   /** The address typed on the first screen, carried into the login and sign up steps. */
   email: string;
   setEmail: (email: string) => void;
+  /** Why opening an emailed sign-in link failed, shown on the login screen. */
+  linkError: string | null;
 };
 
 const DemoContext = createContext<DemoState | null>(null);
 
-export function DemoProvider({ children }: { children: ReactNode }) {
+export function DemoProvider({ children, linkError }: { children: ReactNode; linkError: string | null }) {
   const [email, setEmail] = useState("");
-  return <DemoContext.Provider value={{ email, setEmail }}>{children}</DemoContext.Provider>;
+  return <DemoContext.Provider value={{ email, setEmail, linkError }}>{children}</DemoContext.Provider>;
 }
 
 export function useDemo() {

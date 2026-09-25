@@ -101,7 +101,6 @@ export function CodeField(props: Omit<TextFieldProps, "variant" | "icon" | "type
       variant="code"
       inputMode="numeric"
       autoComplete="one-time-code"
-      maxLength={6}
       placeholder="000000"
       aria-label="Verification code"
       {...props}
@@ -128,7 +127,11 @@ export function CodeForm({ task, onSubmit, links, submitLabel = "Verify" }: Code
         void task.run(() => onSubmit(code));
       }}
     >
-      <CodeField value={code} onChange={(event) => setCode(event.target.value.replace(/\D/g, ""))} autoFocus />
+      <CodeField
+        value={code}
+        onChange={(event) => setCode(event.target.value.replace(/\D/g, "").slice(0, 6))}
+        autoFocus
+      />
       <ErrorText>{task.error}</ErrorText>
       {links && <Links>{links}</Links>}
       <Actions>

@@ -56,6 +56,7 @@ export function MfaEnrollmentStep({ user }: { user: User }) {
   const { withReauth, dialog } = useReauth();
   const generateSecret = useTotpMultiFactorSecretGenerationFormAction();
   const task = useAuthTask();
+  const removal = useAuthTask();
 
   const enrolled = multiFactor(user).enrolledFactors;
   const back = <TextLink onClick={() => setStep({ kind: "select" })}>Pick a different method</TextLink>;
@@ -71,9 +72,9 @@ export function MfaEnrollmentStep({ user }: { user: User }) {
       />
     );
   } else if (step.kind === "sms-code") {
-    content = <SmsConfirm step={step} back={back} onEnrolled={done} />;
+    content = <SmsConfirm step={step} back={back} withReauth={withReauth} onEnrolled={done} />;
   } else if (step.kind === "totp") {
-    content = <TotpSetup secret={step.secret} back={back} onEnrolled={done} />;
+    content = <TotpSetup secret={step.secret} back={back} withReauth={withReauth} onEnrolled={done} />;
   } else {
     content = (
       <Page title="Secure your account" prompt="Add a second step to sign in, so a password on its own isn't enough.">
@@ -83,8 +84,9 @@ export function MfaEnrollmentStep({ user }: { user: User }) {
               <li key={factor.uid}>
                 {factor.displayName ?? (factor.factorId === FactorId.PHONE ? "Text message" : "Authenticator app")}
                 <TextLink
+                  disabled={removal.pending}
                   onClick={() =>
-                    task.run(async () => {
+                    removal.run(async () => {
                       await withReauth(REAUTH_REASON, () => multiFactor(user).unenroll(factor));
                       // A fresh step object re-renders the list without the removed factor.
                       setStep({ kind: "select" });
@@ -97,7 +99,7 @@ export function MfaEnrollmentStep({ user }: { user: User }) {
             ))}
           </ul>
         )}
-        <ErrorText>{task.error}</ErrorText>
+        <ErrorText>{removal.error ?? task.error}</ErrorText>
         <Links>
           <TextLink onClick={done}>Not now</TextLink>
         </Links>
@@ -185,10 +187,12 @@ function SmsSetup({
 function SmsConfirm({
   step,
   back,
+  withReauth,
   onEnrolled,
 }: {
   step: { verificationId: string; phoneNumber: string };
   back: ReactNode;
+  withReauth: WithReauth;
   onEnrolled: () => void;
 }) {
   const verify = useMultiFactorEnrollmentVerifyPhoneNumberFormAction();
@@ -200,7 +204,9 @@ function SmsConfirm({
         task={task}
         links={back}
         onSubmit={async (verificationCode) => {
-          await verify({ verificationId: step.verificationId, verificationCode, displayName: "Text message" });
+          await withReauth(REAUTH_REASON, () =>
+            verify({ verificationId: step.verificationId, verificationCode, displayName: "Text message" })
+          );
           onEnrolled();
         }}
       />
@@ -208,7 +214,17 @@ function SmsConfirm({
   );
 }
 
-function TotpSetup({ secret, back, onEnrolled }: { secret: TotpSecret; back: ReactNode; onEnrolled: () => void }) {
+function TotpSetup({
+  secret,
+  back,
+  withReauth,
+  onEnrolled,
+}: {
+  secret: TotpSecret;
+  back: ReactNode;
+  withReauth: WithReauth;
+  onEnrolled: () => void;
+}) {
   const ui = useUI();
   const verify = useMultiFactorEnrollmentVerifyTotpFormAction();
   const task = useAuthTask();
@@ -223,7 +239,7 @@ function TotpSetup({ secret, back, onEnrolled }: { secret: TotpSecret; back: Rea
         task={task}
         links={back}
         onSubmit={async (verificationCode) => {
-          await verify({ secret, verificationCode, displayName: "Authenticator app" });
+          await withReauth(REAUTH_REASON, () => verify({ secret, verificationCode, displayName: "Authenticator app" }));
           onEnrolled();
         }}
       />

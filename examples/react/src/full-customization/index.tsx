@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-import type { ReactElement } from "react";
+import { useEffect, useState, type ReactElement } from "react";
 import { Link, Navigate, Route, Routes } from "react-router";
 import type { User } from "firebase/auth";
-import { useEmailLinkAuthFormCompleteSignIn, useUI } from "@firebase-oss/ui-react";
+import { completeEmailLinkSignIn } from "@firebase-oss/ui-core";
+import { useUI } from "@firebase-oss/ui-react";
 
 import { useUser } from "~/firebase/hooks";
 import "./full-customization.css";
@@ -41,8 +42,15 @@ export default function FullCustomizationDemo() {
   const user = useUser();
   const [theme, setTheme] = useTheme();
 
-  // Completes sign in when the page is opened from a link sent by "Send login link".
-  useEmailLinkAuthFormCompleteSignIn();
+  // Completes sign in when the page is opened from a link sent by "Send login link". The ui-react hook for this
+  // drops failures, so the demo calls core directly and shows an expired or used link on the login screen.
+  const [linkError, setLinkError] = useState<string | null>(null);
+  useEffect(() => {
+    completeEmailLinkSignIn(ui, window.location.href).catch((error) =>
+      setLinkError(error instanceof Error ? error.message : String(error))
+    );
+    // Runs once on mount, like useEmailLinkAuthFormCompleteSignIn; ui is deliberately not a dependency.
+  }, []);
 
   const signedOut = (step: ReactElement) => (user ? <Navigate to={paths.account} replace /> : step);
   const signedIn = (step: (user: User) => ReactElement) => (user ? step(user) : <Navigate to={paths.email} replace />);
@@ -57,8 +65,9 @@ export default function FullCustomizationDemo() {
         <span className="fc-exit__label">All examples</span>
       </Link>
       <ThemeSwitcher theme={theme} onChange={setTheme} />
-      <DemoProvider>
-        {ui.multiFactorResolver ? (
+      <DemoProvider linkError={linkError}>
+        {/* A signed-in user with a resolver is reauthenticating; the reauth dialog completes that one. */}
+        {ui.multiFactorResolver && !user ? (
           <MfaChallengeStep />
         ) : (
           <Routes>
