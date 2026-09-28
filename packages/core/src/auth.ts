@@ -30,6 +30,7 @@ import {
   TotpMultiFactorGenerator,
   multiFactor,
   type ActionCodeSettings,
+  type Auth,
   type ApplicationVerifier,
   type AuthProvider,
   type UserCredential,
@@ -522,21 +523,28 @@ export async function signInWithProvider(ui: FirebaseUI, provider: AuthProvider)
  * @returns {Promise<UserCredential | null>} A promise containing the user credential, or null if the sign-in cannot be completed.
  */
 export function completeEmailLinkSignIn(ui: FirebaseUI, currentUrl: string): Promise<UserCredential | null> {
-  // An email link can only be used once, so concurrent calls for the same link (e.g. React StrictMode
-  // running effects twice) share a single attempt rather than failing with auth/invalid-action-code.
-  const pending = pendingEmailLinkSignIns.get(currentUrl);
+  // An email link can only be used once, so concurrent calls for the same link on the same auth instance
+  // (e.g. React StrictMode running effects twice) share a single attempt rather than failing with
+  // auth/invalid-action-code.
+  let pendingForAuth = pendingEmailLinkSignIns.get(ui.auth);
+  if (!pendingForAuth) {
+    pendingForAuth = new Map();
+    pendingEmailLinkSignIns.set(ui.auth, pendingForAuth);
+  }
+
+  const pending = pendingForAuth.get(currentUrl);
   if (pending) return pending;
 
-  const attempt = _completeEmailLinkSignIn(ui, currentUrl).finally(() => {
-    pendingEmailLinkSignIns.delete(currentUrl);
+  const attempt = runEmailLinkSignIn(ui, currentUrl).finally(() => {
+    pendingForAuth.delete(currentUrl);
   });
-  pendingEmailLinkSignIns.set(currentUrl, attempt);
+  pendingForAuth.set(currentUrl, attempt);
   return attempt;
 }
 
-const pendingEmailLinkSignIns = new Map<string, Promise<UserCredential | null>>();
+const pendingEmailLinkSignIns = new WeakMap<Auth, Map<string, Promise<UserCredential | null>>>();
 
-async function _completeEmailLinkSignIn(ui: FirebaseUI, currentUrl: string): Promise<UserCredential | null> {
+async function runEmailLinkSignIn(ui: FirebaseUI, currentUrl: string): Promise<UserCredential | null> {
   try {
     if (!_isSignInWithEmailLink(ui.auth, currentUrl)) {
       return null;

@@ -290,6 +290,33 @@ describe("<EmailLinkAuthForm />", () => {
       await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
+    expect(completeEmailLinkSignIn).toHaveBeenCalledTimes(2);
+    expect(onSignInMock).toHaveBeenCalledTimes(1);
+    expect(onSignInMock).toHaveBeenCalledWith(mockCredential);
+  });
+
+  it("should still call onSignIn when the form unmounts before sign-in completes", async () => {
+    const mockCredential = { credential: true } as unknown as UserCredential;
+    let resolveSignIn: (credential: UserCredential) => void = () => {};
+    vi.mocked(completeEmailLinkSignIn).mockReturnValue(
+      new Promise((resolve) => {
+        resolveSignIn = resolve;
+      })
+    );
+    const onSignInMock = vi.fn();
+    const mockUI = createMockUI();
+
+    const { unmount } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <EmailLinkAuthForm onSignIn={onSignInMock} />
+      </FirebaseUIProvider>
+    );
+    unmount();
+
+    await act(async () => {
+      resolveSignIn(mockCredential);
+    });
+
     expect(onSignInMock).toHaveBeenCalledTimes(1);
     expect(onSignInMock).toHaveBeenCalledWith(mockCredential);
   });

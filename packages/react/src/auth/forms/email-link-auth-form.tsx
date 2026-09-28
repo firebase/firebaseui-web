@@ -21,7 +21,7 @@ import type { UserCredential } from "firebase/auth";
 import { useEmailLinkAuthFormSchema, useUI } from "~/hooks";
 import { form } from "~/components/form";
 import { Policies } from "~/components/policies";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 /** Props for the EmailLinkAuthForm component. */
 export type EmailLinkAuthFormProps = {
@@ -93,22 +93,19 @@ export function useEmailLinkAuthForm(onSuccess?: EmailLinkAuthFormProps["onEmail
  */
 export function useEmailLinkAuthFormCompleteSignIn(onSignIn?: EmailLinkAuthFormProps["onSignIn"]) {
   const ui = useUI();
+  // Concurrent effect runs (e.g. React StrictMode) resolve with the same credential; only deliver it once.
+  const deliveredCredential = useRef<UserCredential | null>(null);
 
   useEffect(() => {
-    let cancelled = false;
-
     const completeSignIn = async () => {
       const credential = await completeEmailLinkSignIn(ui, window.location.href);
-      if (credential && !cancelled) {
+      if (credential && deliveredCredential.current !== credential) {
+        deliveredCredential.current = credential;
         onSignIn?.(credential);
       }
     };
 
     void completeSignIn();
-
-    return () => {
-      cancelled = true;
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- TODO(ehesp): ui triggers re-render
   }, [onSignIn]);
 }
