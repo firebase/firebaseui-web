@@ -22,7 +22,7 @@ import {
   useEmailLinkAuthFormAction,
   useEmailLinkAuthFormCompleteSignIn,
 } from "./email-link-auth-form";
-import { act } from "react";
+import { act, StrictMode } from "react";
 import { sendSignInLinkToEmail, completeEmailLinkSignIn } from "@firebase-oss/ui-core";
 import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
 import { registerLocale } from "@firebase-oss/ui-translations";
@@ -269,6 +269,28 @@ describe("<EmailLinkAuthForm />", () => {
     });
 
     expect(completeEmailLinkSignInMock).toHaveBeenCalledWith(mockUI.get(), window.location.href);
+    expect(onSignInMock).toHaveBeenCalledWith(mockCredential);
+  });
+
+  it("should call onSignIn once under StrictMode", async () => {
+    const mockCredential = { credential: true } as unknown as UserCredential;
+    vi.mocked(completeEmailLinkSignIn).mockResolvedValue(mockCredential);
+    const onSignInMock = vi.fn();
+    const mockUI = createMockUI();
+
+    render(
+      <StrictMode>
+        <FirebaseUIProvider ui={mockUI}>
+          <EmailLinkAuthForm onSignIn={onSignInMock} />
+        </FirebaseUIProvider>
+      </StrictMode>
+    );
+
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    });
+
+    expect(onSignInMock).toHaveBeenCalledTimes(1);
     expect(onSignInMock).toHaveBeenCalledWith(mockCredential);
   });
 

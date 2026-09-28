@@ -1808,6 +1808,42 @@ describe("completeEmailLinkSignIn", () => {
     expect(window.localStorage.getItem("emailForSignIn")).toBeNull();
   });
 
+  it("should share a single sign-in attempt between concurrent calls for the same link", async () => {
+    const mockUI = createMockUI();
+    const currentUrl = "https://example.com/auth?oobCode=abc123";
+    const mockCredential = { providerId: "emailLink" } as UserCredential;
+
+    vi.mocked(_isSignInWithEmailLink).mockReturnValue(true);
+    window.localStorage.setItem("emailForSignIn", "test@example.com");
+    vi.mocked(hasBehavior).mockReturnValue(false);
+    vi.mocked(_signInWithCredential).mockResolvedValue(mockCredential);
+
+    const [first, second] = await Promise.all([
+      completeEmailLinkSignIn(mockUI, currentUrl),
+      completeEmailLinkSignIn(mockUI, currentUrl),
+    ]);
+
+    expect(_signInWithCredential).toHaveBeenCalledTimes(1);
+    expect(first).toBe(mockCredential);
+    expect(second).toBe(mockCredential);
+  });
+
+  it("should start a new attempt once the previous one for the same link has settled", async () => {
+    const mockUI = createMockUI();
+    const currentUrl = "https://example.com/auth?oobCode=abc123";
+
+    vi.mocked(_isSignInWithEmailLink).mockReturnValue(true);
+    window.localStorage.setItem("emailForSignIn", "test@example.com");
+    vi.mocked(hasBehavior).mockReturnValue(false);
+    vi.mocked(_signInWithCredential).mockResolvedValue({ providerId: "emailLink" } as UserCredential);
+
+    await completeEmailLinkSignIn(mockUI, currentUrl);
+    window.localStorage.setItem("emailForSignIn", "test@example.com");
+    await completeEmailLinkSignIn(mockUI, currentUrl);
+
+    expect(_signInWithCredential).toHaveBeenCalledTimes(2);
+  });
+
   it("should clear email from localStorage even when URL is not an email link", async () => {
     const mockUI = createMockUI();
     const currentUrl = "https://example.com/not-email-link";

@@ -95,14 +95,20 @@ export function useEmailLinkAuthFormCompleteSignIn(onSignIn?: EmailLinkAuthFormP
   const ui = useUI();
 
   useEffect(() => {
+    let cancelled = false;
+
     const completeSignIn = async () => {
       const credential = await completeEmailLinkSignIn(ui, window.location.href);
-      if (credential) {
+      if (credential && !cancelled) {
         onSignIn?.(credential);
       }
     };
 
     void completeSignIn();
+
+    return () => {
+      cancelled = true;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- TODO(ehesp): ui triggers re-render
   }, [onSignIn]);
 }
