@@ -512,6 +512,8 @@ export async function signInWithProvider(ui: FirebaseUI, provider: AuthProvider)
   }
 }
 
+const pendingEmailLinkSignIns = new WeakMap<Auth, Map<string, Promise<UserCredential | null>>>();
+
 /**
  * Completes the email link sign-in process using the current URL.
  *
@@ -523,9 +525,7 @@ export async function signInWithProvider(ui: FirebaseUI, provider: AuthProvider)
  * @returns {Promise<UserCredential | null>} A promise containing the user credential, or null if the sign-in cannot be completed.
  */
 export function completeEmailLinkSignIn(ui: FirebaseUI, currentUrl: string): Promise<UserCredential | null> {
-  // An email link can only be used once, so concurrent calls for the same link on the same auth instance
-  // (e.g. React StrictMode running effects twice) share a single attempt rather than failing with
-  // auth/invalid-action-code.
+  // Email links are single-use, so concurrent calls (e.g. React StrictMode) share one attempt per auth and link.
   let pendingForAuth = pendingEmailLinkSignIns.get(ui.auth);
   if (!pendingForAuth) {
     pendingForAuth = new Map();
@@ -541,8 +541,6 @@ export function completeEmailLinkSignIn(ui: FirebaseUI, currentUrl: string): Pro
   pendingForAuth.set(currentUrl, attempt);
   return attempt;
 }
-
-const pendingEmailLinkSignIns = new WeakMap<Auth, Map<string, Promise<UserCredential | null>>>();
 
 async function runEmailLinkSignIn(ui: FirebaseUI, currentUrl: string): Promise<UserCredential | null> {
   try {

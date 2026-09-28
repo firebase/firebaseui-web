@@ -93,6 +93,12 @@ export function useEmailLinkAuthForm(onSuccess?: EmailLinkAuthFormProps["onEmail
  */
 export function useEmailLinkAuthFormCompleteSignIn(onSignIn?: EmailLinkAuthFormProps["onSignIn"]) {
   const ui = useUI();
+  // Read the latest callback at resolve time so an unmemoized onSignIn doesn't re-run the effect.
+  const onSignInRef = useRef(onSignIn);
+  useEffect(() => {
+    onSignInRef.current = onSignIn;
+  }, [onSignIn]);
+
   // Concurrent effect runs (e.g. React StrictMode) resolve with the same credential; only deliver it once.
   const deliveredCredential = useRef<UserCredential | null>(null);
 
@@ -101,13 +107,13 @@ export function useEmailLinkAuthFormCompleteSignIn(onSignIn?: EmailLinkAuthFormP
       const credential = await completeEmailLinkSignIn(ui, window.location.href);
       if (credential && deliveredCredential.current !== credential) {
         deliveredCredential.current = credential;
-        onSignIn?.(credential);
+        onSignInRef.current?.(credential);
       }
     };
 
     void completeSignIn();
     // eslint-disable-next-line react-hooks/exhaustive-deps -- TODO(ehesp): ui triggers re-render
-  }, [onSignIn]);
+  }, []);
 }
 
 /**
