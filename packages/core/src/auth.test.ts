@@ -1808,6 +1808,88 @@ describe("completeEmailLinkSignIn", () => {
     expect(window.localStorage.getItem("emailForSignIn")).toBeNull();
   });
 
+  it("should share a single sign-in attempt between concurrent calls for the same link", async () => {
+    const mockUI = createMockUI();
+    const currentUrl = "https://example.com/auth?oobCode=abc123";
+    const mockCredential = { providerId: "emailLink" } as UserCredential;
+
+    vi.mocked(_isSignInWithEmailLink).mockReturnValue(true);
+    window.localStorage.setItem("emailForSignIn", "test@example.com");
+    vi.mocked(hasBehavior).mockReturnValue(false);
+    vi.mocked(_signInWithCredential).mockResolvedValue(mockCredential);
+
+    const [first, second] = await Promise.all([
+      completeEmailLinkSignIn(mockUI, currentUrl),
+      completeEmailLinkSignIn(mockUI, currentUrl),
+    ]);
+
+    expect(_signInWithCredential).toHaveBeenCalledTimes(1);
+    expect(first).toBe(mockCredential);
+    expect(second).toBe(mockCredential);
+    expect(vi.mocked(mockUI.setState).mock.calls).toEqual([["pending"], ["idle"]]);
+  });
+
+  it("should reject every concurrent caller with the same error when the shared attempt fails", async () => {
+    const mockUI = createMockUI();
+    const currentUrl = "https://example.com/auth?oobCode=abc123";
+    const error = new FirebaseError("auth/invalid-action-code", "Invalid action code");
+
+    vi.mocked(_isSignInWithEmailLink).mockReturnValue(true);
+    window.localStorage.setItem("emailForSignIn", "test@example.com");
+    vi.mocked(hasBehavior).mockReturnValue(false);
+    vi.mocked(_signInWithCredential).mockRejectedValue(error);
+    vi.mocked(handleFirebaseError).mockImplementation(() => {
+      throw new Error("Handled error");
+    });
+
+    const results = await Promise.allSettled([
+      completeEmailLinkSignIn(mockUI, currentUrl),
+      completeEmailLinkSignIn(mockUI, currentUrl),
+    ]);
+
+    expect(_signInWithCredential).toHaveBeenCalledTimes(1);
+    expect(results.map((result) => result.status)).toEqual(["rejected", "rejected"]);
+    expect(results.map((result) => (result as PromiseRejectedResult).reason.message)).toEqual([
+      "Handled error",
+      "Handled error",
+    ]);
+
+    window.localStorage.setItem("emailForSignIn", "test@example.com");
+    await expect(completeEmailLinkSignIn(mockUI, currentUrl)).rejects.toThrow("Handled error");
+    expect(_signInWithCredential).toHaveBeenCalledTimes(2);
+  });
+
+  it("should not share an attempt between different auth instances for the same link", async () => {
+    const firstUI = createMockUI({ auth: {} as Auth });
+    const secondUI = createMockUI({ auth: {} as Auth });
+    const currentUrl = "https://example.com/auth?oobCode=abc123";
+
+    vi.mocked(_isSignInWithEmailLink).mockReturnValue(true);
+    window.localStorage.setItem("emailForSignIn", "test@example.com");
+    vi.mocked(hasBehavior).mockReturnValue(false);
+    vi.mocked(_signInWithCredential).mockResolvedValue({ providerId: "emailLink" } as UserCredential);
+
+    await Promise.all([completeEmailLinkSignIn(firstUI, currentUrl), completeEmailLinkSignIn(secondUI, currentUrl)]);
+
+    expect(vi.mocked(_signInWithCredential).mock.calls.map(([auth]) => auth)).toEqual([firstUI.auth, secondUI.auth]);
+  });
+
+  it("should start a new attempt once the previous one for the same link has settled", async () => {
+    const mockUI = createMockUI();
+    const currentUrl = "https://example.com/auth?oobCode=abc123";
+
+    vi.mocked(_isSignInWithEmailLink).mockReturnValue(true);
+    window.localStorage.setItem("emailForSignIn", "test@example.com");
+    vi.mocked(hasBehavior).mockReturnValue(false);
+    vi.mocked(_signInWithCredential).mockResolvedValue({ providerId: "emailLink" } as UserCredential);
+
+    await completeEmailLinkSignIn(mockUI, currentUrl);
+    window.localStorage.setItem("emailForSignIn", "test@example.com");
+    await completeEmailLinkSignIn(mockUI, currentUrl);
+
+    expect(_signInWithCredential).toHaveBeenCalledTimes(2);
+  });
+
   it("should clear email from localStorage even when URL is not an email link", async () => {
     const mockUI = createMockUI();
     const currentUrl = "https://example.com/not-email-link";

@@ -30,6 +30,7 @@ import {
   TotpMultiFactorGenerator,
   multiFactor,
   type ActionCodeSettings,
+  type Auth,
   type ApplicationVerifier,
   type AuthProvider,
   type UserCredential,
@@ -511,6 +512,8 @@ export async function signInWithProvider(ui: FirebaseUI, provider: AuthProvider)
   }
 }
 
+const pendingEmailLinkSignIns = new WeakMap<Auth, Map<string, Promise<UserCredential | null>>>();
+
 /**
  * Completes the email link sign-in process using the current URL.
  *
@@ -521,7 +524,25 @@ export async function signInWithProvider(ui: FirebaseUI, provider: AuthProvider)
  * @param currentUrl - The current URL to check for email link sign-in.
  * @returns {Promise<UserCredential | null>} A promise containing the user credential, or null if the sign-in cannot be completed.
  */
-export async function completeEmailLinkSignIn(ui: FirebaseUI, currentUrl: string): Promise<UserCredential | null> {
+export function completeEmailLinkSignIn(ui: FirebaseUI, currentUrl: string): Promise<UserCredential | null> {
+  // Email links are single-use, so concurrent calls (e.g. React StrictMode) share one attempt per auth and link.
+  let pendingForAuth = pendingEmailLinkSignIns.get(ui.auth);
+  if (!pendingForAuth) {
+    pendingForAuth = new Map();
+    pendingEmailLinkSignIns.set(ui.auth, pendingForAuth);
+  }
+
+  const pending = pendingForAuth.get(currentUrl);
+  if (pending) return pending;
+
+  const attempt = runEmailLinkSignIn(ui, currentUrl).finally(() => {
+    pendingForAuth.delete(currentUrl);
+  });
+  pendingForAuth.set(currentUrl, attempt);
+  return attempt;
+}
+
+async function runEmailLinkSignIn(ui: FirebaseUI, currentUrl: string): Promise<UserCredential | null> {
   try {
     if (!_isSignInWithEmailLink(ui.auth, currentUrl)) {
       return null;

@@ -22,7 +22,7 @@ import {
   useEmailLinkAuthFormAction,
   useEmailLinkAuthFormCompleteSignIn,
 } from "./email-link-auth-form";
-import { act } from "react";
+import { act, StrictMode } from "react";
 import { sendSignInLinkToEmail, completeEmailLinkSignIn } from "@firebase-oss/ui-core";
 import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
 import { registerLocale } from "@firebase-oss/ui-translations";
@@ -269,6 +269,87 @@ describe("<EmailLinkAuthForm />", () => {
     });
 
     expect(completeEmailLinkSignInMock).toHaveBeenCalledWith(mockUI.get(), window.location.href);
+    expect(onSignInMock).toHaveBeenCalledWith(mockCredential);
+  });
+
+  it("should call onSignIn once under StrictMode", async () => {
+    const mockCredential = { credential: true } as unknown as UserCredential;
+    vi.mocked(completeEmailLinkSignIn).mockResolvedValue(mockCredential);
+    const onSignInMock = vi.fn();
+    const mockUI = createMockUI();
+
+    render(
+      <StrictMode>
+        <FirebaseUIProvider ui={mockUI}>
+          <EmailLinkAuthForm onSignIn={onSignInMock} />
+        </FirebaseUIProvider>
+      </StrictMode>
+    );
+
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    });
+
+    expect(completeEmailLinkSignIn).toHaveBeenCalledTimes(2);
+    expect(onSignInMock).toHaveBeenCalledTimes(1);
+    expect(onSignInMock).toHaveBeenCalledWith(mockCredential);
+  });
+
+  it("should complete sign-in once across re-renders with an inline onSignIn", async () => {
+    const mockCredential = { credential: true } as unknown as UserCredential;
+    let resolveSignIn: (credential: UserCredential) => void = () => {};
+    vi.mocked(completeEmailLinkSignIn).mockReturnValue(
+      new Promise((resolve) => {
+        resolveSignIn = resolve;
+      })
+    );
+    const firstOnSignIn = vi.fn();
+    const latestOnSignIn = vi.fn();
+    const mockUI = createMockUI();
+
+    const { rerender } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <EmailLinkAuthForm onSignIn={(credential) => firstOnSignIn(credential)} />
+      </FirebaseUIProvider>
+    );
+    rerender(
+      <FirebaseUIProvider ui={mockUI}>
+        <EmailLinkAuthForm onSignIn={(credential) => latestOnSignIn(credential)} />
+      </FirebaseUIProvider>
+    );
+
+    await act(async () => {
+      resolveSignIn(mockCredential);
+    });
+
+    expect(completeEmailLinkSignIn).toHaveBeenCalledTimes(1);
+    expect(firstOnSignIn).not.toHaveBeenCalled();
+    expect(latestOnSignIn).toHaveBeenCalledExactlyOnceWith(mockCredential);
+  });
+
+  it("should still call onSignIn when the form unmounts before sign-in completes", async () => {
+    const mockCredential = { credential: true } as unknown as UserCredential;
+    let resolveSignIn: (credential: UserCredential) => void = () => {};
+    vi.mocked(completeEmailLinkSignIn).mockReturnValue(
+      new Promise((resolve) => {
+        resolveSignIn = resolve;
+      })
+    );
+    const onSignInMock = vi.fn();
+    const mockUI = createMockUI();
+
+    const { unmount } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <EmailLinkAuthForm onSignIn={onSignInMock} />
+      </FirebaseUIProvider>
+    );
+    unmount();
+
+    await act(async () => {
+      resolveSignIn(mockCredential);
+    });
+
+    expect(onSignInMock).toHaveBeenCalledTimes(1);
     expect(onSignInMock).toHaveBeenCalledWith(mockCredential);
   });
 
