@@ -9,16 +9,16 @@ catalog:
   "@angular-devkit/core": ^22.1.8
   "@angular/animations": ^22.0.5
   "@angular/cli": ^22.1.8
-  "@angular/common": ^22.1.6
-  "@angular/compiler": ^22.1.6
-  "@angular/compiler-cli": ^22.1.6
-  "@angular/core": ^22.1.6
+  "@angular/common": ^22.1.7
+  "@angular/compiler": ^22.1.7
+  "@angular/compiler-cli": ^22.1.7
+  "@angular/core": ^22.1.7
   "@angular/fire": ^20.0.1
-  "@angular/forms": ^22.1.6
-  "@angular/platform-browser": ^22.1.6
+  "@angular/forms": ^22.1.7
+  "@angular/platform-browser": ^22.1.7
   "@angular/platform-browser-dynamic": ^22.0.5
-  "@angular/platform-server": ^22.1.6
-  "@angular/router": ^22.1.6
+  "@angular/platform-server": ^22.1.7
+  "@angular/router": ^22.1.7
   "@angular/ssr": ^22.1.8
   ng-packagr: ^22.1.0
   "@tailwindcss/vite": ^4.3.2
