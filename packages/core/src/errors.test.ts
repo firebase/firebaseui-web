@@ -68,7 +68,9 @@ describe("FirebaseUIError", () => {
     const mockUI = createMockUI();
     const mockFirebaseError = new FirebaseError("auth/user-not-found", "User not found");
 
-    vi.mocked(getTranslation).mockReturnValue("User not found (translated)");
+    vi.mocked(getTranslation).mockImplementation((_ui, _category, key) =>
+      key === ERROR_CODE_MAP["auth/user-not-found"] ? "User not found (translated)" : ""
+    );
 
     const error = new FirebaseUIError(mockUI, mockFirebaseError);
 
@@ -90,16 +92,18 @@ describe("FirebaseUIError", () => {
     expect(error.message).toBe("Unknown error (translated)");
   });
 
-  it("looks up unmapped error codes by the code itself", () => {
+  it("prefers a translation keyed by the error code over the named key", () => {
     const mockUI = createMockUI();
-    const mockFirebaseError = new FirebaseError("auth/api-key-expired", "Firebase: Error (auth/api-key-expired).");
+    const mockFirebaseError = new FirebaseError("auth/user-not-found", "User not found");
 
-    vi.mocked(getTranslation).mockReturnValue("Configuration issue (translated)");
+    vi.mocked(getTranslation).mockImplementation((_ui, _category, key) =>
+      key === "auth/user-not-found" ? "Keyed by code" : "Keyed by name"
+    );
 
     const error = new FirebaseUIError(mockUI, mockFirebaseError);
 
-    expect(error.message).toBe("Configuration issue (translated)");
-    expect(getTranslation).toHaveBeenCalledWith(mockUI, "errors", "auth/api-key-expired");
+    expect(error.message).toBe("Keyed by code");
+    expect(getTranslation).toHaveBeenCalledWith(mockUI, "errors", "auth/user-not-found");
   });
 
   it("falls back to the Firebase message when an unmapped code has no translation", () => {

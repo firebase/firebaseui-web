@@ -23,8 +23,11 @@ export type TranslationKey<T extends TranslationCategory> = keyof Required<Trans
 /** Record type representing a complete set of translations for a specific category. */
 export type TranslationSet<T extends TranslationCategory> = Record<TranslationKey<T>, string>;
 
+/** Firebase Auth error codes, usable as keys for error translation messages (e.g. `auth/api-key-expired`). */
+export type ErrorCodeKey = `auth/${string}`;
+
 /** Keys for error translation messages. */
-export type ErrorKey = keyof Required<Translations>["errors"];
+export type ErrorKey = Exclude<keyof Required<Translations>["errors"], ErrorCodeKey>;
 
 /** Keys for informational message translations. */
 export type MessageKey = keyof Required<Translations>["messages"];
@@ -101,8 +104,8 @@ export type Translations = {
     /** Translation for second factor already in use. */
     secondFactorAlreadyInUse?: string;
   } & {
-    /** Translation for a Firebase Auth error code with no key above, keyed by the code itself (e.g. `auth/api-key-expired`). */
-    [code: `auth/${string}`]: string | undefined;
+    /** Translation for a Firebase Auth error, keyed by its error code. Takes precedence over the named key above. */
+    [code: ErrorCodeKey]: string | undefined;
   };
   /** Informational message translations. */
   messages?: {

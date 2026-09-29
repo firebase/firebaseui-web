@@ -561,7 +561,7 @@ By default, any missing translations will fallback to English if not specified. 
 
 ### Error messages
 
-Common Firebase Auth errors have named keys under `errors` (e.g. `userNotFound`). Any other Firebase Auth error shows the message Firebase returns, unless you translate it using the error code as the key:
+Common Firebase Auth errors have named keys under `errors` (e.g. `userNotFound`), listed in `ERROR_CODE_MAP`. Any other Firebase Auth error shows the message Firebase returns. You can translate any error, mapped or not, using its error code as the key; a code key takes precedence over the named key:
 
 ```ts
 const enUsCustom = registerLocale('en-US', {
