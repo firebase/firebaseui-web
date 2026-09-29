@@ -376,4 +376,34 @@ describe("<fui-forgot-password-auth-form />", () => {
 
     expect(component.form.state.errors).toHaveLength(0);
   });
+
+  it("should show the sending label and aria-busy while the password reset email is being sent", async () => {
+    let resolveSend: () => void = () => {};
+    mockSendPasswordResetEmail.mockReturnValue(new Promise<void>((resolve) => (resolveSend = resolve)));
+
+    const { container } = await render(ForgotPasswordAuthFormComponent, {
+      imports: [
+        CommonModule,
+        ForgotPasswordAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+        PoliciesComponent,
+      ],
+    });
+
+    fireEvent.input(container.querySelector('input[name="email"]')!, { target: { value: "test@example.com" } });
+    fireEvent.click(container.querySelector("fui-form-submit button")!);
+
+    await waitFor(() => expect(mockSendPasswordResetEmail).toHaveBeenCalled());
+    const button = container.querySelector("fui-form-submit button")!;
+    await waitFor(() => expect(button).toHaveTextContent("Sending..."));
+    expect(button).toHaveAttribute("aria-busy", "true");
+    expect(button).toBeDisabled();
+
+    resolveSend();
+  });
 });

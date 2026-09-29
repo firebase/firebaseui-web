@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { render, screen, waitFor } from "@testing-library/angular";
+import { render, screen, fireEvent, waitFor } from "@testing-library/angular";
 import { CommonModule } from "@angular/common";
 import { TanStackField, TanStackAppField } from "@tanstack/angular-form";
 import { EmailLinkAuthFormComponent } from "./email-link-auth-form";
@@ -112,6 +112,7 @@ describe("<fui-email-link-auth-form />", () => {
 
     expect(component.emailLabel()).toBe("Email Address");
     expect(component.sendSignInLinkLabel()).toBe("Send Sign In Link");
+    expect(component.sendingLabel()).toBe("Sending...");
     expect(component.emailSentMessage()).toBe("Check your email for a sign in link");
     expect(component.unknownErrorLabel()).toBe("An unknown error occurred");
   });
@@ -369,5 +370,34 @@ describe("<fui-email-link-auth-form />", () => {
     });
 
     expect(signInSpy).not.toHaveBeenCalled();
+  });
+
+  it("should show the sending label and aria-busy while the sign-in link is being sent", async () => {
+    let resolveSend: () => void = () => {};
+    mockSendSignInLinkToEmail.mockReturnValue(new Promise<void>((resolve) => (resolveSend = resolve)));
+
+    const { container } = await render(EmailLinkAuthFormComponent, {
+      imports: [
+        CommonModule,
+        EmailLinkAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        PoliciesComponent,
+      ],
+    });
+
+    fireEvent.input(screen.getByLabelText("Email Address"), { target: { value: "test@example.com" } });
+    fireEvent.click(screen.getByRole("button", { name: "Send Sign In Link" }));
+
+    await waitFor(() => expect(mockSendSignInLinkToEmail).toHaveBeenCalled());
+    const button = container.querySelector("fui-form-submit button")!;
+    await waitFor(() => expect(button).toHaveTextContent("Sending..."));
+    expect(button).toHaveAttribute("aria-busy", "true");
+    expect(button).toBeDisabled();
+
+    resolveSend();
   });
 });

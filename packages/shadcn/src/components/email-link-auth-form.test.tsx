@@ -126,6 +126,43 @@ describe("<EmailLinkAuthForm />", () => {
     expect(onEmailSentMock).toHaveBeenCalled();
   });
 
+  it("should show the sending label while the link is sent and restore it on error", async () => {
+    let rejectSend: (error: Error) => void = () => {};
+    const mockAction = vi.fn().mockReturnValue(new Promise((_, reject) => (rejectSend = reject)));
+    vi.mocked(useEmailLinkAuthFormAction).mockReturnValue(mockAction);
+
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          emailAddress: "Email Address",
+          sendSignInLink: "Send Sign In Link",
+          sending: "Sending...",
+        },
+      }),
+    });
+
+    const { container } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <EmailLinkAuthForm />
+      </FirebaseUIProvider>
+    );
+
+    const submitButton = container.querySelector("button[type='submit']")!;
+    fireEvent.change(container.querySelector("input[name='email']")!, { target: { value: "test@example.com" } });
+
+    await act(async () => {
+      fireEvent.click(submitButton);
+    });
+
+    await waitFor(() => expect(submitButton).toHaveTextContent("Sending..."));
+    expect(submitButton).toHaveAttribute("aria-busy", "true");
+
+    await act(async () => rejectSend(new Error("foo")));
+
+    await waitFor(() => expect(submitButton).toHaveTextContent("Send Sign In Link"));
+    expect(submitButton).toHaveAttribute("aria-busy", "false");
+  });
+
   it("should display error message when form submission fails", async () => {
     const mockAction = vi.fn().mockRejectedValue(new Error("foo"));
 

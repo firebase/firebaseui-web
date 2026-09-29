@@ -63,7 +63,7 @@ import { injectEmailLinkAuthFormSchema, injectTranslation, injectUI } from "../.
 
         <fieldset>
           <fui-form-submit [state]="state()">
-            {{ sendSignInLinkLabel() }}
+            {{ state().isSubmitting ? sendingLabel() : sendSignInLinkLabel() }}
           </fui-form-submit>
           <fui-form-error-message [state]="state()" />
         </fieldset>
@@ -85,6 +85,7 @@ export class EmailLinkAuthFormComponent {
 
   emailLabel = injectTranslation("labels", "emailAddress");
   sendSignInLinkLabel = injectTranslation("labels", "sendSignInLink");
+  sendingLabel = injectTranslation("labels", "sending");
   emailSentMessage = injectTranslation("messages", "signInLinkSent");
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 

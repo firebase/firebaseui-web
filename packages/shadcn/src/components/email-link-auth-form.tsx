@@ -88,8 +88,8 @@ export function EmailLinkAuthForm(props: EmailLinkAuthFormProps) {
           )}
         />
         <Policies />
-        <Button type="submit" disabled={ui.state !== "idle"}>
-          {getTranslation(ui, "labels", "sendSignInLink")}
+        <Button type="submit" disabled={ui.state !== "idle"} aria-busy={form.formState.isSubmitting}>
+          {getTranslation(ui, "labels", form.formState.isSubmitting ? "sending" : "sendSignInLink")}
         </Button>
         {form.formState.errors.root && <FieldError>{form.formState.errors.root.message}</FieldError>}
       </form>

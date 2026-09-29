@@ -286,6 +286,45 @@ describe("form export", () => {
         expect(submitButton).toHaveAttribute("disabled");
       });
     });
+
+    it("should set aria-busy while submitting", async () => {
+      let resolveSubmit: (() => void) | undefined;
+      const { result } = renderHook(() => {
+        return form.useAppForm({
+          validators: {
+            onSubmitAsync: () => new Promise<undefined>((resolve) => (resolveSubmit = () => resolve(undefined))),
+          },
+        });
+      });
+
+      const hook = result.current;
+
+      render(
+        <hook.AppForm>
+          <hook.SubmitButton>Submit</hook.SubmitButton>
+        </hook.AppForm>
+      );
+
+      const submitButton = screen.getByTestId("submit-button");
+      expect(submitButton).toHaveAttribute("aria-busy", "false");
+
+      let submission: Promise<void> = Promise.resolve();
+      act(() => {
+        submission = hook.handleSubmit();
+      });
+
+      await waitFor(() => {
+        expect(submitButton).toHaveAttribute("aria-busy", "true");
+        expect(resolveSubmit).toBeDefined();
+      });
+
+      await act(async () => {
+        resolveSubmit!();
+        await submission;
+      });
+
+      expect(submitButton).toHaveAttribute("aria-busy", "false");
+    });
   });
 
   describe("<ErrorMessage />", () => {
