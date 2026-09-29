@@ -89,6 +89,30 @@ describe("FirebaseUIError", () => {
     expect(error.code).toBe("auth/unknown-error");
     expect(error.message).toBe("Unknown error (translated)");
   });
+
+  it("looks up unmapped error codes by the code itself", () => {
+    const mockUI = createMockUI();
+    const mockFirebaseError = new FirebaseError("auth/api-key-expired", "Firebase: Error (auth/api-key-expired).");
+
+    vi.mocked(getTranslation).mockReturnValue("Configuration issue (translated)");
+
+    const error = new FirebaseUIError(mockUI, mockFirebaseError);
+
+    expect(error.message).toBe("Configuration issue (translated)");
+    expect(getTranslation).toHaveBeenCalledWith(mockUI, "errors", "auth/api-key-expired");
+  });
+
+  it("falls back to the Firebase message when an unmapped code has no translation", () => {
+    const mockUI = createMockUI();
+    const mockFirebaseError = new FirebaseError("auth/api-key-expired", "Firebase: Error (auth/api-key-expired).");
+
+    vi.mocked(getTranslation).mockReturnValue("");
+
+    const error = new FirebaseUIError(mockUI, mockFirebaseError);
+
+    expect(error.code).toBe("auth/api-key-expired");
+    expect(error.message).toBe("Firebase: Error (auth/api-key-expired).");
+  });
 });
 
 describe("handleFirebaseError", () => {

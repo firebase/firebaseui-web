@@ -559,6 +559,18 @@ const ui = initializeUI({
 
 By default, any missing translations will fallback to English if not specified. You can pass a 3rd "fallback" argument locale to the `registerLocale` function.
 
+### Error messages
+
+Common Firebase Auth errors have named keys under `errors` (e.g. `userNotFound`). Any other Firebase Auth error shows the message Firebase returns, unless you translate it using the error code as the key:
+
+```ts
+const enUsCustom = registerLocale('en-US', {
+  errors: {
+    'auth/api-key-expired': 'There is a configuration issue. Please contact the app developer.',
+  },
+});
+```
+
 ## Reference
 
 <details>

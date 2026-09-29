@@ -100,6 +100,9 @@ export type Translations = {
     accountExistsWithDifferentCredential?: string;
     /** Translation for second factor already in use. */
     secondFactorAlreadyInUse?: string;
+  } & {
+    /** Translation for a Firebase Auth error code with no key above, keyed by the code itself (e.g. `auth/api-key-expired`). */
+    [code: `auth/${string}`]: string | undefined;
   };
   /** Informational message translations. */
   messages?: {

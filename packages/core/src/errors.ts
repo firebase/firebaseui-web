@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { ERROR_CODE_MAP, type ErrorCode } from "@firebase-oss/ui-translations";
+import { ERROR_CODE_MAP, type ErrorCode, type ErrorKey } from "@firebase-oss/ui-translations";
 import { FirebaseError } from "firebase/app";
 import { type AuthCredential, getMultiFactorResolver, type MultiFactorError } from "firebase/auth";
 import { type FirebaseUI } from "./config";
@@ -30,7 +30,9 @@ import { getTranslation } from "./translations";
  */
 export class FirebaseUIError extends FirebaseError {
   constructor(ui: FirebaseUI, error: FirebaseError) {
-    const message = getTranslation(ui, "errors", ERROR_CODE_MAP[error.code as ErrorCode]);
+    // Codes without a mapped key can still be translated by using the code itself as the key.
+    const key = ERROR_CODE_MAP[error.code as ErrorCode] ?? (error.code as ErrorKey);
+    const message = getTranslation(ui, "errors", key);
     super(error.code, message || error.message);
 
     // Ensures that `instanceof FirebaseUIError` works, alongside `instanceof FirebaseError`
