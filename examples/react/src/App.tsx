@@ -48,6 +48,20 @@ function UnauthenticatedApp() {
           Welcome to Firebase UI, choose an example screen below to get started!
         </p>
       </div>
+      <Link
+        to="/full-customization"
+        className="flex items-center justify-between border border-neutral-200 dark:border-neutral-800 rounded hover:bg-neutral-100 dark:bg-neutral-900 dark:hover:bg-neutral-800 p-4"
+      >
+        <div className="space-y-1">
+          <h2 className="font-medium text-sm">Full Customization Demo</h2>
+          <p className="text-xs text-gray-400 dark:text-gray-300">
+            A complete sign in flow with its own UI and three switchable themes, built on the ui-react hooks.
+          </p>
+        </div>
+        <div className="text-neutral-600 dark:text-neutral-400">
+          <span className="text-xl">&rarr;</span>
+        </div>
+      </Link>
       <div className="border border-neutral-200 dark:border-neutral-800 rounded divide-y divide-neutral-200 dark:divide-neutral-800 overflow-hidden">
         {routes.map((route) => (
           <Link
